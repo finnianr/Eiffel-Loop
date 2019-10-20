@@ -35,9 +35,30 @@ def delete_files (dir_path, filter):
 		for filename in fnmatch.filter(filenames, filter):
 			os.remove (os.path.join(root, filename))
 		
+def find_files (directory, pattern):
+    for root, dirs, files in os.walk(directory):
+        for basename in files:
+            if fnmatch.fnmatch(basename, pattern):
+                filename = os.path.join(root, basename)
+                yield filename
 
 def read_file_integer (file_path):
 	f = open (file_path, 'r')
 	result = int (f.readline ())
 	f.close ()
 	return result;
+
+def read_table (file_path):
+	# return dictionary of values read from file
+	result = {}
+	f = open (file_path, 'r')
+	for line in f:
+		pos_colon = line.find (':')
+		if pos_colon > 0 and line [0] != '#':
+			name = line [:pos_colon]
+			value = (line [(pos_colon + 1):]).strip ()
+			result [name] = value
+		
+	f.close ()
+	return result;
+

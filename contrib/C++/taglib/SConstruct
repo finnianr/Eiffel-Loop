@@ -14,16 +14,17 @@ from os import path
 from eiffel_loop import platform
 
 from eiffel_loop.scons import util
+from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
-from eiffel_loop.scons import package
-from eiffel_loop.scons import c
+from eiffel_loop.scons import c_library
+#from eiffel_loop.scons import c
 
 #Import ('env')
 
 env = Environment (
 	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
-	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = os.environ ['ISE_PLATFORM']
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = ise.platform
 )
 
 
@@ -32,9 +33,9 @@ if platform.is_unix ():
 	VariantDir (build_dir, 'source', duplicate=0)
 
 	env ['BUILDERS']['C_library'] = Builder (
-		action = c_library.get, suffix='.a', src_suffix='.getlib', emitter = util.complete_targets
+		action = c_library.build, suffix='.a', src_suffix='.getlib', emitter = util.complete_targets
 	)
-	lib := env.C_library (path.join (build_dir, 'libtag.a'), File (path.join (build_dir, 'taglib.getlib')))
+	lib = env.C_library (path.join (build_dir, 'libtag.a'), File (path.join (build_dir, 'taglib.getlib')))
 	
 	env.NoClean (lib)
 #	Return (['downloaded_DLLs', 'dll_import_libs'])

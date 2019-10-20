@@ -1,0 +1,5 @@
+url: https://taglib.org/releases/taglib-1.11.1.tar.gz
+extracted: $HOME/dev/C++/taglib-1.11.1
+# Relative to extracted 
+clib: taglib/libtag.a
+include: taglib
