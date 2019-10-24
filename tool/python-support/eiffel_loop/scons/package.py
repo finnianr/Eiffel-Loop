@@ -37,6 +37,7 @@ def get (target, source, env):
 		
 		package.append (str (target [i]), member_name)
 
+	package.download ()
 	for package in packages.values():
 		package.extract ()
 

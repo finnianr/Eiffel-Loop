@@ -1,6 +1,16 @@
+import os
 
-from eiffel_loop.distutils import file_util
+from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
 
-table = file_util.read_table ('source/taglib.getlib')
-for key in table.keys ():
-	print key + ': ' + table [key]
+pkg = TAR_GZ_SOFTWARE_PACKAGE ('https://taglib.org/releases/taglib-1.11.1.tar.gz')
+
+print pkg.basename, pkg.dest_dir, pkg.unpacked_dir
+
+pkg.download ()
+pkg.unpack ()
+
+#pkg.build ('taglib-1.11.1', 'cmake -DCMAKE_BUILD_TYPE=Release .')
+
+
+
+

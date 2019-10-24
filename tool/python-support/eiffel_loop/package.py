@@ -7,7 +7,7 @@
 
 from __future__ import absolute_import
 
-import os, zipfile, urllib, platform, xml
+import os, subprocess, tarfile, zipfile, urllib, platform, xml
 
 from distutils import dir_util
 from os import path
@@ -19,10 +19,10 @@ if os.name == 'posix':
 
 from xml.parsers import expat
 
-global download_dir
-download_dir = path.normpath (path.expanduser ("~/Downloads/SCons-packages"))
+global default_download_dir
+default_download_dir = path.normpath (path.expanduser ("~/Downloads/SCons-packages"))
 
-def display_progress (a,b,c): 
+def display_progress (a, b, c): 
     # ',' at the end of the line is important!
     print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
     #you can also use sys.stdout.write
@@ -35,23 +35,38 @@ def display_progress (a,b,c):
 class SOFTWARE_PACKAGE (object):
 
 # Initialization
-	def __init__ (self, url):
+	def __init__ (self, url, dest_dir = default_download_dir, rel_unpacked = None):
 		self.url = url
 		self.target_table = {}
-		
+		self.dest_dir = dest_dir
+		self.basename = url.rsplit ('/')[-1:][0]
+		if rel_unpacked:
+			self.unpacked_dir = path.join (dest_dir, rel_unpacked)
+		else:
+			ext_count = len (self.extension ()) + 1
+			self.unpacked_dir = path.join (dest_dir, self.basename [: -ext_count])
+
 		if url.startswith ("file://"):
 			self.file_path = path.normpath (url [7:])
 		else:
-			self.file_path = path.join (download_dir, url.rsplit ('/')[-1:][0])
-
-			if path.exists (self.file_path):
-				print 'Found %s package:' % self.type_name (), self.file_path
-			else:
-				self.__download ()
+			self.file_path = path.join (dest_dir, self.basename)
 
 # Access
 	def type_name (self):
 		pass
+
+	def extension (self):
+		pass
+
+	def name (self):
+		return path.basename (self.url)
+
+# Status query
+	def exists (self):
+		return path.exists (self.file_path)
+
+	def unpacked (self):
+		return path.exists (self.unpacked_dir)
 
 # Element change
 	def append (self, target, member_name):
@@ -61,9 +76,32 @@ class SOFTWARE_PACKAGE (object):
 			self.target_table [path.basename (target)] = target
 
 # Basic operations
+	def download (self):
+		if not self.exists ():
+			dir_util.mkpath (self.dest_dir)
+			print 'Downloading:', self.basename, ' to:', self.dest_dir
+			urllib.urlretrieve (self.url, self.file_path, display_progress)
+		
 	def extract (self):
 		# extract member names as target names
 		pass
+
+	def pushd (self):
+		self.cwd = os.getcwd()
+
+	def popd (self):
+		os.chdir (self.cwd)
+
+	def chdir_package (self, extracted_dir = None):
+		self.pushd ()
+		if extracted_dir:
+			os.chdir (path.join (self.dest_dir, extracted_dir))
+		else:
+			os.chdir (self.dest_dir)
+
+	def remove (self):
+		# remove archive `self.file_path'
+		os.remove (self.file_path)
 
 # Implementation
 
@@ -74,16 +112,13 @@ class SOFTWARE_PACKAGE (object):
 		file_out.write (file_content)
 		file_out.close ()
 
-	def __download (self):
-		dir_util.mkpath (download_dir)
-		print 'Downloading:', self.url, ' to:', self.file_path
-		urllib.urlretrieve (self.url, self.file_path, display_progress)
-
-
 class ZIP_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 
 # Access
 	def type_name (self):
+		return 'zip archive'
+
+	def extension (self):
 		return 'zip'
 
 # Basic operations
@@ -97,18 +132,22 @@ class ZIP_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 				self.write_member (zip_file.read (fpath), member_name)
 		zip_file.close ()
 
-	def extract_all (self, dir_path):
-		os.chdir (dir_path)
+	def unpack (self):
+		self.chdir_package ()
 		zip_file = zipfile.ZipFile (self.file_path, 'r')
 		zip_file.extractall ()
 		zip_file.close ()
+		self.popd ()
 		
 
 class DEBIAN_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 
 # Access
 	def type_name (self):
-		return 'debian'
+		return 'Debian package'
+
+	def extension (self):
+		return 'deb'
 
 # Basic operations
 	def extract (self):
@@ -119,29 +158,41 @@ class DEBIAN_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 			if member_name in self.target_table:
 				self.write_member (deb.data.get_content (fpath), member_name)
 
-class LXML_PACKAGE_FOR_WINDOWS:
+class TAR_GZ_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 
-	def __init__ (self):
-		# returns package appropriate for architecture
-		names = {'64bit' : 'win-amd64', '32bit' : 'win32'}
-		self.package_basename = 'libxml2-python-2.7.8.%s-py2.7.exe' % names.get (platform.architecture()[0])
+# Access
+	def type_name (self):
+		return 'Compressed TAR archive'
 
-	def download (self, download_dir):
-		result = path.join (download_dir, self.package_basename)
-		if path.exists (result):
-			print 'Found install', self.package_basename
-		else:
-			dir_util.mkpath (download_dir)
-			url = "http://www.eiffel-loop.com/download/" + self.package_basename
-			print 'Downloading:', url
+	def extension (self):
+		return 'tar.gz'
+
+# Basic operations
+	def unpack (self):
+		self.chdir_package ()
+		# extract member names as target names
+		tar = tarfile.open(self.file_path, "r:gz")
+		tar.extractall()
+		tar.close()
+		self.popd ()
+
+	def build (self, configure_cmd):
+		# build package using `extracted_dir' relative
+		self.chdir_package (self.unpacked_dir)
+		if subprocess.call (configure_cmd.split (' ')) == 0:
+			subprocess.call (['make'])
+		self.popd ()
+
+class WINDOWS_INSTALL_PACKAGE (SOFTWARE_PACKAGE):
+
+# Access
+	def type_name (self):
+		return 'Windows Installer'
+
+	def extension (self):
+		return 'exe'
+
+	def install (self):
+		return subprocess.call ([self.file_path])
 	
-			web = FancyURLopener ()
-			web.retrieve (url, result, display_progress)
-
-		return result
-
-def display_progress (a, b ,c): 
-    # ',' at the end of the line is important!
-    print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
-
 
