@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-20 11:03:45 GMT (Tuesday 20th June 2017)"
-	revision: "2"
+	date: "2019-10-15 2:03:43 GMT (Tuesday   15th   October   2019)"
+	revision: "3"
 
 class
 	UNDERBIT_ID3_TAG_INFO

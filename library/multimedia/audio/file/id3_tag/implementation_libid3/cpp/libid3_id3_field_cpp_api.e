@@ -1,8 +1,13 @@
 note
 	description: "Interface to class ID3_Field"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-17 11:08:14 GMT (Thursday   17th   October   2019)"
+	revision: "1"
 
 class
 	LIBID3_ID3_FIELD_CPP_API

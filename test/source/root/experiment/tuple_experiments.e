@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 12:28:05 GMT (Friday 8th February 2019)"
-	revision: "2"
+	date: "2019-10-18 9:49:15 GMT (Friday   18th   October   2019)"
+	revision: "3"
 
 class
 	TUPLE_EXPERIMENTS

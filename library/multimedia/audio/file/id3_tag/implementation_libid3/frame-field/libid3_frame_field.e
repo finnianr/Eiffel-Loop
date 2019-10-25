@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {LIBID3_FRAME_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Libid3 frame field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-17 10:37:17 GMT (Thursday   17th   October   2019)"
+	revision: "1"
 
 deferred class
 	LIBID3_FRAME_FIELD

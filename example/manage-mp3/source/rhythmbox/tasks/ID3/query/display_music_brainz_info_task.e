@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 6:57:30 GMT (Thursday 5th September 2019)"
-	revision: "2"
+	date: "2019-10-08 15:16:37 GMT (Tuesday   8th   October   2019)"
+	revision: "3"
 
 class
 	DISPLAY_MUSIC_BRAINZ_INFO_TASK

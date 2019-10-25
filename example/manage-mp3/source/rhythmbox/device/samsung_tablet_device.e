@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-03 14:59:11 GMT (Tuesday 3rd September 2019)"
-	revision: "5"
+	date: "2019-10-08 15:21:40 GMT (Tuesday   8th   October   2019)"
+	revision: "6"
 
 class
 	SAMSUNG_TABLET_DEVICE

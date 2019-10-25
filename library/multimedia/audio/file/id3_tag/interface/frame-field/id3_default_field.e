@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {ID3_DEFAULT_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Id3 default field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-10 12:11:34 GMT (Thursday   10th   October   2019)"
+	revision: "1"
 
 class
 	ID3_DEFAULT_FIELD

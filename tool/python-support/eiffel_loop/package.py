@@ -38,7 +38,8 @@ class SOFTWARE_PACKAGE (object):
 	def __init__ (self, url, dest_dir = default_download_dir, rel_unpacked = None):
 		self.url = url
 		self.target_table = {}
-		self.dest_dir = dest_dir
+		self.dest_dir = dest_dir # download directory
+
 		self.basename = url.rsplit ('/')[-1:][0]
 		if rel_unpacked:
 			self.unpacked_dir = path.join (dest_dir, rel_unpacked)

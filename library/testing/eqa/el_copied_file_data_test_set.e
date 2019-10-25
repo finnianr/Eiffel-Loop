@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {EL_COPIED_FILE_DATA_TEST_SET}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Copied file data test set"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-05 14:14:28 GMT (Saturday   5th   October   2019)"
+	revision: "1"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET

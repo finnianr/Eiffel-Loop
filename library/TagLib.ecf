@@ -22,18 +22,28 @@ AIFF, MP4 and ASF files.
 		</option>
 		<root all_classes = "true"/>
 		<!--For Windows-->
-		<external_include location = "$(EL_CONTRIB)/C++/taglib/include">
+		<external_include location = "$(EL_CONTRIB)\C++\taglib\include">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
-		<external_object location = "$(EL_CONTRIB)/C++/taglib/spec/$(ISE_PLATFORM)/tag.lib">
+		<external_include location = "$(EL_CONTRIB)\C++\taglib\include\toolkit">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_include>
+		<external_object location = "$(EL_CONTRIB)\C++\taglib\spec\$(ISE_PLATFORM)\tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
 		</external_object>
 		<!--For Unix-->
 		<external_include location = "$(EL_CONTRIB)/C++/taglib/include">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_include>
+		<external_include location = "$(EL_CONTRIB)/C++/taglib/include/toolkit">
 			<condition>
 				<platform value = "unix"/>
 			</condition>
@@ -50,6 +60,19 @@ AIFF, MP4 and ASF files.
 		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
-		<cluster name = "taglib" location = "multimedia/audio/file/taglib" recursive = "true"/>
+		<cluster name = "taglib" location = "multimedia/audio/file/taglib" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 	</target>
 </system>

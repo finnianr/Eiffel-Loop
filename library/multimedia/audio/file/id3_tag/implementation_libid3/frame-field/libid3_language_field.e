@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {LIBID3_LANGUAGE_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Libid3 language field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-16 18:04:05 GMT (Wednesday   16th   October   2019)"
+	revision: "1"
 
 class
 	LIBID3_LANGUAGE_FIELD

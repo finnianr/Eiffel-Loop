@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 6:56:57 GMT (Thursday 5th September 2019)"
-	revision: "2"
+	date: "2019-10-08 15:21:40 GMT (Tuesday   8th   October   2019)"
+	revision: "3"
 
 class
 	REMOVE_UNKNOWN_ALBUM_PICTURES_TASK

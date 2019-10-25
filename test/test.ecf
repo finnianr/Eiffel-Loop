@@ -72,6 +72,7 @@
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_paypal" readonly = "false" location = "$EIFFEL_LOOP/library/paypal.ecf"/>
 		<library name = "EL_search_engine" readonly = "false" location = "$EIFFEL_LOOP/library/search-engine.ecf"/>
+		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false"/>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_text_process" readonly = "false" location = "$EIFFEL_LOOP/library/text-process.ecf"/>

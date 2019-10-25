@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {UNDERBIT_ID3_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Underbit id3 frame field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-11 9:27:29 GMT (Friday   11th   October   2019)"
+	revision: "1"
 
 deferred class
 	UNDERBIT_ID3_FRAME_FIELD

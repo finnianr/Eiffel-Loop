@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-10-10 13:36:43 GMT (Thursday   10th   October   2019)"
+	revision: "5"
 
 class
 	UNDERBIT_ID3_C_API

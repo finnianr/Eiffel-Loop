@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {UNDERBIT_ID3_BINARY_DATA_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Underbit id3 binary data field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-17 17:09:31 GMT (Thursday   17th   October   2019)"
+	revision: "1"
 
 class
 	UNDERBIT_ID3_BINARY_DATA_FIELD

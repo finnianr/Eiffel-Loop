@@ -182,6 +182,10 @@ system:
 			location = "$EIFFEL_LOOP/library/search-engine.ecf"
 
 		library:
+			name = EL_taglib; location = "$EIFFEL_LOOP/library/TagLib.ecf"
+			readonly = false
+
+		library:
 			name = EL_text_formats; readonly = false
 			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 

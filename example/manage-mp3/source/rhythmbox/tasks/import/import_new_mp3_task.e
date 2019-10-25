@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 8:47:18 GMT (Thursday 5th September 2019)"
-	revision: "1"
+	date: "2019-10-08 15:19:33 GMT (Tuesday   8th   October   2019)"
+	revision: "2"
 
 class
 	IMPORT_NEW_MP3_TASK

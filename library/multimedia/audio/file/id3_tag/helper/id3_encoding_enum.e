@@ -1,8 +1,13 @@
 note
 	description: "Encoding enumeration based on Underbit C representation"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-10 22:47:15 GMT (Thursday   10th   October   2019)"
+	revision: "1"
 
 class
 	ID3_ENCODING_ENUM

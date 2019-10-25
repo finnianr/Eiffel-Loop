@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {ID3_BINARY_DATA_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Id3 binary data field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-09 9:45:41 GMT (Wednesday   9th   October   2019)"
+	revision: "1"
 
 deferred class
 	ID3_BINARY_DATA_FIELD

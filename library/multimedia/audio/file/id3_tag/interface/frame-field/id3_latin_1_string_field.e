@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {ID3_STRING_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Id3 latin 1 string field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-10 9:32:08 GMT (Thursday   10th   October   2019)"
+	revision: "1"
 
 deferred class
 	ID3_LATIN_1_STRING_FIELD

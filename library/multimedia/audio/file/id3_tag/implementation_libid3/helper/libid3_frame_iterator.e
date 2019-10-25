@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-10-08 9:56:14 GMT (Tuesday   8th   October   2019)"
+	revision: "6"
 
 class
 	LIBID3_FRAME_ITERATOR

@@ -33,20 +33,32 @@ system:
 
 		# For Windows
 		external_include: 
-			location = "$(EL_CONTRIB)/C++/taglib/include"
+			location = "$(EL_CONTRIB)\\C++\\taglib\\include"
+			condition:
+				platform:
+					value = windows
+
+		external_include: 
+			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\toolkit"
 			condition:
 				platform:
 					value = windows
 
 		external_object:
-			location = "$(EL_CONTRIB)/C++/taglib/spec/$(ISE_PLATFORM)/tag.lib"
+			location = "$(EL_CONTRIB)\\C++\\taglib\\spec\\$(ISE_PLATFORM)\\tag.lib"
 			condition:
 				platform:
 					value = windows
 
 		# For Unix
-		external_include: 
+		external_include:
 			location = "$(EL_CONTRIB)/C++/taglib/include"
+			condition:
+				platform:
+					value = unix
+
+		external_include:
+			location = "$(EL_CONTRIB)/C++/taglib/include/toolkit"
 			condition:
 				platform:
 					value = unix
@@ -75,5 +87,18 @@ system:
 		# Source code
 		cluster:
 			name = taglib; location = "multimedia/audio/file/taglib"; recursive = true
+			file_rule:
+				exclude:
+					"/imp_mswin$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/imp_unix$"
+				condition:
+					platform:
+						value = windows
 
 

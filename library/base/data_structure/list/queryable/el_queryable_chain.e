@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-04 13:31:08 GMT (Sunday 4th November 2018)"
-	revision: "5"
+	date: "2019-10-04 13:22:52 GMT (Friday   4th   October   2019)"
+	revision: "6"
 
 deferred class EL_QUERYABLE_CHAIN [G]
 

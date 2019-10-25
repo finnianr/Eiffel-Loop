@@ -14,13 +14,16 @@ manifest:
 
 	# tools
 	location:
+		"test/source"
+
+	# tools
+	location:
 		"tool/eiffel/source"
 		"tool/toolkit/source"
 
 	# libraries
 	location:
 		"library/base"
-		"library/build"
 		"library/graphic"
 		"library/language_interface"
 		"library/multimedia"

@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {LIBID3_INTEGER_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Libid3 integer field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-17 12:07:05 GMT (Thursday   17th   October   2019)"
+	revision: "1"
 
 class
 	LIBID3_INTEGER_FIELD

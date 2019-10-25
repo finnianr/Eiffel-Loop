@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {LIBID3_BINARY_DATA_FIELD}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Libid3 binary data field"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-15 12:23:45 GMT (Tuesday   15th   October   2019)"
+	revision: "1"
 
 class
 	LIBID3_BINARY_DATA_FIELD

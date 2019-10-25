@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {LIBID3_CPP_API}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Libid3 cpp api"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-07 12:08:57 GMT (Monday   7th   October   2019)"
+	revision: "1"
 
 class
 	LIBID3_CPP_API

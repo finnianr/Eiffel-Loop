@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {ID3_FRAME_FIELD_LIST}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Id3 frame field list"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-14 12:42:21 GMT (Monday   14th   October   2019)"
+	revision: "1"
 
 class
 	ID3_FRAME_FIELD_LIST

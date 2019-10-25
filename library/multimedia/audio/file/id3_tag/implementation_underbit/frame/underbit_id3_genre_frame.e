@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {UNDERBIT_ID3_GENRE_FRAME}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Underbit id3 genre frame"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-10-14 13:48:47 GMT (Monday   14th   October   2019)"
+	revision: "1"
 
 class
 	UNDERBIT_ID3_GENRE_FRAME
