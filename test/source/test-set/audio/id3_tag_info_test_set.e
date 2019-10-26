@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-25 12:25:56 GMT (Friday   25th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 16:55:38 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -18,8 +18,6 @@ inherit
 	ID3_SHARED_FRAME_FIELD_TYPES
 
 	EL_STRING_8_CONSTANTS
-
-	EL_MODULE_LIO
 
 	EL_MODULE_WEB
 

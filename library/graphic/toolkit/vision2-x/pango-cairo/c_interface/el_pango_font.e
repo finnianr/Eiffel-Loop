@@ -8,20 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:31:20 GMT (Monday   30th   September   2019)"
-	revision: "6"
+	date: "2019-10-26 10:16:51 GMT (Saturday   26th   October   2019)"
+	revision: "7"
 
 class
 	EL_PANGO_FONT
 
 inherit
-	EL_C_OBJECT
+	EL_OWNED_C_OBJECT
 		rename
 			self_ptr as item
 		export
 			{ANY} item
-		redefine
-			c_free, is_memory_owned
 		end
 
 	EL_SHARED_PANGO_API
@@ -124,12 +122,6 @@ feature {NONE} -- Implementation
 			else
 				Result := Pango_style_normal
 			end
-		end
-
-	is_memory_owned: BOOLEAN
-			--
-		do
-			Result := True
 		end
 
 feature {NONE} -- Disposal

@@ -6,20 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 12:43:19 GMT (Wednesday 26th December 2018)"
-	revision: "6"
+	date: "2019-10-26 9:59:55 GMT (Saturday   26th   October   2019)"
+	revision: "7"
 
 class
 	EL_VTD_XML_PARSER
 
 inherit
-	EL_C_OBJECT -- VTDGen
+	EL_OWNED_C_OBJECT -- VTDGen
 		rename
 			c_free as c_evx_free_parser
-		undefine
-			c_evx_free_parser
-		redefine
-			is_memory_owned
 		end
 
 	EL_VTD_XML_API
@@ -47,9 +43,5 @@ feature {EL_XPATH_ROOT_NODE_CONTEXT} -- Access
 			c_parse (self_ptr, is_namespace_aware)
 			Result := c_evx_root_node_context (self_ptr)
 		end
-
-feature {NONE} -- Implementation
-
-    is_memory_owned: BOOLEAN = true
 
 end

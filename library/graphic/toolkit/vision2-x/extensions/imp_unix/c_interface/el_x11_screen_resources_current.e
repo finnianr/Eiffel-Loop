@@ -18,18 +18,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 11:55:30 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-10-26 10:13:34 GMT (Saturday   26th   October   2019)"
+	revision: "5"
 
 class
 	EL_X11_SCREEN_RESOURCES_CURRENT
 
 inherit
-	EL_C_OBJECT
+	EL_OWNED_C_OBJECT
 		export
 			{EL_X11_DISPLAY_OUTPUT_INFO} self_ptr
-		redefine
-			c_free
 		end
 
 	EL_X11_API

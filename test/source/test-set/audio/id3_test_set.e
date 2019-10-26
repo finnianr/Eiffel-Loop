@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-25 12:25:25 GMT (Friday   25th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 16:55:49 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 deferred class
 	ID3_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+
+	EL_MODULE_LIO
 
 feature {NONE} -- Implementation
 

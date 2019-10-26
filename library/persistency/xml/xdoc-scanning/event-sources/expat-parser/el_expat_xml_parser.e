@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-01 17:38:34 GMT (Friday 1st February 2019)"
-	revision: "8"
+	date: "2019-10-26 10:23:18 GMT (Saturday   26th   October   2019)"
+	revision: "9"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -28,11 +28,11 @@ inherit
 			{NONE} all
 		end
 
-	EL_C_OBJECT
+	EL_OWNED_C_OBJECT
+		rename
+			c_free as exml_xml_parserfree
 		export
 			{NONE} all
-		redefine
-			is_memory_owned, c_free
 		end
 
 	EL_C_CALLABLE
@@ -125,8 +125,6 @@ feature -- Status report
 			-- the special parsing routines (the ones that contain
 			-- "incremental" in their name) to do this and call
 			-- `finish_incremental' after the last part has been fed.
-
-	is_memory_owned: BOOLEAN = true
 
 	is_new_parser: BOOLEAN
 
@@ -439,14 +437,6 @@ feature {NONE} -- Expat callbacks
 			else
 				Result := XML_status_error
 			end
-		end
-
-feature {NONE} -- Disposal
-
-	c_free (this: POINTER)
-			--
-		do
-			exml_xml_parserfree (this)
 		end
 
 feature {NONE} -- States

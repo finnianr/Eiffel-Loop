@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-11 9:27:29 GMT (Friday   11th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 10:01:09 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 deferred class
 	UNDERBIT_ID3_FRAME_FIELD
@@ -25,9 +25,6 @@ inherit
 	UNDERBIT_ID3_CONSTANTS
 
 	UNDERBIT_ID3_C_API
-		undefine
-			dispose
-		end
 
 feature {NONE} -- Initialization
 

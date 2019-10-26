@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 16:00:12 GMT (Tuesday   8th   October   2019)"
-	revision: "7"
+	date: "2019-10-26 10:21:16 GMT (Saturday   26th   October   2019)"
+	revision: "8"
 
 deferred class
 	EL_CPP_ITERATOR [G -> EL_CPP_OBJECT]
 
 inherit
-	EL_CPP_OBJECT
-		undefine
-			cpp_delete
-		redefine
-			is_memory_owned
-		end
+	EL_OWNED_CPP_OBJECT
 
 	LINEAR [G]
 
@@ -56,7 +51,7 @@ feature -- Cursor movement
 				item := new_item
 --				create item.make_from_pointer (cpp_item)
 				check
-					item_does_not_own_memory: not item.is_memory_owned
+					item_does_not_own_memory: not attached {EL_OWNED_CPP_OBJECT} item
 					-- otherwise function is_empty will leak memory
 				end
 			end
@@ -98,8 +93,6 @@ feature {NONE} -- Implementation
 		-- for deleting it
 
     cpp_item: POINTER
-
-    is_memory_owned: BOOLEAN = true
 
 feature {NONE} -- Unused
 

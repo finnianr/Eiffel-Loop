@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 22:43:46 GMT (Thursday   10th   October   2019)"
-	revision: "4"
+	date: "2019-10-26 10:08:34 GMT (Saturday   26th   October   2019)"
+	revision: "5"
 
 class
 	LIBID3_TAG_INFO
@@ -20,13 +20,11 @@ class
 inherit
 	ID3_INFO_I
 
-	EL_CPP_OBJECT
+	EL_OWNED_CPP_OBJECT
 		export
 			{LIBID3_TAG_INFO} self_ptr
 		undefine
-			cpp_delete, default_create
-		redefine
-			is_memory_owned
+			default_create
 		end
 
 	LIBID3_ID3_TAG_CPP_API
@@ -229,8 +227,6 @@ feature {NONE} -- Implementation
 			to_c := file_path.to_c
 			cpp_link (self_ptr, $to_c, tag_types)
 		end
-
-   is_memory_owned: BOOLEAN = true
 
 	is_c_call_ok: BOOLEAN
 

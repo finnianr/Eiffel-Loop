@@ -9,3 +9,5 @@ extracted: taglib-1.11.1
 clib: taglib/libtag.a
 include: taglib
 configure: cmake -DCMAKE_BUILD_TYPE=Release . 
+test_data: tests/data
+

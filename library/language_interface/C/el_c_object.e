@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 12:55:24 GMT (Monday   7th   October   2019)"
-	revision: "6"
+	date: "2019-10-26 9:56:12 GMT (Saturday   26th   October   2019)"
+	revision: "7"
 
 deferred class
 	EL_C_OBJECT
 
 inherit
-	EL_DISPOSEABLE
-		export
-			{NONE} all
-		redefine
-			dispose
-		end
+	EL_POINTER_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -31,26 +26,6 @@ feature {NONE} -- Initialization
 		end
 
 feature {EL_CPP_ITERATOR} -- Implementation
-
-	is_memory_owned: BOOLEAN
-			--
-		do
-			Result := false
-		end
-
-	dispose
-			--
-		do
-			if is_memory_owned and then is_attached (self_ptr) then
-				c_free (self_ptr)
-				self_ptr := Default_pointer
-			end
-		end
-
-	c_free (this: POINTER)
-			--
-		do
-		end
 
 	self_ptr: POINTER
 

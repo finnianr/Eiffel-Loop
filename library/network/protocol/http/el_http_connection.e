@@ -10,18 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-03 15:01:08 GMT (Sunday 3rd March 2019)"
-	revision: "17"
+	date: "2019-10-26 10:06:48 GMT (Saturday   26th   October   2019)"
+	revision: "18"
 
 class
 	EL_HTTP_CONNECTION
 
 inherit
-	EL_C_OBJECT
+	EL_OWNED_C_OBJECT
 		export
 			{NONE} all
-		redefine
-			is_memory_owned, c_free
 		end
 
 	EL_CURL_OPTION_CONSTANTS
@@ -707,8 +705,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
-
-	Is_memory_owned: BOOLEAN = True
 
 	Title_tag: STRING = "<title>"
 

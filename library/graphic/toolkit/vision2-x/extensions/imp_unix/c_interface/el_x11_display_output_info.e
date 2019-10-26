@@ -32,16 +32,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 11:55:28 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2019-10-26 10:15:39 GMT (Saturday   26th   October   2019)"
+	revision: "5"
 
 class
 	EL_X11_DISPLAY_OUTPUT_INFO
 
 inherit
-	EL_C_OBJECT
-		redefine
-			c_free
+	EL_OWNED_C_OBJECT
+		rename
+			c_free as XRR_free_output_info
 		end
 
 	EL_X11_API
@@ -89,11 +89,4 @@ feature -- Status query
 			Result := connection = XRR_Connected and is_attached (crtc)
 		end
 
-feature {NONE} -- Implementation
-
-    c_free (this: POINTER)
-            --
-		do
-			XRR_free_output_info (this)
-		end
 end

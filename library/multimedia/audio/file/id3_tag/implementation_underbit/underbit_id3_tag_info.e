@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-15 2:03:43 GMT (Tuesday   15th   October   2019)"
-	revision: "3"
+	date: "2019-10-26 10:09:17 GMT (Saturday   26th   October   2019)"
+	revision: "4"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -20,11 +20,11 @@ class
 inherit
 	ID3_INFO_I
 
-	EL_C_OBJECT
+	EL_OWNED_C_OBJECT
 		rename
 			c_free as c_id3_file_close
 		undefine
-			default_create, c_id3_file_close, is_memory_owned
+			default_create
 		end
 
 	UNDERBIT_ID3_CONSTANTS
@@ -34,9 +34,9 @@ inherit
 			default_create
 		end
 
-	UNDERBIT_ID3_C_API undefine default_create, dispose end
+	UNDERBIT_ID3_C_API undefine default_create end
 
-	UNDERBIT_ID3_TAG_C_API undefine default_create, dispose end
+	UNDERBIT_ID3_TAG_C_API undefine default_create end
 
 	EL_FACTORY_CLIENT undefine default_create end
 
@@ -211,8 +211,6 @@ feature {NONE} -- Implementation
 		do
 			Result := c_id3_file_tag (self_ptr)
 		end
-
-	is_memory_owned: BOOLEAN = True
 
 feature {NONE} -- Constants
 

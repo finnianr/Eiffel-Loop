@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-10-26 19:02:06 GMT (Saturday   26th   October   2019)"
+	revision: "5"
 
 class
 	EL_WCOM_OBJECT
@@ -15,10 +15,7 @@ class
 inherit
 	EL_EXTERNAL_LIBRARY [EL_WCOM_INITIALIZER]
 
-	EL_CPP_OBJECT
-		redefine
-			cpp_delete
-		end
+	EL_OWNED_CPP_OBJECT
 
 	EL_MODULE_UTF
 
@@ -32,11 +29,11 @@ feature {NONE} -- Implementation
 
     cpp_delete (this: POINTER)
             --
-        local
-        	ref_count: NATURAL
-        do
-        	ref_count := cpp_release (this)
-        end
+		local
+			ref_count: NATURAL
+		do
+			ref_count := cpp_release (this)
+		end
 
 	call_succeeded (status: INTEGER): BOOLEAN
 		do

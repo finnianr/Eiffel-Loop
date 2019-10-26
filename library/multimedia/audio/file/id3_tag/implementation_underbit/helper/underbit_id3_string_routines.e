@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-13 15:59:29 GMT (Sunday   13th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 10:02:07 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 deferred class
 	UNDERBIT_ID3_STRING_ROUTINES
@@ -18,9 +18,6 @@ inherit
 	ID3_SHARED_ENCODING_ENUM
 
 	UNDERBIT_ID3_C_API
-		undefine
-			dispose
-		end
 
 feature {NONE} -- Implementation
 

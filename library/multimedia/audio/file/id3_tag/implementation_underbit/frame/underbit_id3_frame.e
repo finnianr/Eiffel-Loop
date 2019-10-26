@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-14 14:11:33 GMT (Monday   14th   October   2019)"
-	revision: "4"
+	date: "2019-10-26 10:02:26 GMT (Saturday   26th   October   2019)"
+	revision: "5"
 
 class
 	UNDERBIT_ID3_FRAME
@@ -26,7 +26,7 @@ inherit
 
 	UNDERBIT_ID3_C_API
 		undefine
-			out, dispose
+			out
 		end
 
 	UNDERBIT_ID3_CONSTANTS

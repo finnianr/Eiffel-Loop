@@ -6,20 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-02 15:32:04 GMT (Saturday 2nd February 2019)"
-	revision: "8"
+	date: "2019-10-26 9:59:18 GMT (Saturday   26th   October   2019)"
+	revision: "9"
 
 class
 	EL_VTD_XPATH_QUERY
 
 inherit
-	EL_C_OBJECT -- AutoPilot
+	EL_OWNED_C_OBJECT -- AutoPilot
 		rename
 			c_free as c_evx_free_xpath_query
-		undefine
-			c_evx_free_xpath_query
-		redefine
-			is_memory_owned
 		end
 
 	EL_VTD_XML_API
@@ -160,8 +156,6 @@ feature {NONE} -- Internal attributes
 	context: EL_XPATH_NODE_CONTEXT
 
 	nodeset_index: INTEGER
-
-   is_memory_owned: BOOLEAN = true
 
 	xpath: EL_VTD_NATIVE_XPATH_I
 

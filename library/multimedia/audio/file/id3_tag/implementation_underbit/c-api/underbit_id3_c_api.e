@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 13:36:43 GMT (Thursday   10th   October   2019)"
-	revision: "5"
+	date: "2019-10-26 10:00:40 GMT (Saturday   26th   October   2019)"
+	revision: "6"
 
 class
 	UNDERBIT_ID3_C_API
 
 inherit
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 		export
 			{NONE} all
 			{ANY} is_attached

@@ -6,22 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:42:33 GMT (Wednesday 11th September 2019)"
-	revision: "9"
+	date: "2019-10-26 10:07:27 GMT (Saturday   26th   October   2019)"
+	revision: "10"
 
 class
 	EL_XPATH_NODE_CONTEXT
 
 inherit
-	EL_C_OBJECT -- VTDNav
+	EL_OWNED_C_OBJECT -- VTDNav
 		rename
 			c_free as c_evx_free_node_context
 		export
 			{EL_XPATH_NODE_CONTEXT, EL_VTD_XPATH_QUERY, EL_VTD_XML_ATTRIBUTE_API} self_ptr
-		undefine
-			c_evx_free_node_context
-		redefine
-			is_memory_owned
 		end
 
 	EL_VTD_XML_API
@@ -526,8 +522,6 @@ feature {EL_XPATH_NODE_CONTEXT} -- Internal attributes
 	actual_found_node: EL_XPATH_NODE_CONTEXT
 
 	namespace: STRING
-
-   is_memory_owned: BOOLEAN = true
 
 	parent_context_image, actual_context_image: EL_VTD_CONTEXT_IMAGE
 

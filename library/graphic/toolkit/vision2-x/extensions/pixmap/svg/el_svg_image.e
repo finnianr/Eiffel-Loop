@@ -12,17 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-04 12:42:59 GMT (Tuesday 4th June 2019)"
-	revision: "6"
+	date: "2019-10-26 10:16:31 GMT (Saturday   26th   October   2019)"
+	revision: "7"
 
 class
 	EL_SVG_IMAGE
 
 inherit
-	EL_C_OBJECT
-		redefine
-			c_free, is_memory_owned
-		end
+	EL_OWNED_C_OBJECT
 
 	EL_SHARED_IMAGE_UTILS_API
 
@@ -99,12 +96,6 @@ feature -- Status query
 	render_succeeded: BOOLEAN
 
 feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
-
-	is_memory_owned: BOOLEAN
-			--
-		do
-			Result := True
-		end
 
 	render (pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER_I)
 		require

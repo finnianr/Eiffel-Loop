@@ -1,13 +1,16 @@
 note
-	description: "Tl file name"
+	description: "[
+		Wraps Taglib::FileName <tiostream.h>
+			typedef const char *FileName;
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-25 18:17:08 GMT (Friday   25th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 9:30:16 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 class
 	TL_FILE_NAME

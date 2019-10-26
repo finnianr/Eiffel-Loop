@@ -6,19 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 12:34:36 GMT (Thursday   10th   October   2019)"
-	revision: "1"
+	date: "2019-10-26 10:10:24 GMT (Saturday   26th   October   2019)"
+	revision: "2"
 
 class
 	UNDERBIT_ID3_TAG_C_API
 
 inherit
-	EL_MEMORY
+	EL_POINTER_ROUTINES
 		export
 			{NONE} all
-			{ANY} is_attached
 		end
-		
+
 feature {NONE} -- C Externals: file
 
 	c_id3_file_open (file_name_ptr: POINTER; a_file_mode: INTEGER): POINTER
