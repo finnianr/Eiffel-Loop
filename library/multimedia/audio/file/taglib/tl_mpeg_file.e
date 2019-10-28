@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 17:54:19 GMT (Saturday   26th   October   2019)"
-	revision: "2"
+	date: "2019-10-27 10:43:21 GMT (Sunday   27th   October   2019)"
+	revision: "3"
 
 class
 	TL_MPEG_FILE
@@ -38,6 +38,13 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
+	tag_v1: TL_ID3_V2_TAG
+		require
+			has_version_1: has_id3_v1_tag
+		do
+			create Result.make (cpp_ID3_v1_tag (self_ptr, False))
+		end
+
 	tag_v2: TL_ID3_V2_TAG
 		require
 			has_version_2: has_id3_v2_tag
@@ -45,7 +52,33 @@ feature -- Access
 			create Result.make (cpp_ID3_v2_tag (self_ptr, False))
 		end
 
+	tag: TL_ID3_TAG
+		do
+			inspect tag_version
+				when 1 then
+					Result := tag_v2
+				when 2 then
+					Result := tag_v1
+			else
+				create {TL_DEFAULT_ID3_TAG} Result
+			end
+		end
+
+	tag_version: INTEGER
+		do
+			if has_id3_v1_tag then
+				Result := 1
+			elseif has_id3_v2_tag then
+				Result := 2
+			end
+		end
+
 feature -- Status query
+
+	has_id3_v1_tag: BOOLEAN
+		do
+			Result := cpp_has_id3_v2_tag (self_ptr)
+		end
 
 	has_id3_v2_tag: BOOLEAN
 		do

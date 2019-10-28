@@ -37,6 +37,7 @@ publish-repository:
 		# Library Audio
 		ecf:
 			"library/ID3-tags.ecf"
+			"library/TagLib.ecf"
 			"library/wav-audio.ecf"
 			"library/wel-x-audio.ecf"
 			"library/vision2-x-audio.ecf"

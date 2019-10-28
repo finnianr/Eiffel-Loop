@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:40:07 GMT (Saturday   26th   October   2019)"
-	revision: "1"
+	date: "2019-10-27 11:10:36 GMT (Sunday   27th   October   2019)"
+	revision: "2"
 
-class
-	TL_ID3_V2_TAG
+deferred class
+	TL_ID3_TAG
 
 inherit
 	EL_CPP_OBJECT
@@ -18,16 +18,10 @@ inherit
 			make_from_pointer as make
 		end
 
-	TL_ID3_V2_TAG_CPP_API
-
-create
-	make
-
 feature -- Access
 
-	header: TL_ID3_V2_HEADER
-		do
-			create Result.make (cpp_header (self_ptr))
+	title: TL_STRING
+		deferred
 		end
 
 end

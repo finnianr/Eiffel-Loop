@@ -6,20 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 16:55:38 GMT (Saturday   26th   October   2019)"
-	revision: "2"
+	date: "2019-10-27 10:06:23 GMT (Sunday   27th   October   2019)"
+	revision: "3"
 
 class
 	ID3_TAG_INFO_TEST_SET
 
 inherit
-	ID3_TEST_SET
+	EL_COPIED_FILE_DATA_TEST_SET
 
 	ID3_SHARED_FRAME_FIELD_TYPES
 
 	EL_STRING_8_CONSTANTS
 
-	EL_MODULE_WEB
+	EL_MODULE_LIO
 
 	EL_MODULE_NAMING
 
@@ -85,6 +85,11 @@ feature {NONE} -- Implementation
 			else
 				Result := list.first
 			end
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		do
+			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["projects.data/id3$"]), filter)
 		end
 
 	put_frames (list: ARRAYED_LIST [ID3_FRAME]; prefix_words: INTEGER)
