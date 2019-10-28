@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-27 16:22:58 GMT (Sunday   27th   October   2019)"
-	revision: "2"
+	date: "2019-10-28 12:10:19 GMT (Monday   28th   October   2019)"
+	revision: "3"
 
 class
 	TL_ID3_V2_TAG
@@ -27,9 +27,4 @@ feature -- Access
 			create Result.make (cpp_header (self_ptr))
 		end
 
-	title: TL_STRING
-		do
-			create Result.make
-			cpp_copy_title (self_ptr, Result.item)
-		end
 end

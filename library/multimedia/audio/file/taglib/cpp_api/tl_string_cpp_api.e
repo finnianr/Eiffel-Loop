@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-27 16:49:47 GMT (Sunday   27th   October   2019)"
-	revision: "1"
+	date: "2019-10-28 13:06:04 GMT (Monday   28th   October   2019)"
+	revision: "2"
 
 class
 	TL_STRING_CPP_API
+
+inherit
+	EL_POINTER_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_attached
+		end
 
 feature {NONE} -- C++ Externals
 
@@ -31,14 +38,25 @@ feature {NONE} -- C++ Externals
 			"size"
 		end
 
-feature {NONE} -- C Externals
-
-	frozen c_size_of: INTEGER
+	frozen cpp_i_th (self_ptr: POINTER; i: INTEGER): NATURAL
+		require
+			attached_pointer: is_attached (self_ptr)
 		external
-			"C [macro <toolkit/tstring.h>]"
+			"C++ inline use <toolkit/tstring.h>"
 		alias
-			"sizeof (TagLib::String)"
+			"[
+				const wchar_t c = ((TagLib::String*)$self_ptr)->operator[]((int)$i);
+				return (EIF_NATURAL)c
+			]"
 		end
+
+	frozen cpp_delete (self: POINTER)
+			--
+		external
+			"C++ [delete TagLib::String %"toolkit/tstring.h%"] ()"
+		end
+
+feature {NONE} -- C Externals
 
 	frozen c_size_of_utf16: INTEGER
 		external

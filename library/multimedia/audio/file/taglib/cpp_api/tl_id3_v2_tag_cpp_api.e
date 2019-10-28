@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-27 17:00:29 GMT (Sunday   27th   October   2019)"
-	revision: "2"
+	date: "2019-10-28 13:17:42 GMT (Monday   28th   October   2019)"
+	revision: "3"
 
 class
 	TL_ID3_V2_TAG_CPP_API
@@ -21,6 +21,27 @@ inherit
 
 feature {NONE} -- C++ Externals
 
+	frozen cpp_album (tag: POINTER): POINTER
+		external
+			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
+		alias
+			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->album ())"
+		end
+
+	frozen cpp_artist (tag: POINTER): POINTER
+		external
+			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
+		alias
+			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->artist ())"
+		end
+
+	frozen cpp_comment (tag: POINTER): POINTER
+		external
+			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
+		alias
+			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->comment ())"
+		end
+
 	frozen cpp_header (self_ptr: POINTER): POINTER
 		--	Header *header()
 		external
@@ -29,11 +50,11 @@ feature {NONE} -- C++ Externals
 			"header"
 		end
 
-	frozen cpp_copy_title (tag, string: POINTER)
+	frozen cpp_title (tag: POINTER): POINTER
 		external
 			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
 		alias
-			"*((TagLib::String*)$string) = ((TagLib::ID3v2::Tag*)$tag)->title ()"
+			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->title ())"
 		end
 
 end

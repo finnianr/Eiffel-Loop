@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:53:45 GMT (Monday   30th   September   2019)"
-	revision: "3"
+	date: "2019-10-28 11:23:18 GMT (Monday   28th   October   2019)"
+	revision: "4"
 
 class
 	EL_UTF_16_SEQUENCE
 
 inherit
 	EL_UTF_SEQUENCE
-
-	EL_SHARED_ONCE_ZSTRING
 
 create
 	make
