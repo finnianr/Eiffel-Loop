@@ -1,23 +1,22 @@
 note
-	description: "Libid3 field iterator"
+	description: "Libid3 frame field iteration cursor"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-17 12:15:49 GMT (Thursday   17th   October   2019)"
-	revision: "6"
+	date: "2019-10-30 16:29:35 GMT (Wednesday   30th   October   2019)"
+	revision: "1"
 
 class
-	LIBID3_FRAME_FIELD_ITERATOR
+	LIBID3_FRAME_FIELD_ITERATION_CURSOR
 
 inherit
-	EL_CPP_ITERATOR [LIBID3_FRAME_FIELD]
+	EL_CPP_ITERATION_CURSOR [LIBID3_FRAME_FIELD]
 		rename
-			make as make_iterator
-		redefine
-			new_item
+			make as make_cursor,
+			cpp_next as cpp_iterator_next
 		end
 
 	LIBID3_ID3_FRAME_ITERATOR_CPP_API
@@ -32,16 +31,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_agent: like function_create_iterator; a_frame: LIBID3_FRAME)
+	make (a_frame: LIBID3_FRAME; cpp_iterator: POINTER)
 			--
 		do
-			make_iterator (a_agent)
 			frame := a_frame
+			make_cursor (cpp_iterator)
 		end
 
-feature {NONE} -- Implementation
+feature -- Access
 
-	new_item: LIBID3_FRAME_FIELD
+	item: LIBID3_FRAME_FIELD
 		--	ID3_ENUM(ID3_FieldID) {
 		--  00 ID3FN_NOFIELD = 0,    /**< No field */
 		--  01 ID3FN_TEXTENC,        /**< Text encoding (unicode or ASCII) */
@@ -121,4 +120,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	frame: LIBID3_FRAME
+
 end

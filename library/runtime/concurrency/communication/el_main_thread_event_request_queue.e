@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-22 11:37:03 GMT (Friday 22nd December 2017)"
-	revision: "4"
+	date: "2019-10-30 14:23:45 GMT (Wednesday   30th   October   2019)"
+	revision: "5"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
@@ -89,13 +89,14 @@ feature {NONE} -- Implementation
 			set_main_thread_event_request_queue (Current)
 		end
 
-	create_event_listener_pool: ARRAYED_LIST [EL_EVENT_LISTENER]
+	create_event_listener_pool: EL_ARRAYED_LIST [EL_EVENT_LISTENER]
 		do
-			create Result.make (20)
-			from Result.start until Result.full loop
-				Result.extend (Default_event_listener)
-				Result.forth
-			end
+			create Result.make_filled (20, agent the_default)
+		end
+
+	the_default (i: INTEGER): EL_EVENT_LISTENER
+		do
+			Result := Default_event_listener
 		end
 
 feature {NONE} -- Constants

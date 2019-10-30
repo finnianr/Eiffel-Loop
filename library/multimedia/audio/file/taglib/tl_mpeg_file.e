@@ -1,13 +1,13 @@
 note
-	description: "TagLib mpeg file"
+	description: "Accesses MPEG file meta-data"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 12:34:40 GMT (Monday   28th   October   2019)"
-	revision: "4"
+	date: "2019-10-29 11:00:57 GMT (Tuesday   29th   October   2019)"
+	revision: "5"
 
 class
 	TL_MPEG_FILE
@@ -40,14 +40,14 @@ feature -- Access
 
 	tag_v1: TL_ID3_V1_TAG
 		require
-			has_version_1: has_id3_v1_tag
+			has_version_1: has_version_1
 		do
 			create Result.make (cpp_ID3_v1_tag (self_ptr, False))
 		end
 
 	tag_v2: TL_ID3_V2_TAG
 		require
-			has_version_2: has_id3_v2_tag
+			has_version_2: has_version_2
 		do
 			create Result.make (cpp_ID3_v2_tag (self_ptr, False))
 		end
@@ -65,22 +65,24 @@ feature -- Access
 		end
 
 	tag_version: INTEGER
+		-- highest available tag version
 		do
-			if has_id3_v2_tag then
+			-- prioritize v2 tag over v1, because maybe both exist
+			if has_version_2 then
 				Result := 2
-			elseif has_id3_v1_tag then
+			elseif has_version_1 then
 				Result := 1
 			end
 		end
 
 feature -- Status query
 
-	has_id3_v1_tag: BOOLEAN
+	has_version_1: BOOLEAN
 		do
 			Result := cpp_has_id3_v1_tag (self_ptr)
 		end
 
-	has_id3_v2_tag: BOOLEAN
+	has_version_2: BOOLEAN
 		do
 			Result := cpp_has_id3_v2_tag (self_ptr)
 		end

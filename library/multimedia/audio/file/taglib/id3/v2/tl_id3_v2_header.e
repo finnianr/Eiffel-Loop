@@ -1,13 +1,13 @@
 note
-	description: "Tl id3 v2 header"
+	description: "ID3 V2 header"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 17:18:00 GMT (Saturday   26th   October   2019)"
-	revision: "1"
+	date: "2019-10-29 10:56:38 GMT (Tuesday   29th   October   2019)"
+	revision: "2"
 
 class
 	TL_ID3_V2_HEADER

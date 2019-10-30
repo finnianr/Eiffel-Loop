@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:18:45 GMT (Monday   28th   October   2019)"
-	revision: "5"
+	date: "2019-10-29 11:01:15 GMT (Tuesday   29th   October   2019)"
+	revision: "6"
 
 class
 	TAG_INFO_TEST_SET
@@ -29,10 +29,10 @@ feature -- Tests
 				create mp3.make (path.item)
 				lio.put_path_field ("MP3", path.item.relative_path (Work_area_dir))
 				lio.put_new_line
-				if mp3.has_id3_v1_tag then
+				if mp3.has_version_1 then
 					print_tag (mp3.tag_v1)
 				end
-				if mp3.has_id3_v2_tag then
+				if mp3.has_version_2 then
 					print_tag (mp3.tag_v2)
 				end
 				lio.put_new_line

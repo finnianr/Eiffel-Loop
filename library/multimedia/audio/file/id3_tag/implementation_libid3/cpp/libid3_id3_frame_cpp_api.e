@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 13:31:37 GMT (Monday   7th   October   2019)"
-	revision: "1"
+	date: "2019-10-30 14:00:17 GMT (Wednesday   30th   October   2019)"
+	revision: "2"
 
 class
 	LIBID3_ID3_FRAME_CPP_API
@@ -15,7 +15,7 @@ class
 inherit
 	LIBID3_CPP_API
 
-feature {LIBID3_FRAME_ITERATOR} -- C++ Externals: ID3_Frame
+feature {LIBID3_FRAME_ITERATION_CURSOR} -- C++ Externals: ID3_Frame
 
 	cpp_new (type_id: INTEGER): POINTER
 			-- ID3_Frame::ID3_Frame (ID3_FrameID id = ID3FID_NOFRAME )

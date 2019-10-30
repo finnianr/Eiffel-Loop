@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:09:17 GMT (Saturday   26th   October   2019)"
-	revision: "4"
+	date: "2019-10-30 14:48:15 GMT (Wednesday   30th   October   2019)"
+	revision: "5"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -109,18 +109,13 @@ feature -- Element change
 			mp3_path := a_mp3_path
 		end
 
-	link_and_read (a_mp3_path: like mp3_path)
+	open_read_write
 		local
 			utf_8_path: STRING; to_c: ANY
 		do
-			mp3_path := a_mp3_path
-			wipe_out
 			utf_8_path := mp3_path.to_string.to_utf_8
 			to_c := utf_8_path.to_c
 			make_from_pointer (c_id3_file_open ($to_c, File_mode_read_and_write))
-			if is_attached (self_ptr) then
-				frame_list := new_frame_list
-			end
 		end
 
 	set_version (a_version: REAL)
@@ -153,19 +148,8 @@ feature {NONE} -- Factory
 		end
 
 	new_frame_list: EL_ARRAYED_LIST [UNDERBIT_ID3_FRAME]
-		local
-			i, count: INTEGER
 		do
-			count := frame_count
-			create Result.make (count)
-			from
-				i := 1
-			until
-				i > count
-			loop
-				Result.extend (new_frame (i))
-				i := i + 1
-			end
+			create Result.make_filled (frame_count, agent new_frame)
 		end
 
 	new_unique_file_id_field (owner_id: ZSTRING; an_id: STRING): UNDERBIT_ID3_UNIQUE_FILE_ID_FRAME

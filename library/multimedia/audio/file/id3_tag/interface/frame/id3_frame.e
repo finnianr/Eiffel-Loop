@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-14 12:26:15 GMT (Monday   14th   October   2019)"
-	revision: "7"
+	date: "2019-10-30 14:08:02 GMT (Wednesday   30th   October   2019)"
+	revision: "8"
 
 deferred class
 	ID3_FRAME
@@ -29,6 +29,9 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create field_list.make (field_count)
+			across new_field_list as l_field loop
+				field_list.extend (l_field.item)
+			end
 		end
 
 feature -- Access
@@ -270,6 +273,10 @@ feature -- Status query
 		end
 
 feature {ID3_INFO} -- Implementation
+
+	new_field_list: ITERABLE [ID3_FRAME_FIELD]
+		deferred
+		end
 
 	field (type: NATURAL_8): ID3_FRAME_FIELD
 		do

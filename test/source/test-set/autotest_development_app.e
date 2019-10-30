@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-25 12:33:02 GMT (Friday   25th   October   2019)"
-	revision: "47"
+	date: "2019-10-29 11:19:33 GMT (Tuesday   29th   October   2019)"
+	revision: "48"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [TAG_INFO_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [ID3_TAG_INFO_TEST_EVALUATOR]
 		once
 			create Result
 		end
@@ -33,7 +33,7 @@ feature {NONE} -- Constants
 		PAYPAL_TEST_EVALUATOR,
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR,
 		ID3_TAG_INFO_TEST_EVALUATOR,
-		TAG_INFO_TEST_EVALUATOR, 
+		TAG_INFO_TEST_EVALUATOR,
 		ZSTRING_TEST_EVALUATOR
 	]
 		once

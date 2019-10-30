@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:02:26 GMT (Saturday   26th   October   2019)"
-	revision: "5"
+	date: "2019-10-30 15:05:06 GMT (Wednesday   30th   October   2019)"
+	revision: "6"
 
 class
 	UNDERBIT_ID3_FRAME
@@ -41,13 +41,8 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		local
 			i: INTEGER
 		do
-			make_from_pointer (obj_ptr)
-			code := a_code
+			make_from_pointer (obj_ptr); code := a_code
 			make_default
-			from i := 1 until i > field_count loop
-				field_list.extend (new_frame_field (i))
-				i := i + 1
-			end
 			i := description_index
 			if i > 0 and then attached {UNDERBIT_ID3_STRING_FIELD} field_list [i] as l_field then
 				field_list [i] := l_field.as_description
@@ -96,6 +91,12 @@ feature {UNDERBIT_ID3_TAG_INFO} -- Implementation
 			end
 		end
 
+	new_field_list: EL_ARRAYED_LIST [ID3_FRAME_FIELD]
+		do
+			Last_encoding.set_item (Encoding_enum.unknown)
+			create Result.make_filled (field_count, agent new_frame_field)
+		end
+
 	new_frame_field (index: INTEGER): ID3_FRAME_FIELD
 		-- From: id3tag.h
 
@@ -118,13 +119,16 @@ feature {UNDERBIT_ID3_TAG_INFO} -- Implementation
 		--	15  ID3_FIELD_TYPE_BINARYDATA
 		--	};
 		local
+			encoding_field: UNDERBIT_ID3_ENCODING_FIELD
 			l_pointer: POINTER; type: INTEGER
 		do
 			l_pointer := c_id3_frame_field (self_ptr, index - 1)
 			type := c_id3_field_type (l_pointer)
 			inspect type -- enum id3_field_type {
 				when 0 then -- ID3_FIELD_TYPE_TEXTENCODING
-					create {UNDERBIT_ID3_ENCODING_FIELD} Result.make (l_pointer)
+					create encoding_field.make (l_pointer)
+					Last_encoding.set_item (encoding_field.encoding)
+					Result := encoding_field
 				when 1 then -- ID3_FIELD_TYPE_LATIN1
 					create {UNDERBIT_ID3_LATIN_1_FIELD} Result.make (l_pointer)
 				when 2 then -- ID3_FIELD_TYPE_LATIN1FULL,
@@ -133,13 +137,13 @@ feature {UNDERBIT_ID3_TAG_INFO} -- Implementation
 --				when 3 then ID3_FIELD_TYPE_LATIN1LIST Missing implemenation in Underbit API
 
 				when 4 then -- ID3_FIELD_TYPE_STRING
-					create {UNDERBIT_ID3_STRING_FIELD} Result.make (l_pointer, encoding)
+					create {UNDERBIT_ID3_STRING_FIELD} Result.make (l_pointer, Last_encoding)
 
 				when 5 then -- ID3_FIELD_TYPE_STRINGFULL
-					create {UNDERBIT_ID3_FULL_STRING_FIELD} Result.make (l_pointer, encoding)
+					create {UNDERBIT_ID3_FULL_STRING_FIELD} Result.make (l_pointer, Last_encoding)
 
 				when 6 then -- ID3_FIELD_TYPE_STRINGLIST
-					create {UNDERBIT_ID3_STRING_LIST_FIELD} Result.make (l_pointer, encoding)
+					create {UNDERBIT_ID3_STRING_LIST_FIELD} Result.make (l_pointer, Last_encoding)
 
 				when 7 then -- ID3_FIELD_TYPE_LANGUAGE
 					create {UNDERBIT_ID3_LANGUAGE_FIELD} Result.make (l_pointer)
@@ -157,6 +161,13 @@ feature {UNDERBIT_ID3_TAG_INFO} -- Implementation
 			else
 				create {ID3_DEFAULT_FIELD} Result
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Last_encoding: NATURAL_8_REF
+		once
+			create Result
 		end
 
 end

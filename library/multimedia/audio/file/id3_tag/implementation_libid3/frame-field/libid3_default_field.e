@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-15 12:23:45 GMT (Tuesday   15th   October   2019)"
-	revision: "1"
+	date: "2019-10-29 12:10:54 GMT (Tuesday   29th   October   2019)"
+	revision: "2"
 
 class
 	LIBID3_DEFAULT_FIELD
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make, default_create
 
 feature -- Access
 

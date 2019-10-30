@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-17 11:08:14 GMT (Thursday   17th   October   2019)"
-	revision: "1"
+	date: "2019-10-30 13:34:24 GMT (Wednesday   30th   October   2019)"
+	revision: "2"
 
 class
 	LIBID3_ID3_FIELD_CPP_API
@@ -25,7 +25,7 @@ feature {NONE} -- C++ Externals: ID3_Field Access
 			"IsEncodable"
 		end
 
-feature {LIBID3_FRAME_FIELD_ITERATOR} -- C++ Externals: ID3_Field Access
+feature {LIBID3_FRAME_FIELD_ITERATION_CURSOR} -- C++ Externals: ID3_Field Access
 
 	cpp_data (self: POINTER): POINTER
 			--

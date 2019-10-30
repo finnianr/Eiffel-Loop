@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-15 10:55:06 GMT (Tuesday   15th   October   2019)"
-	revision: "4"
+	date: "2019-10-30 13:54:59 GMT (Wednesday   30th   October   2019)"
+	revision: "5"
 
 class
 	LIBID3_FRAME
@@ -41,16 +41,9 @@ feature {NONE} -- Initialization
 
 	make_from_pointer (cpp_ptr: POINTER)
 			--
-		local
-			field_iterator: LIBID3_FRAME_FIELD_ITERATOR
 		do
 			Precursor (cpp_ptr)
 			make_default
-			create field_iterator.make (agent create_field_iterator, Current)
-			from field_iterator.start until field_iterator.after loop
-				field_list.extend (field_iterator.item)
-				field_iterator.forth
-			end
 		ensure then
 			field_count_correct: field_list.count = field_count
 		end
@@ -86,7 +79,9 @@ feature -- Access
 	field_count: INTEGER
 			--
 		do
-			Result := cpp_field_count (self_ptr)
+			if is_attached (self_ptr) then
+				Result := cpp_field_count (self_ptr)
+			end
 		end
 
 feature -- Status query
@@ -99,15 +94,14 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	new_field_list: LIBID3_FRAME_FIELD_LIST
+		do
+			create Result.make (Current, cpp_iterator (self_ptr))
+		end
+
 	Field_type_binary_data: INTEGER
 		do
 			Result := FN_data
-		end
-
-	create_field_iterator: POINTER
-			--
-		do
-			Result := cpp_iterator (self_ptr)
 		end
 
 	is_c_call_ok, is_field_changed: BOOLEAN

@@ -1,13 +1,16 @@
 note
-	description: "Tl string"
+	description: "Wrapper for `TagLib::String' class defined in `toolkit/tstring.h'"
+	notes: "[
+		Internally the strings are represented as UTF-16 code sequences
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:12:12 GMT (Monday   28th   October   2019)"
-	revision: "2"
+	date: "2019-10-28 13:30:59 GMT (Monday   28th   October   2019)"
+	revision: "3"
 
 class
 	TL_STRING
@@ -69,7 +72,7 @@ feature -- Conversion
 				code := i_th_code (i)
 				i := i + 1
 				if code < 0xD800 or code >= 0xE000 then
-						-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
+					-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
 					Result.extend (code.to_character_32)
 				elseif i <= count then
 					Result.extend (((code.as_natural_32 |<< 10) + i_th_code (i) - 0x35FDC00).to_character_32)
@@ -98,6 +101,7 @@ feature {NONE} -- Implementation
 
 	i_th_code (index: INTEGER): NATURAL
 		require
+			self_attached: is_attached (self_ptr)
 			valid_index: 1 <= index and index <= count
 		do
 			Result := cpp_i_th (self_ptr, index - 1)

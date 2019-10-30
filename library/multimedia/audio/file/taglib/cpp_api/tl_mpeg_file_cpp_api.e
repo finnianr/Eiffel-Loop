@@ -1,13 +1,13 @@
 note
-	description: "Interface to `TagLib::MPEG::File' in `mpeg/mpegfile.h'"
+	description: "Interface to class `TagLib::MPEG::File' in `mpeg/mpegfile.h'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-27 10:29:14 GMT (Sunday   27th   October   2019)"
-	revision: "3"
+	date: "2019-10-29 10:58:35 GMT (Tuesday   29th   October   2019)"
+	revision: "4"
 
 class
 	TL_MPEG_FILE_CPP_API

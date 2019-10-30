@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:08:34 GMT (Saturday   26th   October   2019)"
-	revision: "5"
+	date: "2019-10-30 14:41:41 GMT (Wednesday   30th   October   2019)"
+	revision: "6"
 
 class
 	LIBID3_TAG_INFO
@@ -62,24 +62,6 @@ feature -- Access
 
 feature -- File writes
 
-	update
-			--
-		do
-			update_flags := cpp_update (self_ptr)
-		end
-
-	update_v2
-			--
-		do
-			update_flags := cpp_update_version (self_ptr, ID3_v2)
-		end
-
-	update_v1
-			--
-		do
-			update_flags := cpp_update_version (self_ptr, ID3_v1)
-		end
-
 	strip_v1
 			--
 		do
@@ -92,14 +74,25 @@ feature -- File writes
 			cpp_strip (self_ptr, ID3_v2)
 		end
 
-feature {NONE} -- Removal
-
-	wipe_out
+	update
 			--
 		do
-			frame_list.wipe_out
-			cpp_clear (self_ptr)
+			update_flags := cpp_update (self_ptr)
 		end
+
+	update_v1
+			--
+		do
+			update_flags := cpp_update_version (self_ptr, ID3_v1)
+		end
+
+	update_v2
+			--
+		do
+			update_flags := cpp_update_version (self_ptr, ID3_v2)
+		end
+
+feature {NONE} -- Removal
 
 	detach (field: like new_field)
 			--
@@ -109,13 +102,14 @@ feature {NONE} -- Removal
 			detached_ptr := cpp_remove_frame (self_ptr, field.self_ptr)
 		end
 
-feature -- Status setting
-
-	set_unsync (flag: BOOLEAN)
+	wipe_out
 			--
 		do
-			is_c_call_ok := cpp_set_unsync (self_ptr, flag)
+			frame_list.wipe_out
+			cpp_clear (self_ptr)
 		end
+
+feature -- Status setting
 
 	set_padding (flag: BOOLEAN)
 			--
@@ -123,7 +117,21 @@ feature -- Status setting
 			is_c_call_ok := cpp_set_padding (self_ptr, flag)
 		end
 
+	set_unsync (flag: BOOLEAN)
+			--
+		do
+			is_c_call_ok := cpp_set_unsync (self_ptr, flag)
+		end
+
 feature -- Element change
+
+	link (a_mp3_path: like mp3_path)
+		-- link to a file without reading tags
+		do
+			mp3_path := a_mp3_path
+			wipe_out
+			link_tags (ID3_none)
+		end
 
 	set_version (a_version: REAL)
 			--
@@ -150,23 +158,13 @@ feature -- Element change
 			end
 		end
 
-	link_and_read (a_mp3_path: like mp3_path)
-		do
-			mp3_path := a_mp3_path
-			wipe_out
-			link_tags (ID3_v2)
-			frame_list := new_frame_list
-		end
-
-	link (a_mp3_path: like mp3_path)
-		-- link to a file without reading tags
-		do
-			mp3_path := a_mp3_path
-			wipe_out
-			link_tags (ID3_none)
-		end
-
 feature {NONE} -- Factory
+
+	new_album_picture_frame (a_picture: ID3_ALBUM_PICTURE): LIBID3_ALBUM_PICTURE_FRAME
+		do
+			create Result.make (a_picture)
+			attach (Result)
+		end
 
 	new_field (a_code: STRING): LIBID3_FRAME
 			--
@@ -182,34 +180,7 @@ feature {NONE} -- Factory
 			attach (Result)
 		end
 
-	new_album_picture_frame (a_picture: ID3_ALBUM_PICTURE): LIBID3_ALBUM_PICTURE_FRAME
-		do
-			create Result.make (a_picture)
-			attach (Result)
-		end
-
 feature {NONE} -- Implementation
-
-	new_frame_list: EL_ARRAYED_LIST [LIBID3_FRAME]
-		local
-			iterator: LIBID3_FRAME_ITERATOR
-		do
-			create Result.make (frame_count)
-			create iterator.make (agent new_frame_iterator)
-			iterator.do_all (agent Result.extend)
-		end
-
-   frame_count: INTEGER
- 		--
-		do
-			Result := cpp_frame_count (self_ptr)
-		end
-
-	new_frame_iterator: POINTER
-			--
-		do
-			Result := cpp_iterator (self_ptr)
-		end
 
 	attach (field: like new_field)
 			--
@@ -228,11 +199,29 @@ feature {NONE} -- Implementation
 			cpp_link (self_ptr, $to_c, tag_types)
 		end
 
+	new_frame_list: EL_CPP_LIST [LIBID3_FRAME_ITERATION_CURSOR, LIBID3_FRAME]
+		do
+			create Result.make (agent cpp_iterator (self_ptr))
+		end
+
+   frame_count: INTEGER
+ 		--
+		do
+			Result := cpp_frame_count (self_ptr)
+		end
+
+	open_read_write
+		do
+			link_tags (ID3_v2)
+		end
+
+feature {NONE} -- Internal attributes
+
+	c_call_status: INTEGER
+
 	is_c_call_ok: BOOLEAN
 
 	update_flags: INTEGER
-
-	c_call_status: INTEGER
 
 feature -- Constants
 

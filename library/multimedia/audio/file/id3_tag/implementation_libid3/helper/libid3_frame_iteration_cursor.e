@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 9:56:14 GMT (Tuesday   8th   October   2019)"
-	revision: "6"
+	date: "2019-10-30 16:29:36 GMT (Wednesday   30th   October   2019)"
+	revision: "7"
 
 class
-	LIBID3_FRAME_ITERATOR
+	LIBID3_FRAME_ITERATION_CURSOR
 
 inherit
-	EL_CPP_ITERATOR [LIBID3_FRAME]
-		redefine
-			new_item
+	EL_CPP_ITERATION_CURSOR [LIBID3_FRAME]
+		rename
+			cpp_next as cpp_iterator_next
 		end
 
 	LIBID3_ID3_TAG_ITERATOR_CPP_API
@@ -25,9 +25,9 @@ inherit
 create
 	make
 
-feature {NONE} -- Implementation
+feature -- Access
 
-	new_item: LIBID3_FRAME
+	item: LIBID3_FRAME
 		local
 			code: STRING
 		do

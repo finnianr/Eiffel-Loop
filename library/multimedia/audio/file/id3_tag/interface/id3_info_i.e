@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 11:59:06 GMT (Thursday   10th   October   2019)"
-	revision: "7"
+	date: "2019-10-30 14:43:07 GMT (Wednesday   30th   October   2019)"
+	revision: "8"
 
 deferred class
 	ID3_INFO_I
@@ -56,7 +56,13 @@ feature -- Element change
 		end
 
 	link_and_read (a_mp3_path: like mp3_path)
-		deferred
+		do
+			mp3_path := a_mp3_path
+			wipe_out; open_read_write
+			create frame_list.make (frame_count)
+			across new_frame_list as frame loop
+				frame_list.extend (frame.item)
+			end
 		end
 
 	set_version (a_version: REAL)
@@ -114,6 +120,10 @@ feature -- Factory
 		deferred
 		end
 
+	new_frame_list: ITERABLE [ID3_FRAME]
+		deferred
+		end
+
 	new_unique_file_id_field (owner_id: ZSTRING; an_id: STRING): ID3_UNIQUE_FILE_ID_FRAME
 			--
 		deferred
@@ -122,6 +132,10 @@ feature -- Factory
 feature {ID3_INFO} -- Implementation
 
 	dispose
+		deferred
+		end
+
+	open_read_write
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:20:22 GMT (Monday 5th November 2018)"
-	revision: "7"
+	date: "2019-10-30 14:12:45 GMT (Wednesday   30th   October   2019)"
+	revision: "8"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ARRAYED_LIST [G]
 		redefine
-			make, make_filled, make_from_array
+			make, make_default_filled, make_from_array
 		end
 
 	EL_QUERYABLE_CHAIN [G]
@@ -34,7 +34,7 @@ inherit
 		end
 
 create
-	make, make_filled, make_from_array
+	make, make_default_filled, make_from_array
 
 feature -- Initialization
 
@@ -46,7 +46,7 @@ feature -- Initialization
 			Precursor (n)
 		end
 
-	make_filled (n: INTEGER)
+	make_default_filled (n: INTEGER)
 			-- Allocate list with `n' items.
 			-- (`n' may be zero for empty list.)
 			-- This list will be full.
