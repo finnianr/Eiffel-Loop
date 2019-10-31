@@ -27,6 +27,11 @@ AIFF, MP4 and ASF files.
 				<platform value = "windows"/>
 			</condition>
 		</external_include>
+		<external_include location = "$(EL_CONTRIB)\C++\taglib\include\mpeg\id3v2">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_include>
 		<external_include location = "$(EL_CONTRIB)\C++\taglib\include\toolkit">
 			<condition>
 				<platform value = "windows"/>
@@ -39,6 +44,11 @@ AIFF, MP4 and ASF files.
 		</external_object>
 		<!--For Unix-->
 		<external_include location = "$(EL_CONTRIB)/C++/taglib/include">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_include>
+		<external_include location = "$(EL_CONTRIB)/C++/taglib/include/mpeg/id3v2">
 			<condition>
 				<platform value = "unix"/>
 			</condition>

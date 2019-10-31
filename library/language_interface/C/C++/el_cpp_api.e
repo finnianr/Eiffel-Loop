@@ -1,23 +1,21 @@
 note
-	description: "Tl id3 tag frame"
+	description: "Cpp api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 15:36:04 GMT (Wednesday   30th   October   2019)"
+	date: "2019-10-31 12:32:46 GMT (Thursday   31st   October   2019)"
 	revision: "1"
 
 class
-	TL_ID3_TAG_FRAME
+	EL_CPP_API
 
 inherit
-	EL_CPP_OBJECT
-		rename
-			make_from_pointer as make
+	EL_POINTER_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_attached
 		end
-
-create
-	make
 end

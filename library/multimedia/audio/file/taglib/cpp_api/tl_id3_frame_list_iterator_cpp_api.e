@@ -1,16 +1,19 @@
 note
-	description: "Interface to class `ID3v2::FrameList::ConstIterator'"
+	description: "Interface to class `TagLib::ID3v2::FrameList::ConstIterator'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 18:20:34 GMT (Wednesday   30th   October   2019)"
-	revision: "1"
+	date: "2019-10-31 15:54:00 GMT (Thursday   31st   October   2019)"
+	revision: "2"
 
 class
 	TL_ID3_FRAME_LIST_ITERATOR_CPP_API
+
+inherit
+	EL_CPP_API
 
 feature {NONE} -- Externals
 

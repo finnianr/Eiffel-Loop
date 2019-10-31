@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-17 11:39:33 GMT (Thursday   17th   October   2019)"
-	revision: "1"
+	date: "2019-10-30 19:23:58 GMT (Wednesday   30th   October   2019)"
+	revision: "2"
 
 deferred class
 	ID3_STRING_LIST_FIELD
@@ -26,9 +26,7 @@ feature -- Access
 	list: EL_ZSTRING_LIST
 			--
 		do
-			from create Result.make (count) until Result.full loop
-				Result.extend (i_th_string (Result.count + 1))
-			end
+			create Result.make_filled (count, agent i_th_string)
 		end
 
 	type: NATURAL_8

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-29 11:01:15 GMT (Tuesday   29th   October   2019)"
-	revision: "6"
+	date: "2019-10-31 15:44:42 GMT (Thursday   31st   October   2019)"
+	revision: "7"
 
 class
-	TAG_INFO_TEST_SET
+	TAGLIB_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 feature -- Tests
 
-	test_read_id3
+	test_read_basic_id3
 		local
 			mp3: TL_MPEG_FILE
 		do
@@ -40,7 +40,58 @@ feature -- Tests
 			end
 		end
 
+	test_read_id3_frames
+		local
+			mp3: TL_MPEG_FILE
+		do
+			across file_list as path loop
+				create mp3.make (path.item)
+				if mp3.has_version_2 then
+					lio.put_path_field ("MP3", path.item.relative_path (Work_area_dir))
+					lio.put_new_line
+					print_frames (mp3.tag_v2)
+					lio.put_new_line
+				end
+				mp3.dispose -- Allow deletion of files
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	print_frames (tag: TL_ID3_V2_TAG)
+		local
+			name: STRING
+		do
+			across tag.iterable_frame_list as frame loop
+				name := Naming.class_as_upper_snake (frame.item, 1, 2)
+				lio.put_labeled_string (name, frame.item.id.to_string)
+				lio.put_new_line
+				if attached {TL_COMMENTS_ID3_FRAME} frame.item as comments then
+					lio.put_string_field ("description", comments.description.to_string)
+					lio.put_new_line
+					lio.put_string_field ("text", comments.text.to_string)
+					lio.put_new_line
+					lio.put_string_field ("language", comments.language.to_string)
+					lio.put_new_line
+				elseif attached {TL_PICTURE_ID3_FRAME} frame.item as pic then
+					lio.put_string_field ("description", pic.description.to_string)
+					lio.put_new_line
+					lio.put_string_field ("mime_type", pic.mime_type.to_string)
+					lio.put_new_line
+					lio.put_integer_field ("size", pic.picture.size.to_integer_32)
+					lio.put_new_line
+				elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as text then
+					across text.field_list.arrayed as field loop
+						lio.put_labeled_substitution ("field_list", Index_template, [field.cursor_index, field.item.to_string])
+						lio.put_new_line
+					end
+				else
+					lio.put_string_field ("text", frame.item.text.to_string)
+					lio.put_new_line
+				end
+				lio.put_new_line
+			end
+		end
 
 	print_tag (tag: TL_ID3_TAG)
 		local
@@ -83,4 +134,8 @@ feature {NONE} -- Constants
 
 	Filter: STRING = "*.mp3"
 
+	Index_template: ZSTRING
+		once
+			Result := "[%S] %S"
+		end
 end

@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 17:26:00 GMT (Saturday   26th   October   2019)"
-	revision: "1"
+	date: "2019-10-31 12:28:15 GMT (Thursday   31st   October   2019)"
+	revision: "2"
 
 class
 	TL_ID3_V2_HEADER_CPP_API
+
+inherit
+	EL_CPP_API
 
 feature {NONE} -- C++ Externals
 

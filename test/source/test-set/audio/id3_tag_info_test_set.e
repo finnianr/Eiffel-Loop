@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-27 10:06:23 GMT (Sunday   27th   October   2019)"
-	revision: "3"
+	date: "2019-10-30 19:14:12 GMT (Wednesday   30th   October   2019)"
+	revision: "4"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -128,9 +128,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
---	Filter: STRING = "*"
+	Filter: STRING = "*"
 --	Filter: STRING = "230-syncedlyrics.tag"
-	Filter: STRING = "230-picture.tag"
+--	Filter: STRING = "230-picture.tag"
 --	Filter: STRING = "230*.tag"
 --	Filter: STRING = "thatspot.*"
 --	Filter: STRING = "*compressed.tag"

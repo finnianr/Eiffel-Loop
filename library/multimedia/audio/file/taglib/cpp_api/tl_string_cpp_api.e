@@ -1,25 +1,29 @@
 note
-	description: "Interface to class `TagLib::String' in `toolkit/tstring.h'"
+	description: "Interface to class `TagLib::String' defined in `toolkit/tstring.h'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:06:04 GMT (Monday   28th   October   2019)"
-	revision: "2"
+	date: "2019-10-31 15:54:17 GMT (Thursday   31st   October   2019)"
+	revision: "3"
 
 class
 	TL_STRING_CPP_API
 
 inherit
-	EL_POINTER_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_attached
-		end
+	EL_CPP_API
 
 feature {NONE} -- C++ Externals
+
+	frozen cpp_equals (self_ptr, c_str: POINTER): BOOLEAN
+		--	bool hasID3v2Tag()
+		external
+			"C++ [TagLib::String %"toolkit/tstring.h%"] (const char *): EIF_BOOLEAN"
+		alias
+			"operator=="
+		end
 
 	frozen cpp_is_latin_1 (self_ptr: POINTER): BOOLEAN
 		--	bool hasID3v2Tag()
@@ -56,12 +60,4 @@ feature {NONE} -- C++ Externals
 			"C++ [delete TagLib::String %"toolkit/tstring.h%"] ()"
 		end
 
-feature {NONE} -- C Externals
-
-	frozen c_size_of_utf16: INTEGER
-		external
-			"C [macro <toolkit/unicode.h>]"
-		alias
-			"sizeof (Unicode::UTF16)"
-		end
 end

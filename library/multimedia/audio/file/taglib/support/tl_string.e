@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:30:59 GMT (Monday   28th   October   2019)"
-	revision: "3"
+	date: "2019-10-31 13:11:57 GMT (Thursday   31st   October   2019)"
+	revision: "4"
 
 class
 	TL_STRING
@@ -50,6 +50,14 @@ feature -- Status query
 			Result := count = 0
 		end
 
+	equals (str: STRING): BOOLEAN
+		local
+			to_c: ANY
+		do
+			to_c := str.to_c
+			Result := cpp_equals (self_ptr, $to_c)
+		end
+
 feature -- Measurement
 
 	count: INTEGER
@@ -84,7 +92,7 @@ feature -- Conversion
 			end
 		end
 
-	to_string_8: STRING_8
+	to_string_8, to_latin_1: STRING_8
 		require
 			latin_1_encoded: is_latin_1
 		local

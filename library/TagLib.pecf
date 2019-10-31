@@ -32,8 +32,14 @@ system:
 			all_classes = true
 
 		# For Windows
-		external_include: 
+		external_include:
 			location = "$(EL_CONTRIB)\\C++\\taglib\\include"
+			condition:
+				platform:
+					value = windows
+
+		external_include:
+			location = "$(EL_CONTRIB)\\C++\\taglib\\include\\mpeg\\id3v2"
 			condition:
 				platform:
 					value = windows
@@ -53,6 +59,12 @@ system:
 		# For Unix
 		external_include:
 			location = "$(EL_CONTRIB)/C++/taglib/include"
+			condition:
+				platform:
+					value = unix
+
+		external_include:
+			location = "$(EL_CONTRIB)/C++/taglib/include/mpeg/id3v2"
 			condition:
 				platform:
 					value = unix

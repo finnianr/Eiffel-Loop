@@ -1,6 +1,6 @@
 note
 	description: "[
-		Wrapper for ID3 tag editing library libid3 from id3lib.org
+		Wrapper for ID3 tag editing library libid3 from [http://id3lib.sourceforge.net/ id3lib.sourceforge.net]
 
 		Read and writes ID3 version 2.3. Does not seem to read earlier 2.x versions.
 		Useful for reading/writing ID3 tags version <= 2.3
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:41:41 GMT (Wednesday   30th   October   2019)"
-	revision: "6"
+	date: "2019-10-31 11:39:51 GMT (Thursday   31st   October   2019)"
+	revision: "7"
 
 class
 	LIBID3_TAG_INFO
