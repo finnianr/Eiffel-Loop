@@ -2,11 +2,12 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 33); build = 152
-
-installation_sub_directory = 'Eiffel-Loop/eiffel'
+ecf = 'eiffel.ecf'
 
 tests = None
+
+# 1.0.34
+# Fixed bug in EL_DATE_TEXT_TEMPLATE causing double spaces in formatted dates
 
 # 1.0.33
 # Stopped CLASS_PREFIX_REMOVAL_APP from renaming classes that are not in the source directory

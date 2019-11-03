@@ -21,6 +21,7 @@ The application performs signal math including Fourier transformations based on 
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
+		<version major = "1" minor = "0" release = "1" build = "16" company = "Eiffel-Loop" product = "EROS" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" profile = "false" debug = "false" warning = "true">
 			<debug name = "__unnamed_debug__" enabled = "false"/>
 			<debug name = "dlg_dispatcher" enabled = "false"/>

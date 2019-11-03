@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-29 11:25:04 GMT (Sunday   29th   September   2019)"
+	date: "2019-09-29 11:25:04 GMT (Sunday 29th September 2019)"
 	revision: "7"
 
 class
@@ -19,14 +19,14 @@ inherit
 
 feature -- Tests
 
-	test_from_iso8601_formatted
+	test_from_iso_8601_formatted
 		local
 
 		do
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted ("20171123T155101Z"))
 		end
 
-	test_from_canonical_iso8601_formatted
+	test_from_canonical_iso_8601_formatted
 		local
 
 		do
@@ -34,16 +34,20 @@ feature -- Tests
 		end
 
 	test_formatted_date
+		note
+			testing: "covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted"
 		local
 			date_text: EL_ENGLISH_DATE_TEXT
 			canonical_format: ZSTRING
 		do
 			create date_text.make
 			canonical_format := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
-			assert ("Is Thursday 23rd Nov 2017", canonical_format.same_string ("Thursday 23rd November 2017"))
+			assert ("Same date string", canonical_format.same_string (Date_string))
 		end
 
 feature {NONE} -- Constants
+
+	Date_string: STRING = "Thursday 23rd November 2017"
 
 	Date_time: DATE_TIME
 		-- Thursday 23rd Nov 2017

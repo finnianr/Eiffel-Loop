@@ -5,3 +5,4 @@ manifest:
 	location:
 		"audio"
 		"email"
+		"hexagram"

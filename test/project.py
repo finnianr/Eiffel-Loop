@@ -2,9 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 0, 7); build = 377
-
-installation_sub_directory = 'Eiffel-Loop/test'
+ecf = 'test.ecf'
 
 set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/svg-graphics/spec/$ISE_PLATFORM")
 

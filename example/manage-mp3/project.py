@@ -2,9 +2,7 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-version = (1, 4, 4); build = 377
-
-installation_sub_directory = 'Eiffel-Loop/manage-mp3'
+ecf = 'manage-mp3.ecf'
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-test_rhythmbox_read_write', '-logging'])

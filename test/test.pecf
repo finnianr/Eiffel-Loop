@@ -6,7 +6,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = el_test; uuid="A325754F-7BEB-44B6-937C-CC7EBDDA764F"
+	name = el_test; uuid = "A325754F-7BEB-44B6-937C-CC7EBDDA764F"
 	description:
 		"""
 			Eiffel-Loop Library Tests
@@ -18,6 +18,10 @@ system:
 
 		root:
 			class = APPLICATION_ROOT; feature = make
+		version:
+			major = 1; minor = 0; release = 7; build = 377
+			company = "Eiffel-Loop"; product = "test"
+			copyright = "Finnian Reilly"
 
 		variable:
 			name = build_info_dir; value = "source/root"

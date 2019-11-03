@@ -11,8 +11,10 @@ from string import Template
 from os import path
 from glob import glob
 
+from eiffel_loop.eiffel.ecf import SYSTEM_INFO
+
 from eiffel_loop.eiffel import ise
-from eiffel_loop.xml.xpath import XPATH_CONTEXT
+from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
 from eiffel_loop.distutils import file_util
 from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
@@ -48,20 +50,6 @@ def read_project_py ():
 		result = None
 
 	return result
-
-def increment_build_number ():
-	f = open ('project.py', 'r')
-	lines = f.read ().split ('\n')
-	f.close
-	for i in range (0, len (lines) - 1):
-		line = lines [i]
-		if 'build =' in line:
-			pos_space = line.rfind (' ')
-			lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
-			break
-	f = open ('project.py', 'w')
-	f.write ('\n'.join (lines))
-	f.close
 
 def x86_environ (environ):
 	result = {}
@@ -111,17 +99,6 @@ def create_classic_f_code_tar (ise_platform):
 
 	return path.normpath (result)
 
-def build_info_path (ecf_ctx):
-	# attempt to get location of 'build_info.e' file from ECF, defaulting to 'source' if not found
-
-	result = ecf_ctx.attribute ("/ec:system/ec:target/ec:variable[@name='build_info_dir']/@value")
-	if result:
-		result = path.normpath (result)
-	else:
-		result = 'source'
-	result = path.join (result, 'build_info.e')
-	return result
-	
 def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	build_dir = path.join ('build', ise_platform)
 	windows_eifgens = path.join ('EIFGENs', build_dir)
@@ -132,10 +109,10 @@ def restore_classic_f_code_tar (f_code_tar_path, ise_platform):
 	call (['tar', '-xf', f_code_tar_path, '-C', build_dir])
 
 def new_eiffel_project ():
-	if platform.system () == "Windows":
-		result = MSWIN_EIFFEL_PROJECT ()
-	else:
+	if os.name == "posix":
 		result = UNIX_EIFFEL_PROJECT ()
+	else:
+		result = MSWIN_EIFFEL_PROJECT ()
 	return result
 
 class TESTS (object):
@@ -157,18 +134,20 @@ class TESTS (object):
 		for test_args in test_args_sequence:
 			subprocess.call ([exe_path] + test_args)
 		
-		
 class EIFFEL_PROJECT (object):
 
 # Initialization
 	def __init__ (self):
 		self.ecf_name = glob ('*.ecf')[0]
 		self.name = path.splitext (self.ecf_name)[0]
-		ecf_ctx = XPATH_CONTEXT (self.ecf_name, 'ec')
-		self.exe_name = self.ecf_exe_name (ecf_ctx, '/ec:system/@name')
+		self.pecf_name = self.name + '.pecf'
+		
+		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
+
+		self.exe_name = system.exe_name ()
 
 		# Get version from Eiffel class BUILD_INFO in source
-		f = open (build_info_path (ecf_ctx), 'r')
+		f = open (system.build_info_path (), 'r')
 		for ln in f.readlines ():
 			if ln.startswith ('\tVersion_number'):
 				numbers = ln [ln.rfind (' ') + 1:-1].split ('_')
@@ -180,7 +159,7 @@ class EIFFEL_PROJECT (object):
 
 # Basic operation
 	def build (self, cpu_target):
-		call (scons_command (['cpu=' + cpu_target, 'action=finalize', 'project=%s.ecf' % self.name]))
+		call (scons_command (['cpu=' + cpu_target, 'action=finalize']))
 
 	def copy (self, exe_path, exe_dest_path):
 		pass
@@ -213,12 +192,23 @@ class EIFFEL_PROJECT (object):
 			if not path.exists (dest_so_path):
 				self.copy (so_path, dest_so_path)
 				print 'Copied', so_path
-			
+
+	def increment_build_number (self):
+		f = open (self.pecf_name, 'r')
+		lines = f.read ().split ('\n')
+		f.close
+		for i in range (0, len (lines) - 1):
+			line = lines [i]
+			if 'major' in line and 'build' in line:
+				# assumes build is at end of line
+				pos_space = line.rfind (' ')
+				lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
+				break
+		f = open (self.pecf_name, 'w')
+		f.write ('\n'.join (lines))
+		f.close
 
 # Implementation
-	def ecf_exe_name (self, ecf_ctx, a_path):
-		pass
-
 	def versioned_exe_name (self):
 		pass
 
@@ -235,9 +225,6 @@ class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return subprocess.call (['sudo', 'ln', '-f', '-s', target, link_name])
 
 # Implementation
-	def ecf_exe_name (self, ecf_ctx, a_path):
-		return ecf_ctx.attribute (a_path)
-
 	def versioned_exe_name (self):
 		return self.exe_name + '-' + self.version
 
@@ -268,8 +255,6 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return 0
 
 # Implementation
-	def ecf_exe_name (self, ecf_ctx, a_path):
-		return ecf_ctx.attribute (a_path) + '.exe'
 
 	def versioned_exe_name (self):
 		template = "%s" + '-' + self.version + "%s"

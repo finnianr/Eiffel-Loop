@@ -16,6 +16,11 @@ system:
 		name = classic
 		root:
 			class = APPLICATION_ROOT; feature = make
+		version:
+			major = 1; minor = 0; release = 0; build = 0
+			company = "Eiffel-Loop"; product = "99-bottles"
+			copyright = "Finnian Reilly"
+
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true

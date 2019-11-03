@@ -41,4 +41,24 @@ feature -- Tests
 			end
 		end
 
+	test_date
+		local
+			template: EL_TEMPLATE [ZSTRING]
+		do
+--			canonical: STRING = "$long_day_name $canonical_numeric_month $long_month_name $year"
+			create template.make ({EL_DATE_FORMATS}.Canonical)
+			template.put ("long_day_name", "Thursday")
+			template.put ("canonical_numeric_month", "23rd")
+			template.put ("long_month_name", "November")
+			template.put ("year", "2017")
+			assert ("same date", Date_string ~ template.substituted)
+		end
+
+feature {NONE} -- Constants
+
+	Date_string: ZSTRING
+		once
+			Result := "Thursday 23rd November 2017"
+		end
+
 end

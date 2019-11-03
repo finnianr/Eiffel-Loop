@@ -11,10 +11,8 @@ system:
 
 			Interface to hardware specific bit operations like POPCNT.
 		"""
-	
 	target:
 		name = EL_bit_utils
-
 		root:
 			all_classes = true
 

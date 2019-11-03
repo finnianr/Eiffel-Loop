@@ -3,9 +3,8 @@
 from eiffel_loop.eiffel.dev_environ import *
 
 set_environ ('ISE_CFLAGS', "-Wno-write-strings")
-version = (1, 0, 0); build = 41
 
-installation_sub_directory = 'Eiffel-Loop/eiffel2java'
+ecf = "eiffel2java.ecf"
 
 tests = TESTS ('$EIFFEL_LOOP/projects.data')
 tests.append (['-java_velocity_test', '-logging'])

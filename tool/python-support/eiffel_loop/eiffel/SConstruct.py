@@ -33,7 +33,6 @@ arguments.Add (
 )
 arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
 arguments.Add (BoolVariable ('install', 'Set to \'yes\' to install finalized release', 'no'))
-arguments.Add (PathVariable ('project', 'Path to Eiffel configuration file', 'default.ecf'))
 
 #arguments.Add (
 #	ListVariable (
@@ -57,17 +56,17 @@ else:
 #		project_py.MSC_options = MSC_options
 #		print 'MSC_options:', project_py.MSC_options
 	
-	ecf_path = env.get ('project')
 	action = env.get ('action')
 	compile_eiffel = env.get ('compile_eiffel')
+	print 'compile_eiffel', compile_eiffel
 
 	project_py.set_build_environment (env.get ('cpu'))
 
+
 	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
-
-	config = EIFFEL_CONFIG_FILE (ecf_path)
-
-	project_files = [ecf_path, 'project.py']
+	
+	pecf_path = path.splitext (project_py.ecf)[0] + '.pecf'
+	config = EIFFEL_CONFIG_FILE (project_py.ecf)
 
 	if action == 'install_resources':
 		build = FREEZE_BUILD (config, project_py)
@@ -80,7 +79,7 @@ else:
 			if compile_eiffel:
 				env.Append (EIFFEL_BUILD = tar_build)
 				env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
-				f_code = env.eiffel_compile (tar_build.target (), project_files)
+				f_code = env.eiffel_compile (tar_build.target (), project_py.ecf)
 			else:
 				f_code = None
 				
@@ -90,11 +89,16 @@ else:
 
 		env.Append (C_BUILD = build)
 		env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
+		if compile_eiffel:
+			env.Append (BUILDERS = {'write_ecf' : Builder (action = eiffel.write_ecf_from_pecf)})
+			ecf = env.write_ecf (project_py.ecf, pecf_path)
+		else:
+			ecf = None
 
 		if f_code:
 			executable = env.c_compile (build.target (), tar_build.target ())
 		else:
-			executable = env.c_compile (build.target (), project_files)
+			executable = env.c_compile (build.target (), project_py.ecf)
 
 		eiffel.check_C_libraries (env, build)
 		if len (build.SConscripts) > 0:
@@ -117,6 +121,8 @@ else:
 		else:
 			Depends (executable, lib_dependencies)
 			productions = [executable]
+		if ecf:
+			productions.append (ecf)
 
 		env.NoClean (productions)
 

@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 11:03:18 GMT (Wednesday   2nd   October   2019)"
+	date: "2019-10-02 11:03:18 GMT (Wednesday 2nd October 2019)"
 	revision: "18"
 
 class
@@ -29,6 +29,8 @@ feature {NONE} -- Constants
 		CODEC_GENERATOR_APP,
 		CODE_HIGHLIGHTING_TEST_APP,
 		CODEBASE_STATISTICS_APP,
+
+		NOTE_DATE_FIXER_APP,
 
 		ECF_TO_PECF_APP,
 		ENCODING_CHECK_APP,

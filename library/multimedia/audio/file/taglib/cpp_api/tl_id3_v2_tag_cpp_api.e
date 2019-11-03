@@ -1,12 +1,16 @@
 note
-	description: "Interface to class `TagLib::ID3v2::Tag'"
+	description: "[
+		Interface to class `TagLib::ID3v2::Tag'
+		
+			#include
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 12:27:53 GMT (Thursday   31st   October   2019)"
+	date: "2019-10-31 12:27:53 GMT (Thursday 31st October 2019)"
 	revision: "5"
 
 class

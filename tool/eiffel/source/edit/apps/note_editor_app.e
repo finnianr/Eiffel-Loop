@@ -1,7 +1,8 @@
 note
 	description: "[
-		Command line interface to the [$source NOTE_EDITOR_COMMAND] class
-		which edits the note fields of all classes defined by a source tree manifest argument
+		Command line interface to [$source NOTE_EDITOR_COMMAND]
+		
+		This command edits the note fields of all classes defined by a source tree manifest argument
 		by filling in default values for license fields listed in supplied `license' argument.
 		If the modification date/time has changed, it fills in the note-fields.
 		If changed, it sets the date note-field to be same as the time stamp and increments the
@@ -13,7 +14,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:56 GMT (Wednesday   25th   September   2019)"
+	date: "2019-09-25 15:24:56 GMT (Wednesday 25th September 2019)"
 	revision: "16"
 
 class
@@ -74,7 +75,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Option_name: STRING = "edit_notes"
+	Option_name: STRING
+		once
+			Result := "edit_notes"
+		end
 
 	Description: STRING = "[
 		Edit the note fields of all classes defined by the source tree manifest argument.

@@ -10,7 +10,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-23 10:49:51 GMT (Monday   23rd   September   2019)"
+	date: "2019-09-23 10:49:51 GMT (Monday 23rd September 2019)"
 	revision: "8"
 
 deferred class

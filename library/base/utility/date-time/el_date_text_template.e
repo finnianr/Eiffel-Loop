@@ -42,7 +42,7 @@ feature -- Access
 					name.item.share (function_table.found_item (date))
 				end
 			end
-			Result := part_list.joined_words
+			Result := part_list.joined_strings
 		end
 
 feature -- Contract Support

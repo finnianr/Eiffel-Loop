@@ -29,6 +29,8 @@ inherit
 
 	EL_MODULE_LOG
 
+	EL_MODULE_FILE_SYSTEM
+
 create
 	make
 
@@ -57,8 +59,7 @@ feature -- Basic operations
 
 	edit
 		local
-			source_file: PLAIN_TEXT_FILE; notes: CLASS_NOTES
-			revised_lines: EL_ZSTRING_LIST
+			notes: CLASS_NOTES; revised_lines: EL_ZSTRING_LIST
 		do
 			log.enter ("edit")
 			reset
@@ -77,8 +78,7 @@ feature -- Basic operations
 					output_lines := revised_lines
 					Precursor
 					if notes.is_revision then
-						create source_file.make_with_name (file_path)
-						source_file.stamp (notes.last_time_stamp + 1)
+						File_system.set_file_stamp (file_path, notes.last_time_stamp + 1)
 					end
 				else
 					input_lines.close

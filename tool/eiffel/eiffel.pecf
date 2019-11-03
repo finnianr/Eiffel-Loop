@@ -24,6 +24,10 @@ system:
 
 		root:
 			class = APPLICATION_ROOT; feature = make
+		version:
+			major = 1; minor = 0; release = 34; build = 157
+			company = "Eiffel-Loop"; product = "eiffel"
+			copyright = "Finnian Reilly"
 
 		variable:
 			name = build_info_dir; value = "source/root"

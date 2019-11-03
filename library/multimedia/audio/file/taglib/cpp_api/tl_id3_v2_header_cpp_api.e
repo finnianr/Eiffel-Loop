@@ -1,12 +1,16 @@
 note
-	description: "Interface to `TagLib::ID3v2::Header' in `mpeg/id3v2/id3v2header.h'"
+	description: "[
+		Interface to `TagLib::ID3v2::Header'
+		
+			#include mpeg/id3v2/id3v2header.h
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 12:28:15 GMT (Thursday   31st   October   2019)"
+	date: "2019-10-31 12:28:15 GMT (Thursday 31st October 2019)"
 	revision: "2"
 
 class

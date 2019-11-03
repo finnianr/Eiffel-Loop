@@ -34,7 +34,7 @@ if project_ecf:
 	if path.exists (f_code_tar):
 		os.remove (f_code_tar)
 
-	call (build_cmd + ['action=freeze', 'project=' + project_ecf])
+	call (build_cmd + ['action=freeze'])
 else:
 	print "No project file specified"
 

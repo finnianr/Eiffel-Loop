@@ -6,7 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 9:41:47 GMT (Saturday   14th   September   2019)"
+
+	-- ***************************************************************
+	-- FIX THIS MULTIPLE SPACE IN DATES
+	date: "2019-09-14 9:41:47 GMT (Saturday 14th September 2019)"
+	-- ***************************************************************
+	-- ***************************************************************
+
 	revision: "22"
 
 class

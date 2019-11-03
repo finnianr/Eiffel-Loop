@@ -1,12 +1,16 @@
 note
-	description: "Interface to class `TagLib::ID3v2::FrameList::ConstIterator'"
+	description: "[
+		Interface to class `TagLib::ID3v2::FrameList::ConstIterator'
+		
+			#include mpeg/id3v2/id3v2tag.h
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 15:54:00 GMT (Thursday   31st   October   2019)"
+	date: "2019-10-31 15:54:00 GMT (Thursday 31st October 2019)"
 	revision: "2"
 
 class

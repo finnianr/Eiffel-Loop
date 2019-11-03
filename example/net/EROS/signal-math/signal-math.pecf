@@ -21,6 +21,10 @@ system:
 		name = classic
 		root:
 			class = APPLICATION_ROOT; feature = make
+		version:
+			major = 1; minor = 0; release = 0; build = 1
+			company = "Eiffel-Loop"; product = "EROS"
+			copyright = "Finnian Reilly"
 
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none

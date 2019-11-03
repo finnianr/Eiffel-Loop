@@ -16,7 +16,6 @@ from subprocess import call
 from optparse import OptionParser
 
 from eiffel_loop.eiffel.project import new_eiffel_project
-from eiffel_loop.eiffel.project import increment_build_number
 
 # Word around for bug "LookupError: unknown encoding: cp65001"
 if os.name == "nt":
@@ -56,7 +55,7 @@ if options.no_build:
 	if f_code_tar:
 		os.remove (f_code_tar)
 else:
-	increment_build_number ()
+	project.increment_build_number ()
 	# remove if corrupted (size is less than 1 mb)
 	if f_code_tar:
 		if os.path.getsize(f_code_tar) < 1000000:

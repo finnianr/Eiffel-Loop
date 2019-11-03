@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "All rights reserved by copyright holder"
-	date: "2018-09-20 10:06:24 GMT (Thursday 20th September 2018)"
+	date: "2018-09-20 10:06:24 GMT (Thursday  20th  September  2018)"
 	revision: "1"
 
 class
