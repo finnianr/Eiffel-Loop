@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:16:36 GMT (Tuesday 8th October 2019)"
-	revision: "3"
+	date: "2019-11-05 15:59:31 GMT (Tuesday 5th November 2019)"
+	revision: "4"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -26,8 +26,8 @@ feature -- Basic operations
 
 	apply
 		local
-			pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
-			picture: EL_ID3_ALBUM_PICTURE
+			pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
+			picture: ID3_ALBUM_PICTURE
 			jpeg_path_list: LIST [EL_FILE_PATH]
 		do
 			log.enter ("apply")
@@ -48,11 +48,11 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	add_song_picture (
-		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO
-		pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
+		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: ID3_INFO
+		pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
 	)
 		local
-			picture: EL_ID3_ALBUM_PICTURE
+			picture: ID3_ALBUM_PICTURE
 		do
 			if song_has_artist_picture (pictures).met (song) and then not id3_info.has_album_picture then
 				picture := pictures [song.artist]

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 13:11:57 GMT (Thursday 31st October 2019)"
-	revision: "4"
+	date: "2019-11-10 19:06:24 GMT (Sunday 10th November 2019)"
+	revision: "5"
 
 class
 	TL_STRING
@@ -23,9 +23,14 @@ inherit
 	EL_SHARED_ONCE_STRING_32
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Initialization
+
+	make_empty
+		do
+			make (cpp_new)
+		end
 
 	make (a_ptr: POINTER)
 		--
@@ -38,11 +43,12 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	is_latin_1: BOOLEAN
+	equals (str: STRING): BOOLEAN
+		local
+			to_c: ANY
 		do
-			if is_attached (self_ptr) then
-				Result := cpp_is_latin_1 (self_ptr)
-			end
+			to_c := str.to_c
+			Result := cpp_equals (self_ptr, $to_c)
 		end
 
 	is_empty: BOOLEAN
@@ -50,12 +56,11 @@ feature -- Status query
 			Result := count = 0
 		end
 
-	equals (str: STRING): BOOLEAN
-		local
-			to_c: ANY
+	is_latin_1: BOOLEAN
 		do
-			to_c := str.to_c
-			Result := cpp_equals (self_ptr, $to_c)
+			if is_attached (self_ptr) then
+				Result := cpp_is_latin_1 (self_ptr)
+			end
 		end
 
 feature -- Measurement
@@ -96,13 +101,43 @@ feature -- Conversion
 		require
 			latin_1_encoded: is_latin_1
 		local
-			i: INTEGER; code: NATURAL
+			i: INTEGER
 		do
 			create Result.make (count)
 			from i := 1 until i > count loop
 				Result.extend (i_th_code (i).to_character_8)
 				i := i + 1
 			end
+		end
+
+feature -- Element change
+
+	set_from_string (str: ZSTRING)
+		do
+			Setter.set_string (Current, str)
+		end
+
+	set_from_string_8 (str: STRING)
+		do
+			Setter.set_string_8 (Current, str)
+		end
+
+	set_from_string_32 (str: STRING_32)
+		do
+			Setter.set_string_32 (Current, str)
+		end
+
+	wipe_out
+		do
+			cpp_clear (self_ptr)
+		end
+
+feature {TL_STRING_SETTER_I} -- Element change
+
+	set_from_utf_16 (utf_16: POINTER)
+		do
+			wipe_out
+			cpp_append (self_ptr, utf_16)
 		end
 
 feature {NONE} -- Implementation
@@ -113,6 +148,13 @@ feature {NONE} -- Implementation
 			valid_index: 1 <= index and index <= count
 		do
 			Result := cpp_i_th (self_ptr, index - 1)
+		end
+
+feature {NONE} -- Internal attributes
+
+	Setter: TL_STRING_SETTER_I
+		once
+			create {TL_STRING_SETTER_IMP} Result
 		end
 
 end

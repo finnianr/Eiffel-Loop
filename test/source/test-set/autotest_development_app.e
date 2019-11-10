@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 10:29:56 GMT (Thursday 31st October 2019)"
-	revision: "49"
+	date: "2019-11-10 16:01:43 GMT (Sunday 10th November 2019)"
+	revision: "50"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [DATE_TEXT_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [TAGLIB_TEST_EVALUATOR]
 		once
 			create Result
 		end

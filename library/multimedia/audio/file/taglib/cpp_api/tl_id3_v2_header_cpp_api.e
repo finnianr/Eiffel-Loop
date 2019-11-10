@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 12:28:15 GMT (Thursday 31st October 2019)"
-	revision: "2"
+	date: "2019-10-31 16:14:55 GMT (Thursday 31st October 2019)"
+	revision: "3"
 
 class
 	TL_ID3_V2_HEADER_CPP_API

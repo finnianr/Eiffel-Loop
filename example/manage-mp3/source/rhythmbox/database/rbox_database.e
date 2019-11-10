@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:20:18 GMT (Tuesday 8th October 2019)"
-	revision: "18"
+	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
+	revision: "19"
 
 class
 	RBOX_DATABASE
@@ -383,7 +383,7 @@ feature -- Basic operations
 
 	for_all_songs (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, EL_ID3_INFO]
+		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, ID3_INFO]
 	)
 			--
 		local
@@ -397,7 +397,7 @@ feature -- Basic operations
 
 	for_all_songs_id3_info (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_id3_edit: PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]
+		do_id3_edit: PROCEDURE [ID3_INFO, EL_FILE_PATH]
 	)
 			--
 		local

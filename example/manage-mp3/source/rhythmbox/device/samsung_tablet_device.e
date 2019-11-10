@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:21:40 GMT (Tuesday 8th October 2019)"
-	revision: "6"
+	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
+	revision: "7"
 
 class
 	SAMSUNG_TABLET_DEVICE
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Implementation
 
-	adjust_genre (id3_info: EL_ID3_INFO)
+	adjust_genre (id3_info: ID3_INFO)
 			-- Galaxy tab players treats the Tango genre in a weird way (don't remember exactly what, displays as Latin or something)
 			-- so change to something else here
 		do

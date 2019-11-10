@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 11:03:18 GMT (Wednesday 2nd October 2019)"
-	revision: "18"
+	date: "2019-11-10 14:23:11 GMT (Sunday 10th November 2019)"
+	revision: "19"
 
 class
 	APPLICATION_ROOT
@@ -38,9 +38,10 @@ feature {NONE} -- Constants
 		FEATURE_EDITOR_APP,
 		FIND_AND_REPLACE_APP,
 
+		ID3_FRAME_ENUM_GENERATOR_APP,
 		IMP_CLASS_LOCATION_NORMALIZER_APP,
-		LIBRARY_OVERRIDE_APP,
 
+		LIBRARY_OVERRIDE_APP,
 		NOTE_EDITOR_APP,
 
 		UNDEFINE_PATTERN_COUNTER_APP,

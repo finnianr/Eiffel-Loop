@@ -137,8 +137,11 @@ class TESTS (object):
 class EIFFEL_PROJECT (object):
 
 # Initialization
-	def __init__ (self):
-		self.ecf_name = glob ('*.ecf')[0]
+	def __init__ (self, ecf_name = None):
+		if ecf_name:
+			self.ecf_name = ecf_name
+		else:
+			self.ecf_name = glob ('*.ecf')[0]
 		self.name = path.splitext (self.ecf_name)[0]
 		self.pecf_name = self.name + '.pecf'
 		
@@ -158,8 +161,12 @@ class EIFFEL_PROJECT (object):
 		self.version = ('.').join (numbers)
 
 # Basic operation
-	def build (self, cpu_target):
-		call (scons_command (['cpu=' + cpu_target, 'action=finalize']))
+	def build (self, cpu_target, options_extra = None):
+		options = ['cpu=' + cpu_target, 'action=finalize']
+		if options_extra:
+			options.extend (options_extra)
+			
+		call (scons_command (options))
 
 	def copy (self, exe_path, exe_dest_path):
 		pass

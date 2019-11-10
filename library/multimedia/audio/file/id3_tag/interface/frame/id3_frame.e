@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:08:02 GMT (Wednesday 30th October 2019)"
-	revision: "8"
+	date: "2019-11-05 16:05:09 GMT (Tuesday 5th November 2019)"
+	revision: "9"
 
 deferred class
 	ID3_FRAME
@@ -245,6 +245,11 @@ feature -- Status query
 			--
 		do
 			Result := has_field (Field_type.encoding)
+		end
+
+	has_binary_data: BOOLEAN
+		do
+			Result := has_field (Field_type.binary_data)
 		end
 
 	has_description: BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:16:37 GMT (Tuesday 8th October 2019)"
-	revision: "3"
+	date: "2019-11-05 16:01:27 GMT (Tuesday 5th November 2019)"
+	revision: "4"
 
 class
 	DISPLAY_MUSIC_BRAINZ_INFO_TASK
@@ -22,7 +22,7 @@ feature -- Basic operations
 
 	apply
 		local
-			id3_info: EL_ID3_INFO
+			id3_info: ID3_INFO
 		do
 			log.enter ("apply")
 			across Database.songs.query (not song_has_audio_id) as song loop

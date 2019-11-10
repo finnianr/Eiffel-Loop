@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {DATE_NOTE_EDITOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Date note editor"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-11-01 13:51:31 GMT (Friday 1st November 2019)"
+	revision: "1"
 
 class
 	DATE_NOTE_EDITOR

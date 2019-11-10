@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:19:05 GMT (Tuesday 8th October 2019)"
-	revision: "6"
+	date: "2019-11-05 16:02:50 GMT (Tuesday 5th November 2019)"
+	revision: "7"
 
 class
 	ID3_TAG_INFO_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ID3_EDIT_CONSTANTS
 
-	EL_MODULE_TAG
+	ID3_MODULE_TAG
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -25,7 +25,7 @@ inherit
 
 feature -- Basic operations
 
-	set_fields_from_path (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	set_fields_from_path (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 			-- set genre and artist field from path, preserving any album artist info in the artist field
 		local
 			artist_dir, genre_dir: EL_DIR_PATH
@@ -57,9 +57,9 @@ feature -- Basic operations
 			id3_info.update
 		end
 
-	delete_id3_comments (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	delete_id3_comments (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 		local
-			l_frame: EL_ID3_FRAME; frame_string: ZSTRING; is_changed: BOOLEAN; pos_colon: INTEGER
+			l_frame: ID3_FRAME; frame_string: ZSTRING; is_changed: BOOLEAN; pos_colon: INTEGER
 		do
 			if not id3_info.comment_table.is_empty then
 				print_id3 (id3_info, relative_song_path)
@@ -92,7 +92,7 @@ feature -- Basic operations
 			end
 		end
 
-	normalize_comment (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	normalize_comment (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 			-- rename comment description 'Comment' as 'c0'
 			-- This is an antidote to a bug in Rhythmbox version 2.97 where editions to
 			-- 'c0' command are saved as 'Comment' and are no longer visible on reload.
@@ -111,7 +111,7 @@ feature -- Basic operations
 			end
 		end
 
-	print_id3_comments (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	print_id3_comments (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 		do
 			if not id3_info.comment_table.is_empty then
 				print_id3 (id3_info, relative_song_path)
@@ -123,7 +123,7 @@ feature -- Basic operations
 			end
 		end
 
-	id3_test (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	id3_test (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 		local
 			mtime: INTEGER
 		do
@@ -138,14 +138,14 @@ feature -- Basic operations
 
 		end
 
-	print_id3 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	print_id3 (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 		do
 			lio.put_path_field ("Song", relative_song_path)
 			lio.put_real_field (" Version", id3_info.version)
 			lio.put_new_line
 		end
 
-	set_version_23 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH)
+	set_version_23 (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH)
 		do
 			print_id3 (id3_info, relative_song_path)
 
@@ -153,10 +153,10 @@ feature -- Basic operations
 			id3_info.update
 		end
 
-	save_album_picture_id3 (id3_info: EL_ID3_INFO; relative_song_path: EL_FILE_PATH; name: ZSTRING)
+	save_album_picture_id3 (id3_info: ID3_INFO; relative_song_path: EL_FILE_PATH; name: ZSTRING)
 		local
 			jpg_file: RAW_FILE
-			album_picture: EL_ID3_ALBUM_PICTURE
+			album_picture: ID3_ALBUM_PICTURE
 		do
 			print_id3_comments (id3_info, relative_song_path)
 			if id3_info.has_album_picture then

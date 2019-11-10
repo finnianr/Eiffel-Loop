@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 15:44:42 GMT (Thursday 31st October 2019)"
-	revision: "7"
+	date: "2019-11-10 19:02:02 GMT (Sunday 10th November 2019)"
+	revision: "8"
 
 class
 	TAGLIB_TEST_SET
@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 		local
 			name: STRING
 		do
-			across tag.iterable_frame_list as frame loop
+			across tag.all_frames_list as frame loop
 				name := Naming.class_as_upper_snake (frame.item, 1, 2)
 				lio.put_labeled_string (name, frame.item.id.to_string)
 				lio.put_new_line

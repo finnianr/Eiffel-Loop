@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:18:06 GMT (Tuesday 8th October 2019)"
-	revision: "9"
+	date: "2019-11-05 16:01:54 GMT (Tuesday 5th November 2019)"
+	revision: "10"
 
 class
 	ID3_EDITOR
@@ -43,7 +43,7 @@ feature -- Basic operations
 			editions_table.search (edition_name)
 			if editions_table.found then
 				across file_paths as mp3_path loop
-					editions_table.found_item.call ([create {EL_ID3_INFO}.make_version (mp3_path.item, 2.4), mp3_path.item])
+					editions_table.found_item.call ([create {ID3_INFO}.make_version (mp3_path.item, 2.4), mp3_path.item])
 --					if mp3_path.cursor_index \\ 40 = 0 then
 --						from until User_input.line ("Press return to continue").is_empty loop
 --							lio.put_new_line
@@ -69,7 +69,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [EL_ID3_INFO, EL_FILE_PATH]]
+	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [ID3_INFO, EL_FILE_PATH]]
 
 	edition_name: ZSTRING
 

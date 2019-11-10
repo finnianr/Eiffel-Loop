@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:23:49 GMT (Tuesday 8th October 2019)"
-	revision: "11"
+	date: "2019-11-05 16:06:09 GMT (Tuesday 5th November 2019)"
+	revision: "12"
 
 class
 	STORAGE_DEVICE
@@ -225,14 +225,14 @@ feature {NONE} -- Volume file operations
 
 feature {NONE} -- Implementation
 
-	adjust_genre (id3_info: EL_ID3_INFO)
+	adjust_genre (id3_info: ID3_INFO)
 		do
 		end
 
 	export_item (media_item: MEDIA_ITEM)
 		local
 			temp_file_path, relative_file_path: EL_FILE_PATH
-			id3_info: EL_ID3_INFO; m3u_playlist: like new_m3u_playlist
+			id3_info: ID3_INFO; m3u_playlist: like new_m3u_playlist
 		do
 			relative_file_path := media_item.exported_relative_path (is_windows_format)
 			temp_file_path := temporary_dir + relative_file_path.base
@@ -358,11 +358,6 @@ feature {NONE} -- Constants
 	Device_data: ZSTRING
 		once
 			Result := "device-data"
-		end
-
-	ID3: EL_ID3_ENCODINGS
-		once
-			create Result
 		end
 
 	Empty_dir: EL_DIR_PATH

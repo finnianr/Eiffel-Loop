@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {DATE_TEXT_TEST_EVALUATOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Date text test evaluator"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-11-01 10:22:53 GMT (Friday 1st November 2019)"
+	revision: "1"
 
 class
 	DATE_TEXT_TEST_EVALUATOR

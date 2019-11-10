@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {TEMPLATE_TEST_EVALUATOR}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Template test evaluator"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-11-01 11:14:06 GMT (Friday 1st November 2019)"
+	revision: "1"
 
 class
 	TEMPLATE_TEST_EVALUATOR

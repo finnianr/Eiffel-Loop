@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-19 9:04:54 GMT (Saturday 19th October 2019)"
-	revision: "3"
+	date: "2019-11-05 16:01:27 GMT (Tuesday 5th November 2019)"
+	revision: "4"
 
 class
 	TEST_APP
@@ -44,7 +44,7 @@ feature -- Tests
 
 	test_id3
 		local
-			underbit: EL_UNDERBIT_ID3_TAG_INFO
+			underbit: UNDERBIT_ID3_TAG_INFO
 		do
 			create underbit.make
 --			info.link_and_read (Directory.home + "Music/Tango/Carlos di Sarli/Al Compás Del Corazón.02.mp3")
@@ -56,7 +56,7 @@ feature -- Tests
 --			print_id3 (create {EL_LIBID3_TAG_INFO}.make)
 		end
 
-	print_id3 (info: EL_ID3_INFO_I; a_dir: EL_DIR_PATH; filter: STRING)
+	print_id3 (info: ID3_INFO_I; a_dir: EL_DIR_PATH; filter: STRING)
 		local
 
 		do
@@ -69,7 +69,7 @@ feature -- Tests
 			end
 		end
 
-	put_frames (frame_list: ARRAYED_LIST [EL_ID3_FRAME])
+	put_frames (frame_list: ARRAYED_LIST [ID3_FRAME])
 		do
 			across frame_list as frame loop
 				lio.put_string_field (

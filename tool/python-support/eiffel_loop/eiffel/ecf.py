@@ -117,7 +117,7 @@ class LIBRARY (object):
 						self.platform = opposing_platform (value)
 				else:
 					self.platform = value
-			break
+				break
 
 # Access	
 	def location (self):

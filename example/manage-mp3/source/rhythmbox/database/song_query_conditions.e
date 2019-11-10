@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:23:49 GMT (Tuesday 8th October 2019)"
-	revision: "8"
+	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
+	revision: "9"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -126,15 +126,15 @@ feature {NONE} -- Conditions
 		end
 
 	song_has_artist_or_album_picture (
-		pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]
+		pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
 	): EL_OR_QUERY_CONDITION [RBOX_SONG]
 		do
 			Result := song_has_artist_picture (pictures) or song_has_album_picture (pictures)
 		end
 
-	song_has_artist_picture (a_pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
+	song_has_artist_picture (a_pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): BOOLEAN
 				do
 					pictures.search (song.artist)
 					if pictures.found then
@@ -145,9 +145,9 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_has_album_picture (a_pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): like predicate
+	song_has_album_picture (a_pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [EL_ID3_ALBUM_PICTURE]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): BOOLEAN
 				do
 					pictures.search (song.album)
 					if pictures.found then
@@ -180,7 +180,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
 				local
-					id3_tag: EL_ID3_INFO
+					id3_tag: ID3_INFO
 				do
 					create id3_tag.make (song.mp3_path)
 					Result := id3_tag.has_multiple_owners_for_UFID
@@ -215,7 +215,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG; owner: STRING): BOOLEAN
 				local
-					id3_tag: EL_ID3_INFO
+					id3_tag: ID3_INFO
 				do
 					create id3_tag.make (song.mp3_path)
 					Result := id3_tag.has_unique_id (owner)
@@ -228,7 +228,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
 				local
-					id3_tag: EL_ID3_INFO
+					id3_tag: ID3_INFO
 				do
 					create id3_tag.make (song.mp3_path)
 					Result := across id3_tag.comment_table as comment some comment.item.description.is_empty end

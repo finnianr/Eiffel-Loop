@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:18:07 GMT (Monday 28th October 2019)"
-	revision: "3"
+	date: "2019-11-10 19:05:28 GMT (Sunday 10th November 2019)"
+	revision: "4"
 
 deferred class
 	TL_ID3_TAG
@@ -17,6 +17,8 @@ inherit
 		rename
 			make_from_pointer as make
 		end
+
+	TL_SHARED_FRAME_CODE
 
 feature -- Access
 

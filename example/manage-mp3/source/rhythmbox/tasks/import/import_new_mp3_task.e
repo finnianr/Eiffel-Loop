@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:19:33 GMT (Tuesday 8th October 2019)"
-	revision: "2"
+	date: "2019-11-05 16:00:31 GMT (Tuesday 5th November 2019)"
+	revision: "3"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 		require
 			not_already_present: not Database.songs_by_location.has (mp3_path)
 		local
-			relative_path_steps: EL_PATH_STEPS; id3_info: EL_ID3_INFO
+			relative_path_steps: EL_PATH_STEPS; id3_info: ID3_INFO
 		do
 			relative_path_steps := mp3_path.relative_path (music_dir).steps
 			if relative_path_steps.count = 3 then

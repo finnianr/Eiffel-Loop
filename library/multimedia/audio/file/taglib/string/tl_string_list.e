@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 15:49:52 GMT (Thursday 31st October 2019)"
-	revision: "1"
+	date: "2019-11-10 19:40:29 GMT (Sunday 10th November 2019)"
+	revision: "2"
 
 class
 	TL_STRING_LIST
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 
 	new_cursor: TL_STRING_LIST_ITERATION_CURSOR
 		do
-			create Result.make (cpp_field_list_begin (self_ptr), cpp_field_list_end (self_ptr))
+			create Result.make (cpp_iterator_begin (self_ptr), cpp_iterator_end (self_ptr))
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:20:30 GMT (Tuesday 8th October 2019)"
-	revision: "8"
+	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
+	revision: "9"
 
 class
 	RBOX_TEST_DATABASE
@@ -91,7 +91,7 @@ feature {TEST_MANAGEMENT_TASK} -- Access
 			valid_duration: song.duration > 0
 		local
 			mp3_writer: like Audio_command.new_wav_to_mp3
-			relative_path, wav_path: EL_FILE_PATH; l_id3_info: EL_ID3_INFO
+			relative_path, wav_path: EL_FILE_PATH; l_id3_info: ID3_INFO
 		do
 			relative_path := song.mp3_path.relative_path (music_dir)
 

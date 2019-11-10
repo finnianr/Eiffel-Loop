@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 13:22:01 GMT (Thursday 31st October 2019)"
-	revision: "1"
+	date: "2019-11-10 18:52:35 GMT (Sunday 10th November 2019)"
+	revision: "2"
 
 class
 	TL_BYTE_VECTOR_CPP_API
@@ -40,6 +40,19 @@ feature {NONE} -- C++ Externals
 			--
 		external
 			"C++ [delete TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
+		end
+
+	frozen cpp_new: POINTER
+			--
+		external
+			"C++ [new TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
+		end
+
+	frozen cpp_set_data (self_ptr, data: POINTER)
+		external
+			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (const char *)"
+		alias
+			"setData"
 		end
 
 	frozen cpp_size (self_ptr: POINTER): NATURAL

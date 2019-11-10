@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:22:29 GMT (Tuesday 8th October 2019)"
-	revision: "3"
+	date: "2019-11-05 16:01:27 GMT (Tuesday 5th November 2019)"
+	revision: "4"
 
 class
 	UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK
@@ -30,7 +30,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	update_song_comment_with_album_artists (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: EL_ID3_INFO)
+	update_song_comment_with_album_artists (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: ID3_INFO)
 			--
 		local
 			l_album_artists: ZSTRING

@@ -7,7 +7,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_id3_tag; uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" 
+	name = EL_id3_tag; uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" 
 	library_target = EL_id3_tag
 	description:
 		"""
@@ -105,11 +105,10 @@ system:
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "base/base.ecf"
-			readonly = false
+			name = EL_base; location = "base/base.ecf"; readonly = false
 
 		library:
-			name = EL_c_api; location = "C-language-interface.ecf"
+			name = EL_c_api; location = "C-language-interface.ecf"; readonly = false
 
 		# Source code
 		cluster:

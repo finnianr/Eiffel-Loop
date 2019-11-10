@@ -15,7 +15,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = el_rhythmbox; uuid = "9631ecc8-09a7-11df-89ca-002215bdb9f4"
+	name = el_rhythmbox; uuid = "9631ECC8-09A7-11DF-89CA-002215BDB9F4"
 	description:
 		"""
 			Rhythmbox MP3 Collection Manager
@@ -127,7 +127,7 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_id3_tags_old; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
+			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
 			readonly = false
 
 		library:

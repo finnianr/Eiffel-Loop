@@ -2,7 +2,7 @@ note
 	description: "[
 		Interface to class `TagLib::ID3v2::Tag'
 		
-			#include
+			#include <mpeg/id3v2/id3v2tag.h>
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 12:27:53 GMT (Thursday 31st October 2019)"
-	revision: "5"
+	date: "2019-11-10 19:30:46 GMT (Sunday 10th November 2019)"
+	revision: "6"
 
 class
 	TL_ID3_V2_TAG_CPP_API
@@ -33,6 +33,16 @@ feature {NONE} -- C++ Externals
 			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
 		alias
 			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->artist ())"
+		end
+
+	frozen cpp_frame_list (tag, id: POINTER): POINTER
+		external
+			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
+		alias
+			"[
+				const TagLib::ByteVector frame_id = *((const TagLib::ByteVector*)$id);
+				return new TagLib::ID3v2::FrameList (((TagLib::ID3v2::Tag*)$tag)->frameList (frame_id))
+			]"
 		end
 
 	frozen cpp_frame_list_begin (tag: POINTER): POINTER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 11:33:51 GMT (Thursday 10th October 2019)"
-	revision: "1"
+	date: "2019-11-10 15:58:59 GMT (Sunday 10th November 2019)"
+	revision: "2"
 
 class
 	ID3_FRAME_FIELD_TYPE_ENUM

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 15:54:17 GMT (Thursday 31st October 2019)"
-	revision: "3"
+	date: "2019-11-09 16:33:22 GMT (Saturday 9th November 2019)"
+	revision: "4"
 
 class
 	TL_STRING_CPP_API
@@ -21,8 +21,21 @@ inherit
 
 feature {NONE} -- C++ Externals
 
+	frozen cpp_append (self_ptr, utf_16: POINTER)
+		external
+			"C++ [TagLib::String %"toolkit/tstring.h%"] (const wchar_t *)"
+		alias
+			"operator+="
+		end
+
+	frozen cpp_clear (self_ptr: POINTER)
+		external
+			"C++ [TagLib::String %"toolkit/tstring.h%"] ()"
+		alias
+			"clear"
+		end
+
 	frozen cpp_equals (self_ptr, c_str: POINTER): BOOLEAN
-		--	bool hasID3v2Tag()
 		external
 			"C++ [TagLib::String %"toolkit/tstring.h%"] (const char *): EIF_BOOLEAN"
 		alias
@@ -30,11 +43,16 @@ feature {NONE} -- C++ Externals
 		end
 
 	frozen cpp_is_latin_1 (self_ptr: POINTER): BOOLEAN
-		--	bool hasID3v2Tag()
 		external
 			"C++ [TagLib::String %"toolkit/tstring.h%"] (): EIF_BOOLEAN"
 		alias
 			"isLatin1"
+		end
+
+	frozen cpp_new: POINTER
+			--
+		external
+			"C++ [new TagLib::String %"toolkit/tstring.h%"] ()"
 		end
 
 	frozen cpp_size (self_ptr: POINTER): INTEGER

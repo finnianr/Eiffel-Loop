@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:19:34 GMT (Tuesday 8th October 2019)"
-	revision: "8"
+	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
+	revision: "9"
 
 class
 	MP3_IDENTIFIER
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: like file_path)
 		local
-			header: EL_ID3_HEADER; mp3_file: RAW_FILE
+			header: ID3_HEADER; mp3_file: RAW_FILE
 		do
 			file_path := a_file_path
 			create mp3_file.make_open_read (file_path); create header.make_from_file (mp3_file)
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			Result := i = 8 and then hex_digit = first
 		end
 
-	new_signature (mp3_file: RAW_FILE; header: EL_ID3_HEADER): ARRAY [NATURAL_8]
+	new_signature (mp3_file: RAW_FILE; header: ID3_HEADER): ARRAY [NATURAL_8]
 		local
 			md5: MD5; i, data_size: INTEGER; n: NATURAL
 		do

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:22:28 GMT (Tuesday 8th October 2019)"
-	revision: "23"
+	date: "2019-11-05 16:03:08 GMT (Tuesday 5th November 2019)"
+	revision: "24"
 
 class
 	RBOX_SONG
@@ -40,7 +40,7 @@ inherit
 
 	EL_MODULE_OS
 
-	EL_MODULE_TAG
+	ID3_MODULE_TAG
 
 	EL_MODULE_COLON_FIELD
 
@@ -177,7 +177,7 @@ feature -- Access
 			Result := l_time.formatted_out ("mi:[0]ss")
 		end
 
-	id3_info: EL_ID3_INFO
+	id3_info: ID3_INFO
 		do
 			create Result.make (mp3_path)
 		end
@@ -483,7 +483,7 @@ feature -- Basic operations
 			write_id3_info (id3_info)
 		end
 
-	write_id3_info (a_id3_info: EL_ID3_INFO)
+	write_id3_info (a_id3_info: ID3_INFO)
 			--
 		do
 			a_id3_info.set_title (title)

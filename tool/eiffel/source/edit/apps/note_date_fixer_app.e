@@ -4,9 +4,14 @@ note
 
 			date: "2018-09-20 10:06:24 GMT (Thursday  20th  September  2018)"
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2019-11-01 13:32:58 GMT (Friday 1st November 2019)"
+	revision: "1"
 
 class
 	NOTE_DATE_FIXER_APP

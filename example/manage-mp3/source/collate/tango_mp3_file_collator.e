@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 15:22:28 GMT (Tuesday 8th October 2019)"
-	revision: "8"
+	date: "2019-11-05 16:00:33 GMT (Tuesday 5th November 2019)"
+	revision: "9"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -77,7 +77,7 @@ feature {NONE} -- Implementation
 
 	is_dry_run: BOOLEAN
 
-	new_artist (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
+	new_artist (id3_info: ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
 		local
 			path, result_lower: ZSTRING; found: BOOLEAN
 		do
@@ -102,7 +102,7 @@ feature {NONE} -- Implementation
 			Result.left_adjust
 		end
 
-	new_genre (id3_info: EL_ID3_INFO): ZSTRING
+	new_genre (id3_info: ID3_INFO): ZSTRING
 		do
 			Result := id3_info.genre
 			if Result.is_empty or else Tango_genres.has (Result) then
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_title (id3_info: EL_ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
+	new_title (id3_info: ID3_INFO; mp3_path: EL_FILE_PATH): ZSTRING
 		do
 			Result := id3_info.title
 			if Result.is_empty then
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 
 	relocate_mp3_file (mp3_path: EL_FILE_PATH)
 		local
-			id3_info: EL_ID3_INFO; destination_mp3_path: EL_FILE_PATH
+			id3_info: ID3_INFO; destination_mp3_path: EL_FILE_PATH
 			title_count: INTEGER; genre, artist, title: ZSTRING
 		do
 			create id3_info.make_version (mp3_path, 2.4)
