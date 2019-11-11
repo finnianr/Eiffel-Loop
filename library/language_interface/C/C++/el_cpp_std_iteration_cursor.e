@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 18:07:00 GMT (Wednesday 30th October 2019)"
-	revision: "1"
+	date: "2019-11-11 20:42:52 GMT (Monday 11th November 2019)"
+	revision: "2"
 
 deferred class
-	EL_CPP_STD_ITERATION_CURSOR [G -> EL_CPP_OBJECT]
+	EL_CPP_STD_ITERATION_CURSOR [G]
 
 inherit
 	EL_OWNED_CPP_OBJECT

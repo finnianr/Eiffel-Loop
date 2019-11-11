@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:40:29 GMT (Sunday 10th November 2019)"
-	revision: "2"
+	date: "2019-11-11 20:50:41 GMT (Monday 11th November 2019)"
+	revision: "3"
 
 class
 	TL_STRING_LIST
@@ -20,14 +20,14 @@ inherit
 
 	TL_STRING_LIST_CPP_API
 
-	ITERABLE [TL_STRING]
+	ITERABLE [ZSTRING]
 
 create
 	make
 
 feature -- Access
 
-	arrayed: EL_ARRAYED_LIST [TL_STRING]
+	arrayed: EL_ZSTRING_LIST
 		do
 			create Result.make (count)
 			across Current as field loop

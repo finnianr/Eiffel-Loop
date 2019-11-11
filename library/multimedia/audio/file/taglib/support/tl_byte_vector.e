@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:33:01 GMT (Sunday 10th November 2019)"
-	revision: "2"
+	date: "2019-11-11 19:07:15 GMT (Monday 11th November 2019)"
+	revision: "3"
 
 class
 	TL_BYTE_VECTOR
@@ -36,44 +36,62 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	data: MANAGED_POINTER
-		do
-			create Result.share_from_pointer (data_pointer, size.to_integer_32)
-		end
-
-	i_th (index: NATURAL): CHARACTER
-		require
-			valid_index: 1 <= index and index <= size
-		do
-			Result := cpp_i_th (self_ptr, index - 1)
-		end
-
-	size: NATURAL
+	count: NATURAL
 		do
 			Result := cpp_size (self_ptr)
 		end
 
-	to_string: STRING
+	data: MANAGED_POINTER
+		do
+			create Result.share_from_pointer (data_pointer, count.to_integer_32)
+		end
+
+	i_th (index: NATURAL): CHARACTER
+		require
+			valid_index: 1 <= index and index <= count
+		do
+			Result := cpp_i_th (self_ptr, index - 1)
+		end
+
+	to_string: ZSTRING
+		do
+			Result := to_temporary_string (False)
+		end
+
+	to_string_8: STRING
+		do
+			Result := to_temporary_string (True)
+		end
+
+	to_temporary_string (keep_ref: BOOLEAN): STRING
+		local
+			i, l_count: NATURAL
 		do
 			Result := empty_once_string_8
-			Result.from_c_substring (data_pointer, 1, size.to_integer_32)
-			Result := Result.twin
+			l_count := count
+			from i := 1 until i > l_count loop
+				Result.extend (i_th (i))
+				i := i + 1
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
 feature -- Status query
 
 	equals (str: STRING): BOOLEAN
 		do
-			if str.count = size.to_integer_32 then
+			if str.count = count.to_integer_32 then
 				Result := starts_with (str)
 			end
 		end
 
 	starts_with (str: STRING): BOOLEAN
 		local
-			i: INTEGER; area: like to_string.area
+			i: INTEGER; area: like {STRING}.area
 		do
-			if str.count <= size.to_integer_32 then
+			if str.count <= count.to_integer_32 then
 				area := str.area
 				Result := True
 				from i := 1 until not Result or i > str.count loop

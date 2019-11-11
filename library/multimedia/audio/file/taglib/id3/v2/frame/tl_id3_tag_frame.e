@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 13:00:15 GMT (Thursday 31st October 2019)"
-	revision: "2"
+	date: "2019-11-11 19:19:36 GMT (Monday 11th November 2019)"
+	revision: "3"
 
 class
 	TL_ID3_TAG_FRAME
@@ -20,19 +20,34 @@ inherit
 
 	TL_ID3_TAG_FRAME_CPP_API
 
+	TL_SHARED_ONCE_STRING
+
+	TL_SHARED_FRAME_ID_BYTES
+
+	TL_SHARED_FRAME_ID_ENUM
+
 create
 	make
 
 feature -- Access
 
-	id: TL_BYTE_VECTOR
+	id: STRING
 		do
-			create Result.make (cpp_frame_id (self_ptr))
+			cpp_get_frame_id (self_ptr, Once_frame_id.self_ptr)
+			Result := Once_frame_id.to_string_8
 		end
 
-	text: TL_STRING
+	id_enum: NATURAL_8
+		-- enumeration code for `id'
 		do
-			create Result.make (cpp_to_string (self_ptr))
+			cpp_get_frame_id (self_ptr, Once_frame_id.self_ptr)
+			Result := once_frame_id_enum
+		end
+
+	text: ZSTRING
+		do
+			cpp_get_string (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
 		end
 
 end

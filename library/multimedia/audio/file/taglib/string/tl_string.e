@@ -9,14 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:06:24 GMT (Sunday 10th November 2019)"
-	revision: "5"
+	date: "2019-11-11 12:02:37 GMT (Monday 11th November 2019)"
+	revision: "6"
 
 class
 	TL_STRING
 
 inherit
 	EL_OWNED_CPP_OBJECT
+		rename
+			make_from_pointer as make
+		export
+			{EL_CPP_API} self_ptr
+		end
 
 	TL_STRING_CPP_API
 
@@ -30,15 +35,6 @@ feature {NONE} -- Initialization
 	make_empty
 		do
 			make (cpp_new)
-		end
-
-	make (a_ptr: POINTER)
-		--
-		do
-			if is_attached (a_ptr) then
-				make_from_pointer (a_ptr)
-				count := cpp_size (self_ptr)
-			end
 		end
 
 feature -- Status query
@@ -66,6 +62,9 @@ feature -- Status query
 feature -- Measurement
 
 	count: INTEGER
+		do
+			Result := cpp_size (self_ptr)
+		end
 
 feature -- Conversion
 

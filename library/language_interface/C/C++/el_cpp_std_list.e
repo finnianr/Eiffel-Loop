@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 15:27:09 GMT (Thursday 31st October 2019)"
-	revision: "2"
+	date: "2019-11-11 20:45:18 GMT (Monday 11th November 2019)"
+	revision: "3"
 
 class
-	EL_CPP_STD_LIST [C -> EL_CPP_STD_ITERATION_CURSOR [G] create make end, G -> EL_CPP_OBJECT]
+	EL_CPP_STD_LIST [C -> EL_CPP_STD_ITERATION_CURSOR [G] create make end, G]
 
 inherit
 	ITERABLE [G]

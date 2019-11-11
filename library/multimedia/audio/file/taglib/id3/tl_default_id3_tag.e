@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 13:18:20 GMT (Monday 28th October 2019)"
-	revision: "3"
+	date: "2019-11-11 11:02:41 GMT (Monday 11th November 2019)"
+	revision: "4"
 
 class
 	TL_DEFAULT_ID3_TAG
@@ -22,26 +22,26 @@ feature -- Status query
 
 	is_default: BOOLEAN = True
 
-feature {NONE} -- Implementation
+feature -- Fields
 
-	cpp_album (tag: POINTER): POINTER
+	album: ZSTRING
 		do
+			create Result.make_empty
 		end
 
-	cpp_artist (tag: POINTER): POINTER
+	artist: ZSTRING
 		do
+			create Result.make_empty
 		end
 
-	cpp_comment (tag: POINTER): POINTER
+	comment: ZSTRING
 		do
+			create Result.make_empty
 		end
 
-	cpp_delete (ptr: POINTER)
+	title: ZSTRING
 		do
-		end
-
-	cpp_title (tag: POINTER): POINTER
-		do
+			create Result.make_empty
 		end
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 16:15:18 GMT (Thursday 31st October 2019)"
-	revision: "2"
+	date: "2019-11-11 20:37:37 GMT (Monday 11th November 2019)"
+	revision: "3"
 
 class
 	TL_STRING_LIST_ITERATOR_CPP_API
@@ -39,11 +39,14 @@ feature {NONE} -- Externals
 			"C++ [delete TagLib::StringList::ConstIterator %"toolkit/tstringlist.h%"] ()"
 		end
 
-	frozen cpp_item (self: POINTER): POINTER
+	frozen cpp_get_item (self, text_out: POINTER)
 		external
 			"C++ inline use <toolkit/tstringlist.h>"
 		alias
-			"new TagLib::String (**((TagLib::StringList::ConstIterator*)$self))"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append(**((TagLib::StringList::ConstIterator*)$self))
+			]"
 		end
 
 	frozen cpp_next (self: POINTER)

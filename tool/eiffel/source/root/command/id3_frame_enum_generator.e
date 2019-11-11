@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 14:51:49 GMT (Sunday 10th November 2019)"
-	revision: "1"
+	date: "2019-11-11 19:41:53 GMT (Monday 11th November 2019)"
+	revision: "2"
 
 class
 	ID3_FRAME_ENUM_GENERATOR
@@ -40,7 +40,7 @@ feature -- Basic operations
 			create file_lines.make (file_path)
 			across file_lines as line loop
 				create fields.make_with_words (line.item)
-				if fields.count > 3 then
+				if fields.count >= 3 then
 					id3_code := fields [2]
 					fields.remove_head (2)
 					code_table.put (fields.joined_words, id3_code)

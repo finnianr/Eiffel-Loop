@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 16:11:17 GMT (Thursday 31st October 2019)"
-	revision: "3"
+	date: "2019-11-11 19:11:48 GMT (Monday 11th November 2019)"
+	revision: "4"
 
 class
 	TL_ID3_TAG_FRAME_CPP_API
@@ -28,11 +28,25 @@ feature {TL_ID3_FRAME_LIST_ITERATOR_CPP_API} -- C++ Externals
 			"new TagLib::ByteVector (((TagLib::ID3v2::Frame*)$self)->frameID ())"
 		end
 
-	frozen cpp_to_string (self: POINTER): POINTER
+	frozen cpp_get_frame_id (self, id_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v2/id3v2frame.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v2::Frame*)$self)->toString ())"
+			"[
+				TagLib::ByteVector id = ((TagLib::ID3v2::Frame*)$self)->frameID ();
+				TagLib::ByteVector &id_out = *((TagLib::ByteVector *)$id_out);
+				id_out.clear().append (id)
+			]"
+		end
+
+	frozen cpp_get_string (self, text_out: POINTER)
+		external
+			"C++ inline use <mpeg/id3v2/id3v2frame.h>"
+		alias
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append(((TagLib::ID3v2::Frame*)$self)->toString ())
+			]"
 		end
 
 end

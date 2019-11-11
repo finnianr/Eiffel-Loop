@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:05:28 GMT (Sunday 10th November 2019)"
-	revision: "4"
+	date: "2019-11-11 18:28:13 GMT (Monday 11th November 2019)"
+	revision: "5"
 
 deferred class
 	TL_ID3_TAG
@@ -18,28 +18,26 @@ inherit
 			make_from_pointer as make
 		end
 
-	TL_SHARED_FRAME_CODE
+	TL_SHARED_FRAME_ID_ENUM
+
+	TL_SHARED_ONCE_STRING
 
 feature -- Access
 
-	album: TL_STRING
-		do
-			create Result.make (cpp_album (self_ptr))
+	album: ZSTRING
+		deferred
 		end
 
-	artist: TL_STRING
-		do
-			create Result.make (cpp_artist (self_ptr))
+	artist: ZSTRING
+		deferred
 		end
 
-	comment: TL_STRING
-		do
-			create Result.make (cpp_comment (self_ptr))
+	comment: ZSTRING
+		deferred
 		end
 
-	title: TL_STRING
-		do
-			create Result.make (cpp_title (self_ptr))
+	title: ZSTRING
+		deferred
 		end
 
 feature -- Status query
@@ -49,21 +47,4 @@ feature -- Status query
 		do
 		end
 
-feature {NONE} -- Implementation
-
-	cpp_album (tag: POINTER): POINTER
-		deferred
-		end
-
-	cpp_artist (tag: POINTER): POINTER
-		deferred
-		end
-
-	cpp_comment (tag: POINTER): POINTER
-		deferred
-		end
-
-	cpp_title (tag: POINTER): POINTER
-		deferred
-		end
 end

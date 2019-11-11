@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 12:28:11 GMT (Thursday 31st October 2019)"
-	revision: "4"
+	date: "2019-11-11 11:11:35 GMT (Monday 11th November 2019)"
+	revision: "5"
 
 class
 	TL_ID3_V1_TAG_CPP_API
@@ -17,31 +17,43 @@ inherit
 
 feature {NONE} -- C++ Externals
 
-	frozen cpp_album (tag: POINTER): POINTER
+	frozen cpp_get_album (tag, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v1/id3v1tag.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v1::Tag*)$tag)->album ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v1::Tag*)$tag)->album ())
+			]"
 		end
 
-	frozen cpp_artist (tag: POINTER): POINTER
+	frozen cpp_get_artist (tag, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v1/id3v1tag.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v1::Tag*)$tag)->artist ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v1::Tag*)$tag)->artist ())
+			]"
 		end
 
-	frozen cpp_comment (tag: POINTER): POINTER
+	frozen cpp_get_comment (tag, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v1/id3v1tag.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v1::Tag*)$tag)->comment ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v1::Tag*)$tag)->comment ())
+			]"
 		end
 
-	frozen cpp_title (tag: POINTER): POINTER
+	frozen cpp_get_title (tag, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v1/id3v1tag.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v1::Tag*)$tag)->title ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v1::Tag*)$tag)->title ())
+			]"
 		end
 end

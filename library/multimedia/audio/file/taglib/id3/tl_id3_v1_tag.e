@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-29 10:57:51 GMT (Tuesday 29th October 2019)"
-	revision: "4"
+	date: "2019-11-11 11:13:34 GMT (Monday 11th November 2019)"
+	revision: "5"
 
 class
 	TL_ID3_V1_TAG
@@ -19,5 +19,31 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	album: ZSTRING
+		do
+			cpp_get_album (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
+		end
+
+	artist: ZSTRING
+		do
+			cpp_get_artist (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
+		end
+
+	comment: ZSTRING
+		do
+			cpp_get_comment (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
+		end
+
+	title: ZSTRING
+		do
+			cpp_get_title (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
+		end
 
 end
