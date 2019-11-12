@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 21:22:24 GMT (Monday 11th November 2019)"
-	revision: "3"
+	date: "2019-11-12 14:44:07 GMT (Tuesday 12th November 2019)"
+	revision: "4"
 
 class
 	TL_ID3_FRAME_ITERATION_CURSOR
@@ -29,11 +29,16 @@ feature -- Access
 			frame: POINTER
 		do
 			frame := cpp_item (self_ptr)
-			if cpp_is_attached_picture_type (frame) then
-				create {TL_PICTURE_ID3_FRAME} Result.make (frame)
-			elseif cpp_is_comments_type (frame) then
+			if {TL_CHAPTER_ID3_FRAME}.cpp_conforms (frame) then
+				create {TL_CHAPTER_ID3_FRAME} Result.make (frame)
+
+			elseif {TL_COMMENTS_ID3_FRAME}.cpp_conforms (frame) then
 				create {TL_COMMENTS_ID3_FRAME} Result.make (frame)
-			elseif cpp_is_text_identification_type (frame) then
+
+			elseif {TL_PICTURE_ID3_FRAME}.cpp_conforms (frame) then
+				create {TL_PICTURE_ID3_FRAME} Result.make (frame)
+				
+			elseif {TL_TEXT_IDENTIFICATION_ID3_FRAME}.cpp_conforms (frame) then
 				create {TL_TEXT_IDENTIFICATION_ID3_FRAME} Result.make (frame)
 			else
 				create Result.make (frame)

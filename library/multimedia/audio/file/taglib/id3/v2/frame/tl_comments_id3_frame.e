@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 13:44:43 GMT (Thursday 31st October 2019)"
-	revision: "1"
+	date: "2019-11-12 14:36:24 GMT (Tuesday 12th November 2019)"
+	revision: "2"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -16,6 +16,9 @@ inherit
 	TL_ID3_TAG_FRAME
 
 	TL_COMMENTS_ID3_FRAME_CPP_API
+		export
+			{TL_ID3_FRAME_ITERATION_CURSOR} cpp_conforms
+		end
 
 create
 	make

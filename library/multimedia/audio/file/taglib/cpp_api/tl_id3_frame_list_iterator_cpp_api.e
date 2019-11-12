@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 21:21:58 GMT (Monday 11th November 2019)"
-	revision: "4"
+	date: "2019-11-12 14:33:15 GMT (Tuesday 12th November 2019)"
+	revision: "5"
 
 class
 	TL_ID3_FRAME_LIST_ITERATOR_CPP_API
@@ -37,37 +37,6 @@ feature {NONE} -- Externals
 			--
 		external
 			"C++ [delete TagLib::ID3v2::FrameList::ConstIterator %"mpeg/id3v2/id3v2tag.h%"] ()"
-		end
-
-
-	frozen cpp_is_attached_picture_type (frame: POINTER): BOOLEAN
-		external
-			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
-		alias
-			"[
-				const TagLib::ID3v2::Frame* frame = (const TagLib::ID3v2::Frame*)$frame;
-				return dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame) != NULL
-			]"
-		end
-
-	frozen cpp_is_comments_type (frame: POINTER): BOOLEAN
-		external
-			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
-		alias
-			"[
-				const TagLib::ID3v2::Frame* frame = (const TagLib::ID3v2::Frame*)$frame;
-				return dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(frame) != NULL
-			]"
-		end
-
-	frozen cpp_is_text_identification_type (frame: POINTER): BOOLEAN
-		external
-			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
-		alias
-			"[
-				const TagLib::ID3v2::Frame* frame = (const TagLib::ID3v2::Frame*)$frame;
-				return dynamic_cast<const TagLib::ID3v2::TextIdentificationFrame*>(frame) != NULL
-			]"
 		end
 
 	frozen cpp_item (self: POINTER): POINTER
