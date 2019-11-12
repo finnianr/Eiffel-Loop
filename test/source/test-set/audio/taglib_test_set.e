@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 20:50:52 GMT (Monday 11th November 2019)"
-	revision: "9"
+	date: "2019-11-12 20:38:41 GMT (Tuesday 12th November 2019)"
+	revision: "10"
 
 class
 	TAGLIB_TEST_SET
@@ -67,18 +67,18 @@ feature {NONE} -- Implementation
 				lio.put_labeled_string (name, frame.item.id.to_string_8)
 				lio.put_new_line
 				if attached {TL_COMMENTS_ID3_FRAME} frame.item as comments then
-					lio.put_string_field ("description", comments.description.to_string)
+					lio.put_string_field ("description", comments.description)
 					lio.put_new_line
 					lio.put_string_field ("text", comments.text)
 					lio.put_new_line
-					lio.put_string_field ("language", comments.language.to_string_8)
+					lio.put_string_field ("language", comments.language)
 					lio.put_new_line
 				elseif attached {TL_PICTURE_ID3_FRAME} frame.item as pic then
-					lio.put_string_field ("description", pic.description.to_string)
+					lio.put_string_field ("description", pic.description)
 					lio.put_new_line
-					lio.put_string_field ("mime_type", pic.mime_type.to_string)
+					lio.put_string_field ("mime_type", pic.mime_type)
 					lio.put_new_line
-					lio.put_integer_field ("byte count", pic.picture.count.to_integer_32)
+					lio.put_integer_field ("byte count", pic.picture.count)
 					lio.put_new_line
 				elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as text then
 					across text.field_list.arrayed as field loop

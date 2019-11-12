@@ -1,24 +1,25 @@
 note
-	description: "Shared frame ID enumeration codes"
+	description: "Tl shared frame id bytes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:03:00 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2019-11-12 19:57:27 GMT (Tuesday 12th November 2019)"
+	revision: "2"
 
 deferred class
-	TL_SHARED_FRAME_ID_ENUM
+	TL_SHARED_BYTE_VECTOR
 
 inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Frame_id: TL_FRAME_ID_ENUM
+	Once_byte_vector: TL_BYTE_VECTOR
 		once
-			create Result.make
+			create Result.make_empty
 		end
+
 end

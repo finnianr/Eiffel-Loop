@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 20:46:31 GMT (Monday 11th November 2019)"
-	revision: "7"
+	date: "2019-11-12 20:08:06 GMT (Tuesday 12th November 2019)"
+	revision: "8"
 
 class
 	TL_ID3_V2_TAG
@@ -20,10 +20,12 @@ inherit
 
 	TL_ID3_V2_TAG_CPP_API
 
-	TL_SHARED_FRAME_ID_BYTES
+	TL_SHARED_FRAME_ID_ENUM
 		export
 			{ANY} Frame_id
 		end
+
+	TL_SHARED_BYTE_VECTOR
 
 create
 	make
@@ -91,19 +93,21 @@ feature -- Access
 	frame_list (enum_code: NATURAL_8): TL_ID3_FRAME_LIST
 		require
 			valid_code: Frame_id.is_valid_value (enum_code)
+		local
+			id: like Once_byte_vector
 		do
-			create Result.make (cpp_frame_list (self_ptr, frame_id_bytes (enum_code).self_ptr))
+			id := Once_byte_vector; id.set_from_frame_id (enum_code)
+			create Result.make (cpp_frame_list (self_ptr, id.self_ptr))
 		end
 
 	frame_text (enum_code: NATURAL_8): ZSTRING
 		require
 			valid_code: Frame_id.is_valid_value (enum_code)
 		local
-			id: like Once_frame_id
+			id: like Once_byte_vector
 		do
 			if frame_count_table.has_key (enum_code) then
-				id := Once_frame_id
-				id.set_data (Frame_id.name (enum_code))
+				id := Once_byte_vector; id.set_from_frame_id (enum_code)
 				cpp_get_first_frame_text (self_ptr, id.self_ptr, Once_string.self_ptr)
 				Result := Once_string.to_string
 			else

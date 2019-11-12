@@ -1,13 +1,13 @@
 note
-	description: "Tl byte vector"
+	description: "TagLib byte vector (or array of bytes)"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 19:07:15 GMT (Monday 11th November 2019)"
-	revision: "3"
+	date: "2019-11-12 20:43:26 GMT (Tuesday 12th November 2019)"
+	revision: "4"
 
 class
 	TL_BYTE_VECTOR
@@ -24,6 +24,8 @@ inherit
 
 	EL_SHARED_ONCE_STRING_8
 
+	TL_SHARED_FRAME_ID_ENUM
+
 create
 	make, make_empty
 
@@ -34,48 +36,29 @@ feature {NONE} -- Initialization
 			make (cpp_new)
 		end
 
-feature -- Conversion
+feature -- Access
 
-	count: NATURAL
+	item: POINTER
+		-- data item pointer
 		do
-			Result := cpp_size (self_ptr)
+			Result := cpp_data (self_ptr)
+		end
+
+	count: INTEGER
+		do
+			Result := cpp_size (self_ptr).to_integer_32
 		end
 
 	data: MANAGED_POINTER
 		do
-			create Result.share_from_pointer (data_pointer, count.to_integer_32)
+			create Result.share_from_pointer (item, count)
 		end
 
-	i_th (index: NATURAL): CHARACTER
+	i_th (index: INTEGER): CHARACTER
 		require
 			valid_index: 1 <= index and index <= count
 		do
-			Result := cpp_i_th (self_ptr, index - 1)
-		end
-
-	to_string: ZSTRING
-		do
-			Result := to_temporary_string (False)
-		end
-
-	to_string_8: STRING
-		do
-			Result := to_temporary_string (True)
-		end
-
-	to_temporary_string (keep_ref: BOOLEAN): STRING
-		local
-			i, l_count: NATURAL
-		do
-			Result := empty_once_string_8
-			l_count := count
-			from i := 1 until i > l_count loop
-				Result.extend (i_th (i))
-				i := i + 1
-			end
-			if keep_ref then
-				Result := Result.twin
-			end
+			Result := cpp_i_th (self_ptr, (index - 1).to_natural_32)
 		end
 
 feature -- Status query
@@ -95,9 +78,41 @@ feature -- Status query
 				area := str.area
 				Result := True
 				from i := 1 until not Result or i > str.count loop
-					Result := i_th (i.to_natural_32) = area [i - 1]
+					Result := i_th (i) = area [i - 1]
 					i := i + 1
 				end
+			end
+		end
+
+feature -- Conversion
+
+	to_frame_id_enum: NATURAL_8
+		do
+			Result := Frame_id.value (to_temporary_string (False))
+		end
+
+	to_string: ZSTRING
+		do
+			Result := to_temporary_string (False)
+		end
+
+	to_string_8: STRING
+		do
+			Result := to_temporary_string (True)
+		end
+
+	to_temporary_string (keep_ref: BOOLEAN): STRING
+		local
+			i, l_count: INTEGER
+		do
+			Result := empty_once_string_8
+			l_count := count
+			from i := 1 until i > l_count loop
+				Result.extend (i_th (i))
+				i := i + 1
+			end
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
@@ -111,11 +126,9 @@ feature -- Element change
 			cpp_set_data (self_ptr, $to_c)
 		end
 
-feature {NONE} -- Implementation
-
-	data_pointer: POINTER
+	set_from_frame_id (enum_code: NATURAL_8)
 		do
-			Result := cpp_data (self_ptr)
+			set_data (Frame_id.name (enum_code))
 		end
 
 end

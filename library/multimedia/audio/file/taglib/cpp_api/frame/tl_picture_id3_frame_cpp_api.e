@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 14:37:32 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2019-11-12 20:23:19 GMT (Tuesday 12th November 2019)"
+	revision: "4"
 
 class
 	TL_PICTURE_ID3_FRAME_CPP_API
@@ -39,18 +39,24 @@ feature {NONE} -- C++ Externals
 			"new TagLib::ByteVector (((TagLib::ID3v2::AttachedPictureFrame*)$self)->picture ())"
 		end
 
-	frozen cpp_description (self: POINTER): POINTER
+	frozen cpp_get_description (self, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v2::AttachedPictureFrame*)$self)->description ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v2::AttachedPictureFrame*)$self)->description ())
+			]"
 		end
 
-	frozen cpp_mime_type (self: POINTER): POINTER
+	frozen cpp_get_mime_type (self, text_out: POINTER)
 		external
 			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v2::AttachedPictureFrame*)$self)->mimeType ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v2::AttachedPictureFrame*)$self)->mimeType ())
+			]"
 		end
 
 end

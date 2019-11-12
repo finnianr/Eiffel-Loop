@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 14:37:20 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2019-11-12 20:36:03 GMT (Tuesday 12th November 2019)"
+	revision: "4"
 
 class
 	TL_COMMENTS_ID3_FRAME_CPP_API
@@ -32,18 +32,24 @@ feature {NONE} -- C++ Externals
 			]"
 		end
 
-	frozen cpp_description (self: POINTER): POINTER
+	frozen cpp_get_description (self, text_out: POINTER)
 		external
-			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
 		alias
-			"new TagLib::String (((TagLib::ID3v2::CommentsFrame*)$self)->description ())"
+			"[
+				TagLib::String &text = *((TagLib::String*)$text_out);
+				text.clear().append (((TagLib::ID3v2::CommentsFrame*)$self)->description ())
+			]"
 		end
 
-	frozen cpp_language (self: POINTER): POINTER
+	frozen cpp_get_language (self, language_out: POINTER)
 		external
-			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
+			"C++ inline use <mpeg/id3v2/id3v2frame.h>"
 		alias
-			"new TagLib::ByteVector (((TagLib::ID3v2::CommentsFrame*)$self)->language ())"
+			"[
+				TagLib::ByteVector &language = *((TagLib::ByteVector *)$language_out);
+				language.clear().append (((TagLib::ID3v2::CommentsFrame*)$self)->language ())
+			]"
 		end
 
 end
