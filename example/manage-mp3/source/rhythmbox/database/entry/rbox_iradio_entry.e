@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:33:50 GMT (Tuesday 10th September 2019)"
-	revision: "25"
+	date: "2019-11-19 10:56:56 GMT (Tuesday 19th November 2019)"
+	revision: "26"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -197,7 +197,7 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := Precursor + ", internal_encoding"
+			Result := Precursor + ", encoding_bitmp"
 		end
 
 	Protocol: ZSTRING

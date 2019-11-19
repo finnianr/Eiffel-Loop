@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 6:13:49 GMT (Monday 30th September 2019)"
-	revision: "6"
+	date: "2019-11-19 17:56:37 GMT (Tuesday 19th November 2019)"
+	revision: "7"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -76,7 +76,7 @@ feature -- Status query
 	is_package_installable: BOOLEAN
 		do
 			if Package_dir.exists then
-				Result := not named_directory (Package_dir).is_empty
+				Result := not Shared_directory.named (Package_dir).is_empty
 			end
 		end
 

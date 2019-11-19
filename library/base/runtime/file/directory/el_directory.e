@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:54:28 GMT (Monday 5th August 2019)"
-	revision: "10"
+	date: "2019-11-19 17:55:22 GMT (Tuesday 19th November 2019)"
+	revision: "11"
 
 class
 	EL_DIRECTORY
@@ -106,19 +106,27 @@ feature -- Access
 			read_recursive_entries (Result, Type_file, extension)
 		end
 
+feature {EL_SHARED_DIRECTORY} -- Access
+
+	named (a_path: EL_DIR_PATH): EL_DIRECTORY
+		do
+			set_path (a_path.as_string_32)
+			Result := Current
+		end
+
 feature -- Status query
 
-	is_following_symlinks: BOOLEAN
+	has_executable (a_name: ZSTRING): BOOLEAN
+		do
+			Result := has_entry_of_type (a_name, Type_executable_file)
+		end
 
 	has_file_name (a_name: ZSTRING): BOOLEAN
 		do
 			Result := has_entry_of_type (a_name, Type_file)
 		end
 
-	has_executable (a_name: ZSTRING): BOOLEAN
-		do
-			Result := has_entry_of_type (a_name, Type_executable_file)
-		end
+	is_following_symlinks: BOOLEAN
 
 feature {NONE} -- Status setting
 
@@ -373,8 +381,8 @@ feature {NONE} -- Constants
 
 	Type_directory: INTEGER = 2
 
-	Type_file: INTEGER = 1
-
 	Type_executable_file: INTEGER = 4
+
+	Type_file: INTEGER = 1
 
 end

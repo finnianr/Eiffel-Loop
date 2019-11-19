@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 12:52:29 GMT (Thursday 26th September 2019)"
-	revision: "2"
+	date: "2019-11-19 15:19:35 GMT (Tuesday 19th November 2019)"
+	revision: "3"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -31,24 +31,24 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				valid_optional_argument ("template", "Debian template directory", << control_template_must_exist >>),
-				valid_optional_argument ("output", "Debian output directory", << directory_must_exist >>),
+				optional_argument ("output", "Debian output directory"),
 				valid_optional_argument ("package", "Build package directory", << directory_must_exist >>)
 			>>
 		end
 
+	control_exists (path: EL_DIR_PATH): BOOLEAN
+		do
+			Result := (path + Control).exists
+		end
+
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("DEBIAN", Directory.current_working, Default_package_dir)
+			Result := agent {like command}.make ("DEBIAN", Default_output_dir, Default_package_dir)
 		end
 
 	control_template_must_exist: like always_valid
 		do
-			Result := [
-				"A Debian control template file must exist", agent (path: EL_DIR_PATH): BOOLEAN
-				do
-					Result := (path + Control).exists
-				end
-			]
+			Result := ["A Debian control template file must exist", agent control_exists]
 		end
 
 	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
@@ -57,6 +57,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Default_output_dir: EL_DIR_PATH
+		once
+			Result := "build"
+		end
 
 	Default_package_dir: EL_DIR_PATH
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-09 11:30:51 GMT (Saturday 9th March 2019)"
-	revision: "15"
+	date: "2019-11-19 17:25:30 GMT (Tuesday 19th November 2019)"
+	revision: "16"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -100,25 +100,25 @@ feature -- File lists
 	files (a_dir_path: EL_DIR_PATH): like Directory.files
 			--
 		do
-			Result := named_directory (a_dir_path).recursive_files
+			Result := Directory.named (a_dir_path).recursive_files
 		end
 
 	files_with_extension (a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL): like Directory.files
 			--
 		do
-			Result := named_directory (a_dir_path).files_with_extension (extension)
+			Result := Directory.named (a_dir_path).files_with_extension (extension)
 		end
 
 	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
 			--
 		do
-			Result := named_directory (a_dir_path).recursive_files
+			Result := Directory.named (a_dir_path).recursive_files
 		end
 
 	recursive_files_with_extension (a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL): like Directory.recursive_files
 			--
 		do
-			Result := named_directory (a_dir_path).recursive_files_with_extension (extension)
+			Result := Directory.named (a_dir_path).recursive_files_with_extension (extension)
 		end
 
 feature -- Measurement
@@ -222,10 +222,10 @@ feature -- Basic operations
 			path_exists: dir_path.exists
 		local
 			dir_steps: EL_PATH_STEPS
-			dir: like named_directory
+			dir: like Directory.named
 		do
 			dir_steps := dir_path
-			from dir := named_directory (dir_path) until dir_steps.is_empty or else not dir.is_empty loop
+			from dir := Directory.named (dir_path) until dir_steps.is_empty or else not dir.is_empty loop
 				dir.delete
 				dir_steps.remove_tail (1)
 				dir.make_with_name (dir_steps.to_string_32)
@@ -237,9 +237,9 @@ feature -- Basic operations
 		require
 			path_exists: dir_path.exists
 		local
-			dir: like named_directory
+			dir: like Directory.named
 		do
-			dir := named_directory (dir_path)
+			dir := Directory.named (dir_path)
 			if dir.is_empty then
 				dir.delete
 			end
@@ -254,7 +254,7 @@ feature -- Basic operations
 				dir_parent := a_dir_path.parent
 				make_directory (dir_parent)
 				if dir_parent.exists_and_is_writeable then
-					named_directory (a_dir_path).create_dir
+					Directory.named (a_dir_path).create_dir
 				end
 			end
 		end
@@ -325,7 +325,7 @@ feature -- Status query
 
 	is_writeable_directory (dir_path: EL_DIR_PATH): BOOLEAN
 		do
-			Result := named_directory (dir_path).is_writable
+			Result := Directory.named (dir_path).is_writable
 		end
 
 feature -- Contract Support

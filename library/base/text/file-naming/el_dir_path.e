@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 10:05:54 GMT (Thursday 26th September 2019)"
-	revision: "12"
+	date: "2019-11-19 17:27:27 GMT (Tuesday 19th November 2019)"
+	revision: "13"
 
 class
 	EL_DIR_PATH
@@ -20,7 +20,7 @@ inherit
 
 	EL_SHARED_DIRECTORY
 		rename
-			directory as shared_directory
+			Directory as Shared_directory
 		end
 
 create
@@ -75,7 +75,7 @@ feature -- Status report
 
 	exists: BOOLEAN
 		do
-			Result := named_directory (Current).exists
+			Result := Shared_directory.named (Current).exists
 		end
 
 	exists_and_is_writeable: BOOLEAN
@@ -83,9 +83,9 @@ feature -- Status report
 			dir: like Shared_directory
 		do
 			if is_empty then
-				dir := named_directory (".")
+				dir := Shared_directory.named (".")
 			else
-				dir := named_directory (Current)
+				dir := Shared_directory.named (Current)
 			end
 			Result := dir.exists and then dir.is_writable
 		end
@@ -110,7 +110,7 @@ feature -- Status report
 
 	is_writable: BOOLEAN
 		do
-			Result := named_directory (Current).is_writable
+			Result := Shared_directory.named (Current).is_writable
 		end
 
 feature {NONE} -- Implementation

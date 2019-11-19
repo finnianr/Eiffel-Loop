@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-09 10:18:02 GMT (Wednesday 9th October 2019)"
-	revision: "3"
+	date: "2019-11-19 11:00:21 GMT (Tuesday 19th November 2019)"
+	revision: "4"
 
 class
 	EL_ENCODING_BASE
@@ -226,10 +226,10 @@ feature {NONE} -- Strings
 feature {NONE} -- Constants
 
 	ID_mask: INTEGER = 0xF000
-		-- masks out the `id' from `internal_encoding'
+		-- masks out the `id' from `encoding_bitmap'
 
 	Type_mask: INTEGER = 0xFFF
-		-- masks out the `type' from `internal_encoding'
+		-- masks out the `type' from `encoding_bitmap'
 
 	Valid_id_sets: HASH_TABLE [SET [INTEGER], INTEGER]
 		local

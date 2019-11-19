@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:29:02 GMT (Monday 1st July 2019)"
-	revision: "2"
+	date: "2019-11-19 17:53:10 GMT (Tuesday 19th November 2019)"
+	revision: "3"
 
 class
 	EL_LOCALE_TABLE
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 		do
 			locale_dir := a_locale_dir
 			make_equal (7)
-			across named_directory (locale_dir).files as path loop
+			across Directory.named (locale_dir).files as path loop
 				if path.item.base.starts_with (Locale_dot) and then path.item.extension.count = 2 then
 					extend (path.item, path.item.extension)
 				end

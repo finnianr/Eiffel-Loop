@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-12 18:15:27 GMT (Monday 12th November 2018)"
-	revision: "9"
+	date: "2019-11-19 17:26:17 GMT (Tuesday 19th November 2019)"
+	revision: "10"
 
 class
 	EL_LOG_MANAGER
@@ -258,7 +258,7 @@ feature -- Removal
 			--
 		do
 			if not Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Keep_logs) and then output_directory.exists then
-				named_directory (output_directory).delete_content
+				Shared_directory.named (output_directory).delete_content
 			end
 		end
 

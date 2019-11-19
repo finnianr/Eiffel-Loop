@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:18:40 GMT (Wednesday 25th September 2019)"
-	revision: "9"
+	date: "2019-11-19 17:20:59 GMT (Tuesday 19th November 2019)"
+	revision: "10"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -24,19 +24,10 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_ENVIRONMENT
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_BUILD_INFO
-		export
-			{NONE} all
-		end
 
 	EL_ZSTRING_CONSTANTS
 

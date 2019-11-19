@@ -8,7 +8,7 @@ publish-repository:
 	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
 
 	ftp-site:
-		url = "eiffel-loop.com"; user-home = "/public/www"; sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
+		url = "eiffel-loop.com"; user-home = "/htdocs"; sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
 
 	templates:
 		main = "main-template.html.evol"; eiffel-source = "eiffel-source-code.html.evol"

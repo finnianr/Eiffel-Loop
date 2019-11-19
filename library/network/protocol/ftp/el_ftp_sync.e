@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 12:24:20 GMT (Sunday 22nd September 2019)"
-	revision: "15"
+	date: "2019-11-19 17:53:50 GMT (Tuesday 19th November 2019)"
+	revision: "16"
 
 class
 	EL_FTP_SYNC
@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 			-- sort in reverse order of directory step count
 			create sorted_dir_list.make_sorted (deleted_dir_set, agent {EL_DIR_PATH}.step_count, False)
 			across sorted_dir_list.value_list as dir loop
-				if named_directory (root_dir.joined_dir_path (dir.item)).is_empty then
+				if Directory.named (root_dir.joined_dir_path (dir.item)).is_empty then
 					ftp.remove_directory (dir.item)
 				end
 			end
