@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 14:14:14 GMT (Monday 9th September 2019)"
-	revision: "5"
+	date: "2019-11-22 19:00:04 GMT (Friday 22nd November 2019)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_COMPARISON
@@ -30,6 +30,10 @@ feature -- Basic operation
 
 			if left.same_type (right) then
 				compare (left, right)
+			elseif attached {READABLE_STRING_GENERAL} left as left_string
+				and then attached {READABLE_STRING_GENERAL} right as right_string
+			then
+				compare_string (left_string, right_string)
 			elseif attached {NUMERIC} left as left_numeric and then attached {NUMERIC} right as right_numeric then
 				if is_real_type (left_numeric) or else is_real_type (right_numeric) then
 					compare_double (to_double (left_numeric), to_double (right_numeric))
@@ -65,6 +69,10 @@ feature {NONE} -- Implementation
 		end
 
 	compare_integer_64 (left, right: INTEGER_64)
+		deferred
+		end
+
+	compare_string (left, right: READABLE_STRING_GENERAL)
 		deferred
 		end
 

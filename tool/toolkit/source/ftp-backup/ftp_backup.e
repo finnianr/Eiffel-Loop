@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 13:22:02 GMT (Tuesday 10th September 2019)"
-	revision: "1"
+	date: "2019-11-19 19:09:13 GMT (Tuesday 19th November 2019)"
+	revision: "2"
 
 class
 	FTP_BACKUP
@@ -71,7 +71,6 @@ feature -- Basic operations
 		require
 			target_directory_exists: target_dir.exists
 		local
-			ftp_destination_directory: EL_DIR_PATH
 			archive: ARCHIVE_FILE
 		do
 			log.enter ("execute")
@@ -85,10 +84,10 @@ feature -- Basic operations
 
 			if archive.file_path.exists and then not ftp_destination_path.is_empty then
 				log.put_new_line
-				log.put_labeled_string ("ftp-destination", ftp_destination_path)
+				log.put_labeled_string ("ftp_destination", ftp_destination_path)
 				log.put_new_line
 				config.archive_upload_list.extend (
-					create {EL_FTP_UPLOAD_ITEM}.make (archive.file_path, ftp_destination_directory)
+					create {EL_FTP_UPLOAD_ITEM}.make (archive.file_path, ftp_destination_path)
 				)
 			end
 			log.exit

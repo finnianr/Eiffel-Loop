@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-11-22 14:19:03 GMT (Friday 22nd November 2019)"
+	revision: "7"
 
 class
 	EL_CONSOLE_APP_MENU_DESKTOP_ENV_IMP
 
 inherit
 	EL_CONSOLE_APP_MENU_DESKTOP_ENV_I
+		rename
+			make as make_desktop
 		undefine
-			make, command_path, Command_args_template, launch_command
+			make_desktop, command_path, Command_args_template, launch_command
 		end
 
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP

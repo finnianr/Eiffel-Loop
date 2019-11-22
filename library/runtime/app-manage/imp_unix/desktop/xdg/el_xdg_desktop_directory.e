@@ -1,13 +1,13 @@
 note
-	description: "Xdg desktop directory"
+	description: "XDG desktop directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2019-11-22 18:25:25 GMT (Friday 22nd November 2019)"
+	revision: "7"
 
 class
 	EL_XDG_DESKTOP_DIRECTORY
@@ -18,22 +18,28 @@ inherit
 create
 	make
 
-feature -- Access
-
-	new_file_path: EL_FILE_PATH
-		do
-			Result := Directories_desktop_dir + file_name
-		end
-
 feature {NONE} -- Evolicity reflection
 
 	Template: STRING = "[
 		[Desktop Entry]
 		Encoding=UTF-8
 		Type=Directory
-		Comment=$comment
+		#across $localized_names as $name loop
+			#if $name.key = $en then
+		Name=$name.item
+			#else
+		Name[$name.key]=$name.item
+			#end
+		#end
+		Type=Application
+		#across $localized_comments as $comment loop
+			#if $comment.key = $en then
+		Comment=$comment.item
+			#else
+		Comment[$comment.key]=$comment.item
+			#end
+		#end
 		Icon=$icon_path
-		Name=$name
 	]"
 
 feature {NONE} -- Constants

@@ -37,21 +37,21 @@ Made mirroring more efficient by only rendering the flipped image in EL_ROTATE_P
 Sun 11th Aug 2019, 11:57:07
 Added routine flip to class EL_DRAWABLE_PIXEL_BUFFER with or'd flip state
 
-Sat   14th   Sep   2019, 11:48:43
+Sat 14th Sep 2019, 11:48:43
 Using TUPLE's to specifiy list of factory types
 
-Thu   26th   Sep   2019, 19:03:51
+Thu 26th Sep 2019, 19:03:51
 Changed argument_specs: ARRAY
 
-Mon   30th   Sep   2019, 6:25:11
+Mon 30th Sep 2019, 6:25:11
 Split EL_SHARED_ONCE_STRINGS into 3 classes
 
-Tue   8th   Oct   2019, 18:15:25
+Tue 8th Oct 2019, 18:15:25
 Major refactoring of ID3-tags.ecf
 
-Sun   13th   Oct   2019, 16:12:15
+Sun 13th Oct 2019, 16:12:15
 Progress on new Underbit ID3 implemenation
 
-Sat   2nd   Nov   2019, 19:17:05
+Sat 2nd Nov 2019, 19:17:05
 Python classes using new XPATH_CONTEXT facilities
 

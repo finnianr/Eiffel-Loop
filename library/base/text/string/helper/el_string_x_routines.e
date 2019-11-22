@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-13 11:39:26 GMT (Saturday 13th July 2019)"
-	revision: "15"
+	date: "2019-11-22 11:08:47 GMT (Friday 22nd November 2019)"
+	revision: "16"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -49,17 +49,13 @@ feature -- Measurement
 		deferred
 		end
 
-	maximum_count (strings: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): INTEGER
+	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
 			--
-		local
-			i, upper: INTEGER
 		do
-			upper := strings.upper
-			from i := strings.lower until i > upper loop
-				if strings.item (i).count > Result then
-					Result := strings.item (i).count
+			across strings as str loop
+				if str.item.count > Result then
+					Result := str.item.count
 				end
-				i := i + 1
 			end
 		end
 

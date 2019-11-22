@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-11-22 19:05:41 GMT (Friday 22nd November 2019)"
+	revision: "8"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -18,16 +18,16 @@ inherit
 			getter_function_table
 		end
 
-	EL_INSTALLER_DEBUG
+	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 
-	make (a_item: like item)
+	make (a_item: like item; a_output_dir: EL_DIR_PATH)
 			--
 		do
-			item := a_item
+			item := a_item; output_dir := a_output_dir
 			make_from_file (new_file_path)
 		end
 
@@ -88,13 +88,29 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_locale_table (english: STRING): HASH_TABLE [ZSTRING, STRING]
+		local
+			languages: LIST [STRING]
+		do
+			languages := Locale.all_languages
+			create Result.make_equal (languages.count)
+			across languages as lang loop
+				Result [lang.item] := Locale.in (lang.item) * english
+			end
+		end
+
+feature -- Access
+
 	new_file_path: EL_FILE_PATH
-		deferred
+		do
+			Result := output_dir + file_name
 		end
 
 feature {NONE} -- Internal attributes
 
 	item: EL_DESKTOP_MENU_ITEM
+
+	output_dir: EL_DIR_PATH
 
 feature {NONE} -- Evolicity reflection
 
@@ -103,27 +119,13 @@ feature {NONE} -- Evolicity reflection
 		do
 			create Result.make (<<
 				["icon_path", agent: EL_PATH do Result := item.icon_path end],
-				["comment", agent: ZSTRING do Result := item.comment end],
-				["name", agent name]
+				["en", agent: STRING do Result := English_key end],
+				["localized_comments", agent: like new_locale_table do Result := new_locale_table (item.comment) end],
+				["localized_names", agent: like new_locale_table do Result := new_locale_table (item.name) end]
 			>>)
 		end
 
 feature {NONE} -- Constants
 
-	Applications_desktop_dir: EL_DIR_PATH
-			--
-		once
-			Result := "/usr/share/applications"
-			if_installer_debug_enabled (Result)
-			-- Workbench debug: "$HOME/.local/share/applications"
-		end
-
-	Directories_desktop_dir: EL_DIR_PATH
-			--
-		once
-			Result := "/usr/share/desktop-directories"
-			if_installer_debug_enabled (Result)
-			-- Workbench debug: $HOME/.local/share/desktop-directories
-		end
-
+	English_key: STRING = "en"
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2019-11-22 17:49:26 GMT (Friday 22nd November 2019)"
+	revision: "6"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -20,6 +20,11 @@ create
 
 feature {NONE} -- Initialization
 
+	in (a_language: STRING): EL_DEFERRED_LOCALE_I
+		do
+			Result := Current
+		end
+
 	make
 		do
 			create translations.make_equal (0)
@@ -27,22 +32,17 @@ feature {NONE} -- Initialization
 			create date_text.make
 		end
 
-	in (a_language: STRING): EL_DEFERRED_LOCALE_I
-		do
-			Result := Current
-		end
-
 feature {NONE} -- Implementation
+
+	is_curly_brace_enclosed (key: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := key.count > 2 and then key [1] = '{' and then key [key.count] = '}'
+		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- set text to return on next call to `translation' with key enclosed with curly braces "{}"
 		do
 			create next_translation.make_from_general (text)
-		end
-
-	translation_keys: ARRAY [ZSTRING]
-		do
-			create Result.make_empty
 		end
 
 	translated_string (table: like translations; key: READABLE_STRING_GENERAL): ZSTRING
@@ -54,16 +54,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_curly_brace_enclosed (key: READABLE_STRING_GENERAL): BOOLEAN
+	translation_keys: ARRAY [ZSTRING]
 		do
-			Result := key.count > 2 and then key [1] = '{' and then key [key.count] = '}'
+			create Result.make_empty
 		end
 
 feature {NONE} -- Internal attributes
+
+	date_text: EL_ENGLISH_DATE_TEXT
 
 	next_translation: ZSTRING
 
 	translations: EL_ZSTRING_HASH_TABLE [ZSTRING]
 
-	date_text: EL_ENGLISH_DATE_TEXT
+feature {NONE} -- Constants
+
+	All_languages: ARRAYED_LIST [STRING]
+		once
+			create Result.make_from_array (<< "en" >>)
+		end
+
 end

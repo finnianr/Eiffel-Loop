@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 16:00:40 GMT (Monday 16th September 2019)"
-	revision: "12"
+	date: "2019-11-19 19:29:49 GMT (Tuesday 19th November 2019)"
+	revision: "13"
 
 class
 	EL_FTP_PROTOCOL
@@ -221,7 +221,7 @@ feature -- Status report
 				Result := True
 			else
 				send (Ftp_command.size (absolute_dir (dir_path)), << 550 >>)
-				Result := last_succeeded and then last_reply.has_substring (Not_regular_file)
+				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
 
@@ -348,6 +348,7 @@ feature {NONE} -- Implementation
 		do
 			send_to_socket (main_socket, str.to_utf_8)
 			last_reply_utf_8.right_adjust
+			last_reply_utf_8.to_lower
 			last_succeeded := reply_code_ok (last_reply_utf_8, codes)
 		end
 
@@ -500,14 +501,6 @@ feature {NONE} -- Constants
 			Result := 2
 		end
 
-	No_such_file: ZSTRING
-		once
-			Result := "No such file or directory"
-		end
-
-	Not_regular_file: ZSTRING
-		once
-			Result := "not a regular file"
-		end
+	Not_regular_file: STRING = "not a regular file"
 
 end

@@ -16,21 +16,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:28:25 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2019-11-22 17:47:28 GMT (Friday 22nd November 2019)"
+	revision: "7"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
 
 inherit
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		end
+	ANY
 
 	EL_ZSTRING_CONSTANTS
 
 feature -- Access
+
+	all_languages: ARRAYED_LIST [STRING]
+		deferred
+		end
 
 	date_text: EL_DATE_TEXT
 		deferred
@@ -47,17 +48,13 @@ feature -- Access
 			Result := translated_string (translations, key)
 		end
 
-	translation_array (keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
+	translation_array (keys: ITERABLE [READABLE_STRING_GENERAL]): ARRAY [ZSTRING]
 			--
 		local
-			i, upper, lower: INTEGER
+			list: EL_ZSTRING_LIST
 		do
-			lower := keys.lower; upper := keys.upper
-			create Result.make_filled (Empty_string, 1, upper - lower + 1)
-			from i := lower until i > upper loop
-				Result [i - lower + 1] := translated_string (translations, keys [i])
-				i := i + 1
-			end
+			create list.make_from_general (keys)
+			Result := list.to_array
 		end
 
 	translation_keys: ARRAY [ZSTRING]

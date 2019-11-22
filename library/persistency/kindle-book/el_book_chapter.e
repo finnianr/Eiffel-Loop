@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-17 9:38:34 GMT (Saturday 17th November 2018)"
-	revision: "8"
+	date: "2019-11-22 18:00:51 GMT (Friday 22nd November 2019)"
+	revision: "9"
 
 class
 	EL_BOOK_CHAPTER
@@ -20,8 +20,6 @@ inherit
 			{NONE} all
 			{ANY} serialize, output_path
 		end
-
---	EL_THUNDERBIRD_CONSTANTS
 
 	EL_MODULE_XML
 

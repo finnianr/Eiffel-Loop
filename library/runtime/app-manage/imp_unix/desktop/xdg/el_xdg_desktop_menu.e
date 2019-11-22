@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:27:12 GMT (Monday 5th November 2018)"
-	revision: "6"
+	date: "2019-11-22 14:08:11 GMT (Friday 22nd November 2019)"
+	revision: "7"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -18,34 +18,41 @@ inherit
 			getter_function_table
 		end
 
-	EL_INSTALLER_DEBUG
-
-	EL_MODULE_ZSTRING
-
 	EL_MODULE_BUILD_INFO
 
 	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_OS
 
+	EL_XDG_CONSTANTS
+
 create
 	make, make_root
 
 feature {NONE} -- Initialization
 
-	make (a_item: like item)
+	make (a_item: like item; output_dir: EL_DIR_PATH)
 			--
+		local
+			l_name: ZSTRING; list: EL_ZSTRING_LIST
 		do
-			make_from_file (Merged_menu_path)
+			create list.make_from_general (<<
+				Build_info.installation_sub_directory.to_string, Environment.execution.Executable_name + ".menu"
+			>>)
+			l_name := list.joined ('-')
+			l_name.replace_character ('/', '-')
+
+			-- Workbench debug: /home/finnian/.config/menus/applications-merged
+			make_from_file (output_dir + l_name)
 			item := a_item
 			create menus.make (5)
 			create desktop_entries.make (3)
 		end
 
-	make_root
+	make_root (output_dir: EL_DIR_PATH)
 			--
 		do
-			make (Root_item)
+			make (Root_item, output_dir)
 		end
 
 feature -- Access
@@ -76,7 +83,7 @@ feature -- Element change
 			if entry_path.count > 1 then
 				menus.find_first_equal (entry_path.first.name, agent {EL_XDG_DESKTOP_MENU}.name)
 				if menus.exhausted then
-					menus.extend (create {EL_XDG_DESKTOP_MENU}.make (entry_path.first))
+					menus.extend (create {EL_XDG_DESKTOP_MENU}.make (entry_path.first, output_path.parent))
 					menus.finish
 				end
 				menus.item.extend (entry_path.sub_list (2, entry_path.count))
@@ -89,8 +96,8 @@ feature -- Removal
 
 	remove
 		do
-			if Merged_menu_path.exists then
-				OS.delete_file (Merged_menu_path)
+			if output_path.exists then
+				OS.delete_file (output_path)
 			end
 		end
 
@@ -109,15 +116,7 @@ feature {NONE} -- Evolicity reflection
 			>>)
 		end
 
-feature {NONE} -- Implementation
-
-	Root_item: EL_XDG_DESKTOP_DIRECTORY
-		local
-			menu_item: EL_DESKTOP_MENU_ITEM
-		once
-			create menu_item.make_standard ("Applications")
-			create Result.make (menu_item)
-		end
+feature {NONE} -- Constants
 
 	Template: STRING = "[
 		#if $is_root then
@@ -143,27 +142,5 @@ feature {NONE} -- Implementation
 		#end
 		</Menu>
 	]"
-
-feature {NONE} -- Constants
-
-	Applications_merged_dir: EL_DIR_PATH
-		once
-			Result := "/etc/xdg/menus/applications-merged"
-			if_installer_debug_enabled (Result)
-		end
-
-	Merged_menu_path: EL_FILE_PATH
-			--
-		local
-			l_name: ZSTRING
-		do
-			l_name := Zstring.joined ('-', <<
-				Build_info.installation_sub_directory.to_string, Environment.execution.Executable_name + ".menu"
-			>>)
-			l_name.replace_character ('/', '-')
-
-			-- Workbench debug: /home/finnian/.config/menus/applications-merged
-			Result := Applications_merged_dir + l_name
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:51 GMT (Wednesday 25th September 2019)"
-	revision: "15"
+	date: "2019-11-19 19:13:34 GMT (Tuesday 19th November 2019)"
+	revision: "16"
 
 class
 	FTP_BACKUP_APP
@@ -110,6 +110,7 @@ feature {NONE} -- Constants
 		do
 			Result := <<
 				[{FTP_BACKUP_APP}, All_routines],
+				[{FTP_BACKUP}, All_routines],
 				[{ARCHIVE_FILE}, All_routines],
 				[{INCLUSION_LIST_FILE}, All_routines],
 				[{EXCLUSION_LIST_FILE}, All_routines],

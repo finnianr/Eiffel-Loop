@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 13:56:14 GMT (Monday 9th September 2019)"
-	revision: "5"
+	date: "2019-11-22 19:01:18 GMT (Friday 22nd November 2019)"
+	revision: "6"
 
 class
 	EVOLICITY_EQUAL_TO_COMPARISON
@@ -31,6 +31,11 @@ feature {NONE} -- Implementation
 	compare_integer_64 (left, right: INTEGER_64)
 		do
 			is_true := left = right
+		end
+
+	compare_string (left, right: READABLE_STRING_GENERAL)
+		do
+			is_true := left.same_string (right)
 		end
 
 end

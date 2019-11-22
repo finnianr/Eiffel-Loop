@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:31:28 GMT (Wednesday 21st February 2018)"
-	revision: "9"
+	date: "2019-11-22 10:53:55 GMT (Friday 22nd November 2019)"
+	revision: "10"
 
 deferred class
 	EL_LOCALE_I
@@ -125,7 +125,7 @@ feature -- Access
 			end_restriction
 		end
 
-	translation_array (keys: INDEXABLE [READABLE_STRING_GENERAL, INTEGER]): ARRAY [ZSTRING]
+	translation_array (keys: ITERABLE [READABLE_STRING_GENERAL]): ARRAY [ZSTRING]
 			--
 		do
 			restrict_access -- synchronized

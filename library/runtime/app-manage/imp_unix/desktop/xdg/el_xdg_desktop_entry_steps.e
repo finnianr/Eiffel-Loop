@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-10 11:03:07 GMT (Sunday 10th June 2018)"
-	revision: "1"
+	date: "2019-11-22 13:25:39 GMT (Friday 22nd November 2019)"
+	revision: "2"
 
 class
 	EL_XDG_DESKTOP_ENTRY_STEPS
@@ -23,14 +23,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (desktop: EL_MENU_DESKTOP_ENVIRONMENT_I)
+	make (desktop: EL_MENU_DESKTOP_ENVIRONMENT_I; applications_desktop_dir, directories_desktop_dir: EL_DIR_PATH)
 		do
 			make_list (desktop.submenu_path.count + 1)
 			compare_objects
 			across desktop.submenu_path as path loop
-				extend (create {EL_XDG_DESKTOP_DIRECTORY}.make (path.item))
+				extend (create {EL_XDG_DESKTOP_DIRECTORY}.make (path.item, directories_desktop_dir))
 			end
-			create launcher.make (desktop)
+			create launcher.make (desktop, applications_desktop_dir)
 			extend (launcher)
 		end
 
