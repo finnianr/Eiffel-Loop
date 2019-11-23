@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 15:44:42 GMT (Tuesday 1st October 2019)"
-	revision: "6"
+	date: "2019-11-23 9:41:05 GMT (Saturday 23rd November 2019)"
+	revision: "7"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -23,10 +23,13 @@ inherit
 			in
 		end
 
+	EL_SHARED_SINGLETONS
+
 feature {NONE} -- Initialization
 
  	make
  		do
+ 			put_singleton (Current)
  			make_with_language (key_language, key_language)
  			create other_locales.make_equal (3, agent new_locale)
  		end

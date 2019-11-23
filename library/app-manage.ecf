@@ -35,6 +35,7 @@ See doc/app-manage.txt for details.
 		</library>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_http_client" location = "http-client.ecf"/>
+		<library name = "EL_i18n" location = "i18n.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>

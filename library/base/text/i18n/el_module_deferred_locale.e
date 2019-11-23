@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 8:55:34 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2019-11-23 9:21:30 GMT (Saturday 23rd November 2019)"
+	revision: "4"
 
 deferred class
 	EL_MODULE_DEFERRED_LOCALE
@@ -18,17 +18,10 @@ deferred class
 inherit
 	EL_MODULE
 
-feature {NONE} -- Implementation
-
-	new_locale: EL_DEFERRED_LOCALE_I
-		do
-			create {EL_DEFERRED_LOCALE_IMP} Result.make
-		end
-
 feature {NONE} -- Constants
 
 	Locale: EL_DEFERRED_LOCALE_I
-		once
-			Result := new_locale
+		once ("PROCESS")
+			Result := create {EL_CONFORMING_SINGLETON [EL_DEFERRED_LOCALE_I]}
 		end
 end

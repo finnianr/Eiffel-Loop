@@ -1,5 +1,14 @@
 note
 	description: "Sub-application for a root class conforming to [$source EL_MULTI_APPLICATION_ROOT]"
+	notes: "[
+		To create a localized sub-application redefine `new_locale' as follows:
+
+			new_locale: EL_DEFERRED_LOCALE_I
+				do
+					create {EL_ENGLISH_DEFAULT_LOCALE_IMP} Result.make
+				end
+
+	]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 11:05:59 GMT (Friday 6th September 2019)"
-	revision: "29"
+	date: "2019-11-23 10:01:00 GMT (Saturday 23rd November 2019)"
+	revision: "30"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -49,7 +58,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		local
 			boolean: BOOLEAN_REF
 		do
-			call (Sub_application)
+			call (Sub_application); call (new_locale)
 
 			create options_help.make (11)
 			create argument_errors.make (0)
@@ -246,6 +255,11 @@ feature {NONE} -- Implementation
 	new_option_name: ZSTRING
 		do
 			create Result.make_from_general (option_name)
+		end
+
+	new_locale: EL_DEFERRED_LOCALE_I
+		do
+			create {EL_DEFERRED_LOCALE_IMP} Result.make
 		end
 
 	on_operating_system_signal
