@@ -5,7 +5,7 @@ note
 		to [$source EL_INSTALLABLE_SUB_APPLICATION].
 		
 		By including the sub-application [$source EL_DEBIAN_PACKAGER_APP], the application is capable of generating
-		it's own install package. The
+		it's own install package.
 	]"
 
 	author: "Finnian Reilly"
@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 17:22:02 GMT (Friday 22nd November 2019)"
-	revision: "5"
+	date: "2019-11-24 18:52:04 GMT (Sunday 24th November 2019)"
+	revision: "6"
 
-class
-	EL_DEBIAN_PACKAGER
+deferred class
+	EL_DEBIAN_PACKAGER_I
 
 inherit
 	EL_COMMAND
@@ -31,30 +31,27 @@ inherit
 
 	EL_DEBIAN_CONSTANTS
 
-	EL_XDG_CONSTANTS
-		rename
-			Applications_menu as Default_applications_menu
-		end
-
 	EL_MODULE_BUILD_INFO
 	EL_MODULE_COLON_FIELD
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_OS
 
-create
-	make
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_template_dir, a_output_dir, a_package_dir: EL_DIR_PATH)
+	make (a_debian_dir, a_output_dir, a_package_dir: EL_DIR_PATH)
 		local
 			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			template_dir := a_template_dir; output_dir := a_output_dir; package_dir := a_package_dir
+			debian_dir := a_debian_dir; output_dir := a_output_dir; package_dir := a_package_dir
 			make_machine
 			create package.make_empty
-			create lines.make (template_dir + Control)
+			create lines.make (debian_dir + Control)
 			do_once_with_file_lines (agent find_package, lines)
 			versioned_package := Name_template #$ [package, Build_info.version.string]
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
@@ -64,7 +61,7 @@ feature -- Basic operations
 
 	execute
 		do
-			put_opt_contents; put_xdg_entries; put_control_file
+			put_opt_contents; put_xdg_entries; put_control_files
 
 			Debian_build.put_directory_path (Var_path, versioned_package_dir)
 			Debian_build.execute
@@ -74,6 +71,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	installed_size: NATURAL
+		do
+			Result := Command.new_find_files (package_dir, All_files).sum_file_byte_count
+		end
 
 	package_file_path: EL_FILE_PATH
 		do
@@ -88,14 +90,21 @@ feature {NONE} -- Implementation
 			Result := versioned_package_dir.joined_dir_path (absolute_dir.relative_path (Root_dir))
 		end
 
-	put_control_file
+	put_control_files
+		-- copy control file and any installer scripts
 		local
-			control_file: EL_DEBIAN_CONTROL; control_file_path: EL_FILE_PATH
+			control_file: EL_DEBIAN_CONTROL; destination_path: EL_FILE_PATH
 		do
-			control_file_path := versioned_package_dir.joined_file_tuple ([once "DEBIAN", Control])
-			create control_file.make (template_dir + Control, control_file_path)
-			control_file.set_installed_size (Command.new_find_files (package_dir, All_files).sum_file_byte_count)
-			control_file.serialize
+			across Shared_directory.named (debian_dir).files as file_path loop
+				destination_path := versioned_package_dir.joined_file_tuple ([once "DEBIAN", file_path.item.base])
+				if file_path.item.base ~ Control then
+					create control_file.make (file_path.item, destination_path)
+					control_file.set_installed_size (installed_size)
+					control_file.serialize
+				elseif file_path.item.extension /~ Evc_extension then
+					OS.copy_file (file_path.item, destination_path)
+				end
+			end
 		end
 
 	put_opt_contents
@@ -110,19 +119,9 @@ feature {NONE} -- Implementation
 		end
 
 	put_xdg_entries
-		local
-			menu_desktop: EL_MENU_DESKTOP_ENVIRONMENT_IMP
-			applications_menu: EL_XDG_DESKTOP_MENU
-		do
-			create applications_menu.make_root (package_sub_dir (Applications_merged_dir))
-			across Application_list.installable_list as installable loop
-				create menu_desktop.make_with_output (
-					installable.item, package_sub_dir (Applications_desktop_dir), package_sub_dir (Directories_desktop_dir)
-				)
-				menu_desktop.install_entry_steps
-				applications_menu.extend (menu_desktop.entry_steps)
-			end
-			applications_menu.serialize
+		-- Write XDG desktop entries on Unix
+		-- Do nothing on Windows
+		deferred
 		end
 
 feature {NONE} -- Line states
@@ -144,7 +143,8 @@ feature {NONE} -- Internal attributes
 
 	package_dir: EL_DIR_PATH
 
-	template_dir: EL_DIR_PATH
+	debian_dir: EL_DIR_PATH
+		-- directory with Control template and scripts
 
 	versioned_package: ZSTRING
 		-- package name with appended version
@@ -156,6 +156,12 @@ feature {NONE} -- Constants
 	Debian_build: EL_OS_COMMAND
 		once
 			create Result.make ("dpkg-deb --build $" + Var_path)
+		end
+
+	Evc_extension: ZSTRING
+		-- Compiled Evolicity extension
+		once
+			Result := "evc"
 		end
 
 	All_files: STRING = "*"

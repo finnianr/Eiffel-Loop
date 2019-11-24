@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:56:37 GMT (Tuesday 19th November 2019)"
-	revision: "7"
+	date: "2019-11-24 12:04:20 GMT (Sunday 24th November 2019)"
+	revision: "8"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -39,15 +39,9 @@ inherit
 	EL_INSTALLER_DEBUG
 
 create
-	make, make_default
+	make
 
 feature {NONE} -- Initialization
-
-	make_default
-		do
-			create options_help.make (11)
-			create argument_errors.make (0)
-		end
 
 	initialize
 		do

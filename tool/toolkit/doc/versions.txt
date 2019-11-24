@@ -1,3 +1,6 @@
+1.2.24
+Added backup name display in backup program
+
 1.2.23
 Fixed EL_FTP_PROTOCOL to lower case reply string
 

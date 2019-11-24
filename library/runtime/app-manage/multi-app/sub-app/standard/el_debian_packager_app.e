@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 13:46:43 GMT (Friday 22nd November 2019)"
-	revision: "4"
+	date: "2019-11-24 18:15:42 GMT (Sunday 24th November 2019)"
+	revision: "5"
 
 class
 	EL_DEBIAN_PACKAGER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [EL_DEBIAN_PACKAGER]
+	EL_COMMAND_LINE_SUB_APPLICATION [EL_DEBIAN_PACKAGER_IMP]
 		redefine
 			Option_name, visible_types
 		end
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("template", "Debian template directory", << control_template_must_exist >>),
+				valid_optional_argument ("debian", "DEBIAN directory", << control_template_must_exist >>),
 				optional_argument ("output", "Debian output directory"),
 				valid_optional_argument ("package", "Build package directory", << directory_must_exist >>)
 			>>
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("DEBIAN", Default_output_dir, Default_package_dir)
+			Result := agent {like command}.make ("DEBIAN", Default_package_dir.parent, Default_package_dir)
 		end
 
 	control_template_must_exist: like always_valid
@@ -57,11 +57,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Default_output_dir: EL_DIR_PATH
-		once
-			Result := "build"
-		end
 
 	Default_package_dir: EL_DIR_PATH
 		once

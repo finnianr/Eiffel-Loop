@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-04-23 12:40:06 GMT (Tuesday 23rd April 2019)"
-	revision: "7"
+	date: "2019-11-23 19:14:57 GMT (Saturday 23rd November 2019)"
+	revision: "8"
 
 class
 	DUPLICITY_BACKUP
@@ -49,6 +49,8 @@ feature -- Basic operations
 			backup_command: DUPLICITY_BACKUP_COMMAND
 			arguments: DUPLICITY_ARGUMENTS
 		do
+			lio.put_labeled_string ("Backup", destination_name)
+			lio.put_new_line
 			continue := True
 			across destination_dir_list.query_if (agent is_file_protocol) as file_uri until not continue loop
 				if not file_uri.item.to_dir_path.exists then

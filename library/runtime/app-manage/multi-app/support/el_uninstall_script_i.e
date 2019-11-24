@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:09:22 GMT (Friday 25th January 2019)"
-	revision: "7"
+	date: "2019-11-24 17:58:14 GMT (Sunday 24th November 2019)"
+	revision: "8"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -27,17 +27,18 @@ inherit
 
 	EL_INSTALLER_DEBUG
 
+	EL_SHARED_APPLICATION_LIST
+
 feature {NONE} -- Initialization
 
-	make (a_application_list: like application_list)
+	make
 		require
-			has_main: application_list.has_main
-			has_uninstall: application_list.has_uninstaller
+			has_main: Application_list.has_main
+			has_uninstall: Application_list.has_uninstaller
 		local
 			l_template: ZSTRING
 		do
 			Console.show_all (Lio_visible_types)
-			application_list := a_application_list
 			-- For Linux this is: /opt/Uninstall
 			output_path := Directory.Applications + ("Uninstall/uninstall-" + menu_name)
 			if_installer_debug_enabled (output_path)
@@ -58,20 +59,11 @@ feature -- Basic operations
 
 	write_remove_directories_script
 			-- create script to remove application data and configuration directories for all users
-		local
-			user_info: like command.new_user_info
 		do
 			File_system.make_directory (remove_files_script_path.parent)
 			script.make_open_write (remove_files_script_path)
 
-			user_info := command.new_user_info
-			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop
-				across dir_list.item as dir loop
-					if dir.item.exists then
-						write_remove_directory (dir.item)
-					end
-				end
-			end
+			command.new_user_info.do_for_existing_directories (agent write_remove_directory)
 			write_remove_directory (Directory.Application_installation)
 			script.close
 		end
@@ -107,7 +99,7 @@ feature {NONE} -- Implementation
 
 	menu_name: ZSTRING
 		do
-			Result := application_list.main.desktop.menu_name
+			Result := Application_list.main.desktop.menu_name
 		end
 
 	write_remove_directory (dir_path: EL_DIR_PATH)
@@ -123,8 +115,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	application_list: EL_SUB_APPLICATION_LIST
-
 	script: EL_PLAIN_TEXT_FILE
 
 feature {NONE} -- Evolicity fields
@@ -139,7 +129,7 @@ feature {NONE} -- Evolicity fields
 
 				["completion_message",			 agent completion_message],
 				["description",					 agent description],
-				["title",							 agent: ZSTRING do Result := application_list.uninstaller.Name end],
+				["title",							 agent: ZSTRING do Result := Application_list.uninstaller.Name end],
 				["return_prompt",					 agent: ZSTRING do Result := return_prompt end]
 			>>)
 		end

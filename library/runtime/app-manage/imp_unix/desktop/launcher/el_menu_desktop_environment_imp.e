@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 14:26:31 GMT (Friday 22nd November 2019)"
-	revision: "7"
+	date: "2019-11-24 18:29:47 GMT (Sunday 24th November 2019)"
+	revision: "8"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -31,29 +31,26 @@ inherit
 		end
 
 	EL_XDG_CONSTANTS
-		rename
-			Applications_desktop_dir as Default_applications_desktop_dir,
-			Directories_desktop_dir as Default_directories_desktop_dir
-		end
 
 	EL_MODULE_LIO
 
 create
-	make, make_with_output
+	make, make_relocated
 
 feature {NONE} -- Initialization
 
 	make (installable: EL_INSTALLABLE_SUB_APPLICATION)
 		do
-			make_with_output (installable, Default_applications_desktop_dir, Default_directories_desktop_dir)
+			make_desktop (installable)
+			create entry_steps.make (Current, Applications_desktop_dir, Directories_desktop_dir)
 		end
 
-	make_with_output (
-		installable: EL_INSTALLABLE_SUB_APPLICATION; applications_desktop_dir, directories_desktop_dir: EL_DIR_PATH
+	make_relocated (
+		installable: EL_INSTALLABLE_SUB_APPLICATION; relocated: FUNCTION [EL_DIR_PATH, EL_DIR_PATH]
 	)
 		do
 			make_desktop (installable)
-			create entry_steps.make (Current, applications_desktop_dir, directories_desktop_dir)
+			create entry_steps.make (Current, relocated (Applications_desktop_dir), relocated (directories_desktop_dir))
 		end
 
 feature -- Status query
@@ -74,6 +71,13 @@ feature -- Basic operations
 			Applications_menu.serialize
 		end
 
+	install_entry_steps
+		do
+			across entry_steps.non_standard_items as entry loop
+				entry.item.install
+			end
+		end
+
 	remove_menu_entry
 			--
 		do
@@ -81,13 +85,6 @@ feature -- Basic operations
 				entry.item.uninstall
 			end
 			Applications_menu.remove
-		end
-
-	install_entry_steps
-		do
-			across entry_steps.non_standard_items as entry loop
-				entry.item.install
-			end
 		end
 
 feature {EL_XDG_CONSTANTS} -- Internal attributes

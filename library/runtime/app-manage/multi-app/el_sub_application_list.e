@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 9:36:26 GMT (Saturday 14th September 2019)"
-	revision: "11"
+	date: "2019-11-24 18:30:57 GMT (Sunday 24th November 2019)"
+	revision: "12"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -82,6 +82,14 @@ feature -- Access
 			end
 		end
 
+	uninstall_script: EL_UNINSTALL_SCRIPT_I
+		require
+			has_uninstall: has_uninstaller
+			has_main: has_main
+		do
+			create {EL_UNINSTALL_SCRIPT_IMP} Result.make
+		end
+
 	Main_launcher: EL_DESKTOP_MENU_ITEM
 		require
 			has_main_application: has_main
@@ -110,8 +118,8 @@ feature -- Basic operations
 
 	install_menus
 		do
-			if has_uninstaller then
-				Uninstall_script.serialize
+			if has_uninstaller and has_main then
+				uninstall_script.serialize
 			end
 			across installable_list as app loop
 				app.item.install
@@ -176,13 +184,5 @@ feature {NONE} -- Implementation
 feature -- Constants
 
 	Tab_width: INTEGER = 3
-
-	Uninstall_script: EL_UNINSTALL_SCRIPT_I
-		require
-			has_uninstall: has_uninstaller
-			has_main: has_main
-		once
-			create {EL_UNINSTALL_SCRIPT_IMP} Result.make (Current)
-		end
 
 end

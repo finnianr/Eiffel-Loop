@@ -3,9 +3,9 @@ note
 	notes: "[
 		To create a localized sub-application redefine `new_locale' as follows:
 
-			new_locale: EL_DEFERRED_LOCALE_I
+			new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
 				do
-					create {EL_ENGLISH_DEFAULT_LOCALE_IMP} Result.make
+					create Result.make
 				end
 
 	]"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-23 10:01:00 GMT (Saturday 23rd November 2019)"
-	revision: "30"
+	date: "2019-11-24 12:08:47 GMT (Sunday 24th November 2019)"
+	revision: "31"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -39,7 +39,7 @@ inherit
 
 	EL_MODULE_OS_RELEASE
 
-	EL_SHARED_SUB_APPLICATION
+	EL_SHARED_SINGLETONS
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -58,7 +58,8 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		local
 			boolean: BOOLEAN_REF
 		do
-			call (Sub_application); call (new_locale)
+			put_singleton (Current)
+			call (new_locale)
 
 			create options_help.make (11)
 			create argument_errors.make (0)
@@ -183,6 +184,16 @@ feature {NONE} -- Factory routines
 			create Result.make (option)
 		end
 
+	new_option_name: ZSTRING
+		do
+			create Result.make_from_general (option_name)
+		end
+
+	new_locale: EL_DEFERRED_LOCALE_I
+		do
+			create {EL_DEFERRED_LOCALE_IMP} Result.make
+		end
+
 feature {NONE} -- Implementation
 
 	call (object: ANY)
@@ -250,16 +261,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 			lio.put_string_field ("Description", description)
 			lio.put_new_line_X2
-		end
-
-	new_option_name: ZSTRING
-		do
-			create Result.make_from_general (option_name)
-		end
-
-	new_locale: EL_DEFERRED_LOCALE_I
-		do
-			create {EL_DEFERRED_LOCALE_IMP} Result.make
 		end
 
 	on_operating_system_signal

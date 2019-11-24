@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-22 8:52:44 GMT (Sunday 22nd September 2019)"
-	revision: "4"
+	date: "2019-11-24 15:12:57 GMT (Sunday 24th November 2019)"
+	revision: "5"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -28,6 +28,11 @@ inherit
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 	EL_MODULE_LIO
+
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
 
 feature {NONE} -- Initialization
 
@@ -44,6 +49,9 @@ feature -- Access
 
 	total_bytes: INTEGER
 		do
+			if manifest.is_empty then
+				download_manifest
+			end
 			Result := manifest.total_byte_count
 		end
 
@@ -76,18 +84,17 @@ feature -- Basic operations
 
 	download_manifest
 		local
-			web: like new_connection
+			xml: STRING
 		do
-			web := new_connection
-			web.open (url_manifest)
-			web.read_string_get
-			web.close
-			if web.last_string.has_substring ("</file-list>") then
-				File_system.make_directory (target_dir)
-				File_system.write_plain_text (target_dir + resource_set.manifest_name, web.last_string)
-				create manifest.make_from_string (web.last_string)
-			else
+			xml := manifest_xml
+			if xml.is_empty then
 				has_error := True
+			else
+				File_system.make_directory (target_dir)
+				if Shared_directory.named (target_dir).is_writable then
+					File_system.write_plain_text (target_dir + resource_set.manifest_name, xml)
+				end
+				create manifest.make_from_string (xml)
 			end
 		end
 
@@ -154,6 +161,21 @@ feature {NONE} -- Implementation
 	manifest_name: ZSTRING
 		do
 			Result := resource_set.Manifest_name
+		end
+
+	manifest_xml: STRING
+		local
+			web: like new_connection
+		do
+			web := new_connection
+			web.open (url_manifest)
+			web.read_string_get
+			web.close
+			if web.last_string.has_substring ("</file-list>") then
+				Result := web.last_string
+			else
+				create Result.make_empty
+			end
 		end
 
 	modification_time (dir_path: EL_DIR_PATH; item: EL_FILE_MANIFEST_ITEM): INTEGER
