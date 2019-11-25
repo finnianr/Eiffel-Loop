@@ -48,6 +48,17 @@ def read_file_integer (file_path):
 	f.close ()
 	return result;
 
+def match_count (file_path, is_match):
+	# return dictionary of values read from file
+	result = 0
+	f = open (file_path, 'r')
+	for line in f:
+		if is_match (line):
+			result = result + 1
+		
+	f.close ()
+	return result;
+
 def read_table (file_path):
 	# return dictionary of values read from file
 	result = {}

@@ -1,11 +1,11 @@
 note
 	description: "[
-		Compile tree of Pyxis locale translation files into a set of locale binary data files.
+		Compile tree of Pyxis locale translation files into a directory `locales' binary data files.
 		For example:
 		
-			locale.en
-			locale.de
-			locale.fr
+			locales/en
+			locales/de
+			locales/fr
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:37:53 GMT (Friday 18th January 2019)"
-	revision: "7"
+	date: "2019-11-25 11:05:26 GMT (Monday 25th November 2019)"
+	revision: "8"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -42,6 +42,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_source_tree_dir, a_output_dir: EL_DIR_PATH)
 		do
 			make_compiler (a_source_tree_dir)
+			File_system.make_directory (a_output_dir)
 			create locales.make (a_output_dir)
 			create translations_table.make (<< [English_id, new_translations_list (English_id)] >>)
 			translations_table.search (English_id)
@@ -64,7 +65,6 @@ feature {NONE} -- Implementation
 
 	compile_tree
 		do
-			File_system.make_directory (locales.locale_dir)
 			lio.put_line ("Compiling locales..")
 			build_from_lines (merged_lines)
 			across translations_table as translations loop

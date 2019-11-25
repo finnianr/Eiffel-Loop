@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:58:52 GMT (Tuesday 24th September 2019)"
-	revision: "23"
+	date: "2019-11-25 11:06:45 GMT (Monday 25th November 2019)"
+	revision: "24"
 
 class
 	APPLICATION_ROOT
@@ -41,7 +41,6 @@ feature {NONE} -- Constants
 		PYXIS_ENCRYPTER_APP,
 		PYXIS_TO_XML_APP,
 		PYXIS_TREE_TO_XML_COMPILER_APP,
-		PYXIS_TRANSLATION_TREE_COMPILER_APP,
 
 		LOCALIZATION_COMMAND_SHELL_APP,
 		LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP,

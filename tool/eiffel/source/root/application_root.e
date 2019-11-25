@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 14:23:11 GMT (Sunday 10th November 2019)"
-	revision: "19"
+	date: "2019-11-25 10:47:51 GMT (Monday 25th November 2019)"
+	revision: "20"
 
 class
 	APPLICATION_ROOT
@@ -34,6 +34,7 @@ feature {NONE} -- Constants
 
 		ECF_TO_PECF_APP,
 		ENCODING_CHECK_APP,
+		EIFFEL_VIEW_APP,
 
 		FEATURE_EDITOR_APP,
 		FIND_AND_REPLACE_APP,
@@ -48,7 +49,8 @@ feature {NONE} -- Constants
 		UPGRADE_DEFAULT_POINTER_SYNTAX_APP,
 		UPGRADE_LOG_FILTERS_APP,
 
-		EIFFEL_VIEW_APP,
+		PYXIS_TRANSLATION_TREE_COMPILER_APP,
+
 		REPOSITORY_SOURCE_LINK_EXPANDER_APP,
 		REPOSITORY_NOTE_LINK_CHECKER_APP,
 

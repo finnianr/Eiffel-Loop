@@ -1,7 +1,7 @@
 note
 	description: "[
-		Standard application to prompt user to remove data and configuration file directories for all users.
-		Usually called from DEBIAN/prerm script with root permissions.
+		Standard application to prompt user to remove (current) application data and configuration files
+		directories for all users. Usually called from DEBIAN/prerm script with root permissions.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 13:01:00 GMT (Sunday 24th November 2019)"
-	revision: "1"
+	date: "2019-11-25 10:21:42 GMT (Monday 25th November 2019)"
+	revision: "2"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -21,18 +21,20 @@ inherit
 			option_name
 		end
 
-	EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
-
+	EL_MODULE_COMMAND
 	EL_MODULE_DEFERRED_LOCALE
+	EL_MODULE_OS
+	EL_MODULE_USER_INPUT
 
 	EL_SHARED_APPLICATION_LIST
 		export
 			{ANY} Application_list
 		end
 
-	EL_MODULE_COMMAND
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as OS_directory
+		end
 
 create
 	make
@@ -57,7 +59,20 @@ feature -- Basic operations
 			user_agreed := User_input.entered_letter (yes.to_latin_1 [1])
 			lio.put_new_line
 			if user_agreed then
-				command.new_user_info.do_for_existing_directories (agent OS.delete_tree)
+				command.new_user_info.do_for_existing_directories (agent remove_directory)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	remove_directory (path: EL_DIR_PATH)
+		-- remove existing directory and one above if it's empty and matches company name
+		local
+			parent: EL_DIR_PATH
+		do
+			OS.delete_tree (path); parent := path.parent
+			if parent.base ~ Build_info.company_name and then OS_directory.named (parent).is_empty then
+				OS.delete_tree (parent)
 			end
 		end
 

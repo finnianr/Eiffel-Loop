@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 12:08:47 GMT (Sunday 24th November 2019)"
-	revision: "31"
+	date: "2019-11-25 11:47:50 GMT (Monday 25th November 2019)"
+	revision: "32"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -26,17 +26,11 @@ inherit
 	ANY
 
 	EL_MODULE_BUILD_INFO
-
 	EL_MODULE_EXCEPTION
-
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
 	EL_MODULE_DIRECTORY
-
 	EL_MODULE_FILE_SYSTEM
-
 	EL_MODULE_LIO
-
 	EL_MODULE_OS_RELEASE
 
 	EL_SHARED_SINGLETONS

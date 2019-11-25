@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 9:05:38 GMT (Friday 4th October 2019)"
-	revision: "8"
+	date: "2019-11-25 10:14:40 GMT (Monday 25th November 2019)"
+	revision: "9"
 
 deferred class
 	EL_BUILD_INFO
@@ -32,9 +32,21 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	company_name: ZSTRING
+		do
+			Result := installation_sub_directory.first_step
+		end
+
 	installation_sub_directory: EL_DIR_PATH
 			--
 		deferred
+		ensure
+			has_two_parts: Result.step_count = 2
+		end
+
+	product_name: ZSTRING
+		do
+			Result := installation_sub_directory.base
 		end
 
 	version: EL_SOFTWARE_VERSION

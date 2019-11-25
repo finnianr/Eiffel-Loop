@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 12:04:20 GMT (Sunday 24th November 2019)"
-	revision: "8"
+	date: "2019-11-25 11:48:03 GMT (Monday 25th November 2019)"
+	revision: "9"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -27,16 +27,16 @@ inherit
 
 	EL_INSTALLER_CONSTANTS
 
-	EL_SHARED_DIRECTORY
-		rename
-			Directory as Shared_directory
-		end
-
 	EL_MODULE_COMMAND
 
 	EL_MODULE_OS
 
 	EL_INSTALLER_DEBUG
+
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as OS_directory
+		end
 
 create
 	make
@@ -70,7 +70,7 @@ feature -- Status query
 	is_package_installable: BOOLEAN
 		do
 			if Package_dir.exists then
-				Result := not Shared_directory.named (Package_dir).is_empty
+				Result := not OS_directory.named (Package_dir).is_empty
 			end
 		end
 

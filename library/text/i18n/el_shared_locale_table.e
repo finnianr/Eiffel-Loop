@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:30:53 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2019-11-25 11:37:12 GMT (Monday 25th November 2019)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_LOCALE_TABLE
@@ -16,11 +16,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Factory
-
-	new_locale_table: EL_LOCALE_TABLE
-		do
-			create Result.make (Directory.Application_installation)
-		end
 
 	new_translation_table (language: STRING): EL_TRANSLATION_TABLE
 		local
@@ -36,7 +31,17 @@ feature {NONE} -- Constants
 	Locale_table: EL_LOCALE_TABLE
 	 	-- Table of all locale data file paths
 	 	once
-	 		Result := new_locale_table
+			create Result.make (Locales_dir)
 	 	end
+
+	Locales_dir_name: ZSTRING
+		once
+			Result := "locales"
+		end
+
+	Locales_dir: EL_DIR_PATH
+		once
+			Result := Directory.Application_installation.joined_dir_tuple ([Locales_dir_name])
+		end
 
 end

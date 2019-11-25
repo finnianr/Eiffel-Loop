@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:53:10 GMT (Tuesday 19th November 2019)"
-	revision: "3"
+	date: "2019-11-25 11:14:20 GMT (Monday 25th November 2019)"
+	revision: "4"
 
 class
 	EL_LOCALE_TABLE
@@ -28,13 +28,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_locale_dir: like locale_dir)
+	make (a_locale_dir: EL_DIR_PATH)
+		require
+			locale_dir_exists: a_locale_dir.exists
 		do
 			locale_dir := a_locale_dir
 			make_equal (7)
 			across Directory.named (locale_dir).files as path loop
-				if path.item.base.starts_with (Locale_dot) and then path.item.extension.count = 2 then
-					extend (path.item, path.item.extension)
+				if path.item.base.count = 2 then
+					extend (path.item, path.item.base)
 				end
 			end
 		end
@@ -51,13 +53,7 @@ feature -- Access
 
 	new_locale_path (language_id: STRING): EL_FILE_PATH
 		do
-			Result := locale_dir + (Locale_dot + language_id)
+			Result := locale_dir + language_id
 		end
 
-feature {NONE} -- Constants
-
-	Locale_dot: ZSTRING
-		once
-			Result := "locale."
-		end
 end

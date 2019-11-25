@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:10 GMT (Wednesday 25th September 2019)"
-	revision: "9"
+	date: "2019-11-25 11:15:11 GMT (Monday 25th November 2019)"
+	revision: "10"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -34,7 +34,7 @@ feature -- Testing
 	test_run
 			--
 		do
-			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 4017141382)
+			Test.do_file_tree_test ("localization", agent test_compile, 3207102311)
 		end
 
 	test_compile (source_tree_path: EL_DIR_PATH)
@@ -44,12 +44,14 @@ feature -- Testing
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: like command.translations_table
 			restored_table, filled_table: EL_TRANSLATION_TABLE
+			locale_dir: EL_DIR_PATH
 		do
 			log.put_new_line
+			locale_dir := source_tree_path.parent.joined_dir_tuple (["locales"])
 			across 1 |..| 2 as n loop
 				log.put_integer_field ("Run", n.item)
 				log.put_new_line
-				create command.make (source_tree_path, source_tree_path.parent)
+				create command.make (source_tree_path, locale_dir)
 				normal_run
 				if n.item = 1 then
 					translations_table := command.translations_table
