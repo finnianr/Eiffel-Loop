@@ -6,13 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 10:53:59 GMT (Wednesday 25th September 2019)"
-	revision: "1"
+	date: "2019-11-26 11:04:08 GMT (Tuesday 26th November 2019)"
+	revision: "2"
 
 class
 	EL_DEBIAN_CONSTANTS
 
 feature {NONE} -- Constants
+
+	Bin: ZSTRING
+		once
+			Result := "bin"
+		end
+
+	Debian: ZSTRING
+		once
+			Result := "DEBIAN"
+		end
 
 	Field_package: ZSTRING
 		once

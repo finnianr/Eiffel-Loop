@@ -1,11 +1,13 @@
 note
 	description: "[
 		Command that will create a Debian install package for current application defined as root class
-		inheriting [$source EL_MULTI_APPLICATION_ROOT]. At least one sub-application must conform
-		to [$source EL_INSTALLABLE_SUB_APPLICATION].
-		
+		inheriting [$source EL_MULTI_APPLICATION_ROOT].
+	]"
+	notes: "[
 		By including the sub-application [$source EL_DEBIAN_PACKAGER_APP], the application is capable of generating
-		it's own install package.
+		it's own install package. At least one sub-application must conform to [$source EL_INSTALLABLE_SUB_APPLICATION].
+		
+		Package `debhelper' must be installed to inorder to see correct file permissions on packaged files
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:52:04 GMT (Sunday 24th November 2019)"
-	revision: "6"
+	date: "2019-11-29 14:38:21 GMT (Friday 29th November 2019)"
+	revision: "7"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -35,6 +37,7 @@ inherit
 	EL_MODULE_COLON_FIELD
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
+	EL_MODULE_EXECUTION_ENVIRONMENT
 	EL_MODULE_OS
 
 	EL_SHARED_DIRECTORY
@@ -60,17 +63,40 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
+		local
+			script: EL_DEBIAN_MAKE_SCRIPT
 		do
 			put_opt_contents; put_xdg_entries; put_control_files
 
-			Debian_build.put_directory_path (Var_path, versioned_package_dir)
-			Debian_build.execute
+			create script.make (Current)
+			script.execute
 
-			OS.delete_tree (versioned_package_dir)
 			OS.move_file (package_file_path, output_dir)
 		end
 
-feature {NONE} -- Implementation
+feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
+
+	executables_list: EL_FILE_PATH_LIST
+		local
+			dir_name: ZSTRING; include: BOOLEAN
+		do
+			create Result.make_empty
+			across OS.file_list (versioned_package_dir, All_files) as path loop
+				dir_name := path.item.parent.base
+				if dir_name ~ Bin
+					and then (path.item.has_extension (Bash_extension) or else path.item.base ~ execution.executable_name)
+				then
+					include := True
+				elseif dir_name ~ Debian and path.item.base /~ Control then
+					include := True
+				else
+					include := False
+				end
+				if include then
+					Result.extend (path.item.relative_path (Directory.temporary))
+				end
+			end
+		end
 
 	installed_size: NATURAL
 		do
@@ -96,7 +122,7 @@ feature {NONE} -- Implementation
 			control_file: EL_DEBIAN_CONTROL; destination_path: EL_FILE_PATH
 		do
 			across Shared_directory.named (debian_dir).files as file_path loop
-				destination_path := versioned_package_dir.joined_file_tuple ([once "DEBIAN", file_path.item.base])
+				destination_path := versioned_package_dir.joined_file_tuple ([Debian, file_path.item.base])
 				if file_path.item.base ~ Control then
 					create control_file.make (file_path.item, destination_path)
 					control_file.set_installed_size (installed_size)
@@ -134,7 +160,10 @@ feature {NONE} -- Line states
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_DEBIAN_MAKE_SCRIPT} -- Internal attributes
+
+	debian_dir: EL_DIR_PATH
+		-- directory with Control template and scripts
 
 	output_dir: EL_DIR_PATH
 
@@ -143,9 +172,6 @@ feature {NONE} -- Internal attributes
 
 	package_dir: EL_DIR_PATH
 
-	debian_dir: EL_DIR_PATH
-		-- directory with Control template and scripts
-
 	versioned_package: ZSTRING
 		-- package name with appended version
 
@@ -153,9 +179,11 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Debian_build: EL_OS_COMMAND
+	All_files: STRING = "*"
+
+	Bash_extension: ZSTRING
 		once
-			create Result.make ("dpkg-deb --build $" + Var_path)
+			Result := "sh"
 		end
 
 	Evc_extension: ZSTRING
@@ -163,8 +191,6 @@ feature {NONE} -- Constants
 		once
 			Result := "evc"
 		end
-
-	All_files: STRING = "*"
 
 	Name_template: ZSTRING
 		once
@@ -175,7 +201,5 @@ feature {NONE} -- Constants
 		once
 			Result := "/"
 		end
-
-	Var_path: STRING = "path"
 
 end

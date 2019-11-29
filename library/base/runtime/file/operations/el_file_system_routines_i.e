@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:25:30 GMT (Tuesday 19th November 2019)"
-	revision: "16"
+	date: "2019-11-26 10:38:09 GMT (Tuesday 26th November 2019)"
+	revision: "17"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -156,6 +156,28 @@ feature -- Measurement
 
 feature -- File property change
 
+	add_permission (path: EL_FILE_PATH; who, what: STRING)
+			-- Add read, write, execute or setuid permission
+			-- for `who' ('u', 'g' or 'o') to `what'.
+		require
+			file_exists: path.exists
+			valid_who: valid_who (who)
+			valid_what: valid_what (what)
+		do
+			change_permission (path, who, what, agent {FILE}.add_permission)
+		end
+
+	remove_permission (path: EL_FILE_PATH; who, what: STRING)
+			-- remove read, write, execute or setuid permission
+			-- for `who' ('u', 'g' or 'o') to `what'.
+		require
+			file_exists: path.exists
+			valid_who: valid_who (who)
+			valid_what: valid_what (what)
+		do
+			change_permission (path, who, what, agent {FILE}.remove_permission)
+		end
+
 	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
 			-- set modification time with date_time as secs since Unix epoch
 		deferred
@@ -172,17 +194,6 @@ feature -- File property change
 		end
 
 feature -- Basic operations
-
-	add_permission (path: EL_FILE_PATH; who, what: STRING)
-			-- Add read, write, execute or setuid permission
-			-- for `who' ('u', 'g' or 'o') to `what'.
-		require
-			file_exists: path.exists
-			valid_who: valid_who (who)
-			valid_what: valid_what (what)
-		do
-			change_permission (path, who, what, agent {FILE}.add_permission)
-		end
 
 	copy_file_contents (source_file: FILE; destination_path: EL_FILE_PATH)
 		require
@@ -267,17 +278,6 @@ feature -- Basic operations
 			closed_raw_file (a_file_path).delete
 		end
 
-	remove_permission (path: EL_FILE_PATH; who, what: STRING)
-			-- remove read, write, execute or setuid permission
-			-- for `who' ('u', 'g' or 'o') to `what'.
-		require
-			file_exists: path.exists
-			valid_who: valid_who (who)
-			valid_what: valid_what (what)
-		do
-			change_permission (path, who, what, agent {FILE}.remove_permission)
-		end
-
 	rename_file (a_file_path, new_file_path: EL_FILE_PATH)
 			-- change name of file to new_name. If preserve_extension is true, the original extension is preserved
 		require
@@ -342,7 +342,8 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	change_permission (path: EL_FILE_PATH; who, what: STRING; change: PROCEDURE [FILE, STRING, STRING])
+	change_permission (path: EL_PATH; who, what: STRING; change: PROCEDURE [FILE, STRING, STRING])
+			-- Add/remove permissions to file or directory specified by `path' using `change' action
 			-- Add read, write, execute or setuid permission
 			-- for `who' ('u', 'g' or 'o') to `what'.
 		local
@@ -357,14 +358,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	closed_raw_file (a_file_path: EL_FILE_PATH): RAW_FILE
+	closed_raw_file (a_path: EL_PATH): RAW_FILE
 			--
 		do
 			if attached {RAW_FILE} internal_raw_file as raw_file then
-				raw_file.make_with_name (a_file_path)
+				raw_file.make_with_name (a_path.as_string_32)
 				Result := raw_file
 			else
-				create Result.make_with_name (a_file_path)
+				create Result.make_with_name (a_path.as_string_32)
 				internal_raw_file := Result
 			end
 		end

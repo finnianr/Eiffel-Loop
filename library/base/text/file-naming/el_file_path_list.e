@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:15:28 GMT (Wednesday 11th September 2019)"
-	revision: "8"
+	date: "2019-11-29 14:19:21 GMT (Friday 29th November 2019)"
+	revision: "9"
 
 class
 	EL_FILE_PATH_LIST
@@ -59,6 +59,16 @@ feature {NONE} -- Initialization
 					check invalid_tuple_type: False end
 				end
 				i := i + 1
+			end
+		end
+
+feature -- Conversion
+
+	as_escaped: EL_ZSTRING_LIST
+		do
+			create Result.make (count)
+			across Current as l_path loop
+				Result.extend (l_path.item.escaped)
 			end
 		end
 
