@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:28:51 GMT (Sunday 24th November 2019)"
-	revision: "1"
+	date: "2019-11-30 15:26:14 GMT (Saturday 30th November 2019)"
+	revision: "2"
 
 class
 	EL_DEBIAN_PACKAGER_IMP
@@ -37,6 +37,7 @@ feature {NONE} -- Implementation
 				applications_menu.extend (menu_desktop.entry_steps)
 			end
 			applications_menu.serialize
+			configuration_file_list.extend (Applications_merged_dir + applications_menu.output_path.base)
 		end
 
 end

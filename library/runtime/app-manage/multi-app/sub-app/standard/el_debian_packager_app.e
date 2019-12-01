@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:15:42 GMT (Sunday 24th November 2019)"
-	revision: "5"
+	date: "2019-12-01 12:01:48 GMT (Sunday 1st December 2019)"
+	revision: "6"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -51,9 +51,9 @@ feature {NONE} -- Implementation
 			Result := ["A Debian control template file must exist", agent control_exists]
 		end
 
-	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+	visible_types: TUPLE [EL_FIND_DIRECTORIES_COMMAND_IMP, EL_FIND_FILES_COMMAND_IMP]
 		do
-			Result := << {EL_FIND_DIRECTORIES_COMMAND_IMP}, {EL_FIND_FILES_COMMAND_IMP} >>
+			create Result
 		end
 
 feature {NONE} -- Constants

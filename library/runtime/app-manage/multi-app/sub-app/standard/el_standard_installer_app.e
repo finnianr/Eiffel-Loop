@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:48:03 GMT (Monday 25th November 2019)"
-	revision: "9"
+	date: "2019-12-01 12:01:17 GMT (Sunday 1st December 2019)"
+	revision: "10"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -100,9 +100,9 @@ feature {NONE} -- Implementation
 			lio.put_line ("DONE")
 		end
 
-	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+	visible_types: TUPLE [EL_FIND_DIRECTORIES_COMMAND_IMP]
 		do
-			Result := << {EL_FIND_DIRECTORIES_COMMAND_IMP} >>
+			create Result
 		end
 
 feature {NONE} -- Constants

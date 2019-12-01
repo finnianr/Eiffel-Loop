@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 12:54:10 GMT (Tuesday 19th November 2019)"
-	revision: "2"
+	date: "2019-12-01 12:25:19 GMT (Sunday 1st December 2019)"
+	revision: "3"
 
 class
 	MUSIC_MANAGER_SUB_APPLICATION
@@ -37,14 +37,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-feature {NONE} -- Constants
-
-	Description: STRING
-		once
-			Result := "Manage Rhythmbox Music Collection"
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -69,14 +62,21 @@ feature {NONE} -- Constants
 			>>
 		end
 
+	visible_types: TUPLE [EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK], M3U_PLAYLIST_READER]
+		do
+			create Result
+		end
+
+feature {NONE} -- Constants
+
+	Description: STRING
+		once
+			Result := "Manage Rhythmbox Music Collection"
+		end
+
 	Option_name: STRING
 		once
 			Result := "manager"
-		end
-
-	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
-		once
-			Result := << {EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]}, {M3U_PLAYLIST_READER} >>
 		end
 
 end

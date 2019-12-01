@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:26:11 GMT (Monday 2nd September 2019)"
-	revision: "7"
+	date: "2019-11-30 13:53:29 GMT (Saturday 30th November 2019)"
+	revision: "8"
 
 deferred class
 	EL_APPLICATION_PIXMAP
 
 inherit
-	EL_MODULE_COLOR EL_MODULE_SCREEN
+	EL_MODULE_COLOR
+	EL_MODULE_EXCEPTION
+	EL_MODULE_SCREEN
 
 	EL_MODULE_IMAGE_PATH
 		rename
@@ -37,6 +39,28 @@ feature -- Access
 
 	image_path (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
 		deferred
+		end
+
+feature -- Status query
+
+	is_loadable (file_path: EL_FILE_PATH): BOOLEAN
+		local
+			l_pixmap: EV_PIXMAP; load_failed: BOOLEAN
+		do
+			if not load_failed then
+				create l_pixmap
+				if file_path.exists then
+					l_pixmap.set_with_named_file (file_path)
+					Result := True
+				end
+			end
+		rescue
+			if attached {DEVELOPER_EXCEPTION} Exception.last_exception as developer
+				and then developer.description.starts_with (once "Could not load")
+			then
+				load_failed := True
+				retry
+			end
 		end
 
 feature -- Constants

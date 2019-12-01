@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:47:50 GMT (Monday 25th November 2019)"
-	revision: "32"
+	date: "2019-12-01 12:29:28 GMT (Sunday 1st December 2019)"
+	revision: "33"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -38,8 +38,14 @@ inherit
 feature {EL_FACTORY_CLIENT} -- Initialization
 
 	init_console
+		local
+			list: like visible_types_list
 		do
-			Console.show_all (visible_types)
+			list := visible_types_list
+			if not list.all_conform then
+				list.log_error (lio, "Error in function `visible_types'")
+			end
+			Console.show_all (list.to_array)
 		end
 
 	initialize
@@ -273,11 +279,18 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+	visible_types: TUPLE
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do
-			create Result.make_empty
+			create Result
+		end
+
+	visible_types_list: EL_TUPLE_TYPE_LIST [EL_MODULE_LIO]
+		do
+			create Result.make_from_tuple (visible_types)
+		ensure
+			all_conform_to_EL_MODULE_LIO: Result.all_conform
 		end
 
 feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants

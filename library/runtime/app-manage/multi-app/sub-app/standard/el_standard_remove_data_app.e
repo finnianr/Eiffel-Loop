@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 10:21:42 GMT (Monday 25th November 2019)"
-	revision: "2"
+	date: "2019-11-30 10:27:11 GMT (Saturday 30th November 2019)"
+	revision: "3"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -67,11 +67,14 @@ feature {NONE} -- Implementation
 
 	remove_directory (path: EL_DIR_PATH)
 		-- remove existing directory and one above if it's empty and matches company name
+		-- 	.config/<company name>
+		-- 	.<company name>
 		local
-			parent: EL_DIR_PATH
+			parent: EL_DIR_PATH; parent_base: ZSTRING
 		do
 			OS.delete_tree (path); parent := path.parent
-			if parent.base ~ Build_info.company_name and then OS_directory.named (parent).is_empty then
+			parent_base := parent.base.twin; parent_base.prune_all_leading ('.')
+			if parent_base ~ Build_info.company_name and then OS_directory.named (parent).is_empty then
 				OS.delete_tree (parent)
 			end
 		end

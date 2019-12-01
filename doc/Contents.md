@@ -1300,7 +1300,7 @@ Merges a localized folder of emails in the Thunderbird email client into a singl
 
 Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
-`-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_translation_tree_compiler_app.html)
+`-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html)
 
 Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
 

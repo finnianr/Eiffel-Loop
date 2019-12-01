@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 15:12:57 GMT (Sunday 24th November 2019)"
-	revision: "5"
+	date: "2019-12-01 14:29:20 GMT (Sunday 1st December 2019)"
+	revision: "6"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -64,16 +64,27 @@ feature -- Basic operations
 	download
 		local
 			web: like new_connection; file_path: EL_FILE_PATH
+			done: BOOLEAN; i: INTEGER
 		do
 			File_system.make_directory (target_dir)
 			web := new_connection
 			across manifest.query_if (agent is_updated) as file loop
 				progress_listener.display.set_text (progress_template #$ [file.item.name])
 				file_path := target_dir + file.item.name
-				web.open (url_file_item (file.item.name))
-				web.download (file_path)
-				web.close
-				File_system.set_file_modification_time (file_path, file.item.modification_time)
+				from i := 1; done := false until done or i > Maximum_tries loop
+					web.open (url_file_item (file.item.name))
+					if is_lio_enabled then
+						lio.put_path_field ("Downloading", file_path)
+						lio.put_new_line
+					end
+					web.download (file_path)
+					web.close
+					if download_succeeded (file_path) then
+						File_system.set_file_modification_time (file_path, file.item.modification_time)
+						done := True
+					end
+					i := i + 1
+				end
 				download_complete_action (file.item.name)
 			end
 			-- Update shared resource set
@@ -142,6 +153,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	download_succeeded (file_path: EL_FILE_PATH): BOOLEAN
+		do
+			Result := file_path.exists and then File_system.file_byte_count (file_path) > 0
+		end
+
 	existing_modification_time (item: EL_FILE_MANIFEST_ITEM): INTEGER
 		do
 			Result := modification_time (target_dir, item)
@@ -208,9 +224,10 @@ feature {NONE} -- Implementation
 			Result := installed_dir
 		end
 
-	url_manifest: ZSTRING
+	updated_dir: EL_DIR_PATH
+		-- directory for updated items
 		do
-			Result := url_template #$ [domain, manifest_name]
+			Result := resource_set.updated_dir
 		end
 
 	url_file_item (name: ZSTRING): ZSTRING
@@ -218,10 +235,9 @@ feature {NONE} -- Implementation
 			Result := url_template #$ [domain, name]
 		end
 
-	updated_dir: EL_DIR_PATH
-		-- directory for updated items
+	url_manifest: ZSTRING
 		do
-			Result := resource_set.updated_dir
+			Result := url_template #$ [domain, manifest_name]
 		end
 
 feature {NONE} -- Deferred implementation
@@ -253,5 +269,12 @@ feature {NONE} -- Internal attributes
 	download_complete_action: PROCEDURE [ZSTRING]
 
 	manifest: EL_FILE_MANIFEST_LIST
+
+feature {NONE} -- Constants
+
+	Maximum_tries: INTEGER
+		once
+			Result := 3
+		end
 
 end

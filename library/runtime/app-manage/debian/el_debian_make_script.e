@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-29 15:01:15 GMT (Friday 29th November 2019)"
-	revision: "1"
+	date: "2019-11-30 17:03:25 GMT (Saturday 30th November 2019)"
+	revision: "2"
 
 class
 	EL_DEBIAN_MAKE_SCRIPT
@@ -104,11 +104,8 @@ feature {NONE} -- Constants
 		#across $executables_list as $path loop
 		sudo chmod 755 $path.item
 		#end
-
 		sudo dpkg-deb --build $package_name
-
 		sudo rm -r $package_name
-
 		sudo chown $user_name:$user_name ${package_name}.deb
 	]"
 end

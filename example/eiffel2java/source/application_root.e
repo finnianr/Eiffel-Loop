@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-14 10:12:58 GMT (Saturday 14th September 2019)"
-	revision: "5"
+	date: "2019-12-01 12:34:41 GMT (Sunday 1st December 2019)"
+	revision: "6"
 
 class
 	APPLICATION_ROOT
@@ -20,11 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Applications: TUPLE [
-		APACHE_VELOCITY_TEST_APP,
-		JAVA_TEST_APP,
-		SVG_TO_PNG_TEST_APP
-	]
+	Applications: TUPLE [APACHE_VELOCITY_TEST_APP, JAVA_TEST_APP, SVG_TO_PNG_TEST_APP]
 		once
 			create Result
 		end

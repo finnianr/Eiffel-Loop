@@ -7,7 +7,7 @@ note
 		By including the sub-application [$source EL_DEBIAN_PACKAGER_APP], the application is capable of generating
 		it's own install package. At least one sub-application must conform to [$source EL_INSTALLABLE_SUB_APPLICATION].
 		
-		Package `debhelper' must be installed to inorder to see correct file permissions on packaged files
+		A script to set permissions and ownership is generated and executed. It will prompt for the sudo password.
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-29 14:38:21 GMT (Friday 29th November 2019)"
-	revision: "7"
+	date: "2019-11-30 17:13:30 GMT (Saturday 30th November 2019)"
+	revision: "8"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -45,6 +45,8 @@ inherit
 			Directory as Shared_directory
 		end
 
+	EL_ZSTRING_CONSTANTS
+
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_debian_dir, a_output_dir, a_package_dir: EL_DIR_PATH)
@@ -55,6 +57,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_machine
 			create package.make_empty
 			create lines.make (debian_dir + Control)
+			create configuration_file_list.make_empty
 			do_once_with_file_lines (agent find_package, lines)
 			versioned_package := Name_template #$ [package, Build_info.version.string]
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
@@ -64,9 +67,14 @@ feature -- Basic operations
 
 	execute
 		local
-			script: EL_DEBIAN_MAKE_SCRIPT
+			script: EL_DEBIAN_MAKE_SCRIPT; config_file: EL_PLAIN_TEXT_FILE
 		do
-			put_opt_contents; put_xdg_entries; put_control_files
+			put_opt_contents; put_xdg_entries; put_debian_files
+
+			configuration_file_list.extend (Empty_string) -- needed to prevent erroneous error message "line too long in conffiles"
+			create config_file.make_open_write (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]))
+			config_file.put_lines (configuration_file_list)
+			config_file.close
 
 			create script.make (Current)
 			script.execute
@@ -77,30 +85,28 @@ feature -- Basic operations
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 
 	executables_list: EL_FILE_PATH_LIST
-		local
-			dir_name: ZSTRING; include: BOOLEAN
 		do
 			create Result.make_empty
-			across OS.file_list (versioned_package_dir, All_files) as path loop
-				dir_name := path.item.parent.base
-				if dir_name ~ Bin
-					and then (path.item.has_extension (Bash_extension) or else path.item.base ~ execution.executable_name)
-				then
-					include := True
-				elseif dir_name ~ Debian and path.item.base /~ Control then
-					include := True
-				else
-					include := False
-				end
-				if include then
-					Result.extend (path.item.relative_path (Directory.temporary))
-				end
+			across OS.file_list (versioned_package_dir, All_files).query_if (agent is_executable) as path loop
+				Result.extend (path.item.relative_path (Directory.temporary))
 			end
 		end
 
 	installed_size: NATURAL
 		do
 			Result := Command.new_find_files (package_dir, All_files).sum_file_byte_count
+		end
+
+	is_executable (path: EL_FILE_PATH): BOOLEAN
+		local
+			dir_name: ZSTRING
+		do
+			dir_name := path.parent.base
+			if dir_name ~ Bin and then (path.has_extension (Bash_extension) or else path.base ~ execution.executable_name) then
+				Result := True
+			elseif dir_name ~ Debian and then OS.File_system.line_one (path).starts_with (once "#!/bin") then
+				Result := True
+			end
 		end
 
 	package_file_path: EL_FILE_PATH
@@ -116,7 +122,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			Result := versioned_package_dir.joined_dir_path (absolute_dir.relative_path (Root_dir))
 		end
 
-	put_control_files
+	put_debian_files
 		-- copy control file and any installer scripts
 		local
 			control_file: EL_DEBIAN_CONTROL; destination_path: EL_FILE_PATH
@@ -161,6 +167,8 @@ feature {NONE} -- Line states
 		end
 
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Internal attributes
+
+	configuration_file_list: EL_ZSTRING_LIST
 
 	debian_dir: EL_DIR_PATH
 		-- directory with Control template and scripts

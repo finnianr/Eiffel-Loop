@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 9:06:54 GMT (Friday 4th October 2019)"
-	revision: "13"
+	date: "2019-12-01 12:35:58 GMT (Sunday 1st December 2019)"
+	revision: "14"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_tuple (applications)
 		ensure
-			all_conform_to_sub_appplication: Result.count = applications.count
+			all_conform_to_EL_SUB_APPLICATION: Result.all_conform
 		end
 
 end

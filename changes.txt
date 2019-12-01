@@ -55,3 +55,6 @@ Progress on new Underbit ID3 implemenation
 Sat 2nd Nov 2019, 19:17:05
 Python classes using new XPATH_CONTEXT facilities
 
+Fri 29th Nov 2019, 15:21:27
+Tested EL_DEBIAN_MAKE_SCRIPT
+

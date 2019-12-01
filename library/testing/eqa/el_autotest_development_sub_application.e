@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-27 13:39:59 GMT (Wednesday 27th February 2019)"
-	revision: "13"
+	date: "2019-12-01 12:31:24 GMT (Sunday 1st December 2019)"
+	revision: "14"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -39,7 +39,7 @@ feature -- Basic operations
 			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
 			create failed_list.make_empty
-			across evaluator_type_list (evaluator_types) as type loop
+			across evaluator_type_list as type loop
 				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
 					as evaluator
 				then
@@ -68,13 +68,13 @@ feature {NONE} -- Implementation
 
 	evaluator_types: TUPLE
 		deferred
-		ensure
-			correct_types: evaluator_type_list (Result).count = Result.count
 		end
 
-	evaluator_type_list (type_tuple: like evaluator_types): EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
+	evaluator_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
-			create Result.make_from_tuple (type_tuple)
+			create Result.make_from_tuple (evaluator_types)
+		ensure
+			all_conform_to_EL_EQA_TEST_SET_EVALUATOR: Result.all_conform
 		end
 
 feature {NONE} -- Constants

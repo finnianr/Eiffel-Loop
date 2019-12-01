@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-26 11:04:08 GMT (Tuesday 26th November 2019)"
-	revision: "2"
+	date: "2019-11-30 15:36:25 GMT (Saturday 30th November 2019)"
+	revision: "3"
 
 class
 	EL_DEBIAN_CONSTANTS
@@ -29,8 +29,19 @@ feature {NONE} -- Constants
 			Result := "Package"
 		end
 
+	Conffiles: ZSTRING
+		once
+			Result := "conffiles"
+		end
+
 	Control: ZSTRING
 		once
 			Result := "control"
 		end
+
+	Copyright: ZSTRING
+		once
+			Result := "copyright"
+		end
+
 end

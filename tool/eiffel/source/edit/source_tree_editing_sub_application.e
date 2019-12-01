@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 11:07:48 GMT (Monday 7th October 2019)"
-	revision: "9"
+	date: "2019-12-01 12:09:13 GMT (Sunday 1st December 2019)"
+	revision: "10"
 
 deferred class
 	SOURCE_TREE_EDITING_SUB_APPLICATION
@@ -81,11 +81,11 @@ feature {NONE} -- Implementation
 			same_count_as_checksum: Result.count = checksum.count
 		end
 
-	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
+	visible_types: TUPLE [SOURCE_TREE_PROCESSOR]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do
-			Result := << {SOURCE_TREE_PROCESSOR} >>
+			create Result
 		end
 
 feature {NONE} -- Internal attributes

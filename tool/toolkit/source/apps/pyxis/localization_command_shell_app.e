@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:04 GMT (Wednesday 25th September 2019)"
-	revision: "11"
+	date: "2019-12-01 12:06:03 GMT (Sunday 1st December 2019)"
+	revision: "12"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -41,13 +41,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("")
 		end
 
-feature {NONE} -- Constants
-
-	Option_name: STRING = "localization_shell"
-
-	Description: STRING = "Command shell to perform queries and edits on tree of Pyxis localization files"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -56,9 +50,15 @@ feature {NONE} -- Constants
 			>>
 		end
 
-	Visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
-		once
-			Result := << {EL_FTP_PROTOCOL} >>
+	visible_types: TUPLE [EL_FTP_PROTOCOL]
+		do
+			create Result
 		end
+
+feature {NONE} -- Constants
+
+	Option_name: STRING = "localization_shell"
+
+	Description: STRING = "Command shell to perform queries and edits on tree of Pyxis localization files"
 
 end

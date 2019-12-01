@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:11:23 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2019-12-01 12:22:50 GMT (Sunday 1st December 2019)"
+	revision: "7"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -35,7 +35,7 @@ inherit
 
 	EL_SHARED_LOCALE_TABLE
 		redefine
-			new_locale_table
+			Locale_table
 		end
 
 create
@@ -397,6 +397,12 @@ feature {NONE} -- Constants
 			prefix_1 := "English_"; prefix_2 := "Eng_"
 			Result := << prefix_1, prefix_2 >>
 		end
+
+	Locale_table: EL_LOCALE_TABLE
+	 	-- Table of all locale data file paths
+	 	once
+			create Result.make (locale_resources_dir)
+	 	end
 
 	Workarea_pyx_template: ZSTRING
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:45 GMT (Wednesday 25th September 2019)"
-	revision: "9"
+	date: "2019-12-01 12:06:53 GMT (Sunday 1st December 2019)"
+	revision: "10"
 
 class
 	DUPLICITY_RESTORE_APP
@@ -35,24 +35,24 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	visible_types: ARRAY [TYPE [EL_MODULE_LIO]]
-		-- types with lio output visible in console
-		-- See: {EL_CONSOLE_MANAGER_I}.show_all
-		do
-			Result := << {EL_CAPTURED_OS_COMMAND}, {DUPLICITY_RESTORE_ALL_COMMAND} >>
-		end
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Restore files from a duplicity backup"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
 				[{like Current}, All_routines]
 			>>
 		end
+
+	visible_types: TUPLE [EL_CAPTURED_OS_COMMAND, DUPLICITY_RESTORE_ALL_COMMAND]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result
+		end
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Restore files from a duplicity backup"
 
 	Option_name: STRING = "duplicity_restore"
 
