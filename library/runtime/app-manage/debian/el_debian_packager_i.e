@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 17:13:30 GMT (Saturday 30th November 2019)"
-	revision: "8"
+	date: "2019-12-05 14:27:14 GMT (Thursday 5th December 2019)"
+	revision: "9"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -59,7 +59,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create lines.make (debian_dir + Control)
 			create configuration_file_list.make_empty
 			do_once_with_file_lines (agent find_package, lines)
-			versioned_package := Name_template #$ [package, Build_info.version.string]
+			versioned_package := package_name_parts.joined ('-')
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
 		end
 
@@ -115,6 +115,11 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			Result.add_extension ("deb")
 		end
 
+	package_name_parts: EL_ZSTRING_LIST
+		do
+			create Result.make_from_array (<< package, architecture, Build_info.version.string >>)
+		end
+
 	package_sub_dir (absolute_dir: EL_DIR_PATH): EL_DIR_PATH
 		require
 			is_absolute: absolute_dir.is_absolute
@@ -158,15 +163,25 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 
 feature {NONE} -- Line states
 
-	find_package (line: ZSTRING)
+	find_architecture (line: ZSTRING)
 		do
-			if Colon_field.name (line) ~ Field_package then
-				package := Colon_field.value (line)
+			if Colon_field.name (line) ~ Field.architecture then
+				architecture := Colon_field.value (line)
 				state := final
 			end
 		end
 
+	find_package (line: ZSTRING)
+		do
+			if Colon_field.name (line) ~ Field.package then
+				package := Colon_field.value (line)
+				state := agent find_architecture
+			end
+		end
+
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Internal attributes
+
+	architecture: ZSTRING
 
 	configuration_file_list: EL_ZSTRING_LIST
 
@@ -198,11 +213,6 @@ feature {NONE} -- Constants
 		-- Compiled Evolicity extension
 		once
 			Result := "evc"
-		end
-
-	Name_template: ZSTRING
-		once
-			Result := "%S-%S"
 		end
 
 	Root_dir: EL_DIR_PATH

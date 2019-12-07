@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 13:25:39 GMT (Friday 22nd November 2019)"
-	revision: "2"
+	date: "2019-12-05 10:49:50 GMT (Thursday 5th December 2019)"
+	revision: "3"
 
 class
 	EL_XDG_DESKTOP_ENTRY_STEPS
@@ -38,15 +38,10 @@ feature -- Access
 
 	launcher: EL_XDG_DESKTOP_LAUNCHER
 
-	non_standard_items: ARRAYED_LIST [EL_XDG_DESKTOP_MENU_ITEM]
+	non_standard_items: LIST [EL_XDG_DESKTOP_MENU_ITEM]
 			--
 		do
-			create Result.make (count)
-			across Current as menu loop
-				if not menu.item.is_standard then
-					Result.extend (menu.item)
-				end
-			end
+			Result := inverse_query_if (agent {EL_XDG_DESKTOP_MENU_ITEM}.is_standard)
 		end
 
 end

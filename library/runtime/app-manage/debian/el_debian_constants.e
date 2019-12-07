@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 15:36:25 GMT (Saturday 30th November 2019)"
-	revision: "3"
+	date: "2019-12-05 14:15:51 GMT (Thursday 5th December 2019)"
+	revision: "4"
 
-class
+deferred class
 	EL_DEBIAN_CONSTANTS
+
+inherit
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
 
@@ -24,9 +27,10 @@ feature {NONE} -- Constants
 			Result := "DEBIAN"
 		end
 
-	Field_package: ZSTRING
+	Field: TUPLE [architecture, package: ZSTRING]
 		once
-			Result := "Package"
+			create Result
+			Tuple.fill (Result, "Architecture, Package")
 		end
 
 	Conffiles: ZSTRING
