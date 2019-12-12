@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:24:12 GMT (Thursday 3rd October 2019)"
-	revision: "19"
+	date: "2019-12-12 11:38:16 GMT (Thursday 12th December 2019)"
+	revision: "20"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -70,6 +70,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	count: INTEGER
+		do
+			Result := value_by_name.count
+		end
 
 	value (a_name: STRING_8): N
 		local
@@ -143,6 +148,7 @@ note
 	descendants: "[
 			EL_ENUMERATION*
 				[$source EL_CURRENCY_ENUM]
+				[$source FCGI_RECORD_TYPE_ENUM]
 				[$source PP_PAYMENT_STATUS_ENUM]
 				[$source PP_TRANSACTION_TYPE_ENUM]
 				[$source PP_PAYMENT_PENDING_REASON_ENUM]

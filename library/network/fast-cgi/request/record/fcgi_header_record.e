@@ -22,14 +22,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 16:57:50 GMT (Saturday 3rd March 2018)"
-	revision: "6"
+	date: "2019-12-12 11:40:04 GMT (Thursday 12th December 2019)"
+	revision: "7"
 
 class
 	FCGI_HEADER_RECORD
 
 inherit
 	FCGI_RECORD
+
+	FCGI_SHARED_RECORD_TYPE
 
 feature -- Element change
 
@@ -62,18 +64,16 @@ feature -- Access
 
 	type_record: FCGI_RECORD
 		do
-			Result := Record_type_array [type]
+			if Record_table.has_key (type) then
+				Result := Record_table.found_item
+			else
+				create {FCGI_DEFAULT_RECORD} Result
+			end
 		end
 
 	version: NATURAL_8
 
 feature -- Status query
-
-	is_aborted: BOOLEAN
-		-- `True' if type is signal to abort request
-		do
-			Result := type = Fcgi_abort_request
-		end
 
 	is_empty: BOOLEAN
 		do
@@ -89,7 +89,7 @@ feature -- Status query
 	is_stdout: BOOLEAN
 		-- `True' if type is request to write to stdout
 		do
-			Result := type = Fcgi_stdout
+			Result := type = Record_type.stdout
 		end
 
 feature -- Element change
@@ -98,7 +98,7 @@ feature -- Element change
 		do
 			byte_count := a_byte_count
 		end
-	
+
 feature {NONE} -- Implementation
 
 	on_data_read (request: FCGI_REQUEST_BROKER)
@@ -128,17 +128,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Record_type_array: ARRAY [FCGI_RECORD]
-		local
-			content: FCGI_STRING_CONTENT_RECORD
+	Record_table: HASH_TABLE [FCGI_RECORD, INTEGER]
 		once
-			create content
-			create Result.make_filled (content, 1, Fcgi_stdout)
-			Result [Fcgi_params] := create {FCGI_PARAMETER_RECORD}
-			Result [Fcgi_begin_request] := create {FCGI_BEGIN_REQUEST_RECORD}
-			Result [Fcgi_end_request] := create {FCGI_END_REQUEST_RECORD}
-			Result [Fcgi_stdin] := content
-			Result [Fcgi_stdout] := content
+			create Result.make (Record_type.count)
+			Result [Record_type.begin_request] := create {FCGI_BEGIN_REQUEST_RECORD}
+			Result [Record_type.end_request] := create {FCGI_END_REQUEST_RECORD}
+			Result [Record_type.params] := create {FCGI_PARAMETER_RECORD}
+			Result [Record_type.stdin] := create {FCGI_STRING_CONTENT_RECORD}
+			Result [Record_type.stdout] := Result [Record_type.stdin]
 		end
 
 feature {NONE} -- Constants

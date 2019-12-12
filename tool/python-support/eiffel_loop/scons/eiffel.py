@@ -41,7 +41,7 @@ def compile_C_code (target, source, env):
 		osprocess.sudo_call ([package_exe_path, '-install'])
 
 def write_ecf_from_pecf (target, source, env):
-	# Converts Pyxis format EC to XML
+	# Converts Pyxis format PECF to XML
 	pyxis_to_xml_cmd = ['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', str (source [0])]
 	sys.stdout.write (' '.join (pyxis_to_xml_cmd) + '\n')
 	if subprocess.call (pyxis_to_xml_cmd) != 0:

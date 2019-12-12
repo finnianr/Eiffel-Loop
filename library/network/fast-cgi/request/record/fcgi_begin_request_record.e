@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-27 17:51:08 GMT (Tuesday 27th February 2018)"
-	revision: "3"
+	date: "2019-12-11 16:45:50 GMT (Wednesday 11th December 2019)"
+	revision: "4"
 
 class
 	FCGI_BEGIN_REQUEST_RECORD
@@ -51,7 +51,6 @@ feature {NONE} -- Implementation
 			 memory.write_natural_16 (role)
 			 memory.write_natural_8 (flags)
 		end
-
 
 feature {NONE} -- Constants
 

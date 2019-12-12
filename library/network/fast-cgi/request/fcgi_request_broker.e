@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-09 12:27:38 GMT (Friday 9th August 2019)"
-	revision: "8"
+	date: "2019-12-12 12:14:43 GMT (Thursday 12th December 2019)"
+	revision: "9"
 
 class
 	FCGI_REQUEST_BROKER
@@ -31,7 +31,11 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	EL_MODULE_LIO
+
 	EL_STRING_8_CONSTANTS
+
+	FCGI_SHARED_RECORD_TYPE
 
 create
 	make
@@ -141,7 +145,7 @@ feature -- Basic operations
 			written_ok: BOOLEAN
 		do
 			if not socket.is_closed then
-				write_header (Fcgi_end_request, Fcgi_end_req_body_len)
+				write_header (Record_type.end_request, Fcgi_end_req_body_len)
 				header.type_record.write (Current)
 				written_ok := write_ok
 				socket.close
@@ -193,18 +197,25 @@ feature {FCGI_RECORD} -- Record events
 		end
 
 	on_header (a_header: FCGI_HEADER_RECORD)
+		local
+			record: FCGI_RECORD
 		do
 			if a_header.is_end_service then
 				-- Send from FCGI_SEPARATE_SERVLET_SERVICE
 				socket.put_raw_string_8 ("ok")
 				request_read := True; is_end_service := True
-
-			elseif a_header.is_aborted then
-				request_read := True; is_aborted := True
-				socket.close
-
 			else
-				a_header.type_record.read (Current)
+				record := a_header.type_record
+				if attached {FCGI_DEFAULT_RECORD} record then
+					request_read := True; is_aborted := True
+					socket.close
+					if is_lio_enabled then
+						lio.put_labeled_string (once "(Abort Fast-CGI request) header.type", Record_type.name (a_header.type))
+						lio.put_new_line
+					end
+				else
+					record.read (Current)
+				end
 			end
 		end
 
@@ -233,16 +244,16 @@ feature {NONE} -- Implementation
 
 	write_stdout_content (str: STRING; start_index, bytes_to_send: INTEGER)
 		do
-			write_header (Fcgi_stdout, bytes_to_send)
+			write_header (Record_type.stdout, bytes_to_send)
 			if write_ok then
 				stdout_content.set_content (str, start_index)
 				stdout_content.write (Current)
 			end
 		end
 
-	write_header (record_type, bytes_to_send: INTEGER)
+	write_header (a_record_type, bytes_to_send: INTEGER)
 		do
-			header.set_fields (version, request_id, record_type, bytes_to_send, 0)
+			header.set_fields (version, request_id, a_record_type, bytes_to_send, 0)
 			header.write (Current)
 		end
 
