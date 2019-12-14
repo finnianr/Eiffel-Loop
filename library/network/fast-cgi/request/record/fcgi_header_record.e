@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-12 11:40:04 GMT (Thursday 12th December 2019)"
-	revision: "7"
+	date: "2019-12-12 12:24:21 GMT (Thursday 12th December 2019)"
+	revision: "8"
 
 class
 	FCGI_HEADER_RECORD
@@ -128,7 +128,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Record_table: HASH_TABLE [FCGI_RECORD, INTEGER]
+	Record_table: HASH_TABLE [FCGI_RECORD, NATURAL_8]
 		once
 			create Result.make (Record_type.count)
 			Result [Record_type.begin_request] := create {FCGI_BEGIN_REQUEST_RECORD}
@@ -137,8 +137,6 @@ feature {NONE} -- Constants
 			Result [Record_type.stdin] := create {FCGI_STRING_CONTENT_RECORD}
 			Result [Record_type.stdout] := Result [Record_type.stdin]
 		end
-
-feature {NONE} -- Constants
 
 	Reserved_count: INTEGER = 1
 

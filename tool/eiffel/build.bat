@@ -5,5 +5,5 @@ set batch_path=%~p0
 %batch_drive%
 cd %batch_path%
 
-scons action=finalize project=eiffel.ecf
+python -m eiffel_loop.scripts.ec_build_finalized
 pause

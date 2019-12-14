@@ -90,8 +90,12 @@ class SYSTEM_VERSION (object):
 		result = (self.major, self.minor, self.release, self.build)
 		return result
 
-	def ver_string (self):
-		result = "%s.%s.%s build %s" % system.version.tuple_4 ()
+	def long_string (self):
+		result = "%s.%s.%s build %s" % self.tuple_4 ()
+		return result
+
+	def short_string (self):
+		result = "%s.%s.%s" % self.tuple_3 ()
 		return result
 
 	def compact (self):

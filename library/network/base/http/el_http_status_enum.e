@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-10 13:41:00 GMT (Thursday 10th January 2019)"
-	revision: "9"
+	date: "2019-12-14 10:43:40 GMT (Saturday 14th December 2019)"
+	revision: "10"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -141,7 +141,6 @@ feature -- 3xx codes
 
 	temporary_redirect: NATURAL_16
 		-- Requested resource resides temporarily under a different URI.
-
 
 	use_proxy: NATURAL_16
 		-- Requested resource MUST be accessed through proxy given by Location field.

@@ -148,17 +148,7 @@ class EIFFEL_PROJECT (object):
 		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
 
 		self.exe_name = system.exe_name ()
-
-		# Get version from Eiffel class BUILD_INFO in source
-		f = open (system.build_info_path (), 'r')
-		for ln in f.readlines ():
-			if ln.startswith ('\tVersion_number'):
-				numbers = ln [ln.rfind (' ') + 1:-1].split ('_')
-				break
-		f.close ()
-		for i, n in enumerate (numbers):
-			numbers [i] = str (int (n))
-		self.version = ('.').join (numbers)
+		self.version = system.version ().short_string ()
 
 # Basic operation
 	def build (self, cpu_target, options_extra = None):

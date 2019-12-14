@@ -62,7 +62,6 @@ else:
 
 	project_py.set_build_environment (env.get ('cpu'))
 
-
 	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 	
 	pecf_path = path.splitext (project_py.ecf)[0] + '.pecf'
