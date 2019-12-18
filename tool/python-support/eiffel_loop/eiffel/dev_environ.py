@@ -71,6 +71,8 @@ def set_build_environment (target_cpu):
 		else:
 			os.environ.update (environ)
 
+		ise.update ()
+
 	else:
 		os.environ.update (environ)
 

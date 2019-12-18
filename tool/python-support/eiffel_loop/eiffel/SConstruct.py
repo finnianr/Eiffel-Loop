@@ -88,11 +88,6 @@ else:
 
 		env.Append (C_BUILD = build)
 		env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
-		if compile_eiffel:
-			env.Append (BUILDERS = {'write_ecf' : Builder (action = eiffel.write_ecf_from_pecf)})
-			ecf = env.write_ecf (project_py.ecf, pecf_path)
-		else:
-			ecf = None
 
 		if f_code:
 			executable = env.c_compile (build.target (), tar_build.target ())
@@ -120,8 +115,6 @@ else:
 		else:
 			Depends (executable, lib_dependencies)
 			productions = [executable]
-		if ecf:
-			productions.append (ecf)
 
 		env.NoClean (productions)
 

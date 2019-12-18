@@ -61,3 +61,6 @@ Tested EL_DEBIAN_MAKE_SCRIPT
 Thu 12th Dec 2019, 12:32:09
 Diagnosed segmentation fault when calling {FCGI_HEADER_RECORD}.record_type
 
+Sat 14th Dec 2019, 17:29:55
+Fixed reading of version in Python class EIFFEL_PROJECT
+

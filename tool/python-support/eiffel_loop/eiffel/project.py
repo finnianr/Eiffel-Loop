@@ -5,7 +5,7 @@
 #	date: "11 Jan 2010"
 #	revision: "0.1"
 
-import ctypes, os, string, sys, imp, subprocess, platform
+import ctypes, os, string, sys, imp, platform
 
 from string import Template
 from os import path
@@ -15,6 +15,7 @@ from eiffel_loop.eiffel.ecf import SYSTEM_INFO
 
 from eiffel_loop.eiffel import ise
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
+from eiffel_loop.xml.xpath import XPATH_FRAGMENT_CONTEXT
 from eiffel_loop.distutils import file_util
 from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
@@ -132,9 +133,10 @@ class TESTS (object):
 	def do_all (self, exe_path):
 		os.chdir (path.expandvars (self.working_directory))
 		for test_args in test_args_sequence:
-			subprocess.call ([exe_path] + test_args)
+			call ([exe_path] + test_args)
 		
 class EIFFEL_PROJECT (object):
+	Version_tag = '<version'
 
 # Initialization
 	def __init__ (self, ecf_name = None):
@@ -191,9 +193,45 @@ class EIFFEL_PROJECT (object):
 				print 'Copied', so_path
 
 	def increment_build_number (self):
-		f = open (self.pecf_name, 'r')
+		if path.exists (self.pecf_name):
+			name = self.pecf_name
+			increment_build = self.__increment_pecf_build
+		else:
+			name = self.ecf_name
+			increment_build = self.__increment_ecf_build
+	
+		f = open (name, 'r')
 		lines = f.read ().split ('\n')
 		f.close
+		increment_build (lines)
+		f = open (name, 'w')
+		f.write ('\n'.join (lines))
+		f.close
+		if name == self.pecf_name:
+			call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.pecf_name])
+
+# Implementation
+	def versioned_exe_name (self):
+		pass
+
+	def __increment_ecf_build (self, lines):
+		for i in range (0, len (lines) - 1):
+			line = lines [i]
+			if self.Version_tag in line:
+				if '/>' in line:
+					leading_space = line [0 : line.find (self.Version_tag)]
+					root_ctx = XPATH_FRAGMENT_CONTEXT (line)
+					version_ctx = root_ctx.context_list ('/version')[0]
+					attribute_template = ' %s = "%s"'
+					xml = leading_space + self.Version_tag
+					for name, value in version_ctx.attrib_table ().items():
+						if name == 'build':
+							value = int (value) + 1
+						xml += attribute_template % (name, value)
+					lines [i] = xml + '/>'
+					break
+
+	def __increment_pecf_build (self, lines):
 		for i in range (0, len (lines) - 1):
 			line = lines [i]
 			if 'major' in line and 'build' in line:
@@ -201,13 +239,6 @@ class EIFFEL_PROJECT (object):
 				pos_space = line.rfind (' ')
 				lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
 				break
-		f = open (self.pecf_name, 'w')
-		f.write ('\n'.join (lines))
-		f.close
-
-# Implementation
-	def versioned_exe_name (self):
-		pass
 
 class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 
@@ -219,7 +250,7 @@ class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return glob (path.join (dir_path, '*.so'))
 
 	def link (self, target, link_name):
-		return subprocess.call (['sudo', 'ln', '-f', '-s', target, link_name])
+		return call (['sudo', 'ln', '-f', '-s', target, link_name])
 
 # Implementation
 	def versioned_exe_name (self):

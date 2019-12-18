@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:01:48 GMT (Sunday 24th November 2019)"
-	revision: "14"
+	date: "2019-12-18 12:32:04 GMT (Wednesday 18th December 2019)"
+	revision: "15"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -31,6 +31,11 @@ inherit
 	EL_SUB_APPLICATION
 		redefine
 			option_name, Data_directories
+		end
+
+	EL_INSTALLABLE_SUB_APPLICATION
+		redefine
+			name
 		end
 
 	EL_MODULE_ENVIRONMENT
@@ -75,7 +80,7 @@ feature -- Basic operations
 				Application_list.uninstall_script.write_remove_directories_script
 			else
 				-- let the uninstall script know the user changed her mind
-				Execution_environment.exit (1)
+				exit_code := 1
 			end
 		end
 
@@ -112,6 +117,27 @@ feature {EL_UNINSTALL_SCRIPT_I} -- String constants
 	Yes: ZSTRING
 		once
 			Result := Locale * "yes"
+		end
+
+feature {NONE} -- Installer constants
+
+	Desktop_launcher: EL_DESKTOP_MENU_ITEM
+		once
+			Result := new_launcher ("uninstall.png")
+		end
+
+	Desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
+		once
+			Result := << new_category ("System") >>
+		end
+
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
+		once
+			if Application_list.has_main then
+				create {EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP} Result.make (Current)
+			else
+				Result := Default_desktop
+			end
 		end
 
 feature {NONE} -- Application constants

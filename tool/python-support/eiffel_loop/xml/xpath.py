@@ -6,6 +6,7 @@
 #	revision: "0.1"
 
 from lxml import etree
+from io import BytesIO
 
 class XPATH_CONTEXT (object):
 
@@ -106,5 +107,18 @@ class XPATH_ROOT_CONTEXT (XPATH_CONTEXT):
 			XPATH_CONTEXT.__init__ (self, doc, {ns_prefix : doc.getroot().nsmap [None]})
 		else:
 			XPATH_CONTEXT.__init__ (self, doc)
+
+class XPATH_FRAGMENT_CONTEXT (XPATH_CONTEXT):
+	Xml_header = '<?xml version = "1.0" encoding = "ISO-8859-1"?>'
+
+	def __init__ (self, fragment_text, ns_prefix = None):
+		# create root context using a text fragment (must be latin-1 encoded)
+
+		doc = etree.parse (BytesIO (self.Xml_header + fragment_text))
+		if ns_prefix:
+			XPATH_CONTEXT.__init__ (self, doc, {ns_prefix : doc.getroot().nsmap [None]})
+		else:
+			XPATH_CONTEXT.__init__ (self, doc)
+
 
 
