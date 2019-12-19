@@ -87,5 +87,5 @@ def write_environment_to_sh_script ():
 	for name in env_names:
 		sh_file.write ('export %s=%s\n' % (name, el_environment [name]))
 
-	sh_file .close ()
+	sh_file.close ()
 

@@ -24,7 +24,7 @@ def make_library (make_file_path):
 		if string.find (line, "OUT = ") != -1:
 			lib_rel_path = string.split (line)[-1]
 			break
-	make_file.close
+	make_file.close ()
 	lib_path = path.normpath (path.join (source_path, lib_rel_path))
 
 	# Build it if it doesn't exist

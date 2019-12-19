@@ -174,7 +174,7 @@ class TAR_GZ_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 		# extract member names as target names
 		tar = tarfile.open(self.file_path, "r:gz")
 		tar.extractall()
-		tar.close()
+		tar.close ()
 		self.popd ()
 
 	def build (self, configure_cmd):

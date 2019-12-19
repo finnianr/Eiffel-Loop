@@ -64,3 +64,9 @@ Diagnosed segmentation fault when calling {FCGI_HEADER_RECORD}.record_type
 Sat 14th Dec 2019, 17:29:55
 Fixed reading of version in Python class EIFFEL_PROJECT
 
+Wed 18th Dec 2019, 17:37:38
+Changed Python class EIFFEL_PROJECT to update both ecf and pecf project files
+
+Thu 19th Dec 2019, 12:16:23
+Scons build can now increment build in both pecf and ecf
+

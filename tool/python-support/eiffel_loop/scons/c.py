@@ -60,7 +60,7 @@ def set_dll_definitions (dll_path, def_path):
 			fn_put (fout, line.rstrip())
 	
 	fout.write ('\n')
-	fout.close
+	fout.close ()
 
 
 # Convert Windows dll to def
@@ -70,7 +70,7 @@ def dll_def_generator (target, source, env):
 		def_src_path = str (source [i])
 		f_in = open (def_src_path, 'r')
 		dll_name = f_in.readline ().rstrip()
-		f_in.close
+		f_in.close ()
 		target_dir = path.dirname (str (target [i]))
 		dll_path = path.join (target_dir, dll_name)
 		set_dll_definitions (dll_path, str (target [i]))

@@ -54,7 +54,7 @@ def source_url_and_member_name (get_fpath, variables):
 			break
 		i = i + 1
 	
-	f.close	
+	f.close ()
 	return (source_url, member_name)
 
 def platform_variables ():

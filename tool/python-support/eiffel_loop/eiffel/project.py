@@ -45,7 +45,7 @@ def read_project_py ():
 			print 'Import_module exception:', e
 			result = None
 		finally:
-			py_file.close
+			py_file.close ()
 	else:
 		print 'ERROR: find_module'
 		result = None
@@ -134,9 +134,69 @@ class TESTS (object):
 		os.chdir (path.expandvars (self.working_directory))
 		for test_args in test_args_sequence:
 			call ([exe_path] + test_args)
-		
-class EIFFEL_PROJECT (object):
+
+# XML format ECF project file
+class ECF_PROJECT_FILE (object):
+
+# Constants
 	Version_tag = '<version'
+
+# Initialization
+
+	def __init__ (self, name):
+		self.name = name
+
+# Basic operations
+	def increment_build (self):
+		f = open (self.name, 'r')
+		lines = f.read ().split ('\n')
+		f.close ()
+		self.edit_version_line (lines)
+		
+		# Write the edits
+		f = open (self.name, 'w')
+		f.write ('\n'.join (lines))
+		f.close ()
+
+# Implementation
+	def edit_version_line (self, lines):
+		for i in range (0, len (lines) - 1):
+			line = lines [i]
+			if self.Version_tag in line:
+				if '/>' in line:
+					leading_space = line [0 : line.find (self.Version_tag)]
+					root_ctx = XPATH_FRAGMENT_CONTEXT (line)
+					version_ctx = root_ctx.context_list ('/version')[0]
+					attribute_template = ' %s = "%s"'
+					xml = leading_space + self.Version_tag
+					for name, value in version_ctx.attrib_table ().items():
+						if name == 'build':
+							value = int (value) + 1
+						xml += attribute_template % (name, value)
+					lines [i] = xml + '/>'
+					break
+
+# Pyxis format ECF project file
+class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
+
+# Basic operations
+	def increment_build (self):
+		ECF_PROJECT_FILE.increment_build (self)
+		# Write new ecf XML file
+		if call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.name]) > 0:
+			print "Error in pecf to ecf conversion"
+
+# Implementation
+	def edit_version_line (self, lines):
+		for i in range (0, len (lines) - 1):
+			line = lines [i]
+			if 'major' in line and 'build' in line:
+				# assumes build is at end of line
+				pos_space = line.rfind (' ')
+				lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
+				break
+
+class EIFFEL_PROJECT (object):
 
 # Initialization
 	def __init__ (self, ecf_name = None):
@@ -194,51 +254,15 @@ class EIFFEL_PROJECT (object):
 
 	def increment_build_number (self):
 		if path.exists (self.pecf_name):
-			name = self.pecf_name
-			increment_build = self.__increment_pecf_build
+			project = PYXIS_FORMAT_PROJECT_FILE (self.pecf_name)
 		else:
-			name = self.ecf_name
-			increment_build = self.__increment_ecf_build
-	
-		f = open (name, 'r')
-		lines = f.read ().split ('\n')
-		f.close
-		increment_build (lines)
-		f = open (name, 'w')
-		f.write ('\n'.join (lines))
-		f.close
-		if name == self.pecf_name:
-			call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.pecf_name])
+			project = ECF_PROJECT_FILE (self.ecf_name)
+		
+		project.increment_build ()
 
 # Implementation
 	def versioned_exe_name (self):
 		pass
-
-	def __increment_ecf_build (self, lines):
-		for i in range (0, len (lines) - 1):
-			line = lines [i]
-			if self.Version_tag in line:
-				if '/>' in line:
-					leading_space = line [0 : line.find (self.Version_tag)]
-					root_ctx = XPATH_FRAGMENT_CONTEXT (line)
-					version_ctx = root_ctx.context_list ('/version')[0]
-					attribute_template = ' %s = "%s"'
-					xml = leading_space + self.Version_tag
-					for name, value in version_ctx.attrib_table ().items():
-						if name == 'build':
-							value = int (value) + 1
-						xml += attribute_template % (name, value)
-					lines [i] = xml + '/>'
-					break
-
-	def __increment_pecf_build (self, lines):
-		for i in range (0, len (lines) - 1):
-			line = lines [i]
-			if 'major' in line and 'build' in line:
-				# assumes build is at end of line
-				pos_space = line.rfind (' ')
-				lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
-				break
 
 class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 

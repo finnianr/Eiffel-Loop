@@ -84,7 +84,7 @@ class INSTALLER (object): # Common: Unix and Windows
 		print 'Writing:', a_path
 		f = open (a_path, 'w')
 		f.write (content)
-		f.close
+		f.close ()
 
 	def tools_bin (self):
 		pass
