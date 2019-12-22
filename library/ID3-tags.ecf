@@ -7,7 +7,7 @@
 	cosmetics, trinkets or jewellery.
 	
 -->
-<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tag" uuid = "229b4fae-09aa-11df-8771-e7444f3b4d30" library_target = "EL_id3_tag">
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_id3_tag" uuid = "229B4FAE-09AA-11DF-8771-E7444F3B4D30" library_target = "EL_id3_tag">
 	<description>
 ID3 Tagging for MP3
 

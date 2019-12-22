@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:03:08 GMT (Tuesday 5th November 2019)"
-	revision: "24"
+	date: "2019-12-22 11:55:01 GMT (Sunday 22nd December 2019)"
+	revision: "25"
 
 class
 	RBOX_SONG
@@ -525,10 +525,7 @@ feature {NONE} -- Implementation
 			crc: like crc_generator; l_picture_checksum: NATURAL
 		do
 			crc := crc_generator
-			across << artists_list.comma_separated, album, title, genre, comment >> as field loop
-				crc.add_string (field.item)
-			end
-			crc.add_integer (recording_date)
+			crc.add_tuple ([artists_list.comma_separated, album, title, genre, comment, recording_date])
 
 			l_picture_checksum := album_picture_checksum
 			if l_picture_checksum > 0 then

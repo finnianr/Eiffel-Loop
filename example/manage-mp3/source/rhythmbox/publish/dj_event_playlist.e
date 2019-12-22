@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 10:19:16 GMT (Monday 16th September 2019)"
-	revision: "13"
+	date: "2019-12-22 11:46:07 GMT (Sunday 22nd December 2019)"
+	revision: "14"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -189,13 +189,7 @@ feature {NONE} -- Implementation
 			both: ARRAY [PLAYLIST]
 		do
 			crc := crc_generator
-			across << dj_name, title, venue >> as str loop
-				crc.add_string (str.item)
-			end
-			across << date.ordered_compact_date, start_time.compact_time >> as n loop
-				crc.add_integer (n.item)
-			end
-			crc.add_boolean (is_publishable)
+			crc.add_tuple ([dj_name, title, venue, date.ordered_compact_date, start_time.compact_time, is_publishable])
 			both := << Current, unplayed >>
 			across both as list loop
 				across list.item as l_song loop

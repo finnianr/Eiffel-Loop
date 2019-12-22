@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 8:27:30 GMT (Wednesday 11th September 2019)"
-	revision: "16"
+	date: "2019-12-22 11:14:47 GMT (Sunday 22nd December 2019)"
+	revision: "17"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -236,7 +236,7 @@ feature -- Constants
 	Crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
 			--
 		once
-			create Result
+			create Result.make
 		end
 
 	Current_working_dir: ZSTRING

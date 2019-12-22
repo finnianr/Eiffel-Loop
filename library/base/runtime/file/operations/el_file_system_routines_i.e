@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-26 10:38:09 GMT (Tuesday 26th November 2019)"
-	revision: "17"
+	date: "2019-12-22 11:51:53 GMT (Sunday 22nd December 2019)"
+	revision: "18"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -18,7 +18,7 @@ inherit
 			copy as copy_object
 		end
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_MODULE_CHECKSUM
 		rename
 			copy as copy_object
 		end
@@ -135,12 +135,8 @@ feature -- Measurement
 		end
 
 	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
-		local
-			crc: like crc_generator
 		do
-			crc := crc_generator
-			crc.add_file (a_file_path)
-			Result := crc.checksum
+			Result := Checksum.file_content (a_file_path)
 		end
 
 	file_megabyte_count (a_file_path: EL_FILE_PATH): DOUBLE

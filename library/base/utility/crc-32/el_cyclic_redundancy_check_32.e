@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-24 9:44:49 GMT (Wednesday 24th July 2019)"
-	revision: "8"
+	date: "2019-12-22 12:40:09 GMT (Sunday 22nd December 2019)"
+	revision: "9"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,20 +15,22 @@ class
 inherit
 	MANAGED_POINTER
 		rename
-			count as byte_count
+			count as byte_count,
+			make as make_pointer
 		export
 			{NONE} all
-		redefine
-			default_create
 		end
 
-	STRING_HANDLER undefine copy, default_create, is_equal end
+	STRING_HANDLER undefine copy, is_equal end
 
 	EL_MODULE_FILE_SYSTEM
 
+create
+	make
+
 feature {NONE} -- Initialization
 
-	default_create
+	make
 		do
 			is_shared := True
 			set_from_pointer (Default_pointer, 0)
@@ -38,18 +40,40 @@ feature -- Access
 
 	checksum: NATURAL
 
-feature -- Element change
+feature -- Add file content
+
+	add_directory_tree (tree_path: EL_DIR_PATH)
+		-- add contents of file directory tree `tree_path'
+		do
+			File_system.recursive_files (tree_path).do_all (agent add_file)
+		end
+
+	add_file (file_path: EL_FILE_PATH)
+		-- add contents of file at `file_path'
+		require
+			path_exists: file_path.exists
+		do
+			add_data (File_system.file_data (file_path))
+		end
+
+feature -- Add basic types
 
 	add_boolean (b: BOOLEAN)
 			--
 		do
-			add_array ($b, 1, {PLATFORM}.boolean_bytes)
+			add_array ($b, 1, Boolean_bytes)
 		end
 
-	add_character (c: CHARACTER)
+	add_character_8 (c: CHARACTER)
 			--
 		do
-			add_array ($c, 1, {PLATFORM}.Character_8_bytes)
+			add_array ($c, 1, Character_8_bytes)
+		end
+
+	add_character_32 (c: CHARACTER_32)
+			--
+		do
+			add_array ($c, 1, Character_32_bytes)
 		end
 
 	add_data (data: MANAGED_POINTER)
@@ -58,29 +82,149 @@ feature -- Element change
 			add_array (data.item, data.count, 1)
 		end
 
-	add_directory_tree (tree_path: EL_DIR_PATH)
+	add_pointer (b: POINTER)
 			--
 		do
-			File_system.recursive_files (tree_path).do_all (agent add_file)
+			add_array ($b, 1, Pointer_bytes)
 		end
 
-	add_file (file_path: EL_FILE_PATH)
-			--
+	add_tuple (a_tuple: TUPLE)
+		local
+			i: INTEGER; l_reference: ANY
 		do
-			add_data (File_system.file_data (file_path))
+			from i := 1 until i > a_tuple.count loop
+				inspect a_tuple.item_code (i)
+					when {TUPLE}.Boolean_code then
+						add_boolean (a_tuple.boolean_item (i))
+
+					when {TUPLE}.Character_8_code then
+						add_character_8 (a_tuple.character_8_item (i))
+
+					when {TUPLE}.Character_32_code then
+						add_character_32 (a_tuple.character_32_item (i))
+
+					when {TUPLE}.Integer_8_code then
+						add_integer_8 (a_tuple.integer_8_item (i))
+
+					when {TUPLE}.Integer_16_code then
+						add_integer_16 (a_tuple.integer_16_item (i))
+
+					when {TUPLE}.Integer_32_code then
+						add_integer_32 (a_tuple.integer_32_item (i))
+
+					when {TUPLE}.Integer_64_code then
+						add_integer_64 (a_tuple.integer_64_item (i))
+
+					when {TUPLE}.Natural_8_code then
+						add_natural_8 (a_tuple.natural_8_item (i))
+
+					when {TUPLE}.Natural_16_code then
+						add_natural_16 (a_tuple.natural_16_item (i))
+
+					when {TUPLE}.Natural_32_code then
+						add_natural_32 (a_tuple.natural_32_item (i))
+
+					when {TUPLE}.Natural_64_code then
+						add_natural_64 (a_tuple.natural_64_item (i))
+
+					when {TUPLE}.Real_32_code then
+						add_real_32 (a_tuple.real_32_item (i))
+
+					when {TUPLE}.Real_64_code then
+						add_real_64 (a_tuple.real_64_item (i))
+
+					when {TUPLE}.Pointer_code then
+						add_pointer (a_tuple.pointer_item (i))
+
+					when {TUPLE}.Reference_code then
+						l_reference := a_tuple.reference_item (i)
+						if attached {READABLE_STRING_GENERAL} l_reference as string then
+							if attached {ZSTRING} string as zstr then
+								add_string (zstr)
+							elseif attached {STRING} string as str_8 then
+								add_string_8 (str_8)
+							elseif attached {STRING_32} string as str_32 then
+								add_string_32 (str_32)
+							end
+						elseif attached {EL_PATH} l_reference as path then
+							add_path (path)
+						elseif attached {PATH} l_reference as ise_path then
+							add_ise_path (ise_path)
+						else
+						end
+				else
+				end
+				i := i + 1
+			end
 		end
 
-	add_integer (n: INTEGER)
+feature -- Add reals
+
+	add_real_32, add_real (real: REAL)
 			--
 		do
-			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
+			add_array ($real, 1, Real_32_bytes)
 		end
 
-	add_natural (n: NATURAL)
+	add_real_64, add_double (real: DOUBLE)
 			--
 		do
-			add_array ($n, 1, {PLATFORM}.Integer_32_bytes)
+			add_array ($real, 1, Real_64_bytes)
 		end
+
+feature -- Add integers
+
+	add_integer_8 (n: INTEGER_8)
+			--
+		do
+			add_array ($n, 1, Integer_8_bytes)
+		end
+
+	add_integer_16 (n: INTEGER_16)
+			--
+		do
+			add_array ($n, 1, Integer_16_bytes)
+		end
+
+	add_integer_32, add_integer (n: INTEGER)
+			--
+		do
+			add_array ($n, 1, Integer_32_bytes)
+		end
+
+	add_integer_64 (n: INTEGER_64)
+			--
+		do
+			add_array ($n, 1, Integer_64_bytes)
+		end
+
+feature -- Add naturals
+
+	add_natural_8 (n: NATURAL_8)
+			--
+		do
+			add_array ($n, 1, Natural_8_bytes)
+		end
+
+	add_natural_16 (n: NATURAL_16)
+			--
+		do
+			add_array ($n, 1, Natural_16_bytes)
+		end
+
+	add_natural_32, add_natural (n: NATURAL)
+			--
+		do
+			add_array ($n, 1, Natural_32_bytes)
+		end
+
+	add_natural_64 (n: NATURAL_64)
+			--
+		do
+			add_array ($n, 1, Natural_64_bytes)
+		end
+
+feature -- Add strings
 
 	add_path (path: EL_PATH)
 			--
@@ -89,38 +233,47 @@ feature -- Element change
 			add_string (path.base)
 		end
 
-	add_real_32, add_real (real: REAL)
+	add_ise_path (path: PATH)
 			--
 		do
-			add_array ($real, 1, {PLATFORM}.Real_64_bytes)
+			add_data (path.native_string.managed_data)
 		end
 
-	add_real_64, add_double (real: DOUBLE)
-			--
+	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
 		do
-			add_array ($real, 1, {PLATFORM}.Real_64_bytes)
+			across list as str loop
+				if attached {ZSTRING} str.item as str_z then
+					add_string (str_z)
+				elseif attached {STRING_8} str.item as str_8 then
+					add_string_8 (str_8)
+				elseif attached {STRING_32} str.item as str_32 then
+					add_string_32 (str_32)
+				end
+			end
 		end
 
 	add_string (str: ZSTRING)
 			--
 		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
+			add_array (str.area.base_address, str.count, character_8_bytes)
 			if str.has_mixed_encoding then
-				add_array (str.unencoded_area.base_address, str.unencoded_area.count, {PLATFORM}.character_32_bytes)
+				add_array (str.unencoded_area.base_address, str.unencoded_area.count, character_32_bytes)
 			end
 		end
 
 	add_string_32 (str: STRING_32)
 			--
 		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_32_bytes)
+			add_array (str.area.base_address, str.count, character_32_bytes)
 		end
 
 	add_string_8 (str: STRING)
 			--
 		do
-			add_array (str.area.base_address, str.count, {PLATFORM}.character_8_bytes)
+			add_array (str.area.base_address, str.count, character_8_bytes)
 		end
+
+feature -- Element change
 
 	reset
 		do

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:06:09 GMT (Tuesday 5th November 2019)"
-	revision: "12"
+	date: "2019-12-22 11:57:03 GMT (Sunday 22nd December 2019)"
+	revision: "13"
 
 class
 	STORAGE_DEVICE
 
 inherit
 	M3U_PLAY_LIST_CONSTANTS
+
+	EL_MODULE_CHECKSUM
 
 	EL_MODULE_DIRECTORY
 
@@ -30,8 +32,6 @@ inherit
 	SONG_QUERY_CONDITIONS
 
 	EXCEPTION_MANAGER
-
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 	SHARED_DATABASE
 
@@ -328,12 +328,8 @@ feature {NONE} -- Implementation
 		end
 
 	sync_checksum: NATURAL
-		local
-			crc: like crc_generator
 		do
-			crc := crc_generator
-			crc.add_file (sync_table.output_path)
-			Result := crc.checksum
+			Result := Checksum.file_content (sync_table.output_path)
 		end
 
 	local_sync_table_file_path: EL_FILE_PATH

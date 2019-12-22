@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-12-22 12:14:38 GMT (Sunday 22nd December 2019)"
+	revision: "6"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -23,6 +23,8 @@ inherit
 		redefine
 			make_with_name, after, off
 		end
+
+	EL_MODULE_CHECKSUM
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -46,7 +48,6 @@ feature {NONE} -- Initialization
 			Precursor (fn)
 			create last_file_path
 			create last_managed_pointer.share_from_pointer (Default_pointer, 0)
-			create crc_32
 			enable_checksum
 		end
 
@@ -65,11 +66,11 @@ feature -- Element change
 			open_append: is_open_write
 		local
 			file_data: MANAGED_POINTER; compressed_data, utf8_path: STRING
+			l_checksum: NATURAL
 		do
 			file_data := File_system.file_data (a_file_path)
 			if is_checksum_enabled then
-				crc_32.reset
-				crc_32.add_data (file_data)
+				l_checksum := Checksum.data (file_data)
 			end
 			compressed_data := Zlib.compress (file_data, expected_compression_ratio, level)
 
@@ -80,7 +81,7 @@ feature -- Element change
 			put_integer (file_data.count)
 			put_integer (compressed_data.count)
 			if is_checksum_enabled then
-				put_natural (crc_32.checksum)
+				put_natural (l_checksum)
 			end
 			put_string (compressed_data)
 		end
@@ -104,7 +105,7 @@ feature -- Input
 		require
 			open_read: is_open_read
 		local
-			uncompressed_count: INTEGER; compressed_data: MANAGED_POINTER; check_sum: NATURAL
+			uncompressed_count: INTEGER; compressed_data: MANAGED_POINTER; l_checksum, actual_checksum: NATURAL
 		do
 			read_integer
 			uncompressed_count := last_integer
@@ -115,7 +116,7 @@ feature -- Input
 			create compressed_data.make (last_integer)
 			if is_checksum_enabled then
 				read_natural
-				check_sum := last_natural
+				l_checksum := last_natural
 			end
 			if is_lio_enabled then
 				lio.put_integer_field (" compressed_data.count", compressed_data.count)
@@ -124,12 +125,11 @@ feature -- Input
 			last_string := Zlib.uncompress (compressed_data, uncompressed_count)
 			last_managed_pointer.set_from_pointer (last_string.area.base_address, last_string.count)
 			if is_checksum_enabled then
-				crc_32.reset
-				crc_32.add_data (last_managed_pointer)
+				actual_checksum := Checksum.data (last_managed_pointer)
 				if is_lio_enabled then
-					lio.put_string_field (" crc.checksum", crc_32.checksum.out)
+					lio.put_string_field (" actual_checksum", actual_checksum.out)
 				end
-				is_last_managed_pointer_ok := check_sum = crc_32.checksum
+				is_last_managed_pointer_ok := l_checksum = actual_checksum
 				if is_lio_enabled then
 					if is_last_managed_pointer_ok then
 						lio.put_string (" OK")
@@ -181,9 +181,5 @@ feature -- Status query
 	is_checksum_enabled: BOOLEAN
 
 	is_last_managed_pointer_ok: BOOLEAN
-
-feature {NONE} -- Implementation
-
-	crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
 
 end

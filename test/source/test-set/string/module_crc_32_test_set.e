@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:46:25 GMT (Saturday 5th October 2019)"
-	revision: "7"
+	date: "2019-12-22 12:28:20 GMT (Sunday 22nd December 2019)"
+	revision: "8"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			new_file_tree as new_empty_file_tree
 		end
 
-	EL_MODULE_CRC_32
+	EL_MODULE_CHECKSUM
 
 feature -- Tests
 
@@ -31,7 +31,7 @@ feature -- Tests
 			file_out.put_lines (Strings)
 			file_out.close
 
-			assert ("same crc", Crc_32.utf_8_file_lines (file_path) = Crc_32.lines (Strings))
+			assert ("same crc", Checksum.utf_8_file_content (file_path) = Checksum.string_list (Strings))
 		end
 
 feature {NONE} -- Constants

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
-	revision: "9"
+	date: "2019-12-22 10:29:32 GMT (Sunday 22nd December 2019)"
+	revision: "10"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -132,7 +132,7 @@ feature {NONE} -- Conditions
 			Result := song_has_artist_picture (pictures) or song_has_album_picture (pictures)
 		end
 
-	song_has_artist_picture (a_pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
+	song_has_artist_picture (picture_table: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
 		do
 			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): BOOLEAN
 				do
@@ -141,11 +141,11 @@ feature {NONE} -- Conditions
 						Result := pictures.found_item.description ~ Picture_artist
 					end
 
-				end (?, a_pictures)
+				end (?, picture_table)
 			)
 		end
 
-	song_has_album_picture (a_pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
+	song_has_album_picture (picture_table: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): like predicate
 		do
 			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]): BOOLEAN
 				do
@@ -154,7 +154,7 @@ feature {NONE} -- Conditions
 						Result := pictures.found_item.description ~ Picture_album
 					end
 
-				end (?, a_pictures)
+				end (?, picture_table)
 			)
 		end
 

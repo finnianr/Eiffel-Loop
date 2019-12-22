@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:30:42 GMT (Monday 7th October 2019)"
-	revision: "21"
+	date: "2019-12-22 12:00:39 GMT (Sunday 22nd December 2019)"
+	revision: "22"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -27,6 +27,8 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Tests
 
@@ -113,9 +115,9 @@ feature {NONE} -- Implementation
 
 	file_content_checksum: NATURAL
 		local
-			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+			crc: like crc_generator
 		do
-			create crc
+			crc := crc_generator
 			across generated_files as html loop
 				crc.add_file (html.item)
 			end
@@ -129,10 +131,10 @@ feature {NONE} -- Implementation
 
 	file_modification_checksum: NATURAL
 		local
-			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+			crc: like crc_generator
 			modification_time: DATE_TIME
 		do
-			create crc
+			crc := crc_generator
 			across OS.file_list (Doc_dir, "*.html") as html loop
 				modification_time := html.item.modification_date_time
 				crc.add_integer (modification_time.date.ordered_compact_date)

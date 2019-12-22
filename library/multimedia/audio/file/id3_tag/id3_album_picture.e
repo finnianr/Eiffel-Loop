@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-08 18:07:56 GMT (Tuesday 8th October 2019)"
-	revision: "7"
+	date: "2019-12-22 11:49:40 GMT (Sunday 22nd December 2019)"
+	revision: "8"
 
 class
 	ID3_ALBUM_PICTURE
@@ -19,6 +19,11 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_CHECKSUM
+		rename
+			checksum as Mod_checksum
+		end
 
 create
 	default_create, make, make_from_file
@@ -35,7 +40,7 @@ feature {NONE} -- Initialization
 	make (a_data: like data; a_description, a_mime_type: STRING)
 		do
 			data := a_data; description := a_description; mime_type := a_mime_type
-			update_checksum
+			checksum := Mod_checksum.data (data)
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH; a_description: like description)
@@ -63,22 +68,6 @@ feature -- Element change
 	set_description (a_description: like description)
 		do
 			description := a_description
-		end
-
-	set_checksum (a_checksum: like checksum)
-		do
-			checksum := a_checksum
-		end
-
-feature {NONE} -- Implementation
-
-	update_checksum
-		local
-			crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
-		do
-			create crc_32
-			crc_32.add_data (data)
-			checksum := crc_32.checksum
 		end
 
 end

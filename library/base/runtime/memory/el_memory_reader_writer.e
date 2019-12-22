@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 10:54:04 GMT (Sunday 23rd December 2018)"
-	revision: "12"
+	date: "2019-12-22 11:14:41 GMT (Sunday 22nd December 2019)"
+	revision: "13"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -53,7 +53,7 @@ feature -- Access
 		local
 			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
 		do
-			create crc
+			create crc.make
 			crc.add_data (buffer)
 			Result := crc.checksum
 		end

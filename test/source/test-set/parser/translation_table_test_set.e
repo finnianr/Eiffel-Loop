@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2019-12-22 12:30:13 GMT (Sunday 22nd December 2019)"
+	revision: "5"
 
 class
 	TRANSLATION_TABLE_TEST_SET
 
 inherit
 	EIFFEL_LOOP_TEST_SET
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Tests
 
@@ -36,9 +38,9 @@ feature {NONE} -- Implementation
 	test_reading (new_table: FUNCTION [STRING, EL_FILE_PATH, EL_TRANSLATION_TABLE])
 		local
 			pyxis_file_path: EL_FILE_PATH; table: EL_TRANSLATION_TABLE
-			crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
+			crc_32: like crc_generator
 		do
-			create crc_32
+			crc_32 := crc_generator
 			across Pyxis_translation_checksums as checksum loop
 				crc_32.reset
 				pyxis_file_path := Test_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 15:59:31 GMT (Tuesday 5th November 2019)"
-	revision: "4"
+	date: "2019-12-22 10:41:35 GMT (Sunday 22nd December 2019)"
+	revision: "5"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -26,39 +26,35 @@ feature -- Basic operations
 
 	apply
 		local
-			pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
-			picture: ID3_ALBUM_PICTURE
-			jpeg_path_list: LIST [EL_FILE_PATH]
+			picture_table: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
+			picture: ID3_ALBUM_PICTURE; jpeg_path_list: LIST [EL_FILE_PATH]
 		do
 			log.enter ("apply")
 			jpeg_path_list := OS.file_list (album_art_dir, "*.jpeg")
-			create pictures.make_equal (jpeg_path_list.count)
+			create picture_table.make_equal (jpeg_path_list.count)
 			across jpeg_path_list as jpeg_path loop
 				create picture.make_from_file (jpeg_path.item, jpeg_path.item.parent.base)
-				pictures [jpeg_path.item.base_sans_extension] := picture
+				picture_table [jpeg_path.item.base_sans_extension] := picture
 			end
-			Database.for_all_songs (
-				not song_is_hidden and song_has_artist_or_album_picture (pictures),
-				agent add_song_picture (?, ?, ?, pictures)
-			)
+			across Database.songs.query (not song_is_hidden and song_has_artist_or_album_picture (picture_table)) as song loop
+				add_song_picture (song.item, picture_table)
+			end
 			Database.store_all
 			log.exit
 		end
 
 feature {NONE} -- Implementation
 
-	add_song_picture (
-		song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: ID3_INFO
-		pictures: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE]
-	)
+	add_song_picture (song: RBOX_SONG; picture_table: EL_ZSTRING_HASH_TABLE [ID3_ALBUM_PICTURE])
 		local
-			picture: ID3_ALBUM_PICTURE
+			id3_info: ID3_INFO; picture: ID3_ALBUM_PICTURE
 		do
-			if song_has_artist_picture (pictures).met (song) and then not id3_info.has_album_picture then
-				picture := pictures [song.artist]
+			id3_info := song.id3_info
+			if song_has_artist_picture (picture_table).met (song) and then not id3_info.has_album_picture then
+				picture := picture_table [song.artist]
 
-			elseif song_has_album_picture (pictures).met (song) and then song.album /~ Unknown then
-				picture := pictures [song.album]
+			elseif song_has_album_picture (picture_table).met (song) and then song.album /~ Unknown then
+				picture := picture_table [song.album]
 
 			else
 				create picture
@@ -66,7 +62,7 @@ feature {NONE} -- Implementation
 			if picture.data.count > 0 and then picture.checksum /= song.album_picture_checksum then
 				lio.put_labeled_string ("Setting", picture.description.as_proper_case + " picture")
 				lio.put_new_line
-				lio.put_path_field ("Song", relative_song_path)
+				lio.put_path_field ("Song", song.mp3_relative_path)
 				lio.put_new_line
 				lio.put_new_line
 

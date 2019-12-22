@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:24:35 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2019-12-22 11:14:41 GMT (Sunday 22nd December 2019)"
+	revision: "7"
 
 deferred class
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
@@ -27,7 +27,7 @@ feature {NONE} -- Constants
 
 	Once_crc_generator: EL_CYCLIC_REDUNDANCY_CHECK_32
 		once
-			create Result
+			create Result.make
 		end
 
 end

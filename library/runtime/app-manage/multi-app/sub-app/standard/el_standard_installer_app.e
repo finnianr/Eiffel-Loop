@@ -11,16 +11,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:01:17 GMT (Sunday 1st December 2019)"
-	revision: "10"
+	date: "2019-12-20 12:18:59 GMT (Friday 20th December 2019)"
+	revision: "11"
 
 class
 	EL_STANDARD_INSTALLER_APP
 
 inherit
 	EL_SUB_APPLICATION
+		rename
+			Data_directories as Root_owned_data_directories
 		redefine
-			option_name, visible_types
+			option_name, visible_types, do_application
 		end
 
 	EL_SHARED_APPLICATION_LIST
@@ -75,6 +77,25 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	do_application
+		local
+			parent: EL_DIR_PATH
+		do
+			-- Change name of data and config directories because they are owned by root
+			-- Example: "$HOME/.config/Hex 11 Software/My Ching" becomes "$HOME/.config/Hex 11 Software-installer/My Ching"
+			across Root_owned_data_directories as path loop
+				parent := path.item.parent
+				parent.base.append_string_general ("-installer")
+				path.item.set_parent_path (parent.to_string)
+			end
+			Precursor
+			-- delete root owned directories, for example:
+			-- "$HOME/.config/Hex 11 Software-installer" + "$HOME/.Hex 11 Software-installer"
+			across Root_owned_data_directories as path loop
+				OS.delete_tree (path.item.parent)
+			end
+		end
 
 	install_package
 			--

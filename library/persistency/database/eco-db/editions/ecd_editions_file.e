@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-19 19:29:01 GMT (Tuesday 19th February 2019)"
-	revision: "10"
+	date: "2019-12-22 12:02:44 GMT (Sunday 22nd December 2019)"
+	revision: "11"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -32,7 +32,7 @@ feature -- Initialization
 		do
 			item_chain := a_storable_chain
 			reader_writer := item_chain.reader_writer
-			create crc
+			create crc.make
 			make_with_name (a_file_path)
 			if exists then
 				attributes := [file_count, date]
@@ -144,7 +144,7 @@ feature {ECD_CHAIN_EDITIONS} -- Basic operations
 	put_edition (edition_code: CHARACTER; a_item: G)
 		do
 			put_character (edition_code)
-			crc.add_character (edition_code)
+			crc.add_character_8 (edition_code)
 			inspect edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
 				put_integer (item_chain.index)
 				crc.add_integer (item_chain.index)
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 			l_item: G
 		do
 			read_edition_code
-			crc.add_character (last_edition_code)
+			crc.add_character_8 (last_edition_code)
 			inspect last_edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
 				read_integer
 				edition_index := last_integer

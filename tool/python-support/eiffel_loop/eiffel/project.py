@@ -134,6 +134,7 @@ class TESTS (object):
 		os.chdir (path.expandvars (self.working_directory))
 		for test_args in test_args_sequence:
 			call ([exe_path] + test_args)
+#end class
 
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):
@@ -147,6 +148,7 @@ class ECF_PROJECT_FILE (object):
 		self.name = name
 
 # Basic operations
+
 	def increment_build (self):
 		f = open (self.name, 'r')
 		lines = f.read ().split ('\n')
@@ -159,6 +161,7 @@ class ECF_PROJECT_FILE (object):
 		f.close ()
 
 # Implementation
+
 	def edit_version_line (self, lines):
 		for i in range (0, len (lines) - 1):
 			line = lines [i]
@@ -175,6 +178,7 @@ class ECF_PROJECT_FILE (object):
 						xml += attribute_template % (name, value)
 					lines [i] = xml + '/>'
 					break
+#end class
 
 # Pyxis format ECF project file
 class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
@@ -182,8 +186,9 @@ class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
 # Basic operations
 	def increment_build (self):
 		ECF_PROJECT_FILE.increment_build (self)
-		# Write new ecf XML file
-		if call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.name]) > 0:
+		# Generate new ecf XML file
+		status = call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.name])
+		if status > 0:
 			print "Error in pecf to ecf conversion"
 
 # Implementation
@@ -195,6 +200,7 @@ class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
 				pos_space = line.rfind (' ')
 				lines [i] = line [:pos_space + 1] + str (int (line [pos_space + 1:]) + 1)
 				break
+#end class
 
 class EIFFEL_PROJECT (object):
 
@@ -264,6 +270,8 @@ class EIFFEL_PROJECT (object):
 	def versioned_exe_name (self):
 		pass
 
+#end class
+
 class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 
 # Basic operation
@@ -312,3 +320,4 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		template = "%s" + '-' + self.version + "%s"
 		return template % path.splitext (self.exe_name)
 
+#end class

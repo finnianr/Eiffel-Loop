@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:41:21 GMT (Monday 5th August 2019)"
-	revision: "8"
+	date: "2019-12-22 12:25:08 GMT (Sunday 22nd December 2019)"
+	revision: "9"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -30,7 +30,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_CRC_32
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make_empty, make_from_template_and_output, make_from_file, make_from_string
@@ -86,9 +86,9 @@ feature -- Element change
 
 	append_files (list: LIST [EL_FILE_PATH])
 		local
-			crc: like Crc_32.crc_generator
+			crc: like crc_generator
 		do
-			crc := Crc_32.crc_generator
+			crc := crc_generator
 			crc.set_checksum (digest)
 			list.do_all (agent crc.add_file)
 			digest := crc.checksum
