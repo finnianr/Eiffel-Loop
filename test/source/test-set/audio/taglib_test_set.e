@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-23 9:58:54 GMT (Monday 23rd December 2019)"
-	revision: "11"
+	date: "2019-12-23 10:41:09 GMT (Monday 23rd December 2019)"
+	revision: "12"
 
 class
 	TAGLIB_TEST_SET
@@ -53,11 +53,11 @@ feature -- Tests
 		do
 			across file_list as path loop
 				create mp3.make (path.item)
+				lio.put_path_field ("MP3", path.item.relative_path (Work_area_dir))
+				lio.tab_right
+				lio.put_new_line
 				if not mp3.has_version_2 then
-					lio.put_path_field ("MP3", path.item.relative_path (Work_area_dir))
-					lio.tab_right
-					lio.put_new_line
---					print_frames (mp3.tag_v2)
+					print_frames (mp3.tag_v2)
 				end
 				lio.tab_left
 				lio.put_new_line
