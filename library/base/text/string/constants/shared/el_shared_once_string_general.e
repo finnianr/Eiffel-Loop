@@ -1,10 +1,10 @@
 note
 	description: "Abstract base class for shared string that can be used as a temporary bufffer"
 	descendants: "[
-		EL_SHARED_ONCE_STRING_GENERAL*
-			[$source EL_SHARED_ONCE_ZSTRING]
-			[$source EL_SHARED_ONCE_STRING_8]
-			[$source EL_SHARED_ONCE_STRING_32]
+			EL_SHARED_ONCE_STRING_GENERAL*
+				[$source EL_SHARED_ONCE_ZSTRING]
+				[$source EL_SHARED_ONCE_STRING_8]
+				[$source EL_SHARED_ONCE_STRING_32]
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-23 10:52:46 GMT (Monday 23rd December 2019)"
-	revision: "1"
+	date: "2019-12-23 10:56:03 GMT (Monday 23rd December 2019)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_ONCE_STRING_GENERAL

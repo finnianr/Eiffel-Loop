@@ -1,13 +1,13 @@
 note
-	description: "CRC32 algorithm described in RFC 1952"
+	description: "CRC32 algorithm described in [https://tools.ietf.org/rfc/rfc1952.txt IETF RFC 1952"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:47:08 GMT (Sunday 22nd December 2019)"
-	revision: "10"
+	date: "2019-12-23 11:12:28 GMT (Monday 23rd December 2019)"
+	revision: "11"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -61,31 +61,31 @@ feature -- Add basic types
 	add_boolean (b: BOOLEAN)
 			--
 		do
-			add_array ($b, 1, Boolean_bytes)
+			add_memory ($b, 1, Boolean_bytes)
 		end
 
 	add_character_8 (c: CHARACTER)
 			--
 		do
-			add_array ($c, 1, Character_8_bytes)
+			add_memory ($c, 1, Character_8_bytes)
 		end
 
 	add_character_32 (c: CHARACTER_32)
 			--
 		do
-			add_array ($c, 1, Character_32_bytes)
+			add_memory ($c, 1, Character_32_bytes)
 		end
 
 	add_data (data: MANAGED_POINTER)
 			--
 		do
-			add_array (data.item, data.count, 1)
+			add_memory (data.item, data.count, 1)
 		end
 
 	add_pointer (b: POINTER)
 			--
 		do
-			add_array ($b, 1, Pointer_bytes)
+			add_memory ($b, 1, Pointer_bytes)
 		end
 
 	add_tuple (a_tuple: TUPLE)
@@ -139,13 +139,7 @@ feature -- Add basic types
 					when {TUPLE}.Reference_code then
 						l_reference := a_tuple.reference_item (i)
 						if attached {READABLE_STRING_GENERAL} l_reference as string then
-							if attached {ZSTRING} string as zstr then
-								add_string (zstr)
-							elseif attached {STRING} string as str_8 then
-								add_string_8 (str_8)
-							elseif attached {STRING_32} string as str_32 then
-								add_string_32 (str_32)
-							end
+							add_string_general (string)
 						elseif attached {EL_PATH} l_reference as path then
 							add_path (path)
 						elseif attached {PATH} l_reference as ise_path then
@@ -162,13 +156,13 @@ feature -- Add reals
 	add_real_32, add_real (real: REAL)
 			--
 		do
-			add_array ($real, 1, Real_32_bytes)
+			add_memory ($real, 1, Real_32_bytes)
 		end
 
 	add_real_64, add_double (real: DOUBLE)
 			--
 		do
-			add_array ($real, 1, Real_64_bytes)
+			add_memory ($real, 1, Real_64_bytes)
 		end
 
 feature -- Add integers
@@ -176,25 +170,25 @@ feature -- Add integers
 	add_integer_8 (n: INTEGER_8)
 			--
 		do
-			add_array ($n, 1, Integer_8_bytes)
+			add_memory ($n, 1, Integer_8_bytes)
 		end
 
 	add_integer_16 (n: INTEGER_16)
 			--
 		do
-			add_array ($n, 1, Integer_16_bytes)
+			add_memory ($n, 1, Integer_16_bytes)
 		end
 
 	add_integer_32, add_integer (n: INTEGER)
 			--
 		do
-			add_array ($n, 1, Integer_32_bytes)
+			add_memory ($n, 1, Integer_32_bytes)
 		end
 
 	add_integer_64 (n: INTEGER_64)
 			--
 		do
-			add_array ($n, 1, Integer_64_bytes)
+			add_memory ($n, 1, Integer_64_bytes)
 		end
 
 feature -- Add naturals
@@ -202,25 +196,25 @@ feature -- Add naturals
 	add_natural_8 (n: NATURAL_8)
 			--
 		do
-			add_array ($n, 1, Natural_8_bytes)
+			add_memory ($n, 1, Natural_8_bytes)
 		end
 
 	add_natural_16 (n: NATURAL_16)
 			--
 		do
-			add_array ($n, 1, Natural_16_bytes)
+			add_memory ($n, 1, Natural_16_bytes)
 		end
 
 	add_natural_32, add_natural (n: NATURAL)
 			--
 		do
-			add_array ($n, 1, Natural_32_bytes)
+			add_memory ($n, 1, Natural_32_bytes)
 		end
 
 	add_natural_64 (n: NATURAL_64)
 			--
 		do
-			add_array ($n, 1, Natural_64_bytes)
+			add_memory ($n, 1, Natural_64_bytes)
 		end
 
 feature -- Add strings
@@ -241,35 +235,40 @@ feature -- Add strings
 	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
 		do
 			across list as str loop
-				if attached {ZSTRING} str.item as str_z then
-					add_string (str_z)
-				elseif attached {STRING_8} str.item as str_8 then
-					add_string_8 (str_8)
-				elseif attached {STRING_32} str.item as str_32 then
-					add_string_32 (str_32)
-				end
+				add_string_general (str.item)
 			end
 		end
 
 	add_string (str: ZSTRING)
 			--
 		do
-			add_array (str.area.base_address, str.count, character_8_bytes)
+			add_memory (str.area.base_address, str.count, character_8_bytes)
 			if str.has_mixed_encoding then
-				add_array (str.unencoded_area.base_address, str.unencoded_area.count, character_32_bytes)
+				add_memory (str.unencoded_area.base_address, str.unencoded_area.count, character_32_bytes)
 			end
 		end
 
 	add_string_32 (str: STRING_32)
 			--
 		do
-			add_array (str.area.base_address, str.count, character_32_bytes)
+			add_memory (str.area.base_address, str.count, character_32_bytes)
 		end
 
 	add_string_8 (str: STRING)
 			--
 		do
-			add_array (str.area.base_address, str.count, character_8_bytes)
+			add_memory (str.area.base_address, str.count, character_8_bytes)
+		end
+
+	add_string_general (general: READABLE_STRING_GENERAL)
+		do
+			if attached {ZSTRING} general as str then
+				add_string (str)
+			elseif attached {STRING_8} general as str_8 then
+				add_string_8 (str_8)
+			elseif attached {STRING_32} general as str_32 then
+				add_string_32 (str_32)
+			end
 		end
 
 feature -- Element change
@@ -286,7 +285,8 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	add_array (array_ptr: POINTER; count, item_bytes: INTEGER)
+	add_memory (array_ptr: POINTER; count, item_bytes: INTEGER)
+		-- add `count' items of raw memory data of size `item_bytes'
 		local
 			i: INTEGER; c, index: NATURAL
 			table: like CRC_table
@@ -303,7 +303,7 @@ feature {NONE} -- Implementation
 			set_from_pointer (Default_pointer, 0)
 		end
 
-feature -- Constants
+feature {NONE} -- Constants
 
 	CRC_table: SPECIAL [NATURAL]
  			--

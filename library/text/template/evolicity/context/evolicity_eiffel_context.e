@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-03 13:51:11 GMT (Thursday 3rd January 2019)"
-	revision: "11"
+	date: "2019-12-23 17:03:26 GMT (Monday 23rd December 2019)"
+	revision: "12"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -52,6 +52,10 @@ feature {EVOLICITY_EIFFEL_CONTEXT} -- Factory
 		do
 			Result := getter_function_table
 			Result.compare_objects
+		ensure
+			all_targets_are_current: across Result as function all function.item.target = Current end
+				-- if this post-condition fails then the call `getter_action.set_target (Current)'
+				-- in `context_item' for the `function.item' will cause a segmentation fault
 		end
 
 feature {NONE} -- Implementation
