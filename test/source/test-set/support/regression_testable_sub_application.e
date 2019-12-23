@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "2"
+	date: "2019-12-22 14:16:26 GMT (Sunday 22nd December 2019)"
+	revision: "3"
 
 deferred class
 	REGRESSION_TESTABLE_SUB_APPLICATION
@@ -15,10 +15,13 @@ deferred class
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		undefine
-			Test_data_dir
+			test_data_dir
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		rename
+			EL_test_data_dir as test_data_dir
+		end
 
 feature {NONE} -- Implementation
 

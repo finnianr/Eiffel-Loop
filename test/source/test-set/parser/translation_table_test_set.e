@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:30:13 GMT (Sunday 22nd December 2019)"
-	revision: "5"
+	date: "2019-12-22 14:17:20 GMT (Sunday 22nd December 2019)"
+	revision: "6"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			crc_32 := crc_generator
 			across Pyxis_translation_checksums as checksum loop
 				crc_32.reset
-				pyxis_file_path := Test_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)
+				pyxis_file_path := EL_test_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)
 				log.put_path_field ("Localization", pyxis_file_path)
 				log.put_new_line
 				across << "en", "de" >> as language loop

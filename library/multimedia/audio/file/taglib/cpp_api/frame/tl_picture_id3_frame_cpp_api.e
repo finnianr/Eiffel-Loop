@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:23:19 GMT (Tuesday 12th November 2019)"
-	revision: "4"
+	date: "2019-12-22 13:51:18 GMT (Sunday 22nd December 2019)"
+	revision: "5"
 
 class
 	TL_PICTURE_ID3_FRAME_CPP_API
@@ -57,6 +57,13 @@ feature {NONE} -- C++ Externals
 				TagLib::String &text = *((TagLib::String*)$text_out);
 				text.clear().append (((TagLib::ID3v2::AttachedPictureFrame*)$self)->mimeType ())
 			]"
+		end
+
+	frozen cpp_type_enum (self: POINTER): NATURAL_8
+		external
+			"C++ [TagLib::ID3v2::AttachedPictureFrame %"mpeg/id3v2/frames/attachedpictureframe.h%"] (): EIF_NATURAL_8"
+		alias
+			"type"
 		end
 
 end

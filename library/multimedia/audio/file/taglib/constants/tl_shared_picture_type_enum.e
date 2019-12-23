@@ -1,24 +1,24 @@
 note
-	description: "Shared access to routines of class [$source EL_CRC_32_CHECKSUM_ROUTINES]"
+	description: "Tl shared picture type enum"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:49:33 GMT (Sunday 22nd December 2019)"
-	revision: "2"
+	date: "2019-12-22 13:27:04 GMT (Sunday 22nd December 2019)"
+	revision: "1"
 
 deferred class
-	EL_MODULE_CHECKSUM
+	TL_SHARED_PICTURE_TYPE_ENUM
 
 inherit
-	EL_MODULE
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Checksum: EL_CRC_32_CHECKSUM_ROUTINES
+	Picture_type: TL_PICTURE_TYPE_ENUM
 		once
-			create Result
+			create Result.make
 		end
 end

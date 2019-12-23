@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 16:15:08 GMT (Thursday 31st October 2019)"
-	revision: "6"
+	date: "2019-12-22 17:00:13 GMT (Sunday 22nd December 2019)"
+	revision: "7"
 
 class
 	TL_MPEG_FILE_CPP_API
@@ -50,6 +50,7 @@ feature {NONE} -- C++ Externals
 		alias
 			"ID3v1Tag"
 		end
+		
 	frozen cpp_ID3_v2_tag (self_ptr: POINTER; create_tag: BOOLEAN): POINTER
 		--	ID3v2::Tag *ID3v2Tag(bool create = false);
 		external

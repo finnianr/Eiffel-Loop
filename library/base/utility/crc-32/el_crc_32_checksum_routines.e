@@ -1,13 +1,13 @@
 note
-	description: "Crc 32 checksum routines"
+	description: "CRC 32 checksum routines accessible via [$source EL_MODULE_CHECKSUM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:39:38 GMT (Sunday 22nd December 2019)"
-	revision: "1"
+	date: "2019-12-22 12:48:47 GMT (Sunday 22nd December 2019)"
+	revision: "2"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES

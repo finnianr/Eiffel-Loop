@@ -6,22 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 19:14:12 GMT (Wednesday 30th October 2019)"
-	revision: "4"
+	date: "2019-12-22 14:07:16 GMT (Sunday 22nd December 2019)"
+	revision: "5"
 
 class
 	ID3_TAG_INFO_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as Eiffel_loop_dir
+		end
 
-	ID3_SHARED_FRAME_FIELD_TYPES
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_LIO
 
 	EL_MODULE_NAMING
+
+	ID3_SHARED_FRAME_FIELD_TYPES
 
 feature -- Tests
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 14:14:28 GMT (Saturday 5th October 2019)"
-	revision: "1"
+	date: "2019-12-22 14:04:29 GMT (Sunday 22nd December 2019)"
+	revision: "2"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -33,7 +33,7 @@ feature {NONE} -- Events
 			list := source_file_list
 			create file_list.make_with_count (list.count)
 			across list as path loop
-				relative_path := Work_area_dir + path.item.relative_path (eiffel_loop_dir)
+				relative_path := Work_area_dir + path.item.relative_path (data_dir)
 				relative_dir := relative_path.parent
 				OS.File_system.make_directory (relative_dir)
 				OS.copy_file (path.item, relative_dir)
@@ -47,29 +47,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	data_dir: EL_DIR_PATH
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
 	file_list: EL_FILE_PATH_LIST
-
-feature {NONE} -- Constants
-
-	Eiffel_loop: ZSTRING
-		once
-			Result := "Eiffel-Loop"
-		end
-
-	Eiffel_loop_dir: EL_DIR_PATH
-		local
-			steps: EL_PATH_STEPS
-		do
-			from
-				steps := Directory.current_working
-			until
-				steps.is_empty or else steps.last ~ Eiffel_loop
-			loop
-				steps.remove_tail (1)
-			end
-			Result := steps
-		end
 
 end

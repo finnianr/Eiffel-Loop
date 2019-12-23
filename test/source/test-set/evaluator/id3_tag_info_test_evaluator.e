@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-29 11:19:17 GMT (Tuesday 29th October 2019)"
-	revision: "3"
+	date: "2019-12-22 16:53:02 GMT (Sunday 22nd December 2019)"
+	revision: "4"
 
 class
 	ID3_TAG_INFO_TEST_EVALUATOR
@@ -20,7 +20,7 @@ feature {NONE} -- Implementation
 	test_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["libid3_info", 	agent item.test_libid3_info],
+--				["libid3_info", 	agent item.test_libid3_info],
 				["underbit_id3_info", agent item.test_underbit_id3_info]
 			>>)
 		end

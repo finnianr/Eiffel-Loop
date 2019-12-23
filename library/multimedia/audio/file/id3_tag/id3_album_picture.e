@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:49:40 GMT (Sunday 22nd December 2019)"
-	revision: "8"
+	date: "2019-12-22 13:13:40 GMT (Sunday 22nd December 2019)"
+	revision: "9"
 
 class
 	ID3_ALBUM_PICTURE
@@ -18,12 +18,12 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_FILE_SYSTEM
-
 	EL_MODULE_CHECKSUM
 		rename
 			checksum as Mod_checksum
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	default_create, make, make_from_file

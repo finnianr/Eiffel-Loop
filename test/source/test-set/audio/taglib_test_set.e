@@ -6,18 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:38:41 GMT (Tuesday 12th November 2019)"
-	revision: "10"
+	date: "2019-12-23 9:58:54 GMT (Monday 23rd December 2019)"
+	revision: "11"
 
 class
 	TAGLIB_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			data_dir as Eiffel_loop_dir
+		end
+
+	EL_EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_LIO
 
 	EL_MODULE_NAMING
+
+	EL_MODULE_TUPLE
 
 feature -- Tests
 
@@ -46,12 +53,14 @@ feature -- Tests
 		do
 			across file_list as path loop
 				create mp3.make (path.item)
-				if mp3.has_version_2 then
+				if not mp3.has_version_2 then
 					lio.put_path_field ("MP3", path.item.relative_path (Work_area_dir))
+					lio.tab_right
 					lio.put_new_line
-					print_frames (mp3.tag_v2)
-					lio.put_new_line
+--					print_frames (mp3.tag_v2)
 				end
+				lio.tab_left
+				lio.put_new_line
 				mp3.dispose -- Allow deletion of files
 			end
 		end
@@ -77,6 +86,7 @@ feature {NONE} -- Implementation
 					lio.put_string_field ("description", pic.description)
 					lio.put_new_line
 					lio.put_string_field ("mime_type", pic.mime_type)
+					lio.put_string_field ("; type", pic.type)
 					lio.put_new_line
 					lio.put_integer_field ("byte count", pic.picture.count)
 					lio.put_new_line
@@ -117,7 +127,8 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["contrib/C++/taglib/test_data"]), filter)
+--			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["contrib/C++/taglib/test_data"]), Filter.mp3)
+			Result := OS.file_list (EL_test_data_dir.joined_dir_path ("id3$"), Filter.every)
 		end
 
 feature {NONE} -- Constants
@@ -132,7 +143,11 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Filter: STRING = "*.mp3"
+	Filter: TUPLE [every, mp3, tag: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "*, *.mp3, *.tag")
+		end
 
 	Index_template: ZSTRING
 		once

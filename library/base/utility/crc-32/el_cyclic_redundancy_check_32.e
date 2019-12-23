@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:40:09 GMT (Sunday 22nd December 2019)"
-	revision: "9"
+	date: "2019-12-22 12:47:08 GMT (Sunday 22nd December 2019)"
+	revision: "10"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -150,7 +150,6 @@ feature -- Add basic types
 							add_path (path)
 						elseif attached {PATH} l_reference as ise_path then
 							add_ise_path (ise_path)
-						else
 						end
 				else
 				end

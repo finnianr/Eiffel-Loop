@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:51:41 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2019-12-22 14:17:08 GMT (Sunday 22nd December 2019)"
+	revision: "4"
 
 class
 	EIFFEL_LOOP_TEST_SET
@@ -34,7 +34,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
-			Execution_environment.push_current_working (Test_data_dir)
+			Execution_environment.push_current_working (EL_test_data_dir)
 		end
 
 	on_clean

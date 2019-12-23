@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:24:55 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2019-12-22 13:53:47 GMT (Sunday 22nd December 2019)"
+	revision: "4"
 
 class
 	TL_PICTURE_ID3_FRAME
@@ -21,6 +21,8 @@ inherit
 		end
 
 	TL_SHARED_ONCE_STRING
+
+	TL_SHARED_PICTURE_TYPE_ENUM
 
 create
 	make
@@ -44,4 +46,15 @@ feature -- Access
 			Result := Once_string.to_string_8
 		end
 
+	type_enum: NATURAL_8
+		do
+			Result := cpp_type_enum (self_ptr)
+		ensure
+			valid_type: Picture_type.is_valid_value (Result)
+		end
+
+	type: STRING
+		do
+			Result := Picture_type.name (type_enum)
+		end
 end
