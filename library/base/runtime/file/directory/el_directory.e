@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:55:22 GMT (Tuesday 19th November 2019)"
-	revision: "11"
+	date: "2019-12-24 18:28:48 GMT (Tuesday 24th December 2019)"
+	revision: "12"
 
 class
 	EL_DIRECTORY
@@ -16,16 +16,17 @@ inherit
 	DIRECTORY
 		rename
 			make as make_from_string,
-			set_name as set_path,
 			entries as path_entries,
 			internal_name as internal_path,
 			name as obsolete_name,
 			readentry as obsolete_readentry,
-			lastentry as obsolete_lastentry
+			lastentry as obsolete_lastentry,
+			internal_detachable_name_pointer as internal_path_pointer,
+			set_name as set_path_name
 		export
-			{NONE} obsolete_readentry, obsolete_lastentry
+			{NONE} obsolete_readentry, obsolete_lastentry, set_path_name
 		redefine
-			default_create, delete_content_with_action
+			delete_content_with_action, internal_path, set_path_name
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -33,21 +34,27 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	default_create, make, make_open_read, make_with_path
+	make_default, make, make_open_read, make_with_path
 
 feature -- Initialization
 
-	default_create
+	make_default
 		do
-			internal_path := Empty_string_8
-			create internal_detachable_name_pointer.make (0)
+			create internal_path.make_empty
+			create internal_path_pointer.make (0)
+			mode := Close_directory
+			-- if mode is not set to closed then this may trigger a segmentation fault
+			-- during the final garbage collection on application exit. See routine `dispose'.
+		ensure
+			closed: is_closed
 		end
 
 	make (dir_path: EL_DIR_PATH)
 			-- Create directory object for directory
 			-- of name `dn'.
 		do
-			make_with_name (dir_path)
+			make_default
+			set_path (dir_path)
 		end
 
 feature -- Access
@@ -106,11 +113,29 @@ feature -- Access
 			read_recursive_entries (Result, Type_file, extension)
 		end
 
+feature -- Element change
+
+	set_path_name (a_name: STRING_32)
+			-- Set `name' with `a_name'.
+		do
+			internal_path := a_name
+			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
+		end
+
+	set_path (a_path: EL_PATH)
+		do
+			internal_path.wipe_out
+			a_path.append_to_32 (internal_path)
+			internal_path_pointer := file_info.file_name_to_pointer (internal_path, internal_path_pointer)
+		ensure
+			name_set: internal_path ~ a_path.as_string_32
+		end
+
 feature {EL_SHARED_DIRECTORY} -- Access
 
 	named (a_path: EL_DIR_PATH): EL_DIRECTORY
 		do
-			set_path (a_path.as_string_32)
+			set_path (a_path)
 			Result := Current
 		end
 
@@ -306,16 +331,21 @@ feature {EL_DIRECTORY} -- Implementation
 		require
 			is_open: true
 		local
-			dir_path, entry_path: EL_DIR_PATH; info: like file_info; dir: EL_DIRECTORY
-			name: STRING_32; extension_matches: BOOLEAN; dot_position: INTEGER
+			info: like file_info; dir: EL_DIRECTORY
+			extension_matches: BOOLEAN; dot_position: INTEGER; separator: CHARACTER_32
+			entry_path, name: STRING_32
 		do
-			dir_path := path; info := file_info
+			create entry_path.make_empty; info := file_info
 			info.set_is_following_symlinks (is_following_symlinks)
+			separator := Operating_environment.Directory_separator
 			create dir.make_open_read (internal_path)
 			from dir.start; dir.read_next until dir.last_entry_pointer = default_pointer loop
 				name := info.pointer_to_file_name_32 (dir.last_entry_pointer)
 				if not is_current_or_parent (name) then
-					entry_path := dir_path.joined_dir_path (name)
+					entry_path.wipe_out
+					entry_path.append (internal_path)
+					entry_path.append_character (separator)
+					entry_path.append (name)
 					info.update (entry_path)
 					if info.exists then
 						if extension.is_empty then
@@ -329,10 +359,10 @@ feature {EL_DIRECTORY} -- Implementation
 						if extension_matches then
 							if info.is_directory then
 								if (type = Type_any or type = Type_directory) then
-									list.extend (entry_path)
+									list.extend (create {EL_DIR_PATH}.make (entry_path))
 								end
 							elseif (type = Type_any or type = Type_file) then
-								list.extend (dir_path + name)
+								list.extend (create {EL_FILE_PATH}.make (entry_path))
 							end
 						end
 					end
@@ -344,32 +374,33 @@ feature {EL_DIRECTORY} -- Implementation
 
 	read_recursive_entries (list: LIST [EL_PATH]; type: INTEGER; extension: READABLE_STRING_GENERAL)
 		local
-			l_path: like internal_path; l_directories: like directories
+			l_path: EL_DIR_PATH; directory_list: like directories
 			old_count: INTEGER
 		do
 			old_count := list.count
 			read_entries (list, type, extension)
-			l_path := internal_path
+			create l_path.make (internal_path)
 			if type = Type_directory then
-				create l_directories.make (list.count - old_count)
-				if attached {like directories} list as dir_list and not l_directories.full then
+				create directory_list.make (list.count - old_count)
+				if attached {like directories} list as dir_list and not directory_list.full then
 					from dir_list.go_i_th (old_count + 1) until dir_list.after loop
-						l_directories.extend (dir_list.item)
+						directory_list.extend (dir_list.item)
 						dir_list.forth
 					end
 				end
 			else
-				l_directories := directories
+				directory_list := directories
 			end
-			if not l_directories.is_empty then
-				from l_directories.start until l_directories.after loop
-					set_path (l_directories.item.as_string_32)
-					read_recursive_entries (list, type, extension)
-					l_directories.forth
-				end
-				set_path (l_path)
+			across directory_list as dir loop
+				set_path (dir.item)
+				read_recursive_entries (list, type, extension)
 			end
+			set_path (l_path)
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal_path: STRING_32
 
 feature {NONE} -- Constants
 

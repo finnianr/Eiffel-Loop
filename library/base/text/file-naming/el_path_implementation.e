@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-27 23:03:51 GMT (Friday 27th September 2019)"
-	revision: "2"
+	date: "2019-12-24 17:18:49 GMT (Tuesday 24th December 2019)"
+	revision: "3"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -102,6 +102,18 @@ feature -- Basic operations
 			str.grow (str.count + count)
 			from i := 1 until i > part_count loop
 				str.append (part_string (i))
+				i := i + 1
+			end
+		end
+
+	append_to_32 (str: STRING_32)
+		-- append path to string `str'
+		local
+			i: INTEGER
+		do
+			str.grow (str.count + count)
+			from i := 1 until i > part_count loop
+				part_string (i).append_to_string_32 (str)
 				i := i + 1
 			end
 		end

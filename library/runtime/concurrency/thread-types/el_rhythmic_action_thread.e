@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2019-12-24 14:10:43 GMT (Tuesday 24th December 2019)"
+	revision: "4"
 
 deferred class
 	EL_RHYTHMIC_ACTION_THREAD
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_CONTINUOUS_ACTION_THREAD
 		redefine
-			execute_thread
+			do_execution
 		end
 
 feature {NONE} -- Initialization
@@ -40,9 +40,9 @@ feature -- Element change
 			interval := an_interval
 		end
 
-feature {NONE} -- Implementation
+feature {EL_INTERNAL_THREAD} -- Implementation
 
-	execute_thread
+	do_execution
 			-- Continuous loop to do action
 		do
 			set_active
@@ -54,6 +54,8 @@ feature {NONE} -- Implementation
 			end
 			set_stopped
 		end
+
+feature {NONE} -- Internal attributes
 
 	interval: INTEGER
 		-- Time interval in millisecs

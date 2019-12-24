@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-12-24 14:17:19 GMT (Tuesday 24th December 2019)"
+	revision: "5"
 
 class
 	EL_THREAD_MANAGER
@@ -22,6 +22,8 @@ inherit
 		undefine
 			default_create
 		end
+
+	EL_MODULE_LIO
 
 create
 	default_create
@@ -53,6 +55,16 @@ feature -- Basic operations
 
 	list_active
 		do
+			restrict_access
+--			synchronized
+				across threads as thread loop
+					if thread.item.is_active then
+						lio.put_labeled_string ("Active thread", thread.item.name)
+						lio.put_new_line
+					end
+				end
+--			end
+			end_restriction
 		end
 
 	stop_all

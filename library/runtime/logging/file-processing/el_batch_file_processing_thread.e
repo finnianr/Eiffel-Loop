@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:43:16 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2019-12-24 14:12:30 GMT (Tuesday 24th December 2019)"
+	revision: "5"
 
 deferred class
 	EL_BATCH_FILE_PROCESSING_THREAD
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_consumer
 		redefine
-			execute_thread, on_start
+			do_execution, on_start
 		end
 
 	EL_MODULE_LOG
@@ -35,14 +35,6 @@ feature {NONE} -- Initialization
 		end
 
 feature {NONE} -- Basic operations
-
-	execute_thread
-			--
-		do
-			log.enter ("execute")
-			Precursor
-			log.exit
-		end
 
 	process_file (
 		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
@@ -70,7 +62,17 @@ feature {NONE} -- Event handling
 			log_manager.redirect_thread_to_console (2)
 		end
 
-feature {NONE} -- Implementation
+feature {EL_INTERNAL_THREAD} -- Implementation
+
+	do_execution
+			--
+		do
+			log.enter ("execute")
+			Precursor
+			log.exit
+		end
+
+feature {NONE} -- Internal attributes
 
 	file_processed_event_listener: EL_EVENT_LISTENER
 

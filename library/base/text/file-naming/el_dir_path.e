@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:27:27 GMT (Tuesday 19th November 2019)"
-	revision: "13"
+	date: "2019-12-24 14:08:22 GMT (Tuesday 24th December 2019)"
+	revision: "14"
 
 class
 	EL_DIR_PATH
@@ -72,11 +72,6 @@ feature -- Conversion
 		end
 
 feature -- Status report
-
-	exists: BOOLEAN
-		do
-			Result := Shared_directory.named (Current).exists
-		end
 
 	exists_and_is_writeable: BOOLEAN
 		local

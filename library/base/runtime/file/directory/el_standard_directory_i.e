@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:20:59 GMT (Tuesday 19th November 2019)"
-	revision: "10"
+	date: "2019-12-24 18:23:07 GMT (Tuesday 24th December 2019)"
+	revision: "11"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -42,7 +42,7 @@ feature -- Access
 
 	separator: CHARACTER
 		do
-			Result := operating_environment.Directory_separator
+			Result := Operating_environment.Directory_separator
 		end
 
 	relative_parent (step_count: INTEGER): ZSTRING

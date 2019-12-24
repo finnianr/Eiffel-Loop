@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 10:06:25 GMT (Thursday 26th September 2019)"
-	revision: "17"
+	date: "2019-12-24 14:08:49 GMT (Tuesday 24th December 2019)"
+	revision: "18"
 
 class
 	EL_FILE_PATH
@@ -68,10 +68,5 @@ feature -- Access
 feature -- Status report
 
 	Is_directory: BOOLEAN = False
-
-	exists: BOOLEAN
-		do
-			Result := File_system.file_exists (Current)
-		end
 
 end

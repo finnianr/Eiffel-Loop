@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-04-07 9:27:01 GMT (Sunday 7th April 2019)"
-	revision: "5"
+	date: "2019-12-24 10:46:28 GMT (Tuesday 24th December 2019)"
+	revision: "6"
 
 class
 	EL_INTEGER_MATH
@@ -35,7 +35,11 @@ feature -- Access
 
 	digits (number: INTEGER): INTEGER
 		do
-			Result := Double_math.log10 (number).floor + 1
+			if number = number.zero then
+				Result := 1
+			else
+				Result := Double_math.log10 (number.abs).floor + 1
+			end
 		end
 
 feature {NONE} -- Constants

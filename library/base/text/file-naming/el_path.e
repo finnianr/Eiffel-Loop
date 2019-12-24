@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-27 23:29:22 GMT (Friday 27th September 2019)"
-	revision: "32"
+	date: "2019-12-24 14:07:43 GMT (Tuesday 24th December 2019)"
+	revision: "33"
 
 deferred class
 	EL_PATH
@@ -315,7 +315,8 @@ feature -- Status Query
 		end
 
 	exists: BOOLEAN
-		deferred
+		do
+			Result := File_system.path_exists (Current)
 		end
 
 	has_dot_extension: BOOLEAN

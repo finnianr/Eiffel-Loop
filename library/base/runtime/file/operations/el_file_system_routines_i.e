@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:51:53 GMT (Sunday 22nd December 2019)"
-	revision: "18"
+	date: "2019-12-24 15:08:25 GMT (Tuesday 24th December 2019)"
+	revision: "19"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -21,6 +21,13 @@ inherit
 	EL_MODULE_CHECKSUM
 		rename
 			copy as copy_object
+		end
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			create internal_info_file.make
 		end
 
 feature -- Access
@@ -125,13 +132,13 @@ feature -- Measurement
 
 	file_access_time (file_path: EL_FILE_PATH): INTEGER
 		do
-			Result := closed_raw_file (file_path).access_date
+			Result := info_file (file_path).access_date
 		end
 
 	file_byte_count (a_file_path: EL_FILE_PATH): INTEGER
 			--
 		do
-			Result := closed_raw_file (a_file_path).count
+			Result := info_file (a_file_path).count
 		end
 
 	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
@@ -147,7 +154,7 @@ feature -- Measurement
 
 	file_modification_time (file_path: EL_FILE_PATH): INTEGER
 		do
-			Result := closed_raw_file (file_path).date
+			Result := info_file (file_path).date
 		end
 
 feature -- File property change
@@ -271,7 +278,7 @@ feature -- Basic operations
 		require
 			file_exists: a_file_path.exists
 		do
-			closed_raw_file (a_file_path).delete
+			info_file (a_file_path).delete
 		end
 
 	rename_file (a_file_path, new_file_path: EL_FILE_PATH)
@@ -279,7 +286,7 @@ feature -- Basic operations
 		require
 			file_exists: a_file_path.exists
 		do
-			closed_raw_file (a_file_path).rename_file (new_file_path)
+			info_file (a_file_path).rename_file (new_file_path)
 		end
 
 	write_plain_text (a_file_path: EL_FILE_PATH; text: STRING)
@@ -294,9 +301,9 @@ feature -- Basic operations
 
 feature -- Status query
 
-	file_exists (a_file_path: EL_FILE_PATH): BOOLEAN
+	directory_exists, file_exists, path_exists (a_path: EL_PATH): BOOLEAN
 		do
-			Result := closed_raw_file (a_file_path).exists
+			Result := info_file (a_path).exists
 		end
 
 	has_content (a_file_path: EL_FILE_PATH): BOOLEAN
@@ -345,7 +352,7 @@ feature {NONE} -- Implementation
 		local
 			file: FILE; l_who: STRING
 		do
-			file := closed_raw_file (path)
+			file := info_file (path)
 			create l_who.make (1)
 			across who as c loop
 				l_who.wipe_out
@@ -354,16 +361,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	closed_raw_file (a_path: EL_PATH): RAW_FILE
+	info_file (a_path: EL_PATH): EL_INFO_RAW_FILE
 			--
 		do
-			if attached {RAW_FILE} internal_raw_file as raw_file then
-				raw_file.make_with_name (a_path.as_string_32)
-				Result := raw_file
-			else
-				create Result.make_with_name (a_path.as_string_32)
-				internal_raw_file := Result
-			end
+			Result := internal_info_file
+			Result.set_path (a_path)
 		end
 
 	notify_progress (file: FILE; final: BOOLEAN)
@@ -379,6 +381,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_raw_file: detachable RAW_FILE
+	internal_info_file: EL_INFO_RAW_FILE
 
 end

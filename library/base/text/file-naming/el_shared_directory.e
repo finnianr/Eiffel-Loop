@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:23:19 GMT (Tuesday 19th November 2019)"
-	revision: "6"
+	date: "2019-12-24 17:53:10 GMT (Tuesday 24th December 2019)"
+	revision: "7"
 
 deferred class
 	EL_SHARED_DIRECTORY
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	Directory: EL_DIRECTORY
 			--
 		once
-			create Result
+			create Result.make_default
 		end
 
 end

@@ -1,13 +1,13 @@
 note
-	description: "Identified thread"
+	description: "Identified internal_thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:21:47 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2019-12-24 13:03:25 GMT (Tuesday 24th December 2019)"
+	revision: "8"
 
 deferred class
 	EL_IDENTIFIED_THREAD
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create thread.make (agent execute_thread)
+			create internal_thread.make (Current)
 		end
 
 feature -- Access
@@ -60,14 +60,14 @@ feature -- Access
 	thread_id: POINTER
 			--
 		do
-			Result := thread.thread_id
+			Result := internal_thread.thread_id
 		end
 
 feature -- Status query
 
 	is_terminated: BOOLEAN
 		do
-			Result := thread.terminated
+			Result := internal_thread.terminated
 		end
 
 feature -- Element change
@@ -83,17 +83,9 @@ feature -- Basic operations
 		deferred
 		end
 
-	execute_thread
-			--
-		do
-			set_active
-			execute
-			set_stopped
-		end
-
 	join
 		do
-			thread.join
+			internal_thread.join
 		end
 
 	launch
@@ -104,13 +96,13 @@ feature -- Basic operations
 
 	launch_with_attributes (attribs: THREAD_ATTRIBUTES)
 		do
-			if not thread.is_launchable then
+			if not internal_thread.is_launchable then
 				check
-					previous_thread_terminated: thread.terminated
+					previous_thread_terminated: internal_thread.terminated
 				end
-				create thread.make (agent execute_thread)
+				create internal_thread.make (Current)
 			end
-			thread.launch_with_attributes (attribs)
+			internal_thread.launch_with_attributes (attribs)
 		end
 
 	sleep (millisecs: INTEGER)
@@ -140,10 +132,20 @@ feature -- Basic operations
 
 		end
 
+feature {EL_INTERNAL_THREAD} -- Implementation
+
+	do_execution
+			--
+		do
+			set_active
+			execute
+			set_stopped
+		end
+
 feature {NONE} -- Internal attributes
 
 	internal_name: detachable like name
 
-	thread: WORKER_THREAD
+	internal_thread: EL_INTERNAL_THREAD
 
 end

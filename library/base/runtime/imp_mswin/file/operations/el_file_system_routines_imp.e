@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:01:12 GMT (Wednesday 21st February 2018)"
-	revision: "6"
+	date: "2019-12-24 14:47:29 GMT (Tuesday 24th December 2019)"
+	revision: "7"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -19,6 +19,9 @@ inherit
 		rename
 			copy as copy_object
 		end
+
+create
+	make
 
 feature {NONE} -- Implementation
 

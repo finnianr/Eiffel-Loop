@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:44:09 GMT (Monday 5th August 2019)"
-	revision: "11"
+	date: "2019-12-24 10:36:14 GMT (Tuesday 24th December 2019)"
+	revision: "12"
 
 class
 	EL_CURRENCY
@@ -68,7 +68,7 @@ feature -- Access
 				digit_count := digit_count - 2
 			end
 			create Result.make (digit_count + separator_count + symbol.count + 1)
-			Result := amount_x100.out
+			Result.append_integer (amount_x100)
 			if has_decimal then
 				i := Result.count - 1
 				Result.insert_character (separator.decimal, i)
