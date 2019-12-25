@@ -124,9 +124,8 @@ feature -- Element change
 
 	set_path (a_path: EL_PATH)
 		do
-			internal_path.wipe_out
-			a_path.append_to_32 (internal_path)
-			internal_path_pointer := file_info.file_name_to_pointer (internal_path, internal_path_pointer)
+			internal_path.wipe_out a_path.append_to_32 (internal_path)
+			set_path_name (internal_path)
 		ensure
 			name_set: internal_path ~ a_path.as_string_32
 		end
@@ -343,8 +342,10 @@ feature {EL_DIRECTORY} -- Implementation
 				name := info.pointer_to_file_name_32 (dir.last_entry_pointer)
 				if not is_current_or_parent (name) then
 					entry_path.wipe_out
-					entry_path.append (internal_path)
-					entry_path.append_character (separator)
+					if not internal_path.is_empty then
+						entry_path.append (internal_path)
+						entry_path.append_character (separator)
+					end
 					entry_path.append (name)
 					info.update (entry_path)
 					if info.exists then

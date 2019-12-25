@@ -73,3 +73,6 @@ Scons build can now increment build in both pecf and ecf
 Sun 22nd Dec 2019, 12:43:17
 New class EL_MODULE_CHECKSUM and added new routines to EL_CYCLIC_REDUNDANCY_CHECK_32
 
+Tue 24th Dec 2019, 20:02:56
+Fixed EL_DIRECTORY dispose bug on final collect
+

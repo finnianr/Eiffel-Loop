@@ -92,20 +92,6 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	set_operands (getter_action: FUNCTION [ANY]; function_args: TUPLE)
-		-- workaround for Catcall errors in EiffelStudio as for example
-		-- Catcall detected in {ROUTINE}.set_operands for arg#1: expected TUPLE [EL_ZSTRING] but got TUPLE [ANY]
-		local
-			operands: TUPLE; i: INTEGER
-		do
-			operands := getter_action.empty_operands.twin
-			from i := 1 until i > function_args.count loop
-				operands.put (function_args [i], i)
-				i := i + 1
-			end
-			getter_action.set_operands (operands)
-		end
-
 feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Internal attributes
 
 	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]

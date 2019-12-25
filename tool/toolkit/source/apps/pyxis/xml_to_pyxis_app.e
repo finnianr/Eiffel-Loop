@@ -23,6 +23,9 @@ inherit
 		end
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
+		rename
+			EL_test_data_dir as Test_data_dir
+		end
 
 	EL_MODULE_OS
 

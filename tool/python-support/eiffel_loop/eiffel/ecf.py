@@ -366,7 +366,7 @@ class EIFFEL_CONFIG_FILE (object):
 		result = []
 		for ctx in ecf_ctx.context_list ('/system/target[1]/library'):
 			library = LIBRARY (ctx)
-			print library.location (), library.platform
+			#print library.location (), library.platform
 			if not library.is_ise () and library.platform == self.platform:
 				result.append (library)
 		return result
