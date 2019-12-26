@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 10:52:05 GMT (Tuesday 6th August 2019)"
-	revision: "6"
+	date: "2019-12-26 16:58:01 GMT (Thursday 26th December 2019)"
+	revision: "7"
 
 class
 	FILE_COMMAND_TEST_SET
@@ -142,7 +142,6 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_directories_cmd: like Command.new_find_directories
 			dir_path: EL_DIR_PATH
 		do
-			lio.enter ("test_read_directories")
 			dir_path := Work_area_dir.joined_dir_path (Windows_dir)
 			create l_dir.make (dir_path)
 			find_directories_cmd := Command.new_find_directories (dir_path)
@@ -157,8 +156,6 @@ feature -- Tests
 			find_directories_cmd.set_min_depth (1)
 			find_directories_cmd.execute
 			assert_same_entries (l_dir.recursive_directories, find_directories_cmd.path_list)
-
-			lio.exit
 		end
 
 	test_read_directory_files
@@ -166,7 +163,6 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_files_cmd: like Command.new_find_files
 			dir_path: EL_DIR_PATH
 		do
-			lio.enter ("test_read_directory_files")
 			dir_path := Work_area_dir.joined_dir_path (Windows_dir)
 
 			create l_dir.make (dir_path)
@@ -184,11 +180,41 @@ feature -- Tests
 			find_files_cmd := Command.new_find_files (dir_path, "*.text")
 			find_files_cmd.execute
 			assert_same_entries (l_dir.recursive_files_with_extension ("text"), find_files_cmd.path_list)
+		end
 
-			lio.exit
+	test_delete_content_with_action
+		local
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
+			path_count: INTEGER
+		do
+			create deleted_count
+			create l_dir.make (Help_pages_dir)
+			path_count := l_dir.file_count (True) + l_dir.directory_count (True)
+			l_dir.delete_content_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
+			assert ("all files deleted", path_count = deleted_count.item)
+			assert ("tree exists", Help_pages_dir.exists)
+			assert ("is_empty", l_dir.is_empty)
+		end
+
+	test_delete_with_action
+		local
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
+			path_count: INTEGER
+		do
+			create deleted_count
+			create l_dir.make (Help_pages_dir)
+			path_count := l_dir.file_count (True) + l_dir.directory_count (True) + 1
+			l_dir.delete_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
+			assert ("all files deleted", path_count = deleted_count.item)
+			assert ("not tree exists", not Help_pages_dir.exists)
 		end
 
 feature {NONE} -- Events
+
+	on_files_deleted (list: LIST [EL_PATH]; deleted_count: INTEGER_REF)
+		do
+			deleted_count.set_item (list.count + deleted_count)
+		end
 
 	on_prepare
 		local
@@ -408,6 +434,11 @@ feature {NONE} -- Internal attributes
 	dir_set: EL_HASH_SET [EL_DIR_PATH]
 
 feature {NONE} -- Constants
+
+	Help_pages_dir: EL_DIR_PATH
+		once
+			Result := Work_area_dir.joined_dir_tuple ([Help_pages])
+		end
 
 	File_protocol: ZSTRING
 		once

@@ -6,22 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-23 10:47:41 GMT (Monday 23rd December 2019)"
-	revision: "10"
+	date: "2019-09-30 6:28:29 GMT (Monday   30th   September   2019)"
+	revision: "9"
 
 deferred class
 	EL_SHARED_ONCE_ZSTRING
 
 inherit
-	EL_SHARED_ONCE_STRING_GENERAL
-		rename
-			empty_once_general as empty_once_string,
-			once_copy as once_copy,
-			once_substring as once_substring,
-			once_general as Once_string
-		end
+	EL_ANY_SHARED
 
 feature {NONE} -- Implementation
+
+	empty_once_string: like Once_string
+		do
+			Result := Once_string
+			Result.wipe_out
+		end
+
+	once_copy (str: ZSTRING): ZSTRING
+		do
+			Result := empty_once_string
+			Result.append (str)
+		end
 
 	once_copy_general (str: READABLE_STRING_GENERAL): ZSTRING
 		do
@@ -29,14 +35,15 @@ feature {NONE} -- Implementation
 			Result.append_string_general (str)
 		end
 
-	wipe_out_string (str: ZSTRING)
+	once_substring (str: ZSTRING; start_index, end_index: INTEGER): ZSTRING
 		do
-			str.wipe_out
+			Result := empty_once_string
+			Result.append_substring (str, start_index, end_index)
 		end
 
 feature {NONE} -- Constants
 
-	Once_string: ZSTRING
+	Once_string: EL_ZSTRING
 		once
 			create Result.make_empty
 		end

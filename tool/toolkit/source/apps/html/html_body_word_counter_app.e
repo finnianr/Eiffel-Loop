@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:53 GMT (Wednesday 25th September 2019)"
-	revision: "10"
+	date: "2019-12-25 10:59:11 GMT (Wednesday 25th December 2019)"
+	revision: "11"
 
 class
 	HTML_BODY_WORD_COUNTER_APP

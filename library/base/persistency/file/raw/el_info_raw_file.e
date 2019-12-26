@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 18:34:36 GMT (Tuesday 24th December 2019)"
-	revision: "1"
+	date: "2019-12-26 9:10:50 GMT (Thursday 26th December 2019)"
+	revision: "2"
 
 class
 	EL_INFO_RAW_FILE
@@ -46,7 +46,7 @@ feature -- Element change
 			-- Set `name' with `a_name'.
 		do
 			internal_path := a_name
-			file_info_pointer := file_info.file_name_to_pointer (a_name, file_info_pointer)
+			file_info_pointer := Buffered_file_info.file_name_to_pointer (a_name, file_info_pointer)
 		end
 
 	set_path (a_path: EL_PATH)

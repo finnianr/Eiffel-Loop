@@ -6,26 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-23 10:39:32 GMT (Monday 23rd December 2019)"
-	revision: "2"
+	date: "2019-09-30 4:39:45 GMT (Monday   30th   September   2019)"
+	revision: "1"
 
 deferred class
 	EL_SHARED_ONCE_STRING_8
 
 inherit
-	EL_SHARED_ONCE_STRING_GENERAL
-		rename
-			empty_once_general as empty_once_string_8,
-			once_copy as once_copy_8,
-			once_substring as once_substring_8,
-			once_general as Once_string_8
-		end
+	EL_ANY_SHARED
 
 feature {NONE} -- Implementation
 
-	wipe_out_string (str: STRING)
+	empty_once_string_8: like Once_string_8
 		do
-			str.wipe_out
+			Result := Once_string_8
+			Result.wipe_out
+		end
+
+	once_copy_8 (str_8: STRING): STRING
+		do
+			Result := empty_once_string_8
+			Result.append (str_8)
+		end
+
+	once_substring_8 (str_8: STRING; start_index, end_index: INTEGER): STRING
+		do
+			Result := empty_once_string_8
+			Result.append_substring (str_8, start_index, end_index)
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 15:08:25 GMT (Tuesday 24th December 2019)"
-	revision: "19"
+	date: "2019-12-26 13:31:14 GMT (Thursday 26th December 2019)"
+	revision: "20"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -273,12 +273,12 @@ feature -- Basic operations
 			end
 		end
 
-	remove_file (a_file_path: EL_FILE_PATH)
+	remove_file, remove_directory, remove_path (a_path: EL_PATH)
 			--
 		require
-			file_exists: a_file_path.exists
+			exists: a_path.exists
 		do
-			info_file (a_file_path).delete
+			info_file (a_path).delete
 		end
 
 	rename_file (a_file_path, new_file_path: EL_FILE_PATH)

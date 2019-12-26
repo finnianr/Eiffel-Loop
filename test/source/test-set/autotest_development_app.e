@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 16:55:27 GMT (Sunday 22nd December 2019)"
-	revision: "52"
+	date: "2019-12-26 9:07:03 GMT (Thursday 26th December 2019)"
+	revision: "53"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [TAGLIB_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [FILE_COMMAND_TEST_EVALUATOR]
 		once
 			create Result
 		end
@@ -28,6 +28,7 @@ feature {NONE} -- Constants
 	Evaluator_types_all: TUPLE [
 		AMAZON_INSTANT_ACCESS_TEST_EVALUATOR,
 		DATE_TEXT_TEST_EVALUATOR,
+		FILE_COMMAND_TEST_EVALUATOR,
 		HTTP_CONNECTION_TEST_EVALUATOR,
 		SEARCH_ENGINE_TEST_EVALUATOR,
 		ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR,
