@@ -93,6 +93,16 @@ feature -- Status query
 		end
 
 	is_current_or_parent: BOOLEAN
+		local
+			count: INTEGER
+		do
+			count := item.count
+			inspect count
+				when 1, 2 then
+					Result := item.occurrences ('.') = count
+			else
+			end
+		end
 
 feature {NONE} -- Implementation
 
@@ -104,8 +114,6 @@ feature {NONE} -- Implementation
 		end
 
 	read_next
-		local
-			count: INTEGER
 		do
 			last_entry_pointer := directory.next_entry_pointer
 			if last_entry_pointer = default_pointer then
@@ -114,9 +122,6 @@ feature {NONE} -- Implementation
 				item := pointer_to_file_name_32 (last_entry_pointer)
 				internal_path.keep_head (parent_count)
 				internal_path.append (item)
-
-				count := item.count
-				is_current_or_parent := count <= 2 and then item.occurrences ('.') = count
 				update (internal_path)
 			end
 		end

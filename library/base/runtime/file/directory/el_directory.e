@@ -346,6 +346,20 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
+	list_operand (on_delete: PROCEDURE [LIST [EL_PATH]]; capacity: INTEGER): ARRAYED_LIST [EL_PATH]
+		-- get list operand from `on_delete' or set it if it does not exist
+		do
+			if attached on_delete.operands as operands
+				and then operands.valid_index (1)
+				and then attached {ARRAYED_LIST [EL_PATH]} operands.reference_item (1) as list
+			then
+				Result := list
+			else
+				create Result.make (capacity)
+				on_delete.set_operands ([Result])
+			end
+		end
+
 	new_cursor: EL_DIRECTORY_ITERATION_CURSOR
 		do
 			create Result.make (Current)
@@ -360,32 +374,24 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
 	on_path_delete (a_path: EL_PATH; on_delete: detachable PROCEDURE [LIST [EL_PATH]]; capacity: INTEGER)
 		local
-			deleted_list: ARRAYED_LIST [EL_PATH]
+			list: like list_operand
 		do
 			if attached on_delete as l_delete then
-				-- set or get list operand
-				if attached l_delete.operands as operands
-					and then attached {ARRAYED_LIST [EL_PATH]} operands.reference_item (1) as list
-				then
-					deleted_list := list
-				else
-					create deleted_list.make (capacity)
-					l_delete.set_operands ([deleted_list])
-				end
-				deleted_list.extend (a_path)
-				if deleted_list.full then
+				list := list_operand (l_delete, capacity)
+				list.extend (a_path)
+				if list.full then
 					l_delete.apply
-					deleted_list.wipe_out
+					list.wipe_out
 				end
 			end
 		end
 
 	on_path_delete_final (on_delete: detachable PROCEDURE [LIST [EL_PATH]])
+		local
+			list: like list_operand
 		do
-			if attached on_delete as l_delete
-				and then attached {ARRAYED_LIST [EL_PATH]} l_delete.operands.reference_item (1) as list
-				and then not list.is_empty
-			then
+			if attached on_delete as l_delete then
+				list := list_operand (l_delete, 1)
 				l_delete.apply
 				list.wipe_out
 			end

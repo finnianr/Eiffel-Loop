@@ -76,3 +76,6 @@ New class EL_MODULE_CHECKSUM and added new routines to EL_CYCLIC_REDUNDANCY_CHEC
 Tue 24th Dec 2019, 20:02:56
 Fixed EL_DIRECTORY dispose bug on final collect
 
+Thu 26th Dec 2019, 17:29:49
+Created class EL_DIRECTORY_ITERATION_CURSOR do simplify many routines in EL_DIRECTORY
+
