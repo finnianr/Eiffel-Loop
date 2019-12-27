@@ -308,7 +308,7 @@ class EIFFEL_CONFIG_FILE (object):
 			self.__set_top_level_properties (system)
 			print "\nLibraries:",
 
-		print path.basename (ecf_path), ',',
+		print path.basename (ecf_path) + ',',
 
 		ecf_table [ecf_path] = self
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 15:13:48 GMT (Friday 27th December 2019)"
-	revision: "8"
+	date: "2019-12-27 21:12:25 GMT (Friday 27th December 2019)"
+	revision: "9"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 		local
 			ordered_list: LIST [EL_IP_ADAPTER]
 		do
-			ordered_list := new_adapter_list.ordered_by_integer (agent order_key, True)
+			ordered_list := new_adapter_list.ordered_by (agent order_key, True)
 			if ordered_list.is_empty then
 				create Result.make_filled (0, 1, 6)
 			else
@@ -69,13 +69,8 @@ feature {NONE} -- Implementation
 		end
 
 	order_key (adapter: EL_IP_ADAPTER): INTEGER
-		local
-			order_list: like Selection_order
 		do
-			order_list := Selection_order
-			order_list.start
-			order_list.search (adapter.type)
-			Result := order_list.index
+			Result := Selection_order.index_of (adapter.type, 1)
 		end
 
 	log_array (adapter_array: ARRAY [EL_IP_ADAPTER])
@@ -97,7 +92,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Selection_order: ARRAYED_LIST [INTEGER]
+	Selection_order: EL_ARRAYED_LIST [INTEGER]
 		once
 			create Result.make_from_array (<<
 				Type_ETHERNET_CSMACD,

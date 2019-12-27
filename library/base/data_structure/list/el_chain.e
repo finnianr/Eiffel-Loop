@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 15:22:00 GMT (Friday 27th December 2019)"
-	revision: "18"
+	date: "2019-12-27 21:12:54 GMT (Friday 27th December 2019)"
+	revision: "19"
 
 deferred class EL_CHAIN [G]
 
@@ -16,6 +16,8 @@ inherit
 	CHAIN [G]
 		rename
 			append as append_sequence
+		redefine
+			index_of
 		end
 
 	EL_LINEAR [G]
@@ -53,6 +55,17 @@ feature -- Access
 			if found then
 				Result := index
 			end
+			pop_cursor
+		end
+
+	index_of (v: like item; i: INTEGER): INTEGER
+			-- Index of `i'-th occurrence of item identical to `v'.
+			-- (Reference or object equality,
+			-- based on `object_comparison'.)
+			-- 0 if none.
+		do
+			push_cursor
+			Result := sequential_index_of (v, i)
 			pop_cursor
 		end
 
@@ -162,6 +175,14 @@ feature -- Conversion
 			create Result.make_from_values (Current, to_key)
 		end
 
+	ordered_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		local
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [COMPARABLE, G]
+		do
+			create map_list.make_sorted (Current, sort_value, in_ascending_order)
+			Result := map_list.value_list
+		end
+
 	real_map_list (to_key: FUNCTION [G, REAL]): EL_ARRAYED_MAP_LIST [REAL, G]
 		require
 			valid_open_count: to_key.open_count = 1
@@ -234,32 +255,6 @@ feature -- Conversion
 				end
 				pop_cursor
 			end
-		end
-
-feature -- Ordered conversion
-
-	ordered_by_integer (sort_value: FUNCTION [G, INTEGER]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
-		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, G]
-		do
-			create map_list.make_sorted (Current, sort_value, in_ascending_order)
-			Result := map_list.value_list
-		end
-
-	ordered_by_natural (sort_value: FUNCTION [G, NATURAL]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
-		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [NATURAL, G]
-		do
-			create map_list.make_sorted (Current, sort_value, in_ascending_order)
-			Result := map_list.value_list
-		end
-
-	ordered_by_string (sort_value: FUNCTION [G, READABLE_STRING_GENERAL]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
-		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [READABLE_STRING_GENERAL, G]
-		do
-			create map_list.make_sorted (Current, sort_value, in_ascending_order)
-			Result := map_list.value_list
 		end
 
 feature -- Summation

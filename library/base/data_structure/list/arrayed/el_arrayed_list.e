@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:27:35 GMT (Wednesday 30th October 2019)"
-	revision: "22"
+	date: "2019-12-27 21:06:08 GMT (Friday 27th December 2019)"
+	revision: "23"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -21,13 +21,15 @@ inherit
 		rename
 			make_filled as make_default_filled,
 			append as append_sequence
+		undefine
+			index_of
 		end
 
 	EL_CHAIN [G]
 		rename
 			accommodate as grow
 		undefine
-			off, index_of, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
+			off, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array
 		redefine

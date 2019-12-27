@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 15:17:16 GMT (Friday 27th December 2019)"
-	revision: "10"
+	date: "2019-12-27 17:02:42 GMT (Friday 27th December 2019)"
+	revision: "11"
 
 class
 	EL_FILE_PATH_LIST
@@ -76,12 +76,12 @@ feature -- Basic operations
 
 	sort_by_base (in_ascending_order: BOOLEAN)
 		do
-			make_from_array (ordered_by_string (agent {EL_FILE_PATH}.base, in_ascending_order).to_array)
+			make_from_array (ordered_by (agent {EL_FILE_PATH}.base, in_ascending_order).to_array)
 		end
 
 	sort_by_size (in_ascending_order: BOOLEAN)
 		do
-			make_from_array (ordered_by_integer (agent File_system.file_byte_count, in_ascending_order).to_array)
+			make_from_array (ordered_by (agent File_system.file_byte_count, in_ascending_order).to_array)
 		end
 
 end

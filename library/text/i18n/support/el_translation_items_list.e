@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:21:59 GMT (Thursday 24th May 2018)"
-	revision: "3"
+	date: "2019-12-27 21:08:43 GMT (Friday 27th December 2019)"
+	revision: "4"
 
 class
 	EL_TRANSLATION_ITEMS_LIST
@@ -25,7 +25,7 @@ inherit
 			do_all, do_if, there_exists, has, for_all,
 			start, search, finish, move,
 			append_sequence, swap, force, copy, prune_all, prune, new_cursor,
-			at, put_i_th, i_th, go_i_th
+			at, put_i_th, i_th, go_i_th, index_of
 		end
 
 	EL_ARRAYED_LIST [EL_TRANSLATION_ITEM]

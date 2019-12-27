@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 15:05:30 GMT (Friday 27th December 2019)"
-	revision: "3"
+	date: "2019-12-27 17:15:01 GMT (Friday 27th December 2019)"
+	revision: "4"
 
 class
 	CHAIN_TEST_SET
 
 inherit
 	EQA_TEST_SET
+
+	EL_MODULE_LIO
 
 feature -- Test
 
@@ -75,7 +77,9 @@ feature -- Test
 			previous: STRING
 		do
 			previous := "0"
-			across Widget_list.ordered_by_string (agent {WIDGET}.color_name, True) as widget loop
+			across Widget_list.ordered_by (agent {WIDGET}.color_name, True) as widget loop
+				lio.put_labeled_string (widget.item.out, widget.item.color_name)
+				lio.put_new_line
 				assert ("color_name >= previous", widget.item.color_name >= previous)
 				previous := widget.item.color_name
 			end
@@ -85,7 +89,7 @@ feature -- Test
 		local
 			previous: INTEGER
 		do
-			across Widget_list.ordered_by_integer (agent {WIDGET}.weight, True) as widget loop
+			across Widget_list.ordered_by (agent {WIDGET}.weight, True) as widget loop
 				assert ("weight >= previous", widget.item.weight >= previous)
 				previous := widget.item.weight
 			end
