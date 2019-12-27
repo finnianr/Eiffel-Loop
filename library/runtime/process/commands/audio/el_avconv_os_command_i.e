@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-12-27 10:41:36 GMT (Friday 27th December 2019)"
+	revision: "5"
 
 deferred class
 	EL_AVCONV_OS_COMMAND_I
@@ -41,7 +41,7 @@ feature {NONE} -- Constants
 
 	Has_avconv: BOOLEAN
 		once
-			Result := Environment.execution.executable_search_list.has_executable (Avconv_command)
+			Result := Environment.execution.search_path_has (Avconv_command)
 		end
 
 	AVCONV_command: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-26 17:09:05 GMT (Thursday 26th December 2019)"
-	revision: "1"
+	date: "2019-12-27 11:02:04 GMT (Friday 27th December 2019)"
+	revision: "2"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR
@@ -45,28 +45,23 @@ feature {NONE} -- Initialization
 			closed: a_directory.is_closed
 		do
 			make_default
-			create directory.make_open_read (a_directory.internal_path)
 			set_is_following_symlinks (a_directory.is_following_symlinks)
 			create item.make_empty
-			internal_path := directory.internal_path
-			if not internal_path.is_empty then
-				internal_path.append_character (Operating_environment.Directory_separator)
+			path_name := a_directory.internal_path.twin
+			dir_name_pointer := file_name_to_pointer (path_name, dir_name_pointer)
+			directory_pointer := dir_open (dir_name_pointer.item)
+
+			if not path_name.is_empty then
+				path_name.append_character (Operating_environment.Directory_separator)
 			end
-			parent_count := internal_path.count
-			directory.start; read_next
+			parent_count := path_name.count
+			directory_pointer := dir_rewind (directory_pointer, dir_name_pointer.item)
+			read_next
 		end
 
 feature -- Access
 
 	item: STRING_32
-
-	item_path (keep_ref: BOOLEAN): STRING_32
-		do
-			Result := internal_path
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
 
 	item_dir_path: EL_DIR_PATH
 		do
@@ -76,6 +71,14 @@ feature -- Access
 	item_file_path: EL_FILE_PATH
 		do
 			Result := item_path (False)
+		end
+
+	item_path (keep_ref: BOOLEAN): STRING_32
+		do
+			Result := path_name
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
 feature -- Basic operations
@@ -93,6 +96,7 @@ feature -- Status query
 		end
 
 	is_current_or_parent: BOOLEAN
+		-- 'True' if `item' matches "." or ".."
 		local
 			count: INTEGER
 		do
@@ -106,33 +110,80 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	close
+		do
+			dir_close (directory_pointer)
+			directory_pointer := default_pointer
+		end
+
 	dispose
 		do
-			if not directory.is_closed then
-				directory.close
+			if not is_closed then
+				close
 			end
+		end
+
+	is_closed: BOOLEAN
+		do
+			Result := directory_pointer = default_pointer
 		end
 
 	read_next
 		do
-			last_entry_pointer := directory.next_entry_pointer
+			last_entry_pointer := eif_dir_next (directory_pointer)
 			if last_entry_pointer = default_pointer then
-				directory.close
+				close
 			else
 				item := pointer_to_file_name_32 (last_entry_pointer)
-				internal_path.keep_head (parent_count)
-				internal_path.append (item)
-				update (internal_path)
+				path_name.keep_head (parent_count)
+				path_name.append (item)
+				update (path_name)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	internal_path: STRING_32
+	dir_name_pointer: MANAGED_POINTER
 
-	directory: EL_DIRECTORY
+	directory_pointer: POINTER
+		-- Directory pointer as required in C
+
+	last_entry_pointer: POINTER
 
 	parent_count: INTEGER
 
-	last_entry_pointer: POINTER
+	path_name: STRING_32
+
+feature {NONE} -- C Externals
+
+	dir_close (dir_ptr: POINTER)
+			-- Close the directory `dir_ptr'.
+		external
+			"C use %"eif_dir.h%""
+		alias
+			"eif_dir_close"
+		end
+
+	eif_dir_next (dir_ptr: POINTER): POINTER
+			-- Return pointer to the next entry in the current iteration.
+		external
+			"C use %"eif_dir.h%""
+		end
+
+	dir_open (dir_name: POINTER): POINTER
+			-- Open the directory `dir_name'.
+		external
+			"C signature (EIF_FILENAME): EIF_POINTER use %"eif_dir.h%""
+		alias
+			"eif_dir_open"
+		end
+
+	dir_rewind (dir_ptr: POINTER; dir_name: POINTER): POINTER
+			-- Rewind the directory `dir_ptr' with name `a_name' and return a new directory traversal pointer.
+		external
+			"C signature (EIF_POINTER, EIF_FILENAME): EIF_POINTER use %"eif_dir.h%""
+		alias
+			"eif_dir_rewind"
+		end
+
 end

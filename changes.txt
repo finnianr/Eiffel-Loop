@@ -79,3 +79,6 @@ Fixed EL_DIRECTORY dispose bug on final collect
 Thu 26th Dec 2019, 17:29:49
 Created class EL_DIRECTORY_ITERATION_CURSOR do simplify many routines in EL_DIRECTORY
 
+Fri 27th Dec 2019, 11:35:57
+EL_DIRECTORY_ITERATION_CURSOR no longer uses {EL_DIRECTORY}.make_open_read
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-26 17:12:25 GMT (Thursday 26th December 2019)"
-	revision: "13"
+	date: "2019-12-27 11:12:34 GMT (Friday 27th December 2019)"
+	revision: "14"
 
 class
 	EL_DIRECTORY
@@ -15,24 +15,27 @@ class
 inherit
 	DIRECTORY
 		rename
-			delete_content_with_action as obsolete_delete_content_with_action,
 			entries as path_entries,
 			internal_detachable_name_pointer as internal_path_pointer,
 			internal_name as internal_path,
-			lastentry as obsolete_lastentry,
 			make as make_from_string,
 			make_open_read as make_open_read_general,
-			name as obsolete_name,
+			set_name as set_path_name,
 			path as ise_path,
-			recursive_delete_with_action as obsolete_recursive_delete_with_action,
-			readentry as obsolete_readentry,
-			set_name as set_path_name
+
+			-- obsolete routines
+			delete_content_with_action as obs_delete_content_with_action,
+			lastentry as obs_lastentry,
+			name as obs_name,
+			recursive_delete_with_action as obs_recursive_delete_with_action,
+			readentry as obs_readentry
 		export
-			{NONE} obsolete_readentry, obsolete_lastentry, obsolete_recursive_delete_with_action,
-						obsolete_delete_content_with_action, set_path_name
+			{NONE}	obs_readentry, obs_lastentry, obs_recursive_delete_with_action,
+						obs_delete_content_with_action, set_path_name
+
 			{EL_DIRECTORY_ITERATION_CURSOR, DIRECTORY} file_info, last_entry_pointer
 		redefine
-			internal_path, set_path_name
+			delete_content, internal_path, set_path_name
 		end
 
 	ITERABLE [STRING_32]
@@ -42,7 +45,7 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 create
-	make_default, make, make_open_read
+	make_default, make
 
 feature -- Initialization
 
@@ -63,16 +66,6 @@ feature -- Initialization
 			-- during the final garbage collection on application exit. See routine `dispose'.
 		ensure
 			closed: is_closed
-		end
-
-	make_open_read (dir_path: EL_DIR_PATH)
-			-- Create directory object for directory
-			-- of name `dn' and open it for reading.
-		do
-			make (dir_path)
-			open_read
-		ensure
-			name_set: internal_path ~ dir_path.as_string_32
 		end
 
 feature -- Access
@@ -194,12 +187,12 @@ feature -- Element change
 
 feature -- Status query
 
-	has_executable (a_name: ZSTRING): BOOLEAN
+	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := has_entry_of_type (a_name, Type_executable_file)
 		end
 
-	has_file_name (a_name: ZSTRING): BOOLEAN
+	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := has_entry_of_type (a_name, Type_file)
 		end
@@ -207,6 +200,12 @@ feature -- Status query
 	is_following_symlinks: BOOLEAN
 
 feature -- Removal
+
+	delete_content
+			-- Delete all files located in current directory and it's subdirectories.
+		do
+			delete_content_with_action (Void, Void, 0)
+		end
 
 	delete_content_with_action (
 		on_delete: detachable PROCEDURE [LIST [EL_PATH]]; is_cancel_requested: detachable PREDICATE
@@ -223,8 +222,11 @@ feature -- Removal
 		-- Same for `is_cancel_requested'.
 		-- Make it return `True' to cancel the operation.
 		-- `is_cancel_requested' may be set to Void if you don't need it.
+		local
+			manager: EL_DIRECTORY_DELETE_MANAGER
 		do
-			internal_delete_content_with_action (on_delete, is_cancel_requested, file_number, True)
+			create manager.make (on_delete, is_cancel_requested, file_number)
+			internal_delete_content_with_action (manager, True)
 		ensure
 			stills_exists: path.exists
 		end
@@ -245,8 +247,11 @@ feature -- Removal
 			-- `on_delete' is called each time at most `file_number' files has
 			-- been deleted and before the function exits. If `a_file_number'
 			-- is non-positive, `on_delete' is not called.
+		local
+			manager: EL_DIRECTORY_DELETE_MANAGER
 		do
-			internal_delete_with_action (on_delete, is_cancel_requested, file_number, True)
+			create manager.make (on_delete, is_cancel_requested, file_number)
+			internal_delete_with_action (manager, True)
 		end
 
 feature {NONE} -- Status setting
@@ -269,29 +274,27 @@ feature {EL_SHARED_DIRECTORY} -- Access
 
 feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
-	has_entry_of_type (a_name: STRING_32; a_type: INTEGER): BOOLEAN
+	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
+		local
+			l_name: STRING_32
 		do
-			across Current as entry until not Result loop
-				if entry.item ~ a_name then
-					if entry.exists then
-						inspect a_type
-							when Type_any then
-								Result := True
-							when Type_file then
-								Result := entry.is_plain
-							when Type_executable_file then
-								Result := entry.is_plain and then entry.is_executable
-							else
-						end
+			l_name := a_name.to_string_32
+			across Current as entry until Result loop
+				if entry.item ~ a_name and then entry.exists then
+					inspect a_type
+						when Type_any then
+							Result := True
+						when Type_file then
+							Result := entry.is_plain
+						when Type_executable_file then
+							Result := entry.is_plain and then entry.is_executable
+						else
 					end
 				end
 			end
 		end
 
-	internal_delete_content_with_action (
-		on_delete: detachable PROCEDURE [LIST [EL_PATH]]; is_cancel_requested: detachable PREDICATE
-		file_number: INTEGER; top_level: BOOLEAN
-	)
+	internal_delete_content_with_action (manager: EL_DIRECTORY_DELETE_MANAGER; top_level: BOOLEAN)
 		local
 			old_is_following_symlinks: BOOLEAN
 			sub_dir: EL_DIRECTORY; file_path: EL_FILE_PATH
@@ -299,102 +302,45 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			old_is_following_symlinks := is_following_symlinks
 			is_following_symlinks := False
 			create sub_dir.make_default
-			across Current as entry until is_delete_cancelled (is_cancel_requested) loop
+			across Current as entry until manager.is_cancel_requested loop
 				if not entry.is_current_or_parent and then entry.exists then
 					if not entry.is_symlink and then entry.is_directory then
 						sub_dir.set_path_name (entry.item_path (False))
-						sub_dir.internal_delete_with_action (on_delete, is_cancel_requested, file_number, False)
+						sub_dir.internal_delete_with_action (manager, False)
 					elseif entry.is_writable then
 						file_path := entry.item_file_path
 						File_system.remove_file (file_path)
-						on_path_delete (file_path, on_delete, file_number)
+						manager.on_delete (file_path)
 					end
 				end
 			end
 			if top_level then
-				on_path_delete_final (on_delete)
+				manager.on_delete_final
 			end
 			is_following_symlinks := old_is_following_symlinks
 		end
 
-	internal_delete_with_action (
-		on_delete: detachable PROCEDURE [LIST [EL_PATH]]; is_cancel_requested: detachable PREDICATE
-		file_number: INTEGER; top_level: BOOLEAN
-	)
+	internal_delete_with_action (manager: EL_DIRECTORY_DELETE_MANAGER; top_level: BOOLEAN)
 		require
 			directory_exists: exists
 		do
 			if top_level then
-				internal_delete_content_with_action (on_delete, is_cancel_requested, file_number, False)
+				internal_delete_content_with_action (manager, False)
 			else
-				internal_delete_content_with_action (on_delete, is_cancel_requested, file_number, top_level)
+				internal_delete_content_with_action (manager, top_level)
 			end
-			if not is_delete_cancelled (is_cancel_requested) then
+			if not manager.is_cancel_requested then
 				delete
-				on_path_delete (create {EL_DIR_PATH}.make (internal_path), on_delete, file_number)
+				manager.on_delete (create {EL_DIR_PATH}.make (internal_path))
 			end
 			if top_level then
-				on_path_delete_final (on_delete)
-			end
-		end
-
-	is_delete_cancelled (is_cancel_requested: detachable PREDICATE): BOOLEAN
-		do
-			if attached is_cancel_requested as cancel_requested then
-				cancel_requested.apply
-				Result := cancel_requested.last_result
-			end
-		end
-
-	list_operand (on_delete: PROCEDURE [LIST [EL_PATH]]; capacity: INTEGER): ARRAYED_LIST [EL_PATH]
-		-- get list operand from `on_delete' or set it if it does not exist
-		do
-			if attached on_delete.operands as operands
-				and then operands.valid_index (1)
-				and then attached {ARRAYED_LIST [EL_PATH]} operands.reference_item (1) as list
-			then
-				Result := list
-			else
-				create Result.make (capacity)
-				on_delete.set_operands ([Result])
+				manager.on_delete_final
 			end
 		end
 
 	new_cursor: EL_DIRECTORY_ITERATION_CURSOR
 		do
 			create Result.make (Current)
-		end
-
-	next_entry_pointer: POINTER
-		require
-			is_opened: not is_closed
-		do
-			Result := eif_dir_next (directory_pointer)
-		end
-
-	on_path_delete (a_path: EL_PATH; on_delete: detachable PROCEDURE [LIST [EL_PATH]]; capacity: INTEGER)
-		local
-			list: like list_operand
-		do
-			if attached on_delete as l_delete then
-				list := list_operand (l_delete, capacity)
-				list.extend (a_path)
-				if list.full then
-					l_delete.apply
-					list.wipe_out
-				end
-			end
-		end
-
-	on_path_delete_final (on_delete: detachable PROCEDURE [LIST [EL_PATH]])
-		local
-			list: like list_operand
-		do
-			if attached on_delete as l_delete then
-				list := list_operand (l_delete, 1)
-				l_delete.apply
-				list.wipe_out
-			end
 		end
 
 	read_entries (list: LIST [EL_PATH]; type: INTEGER; extension: READABLE_STRING_GENERAL)

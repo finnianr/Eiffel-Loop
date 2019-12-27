@@ -1,16 +1,16 @@
 note
-	description: "File command test set"
+	description: "Test set for classes that manage and read file system content"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-26 16:58:01 GMT (Thursday 26th December 2019)"
-	revision: "7"
+	date: "2019-12-27 11:05:26 GMT (Friday 27th December 2019)"
+	revision: "8"
 
 class
-	FILE_COMMAND_TEST_SET
+	FILE_AND_DIRECTORY_TEST_SET
 
 inherit
 	HELP_PAGES_TEST_SET
@@ -132,9 +132,7 @@ feature -- Tests
 
 	test_search_path_list
 		do
-			lio.enter ("test_search_path_list")
-			assert ("has estudio", Execution_environment.executable_search_list.has_executable ("estudio"))
-			lio.exit
+			assert ("has estudio", Execution_environment.search_path_has ("estudio"))
 		end
 
 	test_read_directories

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:17:43 GMT (Wednesday 11th September 2019)"
-	revision: "14"
+	date: "2019-12-27 10:53:34 GMT (Friday 27th December 2019)"
+	revision: "15"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -36,6 +36,11 @@ inherit
 	EL_MODULE_STRING_32
 
 	EL_MODULE_EXCEPTION
+
+	EL_SHARED_DIRECTORY
+		rename
+			Directory as Shared_directory
+		end
 
 feature {EL_MODULE_EXECUTION_ENVIRONMENT} -- Initialization
 
@@ -90,7 +95,7 @@ feature -- Access
 			Result := item ("PATH")
 		end
 
-	executable_search_list: EL_DIRECTORY_LIST
+	executable_search_path_list: ARRAYED_LIST [EL_DIR_PATH]
 			--
 		local
 			list: EL_ZSTRING_LIST
@@ -98,7 +103,7 @@ feature -- Access
 			create list.make_with_separator (executable_search_path, search_path_separator, False)
 			create Result.make (list.count)
 			across list as path loop
-				Result.extend (create {EL_DIRECTORY}.make (path.item))
+				Result.extend (path.item)
 			end
 		end
 
@@ -172,6 +177,17 @@ feature -- Status report
 	is_directory_stack_empty: BOOLEAN
 		do
 			Result := directory_stack.is_empty
+		end
+
+	search_path_has (name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if executable `name' is in the environment search path `PATH'
+		local
+			l_name: STRING_32
+		do
+			l_name := name.to_string_32
+			across executable_search_path_list as path until Result loop
+				Result := Shared_directory.named (path.item).has_executable (l_name)
+			end
 		end
 
 feature -- Status setting
