@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-21 17:04:46 GMT (Monday 21st May 2018)"
-	revision: "5"
+	date: "2019-12-27 14:46:37 GMT (Friday 27th December 2019)"
+	revision: "6"
 
 class
-	EL_ARRAYED_MAP_LIST [K -> HASHABLE, G]
+	EL_ARRAYED_MAP_LIST [K, G]
 
 inherit
 	EL_ARRAYED_LIST [TUPLE [key: K; value: G]]
@@ -26,18 +26,9 @@ inherit
 
 create
 	make, make_filled, make_from_array, make_empty,
-	make_from_table, make_from_keys, make_from_values
+	make_from_keys, make_from_table, make_from_values
 
 feature {NONE} -- Initialization
-
-	make_from_table (table: HASH_TABLE [G, K])
-		do
-			make (table.count)
-			from table.start until table.after loop
-				extend (table.key_for_iteration, table.item_for_iteration)
-				table.forth
-			end
-		end
 
 	make_from_keys (container: FINITE [K]; to_value: FUNCTION [K, G])
 		require
@@ -48,6 +39,23 @@ feature {NONE} -- Initialization
 				across list as key loop
 					extend (key.item, to_value (key.item))
 				end
+			end
+		end
+
+	make_from_table (table: TABLE_ITERABLE [G, K])
+		local
+			table_count: INTEGER
+		do
+			if attached {FINITE [G]} table as finite then
+				table_count := finite.count
+			else
+				across table as t loop
+					table_count := table_count + 1
+				end
+			end
+			make (table_count)
+			across table as value loop
+				extend (value.key, value.item)
 			end
 		end
 
@@ -149,23 +157,6 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			do_all (agent extend_string_list (Result, joined, ?))
-		end
-
-	as_table (compare_with_is_equal: BOOLEAN): HASH_TABLE [G, K]
-		local
-			l_area: like area; i: INTEGER; l_item: like item
-		do
-			if compare_with_is_equal then
-				create Result.make_equal (count)
-			else
-				create Result.make (count)
-			end
-			l_area := area
-			from i := 0 until i = area.count loop
-				l_item := l_area [i]
-				Result.put (l_item.value, l_item.key)
-				i := i + 1
-			end
 		end
 
 feature {NONE} -- Implementation

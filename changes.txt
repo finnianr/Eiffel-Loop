@@ -82,3 +82,6 @@ Created class EL_DIRECTORY_ITERATION_CURSOR do simplify many routines in EL_DIRE
 Fri 27th Dec 2019, 11:35:57
 EL_DIRECTORY_ITERATION_CURSOR no longer uses {EL_DIRECTORY}.make_open_read
 
+Fri 27th Dec 2019, 15:31:22
+Added ordering conversion routines to EL_CHAIN
+

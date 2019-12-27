@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 8:43:06 GMT (Saturday 19th May 2018)"
-	revision: "1"
+	date: "2019-12-27 14:23:02 GMT (Friday 27th December 2019)"
+	revision: "2"
 
 deferred class
-	EL_SORTABLE_ARRAYED_MAP_LIST [K -> HASHABLE, G]
+	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
 
 inherit
 	EL_ARRAYED_MAP_LIST [K, G]

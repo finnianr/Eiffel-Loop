@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:04 GMT (Friday 4th October 2019)"
-	revision: "17"
+	date: "2019-12-27 15:22:00 GMT (Friday 27th December 2019)"
+	revision: "18"
 
 deferred class EL_CHAIN [G]
 
@@ -234,6 +234,32 @@ feature -- Conversion
 				end
 				pop_cursor
 			end
+		end
+
+feature -- Ordered conversion
+
+	ordered_by_integer (sort_value: FUNCTION [G, INTEGER]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		local
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, G]
+		do
+			create map_list.make_sorted (Current, sort_value, in_ascending_order)
+			Result := map_list.value_list
+		end
+
+	ordered_by_natural (sort_value: FUNCTION [G, NATURAL]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		local
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [NATURAL, G]
+		do
+			create map_list.make_sorted (Current, sort_value, in_ascending_order)
+			Result := map_list.value_list
+		end
+
+	ordered_by_string (sort_value: FUNCTION [G, READABLE_STRING_GENERAL]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		local
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [READABLE_STRING_GENERAL, G]
+		do
+			create map_list.make_sorted (Current, sort_value, in_ascending_order)
+			Result := map_list.value_list
 		end
 
 feature -- Summation

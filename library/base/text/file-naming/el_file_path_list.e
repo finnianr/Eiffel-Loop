@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-29 14:19:21 GMT (Friday 29th November 2019)"
-	revision: "9"
+	date: "2019-12-27 15:17:16 GMT (Friday 27th December 2019)"
+	revision: "10"
 
 class
 	EL_FILE_PATH_LIST
@@ -75,19 +75,13 @@ feature -- Conversion
 feature -- Basic operations
 
 	sort_by_base (in_ascending_order: BOOLEAN)
-		local
-			map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [ZSTRING, EL_FILE_PATH]
 		do
-			create map.make_sorted (Current, agent {EL_FILE_PATH}.base, in_ascending_order)
-			make_from_array (map.value_list.to_array)
+			make_from_array (ordered_by_string (agent {EL_FILE_PATH}.base, in_ascending_order).to_array)
 		end
 
 	sort_by_size (in_ascending_order: BOOLEAN)
-		local
-			map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_FILE_PATH]
 		do
-			create map.make_sorted (Current, agent File_system.file_byte_count, in_ascending_order)
-			make_from_array (map.value_list.to_array)
+			make_from_array (ordered_by_integer (agent File_system.file_byte_count, in_ascending_order).to_array)
 		end
 
 end

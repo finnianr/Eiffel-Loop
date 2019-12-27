@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-12-27 15:12:54 GMT (Friday 27th December 2019)"
+	revision: "6"
 
 deferred class
 	EL_IP_ADAPTER_LIST_I
 
 inherit
-	ARRAYED_LIST [EL_IP_ADAPTER]
+	EL_ARRAYED_LIST [EL_IP_ADAPTER]
 		rename
 			make as make_list
 		end

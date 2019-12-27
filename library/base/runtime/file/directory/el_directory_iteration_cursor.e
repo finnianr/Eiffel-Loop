@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 11:02:04 GMT (Friday 27th December 2019)"
-	revision: "2"
+	date: "2019-12-27 12:36:09 GMT (Friday 27th December 2019)"
+	revision: "3"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR
@@ -129,6 +129,8 @@ feature {NONE} -- Implementation
 		end
 
 	read_next
+		require
+			not_closed: not is_closed
 		do
 			last_entry_pointer := eif_dir_next (directory_pointer)
 			if last_entry_pointer = default_pointer then
@@ -153,6 +155,7 @@ feature {NONE} -- Internal attributes
 	parent_count: INTEGER
 
 	path_name: STRING_32
+		-- directory path name
 
 feature {NONE} -- C Externals
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2019-12-27 15:13:48 GMT (Friday 27th December 2019)"
+	revision: "8"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -53,13 +53,13 @@ feature {NONE} -- Implementation
 
 	mac_address: ARRAY [NATURAL_8]
 		local
-			ordered_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_IP_ADAPTER]
+			ordered_list: LIST [EL_IP_ADAPTER]
 		do
-			create ordered_list.make_sorted (new_adapter_list, agent order_key, True)
+			ordered_list := new_adapter_list.ordered_by_integer (agent order_key, True)
 			if ordered_list.is_empty then
 				create Result.make_filled (0, 1, 6)
 			else
-				Result := ordered_list.first.value.address
+				Result := ordered_list.first.address
 			end
 		end
 

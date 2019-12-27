@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 22:36:05 GMT (Monday 5th November 2018)"
-	revision: "2"
+	date: "2019-12-27 15:05:30 GMT (Friday 27th December 2019)"
+	revision: "3"
 
 class
 	CHAIN_TEST_SET
@@ -68,6 +68,27 @@ feature -- Test
 
 			key_list := Widget_list.query (color_is (Green)).integer_map_list (agent {WIDGET}.weight).key_list
 			assert ("green weight is: 1", key_list.to_array ~ << 1 >>)
+		end
+
+	test_order_by_color_name
+		local
+			previous: STRING
+		do
+			previous := "0"
+			across Widget_list.ordered_by_string (agent {WIDGET}.color_name, True) as widget loop
+				assert ("color_name >= previous", widget.item.color_name >= previous)
+				previous := widget.item.color_name
+			end
+		end
+
+	test_order_by_weight
+		local
+			previous: INTEGER
+		do
+			across Widget_list.ordered_by_integer (agent {WIDGET}.weight, True) as widget loop
+				assert ("weight >= previous", widget.item.weight >= previous)
+				previous := widget.item.weight
+			end
 		end
 
 	test_find_predicate

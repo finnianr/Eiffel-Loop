@@ -6,17 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-21 14:27:51 GMT (Monday 21st May 2018)"
-	revision: "4"
+	date: "2019-12-27 14:41:42 GMT (Friday 27th December 2019)"
+	revision: "5"
 
 class
-	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [K -> {HASHABLE, COMPARABLE}, G]
+	EL_KEY_SORTABLE_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
 
 inherit
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
 
 create
-	make, make_filled, make_from_array, make_empty, make_from_table, make_sorted
+	make, make_filled, make_from_array, make_empty, make_sorted, make_from_table
 
 feature {NONE} -- Implementation
 
