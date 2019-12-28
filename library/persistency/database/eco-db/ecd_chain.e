@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:27:37 GMT (Tuesday 24th September 2019)"
-	revision: "16"
+	date: "2019-12-28 10:33:07 GMT (Saturday 28th December 2019)"
+	revision: "17"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -40,7 +40,17 @@ inherit
 		export
 			{ANY} remove
 		undefine
-			remove
+			-- * This section mirrors ECD_CHAIN_EDITIONS *
+			-- Status query
+			is_equal, isfirst, islast, valid_index, is_inserted, readable, there_exists, has,
+			-- Element change
+			append_sequence, copy, prune_all, prune, move, put_i_th, swap, force,
+			-- Cursor movement
+			start, finish, go_i_th, search,
+			-- Access
+			at, first, last, off, i_th, remove, index_of, new_cursor,
+			-- Basic operations
+			do_all, do_if, for_all
 		end
 
 	EL_FILE_PERSISTENT

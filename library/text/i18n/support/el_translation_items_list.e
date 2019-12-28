@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:08:43 GMT (Friday 27th December 2019)"
-	revision: "4"
+	date: "2019-12-28 10:28:32 GMT (Saturday 28th December 2019)"
+	revision: "5"
 
 class
 	EL_TRANSLATION_ITEMS_LIST
@@ -20,12 +20,7 @@ inherit
 		export
 			{ANY} file_path
 		undefine
-			valid_index, is_inserted, is_equal,
-			first, last,
-			do_all, do_if, there_exists, has, for_all,
-			start, search, finish, move,
-			append_sequence, swap, force, copy, prune_all, prune, new_cursor,
-			at, put_i_th, i_th, go_i_th, index_of
+			is_equal, copy
 		end
 
 	EL_ARRAYED_LIST [EL_TRANSLATION_ITEM]

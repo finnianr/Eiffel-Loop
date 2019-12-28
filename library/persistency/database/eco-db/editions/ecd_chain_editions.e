@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-15 17:04:28 GMT (Friday 15th February 2019)"
-	revision: "8"
+	date: "2019-12-28 10:30:32 GMT (Saturday 28th December 2019)"
+	revision: "9"
 
 deferred class
 	ECD_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]
@@ -26,8 +26,17 @@ inherit
 		rename
 			append as append_sequence
 		undefine
-			is_equal, copy, prune_all, prune, is_inserted, move, go_i_th, new_cursor,
-			isfirst, islast, first, last, start, finish, readable, off, remove
+			-- * This section mirrors ECD_CHAIN *
+			-- Status query
+			is_equal, isfirst, islast, valid_index, is_inserted, readable, there_exists, has,
+			-- Element change
+			append_sequence, copy, prune_all, prune, move, put_i_th, swap, force,
+			-- Cursor movement
+			start, finish, go_i_th, search,
+			-- Access
+			at, first, last, off, i_th, remove, index_of, new_cursor,
+			-- Basic operations
+			do_all, do_if, for_all
 		end
 
 feature {NONE} -- Initialization

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:12:45 GMT (Wednesday 30th October 2019)"
-	revision: "8"
+	date: "2019-12-28 10:02:10 GMT (Saturday 28th December 2019)"
+	revision: "9"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -24,7 +24,7 @@ inherit
 		undefine
 			index_of, occurrences, do_all, do_if, for_all, search, copy,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor,
-			pop_cursor, push_cursor, to_array,
+			pop_cursor, push_cursor, to_array, order_by,
 			-- item access
 			i_th, at, last, first,
 			-- Status query

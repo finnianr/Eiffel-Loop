@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:12:54 GMT (Friday 27th December 2019)"
-	revision: "19"
+	date: "2019-12-28 10:45:13 GMT (Saturday 28th December 2019)"
+	revision: "20"
 
 deferred class EL_CHAIN [G]
 
@@ -176,6 +176,7 @@ feature -- Conversion
 		end
 
 	ordered_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		-- ordered list of elements according to `sort_value' function
 		local
 			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [COMPARABLE, G]
 		do
@@ -329,6 +330,24 @@ feature -- Element change
 		do
 			extend (v)
 			Result := Current
+		end
+
+	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
+		-- sort all elements according to `sort_value' function
+		local
+			l_item: detachable G
+		do
+			if not off then
+				l_item := item
+			end
+			across ordered_by (sort_value, in_ascending_order) as v loop
+				put_i_th (v.item, v.cursor_index)
+			end
+			if attached l_item as ll_item then
+				start; search (ll_item)
+			end
+		ensure
+			same_item: not old off implies old item = item
 		end
 
 feature -- Removal

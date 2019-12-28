@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:06:08 GMT (Friday 27th December 2019)"
-	revision: "23"
+	date: "2019-12-28 10:01:47 GMT (Saturday 28th December 2019)"
+	revision: "24"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -31,7 +31,7 @@ inherit
 		undefine
 			off, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
-			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array
+			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array, order_by
 		redefine
 			find_next_item, push_cursor, pop_cursor
 		end
@@ -177,6 +177,14 @@ feature -- Cursor movement
 		end
 
 feature -- Element change
+
+	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
+		local
+			list: EL_ARRAYED_LIST [G]
+		do
+			list := ordered_by (sort_value, in_ascending_order)
+			make_from_array (list.to_array)
+		end
 
 	shift (offset: INTEGER)
 		-- shift item by `offset' positions to the right

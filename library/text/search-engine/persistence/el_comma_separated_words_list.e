@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:08:48 GMT (Friday 27th December 2019)"
-	revision: "6"
+	date: "2019-12-28 10:32:29 GMT (Saturday 28th December 2019)"
+	revision: "7"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -19,13 +19,6 @@ inherit
 	ECD_RECOVERABLE_CHAIN [EL_COMMA_SEPARATED_WORDS]
 		rename
 			make_chain_implementation as make_list
-		undefine
-			valid_index, is_inserted, is_equal,
-			first, last,
-			do_all, do_if, there_exists, has, for_all,
-			start, search, finish,
-			append_sequence, swap, force, copy, prune_all, prune, move, new_cursor,
-			at, put_i_th, i_th, go_i_th, index_of
 		redefine
 			make_from_file
 		select

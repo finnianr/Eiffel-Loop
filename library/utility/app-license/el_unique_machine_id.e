@@ -1,13 +1,16 @@
 note
 	description: "Unique machine id"
+	notes: "[
+		Relies on nm-tool in Linux but no longer available in Ubuntu 15+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:12:25 GMT (Friday 27th December 2019)"
-	revision: "9"
+	date: "2019-12-27 21:44:30 GMT (Friday 27th December 2019)"
+	revision: "10"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -53,13 +56,13 @@ feature {NONE} -- Implementation
 
 	mac_address: ARRAY [NATURAL_8]
 		local
-			ordered_list: LIST [EL_IP_ADAPTER]
+			adapter_list: like new_adapter_list
 		do
-			ordered_list := new_adapter_list.ordered_by (agent order_key, True)
-			if ordered_list.is_empty then
+			adapter_list := new_adapter_list
+			if adapter_list.is_empty then
 				create Result.make_filled (0, 1, 6)
 			else
-				Result := ordered_list.first.address
+				Result := adapter_list.ordered_by (agent order_key, True).first.address
 			end
 		end
 
