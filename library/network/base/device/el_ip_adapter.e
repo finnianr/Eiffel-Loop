@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 13:50:24 GMT (Sunday 29th December 2019)"
-	revision: "7"
+	date: "2019-12-29 16:02:46 GMT (Sunday 29th December 2019)"
+	revision: "8"
 
 class
 	EL_IP_ADAPTER
 
 inherit
-	EL_IP_ADAPTER_CONSTANTS
-
+	ANY
+	
 	EL_SHARED_NETWORK_DEVICE_TYPE
 
 create

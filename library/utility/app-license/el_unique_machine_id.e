@@ -1,7 +1,9 @@
 note
-	description: "Unique machine id"
+	description: "Unique machine id based on MAC address of network adapter"
 	notes: "[
-		Relies on nm-tool in Linux but no longer available in Ubuntu 15+
+		Relies on network manager info tool `nmcli' in Linux
+		
+		The adapter is chosen based on the `Priority_order' constant.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,21 +11,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 21:44:30 GMT (Friday 27th December 2019)"
-	revision: "10"
+	date: "2019-12-29 16:12:16 GMT (Sunday 29th December 2019)"
+	revision: "11"
 
 class
 	EL_UNIQUE_MACHINE_ID
 
 inherit
-	EL_IP_ADAPTER_CONSTANTS
-		export
-			{NONE} all
-		end
+	ANY
 
 	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_OS
+
+	EL_SHARED_NETWORK_DEVICE_TYPE
 
 create
 	make
@@ -33,7 +34,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create md5.make
-			md5.sink_string_8 (OS.Cpu_model_name)
+			md5.sink_string_8 (OS.CPU_model_name)
 			md5.sink_array (mac_address)
 		end
 
@@ -73,7 +74,7 @@ feature {NONE} -- Implementation
 
 	order_key (adapter: EL_IP_ADAPTER): INTEGER
 		do
-			Result := Selection_order.index_of (adapter.type, 1)
+			Result := Priority_order.index_of (adapter.type, 1)
 		end
 
 	log_array (adapter_array: ARRAY [EL_IP_ADAPTER])
@@ -95,19 +96,19 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Selection_order: EL_ARRAYED_LIST [INTEGER]
+	Priority_order: EL_ARRAYED_LIST [NATURAL_8]
 		once
 			create Result.make_from_array (<<
-				Type_ETHERNET_CSMACD,
-				Type_IEEE80211,
-				Type_BLUETOOTH,
-				Type_ISO88025_TOKENRING,
-				Type_IEEE1394,
-				Type_PPP,
-				Type_ATM,
-				Type_TUNNEL,
-				Type_OTHER,
-				Type_SOFTWARE_LOOPBACK
+				Network_device_type.ETHERNET_CSMACD,
+				Network_device_type.IEEE80211,
+				Network_device_type.BLUETOOTH,
+				Network_device_type.ISO88025_TOKENRING,
+				Network_device_type.IEEE1394,
+				Network_device_type.PPP,
+				Network_device_type.ATM,
+				Network_device_type.TUNNEL,
+				Network_device_type.OTHER,
+				Network_device_type.SOFTWARE_LOOPBACK
 			>>)
 		end
 

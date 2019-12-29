@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 13:51:31 GMT (Sunday 29th December 2019)"
-	revision: "1"
+	date: "2019-12-29 16:13:04 GMT (Sunday 29th December 2019)"
+	revision: "2"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM
@@ -35,7 +35,8 @@ feature {NONE} -- Initialization
 	initialize_fields
 		do
 			ATM := 37
-			BLUETOOTH := 7
+			BLUETOOTH := 7 -- Extra identifier not in Microsoft API
+
 			ETHERNET_CSMACD := 6
 			IEEE1394 := 144
 			IEEE80211 := 71

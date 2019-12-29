@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 14:27:41 GMT (Sunday 29th December 2019)"
-	revision: "6"
+	date: "2019-12-29 16:01:30 GMT (Sunday 29th December 2019)"
+	revision: "7"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -34,13 +34,13 @@ feature {NONE} -- Initialization
 
 	initialize
 		local
-			ip_adapter: EL_IP_ADAPTER; ip_adapter_info: like Command.new_ip_adapter_info
-			type: NATURAL_8
+			ip_adapter: EL_IP_ADAPTER
 		do
-			ip_adapter_info := Command.new_ip_adapter_info
-			across ip_adapter_info.adapter_list as adapter loop
-				type := Network_device_type.from_linux (adapter.item.type)
-				create ip_adapter.make (type, adapter.item.name, adapter.item.description, adapter.item.address)
+			across Command.new_ip_adapter_info.adapter_list as adapter loop
+				create ip_adapter.make (
+					Network_device_type.from_linux (adapter.item.type),
+					adapter.item.name, adapter.item.description, adapter.item.address
+				)
 				extend (ip_adapter)
 			end
 		end
