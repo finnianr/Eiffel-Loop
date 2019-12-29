@@ -1,51 +1,45 @@
 note
 	description: "[
-		Parses output of nm-tool to get MAC address of ethernet devices
+		Parse terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
+		to get list of network adapter devices: [$source EL_ADAPTER_DEVICE]
 		
-		**NetworkManager Tool Output**
+			nmcli --terse dev list | grep --color=never GENERAL
+		
+		**Sample Output**
 
-			State: connected (global)
+			GENERAL.DEVICE:84:8E:DF:AD:7F:3C
+			GENERAL.TYPE:bluetooth
+			GENERAL.VENDOR:--
+			GENERAL.PRODUCT:--
+			GENERAL.DRIVER:bluez
+			GENERAL.DRIVER-VERSION:
+			GENERAL.FIRMWARE-VERSION:
+			GENERAL.HWADDR:(unknown)
+			GENERAL.STATE:30 (disconnected)
+			GENERAL.REASON:0 (No reason given)
+			GENERAL.UDI:/org/bluez/948/hci0/dev_84_8E_DF_AD_7F_3C
+			GENERAL.IP-IFACE:
+			GENERAL.NM-MANAGED:yes
+			GENERAL.AUTOCONNECT:yes
+			GENERAL.FIRMWARE-MISSING:no
+			GENERAL.CONNECTION:not connected
+			GENERAL.DEVICE:wlan0
+			GENERAL.TYPE:802-11-wireless
+			GENERAL.VENDOR:Broadcom Corporation
+			GENERAL.PRODUCT:AirPort Extreme
+			GENERAL.DRIVER:wl
+			GENERAL.DRIVER-VERSION:6.30.223.248 (r487574)
+			GENERAL.FIRMWARE-VERSION:
+			GENERAL.HWADDR:88:53:95:2E:74:99
+			GENERAL.STATE:100 (connected)
+			GENERAL.REASON:0 (No reason given)
+			GENERAL.UDI:/sys/devices/pci0000:00/0000:00:1c.1/0000:02:00.0/net/wlan0
+			GENERAL.IP-IFACE:wlan0
+			GENERAL.NM-MANAGED:yes
+			GENERAL.AUTOCONNECT:yes
+			GENERAL.FIRMWARE-MISSING:no
+			GENERAL.CONNECTION:/org/freedesktop/NetworkManager/ActiveConnection/0
 
-			Device: wlan0  [Auto Rafael] -------------------------------------------------
-			Type:              802.11 WiFi
-			Driver:            b43
-			State:             connected
-			Default:           yes
-			HW Address:        88:53:95:2E:74:99
-
-			Capabilities:
-				Speed:           24 Mb/s
-
-			Wireless Properties
-				WEP Encryption:  yes
-				WPA Encryption:  yes
-				WPA2 Encryption: yes
-
-			Wireless Access Points (* = current AP)
-				eircom33071194:  Infra, EC:43:F6:C3:1B:D8, Freq 2412 MHz, Rate 54 Mb/s, Strength 50 WPA WPA2
-				*Rafael:         Infra, EC:43:F6:C5:EE:30, Freq 2462 MHz, Rate 54 Mb/s, Strength 53 WPA WPA2
-				Vodafone_32FE:   Infra, 00:25:68:CD:8E:5E, Freq 2437 MHz, Rate 54 Mb/s, Strength 24 WEP
-				eircom07150498:  Infra, 5C:F4:AB:5A:F5:54, Freq 2457 MHz, Rate 54 Mb/s, Strength 22 WPA WPA2
-
-			IPv4 Settings:
-				Address:         192.168.1.4
-				Prefix:          24 (255.255.255.0)
-				Gateway:         192.168.1.254
-
-				DNS:             192.168.1.254
-
-			Device: eth0 -----------------------------------------------------------------
-			Type:              Wired
-			Driver:            tg3
-			State:             unavailable
-			Default:           no
-			HW Address:        A8:20:66:50:C4:36
-
-			Capabilities:
-				Carrier Detect:  yes
-
-			Wired Properties
-				Carrier:         off
 	]"
 
 	author: "Finnian Reilly"
@@ -53,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-02 13:11:28 GMT (Monday 2nd April 2018)"
-	revision: "4"
+	date: "2019-12-29 14:59:10 GMT (Sunday 29th December 2019)"
+	revision: "5"
 
 deferred class
 	EL_IP_ADAPTER_INFO_COMMAND_I
@@ -67,23 +61,9 @@ inherit
 			do_with_lines, make_default
 		end
 
-	EL_PLAIN_TEXT_LINE_STATE_MACHINE
-		rename
-			make as make_machine,
-			do_with_lines as parse_lines
-		end
-
-	EL_MODULE_HEXADECIMAL
+	EL_MODULE_COLON_FIELD
 
 feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			make_machine
-			create adapters.make (3)
-			Precursor
-		end
 
 	make
 		do
@@ -91,52 +71,41 @@ feature {NONE} -- Initialization
 			execute
 		end
 
+	make_default
+			--
+		do
+			create device.make_default
+			create adapter_list.make (3)
+			Precursor
+		end
+
 feature -- Access
 
-	adapters: EL_ARRAYED_LIST [EL_ADAPTER_DEVICE]
-
-feature {NONE} -- State handlers
-
-	find_first_device (line: ZSTRING)
-		do
-			if line.has_substring (Field_device) then
-				add_device (line)
-			end
-		end
-
-	add_device (line: ZSTRING)
-		local
-			name: ZSTRING
-		do
-			name := field_value (line)
-			if name.has ('[') then
-				name.keep_head (name.index_of ('[', 1) - 1)
-				name.right_adjust
-			end
-			adapters.extend (create {EL_ADAPTER_DEVICE}.make (name))
-			state := agent find_next_device
-		end
-
-	find_next_device (line: ZSTRING)
-		do
-			if line.has_substring (Field_device) then
-				add_device (line)
-
-			elseif line.has_substring (Field_type) then
-				adapters.last.set_type (field_value (line))
-
-			elseif line.has_substring (Field_hw_address) then
-				adapters.last.set_address (field_value (line))
-
-			end
-		end
+	adapter_list: EL_ARRAYED_LIST [EL_ADAPTER_DEVICE]
 
 feature {NONE} -- Implementation
 
 	do_with_lines (lines: like adjusted_lines)
 			--
+		local
+			table: like Field_actions
+			do_with_value: PROCEDURE [ZSTRING]
 		do
-			parse_lines (agent find_first_device, lines)
+			table := Field_actions
+			from lines.start until lines.after loop
+				if table.has_key (field_name (lines.item)) then
+					do_with_value := table.found_item
+					do_with_value.set_target (Current)
+					do_with_value (Colon_field.value (lines.item))
+				end
+				lines.forth
+			end
+		end
+
+	field_name (line: ZSTRING): STRING
+		do
+			Result := Colon_field.name (line)
+			Result.remove_head (General_dot_count)
 		end
 
 	getter_function_table: like getter_functions
@@ -145,40 +114,54 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	field_value (line: ZSTRING): ZSTRING
+feature {NONE} -- Field actions
+
+	create_device (name: ZSTRING)
 		do
-			Result := line.substring_end (line.index_of (':', 1) + 2)
-			Result.prune_all_trailing ('-')
-			Result.left_adjust
-			Result.right_adjust
+			create device.make (name)
+			try_set_adapter_address (name) -- For bluetooth `name' maybe a hardware address
 		end
 
-	hardware_address (line: ZSTRING): ARRAY [NATURAL_8]
-		local
-			byte_list: EL_ZSTRING_LIST
+	extend_list (value: ZSTRING)
 		do
-			create byte_list.make_with_separator (field_value (line), ':', False)
-			create Result.make_filled (0, 1, byte_list.count)
-			across byte_list as byte loop
-				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item).to_natural_8
+			adapter_list.extend (device)
+		end
+
+	set_description (value: ZSTRING)
+		do
+			device.set_description (value)
+		end
+
+	set_type (value: ZSTRING)
+		do
+			device.set_type (value)
+		end
+
+	try_set_adapter_address (address_candidate: ZSTRING)
+		do
+			if device.valid_hardware_address (address_candidate) then
+				device.set_address_from_string (address_candidate)
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
+	device: EL_ADAPTER_DEVICE
+
 feature {NONE} -- Constants
 
-	Field_device: ZSTRING
+	Field_actions: EL_HASH_TABLE [PROCEDURE [ZSTRING], STRING]
 		once
-			Result := "Device:"
+			create Result.make (<<
+				["DEVICE",		agent create_device],
+				["TYPE",			agent set_type],
+				["PRODUCT",		agent set_description],
+				["HWADDR",		agent try_set_adapter_address],
+				["CONNECTION",	agent extend_list]
+			>>)
 		end
 
-	Field_type: ZSTRING
-		once
-			Result := "Type:"
-		end
-
-	Field_hw_address: ZSTRING
-		once
-			Result := "HW Address:"
-		end
+	General_dot_count: INTEGER = 8
+		-- Length of "GENERAL."
 
 end

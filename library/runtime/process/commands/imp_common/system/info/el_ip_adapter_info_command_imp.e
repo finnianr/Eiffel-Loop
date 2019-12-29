@@ -1,13 +1,13 @@
 note
-	description: "Implementation of [$source EL_IP_ADAPTER_INFO_COMMAND_I] interface"
+	description: "Unix implementation of [$source EL_IP_ADAPTER_INFO_COMMAND_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-12-29 11:57:36 GMT (Sunday 29th December 2019)"
+	revision: "5"
 
 class
 	EL_IP_ADAPTER_INFO_COMMAND_IMP
@@ -39,6 +39,6 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Constants
 
-	Template: STRING = "nm-tool"
+	Template: STRING = "nmcli --terse dev list | grep --color=never GENERAL"
 
 end

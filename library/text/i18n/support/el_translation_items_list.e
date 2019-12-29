@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:28:32 GMT (Saturday 28th December 2019)"
-	revision: "5"
+	date: "2019-12-28 11:03:36 GMT (Saturday 28th December 2019)"
+	revision: "6"
 
 class
 	EL_TRANSLATION_ITEMS_LIST
@@ -19,8 +19,6 @@ inherit
 			software_version as format_version
 		export
 			{ANY} file_path
-		undefine
-			is_equal, copy
 		end
 
 	EL_ARRAYED_LIST [EL_TRANSLATION_ITEM]

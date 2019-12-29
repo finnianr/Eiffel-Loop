@@ -85,3 +85,6 @@ EL_DIRECTORY_ITERATION_CURSOR no longer uses {EL_DIRECTORY}.make_open_read
 Fri 27th Dec 2019, 15:31:22
 Added ordering conversion routines to EL_CHAIN
 
+Sat 28th Dec 2019, 10:47:53
+Undefined routines from CHAIN in ECD_CHAIN
+

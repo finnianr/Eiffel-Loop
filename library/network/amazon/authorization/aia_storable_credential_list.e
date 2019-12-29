@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 16:50:26 GMT (Friday 4th October 2019)"
-	revision: "5"
+	date: "2019-12-29 11:19:56 GMT (Sunday 29th December 2019)"
+	revision: "6"
 
 class
 	AIA_STORABLE_CREDENTIAL_LIST
@@ -19,13 +19,6 @@ inherit
 			make_from_encrypted_file as make
 		export
 			{ANY} file_path
-		undefine
-			valid_index, is_inserted, is_equal,
-			first, last,
-			do_all, do_if, there_exists, has, for_all,
-			start, search, finish, move,
-			append_sequence, swap, force, copy, prune_all, prune, new_cursor,
-			at, put_i_th, i_th, go_i_th
 		select
 			remove, extend, replace
 		end

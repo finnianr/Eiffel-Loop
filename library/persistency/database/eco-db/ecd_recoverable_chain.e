@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:31:58 GMT (Saturday 28th December 2019)"
-	revision: "15"
+	date: "2019-12-28 11:05:48 GMT (Saturday 28th December 2019)"
+	revision: "16"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -28,8 +28,6 @@ inherit
 	ECD_CHAIN [G]
 		rename
 			delete as chain_delete
-		undefine
-			copy, is_equal
 		redefine
 			make_from_file, delete_file, on_retrieve, rename_file, safe_store, is_closed
 		end

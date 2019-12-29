@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2019-12-29 11:26:29 GMT (Sunday 29th December 2019)"
+	revision: "6"
 
 class
 	STORABLE_STRING_LIST
@@ -16,13 +16,6 @@ inherit
 	ECD_CHAIN [STORABLE_STRING]
 		rename
 			on_delete as do_nothing
-		undefine
-			valid_index, is_inserted, is_equal,
-			first, last,
-			do_all, do_if, there_exists, has, for_all,
-			start, search, finish, at,
-			append_sequence, swap, force, copy, prune_all, prune, move,
-			put_i_th, i_th, go_i_th, new_cursor
 		end
 
 	ARRAYED_LIST [STORABLE_STRING]

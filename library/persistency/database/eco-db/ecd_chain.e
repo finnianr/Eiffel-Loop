@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:33:07 GMT (Saturday 28th December 2019)"
-	revision: "17"
+	date: "2019-12-28 11:05:24 GMT (Saturday 28th December 2019)"
+	revision: "18"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -59,11 +59,16 @@ inherit
 		end
 
 	EL_ENCRYPTABLE
+		undefine
+			copy, is_equal
 		redefine
 			set_encrypter
 		end
 
 	EL_STORABLE_HANDLER
+		undefine
+			copy, is_equal
+		end
 
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 

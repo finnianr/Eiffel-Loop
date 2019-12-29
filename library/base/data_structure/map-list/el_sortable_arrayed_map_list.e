@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 14:23:02 GMT (Friday 27th December 2019)"
-	revision: "2"
+	date: "2019-12-29 10:34:53 GMT (Sunday 29th December 2019)"
+	revision: "3"
 
 deferred class
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
@@ -23,15 +23,22 @@ inherit
 feature -- Basic operations
 
 	sort (in_ascending_order: BOOLEAN)
-		local
-			quick: QUICK_SORTER [like item]
 		do
-			create quick.make (Current)
 			if in_ascending_order then
-				quick.sort (Current)
+				sorter.sort (Current)
 			else
-				quick.reverse_sort (Current)
+				sorter.reverse_sort (Current)
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	sorter: SORTER [like item]
+		do
+			if count < 50 then
+				create {BUBBLE_SORTER [like item]} Result.make (Current)
+			else
+				create {QUICK_SORTER [like item]} Result.make (Current)
+			end
+		end
 end
