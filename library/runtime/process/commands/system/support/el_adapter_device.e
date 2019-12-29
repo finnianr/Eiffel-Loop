@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 14:18:57 GMT (Sunday 29th December 2019)"
-	revision: "8"
+	date: "2019-12-29 15:44:15 GMT (Sunday 29th December 2019)"
+	revision: "9"
 
 class
 	EL_ADAPTER_DEVICE
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	address: like new_hardware_address
+	address: ARRAY [NATURAL_8]
 
 	name: ZSTRING
 
@@ -71,7 +71,7 @@ feature -- Contract Support
 
 	valid_hardware_address (value: ZSTRING): BOOLEAN
 		do
-			Result := value.occurrences (':') = Hardware_address_colon_count
+			Result := value.occurrences (':') = MAC_address_colon_count
 		end
 
 feature {NONE} -- Factory
@@ -89,6 +89,6 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Constants
 
-	Hardware_address_colon_count: INTEGER = 5
+	MAC_address_colon_count: INTEGER = 5
 
 end

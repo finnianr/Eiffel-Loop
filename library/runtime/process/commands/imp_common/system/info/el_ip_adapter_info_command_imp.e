@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 11:57:36 GMT (Sunday 29th December 2019)"
-	revision: "5"
+	date: "2019-12-29 15:39:55 GMT (Sunday 29th December 2019)"
+	revision: "6"
 
 class
 	EL_IP_ADAPTER_INFO_COMMAND_IMP
@@ -39,6 +39,6 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Constants
 
-	Template: STRING = "nmcli --terse dev list | grep --color=never GENERAL"
+	Template: STRING = "nmcli --terse --fields GENERAL dev list"
 
 end

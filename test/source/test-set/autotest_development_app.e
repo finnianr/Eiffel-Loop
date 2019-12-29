@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 11:21:33 GMT (Sunday 29th December 2019)"
-	revision: "55"
+	date: "2019-12-29 15:15:31 GMT (Sunday 29th December 2019)"
+	revision: "56"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR] -- ***** FIX THIS ****
 		once
 			create Result
 		end

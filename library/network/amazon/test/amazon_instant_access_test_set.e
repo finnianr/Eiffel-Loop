@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:46:25 GMT (Saturday 5th October 2019)"
-	revision: "9"
+	date: "2019-12-29 15:09:19 GMT (Sunday 29th December 2019)"
+	revision: "10"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -302,7 +302,7 @@ feature {NONE} -- Events
 feature {NONE} -- Constants
 
 	Credentials_file_path: EL_FILE_PATH
-		do
+		once
 			Result := Work_area_dir + "credentials.dat"
 		end
 

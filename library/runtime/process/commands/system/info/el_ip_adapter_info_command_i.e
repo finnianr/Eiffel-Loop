@@ -3,7 +3,7 @@ note
 		Parse terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
 		to get list of network adapter devices: [$source EL_ADAPTER_DEVICE]
 		
-			nmcli --terse dev list | grep --color=never GENERAL
+			nmcli --terse --fields GENERAL dev list
 		
 		**Sample Output**
 
@@ -47,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 14:59:10 GMT (Sunday 29th December 2019)"
-	revision: "5"
+	date: "2019-12-29 15:52:29 GMT (Sunday 29th December 2019)"
+	revision: "6"
 
 deferred class
 	EL_IP_ADAPTER_INFO_COMMAND_I
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 		do
 			table := Field_actions
 			from lines.start until lines.after loop
-				if table.has_key (field_name (lines.item)) then
+				if lines.item.starts_with (General_dot) and then table.has_key (field_name (lines.item)) then
 					do_with_value := table.found_item
 					do_with_value.set_target (Current)
 					do_with_value (Colon_field.value (lines.item))
@@ -103,9 +103,11 @@ feature {NONE} -- Implementation
 		end
 
 	field_name (line: ZSTRING): STRING
+		require
+			starts_with_general: line.starts_with (General_dot)
 		do
 			Result := Colon_field.name (line)
-			Result.remove_head (General_dot_count)
+			Result.remove_head (General_dot.count)
 		end
 
 	getter_function_table: like getter_functions
@@ -161,7 +163,6 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	General_dot_count: INTEGER = 8
-		-- Length of "GENERAL."
+	General_dot: STRING = "GENERAL."
 
 end

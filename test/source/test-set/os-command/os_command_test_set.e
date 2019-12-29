@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:47:23 GMT (Saturday 5th October 2019)"
-	revision: "6"
+	date: "2019-12-29 15:02:36 GMT (Sunday 29th December 2019)"
+	revision: "7"
 
 class
 	OS_COMMAND_TEST_SET
@@ -47,7 +47,7 @@ feature -- Tests
 			log.enter ("test_adapter_info")
 			if {PLATFORM}.is_unix then
 				adapter_info_cmd := Command.new_ip_adapter_info
-				across adapter_info_cmd.adapters as adapter loop
+				across adapter_info_cmd.adapter_list as adapter loop
 					create ifconfig_cmd.make ("ifconfig | grep ^$name")
 					ifconfig_cmd.put_string ("name", adapter.item.name)
 					ifconfig_cmd.execute
@@ -58,7 +58,7 @@ feature -- Tests
 						ifconfig_cmd.lines.first.right_adjust
 						words := ifconfig_cmd.lines.first.split (' ')
 						create device.make (words.first)
-						device.set_address (words.last)
+						device.set_address_from_string (words.last)
 						log.put_string (" Confirmed")
 						assert ("same name", device.name ~ adapter.item.name)
 						assert ("same address", device.address ~ adapter.item.address)
