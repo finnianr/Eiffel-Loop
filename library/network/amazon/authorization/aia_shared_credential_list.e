@@ -1,7 +1,12 @@
 note
-	description: "Shared credential list"
+	description: "[
+		Shared instance of [$source AIA_CREDENTIAL_LIST] or a conforming type,
+		[$source AIA_STORABLE_CREDENTIAL_LIST] for example.
+	]"
 	notes: "[
-		Override `new_credential_list' if you wish to implement your own storage scheme
+		Make sure your application has created an instance of `AIA_CREDENTIAL_LIST' 
+		(or a conforming type) before any calls to `Credential_list' are made from
+		[$source AIA_REQUEST_MANAGER].
 	]"
 	tests: "See: [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
 
@@ -10,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 16:50:20 GMT (Friday 4th October 2019)"
-	revision: "5"
+	date: "2019-12-29 18:16:49 GMT (Sunday 29th December 2019)"
+	revision: "6"
 
 deferred class
 	AIA_SHARED_CREDENTIAL_LIST
@@ -19,30 +24,11 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-	EL_MODULE_DIRECTORY
-
-feature {NONE} -- Implementation
-
-	new_credential_list: like Credential_list
-		do
-			create {AIA_STORABLE_CREDENTIAL_LIST} Result.make (credentials_file_path, new_encrypter)
-		end
-
-	new_encrypter: EL_AES_ENCRYPTER
-		do
-			create Result.make ("abc", 128)
-		end
-
-	credentials_file_path: EL_FILE_PATH
-		do
-			Result := Directory.App_data + "credentials.dat"
-		end
-
 feature {NONE} -- Constants
 
-	Credential_list: EL_ARRAYED_LIST [AIA_CREDENTIAL]
+	Credential_list: AIA_CREDENTIAL_LIST
 		once
-			Result := new_credential_list
+			Result := create {EL_CONFORMING_SINGLETON [AIA_CREDENTIAL_LIST]}
 		end
 
 end

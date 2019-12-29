@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 15:09:19 GMT (Sunday 29th December 2019)"
-	revision: "10"
+	date: "2019-12-29 18:18:06 GMT (Sunday 29th December 2019)"
+	revision: "11"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -24,21 +24,11 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	AIA_SHARED_CREDENTIAL_LIST
-		redefine
-			credentials_file_path
-		end
-
 	AIA_SHARED_REQUEST_MANAGER
 
 	AIA_SHARED_ENUMERATIONS
 
 feature -- Account Linking
-
-	test_response_code
-		do
-			assert ("same message", response_enum.name (response_enum.fail_other) ~ "FAIL_OTHER")
-		end
 
 	test_get_user_id
 		note
@@ -90,8 +80,7 @@ feature -- Authorization
 
 	test_credential_storage
 		do
-			Credential_list.wipe_out
-			new_credential_list.do_all (agent Credential_list.extend)
+			create credential_list.make (credentials_file_path, new_encrypter)
 			assert ("same credential", Credential ~ Credential_list.first)
 		end
 
@@ -230,6 +219,11 @@ feature -- Purchase
 			end
 		end
 
+	test_response_code
+		do
+			assert ("same message", response_enum.name (response_enum.fail_other) ~ "FAIL_OTHER")
+		end
+
 feature {NONE} -- Request handlers
 
 	get_user_id_1234 (request: AIA_GET_USER_ID_REQUEST): AIA_GET_USER_ID_RESPONSE
@@ -259,6 +253,8 @@ feature {NONE} -- Implementation
 			assert ("same", request.purchase_token ~ "6f3092e5-0326-42b7-a107-416234d548d8")
 		end
 
+feature {NONE} -- Implementation
+
 	new_amazon_request: FCGI_REQUEST_PARAMETERS
 		do
 			create Result.make
@@ -269,6 +265,11 @@ feature {NONE} -- Implementation
 			Result.set_server_port (80)
 			Result.set_request_method ("POST")
 			Result.set_request_uri ("/")
+		end
+
+	new_encrypter: EL_AES_ENCRYPTER
+		do
+			create Result.make ("abc", 128)
 		end
 
 	request_get_user_id_1234 (request: like new_amazon_request; json_response: STRING)
@@ -290,25 +291,30 @@ feature {NONE} -- Implementation
 			signer.sign
 		end
 
+feature {NONE} -- Internal attributes
+
+	credential_list: AIA_STORABLE_CREDENTIAL_LIST
+
 feature {NONE} -- Events
 
 	on_prepare
 			-- Called after all initializations in `default_create'.
 		do
 			Precursor
-			Credential_list.extend (Credential)
+			create credential_list.make (credentials_file_path, new_encrypter)
+			credential_list.extend (Credential)
 		end
 
 feature {NONE} -- Constants
 
-	Credentials_file_path: EL_FILE_PATH
-		once
-			Result := Work_area_dir + "credentials.dat"
-		end
-
 	Credential: AIA_CREDENTIAL
 		once
 			create Result.make ("SECRET", "PUBLIC")
+		end
+
+	Credentials_file_path: EL_FILE_PATH
+		once
+			Result := Work_area_dir + "credentials.dat"
 		end
 
 	Signed_headers: EL_SPLIT_STRING_LIST [STRING]

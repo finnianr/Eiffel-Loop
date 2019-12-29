@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 11:19:56 GMT (Sunday 29th December 2019)"
-	revision: "6"
+	date: "2019-12-29 18:02:08 GMT (Sunday 29th December 2019)"
+	revision: "7"
 
 class
 	AIA_STORABLE_CREDENTIAL_LIST
@@ -23,7 +23,7 @@ inherit
 			remove, extend, replace
 		end
 
-	ECD_ARRAYED_LIST [AIA_CREDENTIAL]
+	AIA_CREDENTIAL_LIST
 		rename
 			make as make_chain_implementation,
 			remove as chain_remove,
@@ -41,6 +41,12 @@ feature -- Access
 	software_version: NATURAL
 		do
 			Result := Build_info.version_number
+		end
+
+feature {NONE} -- Event handling
+
+	on_delete
+		do
 		end
 
 end

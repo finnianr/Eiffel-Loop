@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 15:44:15 GMT (Sunday 29th December 2019)"
-	revision: "9"
+	date: "2019-12-29 16:19:57 GMT (Sunday 29th December 2019)"
+	revision: "10"
 
 class
 	EL_ADAPTER_DEVICE
@@ -52,6 +52,8 @@ feature -- Access
 feature -- Element change
 
 	set_address_from_string (string: ZSTRING)
+		require
+			valid_address: valid_hardware_address (string)
 		do
 			address := new_hardware_address (string)
 		end

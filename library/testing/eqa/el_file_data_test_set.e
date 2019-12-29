@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:56:25 GMT (Saturday 5th October 2019)"
-	revision: "1"
+	date: "2019-12-29 17:40:11 GMT (Sunday 29th December 2019)"
+	revision: "2"
 
 class
 	EL_FILE_DATA_TEST_SET
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			l_dir: EL_DIRECTORY
 		do
 			create l_dir.make (Work_area_dir)
-			l_dir.recursive_delete
+			l_dir.delete_content
 		end
 
 feature {NONE} -- Constants
