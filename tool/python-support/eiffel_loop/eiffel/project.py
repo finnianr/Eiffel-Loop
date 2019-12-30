@@ -10,6 +10,7 @@ import ctypes, os, string, sys, imp, platform
 from string import Template
 from os import path
 from glob import glob
+from distutils import dir_util
 
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
 
@@ -217,6 +218,13 @@ class EIFFEL_PROJECT (object):
 
 		self.exe_name = system.exe_name ()
 		self.version = system.version ().short_string ()
+# Access
+	def eifgens_dir (self):
+		result = path.join ('build', ise.platform, 'EIFGENs')
+		return result
+
+	def platform_name (self):
+		pass
 
 # Basic operation
 	def build (self, cpu_target, options_extra = None):
@@ -225,6 +233,21 @@ class EIFFEL_PROJECT (object):
 			options.extend (options_extra)
 			
 		call (scons_command (options))
+
+	def clean_build (self):
+		l_dir = self.eifgens_dir ()
+		if path.exists (l_dir):
+			dir_util.remove_tree (l_dir)
+
+		f_code_tar = path.join ('build', 'F_code-%s.tar' % self.platform_name ()) 
+		if path.exists (f_code_tar):
+			os.remove (f_code_tar)
+
+		self.freeze_build ()
+
+	def freeze_build (self):
+		# Build Workbench code
+		call (scons_command (['action=freeze']))
 
 	def copy (self, exe_path, exe_dest_path):
 		pass
@@ -238,7 +261,7 @@ class EIFFEL_PROJECT (object):
 	def install (self, install_dir, f_code = False):
 		# Install linked version of executable in `install_dir'
 		if f_code:
-			exe_path = path.join ('build', ise.platform, 'EIFGENs', 'classic', 'F_code', self.exe_name)
+			exe_path = path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
 		else:
 			exe_path = path.join ('build', ise.platform, 'package', 'bin', self.exe_name)
 
@@ -274,6 +297,10 @@ class EIFFEL_PROJECT (object):
 
 class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 
+# Access
+	def platform_name (self):
+		return 'unix'
+
 # Basic operation
 	def copy (self, exe_path, exe_dest_path):
 		return file_util.sudo_copy_file (exe_path, exe_dest_path)
@@ -290,6 +317,12 @@ class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 
 
 class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
+# Microsoft Windows project
+
+# Access
+	def platform_name (self):
+		return 'windows'
+
 # Basic operation
 	def copy (self, exe_path, exe_dest_path):
 		return file_util.copy_file (exe_path, exe_dest_path)

@@ -4,7 +4,7 @@ note
 		[$source AIA_STORABLE_CREDENTIAL_LIST] for example.
 	]"
 	notes: "[
-		Make sure your application has created an instance of `AIA_CREDENTIAL_LIST' 
+		Make sure your application has created an instance of [$source AIA_CREDENTIAL_LIST] 
 		(or a conforming type) before any calls to `Credential_list' are made from
 		[$source AIA_REQUEST_MANAGER].
 	]"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 18:16:49 GMT (Sunday 29th December 2019)"
-	revision: "6"
+	date: "2019-12-29 18:25:28 GMT (Sunday 29th December 2019)"
+	revision: "7"
 
 deferred class
 	AIA_SHARED_CREDENTIAL_LIST

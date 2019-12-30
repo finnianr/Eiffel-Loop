@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 17:47:36 GMT (Tuesday 1st October 2019)"
-	revision: "17"
+	date: "2019-12-30 11:23:31 GMT (Monday 30th December 2019)"
+	revision: "18"
 
 class
 	EL_CLASS_META_DATA
@@ -59,8 +59,16 @@ feature -- Access
 	hidden_fields: EL_FIELD_INDICES_SET
 
 	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; except_field_names: STRING)
+		local
+			excluded: EL_FIELD_INDICES_SET
 		do
-			field_array.sink_except (a_object, sinkable, new_field_indices_set (except_field_names))
+			if sink_except_fields.has_key (except_field_names) then
+				excluded := sink_except_fields.found_item
+			else
+				excluded := new_field_indices_set (except_field_names)
+				sink_except_fields.extend (excluded, except_field_names)
+			end
+			field_array.sink_except (a_object, sinkable, excluded)
 		end
 
 feature -- Basic operations
@@ -177,6 +185,12 @@ feature {NONE} -- Internal attributes
 	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
+
+	sink_except_fields: HASH_TABLE [EL_FIELD_INDICES_SET, STRING]
+		-- fields excluded by `sink_except' by `except_field_names'
+		once ("OBJECT")
+			create Result.make (0)
+		end
 
 feature {NONE} -- Constants
 
