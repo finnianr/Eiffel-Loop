@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2019-12-31 9:19:39 GMT (Tuesday 31st December 2019)"
+	revision: "8"
 
 class
 	EL_GLOBAL_LOGGING
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_MODULE_LOG
+
+	EL_SHARED_LOG_OPTION
 
 create
 	make
@@ -35,7 +37,7 @@ feature {NONE} -- Initialization
 
 			create Routine_table.make (Routine_hash_table_size)
 			create Routine_id_table.make (Routine_hash_table_size)
-			is_active := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Logging)
+			is_active := Log_option.logging
 		end
 
 feature {EL_CONSOLE_AND_FILE_LOG} -- Access

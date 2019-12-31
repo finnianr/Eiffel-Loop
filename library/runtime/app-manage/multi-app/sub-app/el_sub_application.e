@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 11:16:00 GMT (Tuesday 24th December 2019)"
-	revision: "34"
+	date: "2019-12-31 10:41:06 GMT (Tuesday 31st December 2019)"
+	revision: "35"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -34,6 +34,8 @@ inherit
 	EL_MODULE_OS_RELEASE
 
 	EL_SHARED_SINGLETONS
+	EL_SHARED_BASE_OPTION
+	EL_SHARED_APPLICATION_OPTION
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -55,8 +57,6 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 	make
 			--
-		local
-			boolean: BOOLEAN_REF
 		do
 			put_singleton (Current)
 			call (new_locale)
@@ -65,12 +65,13 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			create argument_errors.make (0)
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
 
-			create boolean
-			across standard_options as option loop
-				set_boolean_from_command_opt (boolean, option.key, option.item)
+			across standard_options as options loop
+				across options.item.help_table as help loop
+					options_help.extend (help.key, help.item, False)
+				end
 			end
 			init_console
-			if not (Args.has_no_app_header or Args.has_silent) then
+			if not (Application_option.no_app_header or Base_option.silent) then
 				io_put_header
 			end
 			do_application
@@ -125,14 +126,7 @@ feature -- Status query
 	ask_user_to_quit: BOOLEAN
 			--
 		do
-			Result := Args.word_option_exists ({EL_COMMAND_OPTIONS}.Ask_user_to_quit)
-		end
-
-	command_line_help_option_exists: BOOLEAN
-		do
-			-- Args.character_option_exists ({EL_COMMAND_OPTIONS}.Help [1]) or else
-			-- This doesn't work because of a bug in {ARGUMENTS_32}.option_character_equal
-			Result := Args.word_option_exists ({EL_COMMAND_OPTIONS}.Help)
+			Result := Application_option.ask_user_to_quit
 		end
 
 	has_argument_errors: BOOLEAN
@@ -148,16 +142,6 @@ feature -- Status query
 	is_valid_platform: BOOLEAN
 		do
 			Result := True
-		end
-
-	set_boolean_from_command_opt (a_bool: BOOLEAN_REF; a_word_option, a_description: READABLE_STRING_GENERAL)
-		do
-			if a_bool.item and then Args.word_option_exists (a_word_option) then
-				a_bool.set_item (False)
-			else
-				a_bool.set_item (Args.word_option_exists (a_word_option))
-			end
-			options_help.extend (a_word_option, a_description, False)
 		end
 
 feature -- Element change
@@ -219,7 +203,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
 					lio.put_new_line
-				elseif command_line_help_option_exists then
+				elseif Application_option.help then
 					options_help.print_to_lio
 
 				elseif has_argument_errors then
@@ -247,7 +231,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_new_line
 			test := "test"
-			if Args.argument_count >= 2 and then Args.item (2).same_string (test) then
+			if Args.word_option_exists (test) then
 				build_version := test
 			else
 				build_version := Build_info.version.out
@@ -268,15 +252,10 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	standard_options: EL_HASH_TABLE [STRING, STRING]
+	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
 		-- Standard command line options
 		do
-			create Result.make (<<
-				[{EL_COMMAND_OPTIONS}.No_highlighting, 	"Turn off color highlighting for console output"],
-				[{EL_COMMAND_OPTIONS}.No_app_header, 		"Suppress output of application information"],
-				[{EL_COMMAND_OPTIONS}.silent, 				"Suppress all output to console"],
-				[{EL_COMMAND_OPTIONS}.Ask_user_to_quit, 	"Prompt user to quit before exiting application"]
-			>>)
+			create Result.make_from_array (<< Base_option, Application_option >>)
 		end
 
 	visible_types: TUPLE

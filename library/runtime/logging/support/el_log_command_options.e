@@ -6,24 +6,49 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2019-12-31 12:00:06 GMT (Tuesday 31st December 2019)"
+	revision: "5"
 
 class
 	EL_LOG_COMMAND_OPTIONS
 
 inherit
-	EL_COMMAND_OPTIONS
+	EL_COMMAND_LINE_OPTIONS
+		redefine
+			Name
+		end
+
+create
+	make
 
 feature -- Constants
 
-	Keep_logs: STRING = "keep_logs"
+	keep_logs: BOOLEAN
 		-- Do not delete logs
 
-	Logging: STRING = "logging"
+	logging: BOOLEAN
 		-- turns on logging
 
-	Thread_toolbar: STRING = "thread_toolbar"
+	thread_toolbar: BOOLEAN
 		-- active console thread management toolbar
+
+feature -- Constants
+
+	Name: TUPLE [logging, thread_toolbar: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "logging, thread_toolbar")
+		end
+
+feature {NONE} -- Constants
+
+	Help_text: STRING = "[
+		logging:
+			Activate application logging to console
+		keep_logs:
+			Do not delete log file on program exit
+		thread_toolbar:
+			Activate thread management toolbar in GUI applications
+	]"
 
 end

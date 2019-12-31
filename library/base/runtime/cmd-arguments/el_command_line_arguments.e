@@ -6,53 +6,60 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:46:51 GMT (Friday 25th January 2019)"
-	revision: "7"
+	date: "2019-12-31 8:02:45 GMT (Tuesday 31st December 2019)"
+	revision: "8"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
 
 inherit
 	ARGUMENTS_32
+		rename
+			command_name as command_name_32,
+			i_th_argument_string as i_th_argument_string_32,
+			option_sign as option_sign_cell
+		export
+			{NONE} all
+			{ANY} argument_count
 		redefine
-			index_of_word_option, index_of_beginning_with_word_option, separate_word_option_value
+			index_of_word_option
 		end
 
-	EL_MODULE_STRING_32
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		local
+			i: INTEGER; item: ZSTRING
+		do
+			option_sign := option_sign_cell.item
+			create internal_option_key.make_empty
+			create list.make (argument_count + 1)
+			from i := 1 until i > argument_count loop
+				list.extend (i_th_argument_string (i))
+				i := i + 1
+			end
+			create table.make_equal (list.count)
+			from list.start until list.after loop
+				item := list.item
+				if is_option (item) then
+					if list.index + 1 > list.count then
+						table.put (create {EL_ZSTRING}.make_empty, item)
+					else
+						table.put (list.i_th (list.index + 1), item)
+					end
+				end
+				list.forth
+			end
+		end
 
 feature -- Access
 
-	remaining_items (index: INTEGER): ARRAYED_LIST [ZSTRING]
-		require
-			valid_index: index <= argument_count
-		local
-			i: INTEGER
+	command_name: ZSTRING
 		do
-			create Result.make (argument_count - index + 1)
-			from i := index until i > argument_count loop
-				Result.extend (item (i))
-				i := i + 1
-			end
-		end
-
-	remaining_file_paths (index: INTEGER): ARRAYED_LIST [EL_FILE_PATH]
-		require
-			valid_index: index <= argument_count
-		local
-			l_remaining_items: like remaining_items
-		do
-			l_remaining_items := remaining_items (index)
-			create Result.make (l_remaining_items.count)
-			across l_remaining_items as string loop
-				Result.extend (string.item)
-			end
-		end
-
-	item (i: INTEGER): ZSTRING
-		require
-			item_exists: 1 <= i and i <= argument_count
-		do
-			create Result.make_from_general (argument (i))
+			Result := i_th_argument_string (0)
 		end
 
 	directory_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
@@ -69,18 +76,50 @@ feature -- Access
 			Result := value (name)
 		end
 
+	i_th (i: INTEGER): ZSTRING
+		require
+			item_exists: 1 <= i and i <= argument_count
+		do
+			Result := list.i_th (i).twin
+		end
+
 	integer (name: READABLE_STRING_GENERAL): INTEGER
 		require
 			integer_value_exists: has_integer (name)
 		do
-			Result := value (name).to_integer
+			if table.has_key (option_key (name)) and then table.found_item.is_integer then
+				Result := table.found_item.to_integer
+			end
 		end
 
 	option_name (index: INTEGER): ZSTRING
 		do
-			if argument_array.valid_index (index) then
-				Result := item (index)
+			if list.valid_index (index) then
+				Result := list.i_th (index).twin
 				Result.prune_all_leading ('-')
+			else
+				create Result.make_empty
+			end
+		end
+
+	remaining_file_paths (name: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+		local
+			l_remaining_items: like remaining_items
+		do
+			l_remaining_items := remaining_items (name)
+			create Result.make_with_count (l_remaining_items.count)
+			across l_remaining_items as string loop
+				Result.extend (string.item)
+			end
+		end
+
+	remaining_items (name: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		local
+			index: INTEGER
+		do
+			index := index_of_word_option (name)
+			if 0 < index and index < argument_count then
+				Result := list.sub_list (index + 1, argument_count)
 			else
 				create Result.make_empty
 			end
@@ -90,12 +129,9 @@ feature -- Access
 			-- string value of name value pair arguments
 		require
 			has_value: has_value (name)
-		local
-			index: INTEGER
 		do
-			index := index_of_word_option (name) + 1
-			if index >= 2 and index <= argument_count then
-				Result := item (index)
+			if table.has_key (option_key (name)) and then not is_option (table.found_item) then
+				Result := table.found_item
 			else
 				create Result.make_empty
 			end
@@ -103,111 +139,117 @@ feature -- Access
 
 feature -- Basic operations
 
-	set_string_from_word_option (
-		word_option: READABLE_STRING_GENERAL; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING
-	)
+	set_boolean_from_word_option (name: READABLE_STRING_GENERAL; set_boolean: PROCEDURE)
 			--
 		do
-			if has_value (word_option) then
-				set_string (item (index_of_word_option (word_option) + 1))
-			else
-				set_string (default_value)
+			if table.has (option_key (name))  then
+				set_boolean.apply
 			end
 		end
 
-	set_real_from_word_option (word_option: READABLE_STRING_GENERAL; set_real: PROCEDURE [REAL]; default_value: REAL)
+	set_integer_from_word_option (name: READABLE_STRING_GENERAL; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER)
 			--
-		local
-			real_string: ZSTRING
 		do
-			if has_value (word_option) then
-				real_string := item (index_of_word_option (word_option) + 1)
-				if real_string.is_real then
-					set_real (real_string.to_real)
-				end
-			else
-				set_real (default_value)
-			end
-		end
-
-	set_integer_from_word_option (
-		word_option: READABLE_STRING_GENERAL; set_integer: PROCEDURE [INTEGER]; default_value: INTEGER
-	)
-			--
-		local
-			integer_string: ZSTRING
-		do
-			if has_value (word_option) then
-				integer_string := item (index_of_word_option (word_option) + 1)
-				if integer_string.is_integer then
-					set_integer (integer_string.to_integer)
-				end
+			if table.has_key (option_key (name)) and then table.found_item.is_integer then
+				set_integer (table.found_item.to_integer)
 			else
 				set_integer (default_value)
 			end
 		end
 
-	set_boolean_from_word_option (word_option: READABLE_STRING_GENERAL; set_boolean: PROCEDURE)
+	set_real_from_word_option (name: READABLE_STRING_GENERAL; set_real: PROCEDURE [REAL]; default_value: REAL)
 			--
 		do
-			if word_option_exists (word_option) then
-				set_boolean.apply
+			if table.has_key (option_key (name)) and then table.found_item.is_real then
+				set_real (table.found_item.to_real)
+			else
+				set_real (default_value)
+			end
+		end
+
+	set_string_from_word_option (name: READABLE_STRING_GENERAL; set_string: PROCEDURE [ZSTRING]; default_value: ZSTRING)
+			--
+		do
+			if table.has_key (option_key (name)) and then not table.found_item.is_empty then
+				set_string (table.found_item)
+			else
+				set_string (default_value)
 			end
 		end
 
 feature -- Status query
 
-	has_integer (name: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := has_value (name) and then value (name).is_integer
-		end
-
-	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := index_of_beginning_with_word_option (name) > 0
-		end
-
-	has_silent: BOOLEAN
-		do
-			Result := word_option_exists ({EL_COMMAND_OPTIONS}.Silent)
-		end
-
-	has_no_app_header: BOOLEAN
-		do
-			Result := word_option_exists ({EL_COMMAND_OPTIONS}.No_app_header)
-		end
-
-	word_option_exists (word_option: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := index_of_word_option (word_option) > 0
-		end
-
 	character_option_exists (character_option: CHARACTER_32): BOOLEAN
 			--
 		do
-			Result := index_of_character_option (character_option) > 0
+			Result := word_option_exists (character_option.out)
 		end
 
-feature -- ZSTRING conversion
-
-	index_of_word_option (opt: READABLE_STRING_GENERAL): INTEGER
-		 -- Converts ZSTRING objects
+	has_integer (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := Precursor (opt.to_string_32)
+			Result := table.has_key (option_key (name)) and then table.found_item.is_integer
 		end
 
-	index_of_beginning_with_word_option (opt: READABLE_STRING_GENERAL): INTEGER
-		 -- Converts ZSTRING objects
+	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := Precursor (opt.to_string_32)
+			Result := table.has_key (option_key (name)) and then not is_option (table.found_item)
 		end
 
-	separate_word_option_value (opt: READABLE_STRING_GENERAL): IMMUTABLE_STRING_32
-		 -- Converts ZSTRING objects
+	word_option_exists (name: READABLE_STRING_GENERAL): BOOLEAN
+			--
 		do
-			Result := Precursor (opt.to_string_32)
+			Result := table.has (option_key (name))
 		end
+
+feature -- Measurement
+
+	index_of_word_option (name: READABLE_STRING_GENERAL): INTEGER
+		do
+			Result := list.index_of (option_key (name), 1)
+		end
+
+feature {NONE} -- Implementation
+
+	option_key (opt: READABLE_STRING_GENERAL): ZSTRING
+		do
+			Result := internal_option_key
+			Result.wipe_out
+			Result.append_character (option_sign)
+			Result.append_string_general (opt)
+		end
+
+	i_th_argument_string (i: INTEGER): ZSTRING
+		require
+			index_large_enough: i >= 0
+			index_small_enough: i <= argument_count
+		do
+			create Result.make_from_general (i_th_argument_string_32 (i))
+		end
+
+	is_option (str: ZSTRING): BOOLEAN
+		-- true if `str' appears to be a command line option
+		do
+			Result := str.count >= 2
+			across str as chr until not Result loop
+				inspect chr.cursor_index
+					when 1 then
+						Result := chr.item = option_sign
+					when 2 then
+						Result := chr.item.is_alpha
+				else
+					Result := chr.item.is_alpha_numeric or else chr.item = '_'
+				end
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	option_sign: CHARACTER_32
+
+	list: EL_ZSTRING_LIST
+
+	table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+
+	internal_option_key: ZSTRING
 
 end

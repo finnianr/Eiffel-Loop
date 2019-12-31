@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-30 11:23:31 GMT (Monday 30th December 2019)"
-	revision: "18"
+	date: "2019-12-30 11:32:36 GMT (Monday 30th December 2019)"
+	revision: "19"
 
 class
 	EL_CLASS_META_DATA
@@ -58,15 +58,15 @@ feature -- Access
 
 	hidden_fields: EL_FIELD_INDICES_SET
 
-	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; except_field_names: STRING)
+	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; a_excluded_fields: STRING)
 		local
 			excluded: EL_FIELD_INDICES_SET
 		do
-			if sink_except_fields.has_key (except_field_names) then
+			if sink_except_fields.has_key (a_excluded_fields) then
 				excluded := sink_except_fields.found_item
 			else
-				excluded := new_field_indices_set (except_field_names)
-				sink_except_fields.extend (excluded, except_field_names)
+				excluded := new_field_indices_set (a_excluded_fields)
+				sink_except_fields.extend (excluded, a_excluded_fields)
 			end
 			field_array.sink_except (a_object, sinkable, excluded)
 		end
@@ -187,7 +187,7 @@ feature {NONE} -- Internal attributes
 	enclosing_object: EL_REFLECTIVE
 
 	sink_except_fields: HASH_TABLE [EL_FIELD_INDICES_SET, STRING]
-		-- fields excluded by `sink_except' by `except_field_names'
+		-- fields excluded by `sink_except' by `a_excluded_fields'
 		once ("OBJECT")
 			create Result.make (0)
 		end

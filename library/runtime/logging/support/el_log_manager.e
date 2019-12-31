@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:26:17 GMT (Tuesday 19th November 2019)"
-	revision: "10"
+	date: "2019-12-31 9:19:13 GMT (Tuesday 31st December 2019)"
+	revision: "11"
 
 class
 	EL_LOG_MANAGER
@@ -30,6 +30,8 @@ inherit
 			directory as shared_directory
 		end
 
+	EL_SHARED_LOG_OPTION
+
 create
 	make
 
@@ -43,7 +45,7 @@ feature {NONE} -- Initialization
 			create log_file_by_thread_id_table.make (11)
 			create log_file_by_object_id_table.make (11)
 			create thread_id_list.make (11)
-			console_manager_active := Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Thread_toolbar)
+			console_manager_active := Log_option.thread_toolbar
 		end
 
 feature -- Initialization
@@ -257,7 +259,7 @@ feature -- Removal
 	delete_logs
 			--
 		do
-			if not Args.word_option_exists ({EL_LOG_COMMAND_OPTIONS}.Keep_logs) and then output_directory.exists then
+			if not Log_option.keep_logs and then output_directory.exists then
 				Shared_directory.named (output_directory).delete_content
 			end
 		end

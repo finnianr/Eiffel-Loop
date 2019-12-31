@@ -30,19 +30,24 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:45:46 GMT (Wednesday 25th September 2019)"
-	revision: "20"
+	date: "2019-12-31 11:36:52 GMT (Tuesday 31st December 2019)"
+	revision: "21"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
 	MUSIC_MANAGER_SUB_APPLICATION
+		rename
+			Application_option as Sub_application_option
+		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
 		redefine
 			is_main
 		end
+
+	SHARED_APPLICATION_OPTION
 
 feature {NONE} -- Installer constants
 
@@ -64,13 +69,10 @@ feature {NONE} -- Installer constants
 		end
 
 	Desktop: EL_MENU_DESKTOP_ENVIRONMENT_I
-		local
-			opts: COMMAND_OPTIONS
 		once
 			create {EL_MENU_DESKTOP_ENVIRONMENT_IMP} Result.make (Current)
 			Result.enable_desktop_launcher
-			create opts
-			Result.set_command_line_options (opts.Options_list)
+			Result.set_command_line_options (Application_option.Options_list)
 		end
 
 	is_main: BOOLEAN = True

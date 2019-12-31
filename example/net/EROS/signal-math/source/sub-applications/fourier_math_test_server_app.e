@@ -66,7 +66,7 @@ feature {NONE} -- Installer constants
 			--
 		once
 			Result := new_console_app_menu_desktop_environment
-			Result.set_command_line_options (<< {EL_LOG_COMMAND_OPTIONS}.Logging >>)
+			Result.set_command_line_options (<< Log_option.Name.Logging >>)
 		end
 
 	Name: ZSTRING

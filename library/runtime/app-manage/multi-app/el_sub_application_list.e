@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:30:57 GMT (Sunday 24th November 2019)"
-	revision: "12"
+	date: "2019-12-31 8:32:48 GMT (Tuesday 31st December 2019)"
+	revision: "13"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -27,6 +27,8 @@ inherit
 	EL_MODULE_STRING_8
 
 	EL_SHARED_SINGLETONS
+
+	EL_SHARED_BASE_OPTION
 
 create
 	make
@@ -133,7 +135,7 @@ feature -- Basic operations
 			if after then
 				if select_first then
 					start
-				elseif Args.has_silent then
+				elseif Base_option.silent then
 					lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
 				else
 					io_put_menu (lio)

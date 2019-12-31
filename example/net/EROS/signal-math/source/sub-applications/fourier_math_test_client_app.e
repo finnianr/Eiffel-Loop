@@ -212,7 +212,7 @@ feature {NONE} -- Installer constants
 			--
 		once
 			Result := new_console_app_menu_desktop_environment
-			Result.set_command_line_options (<< {EL_LOG_COMMAND_OPTIONS}.Logging, "duration 20" >>)
+			Result.set_command_line_options (<< Log_option.Name.logging, "duration 20" >>)
 			Result.set_terminal_position (200, 400)
 		end
 

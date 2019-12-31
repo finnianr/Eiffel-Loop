@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 11:39:17 GMT (Tuesday 24th December 2019)"
-	revision: "15"
+	date: "2019-12-31 8:34:27 GMT (Tuesday 31st December 2019)"
+	revision: "16"
 
 deferred class
 	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
@@ -35,6 +35,8 @@ inherit
 			new_lio as new_temporary_lio
 		end
 
+	EL_SHARED_BASE_OPTION
+
 feature {NONE} -- Initialization
 
 	make
@@ -44,7 +46,7 @@ feature {NONE} -- Initialization
 			lio: EL_LOGGABLE; exit_code: INTEGER; shared_build_info: B
 		do
 			create shared_build_info
-			if not Args.has_silent then
+			if not Base_option.silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 
 				io.put_character ({ASCII}.back_space.to_character_8)

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-20 12:18:59 GMT (Friday 20th December 2019)"
-	revision: "11"
+	date: "2019-12-31 12:06:42 GMT (Tuesday 31st December 2019)"
+	revision: "12"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -135,7 +135,7 @@ feature {NONE} -- Constants
 
 	Option_name: STRING
 		once
-			Result := {EL_COMMAND_OPTIONS}.Install
+			Result := Application_option.sub_app.install
 		end
 
 end

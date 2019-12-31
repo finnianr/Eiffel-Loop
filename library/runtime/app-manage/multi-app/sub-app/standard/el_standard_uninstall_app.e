@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-18 12:32:04 GMT (Wednesday 18th December 2019)"
-	revision: "15"
+	date: "2019-12-31 12:06:08 GMT (Tuesday 31st December 2019)"
+	revision: "16"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -50,6 +50,8 @@ inherit
 		export
 			{ANY} Application_list
 		end
+
+	EL_SHARED_APPLICATION_OPTION
 
 feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 
@@ -156,7 +158,7 @@ feature {NONE} -- Application constants
 
 	Option_name: STRING
 		once
-			Result := {EL_COMMAND_OPTIONS}.Uninstall
+			Result := Application_option.sub_app.uninstall
 		end
 
 end

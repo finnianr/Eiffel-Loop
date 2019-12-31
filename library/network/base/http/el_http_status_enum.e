@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-14 10:43:40 GMT (Saturday 14th December 2019)"
-	revision: "10"
+	date: "2019-12-30 11:51:48 GMT (Monday 30th December 2019)"
+	revision: "11"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -117,7 +117,6 @@ feature -- 2xx codes
 	reset_content: NATURAL_16
 		-- Resquest succeeded. User agent should clear document.
 
-
 feature -- 3xx codes
 
 	found: NATURAL_16
@@ -197,14 +196,14 @@ feature -- 4xx codes
 
 	request_entity_too_large: NATURAL_16
 		-- Server is refusing to process a request because request
-		--  entity is larger than server is willing or able to process.
+		-- entity is larger than server is willing or able to process.
 
 	request_time_out: NATURAL_16
 		-- Cient did not produce a request within time server prepared to wait.
 
 	request_uri_too_large: NATURAL_16
 		-- Server is refusing to service request because Request-URI
-		--  is longer than server is willing to interpret.
+		-- is longer than server is willing to interpret.
 
 	unauthorized: NATURAL_16
 		-- Request requires user authentication.
@@ -230,7 +229,6 @@ feature -- 4xx codes
 	retry_with: NATURAL_16
 		-- Retry With
 
-
 feature -- 5xx codes
 
 	bad_gateway: NATURAL_16
@@ -241,7 +239,7 @@ feature -- 5xx codes
 
 	http_version_not_supported: NATURAL_16
 		-- Server does not support HTTP protocol
-		--  version that was used in the request message.
+		-- version that was used in the request message.
 
 	internal_server_error: NATURAL_16
 		-- Internal server failure.

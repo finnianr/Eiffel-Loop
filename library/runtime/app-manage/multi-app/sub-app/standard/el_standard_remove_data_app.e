@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 10:27:11 GMT (Saturday 30th November 2019)"
-	revision: "3"
+	date: "2019-12-31 12:07:55 GMT (Tuesday 31st December 2019)"
+	revision: "4"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -111,7 +111,7 @@ feature {NONE} -- Application constants
 
 	Option_name: STRING
 		once
-			Result := {EL_COMMAND_OPTIONS}.Remove_data
+			Result := Application_option.Sub_app.remove_data
 		end
 
 end

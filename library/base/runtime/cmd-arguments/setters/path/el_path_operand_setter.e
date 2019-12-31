@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-15 9:19:36 GMT (Sunday 15th September 2019)"
-	revision: "10"
+	date: "2019-12-30 19:08:10 GMT (Monday 30th December 2019)"
+	revision: "11"
 
 deferred class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH]
@@ -27,18 +27,9 @@ feature {NONE} -- Implementation
 		end
 
 	new_list (string_value: ZSTRING): EL_ZSTRING_LIST
-		local
-			option_index, i: INTEGER
 		do
 			if is_list then
-				option_index := Args.index_of_word_option (argument.word_option)
-				create Result.make (Args.argument_count - option_index)
-				Result.extend (string_value)
-				-- Add remaining arguments
-				from i := option_index + 2 until i > Args.argument_count loop
-					Result.extend (Args.item (i))
-					i := i + 1
-				end
+				Result := Args.remaining_items (argument.word_option)
 			else
 				Result := Precursor (string_value)
 			end

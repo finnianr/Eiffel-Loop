@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 8:01:03 GMT (Tuesday 6th August 2019)"
-	revision: "9"
+	date: "2019-12-31 8:33:50 GMT (Tuesday 31st December 2019)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_LIO
@@ -27,6 +27,8 @@ inherit
 	EL_MODULE_CONSOLE
 
 	EL_MODULE_ARGS
+
+	EL_SHARED_BASE_OPTION
 
 feature {NONE} -- Access
 
@@ -54,7 +56,7 @@ feature {NONE} -- Implementation
 
 	new_lio: EL_LOGGABLE
 		do
-			if Args.has_silent then
+			if Base_option.silent then
 				create {EL_SILENT_LOG} Result
 			else
 				create {EL_CONSOLE_ONLY_LOG} Result.make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-09 16:34:01 GMT (Friday 9th August 2019)"
-	revision: "6"
+	date: "2019-12-31 10:41:06 GMT (Tuesday 31st December 2019)"
+	revision: "7"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_LOG_MANAGER
+
+	EL_SHARED_LOG_OPTION
 
 feature -- Status query
 
@@ -101,11 +103,9 @@ feature {NONE} -- Implementation
 			Exception.put_last_trace (log)
 		end
 
-	standard_options: EL_HASH_TABLE [STRING, STRING]
+	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
 		do
-			Result := Precursor
-			Result [{EL_LOG_COMMAND_OPTIONS}.Logging] := "Activate application logging to console"
-			Result [{EL_LOG_COMMAND_OPTIONS}.Keep_logs] := "Do not delete log file on program exit"
+			Result := Precursor + Log_option
 		end
 
 feature {EL_LOGGED_SUB_APPLICATION} -- Factory

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-14 9:51:14 GMT (Thursday 14th June 2018)"
-	revision: "6"
+	date: "2019-12-31 11:58:02 GMT (Tuesday 31st December 2019)"
+	revision: "7"
 
 class
 	CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP
@@ -30,8 +30,7 @@ feature {NONE} -- Installer constants
 		once
 			Result := new_console_app_menu_desktop_environment
 			Result.set_command_line_options (<<
-				{EL_LOG_COMMAND_OPTIONS}.Logging,
-				{EL_LOG_COMMAND_OPTIONS}.Thread_toolbar, "max_threads 3"
+				Log_option.Name.logging, Log_option.Name.thread_toolbar, "max_threads 3"
 			>>)
 		end
 

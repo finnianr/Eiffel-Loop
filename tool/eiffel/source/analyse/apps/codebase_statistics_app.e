@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:43 GMT (Wednesday 25th September 2019)"
-	revision: "12"
+	date: "2019-12-31 10:20:17 GMT (Tuesday 31st December 2019)"
+	revision: "13"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -51,14 +51,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end
 
-feature {NONE} -- Constants
-
-	Description: STRING = "[
-		Count lines of eiffel code for combined source trees defined by a source tree manifest. 
-		Lines are counted starting from the class keyword and exclude comments and blank lines.
-	]"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -66,6 +59,13 @@ feature {NONE} -- Constants
 				[{CODEBASE_STATISTICS_COMMAND}, All_routines]
 			>>
 		end
+
+feature {NONE} -- Constants
+
+	Description: STRING = "[
+		Count lines of eiffel code for combined source trees defined by a source tree manifest. 
+		Lines are counted starting from the class keyword and exclude comments and blank lines.
+	]"
 
 	Option_name: STRING = "codebase_stats"
 

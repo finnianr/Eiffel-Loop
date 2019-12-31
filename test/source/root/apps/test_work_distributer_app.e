@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 10:32:01 GMT (Friday 25th January 2019)"
-	revision: "9"
+	date: "2019-12-31 11:06:44 GMT (Tuesday 31st December 2019)"
+	revision: "10"
 
 class
 	TEST_WORK_DISTRIBUTER_APP
@@ -23,7 +23,7 @@ class
 inherit
 	EL_LOGGED_SUB_APPLICATION
 		redefine
-			Option_name, initialize
+			Option_name, initialize, Application_option
 		end
 
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
@@ -42,8 +42,6 @@ feature {NONE} -- Initiliazation
 
 	initialize
 			--
-		local
-			priority: STRING
 		do
 			log.enter ("initialize")
 			create wave
@@ -61,18 +59,10 @@ feature {NONE} -- Initiliazation
 				log.put_new_line
 			end
 
-			create max_priority_mode
-			set_boolean_from_command_opt (max_priority_mode, "max_priority", "Use maximum priority threads")
+			create function_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
+			create procedure_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
 
-			create function_integral.make (delta_count, task_count, thread_count, max_priority_mode.item)
-			create procedure_integral.make (delta_count, task_count, thread_count, max_priority_mode.item)
-
-			if max_priority_mode.item then
-				priority := "maximum"
-			else
-				priority := "normal"
-			end
-			log.put_labeled_string ("Thread priority", priority)
+			log.put_labeled_string ("Thread priority", Application_option.priority_name)
 			log.put_new_line
 
 			log.exit
@@ -109,6 +99,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	delta_count: INTEGER
+		do
+			Result := count_arguments [Variable.delta_count]
+		end
+
 	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
 		do
 			log.put_labeled_string ("Method", a_description)
@@ -129,48 +124,7 @@ feature {NONE} -- Implementation
 			Result := function_integral.is_canceled or procedure_integral.is_canceled
 		end
 
-	delta_count: INTEGER
-		do
-			Result := count_arguments [Variable.delta_count]
-		end
-
-	term_count: INTEGER
-		do
-			Result := count_arguments [Variable.term_count]
-		end
-
-	task_count: INTEGER
-		do
-			Result := count_arguments [Variable.task_count]
-		end
-
-	thread_count: INTEGER
-		do
-			Result := count_arguments [Variable.thread_count]
-		end
-
-	repetition_count: INTEGER
-		do
-			Result := count_arguments [Variable.repetition_count]
-		end
-
-feature {NONE} -- Internal attributes
-
-	count_arguments: HASH_TABLE [INTEGER_REF, STRING]
-
-	max_priority_mode: BOOLEAN_REF
-
-	procedure_integral: PROCEDURE_INTEGRAL
-
-	function_integral: FUNCTION_INTEGRAL
-
-	wave: SINE_WAVE
-
-feature {NONE} -- Constants
-
-	Description: STRING = "Test distributed calculation of integrals"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -180,11 +134,50 @@ feature {NONE} -- Constants
 			>>
 		end
 
+	repetition_count: INTEGER
+		do
+			Result := count_arguments [Variable.repetition_count]
+		end
+
+	task_count: INTEGER
+		do
+			Result := count_arguments [Variable.task_count]
+		end
+
+	term_count: INTEGER
+		do
+			Result := count_arguments [Variable.term_count]
+		end
+
+	thread_count: INTEGER
+		do
+			Result := count_arguments [Variable.thread_count]
+		end
+
+feature {NONE} -- Internal attributes
+
+	count_arguments: HASH_TABLE [INTEGER_REF, STRING]
+
+	function_integral: FUNCTION_INTEGRAL
+
+	procedure_integral: PROCEDURE_INTEGRAL
+
+	wave: SINE_WAVE
+
+feature {NONE} -- Constants
+
+	Application_option: TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
+		once
+			create Result.make
+		end
+
+	Description: STRING = "Test distributed calculation of integrals"
+
+	Option_name: STRING = "work_distributer"
+
 	Variable: TUPLE [delta_count, term_count, task_count, thread_count, repetition_count: STRING]
 		once
 			Result := ["delta_count", "term_count", "task_count", "thread_count", "repetition_count"]
 		end
-
-	Option_name: STRING = "work_distributer"
 
 end

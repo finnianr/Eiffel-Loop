@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 17:46:37 GMT (Friday 25th January 2019)"
-	revision: "3"
+	date: "2019-12-31 11:14:30 GMT (Tuesday 31st December 2019)"
+	revision: "4"
 
 deferred class
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
@@ -37,14 +37,13 @@ feature -- Element change
 	)
 			-- set class attribute from command line option
 		local
-			l_argument_index: INTEGER; l_argument: ZSTRING
+			l_argument: ZSTRING
 			argument_error: like new_argument_error
 		do
 			argument_error := new_argument_error (a_word_option)
 			extend_help (a_word_option, a_description, a_attribute)
 			if Args.has_value (a_word_option) then
-				l_argument_index := Args.index_of_word_option (a_word_option) + 1
-				l_argument := Args.item (l_argument_index)
+				l_argument := Args.value (a_word_option)
 
 				if attached {ZSTRING} a_attribute as a_string then
 					a_string.share (l_argument)
