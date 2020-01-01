@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:09:13 GMT (Tuesday 31st December 2019)"
-	revision: "1"
+	date: "2020-01-01 13:06:32 GMT (Wednesday 1st January 2020)"
+	revision: "2"
 
 class
 	EL_BASE_COMMAND_OPTIONS
@@ -16,9 +16,14 @@ inherit
 	EL_COMMAND_LINE_OPTIONS
 
 create
-	make
+	make, make_default
 
 feature -- Access
+
+	default: like Current
+		do
+			create Result.make_default
+		end
 
 	no_highlighting: BOOLEAN
 		-- turns off logging color highlighting
@@ -26,7 +31,17 @@ feature -- Access
 	silent: BOOLEAN
 		-- all console output is suppressed
 
-	Opt_silent: STRING = "silent"
+	Opt_silent: STRING
+		once
+			Result := "silent"
+		end
+
+feature {NONE} -- Implementation
+
+	new_default: like Current
+		do
+			create Result.make_default
+		end
 
 feature {NONE} -- Constants
 

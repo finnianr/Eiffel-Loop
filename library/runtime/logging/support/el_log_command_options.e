@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:00:06 GMT (Tuesday 31st December 2019)"
-	revision: "5"
+	date: "2020-01-01 13:06:45 GMT (Wednesday 1st January 2020)"
+	revision: "6"
 
 class
 	EL_LOG_COMMAND_OPTIONS
@@ -19,9 +19,14 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
-feature -- Constants
+feature -- Access
+
+	default: like Current
+		do
+			create Result.make_default
+		end
 
 	keep_logs: BOOLEAN
 		-- Do not delete logs
@@ -31,6 +36,13 @@ feature -- Constants
 
 	thread_toolbar: BOOLEAN
 		-- active console thread management toolbar
+
+feature {NONE} -- Implementation
+
+	new_default: like Current
+		do
+			create Result.make_default
+		end
 
 feature -- Constants
 

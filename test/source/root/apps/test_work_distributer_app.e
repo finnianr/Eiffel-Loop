@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:06:44 GMT (Tuesday 31st December 2019)"
-	revision: "10"
+	date: "2020-01-01 12:51:59 GMT (Wednesday 1st January 2020)"
+	revision: "11"
 
 class
 	TEST_WORK_DISTRIBUTER_APP
@@ -46,18 +46,8 @@ feature {NONE} -- Initiliazation
 			log.enter ("initialize")
 			create wave
 
-			create count_arguments.make_equal (Variable.count)
-			count_arguments [Variable.delta_count] := (10000).to_reference
-			count_arguments [Variable.term_count] := (4).to_reference
-			count_arguments [Variable.thread_count] := (4).to_reference
-			count_arguments [Variable.task_count] := (4).to_reference
-			count_arguments [Variable.repetition_count] := (1).to_reference
-
-			across count_arguments as argument loop
-				set_attribute_from_command_opt (argument.item, argument.key, "Value of " + argument.key)
-				log.put_integer_field (argument.key, argument.item.item)
-				log.put_new_line
-			end
+			lio.put_line ("COMMAND LINE OPTIONS")
+			Application_option.print_fields (log)
 
 			create function_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
 			create procedure_integral.make (delta_count, task_count, thread_count, Application_option.max_priority)
@@ -78,19 +68,25 @@ feature -- Basic operations
 
 			do_calculation (
 				"single thread integral",
-				agent: DOUBLE do Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count) end
+				agent: DOUBLE do
+					Result := integral (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi, delta_count)
+				end
 			)
 			from i := 1 until i > repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_FUNCTION_DISTRIBUTER",
-					agent: DOUBLE do Result := function_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do
+						Result := function_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi)
+					end
 				)
 				i := i + 1
 			end
 			from i := 1 until i > repetition_count or is_canceled loop
 				do_calculation (
 					"distributed integral using class EL_PROCEDURE_DISTRIBUTER",
-					agent: DOUBLE do Result := procedure_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi) end
+					agent: DOUBLE do
+						Result := procedure_integral.integral_sum (agent wave.complex_sine_wave (?, term_count), 0, 2 * Pi)
+					end
 				)
 				i := i + 1
 			end
@@ -101,7 +97,7 @@ feature {NONE} -- Implementation
 
 	delta_count: INTEGER
 		do
-			Result := count_arguments [Variable.delta_count]
+			Result := Application_option.delta_count
 		end
 
 	do_calculation (a_description: STRING; calculation: FUNCTION [DOUBLE])
@@ -136,22 +132,22 @@ feature {NONE} -- Implementation
 
 	repetition_count: INTEGER
 		do
-			Result := count_arguments [Variable.repetition_count]
+			Result := Application_option.repetition_count
 		end
 
 	task_count: INTEGER
 		do
-			Result := count_arguments [Variable.task_count]
+			Result := Application_option.task_count
 		end
 
 	term_count: INTEGER
 		do
-			Result := count_arguments [Variable.term_count]
+			Result := Application_option.term_count
 		end
 
 	thread_count: INTEGER
 		do
-			Result := count_arguments [Variable.thread_count]
+			Result := Application_option.thread_count
 		end
 
 feature {NONE} -- Internal attributes
@@ -174,10 +170,5 @@ feature {NONE} -- Constants
 	Description: STRING = "Test distributed calculation of integrals"
 
 	Option_name: STRING = "work_distributer"
-
-	Variable: TUPLE [delta_count, term_count, task_count, thread_count, repetition_count: STRING]
-		once
-			Result := ["delta_count", "term_count", "task_count", "thread_count", "repetition_count"]
-		end
 
 end

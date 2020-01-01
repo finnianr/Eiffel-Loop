@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 10:41:06 GMT (Tuesday 31st December 2019)"
-	revision: "35"
+	date: "2020-01-01 13:12:40 GMT (Wednesday 1st January 2020)"
+	revision: "36"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -67,7 +67,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 			across standard_options as options loop
 				across options.item.help_table as help loop
-					options_help.extend (help.key, help.item, False)
+					options_help.extend (help.key, help.item.description, help.item.default_value)
 				end
 			end
 			init_console
@@ -255,7 +255,7 @@ feature {NONE} -- Implementation
 	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
 		-- Standard command line options
 		do
-			create Result.make_from_array (<< Base_option, Application_option >>)
+			create Result.make_from_array (<< Base_option.default, Application_option.default >>)
 		end
 
 	visible_types: TUPLE

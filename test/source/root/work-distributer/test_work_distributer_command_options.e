@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:11:42 GMT (Tuesday 31st December 2019)"
-	revision: "1"
+	date: "2020-01-01 12:50:30 GMT (Wednesday 1st January 2020)"
+	revision: "2"
 
 class
 	TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
@@ -15,13 +15,34 @@ class
 inherit
 	EL_APPLICATION_COMMAND_OPTIONS
 		redefine
-			Help_text
+			Help_text, initialize_fields
 		end
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	initialize_fields
+		do
+			delta_count := 10000
+			repetition_count := 1
+			task_count := 4
+			term_count := 4
+			thread_count := 4
+		end
+
 feature -- Access
+
+	delta_count: INTEGER
+
+	repetition_count: INTEGER
+
+	task_count: INTEGER
+
+	term_count: INTEGER
+
+	thread_count: INTEGER
 
 	max_priority: BOOLEAN
 
@@ -38,10 +59,19 @@ feature {NONE} -- Constants
 
 	Help_text: STRING
 		once
-			Result := Precursor + "[
-				
+			Result := Precursor + New_line + "[
+				delta_count:
+					Number of integral range "split intervals" to calculate
 				max_priority:
 					Use maximum priority threads
+				repetition_count:
+					Number of repetitions of each calculation to do
+				task_count:
+					Number of discreet tasks to divide integral calculation into for thread assignation
+				term_count:
+					Number of sine functions to add together for test function
+				thread_count:
+					Number of threads to use to calculate integral of test sine function
 			]"
 		end
 

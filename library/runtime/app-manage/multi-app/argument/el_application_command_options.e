@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:05:49 GMT (Tuesday 31st December 2019)"
-	revision: "1"
+	date: "2020-01-01 13:07:04 GMT (Wednesday 1st January 2020)"
+	revision: "2"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -17,16 +17,19 @@ class
 inherit
 	EL_COMMAND_LINE_OPTIONS
 
-	EL_MODULE_TUPLE
-
 create
-	make
+	make, make_default
 
 feature -- Access
 
 	ask_user_to_quit: BOOLEAN
 		-- `True' if command line option of same name exists
 		-- Prompt user to quit when sub-application finishes (EL_SUB_APPLICATION)
+
+	default: like Current
+		do
+			create Result.make_default
+		end
 
 	help: BOOLEAN
 		-- `True' if command line option of same name exists
@@ -38,10 +41,11 @@ feature -- Access
 
 feature -- Constants
 
-	sub_app: TUPLE [install, remove_data, silent, uninstall: STRING]
+	sub_app: TUPLE [install, remove_data, uninstall: STRING]
+		-- Installer sub-application constants
 		once
 			create Result
-			Tuple.fill (Result, "install, remove_data, silent, uninstall")
+			Tuple.fill (Result, "install, remove_data, uninstall")
 		end
 
 feature {NONE} -- Constants
