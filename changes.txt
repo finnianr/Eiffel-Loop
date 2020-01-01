@@ -94,3 +94,6 @@ Changed EL_IP_ADAPTER_INFO_COMMAND_IMP to parse output of nmcli instead of nm-to
 Tue 31st Dec 2019, 12:30:12
 Created class EL_COMMAND_LINE_OPTIONS for reflective command line reading
 
+Wed 1st Jan 2020, 13:45:44
+Added default values to help_table of EL_COMMAND_LINE_OPTIONS
+

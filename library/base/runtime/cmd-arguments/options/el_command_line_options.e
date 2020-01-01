@@ -1,20 +1,26 @@
 note
-	description: "Base class for reflective command line options with associated help texts"
+	description: "[
+		Base class for reflectively settable command line options with associated help texts
+	]"
 	notes: "[
-		Each boolean attribute maps to a command line word option of the same name.
-		If the word-option exists, the attibute is set to `True'
+		Each class attribute maps to a command line word option of the same name.
+		For `BOOLEAN' attributes, if the word-option exists, the attibute is set to `True'
+		For other types, the value is set to the next command line argument following the
+		word option.
 		
 		**Default values**
 		
 		Redefine `initialize_fields' to set default values, accessible via `default'.
 
 		**Help Text**
+		
+		The `help_table' function converts the text from `help_text' into a table of tuples each
+		containing a description and the default value. A usage example can be seen in
+		command line help system found in class [$source EL_SUB_APPLICATION].
 
 		If the help text is not implemented as an empty string, then it should be formatted as
 		a series of option names ending with `:', and the description indented by 1 tab on the next
-		line. See [$source EL_BASE_COMMAND_OPTIONS] for an example. The `help_table' function
-		converts the help text into a table of descriptions for each option including a default
-		value.
+		line. See [$source EL_BASE_COMMAND_OPTIONS] for an example.
 	]"
 	descendants: "See end of class"
 
