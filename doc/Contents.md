@@ -34,7 +34,6 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 
 **Features**
 
-
 * A graphical user interface (GUI) to control startup and shutdown.
 * GUI monitors 11 different performance characteristics.
 * GUI has controls allowing you to switch the console logging output to a different thread context.
@@ -693,8 +692,6 @@ The following features exist for creating command line applications:
 **Resource Management**
 
 The library provides a system of managing application resources like graphics, help files etc.
-
-
 
 
 ## Concurrency

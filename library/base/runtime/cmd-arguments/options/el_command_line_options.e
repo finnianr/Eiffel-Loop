@@ -65,6 +65,7 @@ inherit
 feature {NONE} -- Initialization
 
 	make
+		-- make object with attributes initialized from corresponding command line options
 		do
 			make_default
 			across field_table as field loop

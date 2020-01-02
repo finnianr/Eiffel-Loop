@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
