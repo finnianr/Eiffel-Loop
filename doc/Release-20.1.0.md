@@ -1,14 +1,15 @@
-# Eiffel-Loop (20.1.0) 2nd January 2020
+# Eiffel-Loop (20.1.0) released 2nd January 2020
 
 ## Preface
 
-Since version 1.4.8 Eiffel-loop has expanded with the addition of 587 new classes and existing classes have seen extensive improvements and fixes.
-Unfortunately there have been too many changes and new additions to document exhaustively. The best I could do is to append a copy of the commit log produced with the command.
+Since version 1.4.8 Eiffel-loop has expanded with the addition of 587 new classes and existing classes have seen extensive improvements and fixes. Unfortunately there have been too many changes and new additions to document exhaustively. The best I could do is to append an alphabetical index of the commit log produced with the command:
 
 ```
 git --no-pager log --after='2017-08-14 23:50:00' --pretty=format:'%s' --author='Finnian' | sort
 ```
-See *Commmit Log Index* below
+See **Commmit Log Index** below. Each log entry may conceal multiple changes that would have made the log entry too verbose.
+
+## Version Numbering
 
 Note that with this release the version number scheme has changed, and the major version number now denotes the year of release.
 
