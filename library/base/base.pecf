@@ -227,11 +227,29 @@ system:
 
 					* Managing lists of strings
 					* String escaping
-					* A memory compact string with same character range as `STRING_32'
 					* Efficient string splitting
 					* Recording and managing string edit histories
 					* Abstractions for objects createable from strings
 					* String occurrence interval lists
+				"""
+		cluster:
+			name = zstring; location = "text/zstring"; recursive = true
+			description:
+				"""
+					Class ZSTRING
+
+					An implementation of a memory compact string with the same unicode character range as the base
+					class [https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html STRING_32]
+					and conforming to
+					[https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html STRING_GENERAL].
+					ZSTRING is an alias for the actual class name [$source EL_ZSTRING]. [$source EL_ZSTRING] has many additional
+					routines not found in STRING_32, as for example: Python like tuple substitution.
+					
+					**See Articles**
+
+					* [https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131 ZSTRING released in Eiffel-Loop 1.3.1]
+					* [https://www.eiffel.org/blog/finnianr/introducing_class_zstring Introducing class ZSTRING]
+					* [https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859 ISO-8859 is dead, long live ISO-8859]
 				"""
 		cluster:
 			name = text; location = text

@@ -55,8 +55,9 @@ publish-repository:
 			"library/base/base.ecf#runtime"
 			"library/base/base.ecf#utility"
 			"library/base/base.ecf#text"
-		ecf:
 			"library/base/base.ecf#string"
+		ecf:
+			"library/base/base.ecf#zstring"
 			alias-map:
 				old_name = EL_ZSTRING; new_name = ZSTRING
 

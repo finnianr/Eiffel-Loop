@@ -97,3 +97,9 @@ Created class EL_COMMAND_LINE_OPTIONS for reflective command line reading
 Wed 1st Jan 2020, 13:45:44
 Added default values to help_table of EL_COMMAND_LINE_OPTIONS
 
+Sat 4th Jan 2020, 16:58:22
+Revised cluster structure for base.ecf with change to repository publisher EiffelView
+
+Sat 4th Jan 2020, 17:00:50
+Revised cluster structure for base.ecf with change to repository publisher EiffelView
+

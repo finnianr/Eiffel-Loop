@@ -265,6 +265,7 @@ Classes providing the following:
 * Parsing and manipulating name-value pairs
 * Associating formatting styles with strings
 * URI encoding/decoding
+* UTF encoding/decoding
 
 ## String Handling
 Classes providing the following:
@@ -272,11 +273,20 @@ Classes providing the following:
 
 * Managing lists of strings
 * String escaping
-* A memory compact string with same character range as `STRING_32`
 * Efficient string splitting
 * Recording and managing string edit histories
 * Abstractions for objects createable from strings
 * String occurrence interval lists
+
+## Class ZSTRING
+An implementation of a memory compact string with the same unicode character range as the base class [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html) and conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html). ZSTRING is an alias for the actual class name [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html). [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html) has many additional routines not found in STRING_32, as for example: Python like tuple substitution.
+
+**See Articles**
+
+
+* [ZSTRING released in Eiffel-Loop 1.3.1](https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131)
+* [Introducing class ZSTRING](https://www.eiffel.org/blog/finnianr/introducing_class_zstring)
+* [ISO-8859 is dead, long live ISO-8859](https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859)
 
 ## Image Utilities
 Image utilities providing:
@@ -1209,7 +1219,7 @@ A sub-application to publish source code and descriptions of Eiffel projects to 
 
 `-generate_codecs`: [CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html)
 
-Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/string/zstring/codec/el_zcodec.html) from VTD-XML C code
+Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
 `-ecf_to_pecf`: [ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html)
 
@@ -1369,7 +1379,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 **Sub-applications**
 
 
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/string/zstring/el_zstring.html)
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
 * [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
 
 **Descendants of EL_BENCHMARK_COMPARISON**
