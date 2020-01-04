@@ -254,6 +254,10 @@ system:
 				condition:
 					platform:
 						value = unix
+
+		# This works but no idea how to set it in Project settings		
+		#tests:
+		#	name = autotests; location = "source/autotests"; recursive = true
 	
 		cluster:
 			name = test_set; location = "source/test-set"; recursive = true

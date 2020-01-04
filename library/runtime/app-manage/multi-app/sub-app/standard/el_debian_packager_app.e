@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to class [$source EL_DEBIAN_PACKAGER]
+		Command line interface to class [$source EL_DEBIAN_PACKAGER_I]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:01:48 GMT (Sunday 1st December 2019)"
-	revision: "6"
+	date: "2020-01-02 13:38:28 GMT (Thursday 2nd January 2020)"
+	revision: "7"
 
 class
 	EL_DEBIAN_PACKAGER_APP

@@ -1,3 +1,6 @@
+1.0.37
+Updated repository publisher to handle clusters containing relative sub-clusters (location="$|X")
+
 1.0.36
 Added PYXIS_TRANSLATION_TREE_COMPILER_APP
 

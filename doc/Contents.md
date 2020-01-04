@@ -34,6 +34,7 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 
 **Features**
 
+
 * A graphical user interface (GUI) to control startup and shutdown.
 * GUI monitors 11 different performance characteristics.
 * GUI has controls allowing you to switch the console logging output to a different thread context.
@@ -149,6 +150,8 @@ All of the configurable values can also be set from the command line at startup.
 * Eiffel interface to the Praat sound analysis engine and script interpreter. The wrapper allows Praat scripts to be run from Eiffel and the resulting values of script variables to be accessed from Eiffel. The wrapper uses a modified version of the Praat source code allowing operation from Eiffel and compilation as a library using the MSVC command line compiler.
 
 
+## Command-line Arguments
+Classes for reading and mapping command line arguments
 ## Data Structure
 Various hash-table, array, list, chain and linear types
 
@@ -196,6 +199,20 @@ HASH_TABLE
 
 
 
+## File System
+Classes for the following:
+
+
+* Reading file properties
+* Processing directory data
+
+## Input/Output
+Classes for the following:
+
+
+* Writing to the console with color highlighting
+* Read user input data
+
 ## Math
 Some basic math classes for the following:
 
@@ -213,7 +230,18 @@ Classes providing the following facilities:
 * A file conforming to `PLAIN_TEXT_FILE` that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
 * File line source and other abstractions
 
-## Runtime
+## Class Reflection
+Classes for setting and getting data attributes using class reflection.
+## Runtime Operations
+Classes for the following:
+
+
+* Exception handling
+* Reading and writing from memory locations
+* Accessing operating environment information
+* Tracking progress of time consuming operations
+* Managing shared resources for competing threads
+
 ## Utility
 Classes providing the following facilities:
 
@@ -226,7 +254,7 @@ Classes providing the following facilities:
 * Extensions to ES uuid.ecf
 
 ## Text Processing
-Classes providing the following facilities:
+Classes providing the following:
 
 
 * Character and character sequence conversion
@@ -234,16 +262,21 @@ Classes providing the following facilities:
 * File, directory and resource naming
 * Deferred internationalization
 * Text line processing
-* Managing string lists
 * Parsing and manipulating name-value pairs
+* Associating formatting styles with strings
+* URI encoding/decoding
+
+## String Handling
+Classes providing the following:
+
+
+* Managing lists of strings
 * String escaping
 * A memory compact string with same character range as `STRING_32`
 * Efficient string splitting
-* Associating formatting styles with strings
 * Recording and managing string edit histories
 * Abstractions for objects createable from strings
 * String occurrence interval lists
-* URI encoding/decoding
 
 ## Image Utilities
 Image utilities providing:
@@ -692,6 +725,8 @@ The following features exist for creating command line applications:
 **Resource Management**
 
 The library provides a system of managing application resources like graphics, help files etc.
+
+
 
 
 ## Concurrency

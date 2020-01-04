@@ -112,6 +112,12 @@ See doc/test.root.txt for details
 				</condition>
 			</file_rule>
 		</cluster>
+		<!--
+			This works but no idea how to set it in Project settings
+			tests:
+			name = autotests; location = &quot;source/autotests&quot;; recursive = true
+			
+		-->
 		<cluster name = "test_set" location = "source/test-set" recursive = "true">
 			<description>
 Eiffel-Loop Test Sets

@@ -1,14 +1,15 @@
 note
 	description: "Sequence of items"
 	tests: "Class [$source CHAIN_TEST_SET]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:45:13 GMT (Saturday 28th December 2019)"
-	revision: "20"
+	date: "2020-01-02 23:32:23 GMT (Thursday 2nd January 2020)"
+	revision: "22"
 
 deferred class EL_CHAIN [G]
 
@@ -385,4 +386,50 @@ feature {NONE} -- Constants
 		once
 			create Result.make (5)
 		end
+
+note
+	descendants: "[
+			EL_CHAIN*
+				[$source EL_STRING_GENERAL_CHAIN]*
+					[$source EL_STRING_LIST]
+						[$source EL_ZSTRING_LIST]
+						[$source EL_STRING_8_LIST]
+							[$source EVOLICITY_VARIABLE_REFERENCE]
+								[$source EVOLICITY_FUNCTION_REFERENCE]
+						[$source EL_STRING_32_LIST]
+				[$source EL_QUERYABLE_CHAIN]*
+					[$source EL_QUERYABLE_ARRAYED_LIST]
+						[$source AIA_CREDENTIAL_LIST]
+							[$source AIA_STORABLE_CREDENTIAL_LIST]
+				[$source EL_ARRAYED_LIST]
+					[$source EL_TUPLE_TYPE_LIST]
+					[$source EL_SORTABLE_ARRAYED_LIST]
+						[$source EL_FILE_MANIFEST_LIST]
+						[$source EL_FILE_PATH_LIST]
+						[$source EL_STRING_LIST]
+							[$source EL_ZSTRING_LIST]
+								[$source UNCHECKED_TRANSLATIONS_LIST]
+								[$source EL_SUBJECT_LIST]
+							[$source EL_STRING_8_LIST]
+								[$source EVOLICITY_VARIABLE_REFERENCE]
+									[$source EVOLICITY_FUNCTION_REFERENCE]
+							[$source EL_STRING_32_LIST]
+					[$source EL_TRANSLATION_ITEMS_LIST]
+					[$source EL_QUERYABLE_ARRAYED_LIST]
+					[$source EL_ARRAYED_MAP_LIST]
+						[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
+							[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
+								[$source EL_BOOK_ASSEMBLY]
+					[$source EL_XDG_DESKTOP_ENTRY_STEPS]
+					[$source EL_SEQUENTIAL_INTERVALS]
+						[$source EL_SPLIT_STRING_LIST]
+							[$source EL_SPLIT_ZSTRING_LIST]
+							[$source EL_IP_ADDRESS_ROUTINES]
+						[$source EL_OCCURRENCE_INTERVALS]
+						[$source EL_UNENCODED_CHARACTERS_INDEX]
+					[$source EL_OPF_MANIFEST_LIST]
+					[$source EL_SUB_APPLICATION_LIST]
+				[$source EL_STRING_GENERAL_CHAIN]*
+					[$source EL_STRING_LIST]
+	]"
 end

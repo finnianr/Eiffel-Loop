@@ -1,13 +1,13 @@
 note
-	description: "A queryable chain implemented as an arrayed list"
+	description: "An arrayed list implementation of [$source EL_QUERYABLE_CHAIN]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:02:10 GMT (Saturday 28th December 2019)"
-	revision: "9"
+	date: "2020-01-03 0:04:51 GMT (Friday 3rd January 2020)"
+	revision: "10"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]

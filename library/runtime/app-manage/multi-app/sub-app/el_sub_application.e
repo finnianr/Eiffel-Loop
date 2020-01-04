@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-01 13:12:40 GMT (Wednesday 1st January 2020)"
-	revision: "36"
+	date: "2020-01-04 12:05:41 GMT (Saturday 4th January 2020)"
+	revision: "37"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -60,6 +60,8 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		do
 			put_singleton (Current)
 			call (new_locale)
+			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
+			call (Build_info)
 
 			create options_help.make (11)
 			create argument_errors.make (0)

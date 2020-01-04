@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 17:40:53 GMT (Friday 4th October 2019)"
-	revision: "4"
+	date: "2020-01-04 11:51:46 GMT (Saturday 4th January 2020)"
+	revision: "5"
 
 class
 	EL_SINGLETON [G]
@@ -38,7 +38,7 @@ feature -- Access
 
 	singleton: G
 		require
-			singleton_created_already: is_singleton_created
+			singleton_created: is_singleton_created
 		do
 			if attached {G} Singleton_table.item (base_type_id, match_conforming) as item then
 				Result := item

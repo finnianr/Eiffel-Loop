@@ -99,22 +99,110 @@ system:
 					* Calculating integrals of arbitrary functions
 					* Representing column vectors
 				"""
-
 		cluster:
-			name = runtime; location = runtime; recursive = true
+			name = command_line; location = "runtime/command-line"; recursive = true
+			description:
+				"""
+					Command-line Arguments
+					
+					Classes for reading and mapping command line arguments
+				"""
+		cluster:
+			name = file_system; location = "runtime/file-system"; recursive = true
+			description:
+				"""
+					File System
+					
+					Classes for the following:
+
+					* Reading file properties
+					* Processing directory data
+				"""
 			file_rule:
 				exclude:
-					"/imp_mswin$"
+					"imp_mswin$"
 				condition:
 					platform:
 						value = unix
 
 			file_rule:
 				exclude:
-					"/imp_unix$"
+					"imp_unix$"
 				condition:
 					platform:
 						value = windows
+
+		cluster:
+			name = io; location = "runtime/io"; recursive = true
+			description:
+				"""
+					Input/Output
+					
+					Classes for the following:
+
+					* Writing to the console with color highlighting
+					* Read user input data
+				"""
+			file_rule:
+				exclude:
+					"imp_mswin$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"imp_unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = reflection; location = "runtime/reflection"; recursive = true
+			description:
+				"""
+					Class Reflection
+					
+					Classes for setting and getting data attributes using class reflection.
+				"""
+
+		cluster:
+			name = runtime; location = runtime
+			description:
+				"""
+					Runtime Operations
+					
+					Classes for the following:
+
+					* Exception handling
+					* Reading and writing from memory locations
+					* Accessing operating environment information
+					* Tracking progress of time consuming operations
+					* Managing shared resources for competing threads
+				"""
+			cluster:
+				name = exception; location = "$|exception"; recursive = true
+			cluster:
+				name = memory; location = "$|memory"; recursive = true
+			cluster:
+				name = process; location = "$|process"; recursive = true
+				file_rule:
+					exclude:
+						"imp_mswin$"
+					condition:
+						platform:
+							value = unix
+
+				file_rule:
+					exclude:
+						"imp_unix$"
+					condition:
+						platform:
+							value = windows
+			cluster:
+				name = progress_track; location = "$|progress-track"; recursive = true
+			cluster:
+				name = resource_share; location = "$|resource-share"; recursive = true
 
 		cluster:
 			name = persistency; location = persistency; recursive = true
@@ -130,29 +218,55 @@ system:
 					* File line source and other abstractions
 				"""
 		cluster:
-			name = text; location = text; recursive = true
+			name = string; location = "text/string"; recursive = true
+			description:
+				"""
+					String Handling
+
+					Classes providing the following:
+
+					* Managing lists of strings
+					* String escaping
+					* A memory compact string with same character range as `STRING_32'
+					* Efficient string splitting
+					* Recording and managing string edit histories
+					* Abstractions for objects createable from strings
+					* String occurrence interval lists
+				"""
+		cluster:
+			name = text; location = text
 			description:
 				"""
 					Text Processing
 
-					Classes providing the following facilities:
+					Classes providing the following:
 
 					* Character and character sequence conversion
 					* Character encoding
 					* File, directory and resource naming
 					* Deferred internationalization
 					* Text line processing
-					* Managing string lists
 					* Parsing and manipulating name-value pairs
-					* String escaping
-					* A memory compact string with same character range as `STRING_32'
-					* Efficient string splitting
 					* Associating formatting styles with strings
-					* Recording and managing string edit histories
-					* Abstractions for objects createable from strings
-					* String occurrence interval lists
 					* URI encoding/decoding
+					* UTF encoding/decoding
 				"""
+			cluster:
+				name = character; location = "$|character"; recursive = true
+			cluster:
+				name = text_encoding; location = "$|encoding"; recursive = true
+			cluster:
+				name = file_naming; location = "$|file-naming"; recursive = true
+			cluster:
+				name = general; location = "$|general"; recursive = true
+			cluster:
+				name = i18n; location = "$|i18n"; recursive = true
+			cluster:
+				name = line_processing; location = "$|line-processing"; recursive = true
+			cluster:
+				name = name_value; location = "$|name-value"; recursive = true
+			cluster:
+				name = styled; location = "$|styled"; recursive = true
 		cluster:
 			name = utility; location = utility; recursive = true
 			description:
@@ -168,8 +282,5 @@ system:
 					* Command shells
 					* Extensions to ES uuid.ecf
 				"""
-
-
-
 
 

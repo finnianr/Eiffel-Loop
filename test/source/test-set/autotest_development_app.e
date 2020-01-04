@@ -6,21 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 15:15:31 GMT (Sunday 29th December 2019)"
-	revision: "56"
+	date: "2020-01-04 12:00:21 GMT (Saturday 4th January 2020)"
+	revision: "57"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+		redefine
+			Build_info
+		end
 
 create
 	make
 
 feature {NONE} -- Constants
 
-	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR] -- ***** FIX THIS ****
+	Build_info: BUILD_INFO
+		once
+			create Result
+		end
+
+	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
 		once
 			create Result
 		end
@@ -45,7 +53,8 @@ feature {NONE} -- Constants
 --	Tests that still need an evaluator
 	Unmigrated_tests: TUPLE [
 		AUDIO_COMMAND_TEST_SET,
-		CHAIN_TEST_SET, COMMA_SEPARATED_IMPORT_TEST_SET,
+		CHAIN_TEST_SET,
+		COMMA_SEPARATED_IMPORT_TEST_SET,
 		DIGEST_ROUTINES_TEST_SET, DIR_URI_PATH_TEST_SET,
 		FILE_AND_DIRECTORY_TEST_SET, FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET, FTP_TEST_SET,
 		JSON_NAME_VALUE_LIST_TEST_SET,

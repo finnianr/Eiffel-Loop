@@ -10,7 +10,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-02 13:20:16 GMT (Thursday 2nd January 2020)"
+	date: "2020-01-02 13:38:59 GMT (Thursday 2nd January 2020)"
 	revision: "10"
 
 deferred class
@@ -255,7 +255,7 @@ note
 					
 		**Install Location**
 		
-		The `dpkg' install commaned will install the application in a directory derived from the
+		The `dpkg' install command will install the application in a directory derived from the
 		`company' and `product' found in the ECF version information. A typical install will look
 		like the following:
 		
@@ -299,7 +299,6 @@ note
 		you will get this output for version 1.0.31.
 		
 			My Ching/build/linux-x86-64/myching-amd64-1.0.31.deb
-		
 	]"
 
 end

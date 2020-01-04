@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 14:23:22 GMT (Monday 17th December 2018)"
-	revision: "5"
+	date: "2020-01-04 16:32:01 GMT (Saturday 4th January 2020)"
+	revision: "6"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]

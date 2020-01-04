@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:59:00 GMT (Monday 1st July 2019)"
-	revision: "17"
+	date: "2020-01-04 16:00:18 GMT (Saturday 4th January 2020)"
+	revision: "18"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -39,8 +39,7 @@ feature {NONE} -- Initialization
 	make (a_repository: like repository; ecf: ECF_INFO)
 			--
 		local
-			root: EL_XPATH_ROOT_NODE_CONTEXT; location, l_description: ZSTRING
-			source_dir: EL_DIR_PATH
+			root: EL_XPATH_ROOT_NODE_CONTEXT; l_description: ZSTRING
 		do
 			make_default
 			repository := a_repository
@@ -60,19 +59,13 @@ feature {NONE} -- Initialization
 				lio.put_new_line
 			else
 				is_library := root.is_xpath (Xpath_all_classes)
-				across root.context_list (ecf.cluster_xpath) as cluster loop
-					location := cluster.node.attributes [Attribute_location]
-					if location.starts_with (Parent_dir_dots) then
-						source_dir := ecf_dir.parent.joined_dir_path (location.substring_end (4))
-					else
-						source_dir := ecf_dir.joined_dir_path (location)
+				source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
+				across source_dir_list as path loop
+					if path.cursor_index = 1 then
+						dir_path := path.item
+					elseif not dir_path.is_parent_of (path.item) then
+						dir_path := path.item.parent
 					end
-					if cluster.cursor_index = 1 then
-						dir_path := source_dir
-					elseif not dir_path.is_parent_of (source_dir) then
-						dir_path := source_dir.parent
-					end
-					source_dir_list.extend (source_dir)
 				end
 				path_list := new_path_list; sub_category := new_sub_category
 				l_description := root.string_at_xpath (ecf.description_xpath).stripped
@@ -85,7 +78,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create source_dir_list.make (2)
+			create source_dir_list.make (0)
 			create directory_list.make_empty
 			create description_lines.make_empty
 			create ecf_dir
@@ -135,7 +128,7 @@ feature -- Access
 
 	relative_ecf_path: EL_FILE_PATH
 
-	source_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	source_dir_list: like new_source_dir_list
 
 	sub_category: ZSTRING
 
@@ -245,6 +238,39 @@ feature {NONE} -- Factory
 			end
 		end
 
+	new_source_dir_list (cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: EL_DIR_PATH): EL_ARRAYED_LIST [EL_DIR_PATH]
+		local
+			source_dir: EL_DIR_PATH; location: ZSTRING; is_recursive: BOOLEAN
+			sub_cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST
+		do
+			create Result.make (cluster_nodes.count)
+			across cluster_nodes as cluster loop
+				location := cluster.node.attributes [Attribute_location]
+				if cluster.node.attributes.has (Attribute_recursive) then
+					is_recursive := cluster.node.attributes.boolean (Attribute_recursive)
+				end
+				if location.starts_with (Parent_dir_dots) then
+					source_dir := parent_dir.parent.joined_dir_path (location.substring_end (4))
+				elseif location.starts_with (Relative_location_symbol) then
+					location.remove_head (Relative_location_symbol.count)
+					source_dir := parent_dir.joined_dir_path (location)
+				else
+					source_dir := parent_dir.joined_dir_path (location)
+				end
+				if is_recursive then
+					Result.extend (source_dir)
+				else
+					sub_cluster_nodes := cluster.node.context_list (Element_cluster)
+					if sub_cluster_nodes.count = 0 then
+						Result.extend (source_dir)
+					else
+						-- Recursive call
+						Result.append (new_source_dir_list (sub_cluster_nodes, source_dir))
+					end
+				end
+			end
+		end
+
 	new_sub_category: ZSTRING
 		local
 			words: EL_ZSTRING_LIST; steps: EL_PATH_STEPS
@@ -306,6 +332,10 @@ feature {NONE} -- Xpath constants
 
 	Attribute_location: STRING = "location"
 
+	Attribute_recursive: STRING = "recursive"
+
+	Element_cluster: STRING = "cluster"
+
 	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
 
 feature {NONE} -- Constants
@@ -342,6 +372,11 @@ feature {NONE} -- Constants
 			create Result
 			Result.begins := "See "
 			Result.ends := " for details"
+		end
+
+	Relative_location_symbol: ZSTRING
+		once
+			Result := "$|"
 		end
 
 	Translater: MARKDOWN_TRANSLATER
