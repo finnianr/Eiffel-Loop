@@ -644,8 +644,12 @@ SONG_QUERY_CONDITIONS
 Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
 Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
+
+Test class [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/thunderbird/thunderbird_test_app.html)
 ## Open Office Spreadsheets
 Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
+
+Test class [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/open-office-spreadsheet/open_office_test_app.html)
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
@@ -659,17 +663,17 @@ This library has two major functions:
 
 **XML Node Scanning**
 
-The 5 parse event generators types, all descendants of class [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/el_parse_event_source.html), are as follows:
+The 5 parse event generators types, all descendants of class [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/el_parse_event_source.html), are as follows:
 
-**1.** [EL_EXPAT_XML_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/expat-parser/el_expat_xml_parser.html): An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
+**1.** [EL_EXPAT_XML_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/expat-parser/el_expat_xml_parser.html): An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
 
-**2.** [EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/expat-parser/el_expat_xml_parser_output_medium.html): [eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
+**2.** [EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/expat-parser/el_expat_xml_parser_output_medium.html): [eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
 
-**3.** [EL_EXPAT_XML_WITH_CTRL_Z_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/expat-parser/el_expat_xml_with_ctrl_z_parser.html): [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
+**3.** [EL_EXPAT_XML_WITH_CTRL_Z_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/expat-parser/el_expat_xml_with_ctrl_z_parser.html): [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
 
-**4.** [EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/binary-encoded/el_binary_encoded_xml_parse_event_source.html): a binary encoded XML event source. Useful for reducing the size of large documents.
+**4.** [EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/binary-encoded/el_binary_encoded_xml_parse_event_source.html): a binary encoded XML event source. Useful for reducing the size of large documents.
 
-**5.** [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/event-sources/pyxis/el_pyxis_parser.html) event from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
+**5.** [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/event-sources/pyxis/el_pyxis_parser.html) event from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 
 
 
@@ -677,7 +681,7 @@ The following are the various kinds of scanners which can process the output fro
 
 **Eiffel Object Building Scanners**
 
-The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/scanners/eiffel-object-building/buildable/el_buildable_from_xml.html) and [EL_BUILDABLE_FROM_PYXIS](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/scanners/eiffel-object-building/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_xml.html) and [EL_BUILDABLE_FROM_PYXIS](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
 
 
 * Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
@@ -686,11 +690,11 @@ The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persisten
 
 **General Xpath to Eiffel agent mapper**
 
-The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/scanners/xpath-scan/el_createable_from_xpath_match_events.html) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
+The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/xpath-scan/el_createable_from_xpath_match_events.html) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
 
 **Eiffel Aware Document Scanner**
 
-The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/src/scanners/eiffel-object-building/smart-builder/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
+The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](http://www.eiffel-loop.com/library/persistency/xml/xdoc-scanning/scanners/eiffel-object-building/smart-builder/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 
 
 ## XML Document Scanning and Object Building (VTD-XML)
@@ -701,6 +705,8 @@ VTD-XML uses a very fast and efficient method of building a compressed represent
 Using the Eiffel API is considerably easier and more intuitive to use than the original Java or C version of VTD-XML.
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
+
+Test class [VTD_XML_TEST_APP]($source)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 
@@ -992,7 +998,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/library/persistency/xml/vtd-xml/test/test_vtd_xml_app.html) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP]($source) is implemented as follows:
 
 
 ````
@@ -1482,3 +1488,17 @@ EQA_TEST_SET*
 	[$source DATE_TEXT_TEST_SET]
 ````
 
+## Test amazon-instant-access.ecf
+Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
+## Test paypal-SBM.ecf
+Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
+## Test xdoc-scanning.ecf
+* [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/bex_xml_to_eiffel_object_builder_test_app.html)
+* [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
+* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
+* [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
+
+## Test Thunderbird Email Export
+Classes to test subject line decoding.
+## Test Open Office Spreadsheet
+Cluster markup-docs.ecf#open_office Application to regression test reading of Open Office Spreadsheet

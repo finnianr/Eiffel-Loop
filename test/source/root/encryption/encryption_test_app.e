@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:29:32 GMT (Friday 14th June 2019)"
-	revision: "7"
+	date: "2020-01-06 20:12:40 GMT (Monday 6th January 2020)"
+	revision: "8"
 
 class
 	ENCRYPTION_TEST_APP
 
 inherit
-	REGRESSION_TESTABLE_SUB_APPLICATION
+	TEST_SUB_APPLICATION
 		redefine
 			Option_name
 		end
@@ -28,7 +28,7 @@ feature -- Basic operations
 	test_run
 			--
 		do
-			Test.do_file_tree_test ({STRING_32} "encryption", agent test_encryption, 2559561657)
+			Test.do_file_tree_test ("encryption", agent test_encryption, 2559561657)
 		end
 
 feature {NONE} -- Implementation
@@ -76,15 +76,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	encrypter: EL_AES_ENCRYPTER
-
-feature {NONE} -- Constants
-
-	Option_name: STRING = "test_encryption"
-
-	Description: STRING = "Auto test AES encryption to base 64."
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -92,5 +84,14 @@ feature {NONE} -- Constants
 			>>
 		end
 
+feature {NONE} -- Internal attributes
+
+	encrypter: EL_AES_ENCRYPTER
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Auto test AES encryption to base 64."
+
+	Option_name: STRING = "test_encryption"
 
 end

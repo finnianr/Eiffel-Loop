@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-04 14:15:38 GMT (Monday 4th November 2019)"
-	revision: "23"
+	date: "2020-01-06 19:53:17 GMT (Monday 6th January 2020)"
+	revision: "24"
 
 class
 	APPLICATION_ROOT
@@ -40,7 +40,28 @@ feature {NONE} -- Constants
 
 		-- Benchmarks
 		BENCHMARK_APP,
-		ZSTRING_BENCHMARK_APP
+		ZSTRING_BENCHMARK_APP,
+
+		-- Test markup-docs.pecf#open_office
+		OPEN_OFFICE_TEST_APP,
+
+		-- Test markup-docs.pecf#thunderbird
+		THUNDERBIRD_TEST_APP,
+
+		-- Test amazon-instant-access.ecf
+		AMAZON_INSTANT_ACCESS_TEST_APP,
+
+		-- Test paypal-SBM.ecf
+		PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP,
+
+		-- Test vtd-xml.ecf
+		TEST_VTD_XML_APP,
+
+		-- Test xdoc-scanning.ecf
+		BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP,
+		DECLARATIVE_XPATH_PROCESSING_TEST_APP,
+		OBJECT_BUILDER_TEST_APP,
+		RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
 	]
 		once
 			create Result

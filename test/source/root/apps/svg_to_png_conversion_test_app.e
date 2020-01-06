@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-01-06 20:13:41 GMT (Monday 6th January 2020)"
+	revision: "6"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP
 
 inherit
-	REGRESSION_TESTABLE_SUB_APPLICATION
+	TEST_SUB_APPLICATION
 		redefine
 			Option_name, initialize
 		end
@@ -42,6 +42,21 @@ feature -- Basic operations
 
 feature -- Tests
 
+	convert_to_width_and_color (width: INTEGER; color: INTEGER; svg_path: EL_FILE_PATH)
+		local
+			output_path: EL_FILE_PATH
+		do
+			log.enter ("convert_to_width_and_color")
+			log.put_integer_field ("width", width)
+			log.put_labeled_string (" color code", color.to_hex_string)
+			output_path := svg_path.without_extension
+			output_path.add_extension (width.to_hex_string)
+			output_path.add_extension (color.to_hex_string)
+			output_path.add_extension ("png")
+			SVG.write_png_of_width (svg_path, output_path, width, color)
+			log.exit
+		end
+
 	test_conversion (svg_path: EL_FILE_PATH)
 			--
 		local
@@ -60,47 +75,34 @@ feature -- Tests
 			log.exit
 		end
 
-	convert_to_width_and_color (width: INTEGER; color: INTEGER; svg_path: EL_FILE_PATH)
-		local
-			output_path: EL_FILE_PATH
+feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
 		do
-			log.enter ("convert_to_width_and_color")
-			log.put_integer_field ("width", width)
-			log.put_labeled_string (" color code", color.to_hex_string)
-			output_path := svg_path.without_extension
-			output_path.add_extension (width.to_hex_string)
-			output_path.add_extension (color.to_hex_string)
-			output_path.add_extension ("png")
-			SVG.write_png_of_width (svg_path, output_path, width, color)
-			log.exit
+			Result := <<
+				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines]
+			>>
 		end
+
+feature {NONE} -- Internal attributes
 
 	environment_variables: EVOLICITY_CONTEXT_IMP
 
 feature {NONE} -- Constants
-
-	Sizes: ARRAY [INTEGER]
-		once
-			Result := << 64, 128, 256 >>
-		end
 
 	Colors: ARRAY [INTEGER]
 		once
 			Result := << 0, 0x008B8B, 0xA52A2A, 0xFFFFFF, 0x1000000 >>
 		end
 
-feature {NONE} -- Constants
+	Description: STRING = "Test SVG to PNG conversion"
 
 	Option_name: STRING = "svg_to_png"
 
-	Description: STRING = "Test SVG to PNG conversion"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines]
-			>>
+	Sizes: ARRAY [INTEGER]
+		once
+			Result := << 64, 128, 256 >>
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

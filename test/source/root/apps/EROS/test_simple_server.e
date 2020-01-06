@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-09 19:18:36 GMT (Wednesday 9th January 2019)"
-	revision: "5"
+	date: "2020-01-06 20:16:09 GMT (Monday 6th January 2020)"
+	revision: "6"
 
 class
 	TEST_SIMPLE_SERVER
 
 inherit
-	REGRESSION_TESTABLE_SUB_APPLICATION
+	TEST_SUB_APPLICATION
 		redefine
 			option_name, initialize
 		end
@@ -48,15 +48,7 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	server: EL_SIMPLE_SERVER [SIMPLE_COMMAND_HANDLER]
-
-feature {NONE} -- Constants
-
-	Option_name: STRING = "simple_server"
-
-	Description: STRING = "Test class EL_SIMPLE_SERVER"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -64,5 +56,15 @@ feature {NONE} -- Constants
 				[{SIMPLE_COMMAND_HANDLER}, All_routines]
 			>>
 		end
+
+feature {NONE} -- Internal attributes
+
+	server: EL_SIMPLE_SERVER [SIMPLE_COMMAND_HANDLER]
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Test class EL_SIMPLE_SERVER"
+
+	Option_name: STRING = "simple_server"
 
 end

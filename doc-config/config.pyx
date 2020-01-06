@@ -99,8 +99,8 @@ publish-repository:
 		ecf:
 			"library/Eco-DB.ecf"
 			"library/markup-docs.ecf#kindle_book"
-			"library/markup-docs.ecf#thunderbird*"
-			"library/markup-docs.ecf#open_office*"
+			"library/markup-docs.ecf#thunderbird"
+			"library/markup-docs.ecf#open_office"
 			"library/xml-db.ecf"
 			"library/xdoc-scanning.ecf"
 			"library/vtd-xml.ecf"
@@ -148,6 +148,11 @@ publish-repository:
 			"test/test.ecf#benchmark"
 			"test/test.ecf#root"
 			"test/test.ecf#test_set"
+			"test/test.ecf#amazon_ia"
+			"test/test.ecf#markup_docs"
+			"test/test.ecf#paypal_SBM"
+			"test/test.ecf#xdoc_scanning"
+
 
 
 	

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-06 8:36:30 GMT (Monday 6th January 2020)"
+	revision: "5"
 
 class
 	EL_TESTING_LOG_MANAGER
@@ -25,10 +25,10 @@ create
 
 feature -- Initialization
 
-	make (a_crc_32: like crc_32)
+	make (logging_active: BOOLEAN; a_output_directory: EL_DIR_PATH; a_crc_32: like crc_32)
 		do
 			crc_32 := a_crc_32
-			make_manager
+			make_manager (logging_active, a_output_directory)
 		end
 
 feature {NONE} -- Factory

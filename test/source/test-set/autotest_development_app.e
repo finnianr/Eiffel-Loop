@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 14:19:01 GMT (Sunday 5th January 2020)"
-	revision: "58"
+	date: "2020-01-06 19:28:49 GMT (Monday 6th January 2020)"
+	revision: "59"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 		redefine
-			Build_info
+			Build_info, Option_name
 		end
 
 create
@@ -76,5 +76,7 @@ feature {NONE} -- Constants
 		URI_ENCODING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
 	]
+
+	Option_name: STRING = "autotest"
 
 end

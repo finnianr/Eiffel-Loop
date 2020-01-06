@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:08:51 GMT (Wednesday 31st October 2018)"
-	revision: "6"
+	date: "2020-01-06 20:10:59 GMT (Monday 6th January 2020)"
+	revision: "7"
 
 class
 	EVOLICITY_TEST_APP
 
 inherit
-	REGRESSION_TESTABLE_SUB_APPLICATION
+	TEST_SUB_APPLICATION
 		redefine
 			option_name
 		end
@@ -34,21 +34,6 @@ feature -- Basic operations
 		end
 
 feature -- Test
-
-	write_substituted_template (template_path: EL_FILE_PATH)
-			--
-		local
-			html_file: EL_PLAIN_TEXT_FILE
-		do
-			log.enter ("write_substituted_template")
-			create root_context.make
-			Evolicity_templates.put_file (template_path, Utf_8_encoding)
-
-			initialize_root_context
-			create html_file.make_open_write (template_path.with_new_extension ("html"))
-			Evolicity_templates.merge_to_file (template_path, root_context, html_file)
-			log.exit
-		end
 
 	test_if_then (template_path: EL_FILE_PATH)
 			--
@@ -71,9 +56,22 @@ feature -- Test
 			log.exit
 		end
 
-feature {NONE} -- Implementation
+	write_substituted_template (template_path: EL_FILE_PATH)
+			--
+		local
+			html_file: EL_PLAIN_TEXT_FILE
+		do
+			log.enter ("write_substituted_template")
+			create root_context.make
+			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-	root_context: EVOLICITY_CONTEXT_IMP
+			initialize_root_context
+			create html_file.make_open_write (template_path.with_new_extension ("html"))
+			Evolicity_templates.merge_to_file (template_path, root_context, html_file)
+			log.exit
+		end
+
+feature {NONE} -- Implementation
 
 	initialize_root_context
 			--
@@ -117,13 +115,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-feature {NONE} -- Constants
-
-	Option_name: STRING = "evolicity"
-
-	Description: STRING = "Test Evolicity template substitution"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -131,6 +123,16 @@ feature {NONE} -- Constants
 				[{EL_REGRESSION_TESTING_ROUTINES}, All_routines]
 			>>
 		end
+
+feature {NONE} -- Internal attributes
+
+	root_context: EVOLICITY_CONTEXT_IMP
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Test Evolicity template substitution"
+
+	Option_name: STRING = "evolicity"
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once

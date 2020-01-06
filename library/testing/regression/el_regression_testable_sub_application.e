@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 11:18:26 GMT (Friday 6th September 2019)"
-	revision: "6"
+	date: "2020-01-06 8:41:48 GMT (Monday 6th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
@@ -51,7 +51,7 @@ feature -- Status query
 	Is_test_mode: BOOLEAN
 			--
 		once
-			Result := Args.word_option_exists ("test")
+			Result := Application_option.test
 		end
 
 feature {NONE} -- Factory
@@ -65,9 +65,9 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_log_manager: EL_LOG_MANAGER
+	new_log_manager: EL_TESTING_LOG_MANAGER
 		do
-			create {EL_TESTING_LOG_MANAGER} Result.make (Test.Crc_32)
+			create Result.make (is_logging_active, Log_output_directory, Test.Crc_32)
 		end
 
 feature {NONE} -- Implementation

@@ -57,7 +57,7 @@ system:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		cluster:
-			name = open_office; location = "persistency/xml/open-office-spreadsheet/src"; recursive = true
+			name = open_office; location = "persistency/xml/open-office-spreadsheet"; recursive = true
 			description:
 				"""
 					Open Office Spreadsheets
@@ -65,15 +65,19 @@ system:
 					Classes for reading the contents of
 					[http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
 					using [http://vtd-xml.sourceforge.net/ VTD-XML].
+					
+					Test class [$source OPEN_OFFICE_TEST_APP]
 				"""
 		cluster:
-			name = thunderbird; location = "persistency/thunderbird/src"; recursive = true
+			name = thunderbird; location = "persistency/thunderbird"; recursive = true
 			description:
 				"""
 					Thunderbird Email Export
 					
 					Classes to read and export emails from the [https://www.thunderbird.net/ Thunderbird email client]
 					including a class to generate a Kindle book from a folder of chapter emails.
+
+					Test class [$source THUNDERBIRD_TEST_APP]
 				"""
 
 		cluster:
@@ -84,36 +88,4 @@ system:
 					
 					Classes for generating Kindle OPF packages from HTML content.
 				"""
-	target:
-		name = markup_docs_test; extends = EL_markup_docs
-		root:
-			class = TEST_ROOT; feature = make
-		setting:
-			name = concurrency; value = thread
-		library:
-			name = EL_app_manage; readonly = false; location = "app-manage.ecf"
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-		library:
-			name = EL_testing; readonly = false; location = "testing.ecf"
-		# Source code
-		cluster:
-			name = thunderbird_test; location = "persistency/thunderbird/test"; recursive = true
-			description:
-				"""
-					Test Thunderbird Email Export
-					
-					Classes to test subject line decoding.
-				"""
-		cluster:
-			name = open_office_test; location = "persistency/xml/open-office-spreadsheet/test"; recursive = true
-			description:
-				"""
-					Test Open Office Spreadsheet
-					
-					Application to regression test reading of Open Office Spreadsheet
-				"""
-			
-
-
 

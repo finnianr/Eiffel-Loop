@@ -11,11 +11,9 @@ system:
 		"""
 			Eiffel-Loop Library Tests
 		"""
-	
 	# classic means C code as an intermediate language
 	target: 
 		name = classic
-
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
@@ -108,6 +106,9 @@ system:
 
 		# Eiffel Loop libraries
 		library:
+			name = EL_amazon_ia; location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"
+			readonly = false
+		library:
 			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
@@ -166,12 +167,20 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
+			name = EL_markup_docs; readonly = false
+			location = "$EIFFEL_LOOP/library/markup-docs.ecf"
+
+		library:
 			name = EL_network; readonly = false
 			location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
 			name = EL_os_command; readonly = false
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
+
+		library:
+			name = EL_paypal_SBM; readonly = false
+			location = "$EIFFEL_LOOP/library/paypal-SBM.ecf"
 
 		library:
 			name = EL_search_engine; readonly = false
@@ -212,6 +221,10 @@ system:
 					value = windows
 
 		library:
+			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			readonly = false
+
+		library:
 			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 			readonly = false
 
@@ -243,6 +256,7 @@ system:
 		#tests:
 		#	name = autotests; location = "source/autotests"; recursive = true
 	
+		# Source clusters
 		cluster:
 			name = test_set; location = "source/test-set"; recursive = true
 			description:
@@ -272,4 +286,53 @@ system:
 
 					See doc/test.benchmark.txt for details
 				"""
+		cluster:
+			name = amazon_ia; location = "source/amazon-ia"; recursive = true
+			description:
+				"""
+					Test amazon-instant-access.ecf
+					
+					Tests for Eiffel interface to Amazon Instant Access API.
+					See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
+				"""
+
+		cluster:
+			name = markup_docs; location = "source/markup-docs"; recursive = true
+			description:
+				"""
+					Test markup-docs.ecf
+					
+					* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
+					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
+				"""
+		cluster:
+			name = paypal_SBM; location = "source/paypal-SBM"; recursive = true
+			description:
+				"""
+					Test paypal-SBM.ecf
+					
+					Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
+					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+				"""
+		cluster:
+			name = xdoc_scanning; location = "source/xdoc-scanning"; recursive = true
+			description:
+				"""
+					Test xdoc-scanning.ecf
+
+					* [$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+					* [$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
+					* [$source OBJECT_BUILDER_TEST_APP]
+					* [$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+				"""
+		cluster:
+			name = vtd_xml; location = "source/vtd-xml"; recursive = true
+			description:
+				"""
+					Test vtd-xml.ecf
+					
+					Tests for Eiffel interface VTD-XML C API
+					See class [$source TEST_VTD_XML_APP]
+				"""
+
 

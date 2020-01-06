@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 9:19:13 GMT (Tuesday 31st December 2019)"
-	revision: "11"
+	date: "2020-01-06 9:02:30 GMT (Monday 6th January 2020)"
+	revision: "12"
 
 class
 	EL_LOG_MANAGER
@@ -32,16 +32,20 @@ inherit
 
 	EL_SHARED_LOG_OPTION
 
+	EL_SHARED_SINGLETONS
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	 make
+	 make (logging_active: BOOLEAN; a_output_directory: EL_DIR_PATH)
 			--
 		do
+			put_singleton (Current)
 			make_default
-			output_directory := Directory.current_working
+			is_logging_active := logging_active
+			output_directory := a_output_directory
 			create log_file_by_thread_id_table.make (11)
 			create log_file_by_object_id_table.make (11)
 			create thread_id_list.make (11)
@@ -132,14 +136,6 @@ feature -- Element change
 			end
 		end
 
-	set_output_directory (a_output_directory: like output_directory)
-		do
-			restrict_access
-			output_directory := a_output_directory
-
-			end_restriction
-		end
-
 feature -- Status query
 
 	is_console_manager_active: BOOLEAN
@@ -161,9 +157,6 @@ feature -- Status query
 		end
 
 	is_logging_active: BOOLEAN
-		do
-			Result := Logging.is_active
-		end
 
 	no_thread_logs_created: BOOLEAN
 			--

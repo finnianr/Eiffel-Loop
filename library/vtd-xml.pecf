@@ -22,6 +22,8 @@ system:
 			A substantial C-bridge was developed to make Eiffel work better with VTD-XML.
 			The original VTX-XML code was forked to make it possible to compile it with the MSC compiler.
 			This fork is found under `contrib/C'.
+
+			Test class [$source VTD_XML_TEST_APP]
 		"""
 	target:
 		name = EL_vtd_xml
@@ -81,7 +83,7 @@ system:
 
 		# Source code
 		cluster:
-			name = EL_vtd_xml; location = "persistency/xml/vtd-xml/src"; recursive = true
+			name = EL_vtd_xml; location = "persistency/xml/vtd-xml"; recursive = true
 			file_rule:
 				exclude:
 					"/imp_mswin$"
@@ -95,21 +97,5 @@ system:
 				condition:
 					platform:
 						value = windows
-
-	target:
-		name = vtd_xml_test; extends = EL_vtd_xml
-		root:
-			class = TEST_VTD_XML_APP; feature = make
-		setting:
-			name = concurrency; value = thread
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-		library:
-			name = EL_os_command; readonly = false; location = "os-command.ecf"
-		library:
-			name = EL_testing; readonly = false; location = "testing.ecf"
-		# Source code
-		cluster:
-			name = vtd_xml_test; location = "persistency/xml/vtd-xml/test"; recursive = true
 
 

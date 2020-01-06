@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 17:13:10 GMT (Tuesday 1st October 2019)"
-	revision: "3"
+	date: "2020-01-06 11:10:17 GMT (Monday 6th January 2020)"
+	revision: "4"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -48,6 +48,13 @@ feature -- Access
 				put (new_item (key), key)
 			end
 			Result := found_item
+		end
+
+feature -- Element change
+
+	set_new_item_target (target: ANY)
+		do
+			new_item.set_target (target)
 		end
 
 feature {NONE} -- Initialization

@@ -50,20 +50,6 @@ system:
 
 		# Source code
 		cluster:
-			name = paypal; location = "network/paypal/src"; recursive = true
-
-	target:
-		name = paypal_SBM_test; extends = EL_paypal_SBM
-		root:
-			class = PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP; feature = make
-		setting:
-			name = concurrency; value = thread
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-		library:
-			name = EL_testing; readonly = false; location = "testing.ecf"
-		# Source code
-		cluster:
-			name = paypal_SBM_test; location = "network/paypal/test"; recursive = true
+			name = paypal; location = "network/paypal"; recursive = true
 
 

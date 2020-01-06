@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:28:47 GMT (Friday 14th June 2019)"
-	revision: "5"
+	date: "2020-01-06 20:10:04 GMT (Monday 6th January 2020)"
+	revision: "6"
 
 class
 	COMPRESSION_TEST_APP
 
 inherit
-	REGRESSION_TESTABLE_SUB_APPLICATION
+	TEST_SUB_APPLICATION
 		redefine
 			Option_name
 		end
@@ -30,8 +30,8 @@ feature -- Basic operations
 	test_run
 			--
 		do
-			Test.do_all_files_test ({STRING_32} "XML", All_routines, agent compress_file, 4254881218)
-			Test.do_file_tree_test ({STRING_32} "XML", agent compress_files, 2040034646)
+			Test.do_all_files_test ("XML", All_routines, agent compress_file, 4254881218)
+			Test.do_file_tree_test ("XML", agent compress_files, 2040034646)
 		end
 
 feature -- Tests

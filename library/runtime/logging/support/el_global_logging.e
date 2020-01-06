@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 9:19:39 GMT (Tuesday 31st December 2019)"
-	revision: "8"
+	date: "2020-01-06 8:57:06 GMT (Monday 6th January 2020)"
+	revision: "9"
 
 class
 	EL_GLOBAL_LOGGING
@@ -19,16 +19,17 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_SHARED_LOG_OPTION
+	EL_SHARED_SINGLETONS
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	 make
+	 make (active: BOOLEAN)
 			--
 		do
+			put_singleton (Current)
 			make_default
 			create filter_access.make
 
@@ -37,7 +38,7 @@ feature {NONE} -- Initialization
 
 			create Routine_table.make (Routine_hash_table_size)
 			create Routine_id_table.make (Routine_hash_table_size)
-			is_active := Log_option.logging
+			is_active := active
 		end
 
 feature {EL_CONSOLE_AND_FILE_LOG} -- Access

@@ -60,20 +60,7 @@ system:
 
 		# Source code
 		cluster:
-			name = amazon_ia; location = "network/amazon-ia/src"; recursive = true
+			name = amazon_ia; location = "network/amazon-ia"; recursive = true
 
-	target:
-		name = amazon_ia_test; extends = EL_amazon_ia
-		root:
-			class = AMAZON_INSTANT_ACCESS_TEST_APP; feature = make
-		setting:
-			name = concurrency; value = thread
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-		library:
-			name = EL_testing; readonly = false; location = "testing.ecf"
-		# Source code
-		cluster:
-			name = amazon_ia_test; location = "network/amazon-ia/test"; recursive = true
 
 

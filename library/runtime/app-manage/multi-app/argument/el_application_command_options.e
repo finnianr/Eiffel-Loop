@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-01 13:07:04 GMT (Wednesday 1st January 2020)"
-	revision: "2"
+	date: "2020-01-06 8:52:09 GMT (Monday 6th January 2020)"
+	revision: "3"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -39,6 +39,8 @@ feature -- Access
 	no_app_header: BOOLEAN
 		-- `True' if command line option of same name exists
 
+	test: BOOLEAN
+
 feature -- Constants
 
 	sub_app: TUPLE [install, remove_data, uninstall: STRING]
@@ -59,6 +61,8 @@ feature {NONE} -- Constants
 					Show application help
 				no_app_header:
 					Suppress output of application information
+				test:
+					Put application in test mode (if testable)
 			]"
 		end
 

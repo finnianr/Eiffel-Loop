@@ -11,17 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:31:24 GMT (Sunday 1st December 2019)"
-	revision: "14"
+	date: "2020-01-06 19:26:29 GMT (Monday 6th January 2020)"
+	revision: "15"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
-		redefine
-			Option_name
-		end
 
 	EL_MODULE_EIFFEL
 
@@ -80,7 +77,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Description: STRING = "Call manual and automatic sets during development"
-
-	Option_name: STRING = "autotest"
 
 end

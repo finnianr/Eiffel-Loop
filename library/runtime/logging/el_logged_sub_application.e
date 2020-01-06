@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 10:41:06 GMT (Tuesday 31st December 2019)"
-	revision: "7"
+	date: "2020-01-06 8:59:58 GMT (Monday 6th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -31,6 +31,11 @@ inherit
 feature -- Status query
 
 	is_logging_initialized: BOOLEAN
+
+	is_logging_active: BOOLEAN
+		do
+			Result := Log_option.logging
+		end
 
 feature {NONE} -- Implementation
 
@@ -77,19 +82,23 @@ feature {NONE} -- Implementation
 
 	init_console_and_logging
 			--
+		local
+			manager: like new_log_manager;
+			global_logging: EL_GLOBAL_LOGGING
 		do
 			Precursor
-			Log_manager.set_output_directory (Log_output_directory)
-			Log_manager.initialize
+			manager := new_log_manager
+			manager.initialize
 
-			if logging.is_active then
-				logging.set_routines_to_log (Log_filter_list.item (Current))
+			create global_logging.make (is_logging_active)
+			if global_logging.is_active then
+				global_logging.set_routines_to_log (Log_filter_list.item (Current))
 			else
-				if Log_manager.is_console_manager_active then
+				if manager.is_console_manager_active then
 					lio.put_string ("Thread logging disabled")
 				end
 			end
-			Log_manager.add_thread (new_identified_main_thread)
+			manager.add_thread (new_identified_main_thread)
 			is_logging_initialized := true
 		end
 
@@ -109,6 +118,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {EL_LOGGED_SUB_APPLICATION} -- Factory
+
+	new_log_manager: EL_LOG_MANAGER
+		do
+			create Result.make (is_logging_active, Log_output_directory)
+		end
 
 	new_log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
 			--
