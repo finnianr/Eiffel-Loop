@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 11:33:08 GMT (Saturday 5th October 2019)"
-	revision: "2"
+	date: "2020-01-05 11:29:18 GMT (Sunday 5th January 2020)"
+	revision: "3"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_EVALUATOR
@@ -28,7 +28,6 @@ feature {NONE} -- Implementation
 				["header_selection", 			agent item.test_header_selection],
 				["parse_header_1", 				agent item.test_parse_header_1],
 				["sign_and_verify", 				agent item.test_sign_and_verify]
-
 			>>)
 		end
 end

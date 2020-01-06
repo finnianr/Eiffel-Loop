@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 15:20:04 GMT (Friday 13th September 2019)"
-	revision: "2"
+	date: "2020-01-05 13:02:11 GMT (Sunday 5th January 2020)"
+	revision: "3"
 
 class
 	TYPE_EXPERIMENTS
@@ -24,13 +24,6 @@ feature -- Basic operations
 				) then
 				lio.put_line ("Conforms")
 			end
-		end
-
-	create_aia_credential
-		local
-			key_pair: AIA_CREDENTIAL
-		do
-			key_pair := ({AIA_CREDENTIAL}).default
 		end
 
 	generic_type_check

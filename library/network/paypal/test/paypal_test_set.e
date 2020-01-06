@@ -1,5 +1,5 @@
 note
-	description: "Pp test set"
+	description: "Paypal test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

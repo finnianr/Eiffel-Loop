@@ -18,6 +18,8 @@ inherit
 			make, cluster_xpath, description, description_xpath
 		end
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
@@ -32,17 +34,23 @@ feature {NONE} -- Initialization
 		do
 			parts := a_path.base.split ('#')
 			name := parts.last
+			if parts.count > 1 and then name.ends_with (character_string ('*')) then
+				has_wildcard := True
+				name.remove_tail (1)
+			end
 			a_path.set_base (parts.first)
 			Precursor (a_path)
 		end
 
 feature -- Access
 
-	name: ZSTRING
-
 	cluster_xpath: STRING
 		do
-			Result := Selected_cluster #$ [Xpath_cluster, name]
+			if has_wildcard then
+				Result := Selected_cluster_starts_with #$ [Xpath_cluster, name]
+			else
+				Result := Selected_cluster #$ [Xpath_cluster, name]
+			end
 		end
 
 	description: ZSTRING
@@ -58,7 +66,18 @@ feature -- Access
 			Result := cluster_xpath + once "/description"
 		end
 
+	name: ZSTRING
+
+feature -- Status query
+
+	has_wildcard: BOOLEAN
+
 feature {NONE} -- Constants
+
+	Selected_cluster_starts_with: ZSTRING
+		once
+			Result := "%S[starts-with (@name, '%S')]"
+		end
 
 	Selected_cluster: ZSTRING
 		once

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:37:54 GMT (Monday 5th August 2019)"
-	revision: "4"
+	date: "2020-01-05 13:05:55 GMT (Sunday 5th January 2020)"
+	revision: "5"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE

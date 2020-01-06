@@ -73,7 +73,26 @@ system:
 
 		# Source code
 		cluster:
-			name = XDOC_scanning; location = "persistency/xml/xdoc-scanning"; recursive = true
+			name = XDOC_scanning; location = "persistency/xml/xdoc-scanning/src"; recursive = true
 			option:
 				namespace = XDOC_scanning
+
+	target:
+		name = xdoc_scanning_test; extends = EL_xdoc_scanning
+		root:
+			class = TEST_ROOT; feature = make
+		setting:
+			name = concurrency; value = thread
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		# Eiffel-Loop
+		library:
+			name = EL_app_manage; readonly = false; location = "app-manage.ecf"
+		library:
+			name = EL_logging; readonly = false; location = "logging.ecf"
+		library:
+			name = EL_testing; readonly = false; location = "testing.ecf"
+		# Source code
+		cluster:
+			name = xdoc_scanning_test; location = "persistency/xml/xdoc-scanning/test"; recursive = true
 

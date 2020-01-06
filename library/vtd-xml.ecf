@@ -46,7 +46,7 @@ This fork is found under `contrib/C&apos;.
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
-		<cluster name = "EL_vtd_xml" location = "persistency/xml/vtd-xml" recursive = "true">
+		<cluster name = "EL_vtd_xml" location = "persistency/xml/vtd-xml/src" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -60,5 +60,14 @@ This fork is found under `contrib/C&apos;.
 				</condition>
 			</file_rule>
 		</cluster>
+	</target>
+	<target name = "vtd_xml_test" extends = "EL_vtd_xml">
+		<root class = "TEST_VTD_XML_APP" feature = "make"/>
+		<setting name = "concurrency" value = "thread"/>
+		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "os-command.ecf"/>
+		<library name = "EL_testing" readonly = "false" location = "testing.ecf"/>
+		<!--Source code-->
+		<cluster name = "vtd_xml_test" location = "persistency/xml/vtd-xml/test" recursive = "true"/>
 	</target>
 </system>

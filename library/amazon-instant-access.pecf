@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_amazon; uuid = "343AD402-C610-11E7-AF25-6FD4B9BA2297" 
-	library_target = EL_amazon
+	name = EL_amazon_ia; uuid = "343AD402-C610-11E7-AF25-6FD4B9BA2297" 
+	library_target = EL_amazon_ia
 	description: 
 		"""
 			Amazon Instant Access API
@@ -13,19 +13,15 @@ system:
 			This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time
 			purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 		"""
-
-	
 	target:
-		name = EL_amazon
+		name = EL_amazon_ia
 		root:
 			all_classes = true
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug=false; warning=true
+			trace = false; debug = false; warning = true
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
-
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
@@ -40,9 +36,6 @@ system:
 
 		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
-
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
 		# Eiffel Loop
 		library:
@@ -65,11 +58,22 @@ system:
 		library:
 			name = EL_text_process; location = "text-process.ecf"
 
-		library:
-			name = EL_testing; readonly = false
-			location = "testing.ecf"
-
 		# Source code
 		cluster:
-			name = amazon; location = "network/amazon"; recursive = true
+			name = amazon_ia; location = "network/amazon-ia/src"; recursive = true
+
+	target:
+		name = amazon_ia_test; extends = EL_amazon_ia
+		root:
+			class = AMAZON_INSTANT_ACCESS_TEST_APP; feature = make
+		setting:
+			name = concurrency; value = thread
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		library:
+			name = EL_testing; readonly = false; location = "testing.ecf"
+		# Source code
+		cluster:
+			name = amazon_ia_test; location = "network/amazon-ia/test"; recursive = true
+
 

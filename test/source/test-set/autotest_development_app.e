@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 12:00:21 GMT (Saturday 4th January 2020)"
-	revision: "57"
+	date: "2020-01-05 14:19:01 GMT (Sunday 5th January 2020)"
+	revision: "58"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -21,6 +21,17 @@ inherit
 create
 	make
 
+feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{AUTOTEST_DEVELOPMENT_APP}, All_routines],
+				[{HTTP_CONNECTION_TEST_SET}, All_routines]
+			>>
+		end
+
 feature {NONE} -- Constants
 
 	Build_info: BUILD_INFO
@@ -28,19 +39,17 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
+	Evaluator_types: TUPLE [DATE_TEXT_TEST_EVALUATOR]
 		once
 			create Result
 		end
 
 	Evaluator_types_all: TUPLE [
-		AMAZON_INSTANT_ACCESS_TEST_EVALUATOR,
 		DATE_TEXT_TEST_EVALUATOR,
 		FILE_AND_DIRECTORY_TEST_EVALUATOR,
 		HTTP_CONNECTION_TEST_EVALUATOR,
 		SEARCH_ENGINE_TEST_EVALUATOR,
 		ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR,
-		PAYPAL_TEST_EVALUATOR,
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR,
 		ID3_TAG_INFO_TEST_EVALUATOR,
 		TAGLIB_TEST_EVALUATOR,
@@ -67,14 +76,5 @@ feature {NONE} -- Constants
 		URI_ENCODING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
 	]
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{AUTOTEST_DEVELOPMENT_APP}, All_routines],
-				[{HTTP_CONNECTION_TEST_SET}, All_routines]
-			>>
-		end
 
 end

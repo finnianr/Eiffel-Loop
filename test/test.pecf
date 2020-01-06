@@ -108,10 +108,6 @@ system:
 
 		# Eiffel Loop libraries
 		library:
-			name = EL_amazon; location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"
-			readonly = false
-
-		library:
 			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 			readonly = false
 
@@ -178,10 +174,6 @@ system:
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
-			name = EL_paypal; readonly = false
-			location = "$EIFFEL_LOOP/library/paypal.ecf"
-
-		library:
 			name = EL_search_engine; readonly = false
 			location = "$EIFFEL_LOOP/library/search-engine.ecf"
 
@@ -204,14 +196,6 @@ system:
 		library:
 			name = EL_thread; readonly = false
 			location = "$EIFFEL_LOOP/library/thread.ecf"
-
-		library:
-			name = EL_vtd_xml; readonly = false
-			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
-
-		library:
-			name = EL_markup_docs; readonly = false
-			location = "$EIFFEL_LOOP/library/markup-docs.ecf"
 
 		library:
 			name = EL_wav_audio; readonly = false

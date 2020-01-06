@@ -1,3 +1,6 @@
+1.0.38
+Updated EIFFEL_CONFIGURATION_FILE source directories to be a set and not a list
+
 1.0.37
 Updated repository publisher to handle clusters containing relative sub-clusters (location="$|X")
 

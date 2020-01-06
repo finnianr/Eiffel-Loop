@@ -3,8 +3,8 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = EL_paypal; uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" 
-	library_target = EL_paypal
+	name = EL_paypal_SBM; uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" 
+	library_target = EL_paypal_SBM
 	description: 
 		"""
 			PayPal Payments Standard Button Manager API
@@ -13,8 +13,7 @@ system:
 			PayPal Payments Standard Button Manager NVP HTTP API]. 
 		"""
 	target:
-		name = EL_paypal
-
+		name = EL_paypal_SBM
 		root:
 			all_classes = true
 
@@ -29,9 +28,6 @@ system:
 
 		library: 
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
-		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
 		# Eiffel Loop
 		library:
@@ -54,5 +50,20 @@ system:
 
 		# Source code
 		cluster:
-			name = paypal; location = "network/paypal"; recursive = true
+			name = paypal; location = "network/paypal/src"; recursive = true
+
+	target:
+		name = paypal_SBM_test; extends = EL_paypal_SBM
+		root:
+			class = PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP; feature = make
+		setting:
+			name = concurrency; value = thread
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		library:
+			name = EL_testing; readonly = false; location = "testing.ecf"
+		# Source code
+		cluster:
+			name = paypal_SBM_test; location = "network/paypal/test"; recursive = true
+
 

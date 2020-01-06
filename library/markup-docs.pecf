@@ -32,9 +32,6 @@ system:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
 		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
-
-		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		# Eiffel-Loop
@@ -60,7 +57,7 @@ system:
 			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		cluster:
-			name = open_office; location = "persistency/xml/open-office-spreadsheet"; recursive = true
+			name = open_office; location = "persistency/xml/open-office-spreadsheet/src"; recursive = true
 			description:
 				"""
 					Open Office Spreadsheets
@@ -70,7 +67,7 @@ system:
 					using [http://vtd-xml.sourceforge.net/ VTD-XML].
 				"""
 		cluster:
-			name = thunderbird; location = "persistency/thunderbird"; recursive = true
+			name = thunderbird; location = "persistency/thunderbird/src"; recursive = true
 			description:
 				"""
 					Thunderbird Email Export
@@ -87,3 +84,36 @@ system:
 					
 					Classes for generating Kindle OPF packages from HTML content.
 				"""
+	target:
+		name = markup_docs_test; extends = EL_markup_docs
+		root:
+			class = TEST_ROOT; feature = make
+		setting:
+			name = concurrency; value = thread
+		library:
+			name = EL_app_manage; readonly = false; location = "app-manage.ecf"
+		library:
+			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+		library:
+			name = EL_testing; readonly = false; location = "testing.ecf"
+		# Source code
+		cluster:
+			name = thunderbird_test; location = "persistency/thunderbird/test"; recursive = true
+			description:
+				"""
+					Test Thunderbird Email Export
+					
+					Classes to test subject line decoding.
+				"""
+		cluster:
+			name = open_office_test; location = "persistency/xml/open-office-spreadsheet/test"; recursive = true
+			description:
+				"""
+					Test Open Office Spreadsheet
+					
+					Application to regression test reading of Open Office Spreadsheet
+				"""
+			
+
+
+

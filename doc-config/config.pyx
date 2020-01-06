@@ -86,7 +86,7 @@ publish-repository:
 			"library/doc/flash-network.ecf"
 			"library/amazon-instant-access.ecf"
 			"library/ftp.ecf"
-			"library/paypal.ecf"
+			"library/paypal-SBM.ecf"
 			"library/http-client.ecf"
 			"library/fast-cgi.ecf"
 
@@ -98,11 +98,13 @@ publish-repository:
 		# Library (Persistency)
 		ecf:
 			"library/Eco-DB.ecf"
-			"library/wel-regedit-x.ecf"
+			"library/markup-docs.ecf#kindle_book"
+			"library/markup-docs.ecf#thunderbird*"
+			"library/markup-docs.ecf#open_office*"
 			"library/xml-db.ecf"
 			"library/xdoc-scanning.ecf"
 			"library/vtd-xml.ecf"
-			"library/markup-docs.ecf#open_office"
+			"library/wel-regedit-x.ecf"
 
 		# Library (Runtime)
 		ecf:
@@ -121,8 +123,6 @@ publish-repository:
 			"library/encryption.ecf"
 			"library/public-key-encryption.ecf"
 			"library/evolicity.ecf"
-			"library/markup-docs.ecf#kindle_book"
-			"library/markup-docs.ecf#thunderbird"
 			"library/search-engine.ecf"
 			"library/text-formats.ecf"
 			"library/text-process.ecf#edit"
@@ -148,5 +148,6 @@ publish-repository:
 			"test/test.ecf#benchmark"
 			"test/test.ecf#root"
 			"test/test.ecf#test_set"
+
 
 	

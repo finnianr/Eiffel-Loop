@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-03 8:57:28 GMT (Sunday 3rd February 2019)"
-	revision: "2"
+	date: "2020-01-04 17:19:44 GMT (Saturday 4th January 2020)"
+	revision: "3"
 
 class
 	EL_ZSTRING_CONVERTER
