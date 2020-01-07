@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 11:34:32 GMT (Monday 6th January 2020)"
-	revision: "10"
+	date: "2020-01-07 15:27:33 GMT (Tuesday 7th January 2020)"
+	revision: "11"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -15,90 +15,89 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		redefine
-			Option_name, initialize, visible_types
+			Option_name, visible_types
 		end
 
 create
 	make
 
-feature {NONE} -- Initiliazation
-
-	initialize
-			--
-		do
-			Precursor
-			smart_builder := new_smart_builder
-		end
-
-feature -- Basic operations
+feature -- Tests
 
 	test_run
 			--
+		local
+			file: ZSTRING
 		do
 			-- Jan 2020
---			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent build_and_serialize_file, 2094778673)
---			Test.do_all_files_test ("XML/creatable", "*", agent build_and_serialize_file, 2148677303)
---			Test.do_file_test ("XML/creatable/download-page.xhtml", agent build_and_serialize_file, 557006133)
-			Test.do_all_files_test ("XML/creatable", "*", agent smart_build_file, 562742021)
+			file := "linguistic-analysis.smil"
+			do_file_test (file, agent new_smil_presentation, 2549506488)
+			do_file_test (file, agent new_serializeable, 2549506488)
+
+			file := "download-page.xhtml"
+			do_file_test (file, agent new_web_form, 4143110532)
+			do_file_test (file, agent new_serializeable, 4143110532)
+
+			file := "request-matrix-sum.xml"
+			do_file_test (file, agent new_matrix, 3557220573)
+			do_file_test (file, agent new_serializeable, 3557220573)
+
+			file := "request-matrix-average.xml"
+			do_file_test (file, agent new_matrix, 1829577793)
+			do_file_test (file, agent new_serializeable, 1829577793)
 		end
 
-feature -- Tests
+feature {NONE} -- Implementation
 
-	build_and_serialize_file (file_path: EL_FILE_PATH)
+	do_file_test (
+		file_name: ZSTRING; new_object: FUNCTION [EL_FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN]; checksum: NATURAL
+	)
+		local
+			file_path: EL_FILE_PATH
+		do
+			file_path := Createable_dir + file_name
+			Test.do_file_test (file_path, agent build_and_serialize_file (?, new_object), checksum)
+		end
+
+	build_and_serialize_file (file_path: EL_FILE_PATH; new_object: FUNCTION [EL_FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN])
 			--
 		local
-			extension: STRING
+			object: EL_BUILDABLE_FROM_NODE_SCAN
 		do
 			log.enter_with_args ("build_and_serialize_file", [file_path])
-			extension := file_path.extension.to_latin_1
-			if extension ~ "xhtml" then
-				read_and_save (file_path, create {WEB_FORM}.make_from_file (file_path))
-
-			elseif extension ~ "smil" then
-				read_and_save (file_path, create {SMIL_PRESENTATION}.make_from_file (file_path))
-
-			elseif file_path.to_string.has_substring ("matrix") then
-				operate_on_matrix (file_path)
+			object := new_object (file_path)
+			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
+				lio.put_path_field ("Saving", file_path)
+				lio.put_new_line
+				serializeable.save_as_xml (file_path)
 			end
 			log.exit
 		end
 
-	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
-		do
-			create {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER} Result.make
-		end
+feature {NONE} -- Factory
 
-	operate_on_matrix (file_in_path: EL_FILE_PATH)
-			--
-		local
-			matrix: MATRIX_CALCULATOR
-		do
-			log.enter_with_args ("operate_on_matrix", [file_in_path])
-			create matrix.make_from_file (file_in_path)
-			matrix.find_column_sum
-			matrix.find_column_average
-			log.exit
-		end
-
-	read_and_save (file_path: EL_FILE_PATH; constructed_object: EVOLICITY_SERIALIZEABLE_AS_XML)
+	new_matrix (file_in_path: EL_FILE_PATH): MATRIX_CALCULATOR
 			--
 		do
-			log.enter_with_args ("read_and_save", [file_path])
-			constructed_object.save_as_xml (file_path)
-			log.exit
+			create Result.make_from_file (file_in_path)
 		end
 
-	smart_build_file (file_path: EL_FILE_PATH)
+	new_smil_presentation (file_in_path: EL_FILE_PATH): SMIL_PRESENTATION
 			--
 		do
-			log.enter_with_args ("smart_build_file", [file_path])
-			smart_builder.build_from_file (file_path)
+			create Result.make_from_file (file_in_path)
+		end
 
-			if attached {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML} smart_builder.target as storable then
-				storable.set_output_path (file_path)
-				storable.store
-			end
-			log.exit
+	new_web_form (file_in_path: EL_FILE_PATH): WEB_FORM
+			--
+		do
+			create Result.make_from_file (file_in_path)
+		end
+
+	new_serializeable (file_in_path: EL_FILE_PATH): EL_BUILDABLE_FROM_NODE_SCAN
+		-- detect type from processing instruction
+		do
+			Smart_builder.build_from_file (file_in_path)
+			Result := Smart_builder.result_stack.item
 		end
 
 feature {NONE} -- Implementation
@@ -120,11 +119,12 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-feature {NONE} -- Internal attributes
-
-	smart_builder: like new_smart_builder
-
 feature {NONE} -- Constants
+
+	Createable_dir: EL_DIR_PATH
+		once
+			Result := "XML/creatable"
+		end
 
 	Description: STRING
 		once
@@ -135,6 +135,11 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := "object_builder"
+		end
+
+	Smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
+		once
+			create {EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER} Result.make
 		end
 
 end

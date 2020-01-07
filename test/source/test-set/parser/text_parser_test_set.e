@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-07 16:00:43 GMT (Tuesday 7th January 2020)"
+	revision: "6"
 
 class
 	TEXT_PARSER_TEST_SET
@@ -360,7 +360,6 @@ feature {NONE} -- Constants
 				HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
 			]"
 		end
-
 
 	Xpaths: STRING = "[
 		head/meta[@name='title']/@content

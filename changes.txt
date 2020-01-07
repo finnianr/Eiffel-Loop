@@ -103,3 +103,6 @@ Revised cluster structure for base.ecf with change to repository publisher Eiffe
 Sat 4th Jan 2020, 17:00:50
 Revised cluster structure for base.ecf with change to repository publisher EiffelView
 
+Mon 6th Jan 2020, 20:25:03
+Reverting test classes back to project test.ecf due to ES hangs on new class
+

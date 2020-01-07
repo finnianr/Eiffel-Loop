@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 9:50:37 GMT (Monday 6th January 2020)"
-	revision: "7"
+	date: "2020-01-07 11:16:49 GMT (Tuesday 7th January 2020)"
+	revision: "8"
 
 class
 	SMIL_PRESENTATION
@@ -112,7 +112,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["processing-instruction('create')", agent on_create]
+				["create", agent on_create]
 			>>)
 		end
 

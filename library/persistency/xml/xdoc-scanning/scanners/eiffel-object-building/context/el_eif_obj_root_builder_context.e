@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:29:09 GMT (Friday 18th January 2019)"
-	revision: "7"
+	date: "2020-01-07 15:22:02 GMT (Tuesday 7th January 2020)"
+	revision: "8"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -25,7 +25,6 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			building_actions := new_building_actions
-
 			root_node_xpath := a_root_node_xpath
 			target := a_target
 			reset
@@ -33,10 +32,13 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_target (a_target: like target)
-		-- set target object to build from XML
+	reset
+			--
 		do
-			target := a_target
+			xpath.wipe_out
+			building_actions.wipe_out
+			building_actions.extend (agent set_top_level_context, root_node_xpath)
+			add_process_instruction_actions (target.pi_building_actions)
 		end
 
 	set_root_node_xpath (a_root_node_xpath: STRING)
@@ -45,13 +47,12 @@ feature -- Element change
 			root_node_xpath := a_root_node_xpath
 		end
 
-	reset
-			--
+	set_target (a_target: like target)
+		-- set target object to build from XML
 		do
-			xpath.wipe_out
-			building_actions.wipe_out
-			building_actions.extend (agent set_top_level_context, root_node_xpath)
-			extend_building_actions_from_root_PI_actions
+			target := a_target
+			building_actions.extend (agent set_top_level_context, a_target.root_node_name)
+			add_process_instruction_actions (target.pi_building_actions)
 		end
 
 feature -- Access
@@ -61,20 +62,28 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	extend_building_actions_from_root_PI_actions
-			-- extend building_actions with processing instruction actions defined in target object to build
-		local
-			PI_building_actions: like building_actions
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
+			--
 		do
-			PI_building_actions := target.PI_building_actions
-			from PI_building_actions.start until PI_building_actions.after loop
-				building_actions.put (
-					agent call_process_instruction_action (PI_building_actions.item_for_iteration),
-					PI_building_actions.key_for_iteration
-				)
-				PI_building_actions.forth
+			create Result
+		end
+
+	call_process_instruction_action (pi_action: PROCEDURE)
+			--
+		do
+			pi_action.set_target (target)
+			pi_action (node.to_string)
+		end
+
+	add_process_instruction_actions (pi_action_table: like building_actions)
+			-- extend `building_actions' with processing instruction actions
+		do
+			across pi_action_table as action loop
+				building_actions.put (agent call_process_instruction_action (action.item), PI_template #$ [action.key])
 			end
 		end
+
+	root_node_xpath: STRING_32
 
 	set_top_level_context
 			--
@@ -82,19 +91,11 @@ feature {NONE} -- Implementation
 			set_next_context (target)
 		end
 
-	call_process_instruction_action (pi_action: PROCEDURE)
-			--
-		do
-			pi_action.set_target (target)
-			pi_action.call ([node.to_string])
-		end
+feature {NONE} -- Constants
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			create Result
+	PI_template: ZSTRING
+		once
+			Result := "processing-instruction('%S')"
 		end
-
-	root_node_xpath: STRING_32
 
 end

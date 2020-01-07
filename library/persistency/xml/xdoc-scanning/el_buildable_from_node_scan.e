@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 15:39:08 GMT (Tuesday 1st October 2019)"
-	revision: "14"
+	date: "2020-01-07 12:55:58 GMT (Tuesday 7th January 2020)"
+	revision: "15"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -39,12 +39,12 @@ inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		export
 			{NONE} all
-			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} set_node
+			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_BUILDABLE_FROM_NODE_SCAN} set_node
 		redefine
 			make_default, new_building_actions
 		end
 
-feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT, EL_BUILDER_OBJECT_FACTORY} -- Initialization
+feature {EL_BUILDABLE_FROM_NODE_SCAN, EL_BUILDER_OBJECT_FACTORY} -- Initialization
 
 	make_default
 			--
@@ -110,7 +110,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} 
 		deferred
 		end
 
-feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Internal attributes
+feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_SMART_BUILDABLE_FROM_NODE_SCAN} -- Internal attributes
 
 	PI_building_actions: like building_actions
 

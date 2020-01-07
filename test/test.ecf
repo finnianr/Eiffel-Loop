@@ -153,12 +153,26 @@ Tests for Eiffel interface to Amazon Instant Access API.
 See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 			</description>
 		</cluster>
+		<cluster name = "base_test" location = "source/base" recursive = "true">
+			<description>
+Test Eiffel-Loop base.ecf
+
+See class [$source BASE_AUTOTEST_APP]
+			</description>
+		</cluster>
 		<cluster name = "markup_docs" location = "source/markup-docs" recursive = "true">
 			<description>
 Test markup-docs.ecf
 
 * Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
 * Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
+			</description>
+		</cluster>
+		<cluster name = "os_command" location = "source/os-command" recursive = "true">
+			<description>
+Test os-command.ecf
+
+See class [$source OS_COMMAND_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "paypal_SBM" location = "source/paypal-SBM" recursive = "true">

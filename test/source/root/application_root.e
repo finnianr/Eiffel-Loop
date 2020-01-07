@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 19:53:17 GMT (Monday 6th January 2020)"
-	revision: "24"
+	date: "2020-01-07 16:11:48 GMT (Tuesday 7th January 2020)"
+	revision: "25"
 
 class
 	APPLICATION_ROOT
@@ -42,6 +42,9 @@ feature {NONE} -- Constants
 		BENCHMARK_APP,
 		ZSTRING_BENCHMARK_APP,
 
+		-- Test base.ecf
+		BASE_AUTOTEST_APP,
+
 		-- Test markup-docs.pecf#open_office
 		OPEN_OFFICE_TEST_APP,
 
@@ -50,6 +53,9 @@ feature {NONE} -- Constants
 
 		-- Test amazon-instant-access.ecf
 		AMAZON_INSTANT_ACCESS_TEST_APP,
+
+		-- Test os-command.ecf
+		OS_COMMAND_AUTOTEST_APP,
 
 		-- Test paypal-SBM.ecf
 		PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP,

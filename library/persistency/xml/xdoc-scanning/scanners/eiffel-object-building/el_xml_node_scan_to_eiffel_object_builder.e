@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 17:23:57 GMT (Monday 6th January 2020)"
-	revision: "6"
+	date: "2020-01-07 11:58:44 GMT (Tuesday 7th January 2020)"
+	revision: "7"
 
 class
 	EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
@@ -156,14 +156,10 @@ feature {NONE} -- Implementation
 	new_builder_context (root_node_name: STRING): EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
 			--
 		do
-			if root_node_name ~ "<NONE>" then
-				create {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} Result.make (root_node_name, target)
-			else
-				create Result.make (root_node_name, target)
-			end
+			create Result.make (root_node_name, target)
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_SMART_BUILDABLE_FROM_NODE_SCAN} -- Internal attributes
 
 	context_stack: ARRAYED_STACK [EL_EIF_OBJ_XPATH_CONTEXT]
 

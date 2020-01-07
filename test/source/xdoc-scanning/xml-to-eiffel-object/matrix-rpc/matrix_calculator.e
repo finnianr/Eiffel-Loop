@@ -22,7 +22,7 @@ note
 					<col>0.1</col>
 				</row>
 			<matrix>
-			<?procedure find_column_average?>
+			<?find_column_average?>
 	]"
 
 	author: "Finnian Reilly"
@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 11:32:30 GMT (Monday 6th January 2020)"
-	revision: "6"
+	date: "2020-01-07 15:15:23 GMT (Tuesday 7th January 2020)"
+	revision: "7"
 
 class
 	MATRIX_CALCULATOR
@@ -48,7 +48,7 @@ inherit
 		undefine
 			copy, is_equal
 		redefine
-			make_default, building_action_table, PI_building_action_table, on_context_exit
+			make_default, building_action_table, PI_building_action_table
 		end
 
 	OUTPUT_ROUTINES
@@ -102,8 +102,6 @@ feature -- Basic operations
 			log_vector_result ("Average")
 		end
 
-feature {NONE} -- Implementation
-
 	log_vector_result (label: STRING)
 			--
 		do
@@ -113,7 +111,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	calculation_procedure: PROCEDURE
+feature {NONE} -- Implementation
 
 	row_sum: ARRAY [REAL]
 
@@ -142,24 +140,6 @@ feature {NONE} -- Building from XML
 			row.force (node.to_real, col_index)
 		end
 
-	do_calculation
-			--
-		do
-			if Procedures.has_key (node.to_string) then
-				Procedures.found_item.set_target (Current)
-				lio.put_labeled_string ("Applying", node.to_string)
-				lio.put_new_line
-				Procedures.found_item.apply
-
-			end
-		end
-
-	on_context_exit
-			--
-		do
---			calculation_procedure.apply
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to root node: matrix
 		do
@@ -175,21 +155,11 @@ feature {NONE} -- Building from XML
 			--
 		do
 			create Result.make (<<
-				["processing-instruction('call')", agent do_calculation]
-			>>)
-		end
-
-	Root_node_name: STRING = "matrix"
-
-feature {NONE} -- Constants
-
-	Procedures: EL_HASH_TABLE [PROCEDURE, STRING]
-			--
-		once
-			create Result.make (<<
 				["find_column_sum", agent find_column_sum],
 				["find_column_average", agent find_column_average]
 			>>)
 		end
+
+	Root_node_name: STRING = "matrix"
 
 end

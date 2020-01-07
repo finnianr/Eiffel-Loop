@@ -1,14 +1,13 @@
 note
 	description: "Evaluator for test set [$source FILE_AND_DIRECTORY_TEST_SET]"
-	description: "Evaluator for test set [$source FILE_AND_DIRECTORY_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 11:06:53 GMT (Friday 27th December 2019)"
-	revision: "2"
+	date: "2020-01-07 16:15:16 GMT (Tuesday 7th January 2020)"
+	revision: "3"
 
 class
 	FILE_AND_DIRECTORY_TEST_EVALUATOR

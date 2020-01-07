@@ -50,4 +50,4 @@
 		<col>0.5</col>
 	</row>
 </matrix>
-<?call find_column_average?>
+<?find_column_average?>

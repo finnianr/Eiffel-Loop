@@ -145,12 +145,15 @@ publish-repository:
 
 		# Test
 		ecf:
+			"test/test.ecf#base_test"
 			"test/test.ecf#benchmark"
 			"test/test.ecf#root"
 			"test/test.ecf#test_set"
 			"test/test.ecf#amazon_ia"
 			"test/test.ecf#markup_docs"
+			"test/test.ecf#os_command"
 			"test/test.ecf#paypal_SBM"
+			"test/test.ecf#vtd_xml"
 			"test/test.ecf#xdoc_scanning"
 
 

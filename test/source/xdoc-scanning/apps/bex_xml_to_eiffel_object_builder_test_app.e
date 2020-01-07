@@ -1,13 +1,13 @@
 note
-	description: "Bex xml to eiffel object builder test app"
+	description: "Test app for event source of type [$source EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 8:57:32 GMT (Tuesday 19th June 2018)"
-	revision: "6"
+	date: "2020-01-07 9:23:40 GMT (Tuesday 7th January 2020)"
+	revision: "7"
 
 class
 	BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	OBJECT_BUILDER_TEST_APP
 		redefine
-			Option_name, Description, new_log_filter_list, run, initialize, new_smart_builder
+			Option_name, Description, new_log_filter_list, run, initialize, Smart_builder
 		end
 
 create
@@ -35,7 +35,7 @@ feature -- Basic operations
 	run
 			--
 		do
-			Test.do_all_files_test ("XML", All_routines, agent smart_build_file, 2902699395)
+--			Test.do_all_files_test ("XML", All_routines, agent smart_build_file, 2902699395)
 		end
 
 feature {NONE} -- Implementation
@@ -65,11 +65,6 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	new_smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
-		do
-			create Result.make ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
-		end
-
 feature {NONE} -- Internal attributes
 
 	doc_scanner: BINARY_ENCODED_XML_DOCUMENT_SCANNER
@@ -87,5 +82,10 @@ feature {NONE} -- Constants
 		end
 
 	Option_name: STRING = "bex_x2e_and_e2x"
+
+	Smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
+		once
+			create Result.make ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
+		end
 
 end

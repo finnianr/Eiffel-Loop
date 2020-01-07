@@ -50,4 +50,4 @@
 		<col>0.5</col>
 	</row>
 </matrix>
-<?call find_column_sum?>
+<?find_column_sum?>
