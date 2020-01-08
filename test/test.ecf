@@ -95,7 +95,7 @@
 			<description>
 Root class and Experiments
 
-Root class [$source APPLICATION_ROOT] and a collection of developer experiments
+Root class [./test/source/root/application_root.e APPLICATION_ROOT] and a collection of developer experiments
 to verify understanding of ISE base classes.
 
 See doc/test.root.txt for details
@@ -110,7 +110,7 @@ See doc/test.root.txt for details
 		-->
 		<cluster name = "benchmark" location = "source/benchmark" recursive = "true">
 			<description>
-Eiffel-Loop Benchmark Testing
+Benchmarking Tests
 
 **Sub-applications**
 
@@ -131,7 +131,7 @@ See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 		</cluster>
 		<cluster name = "base" location = "source/base" recursive = "true">
 			<description>
-Eiffel-Loop base.ecf
+base.ecf (&apos;&apos;Eiffel-Loop&apos;&apos;)
 
 See class [$source BASE_AUTOTEST_APP]
 			</description>

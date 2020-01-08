@@ -233,7 +233,7 @@ system:
 				"""
 					Root class and Experiments
 					
-					Root class [$source APPLICATION_ROOT] and a collection of developer experiments
+					Root class [./test/source/root/application_root.e APPLICATION_ROOT] and a collection of developer experiments
 					to verify understanding of ISE base classes.
 
 					See doc/test.root.txt for details
@@ -247,7 +247,7 @@ system:
 			name = benchmark; location = "source/benchmark"; recursive = true
 			description:
 				"""
-					Eiffel-Loop Benchmark Testing
+					Benchmarking Tests
 
 					**Sub-applications**
 					
@@ -271,7 +271,7 @@ system:
 			name = base; location = "source/base"; recursive = true
 			description:
 				"""
-					Eiffel-Loop base.ecf
+					base.ecf (''Eiffel-Loop'')
 					
 					See class [$source BASE_AUTOTEST_APP]
 				"""

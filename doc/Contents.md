@@ -1437,7 +1437,7 @@ See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-co
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
 ## Root class and Experiments
-Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
+Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.e) and a collection of developer experiments to verify understanding of ISE base classes.
 
 **Autotest Sub-applications**
 
