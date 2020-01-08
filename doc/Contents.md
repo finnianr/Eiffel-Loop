@@ -645,11 +645,11 @@ Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
 Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
 
-Test class [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/thunderbird/thunderbird_test_app.html)
+Test class [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/thunderbird/thunderbird_test_app.html)
 ## Open Office Spreadsheets
 Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 
-Test class [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/open-office-spreadsheet/open_office_test_app.html)
+Test class [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
@@ -998,7 +998,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP]($source) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html) is implemented as follows:
 
 
 ````
@@ -1381,12 +1381,16 @@ Restores either an entire duplicity backup or a selected file or directory.  Res
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 
 
+## amazon-instant-access.ecf
+Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
+## Eiffel-Loop base.ecf
+See class [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
 ## Eiffel-Loop Benchmark Testing
 **Sub-applications**
 
 
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/test-set/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
-* [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/apps/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
+* [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/apps/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
 
 **Descendants of EL_BENCHMARK_COMPARISON**
 
@@ -1401,38 +1405,94 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
 ````
 
-## Eiffel-Loop Dev Tests
-Sub-applications for testing the *Eiffel-Loop* libraries
+## compression.ecf
+See class [COMPRESSION_TEST_APP](http://www.eiffel-loop.com/test/source/compression/compression_test_app.html)
+## encryption.ecf
+See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/encryption_autotest_app.html)
+## evolicity.ecf
+See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
+## ftp.ecf
+See class [FTP_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ftp/ftp_autotest_app.html)
+## http-client.ecf
+See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
+## i18n.ecf
+See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
+## ID3-tags.ecf
+See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tags/id3_tags_autotest_app.html)
+## image-utils.ecf
+See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/source/image-utils/svg_to_png_conversion_test_app.html)
+## markup-docs.ecf
+* Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/thunderbird/thunderbird_test_app.html)
+* Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
 
-**Descendants**
+## network.ecf
+See classes
+
+
+* [TEST_SIMPLE_CLIENT](http://www.eiffel-loop.com/test/source/network/test_simple_client.html)
+* [TEST_SIMPLE_SERVER](http://www.eiffel-loop.com/test/source/network/test_simple_server.html)
+
+## os-command.ecf
+See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+## paypal-SBM.ecf
+Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
+## Root class and Experiments
+Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
+
+**Autotest Sub-applications**
+
+
+````
+EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION*
+	[$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+	[$source AMAZON_INSTANT_ACCESS_TEST_APP]
+	[$source THUNDERBIRD_TEST_APP]
+	[$source TEXT_PROCESS_AUTOTEST_APP]
+	[$source TEXT_FORMATS_AUTOTEST_APP]
+	[$source ENCRYPTION_AUTOTEST_APP]
+	[$source SEARCH_ENGINE_AUTOTEST_APP]
+	[$source XDOC_SCANNING_AUTOTEST_APP]
+	[$source FTP_AUTOTEST_APP]
+	[$source OS_COMMAND_AUTOTEST_APP]
+	[$source I18N_AUTOTEST_APP]
+	[$source HTTP_CLIENT_AUTOTEST_APP]
+	[$source ID3_TAGS_AUTOTEST_APP]
+	[$source TAGLIB_AUTOTEST_APP]
+	[$source BASE_AUTOTEST_APP]
+````
+**Regression Test Sub-applications**
+
+
+````
+EL_REGRESSION_TESTABLE_SUB_APPLICATION*
+	[$source TEST_SUB_APPLICATION]*
+		[$source MEDIA_PLAYER_DUMMY_APP]
+		[$source COMPRESSION_TEST_APP]
+		[$source ENCRYPTION_TEST_APP]
+		[$source EVOLICITY_TEST_APP]
+		[$source SVG_TO_PNG_CONVERSION_TEST_APP]
+		[$source TEST_SIMPLE_SERVER]
+		[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
+		[$source OBJECT_BUILDER_TEST_APP]
+			[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+		[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+		[$source OPEN_OFFICE_TEST_APP]
+		[$source TEST_VTD_XML_APP]
+````
+**General Test Sub-applications**
 
 
 ````
 EL_SUB_APPLICATION*
-	[$source EL_LOGGED_SUB_APPLICATION]*
+	[$source EL_COMMAND_LINE_SUB_APPLICATION]*
+		[$source EL_COMMAND_SHELL_SUB_APPLICATION]*
+			[$source BENCHMARK_APP]
 		[$source TEST_WORK_DISTRIBUTER_APP]
-		[$source EL_REGRESSION_TESTABLE_SUB_APPLICATION]*
-			[$source REGRESSION_TESTABLE_SUB_APPLICATION]*
-				[$source MEDIA_PLAYER_DUMMY_APP]
-				[$source COMPRESSION_TEST_APP]
-				[$source ENCRYPTION_TEST_APP]
-				[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-				[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-				[$source STRING_EDITION_HISTORY_TEST_APP]
-				[$source SVG_TO_PNG_CONVERSION_TEST_APP]
-				[$source OBJECT_BUILDER_TEST_APP]
-					[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-				[$source TEST_SIMPLE_SERVER]
-				[$source TEST_VTD_XML_APP]
-				[$source EVOLICITY_TEST_APP]
-		[$source EXPERIMENTS_APP]
+		[$source ZSTRING_BENCHMARK_APP]
 		[$source TEST_SIMPLE_CLIENT]
+		[$source EXPERIMENTS_APP]
 ````
-
-## Eiffel-Loop Test Sets
-Sub-application [AUTOTEST_DEVELOPMENT_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/autotest_development_app.html) allows selected test sets to be run via normal program execution and also to test them as finalized executable.
-
-Hierarchy of classes inheriting from [EQA_TEST_SET](https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics)
+**Test Sets**
 
 
 ````
@@ -1445,7 +1505,6 @@ EQA_TEST_SET*
 	[$source JSON_NAME_VALUE_LIST_TEST_SET]
 	[$source PATH_STEPS_TEST_SET]
 	[$source REFLECTION_TEST_SET]
-	[$source REFLECTIVE_TEST_SET]
 	[$source SE_ARRAY2_TEST_SET]
 	[$source SETTABLE_FROM_JSON_STRING_TEST_SET]
 	[$source STRING_32_ROUTINES_TEST_SET]
@@ -1470,7 +1529,6 @@ EQA_TEST_SET*
 				[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
 			[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
 			[$source HELP_PAGES_TEST_SET]*
-				[$source FILE_COMMAND_TEST_SET]
 				[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
 				[$source FTP_TEST_SET]
 			[$source MODULE_CRC_32_TEST_SET]
@@ -1488,17 +1546,23 @@ EQA_TEST_SET*
 	[$source DATE_TEXT_TEST_SET]
 ````
 
-## Test amazon-instant-access.ecf
-Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
-## Test paypal-SBM.ecf
-Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
-## Test xdoc-scanning.ecf
+## search-engine.ecf
+See class [SEARCH_ENGINE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/search-engine/search_engine_autotest_app.html)
+## TagLib.ecf
+See class [TAGLIB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/TagLib/taglib_autotest_app.html)
+## text-formats.ecf
+See class [TEXT_FORMATS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/text-formats/text_formats_autotest_app.html)
+## text-process.ecf
+See class [TEXT_PROCESS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/text-process/text_process_autotest_app.html)
+## thread.ecf
+See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thread/test_work_distributer_app.html)
+## vtd-xml.ecf
+Tests for Eiffel interface VTD-XML C API See class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html)
+## wel-x-audio.ecf
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
+## xdoc-scanning.ecf
 * [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/bex_xml_to_eiffel_object_builder_test_app.html)
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
 * [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
 
-## Test Thunderbird Email Export
-Classes to test subject line decoding.
-## Test Open Office Spreadsheet
-Cluster markup-docs.ecf#open_office Application to regression test reading of Open Office Spreadsheet

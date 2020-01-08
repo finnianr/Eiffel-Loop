@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 15:27:33 GMT (Tuesday 7th January 2020)"
-	revision: "11"
+	date: "2020-01-08 10:53:24 GMT (Wednesday 8th January 2020)"
+	revision: "12"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -97,7 +97,9 @@ feature {NONE} -- Factory
 		-- detect type from processing instruction
 		do
 			Smart_builder.build_from_file (file_in_path)
-			Result := Smart_builder.result_stack.item
+			if Smart_builder.has_item then
+				Result := Smart_builder.item
+			end
 		end
 
 feature {NONE} -- Implementation

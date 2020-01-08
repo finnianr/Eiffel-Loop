@@ -6,37 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 14:01:34 GMT (Sunday 5th January 2020)"
-	revision: "58"
+	date: "2020-01-08 12:31:54 GMT (Wednesday 8th January 2020)"
+	revision: "59"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
-		undefine
-			Build_info
-		end
-
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	evaluator_type, evaluator_types_all: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
 		do
-			Result := <<
-				[{AMAZON_INSTANT_ACCESS_TEST_APP}, All_routines]
-			>>
-		end
-
-feature {NONE} -- Constants
-
-	Evaluator_types: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
-		once
 			create Result
 		end
 

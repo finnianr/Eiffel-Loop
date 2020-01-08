@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 15:22:02 GMT (Tuesday 7th January 2020)"
-	revision: "8"
+	date: "2020-01-08 10:38:49 GMT (Wednesday 8th January 2020)"
+	revision: "9"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -62,34 +62,35 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	add_process_instruction_actions (pi_action_table: like building_actions)
+			-- extend `building_actions' with processing instruction actions
+		do
+			across pi_action_table as action loop
+				building_actions.put (agent call_target_pi_action (action.item), PI_template #$ [action.key])
+			end
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result
 		end
 
-	call_process_instruction_action (pi_action: PROCEDURE)
-			--
+	call_target_pi_action (do_action: PROCEDURE)
 		do
-			pi_action.set_target (target)
-			pi_action (node.to_string)
+			do_action.set_target (target)
+			call_pi_action (do_action)
 		end
-
-	add_process_instruction_actions (pi_action_table: like building_actions)
-			-- extend `building_actions' with processing instruction actions
-		do
-			across pi_action_table as action loop
-				building_actions.put (agent call_process_instruction_action (action.item), PI_template #$ [action.key])
-			end
-		end
-
-	root_node_xpath: STRING_32
 
 	set_top_level_context
 			--
 		do
 			set_next_context (target)
 		end
+
+feature {NONE} -- Internal attributes
+
+	root_node_xpath: STRING_32
 
 feature {NONE} -- Constants
 

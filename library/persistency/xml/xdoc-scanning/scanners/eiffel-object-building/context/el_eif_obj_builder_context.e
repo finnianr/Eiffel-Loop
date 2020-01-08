@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-06 18:59:15 GMT (Thursday 6th June 2019)"
-	revision: "9"
+	date: "2020-01-08 11:06:16 GMT (Wednesday 8th January 2020)"
+	revision: "10"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -18,6 +18,11 @@ inherit
 			do_with_xpath as apply_building_action_for_xpath
 		redefine
 			make_default
+		end
+
+	EL_ZSTRING_CONSTANTS
+		export
+			{EL_XML_NODE_SCAN_SOURCE} Empty_string -- For precondition
 		end
 
 feature {EL_SETTABLE_FROM_XML_NODE} -- Initialization
@@ -102,7 +107,7 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
 	building_actions: HASH_TABLE [PROCEDURE, STRING_32]
 
-feature {NONE} -- Implementation
+feature {EL_XML_NODE_SCAN_SOURCE} -- Implementation
 
 	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE [STRING])
 			--
@@ -129,6 +134,20 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		deferred
+		end
+
+	call_pi_action (do_action: PROCEDURE)
+		require
+			valid_operands: do_action.open_count > 0 implies do_action.valid_operands ([Empty_string])
+		do
+			-- set appropriate target before calling
+			inspect do_action.open_count
+				when 1 then
+					do_action (node.to_string)
+				when 0 then
+					do_action.apply
+			else
+			end
 		end
 
 	xpaths_ending_with_attribute_value_predicate (xpath_step_list: like XPath_parser.step_list): ARRAYED_LIST [STRING]

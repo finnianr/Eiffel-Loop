@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 16:14:27 GMT (Tuesday 7th January 2020)"
-	revision: "60"
+	date: "2020-01-08 14:01:10 GMT (Wednesday 8th January 2020)"
+	revision: "61"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -20,18 +20,15 @@ create
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+--	Tests that still need an evaluator
+	compile: TUPLE [
+		AUDIO_COMMAND_TEST_SET,
+		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
+		OS_COMMAND_TEST_SET
+	]
+
+	evaluator_type, evaluator_types_all: TUPLE [FILE_AND_DIRECTORY_TEST_EVALUATOR]
 		do
-			Result := <<
-				[{OS_COMMAND_AUTOTEST_APP}, All_routines]
-			>>
-		end
-
-feature {NONE} -- Constants
-
-	Evaluator_types: TUPLE [FILE_AND_DIRECTORY_TEST_EVALUATOR]
-		once
 			create Result
 		end
 

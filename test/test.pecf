@@ -66,38 +66,37 @@ system:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 
 		library:
-			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			name = ise_base; location = "$ISE_LIBRARY/library/base/base.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
 		library:
-			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
+			name = ise_base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
-			name = encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
+			name = ise_encoding; location = "$ISE_EIFFEL/library/encoding/encoding.ecf"
 
 		library:
-			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+			name = ise_thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
 
 		library:
-			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+			name = ise_time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		library:
-			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
+			name = ise_net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library:
-			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
+			name = ise_testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
 		# Encryption
 		variable:
 			name = eapml_limb_type; value = natural_32
+		library:
+			name = ise_arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
 		library:
-			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
-
-		library:
-			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
+			name = ise_encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
 		# Gobo
 		library:
@@ -232,46 +231,18 @@ system:
 			name = root; location = "source/root"; recursive = true
 			description:
 				"""
-					Eiffel-Loop Dev Tests
+					Root class and Experiments
 					
-					Sub-applications for testing the ''Eiffel-Loop'' libraries
+					Root class [$source APPLICATION_ROOT] and a collection of developer experiments
+					to verify understanding of ISE base classes.
 
 					See doc/test.root.txt for details
 				"""
-			file_rule:
-				exclude:
-					"/spec/unix$"
-				condition:
-					platform:
-						value = windows
-
-			file_rule:
-				exclude:
-					"/spec/windows$"
-				condition:
-					platform:
-						value = unix
-
 		# This works but no idea how to set it in Project settings		
 		#tests:
 		#	name = autotests; location = "source/autotests"; recursive = true
 	
 		# Source clusters
-		cluster:
-			name = test_set; location = "source/test-set"; recursive = true
-			description:
-				"""
-					Eiffel-Loop Test Sets
-				
-					Sub-application [$source AUTOTEST_DEVELOPMENT_APP] allows selected test sets to be run via normal program execution
-					and also to test them as finalized executable.
-
-					Hierarchy of classes inheriting from
-					[https://www.eiffel.org/doc/eiffelstudio/Testing-_Background_and_basics EQA_TEST_SET]
-
-					See doc/test.test_sets.txt for details
-				"""
-
 		cluster:
 			name = benchmark; location = "source/benchmark"; recursive = true
 			description:
@@ -290,53 +261,166 @@ system:
 			name = amazon_ia; location = "source/amazon-ia"; recursive = true
 			description:
 				"""
-					Test amazon-instant-access.ecf
+					amazon-instant-access.ecf
 					
 					Tests for Eiffel interface to Amazon Instant Access API.
 					See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 				"""
 
 		cluster:
-			name = base_test; location = "source/base"; recursive = true
+			name = base; location = "source/base"; recursive = true
 			description:
 				"""
-					Test Eiffel-Loop base.ecf
+					Eiffel-Loop base.ecf
 					
 					See class [$source BASE_AUTOTEST_APP]
 				"""
-
+		cluster:
+			name = compression; location = "source/compression"; recursive = true
+			description:
+				"""
+					compression.ecf
+					
+					See class [$source COMPRESSION_TEST_APP]
+				"""
+		cluster:
+			name = encryption; location = "source/encryption"; recursive = true
+			description:
+				"""
+					encryption.ecf
+					
+					See class [$source ENCRYPTION_AUTOTEST_APP]
+				"""
+		cluster:
+			name = evolicity; location = "source/evolicity"; recursive = true
+			description:
+				"""
+					evolicity.ecf
+					
+					See class [$source EVOLICITY_TEST_APP]
+				"""
+		cluster:
+			name = ftp; location = "source/ftp"; recursive = true
+			description:
+				"""
+					ftp.ecf
+					
+					See class [$source FTP_AUTOTEST_APP]
+				"""
+		cluster:
+			name = http_client; location = "source/http-client"; recursive = true
+			description:
+				"""
+					http-client.ecf
+					
+					See class [$source HTTP_CLIENT_AUTOTEST_APP]
+				"""
+		cluster:
+			name = i18n; location = "source/i18n"; recursive = true
+			description:
+				"""
+					i18n.ecf
+					
+					See class [$source I18N_AUTOTEST_APP]
+				"""
+		cluster:
+			name = id3_tags; location = "source/ID3-tags"; recursive = true
+			description:
+				"""
+					ID3-tags.ecf
+					
+					See class [$source ID3_TAGS_AUTOTEST_APP]
+				"""
+		cluster:
+			name = image_utils; location = "source/image-utils"; recursive = true
+			description:
+				"""
+					image-utils.ecf
+					
+					See class [$source SVG_TO_PNG_CONVERSION_TEST_APP]
+				"""
 		cluster:
 			name = markup_docs; location = "source/markup-docs"; recursive = true
 			description:
 				"""
-					Test markup-docs.ecf
+					markup-docs.ecf
 					
 					* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
 					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 				"""
 		cluster:
+			name = network; location = "source/network"; recursive = true
+			description:
+				"""
+					network.ecf
+					
+					See classes
+
+					* [$source TEST_SIMPLE_CLIENT]
+					* [$source TEST_SIMPLE_SERVER]
+				"""
+		cluster:
 			name = os_command; location = "source/os-command"; recursive = true
 			description:
 				"""
-					Test os-command.ecf
+					os-command.ecf
 					
 					See class [$source OS_COMMAND_AUTOTEST_APP]
 				"""
-
 		cluster:
-			name = paypal_SBM; location = "source/paypal-SBM"; recursive = true
+			name = paypal_sbm; location = "source/paypal-SBM"; recursive = true
 			description:
 				"""
-					Test paypal-SBM.ecf
+					paypal-SBM.ecf
 					
 					Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
 					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
 				"""
 		cluster:
+			name = search_engine; location = "source/search-engine"; recursive = true
+			description:
+				"""
+					search-engine.ecf
+					
+					See class [$source SEARCH_ENGINE_AUTOTEST_APP]
+				"""
+		cluster:
+			name = taglib; location = "source/TagLib"; recursive = true
+			description:
+				"""
+					TagLib.ecf
+					
+					See class [$source TAGLIB_AUTOTEST_APP]
+				"""
+		cluster:
+			name = text_formats; location = "source/text-formats"; recursive = true
+			description:
+				"""
+					text-formats.ecf
+					
+					See class [$source TEXT_FORMATS_AUTOTEST_APP]
+				"""
+		cluster:
+			name = text_process; location = "source/text-process"; recursive = true
+			description:
+				"""
+					text-process.ecf
+					
+					See class [$source TEXT_PROCESS_AUTOTEST_APP]
+				"""
+		cluster:
+			name = thread; location = "source/thread"; recursive = true
+			description:
+				"""
+					thread.ecf
+					
+					See class [$source TEST_WORK_DISTRIBUTER_APP]
+				"""
+		cluster:
 			name = xdoc_scanning; location = "source/xdoc-scanning"; recursive = true
 			description:
 				"""
-					Test xdoc-scanning.ecf
+					xdoc-scanning.ecf
 
 					* [$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
 					* [$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
@@ -347,10 +431,31 @@ system:
 			name = vtd_xml; location = "source/vtd-xml"; recursive = true
 			description:
 				"""
-					Test vtd-xml.ecf
+					vtd-xml.ecf
 					
 					Tests for Eiffel interface VTD-XML C API
 					See class [$source TEST_VTD_XML_APP]
 				"""
+		cluster:
+			name = wel_x_audio; location = "source/wel-x-audio"; recursive = true
+			description:
+				"""
+					wel-x-audio.ecf
+					
+					Maintenance of Windows audio classes
+					See class [$source MEDIA_PLAYER_DUMMY_APP]
+				"""
+			file_rule:
+				exclude:
+					"imp_unix$"
+				condition:
+					platform:
+						value = windows
 
+			file_rule:
+				exclude:
+					"imp_mswin$"
+				condition:
+					platform:
+						value = unix
 

@@ -106,3 +106,9 @@ Revised cluster structure for base.ecf with change to repository publisher Eiffe
 Mon 6th Jan 2020, 20:25:03
 Reverting test classes back to project test.ecf due to ES hangs on new class
 
+Tue 7th Jan 2020, 16:23:28
+Fixed class EL_SMART_BUILDABLE_FROM_NODE_SCAN and set regression tests in OBJECT_BUILDER_TEST_APP
+
+Wed 8th Jan 2020, 15:55:41
+Refactoring of test.ecf into clusters for each library
+

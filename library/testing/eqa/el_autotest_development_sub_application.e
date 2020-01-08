@@ -5,20 +5,28 @@ note
 		
 		See any of the [$source AUTOTEST_DEVELOPMENT_APP] classes for an example.
 	]"
+	notes: "[
+		Add command option `-single' to only test `evaluator_type' with single test.
+		
+		Logging is active by default
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 19:26:29 GMT (Monday 6th January 2020)"
-	revision: "15"
+	date: "2020-01-08 12:33:44 GMT (Wednesday 8th January 2020)"
+	revision: "16"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
+		redefine
+			is_logging_active
+		end
 
 	EL_MODULE_EIFFEL
 
@@ -63,15 +71,37 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	evaluator_types: TUPLE
+	evaluator_type: TUPLE
+		-- single type for evaluation (word option -single)
+		deferred
+		end
+
+	evaluator_types_all: TUPLE
 		deferred
 		end
 
 	evaluator_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
-			create Result.make_from_tuple (evaluator_types)
+			if Args.word_option_exists ("single") then
+				create Result.make_from_tuple (evaluator_type)
+			else
+				create Result.make_from_tuple (evaluator_types_all)
+			end
 		ensure
 			all_conform_to_EL_EQA_TEST_SET_EVALUATOR: Result.all_conform
+		end
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
+
+	is_logging_active: BOOLEAN
+		do
+			Result := True
 		end
 
 feature {NONE} -- Constants
