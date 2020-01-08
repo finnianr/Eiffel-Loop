@@ -1383,9 +1383,9 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
-## Eiffel-Loop base.ecf
+## base.ecf (Eiffel-Loop)
 See class [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
-## Eiffel-Loop Benchmark Testing
+## Benchmarking Tests
 **Sub-applications**
 
 
@@ -1437,7 +1437,7 @@ See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-co
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
 ## Root class and Experiments
-Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.e) and a collection of developer experiments to verify understanding of ISE base classes.
+Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
 
 **Autotest Sub-applications**
 

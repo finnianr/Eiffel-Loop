@@ -233,7 +233,7 @@ system:
 				"""
 					Root class and Experiments
 					
-					Root class [./test/source/root/application_root.e APPLICATION_ROOT] and a collection of developer experiments
+					Root class [./test/source/root/application_root.html APPLICATION_ROOT] and a collection of developer experiments
 					to verify understanding of ISE base classes.
 
 					See doc/test.root.txt for details
@@ -271,9 +271,9 @@ system:
 			name = base; location = "source/base"; recursive = true
 			description:
 				"""
-					base.ecf (''Eiffel-Loop'')
+					base.ecf (Eiffel-Loop)
 					
-					See class [$source BASE_AUTOTEST_APP]
+					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 				"""
 		cluster:
 			name = compression; location = "source/compression"; recursive = true
@@ -297,6 +297,7 @@ system:
 				"""
 					evolicity.ecf
 					
+					Test of Evolicity text substitution engine.
 					See class [$source EVOLICITY_TEST_APP]
 				"""
 		cluster:
@@ -321,6 +322,7 @@ system:
 				"""
 					i18n.ecf
 					
+					Test localization library.
 					See class [$source I18N_AUTOTEST_APP]
 				"""
 		cluster:
@@ -354,7 +356,7 @@ system:
 				"""
 					network.ecf
 					
-					See classes
+					Test network library classes
 
 					* [$source TEST_SIMPLE_CLIENT]
 					* [$source TEST_SIMPLE_SERVER]
@@ -365,7 +367,7 @@ system:
 				"""
 					os-command.ecf
 					
-					See class [$source OS_COMMAND_AUTOTEST_APP]
+					Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
 				"""
 		cluster:
 			name = paypal_sbm; location = "source/paypal-SBM"; recursive = true

@@ -95,7 +95,7 @@
 			<description>
 Root class and Experiments
 
-Root class [./test/source/root/application_root.e APPLICATION_ROOT] and a collection of developer experiments
+Root class [./test/source/root/application_root.html APPLICATION_ROOT] and a collection of developer experiments
 to verify understanding of ISE base classes.
 
 See doc/test.root.txt for details
@@ -131,9 +131,9 @@ See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 		</cluster>
 		<cluster name = "base" location = "source/base" recursive = "true">
 			<description>
-base.ecf (&apos;&apos;Eiffel-Loop&apos;&apos;)
+base.ecf (Eiffel-Loop)
 
-See class [$source BASE_AUTOTEST_APP]
+Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "compression" location = "source/compression" recursive = "true">
@@ -154,6 +154,7 @@ See class [$source ENCRYPTION_AUTOTEST_APP]
 			<description>
 evolicity.ecf
 
+Test of Evolicity text substitution engine.
 See class [$source EVOLICITY_TEST_APP]
 			</description>
 		</cluster>
@@ -175,6 +176,7 @@ See class [$source HTTP_CLIENT_AUTOTEST_APP]
 			<description>
 i18n.ecf
 
+Test localization library.
 See class [$source I18N_AUTOTEST_APP]
 			</description>
 		</cluster>
@@ -204,7 +206,7 @@ markup-docs.ecf
 			<description>
 network.ecf
 
-See classes
+Test network library classes
 
 * [$source TEST_SIMPLE_CLIENT]
 * [$source TEST_SIMPLE_SERVER]
@@ -214,7 +216,7 @@ See classes
 			<description>
 os-command.ecf
 
-See class [$source OS_COMMAND_AUTOTEST_APP]
+Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "paypal_sbm" location = "source/paypal-SBM" recursive = "true">
