@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
+	revision: "5"
 
 deferred class
 	EL_REMOTE_XML_OBJECT_EXCHANGER
 
 inherit
-	EL_REMOTE_CALL_CONSTANTS
+	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
 
 	EL_MODULE_LOG
 
@@ -23,8 +23,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			parse_event_generator := Default_parse_event_generator
-			transmission_type := [Transmission_type_plaintext, Transmission_type_plaintext]
-			create object_builder.make (Type_plain_text)
+			inbound_type := Type_plaintext; outbound_type := Type_plaintext
+			create object_builder.make (Event_source [Type_plaintext])
 		end
 
 feature -- Element change
@@ -40,13 +40,13 @@ feature -- Basic operations
 	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML; socket: EL_STREAM_SOCKET)
 			--
 		do
-			log.put_string ("Sending ")
-			log.put_string (object.generator)
-			if transmission_type.outbound = Transmission_type_binary then
-				log.put_line (" as binary XML")
+			log.put_labeled_substitution (
+				once "Sending", once "%S as %S XML", [object.generator, Event_source_name [outbound_type]]
+			)
+			log.put_new_line
+			if outbound_type = Type_binary then
 				parse_event_generator.send_object (object)
 			else
-				log.put_line (" as plaintext XML")
 				object.serialize_to_stream (socket)
 				socket.put_end_of_string_delimiter
 			end
@@ -54,28 +54,25 @@ feature -- Basic operations
 
 feature -- Status report
 
-	transmission_type: TUPLE [inbound, outbound: INTEGER]
-		-- Manner in which XML is received (binary or plaintext)
+	inbound_type: INTEGER
+		-- type of inbound transmission
+
+	outbound_type: INTEGER
+		-- type of outbound transmission
 
 feature -- Status setting
 
-	set_inbound_transmission_type (type: INTEGER)
+	set_inbound_type (type: INTEGER)
 			--
 		do
-			if transmission_type.inbound /= type then
-				transmission_type.inbound := type
-				if type = Transmission_type_binary then
-					object_builder.set_parser_type (Type_binary)
-				else
-					object_builder.set_parser_type (type_plain_text)
-				end
-			end
+			inbound_type := type
+			object_builder.set_parser_type (Event_source [type])
 		end
 
-	set_outbound_transmission_type (type: INTEGER)
+	set_outbound_type (type: INTEGER)
 			--
 		do
-			transmission_type.outbound := type
+			outbound_type := type
 		end
 
 feature {NONE} -- Internal attributes
@@ -91,13 +88,4 @@ feature {NONE} -- Constants
 			create Result.make_with_output (create {EL_ZSTRING_IO_MEDIUM}.make_open_write (0))
 		end
 
-	Type_binary: TYPE [EL_PARSE_EVENT_SOURCE]
-		once
-			Result := {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}
-		end
-
-	Type_plain_text: TYPE [EL_PARSE_EVENT_SOURCE]
-		once
-			Result := {EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
-		end
 end

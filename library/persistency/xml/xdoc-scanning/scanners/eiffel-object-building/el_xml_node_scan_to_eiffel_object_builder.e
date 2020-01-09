@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 11:58:44 GMT (Tuesday 7th January 2020)"
-	revision: "7"
+	date: "2020-01-09 17:12:51 GMT (Thursday 9th January 2020)"
+	revision: "8"
 
 class
 	EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
@@ -29,6 +29,7 @@ feature {NONE}  -- Initialisation
 	make_default
 		do
 			create context_stack.make (20)
+			target := Default_target
 			Precursor
 		end
 
@@ -128,7 +129,6 @@ feature -- Element change
 			if table.has_key (target.root_node_name) then
 				root_context := Root_context_table.found_item
 				root_context.set_node (last_node)
-				root_context.set_target (target)
 			else
 				root_context := new_builder_context (target.root_node_name)
 			end
@@ -174,4 +174,8 @@ feature {NONE} -- Constants
 			create Result.make (11)
 		end
 
+	Default_target: EL_DEFAULT_BUILDABLE_FROM_NODE_SCAN
+		once
+			create Result.make
+		end
 end

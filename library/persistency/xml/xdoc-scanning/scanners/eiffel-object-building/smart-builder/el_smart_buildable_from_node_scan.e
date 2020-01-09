@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 10:56:51 GMT (Wednesday 8th January 2020)"
-	revision: "10"
+	date: "2020-01-09 14:01:38 GMT (Thursday 9th January 2020)"
+	revision: "11"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -26,7 +26,7 @@ class
 inherit
 	EL_BUILDABLE_FROM_NODE_SCAN
 		redefine
-			PI_building_action_table
+			new_node_source
 		end
 
 	EL_MODULE_STRING_8
@@ -62,37 +62,7 @@ feature -- Status query
 			Result := not result_stack.is_empty
 		end
 
-feature {NONE} -- Event handling
-
-	on_PI_create
-		-- handler for processing instruction <?create {CLASS-NAME}?>
-		local
-			class_type: STRING; target: EL_BUILDABLE_FROM_NODE_SCAN
-		do
-			result_stack.wipe_out
-			class_type := node.to_string_8
-			String_8.remove_bookends (class_type, once "{}")
-			if Factory.valid_type (class_type) then
-				target := Factory.instance_from_class_name (class_type, agent {EL_BUILDABLE_FROM_NODE_SCAN}.make_default)
-				if attached {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} node_source.item as builder
-					and then not builder.context_stack.is_empty
-					and then attached {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} builder.context_stack.item as root_context
-				then
-					target.set_node (node)
-					root_context.set_target (target)
-					target.try_call_pi_action (PI_create) -- The build target might have defined it's own create action
-					result_stack.put (target)
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			create Result.make (<< [PI_create, agent on_PI_create] >>)
-		end
+feature {EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER} -- Implementation
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
@@ -100,21 +70,25 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-feature {NONE} -- Internal attributes
+	new_node_source: EL_SMART_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER
+			--
+		do
+			create Result.make (parse_event_source_type)
+		end
+
+	new_root_builder_context: EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
+			--
+		do
+			create Result.make (root_node_name, Current)
+		end
+
+feature {EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Internal attributes
 
 	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
 
 	result_stack: ARRAYED_STACK [EL_BUILDABLE_FROM_NODE_SCAN]
 
 feature {NONE} -- Constants
-
-	Factory: EL_OBJECT_FACTORY [EL_BUILDABLE_FROM_NODE_SCAN]
-			--
-		once
-			create Result
-		end
-
-	PI_create: STRING_32 = "create"
 
 	Root_node_name: STRING = "*"
 		-- Wild card root name

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 10:39:26 GMT (Wednesday 8th January 2020)"
-	revision: "16"
+	date: "2020-01-09 14:04:58 GMT (Thursday 9th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -39,12 +39,12 @@ inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 		export
 			{NONE} all
-			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_BUILDABLE_FROM_NODE_SCAN} set_node
+			{EL_XML_NODE_SCAN_TO_EIFFEL_OBJECT_BUILDER, EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} set_node
 		redefine
 			make_default, new_building_actions
 		end
 
-feature {EL_BUILDABLE_FROM_NODE_SCAN, EL_BUILDER_OBJECT_FACTORY} -- Initialization
+feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_BUILDER_OBJECT_FACTORY} -- Initialization
 
 	make_default
 			--
@@ -108,14 +108,6 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_SOURCE} -- Implementation
 	root_node_name: STRING
 			--
 		deferred
-		end
-
-	try_call_pi_action (name: STRING)
-		do
-			if pi_building_actions.has_key (name) then
-				pi_building_actions.found_item.set_target (Current)
-				call_pi_action (pi_building_actions.found_item)
-			end
 		end
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_XML_NODE_SCAN_SOURCE} -- Internal attributes

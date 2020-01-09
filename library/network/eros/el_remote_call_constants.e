@@ -6,31 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 class
 	EL_REMOTE_CALL_CONSTANTS
 
-feature -- Commands
-
-	Command_set_error: STRING = "set_error"
+feature {NONE} -- Commands
 
 	Command_quit: STRING = "quit"
 
-feature -- Error codes
+	Command_set_error: STRING = "set_error"
 
-	Error_syntax_error_in_routine_call: INTEGER = 1
-
-	Error_class_name_not_found: INTEGER = 2
-
-	Error_wrong_number_of_arguments: INTEGER = 3
-
-	Error_routine_not_found: INTEGER = 4
+feature {NONE} -- Error codes
 
 	Error_argument_type_mismatch: INTEGER = 5
 
-	Error_once_function_not_found: INTEGER = 6
+	Error_class_name_not_found: INTEGER = 2
 
 	Error_messages: ARRAY [STRING]
 			--
@@ -44,12 +36,45 @@ feature -- Error codes
 			Result [Error_once_function_not_found] := "Once function not found in class"
 		end
 
-feature -- Constants
+	Error_once_function_not_found: INTEGER = 6
+
+	Error_routine_not_found: INTEGER = 4
+
+	Error_syntax_error_in_routine_call: INTEGER = 1
+
+	Error_wrong_number_of_arguments: INTEGER = 3
+
+
+feature {NONE} -- Routine names
+
+	R_set_stopping: STRING = "set_stopping"
+
+	R_set_inbound_type: STRING = "set_inbound_type"
+
+	R_set_outbound_type: STRING = "set_outbound_type"
+
+feature {NONE} -- Constants
 
 	Client_classname_suffix: STRING = "_PROXY"
 
-	Transmission_type_plaintext: INTEGER = 1
+	Event_source: EL_HASH_TABLE [TYPE [EL_PARSE_EVENT_SOURCE], INTEGER]
+		once
+			create Result.make (<<
+				[Type_binary,		{EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}],
+				[Type_plaintext,	{EL_EXPAT_XML_WITH_CTRL_Z_PARSER}]
+			>>)
+		end
 
-	Transmission_type_binary: INTEGER = 2
+	Event_source_name: EL_HASH_TABLE [STRING, INTEGER]
+		once
+			create Result.make (<<
+				[Type_binary,		"binary"],
+				[Type_plaintext,	"plaintext"]
+			>>)
+		end
+
+	Type_binary: INTEGER = 2
+
+	Type_plaintext: INTEGER = 1
 
 end

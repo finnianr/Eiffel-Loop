@@ -1384,7 +1384,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
 ## base.ecf (Eiffel-Loop)
-See class [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
+Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
 ## Benchmarking Tests
 **Sub-applications**
 
@@ -1410,13 +1410,13 @@ See class [COMPRESSION_TEST_APP](http://www.eiffel-loop.com/test/source/compress
 ## encryption.ecf
 See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/encryption_autotest_app.html)
 ## evolicity.ecf
-See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
+Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
 ## ftp.ecf
 See class [FTP_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ftp/ftp_autotest_app.html)
 ## http-client.ecf
 See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
 ## i18n.ecf
-See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
+Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
 ## ID3-tags.ecf
 See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tags/id3_tags_autotest_app.html)
 ## image-utils.ecf
@@ -1426,14 +1426,14 @@ See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/sourc
 * Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
 
 ## network.ecf
-See classes
+Test network library classes
 
 
 * [TEST_SIMPLE_CLIENT](http://www.eiffel-loop.com/test/source/network/test_simple_client.html)
 * [TEST_SIMPLE_SERVER](http://www.eiffel-loop.com/test/source/network/test_simple_server.html)
 
 ## os-command.ecf
-See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](http://www.eiffel-loop.com/test/source/paypal-SBM/paypal_standard_button_manager_test_app.html)
 ## Root class and Experiments
@@ -1559,7 +1559,7 @@ See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thr
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API See class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html)
 ## wel-x-audio.ecf
-Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_mswin/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
 * [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/bex_xml_to_eiffel_object_builder_test_app.html)
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)

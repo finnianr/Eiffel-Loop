@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-09 9:43:09 GMT (Thursday 9th January 2020)"
+	revision: "5"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE
@@ -71,27 +71,6 @@ feature -- Element change
 			Precursor (a_windower)
 		end
 
-feature {NONE} -- Reflection access
-
-	get_output: COLUMN_VECTOR_COMPLEX_DOUBLE
-		--
-		do
-			Result := output
-		end
-
-	get_input: COLUMN_VECTOR_COMPLEX_DOUBLE
-		--
-		do
-			Result := input
-		end
-
-	get_length: INTEGER
-			--
-		do
-			Result := length
-		end
-
-
 feature {NONE} -- EROS implementation
 
 	procedures: ARRAY [like procedure_mapping]
@@ -111,16 +90,16 @@ feature {NONE} -- EROS implementation
 			--
 		do
 			Result := <<
-				["output", agent get_output],
-				["input", agent get_input],
-				["length", agent get_length],
+				["output",	agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := output end],
+				["input",	agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := input end],
+				["length",	agent: INTEGER do Result := length end],
 
-				["is_output_length_valid", agent is_output_length_valid],
-				["is_valid_input_length", agent is_valid_input_length],
-				["is_power_of_two", agent is_power_of_two],
+				["is_output_length_valid",	agent is_output_length_valid],
+				["is_valid_input_length",	agent is_valid_input_length],
+				["is_power_of_two",			agent is_power_of_two],
 
-				[Identifier_rectangular_windower, agent Rectangular_windower],
-				[Identifier_default_windower, agent Default_windower]
+				[Identifier_rectangular_windower,	agent Rectangular_windower],
+				[Identifier_default_windower,			agent Default_windower]
 			>>
 		end
 

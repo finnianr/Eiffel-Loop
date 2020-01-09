@@ -6,11 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+
+inherit
+	EL_REMOTE_CALL_CONSTANTS
+		export
+			{ANY} Event_source
+		end
 
 feature -- Basic operations
 
@@ -23,13 +29,17 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_inbound_transmission_type (transmission_type: INTEGER)
-			--
+	set_inbound_type (type: INTEGER)
+			-- set inbound transmission type
+		require
+			valid_type: Event_source.has (type)
 		deferred
 		end
 
-	set_outbound_transmission_type (transmission_type: INTEGER)
-			--
+	set_outbound_type (type: INTEGER)
+			-- set outbound transmission type
+		require
+			valid_type: Event_source.has (type)
 		deferred
 		end
 

@@ -15,7 +15,6 @@ system:
 			
 			See doc/eros.txt for details
 		"""
-	
 	target:
 		name = EL_eros
 		

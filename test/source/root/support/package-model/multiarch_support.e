@@ -1,5 +1,6 @@
 note
-	Description: "[
+	description: "Class for Debian package model experiment"
+	Package_description: "[
 		Transitional package to ensure multiarch compatibility
 		This is a transitional package used to ensure multiarch support is present
 		in ld.so before unpacking libraries to the multiarch directories.  It can
@@ -25,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-28 9:17:19 GMT (Wednesday 28th August 2019)"
-	revision: "2"
+	date: "2020-01-08 18:04:13 GMT (Wednesday 8th January 2020)"
+	revision: "3"
 
 class
 	MULTIARCH_SUPPORT

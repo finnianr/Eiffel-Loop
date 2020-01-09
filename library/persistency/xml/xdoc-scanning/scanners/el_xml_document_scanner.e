@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-12 11:00:10 GMT (Monday 12th November 2018)"
-	revision: "5"
+	date: "2020-01-09 17:08:44 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -49,6 +49,7 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			create last_node
+			create {EL_EXPAT_XML_PARSER} event_source.make (Current)
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content
 		end
@@ -84,10 +85,9 @@ feature -- Element change
 	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			if not attached event_source or else event_source.generating_type ~ type then
+			if {ISE_RUNTIME}.dynamic_type (event_source) /= type.type_id then
 				event_source := Factory.instance_from_type (type, agent {EL_PARSE_EVENT_SOURCE}.make (Current))
 			end
-			attribute_list := event_source.attribute_list
 		end
 
 feature -- Basic operations
@@ -178,6 +178,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Implementation: attributes
 
 	attribute_list: EL_XML_ATTRIBUTE_LIST
+		do
+			Result := event_source.attribute_list
+		end
 
 	last_node_name: STRING_32
 

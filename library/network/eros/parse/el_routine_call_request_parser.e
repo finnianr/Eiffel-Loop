@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-01-09 16:28:53 GMT (Thursday 9th January 2020)"
+	revision: "4"
 
 class
 	EL_ROUTINE_CALL_REQUEST_PARSER
@@ -24,8 +24,7 @@ class
 inherit
 	EL_PARSER
 		rename
-			make_default as make,
-			source_text as call_request_source_text
+			make_default as make
 		redefine
 			make, reset
 		end
@@ -53,24 +52,44 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	routine_name: STRING
+	argument_list: EL_STRING_8_LIST
 
 	class_name: STRING
 
-	argument_list: ARRAYED_LIST [STRING]
+	routine_name: STRING
+
+feature -- Status report
+
+	has_error: BOOLEAN
+
+feature -- Basic operations
+
+	try_parse (call_text: STRING)
+			--
+		do
+			if call_text.is_empty then
+				has_error := True
+			else
+				set_source_text (call_text)
+				parse
+				has_error := not fully_matched
+			end
+		end
+
 
 feature {NONE} -- Syntax grammar
 
-	new_pattern: EL_MATCH_ALL_IN_LIST_TP
+	argument: EL_FIRST_MATCH_IN_LIST_TP
 			--
 		do
-			Result := all_of (<<
-				class_object_place_holder |to| agent on_class_name,
-				character_literal ('.'),
-				c_identifier |to| agent on_routine_name,
-				maybe_white_space,
-				optional (argument_list_pattern)
-			>>)
+			Result := one_of ( <<
+				class_object_place_holder 	|to| agent on_argument,
+				singley_quoted_string 		|to| agent on_argument,
+				double_constant 				|to| agent on_numeric_argument,
+				integer_constant 				|to| agent on_numeric_argument,
+				boolean_constant				|to| agent on_boolean_argument,
+				identifier						|to| agent on_identifier_argument
+			>> )
 		end
 
 	argument_list_pattern: EL_MATCH_ALL_IN_LIST_TP
@@ -94,17 +113,13 @@ feature {NONE} -- Syntax grammar
 			>>)
 		end
 
-	argument: EL_FIRST_MATCH_IN_LIST_TP
+	boolean_constant: EL_FIRST_MATCH_IN_LIST_TP
 			--
 		do
-			Result := one_of ( <<
-				class_object_place_holder 	|to| agent on_argument,
-				singley_quoted_string 		|to| agent on_argument,
-				double_constant 				|to| agent on_numeric_argument,
-				integer_constant 				|to| agent on_numeric_argument,
-				boolean_constant				|to| agent on_boolean_argument,
-				identifier						|to| agent on_identifier_argument
-			>> )
+			Result := one_of (<<
+				string_literal ("true"),
+				string_literal ("false")
+			>>)
 		end
 
 	class_object_place_holder: EL_MATCH_ALL_IN_LIST_TP
@@ -115,13 +130,28 @@ feature {NONE} -- Syntax grammar
 			>> )
 		end
 
-	boolean_constant: EL_FIRST_MATCH_IN_LIST_TP
+	new_pattern: EL_MATCH_ALL_IN_LIST_TP
 			--
 		do
-			Result := one_of (<<
-				string_literal ("true"),
-				string_literal ("false")
+			Result := all_of (<<
+				class_object_place_holder |to| agent on_class_name,
+				character_literal ('.'),
+				c_identifier |to| agent on_routine_name,
+				maybe_white_space,
+				optional (argument_list_pattern)
 			>>)
+		end
+
+	right_bracket: EL_LITERAL_CHAR_TP
+			--
+		do
+			create Result.make_from_character (')')
+		end
+
+	single_quote: EL_LITERAL_CHAR_TP
+			--
+		do
+			create Result.make ({ASCII}.Singlequote.to_natural_32)
 		end
 
 	singley_quoted_string: EL_MATCH_ALL_IN_LIST_TP
@@ -132,19 +162,19 @@ feature {NONE} -- Syntax grammar
 			>> )
 		end
 
-	single_quote: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make ({ASCII}.Singlequote.to_natural_32)
-		end
-
-	right_bracket: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make_from_character (')')
-		end
-
 feature {NONE} -- Parsing match events
+
+	on_argument (matched_text: EL_STRING_VIEW)
+			--
+		do
+			argument_list.extend (matched_text)
+		end
+
+	on_boolean_argument (matched_text: EL_STRING_VIEW)
+			--
+		do
+			extend_arguments (matched_text, '<', '>')
+		end
 
 	on_class_name (matched_text: EL_STRING_VIEW)
 			--
@@ -154,37 +184,30 @@ feature {NONE} -- Parsing match events
 			class_name.remove_tail (1)
 		end
 
+	on_identifier_argument (matched_text: EL_STRING_VIEW)
+			--
+		do
+			extend_arguments (matched_text, '[', ']')
+		end
+
+	on_numeric_argument (matched_text: EL_STRING_VIEW)
+			--
+		do
+			extend_arguments (matched_text, '(', ')')
+		end
+
 	on_routine_name (matched_text: EL_STRING_VIEW)
 			--
 		do
 			routine_name := matched_text
 		end
 
-	on_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			argument_list.extend (matched_text)
-		end
-
-	on_numeric_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			argument_list.extend (once "(" + matched_text.to_string_8 + once ")")
-		end
-
-	on_boolean_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			argument_list.extend (once "<" + matched_text.to_string_8 + once ">")
-		end
-
-	on_identifier_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			argument_list.extend (once "[" + matched_text.to_string_8 + once "]")
-		end
-
 feature {NONE} -- Implementation
+
+	extend_arguments (text: ZSTRING; left, right: CHARACTER)
+		do
+			text.enclose (left, right); argument_list.extend (text)
+		end
 
 	reset
 			--

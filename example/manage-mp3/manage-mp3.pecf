@@ -106,8 +106,9 @@ system:
 			readonly = false
 
 		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
-			readonly = false
+			name = EL_base; readonly = false
+			location = "$EIFFEL_LOOP/library/base/base.ecf"
+			
 			# use_application_options = true
 
 		library:
@@ -127,12 +128,12 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_id3_tags; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
-			readonly = false
+			name = EL_id3_tags; readonly = false
+			location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
 
 		library:
-			name = EL_ftp; location = "$EIFFEL_LOOP/library/ftp.ecf"
-			readonly = false
+			name = EL_ftp; readonly = false
+			location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
 			name = EL_os_command; readonly = false
@@ -151,12 +152,12 @@ system:
 			location = "$EIFFEL_LOOP/library/text-process.ecf"
 
 		library:
-			name = EL_vtd_xml; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
-			readonly = false
+			name = EL_vtd_xml; readonly = false
+			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
-			readonly = false
+			name = EL_xdoc_scanning; readonly = false
+			location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
 
 		cluster:
 			name = project; location = "source"; recursive = true

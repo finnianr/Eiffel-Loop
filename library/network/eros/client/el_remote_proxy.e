@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-01-09 18:00:47 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 class
 	EL_REMOTE_PROXY
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			send_object (request, net_socket)
 
 			result_builder.build_from_stream (net_socket)
-			result_object := result_builder.target
+			result_object := result_builder.item
 
 			if attached {EL_EROS_ERROR_RESULT} result_object as error then
 				error_code := error.id
@@ -91,6 +91,12 @@ feature {NONE} -- Implementation
 			end
 			log.exit
 		end
+
+	set_stopping
+		do
+		end
+
+feature {NONE} -- Internal attributes
 
 	net_socket: EL_NETWORK_STREAM_SOCKET
 

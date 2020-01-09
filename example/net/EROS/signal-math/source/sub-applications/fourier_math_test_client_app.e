@@ -42,8 +42,8 @@ feature {NONE} -- Initiliazation
 			Args.set_boolean_from_word_option ("binary", agent set_binary_transmission)
 
 			if is_binary_transmission then
-				connection.set_inbound_transmission_type (Transmission_type_binary)
-				connection.set_outbound_transmission_type (Transmission_type_binary)
+				connection.set_inbound_type (Type_binary)
+				connection.set_outbound_type (Type_binary)
 			end
 
 			create random.make

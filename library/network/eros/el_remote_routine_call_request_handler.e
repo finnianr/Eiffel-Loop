@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:34:54 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-01-09 18:46:47 GMT (Thursday 9th January 2020)"
+	revision: "8"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -23,39 +23,29 @@ inherit
 	EL_STOPPABLE_THREAD
 
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
-		undefine
-			default_create
+		rename
+			set_outbound_type as set_pending_outbound_type
 		end
 
 	EL_REMOTE_XML_OBJECT_EXCHANGER
 		rename
 			object_builder as request_builder,
 			make as make_remote_object_exchanger,
-			set_outbound_transmission_type as set_pending_outbound_transmission_type
-		undefine
-			default_create
+			set_outbound_type as set_pending_outbound_type
 		redefine
 			request_builder
-		end
-
-	EL_REMOTE_CALL_ERRORS
-		undefine
-			default_create
-		end
-
-	EL_THREAD_CONSTANTS
-		undefine
-			default_create
 		end
 
 	EL_REMOTELY_ACCESSIBLE
 		rename
 			functions as No_functions
-		undefine
-			default_create
 		redefine
 			make
 		end
+
+	EL_REMOTE_CALL_ERRORS
+
+	EL_THREAD_CONSTANTS
 
 	EL_MODULE_EIFFEL
 
@@ -74,10 +64,24 @@ feature {NONE} -- Initialization
 			create target_table.make (17)
 			create listener
 			create error_result.make
-			new_outbound_transmission_type := transmission_type.outbound
+			create request_builder.make (Event_source [Type_plaintext])
+			new_outbound_type := outbound_type
 		end
 
 feature -- Element change
+
+	initialize (client_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET)
+			--
+		do
+			set_parse_event_generator_medium (client_socket)
+
+			set_inbound_type (Type_plaintext)
+			set_pending_outbound_type (Type_plaintext)
+			new_outbound_type := Type_plaintext
+
+			target_table.wipe_out
+			target_table [generator] := Current
+		end
 
 	set_listener (a_listener: like listener)
 			--
@@ -85,23 +89,10 @@ feature -- Element change
 			listener := a_listener
 		end
 
-	set_outbound_transmission_type (type: INTEGER)
+	set_outbound_type (transmission_type: INTEGER)
 			--
 		do
-			new_outbound_transmission_type := type
-		end
-
-	initialize (client_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET)
-			--
-		do
-			set_parse_event_generator_medium (client_socket)
-
-			set_inbound_transmission_type (Transmission_type_plaintext)
-			set_pending_outbound_transmission_type (Transmission_type_plaintext)
-			new_outbound_transmission_type := Transmission_type_plaintext
-
-			target_table.wipe_out
-			target_table [generator] := Current
+			new_outbound_type := transmission_type
 		end
 
 feature -- Basic operations
@@ -126,7 +117,7 @@ feature -- Basic operations
 
 				if request_builder.has_error then
 					set_error (Error_syntax_error_in_routine_call)
-					set_error_detail (request_builder.call_request_source_text.as_string_8)
+					set_error_detail (request_builder.source_text.as_string_8)
 				end
 
 				if not has_error then
@@ -142,8 +133,8 @@ feature -- Basic operations
 				send_object (result_object, client_socket)
 
 				-- if outbound_transmission_type has changed as the result of remote call
-				if new_outbound_transmission_type /= transmission_type.outbound then
-					set_pending_outbound_transmission_type (new_outbound_transmission_type)
+				if new_outbound_type /= outbound_type then
+					set_pending_outbound_type (new_outbound_type)
 				end
 
 				listener.sent_bytes (client_socket.bytes_sent)
@@ -187,7 +178,7 @@ feature {NONE} -- Implementation
 					request_builder.routine_name, request_builder.call_argument, request_builder.argument_list
 				)
 				if not target.has_error then
-					log.put_line (request_builder.call_request_source_text.as_string_8)
+					log.put_line (request_builder.source_text.as_string_8)
 					log.put_new_line
 					if target.is_procedure_set then
 						target.call_procedure
@@ -205,14 +196,16 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
-		-- objects available for duration of client sesssion
-
-	listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+feature {NONE} -- Internal attributes
 
 	error_result: EL_EROS_ERROR_RESULT
 
-	new_outbound_transmission_type: INTEGER
+	listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+
+	new_outbound_type: INTEGER
+
+	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
+		-- objects available for duration of client sesssion
 
 feature {NONE} -- EROS implementation
 
@@ -226,9 +219,9 @@ feature {NONE} -- EROS implementation
 			-- make 'set_stopping' procedure remotely accessible by client
 		do
 			Result := <<
-				["set_stopping", agent set_stopping],
-				["set_inbound_transmission_type", agent set_inbound_transmission_type],
-				["set_outbound_transmission_type", agent set_outbound_transmission_type]
+				[R_set_stopping,			agent set_stopping],
+				[R_set_inbound_type, 	agent set_inbound_type],
+				[R_set_outbound_type,	agent set_outbound_type]
 			>>
 		end
 

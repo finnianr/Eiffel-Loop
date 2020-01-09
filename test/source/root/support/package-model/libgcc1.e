@@ -1,5 +1,6 @@
 note
-	Description: "[
+	description: "Class for Debian package model experiment"
+	Package_description: "[
 		GCC support library
 
 		Shared version of the support library, a library of internal subroutines
@@ -19,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-28 9:39:11 GMT (Wednesday 28th August 2019)"
-	revision: "2"
+	date: "2020-01-08 18:04:05 GMT (Wednesday 8th January 2020)"
+	revision: "3"
 
 class
 	LIBGCC1 -- libgcc1

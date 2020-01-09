@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:42:31 GMT (Friday 18th January 2019)"
-	revision: "3"
+	date: "2020-01-08 15:50:04 GMT (Wednesday 8th January 2020)"
+	revision: "4"
 
 class
 	BIOINFORMATIC_COMMANDS

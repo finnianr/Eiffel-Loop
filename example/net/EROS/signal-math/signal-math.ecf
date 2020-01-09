@@ -42,11 +42,11 @@ See doc/signal-math.txt for details
 		-->
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
 		<variable name = "eros_server_enabled" value = "false"/>
-		<library name = "EL_eros" location = "$EIFFEL_LOOP/library/eros.ecf" readonly = "false"/>
+		<library name = "EL_eros" readonly = "false" location = "$EIFFEL_LOOP/library/eros.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_net_base" location = "$EIFFEL_LOOP/library/network.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
+		<library name = "EL_net_base" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
+		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 		<cluster name = "common" location = "../source-common" recursive = "true"/>
 	</target>

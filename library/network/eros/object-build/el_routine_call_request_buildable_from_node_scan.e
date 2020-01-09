@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 17:36:08 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2020-01-09 16:03:28 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 class
 	EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
@@ -15,18 +15,19 @@ class
 inherit
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
 		rename
-			reset as parse_call_request,
-			target as call_argument
+			item as call_argument
 		redefine
-			make, root_builder_context, parse_call_request
+			make_default, new_root_builder_context -- , parse_call_request
 		end
 
 	EL_ROUTINE_CALL_REQUEST_PARSER
 		rename
-			make as make_request_parser
+			make as make_default
 		export
 			{NONE} all
-			{ANY} routine_name, argument_list, class_name, call_request_source_text
+			{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER} argument_list, class_name, routine_name, source_text, has_error
+		redefine
+			make_default
 		end
 
 create
@@ -34,31 +35,18 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parse_event_source_type: like parse_event_source_type)
+	make_default
 		do
-			Precursor (a_parse_event_source_type)
-			make_request_parser
+			Precursor {EL_ROUTINE_CALL_REQUEST_PARSER}
+			Precursor {EL_SMART_BUILDABLE_FROM_NODE_SCAN}
 		end
-
-feature -- Status report
-
-	has_error: BOOLEAN
 
 feature {NONE} -- Implementation
 
-	parse_call_request
+	new_root_builder_context: EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
 			--
 		do
-			has_error := False
-			set_source_text (root_builder_context.call_request_string)
-			if call_request_source_text.is_empty then
-				has_error := True
-			else
-				parse
-			end
-			Precursor
+			create Result.make (root_node_name, Current)
 		end
-
-	root_builder_context: EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
 
 end

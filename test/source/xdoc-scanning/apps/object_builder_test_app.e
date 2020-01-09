@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 10:53:24 GMT (Wednesday 8th January 2020)"
-	revision: "12"
+	date: "2020-01-09 15:09:38 GMT (Thursday 9th January 2020)"
+	revision: "13"
 
 class
 	OBJECT_BUILDER_TEST_APP

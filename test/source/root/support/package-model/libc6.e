@@ -1,13 +1,13 @@
 note
-	description: "Experiment to see how Debian package info can be modeled in Eiffel"
+	description: "Class for Debian package model experiment"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-17 16:46:25 GMT (Friday 17th May 2019)"
-	revision: "1"
+	date: "2020-01-08 18:02:50 GMT (Wednesday 8th January 2020)"
+	revision: "2"
 
 class
 	LIBC6

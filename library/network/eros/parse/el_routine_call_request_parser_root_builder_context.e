@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-09 16:10:35 GMT (Thursday 9th January 2020)"
+	revision: "6"
 
 class
 	EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
 
 inherit
-	EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT
+	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
 		redefine
-			make, reset
+			make
 		end
 
 create
@@ -26,32 +26,31 @@ feature {NONE} -- Initialization
 	make (a_root_node_xpath: STRING; a_target: like target)
 			--
 		do
-			create call_request_string.make_empty
 			Precursor (a_root_node_xpath, a_target)
-		end
-
-feature -- Access
-
-	call_request_string: STRING
-
-feature -- Element change
-
-	reset
-			-- Reset builder
-		do
-			Precursor
-			call_request_string.clear_all
-			building_actions.extend (agent set_call_request_string, Xpath_processing_instruction_call)
+			if attached {like parser} a_target as a_parser then
+				parser := a_parser
+			else
+				create parser.make
+			end
+			building_actions.extend (agent execute_call, Xpath_processing_instruction_call)
 		end
 
 feature {NONE} -- Implementation
 
-	set_call_request_string
-			--
+	execute_call
 		do
-			call_request_string := node.to_string
+			parser.try_parse (node.to_string_8)
 		end
 
-	Xpath_processing_instruction_call: STRING = "processing-instruction('call')"
+feature {NONE} -- Internal attributes
+
+	parser: EL_ROUTINE_CALL_REQUEST_PARSER
+
+feature {NONE} -- Constants
+
+	Xpath_processing_instruction_call: STRING_32
+		once
+			Result := Pi_template #$ ["call"]
+		end
 
 end
