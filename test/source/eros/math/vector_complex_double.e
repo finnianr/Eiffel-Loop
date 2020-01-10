@@ -24,14 +24,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:40:48 GMT (Friday 18th January 2019)"
-	revision: "3"
+	date: "2020-01-10 9:20:20 GMT (Friday 10th January 2020)"
+	revision: "4"
 
 deferred class
-	E2X_VECTOR_COMPLEX_DOUBLE
+	VECTOR_COMPLEX_DOUBLE
 
 inherit
-	VECTOR_COMPLEX_DOUBLE
+	NEL_VECTOR_COMPLEX_DOUBLE
 		rename
 			make as make_matrix,
 			count as count_times_2,
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor {VECTOR_COMPLEX_DOUBLE}
+			Precursor {NEL_VECTOR_COMPLEX_DOUBLE}
 			Precursor {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}
 		end
 
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 
 	index: INTEGER
 
-	new_complex: COMPLEX_DOUBLE
+	new_complex: NEL_COMPLEX_DOUBLE
 
 	vector_type: STRING
 			--

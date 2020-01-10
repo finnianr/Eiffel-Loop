@@ -1,19 +1,19 @@
 note
-	description: "Column vector complex double"
+	description: "Column vector form of [$source VECTOR_COMPLEX_DOUBLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2020-01-10 9:35:58 GMT (Friday 10th January 2020)"
+	revision: "4"
 
 class
 	COLUMN_VECTOR_COMPLEX_DOUBLE
 
 inherit
-	E2X_VECTOR_COMPLEX_DOUBLE
+	VECTOR_COMPLEX_DOUBLE
 		rename
 			make_default as make,
 			make_column as make_with_size

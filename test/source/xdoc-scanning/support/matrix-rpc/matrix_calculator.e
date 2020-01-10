@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 15:51:35 GMT (Wednesday 8th January 2020)"
-	revision: "8"
+	date: "2020-01-10 11:26:16 GMT (Friday 10th January 2020)"
+	revision: "9"
 
 class
 	MATRIX_CALCULATOR
@@ -57,7 +57,7 @@ inherit
 	OUTPUT_ROUTINES
 
 create
-	make_from_file, make_from_string
+	make_from_file, make_from_string, make_default
 
 feature {NONE} -- Initialization
 

@@ -8,19 +8,7 @@ system:
 		"""
 			Signal Math EROS Server with GUI
 
-			A multi-threaded EROS server demonstrating the [./library/eros.html EROS remote object protocol].
-			The application performs signal math including Fourier transformations based on Greg Lee's
-			[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library]
-			
-			**Features**
-			
-			* A graphical user interface (GUI) to control startup and shutdown.
-			* GUI monitors 11 different performance characteristics.
-			* GUI has controls allowing you to switch the console logging output to a different thread context.
-
-			**Screenshot**
-
-			[./images/screenshot/console-thread-switch.png  Server GUI and terminal window displaying logging output]
+			See cluster[@name='project']/description below for more details
 		"""
 	
 	# classic means C code as an intermediate language
@@ -109,7 +97,11 @@ system:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
 
 		library:
-			name = nel_fft_math; location = "$EIFFEL_NUMERICAL/fft-math.ecf"
+			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			renaming:
+				old_name = VECTOR_COMPLEX_DOUBLE; new_name = NEL_VECTOR_COMPLEX_DOUBLE
+			renaming:
+				old_name = COMPLEX_DOUBLE; new_name = NEL_COMPLEX_DOUBLE
 
 		# Eiffel Loop libraries
 		library:
@@ -150,7 +142,24 @@ system:
 
 		cluster:
 			name = project; location = "source"; recursive = true
+			description:
+				"""
+					Signal Math EROS Server with GUI
 
+					A multi-threaded EROS server demonstrating the [./library/eros.html EROS remote object protocol].
+					The application performs signal math including Fourier transformations based on Greg Lee's
+					[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library]
+			
+					**Features**
+			
+					* A graphical user interface (GUI) to control startup and shutdown.
+					* GUI monitors 11 different performance characteristics.
+					* GUI has controls allowing you to switch the console logging output to a different thread context.
+
+					**Screenshot**
+
+					[./images/screenshot/console-thread-switch.png  Server GUI and terminal window displaying logging output]
+				"""
 		cluster:
-			name = common; location = "../source-common"; recursive = true
+			name = math; location = "$EIFFEL_LOOP/test/source/eros/math"; recursive = true
 

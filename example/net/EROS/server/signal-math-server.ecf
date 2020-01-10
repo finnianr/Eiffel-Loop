@@ -4,19 +4,7 @@
 	<description>
 Signal Math EROS Server with GUI
 
-A multi-threaded EROS server demonstrating the [./library/eros.html EROS remote object protocol].
-The application performs signal math including Fourier transformations based on Greg Lee&apos;s
-[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library]
-
-**Features**
-
-* A graphical user interface (GUI) to control startup and shutdown.
-* GUI monitors 11 different performance characteristics.
-* GUI has controls allowing you to switch the console logging output to a different thread context.
-
-**Screenshot**
-
-[./images/screenshot/console-thread-switch.png  Server GUI and terminal window displaying logging output]
+See cluster[@name=&apos;project&apos;]/description below for more details
 	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
@@ -52,7 +40,10 @@ The application performs signal math including Fourier transformations based on 
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name = "nel_fft_math" location = "$EIFFEL_NUMERICAL/fft-math.ecf"/>
+		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf">
+			<renaming old_name = "VECTOR_COMPLEX_DOUBLE" new_name = "NEL_VECTOR_COMPLEX_DOUBLE"/>
+			<renaming old_name = "COMPLEX_DOUBLE" new_name = "NEL_COMPLEX_DOUBLE"/>
+		</library>
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
 		<!--
@@ -67,7 +58,25 @@ The application performs signal math including Fourier transformations based on 
 		<library name = "EL_net_base" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
 		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
-		<cluster name = "project" location = "source" recursive = "true"/>
-		<cluster name = "common" location = "../source-common" recursive = "true"/>
+		<cluster name = "project" location = "source" recursive = "true">
+			<description>
+Signal Math EROS Server with GUI
+
+A multi-threaded EROS server demonstrating the [./library/eros.html EROS remote object protocol].
+The application performs signal math including Fourier transformations based on Greg Lee&apos;s
+[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library]
+
+**Features**
+
+* A graphical user interface (GUI) to control startup and shutdown.
+* GUI monitors 11 different performance characteristics.
+* GUI has controls allowing you to switch the console logging output to a different thread context.
+
+**Screenshot**
+
+[./images/screenshot/console-thread-switch.png  Server GUI and terminal window displaying logging output]
+			</description>
+		</cluster>
+		<cluster name = "math" location = "$EIFFEL_LOOP/test/source/eros/math" recursive = "true"/>
 	</target>
 </system>

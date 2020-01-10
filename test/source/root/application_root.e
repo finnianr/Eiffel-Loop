@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 15:07:41 GMT (Wednesday 8th January 2020)"
-	revision: "26"
+	date: "2020-01-10 9:11:08 GMT (Friday 10th January 2020)"
+	revision: "27"
 
 class
 	APPLICATION_ROOT
@@ -42,6 +42,10 @@ feature {NONE} -- Constants
 		-- Test encryption.ecf
 		ENCRYPTION_AUTOTEST_APP,
 		ENCRYPTION_TEST_APP,
+
+		-- Test eros.ecf
+		BEXT_CLIENT_TEST_APP, BEXT_SERVER_TEST_APP,
+		FOURIER_MATH_CLIENT_TEST_APP, FOURIER_MATH_SERVER_TEST_APP,
 
 		-- Test evolicity.ecf
 		EVOLICITY_TEST_APP,
@@ -94,7 +98,7 @@ feature {NONE} -- Constants
 		TEST_VTD_XML_APP,
 
 		-- Test xdoc-scanning.ecf
-		BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP,
+		BINARY_ENCODED_XML_BUILDER_TEST_APP,
 		DECLARATIVE_XPATH_PROCESSING_TEST_APP,
 		OBJECT_BUILDER_TEST_APP,
 		RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP

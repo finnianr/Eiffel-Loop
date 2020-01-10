@@ -112,3 +112,6 @@ Fixed class EL_SMART_BUILDABLE_FROM_NODE_SCAN and set regression tests in OBJECT
 Wed 8th Jan 2020, 15:55:41
 Refactoring of test.ecf into clusters for each library
 
+Thu 9th Jan 2020, 18:53:45
+Fixed EROS library by introducing EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT into xdoc scanning
+

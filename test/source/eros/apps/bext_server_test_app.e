@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "5"
+	date: "2020-01-10 8:31:37 GMT (Friday 10th January 2020)"
+	revision: "6"
 
 class
 	BEXT_SERVER_TEST_APP
@@ -50,18 +50,20 @@ feature -- Basic operations
 			log.exit
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Option_name: STRING = "bext_test_server"
-
-	Description: STRING = "Test server for BEXT (Binary Encoded XML Transfer) (Ctrl-c to shutdown)"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
-				[{BEXT_SERVER_TEST_APP}, "*"]
+				[{like Current}, "*"]
 			>>
 		end
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Test server for BEXT (Binary Encoded XML Transfer) (Ctrl-c to shutdown)"
+
+	Option_name: STRING = "bext_test_server"
 
 end

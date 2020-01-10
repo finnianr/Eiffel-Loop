@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:46:47 GMT (Thursday 9th January 2020)"
-	revision: "8"
+	date: "2020-01-09 18:58:30 GMT (Thursday 9th January 2020)"
+	revision: "9"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -89,10 +89,12 @@ feature -- Element change
 			listener := a_listener
 		end
 
-	set_outbound_type (transmission_type: INTEGER)
+	set_outbound_type (type: INTEGER)
 			--
+		require
+			valid_type: Event_source.has (type)
 		do
-			new_outbound_type := transmission_type
+			new_outbound_type := type
 		end
 
 feature -- Basic operations

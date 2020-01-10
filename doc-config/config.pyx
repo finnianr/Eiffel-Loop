@@ -27,8 +27,8 @@ publish-repository:
 	ecf-list:
 		# Examples
 		ecf:
-			"example/net/EROS/signal-math/signal-math.ecf"
-			"example/net/EROS/server/signal-math-server.ecf"
+			"example/net/EROS/signal-math/signal-math.ecf#project"
+			"example/net/EROS/server/signal-math-server.ecf#project"
 			"example/99-bottles/ninety-nine-bottles.ecf"
 			"example/eiffel2java/eiffel2java.ecf"
 			"example/manage-mp3/manage-mp3.ecf"
@@ -150,6 +150,7 @@ publish-repository:
 			"test/test.ecf#benchmark"
 			"test/test.ecf#compression"
 			"test/test.ecf#encryption"
+			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"
 			"test/test.ecf#ftp"
 			"test/test.ecf#http_client"

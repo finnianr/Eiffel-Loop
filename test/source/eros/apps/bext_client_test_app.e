@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 11:33:15 GMT (Tuesday 19th June 2018)"
-	revision: "6"
+	date: "2020-01-10 8:32:07 GMT (Friday 10th January 2020)"
+	revision: "7"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -36,8 +36,7 @@ feature -- Basic operations
 	run
 			--
 		local
-			wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE
-			i: INTEGER
+			wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE; i: INTEGER
 		do
 			log.enter ("run")
 			net_socket.connect
@@ -54,28 +53,30 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
+
+feature {NONE} -- Internal attributes
+
+	input_file_path: FILE_NAME
+
 	net_socket: EL_NETWORK_STREAM_SOCKET
 
 	parse_event_generator: EL_XML_PARSE_EVENT_GENERATOR
 
 	signal_math: SIGNAL_MATH
 
-	input_file_path: FILE_NAME
-
 feature {NONE} -- Constants
 
 	Ask_user_to_quit: BOOLEAN = true
 
-	Option_name: STRING = "bext_test_client"
-
 	Description: STRING = "Test client for BEXT (Binary Encoded XML Transfer)"
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{BEXT_CLIENT_TEST_APP}, All_routines]
-			>>
-		end
+	Option_name: STRING = "bext_test_client"
 
 end

@@ -9,7 +9,6 @@ manifest:
 		"example/manage-mp3/source"
 		"example/net/EROS/server/source"
 		"example/net/EROS/test-clients/source"
-		"example/net/EROS/source-common"
 		"test/source"
 
 	# tools

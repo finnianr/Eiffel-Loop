@@ -4,12 +4,7 @@
 	<description>
 Signal Math Demo of the EROS Protocol
 
-A multi-mode application demonstrating the [./library/eros.html EROS remote object protocol].
-The application calculates Fourier transformations based on Greg Lee&apos;s
-[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
-It has two client modes and two server modes, accessible via a command line option.
-
-See doc/signal-math.txt for details
+See cluster[@name=&apos;project&apos;]/description below for more details
 	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
@@ -33,7 +28,10 @@ See doc/signal-math.txt for details
 		<library name = "thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
-		<library name = "nel_fft_math" location = "$EIFFEL_NUMERICAL/fft-math.ecf"/>
+		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf">
+			<renaming old_name = "VECTOR_COMPLEX_DOUBLE" new_name = "NEL_VECTOR_COMPLEX_DOUBLE"/>
+			<renaming old_name = "COMPLEX_DOUBLE" new_name = "NEL_COMPLEX_DOUBLE"/>
+		</library>
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
 		<!--
@@ -47,7 +45,19 @@ See doc/signal-math.txt for details
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_net_base" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
 		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
-		<cluster name = "project" location = "source" recursive = "true"/>
-		<cluster name = "common" location = "../source-common" recursive = "true"/>
+		<cluster name = "project" location = "source" recursive = "true">
+			<description>
+Signal Math Demo of the EROS Protocol
+
+A multi-mode application demonstrating the [./library/eros.html EROS remote object protocol].
+The application calculates Fourier transformations based on Greg Lee&apos;s
+[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
+It has two client modes and two server modes, accessible via a command line option.
+
+See doc/signal-math.txt for details
+			</description>
+		</cluster>
+		<cluster name = "eros_test" location = "$EIFFEL_LOOP/test/source/eros" recursive = "true"/>
+		<cluster name = "install" location = "../server/source/install" recursive = "true"/>
 	</target>
 </system>

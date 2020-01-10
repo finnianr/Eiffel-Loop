@@ -1,21 +1,20 @@
 note
-	description: "Row vector complex double"
+	description: "Row vector from of [$source VECTOR_COMPLEX_DOUBLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-10 9:35:30 GMT (Friday 10th January 2020)"
+	revision: "5"
 
 class
 	ROW_VECTOR_COMPLEX_DOUBLE
 
 inherit
-	E2X_VECTOR_COMPLEX_DOUBLE
+	VECTOR_COMPLEX_DOUBLE
 		rename
-			make as make_default,
 			make_row as make
 		end
 
@@ -39,5 +38,5 @@ feature {NONE} -- Implementation
 		do
 			make_matrix (1, node.to_integer)
 		end
-		
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 16:03:28 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-09 18:55:50 GMT (Thursday 9th January 2020)"
+	revision: "7"
 
 class
 	EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
@@ -17,7 +17,7 @@ inherit
 		rename
 			item as call_argument
 		redefine
-			make_default, new_root_builder_context -- , parse_call_request
+			make_default, new_root_builder_context
 		end
 
 	EL_ROUTINE_CALL_REQUEST_PARSER

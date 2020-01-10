@@ -1,16 +1,16 @@
 note
-	description: "Binary encoded xml document scanner"
+	description: "Binary encoded XML document scanner"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:28:40 GMT (Wednesday 8th January 2020)"
-	revision: "5"
+	date: "2020-01-10 10:10:21 GMT (Friday 10th January 2020)"
+	revision: "6"
 
 class
-	BINARY_ENCODED_XML_DOCUMENT_SCANNER
+	EL_BINARY_ENCODED_XML_DOCUMENT_SCANNER
 
 inherit
 	EL_XML_DOCUMENT_SCANNER
@@ -21,7 +21,7 @@ inherit
 			on_start_tag, on_end_tag, on_content, on_comment, on_processing_instruction
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -40,66 +40,77 @@ feature {NONE} -- Parsing events
 	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
-			log.enter ("on_xml_tag_declaration")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("on_xml_tag_declaration")
+			end
 		end
 
 	on_start_document
 			--
 		do
-			log.enter ("on_start_document")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("on_start_document")
+			end
 		end
 
 	on_end_document
 			--
 		do
-			log.enter ("on_end_document")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("on_end_document")
+			end
 		end
 
 	on_start_tag
 			--
 		do
-			log.enter_with_args ("on_start_tag", [last_node_name])
-			name_stack.extend (last_node_name.string)
-			from attribute_list.start until attribute_list.after loop
-				log.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
-				log.put_new_line
-				attribute_list.forth
+			if is_lio_enabled then
+				Lio.put_labeled_string ("on_start_tag", last_node_name)
+				lio.put_new_line
 			end
-			log.exit
+			name_stack.extend (last_node_name.string)
+			if is_lio_enabled then
+				from attribute_list.start until attribute_list.after loop
+					lio.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
+					lio.put_new_line
+					attribute_list.forth
+				end
+			end
 		end
 
 	on_end_tag
 			--
 		do
-			log.enter ("on_end_tag")
-			log.put_line (name_stack.item)
+			if is_lio_enabled then
+				lio.put_labeled_string ("on_end_tag", name_stack.item)
+				lio.put_new_line
+			end
 			name_stack.remove
-			log.exit
 		end
 
 	on_content
 			--
 		do
-			log.enter ("on_content")
-			log.put_line (last_node_text)
-			log.exit
+			if is_lio_enabled then
+				lio.put_labeled_string ("on_content", last_node_text)
+				lio.put_new_line
+			end
 		end
 
 	on_comment
 			--
 		do
-			log.enter ("on_comment")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("on_comment")
+			end
 		end
 
 	on_processing_instruction
 			--
 		do
-			log.enter ("on_processing_instruction")
-			log.exit
+			if is_lio_enabled then
+				lio.put_line ("on_processing_instruction")
+			end
 		end
 
 feature {NONE} -- Implementation

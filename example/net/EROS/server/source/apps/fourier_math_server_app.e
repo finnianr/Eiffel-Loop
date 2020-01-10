@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:53:18 GMT (Tuesday 31st December 2019)"
-	revision: "7"
+	date: "2020-01-10 9:22:37 GMT (Friday 10th January 2020)"
+	revision: "8"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -18,7 +18,7 @@ inherit
 			Option_name
 		end
 
-	INSTALLABLE_SUB_APPLICATION
+	INSTALLABLE_EROS_SUB_APPLICATION
 		redefine
 			name
 		end

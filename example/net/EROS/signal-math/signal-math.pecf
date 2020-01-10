@@ -8,12 +8,7 @@ system:
 		"""
 			Signal Math Demo of the EROS Protocol
 
-			A multi-mode application demonstrating the [./library/eros.html EROS remote object protocol].
-			The application calculates Fourier transformations based on Greg Lee's
-			[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
-			It has two client modes and two server modes, accessible via a command line option.
-
-			See doc/signal-math.txt for details
+			See cluster[@name='project']/description below for more details
 		"""
 	
 	# classic means C code as an intermediate language
@@ -25,7 +20,6 @@ system:
 			major = 1; minor = 0; release = 0; build = 1
 			company = "Eiffel-Loop"; product = "EROS"
 			copyright = "Finnian Reilly"
-
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
@@ -70,7 +64,11 @@ system:
 			name = net; location = "$ISE_LIBRARY/library/net/net.ecf"
 
 		library:
-			name = nel_fft_math; location = "$EIFFEL_NUMERICAL/fft-math.ecf"
+			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+			renaming:
+				old_name = VECTOR_COMPLEX_DOUBLE; new_name = NEL_VECTOR_COMPLEX_DOUBLE
+			renaming:
+				old_name = COMPLEX_DOUBLE; new_name = NEL_COMPLEX_DOUBLE
 
 		# Eiffel Loop libraries
 		library:
@@ -83,7 +81,6 @@ system:
 
 		variable:
 			name = eros_server_enabled; value = false
-
 		library:
 			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
 
@@ -101,10 +98,20 @@ system:
 
 		cluster:
 			name = project; location = "source"; recursive = true
+			description:
+				"""
+					Signal Math Demo of the EROS Protocol
 
+					A multi-mode application demonstrating the [./library/eros.html EROS remote object protocol].
+					The application calculates Fourier transformations based on Greg Lee's
+					[https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
+					It has two client modes and two server modes, accessible via a command line option.
+
+					See doc/signal-math.txt for details
+				"""
 		cluster:
-			name = common; location = "../source-common"; recursive = true
-
+			name = eros_test; location = "$EIFFEL_LOOP/test/source/eros"; recursive = true
+		cluster:
+			name = install; location = "../server/source/install"; recursive = true
 			
-
 

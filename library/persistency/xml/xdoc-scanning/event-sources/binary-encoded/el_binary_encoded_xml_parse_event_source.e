@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:28:47 GMT (Friday 14th June 2019)"
-	revision: "8"
+	date: "2020-01-10 11:10:39 GMT (Friday 10th January 2020)"
+	revision: "9"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -48,14 +48,11 @@ feature -- Basic operations
 	parse_from_stream (a_stream: IO_MEDIUM)
 			--
 		do
-			lio.enter ("parse_from_stream")
---			logging.set_prompt_user_on_exit (True)
+			if is_lio_enabled then
+				lio.put_line ("parse_from_stream (a_stream: IO_MEDIUM)")
+			end
 			event_stream := a_stream
-
 			read_parse_events
-
---			logging.set_prompt_user_on_exit (False)
-			lio.exit
 		end
 
 feature {NONE} -- Unused
@@ -72,71 +69,80 @@ feature {NONE} -- Parse action handlers
 	on_start_tag_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			lio.enter ("on_start_tag_code")
+			if is_lio_enabled then
+				lio.put_line ("on_start_tag_code")
+			end
 			check_for_last_start_tag
 
 			set_name_from_stream (last_node_name, index_or_count, is_index)
 			attribute_list.reset
-			lio.exit
 		end
 
 	on_end_tag_code
 			--
 		do
-			lio.enter ("on_end_tag_code")
+			if is_lio_enabled then
+				lio.put_line ("on_end_tag_code")
+			end
 			check_for_last_start_tag
-
 			scanner.on_end_tag
-			lio.exit
 		end
 
 	on_attribute_name_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			lio.enter ("on_attribute_name_code")
-
+			if is_lio_enabled then
+				lio.put_labeled_substitution ("on_attribute_name_code", "(%S, %S)", [index_or_count, is_index])
+				lio.put_new_line
+			end
 			attribute_list.extend
 			set_name_from_stream (attribute_list.last_node.name, index_or_count, is_index)
-			lio.put_line (attribute_list.last_node.name)
-			lio.exit
+			if is_lio_enabled then
+				lio.put_line (attribute_list.last_node.name)
+			end
 		end
 
 	on_attribute_text_code (count: INTEGER)
 			--
 		do
-			lio.enter ("on_attribute_text_code")
+			if is_lio_enabled then
+				lio.put_line ("on_attribute_text_code")
+			end
 			set_string_from_stream (attribute_list.last_node.raw_content, count)
-			lio.exit
 		end
 
 	on_text_code (count: INTEGER)
 			--
 		do
-			lio.enter ("on_text_code")
+			if is_lio_enabled then
+				lio.put_line ("on_text_code")
+			end
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
 			last_node.set_type_as_text
 			scanner.on_content
-			lio.exit
 		end
 
 	on_comment_code (count: INTEGER)
 			--
 		do
-			lio.enter ("on_comment_code")
+			if is_lio_enabled then
+				lio.put_line ("on_comment_code")
+			end
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
 			last_node.set_type_as_comment
 			scanner.on_content
-			lio.exit
 		end
 
 	on_processing_instruction_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			lio.enter ("on_processing_instruction_code")
+			if is_lio_enabled then
+				lio.put_line ("on_processing_instruction_code")
+			end
 			check_for_last_start_tag
 
 			set_name_from_stream (last_node_name, index_or_count, is_index)
@@ -144,25 +150,26 @@ feature {NONE} -- Parse action handlers
 			set_string_from_stream (last_node_text, event_stream.last_natural_16)
 			last_node.set_type_as_processing_instruction
 			scanner.on_processing_instruction
-			lio.exit
 		end
 
 	on_start_document_code
 			--
 		do
-			lio.enter ("on_start_document_code")
+			if is_lio_enabled then
+				lio.put_line ("on_start_document_code")
+			end
 			name_index_array.wipe_out
 			attribute_list.reset
 			scanner.on_start_document
-			lio.exit
 		end
 
 	on_end_document_code
 			--
 		do
-			lio.enter ("on_end_document_code")
+			if is_lio_enabled then
+				lio.put_line ("on_end_document_code")
+			end
 			scanner.on_end_document
-			lio.exit
 		end
 
 feature {NONE} -- Implementation
@@ -211,6 +218,7 @@ feature {NONE} -- Implementation
 						on_end_document_code
 
 				else
+					-- We probably want to see this under and circumstance
 					lio.put_integer_field ("Unknown event", parse_event_code)
 					lio.put_new_line
 				end
@@ -233,7 +241,6 @@ feature {NONE} -- Implementation
 	set_name_from_stream (name: STRING_32; index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			lio.enter_with_args ("set_name_from_stream", [name, index_or_count, is_index])
 			name.wipe_out
 			if is_index then
 				name.append_string_general (name_index_array [index_or_count])
@@ -242,19 +249,22 @@ feature {NONE} -- Implementation
 				name.append_string_general (event_stream.last_string)
 				name_index_array.extend (name.string)
 			end
-			lio.put_line (name)
-			lio.exit
+			if is_lio_enabled then
+				lio.put_labeled_substitution ("set_name_from_stream", "(%"%S%", %S, %S)", [name, index_or_count, is_index])
+				lio.put_new_line
+			end
 		end
 
 	set_string_from_stream (str: STRING_32; count: INTEGER)
 			--
 		do
-			lio.enter_with_args ("set_string_from_stream", [count])
 			str.wipe_out
 			event_stream.read_stream (count)
 			str.append_string_general (event_stream.last_string)
-			lio.put_line (str)
-			lio.exit
+			if is_lio_enabled then
+				lio.put_labeled_substitution ("set_string_from_stream", "(%"%S%", %S)", [str, count])
+				lio.put_new_line
+			end
 		end
 
 feature {NONE} -- Implementation: attributes

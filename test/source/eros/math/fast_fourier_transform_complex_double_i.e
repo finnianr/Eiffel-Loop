@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-10 8:23:18 GMT (Friday 10th January 2020)"
+	revision: "5"
 
 deferred class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
@@ -28,12 +28,12 @@ feature -- Initialization
 
 feature -- Access
 
-	input: E2X_VECTOR_COMPLEX_DOUBLE
+	input: VECTOR_COMPLEX_DOUBLE
 			--
 		deferred
 		end
 
-	output: E2X_VECTOR_COMPLEX_DOUBLE
+	output: VECTOR_COMPLEX_DOUBLE
    		--
    		deferred
    		end

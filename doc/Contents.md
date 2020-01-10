@@ -4,21 +4,21 @@ A multi-mode application demonstrating the [EROS remote object protocol](http://
 
 **Client Modes**
 
-`-test_client` Sub-application [FOURIER_MATH_TEST_CLIENT_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/fourier_math_test_client_app.html)
+`-test_client` Sub-application [FFT_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_client_test_app.html)
 
 Test client to generate random wave forms and do fourier transforms for 25 seconds
 
-`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/bext_client_test_app.html)
+`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
 
 Client to test Binary Encoded XML Transfer (BEXT).
 
 **Server Modes**
 
-`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/bext_client_test_app.html)
+`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
 
 Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
 
-`-test_server` Sub-application [FOURIER_MATH_TEST_SERVER_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/sub-applications/fourier_math_test_server_app.html)
+`-test_server` Sub-application [FFT_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_server_test_app.html)
 
 Single connection test server for fourier math. Ctrl-c shuts down the server.
 
@@ -1409,6 +1409,17 @@ Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.co
 See class [COMPRESSION_TEST_APP](http://www.eiffel-loop.com/test/source/compression/compression_test_app.html)
 ## encryption.ecf
 See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/encryption_autotest_app.html)
+## eros.ecf
+Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/eros.html) protocol library.
+
+**Test Apps**
+
+
+* [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+* [BEXT_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_server_test_app.html)
+* [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html)
+* [FOURIER_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html)
+
 ## evolicity.ecf
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
 ## ftp.ecf
@@ -1559,9 +1570,9 @@ See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thr
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API See class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html)
 ## wel-x-audio.ecf
-Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_mswin/media_player_dummy_app.html)
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
-* [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/bex_xml_to_eiffel_object_builder_test_app.html)
+* [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]($source)
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
 * [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
