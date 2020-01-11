@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-12 12:23:51 GMT (Friday 12th October 2018)"
-	revision: "8"
+	date: "2020-01-11 12:26:07 GMT (Saturday 11th January 2020)"
+	revision: "9"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -22,10 +22,12 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_COMMAND
+
 create
 	make, make_default
 
-feature {NONE} -- Initiliazation
+feature {EL_COMMAND_CLIENT} -- Initiliazation
 
 	make (a_source_path: like source_path)
 			--
@@ -288,7 +290,7 @@ feature {NONE} -- Implementation
 			else
 				text_matcher.set_pattern (xml_identifier_or_numeric_constant_pattern)
 			end
-			if text_matcher.is_match (a_string) and not a_string.is_empty then
+			if text_matcher.is_match (a_string) and not (a_string.is_empty or a_string.has ('-')) then
 				Result := a_string
 			else
 				if a_string.index_of ('"', 1) > 0 then

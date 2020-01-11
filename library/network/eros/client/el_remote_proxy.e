@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:00:47 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-10 22:00:32 GMT (Friday 10th January 2020)"
+	revision: "7"
 
 class
 	EL_REMOTE_PROXY
@@ -31,7 +31,6 @@ feature {NONE} -- Initialization
 		do
 			make_exchanger
 			net_socket := client.net_socket
-			set_parse_event_generator_medium (net_socket)
 			client.proxy_list.extend (Current)
 		end
 

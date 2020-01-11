@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 8:32:07 GMT (Friday 10th January 2020)"
-	revision: "7"
+	date: "2020-01-10 21:52:36 GMT (Friday 10th January 2020)"
+	revision: "8"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -27,7 +27,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			create net_socket.make_client_by_port (8001, "localhost")
-			create parse_event_generator.make_with_output (net_socket)
+			create parse_event_generator.make
 			create signal_math.make
 		end
 
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 			from i := 1 until i > 2 loop
 				wave_form := signal_math.cosine_waveform (4, 7, 0.5)
-				parse_event_generator.send_object (wave_form)
+				parse_event_generator.send_object (wave_form, net_socket)
 				i := i + 1
 			end
 

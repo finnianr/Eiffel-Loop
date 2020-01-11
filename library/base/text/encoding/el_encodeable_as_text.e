@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-09 10:14:08 GMT (Wednesday 9th October 2019)"
-	revision: "6"
+	date: "2020-01-11 11:38:37 GMT (Saturday 11th January 2020)"
+	revision: "7"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -36,7 +36,17 @@ inherit
 			set_windows as set_windows_encoding
 
 		redefine
-			set_encoding, make_default,  make_latin_1, make_utf_8
+			set_encoding, make_default
+		end
+
+	EL_EVENT_BROADCASTER
+		rename
+			add_listener as add_encoding_change_listener,
+			add_agent_listener as add_encoding_change_action
+		export
+			{NONE} all
+		redefine
+			make_default
 		end
 
 create
@@ -46,25 +56,9 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create encoding_change_actions
-			Precursor
+			Precursor {EL_EVENT_BROADCASTER}
+			Precursor {EL_ENCODING_BASE}
 		end
-
-	make_latin_1
-		do
-			create encoding_change_actions
-			Precursor
-		end
-
-	make_utf_8
-		do
-			create encoding_change_actions
-			Precursor
-		end
-
-feature -- Access
-
-	encoding_change_actions: ACTION_SEQUENCE
 
 feature -- Element change
 
@@ -75,8 +69,8 @@ feature -- Element change
 		do
 			changed := encoding_bitmap /= type | id
 			encoding_bitmap := type | id
-			if changed and then not encoding_change_actions.is_empty then
-				encoding_change_actions.call ([])
+			if changed then
+				notify
 			end
 		end
 

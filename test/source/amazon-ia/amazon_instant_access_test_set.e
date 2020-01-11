@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 15:08:32 GMT (Sunday 5th January 2020)"
-	revision: "13"
+	date: "2020-01-11 10:58:24 GMT (Saturday 11th January 2020)"
+	revision: "14"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -302,10 +302,10 @@ feature {NONE} -- Events
 	on_prepare
 			-- Called after all initializations in `default_create'.
 		local
-			b: like Build_info
+			b: like EL_build_info
 		do
 			Precursor
-			b := Build_info
+			b := EL_build_info
 			create credential_list.make (credentials_file_path, new_encrypter)
 			credential_list.extend (Credential)
 		end

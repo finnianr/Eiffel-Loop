@@ -1,209 +1,58 @@
 note
-	description: "Xml parse event generator"
+	description: "Parse event generator specifically for XML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 10:57:22 GMT (Friday 10th January 2020)"
-	revision: "7"
+	date: "2020-01-10 22:53:40 GMT (Friday 10th January 2020)"
+	revision: "8"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
 
 inherit
-	EL_XML_DOCUMENT_SCANNER
+	EL_PARSE_EVENT_GENERATOR
+		rename
+			make as make_generator
 		redefine
-			event_source
+			event_source, default_event_source
 		end
 
-	EL_XML_PARSE_EVENT_STREAM
-
-	EL_MODULE_LIO
-
 create
-	make_with_output
+	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Initialization
 
-	make_with_output (output_stream: like event_stream)
+	make
 			--
 		do
-			make ({like event_source})
-			create name_index_table.make (Name_index_table_size)
-			name_index_table.compare_objects
-			event_stream := output_stream
+			make_generator ({like event_source})
 		end
 
 feature -- Basic operations
 
-	send_file (file_path: EL_FILE_PATH)
-			--
-		local
-			xml_file: PLAIN_TEXT_FILE
+	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML; a_output: like output)
+			-- send `object' to `a_output' as binary encoded XML
 		do
-			create xml_file.make_open_read (file_path)
-			send (xml_file)
-			xml_file.close
-		end
-
-	send_string (string: STRING)
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("send_string (string: STRING)")
-			end
-			scan (string)
-		end
-
-	send (in_stream: IO_MEDIUM)
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("send (in_stream: IO_MEDIUM)")
-			end
-			scan_from_stream (in_stream)
-		end
-
-	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML)
-			--
-		do
+			output := a_output
 			if is_lio_enabled then
 				lio.put_labeled_string ("send_object", object.generator)
 				lio.put_new_line
 			end
 			event_source.parse_from_serializable_object (object)
-		end
-
-	close
-			--
-		do
-			event_stream.close
+			output := Default_output
 		end
 
 feature {NONE} -- Implementation
 
-	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
-			--
+	default_event_source: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 		do
+			create Result.make (Current)
 		end
 
-	on_start_tag
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_tag")
-			end
-			put_named_parse_event (
-				last_node_name,
-				Parse_event_existing_start_tag, Parse_event_new_start_tag
-			)
-			from attribute_list.start until attribute_list.after loop
-				put_named_parse_event (
-					attribute_list.node.name,
-					Parse_event_existing_attribute_name, Parse_event_new_attribute_name
-				)
-				put_parse_event (attribute_list.node.raw_content.count, Parse_event_attribute_text)
-				event_stream.put_string (attribute_list.node.raw_content)
-				if is_lio_enabled then
-					lio.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
-					lio.put_new_line
-				end
-				attribute_list.forth
-			end
-		end
-
-	on_end_tag
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_tag")
-			end
-			put_parse_event (0, Parse_event_end_tag)
-		end
-
-	on_content
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_content")
-			end
-			put_parse_event (last_node_text.count, Parse_event_text)
-			event_stream.put_string (last_node_text)
-		end
-
-	on_comment
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_comment")
-			end
-			put_parse_event (last_node_text.count, Parse_event_comment_text)
-			event_stream.put_string (last_node_text)
-		end
-
-	on_processing_instruction
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_processing_instruction")
-			end
-			put_named_parse_event (
-				last_node_name, Parse_event_existing_processing_instruction, Parse_event_new_processing_instruction
-			)
-			event_stream.put_natural_16 (last_node_text.count.to_natural_16)
-			event_stream.put_string (last_node_text)
-		end
-
-	on_start_document
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_document")
-			end
-			name_index_table.wipe_out
-			put_parse_event (0, Parse_event_start_document)
-		end
-
-	on_end_document
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_document")
-			end
-			put_parse_event (0, Parse_event_end_document)
-		end
-
-feature {NONE} -- Implementation
-
-	put_named_parse_event (name: STRING; existing_name_code, new_name_code: INTEGER)
-			--
-		local
-			name_index: INTEGER
-		do
-			if name_index_table.has_key (name) then
-				name_index := name_index_table.found_item
-				put_parse_event (name_index, existing_name_code)
-			else
-				name_index := name_index_table.count + 1
-				name_index_table.extend (name_index, name)
-				put_parse_event (name.count, new_name_code)
-				event_stream.put_string (name)
-			end
-		end
-
-	put_parse_event (count_or_index, code: INTEGER)
-			--
-		require
-			code_fits_in_4_bits: code >= 1 and code <= 16
-		do
-			event_stream.put_natural_16 (((count_or_index |<< 4) | (code - 1)).to_natural_16)
-		end
-
-feature {NONE} -- Implementation: attributes
-
-	name_index_table: HASH_TABLE [INTEGER, STRING]
+feature {NONE} -- Internal attributes
 
 	event_source: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 

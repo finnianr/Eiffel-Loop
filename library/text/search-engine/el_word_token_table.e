@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:44:38 GMT (Monday 5th August 2019)"
-	revision: "9"
+	date: "2020-01-11 11:38:37 GMT (Saturday 11th January 2020)"
+	revision: "10"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -21,7 +21,7 @@ inherit
 			make, put
 		end
 
-	EL_NOTIFYABLE
+	EL_EVENT_BROADCASTER
 		rename
 			make_default as make_notifyable
 		undefine

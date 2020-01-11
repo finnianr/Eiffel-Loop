@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
-	revision: "5"
+	date: "2020-01-10 22:56:29 GMT (Friday 10th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_REMOTE_XML_OBJECT_EXCHANGER
@@ -22,17 +22,9 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			parse_event_generator := Default_parse_event_generator
+			create parse_event_generator.make
 			inbound_type := Type_plaintext; outbound_type := Type_plaintext
 			create object_builder.make (Event_source [Type_plaintext])
-		end
-
-feature -- Element change
-
-	set_parse_event_generator_medium (socket: EL_STREAM_SOCKET)
-			--
-		do
-			create parse_event_generator.make_with_output (socket)
 		end
 
 feature -- Basic operations
@@ -44,11 +36,14 @@ feature -- Basic operations
 				once "Sending", once "%S as %S XML", [object.generator, Event_source_name [outbound_type]]
 			)
 			log.put_new_line
-			if outbound_type = Type_binary then
-				parse_event_generator.send_object (object)
+			inspect outbound_type
+				when Type_binary then
+					parse_event_generator.send_object (object, socket)
+					
+				when Type_plaintext then
+					object.serialize_to_stream (socket)
+					socket.put_end_of_string_delimiter
 			else
-				object.serialize_to_stream (socket)
-				socket.put_end_of_string_delimiter
 			end
 		end
 
@@ -80,12 +75,5 @@ feature {NONE} -- Internal attributes
 	object_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
 
 	parse_event_generator: EL_XML_PARSE_EVENT_GENERATOR
-
-feature {NONE} -- Constants
-
-	Default_parse_event_generator: EL_XML_PARSE_EVENT_GENERATOR
-		once
-			create Result.make_with_output (create {EL_ZSTRING_IO_MEDIUM}.make_open_write (0))
-		end
 
 end

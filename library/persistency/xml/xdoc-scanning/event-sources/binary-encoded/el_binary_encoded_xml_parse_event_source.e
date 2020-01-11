@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 11:10:39 GMT (Friday 10th January 2020)"
-	revision: "9"
+	date: "2020-01-10 21:37:38 GMT (Friday 10th January 2020)"
+	revision: "10"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -18,7 +18,7 @@ inherit
 			make, new_file_stream
 		end
 
-	EL_XML_PARSE_EVENT_STREAM
+	EL_PARSE_EVENT_CONSTANTS
 
 	EL_MODULE_LIO
 
@@ -51,7 +51,7 @@ feature -- Basic operations
 			if is_lio_enabled then
 				lio.put_line ("parse_from_stream (a_stream: IO_MEDIUM)")
 			end
-			event_stream := a_stream
+			input := a_stream
 			read_parse_events
 		end
 
@@ -146,8 +146,8 @@ feature {NONE} -- Parse action handlers
 			check_for_last_start_tag
 
 			set_name_from_stream (last_node_name, index_or_count, is_index)
-			event_stream.read_natural_16
-			set_string_from_stream (last_node_text, event_stream.last_natural_16)
+			input.read_natural_16
+			set_string_from_stream (last_node_text, input.last_natural_16)
 			last_node.set_type_as_processing_instruction
 			scanner.on_processing_instruction
 		end
@@ -181,40 +181,40 @@ feature {NONE} -- Implementation
 		do
 			last_parse_event_code := 0
 
-			from until last_parse_event_code = Parse_event_end_document loop
-				event_stream.read_natural_16
-				parse_event_code := (event_stream.last_natural_16 & 0xF) + 1
-				index_or_count := event_stream.last_natural_16 |>> 4
+			from until last_parse_event_code = PE_end_document loop
+				input.read_natural_16
+				parse_event_code := (input.last_natural_16 & 0xF) + 1
+				index_or_count := input.last_natural_16 |>> 4
 
 				inspect parse_event_code
-					when Parse_event_new_start_tag, Parse_event_existing_start_tag then
-						is_index := parse_event_code = Parse_event_existing_start_tag
+					when PE_new_start_tag, PE_existing_start_tag then
+						is_index := parse_event_code = PE_existing_start_tag
 						on_start_tag_code (index_or_count, is_index)
 
-					when Parse_event_end_tag then
+					when PE_end_tag then
 						on_end_tag_code
 
-					when Parse_event_existing_attribute_name, Parse_event_new_attribute_name then
-						is_index := parse_event_code = Parse_event_existing_attribute_name
+					when PE_existing_attribute_name, PE_new_attribute_name then
+						is_index := parse_event_code = PE_existing_attribute_name
 						on_attribute_name_code (index_or_count, is_index)
 
-					when Parse_event_existing_processing_instruction, Parse_event_new_processing_instruction then
-						is_index := parse_event_code = Parse_event_existing_processing_instruction
+					when PE_existing_processing_instruction, PE_new_processing_instruction then
+						is_index := parse_event_code = PE_existing_processing_instruction
 						on_processing_instruction_code (index_or_count, is_index)
 
-					when Parse_event_attribute_text then
+					when PE_attribute_text then
 						on_attribute_text_code (index_or_count)
 
-					when Parse_event_text then
+					when PE_text then
 						on_text_code (index_or_count)
 
-					when Parse_event_comment_text then
+					when PE_comment_text then
 						on_comment_code (index_or_count)
 
-					when Parse_event_start_document then
+					when PE_start_document then
 						on_start_document_code
 
-					when Parse_event_end_document then
+					when PE_end_document then
 						on_end_document_code
 
 				else
@@ -230,7 +230,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			inspect last_parse_event_code
-				when Parse_event_new_start_tag, Parse_event_existing_start_tag, Parse_event_attribute_text then
+				when PE_new_start_tag, PE_existing_start_tag, PE_attribute_text then
 					last_node.set_type_as_element
 					scanner.on_start_tag
 
@@ -245,8 +245,8 @@ feature {NONE} -- Implementation
 			if is_index then
 				name.append_string_general (name_index_array [index_or_count])
 			else
-				event_stream.read_stream (index_or_count)
-				name.append_string_general (event_stream.last_string)
+				input.read_stream (index_or_count)
+				name.append_string_general (input.last_string)
 				name_index_array.extend (name.string)
 			end
 			if is_lio_enabled then
@@ -259,8 +259,8 @@ feature {NONE} -- Implementation
 			--
 		do
 			str.wipe_out
-			event_stream.read_stream (count)
-			str.append_string_general (event_stream.last_string)
+			input.read_stream (count)
+			str.append_string_general (input.last_string)
 			if is_lio_enabled then
 				lio.put_labeled_substitution ("set_string_from_stream", "(%"%S%", %S)", [str, count])
 				lio.put_new_line
@@ -268,6 +268,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation: attributes
+
+	input: IO_MEDIUM
 
 	attribute_list: EL_XML_ATTRIBUTE_LIST
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:05:06 GMT (Sunday 1st December 2019)"
-	revision: "7"
+	date: "2020-01-11 10:42:52 GMT (Saturday 11th January 2020)"
+	revision: "8"
 
 class
 	AUTOTEST_DEVELOPMENT_APP
@@ -23,20 +23,12 @@ create
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{AUTOTEST_DEVELOPMENT_APP}, All_routines]
-			>>
-		end
-
 	visible_types: TUPLE [EL_FTP_PROTOCOL]
 		do
 			create Result
 		end
 
-	evaluator_types: TUPLE [LOCALIZATION_COMMAND_SHELL_TEST_EVALUATOR]
+	evaluator_type, evaluator_types_all: TUPLE [LOCALIZATION_COMMAND_SHELL_TEST_EVALUATOR]
 		do
 			create Result
 		end

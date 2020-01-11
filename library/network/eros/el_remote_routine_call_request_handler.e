@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:58:30 GMT (Thursday 9th January 2020)"
-	revision: "9"
+	date: "2020-01-10 22:10:38 GMT (Friday 10th January 2020)"
+	revision: "10"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -70,11 +70,9 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	initialize (client_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET)
+	initialize
 			--
 		do
-			set_parse_event_generator_medium (client_socket)
-
 			set_inbound_type (Type_plaintext)
 			set_pending_outbound_type (Type_plaintext)
 			new_outbound_type := Type_plaintext
@@ -103,7 +101,7 @@ feature -- Basic operations
 			-- serve client for duration of session
 		do
 			log.enter ("serve")
-			initialize (client_socket)
+			initialize
 
 			from set_active until is_stopped loop
 				set_error (0)
@@ -198,17 +196,6 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-feature {NONE} -- Internal attributes
-
-	error_result: EL_EROS_ERROR_RESULT
-
-	listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
-
-	new_outbound_type: INTEGER
-
-	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
-		-- objects available for duration of client sesssion
-
 feature {NONE} -- EROS implementation
 
 	Factory: EL_OBJECT_FACTORY [EL_REMOTELY_ACCESSIBLE]
@@ -229,6 +216,17 @@ feature {NONE} -- EROS implementation
 
 
 feature {NONE} -- Internal attributes
+
+	error_result: EL_EROS_ERROR_RESULT
+
+	listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+
+	new_outbound_type: INTEGER
+
+	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
+		-- objects available for duration of client sesssion
+
+	bex_output: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 
 	request_builder: EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
 

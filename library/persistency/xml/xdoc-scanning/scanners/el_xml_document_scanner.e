@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 17:08:44 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-10 22:48:16 GMT (Friday 10th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -49,7 +49,7 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			create last_node
-			create {EL_EXPAT_XML_PARSER} event_source.make (Current)
+			event_source := default_event_source
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content
 		end
@@ -169,6 +169,11 @@ feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
 	last_node: EL_XML_NODE
 
 feature {NONE} -- Implementation
+
+	default_event_source: EL_PARSE_EVENT_SOURCE
+		do
+			create {EL_DEFAULT_PARSE_EVENT_SOURCE} Result.make (Current)
+		end
 
 	new_string_list (lines: ITERABLE [READABLE_STRING_GENERAL]): EL_ZSTRING_LIST
 		do

@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 13:27:14 GMT (Thursday 27th September 2018)"
-	revision: "4"
+	date: "2020-01-11 10:30:28 GMT (Saturday 11th January 2020)"
+	revision: "5"
 
 class
 	EL_SUBJECT_LINE_DECODER
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 		do
 			make_latin_1
 			set_codec
-			encoding_change_actions.extend (agent set_codec)
+			add_encoding_change_action (agent set_codec)
 			create line.make_empty
 		end
 

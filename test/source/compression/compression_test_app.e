@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:35:15 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-01-11 10:57:13 GMT (Saturday 11th January 2020)"
+	revision: "8"
 
 class
 	COMPRESSION_TEST_APP
@@ -90,22 +90,24 @@ feature -- Tests
 			log.exit
 		end
 
+feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
+
 feature {NONE} -- Constants
+
+	Description: STRING = "Test zlib compression"
 
 	Option_name: STRING
 			--
 		once
 			Result := "test_compression"
-		end
-
-	Description: STRING = "Test zlib compression"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{COMPRESSION_TEST_APP}, All_routines]
-			>>
 		end
 
 end

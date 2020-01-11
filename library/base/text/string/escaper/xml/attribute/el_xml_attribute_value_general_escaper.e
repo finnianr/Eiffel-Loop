@@ -6,24 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-11 13:27:15 GMT (Saturday 11th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_XML_ATTRIBUTE_VALUE_GENERAL_ESCAPER
 
 inherit
 	EL_XML_GENERAL_ESCAPER
-		redefine
-			make
-		end
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			Precursor
-			extend_entities ('"', "quot")
-		end
 
 end

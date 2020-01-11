@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-21 8:25:35 GMT (Sunday 21st July 2019)"
-	revision: "13"
+	date: "2020-01-11 13:37:28 GMT (Saturday 11th January 2020)"
+	revision: "14"
 
 class
 	EL_PYXIS_PARSER
@@ -66,7 +66,7 @@ feature -- Basic operations
 			end
 			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable_source then
 				-- propagate encoding change in pyxis-doc declaration
-				encoding_change_actions.extend (agent encodeable_source.set_encoding_from_other (Current))
+				add_encoding_change_action (agent encodeable_source.set_encoding_from_other (Current))
 			end
 			parse_from_lines (line_source)
 		end
@@ -113,6 +113,7 @@ feature {NONE} -- Line states
 					on_comment
 				end
 				line.remove_tail (1)
+				line.replace_character ('.', ':')
 				state := agent gather_element_attributes (?, line)
 
 			-- if verbatim string delimiter

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:32:29 GMT (Saturday 28th December 2019)"
-	revision: "7"
+	date: "2020-01-11 10:16:30 GMT (Saturday 11th January 2020)"
+	revision: "8"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -107,7 +107,7 @@ feature -- Measurement
 	set_table (a_table: like table)
 		do
 			table := a_table
-			table.set_listener (Current)
+			table.add_listener (Current)
 		end
 
 feature {NONE} -- Implementation

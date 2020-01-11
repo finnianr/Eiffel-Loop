@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 15:15:23 GMT (Wednesday 8th January 2020)"
-	revision: "6"
+	date: "2020-01-11 10:55:30 GMT (Saturday 11th January 2020)"
+	revision: "7"
 
 deferred class
 	TEST_SUB_APPLICATION
@@ -22,7 +22,6 @@ inherit
 
 	EL_EIFFEL_LOOP_TEST_CONSTANTS
 		rename
-			Build_info as EL_build_info,
 			EL_test_data_dir as test_data_dir
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:35:36 GMT (Monday 30th September 2019)"
-	revision: "17"
+	date: "2020-01-11 13:51:40 GMT (Saturday 11th January 2020)"
+	revision: "18"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -136,9 +136,12 @@ feature -- Basic operations
 			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
 
-	block_all (actions: ARRAY [ACTION_SEQUENCE [TUPLE]])
+	block_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
-			actions.do_all (agent {ACTION_SEQUENCE [TUPLE]}.block)
+			across actions as a loop
+				a.item.flush
+				a.item.block
+			end
 		end
 
 	do_later (a_action: PROCEDURE; millisecs_interval: INTEGER_32)
@@ -197,9 +200,9 @@ feature -- Basic operations
 			application.process_graphical_events
 		end
 
-	resume_all (actions: ARRAY [ACTION_SEQUENCE [TUPLE]])
+	resume_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
-			actions.do_all (agent {ACTION_SEQUENCE [TUPLE]}.resume)
+			actions.do_all (agent {ACTION_SEQUENCE}.resume)
 		end
 
 	set_selection (widget: EV_SELECTABLE; is_selected: BOOLEAN)

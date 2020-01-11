@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 20:11:50 GMT (Monday 6th January 2020)"
-	revision: "9"
+	date: "2020-01-11 12:36:25 GMT (Saturday 11th January 2020)"
+	revision: "10"
 
 class
-	TEST_VTD_XML_APP
+	VTD_XML_TEST_APP
 
 inherit
 	TEST_SUB_APPLICATION
@@ -398,7 +398,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{TEST_VTD_XML_APP}, All_routines]
+				[{VTD_XML_TEST_APP}, All_routines]
 --				[{EL_TEST_ROUTINES}, All_routines],
 --				[{EL_SPREAD_SHEET}, All_routines],
 --				[{EL_SPREAD_SHEET_TABLE}, All_routines]

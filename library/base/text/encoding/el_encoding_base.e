@@ -6,31 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 11:00:21 GMT (Tuesday 19th November 2019)"
-	revision: "4"
+	date: "2020-01-11 11:48:49 GMT (Saturday 11th January 2020)"
+	revision: "5"
 
 class
 	EL_ENCODING_BASE
 
 feature {NONE} -- Initialization
 
-	make_default
+	make_default, make_utf_8
 		do
-			set_default
+			encoding_bitmap := Type_utf | 8
 		end
 
 	make_latin_1
 		do
-			set_latin (1)
-		end
-
-	make_utf_8
-		do
-			set_utf (8)
+			make_bitmap (Type_latin | 1)
 		end
 
 	make_bitmap (a_encoding_bitmap: INTEGER)
 		do
+			make_default
 			encoding_bitmap := a_encoding_bitmap
 		end
 

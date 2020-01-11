@@ -115,3 +115,6 @@ Refactoring of test.ecf into clusters for each library
 Thu 9th Jan 2020, 18:53:45
 Fixed EROS library by introducing EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT into xdoc scanning
 
+Fri 10th Jan 2020, 11:44:54
+Made test.ecf#eros and fixed BINARY_ENCODED_XML_BUILDER_TEST_APP
+

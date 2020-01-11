@@ -1572,8 +1572,11 @@ Tests for Eiffel interface VTD-XML C API See class [TEST_VTD_XML_APP](http://www
 ## wel-x-audio.ecf
 Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
-* [BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]($source)
+Test Sub-applications
+
+
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
-* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
+* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html) and descendant
+* [BINARY_ENCODED_XML_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/binary_encoded_xml_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
 

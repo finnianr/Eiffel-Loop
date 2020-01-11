@@ -6,25 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-25 10:58:48 GMT (Wednesday 25th December 2019)"
-	revision: "11"
+	date: "2020-01-11 10:47:16 GMT (Saturday 11th January 2020)"
+	revision: "12"
 
 class
 	XML_TO_PYXIS_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [XML_TO_PYXIS_CONVERTER]
+	EL_COMMAND_LINE_SUB_APPLICATION [EL_XML_TO_PYXIS_CONVERTER]
 		rename
 			command as converter
-		undefine
-			Test_data_dir
 		redefine
-			Option_name, normal_run
-		end
-
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
-		rename
-			EL_test_data_dir as Test_data_dir
+			Option_name, run
 		end
 
 	EL_MODULE_OS
@@ -34,35 +27,11 @@ create
 
 feature -- Basic operations
 
-	normal_run
+	run
 		do
 			if converter.is_convertable then
 				converter.execute
 			end
-		end
-
-	test_run
-			--
-		do
---			Test.do_file_test (File.joined_path ("XML", "configuration.xsd"), agent test_bkup_to_pyxis, 0)
-			Test.do_file_tree_test ("XML", agent test_xml_to_pyxis, 3039119155)
-		end
-
-feature -- Test
-
-	test_xml_to_pyxis (a_dir_path: EL_DIR_PATH)
-			--
-		do
-			across OS.file_list (a_dir_path, "*") as file_path loop
-				create converter.make (file_path.item)
-				normal_run
-			end
-		end
-
-	test_bkup_to_pyxis (a_file_path: EL_FILE_PATH)
-		do
-			create converter.make (a_file_path)
-			normal_run
 		end
 
 feature {NONE} -- Implementation
@@ -83,15 +52,6 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "xml_to_pyxis"
 
-	Description: STRING = "Convert xml file to pyxis"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{XML_TO_PYXIS_APP}, All_routines],
-				[{XML_TO_PYXIS_CONVERTER}, All_routines]
-			>>
-		end
+	Description: STRING = "Convert XML file to Pyxis format"
 
 end

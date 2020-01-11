@@ -289,8 +289,11 @@ xdoc-scanning.ecf
 Test Sub-applications
 
 * [$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-* [$source OBJECT_BUILDER_TEST_APP] and descendant [$source BINARY_ENCODED_XML_BUILDER_TEST_APP]
+* [$source OBJECT_BUILDER_TEST_APP]
+* [$source BINARY_ENCODED_XML_BUILDER_TEST_APP]
 * [$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
+* [$source PYXIS_TO_XML_TEST_APP]
+* [$source XDOC_SCANNING_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "vtd_xml" location = "source/vtd-xml" recursive = "true">
@@ -298,7 +301,9 @@ Test Sub-applications
 vtd-xml.ecf
 
 Tests for Eiffel interface VTD-XML C API
-See class [$source TEST_VTD_XML_APP]
+
+* [$source VTD_XML_TEST_APP]
+* [$source XML_TO_PYXIS_TEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "wel_x_audio" location = "source/wel-x-audio" recursive = "true">

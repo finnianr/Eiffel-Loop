@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 11:39:30 GMT (Friday 10th January 2020)"
-	revision: "8"
+	date: "2020-01-11 9:46:40 GMT (Saturday 11th January 2020)"
+	revision: "9"
 
 class
 	BINARY_ENCODED_XML_BUILDER_TEST_APP
@@ -105,18 +105,12 @@ feature {NONE} -- Implementation
 	convert_file_to_bexml (file_path, output_file_path: EL_FILE_PATH)
 			--
 		local
-			xml_file: PLAIN_TEXT_FILE; event_stream: RAW_FILE
-			parse_event_generator: EL_XML_PARSE_EVENT_GENERATOR
+			bex_file: RAW_FILE
 		do
 			log.enter ("convert_file_to_bexml")
-			create event_stream.make_open_write (output_file_path)
-			create parse_event_generator.make_with_output (event_stream)
-			create xml_file.make_open_read (file_path)
-
-			parse_event_generator.send (xml_file)
-
-			xml_file.close
-			event_stream.close
+			create bex_file.make_open_write (output_file_path)
+			parse_event_generator.send_file (file_path, bex_file)
+			bex_file.close
 			log.exit
 		end
 
@@ -152,6 +146,11 @@ feature {NONE} -- Constants
 	Extension_bexml: STRING = "bexml"
 
 	Option_name: STRING = "bex_builder_test"
+
+	Parse_event_generator: EL_PARSE_EVENT_GENERATOR
+		once
+			create Result.make ({EL_EXPAT_XML_PARSER})
+		end
 
 	Smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
 		once
