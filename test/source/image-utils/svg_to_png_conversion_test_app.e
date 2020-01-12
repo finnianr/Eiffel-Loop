@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:54:39 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-01-12 7:35:09 GMT (Sunday 12th January 2020)"
+	revision: "8"
 
 class
 	SVG_TO_PNG_CONVERSION_TEST_APP
@@ -73,16 +73,6 @@ feature -- Tests
 				end
 			end
 			log.exit
-		end
-
-feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{SVG_TO_PNG_CONVERSION_TEST_APP}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Internal attributes

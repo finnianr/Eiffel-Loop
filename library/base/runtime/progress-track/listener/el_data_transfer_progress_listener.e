@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:27:59 GMT (Tuesday 24th September 2019)"
-	revision: "10"
+	date: "2020-01-12 18:58:59 GMT (Sunday 12th January 2020)"
+	revision: "11"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -26,9 +26,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
-		rename
-			Args as Mod_args
-		end
 
 create
 	make

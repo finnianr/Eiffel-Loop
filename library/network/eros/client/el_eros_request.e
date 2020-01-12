@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-12 18:58:03 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 class
 	EL_EROS_REQUEST
@@ -20,7 +20,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_NAMING
 
 create
 	make
@@ -44,24 +44,23 @@ feature -- Access
 feature -- Element change
 
 	set_expression_and_serializeable_argument (
-		proxy_object: EL_REMOTE_PROXY; a_routine_name: STRING; argument_tuple: TUPLE
+		proxy_object: EL_REMOTE_PROXY; a_routine_name: STRING; args: TUPLE
 	)
 			-- Set call expression for processing instruction 'call' and serializeable_argument
 		require
-			proxy_class_correctly_named: proxy_object.generator.ends_with (Proxy_class_name_suffix)
+			class_name_has_proxy_suffix: proxy_object.generator.ends_with (Underscore_proxy)
 		local
 			l_template: EL_STRING_8_TEMPLATE; class_name: STRING
 		do
-			class_name := proxy_object.generator
-			class_name.remove_tail (Proxy_class_name_suffix.count)  -- Removes '_PROXY' characters
+			class_name := Naming.class_as_upper_snake (proxy_object, 0, 1)
 
 			serializeable_argument := Default_serializeable_argument
 
-			if argument_tuple.is_empty then
+			if args.is_empty then
 				l_template := Empty_arguments_expression_template
 			else
 				l_template := Expression_template
-				set_argument_list_and_serializeable_argument (argument_tuple)
+				set_argument_list_and_serializeable_argument (args)
 				l_template.set_variable ("argument_list", argument_list)
 			end
 			l_template.set_variable ("class_name", class_name)
@@ -71,7 +70,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_argument_list_and_serializeable_argument (argument_tuple: TUPLE)
+	set_argument_list_and_serializeable_argument (args: TUPLE)
 			--
 		local
 			i: INTEGER
@@ -81,12 +80,12 @@ feature {NONE} -- Implementation
 			list := argument_list
 			list.wipe_out
 
-			from i := 1 until i > argument_tuple.count loop
+			from i := 1 until i > args.count loop
 				if i > 1 then
 					list.append (once ", ")
 				end
-				if argument_tuple.is_reference_item (i) then
-					argument := argument_tuple.reference_item (i)
+				if args.is_reference_item (i) then
+					argument := args.reference_item (i)
 					if attached {EL_EIFFEL_IDENTIFIER} argument as once_function_identifier then
 						list.append (once_function_identifier)
 
@@ -103,7 +102,7 @@ feature {NONE} -- Implementation
 
 					end
 				else
-					list.append (argument_tuple.item (i).out)
+					list.append (args.item (i).out)
 				end
 				i := i + 1
 			end
@@ -154,6 +153,6 @@ feature -- Constants
 
 	Call_template: STRING = "{$class_name}.$routine_name"
 
-	Proxy_class_name_suffix: STRING = "_PROXY"
+	Underscore_proxy: STRING = "_PROXY"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:57:13 GMT (Saturday 11th January 2020)"
-	revision: "8"
+	date: "2020-01-12 7:33:31 GMT (Sunday 12th January 2020)"
+	revision: "9"
 
 class
 	COMPRESSION_TEST_APP
@@ -88,16 +88,6 @@ feature -- Tests
 				file_list.forth
 			end
 			log.exit
-		end
-
-feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Constants

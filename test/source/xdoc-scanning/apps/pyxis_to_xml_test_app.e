@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 13:41:17 GMT (Saturday 11th January 2020)"
-	revision: "18"
+	date: "2020-01-12 7:32:55 GMT (Sunday 12th January 2020)"
+	revision: "19"
 
 class
 	PYXIS_TO_XML_TEST_APP
@@ -44,14 +44,6 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{PYXIS_TO_XML_TEST_APP}, All_routines]
-			>>
-		end
 
 	visible_types: TUPLE [EL_PYXIS_TO_XML_CONVERTER]
 		do

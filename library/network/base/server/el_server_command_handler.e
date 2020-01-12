@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2020-01-12 8:57:21 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_SERVER_COMMAND_HANDLER
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_socket: like socket)
 		do
+			socket := a_socket
 			response := Response_ok
-			create arguments.make_empty
 			command_table := new_command_table
 		end
 
@@ -29,21 +29,22 @@ feature -- Basic operations
 
 	execute (command, a_arguments: STRING)
 		do
-			arguments := a_arguments
 			if command_table.has_key (command) then
-				command_table.found_item.apply
+				command_table.found_item (a_arguments)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	command_table: EL_HASH_TABLE [PROCEDURE, STRING]
+	command_table: EL_HASH_TABLE [PROCEDURE [STRING], STRING]
 
 	new_command_table: like command_table
 		deferred
 		end
 
-	arguments: STRING
+feature {NONE} -- Internal attributes
+
+	socket: EL_NETWORK_STREAM_SOCKET
 
 feature {EL_SIMPLE_SERVER} -- Constants
 

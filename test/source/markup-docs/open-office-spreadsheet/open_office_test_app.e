@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 20:07:58 GMT (Monday 6th January 2020)"
-	revision: "9"
+	date: "2020-01-12 7:34:54 GMT (Sunday 12th January 2020)"
+	revision: "10"
 
 class
 	OPEN_OFFICE_TEST_APP
@@ -72,14 +72,6 @@ feature {NONE} -- Tests
 
 
 feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{OPEN_OFFICE_TEST_APP}, All_routines]
-			>>
-		end
 
 	visible_types: TUPLE [EL_SPREAD_SHEET_TABLE]
 		-- types with lio output visible in console

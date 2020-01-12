@@ -13,11 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 8:23:18 GMT (Friday 10th January 2020)"
-	revision: "5"
+	date: "2020-01-12 16:31:27 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 deferred class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
+
+inherit
+	FAST_FOURIER_TRANSFORM_CONSTANTS
 
 feature -- Initialization
 
@@ -28,15 +31,15 @@ feature -- Initialization
 
 feature -- Access
 
-	input: VECTOR_COMPLEX_DOUBLE
+	input: COLUMN_VECTOR_COMPLEX_DOUBLE
 			--
 		deferred
 		end
 
-	output: VECTOR_COMPLEX_DOUBLE
+	output: COLUMN_VECTOR_COMPLEX_DOUBLE
    		--
-   		deferred
-   		end
+		deferred
+		end
 
 	length: INTEGER
 			--
@@ -47,27 +50,27 @@ feature -- Basic operations
 
 	do_transform
    			--
-   		deferred
-   		end
+		deferred
+		end
 
 	do_inverse_transform
 	   		--
-   		deferred
-   		end
+		deferred
+		end
 
 feature -- Element change
 
-   set_input (a_input: like input)
+   set_input (a_input: VECTOR_COMPLEX_DOUBLE)
    		--
-   		deferred
-   		end
+		deferred
+		end
 
-   set_windower (windower: EL_EIFFEL_IDENTIFIER)
+	 set_windower (a_windower: WINDOWER_DOUBLE)
    		--
-   		require
-   			valid_name: (<< Identifier_default_windower, Identifier_rectangular_windower >>).has (windower)
-   		deferred
-   		end
+		require
+			valid_windower: Windowers.has (a_windower)
+		deferred
+		end
 
 feature -- Contract support
 
@@ -86,24 +89,60 @@ feature -- Contract support
 		deferred
 		end
 
-feature -- Constants
+feature {NONE} -- EROS implementation
 
-	Identifier_default_windower: EL_EIFFEL_IDENTIFIER
+	routines: ARRAY [TUPLE [STRING, ROUTINE]]
 			--
-		once
-			create Result.make_from_string ("Default_windower")
+		do
+			Result := <<
+				-- Procedures
+				[R_do_transform,					agent do_transform],
+				[R_do_inverse_transform,		agent do_inverse_transform],
+
+				[R_fft_make,						agent fft_make],
+				[R_set_input,						agent set_input],
+				[R_set_windower,					agent set_windower],
+
+				-- Functions
+				[R_output,							agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := output end],
+				[R_input,							agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := input end],
+				[R_length,							agent: INTEGER do Result := length end],
+
+				[R_is_output_length_valid,		agent is_output_length_valid],
+				[R_is_valid_input_length,		agent is_valid_input_length],
+				[R_is_power_of_two,				agent is_power_of_two],
+
+				[R_windower_rectangular,		agent Windower_rectangular],
+				[R_windower_default,				agent Windower_default]
+			>>
 		end
 
-	Identifier_rectangular_windower: EL_EIFFEL_IDENTIFIER
-			--
-		once
-			create Result.make_from_string ("Rectangular_windower")
-		end
+feature {NONE} -- Routine names
 
-	Windower_types: ARRAY [EL_EIFFEL_IDENTIFIER]
-			--
-		once
-			Result := << Identifier_default_windower, Identifier_rectangular_windower >>
-		end
+	R_fft_make: STRING = "fft_make"
+
+	R_do_transform: STRING = "do_transform"
+
+	R_do_inverse_transform: STRING = "do_inverse_transform"
+
+	R_input: STRING = "input"
+
+	R_output: STRING = "output"
+
+	R_length: STRING = "length"
+
+	R_set_input: STRING = "set_input"
+
+	R_set_windower: STRING = "set_windower"
+
+	R_is_output_length_valid: STRING = "is_output_length_valid"
+
+	R_is_valid_input_length: STRING = "is_valid_input_length"
+
+	R_is_power_of_two: STRING = "is_power_of_two"
+
+	R_windower_rectangular: STRING = "Windower_rectangular"
+
+	R_windower_default: STRING = "Windower_default"
 
 end

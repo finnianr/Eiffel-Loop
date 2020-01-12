@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 8:13:08 GMT (Monday 6th January 2020)"
-	revision: "4"
+	date: "2020-01-12 7:34:13 GMT (Sunday 12th January 2020)"
+	revision: "5"
 
 class
 	RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -15,19 +15,13 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		redefine
-			option_name
+			option_name, log_filter
 		end
 
 create
 	make
 
 feature -- Basic operations
-
-	test_run
-			--
-		do
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 664828462) -- Dec 2015
-		end
 
 	test_read_bioinfo (file_path: EL_FILE_PATH)
 			--
@@ -40,13 +34,15 @@ feature -- Basic operations
 			log.exit
 		end
 
-feature {NONE} -- Constants
+	test_run
+			--
+		do
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 664828462) -- Dec 2015
+		end
 
-	Option_name: STRING = "recursive_x2e_and_e2x"
+feature {NONE} -- Implementation
 
-	Description: STRING = "Auto test recursive conversion of XML document to Eiffel and serialization back to XML"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -67,5 +63,11 @@ feature {NONE} -- Constants
 				[{STRING_LIST_PARAMETER}, All_routines]
 			>>
 		end
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Auto test recursive conversion of XML document to Eiffel and serialization back to XML"
+
+	Option_name: STRING = "recursive_x2e_and_e2x"
 
 end

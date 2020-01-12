@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 11:05:03 GMT (Tuesday 12th March 2019)"
-	revision: "16"
+	date: "2020-01-12 10:12:40 GMT (Sunday 12th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -260,16 +260,14 @@ feature {EL_OS_COMMAND_I} -- Factory
 		do
 			Result := Temporary_path_format #$ [
 				Environment.Operating.temp_directory_name, Environment.execution.Executable_and_user_name,
-				new_temporary_name, a_extension
+				new_temporary_name, once "00." + a_extension
 			]
 			-- check if directory already exists with root ownership (perhaps created by installer program)
 			-- (Using sudo command does not mean that the user name changes to root)
 			if Result.parent.exists and then not File_system.is_writeable_directory (Result.parent) then
 				Result.set_parent_path (Result.parent.to_string + "-2")
 			end
-			from until not Result.exists loop
-				Result.set_version_number (Result.version_number + 1)
-			end
+			Result := Result.next_version_path
 		end
 
 	new_temporary_name: ZSTRING

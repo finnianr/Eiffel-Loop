@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 12:33:44 GMT (Wednesday 8th January 2020)"
-	revision: "16"
+	date: "2020-01-12 19:07:14 GMT (Sunday 12th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -25,10 +25,12 @@ deferred class
 inherit
 	EL_LOGGED_SUB_APPLICATION
 		redefine
-			is_logging_active
+			Application_option, is_logging_active
 		end
 
 	EL_MODULE_EIFFEL
+
+	EL_MODULE_ARGS
 
 feature {NONE} -- Initialization
 
@@ -82,7 +84,7 @@ feature {NONE} -- Implementation
 
 	evaluator_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
 		do
-			if Args.word_option_exists ("single") then
+			if Application_option.single then
 				create Result.make_from_tuple (evaluator_type)
 			else
 				create Result.make_from_tuple (evaluator_types_all)
@@ -105,6 +107,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Application_option: EL_AUTOTEST_COMMAND_OPTIONS
+		once
+			create Result.make
+		end
 
 	Description: STRING = "Call manual and automatic sets during development"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 12:34:48 GMT (Saturday 11th January 2020)"
-	revision: "12"
+	date: "2020-01-12 7:33:03 GMT (Sunday 12th January 2020)"
+	revision: "13"
 
 class
 	XML_TO_PYXIS_TEST_APP
@@ -40,16 +40,6 @@ feature -- Test
 		do
 			create converter.make (file_path)
 			converter.execute
-		end
-
-feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Constants

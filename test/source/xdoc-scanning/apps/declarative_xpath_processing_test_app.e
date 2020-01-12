@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 8:13:08 GMT (Monday 6th January 2020)"
-	revision: "6"
+	date: "2020-01-12 7:34:47 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		redefine
-			Option_name
+			Option_name, log_filter
 		end
 
 create
@@ -33,6 +33,16 @@ feature -- Basic operations
 		end
 
 feature -- Tests
+
+	test_bioinfo (file_path: EL_FILE_PATH)
+			--
+		local
+			bioinfo_match_events: BIOINFO_XPATH_MATCH_EVENTS
+		do
+			log.enter ("test_bioinfo")
+			create bioinfo_match_events.make_from_file (file_path)
+			log.exit
+		end
 
 	test_smil (file_path: EL_FILE_PATH)
 			--
@@ -57,23 +67,9 @@ feature -- Tests
 			log.exit
 		end
 
-	test_bioinfo (file_path: EL_FILE_PATH)
-			--
-		local
-			bioinfo_match_events: BIOINFO_XPATH_MATCH_EVENTS
-		do
-			log.enter ("test_bioinfo")
-			create bioinfo_match_events.make_from_file (file_path)
-			log.exit
-		end
+feature {NONE} -- Implementation
 
-feature {NONE} -- Constants
-
-	Option_name: STRING = "declarative_xpath"
-
-	Description: STRING = "Test declarative xpath processing of XML document"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
@@ -82,5 +78,11 @@ feature {NONE} -- Constants
 				[{BIOINFO_XPATH_MATCH_EVENTS}, All_routines]
 			>>
 		end
+
+feature {NONE} -- Constants
+
+	Description: STRING = "Test declarative xpath processing of XML document"
+
+	Option_name: STRING = "declarative_xpath"
 
 end

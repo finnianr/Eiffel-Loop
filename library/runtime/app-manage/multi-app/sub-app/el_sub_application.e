@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 12:05:41 GMT (Saturday 4th January 2020)"
-	revision: "37"
+	date: "2020-01-12 19:01:04 GMT (Sunday 12th January 2020)"
+	revision: "38"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -233,7 +233,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_new_line
 			test := "test"
-			if Args.word_option_exists (test) then
+			if Application_option.test then
 				build_version := test
 			else
 				build_version := Build_info.version.out

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-11 17:49:39 GMT (Saturday 11th January 2020)"
+	revision: "6"
 
 class
 	EL_ROUTINE_CALL_SERVICE_STATS
@@ -15,8 +15,7 @@ class
 inherit
 	EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 		redefine
-			called_function, called_procedure, received_bytes, sent_bytes, routine_failed,
-			add_connection, remove_connection
+			called_routine, received_bytes, sent_bytes, routine_failed, add_connection, remove_connection
 		end
 
 	EL_MODULE_LOG
@@ -126,16 +125,14 @@ feature -- Basic operations
 
 feature {NONE} -- Routine call activity events
 
-	called_function
+	called_routine (is_function: BOOLEAN)
 			--
 		do
-			function_count.increment
-		end
-
-	called_procedure
-			--
-		do
-			procedure_count.increment
+			if is_function then
+				function_count.increment
+			else
+				procedure_count.increment
+			end
 		end
 
 	routine_failed

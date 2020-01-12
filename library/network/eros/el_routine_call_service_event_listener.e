@@ -6,20 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-01-11 17:49:23 GMT (Saturday 11th January 2020)"
+	revision: "4"
 
 class
 	EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 
 feature -- Basic operations
 
-	called_function
-			--
-		do
-		end
-
-	called_procedure
+	called_routine (is_function: BOOLEAN)
 			--
 		do
 		end

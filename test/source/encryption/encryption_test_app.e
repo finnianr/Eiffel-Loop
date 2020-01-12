@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:18:41 GMT (Wednesday 8th January 2020)"
-	revision: "9"
+	date: "2020-01-12 7:35:43 GMT (Sunday 12th January 2020)"
+	revision: "10"
 
 class
 	ENCRYPTION_TEST_APP
@@ -72,16 +72,6 @@ feature {NONE} -- Implementation
 				encrypted_lines.forth
 			end
 			log.exit
-		end
-
-feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{ENCRYPTION_TEST_APP}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Internal attributes

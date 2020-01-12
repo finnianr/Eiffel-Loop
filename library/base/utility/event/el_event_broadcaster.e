@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 11:59:43 GMT (Saturday 11th January 2020)"
-	revision: "2"
+	date: "2020-01-11 16:30:59 GMT (Saturday 11th January 2020)"
+	revision: "3"
 
 class
 	EL_EVENT_BROADCASTER
@@ -34,18 +34,26 @@ feature -- Element change
 		end
 
 	add_listener (a_listener: like listener)
-		local
-			new_list: EL_EVENT_LISTENER_LIST
 		do
-			if attached {EL_DEFAULT_EVENT_LISTENER} listener then
-				listener := a_listener
-
-			elseif attached {EL_EVENT_LISTENER_LIST} listener as list then
-				list.extend (a_listener)
+			inspect listener.listener_count
+				when 0 then
+					listener := a_listener
+				when 1 then
+					create {EL_EVENT_LISTENER_PAIR} listener.make (listener, a_listener)
+				when 2 then
+					check attached {EL_EVENT_LISTENER_PAIR} listener as pair then
+						create {EL_EVENT_LISTENER_LIST} listener.make (<< pair.left, pair.right, a_listener >>)
+					end
 			else
-				create new_list.make (<< listener, a_listener >>)
-				listener := new_list
+				check attached {EL_EVENT_LISTENER_LIST} a_listener as list then
+					list.extend (a_listener)
+				end
 			end
+		ensure
+			incremented: listener.listener_count = old listener.listener_count + 1
+			assigned: listener.listener_count = 1 implies listener = a_listener
+			right_in_pair: listener.listener_count = 2 implies attached {EL_EVENT_LISTENER_PAIR} listener as pair and then pair.right = a_listener
+			last_in_list: listener.listener_count >= 3 implies attached {EL_EVENT_LISTENER_LIST} listener as list and then list.last = a_listener
 		end
 
 feature {NONE} -- Internal attributes

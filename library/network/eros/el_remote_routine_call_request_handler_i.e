@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-12 16:38:00 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
@@ -42,5 +42,13 @@ feature -- Element change
 			valid_type: Event_source.has (type)
 		deferred
 		end
+
+feature {NONE} -- Routine names
+
+	R_set_stopping: STRING = "set_stopping"
+
+	R_set_inbound_type: STRING = "set_inbound_type"
+
+	R_set_outbound_type: STRING = "set_outbound_type"
 
 end

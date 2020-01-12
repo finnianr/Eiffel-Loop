@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 9:46:40 GMT (Saturday 11th January 2020)"
-	revision: "9"
+	date: "2020-01-12 7:36:18 GMT (Sunday 12th January 2020)"
+	revision: "10"
 
 class
 	BINARY_ENCODED_XML_BUILDER_TEST_APP
@@ -112,14 +112,6 @@ feature {NONE} -- Implementation
 			parse_event_generator.send_file (file_path, bex_file)
 			bex_file.close
 			log.exit
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 	visible_types: TUPLE [

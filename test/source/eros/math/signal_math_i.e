@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 8:23:18 GMT (Friday 10th January 2020)"
-	revision: "5"
+	date: "2020-01-12 16:34:34 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 deferred class
 	SIGNAL_MATH_I
@@ -34,6 +34,16 @@ feature -- Element change
 			i_freq_ok_with_fft_length: ((2 ^ log2_length).rounded \\ i_freq) = 0
 			phase_fraction_ok: phase_fraction >= 0.0 and phase_fraction <= 1.0
 		deferred
+		end
+
+feature {NONE} -- EROS implementation
+
+	routines: ARRAY [TUPLE [STRING, ROUTINE]]
+			--
+		do
+			Result := <<
+				["cosine_waveform", agent cosine_waveform]
+			>>
 		end
 
 end

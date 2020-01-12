@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-16 17:13:55 GMT (Friday 16th February 2018)"
-	revision: "2"
+	date: "2020-01-12 15:58:05 GMT (Sunday 12th January 2020)"
+	revision: "3"
 
 deferred class
 	EL_WRITEABLE
@@ -87,6 +87,8 @@ feature -- String
 
 			elseif attached {READABLE_STRING_32} a_string as str_32 then
 				write_string_32 (str_32)
+			else
+				write_string_32 (a_string.to_string_32)
 			end
 		end
 

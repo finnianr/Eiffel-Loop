@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 20:10:59 GMT (Monday 6th January 2020)"
-	revision: "7"
+	date: "2020-01-12 7:35:35 GMT (Sunday 12th January 2020)"
+	revision: "8"
 
 class
 	EVOLICITY_TEST_APP
@@ -113,15 +113,6 @@ feature {NONE} -- Implementation
 			query_context.put_variable (job_search_context, "job_search")
 			root_context.put_variable (query_context, "query")
 			log.exit
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{EVOLICITY_TEST_APP}, All_routines],
-				[{EL_REGRESSION_TESTING_ROUTINES}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Internal attributes

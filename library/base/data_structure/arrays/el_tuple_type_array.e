@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 12:55:01 GMT (Thursday 3rd October 2019)"
-	revision: "5"
+	date: "2020-01-12 18:43:14 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -26,7 +26,7 @@ inherit
 	EL_MODULE_EIFFEL
 
 create
-	make, make_from_static, make_from_tuple
+	make, make_from_static, make_from_tuple, make_empty
 
 feature {NONE} -- Initialization
 

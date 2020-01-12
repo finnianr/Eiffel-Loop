@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:20:39 GMT (Friday 10th January 2020)"
-	revision: "5"
+	date: "2020-01-12 16:34:20 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 class
 	SIGNAL_MATH
@@ -16,9 +16,6 @@ inherit
 	SIGNAL_MATH_I
 
 	EL_REMOTELY_ACCESSIBLE
-		rename
-			No_procedures as procedures
-		end
 
 create
 	make
@@ -46,16 +43,6 @@ feature -- Basic operations
 				Result.put( c, i )
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- EROS implementation
-
-	functions: ARRAY [like function_mapping]
-			--
-		do
-			Result := <<
-				["cosine_waveform", agent cosine_waveform]
-			>>
 		end
 
 end

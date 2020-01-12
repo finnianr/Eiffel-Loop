@@ -13,14 +13,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 22:10:38 GMT (Friday 10th January 2020)"
-	revision: "10"
+	date: "2020-01-12 16:37:03 GMT (Sunday 12th January 2020)"
+	revision: "11"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
 
 inherit
 	EL_STOPPABLE_THREAD
+		rename
+			make_default as make
+		redefine
+			make
+		end
 
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
 		rename
@@ -30,20 +35,20 @@ inherit
 	EL_REMOTE_XML_OBJECT_EXCHANGER
 		rename
 			object_builder as request_builder,
-			make as make_remote_object_exchanger,
 			set_outbound_type as set_pending_outbound_type
 		redefine
-			request_builder
+			make, request_builder
 		end
 
 	EL_REMOTELY_ACCESSIBLE
-		rename
-			functions as No_functions
 		redefine
 			make
 		end
 
 	EL_REMOTE_CALL_ERRORS
+		redefine
+			make
+		end
 
 	EL_THREAD_CONSTANTS
 
@@ -57,9 +62,10 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			default_create
-			Precursor
-			make_remote_object_exchanger
+			Precursor {EL_STOPPABLE_THREAD}
+			Precursor {EL_REMOTELY_ACCESSIBLE}
+			Precursor {EL_REMOTE_XML_OBJECT_EXCHANGER}
+			Precursor {EL_REMOTE_CALL_ERRORS}
 
 			create target_table.make (17)
 			create listener
@@ -150,43 +156,30 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	call_routine
+	call_routine_for_class
 			-- call routine and set result object
 		local
 			target: EL_REMOTELY_ACCESSIBLE
 		do
 			log.enter ("call_routine")
-			target_table.search (request_builder.class_name)
-			if target_table.found then
+			if target_table.has_key (request_builder.class_name) then
 				target := target_table.found_item
+			elseif attached new_target (request_builder.class_name) as l_target then
+				target := l_target
+				target_table.extend (target, request_builder.class_name)
 			else
-				if attached {EL_REMOTELY_ACCESSIBLE}
-					Factory.instance_from_class_name (
-						request_builder.class_name, agent {EL_REMOTELY_ACCESSIBLE}.do_nothing
-					) as new_target
-				then
-					target := new_target
-					target_table.extend (target, request_builder.class_name)
-				else
-					set_error (Error_class_name_not_found)
-					set_error_detail (request_builder.class_name)
-				end
+				set_error (Error_class_name_not_found)
+				set_error_detail (request_builder.class_name)
 			end
-
 			if not has_error then
 				target.set_routine_with_arguments (
 					request_builder.routine_name, request_builder.call_argument, request_builder.argument_list
 				)
-				if not target.has_error then
+				if not target.has_error and then target.is_routine_set then
 					log.put_line (request_builder.source_text.as_string_8)
 					log.put_new_line
-					if target.is_procedure_set then
-						target.call_procedure
-						listener.called_procedure
-					else
-						target.call_function
-						listener.called_function
-					end
+					target.call_routine
+					listener.called_routine (target.function_requested)
 					result_object := target.result_object
 				else
 					set_error (target.error_code)
@@ -194,6 +187,11 @@ feature {NONE} -- Implementation
 				end
 			end
 			log.exit
+		end
+
+	new_target (class_name: STRING): EL_REMOTELY_ACCESSIBLE
+		do
+			Result := Factory.instance_from_class_name (class_name, agent {EL_REMOTELY_ACCESSIBLE}.do_nothing)
 		end
 
 feature {NONE} -- EROS implementation
@@ -204,7 +202,7 @@ feature {NONE} -- EROS implementation
 			create Result
 		end
 
-	procedures: ARRAY [like procedure_mapping]
+	routines: ARRAY [TUPLE [STRING, ROUTINE]]
 			-- make 'set_stopping' procedure remotely accessible by client
 		do
 			Result := <<
@@ -213,7 +211,6 @@ feature {NONE} -- EROS implementation
 				[R_set_outbound_type,	agent set_outbound_type]
 			>>
 		end
-
 
 feature {NONE} -- Internal attributes
 
@@ -225,8 +222,6 @@ feature {NONE} -- Internal attributes
 
 	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
 		-- objects available for duration of client sesssion
-
-	bex_output: EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
 
 	request_builder: EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
 

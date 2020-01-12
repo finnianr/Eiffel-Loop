@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:55:30 GMT (Saturday 11th January 2020)"
-	revision: "7"
+	date: "2020-01-12 7:32:24 GMT (Sunday 12th January 2020)"
+	revision: "8"
 
 deferred class
 	TEST_SUB_APPLICATION
@@ -26,6 +26,14 @@ inherit
 		end
 
 feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
 
 	normal_initialize
 		do

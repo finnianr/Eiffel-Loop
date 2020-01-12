@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:20:16 GMT (Friday 10th January 2020)"
-	revision: "9"
+	date: "2020-01-12 16:24:11 GMT (Sunday 12th January 2020)"
+	revision: "10"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -15,12 +15,12 @@ class
 inherit
 	EL_LOGGED_SUB_APPLICATION
 		redefine
-			Ask_user_to_quit, option_name
+			Ask_user_to_quit, Application_option
 		end
 
-	EL_REMOTE_CALL_CONSTANTS
-
 	EL_MODULE_EVOLICITY_TEMPLATES
+
+	FAST_FOURIER_TRANSFORM_CONSTANTS
 
 create
 	make
@@ -32,44 +32,24 @@ feature {NONE} -- Initiliazation
 		local
 			time: TIME
 		do
-			create connection.make (8001, "localhost")
+			create connection.make (8002, "localhost")
 
 			create signal_math.make (connection)
 			create fast_fourier_transform.make (connection)
 
-			Args.set_boolean_from_word_option ("binary", agent set_binary_transmission)
-
-			if is_binary_transmission then
-				connection.set_inbound_type (Type_binary)
-				connection.set_outbound_type (Type_binary)
-			end
+			connection.set_inbound_type (Application_option.protocol)
+			connection.set_outbound_type (Application_option.protocol)
 
 			create random.make
 			create time.make_now
 			random.set_seed (time.compact_time)
-			Args.set_integer_from_word_option ("duration", agent set_running_time_secs, 5)
 
 			Evolicity_templates.set_horrible_indentation
 		end
 
 feature -- Basic operations
 
-	run
-			--
-		do
-			log.enter ("run")
-
-			basic_test (4, 7, 0.5, fast_fourier_transform.Rectangular_windower)
-			basic_test (2, 7, 0.1, fast_fourier_transform.Rectangular_windower)
-			basic_test (8, 8, 0.7, fast_fourier_transform.Default_windower)
-
-			repeat_random_tests
-
-			connection.close
-			log.exit
-		end
-
-	basic_test (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE; windower: EL_EIFFEL_IDENTIFIER)
+	basic_test (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE; windower: WINDOWER_DOUBLE)
 			--
 		local
 			test_wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE
@@ -105,25 +85,12 @@ feature -- Basic operations
 			end
 		end
 
-	repeat_random_tests
-			--
-		local
-			timer: EL_EXECUTION_TIMER
-		do
-			create timer.make
-			timer.start
-			from until timer.elapsed_time.seconds_count > running_time_secs loop
-				random_test
-				timer.update
-			end
-		end
-
 	random_test
 			--
 		local
 			phase_fraction: DOUBLE
 			i_freq, log2_length: INTEGER
-			windower: EL_EIFFEL_IDENTIFIER
+			windower: WINDOWER_DOUBLE
 		do
 			log.enter ("random_test")
 			random.forth
@@ -142,27 +109,52 @@ feature -- Basic operations
 			end
 
 			random.forth
-			windower := fast_fourier_transform.Windower_types [random.item \\ 2 + 1]
+			windower := Windowers [random.item \\ 2 + 1]
 
 			basic_test (i_freq, log2_length, phase_fraction, windower)
 			log.exit
 		end
 
-feature -- Element change
-
-	set_running_time_secs (running_time: INTEGER)
+	repeat_random_tests
 			--
+		local
+			timer: EL_EXECUTION_TIMER
 		do
-			running_time_secs := running_time
+			create timer.make
+			timer.start
+			from until timer.elapsed_time.seconds_count > Application_option.running_time_secs loop
+				random_test
+				timer.update
+			end
 		end
 
-	set_binary_transmission (flag: BOOLEAN)
+	run
 			--
 		do
-			is_binary_transmission := flag
+			log.enter ("run")
+
+			basic_test (4, 7, 0.5, Windower_rectangular)
+			basic_test (2, 7, 0.1, Windower_rectangular)
+			basic_test (8, 8, 0.7, Windower_default)
+
+			repeat_random_tests
+
+			connection.close
+			log.exit
 		end
 
 feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines],
+				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, All_routines],
+				[{SIGNAL_MATH_PROXY}, All_routines],
+				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
+			>>
+		end
 
 	print_vector (vector: VECTOR_COMPLEX_DOUBLE)
 			--
@@ -184,37 +176,27 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	running_time_secs: INTEGER
-
-	random: RANDOM
+feature {NONE} -- Internal attributes
 
 	connection: EL_EROS_CLIENT_CONNECTION
 
-	is_binary_transmission: BOOLEAN
+	random: RANDOM
 
 feature {NONE} -- Remote objects
 
-	signal_math: SIGNAL_MATH_PROXY
-
 	fast_fourier_transform: FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
+
+	signal_math: SIGNAL_MATH_PROXY
 
 feature {NONE} -- Constants
 
+	Application_option: EROS_APPLICATION_COMMAND_OPTIONS
+		once
+			create Result.make
+		end
+
 	Ask_user_to_quit: BOOLEAN = true
 
-	Option_name: STRING = "test_client"
-
 	Description: STRING = "Test client to generate random wave forms and do fourier transforms for 25 seconds"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, All_routines],
-				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
-			>>
-		end
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:23:45 GMT (Wednesday 30th October 2019)"
-	revision: "5"
+	date: "2020-01-11 16:14:39 GMT (Saturday 11th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
@@ -28,7 +28,7 @@ feature -- Element change
 			-- Queue request to call action from main (GUI) thread
 			-- but we can't assume OS will return them in the same order
 		do
-			put (create {EL_EVENT_LISTENER_ACTION}.make (action))
+			put (create {EL_AGENT_EVENT_LISTENER}.make (action))
 		end
 
 	put_event_indexes (a_event_indexes: LINKED_QUEUE [INTEGER])

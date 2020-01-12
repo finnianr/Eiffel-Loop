@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:33:50 GMT (Tuesday 31st December 2019)"
-	revision: "10"
+	date: "2020-01-12 18:58:41 GMT (Sunday 12th January 2020)"
+	revision: "11"
 
 deferred class
 	EL_MODULE_LIO
@@ -25,8 +25,6 @@ inherit
 	EL_MODULE
 
 	EL_MODULE_CONSOLE
-
-	EL_MODULE_ARGS
 
 	EL_SHARED_BASE_OPTION
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:37:55 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-12 16:37:55 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 class
 	EL_REMOTE_CALL_CONSTANTS
@@ -43,15 +43,6 @@ feature {NONE} -- Error codes
 	Error_syntax_error_in_routine_call: INTEGER = 1
 
 	Error_wrong_number_of_arguments: INTEGER = 3
-
-
-feature {NONE} -- Routine names
-
-	R_set_stopping: STRING = "set_stopping"
-
-	R_set_inbound_type: STRING = "set_inbound_type"
-
-	R_set_outbound_type: STRING = "set_outbound_type"
 
 feature {NONE} -- Constants
 

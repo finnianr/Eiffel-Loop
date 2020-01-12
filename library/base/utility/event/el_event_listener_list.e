@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:00:09 GMT (Wednesday 21st February 2018)"
-	revision: "2"
+	date: "2020-01-11 16:21:07 GMT (Saturday 11th January 2020)"
+	revision: "3"
 
 class
 	EL_EVENT_LISTENER_LIST
@@ -28,9 +28,10 @@ inherit
 
 	EL_EVENT_LISTENER
 		rename
+			listener_count as count,
 			notify as notify_all
 		undefine
-			copy, is_equal
+			copy, is_equal, count
 		end
 
 create

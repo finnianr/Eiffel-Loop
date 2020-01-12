@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2020-01-12 16:30:19 GMT (Sunday 12th January 2020)"
+	revision: "4"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
 
 inherit
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
-		rename
-			Identifier_rectangular_windower as Rectangular_windower,
-			Identifier_default_windower as Default_windower
-		end
 
 	EL_REMOTE_PROXY
 
@@ -117,12 +113,16 @@ feature -- Element change
 			log.exit
    		end
 
-   set_windower (windower: EL_EIFFEL_IDENTIFIER)
+   set_windower (a_windower: WINDOWER_DOUBLE)
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_windower (Rectangular_windower)?>
    		do
 			log.enter (R_set_windower)
-			call (R_set_windower, [windower])
+			if a_windower = Windower_rectangular then
+				call (R_set_windower, [once ""])
+			else
+				call (R_set_windower, [once ""])
+			end
 			log.exit
    		end
 
@@ -163,29 +163,5 @@ feature -- Contract support
 			end
 			log.exit
 		end
-
-feature {NONE} -- Routine names
-
-	R_fft_make: STRING = "fft_make"
-
-	R_do_transform: STRING = "do_transform"
-
-	R_do_inverse_transform: STRING = "do_inverse_transform"
-
-	R_input: STRING = "input"
-
-	R_output: STRING = "output"
-
-	R_length: STRING = "length"
-
-	R_set_input: STRING = "set_input"
-
-	R_set_windower: STRING = "set_windower"
-
-	R_is_output_length_valid: STRING = "is_output_length_valid"
-
-	R_is_valid_input_length: STRING = "is_valid_input_length"
-
-	R_is_power_of_two: STRING = "is_power_of_two"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:04:36 GMT (Friday 25th January 2019)"
-	revision: "8"
+	date: "2020-01-12 19:01:53 GMT (Sunday 12th January 2020)"
+	revision: "9"
 
 class
 	EL_VERSION_APP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			Option_name
 		end
+
+	EL_MODULE_ARGS
 
 create
 	default_create

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:37:13 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-01-12 10:52:04 GMT (Sunday 12th January 2020)"
+	revision: "8"
 
 class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]
 
 inherit
-	ANY EL_MODULE_LIO
+	ANY
+
+	EL_MODULE_LIO
 
 create
 	make_local
@@ -22,7 +24,6 @@ feature {NONE} -- Initialization
 
 	make_local (a_port: INTEGER)
 		do
-			create handler.make
 			create socket.make_server_by_port (a_port)
 		end
 
@@ -31,18 +32,23 @@ feature -- Basic operations
 	do_service_loop
 			-- serve one client until quite received
 		local
-			client: EL_NETWORK_STREAM_SOCKET
+			client: EL_NETWORK_STREAM_SOCKET; handler: H
 			done: BOOLEAN; pos_space: INTEGER; command, message: STRING
 		do
-			lio.put_line ("launching")
 			socket.listen (1)
-			lio.put_line ("Waiting for connection")
+			if is_lio_enabled then
+				lio.put_line ("Waiting for connection..")
+			end
 			socket.accept
-			lio.put_line ("accepted")
-			from until done loop
-				if socket.is_client_connected then
-					client := socket.accepted
+			if socket.is_client_connected then
+				if is_lio_enabled then
+					lio.put_labeled_string ("connection", "accepted")
+				end
+				client := socket.accepted
+				from until done loop
+					client.set_latin_encoding (1)
 					if client.is_readable then
+						create handler.make (client)
 						client.read_line
 						message := client.last_string
 						if message ~ "quit" then
@@ -58,6 +64,11 @@ feature -- Basic operations
 						end
 					end
 				end
+				client.close
+			else
+				if is_lio_enabled then
+					lio.put_labeled_string ("connection", "not accepted")
+				end
 			end
 			socket.cleanup
 		end
@@ -65,7 +76,5 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	socket: EL_NETWORK_STREAM_SOCKET
-
-	handler: H
 
 end

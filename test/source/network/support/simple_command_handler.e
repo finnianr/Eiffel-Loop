@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:58:29 GMT (Wednesday 8th January 2020)"
-	revision: "5"
+	date: "2020-01-12 10:46:38 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 class
 	SIMPLE_COMMAND_HANDLER
@@ -22,27 +22,27 @@ create
 
 feature {NONE} -- Implementation
 
-	greeting
+	greeting (arg: STRING)
 		do
-			log.put_line (arguments)
+			log.put_string_field ("greeting", arg)
+			log.put_new_line
+			socket.put_string_8 ("hello")
+			socket.put_new_line
 		end
 
-	one
+	number (arg: STRING)
 		do
-			log.put_line (arguments)
-		end
-
-	two
-		do
-			log.put_line (arguments)
+			log.put_labeled_string ("number", arg)
+			log.put_new_line
+			socket.put_string_8 (Response_ok)
+			socket.put_new_line
 		end
 
 	new_command_table: like command_table
 		do
 			create Result.make (<<
 				["greeting", agent greeting],
-				["one", agent one],
-				["two", agent two]
+				["number", agent number]
 			>>)
 		end
 

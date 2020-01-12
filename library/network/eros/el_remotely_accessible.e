@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-01-11 18:20:25 GMT (Saturday 11th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE
@@ -20,15 +20,20 @@ inherit
 	EL_REMOTE_CALL_CONSTANTS
 
 	EL_REMOTE_CALL_ERRORS
+		redefine
+			make
+		end
 
 feature {NONE} -- Initialization
 
 	make
 			--
 		do
-			create procedure_table.make (procedures)
-			create function_table.make (functions)
+			Precursor
+			create routine_table.make (routines)
 			create string_result.make
+			requested_routine := Default_routine
+			result_object := Procedure_acknowledgement
 		end
 
 feature -- Access
@@ -40,35 +45,16 @@ feature -- Element change
 	set_routine_with_arguments (
 		routine_name: STRING; deserialized_object: EL_BUILDABLE_FROM_NODE_SCAN; argument_list: ARRAYED_LIST [STRING]
 	)
-			-- set either requested_procedure or requested_function
+			-- set `requested_routine'
 		local
 			argument_tuple: TUPLE
-			requested_routine: ROUTINE
 		do
 			log.enter ("set_routine_with_arguments")
 			set_error (0)
 			set_error_detail ("")
-			is_function_set := false
-			is_procedure_set := false
-
-			procedure_table.search (routine_name)
-			if procedure_table.found then
-				is_procedure_set := true
-				requested_procedure := procedure_table.found_item
-				requested_routine := requested_procedure
-				argument_tuple := requested_procedure.empty_operands
-
-			else
-				function_table.search (routine_name)
-				if function_table.found then
-					is_function_set := true
-					requested_function := function_table.found_item
-					requested_routine := requested_function
-					argument_tuple := requested_function.empty_operands
-
-				end
-			end
-			if is_function_set or is_procedure_set then
+			if routine_table.has_key (routine_name) then
+				requested_routine := routine_table.found_item
+				argument_tuple := requested_routine.empty_operands
 				if argument_tuple.count = argument_list.count then
 					set_routine_tuple (argument_tuple, deserialized_object, argument_list)
 					requested_routine.set_operands (argument_tuple)
@@ -79,51 +65,50 @@ feature -- Element change
 			else
 				set_error (Error_routine_not_found)
 				set_error_detail (routine_name + "?")
-
+				requested_routine := Default_routine
 			end
 			log.exit
 		end
 
 feature -- Basic operations
 
-	call_procedure
+	call_routine
 			--
 		require
 			no_errors_setting_call_arguments: not has_error
 		do
 			log.enter ("call_routine")
-			requested_procedure.apply
-			result_object := Procedure_acknowledgement
-			log.exit
-		end
+			if attached {PROCEDURE} requested_routine as procedure then
+				procedure.apply
+				result_object := Procedure_acknowledgement
+			elseif attached {FUNCTION [ANY]} requested_routine as function then
+				function.apply
+				if attached {EVOLICITY_SERIALIZEABLE_AS_XML} function.last_result as a_result_object then
+					result_object := a_result_object
 
-	call_function
-			--
-		require
-			no_errors_setting_call_arguments: not has_error
-		do
-			log.enter ("call_function")
-			requested_function.apply
-			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} requested_function.last_result as a_result_object then
-				result_object := a_result_object
+				elseif attached {STRING} function.last_result as last_result  then
+					string_result.set_value (last_result)
+					result_object := string_result
 
-			elseif attached {STRING} requested_function.last_result as last_result  then
-				string_result.set_value (last_result)
-				result_object := string_result
-
-			else
-				string_result.set_value (requested_function.last_result.out)
-				result_object := string_result
-
+				else
+					string_result.set_value (function.last_result.out)
+					result_object := string_result
+				end
 			end
 			log.exit
 		end
 
 feature -- Status query
 
-	is_function_set: BOOLEAN
+	is_routine_set: BOOLEAN
+		do
+			Result := requested_routine /= Default_routine
+		end
 
-	is_procedure_set: BOOLEAN
+	function_requested: BOOLEAN
+		do
+			Result := attached {FUNCTION [ANY]} requested_routine
+		end
 
 feature {NONE} -- Implementation
 
@@ -259,15 +244,16 @@ feature {NONE} -- Implementation
 	set_tuple_once_item (argument_tuple: TUPLE; index: INTEGER; argument: STRING)
 			--
 		require
-			once_function_exists: function_table.has (argument)
-			once_function_takes_no_arguments: function_table.item (argument).open_count = 0
-			valid_argument: argument_tuple.valid_type_for_index (function_table.item (argument).item ([]), index)
+			once_function_exists: routine_table.has (argument)
+			once_function_takes_no_arguments: routine_table.item (argument).open_count = 0
+			valid_argument: routine_table.has_key (argument)
+									and then attached {FUNCTION [ANY]} routine_table.found_item as function
+									and then argument_tuple.valid_type_for_index (function.item ([]), index)
 		local
 			once_item: ANY
 		do
-			function_table.search (argument)
-			if function_table.found then
-				once_item := function_table.found_item.item ([])
+			if routine_table.has_key (argument) and then attached {FUNCTION [ANY]} routine_table.found_item as function then
+				once_item := function.item ([])
 				if argument_tuple.valid_type_for_index (once_item, index) then
 					argument_tuple.put (once_item, index)
 				else
@@ -290,47 +276,27 @@ feature {NONE} -- Implementation
 			Result := Type_mismatch_error_template.substituted
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Internal attributes
 
 	string_result: EL_EROS_STRING_RESULT
 
-	requested_procedure: PROCEDURE
+	requested_routine: ROUTINE
 
-	requested_function: FUNCTION [ANY]
-
-	procedure_table: EL_HASH_TABLE [like requested_procedure, STRING]
-
-	function_table: EL_HASH_TABLE [like requested_function, STRING]
+	routine_table: EL_HASH_TABLE [ROUTINE, STRING]
 
 feature {NONE} -- User implementation
 
-	procedures: ARRAY [like procedure_mapping]
+	routines: ARRAY [TUPLE [STRING, ROUTINE]]
 			--
 		deferred
-		end
-
-	functions: ARRAY [like function_mapping]
-			--
-		deferred
-		end
-
-feature {NONE} -- Anchored type declarations
-
-	procedure_mapping: TUPLE [STRING, like requested_procedure]
-			--
-		require
-			not_to_be_called: False
-		do
-		end
-
-	function_mapping: TUPLE [STRING, like requested_function]
-			--
-		require
-			not_to_be_called: False
-		do
 		end
 
 feature {NONE} -- Constants
+
+	Default_routine: ROUTINE
+		once ("PROCESS")
+			Result := agent do_nothing
+		end
 
 	Type_mismatch_error_template: EL_STRING_8_TEMPLATE
 			--
@@ -344,6 +310,8 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+feature {NONE} -- String constants
+
 	Curly_braces: STRING = "{}"
 
 	Parenthesis: STRING = "()"
@@ -351,17 +319,5 @@ feature {NONE} -- Constants
 	Angle_brackets: STRING = "<>"
 
 	Square_brackets: STRING = "[]"
-
-	No_procedures: ARRAY [like procedure_mapping]
-			--
-		do
-			create Result.make (1, 0)
-		end
-
-	No_functions: ARRAY [like function_mapping]
-			--
-		do
-			create Result.make (1, 0)
-		end
 
 end

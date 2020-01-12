@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 8:56:43 GMT (Wednesday 11th September 2019)"
-	revision: "4"
+	date: "2020-01-12 18:49:33 GMT (Sunday 12th January 2020)"
+	revision: "5"
 
 class
 	AGENT_EXPERIMENTS
@@ -17,7 +17,23 @@ inherit
 
 	EL_MODULE_EIFFEL
 
+	EL_ROUTINE_INFO_FACTORY
+
 feature -- Basic operations
+
+	function_info
+		do
+			if attached {EL_FUNCTION_INFO} new_routine_info ("filled_array", agent filled_array) as info then
+				lio.put_labeled_string ("name", info.name)
+				lio.put_new_line
+				across info.argument_types as arg loop
+					lio.put_labeled_string ("arg "+ arg.cursor_index.out, arg.item.name)
+					lio.put_new_line
+				end
+				lio.put_labeled_string ("result", info.result_type.name)
+				lio.put_new_line
+			end
+		end
 
 	function_result_query
 		local
@@ -30,6 +46,15 @@ feature -- Basic operations
 			if attached {STRING} f.last_result as s then
 				str := s
 			end
+		end
+
+	numeric_reference_conversion
+		local
+			integer: INTEGER_32_REF
+			integer_64: INTEGER_64
+		do
+			integer := 32
+			integer_64 := as_integer_64 (integer)
 		end
 
 	open_function_target
@@ -47,15 +72,6 @@ feature -- Basic operations
 			duration.set_operands ([event])
 			duration.apply
 			lio.put_double_field ("duration.last_result", duration.item ([event]))
-		end
-
-	numeric_reference_conversion
-		local
-			integer: INTEGER_32_REF
-			integer_64: INTEGER_64
-		do
-			integer := 32
-			integer_64 := as_integer_64 (integer)
 		end
 
 	polymorphism
@@ -105,10 +121,17 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	log_integer (n: INTEGER; str: STRING)
+	as_integer_64 (ref: NUMERIC): INTEGER_64
+		local
+			to_integer_64: FUNCTION [NUMERIC, INTEGER_64]
 		do
-			lio.put_integer_field (str, n)
-			lio.put_new_line
+			to_integer_64 := agent {INTEGER_32_REF}.to_integer_64
+			Result := to_integer_64 (ref)
+		end
+
+	filled_array (n: INTEGER; s: STRING): ARRAY [STRING]
+		do
+			create Result.make_filled (s, 1, n)
 		end
 
 	hello_routine (a_arg: STRING)
@@ -117,12 +140,10 @@ feature {NONE} -- Implementation
 			lio.exit
 		end
 
-	as_integer_64 (ref: NUMERIC): INTEGER_64
-		local
-			to_integer_64: FUNCTION [NUMERIC, INTEGER_64]
+	log_integer (n: INTEGER; str: STRING)
 		do
-			to_integer_64 := agent {INTEGER_32_REF}.to_integer_64
-			Result := to_integer_64 (ref)
+			lio.put_integer_field (str, n)
+			lio.put_new_line
 		end
 
 end

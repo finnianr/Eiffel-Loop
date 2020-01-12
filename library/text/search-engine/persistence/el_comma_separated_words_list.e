@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:16:30 GMT (Saturday 11th January 2020)"
-	revision: "8"
+	date: "2020-01-11 16:20:26 GMT (Saturday 11th January 2020)"
+	revision: "9"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -43,6 +43,7 @@ inherit
 	EL_EVENT_LISTENER
 		rename
 			notify as on_table_update
+			
 		undefine
 			copy, is_equal
 		end

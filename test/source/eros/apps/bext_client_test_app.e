@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 21:52:36 GMT (Friday 10th January 2020)"
-	revision: "8"
+	date: "2020-01-11 16:37:58 GMT (Saturday 11th January 2020)"
+	revision: "9"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_LOGGED_SUB_APPLICATION
 		redefine
-			Ask_user_to_quit, option_name
+			Ask_user_to_quit
 		end
 
 create
@@ -76,7 +76,5 @@ feature {NONE} -- Constants
 	Ask_user_to_quit: BOOLEAN = true
 
 	Description: STRING = "Test client for BEXT (Binary Encoded XML Transfer)"
-
-	Option_name: STRING = "bext_test_client"
 
 end

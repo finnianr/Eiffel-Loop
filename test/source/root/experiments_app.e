@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 15:15:29 GMT (Wednesday 8th January 2020)"
-	revision: "47"
+	date: "2020-01-12 14:49:32 GMT (Sunday 12th January 2020)"
+	revision: "48"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("tuple.find_abstract_type")
-			tuple.find_abstract_type
+			log.enter ("agent_routine.function_info")
+			agent_routine.function_info
 			log.exit
 		end
 

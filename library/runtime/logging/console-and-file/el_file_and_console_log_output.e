@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-23 8:18:56 GMT (Tuesday 23rd July 2019)"
-	revision: "9"
+	date: "2020-01-12 15:55:39 GMT (Sunday 12th January 2020)"
+	revision: "10"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -160,7 +160,4 @@ feature {NONE} -- Implementation
 			end_restriction
 		end
 
-feature {NONE} -- Internal attributes
-
-	file_out: EL_PLAIN_TEXT_FILE
 end

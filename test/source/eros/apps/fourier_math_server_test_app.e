@@ -10,16 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:11:08 GMT (Friday 10th January 2020)"
-	revision: "6"
+	date: "2020-01-12 7:14:15 GMT (Sunday 12th January 2020)"
+	revision: "7"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
 
 inherit
-	EL_SERVER_SUB_APPLICATION
+	EL_EROS_SERVER_SUB_APPLICATION
 		redefine
-			option_name, initialize
+			initialize
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -66,7 +66,5 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Description: STRING = "Single connection test server for fourier math (Ctrl-c to shutdown)"
-
-	Option_name: STRING = "test_server"
 
 end

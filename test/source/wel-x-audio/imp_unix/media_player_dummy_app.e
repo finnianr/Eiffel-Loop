@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 20:14:56 GMT (Monday 6th January 2020)"
-	revision: "5"
+	date: "2020-01-12 7:35:59 GMT (Sunday 12th January 2020)"
+	revision: "6"
 
 class
 	MEDIA_PLAYER_DUMMY_APP
@@ -27,12 +27,6 @@ feature {NONE} -- Implementation
 
 -- Commented out on Unix
 -- player_thread: EL_AUDIO_PLAYER_THREAD [EL_16_BIT_AUDIO_PCM_SAMPLE]
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := << >>
-		end
 
 	test_run
 		do

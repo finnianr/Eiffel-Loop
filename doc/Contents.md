@@ -706,7 +706,7 @@ Using the Eiffel API is considerably easier and more intuitive to use than the o
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
 
-Test class [VTD_XML_TEST_APP]($source)
+Test class [VTD_XML_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_test_app.html)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 
@@ -998,7 +998,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP]($source) is implemented as follows:
 
 
 ````
@@ -1568,7 +1568,12 @@ See class [TEXT_PROCESS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/tex
 ## thread.ecf
 See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thread/test_work_distributer_app.html)
 ## vtd-xml.ecf
-Tests for Eiffel interface VTD-XML C API See class [TEST_VTD_XML_APP](http://www.eiffel-loop.com/test/source/vtd-xml/test_vtd_xml_app.html)
+Tests for Eiffel interface VTD-XML C API
+
+
+* [VTD_XML_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_test_app.html)
+* [XML_TO_PYXIS_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/xml_to_pyxis_test_app.html)
+
 ## wel-x-audio.ecf
 Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
@@ -1576,7 +1581,9 @@ Test Sub-applications
 
 
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
-* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html) and descendant
+* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
 * [BINARY_ENCODED_XML_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/binary_encoded_xml_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
+* [PYXIS_TO_XML_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/pyxis_to_xml_test_app.html)
+* [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)
 

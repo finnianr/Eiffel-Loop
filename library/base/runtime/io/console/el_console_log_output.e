@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:47:38 GMT (Monday 30th September 2019)"
-	revision: "11"
+	date: "2020-01-12 15:45:08 GMT (Sunday 12th January 2020)"
+	revision: "12"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -182,7 +182,6 @@ feature -- Numeric output
 			extended_buffer_last.append_real (r)
 		end
 
-
 feature -- Basic operations
 
 	flush
@@ -247,8 +246,8 @@ feature {NONE} -- Implementation
 			elseif attached {STRING_8} str as str_8 then
 				flush_string_8 (str_8)
 
-			elseif attached {STRING_32} str as str_32 then
-				write_console (str_32)
+			else
+				write_console (str)
 			end
 		end
 

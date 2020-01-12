@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:30:57 GMT (Saturday 11th January 2020)"
-	revision: "13"
+	date: "2020-01-12 15:54:35 GMT (Sunday 12th January 2020)"
+	revision: "14"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -42,6 +42,8 @@ inherit
 			write_string_general as put_string_general,
 			write_boolean as put_boolean,
 			write_pointer as put_pointer
+		redefine
+			put_string_general
 		end
 
 	EL_ZCODEC_FACTORY
@@ -121,6 +123,12 @@ feature -- String output
 			end
 		end
 
+	put_line (line: READABLE_STRING_GENERAL)
+		do
+			put_string_general (line)
+			put_new_line
+		end
+
 	put_lines (a_lines: FINITE [READABLE_STRING_GENERAL])
 		local
 			lines: LINEAR [READABLE_STRING_GENERAL]
@@ -153,14 +161,21 @@ feature -- String output
 			end
 		end
 
-	put_string_32 (str: STRING_32)
+	put_string_general (str: READABLE_STRING_GENERAL)
 		require else
 			valid_encoding: not str.is_valid_as_string_8 implies is_utf_encoding (8)
 		do
 			codec.write_encoded (str, Current)
 		end
 
-	put_string_8, put_latin_1 (str: STRING)
+	put_string_32 (str: READABLE_STRING_32)
+		require else
+			valid_encoding: not str.is_valid_as_string_8 implies is_utf_encoding (8)
+		do
+			codec.write_encoded (str, Current)
+		end
+
+	put_string_8, put_latin_1 (str: READABLE_STRING_8)
 		do
 			if is_latin_encoding (1) then
 				put_raw_string_8 (str)

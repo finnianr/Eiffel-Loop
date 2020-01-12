@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 12:27:23 GMT (Wednesday 2nd January 2019)"
-	revision: "4"
+	date: "2020-01-12 7:57:57 GMT (Sunday 12th January 2020)"
+	revision: "5"
 
 class
 	FILE_EXPERIMENTS
@@ -22,7 +22,7 @@ feature -- Basic operations
 			file, file_copy: RAW_FILE
 		do
 			create file.make_open_read ("data\01.png")
-			create file_copy.make_open_write ("data\01(copy).png")
+			create file_copy.make_open_write ("workarea\01(copy).png")
 			file.copy_to (file_copy)
 			file.close; file_copy.close
 			file_copy.stamp (1418308263)
@@ -80,7 +80,7 @@ feature -- Basic operations
 		local
 			file: PLAIN_TEXT_FILE
 		do
-			create file.make_open_write ("test.txt")
+			create file.make_open_write ("workarea\test.txt")
 			file.put_string ("one two three")
 			lio.put_integer_field ("file.position", file.position)
 			file.close
@@ -116,12 +116,13 @@ feature -- Basic operations
 			file: PLAIN_TEXT_FILE
 			date: DATE_TIME
 		do
-			create file.make_open_write ("data\file.txt")
+			create file.make_open_write ("workarea\file.txt")
 			file.put_string ("hello"); file.close
 --			file.add_permission ("u", "Write Attributes")
 			create date.make_from_epoch (1418308263)
 			lio.put_labeled_string ("Date", date.out)
 			file.set_date (1418308263)
+			file.delete
 		end
 
 

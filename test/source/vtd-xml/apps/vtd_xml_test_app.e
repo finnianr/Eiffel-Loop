@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 12:36:25 GMT (Saturday 11th January 2020)"
-	revision: "10"
+	date: "2020-01-12 7:33:23 GMT (Sunday 12th January 2020)"
+	revision: "11"
 
 class
 	VTD_XML_TEST_APP
@@ -393,16 +393,5 @@ feature {NONE} -- Constants
 	Xpath_numerator: STRING_32 = "numerator"
 
 	Xpath_divisor: STRING_32 = "divisor"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{VTD_XML_TEST_APP}, All_routines]
---				[{EL_TEST_ROUTINES}, All_routines],
---				[{EL_SPREAD_SHEET}, All_routines],
---				[{EL_SPREAD_SHEET_TABLE}, All_routines]
-			>>
-		end
 
 end

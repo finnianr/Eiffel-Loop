@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 11:32:31 GMT (Friday 10th January 2020)"
-	revision: "14"
+	date: "2020-01-12 7:36:26 GMT (Sunday 12th January 2020)"
+	revision: "15"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -80,14 +80,6 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{OBJECT_BUILDER_TEST_APP}, All_routines]
-			>>
-		end
 
 	visible_types: TUPLE [
 		WEB_FORM, WEB_FORM_DROP_DOWN_LIST, WEB_FORM_COMPONENT, WEB_FORM_LINE_BREAK,
