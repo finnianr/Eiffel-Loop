@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:34:55 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-01-13 21:35:53 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE
@@ -128,8 +128,6 @@ feature {NONE} -- Implementation
 	set_request_arguments (request_parser: EL_ROUTINE_CALL_REQUEST_PARSER)
 		local
 			argument: STRING; i: INTEGER
-			is_convertible: PREDICATE [STRING]
-			to_type: FUNCTION [STRING, ANY]
 		do
 			from i := 1 until i > request_parser.argument_list.count loop
 				argument := request_parser.argument_list [i]
@@ -143,33 +141,17 @@ feature {NONE} -- Implementation
 				then
 					set_deserialized_object_argument (i, argument, deserialized_object)
 
-				elseif Conversion_table.has_key (request_argument_types [i]) then
-					is_convertible := Conversion_table.found_item.is_convertible
-					to_type := Conversion_table.found_item.to_type
-					if is_convertible (argument) then
-						request_arguments.put (to_type (argument), i)
-					end
-
 				elseif routine_table.has (argument) then
 					set_once_routine_argument (i, argument)
 
-				elseif argument.count = 1 then
-					set_character_argument (i, argument)
+				elseif String_8.is_convertible (argument, request_argument_types [i]) then
+					-- Convertible to one of 13 basic types
+					request_arguments.put (String_8.to_type (argument, request_argument_types [i]), i)
+
 				else
 					set_type_mismatch_error (i, argument)
 				end
 				i := i + 1
-			end
-		end
-
-	set_character_argument (index: INTEGER; argument: STRING)
-		do
-			if request_arguments.is_character_8_item (index) then
-				request_arguments.put_character_8 (argument [1], index)
-			elseif request_arguments.is_character_32_item (index) then
-				request_arguments.put_character_32 (argument [1], index)
-			else
-				set_type_mismatch_error (index, argument)
 			end
 		end
 
@@ -251,29 +233,6 @@ feature {NONE} -- Internal attributes
 	request_argument_types: EL_TUPLE_TYPE_ARRAY
 
 feature {NONE} -- Constants
-
-	Conversion_table: EL_HASH_TABLE [
-		TUPLE [is_convertible: PREDICATE [STRING]; to_type: FUNCTION [STRING, ANY]], TYPE [ANY]
-	]
-		-- string conversion predicates and conversion function
-		once
-			create Result.make (<<
-				[{BOOLEAN},			[agent {STRING}.is_boolean, agent {STRING}.to_boolean]],
-
-				[{INTEGER_8},		[agent {STRING}.is_integer_8, agent {STRING}.to_integer_8]],
-				[{INTEGER_16}, 	[agent {STRING}.is_integer_16, agent {STRING}.to_integer_16]],
-				[{INTEGER_32},		[agent {STRING}.is_integer_32, agent {STRING}.to_integer_32]],
-				[{INTEGER_64},		[agent {STRING}.is_integer_64, agent {STRING}.to_integer_64]],
-
-				[{NATURAL_8},		[agent {STRING}.is_natural_8, agent {STRING}.to_natural_8]],
-				[{NATURAL_16},		[agent {STRING}.is_natural_16, agent {STRING}.to_natural_16]],
-				[{NATURAL_32},		[agent {STRING}.is_natural_32, agent {STRING}.to_natural_32]],
-				[{NATURAL_64},		[agent {STRING}.is_natural_64, agent {STRING}.to_natural_64]],
-
-				[{DOUBLE},			[agent {STRING}.is_double, agent {STRING}.to_double]],
-				[{REAL},				[agent {STRING}.is_real, agent {STRING}.to_real]]
-			>>)
-		end
 
 	Default_routine: ROUTINE
 		once ("PROCESS")

@@ -6,29 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2020-01-13 20:58:18 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
+		redefine
+			read_command_options
+		end
+
+	EL_MODULE_ARGS
 
 feature {NONE} -- Initialization
 
 	initialize
 			--
 		do
+			create gui.make (name, port_number, request_handler_count_max)
+		end
+
+	read_command_options
+		do
 			create port_number
 			create request_handler_count_max
-			Args.set_integer_from_word_option (
-				"port", agent port_number.set_item , Default_port_number
-			)
-			Args.set_integer_from_word_option (
-				"max_threads", agent request_handler_count_max.set_item , Default_request_handler_count_max
-			)
-			create gui.make (name, port_number, request_handler_count_max)
+			Args.set_integer_from_word_option ("port", agent port_number.set_item , Default_port_number)
+			Args.set_integer_from_word_option ("max_threads", agent request_handler_count_max.set_item , Default_request_handler_count_max)
 		end
 
 feature -- Basic operations

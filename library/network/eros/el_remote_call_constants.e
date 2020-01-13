@@ -6,17 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:24:45 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2020-01-13 20:58:40 GMT (Monday 13th January 2020)"
+	revision: "9"
 
 class
 	EL_REMOTE_CALL_CONSTANTS
-
-feature {NONE} -- Commands
-
-	Command_quit: STRING = "quit"
-
-	Command_set_error: STRING = "set_error"
 
 feature {NONE} -- Constants
 

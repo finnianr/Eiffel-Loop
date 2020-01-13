@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 11:08:47 GMT (Friday 22nd November 2019)"
-	revision: "16"
+	date: "2020-01-13 21:41:12 GMT (Monday 13th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -68,7 +68,49 @@ feature -- Conversion
 			Result := s.to_string_32
 		end
 
+	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): ANY
+		-- `str' converted to type `basic_type'
+		require
+			convertible: is_convertible (str, basic_type)
+		local
+			to_basic_type: FUNCTION [READABLE_STRING_GENERAL, ANY]
+		do
+			if Conversion_table.has_key (basic_type) then
+				to_basic_type := Conversion_table.found_item.to_type
+				Result := to_basic_type (str)
+			else
+				create Result
+			end
+		end
+
+	to_character_8 (str: READABLE_STRING_GENERAL): CHARACTER_8
+		require
+			is_character_8: is_character_8 (str)
+		do
+			if is_character_8 (str) then
+				Result := str.item (1).to_character_8
+			end
+		end
+
+	to_character_32 (str: READABLE_STRING_GENERAL): CHARACTER_32
+		require
+			is_character_32: is_character_32 (str)
+		do
+			if is_character_32 (str) then
+				Result := str.item (1)
+			end
+		end
+
 feature -- Lists
+
+	delimited_list (text, delimiter: S): LIST [S]
+			-- string delimited list
+		local
+			splits: EL_SPLIT_STRING_LIST [S]
+		do
+			create splits.make (text, delimiter)
+			Result := splits.as_string_list
+		end
 
 	list (text: S): LIST [S]
 		-- comma separated list
@@ -79,15 +121,6 @@ feature -- Lists
 			comma.append_code ((',').natural_32_code)
 			Result := delimited_list (text, comma)
 			Result.do_all (agent left_adjust)
-		end
-
-	delimited_list (text, delimiter: S): LIST [S]
-			-- string delimited list
-		local
-			splits: EL_SPLIT_STRING_LIST [S]
-		do
-			create splits.make (text, delimiter)
-			Result := splits.as_string_list
 		end
 
 	words (str: READABLE_STRING_GENERAL): LIST [S]
@@ -355,6 +388,17 @@ feature -- Status query
 			Result := has_enclosing (s, once "''")
 		end
 
+	is_convertible (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
+		-- `True' if `str' is convertible to type `basic_type'
+		local
+			convertible: PREDICATE [READABLE_STRING_GENERAL]
+		do
+			if Conversion_table.has_key (basic_type) then
+				convertible := Conversion_table.found_item.is_convertible
+				Result := convertible (str)
+			end
+		end
+
 	is_punctuation (c: CHARACTER_32): BOOLEAN
 		do
 			Result := c.is_punctuation
@@ -363,6 +407,16 @@ feature -- Status query
 	is_word (str: S): BOOLEAN
 		do
 			Result := not str.is_empty
+		end
+
+	is_character_8 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := str.count = 1 and then str.code (1) <= 0xFF
+		end
+
+	is_character_32 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := str.count = 1
 		end
 
 feature -- Measurement
@@ -390,4 +444,32 @@ feature -- Measurement
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Conversion_table: EL_HASH_TABLE [
+		TUPLE [is_convertible: PREDICATE [READABLE_STRING_GENERAL]; to_type: FUNCTION [READABLE_STRING_GENERAL, ANY]],
+		TYPE [ANY] -- basic type lookup key
+	]
+		-- string conversion predicates and conversion function
+		once
+			create Result.make (<<
+				[{BOOLEAN},			[agent {READABLE_STRING_GENERAL}.is_boolean, agent {READABLE_STRING_GENERAL}.to_boolean]],
+
+				[{CHARACTER_8},	[agent is_character_8, agent to_character_8]],
+				[{CHARACTER_32},	[agent is_character_32, agent to_character_32]],
+
+				[{INTEGER_8},		[agent {READABLE_STRING_GENERAL}.is_integer_8, agent {READABLE_STRING_GENERAL}.to_integer_8]],
+				[{INTEGER_16}, 	[agent {READABLE_STRING_GENERAL}.is_integer_16, agent {READABLE_STRING_GENERAL}.to_integer_16]],
+				[{INTEGER_32},		[agent {READABLE_STRING_GENERAL}.is_integer_32, agent {READABLE_STRING_GENERAL}.to_integer_32]],
+				[{INTEGER_64},		[agent {READABLE_STRING_GENERAL}.is_integer_64, agent {READABLE_STRING_GENERAL}.to_integer_64]],
+
+				[{NATURAL_8},		[agent {READABLE_STRING_GENERAL}.is_natural_8, agent {READABLE_STRING_GENERAL}.to_natural_8]],
+				[{NATURAL_16},		[agent {READABLE_STRING_GENERAL}.is_natural_16, agent {READABLE_STRING_GENERAL}.to_natural_16]],
+				[{NATURAL_32},		[agent {READABLE_STRING_GENERAL}.is_natural_32, agent {READABLE_STRING_GENERAL}.to_natural_32]],
+				[{NATURAL_64},		[agent {READABLE_STRING_GENERAL}.is_natural_64, agent {READABLE_STRING_GENERAL}.to_natural_64]],
+
+				[{DOUBLE},			[agent {READABLE_STRING_GENERAL}.is_double, agent {READABLE_STRING_GENERAL}.to_double]],
+				[{REAL},				[agent {READABLE_STRING_GENERAL}.is_real, agent {READABLE_STRING_GENERAL}.to_real]]
+			>>)
+		end
 end
