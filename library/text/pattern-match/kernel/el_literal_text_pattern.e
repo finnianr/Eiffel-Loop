@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:33:44 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2020-01-13 12:46:30 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	EL_LITERAL_TEXT_PATTERN
@@ -22,7 +22,6 @@ inherit
 
 create
 	make_from_string
-	-- make_from_string_with_agent
 
 feature {NONE} -- Initialization
 
@@ -39,13 +38,6 @@ feature {NONE} -- Initialization
 			make_default
 			text := a_text
 		end
-
---	make_from_string_with_agent (a_text: like text; a_action: like actions.item)
---			--
---		do
---			make_from_string (a_text)
---			set_action (a_action)
---		end
 
 feature {NONE} -- Implementation
 

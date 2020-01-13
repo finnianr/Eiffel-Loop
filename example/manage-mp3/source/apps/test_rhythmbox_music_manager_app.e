@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 16:45:20 GMT (Wednesday 25th September 2019)"
-	revision: "6"
+	date: "2020-01-13 20:32:23 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -25,7 +25,7 @@ inherit
 
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		undefine
-			Visible_types, Option_name
+			Visible_types, Option_name, read_command_options
 		redefine
 			Is_test_mode, skip_normal_initialize
 		select

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2020-01-13 20:25:32 GMT (Monday 13th January 2020)"
+	revision: "4"
 
 deferred class
 	JAVA_ROUTINE [BASE_TYPE -> JAVA_OBJECT_REFERENCE]
@@ -18,9 +18,6 @@ inherit
 	EL_MEMORY
 
 	EL_MODULE_LIO
-		rename
-			Args as Command_args
-		end
 
 	EL_MODULE_EIFFEL
 

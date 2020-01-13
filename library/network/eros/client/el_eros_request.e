@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 18:58:03 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-13 9:25:44 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 class
 	EL_EROS_REQUEST
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_NAMING
+
+	EL_MODULE_STRING_8
 
 create
 	make
@@ -60,7 +62,7 @@ feature -- Element change
 				l_template := Empty_arguments_expression_template
 			else
 				l_template := Expression_template
-				set_argument_list_and_serializeable_argument (args)
+				set_argument_list_and_serializeable_argument (args, proxy_object.routine_table)
 				l_template.set_variable ("argument_list", argument_list)
 			end
 			l_template.set_variable ("class_name", class_name)
@@ -70,12 +72,10 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_argument_list_and_serializeable_argument (args: TUPLE)
+	set_argument_list_and_serializeable_argument (args: TUPLE; routines_table: HASH_TABLE [ROUTINE, STRING])
 			--
 		local
-			i: INTEGER
-			argument: ANY
-			list: STRING
+			i: INTEGER; argument: ANY; list: STRING
 		do
 			list := argument_list
 			list.wipe_out
@@ -86,20 +86,16 @@ feature {NONE} -- Implementation
 				end
 				if args.is_reference_item (i) then
 					argument := args.reference_item (i)
-					if attached {EL_EIFFEL_IDENTIFIER} argument as once_function_identifier then
-						list.append (once_function_identifier)
+					if attached {STRING} argument as string then
+						if routines_table.has (string) then
+							list.append (string)
+						else
+							list.append (String_8.enclosed (string, '%'', '%''))
+						end
 
 					elseif attached {EVOLICITY_SERIALIZEABLE_AS_XML} argument as serializeable then
 						serializeable_argument := serializeable
-						list.append_character ('{')
-						list.append (serializeable.generator)
-						list.append_character ('}')
-
-					elseif attached {STRING} argument as string_literal then
-						list.append_character ('%'')
-						list.append (string_literal)
-						list.append_character ('%'')
-
+						list.append (String_8.enclosed (serializeable.generator, '{', '}'))
 					end
 				else
 					list.append (args.item (i).out)

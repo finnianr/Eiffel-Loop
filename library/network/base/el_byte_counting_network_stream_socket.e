@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-13 18:33:40 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET
@@ -20,7 +20,7 @@ inherit
 		end
 
 create
-	make_client_by_port, make_server_by_port
+	make, make_client_by_port, make_server_by_port
 
 feature -- Access
 

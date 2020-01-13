@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 22:00:32 GMT (Friday 10th January 2020)"
-	revision: "7"
+	date: "2020-01-13 19:56:39 GMT (Monday 13th January 2020)"
+	revision: "8"
 
-class
+deferred class
 	EL_REMOTE_PROXY
 
 inherit
@@ -17,12 +17,18 @@ inherit
 		rename
 			make as make_exchanger,
 			object_builder as result_builder
+		undefine
+			routines
+		end
+
+	EL_ROUTINE_REFLECTIVE
+		export
+			{EL_EROS_REQUEST} routine_table
 		end
 
 	EL_MODULE_LOG
 
-create
-	make
+	EL_SHARED_EROS_ERROR
 
 feature {NONE} -- Initialization
 
@@ -30,6 +36,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_exchanger
+			make_default
 			net_socket := client.net_socket
 			client.proxy_list.extend (Current)
 		end
@@ -46,7 +53,7 @@ feature -- Status query
 
 feature -- Access
 
-	error_code: INTEGER
+	error_code: NATURAL_8
 
 feature {NONE} -- Implementation
 
@@ -69,11 +76,10 @@ feature {NONE} -- Implementation
 			result_builder.build_from_stream (net_socket)
 			result_object := result_builder.item
 
-			if attached {EL_EROS_ERROR_RESULT} result_object as error then
-				error_code := error.id
-				lio.put_string_field ("ERROR", error.description)
-				lio.put_string (", ")
-				lio.put_line (error.detail)
+			if attached {EL_EROS_ERROR_RESULT} result_object as error_result then
+				error_code := Error.value (error_result.id)
+				lio.put_labeled_substitution ("ERROR", "%S, %S", [error_result.description, error_result.detail])
+				lio.put_new_line
 
 			elseif attached {EL_EROS_PROCEDURE_STATUS} result_object as procedure_status then
 				log.put_line ("Received acknowledgement")

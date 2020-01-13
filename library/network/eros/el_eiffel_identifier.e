@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 18:37:58 GMT (Saturday 11th January 2020)"
-	revision: "6"
+	date: "2020-01-13 18:26:47 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	EL_EIFFEL_IDENTIFIER
+
+obsolete
+	"Using routine table lookup to determine once routines 13.1.2020"
 
 inherit
 	STRING
@@ -23,6 +26,7 @@ create
 
 convert
 	make_from_string ({STRING})
+
 
 feature {NONE} -- Initialization
 

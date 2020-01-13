@@ -6,13 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 18:20:25 GMT (Saturday 11th January 2020)"
-	revision: "6"
+	date: "2020-01-13 19:34:55 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE
 
 inherit
+	EL_ROUTINE_REFLECTIVE
+		rename
+			make_default as make
+		redefine
+			make
+		end
+
 	EL_MODULE_LOG
 
 	EL_MODULE_STRING_8
@@ -20,6 +27,8 @@ inherit
 	EL_REMOTE_CALL_CONSTANTS
 
 	EL_REMOTE_CALL_ERRORS
+		rename
+			make_default as make
 		redefine
 			make
 		end
@@ -29,10 +38,13 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			Precursor
+			Precursor {EL_ROUTINE_REFLECTIVE}
+			Precursor {EL_REMOTE_CALL_ERRORS}
 			create routine_table.make (routines)
 			create string_result.make
 			requested_routine := Default_routine
+			create request_arguments
+			create request_argument_types.make_empty
 			result_object := Procedure_acknowledgement
 		end
 
@@ -42,28 +54,29 @@ feature -- Access
 
 feature -- Element change
 
-	set_routine_with_arguments (
-		routine_name: STRING; deserialized_object: EL_BUILDABLE_FROM_NODE_SCAN; argument_list: ARRAYED_LIST [STRING]
-	)
+	set_routine_with_arguments (request_parser: EL_ROUTINE_CALL_REQUEST_PARSER)
 			-- set `requested_routine'
 		local
-			argument_tuple: TUPLE
+			routine_name: STRING; routine_info: EL_ROUTINE_INFO
 		do
 			log.enter ("set_routine_with_arguments")
 			set_error (0)
 			set_error_detail ("")
+			routine_name := request_parser.routine_name
 			if routine_table.has_key (routine_name) then
 				requested_routine := routine_table.found_item
-				argument_tuple := requested_routine.empty_operands
-				if argument_tuple.count = argument_list.count then
-					set_routine_tuple (argument_tuple, deserialized_object, argument_list)
-					requested_routine.set_operands (argument_tuple)
+				create routine_info.make (routine_name, requested_routine.generating_type)
+				request_argument_types := routine_info.argument_types
+				request_arguments := requested_routine.empty_operands
+				if request_arguments.count = request_parser.argument_list.count then
+					set_request_arguments (request_parser)
+					requested_routine.set_operands (request_arguments)
 				else
-					set_error (Error_wrong_number_of_arguments)
-					set_error_detail ("should be " + argument_tuple.count.out)
+					set_error (Error.wrong_number_of_arguments)
+					set_error_detail ("should be " + request_arguments.count.out)
 				end
 			else
-				set_error (Error_routine_not_found)
+				set_error (Error.routine_not_found)
 				set_error_detail (routine_name + "?")
 				requested_routine := Default_routine
 			end
@@ -112,168 +125,118 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	set_routine_tuple (
-		argument_tuple: TUPLE; deserialized_object: EL_BUILDABLE_FROM_NODE_SCAN; argument_list: ARRAYED_LIST [STRING]
-	)
-			--
+	set_request_arguments (request_parser: EL_ROUTINE_CALL_REQUEST_PARSER)
 		local
-			argument: STRING
-			i: INTEGER
+			argument: STRING; i: INTEGER
+			is_convertible: PREDICATE [STRING]
+			to_type: FUNCTION [STRING, ANY]
 		do
-			from i := 1 until i > argument_list.count loop
-				argument := argument_list [i]
+			from i := 1 until i > request_parser.argument_list.count loop
+				argument := request_parser.argument_list [i]
 				if String_8.has_enclosing (argument, once "''") then
 					String_8.remove_single_quote (argument)
-					set_tuple_string (argument_tuple, i, argument)
+					set_string_argument (i, argument)
 
-				elseif String_8.has_enclosing (argument, Curly_braces) then
-					set_tuple_deserialized_object (argument_tuple, i, argument, deserialized_object)
+				elseif String_8.has_enclosing (argument, Curly_braces)
+					and then request_parser.has_call_argument
+					and then attached {EL_BUILDABLE_FROM_NODE_SCAN} request_parser.call_argument as deserialized_object
+				then
+					set_deserialized_object_argument (i, argument, deserialized_object)
 
-				elseif String_8.has_enclosing (argument, Parenthesis) then
-					String_8.remove_bookends (argument, Parenthesis)
-					set_tuple_numeric (argument_tuple, i, argument)
+				elseif Conversion_table.has_key (request_argument_types [i]) then
+					is_convertible := Conversion_table.found_item.is_convertible
+					to_type := Conversion_table.found_item.to_type
+					if is_convertible (argument) then
+						request_arguments.put (to_type (argument), i)
+					end
 
-				elseif String_8.has_enclosing (argument, Angle_brackets) then
-					String_8.remove_bookends (argument, Angle_brackets)
-					set_tuple_boolean (argument_tuple, i, argument)
+				elseif routine_table.has (argument) then
+					set_once_routine_argument (i, argument)
 
-				elseif String_8.has_enclosing (argument, Square_brackets) then
-					String_8.remove_bookends (argument, Square_brackets)
-					set_tuple_once_item (argument_tuple, i, argument)
-
+				elseif argument.count = 1 then
+					set_character_argument (i, argument)
+				else
+					set_type_mismatch_error (i, argument)
 				end
 				i := i + 1
 			end
 		end
 
-	set_tuple_string (argument_tuple: TUPLE; index: INTEGER; argument: STRING)
-			--
-		require
-			valid_argument: argument_tuple.valid_type_for_index (argument, index)
+	set_character_argument (index: INTEGER; argument: STRING)
 		do
-			if argument_tuple.valid_type_for_index (argument, index) then
-				argument_tuple.put_reference (argument, index)
+			if request_arguments.is_character_8_item (index) then
+				request_arguments.put_character_8 (argument [1], index)
+			elseif request_arguments.is_character_32_item (index) then
+				request_arguments.put_character_32 (argument [1], index)
 			else
-				set_error (Error_argument_type_mismatch)
-				set_error_detail (
-					type_mismatch_error_message (argument_tuple.reference_item (index), argument_tuple.item (index))
-				)
+				set_type_mismatch_error (index, argument)
 			end
 		end
 
-	set_tuple_deserialized_object (
-		argument_tuple: TUPLE; index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_NODE_SCAN
+	set_string_argument (index: INTEGER; argument: STRING)
+			--
+		require
+			valid_argument: request_arguments.valid_type_for_index (argument, index)
+		do
+			if request_arguments.valid_type_for_index (argument, index) then
+				request_arguments.put_reference (argument, index)
+			else
+				set_type_mismatch_error (index, argument)
+			end
+		end
+
+	set_deserialized_object_argument (
+		index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_NODE_SCAN
 	)
-			--
 		require
-			valid_argument_object: argument_tuple.valid_type_for_index (argument_object, index)
+			valid_argument_object: request_arguments.valid_type_for_index (argument_object, index)
 		do
-			if argument_tuple.valid_type_for_index (argument_object, index) then
-				argument_tuple.put_reference (argument_object, index)
+			if request_arguments.valid_type_for_index (argument_object, index) then
+				request_arguments.put_reference (argument_object, index)
 			else
-				set_error (Error_argument_type_mismatch)
-				set_error_detail (
-					type_mismatch_error_message (argument_object, argument_tuple.item (index))
-				)
+				set_type_mismatch_error (index, argument)
 			end
 		end
 
-	set_tuple_boolean (argument_tuple: TUPLE; index: INTEGER; argument: STRING)
+	set_once_routine_argument (index: INTEGER; routine_name: STRING)
 			--
 		require
-			valid_argument: argument.is_boolean and then argument_tuple.is_boolean_item (index)
-		do
-			if argument.is_boolean and then argument_tuple.is_boolean_item (index) then
-				argument_tuple.put_boolean (argument.to_boolean, index)
-			else
-				set_error (Error_argument_type_mismatch)
-				set_error_detail ("expecting a boolean argument")
-			end
-		end
-
-	set_tuple_numeric (argument_tuple: TUPLE; index: INTEGER; argument: STRING)
-			--
-		require
-			valid_argument: argument.is_double and then
-				argument_tuple.is_real_item (index) or else
-				argument_tuple.is_double_item (index) or else
-				argument_tuple.is_integer_8_item (index) or else
-				argument_tuple.is_integer_16_item (index) or else
-				argument_tuple.is_integer_32_item (index) or else
-				argument_tuple.is_integer_64_item (index)
-
-		local
-			double: DOUBLE
-			integer_64: INTEGER_64
-		do
-			if argument.is_double then
-				if argument_tuple.is_double_item (index) and argument.is_double then
-					argument_tuple.put_double (argument.to_double, index)
-
-				elseif argument_tuple.is_real_item (index) and argument.is_real then
-					argument_tuple.put_real (argument.to_real, index)
-
-				elseif argument_tuple.is_integer_8_item (index) and argument.is_integer_8 then
-					argument_tuple.put_integer_8 (argument.to_integer_8, index)
-
-				elseif argument_tuple.is_integer_16_item (index) and argument.is_integer_16 then
-					argument_tuple.put_integer_16 (argument.to_integer_16, index)
-
-				elseif argument_tuple.is_integer_32_item (index) and argument.is_integer_32 then
-					argument_tuple.put_integer_32 (argument.to_integer_32, index)
-
-				elseif argument_tuple.is_integer_64_item (index) and argument.is_integer_64 then
-					argument_tuple.put_integer_64 (argument.to_integer_64, index)
-
-				else
-					set_error (Error_argument_type_mismatch)
-					if argument.is_integer_64 then
-						set_error_detail (type_mismatch_error_message (integer_64, argument_tuple.item (index)))
-					else
-						set_error_detail (type_mismatch_error_message (double, argument_tuple.item (index)))
-					end
-
-				end
-			else
-				set_error (Error_argument_type_mismatch)
-				set_error_detail ("Non numeric argument, expecting a " + argument_tuple.item (index).generator)
-
-			end
-		end
-
-	set_tuple_once_item (argument_tuple: TUPLE; index: INTEGER; argument: STRING)
-			--
-		require
-			once_function_exists: routine_table.has (argument)
-			once_function_takes_no_arguments: routine_table.item (argument).open_count = 0
-			valid_argument: routine_table.has_key (argument)
-									and then attached {FUNCTION [ANY]} routine_table.found_item as function
-									and then argument_tuple.valid_type_for_index (function.item ([]), index)
+			once_function_exists: routine_table.has (routine_name)
+			once_function_takes_no_arguments: routine_table.item (routine_name).open_count = 0
+			valid_argument: valid_once_routine_argument (index, routine_name)
 		local
 			once_item: ANY
 		do
-			if routine_table.has_key (argument) and then attached {FUNCTION [ANY]} routine_table.found_item as function then
-				once_item := function.item ([])
-				if argument_tuple.valid_type_for_index (once_item, index) then
-					argument_tuple.put (once_item, index)
+			if routine_table.has_key (routine_name)
+				and then attached {FUNCTION [ANY]} routine_table.found_item as function
+			then
+				function.apply
+				once_item := function.last_result
+				if request_arguments.valid_type_for_index (once_item, index) then
+					request_arguments.put (once_item, index)
 				else
-					set_error (Error_argument_type_mismatch)
-					set_error_detail (type_mismatch_error_message (once_item, argument_tuple.item (index)))
+					set_type_mismatch_error (index, routine_name)
 				end
 			else
-				set_error (Error_once_function_not_found)
-				set_error_detail (argument)
+				set_error (Error.once_function_not_found)
+				set_error_detail (routine_name)
 			end
 		end
 
-	type_mismatch_error_message (actual, expected: ANY): STRING
-			--
+	set_type_mismatch_error (index: INTEGER; argument: STRING)
 		do
-			Type_mismatch_error_template.set_variables_from_array (<<
-				[once "actual_type", actual.generator],
-				[once "expected_type", expected.generator]
-			>>)
-			Result := Type_mismatch_error_template.substituted
+			set_error (Error.argument_type_mismatch)
+			set_error_detail (Type_mismatch_error_template #$ [argument, request_argument_types.item (index).name])
+		end
+
+	valid_once_routine_argument (index: INTEGER; routine_name: STRING): BOOLEAN
+		do
+			if routine_table.has_key (routine_name)
+				and then attached {FUNCTION [ANY]} routine_table.found_item as function
+			then
+				function.apply
+				Result := request_arguments.valid_type_for_index (function.last_result, index)
+			end
 		end
 
 feature {NONE} -- Internal attributes
@@ -282,26 +245,45 @@ feature {NONE} -- Internal attributes
 
 	requested_routine: ROUTINE
 
-	routine_table: EL_HASH_TABLE [ROUTINE, STRING]
+	request_arguments: TUPLE
+		-- arguments for `requested_routine'
 
-feature {NONE} -- User implementation
-
-	routines: ARRAY [TUPLE [STRING, ROUTINE]]
-			--
-		deferred
-		end
+	request_argument_types: EL_TUPLE_TYPE_ARRAY
 
 feature {NONE} -- Constants
+
+	Conversion_table: EL_HASH_TABLE [
+		TUPLE [is_convertible: PREDICATE [STRING]; to_type: FUNCTION [STRING, ANY]], TYPE [ANY]
+	]
+		-- string conversion predicates and conversion function
+		once
+			create Result.make (<<
+				[{BOOLEAN},			[agent {STRING}.is_boolean, agent {STRING}.to_boolean]],
+
+				[{INTEGER_8},		[agent {STRING}.is_integer_8, agent {STRING}.to_integer_8]],
+				[{INTEGER_16}, 	[agent {STRING}.is_integer_16, agent {STRING}.to_integer_16]],
+				[{INTEGER_32},		[agent {STRING}.is_integer_32, agent {STRING}.to_integer_32]],
+				[{INTEGER_64},		[agent {STRING}.is_integer_64, agent {STRING}.to_integer_64]],
+
+				[{NATURAL_8},		[agent {STRING}.is_natural_8, agent {STRING}.to_natural_8]],
+				[{NATURAL_16},		[agent {STRING}.is_natural_16, agent {STRING}.to_natural_16]],
+				[{NATURAL_32},		[agent {STRING}.is_natural_32, agent {STRING}.to_natural_32]],
+				[{NATURAL_64},		[agent {STRING}.is_natural_64, agent {STRING}.to_natural_64]],
+
+				[{DOUBLE},			[agent {STRING}.is_double, agent {STRING}.to_double]],
+				[{REAL},				[agent {STRING}.is_real, agent {STRING}.to_real]]
+			>>)
+		end
 
 	Default_routine: ROUTINE
 		once ("PROCESS")
 			Result := agent do_nothing
 		end
 
-	Type_mismatch_error_template: EL_STRING_8_TEMPLATE
+	Type_mismatch_error_template: ZSTRING
 			--
 		once
-			create Result.make ("is a $actual_type, should be: $expected_type")
+			Result := "Cannot convert argument %"%S%" to type %S"
 		end
 
 	Procedure_acknowledgement: EL_EROS_PROCEDURE_STATUS
@@ -313,11 +295,5 @@ feature {NONE} -- Constants
 feature {NONE} -- String constants
 
 	Curly_braces: STRING = "{}"
-
-	Parenthesis: STRING = "()"
-
-	Angle_brackets: STRING = "<>"
-
-	Square_brackets: STRING = "[]"
 
 end

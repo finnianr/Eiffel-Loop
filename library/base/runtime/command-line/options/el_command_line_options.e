@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-01 14:29:05 GMT (Wednesday 1st January 2020)"
-	revision: "15"
+	date: "2020-01-13 19:23:18 GMT (Monday 13th January 2020)"
+	revision: "16"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -39,7 +39,6 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			default as any_default,
 			export_name as export_default,
 			import_name as import_default
 		export
@@ -47,20 +46,16 @@ inherit
 			{ANY} print_fields
 		end
 
-	EL_MODULE_ARGS
+	EL_REFLECTIVE_DESCRIPTIONS
 		rename
-			default as any_default
+			descriptions as help_text,
+			description_table as help_table,
+			valid_description_table as valid_help_table
 		end
+
+	EL_MODULE_ARGS
 
 	EL_MODULE_TUPLE
-		rename
-			default as any_default
-		end
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			default as any_default
-		end
 
 feature {NONE} -- Initialization
 
@@ -76,43 +71,6 @@ feature {NONE} -- Initialization
 			valid_names: Tuple.to_string_8_list (Name).for_all (agent is_option)
 		end
 
-feature -- Access
-
-	default: like Current
-		deferred
-		end
-
-	help_table: EL_HASH_TABLE [TUPLE [description: ZSTRING; default_value: ANY], STRING]
-		-- table of descriptions and default values derived from `help_text' and `default' option values
-		local
-			lines: EL_ZSTRING_LIST; line, text: ZSTRING
-			l_default: like default
-		do
-			if help_text.is_empty then
-				create Result
-			else
-				l_default := default
-				create lines.make_with_lines (help_text)
-				create Result.make_equal (lines.count // 2)
-				from lines.start until lines.after loop
-					line := lines.item
-					if line.ends_with (character_string (':'))
-						and then not line.starts_with (character_string ('%T'))
-					then
-						line.remove_tail (1)
-						if field_table.has_key (line) and then lines.index < lines.count then
-							text := lines [lines.index + 1]
-							text.prune_all_leading ('%T')
-							Result.extend ([text, field_table.found_item.value (default)], line)
-						end
-					end
-					lines.forth
-				end
-			end
-		ensure
-			complete: across field_table as entry all Result.has_key (entry.key) end
-		end
-
 feature -- Status query
 
 	is_option (a_name: STRING): BOOLEAN
@@ -120,20 +78,10 @@ feature -- Status query
 			Result := field_table.has_key (a_name)
 		end
 
-feature {NONE} -- Contract Support
+feature {EL_DEFAULT_COMMAND_OPTION_LIST} -- Implementation
 
-	valid_help_table: BOOLEAN
-		-- `True' if `help_table' is complete
-		local
-			table: like help_table
-		do
-			table := help_table
-			Result := not table.is_empty implies across field_table as entry all table.has_key (entry.key) end
-		end
-
-feature {NONE} -- Deferred implementation
-
-	help_text: READABLE_STRING_GENERAL
+	new_default: like Current
+		-- instance using `make_default' creation procedure
 		deferred
 		end
 

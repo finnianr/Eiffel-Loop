@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:01:15 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2020-01-13 20:22:37 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -15,22 +15,28 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		redefine
-			option_name
+			option_name, read_command_options
 		end
 
 	EL_COMMAND_ARGUMENT_CONSTANTS
 
+	EL_MODULE_ARGS
+
 create
 	make
 
-feature {NONE} -- Initiliazation
+feature {NONE} -- Initialization
 
 	normal_initialize
 			--
 		do
+			create duration_parser.make
+		end
+
+	read_command_options
+		do
 			Args.set_string_from_word_option (Input_path_option_name, agent set_root_node, "jobserve.xml")
 			Args.set_string_from_word_option ("filter", agent set_query_filter, "")
-			create duration_parser.make
 		end
 
 feature -- Basic operations
@@ -64,12 +70,6 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_root_node (file_path: ZSTRING)
-			--
-		do
-			create root_node.make_from_file (file_path)
-		end
-
 	set_query_filter (a_query_filter: ZSTRING)
 			--
 		do
@@ -78,6 +78,12 @@ feature -- Element change
 				query_filter.prepend_string_general (" and (")
 				query_filter.append_character (')')
 			end
+		end
+
+	set_root_node (file_path: ZSTRING)
+			--
+		do
+			create root_node.make_from_file (file_path)
 		end
 
 feature {NONE} -- Tests
@@ -106,19 +112,13 @@ feature {NONE} -- Tests
 
 feature {NONE} -- Implementation: attributes
 
-	root_node: EL_XPATH_ROOT_NODE_CONTEXT
-
 	duration_parser: JOB_DURATION_PARSER
 
 	query_filter: STRING
 
-feature {NONE} -- Constants
+	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 
-	Option_name: STRING
-			--
-		do
-			create Result.make_from_string ("jobserve")
-		end
+feature {NONE} -- Constants
 
 	Description: STRING = "Search Jobserve XML for short contracts"
 
@@ -130,6 +130,12 @@ feature {NONE} -- Constants
 			Result := <<
 				[{JOBSERVE_SEARCH_APP}, All_routines]
 			>>
+		end
+
+	Option_name: STRING
+			--
+		do
+			create Result.make_from_string ("jobserve")
 		end
 
 end

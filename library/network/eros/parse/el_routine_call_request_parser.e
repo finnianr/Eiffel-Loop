@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 16:28:53 GMT (Thursday 9th January 2020)"
-	revision: "4"
+	date: "2020-01-13 17:01:02 GMT (Monday 13th January 2020)"
+	revision: "5"
 
 class
 	EL_ROUTINE_CALL_REQUEST_PARSER
@@ -46,6 +46,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create routine_name.make_empty
+			create class_name.make_empty
 			create argument_list.make (3)
 			Precursor
 		end
@@ -58,9 +59,17 @@ feature -- Access
 
 	routine_name: STRING
 
+	call_argument: detachable EL_BUILDABLE_FROM_NODE_SCAN
+		do
+		end
+
 feature -- Status report
 
 	has_error: BOOLEAN
+
+	has_call_argument: BOOLEAN
+		do
+		end
 
 feature -- Basic operations
 
@@ -85,10 +94,10 @@ feature {NONE} -- Syntax grammar
 			Result := one_of ( <<
 				class_object_place_holder 	|to| agent on_argument,
 				singley_quoted_string 		|to| agent on_argument,
-				double_constant 				|to| agent on_numeric_argument,
-				integer_constant 				|to| agent on_numeric_argument,
-				boolean_constant				|to| agent on_boolean_argument,
-				identifier						|to| agent on_identifier_argument
+				double_constant 				|to| agent on_argument,
+				integer_constant 				|to| agent on_argument,
+				boolean_constant				|to| agent on_argument,
+				identifier						|to| agent on_argument
 			>> )
 		end
 
@@ -117,8 +126,8 @@ feature {NONE} -- Syntax grammar
 			--
 		do
 			Result := one_of (<<
-				string_literal ("true"),
-				string_literal ("false")
+				string_literal_caseless ("true"),
+				string_literal_caseless ("false")
 			>>)
 		end
 
@@ -170,30 +179,12 @@ feature {NONE} -- Parsing match events
 			argument_list.extend (matched_text)
 		end
 
-	on_boolean_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			extend_arguments (matched_text, '<', '>')
-		end
-
 	on_class_name (matched_text: EL_STRING_VIEW)
 			--
 		do
 			class_name := matched_text
 			class_name.remove_head (1)
 			class_name.remove_tail (1)
-		end
-
-	on_identifier_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			extend_arguments (matched_text, '[', ']')
-		end
-
-	on_numeric_argument (matched_text: EL_STRING_VIEW)
-			--
-		do
-			extend_arguments (matched_text, '(', ')')
 		end
 
 	on_routine_name (matched_text: EL_STRING_VIEW)
@@ -203,11 +194,6 @@ feature {NONE} -- Parsing match events
 		end
 
 feature {NONE} -- Implementation
-
-	extend_arguments (text: ZSTRING; left, right: CHARACTER)
-		do
-			text.enclose (left, right); argument_list.extend (text)
-		end
 
 	reset
 			--

@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:31:27 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-01-13 8:29:01 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 deferred class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
 
 inherit
-	FAST_FOURIER_TRANSFORM_CONSTANTS
+	FFT_ONCE_ROUTINE_NAMES
 
 feature -- Initialization
 
@@ -46,6 +46,16 @@ feature -- Access
 		deferred
 		end
 
+	windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
+			--
+		deferred
+		end
+
+	windower_default: DEFAULT_WINDOWER_DOUBLE
+			--
+		deferred
+		end
+
 feature -- Basic operations
 
 	do_transform
@@ -67,8 +77,6 @@ feature -- Element change
 
 	 set_windower (a_windower: WINDOWER_DOUBLE)
    		--
-		require
-			valid_windower: Windowers.has (a_windower)
 		deferred
 		end
 
@@ -140,9 +148,5 @@ feature {NONE} -- Routine names
 	R_is_valid_input_length: STRING = "is_valid_input_length"
 
 	R_is_power_of_two: STRING = "is_power_of_two"
-
-	R_windower_rectangular: STRING = "Windower_rectangular"
-
-	R_windower_default: STRING = "Windower_default"
 
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 14:01:38 GMT (Thursday 9th January 2020)"
-	revision: "11"
+	date: "2020-01-13 11:59:09 GMT (Monday 13th January 2020)"
+	revision: "12"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item: EL_BUILDABLE_FROM_NODE_SCAN
+	item: detachable EL_BUILDABLE_FROM_NODE_SCAN
 		-- resulting object from call to `build_from_*' routine
 		require
 			has_object: has_item

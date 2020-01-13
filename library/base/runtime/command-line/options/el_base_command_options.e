@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-01 13:06:32 GMT (Wednesday 1st January 2020)"
-	revision: "2"
+	date: "2020-01-13 17:49:03 GMT (Monday 13th January 2020)"
+	revision: "3"
 
 class
 	EL_BASE_COMMAND_OPTIONS
@@ -19,11 +19,6 @@ create
 	make, make_default
 
 feature -- Access
-
-	default: like Current
-		do
-			create Result.make_default
-		end
 
 	no_highlighting: BOOLEAN
 		-- turns off logging color highlighting

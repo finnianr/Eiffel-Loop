@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:27:51 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-01-13 8:16:12 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE
@@ -66,6 +66,20 @@ feature -- Element change
 		do
 			a_windower.make (length)
 			Precursor (a_windower)
+		end
+
+feature {NONE} -- Constants
+
+	Windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
+			--
+		once
+			create Result.make (1)
+		end
+
+	Windower_default: DEFAULT_WINDOWER_DOUBLE
+			--
+		once
+			create Result.make (1)
 		end
 
 end

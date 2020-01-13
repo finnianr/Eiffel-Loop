@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:55:50 GMT (Thursday 9th January 2020)"
-	revision: "7"
+	date: "2020-01-13 12:03:08 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 class
 	EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
@@ -15,7 +15,8 @@ class
 inherit
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
 		rename
-			item as call_argument
+			item as call_argument,
+			has_item as has_call_argument
 		redefine
 			make_default, new_root_builder_context
 		end
@@ -25,7 +26,9 @@ inherit
 			make as make_default
 		export
 			{NONE} all
-			{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER} argument_list, class_name, routine_name, source_text, has_error
+			{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER} class_name, source_text, has_error
+		undefine
+			call_argument, has_call_argument
 		redefine
 			make_default
 		end

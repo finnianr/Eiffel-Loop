@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:24:11 GMT (Sunday 12th January 2020)"
-	revision: "10"
+	date: "2020-01-13 8:29:01 GMT (Monday 13th January 2020)"
+	revision: "11"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -20,7 +20,11 @@ inherit
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
-	FAST_FOURIER_TRANSFORM_CONSTANTS
+	FFT_ONCE_ROUTINE_NAMES
+		rename
+			R_windower_rectangular as Windower_rectangular,
+			R_windower_default as Windower_default
+		end
 
 create
 	make
@@ -49,7 +53,7 @@ feature {NONE} -- Initiliazation
 
 feature -- Basic operations
 
-	basic_test (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE; windower: WINDOWER_DOUBLE)
+	basic_test (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE; windower_id: STRING)
 			--
 		local
 			test_wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE
@@ -62,7 +66,7 @@ feature -- Basic operations
 
 				if fast_fourier_transform.is_power_of_two (test_wave_form.count) then
 					fast_fourier_transform.fft_make (test_wave_form.count)
-					fast_fourier_transform.set_windower (windower)
+					fast_fourier_transform.set_windower (windower_id)
 					if fast_fourier_transform.is_valid_input_length (test_wave_form.count) then
 						fast_fourier_transform.set_input (test_wave_form)
 
@@ -90,7 +94,7 @@ feature -- Basic operations
 		local
 			phase_fraction: DOUBLE
 			i_freq, log2_length: INTEGER
-			windower: WINDOWER_DOUBLE
+			windower_id: STRING
 		do
 			log.enter ("random_test")
 			random.forth
@@ -109,9 +113,9 @@ feature -- Basic operations
 			end
 
 			random.forth
-			windower := Windowers [random.item \\ 2 + 1]
+			windower_id := Windower_id_set [random.item \\ 2 + 1]
 
-			basic_test (i_freq, log2_length, phase_fraction, windower)
+			basic_test (i_freq, log2_length, phase_fraction, windower_id)
 			log.exit
 		end
 

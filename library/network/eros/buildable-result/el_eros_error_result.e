@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:40:51 GMT (Friday 18th January 2019)"
-	revision: "5"
+	date: "2020-01-13 19:54:16 GMT (Monday 13th January 2020)"
+	revision: "6"
 
 class
 	EL_EROS_ERROR_RESULT
@@ -20,6 +20,8 @@ inherit
 
 	EL_REMOTE_CALL_CONSTANTS
 
+	EL_SHARED_EROS_ERROR
+
 create
 	make
 
@@ -30,12 +32,13 @@ feature {NONE} -- Initialization
 		do
 			create description.make_empty
 			create detail.make_empty
+			create id.make_empty
 			make_default
 		end
 
 feature -- Access
 
-	id: INTEGER
+	id: STRING
 
 	description: STRING
 
@@ -43,11 +46,11 @@ feature -- Access
 
 feature -- Element change
 
-	set_id (a_id: like id)
+	set_id (code: NATURAL_8)
 			--
 		do
-			id := a_id
-			description := Error_messages [id]
+			id := Error.name (code)
+			description := Error.description (code)
 		end
 
 	set_detail (a_error_detail: like detail)
@@ -58,61 +61,25 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
-	get_description: STRING
-			--
-		do
-			Result := description
-		end
-
-	get_detail: STRING
-			--
-		do
-			Result := detail
-		end
-
-	get_id: INTEGER_REF
-			--
-		do
-			Result := id.to_reference
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["detail", agent get_detail],
-				["id", agent get_id],
-				["description", agent get_description]
+				["detail",			agent: STRING do Result := detail end],
+				["id",				agent: STRING do Result := id end],
+				["description",	agent: STRING do Result := description end]
 			>>)
 		end
 
 feature {NONE} -- Building from XML
 
-	set_id_from_node
-			--
-		do
-			id := node.to_integer
-		end
-
-	set_detail_from_node
-			--
-		do
-			detail := node.to_string
-		end
-
-	set_description_from_node
-			--
-		do
-			description := node.to_string
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<
-				["@id", agent set_id_from_node],
-				["detail/text()", agent set_detail_from_node],
-				["description/text()", agent set_description_from_node]
+				["@id", 						agent do id := node end],
+				["detail/text()",			agent do detail := node end],
+				["description/text()",	agent do description := node end]
 			>>)
 		end
 

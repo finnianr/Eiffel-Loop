@@ -1440,8 +1440,8 @@ See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/sourc
 Test network library classes
 
 
-* [TEST_SIMPLE_CLIENT](http://www.eiffel-loop.com/test/source/network/test_simple_client.html)
-* [TEST_SIMPLE_SERVER](http://www.eiffel-loop.com/test/source/network/test_simple_server.html)
+* [TEST_SIMPLE_CLIENT]($source)
+* [TEST_SIMPLE_SERVER]($source)
 
 ## os-command.ecf
 Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)

@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:30:19 GMT (Sunday 12th January 2020)"
-	revision: "4"
+	date: "2020-01-13 8:25:56 GMT (Monday 13th January 2020)"
+	revision: "5"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
 
 inherit
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
+		rename
+			set_windower as remote_set_windower
+		export
+			{NONE} remote_set_windower
+			{ANY} Windower_id_set
+		end
 
 	EL_REMOTE_PROXY
 
@@ -27,7 +33,7 @@ feature -- Initialization
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.fft_make (128)?>
 		require else
-        	n_is_power_of_two: is_power_of_two (n)
+     		n_is_power_of_two: is_power_of_two (n)
 		do
 			log.enter (R_fft_make)
 			call (R_fft_make, [n])
@@ -35,18 +41,6 @@ feature -- Initialization
 		end
 
 feature -- Access
-
-	length: INTEGER
-			-- Processing instruction example:
-			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.length?>
-   		do
-			log.enter (R_length)
-			call (R_length, [])
-			if not has_error and then result_string.is_integer then
-				Result := result_string.to_integer
-			end
-			log.exit
-   		end
 
 	input: COLUMN_VECTOR_COMPLEX_DOUBLE
 			-- Processing instruction example:
@@ -62,10 +56,22 @@ feature -- Access
 			log.exit
 		end
 
+	length: INTEGER
+			-- Processing instruction example:
+			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.length?>
+		do
+			log.enter (R_length)
+			call (R_length, [])
+			if not has_error and then result_string.is_integer then
+				Result := result_string.to_integer
+			end
+			log.exit
+		end
+
 	output: COLUMN_VECTOR_COMPLEX_DOUBLE
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.output?>
-   		do
+		do
 			log.enter (R_output)
 			call (R_output, [])
 			if not has_error and then attached {like output} result_object as object then
@@ -74,31 +80,43 @@ feature -- Access
 				create Result.make
 			end
 			log.exit
-   		end
+		end
+
+	windower_default: DEFAULT_WINDOWER_DOUBLE
+			--
+		do
+			call (R_windower_default, [])
+		end
+
+	windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
+			--
+		do
+			call (R_windower_rectangular, [])
+		end
 
 feature -- Basic operations
-
-	do_transform
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.do_transform?>
-		require else
-        	valid_output_length: is_output_length_valid
-   		do
-			log.enter (R_do_transform)
-			call (R_do_transform, [])
-			log.exit
-   		end
 
 	do_inverse_transform
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.do_inverse_transform?>
 		require else
-        	valid_output_length: is_output_length_valid
-   		do
+     		valid_output_length: is_output_length_valid
+		do
 			log.enter (R_do_inverse_transform)
 			call (R_do_inverse_transform, [])
 			log.exit
-   		end
+		end
+
+	do_transform
+			-- Processing instruction example:
+			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.do_transform?>
+		require else
+     		valid_output_length: is_output_length_valid
+  		do
+			log.enter (R_do_transform)
+			call (R_do_transform, [])
+			log.exit
+  		end
 
 feature -- Element change
 
@@ -106,25 +124,23 @@ feature -- Element change
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_input ({COLUMN_VECTOR_COMPLEX_DOUBLE})?>
 		require else
-        	valid_input_length: is_valid_input_length (a_input.length)
-   		do
+     		valid_input_length: is_valid_input_length (a_input.length)
+		do
 			log.enter (R_set_input)
 			call (R_set_input, [a_input])
 			log.exit
-   		end
+		end
 
-   set_windower (a_windower: WINDOWER_DOUBLE)
+   set_windower (a_windower_id: STRING)
 			-- Processing instruction example:
 			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_windower (Rectangular_windower)?>
-   		do
+		require
+			valid_windower: Windower_id_set.has (a_windower_id)
+		do
 			log.enter (R_set_windower)
-			if a_windower = Windower_rectangular then
-				call (R_set_windower, [once ""])
-			else
-				call (R_set_windower, [once ""])
-			end
+			call (R_set_windower, [a_windower_id])
 			log.exit
-   		end
+		end
 
 feature -- Contract support
 
@@ -134,6 +150,18 @@ feature -- Contract support
 		do
 			log.enter (R_is_output_length_valid)
 			call (R_is_output_length_valid, [])
+			if not has_error and then result_string.is_boolean then
+				Result := result_string.to_boolean
+			end
+			log.exit
+		end
+
+	is_power_of_two (n: INTEGER): BOOLEAN
+			-- Processing instruction example:
+			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
+		do
+			log.enter (R_is_power_of_two)
+			call (R_is_power_of_two, [n])
 			if not has_error and then result_string.is_boolean then
 				Result := result_string.to_boolean
 			end
@@ -152,16 +180,10 @@ feature -- Contract support
 			log.exit
 		end
 
-	is_power_of_two (n: INTEGER): BOOLEAN
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
-		do
-			log.enter (R_is_power_of_two)
-			call (R_is_power_of_two, [n])
-			if not has_error and then result_string.is_boolean then
-				Result := result_string.to_boolean
-			end
-			log.exit
-		end
+feature {NONE} -- Implementation
+
+	 remote_set_windower (a_windower: WINDOWER_DOUBLE)
+	 	do
+	 	end
 
 end

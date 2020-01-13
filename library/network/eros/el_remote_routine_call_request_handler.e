@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:37:03 GMT (Sunday 12th January 2020)"
-	revision: "11"
+	date: "2020-01-13 19:43:15 GMT (Monday 13th January 2020)"
+	revision: "12"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -46,6 +46,8 @@ inherit
 		end
 
 	EL_REMOTE_CALL_ERRORS
+		rename
+			make_default as make
 		redefine
 			make
 		end
@@ -53,6 +55,8 @@ inherit
 	EL_THREAD_CONSTANTS
 
 	EL_MODULE_EIFFEL
+
+	EL_SHARED_EROS_ERROR
 
 create
 	make
@@ -120,14 +124,12 @@ feature -- Basic operations
 					request_builder.build_from_stream (client_socket)
 					listener.received_bytes (client_socket.bytes_received)
 				end
-
 				if request_builder.has_error then
-					set_error (Error_syntax_error_in_routine_call)
+					set_error (Error.syntax_error_in_routine_call)
 					set_error_detail (request_builder.source_text.as_string_8)
 				end
-
 				if not has_error then
-					call_routine
+					call_class_routine
 				end
 				if has_error then
 					error_result.set_id (error_code)
@@ -156,7 +158,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	call_routine_for_class
+	call_class_routine
 			-- call routine and set result object
 		local
 			target: EL_REMOTELY_ACCESSIBLE
@@ -164,17 +166,17 @@ feature {NONE} -- Implementation
 			log.enter ("call_routine")
 			if target_table.has_key (request_builder.class_name) then
 				target := target_table.found_item
-			elseif attached new_target (request_builder.class_name) as l_target then
+			elseif Factory.valid_type (request_builder.class_name)
+				and then attached new_target (request_builder.class_name) as l_target
+			then
 				target := l_target
 				target_table.extend (target, request_builder.class_name)
 			else
-				set_error (Error_class_name_not_found)
+				set_error (Error.invalid_type)
 				set_error_detail (request_builder.class_name)
 			end
 			if not has_error then
-				target.set_routine_with_arguments (
-					request_builder.routine_name, request_builder.call_argument, request_builder.argument_list
-				)
+				target.set_routine_with_arguments (request_builder)
 				if not target.has_error and then target.is_routine_set then
 					log.put_line (request_builder.source_text.as_string_8)
 					log.put_new_line
@@ -200,16 +202,6 @@ feature {NONE} -- EROS implementation
 			--
 		once
 			create Result
-		end
-
-	routines: ARRAY [TUPLE [STRING, ROUTINE]]
-			-- make 'set_stopping' procedure remotely accessible by client
-		do
-			Result := <<
-				[R_set_stopping,			agent set_stopping],
-				[R_set_inbound_type, 	agent set_inbound_type],
-				[R_set_outbound_type,	agent set_outbound_type]
-			>>
 		end
 
 feature {NONE} -- Internal attributes

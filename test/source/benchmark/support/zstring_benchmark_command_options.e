@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 19:30:05 GMT (Sunday 12th January 2020)"
-	revision: "1"
+	date: "2020-01-13 17:55:34 GMT (Monday 13th January 2020)"
+	revision: "2"
 
 class
 	ZSTRING_BENCHMARK_COMMAND_OPTIONS
@@ -19,9 +19,6 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		rename
-			default as any_default
-		end
 
 create
 	make, make_default
@@ -43,16 +40,11 @@ feature -- Options
 
 	codec: INTEGER
 
-	runs: INTEGER
-
 	filter: ZSTRING
 
-feature -- Access
+	runs: INTEGER
 
-	default: like Current
-		do
-			create Result.make_default
-		end
+feature -- Access
 
 	number_of_runs: INTEGER
 		do
@@ -66,6 +58,13 @@ feature -- Access
 	routine_filter: like filter
 		do
 			Result := filter
+		end
+
+feature {NONE} -- Implementation
+
+	new_default: like Current
+		do
+			create Result.make_default
 		end
 
 feature {NONE} -- Constants

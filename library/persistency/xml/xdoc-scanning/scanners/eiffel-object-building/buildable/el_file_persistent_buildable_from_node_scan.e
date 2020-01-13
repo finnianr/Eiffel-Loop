@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:58:42 GMT (Wednesday 11th September 2019)"
-	revision: "8"
+	date: "2020-01-13 20:28:46 GMT (Monday 13th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
@@ -31,7 +31,7 @@ inherit
 			set_file_path as set_output_path
 		end
 
-feature {EL_EIF_OBJ_FACTORY_ROOT_BUILDER_CONTEXT} -- Initialization
+feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 
 	make_default
 		do

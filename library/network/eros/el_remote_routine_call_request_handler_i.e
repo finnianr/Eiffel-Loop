@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:38:00 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-13 8:42:32 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
@@ -43,6 +43,18 @@ feature -- Element change
 		deferred
 		end
 
+feature {NONE} -- EROS implementation
+
+	routines: ARRAY [TUPLE [STRING, ROUTINE]]
+			-- make 'set_stopping' procedure remotely accessible by client
+		do
+			Result := <<
+				[R_set_stopping,			agent set_stopping],
+				[R_set_inbound_type, 	agent set_inbound_type],
+				[R_set_outbound_type,	agent set_outbound_type]
+			>>
+		end
+
 feature {NONE} -- Routine names
 
 	R_set_stopping: STRING = "set_stopping"
@@ -50,5 +62,6 @@ feature {NONE} -- Routine names
 	R_set_inbound_type: STRING = "set_inbound_type"
 
 	R_set_outbound_type: STRING = "set_outbound_type"
+
 
 end

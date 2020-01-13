@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-01 13:06:45 GMT (Wednesday 1st January 2020)"
-	revision: "6"
+	date: "2020-01-13 17:47:54 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 class
 	EL_LOG_COMMAND_OPTIONS
@@ -22,11 +22,6 @@ create
 	make, make_default
 
 feature -- Access
-
-	default: like Current
-		do
-			create Result.make_default
-		end
 
 	keep_logs: BOOLEAN
 		-- Do not delete logs

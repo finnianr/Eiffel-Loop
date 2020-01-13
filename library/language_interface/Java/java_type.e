@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:30:18 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2020-01-13 20:25:26 GMT (Monday 13th January 2020)"
+	revision: "5"
 
 deferred class
 	JAVA_TYPE
 
 inherit
 	EL_MODULE_LIO
-		rename
-			Args as Command_args
-		end
 
 feature {NONE} -- Initialization
 

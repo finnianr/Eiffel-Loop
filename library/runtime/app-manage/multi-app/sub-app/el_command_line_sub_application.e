@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:56:01 GMT (Tuesday 31st December 2019)"
-	revision: "24"
+	date: "2020-01-13 18:59:16 GMT (Monday 13th January 2020)"
+	revision: "25"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -32,6 +32,8 @@ inherit
 	EL_SUB_APPLICATION
 		export
 			{EL_COMMAND_ARGUMENT} new_argument_error
+		redefine
+			read_command_options
 		end
 
 	EL_MAKE_PROCEDURE_INFO
@@ -40,17 +42,16 @@ inherit
 
 feature {NONE} -- Initialization
 
-	initialize
-			--
-		local
-			make_command: PROCEDURE [like command]; procedure: EL_PROCEDURE
+	read_command_options
 		do
 			make_command := default_make
-			create procedure.make (make_command)
-			set_operands  (procedure.closed_operands)
-			if not (Application_option.help or else has_argument_errors) then
-				command := factory.instance_from_type ({like command}, make_command)
-			end
+			set_closed_operands
+		end
+
+	initialize
+			--
+		do
+			command := factory.instance_from_type ({like command}, make_command)
 		end
 
 feature -- Basic operations
@@ -63,14 +64,16 @@ feature -- Basic operations
 
 feature {NONE} -- Argument setting
 
-	set_operands (a_operands: like operands)
+	set_closed_operands
+		-- set closed arguments of `make_command' from command line
 		local
-			offset: INTEGER
+			procedure: EL_PROCEDURE; offset: INTEGER
 		do
-			operands := a_operands
-			if a_operands.count > 0
-				and then a_operands.is_reference_item (1)
-				and then a_operands.reference_item (1) = Current
+			create procedure.make (make_command)
+			operands := procedure.closed_operands
+			if operands.count > 0
+				and then operands.is_reference_item (1)
+				and then operands.reference_item (1) = Current
 			then
 				offset := 1
 			end
@@ -164,6 +167,8 @@ feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 
 	operands: TUPLE
 		-- make procedure operands
+
+	make_command: PROCEDURE [like command]
 
 	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT];
 

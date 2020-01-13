@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:16:31 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-13 18:36:00 GMT (Monday 13th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_EROS_SERVER_SUB_APPLICATION

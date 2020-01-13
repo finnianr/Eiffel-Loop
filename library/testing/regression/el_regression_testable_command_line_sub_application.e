@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-10 12:19:23 GMT (Monday 10th December 2018)"
-	revision: "11"
+	date: "2020-01-13 18:50:29 GMT (Monday 13th January 2020)"
+	revision: "12"
 
 deferred class
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+		undefine
+			read_command_options
 		select
 			initialize, run
 		end

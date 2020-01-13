@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 17:01:37 GMT (Saturday 11th January 2020)"
-	revision: "1"
+	date: "2020-01-13 17:55:25 GMT (Monday 13th January 2020)"
+	revision: "2"
 
 class
 	EROS_APPLICATION_COMMAND_OPTIONS
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_REMOTE_CALL_CONSTANTS
-		rename
-			default as any_default
 		undefine
 			is_equal
 		end

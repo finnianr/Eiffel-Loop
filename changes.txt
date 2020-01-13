@@ -121,3 +121,6 @@ Made test.ecf#eros and fixed BINARY_ENCODED_XML_BUILDER_TEST_APP
 Sat 11th Jan 2020, 14:07:32
 Created class EL_EVENT_BROADCASTER and added some XML Pyxis conversion tests
 
+Sun 12th Jan 2020, 19:45:36
+New class EL_ROUTINE_INFO + descendants and fixed output of immutable strings to `lio'
+

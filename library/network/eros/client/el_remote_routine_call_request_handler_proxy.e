@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:47:51 GMT (Thursday 9th January 2020)"
-	revision: "5"
+	date: "2020-01-13 8:54:02 GMT (Monday 13th January 2020)"
+	revision: "6"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY

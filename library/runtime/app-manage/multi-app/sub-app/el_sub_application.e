@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 19:01:04 GMT (Sunday 12th January 2020)"
-	revision: "38"
+	date: "2020-01-13 19:00:34 GMT (Monday 13th January 2020)"
+	revision: "39"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -199,7 +199,7 @@ feature {NONE} -- Implementation
 						File_system.make_directory (dir.item)
 					end
 				end
-				initialize
+				read_command_options
 				if not is_valid_platform then
 					lio.put_labeled_string ("Application option", option_name)
 					lio.put_new_line
@@ -211,7 +211,8 @@ feature {NONE} -- Implementation
 				elseif has_argument_errors then
 					argument_errors.do_all (agent {EL_COMMAND_ARGUMENT_ERROR}.print_to_lio)
 				else
-					run
+					initialize; run
+
 					if Ask_user_to_quit then
 						lio.put_new_line
 						io.put_string ("<RETURN TO QUIT>")
@@ -254,10 +255,15 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
+	read_command_options
+		-- read command line options
+		do
+		end
+
+	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
 		-- Standard command line options
 		do
-			create Result.make_from_array (<< Base_option.default, Application_option.default >>)
+			create Result.make (<< Base_option, Application_option >>)
 		end
 
 	visible_types: TUPLE

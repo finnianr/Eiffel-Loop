@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 19:32:28 GMT (Sunday 12th January 2020)"
-	revision: "8"
+	date: "2020-01-13 18:20:55 GMT (Monday 13th January 2020)"
+	revision: "9"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
+	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
 		do
 			Result := Precursor + Benchmark_option
 		end

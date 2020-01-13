@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 13:44:25 GMT (Monday 17th December 2018)"
-	revision: "6"
+	date: "2020-01-13 13:10:00 GMT (Monday 13th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_STRING_VIEW
@@ -144,6 +144,18 @@ feature -- Element Change
 			valid_count: a_count <= (full_count - a_from_index)
 		do
 			Precursor (a_from_index, a_count)
+		end
+
+feature -- Basic operations
+
+	append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index or else i > count loop
+				str.append_code (code (i))
+				i := i + 1
+			end
 		end
 
 feature -- Removal

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-01-13 13:18:20 GMT (Monday 13th January 2020)"
+	revision: "6"
 
 class
 	EL_ZTEXT_PATTERN_FACTORY
@@ -19,7 +19,7 @@ inherit
 			character_code_literal, character_literal, character_in_range,
 			digit, letter, lowercase_letter,
 			non_breaking_white_space_character,
-			one_character_from, string_literal, uppercase_letter,
+			one_character_from, string_literal, string_literal_caseless, uppercase_letter,
 			white_space_character
 		end
 
@@ -83,6 +83,12 @@ feature -- Basic patterns
 
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
 			--
+		do
+			create Result.make_from_string (new_string (a_text))
+		end
+
+	string_literal_caseless (a_text: READABLE_STRING_GENERAL): EL_CASE_INSENSITIVE_LITERAL_TEXT_PATTERN
+		-- case insensitive match of `a_text'
 		do
 			create Result.make_from_string (new_string (a_text))
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-13 13:11:48 GMT (Monday 13th January 2020)"
+	revision: "5"
 
 class
 	EL_ZSTRING_VIEW
@@ -21,8 +21,10 @@ inherit
 			code as z_code,
 			code_at_absolute as z_code_at_absolute
 		redefine
-			make, to_string, to_string_8
+			append_substring_to, make, to_string, to_string_8
 		end
+
+	EL_ZCODE_CONVERSION
 
 create
 	make
@@ -85,6 +87,26 @@ feature -- Access
 	to_string_general: READABLE_STRING_GENERAL
 		do
 			Result := to_string.to_unicode
+		end
+
+feature -- Basic operations
+
+	append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
+		local
+			i: INTEGER
+		do
+			if attached {ZSTRING} str as zstr then
+				zstr.grow (end_index - start_index + 1 + zstr.count)
+				from i := start_index until i > end_index or else i > count loop
+					zstr.append_z_code (z_code (i))
+					i := i + 1
+				end
+			else
+				from i := start_index until i > end_index or else i > count loop
+					str.append_code (z_code_to_unicode (z_code (i)))
+					i := i + 1
+				end
+			end
 		end
 
 feature {NONE} -- Internal attributes
