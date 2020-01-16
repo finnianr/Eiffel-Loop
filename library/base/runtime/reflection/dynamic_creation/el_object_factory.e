@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:01:00 GMT (Wednesday 8th January 2020)"
-	revision: "18"
+	date: "2020-01-14 9:24:39 GMT (Tuesday 14th January 2020)"
+	revision: "19"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -216,8 +216,10 @@ feature -- Contract support
 		local
 			id: INTEGER
 		do
-			id := Eiffel.dynamic_type_from_string (class_name)
-			Result := {ISE_RUNTIME}.type_conforms_to (id, ({G}).type_id)
+			if not class_name.is_empty then
+				id := Eiffel.dynamic_type_from_string (class_name)
+				Result := {ISE_RUNTIME}.type_conforms_to (id, ({G}).type_id)
+			end
 		end
 
 	all_aliases_not_empty (a_type_alias: like type_alias; type_tuple: TUPLE): BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-12 10:57:30 GMT (Tuesday 12th February 2019)"
-	revision: "9"
+	date: "2020-01-16 12:06:15 GMT (Thursday 16th January 2020)"
+	revision: "10"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -17,9 +17,10 @@ inherit
 		rename
 			put_string as put_raw_string_8,
 			put_character as put_raw_character_8,
-			make_server as make_named_server
+			make_server as make_named_server,
+			last_string as internal_last_string
 		undefine
-			read_stream, readstream
+			read_stream, readstream, read_into_pointer, put_pointer_content
 		redefine
 			make_socket, create_from_descriptor, close_socket
 		end

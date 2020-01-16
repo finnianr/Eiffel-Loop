@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 6:13:38 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2020-01-15 17:49:48 GMT (Wednesday 15th January 2020)"
+	revision: "9"
 
 class
 	EL_ZCODEC_FACTORY
@@ -26,7 +26,7 @@ feature {NONE} -- Factory
 		require
 			has_codec: has_codec (encoding)
 		do
-			if encoding.is_utf_id (8) then
+			if encoding.encoded_as_utf (8) then
 				Result := Utf_8_codec
 
 			elseif has_codec_id (encoding.id) then
@@ -76,7 +76,7 @@ feature {NONE} -- Status query
 
 	has_codec (encoding: EL_ENCODING_BASE): BOOLEAN
 		do
-			Result := encoding.is_utf_id (8) or else has_codec_id (encoding.id)
+			Result := encoding.encoded_as_utf (8) or else has_codec_id (encoding.id)
 		end
 
 	has_codec_id (id: INTEGER): BOOLEAN

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:14:15 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-16 11:57:08 GMT (Thursday 16th January 2020)"
+	revision: "8"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
@@ -38,10 +38,10 @@ feature {NONE} -- Initiliazation
 
 feature -- Basic operations
 
-	serve (client_socket: like connecting_socket)
+	serve (client: EL_STREAM_SOCKET)
 			--
 		do
-			request_handler.serve (connecting_socket.accepted)
+			request_handler.serve (client)
 		end
 
 feature {NONE} -- Implementation

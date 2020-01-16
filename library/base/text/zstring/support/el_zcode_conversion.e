@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-07 10:50:55 GMT (Saturday 7th April 2018)"
-	revision: "2"
+	date: "2020-01-15 17:17:59 GMT (Wednesday 15th January 2020)"
+	revision: "3"
 
 class
 	EL_ZCODE_CONVERSION
@@ -40,7 +40,7 @@ feature {EL_ZCODEC} -- Implementation
 			Result := z_code & Sign_bit_mask
 		end
 
-feature {NONE} -- Constants
+feature {EL_OUTPUT_MEDIUM} -- Constants
 
 	Sign_bit: NATURAL = 0x8000_0000
 

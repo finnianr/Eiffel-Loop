@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:56:39 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2020-01-16 13:56:26 GMT (Thursday 16th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_REMOTE_PROXY
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 		do
 			make_exchanger
 			make_default
+			create {EL_EROS_PROCEDURE_STATUS} result_object.make
 			net_socket := client.net_socket
 			client.proxy_list.extend (Current)
 		end
@@ -60,7 +61,7 @@ feature {NONE} -- Implementation
 	call (routine_name: STRING; argument_tuple: TUPLE)
 			--
 		local
-			request: like Call_request
+			request: like Call_request; l_error: EL_EROS_ERROR_RESULT
 		do
 			log.enter ("call")
 			error_code := 0
@@ -73,9 +74,18 @@ feature {NONE} -- Implementation
 
 			send_object (request, net_socket)
 
-			result_builder.build_from_stream (net_socket)
-			result_object := result_builder.item
 
+			net_socket.read_string
+
+			result_builder.build_from_string (net_socket.last_string (False))
+			if result_builder.has_item and then attached result_builder.item as l_object then
+				result_object := l_object
+			else
+				create l_error.make
+				l_error.set_id (Error.invalid_result)
+				l_error.set_detail ("No result created")
+				result_object := l_error
+			end
 			if attached {EL_EROS_ERROR_RESULT} result_object as error_result then
 				error_code := Error.value (error_result.id)
 				lio.put_labeled_substitution ("ERROR", "%S, %S", [error_result.description, error_result.detail])

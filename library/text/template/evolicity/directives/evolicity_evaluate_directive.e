@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-16 10:07:29 GMT (Thursday 16th January 2020)"
+	revision: "7"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -51,6 +53,7 @@ feature -- Basic operations
 			--
 		local
 			template_path: EL_FILE_PATH
+			line: EL_SPLIT_ZSTRING_LIST
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if not template_name.is_empty then
@@ -67,8 +70,14 @@ feature -- Basic operations
 					Evolicity_templates.put_file (template_path, output)
 				end
 				if Evolicity_templates.is_nested_output_indented then
-					output.put_indented_lines (tabs, Evolicity_templates.merged (template_path, new_context).lines)
-					output.put_new_line -- Needed to prevent something like "</entry> <entry>" on same line
+					create line.make (Evolicity_templates.merged (template_path, new_context), character_string ('%N'))
+					from line.start until line.after loop
+						if not tabs.is_empty then
+							output.put_raw_string_8 (tabs)
+						end
+						output.put_string (line.item)
+						line.forth
+					end
 				else
 					Evolicity_templates.merge (template_path, new_context, output)
 				end

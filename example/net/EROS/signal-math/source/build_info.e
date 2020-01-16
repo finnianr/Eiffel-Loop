@@ -1,14 +1,9 @@
 note
 	description: "Build specification"
+
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "2"
+	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
 class
 	BUILD_INFO
@@ -24,7 +19,7 @@ feature -- Constants
 
 	Installation_sub_directory: EL_DIR_PATH
 		once
-			Result := "Eiffel-Loop/eros-test"
+			Result := "Eiffel-Loop/EROS"
 		end
 
 end

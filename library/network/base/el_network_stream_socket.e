@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-09 16:32:16 GMT (Friday 9th August 2019)"
-	revision: "10"
+	date: "2020-01-16 11:54:40 GMT (Thursday 16th January 2020)"
+	revision: "11"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -15,12 +15,16 @@ class
 inherit
 	NETWORK_STREAM_SOCKET
 		rename
+			last_string as internal_last_string,
 			put_string as put_raw_string_8,
-			put_character as put_raw_character_8
+			put_character as put_raw_character_8,
+			make_empty as make_default
+		export
+			{NONE} internal_last_string
 		undefine
-			read_stream, readstream
+			read_stream, readstream, put_pointer_content, read_into_pointer
 		redefine
-			make_empty, do_accept
+			make_default, do_accept
 		end
 
 	EL_MODULE_EXCEPTION
@@ -32,6 +36,8 @@ inherit
 		undefine
 			exists, is_valid_peer_address, is_valid_family, address_type,
 			set_blocking, set_non_blocking
+		redefine
+			make_default
 		end
 
 create
@@ -39,10 +45,10 @@ create
 
 feature -- Initialization
 
-	make_empty
+	make_default
 		do
-			Precursor
-			make_default
+			Precursor {NETWORK_STREAM_SOCKET}
+			Precursor {EL_STREAM_SOCKET}
 		end
 
 feature -- Access
@@ -60,14 +66,6 @@ feature -- Access
 		end
 
 feature -- Status query
-
-	is_client_connected: BOOLEAN
-			--
-		do
-			if attached {like Current} accepted as client then
-				Result := true
-			end
-		end
 
 	is_zero (n: NATURAL_8): BOOLEAN
 		do

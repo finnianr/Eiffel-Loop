@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 22:56:29 GMT (Friday 10th January 2020)"
-	revision: "6"
+	date: "2020-01-16 9:59:23 GMT (Thursday 16th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_REMOTE_XML_OBJECT_EXCHANGER
@@ -31,6 +31,8 @@ feature -- Basic operations
 
 	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML; socket: EL_STREAM_SOCKET)
 			--
+		local
+			text_io: like Latin_1_text_io
 		do
 			log.put_labeled_substitution (
 				once "Sending", once "%S as %S XML", [object.generator, Event_source_name [outbound_type]]
@@ -39,10 +41,14 @@ feature -- Basic operations
 			inspect outbound_type
 				when Type_binary then
 					parse_event_generator.send_object (object, socket)
-					
+
 				when Type_plaintext then
-					object.serialize_to_stream (socket)
-					socket.put_end_of_string_delimiter
+					text_io := Latin_1_text_io
+					text_io.wipe_out
+					text_io.open_write
+					object.serialize_to_stream (text_io)
+					text_io.close
+					socket.put_delimited_string (text_io.text)
 			else
 			end
 		end
@@ -75,5 +81,11 @@ feature {NONE} -- Internal attributes
 	object_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
 
 	parse_event_generator: EL_XML_PARSE_EVENT_GENERATOR
+
+	Latin_1_text_io: EL_STRING_8_IO_MEDIUM
+		once
+			create Result.make (512)
+			Result.set_latin_encoding (1)
+		end
 
 end

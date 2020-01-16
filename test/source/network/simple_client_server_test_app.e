@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 10:58:06 GMT (Sunday 12th January 2020)"
-	revision: "8"
+	date: "2020-01-16 9:30:55 GMT (Thursday 16th January 2020)"
+	revision: "9"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -54,7 +54,7 @@ feature {NONE} -- Tests
 				log.put_new_line
 				socket.put_line (cmd.item)
 				socket.read_line
-				log.put_labeled_string ("Response", socket.last_string)
+				log.put_labeled_string ("Response", socket.last_string (False))
 				log.put_new_line
 			end
 			socket.put_line (Quit_cmd)

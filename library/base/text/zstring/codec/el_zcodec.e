@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-09 10:14:08 GMT (Wednesday 9th October 2019)"
-	revision: "10"
+	date: "2020-01-15 17:50:37 GMT (Wednesday 15th January 2020)"
+	revision: "11"
 
 deferred class
 	EL_ZCODEC
@@ -15,8 +15,8 @@ deferred class
 inherit
 	EL_ENCODING_BASE
 		rename
-			set_default as set_default_encoding,
-			is_valid as is_valid_encoding
+			set_default as set_default_encoding
+			
 		redefine
 			set_default_encoding
 		end
@@ -59,13 +59,13 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 							encoding_bitmap := Type_utf
 						end
 					when 3 then
-						if is_type_windows then
+						if is_windows_encoded then
 							set_encoding (Type_windows, l_name.item.to_integer)
-						elseif is_type_utf then
+						elseif is_utf_encoded then
 							set_encoding (Type_utf, l_name.item.to_integer)
 						end
 					when 4 then
-						if is_type_latin then
+						if is_latin_encoded then
 							set_encoding (Type_latin, l_name.item.to_integer)
 						end
 				else
@@ -111,6 +111,18 @@ feature {EL_SHARED_ZCODEC, EL_ZCODEC_FACTORY} -- Access
 		-- map latin to unicode
 
 feature -- Basic operations
+
+	append_encoded_to_string_8 (unicode_in: READABLE_STRING_GENERAL; output: STRING)
+		local
+			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
+		do
+			count := unicode_in.count
+			l_area := encoded_latin_out (unicode_in, count).area
+			from i := 0 until i = count loop
+				output.extend (l_area [i])
+				i := i + 1
+			end
+		end
 
 	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
 			-- Replace Ctrl characters used as place holders for foreign characters with original unicode characters.
@@ -182,19 +194,10 @@ feature -- Basic operations
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
-			latin_out: STRING; extendible_unencoded: like Once_extendible_unencoded
 			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
 		do
 			count := unicode_in.count
-			extendible_unencoded := Once_extendible_unencoded
-			extendible_unencoded.wipe_out
-
-			latin_out := empty_once_string_8
-			latin_out.grow (count)
-			latin_out.set_count (count)
-			encode (unicode_in, latin_out.area, 0, extendible_unencoded)
-
-			l_area := latin_out.area
+			l_area := encoded_latin_out (unicode_in, count).area
 			from i := 0 until i = count loop
 				writeable.write_raw_character_8 (l_area [i])
 				i := i + 1
@@ -214,7 +217,7 @@ feature -- Conversion
 		local
 			buffer: like Unicode_buffer
 		do
-			if is_latin_id (1) then
+			if encoded_as_latin (1) then
 				Result := encoded
 			else
 				buffer := Unicode_buffer
@@ -329,6 +332,19 @@ feature {EL_ZSTRING} -- Implementation
 				end
 				i := i + 1
 			end
+		end
+
+	encoded_latin_out (unicode_in: READABLE_STRING_GENERAL; count: INTEGER): STRING
+		local
+			extendible_unencoded: like Once_extendible_unencoded
+		do
+			extendible_unencoded := Once_extendible_unencoded
+			extendible_unencoded.wipe_out
+
+			Result := empty_once_string_8
+			Result.grow (count)
+			Result.set_count (count)
+			encode (unicode_in, Result.area, 0, extendible_unencoded)
 		end
 
 	initialize_latin_sets

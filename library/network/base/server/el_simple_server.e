@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 10:52:04 GMT (Sunday 12th January 2020)"
-	revision: "8"
+	date: "2020-01-16 11:15:48 GMT (Thursday 16th January 2020)"
+	revision: "9"
 
 class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]
@@ -32,35 +32,32 @@ feature -- Basic operations
 	do_service_loop
 			-- serve one client until quite received
 		local
-			client: EL_NETWORK_STREAM_SOCKET; handler: H
-			done: BOOLEAN; pos_space: INTEGER; command, message: STRING
+			handler: H; done: BOOLEAN; pos_space: INTEGER; command, message: STRING
+			is_readable_count: INTEGER
 		do
 			socket.listen (1)
 			if is_lio_enabled then
 				lio.put_line ("Waiting for connection..")
 			end
 			socket.accept
-			if socket.is_client_connected then
+			if attached {EL_STREAM_SOCKET} socket.accepted as client then
 				if is_lio_enabled then
 					lio.put_labeled_string ("connection", "accepted")
 				end
-				client := socket.accepted
 				from until done loop
 					client.set_latin_encoding (1)
-					if client.is_readable then
-						create handler.make (client)
-						client.read_line
-						message := client.last_string
-						if message ~ "quit" then
-							done := True
+					create handler.make (client)
+					client.read_line
+					message := client.last_string (False)
+					if message ~ "quit" then
+						done := True
+					else
+						pos_space := message.index_of (' ', 1)
+						if pos_space > 0 then
+							command := message.substring (1, pos_space - 1)
+							handler.execute (command, message.substring (pos_space + 1, message.count))
 						else
-							pos_space := message.index_of (' ', 1)
-							if pos_space > 0 then
-								command := message.substring (1, pos_space - 1)
-								handler.execute (command, message.substring (pos_space + 1, message.count))
-							else
-								handler.execute (message, "")
-							end
+							handler.execute (message, "")
 						end
 					end
 				end

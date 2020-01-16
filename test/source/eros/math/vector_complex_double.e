@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:20:20 GMT (Friday 10th January 2020)"
-	revision: "4"
+	date: "2020-01-16 19:15:38 GMT (Thursday 16th January 2020)"
+	revision: "5"
 
 deferred class
 	VECTOR_COMPLEX_DOUBLE
@@ -35,10 +35,9 @@ inherit
 		rename
 			make as make_matrix,
 			count as count_times_2,
-			log as natural_log,
-			make_empty as make_default
+			log as natural_log
 		redefine
-			make_default, make_row, make_column
+			make_row, make_column
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
@@ -52,24 +51,18 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			Precursor {NEL_VECTOR_COMPLEX_DOUBLE}
-			Precursor {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}
-		end
-
-	make_row (nb_rows: INTEGER)
-			--
-		do
-			make_default
-			Precursor (nb_rows)
-		end
-
 	make_column (nb_columns: INTEGER)
 			--
 		do
 			make_default
 			Precursor (nb_columns)
+		end
+
+	make_default
+		do
+			area := Default_area
+			height := 1; width := 1
+			Precursor {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}
 		end
 
 	make_from_binary_stream (a_stream: IO_MEDIUM)
@@ -80,6 +73,13 @@ feature {NONE} -- Initialization
 			make_default
 			set_parser_type ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
 			build_from_stream (a_stream)
+		end
+
+	make_row (nb_rows: INTEGER)
+			--
+		do
+			make_default
+			Precursor (nb_rows)
 		end
 
 feature -- Access
@@ -98,46 +98,26 @@ feature {NONE} -- Evolicity reflection
 				["generator", agent: STRING do Result := generator end],
 				["count", agent: INTEGER_REF do Result := count.to_reference end],
 				["vector_type", agent: STRING do Result := vector_type end],
-				["complex_double_list", agent: VECTOR_COMPLEX_DOUBLE_SEQUENCE do create Result.make_from_vector (Current) end]
+				["Current", agent: ITERABLE_COMPLEX_DOUBLE_VECTOR do create Result.make (Current) end]
 			>>)
 		end
 
 feature {NONE} -- Implementation
-
-	index: INTEGER
-
-	new_complex: NEL_COMPLEX_DOUBLE
 
 	vector_type: STRING
 			--
 		deferred
 		end
 
+feature {NONE} -- Internal attributes
+
+	index: INTEGER
+
+	new_complex: NEL_COMPLEX_DOUBLE
+
 feature {NONE} -- Building from XML
 
-	increment_index
-			--
-		do
-			index := index + 1
-		end
-
-	set_real_at_index_from_node
-			--
-		do
-			new_complex.set_real (node.to_double)
-		end
-
-	set_imag_at_index_from_node
-			--
-		do
-			new_complex.set_imag (node.to_double)
-			put (new_complex, index)
-		end
-
-	set_array_size_from_node
-			--
-		deferred
-		end
+	Root_node_name: STRING = "vector-complex-double"
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
@@ -154,18 +134,43 @@ feature {NONE} -- Building from XML
 			>>)
 		end
 
-	Root_node_name: STRING = "vector-complex-double"
+	increment_index
+			--
+		do
+			index := index + 1
+		end
 
-feature -- Constants
+	set_array_size_from_node
+			--
+		deferred
+		end
 
-	Template: STRING =
-		-- Substitution template
-	"[
+	set_imag_at_index_from_node
+			--
+		do
+			new_complex.set_imag (node.to_double)
+			put (new_complex, index)
+		end
+
+	set_real_at_index_from_node
+			--
+		do
+			new_complex.set_real (node.to_double)
+		end
+
+feature {NONE} -- Constants
+
+	Default_area: SPECIAL [DOUBLE]
+		once
+			create Result.make_filled (0, 2)
+		end
+
+	Template: STRING = "[
 		<?xml version="1.0" encoding="iso-8859-1"?>
 		<?create {$generator}?>
 		<vector-complex-double count="$count">
-			#foreach $item in $complex_double_list loop
-			<$vector_type real="$item.real" imag="$item.imag"/>
+			#across $Current as $complex_double loop
+			<$vector_type real="$complex_double.item.real" imag="$complex_double.item.imag"/>
 			#end
 		</vector-complex-double>
 	]"

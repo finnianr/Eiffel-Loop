@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 18:07:51 GMT (Thursday 9th January 2020)"
-	revision: "5"
+	date: "2020-01-14 17:50:27 GMT (Tuesday 14th January 2020)"
+	revision: "6"
 
 class
 	EL_EROS_CLIENT_CONNECTION
@@ -36,14 +36,18 @@ feature -- Status setting
 			--
 		do
 			remote_routine_call_request_handler.set_inbound_type (type)
-			proxy_list.do_all (agent {EL_REMOTE_PROXY}.set_outbound_type (type))
+			across proxy_list as proxy loop
+				proxy.item.set_outbound_type (type)
+			end
 		end
 
 	set_inbound_type (type: INTEGER)
 			--
 		do
 			remote_routine_call_request_handler.set_outbound_type (type)
-			proxy_list.do_all (agent {EL_REMOTE_PROXY}.set_inbound_type (type))
+			across proxy_list as proxy loop
+				proxy.item.set_inbound_type (type)
+			end
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:35:58 GMT (Friday 10th January 2020)"
-	revision: "4"
+	date: "2020-01-16 18:15:54 GMT (Thursday 16th January 2020)"
+	revision: "5"
 
 class
 	COLUMN_VECTOR_COMPLEX_DOUBLE
@@ -18,6 +18,8 @@ inherit
 			make_default as make,
 			make_column as make_with_size
 		end
+
+	EL_MAKEABLE undefine copy, is_equal, out end
 
 create
 	make, make_with_size, make_from_string, make_from_stream, make_from_binary_stream

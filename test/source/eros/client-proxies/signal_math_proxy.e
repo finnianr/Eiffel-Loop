@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2020-01-16 13:45:49 GMT (Thursday 16th January 2020)"
+	revision: "4"
 
 class
 	SIGNAL_MATH_PROXY
@@ -30,8 +30,8 @@ feature -- Access
 			log.enter (R_cosine_waveform)
 			call (R_cosine_waveform, [i_freq, log2_length, phase_fraction])
 
-			if not has_error and then attached {like cosine_waveform} result_object as object then
-				Result := object
+			if not has_error and then attached {like cosine_waveform} result_object as l_result then
+				Result := l_result
 			else
 				create Result.make
 			end

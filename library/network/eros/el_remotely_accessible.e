@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 21:35:53 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2020-01-16 13:37:41 GMT (Thursday 16th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_REMOTELY_ACCESSIBLE
@@ -33,7 +33,7 @@ inherit
 			make
 		end
 
-feature {NONE} -- Initialization
+feature {EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I} -- Initialization
 
 	make
 			--
@@ -60,24 +60,21 @@ feature -- Element change
 			routine_name: STRING; routine_info: EL_ROUTINE_INFO
 		do
 			log.enter ("set_routine_with_arguments")
-			set_error (0)
-			set_error_detail ("")
+			reset_errors
 			routine_name := request_parser.routine_name
 			if routine_table.has_key (routine_name) then
 				requested_routine := routine_table.found_item
 				create routine_info.make (routine_name, requested_routine.generating_type)
 				request_argument_types := routine_info.argument_types
-				request_arguments := requested_routine.empty_operands
+				request_arguments := routine_info.new_tuple_argument
 				if request_arguments.count = request_parser.argument_list.count then
 					set_request_arguments (request_parser)
 					requested_routine.set_operands (request_arguments)
 				else
-					set_error (Error.wrong_number_of_arguments)
-					set_error_detail ("should be " + request_arguments.count.out)
+					set_error (Error.wrong_number_of_arguments, "should be " + request_arguments.count.out)
 				end
 			else
-				set_error (Error.routine_not_found)
-				set_error_detail (routine_name + "?")
+				set_error (Error.routine_not_found, routine_name + "?")
 				requested_routine := Default_routine
 			end
 			log.exit
@@ -96,8 +93,8 @@ feature -- Basic operations
 				result_object := Procedure_acknowledgement
 			elseif attached {FUNCTION [ANY]} requested_routine as function then
 				function.apply
-				if attached {EVOLICITY_SERIALIZEABLE_AS_XML} function.last_result as a_result_object then
-					result_object := a_result_object
+				if attached {EVOLICITY_SERIALIZEABLE_AS_XML} function.last_result as l_result then
+					result_object := l_result
 
 				elseif attached {STRING} function.last_result as last_result  then
 					string_result.set_value (last_result)
@@ -200,15 +197,16 @@ feature {NONE} -- Implementation
 					set_type_mismatch_error (index, routine_name)
 				end
 			else
-				set_error (Error.once_function_not_found)
-				set_error_detail (routine_name)
+				set_error (Error.once_function_not_found, routine_name)
 			end
 		end
 
 	set_type_mismatch_error (index: INTEGER; argument: STRING)
 		do
-			set_error (Error.argument_type_mismatch)
-			set_error_detail (Type_mismatch_error_template #$ [argument, request_argument_types.item (index).name])
+			set_error (
+				Error.argument_type_mismatch,
+				Type_mismatch_error_template #$ [argument, request_argument_types.item (index).name]
+			)
 		end
 
 	valid_once_routine_argument (index: INTEGER; routine_name: STRING): BOOLEAN

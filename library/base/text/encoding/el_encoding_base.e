@@ -6,13 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 11:48:49 GMT (Saturday 11th January 2020)"
-	revision: "5"
+	date: "2020-01-15 17:53:48 GMT (Wednesday 15th January 2020)"
+	revision: "6"
 
 class
 	EL_ENCODING_BASE
 
 feature {NONE} -- Initialization
+
+	make_bitmap (a_encoding_bitmap: INTEGER)
+		do
+			make_default
+			encoding_bitmap := a_encoding_bitmap
+		end
 
 	make_default, make_utf_8
 		do
@@ -22,12 +28,6 @@ feature {NONE} -- Initialization
 	make_latin_1
 		do
 			make_bitmap (Type_latin | 1)
-		end
-
-	make_bitmap (a_encoding_bitmap: INTEGER)
-		do
-			make_default
-			encoding_bitmap := a_encoding_bitmap
 		end
 
 feature -- Access
@@ -40,9 +40,6 @@ feature -- Access
 		do
 			Result := encoding_bitmap & Type_mask
 		end
-
-	encoding_bitmap: INTEGER
-		-- bitwise OR of `type' and `id'
 
 	name: STRING
 			--
@@ -75,47 +72,65 @@ feature -- Access
 
 feature -- Status query
 
-	is_valid (a_type, a_id: INTEGER): BOOLEAN
-		do
-			Result := Valid_types.has (a_type) and then Valid_id_sets.item (a_type).has (a_id)
-		end
-
-feature -- Status query
-
-	is_latin_id (a_id: INTEGER): BOOLEAN
+	encoded_as_latin (a_id: INTEGER): BOOLEAN
 		require
-			valid_id: is_valid (Type_latin, a_id)
+			valid_id: is_valid_latin_id (a_id)
 		do
 			Result := encoding_bitmap = Type_latin | a_id
 		end
 
-	is_type_latin: BOOLEAN
-		do
-			Result := type = Type_latin
-		end
-
-	is_type_utf: BOOLEAN
-		do
-			Result := type = Type_utf
-		end
-
-	is_type_windows: BOOLEAN
-		do
-			Result := type = Type_windows
-		end
-
-	is_utf_id (a_id: INTEGER): BOOLEAN
+	encoded_as_utf (a_id: INTEGER): BOOLEAN
 		require
-			valid_id: is_valid (Type_utf, a_id)
+			valid_id: is_valid_utf_id (a_id)
 		do
 			Result := encoding_bitmap = Type_utf | a_id
 		end
 
-	is_windows_id (a_id: INTEGER): BOOLEAN
+	encoded_as_windows (a_id: INTEGER): BOOLEAN
 		require
-			valid_id: is_valid (Type_windows, a_id)
+			valid_id: is_valid_windows_id (a_id)
 		do
 			Result := encoding_bitmap = Type_windows | a_id
+		end
+
+	is_latin_encoded: BOOLEAN
+		do
+			Result := type = Type_latin
+		end
+
+	is_utf_encoded: BOOLEAN
+		do
+			Result := type = Type_utf
+		end
+
+	is_valid_encoding (a_type, a_id: INTEGER): BOOLEAN
+		do
+			Result := is_valid_encoding_type (a_type) and then Valid_id_sets.item (a_type).has (a_id)
+		end
+
+	is_valid_latin_id (a_id: INTEGER): BOOLEAN
+		do
+			Result := is_valid_encoding (Type_latin, a_id)
+		end
+
+	is_valid_encoding_type (a_type: INTEGER): BOOLEAN
+		do
+			Result := Valid_types.has (a_type)
+		end
+
+	is_valid_utf_id (a_id: INTEGER): BOOLEAN
+		do
+			Result := is_valid_encoding (Type_latin, a_id)
+		end
+
+	is_valid_windows_id (a_id: INTEGER): BOOLEAN
+		do
+			Result := is_valid_encoding (Type_windows, a_id)
+		end
+
+	is_windows_encoded: BOOLEAN
+		do
+			Result := type = Type_windows
 		end
 
 	same_as (other: EL_ENCODING_BASE): BOOLEAN
@@ -125,10 +140,15 @@ feature -- Status query
 
 feature -- Element change
 
+	set_default
+		do
+			set_utf (8)
+		end
+
 	set_encoding (a_type, a_id: INTEGER)
 			--
 		require
-			valid_type_and_id: is_valid (a_type, a_id)
+			valid_type_and_id: is_valid_encoding (a_type, a_id)
 		do
 			encoding_bitmap := a_type | a_id
 		ensure
@@ -162,7 +182,7 @@ feature -- Element change
 				end
 				parts.forth
 			end
-			if is_valid (l_type, l_id) then
+			if is_valid_encoding (l_type, l_id) then
 				set_encoding (l_type, l_id)
 			else
 				encoding_bitmap := 0
@@ -176,11 +196,6 @@ feature -- Element change
 			set_encoding (other.type, other.id)
 		ensure
 			same_encoding: encoding_bitmap = other.encoding_bitmap
-		end
-
-	set_default
-		do
-			set_utf (8)
 		end
 
 	set_latin, set_iso_8859 (a_id: INTEGER)
@@ -198,7 +213,12 @@ feature -- Element change
 			set_encoding (Type_windows, a_id)
 		end
 
-feature -- Encoding types
+feature {EL_ENCODING_BASE} -- Internal attributes
+
+	encoding_bitmap: INTEGER
+		-- bitwise OR of `type' and `id'
+
+feature {NONE} -- Encoding types
 
 	Type_latin: INTEGER = 0x1000
 

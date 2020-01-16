@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:25:56 GMT (Monday 13th January 2020)"
-	revision: "5"
+	date: "2020-01-16 13:46:14 GMT (Thursday 16th January 2020)"
+	revision: "6"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
@@ -74,8 +74,8 @@ feature -- Access
 		do
 			log.enter (R_output)
 			call (R_output, [])
-			if not has_error and then attached {like output} result_object as object then
-				Result := object
+			if not has_error and then attached {like output} result_object as l_result then
+				Result := l_result
 			else
 				create Result.make
 			end

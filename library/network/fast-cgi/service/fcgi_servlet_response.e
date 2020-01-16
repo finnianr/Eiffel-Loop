@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-21 12:42:29 GMT (Thursday 21st March 2019)"
-	revision: "12"
+	date: "2020-01-15 17:59:59 GMT (Wednesday 15th January 2020)"
+	revision: "13"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -121,7 +121,7 @@ feature -- Basic operations
 			content_type := a_content_type
 			if a_content_type.type ~ once "html" then
 				html := Error_page_template #$ [code_name, code_name, message]
-				if a_content_type.encoding.is_type_utf then
+				if a_content_type.encoding.is_utf_encoded then
 					content := html.to_utf_8
 				else
 					content := html.to_latin_1
@@ -165,12 +165,12 @@ feature -- Element change
 	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
 		require
 			valid_mixed_encoding: attached {ZSTRING} text as z_text implies
-												(not type.encoding.is_utf_id (8) implies not z_text.has_mixed_encoding)
+												(not type.encoding.encoded_as_utf (8) implies not z_text.has_mixed_encoding)
 		local
 			buffer: like Encoding_buffer
 		do
 			content_type := type
-			if attached {STRING} text as latin_1 and then type.encoding.is_latin_id (1) then
+			if attached {STRING} text as latin_1 and then type.encoding.encoded_as_latin (1) then
 				content := latin_1
 			else
 				buffer := Encoding_buffer
@@ -199,7 +199,7 @@ feature -- Element change
 	set_content_utf_8 (utf_8: STRING; type: EL_DOC_TYPE)
 		-- set `content' with pre-encoded `utf_8' text
 		require
-			is_utf_8_encoded: type.encoding.is_utf_id (8) and is_valid_utf_8_string_8 (utf_8)
+			is_utf_8_encoded: type.encoding.encoded_as_utf (8) and is_valid_utf_8_string_8 (utf_8)
 		do
 			content_type := type; content := utf_8
 		end

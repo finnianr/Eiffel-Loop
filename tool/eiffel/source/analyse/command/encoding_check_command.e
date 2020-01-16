@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:13:59 GMT (Tuesday 5th March 2019)"
-	revision: "7"
+	date: "2020-01-15 18:01:52 GMT (Wednesday 15th January 2020)"
+	revision: "8"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -33,7 +33,7 @@ feature -- Basic operations
 			last_date: INTEGER; source_out: PLAIN_TEXT_FILE
 		do
 			create source_lines.make_latin (1, source_path)
-			if source_lines.is_utf_encoding (8) then
+			if source_lines.encoded_as_utf (8) then
 				relative_source_path := source_path.relative_path (Directory.current_working)
 				source_utf_8 := File_system.plain_text (source_path)
 				source_utf_8.remove_head (3)

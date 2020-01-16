@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-03 10:45:11 GMT (Saturday 3rd August 2019)"
-	revision: "1"
+	date: "2020-01-16 12:08:21 GMT (Thursday 16th January 2020)"
+	revision: "2"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND

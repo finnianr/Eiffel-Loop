@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:43:15 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-01-14 17:29:51 GMT (Tuesday 14th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_REMOTE_CALL_ERRORS
@@ -30,16 +30,17 @@ feature -- Access
 
 feature -- Element change
 
-	set_error (code: NATURAL_8)
+	set_error (code: NATURAL_8; detail: STRING)
 			--
 		do
 			error_code := code
+			error_detail.share (detail)
 		end
 
-	set_error_detail (detail: STRING)
-			--
+	reset_errors
 		do
-			error_detail := detail
+			error_code := 0
+			error_detail.wipe_out
 		end
 
 feature -- Status query

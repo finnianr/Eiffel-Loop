@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-03 10:58:57 GMT (Monday 3rd June 2019)"
-	revision: "4"
+	date: "2020-01-16 18:34:53 GMT (Thursday 16th January 2020)"
+	revision: "5"
 
 class
 	GENERAL_EXPERIMENTS
@@ -76,6 +76,16 @@ feature -- Basic operations
 
 				-- and so forth
 			else
+			end
+		end
+
+	create_makeable_object
+		local
+			f: EL_MAKEABLE_OBJECT_FACTORY
+		do
+			create f
+			if attached {COLUMN_VECTOR_COMPLEX_DOUBLE} f.instance_from_class_name ("COLUMN_VECTOR_COMPLEX_DOUBLE") as vector then
+				lio.put_line ("success")
 			end
 		end
 

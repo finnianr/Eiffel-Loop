@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 11:38:37 GMT (Saturday 11th January 2020)"
-	revision: "7"
+	date: "2020-01-15 17:55:58 GMT (Wednesday 15th January 2020)"
+	revision: "8"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -18,13 +18,6 @@ inherit
 			id as encoding_id,
 			name as encoding_name,
 			type as encoding_type,
-			is_valid as is_valid_encoding,
-			is_latin_id as is_latin_encoding,
-			is_utf_id as is_utf_encoding,
-			is_windows_id as is_windows_encoding,
-			is_type_latin as is_latin_encoding_type,
-			is_type_utf as is_utf_encoding_type,
-			is_type_windows as is_windows_encoding_type,
 			same_as as same_encoding,
 
 			set_default as set_default_encoding,

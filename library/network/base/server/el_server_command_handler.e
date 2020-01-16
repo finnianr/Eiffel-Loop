@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 8:57:21 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-16 11:16:10 GMT (Thursday 16th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_SERVER_COMMAND_HANDLER
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	socket: EL_NETWORK_STREAM_SOCKET
+	socket: EL_STREAM_SOCKET
 
 feature {EL_SIMPLE_SERVER} -- Constants
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 15:54:35 GMT (Sunday 12th January 2020)"
-	revision: "14"
+	date: "2020-01-15 17:57:50 GMT (Wednesday 15th January 2020)"
+	revision: "15"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -48,6 +48,8 @@ inherit
 
 	EL_ZCODEC_FACTORY
 
+	EL_STRING_8_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	make_default
@@ -68,12 +70,20 @@ feature -- Output
 
 	put_character_32 (c: CHARACTER_32)
 		do
-			codec.write_encoded_character (c, Current)
+			if encoded_as_latin (1) then
+				if c.is_character_8 then
+					put_raw_character_8 (c.to_character_8)
+				else
+					put_raw_character_8 ({EL_ZCODE_CONVERSION}.Unencoded_character)
+				end
+			else
+				codec.write_encoded_character (c, Current)
+			end
 		end
 
 	put_character_8 (c: CHARACTER)
 		do
-			if is_latin_encoding (1) then
+			if encoded_as_latin (1) then
 				put_raw_character_8 (c)
 			else
 				codec.write_encoded_character (c, Current)
@@ -102,24 +112,29 @@ feature -- String output
 			i: INTEGER
 		do
 			from i := 1 until i > tab_count loop
-				put_character_8 ('%T')
+				put_raw_character_8 ('%T')
 				i := i + 1
 			end
 		end
 
-	put_indented_lines (indent: STRING; lines: LINEAR [READABLE_STRING_GENERAL])
+	put_indented_lines (indent: STRING; lines: ITERABLE [READABLE_STRING_GENERAL])
 		require
 			valid_indent: across indent as c all c.item = '%T' or else c.item = ' ' end
+		local
+			first: BOOLEAN
 		do
 			if position = 0 then
 				put_bom
 			end
-			from lines.start until lines.after loop
-				if lines.index > 1 then
-					put_new_line
+			first := True
+			across lines as line loop
+				if not first then
+					put_new_line; first := False
 				end
-				put_raw_string_8 (indent); put_string_general (lines.item)
-				lines.forth
+				if not indent.is_empty then -- Necessary for Network stream
+					put_raw_string_8 (indent)
+				end
+				put_string_general (line.item)
 			end
 		end
 
@@ -129,21 +144,9 @@ feature -- String output
 			put_new_line
 		end
 
-	put_lines (a_lines: FINITE [READABLE_STRING_GENERAL])
-		local
-			lines: LINEAR [READABLE_STRING_GENERAL]
+	put_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
 		do
-			if position = 0 then
-				put_bom
-			end
-			lines := a_lines.linear_representation
-			from lines.start until lines.after loop
-				if lines.index > 1 then
-					put_new_line
-				end
-				put_string_general (lines.item)
-				lines.forth
-			end
+			put_indented_lines (Empty_string_8, lines)
 		end
 
 	put_new_line
@@ -152,7 +155,7 @@ feature -- String output
 
 	put_string (str: ZSTRING)
 		require else
-			valid_encoding: str.has_mixed_encoding implies is_utf_encoding (8)
+			valid_encoding: str.has_mixed_encoding implies encoded_as_utf (8)
 		do
 			if str.encoded_with (codec) then
 				str.write_latin (Current)
@@ -163,21 +166,21 @@ feature -- String output
 
 	put_string_general (str: READABLE_STRING_GENERAL)
 		require else
-			valid_encoding: not str.is_valid_as_string_8 implies is_utf_encoding (8)
+			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
 			codec.write_encoded (str, Current)
 		end
 
 	put_string_32 (str: READABLE_STRING_32)
 		require else
-			valid_encoding: not str.is_valid_as_string_8 implies is_utf_encoding (8)
+			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
 			codec.write_encoded (str, Current)
 		end
 
 	put_string_8, put_latin_1 (str: READABLE_STRING_8)
 		do
-			if is_latin_encoding (1) then
+			if encoded_as_latin (1) then
 				put_raw_string_8 (str)
 			else
 				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
@@ -191,7 +194,7 @@ feature -- Status query
 
 	is_bom_writeable: BOOLEAN
 		do
-			Result := byte_order_mark.is_enabled and then is_utf_encoding (8)
+			Result := byte_order_mark.is_enabled and then encoded_as_utf (8)
 		end
 
 	is_open_write: BOOLEAN

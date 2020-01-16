@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-15 9:53:40 GMT (Tuesday 15th October 2019)"
-	revision: "38"
+	date: "2020-01-15 17:48:56 GMT (Wednesday 15th January 2020)"
+	revision: "39"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -1075,7 +1075,7 @@ feature -- Conversion
 		do
 			if codec.same_as (a_codec) then
 				Result := to_latin_string_8
-			elseif a_codec.is_latin_id (1) then
+			elseif a_codec.encoded_as_latin (1) then
 				Result := to_latin_1
 			else
 				str_32 := empty_once_string_32
@@ -1357,7 +1357,7 @@ feature -- Conversion
 			l_area: SPECIAL [CHARACTER_32]; l_result_area: like to_latin_1.area
 			str_32: STRING_32
 		do
-			if Codec.is_latin_id (1) then
+			if Codec.encoded_as_latin (1) then
 				Result := to_latin_string_8
 			else
 				l_count := count
@@ -2056,7 +2056,7 @@ feature -- Basic operation
 
 	append_to_utf_8 (utf_8_out: STRING_8)
 		do
-			Utf_8_codec.write_string_to_utf_8 (Current, utf_8_out)
+			Utf_8_codec.append_general_to_utf_8 (Current, utf_8_out)
 		end
 
 feature {NONE} -- Implementation

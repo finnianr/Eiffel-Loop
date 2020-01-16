@@ -1,32 +1,26 @@
 note
-	description: "Vector complex double sequence"
+	description: "Iteration cursor for [$source ITERABLE_COMPLEX_DOUBLE_VECTOR]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:33:48 GMT (Friday 10th January 2020)"
-	revision: "5"
+	date: "2020-01-16 14:39:39 GMT (Thursday 16th January 2020)"
+	revision: "1"
 
 class
-	VECTOR_COMPLEX_DOUBLE_SEQUENCE
+	VECTOR_COMPLEX_DOUBLE_ITERATION_CURSOR
 
 inherit
-	LIST [COMPLEX_DOUBLE]
-		export
-			{NONE} all
-			{ANY} before, after, off, writable, readable
-		redefine
-			item
-		end
+	ITERATION_CURSOR [COMPLEX_DOUBLE]
 
 create
-	make_from_vector
+	make
 
 feature {NONE} -- Initialization
 
-	make_from_vector (vector: NEL_VECTOR_COMPLEX_DOUBLE)
+	make (vector: VECTOR_COMPLEX_DOUBLE)
 			--
 		do
 			index := 1
@@ -41,6 +35,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	count: INTEGER
+
+	index: INTEGER
+
 	item: COMPLEX_DOUBLE
 			-- Current item
       local
@@ -51,10 +49,6 @@ feature -- Access
          Result := internal_item
       end
 
-	count: INTEGER
-
-	index: INTEGER
-
 feature -- Basic operations
 
 	forth
@@ -63,59 +57,17 @@ feature -- Basic operations
 			index := index + 1
 		end
 
-	back
-			--
+feature -- Status query
+
+	after: BOOLEAN
 		do
-			index := index - 1
-		end
-
-feature {NONE} -- Unused
-
-	replace (v: COMPLEX_DOUBLE)
-			--
-		do
-		end
-
-	extend (v: COMPLEX_DOUBLE)
-			--
-		do
-		end
-
-	duplicate (n: INTEGER): like Current
-			--
-		do
-		end
-
-	cursor: CURSOR
-			--
-		do
-		end
-
-	valid_cursor (p: CURSOR): BOOLEAN
-			--
-		do
-		end
-
-	go_to (p: CURSOR)
-			--
-		do
-		end
-
-	prunable: BOOLEAN = false
-
-	extendible: BOOLEAN = false
-
-	full: BOOLEAN = false
-
-	wipe_out
-			--
-		do
+			Result := index > count
 		end
 
 feature {NONE} -- Implementation
 
-	internal_item: COMPLEX_DOUBLE
-
 	component_area: SPECIAL [DOUBLE]
+
+	internal_item: COMPLEX_DOUBLE
 
 end

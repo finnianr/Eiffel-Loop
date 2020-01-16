@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-02 12:40:21 GMT (Friday 2nd March 2018)"
-	revision: "1"
+	date: "2020-01-16 12:07:03 GMT (Thursday 16th January 2020)"
+	revision: "2"
 
 class
 	FCGI_DEBUGGING_STREAM_SOCKET
@@ -15,15 +15,15 @@ class
 inherit
 	EL_NETWORK_STREAM_SOCKET
 		redefine
-			make_empty, close_socket, read_to_managed_pointer, put_managed_pointer, put_pointer_content
+			make_default, close_socket, read_to_managed_pointer, put_managed_pointer, put_pointer_content
 		end
 
 create
-	make_server_by_port, make_empty
+	make_server_by_port, make_default
 
 feature {NONE} -- Implementation
 
-	make_empty
+	make_default
 		do
 			Precursor
 			create file_read.make_open_write ("/tmp/" + generator + ".read")

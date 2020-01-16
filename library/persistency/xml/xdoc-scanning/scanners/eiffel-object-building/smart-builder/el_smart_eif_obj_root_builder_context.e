@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 19:06:53 GMT (Thursday 9th January 2020)"
-	revision: "4"
+	date: "2020-01-16 18:58:03 GMT (Thursday 16th January 2020)"
+	revision: "5"
 
 class
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -54,19 +54,29 @@ feature {NONE} -- Event handling
 		-- handle processing instruction <?create {CLASS-NAME}?>
 		-- and put result in `smart_buildable.result_stack'
 		local
-			class_type: STRING_8; result_stack: ARRAYED_STACK [EL_BUILDABLE_FROM_NODE_SCAN]
+			class_name: STRING_8; result_stack: ARRAYED_STACK [EL_BUILDABLE_FROM_NODE_SCAN]
+			target_created: BOOLEAN
 		do
-			class_type := node.to_string_8
-			String_8.remove_bookends (class_type, once "{}")
-			if Factory.valid_type (class_type)
-				and then attached {EL_SMART_BUILDABLE_FROM_NODE_SCAN} target as smart_buildable
-			then
-				target := Factory.instance_from_class_name (class_type, agent {EL_BUILDABLE_FROM_NODE_SCAN}.make_default)
-				building_actions [target.root_node_name] := agent set_top_level_context
-
+			class_name := node.to_string_8
+			String_8.remove_bookends (class_name, once "{}")
+			if attached {EL_SMART_BUILDABLE_FROM_NODE_SCAN} target as smart_buildable then
 				result_stack := smart_buildable.result_stack
-				result_stack.wipe_out; result_stack.put (target)
-
+				result_stack.wipe_out
+			else
+				create result_stack.make (1)
+			end
+			if Factory_makeable.valid_type (class_name) then
+				if attached {like target} Factory_makeable.instance_from_class_name (class_name) as l_target  then
+					target := l_target
+					target_created := True
+				end
+			elseif Factory.valid_type (class_name) then
+				target := Factory.instance_from_class_name (class_name, agent {EL_BUILDABLE_FROM_NODE_SCAN}.make_default)
+				target_created := True
+			end
+			if target_created then
+				building_actions [target.root_node_name] := agent set_top_level_context
+				result_stack.put (target)
 				target.set_node (node)
 				across target.pi_building_actions as action loop
 					if action.key ~ PI_create then
@@ -81,6 +91,11 @@ feature {NONE} -- Event handling
 feature {NONE} -- Constants
 
 	Factory: EL_OBJECT_FACTORY [EL_BUILDABLE_FROM_NODE_SCAN]
+		once
+			create Result
+		end
+
+	Factory_makeable: EL_MAKEABLE_OBJECT_FACTORY
 		once
 			create Result
 		end

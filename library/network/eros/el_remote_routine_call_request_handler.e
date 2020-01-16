@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:43:15 GMT (Monday 13th January 2020)"
-	revision: "12"
+	date: "2020-01-16 12:52:00 GMT (Thursday 16th January 2020)"
+	revision: "13"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -75,6 +75,8 @@ feature {NONE} -- Initialization
 			create listener
 			create error_result.make
 			create request_builder.make (Event_source [Type_plaintext])
+			create read_listener.make
+			create write_listener.make
 			new_outbound_type := outbound_type
 		end
 
@@ -107,26 +109,26 @@ feature -- Element change
 
 feature -- Basic operations
 
-	serve (client_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET)
+	serve (client_socket: EL_STREAM_SOCKET)
 			-- serve client for duration of session
+		require
+			client_socket_readable: client_socket.readable
 		do
 			log.enter ("serve")
+			client_socket.set_latin_encoding (1)
 			initialize
 
 			from set_active until is_stopped loop
-				set_error (0)
-				set_error_detail ("")
-				client_socket.reset_counts
+				reset_errors
+				read_listener.set_socket (client_socket)
+				write_listener.set_socket (client_socket)
 
-				if not client_socket.is_readable then
-					set_stopping
-				else
-					request_builder.build_from_stream (client_socket)
-					listener.received_bytes (client_socket.bytes_received)
-				end
+				client_socket.read_string
+				request_builder.build_from_string (client_socket.last_string (False))
+				listener.received_bytes (read_listener.bytes_read_count)
+
 				if request_builder.has_error then
-					set_error (Error.syntax_error_in_routine_call)
-					set_error_detail (request_builder.source_text.as_string_8)
+					set_error (Error.syntax_error_in_routine_call, request_builder.source_text.as_string_8)
 				end
 				if not has_error then
 					call_class_routine
@@ -145,9 +147,9 @@ feature -- Basic operations
 					set_pending_outbound_type (new_outbound_type)
 				end
 
-				listener.sent_bytes (client_socket.bytes_sent)
+				listener.sent_bytes (write_listener.bytes_sent_count)
 
-				if is_stopping then
+				if is_stopping or not client_socket.readable then
 					log.put_line ("stopping session")
 					set_stopped
 				end
@@ -172,8 +174,7 @@ feature {NONE} -- Implementation
 				target := l_target
 				target_table.extend (target, request_builder.class_name)
 			else
-				set_error (Error.invalid_type)
-				set_error_detail (request_builder.class_name)
+				set_error (Error.invalid_type, request_builder.class_name)
 			end
 			if not has_error then
 				target.set_routine_with_arguments (request_builder)
@@ -184,8 +185,7 @@ feature {NONE} -- Implementation
 					listener.called_routine (target.function_requested)
 					result_object := target.result_object
 				else
-					set_error (target.error_code)
-					set_error_detail (target.error_detail)
+					set_error (target.error_code, target.error_detail)
 				end
 			end
 			log.exit
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 
 	new_target (class_name: STRING): EL_REMOTELY_ACCESSIBLE
 		do
-			Result := Factory.instance_from_class_name (class_name, agent {EL_REMOTELY_ACCESSIBLE}.do_nothing)
+			Result := Factory.instance_from_class_name (class_name, agent {EL_REMOTELY_ACCESSIBLE}.make)
 		end
 
 feature {NONE} -- EROS implementation
@@ -205,6 +205,10 @@ feature {NONE} -- EROS implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	read_listener: EL_READ_BYTE_COUNTING_LISTENER
+
+	write_listener: EL_WRITTEN_BYTE_COUNTING_LISTENER
 
 	error_result: EL_EROS_ERROR_RESULT
 

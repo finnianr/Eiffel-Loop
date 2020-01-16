@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 11:21:52 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2020-01-15 17:57:29 GMT (Wednesday 15th January 2020)"
+	revision: "7"
 
 class
 	EL_STRING_8_IO_MEDIUM
@@ -125,5 +125,5 @@ feature {NONE} -- Implementation
 		end
 
 invariant
-	utf_8_encoded: is_utf_encoding (8)
+	utf_8_encoded: encoded_as_utf (8)
 end

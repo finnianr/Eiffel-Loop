@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 16:33:50 GMT (Tuesday 1st October 2019)"
-	revision: "18"
+	date: "2020-01-15 17:53:49 GMT (Wednesday 15th January 2020)"
+	revision: "19"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -25,6 +25,7 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
+		
 		redefine
 			make_default
 		end
