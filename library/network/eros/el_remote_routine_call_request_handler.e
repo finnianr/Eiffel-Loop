@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:52:00 GMT (Thursday 16th January 2020)"
-	revision: "13"
+	date: "2020-01-17 18:55:00 GMT (Friday 17th January 2020)"
+	revision: "14"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 			log.enter ("call_routine")
 			if target_table.has_key (request_builder.class_name) then
 				target := target_table.found_item
-			elseif Factory.valid_type (request_builder.class_name)
+			elseif Factory.valid_name (request_builder.class_name)
 				and then attached new_target (request_builder.class_name) as l_target
 			then
 				target := l_target
@@ -191,9 +191,12 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	new_target (class_name: STRING): EL_REMOTELY_ACCESSIBLE
+	new_target (class_name: STRING): detachable EL_REMOTELY_ACCESSIBLE
 		do
-			Result := Factory.instance_from_class_name (class_name, agent {EL_REMOTELY_ACCESSIBLE}.make)
+			if attached {like new_target} Factory.new_item_from_name (class_name) as new then
+				new.make
+				Result := new
+			end
 		end
 
 feature {NONE} -- EROS implementation

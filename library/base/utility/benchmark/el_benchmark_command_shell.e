@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-19 9:32:03 GMT (Thursday 19th September 2019)"
-	revision: "10"
+	date: "2020-01-17 11:10:41 GMT (Friday 17th January 2020)"
+	revision: "11"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -33,11 +33,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature {NONE} -- Implementation
 
 	do_comparison (name: ZSTRING)
-		local
-			comparison: EL_BENCHMARK_COMPARISON
 		do
-			comparison := factory.instance_from_alias (name, agent {EL_BENCHMARK_COMPARISON}.make (number_of_runs))
-			comparison.execute
+			if attached factory.new_item_from_alias (name) as comparison then
+				comparison.make (number_of_runs)
+				comparison.execute
+			end
 		end
 
 	factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]

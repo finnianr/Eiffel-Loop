@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:41:57 GMT (Monday 5th August 2019)"
-	revision: "10"
+	date: "2020-01-17 18:53:12 GMT (Friday 17th January 2020)"
+	revision: "11"
 
 class
 	EL_URL_QUERY_HASH_TABLE
@@ -47,7 +47,7 @@ feature -- Access
 			if attached {ZSTRING} table_item (key) as l_result then
 				Result := l_result
 			else
-				Result := Empty_string
+				create Result.make_empty
 			end
 		end
 

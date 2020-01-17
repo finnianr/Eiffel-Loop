@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 13:45:49 GMT (Thursday 16th January 2020)"
-	revision: "4"
+	date: "2020-01-16 19:48:29 GMT (Thursday 16th January 2020)"
+	revision: "5"
 
 class
 	SIGNAL_MATH_PROXY
@@ -37,9 +37,5 @@ feature -- Access
 			end
 			log.exit
 		end
-
-feature {NONE} -- Routine names
-
-	R_cosine_waveform: STRING = "cosine_waveform"
 
 end

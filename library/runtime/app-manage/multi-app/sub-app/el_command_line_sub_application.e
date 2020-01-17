@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 18:59:16 GMT (Monday 13th January 2020)"
-	revision: "25"
+	date: "2020-01-17 10:43:34 GMT (Friday 17th January 2020)"
+	revision: "26"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -51,7 +51,10 @@ feature {NONE} -- Initialization
 	initialize
 			--
 		do
-			command := factory.instance_from_type ({like command}, make_command)
+			if attached {like command} factory.new_item_from_type ({like command}) as new_item then
+				make_command (new_item)
+				command := new_item
+			end
 		end
 
 feature -- Basic operations

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-17 12:19:13 GMT (Friday 17th January 2020)"
+	revision: "6"
 
 class
 	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
 
 inherit
-	EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD [EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET]
+	EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD [EL_STREAM_SOCKET]
 		rename
 			product as client_socket,
 			consume_product as serve_client

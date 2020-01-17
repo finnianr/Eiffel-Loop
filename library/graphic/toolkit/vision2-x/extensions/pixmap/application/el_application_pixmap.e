@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 13:53:29 GMT (Saturday 30th November 2019)"
-	revision: "8"
+	date: "2020-01-17 18:54:00 GMT (Friday 17th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -146,16 +146,25 @@ feature -- SVG
 feature {NONE} -- Factory
 
 	new_svg_pixmap (make_pixmap: PROCEDURE [EL_SVG_PIXMAP]): EL_SVG_PIXMAP
+		local
+			result_type: TYPE [EL_SVG_PIXMAP]
 		do
 			Procedure.set_from_other (make_pixmap)
-			if attached {like image_path} Procedure.closed_operands.reference_item (1) as l_image_path then
-				if l_image_path.with_new_extension (Png_extension).exists then
-					Result := Svg_factory.instance_from_type ({EL_SVG_TEMPLATE_PIXMAP}, make_pixmap)
-				else
-					Result := Svg_factory.instance_from_type ({EL_SVG_PIXMAP}, make_pixmap)
-				end
+			if attached {like image_path} Procedure.closed_operands.reference_item (1) as l_image_path
+				and then l_image_path.with_new_extension (Png_extension).exists
+			then
+				result_type := {EL_SVG_TEMPLATE_PIXMAP}
+			else
+				result_type := {EL_SVG_PIXMAP}
 			end
-			if attached {EL_SVG_TEMPLATE_PIXMAP} Result as template_pixmap then
+			if attached Svg_factory.new_item_from_type (result_type) as new then
+				make_pixmap (new)
+				Result := new
+			else
+				create Result
+				make_pixmap (Result)
+			end
+			if attached {EL_SVG_TEMPLATE_PIXMAP} Result as template_pixmap wthen
 				template_pixmap.update_png
 			end
 		end

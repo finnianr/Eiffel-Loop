@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:40:25 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-01-17 12:21:01 GMT (Friday 17th January 2020)"
+	revision: "7"
 
 class
 	EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 			polls_per_second: INTEGER
 		do
 			connecting_socket.accept
-			if connecting_socket.is_client_connected then
+			if attached {EL_STREAM_SOCKET} connecting_socket as client then
 				lio.put_line ("Connection accepted")
-				client_connection_queue.put (connecting_socket.accepted)
+				client_connection_queue.put (client)
 				log.put_line ("Waiting for connection ..")
 				if not logarithmic_polling_rates.islast then
 					logarithmic_polling_rates.forth
@@ -99,7 +99,7 @@ feature {NONE} -- Internal attributes
 
 	client_connection_queue: EL_REMOTE_CALL_CLIENT_CONNECTION_QUEUE
 
-	connecting_socket: EL_BYTE_COUNTING_NETWORK_STREAM_SOCKET
+	connecting_socket: EL_NETWORK_STREAM_SOCKET
 
 	logarithmic_polling_rates: ARRAYED_LIST [INTEGER]
 

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:34:34 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-01-16 19:48:44 GMT (Thursday 16th January 2020)"
+	revision: "7"
 
 deferred class
 	SIGNAL_MATH_I
@@ -42,8 +42,13 @@ feature {NONE} -- EROS implementation
 			--
 		do
 			Result := <<
-				["cosine_waveform", agent cosine_waveform]
+				[R_cosine_waveform, agent cosine_waveform]
 			>>
 		end
+
+feature {NONE} -- Routine names
+
+	R_cosine_waveform: STRING = "cosine_waveform"
+
 
 end

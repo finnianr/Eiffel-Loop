@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 11:52:17 GMT (Sunday 16th June 2019)"
-	revision: "8"
+	date: "2020-01-17 12:00:35 GMT (Friday 17th January 2020)"
+	revision: "9"
 
 class
 	YOUTUBE_VIDEO
@@ -200,7 +200,7 @@ feature {NONE} -- Implementation
 				from until ffmpeg_socket.was_error loop
 					ffmpeg_socket.read_line
 					if ffmpeg_socket.was_error then
-						line := ffmpeg_socket.last_string
+						line := ffmpeg_socket.last_string (False)
 						pos_out_time := line.substring_index (Out_time_field, 1)
 						if pos_out_time > 0 then
 							time := new_time (line.substring (pos_out_time + Out_time_field.count, line.count))

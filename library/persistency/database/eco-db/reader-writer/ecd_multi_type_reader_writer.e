@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-17 19:15:34 GMT (Friday 17th January 2020)"
+	revision: "7"
 
 class
 	ECD_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -53,6 +53,18 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	new_item: G
+		do
+			if type_index = 0 then
+				create Result.make_default
+			elseif attached {G} Factory.new_item_from_type (descendants.item (type_index.to_integer_32)) as new then
+				new.make_default
+				Result := new
+			else
+				create Result.make_default
+			end
+		end
+
 	read_header (a_file: RAW_FILE)
 		do
 			Precursor (a_file)
@@ -66,25 +78,21 @@ feature {NONE} -- Implementation
 			a_file.put_natural_8 (type_index)
 		end
 
-	new_item: G
-		do
-			if type_index = 0 then
-				create Result.make_default
-			elseif attached {G} Eiffel.new_instance_of (descendants.item (type_index.to_integer_32).type_id) as l_result then
-				Result := l_result
-				Result.make_default
-			else
-				create Result.make_default
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	descendants: ARRAY [TYPE [G]]
+
+	storable_object: REFLECTED_REFERENCE_OBJECT
 
 	type_index: NATURAL_8
 
 	type_index_table: HASH_TABLE [NATURAL_8, INTEGER]
 
-	storable_object: REFLECTED_REFERENCE_OBJECT
+feature -- Constants
+
+	Factory: EL_OBJECT_FACTORY [EL_STORABLE]
+		once
+			create Result
+		end
+
 end

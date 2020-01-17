@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 22:48:16 GMT (Friday 10th January 2020)"
-	revision: "7"
+	date: "2020-01-17 10:26:59 GMT (Friday 17th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -85,8 +85,11 @@ feature -- Element change
 	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			if {ISE_RUNTIME}.dynamic_type (event_source) /= type.type_id then
-				event_source := Factory.instance_from_type (type, agent {EL_PARSE_EVENT_SOURCE}.make (Current))
+			if {ISE_RUNTIME}.dynamic_type (event_source) /= type.type_id
+				and then attached {like event_source} Factory.new_item_from_type (type) as l_source
+			then
+				l_source.make (Current)
+				event_source := l_source
 			end
 		end
 

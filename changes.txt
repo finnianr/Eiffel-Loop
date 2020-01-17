@@ -127,3 +127,6 @@ New class EL_ROUTINE_INFO + descendants and fixed output of immutable strings to
 Mon 13th Jan 2020, 20:35:09
 Added read_command_options to EL_SUB_APPLICATION and create EL_DESCRIPTIVE_ENUMERATION
 
+Thu 16th Jan 2020, 19:21:43
+Fixed signal-math.ecf demo; created EL_MAKEABLE_OBJECT_FACTORY; Added listeners to EL_STREAM_SOCKET
+

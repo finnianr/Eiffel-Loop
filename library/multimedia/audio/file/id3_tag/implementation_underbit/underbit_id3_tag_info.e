@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:48:15 GMT (Wednesday 30th October 2019)"
-	revision: "5"
+	date: "2020-01-17 18:54:35 GMT (Friday 17th January 2020)"
+	revision: "6"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -144,7 +144,12 @@ feature {NONE} -- Factory
 		do
 			frame_ptr := c_frame (id3_file_tag, index - 1)
 			create code.make_from_latin_1_c (c_id3_frame_id (frame_ptr))
-			Result := Factory.instance_from_alias (code, agent {UNDERBIT_ID3_FRAME}.make (frame_ptr, code))
+			if attached {like new_frame} Factory.new_item_from_alias (code) as new then
+				new.make (frame_ptr, code)
+				Result := new
+			else
+				create Result.make (frame_ptr, "")
+			end
 		end
 
 	new_frame_list: EL_ARRAYED_LIST [UNDERBIT_ID3_FRAME]

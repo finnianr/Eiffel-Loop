@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-21 10:53:27 GMT (Thursday 21st June 2018)"
-	revision: "5"
+	date: "2020-01-17 9:45:21 GMT (Friday 17th January 2020)"
+	revision: "6"
 
 deferred class
 	FCGI_SEPARATE_SERVLET_SERVICE
@@ -71,7 +71,7 @@ feature -- Basic operations
 					end_service.write (client_socket)
 					if not client_socket.was_error then
 						client_socket.read_stream (2)
-						response_ok := client_socket.last_string ~ "ok"
+						response_ok := client_socket.last_string (False) ~ "ok"
 					end
 					client_socket.close
 				end

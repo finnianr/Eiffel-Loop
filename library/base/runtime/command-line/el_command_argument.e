@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 17:31:56 GMT (Sunday 1st September 2019)"
-	revision: "15"
+	date: "2020-01-17 11:12:42 GMT (Friday 17th January 2020)"
+	revision: "16"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -65,10 +65,10 @@ feature -- Basic operations
 			make_routine.extend_help (word_option, help_description, operand)
 			operand_type := operand.generating_type
 			if Setter_types.has_key (operand_type) then
-				setter := Factory.instance_from_type (
-					Setter_types.found_item, agent {EL_MAKE_OPERAND_SETTER [ANY]}.make (make_routine, Current)
-				)
-				setter.set_operand (index)
+				if attached Factory.new_item_from_type (Setter_types.found_item) as l_setter then
+					l_setter.make (make_routine, Current)
+					l_setter.set_operand (index)
+				end
 
 			elseif attached {EL_MAKEABLE_FROM_STRING_GENERAL} operand as makeable then
 				create {EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER} setter.make (make_routine, Current)
@@ -88,11 +88,11 @@ feature -- Basic operations
 				else
 					Setter_types.search ({like Current}) -- `Setter_types.found' is now False
 				end
-				if Setter_types.found then
-					setter := Factory.instance_from_type (
-						Setter_types.found_item, agent {EL_MAKE_OPERAND_SETTER [ANY]}.make_list (make_routine, Current)
-					)
-					setter.set_operand (index)
+				if Setter_types.found and then
+					attached Factory.new_item_from_type (Setter_types.found_item) as new_item
+				then
+					new_item.make_list (make_routine, Current)
+					new_item.set_operand (index)
 				end
 			end
 		end

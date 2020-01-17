@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-14 9:24:39 GMT (Tuesday 14th January 2020)"
-	revision: "19"
+	date: "2020-01-17 18:52:26 GMT (Friday 17th January 2020)"
+	revision: "20"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -29,8 +29,6 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
-
-	EL_MODULE_EXCEPTION
 
 	EL_MODULE_NAMING
 
@@ -93,62 +91,46 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	instance_from_alias (a_alias: READABLE_STRING_GENERAL; initialize: PROCEDURE [G]): G
-			-- initialized instance for type corresponding to `type_alias'
-			-- or else instance for `default_alias' if `type_alias' cannot be found
+	new_item_from_type (type: TYPE [G]): detachable G
+		-- new item from dynamic type `type_id'
 		do
-			Result := raw_instance_from_alias (a_alias)
-			initialize (Result)
+			Result := new_item_from_type_id (type.type_id)
 		end
 
-	instance_from_class_name (class_name: STRING; initialize: PROCEDURE [G]): G
-			--
+	new_item_from_type_id (type_id: INTEGER): detachable G
+		-- new item from dynamic type `type_id'
 		require
-			valid_type: valid_type (class_name)
+			valid_type_id: valid_type_id (type_id)
 		do
-			Result := instance_from_dynamic_type (Eiffel.dynamic_type_from_string (class_name), initialize)
-			if not attached Result then
-				Exception.raise_panic (Template_not_compiled, [class_name])
+			if type_id >= 0 and then attached {G} Eiffel.new_instance_of (type_id) as new then
+				Result := new
 			end
 		end
 
-	instance_from_type (type: TYPE [G]; initialize: PROCEDURE [G]): G
-			-- initialized instance of type
-		do
-			Result := instance_from_dynamic_type (type.type_id, initialize)
-			if not attached Result then
-				Exception.raise_panic ("Failed to create instance of class: %S", [type.name])
-			end
-		end
-
-	raw_instance_from_alias (a_alias: READABLE_STRING_GENERAL): G
+	new_item_from_alias (a_alias: READABLE_STRING_GENERAL): detachable G
 			-- uninitialized instance for type corresponding to `type_alias'
 			-- or else instance for `default_alias' if `type_alias' cannot be found
+		require
+			valid_type: a_alias /= default_alias implies valid_alias (a_alias)
+			valid_default_type: a_alias = default_alias implies valid_alias (default_alias)
 		do
 			if types_indexed_by_name.has_key (General.to_zstring (a_alias)) then
-				if attached {G} Eiffel.new_instance_of (types_indexed_by_name.found_item.type_id) as instance then
-					Result := instance
-				end
-			elseif not default_alias.is_empty then
-				Result := raw_instance_from_alias (default_alias)
-			end
-			if not attached Result then
-				Exception.raise_panic ("Could not instantiate class with alias: %"%S%"", [a_alias])
+				Result := new_item_from_type (types_indexed_by_name.found_item)
+			else
+				Result := new_item_from_alias (default_alias)
 			end
 		end
 
-	raw_instance_from_class_name (class_name: STRING): G
+	new_item_from_name (class_name: STRING): detachable G
 			--
 		require
-			valid_type: valid_type (class_name)
+			valid_type: valid_name (class_name)
 		local
 			type_id: INTEGER
 		do
 			type_id := Eiffel.dynamic_type_from_string (class_name)
-			if type_id > 0 and then attached {G} Eiffel.new_instance_of (type_id) as instance then
-				Result := instance
-			else
-				Exception.raise_panic (Template_not_compiled, [class_name])
+			if type_id > 0 and then attached {G} Eiffel.new_instance_of (type_id) as new then
+				Result := new
 			end
 		end
 
@@ -212,14 +194,23 @@ feature -- Contract support
 			Result := types_indexed_by_name.has (General.to_zstring (a_alias))
 		end
 
-	valid_type (class_name: STRING): BOOLEAN
-		local
-			id: INTEGER
+	valid_alias (a_alias: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if types_indexed_by_name.has_key (General.to_zstring (a_alias)) then
+				Result := valid_name (types_indexed_by_name.found_item)
+			end
+		end
+
+	valid_name (class_name: STRING): BOOLEAN
 		do
 			if not class_name.is_empty then
-				id := Eiffel.dynamic_type_from_string (class_name)
-				Result := {ISE_RUNTIME}.type_conforms_to (id, ({G}).type_id)
+				Result := valid_type_id (Eiffel.dynamic_type_from_string (class_name))
 			end
+		end
+
+	valid_type_id (type_id: INTEGER): BOOLEAN
+		do
+			Result := {ISE_RUNTIME}.type_conforms_to (type_id, ({G}).type_id)
 		end
 
 	all_aliases_not_empty (a_type_alias: like type_alias; type_tuple: TUPLE): BOOLEAN
@@ -241,15 +232,6 @@ feature {EL_FACTORY_CLIENT} -- Implementation
 			Result := alias_name (type)
 		end
 
-	instance_from_dynamic_type (type_id: INTEGER; initialize: PROCEDURE [G]): G
-			--
-		do
-			if type_id >= 0 and then attached {G} Eiffel.new_instance_of (type_id) as instance then
-				initialize (instance)
-				Result := instance
-			end
-		end
-
 	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [G]
 		do
 			create Result.make_from_tuple (type_tuple)
@@ -267,11 +249,6 @@ feature {NONE} -- Constants
 	General: EL_ZSTRING_CONVERTER
 		once
 			create Result.make
-		end
-
-	Template_not_compiled: ZSTRING
-		once
-			Result := "Class %S is not compiled into system"
 		end
 
 end

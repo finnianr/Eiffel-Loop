@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 13:46:14 GMT (Thursday 16th January 2020)"
-	revision: "6"
+	date: "2020-01-16 19:25:59 GMT (Thursday 16th January 2020)"
+	revision: "7"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
@@ -121,8 +121,8 @@ feature -- Basic operations
 feature -- Element change
 
    set_input (a_input: like input)
-			-- Processing instruction example:
-			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_input ({COLUMN_VECTOR_COMPLEX_DOUBLE})?>
+		-- Processing instruction example:
+		--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_input ({COLUMN_VECTOR_COMPLEX_DOUBLE})?>
 		require else
      		valid_input_length: is_valid_input_length (a_input.length)
 		do
@@ -132,8 +132,8 @@ feature -- Element change
 		end
 
    set_windower (a_windower_id: STRING)
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_windower (Rectangular_windower)?>
+		-- Processing instruction example:
+		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.set_windower (Rectangular_windower)?>
 		require
 			valid_windower: Windower_id_set.has (a_windower_id)
 		do
@@ -145,8 +145,8 @@ feature -- Element change
 feature -- Contract support
 
 	is_output_length_valid: BOOLEAN
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_output_length_valid?>
+		-- Processing instruction example:
+		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_output_length_valid?>
 		do
 			log.enter (R_is_output_length_valid)
 			call (R_is_output_length_valid, [])
@@ -157,8 +157,8 @@ feature -- Contract support
 		end
 
 	is_power_of_two (n: INTEGER): BOOLEAN
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
+		-- Processing instruction example:
+		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
 		do
 			log.enter (R_is_power_of_two)
 			call (R_is_power_of_two, [n])
@@ -169,8 +169,8 @@ feature -- Contract support
 		end
 
 	is_valid_input_length (a_length: INTEGER): BOOLEAN
-			-- Processing instruction example:
-			--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_valid_input_length (256)?>
+		-- Processing instruction example:
+		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_valid_input_length (256)?>
 		do
 			log.enter (R_is_valid_input_length)
 			call (R_is_valid_input_length, [a_length])

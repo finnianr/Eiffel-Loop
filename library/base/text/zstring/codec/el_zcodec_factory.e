@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-15 17:49:48 GMT (Wednesday 15th January 2020)"
-	revision: "9"
+	date: "2020-01-17 18:50:33 GMT (Friday 17th January 2020)"
+	revision: "10"
 
 class
 	EL_ZCODEC_FACTORY
@@ -40,10 +40,20 @@ feature {NONE} -- Factory
 		do
 			inspect id
 				when 1 .. 11, 13 .. 15 then
-					Result := ISO_8859_factory.instance_from_alias (id.out, agent {EL_ZCODEC}.make)
+					if attached ISO_8859_factory.new_item_from_alias (id.out) as new then
+						new.make
+						Result := new
+					else
+						create {EL_ISO_8859_1_ZCODEC} Result.make
+					end
 
 				when 1250 .. 1258 then
-					Result := Windows_factory.instance_from_alias (id.out, agent {EL_ZCODEC}.make)
+					if attached Windows_factory.new_item_from_alias (id.out) as new then
+						new.make
+						Result := new
+					else
+						create {EL_WINDOWS_1250_ZCODEC} Result.make
+					end
 
 			else
 				create {EL_ISO_8859_1_ZCODEC} Result.make

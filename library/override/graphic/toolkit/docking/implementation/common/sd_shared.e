@@ -65,18 +65,18 @@ feature -- Access
 			not_void: Result /= Void
 		end
 
-					widget_factory: like Type_widget_factory
-			-- AUTO EDITION: replacement
-							-- SD_WIDGET_FACTORY instance.
-						do
-							if attached {like Type_widget_factory} widget_factory_cell.item as l_result then
-								Result := l_result
-							else
-								create Result.make
-								widget_factory_cell.put (Result)
-							end
-						end
-	
+	widget_factory: like Type_widget_factory
+		-- AUTO EDITION: replacement
+			-- SD_WIDGET_FACTORY instance.
+		do
+			if attached {like Type_widget_factory} widget_factory_cell.item as l_result then
+				Result := l_result
+			else
+				create Result.make
+				widget_factory_cell.put (Result)
+			end
+		end
+
 	tool_bar_docker_mediator_cell: CELL [detachable SD_TOOL_BAR_DOCKER_MEDIATOR]
 			-- Tool bar docker mediator when user dragging a SD_TOOL_BAR_ZONE.
 		once
@@ -802,7 +802,7 @@ feature {NONE} -- Implementation
 						once ("PROCESS")
 							create Result.put (Void)
 						end
-	
+
 feature {NONE} -- Type definitions
 -- AUTO EDITION: new feature group
 
@@ -810,7 +810,7 @@ feature {NONE} -- Type definitions
 				-- AUTO EDITION: new insertion
 						once
 						end
-	
+
 note
 	library:	"SmartDocking: Library of reusable components for Eiffel."
 	copyright:	"Copyright (c) 1984-2012, Eiffel Software and others"

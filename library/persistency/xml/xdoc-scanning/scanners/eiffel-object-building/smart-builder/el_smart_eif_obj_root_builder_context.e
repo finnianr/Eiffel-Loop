@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 18:58:03 GMT (Thursday 16th January 2020)"
-	revision: "5"
+	date: "2020-01-17 19:10:30 GMT (Friday 17th January 2020)"
+	revision: "6"
 
 class
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -65,14 +65,17 @@ feature {NONE} -- Event handling
 			else
 				create result_stack.make (1)
 			end
-			if Factory_makeable.valid_type (class_name) then
-				if attached {like target} Factory_makeable.instance_from_class_name (class_name) as l_target  then
+			if Factory_makeable.valid_name (class_name) then -- Classes conforming to EL_MAKEABLE
+				if attached {like target} Factory_makeable.new_item_from_name (class_name) as l_target  then
 					target := l_target
 					target_created := True
 				end
-			elseif Factory.valid_type (class_name) then
-				target := Factory.instance_from_class_name (class_name, agent {EL_BUILDABLE_FROM_NODE_SCAN}.make_default)
-				target_created := True
+			elseif Factory.valid_name (class_name) then
+				if attached Factory.new_item_from_name (class_name) as l_target then
+					l_target.make_default
+					target := l_target
+					target_created := True
+				end
 			end
 			if target_created then
 				building_actions [target.root_node_name] := agent set_top_level_context

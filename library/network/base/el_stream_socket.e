@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:20:35 GMT (Thursday 16th January 2020)"
-	revision: "5"
+	date: "2020-01-16 19:52:15 GMT (Thursday 16th January 2020)"
+	revision: "6"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -131,12 +131,12 @@ feature -- Output
 
 feature -- Element change
 
-	set_read_listener (a_read_listener: like read_listener)
+	set_read_listener (a_read_listener: EL_READ_BYTE_COUNTING_LISTENER)
 		do
 			read_listener := a_read_listener
 		end
 
-	set_write_listener (a_write_listener: like write_listener)
+	set_write_listener (a_write_listener: EL_WRITTEN_BYTE_COUNTING_LISTENER)
 		do
 			write_listener := a_write_listener
 		end

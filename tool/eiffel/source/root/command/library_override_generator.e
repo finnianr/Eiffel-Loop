@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-01-17 12:16:37 GMT (Friday 17th January 2020)"
+	revision: "4"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -57,17 +57,20 @@ feature {NONE} -- Implementation
 
 	override (relative_path: EL_FILE_PATH)
 		local
-			editor: FEATURE_EDITOR; source_path, output_path: EL_FILE_PATH
+			source_path, output_path: EL_FILE_PATH
 		do
 			source_path := ise_library_dir + relative_path
 			output_path := output_dir + relative_path
 			if source_path.exists then
 				lio.put_path_field ("Editing", relative_path)
-				editor := editor_factory.instance_from_alias (
-					relative_path.as_string_32, agent {OVERRIDE_FEATURE_EDITOR}.make (source_path)
-				)
-				File_system.make_directory (output_path.parent)
-				editor.write_edited_lines (output_path)
+				if attached Editor_factory.new_item_from_alias (relative_path.to_string) as editor then
+					editor.make (source_path)
+					File_system.make_directory (output_path.parent)
+					editor.write_edited_lines (output_path)
+				else
+					lio.put_path_field ("No editor found for", relative_path)
+					lio.put_new_line
+				end
 			else
 				lio.put_line ("ERROR: source file missing")
 				lio.put_path_field ("Source", source_path)

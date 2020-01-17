@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 13:32:13 GMT (Thursday 9th January 2020)"
-	revision: "5"
+	date: "2020-01-17 12:07:56 GMT (Friday 17th January 2020)"
+	revision: "6"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN]
@@ -54,8 +54,9 @@ feature -- Access
 						lio.put_new_line
 					end
 
-				elseif has_alias (last_root_element) then
-					Result := instance_from_alias (last_root_element, make_from_file)
+				elseif has_alias (last_root_element) and then attached new_item_from_alias (last_root_element) as new_item then
+					make_from_file (new_item)
+					Result := new_item
 				else
 					if is_lio_enabled then
 						lio.put_labeled_substitution (
@@ -66,10 +67,13 @@ feature -- Access
 				end
 			end
 			if not attached Result then
-				if attached {PROCEDURE [G]} make_default as l_make_default then
-					Result := instance_from_alias (default_alias, l_make_default)
-				else
-					Result := raw_instance_from_alias (default_alias)
+				if attached {PROCEDURE [G]} make_default as l_make_default
+					 and then attached new_item_from_alias (last_root_element) as new_item
+				then
+					l_make_default (new_item)
+					Result := new_item
+				elseif attached new_item_from_alias (default_alias) as new_item then
+					Result := new_item
 				end
 			end
 		end
