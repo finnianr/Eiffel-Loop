@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 10:53:14 GMT (Sunday 12th January 2020)"
-	revision: "29"
+	date: "2020-01-19 12:15:59 GMT (Sunday 19th January 2020)"
+	revision: "30"
 
 class
 	APPLICATION_ROOT
@@ -112,7 +112,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1]
+	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1, ROW_VECTOR_COMPLEX_DOUBLE]
 		once
 			create Result
 		end

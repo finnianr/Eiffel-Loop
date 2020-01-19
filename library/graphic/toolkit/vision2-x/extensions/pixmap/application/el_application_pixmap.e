@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 18:54:00 GMT (Friday 17th January 2020)"
-	revision: "9"
+	date: "2020-01-18 9:09:54 GMT (Saturday 18th January 2020)"
+	revision: "10"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -164,7 +164,7 @@ feature {NONE} -- Factory
 				create Result
 				make_pixmap (Result)
 			end
-			if attached {EL_SVG_TEMPLATE_PIXMAP} Result as template_pixmap wthen
+			if attached {EL_SVG_TEMPLATE_PIXMAP} Result as template_pixmap then
 				template_pixmap.update_png
 			end
 		end

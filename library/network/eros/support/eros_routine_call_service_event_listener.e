@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 17:49:23 GMT (Saturday 11th January 2020)"
-	revision: "4"
+	date: "2020-01-19 16:20:38 GMT (Sunday 19th January 2020)"
+	revision: "5"
 
 class
-	EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+	EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 
 feature -- Basic operations
 

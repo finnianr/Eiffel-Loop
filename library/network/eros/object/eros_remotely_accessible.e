@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 13:37:41 GMT (Thursday 16th January 2020)"
-	revision: "9"
+	date: "2020-01-19 16:20:26 GMT (Sunday 19th January 2020)"
+	revision: "11"
 
 deferred class
-	EL_REMOTELY_ACCESSIBLE
+	EROS_REMOTELY_ACCESSIBLE
 
 inherit
-	EL_ROUTINE_REFLECTIVE
+	EROS_OBJECT
 		rename
 			make_default as make
 		redefine
@@ -24,27 +24,25 @@ inherit
 
 	EL_MODULE_STRING_8
 
-	EL_REMOTE_CALL_CONSTANTS
+	EROS_REMOTE_CALL_CONSTANTS
 
-	EL_REMOTE_CALL_ERRORS
+	EROS_REMOTE_CALL_ERRORS
 		rename
 			make_default as make
 		redefine
 			make
 		end
 
-feature {EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I} -- Initialization
+feature {EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I} -- Initialization
 
 	make
 			--
 		do
-			Precursor {EL_ROUTINE_REFLECTIVE}
-			Precursor {EL_REMOTE_CALL_ERRORS}
-			create routine_table.make (routines)
+			Precursor {EROS_OBJECT}
+			Precursor {EROS_REMOTE_CALL_ERRORS}
 			create string_result.make
-			requested_routine := Default_routine
-			create request_arguments
-			create request_argument_types.make_empty
+			create argument_list.make_empty
+			routine := Default_routine
 			result_object := Procedure_acknowledgement
 		end
 
@@ -54,28 +52,29 @@ feature -- Access
 
 feature -- Element change
 
-	set_routine_with_arguments (request_parser: EL_ROUTINE_CALL_REQUEST_PARSER)
-			-- set `requested_routine'
+	set_arguments (request_parser: EROS_ROUTINE_CALL_REQUEST_PARSER)
+			-- set `routine' arguments
 		local
-			routine_name: STRING; routine_info: EL_ROUTINE_INFO
+			routine_name: STRING
 		do
-			log.enter ("set_routine_with_arguments")
+			log.enter (once "set_routine_with_arguments")
 			reset_errors
 			routine_name := request_parser.routine_name
+			argument_list := request_parser.argument_list
 			if routine_table.has_key (routine_name) then
-				requested_routine := routine_table.found_item
-				create routine_info.make (routine_name, requested_routine.generating_type)
-				request_argument_types := routine_info.argument_types
-				request_arguments := routine_info.new_tuple_argument
-				if request_arguments.count = request_parser.argument_list.count then
-					set_request_arguments (request_parser)
-					requested_routine.set_operands (request_arguments)
+				routine := routine_table.found_item
+				if routine.arguments.count = argument_list.count then
+					if request_parser.has_call_argument then
+						set_request_arguments (request_parser.call_argument)
+					else
+						set_request_arguments (Void)
+					end
 				else
-					set_error (Error.wrong_number_of_arguments, "should be " + request_arguments.count.out)
+					set_error (Error.wrong_number_of_arguments, "should be " + routine.arguments.count.out)
 				end
 			else
 				set_error (Error.routine_not_found, routine_name + "?")
-				requested_routine := Default_routine
+				routine := Default_routine
 			end
 			log.exit
 		end
@@ -87,12 +86,12 @@ feature -- Basic operations
 		require
 			no_errors_setting_call_arguments: not has_error
 		do
-			log.enter ("call_routine")
-			if attached {PROCEDURE} requested_routine as procedure then
-				procedure.apply
+			log.enter (once "call_routine")
+			routine.apply
+			if routine.is_procedure then
 				result_object := Procedure_acknowledgement
-			elseif attached {FUNCTION [ANY]} requested_routine as function then
-				function.apply
+
+			elseif attached {FUNCTION [ANY]} routine.item as function then
 				if attached {EVOLICITY_SERIALIZEABLE_AS_XML} function.last_result as l_result then
 					result_object := l_result
 
@@ -112,38 +111,37 @@ feature -- Status query
 
 	is_routine_set: BOOLEAN
 		do
-			Result := requested_routine /= Default_routine
+			Result := routine /= Default_routine
 		end
 
 	function_requested: BOOLEAN
 		do
-			Result := attached {FUNCTION [ANY]} requested_routine
+			Result := routine.is_function
 		end
 
 feature {NONE} -- Implementation
 
-	set_request_arguments (request_parser: EL_ROUTINE_CALL_REQUEST_PARSER)
+	set_request_arguments (call_argument: detachable EL_BUILDABLE_FROM_NODE_SCAN)
 		local
 			argument: STRING; i: INTEGER
 		do
-			from i := 1 until i > request_parser.argument_list.count loop
-				argument := request_parser.argument_list [i]
+			from i := 1 until i > argument_list.count or has_error loop
+				argument := argument_list [i]
 				if String_8.has_enclosing (argument, once "''") then
 					String_8.remove_single_quote (argument)
 					set_string_argument (i, argument)
 
 				elseif String_8.has_enclosing (argument, Curly_braces)
-					and then request_parser.has_call_argument
-					and then attached {EL_BUILDABLE_FROM_NODE_SCAN} request_parser.call_argument as deserialized_object
+					and then attached call_argument as deserialized_object
 				then
 					set_deserialized_object_argument (i, argument, deserialized_object)
 
 				elseif routine_table.has (argument) then
 					set_once_routine_argument (i, argument)
 
-				elseif String_8.is_convertible (argument, request_argument_types [i]) then
+				elseif String_8.is_convertible (argument, routine.argument_types [i]) then
 					-- Convertible to one of 13 basic types
-					request_arguments.put (String_8.to_type (argument, request_argument_types [i]), i)
+					routine.arguments.put (String_8.to_type (argument, routine.argument_types [i]), i)
 
 				else
 					set_type_mismatch_error (i, argument)
@@ -155,23 +153,21 @@ feature {NONE} -- Implementation
 	set_string_argument (index: INTEGER; argument: STRING)
 			--
 		require
-			valid_argument: request_arguments.valid_type_for_index (argument, index)
+			valid_argument: routine.arguments.valid_type_for_index (argument, index)
 		do
-			if request_arguments.valid_type_for_index (argument, index) then
-				request_arguments.put_reference (argument, index)
+			if routine.arguments.valid_type_for_index (argument, index) then
+				routine.arguments.put_reference (argument, index)
 			else
 				set_type_mismatch_error (index, argument)
 			end
 		end
 
-	set_deserialized_object_argument (
-		index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_NODE_SCAN
-	)
+	set_deserialized_object_argument (index: INTEGER; argument: STRING; argument_object: EL_BUILDABLE_FROM_NODE_SCAN)
 		require
-			valid_argument_object: request_arguments.valid_type_for_index (argument_object, index)
+			valid_argument_object: routine.arguments.valid_type_for_index (argument_object, index)
 		do
-			if request_arguments.valid_type_for_index (argument_object, index) then
-				request_arguments.put_reference (argument_object, index)
+			if routine.arguments.valid_type_for_index (argument_object, index) then
+				routine.arguments.put_reference (argument_object, index)
 			else
 				set_type_mismatch_error (index, argument)
 			end
@@ -181,18 +177,18 @@ feature {NONE} -- Implementation
 			--
 		require
 			once_function_exists: routine_table.has (routine_name)
-			once_function_takes_no_arguments: routine_table.item (routine_name).open_count = 0
+			once_function_takes_no_arguments: routine_table.item (routine_name).item.open_count = 0
 			valid_argument: valid_once_routine_argument (index, routine_name)
 		local
 			once_item: ANY
 		do
 			if routine_table.has_key (routine_name)
-				and then attached {FUNCTION [ANY]} routine_table.found_item as function
+				and then attached {FUNCTION [ANY]} routine_table.found_item.item as function
 			then
 				function.apply
 				once_item := function.last_result
-				if request_arguments.valid_type_for_index (once_item, index) then
-					request_arguments.put (once_item, index)
+				if routine.arguments.valid_type_for_index (once_item, index) then
+					routine.arguments.put (once_item, index)
 				else
 					set_type_mismatch_error (index, routine_name)
 				end
@@ -205,36 +201,35 @@ feature {NONE} -- Implementation
 		do
 			set_error (
 				Error.argument_type_mismatch,
-				Type_mismatch_error_template #$ [argument, request_argument_types.item (index).name]
+				Type_mismatch_error_template #$ [argument, routine.argument_types.item (index).name]
 			)
 		end
 
 	valid_once_routine_argument (index: INTEGER; routine_name: STRING): BOOLEAN
 		do
 			if routine_table.has_key (routine_name)
-				and then attached {FUNCTION [ANY]} routine_table.found_item as function
+				and then attached {FUNCTION [ANY]} routine_table.found_item.item as function
 			then
 				function.apply
-				Result := request_arguments.valid_type_for_index (function.last_result, index)
+				Result := routine.arguments.valid_type_for_index (function.last_result, index)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	string_result: EL_EROS_STRING_RESULT
+	argument_list: EL_STRING_8_LIST
+		-- list of routine request arguments
 
-	requested_routine: ROUTINE
+	string_result: EROS_STRING_RESULT
 
-	request_arguments: TUPLE
-		-- arguments for `requested_routine'
-
-	request_argument_types: EL_TUPLE_TYPE_ARRAY
+	routine: EROS_ROUTINE
+		-- requested routine
 
 feature {NONE} -- Constants
 
-	Default_routine: ROUTINE
+	Default_routine: EROS_ROUTINE
 		once ("PROCESS")
-			Result := agent do_nothing
+			create Result.make ("default", agent do_nothing)
 		end
 
 	Type_mismatch_error_template: ZSTRING
@@ -243,7 +238,7 @@ feature {NONE} -- Constants
 			Result := "Cannot convert argument %"%S%" to type %S"
 		end
 
-	Procedure_acknowledgement: EL_EROS_PROCEDURE_STATUS
+	Procedure_acknowledgement: EROS_PROCEDURE_STATUS
 			--
 		once
 			create Result.make

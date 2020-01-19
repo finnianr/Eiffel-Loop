@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:40:36 GMT (Friday 18th January 2019)"
-	revision: "3"
+	date: "2020-01-19 16:14:16 GMT (Sunday 19th January 2020)"
+	revision: "4"
 
 class
-	EL_EROS_PROCEDURE_STATUS
+	EROS_PROCEDURE_STATUS
 
 inherit
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML

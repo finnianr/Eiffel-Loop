@@ -130,3 +130,6 @@ Added read_command_options to EL_SUB_APPLICATION and create EL_DESCRIPTIVE_ENUME
 Thu 16th Jan 2020, 19:21:43
 Fixed signal-math.ecf demo; created EL_MAKEABLE_OBJECT_FACTORY; Added listeners to EL_STREAM_SOCKET
 
+Fri 17th Jan 2020, 19:20:22
+Changed EL_OBJECT_FACTORY to use attachment tests for new items
+

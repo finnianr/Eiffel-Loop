@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 19:25:59 GMT (Thursday 16th January 2020)"
-	revision: "7"
+	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
+	revision: "8"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
@@ -21,7 +21,7 @@ inherit
 			{ANY} Windower_id_set
 		end
 
-	EL_REMOTE_PROXY
+	EROS_REMOTE_PROXY
 
 create
 	make

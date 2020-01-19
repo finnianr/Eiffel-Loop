@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 18:15:54 GMT (Thursday 16th January 2020)"
-	revision: "5"
+	date: "2020-01-19 12:28:29 GMT (Sunday 19th January 2020)"
+	revision: "6"
 
 class
 	COLUMN_VECTOR_COMPLEX_DOUBLE
@@ -34,7 +34,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	Vector_type: STRING = "col"
+	element_name: STRING = "col"
 
 	set_array_size_from_node
 			--

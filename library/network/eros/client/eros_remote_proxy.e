@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 13:56:26 GMT (Thursday 16th January 2020)"
-	revision: "9"
+	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
+	revision: "11"
 
 deferred class
-	EL_REMOTE_PROXY
+	EROS_REMOTE_PROXY
 
 inherit
-	EL_REMOTE_XML_OBJECT_EXCHANGER
+	EROS_REMOTE_XML_OBJECT_EXCHANGER
 		rename
 			make as make_exchanger,
 			object_builder as result_builder
@@ -21,23 +21,23 @@ inherit
 			routines
 		end
 
-	EL_ROUTINE_REFLECTIVE
+	EROS_OBJECT
 		export
-			{EL_EROS_REQUEST} routine_table
+			{EROS_REMOTE_REQUEST} routine_table
 		end
 
 	EL_MODULE_LOG
 
-	EL_SHARED_EROS_ERROR
+	EROS_SHARED_ERROR
 
 feature {NONE} -- Initialization
 
-	make (client: EL_EROS_CLIENT_CONNECTION)
+	make (client: EROS_CLIENT_CONNECTION)
 			--
 		do
 			make_exchanger
 			make_default
-			create {EL_EROS_PROCEDURE_STATUS} result_object.make
+			create {EROS_PROCEDURE_STATUS} result_object.make
 			net_socket := client.net_socket
 			client.proxy_list.extend (Current)
 		end
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 	call (routine_name: STRING; argument_tuple: TUPLE)
 			--
 		local
-			request: like Call_request; l_error: EL_EROS_ERROR_RESULT
+			request: like Call_request; l_error: EROS_ERROR_RESULT
 		do
 			log.enter ("call")
 			error_code := 0
@@ -86,16 +86,16 @@ feature {NONE} -- Implementation
 				l_error.set_detail ("No result created")
 				result_object := l_error
 			end
-			if attached {EL_EROS_ERROR_RESULT} result_object as error_result then
+			if attached {EROS_ERROR_RESULT} result_object as error_result then
 				error_code := Error.value (error_result.id)
 				lio.put_labeled_substitution ("ERROR", "%S, %S", [error_result.description, error_result.detail])
 				lio.put_new_line
 
-			elseif attached {EL_EROS_PROCEDURE_STATUS} result_object as procedure_status then
+			elseif attached {EROS_PROCEDURE_STATUS} result_object as procedure_status then
 				log.put_line ("Received acknowledgement")
 				last_procedure_call_ok := true
 
-			elseif attached {EL_EROS_STRING_RESULT} result_object as string_result then
+			elseif attached {EROS_STRING_RESULT} result_object as string_result then
 				result_string := string_result.value
 				log.put_string_field ("Received string", result_string)
 				log.put_new_line
@@ -121,7 +121,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Call_request: EL_EROS_REQUEST
+	Call_request: EROS_REMOTE_REQUEST
 			--
 		once
 			create Result.make

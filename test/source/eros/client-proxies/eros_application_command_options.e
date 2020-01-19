@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 17:55:25 GMT (Monday 13th January 2020)"
-	revision: "2"
+	date: "2020-01-19 16:23:12 GMT (Sunday 19th January 2020)"
+	revision: "3"
 
 class
 	EROS_APPLICATION_COMMAND_OPTIONS
@@ -18,7 +18,7 @@ inherit
 			initialize_fields, Help_text
 		end
 
-	EL_REMOTE_CALL_CONSTANTS
+	EROS_REMOTE_CALL_CONSTANTS
 		undefine
 			is_equal
 		end

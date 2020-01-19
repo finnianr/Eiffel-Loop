@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 18:55:00 GMT (Friday 17th January 2020)"
-	revision: "14"
+	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
+	revision: "16"
 
 class
-	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
+	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
 
 inherit
 	EL_STOPPABLE_THREAD
@@ -27,12 +27,12 @@ inherit
 			make
 		end
 
-	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
 		rename
 			set_outbound_type as set_pending_outbound_type
 		end
 
-	EL_REMOTE_XML_OBJECT_EXCHANGER
+	EROS_REMOTE_XML_OBJECT_EXCHANGER
 		rename
 			object_builder as request_builder,
 			set_outbound_type as set_pending_outbound_type
@@ -40,12 +40,12 @@ inherit
 			make, request_builder
 		end
 
-	EL_REMOTELY_ACCESSIBLE
+	EROS_REMOTELY_ACCESSIBLE
 		redefine
 			make
 		end
 
-	EL_REMOTE_CALL_ERRORS
+	EROS_REMOTE_CALL_ERRORS
 		rename
 			make_default as make
 		redefine
@@ -56,7 +56,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_SHARED_EROS_ERROR
+	EROS_SHARED_ERROR
 
 create
 	make
@@ -67,9 +67,9 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_STOPPABLE_THREAD}
-			Precursor {EL_REMOTELY_ACCESSIBLE}
-			Precursor {EL_REMOTE_XML_OBJECT_EXCHANGER}
-			Precursor {EL_REMOTE_CALL_ERRORS}
+			Precursor {EROS_REMOTELY_ACCESSIBLE}
+			Precursor {EROS_REMOTE_XML_OBJECT_EXCHANGER}
+			Precursor {EROS_REMOTE_CALL_ERRORS}
 
 			create target_table.make (17)
 			create listener
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 	call_class_routine
 			-- call routine and set result object
 		local
-			target: EL_REMOTELY_ACCESSIBLE
+			target: EROS_REMOTELY_ACCESSIBLE
 		do
 			log.enter ("call_routine")
 			if target_table.has_key (request_builder.class_name) then
@@ -177,7 +177,7 @@ feature {NONE} -- Implementation
 				set_error (Error.invalid_type, request_builder.class_name)
 			end
 			if not has_error then
-				target.set_routine_with_arguments (request_builder)
+				target.set_arguments (request_builder)
 				if not target.has_error and then target.is_routine_set then
 					log.put_line (request_builder.source_text.as_string_8)
 					log.put_new_line
@@ -191,7 +191,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	new_target (class_name: STRING): detachable EL_REMOTELY_ACCESSIBLE
+	new_target (class_name: STRING): detachable EROS_REMOTELY_ACCESSIBLE
 		do
 			if attached {like new_target} Factory.new_item_from_name (class_name) as new then
 				new.make
@@ -201,7 +201,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- EROS implementation
 
-	Factory: EL_OBJECT_FACTORY [EL_REMOTELY_ACCESSIBLE]
+	Factory: EL_OBJECT_FACTORY [EROS_REMOTELY_ACCESSIBLE]
 			--
 		once
 			create Result
@@ -213,16 +213,16 @@ feature {NONE} -- Internal attributes
 
 	write_listener: EL_WRITTEN_BYTE_COUNTING_LISTENER
 
-	error_result: EL_EROS_ERROR_RESULT
+	error_result: EROS_ERROR_RESULT
 
-	listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+	listener: EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 
 	new_outbound_type: INTEGER
 
-	target_table: HASH_TABLE [EL_REMOTELY_ACCESSIBLE, STRING]
+	target_table: HASH_TABLE [EROS_REMOTELY_ACCESSIBLE, STRING]
 		-- objects available for duration of client sesssion
 
-	request_builder: EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
+	request_builder: EROS_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
 
 note
 	notes: "[

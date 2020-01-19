@@ -15,11 +15,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 17:01:02 GMT (Monday 13th January 2020)"
-	revision: "5"
+	date: "2020-01-19 16:19:26 GMT (Sunday 19th January 2020)"
+	revision: "6"
 
 class
-	EL_ROUTINE_CALL_REQUEST_PARSER
+	EROS_ROUTINE_CALL_REQUEST_PARSER
 
 inherit
 	EL_PARSER

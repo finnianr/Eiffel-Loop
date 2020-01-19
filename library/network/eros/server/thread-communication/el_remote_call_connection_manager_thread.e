@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 12:21:01 GMT (Friday 17th January 2020)"
-	revision: "7"
+	date: "2020-01-18 9:12:50 GMT (Saturday 18th January 2020)"
+	revision: "8"
 
 class
 	EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD
@@ -39,12 +39,9 @@ feature {NONE} -- Initialization
 			set_name ("Connection manager")
 			port_number := a_port_number
 			create logarithmic_polling_rates.make (5)
-			(2 |..| 6).do_all (
-				agent (indice: INTEGER)
-					do
-						logarithmic_polling_rates.extend ((2 ^ indice).rounded)
-					end
-			)
+			across 2 |..| 6 as indice loop
+				logarithmic_polling_rates.extend ((2 ^ indice.item).rounded)
+			end
 			logarithmic_polling_rates.start
 			create client_connection_queue.make (request_handler_count_max, a_routine_call_event_listener)
 		end

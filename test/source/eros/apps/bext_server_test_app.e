@@ -6,30 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:14:15 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-01-19 16:33:18 GMT (Sunday 19th January 2020)"
+	revision: "8"
 
 class
 	BEXT_SERVER_TEST_APP
 
 inherit
-	EL_EROS_SERVER_SUB_APPLICATION
-		redefine
-			initialize
-		end
+	EROS_SERVER_SUB_APPLICATION
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make
-
-feature {NONE} -- Initiliazation
-
-	initialize
-			--
-		do
-			Precursor
-		end
 
 feature -- Basic operations
 
@@ -56,7 +45,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Result := <<
-				[{like Current}, "*"]
+				[{like Current}, All_routines]
 			>>
 		end
 

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:58:40 GMT (Monday 13th January 2020)"
-	revision: "9"
+	date: "2020-01-19 16:20:12 GMT (Sunday 19th January 2020)"
+	revision: "10"
 
 class
-	EL_REMOTE_CALL_CONSTANTS
+	EROS_REMOTE_CALL_CONSTANTS
 
 feature {NONE} -- Constants
 

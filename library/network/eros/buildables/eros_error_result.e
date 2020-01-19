@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:54:16 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 class
-	EL_EROS_ERROR_RESULT
+	EROS_ERROR_RESULT
 
 inherit
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
@@ -18,9 +18,9 @@ inherit
 			building_action_table
 		end
 
-	EL_REMOTE_CALL_CONSTANTS
+	EROS_REMOTE_CALL_CONSTANTS
 
-	EL_SHARED_EROS_ERROR
+	EROS_SHARED_ERROR
 
 create
 	make

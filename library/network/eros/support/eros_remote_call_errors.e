@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-14 17:29:51 GMT (Tuesday 14th January 2020)"
-	revision: "8"
+	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
+	revision: "9"
 
 deferred class
-	EL_REMOTE_CALL_ERRORS
+	EROS_REMOTE_CALL_ERRORS
 
 inherit
-	EL_SHARED_EROS_ERROR
+	EROS_SHARED_ERROR
 
 feature {NONE} -- Initialization
 

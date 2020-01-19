@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:54:02 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2020-01-19 16:31:20 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 class
-	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY
+	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY
 
 inherit
-	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
 
-	EL_REMOTE_PROXY
+	EROS_REMOTE_PROXY
 		export
 			{NONE} all
 		undefine

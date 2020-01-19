@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:16:12 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-01-19 16:23:12 GMT (Sunday 19th January 2020)"
+	revision: "8"
 
 class
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE
@@ -25,7 +25,7 @@ inherit
 
 	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
 
-	EL_REMOTELY_ACCESSIBLE
+	EROS_REMOTELY_ACCESSIBLE
 
 create
 	make, fft_make

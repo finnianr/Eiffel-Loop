@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 9:25:44 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
+	revision: "10"
 
 class
-	EL_EROS_REQUEST
+	EROS_REMOTE_REQUEST
 
 inherit
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -23,6 +23,8 @@ inherit
 	EL_MODULE_NAMING
 
 	EL_MODULE_STRING_8
+
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -45,34 +47,28 @@ feature -- Access
 
 feature -- Element change
 
-	set_expression_and_serializeable_argument (
-		proxy_object: EL_REMOTE_PROXY; a_routine_name: STRING; args: TUPLE
-	)
+	set_expression_and_serializeable_argument (proxy_object: EROS_REMOTE_PROXY; routine_name: STRING; args: TUPLE)
 			-- Set call expression for processing instruction 'call' and serializeable_argument
 		require
 			class_name_has_proxy_suffix: proxy_object.generator.ends_with (Underscore_proxy)
 		local
-			l_template: EL_STRING_8_TEMPLATE; class_name: STRING
+			class_name: STRING
 		do
 			class_name := Naming.class_as_upper_snake (proxy_object, 0, 1)
 
 			serializeable_argument := Default_serializeable_argument
 
 			if args.is_empty then
-				l_template := Empty_arguments_expression_template
+				expression := Format.without_arguments #$ [class_name, routine_name]
 			else
-				l_template := Expression_template
 				set_argument_list_and_serializeable_argument (args, proxy_object.routine_table)
-				l_template.set_variable ("argument_list", argument_list)
+				expression := Format.with_arguments #$ [class_name, routine_name, argument_list]
 			end
-			l_template.set_variable ("class_name", class_name)
-			l_template.set_variable ("routine_name", a_routine_name)
-			expression := l_template.substituted
 		end
 
 feature {NONE} -- Implementation
 
-	set_argument_list_and_serializeable_argument (args: TUPLE; routines_table: HASH_TABLE [ROUTINE, STRING])
+	set_argument_list_and_serializeable_argument (args: TUPLE; routines_table: HASH_TABLE [EROS_ROUTINE, STRING])
 			--
 		local
 			i: INTEGER; argument: ANY; list: STRING
@@ -104,12 +100,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	serializeable_argument: EVOLICITY_SERIALIZEABLE_AS_XML
+feature {NONE} -- Internal attributes
 
 	argument_list: STRING
 		-- string argument_list
 
+	serializeable_argument: EVOLICITY_SERIALIZEABLE_AS_XML
+
 feature {NONE} -- Evolicity
+
+	Template: STRING =
+		--
+	"[
+		#evaluate ($serializeable_argument.template_name, $serializeable_argument)
+		<?call $expression?>
+	]"
 
 	getter_function_table: like getter_functions
 			--
@@ -120,34 +125,22 @@ feature {NONE} -- Evolicity
 			>>)
 		end
 
-	Template: STRING =
-		--
-	"[
-		#evaluate ($serializeable_argument.template_name, $serializeable_argument)
-		<?call $expression?>
-	]"
-
 feature -- Constants
 
-	Default_serializeable_argument: EL_EROS_DEFAULT_ARGUMENT
+	Default_serializeable_argument: EROS_DEFAULT_ARGUMENT
 			--
 		once
 			create Result.make
 		end
 
-	Expression_template: EL_STRING_8_TEMPLATE
-			--
+	Format: TUPLE [with_arguments, without_arguments: ZSTRING]
+		-- Call formats
+		-- `with_arguments' "{$class_name}.$routine_name ($argument_list)"
+		-- `without_arguments' "{$class_name}.$routine_name"
 		once
-			create Result.make (Call_template + " ($argument_list)")
+			create Result
+			Tuple.fill (Result, "{%S}.%S (%S), {%S}.%S")
 		end
-
-	Empty_arguments_expression_template: EL_STRING_8_TEMPLATE
-			--
-		once
-			create Result.make (Call_template)
-		end
-
-	Call_template: STRING = "{$class_name}.$routine_name"
 
 	Underscore_proxy: STRING = "_PROXY"
 

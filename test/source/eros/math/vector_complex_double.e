@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 19:15:38 GMT (Thursday 16th January 2020)"
-	revision: "5"
+	date: "2020-01-19 15:53:34 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 deferred class
 	VECTOR_COMPLEX_DOUBLE
@@ -47,6 +47,11 @@ inherit
 			is_equal, copy, out
 		redefine
 			make_default, building_action_table
+		end
+
+	EL_MODULE_CHECKSUM
+		rename
+			checksum as Mod_checksum
 		end
 
 feature {NONE} -- Initialization
@@ -89,6 +94,14 @@ feature -- Access
 		deferred
 		end
 
+	checksum: NATURAL
+		local
+			content: MANAGED_POINTER
+		do
+			create content.make_from_pointer (area.base_address, 2 * count * {PLATFORM}.Real_32_bytes)
+			Result := Mod_checksum.data (content)
+		end
+
 feature {NONE} -- Evolicity reflection
 
 	getter_function_table: like getter_functions
@@ -97,16 +110,18 @@ feature {NONE} -- Evolicity reflection
 			create Result.make (<<
 				["generator", agent: STRING do Result := generator end],
 				["count", agent: INTEGER_REF do Result := count.to_reference end],
-				["vector_type", agent: STRING do Result := vector_type end],
+				["element_name", agent: STRING do Result := element_name end],
 				["Current", agent: ITERABLE_COMPLEX_DOUBLE_VECTOR do create Result.make (Current) end]
 			>>)
 		end
 
 feature {NONE} -- Implementation
 
-	vector_type: STRING
+	element_name: STRING
 			--
 		deferred
+		ensure
+			valid_count: Result.count = 3
 		end
 
 feature {NONE} -- Internal attributes
@@ -123,39 +138,16 @@ feature {NONE} -- Building from XML
 			--
 		do
 			create Result.make (<<
-				["@count", agent set_array_size_from_node],
-				["col", agent increment_index],
-				["col/@real", agent set_real_at_index_from_node],
-				["col/@imag", agent set_imag_at_index_from_node],
-
-				["row", agent increment_index],
-				["row/@real", agent set_real_at_index_from_node],
-				["row/@imag", agent set_imag_at_index_from_node]
+				["@count",						agent set_array_size_from_node],
+				[element_name,					agent do index := index + 1 end],
+				[element_name + "/@real",	agent do put_real (node.to_double, index) end],
+				[element_name + "/@imag",	agent do put_imag (node.to_double, index) end]
 			>>)
-		end
-
-	increment_index
-			--
-		do
-			index := index + 1
 		end
 
 	set_array_size_from_node
 			--
 		deferred
-		end
-
-	set_imag_at_index_from_node
-			--
-		do
-			new_complex.set_imag (node.to_double)
-			put (new_complex, index)
-		end
-
-	set_real_at_index_from_node
-			--
-		do
-			new_complex.set_real (node.to_double)
 		end
 
 feature {NONE} -- Constants
@@ -170,7 +162,7 @@ feature {NONE} -- Constants
 		<?create {$generator}?>
 		<vector-complex-double count="$count">
 			#across $Current as $complex_double loop
-			<$vector_type real="$complex_double.item.real" imag="$complex_double.item.imag"/>
+			<$element_name real="$complex_double.item.real" imag="$complex_double.item.imag"/>
 			#end
 		</vector-complex-double>
 	]"

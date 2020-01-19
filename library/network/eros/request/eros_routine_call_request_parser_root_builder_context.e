@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 16:10:35 GMT (Thursday 9th January 2020)"
-	revision: "6"
+	date: "2020-01-19 16:19:45 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 class
-	EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
+	EROS_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
 
 inherit
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	parser: EL_ROUTINE_CALL_REQUEST_PARSER
+	parser: EROS_ROUTINE_CALL_REQUEST_PARSER
 
 feature {NONE} -- Constants
 

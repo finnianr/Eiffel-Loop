@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:29:01 GMT (Monday 13th January 2020)"
-	revision: "11"
+	date: "2020-01-19 16:31:20 GMT (Sunday 19th January 2020)"
+	revision: "13"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -36,7 +36,7 @@ feature {NONE} -- Initiliazation
 		local
 			time: TIME
 		do
-			create connection.make (8002, "localhost")
+			create connection.make (8000, "localhost")
 
 			create signal_math.make (connection)
 			create fast_fourier_transform.make (connection)
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 				[{like Current}, All_routines],
 				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, All_routines],
 				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
+				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
 			>>
 		end
 
@@ -182,7 +182,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	connection: EL_EROS_CLIENT_CONNECTION
+	connection: EROS_CLIENT_CONNECTION
 
 	random: RANDOM
 

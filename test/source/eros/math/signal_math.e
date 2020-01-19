@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 16:34:20 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-01-19 16:26:10 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 class
 	SIGNAL_MATH
@@ -15,7 +15,7 @@ class
 inherit
 	SIGNAL_MATH_I
 
-	EL_REMOTELY_ACCESSIBLE
+	EROS_REMOTELY_ACCESSIBLE
 
 create
 	make

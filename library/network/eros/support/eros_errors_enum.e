@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 13:52:22 GMT (Thursday 16th January 2020)"
-	revision: "2"
+	date: "2020-01-19 16:19:58 GMT (Sunday 19th January 2020)"
+	revision: "3"
 
 class
-	EL_EROS_ERRORS_ENUM
+	EROS_ERRORS_ENUM
 
 inherit
 	EL_DESCRIPTIVE_ENUMERATION [NATURAL_8]

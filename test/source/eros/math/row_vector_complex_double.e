@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:35:30 GMT (Friday 10th January 2020)"
-	revision: "5"
+	date: "2020-01-19 12:28:29 GMT (Sunday 19th January 2020)"
+	revision: "6"
 
 class
 	ROW_VECTOR_COMPLEX_DOUBLE
@@ -15,11 +15,14 @@ class
 inherit
 	VECTOR_COMPLEX_DOUBLE
 		rename
-			make_row as make
+			make_default as make,
+			make_row as make_with_size
 		end
 
+	EL_MAKEABLE undefine copy, is_equal, out end
+
 create
-	make, make_from_string
+	make, make_with_size, make_from_string, make_from_stream, make_from_binary_stream
 
 feature -- Access
 
@@ -31,7 +34,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	Vector_type: STRING = "row"
+	element_name: STRING = "row"
 
 	set_array_size_from_node
 			--

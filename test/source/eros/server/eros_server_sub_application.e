@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 11:56:19 GMT (Thursday 16th January 2020)"
-	revision: "9"
+	date: "2020-01-19 16:33:18 GMT (Sunday 19th January 2020)"
+	revision: "11"
 
 deferred class
-	EL_EROS_SERVER_SUB_APPLICATION
+	EROS_SERVER_SUB_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
@@ -25,7 +25,7 @@ feature {NONE} -- Initiliazation
 	initialize
 			--
 		do
-			create connecting_socket.make_server_by_port (8002)
+			create connecting_socket.make_server_by_port (8000)
 		end
 
 feature -- Basic operations

@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:43:15 GMT (Monday 13th January 2020)"
-	revision: "1"
+	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
+	revision: "2"
 
 deferred class
-	EL_SHARED_EROS_ERROR
+	EROS_SHARED_ERROR
 
 inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Error: EL_EROS_ERRORS_ENUM
+	Error: EROS_ERRORS_ENUM
 		once
 			create Result.make
 		end

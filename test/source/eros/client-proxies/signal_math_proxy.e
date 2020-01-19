@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 19:48:29 GMT (Thursday 16th January 2020)"
-	revision: "5"
+	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
+	revision: "6"
 
 class
 	SIGNAL_MATH_PROXY
@@ -15,7 +15,7 @@ class
 inherit
 	SIGNAL_MATH_I
 
-	EL_REMOTE_PROXY
+	EROS_REMOTE_PROXY
 
 create
 	make

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 12:03:08 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2020-01-19 16:19:45 GMT (Sunday 19th January 2020)"
+	revision: "9"
 
 class
-	EL_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
+	EROS_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
 
 inherit
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -21,12 +21,12 @@ inherit
 			make_default, new_root_builder_context
 		end
 
-	EL_ROUTINE_CALL_REQUEST_PARSER
+	EROS_ROUTINE_CALL_REQUEST_PARSER
 		rename
 			make as make_default
 		export
 			{NONE} all
-			{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER} class_name, source_text, has_error
+			{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER} class_name, source_text, has_error
 		undefine
 			call_argument, has_call_argument
 		redefine
@@ -40,13 +40,13 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor {EL_ROUTINE_CALL_REQUEST_PARSER}
+			Precursor {EROS_ROUTINE_CALL_REQUEST_PARSER}
 			Precursor {EL_SMART_BUILDABLE_FROM_NODE_SCAN}
 		end
 
 feature {NONE} -- Implementation
 
-	new_root_builder_context: EL_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
+	new_root_builder_context: EROS_ROUTINE_CALL_REQUEST_PARSER_ROOT_BUILDER_CONTEXT
 			--
 		do
 			create Result.make (root_node_name, Current)

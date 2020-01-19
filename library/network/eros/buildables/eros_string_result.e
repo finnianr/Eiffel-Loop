@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:40:32 GMT (Friday 18th January 2019)"
-	revision: "6"
+	date: "2020-01-19 16:20:12 GMT (Sunday 19th January 2020)"
+	revision: "7"
 
 class
-	EL_EROS_STRING_RESULT
+	EROS_STRING_RESULT
 
 inherit
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
@@ -20,7 +20,7 @@ inherit
 			make, building_action_table
 		end
 
-	EL_REMOTE_CALL_CONSTANTS
+	EROS_REMOTE_CALL_CONSTANTS
 
 create
 	make
