@@ -106,6 +106,8 @@ system:
 				old_name = VECTOR_COMPLEX_DOUBLE; new_name = NEL_VECTOR_COMPLEX_DOUBLE
 			renaming:
 				old_name = COMPLEX_DOUBLE; new_name = NEL_COMPLEX_DOUBLE
+			renaming:
+				old_name = FFT_COMPLEX_DOUBLE; new_name = NEL_FFT_COMPLEX_DOUBLE
 
 		# Eiffel Loop libraries
 		library:

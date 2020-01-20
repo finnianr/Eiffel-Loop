@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 19:07:54 GMT (Sunday 12th January 2020)"
-	revision: "1"
+	date: "2020-01-20 9:38:01 GMT (Monday 20th January 2020)"
+	revision: "2"
 
 class
 	EL_AUTOTEST_COMMAND_OPTIONS
@@ -29,10 +29,10 @@ feature {NONE} -- Constants
 
 	Help_text: STRING
 		once
-			Result := Precursor + New_line + "[
+			Result := joined (Precursor, "[
 				single:
 					Evaluate only the single test in `evaluator_type'
-			]"
+			]")
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:31:20 GMT (Sunday 19th January 2020)"
-	revision: "13"
+	date: "2020-01-20 10:22:58 GMT (Monday 20th January 2020)"
+	revision: "14"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -39,7 +39,7 @@ feature {NONE} -- Initiliazation
 			create connection.make (8000, "localhost")
 
 			create signal_math.make (connection)
-			create fast_fourier_transform.make (connection)
+			create fft.make (connection)
 
 			connection.set_inbound_type (Application_option.protocol)
 			connection.set_outbound_type (Application_option.protocol)
@@ -63,18 +63,17 @@ feature -- Basic operations
 
 			if not signal_math.has_error then
 				print_vector (test_wave_form)
+				if fft.is_power_of_two (test_wave_form.count) then
+					fft.fft_make (test_wave_form.count)
+					fft.set_windower (windower_id)
+					if fft.is_valid_input_length (test_wave_form.count) then
+						fft.set_input (test_wave_form)
 
-				if fast_fourier_transform.is_power_of_two (test_wave_form.count) then
-					fast_fourier_transform.fft_make (test_wave_form.count)
-					fast_fourier_transform.set_windower (windower_id)
-					if fast_fourier_transform.is_valid_input_length (test_wave_form.count) then
-						fast_fourier_transform.set_input (test_wave_form)
-
-						if fast_fourier_transform.is_output_length_valid then
+						if fft.is_output_length_valid then
 							preconditions_ok := true
-							fast_fourier_transform.do_transform
-							if not fast_fourier_transform.has_error and fast_fourier_transform.last_procedure_call_ok then
-								print_vector (fast_fourier_transform.output)
+							fft.do_transform
+							if not fft.has_error and fft.last_procedure_call_ok then
+								print_vector (fft.output)
 							else
 								log.put_line ("ERROR: call to do_transform failed")
 							end
@@ -154,7 +153,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY}, All_routines],
+				[{FFT_COMPLEX_DOUBLE_PROXY}, All_routines],
 				[{SIGNAL_MATH_PROXY}, All_routines],
 				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
 			>>
@@ -186,9 +185,7 @@ feature {NONE} -- Internal attributes
 
 	random: RANDOM
 
-feature {NONE} -- Remote objects
-
-	fast_fourier_transform: FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
+	fft: FFT_COMPLEX_DOUBLE_PROXY
 
 	signal_math: SIGNAL_MATH_PROXY
 

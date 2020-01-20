@@ -1,19 +1,19 @@
 note
-	description: "Fast fourier transform complex double"
+	description: "Fast fourier transform for complex doubles"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:23:12 GMT (Sunday 19th January 2020)"
-	revision: "8"
+	date: "2020-01-20 8:16:57 GMT (Monday 20th January 2020)"
+	revision: "9"
 
 class
-	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE
+	FFT_COMPLEX_DOUBLE
 
 inherit
-	FFT_COMPLEX_DOUBLE
+	NEL_FFT_COMPLEX_DOUBLE
 		rename
 			fft as do_transform,
 			ifft as do_inverse_transform,
@@ -23,7 +23,7 @@ inherit
 			output, input, fft_make, set_windower
 		end
 
-	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_DOUBLE_I
 
 	EROS_REMOTELY_ACCESSIBLE
 
@@ -35,7 +35,7 @@ feature -- Initialization
 	fft_make (n: INTEGER)
 			--
 		do
-			Precursor {FFT_COMPLEX_DOUBLE} (n)
+			Precursor {NEL_FFT_COMPLEX_DOUBLE} (n)
 			create output.make_with_size (length)
 		end
 

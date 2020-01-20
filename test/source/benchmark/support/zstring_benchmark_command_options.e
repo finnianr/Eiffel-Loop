@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 17:55:34 GMT (Monday 13th January 2020)"
-	revision: "2"
+	date: "2020-01-20 9:09:21 GMT (Monday 20th January 2020)"
+	revision: "3"
 
 class
 	ZSTRING_BENCHMARK_COMMAND_OPTIONS
@@ -58,13 +58,6 @@ feature -- Access
 	routine_filter: like filter
 		do
 			Result := filter
-		end
-
-feature {NONE} -- Implementation
-
-	new_default: like Current
-		do
-			create Result.make_default
 		end
 
 feature {NONE} -- Constants

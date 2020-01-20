@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 14:38:49 GMT (Thursday 16th January 2020)"
-	revision: "6"
+	date: "2020-01-20 8:02:07 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
 	ITERABLE_COMPLEX_DOUBLE_VECTOR

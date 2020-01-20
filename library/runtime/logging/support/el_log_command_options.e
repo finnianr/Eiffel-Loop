@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 17:47:54 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-01-20 9:09:06 GMT (Monday 20th January 2020)"
+	revision: "8"
 
 class
 	EL_LOG_COMMAND_OPTIONS
@@ -31,13 +31,6 @@ feature -- Access
 
 	thread_toolbar: BOOLEAN
 		-- active console thread management toolbar
-
-feature {NONE} -- Implementation
-
-	new_default: like Current
-		do
-			create Result.make_default
-		end
 
 feature -- Constants
 

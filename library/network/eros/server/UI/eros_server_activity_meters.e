@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:40:18 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-01-20 8:29:11 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
-	EL_SERVER_ACTIVITY_METERS
+	EROS_SERVER_ACTIVITY_METERS
 
 inherit
 	EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER
@@ -26,7 +26,7 @@ inherit
 			on_server_activity_start, on_server_activity_end, prompt_refresh
 		end
 
-	EL_EROS_UI_CONSTANTS
+	EROS_UI_CONSTANTS
 		export
 			{NONE} all
 		undefine
@@ -108,7 +108,7 @@ feature -- Access
 
 	widget: EV_WIDGET
 
-	service_stats: EL_ROUTINE_CALL_SERVICE_STATS
+	service_stats: EROS_ROUTINE_CALL_SERVICE_STATS
 
 feature -- Basic operations
 

@@ -133,3 +133,6 @@ Fixed signal-math.ecf demo; created EL_MAKEABLE_OBJECT_FACTORY; Added listeners 
 Fri 17th Jan 2020, 19:20:22
 Changed EL_OBJECT_FACTORY to use attachment tests for new items
 
+Sun 19th Jan 2020, 17:35:53
+Created EROS_ROUTINE and renamed EROS class prefix
+

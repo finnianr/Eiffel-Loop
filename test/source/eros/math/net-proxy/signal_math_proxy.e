@@ -1,13 +1,13 @@
 note
-	description: "Signal math proxy"
+	description: "Network proxy for remote instance of class [$source SIGNAL_MATH]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
-	revision: "6"
+	date: "2020-01-20 20:40:25 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
 	SIGNAL_MATH_PROXY
@@ -15,7 +15,7 @@ class
 inherit
 	SIGNAL_MATH_I
 
-	EROS_REMOTE_PROXY
+	EROS_PROXY
 
 create
 	make
@@ -26,15 +26,12 @@ feature -- Access
 
 			-- Processing instruction example:
    			-- 		<?call {SIGNAL_MATH}.cosine_waveform (4, 7, 0.5)?>
+		local
+			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
 		do
 			log.enter (R_cosine_waveform)
-			call (R_cosine_waveform, [i_freq, log2_length, phase_fraction])
-
-			if not has_error and then attached {like cosine_waveform} result_object as l_result then
-				Result := l_result
-			else
-				create Result.make
-			end
+			create l_result.make (Current, R_cosine_waveform, [i_freq, log2_length, phase_fraction])
+			Result := l_result.item
 			log.exit
 		end
 

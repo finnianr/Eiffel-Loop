@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:31:20 GMT (Sunday 19th January 2020)"
-	revision: "7"
+	date: "2020-01-20 8:21:34 GMT (Monday 20th January 2020)"
+	revision: "8"
 
 class
 	EROS_CLIENT_CONNECTION
@@ -59,11 +59,11 @@ feature -- Basic operations
 			net_socket.close
 		end
 
-feature {EROS_REMOTE_PROXY} -- Access
+feature {EROS_PROXY} -- Access
 
-	proxy_list: ARRAYED_LIST [EROS_REMOTE_PROXY]
+	proxy_list: ARRAYED_LIST [EROS_PROXY]
 
-feature {EROS_REMOTE_PROXY} -- Implementation
+feature {EROS_PROXY} -- Implementation
 
 	remote_routine_call_request_handler: EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY
 		-- This is actually the object that processes remote requests.

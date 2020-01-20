@@ -2,26 +2,7 @@ note
 	description: "[
 		Base class for reflectively settable command line options with associated help texts
 	]"
-	notes: "[
-		Each class attribute maps to a command line word option of the same name.
-		For `BOOLEAN' attributes, if the word-option exists, the attibute is set to `True'
-		For other types, the value is set to the next command line argument following the
-		word option.
-		
-		**Default values**
-		
-		Redefine `initialize_fields' to set default values, accessible via `default'.
-
-		**Help Text**
-		
-		The `help_table' function converts the text from `help_text' into a table of tuples each
-		containing a description and the default value. A usage example can be seen in
-		command line help system found in class [$source EL_SUB_APPLICATION].
-
-		If the help text is not implemented as an empty string, then it should be formatted as
-		a series of option names ending with `:', and the description indented by 1 tab on the next
-		line. See [$source EL_BASE_COMMAND_OPTIONS] for an example.
-	]"
+	notes: "See end of class"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -29,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:23:18 GMT (Monday 13th January 2020)"
-	revision: "16"
+	date: "2020-01-20 9:57:39 GMT (Monday 20th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -57,6 +38,13 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_MAKEABLE
+		rename
+			make as make_default
+		undefine
+			is_equal
+		end
+
 feature {NONE} -- Initialization
 
 	make
@@ -78,11 +66,11 @@ feature -- Status query
 			Result := field_table.has_key (a_name)
 		end
 
-feature {EL_DEFAULT_COMMAND_OPTION_LIST} -- Implementation
+feature {NONE} -- Implementation
 
-	new_default: like Current
-		-- instance using `make_default' creation procedure
-		deferred
+	joined (precursor_lines, lines: STRING): STRING
+		do
+			Result := precursor_lines + once "%N" + lines
 		end
 
 feature {NONE} -- Constants
@@ -95,8 +83,6 @@ feature {NONE} -- Constants
 			valid_names: Tuple.to_string_8_list (Result).for_all (agent is_option)
 		end
 
-	New_line: STRING = "%N"
-
 note
 	descendants: "[
 			EL_COMMAND_LINE_OPTIONS*
@@ -104,5 +90,31 @@ note
 				[$source EL_BASE_COMMAND_OPTIONS]
 				[$source EL_APPLICATION_COMMAND_OPTIONS]
 					[$source TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS]
+	]"
+	notes: "[
+		Each class attribute maps to a command line word option of the same name.
+		For `BOOLEAN' attributes, if the word-option exists, the attibute is set to `True'
+		For other types, the value is set to the next command line argument following the
+		word option.
+
+		**Default values**
+
+		Redefine `initialize_fields' to set default values. Ensure the class is createable as follows
+		to allow the correct generation of help text.
+
+			create
+				make, make_default
+
+		**Help Text**
+
+		The `help_table' function converts the text from `help_text' into a table of tuples each
+		containing a description and the default value. A usage example can be seen in
+		command line help system found in class [$source EL_SUB_APPLICATION].
+
+		If the help text is not implemented as an empty string, then it should be formatted as
+		a series of option names ending with `:', and the description indented by 1 tab on the next
+		line. See [$source EL_BASE_COMMAND_OPTIONS] for an example.
+
+		Use the `joined' function to join `Help_text' with it's precursor.
 	]"
 end

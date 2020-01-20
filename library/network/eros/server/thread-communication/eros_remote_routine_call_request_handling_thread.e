@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 12:19:13 GMT (Friday 17th January 2020)"
-	revision: "6"
+	date: "2020-01-20 8:31:33 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
-	EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
+	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
 
 inherit
 	EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD [EL_STREAM_SOCKET]
@@ -78,9 +78,9 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	client_request_handler: EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
+	client_request_handler: EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
 
-	routine_call_event_listener: EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+	routine_call_event_listener: EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 
 feature {NONE} -- Constants
 

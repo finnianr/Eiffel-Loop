@@ -1,19 +1,19 @@
 note
-	description: "Fast fourier transform complex double proxy"
+	description: "Network proxy for remote instance of class [$source FFT_COMPLEX_DOUBLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
-	revision: "8"
+	date: "2020-01-20 20:37:41 GMT (Monday 20th January 2020)"
+	revision: "9"
 
 class
-	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY
+	FFT_COMPLEX_DOUBLE_PROXY
 
 inherit
-	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_DOUBLE_I
 		rename
 			set_windower as remote_set_windower
 		export
@@ -21,7 +21,7 @@ inherit
 			{ANY} Windower_id_set
 		end
 
-	EROS_REMOTE_PROXY
+	EROS_PROXY
 
 create
 	make
@@ -45,53 +45,37 @@ feature -- Access
 	input: COLUMN_VECTOR_COMPLEX_DOUBLE
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.input?>
+		local
+			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
 		do
 			log.enter (R_input)
-			call (R_input, [])
-			if not has_error and then attached {like input} result_object as object then
-				Result := object
-			else
-				create Result.make
-			end
+			create l_result.make (Current, R_input, [])
+			Result := l_result.item
 			log.exit
 		end
 
 	length: INTEGER
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.length?>
+		local
+			l_result: EROS_RESULT [INTEGER]
 		do
 			log.enter (R_length)
-			call (R_length, [])
-			if not has_error and then result_string.is_integer then
-				Result := result_string.to_integer
-			end
+			create l_result.make (Current, R_length, [])
+			Result := l_result.item
 			log.exit
 		end
 
 	output: COLUMN_VECTOR_COMPLEX_DOUBLE
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.output?>
+		local
+			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
 		do
 			log.enter (R_output)
-			call (R_output, [])
-			if not has_error and then attached {like output} result_object as l_result then
-				Result := l_result
-			else
-				create Result.make
-			end
+			create l_result.make (Current, R_output, [])
+			Result := l_result.item
 			log.exit
-		end
-
-	windower_default: DEFAULT_WINDOWER_DOUBLE
-			--
-		do
-			call (R_windower_default, [])
-		end
-
-	windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
-			--
-		do
-			call (R_windower_rectangular, [])
 		end
 
 feature -- Basic operations
@@ -147,36 +131,36 @@ feature -- Contract support
 	is_output_length_valid: BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_output_length_valid?>
+		local
+			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_output_length_valid)
-			call (R_is_output_length_valid, [])
-			if not has_error and then result_string.is_boolean then
-				Result := result_string.to_boolean
-			end
+			create l_result.make (Current, R_is_output_length_valid, [])
+			Result := l_result.item
 			log.exit
 		end
 
 	is_power_of_two (n: INTEGER): BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
+		local
+			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_power_of_two)
-			call (R_is_power_of_two, [n])
-			if not has_error and then result_string.is_boolean then
-				Result := result_string.to_boolean
-			end
+			create l_result.make (Current, R_is_power_of_two, [N])
+			Result := l_result.item
 			log.exit
 		end
 
 	is_valid_input_length (a_length: INTEGER): BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_valid_input_length (256)?>
+		local
+			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_valid_input_length)
-			call (R_is_valid_input_length, [a_length])
-			if not has_error and then result_string.is_boolean then
-				Result := result_string.to_boolean
-			end
+			create l_result.make (Current, R_is_valid_input_length, [a_length])
+			Result := l_result.item
 			log.exit
 		end
 
@@ -185,5 +169,17 @@ feature {NONE} -- Implementation
 	 remote_set_windower (a_windower: WINDOWER_DOUBLE)
 	 	do
 	 	end
+
+	windower_default: DEFAULT_WINDOWER_DOUBLE
+			--
+		do
+			call (R_windower_default, [])
+		end
+
+	windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
+			--
+		do
+			call (R_windower_rectangular, [])
+		end
 
 end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 17:49:39 GMT (Saturday 11th January 2020)"
-	revision: "6"
+	date: "2020-01-20 9:26:40 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
-	EL_ROUTINE_CALL_SERVICE_STATS
+	EROS_ROUTINE_CALL_SERVICE_STATS
 
 inherit
-	EL_ROUTINE_CALL_SERVICE_EVENT_LISTENER
+	EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER
 		redefine
 			called_routine, received_bytes, sent_bytes, routine_failed, add_connection, remove_connection
 		end

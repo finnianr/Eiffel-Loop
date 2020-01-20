@@ -31,6 +31,7 @@ See cluster[@name=&apos;project&apos;]/description below for more details
 		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf">
 			<renaming old_name = "VECTOR_COMPLEX_DOUBLE" new_name = "NEL_VECTOR_COMPLEX_DOUBLE"/>
 			<renaming old_name = "COMPLEX_DOUBLE" new_name = "NEL_COMPLEX_DOUBLE"/>
+			<renaming old_name = "FFT_COMPLEX_DOUBLE" new_name = "NEL_FFT_COMPLEX_DOUBLE"/>
 		</library>
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf"/>

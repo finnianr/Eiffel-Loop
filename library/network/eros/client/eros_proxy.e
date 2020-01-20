@@ -1,16 +1,16 @@
 note
-	description: "Remote proxy"
+	description: "Base class for objects that function as network-client proxies for objects hosted on server"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
-	revision: "11"
+	date: "2020-01-20 21:31:20 GMT (Monday 20th January 2020)"
+	revision: "12"
 
 deferred class
-	EROS_REMOTE_PROXY
+	EROS_PROXY
 
 inherit
 	EROS_REMOTE_XML_OBJECT_EXCHANGER
@@ -56,7 +56,7 @@ feature -- Access
 
 	error_code: NATURAL_8
 
-feature {NONE} -- Implementation
+feature {EROS_RESULT} -- Implementation
 
 	call (routine_name: STRING; argument_tuple: TUPLE)
 			--
@@ -69,11 +69,10 @@ feature {NONE} -- Implementation
 			request := Call_request
 			request.set_expression_and_serializeable_argument (Current, routine_name, argument_tuple)
 
-			lio.put_string_field ("Sending request", request.expression)
+			lio.put_labeled_string ("Sending request", request.expression)
 			lio.put_new_line
 
 			send_object (request, net_socket)
-
 
 			net_socket.read_string
 
@@ -94,15 +93,6 @@ feature {NONE} -- Implementation
 			elseif attached {EROS_PROCEDURE_STATUS} result_object as procedure_status then
 				log.put_line ("Received acknowledgement")
 				last_procedure_call_ok := true
-
-			elseif attached {EROS_STRING_RESULT} result_object as string_result then
-				result_string := string_result.value
-				log.put_string_field ("Received string", result_string)
-				log.put_new_line
-			else
-				log.put_string ("Received result of type: ")
-				log.put_string (result_object.generator)
-				log.put_new_line
 			end
 			log.exit
 		end
@@ -111,13 +101,11 @@ feature {NONE} -- Implementation
 		do
 		end
 
-feature {NONE} -- Internal attributes
+feature {EROS_RESULT} -- Internal attributes
 
 	net_socket: EL_NETWORK_STREAM_SOCKET
 
 	result_object: EL_BUILDABLE_FROM_NODE_SCAN
-
-	result_string: STRING
 
 feature {NONE} -- Constants
 

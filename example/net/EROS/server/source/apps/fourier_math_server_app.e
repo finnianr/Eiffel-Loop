@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 9:22:37 GMT (Friday 10th January 2020)"
-	revision: "8"
+	date: "2020-01-20 8:31:33 GMT (Monday 20th January 2020)"
+	revision: "9"
 
 class
 	FOURIER_MATH_SERVER_APP
 
 inherit
-	EL_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
+	EROS_REMOTE_ROUTINE_CALL_SERVER_APPLICATION
 		redefine
 			Option_name
 		end
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Remotely callable types
 
-	callable_classes: TUPLE [SIGNAL_MATH, FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE]
+	callable_classes: TUPLE [SIGNAL_MATH, FFT_COMPLEX_DOUBLE]
 
 feature {NONE} -- Installer constants
 
@@ -68,13 +68,13 @@ feature {NONE} -- Constants
 			Result := <<
 				[{like Current}, All_routines],
 				[{SIGNAL_MATH}, All_routines],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}, All_routines],
-				[{EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
-				[{EL_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
-				[{EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD}, All_routines],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}, All_routines],
-				[{EL_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
-				[{EL_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
+				[{FFT_COMPLEX_DOUBLE}, All_routines],
+				[{EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
+				[{EROS_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
+				[{EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD}, All_routines],
+				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}, All_routines],
+				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
+				[{EROS_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
 			>>
 		end
 

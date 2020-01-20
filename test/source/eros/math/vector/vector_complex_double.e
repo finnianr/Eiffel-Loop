@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 15:53:34 GMT (Sunday 19th January 2020)"
-	revision: "7"
+	date: "2020-01-20 8:01:59 GMT (Monday 20th January 2020)"
+	revision: "8"
 
 deferred class
 	VECTOR_COMPLEX_DOUBLE

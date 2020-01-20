@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 12:15:59 GMT (Sunday 19th January 2020)"
-	revision: "30"
+	date: "2020-01-20 8:04:50 GMT (Monday 20th January 2020)"
+	revision: "31"
 
 class
 	APPLICATION_ROOT
@@ -46,6 +46,7 @@ feature {NONE} -- Constants
 		-- Test eros.ecf
 		BEXT_CLIENT_TEST_APP,
 		BEXT_SERVER_TEST_APP,
+		EROS_AUTOTEST_APP,
 		FOURIER_MATH_CLIENT_TEST_APP,
 		FOURIER_MATH_SERVER_TEST_APP,
 

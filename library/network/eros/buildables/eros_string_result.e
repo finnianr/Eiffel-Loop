@@ -6,21 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:12 GMT (Sunday 19th January 2020)"
-	revision: "7"
+	date: "2020-01-20 21:29:05 GMT (Monday 20th January 2020)"
+	revision: "8"
 
 class
 	EROS_STRING_RESULT
 
 inherit
-	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
-		rename
-			make_default as make
+	EROS_XML_RESULT
 		redefine
-			make, building_action_table
+			make, building_action_table, getter_function_table, Template
 		end
-
-	EROS_REMOTE_CALL_CONSTANTS
 
 create
 	make
@@ -48,48 +44,30 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
-	get_value: STRING
-			--
-		do
-			Result := value
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["value", agent get_value]
-			>>)
+			Result := Precursor + ["value", agent: STRING do Result := value end]
 		end
 
 feature {NONE} -- Building from XML
-
-	set_value_from_node
-			--
-		do
-			value := node.to_string
-		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<
-				["value/text()", agent set_value_from_node]
+				["value/text()", agent do value := node.to_string end]
 			>>)
 		end
 
-	Root_node_name: STRING = "result"
-
 feature -- Constants
 
-	Template: STRING =
-		-- Substitution template
-	"[
-		<?xml version="1.0" encoding="iso-8859-1"?>
-		<?create EL_EROS_STRING_RESULT?>
-		<result>
+	Template: STRING = "[
+		<?xml version="1.0" encoding="ISO-8859-1"?>
+		<?create $generator?>
+		<string>
 			<value>$value</value>
-		</result>
+		</string>
 	]"
 
 end

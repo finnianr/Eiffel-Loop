@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:28:01 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2020-01-20 9:38:16 GMT (Monday 20th January 2020)"
+	revision: "5"
 
 class
 	TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS
@@ -59,7 +59,7 @@ feature {NONE} -- Constants
 
 	Help_text: STRING
 		once
-			Result := Precursor + New_line + "[
+			Result := joined (Precursor, "[
 				delta_count:
 					Number of integral range "split intervals" to calculate
 				max_priority:
@@ -72,7 +72,7 @@ feature {NONE} -- Constants
 					Number of sine functions to add together for test function
 				thread_count:
 					Number of threads to use to calculate integral of test sine function
-			]"
+			]")
 		end
 
 end

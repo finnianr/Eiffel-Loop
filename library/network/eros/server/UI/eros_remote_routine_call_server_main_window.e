@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:40:49 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-01-20 8:30:46 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
-	EL_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
+	EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
 
 inherit
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -18,7 +18,7 @@ inherit
 			 initialize, prepare_to_show
 		end
 
-	EL_EROS_UI_CONSTANTS
+	EROS_UI_CONSTANTS
 		undefine
 			copy, default_create
 		end
@@ -128,13 +128,13 @@ feature {NONE} -- Build UI
 
 feature {NONE} -- Implementation
 
-	connection_manager_thread: EL_REMOTE_CALL_CONNECTION_MANAGER_THREAD
+	connection_manager_thread: EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD
 
 	go_button: EV_TOGGLE_BUTTON
 
 	on_off_lights: EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
 
-	activity_meters: EL_SERVER_ACTIVITY_METERS
+	activity_meters: EROS_SERVER_ACTIVITY_METERS
 
 feature {NONE} -- Constants
 

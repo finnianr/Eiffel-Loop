@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 17:48:44 GMT (Monday 13th January 2020)"
-	revision: "4"
+	date: "2020-01-20 9:08:22 GMT (Monday 20th January 2020)"
+	revision: "5"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -43,13 +43,6 @@ feature -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "install, remove_data, uninstall")
-		end
-
-feature {NONE} -- Implementation
-
-	new_default: like Current
-		do
-			create Result.make_default
 		end
 
 feature {NONE} -- Constants

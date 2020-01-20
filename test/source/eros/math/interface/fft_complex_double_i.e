@@ -3,9 +3,9 @@ note
 		Common interface to local proxy interface and remote server class for calculating fourier transformations
 	]"
 	descendants: "[
-			FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I*
-				[$source FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_PROXY]
-				[$source FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE]
+			FFT_COMPLEX_DOUBLE_I*
+				[$source FFT_COMPLEX_DOUBLE_PROXY]
+				[$source FFT_COMPLEX_DOUBLE]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:29:01 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-01-20 8:16:18 GMT (Monday 20th January 2020)"
+	revision: "8"
 
 deferred class
-	FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_DOUBLE_I
 
 inherit
 	FFT_ONCE_ROUTINE_NAMES

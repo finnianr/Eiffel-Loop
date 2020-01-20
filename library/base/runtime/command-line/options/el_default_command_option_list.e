@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 18:27:28 GMT (Monday 13th January 2020)"
-	revision: "1"
+	date: "2020-01-20 9:10:42 GMT (Monday 20th January 2020)"
+	revision: "2"
 
 class
 	EL_DEFAULT_COMMAND_OPTION_LIST
@@ -18,6 +18,8 @@ inherit
 			make as make_with_size
 		end
 
+	EL_SHARED_MAKEABLE_FACTORY
+
 create
 	make
 
@@ -27,8 +29,12 @@ feature {NONE} -- Initialization
 		do
 			make_with_size (options.count)
 			across options as opt loop
-				extend (opt.item.new_default)
+				if attached {like item} Makeable_factory.new_item_from_type (opt.item.generating_type) as new then
+					extend (new)
+				end
 			end
+		ensure
+			filled: count = options.count
 		end
 
 end

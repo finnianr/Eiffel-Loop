@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:33:18 GMT (Sunday 19th January 2020)"
-	revision: "9"
+	date: "2020-01-20 8:16:57 GMT (Monday 20th January 2020)"
+	revision: "10"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 			Result := <<
 				[{like Current}, All_routines],
 				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
-				[{FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}, No_routines],
+				[{FFT_COMPLEX_DOUBLE}, No_routines],
 				[{SIGNAL_MATH}, No_routines]
 			>>
 		end
@@ -61,7 +61,7 @@ feature {NONE} -- Internal attributes
 
 	request_handler: EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
 
-	tuple: TUPLE [FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE, SIGNAL_MATH]
+	tuple: TUPLE [FFT_COMPLEX_DOUBLE, SIGNAL_MATH]
 
 feature {NONE} -- Constants
 

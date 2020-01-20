@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:30:47 GMT (Sunday 19th January 2020)"
-	revision: "10"
+	date: "2020-01-20 21:18:45 GMT (Monday 20th January 2020)"
+	revision: "11"
 
 class
 	EROS_REMOTE_REQUEST
@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_expression_and_serializeable_argument (proxy_object: EROS_REMOTE_PROXY; routine_name: STRING; args: TUPLE)
+	set_expression_and_serializeable_argument (proxy_object: EROS_PROXY; routine_name: STRING; args: TUPLE)
 			-- Set call expression for processing instruction 'call' and serializeable_argument
 		require
 			class_name_has_proxy_suffix: proxy_object.generator.ends_with (Underscore_proxy)
@@ -127,7 +127,7 @@ feature {NONE} -- Evolicity
 
 feature -- Constants
 
-	Default_serializeable_argument: EROS_DEFAULT_ARGUMENT
+	Default_serializeable_argument: EROS_XML_RESULT
 			--
 		once
 			create Result.make

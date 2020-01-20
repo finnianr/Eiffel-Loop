@@ -1,22 +1,22 @@
 note
-	description: "Row vector from of [$source VECTOR_COMPLEX_DOUBLE]"
+	description: "Column vector form of [$source VECTOR_COMPLEX_DOUBLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 12:28:29 GMT (Sunday 19th January 2020)"
-	revision: "6"
+	date: "2020-01-20 8:01:52 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
-	ROW_VECTOR_COMPLEX_DOUBLE
+	COLUMN_VECTOR_COMPLEX_DOUBLE
 
 inherit
 	VECTOR_COMPLEX_DOUBLE
 		rename
 			make_default as make,
-			make_row as make_with_size
+			make_column as make_with_size
 		end
 
 	EL_MAKEABLE undefine copy, is_equal, out end
@@ -29,17 +29,17 @@ feature -- Access
 	count: INTEGER
 			--
 		do
-			Result := width
+			Result := height
 		end
 
 feature {NONE} -- Implementation
 
-	element_name: STRING = "row"
+	element_name: STRING = "col"
 
 	set_array_size_from_node
 			--
 		do
-			make_matrix (1, node.to_integer)
+			make_matrix (node.to_integer, 1)
 		end
 
 end

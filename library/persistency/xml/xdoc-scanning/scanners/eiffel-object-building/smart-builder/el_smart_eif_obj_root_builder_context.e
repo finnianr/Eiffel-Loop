@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 19:10:30 GMT (Friday 17th January 2020)"
-	revision: "6"
+	date: "2020-01-20 21:20:34 GMT (Monday 20th January 2020)"
+	revision: "7"
 
 class
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -36,6 +36,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_MAKEABLE_FACTORY
 
 create
 	make
@@ -65,8 +67,8 @@ feature {NONE} -- Event handling
 			else
 				create result_stack.make (1)
 			end
-			if Factory_makeable.valid_name (class_name) then -- Classes conforming to EL_MAKEABLE
-				if attached {like target} Factory_makeable.new_item_from_name (class_name) as l_target  then
+			if Makeable_factory.valid_name (class_name) then -- Classes conforming to EL_MAKEABLE
+				if attached {like target} Makeable_factory.new_item_from_name (class_name) as l_target  then
 					target := l_target
 					target_created := True
 				end
@@ -94,11 +96,6 @@ feature {NONE} -- Event handling
 feature {NONE} -- Constants
 
 	Factory: EL_OBJECT_FACTORY [EL_BUILDABLE_FROM_NODE_SCAN]
-		once
-			create Result
-		end
-
-	Factory_makeable: EL_MAKEABLE_OBJECT_FACTORY
 		once
 			create Result
 		end

@@ -1441,7 +1441,7 @@ Test network library classes
 
 
 * [TEST_SIMPLE_CLIENT]($source)
-* [TEST_SIMPLE_SERVER]($source)
+* [SIMPLE_SERVER_TEST_APP]($source)
 
 ## os-command.ecf
 Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)

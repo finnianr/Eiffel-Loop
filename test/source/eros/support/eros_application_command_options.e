@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:23:12 GMT (Sunday 19th January 2020)"
-	revision: "3"
+	date: "2020-01-20 9:35:25 GMT (Monday 20th January 2020)"
+	revision: "4"
 
 class
 	EROS_APPLICATION_COMMAND_OPTIONS
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -60,11 +60,11 @@ feature {NONE} -- Constants
 
 	Help_text: STRING
 		once
-			Result := Precursor + New_line + "[
+			Result := joined (Precursor, "[
 				binary:
 					Use binary transmission protocol
 				duration:
 					Running time in seconds
-			]"
+			]")
 		end
 end
