@@ -15,11 +15,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:19:26 GMT (Sunday 19th January 2020)"
-	revision: "6"
+	date: "2020-01-21 9:57:59 GMT (Tuesday 21st January 2020)"
+	revision: "7"
 
 class
-	EROS_ROUTINE_CALL_REQUEST_PARSER
+	EROS_CALL_REQUEST_PARSER
 
 inherit
 	EL_PARSER
@@ -84,7 +84,6 @@ feature -- Basic operations
 				has_error := not fully_matched
 			end
 		end
-
 
 feature {NONE} -- Syntax grammar
 

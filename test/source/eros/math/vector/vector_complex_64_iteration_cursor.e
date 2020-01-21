@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:02:01 GMT (Monday 20th January 2020)"
-	revision: "2"
+	date: "2020-01-21 11:01:39 GMT (Tuesday 21st January 2020)"
+	revision: "3"
 
 class
-	VECTOR_COMPLEX_DOUBLE_ITERATION_CURSOR
+	VECTOR_COMPLEX_64_ITERATION_CURSOR
 
 inherit
-	ITERATION_CURSOR [COMPLEX_DOUBLE]
+	ITERATION_CURSOR [COMPLEX_64]
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (vector: VECTOR_COMPLEX_DOUBLE)
+	make (vector: VECTOR_COMPLEX_64)
 			--
 		do
 			index := 1
@@ -39,7 +39,7 @@ feature -- Access
 
 	index: INTEGER
 
-	item: COMPLEX_DOUBLE
+	item: COMPLEX_64
 			-- Current item
       local
          i: INTEGER
@@ -68,6 +68,6 @@ feature {NONE} -- Implementation
 
 	component_area: SPECIAL [DOUBLE]
 
-	internal_item: COMPLEX_DOUBLE
+	internal_item: COMPLEX_64
 
 end

@@ -6,28 +6,37 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:34:41 GMT (Sunday 19th January 2020)"
-	revision: "1"
+	date: "2020-01-21 16:57:46 GMT (Tuesday 21st January 2020)"
+	revision: "2"
 
 class
 	EROS_SERVER_THREAD
 
 inherit
 	EL_LOGGED_IDENTIFIED_THREAD
-		rename
-			make_default as make
+
+	EROS_SERVER_COMMAND
+		redefine
+			make, serve
 		end
 
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Initialization
 
-	execute
-		local
+	make (port: INTEGER)
 		do
-			log.enter ("execute")
---			create server.make_local (8000)
-			log.exit
+			make_default
+			Precursor (port)
+		end
+
+feature {NONE} -- Implementation
+
+	serve (client: EL_STREAM_SOCKET)
+			--
+		do
+			Precursor (client)
+			done := handler.is_stopped
 		end
 end

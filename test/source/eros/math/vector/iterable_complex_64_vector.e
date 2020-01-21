@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:02:07 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2020-01-21 11:01:39 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 class
-	ITERABLE_COMPLEX_DOUBLE_VECTOR
+	ITERABLE_COMPLEX_64_VECTOR
 
 inherit
-	ITERABLE [COMPLEX_DOUBLE]
+	ITERABLE [COMPLEX_64]
 
 create
 	make
@@ -28,11 +28,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_cursor: VECTOR_COMPLEX_DOUBLE_ITERATION_CURSOR
+	new_cursor: VECTOR_COMPLEX_64_ITERATION_CURSOR
 		do
 			create Result.make (vector)
 		end
 
-	vector: VECTOR_COMPLEX_DOUBLE
+	vector: VECTOR_COMPLEX_64
 
 end

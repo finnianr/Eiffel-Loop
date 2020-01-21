@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:01:54 GMT (Monday 20th January 2020)"
-	revision: "6"
+	date: "2020-01-21 11:03:38 GMT (Tuesday 21st January 2020)"
+	revision: "7"
 
 class
-	COMPLEX_DOUBLE
+	COMPLEX_64
 
 inherit
-	NEL_COMPLEX_DOUBLE
+	COMPLEX_DOUBLE
 
 	EVOLICITY_EIFFEL_CONTEXT
 		rename

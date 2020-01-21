@@ -1,19 +1,19 @@
 note
-	description: "Network proxy for remote instance of class [$source FFT_COMPLEX_DOUBLE]"
+	description: "Network proxy for remote instance of class [$source FFT_COMPLEX_64]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 20:37:41 GMT (Monday 20th January 2020)"
-	revision: "9"
+	date: "2020-01-21 12:45:34 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 class
-	FFT_COMPLEX_DOUBLE_PROXY
+	FFT_COMPLEX_64_PROXY
 
 inherit
-	FFT_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_64_I
 		rename
 			set_windower as remote_set_windower
 		export
@@ -42,39 +42,30 @@ feature -- Initialization
 
 feature -- Access
 
-	input: COLUMN_VECTOR_COMPLEX_DOUBLE
+	input: COLUMN_VECTOR_COMPLEX_64
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.input?>
-		local
-			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
 		do
 			log.enter (R_input)
-			create l_result.make (Current, R_input, [])
-			Result := l_result.item
+			Result := column_vector_complex_64_call (R_input, [])
 			log.exit
 		end
 
 	length: INTEGER
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.length?>
-		local
-			l_result: EROS_RESULT [INTEGER]
 		do
 			log.enter (R_length)
-			create l_result.make (Current, R_length, [])
-			Result := l_result.item
+			Result := integer_call (R_length, [])
 			log.exit
 		end
 
-	output: COLUMN_VECTOR_COMPLEX_DOUBLE
+	output: COLUMN_VECTOR_COMPLEX_64
 			-- Processing instruction example:
 			--		 <?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.output?>
-		local
-			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
 		do
 			log.enter (R_output)
-			create l_result.make (Current, R_output, [])
-			Result := l_result.item
+			Result := column_vector_complex_64_call (R_output, [])
 			log.exit
 		end
 
@@ -131,44 +122,42 @@ feature -- Contract support
 	is_output_length_valid: BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_output_length_valid?>
-		local
-			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_output_length_valid)
-			create l_result.make (Current, R_is_output_length_valid, [])
-			Result := l_result.item
+			Result := boolean_call (R_is_output_length_valid, [])
 			log.exit
 		end
 
 	is_power_of_two (n: INTEGER): BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_power_of_two (256)?>
-		local
-			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_power_of_two)
-			create l_result.make (Current, R_is_power_of_two, [N])
-			Result := l_result.item
+			Result := boolean_call (R_is_power_of_two, [N])
 			log.exit
 		end
 
 	is_valid_input_length (a_length: INTEGER): BOOLEAN
 		-- Processing instruction example:
 		--		<?call {FAST_FOURIER_TRANSFORM_COMPLEX_DOUBLE}.is_valid_input_length (256)?>
-		local
-			l_result: EROS_RESULT [BOOLEAN]
 		do
 			log.enter (R_is_valid_input_length)
-			create l_result.make (Current, R_is_valid_input_length, [a_length])
-			Result := l_result.item
+			Result := boolean_call (R_is_valid_input_length, [a_length])
 			log.exit
 		end
 
 feature {NONE} -- Implementation
 
-	 remote_set_windower (a_windower: WINDOWER_DOUBLE)
-	 	do
-	 	end
+	column_vector_complex_64_call (routine_name: STRING; argument_tuple: TUPLE): COLUMN_VECTOR_COMPLEX_64
+		do
+			Result := create {EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_64]}.make_call (
+				Current, routine_name, argument_tuple
+			)
+		end
+
+	remote_set_windower (a_windower: WINDOWER_DOUBLE)
+		do
+		end
 
 	windower_default: DEFAULT_WINDOWER_DOUBLE
 			--

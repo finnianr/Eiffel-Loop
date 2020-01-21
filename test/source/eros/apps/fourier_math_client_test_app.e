@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 10:22:58 GMT (Monday 20th January 2020)"
-	revision: "14"
+	date: "2020-01-21 11:03:50 GMT (Tuesday 21st January 2020)"
+	revision: "15"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -56,7 +56,7 @@ feature -- Basic operations
 	basic_test (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE; windower_id: STRING)
 			--
 		local
-			test_wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE
+			test_wave_form: COLUMN_VECTOR_COMPLEX_64
 			preconditions_ok: BOOLEAN
 		do
 			test_wave_form := signal_math.cosine_waveform (i_freq, log2_length, phase_fraction)
@@ -153,16 +153,16 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{FFT_COMPLEX_DOUBLE_PROXY}, All_routines],
+				[{FFT_COMPLEX_64_PROXY}, All_routines],
 				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
+				[{EROS_CALL_REQUEST_HANDLER_PROXY}, All_routines]
 			>>
 		end
 
-	print_vector (vector: VECTOR_COMPLEX_DOUBLE)
+	print_vector (vector: VECTOR_COMPLEX_64)
 			--
 		local
-			c: NEL_COMPLEX_DOUBLE; i: INTEGER
+			c: COMPLEX_DOUBLE; i: INTEGER
 		do
 			log.enter ("print_vector")
 			lio.put_string ("Vector rows [10 of ")
@@ -185,7 +185,7 @@ feature {NONE} -- Internal attributes
 
 	random: RANDOM
 
-	fft: FFT_COMPLEX_DOUBLE_PROXY
+	fft: FFT_COMPLEX_64_PROXY
 
 	signal_math: SIGNAL_MATH_PROXY
 

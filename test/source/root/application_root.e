@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:04:50 GMT (Monday 20th January 2020)"
-	revision: "31"
+	date: "2020-01-21 14:41:58 GMT (Tuesday 21st January 2020)"
+	revision: "32"
 
 class
 	APPLICATION_ROOT
@@ -31,7 +31,7 @@ feature {NONE} -- Constants
 		ZSTRING_BENCHMARK_APP,
 
 		-- Test amazon-instant-access.ecf
-		AMAZON_INSTANT_ACCESS_TEST_APP,
+		AMAZON_INSTANT_ACCESS_AUTOTEST_APP,
 
 		-- Test base.ecf
 		BASE_AUTOTEST_APP,
@@ -113,7 +113,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1, ROW_VECTOR_COMPLEX_DOUBLE]
+	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1, ROW_VECTOR_COMPLEX_64]
 		once
 			create Result
 		end

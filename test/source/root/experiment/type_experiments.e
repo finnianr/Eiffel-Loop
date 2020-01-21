@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 13:02:11 GMT (Sunday 5th January 2020)"
-	revision: "3"
+	date: "2020-01-21 11:42:30 GMT (Tuesday 21st January 2020)"
+	revision: "4"
 
 class
 	TYPE_EXPERIMENTS
 
 inherit
 	EXPERIMENTAL
+
+	EL_SHARED_MAKEABLE_FACTORY
 
 feature -- Basic operations
 
@@ -43,19 +45,17 @@ feature -- Basic operations
 			type_32 := {ARRAYED_LIST [STRING_32]}
 		end
 
-	id_comparison
-		local
-			list: ARRAYED_LIST [STRING]
-			list_integer: ARRAYED_LIST [INTEGER]
+	valid_class_name
 		do
-			create list.make (0)
-			create list_integer.make (0)
-			lio.put_integer_field ("type_id", ({ARRAYED_LIST [STRING]}).type_id)
-			lio.put_integer_field (" dynamic_type", Eiffel.dynamic_type (list))
-			lio.put_integer_field (" dynamic_type list_integer", Eiffel.dynamic_type (list_integer))
+			lio.put_labeled_string ("FFT_COMPLEX_DOUBLE", Factory.valid_name ("FFT_COMPLEX_64").out)
 			lio.put_new_line
-			lio.put_integer_field ("({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id", ({EL_MAKEABLE_FROM_ZSTRING}).type_id)
-			lio.put_new_line
-			lio.put_integer_field ("({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id", ({EL_MAKEABLE_FROM_STRING_GENERAL}).type_id)
+		end
+
+feature {NONE} -- Constants
+
+	Factory: EL_OBJECT_FACTORY [EROS_REMOTELY_ACCESSIBLE]
+			--
+		once
+			create Result
 		end
 end

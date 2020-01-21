@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 20:38:40 GMT (Monday 20th January 2020)"
-	revision: "1"
+	date: "2020-01-21 12:34:08 GMT (Tuesday 21st January 2020)"
+	revision: "2"
 
 class
 	EROS_MAKEABLE_RESULT [G -> EL_MAKEABLE create make end]
@@ -19,7 +19,10 @@ inherit
 		end
 
 create
-	make
+	make_call
+
+convert
+	item: {G}
 
 feature {NONE} -- Implementation
 

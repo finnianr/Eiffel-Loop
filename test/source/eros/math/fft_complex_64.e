@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:16:57 GMT (Monday 20th January 2020)"
-	revision: "9"
+	date: "2020-01-21 17:27:07 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 class
-	FFT_COMPLEX_DOUBLE
+	FFT_COMPLEX_64
 
 inherit
-	NEL_FFT_COMPLEX_DOUBLE
+	FFT_COMPLEX_DOUBLE
 		rename
 			fft as do_transform,
 			ifft as do_inverse_transform,
@@ -23,7 +23,7 @@ inherit
 			output, input, fft_make, set_windower
 		end
 
-	FFT_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_64_I
 
 	EROS_REMOTELY_ACCESSIBLE
 
@@ -35,15 +35,15 @@ feature -- Initialization
 	fft_make (n: INTEGER)
 			--
 		do
-			Precursor {NEL_FFT_COMPLEX_DOUBLE} (n)
+			Precursor {FFT_COMPLEX_DOUBLE} (n)
 			create output.make_with_size (length)
 		end
 
 feature -- Access
 
-   output: COLUMN_VECTOR_COMPLEX_DOUBLE
+   output: COLUMN_VECTOR_COMPLEX_64
 
-   input: COLUMN_VECTOR_COMPLEX_DOUBLE
+   input: COLUMN_VECTOR_COMPLEX_64
 
 feature -- Contract support
 
@@ -68,7 +68,7 @@ feature -- Element change
 			Precursor (a_windower)
 		end
 
-feature {NONE} -- Constants
+feature -- Constants
 
 	Windower_rectangular: RECTANGULAR_WINDOWER_DOUBLE
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 21:27:43 GMT (Monday 20th January 2020)"
-	revision: "1"
+	date: "2020-01-21 11:25:09 GMT (Tuesday 21st January 2020)"
+	revision: "2"
 
 class
 	EROS_XML_RESULT
@@ -54,7 +54,7 @@ feature {NONE} -- Constants
 	Template: STRING
 		once
 			Result := "[
-				<?xml version="1.0" encoding="iso-8859-1"?>
+				<?xml version="1.0" encoding="ISO-8859-1"?>
 				<?create $generator?>
 				<$root_name/>
 			]"

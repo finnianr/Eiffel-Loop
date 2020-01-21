@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 21:29:05 GMT (Monday 20th January 2020)"
-	revision: "8"
+	date: "2020-01-21 11:26:48 GMT (Tuesday 21st January 2020)"
+	revision: "9"
 
 class
 	EROS_STRING_RESULT
@@ -56,18 +56,16 @@ feature {NONE} -- Building from XML
 			--
 		do
 			create Result.make (<<
-				["value/text()", agent do value := node.to_string end]
+				["@value", agent do value := node.to_string end]
 			>>)
 		end
 
-feature -- Constants
+feature {NONE} -- Implementation
 
 	Template: STRING = "[
 		<?xml version="1.0" encoding="ISO-8859-1"?>
 		<?create $generator?>
-		<string>
-			<value>$value</value>
-		</string>
+		<$root_name value="$value"/>
 	]"
 
 end

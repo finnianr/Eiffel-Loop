@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:33:18 GMT (Sunday 19th January 2020)"
-	revision: "11"
+	date: "2020-01-21 13:14:52 GMT (Tuesday 21st January 2020)"
+	revision: "12"
 
 deferred class
 	EROS_SERVER_SUB_APPLICATION
@@ -20,40 +20,18 @@ inherit
 			on_ctrl_c
 		end
 
-feature {NONE} -- Initiliazation
+	EROS_SERVER_COMMAND
+		rename
+			execute as run,
+			done as exit_signal_received,
+			make as make_server
+		end
+
+feature {NONE} -- Initialization
 
 	initialize
-			--
 		do
-			create connecting_socket.make_server_by_port (8000)
-		end
-
-feature -- Basic operations
-
-	run
-			--
-		local
-			exit_signal_received: BOOLEAN
-		do
-			log.enter ("run")
-			connecting_socket.listen (3)
-			from until exit_signal_received loop
-				lio.put_line ("Waiting for connection ..")
-				connecting_socket.accept
-				if attached {EL_STREAM_SOCKET} connecting_socket.accepted as client and then client.readable then
-					lio.put_line ("Connection accepted")
-					serve (client)
-				else
-					lio.put_line ("Connection not accepted")
-				end
-			end
-			connecting_socket.cleanup
-			log.exit
-		end
-
-	serve (client_socket: EL_STREAM_SOCKET)
-			--
-		deferred
+			make_server (8000)
 		end
 
 feature {NONE} -- Implementation
@@ -70,7 +48,5 @@ feature {NONE} -- Implementation
 			connecting_socket.cleanup
 --			no_message_on_failure
 		end
-
-	connecting_socket: EL_NETWORK_STREAM_SOCKET
 
 end

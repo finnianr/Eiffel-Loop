@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:59 GMT (Sunday 19th January 2020)"
-	revision: "16"
+	date: "2020-01-21 10:07:04 GMT (Tuesday 21st January 2020)"
+	revision: "17"
 
 class
-	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
+	EROS_CALL_REQUEST_HANDLER
 
 inherit
 	EL_STOPPABLE_THREAD
@@ -27,7 +27,7 @@ inherit
 			make
 		end
 
-	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+	EROS_CALL_REQUEST_HANDLER_I
 		rename
 			set_outbound_type as set_pending_outbound_type
 		end
@@ -169,10 +169,10 @@ feature {NONE} -- Implementation
 			if target_table.has_key (request_builder.class_name) then
 				target := target_table.found_item
 			elseif Factory.valid_name (request_builder.class_name)
-				and then attached new_target (request_builder.class_name) as l_target
+				and then attached new_target (request_builder.class_name) as new
 			then
-				target := l_target
-				target_table.extend (target, request_builder.class_name)
+				target := new
+				target_table.extend (new, request_builder.class_name)
 			else
 				set_error (Error.invalid_type, request_builder.class_name)
 			end
@@ -222,7 +222,7 @@ feature {NONE} -- Internal attributes
 	target_table: HASH_TABLE [EROS_REMOTELY_ACCESSIBLE, STRING]
 		-- objects available for duration of client sesssion
 
-	request_builder: EROS_ROUTINE_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
+	request_builder: EROS_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;
 
 note
 	notes: "[

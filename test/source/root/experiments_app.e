@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 18:18:58 GMT (Thursday 16th January 2020)"
-	revision: "49"
+	date: "2020-01-21 10:42:39 GMT (Tuesday 21st January 2020)"
+	revision: "50"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("general.create_makeable_object")
-			general.create_makeable_object
+			log.enter ("type.valid_class_name")
+			type.valid_class_name
 			log.exit
 		end
 

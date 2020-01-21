@@ -41,17 +41,7 @@ See doc/eros.txt for details
 		</library>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<!--Source code-->
-		<cluster name = "common" location = "network/eros" recursive = "true">
-			<file_rule>
-				<exclude>/UI$</exclude>
-			</file_rule>
-			<file_rule>
-				<exclude>/client$</exclude>
-			</file_rule>
-			<file_rule>
-				<exclude>/server$</exclude>
-			</file_rule>
-		</cluster>
+		<cluster name = "common" location = "network/eros/common" recursive = "true"/>
 		<cluster name = "client" location = "network/eros/client" recursive = "true">
 			<condition>
 				<custom name = "eros_server_enabled" value = "false"/>

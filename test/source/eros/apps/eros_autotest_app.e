@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:51:52 GMT (Monday 20th January 2020)"
-	revision: "2"
+	date: "2020-01-21 18:03:38 GMT (Tuesday 21st January 2020)"
+	revision: "3"
 
 class
 	EROS_AUTOTEST_APP
@@ -33,9 +33,10 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{FFT_COMPLEX_DOUBLE_PROXY}, All_routines],
+				[{FFT_COMPLEX_64_PROXY}, All_routines],
 				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_PROXY}, All_routines]
+				[{EROS_CALL_REQUEST_HANDLER_PROXY}, All_routines],
+				[{EROS_TEST_SET}, All_routines]
 			>>
 		end
 

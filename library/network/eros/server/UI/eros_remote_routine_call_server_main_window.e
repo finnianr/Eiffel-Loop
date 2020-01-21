@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:30:46 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
@@ -128,7 +128,7 @@ feature {NONE} -- Build UI
 
 feature {NONE} -- Implementation
 
-	connection_manager_thread: EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD
+	connection_manager_thread: EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD
 
 	go_button: EV_TOGGLE_BUTTON
 

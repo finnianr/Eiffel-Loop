@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:26 GMT (Sunday 19th January 2020)"
-	revision: "11"
+	date: "2020-01-21 9:54:16 GMT (Tuesday 21st January 2020)"
+	revision: "12"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -33,7 +33,7 @@ inherit
 			make
 		end
 
-feature {EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I} -- Initialization
+feature {EROS_CALL_REQUEST_HANDLER_I} -- Initialization
 
 	make
 			--
@@ -52,7 +52,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_arguments (request_parser: EROS_ROUTINE_CALL_REQUEST_PARSER)
+	set_arguments (request_parser: EROS_CALL_REQUEST_PARSER)
 			-- set `routine' arguments
 		local
 			routine_name: STRING

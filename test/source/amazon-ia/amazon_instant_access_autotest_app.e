@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 12:31:54 GMT (Wednesday 8th January 2020)"
-	revision: "59"
+	date: "2020-01-21 14:42:32 GMT (Tuesday 21st January 2020)"
+	revision: "60"
 
 class
-	AMAZON_INSTANT_ACCESS_TEST_APP
+	AMAZON_INSTANT_ACCESS_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION

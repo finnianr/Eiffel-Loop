@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:00:40 GMT (Monday 20th January 2020)"
-	revision: "8"
+	date: "2020-01-21 17:52:38 GMT (Tuesday 21st January 2020)"
+	revision: "9"
 
 deferred class
 	SIGNAL_MATH_I
@@ -27,7 +27,7 @@ inherit
 
 feature -- Element change
 
-	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): VECTOR_COMPLEX_DOUBLE
+	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): COLUMN_VECTOR_COMPLEX_64
 			--
 		require
 			i_freq_ok: i_freq > 0 and i_freq <= 2 ^ (log2_length - 1)

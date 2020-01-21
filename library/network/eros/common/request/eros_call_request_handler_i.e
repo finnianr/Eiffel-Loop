@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:12 GMT (Sunday 19th January 2020)"
-	revision: "9"
+	date: "2020-01-21 9:53:33 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 deferred class
-	EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER_I
+	EROS_CALL_REQUEST_HANDLER_I
 
 inherit
 	EROS_REMOTE_CALL_CONSTANTS

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:31:33 GMT (Monday 20th January 2020)"
-	revision: "9"
+	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -25,6 +25,24 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines],
+				[{SIGNAL_MATH}, All_routines],
+				[{FFT_COMPLEX_64}, All_routines],
+				[{EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
+				[{EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
+				[{EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD}, All_routines],
+				[{EROS_CALL_REQUEST_HANDLING_THREAD}, All_routines],
+				[{EROS_CALL_REQUEST_HANDLER}, All_routines],
+				[{EROS_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
+			>>
+		end
 
 feature {NONE} -- Remotely callable types
 
@@ -60,22 +78,6 @@ feature {NONE} -- Constants
 	Description: STRING
 		once
 			Result := "EROS server to do fourier transformations on signal waveforms"
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{SIGNAL_MATH}, All_routines],
-				[{FFT_COMPLEX_DOUBLE}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
-				[{EROS_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
-				[{EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
-				[{EROS_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
-			>>
 		end
 
 	Option_name: STRING

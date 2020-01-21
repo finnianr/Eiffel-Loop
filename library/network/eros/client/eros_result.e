@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 20:38:02 GMT (Monday 20th January 2020)"
-	revision: "1"
+	date: "2020-01-21 12:32:16 GMT (Tuesday 21st January 2020)"
+	revision: "2"
 
 class
 	EROS_RESULT [G]
@@ -15,18 +15,23 @@ class
 inherit
 	ANY
 
-	EL_MODULE_LOG
-
 	EL_MODULE_STRING_8
 
 create
-	make
+	make_call
+
+convert
+	item: {G}
 
 feature {NONE} -- Initialization
 
-	make (proxy: EROS_PROXY; routine_name: STRING; argument_tuple: TUPLE)
+	make_call (proxy: EROS_PROXY; routine_name: STRING; argument_tuple: TUPLE)
+		-- make result `item' by calling remote `routine_name' with `argument_tuple'
+		local
+			log: EL_LOGGABLE
 		do
 			proxy.call (routine_name, argument_tuple)
+			log := proxy.log
 			if not proxy.has_error then
 				if attached {EROS_STRING_RESULT} proxy.result_object as l_result then
 					log.put_labeled_string (once "Received result", l_result.value)

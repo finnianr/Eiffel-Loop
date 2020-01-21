@@ -1,22 +1,22 @@
 note
 	description: "[
-		VECTOR_COMPLEX_DOUBLE serializable to format:
+		NEL class `VECTOR_COMPLEX_DOUBLE' serializable to XML format:
 		
 			<?xml version="1.0" encoding="ISO-8859-1"?>
-			<?type row?>
-			<vector-complex-double count="3">
+			<?create ROW_VECTOR_COMPLEX_64?>
+			<vector-complex count="3">
 				<row real="2.2" imag="3"/>
 				<row real="2.2" imag="6.03"/>
 				<row real="1.1" imag="3.5"/>
-			</vector-complex-double>
+			</vector-complex>
 		OR
 			<?xml version="1.0" encoding="ISO-8859-1"?>
-			<?type col?>
-			<vector-complex-double count="3">
+			<?create COLUMN_VECTOR_COMPLEX_64?>
+			<vector-complex count="3">
 				<col real="2.2" imag="3"/>
 				<col real="2.2" imag="6.03"/>
 				<col real="1.1" imag="3.5"/>
-			</vector-complex-double>
+			</vector-complex>
 	]"
 
 	author: "Finnian Reilly"
@@ -24,14 +24,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:01:59 GMT (Monday 20th January 2020)"
-	revision: "8"
+	date: "2020-01-21 11:31:22 GMT (Tuesday 21st January 2020)"
+	revision: "9"
 
 deferred class
-	VECTOR_COMPLEX_DOUBLE
+	VECTOR_COMPLEX_64
 
 inherit
-	NEL_VECTOR_COMPLEX_DOUBLE
+	VECTOR_COMPLEX_DOUBLE
 		rename
 			make as make_matrix,
 			count as count_times_2,
@@ -40,13 +40,14 @@ inherit
 			make_row, make_column
 		end
 
-	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
+	EROS_XML_RESULT
 		rename
-			put_real as put_real_variable
+			put_real as put_real_variable,
+			make as make_default
 		undefine
 			is_equal, copy, out
 		redefine
-			make_default, building_action_table
+			make_default, building_action_table, getter_function_table, Template
 		end
 
 	EL_MODULE_CHECKSUM
@@ -67,7 +68,7 @@ feature {NONE} -- Initialization
 		do
 			area := Default_area
 			height := 1; width := 1
-			Precursor {EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}
+			Precursor {EROS_XML_RESULT}
 		end
 
 	make_from_binary_stream (a_stream: IO_MEDIUM)
@@ -107,12 +108,10 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["generator", agent: STRING do Result := generator end],
-				["count", agent: INTEGER_REF do Result := count.to_reference end],
-				["element_name", agent: STRING do Result := element_name end],
-				["Current", agent: ITERABLE_COMPLEX_DOUBLE_VECTOR do create Result.make (Current) end]
-			>>)
+			Result := Precursor +
+				["count", agent: INTEGER_REF do Result := count.to_reference end] +
+				["element_name", agent: STRING do Result := element_name end] +
+				["Current", agent: ITERABLE_COMPLEX_64_VECTOR do create Result.make (Current) end]
 		end
 
 feature {NONE} -- Implementation
@@ -128,11 +127,9 @@ feature {NONE} -- Internal attributes
 
 	index: INTEGER
 
-	new_complex: NEL_COMPLEX_DOUBLE
+	new_complex: COMPLEX_DOUBLE
 
 feature {NONE} -- Building from XML
-
-	Root_node_name: STRING = "vector-complex-double"
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
@@ -158,13 +155,13 @@ feature {NONE} -- Constants
 		end
 
 	Template: STRING = "[
-		<?xml version="1.0" encoding="iso-8859-1"?>
+		<?xml version="1.0" encoding="ISO-8859-1"?>
 		<?create {$generator}?>
-		<vector-complex-double count="$count">
-			#across $Current as $complex_double loop
+		<$root_name count="$count">
+		#across $Current as $complex_double loop
 			<$element_name real="$complex_double.item.real" imag="$complex_double.item.imag"/>
-			#end
-		</vector-complex-double>
+		#end
+		</$root_name>
 	]"
 
 end

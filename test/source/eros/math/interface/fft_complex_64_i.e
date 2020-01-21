@@ -3,9 +3,9 @@ note
 		Common interface to local proxy interface and remote server class for calculating fourier transformations
 	]"
 	descendants: "[
-			FFT_COMPLEX_DOUBLE_I*
-				[$source FFT_COMPLEX_DOUBLE_PROXY]
-				[$source FFT_COMPLEX_DOUBLE]
+			FFT_COMPLEX_64_I*
+				[$source FFT_COMPLEX_64_PROXY]
+				[$source FFT_COMPLEX_64]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:16:18 GMT (Monday 20th January 2020)"
-	revision: "8"
+	date: "2020-01-21 10:59:50 GMT (Tuesday 21st January 2020)"
+	revision: "9"
 
 deferred class
-	FFT_COMPLEX_DOUBLE_I
+	FFT_COMPLEX_64_I
 
 inherit
 	FFT_ONCE_ROUTINE_NAMES
@@ -31,12 +31,12 @@ feature -- Initialization
 
 feature -- Access
 
-	input: COLUMN_VECTOR_COMPLEX_DOUBLE
+	input: COLUMN_VECTOR_COMPLEX_64
 			--
 		deferred
 		end
 
-	output: COLUMN_VECTOR_COMPLEX_DOUBLE
+	output: COLUMN_VECTOR_COMPLEX_64
    		--
 		deferred
 		end
@@ -70,7 +70,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-   set_input (a_input: VECTOR_COMPLEX_DOUBLE)
+   set_input (a_input: VECTOR_COMPLEX_64)
    		--
 		deferred
 		end
@@ -112,8 +112,8 @@ feature {NONE} -- EROS implementation
 				[R_set_windower,					agent set_windower],
 
 				-- Functions
-				[R_output,							agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := output end],
-				[R_input,							agent: COLUMN_VECTOR_COMPLEX_DOUBLE do Result := input end],
+				[R_output,							agent: COLUMN_VECTOR_COMPLEX_64 do Result := output end],
+				[R_input,							agent: COLUMN_VECTOR_COMPLEX_64 do Result := input end],
 				[R_length,							agent: INTEGER do Result := length end],
 
 				[R_is_output_length_valid,		agent is_output_length_valid],

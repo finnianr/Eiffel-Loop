@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:31:33 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2020-01-21 11:36:06 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 class
-	EROS_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
+	EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
 
 inherit
-	EL_LOGGED_DELEGATING_CONSUMER_THREAD [EL_STREAM_SOCKET, EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD]
+	EL_LOGGED_DELEGATING_CONSUMER_THREAD [EL_STREAM_SOCKET, EROS_CALL_REQUEST_HANDLING_THREAD]
 		rename
 			product_queue as client_request_queue
 		redefine
@@ -40,11 +40,11 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_consumer_delegate: EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD
+	new_consumer_delegate: EROS_CALL_REQUEST_HANDLING_THREAD
 			--
 		do
 			create Result.make (Current, client_request_queue.available_consumers)
-			Result.set_client_request_handler (create {EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}.make)
+			Result.set_client_request_handler (create {EROS_CALL_REQUEST_HANDLER}.make)
 			Result.set_routine_call_event_listener (routine_call_event_listener)
 			Result.set_log_name_suffix (client_request_queue.all_consumers.count + 1)
 		end

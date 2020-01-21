@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 7; build = 377
+			major = 1; minor = 0; release = 7; build = 378
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -102,12 +102,6 @@ system:
 			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
 		library:
 			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
-			renaming:
-				old_name = VECTOR_COMPLEX_DOUBLE; new_name = NEL_VECTOR_COMPLEX_DOUBLE
-			renaming:
-				old_name = COMPLEX_DOUBLE; new_name = NEL_COMPLEX_DOUBLE
-			renaming:
-				old_name = FFT_COMPLEX_DOUBLE; new_name = NEL_FFT_COMPLEX_DOUBLE
 
 		# Eiffel Loop libraries
 		library:

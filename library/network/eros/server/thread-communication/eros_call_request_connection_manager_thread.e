@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:30:46 GMT (Monday 20th January 2020)"
-	revision: "9"
+	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 class
-	EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD
+	EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD
 
 inherit
 	EL_CONTINUOUS_ACTION_THREAD
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	client_connection_queue: EROS_REMOTE_CALL_CLIENT_CONNECTION_QUEUE
+	client_connection_queue: EROS_CALL_REQUEST_CLIENT_CONNECTION_QUEUE
 
 	connecting_socket: EL_NETWORK_STREAM_SOCKET
 

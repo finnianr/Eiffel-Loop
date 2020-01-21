@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 21:31:20 GMT (Monday 20th January 2020)"
-	revision: "12"
+	date: "2020-01-21 12:40:20 GMT (Tuesday 21st January 2020)"
+	revision: "13"
 
 deferred class
 	EROS_PROXY
@@ -27,6 +27,9 @@ inherit
 		end
 
 	EL_MODULE_LOG
+		export
+			{EROS_RESULT} log
+		end
 
 	EROS_SHARED_ERROR
 
@@ -58,6 +61,11 @@ feature -- Access
 
 feature {EROS_RESULT} -- Implementation
 
+	boolean_call (routine_name: STRING; argument_tuple: TUPLE): BOOLEAN
+		do
+			Result := create {EROS_RESULT [BOOLEAN]}.make_call (Current, routine_name, argument_tuple)
+		end
+
 	call (routine_name: STRING; argument_tuple: TUPLE)
 			--
 		local
@@ -67,7 +75,7 @@ feature {EROS_RESULT} -- Implementation
 			error_code := 0
 			last_procedure_call_ok := false
 			request := Call_request
-			request.set_expression_and_serializeable_argument (Current, routine_name, argument_tuple)
+			request.set_processing_instruction (Current, routine_name, argument_tuple)
 
 			lio.put_labeled_string ("Sending request", request.expression)
 			lio.put_new_line
@@ -95,6 +103,11 @@ feature {EROS_RESULT} -- Implementation
 				last_procedure_call_ok := true
 			end
 			log.exit
+		end
+
+	integer_call, integer_32_call (routine_name: STRING; argument_tuple: TUPLE): INTEGER
+		do
+			Result := create {EROS_RESULT [INTEGER]}.make_call (Current, routine_name, argument_tuple)
 		end
 
 	set_stopping

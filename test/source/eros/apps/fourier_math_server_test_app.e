@@ -10,39 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:16:57 GMT (Monday 20th January 2020)"
-	revision: "10"
+	date: "2020-01-21 13:10:42 GMT (Tuesday 21st January 2020)"
+	revision: "11"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
 
 inherit
 	EROS_SERVER_SUB_APPLICATION
-		redefine
-			initialize
-		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make
-
-feature {NONE} -- Initiliazation
-
-	initialize
-			--
-		do
-			Precursor
-			create request_handler.make
-		end
-
-feature -- Basic operations
-
-	serve (client: EL_STREAM_SOCKET)
-			--
-		do
-			request_handler.serve (client)
-		end
 
 feature {NONE} -- Implementation
 
@@ -51,17 +31,15 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER}, All_routines],
-				[{FFT_COMPLEX_DOUBLE}, No_routines],
+				[{EROS_CALL_REQUEST_HANDLER}, All_routines],
+				[{FFT_COMPLEX_64}, No_routines],
 				[{SIGNAL_MATH}, No_routines]
 			>>
 		end
 
 feature {NONE} -- Internal attributes
 
-	request_handler: EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLER
-
-	tuple: TUPLE [FFT_COMPLEX_DOUBLE, SIGNAL_MATH]
+	tuple: TUPLE [FFT_COMPLEX_64, SIGNAL_MATH]
 
 feature {NONE} -- Constants
 

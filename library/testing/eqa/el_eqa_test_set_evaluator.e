@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:40:54 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-01-21 14:54:40 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
@@ -35,11 +35,17 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	EL_MODULE_EIFFEL
+
 feature {EL_MODULE_EIFFEL} -- Initialization
 
 	default_create
 		do
-			create item
+			-- create a new instance of `item' without calling `default_create'
+			-- (`default_create' is called by `evaluator')
+			if attached {like item} Eiffel.new_instance_of (({like item}).type_id) as new then
+				item := new
+			end
 			create failure_table.make_equal (3)
 		end
 
@@ -87,7 +93,7 @@ feature -- Basic operations
 
 	print_name
 		do
-			lio.put_labeled_string ("TEST SET", item.generator)
+			lio.put_labeled_string ("TEST SET", ({like item}).name)
 			lio.put_new_line_x2
 		end
 
@@ -125,8 +131,6 @@ feature {NONE} -- Implementation
 	test_table: EL_PROCEDURE_TABLE [STRING]
 		deferred
 		end
-
-feature {NONE} -- Internal attributes
 
 	item: G
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 20:40:25 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2020-01-21 10:56:38 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 class
 	SIGNAL_MATH_PROXY
@@ -22,15 +22,15 @@ create
 
 feature -- Access
 
-	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): COLUMN_VECTOR_COMPLEX_DOUBLE
+	cosine_waveform (i_freq, log2_length: INTEGER; phase_fraction: DOUBLE): COLUMN_VECTOR_COMPLEX_64
 
 			-- Processing instruction example:
    			-- 		<?call {SIGNAL_MATH}.cosine_waveform (4, 7, 0.5)?>
 		local
-			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_DOUBLE]
+			l_result: EROS_MAKEABLE_RESULT [COLUMN_VECTOR_COMPLEX_64]
 		do
 			log.enter (R_cosine_waveform)
-			create l_result.make (Current, R_cosine_waveform, [i_freq, log2_length, phase_fraction])
+			create l_result.make_call (Current, R_cosine_waveform, [i_freq, log2_length, phase_fraction])
 			Result := l_result.item
 			log.exit
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 21:29:15 GMT (Monday 20th January 2020)"
-	revision: "8"
+	date: "2020-01-21 11:26:58 GMT (Tuesday 21st January 2020)"
+	revision: "9"
 
 class
 	EROS_ERROR_RESULT
@@ -84,15 +84,13 @@ feature {NONE} -- Building from XML
 
 feature {NONE} -- Constants
 
-	Template: STRING =
-		-- Substitution template
-	"[
+	Template: STRING = "[
 		<?xml version="1.0" encoding="ISO-8859-1"?>
 		<?create $generator?>
-		<error id="$id">
+		<$root_name id="$id">
 			<description>$description</description>
 			<detail>$detail</detail>
-		</error>
+		</$root_name>
 	]"
 
 end

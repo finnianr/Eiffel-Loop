@@ -11,7 +11,7 @@
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "0" release = "7" build = "377" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "0" release = "7" build = "378" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
 		<variable name = "build_info_dir" value = "source/root"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
@@ -45,11 +45,7 @@
 		<library name = "ise_encryption_base" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Other libraries-->
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
-		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf">
-			<renaming old_name = "VECTOR_COMPLEX_DOUBLE" new_name = "NEL_VECTOR_COMPLEX_DOUBLE"/>
-			<renaming old_name = "COMPLEX_DOUBLE" new_name = "NEL_COMPLEX_DOUBLE"/>
-			<renaming old_name = "FFT_COMPLEX_DOUBLE" new_name = "NEL_FFT_COMPLEX_DOUBLE"/>
-		</library>
+		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
 		<!--Eiffel Loop libraries-->
 		<library name = "EL_amazon_ia" readonly = "false" location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf"/>
 		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>

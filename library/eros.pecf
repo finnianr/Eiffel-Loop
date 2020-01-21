@@ -74,16 +74,7 @@ system:
 
 		# Source code
 		cluster:
-			name = common; location = "network/eros"; recursive = true
-			file_rule:
-				exclude:
-					"/UI$"
-			file_rule:
-				exclude:
-					"/client$"
-			file_rule:
-				exclude:
-					"/server$"
+			name = common; location = "network/eros/common"; recursive = true
 
 		cluster:
 			name = client; location = "network/eros/client"; recursive = true

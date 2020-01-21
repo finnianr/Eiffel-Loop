@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:31:33 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
+	revision: "8"
 
 class
-	EROS_REMOTE_CALL_CLIENT_CONNECTION_QUEUE
+	EROS_CALL_REQUEST_CLIENT_CONNECTION_QUEUE
 
 inherit
-	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [EL_STREAM_SOCKET, EROS_REMOTE_ROUTINE_CALL_REQUEST_HANDLING_THREAD]
+	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [EL_STREAM_SOCKET, EROS_CALL_REQUEST_HANDLING_THREAD]
 		rename
 			make as make_connection_queue
 		redefine
@@ -40,8 +40,8 @@ feature -- Access
 			Result := all_consumers.capacity
 		end
 
-feature {EROS_REMOTE_CALL_CONNECTION_MANAGER_THREAD} -- Access
+feature {EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD} -- Access
 
-	delegator: EROS_REMOTE_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
+	delegator: EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
 
 end

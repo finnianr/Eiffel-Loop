@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 16:37:58 GMT (Saturday 11th January 2020)"
-	revision: "9"
+	date: "2020-01-21 10:56:38 GMT (Tuesday 21st January 2020)"
+	revision: "10"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -36,7 +36,7 @@ feature -- Basic operations
 	run
 			--
 		local
-			wave_form: COLUMN_VECTOR_COMPLEX_DOUBLE; i: INTEGER
+			wave_form: COLUMN_VECTOR_COMPLEX_64; i: INTEGER
 		do
 			log.enter ("run")
 			net_socket.connect
