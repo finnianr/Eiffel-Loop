@@ -1382,7 +1382,7 @@ Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releas
 
 
 ## amazon-instant-access.ecf
-Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](http://www.eiffel-loop.com/test/source/amazon-ia/amazon_instant_access_test_app.html)
+Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
 ## base.ecf (Eiffel-Loop)
 Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
 ## Benchmarking Tests
@@ -1560,7 +1560,7 @@ EQA_TEST_SET*
 ## search-engine.ecf
 See class [SEARCH_ENGINE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/search-engine/search_engine_autotest_app.html)
 ## TagLib.ecf
-See class [TAGLIB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/TagLib/taglib_autotest_app.html)
+See class [TAGLIB_AUTOTEST_APP]($source)
 ## text-formats.ecf
 See class [TEXT_FORMATS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/text-formats/text_formats_autotest_app.html)
 ## text-process.ecf

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 14:44:16 GMT (Tuesday 21st January 2020)"
-	revision: "15"
+	date: "2020-01-22 16:22:59 GMT (Wednesday 22nd January 2020)"
+	revision: "16"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -275,14 +275,30 @@ feature {NONE} -- Implementation
 		end
 
 	request_get_user_id_1234 (request: like new_amazon_request; json_response: STRING)
+		local
+			response: AIA_RESPONSE
+			stack_pos: INTEGER
 		do
+			stack_pos := log.call_stack_count
+			log.enter ("request_get_user_id_1234")
 			Request_manager.get_user_id.set_new_response (agent get_user_id_1234)
-			if attached {AIA_GET_USER_ID_RESPONSE} Request_manager.response (request) as user_id_response then
+			Request_manager.print_verification (log, request)
+			response := Request_manager.response (request)
+			if attached {AIA_GET_USER_ID_RESPONSE} response as user_id_response then
 				assert ("no error", not Request_manager.has_error)
 				assert ("expected response", user_id_response.as_json.to_latin_1 ~ json_response)
+
+			elseif attached {AIA_FAIL_RESPONSE} response then
+				log.put_labeled_string ("Failure", Request_manager.error_message)
+				log.put_new_line
+				assert ("returned AIA_GET_USER_ID_RESPONSE", False)
 			else
+				log.put_line ("response not attached")
 				assert ("returned AIA_GET_USER_ID_RESPONSE", False)
 			end
+			log.exit
+		rescue
+			log.restore (stack_pos)
 		end
 
 	sign (request: like new_amazon_request)

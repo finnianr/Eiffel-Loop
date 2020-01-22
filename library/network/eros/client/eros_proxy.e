@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 12:40:20 GMT (Tuesday 21st January 2020)"
-	revision: "13"
+	date: "2020-01-22 12:30:56 GMT (Wednesday 22nd January 2020)"
+	revision: "14"
 
 deferred class
 	EROS_PROXY
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			make_exchanger
 			make_default
 			create {EROS_PROCEDURE_STATUS} result_object.make
-			net_socket := client.net_socket
+			socket := client.socket
 			client.proxy_list.extend (Current)
 		end
 
@@ -80,11 +80,11 @@ feature {EROS_RESULT} -- Implementation
 			lio.put_labeled_string ("Sending request", request.expression)
 			lio.put_new_line
 
-			send_object (request, net_socket)
+			send_object (request, socket)
 
-			net_socket.read_string
+			socket.read_string
 
-			result_builder.build_from_string (net_socket.last_string (False))
+			result_builder.build_from_string (socket.last_string (False))
 			if result_builder.has_item and then attached result_builder.item as l_object then
 				result_object := l_object
 			else
@@ -116,7 +116,7 @@ feature {EROS_RESULT} -- Implementation
 
 feature {EROS_RESULT} -- Internal attributes
 
-	net_socket: EL_NETWORK_STREAM_SOCKET
+	socket: EL_NETWORK_STREAM_SOCKET
 
 	result_object: EL_BUILDABLE_FROM_NODE_SCAN
 

@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 7; build = 378
+			major = 1; minor = 0; release = 7; build = 381
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -280,6 +280,7 @@ system:
 
 					**Test Apps**
 
+					* [$source EROS_AUTOTEST_APP]					
 					* [$source BEXT_CLIENT_TEST_APP]
 					* [$source BEXT_SERVER_TEST_APP]
 					* [$source FOURIER_MATH_CLIENT_TEST_APP]

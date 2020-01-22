@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:30:22 GMT (Monday 5th November 2018)"
-	revision: "5"
+	date: "2020-01-22 16:30:07 GMT (Wednesday 22nd January 2020)"
+	revision: "6"
 
 class
 	AIA_VERIFIER
@@ -24,6 +24,22 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	elapsed_seconds: INTEGER_64
+		-- seconds elapsed since time of request
+		-- -1 if `iso8601_time.is_empty'
+		local
+			request_time: DATE_TIME
+		do
+			if iso8601_time.is_empty then
+				Result := Result.one.opposite
+			else
+				request_time := Date.from_ISO_8601_formatted (iso8601_time)
+				Result := request_time.relative_duration (time_now).seconds_count
+			end
+		end
 
 feature {NONE} -- Initialization
 
@@ -48,14 +64,38 @@ feature {NONE} -- Initialization
 feature -- Status query
 
 	is_verified: BOOLEAN
-		local
-			request_time: DATE_TIME
 		do
-			if not iso8601_time.is_empty then
-				request_time := Date.from_ISO_8601_formatted (iso8601_time)
-				if request_time.relative_duration (time_now).seconds_count.abs < Time_tolerance_in_secs then
-					Result := authorization_header ~ actual_authorization_header
+			if within_time_tolerance then
+				Result := authorization_header ~ actual_authorization_header
+			end
+		end
+
+	within_time_tolerance: BOOLEAN
+		-- `True' if less than `Time_tolerance_in_secs' have elapsed since request
+		local
+			secs: INTEGER_64
+		do
+			secs := elapsed_seconds
+			Result := 0 <= secs and secs <= Time_tolerance_in_secs
+		end
+
+feature -- Basic operations
+
+	print_authorization (lio: EL_LOGGABLE)
+		local
+			lines: EL_STRING_8_LIST
+		do
+			across << authorization_header, actual_authorization_header >> as header loop
+				if header.cursor_index = 1 then
+					lio.put_line ("REQUEST AUTHORIZATION")
+				else
+					lio.put_line ("ACTUAL AUTHORIZATION")
 				end
+				create lines.make_with_separator (header.item.as_string, ',', True)
+				across lines as line loop
+					lio.put_line (line.item)
+				end
+				lio.put_new_line
 			end
 		end
 

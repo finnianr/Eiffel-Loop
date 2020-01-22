@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 14:13:47 GMT (Tuesday 21st January 2020)"
-	revision: "18"
+	date: "2020-01-22 13:25:23 GMT (Wednesday 22nd January 2020)"
+	revision: "19"
 
 deferred class
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
@@ -50,8 +50,6 @@ feature -- Basic operations
 				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
 					as evaluator
 				then
-					lio.put_labeled_string ("Creating", evaluator.test_set_name)
-					lio.put_new_line
 					evaluator.default_create
 					evaluator.execute
 					if evaluator.has_failure then

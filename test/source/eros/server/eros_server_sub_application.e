@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 13:14:52 GMT (Tuesday 21st January 2020)"
-	revision: "12"
+	date: "2020-01-22 10:51:07 GMT (Wednesday 22nd January 2020)"
+	revision: "13"
 
 deferred class
 	EROS_SERVER_SUB_APPLICATION
@@ -42,10 +42,10 @@ feature {NONE} -- Implementation
 			log.put_new_line
 			log.put_line ("Ctrl-C detected")
 			log.put_line ("Disconnecting ..")
-			if attached {SOCKET} connecting_socket.accepted as socket then
-				socket.cleanup
+			if attached {EL_STREAM_SOCKET} socket.accepted as client then
+				client.cleanup
 			end
-			connecting_socket.cleanup
+			socket.cleanup
 --			no_message_on_failure
 		end
 

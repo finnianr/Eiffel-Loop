@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:36:03 GMT (Tuesday 12th November 2019)"
-	revision: "4"
+	date: "2020-01-22 10:18:25 GMT (Wednesday 22nd January 2020)"
+	revision: "5"
 
 class
 	TL_COMMENTS_ID3_FRAME_CPP_API
@@ -34,7 +34,7 @@ feature {NONE} -- C++ Externals
 
 	frozen cpp_get_description (self, text_out: POINTER)
 		external
-			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
 		alias
 			"[
 				TagLib::String &text = *((TagLib::String*)$text_out);

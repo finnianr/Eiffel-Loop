@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 10:07:04 GMT (Tuesday 21st January 2020)"
-	revision: "17"
+	date: "2020-01-22 10:56:06 GMT (Wednesday 22nd January 2020)"
+	revision: "18"
 
 class
 	EROS_CALL_REQUEST_HANDLER
@@ -109,22 +109,22 @@ feature -- Element change
 
 feature -- Basic operations
 
-	serve (client_socket: EL_STREAM_SOCKET)
-			-- serve client for duration of session
+	serve (client: EL_STREAM_SOCKET)
+			-- serve `client' socket for duration of session
 		require
-			client_socket_readable: client_socket.readable
+			client_socket_readable: client.readable
 		do
 			log.enter ("serve")
-			client_socket.set_latin_encoding (1)
+			client.set_latin_encoding (1)
 			initialize
 
 			from set_active until is_stopped loop
 				reset_errors
-				read_listener.set_socket (client_socket)
-				write_listener.set_socket (client_socket)
+				read_listener.set_socket (client)
+				write_listener.set_socket (client)
 
-				client_socket.read_string
-				request_builder.build_from_string (client_socket.last_string (False))
+				client.read_string
+				request_builder.build_from_string (client.last_string (False))
 				listener.received_bytes (read_listener.bytes_read_count)
 
 				if request_builder.has_error then
@@ -140,7 +140,7 @@ feature -- Basic operations
 					listener.routine_failed
 				end
 
-				send_object (result_object, client_socket)
+				send_object (result_object, client)
 
 				-- if outbound_transmission_type has changed as the result of remote call
 				if new_outbound_type /= outbound_type then
@@ -149,12 +149,12 @@ feature -- Basic operations
 
 				listener.sent_bytes (write_listener.bytes_sent_count)
 
-				if is_stopping or not client_socket.readable then
+				if is_stopping or not client.readable then
 					log.put_line ("stopping session")
 					set_stopped
 				end
 			end
-			client_socket.close
+			client.close
 			log.exit
 		end
 

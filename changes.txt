@@ -136,3 +136,6 @@ Changed EL_OBJECT_FACTORY to use attachment tests for new items
 Sun 19th Jan 2020, 17:35:53
 Created EROS_ROUTINE and renamed EROS class prefix
 
+Tue 21st Jan 2020, 18:23:52
+Created EROS_AUTOTEST_APP fixed EL_EQA_TEST_SET_EVALUATOR double call to default_create
+

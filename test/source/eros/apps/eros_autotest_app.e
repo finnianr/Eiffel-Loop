@@ -1,13 +1,13 @@
 note
-	description: "Eros autotest app"
+	description: "EROS autotest app for [$source EROS_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 18:03:38 GMT (Tuesday 21st January 2020)"
-	revision: "3"
+	date: "2020-01-22 0:46:40 GMT (Wednesday 22nd January 2020)"
+	revision: "4"
 
 class
 	EROS_AUTOTEST_APP

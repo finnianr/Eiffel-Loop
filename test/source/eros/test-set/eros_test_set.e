@@ -1,13 +1,13 @@
 note
-	description: "Eros test set"
+	description: "EROS test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 18:05:07 GMT (Tuesday 21st January 2020)"
-	revision: "3"
+	date: "2020-01-22 0:41:28 GMT (Wednesday 22nd January 2020)"
+	revision: "4"
 
 class
 	EROS_TEST_SET
@@ -41,7 +41,7 @@ feature {NONE} -- Initiliazation
 			server.launch
 			Execution_environment.sleep (100)
 			create connection.make (Port_number, "localhost")
-			signal := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
+			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
 			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
 		end
 
@@ -49,7 +49,7 @@ feature -- Tests
 
 	test_fft
 		local
-			wave_form, output: ARRAY [COLUMN_VECTOR_COMPLEX_64]
+			wave_form, output: ARRAYED_LIST [COLUMN_VECTOR_COMPLEX_64]
 			i_freq, log2_length: INTEGER; phase_fraction: DOUBLE
 		do
 			log.enter ("test_fft")
@@ -57,17 +57,17 @@ feature -- Tests
 			connection.set_outbound_type (Type_plaintext)
 
 			i_freq := 4; log2_length := 7; phase_fraction := 0.5
-			wave_form := <<
-				signal.item (1).cosine_waveform (i_freq, log2_length, phase_fraction),
-				signal.item (2).cosine_waveform (i_freq, log2_length, phase_fraction)
-			>>
-			assert ("wave forms approximately equal", wave_form.item (1).is_approximately_equal (wave_form [2], Precision))
-			create output.make_filled (wave_form [1], 1, 2)
+			create wave_form.make (2)
+			across signal_array as signal loop
+				wave_form.extend ( signal.item.cosine_waveform (i_freq, log2_length, phase_fraction))
+			end
+			assert ("wave forms approximately equal", wave_form.first.is_approximately_equal (wave_form.last, Precision))
+			create output.make (2)
 			across fft_array as fft loop
 				do_fourier_transform (fft.item, wave_form [fft.cursor_index])
-				output [fft.cursor_index] := fft.item.output
+				output.extend (fft.item.output)
 			end
-			assert ("outputs approximately equal", output.item (1).is_approximately_equal (output [2], Precision))
+			assert ("outputs approximately equal", output.first.is_approximately_equal (output.last, Precision))
 			log.exit
 		end
 
@@ -111,7 +111,7 @@ feature {NONE} -- Internal attributes
 
 	server: EROS_SERVER_THREAD
 
-	signal: ARRAY [SIGNAL_MATH_I]
+	signal_array: ARRAY [SIGNAL_MATH_I]
 
 	fft_array: ARRAY [FFT_COMPLEX_64_I]
 

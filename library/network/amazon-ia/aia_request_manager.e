@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 11:41:26 GMT (Sunday 5th January 2020)"
-	revision: "8"
+	date: "2020-01-22 16:21:00 GMT (Wednesday 22nd January 2020)"
+	revision: "9"
 
 class
 	AIA_REQUEST_MANAGER
@@ -50,13 +50,14 @@ feature -- Access
 
 	revoke_purchase: AIA_REVOKE_REQUEST
 
-feature -- Basic operations
-
 	error_message: STRING
+
+feature -- Basic operations
 
 	response (fcgi_request: FCGI_REQUEST_PARAMETERS): AIA_RESPONSE
 		local
 			operation: AIA_OPERATION; request: AIA_REQUEST; verifier: AIA_VERIFIER
+			template: ZSTRING
 		do
 			create verifier.make (fcgi_request, Credential_list)
 			if verifier.is_verified then
@@ -67,11 +68,22 @@ feature -- Basic operations
 					request.set_from_json (operation.json_list)
 					Result := request.response
 				else
+					template := "not request_table.has (%"%S%")"
+					error_message := template #$ [operation.name]
 					Result := Fail_reponse
 				end
 			else
 				error_message := "Request verification failed"
+				Result := Fail_reponse
 			end
+		end
+
+	print_verification (lio: EL_LOGGABLE; fcgi_request: FCGI_REQUEST_PARAMETERS)
+		local
+			verifier: AIA_VERIFIER
+		do
+			create verifier.make (fcgi_request, Credential_list)
+			verifier.print_authorization (lio)
 		end
 
 feature -- Status query
@@ -92,7 +104,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Fail_reponse: AIA_RESPONSE
+	Fail_reponse: AIA_FAIL_RESPONSE
 		once
 			create Result.make (response_enum.fail_other)
 		end
