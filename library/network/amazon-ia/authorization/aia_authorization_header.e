@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 15:26:57 GMT (Thursday 23rd January 2020)"
-	revision: "14"
+	date: "2020-01-23 20:18:42 GMT (Thursday 23rd January 2020)"
+	revision: "15"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -60,19 +60,16 @@ feature {NONE} -- Initialization
 		-- $stringToSign = self::ALGORITHM_ID . "\n" . $isoDate . "\n" . $scope . "\n" . hash('sha256', $canonicalRequest);
 		-- $signature = hash_hmac('sha256', $stringToSign, $timedKey);
 		local
-			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_8_LIST
+			hmac: EL_HMAC_SHA_256
 		do
 			make
 			algorithm := Default_algorithm
 			signed_headers := canonical_request.sorted_header_names.joined (Semicolon)
 
-			create string_list.make_from_array (<<
-				algorithm, signer.iso8601_time, Empty_string_8,
-				canonical_request.sha_256_digest.to_hex_string
-			>>)
-
 			create hmac.make (signer.credential.daily_secret (signer.short_date))
-			hmac.sink_joined_strings (string_list, '%N')
+			hmac.sink_joined_strings (<<
+				algorithm, signer.iso8601_time, Empty_string_8, canonical_request.sha_256_digest.to_hex_string
+			>>, '%N')
 			hmac.finish
 			signature := hmac.digest.to_hex_string
 			credential.set_key (signer.credential.public)

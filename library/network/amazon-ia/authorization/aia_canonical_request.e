@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 18:46:29 GMT (Tuesday 1st October 2019)"
-	revision: "9"
+	date: "2020-01-23 20:13:09 GMT (Thursday 23rd January 2020)"
+	revision: "10"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -31,7 +31,6 @@ feature {NONE} -- Initialization
 
 	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_STRING_LIST [STRING])
 		local
-			header_key_list: EL_STRING_8_LIST; l_digest, value: ZSTRING
 			headers: HASH_TABLE [ZSTRING, STRING]
 		do
 			if headers_list.is_empty then
@@ -39,32 +38,21 @@ feature {NONE} -- Initialization
 			else
 				headers := request.headers.selected (headers_list)
 			end
-			make_from_array (<<
-				request.request_method,
-				request.full_request_url,
-				Empty_string -- the Java SDK does not add the query string to the canonical form
-			>>)
-			create sorted_header_list.make_from_table (headers)
-			from sorted_header_list.start until sorted_header_list.after loop
-				value := sorted_header_list.item_value
-				if value.is_left_adjustable or else value.is_right_adjustable or else not value.is_canonically_spaced then
-					value := value.as_canonically_spaced
-					value.trim
-					sorted_header_list.item.value := value
-				end
-				sorted_header_list.forth
+			make_count (headers.count + 6)
+			extend (request.request_method)
+			extend (request.full_request_url)
+			extend (Empty_string) -- the Java SDK does not add the query string to the canonical form
+
+			create sorted_header_names.make_from_array (headers.current_keys)
+			sorted_header_names.sort
+
+			across sorted_header_names as name loop
+				extend (canonical_nvp (name.item, headers [name.item]))
 			end
 
-			sorted_header_list.sort (True)
-			append (sorted_header_list.as_string_list (agent colon_join))
 			extend (Empty_string) -- the Java SDK adds an empty line after the headers
-
-			create header_key_list.make_from_array (sorted_header_list.key_list.to_array)
-			extend (header_key_list.joined (';'))
-
-			l_digest := Digest.sha_256 (request.content).to_hex_string
-			l_digest.to_lower
-			extend (l_digest)
+			extend (sorted_header_names.joined (';'))
+			extend (Digest.sha_256 (request.content).to_hex_string); last.to_lower
 		end
 
 feature -- Access
@@ -82,20 +70,19 @@ feature -- Access
 			create Result.make_final (sha)
 		end
 
-	sorted_header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, ZSTRING]
-
-	sorted_header_names: EL_STRING_LIST [STRING]
-		do
-			create Result.make_from_array (sorted_header_list.key_list.to_array)
-		end
+	sorted_header_names: EL_STRING_8_LIST
 
 feature {NONE} -- Implementation
 
-	colon_join (name: STRING; value: ZSTRING): ZSTRING
+	canonical_nvp (name: STRING; value: ZSTRING): ZSTRING
 		do
 			create Result.make (name.count + value.count + 1)
 			Result.append_string_general (name)
 			Result.append_character (':')
-			Result.append (value)
+			if value.is_left_adjustable or else value.is_right_adjustable or else not value.is_canonically_spaced then
+				Result.append (value.as_canonically_spaced)
+			else
+				Result.append (value)
+			end
 		end
 end

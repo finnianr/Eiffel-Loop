@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 11:10:46 GMT (Thursday 23rd January 2020)"
-	revision: "10"
+	date: "2020-01-23 20:09:18 GMT (Thursday 23rd January 2020)"
+	revision: "11"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -199,18 +199,17 @@ feature -- String sinks
 
 	sink_joined_strings (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: CHARACTER_32)
 		local
-			first: BOOLEAN
+			not_first: BOOLEAN
 		do
-			first := True
 			across list as str loop
-				if first then
-					first := False
-				else
+				if not_first then
 					if delimiter.is_character_8 then
 						sink_character_8 (delimiter.to_character_8)
 					else
 						sink_character_32 (delimiter)
 					end
+				else
+					not_first := True
 				end
 				sink_string_general (str.item)
 			end

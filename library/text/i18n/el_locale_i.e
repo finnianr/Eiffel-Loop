@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 15:17:19 GMT (Thursday 23rd January 2020)"
-	revision: "12"
+	date: "2020-01-23 18:59:09 GMT (Thursday 23rd January 2020)"
+	revision: "13"
 
 deferred class
 	EL_LOCALE_I
@@ -83,16 +83,12 @@ feature -- Access
 			-- keys have
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
-		local
-			substitutions: like translation_template.NAME_VALUE_PAIR_ARRAY
 		do
-			create substitutions.make_empty
-			Result := quantity_translation_extra (partial_key, quantity, substitutions)
+			Result := quantity_translation_extra (partial_key, quantity, Empty_substitutions)
 		end
 
 	quantity_translation_extra (
-		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
-		substitutions: like translation_template.NAME_VALUE_PAIR_ARRAY
+		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER; substitutions: like Empty_substitutions
 	): ZSTRING
 			-- translation with adjustments according to value of `quantity'
 		require
@@ -206,5 +202,12 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	translations: EL_TRANSLATION_TABLE
+
+feature {NONE} -- Constants
+
+	Empty_substitutions: ARRAY [TUPLE [READABLE_STRING_GENERAL, ANY]]
+		once
+			create Result.make_empty
+		end
 
 end
