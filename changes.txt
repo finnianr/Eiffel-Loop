@@ -139,3 +139,6 @@ Created EROS_ROUTINE and renamed EROS class prefix
 Tue 21st Jan 2020, 18:23:52
 Created EROS_AUTOTEST_APP fixed EL_EQA_TEST_SET_EVALUATOR double call to default_create
 
+Wed 22nd Jan 2020, 16:52:42
+Simplified EL_EQA_TEST_SET_EVALUATOR to use EQA_TEST_INVOCATION_EXCEPTION and check finalized AMAZON_INSTANT_ACCESS_AUTOTEST_APP 
+

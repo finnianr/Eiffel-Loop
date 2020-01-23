@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 14:55:02 GMT (Tuesday 21st January 2020)"
-	revision: "2"
+	date: "2020-01-23 14:57:39 GMT (Thursday 23rd January 2020)"
+	revision: "3"
 
 class
 	EROS_TEST_EVALUATOR
@@ -17,10 +17,8 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["fft",	 agent item.test_fft]
-			>>)
+			test ("fft", agent item.test_fft)
 		end
 end

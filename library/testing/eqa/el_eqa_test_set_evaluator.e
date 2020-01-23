@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 15:50:42 GMT (Wednesday 22nd January 2020)"
-	revision: "9"
+	date: "2020-01-23 14:59:44 GMT (Thursday 23rd January 2020)"
+	revision: "10"
 
 deferred class
 	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
@@ -41,6 +41,7 @@ feature {EL_MODULE_EIFFEL} -- Initialization
 			if attached {like item} Eiffel.new_instance_of (item_type.type_id) as new then
 				item := new
 			end
+			create evaluator
 			create failure_table.make_equal (3)
 		end
 
@@ -64,31 +65,31 @@ feature -- Status query
 feature -- Basic operations
 
 	execute
+		do
+			print_name; do_tests
+		end
+
+	test (name: STRING; a_test: PROCEDURE)
 		local
-			evaluator: EQA_TEST_EVALUATOR [like item]
 			test_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
 		do
-			create evaluator
-			print_name
-			across test_table as test loop
-				lio.put_labeled_string ("Executing test", test.key)
+			lio.put_labeled_string ("Executing test", name)
+			lio.put_new_line
+			test_result := evaluator.execute (agent apply (?, a_test))
+			if test_result.is_pass then
+				create duration.make_from_other (test_result.duration)
+				lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
 				lio.put_new_line
-				test_result := evaluator.execute (agent apply_test (?, test.key, test.item))
-				if test_result.is_pass then
-					create duration.make_from_other (test_result.duration)
-					lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
-					lio.put_new_line
-					lio.put_line ("TEST OK")
-				else
-					lio.put_line ("TEST FAILED")
-					if attached {EQA_RESULT} test_result as l_result
-						and then attached {EQA_TEST_INVOCATION_EXCEPTION} l_result.test_response.exception as test_exception
-					then
-						failure_table [test.key] := test_exception
-					end
+				lio.put_line ("TEST OK")
+			else
+				lio.put_line ("TEST FAILED")
+				if attached {EQA_RESULT} test_result as l_result
+					and then attached {EQA_TEST_INVOCATION_EXCEPTION} l_result.test_response.exception as test_exception
+				then
+					failure_table [name] := test_exception
 				end
-				lio.put_new_line
 			end
+			lio.put_new_line
 		end
 
 	print_failures
@@ -114,10 +115,10 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	apply_test (test_set: like item; name: STRING; test: PROCEDURE)
+	apply (test_set: like item; a_test: PROCEDURE)
 		do
-			test.set_target (test_set)
-			test.apply
+			a_test.set_target (test_set)
+			a_test.apply
 		end
 
 	item_type: TYPE [G]
@@ -125,11 +126,13 @@ feature {NONE} -- Implementation
 			Result := {like item}
 		end
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
+
+	evaluator: EQA_TEST_EVALUATOR [like item]
 
 	item: G;
 

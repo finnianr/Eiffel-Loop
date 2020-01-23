@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 15:46:50 GMT (Wednesday 8th January 2020)"
-	revision: "6"
+	date: "2020-01-23 14:57:04 GMT (Thursday 23rd January 2020)"
+	revision: "7"
 
 class
 	TAGLIB_TEST_EVALUATOR
@@ -17,11 +17,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
---				["read_basic_id3", 	agent item.test_read_basic_id3],
-				["read_id3_frames", 	agent item.test_read_id3_frames]
-			>>)
+--			test ("read_basic_id3", 	agent item.test_read_basic_id3)
+			test ("read_id3_frames", 	agent item.test_read_id3_frames)
 		end
 end

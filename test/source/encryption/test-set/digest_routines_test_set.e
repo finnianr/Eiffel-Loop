@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:18:44 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2020-01-23 11:14:45 GMT (Thursday 23rd January 2020)"
+	revision: "5"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -32,13 +32,28 @@ feature -- Tests
 		end
 
 	test_hmac_sha_256_digest
+		note
+			testing:	"covers/{EL_HMAC_SHA_256}.sink_joined_strings"
 		local
 			l_digest: STRING
+			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_8_LIST
 		do
-			l_digest := "485858AB7045C7D390FA7CEFE0F4854ECB46BA5D9A3866AE570DF70CB884285D" -- From PHP
-			lio.put_labeled_string ("Digest", Digest.hmac_sha_256 (Price_string.to_utf_8, "secret").to_hex_string)
+			l_digest := "485858AB7045C7D390FA7CEFE0F4854ECB46BA5D9A3866AE570DF70CB884285D" -- From Python run/hmac_test.py
+
+			lio.put_labeled_string ("Digest", Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string)
 			lio.put_new_line
-			assert ("correct hmac_sha_256", l_digest ~ Digest.hmac_sha_256 (Price_string.to_utf_8, "secret").to_hex_string)
+			assert ("correct hmac_sha_256", l_digest ~ Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string)
+
+			create string_list.make_with_lines ("[
+				one
+				two
+				three
+			]")
+			create hmac.make_ascii_key (Secret_key)
+			hmac.sink_joined_strings (string_list, '%N')
+			hmac.finish
+			l_digest := "89F3A4B277DC954756D3C19C66A162F7881EF7EBB6508532B7A28EFF94BECCCE" -- From Python run/hmac_test.py
+			assert ("digest.to_hex_string OK", hmac.digest.to_hex_string ~ l_digest)
 		end
 
 	test_rfc_4231_2_ascii
@@ -62,8 +77,8 @@ feature -- Tests
 		do
 			assert ("same result", Digest.md5 (Price_string_utf_8) ~ Digest.md5 (Price_string_utf_8))
 			assert ("same result", Digest.sha_256 (Price_string_utf_8) ~ Digest.sha_256 (Price_string_utf_8))
-			l_digest := Digest.hmac_sha_256 (Price_string_utf_8, "secret")
-			assert ("same result", l_digest ~ Digest.hmac_sha_256 (Price_string_utf_8, "secret"))
+			l_digest := Digest.hmac_sha_256 (Price_string_utf_8, Secret_key)
+			assert ("same result", l_digest ~ Digest.hmac_sha_256 (Price_string_utf_8, Secret_key))
 		end
 
 feature {NONE} -- Constants
@@ -77,4 +92,6 @@ feature {NONE} -- Constants
 		once
 			Result := {STRING_32} "€ 100"
 		end
+
+	Secret_key: STRING = "secret"
 end

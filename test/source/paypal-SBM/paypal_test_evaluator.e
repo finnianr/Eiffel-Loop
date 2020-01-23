@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 10:46:09 GMT (Wednesday 2nd October 2019)"
-	revision: "1"
+	date: "2020-01-23 14:57:09 GMT (Thursday 23rd January 2020)"
+	revision: "2"
 
 class
 	PAYPAL_TEST_EVALUATOR
@@ -16,11 +16,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["pp_transaction", agent item.test_pp_transaction]
-			>>)
+			test ("pp_transaction", agent item.test_pp_transaction)
 		end
 
 end

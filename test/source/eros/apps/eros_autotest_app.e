@@ -1,13 +1,14 @@
 note
-	description: "EROS autotest app for [$source EROS_TEST_SET]"
+	description: "Sub-application to call tests in [$source EROS_TEST_SET]"
+	instructions: "Command option: `-amazon_instant_access_autotest'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 0:46:40 GMT (Wednesday 22nd January 2020)"
-	revision: "4"
+	date: "2020-01-23 9:29:42 GMT (Thursday 23rd January 2020)"
+	revision: "5"
 
 class
 	EROS_AUTOTEST_APP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-14 16:57:50 GMT (Thursday 14th February 2019)"
-	revision: "1"
+	date: "2020-01-23 15:11:26 GMT (Thursday 23rd January 2020)"
+	revision: "2"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_EVALUATOR
@@ -17,10 +17,8 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["add_unchecked",						agent item.test_add_unchecked]
-			>>)
+			test ("add_unchecked",	agent item.test_add_unchecked)
 		end
 end

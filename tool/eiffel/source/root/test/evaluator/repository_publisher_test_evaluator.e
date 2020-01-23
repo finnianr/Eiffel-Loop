@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 10:49:37 GMT (Wednesday 7th August 2019)"
-	revision: "2"
+	date: "2020-01-23 15:12:53 GMT (Thursday 23rd January 2020)"
+	revision: "3"
 
 class
 	REPOSITORY_PUBLISHER_TEST_EVALUATOR
@@ -17,10 +17,8 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["test_publisher", 				agent item.test_publisher]
-			>>)
+			test ("test_publisher", agent item.test_publisher)
 		end
 end

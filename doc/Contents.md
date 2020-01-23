@@ -1415,6 +1415,7 @@ Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/ero
 **Test Apps**
 
 
+* [EROS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/eros_autotest_app.html)
 * [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
 * [BEXT_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_server_test_app.html)
 * [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html)
@@ -1560,7 +1561,7 @@ EQA_TEST_SET*
 ## search-engine.ecf
 See class [SEARCH_ENGINE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/search-engine/search_engine_autotest_app.html)
 ## TagLib.ecf
-See class [TAGLIB_AUTOTEST_APP]($source)
+See class [TAGLIB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/TagLib/taglib_autotest_app.html)
 ## text-formats.ecf
 See class [TEXT_FORMATS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/text-formats/text_formats_autotest_app.html)
 ## text-process.ecf

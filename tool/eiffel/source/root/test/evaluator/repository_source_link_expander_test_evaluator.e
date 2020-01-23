@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 10:50:54 GMT (Wednesday 7th August 2019)"
-	revision: "2"
+	date: "2020-01-23 15:12:34 GMT (Thursday 23rd January 2020)"
+	revision: "3"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_EVALUATOR
@@ -17,10 +17,8 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["test_link_expander", 	agent item.test_link_expander]
-			>>)
+			test ("test_link_expander", 	agent item.test_link_expander)
 		end
 end

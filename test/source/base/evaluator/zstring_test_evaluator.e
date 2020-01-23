@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 16:05:07 GMT (Tuesday 7th January 2020)"
-	revision: "5"
+	date: "2020-01-23 14:57:50 GMT (Thursday 23rd January 2020)"
+	revision: "6"
 
 class
 	ZSTRING_TEST_EVALUATOR
@@ -17,15 +17,13 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["joined", agent item.test_joined],
-				["prepend_substring", agent item.test_prepend_substring],
-				["append_substring", agent item.test_append_substring],
-				["left_adjust", agent item.test_left_adjust],
-				["xml_escape", agent item.test_xml_escape]
-			>>)
+			test ("joined", 				agent item.test_joined)
+			test ("prepend_substring",	agent item.test_prepend_substring)
+			test ("append_substring",	agent item.test_append_substring)
+			test ("left_adjust",			agent item.test_left_adjust)
+			test ("xml_escape",			agent item.test_xml_escape)
 		end
 
 end

@@ -6,36 +6,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 12:53:07 GMT (Sunday 20th January 2019)"
-	revision: "5"
+	date: "2020-01-23 14:03:16 GMT (Thursday 23rd January 2020)"
+	revision: "6"
 
 class
 	EL_ZSTRING_TEMPLATE
 
 inherit
 	EL_SUBSTITUTION_TEMPLATE
-		rename
-			empty_string as empty_zstring
-		redefine
-			new_string
-		end
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			empty_string as empty_zstring
-		end
 
 create
 	make, make_default
 
 convert
-	make ({ZSTRING})
+	make ({STRING})
 
 feature {NONE} -- Implementation
 
 	append_from_general (target: ZSTRING; a_general: READABLE_STRING_GENERAL)
 		do
 			target.append_string_general (a_general)
+		end
+
+	match_string (matched_text: EL_STRING_VIEW): ZSTRING
+		do
+			Result := matched_text.to_string
+		end
+
+	new_parts (n: INTEGER): EL_ZSTRING_LIST
+		do
+			create Result.make (n)
 		end
 
 	new_string (n: INTEGER): ZSTRING

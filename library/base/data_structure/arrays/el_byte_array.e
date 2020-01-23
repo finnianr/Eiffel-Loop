@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 14:17:42 GMT (Thursday 3rd October 2019)"
-	revision: "5"
+	date: "2020-01-23 16:27:10 GMT (Thursday 23rd January 2020)"
+	revision: "6"
 
 class
 	EL_BYTE_ARRAY
@@ -108,10 +108,10 @@ feature -- Conversion
 			create Result.make_filled (' ', 2 * count)
 			l_area := area
 			from i := 0 until i = count loop
-				offset := i* 2
+				offset := i * 2
 				val := l_area [i]
-				Result [offset + 1] := (val |>> 4).to_hex_character
-				Result [offset + 2] := (val & 0xF).to_hex_character
+				Result.put ((val |>> 4).to_hex_character, offset + 1)
+				Result.put ((val & 0xF).to_hex_character, offset + 2)
 				i := i + 1
 			end
 		end

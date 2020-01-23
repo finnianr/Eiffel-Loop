@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 12:52:11 GMT (Sunday 20th January 2019)"
-	revision: "14"
+	date: "2020-01-23 16:23:56 GMT (Thursday 23rd January 2020)"
+	revision: "15"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -43,22 +43,18 @@ feature {NONE} -- Initialization
 			new_template: like new_string
 		do
 			make_default
-			if attached {like new_string} a_template as l_template then
-				set_template (l_template)
-			else
-				new_template := new_string (a_template.count)
-				new_template.append (a_template)
-				set_template (new_template)
-			end
+			new_template := new_string (a_template.count)
+			new_template.append (a_template)
+			set_template (new_template)
 		end
 
 	make_default
 			--
 		do
-			string := new_string (0)
-			actual_template := empty_string
+			internal_key := new_string (0)
+			actual_template := new_string (0)
 
-			create decomposed_template.make (7)
+			parts := new_parts (7)
 			create place_holder_table.make (5)
 			is_strict := True
 			Precursor {EL_SUBST_VARIABLE_PARSER}
@@ -66,39 +62,23 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	string: like new_string
-		-- substituted string
-
 	substituted: like new_string
 			--
 		do
-			substitute
-			Result := string.twin
+			Result := parts.joined_strings
 		end
 
-	variables: ARRAYED_LIST [ZSTRING]
+	variables: ARRAYED_LIST [like new_string]
 			-- variable name list
 		do
 			create Result.make_from_array (place_holder_table.current_keys)
-		end
-
-feature -- Basic operations
-
-	substitute
-			-- Concatanate from command text list
-		do
-			wipe_out (string)
-			from decomposed_template.start until decomposed_template.after loop
-				string.append (decomposed_template.item)
-				decomposed_template.forth
-			end
 		end
 
 feature -- Status query
 
 	has_variable (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result:= place_holder_table.has (from_general (name))
+			Result:= place_holder_table.has (key (name))
 		end
 
 	is_strict: BOOLEAN
@@ -122,7 +102,7 @@ feature -- Element change
 	reset
 		do
 			Precursor
-			decomposed_template.wipe_out
+			parts.wipe_out
 			place_holder_table.wipe_out
 		end
 
@@ -137,20 +117,11 @@ feature -- Element change
 	set_variable (a_name: READABLE_STRING_GENERAL; value: ANY)
 		require
 			valid_variable: is_strict implies has_variable (a_name)
-		local
-			place_holder: like new_string; name: ZSTRING
 		do
-			name := from_general (a_name)
-			if place_holder_table.has_key (name) then
-				place_holder := place_holder_table.found_item
-				wipe_out (place_holder)
-				if attached {READABLE_STRING_GENERAL} value as string_value then
-					append_from_general (place_holder, string_value)
-				else
-					place_holder.append (value.out)
-				end
-			elseif is_strict then
-				Exception.raise_developer ("class {%S}: Variable %"%S%" not found", [generator, name])
+			if is_strict and then not has_variable (a_name) then
+				Exception.raise_developer ("class {%S}: Variable %"%S%" not found", [generator, a_name])
+			else
+				set_place_holder_item (key (a_name), value)
 			end
 		end
 
@@ -165,12 +136,12 @@ feature -- Element change
 			set_variable (name, quoted_value)
 		end
 
-	set_variables_from_array (nvp_array: like NAME_VALUE_PAIR_ARRAY)
+	set_variables_from_array (nvp_list: ARRAY [TUPLE [name: READABLE_STRING_GENERAL; value: ANY]])
 			--
 		require
-			valid_variables: is_strict implies across nvp_array as tuple all has_variable (tuple.item.name) end
+			valid_variables: is_strict implies across nvp_list as tuple all has_variable (tuple.item.name) end
 		do
-			across nvp_array as tuple loop
+			across nvp_list as tuple loop
 				set_variable (tuple.item.name, tuple.item.value)
 			end
 		end
@@ -179,25 +150,19 @@ feature -- Element change
 		-- set variables in template that match field names of `object'
 		local
 			meta_object: like new_current_object; table: EL_REFLECTED_FIELD_TABLE
-			i, field_count: INTEGER; name: ZSTRING
+			i, field_count: INTEGER
 		do
 			if attached {EL_REFLECTIVE} object as reflective then
 				table := reflective.field_table
 				from table.start until table.after loop
-					name := General.to_zstring (table.key_for_iteration)
-					if has_variable (name) then
-						set_variable (name, table.item_for_iteration.to_string (reflective))
-					end
+					set_place_holder_item (key (table.key_for_iteration), table.item_for_iteration.to_string (reflective))
 					table.forth
 				end
 			else
 				meta_object := new_current_object (object)
 				field_count := meta_object.field_count
 				from i := 1 until i > field_count loop
-					name := General.to_zstring (meta_object.field_name (i))
-					if has_variable (name) then
-						set_variable (name, meta_object.field (i))
-					end
+					set_place_holder_item (key (meta_object.field_name (i)), meta_object.field (i))
 					i := i + 1
 				end
 				recycle (meta_object)
@@ -211,56 +176,79 @@ feature -- Element change
 			end
 		end
 
-feature -- Type definitions
-
-	NAME_VALUE_PAIR_ARRAY: ARRAY [TUPLE [name: READABLE_STRING_GENERAL; value: ANY]]
-		once
-			create Result.make_empty
-		end
-
 feature {NONE} -- Implementation: parsing actions
 
 	on_literal_text (matched_text: EL_STRING_VIEW)
 			--
 		do
---			log.enter_with_args ("on_literal_text", << matched_text.view >>)
-			decomposed_template.extend (matched_text.to_string)
---			log.exit
+			parts.extend (match_string (matched_text))
 		end
 
 	on_substitution_variable (matched_text: EL_STRING_VIEW)
 			--
 		local
-			place_holder: like new_string; name: ZSTRING
+			l_key: like key
 		do
---			log.enter_with_args ("on_substitution_variable", << matched_text.view >>)
-
-			name := matched_text.to_string
-			if place_holder_table.has (name) then
-				place_holder := place_holder_table [name]
-			else
-				-- Initialize value as  $<variable name> to allow successive substitutions
-				place_holder := new_string (name.count + 1)
-				place_holder.append_code (('$').natural_32_code)
-				if attached {ZSTRING} place_holder as z_place_holder then
-					z_place_holder.append (name)
-				else
-					place_holder.append (name.to_string_32)
-				end
-
-				place_holder_table [name] := place_holder
-			end
-			decomposed_template.extend (place_holder)
---			log.exit
+			l_key := match_string (matched_text)
+			place_holder_table.put (dollor_sign + l_key, l_key)
+			parts.extend (place_holder_table.found_item)
 		end
 
 feature {NONE} -- Implementation
+
+	dollor_sign: like new_string
+		do
+			Result := new_string (1)
+			Result.append_code ({ASCII}.Dollar.to_natural_32)
+		end
+
+	key (str: READABLE_STRING_GENERAL): like new_string
+		-- reusable key for `place_holder_table'
+		do
+			Result := internal_key
+			wipe_out (Result)
+			append_from_general (Result, str)
+		end
+
+	parse
+			--
+		do
+			parts.wipe_out
+			Precursor
+		ensure then
+			valid_command_syntax: fully_matched
+		end
+
+	set_place_holder_item (a_key: like key; value: ANY)
+		require
+			internal_key: a_key = internal_key
+		local
+			place_holder: like new_string
+		do
+			if place_holder_table.has_key (a_key) then
+				place_holder := place_holder_table.found_item
+				wipe_out (place_holder)
+				if attached {READABLE_STRING_GENERAL} value as string_value then
+					append_from_general (place_holder, string_value)
+				else
+					place_holder.append (value.out)
+				end
+			end
+		end
+
+	template: like new_string
+			--
+		do
+			Result := actual_template
+		end
+
+feature {NONE} -- Deferred implementation
 
 	append_from_general (target: like new_string; a_general: READABLE_STRING_GENERAL)
 		deferred
 		end
 
-	empty_string: STRING_GENERAL
+	match_string (matched_text: EL_STRING_VIEW): like new_string
 		deferred
 		end
 
@@ -268,24 +256,8 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	from_general (a_str: READABLE_STRING_GENERAL): ZSTRING
-		do
-			Result := General.to_zstring (a_str)
-		end
-
-	parse
-			--
-		do
-			decomposed_template.wipe_out
-			Precursor
-		ensure then
-			valid_command_syntax: fully_matched
-		end
-
-	template: like new_string
-			--
-		do
-			Result := actual_template
+	new_parts (n: INTEGER): EL_STRING_LIST [like new_string]
+		deferred
 		end
 
 	wipe_out (str: like new_string)
@@ -296,17 +268,15 @@ feature {NONE} -- Internal attributes
 
 	actual_template: like new_string
 
-	decomposed_template: ARRAYED_LIST [READABLE_STRING_GENERAL]
+	parts: like new_parts
+		-- substition parts
 
-	place_holder_table: HASH_TABLE [like new_string, ZSTRING]
+	place_holder_table: HASH_TABLE [like new_string, like new_string]
 		-- map variable name to place holder
 
-feature {NONE} -- Constants
+	internal_key: like key
 
-	General: EL_ZSTRING_CONVERTER
-		once
-			create Result.make
-		end
+feature {NONE} -- Constants
 
 	Meta_data_by_type: HASH_TABLE [EL_CLASS_META_DATA, TYPE [ANY]]
 		once

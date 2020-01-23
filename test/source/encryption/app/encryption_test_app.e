@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:35:43 GMT (Sunday 12th January 2020)"
-	revision: "10"
+	date: "2020-01-23 9:35:17 GMT (Thursday 23rd January 2020)"
+	revision: "11"
 
 class
 	ENCRYPTION_TEST_APP
@@ -80,7 +80,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Description: STRING = "Auto test AES encryption to base 64."
+	Description: STRING = "Auto test AES encryption to base 64"
 
 	Option_name: STRING = "test_encryption"
 

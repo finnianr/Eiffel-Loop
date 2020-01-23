@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:14:11 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2020-01-23 14:57:29 GMT (Thursday 23rd January 2020)"
+	revision: "5"
 
 class
 	HTTP_CONNECTION_TEST_EVALUATOR
@@ -17,16 +17,14 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["http_hash_table",						agent item.test_http_hash_table],
-				["download_image_and_headers",		agent item.test_download_image_and_headers],
-				["cookies",									agent item.test_cookies],
-				["image_headers",							agent item.test_image_headers],
-				["documents_download",					agent item.test_documents_download],
-				["download_document_and_headers",	agent item.test_download_document_and_headers],
-				["http_post",								agent item.test_http_post]
-			>>)
+			test ("http_hash_table",					agent item.test_http_hash_table)
+			test ("download_image_and_headers",		agent item.test_download_image_and_headers)
+			test ("cookies",								agent item.test_cookies)
+			test ("image_headers",						agent item.test_image_headers)
+			test ("documents_download",				agent item.test_documents_download)
+			test ("download_document_and_headers",	agent item.test_download_document_and_headers)
+			test ("http_post",							agent item.test_http_post)
 		end
 end

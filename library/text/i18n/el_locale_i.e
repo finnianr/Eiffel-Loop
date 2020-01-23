@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-23 9:40:34 GMT (Saturday 23rd November 2019)"
-	revision: "11"
+	date: "2020-01-23 15:17:19 GMT (Thursday 23rd January 2020)"
+	revision: "12"
 
 deferred class
 	EL_LOCALE_I
@@ -197,9 +197,9 @@ feature {NONE} -- Implementation
 		do
 			table.search_quantity_general (partial_key, quantity)
 			if table.found then
-				Result := table.found_item
+				create Result.make (table.found_item)
 			else
-				Result := Unknown_quantity_key_template #$ [partial_key, quantity]
+				create Result.make (Unknown_quantity_key_template #$ [partial_key, quantity])
 			end
 		end
 

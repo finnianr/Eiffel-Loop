@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 16:15:16 GMT (Tuesday 7th January 2020)"
-	revision: "3"
+	date: "2020-01-23 14:58:06 GMT (Thursday 23rd January 2020)"
+	revision: "4"
 
 class
 	FILE_AND_DIRECTORY_TEST_EVALUATOR
@@ -17,15 +17,13 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["search_path_list",					agent item.test_search_path_list],
-				["delete_content_with_action",	agent item.test_delete_content_with_action],
-				["delete_with_action",				agent item.test_delete_with_action],
-				["read_directories",					agent item.test_read_directories],
-				["read_directory_files",			agent item.test_read_directory_files]
-			>>)
+			test ("search_path_list",				agent item.test_search_path_list)
+			test ("delete_content_with_action",	agent item.test_delete_content_with_action)
+			test ("delete_with_action",			agent item.test_delete_with_action)
+			test ("read_directories",				agent item.test_read_directories)
+			test ("read_directory_files",			agent item.test_read_directory_files)
 		end
 
 end

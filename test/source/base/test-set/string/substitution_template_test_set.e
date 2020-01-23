@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 15:45:50 GMT (Tuesday 7th January 2020)"
-	revision: "4"
+	date: "2020-01-23 16:29:30 GMT (Thursday 23rd January 2020)"
+	revision: "5"
 
 class
 	SUBSTITUTION_TEMPLATE_TEST_SET
@@ -48,8 +48,10 @@ feature -- Tests
 			ireland.set_code ("ie")
 			ireland.set_population (4_766_073)
 			create template.make (Template_country)
-			template.set_variables_from_object (ireland)
-			assert ("correct ", template.substituted ~ Ireland_info)
+			across 1 |..| 2 as n loop
+				template.set_variables_from_object (ireland)
+				assert ("correct ", template.substituted ~ Ireland_info)
+			end
 		end
 
 feature {NONE} -- Constants

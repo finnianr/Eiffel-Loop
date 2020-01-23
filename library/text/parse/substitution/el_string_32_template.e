@@ -6,27 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 13:36:58 GMT (Sunday 20th January 2019)"
-	revision: "5"
+	date: "2020-01-23 14:03:33 GMT (Thursday 23rd January 2020)"
+	revision: "6"
 
 class
 	EL_STRING_32_TEMPLATE
 
 inherit
 	EL_SUBSTITUTION_TEMPLATE
-		rename
-			empty_string as empty_string_32
-		redefine
-			new_string
-		end
-
-	EL_STRING_32_CONSTANTS
 
 create
 	make, make_default
 
 convert
-	make ({STRING_32})
+	make ({STRING})
 
 feature {NONE} -- Implementation
 
@@ -37,6 +30,16 @@ feature {NONE} -- Implementation
 			else
 				target.append (a_general.to_string_32)
 			end
+		end
+
+	match_string (matched_text: EL_STRING_VIEW): STRING_32
+		do
+			Result := matched_text.to_string_32
+		end
+
+	new_parts (n: INTEGER): EL_STRING_32_LIST
+		do
+			create Result.make (n)
 		end
 
 	new_string (n: INTEGER): STRING_32

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 14:31:09 GMT (Sunday 5th January 2020)"
-	revision: "1"
+	date: "2020-01-23 14:57:13 GMT (Thursday 23rd January 2020)"
+	revision: "2"
 
 class
 	EL_SUBJECT_LINE_DECODER_TEST_EVALUATOR
@@ -17,11 +17,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	test_table: EL_PROCEDURE_TABLE [STRING]
+	do_tests
 		do
-			create Result.make (<<
-				["iso",					agent item.test_iso],
-				["utf_8",				agent item.test_utf_8]
-			>>)
+			test ("iso",	agent item.test_iso)
+			test ("utf_8",	agent item.test_utf_8)
 		end
 end

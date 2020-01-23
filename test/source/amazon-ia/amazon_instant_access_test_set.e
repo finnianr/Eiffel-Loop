@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 16:22:59 GMT (Wednesday 22nd January 2020)"
-	revision: "16"
+	date: "2020-01-23 15:06:14 GMT (Thursday 23rd January 2020)"
+	revision: "17"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -161,6 +161,7 @@ feature -- Purchase
 			]"
 		local
 			request: like new_amazon_request; json_response: STRING
+			response: AIA_RESPONSE
 		do
 			request := new_amazon_request
 			request.set_content ("[
@@ -179,9 +180,10 @@ feature -- Purchase
 				}
 			]"
 			Request_manager.purchase.set_new_response (agent purchase_with_ineligible_user)
-			if attached {AIA_PURCHASE_RESPONSE} Request_manager.response (request) as l_response then
+			response := Request_manager.response (request)
+			if attached {AIA_PURCHASE_RESPONSE} response as purchase then
 				assert ("no error", not Request_manager.has_error)
-				assert ("expected response", l_response.as_json.to_latin_1 ~ json_response)
+				assert ("expected response", purchase.as_json.to_latin_1 ~ json_response)
 			else
 				assert ("returned AIA_PURCHASE_RESPONSE", False)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 16:30:07 GMT (Wednesday 22nd January 2020)"
-	revision: "6"
+	date: "2020-01-23 15:33:24 GMT (Thursday 23rd January 2020)"
+	revision: "7"
 
 class
 	AIA_VERIFIER
@@ -37,7 +37,7 @@ feature -- Access
 				Result := Result.one.opposite
 			else
 				request_time := Date.from_ISO_8601_formatted (iso8601_time)
-				Result := request_time.relative_duration (time_now).seconds_count
+				Result := time_now.relative_duration (request_time).seconds_count
 			end
 		end
 
@@ -91,6 +91,8 @@ feature -- Basic operations
 				else
 					lio.put_line ("ACTUAL AUTHORIZATION")
 				end
+				lio.put_integer_field ("data count", header.item.character_count)
+				lio.put_new_line
 				create lines.make_with_separator (header.item.as_string, ',', True)
 				across lines as line loop
 					lio.put_line (line.item)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 16:48:05 GMT (Wednesday 22nd January 2020)"
-	revision: "13"
+	date: "2020-01-23 15:26:57 GMT (Thursday 23rd January 2020)"
+	revision: "14"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -53,8 +53,14 @@ feature {NONE} -- Initialization
 
 	make_signed (signer: AIA_SIGNER; canonical_request: AIA_CANONICAL_REQUEST)
 		-- make signed header
+
+		-- PHP: Amazon/InstantAccess/Signature/Signer.php
+		-- // We don't use scope in this algorithm
+		-- $scope = '';
+		-- $stringToSign = self::ALGORITHM_ID . "\n" . $isoDate . "\n" . $scope . "\n" . hash('sha256', $canonicalRequest);
+		-- $signature = hash_hmac('sha256', $stringToSign, $timedKey);
 		local
-			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_LIST [STRING]
+			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_8_LIST
 		do
 			make
 			algorithm := Default_algorithm
@@ -77,12 +83,24 @@ feature -- Access
 
 	algorithm: STRING
 
+	character_count: INTEGER
+		do
+			Result := credential.key.count + signed_headers.count + signature.count
+		end
+
 	as_string: STRING
 		local
 			template: like Signed_string_template
 		do
 			template := Signed_string_template
 			template.wipe_out_variables
+
+--			template.set_variable (once "algorithm", algorithm)
+--			template.set_variable (once "signed_headers", signed_headers)
+--			template.set_variable (once "signature", signature)
+--			template.set_variable (once "key", credential.key)
+--			template.set_variable (once "date", credential.date)
+
 			template.set_variables_from_object (Current)
 			template.set_variables_from_object (credential)
 			Result := template.substituted
