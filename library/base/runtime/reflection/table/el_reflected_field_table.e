@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:15:44 GMT (Thursday 3rd October 2019)"
-	revision: "16"
+	date: "2020-01-24 10:14:46 GMT (Friday 24th January 2020)"
+	revision: "17"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -83,7 +83,7 @@ feature -- Basic operations
 
 feature -- Status query
 
-	has_name (a_name: READABLE_STRING_GENERAL; adapter: EL_WORD_SEPARATION_ADAPTER): BOOLEAN
+	has_name (a_name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE): BOOLEAN
 		local
 			name: STRING
 		do
@@ -97,7 +97,7 @@ feature -- Status query
 					name.append_string_general (a_name)
 				end
 			end
-			Result := has_key (adapter.import_name (name, False))
+			Result := has_key (object.import_name (name, False))
 		end
 
 feature {NONE} -- Internal attributes

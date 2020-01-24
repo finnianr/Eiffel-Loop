@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 15:33:24 GMT (Thursday 23rd January 2020)"
-	revision: "7"
+	date: "2020-01-24 10:31:52 GMT (Friday 24th January 2020)"
+	revision: "8"
 
 class
 	AIA_VERIFIER
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 
 	make (a_request: like request; credential_list: EL_CHAIN [AIA_CREDENTIAL])
 		local
-			authorization: ZSTRING
+			authorization: STRING
 		do
 			make_signer (a_request, Default_credential)
 			iso8601_time := request.headers.custom (Header_x_amz_date)
@@ -103,7 +103,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	headers_list: EL_SPLIT_STRING_LIST [STRING]
+	headers_list: EL_STRING_8_LIST
 		do
 			Result := actual_authorization_header.signed_headers_list
 		end

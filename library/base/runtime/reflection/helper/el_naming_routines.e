@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 16:49:23 GMT (Friday 4th October 2019)"
-	revision: "11"
+	date: "2020-01-24 10:22:44 GMT (Friday 24th January 2020)"
+	revision: "12"
 
 class
 	EL_NAMING_ROUTINES

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 8:09:07 GMT (Friday 11th May 2018)"
-	revision: "3"
+	date: "2020-01-24 10:22:51 GMT (Friday 24th January 2020)"
+	revision: "4"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -15,23 +15,9 @@ deferred class
 inherit
 	EL_MODULE_NAMING
 
-feature -- Unimplemented
-
-	export_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- rename in descendant to procedure exporting identifiers to a foreign word separation convention.
-		--  `export_default' means that external names already follow the Eiffel convention
-		deferred
-		end
-
-	import_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- rename in descendant to procedure importing identifiers using a foreign word separation convention.
-		--  `import_default' means the external name already follows the Eiffel convention
-		deferred
-		end
-
 feature {NONE} -- Name exporting
 
-	export_default, to_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	to_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := name_in
 			if keeping_ref then
@@ -131,7 +117,7 @@ feature {NONE} -- Name importing
 			end
 		end
 
-	import_default, from_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	from_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := name_in
 			if keeping_ref then

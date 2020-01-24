@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-20 9:30:24 GMT (Saturday 20th October 2018)"
-	revision: "5"
+	date: "2020-01-24 14:59:09 GMT (Friday 24th January 2020)"
+	revision: "6"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
@@ -19,52 +19,83 @@ inherit
 		rename
 			make as make_intervals,
 			fill as fill_from
+		export
+			{NONE} extend, item_extend, item_replace
+		redefine
+			make_empty
 		end
 
 create
-	make, make_default
+	make, make_empty
 
 feature {NONE} -- Initialization
 
 	make (a_string: S; search_string: READABLE_STRING_GENERAL)
 			-- Move to first position if any.
 		do
-			make_default
+			make_empty
 			fill (a_string, search_string)
 		end
 
-	make_default
+	make_empty
 		do
-			make_intervals (5)
+			area_v2 := Default_area
 		end
 
 feature -- Basic operations
 
 	fill (a_string: S; search_string: READABLE_STRING_GENERAL)
 		local
-			i, l_count, search_string_count: INTEGER
+			i, string_count, search_string_count: INTEGER
 			search_character: like new_target.item
+			buffer: like Intervals_buffer
 		do
-			wipe_out
+			buffer := Intervals_buffer
+			buffer.wipe_out
+
 			search_character := search_string [1]
-			l_count := a_string.count; search_string_count := search_string.count
-			from i := 1 until i = 0 or else i > l_count - search_string_count + 1 loop
+			string_count := a_string.count; search_string_count := search_string.count
+			from i := 1 until i = 0 or else i > string_count - search_string_count + 1 loop
 				if search_string_count = 1 then
 					i := a_string.index_of (search_character, i)
 				else
 					i := a_string.substring_index (search_string, i)
 				end
 				if i > 0 then
-					extend (i, i + search_string_count - 1)
+					extend_buffer (buffer, i, search_string_count)
 					i := i + search_string_count
 				end
 			end
+			extend_buffer_final (buffer, string_count, search_string_count)
+			make_intervals (buffer.count)
+			area.copy_data (buffer.area, 0, 0, buffer.count)
 		end
 
 feature {NONE} -- Implementation
 
+	extend_buffer (buffer: like Intervals_buffer; a_index, search_string_count: INTEGER)
+		do
+			buffer.extend (new_item (a_index, a_index + search_string_count - 1))
+		end
+
+	extend_buffer_final (buffer: like Intervals_buffer; string_count, search_string_count: INTEGER)
+		do
+		end
+
 	new_target: S
 		do
 			create Result.make (0)
+		end
+
+feature {NONE} -- Constants
+
+	Default_area: SPECIAL [INTEGER_64]
+		once
+			create Result.make_empty (0)
+		end
+
+	Intervals_buffer: ARRAYED_LIST [INTEGER_64]
+		once
+			create Result.make (50)
 		end
 end

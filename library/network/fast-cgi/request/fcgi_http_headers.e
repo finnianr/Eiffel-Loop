@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:55:28 GMT (Monday 5th August 2019)"
-	revision: "12"
+	date: "2020-01-24 10:40:39 GMT (Friday 24th January 2020)"
+	revision: "13"
 
 class
 	FCGI_HTTP_HEADERS
@@ -30,7 +30,7 @@ inherit
 			set_table_field
 		end
 
-	EL_STRING_8_CONSTANTS
+	EL_WORD_SEPARATION_ADAPTER
 
 create
 	make
@@ -82,26 +82,24 @@ feature -- Access
 			end
 		end
 
-	selected (name_list: EL_SPLIT_STRING_LIST [STRING]): HASH_TABLE [ZSTRING, STRING]
+	selected (name_list: ITERABLE [STRING]): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
-			name: STRING
+			l_name: STRING
 		do
-			name := String_8_pool.new_string
-			create Result.make (name_list.count)
-			from name_list.start until name_list.after loop
-				name.wipe_out
-				Naming.from_kebab_case (name_list.item, name)
-				if field_table.has_name (name, Current) then
-					Result.extend (field_string (field_table.found_item), name_list.item.twin)
+			if attached {FINITE [STRING]} name_list as finite then
+				create Result.make (finite.count)
+			end
+			across name_list as name loop
+				l_name := from_kebab_case (name.item, False)
+				if field_table.has_key (l_name) then
+					Result.extend (field_string (field_table.found_item), name.item)
 				else
-					if custom_table.has_key (name) then
-						Result.extend (custom_table.found_item, name_list.item.twin)
+					if custom_table.has_key (l_name) then
+						Result.extend (custom_table.found_item, name.item)
 					end
 				end
-				name_list.forth
 			end
-			String_8_pool.recycle (name)
 		end
 
 feature -- Access attributes

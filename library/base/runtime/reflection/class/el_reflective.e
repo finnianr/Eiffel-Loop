@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:54:43 GMT (Tuesday 10th September 2019)"
-	revision: "22"
+	date: "2020-01-24 10:16:41 GMT (Friday 24th January 2020)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTIVE
@@ -30,7 +30,6 @@ inherit
 	EL_WORD_SEPARATION_ADAPTER
 		export
 			{NONE} all
-			{EL_REFLECTION_HANDLER} export_name, import_name
 		end
 
 	EL_MODULE_EIFFEL
@@ -138,6 +137,30 @@ feature {EL_REFLECTIVE} -- Factory
 	new_meta_data: EL_CLASS_META_DATA
 		do
 			create Result.make (Current)
+		end
+
+feature {EL_REFLECTION_HANDLER} -- Implementation
+
+	export_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		-- rename in descendant to procedure exporting identifiers to a foreign word separation convention.
+		--  `export_default' means that external names already follow the Eiffel convention
+		deferred
+		end
+
+	export_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := to_lower_snake_case (name_in, keeping_ref)
+		end
+
+	import_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		-- rename in descendant to procedure importing identifiers using a foreign word separation convention.
+		--  `import_default' means the external name already follows the Eiffel convention
+		deferred
+		end
+
+	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := from_lower_snake_case (name_in, keeping_ref)
 		end
 
 feature {NONE} -- Implementation

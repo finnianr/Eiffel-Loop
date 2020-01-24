@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 20:13:09 GMT (Thursday 23rd January 2020)"
-	revision: "10"
+	date: "2020-01-24 10:53:27 GMT (Friday 24th January 2020)"
+	revision: "11"
 
 class
 	AIA_CANONICAL_REQUEST
 
 inherit
-	ARRAYED_LIST [ZSTRING]
+	EL_STRING_8_LIST
 		rename
 			make as make_count
 		export
 			{NONE} all
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_DIGEST
 
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_STRING_LIST [STRING])
+	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_STRING_8_LIST)
 		local
 			headers: HASH_TABLE [ZSTRING, STRING]
 		do
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			make_count (headers.count + 6)
 			extend (request.request_method)
 			extend (request.full_request_url)
-			extend (Empty_string) -- the Java SDK does not add the query string to the canonical form
+			extend (Empty_string_8) -- the Java SDK does not add the query string to the canonical form
 
 			create sorted_header_names.make_from_array (headers.current_keys)
 			sorted_header_names.sort
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 				extend (canonical_nvp (name.item, headers [name.item]))
 			end
 
-			extend (Empty_string) -- the Java SDK adds an empty line after the headers
+			extend (Empty_string_8) -- the Java SDK adds an empty line after the headers
 			extend (sorted_header_names.joined (';'))
 			extend (Digest.sha_256 (request.content).to_hex_string); last.to_lower
 		end

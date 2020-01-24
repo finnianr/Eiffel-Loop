@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:06:48 GMT (Saturday 26th October 2019)"
-	revision: "18"
+	date: "2020-01-24 14:48:53 GMT (Friday 24th January 2020)"
+	revision: "19"
 
 class
 	EL_HTTP_CONNECTION
@@ -640,10 +640,10 @@ feature {NONE} -- Implementation
 					if parameter_list.index > 1 then
 						Result.append_character ('&')
 					end
-					start_index := parameter_list.start_index
-					end_index := parameter_list.end_index
+					start_index := parameter_list.item_start_index
+					end_index := parameter_list.item_end_index
 					equal_index := parameter_list.item.index_of ('=', start_index)
-					if start_index < equal_index  and equal_index < parameter_list.end_index then
+					if start_index < equal_index  and equal_index < parameter_list.item_end_index then
 						Result.append_substring_general (parameter_string, start_index, equal_index - 1)
 						Result.append_character ('=')
 						Result.append_substring_general (parameter_string, equal_index + 1, end_index)

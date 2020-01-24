@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 15:06:14 GMT (Thursday 23rd January 2020)"
-	revision: "17"
+	date: "2020-01-24 10:31:24 GMT (Friday 24th January 2020)"
+	revision: "18"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -337,9 +337,9 @@ feature {NONE} -- Constants
 			Result := Work_area_dir + "credentials.dat"
 		end
 
-	Signed_headers: EL_SPLIT_STRING_LIST [STRING]
+	Signed_headers: EL_STRING_8_LIST
 		once
-			create Result.make ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ";")
+			create Result.make_with_separator ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ';', False)
 		end
 
 end

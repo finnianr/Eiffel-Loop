@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 20:32:26 GMT (Monday 30th September 2019)"
-	revision: "3"
+	date: "2020-01-24 15:55:38 GMT (Friday 24th January 2020)"
+	revision: "4"
 
 class
 	EL_REFLECTED_TUPLE
@@ -77,7 +77,7 @@ feature -- Basic operations
 			else
 				create {EL_SPLIT_STRING_LIST [STRING_32]} list.make (string.to_string_32, character_string_32 (','))
 			end
-			list.left_adjusted.enable
+			list.enable_left_adjust
 			set_from_list (a_object, list)
 		end
 

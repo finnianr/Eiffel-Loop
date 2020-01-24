@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-03 12:23:00 GMT (Sunday 3rd March 2019)"
-	revision: "5"
+	date: "2020-01-24 14:47:41 GMT (Friday 24th January 2020)"
+	revision: "6"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 		do
 			Result := True
 			from split_list.start until not Result or split_list.after loop
-				i := split_list.start_index; end_index := split_list.end_index
+				i := split_list.item_start_index; end_index := split_list.item_end_index
 				if string [i] = ':' then
 					from i := i + 1 until not Result or i > end_index loop
 						Result := string.is_space_item (i)

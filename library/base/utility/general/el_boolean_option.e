@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-15 7:37:33 GMT (Saturday 15th June 2019)"
-	revision: "4"
+	date: "2020-01-24 17:09:43 GMT (Friday 24th January 2020)"
+	revision: "5"
 
 class
 	EL_BOOLEAN_OPTION
@@ -44,32 +44,39 @@ inherit
 	EL_MAKEABLE_FROM_STRING_8
 		rename
 			make as make_from_string,
-			make_default as make_enabled
+			make_default as default_create
 		undefine
 			out
 		end
 
 create
-	default_create, make_enabled, make, set_state
+	default_create, make_enabled, make, make_with_action, make_from_string
 
 convert
-	set_state ({BOOLEAN})
+	make ({BOOLEAN})
 
 feature {NONE} -- Initialization
 
-	make (enabled: BOOLEAN; a_action: PROCEDURE [BOOLEAN])
+	make (enabled: BOOLEAN)
 		do
-			set_state (enabled); action := a_action
+			default_create
+			set_state (enabled)
 		end
 
 	make_enabled
 		do
-			enable
+			make (True)
 		end
 
 	make_from_string (a_string: STRING)
 		do
-			set_state (a_string.to_boolean)
+			make (a_string.to_boolean)
+		end
+
+	make_with_action (enabled: BOOLEAN; a_action: PROCEDURE [BOOLEAN])
+		do
+			make (enabled)
+			action := a_action
 		end
 
 feature -- Status query
@@ -103,13 +110,6 @@ feature -- Status change
 			end
 		end
 
-feature -- Element change
-
-	set_action (a_action: PROCEDURE [BOOLEAN])
-		do
-			action := a_action
-		end
-
 feature -- Access
 
 	to_string: STRING
@@ -117,17 +117,16 @@ feature -- Access
 			Result := out
 		end
 
-feature {NONE} -- Implementation
+feature -- Basic operations
 
 	notify
 		do
-			if attached action as on_change then
-				on_change (is_enabled)
+			if attached action as l_action then
+				l_action (is_enabled)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
 	action: detachable PROCEDURE [BOOLEAN]
-
 end

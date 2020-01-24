@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 20:18:42 GMT (Thursday 23rd January 2020)"
-	revision: "15"
+	date: "2020-01-24 11:41:25 GMT (Friday 24th January 2020)"
+	revision: "16"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -39,15 +39,18 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]
+			modified: STRING; fields: EL_STRING_8_LIST --  EL_SPLIT_STRING_LIST [STRING]
 		do
 			make
 			modified := empty_once_string_8
 			-- Tweak `str' to make it splittable as series of assignments
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
-			create fields.make (modified, once ",")
-			fields.enable_left_adjust
+			
+--			Finalization bug in EL_SPLIT_STRING_LIST
+--			create fields.make (modified, character_string_8 (','))
+--			fields.enable_left_adjust
+			create fields.make_with_separator (modified, ',', True)
 			fields.do_all (agent set_field_from_nvp (?, '='))
 		end
 
@@ -92,12 +95,6 @@ feature -- Access
 			template := Signed_string_template
 			template.wipe_out_variables
 
---			template.set_variable (once "algorithm", algorithm)
---			template.set_variable (once "signed_headers", signed_headers)
---			template.set_variable (once "signature", signature)
---			template.set_variable (once "key", credential.key)
---			template.set_variable (once "date", credential.date)
-
 			template.set_variables_from_object (Current)
 			template.set_variables_from_object (credential)
 			Result := template.substituted
@@ -109,9 +106,9 @@ feature -- Access
 
 	signed_headers: STRING
 
-	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
+	signed_headers_list: EL_STRING_8_LIST
 		do
-			create Result.make (signed_headers, Semicolon_string)
+			create Result.make_with_separator (signed_headers, Semicolon, False)
 		end
 
 feature {NONE} -- Constants
@@ -124,11 +121,6 @@ feature {NONE} -- Constants
 		end
 
 	Semicolon: CHARACTER_32 = ';'
-
-	Semicolon_string: ZSTRING
-		once
-			create Result.make_filled (Semicolon, 1)
-		end
 
 	Signed_string_template: EL_STRING_8_TEMPLATE
 		once

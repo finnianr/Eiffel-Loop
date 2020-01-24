@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:56:51 GMT (Tuesday 5th March 2019)"
-	revision: "7"
+	date: "2020-01-24 16:06:45 GMT (Friday 24th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -265,7 +265,7 @@ feature {NONE} -- Constants
 
 	Occurrence_intervals: EL_OCCURRENCE_INTERVALS [ZSTRING]
 		once
-			create Result.make_default
+			create Result.make_empty
 		end
 
 end

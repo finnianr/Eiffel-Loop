@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:40:41 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2020-01-24 10:33:04 GMT (Friday 24th January 2020)"
+	revision: "5"
 
 class
 	AIA_SIGNER
 
 inherit
 	ANY
-	
+
 	EL_MODULE_DATE
 
 create
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			create Result.make_signed (Current, canonical_request)
 		end
 
-	headers_list: EL_SPLIT_STRING_LIST [STRING]
+	headers_list: EL_STRING_8_LIST
 		do
 			Result := Empty_header_list
 		end
@@ -76,7 +76,7 @@ feature {NONE} -- Constants
 
 	Date_format_short: STRING = "yyyy[0]mm[0]dd"
 
-	Empty_header_list: EL_SPLIT_STRING_LIST [STRING]
+	Empty_header_list: EL_STRING_8_LIST
 		once
 			create Result.make_empty
 		end

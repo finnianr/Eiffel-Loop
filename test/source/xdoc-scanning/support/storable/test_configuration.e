@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:26:59 GMT (Wednesday 8th January 2020)"
-	revision: "8"
+	date: "2020-01-24 16:40:21 GMT (Friday 24th January 2020)"
+	revision: "9"
 
 class
 	TEST_CONFIGURATION
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			create colors.make (3)
 			create integer_list.make (3)
 			colors.compare_objects
-			clipping := True
+			create clipping.make_enabled
 			Precursor
 		end
 

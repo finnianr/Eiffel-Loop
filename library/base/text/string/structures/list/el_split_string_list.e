@@ -11,26 +11,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:41:56 GMT (Sunday 2nd June 2019)"
-	revision: "12"
+	date: "2020-01-24 15:55:16 GMT (Friday 24th January 2020)"
+	revision: "13"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
-	EL_SEQUENTIAL_INTERVALS
+	EL_OCCURRENCE_INTERVALS [S]
 		rename
 			has as has_interval,
 			do_all as do_all_intervals,
 			for_all as for_all_intervals,
-			make as make_intervals,
+			fill as set_string,
 			i_th as i_th_interval,
 			item as interval_item,
-			item_lower as start_index,
-			item_upper as end_index,
+			item_lower as item_start_index,
+			item_upper as item_end_index,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_intervals, make_from_sub_list
+			is_equal, make_empty, make_from_sub_list,
+			extend_buffer, extend_buffer_final, set_string
 		end
 
 	EL_JOINED_STRINGS [S]
@@ -45,9 +46,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_string: like item; delimiter: READABLE_STRING_GENERAL)
+	make_empty
 		do
-			initialize (a_string, delimiter, True)
+			Precursor
+			create string.make_empty
+			create internal_item.make_empty
+			left_adjusted := False
+			right_adjusted := False
 		end
 
 	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
@@ -56,22 +61,11 @@ feature {NONE} -- Initialization
 			Precursor (list, a_start_index, a_end_index)
 		end
 
-	make_intervals (a_capacity: INTEGER)
-		do
-			if not attached string then
-				create string.make_empty
-			end
-			create internal_item.make_empty
-			left_adjusted := False
-			right_adjusted := False
-			Precursor (a_capacity)
-		end
-
 feature -- Basic operations
 
 	append_item_to (str: like string)
 		do
-			str.append_substring (string, start_index, end_index)
+			str.append_substring (string, item_start_index, item_end_index)
 		end
 
 	do_all (action: PROCEDURE [like item])
@@ -87,6 +81,17 @@ feature -- Basic operations
 		end
 
 feature -- Access
+
+	as_list: EL_STRING_LIST [S]
+		do
+			create Result.make (count)
+			push_cursor
+			from start until after loop
+				Result.extend (string.substring (item_start_index, item_end_index))
+				forth
+			end
+			pop_cursor
+		end
 
 	first_item: S
 		-- split item
@@ -146,7 +151,10 @@ feature -- Element change
 
 	set_string (a_string: like item; delimiter: READABLE_STRING_GENERAL)
 		do
-			initialize (a_string, delimiter, False)
+			string := a_string
+			Precursor (a_string, delimiter)
+		ensure then
+			reversible: as_list.joined_with_string (delimiter) ~ a_string
 		end
 
 feature -- Status change
@@ -210,9 +218,9 @@ feature -- Status query
 			end
 		end
 
-	left_adjusted: EL_BOOLEAN_OPTION
+	left_adjusted: BOOLEAN
 
-	right_adjusted: EL_BOOLEAN_OPTION
+	right_adjusted: BOOLEAN
 
 	there_exists (predicate: PREDICATE [like item]): BOOLEAN
 		-- `True' if one split substring matches `predicate'
@@ -230,60 +238,48 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := string ~ other.string and then Precursor {EL_SEQUENTIAL_INTERVALS} (other)
+			Result := string ~ other.string and then Precursor {EL_OCCURRENCE_INTERVALS} (other)
 		end
 
 feature {NONE} -- Implementation
 
-	append_intervals (a_intervals: EL_OCCURRENCE_INTERVALS [S])
-		local
-			last_interval: INTEGER_64
+	extend_buffer (buffer: like Intervals_buffer; a_index, search_string_count: INTEGER)
 		do
-			last_interval := new_item (1, 0)
-			if a_intervals.is_empty then
-				extend (1, string.count)
+			if buffer.is_empty then
+				buffer.extend (new_item (1, a_index - 1))
 			else
-				from a_intervals.start until a_intervals.after loop
-					extend (upper_integer (last_interval) + 1, a_intervals.item_lower - 1)
-					last_interval := a_intervals.item
-					a_intervals.forth
-				end
-				extend (upper_integer (last_interval)  + 1, string.count)
+				buffer.extend (new_item (upper_integer (buffer.last) + search_string_count + 1, a_index - 1))
 			end
 		end
 
-	initialize (a_string: like item; delimiter: READABLE_STRING_GENERAL; is_new: BOOLEAN)
-			--
+	extend_buffer_final (buffer: like Intervals_buffer; string_count, search_string_count: INTEGER)
 		local
-			l_intervals: EL_OCCURRENCE_INTERVALS [S]
+			l_index: INTEGER
 		do
-			string := a_string
-			create l_intervals.make (a_string, delimiter)
-			if is_new then
-				make_intervals (l_intervals.count + 1)
+			if buffer.is_empty then
+				buffer.extend (new_item (1 , string_count))
 			else
-				wipe_out
-				grow (l_intervals.count + 1)
+				l_index := upper_integer (buffer.last) + search_string_count + 1
+				if l_index <= string_count then
+					buffer.extend (new_item (l_index , string_count))
+				end
 			end
-			append_intervals (l_intervals)
 		end
 
 	update_internal_item
 		local
-			from_index: INTEGER; internal: like internal_item
+			start_index: INTEGER; internal: like internal_item
 		do
 			internal := internal_item
-			if attached {BAG [COMPARABLE]} internal as bag then
-				bag.wipe_out
-			end
-			from_index := start_index
-			if left_adjusted.is_enabled then
-				from until from_index > end_index or else not string.item (from_index).is_space loop
-					from_index := from_index + 1
+			internal.keep_head (0)
+			start_index := item_start_index
+			if left_adjusted then
+				from until start_index > item_end_index or else not string.item (start_index).is_space loop
+					start_index := start_index + 1
 				end
 			end
-			internal.append_substring (string, from_index, end_index)
-			if right_adjusted.is_enabled then
+			internal.append_substring (string, start_index, item_end_index)
+			if right_adjusted then
 				internal.right_adjust
 			end
 		end
@@ -293,4 +289,7 @@ feature {EL_SPLIT_STRING_LIST} -- Internal attributes
 	internal_item: S
 
 	string: S
+
+
+
 end

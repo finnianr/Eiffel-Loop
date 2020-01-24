@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 10:56:38 GMT (Tuesday 21st January 2020)"
-	revision: "7"
+	date: "2020-01-24 16:59:20 GMT (Friday 24th January 2020)"
+	revision: "8"
 
 class
 	GENERAL_EXPERIMENTS
@@ -59,6 +59,15 @@ feature -- Basic operations
 			b2_ref := not b1_ref
 			lio.put_string ("b2_ref.item: ")
 			lio.put_boolean (b2_ref.item)
+		end
+
+	boolean_option
+		local
+			option: EL_BOOLEAN_OPTION
+		do
+			option := True
+			lio.put_labeled_string ("option", option.is_enabled.out)
+			lio.put_new_line
 		end
 
 	char_compression

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 17:53:50 GMT (Tuesday 19th November 2019)"
-	revision: "16"
+	date: "2020-01-24 17:09:08 GMT (Friday 24th January 2020)"
+	revision: "17"
 
 class
 	EL_FTP_SYNC
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 			create file_item_table.make (100)
 			create removed_items.make (0)
 			create upload_list.make (0)
-			display_uploads := False
+			create display_uploads
 		end
 
 feature -- Access

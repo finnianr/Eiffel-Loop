@@ -7,14 +7,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:34:35 GMT (Thursday 23rd January 2020)"
-	revision: "63"
+	date: "2020-01-24 12:06:47 GMT (Friday 24th January 2020)"
+	revision: "64"
 
 class
 	BASE_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+		redefine
+			visible_types
+		end
 
 create
 	make
@@ -40,7 +43,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type: TUPLE [SUBSTITUTION_TEMPLATE_TEST_EVALUATOR]
+	evaluator_type: TUPLE [STRING_LIST_TEST_EVALUATOR]
 		do
 			create Result
 		end
@@ -48,10 +51,16 @@ feature {NONE} -- Implementation
 	evaluator_types_all: TUPLE [
 		DATE_TEXT_TEST_EVALUATOR,
 		FILE_AND_DIRECTORY_TEST_EVALUATOR,
+		STRING_LIST_TEST_EVALUATOR,
 		SUBSTITUTION_TEMPLATE_TEST_EVALUATOR,
 		TEMPLATE_TEST_EVALUATOR,
 		ZSTRING_TEST_EVALUATOR
 	]
+		do
+			create Result
+		end
+
+	visible_types: TUPLE [STRING_LIST_TEST_SET]
 		do
 			create Result
 		end
