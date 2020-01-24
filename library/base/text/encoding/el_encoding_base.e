@@ -164,12 +164,12 @@ feature -- Element change
 		do
 			create parts.make (a_name.to_string_8, once "-")
 			from parts.start until parts.after loop
-				part := parts.item
+				part := parts.item (False)
 				if parts.index = 1 then
 					part.to_upper
 					if part ~ Name_iso then
 						parts.forth
-						if not parts.after and then parts.item.to_integer = 8859 then
+						if not parts.after and then parts.integer_item = 8859 then
 							l_type := Type_latin
 						end
 					elseif part ~ Name_windows then
@@ -178,7 +178,7 @@ feature -- Element change
 						l_type := Type_utf
 					end
 				else
-					l_id := parts.item.to_integer
+					l_id := part.to_integer
 				end
 				parts.forth
 			end

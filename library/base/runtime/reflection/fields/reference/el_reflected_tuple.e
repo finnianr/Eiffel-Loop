@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 			l_count := tuple.count.min (list.count)
 			from i := 1 until i > l_count loop
 				list.go_i_th (i)
-				item := list.item
+				item := list.item (False)
 				inspect tuple.item_code (i)
 					when {TUPLE}.Character_8_code then
 						if not item.is_empty then

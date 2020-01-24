@@ -16,7 +16,7 @@ inherit
 	EL_ENCODING_BASE
 		rename
 			set_default as set_default_encoding
-			
+
 		redefine
 			set_default_encoding
 		end
@@ -51,22 +51,22 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			from l_name.start until l_name.after loop
 				inspect l_name.index
 					when 2 then
-						if l_name.item ~ Name_iso then
+						if l_name.same_item_as (Name_iso) then
 							encoding_bitmap := Type_latin
-						elseif l_name.item ~ Name_windows then
+						elseif l_name.same_item_as (Name_windows)  then
 							encoding_bitmap := Type_windows
-						elseif l_name.item ~ Name_utf then
+						elseif l_name.same_item_as (Name_utf) then
 							encoding_bitmap := Type_utf
 						end
 					when 3 then
 						if is_windows_encoded then
-							set_encoding (Type_windows, l_name.item.to_integer)
+							set_encoding (Type_windows, l_name.integer_item)
 						elseif is_utf_encoded then
-							set_encoding (Type_utf, l_name.item.to_integer)
+							set_encoding (Type_utf, l_name.integer_item)
 						end
 					when 4 then
 						if is_latin_encoded then
-							set_encoding (Type_latin, l_name.item.to_integer)
+							set_encoding (Type_latin, l_name.integer_item)
 						end
 				else
 				end

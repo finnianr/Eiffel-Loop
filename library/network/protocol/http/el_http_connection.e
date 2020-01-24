@@ -642,7 +642,7 @@ feature {NONE} -- Implementation
 					end
 					start_index := parameter_list.item_start_index
 					end_index := parameter_list.item_end_index
-					equal_index := parameter_list.item.index_of ('=', start_index)
+					equal_index := parameter_list.item (False).index_of ('=', start_index)
 					if start_index < equal_index  and equal_index < parameter_list.item_end_index then
 						Result.append_substring_general (parameter_string, start_index, equal_index - 1)
 						Result.append_character ('=')

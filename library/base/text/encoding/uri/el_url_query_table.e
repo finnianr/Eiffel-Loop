@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			make_count (list.count)
 			create name.make_empty; create value.make_empty
 			from list.start until list.after loop
-				name_value_pair := list.item
+				name_value_pair := list.item (False)
 				pos_equals := name_value_pair.index_of ('=', 1)
 				if pos_equals > 1 then
 					name.set_encoded (name_value_pair, 1, pos_equals - 1)

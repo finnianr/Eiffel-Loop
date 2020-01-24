@@ -66,8 +66,8 @@ feature -- Tests
 				lio.put_integer_interval_field ("interval " + list.index.out, list.item_start_index |..| list.item_end_index)
 				lio.put_new_line
 				lio.put_line (Api_string_list.i_th (list.index))
-				lio.put_line (list.item)
-				assert ("same item", list.item ~ Api_string_list.i_th (list.index))
+				lio.put_line (list.item (False))
+				assert ("same item", list.same_item_as (Api_string_list.i_th (list.index)))
 				list.forth
 			end
 			lio.exit

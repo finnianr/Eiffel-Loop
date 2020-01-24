@@ -40,7 +40,7 @@ feature -- Element change
 			compact_version := 0; scalar := 1_00_00
 			create digits.make (a_version, once ".")
 			from digits.start until digits.after loop
-				number := digits.item.to_natural_32
+				number := digits.natural_item
 				compact_version := number * scalar + compact_version
 				scalar := scalar // 100
 				digits.forth

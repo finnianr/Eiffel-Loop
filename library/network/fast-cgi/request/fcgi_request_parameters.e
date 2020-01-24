@@ -216,7 +216,7 @@ feature -- Access
 			scalar := 1_000_000
 			create parts.make (server_software.substring_between (Forward_slash, character_string (' '), 1), Dot)
 			from parts.start until parts.after loop
-				Result := Result + scalar * parts.item.to_natural
+				Result := Result + scalar * parts.natural_item
 				scalar := scalar // 1000
 				parts.forth
 			end

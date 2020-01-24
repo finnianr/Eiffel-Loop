@@ -97,7 +97,7 @@ feature -- Basic operations
 		do
 			lines := last_trace_lines
 			from lines.start until lines.after loop
-				log.put_line (lines.item)
+				log.put_line (lines.item (False))
 				lines.forth
 			end
 		end

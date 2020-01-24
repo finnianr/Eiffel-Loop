@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 		do
 			create parts.make (field_name, once "_")
 			parts.finish
-			value := parts.item
+			value := parts.item (False)
 			value.to_upper
 			parts.remove
 			name := parts.joined_strings

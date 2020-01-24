@@ -30,11 +30,13 @@ inherit
 			item_upper as item_end_index,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_empty, make_from_sub_list,
+			is_equal, make_empty, make_from_sub_list, new_cursor,
 			extend_buffer, extend_buffer_final, set_string
 		end
 
 	EL_JOINED_STRINGS [S]
+		rename
+			item as join_item
 		undefine
 			is_equal, copy, out
 		redefine
@@ -93,7 +95,7 @@ feature -- Access
 			pop_cursor
 		end
 
-	first_item: S
+	first_item (keep_ref: BOOLEAN): S
 		-- split item
 		do
 			push_cursor
@@ -101,7 +103,7 @@ feature -- Access
 			if before then
 				create Result.make_empty
 			else
-				Result := item
+				Result := item (keep_ref)
 			end
 			pop_cursor
 		end
@@ -114,14 +116,26 @@ feature -- Access
 			Result := string.substring (lower_integer (interval), upper_integer (interval))
 		end
 
-	item: S
-		-- split item
+	integer_item: INTEGER
 		do
-			update_internal_item
-			Result := internal_item
+			Result := join_item.to_integer
 		end
 
-	last_item: S
+	natural_item: NATURAL
+		do
+			Result := join_item.to_natural
+		end
+
+	item (keep_ref: BOOLEAN): S
+		-- split item
+		do
+			Result := join_item
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
+	last_item (keep_ref: BOOLEAN): S
 		-- split item
 		do
 			push_cursor
@@ -129,9 +143,14 @@ feature -- Access
 			if after then
 				create Result.make_empty
 			else
-				Result := item
+				Result := item (keep_ref)
 			end
 			pop_cursor
+		end
+
+	new_cursor: EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S]
+		do
+			create Result.make (Current)
 		end
 
 feature -- Measurement
@@ -198,7 +217,7 @@ feature -- Status query
 		do
 			push_cursor
 			from start until Result or after loop
-				Result := item ~ str
+				Result := join_item ~ str
 				forth
 			end
 			pop_cursor
@@ -211,11 +230,16 @@ feature -- Status query
 			else
 				push_cursor
 				from start until Result or after loop
-					Result := item.same_string (str)
+					Result := same_item_as (str)
 					forth
 				end
 				pop_cursor
 			end
+		end
+
+	same_item_as (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := join_item.same_string (str)
 		end
 
 	left_adjusted: BOOLEAN
@@ -266,6 +290,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	join_item: S
+		-- split item
+		do
+			update_internal_item
+			Result := internal_item
+		end
+
 	update_internal_item
 		local
 			start_index: INTEGER; internal: like internal_item
@@ -289,7 +320,5 @@ feature {EL_SPLIT_STRING_LIST} -- Internal attributes
 	internal_item: S
 
 	string: S
-
-
 
 end

@@ -140,9 +140,9 @@ feature -- Access
 			list.set_string (string, character_string (separator))
 			create Result.make (list.count + 1) -- Allow extra for {EL_PATH}.base
 			from list.start until list.after loop
-				search (list.item)
+				search (list.item (False))
 				if not found then
-					new_word := list.item.twin
+					new_word := list.item (True)
 					extend (count + 1, new_word)
 					word_list.extend (new_word)
 					last_code := count

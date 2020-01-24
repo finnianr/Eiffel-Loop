@@ -65,7 +65,7 @@ feature -- Iteration items
 	name_item: ZSTRING
 		do
 			split_list.go_i_th (list_index)
-			create Result.make_unescaped (Unescaper, split_list.item)
+			create Result.make_unescaped (Unescaper, split_list.item (False))
 		end
 
 	name_item_8: STRING
@@ -78,7 +78,7 @@ feature -- Iteration items
 	value_item: ZSTRING
 		do
 			split_list.go_i_th (list_index + 2)
-			create Result.make_unescaped (Unescaper, split_list.item)
+			create Result.make_unescaped (Unescaper, split_list.item (False))
 		end
 
 feature -- Cursor movement

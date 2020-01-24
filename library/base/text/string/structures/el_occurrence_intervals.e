@@ -79,6 +79,7 @@ feature {NONE} -- Implementation
 		end
 
 	extend_buffer_final (buffer: like Intervals_buffer; string_count, search_string_count: INTEGER)
+		-- for use in descendant
 		do
 		end
 

@@ -75,7 +75,7 @@ feature -- Basic operations
 						if not tabs.is_empty then
 							output.put_raw_string_8 (tabs)
 						end
-						output.put_string (line.item)
+						output.put_string (line.item (False))
 						line.forth
 					end
 				else

@@ -64,9 +64,9 @@ feature {NONE} -- Line states
 				from list.start until list.after loop
 					inspect list.index
 						when 1 then
-							major_version := list.item.to_integer
+							major_version := list.integer_item
 						when 2 then
-							minor_version := list.item.to_integer
+							minor_version := list.integer_item
 					else
 						list.finish
 					end

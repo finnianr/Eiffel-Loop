@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			create variable_values.make (list.count)
 			create part_list.make (list.count * 2)
 			from list.start until list.after loop
-				item := list.item
+				item := list.item (False)
 				if list.index = 1 then
 					if not item.is_empty then
 						part_list.extend (item.twin)

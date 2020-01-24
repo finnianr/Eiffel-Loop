@@ -56,8 +56,8 @@ feature -- Conversion
 			create parts.make (sequence, once ":")
 			hex_string := empty_once_string_8
 			from parts.start until parts.after loop
-				if not (parts.index = 1 and then parts.item ~ Double_zero) then
-					hex_string.append (parts.item)
+				if not (parts.index = 1 and then parts.same_item_as (Double_zero)) then
+					hex_string.append (parts.item (False))
 				end
 				parts.forth
 			end
