@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 1:11:44 GMT (Sunday 29th December 2019)"
-	revision: "25"
+	date: "2020-01-25 16:09:05 GMT (Saturday 25th January 2020)"
+	revision: "26"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -179,8 +179,19 @@ feature -- Cursor movement
 feature -- Element change
 
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
+		local
+			l_item: like item; comparison: BOOLEAN
 		do
+			if not off then
+				l_item := item
+			end
 			make_from_array (ordered_by (sort_value, in_ascending_order).to_array)
+			if attached l_item then
+				comparison := object_comparison
+				compare_references
+				start; search (l_item)
+				object_comparison := comparison
+			end
 		end
 
 	shift (offset: INTEGER)

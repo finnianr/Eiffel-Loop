@@ -1,13 +1,23 @@
 note
 	description: "Test set for [$source EL_CHAIN] and related classes"
+	notes: "[
+		Covers various routines from the following:
+		
+		* [$source EL_ITERABLE_CONVERTER]
+		* [$source EL_ARRAYED_LIST]
+		* [$source EL_QUERY_CONDITION]
+		* [$source EL_CHAIN_SUMMATOR]
+		* [$source EL_PREDICATE_QUERY_CONDITION]
+		* [$source EL_ANY_QUERY_CONDITION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-03 0:11:21 GMT (Friday 3rd January 2020)"
-	revision: "5"
+	date: "2020-01-25 16:06:53 GMT (Saturday 25th January 2020)"
+	revision: "6"
 
 class
 	CHAIN_TEST_SET
@@ -18,6 +28,19 @@ inherit
 	EL_MODULE_LIO
 
 feature -- Test
+
+	test_list_conversion
+		local
+			converter: EL_ITERABLE_CONVERTER [WIDGET, INTEGER]
+			color_list: EL_ARRAYED_LIST [INTEGER]
+		do
+			create converter
+			create color_list.make (10)
+			across Widget_list as widget loop
+				color_list.extend (widget.item.color)
+			end
+			assert ("same list", color_list ~ converter.new_list (Widget_list, agent {WIDGET}.color))
+		end
 
 	test_weight_summation_1
 		-- using method 1
@@ -74,15 +97,24 @@ feature -- Test
 
 	test_order_by_color_name
 		local
-			previous: STRING
+			previous: STRING; ordered_1, ordered_2: like Widget_list
 		do
-			previous := "0"
-			across Widget_list.ordered_by (agent {WIDGET}.color_name, True) as widget loop
-				lio.put_labeled_string (widget.item.out, widget.item.color_name)
-				lio.put_new_line
-				assert ("color_name >= previous", widget.item.color_name >= previous)
-				previous := widget.item.color_name
+			ordered_1 := Widget_list.ordered_by (agent {WIDGET}.color_name, True)
+
+			create ordered_2.make_from_array (Widget_list.to_array)
+			ordered_2.start
+			ordered_2.order_by (agent {WIDGET}.color_name, True)
+
+			across << ordered_1, ordered_2 >> as list loop
+				previous := "0"
+				across list.item as widget loop
+					lio.put_labeled_string (widget.item.out, widget.item.color_name)
+					lio.put_new_line
+					assert ("color_name >= previous", widget.item.color_name >= previous)
+					previous := widget.item.color_name
+				end
 			end
+
 		end
 
 	test_order_by_weight

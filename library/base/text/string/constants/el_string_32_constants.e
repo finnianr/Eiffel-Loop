@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 14:03:46 GMT (Tuesday 1st October 2019)"
-	revision: "8"
+	date: "2020-01-25 12:16:38 GMT (Saturday 25th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_STRING_32_CONSTANTS
@@ -24,7 +24,7 @@ feature {NONE} -- Implemenation
 
 	n_character_string_32 (uc: CHARACTER_32; n: NATURAL): STRING_32
 		do
-			Result := Character_string_32_table.item (n |<< 32 | uc.natural_32_code)
+			Result := Character_string_32_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
 		end
 
 	new_filled_string_32 (key: NATURAL_64): STRING_32

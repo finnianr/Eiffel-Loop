@@ -1,13 +1,14 @@
 note
-	description: "Xdoc scanning autotest app"
+	description: "XML document scanning autotest app"
+	notes: "Option: `-xdoc_scanning_autotest'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:46:10 GMT (Wednesday 8th January 2020)"
-	revision: "1"
+	date: "2020-01-25 13:26:25 GMT (Saturday 25th January 2020)"
+	revision: "2"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP

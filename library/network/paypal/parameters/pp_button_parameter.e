@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-28 10:39:05 GMT (Monday 28th May 2018)"
-	revision: "2"
+	date: "2020-01-24 19:50:46 GMT (Friday 24th January 2020)"
+	revision: "3"
 
 class
 	PP_BUTTON_PARAMETER

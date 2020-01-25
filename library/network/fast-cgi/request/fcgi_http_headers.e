@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:40:39 GMT (Friday 24th January 2020)"
-	revision: "13"
+	date: "2020-01-25 12:41:38 GMT (Saturday 25th January 2020)"
+	revision: "14"
 
 class
 	FCGI_HTTP_HEADERS
@@ -31,6 +31,8 @@ inherit
 		end
 
 	EL_WORD_SEPARATION_ADAPTER
+
+	EL_MODULE_ITERABLE
 
 create
 	make
@@ -87,9 +89,7 @@ feature -- Access
 		local
 			l_name: STRING
 		do
-			if attached {FINITE [STRING]} name_list as finite then
-				create Result.make (finite.count)
-			end
+			create Result.make (Iterable.count (name_list))
 			across name_list as name loop
 				l_name := from_kebab_case (name.item, False)
 				if field_table.has_key (l_name) then

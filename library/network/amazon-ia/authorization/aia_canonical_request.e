@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:53:27 GMT (Friday 24th January 2020)"
-	revision: "11"
+	date: "2020-01-25 4:14:32 GMT (Saturday 25th January 2020)"
+	revision: "12"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_STRING_8_LIST)
+	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_STRING_LIST [STRING])
 		local
 			headers: HASH_TABLE [ZSTRING, STRING]
 		do

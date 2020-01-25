@@ -6,25 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 10:36:14 GMT (Tuesday 24th December 2019)"
-	revision: "12"
+	date: "2020-01-25 5:10:59 GMT (Saturday 25th January 2020)"
+	revision: "13"
 
 class
 	EL_CURRENCY
 
 inherit
 	EVOLICITY_SERIALIZEABLE
-		undefine
-			is_equal
-		end
-
-	COMPARABLE
 
 	EL_INTEGER_MATH
 		export
 			{NONE} all
-		undefine
-			is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -134,14 +127,6 @@ feature -- Status query
 	has_decimal: BOOLEAN
 
 	is_symbol_first: BOOLEAN
-
-feature -- Comparison
-
-	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is current object less than `other'?
-		do
-			Result := name < other.name
-		end
 
 feature {NONE} -- Evolicity
 

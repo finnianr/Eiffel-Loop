@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-02 23:32:23 GMT (Thursday 2nd January 2020)"
-	revision: "22"
+	date: "2020-01-25 16:39:55 GMT (Saturday 25th January 2020)"
+	revision: "23"
 
 deferred class EL_CHAIN [G]
 
@@ -27,6 +27,9 @@ inherit
 		redefine
 			find_first_equal
 		end
+
+	EL_MODULE_EIFFEL
+	EL_MODULE_ITERABLE
 
 feature -- Access
 
@@ -124,8 +127,8 @@ feature -- Item query
 		-- list of all items where `value (item).is_equal (target_value)'
 		require
 			valid_open_count: value.open_count = 1
-			valid_value_function: not is_empty implies value.valid_operands ([first])
-			compatible_types: not is_empty implies value (first).same_type (target_value)
+			valid_value_function: value.valid_operands ([proto_item])
+			result_type_same_as_target: result_type (value) ~ target_value.generating_type
 		local
 			condition: EL_FUNCTION_VALUE_QUERY_CONDITION [G]
 		do
@@ -155,7 +158,7 @@ feature -- Conversion
 	double_map_list (to_key: FUNCTION [G, DOUBLE]): EL_ARRAYED_MAP_LIST [DOUBLE, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -163,7 +166,7 @@ feature -- Conversion
 	integer_map_list (to_key: FUNCTION [G, INTEGER]): EL_ARRAYED_MAP_LIST [INTEGER, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -171,7 +174,7 @@ feature -- Conversion
 	natural_map_list (to_key: FUNCTION [G, NATURAL]): EL_ARRAYED_MAP_LIST [NATURAL, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -188,7 +191,7 @@ feature -- Conversion
 	real_map_list (to_key: FUNCTION [G, REAL]): EL_ARRAYED_MAP_LIST [REAL, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -197,7 +200,7 @@ feature -- Conversion
 			-- list of `value (item)' strings of type STRING_32
 		require
 			valid_open_count: value.open_count = 1
-			valid_value_function: not is_empty implies value.valid_operands ([first])
+			valid_value_function: value.valid_operands ([proto_item])
 		do
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING_32]}).list (Current, value)
 		end
@@ -205,7 +208,7 @@ feature -- Conversion
 	string_32_map_list (to_key: FUNCTION [G, STRING_32]): EL_ARRAYED_MAP_LIST [STRING_32, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -214,7 +217,7 @@ feature -- Conversion
 			-- list of `value (item)' strings of type STRING_8
 		require
 			valid_open_count: value.open_count = 1
-			valid_value_function: not is_empty implies value.valid_operands ([first])
+			valid_value_function: value.valid_operands ([proto_item])
 		do
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING]}).list (Current, value)
 		end
@@ -222,7 +225,7 @@ feature -- Conversion
 	string_8_map_list (to_key: FUNCTION [G, STRING]): EL_ARRAYED_MAP_LIST [STRING, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -231,7 +234,7 @@ feature -- Conversion
 			-- list of `value (item)' strings of type EL_ZSTRING
 		require
 			valid_open_count: value.open_count = 1
-			valid_value_function: not is_empty implies value.valid_operands ([first])
+			valid_value_function: value.valid_operands ([proto_item])
 		do
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, ZSTRING]}).list (Current, value)
 		end
@@ -239,7 +242,7 @@ feature -- Conversion
 	string_map_list (to_key: FUNCTION [G, ZSTRING]): EL_ARRAYED_MAP_LIST [ZSTRING, G]
 		require
 			valid_open_count: to_key.open_count = 1
-			valid_value_function: not is_empty implies to_key.valid_operands ([first])
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
 			create Result.make_from_values (Current, to_key)
 		end
@@ -316,14 +319,10 @@ feature -- Element change
 		end
 
 	append (list: ITERABLE [G])
-		require
-			finite: attached {FINITE [G]} list
 		do
-			if attached {FINITE [G]} list as finite then
-				accommodate (count + finite.count)
-				across list as it loop
-					extend (it.item)
-				end
+			accommodate (count + Iterable.count (list))
+			across list as any loop
+				extend (any.item)
 			end
 		end
 
@@ -336,19 +335,23 @@ feature -- Element change
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
 		-- sort all elements according to `sort_value' function
 		local
-			l_item: detachable G
+			l_item: G; new_index: INTEGER
 		do
 			if not off then
 				l_item := item
 			end
 			across ordered_by (sort_value, in_ascending_order) as v loop
 				put_i_th (v.item, v.cursor_index)
+				if v.item = l_item then
+					new_index := v.cursor_index
+				end
 			end
-			if attached l_item as ll_item then
-				start; search (ll_item)
+			if new_index > 0 then
+				go_i_th (new_index)
 			end
 		ensure
-			same_item: not old off implies old item = item
+--			Cannot use this post-condition as evaluating it causes a contract violation
+			same_item: (old off) or else (old item) = item
 		end
 
 feature -- Removal
@@ -362,7 +365,7 @@ feature -- Cursor movement
 
 	find_first_equal (target_value: ANY; value: FUNCTION [G, ANY])
 		require else
-			compatible_types: not is_empty implies target_value.same_type (value (first))
+			result_type_same_as_target: result_type (value) ~ target_value.generating_type
 		do
 			Precursor (target_value, value)
 		end
@@ -378,6 +381,22 @@ feature -- Cursor movement
 		-- push cursor position on to stack
 		do
 			Cursor_stack.put (cursor)
+		end
+
+feature -- Contract Support
+
+	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
+
+		do
+			Result := value.generating_type.generic_parameter_type (2)
+		end
+
+	proto_item: G
+		-- uninitialized item for contract support
+		do
+			if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
+				Result := new
+			end
 		end
 
 feature {NONE} -- Constants

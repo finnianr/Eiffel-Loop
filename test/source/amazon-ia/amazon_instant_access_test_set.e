@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:31:24 GMT (Friday 24th January 2020)"
-	revision: "18"
+	date: "2020-01-25 4:16:53 GMT (Saturday 25th January 2020)"
+	revision: "19"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -105,7 +105,7 @@ feature -- Authorization
 		do
          create http_table.make (5)
 			from Signed_headers.start until Signed_headers.after loop
-				http_name := "HTTP_" + Signed_headers.item.as_upper
+				http_name := "HTTP_" + Signed_headers.item (False).as_upper
 				String_8.replace_character (http_name, '-', '_')
 				http_table.extend (Signed_headers.index.out, http_name)
 				Signed_headers.forth
@@ -337,9 +337,9 @@ feature {NONE} -- Constants
 			Result := Work_area_dir + "credentials.dat"
 		end
 
-	Signed_headers: EL_STRING_8_LIST
+	Signed_headers: EL_SPLIT_STRING_LIST [STRING]
 		once
-			create Result.make_with_separator ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ';', False)
+			create Result.make ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ";")
 		end
 
 end

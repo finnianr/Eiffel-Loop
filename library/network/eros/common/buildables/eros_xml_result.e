@@ -1,13 +1,13 @@
 note
-	description: "Eros xml result"
+	description: "Eros XML result"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:25:09 GMT (Tuesday 21st January 2020)"
-	revision: "2"
+	date: "2020-01-25 17:50:15 GMT (Saturday 25th January 2020)"
+	revision: "3"
 
 class
 	EROS_XML_RESULT
@@ -31,9 +31,19 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["root_name",	agent: STRING do Result := Root_node_name end],
+				["root_name",	agent: STRING do Result := root_node_name end],
 				["generator",	agent: STRING do Result := generator end]
 			>>)
+		end
+
+	root_node_name: STRING
+		do
+			Result := Root_node_name_table.item (generating_type)
+		end
+
+	new_root_node_name (type: TYPE [EROS_XML_RESULT]): STRING
+		do
+			Result := Naming.class_as_lower_kebab (type, 1, 1)
 		end
 
 feature {NONE} -- Building from XML
@@ -46,9 +56,9 @@ feature {NONE} -- Building from XML
 
 feature {NONE} -- Constants
 
-	Root_node_name: STRING
+	Root_node_name_table: EL_CACHE_TABLE [STRING, TYPE [EROS_XML_RESULT]]
 		once
-			Result := Naming.class_as_lower_kebab (Current, 1, 1)
+			create Result.make (17, agent new_root_node_name)
 		end
 
 	Template: STRING

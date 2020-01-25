@@ -6,15 +6,15 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:29:47 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-01-25 5:10:20 GMT (Saturday 25th January 2020)"
+	revision: "8"
 
 deferred class
 	EL_CURRENCY_LOCALE
 
 inherit
 	ANY
-	
+
 	EL_MODULE_DEFERRED_LOCALE
 
 	EL_SHARED_CURRENCY_ENUM
@@ -76,7 +76,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Locale_currency_list_table: HASH_TABLE [EL_SORTABLE_ARRAYED_LIST [EL_CURRENCY], STRING]
+	Locale_currency_list_table: HASH_TABLE [EL_ARRAYED_LIST [EL_CURRENCY], STRING]
 		local
 			list: like Locale_currency_list_table.item
 			code_list: like Currency_code.list
@@ -90,7 +90,7 @@ feature {NONE} -- Constants
 						list.extend (create {EL_CURRENCY}.make (lang.item, code.item, not Currency_code.unit.has (code.item)))
 					end
 				end
-				list.sort
+				list.order_by (agent {EL_CURRENCY}.name, True)
 				Result [lang.item] := list
 			end
 		end

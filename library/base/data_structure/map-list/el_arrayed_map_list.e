@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 14:46:37 GMT (Friday 27th December 2019)"
-	revision: "6"
+	date: "2020-01-25 13:11:26 GMT (Saturday 25th January 2020)"
+	revision: "7"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -24,50 +24,35 @@ inherit
 			extend as map_extend
 		end
 
+	EL_MODULE_ITERABLE
+
 create
 	make, make_filled, make_from_array, make_empty,
 	make_from_keys, make_from_table, make_from_values
 
 feature {NONE} -- Initialization
 
-	make_from_keys (container: FINITE [K]; to_value: FUNCTION [K, G])
-		require
-			iterable_container: attached {ITERABLE [G]} container
+	make_from_keys (list: ITERABLE [K]; to_value: FUNCTION [K, G])
 		do
-			make (container.count)
-			if attached {ITERABLE [K]} container as list then
-				across list as key loop
-					extend (key.item, to_value (key.item))
-				end
+			make (Iterable.count (list))
+			across list as key loop
+				extend (key.item, to_value (key.item))
 			end
 		end
 
 	make_from_table (table: TABLE_ITERABLE [G, K])
-		local
-			table_count: INTEGER
 		do
-			if attached {FINITE [G]} table as finite then
-				table_count := finite.count
-			else
-				across table as t loop
-					table_count := table_count + 1
-				end
-			end
-			make (table_count)
+			make (Iterable.count (table))
 			across table as value loop
 				extend (value.key, value.item)
 			end
 		end
 
-	make_from_values (container: FINITE [G]; to_key: FUNCTION [G, K])
-		require
-			iterable_container: attached {ITERABLE [G]} container
+	make_from_values (list: ITERABLE [G]; to_key: FUNCTION [G, K])
 		do
-			make (container.count)
-			if attached {ITERABLE [G]} container as list then
-				across list as value loop
-					extend (to_key (value.item), value.item)
-				end
+			make (Iterable.count (list))
+			across list as value loop
+				extend (to_key (value.item), value.item)
 			end
 		end
 

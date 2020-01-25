@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 14:59:09 GMT (Friday 24th January 2020)"
-	revision: "6"
+	date: "2020-01-25 11:57:28 GMT (Saturday 25th January 2020)"
+	revision: "7"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
@@ -46,7 +46,7 @@ feature -- Basic operations
 
 	fill (a_string: S; search_string: READABLE_STRING_GENERAL)
 		local
-			i, string_count, search_string_count: INTEGER
+			i, string_count, search_string_count, search_index: INTEGER
 			search_character: like new_target.item
 			buffer: like Intervals_buffer
 		do
@@ -62,25 +62,23 @@ feature -- Basic operations
 					i := a_string.substring_index (search_string, i)
 				end
 				if i > 0 then
-					extend_buffer (buffer, i, search_string_count)
+					search_index := i
+					extend_buffer (buffer, search_index, search_string_count, False)
 					i := i + search_string_count
 				end
 			end
-			extend_buffer_final (buffer, string_count, search_string_count)
+			extend_buffer (buffer, search_index, search_string_count, True)
 			make_intervals (buffer.count)
 			area.copy_data (buffer.area, 0, 0, buffer.count)
 		end
 
 feature {NONE} -- Implementation
 
-	extend_buffer (buffer: like Intervals_buffer; a_index, search_string_count: INTEGER)
+	extend_buffer (buffer: like Intervals_buffer; search_index, search_string_count: INTEGER; final: BOOLEAN)
 		do
-			buffer.extend (new_item (a_index, a_index + search_string_count - 1))
-		end
-
-	extend_buffer_final (buffer: like Intervals_buffer; string_count, search_string_count: INTEGER)
-		-- for use in descendant
-		do
+			if not final then
+				buffer.extend (new_item (search_index, search_index + search_string_count - 1))
+			end
 		end
 
 	new_target: S

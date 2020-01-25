@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 15:49:43 GMT (Friday 24th January 2020)"
-	revision: "4"
+	date: "2020-01-25 6:16:09 GMT (Saturday 25th January 2020)"
+	revision: "5"
 
 class
 	STRING_LIST_TEST_SET
@@ -21,17 +21,45 @@ inherit
 
 feature -- Tests
 
+	test_occurrence_intervals
+		local
+			intervals: EL_OCCURRENCE_INTERVALS [STRING]
+			str: STRING; item_lower, item_upper: INTEGER
+		do
+			create intervals.make (Api_string_list.joined_with_string (Comma_space), Comma_space)
+			create str.make (Api_string.count)
+			across Api_string_list as api loop
+				if not str.is_empty then
+					item_lower := str.count + 1
+					str.append (Comma_space)
+					item_upper := str.count
+					intervals.go_i_th (api.cursor_index - 1)
+					assert ("same item_lower", item_lower = intervals.item_lower)
+					assert ("same item_upper", item_upper = intervals.item_upper)
+				end
+				str.append (api.item)
+			end
+		end
+
 	test_path_split
 		local
-			split_path_8: LIST [STRING]
-			split_path: EL_SPLIT_ZSTRING_LIST
+			list: LIST [STRING]; split_8_path: EL_SPLIT_STRING_LIST [STRING]
+			split_path: EL_SPLIT_ZSTRING_LIST; l_path: STRING
 		do
-			split_path_8 := Unix_path.split ('/')
-			create split_path.make (Unix_path, "/")
-			assert (
-				"all steps are equal",
-				across split_path_8 as step all step.item ~ split_path.i_th (step.cursor_index).to_string_8 end
-			)
+			list := Unix_path.split ('/')
+			l_path := Unix_path.twin
+			across 1 |..| 2 as n loop
+				create split_path.make (l_path, "/")
+				across list as step loop
+					assert ("same step", step.item ~ split_path.i_th (step.cursor_index).to_string_8)
+				end
+
+				create split_8_path.make (l_path, "/")
+				across list as step loop
+					assert ("same step", step.item ~ split_path.i_th (step.cursor_index))
+				end
+				l_path.append_character ('/')
+			end
 		end
 
 	test_split_and_join_1
@@ -51,6 +79,23 @@ feature -- Tests
 		do
 			create split_numbers.make (Numbers, ",")
 			assert ("same string", Numbers ~ split_numbers.joined (','))
+		end
+
+	test_split_sort
+		local
+			split: EL_SPLIT_STRING_LIST [STRING]
+			list: EL_STRING_8_LIST
+		do
+			create split.make ("ZAB, ZAC, ZAC1, ZA, CAL, CON, CAT, CAN, CANOPY", Comma_space)
+			create list.make (split.count)
+			across split as animal loop
+				list.extend (animal.item)
+			end
+			list.sort
+			split.sort (True)
+			across list as animal loop
+				assert ("same animal", animal.item ~ split.i_th (animal.cursor_index))
+			end
 		end
 
 	test_split_string_8
@@ -73,29 +118,7 @@ feature -- Tests
 			lio.exit
 		end
 
-	test_occurrence_intervals
-		local
-			intervals: EL_OCCURRENCE_INTERVALS [STRING]
-			str: STRING; item_lower, item_upper: INTEGER
-		do
-			create intervals.make (Api_string_list.joined_with_string (Comma_space), Comma_space)
-			create str.make (Api_string.count)
-			across Api_string_list as api loop
-				if not str.is_empty then
-					item_lower := str.count + 1
-					str.append (Comma_space)
-					item_upper := str.count
-					intervals.go_i_th (api.cursor_index - 1)
-					assert ("same item_lower", item_lower = intervals.item_lower)
-					assert ("same item_upper", item_upper = intervals.item_upper)
-				end
-				str.append (api.item)
-			end
-		end
-
 feature {NONE} -- Constants
-
-	Comma_space: STRING = ", "
 
 	Api_string: STRING = "[
 		DTA1-HMAC-SHA256 SignedHeaders=content-length;content-type;host;x-amz-date
@@ -107,6 +130,8 @@ feature {NONE} -- Constants
 		once
 			create Result.make_with_lines (Api_string)
 		end
+
+	Comma_space: STRING = ", "
 
 	Numbers: STRING = "one,two,three"
 

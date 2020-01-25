@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 17:38:02 GMT (Tuesday 10th September 2019)"
-	revision: "4"
+	date: "2020-01-25 16:59:47 GMT (Saturday 25th January 2020)"
+	revision: "5"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -52,24 +52,12 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_string_list (a_object: EL_REFLECTIVE): ARRAYED_LIST [READABLE_STRING_GENERAL]
+	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 		local
-			l_collection: like collection
-			list: LINEAR [G]
+			converter: EL_ITERABLE_CONVERTER [G, READABLE_STRING_GENERAL]
 		do
-			l_collection := collection (a_object)
-			if attached {FINITE [G]} l_collection as finite then
-				list := l_collection.linear_representation
-				create Result.make (finite.count)
-				from list.start until list.after loop
-					if attached {READABLE_STRING_GENERAL} list.item as str then
-						Result.extend (str)
-					else
-						Result.extend (list.item.out)
-					end
-					list.forth
-				end
-			end
+			create converter
+			Result := converter.new_linear_list (collection (a_object).linear_representation, agent to_string_general)
 		end
 
 feature {NONE} -- Implementation
@@ -97,6 +85,15 @@ feature {NONE} -- Implementation
 				agent {EL_READABLE}.read_string_32,
 				agent {EL_READABLE}.read_string
 			>>
+		end
+
+	to_string_general (item: G): READABLE_STRING_GENERAL
+		do
+			if attached {READABLE_STRING_GENERAL} item as str then
+				Result := str
+			else
+				Result := item.out
+			end
 		end
 
 feature {NONE} -- Internal attributes

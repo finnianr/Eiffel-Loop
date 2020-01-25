@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 14:47:41 GMT (Friday 24th January 2020)"
-	revision: "6"
+	date: "2020-01-24 19:19:43 GMT (Friday 24th January 2020)"
+	revision: "7"
 
 class
 	EL_JSON_NAME_VALUE_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:31:52 GMT (Friday 24th January 2020)"
-	revision: "8"
+	date: "2020-01-25 4:32:54 GMT (Saturday 25th January 2020)"
+	revision: "9"
 
 class
 	AIA_VERIFIER
@@ -91,8 +91,6 @@ feature -- Basic operations
 				else
 					lio.put_line ("ACTUAL AUTHORIZATION")
 				end
-				lio.put_integer_field ("data count", header.item.character_count)
-				lio.put_new_line
 				create lines.make_with_separator (header.item.as_string, ',', True)
 				across lines as line loop
 					lio.put_line (line.item)
@@ -103,7 +101,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	headers_list: EL_STRING_8_LIST
+	headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			Result := actual_authorization_header.signed_headers_list
 		end

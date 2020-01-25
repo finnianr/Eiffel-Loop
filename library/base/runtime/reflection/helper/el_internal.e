@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:11:51 GMT (Thursday 3rd October 2019)"
-	revision: "7"
+	date: "2020-01-25 18:19:36 GMT (Saturday 25th January 2020)"
+	revision: "8"
 
 class
 	EL_INTERNAL
@@ -93,9 +93,44 @@ feature -- Type queries
 
 feature -- Access
 
+	new_factory_instance (factory_type, type: TYPE [ANY]): detachable ANY
+		require
+			valid_factory_type: valid_factory_type (factory_type, type)
+		local
+			type_id: INTEGER
+		do
+			if Factory_type_id_table.has_key (type) then
+				type_id := Factory_type_id_table.found_item
+			else
+				type_id := new_factory_type_id (factory_type, type)
+				Factory_type_id_table.extend (type_id, type)
+			end
+			if type_id > 0 and then attached new_instance_of (type_id) as new then
+				Result := new
+			end
+		end
+
 	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
 		do
 			create Result.make (a_object)
+		end
+
+	type_from_string (class_type: STRING): TYPE [ANY]
+		local
+			type_id: INTEGER
+		do
+			type_id := dynamic_type_from_string (class_type)
+			if type_id > 0 then
+				Result := type_of_type (type_id)
+			end
+		end
+
+feature -- Contract Support
+
+	valid_factory_type (factory_type, type: TYPE [ANY]): BOOLEAN
+		do
+			Result := factory_type.generic_parameter_count = 1
+				and then field_conforms_to (type.type_id, factory_type.generic_parameter_type (1).type_id)
 		end
 
 feature {NONE} -- Implementation
@@ -111,4 +146,37 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_template (type: TYPE [ANY]): STRING_8
+		do
+			Result := type.name
+		end
+
+	new_factory_type_id (factory_type, type: TYPE [ANY]): INTEGER
+		require
+			valid_factory_type: valid_factory_type (factory_type, type)
+		local
+			l_type_name: STRING; left_pos, right_pos: INTEGER
+		do
+			l_type_name := Factory_template_table.item (factory_type).twin
+			left_pos := l_type_name.index_of ('[', 1)
+			if left_pos > 0 then
+				right_pos := l_type_name.index_of (']', left_pos + 1)
+			end
+			if left_pos > 0 and right_pos > 0 then
+				l_type_name.replace_substring (type.name, left_pos + 1, right_pos - 1)
+				Result := dynamic_type_from_string (l_type_name)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Factory_type_id_table: HASH_TABLE [INTEGER, TYPE [ANY]]
+		once
+			create Result.make (17)
+		end
+
+	Factory_template_table: EL_CACHE_TABLE [STRING_8, TYPE [ANY]]
+		once
+			create Result.make (17, agent new_template)
+		end
 end

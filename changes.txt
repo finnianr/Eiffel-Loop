@@ -148,3 +148,6 @@ Refactor for EL_SUBSTITUTION_TEMPLATE and added `do_tests' to EL_EQA_TEST_SET_EV
 Fri 24th Jan 2020, 18:50:43
 Fix for EL_BOOLEAN_OPTION, optimization of EL_SPLIT_STRING_LIST and EL_OCCURRENCE_INTERVALS
 
+Fri 24th Jan 2020, 19:59:02
+Add keep_ref argument to {EL_SPLIT_STRING_LIST}.item
+

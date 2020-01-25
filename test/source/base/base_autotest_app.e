@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 12:06:47 GMT (Friday 24th January 2020)"
-	revision: "64"
+	date: "2020-01-25 16:17:27 GMT (Saturday 25th January 2020)"
+	revision: "65"
 
 class
 	BASE_AUTOTEST_APP
@@ -27,7 +27,6 @@ feature {NONE} -- Implementation
 	compile: TUPLE [
 		EL_STRING_32_TEMPLATE,
 
-		CHAIN_TEST_SET,
 		DIGEST_ROUTINES_TEST_SET, DIR_URI_PATH_TEST_SET,
 		GENERAL_TEST_SET,
 		PATH_TEST_SET, PATH_STEPS_TEST_SET,
@@ -49,12 +48,13 @@ feature {NONE} -- Implementation
 		end
 
 	evaluator_types_all: TUPLE [
+		CHAIN_TEST_EVALUATOR,
 		DATE_TEXT_TEST_EVALUATOR,
 		FILE_AND_DIRECTORY_TEST_EVALUATOR,
 		STRING_LIST_TEST_EVALUATOR,
 		SUBSTITUTION_TEMPLATE_TEST_EVALUATOR,
 		TEMPLATE_TEST_EVALUATOR,
-		ZSTRING_TEST_EVALUATOR
+		ZSTRING_TEST_EVALUATOR -- Incomplete test list
 	]
 		do
 			create Result

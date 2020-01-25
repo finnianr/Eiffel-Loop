@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-17 10:35:09 GMT (Thursday 17th October 2019)"
-	revision: "1"
+	date: "2020-01-25 15:51:31 GMT (Saturday 25th January 2020)"
+	revision: "2"
 
 class
 	UNDERBIT_ID3_STRING_LIST_FIELD
@@ -23,6 +23,8 @@ inherit
 	UNDERBIT_ID3_STRING_ROUTINES
 
 	STRING_HANDLER
+
+	EL_MODULE_ITERABLE
 
 create
 	make
@@ -53,20 +55,19 @@ feature -- Element change
 	set_list (a_list: ITERABLE [ZSTRING])
 		local
 			str_32: STRING_32; c_ucs4_array: SPECIAL [POINTER]
-			c_strings: SPECIAL [EL_C_STRING_32]
+			c_strings: SPECIAL [EL_C_STRING_32]; list_count: INTEGER
 		do
 			str_32 := once_string_32
-			if attached {FINITE [ZSTRING]} a_list as finite then
-				create c_strings.make_empty (finite.count)
-				create c_ucs4_array.make_empty (finite.count)
-				across a_list as l_list loop
-					str_32.wipe_out
-					l_list.item.append_to_string_32 (str_32)
-					c_strings.extend (str_32)
-					c_ucs4_array.extend (c_strings.item (c_strings.count - 1).base_address)
-				end
-				c_call_status := c_id3_field_setstrings (self_ptr, finite.count, c_ucs4_array.base_address)
+			list_count := Iterable.count (a_list)
+			create c_strings.make_empty (list_count)
+			create c_ucs4_array.make_empty (list_count)
+			across a_list as l_list loop
+				str_32.wipe_out
+				l_list.item.append_to_string_32 (str_32)
+				c_strings.extend (str_32)
+				c_ucs4_array.extend (c_strings.item (c_strings.count - 1).base_address)
 			end
+			c_call_status := c_id3_field_setstrings (self_ptr, list_count, c_ucs4_array.base_address)
 		ensure then
 			call_succeeded: c_call_status = 0
 		end

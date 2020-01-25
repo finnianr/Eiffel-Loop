@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 15:55:16 GMT (Friday 24th January 2020)"
-	revision: "13"
+	date: "2020-01-25 12:23:53 GMT (Saturday 25th January 2020)"
+	revision: "14"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -28,10 +28,11 @@ inherit
 			item as interval_item,
 			item_lower as item_start_index,
 			item_upper as item_end_index,
+			new_cursor as new_interval_cursor,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_empty, make_from_sub_list, new_cursor,
-			extend_buffer, extend_buffer_final, set_string
+			is_equal, make_empty, make_from_sub_list,
+			extend_buffer, set_string
 		end
 
 	EL_JOINED_STRINGS [S]
@@ -42,6 +43,15 @@ inherit
 		redefine
 			character_count
 		end
+
+	ITERABLE [S]
+		undefine
+			is_equal, copy, out
+		select
+			new_cursor
+		end
+
+	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
 
 create
 	make, make_empty, make_from_sub_list
@@ -80,6 +90,18 @@ feature -- Basic operations
 				forth
 			end
 			pop_cursor
+		end
+
+	sort (ascending: BOOLEAN)
+		local
+			quick: QUICK_SORTER [INTEGER_64]
+		do
+			create quick.make (Current)
+			if ascending then
+				quick.sort (Current)
+			else
+				quick.reverse_sort (Current)
+			end
 		end
 
 feature -- Access
@@ -267,25 +289,19 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	extend_buffer (buffer: like Intervals_buffer; a_index, search_string_count: INTEGER)
+	extend_buffer (buffer: like Intervals_buffer; search_index, search_string_count: INTEGER; final: BOOLEAN)
 		do
-			if buffer.is_empty then
-				buffer.extend (new_item (1, a_index - 1))
+			if final then
+				if search_index = 0 then
+					buffer.extend (new_item (1, string.count))
+				else
+					buffer.extend (new_item (search_index + search_string_count, string.count))
+				end
 			else
-				buffer.extend (new_item (upper_integer (buffer.last) + search_string_count + 1, a_index - 1))
-			end
-		end
-
-	extend_buffer_final (buffer: like Intervals_buffer; string_count, search_string_count: INTEGER)
-		local
-			l_index: INTEGER
-		do
-			if buffer.is_empty then
-				buffer.extend (new_item (1 , string_count))
-			else
-				l_index := upper_integer (buffer.last) + search_string_count + 1
-				if l_index <= string_count then
-					buffer.extend (new_item (l_index , string_count))
+				if buffer.is_empty then
+					buffer.extend (new_item (1, search_index - 1))
+				else
+					buffer.extend (new_item (upper_integer (buffer.last) + search_string_count + 1, search_index - 1))
 				end
 			end
 		end
@@ -295,6 +311,45 @@ feature {NONE} -- Implementation
 		do
 			update_internal_item
 			Result := internal_item
+		end
+
+	less_than (left, right: INTEGER_64): BOOLEAN
+		local
+			left_index, right_index, left_count, right_count: INTEGER
+		do
+			left_index := lower_integer (left)
+			left_count := upper_integer (right) - left_index + 1
+			right_index := lower_integer (right)
+			right_count := upper_integer (right) - right_index + 1
+
+			if right_count = left_count then
+				Result := string_strict_cmp (right_index, left_index, right_count) > 0
+			else
+				if left_count < right_count then
+					Result := string_strict_cmp (right_index, left_index, left_count) >= 0
+				else
+					Result := string_strict_cmp (right_index, left_index, right_count) > 0
+				end
+			end
+		end
+
+	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER
+		local
+			i, j, nb: INTEGER; i_code, j_code: NATURAL; done: BOOLEAN
+		do
+			from
+				i := left_index; j := right_index; nb := i + n
+			until
+				done or else i = nb
+			loop
+				i_code := string.item (i).natural_32_code
+				j_code := string.item (j).natural_32_code
+				if i_code /= j_code then
+					Result := (i_code - j_code).to_integer_32
+					done := True
+				end
+				i := i + 1; j := j + 1
+			end
 		end
 
 	update_internal_item

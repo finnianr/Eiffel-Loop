@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:33:04 GMT (Friday 24th January 2020)"
-	revision: "5"
+	date: "2020-01-25 4:13:01 GMT (Saturday 25th January 2020)"
+	revision: "6"
 
 class
 	AIA_SIGNER
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			create Result.make_signed (Current, canonical_request)
 		end
 
-	headers_list: EL_STRING_8_LIST
+	headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
 			Result := Empty_header_list
 		end
@@ -76,7 +76,7 @@ feature {NONE} -- Constants
 
 	Date_format_short: STRING = "yyyy[0]mm[0]dd"
 
-	Empty_header_list: EL_STRING_8_LIST
+	Empty_header_list: EL_SPLIT_STRING_LIST [STRING]
 		once
 			create Result.make_empty
 		end

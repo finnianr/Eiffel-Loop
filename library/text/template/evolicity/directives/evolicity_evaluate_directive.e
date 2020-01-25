@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 10:07:29 GMT (Thursday 16th January 2020)"
-	revision: "7"
+	date: "2020-01-25 17:25:53 GMT (Saturday 25th January 2020)"
+	revision: "8"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -76,6 +76,7 @@ feature -- Basic operations
 							output.put_raw_string_8 (tabs)
 						end
 						output.put_string (line.item (False))
+						output.put_new_line
 						line.forth
 					end
 				else

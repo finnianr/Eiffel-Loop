@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 11:41:25 GMT (Friday 24th January 2020)"
-	revision: "16"
+	date: "2020-01-25 4:32:46 GMT (Saturday 25th January 2020)"
+	revision: "17"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -39,18 +39,16 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified: STRING; fields: EL_STRING_8_LIST --  EL_SPLIT_STRING_LIST [STRING]
+			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]
 		do
 			make
 			modified := empty_once_string_8
 			-- Tweak `str' to make it splittable as series of assignments
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
-			
---			Finalization bug in EL_SPLIT_STRING_LIST
---			create fields.make (modified, character_string_8 (','))
---			fields.enable_left_adjust
-			create fields.make_with_separator (modified, ',', True)
+
+			create fields.make (modified, character_string_8 (','))
+			fields.enable_left_adjust
 			fields.do_all (agent set_field_from_nvp (?, '='))
 		end
 
@@ -83,11 +81,6 @@ feature -- Access
 
 	algorithm: STRING
 
-	character_count: INTEGER
-		do
-			Result := credential.key.count + signed_headers.count + signature.count
-		end
-
 	as_string: STRING
 		local
 			template: like Signed_string_template
@@ -106,9 +99,9 @@ feature -- Access
 
 	signed_headers: STRING
 
-	signed_headers_list: EL_STRING_8_LIST
+	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create Result.make_with_separator (signed_headers, Semicolon, False)
+			create Result.make (signed_headers, character_string_8 (Semicolon))
 		end
 
 feature {NONE} -- Constants
@@ -120,7 +113,7 @@ feature {NONE} -- Constants
 			Result := "DTA1-HMAC-SHA256"
 		end
 
-	Semicolon: CHARACTER_32 = ';'
+	Semicolon: CHARACTER = ';'
 
 	Signed_string_template: EL_STRING_8_TEMPLATE
 		once

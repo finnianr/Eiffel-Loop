@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 11:29:06 GMT (Thursday 10th October 2019)"
-	revision: "12"
+	date: "2020-01-25 15:42:30 GMT (Saturday 25th January 2020)"
+	revision: "13"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -16,6 +16,8 @@ inherit
 	EL_CHAIN [S]
 
 	EL_JOINED_STRINGS [S]
+
+	EL_MODULE_ITERABLE
 
 feature {NONE} -- Initialization
 
@@ -80,7 +82,7 @@ feature -- Status query
 			l_cursor: ITERATION_CURSOR [S]
 		do
 			push_cursor
-			if attached {FINITE [S]} a_list as finite and then finite.count = count then
+			if Iterable.count (a_list) = count then
 				Result := True
 				from start; l_cursor := a_list.new_cursor until after or not Result loop
 					Result := item ~ l_cursor.item
@@ -141,14 +143,12 @@ feature -- Element change
 			end
 		end
 
-	append_general (iterable: ITERABLE [READABLE_STRING_GENERAL])
+	append_general (list: ITERABLE [READABLE_STRING_GENERAL])
 		local
 			string: S
 		do
-			if attached {FINITE [READABLE_STRING_GENERAL]} iterable as finite then
-				grow (count + finite.count)
-			end
-			across iterable as general loop
+			grow (count + Iterable.count (list))
+			across list as general loop
 				if attached {S} general.item as str then
 					string := str
 				else

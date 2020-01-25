@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:32:59 GMT (Tuesday 10th September 2019)"
-	revision: "11"
+	date: "2020-01-25 15:43:47 GMT (Saturday 25th January 2020)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -90,7 +90,7 @@ note
 							[$source RBOX_CORTINA_SONG]
 								[$source RBOX_CORTINA_TEST_SONG]
 							[$source RBOX_TEST_SONG]
-								[$source RBOX_CORTINA_TEST_SONG]
+					rou			[$source RBOX_CORTINA_TEST_SONG]
 				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
 					[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
 						[$source TASK_CONFIG]

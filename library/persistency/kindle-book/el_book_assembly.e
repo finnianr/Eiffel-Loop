@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:15:01 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-01-25 18:23:27 GMT (Saturday 25th January 2020)"
+	revision: "6"
 
 class
 	EL_BOOK_ASSEMBLY
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_info: EL_BOOK_INFO; a_chapter_list: FINITE [EL_BOOK_CHAPTER]; a_output_dir: EL_DIR_PATH)
+	make (a_info: EL_BOOK_INFO; a_chapter_list: ITERABLE [EL_BOOK_CHAPTER]; a_output_dir: EL_DIR_PATH)
 		do
 			make_from_values (a_chapter_list, agent {EL_BOOK_CHAPTER}.number)
 			output_dir := a_output_dir

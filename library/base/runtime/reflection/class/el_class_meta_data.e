@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-30 11:32:36 GMT (Monday 30th December 2019)"
-	revision: "19"
+	date: "2020-01-25 15:09:52 GMT (Saturday 25th January 2020)"
+	revision: "20"
 
 class
 	EL_CLASS_META_DATA
@@ -116,6 +116,13 @@ feature -- Comparison
 
 feature {NONE} -- Factory
 
+	new_field_factory (type: TYPE [EL_REFLECTED_FIELD]): EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD]
+		do
+			if attached {like new_field_factory} Eiffel.new_factory_instance ({like new_field_factory}, type) as new then
+				Result := new
+			end
+		end
+
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		do
 			if field_names.is_empty then
@@ -174,10 +181,13 @@ feature {NONE} -- Factory
 
 	new_reflected_field_for_type (type: TYPE [EL_REFLECTED_FIELD]; index: INTEGER; name: STRING): EL_REFLECTED_FIELD
 		do
-			if attached {EL_REFLECTED_FIELD} Eiffel.new_instance_of (type.type_id) as new_field then
-				Result := new_field
-				Result.make (enclosing_object, index, name)
+			if attached new_field_factory (type) as factory then
+				Result := factory.new_item (enclosing_object, index, name)
+			else
+				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 			end
+		ensure
+			same_type: Result.generating_type ~ type
 		end
 
 feature {NONE} -- Internal attributes
@@ -204,6 +214,18 @@ feature {NONE} -- Constants
 			Result := 100
 		end
 
+	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
+		once
+			Result := <<
+				String_type_table,
+				Boolean_ref_type_table,
+				Makeable_from_string_type_table,
+				String_convertable_type_table,
+				String_collection_type_table,
+				Numeric_collection_type_table,
+				Other_collection_type_table
+			>>
+		end
 	frozen Expanded_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
 		once
 			create Result.make_filled ({EL_REFLECTED_CHARACTER_8}, 0, 16)
@@ -232,16 +254,4 @@ feature {NONE} -- Constants
 				Result [Pointer_type] := {EL_REFLECTED_POINTER}
 			end
 
-	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
-		once
-			Result := <<
-				String_type_table,
-				Boolean_ref_type_table,
-				Makeable_from_string_type_table,
-				String_convertable_type_table,
-				String_collection_type_table,
-				Numeric_collection_type_table,
-				Other_collection_type_table
-			>>
-		end
 end

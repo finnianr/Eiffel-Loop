@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 10:02:26 GMT (Saturday 28th December 2019)"
-	revision: "14"
+	date: "2020-01-25 12:49:34 GMT (Saturday 25th January 2020)"
+	revision: "15"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -63,14 +63,10 @@ feature {NONE} -- Initialization
 			append_tuple (tuple)
 		end
 
-	make_from_general (iterable: ITERABLE [READABLE_STRING_GENERAL])
+	make_from_general (list: ITERABLE [READABLE_STRING_GENERAL])
 		do
-			if attached {FINITE [READABLE_STRING_GENERAL]} iterable as finite then
-				make (finite.count)
-			else
-				make (0)
-			end
-			append_general (iterable)
+			make (Iterable.count (list))
+			append_general (list)
 		end
 
 feature -- Access

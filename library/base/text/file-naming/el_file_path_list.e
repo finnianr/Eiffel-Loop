@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 17:02:42 GMT (Friday 27th December 2019)"
-	revision: "11"
+	date: "2020-01-25 15:40:47 GMT (Saturday 25th January 2020)"
+	revision: "12"
 
 class
 	EL_FILE_PATH_LIST
@@ -25,20 +25,18 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_ITERABLE
+
 create
 	make, make_empty, make_with_count, make_from_array, make_from_tuple
 
 feature {NONE} -- Initialization
 
 	make (list: ITERABLE [EL_FILE_PATH])
-		require
-			finite: attached {FINITE [EL_FILE_PATH]} list
 		do
-			if attached {FINITE [EL_FILE_PATH]} list as finite then
-				make_with_count (finite.count)
-				across list as it loop
-					extend (it.item)
-				end
+			make_with_count (Iterable.count (list))
+			across list as l_path loop
+				extend (l_path.item)
 			end
 		end
 

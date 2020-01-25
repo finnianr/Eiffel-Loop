@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:57:16 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2020-01-24 19:53:38 GMT (Friday 24th January 2020)"
+	revision: "9"
 
 class
 	EL_RSA_ROUTINES
