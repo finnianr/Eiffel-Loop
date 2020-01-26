@@ -6,14 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 14:22:47 GMT (Friday 18th January 2019)"
-	revision: "2"
+	date: "2020-01-26 13:54:41 GMT (Sunday 26th January 2020)"
+	revision: "3"
 
 class
 	EL_HYPERLINK
-
-inherit
-	COMPARABLE
 
 create
 	make, make_default
@@ -46,19 +43,6 @@ feature -- Status query
 	is_navigable: BOOLEAN
 		do
 			Result := not href.is_empty
-		end
-
-feature -- Comparison
-
-	is_less alias "<" (other: like Current): BOOLEAN
-		do
-			if text.is_empty or other.text.is_empty then
-				Result := text < other.text
-			elseif text.item (1).as_lower = other.text.item (1).as_lower then
-				Result := text < other.text
-			else
-				Result := text.item (1).as_lower < other.text.item (1).as_lower
-			end
 		end
 
 feature -- Element change

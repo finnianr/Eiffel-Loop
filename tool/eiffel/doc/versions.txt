@@ -1,3 +1,6 @@
+1.0.40
+Fixes to ZSTRING and EL_SPLIT_STRING
+
 1.0.38
 Updated EIFFEL_CONFIGURATION_FILE source directories to be a set and not a list
 

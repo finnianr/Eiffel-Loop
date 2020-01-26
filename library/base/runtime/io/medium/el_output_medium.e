@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 17:09:01 GMT (Friday 24th January 2020)"
-	revision: "16"
+	date: "2020-01-26 14:33:34 GMT (Sunday 26th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -121,15 +121,16 @@ feature -- String output
 		require
 			valid_indent: across indent as c all c.item = '%T' or else c.item = ' ' end
 		local
-			first: BOOLEAN
+			not_first: BOOLEAN
 		do
 			if position = 0 then
 				put_bom
 			end
-			first := True
 			across lines as line loop
-				if not first then
-					put_new_line; first := False
+				if not_first then
+					put_new_line
+				else
+					not_first := True
 				end
 				if not indent.is_empty then -- Necessary for Network stream
 					put_raw_string_8 (indent)

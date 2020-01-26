@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 9:30:55 GMT (Thursday 16th January 2020)"
-	revision: "9"
+	date: "2020-01-26 18:49:59 GMT (Sunday 26th January 2020)"
+	revision: "10"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -44,6 +44,7 @@ feature {NONE} -- Tests
 			log.enter ("send_file")
 			create server.make
 			server.launch
+			Execution_environment.sleep (100)
 
 			create socket.make_client_by_port (8000, "localhost")
 			socket.set_latin_encoding (1)

@@ -1,3 +1,6 @@
+1.2.28
+Fixes to ZSTRING and EL_SPLIT_STRING
+
 1.2.25
 Removed translations compiler
 

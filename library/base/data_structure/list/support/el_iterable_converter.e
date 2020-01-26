@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:59:34 GMT (Saturday 25th January 2020)"
-	revision: "2"
+	date: "2020-01-26 12:28:16 GMT (Sunday 26th January 2020)"
+	revision: "3"
 
 class
 	EL_ITERABLE_CONVERTER [F, G]

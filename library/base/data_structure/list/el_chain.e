@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:39:55 GMT (Saturday 25th January 2020)"
-	revision: "23"
+	date: "2020-01-26 15:17:23 GMT (Sunday 26th January 2020)"
+	revision: "25"
 
 deferred class EL_CHAIN [G]
 
@@ -350,8 +350,7 @@ feature -- Element change
 				go_i_th (new_index)
 			end
 		ensure
---			Cannot use this post-condition as evaluating it causes a contract violation
-			same_item: (old off) or else (old item) = item
+			same_item: old off or else old item_or_void = item
 		end
 
 feature -- Removal
@@ -396,6 +395,13 @@ feature -- Contract Support
 		do
 			if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
 				Result := new
+			end
+		end
+
+	item_or_void: like item
+		do
+			if not off then
+				Result := item
 			end
 		end
 

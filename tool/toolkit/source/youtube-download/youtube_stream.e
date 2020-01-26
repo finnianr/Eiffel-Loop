@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 14:34:54 GMT (Wednesday 17th October 2018)"
-	revision: "4"
+	date: "2020-01-26 14:39:17 GMT (Sunday 26th January 2020)"
+	revision: "5"
 
 class
 	YOUTUBE_STREAM
@@ -35,22 +35,22 @@ feature {NONE} -- Initialization
 			description := info_line
 			create parts.make (info_line.as_canonically_spaced, character_string (' '))
 			parts.start
-			if parts.item.is_integer then
+			if parts.item (False).is_integer then
 				from until parts.after loop
 					inspect parts.index
 						when 1 then
-							code := parts.item.to_natural
+							code := parts.natural_item
 						when 2 then
-							extension := parts.item.twin
+							extension := parts.item (True)
 						when 3 then
-							if parts.item ~ Audio then
+							if parts.same_item_as (Audio) then
 								type := Audio
-							elseif parts.item.has ('x') then
-								resolution_x_y := parts.item.twin
+							elseif parts.item (False).has ('x') then
+								resolution_x_y := parts.item (True)
 								resolution_x := resolution_x_y.split ('x').first.to_integer
 							end
 					else
-						if parts.item ~ Video then
+						if parts.same_item_as (Video) then
 							type := Video
 						end
 					end

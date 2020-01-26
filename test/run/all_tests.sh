@@ -19,6 +19,8 @@ $do_test -object_builder
 
 $do_test -xdoc_scanning_autotest
 
+$do_test -xml_to_pyxis_test
+
 $do_test -eros_autotest
 
 

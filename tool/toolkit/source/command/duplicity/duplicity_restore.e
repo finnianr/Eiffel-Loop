@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-15 4:36:33 GMT (Saturday 15th June 2019)"
-	revision: "8"
+	date: "2020-01-26 14:39:17 GMT (Sunday 26th January 2020)"
+	revision: "9"
 
 class
 	DUPLICITY_RESTORE
@@ -75,8 +75,8 @@ feature {NONE} -- Implementation
 				l_name := path.item.base
 				create parts.make (l_name, character_string ('.'))
 				from parts.finish; found := false until found or parts.before loop
-					if parts.item.ends_with_character ('Z') then
-						l_date := Date.from_iso_8601_formatted (parts.item.to_latin_1).date
+					if parts.item (False).ends_with_character ('Z') then
+						l_date := Date.from_iso_8601_formatted (parts.item (False).to_latin_1).date
 						if not Result.has (l_date) then
 							Result.extend (l_date)
 						end

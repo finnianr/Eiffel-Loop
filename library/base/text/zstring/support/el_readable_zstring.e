@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-15 17:48:56 GMT (Wednesday 15th January 2020)"
-	revision: "39"
+	date: "2020-01-26 13:42:43 GMT (Sunday 26th January 2020)"
+	revision: "40"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -94,6 +94,7 @@ inherit
 			insert as insert_unencoded,
 			item as unencoded_item,
 			last_index_of as unencoded_last_index_of,
+			last_upper as unencoded_last_upper,
 			make as make_unencoded,
 			make_from_other as make_unencoded_from_other,
 			not_empty as has_mixed_encoding,
@@ -380,31 +381,14 @@ feature -- Access
 			internal_share (other)
 			unencoded_area := other.unencoded_area
 		end
-
-	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+	
+	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
 			-- substring intervals of `Current' split with `delimiter'
-		local
-			intervals: like substring_intervals
-			last_interval: INTEGER_64; l_last_upper: INTEGER
 		do
-			intervals := substring_intervals (delimiter)
-			if intervals.is_empty then
-				create Result.make (1)
-				Result.extend (1, count)
+			if attached {ZSTRING} Current as zstr then
+				create Result.make (zstr, delimiter)
 			else
-				create Result.make (intervals.count + 1)
-				last_interval := Result.new_item (1, 0)
-				from intervals.start until intervals.after loop
-					Result.item_extend (intervals.between (last_interval))
-					last_interval := intervals.item
-					intervals.forth
-				end
-				l_last_upper := intervals.last_upper
-				if l_last_upper < count then
-					Result.extend (l_last_upper + 1, count)
-				else
-					Result.extend (count + 1, count)
-				end
+				create Result.make_empty
 			end
 		end
 
@@ -1284,17 +1268,10 @@ feature -- Conversion
 			Result.append_substring (Current, previous_marker_pos + 1, count)
 		end
 
-	substring_split (delimiter: EL_READABLE_ZSTRING): ARRAYED_LIST [like Current]
-			-- split string on substring delimiter
-		local
-			intervals: like split_intervals
+	substring_split (delimiter: EL_READABLE_ZSTRING): EL_STRING_LIST [ZSTRING]
+		-- split string on substring delimiter
 		do
-			intervals := split_intervals (delimiter)
-			create Result.make (intervals.count)
-			from intervals.start until intervals.after loop
-				Result.extend (substring (intervals.item_lower, intervals.item_upper))
-				intervals.forth
-			end
+			Result := split_intervals (delimiter).as_list
 		end
 
 	to_canonically_spaced
@@ -1531,8 +1508,12 @@ feature {EL_READABLE_ZSTRING} -- Removal
 		do
 			old_count := count
 			internal_keep_head (n)
-			if n < old_count and then has_mixed_encoding then
-				set_from_extendible_unencoded (unencoded_substring (1, n))
+			if has_mixed_encoding and then unencoded_last_upper > n then
+				if n = 0 then
+					make_unencoded
+				else
+					set_from_extendible_unencoded (unencoded_substring (1, n))
+				end
 			end
 		ensure then
 			valid_unencoded: is_unencoded_valid
@@ -1547,7 +1528,11 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			old_count := count
 			internal_keep_tail (n)
 			if n < old_count and then has_mixed_encoding then
-				set_from_extendible_unencoded (unencoded_substring (old_count - n + 1, old_count))
+				if n = 0 then
+					make_unencoded
+				else
+					set_from_extendible_unencoded (unencoded_substring (old_count - n + 1, old_count))
+				end
 			end
 		ensure then
 			valid_unencoded: is_unencoded_valid
@@ -1973,20 +1958,24 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 			i, j, l_lower, l_upper, l_count, l_sum_count, array_count: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
-			l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
-			Result := True
-			if array_count > 0 then
-				from i := 0 until not Result or else  i = array_count loop
-					l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
-					l_count := l_upper - l_lower + 1
-					from j := l_lower until not Result or else j > l_upper loop
-						Result := Result and l_area [j - 1] = Unencoded_character
-						j := j + 1
+			if is_empty then
+				Result := not has_mixed_encoding
+			else
+				l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
+				Result := unencoded_last_upper <= count
+				if array_count > 0 then
+					from i := 0 until not Result or else  i = array_count loop
+						l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
+						l_count := l_upper - l_lower + 1
+						from j := l_lower until not Result or else j > l_upper loop
+							Result := Result and l_area [j - 1] = Unencoded_character
+							j := j + 1
+						end
+						l_sum_count := l_sum_count + l_count
+						i := i + l_count + 2
 					end
-					l_sum_count := l_sum_count + l_count
-					i := i + l_count + 2
+					Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
 				end
-				Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
 			end
 		end
 

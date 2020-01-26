@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:06:53 GMT (Saturday 25th January 2020)"
-	revision: "6"
+	date: "2020-01-26 14:54:36 GMT (Sunday 26th January 2020)"
+	revision: "7"
 
 class
 	CHAIN_TEST_SET
@@ -107,14 +107,18 @@ feature -- Test
 
 			across << ordered_1, ordered_2 >> as list loop
 				previous := "0"
+				if list.item = ordered_1 then
+					lio.put_line ("Widget_list.ordered_by")
+				else
+					lio.put_line ("ordered_2.order_by")
+				end
 				across list.item as widget loop
-					lio.put_labeled_string (widget.item.out, widget.item.color_name)
-					lio.put_new_line
+					lio.put_line (widget.item.color_name)
 					assert ("color_name >= previous", widget.item.color_name >= previous)
 					previous := widget.item.color_name
 				end
+				lio.put_new_line
 			end
-
 		end
 
 	test_order_by_weight

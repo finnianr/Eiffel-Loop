@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:34:18 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2020-01-26 13:59:07 GMT (Sunday 26th January 2020)"
+	revision: "12"
 
 class
 	EL_HTML_TEXT
@@ -98,7 +98,7 @@ feature -- Access
 
 	link_text_color: EL_COLOR
 
-	external_links: EL_SORTABLE_ARRAYED_LIST [EL_HYPERLINK]
+	external_links: EL_ARRAYED_LIST [EL_HYPERLINK]
 
 	navigation_links: ARRAYED_LIST [EL_HTML_TEXT_HYPERLINK_AREA]
 		local
@@ -248,7 +248,7 @@ feature {NONE} -- Xpath event handlers
 				format_paragraph (interval.lower, interval.upper, block.item.format.paragraph)
 				offset := offset + block.item.count
 			end
-			external_links.sort
+			external_links.order_by (agent link_name_as_lower, True)
 		end
 
 	on_line_break
@@ -321,6 +321,12 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 					Result.extend (header)
 				end
 			end
+		end
+
+	link_name_as_lower (link: like external_links.item): ZSTRING
+		-- sort routine for `external_links'
+		do
+			Result := link.text.as_lower
 		end
 
 	scroll_to_heading_line (heading_caret_position: INTEGER)
