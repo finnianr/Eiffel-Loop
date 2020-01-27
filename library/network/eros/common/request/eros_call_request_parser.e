@@ -1,12 +1,12 @@
 note
 	description: "[
-		parse something like: 
+		Parse call expression like for example:
 		
-			{MY_CLASS}.my_routine (1, {E2X_VECTOR_COMPLEX_DOUBLE}, 0.1, 2.3e-15, 'hello')
+			{MY_CLASS}.my_routine (1, {COLUMN_VECTOR_COMPLEX_64}, 0.1, 2.3e-15, 'hello')
 		OR
 			{MY_CLASS}.my_routine
 			
-		Note: `E2X_VECTOR_COMPLEX_DOUBLE' is an example of a place holder for an instance of a class
+		Note: `COLUMN_VECTOR_COMPLEX_64' is an example of a place holder for an instance of a class
 		deserialized from XML
 	]"
 
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 9:57:59 GMT (Tuesday 21st January 2020)"
-	revision: "7"
+	date: "2020-01-27 9:47:08 GMT (Monday 27th January 2020)"
+	revision: "8"
 
 class
 	EROS_CALL_REQUEST_PARSER

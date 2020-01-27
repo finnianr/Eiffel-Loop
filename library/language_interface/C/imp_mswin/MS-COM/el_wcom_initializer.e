@@ -6,29 +6,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-27 16:25:40 GMT (Monday 27th January 2020)"
+	revision: "5"
 
 class
 	EL_WCOM_INITIALIZER
 
 inherit
 	EL_INITIALIZEABLE
+		redefine
+			make
+		end
+
+	DISPOSABLE
 		rename
-			uninitialize as c_com_uninitialize
+			dispose as c_com_uninitialize
 		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
-			-- 
+	make
+			--
 		do
-			is_initialized := c_com_initialize (Default_pointer) >= 0
+			if c_com_initialize (Default_pointer) >= 0 then
+				set_initialized
+			end
 		end
-		
+
 feature {NONE} -- C externals
 
 	c_com_initialize (v_reserved: POINTER): INTEGER
@@ -38,13 +45,20 @@ feature {NONE} -- C externals
 		alias
 			"CoInitialize"
 		end
-		
+
 	c_com_uninitialize
 			-- void CoUninitialize ();
 		external
 			"C | <objbase.h>"
 		alias
 			"CoUninitialize"
+		end
+
+feature {NONE} -- Constants
+
+	Initialization_mask_table: HASH_TABLE [NATURAL, INTEGER]
+		once
+			create Result.make (3)
 		end
 
 end

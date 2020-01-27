@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 10:56:06 GMT (Wednesday 22nd January 2020)"
-	revision: "18"
+	date: "2020-01-27 16:51:07 GMT (Monday 27th January 2020)"
+	revision: "20"
 
 class
 	EROS_CALL_REQUEST_HANDLER
@@ -53,8 +53,6 @@ inherit
 		end
 
 	EL_THREAD_CONSTANTS
-
-	EL_MODULE_EIFFEL
 
 	EROS_SHARED_ERROR
 

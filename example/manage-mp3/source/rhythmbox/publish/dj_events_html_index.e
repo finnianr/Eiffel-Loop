@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 11:50:29 GMT (Thursday 26th September 2019)"
-	revision: "7"
+	date: "2020-01-26 19:13:38 GMT (Sunday 26th January 2020)"
+	revision: "8"
 
 class
 	DJ_EVENTS_HTML_INDEX
@@ -41,10 +41,10 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	events_ordered_by_date: EL_SORTABLE_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
+	events_ordered_by_date: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
+		-- reverse chronological order
 		do
-			create Result.make_from_array (dj_events)
-			Result.sort
+			Result := dj_events.ordered_by (agent {DJ_EVENT_PLAYLIST}.date, False)
 		end
 
 feature {NONE} -- Evolicity fields
@@ -75,6 +75,6 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Internal attributes
 
-	dj_events: ARRAY [DJ_EVENT_PLAYLIST]
+	dj_events: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 
 end

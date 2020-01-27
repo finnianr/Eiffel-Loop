@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:16:41 GMT (Friday 24th January 2020)"
-	revision: "23"
+	date: "2020-01-27 17:45:13 GMT (Monday 27th January 2020)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTIVE
@@ -220,10 +220,10 @@ feature {EL_CLASS_META_DATA} -- Implementation
 			Result := Current
 		end
 
-	new_instance_functions: ARRAY [FUNCTION [ANY]]
+	new_instance_functions: like Default_initial_values
 		-- array of functions returning a new value for result type
 		do
-			create Result.make_empty
+			Result := Default_initial_values
 		end
 
 	field_included (basic_type, type_id: INTEGER): BOOLEAN
@@ -289,6 +289,12 @@ feature {EL_CLASS_META_DATA} -- Constants
 	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT
 		once
 			create Result.make (Current)
+		end
+
+	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
+		-- array of functions returning a new value for result type
+		once
+			create Result.make_empty
 		end
 
 note

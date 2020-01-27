@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:46:07 GMT (Sunday 22nd December 2019)"
-	revision: "14"
+	date: "2020-01-26 19:13:53 GMT (Sunday 26th January 2020)"
+	revision: "15"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -20,11 +20,6 @@ inherit
 			make as make_playlist
 		redefine
 			replace_cortinas, replace_song
-		end
-
-	COMPARABLE
-		undefine
-			copy, is_equal
 		end
 
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_PYXIS
@@ -158,14 +153,6 @@ feature -- Status query
 
 	is_publishable: BOOLEAN
 		-- False if @ignore is set to true in DJ event list
-
-feature -- Comparison
-
-	is_less alias "<" (other: like Current): BOOLEAN
-			-- reverse chronological order
-		do
-			Result := date > other.date
-		end
 
 feature -- Element change
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:26:30 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-01-27 14:49:41 GMT (Monday 27th January 2020)"
+	revision: "8"
 
 class
 	FRACTAL_MODEL_WORLD
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 			create root_image
 			create opacity_graduation
-			create root_image_at_top.make (True, agent invert_layers)
+			create root_image_at_top.make_with_action (True, agent invert_layers)
 
 			create rectangle.make_rectangle (0, 0, l_dimensions.width, l_dimensions.height)
 			rectangle.set_background_color (Color.Gray)

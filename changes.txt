@@ -154,3 +154,6 @@ Add keep_ref argument to {EL_SPLIT_STRING_LIST}.item
 Sat 25th Jan 2020, 18:34:50
 new routine {EL_INTERNAL}.new_factory_instance and new helper routines for managing ITERABLE's
 
+Sun 26th Jan 2020, 19:04:16
+Fixed keep_head bug in ZSTRING for mixed encodings
+

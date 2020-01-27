@@ -1,13 +1,32 @@
 note
-	description: "Eros request"
+	description: "[
+		Format EROS request something like:
+			
+			<?xml version="1.0" encoding="ISO-8859-1"?>
+			<?create $generator?>
+			<vector-complex>
+				<row..
+			</vector-complex>
+			<?call {MY_CLASS}.my_routine (1, {COLUMN_VECTOR_COMPLEX_64}, 0.1, 2.3e-15, 'hello')?>
+		OR
+			<?call{MY_CLASS}.my_routine?>
+
+		Note: `COLUMN_VECTOR_COMPLEX_64' is an example of a place holder for an instance of a class
+		deserialized from XML
+	]"
+	notes: "[
+		String arguments for now, use single quotes, are not escaped, and limited to ASCII characters.
+		Ideally they should be implemented as XML escaped strings using double quotes. The escape character
+		for a double quote in a string could be the usual `%"'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 17:18:01 GMT (Saturday 25th January 2020)"
-	revision: "13"
+	date: "2020-01-27 9:44:31 GMT (Monday 27th January 2020)"
+	revision: "14"
 
 class
 	EROS_REMOTE_REQUEST

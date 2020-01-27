@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 16:40:21 GMT (Friday 24th January 2020)"
-	revision: "9"
+	date: "2020-01-27 17:44:28 GMT (Monday 27th January 2020)"
+	revision: "10"
 
 class
 	TEST_CONFIGURATION
@@ -42,11 +42,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_instance_functions: ARRAY [FUNCTION [ANY]]
+	new_instance_functions: like Default_initial_values
 		do
-			Result := <<
+			create Result.make_from_array (<<
 				agent: like values do create Result.make_default end
-			>>
+			>>)
 		end
 
 feature -- Access

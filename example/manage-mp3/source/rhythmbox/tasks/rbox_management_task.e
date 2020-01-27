@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-19 18:33:26 GMT (Thursday 19th September 2019)"
-	revision: "5"
+	date: "2020-01-27 17:58:04 GMT (Monday 27th January 2020)"
+	revision: "6"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -94,15 +94,15 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	new_instance_functions: ARRAY [FUNCTION [ANY]]
+	new_instance_functions: like Default_initial_values
 		do
-			Result := <<
+			create Result.make_from_array (<<
 				agent: VOLUME_INFO do create Result.make end,
 				agent: PLAYLIST_EXPORT_INFO do create Result.make end,
 				agent: DJ_EVENT_INFO do create Result.make end,
 				agent: CORTINA_SET_INFO do create Result.make end,
 				agent: DJ_EVENT_PUBLISHER_CONFIG do create Result.make end
-			>>
+			>>)
 		end
 
 	root_node_name: STRING

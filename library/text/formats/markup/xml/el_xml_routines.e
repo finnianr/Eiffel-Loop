@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 11:21:28 GMT (Wednesday 31st October 2018)"
-	revision: "7"
+	date: "2020-01-26 18:59:25 GMT (Sunday 26th January 2020)"
+	revision: "8"
 
 class
 	EL_XML_ROUTINES
@@ -25,7 +25,7 @@ inherit
 feature -- Measurement
 
 	data_payload_character_count (xml_text: ZSTRING): INTEGER
-			-- approximate count of text between tags
+		-- approximate count of text between tags
 		local
 			end_tag_list: EL_SEQUENTIAL_INTERVALS; data_from, data_to, i: INTEGER
 			has_data: BOOLEAN

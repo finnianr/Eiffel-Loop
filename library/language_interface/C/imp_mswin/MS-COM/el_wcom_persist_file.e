@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-01-27 16:18:09 GMT (Monday 27th January 2020)"
+	revision: "5"
 
 class
 	EL_WCOM_PERSIST_FILE
@@ -18,7 +18,22 @@ inherit
 	EL_SHELL_LINK_API
 
 create
-	make_from_pointer, default_create
+	make, default_create
+
+feature {NONE}  -- Initialization
+
+	make (shell_link: EL_SHELL_LINK)
+			-- Creation
+		local
+			this: POINTER
+		do
+			initialize_library
+			if is_attached (shell_link.self_ptr)
+				and then call_succeeded (cpp_create_IPersistFile (shell_link.self_ptr, $this))
+			then
+				make_from_pointer (this)
+			end
+		end
 
 feature -- Basic operations
 

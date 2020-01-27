@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 18:13:29 GMT (Saturday 25th January 2020)"
-	revision: "3"
+	date: "2020-01-27 18:28:51 GMT (Monday 27th January 2020)"
+	revision: "4"
 
 class
 	EL_MAKEABLE_OBJECT_FACTORY
@@ -39,6 +39,15 @@ feature -- Factory
 		do
 			if attached new_cell (type) as cell then
 				Result := cell.new_item
+			end
+		end
+
+	new_item_from_type_id (a_type_id: INTEGER): detachable EL_MAKEABLE
+		require
+			valid_type: valid_type_id (a_type_id)
+		do
+			if attached {TYPE [EL_MAKEABLE]} Eiffel.type_of_type (a_type_id) as type_id then
+				Result := new_item_from_type (type_id)
 			end
 		end
 

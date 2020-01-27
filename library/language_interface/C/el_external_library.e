@@ -6,16 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-01-27 15:56:48 GMT (Monday 27th January 2020)"
+	revision: "5"
 
 deferred class
-	EL_EXTERNAL_LIBRARY [G -> EL_INITIALIZEABLE create default_create end]
+	EL_EXTERNAL_LIBRARY [G -> EL_INITIALIZEABLE create make end]
 
 inherit
 	EL_SHARED_INITIALIZER [G]
-		rename
-			initialize as initialize_library
+
+feature {NONE}  -- Initialization
+
+	initialize_library
+		local
+			l_item: like item
+		do
+			l_item := item
 		end
 
 end

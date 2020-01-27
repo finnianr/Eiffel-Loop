@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 13:57:52 GMT (Thursday 3rd October 2019)"
-	revision: "6"
+	date: "2020-01-26 19:08:37 GMT (Sunday 26th January 2020)"
+	revision: "7"
 
 class
 	EL_REFLECTED_FIELD_ARRAY
 
 inherit
-	ARRAY [EL_REFLECTED_FIELD]
+	SORTABLE_ARRAY [EL_REFLECTED_FIELD]
 		rename
 			make as make_for_range,
 			make_from_array as make
@@ -87,15 +87,6 @@ feature -- Basic operations
 				end
 				i := i + 1
 			end
-		end
-
-	sort
-		-- alphabetically by `item.name'
-		local
-			l_array: SORTABLE_ARRAY [like item]
-		do
-			create l_array.make_from_array (Current)
-			l_array.sort
 		end
 
 end

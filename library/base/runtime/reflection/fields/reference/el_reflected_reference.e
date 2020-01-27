@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 16:24:30 GMT (Tuesday 10th September 2019)"
-	revision: "12"
+	date: "2020-01-27 18:47:08 GMT (Monday 27th January 2020)"
+	revision: "13"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -47,12 +47,6 @@ feature -- Status query
 
 	Is_expanded: BOOLEAN = False
 
-	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
-		do
-			enclosing_object := a_object
-			Result := attached reference_field (index)
-		end
-
 	is_initializeable: BOOLEAN
 		-- `True' when it is possible to create an initialized instance of the field
 
@@ -65,7 +59,20 @@ feature -- Status query
 
 		end
 
+	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			enclosing_object := a_object
+			Result := attached reference_field (index)
+		end
+
 feature -- Basic operations
+
+	initialize (a_object: EL_REFLECTIVE)
+		require else
+			initializeable: is_initializeable
+		do
+			set (a_object, new_instance)
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		local
@@ -81,13 +88,6 @@ feature -- Basic operations
 		do
 			enclosing_object := a_object
 			set_reference_field (index, a_value)
-		end
-
-	initialize (a_object: EL_REFLECTIVE)
-		require else
-			initializeable: is_initializeable
-		do
-			set (a_object, new_instance)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
@@ -120,26 +120,32 @@ feature {NONE} -- Implementation
 	new_instance: G
 		-- new initialized instance of field
 		local
-			new: FUNCTION [ANY]; is_assigned: BOOLEAN
+			new_func: FUNCTION [ANY]; is_assigned: BOOLEAN
 		do
 			if New_instance_table.has_key (type_id) then
-				new := New_instance_table.found_item
-				new.apply
-				if attached {G} new.last_result as l_new then
-					Result := l_new
+				new_func := New_instance_table.found_item
+				new_func.apply
+				if attached {G} new_func.last_result as new then
+					Result := new
 					is_assigned := True
 				end
 			end
-			if not is_assigned then
-				if attached {G} Eiffel.new_instance_of (type_id) as l_new then
-					if attached {EL_MAKEABLE_FROM_STRING_GENERAL} l_new as m then
-						m.make_default
-					elseif attached {EL_MAKEABLE} l_new as m then
-						m.make
-					end
-					Result := l_new
-				end
+			if not is_assigned
+				and then Makeable_factory.valid_type_id (type_id) -- conforms to EL_MAKEABLE
+				and then attached {G} Makeable_factory.new_item_from_type_id (type_id) as new
+			then
+				Result := new
+			elseif attached {G} Eiffel.new_instance_of (type_id) as new then
+				-- Uninitialized
+				Result := new
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Makeable_factory: EL_MAKEABLE_OBJECT_FACTORY
+		once
+			create Result
 		end
 
 note

@@ -8,7 +8,7 @@ note
 		Override `use_default_values' to return `False' if the default values set
 		by `set_default_values' is not required.
 	]"
-	tests: "Class [$source REFLECTIVE_TEST_SET]"
+	tests: "Class [$source REFLECTION_TEST_SET]"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:32 GMT (Friday 4th October 2019)"
-	revision: "18"
+	date: "2020-01-27 14:16:42 GMT (Monday 27th January 2020)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -114,11 +114,8 @@ note
 					[$source AIA_PURCHASE_REQUEST]
 						[$source AIA_REVOKE_REQUEST]
 				[$source PP_TRANSACTION]
-					[$source PAYPAL_TRANSACTION]
 				[$source EL_COOKIE_SETTABLE]*
-					[$source LICENSE_INFO]
 				[$source PP_ADDRESS]
-					[$source ADDRESS]
 				[$source PP_PRODUCT_INFO]
 				[$source FCGI_HTTP_HEADERS]
 				[$source EL_REFLECTIVELY_SETTABLE_STORABLE]*

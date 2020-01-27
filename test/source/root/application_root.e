@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 14:41:58 GMT (Tuesday 21st January 2020)"
-	revision: "32"
+	date: "2020-01-26 21:58:56 GMT (Sunday 26th January 2020)"
+	revision: "33"
 
 class
 	APPLICATION_ROOT
@@ -107,7 +107,6 @@ feature {NONE} -- Constants
 		RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP,
 		PYXIS_TO_XML_TEST_APP,
 		XDOC_SCANNING_AUTOTEST_APP
-
 	]
 		once
 			create Result

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-01-27 16:17:16 GMT (Monday 27th January 2020)"
+	revision: "7"
 
 class
 	EL_SHELL_LINK
 
 inherit
 	EL_WCOM_OBJECT
+		export
+			{EL_WCOM_PERSIST_FILE} self_ptr
+		end
 
 	EL_SHELL_LINK_API
 
@@ -30,10 +33,8 @@ feature {NONE}  -- Initialization
 			initialize_library
 			if call_succeeded (c_create_IShellLinkW ($this)) then
 				make_from_pointer (this)
-				persist_file := create_persist_file
-			else
-				create persist_file
 			end
+			create persist_file.make (Current)
 		end
 
 feature -- Basic operations
@@ -110,17 +111,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	create_persist_file: EL_WCOM_PERSIST_FILE
-		local
-			this: POINTER
-		do
-			if call_succeeded (cpp_create_IPersistFile (self_ptr, $this)) then
-				create Result.make_from_pointer (this)
-			else
-				create Result
-			end
-		end
 
 	persist_file: EL_WCOM_PERSIST_FILE
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 14:48:00 GMT (Sunday 26th January 2020)"
-	revision: "67"
+	date: "2020-01-27 16:36:55 GMT (Monday 27th January 2020)"
+	revision: "68"
 
 class
 	BASE_AUTOTEST_APP
@@ -25,7 +25,7 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
+		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL], EL_INITIALIZEABLE,
 
 		DIGEST_ROUTINES_TEST_SET, DIR_URI_PATH_TEST_SET,
 		GENERAL_TEST_SET,

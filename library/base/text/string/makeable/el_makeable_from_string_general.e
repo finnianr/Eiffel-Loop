@@ -23,13 +23,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-04 12:40:59 GMT (Friday 4th May 2018)"
-	revision: "6"
+	date: "2020-01-27 18:41:27 GMT (Monday 27th January 2020)"
+	revision: "7"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING_GENERAL
 
 inherit
+	EL_MAKEABLE
+		rename
+			make as make_default
+		end
+
 	DEBUG_OUTPUT
 		rename
 			debug_output as to_string

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:22:14 GMT (Thursday 3rd October 2019)"
-	revision: "2"
+	date: "2020-01-27 17:39:24 GMT (Monday 27th January 2020)"
+	revision: "3"
 
 class
 	EL_FUNCTIONS_BY_RESULT_TYPE
@@ -18,6 +18,8 @@ inherit
 			make as make_table
 		end
 
+	EL_MODULE_ITERABLE
+
 create
 	make
 
@@ -25,14 +27,15 @@ feature {NONE} -- Initialization
 
 	make (functions: ARRAY [like item])
 		do
-			make_table (functions.count)
-			extend_from_array (functions)
+			make_table (Iterable.count (functions))
+			extend_from_list (functions)
 		end
 
 feature -- Element change
 
-	extend_from_array (functions: ARRAY [like item])
+	extend_from_list (functions: ITERABLE [like item])
 		do
+			accommodate (count + Iterable.count (functions))
 			across functions as f loop
 				put (f.item, f.item.generating_type.generic_parameter_type (2).type_id)
 			end

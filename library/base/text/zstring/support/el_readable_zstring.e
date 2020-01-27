@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 13:42:43 GMT (Sunday 26th January 2020)"
-	revision: "40"
+	date: "2020-01-26 18:59:00 GMT (Sunday 26th January 2020)"
+	revision: "41"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -381,7 +381,7 @@ feature -- Access
 			internal_share (other)
 			unencoded_area := other.unencoded_area
 		end
-	
+
 	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
 			-- substring intervals of `Current' split with `delimiter'
 		do
@@ -471,18 +471,12 @@ feature -- Access
 			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
 		end
 
-	substring_intervals (str: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
-		local
-			l_index_list: like internal_substring_index_list
-			l_count, index: INTEGER
+	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS [ZSTRING]
 		do
-			l_index_list := internal_substring_index_list (adapted_argument (str, 1))
-			create Result.make (l_index_list.count)
-			l_count := str.count
-			from l_index_list.start until l_index_list.after loop
-				index := l_index_list.item
-				Result.extend (index, index + l_count  - 1)
-				l_index_list.forth
+			if attached {ZSTRING} Current as zstr then
+				create Result.make (zstr, str)
+			else
+				create Result.make_empty
 			end
 		end
 

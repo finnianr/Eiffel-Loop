@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 14:17:05 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-01-27 15:03:05 GMT (Monday 27th January 2020)"
+	revision: "6"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -25,11 +25,6 @@ inherit
 			copy, is_equal
 		end
 
-	EL_IP_ADAPTER_CONSTANTS
-		undefine
-			copy, is_equal
-		end
-
 	EL_OS_IMPLEMENTATION
 		undefine
 			copy, is_equal
@@ -37,6 +32,7 @@ inherit
 
 	EL_SHARED_C_WIDE_CHARACTER_STRING
 
+	EL_SHARED_NETWORK_DEVICE_TYPE
 create
 	make
 
@@ -69,7 +65,7 @@ feature {NONE} -- Implementation
 	new_adapter (adapter_ptr: POINTER): EL_IP_ADAPTER
 		local
 			physical_address: ARRAY [NATURAL_8]
-			address_size, type: INTEGER; name, description: ZSTRING
+			address_size: INTEGER; type: NATURAL_8; name, description: ZSTRING
 		do
 			address_size := c_get_adapter_physical_address_size (adapter_ptr)
 			if address_size > 0 then
@@ -82,10 +78,10 @@ feature {NONE} -- Implementation
 			end
 			name := wide_string (c_get_adapter_name (adapter_ptr))
 			description := wide_string (c_get_adapter_description (adapter_ptr))
-			type := c_get_adapter_type (adapter_ptr)
-			if type = Type_ETHERNET_CSMACD and then name.starts_with (Bluetooth) then
+			type := c_get_adapter_type (adapter_ptr).to_natural_8
+			if type = Network_device_type.ETHERNET_CSMACD and then name.starts_with (Bluetooth) then
 				-- What happens if locale is not English?
-				type := Type_BLUETOOTH
+				type := Network_device_type.BLUETOOTH
 			end
 			create Result.make (type, name, description, physical_address)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-12 11:08:31 GMT (Tuesday 12th February 2019)"
-	revision: "9"
+	date: "2020-01-27 15:03:19 GMT (Monday 27th January 2020)"
+	revision: "10"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -24,14 +24,14 @@ feature {NONE} -- Initialization
 		do
 			socket_path := path
 			is_server := False
-			make_empty
+			make_default
 		end
 
 	make_server (path: EL_FILE_PATH)
 		do
 			socket_path := path
 			is_server := True
-			make_empty
+			make_default
 		end
 
 	socket_path: EL_FILE_PATH

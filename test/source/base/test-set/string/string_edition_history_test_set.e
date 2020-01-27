@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-04 18:47:34 GMT (Monday 4th February 2019)"
-	revision: "1"
+	date: "2020-01-27 9:04:17 GMT (Monday 27th January 2020)"
+	revision: "2"
 
 class
 	STRING_EDITION_HISTORY_TEST_SET
@@ -99,6 +99,7 @@ feature {NONE} -- Constants
 		aBBc
 		AAAA
 	]"
+
 	Editions_list: LIST [STRING]
 		once
 			Result := Editions.split ('%N')

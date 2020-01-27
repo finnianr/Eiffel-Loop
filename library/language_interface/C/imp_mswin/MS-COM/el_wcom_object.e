@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 19:02:06 GMT (Saturday 26th October 2019)"
-	revision: "5"
+	date: "2020-01-27 16:00:42 GMT (Monday 27th January 2020)"
+	revision: "6"
 
 class
 	EL_WCOM_OBJECT
@@ -21,13 +21,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	internal: CELL [EL_WCOM_INITIALIZER]
-			--
-		once ("PROCESS")
-			create Result.put (Void)
-		end
-
-    cpp_delete (this: POINTER)
+	cpp_delete (this: POINTER)
             --
 		local
 			ref_count: NATURAL

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 15:09:52 GMT (Saturday 25th January 2020)"
-	revision: "20"
+	date: "2020-01-27 17:39:37 GMT (Monday 27th January 2020)"
+	revision: "21"
 
 class
 	EL_CLASS_META_DATA
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 	make (a_enclosing_object: like enclosing_object)
 		do
 			Precursor (a_enclosing_object)
-			New_instance_table.extend_from_array (a_enclosing_object.new_instance_functions)
+			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
@@ -226,6 +226,7 @@ feature {NONE} -- Constants
 				Other_collection_type_table
 			>>
 		end
+
 	frozen Expanded_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
 		once
 			create Result.make_filled ({EL_REFLECTED_CHARACTER_8}, 0, 16)

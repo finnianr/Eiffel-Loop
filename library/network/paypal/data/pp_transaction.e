@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:55 GMT (Friday 4th October 2019)"
-	revision: "18"
+	date: "2020-01-27 17:44:29 GMT (Monday 27th January 2020)"
+	revision: "19"
 
 class
 	PP_TRANSACTION
@@ -156,11 +156,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_instance_functions: ARRAY [FUNCTION [ANY]]
+	new_instance_functions: like Default_initial_values
 		do
-			Result := <<
+			create Result.make_from_array (<<
 				agent: PP_DATE_TIME do create Result.make_now end
-			>>
+			>>)
 		end
 
 	set_name_value (key, a_value: ZSTRING)
