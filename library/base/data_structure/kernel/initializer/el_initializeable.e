@@ -53,6 +53,7 @@ feature {NONE} -- Implementation
 			type_id: INTEGER
 		do
 			type_id := Type_stack.item.type_id
+			table := Initialization_mask_table
 			if table.is_empty then
 				table.put (1, type_id)
 			else
