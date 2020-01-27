@@ -34,14 +34,14 @@ feature {NONE} -- Status query
 	is_initialized: BOOLEAN
 		-- `True' if current type is initialized
 		do
-			Result := (initialization_flags & Initialization_mask).to_boolean
+			Result := (initialization_bitmap & initialization_mask).to_boolean
 		end
 
 feature {NONE} -- Element change
 
 	set_initialized
 		do
-			initialization_flags := initialization_flags | Initialization_mask
+			initialization_bitmap := initialization_bitmap | initialization_mask
 			Type_stack.remove
 		end
 
@@ -68,7 +68,8 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	initialization_flags: NATURAL
+	initialization_bitmap: NATURAL
+		-- each bit refers to a class in a heirarchy
 
 feature {NONE} -- Constants
 
