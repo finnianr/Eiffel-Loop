@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 			end
 			Result := table.found_item
 		ensure
-			no_more_than_32_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_16_bits
+			no_more_than_16_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_16_bits
 		end
 
 	done_mask_table: HASH_TABLE [NATURAL_16, POINTER]
