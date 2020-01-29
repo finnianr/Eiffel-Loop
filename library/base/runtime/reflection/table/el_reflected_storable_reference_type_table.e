@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:16:03 GMT (Thursday 3rd October 2019)"
-	revision: "3"
+	date: "2020-01-29 17:08:10 GMT (Wednesday 29th January 2020)"
+	revision: "4"
 
 class
 	EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
 
 inherit
-	EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]
+	EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]
 		rename
 			make as make_table
 		redefine
@@ -33,10 +33,7 @@ feature {NONE} -- Initialization
 	make
 		do
  			make_table (<<
-				[Storable_type,		{EL_REFLECTED_STORABLE}],
-				[Boolean_ref_type,	{EL_REFLECTED_BOOLEAN_REF}],
-				[Date_time_type,		{EL_REFLECTED_DATE_TIME}],
-				[Tuple_type,			{EL_REFLECTED_STORABLE_TUPLE}]
+				{EL_REFLECTED_STORABLE}, {EL_REFLECTED_BOOLEAN_REF}, {EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_STORABLE_TUPLE}
 			>>)
 		end
 

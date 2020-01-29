@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:46:54 GMT (Wednesday 29th January 2020)"
-	revision: "8"
+	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTIVE_BOOLEAN_REF
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 
 	true_name: STRING
 		do
-			Result := Meta_data_by_type.item (Current).field_array.item (1).name
+			Result := Meta_data_by_type.item (Current).field_list.i_th (1).name
 		end
 
 	false_name: STRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 12:40:44 GMT (Tuesday 11th June 2019)"
-	revision: "9"
+	date: "2020-01-29 17:10:03 GMT (Wednesday 29th January 2020)"
+	revision: "10"
 
 class
 	EL_STORABLE_CLASS_META_DATA
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	make (a_enclosing_object: like enclosing_object)
 		do
 			Precursor (a_enclosing_object)
-			a_enclosing_object.adjust_field_order (field_array)
+			a_enclosing_object.adjust_field_order (field_list)
 		end
 
 feature -- Status query
@@ -34,7 +34,7 @@ feature -- Status query
 	same_data_structure (a_field_hash: NATURAL): BOOLEAN
 		-- `True' if order, type and names of fields are unchanged
 		do
-			Result := field_array.field_hash = a_field_hash
+			Result := field_list.field_hash = a_field_hash
 		end
 
 feature {NONE} -- Internal attributes
@@ -43,7 +43,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
+	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]]
 		once
 			Result := <<
 --				We check if fields conforms to `EL_STORABLE' first because some fields

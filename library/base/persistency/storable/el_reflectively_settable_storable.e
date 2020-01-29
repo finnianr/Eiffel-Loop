@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 14:07:04 GMT (Thursday 3rd October 2019)"
-	revision: "21"
+	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -41,10 +41,10 @@ feature -- Basic operations
 
 	write (a_writer: EL_MEMORY_READER_WRITER)
 		local
-			field_array: EL_REFLECTED_FIELD_ARRAY
+			field_array: EL_REFLECTED_FIELD_LIST
 			i, field_count: INTEGER_32
 		do
-			field_array := Meta_data_by_type.item (Current).field_array
+			field_array := Meta_data_by_type.item (Current).field_list
 			field_count := field_array.count
 			from i := 1 until i > field_count loop
 				write_field (field_array [i], a_writer)
@@ -57,10 +57,10 @@ feature -- Element change
 	read_default (a_reader: EL_MEMORY_READER_WRITER)
 			-- Read default (current) version of data
 		local
-			field_array: EL_REFLECTED_FIELD_ARRAY
+			field_array: EL_REFLECTED_FIELD_LIST
 			i, field_count: INTEGER_32
 		do
-			field_array := Meta_data_by_type.item (Current).field_array
+			field_array := Meta_data_by_type.item (Current).field_list
 			field_count := field_array.count
 			from i := 1 until i > field_count loop
 				read_field (field_array [i], a_reader)
@@ -77,10 +77,10 @@ feature -- Status query
 
 feature {EL_STORABLE_CLASS_META_DATA} -- Implementation
 
-	adjust_field_order (fields: EL_REFLECTED_FIELD_ARRAY)
+	adjust_field_order (fields: EL_REFLECTED_FIELD_LIST)
 		do
 			if ordered_alphabetically then
-				fields.sort
+				fields.order_by (agent {EL_REFLECTED_FIELD}.name, True)
 			end
 		end
 
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				lio.put_labeled_string ("class " + generator, field_structure_error)
 				lio.put_new_line
-				print_field_meta_data (lio, Result.field_array)
+				print_field_meta_data (lio, Result.field_list.to_array)
 				lio.put_new_line
 				if not Execution_environment.is_work_bench_mode then
 					create exception

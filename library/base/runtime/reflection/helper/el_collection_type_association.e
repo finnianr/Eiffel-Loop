@@ -6,11 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 14:42:28 GMT (Tuesday 11th June 2019)"
-	revision: "2"
+	date: "2020-01-29 15:27:22 GMT (Wednesday 29th January 2020)"
+	revision: "3"
 
 class
 	EL_COLLECTION_TYPE_ASSOCIATION [G]
+
+inherit
+	EL_MAKEABLE
+
+create
+	make
 
 feature {EL_REFLECTED_COLLECTION_TYPE_TABLE} -- Initialization
 

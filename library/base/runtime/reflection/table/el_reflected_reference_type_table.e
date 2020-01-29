@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:15:59 GMT (Thursday 3rd October 2019)"
-	revision: "4"
+	date: "2020-01-29 17:17:40 GMT (Wednesday 29th January 2020)"
+	revision: "5"
 
 class
-	EL_REFLECTED_REFERENCE_TYPE_TABLE [REFLECTED_TYPE -> EL_REFLECTED_REFERENCE [ANY], BASE_TYPE]
+	EL_REFLECTED_REFERENCE_TYPE_TABLE [REFLECTED_TYPE -> EL_REFLECTED_REFERENCE [ANY]]
 
 inherit
 	EL_HASH_TABLE [TYPE [REFLECTED_TYPE], INTEGER]
+		rename
+			make as make_from_array
 		export
 			{NONE} all
 			{ANY} has_key, found_item, count
-		redefine
-			make
 		end
 
 	REFLECTOR
@@ -28,21 +28,31 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	EL_MODULE_EIFFEL
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (array: ARRAY [like as_map_list.item])
+	make (array: ARRAY [TYPE [REFLECTED_TYPE]])
 			--
+		local
+			generic_type: TYPE [ANY]
 		do
-			Precursor (array)
+			make_size (array.count)
+			across array as reflected loop
+				if attached {REFLECTED_TYPE} Eiffel.new_instance_of (reflected.item.type_id) as field then
+					generic_type := field.generic_type
+					extend (reflected.item, generic_type.type_id)
+				end
+			end
 			initialize
 		end
 
 	initialize
 		do
-			base_type_id := ({BASE_TYPE}).type_id
+			base_type_id := new_base_type_id
 			type_array := current_keys
 		end
 
@@ -84,4 +94,17 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+	new_base_type_id: INTEGER
+		local
+			reflected_type: TYPE [REFLECTED_TYPE]
+		do
+			reflected_type := {REFLECTED_TYPE}
+			if reflected_type.generic_parameter_count = 1 then
+				Result := reflected_type.generic_parameter_type (1).type_id
+			elseif attached {REFLECTED_TYPE} Eiffel.new_instance_of (reflected_type.type_id) as type then
+				Result := type.generic_type.type_id
+			end
+		end
+
 end

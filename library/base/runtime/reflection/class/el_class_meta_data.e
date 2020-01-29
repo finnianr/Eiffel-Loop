@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 17:39:37 GMT (Monday 27th January 2020)"
-	revision: "21"
+	date: "2020-01-29 17:09:41 GMT (Wednesday 29th January 2020)"
+	revision: "22"
 
 class
 	EL_CLASS_META_DATA
@@ -44,15 +44,15 @@ feature {NONE} -- Initialization
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
-			create field_array.make (new_field_list.to_array)
-			field_table := field_array.to_table (a_enclosing_object)
+			create field_list.make (new_field_list.to_array)
+			field_table := field_list.to_table (a_enclosing_object)
 		end
 
 feature -- Access
 
 	excluded_fields: EL_FIELD_INDICES_SET
 
-	field_array: EL_REFLECTED_FIELD_ARRAY
+	field_list: EL_REFLECTED_FIELD_LIST
 
 	field_table: EL_REFLECTED_FIELD_TABLE
 
@@ -68,7 +68,7 @@ feature -- Access
 				excluded := new_field_indices_set (a_excluded_fields)
 				sink_except_fields.extend (excluded, a_excluded_fields)
 			end
-			field_array.sink_except (a_object, sinkable, excluded)
+			field_list.sink_except (a_object, sinkable, excluded)
 		end
 
 feature -- Basic operations
@@ -79,7 +79,7 @@ feature -- Basic operations
 			name: STRING; value: ZSTRING; l_field: EL_REFLECTED_FIELD
 		do
 			value := String_8_pool.new_string
-			across field_array as fld loop
+			across field_list as fld loop
 				l_field := fld.item
 				if not hidden_fields.has (l_field.index) then
 					name := l_field.name
@@ -104,12 +104,12 @@ feature -- Comparison
 
 	all_fields_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		local
-			i, count: INTEGER; array: like field_array
+			i, count: INTEGER; array: like field_list
 		do
-			array := field_array; count := array.count
+			array := field_list; count := array.count
 			Result := True
 			from i := 1 until not Result or i > count loop
-				Result := array.item (i).are_equal (a_current, other)
+				Result := array.i_th (i).are_equal (a_current, other)
 				i := i + 1
 			end
 		end
@@ -214,7 +214,7 @@ feature {NONE} -- Constants
 			Result := 100
 		end
 
-	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY], ANY]]
+	Reference_type_tables: ARRAY [EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]]
 		once
 			Result := <<
 				String_type_table,

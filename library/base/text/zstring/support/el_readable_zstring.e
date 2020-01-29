@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 18:59:00 GMT (Sunday 26th January 2020)"
-	revision: "41"
+	date: "2020-01-29 15:25:57 GMT (Wednesday 29th January 2020)"
+	revision: "42"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -2046,13 +2046,13 @@ feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		require
-			valid_index: 1 <= index and index <= 2
+			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
 			if attached {EL_ZSTRING} a_general as zstring then
 				Result := zstring
 			else
 				inspect index
-					when 1 .. 2 then
+					when 1 .. 3 then
 						Result := Once_adapted_argument [index - 1]
 						Result.wipe_out
 				else
@@ -2322,8 +2322,9 @@ feature {NONE} -- Constants
 
 	Once_adapted_argument: SPECIAL [ZSTRING]
 		once
-			create Result.make_filled (create {ZSTRING}.make_empty, 2)
+			create Result.make_filled (create {ZSTRING}.make_empty, 3)
 			Result [1] := create {ZSTRING}.make_empty
+			Result [2] := create {ZSTRING}.make_empty
 		end
 
 	Once_expanded_strings: SPECIAL [STRING_32]

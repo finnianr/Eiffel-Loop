@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 15:06:18 GMT (Tuesday 31st December 2019)"
-	revision: "16"
+	date: "2020-01-29 16:31:04 GMT (Wednesday 29th January 2020)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -21,20 +21,15 @@ inherit
 			class_name as object_class_name
 		export
 			{NONE} all
-		undefine
+		redefine
 			is_equal
 		end
 
 	EL_REFLECTOR_CONSTANTS undefine is_equal end
 
-	EL_MODULE_EIFFEL
-
 	EL_REFLECTION_HANDLER undefine is_equal end
 
-	COMPARABLE
-		redefine
-			is_equal
-		end
+	EL_MODULE_EIFFEL
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
@@ -104,11 +99,6 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		do
 			Result := name ~ other.name
-		end
-
-	is_less alias "<" (other: like Current): BOOLEAN
-		do
-			Result := name < other.name
 		end
 
 feature -- Basic operations

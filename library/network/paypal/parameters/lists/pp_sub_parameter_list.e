@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "8"
+	date: "2020-01-29 16:33:12 GMT (Wednesday 29th January 2020)"
+	revision: "9"
 
 deferred class
 	PP_SUB_PARAMETER_LIST
@@ -43,14 +43,14 @@ feature {NONE} -- Initialization
 
 	make_from_object (object: EL_REFLECTIVE)
 		local
-			field_array: EL_REFLECTED_FIELD_ARRAY
+			field_list: EL_REFLECTED_FIELD_LIST
 			value: ZSTRING; i: INTEGER
 		do
-			field_array := object.meta_data.field_array
-			make_size (field_array.count)
-			from i := 1 until i > field_array.count loop
-				create value.make_from_general (field_array.item (i).to_string (object))
-				extend (field_array.item (i).export_name, value)
+			field_list := object.meta_data.field_list
+			make_size (field_list.count)
+			from i := 1 until i > field_list.count loop
+				create value.make_from_general (field_list.i_th (i).to_string (object))
+				extend (field_list.i_th (i).export_name, value)
 				i := i + 1
 			end
 		end

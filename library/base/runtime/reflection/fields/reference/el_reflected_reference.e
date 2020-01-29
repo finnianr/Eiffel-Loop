@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 14:36:19 GMT (Wednesday 29th January 2020)"
-	revision: "14"
+	date: "2020-01-29 16:21:40 GMT (Wednesday 29th January 2020)"
+	revision: "15"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -27,6 +27,11 @@ create
 	make
 
 feature -- Access
+
+	generic_type: TYPE [ANY]
+		do
+			Result := {G}
+		end
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do

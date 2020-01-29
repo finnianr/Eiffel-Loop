@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 17:45:13 GMT (Monday 27th January 2020)"
-	revision: "24"
+	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVE
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 		-- set fields that have not already been initialized with a value
 		do
-			meta_data.field_array.do_if (
+			meta_data.field_list.do_if (
 				agent {EL_REFLECTED_FIELD}.initialize (Current),
 				agent {EL_REFLECTED_FIELD}.is_uninitialized (Current)
 			)
@@ -49,7 +49,7 @@ feature -- Access
 
 	field_name_list: EL_STRING_LIST [STRING]
 		do
-			Result := meta_data.field_array.name_list
+			Result := meta_data.field_list.name_list
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Access
@@ -83,7 +83,7 @@ feature -- Basic operations
 			lio.put_labeled_string ("class", generator)
 			lio.tab_right
 			lio.put_new_line
-			print_field_meta_data (lio, meta_data.field_array)
+			print_field_meta_data (lio, meta_data.field_list.to_array)
 			lio.tab_left
 			lio.put_new_line
 			lio.put_line ("end")
@@ -97,7 +97,7 @@ feature -- Element change
 		-- fields conforming to `BAG [ANY]' are wiped out (including strings)
 		-- fields conforming to `EL_MAKEABLE_FROM_STRING' are reinitialized
 		do
-			meta_data.field_array.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
+			meta_data.field_list.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
 		end
 
 	set_from_other (other: EL_REFLECTIVE; other_except_list: STRING)
