@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:21:40 GMT (Wednesday 29th January 2020)"
-	revision: "15"
+	date: "2020-01-29 17:33:05 GMT (Wednesday 29th January 2020)"
+	revision: "16"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -58,10 +58,7 @@ feature -- Status query
 		-- (To satisfy this precondition, override `{EL_REFLECTIVE}.new_instance_functions'
 		-- to return a suitable creation function)
 		do
-			Result := New_instance_table.has (type_id)
-							or else field_conforms_to (type_id, Makeable_from_string_general_type)
-							or else field_conforms_to (type_id, Makeable_type)
-
+			Result := New_instance_table.has (type_id) or else field_conforms_to (type_id, Makeable_type)
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN

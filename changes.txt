@@ -160,3 +160,6 @@ Fixed keep_head bug in ZSTRING for mixed encodings
 Wed 29th Jan 2020, 15:07:15
 Refactored EL_MAKEABLE_FROM_STRING_GENERAL hierarchy to just one class EL_MAKEABLE_FROM_STRING
 
+Wed 29th Jan 2020, 17:25:44
+Refactored collection types found in class EL_REFLECTOR_CONSTANTS
+

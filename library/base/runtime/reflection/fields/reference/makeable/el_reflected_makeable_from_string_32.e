@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:37:52 GMT (Wednesday 29th January 2020)"
-	revision: "2"
+	date: "2020-01-29 17:30:36 GMT (Wednesday 29th January 2020)"
+	revision: "3"
 
 class
 	EL_REFLECTED_MAKEABLE_FROM_STRING_32
 
 inherit
 	EL_REFLECTED_MAKEABLE_FROM_STRING [EL_MAKEABLE_FROM_STRING [STRING_32]]
-		rename
-			makeable_from_string_type_id as Makeable_from_string_32_type
-		end
 
 create
 	make

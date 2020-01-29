@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:13:44 GMT (Wednesday 29th January 2020)"
-	revision: "26"
+	date: "2020-01-29 17:34:09 GMT (Wednesday 29th January 2020)"
+	revision: "27"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -23,31 +23,6 @@ feature {EL_REFLECTION_HANDLER} -- Constants
 	frozen Makeable_type: INTEGER
 		once
 			Result := ({EL_MAKEABLE}).type_id
-		end
-
-	frozen Makeable_from_string_general_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id
-		end
-
-	frozen Makeable_from_zstring_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING [ZSTRING]}).type_id
-		end
-
-	frozen Makeable_from_string_8_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING [STRING_8]}).type_id
-		end
-
-	frozen Makeable_from_string_32_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING [STRING_32]}).type_id
-		end
-
-	frozen Storable_type: INTEGER_32
-		once
-			Result := ({EL_STORABLE}).type_id
 		end
 
 	frozen Tuple_type: INTEGER_32
