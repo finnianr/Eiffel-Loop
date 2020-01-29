@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 8:35:41 GMT (Friday 14th June 2019)"
-	revision: "7"
+	date: "2020-01-29 11:07:37 GMT (Wednesday 29th January 2020)"
+	revision: "8"
 
 class
 	XHTML_XPATH_MATCH_EVENTS

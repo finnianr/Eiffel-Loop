@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-12 8:59:19 GMT (Wednesday 12th June 2019)"
-	revision: "7"
+	date: "2020-01-29 13:47:31 GMT (Wednesday 29th January 2020)"
+	revision: "8"
 
 class
 	EL_REFLECTED_STORABLE
@@ -30,7 +30,7 @@ feature -- Access
 			l_value: EL_STORABLE
 		do
 			l_value :=  value (a_object)
-			if attached {EL_MAKEABLE_FROM_STRING_GENERAL} l_value as makeable then
+			if attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} l_value as makeable then
 				Result := makeable.to_string
 			else
 				Result := l_value.out
@@ -58,7 +58,7 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached {EL_MAKEABLE_FROM_STRING_GENERAL} value (a_object) as makeable then
+			if attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} value (a_object) as makeable then
 				makeable.make_from_general (string)
 			end
 		end

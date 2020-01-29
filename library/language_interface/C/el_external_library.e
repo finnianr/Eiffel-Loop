@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:39:09 GMT (Tuesday 28th January 2020)"
-	revision: "6"
+	date: "2020-01-29 14:53:08 GMT (Wednesday 29th January 2020)"
+	revision: "7"
 
 deferred class
-	EL_EXTERNAL_LIBRARY [G -> EL_INITIALIZEABLE_I create make end]
+	EL_EXTERNAL_LIBRARY [G -> EL_INITIALIZEABLE create make end]
 
 inherit
 	EL_SHARED_INITIALIZER [G]

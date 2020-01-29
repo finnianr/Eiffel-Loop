@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 8:34:53 GMT (Friday 14th June 2019)"
-	revision: "6"
+	date: "2020-01-29 11:08:19 GMT (Wednesday 29th January 2020)"
+	revision: "7"
 
 class
 	SMIL_XPATH_MATCH_EVENTS

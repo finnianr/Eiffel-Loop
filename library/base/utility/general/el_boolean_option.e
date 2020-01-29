@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 17:09:43 GMT (Friday 24th January 2020)"
-	revision: "5"
+	date: "2020-01-29 13:46:54 GMT (Wednesday 29th January 2020)"
+	revision: "6"
 
 class
 	EL_BOOLEAN_OPTION
@@ -41,7 +41,7 @@ inherit
 			{ANY} is_enabled, set_state
 		end
 
-	EL_MAKEABLE_FROM_STRING_8
+	EL_MAKEABLE_FROM_STRING [STRING_8]
 		rename
 			make as make_from_string,
 			make_default as default_create

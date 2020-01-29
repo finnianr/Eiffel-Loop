@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 11:12:42 GMT (Friday 17th January 2020)"
-	revision: "16"
+	date: "2020-01-29 13:46:54 GMT (Wednesday 29th January 2020)"
+	revision: "17"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -70,7 +70,7 @@ feature -- Basic operations
 					l_setter.set_operand (index)
 				end
 
-			elseif attached {EL_MAKEABLE_FROM_STRING_GENERAL} operand as makeable then
+			elseif attached {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} operand as makeable then
 				create {EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER} setter.make (make_routine, Current)
 				setter.set_operand (index)
 

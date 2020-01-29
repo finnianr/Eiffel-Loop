@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 16:50:50 GMT (Friday 4th October 2019)"
-	revision: "10"
+	date: "2020-01-29 13:44:57 GMT (Wednesday 29th January 2020)"
+	revision: "11"
 
 class
 	AIA_CREDENTIAL_ID
@@ -26,7 +26,7 @@ inherit
 			new_string as new_empty_string
 		end
 
-	EL_MAKEABLE_FROM_STRING_8
+	EL_MAKEABLE_FROM_STRING [STRING_8]
 		undefine
 			is_equal
 		end

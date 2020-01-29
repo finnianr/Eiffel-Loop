@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 13:54:50 GMT (Thursday 3rd October 2019)"
-	revision: "10"
+	date: "2020-01-29 13:35:12 GMT (Wednesday 29th January 2020)"
+	revision: "11"
 
 deferred class
-	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING_GENERAL]
+	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
 
 inherit
 	EL_REFLECTED_REFERENCE [MAKEABLE]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:36:26 GMT (Sunday 12th January 2020)"
-	revision: "15"
+	date: "2020-01-29 10:57:24 GMT (Wednesday 29th January 2020)"
+	revision: "16"
 
 class
 	OBJECT_BUILDER_TEST_APP
@@ -33,21 +33,19 @@ feature -- Tests
 			-- Jan 2020
 			file := "linguistic-analysis.smil"
 			do_file_test (file, agent new_smil_presentation, 2549506488)
-			if false then
-				do_file_test (file, agent new_serializeable, 2549506488)
+			do_file_test (file, agent new_serializeable, 2549506488)
 
-				file := "download-page.xhtml"
-				do_file_test (file, agent new_web_form, 4143110532)
-				do_file_test (file, agent new_serializeable, 4143110532)
+			file := "download-page.xhtml"
+			do_file_test (file, agent new_web_form, 4143110532)
+			do_file_test (file, agent new_serializeable, 4143110532)
 
-				file := "request-matrix-sum.xml"
-				do_file_test (file, agent new_matrix, 3557220573)
-				do_file_test (file, agent new_serializeable, 3557220573)
+			file := "request-matrix-sum.xml"
+			do_file_test (file, agent new_matrix, 3557220573)
+			do_file_test (file, agent new_serializeable, 3557220573)
 
-				file := "request-matrix-average.xml"
-				do_file_test (file, agent new_matrix, 1829577793)
-				do_file_test (file, agent new_serializeable, 1829577793)
-			end
+			file := "request-matrix-average.xml"
+			do_file_test (file, agent new_matrix, 1829577793)
+			do_file_test (file, agent new_serializeable, 1829577793)
 		end
 
 feature {NONE} -- Factory

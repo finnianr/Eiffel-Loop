@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-10 14:39:49 GMT (Tuesday 10th April 2018)"
-	revision: "1"
+	date: "2020-01-29 13:45:47 GMT (Wednesday 29th January 2020)"
+	revision: "2"
 
 class
 	EL_ENCODING
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ENCODING_BASE
 
-	EL_MAKEABLE_FROM_STRING_8
+	EL_MAKEABLE_FROM_STRING [STRING_8]
 		rename
 			make as make_from_name,
 			to_string as name

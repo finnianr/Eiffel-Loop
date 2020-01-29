@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:40:11 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2020-01-29 13:46:02 GMT (Wednesday 29th January 2020)"
+	revision: "4"
 
 class
 	EL_INPUT_PATH [P -> EL_PATH create default_create end]
 
 inherit
-	EL_MAKEABLE_FROM_ZSTRING
+	EL_MAKEABLE_FROM_STRING [ZSTRING]
 		redefine
 			default_create
 		end

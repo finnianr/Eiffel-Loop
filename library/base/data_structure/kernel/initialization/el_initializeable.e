@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:51:47 GMT (Tuesday 28th January 2020)"
-	revision: "1"
+	date: "2020-01-29 14:52:43 GMT (Wednesday 29th January 2020)"
+	revision: "2"
 
 deferred class
-	EL_INITIALIZEABLE_I
+	EL_INITIALIZEABLE
 
 feature {NONE} -- Initialization
 
@@ -22,6 +22,4 @@ feature -- Status query
 
 	is_initialized: BOOLEAN
 		-- `True' if current type is initialized
-		deferred
-		end
 end

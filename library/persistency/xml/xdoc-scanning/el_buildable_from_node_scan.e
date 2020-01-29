@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 14:04:58 GMT (Thursday 9th January 2020)"
-	revision: "17"
+	date: "2020-01-29 14:13:55 GMT (Wednesday 29th January 2020)"
+	revision: "18"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -50,8 +50,8 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_BUILDER_OBJECT_FACTORY} -- Initiali
 			--
 		do
 			create xml_name_space.make_empty
-			Precursor {EL_CREATEABLE_FROM_NODE_SCAN}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
+			Precursor {EL_CREATEABLE_FROM_NODE_SCAN}
 			PI_building_actions := PI_building_actions_by_type.item (Current)
 		end
 

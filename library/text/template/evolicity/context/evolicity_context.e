@@ -6,16 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:12:59 GMT (Tuesday 10th September 2019)"
-	revision: "6"
+	date: "2020-01-29 14:13:01 GMT (Wednesday 29th January 2020)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_CONTEXT
 
 inherit
-	ANY
-	
-	EL_MODULE_ZSTRING
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		end
 
 feature -- Access
 
@@ -75,11 +76,8 @@ feature -- Element change
 		end
 
 	put_quoted_string (variable_name: STRING; a_string: READABLE_STRING_GENERAL; count: INTEGER)
-		local
-			l_string: ZSTRING
 		do
-			create l_string.make_from_general (a_string)
-			put_string (variable_name, l_string.quoted (count))
+			put_string (variable_name, new_zstring (a_string).quoted (count))
 		end
 
 	put_real (variable_name: STRING; value: REAL)
@@ -91,7 +89,7 @@ feature -- Element change
 	put_string (variable_name: STRING; value: READABLE_STRING_GENERAL)
 			--
 		do
-			put_variable (Zstring.as_zstring (value), variable_name)
+			put_variable (new_zstring (value), variable_name)
 		end
 
 	put_variables (name_value_pair_list: ARRAY [TUPLE])

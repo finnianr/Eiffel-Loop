@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 10:43:39 GMT (Tuesday 11th June 2019)"
-	revision: "1"
+	date: "2020-01-29 13:38:11 GMT (Wednesday 29th January 2020)"
+	revision: "2"
 
 class
 	EL_REFLECTED_MAKEABLE_FROM_ZSTRING
 
 inherit
-	EL_REFLECTED_MAKEABLE_FROM_STRING [EL_MAKEABLE_FROM_ZSTRING]
+	EL_REFLECTED_MAKEABLE_FROM_STRING [EL_MAKEABLE_FROM_STRING [ZSTRING]]
 		rename
 			makeable_from_string_type_id as Makeable_from_zstring_type
 		end

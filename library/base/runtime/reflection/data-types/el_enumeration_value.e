@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:17:52 GMT (Thursday 3rd October 2019)"
-	revision: "8"
+	date: "2020-01-29 13:46:55 GMT (Wednesday 29th January 2020)"
+	revision: "9"
 
 deferred class
 	EL_ENUMERATION_VALUE [N -> {NUMERIC, HASHABLE}]
 
 inherit
-	EL_MAKEABLE_FROM_STRING_8
+	EL_MAKEABLE_FROM_STRING [STRING_8]
 		redefine
 			is_equal
 		end

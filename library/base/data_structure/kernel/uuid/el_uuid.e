@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:38:13 GMT (Tuesday 31st December 2019)"
-	revision: "13"
+	date: "2020-01-29 13:46:55 GMT (Wednesday 29th January 2020)"
+	revision: "14"
 
 class
 	EL_UUID
@@ -29,7 +29,7 @@ inherit
 			ordered_alphabetically
 		end
 
-	EL_MAKEABLE_FROM_STRING_8
+	EL_MAKEABLE_FROM_STRING [STRING_8]
 		rename
 			make as make_from_string
 		undefine

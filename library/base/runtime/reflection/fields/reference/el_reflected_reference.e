@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 18:47:08 GMT (Monday 27th January 2020)"
-	revision: "13"
+	date: "2020-01-29 14:36:19 GMT (Wednesday 29th January 2020)"
+	revision: "14"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -130,14 +130,15 @@ feature {NONE} -- Implementation
 					is_assigned := True
 				end
 			end
-			if not is_assigned
-				and then Makeable_factory.valid_type_id (type_id) -- conforms to EL_MAKEABLE
-				and then attached {G} Makeable_factory.new_item_from_type_id (type_id) as new
-			then
-				Result := new
-			elseif attached {G} Eiffel.new_instance_of (type_id) as new then
-				-- Uninitialized
-				Result := new
+			if not is_assigned then
+				if Makeable_factory.valid_type_id (type_id) -- conforms to EL_MAKEABLE
+					and then attached {G} Makeable_factory.new_item_from_type_id (type_id) as new
+				then
+					Result := new
+				elseif attached {G} Eiffel.new_instance_of (type_id) as new then
+					-- Uninitialized
+					Result := new
+				end
 			end
 		end
 
