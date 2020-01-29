@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 17:57:06 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2020-01-29 9:38:07 GMT (Wednesday 29th January 2020)"
+	revision: "5"
 
 class
 	B
@@ -15,7 +15,20 @@ class
 inherit
 	A
 		redefine
-			Internal_character
+			Internal_character, make
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			if not done ($make) then
+				Precursor
+				set_done ($make)
+			end
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 16:59:20 GMT (Friday 24th January 2020)"
-	revision: "8"
+	date: "2020-01-28 17:28:36 GMT (Tuesday 28th January 2020)"
+	revision: "9"
 
 class
 	GENERAL_EXPERIMENTS
@@ -127,7 +127,7 @@ feature -- Basic operations
 			a: A; b: B; c: CHARACTER
 		do
 --			create a; create {B} b
-			create a; create b
+			create a.make; create b.make
 			if a_first then
 				c := a.character; c := b.character
 			else

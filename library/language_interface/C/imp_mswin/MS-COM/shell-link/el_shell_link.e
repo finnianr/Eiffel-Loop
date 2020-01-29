@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 16:17:16 GMT (Monday 27th January 2020)"
-	revision: "7"
+	date: "2020-01-28 9:43:20 GMT (Tuesday 28th January 2020)"
+	revision: "8"
 
 class
 	EL_SHELL_LINK
@@ -16,6 +16,8 @@ inherit
 	EL_WCOM_OBJECT
 		export
 			{EL_WCOM_PERSIST_FILE} self_ptr
+		redefine
+			make
 		end
 
 	EL_SHELL_LINK_API
@@ -30,7 +32,7 @@ feature {NONE}  -- Initialization
 		local
 			this: POINTER
 		do
-			initialize_library
+			Precursor
 			if call_succeeded (c_create_IShellLinkW ($this)) then
 				make_from_pointer (this)
 			end

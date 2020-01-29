@@ -6,13 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 17:57:02 GMT (Wednesday 8th January 2020)"
-	revision: "4"
+	date: "2020-01-29 9:46:56 GMT (Wednesday 29th January 2020)"
+	revision: "5"
 
 class
 	A
 
+inherit
+	EL_PRECURSOR_MAP
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			if not done ($make) then
+				create str_1.make_empty
+				set_done ($make)
+			end
+		end
+
 feature -- Access
+
+	str_1: STRING
 
 	character: CHARACTER
 		do
@@ -20,6 +38,11 @@ feature -- Access
 		end
 
 feature {NONE} -- Constants
+
+	done_mask_table: HASH_TABLE [NATURAL, POINTER]
+		once
+			create Result.make (32)
+		end
 
 	Internal_character: CHARACTER
 		once

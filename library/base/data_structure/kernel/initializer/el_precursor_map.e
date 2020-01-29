@@ -20,75 +20,51 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 9:45:06 GMT (Wednesday 29th January 2020)"
-	revision: "7"
+	date: "2020-01-29 9:49:30 GMT (Wednesday 29th January 2020)"
+	revision: "1"
 
 deferred class
-	EL_INITIALIZEABLE
-
-feature {NONE} -- Initialization
-
-	make
-		deferred
-		ensure
-			stack_unchanged: old Type_stack.count = Type_stack.count
-		end
+	EL_PRECURSOR_MAP
 
 feature {NONE} -- Status query
 
-	not_initialized (type: TYPE [EL_INITIALIZEABLE]): BOOLEAN
+	done (routine: POINTER): BOOLEAN
+		-- `True' if routine with address `routine' has already been called on `Current'
 		do
-			Result := not_initialized_for_id (type.type_id)
-		end
-
-	not_initialized_for_id (type_id: INTEGER): BOOLEAN
-		require
-
-		do
-			Type_stack.put (type_id)
-			Result := not (initialization_bitmap & initialization_mask).to_boolean
+			Result := (done_bitmap & done_mask (routine)).to_boolean
 		end
 
 feature {NONE} -- Element change
 
-	set_initialized
+	set_done (routine: POINTER)
+		-- mark routine with address `routine' as being done for `Current'
 		do
-			initialization_bitmap := initialization_bitmap | initialization_mask
-			Type_stack.remove
+			done_bitmap := done_bitmap | done_mask (routine)
 		end
 
 feature {NONE} -- Implementation
 
-	initialization_bitmap: NATURAL
-		-- each bit refers to a class in a heirarchy
+	done_bitmap: NATURAL
+		-- each bit refers to a make routine
 
-	initialization_mask: NATURAL
-		require
-			valid_stack: not Type_stack.is_empty
+	done_mask (routine: POINTER): NATURAL
 		local
-			table: like Initialization_mask_table
+			table: like done_mask_table
 		do
-			table := Initialization_mask_table
+			table := done_mask_table
 			if table.is_empty then
-				table.put (1, Type_stack.item)
+				table.put (1, routine)
 			else
-				table.put (table.found_item |<< 1, Type_stack.item)
+				table.put (table.found_item |<< 1, routine)
 			end
 			Result := table.found_item
 		ensure
-			no_more_than_32_flag_bits: Initialization_mask_table.count <= {PLATFORM}.Natural_32_bits
+			no_more_than_32_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_32_bits
 		end
 
-	initialization_mask_table: HASH_TABLE [NATURAL, INTEGER]
+	done_mask_table: HASH_TABLE [NATURAL, POINTER]
 		-- implement as a once function for each class heirarchy
 		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Type_stack: ARRAYED_STACK [INTEGER]
-		once
-			create Result.make (7)
 		end
 
 end

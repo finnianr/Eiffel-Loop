@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 16:26:12 GMT (Friday 24th January 2020)"
-	revision: "51"
+	date: "2020-01-28 17:33:56 GMT (Tuesday 28th January 2020)"
+	revision: "52"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("general.boolean_option")
-			general.boolean_option
+			log.enter ("general.once_order_test")
+			general.once_order_test (True)
 			log.exit
 		end
 

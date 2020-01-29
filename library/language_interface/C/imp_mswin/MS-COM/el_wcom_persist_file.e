@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 16:18:09 GMT (Monday 27th January 2020)"
-	revision: "5"
+	date: "2020-01-28 9:44:01 GMT (Tuesday 28th January 2020)"
+	revision: "6"
 
 class
 	EL_WCOM_PERSIST_FILE
 
 inherit
 	EL_WCOM_OBJECT
+		rename
+			make as make_default
+		end
 
 	EL_SHELL_LINK_API
 
@@ -27,7 +30,7 @@ feature {NONE}  -- Initialization
 		local
 			this: POINTER
 		do
-			initialize_library
+			make_default
 			if is_attached (shell_link.self_ptr)
 				and then call_succeeded (cpp_create_IPersistFile (shell_link.self_ptr, $this))
 			then

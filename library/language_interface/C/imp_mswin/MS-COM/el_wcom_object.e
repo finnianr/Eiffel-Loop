@@ -1,13 +1,13 @@
 note
-	description: "Wcom object"
+	description: "[https://docs.microsoft.com/en-us/windows/win32/com/the-component-object-model Windows COM object]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 16:00:42 GMT (Monday 27th January 2020)"
-	revision: "6"
+	date: "2020-01-28 9:49:47 GMT (Tuesday 28th January 2020)"
+	revision: "7"
 
 class
 	EL_WCOM_OBJECT
@@ -18,6 +18,14 @@ inherit
 	EL_OWNED_CPP_OBJECT
 
 	EL_MODULE_UTF
+
+feature {NONE}  -- Initialization
+
+	make
+		-- Creation
+		do
+			initialize_library
+		end
 
 feature {NONE} -- Implementation
 
