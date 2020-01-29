@@ -1,19 +1,20 @@
 note
 	description: "[
 		Tracks whether a routine has been called already or not during `make' precursor calls.
+		This is a variation of class [$source EL_PRECURSOR_MAP] but with the `done_bitmap' defined
+		as `NATURAL_16' instead of `NATURAL_32'.
 	]"
-	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 10:22:47 GMT (Wednesday 29th January 2020)"
+	date: "2020-01-29 10:19:24 GMT (Wednesday 29th January 2020)"
 	revision: "2"
 
 deferred class
-	EL_PRECURSOR_MAP
+	EL_PRECURSOR_MAP_16
 
 feature {NONE} -- Status query
 
@@ -33,10 +34,10 @@ feature {NONE} -- Element change
 
 feature {NONE} -- Implementation
 
-	done_bitmap: NATURAL
+	done_bitmap: NATURAL_16
 		-- each bit refers to a make routine
 
-	done_mask (routine: POINTER): NATURAL
+	done_mask (routine: POINTER): NATURAL_16
 		local
 			table: like done_mask_table
 		do
@@ -48,26 +49,12 @@ feature {NONE} -- Implementation
 			end
 			Result := table.found_item
 		ensure
-			no_more_than_32_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_32_bits
+			no_more_than_32_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_16_bits
 		end
 
-	done_mask_table: HASH_TABLE [NATURAL, POINTER]
+	done_mask_table: HASH_TABLE [NATURAL_16, POINTER]
 		-- implement as a once function for each class heirarchy
 		deferred
 		end
-note
-	notes: "[
-		This class maps each routine address to a single bit in a 32 bit natural.
-		Each bit indicates whether the routine has been called already or not. For hierarchies
-		with more than 32 members you will need to use class [$source EL_PRECURSOR_MAP_64].
-		With 16 or few members you can use [$source EL_PRECURSOR_MAP_16].
-		A new bit mask is added to the table for each new routine address.
-
-		**For Eiffel Newbies**
-
-		It is worth reading the source for NATURAL_32_REF to get an understanding of what bit operators are available in Eiffel.
-		To understand what's happening in `initialization_mask' read the commented description for `put' in the source for
-		HASH_TABLE. This routine has some subtleties that are not obvious.
-	]"
 
 end
