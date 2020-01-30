@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 18:19:36 GMT (Saturday 25th January 2020)"
-	revision: "8"
+	date: "2020-01-30 12:14:41 GMT (Thursday 30th January 2020)"
+	revision: "9"
 
 class
 	EL_INTERNAL
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_REFLECTOR_CONSTANTS
+
+	EL_SHARED_CLASS_ID
 
 feature -- Type queries
 
@@ -36,7 +38,7 @@ feature -- Type queries
 
 	field_conforms_to_date_time (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := is_reference (basic_type) and then field_conforms_to (type_id, Date_time_type)
+			Result := is_reference (basic_type) and then field_conforms_to (type_id, Class_id.DATE_TIME)
 		end
 
 	field_conforms_to_one_of (basic_type, type_id: INTEGER; types: ARRAY [INTEGER]): BOOLEAN

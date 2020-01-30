@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:07:27 GMT (Saturday 26th October 2019)"
-	revision: "10"
+	date: "2020-01-30 11:42:18 GMT (Thursday 30th January 2020)"
+	revision: "11"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -42,6 +42,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_REFLECTOR_CONSTANTS
+
+	EL_SHARED_CLASS_ID
 
 create
 	make_from_other
@@ -251,11 +253,11 @@ feature -- External field setters
 						tuple.put_boolean (is_xpath (xpath), index)
 
 				else
-					if type_id = String_z_type then
+					if type_id = Class_id.ZSTRING then
 						tuple.put_reference (string_at_xpath (xpath), index)
-					elseif type_id = String_8_type then
+					elseif type_id = Class_id.STRING_8 then
 						tuple.put_reference (string_8_at_xpath (xpath), index)
-					elseif type_id = String_32_type then
+					elseif type_id = Class_id.STRING_32 then
 						tuple.put_reference (string_32_at_xpath (xpath), index)
 					end
 				end

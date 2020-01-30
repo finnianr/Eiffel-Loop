@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 11:12:42 GMT (Thursday 3rd October 2019)"
-	revision: "7"
+	date: "2020-01-30 12:33:55 GMT (Thursday 30th January 2020)"
+	revision: "8"
 
 class
 	EL_TUPLE_ROUTINES
 
 inherit
-	EL_REFLECTOR_CONSTANTS
+	ANY
 
 	EL_MODULE_EIFFEL
+
+	EL_SHARED_CLASS_ID
 
 feature -- Basic operations
 
@@ -32,21 +34,21 @@ feature -- Basic operations
 			valid_comma_count: csv_list.occurrences (',') = tuple.count - 1
 		local
 			list: LIST [STRING_GENERAL]; general: STRING_GENERAL
-			found, is_path_field: BOOLEAN; l_tuple_type: TYPE [TUPLE]; type_id: INTEGER
+			found, is_path_field: BOOLEAN; tuple_type: TYPE [TUPLE]; type_id: INTEGER
 		do
-			l_tuple_type := tuple.generating_type
+			tuple_type := tuple.generating_type
 			list := csv_list.split (',')
 			from list.start until list.index > tuple.count or list.after loop
-				type_id := l_tuple_type.generic_parameter_type (list.index).type_id
+				type_id := tuple_type.generic_parameter_type (list.index).type_id
 				found := True; is_path_field := False
 
-				if type_id = String_z_type then
+				if type_id = Class_id.ZSTRING then
 					general := create {ZSTRING}.make_from_general (list.item)
-				elseif type_id = String_8_type then
+				elseif type_id = Class_id.STRING_8 then
 					general := list.item.to_string_8
-				elseif type_id = String_32_type then
+				elseif type_id = Class_id.STRING_32 then
 					general := list.item.to_string_32
-				elseif Eiffel.field_conforms_to (type_id, Path_type) then
+				elseif Eiffel.field_conforms_to (type_id, Class_id.EL_PATH) then
 					general := list.item
 					is_path_field := True
 				else
@@ -57,9 +59,9 @@ feature -- Basic operations
 						general.left_adjust
 					end
 					if is_path_field then
-						if type_id = File_path_type then
+						if type_id = Class_id.EL_FILE_PATH then
 							tuple.put_reference (create {EL_FILE_PATH}.make (general), list.index)
-						elseif type_id = Dir_path_type then
+						elseif type_id = Class_id.EL_DIR_PATH then
 							tuple.put_reference (create {EL_DIR_PATH}.make (general), list.index)
 						else
 							check invalid_path_type: False end

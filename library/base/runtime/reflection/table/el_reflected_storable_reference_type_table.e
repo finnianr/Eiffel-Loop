@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:08:10 GMT (Wednesday 29th January 2020)"
-	revision: "4"
+	date: "2020-01-30 12:17:55 GMT (Thursday 30th January 2020)"
+	revision: "5"
 
 class
 	EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
@@ -25,6 +25,8 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	EL_SHARED_CLASS_ID
+
 create
 	make
 
@@ -41,7 +43,7 @@ feature -- Status query
 
 	has_conforming (type_id: INTEGER): BOOLEAN
 		do
-			if field_conforms_to (type_id, Tuple_type) then
+			if field_conforms_to (type_id, Class_id.TUPLE) then
 				Result := tuple_items_are_expanded_or_string_types (type_of_type (type_id))
 			else
 				Result := conforming_type (type_id) > 0

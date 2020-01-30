@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 22:57:05 GMT (Wednesday 29th January 2020)"
-	revision: "28"
+	date: "2020-01-30 12:16:37 GMT (Thursday 30th January 2020)"
+	revision: "29"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -16,38 +16,6 @@ inherit
 	REFLECTOR_CONSTANTS
 		export
 			{EL_REFLECTION_HANDLER} all
-		end
-
-feature {EL_REFLECTION_HANDLER} -- Constants
-
-	frozen Makeable_type: INTEGER
-		once
-			Result := ({EL_MAKEABLE}).type_id
-		end
-
-	frozen Tuple_type: INTEGER_32
-		once
-			Result := ({TUPLE}).type_id
-		end
-
-	frozen Dir_path_type: INTEGER_32
-		once
-			Result := ({EL_DIR_PATH}).type_id
-		end
-
-	frozen Path_type: INTEGER_32
-		once
-			Result := ({EL_PATH}).type_id
-		end
-
-	frozen Date_time_type: INTEGER_32
-		once
-			Result := ({DATE_TIME}).type_id
-		end
-
-	frozen File_path_type: INTEGER_32
-		once
-			Result := ({EL_FILE_PATH}).type_id
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Collection types
@@ -102,23 +70,6 @@ feature {EL_REFLECTION_HANDLER} -- Reference types
 	frozen Storable_type_table: EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
 		once
 			create Result.make
-		end
-
-feature {EL_REFLECTION_HANDLER} -- String types
-
-	frozen String_32_type: INTEGER
-		once
-			Result := ({STRING_32}).type_id
-		end
-
-	frozen String_z_type: INTEGER
-		once
-			Result := ({ZSTRING}).type_id
-		end
-
-	frozen String_8_type: INTEGER
-		once
-			Result := ({STRING}).type_id
 		end
 
 end

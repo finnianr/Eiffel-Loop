@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-13 10:41:43 GMT (Tuesday 13th November 2018)"
-	revision: "2"
+	date: "2020-01-30 12:21:46 GMT (Thursday 30th January 2020)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
 
 inherit
-	EL_REFLECTOR_CONSTANTS
+	EL_SHARED_CLASS_ID
 
 	EL_REFLECTION_HANDLER
 
@@ -51,9 +51,9 @@ feature {NONE} -- Constants
 	XML_escaper_by_type: EL_HASH_TABLE [EL_XML_GENERAL_ESCAPER, INTEGER]
 		once
 			create Result.make (<<
-				[String_z_type, create {EL_XML_ZSTRING_ESCAPER}.make],
-				[String_8_type, create {EL_XML_STRING_8_ESCAPER}.make],
-				[String_32_type, create {EL_XML_STRING_32_ESCAPER}.make]
+				[Class_id.ZSTRING, create {EL_XML_ZSTRING_ESCAPER}.make],
+				[Class_id.STRING_8, create {EL_XML_STRING_8_ESCAPER}.make],
+				[Class_id.STRING_32, create {EL_XML_STRING_32_ESCAPER}.make]
 			>>)
 		end
 

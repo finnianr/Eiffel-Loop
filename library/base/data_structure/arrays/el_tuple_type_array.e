@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 18:43:14 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-01-30 11:39:09 GMT (Thursday 30th January 2020)"
+	revision: "7"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
+
+	EL_SHARED_CLASS_ID
 
 create
 	make, make_from_static, make_from_tuple, make_empty
@@ -67,7 +69,7 @@ feature {NONE} -- Implementation
 	type_is_latin_1_representable (type: TYPE [ANY]): BOOLEAN
 		do
 			if String_collection_type_table.has_conforming (type.type_id) then
-				Result := type.type_id = String_8_type
+				Result := type.type_id = Class_id.STRING_8
 			else
 				Result := True
 			end

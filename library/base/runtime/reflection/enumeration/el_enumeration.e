@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:21:30 GMT (Monday 13th January 2020)"
-	revision: "21"
+	date: "2020-01-30 12:03:52 GMT (Thursday 30th January 2020)"
+	revision: "22"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -53,7 +53,6 @@ feature {NONE} -- Initialization
 			Precursor
 			create name_by_value.make (field_table.count)
 			create value_by_name.make_equal (field_table.count)
-			initialize_fields
 			across
 				field_table as field
 			loop

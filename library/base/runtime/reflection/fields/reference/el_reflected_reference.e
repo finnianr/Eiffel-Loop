@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:33:05 GMT (Wednesday 29th January 2020)"
-	revision: "16"
+	date: "2020-01-30 12:16:21 GMT (Thursday 30th January 2020)"
+	revision: "17"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_SHARED_NEW_INSTANCE_TABLE
+
+	EL_SHARED_CLASS_ID
 
 create
 	make
@@ -58,7 +60,7 @@ feature -- Status query
 		-- (To satisfy this precondition, override `{EL_REFLECTIVE}.new_instance_functions'
 		-- to return a suitable creation function)
 		do
-			Result := New_instance_table.has (type_id) or else field_conforms_to (type_id, Makeable_type)
+			Result := New_instance_table.has (type_id) or else field_conforms_to (type_id, Class_id.EL_MAKEABLE)
 		end
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
