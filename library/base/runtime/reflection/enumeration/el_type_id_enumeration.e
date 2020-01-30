@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 11:59:20 GMT (Thursday 30th January 2020)"
-	revision: "1"
+	date: "2020-01-30 14:56:03 GMT (Thursday 30th January 2020)"
+	revision: "2"
 
 deferred class
 	EL_TYPE_ID_ENUMERATION
@@ -18,30 +18,38 @@ inherit
 			export_name as to_upper_snake_case,
 			import_name as from_upper_snake_case
 		redefine
-			initialize_fields
+			initialize_fields, make
 		end
+
+	EL_MODULE_EIFFEL
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	make
 		do
-			across types as type loop
-				if field_table.has_key (type_name (type.item)) then
-					field_table.found_item.set_from_integer (Current, type.item.type_id)
+			create type_id_count
+			Precursor
+		end
+
+	initialize_fields
+		local
+			type_id: INTEGER
+		do
+			across field_table as field loop
+				if attached {EL_REFLECTED_INTEGER_32} field.item as integer then
+					type_id := Eiffel.dynamic_type_from_string (integer.export_name)
+					if type_id > 0 then
+						integer.set (Current, type_id)
+						type_id_count.set_item (type_id_count + 1)
+					end
 				end
 			end
+		ensure then
+			all_initialized: type_id_count.to_integer_32 = count
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
-	type_name (type: TYPE [ANY]): STRING
-		do
-			Result := from_upper_snake_case (type.name, False)
-		end
+	type_id_count: INTEGER_REF
 
-	types: ARRAY [TYPE [ANY]]
-		deferred
-		ensure
-			matching_field_names: across Result as type all field_table.has (type.item) end
-		end
 end
