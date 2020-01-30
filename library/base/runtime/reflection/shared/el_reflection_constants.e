@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
-	revision: "30"
+	date: "2020-01-30 17:39:33 GMT (Thursday 30th January 2020)"
+	revision: "31"
 
 class
 	EL_REFLECTION_CONSTANTS
 
-feature {EL_REFLECTION_HANDLER} -- Collection types
+feature {NONE} -- Collection types
 
 	frozen Numeric_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [NUMERIC]
 		once
@@ -33,7 +33,7 @@ feature {EL_REFLECTION_HANDLER} -- Collection types
 			create Result.make (<< {STRING_8}, {STRING_32}, {ZSTRING} >>)
 		end
 
-feature {EL_REFLECTION_HANDLER} -- Reference types
+feature {NONE} -- Reference types
 
 	frozen Boolean_ref_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_BOOLEAN_REF]
 		once

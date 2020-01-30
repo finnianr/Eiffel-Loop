@@ -2,13 +2,13 @@ note
 	description: "A cell with deferred initialization of the item"
 	notes: "[
 		Originally introduced as workaround for segmentation fault caused by using following once-per-object
-		attribute in class [$source EL_CREATEABLE_FROM_NODE_SCAN]
+		attribute in class [$source EL_CREATEABLE_FROM_NODE_SCAN] and others.
 		
 			node_source: EL_XML_NODE_SCAN_SOURCE
 				once ("OBJECT")
 					Result := new_node_source
 				end
-			
+
 
 	]"
 
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 10:13:42 GMT (Friday 14th June 2019)"
-	revision: "1"
+	date: "2020-01-30 19:24:47 GMT (Thursday 30th January 2020)"
+	revision: "2"
 
 class
 	EL_DEFERRED_CELL [G]

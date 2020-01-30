@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-01-30 16:11:00 GMT (Thursday 30th January 2020)"
+	revision: "6"
 
 class
 	EL_APP_ACTIVATION_KEY
 
 inherit
 	EL_BASE_64_ROUTINES
+		rename
+			joined as joined_base_64
+		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
 		redefine

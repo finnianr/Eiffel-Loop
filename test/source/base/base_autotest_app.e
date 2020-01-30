@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 14:53:29 GMT (Wednesday 29th January 2020)"
-	revision: "69"
+	date: "2020-01-30 20:31:47 GMT (Thursday 30th January 2020)"
+	revision: "70"
 
 class
 	BASE_AUTOTEST_APP
@@ -43,7 +43,6 @@ feature {NONE} -- Implementation
 		STRING_EDITION_HISTORY_TEST_SET, STRING_EDITOR_TEST_SET,
 		SE_ARRAY2_TEST_SET, STRING_32_ROUTINES_TEST_SET,
 		TEMPLATE_TEST_SET,
-		URI_ENCODING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
 	]
 		-- Test sets that do not yet have an evaluator
@@ -51,7 +50,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type: TUPLE [CHAIN_TEST_EVALUATOR]
+	evaluator_type: TUPLE [STRING_LIST_TEST_EVALUATOR]
 		do
 			create Result
 		end
@@ -63,6 +62,7 @@ feature {NONE} -- Implementation
 		STRING_LIST_TEST_EVALUATOR,
 		SUBSTITUTION_TEMPLATE_TEST_EVALUATOR,
 		TEMPLATE_TEST_EVALUATOR,
+		URI_ENCODING_TEST_EVALUATOR,
 		ZSTRING_TEST_EVALUATOR -- Incomplete test list
 	]
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 12:33:55 GMT (Thursday 30th January 2020)"
-	revision: "8"
+	date: "2020-01-30 20:17:24 GMT (Thursday 30th January 2020)"
+	revision: "9"
 
 class
 	EL_TUPLE_ROUTINES
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
+
+	EL_MODULE_STRING_8
 
 feature -- Basic operations
 
@@ -33,42 +35,57 @@ feature -- Basic operations
 		require
 			valid_comma_count: csv_list.occurrences (',') = tuple.count - 1
 		local
-			list: LIST [STRING_GENERAL]; general: STRING_GENERAL
-			found, is_path_field: BOOLEAN; tuple_type: TYPE [TUPLE]; type_id: INTEGER
+			tuple_type: TYPE [TUPLE]; item_type: TYPE [ANY]; type_id: INTEGER
+			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]; str_8: STRING; ref_item: ANY
+			type_convertible: BOOLEAN; string_item: STRING_GENERAL
 		do
 			tuple_type := tuple.generating_type
-			list := csv_list.split (',')
+			if csv_list.is_string_8 then
+				create {EL_SPLIT_STRING_8_LIST} list.make (csv_list.to_string_8, Comma)
+			else
+				create {EL_SPLIT_STRING_32_LIST} list.make (csv_list.to_string_32, Comma)
+			end
+			if left_adjusted then
+				list.enable_left_adjust
+			end
 			from list.start until list.index > tuple.count or list.after loop
-				type_id := tuple_type.generic_parameter_type (list.index).type_id
-				found := True; is_path_field := False
-
-				if type_id = Class_id.ZSTRING then
-					general := create {ZSTRING}.make_from_general (list.item)
-				elseif type_id = Class_id.STRING_8 then
-					general := list.item.to_string_8
-				elseif type_id = Class_id.STRING_32 then
-					general := list.item.to_string_32
-				elseif Eiffel.field_conforms_to (type_id, Class_id.EL_PATH) then
-					general := list.item
-					is_path_field := True
-				else
-					found := False
-				end
-				if found then
-					if left_adjusted then
-						general.left_adjust
-					end
-					if is_path_field then
-						if type_id = Class_id.EL_FILE_PATH then
-							tuple.put_reference (create {EL_FILE_PATH}.make (general), list.index)
+				string_item := list.item (False)
+				item_type := tuple_type.generic_parameter_type (list.index)
+				type_id := item_type.type_id
+				ref_item := Void; type_convertible := True
+				inspect tuple.item_code (list.index)
+					when {TUPLE}.Reference_code then
+						if type_id = Class_id.ZSTRING then
+							ref_item := create {ZSTRING}.make_from_general (string_item)
+						elseif type_id = Class_id.STRING_8 and then string_item.is_string_8 then
+							ref_item := create {STRING_8}.make_from_string (string_item.to_string_8)
+						elseif type_id = Class_id.STRING_32 then
+							ref_item := create {STRING_32}.make_from_string (string_item)
+						elseif type_id = Class_id.EL_FILE_PATH then
+							ref_item := create {EL_FILE_PATH}.make (string_item)
 						elseif type_id = Class_id.EL_DIR_PATH then
-							tuple.put_reference (create {EL_DIR_PATH}.make (general), list.index)
+							ref_item := create {EL_DIR_PATH}.make (string_item)
 						else
-							check invalid_path_type: False end
+							type_convertible := False
+						end
+				else
+					if string_item.is_string_8 then
+						str_8 := string_item.to_string_8
+						-- Try converting to basic type
+						if String_8.is_convertible (str_8, item_type) then
+							tuple.put (String_8.to_type (str_8, item_type), list.index)
+						else
+							type_convertible := False
 						end
 					else
-						tuple.put_reference (general, list.index)
+						type_convertible := False
 					end
+				end
+				if attached ref_item as l_item  then
+					tuple.put_reference (l_item, list.index)
+				end
+				check
+					type_convertible: type_convertible
 				end
 				list.forth
 			end
@@ -88,5 +105,9 @@ feature -- Basic operations
 		do
 			Result := tuple
 		end
+
+feature {NONE} -- Constants
+
+	Comma: STRING = ","
 
 end

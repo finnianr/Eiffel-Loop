@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 16:03:11 GMT (Thursday 30th January 2020)"
-	revision: "12"
+	date: "2020-01-30 16:06:07 GMT (Thursday 30th January 2020)"
+	revision: "13"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -236,18 +236,25 @@ feature -- External field setters
 				inspect tuple.item_code (index)
 					when {TUPLE}.Integer_32_code then
 						tuple.put_integer (integer_at_xpath (xpath), index)
+
 					when {TUPLE}.Integer_64_code then
 						tuple.put_integer_64 (integer_64_at_xpath (xpath), index)
+
 					when {TUPLE}.Natural_32_code then
 						tuple.put_natural_32 (natural_at_xpath (xpath), index)
+
 					when {TUPLE}.Natural_64_code then
 						tuple.put_natural_64 (natural_64_at_xpath (xpath), index)
+
 					when {TUPLE}.Real_32_code then
 						tuple.put_real_32 (real_at_xpath (xpath), index)
+
 					when {TUPLE}.Real_64_code then
 						tuple.put_real_64 (double_at_xpath (xpath), index)
+
 					when {TUPLE}.Boolean_code then
 						tuple.put_boolean (is_xpath (xpath), index)
+						
 					when {TUPLE}.Reference_code then
 						type_id := tuple_type.generic_parameter_type (index).type_id
 						if type_id = Class_id.ZSTRING then
@@ -257,7 +264,6 @@ feature -- External field setters
 						elseif type_id = Class_id.STRING_32 then
 							tuple.put_reference (string_32_at_xpath (xpath), index)
 						end
-
 				else
 				end
 			end

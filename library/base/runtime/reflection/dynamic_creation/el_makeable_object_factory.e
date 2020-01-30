@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 18:28:51 GMT (Monday 27th January 2020)"
-	revision: "4"
+	date: "2020-01-30 17:36:30 GMT (Thursday 30th January 2020)"
+	revision: "5"
 
 class
 	EL_MAKEABLE_OBJECT_FACTORY
@@ -20,6 +20,8 @@ inherit
 	ANY
 
 	EL_MODULE_EIFFEL
+
+	EL_SHARED_CLASS_ID
 
 feature -- Factory
 
@@ -62,7 +64,7 @@ feature -- Contract Support
 
 	valid_type_id (type_id: INTEGER): BOOLEAN
 		do
-			Result := {ISE_RUNTIME}.type_conforms_to (type_id, Makeable_type_id)
+			Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE)
 		end
 
 feature {NONE} -- Implementation
@@ -72,13 +74,6 @@ feature {NONE} -- Implementation
 			if attached {like new_cell} Eiffel.new_factory_instance ({like new_cell}, type) as new then
 				Result := new
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Makeable_type_id: INTEGER
-		once
-			Result := ({EL_MAKEABLE}).type_id
 		end
 
 end

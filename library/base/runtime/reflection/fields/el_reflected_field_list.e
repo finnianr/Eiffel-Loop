@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 10:37:21 GMT (Thursday 30th January 2020)"
-	revision: "9"
+	date: "2020-01-30 19:26:28 GMT (Thursday 30th January 2020)"
+	revision: "10"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -62,6 +62,10 @@ feature -- Basic operations
 
 	reorder (tuple_list: ARRAY [TUPLE [index: INTEGER_32; offset: INTEGER_32]])
 			-- reorder array by shifting each field with tuples (`i', `offset')
+		require
+			valid_shifts: across tuple_list as l_shift all
+				valid_shift (l_shift.item.index, l_shift.item.offset)
+			end
 		local
 			i, offset: INTEGER_32
 		do

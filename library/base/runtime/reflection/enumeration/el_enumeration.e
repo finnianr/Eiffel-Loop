@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 14:58:54 GMT (Thursday 30th January 2020)"
-	revision: "24"
+	date: "2020-01-30 20:41:25 GMT (Thursday 30th January 2020)"
+	revision: "25"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			field_type_id := ({N}).type_id.to_reference
+			field_type_id := ({N}).type_id.to_character_32
 			Precursor
 			create name_by_value.make (field_table.count)
 			create value_by_name.make_equal (field_table.count)
@@ -131,13 +131,13 @@ feature {NONE} -- Implementation
 
 	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
-			Result := field_type_id.item = type_id
+			Result := field_type_id.natural_32_code = type_id.to_natural_32
 		end
 
 feature {NONE} -- Internal attributes
 
-	field_type_id: INTEGER_REF
-		-- must be reference so it won't be included as part of enumeration
+	field_type_id: CHARACTER_32
+		-- using CHARACTER_32 so it won't be included as part of enumeration
 
 	value_by_name: HASH_TABLE [N, STRING_8]
 

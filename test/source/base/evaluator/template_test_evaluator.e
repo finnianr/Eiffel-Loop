@@ -1,13 +1,13 @@
 note
-	description: "Template test evaluator"
+	description: "Evaluates tests in [$source TEMPLATE_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:58:00 GMT (Thursday 23rd January 2020)"
-	revision: "3"
+	date: "2020-01-30 20:20:38 GMT (Thursday 30th January 2020)"
+	revision: "4"
 
 class
 	TEMPLATE_TEST_EVALUATOR

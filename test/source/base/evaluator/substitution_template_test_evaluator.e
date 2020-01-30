@@ -1,13 +1,13 @@
 note
-	description: "Substitution template test evaluator"
+	description: "Evaluates tests in [$source SUBSTITUTION_TEMPLATE_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:58:30 GMT (Thursday 23rd January 2020)"
-	revision: "1"
+	date: "2020-01-30 20:20:51 GMT (Thursday 30th January 2020)"
+	revision: "2"
 
 class
 	SUBSTITUTION_TEMPLATE_TEST_EVALUATOR

@@ -1,13 +1,13 @@
 note
-	description: "Zstring test evaluator"
+	description: "Evaluates tests in [$source ZSTRING_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 12:28:15 GMT (Sunday 26th January 2020)"
-	revision: "8"
+	date: "2020-01-30 20:21:14 GMT (Thursday 30th January 2020)"
+	revision: "9"
 
 class
 	ZSTRING_TEST_EVALUATOR

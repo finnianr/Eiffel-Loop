@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 6:16:09 GMT (Saturday 25th January 2020)"
-	revision: "5"
+	date: "2020-01-30 20:33:55 GMT (Thursday 30th January 2020)"
+	revision: "6"
 
 class
 	STRING_LIST_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_LIO
+
+	EL_MODULE_TUPLE
 
 feature -- Tests
 
@@ -116,6 +118,18 @@ feature -- Tests
 				list.forth
 			end
 			lio.exit
+		end
+
+	test_fill_tuple
+		local
+			t: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
+		do
+			create t
+			Tuple.fill (t, "cat, C, 6.5, 4")
+			assert ("cat", t.animal ~ "cat")
+			assert ("C", t.letter = 'C')
+			assert ("6.5 kg", t.weight = 6.5)
+			assert ("4 years", t.age = 4)
 		end
 
 feature {NONE} -- Constants

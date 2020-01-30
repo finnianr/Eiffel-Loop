@@ -1,13 +1,13 @@
 note
-	description: "Date text test evaluator"
+	description: "Evaluates tests in [$source DATE_TEXT_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:58:38 GMT (Thursday 23rd January 2020)"
-	revision: "3"
+	date: "2020-01-30 20:20:14 GMT (Thursday 30th January 2020)"
+	revision: "4"
 
 class
 	DATE_TEXT_TEST_EVALUATOR
