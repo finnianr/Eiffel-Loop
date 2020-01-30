@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:09:41 GMT (Wednesday 29th January 2020)"
-	revision: "22"
+	date: "2020-01-30 10:56:10 GMT (Thursday 30th January 2020)"
+	revision: "23"
 
 class
 	EL_CLASS_META_DATA
@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			create field_list.make (new_field_list.to_array)
+			create sink_except_fields.make (agent new_sink_except_fields)
 			field_table := field_list.to_table (a_enclosing_object)
 		end
 
@@ -59,16 +60,10 @@ feature -- Access
 	hidden_fields: EL_FIELD_INDICES_SET
 
 	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; a_excluded_fields: STRING)
-		local
-			excluded: EL_FIELD_INDICES_SET
 		do
-			if sink_except_fields.has_key (a_excluded_fields) then
-				excluded := sink_except_fields.found_item
-			else
-				excluded := new_field_indices_set (a_excluded_fields)
-				sink_except_fields.extend (excluded, a_excluded_fields)
+			if attached sink_except_fields.item as cached then
+				field_list.sink_except (a_object, sinkable, cached.item (a_excluded_fields))
 			end
-			field_list.sink_except (a_object, sinkable, excluded)
 		end
 
 feature -- Basic operations
@@ -190,17 +185,20 @@ feature {NONE} -- Factory
 			same_type: Result.generating_type ~ type
 		end
 
+	new_sink_except_fields: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
+		-- fields excluded by `sink_except' by `a_excluded_fields'
+		do
+			create Result.make_equal (11, agent new_field_indices_set)
+		end
+
 feature {NONE} -- Internal attributes
 
 	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
 
-	sink_except_fields: HASH_TABLE [EL_FIELD_INDICES_SET, STRING]
-		-- fields excluded by `sink_except' by `a_excluded_fields'
-		once ("OBJECT")
-			create Result.make (0)
-		end
+	sink_except_fields: EL_DEFERRED_CELL [like new_sink_except_fields]
+		-- workaround for exceptions thrown by once ("OBJECT")
 
 feature {NONE} -- Constants
 

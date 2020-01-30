@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:34:09 GMT (Wednesday 29th January 2020)"
-	revision: "27"
+	date: "2020-01-29 22:57:05 GMT (Wednesday 29th January 2020)"
+	revision: "28"
 
 class
 	EL_REFLECTOR_CONSTANTS
@@ -83,7 +83,9 @@ feature {EL_REFLECTION_HANDLER} -- Reference types
 	]
 		once
 			create Result.make (<<
-				{EL_REFLECTED_MAKEABLE_FROM_ZSTRING}, {EL_REFLECTED_MAKEABLE_FROM_STRING_8}, {EL_REFLECTED_MAKEABLE_FROM_STRING_32}
+				{EL_REFLECTED_MAKEABLE_FROM_ZSTRING},
+				{EL_REFLECTED_MAKEABLE_FROM_STRING_8},
+				{EL_REFLECTED_MAKEABLE_FROM_STRING_32}
 			>>)
 		end
 

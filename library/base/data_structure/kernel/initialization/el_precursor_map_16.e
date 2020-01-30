@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 10:19:24 GMT (Wednesday 29th January 2020)"
-	revision: "2"
+	date: "2020-01-29 17:57:17 GMT (Wednesday 29th January 2020)"
+	revision: "3"
 
 deferred class
 	EL_PRECURSOR_MAP_16

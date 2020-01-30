@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:33:55 GMT (Wednesday 29th January 2020)"
-	revision: "8"
+	date: "2020-01-30 10:37:21 GMT (Thursday 30th January 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -39,7 +39,7 @@ feature -- Access
 			Result := crc.checksum
 		end
 
-	name_list: EL_STRING_LIST [STRING]
+	name_list: like string_8_list
 		do
 			Result := string_8_list (agent {EL_REFLECTED_FIELD}.name)
 		end
@@ -60,13 +60,17 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	reorder (tuple_list: ARRAY [TUPLE [i: INTEGER_32; offset: INTEGER_32]])
+	reorder (tuple_list: ARRAY [TUPLE [index: INTEGER_32; offset: INTEGER_32]])
 			-- reorder array by shifting each field with tuples (`i', `offset')
 		local
-			l_shift: PROCEDURE [INTEGER_32, INTEGER_32]
+			i, offset: INTEGER_32
 		do
-			l_shift := agent shift_i_th (?, ?)
-			tuple_list.do_all (agent l_shift.call)
+			across tuple_list as l_shift loop
+				i := l_shift.item.index; offset := l_shift.item.offset
+				if valid_shift (i, offset) then
+					shift_i_th (i, offset)
+				end
+			end
 		end
 
 	sink_except (enclosing_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; excluded: EL_FIELD_INDICES_SET)

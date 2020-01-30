@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:09:05 GMT (Saturday 25th January 2020)"
-	revision: "26"
+	date: "2020-01-30 10:33:33 GMT (Thursday 30th January 2020)"
+	revision: "27"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -44,17 +44,17 @@ convert
 
 feature {NONE} -- Initialization
 
+	make_empty
+		do
+			make (0)
+		end
+
 	make_filled (n: INTEGER; new_item: FUNCTION [INTEGER, G])
 		do
 			make (n)
 			from until full loop
 				extend (new_item (count + 1))
 			end
-		end
-
-	make_empty
-		do
-			make (0)
 		end
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
@@ -197,9 +197,9 @@ feature -- Element change
 	shift (offset: INTEGER)
 		-- shift item by `offset' positions to the right
 		-- or to the left if `offset' negative
-		-- Cursor position is unchange
+		-- Cursor position is unchanged
 		require
-			valid_offset: (1 |..| count).has (index + offset)
+			valid_shift: valid_shift (index, offset)
 		local
 			l_item: like item
 		do
@@ -219,8 +219,7 @@ feature -- Element change
 		-- shift `i'th item by `offset' positions to the right
 		-- or to the left if `offset' negative
 		require
-			valid_index: valid_index (i)
-			valid_offset: (1 |..| count).has (i + offset)
+			valid_shift: valid_shift (i, offset)
 		do
 			if offset /= 0 then
 				push_cursor
@@ -228,6 +227,16 @@ feature -- Element change
 				shift (offset)
 				pop_cursor
 			end
+		end
+
+feature -- Contract Support
+
+	valid_shift (i, offset: INTEGER): BOOLEAN
+		local
+			new_i: INTEGER
+		do
+			new_i := i + offset
+			Result := valid_index (i) and then 1 <= new_i and new_i <= count
 		end
 
 feature {NONE} -- Implementation
