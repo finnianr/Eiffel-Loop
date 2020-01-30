@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 14:56:03 GMT (Thursday 30th January 2020)"
-	revision: "2"
+	date: "2020-01-30 14:58:36 GMT (Thursday 30th January 2020)"
+	revision: "3"
 
 deferred class
 	EL_TYPE_ID_ENUMERATION
@@ -51,5 +51,6 @@ feature {NONE} -- Initialization
 feature {NONE} -- Internal attributes
 
 	type_id_count: INTEGER_REF
+		-- Must be reference in order not be included as type_id
 
 end

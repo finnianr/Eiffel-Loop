@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 11:42:18 GMT (Thursday 30th January 2020)"
-	revision: "11"
+	date: "2020-01-30 16:03:11 GMT (Thursday 30th January 2020)"
+	revision: "12"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -40,8 +40,6 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_EIFFEL
-
-	EL_REFLECTOR_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 
@@ -228,38 +226,39 @@ feature -- External field setters
 			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
 		local
 			xpath_list: EL_STRING_8_LIST; index, type_id: INTEGER
-			type_array: EL_TUPLE_TYPE_ARRAY; xpath: STRING
+			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
-			create type_array.make_from_tuple (tuple)
+			tuple_type := tuple.generating_type
 			create xpath_list.make_with_separator (a_xpath_list, ',', True)
 			across xpath_list as l_xpath loop
 				index := l_xpath.cursor_index
 				xpath := l_xpath.item
-				type_id := type_array.item (index).type_id
-				inspect Eiffel.abstract_type (type_id)
-					when Integer_32_type then
+				inspect tuple.item_code (index)
+					when {TUPLE}.Integer_32_code then
 						tuple.put_integer (integer_at_xpath (xpath), index)
-					when Integer_64_type then
+					when {TUPLE}.Integer_64_code then
 						tuple.put_integer_64 (integer_64_at_xpath (xpath), index)
-					when Natural_32_type then
+					when {TUPLE}.Natural_32_code then
 						tuple.put_natural_32 (natural_at_xpath (xpath), index)
-					when Natural_64_type then
+					when {TUPLE}.Natural_64_code then
 						tuple.put_natural_64 (natural_64_at_xpath (xpath), index)
-					when Real_32_type then
+					when {TUPLE}.Real_32_code then
 						tuple.put_real_32 (real_at_xpath (xpath), index)
-					when Real_64_type then
+					when {TUPLE}.Real_64_code then
 						tuple.put_real_64 (double_at_xpath (xpath), index)
-					when Boolean_type then
+					when {TUPLE}.Boolean_code then
 						tuple.put_boolean (is_xpath (xpath), index)
+					when {TUPLE}.Reference_code then
+						type_id := tuple_type.generic_parameter_type (index).type_id
+						if type_id = Class_id.ZSTRING then
+							tuple.put_reference (string_at_xpath (xpath), index)
+						elseif type_id = Class_id.STRING_8 then
+							tuple.put_reference (string_8_at_xpath (xpath), index)
+						elseif type_id = Class_id.STRING_32 then
+							tuple.put_reference (string_32_at_xpath (xpath), index)
+						end
 
 				else
-					if type_id = Class_id.ZSTRING then
-						tuple.put_reference (string_at_xpath (xpath), index)
-					elseif type_id = Class_id.STRING_8 then
-						tuple.put_reference (string_8_at_xpath (xpath), index)
-					elseif type_id = Class_id.STRING_32 then
-						tuple.put_reference (string_32_at_xpath (xpath), index)
-					end
 				end
 			end
 		end

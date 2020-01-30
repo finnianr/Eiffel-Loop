@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:30:10 GMT (Wednesday 29th January 2020)"
-	revision: "12"
+	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -21,7 +21,7 @@ inherit
 			reset, set_from_string, set_from_readable, to_string
 		end
 
-	EL_REFLECTOR_CONSTANTS undefine is_equal end
+	EL_REFLECTION_CONSTANTS undefine is_equal end
 
 feature {EL_CLASS_META_DATA} -- Initialization
 

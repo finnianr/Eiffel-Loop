@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 11:39:09 GMT (Thursday 30th January 2020)"
-	revision: "7"
+	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
+	revision: "8"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -18,7 +18,7 @@ inherit
 			make as make_array
 		end
 
-	EL_REFLECTOR_CONSTANTS
+	EL_REFLECTION_CONSTANTS
 		undefine
 			is_equal, copy
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 12:19:02 GMT (Thursday 30th January 2020)"
-	revision: "24"
+	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
+	revision: "25"
 
 class
 	EL_CLASS_META_DATA
@@ -20,7 +20,7 @@ inherit
 			make, enclosing_object
 		end
 
-	EL_REFLECTOR_CONSTANTS
+	EL_REFLECTION_CONSTANTS
 
 	EL_MODULE_EIFFEL
 

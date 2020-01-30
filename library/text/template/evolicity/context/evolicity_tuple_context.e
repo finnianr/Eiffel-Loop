@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-08 16:01:10 GMT (Friday 8th February 2019)"
-	revision: "1"
+	date: "2020-01-30 15:51:41 GMT (Thursday 30th January 2020)"
+	revision: "2"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_REFLECTOR_CONSTANTS
+	EL_REFLECTION_CONSTANTS
 
 create
 	make

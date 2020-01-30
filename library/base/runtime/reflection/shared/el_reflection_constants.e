@@ -6,17 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 12:16:37 GMT (Thursday 30th January 2020)"
-	revision: "29"
+	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
+	revision: "30"
 
 class
-	EL_REFLECTOR_CONSTANTS
-
-inherit
-	REFLECTOR_CONSTANTS
-		export
-			{EL_REFLECTION_HANDLER} all
-		end
+	EL_REFLECTION_CONSTANTS
 
 feature {EL_REFLECTION_HANDLER} -- Collection types
 

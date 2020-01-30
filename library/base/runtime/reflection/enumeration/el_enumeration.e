@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 14:53:01 GMT (Thursday 30th January 2020)"
-	revision: "23"
+	date: "2020-01-30 14:58:54 GMT (Thursday 30th January 2020)"
+	revision: "24"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -137,7 +137,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	field_type_id: INTEGER_REF
-		-- is a reference so it won't be included as part of enumeration
+		-- must be reference so it won't be included as part of enumeration
 
 	value_by_name: HASH_TABLE [N, STRING_8]
 

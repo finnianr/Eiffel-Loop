@@ -1,13 +1,13 @@
 note
-	description: "Eif obj builder context type constants"
+	description: "Eifel object builder context type constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:15:10 GMT (Wednesday 29th January 2020)"
-	revision: "4"
+	date: "2020-01-30 15:18:23 GMT (Thursday 30th January 2020)"
+	revision: "5"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS

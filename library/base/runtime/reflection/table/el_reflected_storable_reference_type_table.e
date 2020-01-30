@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 12:17:55 GMT (Thursday 30th January 2020)"
-	revision: "5"
+	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
+	revision: "6"
 
 class
 	EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
@@ -20,7 +20,7 @@ inherit
 			has_conforming
 		end
 
-	EL_REFLECTOR_CONSTANTS
+	EL_REFLECTION_CONSTANTS
 		undefine
 			is_equal, copy, default_create
 		end
