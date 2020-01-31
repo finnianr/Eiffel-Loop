@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 11:30:59 GMT (Friday 31st January 2020)"
-	revision: "12"
+	date: "2020-01-31 12:05:01 GMT (Friday 31st January 2020)"
+	revision: "13"
 
 class
 	VTD_XML_TEST_EVALUATOR
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 
 	do_tests
 		do
-			test ("bioinfo_xpath_query_1",			agent item.test_bioinfo_xpath_query_1)
+			test ("bioinfo_xpath_query_1",			agent item.test_bioinfo_xpath_query)
 --			test ("delete_content_with_action",	agent item.test_delete_content_with_action)
 --			test ("delete_with_action",			agent item.test_delete_with_action)
 --			test ("read_directories",				agent item.test_read_directories)

@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 14:36:08 GMT (Tuesday 21st January 2020)"
-	revision: "1"
+	date: "2020-01-31 13:12:01 GMT (Friday 31st January 2020)"
+	revision: "2"
 
 class
 	EL_EQA_TEST_SET
 
 inherit
 	EQA_TEST_SET
-
-feature {NONE} -- Initialization
-
-	dummy_create
-		do
+		rename
+			file_system as ise_file_system
 		end
+
 end

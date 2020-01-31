@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 10:57:41 GMT (Friday 31st January 2020)"
-	revision: "18"
+	date: "2020-01-31 13:19:30 GMT (Friday 31st January 2020)"
+	revision: "19"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES

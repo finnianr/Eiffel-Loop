@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 14:09:21 GMT (Sunday 26th January 2020)"
-	revision: "13"
+	date: "2020-01-31 13:19:20 GMT (Friday 31st January 2020)"
+	revision: "14"
 
 deferred class
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]

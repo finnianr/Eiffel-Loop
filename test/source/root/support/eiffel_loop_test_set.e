@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:36:37 GMT (Wednesday 8th January 2020)"
-	revision: "5"
+	date: "2020-01-31 13:11:14 GMT (Friday 31st January 2020)"
+	revision: "6"
 
 class
 	EIFFEL_LOOP_TEST_SET
 
 inherit
-	EQA_TEST_SET
-		rename
-			file_system as eqa_file_system
+	EL_EQA_TEST_SET
 		export
 			{EL_SUB_APPLICATION} clean
 		redefine

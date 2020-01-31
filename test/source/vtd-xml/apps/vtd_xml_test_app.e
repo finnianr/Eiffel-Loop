@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 10:36:11 GMT (Friday 31st January 2020)"
-	revision: "12"
+	date: "2020-01-31 12:21:33 GMT (Friday 31st January 2020)"
+	revision: "13"
 
 class
 	VTD_XML_TEST_APP
@@ -58,30 +58,7 @@ feature {NONE} -- Tests
 		do
 			log.enter_with_args ("query_bioinfo", [file_path])
 			create root_node.make_from_file (file_path)
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
 
-			do_query_bioinfo_2 ("//label[contains (text(), 'branches')]")
-			do_query_bioinfo_2 ("//value[@type='url' and contains (text(), 'http://')]")
-			do_query_bioinfo_2 ("//value[@type='url']/text()")
-				-- Gives the same result with or without "/text()".
-
-			do_query_bioinfo_3 ("//value[@type='integer']") -- This causes a problem somehow ????
-			do_query_bioinfo_3 ("//value[@type='integer' and number (text ()) > 100]")
-
-			do_query_bioinfo_4 ("Element count", "//*")
-			do_query_bioinfo_4 ("Package count", "//package")
-			do_query_bioinfo_4 ("Command count", "//command")
-			do_query_bioinfo_4 ("Title count", "//value[@type='title']")
-
-			do_query_bioinfo_5 (
-				"URL (strasbg.fr)",
-				"//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'strasbg.fr')]/text()"
-			)
-			do_query_bioinfo_5 (
-				"URL (indiana.edu)",
-				"//value[@type='url' and starts-with (text(), 'http://') and contains (text(), 'indiana.edu')]/text()"
-			)
 
 			log.exit
 		end
@@ -194,48 +171,6 @@ feature {NONE} -- Tests
 		end
 
 feature {NONE} -- Implementation
-
-	do_query_bioinfo_2 (xpath: STRING)
-			-- list all url values
-		do
-			log.enter_with_args ("do_query_bioinfo_2", [xpath])
-			across root_node.context_list (xpath) as label loop
-				log.put_line (label.node.normalized_string_value)
-			end
-			log.exit
-		end
-
-	do_query_bioinfo_3 (xpath: STRING)
-			-- list all integer values
-		local
-			id: STRING
-		do
-			log.enter_with_args ("do_query_bioinfo_3", [xpath])
-			across root_node.context_list (xpath) as value loop
-				id := value.node.string_at_xpath ("parent::node()/id")
-				log.put_integer_field (id, value.node.integer_value)
-				log.put_new_line
-			end
-			log.exit
-		end
-
-	do_query_bioinfo_4 (label, xpath: STRING)
-			-- element count
-		do
-			log.enter_with_args ("do_query_bioinfo_4", [xpath])
-			log.put_integer_field (label, root_node.context_list (xpath).count)
-			log.put_new_line
-			log.exit
-		end
-
-	do_query_bioinfo_5 (label, xpath: STRING)
-			-- element count
-		do
-			log.enter_with_args ("do_query_bioinfo_5", [xpath])
-			log.put_string_field (label, root_node.string_at_xpath (xpath))
-			log.put_new_line
-			log.exit
-		end
 
 	do_query_svg_1 (xpath: STRING)
 			-- distance double coords
