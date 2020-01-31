@@ -6,30 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:30:25 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2020-01-31 11:00:24 GMT (Friday 31st January 2020)"
+	revision: "5"
 
 class
 	EL_TESTING_CONSOLE_LOG_OUTPUT
 
 inherit
 	EL_CONSOLE_LOG_OUTPUT
-		rename
-			make as make_output
 		redefine
 			write_console
 		end
 
+	EL_SHARED_TEST_CRC
+
 create
 	make
-
-feature -- Initialization
-
-	make (a_crc_32: like crc_32)
-		do
-			crc_32 := a_crc_32
-			make_output
-		end
 
 feature {NONE} -- Implementation
 
@@ -39,11 +31,7 @@ feature {NONE} -- Implementation
 		do
 			l_encoded := console_encoded (str)
 			std_output.put_string (l_encoded)
-			crc_32.add_string_8 (l_encoded)
+			Test_crc.add_string_8 (l_encoded)
 		end
-
-feature {NONE} -- Internal attributes
-
-	crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
 
 end

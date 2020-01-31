@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 21:58:56 GMT (Sunday 26th January 2020)"
-	revision: "33"
+	date: "2020-01-31 10:06:20 GMT (Friday 31st January 2020)"
+	revision: "34"
 
 class
 	APPLICATION_ROOT
@@ -70,7 +70,7 @@ feature {NONE} -- Constants
 
 		-- Test markup-docs.pecf
 		OPEN_OFFICE_TEST_APP,
-		THUNDERBIRD_TEST_APP,
+		THUNDERBIRD_AUTOTEST_APP,
 
 		-- Test network.ecf
 		SIMPLE_CLIENT_SERVER_TEST_APP,
@@ -98,6 +98,7 @@ feature {NONE} -- Constants
 
 		-- Test vtd-xml.ecf
 		VTD_XML_TEST_APP,
+		VTD_XML_AUTOTEST_APP,
 		XML_TO_PYXIS_TEST_APP,
 
 		-- Test xdoc-scanning.ecf

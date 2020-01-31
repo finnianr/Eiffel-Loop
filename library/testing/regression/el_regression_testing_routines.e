@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:14:47 GMT (Sunday 22nd December 2019)"
-	revision: "17"
+	date: "2020-01-31 10:57:41 GMT (Friday 31st January 2020)"
+	revision: "18"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -30,6 +30,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_OS
+
+	EL_SHARED_TEST_CRC
 
 create
 	make
@@ -124,12 +126,12 @@ feature {NONE} -- Implementation
 				extension := file_list.path.extension
 				if not excluded_file_extensions.has (extension) then
 					if binary_file_extensions.has (extension) then
-						Crc_32.add_file (file_list.path)
+						Test_crc.add_file (file_list.path)
 					else
 						create lines.make (file_list.path)
 						from lines.start until lines.after loop
 							lines.item.replace_substring_all (Current_working_dir, Empty_pattern)
-							Crc_32.add_string (lines.item)
+							Test_crc.add_string (lines.item)
 							lines.forth
 						end
 					end
@@ -178,7 +180,7 @@ feature {NONE} -- Implementation
 			search_results: like OS.file_list; timer: EL_EXECUTION_TIMER; new_checksum: NATURAL
 		do
 			create timer.make
-			Crc_32.reset
+			Test_crc.reset
 
 			timer.start
 			if file_name_pattern.is_empty then
@@ -194,7 +196,7 @@ feature {NONE} -- Implementation
 			check_file_output (input_dir_path)
 			log.put_new_line
 
-			new_checksum := Crc_32.checksum
+			new_checksum := Test_crc.checksum
 			last_test_succeeded := new_checksum = old_checksum
 
 			lio.put_labeled_string ("Executed", timer.elapsed_time.out); lio.put_new_line
@@ -231,12 +233,6 @@ feature -- Constants
 			--
 		once
 			create Result.make (10)
-		end
-
-	Crc_32: EL_CYCLIC_REDUNDANCY_CHECK_32
-			--
-		once
-			create Result.make
 		end
 
 	Current_working_dir: ZSTRING

@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 20:41:25 GMT (Thursday 30th January 2020)"
-	revision: "25"
+	date: "2020-01-31 0:32:19 GMT (Friday 31st January 2020)"
+	revision: "26"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]

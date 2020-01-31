@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 20:42:17 GMT (Thursday 30th January 2020)"
-	revision: "4"
+	date: "2020-01-31 0:31:47 GMT (Friday 31st January 2020)"
+	revision: "5"
 
 deferred class
 	EL_TYPE_ID_ENUMERATION
@@ -52,6 +52,6 @@ feature {NONE} -- Initialization
 feature {NONE} -- Internal attributes
 
 	type_id_count: CHARACTER_32
-		-- using CHARACTER_32 so it won't be included as part of enumeration
+		-- using CHARACTER_32 as counter so it won't be included as part of enumeration
 
 end

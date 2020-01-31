@@ -1,16 +1,17 @@
 note
 	description: "Developer tests for Thunderbird email export classes"
+	notes: "Option: `-thunderbird_autotest'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 12:31:54 GMT (Wednesday 8th January 2020)"
-	revision: "60"
+	date: "2020-01-31 9:53:33 GMT (Friday 31st January 2020)"
+	revision: "61"
 
 class
-	THUNDERBIRD_TEST_APP
+	THUNDERBIRD_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION

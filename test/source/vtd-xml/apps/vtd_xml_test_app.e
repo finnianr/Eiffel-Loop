@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:33:23 GMT (Sunday 12th January 2020)"
-	revision: "11"
+	date: "2020-01-31 10:36:11 GMT (Friday 31st January 2020)"
+	revision: "12"
 
 class
 	VTD_XML_TEST_APP
@@ -44,12 +44,11 @@ feature -- Basic operations
 	test_run
 		do
 			log.enter ("test_run")
---			Test.do_file_test ("XML/Jobs-spreadsheet.fods", agent read_jobs_spreadsheet, 2295406679) Has a bug
 			Test.do_file_test ("vtd-xml/bioinfo.xml", agent query_bioinfo, 2349762920)
-			Test.do_file_test ("vtd-xml/aircraft_power_price.svg", agent query_svg, 2735359820)
-			Test.do_file_test ("vtd-xml/CD-catalog.xml", agent query_cd_catalog, 3937389230)
-			Test.do_all_files_test ("vtd-xml", "request-matrix*.xml", agent query_processing_instruction, 3772593145)
-			Test.do_file_tree_test ("pi-taylor-series", agent pi_taylor_series, 103269780)
+--			Test.do_file_test ("vtd-xml/aircraft_power_price.svg", agent query_svg, 2735359820)
+--			Test.do_file_test ("vtd-xml/CD-catalog.xml", agent query_cd_catalog, 3937389230)
+--			Test.do_all_files_test ("vtd-xml", "request-matrix*.xml", agent query_processing_instruction, 3772593145)
+--			Test.do_file_tree_test ("pi-taylor-series", agent pi_taylor_series, 103269780)
 			log.exit
 		end
 
@@ -61,9 +60,6 @@ feature {NONE} -- Tests
 			create root_node.make_from_file (file_path)
 			log.put_string_field ("Encoding", root_node.encoding_name)
 			log.put_new_line
-
-			do_query_bioinfo_1 ("//par/label[count (following-sibling::value) = 2]")
-			do_query_bioinfo_1 ("//par/label[count (following-sibling::value [@type = 'intRange']) = 2]")
 
 			do_query_bioinfo_2 ("//label[contains (text(), 'branches')]")
 			do_query_bioinfo_2 ("//value[@type='url' and contains (text(), 'http://')]")
@@ -198,48 +194,6 @@ feature {NONE} -- Tests
 		end
 
 feature {NONE} -- Implementation
-
-	do_query_bioinfo_1 (xpath: STRING)
-			-- Demonstrates nested queries
-		local
-			log_stack_pos: INTEGER
-			par_value_list, label_node_list: EL_XPATH_NODE_CONTEXT_LIST
-		do
-			-- save call stack count in case of an exception
-			log_stack_pos := log.call_stack_count
-			log.enter ("do_query_bioinfo_1")
-			label_node_list := root_node.context_list (xpath)
-			from label_node_list.start until label_node_list.after loop
-				log.put_string_field (
-					label_node_list.context.name, label_node_list.context.normalized_string_value
-				)
-				log.put_new_line
-				par_value_list := label_node_list.context.context_list ("following-sibling::value")
-				from par_value_list.start until par_value_list.after loop
-					log.put_string_field (
-						"@type", par_value_list.context.attributes ["type"]
-					)
-					log.put_string (" ")
-					log.put_string (par_value_list.context.normalized_string_value)
-					log.put_new_line
-					par_value_list.forth
-				end
-				log.put_new_line
-				label_node_list.forth
-			end
-			log.exit
-		rescue
-			log.restore (log_stack_pos)
-			if Exception.last.is_developer_exception then
-				io.put_string (Exception.last.developer_exception_name)
-				io.put_new_line
-				io.put_string ("Retry? (y/n) ")
-				io.read_line
-				if io.last_string.is_equal ("y") then
-					retry
-				end
-			end
-		end
 
 	do_query_bioinfo_2 (xpath: STRING)
 			-- list all url values

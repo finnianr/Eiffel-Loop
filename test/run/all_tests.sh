@@ -17,6 +17,10 @@ $do_test -bex_builder_test
 
 $do_test -object_builder
 
+$do_test -thunderbird_autotest
+
+$do_test -vtd_xml_autotest
+
 $do_test -xdoc_scanning_autotest
 
 $do_test -xml_to_pyxis_test

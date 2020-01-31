@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:30:44 GMT (Wednesday 21st February 2018)"
-	revision: "3"
+	date: "2020-01-31 11:04:34 GMT (Friday 31st January 2020)"
+	revision: "4"
 
 class
 	EL_TESTING_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
 
 inherit
 	EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
-		rename
-			make as make_file_and_console
 		export
 			{ANY} extendible
 		undefine

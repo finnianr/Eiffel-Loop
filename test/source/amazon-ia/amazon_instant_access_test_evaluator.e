@@ -1,13 +1,13 @@
 note
-	description: "Amazon instant access test evalutaor"
+	description: "Evaluates tests in [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 15:20:02 GMT (Thursday 23rd January 2020)"
-	revision: "5"
+	date: "2020-01-31 10:03:59 GMT (Friday 31st January 2020)"
+	revision: "6"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_EVALUATOR
