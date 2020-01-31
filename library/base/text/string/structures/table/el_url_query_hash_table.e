@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 18:53:12 GMT (Friday 17th January 2020)"
-	revision: "11"
+	date: "2020-01-31 14:14:19 GMT (Friday 31st January 2020)"
+	revision: "12"
 
 class
 	EL_URL_QUERY_HASH_TABLE
@@ -79,23 +79,20 @@ feature -- Conversion
 			-- utf-8 URL encoded name value pairs
 		local
 			sum_count: INTEGER
-			str: like Once_url_string
+			url: like Once_url_string
 		do
-			str := Once_url_string
+			url := Once_url_string
+			url.wipe_out
 			from start until after loop
-				sum_count := key_for_iteration.count + item_for_iteration.count + 2
-				forth
-			end
-			create Result.make (sum_count)
-			from start until after loop
-				if not Result.is_empty then
-					Result.append_character ('&')
+				if not url.is_empty then
+					url.append_character ('&')
 				end
-				str.set_from_string (key_for_iteration); Result.append (str)
-				Result.append_character ('=')
-				str.set_from_string (item_for_iteration); Result.append (str)
+				url.append_general (key_for_iteration)
+				url.append_character ('=')
+				url.append_general (item_for_iteration)
 				forth
 			end
+			create Result.make_from_string (url)
 		end
 
 end

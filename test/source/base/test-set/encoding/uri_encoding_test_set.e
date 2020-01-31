@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:16:23 GMT (Wednesday 8th January 2020)"
-	revision: "6"
+	date: "2020-01-31 17:40:58 GMT (Friday 31st January 2020)"
+	revision: "7"
 
 class
 	URI_ENCODING_TEST_SET
@@ -17,7 +17,18 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_MODULE_LIO
+
 feature -- Test routines
+
+	test_utf_8_sequence
+		local
+			sequence: EL_UTF_8_SEQUENCE
+		do
+			create sequence.make
+			sequence.set ('€')
+			assert ("same string", sequence.to_hexadecimal_escaped ('%%') ~ "%%E2%%82%%AC" )
+		end
 
 	test_url_query_hash_table
 		note
@@ -27,20 +38,27 @@ feature -- Test routines
 				"covers/{EL_URL_QUERY_HASH_TABLE}.url_query_string"
 		local
 			book: EL_URL_QUERY_HASH_TABLE
+			book_query_string: STRING
 		do
 			create book.make_equal (3)
 			book.set_string ("author", Book_info.author)
 			book.set_string ("price", Book_info.price)
 			book.set_string_general ("publisher", "Barnes & Noble")
 			book.set_string_general ("discount", Book_info.discount)
-			assert ("same_string", book.url_query_string.same_string (Encoded_book))
+			book_query_string := book.url_query_string
+			lio.put_string_field ("book_query_string", book_query_string)
+			lio.put_new_line
+			assert ("same_string", book_query_string.same_string (Encoded_book))
 
 			create book.make (Encoded_book)
 			assert ("valid author", book.item ("author") ~ Book_info.author)
 			assert ("valid price", book.item ("price") ~ Book_info.price)
 			assert ("valid publisher", book.item ("publisher") ~ Book_info.publisher)
 			assert ("valid discount", book.item ("discount") ~ Book_info.discount)
-			assert ("same_string", book.url_query_string.same_string (Encoded_book))
+			book_query_string := book.url_query_string
+			lio.put_string_field ("book_query_string", book_query_string)
+			lio.put_new_line
+			assert ("same_string", book_query_string.same_string (Encoded_book))
 		end
 
 feature {NONE} -- Constants
@@ -54,7 +72,9 @@ feature {NONE} -- Constants
 	Encoded_book: STRING = "[
 		author=G%C3%BCnter+%28Wilhelm%29+Grass&price=%E2%82%AC+10.00&publisher=Barnes+%26+Noble&discount=10%25
 	]"
-
+	Encoded_book_finalized: STRING = "[
+		author=G%C3%BCnter+%28Wilhelm%29+Grass&price=          10.00&publisher=Barnes+%26+Noble&discount=10%25
+	]"
 	Uri_string: EL_URI_STRING_8
 		once
 			create Result.make_empty

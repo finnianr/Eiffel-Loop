@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:33:10 GMT (Friday 31st January 2020)"
-	revision: "13"
+	date: "2020-01-31 18:23:15 GMT (Friday 31st January 2020)"
+	revision: "14"
 
 class
 	VTD_XML_TEST_SET
@@ -22,6 +22,8 @@ inherit
 		undefine
 			on_prepare, on_clean
 		end
+
+	EL_MODULE_OS
 
 feature {NONE} -- Initialization
 
@@ -38,9 +40,7 @@ feature -- Tests
 			name: STRING
 		do
 			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
-			do_test (
-				"bioinfo_encoding", 4159057012, agent bioinfo_encoding, []
-			)
+			do_test ("bioinfo_encoding", 4159057012, agent encoding, [])
 			name := "bioinfo_query_1"
 			do_test (
 				name, 2720094262, agent bioinfo_query_1, ["//par/label[count (following-sibling::value) = 2]"]
@@ -83,7 +83,6 @@ feature -- Tests
 			do_test (
 				name, 2610705622, agent bioinfo_query_4, ["Title count", "//value[@type='title']"]
 			)
-
 			name := "bioinfo_query_5"
 			do_test (
 				name, 1831613446,
@@ -101,7 +100,113 @@ feature -- Tests
 			)
 		end
 
-feature {NONE} -- Implementation
+	test_cd_catalog_xpath_query
+		local
+			name: STRING
+		do
+			create root_node.make_from_file ("vtd-xml/CD-catalog.xml")
+
+			do_test ("cd_catalog_encoding", 3672545284, agent encoding, [])
+
+			name := "cd_catalog_query"
+			do_test (
+				name, 1668501835,
+				agent cd_catalog_query, ["count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0"]
+			)
+			do_test (name, 1009490940, agent cd_catalog_query, ["ARTIST [text() = 'Bob Dylan']"])
+			do_test (name, 3219963938, agent cd_catalog_query, ["number (substring (PRICE, 2)) < 10"])
+			do_test (name, 3197753, agent cd_catalog_query, ["number (substring (PRICE, 2)) > 10"])
+		end
+
+	test_query_processing_instruction
+		local
+			file_path: EL_FILE_PATH
+		do
+			file_path := "vtd-xml/request-matrix-average.xml"
+			do_test ("query_processing_instruction", 1660076206, agent query_processing_instruction, [file_path])
+
+			file_path := "vtd-xml/request-matrix-sum.xml"
+			do_test ("query_processing_instruction", 1798316178, agent query_processing_instruction, [file_path])
+		end
+
+	test_svg_xpath_query
+		local
+			name: STRING
+		do
+			create root_node.make_from_file ("vtd-xml/aircraft_power_price.svg")
+
+			do_test ("svg_encoding", 781775463, agent encoding, [])
+			name := "svg_query_1"
+			do_test (name, 3303566290, agent svg_query_1, ["//svg/g[starts-with (@style, 'stroke:blue')]/line"])
+			name := "svg_query_2"
+			do_test (name, 3058580805, agent svg_query_2, ["//svg/g[starts-with (@style, 'stroke:black')]/line"])
+
+			name := "svg_query_3"
+			do_test (name, 1226289817, agent svg_query_3, ["sum (//svg/g/line/@x1)"])
+			do_test (name, 4097543096, agent svg_query_3, ["sum (//svg/g/line/@y1)"])
+		end
+
+feature {NONE} -- CD-catalog.xml
+
+	cd_catalog_query (criteria: STRING)
+		local
+			xpath: STRING; template: ZSTRING
+		do
+			template := once "/CATALOG/CD[%S]"
+			xpath := template #$ [criteria]
+
+			across root_node.context_list (xpath) as cd loop
+				log.put_string_field ("ALBUM", cd.node.string_at_xpath ("TITLE"))
+				log.put_new_line
+				log.put_string_field ("ARTIST", cd.node.string_at_xpath ("ARTIST"))
+				log.put_new_line
+				log.put_string_field ("PRICE", cd.node.string_at_xpath ("PRICE"))
+				log.put_new_line
+				across cd.node.context_list ("CONTENTS/TRACK") as track loop
+					log.put_string ("    " + track.cursor_index.out + ". ")
+					log.put_line (track.node.string_value)
+				end
+				log.put_new_line
+			end
+		end
+
+feature {NONE} -- aircraft_power_price.svg
+
+	svg_query_1 (xpath: STRING)
+			-- distance double coords
+		local
+			p1, p2: SVG_POINT
+		do
+			across root_node.context_list (xpath) as line loop
+				create p1.make (line.node.attributes, 1)
+				create p2.make (line.node.attributes, 2)
+				log.put_double_field ("line length", p1.distance (p2))
+				log.put_new_line
+			end
+		end
+
+	svg_query_2 (xpath: STRING)
+			-- distance integer coords
+		local
+			line_node_list: EL_XPATH_NODE_CONTEXT_LIST
+			p1, p2: SVG_INTEGER_POINT
+		do
+			across root_node.context_list (xpath) as line loop
+				create p1.make (line.node.attributes, 1)
+				create p2.make (line.node.attributes, 2)
+				log.put_double_field ("line length", p1.distance (p2))
+				log.put_new_line
+			end
+		end
+
+	svg_query_3 (xpath: STRING)
+			--
+		do
+			log.put_double_field (xpath, root_node.double_at_xpath (xpath))
+			log.put_new_line
+		end
+
+feature {NONE} -- bioinfo.xml
 
 	bioinfo_query_1 (xpath: STRING)
 			-- Demonstrates nested queries
@@ -161,9 +266,27 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	bioinfo_encoding
+feature {NONE} -- Implementation
+
+	encoding
 		do
 			log.put_string_field ("Encoding", root_node.encoding_name)
+			log.put_new_line
+		end
+
+	query_processing_instruction (file_path: EL_FILE_PATH)
+			--
+		do
+			create root_node.make_from_file (file_path)
+			log.put_string_field ("Encoding", root_node.encoding_name)
+			log.put_new_line
+
+			root_node.find_instruction ("call")
+			if root_node.instruction_found then
+				log.put_string_field ("call", root_node.found_instruction)
+			else
+				log.put_string_field ("No such instruction", "call")
+			end
 			log.put_new_line
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 12:21:33 GMT (Friday 31st January 2020)"
-	revision: "13"
+	date: "2020-01-31 18:23:39 GMT (Friday 31st January 2020)"
+	revision: "14"
 
 class
 	VTD_XML_TEST_APP
@@ -44,73 +44,11 @@ feature -- Basic operations
 	test_run
 		do
 			log.enter ("test_run")
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent query_bioinfo, 2349762920)
---			Test.do_file_test ("vtd-xml/aircraft_power_price.svg", agent query_svg, 2735359820)
---			Test.do_file_test ("vtd-xml/CD-catalog.xml", agent query_cd_catalog, 3937389230)
---			Test.do_all_files_test ("vtd-xml", "request-matrix*.xml", agent query_processing_instruction, 3772593145)
 --			Test.do_file_tree_test ("pi-taylor-series", agent pi_taylor_series, 103269780)
 			log.exit
 		end
 
 feature {NONE} -- Tests
-
-	query_bioinfo (file_path: EL_FILE_PATH)
-		do
-			log.enter_with_args ("query_bioinfo", [file_path])
-			create root_node.make_from_file (file_path)
-
-
-			log.exit
-		end
-
-	query_svg (file_path: EL_FILE_PATH)
-		do
-			log.enter_with_args ("query_svg", [file_path])
-			create root_node.make_from_file (file_path)
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
-
-			do_query_svg_1 ("//svg/g[starts-with (@style, 'stroke:blue')]/line")
-			do_query_svg_2 ("//svg/g[starts-with (@style, 'stroke:black')]/line")
-			do_query_svg_3 ("sum (//svg/g/line/@x1)")
-			do_query_svg_3 ("sum (//svg/g/line/@y1)")
-
-			log.exit
-		end
-
-	query_cd_catalog (file_path: EL_FILE_PATH)
-		do
-			log.enter_with_args ("query_cd_catalog", [file_path])
-			create root_node.make_from_file (file_path)
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
-
-			do_cd_catalog_query ("count (CONTENTS/TRACK[contains (lower-case (text()),'blues')]) > 0")
-			do_cd_catalog_query ("ARTIST [text() = 'Bob Dylan']")
-			do_cd_catalog_query ("number (substring (PRICE, 2)) < 10")
-			do_cd_catalog_query ("number (substring (PRICE, 2)) > 10")
-
-			log.exit
-		end
-
-	query_processing_instruction (file_path: EL_FILE_PATH)
-			--
-		do
-			log.enter_with_args ("query_processing_instruction", [file_path])
-
-			create root_node.make_from_file (file_path)
-			log.put_string_field ("Encoding", root_node.encoding_name)
-			log.put_new_line
-
-			root_node.find_instruction ("call")
-			if root_node.instruction_found then
-				log.put_string_field ("call", root_node.found_instruction)
-			else
-				log.put_string_field ("No such instruction", "call")
-			end
-			log.put_new_line
-			log.exit
-		end
 
 	pi_taylor_series (a_dir_path: EL_DIR_PATH)
 			-- This is a heavy duty test
@@ -171,70 +109,6 @@ feature {NONE} -- Tests
 		end
 
 feature {NONE} -- Implementation
-
-	do_query_svg_1 (xpath: STRING)
-			-- distance double coords
-		local
-			p1, p2: SVG_POINT
-		do
-			log.enter_with_args ("do_query_svg_1", [xpath])
-			across root_node.context_list (xpath) as line loop
-				create p1.make (line.node.attributes, 1)
-				create p2.make (line.node.attributes, 2)
-				log.put_double_field ("line length", p1.distance (p2))
-				log.put_new_line
-			end
-			log.exit
-		end
-
-	do_query_svg_2 (xpath: STRING)
-			-- distance integer coords
-		local
-			line_node_list: EL_XPATH_NODE_CONTEXT_LIST
-			p1, p2: SVG_INTEGER_POINT
-		do
-			log.enter_with_args ("do_query_svg_2", [xpath])
-			across root_node.context_list (xpath) as line loop
-				create p1.make (line.node.attributes, 1)
-				create p2.make (line.node.attributes, 2)
-				log.put_double_field ("line length", p1.distance (p2))
-				log.put_new_line
-			end
-			log.exit
-		end
-
-	do_query_svg_3 (xpath: STRING)
-			--
-		do
-			log.enter_with_args ("do_query_svg_3", [xpath])
-			log.put_double_field (xpath, root_node.double_at_xpath (xpath))
-			log.put_new_line
-			log.exit
-		end
-
-	do_cd_catalog_query (criteria: STRING)
-		local
-			xpath: STRING; template: ZSTRING
-		do
-			log.enter_with_args ("do_query_cd_catalog", [criteria])
-			template := once "/CATALOG/CD[%S]"
-			xpath := template #$ [criteria]
-
-			across root_node.context_list (xpath) as cd loop
-				lio.put_string_field ("ALBUM", cd.node.string_at_xpath ("TITLE"))
-				lio.put_new_line
-				lio.put_string_field ("ARTIST", cd.node.string_at_xpath ("ARTIST"))
-				lio.put_new_line
-				lio.put_string_field ("PRICE", cd.node.string_at_xpath ("PRICE"))
-				lio.put_new_line
-				across cd.node.context_list ("CONTENTS/TRACK") as track loop
-					lio.put_string ("    " + track.cursor_index.out + ". ")
-					lio.put_line (track.node.string_value)
-				end
-				lio.put_new_line
-			end
-			log.exit
-		end
 
 	taylor_series_document_nodes (a_dir_path: EL_DIR_PATH): LINKED_LIST [EL_XPATH_ROOT_NODE_CONTEXT]
 		do

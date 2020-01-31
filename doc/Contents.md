@@ -645,7 +645,7 @@ Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
 Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
 
-Test class [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/thunderbird/thunderbird_test_app.html)
+Test class [THUNDERBIRD_TEST_APP]($source)
 ## Open Office Spreadsheets
 Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 
@@ -1434,7 +1434,7 @@ See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tag
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/source/image-utils/svg_to_png_conversion_test_app.html)
 ## markup-docs.ecf
-* Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/thunderbird/thunderbird_test_app.html)
+* Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP]($source)
 * Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
 
 ## network.ecf

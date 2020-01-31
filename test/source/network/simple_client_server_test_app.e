@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 18:49:59 GMT (Sunday 26th January 2020)"
-	revision: "10"
+	date: "2020-01-31 14:28:13 GMT (Friday 31st January 2020)"
+	revision: "11"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -30,7 +30,7 @@ feature -- Basic operations
 			--
 		do
 			log.enter ("run")
-			Test.do_file_test ("file.txt", agent send_file, 3071773180)
+			Test.do_file_test ("file.txt", agent send_file, 2486921902)
 			log.exit
 		end
 
