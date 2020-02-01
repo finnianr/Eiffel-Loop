@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 11:55:53 GMT (Tuesday 6th August 2019)"
-	revision: "1"
+	date: "2020-02-01 17:27:38 GMT (Saturday 1st February 2020)"
+	revision: "2"
 
 class
 	HASH_SET_VERSUS_LINEAR_COMPARISON

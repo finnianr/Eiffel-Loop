@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 14:42:34 GMT (Friday 31st January 2020)"
-	revision: "71"
+	date: "2020-02-01 17:07:10 GMT (Saturday 1st February 2020)"
+	revision: "72"
 
 class
 	BASE_AUTOTEST_APP
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type: TUPLE [URI_ENCODING_TEST_EVALUATOR]
+	evaluator_type: TUPLE [GENERAL_TEST_EVALUATOR]
 		do
 			create Result
 		end
@@ -59,6 +59,7 @@ feature {NONE} -- Implementation
 		CHAIN_TEST_EVALUATOR,
 		DATE_TEXT_TEST_EVALUATOR,
 		FILE_AND_DIRECTORY_TEST_EVALUATOR,
+		GENERAL_TEST_EVALUATOR,
 		STRING_LIST_TEST_EVALUATOR,
 		SUBSTITUTION_TEMPLATE_TEST_EVALUATOR,
 		TEMPLATE_TEST_EVALUATOR,

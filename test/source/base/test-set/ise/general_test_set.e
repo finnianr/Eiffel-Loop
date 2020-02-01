@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "General test set"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:38:27 GMT (Wednesday 8th January 2020)"
-	revision: "2"
+	date: "2020-02-01 19:21:09 GMT (Saturday 1st February 2020)"
+	revision: "3"
 
 class
 	GENERAL_TEST_SET
@@ -17,7 +17,18 @@ inherit
 
 feature -- Tests
 
-	test_any_array_numeric_type_dectection
+	test_character_32_status_queries
+		do
+--			Bug in finalized exe for compiler version 16.05
+--			assert ("not is_space", not ({CHARACTER_32}'€').is_space)
+--			assert ("not is_digit ", not ({CHARACTER_32}'€').is_digit)
+
+			assert ("not is_alpha", not ({CHARACTER_32}'€').is_alpha)
+			assert ("not is_punctuation", not ({CHARACTER_32}'€').is_punctuation)
+			assert ("not is_control", not ({CHARACTER_32}'€').is_control)
+		end
+
+	test_any_array_numeric_type_detection
 		local
 			array: ARRAY [ANY]
 		do

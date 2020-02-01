@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:31:05 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-02-01 10:24:44 GMT (Saturday 1st February 2020)"
+	revision: "8"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -67,7 +67,7 @@ feature {NONE} -- State handlers
 			fields := line.split ('%T')
 			if fields.count = 7 then
 				cookie_value := fields [7]
-				value := cookie_value.to_string
+				value := cookie_value.decoded
 				if value.has_quotes (2) then
 					value.remove_quotes
 				end

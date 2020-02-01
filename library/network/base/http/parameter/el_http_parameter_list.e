@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:33:01 GMT (Wednesday 29th January 2020)"
-	revision: "8"
+	date: "2020-02-01 10:02:49 GMT (Saturday 1st February 2020)"
+	revision: "9"
 
 class
 	EL_HTTP_PARAMETER_LIST
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	to_table: EL_URL_QUERY_HASH_TABLE
+	to_table: EL_URL_QUERY_ZSTRING_HASH_TABLE
 		do
 			create Result.make_equal (count)
 			extend_table (Result)

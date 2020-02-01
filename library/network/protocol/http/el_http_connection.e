@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:22:20 GMT (Friday 24th January 2020)"
-	revision: "20"
+	date: "2020-02-01 10:02:07 GMT (Saturday 1st February 2020)"
+	revision: "21"
 
 class
 	EL_HTTP_CONNECTION
@@ -353,7 +353,7 @@ feature -- Element change
 			post_data.set_string (raw_string_8)
 		end
 
-	set_post_parameters (parameters: EL_URL_QUERY_HASH_TABLE)
+	set_post_parameters (parameters: EL_URL_QUERY_ZSTRING_HASH_TABLE)
 		do
 			set_post_data (parameters.url_query_string)
 		end

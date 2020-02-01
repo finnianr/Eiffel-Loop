@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 14:14:19 GMT (Friday 31st January 2020)"
-	revision: "12"
+	date: "2020-02-01 10:44:08 GMT (Saturday 1st February 2020)"
+	revision: "1"
 
-class
-	EL_URL_QUERY_HASH_TABLE
+deferred class
+	EL_URL_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_URL_QUERY_TABLE
@@ -20,18 +20,13 @@ inherit
 			is_equal, copy, default_create
 		end
 
-	EL_ZSTRING_HASH_TABLE [ZSTRING]
+	HASH_TABLE [S, S]
 		rename
 			item as table_item,
 			make as make_table
 		export
 			{NONE} table_item
 		end
-
-	EL_ZSTRING_CONSTANTS
-
-create
-	make_equal, make, make_default
 
 feature {NONE} -- Initialization
 
@@ -42,35 +37,35 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (key: ZSTRING): ZSTRING
+	item (key: READABLE_STRING_GENERAL): like new_string
 		do
-			if attached {ZSTRING} table_item (key) as l_result then
+			if attached {like new_string} table_item (from_general (key)) as l_result then
 				Result := l_result
 			else
-				create Result.make_empty
+				Result := new_string (0)
 			end
 		end
 
 feature -- Element change
 
-	set_numeric (key: ZSTRING; value: NUMERIC)
+	set_name_value (name, value: like new_string)
+		do
+			put (value, name)
+		end
+
+	set_numeric (key: like new_string; value: NUMERIC)
 		do
 			set_string_general (key, value.out)
 		end
 
-	set_string (key, value: ZSTRING)
+	set_string (key, value: like new_string)
 		do
 			force (value, key)
 		end
 
-	set_string_general (key: ZSTRING; uc_value: READABLE_STRING_GENERAL)
+	set_string_general (key, a_value: READABLE_STRING_GENERAL)
 		do
-			set_string (key, create {ZSTRING}.make_from_general (uc_value))
-		end
-
-	set_name_value (name, value: ZSTRING)
-		do
-			put (value, name)
+			set_string (from_general (key), from_general (a_value))
 		end
 
 feature -- Conversion
@@ -78,7 +73,6 @@ feature -- Conversion
 	url_query_string: STRING
 			-- utf-8 URL encoded name value pairs
 		local
-			sum_count: INTEGER
 			url: like Once_url_string
 		do
 			url := Once_url_string
@@ -93,6 +87,30 @@ feature -- Conversion
 				forth
 			end
 			create Result.make_from_string (url)
+		end
+
+feature {NONE} -- Implementation
+
+	from_general (str: READABLE_STRING_GENERAL): like new_string
+		do
+			if attached {like new_string} str as l_result then
+				Result := l_result
+			else
+				create Result.make (str.count)
+				Result.append (str)
+			end
+		end
+
+	new_string (n: INTEGER): S
+		do
+			create Result.make (n)
+		end
+
+feature {NONE} -- Constants
+
+	Once_url_string: EL_URL_QUERY_STRING_8
+		once
+			create Result.make_empty
 		end
 
 end

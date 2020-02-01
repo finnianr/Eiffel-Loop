@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:02:48 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-02-01 10:38:32 GMT (Saturday 1st February 2020)"
+	revision: "7"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -33,11 +33,27 @@ inherit
 
 	EL_MODULE_HEXADECIMAL
 
+	EL_SHARED_ONCE_STRING_32
+
 feature -- Conversion
 
-	to_string: ZSTRING
+	decoded: ZSTRING
 		do
 			create Result.make_from_utf_8 (to_utf_8)
+		end
+
+	decoded_8: STRING_8
+		do
+			Result := empty_once_string_32
+			UTF.utf_8_string_8_into_string_32 (to_utf_8, Result)
+			Result := Result.to_string_8
+		end
+
+	decoded_32: STRING_32
+		do
+			Result := empty_once_string_32
+			UTF.utf_8_string_8_into_string_32 (to_utf_8, Result)
+			Result := Result.twin
 		end
 
 	to_utf_8: STRING

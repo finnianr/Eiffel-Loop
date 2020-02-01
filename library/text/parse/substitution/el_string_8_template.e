@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:03:47 GMT (Thursday 23rd January 2020)"
-	revision: "6"
+	date: "2020-02-01 11:38:53 GMT (Saturday 1st February 2020)"
+	revision: "7"
 
 class
 	EL_STRING_8_TEMPLATE
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			if attached {EL_READABLE_ZSTRING} a_general as z_str then
 				z_str.append_to_string_8 (target)
 
-			elseif a_general.is_string_8 then
+			elseif a_general.is_valid_as_string_8 then
 				target.append (a_general.to_string_8)
 			end
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 21:41:12 GMT (Monday 13th January 2020)"
-	revision: "17"
+	date: "2020-02-01 16:56:42 GMT (Saturday 1st February 2020)"
+	revision: "18"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	STRING_HANDLER
 
-	EL_MODULE_CHARACTER
+	EL_MODULE_CHAR_8
 
 feature -- Basic operations
 
@@ -33,9 +33,9 @@ feature -- Basic operations
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
-			i: INTEGER; routines: like Character
+			i: INTEGER; routines: like Char_8
 		do
-			routines := Character
+			routines := Char_8
 			from i := 1 until i > s.count loop
 				routines.write_utf_8 (s [i], writeable)
 				i := i + 1

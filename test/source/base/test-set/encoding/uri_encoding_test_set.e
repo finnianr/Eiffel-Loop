@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 17:40:58 GMT (Friday 31st January 2020)"
-	revision: "7"
+	date: "2020-02-01 10:54:24 GMT (Saturday 1st February 2020)"
+	revision: "8"
 
 class
 	URI_ENCODING_TEST_SET
@@ -30,6 +30,17 @@ feature -- Test routines
 			assert ("same string", sequence.to_hexadecimal_escaped ('%%') ~ "%%E2%%82%%AC" )
 		end
 
+	test_url_query_string_8
+		local
+			query_string: EL_URL_QUERY_STRING_8
+		do
+			create query_string.make (5)
+			query_string.append_general ("euro")
+			query_string.append_character ('=')
+			query_string.append_general ({STRING_32} "€")
+			assert ("same_string", query_string.same_string (Euro_uri))
+		end
+
 	test_url_query_hash_table
 		note
 			testing:	"covers/{EL_URL_QUERY_STRING_8}.append_general",
@@ -37,12 +48,12 @@ feature -- Test routines
 				"covers/{EL_URL_QUERY_HASH_TABLE}.make",
 				"covers/{EL_URL_QUERY_HASH_TABLE}.url_query_string"
 		local
-			book: EL_URL_QUERY_HASH_TABLE
+			book: EL_URL_QUERY_ZSTRING_HASH_TABLE
 			book_query_string: STRING
 		do
 			create book.make_equal (3)
-			book.set_string ("author", Book_info.author)
-			book.set_string ("price", Book_info.price)
+			book.set_string_general ("author", Book_info.author)
+			book.set_string_general ("price", Book_info.price)
 			book.set_string_general ("publisher", "Barnes & Noble")
 			book.set_string_general ("discount", Book_info.discount)
 			book_query_string := book.url_query_string
@@ -67,14 +78,17 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, {STRING_32} "Günter (Wilhelm) Grass, € 10.00, Barnes & Noble, 10%%")
+			assert ("price correct", Result.price.same_string ({STRING_32} "€ 10.00"))
 		end
 
 	Encoded_book: STRING = "[
 		author=G%C3%BCnter+%28Wilhelm%29+Grass&price=%E2%82%AC+10.00&publisher=Barnes+%26+Noble&discount=10%25
 	]"
-	Encoded_book_finalized: STRING = "[
-		author=G%C3%BCnter+%28Wilhelm%29+Grass&price=          10.00&publisher=Barnes+%26+Noble&discount=10%25
+
+	Euro_uri: STRING = "[
+		euro=%E2%82%AC
 	]"
+
 	Uri_string: EL_URI_STRING_8
 		once
 			create Result.make_empty

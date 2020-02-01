@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "String list test set"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 20:33:55 GMT (Thursday 30th January 2020)"
-	revision: "6"
+	date: "2020-02-01 17:08:53 GMT (Saturday 1st February 2020)"
+	revision: "7"
 
 class
 	STRING_LIST_TEST_SET
@@ -66,21 +66,35 @@ feature -- Tests
 
 	test_split_and_join_1
 		local
-			split_numbers: EL_STRING_LIST [STRING]
+			list: EL_STRING_LIST [STRING]
 		do
-			create split_numbers.make_with_separator (Numbers, ',', False)
-			assert ("same string", Numbers ~ split_numbers.joined (','))
+			create list.make_with_separator (Numbers, ',', False)
+			assert ("same string", Numbers ~ list.joined (','))
 
-			split_numbers := << "one", "two", "three" >>
-			assert ("same string", Numbers ~ split_numbers.joined (','))
+			list := << "one", "two", "three" >>
+			assert ("same string", Numbers ~ list.joined (','))
 		end
 
 	test_split_and_join_2
 		local
-			split_numbers: EL_SPLIT_ZSTRING_LIST
+			list: EL_SPLIT_ZSTRING_LIST
 		do
-			create split_numbers.make (Numbers, ",")
-			assert ("same string", Numbers ~ split_numbers.joined (','))
+			create list.make (Numbers, ",")
+			assert ("same string", Numbers ~ list.joined (','))
+		end
+
+	test_split_and_join_3
+		local
+			list: EL_SPLIT_STRING_32_LIST
+		do
+			create list.make (Sales, ",")
+			list.enable_left_adjust
+			from list.start until list.after loop
+				lio.put_string_field (list.index.out, list.item (False))
+				lio.put_new_line
+				list.forth
+			end
+			assert ("same string", Sales ~ list.joined_with_string (", "))
 		end
 
 	test_split_sort
@@ -104,32 +118,34 @@ feature -- Tests
 		local
 			list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			lio.enter ("test_split_string_8")
 			create list.make (Api_string_list.joined_with_string (Comma_space), character_string_8 (','))
 			list.enable_left_adjust
-			lio.put_string_field ("left_adjusted", list.left_adjusted.out)
-			lio.put_new_line
 			from list.start until list.after loop
-				lio.put_integer_interval_field ("interval " + list.index.out, list.item_start_index |..| list.item_end_index)
-				lio.put_new_line
-				lio.put_line (Api_string_list.i_th (list.index))
-				lio.put_line (list.item (False))
 				assert ("same item", list.same_item_as (Api_string_list.i_th (list.index)))
 				list.forth
 			end
-			lio.exit
 		end
 
 	test_fill_tuple
 		local
-			t: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
+			t1: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
+			t2: TUPLE [currency: STRING; symbol: STRING_32]
 		do
-			create t
-			Tuple.fill (t, "cat, C, 6.5, 4")
-			assert ("cat", t.animal ~ "cat")
-			assert ("C", t.letter = 'C')
-			assert ("6.5 kg", t.weight = 6.5)
-			assert ("4 years", t.age = 4)
+			create t1
+			Tuple.fill (t1, "cat, C, 6.5, 4")
+			assert ("cat", t1.animal ~ "cat")
+			assert ("C", t1.letter = 'C')
+			assert ("6.5 kg", t1.weight = 6.5)
+			assert ("4 years", t1.age = 4)
+
+			create t2
+			tuple.fill (t2, {STRING_32} "euro, €")
+			across tuple.debug_lines as line loop
+				lio.put_string_field (line.cursor_index.out, line.item)
+				lio.put_new_line
+			end
+			assert ("same currency", t2.currency ~ "euro")
+			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
 		end
 
 feature {NONE} -- Constants
@@ -148,6 +164,8 @@ feature {NONE} -- Constants
 	Comma_space: STRING = ", "
 
 	Numbers: STRING = "one,two,three"
+
+	Sales: STRING_32 = "widget, €10, in stock"
 
 	Unix_path: STRING = "/home/joe"
 end

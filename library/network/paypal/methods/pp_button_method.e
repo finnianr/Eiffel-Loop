@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:49:12 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-02-01 10:02:46 GMT (Saturday 1st February 2020)"
+	revision: "8"
 
 class
 	PP_BUTTON_METHOD [R -> PP_HTTP_RESPONSE create make_default, make end]
@@ -38,7 +38,7 @@ feature -- Basic operations
 	call, query_result (arguments: TUPLE): R
 		-- call API method
 		local
-			value_table: EL_URL_QUERY_HASH_TABLE; old_count: INTEGER
+			value_table: EL_URL_QUERY_ZSTRING_HASH_TABLE; old_count: INTEGER
 		do
 			connection.reset
 			if is_lio_enabled then

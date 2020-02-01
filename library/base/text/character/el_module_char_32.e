@@ -1,25 +1,25 @@
 note
-	description: "Module character"
+	description: "Shared access to [$source EL_CHARACTER_8_ROUTINES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 8:55:25 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-02-01 16:58:21 GMT (Saturday 1st February 2020)"
+	revision: "8"
 
 deferred class
-	EL_MODULE_CHARACTER
+	EL_MODULE_CHAR_32
 
 inherit
 	EL_MODULE
 
 feature {NONE} -- Constants
 
-	Character: EL_CHARACTER_ROUTINES
+	Char_32: EL_CHARACTER_32_ROUTINES
 			--
 		once
-			create Result
+			create Result.make
 		end
 end

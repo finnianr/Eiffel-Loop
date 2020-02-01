@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-02-01 19:22:26 GMT (Saturday 1st February 2020)"
+	revision: "6"
 
 class
 	EL_NUMERIC_CHAR_TP
@@ -17,6 +17,8 @@ inherit
 		redefine
 			name, code_matches
 		end
+
+	EL_MODULE_CHAR_32
 
 create
 	make
@@ -32,6 +34,6 @@ feature {NONE} -- Implementation
 
 	code_matches (code: NATURAL): BOOLEAN
 		do
-			Result := code.to_character_32.is_digit
+			Result := Char_32.is_digit (code.to_character_32)
 		end
 end

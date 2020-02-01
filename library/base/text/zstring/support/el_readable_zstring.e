@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 15:25:57 GMT (Wednesday 29th January 2020)"
-	revision: "42"
+	date: "2020-02-01 19:21:45 GMT (Saturday 1st February 2020)"
+	revision: "43"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -153,6 +153,8 @@ inherit
 	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ONCE_STRING_32
+
+	EL_MODULE_CHAR_32
 
 feature {NONE} -- Initialization
 
@@ -788,7 +790,7 @@ feature -- Character status query
 		do
 			c := area [i - 1]
 			if c = Unencoded_character then
-				Result := unencoded_item (i).is_digit
+				Result := Char_32.is_digit (unencoded_item (i))
 			else
 				Result := codec.is_numeric (c.natural_32_code)
 			end
@@ -942,7 +944,7 @@ feature -- Status query
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
 				if c_i = Unencoded_character then
-					is_space := unencoded_item (i).is_space
+					is_space := Char_32.is_space (unencoded_item (i)) -- Work around for finalization bug
 				else
 					is_space := c_i.is_space
 				end
@@ -994,7 +996,7 @@ feature -- Status query
 				from i := start_index - 1 until i = end_index or not Result loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
-						Result := Result and unencoded_item (i + 1).is_space
+						Result := Result and Char_32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 					else
 						Result := Result and c_i.is_space
 					end
@@ -1281,7 +1283,7 @@ feature -- Conversion
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
-						is_space := unencoded_item (i + 1).is_space
+						is_space := Char_32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 						l_z_code := unencoded_z_code (i + 1)
 					else
 						is_space := c_i.is_space

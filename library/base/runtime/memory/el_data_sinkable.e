@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 20:09:18 GMT (Thursday 23rd January 2020)"
-	revision: "11"
+	date: "2020-02-01 16:56:43 GMT (Saturday 1st February 2020)"
+	revision: "12"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -44,7 +44,7 @@ inherit
 
 	EL_MODULE_STRING_32
 
-	EL_MODULE_CHARACTER
+	EL_MODULE_CHAR_8
 
 feature -- Measurement
 
@@ -180,7 +180,7 @@ feature -- Character sinks
 	sink_character_32 (in: CHARACTER_32)
 		do
 			if utf_8_mode_enabled then
-				Character.write_utf_8 (in, Current)
+				Char_8.write_utf_8 (in, Current)
 			else
 				sink_natural_32 (in.natural_32_code)
 			end

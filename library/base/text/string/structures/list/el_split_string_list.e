@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 12:28:16 GMT (Sunday 26th January 2020)"
-	revision: "15"
+	date: "2020-02-01 16:58:53 GMT (Saturday 1st February 2020)"
+	revision: "16"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -52,6 +52,8 @@ inherit
 		end
 
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
+
+	EL_MODULE_CHAR_32
 
 create
 	make, make_empty, make_from_sub_list
@@ -136,16 +138,17 @@ feature -- Access
 		do
 			interval := i_th_interval (i)
 			Result := string.substring (lower_integer (interval), upper_integer (interval))
+			if left_adjusted then
+				Result.left_adjust
+			end
+			if right_adjusted then
+				Result.right_adjust
+			end
 		end
 
 	integer_item: INTEGER
 		do
 			Result := join_item.to_integer
-		end
-
-	natural_item: NATURAL
-		do
-			Result := join_item.to_natural
 		end
 
 	item (keep_ref: BOOLEAN): S
@@ -168,6 +171,11 @@ feature -- Access
 				Result := item (keep_ref)
 			end
 			pop_cursor
+		end
+
+	natural_item: NATURAL
+		do
+			Result := join_item.to_natural
 		end
 
 	new_cursor: EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S]
@@ -259,14 +267,14 @@ feature -- Status query
 			end
 		end
 
+	left_adjusted: BOOLEAN
+
+	right_adjusted: BOOLEAN
+
 	same_item_as (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := join_item.same_string (str)
 		end
-
-	left_adjusted: BOOLEAN
-
-	right_adjusted: BOOLEAN
 
 	there_exists (predicate: PREDICATE [like item]): BOOLEAN
 		-- `True' if one split substring matches `predicate'
@@ -360,7 +368,7 @@ feature {NONE} -- Implementation
 			internal.keep_head (0)
 			start_index := item_start_index
 			if left_adjusted then
-				from until start_index > item_end_index or else not string.item (start_index).is_space loop
+				from until start_index > item_end_index or else not Char_32.is_space (string [start_index]) loop
 					start_index := start_index + 1
 				end
 			end

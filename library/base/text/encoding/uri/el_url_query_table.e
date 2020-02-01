@@ -6,27 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:18:00 GMT (Friday 24th January 2020)"
-	revision: "6"
+	date: "2020-02-01 10:26:05 GMT (Saturday 1st February 2020)"
+	revision: "7"
 
 deferred class
 	EL_URL_QUERY_TABLE
 
 feature {NONE} -- Initialization
 
-	make_count (n: INTEGER)
-		deferred
-		end
-
-	make_default
-		deferred
-		end
-
 	make (url_query: STRING)
 		-- call `set_name_value' for each decoded name-value pair found in `url_query' string
 		local
 			list: EL_SPLIT_STRING_LIST [STRING]; name_value_pair: STRING
-			name, value: like Once_url_string; pos_equals: INTEGER
+			name, value: EL_URL_QUERY_STRING_8; pos_equals: INTEGER
 		do
 			create list.make (url_query, Ampersand)
 			make_count (list.count)
@@ -37,24 +29,33 @@ feature {NONE} -- Initialization
 				if pos_equals > 1 then
 					name.set_encoded (name_value_pair, 1, pos_equals - 1)
 					value.set_encoded (name_value_pair, pos_equals + 1, name_value_pair.count)
-					set_name_value (name.to_string, value.to_string)
+					set_name_value (decoded_string (name), decoded_string (value))
 				end
 				list.forth
 			end
 		end
 
+	make_count (n: INTEGER)
+		deferred
+		end
+
+	make_default
+		deferred
+		end
+
 feature -- Element change
 
-	set_name_value (key, value: ZSTRING)
+	set_name_value (key, value: like decoded_string)
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	decoded_string (url: EL_URL_QUERY_STRING_8): READABLE_STRING_GENERAL
 		deferred
 		end
 
 feature {NONE} -- Constants
-
-	Once_url_string: EL_URL_QUERY_STRING_8
-		once
-			create Result.make_empty
-		end
 
 	Ampersand: STRING = "&"
 

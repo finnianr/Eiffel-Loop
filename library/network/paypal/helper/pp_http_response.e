@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:14:31 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-02-01 10:26:32 GMT (Saturday 1st February 2020)"
+	revision: "6"
 
 class
 	PP_HTTP_RESPONSE
@@ -104,6 +104,11 @@ feature {NONE} -- Implementation
 		do
 			Result := Once_variable
 			Result.set_from_string (key)
+		end
+
+	decoded_string (url: EL_URL_QUERY_STRING_8): ZSTRING
+		do
+			Result := url.decoded
 		end
 
 feature {NONE} -- Constants

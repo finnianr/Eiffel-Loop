@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:11:01 GMT (Wednesday 25th September 2019)"
-	revision: "9"
+	date: "2020-02-01 16:55:50 GMT (Saturday 1st February 2020)"
+	revision: "10"
 
 class
-	EL_CHARACTER_ROUTINES
+	EL_CHARACTER_8_ROUTINES
 
 inherit
 	EL_LATIN_1

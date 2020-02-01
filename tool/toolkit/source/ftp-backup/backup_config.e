@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 16:19:21 GMT (Tuesday 10th September 2019)"
-	revision: "1"
+	date: "2020-02-01 10:46:09 GMT (Saturday 1st February 2020)"
+	revision: "2"
 
 class
 	BACKUP_CONFIG
@@ -101,7 +101,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_instance_functions: ARRAY [FUNCTION [ANY]]
+	new_instance_functions: EL_ARRAYED_LIST [FUNCTION [ANY]]
 		-- array of functions returning a new value for result type
 		do
 			Result := <<

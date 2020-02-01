@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 17:44:29 GMT (Monday 27th January 2020)"
-	revision: "19"
+	date: "2020-02-01 10:26:05 GMT (Saturday 1st February 2020)"
+	revision: "20"
 
 class
 	PP_TRANSACTION
@@ -169,6 +169,11 @@ feature {NONE} -- Implementation
 				key [Address_prefix.count] := '.'
 			end
 			set_field (key, a_value)
+		end
+
+	decoded_string (url: EL_URL_QUERY_STRING_8): ZSTRING
+		do
+			Result := url.decoded
 		end
 
 feature {NONE} -- Constants
