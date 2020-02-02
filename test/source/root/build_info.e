@@ -7,7 +7,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:26:58 GMT (Saturday 1st February 2020)"
+	date: "2020-02-02 10:41:27 GMT (Sunday 2nd February 2020)"
 	revision: "1"
 
 class

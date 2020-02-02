@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:30:21 GMT (Friday 31st January 2020)"
-	revision: "1"
+	date: "2020-02-02 17:56:27 GMT (Sunday 2nd February 2020)"
+	revision: "2"
 
 class
 	EL_EQA_REGRESSION_TEST_SET
@@ -29,8 +29,9 @@ feature {NONE} -- Implementation
 
 	do_test (name: STRING; target: NATURAL test: PROCEDURE; operands: TUPLE)
 		require
-			valid_lio: attached {EL_TESTING_CONSOLE_ONLY_LOG} lio
+			valid_lio: attached {EL_TESTING_CONSOLE_AND_FILE_LOG} lio
 			valid_log_manager: attached {EL_TESTING_LOG_MANAGER} Log_manager
+			valid_operands: test.valid_operands (operands)
 		local
 			actual: NATURAL
 		do

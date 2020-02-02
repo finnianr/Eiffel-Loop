@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:22:25 GMT (Friday 31st January 2020)"
-	revision: "1"
+	date: "2020-02-02 17:53:16 GMT (Sunday 2nd February 2020)"
+	revision: "2"
 
 deferred class
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
@@ -15,14 +15,19 @@ deferred class
 inherit
 	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
 		redefine
-			new_lio, new_log_manager
+			new_log, new_lio, new_log_manager
 		end
 
 feature {NONE} -- Implementation
 
 	new_lio: EL_LOGGABLE
 		do
-			create {EL_TESTING_CONSOLE_ONLY_LOG} Result.make
+			Result := Once_log
+		end
+
+	new_log: EL_LOGGABLE
+		do
+			create {EL_TESTING_CONSOLE_AND_FILE_LOG} Result.make -- Normal logging object
 		end
 
 	new_log_manager: EL_TESTING_LOG_MANAGER

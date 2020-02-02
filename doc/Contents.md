@@ -706,7 +706,7 @@ Using the Eiffel API is considerably easier and more intuitive to use than the o
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
 
-Test class [VTD_XML_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_test_app.html)
+Test class [VTD_XML_TEST_APP]($source)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 
@@ -1572,7 +1572,7 @@ See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thr
 Tests for Eiffel interface VTD-XML C API
 
 
-* [VTD_XML_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_test_app.html)
+* [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 * [XML_TO_PYXIS_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/xml_to_pyxis_test_app.html)
 
 ## wel-x-audio.ecf

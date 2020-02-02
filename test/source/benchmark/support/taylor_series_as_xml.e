@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:27:59 GMT (Saturday 1st February 2020)"
-	revision: "1"
+	date: "2020-02-01 19:36:51 GMT (Saturday 1st February 2020)"
+	revision: "2"
 
 class
 	TAYLOR_SERIES_AS_XML
@@ -58,7 +58,7 @@ feature -- Basic operations
 		do
 			numerator := 4; divisor := 1
 			from term := numerator until term.abs < limit loop
-				if divisor \\ 10000 = 1 then
+				if divisor \\ 1000 = 1 then
 					if divisor > 1 then
 						serialize
 					end
@@ -100,7 +100,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Limit: DOUBLE = 0.5E-6
+	Limit: DOUBLE = 0.5E-4
 
 	Template: STRING = "[
 		<?xml version="1.0" encoding="UTF-8"?>

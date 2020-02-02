@@ -163,3 +163,6 @@ Refactored EL_MAKEABLE_FROM_STRING_GENERAL hierarchy to just one class EL_MAKEAB
 Wed 29th Jan 2020, 17:25:44
 Refactored collection types found in class EL_REFLECTOR_CONSTANTS
 
+Sat 1st Feb 2020, 19:30:11
+Implemented workaround for CHARACTER_32.is_space bug
+

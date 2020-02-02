@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 19:00:34 GMT (Monday 13th January 2020)"
-	revision: "39"
+	date: "2020-02-02 17:17:31 GMT (Sunday 2nd February 2020)"
+	revision: "40"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -38,17 +38,6 @@ inherit
 	EL_SHARED_APPLICATION_OPTION
 
 feature {EL_FACTORY_CLIENT} -- Initialization
-
-	init_console
-		local
-			list: like visible_types_list
-		do
-			list := visible_types_list
-			if not list.all_conform then
-				list.log_error (lio, "Error in function `visible_types'")
-			end
-			Console.show_all (list.to_array)
-		end
 
 	initialize
 			--
@@ -226,6 +215,17 @@ feature {NONE} -- Implementation
 				ctrl_c_pressed := True
 				retry
 			end
+		end
+
+	init_console
+		local
+			list: like visible_types_list
+		do
+			list := visible_types_list
+			if not list.all_conform then
+				list.log_error (lio, "Error in function `visible_types'")
+			end
+			Console.show_all (list.to_array)
 		end
 
 	io_put_header

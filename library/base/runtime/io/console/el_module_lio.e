@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 18:58:41 GMT (Sunday 12th January 2020)"
-	revision: "11"
+	date: "2020-02-02 10:11:20 GMT (Sunday 2nd February 2020)"
+	revision: "12"
 
 deferred class
 	EL_MODULE_LIO
@@ -30,9 +30,10 @@ inherit
 
 feature {NONE} -- Access
 
-	Lio: EL_LOGGABLE
-		once
-			Result := new_lio
+	lio: EL_LOGGABLE
+		do
+			Result := Once_lio
+			Result.set_logged_object (Current)
 		end
 
 	Sio, Silent_io: EL_SILENT_LOG
@@ -60,4 +61,10 @@ feature {NONE} -- Implementation
 				create {EL_CONSOLE_ONLY_LOG} Result.make
 			end
 		end
+
+	Once_lio: EL_LOGGABLE
+		once
+			Result := new_lio
+		end
+
 end

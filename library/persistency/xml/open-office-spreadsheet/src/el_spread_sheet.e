@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:36:31 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-02-02 9:26:33 GMT (Sunday 2nd February 2020)"
+	revision: "6"
 
 class
 	EL_SPREAD_SHEET
@@ -27,11 +27,15 @@ inherit
 			item as table_item,
 			first as first_table,
 			last as last_table
+		redefine
+			out
 		end
 
 	EL_OPEN_OFFICE
 		undefine
 			is_equal, out, copy
+		redefine
+			out
 		end
 
 	EL_MODULE_LIO
@@ -41,27 +45,27 @@ create
 
 feature {NONE} -- Initaliazation
 
-	make (file_name: EL_FILE_PATH)
+	make (file_path: EL_FILE_PATH)
 			--
 		do
-			make_with_tables (file_name, << Wildcard_all >>)
+			make_with_tables (file_path, << Wildcard_all >>)
 		end
 
-	make_with_tables (file_name: EL_FILE_PATH; table_names: ARRAY [ZSTRING])
+	make_with_tables (file_path: EL_FILE_PATH; table_names: ARRAY [ZSTRING])
 			-- make with selected table names
 		require
-			valid_file_type: is_valid_file_type (file_name)
+			valid_file_type: is_valid_file_type (file_path)
 		local
-			xpath, cell_range_address, name: ZSTRING
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT
-			table_nodes: EL_XPATH_NODE_CONTEXT_LIST
+			xpath, cell_range_address, l_name: ZSTRING
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT; table_nodes: EL_XPATH_NODE_CONTEXT_LIST
 			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
 			spreadsheet_ctx, document_ctx: EL_XPATH_NODE_CONTEXT
 		do
+			name := file_path.base
 			create tables.make_equal (5)
 			create defined_ranges.make_equal (11)
 			lio.put_line ("Parsing XML")
-			create root_node.make_from_file (file_name)
+			create root_node.make_from_file (file_path)
 			lio.put_line ("Building spreadsheet")
 
 			root_node.set_namespace ("office")
@@ -83,8 +87,8 @@ feature {NONE} -- Initaliazation
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
 						cell_range_address := named_range.node.attributes ["table:cell-range-address"]
 						cell_range_address.prune_all ('$')
-						name := named_range.node.attributes ["table:name"]
-						defined_ranges [cell_range_address] := name
+						l_name := named_range.node.attributes ["table:name"]
+						defined_ranges [cell_range_address] := l_name
 					end
 					xpath := selected_tables_xpath (table_names)
 					table_nodes := spreadsheet_ctx.context_list (xpath.to_unicode)
@@ -101,9 +105,16 @@ feature {NONE} -- Initaliazation
 
 feature -- Access
 
+	mimetype: ZSTRING
+
+	name: ZSTRING
+
 	office_version: REAL
 
-	mimetype: ZSTRING
+	out: STRING
+		do
+			Result := name
+		end
 
 	table (a_name: ZSTRING): EL_SPREAD_SHEET_TABLE
 		do
@@ -112,11 +123,11 @@ feature -- Access
 
 feature -- Contract support
 
-	is_valid_file_type (file_name: EL_FILE_PATH): BOOLEAN
+	is_valid_file_type (file_path: EL_FILE_PATH): BOOLEAN
 		local
 			xml: EL_XML_NAMESPACES
 		do
-			create xml.make_from_file (file_name)
+			create xml.make_from_file (file_path)
 			if xml.namespace_urls.has_key ("office") then
 				Result := xml.namespace_urls.found_item ~ Office_namespace_url
 			end
@@ -150,13 +161,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Or_operator: ZSTRING
+		once
+			Result := " or "
+		end
 	Wildcard_all: ZSTRING
 		once
 			Result := "*"
 		end
 
-	Or_operator: ZSTRING
-		once
-			Result := " or "
-		end
 end
