@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 11:06:00 GMT (Monday 3rd February 2020)"
-	revision: "73"
+	date: "2020-02-03 16:39:41 GMT (Monday 3rd February 2020)"
+	revision: "74"
 
 class
 	BASE_AUTOTEST_APP
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type: TUPLE [GENERAL_TEST_EVALUATOR]
+	evaluator_type: TUPLE [CHAIN_TEST_EVALUATOR]
 		do
 			create Result
 		end

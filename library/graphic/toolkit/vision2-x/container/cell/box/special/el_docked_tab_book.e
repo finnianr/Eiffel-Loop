@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 7:55:30 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2020-02-03 17:44:11 GMT (Monday 3rd February 2020)"
+	revision: "6"
 
 class
 	EL_DOCKED_TAB_BOOK
@@ -78,19 +78,7 @@ feature -- Access
 			Result := tabs.item
 		end
 
-	selected_zone_circular_tabs: ARRAYED_CIRCULAR [like selected]
-		local
-			zone_tabs: like selected_zone_tabs
-			selected_index: INTEGER
-		do
-			zone_tabs := selected_zone_tabs
-			create Result.make (zone_tabs.count)
-			selected_index := zone_tabs.index
-			Result.append (zone_tabs)
-			Result.go_i_th (selected_index)
-		end
-
-	selected_zone_tabs: ARRAYED_LIST [like selected]
+	selected_zone_tabs: EL_ARRAYED_LIST [like selected]
 		local
 			l_contents: ARRAYED_LIST [SD_CONTENT]
 		do
@@ -181,16 +169,9 @@ feature -- Element change
 		end
 
 	select_adjacent (direction: INTEGER)
-		local
-			zone_tabs: like selected_zone_circular_tabs
 		do
-			zone_tabs := selected_zone_circular_tabs
-			if zone_tabs.count > 1 then
-				if direction < 0 then
-					zone_tabs.back
-				else
-					zone_tabs.forth
-				end
+			if attached selected_zone_tabs as zone_tabs and then not zone_tabs.is_empty then
+				zone_tabs.circular_move (direction)
 				zone_tabs.item.set_selected
 			end
 		end

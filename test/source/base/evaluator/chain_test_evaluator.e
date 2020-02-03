@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:20:13 GMT (Saturday 25th January 2020)"
-	revision: "1"
+	date: "2020-02-03 16:39:51 GMT (Monday 3rd February 2020)"
+	revision: "2"
 
 class
 	CHAIN_TEST_EVALUATOR
@@ -28,5 +28,6 @@ feature {NONE} -- Implementation
 			test ("order_by_color_name",	agent item.test_order_by_color_name)
 			test ("order_by_weight",		agent item.test_order_by_weight)
 			test ("find_predicate",			agent item.test_find_predicate)
+			test ("circular_indexing",		agent item.test_circular_indexing)
 		end
 end

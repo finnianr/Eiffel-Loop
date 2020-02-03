@@ -166,3 +166,6 @@ Refactored collection types found in class EL_REFLECTOR_CONSTANTS
 Sat 1st Feb 2020, 19:30:11
 Implemented workaround for CHARACTER_32.is_space bug
 
+Mon 3rd Feb 2020, 11:09:10
+Made path and encoding accessible on EL_PYXIS_TO_XML_CONVERTER
+

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 14:27:47 GMT (Monday 27th January 2020)"
-	revision: "26"
+	date: "2020-02-03 17:50:52 GMT (Monday 3rd February 2020)"
+	revision: "27"
 
 deferred class EL_CHAIN [G]
 
@@ -151,6 +151,45 @@ feature -- Item query
 				i := i + 1
 			end
 			pop_cursor
+		end
+
+feature -- Circular indexing
+
+	circular_i_th (i: INTEGER): like item
+		-- `item' at `i_th ((i \\ count) + 1)'
+		-- `i' maybe negative or > `count'
+		require
+			not_empty: not is_empty
+		do
+			Result := i_th (modulo (i,  count) + 1)
+		ensure
+			zero_is_first: i = 0 implies Result = first
+			minus_1_is_last: i = i.one.opposite implies Result = last
+		end
+
+	circular_move (offset: INTEGER)
+		do
+			if not is_empty then
+				go_circular_i_th (zero_index + offset)
+			end
+		end
+
+	go_circular_i_th (i: INTEGER)
+		-- got `item' at `i_th ((i \\ count) + 1)'
+		-- `i' maybe negative or > `count'
+		require
+			not_empty: not is_empty
+		do
+			go_i_th (modulo (i, count) + 1)
+		ensure
+			zero_is_first: i = 0 implies item = first
+			minus_1_is_last: i = i.one.opposite implies item = last
+		end
+
+	zero_index: INTEGER
+		-- zero based index for circular routines
+		do
+			Result := index - 1
 		end
 
 feature -- Conversion
@@ -369,6 +408,8 @@ feature -- Cursor movement
 			Precursor (target_value, value)
 		end
 
+feature -- Basic operations
+
 	pop_cursor
 		-- restore cursor position from stack
 		do
@@ -384,10 +425,11 @@ feature -- Cursor movement
 
 feature -- Contract Support
 
-	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
-
+	item_or_void: like item
 		do
-			Result := value.generating_type.generic_parameter_type (2)
+			if not off then
+				Result := item
+			end
 		end
 
 	proto_item: G
@@ -398,10 +440,19 @@ feature -- Contract Support
 			end
 		end
 
-	item_or_void: like item
+	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
+
 		do
-			if not off then
-				Result := item
+			Result := value.generating_type.generic_parameter_type (2)
+		end
+
+feature {NONE} -- Implementation
+
+	modulo (number, modulus: INTEGER): INTEGER
+		do
+			Result := number \\ modulus
+			if Result < 0 then
+				Result := Result + modulus
 			end
 		end
 

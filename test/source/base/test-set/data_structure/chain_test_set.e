@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 18:26:44 GMT (Friday 31st January 2020)"
-	revision: "8"
+	date: "2020-02-03 17:37:51 GMT (Monday 3rd February 2020)"
+	revision: "9"
 
 class
 	CHAIN_TEST_SET
@@ -28,6 +28,37 @@ inherit
 	EL_MODULE_LIO
 
 feature -- Test
+
+	test_circular_indexing
+		local
+			list: EL_ARRAYED_LIST [INTEGER]
+			sum, one: INTEGER
+		do
+			create list.make_from_array (<< 1, 2, 3 >>)
+			across -3 |..| 2 as n loop
+				sum := sum + list.circular_i_th (n.item)
+			end
+			assert ("sum is 12", sum = 12)
+
+			from one := -1 until one > 1 loop
+				list.start
+				list.circular_move (list.count * one)
+				assert ("same position", list.item = 1)
+				one := one + 2
+			end
+		end
+
+	test_find_predicate
+		do
+			Widget_list.find_first_true (agent {WIDGET}.is_color (Blue))
+			assert ("item weight is 3", Widget_list.item.weight = 3)
+
+			Widget_list.find_next_true (agent {WIDGET}.is_color (Blue))
+			assert ("item weight is 5", Widget_list.item.weight = 5)
+
+			Widget_list.find_first_equal (1, agent {WIDGET}.weight)
+			assert ("item color is green", Widget_list.item.color = Green)
+		end
 
 	test_list_conversion
 		local
@@ -40,45 +71,6 @@ feature -- Test
 				color_list.extend (widget.item.color)
 			end
 			assert ("same list", color_list ~ converter.new_list (Widget_list, agent {WIDGET}.color))
-		end
-
-	test_weight_summation_1
-		-- using method 1
-		note
-			testing: "covers/{EL_CHAIN_SUMMATOR}.sum"
-		do
-			assert ("sum red is 14",			weight_sum_meeting_1 (Widget_list, color_is (Red)) = 14)
-			assert ("sum blue is 8", 			weight_sum_meeting_1 (Widget_list, color_is (Blue)) = 8)
-			assert ("sum red OR blue is 22", weight_sum_meeting_1 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
-			assert ("sum NOT green is 22", 	weight_sum_meeting_1 (Widget_list, not color_is (Green)) = 22)
-			assert ("sum any color is 23", 	weight_sum_meeting_1 (Widget_list, any_color) = 23)
-		end
-
-	test_weight_summation_2
-		-- using method 2
-		do
-			assert ("sum red is 14",			weight_sum_meeting_2 (Widget_list, color_is (Red)) = 14)
-			assert ("sum blue is 8", 			weight_sum_meeting_2 (Widget_list, color_is (Blue)) = 8)
-			assert ("sum red OR blue is 22", weight_sum_meeting_2 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
-			assert ("sum NOT green is 22", 	weight_sum_meeting_2 (Widget_list, not color_is (Green)) = 22)
-			assert ("sum any color is 23", 	weight_sum_meeting_2 (Widget_list, any_color) = 23)
-		end
-
-	test_weight_summation_3
-		-- using method 2
-		note
-			testing: "covers/{EL_CHAIN}.query_is_equal", "covers/{EL_CHAIN}.agent_query", "covers/{EL_CHAIN}.query"
-		do
-			assert ("sum red is 14", Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight) = 14)
-			assert ("sum blue is 8", Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight) = 8)
-		end
-
-	test_string_list
-		local
-			color_list: STRING
-		do
-			color_list := "Red,Blue,Green,Blue,Red"
-			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
 		end
 
 	test_mapping
@@ -131,19 +123,56 @@ feature -- Test
 			end
 		end
 
-	test_find_predicate
+	test_string_list
+		local
+			color_list: STRING
 		do
-			Widget_list.find_first_true (agent {WIDGET}.is_color (Blue))
-			assert ("item weight is 3", Widget_list.item.weight = 3)
+			color_list := "Red,Blue,Green,Blue,Red"
+			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
+		end
 
-			Widget_list.find_next_true (agent {WIDGET}.is_color (Blue))
-			assert ("item weight is 5", Widget_list.item.weight = 5)
+	test_weight_summation_1
+		-- using method 1
+		note
+			testing: "covers/{EL_CHAIN_SUMMATOR}.sum"
+		do
+			assert ("sum red is 14",			weight_sum_meeting_1 (Widget_list, color_is (Red)) = 14)
+			assert ("sum blue is 8", 			weight_sum_meeting_1 (Widget_list, color_is (Blue)) = 8)
+			assert ("sum red OR blue is 22", weight_sum_meeting_1 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
+			assert ("sum NOT green is 22", 	weight_sum_meeting_1 (Widget_list, not color_is (Green)) = 22)
+			assert ("sum any color is 23", 	weight_sum_meeting_1 (Widget_list, any_color) = 23)
+		end
 
-			Widget_list.find_first_equal (1, agent {WIDGET}.weight)
-			assert ("item color is green", Widget_list.item.color = Green)
+	test_weight_summation_2
+		-- using method 2
+		do
+			assert ("sum red is 14",			weight_sum_meeting_2 (Widget_list, color_is (Red)) = 14)
+			assert ("sum blue is 8", 			weight_sum_meeting_2 (Widget_list, color_is (Blue)) = 8)
+			assert ("sum red OR blue is 22", weight_sum_meeting_2 (Widget_list, color_is (Blue) or color_is (Red)) = 22)
+			assert ("sum NOT green is 22", 	weight_sum_meeting_2 (Widget_list, not color_is (Green)) = 22)
+			assert ("sum any color is 23", 	weight_sum_meeting_2 (Widget_list, any_color) = 23)
+		end
+
+	test_weight_summation_3
+		-- using method 2
+		note
+			testing: "covers/{EL_CHAIN}.query_is_equal", "covers/{EL_CHAIN}.agent_query", "covers/{EL_CHAIN}.query"
+		do
+			assert ("sum red is 14", Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight) = 14)
+			assert ("sum blue is 8", Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight) = 8)
 		end
 
 feature {NONE} -- Implementation
+
+	any_color: EL_ANY_QUERY_CONDITION [WIDGET]
+		do
+			create Result
+		end
+
+	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
+		do
+			Result := agent {WIDGET}.is_color (color)
+		end
 
 	weight_sum_meeting_1 (widgets: EL_CHAIN [WIDGET]; condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
 		-- sum of widget-weights for widgets meeting `condition' (method 1)
@@ -160,23 +189,13 @@ feature {NONE} -- Implementation
 			Result := widgets.sum_integer_meeting (agent {WIDGET}.weight, condition)
 		end
 
-	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
-		do
-			Result := agent {WIDGET}.is_color (color)
-		end
-
-	any_color: EL_ANY_QUERY_CONDITION [WIDGET]
-		do
-			create Result
-		end
-
 feature {NONE} -- Constants
-
-	Red: INTEGER = 1
 
 	Blue: INTEGER = 2
 
 	Green: INTEGER = 3
+
+	Red: INTEGER = 1
 
 	Widget_list: EL_ARRAYED_LIST [WIDGET]
 		once

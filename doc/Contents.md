@@ -649,7 +649,7 @@ Test class [THUNDERBIRD_TEST_APP]($source)
 ## Open Office Spreadsheets
 Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 
-Test class [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
+Test class [OPEN_OFFICE_TEST_APP]($source)
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
@@ -1435,7 +1435,7 @@ See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tag
 See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/source/image-utils/svg_to_png_conversion_test_app.html)
 ## markup-docs.ecf
 * Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP]($source)
-* Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP](http://www.eiffel-loop.com/test/source/markup-docs/open-office-spreadsheet/open_office_test_app.html)
+* Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP]($source)
 
 ## network.ecf
 Test network library classes
@@ -1585,6 +1585,6 @@ Test Sub-applications
 * [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
 * [BINARY_ENCODED_XML_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/binary_encoded_xml_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
-* [PYXIS_TO_XML_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/pyxis_to_xml_test_app.html)
+* [PYXIS_TO_XML_TEST_APP]($source)
 * [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)
 
