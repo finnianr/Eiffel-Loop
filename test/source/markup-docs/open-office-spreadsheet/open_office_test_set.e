@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 9:30:44 GMT (Sunday 2nd February 2020)"
-	revision: "15"
+	date: "2020-02-03 9:55:21 GMT (Monday 3rd February 2020)"
+	revision: "16"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -23,19 +23,17 @@ inherit
 feature -- Tests
 
 	test_read_row_cells
-		local
-			jobs: EL_SPREAD_SHEET
 		do
-			create jobs.make ("XML/Jobs-spreadsheet.fods")
-			do_test ("read_spreadsheet", 0, agent read_spreadsheet, [jobs])
+			do_test ("read_spreadsheet", 3625570737, agent read_spreadsheet, ["XML/Jobs-spreadsheet.fods"])
 		end
 
 feature {NONE} -- Implementation
 
-	read_spreadsheet (spread_sheet: EL_SPREAD_SHEET)
+	read_spreadsheet (file_path: STRING)
 		local
-			data_cell: EL_SPREAD_SHEET_DATA_CELL
+			spread_sheet: EL_SPREAD_SHEET
 		do
+			create spread_sheet.make (file_path)
 			across spread_sheet as table loop
 				across table.item as row loop
 					log.put_integer_field ("Row", row.cursor_index)

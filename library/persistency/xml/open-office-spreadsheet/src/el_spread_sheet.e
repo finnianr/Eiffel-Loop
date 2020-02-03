@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 9:26:33 GMT (Sunday 2nd February 2020)"
-	revision: "6"
+	date: "2020-02-03 9:53:55 GMT (Monday 3rd February 2020)"
+	revision: "7"
 
 class
 	EL_SPREAD_SHEET
@@ -64,10 +64,11 @@ feature {NONE} -- Initaliazation
 			name := file_path.base
 			create tables.make_equal (5)
 			create defined_ranges.make_equal (11)
-			lio.put_line ("Parsing XML")
+			if is_lio_enabled then
+				lio.put_labeled_substitution (generator, "make (%"%S%")", [file_path.base])
+				lio.put_new_line
+			end
 			create root_node.make_from_file (file_path)
-			lio.put_line ("Building spreadsheet")
-
 			root_node.set_namespace ("office")
 
 			root_node.find_node ("/office:document")

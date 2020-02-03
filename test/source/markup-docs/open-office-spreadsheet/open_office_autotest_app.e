@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 9:28:11 GMT (Sunday 2nd February 2020)"
-	revision: "11"
+	date: "2020-02-03 9:47:07 GMT (Monday 3rd February 2020)"
+	revision: "12"
 
 class
 	OPEN_OFFICE_AUTOTEST_APP
@@ -16,7 +16,7 @@ class
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
 		redefine
-			log_filter
+			log_filter, visible_types
 		end
 
 create
@@ -36,6 +36,11 @@ feature {NONE} -- Implementation
 				[{like Current}, All_routines],
 				[{OPEN_OFFICE_TEST_SET}, All_routines]
 			>>
+		end
+
+	visible_types: TUPLE [EL_SPREAD_SHEET, EL_SPREAD_SHEET_TABLE]
+		do
+			create Result
 		end
 
 end

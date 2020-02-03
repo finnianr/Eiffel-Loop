@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 9:18:15 GMT (Sunday 2nd February 2020)"
-	revision: "36"
+	date: "2020-02-03 10:10:20 GMT (Monday 3rd February 2020)"
+	revision: "37"
 
 class
 	APPLICATION_ROOT
@@ -105,14 +105,13 @@ feature {NONE} -- Constants
 		DECLARATIVE_XPATH_PROCESSING_TEST_APP,
 		OBJECT_BUILDER_TEST_APP,
 		RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP,
-		PYXIS_TO_XML_TEST_APP,
 		XDOC_SCANNING_AUTOTEST_APP
 	]
 		once
 			create Result
 		end
 
-	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1, ROW_VECTOR_COMPLEX_64]
+	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1]
 		once
 			create Result
 		end

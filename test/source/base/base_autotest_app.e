@@ -1,14 +1,28 @@
 note
 	description: "Sub-application to call tests in descendants of `EQA_TEST_SET'"
-	instructions: "Command option: `-base_autotest'"
+	notes: "[
+		Command option: `-base_autotest'
+
+		**Tests**
+
+		[$source CHAIN_TEST_SET]
+		[$source DATE_TEXT_TEST_SET]
+		[$source FILE_AND_DIRECTORY_TEST_SET]
+		[$source GENERAL_TEST_SET]
+		[$source STRING_LIST_TEST_SET]
+		[$source SUBSTITUTION_TEMPLATE_TEST_SET]
+		[$source TEMPLATE_TEST_SET]
+		[$source URI_ENCODING_TEST_SET]
+		[$source ZSTRING_TEST_SET]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:07:10 GMT (Saturday 1st February 2020)"
-	revision: "72"
+	date: "2020-02-03 11:06:00 GMT (Monday 3rd February 2020)"
+	revision: "73"
 
 class
 	BASE_AUTOTEST_APP

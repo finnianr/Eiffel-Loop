@@ -1,14 +1,20 @@
 note
 	description: "Sub-application to call tests in [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
-	instructions: "Command option: `-amazon_instant_access_autotest'"
+	notes: "[
+		Command option: `-amazon_instant_access_autotest'
+		
+		**Tests**
+		
+		[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 17:16:15 GMT (Friday 24th January 2020)"
-	revision: "63"
+	date: "2020-02-03 11:04:14 GMT (Monday 3rd February 2020)"
+	revision: "64"
 
 class
 	AMAZON_INSTANT_ACCESS_AUTOTEST_APP

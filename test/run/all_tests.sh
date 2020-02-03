@@ -17,6 +17,8 @@ $do_test -bex_builder_test
 
 $do_test -object_builder
 
+# markup-docs.ecf
+$do_test -open_office_autotest
 $do_test -thunderbird_autotest
 
 $do_test -vtd_xml_autotest

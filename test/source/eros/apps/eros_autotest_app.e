@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 9:29:42 GMT (Thursday 23rd January 2020)"
-	revision: "5"
+	date: "2020-02-03 10:10:55 GMT (Monday 3rd February 2020)"
+	revision: "6"
 
 class
 	EROS_AUTOTEST_APP
@@ -23,6 +23,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [ROW_VECTOR_COMPLEX_64]
+		do
+			create Result
+		end
 
 	evaluator_type, evaluator_types_all: TUPLE [EROS_TEST_EVALUATOR]
 		do
