@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 17:50:52 GMT (Monday 3rd February 2020)"
-	revision: "27"
+	date: "2020-02-04 9:09:31 GMT (Tuesday 4th February 2020)"
+	revision: "28"
 
 deferred class EL_CHAIN [G]
 
@@ -156,12 +156,12 @@ feature -- Item query
 feature -- Circular indexing
 
 	circular_i_th (i: INTEGER): like item
-		-- `item' at `i_th ((i \\ count) + 1)'
+		-- `item' at `i_th (modulo (i, count) + 1)' where `i' is a zero based index
 		-- `i' maybe negative or > `count'
 		require
 			not_empty: not is_empty
 		do
-			Result := i_th (modulo (i,  count) + 1)
+			Result := i_th (modulo (i, count) + 1)
 		ensure
 			zero_is_first: i = 0 implies Result = first
 			minus_1_is_last: i = i.one.opposite implies Result = last
@@ -175,7 +175,7 @@ feature -- Circular indexing
 		end
 
 	go_circular_i_th (i: INTEGER)
-		-- got `item' at `i_th ((i \\ count) + 1)'
+		-- go to `item' at `i_th (modulo (i, count) + 1)' where `i' is a zero based index
 		-- `i' maybe negative or > `count'
 		require
 			not_empty: not is_empty

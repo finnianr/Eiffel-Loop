@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:49:11 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-02-04 10:36:22 GMT (Tuesday 4th February 2020)"
+	revision: "6"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]
@@ -72,7 +72,7 @@ feature -- Access
 			Result := tabs.i_th (selected_item_index)
 		end
 
-	tabs: ARRAYED_LIST [like selected_tab]
+	tabs: EL_ARRAYED_LIST [like selected_tab]
 
 	selected_index: INTEGER
 
@@ -134,7 +134,10 @@ feature -- Basic operations
 			-- select tab to left or right,
 			-- wrapping around if gone past the first or last tab
 		do
-			set_selected_index ((count + index_delta + selected_index - 1) \\ count + 1)
+			if not tabs.off then
+				tabs.circular_move (index_delta)
+				set_selected_index (tabs.index)
+			end
 		end
 
 feature -- Removal

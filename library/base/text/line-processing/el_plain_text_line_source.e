@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:30:48 GMT (Saturday 11th January 2020)"
-	revision: "9"
+	date: "2020-02-06 14:51:26 GMT (Thursday 6th February 2020)"
+	revision: "10"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -111,6 +111,19 @@ feature -- Status setting
 			Precursor
 			if has_utf_8_bom then
 				file.go (3)
+			end
+		end
+
+feature -- Output
+
+	print_first (log: EL_LOGGABLE; n: INTEGER)
+		-- print first `n' lines to `log' output
+		do
+			across Current as line until line.cursor_index > n loop
+				log.put_line (line.item)
+			end
+			if not after then
+				log.put_line ("..")
 			end
 		end
 

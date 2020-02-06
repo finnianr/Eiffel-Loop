@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 13:47:17 GMT (Sunday 5th January 2020)"
-	revision: "1"
+	date: "2020-02-06 13:55:42 GMT (Thursday 6th February 2020)"
+	revision: "2"
 
 class
-	EL_EIFFEL_LOOP_BUILD_INFO
+	EIFFEL_LOOP_BUILD_INFO
 
 inherit
 	EL_BUILD_INFO
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature -- Constants
 

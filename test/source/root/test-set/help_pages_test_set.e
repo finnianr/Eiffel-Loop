@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 16:04:24 GMT (Wednesday 8th January 2020)"
-	revision: "8"
+	date: "2020-02-06 13:56:42 GMT (Thursday 6th February 2020)"
+	revision: "9"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			new_file_tree
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature {NONE} -- Implementation
 

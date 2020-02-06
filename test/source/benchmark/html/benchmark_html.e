@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 13:28:28 GMT (Wednesday 13th February 2019)"
-	revision: "5"
+	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
+	revision: "6"
 
 class
 	BENCHMARK_HTML
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_HTML
 
-	EL_MODULE_HEXAGRAM
+	SHARED_HEXAGRAM_STRINGS
 
 create
 	make_from_file

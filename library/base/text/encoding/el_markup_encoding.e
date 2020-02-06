@@ -1,16 +1,25 @@
 note
-	description: "Pyxis encoding"
+	description: "[
+		Parses encoding attribute in quotes for markup document.
+
+			<?xml version = "1.0" encoding = "ISO-8859-1"?>
+				
+		OR
+				
+			pyxis-doc:
+				version = 1.0; encoding = "ISO-8859-1"
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:55:46 GMT (Tuesday 5th March 2019)"
-	revision: "8"
+	date: "2020-02-06 13:42:31 GMT (Thursday 6th February 2020)"
+	revision: "9"
 
 class
-	EL_PYXIS_ENCODING
+	EL_MARKUP_ENCODING
 
 inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:24:29 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2020-02-04 10:37:31 GMT (Tuesday 4th February 2020)"
+	revision: "10"
 
 deferred class
 	EL_FIXED_TAB_BOOK [W -> {EV_WINDOW}]
@@ -95,7 +95,7 @@ feature -- Access
 			Result := tabs.i_th (selected_item_index)
 		end
 
-	tabs: ARRAYED_LIST [like selected_tab]
+	tabs: EL_ARRAYED_LIST [like selected_tab]
 
 feature -- Element change
 
@@ -133,7 +133,10 @@ feature -- Basic operations
 			-- select tab to left or right,
 			-- wrapping around if gone past the first or last tab
 		do
-			set_selected_index ((count + index_delta + selected_index - 1) \\ count + 1)
+			if not tabs.off then
+				tabs.circular_move (index_delta)
+				set_selected_index (tabs.index)
+			end
 		end
 
 	select_right_tab

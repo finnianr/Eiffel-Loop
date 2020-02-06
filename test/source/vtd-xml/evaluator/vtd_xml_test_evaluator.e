@@ -6,24 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 18:22:05 GMT (Friday 31st January 2020)"
-	revision: "14"
+	date: "2020-02-06 15:00:26 GMT (Thursday 6th February 2020)"
+	revision: "15"
 
 class
 	VTD_XML_TEST_EVALUATOR
 
 inherit
 	EL_EQA_TEST_SET_EVALUATOR [VTD_XML_TEST_SET]
-		rename
-			lio as log
-		undefine
-			new_lio, log
-		end
-
-	EL_MODULE_LOG
-		select
-			log
-		end
 
 feature {NONE} -- Implementation
 
@@ -34,6 +24,5 @@ feature {NONE} -- Implementation
 			test ("svg_xpath_query",					agent item.test_svg_xpath_query)
 			test ("bioinfo_xpath_query_1",			agent item.test_bioinfo_xpath_query)
 		end
-
 
 end

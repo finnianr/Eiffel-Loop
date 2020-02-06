@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:44:30 GMT (Monday 2nd September 2019)"
-	revision: "8"
+	date: "2020-02-06 10:12:03 GMT (Thursday 6th February 2020)"
+	revision: "9"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 feature -- Access
 
-	encoding (file_path: EL_FILE_PATH): EL_PYXIS_ENCODING
+	encoding (file_path: EL_FILE_PATH): EL_MARKUP_ENCODING
 		do
 			create Result.make_from_file (file_path)
 		end

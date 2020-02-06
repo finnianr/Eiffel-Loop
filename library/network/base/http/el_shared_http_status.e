@@ -1,21 +1,25 @@
 note
-	description: "Module hexagram"
+	description: "Access to a shared instance of [$source EL_HTTP_STATUS_ENUM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-13 13:29:28 GMT (Wednesday 13th February 2019)"
-	revision: "5"
+	date: "2020-02-06 14:18:40 GMT (Thursday 6th February 2020)"
+	revision: "8"
 
-class
-	EL_MODULE_HEXAGRAM
+deferred class
+	EL_SHARED_HTTP_STATUS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Hexagram: EL_HEXAGRAM_STRINGS
+	Http_status: EL_HTTP_STATUS_ENUM
 		once
 			create Result.make
 		end
+
 end

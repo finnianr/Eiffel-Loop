@@ -11,7 +11,7 @@
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "1" release = "8" build = "442" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "1" release = "8" build = "443" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
 		<variable name = "build_info_dir" value = "source/root"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
@@ -286,8 +286,7 @@ vtd-xml.ecf
 
 Tests for Eiffel interface VTD-XML C API
 
-* [$source VTD_XML_AUTOTEST_APP]
-* [$source XML_TO_PYXIS_TEST_APP]
+See class [$source VTD_XML_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "wel_x_audio" location = "source/wel-x-audio" recursive = "true">

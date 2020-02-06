@@ -1,13 +1,13 @@
 note
-	description: "Module log manager"
+	description: "Shared access to routines of class [$source EL_LOG_MANAGER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 8:38:44 GMT (Monday 6th January 2020)"
-	revision: "7"
+	date: "2020-02-06 14:21:56 GMT (Thursday 6th February 2020)"
+	revision: "8"
 
 deferred class
 	EL_MODULE_LOG_MANAGER

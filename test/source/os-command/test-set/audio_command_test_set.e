@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:47:22 GMT (Saturday 5th October 2019)"
-	revision: "5"
+	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
+	revision: "6"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			new_file_tree as new_empty_file_tree
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_AUDIO_COMMAND
 

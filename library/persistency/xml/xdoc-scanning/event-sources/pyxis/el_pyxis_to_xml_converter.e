@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 10:50:38 GMT (Monday 3rd February 2020)"
-	revision: "2"
+	date: "2020-02-06 10:14:32 GMT (Thursday 6th February 2020)"
+	revision: "3"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -42,7 +42,7 @@ feature -- Access
 
 	source_path: EL_FILE_PATH
 
-	source_encoding: EL_PYXIS_ENCODING
+	source_encoding: EL_MARKUP_ENCODING
 
 feature -- Basic operations
 

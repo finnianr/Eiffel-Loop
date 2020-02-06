@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-15 17:59:59 GMT (Wednesday 15th January 2020)"
-	revision: "13"
+	date: "2020-02-06 14:18:59 GMT (Thursday 6th February 2020)"
+	revision: "14"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_SHARED_DOCUMENT_TYPES
 
-	EL_MODULE_HTTP_STATUS
+	EL_SHARED_HTTP_STATUS
 
 	EL_STRING_8_CONSTANTS
 

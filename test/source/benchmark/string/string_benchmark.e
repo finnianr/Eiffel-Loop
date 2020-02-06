@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 19:27:23 GMT (Sunday 12th January 2020)"
-	revision: "6"
+	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
+	revision: "7"
 
 deferred class
 	STRING_BENCHMARK
 
 inherit
-	EL_MODULE_HEXAGRAM
+	SHARED_HEXAGRAM_STRINGS
 
 	EL_MODULE_STRING_32
 

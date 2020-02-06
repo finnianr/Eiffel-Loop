@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:52:15 GMT (Monday 1st July 2019)"
-	revision: "11"
+	date: "2020-02-06 14:18:58 GMT (Thursday 6th February 2020)"
+	revision: "12"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_HTTP_STATUS
+	EL_SHARED_HTTP_STATUS
 
 	EL_SHARED_DOCUMENT_TYPES
 

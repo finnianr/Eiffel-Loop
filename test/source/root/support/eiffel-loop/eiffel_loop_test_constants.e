@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:55:18 GMT (Saturday 11th January 2020)"
-	revision: "10"
+	date: "2020-02-06 13:55:44 GMT (Thursday 6th February 2020)"
+	revision: "11"
 
 deferred class
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	EL_build_info: EL_EIFFEL_LOOP_BUILD_INFO
+	EL_build_info: EIFFEL_LOOP_BUILD_INFO
 		once
 			create Result
 		end

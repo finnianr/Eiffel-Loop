@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 15:42:30 GMT (Saturday 25th January 2020)"
-	revision: "13"
+	date: "2020-02-04 9:58:01 GMT (Tuesday 4th February 2020)"
+	revision: "14"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -112,7 +112,7 @@ feature -- Element change
 			end
 			if do_left_adjust then
 				from i := 1 until i > list.count loop
-					i_th (count - (i - 1)).left_adjust
+					circular_i_th (i.opposite).left_adjust
 					i := i + 1
 				end
 			end

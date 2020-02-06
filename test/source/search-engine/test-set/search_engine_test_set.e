@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 13:46:25 GMT (Saturday 5th October 2019)"
-	revision: "6"
+	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
+	revision: "7"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_HEXAGRAM
+	SHARED_HEXAGRAM_STRINGS
 		undefine
 			default_create
 		end

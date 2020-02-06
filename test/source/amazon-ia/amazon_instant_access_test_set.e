@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 4:16:53 GMT (Saturday 25th January 2020)"
-	revision: "19"
+	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
+	revision: "20"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -28,7 +28,7 @@ inherit
 
 	AIA_SHARED_ENUMERATIONS
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature -- Account Linking
 

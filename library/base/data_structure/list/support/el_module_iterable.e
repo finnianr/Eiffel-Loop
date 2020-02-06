@@ -1,13 +1,13 @@
 note
-	description: "Shared access for instance of [$source EL_ITERABLE_ROUTINES]"
+	description: "Shared access to routines of class [$source EL_ITERABLE_ROUTINES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 12:43:41 GMT (Saturday 25th January 2020)"
-	revision: "1"
+	date: "2020-02-06 14:20:57 GMT (Thursday 6th February 2020)"
+	revision: "2"
 
 deferred class
 	EL_MODULE_ITERABLE

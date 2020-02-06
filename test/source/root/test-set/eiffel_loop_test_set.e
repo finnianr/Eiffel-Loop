@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:11:14 GMT (Friday 31st January 2020)"
-	revision: "6"
+	date: "2020-02-06 13:56:47 GMT (Thursday 6th February 2020)"
+	revision: "7"
 
 class
 	EIFFEL_LOOP_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_LOG
 

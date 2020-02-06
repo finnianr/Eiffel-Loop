@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 18:59:25 GMT (Sunday 26th January 2020)"
-	revision: "8"
+	date: "2020-02-06 14:47:29 GMT (Thursday 6th February 2020)"
+	revision: "9"
 
 class
 	EL_XML_ROUTINES
@@ -47,6 +47,11 @@ feature -- Measurement
 		end
 
 feature -- Access
+
+	encoding (file_path: EL_FILE_PATH): EL_MARKUP_ENCODING
+		do
+			create Result.make_from_file (file_path)
+		end
 
 	entity (unicode: NATURAL): ZSTRING
 		do

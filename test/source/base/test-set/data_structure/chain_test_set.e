@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 17:37:51 GMT (Monday 3rd February 2020)"
-	revision: "9"
+	date: "2020-02-04 9:56:07 GMT (Tuesday 4th February 2020)"
+	revision: "10"
 
 class
 	CHAIN_TEST_SET
@@ -32,7 +32,7 @@ feature -- Test
 	test_circular_indexing
 		local
 			list: EL_ARRAYED_LIST [INTEGER]
-			sum, one: INTEGER
+			sum, one, i: INTEGER
 		do
 			create list.make_from_array (<< 1, 2, 3 >>)
 			across -3 |..| 2 as n loop
@@ -45,6 +45,11 @@ feature -- Test
 				list.circular_move (list.count * one)
 				assert ("same position", list.item = 1)
 				one := one + 2
+			end
+			-- reverse iteration
+			from i := 1 until i > list.count loop
+				assert ("same item", list.i_th (list.count - (i - 1)) = list.circular_i_th (i.opposite))
+				i := i + 1
 			end
 		end
 

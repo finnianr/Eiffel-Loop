@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 10:54:03 GMT (Monday 3rd February 2020)"
-	revision: "20"
+	date: "2020-02-06 14:55:02 GMT (Thursday 6th February 2020)"
+	revision: "21"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			data_dir as Eiffel_loop_dir
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
@@ -40,7 +40,7 @@ feature -- Basic operations
 					when 2 then checksum := 3875516187 -- configuration.xsd.pyx
 					when 3 then checksum := 2431308370 -- localization/credits.pyx
 					when 4 then checksum := 3713473313 -- localization/phrases.pyx
-					when 5 then checksum := 1690186892 -- localization/words.pyx
+					when 5 then checksum := 3350160703 -- localization/words.pyx
 					when 6 then checksum := 1726298027 -- XML XSL Example.xsl.pyx
 					when 7 then checksum := 0
 					when 8 then checksum := 0
@@ -62,10 +62,7 @@ feature {NONE} -- Implementation
 			create converter.make (a_file_path, create {EL_FILE_PATH})
 			converter.execute
 			create source.make_encoded (converter.source_encoding, converter.output_path)
-			across source as line until line.cursor_index > 20 loop
-				log.put_line (line.item)
-			end
-			log.put_line ("..")
+			source.print_first (log, 20)
 			source.close
 		end
 

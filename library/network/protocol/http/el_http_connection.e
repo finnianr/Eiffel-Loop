@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:02:07 GMT (Saturday 1st February 2020)"
-	revision: "21"
+	date: "2020-02-06 14:18:10 GMT (Thursday 6th February 2020)"
+	revision: "22"
 
 class
 	EL_HTTP_CONNECTION
@@ -62,7 +62,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_HTTP_STATUS
+	EL_SHARED_HTTP_STATUS
 
 	EL_ZSTRING_CONSTANTS
 

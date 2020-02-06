@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:02:07 GMT (Saturday 1st February 2020)"
-	revision: "20"
+	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
+	revision: "21"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -18,7 +18,7 @@ class
 inherit
 	EL_GENERATED_FILE_DATA_TEST_SET
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_WEB
 

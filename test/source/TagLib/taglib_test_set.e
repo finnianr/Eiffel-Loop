@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:27:46 GMT (Wednesday 8th January 2020)"
-	revision: "13"
+	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
+	revision: "14"
 
 class
 	TAGLIB_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			data_dir as Eiffel_loop_dir
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_LIO
 

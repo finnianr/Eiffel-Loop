@@ -1,13 +1,13 @@
 note
-	description: "File system commands accepting default UTF-8 encoded arguments"
+	description: "Shared access to routines of class [$source EL_FILE_SYSTEM_ROUTINES_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 13:14:34 GMT (Saturday 4th January 2020)"
-	revision: "7"
+	date: "2020-02-06 14:15:39 GMT (Thursday 6th February 2020)"
+	revision: "8"
 
 deferred class
 	EL_MODULE_FILE_SYSTEM

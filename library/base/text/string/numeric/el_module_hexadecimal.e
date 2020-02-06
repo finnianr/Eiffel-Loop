@@ -1,13 +1,13 @@
 note
-	description: "Access to shared instance of class [$source EL_HEXADECIMAL_STRING_CONVERSION]"
+	description: "Shared access to routines of class [$source EL_HEXADECIMAL_STRING_CONVERSION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 8:56:41 GMT (Monday 1st July 2019)"
-	revision: "2"
+	date: "2020-02-06 14:16:48 GMT (Thursday 6th February 2020)"
+	revision: "3"
 
 deferred class
 	EL_MODULE_HEXADECIMAL
