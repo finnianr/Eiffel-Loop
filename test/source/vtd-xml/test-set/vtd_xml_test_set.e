@@ -1,13 +1,23 @@
 note
-	description: "Test VTD XML"
+	description: "[
+		Test classes from library `vtd-xml.ecf'
+		
+		* [$source EL_XPATH_NODE_CONTEXT]
+		* [$source EL_XPATH_ROOT_NODE_CONTEXT]
+		* [$source EL_XPATH_NODE_CONTEXT_LIST]
+	]"
+	notes: "[
+		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
+		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 18:23:15 GMT (Friday 31st January 2020)"
-	revision: "14"
+	date: "2020-02-09 10:48:01 GMT (Sunday 9th February 2020)"
+	revision: "15"
 
 class
 	VTD_XML_TEST_SET

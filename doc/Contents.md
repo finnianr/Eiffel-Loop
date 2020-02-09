@@ -1318,7 +1318,7 @@ Checks for UTF-8 files that could be encoded as Latin-1
 
 Checks for invalid class references in repository note links
 
-`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
+`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP]($source)
 
 Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
@@ -1571,10 +1571,7 @@ See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thr
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API
 
-
-* [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
-* [XML_TO_PYXIS_TEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/xml_to_pyxis_test_app.html)
-
+See class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 ## wel-x-audio.ecf
 Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf

@@ -1,13 +1,17 @@
 note
-	description: "Test conversion of Pyxis format file to XML"
+	description: "Test class [$source EL_PYXIS_TO_XML_CONVERTER] from library `xdoc-scanning.ecf'"
+	notes: "[
+		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
+		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:55:02 GMT (Thursday 6th February 2020)"
-	revision: "21"
+	date: "2020-02-09 10:55:05 GMT (Sunday 9th February 2020)"
+	revision: "22"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -56,8 +60,7 @@ feature {NONE} -- Implementation
 	convert_pyxis_to_xml (a_file_path: EL_FILE_PATH)
 			--
 		local
-			converter: EL_PYXIS_TO_XML_CONVERTER
-			source: EL_PLAIN_TEXT_LINE_SOURCE
+			converter: EL_PYXIS_TO_XML_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create converter.make (a_file_path, create {EL_FILE_PATH})
 			converter.execute

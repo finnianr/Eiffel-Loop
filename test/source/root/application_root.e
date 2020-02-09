@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 15:24:14 GMT (Thursday 6th February 2020)"
-	revision: "38"
+	date: "2020-02-08 10:35:57 GMT (Saturday 8th February 2020)"
+	revision: "39"
 
 class
 	APPLICATION_ROOT
@@ -41,7 +41,6 @@ feature {NONE} -- Constants
 
 		-- Test encryption.ecf
 		ENCRYPTION_AUTOTEST_APP,
-		ENCRYPTION_TEST_APP,
 
 		-- Test eros.ecf
 		BEXT_CLIENT_TEST_APP,
@@ -63,6 +62,7 @@ feature {NONE} -- Constants
 		I18N_AUTOTEST_APP,
 
 		-- Test image-utils.ecf
+		IMAGE_UTILS_AUTOTEST_APP,
 		SVG_TO_PNG_CONVERSION_TEST_APP,
 
 		-- Test ID3-tags.ecf
@@ -106,7 +106,7 @@ feature {NONE} -- Constants
 		RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP,
 		XDOC_SCANNING_AUTOTEST_APP
 	]
-		once
+		do
 			create Result
 		end
 

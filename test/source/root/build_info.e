@@ -1,14 +1,9 @@
 note
 	description: "Build specification"
+
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
-
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 15:38:37 GMT (Thursday 6th February 2020)"
-	revision: "1"
+	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
 class
 	BUILD_INFO
@@ -18,9 +13,9 @@ inherit
 
 feature -- Constants
 
-	Version_number: NATURAL = 01_01_08
+	Version_number: NATURAL = 01_01_09
 
-	Build_number: NATURAL = 443
+	Build_number: NATURAL = 445
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

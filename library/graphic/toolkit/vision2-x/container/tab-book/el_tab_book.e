@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-04 10:36:22 GMT (Tuesday 4th February 2020)"
-	revision: "6"
+	date: "2020-02-07 11:01:22 GMT (Friday 7th February 2020)"
+	revision: "7"
 
 class
 	EL_TAB_BOOK [B -> {EL_BOX} create make end]
@@ -23,7 +23,6 @@ inherit
 		export
 			{NONE} remove_item, item
 			{EL_TAB} first, extend_item
---			{EL_STOCK_COLORS_IMP} implementation
 		redefine
 			wipe_out, initialize
 		end

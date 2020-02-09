@@ -1,13 +1,17 @@
 note
-	description: "Test class [$source EL_XML_TO_PYXIS_CONVERTER]"
+	description: "Test class [$source EL_XML_TO_PYXIS_CONVERTER] from library `vtd-xml.ecf'"
+	notes: "[
+		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
+		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 15:38:27 GMT (Thursday 6th February 2020)"
-	revision: "1"
+	date: "2020-02-09 10:55:53 GMT (Sunday 9th February 2020)"
+	revision: "2"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -37,7 +41,7 @@ feature -- Basic operations
 				inspect file_path.cursor_index
 					when 1 then checksum := 3911484504 -- XML/Rhythmbox.bkup
 					when 2 then checksum := 1751456571 -- XML/uuid.ecf
-					when 3 then checksum := 827090613 -- XML/XML XSL Example.xsl
+					when 3 then checksum := 827090613  -- XML/XML XSL Example.xsl
 					when 4 then checksum := 2652949353 -- XML/configuration.xsd
 					when 5 then checksum := 2906511580 -- XML/kernel.xace
 					when 7 then checksum := 0
@@ -53,8 +57,7 @@ feature {NONE} -- Implementation
 	convert_xml_to_pyxis (file_path: EL_FILE_PATH)
 			--
 		local
-			converter: EL_XML_TO_PYXIS_CONVERTER
-			source: EL_PLAIN_TEXT_LINE_SOURCE
+			converter: EL_XML_TO_PYXIS_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create converter.make (file_path)
 			converter.execute

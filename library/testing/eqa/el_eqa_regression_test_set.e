@@ -1,8 +1,8 @@
 note
 	description: "Regression test set using CRC32 checksum algorithm on logged output"
 	notes: "[
-		The type of  must be set to [$source EL_TESTING_CONSOLE_ONLY_LOG] with the sub-application
-		[$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+		The type of `log' must be set to [$source EL_TESTING_CONSOLE_ONLY_LOG] by running the test
+		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 17:56:27 GMT (Sunday 2nd February 2020)"
-	revision: "2"
+	date: "2020-02-09 10:45:14 GMT (Sunday 9th February 2020)"
+	revision: "3"
 
 class
 	EL_EQA_REGRESSION_TEST_SET

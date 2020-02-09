@@ -13,8 +13,10 @@ $do_test -base_autotest
 
 $do_test -encryption_autotest
 
-$do_test -bex_builder_test
+$do_test -image_utils_autotest
 
+# xdoc-scanning.ecf
+$do_test -bex_builder_test
 $do_test -object_builder
 
 # markup-docs.ecf
@@ -24,8 +26,6 @@ $do_test -thunderbird_autotest
 $do_test -vtd_xml_autotest
 
 $do_test -xdoc_scanning_autotest
-
-$do_test -xml_to_pyxis_test
 
 $do_test -eros_autotest
 

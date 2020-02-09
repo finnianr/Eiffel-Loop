@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 10:50:28 GMT (Wednesday 25th September 2019)"
-	revision: "7"
+	date: "2020-02-07 11:16:06 GMT (Friday 7th February 2020)"
+	revision: "8"
 
 class
 	EL_BASE_64_ROUTINES
@@ -56,10 +56,14 @@ feature -- Conversion
 			decoder: UT_BASE64_DECODING_INPUT_STREAM
 			input_stream: KL_STRING_INPUT_STREAM
 		do
-			create input_stream.make (base64_string)
-			create decoder.make (input_stream)
-			decoder.read_string (base64_string.count)
-			Result := decoder.last_string
+			if base64_string.is_empty then
+				create Result.make_empty
+			else
+				create input_stream.make (base64_string)
+				create decoder.make (input_stream)
+				decoder.read_string (base64_string.count)
+				Result := decoder.last_string
+			end
 		end
 
 	decoded_array (base64_string: STRING): ARRAY [NATURAL_8]

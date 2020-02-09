@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-02-07 11:08:26 GMT (Friday 7th February 2020)"
+	revision: "4"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} put_string, put_new_line, after, read_line, last_string,
-					extendible, file_readable, readable, is_closed,
+					extendible, file_readable, readable, is_closed, end_of_file,
 					close, count
 		redefine
 			make_with_name, put_string, read_line, open_append, open_write, open_read

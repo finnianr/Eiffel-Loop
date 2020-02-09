@@ -1,13 +1,23 @@
 note
-	description: "Evaluates tests in [$source VTD_XML_TEST_SET]"
+	description: "[
+		Test classes from library cluster `markup-docs.ecf#open_office'
+
+		* [$source EL_SPREAD_SHEET]
+		* [$source EL_SPREAD_SHEET_TABLE]
+		* [$source EL_SPREAD_SHEET_ROW]
+	]"
+	notes: "[
+		Test sets conforming to [$source EL_EQA_REGRESSION_TEST_SET] (like this one) can only be run
+		from a sub-application conforming to [$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 9:55:21 GMT (Monday 3rd February 2020)"
-	revision: "16"
+	date: "2020-02-09 10:51:34 GMT (Sunday 9th February 2020)"
+	revision: "17"
 
 class
 	OPEN_OFFICE_TEST_SET

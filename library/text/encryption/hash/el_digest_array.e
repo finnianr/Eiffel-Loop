@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 16:47:53 GMT (Thursday 3rd October 2019)"
-	revision: "10"
+	date: "2020-02-09 10:05:51 GMT (Sunday 9th February 2020)"
+	revision: "11"
 
 class
 	EL_DIGEST_ARRAY
@@ -20,12 +20,19 @@ inherit
 	EL_MODULE_BASE_64
 
 create
-	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x
+	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x, make_from_memory
 
 convert
 	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}, to_data: {MANAGED_POINTER}
 
 feature {NONE} -- Initialization
+
+	make_from_memory (digest: EL_DATA_SINKABLE; memory: MANAGED_POINTER)
+		do
+			digest.reset
+			digest.sink_memory (memory)
+			make_final (digest)
+		end
 
 	make_final (digest: EL_DATA_SINKABLE)
 		do

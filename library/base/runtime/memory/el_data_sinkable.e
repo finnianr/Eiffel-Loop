@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 16:56:43 GMT (Saturday 1st February 2020)"
-	revision: "12"
+	date: "2020-02-09 9:52:10 GMT (Sunday 9th February 2020)"
+	revision: "13"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -79,6 +79,16 @@ feature -- General sinks
 	sink_boolean (in: BOOLEAN)
 		do
 			sink_integer_32 (in.to_integer)
+		end
+
+	sink_memory (in: MANAGED_POINTER)
+		local
+			i: INTEGER
+		do
+			from i := 0 until i = in.count loop
+				sink_natural_8 (in.read_natural_8 (i))
+				i := i + 1
+			end
 		end
 
 	sink_pointer (in: POINTER)

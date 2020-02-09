@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:19:49 GMT (Wednesday 25th September 2019)"
-	revision: "6"
+	date: "2020-02-07 11:09:04 GMT (Friday 7th February 2020)"
+	revision: "7"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -62,13 +62,13 @@ feature {NONE} -- Implementation
 			file.set_line_start (a_line_start)
 			file.set_encrypter (a_encrypter)
 			create Result.make (file.count * 7 // 10)
-			from file.read_line until file.after loop
+			from until file.end_of_file loop
+				file.read_line
 				if not Result.is_empty then
 					Result.append_character ('%N')
 				end
 				Result.append (file.last_string)
 				Result.prune_all_trailing ('%R')
-				file.read_line
 			end
 			file.close
 		end

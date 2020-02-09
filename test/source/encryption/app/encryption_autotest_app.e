@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 9:28:20 GMT (Thursday 23rd January 2020)"
-	revision: "2"
+	date: "2020-02-07 10:20:24 GMT (Friday 7th February 2020)"
+	revision: "3"
 
 class
 	ENCRYPTION_AUTOTEST_APP
@@ -21,7 +21,15 @@ create
 
 feature {NONE} -- Implementation
 
-	evaluator_type, evaluator_types_all: TUPLE [DIGEST_ROUTINES_TEST_EVALUATOR]
+	evaluator_type: TUPLE [ENCRYPTION_TEST_EVALUATOR]
+		do
+			create Result
+		end
+
+	evaluator_types_all: TUPLE [
+		DIGEST_ROUTINES_TEST_EVALUATOR,
+		ENCRYPTION_TEST_EVALUATOR
+	]
 		do
 			create Result
 		end

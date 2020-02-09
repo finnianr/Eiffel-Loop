@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 10:53:34 GMT (Friday 27th December 2019)"
-	revision: "15"
+	date: "2020-02-08 11:01:32 GMT (Saturday 8th February 2020)"
+	revision: "16"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -255,7 +255,7 @@ feature -- Transformation
 			end
 		end
 
-	dynamic_module_name (module_name: ZSTRING): ZSTRING
+	dynamic_module_name (module_name: READABLE_STRING_GENERAL): ZSTRING
 			-- normalized name for platform
 			-- name = "svg"
 			-- 	Linux: Result = "libsvg.so"
@@ -263,7 +263,7 @@ feature -- Transformation
 		do
 			create Result.make (module_name.count + 7)
 			Result.append_string_general (Operating.C_library_prefix)
-			Result.append (module_name)
+			Result.append_string_general (module_name)
 			Result.append_character ('.')
 			Result.append_string_general (Operating.Dynamic_module_extension)
 		end

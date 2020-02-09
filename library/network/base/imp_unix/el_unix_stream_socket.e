@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:06:15 GMT (Thursday 16th January 2020)"
-	revision: "10"
+	date: "2020-02-07 11:59:42 GMT (Friday 7th February 2020)"
+	revision: "11"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -49,6 +49,7 @@ feature -- Initialization
 
 	create_from_descriptor (fd: INTEGER)
 		do
+			make_default
 			is_blocking := True
 			Precursor (fd)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "20"
+	date: "2020-02-08 10:45:58 GMT (Saturday 8th February 2020)"
+	revision: "21"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -29,6 +29,16 @@ inherit
 	AIA_SHARED_ENUMERATIONS
 
 	EIFFEL_LOOP_TEST_CONSTANTS
+
+feature {NONE} -- Initialization
+
+	on_prepare
+			-- Called after all initializations in `default_create'.
+		do
+			Precursor
+			create credential_list.make (credentials_file_path, new_encrypter)
+			credential_list.extend (Credential)
+		end
 
 feature -- Account Linking
 
@@ -314,16 +324,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	credential_list: AIA_STORABLE_CREDENTIAL_LIST
-
-feature {NONE} -- Events
-
-	on_prepare
-			-- Called after all initializations in `default_create'.
-		do
-			Precursor
-			create credential_list.make (credentials_file_path, new_encrypter)
-			credential_list.extend (Credential)
-		end
 
 feature {NONE} -- Constants
 

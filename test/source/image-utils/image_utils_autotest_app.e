@@ -1,17 +1,17 @@
 note
-	description: "VTD-XML autotest app"
-	notes: "Option: `-vtd_xml_autotest'"
+	description: "Autotest class [$source EL_SVG_IMAGE_UTILS] from `image-utils.ecf'"
+	notes: "Command option: `-image_utils_autotest'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 9:48:28 GMT (Friday 7th February 2020)"
+	date: "2020-02-09 10:39:20 GMT (Sunday 9th February 2020)"
 	revision: "5"
 
 class
-	VTD_XML_AUTOTEST_APP
+	IMAGE_UTILS_AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
@@ -24,13 +24,13 @@ create
 
 feature {NONE} -- Implementation
 
-	evaluator_type: TUPLE [XML_TO_PYXIS_CONVERTER_TEST_EVALUATOR]
+	evaluator_type: TUPLE [IMAGE_UTILS_TEST_EVALUATOR]
 		do
 			create Result
 		end
 
 	evaluator_types_all: TUPLE [
-		VTD_XML_TEST_EVALUATOR, XML_TO_PYXIS_CONVERTER_TEST_EVALUATOR
+		IMAGE_UTILS_TEST_EVALUATOR
 	]
 		do
 			create Result
@@ -41,8 +41,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				[{VTD_XML_TEST_SET}, All_routines],
-				[{XML_TO_PYXIS_CONVERTER_TEST_SET}, All_routines]
+				[{IMAGE_UTILS_TEST_SET}, All_routines]
 			>>
 		end
 
