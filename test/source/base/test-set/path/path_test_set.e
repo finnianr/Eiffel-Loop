@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-27 23:24:47 GMT (Friday 27th September 2019)"
-	revision: "10"
+	date: "2020-02-10 17:23:55 GMT (Monday 10th February 2020)"
+	revision: "11"
 
 class
 	PATH_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_OS
+
+	EL_MODULE_LOG
 
 feature -- Tests
 

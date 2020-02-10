@@ -16,8 +16,6 @@ $do_test -encryption_autotest
 $do_test -image_utils_autotest
 
 # xdoc-scanning.ecf
-$do_test -declarative_xpath
-$do_test -recursive_x2e_and_e2x
 $do_test -xdoc_scanning_autotest
 
 # markup-docs.ecf

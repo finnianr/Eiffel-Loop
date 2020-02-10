@@ -1432,7 +1432,7 @@ Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.
 ## ID3-tags.ecf
 See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tags/id3_tags_autotest_app.html)
 ## image-utils.ecf
-See class [SVG_TO_PNG_CONVERSION_TEST_APP](http://www.eiffel-loop.com/test/source/image-utils/svg_to_png_conversion_test_app.html)
+See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 ## markup-docs.ecf
 * Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP]($source)
 * Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP]($source)
@@ -1456,21 +1456,26 @@ Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/applic
 
 ````
 EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION*
-	[$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
-	[$source AMAZON_INSTANT_ACCESS_TEST_APP]
-	[$source THUNDERBIRD_TEST_APP]
-	[$source TEXT_PROCESS_AUTOTEST_APP]
-	[$source TEXT_FORMATS_AUTOTEST_APP]
-	[$source ENCRYPTION_AUTOTEST_APP]
-	[$source SEARCH_ENGINE_AUTOTEST_APP]
-	[$source XDOC_SCANNING_AUTOTEST_APP]
-	[$source FTP_AUTOTEST_APP]
-	[$source OS_COMMAND_AUTOTEST_APP]
-	[$source I18N_AUTOTEST_APP]
-	[$source HTTP_CLIENT_AUTOTEST_APP]
-	[$source ID3_TAGS_AUTOTEST_APP]
-	[$source TAGLIB_AUTOTEST_APP]
+	[$source AMAZON_INSTANT_ACCESS_AUTOTEST_APP]
 	[$source BASE_AUTOTEST_APP]
+	[$source EROS_AUTOTEST_APP]
+	[$source FTP_AUTOTEST_APP]
+	[$source HTTP_CLIENT_AUTOTEST_APP]
+	[$source I18N_AUTOTEST_APP]
+	[$source ID3_TAGS_AUTOTEST_APP]
+	[$source OS_COMMAND_AUTOTEST_APP]
+	[$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+	[$source SEARCH_ENGINE_AUTOTEST_APP]
+	[$source TAGLIB_AUTOTEST_APP]
+	[$source TEXT_FORMATS_AUTOTEST_APP]
+	[$source TEXT_PROCESS_AUTOTEST_APP]
+	[$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]*
+		[$source OPEN_OFFICE_AUTOTEST_APP]
+		[$source VTD_XML_AUTOTEST_APP]
+		[$source IMAGE_UTILS_AUTOTEST_APP]
+		[$source XDOC_SCANNING_AUTOTEST_APP]
+	[$source ENCRYPTION_AUTOTEST_APP]
+	[$source THUNDERBIRD_AUTOTEST_APP]
 ````
 **Regression Test Sub-applications**
 
@@ -1480,82 +1485,101 @@ EL_REGRESSION_TESTABLE_SUB_APPLICATION*
 	[$source TEST_SUB_APPLICATION]*
 		[$source MEDIA_PLAYER_DUMMY_APP]
 		[$source COMPRESSION_TEST_APP]
-		[$source ENCRYPTION_TEST_APP]
 		[$source EVOLICITY_TEST_APP]
-		[$source SVG_TO_PNG_CONVERSION_TEST_APP]
-		[$source TEST_SIMPLE_SERVER]
+		[$source SIMPLE_CLIENT_SERVER_TEST_APP]
 		[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-		[$source OBJECT_BUILDER_TEST_APP]
-			[$source BEX_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
 		[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-		[$source OPEN_OFFICE_TEST_APP]
-		[$source TEST_VTD_XML_APP]
 ````
 **General Test Sub-applications**
 
 
 ````
 EL_SUB_APPLICATION*
+	[$source EL_LOGGED_SUB_APPLICATION]*
+		[$source EXPERIMENTS_APP]
+		[$source BEXT_CLIENT_TEST_APP]
+		[$source FOURIER_MATH_CLIENT_TEST_APP]
+		[$source TEST_WORK_DISTRIBUTER_APP]
+		[$source EROS_SERVER_SUB_APPLICATION]*
+			[$source BEXT_SERVER_TEST_APP]
+			[$source FOURIER_MATH_SERVER_TEST_APP]
+		[$source ZSTRING_BENCHMARK_APP]
 	[$source EL_COMMAND_LINE_SUB_APPLICATION]*
 		[$source EL_COMMAND_SHELL_SUB_APPLICATION]*
 			[$source BENCHMARK_APP]
-		[$source TEST_WORK_DISTRIBUTER_APP]
-		[$source ZSTRING_BENCHMARK_APP]
-		[$source TEST_SIMPLE_CLIENT]
-		[$source EXPERIMENTS_APP]
 ````
 **Test Sets**
 
 
 ````
 EQA_TEST_SET*
-	[$source CHAIN_TEST_SET]
-		[$source WIDGET_TEST_SET]
-	[$source COMMA_SEPARATED_IMPORT_TEST_SET]
+	[$source URI_ENCODING_TEST_SET]
 	[$source DIGEST_ROUTINES_TEST_SET]
 	[$source DIR_URI_PATH_TEST_SET]
-	[$source JSON_NAME_VALUE_LIST_TEST_SET]
+	[$source GENERAL_TEST_SET]
 	[$source PATH_STEPS_TEST_SET]
 	[$source REFLECTION_TEST_SET]
-	[$source SE_ARRAY2_TEST_SET]
-	[$source SETTABLE_FROM_JSON_STRING_TEST_SET]
-	[$source STRING_32_ROUTINES_TEST_SET]
 	[$source STRING_EDITION_HISTORY_TEST_SET]
 	[$source STRING_EDITOR_TEST_SET]
-	[$source SUBSTITUTION_TEMPLATE_TEST_SET]
-	[$source TEXT_PARSER_TEST_SET]
-	[$source URI_ENCODING_TEST_SET]
+	[$source SE_ARRAY2_TEST_SET]
+	[$source STRING_32_ROUTINES_TEST_SET]
+	[$source TEMPLATE_TEST_SET]
 	[$source ZSTRING_TOKEN_TABLE_TEST_SET]
-	[$source PAYPAL_TEST_SET]
-	[$source ZSTRING_TEST_SET]
-	[$source EIFFEL_LOOP_TEST_SET]
-		[$source PATH_TEST_SET]
-		[$source TRANSLATION_TABLE_TEST_SET]
-	[$source EL_FILE_DATA_TEST_SET]
-		[$source EL_GENERATED_FILE_DATA_TEST_SET]*
-			[$source AUDIO_COMMAND_TEST_SET]
-			[$source OS_COMMAND_TEST_SET]
-			[$source HTTP_CONNECTION_TEST_SET]
-			[$source AMAZON_INSTANT_ACCESS_TEST_SET]
-			[$source SEARCH_ENGINE_TEST_SET]
-				[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
-			[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
-			[$source HELP_PAGES_TEST_SET]*
-				[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
-				[$source FTP_TEST_SET]
-			[$source MODULE_CRC_32_TEST_SET]
-		[$source EL_COPIED_FILE_DATA_TEST_SET]*
-			[$source ID3_TAG_INFO_TEST_SET]
-			[$source TAGLIB_TEST_SET]
-	[$source ARRAYED_LIST_TEST_SET]
-	[$source EL_TEST_DATA_TEST_SET]*
-	[$source SEQUENTIAL_INTERVALS_TEST_SET]
 	[$source STRING_LIST_TEST_SET]
-	[$source GENERAL_TEST_SET]
+	[$source EROS_TEST_SET]
+	[$source COMMA_SEPARATED_IMPORT_TEST_SET]
+	[$source JSON_NAME_VALUE_LIST_TEST_SET]
+	[$source SETTABLE_FROM_JSON_STRING_TEST_SET]
+	[$source PYXIS_PARSER_TEST_SET]
+	[$source DATE_TEXT_TEST_SET]
+	[$source SUBSTITUTION_TEMPLATE_TEST_SET]
+	[$source ZSTRING_TEST_SET]
 	[$source EL_SUBJECT_LINE_DECODER_TEST_SET]
+	[$source PAYPAL_TEST_SET]
+	[$source EQA_SYSTEM_TEST_SET]*
+	[$source EL_EQA_TEST_SET]
+		[$source EL_FILE_DATA_TEST_SET]
+			[$source EL_COPIED_FILE_DATA_TEST_SET]*
+				[$source ID3_TAG_INFO_TEST_SET]
+				[$source TAGLIB_TEST_SET]
+				[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
+				[$source PYXIS_TO_XML_TEST_SET]
+			[$source EL_GENERATED_FILE_DATA_TEST_SET]*
+				[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
+				[$source MODULE_CRC_32_TEST_SET]
+				[$source AUDIO_COMMAND_TEST_SET]
+				[$source OS_COMMAND_TEST_SET]
+				[$source HELP_PAGES_TEST_SET]*
+					[$source FTP_TEST_SET]
+					[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
+					[$source FILE_AND_DIRECTORY_TEST_SET]
+				[$source HTTP_CONNECTION_TEST_SET]
+				[$source SEARCH_ENGINE_TEST_SET]
+					[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
+				[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+				[$source IMAGE_UTILS_TEST_SET]
+				[$source OBJECT_BUILDER_TEST_SET]
+		[$source EIFFEL_LOOP_TEST_SET]
+			[$source PATH_TEST_SET]
+			[$source TRANSLATION_TABLE_TEST_SET]
+			[$source ENCRYPTION_TEST_SET]
+			[$source OPEN_OFFICE_TEST_SET]
+			[$source VTD_XML_TEST_SET]
+		[$source CHAIN_TEST_SET]
+			[$source WIDGET_TEST_SET]
+		[$source EL_EQA_REGRESSION_TEST_SET]
+			[$source OPEN_OFFICE_TEST_SET]
+			[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
+			[$source VTD_XML_TEST_SET]
+			[$source PYXIS_TO_XML_TEST_SET]
+			[$source IMAGE_UTILS_TEST_SET]
+			[$source OBJECT_BUILDER_TEST_SET]
+	[$source SEQUENTIAL_INTERVALS_TEST_SET]
+	[$source EL_TEST_DATA_TEST_SET]*
 	[$source EIFFEL_NAME_TRANSLATEABLE_TEST_SET]
 	[$source UC_UTF8_STRING_TEST_SET]
-	[$source DATE_TEXT_TEST_SET]
+	[$source TEXT_PARSER_TEST_SET]
+	[$source ARRAYED_LIST_TEST_SET]
 ````
 
 ## search-engine.ecf
@@ -1579,9 +1603,6 @@ Test Sub-applications
 
 
 * [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
-* [OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/object_builder_test_app.html)
-* [BINARY_ENCODED_XML_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/binary_encoded_xml_builder_test_app.html)
 * [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
-* [PYXIS_TO_XML_TEST_APP]($source)
 * [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)
 

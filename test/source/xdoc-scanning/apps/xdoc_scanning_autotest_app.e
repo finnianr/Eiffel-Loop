@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 14:22:10 GMT (Monday 10th February 2020)"
-	revision: "4"
+	date: "2020-02-10 17:48:10 GMT (Monday 10th February 2020)"
+	revision: "5"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
@@ -42,6 +42,7 @@ feature {NONE} -- Implementation
 		end
 
 	evaluator_types_all: TUPLE [
+		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_EVALUATOR,
 		OBJECT_BUILDER_TEST_EVALUATOR,
 		PYXIS_TO_XML_TEST_EVALUATOR,
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR
@@ -56,7 +57,23 @@ feature {NONE} -- Implementation
 			Result := <<
 				[{like Current}, All_routines],
 				[{PYXIS_TO_XML_TEST_SET}, All_routines],
-				[{OBJECT_BUILDER_TEST_SET}, All_routines]
+				[{OBJECT_BUILDER_TEST_SET}, All_routines],
+				[{CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET}, All_routines],
+
+				[{BIOINFORMATIC_COMMANDS}, All_routines],
+				[{BIOINFO_COMMAND}, All_routines],
+				[{CONTAINER_PARAMETER}, All_routines],
+				[{TITLE_PARAMETER}, All_routines],
+				[{URL_PARAMETER}, All_routines],
+				[{RULES_LIST_PARAMETER}, All_routines],
+				[{DATA_PARAMETER}, All_routines],
+				[{BOOLEAN_PARAMETER}, All_routines],
+				[{INTEGER_PARAMETER}, All_routines],
+				[{REAL_PARAMETER}, All_routines],
+				[{CHOICE_PARAMETER}, All_routines],
+				[{INTEGER_RANGE_LIST_PARAMETER}, All_routines],
+				[{REAL_RANGE_LIST_PARAMETER}, All_routines],
+				[{STRING_LIST_PARAMETER}, All_routines]
 			>>
 		end
 

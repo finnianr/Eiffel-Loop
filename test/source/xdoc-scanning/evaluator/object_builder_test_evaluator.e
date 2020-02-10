@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 15:07:03 GMT (Monday 10th February 2020)"
-	revision: "1"
+	date: "2020-02-10 17:53:10 GMT (Monday 10th February 2020)"
+	revision: "2"
 
 class
 	OBJECT_BUILDER_TEST_EVALUATOR
@@ -21,6 +21,7 @@ feature {NONE} -- Implementation
 		do
 			test ("buildable_from_node_scan",			agent item.test_buildable_from_node_scan)
 			test ("smart_buildable_from_node_scan",	agent item.test_smart_buildable_from_node_scan)
+			test ("recursive_object_build",				agent item.test_recursive_object_build)
 		end
 
 end

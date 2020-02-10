@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:12:01 GMT (Friday 31st January 2020)"
-	revision: "2"
+	date: "2020-02-10 17:24:54 GMT (Monday 10th February 2020)"
+	revision: "3"
 
 class
 	EL_EQA_TEST_SET
@@ -17,5 +17,7 @@ inherit
 		rename
 			file_system as ise_file_system
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 end

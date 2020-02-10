@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 14:08:44 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-02-10 17:24:20 GMT (Monday 10th February 2020)"
+	revision: "8"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -16,6 +16,10 @@ inherit
 	EIFFEL_LOOP_TEST_SET
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LOG
 
 feature -- Tests
 

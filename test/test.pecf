@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 1; release = 9; build = 449
+			major = 1; minor = 1; release = 9; build = 450
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -450,10 +450,6 @@ system:
 				"""
 					xdoc-scanning.ecf
 					
-					Test Sub-applications
-					
-					* [$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-					* [$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
-					* [$source XDOC_SCANNING_AUTOTEST_APP]
+					Test application class: [$source XDOC_SCANNING_AUTOTEST_APP]
 				"""
 

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 15:06:40 GMT (Monday 10th February 2020)"
-	revision: "1"
+	date: "2020-02-10 17:50:12 GMT (Monday 10th February 2020)"
+	revision: "2"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -44,7 +44,9 @@ feature {NONE} -- Initialization
 	on_prepare
 		do
 			Precursor {EL_GENERATED_FILE_DATA_TEST_SET}
-			factory_types := << create {BUILDER_FACTORY}.make, create {BINARY_BUILDER_FACTORY}.make (Work_area_dir) >>
+			factory_types := <<
+				create {BUILDER_FACTORY}.make, create {BINARY_BUILDER_FACTORY}.make (Work_area_dir)
+			>>
 		end
 
 feature -- Basic operations
@@ -52,17 +54,24 @@ feature -- Basic operations
 	test_buildable_from_node_scan
 		-- 10 Feb 2020
 		do
-			across factory_types as l_type loop
-				build (l_type.item)
+			across factory_types as type loop
+				build (type.item)
 			end
 		end
 
 	test_smart_buildable_from_node_scan
+		-- object type determined by `create' XML processing instruction in document
 		-- 10 Feb 2020
 		do
-			across factory_types as l_type loop
-				smart_build (l_type.item)
+			across factory_types as type loop
+				smart_build (type.item)
 			end
+		end
+
+	test_recursive_object_build
+		-- 10 Feb 2020
+		do
+			do_test ("create_bioinformatic_commands", 4104321945, agent create_bioinformatic_commands, [])
 		end
 
 feature {NONE} -- Implementation
@@ -89,13 +98,22 @@ feature {NONE} -- Implementation
 			file_path: EL_FILE_PATH; digest: EL_DIGEST_ARRAY
 		do
 			file_path := Work_area_dir + file_name
-			object := new_object (Createable_dir + file_name)
+			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
 			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
 				create digest.make_from_memory (MD5_128, OS.File_system.file_data (file_path))
 				log.put_labeled_string ("Digest saved " + file_path.base, digest.to_base_64_string)
 				log.put_new_line
 			end
+		end
+
+	create_bioinformatic_commands
+			--
+		local
+			commands: BIOINFORMATIC_COMMANDS
+		do
+			create commands.make_from_file (El_test_data_dir + "vtd-xml/bioinfo.xml")
+			commands.display
 		end
 
 	smart_build (type: BUILDER_FACTORY)
@@ -118,11 +136,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Createable_dir: EL_DIR_PATH
-		once
-			Result := EL_test_data_dir.joined_dir_path ("XML/creatable")
-		end
-
 	File: TUPLE [web_form, smil_presentation, matrix_average, matrix_sum: STRING]
 		once
 			create Result
@@ -132,5 +145,10 @@ feature {NONE} -- Constants
 		end
 
 	Routine_name: STRING = "build_and_serialize_file"
+
+	XML_dir: EL_DIR_PATH
+		once
+			Result := EL_test_data_dir.joined_dir_path ("XML")
+		end
 
 end
