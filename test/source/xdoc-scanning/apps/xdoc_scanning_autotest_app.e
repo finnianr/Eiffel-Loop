@@ -1,10 +1,12 @@
 note
-	description: "XML document scanning autotest app"
+	description: "Test classes in library [./library/xdoc-scanning.html xdoc-scanning.ecf]"
 	notes: "[
 		Command option: `-xdoc_scanning_autotest'
 		
 		**Tests**
 		
+		[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_EVALUATOR]
+		[$source OBJECT_BUILDER_TEST_EVALUATOR]
 		[$source PYXIS_TO_XML_TEST_SET]
 		[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
 	]"

@@ -1487,8 +1487,6 @@ EL_REGRESSION_TESTABLE_SUB_APPLICATION*
 		[$source COMPRESSION_TEST_APP]
 		[$source EVOLICITY_TEST_APP]
 		[$source SIMPLE_CLIENT_SERVER_TEST_APP]
-		[$source DECLARATIVE_XPATH_PROCESSING_TEST_APP]
-		[$source RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP]
 ````
 **General Test Sub-applications**
 
@@ -1560,6 +1558,7 @@ EQA_TEST_SET*
 				[$source IMAGE_UTILS_TEST_SET]
 				[$source OBJECT_BUILDER_TEST_SET]
 		[$source EIFFEL_LOOP_TEST_SET]
+			[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET]
 			[$source PATH_TEST_SET]
 			[$source TRANSLATION_TABLE_TEST_SET]
 			[$source ENCRYPTION_TEST_SET]
@@ -1568,6 +1567,7 @@ EQA_TEST_SET*
 		[$source CHAIN_TEST_SET]
 			[$source WIDGET_TEST_SET]
 		[$source EL_EQA_REGRESSION_TEST_SET]
+			[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET]
 			[$source OPEN_OFFICE_TEST_SET]
 			[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
 			[$source VTD_XML_TEST_SET]
@@ -1599,10 +1599,4 @@ See class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/
 ## wel-x-audio.ecf
 Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
-Test Sub-applications
-
-
-* [DECLARATIVE_XPATH_PROCESSING_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/declarative_xpath_processing_test_app.html)
-* [RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/recursive_xml_to_eiffel_object_builder_test_app.html)
-* [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)
-
+Test application class: [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)
