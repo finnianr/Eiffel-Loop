@@ -1,13 +1,13 @@
 note
-	description: "Declarative xpath processing test app"
+	description: "Test class [$source EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:34:47 GMT (Sunday 12th January 2020)"
-	revision: "7"
+	date: "2020-02-09 14:05:30 GMT (Sunday 9th February 2020)"
+	revision: "8"
 
 class
 	DECLARATIVE_XPATH_PROCESSING_TEST_APP
@@ -26,10 +26,10 @@ feature -- Basic operations
 	test_run
 			--
 		do
-			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 1080262066)
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 1876270734)
---			Test.do_file_test ("XML/Hexagrams.xhtml", agent test_xhtml, 780707548)-- Doesn't work
---			Test.do_file_test ("XML/Hexagrams.utf8.xhtml", agent test_xhtml, 780707548)
+			Test.do_file_test ("XML/creatable/linguistic-analysis.smil", agent test_smil, 2924425149)
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_bioinfo, 342540672)
+			Test.do_file_test ("XML/Hexagrams.xhtml", agent test_xhtml, 3124129911)
+			Test.do_file_test ("XML/Hexagrams.utf8.xhtml", agent test_xhtml, 2042718884)
 		end
 
 feature -- Tests

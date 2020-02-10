@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 8:59:08 GMT (Sunday 4th August 2019)"
-	revision: "13"
+	date: "2020-02-10 10:36:44 GMT (Monday 10th February 2020)"
+	revision: "14"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -202,7 +202,7 @@ feature -- Output
 		do
 			l_out := output
 			l_out.put_label (label)
-			l_out.put_quoted_string (field_value)
+			l_out.put_quoted_string (field_value, Double_quote)
 			l_out.flush
 		end
 
@@ -390,6 +390,10 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Double_quote: STRING = "%""
+
+	Single_quote: STRING = "'"
 
 	Ellipsis_dots: ZSTRING
 		once

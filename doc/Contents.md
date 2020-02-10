@@ -1318,7 +1318,7 @@ Checks for UTF-8 files that could be encoded as Latin-1
 
 Checks for invalid class references in repository note links
 
-`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP]($source)
+`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
 
 Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 

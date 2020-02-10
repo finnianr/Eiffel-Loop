@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 21:37:38 GMT (Friday 10th January 2020)"
-	revision: "10"
+	date: "2020-02-10 14:00:25 GMT (Monday 10th February 2020)"
+	revision: "11"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -20,7 +20,7 @@ inherit
 
 	EL_PARSE_EVENT_CONSTANTS
 
-	EL_MODULE_LIO
+	EL_MODULE_UTF
 
 create
 	make
@@ -48,9 +48,6 @@ feature -- Basic operations
 	parse_from_stream (a_stream: IO_MEDIUM)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("parse_from_stream (a_stream: IO_MEDIUM)")
-			end
 			input := a_stream
 			read_parse_events
 		end
@@ -69,9 +66,6 @@ feature {NONE} -- Parse action handlers
 	on_start_tag_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_tag_code")
-			end
 			check_for_last_start_tag
 
 			set_name_from_stream (last_node_name, index_or_count, is_index)
@@ -81,9 +75,6 @@ feature {NONE} -- Parse action handlers
 	on_end_tag_code
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_tag_code")
-			end
 			check_for_last_start_tag
 			scanner.on_end_tag
 		end
@@ -91,32 +82,19 @@ feature {NONE} -- Parse action handlers
 	on_attribute_name_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_labeled_substitution ("on_attribute_name_code", "(%S, %S)", [index_or_count, is_index])
-				lio.put_new_line
-			end
 			attribute_list.extend
 			set_name_from_stream (attribute_list.last_node.name, index_or_count, is_index)
-			if is_lio_enabled then
-				lio.put_line (attribute_list.last_node.name)
-			end
 		end
 
 	on_attribute_text_code (count: INTEGER)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_attribute_text_code")
-			end
 			set_string_from_stream (attribute_list.last_node.raw_content, count)
 		end
 
 	on_text_code (count: INTEGER)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_text_code")
-			end
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
@@ -127,9 +105,6 @@ feature {NONE} -- Parse action handlers
 	on_comment_code (count: INTEGER)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_comment_code")
-			end
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
@@ -140,9 +115,6 @@ feature {NONE} -- Parse action handlers
 	on_processing_instruction_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_processing_instruction_code")
-			end
 			check_for_last_start_tag
 
 			set_name_from_stream (last_node_name, index_or_count, is_index)
@@ -155,9 +127,6 @@ feature {NONE} -- Parse action handlers
 	on_start_document_code
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_document_code")
-			end
 			name_index_array.wipe_out
 			attribute_list.reset
 			scanner.on_start_document
@@ -166,9 +135,6 @@ feature {NONE} -- Parse action handlers
 	on_end_document_code
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_document_code")
-			end
 			scanner.on_end_document
 		end
 
@@ -180,6 +146,9 @@ feature {NONE} -- Implementation
 			parse_event_code, index_or_count: INTEGER; is_index: BOOLEAN
 		do
 			last_parse_event_code := 0
+
+			input.read_natural_8
+			is_utf_8_encoded := input.last_natural_8.to_boolean
 
 			from until last_parse_event_code = PE_end_document loop
 				input.read_natural_16
@@ -218,9 +187,6 @@ feature {NONE} -- Implementation
 						on_end_document_code
 
 				else
-					-- We probably want to see this under and circumstance
-					lio.put_integer_field ("Unknown event", parse_event_code)
-					lio.put_new_line
 				end
 				last_parse_event_code := parse_event_code
 			end
@@ -249,10 +215,6 @@ feature {NONE} -- Implementation
 				name.append_string_general (input.last_string)
 				name_index_array.extend (name.string)
 			end
-			if is_lio_enabled then
-				lio.put_labeled_substitution ("set_name_from_stream", "(%"%S%", %S, %S)", [name, index_or_count, is_index])
-				lio.put_new_line
-			end
 		end
 
 	set_string_from_stream (str: STRING_32; count: INTEGER)
@@ -260,10 +222,10 @@ feature {NONE} -- Implementation
 		do
 			str.wipe_out
 			input.read_stream (count)
-			str.append_string_general (input.last_string)
-			if is_lio_enabled then
-				lio.put_labeled_substitution ("set_string_from_stream", "(%"%S%", %S)", [str, count])
-				lio.put_new_line
+			if is_utf_8_encoded then
+				UTF.utf_8_string_8_into_string_32 (input.last_string, str)
+			else
+				str.append_string_general (input.last_string)
 			end
 		end
 
@@ -272,6 +234,8 @@ feature {NONE} -- Implementation: attributes
 	input: IO_MEDIUM
 
 	attribute_list: EL_XML_ATTRIBUTE_LIST
+
+	is_utf_8_encoded: BOOLEAN
 
 	name_index_array: ARRAYED_LIST [STRING]
 

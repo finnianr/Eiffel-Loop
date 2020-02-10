@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 15:45:08 GMT (Sunday 12th January 2020)"
-	revision: "12"
+	date: "2020-02-10 10:34:58 GMT (Monday 10th February 2020)"
+	revision: "13"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -131,12 +131,12 @@ feature -- Output
 			end
 		end
 
-	put_quoted_string (a_str: READABLE_STRING_GENERAL)
+	put_quoted_string (a_str: READABLE_STRING_GENERAL; quote_mark: STRING)
 		do
 			set_text_brown
-			put_string (once "%"")
+			put_string (quote_mark)
 			put_string_general (a_str)
-			put_string (once "%"")
+			put_string (quote_mark)
 			set_text_default
 		end
 

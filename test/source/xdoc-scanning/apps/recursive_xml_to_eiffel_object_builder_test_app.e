@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:34:13 GMT (Sunday 12th January 2020)"
-	revision: "5"
+	date: "2020-02-09 14:10:18 GMT (Sunday 9th February 2020)"
+	revision: "6"
 
 class
 	RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP
@@ -23,6 +23,15 @@ create
 
 feature -- Basic operations
 
+	test_run
+			--
+		do
+			-- 9 Feb 2020
+			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 1721213976)
+		end
+
+feature {NONE} -- Implementation
+
 	test_read_bioinfo (file_path: EL_FILE_PATH)
 			--
 		local
@@ -34,19 +43,11 @@ feature -- Basic operations
 			log.exit
 		end
 
-	test_run
-			--
-		do
-			Test.do_file_test ("vtd-xml/bioinfo.xml", agent test_read_bioinfo, 664828462) -- Dec 2015
-		end
-
-feature {NONE} -- Implementation
-
 	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
-				[{RECURSIVE_XML_TO_EIFFEL_OBJECT_BUILDER_TEST_APP}, All_routines],
+				[{like Current}, All_routines],
 				[{BIOINFORMATIC_COMMANDS}, All_routines],
 				[{BIOINFO_COMMAND}, All_routines],
 				[{CONTAINER_PARAMETER}, All_routines],

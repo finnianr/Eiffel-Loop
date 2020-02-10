@@ -1,55 +1,37 @@
 note
-	description: "[
-		Runs tests found in [$source OBJECT_BUILDER_TEST_APP] using the event source type
-		[$source EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]
-	]"
+	description: "Binary builder factory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:36:18 GMT (Sunday 12th January 2020)"
-	revision: "10"
+	date: "2020-02-10 14:42:37 GMT (Monday 10th February 2020)"
+	revision: "1"
 
 class
-	BINARY_ENCODED_XML_BUILDER_TEST_APP
+	BINARY_BUILDER_FACTORY
 
 inherit
-	OBJECT_BUILDER_TEST_SUB_APPLICATION
+	BUILDER_FACTORY
+		rename
+			make as make_factory
 		redefine
-			Option_name, visible_types
+			new_matrix, new_serializeable, new_smil_presentation, new_web_form
 		end
 
 create
 	make
 
-feature -- Tests
+feature {NONE} -- Initialization
 
-	test_run
-			--
-		local
-			file: ZSTRING
+	make (a_work_area_dir: EL_DIR_PATH)
 		do
-			-- 10 Jan 2020
-			file := "linguistic-analysis.smil"
-			do_file_test (file, agent new_smil_presentation, 4229411388)
-			do_file_test (file, agent new_serializeable, 4229411388)
-
-			file := "download-page.xhtml"
-			do_file_test (file, agent new_web_form, 1209708169)
-			do_file_test (file, agent new_serializeable, 1209708169)
-
-			file := "request-matrix-sum.xml"
-			do_file_test (file, agent new_matrix, 1069823838)
-			do_file_test (file, agent new_serializeable, 1069823838)
-
-			file := "request-matrix-average.xml"
-			do_file_test (file, agent new_matrix, 570580005)
-			do_file_test (file, agent new_serializeable, 570580005)
+			work_area_dir := a_work_area_dir
+			create smart_builder.make (Binary_encoded_event_source)
 		end
 
-feature {NONE} -- Factory
+feature -- Factory
 
 	new_matrix (file_path: EL_FILE_PATH): MATRIX_CALCULATOR
 			--
@@ -65,9 +47,9 @@ feature {NONE} -- Factory
 		do
 			bex_file_path := bexml_path (file_path)
 			convert_file_to_bexml (file_path, bex_file_path)
-			Smart_builder.build_from_file (bex_file_path)
-			if Smart_builder.has_item then
-				Result := Smart_builder.item
+			smart_builder.build_from_file (bex_file_path)
+			if smart_builder.has_item then
+				Result := smart_builder.item
 			end
 		end
 
@@ -89,7 +71,8 @@ feature {NONE} -- Implementation
 
 	bexml_path (file_path: EL_FILE_PATH): EL_FILE_PATH
 		do
-			Result := file_path.with_new_extension (Extension_bexml)
+			Result := work_area_dir + file_path.base_sans_extension
+			Result.add_extension (Extension_bexml)
 		end
 
 	binary_xml_build (file_path: EL_FILE_PATH; object: EL_CREATEABLE_FROM_NODE_SCAN)
@@ -107,24 +90,14 @@ feature {NONE} -- Implementation
 		local
 			bex_file: RAW_FILE
 		do
-			log.enter ("convert_file_to_bexml")
 			create bex_file.make_open_write (output_file_path)
 			parse_event_generator.send_file (file_path, bex_file)
 			bex_file.close
-			log.exit
 		end
 
-	visible_types: TUPLE [
-		WEB_FORM, WEB_FORM_DROP_DOWN_LIST, WEB_FORM_COMPONENT, WEB_FORM_LINE_BREAK,
-		SMIL_AUDIO_SEQUENCE, SMIL_AUDIO_CLIP, SMIL_PRESENTATION,
-		MATRIX_CALCULATOR
+feature {NONE} -- Internal attributes
 
---		EL_BINARY_ENCODED_XML_DOCUMENT_SCANNER,
---		EL_XML_PARSE_EVENT_GENERATOR
-	]
-		do
-			create Result
-		end
+	work_area_dir: EL_DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -133,20 +106,11 @@ feature {NONE} -- Constants
 			Result := {EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}
 		end
 
-	Description: STRING = "Auto test remote builder concept"
-
 	Extension_bexml: STRING = "bexml"
-
-	Option_name: STRING = "bex_builder_test"
 
 	Parse_event_generator: EL_PARSE_EVENT_GENERATOR
 		once
 			create Result.make ({EL_EXPAT_XML_PARSER})
-		end
-
-	Smart_builder: EL_SMART_BUILDABLE_FROM_NODE_SCAN
-		once
-			create Result.make (Binary_encoded_event_source)
 		end
 
 end

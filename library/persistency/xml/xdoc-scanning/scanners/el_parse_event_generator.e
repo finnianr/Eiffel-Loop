@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 22:51:39 GMT (Friday 10th January 2020)"
-	revision: "1"
+	date: "2020-02-10 13:50:07 GMT (Monday 10th February 2020)"
+	revision: "2"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -23,7 +23,9 @@ inherit
 			Default_io_medium as Default_output
 		end
 
-	EL_MODULE_LIO
+	EL_SHARED_ONCE_STRING_8
+
+	EL_MODULE_XML
 
 create
 	make
@@ -41,11 +43,20 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
+	send (in_stream: IO_MEDIUM; a_output: like output)
+			--
+		do
+			output := a_output
+			scan_from_stream (in_stream)
+			output := Default_output
+		end
+
 	send_file (file_path: EL_FILE_PATH; a_output: like output)
 			--
 		local
 			file_in: PLAIN_TEXT_FILE
 		do
+			is_utf_8_encoded := XML.encoding (file_path).encoded_as_utf (8)
 			create file_in.make_open_read (file_path)
 			send (file_in, a_output)
 			file_in.close
@@ -55,91 +66,51 @@ feature -- Basic operations
 			--
 		do
 			output := a_output
-			if is_lio_enabled then
-				lio.put_line ("send_string (string: STRING)")
-			end
 			scan (string)
 			output := Default_output
 		end
 
-	send (in_stream: IO_MEDIUM; a_output: like output)
-			--
+feature -- Status change
+
+	enable_utf_8
 		do
-			output := a_output
-			if is_lio_enabled then
-				lio.put_line ("send (in_stream: IO_MEDIUM)")
-			end
-			scan_from_stream (in_stream)
-			output := Default_output
+			is_utf_8_encoded := False
 		end
 
 feature {NONE} -- Implementation
 
-	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_comment
 			--
 		do
+			put_parse_event (last_node_text.count, PE_comment_text)
+			output.put_string (last_node_text)
 		end
 
-	on_start_tag
+	on_content
+			--
+		local
+			content: STRING
+		do
+			content := new_content (last_node_text)
+			put_parse_event (content.count, PE_text)
+			output.put_string (content)
+		end
+
+	on_end_document
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_tag")
-			end
-			put_named_parse_event (
-				last_node_name,
-				PE_existing_start_tag, PE_new_start_tag
-			)
-			from attribute_list.start until attribute_list.after loop
-				put_named_parse_event (
-					attribute_list.node.name,
-					PE_existing_attribute_name, PE_new_attribute_name
-				)
-				put_parse_event (attribute_list.node.raw_content.count, PE_attribute_text)
-				output.put_string (attribute_list.node.raw_content)
-				if is_lio_enabled then
-					lio.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
-					lio.put_new_line
-				end
-				attribute_list.forth
-			end
+			put_parse_event (0, PE_end_document)
 		end
 
 	on_end_tag
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_tag")
-			end
 			put_parse_event (0, PE_end_tag)
-		end
-
-	on_content
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_content")
-			end
-			put_parse_event (last_node_text.count, PE_text)
-			output.put_string (last_node_text)
-		end
-
-	on_comment
-			--
-		do
-			if is_lio_enabled then
-				lio.put_line ("on_comment")
-			end
-			put_parse_event (last_node_text.count, PE_comment_text)
-			output.put_string (last_node_text)
 		end
 
 	on_processing_instruction
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_processing_instruction")
-			end
 			put_named_parse_event (
 				last_node_name, PE_existing_processing_instruction, PE_new_processing_instruction
 			)
@@ -150,23 +121,47 @@ feature {NONE} -- Implementation
 	on_start_document
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_start_document")
-			end
+			output.put_boolean (is_utf_8_encoded)
 			name_index_table.wipe_out
 			put_parse_event (0, PE_start_document)
 		end
 
-	on_end_document
+	on_start_tag
+			--
+		local
+			content: STRING
+		do
+			put_named_parse_event (
+				last_node_name,
+				PE_existing_start_tag, PE_new_start_tag
+			)
+			from attribute_list.start until attribute_list.after loop
+				put_named_parse_event (
+					once_general_copy_8 (attribute_list.node.name),
+					PE_existing_attribute_name, PE_new_attribute_name
+				)
+				content := new_content (attribute_list.node.raw_content)
+				put_parse_event (content.count, PE_attribute_text)
+				output.put_string (content)
+				attribute_list.forth
+			end
+		end
+
+	on_xml_tag_declaration (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
 			--
 		do
-			if is_lio_enabled then
-				lio.put_line ("on_end_document")
-			end
-			put_parse_event (0, PE_end_document)
 		end
 
 feature {NONE} -- Implementation
+
+	new_content (content: STRING_32): STRING
+		do
+			if is_utf_8_encoded then
+				Result := once_utf_8_copy (content)
+			else
+				Result := once_copy_8 (content)
+			end
+		end
 
 	put_named_parse_event (name: STRING; existing_name_code, new_name_code: INTEGER)
 			--
@@ -195,7 +190,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
+	is_utf_8_encoded: BOOLEAN
+	
+	name_index_table: HASH_TABLE [INTEGER, STRING]
+
 	output: IO_MEDIUM
 
-	name_index_table: HASH_TABLE [INTEGER, STRING]
 end

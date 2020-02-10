@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 9:53:55 GMT (Monday 3rd February 2020)"
-	revision: "7"
+	date: "2020-02-10 10:10:54 GMT (Monday 10th February 2020)"
+	revision: "8"
 
 class
 	EL_SPREAD_SHEET
@@ -27,15 +27,16 @@ inherit
 			item as table_item,
 			first as first_table,
 			last as last_table
-		redefine
-			out
 		end
 
 	EL_OPEN_OFFICE
 		undefine
 			is_equal, out, copy
-		redefine
-			out
+		end
+
+	EL_NAMEABLE
+		undefine
+			is_equal, out, copy
 		end
 
 	EL_MODULE_LIO
@@ -111,11 +112,6 @@ feature -- Access
 	name: ZSTRING
 
 	office_version: REAL
-
-	out: STRING
-		do
-			Result := name
-		end
 
 	table (a_name: ZSTRING): EL_SPREAD_SHEET_TABLE
 		do

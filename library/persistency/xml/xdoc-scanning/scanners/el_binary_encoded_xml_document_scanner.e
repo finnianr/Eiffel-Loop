@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-10 10:10:21 GMT (Friday 10th January 2020)"
-	revision: "6"
+	date: "2020-02-10 14:19:45 GMT (Monday 10th February 2020)"
+	revision: "7"
 
 class
 	EL_BINARY_ENCODED_XML_DOCUMENT_SCANNER
