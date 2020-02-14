@@ -6,14 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 11:21:48 GMT (Friday 1st November 2019)"
-	revision: "2"
+	date: "2020-02-14 11:00:19 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 class
 	TEMPLATE_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("basic",	agent test_basic)
+			eval.call ("date",	agent test_date)
+		end
 
 feature -- Tests
 

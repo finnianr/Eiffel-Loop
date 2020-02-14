@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:58:58 GMT (Wednesday 8th January 2020)"
-	revision: "10"
+	date: "2020-02-14 11:09:46 GMT (Friday 14th February 2020)"
+	revision: "11"
 
 class
 	FTP_TEST_SET
@@ -19,6 +19,14 @@ inherit
 		end
 
 	EL_MODULE_TRACK
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("ftp", agent test_ftp)
+		end
 
 feature -- Tests
 
@@ -94,7 +102,7 @@ feature {NONE} -- Events
 			ftp_site: LIST [STRING]
 		do
 			Precursor
-			ftp_site := OS.File_system.plain_text ("data/ftp-site.txt").split ('%N')
+			ftp_site := OS.File_system.plain_text ("data/txt/ftp-site.txt").split ('%N')
 			create ftp.make_write (create {FTP_URL}.make (ftp_site.first))
 			ftp.set_home_directory (ftp_site.last)
 

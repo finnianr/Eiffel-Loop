@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2020-02-14 10:15:38 GMT (Friday 14th February 2020)"
+	revision: "9"
 
 class
 	OS_COMMAND_TEST_SET
@@ -21,6 +21,13 @@ inherit
 	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_COMMAND
+
+feature -- Basic operations
+
+	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Tests
 

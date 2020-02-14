@@ -6,14 +6,23 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:21:09 GMT (Saturday 1st February 2020)"
-	revision: "3"
+	date: "2020-02-14 10:57:41 GMT (Friday 14th February 2020)"
+	revision: "4"
 
 class
 	GENERAL_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("character_32_status_queries", 		agent test_character_32_status_queries)
+			eval.call ("any_array_numeric_type_dectection", agent test_any_array_numeric_type_detection)
+		end
 
 feature -- Tests
 

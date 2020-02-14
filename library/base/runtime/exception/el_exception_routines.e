@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:22:20 GMT (Friday 24th January 2020)"
-	revision: "11"
+	date: "2020-02-13 14:18:01 GMT (Thursday 13th February 2020)"
+	revision: "12"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_MODULE_UNIX_SIGNALS
+
+	EL_MODULE_ZSTRING
 
 create
 	make
@@ -102,26 +104,33 @@ feature -- Basic operations
 			end
 		end
 
-	raise (exception: EXCEPTION; template: ZSTRING; inserts: TUPLE)
+	raise (exception: EXCEPTION; a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		local
-			message: STRING_32
+			message: STRING_32; template: ZSTRING
 		do
 			if inserts.is_empty then
-				message := template
+				create message.make_from_string_general (a_template)
 			else
+				template := Zstring.as_zstring (a_template)
 				message := template #$ inserts
 			end
 			exception.set_description (message)
 			exception.raise
 		end
 
-	raise_developer (template: ZSTRING; inserts: TUPLE)
+	raise_developer (a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		local
+			template: ZSTRING
 		do
+			template := Zstring.as_zstring (a_template)
 			raise (create {DEVELOPER_EXCEPTION}, template, inserts)
 		end
 
-	raise_panic (template: ZSTRING; inserts: TUPLE)
+	raise_panic (a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		local
+			template: ZSTRING
 		do
+			template := Zstring.as_zstring (a_template)
 			raise (create {EIFFEL_RUNTIME_PANIC}, template, inserts)
 		end
 

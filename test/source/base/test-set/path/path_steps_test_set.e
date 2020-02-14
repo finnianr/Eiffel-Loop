@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-02 12:39:49 GMT (Wednesday 2nd January 2019)"
-	revision: "2"
+	date: "2020-02-14 10:54:58 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 class
 	PATH_STEPS_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Test routines
 

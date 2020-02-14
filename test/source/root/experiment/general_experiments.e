@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 17:28:36 GMT (Tuesday 28th January 2020)"
-	revision: "9"
+	date: "2020-02-13 21:26:45 GMT (Thursday 13th February 2020)"
+	revision: "10"
 
 class
 	GENERAL_EXPERIMENTS
@@ -49,6 +49,22 @@ feature -- Less than or equal to comparison
 
 
 feature -- Basic operations
+
+	array_manifest_types
+		local
+			array_2d: ARRAY [ANY]
+		do
+			array_2d := <<
+				<< 1, 2 >>
+			>>
+			if attached {ARRAY [INTEGER]} array_2d [1] as integers then
+				lio.put_integer_field ("integers", integers [1])
+			end
+			if attached {ARRAY [NATURAL]} array_2d [1] as naturals then
+				lio.put_natural_field ("naturals", naturals [1])
+			end
+			lio.put_new_line
+		end
 
 	boolean_ref
 		local

@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:43:41 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2020-02-14 14:10:51 GMT (Friday 14th February 2020)"
+	revision: "4"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 		export
 			{EL_SUB_APPLICATION} clean
 		redefine
@@ -37,6 +37,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		do
+			Precursor
 			reset_work_area
 			OS.copy_tree (test_data_root_dir.joined_dir_path (relative_dir), workarea_root_dir)
 			work_dir := workarea_root_dir.joined_dir_path (relative_dir.base)

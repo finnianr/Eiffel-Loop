@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 18:26:23 GMT (Friday 31st January 2020)"
-	revision: "5"
+	date: "2020-02-14 10:09:58 GMT (Friday 14th February 2020)"
+	revision: "6"
 
-class
+deferred class
 	EL_FILE_DATA_TEST_SET
 
 inherit
@@ -31,6 +31,7 @@ feature {NONE} -- Events
 		local
 			l_dir: EL_DIRECTORY
 		do
+			Precursor
 			create l_dir.make (Work_area_dir)
 			if l_dir.exists and not l_dir.is_empty then
 				l_dir.recursive_delete

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:23:55 GMT (Monday 10th February 2020)"
-	revision: "11"
+	date: "2020-02-14 10:15:16 GMT (Friday 14th February 2020)"
+	revision: "12"
 
 class
 	PATH_TEST_SET
@@ -22,6 +22,13 @@ inherit
 	EL_MODULE_OS
 
 	EL_MODULE_LOG
+
+feature -- Basic operations
+
+	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Tests
 

@@ -1,12 +1,12 @@
 note
 	description: "[
-		Sub application allowing execution of multiple EQA unit tests. A summary of any failed tests is 
+		Sub application allowing execution of multiple EQA unit tests. A summary of any failed tests is
 		printed when all tests have finished executing.
-		
+
 		See any of the [$source AUTOTEST_DEVELOPMENT_APP] classes for an example.
 	]"
 	notes: "[
-		Add command option `-single' to only test `evaluator_type' with single test.
+		Add command option `-single' to only test `test_type' with single test.
 		
 		Logging is active by default
 	]"
@@ -16,11 +16,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:18:44 GMT (Friday 31st January 2020)"
-	revision: "21"
+	date: "2020-02-14 10:41:24 GMT (Friday 14th February 2020)"
+	revision: "1"
 
 deferred class
-	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
@@ -43,18 +43,15 @@ feature -- Basic operations
 
 	run
 		local
-			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
+			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_EVALUATOR]
+			evaluator: EL_EQA_TEST_EVALUATOR
 		do
 			create failed_list.make_empty
-			across evaluator_type_list as type loop
-				if attached {EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]} Eiffel.new_instance_of (type.item.type_id)
-					as evaluator
-				then
-					evaluator.default_create
-					evaluator.execute
-					if evaluator.has_failure then
-						failed_list.extend (evaluator)
-					end
+			across test_type_list as type loop
+				create evaluator.make (type.item)
+				evaluator.execute
+				if evaluator.has_failure then
+					failed_list.extend (evaluator)
 				end
 				lio.put_new_line
 			end
@@ -71,32 +68,41 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	evaluator_type: TUPLE
+	test_type: TUPLE
 		-- single type for evaluation (word option -single)
 		deferred
 		end
 
-	evaluator_types_all: TUPLE
+	test_types_all: TUPLE
 		deferred
 		end
 
-	evaluator_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET_EVALUATOR [EQA_TEST_SET]]
+	test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]
 		do
 			if Application_option.single then
-				create Result.make_from_tuple (evaluator_type)
+				create Result.make_from_tuple (test_type)
 			else
-				create Result.make_from_tuple (evaluator_types_all)
+				create Result.make_from_tuple (test_types_all)
 			end
 		ensure
-			all_conform_to_EL_EQA_TEST_SET_EVALUATOR: Result.all_conform
+			all_conform_to_EL_EQA_TEST_SET: Result.all_conform
 		end
 
 	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
+		local
+			list: ARRAYED_LIST [like CLASS_ROUTINES]
+			type_list: like test_type_list
 		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
+			type_list := test_type_list
+			create list.make (type_list.count + 1)
+			list.extend ([{like Current}, All_routines])
+			across type_list as type loop
+				if attached {TYPE [EL_MODULE_LOG]} type.item as logged_type then
+					list.extend ([logged_type, All_routines])
+				end
+			end
+			Result := list.to_array
 		end
 
 	is_logging_active: BOOLEAN

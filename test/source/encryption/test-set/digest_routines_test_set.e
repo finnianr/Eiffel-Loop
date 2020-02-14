@@ -6,20 +6,31 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 11:14:45 GMT (Thursday 23rd January 2020)"
-	revision: "5"
+	date: "2020-02-14 10:23:56 GMT (Friday 14th February 2020)"
+	revision: "6"
 
 class
 	DIGEST_ROUTINES_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_MODULE_DIGEST
 
 	EL_MODULE_LIO
 
 	EL_MODULE_STRING_8
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("hmac_sha_256_digest",	agent test_hmac_sha_256_digest)
+			eval.call ("sha_256_digest", 			agent test_sha_256_digest)
+			eval.call ("rfc_4231_2_ascii",	 	agent test_rfc_4231_2_ascii)
+			eval.call ("reset",						agent test_reset)
+		end
 
 feature -- Tests
 

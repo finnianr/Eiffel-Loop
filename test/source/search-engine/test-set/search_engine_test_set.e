@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
-	revision: "7"
+	date: "2020-02-14 11:32:23 GMT (Friday 14th February 2020)"
+	revision: "8"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -23,6 +23,14 @@ inherit
 	SHARED_HEXAGRAM_STRINGS
 		undefine
 			default_create
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("persistent_word_table", agent test_persistent_word_table)
 		end
 
 feature -- Tests

@@ -1,49 +1,41 @@
 note
-	description: "VTD-XML autotest app"
-	notes: "Option: `-vtd_xml_autotest'"
+	description: "Finalized executable tests for library [./library/vtd-xml.html vtd-xml.ecf]"
+	notes: "[
+		Command option: `-vtd_xml_autotest'
+		
+		**Test Sets**
+		
+			[$source VTD_XML_TEST_SET]
+			[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 9:48:28 GMT (Friday 7th February 2020)"
-	revision: "5"
+	date: "2020-02-14 13:53:13 GMT (Friday 14th February 2020)"
+	revision: "6"
 
 class
 	VTD_XML_AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
-		redefine
-			log_filter
-		end
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	evaluator_type: TUPLE [XML_TO_PYXIS_CONVERTER_TEST_EVALUATOR]
+	test_type: TUPLE [XML_TO_PYXIS_CONVERTER_TEST_SET]
 		do
 			create Result
 		end
 
-	evaluator_types_all: TUPLE [
-		VTD_XML_TEST_EVALUATOR, XML_TO_PYXIS_CONVERTER_TEST_EVALUATOR
-	]
+	test_types_all: TUPLE [VTD_XML_TEST_SET, XML_TO_PYXIS_CONVERTER_TEST_SET]
 		do
 			create Result
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{VTD_XML_TEST_SET}, All_routines],
-				[{XML_TO_PYXIS_CONVERTER_TEST_SET}, All_routines]
-			>>
 		end
 
 end

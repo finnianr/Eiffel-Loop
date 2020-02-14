@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:22:37 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-02-13 14:38:17 GMT (Thursday 13th February 2020)"
+	revision: "8"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -64,7 +64,7 @@ feature -- Basic operations
 			log.enter ("test_run")
 			create duration_parser.make
 
-			Test.do_file_test ("jobserve-duration-list.txt", agent test_parser, 0)
+			Test.do_file_test ("XML/jobserve.xml", agent test_parser, 0)
 			log.exit
 		end
 
@@ -110,6 +110,16 @@ feature {NONE} -- Tests
 			log.exit
 		end
 
+feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
+
 feature {NONE} -- Implementation: attributes
 
 	duration_parser: JOB_DURATION_PARSER
@@ -124,18 +134,6 @@ feature {NONE} -- Constants
 
 --	Ask_user_to_quit: BOOLEAN is true
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{JOBSERVE_SEARCH_APP}, All_routines]
-			>>
-		end
-
-	Option_name: STRING
-			--
-		do
-			create Result.make_from_string ("jobserve")
-		end
+	Option_name: STRING = "jobserve"
 
 end

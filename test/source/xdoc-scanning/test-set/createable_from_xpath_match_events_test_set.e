@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:36:33 GMT (Monday 10th February 2020)"
-	revision: "1"
+	date: "2020-02-14 13:46:05 GMT (Friday 14th February 2020)"
+	revision: "2"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -23,6 +23,14 @@ inherit
 		end
 
 feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("match_events",	agent test_match_events)
+		end
+
+feature -- Tests
 
 	test_match_events
 		do

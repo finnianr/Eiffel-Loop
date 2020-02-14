@@ -1,12 +1,13 @@
 note
-	description: "Finalized executable tests for library [./library/os-command.html os-command.ecf]"
+	description: "[
+		Finalized executable tests for Paypal Stand Button Manager library [./library/paypal-SBM.html paypal-SBM.ecf]
+	]"
 	notes: "[
-		Command option: `-os_command_autotest'
+		Command option: `-paypal_standard_button_manager_autotest'
 		
 		**Test Sets**
 		
-			[$source AUDIO_COMMAND_TEST_SET]
-			[$source OS_COMMAND_TEST_SET]
+			[$source PAYPAL_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,11 +15,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:57:38 GMT (Friday 14th February 2020)"
+	date: "2020-02-14 13:58:17 GMT (Friday 14th February 2020)"
 	revision: "62"
 
 class
-	OS_COMMAND_AUTOTEST_APP
+	PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_SUB_APPLICATION
@@ -28,7 +29,7 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type, test_types_all: TUPLE [AUDIO_COMMAND_TEST_SET, OS_COMMAND_TEST_SET]
+	test_type, test_types_all: TUPLE [PAYPAL_TEST_SET]
 		do
 			create Result
 		end

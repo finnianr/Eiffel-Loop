@@ -9,14 +9,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 12:28:15 GMT (Sunday 26th January 2020)"
-	revision: "20"
+	date: "2020-02-14 11:01:40 GMT (Friday 14th February 2020)"
+	revision: "21"
 
 class
 	ZSTRING_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 		redefine
 			on_prepare
 		end
@@ -41,6 +41,18 @@ feature {NONE} -- Events
 	on_prepare
 		do
 --			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("prepend_substring",	agent test_prepend_substring)
+			eval.call ("joined", 				agent test_joined)
+			eval.call ("append_substring",	agent test_append_substring)
+			eval.call ("left_adjust",			agent test_left_adjust)
+			eval.call ("xml_escape",			agent test_xml_escape)
 		end
 
 feature -- Conversion tests

@@ -1,4 +1,7 @@
 1.2.28
+Added "--no-encryption" to `Cmd_template' in class DUPLICITY_RESTORE_ALL_COMMAND
+
+1.2.28
 Fixes to ZSTRING and EL_SPLIT_STRING
 
 1.2.25

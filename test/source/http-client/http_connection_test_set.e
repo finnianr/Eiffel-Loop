@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "21"
+	date: "2020-02-14 10:15:31 GMT (Friday 14th February 2020)"
+	revision: "22"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -23,6 +23,13 @@ inherit
 	EL_MODULE_WEB
 
 	EL_MODULE_HTML
+
+feature -- Basic operations
+
+	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Test routines
 

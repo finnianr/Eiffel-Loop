@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "6"
+	date: "2020-02-14 10:15:46 GMT (Friday 14th February 2020)"
+	revision: "7"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -21,6 +21,13 @@ inherit
 	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_AUDIO_COMMAND
+
+feature -- Basic operations
+
+	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Tests
 

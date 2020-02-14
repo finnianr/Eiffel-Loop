@@ -1,13 +1,13 @@
 note
-	description: "Id3 tag info test set"
+	description: "ID3 tag info test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "7"
+	date: "2020-02-14 11:57:39 GMT (Friday 14th February 2020)"
+	revision: "8"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -27,6 +27,15 @@ inherit
 	EL_MODULE_NAMING
 
 	ID3_SHARED_FRAME_FIELD_TYPES
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+--			eval.call ("libid3_info", 	agent test_libid3_info)
+			eval.call ("underbit_id3_info", agent test_underbit_id3_info)
+		end
 
 feature -- Tests
 

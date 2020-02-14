@@ -15,12 +15,21 @@ $do_test -encryption_autotest
 
 $do_test -image_utils_autotest
 
+# i18n.ecf
+$do_test -i18n_autotest
+
 # xdoc-scanning.ecf
 $do_test -xdoc_scanning_autotest
 
 # markup-docs.ecf
 $do_test -open_office_autotest
 $do_test -thunderbird_autotest
+
+# paypal-SBM.ecf
+$do_test -paypal_standard_button_manager_autotest
+
+# search-engine.ecf
+$do_test -search_engine_autotest
 
 $do_test -vtd_xml_autotest
 

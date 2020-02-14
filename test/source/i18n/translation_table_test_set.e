@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:24:20 GMT (Monday 10th February 2020)"
-	revision: "8"
+	date: "2020-02-14 13:12:01 GMT (Friday 14th February 2020)"
+	revision: "9"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -15,55 +15,33 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_EQA_REGRESSION_TEST_SET
+		undefine
+			on_prepare, on_clean
+		end
 
-	EL_MODULE_FILE_SYSTEM
+feature -- Basic operations
 
-	EL_MODULE_LOG
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("reading_from_file", agent test_reading_from_file)
+			eval.call ("reading_from_source", agent test_reading_from_source)
+		end
 
 feature -- Tests
 
 	test_reading_from_file
 		do
-			log.enter ("test_reading_from_file")
-			test_reading (agent new_table_from_file)
-			log.exit
+			do_test ("test_reading_from_file", 20099276, agent test_reading, [agent new_table_from_file])
 		end
 
 	test_reading_from_source
 		do
-			log.enter ("test_reading_from_source")
-			test_reading (agent new_table_from_source)
-			log.exit
+			do_test ("test_reading_from_source", 3377365178, agent test_reading, [agent new_table_from_source])
 		end
 
 feature {NONE} -- Implementation
-
-	test_reading (new_table: FUNCTION [STRING, EL_FILE_PATH, EL_TRANSLATION_TABLE])
-		local
-			pyxis_file_path: EL_FILE_PATH; table: EL_TRANSLATION_TABLE
-			crc_32: like crc_generator
-		do
-			crc_32 := crc_generator
-			across Pyxis_translation_checksums as checksum loop
-				crc_32.reset
-				pyxis_file_path := EL_test_data_dir.joined_file_steps (<< "pyxis", "localization", checksum.key + ".xml.pyx" >>)
-				log.put_path_field ("Localization", pyxis_file_path)
-				log.put_new_line
-				across << "en", "de" >> as language loop
-					table := new_table (language.item, pyxis_file_path)
-					across table as translation loop
-						crc_32.add_string (translation.key)
-						crc_32.add_string (translation.item)
-						log.put_string_field_to_max_length (translation.key, translation.item, 200)
-						log.put_new_line
-					end
-				end
-				log.put_labeled_string ("checksum", crc_32.checksum.out)
-				log.put_new_line
-				assert ("checksum OK", crc_32.checksum = checksum.item)
-			end
-		end
 
 	new_table_from_file (language: STRING; file_path: EL_FILE_PATH): EL_TRANSLATION_TABLE
 		do
@@ -75,14 +53,29 @@ feature {NONE} -- Implementation
 			create Result.make_from_pyxis_source (language, File_system.plain_text (file_path))
 		end
 
+	test_reading (new_table: FUNCTION [STRING, EL_FILE_PATH, EL_TRANSLATION_TABLE])
+		local
+			pyxis_file_path: EL_FILE_PATH; table: EL_TRANSLATION_TABLE
+		do
+			across << "credits", "phrases", "words" >> as name loop
+				pyxis_file_path := Localization_dir + (name.item + ".pyx")
+				log.put_labeled_string ("Localization", pyxis_file_path.base)
+				log.put_new_line
+				across << "en", "de" >> as language loop
+					table := new_table (language.item, pyxis_file_path)
+					across table as translation loop
+						log.put_string_field_to_max_length (translation.key, translation.item, 200)
+						log.put_new_line
+					end
+				end
+			end
+		end
+
 feature {NONE} -- Constants
 
-	Pyxis_translation_checksums: HASH_TABLE [NATURAL, STRING]
-		do
-			create Result.make_equal (3)
-			Result ["credits"] := 448943560
-			Result ["phrases"] := 3915780596
-			Result ["words"] := 3350244775
+	Localization_dir: EL_DIR_PATH
+		once
+			Result := EL_test_data_dir.joined_dir_tuple (["pyxis", "localization"])
 		end
 
 end

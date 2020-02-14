@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:55:24 GMT (Saturday 11th January 2020)"
-	revision: "12"
+	date: "2020-02-12 15:24:47 GMT (Wednesday 12th February 2020)"
+	revision: "13"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -22,7 +22,7 @@ inherit
 			Option_name
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 		rename
 			EL_test_data_dir as Test_data_dir
 		end

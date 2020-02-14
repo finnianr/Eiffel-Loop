@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:29:51 GMT (Tuesday 24th September 2019)"
-	revision: "20"
+	date: "2020-02-13 12:18:37 GMT (Thursday 13th February 2020)"
+	revision: "21"
 
 class
 	REPOSITORY_PUBLISHER
@@ -17,7 +17,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table
+			make_default, building_action_table, on_context_return
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -264,23 +264,19 @@ feature {NONE} -- Build from Pyxis
 			set_next_context (templates)
 		end
 
-	append_configuration_file
+	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
-			ecf: ECF_INFO; ecf_path, relative_path: EL_FILE_PATH
+			ecf_path: EL_FILE_PATH; ecf: ECF_INFO
 		do
-			relative_path := node.to_string
-
-			if relative_path.base.has ('#') then
-				create {ECF_CLUSTER_INFO} ecf.make (relative_path)
-			else
-				create ecf.make (relative_path)
-			end
-			ecf_path := root_dir + ecf.path
-			if ecf_path.exists then
-				ecf_list.extend (new_configuration_file (ecf))
-			else
-				lio.put_path_field ("Cannot find", ecf_path)
-				lio.put_new_line
+			if attached {ECF_INFO} context as info then
+				ecf := info.normalized
+				ecf_path := root_dir + ecf.path
+				if ecf_path.exists then
+					ecf_list.extend (new_configuration_file (ecf))
+				else
+					lio.put_path_field ("Cannot find", ecf_path)
+					lio.put_new_line
+				end
 			end
 		end
 
@@ -294,7 +290,7 @@ feature {NONE} -- Build from Pyxis
 				["@web-address", 					agent do web_address := node.to_string end],
 
 				["templates",						agent set_template_context],
-				["ecf-list/ecf/text()", 		agent append_configuration_file],
+				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
 				["ftp-site", 						agent do set_next_context (ftp_sync) end],
 				["include-notes/note/text()", agent do note_fields.extend (node.to_string) end]
 			>>)

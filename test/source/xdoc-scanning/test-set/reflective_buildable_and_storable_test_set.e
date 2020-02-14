@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:25:05 GMT (Wednesday 8th January 2020)"
-	revision: "9"
+	date: "2020-02-14 13:48:14 GMT (Friday 14th February 2020)"
+	revision: "10"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
@@ -16,6 +16,15 @@ inherit
 	EL_GENERATED_FILE_DATA_TEST_SET
 		rename
 			new_file_tree as new_empty_file_tree
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("reflective_buildable_and_storable_as_xml",	agent test_reflective_buildable_and_storable_as_xml)
+			eval.call ("read_write",											agent test_read_write)
 		end
 
 feature -- Tests

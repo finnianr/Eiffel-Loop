@@ -6,20 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:47:28 GMT (Wednesday 8th January 2020)"
-	revision: "3"
+	date: "2020-02-14 10:53:42 GMT (Friday 14th February 2020)"
+	revision: "4"
 
 class
 	SE_ARRAY2_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
---	EL_MODULE_LOG
---		undefine
---			default_create
---		end
+feature -- Basic operations
 
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
+		
 feature -- Tests
 
 	test_array_read_write

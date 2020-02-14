@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 14:39:17 GMT (Sunday 26th January 2020)"
-	revision: "9"
+	date: "2020-02-12 16:11:18 GMT (Wednesday 12th February 2020)"
+	revision: "10"
 
 class
 	DUPLICITY_RESTORE
@@ -88,11 +88,6 @@ feature {NONE} -- Implementation
 			Result.sort
 		end
 
-	date_string (a_date: DATE): STRING
-		do
-			Result := a_date.formatted_out ("yyyy-[0]mm-[0]dd")
-		end
-
 	is_file (uri: EL_DIR_URI_PATH): BOOLEAN
 		do
 			Result := uri.protocol ~ Protocol.file
@@ -115,7 +110,7 @@ feature {NONE} -- Implementation
 			cmd: DUPLICITY_LISTING_COMMAND; restore_cmd: DUPLICITY_RESTORE_ALL_COMMAND
 			path_list: EL_FILE_PATH_LIST; file_path: EL_FILE_PATH; i: INTEGER
 		do
-			create cmd.make (date_string (a_date), backup_dir, User_input.line ("Enter search string"))
+			create cmd.make (a_date, backup_dir, User_input.line ("Enter search string"))
 			lio.put_new_line
 			lio.put_labeled_string (" 0.", "Quit")
 			lio.put_new_line
@@ -138,17 +133,15 @@ feature {NONE} -- Implementation
 				end
 				file_path := path_list [i]
 				if i = 1 then
-					create restore_cmd.make (date_string (a_date), restore_dir + file_path.base, backup_dir)
+					create restore_cmd.make (Current, a_date, file_path)
 				else
-					create {DUPLICITY_RESTORE_FILE_COMMAND} restore_cmd.make (
-						date_string (a_date), file_path, restore_dir + file_path.base, backup_dir
-					)
+					create {DUPLICITY_RESTORE_FILE_COMMAND} restore_cmd.make (Current, a_date, file_path)
 				end
 				restore_cmd.execute
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {DUPLICITY_RESTORE_ALL_COMMAND} -- Internal attributes
 
 	backup_dir: EL_DIR_URI_PATH
 

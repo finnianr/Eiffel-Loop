@@ -13,11 +13,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:53:25 GMT (Thursday 6th February 2020)"
-	revision: "6"
+	date: "2020-02-13 15:39:51 GMT (Thursday 13th February 2020)"
+	revision: "7"
 
 class
 	HEXAGRAM_STRINGS
+
+inherit
+	ANY EIFFEL_LOOP_TEST_CONSTANTS
 
 create
 	make
@@ -137,8 +140,7 @@ feature -- Constants
 
 	Hexagrams_path: EL_FILE_PATH
 		once
-			Result := "$EIFFEL_LOOP/test/data/hexagrams.txt"
-			Result.expand
+			Result := Eiffel_loop_dir + "test/data/txt/hexagrams.txt"
 		end
 
 end

@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 15:38:11 GMT (Sunday 5th January 2020)"
-	revision: "2"
+	date: "2020-02-13 11:52:08 GMT (Thursday 13th February 2020)"
+	revision: "3"
 
 class
 	ECF_CLUSTER_INFO
 
 inherit
 	ECF_INFO
+		rename
+			make as make_default
 		redefine
-			make, cluster_xpath, description, description_xpath
+			cluster_xpath, description, description_xpath
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -25,21 +27,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_path: EL_FILE_PATH)
+	make (ecf: ECF_INFO)
 			--
-		require else
-			valid_format: a_path.base.has ('#')
+		require
+			valid_format: ecf.is_cluster
 		local
 			parts: LIST [ZSTRING]
 		do
-			parts := a_path.base.split ('#')
+			make_default
+			parts := ecf.path.base.split ('#')
 			name := parts.last
 			if parts.count > 1 and then name.ends_with (character_string ('*')) then
 				has_wildcard := True
 				name.remove_tail (1)
 			end
-			a_path.set_base (parts.first)
-			Precursor (a_path)
+			path.set_parent_path (ecf.path.parent)
+			path.set_base (parts.first)
 		end
 
 feature -- Access

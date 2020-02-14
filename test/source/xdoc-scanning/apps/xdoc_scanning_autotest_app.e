@@ -1,14 +1,14 @@
 note
-	description: "Test classes in library [./library/xdoc-scanning.html xdoc-scanning.ecf]"
+	description: "Finalized executable tests for library [./library/xdoc-scanning.html xdoc-scanning.ecf]"
 	notes: "[
 		Command option: `-xdoc_scanning_autotest'
 		
-		**Tests**
+		**Test Sets**
 		
-		[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_EVALUATOR]
-		[$source OBJECT_BUILDER_TEST_EVALUATOR]
-		[$source PYXIS_TO_XML_TEST_SET]
-		[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
+			[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET]
+			[$source OBJECT_BUILDER_TEST_SET]
+			[$source PYXIS_TO_XML_TEST_SET]
+			[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:48:10 GMT (Monday 10th February 2020)"
-	revision: "5"
+	date: "2020-02-14 13:44:48 GMT (Friday 14th February 2020)"
+	revision: "6"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
@@ -33,21 +33,17 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [PYXIS_PARSER_TEST_SET]
+	test_type: TUPLE [PYXIS_TO_XML_TEST_SET]
 		do
 			create Result
 		end
 
-	evaluator_type: TUPLE [OBJECT_BUILDER_TEST_EVALUATOR]
-		do
-			create Result
-		end
-
-	evaluator_types_all: TUPLE [
-		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_EVALUATOR,
-		OBJECT_BUILDER_TEST_EVALUATOR,
-		PYXIS_TO_XML_TEST_EVALUATOR,
-		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR
+	test_types_all: TUPLE [
+		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
+		OBJECT_BUILDER_TEST_SET,
+		PYXIS_PARSER_TEST_SET,
+		PYXIS_TO_XML_TEST_SET,
+		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
 	]
 		do
 			create Result

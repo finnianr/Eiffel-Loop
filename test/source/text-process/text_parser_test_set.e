@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:02:53 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-02-14 11:15:39 GMT (Friday 14th February 2020)"
+	revision: "8"
 
 class
 	TEXT_PARSER_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		undefine
@@ -25,6 +25,13 @@ inherit
 			{NONE} all
 		undefine
 			default_create
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
 		end
 
 feature -- Tests

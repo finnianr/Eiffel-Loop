@@ -6,16 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:45:13 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-02-14 11:24:50 GMT (Friday 14th February 2020)"
+	revision: "8"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_MODULE_LOG
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Test
 
@@ -86,6 +93,6 @@ feature {NONE} -- Implementation
 	new_job_list: EL_IMPORTABLE_ARRAYED_LIST [JOB]
 		do
 			create Result.make (10)
-			Result.import_csv_latin_1 ("data/JobServe.csv")
+			Result.import_csv_latin_1 ("data/csv/JobServe.csv")
 		end
 end

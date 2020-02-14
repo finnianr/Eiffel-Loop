@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 14:41:20 GMT (Monday 16th September 2019)"
-	revision: "7"
+	date: "2020-02-13 15:43:09 GMT (Thursday 13th February 2020)"
+	revision: "8"
 
 class
 	DJ_EVENTS_PUBLISHER
@@ -44,8 +44,7 @@ feature -- Basic operations
 	publish
 		local
 			index_html_path, playlist_path: EL_FILE_PATH; website: EL_FTP_WEBSITE
-			html_index: DJ_EVENTS_HTML_INDEX
-			event_page: DJ_EVENT_HTML_PAGE
+			html_index: DJ_EVENTS_HTML_INDEX; event_page: DJ_EVENT_HTML_PAGE
 		do
 			index_html_path := config.www_dir + "index.html"
 			create html_index.make (playlists.to_array, config.www_dir + config.html_index_template, index_html_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 13:56:54 GMT (Saturday 11th January 2020)"
-	revision: "18"
+	date: "2020-02-12 15:24:51 GMT (Wednesday 12th February 2020)"
+	revision: "19"
 
 class
 	PYXIS_TO_XML_APP
@@ -20,7 +20,7 @@ inherit
 			Option_name, visible_types
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 		rename
 			EL_test_data_dir as test_data_dir
 		end

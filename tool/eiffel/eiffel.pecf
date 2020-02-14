@@ -24,7 +24,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 40; build = 176
+			major = 1; minor = 0; release = 41; build = 180
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -184,4 +184,7 @@ system:
 			
 					See doc/eiffel.analyse.txt for details.
 				"""
+		cluster:
+			name = test; location = "$EIFFEL_LOOP/test/source/root/common"
+
 

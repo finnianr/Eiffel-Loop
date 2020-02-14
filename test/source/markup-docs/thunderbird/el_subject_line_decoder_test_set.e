@@ -6,26 +6,35 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 14:58:56 GMT (Thursday 12th September 2019)"
-	revision: "4"
+	date: "2020-02-14 14:44:21 GMT (Friday 14th February 2020)"
+	revision: "5"
 
 class
 	EL_SUBJECT_LINE_DECODER_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 		redefine
 			on_prepare
 		end
 
-feature {NONE} -- Events
+feature {NONE} -- Initialization
 
 	on_prepare
 		do
 			create subject.make
 		end
 
-feature -- Access
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("iso",		agent test_iso)
+			eval.call ("utf_8",	agent test_utf_8)
+		end
+
+feature -- Tests
 
 	test_iso
 		do
@@ -40,7 +49,6 @@ feature -- Access
 
 			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
 			assert ("same string", subject.decoded_line.same_string ("Journaleinträge bearbeiten"))
-
 		end
 
 feature {NONE} -- Internal attributes

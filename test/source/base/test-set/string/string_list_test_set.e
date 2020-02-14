@@ -6,20 +6,35 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:08:53 GMT (Saturday 1st February 2020)"
-	revision: "7"
+	date: "2020-02-14 10:58:56 GMT (Friday 14th February 2020)"
+	revision: "8"
 
 class
 	STRING_LIST_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_LIO
 
 	EL_MODULE_TUPLE
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("split_and_join_3",		agent test_split_and_join_3)
+			eval.call ("fill_tuple",				agent test_fill_tuple)
+			eval.call ("path_split",				agent test_path_split)
+			eval.call ("test_split_sort",			agent test_split_sort)
+			eval.call ("split_string_8",			agent test_split_string_8)
+			eval.call ("split_and_join_1",		agent test_split_and_join_1)
+			eval.call ("split_and_join_2",		agent test_split_and_join_2)
+			eval.call ("occurrence_intervals",	agent test_occurrence_intervals)
+		end
 
 feature -- Tests
 

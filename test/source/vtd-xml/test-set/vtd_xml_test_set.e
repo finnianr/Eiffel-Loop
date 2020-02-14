@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 10:48:01 GMT (Sunday 9th February 2020)"
-	revision: "15"
+	date: "2020-02-14 13:42:10 GMT (Friday 14th February 2020)"
+	revision: "16"
 
 class
 	VTD_XML_TEST_SET
@@ -43,6 +43,17 @@ feature {NONE} -- Initialization
 			create root_node
 		end
 
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("query_processing_instruction",	agent test_query_processing_instruction)
+			eval.call ("cd_catalog_xpath_query",			agent test_cd_catalog_xpath_query)
+			eval.call ("svg_xpath_query",						agent test_svg_xpath_query)
+			eval.call ("bioinfo_xpath_query_1",				agent test_bioinfo_xpath_query)
+		end
+
 feature -- Tests
 
 	test_bioinfo_xpath_query
@@ -52,47 +63,26 @@ feature -- Tests
 			create root_node.make_from_file (EL_test_data_dir + "vtd-xml/bioinfo.xml")
 			do_test ("bioinfo_encoding", 4159057012, agent encoding, [])
 			name := "bioinfo_query_1"
-			do_test (
-				name, 2720094262, agent bioinfo_query_1, ["//par/label[count (following-sibling::value) = 2]"]
-			)
+			do_test (name, 2720094262, agent bioinfo_query_1, ["//par/label[count (following-sibling::value) = 2]"])
 			do_test (
 				name, 2095404682,
 				agent bioinfo_query_1, ["//par/label[count (following-sibling::value [@type = 'intRange']) = 2]"]
 			)
 
 			name := "bioinfo_query_2"
-			do_test (
-				name, 817474564, agent bioinfo_query_2, ["//label[contains (text(), 'branches')]"]
-			)
-			do_test (
-				name, 3115874359,
-				agent bioinfo_query_2, ["//value[@type='url' and contains (text(), 'http://')]"]
-			)
-			do_test (
-				name, 3290729442, agent bioinfo_query_2, ["//value[@type='url']/text()"]
-			)
+			do_test (name, 817474564, agent bioinfo_query_2, ["//label[contains (text(), 'branches')]"])
+			do_test (name, 3115874359, agent bioinfo_query_2, ["//value[@type='url' and contains (text(), 'http://')]"])
+			do_test (name, 3290729442, agent bioinfo_query_2, ["//value[@type='url']/text()"])
 
 			name := "bioinfo_query_3"
-			do_test (
-				name, 1100944812, agent bioinfo_query_3, ["//value[@type='integer']"]
-			)
-			do_test (
-				name, 113201598, agent bioinfo_query_3, ["//value[@type='integer' and number (text ()) > 100]"]
-			)
+			do_test (name, 1100944812, agent bioinfo_query_3, ["//value[@type='integer']"])
+			do_test (name, 113201598, agent bioinfo_query_3, ["//value[@type='integer' and number (text ()) > 100]"])
 
 			name := "bioinfo_query_4"
-			do_test (
-				name, 78172724, agent bioinfo_query_4, ["Element count", "//*"]
-			)
-			do_test (
-				name, 3787589092, agent bioinfo_query_4, ["Package count", "//package"]
-			)
-			do_test (
-				name, 11659765, agent bioinfo_query_4, ["Command count", "//command"]
-			)
-			do_test (
-				name, 2610705622, agent bioinfo_query_4, ["Title count", "//value[@type='title']"]
-			)
+			do_test (name, 78172724, agent bioinfo_query_4, ["Element count", "//*"])
+			do_test (name, 3787589092, agent bioinfo_query_4, ["Package count", "//package"])
+			do_test (name, 11659765, agent bioinfo_query_4, ["Command count", "//command"])
+			do_test (name, 2610705622, agent bioinfo_query_4, ["Title count", "//value[@type='title']"])
 			name := "bioinfo_query_5"
 			do_test (
 				name, 1831613446,

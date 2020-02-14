@@ -6,16 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 8:05:58 GMT (Tuesday 6th August 2019)"
-	revision: "3"
+	date: "2020-02-14 10:55:56 GMT (Friday 14th February 2020)"
+	revision: "4"
 
 class
 	STRING_EDITOR_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_ZSTRING_CONSTANTS
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Tests
 

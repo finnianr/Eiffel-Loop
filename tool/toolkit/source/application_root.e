@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:06:45 GMT (Monday 25th November 2019)"
-	revision: "24"
+	date: "2020-02-14 14:25:13 GMT (Friday 14th February 2020)"
+	revision: "25"
 
 class
 	APPLICATION_ROOT
@@ -21,7 +21,7 @@ create
 feature {NONE} -- Constants
 
 	Applications: TUPLE [
-		AUTOTEST_DEVELOPMENT_APP,
+		DEVELOPMENT_AUTOTEST_APP,
 
 		CRYPTO_COMMAND_SHELL_APP,
 

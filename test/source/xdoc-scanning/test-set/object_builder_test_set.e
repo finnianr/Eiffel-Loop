@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:50:12 GMT (Monday 10th February 2020)"
-	revision: "2"
+	date: "2020-02-14 13:46:57 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -50,6 +50,16 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("buildable_from_node_scan",			agent test_buildable_from_node_scan)
+			eval.call ("smart_buildable_from_node_scan",	agent test_smart_buildable_from_node_scan)
+			eval.call ("recursive_object_build",			agent test_recursive_object_build)
+		end
+
+feature -- Tests
 
 	test_buildable_from_node_scan
 		-- 10 Feb 2020

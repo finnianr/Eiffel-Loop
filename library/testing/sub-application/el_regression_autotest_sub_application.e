@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 17:53:16 GMT (Sunday 2nd February 2020)"
-	revision: "2"
+	date: "2020-02-14 12:42:59 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 deferred class
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
 
 inherit
-	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION
 		redefine
 			new_log, new_lio, new_log_manager
 		end

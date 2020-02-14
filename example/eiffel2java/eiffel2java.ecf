@@ -77,5 +77,6 @@ This library provides a useful layer of abstraction over the Eiffel Software JNI
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
+		<cluster name = "test" location = "$EIFFEL_LOOP/test/source/root/common"/>
 	</target>
 </system>

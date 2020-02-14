@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 10:34:42 GMT (Friday 7th February 2020)"
-	revision: "12"
+	date: "2020-02-14 10:24:08 GMT (Friday 14th February 2020)"
+	revision: "13"
 
 class
 	ENCRYPTION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EIFFEL_LOOP_TEST_SET
 		redefine
-			on_prepare
+			on_prepare, do_all
 		end
 
 	EL_MODULE_OS
@@ -29,6 +29,14 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("aes_encryption", agent test_aes_encryption)
+		end
+
+feature -- Tests
 
 	test_aes_encryption
 			--

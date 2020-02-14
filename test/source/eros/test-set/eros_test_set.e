@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 0:41:28 GMT (Wednesday 22nd January 2020)"
-	revision: "4"
+	date: "2020-02-14 11:08:18 GMT (Friday 14th February 2020)"
+	revision: "5"
 
 class
 	EROS_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 		redefine
 			on_prepare, on_clean
 		end
@@ -43,6 +43,14 @@ feature {NONE} -- Initiliazation
 			create connection.make (Port_number, "localhost")
 			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
 			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("fft", agent test_fft)
 		end
 
 feature -- Tests

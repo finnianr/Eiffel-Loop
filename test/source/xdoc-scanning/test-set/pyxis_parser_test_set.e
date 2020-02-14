@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 12:55:42 GMT (Wednesday 8th January 2020)"
-	revision: "1"
+	date: "2020-02-14 12:42:21 GMT (Friday 14th February 2020)"
+	revision: "2"
 
 class
 	PYXIS_PARSER_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_PYXIS_ZTEXT_PATTERN_FACTORY
 		export
@@ -27,6 +27,16 @@ inherit
 			{NONE} all
 		undefine
 			default_create
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("find_all", agent test_find_all)
+			eval.call ("pyxis_parser", agent test_pyxis_parser)
+			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
 feature -- Tests

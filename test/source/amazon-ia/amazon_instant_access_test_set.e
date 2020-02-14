@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-08 10:45:58 GMT (Saturday 8th February 2020)"
-	revision: "21"
+	date: "2020-02-14 10:32:34 GMT (Friday 14th February 2020)"
+	revision: "22"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -38,6 +38,28 @@ feature {NONE} -- Initialization
 			Precursor
 			create credential_list.make (credentials_file_path, new_encrypter)
 			credential_list.extend (Credential)
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			-- Account Linking
+			eval.call ("get_user_id", 					agent test_get_user_id)
+			eval.call ("get_user_id_health_check",	agent test_get_user_id_health_check)
+
+			-- Authorization
+			eval.call ("credential_storage", 		agent test_credential_storage)
+			eval.call ("credential_id_equality", 	agent test_credential_id_equality)
+			eval.call ("header_selection", 			agent test_header_selection)
+			eval.call ("parse_header_1", 				agent test_parse_header_1)
+			eval.call ("sign_and_verify", 			agent test_sign_and_verify)
+
+			-- Purchase
+			eval.call ("purchase_fullfill", 			agent test_purchase_fullfill)
+			eval.call ("purchase_revoke", 			agent test_purchase_revoke)
+			eval.call ("response_code", 				agent test_response_code)
 		end
 
 feature -- Account Linking

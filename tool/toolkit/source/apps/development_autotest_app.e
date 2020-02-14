@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:42:52 GMT (Saturday 11th January 2020)"
-	revision: "8"
+	date: "2020-02-14 14:25:13 GMT (Friday 14th February 2020)"
+	revision: "9"
 
 class
-	AUTOTEST_DEVELOPMENT_APP
+	DEVELOPMENT_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION
 		redefine
 			Visible_types
 		end
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type, evaluator_types_all: TUPLE [LOCALIZATION_COMMAND_SHELL_TEST_EVALUATOR]
+	test_type, test_types_all: TUPLE [LOCALIZATION_COMMAND_SHELL_TEST_SET]
 		do
 			create Result
 		end

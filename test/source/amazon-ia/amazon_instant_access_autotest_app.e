@@ -1,11 +1,11 @@
 note
-	description: "Sub-application to call tests in [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
+	description: "Finalized executable tests for library [./library/amazon-instant-access.html amazon-instant-access.ecf]"
 	notes: "[
 		Command option: `-amazon_instant_access_autotest'
 		
-		**Tests**
+		**Test Sets**
 		
-		[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+			[$source AMAZON_INSTANT_ACCESS_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,35 +13,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 11:04:14 GMT (Monday 3rd February 2020)"
-	revision: "64"
+	date: "2020-02-14 13:49:45 GMT (Friday 14th February 2020)"
+	revision: "65"
 
 class
 	AMAZON_INSTANT_ACCESS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
-		redefine
-			log_filter
-		end
+	EL_AUTOTEST_SUB_APPLICATION
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	evaluator_type, evaluator_types_all: TUPLE [AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
+	test_type, test_types_all: TUPLE [AMAZON_INSTANT_ACCESS_TEST_SET]
 		do
 			create Result
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{AMAZON_INSTANT_ACCESS_TEST_SET}, All_routines]
-			>>
 		end
 
 end

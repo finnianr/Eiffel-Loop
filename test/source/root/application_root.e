@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:50:40 GMT (Monday 10th February 2020)"
-	revision: "41"
+	date: "2020-02-14 11:40:51 GMT (Friday 14th February 2020)"
+	revision: "42"
 
 class
 	APPLICATION_ROOT
@@ -78,7 +78,7 @@ feature {NONE} -- Constants
 		OS_COMMAND_AUTOTEST_APP,
 
 		-- Test paypal-SBM.ecf
-		PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP,
+		PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP,
 
 		-- Test search-engine.ecf
 		SEARCH_ENGINE_AUTOTEST_APP,

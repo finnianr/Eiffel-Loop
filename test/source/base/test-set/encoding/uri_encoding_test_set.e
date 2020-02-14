@@ -6,18 +6,28 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:54:24 GMT (Saturday 1st February 2020)"
-	revision: "8"
+	date: "2020-02-14 11:00:50 GMT (Friday 14th February 2020)"
+	revision: "9"
 
 class
 	URI_ENCODING_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_MODULE_TUPLE
 
 	EL_MODULE_LIO
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("url_query_string_8", 	agent test_url_query_string_8)
+			eval.call ("utf_8_sequence",			agent test_utf_8_sequence)
+			eval.call ("url_query_hash_table",	agent test_url_query_hash_table)
+		end
 
 feature -- Test routines
 

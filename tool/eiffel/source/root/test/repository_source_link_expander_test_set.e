@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 12:17:32 GMT (Wednesday 7th August 2019)"
-	revision: "4"
+	date: "2020-02-14 14:22:36 GMT (Friday 14th February 2020)"
+	revision: "5"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -15,10 +15,18 @@ class
 inherit
 	REPOSITORY_PUBLISHER_TEST_SET
 		redefine
-			new_publisher, on_prepare, generated_files
+			do_all, new_publisher, on_prepare, generated_files
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("link_expander", agent test_link_expander)
+		end
 
 feature -- Tests
 

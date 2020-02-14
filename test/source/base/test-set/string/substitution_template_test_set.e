@@ -6,14 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 16:29:30 GMT (Thursday 23rd January 2020)"
-	revision: "5"
+	date: "2020-02-14 10:59:32 GMT (Friday 14th February 2020)"
+	revision: "6"
 
 class
 	SUBSTITUTION_TEMPLATE_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("string_substitution",			agent test_string_substitution)
+			eval.call ("zstring_substitution",			agent test_zstring_substitution)
+			eval.call ("object_field_substitution",	agent test_object_field_substitution)
+		end
 
 feature -- Tests
 

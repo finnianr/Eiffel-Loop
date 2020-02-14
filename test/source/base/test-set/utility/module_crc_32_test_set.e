@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:16:12 GMT (Wednesday 8th January 2020)"
-	revision: "9"
+	date: "2020-02-14 10:18:16 GMT (Friday 14th February 2020)"
+	revision: "10"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -19,6 +19,13 @@ inherit
 		end
 
 	EL_MODULE_CHECKSUM
+
+feature -- Basic operations
+
+	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Tests
 

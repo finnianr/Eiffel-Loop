@@ -6,14 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 15:01:52 GMT (Sunday 5th January 2020)"
-	revision: "4"
+	date: "2020-02-14 11:38:36 GMT (Friday 14th February 2020)"
+	revision: "5"
 
 class
 	PAYPAL_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("pp_transaction",	agent test_pp_transaction)
+		end
 
 feature -- Test
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:00:39 GMT (Sunday 22nd December 2019)"
-	revision: "22"
+	date: "2020-02-14 14:20:36 GMT (Friday 14th February 2020)"
+	revision: "23"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -29,6 +29,14 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("publisher", agent test_publisher)
+		end
 
 feature -- Tests
 

@@ -6,15 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:47:25 GMT (Wednesday 8th January 2020)"
-	revision: "3"
+	date: "2020-02-14 10:53:14 GMT (Friday 14th February 2020)"
+	revision: "4"
 
 class
 	ARRAYED_LIST_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
+		
 feature -- Tests
 
 	test_shift

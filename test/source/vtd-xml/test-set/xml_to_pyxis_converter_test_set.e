@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 10:55:53 GMT (Sunday 9th February 2020)"
-	revision: "2"
+	date: "2020-02-14 13:42:38 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -31,27 +31,26 @@ inherit
 
 feature -- Basic operations
 
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("conversions",	agent test_conversions)
+		end
+
+feature -- Tests
+
 	test_conversions
 		local
-			name: STRING; checksum: NATURAL
+			name, file_name: STRING; checksum: NATURAL
 		do
 			name := "convert_xml_to_pyxis"
 			-- 6 Feb 2020
 			across file_list as file_path loop
-				inspect file_path.cursor_index
-					when 1 then checksum := 3911484504 -- XML/Rhythmbox.bkup
-					when 2 then checksum := 1751456571 -- XML/uuid.ecf
-					when 3 then checksum := 827090613  -- XML/XML XSL Example.xsl
-					when 4 then checksum := 2652949353 -- XML/configuration.xsd
-					when 5 then checksum := 2906511580 -- XML/kernel.xace
-					when 7 then checksum := 0
-					when 8 then checksum := 0
-					when 9 then checksum := 0
-				else
-				end
-				do_test (name, checksum, agent convert_xml_to_pyxis, [file_path.item])
+				file_name := file_path.item.base
+				do_test (name, Checksum_table [file_name], agent convert_xml_to_pyxis, [file_path.item])
 			end
 		end
+
 feature {NONE} -- Implementation
 
 	convert_xml_to_pyxis (file_path: EL_FILE_PATH)
@@ -81,6 +80,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
+		once
+			create Result.make_equal (11)
+			Result ["Rhythmbox.bkup"] := 3119031178
+			Result ["uuid.ecf"] := 2254695445
+			Result ["XML XSL Example.xsl"] := 2435139533
+			Result ["configuration.xsd"] := 4119596232
+			Result ["kernel.xace"] := 2753611175
+		end
 
 	XML_dir: EL_DIR_PATH
 		once

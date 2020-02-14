@@ -10,10 +10,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 10:45:14 GMT (Sunday 9th February 2020)"
-	revision: "3"
+	date: "2020-02-14 10:15:25 GMT (Friday 14th February 2020)"
+	revision: "4"
 
-class
+deferred class
 	EL_EQA_REGRESSION_TEST_SET
 
 inherit
@@ -52,6 +52,5 @@ feature {NONE} -- Implementation
 				assert ("checksums agree", False)
 			end
 		end
-
 
 end

@@ -3,6 +3,11 @@ pyxis-doc:
 
 # Configuration file for the Eiffel-View repository publisher
 
+# Ignore cluster names 'test' and 'other'
+#		ecf:
+#			ignore = "test;other"
+
+
 publish-repository:
 	name = "Eiffel-Loop"; root-dir = "$EIFFEL_LOOP"; output-dir = "$EIFFEL_LOOP_DOC"
 	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
@@ -30,9 +35,11 @@ publish-repository:
 			"example/net/EROS/signal-math/signal-math.ecf#project"
 			"example/net/EROS/server/signal-math-server.ecf#project"
 			"example/99-bottles/ninety-nine-bottles.ecf"
-			"example/eiffel2java/eiffel2java.ecf"
 			"example/manage-mp3/manage-mp3.ecf"
 			"example/graphical/graphical.ecf"
+		ecf:
+			ignore = test
+			"example/eiffel2java/eiffel2java.ecf"
 
 		# Library Audio
 		ecf:
@@ -141,6 +148,8 @@ publish-repository:
 			"tool/eiffel/eiffel.ecf#root"
 			"tool/eiffel/eiffel.ecf#edit"
 			"tool/eiffel/eiffel.ecf#analyse"
+		ecf:
+			ignore = test
 			"tool/toolkit/toolkit.ecf"
 
 		# Test

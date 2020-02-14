@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-15 5:17:49 GMT (Saturday 15th June 2019)"
-	revision: "4"
+	date: "2020-02-12 15:57:47 GMT (Wednesday 12th February 2020)"
+	revision: "5"
 
 class
 	DUPLICITY_LISTING_COMMAND
@@ -26,6 +26,8 @@ inherit
 			make as make_machine
 		end
 
+	DUPLICITY_ROUTINES
+
 	EL_MODULE_TUPLE
 
 	EL_ZTEXT_PATTERN_FACTORY
@@ -35,14 +37,14 @@ create
 
 feature {NONE} -- Initialization
 
-	make (date: STRING; a_target_dir: EL_DIR_URI_PATH; a_search_string: ZSTRING)
+	make (date: DATE; a_target_dir: EL_DIR_URI_PATH; a_search_string: ZSTRING)
 		do
 			make_machine
 			make_command ("duplicity list-current-files --time $date $target_dir")
 			search_string := a_search_string
 			create path_list.make (50)
 			put_path (Var.target_dir, a_target_dir)
-			put_string (Var.date, date)
+			put_string (Var.date, formatted (date))
 
 			execute
 			do_with_lines (agent find_first_line, lines)

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-04 9:56:07 GMT (Tuesday 4th February 2020)"
-	revision: "10"
+	date: "2020-02-14 10:50:23 GMT (Friday 14th February 2020)"
+	revision: "11"
 
 class
 	CHAIN_TEST_SET
@@ -26,6 +26,23 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_LIO
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("list_conversion",			agent test_list_conversion)
+			eval.call ("weight_summation_1", 	agent test_weight_summation_1)
+			eval.call ("weight_summation_2",		agent test_weight_summation_2)
+			eval.call ("weight_summation_3",		agent test_weight_summation_3)
+			eval.call ("string_list",				agent test_string_list)
+			eval.call ("mapping",					agent test_mapping)
+			eval.call ("order_by_color_name",	agent test_order_by_color_name)
+			eval.call ("order_by_weight",			agent test_order_by_weight)
+			eval.call ("find_predicate",			agent test_find_predicate)
+			eval.call ("circular_indexing",		agent test_circular_indexing)
+		end
 
 feature -- Test
 

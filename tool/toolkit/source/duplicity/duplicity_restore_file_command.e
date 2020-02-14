@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-15 11:30:28 GMT (Friday 15th March 2019)"
-	revision: "1"
+	date: "2020-02-12 16:12:11 GMT (Wednesday 12th February 2020)"
+	revision: "2"
 
 class
 	DUPLICITY_RESTORE_FILE_COMMAND
 
 inherit
 	DUPLICITY_RESTORE_ALL_COMMAND
-		rename
-			make as make_restore_all
 		redefine
-			Cmd_template
+			make, Cmd_template
 		end
 
 create
@@ -25,9 +23,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (date: STRING; target_path, restored_path: EL_FILE_PATH; backup_uri: EL_DIR_URI_PATH)
+	make (restore: DUPLICITY_RESTORE; date: DATE; target_path: EL_FILE_PATH)
 		do
-			make_restore_all (date, restored_path, backup_uri)
+			Precursor (restore, date, target_path)
 			put_path (Var_target_path, target_path)
 		end
 

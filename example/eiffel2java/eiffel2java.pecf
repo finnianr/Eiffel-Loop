@@ -135,4 +135,6 @@ system:
 		cluster:
 			name = project; location = "source"; recursive = true
 
+		cluster:
+			name = test; location = "$EIFFEL_LOOP/test/source/root/common"
 

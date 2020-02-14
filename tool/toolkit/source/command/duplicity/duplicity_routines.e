@@ -1,24 +1,21 @@
 note
-	description: "Encryption test evaluator"
+	description: "Duplicity routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 10:24:03 GMT (Friday 7th February 2020)"
+	date: "2020-02-12 15:56:51 GMT (Wednesday 12th February 2020)"
 	revision: "1"
 
 class
-	ENCRYPTION_TEST_EVALUATOR
-
-inherit
-	EL_EQA_TEST_SET_EVALUATOR [ENCRYPTION_TEST_SET]
+	DUPLICITY_ROUTINES
 
 feature {NONE} -- Implementation
 
-	do_tests
+	formatted (date: DATE): STRING
 		do
-			test ("aes_encryption", 	agent item.test_aes_encryption)
+			Result := date.formatted_out ("yyyy-[0]mm-[0]dd")
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-02-13 15:27:00 GMT (Thursday 13th February 2020)"
+	revision: "5"
 
 deferred class
 	REGRESSION_TESTABLE_SUB_APPLICATION
@@ -15,18 +15,16 @@ deferred class
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		undefine
-			option_name
+			option_name, test_data_dir
 		end
 
 	EL_MODULE_JAVA_PACKAGES
 
 	EL_MODULE_OS
 
-feature {NONE} -- Constants
-
-	Eiffel_loop_dir: EL_DIR_PATH
-			--
-		once
-			Result := Execution.variable_dir_path ("EIFFEL_LOOP")
+	EIFFEL_LOOP_TEST_CONSTANTS
+		rename
+			EL_test_data_dir as test_data_dir
 		end
+
 end

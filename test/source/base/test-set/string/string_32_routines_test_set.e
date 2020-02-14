@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:40:52 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-02-14 10:55:36 GMT (Friday 14th February 2020)"
+	revision: "7"
 
 class
 	STRING_32_ROUTINES_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	TEST_STRING_CONSTANTS
 		undefine
@@ -21,6 +21,13 @@ inherit
 		end
 
 	EL_MODULE_STRING_32
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+		end
 
 feature -- Conversion tests
 

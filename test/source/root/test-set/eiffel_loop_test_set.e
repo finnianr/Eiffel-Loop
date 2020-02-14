@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 17:23:00 GMT (Monday 10th February 2020)"
-	revision: "8"
+	date: "2020-02-14 10:10:07 GMT (Friday 14th February 2020)"
+	revision: "9"
 
-class
+deferred class
 	EIFFEL_LOOP_TEST_SET
 
 inherit

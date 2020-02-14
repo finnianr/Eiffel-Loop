@@ -27,7 +27,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 2; release = 28; build = 513
+			major = 1; minor = 2; release = 29; build = 515
 			company = "Eiffel-Loop"; product = "toolkit"
 			copyright = "Finnian Reilly"
 
@@ -178,5 +178,8 @@ system:
 
 		cluster:
 			name = project; location = source; recursive = true
+
+		cluster:
+			name = test; location = "$EIFFEL_LOOP/test/source/root/common"
 
 

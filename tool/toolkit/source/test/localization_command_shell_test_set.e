@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:51:43 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-02-14 14:12:02 GMT (Friday 14th February 2020)"
+	revision: "6"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -16,6 +16,14 @@ inherit
 	EL_TEST_DATA_TEST_SET
 
 	EL_MODULE_LOG
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("add_unchecked", agent test_add_unchecked)
+		end
 
 feature -- Tests
 

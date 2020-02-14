@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 14:07:43 GMT (Tuesday 24th December 2019)"
-	revision: "33"
+	date: "2020-02-13 13:47:36 GMT (Thursday 13th February 2020)"
+	revision: "34"
 
 deferred class
 	EL_PATH
@@ -515,9 +515,9 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	set_base (a_base: like base)
+	set_base (a_base: READABLE_STRING_GENERAL)
 		do
-			base := a_base
+			base := Zstring.as_zstring (a_base)
 			internal_hash_code := 0
 		end
 

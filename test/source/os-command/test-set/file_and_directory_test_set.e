@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 11:05:26 GMT (Friday 27th December 2019)"
-	revision: "8"
+	date: "2020-02-14 11:48:41 GMT (Friday 14th February 2020)"
+	revision: "9"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -19,6 +19,18 @@ inherit
 		end
 
 	EL_MODULE_COMMAND
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("search_path_list",				agent test_search_path_list)
+			eval.call ("delete_content_with_action",	agent test_delete_content_with_action)
+			eval.call ("delete_with_action",				agent test_delete_with_action)
+			eval.call ("read_directories",				agent test_read_directories)
+			eval.call ("read_directory_files",			agent test_read_directory_files)
+		end
 
 feature -- Tests
 

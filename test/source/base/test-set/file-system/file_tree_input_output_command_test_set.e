@@ -6,14 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-19 15:35:47 GMT (Wednesday 19th September 2018)"
-	revision: "2"
+	date: "2020-02-14 11:51:57 GMT (Friday 14th February 2020)"
+	revision: "3"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
 
 inherit
 	HELP_PAGES_TEST_SET
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("copy_file_command", agent test_copy_file_command)
+		end
 
 feature -- Tests
 
@@ -29,9 +37,11 @@ feature -- Tests
 
 			create transformer.make (input_dir, output_dir, "txt")
 			transformer.apply (copy_cmd)
-			assert ("Files match", across OS.file_list (input_dir, "*.txt") as path all
-				(output_dir + path.item.relative_path (input_dir)).exists
-			end)
+			assert ("Files match",
+				across OS.file_list (input_dir, "*.txt") as path all
+					(output_dir + path.item.relative_path (input_dir)).exists
+				end
+			)
 		end
 
 end

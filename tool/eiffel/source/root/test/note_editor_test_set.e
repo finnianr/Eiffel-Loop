@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-05 15:04:52 GMT (Sunday 5th January 2020)"
-	revision: "12"
+	date: "2020-02-14 14:20:15 GMT (Friday 14th February 2020)"
+	revision: "13"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -25,7 +25,7 @@ inherit
 			default_create
 		end
 
-	EL_EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	NOTE_CONSTANTS
 		undefine
@@ -44,6 +44,14 @@ inherit
 	EL_MODULE_TIME
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("editor_with_new_class", agent test_editor_with_new_class)
+		end
 
 feature -- Tests
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:52:10 GMT (Thursday 6th February 2020)"
-	revision: "14"
+	date: "2020-02-14 11:28:51 GMT (Friday 14th February 2020)"
+	revision: "15"
 
 class
 	TAGLIB_TEST_SET
@@ -25,6 +25,15 @@ inherit
 	EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+--			eval.call ("read_basic_id3", 	agent test_read_basic_id3)
+			eval.call ("read_id3_frames", 	agent test_read_id3_frames)
+		end
 
 feature -- Tests
 

@@ -1,20 +1,26 @@
 note
-	description: "Sub-application to call tests in [$source EROS_TEST_SET]"
-	instructions: "Command option: `-amazon_instant_access_autotest'"
+	description: "Finalized executable tests for library [./library/eros.html eros.ecf]"
+	notes: "[
+		Command option: `-amazon_instant_access_autotest'
+
+		**Test Sets**
+
+			[$source EROS_TEST_SET]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 10:10:55 GMT (Monday 3rd February 2020)"
-	revision: "6"
+	date: "2020-02-14 13:53:52 GMT (Friday 14th February 2020)"
+	revision: "7"
 
 class
 	EROS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION
 		redefine
 			log_filter
 		end
@@ -29,7 +35,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	evaluator_type, evaluator_types_all: TUPLE [EROS_TEST_EVALUATOR]
+	test_type, test_types_all: TUPLE [EROS_TEST_SET]
 		do
 			create Result
 		end

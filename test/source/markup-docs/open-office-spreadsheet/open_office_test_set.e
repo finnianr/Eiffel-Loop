@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 10:51:34 GMT (Sunday 9th February 2020)"
-	revision: "17"
+	date: "2020-02-14 13:36:43 GMT (Friday 14th February 2020)"
+	revision: "18"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -28,6 +28,14 @@ inherit
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
 			on_prepare, on_clean
+		end
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("read_row_cells",	agent test_read_row_cells)
 		end
 
 feature -- Tests

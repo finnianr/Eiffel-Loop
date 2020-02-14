@@ -6,16 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 11:55:46 GMT (Friday 24th January 2020)"
-	revision: "9"
+	date: "2020-02-14 11:04:56 GMT (Friday 14th February 2020)"
+	revision: "10"
 
 class
 	DATE_TEXT_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_MODULE_DATE
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("formatted_date",							agent test_formatted_date)
+			eval.call ("from_ISO_8601_formatted",				agent test_from_iso_8601_formatted)
+			eval.call ("from_canonical_iso_8601_formatted",	agent test_from_canonical_iso_8601_formatted)
+		end
 
 feature -- Tests
 

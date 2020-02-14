@@ -1,28 +1,25 @@
 note
 	description: "[
-		EQA test set evaluator that makes it possible to run inherited test procedures.
-		
-		Can be used in conjunction with class [$source EL_AUTOTEST_DEVELOPMENT_SUB_APPLICATION] to
+		EQA test set evaluator that makes it possible to run inherited test procedures
+		as finalized executables.
+
+		Can be used in conjunction with class [$source EL_AUTOTEST_SUB_APPLICATION] to
 		create unit testing sub-applications.
 	]"
-	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 14:59:44 GMT (Thursday 23rd January 2020)"
-	revision: "10"
+	date: "2020-02-14 10:28:11 GMT (Friday 14th February 2020)"
+	revision: "1"
 
-deferred class
-	EL_EQA_TEST_SET_EVALUATOR [G -> EQA_TEST_SET create default_create end]
+class
+	EL_EQA_TEST_EVALUATOR
 
 inherit
 	EL_COMMAND
-		redefine
-			default_create
-		end
 
 	EL_MODULE_LIO
 
@@ -32,16 +29,23 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-feature {EL_MODULE_EIFFEL} -- Initialization
+create
+	make
 
-	default_create
+feature {NONE} -- Initialization
+
+	make (test_set_type: like item_type)
 		do
+			item_type := test_set_type
 			-- create a new instance of `item' without calling `default_create'
-			-- (`default_create' is called by `evaluator' so do not call `create item')
-			if attached {like item} Eiffel.new_instance_of (item_type.type_id) as new then
+			if attached {like item} Eiffel.new_instance_of (test_set_type.type_id) as new then
 				item := new
 			end
-			create evaluator
+			if attached {like evaluator} Eiffel.new_factory_instance ({like evaluator}, test_set_type) as new then
+				evaluator := new
+			else
+				create {EQA_TEST_EVALUATOR [EL_DEFAULT_EQA_TEST_SET]} evaluator
+			end
 			create failure_table.make_equal (3)
 		end
 
@@ -66,10 +70,10 @@ feature -- Basic operations
 
 	execute
 		do
-			print_name; do_tests
+			print_name; item.do_all (Current)
 		end
 
-	test (name: STRING; a_test: PROCEDURE)
+	call (name: STRING; a_test: PROCEDURE)
 		local
 			test_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
 		do
@@ -109,51 +113,24 @@ feature -- Basic operations
 
 	print_name
 		do
-			lio.put_labeled_string ("TEST SET", test_set_name)
+			lio.put_labeled_string ("Class", test_set_name)
 			lio.put_new_line_x2
 		end
 
 feature {NONE} -- Implementation
 
-	apply (test_set: like item; a_test: PROCEDURE)
+	apply (test_set: EQA_TEST_SET; a_test: PROCEDURE)
 		do
 			a_test.set_target (test_set)
 			a_test.apply
 		end
 
-	item_type: TYPE [G]
-		do
-			Result := {like item}
-		end
-
-	do_tests
-		deferred
-		end
-
 feature {NONE} -- Internal attributes
 
-	evaluator: EQA_TEST_EVALUATOR [like item]
+	evaluator: EQA_TEST_EVALUATOR [EQA_TEST_SET]
 
-	item: G;
+	item_type: TYPE [EL_EQA_TEST_SET]
 
-note
-	descendants: "[
-			EL_EQA_TEST_SET_EVALUATOR*
-				[$source AMAZON_INSTANT_ACCESS_TEST_EVALUATOR]
-				[$source DATE_TEXT_TEST_EVALUATOR]
-				[$source FILE_AND_DIRECTORY_TEST_EVALUATOR]
-				[$source TEMPLATE_TEST_EVALUATOR]
-				[$source ZSTRING_TEST_EVALUATOR]
-				[$source EROS_TEST_EVALUATOR]
-				[$source HTTP_CONNECTION_TEST_EVALUATOR]
-				[$source ID3_TAG_INFO_TEST_EVALUATOR]
-				[$source EL_SUBJECT_LINE_DECODER_TEST_EVALUATOR]
-				[$source PAYPAL_TEST_EVALUATOR]
-				[$source SEARCH_ENGINE_TEST_EVALUATOR]
-					[$source ENCRYPTED_SEARCH_ENGINE_TEST_EVALUATOR]
-				[$source TAGLIB_TEST_EVALUATOR]
-				[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_EVALUATOR]
-	]"
-
+	item: EL_EQA_TEST_SET
 
 end
