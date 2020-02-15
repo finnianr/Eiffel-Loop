@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 14:25:13 GMT (Friday 14th February 2020)"
-	revision: "25"
+	date: "2020-02-14 16:54:15 GMT (Friday 14th February 2020)"
+	revision: "26"
 
 class
 	APPLICATION_ROOT
@@ -55,6 +55,7 @@ feature {NONE} -- Constants
 		VCF_CONTACT_SPLITTER_APP,
 		VCF_CONTACT_NAME_SWITCHER_APP,
 
+		WET_DRY_GEOMETRY_SEPARATOR_APP,
 		XML_TO_PYXIS_APP,
 		YOUTUBE_VIDEO_DOWNLOADER_APP
 	]

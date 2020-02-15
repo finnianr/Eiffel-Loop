@@ -102,6 +102,9 @@ system:
 		library:
 			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
+		library:
+			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
+
 		# Eiffel-Loop
 		library:
 			name = EL_app_license_keys

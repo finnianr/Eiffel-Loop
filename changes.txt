@@ -178,3 +178,6 @@ New test set IMAGE_UTILS_TEST_SET and additional make routine for EL_DIGEST_ARRA
 Mon 10th Feb 2020, 15:44:38
 New {EL_PARSE_EVENT_GENERATOR}.is_utf_encoded and OBJECT_BUILDER_TEST_SET
 
+Fri 14th Feb 2020, 14:52:59
+Removed need for test set evaluation class EL_EQA_TEST_EVALUATOR
+

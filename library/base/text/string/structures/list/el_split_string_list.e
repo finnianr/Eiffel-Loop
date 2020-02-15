@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 16:58:53 GMT (Saturday 1st February 2020)"
-	revision: "16"
+	date: "2020-02-14 18:06:53 GMT (Friday 14th February 2020)"
+	revision: "17"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -117,6 +117,11 @@ feature -- Access
 				forth
 			end
 			pop_cursor
+		end
+
+	double_item: DOUBLE
+		do
+			Result := join_item.to_double
 		end
 
 	first_item (keep_ref: BOOLEAN): S

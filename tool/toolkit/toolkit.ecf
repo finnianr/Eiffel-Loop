@@ -50,6 +50,7 @@ See doc/toolkit.txt for details.
 		<library name = "encryption_base" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
+		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_app_license_keys" location = "$EIFFEL_LOOP/library/app-license-keys.ecf" readonly = "false"/>
 		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
