@@ -1,9 +1,11 @@
 note
 	description: "[
 		List of split items of a string conforming to `STRING_GENERAL' delimited by `delimiter'
-		
+	]"
+	notes: "[
 		This is a more efficient way to process split strings as it doesn't create a new string
-		instance for each split part.
+		instance for each split part. The split intervals are stored using class [$source EL_SEQUENTIAL_INTERVALS]
+		inherited by [$source EL_OCCURRENCE_INTERVALS].
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 18:06:53 GMT (Friday 14th February 2020)"
-	revision: "17"
+	date: "2020-02-16 0:55:19 GMT (Sunday 16th February 2020)"
+	revision: "18"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-15 19:54:58 GMT (Saturday 15th February 2020)"
-	revision: "1"
+	date: "2020-02-16 9:40:02 GMT (Sunday 16th February 2020)"
+	revision: "2"
 
 class
 	COORDINATE_VECTOR
@@ -22,14 +22,21 @@ inherit
 
 	DEBUG_OUTPUT undefine copy, is_equal end
 
+	HASHABLE undefine copy, is_equal end
+
 create
-	make, make_column
+	make, make_with_coords
 
 feature {NONE} -- Initialization
 
-	make (a_area: like area; a_index: INTEGER)
+	make_with_coords (a_x, a_y, a_z: DOUBLE)
 		do
-			area := a_area; index := a_index
+			make ((<< a_x, a_y , a_z >>).area)
+		end
+
+	make (a_area: like area)
+		do
+			area := a_area
 			height := a_area.count; width := 1
 		end
 
@@ -59,23 +66,20 @@ feature -- Status query
 			opposites: (is_dry implies other.is_wet) and (is_wet implies other.is_dry)
 		local
 			product_1, product_2: DOUBLE
-			direction: like Vector
+			ray: like Once_ray_direction
 		do
-			direction := Vector
-			direction.set_area (area)
-			direction.subtract (other)
-			direction.normalize
+			ray := Once_ray_direction
+			ray.set_area (area)
+			ray.subtract (other)
+			ray.normalize
 
 			product_1 := dot (Water_plane_normal)
-			product_2 := direction.dot (Water_plane_normal)
-			create Result.make (area.twin, -1)
-			Result.scale_by (product_1 / product_2)
+			product_2 := ray.dot (Water_plane_normal)
+			create Result.make (area.twin)
+			Result.subtract (ray.scaled_by (product_1 / product_2))
 		end
 
 feature -- Access
-
-	index: INTEGER
-		-- zero index into {CAD_MODEL}.vertice_list
 
 	x: DOUBLE
 		do
@@ -97,21 +101,42 @@ feature -- Access
 			Result := Format_out #$ [x, y, z]
 		end
 
+	hash_code: INTEGER
+		local
+			i, integer_count: INTEGER
+			l_memory: like Memory
+		do
+			l_memory := Memory
+			l_memory.set_from_pointer (area.base_address, {PLATFORM}.Real_64_bytes * area.count)
+			integer_count := l_memory.count // {PLATFORM}.Integer_32_bytes
+			from i := 0 until i = integer_count loop
+				-- The magic number `8388593' below is the greatest prime lower than
+				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+
+				Result := ((Result \\ 8388593) |<< 8) + l_memory.read_integer_32 (i)
+				i := i + 1
+			end
+		end
+		
 feature {NONE} -- Constants
 
-	Vector: COORDINATE_VECTOR
+	Once_ray_direction: COORDINATE_VECTOR
 		once
-			create Result.make_column (3)
+			create Result.make_with_coords (0, 0, 0)
 		end
 
 	Water_plane_normal: COORDINATE_VECTOR
 		once
-			create Result.make_column (3)
-			Result [3] := 1
+			create Result.make_with_coords (0, 0, 1)
 		end
 
 	Format_out: ZSTRING
 		once
 			Result := "%S, %S, %S"
+		end
+
+	Memory: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (Default_pointer, 0)
 		end
 end

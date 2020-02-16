@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-15 19:54:48 GMT (Saturday 15th February 2020)"
-	revision: "1"
+	date: "2020-02-16 11:03:42 GMT (Sunday 16th February 2020)"
+	revision: "2"
 
 class
 	POLYGON
@@ -31,8 +31,9 @@ feature {NONE} -- Initialization
 			valid_indices: across vertice_indices as v_index all coordinate_array.valid_index (v_index.item) end
 		do
 			make_sized (vertice_indices.count)
+			compare_objects
 			across vertice_indices as v_index loop
-				extend (create {COORDINATE_VECTOR}.make (coordinate_array [v_index.item], v_index.item))
+				extend (create {COORDINATE_VECTOR}.make (coordinate_array [v_index.item]))
 			end
 		end
 
