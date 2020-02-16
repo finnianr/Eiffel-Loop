@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 11:03:42 GMT (Sunday 16th February 2020)"
-	revision: "2"
+	date: "2020-02-16 16:29:05 GMT (Sunday 16th February 2020)"
+	revision: "3"
 
 class
 	POLYGON
@@ -17,9 +17,13 @@ inherit
 		rename
 			make as make_sized,
 			item as point
+		redefine
+			out
 		end
 
-	DEBUG_OUTPUT undefine copy, is_equal end
+	DEBUG_OUTPUT undefine copy, is_equal, out end
+
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_sized
@@ -55,6 +59,11 @@ feature -- Access
 
 	debug_output: STRING
 		do
+			Result := out
+		end
+
+	out: STRING
+		do
 			create Result.make_filled ('D', count)
 			across Current as coord loop
 				if coord.item.is_wet then
@@ -83,12 +92,37 @@ feature -- Status query
 							and then across Current as coord some coord.item.is_wet end
 		end
 
+feature -- Comparison
+
+   is_approximately_equal (other: like Current; precision: DOUBLE ): BOOLEAN
+   	do
+   		if count = other.count then
+   			Result := across Current as coord all coord.item.is_approximately_equal (other [coord.cursor_index], precision)  end
+   		end
+   	end
+
+feature -- Basic operations
+
+	print_to (lio: EL_LOGGABLE)
+		local
+			str: STRING
+		do
+			lio.put_labeled_string ("Code", out)
+			lio.put_new_line
+			across Current as coord loop
+				str := empty_once_string_8
+				coord.item.append_to_string (str)
+				lio.put_labeled_substitution ("Coord", "[%S] = [%S]", [coord.cursor_index, str])
+				lio.put_new_line
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	new_partial (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
 		-- polygon that is cut above or below waterplane according to `excluded' predicate
 		local
-			offset, i: INTEGER
+			offset, i: INTEGER; first_included, last_included, first_excluded, last_excluded: COORDINATE_VECTOR
 		do
 			create Result.make_sized (count)
 			-- Pythonic circular zero based indexing
@@ -97,14 +131,16 @@ feature {NONE} -- Implementation
 				offset := offset + 1
 			end
 			from i := offset until excluded (circular_i_th (i)) loop
-				extend (circular_i_th (i))
+				Result.extend (circular_i_th (i))
 				i := i + 1
 			end
-			if not circular_i_th (i - 1).is_boundary then
-				extend (circular_i_th (i - 1).surface_intersection (circular_i_th (i)))
+			last_included := circular_i_th (i - 1); first_excluded := circular_i_th (i)
+			if not last_included.is_boundary then
+				Result.extend (last_included.surface_intersection (first_excluded))
 			end
-			if not circular_i_th (offset).is_boundary then
-				extend (circular_i_th (offset).surface_intersection (circular_i_th (offset - 1)))
+			first_included := circular_i_th (offset); last_excluded := circular_i_th (offset - 1)
+			if not first_included .is_boundary then
+				Result.extend (first_included.surface_intersection (last_excluded))
 			end
 		end
 

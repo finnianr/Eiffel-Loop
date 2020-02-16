@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 11:16:50 GMT (Sunday 16th February 2020)"
-	revision: "3"
+	date: "2020-02-16 17:07:57 GMT (Sunday 16th February 2020)"
+	revision: "4"
 
 class
 	CAD_MODEL
@@ -45,15 +45,18 @@ feature {NONE} -- Initialization
 
 	make_from_file (json_path: EL_FILE_PATH)
 		do
-			make_from_json (new_json_parts (File_system.plain_text (json_path)))
+			make_from_json (File_system.plain_text (json_path))
 		end
 
-	make_from_json (json: like new_json_parts)
+	make_from_json (json: STRING)
+
 		local
+			parts: like new_json_parts
 			vertices: like new_vertice_list
 		do
-			vertices := new_vertice_list (json.p)
-			make (new_polygon_list (json.q, vertices.area))
+			parts := new_json_parts (json)
+			vertices := new_vertice_list (parts.p)
+			make (new_polygon_list (parts.q, vertices.area))
 		end
 
 	make_partial (other: like Current; included: PREDICATE [POLYGON]; new_part: FUNCTION [POLYGON, POLYGON])
@@ -118,12 +121,7 @@ feature -- Access
 --							], [
 							Result.append (Tuple_delimiter)
 						end
-						across coord.item as distance loop
-							if not distance.is_first then
---								,
-								Result.append (Comma_space)
-							end
-						end
+						coord.item.append_to_string (Result)
 					end
 					Result.append (Double_brackets.right)
 --					]]
@@ -133,7 +131,7 @@ feature -- Access
 				Result := Result.twin
 			end
 		ensure
-			reversible: polygon_list ~ (create {like Current}.make_from_json (new_json_parts (Result))).polygon_list
+			reversible: is_approximately_equal (create {like Current}.make_from_json (Result), 0.1e-14)
 		end
 
 feature -- Basic operations
@@ -147,6 +145,27 @@ feature -- Basic operations
 			output.close
 		end
 
+	print_to (lio: EL_LOGGABLE)
+		do
+			across polygon_list as polygon loop
+				lio.put_integer_field ("Polygon", polygon.cursor_index)
+				lio.put_character (' ')
+				polygon.item.print_to (lio)
+				lio.put_new_line
+			end
+		end
+
+feature -- Comparison
+
+   is_approximately_equal (other: like Current; precision: DOUBLE ): BOOLEAN
+   	do
+   		if polygon_list.count = other.polygon_list.count then
+   			Result := across polygon_list as polygon all
+   				polygon.item.is_approximately_equal (other.polygon_list [polygon.cursor_index], precision)
+  				end
+   		end
+   	end
+
 feature {NONE} -- Factory
 
 	new_json_parts (json: STRING): TUPLE [q, p: STRING]
@@ -155,7 +174,6 @@ feature {NONE} -- Factory
 			all_on_one_line: not json.has ('%N')
 		local
 			index, start_index: INTEGER
-			json_parts: ARRAY [STRING]
 		do
 			Result := ["", ""]
 			index := 1
