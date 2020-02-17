@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-17 11:52:02 GMT (Monday 17th February 2020)"
-	revision: "4"
+	date: "2020-02-17 16:11:42 GMT (Monday 17th February 2020)"
+	revision: "5"
 
 class
 	COORDINATE_VECTOR
@@ -25,10 +25,17 @@ inherit
 
 	HASHABLE undefine copy, is_equal end
 
+	EL_DOUBLE_MATH undefine copy, is_equal end
+
 create
 	make_from_area, make, make_from_other
 
 feature {NONE} -- Initialization
+
+	make (a_x, a_y, a_z: DOUBLE)
+		do
+			make_from_area ((<< a_x, a_y , a_z >>).area)
+		end
 
 	make_from_area (a_area: like area)
 		do
@@ -37,16 +44,21 @@ feature {NONE} -- Initialization
 			width := a_area.count; height := 1
 		end
 
-	make (a_x, a_y, a_z: DOUBLE)
-		do
-			make_from_area ((<< a_x, a_y , a_z >>).area)
-		end
-
 feature -- Access
 
 	debug_output: STRING
 		do
 			Result := Format_out #$ [x, y, z]
+		end
+
+	distance (other: like Current): DOUBLE
+		local
+			difference: like Once_vector
+		do
+			difference := Once_vector
+			difference.area.copy_data (other.area, 0, 0, 3)
+			difference.subtract (Current)
+			Result := difference.magnitude
 		end
 
 	hash_code: INTEGER
@@ -90,6 +102,8 @@ feature -- Access
 
 			difference.scale_by (product_1.opposite / product_2)
 			Result.add (difference)
+		ensure
+			same_distance_sum: approximately_equal (distance (other), distance (Result) + Result.distance (other), 0.1e-14)
 		end
 
 	x: DOUBLE

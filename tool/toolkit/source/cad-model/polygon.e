@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-17 11:45:31 GMT (Monday 17th February 2020)"
-	revision: "4"
+	date: "2020-02-17 15:30:05 GMT (Monday 17th February 2020)"
+	revision: "5"
 
 class
 	POLYGON
@@ -97,7 +97,9 @@ feature -- Comparison
    is_approximately_equal (other: like Current; precision: DOUBLE ): BOOLEAN
    	do
    		if count = other.count then
-   			Result := across Current as coord all coord.item.is_approximately_equal (other [coord.cursor_index], precision)  end
+   			Result := across Current as coord all
+   				coord.item.is_approximately_equal (other [coord.cursor_index], precision)
+   			end
    		end
    	end
 
@@ -118,32 +120,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	new_partial_X (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
-		-- polygon that is cut above or below waterplane according to `excluded' predicate
-		local
-			first_included, last_included, first_excluded, last_excluded: COORDINATE_VECTOR
-			offset, i: INTEGER;
-		do
-			create Result.make_sized (count)
-			-- Pythonic circular zero based indexing
-			-- use `offset' to effect a rotation such that `not excluded (point)' is first and `exluded (point)' is last
-			from offset := 0 until not excluded (circular_i_th (offset)) and excluded (circular_i_th (offset + count - 1)) loop
-				offset := offset + 1
-			end
-			from i := offset until excluded (circular_i_th (i)) loop
-				Result.extend (circular_i_th (i))
-				i := i + 1
-			end
-			last_included := circular_i_th (i - 1); first_excluded := circular_i_th (i)
-			if not last_included.is_boundary then
-				Result.extend (last_included.surface_intersection (first_excluded))
-			end
-			first_included := circular_i_th (offset); last_excluded := circular_i_th (offset - 1)
-			if not first_included .is_boundary then
-				Result.extend (first_included.surface_intersection (last_excluded))
-			end
-		end
 
 	new_partial (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
 		-- polygon that is cut above or below waterplane according to `excluded' predicate
