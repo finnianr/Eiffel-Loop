@@ -52,7 +52,7 @@ feature -- Access
 
 	wet_part: like Current
 		require
-			has_dry_part: across Current as coord some not coord.item.is_dry end
+			has_dry_part: across Current as coord some coord.item.is_dry end
 		do
 			Result := new_partial (agent {COORDINATE_VECTOR}.is_dry)
 		end
