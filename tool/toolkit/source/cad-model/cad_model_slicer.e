@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 16:44:06 GMT (Sunday 16th February 2020)"
-	revision: "3"
+	date: "2020-02-16 17:30:47 GMT (Sunday 16th February 2020)"
+	revision: "4"
 
 class
 	CAD_MODEL_SLICER
@@ -58,9 +58,7 @@ feature {NONE} -- Implementation
 	qualified_path (qualifier: STRING): EL_FILE_PATH
 		do
 			Result := json_path.without_extension
-			Result.base.append_character ('-')
-			Result.base.append_string_general (qualifier)
-			Result.add_extension (json_path.extension)
+			Result.set_base (Base_template #$ [Result.base, qualifier])
 		end
 
 feature {NONE} -- Internal attributes
@@ -68,5 +66,12 @@ feature {NONE} -- Internal attributes
 	json_path: EL_FILE_PATH
 
 	model: CAD_MODEL
+
+feature {NONE} -- Constants
+
+	Base_template: ZSTRING
+		once
+			Result := "%S-%S.json"
+		end
 
 end

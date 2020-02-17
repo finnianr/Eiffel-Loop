@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 15:14:30 GMT (Sunday 16th February 2020)"
-	revision: "1"
+	date: "2020-02-17 11:50:26 GMT (Monday 17th February 2020)"
+	revision: "2"
 
 class
 	CAD_MODEL_TEST_SET
@@ -24,17 +24,18 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("parse_and_conversion",	agent test_parse_and_conversion)
-			eval.call ("slicing",	agent test_slicing)
+			eval.call ("model_load_and_store",	agent test_model_load_and_store)
+			eval.call ("line_intersection",		agent test_line_intersection)
+			eval.call ("slicing",					agent test_slicing)
 		end
 
 feature -- Test
 
-	test_parse_and_conversion
+	test_model_load_and_store
 		local
 			model_1, model_2: CAD_MODEL; i: INTEGER
 		do
-			create model_1.make_from_json (Json_model_line)
+			create model_1.make_from_json (Json_model_unwrapped)
 			across << "DDDD", "WDDW", "WWWW" >> as code loop
 				i := code.cursor_index
 				assert ("[" + i.out + "] is " + code.item, model_1.polygon_list.i_th (i).out ~ code.item)
@@ -45,16 +46,56 @@ feature -- Test
 
 	test_slicing
 		local
-			model: CAD_MODEL
+			model, model_dry, model_wet: CAD_MODEL
+			names: LIST [STRING]; list, dry_list, wet_list: LIST [POLYGON]
+			WDDW_polygon, DDBB_polygon, WWBB_polygon: POLYGON
 		do
-			create model.make_from_json (Json_model_line)
-			lio.put_line (model.dry_part.as_json (False))
-			lio.put_line (model.wet_part.as_json (False))
+			create model.make_from_json (Json_model_unwrapped)
+			model_dry := model.dry_part; model_wet := model.wet_part
+			list := model.polygon_list; dry_list := model_dry.polygon_list; wet_list := model_wet.polygon_list
+
+			WDDW_polygon := list [2]; DDBB_polygon := dry_list [2]; WWBB_polygon := wet_list [2]
+
+			names := ("FULL,DRY,WET").split (',')
+			across << model, model_dry, model_wet >> as l_model loop
+				lio.put_labeled_string ("Model", names [l_model.cursor_index]); lio.put_new_line
+				l_model.item.print_to (lio)
+				lio.put_new_line_x2
+			end
+
+			-- B = boundary coord (z=0), W = wet coord (z<0), D = dry coord (z>0)
+			assert (Valid_codes, WDDW_polygon.out ~ "WDDW" and DDBB_polygon.out ~ "DDBB" and WWBB_polygon.out ~ "WWBB")
+
+			-- Test dry part
+			assert ("dry count 2", dry_list.count = 2)
+			assert (Valid_codes, dry_list.i_th (1).out ~ "DDDD")
+			assert (Same_coordinates, DDBB_polygon [1] ~ WDDW_polygon [2] and DDBB_polygon [2] ~ WDDW_polygon [3])
+			assert (Same_coordinates, WDDW_polygon.i_th (3).surface_intersection (WDDW_polygon.i_th (4)) ~ DDBB_polygon [3])
+			assert (Same_coordinates, WDDW_polygon.i_th (1).surface_intersection (WDDW_polygon.i_th (2)) ~ DDBB_polygon [4])
+
+			-- Test wet part
+			assert ("wet count 2", wet_list.count = 2)
+			assert (Valid_codes, wet_list.i_th (1).out ~ "WWWW")
+			assert (Same_coordinates, WWBB_polygon [1] ~ WDDW_polygon [4] and WWBB_polygon [2] ~ WDDW_polygon [1])
+			assert (Same_coordinates, WDDW_polygon.i_th (1).surface_intersection (WDDW_polygon.i_th (2)) ~ WWBB_polygon [3])
+			assert (Same_coordinates, WDDW_polygon.i_th (3).surface_intersection (WDDW_polygon.i_th (4)) ~ WWBB_polygon [4])
+		end
+
+	test_line_intersection
+		local
+			p1, p2, answer: COORDINATE_VECTOR
+		do
+			create p1.make (0.5, 1.5, 3); create p2.make (-0.6, 2.1, -3.5)
+
+			-- Answer from online calculator http://www.ambrsoft.com/TrigoCalc/Plan3D/PlaneLineIntersection_.htm
+			create answer.make (-0.007692307692 , 1.776923076923, 0)
+			assert ("same answer", p1.surface_intersection (p2).is_approximately_equal (answer, 0.1e-10))
 		end
 
 feature {NONE} -- Implementation
 
 	json_model_data: STRING
+		-- line wrapped data
 		do
 			Result := "[
 				{"q": [[0, 1, 2, 3], [4, 0, 3, 5], [6, 4, 5, 7]]
@@ -71,11 +112,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Json_model_line: STRING
-		-- JSON model as a single line
+	Json_model_unwrapped: STRING
+		-- JSON model as unwrapped line
 		once
 			Result := json_model_data
 			Result.prune_all ('%N')
 		end
+
+	Same_coordinates: STRING = "same coordinates"
+
+	Valid_codes: STRING = "valid coordinate status codes"
 
 end

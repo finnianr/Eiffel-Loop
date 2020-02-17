@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 16:29:05 GMT (Sunday 16th February 2020)"
-	revision: "3"
+	date: "2020-02-17 11:45:31 GMT (Monday 17th February 2020)"
+	revision: "4"
 
 class
 	POLYGON
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			make_sized (vertice_indices.count)
 			compare_objects
 			across vertice_indices as v_index loop
-				extend (create {COORDINATE_VECTOR}.make (coordinate_array [v_index.item]))
+				extend (create {COORDINATE_VECTOR}.make_from_area (coordinate_array [v_index.item]))
 			end
 		end
 
@@ -119,14 +119,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_partial (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
+	new_partial_X (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
 		-- polygon that is cut above or below waterplane according to `excluded' predicate
 		local
-			offset, i: INTEGER; first_included, last_included, first_excluded, last_excluded: COORDINATE_VECTOR
+			first_included, last_included, first_excluded, last_excluded: COORDINATE_VECTOR
+			offset, i: INTEGER;
 		do
 			create Result.make_sized (count)
 			-- Pythonic circular zero based indexing
-			-- find rotational offset such that `not excluded (point)' is first and `exluded (point)' is last
+			-- use `offset' to effect a rotation such that `not excluded (point)' is first and `exluded (point)' is last
 			from offset := 0 until not excluded (circular_i_th (offset)) and excluded (circular_i_th (offset + count - 1)) loop
 				offset := offset + 1
 			end
@@ -135,6 +136,38 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			last_included := circular_i_th (i - 1); first_excluded := circular_i_th (i)
+			if not last_included.is_boundary then
+				Result.extend (last_included.surface_intersection (first_excluded))
+			end
+			first_included := circular_i_th (offset); last_excluded := circular_i_th (offset - 1)
+			if not first_included .is_boundary then
+				Result.extend (first_included.surface_intersection (last_excluded))
+			end
+		end
+
+	new_partial (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
+		-- polygon that is cut above or below waterplane according to `excluded' predicate
+		local
+			first_included, last_included, first_excluded, last_excluded: COORDINATE_VECTOR
+			offset, i, included_count: INTEGER;
+		do
+			included_count := count - count_of (excluded)
+			create Result.make_sized (included_count + 2)
+
+			-- Pythonic circular zero based indexing
+			-- use `offset' to effect a rotation such that `not excluded (point)' is first and `exluded (point)' is last
+			from offset := 0 until not excluded (circular_i_th (offset)) and excluded (circular_i_th (offset + count - 1)) loop
+				offset := offset + 1
+			end
+
+			-- Add included points
+			from i := 0 until i = included_count loop
+				Result.extend (circular_i_th (i + offset))
+				i := i + 1
+			end
+			-- Add intersection of first and last included points with adjacent point on opposite side of plane
+			last_included := circular_i_th (offset + included_count - 1)
+			first_excluded := circular_i_th (offset + included_count)
 			if not last_included.is_boundary then
 				Result.extend (last_included.surface_intersection (first_excluded))
 			end

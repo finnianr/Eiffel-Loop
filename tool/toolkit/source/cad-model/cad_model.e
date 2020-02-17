@@ -7,8 +7,8 @@ note
 		[$source EL_SPLIT_STRING_8_LIST] class. (avoids creating a new string for each split)
 		
 		1. The data is all on one line
-		2. the arrays are delimited with "], ["
-		3. the `p' and `q' sections are delimited with `[[` and `]]'
+		2. the arrays are delimited with `"], ["'
+		3. the `p' and `q' sections are delimited with `[[' and `]]'
 		
 		This method is significantly faster than using a full JSON parser. (by at least an order of magnitude)
 	]"
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 17:07:57 GMT (Sunday 16th February 2020)"
-	revision: "4"
+	date: "2020-02-16 18:00:30 GMT (Sunday 16th February 2020)"
+	revision: "5"
 
 class
 	CAD_MODEL
@@ -267,6 +267,8 @@ feature -- Constants
 	Field: TUPLE [quads, points: STRING]
 		once
 			create Result
+			-- Note: this is the Eiffel way of writing an unescaped string manifest,
+			-- similar to Pythons triple quote """ markers.
 			Tuple.fill (Result, "[
 				"q":, "p":
 			]")

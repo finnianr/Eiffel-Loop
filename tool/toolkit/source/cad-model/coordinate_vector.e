@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 16:47:45 GMT (Sunday 16th February 2020)"
-	revision: "3"
+	date: "2020-02-17 11:52:02 GMT (Monday 17th February 2020)"
+	revision: "4"
 
 class
 	COORDINATE_VECTOR
@@ -15,7 +15,8 @@ class
 inherit
 	VECTOR_DOUBLE
 		rename
-			make as make_vector
+			make as make_matrix,
+			make_from as make_from_other
 		undefine
 			out
 		end
@@ -25,20 +26,20 @@ inherit
 	HASHABLE undefine copy, is_equal end
 
 create
-	make, make_with_coords
+	make_from_area, make, make_from_other
 
 feature {NONE} -- Initialization
 
-	make (a_area: like area)
+	make_from_area (a_area: like area)
 		do
 			area := a_area
 			lower := 1; upper := 3
-			height := a_area.count; width := 1
+			width := a_area.count; height := 1
 		end
 
-	make_with_coords (a_x, a_y, a_z: DOUBLE)
+	make (a_x, a_y, a_z: DOUBLE)
 		do
-			make ((<< a_x, a_y , a_z >>).area)
+			make_from_area ((<< a_x, a_y , a_z >>).area)
 		end
 
 feature -- Access
@@ -76,17 +77,19 @@ feature -- Access
 			opposites: (is_dry implies other.is_wet) and (is_wet implies other.is_dry)
 		local
 			product_1, product_2: DOUBLE
-			ray: like Once_ray_direction
+			difference: like Once_vector
 		do
-			ray := Once_ray_direction
-			ray.set_area (area)
-			ray.subtract (other)
-			ray.normalize
+			create Result.make_from_other (Current)
 
-			product_1 := dot (Water_plane_normal)
-			product_2 := ray.dot (Water_plane_normal)
-			create Result.make (area.twin)
-			Result.subtract (ray.scaled_by (product_1 / product_2))
+			difference := Once_vector
+			difference.area.copy_data (other.area, 0, 0, 3)
+			difference.subtract (Current)
+
+			product_1 := Water_plane_normal.dot (Current)
+			product_2 := Water_plane_normal.dot (difference)
+
+			difference.scale_by (product_1.opposite / product_2)
+			Result.add (difference)
 		end
 
 	x: DOUBLE
@@ -147,22 +150,22 @@ feature {NONE} -- Constants
 
 	Format_out: ZSTRING
 		once
-			Result := "%S, %S, %S"
+			Result := "[%S, %S, %S]"
 		end
 
 	Memory: MANAGED_POINTER
 		once
 			create Result.share_from_pointer (Default_pointer, 0)
 		end
-		
-	Once_ray_direction: COORDINATE_VECTOR
+
+	Once_vector: COORDINATE_VECTOR
 		once
-			create Result.make_with_coords (0, 0, 0)
+			create Result.make (0, 0, 0)
 		end
 
 	Water_plane_normal: COORDINATE_VECTOR
 		once
-			create Result.make_with_coords (0, 0, 1)
+			create Result.make (0, 0, 1)
 		end
 
 end
