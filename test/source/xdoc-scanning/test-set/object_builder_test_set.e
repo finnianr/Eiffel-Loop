@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:46:57 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-02-18 12:32:23 GMT (Tuesday 18th February 2020)"
+	revision: "4"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -28,14 +28,12 @@ inherit
 			on_prepare
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
-
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end
 
-	EL_SHARED_DIGESTS
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_TUPLE
 
@@ -104,15 +102,13 @@ feature {NONE} -- Implementation
 	build_and_serialize_file (file_name: STRING; new_object: FUNCTION [EL_FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN])
 			--
 		local
-			object: EL_BUILDABLE_FROM_NODE_SCAN
-			file_path: EL_FILE_PATH; digest: EL_DIGEST_ARRAY
+			object: EL_BUILDABLE_FROM_NODE_SCAN; file_path: EL_FILE_PATH
 		do
 			file_path := Work_area_dir + file_name
 			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
 			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
-				create digest.make_from_memory (MD5_128, OS.File_system.file_data (file_path))
-				log.put_labeled_string ("Digest saved " + file_path.base, digest.to_base_64_string)
+				log.put_labeled_string ("Digest saved " + file_path.base, file_digest (file_path).to_base_64_string)
 				log.put_new_line
 			end
 		end

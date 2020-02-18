@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:19:25 GMT (Friday 31st January 2020)"
-	revision: "9"
+	date: "2020-02-18 13:16:20 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
@@ -72,7 +72,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	new_log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
 		do
 			Result := Precursor
 			if not across Result as filter some filter.item.class_type ~ {EL_REGRESSION_TESTING_ROUTINES} end

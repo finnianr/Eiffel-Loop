@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:57:39 GMT (Friday 14th February 2020)"
-	revision: "8"
+	date: "2020-02-18 11:53:02 GMT (Tuesday 18th February 2020)"
+	revision: "9"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
-			data_dir as Eiffel_loop_dir
+			data_dir as EL_test_data_dir
 		end
 
 	EIFFEL_LOOP_TEST_CONSTANTS
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["projects.data/id3$"]), filter)
+			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["id3$"]), filter)
 		end
 
 	put_frames (list: ARRAYED_LIST [ID3_FRAME]; prefix_words: INTEGER)

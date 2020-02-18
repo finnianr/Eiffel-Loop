@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:12:13 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2020-02-18 12:35:18 GMT (Tuesday 18th February 2020)"
+	revision: "6"
 
 class
 	SOURCE_MODEL
@@ -18,7 +18,7 @@ inherit
 			make as make_machine
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	FEATURE_CONSTANTS
 
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 			create input_lines.make_latin (1, source_path)
 			do_once_with_file_lines (agent find_class_declaration, input_lines)
-			encoding := input_lines.encoding_name
+			create encoding.make_from_other (input_lines)
 		end
 
 feature -- Access
@@ -176,7 +176,7 @@ feature {NONE} -- Implementation attributes
 
 	class_notes: SOURCE_LINES
 
-	encoding: STRING
+	encoding: EL_ENCODING
 
 	feature_groups: EL_ARRAYED_LIST [CLASS_FEATURE_GROUP]
 

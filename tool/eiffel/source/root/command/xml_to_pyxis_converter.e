@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-02-18 12:49:59 GMT (Tuesday 18th February 2020)"
+	revision: "6"
 
 class
 	XML_TO_PYXIS_CONVERTER
@@ -16,10 +16,6 @@ inherit
 	EL_XML_TO_PYXIS_CONVERTER
 		export
 			{EL_COMMAND_CLIENT} make
-		undefine
-			new_lio
-		redefine
-			execute
 		end
 
 	EL_FILE_PROCESSING_COMMAND
@@ -29,17 +25,7 @@ inherit
 			set_source_path
 		end
 
-	EL_MODULE_LOG
-
 create
 	make, make_default
 
-feature -- Basic operations
-
-	execute
-		do
-			log.enter ("execute")
-			Precursor
-			log.exit
-		end
 end

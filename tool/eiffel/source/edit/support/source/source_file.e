@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:27:06 GMT (Sunday 2nd June 2019)"
-	revision: "6"
+	date: "2020-02-18 11:04:28 GMT (Tuesday 18th February 2020)"
+	revision: "7"
 
 class
 	SOURCE_FILE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PLAIN_TEXT_FILE
 		redefine
-			set_utf_encoding
+			make_default
 		end
 
 create
@@ -24,11 +24,12 @@ create
 	make_open_read_write, make_create_read_write,
 	make_open_read_append
 
-feature -- Element change
 
-	set_utf_encoding (id: INTEGER)
+feature {NONE} -- Initialization
+
+	make_default
 		do
-			Precursor (id)
+			Precursor
 			byte_order_mark.enable
 		end
 

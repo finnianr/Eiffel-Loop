@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:34:16 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-02-18 12:29:33 GMT (Tuesday 18th February 2020)"
+	revision: "4"
 
 class
 	IMAGE_UTILS_TEST_SET
@@ -32,8 +32,6 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
-
-	EL_SHARED_DIGESTS
 
 	EL_MODULE_SVG
 
@@ -90,8 +88,7 @@ feature {NONE} -- Implementation
 
 	convert_to_width_and_color (width, color: INTEGER)
 		local
-			output_path: EL_FILE_PATH; digest: EL_DIGEST_ARRAY
-			name: STRING
+			output_path: EL_FILE_PATH; name: STRING
 		do
 			output_path := svg_path.without_extension
 			inspect color
@@ -104,8 +101,7 @@ feature {NONE} -- Implementation
 			output_path.base.append (Png_name_template #$ [name, width, width])
 			SVG.write_png_of_width (svg_path, output_path, width, color)
 
-			create digest.make_from_memory (MD5_128, OS.File_system.file_data (output_path))
-			log.put_labeled_string ("Digest " + output_path.base, digest.to_base_64_string)
+			log.put_labeled_string ("Digest " + output_path.base, file_digest (output_path).to_base_64_string)
 			log.put_new_line
 		end
 

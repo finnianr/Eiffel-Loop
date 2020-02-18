@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 16:18:48 GMT (Sunday 23rd December 2018)"
-	revision: "8"
+	date: "2020-02-18 12:44:17 GMT (Tuesday 18th February 2020)"
+	revision: "9"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -62,7 +62,6 @@ feature -- Basic operations
 
 	execute
 		do
-			log.enter ("execute")
 			Precursor
 			lio.put_new_line
 			lio.put_integer_field ("Classes", class_count)
@@ -75,7 +74,6 @@ feature -- Basic operations
 				lio.put_real_field ("Mega bytes", mega_bytes.truncated_to_real)
 			end
 			lio.put_new_line
-			log.exit
 		end
 
 	process_file (source_path: EL_FILE_PATH)

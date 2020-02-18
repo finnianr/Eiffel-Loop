@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 12:55:21 GMT (Friday 1st November 2019)"
-	revision: "17"
+	date: "2020-02-18 12:52:12 GMT (Tuesday 18th February 2020)"
+	revision: "18"
 
 class
 	NOTE_EDITOR_APP
@@ -90,16 +90,6 @@ feature {NONE} -- Constants
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Set note field defaults")
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{NOTE_EDITOR_APP}, All_routines],
-				[{NOTE_EDITOR_COMMAND}, All_routines],
-				[{NOTE_EDITOR}, All_routines]
-			>>
 		end
 
 	License_notes_path: EL_FILE_PATH

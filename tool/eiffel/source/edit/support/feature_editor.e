@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-02-18 10:34:24 GMT (Tuesday 18th February 2020)"
+	revision: "5"
 
 deferred class
 	FEATURE_EDITOR
@@ -22,7 +22,7 @@ feature -- Basic operations
 			output: SOURCE_FILE
 		do
 			create output.make_open_write (output_path)
-			output.set_encoding_from_name (encoding)
+			output.set_encoding_from_other (encoding)
 			output.put_lines (edited_lines)
 			output.close
 		end

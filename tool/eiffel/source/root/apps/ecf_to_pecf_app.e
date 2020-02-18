@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:36:54 GMT (Monday 7th October 2019)"
-	revision: "14"
+	date: "2020-02-18 12:50:14 GMT (Tuesday 18th February 2020)"
+	revision: "15"
 
 class
 	ECF_TO_PECF_APP
@@ -63,14 +63,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "ecf_to_pecf"
 
 	Description: STRING = "Convert Eiffel configuration files to Pyxis format"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{ECF_TO_PECF_APP}, All_routines],
-				[{XML_TO_PYXIS_CONVERTER}, All_routines]
-			>>
-		end
 
 end

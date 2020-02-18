@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 12:53:23 GMT (Friday 1st November 2019)"
-	revision: "9"
+	date: "2020-02-18 12:53:50 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 class
 	NOTE_EDITOR
@@ -27,7 +27,7 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -61,7 +61,6 @@ feature -- Basic operations
 		local
 			notes: CLASS_NOTES; revised_lines: EL_ZSTRING_LIST
 		do
-			log.enter ("edit")
 			reset
 			if not is_override_class then
 				create notes.make (input_lines, default_values)
@@ -84,7 +83,6 @@ feature -- Basic operations
 					input_lines.close
 				end
 			end
-			log.exit
 		end
 
 feature -- Status query

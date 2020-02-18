@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:12:30 GMT (Tuesday 5th March 2019)"
-	revision: "4"
+	date: "2020-02-18 12:44:18 GMT (Tuesday 18th February 2020)"
+	revision: "5"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -72,12 +72,10 @@ feature -- Basic operations
 
 	execute
 		do
-			log.enter ("execute")
 			Precursor
 			lio.put_new_line
 			lio.put_substitution ("Repetition of undefine pattern occurs in %S out of %S classes", [class_count, total_class_count])
 			lio.put_new_line
-			log.exit
 		end
 
 	process_file (source_path: EL_FILE_PATH)

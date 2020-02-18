@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:40:22 GMT (Monday 7th October 2019)"
-	revision: "6"
+	date: "2020-02-18 12:51:38 GMT (Tuesday 18th February 2020)"
+	revision: "7"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_APP
@@ -52,13 +52,5 @@ feature {NONE} -- Constants
 			ptr /= default_pointer TO is_attached (ptr)
 			ptr = default_pointer TO not is_attached (ptr)
 	]"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{UPGRADE_DEFAULT_POINTER_SYNTAX_APP}, All_routines]
-			>>
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 14:20:15 GMT (Friday 14th February 2020)"
-	revision: "13"
+	date: "2020-02-18 12:53:50 GMT (Tuesday 18th February 2020)"
+	revision: "14"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -57,7 +57,7 @@ feature -- Tests
 
 	test_editor_with_new_class
 		local
-			n: INTEGER; encoding, encoding_after: STRING; crc: NATURAL
+			encoding, encoding_after: STRING; crc: NATURAL
 			file_path: EL_FILE_PATH; old_revision, new_revision: INTEGER_REF
 			file: PLAIN_TEXT_FILE
 		do
@@ -90,7 +90,7 @@ feature -- Tests
 				end
 				assert ("revision incremented", new_revision ~ old_revision + 1)
 			end
-			n := User_input.integer ("Return to finish")
+--			n := User_input.integer ("Return to finish")
 			log.exit
 		end
 
@@ -140,7 +140,7 @@ feature {NONE} -- Events
 		do
 			Precursor
 			make
-			create file_out.make_with_name (Sources.item (1))
+			create file_out.make_with_name (Sources.i_th (1))
 			create license_notes.make_from_file (Eiffel_loop_dir + "license.pyx")
 			create editor.make (license_notes)
 
@@ -206,14 +206,24 @@ feature {NONE} -- Constants
 			Result.indent (1)
 		end
 
-	Sources: ARRAY [EL_FILE_PATH]
+	Sources: ARRAYED_LIST [EL_FILE_PATH]
 		-- Line with 'ñ' was giving trouble
 		-- 	Id3_title: STRING = "La Copla Porteña"
 		once
-			Result := <<
-				Eiffel_loop_dir + "test/source/benchmark/string/support/i_ching_hexagram_constants.e", -- UTF-8
-				Eiffel_loop_dir + "test/source/test/os-command/audio_command_test_set.e"	-- Latin-1
-			>>
+			create Result.make_from_array (<<
+				"hexagram_strings.e", -- UTF-8
+				"audio_command_test_set.e"	-- Latin-1
+			>>)
+			across Result as path loop
+				across OS.file_list (Test_source, path.item.base) as full_path loop
+					path.item.set_parent_path (full_path.item.parent)
+				end
+			end
+		end
+
+	Test_source: EL_DIR_PATH
+		once
+			Result := Eiffel_loop_dir.joined_dir_tuple (["test/source"])
 		end
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 13:32:58 GMT (Friday 1st November 2019)"
-	revision: "1"
+	date: "2020-02-18 12:54:38 GMT (Tuesday 18th February 2020)"
+	revision: "2"
 
 class
 	NOTE_DATE_FIXER_APP
@@ -19,7 +19,7 @@ class
 inherit
 	NOTE_EDITOR_APP
 		redefine
-			command, Log_filter, Option_name, test_run
+			command, Option_name, test_run
 		end
 
 feature -- Basic operations
@@ -35,16 +35,6 @@ feature {NONE} -- Implementation
 	command: NOTE_DATE_FIXER_COMMAND
 
 feature {NONE} -- Constants
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{NOTE_DATE_FIXER_APP}, All_routines],
-				[{NOTE_DATE_FIXER_COMMAND}, All_routines],
-				[{DATE_NOTE_EDITOR}, All_routines]
-			>>
-		end
 
 	Option_name: STRING
 		once

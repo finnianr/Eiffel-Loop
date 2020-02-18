@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:15:25 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2020-02-18 12:30:11 GMT (Tuesday 18th February 2020)"
+	revision: "5"
 
 deferred class
 	EL_EQA_REGRESSION_TEST_SET
@@ -24,6 +24,8 @@ inherit
 	EL_MODULE_LOG_MANAGER
 
 	EL_SHARED_TEST_CRC
+
+	EL_SHARED_DIGESTS
 
 feature {NONE} -- Implementation
 
@@ -51,6 +53,11 @@ feature {NONE} -- Implementation
 				log.put_new_line
 				assert ("checksums agree", False)
 			end
+		end
+
+	file_digest (file_path: EL_FILE_PATH): EL_DIGEST_ARRAY
+		do
+			create Result.make_from_memory (MD5_128, File_system.file_data (file_path))
 		end
 
 end

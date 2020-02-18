@@ -14,34 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:51 GMT (Wednesday 25th September 2019)"
-	revision: "12"
+	date: "2020-02-18 12:34:44 GMT (Tuesday 18th February 2020)"
+	revision: "13"
 
 class
 	FEATURE_EDITOR_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FEATURE_EDITOR_COMMAND]
+	EL_COMMAND_LINE_SUB_APPLICATION [FEATURE_EDITOR_COMMAND]
 		redefine
 			Option_name
-		end
-
-feature -- Testing
-
-	test_run
-			-- Passed Jan 2016
-		do
---			Test.do_file_test ("feature-edits/job_duration_parser.e", agent test_file_edit, 2770358171)
---			Test.do_file_test ("feature-edits/el_mp3_convert_command.e", agent test_file_edit, 1765953481)
-			Test.do_file_test ("feature-edits/el_copy_file_impl.e", agent test_file_edit, 1693063132)
---			Test.do_file_test ("feature-edits/subscription_delivery_email.e", agent test_file_edit, 1599303034)
-		end
-
-	test_file_edit (a_source_path: EL_FILE_PATH)
-			--
-		do
-			create command.make (a_source_path)
-			normal_run
 		end
 
 feature {NONE} -- Implementation
@@ -63,15 +45,6 @@ feature {NONE} -- Constants
 	Option_name: STRING = "feature_edit"
 
 	Description: STRING = "Performs a series of edits and shorthand expansions on an Eiffel class"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{FEATURE_EDITOR_APP}, All_routines],
-				[{FEATURE_EDITOR_COMMAND}, All_routines]
-			>>
-		end
 
 note
 	instructions: "[

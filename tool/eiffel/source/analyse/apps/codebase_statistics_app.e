@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 10:20:17 GMT (Tuesday 31st December 2019)"
-	revision: "13"
+	date: "2020-02-18 12:50:44 GMT (Tuesday 18th February 2020)"
+	revision: "14"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -49,15 +49,6 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", create {EL_DIR_PATH_ENVIRON_VARIABLE})
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CODEBASE_STATISTICS_APP}, All_routines],
-				[{CODEBASE_STATISTICS_COMMAND}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Constants

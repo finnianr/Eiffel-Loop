@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:12:06 GMT (Tuesday 5th March 2019)"
-	revision: "10"
+	date: "2020-02-18 12:52:49 GMT (Tuesday 18th February 2020)"
+	revision: "11"
 
 class
 	CODEC_GENERATOR
@@ -21,7 +21,8 @@ inherit
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
-	EL_MODULE_LOG
+
+	EL_MODULE_LIO
 
 create
 	make
@@ -43,12 +44,10 @@ feature -- Basic operations
 		local
 			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			log.enter ("execute")
 			create source_lines.make (source_path)
 			source_lines.set_utf_encoding (8)
 
 			do_once_with_file_lines (agent find_void_function, source_lines)
-			log.exit
 		end
 
 feature {NONE} -- State handlers
@@ -81,8 +80,8 @@ feature {NONE} -- State handlers
 			if line.starts_with (Keyword_void) then
 				codec_name := line.substring (6, line.substring_index (Chars_suffix, 1) - 1)
 				codec_list.extend (create {CODEC_INFO}.make (codec_name))
-				log.put_new_line
-				log.put_line (codec_name)
+				lio.put_new_line
+				lio.put_line (codec_name)
 				state := agent find_chars_ready_assignment
 			end
 		end

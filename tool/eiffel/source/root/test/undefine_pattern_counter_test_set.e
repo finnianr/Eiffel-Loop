@@ -6,18 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:57:40 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2020-02-18 11:14:35 GMT (Tuesday 18th February 2020)"
+	revision: "4"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
 
 inherit
-	EQA_TEST_SET
+	EL_EQA_TEST_SET
 
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_LOG
+
+feature -- Basic operations
+
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
+		do
+			eval.call ("command", agent test_command)
+		end
 
 feature -- Tests
 

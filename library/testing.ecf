@@ -18,6 +18,7 @@ These are used extensively in Eiffel-Loop projects.
 		<!--Eiffel Loop-->
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<!--Source code-->

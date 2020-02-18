@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 17:17:44 GMT (Sunday 2nd February 2020)"
-	revision: "10"
+	date: "2020-02-18 13:16:01 GMT (Tuesday 18th February 2020)"
+	revision: "11"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -124,7 +124,7 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 			create Result.make (is_logging_active, Log_output_directory)
 		end
 
-	new_log_filter_list: ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
 			--
 		local
 			filters: like log_filter

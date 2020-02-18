@@ -1,3 +1,6 @@
+1.0.42
+Fixed problem with FEATURE_EDITOR_COMMAND where BOM was not being written
+
 1.0.41
 Added ability to ignore clusters in list configuration file
 

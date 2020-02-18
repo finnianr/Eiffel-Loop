@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:15:31 GMT (Friday 14th February 2020)"
-	revision: "22"
+	date: "2020-02-18 12:26:08 GMT (Tuesday 18th February 2020)"
+	revision: "23"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -26,9 +26,16 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("http_hash_table",						agent test_http_hash_table)
+			eval.call ("download_image_and_headers",		agent test_download_image_and_headers)
+			eval.call ("cookies",								agent test_cookies)
+			eval.call ("image_headers",						agent test_image_headers)
+			eval.call ("documents_download",					agent test_documents_download)
+			eval.call ("download_document_and_headers",	agent test_download_document_and_headers)
+			eval.call ("http_post",								agent test_http_post)
 		end
 
 feature -- Test routines

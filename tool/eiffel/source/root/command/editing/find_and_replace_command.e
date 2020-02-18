@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:43:25 GMT (Friday 14th June 2019)"
-	revision: "7"
+	date: "2020-02-18 12:44:27 GMT (Tuesday 18th February 2020)"
+	revision: "8"
 
 class
 	FIND_AND_REPLACE_COMMAND
@@ -27,10 +27,8 @@ feature {EL_SUB_APPLICATION} -- Initialization
 		source_manifest_path: EL_FILE_PATH; a_find_text: like find_text; a_replacement_text: like replacement_text
 	)
 		do
-			log.enter_with_args ("make", [source_manifest_path])
 			find_text := a_find_text; replacement_text  := a_replacement_text
 			make_editor (source_manifest_path)
-			log.exit
 		end
 
 feature {NONE} -- Implementation

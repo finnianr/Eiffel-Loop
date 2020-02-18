@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:19:20 GMT (Friday 31st January 2020)"
-	revision: "14"
+	date: "2020-02-18 12:47:56 GMT (Tuesday 18th February 2020)"
+	revision: "15"
 
 deferred class
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -34,6 +34,14 @@ inherit
 		end
 
 feature {NONE} -- Implementation
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines]
+			>>
+		end
 
 	set_closed_operands
 		do

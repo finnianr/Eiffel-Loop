@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:15:38 GMT (Friday 14th February 2020)"
-	revision: "9"
+	date: "2020-02-18 11:15:35 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 class
 	OS_COMMAND_TEST_SET
@@ -24,9 +24,11 @@ inherit
 
 feature -- Basic operations
 
-	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("cpu_info", agent test_cpu_info)
+			eval.call ("adapter_info", agent test_adapter_info)
 		end
 
 feature -- Tests

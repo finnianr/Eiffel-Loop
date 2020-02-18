@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:35:45 GMT (Thursday 15th November 2018)"
-	revision: "7"
+	date: "2020-02-18 13:49:03 GMT (Tuesday 18th February 2020)"
+	revision: "8"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -31,9 +31,7 @@ feature -- Basic operations
 
 	execute
 		do
-			log.enter ("execute")
 			write_edited_lines (source_path)
-			log.exit
 		end
 
 feature {NONE} -- Implementation
@@ -77,8 +75,10 @@ feature {NONE} -- Implementation
 				else
 					line.append (code)
 				end
-				lio.put_labeled_string (old_line, line)
-				lio.put_new_line
+				if is_lio_enabled then
+					lio.put_labeled_string (old_line, line)
+					lio.put_new_line
+				end
 			end
 		end
 

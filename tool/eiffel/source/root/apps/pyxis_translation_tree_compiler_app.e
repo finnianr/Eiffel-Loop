@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:15:11 GMT (Monday 25th November 2019)"
-	revision: "10"
+	date: "2020-02-18 12:48:57 GMT (Tuesday 18th February 2020)"
+	revision: "11"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -106,13 +106,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "compile_translations"
 
 	Description: STRING = "Compile tree of Pyxis translation files into multiple locale files"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{PYXIS_TRANSLATION_TREE_COMPILER_APP}, All_routines]
-			>>
-		end
 
 end

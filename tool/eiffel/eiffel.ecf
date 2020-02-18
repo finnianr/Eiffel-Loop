@@ -19,7 +19,7 @@ See doc/eiffel-utility.txt for details.
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "0" release = "41" build = "181" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "0" release = "42" build = "183" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
 		<variable name = "build_info_dir" value = "source/root"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
