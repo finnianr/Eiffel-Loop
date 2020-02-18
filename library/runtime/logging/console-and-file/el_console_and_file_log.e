@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 10:13:55 GMT (Tuesday 6th August 2019)"
-	revision: "8"
+	date: "2020-02-18 17:59:45 GMT (Tuesday 18th February 2020)"
+	revision: "9"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -97,9 +97,9 @@ feature -- Output
 			l_out := current_thread_log_file
 
 			l_out.put_label ("LOGGED ROUTINES")
-			l_out.set_text_brown
+			l_out.set_text_color (Color.Brown)
 			l_out.put_string_general ("(All threads)")
-			l_out.set_text_default
+			l_out.set_text_color (Color.Default)
 			l_out.put_new_line
 			l_out.tab_right
 

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:44:18 GMT (Tuesday 18th February 2020)"
-	revision: "5"
+	date: "2020-02-18 14:20:11 GMT (Tuesday 18th February 2020)"
+	revision: "6"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -74,7 +74,9 @@ feature -- Basic operations
 		do
 			Precursor
 			lio.put_new_line
-			lio.put_substitution ("Repetition of undefine pattern occurs in %S out of %S classes", [class_count, total_class_count])
+			lio.put_substitution (
+				"Repetition of undefine pattern occurs in %S out of %S classes", [class_count, total_class_count]
+			)
 			lio.put_new_line
 		end
 
@@ -86,6 +88,10 @@ feature -- Basic operations
 			pattern_count := 0
 			create source_lines.make (source_path)
 			do_once_with_file_lines (agent find_class_definition, source_lines)
+			if is_lio_enabled then
+				lio.put_integer_field (source_path.base + " pattern count", pattern_count)
+				lio.put_new_line
+			end
 			if pattern_count >= 2 then
 				class_count := class_count + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 10:34:58 GMT (Monday 10th February 2020)"
-	revision: "13"
+	date: "2020-02-18 18:02:54 GMT (Tuesday 18th February 2020)"
+	revision: "14"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -20,6 +20,8 @@ inherit
 	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ONCE_STRING_32
+
+	EL_SHARED_CONSOLE_COLORS
 
 create
 	make
@@ -35,7 +37,7 @@ feature -- Initialization
 			std_output := io.Output
 		end
 
-feature -- Element change
+feature -- Status change
 
 	restore (previous_stack_count: INTEGER)
 			--
@@ -61,6 +63,18 @@ feature -- Element change
 			tab_repeat_count := tab_repeat_count.item + 1
 		end
 
+	set_text_color (code: INTEGER)
+		require
+			valid_code: valid_colors.has (code)
+		do
+		end
+
+	set_text_color_light (code: INTEGER)
+		require
+			valid_code: valid_colors.has (code)
+		do
+		end
+
 feature -- Output
 
 	put_boolean (b: BOOLEAN)
@@ -79,25 +93,25 @@ feature -- Output
 		require
 			not_augmented_latin_string: not attached {ZSTRING} a_name
 		do
-			set_text_light_blue
+			set_text_color_light (Color.Blue)
 			buffer.extend (a_name)
-			set_text_default
+			set_text_color (Color.Default)
 		end
 
 	put_keyword (keyword: STRING)
 		require
 			not_augmented_latin_string: not attached {ZSTRING} keyword
 		do
-			set_text_red
+			set_text_color_light (Color.Red)
 			buffer.extend (keyword)
-			set_text_default
+			set_text_color (Color.Default)
 		end
 
 	put_label (a_name: READABLE_STRING_GENERAL)
 		do
-			set_text_purple
+			set_text_color_light (Color.Purple)
 			put_string_general (a_name)
-			set_text_default
+			set_text_color (Color.Default)
 			put_string (once ": ")
 		end
 
@@ -105,9 +119,9 @@ feature -- Output
 			--
 		do
 			from lines.start until lines.off loop
-				set_text_brown
+				set_text_color (Color.Brown)
 				buffer.extend (lines.item)
-				set_text_default
+				set_text_color (Color.Default)
 				lines.forth
 				if not lines.after then
 					put_new_line
@@ -133,11 +147,11 @@ feature -- Output
 
 	put_quoted_string (a_str: READABLE_STRING_GENERAL; quote_mark: STRING)
 		do
-			set_text_brown
+			set_text_color (Color.Brown)
 			put_string (quote_mark)
 			put_string_general (a_str)
 			put_string (quote_mark)
-			set_text_default
+			set_text_color (Color.Default)
 		end
 
 	put_separator
@@ -194,45 +208,19 @@ feature -- Basic operations
 			recycle_buffer.wipe_out
 		end
 
-feature -- Change text output color
-
-	set_text_blue
-		do
-		end
-
-	set_text_brown
-		do
-		end
-
-	set_text_dark_gray
-		do
-		end
-
-	set_text_default
-		do
-		end
-
-	set_text_light_blue
-		do
-		end
-
-	set_text_light_cyan
-		do
-		end
-
-	set_text_light_green
-		do
-		end
-
-	set_text_purple
-		do
-		end
-
-	set_text_red
-		do
-		end
-
 feature {NONE} -- Implementation
+
+	extended_buffer_last: like string_pool.item
+		do
+			Result := string_pool.new_string
+			recycle_buffer.extend (Result)
+			buffer.extend (Result)
+		end
+
+	flush_string_8 (str_8: STRING_8)
+		do
+			write_console (str_8)
+		end
 
 	flush_string_general (str: READABLE_STRING_GENERAL)
 		local
@@ -251,31 +239,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	flush_string_8 (str_8: STRING_8)
-		do
-			write_console (str_8)
-		end
-
 	write_console (str: READABLE_STRING_GENERAL)
 		do
 			std_output.put_string (console_encoded (str))
-		end
-
-	extended_buffer_last: like string_pool.item
-		do
-			Result := string_pool.new_string
-			recycle_buffer.extend (Result)
-			buffer.extend (Result)
 		end
 
 feature {NONE} -- Internal attributes
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
 
+	new_line_prompt: STRING
+
 	recycle_buffer: ARRAYED_LIST [like string_pool.item]
 		-- strings for recycling back to pool
-
-	new_line_prompt: STRING
 
 	std_output: PLAIN_TEXT_FILE
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 10:37:38 GMT (Tuesday 18th February 2020)"
-	revision: "6"
+	date: "2020-02-18 14:11:12 GMT (Tuesday 18th February 2020)"
+	revision: "7"
 
 class
 	EL_SUBJECT_LINE_DECODER_TEST_SET
@@ -36,6 +36,12 @@ feature -- Basic operations
 
 feature -- Tests
 
+	test_iso
+		do
+			subject.set_line ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
+			assert ("same string", subject.decoded_line.to_latin_1 ~ "Über My Ching")
+		end
+
 	test_utf_8
 		do
 			subject.set_line ("=?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=")
@@ -43,12 +49,6 @@ feature -- Tests
 
 			subject.set_line ("=?UTF-8?Q?Journaleintr=c3=a4ge_bearbeiten?=")
 			assert ("same string", subject.decoded_line.same_string ("Journaleinträge bearbeiten"))
-		end
-
-	test_iso
-		do
-			subject.set_line ("=?ISO-8859-15?Q?=DCber_My_Ching?=")
-			assert ("same string", subject.decoded_line.to_latin_1 ~ "Über My Ching")
 		end
 
 feature {NONE} -- Internal attributes

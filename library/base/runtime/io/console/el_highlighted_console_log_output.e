@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-23 11:11:39 GMT (Sunday 23rd December 2018)"
-	revision: "8"
+	date: "2020-02-18 18:19:28 GMT (Tuesday 18th February 2020)"
+	revision: "9"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -15,15 +15,29 @@ class
 inherit
 	EL_CONSOLE_LOG_OUTPUT
 		redefine
-			set_text_blue, set_text_brown, set_text_dark_gray, set_text_default, set_text_light_blue,
-			set_text_light_cyan, set_text_light_green, set_text_purple, set_text_red,
-			flush_string_8
+			flush_string_8, set_text_color, set_text_color_light
 		end
 
 create
 	make
 
 feature {NONE} -- Implementation
+
+	buffer_color_sequence (code: INTEGER; light: BOOLEAN)
+		local
+			sequence: STRING
+		do
+			sequence := extended_buffer_last
+			sequence.append (Escape_start)
+			if code = 0 then
+				sequence.append_integer (code)
+			else
+				sequence.append_integer (light.to_integer)
+				sequence.append_character (';')
+				sequence.append_integer (code)
+			end
+			sequence.append_character ('m')
+		end
 
 	flush_string_8 (str_8: STRING_8)
 		do
@@ -44,49 +58,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_text_blue
+	set_text_color (code: INTEGER)
 		do
-			buffer.extend (once "%/027/[0;34m")
+			buffer_color_sequence (code, False)
 		end
 
-	set_text_brown
+	set_text_color_light (code: INTEGER)
 		do
-			buffer.extend (once "%/027/[0;33m")
-		end
-
-	set_text_dark_gray
-		do
-			buffer.extend (once "%/027/[1;30m")
-		end
-
-	set_text_default
-		do
-			buffer.extend (once "%/027/[0m")
-		end
-
-	set_text_light_blue
-		do
-			buffer.extend (once "%/027/[1;34m")
-		end
-
-	set_text_light_cyan
-		do
-			buffer.extend (once "%/027/[1;36m")
-		end
-
-	set_text_light_green
-		do
-			buffer.extend (once "%/027/[1;32m")
-		end
-
-	set_text_purple
-		do
-			buffer.extend (once "%/027/[1;35m")
-		end
-
-	set_text_red
-		do
-			buffer.extend (once "%/027/[1;31m")
+			buffer_color_sequence (code, True)
 		end
 
 	write_escape_sequence (seq: STRING_8)

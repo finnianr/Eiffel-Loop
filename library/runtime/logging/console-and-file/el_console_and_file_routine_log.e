@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 11:21:34 GMT (Monday 10th February 2020)"
-	revision: "5"
+	date: "2020-02-18 18:10:31 GMT (Tuesday 18th February 2020)"
+	revision: "6"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -17,7 +17,8 @@ class
 inherit
 	EL_ROUTINE_LOG
 		redefine
-			traced_routine_call_stack, output, exit, pause_for_enter_key, enter_with_args
+			traced_routine_call_stack, output, exit, pause_for_enter_key, enter_with_args,
+			set_text_color, set_text_color_light
 		end
 
 	EL_MODULE_LOG_MANAGER
@@ -33,6 +34,24 @@ feature {NONE} -- Initialization
 	make (a_traced_routine_call_stack: like traced_routine_call_stack)
 		do
 			traced_routine_call_stack := a_traced_routine_call_stack
+		end
+
+feature -- Status change
+
+	set_text_color (code: INTEGER)
+		local
+			l_out: like output
+		do
+			l_out := output; l_out.set_text_color (code)
+			l_out.flush
+		end
+
+	set_text_color_light (code: INTEGER)
+		local
+			l_out: like output
+		do
+			l_out := output; l_out.set_text_color_light (code)
+			l_out.flush
 		end
 
 feature -- Basic operations
@@ -52,12 +71,12 @@ feature -- Basic operations
 
 			l_out.tab_left
 			l_out.put_new_line
-			l_out.set_text_red
+			l_out.set_text_color_light (Color.Red)
 			l_out.put_keyword (once "end")
 
-			l_out.set_text_light_green
+			l_out.set_text_color_light (Color.Green)
 			l_out.put_string (once " -- "); l_out.put_string (current_routine.class_name)
-			l_out.set_text_default
+			l_out.set_text_color (Color.Default)
 
 			l_out.tab_left
 			l_out.put_new_line
@@ -78,37 +97,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	out_put_enter_heading (arg_objects: TUPLE)
-			--
-		local
-			i: INTEGER
-			l_out: like output
-		do
-			l_out := output
-
-			l_out.put_new_line
-			l_out.put_classname (current_routine.class_name)
-			l_out.put_character ('.')
-			l_out.put_string (current_routine.name)
-
-			if not arg_objects.is_empty then
-				l_out.put_string_general (once " (")
-				from i := 1 until i > arg_objects.count loop
-					out_put_argument (i, arg_objects.count, arg_objects.item (i))
-					i := i + 1
-				end
-				if arg_objects.count > 1 then
-					l_out.put_new_line
-				end
-				l_out.put_character (')')
-			end
-			l_out.tab_right; l_out.put_new_line
-			l_out.put_keyword (once "doing")
-			l_out.tab_right; l_out.put_new_line
-
-			l_out.flush
-		end
 
 	out_put_argument (arg_pos, arg_count: INTEGER; arg_object: ANY)
 			--
@@ -149,13 +137,44 @@ feature {NONE} -- Implementation
 			elseif attached {CHARACTER_32_REF} arg_object as char_32 then
 				l_out.put_quoted_string (create {STRING_32}.make_filled (char_32.item, 1), Single_quote)
 			else
-				l_out.set_text_blue
+				l_out.set_text_color (Color.Blue)
 				l_out.put_string (arg_object.generating_type.name)
-				l_out.set_text_default
+				l_out.set_text_color (Color.Default)
 			end
 			if arg_count > 1 then
 				l_out.tab_left; l_out.tab_left
 			end
+		end
+
+	out_put_enter_heading (arg_objects: TUPLE)
+			--
+		local
+			i: INTEGER
+			l_out: like output
+		do
+			l_out := output
+
+			l_out.put_new_line
+			l_out.put_classname (current_routine.class_name)
+			l_out.put_character ('.')
+			l_out.put_string (current_routine.name)
+
+			if not arg_objects.is_empty then
+				l_out.put_string_general (once " (")
+				from i := 1 until i > arg_objects.count loop
+					out_put_argument (i, arg_objects.count, arg_objects.item (i))
+					i := i + 1
+				end
+				if arg_objects.count > 1 then
+					l_out.put_new_line
+				end
+				l_out.put_character (')')
+			end
+			l_out.tab_right; l_out.put_new_line
+			l_out.put_keyword (once "doing")
+			l_out.tab_right; l_out.put_new_line
+
+			l_out.flush
 		end
 
 	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 8:59:59 GMT (Sunday 4th August 2019)"
-	revision: "9"
+	date: "2020-02-18 18:04:51 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 class
 	EL_SILENT_LOG
@@ -55,6 +55,14 @@ feature -- Status change
 
 	tab_right
 			--
+		do
+		end
+
+	set_text_color (code: INTEGER)
+		do
+		end
+
+	set_text_color_light (code: INTEGER)
 		do
 		end
 

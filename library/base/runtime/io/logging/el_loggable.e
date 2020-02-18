@@ -6,11 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 8:52:40 GMT (Sunday 4th August 2019)"
-	revision: "10"
+	date: "2020-02-18 18:04:11 GMT (Tuesday 18th February 2020)"
+	revision: "11"
 
 deferred class
 	EL_LOGGABLE
+
+inherit
+	ANY
+
+	EL_SHARED_CONSOLE_COLORS
 
 feature -- Status
 
@@ -55,6 +60,18 @@ feature -- Status change
 
 	tab_right
 			--
+		deferred
+		end
+
+	set_text_color (code: INTEGER)
+		require
+			valid_code: valid_colors.has (code)
+		deferred
+		end
+
+	set_text_color_light (code: INTEGER)
+		require
+			valid_code: valid_colors.has (code)
 		deferred
 		end
 

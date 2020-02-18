@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 10:36:44 GMT (Monday 10th February 2020)"
-	revision: "14"
+	date: "2020-02-18 18:07:52 GMT (Tuesday 18th February 2020)"
+	revision: "15"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -51,6 +51,16 @@ feature -- Element change
 		end
 
 feature -- Status change
+
+	set_text_color (code: INTEGER)
+		do
+			output.set_text_color (code)
+		end
+
+	set_text_color_light (code: INTEGER)
+		do
+			output.set_text_color_light (code)
+		end
 
 	tab_left
 			--
@@ -136,9 +146,9 @@ feature -- Output
 		do
 			l_out := output
 			l_out.put_label (label)
-			l_out.set_text_brown
+			l_out.set_text_color (Color.Brown)
 			l_out.put_string_general (str)
-			l_out.set_text_default
+			l_out.set_text_color (Color.Default)
 			l_out.flush
 		end
 
@@ -223,9 +233,9 @@ feature -- Output
 
 			l_out.put_label (label)
 
-			l_out.set_text_brown
+			l_out.set_text_color (Color.Brown)
 			l_out.put_string (once "%"[")
-			l_out.set_text_default
+			l_out.set_text_color (Color.Default)
 
 			l_out.tab_right
 			l_out.put_new_line
@@ -246,9 +256,9 @@ feature -- Output
 			l_out.tab_left
 			l_out.put_new_line
 
-			l_out.set_text_brown
+			l_out.set_text_color (Color.Brown)
 			l_out.put_string (once "]%"")
-			l_out.set_text_default
+			l_out.set_text_color (Color.Default)
 
 			l_out.flush
 		end

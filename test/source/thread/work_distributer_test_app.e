@@ -14,11 +14,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:27:25 GMT (Wednesday 8th January 2020)"
-	revision: "12"
+	date: "2020-02-18 16:13:51 GMT (Tuesday 18th February 2020)"
+	revision: "13"
 
 class
-	TEST_WORK_DISTRIBUTER_APP
+	WORK_DISTRIBUTER_TEST_APP
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Result := <<
-				[{TEST_WORK_DISTRIBUTER_APP}, All_routines],
+				[{WORK_DISTRIBUTER_TEST_APP}, All_routines],
 				[{PROCEDURE_INTEGRAL}, All_routines],
 				[{FUNCTION_INTEGRAL}, All_routines]
 			>>

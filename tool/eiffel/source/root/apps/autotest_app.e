@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 13:52:40 GMT (Tuesday 18th February 2020)"
-	revision: "26"
+	date: "2020-02-18 14:31:17 GMT (Tuesday 18th February 2020)"
+	revision: "27"
 
 class
 	AUTOTEST_APP
@@ -41,12 +41,13 @@ feature {NONE} -- Implementation
 				new_log_filter ({EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines)
 		end
 
-	test_type: TUPLE [FEATURE_EDITOR_COMMAND_TEST_SET]
+	test_type: TUPLE [REPOSITORY_PUBLISHER_TEST_SET]
 		do
 			create Result
 		end
 
 	test_types_all: TUPLE [
+		FEATURE_EDITOR_COMMAND_TEST_SET,
 		UNDEFINE_PATTERN_COUNTER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
 		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET,
@@ -56,7 +57,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	visible_types: TUPLE [FEATURE_EDITOR_COMMAND]
+	visible_types: TUPLE [FEATURE_EDITOR_COMMAND, UNDEFINE_PATTERN_COUNTER_COMMAND]
 		do
 			create Result
 		end

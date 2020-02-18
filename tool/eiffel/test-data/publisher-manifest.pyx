@@ -5,6 +5,6 @@ pyxis-doc:
 
 manifest:
 	location:
-		"$EIFFEL_LOOP/tool/eiffel/source/root/library/publish
+		"$EIFFEL_LOOP/tool/eiffel/source/root/library/publish"
 
 

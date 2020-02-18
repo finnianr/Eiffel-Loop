@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-04 9:01:30 GMT (Sunday 4th August 2019)"
-	revision: "11"
+	date: "2020-02-18 18:09:48 GMT (Tuesday 18th February 2020)"
+	revision: "12"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -46,6 +46,16 @@ feature -- Input
 		end
 
 feature -- Status change
+
+	set_text_color (code: INTEGER)
+		do
+			log_sink.set_text_color (code)
+		end
+
+	set_text_color_light (code: INTEGER)
+		do
+			log_sink.set_text_color_light (code)
+		end
 
 	tab_left
 			--

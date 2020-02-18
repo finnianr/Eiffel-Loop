@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 11:15:48 GMT (Thursday 16th January 2020)"
-	revision: "9"
+	date: "2020-02-18 18:10:00 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 class
 	EL_SIMPLE_SERVER [H -> EL_SERVER_COMMAND_HANDLER create make end]
@@ -33,7 +33,6 @@ feature -- Basic operations
 			-- serve one client until quite received
 		local
 			handler: H; done: BOOLEAN; pos_space: INTEGER; command, message: STRING
-			is_readable_count: INTEGER
 		do
 			socket.listen (1)
 			if is_lio_enabled then
