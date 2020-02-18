@@ -1591,7 +1591,7 @@ See class [TEXT_FORMATS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/tex
 ## text-process.ecf
 See class [TEXT_PROCESS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/text-process/text_process_autotest_app.html)
 ## thread.ecf
-See class [TEST_WORK_DISTRIBUTER_APP](http://www.eiffel-loop.com/test/source/thread/test_work_distributer_app.html)
+See class [TEST_WORK_DISTRIBUTER_APP]($source)
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API
 

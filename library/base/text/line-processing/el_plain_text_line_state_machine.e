@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-06 18:09:05 GMT (Wednesday 6th March 2019)"
-	revision: "12"
+	date: "2020-02-18 20:31:04 GMT (Tuesday 18th February 2020)"
+	revision: "13"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -34,6 +34,18 @@ feature -- Basic operations
 		do
 			do_with_lines (initial, lines)
 			lines.close
+		end
+
+	do_with_split_list (initial: like state; lines: EL_SPLIT_ZSTRING_LIST; keep_ref: BOOLEAN)
+		local
+			l_final: like final
+		do
+			line_number := 0; l_final := final
+			from lines.start; state := initial until lines.after or state = l_final loop
+				line_number := line_number + 1
+				call (lines.item (keep_ref))
+				lines.forth
+			end
 		end
 
 end

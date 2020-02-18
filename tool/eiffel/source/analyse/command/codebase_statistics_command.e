@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:44:17 GMT (Tuesday 18th February 2020)"
-	revision: "9"
+	date: "2020-02-18 20:32:35 GMT (Tuesday 18th February 2020)"
+	revision: "10"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -78,7 +78,7 @@ feature -- Basic operations
 
 	process_file (source_path: EL_FILE_PATH)
 		do
-			add_class_stats (create {CLASS_STATISTICS}.make (source_path))
+			add_class_stats (create {CLASS_STATISTICS}.make_from_file (source_path))
 		end
 
 	add_class_stats (a_class: CLASS_STATISTICS)

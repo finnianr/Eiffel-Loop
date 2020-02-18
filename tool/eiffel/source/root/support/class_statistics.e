@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:09:17 GMT (Tuesday 5th March 2019)"
-	revision: "2"
+	date: "2020-02-18 20:32:47 GMT (Tuesday 18th February 2020)"
+	revision: "3"
 
 class
 	CLASS_STATISTICS
@@ -23,11 +23,11 @@ inherit
 		end
 
 create
-	make
+	make, make_from_file
 
 feature {NONE} -- Initialization
 
-	make (source_path: EL_FILE_PATH)
+	make_from_file (source_path: EL_FILE_PATH)
 		local
 			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
@@ -35,6 +35,19 @@ feature {NONE} -- Initialization
 			create source_lines.make (source_path)
 			byte_count := byte_count + source_lines.byte_count
 			do_once_with_file_lines (agent count_words, source_lines)
+		end
+
+	make (source: ZSTRING)
+		local
+			lines: EL_SPLIT_ZSTRING_LIST; index: INTEGER
+		do
+			New_line.keep_head (1)
+			index := source.substring_index (New_line, 1)
+			if index > 1 and then source [index - 1] = Carriage_return then
+				New_line.append_character (Carriage_return)
+			end
+			create lines.make (source, New_line)
+			do_with_split_list (agent count_words, lines, False)
 		end
 
 feature -- Access
@@ -113,6 +126,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Carriage_return: CHARACTER_32 = '%R'
+
 	Code_start_keywords: ARRAY [ZSTRING]
 		once
 			Result := << "frozen", "deferred", "class", "end", "feature" >>
@@ -134,6 +149,11 @@ feature {NONE} -- Constants
 	Keyword_feature: ZSTRING
 		once
 			Result := "feature"
+		end
+
+	New_line: ZSTRING
+		once
+			Result := "%N"
 		end
 
 end

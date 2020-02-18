@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:58:49 GMT (Monday 30th September 2019)"
-	revision: "18"
+	date: "2020-02-18 20:33:30 GMT (Tuesday 18th February 2020)"
+	revision: "19"
 
 class
 	EIFFEL_CLASS
@@ -78,7 +78,7 @@ feature {NONE} -- Initialization
 			make_sync_item (html_output_path)
 
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
-			create stats.make (a_source_path)
+			create stats.make (code_text)
 			restrict_access
 				Class_source_table.put (relative_source_path.with_new_extension (Html), name)
 			end_restriction

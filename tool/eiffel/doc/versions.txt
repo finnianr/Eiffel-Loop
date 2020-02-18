@@ -1,4 +1,7 @@
 1.0.42
+Add CLASS_STATISTICS make (source: ZSTRING) and {EL_PLAIN_TEXT_LINE_STATE_MACHINE}.do_with_split_list
+
+1.0.42
 Fixed problem with FEATURE_EDITOR_COMMAND where BOM was not being written
 
 1.0.41
