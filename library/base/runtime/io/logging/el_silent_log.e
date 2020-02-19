@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:04:51 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2020-02-19 13:57:05 GMT (Wednesday 19th February 2020)"
+	revision: "11"
 
 class
 	EL_SILENT_LOG
@@ -23,7 +23,17 @@ feature -- Status
 		do
 		end
 
-feature {EL_CONSOLE_ONLY_LOG} -- Element change
+feature {EL_CONSOLE_ONLY_LOG} -- Basic operations
+
+	clear
+		-- clear screen		
+		do
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		do
+		end
 
 	restore (previous_stack_count: INTEGER)
 			--

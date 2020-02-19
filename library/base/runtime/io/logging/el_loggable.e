@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:04:11 GMT (Tuesday 18th February 2020)"
-	revision: "11"
+	date: "2020-02-19 13:56:09 GMT (Wednesday 19th February 2020)"
+	revision: "12"
 
 deferred class
 	EL_LOGGABLE
@@ -25,7 +25,17 @@ feature -- Status
 		deferred
 		end
 
-feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Element change
+feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LIO} -- Basic operations
+
+	clear
+		-- clear screen		
+		deferred
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		deferred
+		end
 
 	restore (previous_stack_count: INTEGER)
 			--

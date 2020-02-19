@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:10:31 GMT (Tuesday 18th February 2020)"
-	revision: "6"
+	date: "2020-02-19 15:28:59 GMT (Wednesday 19th February 2020)"
+	revision: "7"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -17,8 +17,8 @@ class
 inherit
 	EL_ROUTINE_LOG
 		redefine
-			traced_routine_call_stack, output, exit, pause_for_enter_key, enter_with_args,
-			set_text_color, set_text_color_light
+			clear, output, exit, pause_for_enter_key, enter_with_args, move_cursor_up,
+			set_text_color, set_text_color_light, traced_routine_call_stack
 		end
 
 	EL_MODULE_LOG_MANAGER
@@ -55,6 +55,24 @@ feature -- Status change
 		end
 
 feature -- Basic operations
+
+	clear
+		-- clear screen		
+		local
+			l_out: like output
+		do
+			l_out := output; l_out.clear
+			l_out.flush
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		local
+			l_out: like output
+		do
+			l_out := output; l_out.move_cursor_up (n)
+			l_out.flush
+		end
 
 	enter_with_args  (routine_name: STRING; arg_objects: TUPLE)
 			--

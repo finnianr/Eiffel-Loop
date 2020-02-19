@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:02:54 GMT (Tuesday 18th February 2020)"
-	revision: "14"
+	date: "2020-02-19 13:59:03 GMT (Wednesday 19th February 2020)"
+	revision: "15"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -119,7 +119,7 @@ feature -- Output
 			--
 		do
 			from lines.start until lines.off loop
-				set_text_color (Color.Brown)
+				set_text_color (Color.Yellow)
 				buffer.extend (lines.item)
 				set_text_color (Color.Default)
 				lines.forth
@@ -147,7 +147,7 @@ feature -- Output
 
 	put_quoted_string (a_str: READABLE_STRING_GENERAL; quote_mark: STRING)
 		do
-			set_text_color (Color.Brown)
+			set_text_color (Color.Yellow)
 			put_string (quote_mark)
 			put_string_general (a_str)
 			put_string (quote_mark)
@@ -197,6 +197,15 @@ feature -- Numeric output
 		end
 
 feature -- Basic operations
+
+	clear
+		do
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		do
+		end
 
 	flush
 			-- Write contents of buffer to file if it is free (not locked by another thread)

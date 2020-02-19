@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 20:32:47 GMT (Tuesday 18th February 2020)"
-	revision: "3"
+	date: "2020-02-18 23:21:00 GMT (Tuesday 18th February 2020)"
+	revision: "4"
 
 class
 	CLASS_STATISTICS
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 		do
 			New_line.keep_head (1)
 			index := source.substring_index (New_line, 1)
+			-- In case it's a MS windows file
 			if index > 1 and then source [index - 1] = Carriage_return then
 				New_line.append_character (Carriage_return)
 			end

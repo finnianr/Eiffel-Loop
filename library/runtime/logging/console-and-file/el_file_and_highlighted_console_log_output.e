@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 17:58:07 GMT (Tuesday 18th February 2020)"
-	revision: "7"
+	date: "2020-02-19 14:00:00 GMT (Wednesday 19th February 2020)"
+	revision: "8"
 
 class
 	EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
 		undefine
-			flush_string_8, set_text_color, set_text_color_light
+			clear, flush_string_8, move_cursor_up, set_text_color, set_text_color_light
 		end
 
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT

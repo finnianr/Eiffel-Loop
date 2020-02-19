@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:19:28 GMT (Tuesday 18th February 2020)"
-	revision: "9"
+	date: "2020-02-19 14:01:37 GMT (Wednesday 19th February 2020)"
+	revision: "10"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CONSOLE_LOG_OUTPUT
 		redefine
-			flush_string_8, set_text_color, set_text_color_light
+			clear, flush_string_8, move_cursor_up, set_text_color, set_text_color_light
 		end
 
 create
@@ -39,6 +39,17 @@ feature {NONE} -- Implementation
 			sequence.append_character ('m')
 		end
 
+	clear
+		local
+			sequence: STRING
+		do
+			sequence := extended_buffer_last
+			across Clear_codes as code loop
+				sequence.append (Escape_start)
+				sequence.append (code.item)
+			end
+		end
+
 	flush_string_8 (str_8: STRING_8)
 		do
 			if is_escape_sequence (str_8) then
@@ -46,6 +57,17 @@ feature {NONE} -- Implementation
 			else
 				write_console (str_8)
 			end
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		local
+			sequence: STRING
+		do
+			sequence := extended_buffer_last
+			sequence.append (Escape_start)
+			sequence.append_integer (n)
+			sequence.append_character ('A')
 		end
 
 	is_escape_sequence (seq: STRING_8): BOOLEAN
@@ -74,6 +96,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Clear_codes: ARRAY [STRING]
+		once
+			Result := << "1;1H", "2J" >>
+		end
 
 	Escape_start: STRING = "%/027/["
 end

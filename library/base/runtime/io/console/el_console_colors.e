@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 17:48:46 GMT (Tuesday 18th February 2020)"
-	revision: "1"
+	date: "2020-02-19 13:26:37 GMT (Wednesday 19th February 2020)"
+	revision: "2"
 
 class
 	EL_CONSOLE_COLORS
@@ -19,13 +19,13 @@ inherit
 			default as any_default
 		end
 
-feature -- Access
+feature -- Colors
 
 	Black: INTEGER = 30
 
 	Blue: INTEGER = 34
 
-	Brown: INTEGER = 33
+	Yellow: INTEGER = 33
 
 	Cyan: INTEGER = 36
 
@@ -39,8 +39,38 @@ feature -- Access
 
 	White: INTEGER = 37
 
+feature -- Access
+
+	name (color: INTEGER): STRING
+		require
+			valid_color: valid_colors.has (color)
+		do
+			inspect color
+				when Black then
+					Result := "Black"
+				when Blue then
+					Result := "Blue"
+				when Yellow then
+					Result := "Yellow"
+				when Cyan then
+					Result := "Cyan"
+				when Default then
+					Result := "Default"
+				when Green then
+					Result := "Green"
+				when Purple then
+					Result := "Purple"
+				when Red then
+					Result := "Red"
+				when White then
+					Result := "White"
+			else
+				Result := "Unknown"
+			end
+		end
+
 	valid_colors: ARRAY [INTEGER]
 		once
-			Result := << Black, Blue, Brown, Cyan, Default, Green, Purple, Red, White >>
+			Result := << Black, Blue, Yellow, Cyan, Default, Green, Purple, Red, White >>
 		end
 end

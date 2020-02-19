@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 16:13:51 GMT (Tuesday 18th February 2020)"
-	revision: "43"
+	date: "2020-02-19 11:16:20 GMT (Wednesday 19th February 2020)"
+	revision: "44"
 
 class
 	APPLICATION_ROOT
@@ -93,6 +93,7 @@ feature {NONE} -- Constants
 		TEXT_PROCESS_AUTOTEST_APP,
 
 		-- Test thread.ecf
+		HORSE_RACE_APP,
 		WORK_DISTRIBUTER_TEST_APP,
 
 		-- Test vtd-xml.ecf

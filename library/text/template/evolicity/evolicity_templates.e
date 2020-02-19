@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:31:19 GMT (Wednesday 17th October 2018)"
-	revision: "11"
+	date: "2020-02-19 14:23:57 GMT (Wednesday 19th February 2020)"
+	revision: "12"
 
 class
 	EVOLICITY_TEMPLATES
@@ -40,12 +40,9 @@ feature {NONE} -- Initialization
 feature -- Status query
 
 	has (a_name: EL_FILE_PATH): BOOLEAN
-		local
-			compiler_table: like Compilers.item
  		do
 			restrict_access (Compilers)
-				compiler_table := Compilers.item
-				Result := compiler_table.has (a_name)
+				Result := Compilers.item.has (a_name)
 			end_restriction (Compilers)
 		end
 
@@ -116,7 +113,7 @@ feature -- Basic operations
 			output_writeable: output.is_open_write and output.is_writable
 		local
 			template: EVOLICITY_COMPILED_TEMPLATE; stack: like stack_table.stack
-			found: BOOLEAN; compiler_table: like Compilers.item
+			found: BOOLEAN
 		do
 			if stack_table.has_key (a_name) then
 				stack := stack_table.found_stack
@@ -126,8 +123,7 @@ feature -- Basic operations
 				stack_table.extend (stack, a_name)
 			end
 			if stack.is_empty then
-				restrict_access (Compilers)
-					compiler_table := Compilers.item
+				if attached {like Compilers.item} restricted_access (Compilers) as compiler_table then
 					if compiler_table.has_key (a_name) then
 						-- Changed 23 Nov 2013
 						-- Before it used to make a deep_twin of an existing compiled template
@@ -139,7 +135,8 @@ feature -- Basic operations
 					else
 						Exception.raise_developer ("Template [%S] not found", [a_name])
 					end
-				end_restriction (Compilers)
+					end_restriction (Compilers)
+				end
 			else
 				template := stack_table.found_stack.item
 				found := True

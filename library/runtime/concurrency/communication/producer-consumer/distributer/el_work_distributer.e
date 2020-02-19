@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-01 11:41:52 GMT (Monday 1st October 2018)"
-	revision: "5"
+	date: "2020-02-19 13:52:40 GMT (Wednesday 19th February 2020)"
+	revision: "6"
 
 class
 	EL_WORK_DISTRIBUTER [R -> ROUTINE]
@@ -104,7 +104,7 @@ feature -- Basic operations
 		do
 			restrict_access
 				from until available.count = threads.count loop
-					wait_until (thread_available)
+					wait_until_signaled (thread_available)
 				end
 			end_restriction
 			collect (final_applied)
@@ -138,7 +138,7 @@ feature -- Basic operations
 						available.remove
 
 					elseif threads.full then
-						wait_until (thread_available)
+						wait_until_signaled (thread_available)
 						index := available.item
 						available.remove
 					end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-05 7:56:37 GMT (Thursday 5th October 2017)"
-	revision: "5"
+	date: "2020-02-19 14:10:08 GMT (Wednesday 19th February 2020)"
+	revision: "6"
 
 class
 	EL_MUTEX_REFERENCE [G]

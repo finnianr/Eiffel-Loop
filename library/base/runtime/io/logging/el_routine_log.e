@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:07:52 GMT (Tuesday 18th February 2020)"
-	revision: "15"
+	date: "2020-02-19 13:57:34 GMT (Wednesday 19th February 2020)"
+	revision: "16"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -40,6 +40,20 @@ feature -- Element change
 			l_out := output
 
 			l_out.restore (previous_stack_count + 1)
+		end
+
+feature -- Basic operations
+
+	clear
+		-- clear screen		
+		do
+			output.clear
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		do
+			output.move_cursor_up (n)
 		end
 
 	set_timer
@@ -87,21 +101,21 @@ feature -- Output
 		do
 		end
 
-	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
-			--
-		do
-		end
-
 	enter_no_header (routine_name: STRING)
 			--
 		do
 		end
 
-	exit_no_trailer
+	enter_with_args (routine_name: STRING; arg_objects: TUPLE)
+			--
 		do
 		end
 
 	exit
+		do
+		end
+
+	exit_no_trailer
 		do
 		end
 
@@ -146,7 +160,7 @@ feature -- Output
 		do
 			l_out := output
 			l_out.put_label (label)
-			l_out.set_text_color (Color.Brown)
+			l_out.set_text_color (Color.Yellow)
 			l_out.put_string_general (str)
 			l_out.set_text_color (Color.Default)
 			l_out.flush
@@ -233,7 +247,7 @@ feature -- Output
 
 			l_out.put_label (label)
 
-			l_out.set_text_color (Color.Brown)
+			l_out.set_text_color (Color.Yellow)
 			l_out.put_string (once "%"[")
 			l_out.set_text_color (Color.Default)
 
@@ -256,7 +270,7 @@ feature -- Output
 			l_out.tab_left
 			l_out.put_new_line
 
-			l_out.set_text_color (Color.Brown)
+			l_out.set_text_color (Color.Yellow)
 			l_out.put_string (once "]%"")
 			l_out.set_text_color (Color.Default)
 
@@ -403,12 +417,12 @@ feature {NONE} -- Constants
 
 	Double_quote: STRING = "%""
 
-	Single_quote: STRING = "'"
-
 	Ellipsis_dots: ZSTRING
 		once
 			Result := ".."
 		end
+
+	Single_quote: STRING = "'"
 
 	Timer: EL_EXECUTION_TIMER
 		once ("OBJECT")

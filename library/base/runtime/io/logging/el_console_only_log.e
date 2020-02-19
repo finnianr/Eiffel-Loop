@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 18:09:48 GMT (Tuesday 18th February 2020)"
-	revision: "12"
+	date: "2020-02-19 13:57:59 GMT (Wednesday 19th February 2020)"
+	revision: "13"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -43,6 +43,20 @@ feature -- Input
 
 	pause_for_enter_key
 		do
+		end
+
+feature -- Basic operations
+
+	clear
+		-- clear screen		
+		do
+			log_sink.clear
+		end
+
+	move_cursor_up (n: INTEGER)
+		-- move cursor up `n' lines (Linux only)
+		do
+			log_sink.move_cursor_up (n)
 		end
 
 feature -- Status change

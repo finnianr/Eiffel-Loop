@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-08 10:19:31 GMT (Thursday 8th August 2019)"
-	revision: "5"
+	date: "2020-02-19 13:53:24 GMT (Wednesday 19th February 2020)"
+	revision: "6"
 
 class
 	EL_SINGLE_THREAD_ACCESS
@@ -40,6 +40,13 @@ feature -- Status change
 feature -- Basic operations
 
 	wait_until (condition: CONDITION_VARIABLE)
+		do
+			restrict_access
+				wait_until_signaled (condition)
+			end_restriction
+		end
+
+	wait_until_signaled (condition: CONDITION_VARIABLE)
 		do
 			condition.wait (mutex)
 		end
