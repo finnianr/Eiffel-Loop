@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 11:11:01 GMT (Saturday 22nd February 2020)"
-	revision: "2"
+	date: "2020-02-22 11:17:19 GMT (Saturday 22nd February 2020)"
+	revision: "3"
 
 class
 	PLANE_VECTOR

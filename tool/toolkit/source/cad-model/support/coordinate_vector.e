@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 11:03:02 GMT (Saturday 22nd February 2020)"
-	revision: "7"
+	date: "2020-02-22 12:17:35 GMT (Saturday 22nd February 2020)"
+	revision: "8"
 
 class
 	COORDINATE_VECTOR
@@ -73,6 +73,7 @@ feature -- Access
 		end
 
 	distance (other: like Current): DOUBLE
+		-- distance to `other' point
 		local
 			difference: like Once_vector
 		do
@@ -94,20 +95,22 @@ feature -- Access
 
 	hash_code: INTEGER
 		local
-			i, l_count: INTEGER
-			l_memory: like Memory
+			i, j, l_count, value_part, byte_count: INTEGER
+			value: DOUBLE; value_ptr, value_part_ptr: POINTER
 		do
 			if internal_hash_code = 0 then
-				l_memory := Memory
-				l_memory.set_from_pointer (area.base_address, {PLATFORM}.Real_64_bytes * area.count)
-				l_count := l_memory.count
-				from i := 0 until i = l_count loop
-					-- The magic number `8388593' below is the greatest prime lower than
-					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-
-					Result := ((Result \\ 8388593) |<< 8) + l_memory.read_natural_8 (i)
+				value_part_ptr := $value_part; value_ptr := $value
+				byte_count := {PLATFORM}.Integer_32_bytes
+				from i := 0 until i = area.count loop
+					value := area [i]
+					from j := 0 until j > byte_count  loop
+						value_part_ptr.memory_copy (value_ptr + j, byte_count)
+						Result := Result + value_part
+						j := j + byte_count
+					end
 					i := i + 1
 				end
+				Result := Result.abs
 				internal_hash_code := Result
 			else
 				Result := internal_hash_code
@@ -153,11 +156,6 @@ feature {NONE} -- Constants
 	Format_out: ZSTRING
 		once
 			Result := "[%S, %S, %S]"
-		end
-
-	Memory: MANAGED_POINTER
-		once
-			create Result.share_from_pointer (Default_pointer, 0)
 		end
 
 	Once_vector: COORDINATE_VECTOR
