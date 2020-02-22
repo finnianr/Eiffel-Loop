@@ -14,14 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:48:57 GMT (Tuesday 18th February 2020)"
-	revision: "11"
+	date: "2020-02-20 17:52:41 GMT (Thursday 20th February 2020)"
+	revision: "12"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TRANSLATION_TREE_COMPILER]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, normal_initialize
 		end

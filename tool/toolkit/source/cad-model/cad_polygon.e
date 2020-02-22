@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-17 15:30:05 GMT (Monday 17th February 2020)"
-	revision: "5"
+	date: "2020-02-22 11:12:19 GMT (Saturday 22nd February 2020)"
+	revision: "7"
 
 class
-	POLYGON
+	CAD_POLYGON
 
 inherit
 	EL_ARRAYED_LIST [COORDINATE_VECTOR]
@@ -43,35 +43,35 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	dry_part: like Current
-		require
-			has_wet_part: across Current as coord some coord.item.is_wet end
-		do
-			Result := new_partial (agent {COORDINATE_VECTOR}.is_wet)
-		end
-
-	wet_part: like Current
-		require
-			has_dry_part: across Current as coord some coord.item.is_dry end
-		do
-			Result := new_partial (agent {COORDINATE_VECTOR}.is_dry)
-		end
-
 	debug_output: STRING
 		do
 			Result := out
+		end
+
+	dry_part: like Current
+		require
+			has_wet_part: there_exists (agent is_wet_point)
+		do
+			Result := new_partial (agent is_wet_point)
 		end
 
 	out: STRING
 		do
 			create Result.make_filled ('D', count)
 			across Current as coord loop
-				if coord.item.is_wet then
+				if is_wet_point (coord.item) then
 					Result [coord.cursor_index] := 'W'
-				elseif coord.item.is_boundary then
+				elseif is_surface_point (coord.item) then
 					Result [coord.cursor_index] := 'B'
 				end
 			end
+		end
+
+	wet_part: like Current
+		require
+			has_dry_part: there_exists (agent is_dry_point)
+		do
+			Result := new_partial (agent is_dry_point)
 		end
 
 feature -- Status query
@@ -88,8 +88,7 @@ feature -- Status query
 
 	is_wet_and_dry: BOOLEAN
 		do
-			Result := across Current as coord some coord.item.is_dry end
-							and then across Current as coord some coord.item.is_wet end
+			Result := there_exists (agent is_dry_point) and then there_exists (agent is_wet_point)
 		end
 
 feature -- Comparison
@@ -119,6 +118,26 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Contract Support
+
+	is_surface_point (p: COORDINATE_VECTOR): BOOLEAN
+		-- `True' if point is on water surface
+		do
+			Result := p.z = zero
+		end
+
+	is_dry_point (p: COORDINATE_VECTOR): BOOLEAN
+		-- `True' if point is above water
+		do
+			Result := p.z > zero
+		end
+
+	is_wet_point (p: COORDINATE_VECTOR): BOOLEAN
+		-- `True' if point is under water
+		do
+			Result := p.z < zero
+		end
+
 feature {NONE} -- Implementation
 
 	new_partial (excluded: PREDICATE [COORDINATE_VECTOR]): like Current
@@ -144,13 +163,23 @@ feature {NONE} -- Implementation
 			-- Add intersection of first and last included points with adjacent point on opposite side of plane
 			last_included := circular_i_th (offset + included_count - 1)
 			first_excluded := circular_i_th (offset + included_count)
-			if not last_included.is_boundary then
-				Result.extend (last_included.surface_intersection (first_excluded))
+			if not is_surface_point (last_included) then
+--				Result.extend (last_included.surface_intersection (first_excluded))
+				Result.extend (Surface_plane.intersection_point (last_included, first_excluded))
 			end
 			first_included := circular_i_th (offset); last_excluded := circular_i_th (offset - 1)
-			if not first_included .is_boundary then
-				Result.extend (first_included.surface_intersection (last_excluded))
+			if not is_surface_point (first_included) then
+--				Result.extend (first_included.surface_intersection (last_excluded))
+				Result.extend (Surface_plane.intersection_point (first_included, last_excluded))
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Zero: DOUBLE = 0.0
+
+	Surface_plane: PLANE_VECTOR
+		once
+			create Result.make (0, 0, 1, 0)
+		end
 end

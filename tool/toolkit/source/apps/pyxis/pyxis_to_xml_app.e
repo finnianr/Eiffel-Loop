@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-12 15:24:51 GMT (Wednesday 12th February 2020)"
-	revision: "19"
+	date: "2020-02-20 17:35:15 GMT (Thursday 20th February 2020)"
+	revision: "20"
 
 class
 	PYXIS_TO_XML_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TO_XML_CONVERTER]
+		rename
+			extra_log_filter as no_log_filter
 		undefine
 			test_data_dir
 		redefine
@@ -81,14 +83,6 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "")
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{PYXIS_TO_XML_APP}, All_routines]
-			>>
 		end
 
 	visible_types: TUPLE [PYXIS_TO_XML_CONVERTER]

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 15:33:49 GMT (Thursday 13th February 2020)"
-	revision: "12"
+	date: "2020-02-20 17:33:32 GMT (Thursday 20th February 2020)"
+	revision: "13"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -18,7 +18,7 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		redefine
-			log_filter, visible_types
+			visible_types
 		end
 
 create
@@ -67,11 +67,10 @@ feature {NONE} -- Tests
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
+	extra_log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		do
 			Result := <<
-				[{like Current}, All_routines],
 				[{SIMPLE_SERVER_THREAD}, All_routines]
 			>>
 		end

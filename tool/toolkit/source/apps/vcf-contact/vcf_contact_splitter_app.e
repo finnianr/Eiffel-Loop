@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:27 GMT (Wednesday 25th September 2019)"
-	revision: "10"
+	date: "2020-02-20 17:38:59 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 class
 	VCF_CONTACT_SPLITTER_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [VCF_CONTACT_SPLITTER]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -56,14 +58,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "split_vcf"
 
 	Description: STRING = "Split vcf contacts file into separate files"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{VCF_CONTACT_SPLITTER_APP}, All_routines],
-				[{VCF_CONTACT_SPLITTER}, All_routines]
-			>>
-		end
 
 end

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 11:17:23 GMT (Monday 7th October 2019)"
-	revision: "10"
+	date: "2020-02-20 17:49:15 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
 
 inherit
 	SOURCE_TREE_EDITING_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, normal_initialize, set_defaults, test_sources
 		end
@@ -70,14 +72,6 @@ feature {NONE} -- Constants
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Remove classname prefixes")
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CLASS_PREFIX_REMOVAL_APP}, All_routines]
-			>>
 		end
 
 end

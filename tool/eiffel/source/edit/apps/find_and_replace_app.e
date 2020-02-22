@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:47:26 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2020-02-20 17:52:52 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 class
 	FIND_AND_REPLACE_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FIND_AND_REPLACE_COMMAND]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end

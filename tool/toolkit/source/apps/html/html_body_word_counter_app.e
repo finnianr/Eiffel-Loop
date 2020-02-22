@@ -8,14 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-12 15:24:47 GMT (Wednesday 12th February 2020)"
-	revision: "13"
+	date: "2020-02-20 17:38:24 GMT (Thursday 20th February 2020)"
+	revision: "14"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
+		rename
+			extra_log_filter as no_log_filter
 		undefine
 			Test_data_dir
 		redefine
@@ -64,14 +66,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "body_word_counts"
 
 	Description: STRING = "Count words in directory of html body files (*.body)"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{HTML_BODY_WORD_COUNTER_APP}, All_routines],
-				[{HTML_BODY_WORD_COUNTER}, All_routines]
-			>>
-		end
 
 end

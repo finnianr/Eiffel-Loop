@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 13:16:20 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2020-02-20 17:28:06 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 
 inherit
 	EL_LOGGED_SUB_APPLICATION
+		rename
+			log_filter as extra_log_filter
 		redefine
 			new_log_manager, new_lio, new_log_filter_list
 		end
@@ -75,10 +77,8 @@ feature {NONE} -- Implementation
 	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
 		do
 			Result := Precursor
-			if not across Result as filter some filter.item.class_type ~ {EL_REGRESSION_TESTING_ROUTINES} end
-			then
-				Result.extend (new_log_filter ({EL_REGRESSION_TESTING_ROUTINES}, All_routines))
-			end
+			Result.extend (new_log_filter ({like Current}, All_routines))
+			Result.extend (new_log_filter ({EL_REGRESSION_TESTING_ROUTINES}, All_routines))
 		end
 
 	normal_initialize

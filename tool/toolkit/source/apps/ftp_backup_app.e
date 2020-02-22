@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 19:13:34 GMT (Tuesday 19th November 2019)"
-	revision: "16"
+	date: "2020-02-20 17:43:01 GMT (Thursday 20th February 2020)"
+	revision: "17"
 
 class
 	FTP_BACKUP_APP
@@ -42,14 +42,6 @@ feature {NONE} -- Initialization
 
 feature -- Test operations
 
-	test_run
-		do
-			Test.set_excluded_file_extensions (<< "gz" >>) -- tar files are date stamped therefore must be excluded
-			Test.do_file_test ("bkup/id3-1.bkup", agent test_normal_run, 2260245724)
-			Test.do_file_test ("bkup/id3-2.bkup", agent test_normal_run, 3403517712)
-			Test.do_file_test ("bkup/id3-3.bkup", agent test_normal_run, 1379707871)
-		end
-
 	test_gpg_normal_run (file_path: EL_FILE_PATH)
 			--
 		local
@@ -74,6 +66,13 @@ feature -- Test operations
 			log.exit
 		end
 
+	test_run
+		do
+			Test.set_excluded_file_extensions (<< "gz" >>) -- tar files are date stamped therefore must be excluded
+			Test.do_file_test ("bkup/id3-1.bkup", agent test_normal_run, 2260245724)
+			Test.do_file_test ("bkup/id3-2.bkup", agent test_normal_run, 3403517712)
+			Test.do_file_test ("bkup/id3-3.bkup", agent test_normal_run, 1379707871)
+		end
 
 feature {NONE} -- Implementation
 
@@ -92,11 +91,22 @@ feature {NONE} -- Implementation
 			Result := agent {like ftp_command}.make (create {EL_FILE_PATH}, False)
 		end
 
+	extra_log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{ARCHIVE_FILE}, All_routines],
+				[{INCLUSION_LIST_FILE}, All_routines],
+				[{EXCLUSION_LIST_FILE}, All_routines],
+				[{BACKUP_CONFIG}, All_routines]
+			>>
+		end
+
+feature {NONE} -- Internal attributes
+
 	ftp_command: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
-
-	Option_name: STRING = "ftp_backup"
 
 	Description: STRING = "Create tar.gz backups and ftp them off site"
 
@@ -105,17 +115,6 @@ feature {NONE} -- Constants
 			Result := new_context_menu_desktop ("Eiffel Loop/General utilities/ftp backup")
 		end
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{FTP_BACKUP_APP}, All_routines],
-				[{FTP_BACKUP}, All_routines],
-				[{ARCHIVE_FILE}, All_routines],
-				[{INCLUSION_LIST_FILE}, All_routines],
-				[{EXCLUSION_LIST_FILE}, All_routines],
-				[{BACKUP_CONFIG}, All_routines]
-			>>
-		end
+	Option_name: STRING = "ftp_backup"
 
 end

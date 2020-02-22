@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 18:00:30 GMT (Sunday 16th February 2020)"
-	revision: "5"
+	date: "2020-02-22 11:12:19 GMT (Saturday 22nd February 2020)"
+	revision: "6"
 
 class
 	CAD_MODEL
@@ -59,10 +59,10 @@ feature {NONE} -- Initialization
 			make (new_polygon_list (parts.q, vertices.area))
 		end
 
-	make_partial (other: like Current; included: PREDICATE [POLYGON]; new_part: FUNCTION [POLYGON, POLYGON])
+	make_partial (other: like Current; included: PREDICATE [CAD_POLYGON]; new_part: FUNCTION [CAD_POLYGON, CAD_POLYGON])
 		do
 			make (other.polygon_list.query_if (included))
-			across other.polygon_list.query_if (agent {POLYGON}.is_wet_and_dry) as polygon loop
+			across other.polygon_list.query_if (agent {CAD_POLYGON}.is_wet_and_dry) as polygon loop
 				polygon_list.extend (new_part (polygon.item))
 			end
 		end
@@ -72,16 +72,16 @@ feature -- Access
 	dry_part: like Current
 		-- part of model that is above water
 		do
-			create Result.make_partial (Current, agent {POLYGON}.is_dry, agent {POLYGON}.dry_part)
+			create Result.make_partial (Current, agent {CAD_POLYGON}.is_dry, agent {CAD_POLYGON}.dry_part)
 		end
 
-	polygon_list: EL_ARRAYED_LIST [POLYGON]
+	polygon_list: EL_ARRAYED_LIST [CAD_POLYGON]
 		-- polygons
 
 	wet_part: like Current
 		-- part of model that is below water
 		do
-			create Result.make_partial (Current, agent {POLYGON}.is_wet, agent {POLYGON}.wet_part)
+			create Result.make_partial (Current, agent {CAD_POLYGON}.is_wet, agent {CAD_POLYGON}.wet_part)
 		end
 
 	as_json (keep_ref: BOOLEAN): STRING
@@ -209,7 +209,7 @@ feature {NONE} -- Factory
 					index_list.extend (index_split_string.integer_item)
 					index_split_string.forth
 				end
-				Result.extend (create {POLYGON}.make (index_list, coordinate_array))
+				Result.extend (create {CAD_POLYGON}.make (index_list, coordinate_array))
 				tuple_list.forth
 			end
 		ensure

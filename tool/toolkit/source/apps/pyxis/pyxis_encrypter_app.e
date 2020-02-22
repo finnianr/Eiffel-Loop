@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:06 GMT (Wednesday 25th September 2019)"
-	revision: "10"
+	date: "2020-02-20 17:40:36 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -22,7 +22,8 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_ENCRYPTER]
 		rename
-			command as pyxis_encrypter
+			command as pyxis_encrypter,
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, normal_initialize, pyxis_encrypter
 		end
@@ -121,15 +122,6 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Description: STRING = "Encrypt content of pyxis file"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{PYXIS_ENCRYPTER_APP}, All_routines],
-				[{PYXIS_ENCRYPTER}, All_routines]
-			>>
-		end
 
 	Option_name: STRING = "pyxis_encrypt"
 

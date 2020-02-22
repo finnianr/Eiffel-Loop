@@ -14,14 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:52:12 GMT (Tuesday 18th February 2020)"
-	revision: "18"
+	date: "2020-02-20 17:54:01 GMT (Thursday 20th February 2020)"
+	revision: "19"
 
 class
 	NOTE_EDITOR_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end

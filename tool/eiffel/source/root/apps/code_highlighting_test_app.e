@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "6"
+	date: "2020-02-20 17:47:39 GMT (Thursday 20th February 2020)"
+	revision: "7"
 
 class
 	CODE_HIGHLIGHTING_TEST_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -62,13 +64,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "test_eiffel_code_highlighting"
 
 	Description: STRING = "Test highlighting Eiffel keywords, comments and class names."
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CODE_HIGHLIGHTING_TEST_APP}, All_routines]
-			>>
-		end
 
 end

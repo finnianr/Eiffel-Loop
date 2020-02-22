@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:23:59 GMT (Wednesday 25th September 2019)"
-	revision: "11"
+	date: "2020-02-20 17:58:59 GMT (Thursday 20th February 2020)"
+	revision: "12"
 
 class
 	ID3_EDITOR_APP
@@ -63,6 +63,15 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "default")
 		end
 
+	extra_log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+--				[{EL_ID3_INFO}, No_routines],
+				[{ID3_TAG_INFO_ROUTINES}, All_routines]
+			>>
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "id3_edit"
@@ -70,16 +79,5 @@ feature {NONE} -- Constants
 	Description: STRING = "Edit ID3 tags from MP3 files"
 
 	Ask_user_to_quit: BOOLEAN = False
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{ID3_EDITOR_APP}, All_routines],
-				[{ID3_EDITOR}, All_routines],
---				[{EL_ID3_INFO}, No_routines],
-				[{ID3_TAG_INFO_ROUTINES}, All_routines]
-			>>
-		end
 
 end

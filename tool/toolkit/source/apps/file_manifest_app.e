@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:47 GMT (Wednesday 25th September 2019)"
-	revision: "5"
+	date: "2020-02-20 17:43:01 GMT (Thursday 20th February 2020)"
+	revision: "6"
 
 class
 	FILE_MANIFEST_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_FILE_MANIFEST_COMMAND]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -80,13 +82,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "file_manifest"
 
 	Description: STRING = "Generate an XML manifest of a directory for files matching a wildcard"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{FILE_MANIFEST_APP}, All_routines]
-			>>
-		end
 
 end

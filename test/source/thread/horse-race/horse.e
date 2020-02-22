@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 15:43:20 GMT (Wednesday 19th February 2020)"
-	revision: "1"
+	date: "2020-02-20 10:40:38 GMT (Thursday 20th February 2020)"
+	revision: "2"
 
 class
 	HORSE
@@ -49,7 +49,7 @@ feature -- Basic operations
 		do
 			from until step_count = Maximum_steps loop
 				wait_time_ms := Minimum_wait_time_ms
-				-- add some variablity
+				-- add some variability
 				if attached {RANDOM} restricted_access (Once_random) as random then
 					random.forth
 					wait_time_ms := wait_time_ms + random.item \\ Variable_wait_time_ms

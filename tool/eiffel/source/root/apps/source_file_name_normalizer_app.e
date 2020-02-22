@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:33:58 GMT (Monday 7th October 2019)"
-	revision: "9"
+	date: "2020-02-20 17:48:25 GMT (Thursday 20th February 2020)"
+	revision: "10"
 
 class
 	SOURCE_FILE_NAME_NORMALIZER_APP
@@ -29,6 +29,14 @@ create
 
 feature {NONE} -- Implementation
 
+	extra_log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{CLASS_FILE_NAME_NORMALIZER}, All_routines]
+			>>
+		end
+
 	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_FILE_NAME_NORMALIZER
 		do
 			create Result.make
@@ -49,15 +57,6 @@ feature {NONE} -- Constants
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Normalize class filenames")
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{SOURCE_FILE_NAME_NORMALIZER_APP}, All_routines],
-				[{CLASS_FILE_NAME_NORMALIZER}, All_routines]
-			>>
 		end
 
 end

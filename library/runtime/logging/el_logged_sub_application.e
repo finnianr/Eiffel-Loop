@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 13:16:01 GMT (Tuesday 18th February 2020)"
-	revision: "11"
+	date: "2020-02-20 17:51:40 GMT (Thursday 20th February 2020)"
+	revision: "12"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -30,12 +30,12 @@ inherit
 
 feature -- Status query
 
-	is_logging_initialized: BOOLEAN
-
 	is_logging_active: BOOLEAN
 		do
 			Result := Log_option.logging
 		end
+
+	is_logging_initialized: BOOLEAN
 
 feature {NONE} -- Implementation
 
@@ -69,17 +69,6 @@ feature {NONE} -- Implementation
 			retry -- for normal exit
 		end
 
-	io_put_header
-		do
-			log.enter_no_header ("io_put_header")
-			Precursor
-			log.exit_no_trailer
-			log.put_configuration_info (Log_filter_list.item (Current))
-			if not Logging.is_active then
-				lio.put_new_line_x2
-			end
-		end
-
 	init_console_and_logging
 			--
 		local
@@ -102,9 +91,26 @@ feature {NONE} -- Implementation
 			is_logging_initialized := true
 		end
 
+	io_put_header
+		do
+			log.enter_no_header ("io_put_header")
+			Precursor
+			log.exit_no_trailer
+			log.put_configuration_info (Log_filter_list.item (Current))
+			if not Logging.is_active then
+				lio.put_new_line_x2
+			end
+		end
+
 	log_filter: ARRAY [like CLASS_ROUTINES]
 			--
 		deferred
+		end
+
+	no_log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			create Result.make_empty
 		end
 
 	on_exception
@@ -119,9 +125,14 @@ feature {NONE} -- Implementation
 
 feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 
-	new_log_manager: EL_LOG_MANAGER
+	new_identified_main_thread: EL_IDENTIFIED_MAIN_THREAD
 		do
-			create Result.make (is_logging_active, Log_output_directory)
+			create Result.make ("Main")
+		end
+
+	new_log_filter (class_type: TYPE [EL_MODULE_LOG]; a_routines: STRING): EL_LOG_FILTER
+		do
+			create Result.make (class_type, a_routines)
 		end
 
 	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
@@ -135,23 +146,30 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 			across filters as tuple loop
 				Result.extend (new_log_filter (tuple.item.class_type, tuple.item.routines))
 			end
+		ensure
+			no_duplicates: Result.count = logged_type_set (Result).count
 		end
 
-	new_identified_main_thread: EL_IDENTIFIED_MAIN_THREAD
+	new_log_manager: EL_LOG_MANAGER
 		do
-			create Result.make ("Main")
+			create Result.make (is_logging_active, Log_output_directory)
 		end
 
-	new_log_filter (class_type: TYPE [EL_MODULE_LOG]; a_routines: STRING): EL_LOG_FILTER
+feature {NONE} -- Contract Support
+
+	logged_type_set (list: LIST [EL_LOG_FILTER]): EL_HASH_SET [INTEGER]
 		do
-			create Result.make (class_type, a_routines)
+			create Result.make (list.count)
+			across list as filter loop
+				Result.put (filter.item.class_type.type_id)
+			end
 		end
 
 feature {NONE} -- Type definitions
 
 	CLASS_ROUTINES: TUPLE [class_type: TYPE [EL_MODULE_LOG]; routines: STRING]
 		once
-			Result := [{like Current}, ""]
+			Result := [{like Current}, All_routines]
 		end
 
 feature {NONE} -- Constants

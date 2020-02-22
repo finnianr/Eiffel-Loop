@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:33:58 GMT (Monday 7th October 2019)"
-	revision: "7"
+	date: "2020-02-20 17:48:58 GMT (Thursday 20th February 2020)"
+	revision: "8"
 
 class
 	UPGRADE_LOG_FILTERS_APP
 
 inherit
 	SOURCE_TREE_EDITING_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, test_run
 		end
@@ -47,13 +49,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "log_upgrade"
 
 	Description: STRING = "Change class names in {EL_SUB_APPLICATION}.Log_filter from strings to class types"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{UPGRADE_LOG_FILTERS_APP}, All_routines]
-			>>
-		end
 
 end

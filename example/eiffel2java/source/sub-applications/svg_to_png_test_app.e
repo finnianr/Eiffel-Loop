@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:19 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-02-20 17:56:24 GMT (Thursday 20th February 2020)"
+	revision: "5"
 
 class
 	SVG_TO_PNG_TEST_APP
 
 inherit
 	REGRESSION_TESTABLE_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
+		end
 
 create
 	make
@@ -96,12 +99,5 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Test conversion of SVG image files to PNG format"
 
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{SVG_TO_PNG_TEST_APP}, All_routines]
-			>>
-		end
 
 end

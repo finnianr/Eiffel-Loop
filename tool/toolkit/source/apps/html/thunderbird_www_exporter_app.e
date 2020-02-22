@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:58 GMT (Wednesday 25th September 2019)"
-	revision: "13"
+	date: "2020-02-20 17:39:49 GMT (Thursday 20th February 2020)"
+	revision: "14"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [THUNDERBIRD_WWW_EXPORTER]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -75,14 +77,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "export_www"
 
 	Description: STRING = "Export HTML content from www directory under Thunderbird account"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{THUNDERBIRD_WWW_EXPORTER_APP}, All_routines],
-				[{THUNDERBIRD_WWW_EXPORTER}, All_routines]
-			>>
-		end
 
 end

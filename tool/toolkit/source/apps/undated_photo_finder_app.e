@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:20 GMT (Wednesday 25th September 2019)"
-	revision: "8"
+	date: "2020-02-20 17:39:22 GMT (Thursday 20th February 2020)"
+	revision: "9"
 
 class
 	UNDATED_PHOTO_FINDER_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTO_FINDER]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end
@@ -71,15 +73,6 @@ feature {NONE} -- Constants
 	Description: STRING = "[
 		Make list of jpeg photos lacking a "Date time taken" EXIF info
 	]"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{UNDATED_PHOTO_FINDER_APP}, All_routines],
-				[{UNDATED_PHOTO_FINDER}, All_routines]
-			>>
-		end
 
 	Test_data_dir: EL_DIR_PATH
 			--

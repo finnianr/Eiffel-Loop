@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 14:38:17 GMT (Thursday 13th February 2020)"
-	revision: "8"
+	date: "2020-02-20 17:29:15 GMT (Thursday 20th February 2020)"
+	revision: "9"
 
 class
 	JOBSERVE_SEARCH_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			option_name, read_command_options
 		end
@@ -108,16 +110,6 @@ feature {NONE} -- Tests
 				duration_text_list.forth
 			end
 			log.exit
-		end
-
-feature {NONE} -- Implementation
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Implementation: attributes

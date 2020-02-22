@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:33:58 GMT (Monday 7th October 2019)"
-	revision: "10"
+	date: "2020-02-20 17:47:54 GMT (Thursday 20th February 2020)"
+	revision: "11"
 
 class
 	SOURCE_LOG_LINE_REMOVER_APP
 
 inherit
 	SOURCE_TREE_EDITING_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -48,14 +50,6 @@ feature {NONE} -- Constants
 	desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Comment out logging lines")
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{SOURCE_LOG_LINE_REMOVER_APP}, All_routines]
-			>>
 		end
 
 end

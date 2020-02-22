@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 9:28:49 GMT (Monday 2nd September 2019)"
-	revision: "15"
+	date: "2020-02-20 17:42:40 GMT (Thursday 20th February 2020)"
+	revision: "16"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
 
 inherit
 	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, test_html_body_export
 		end
@@ -72,14 +74,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Description: STRING = "Export multi-lingual HTML body content from Thunderbird as files with .body extension"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP}, All_routines]
-			>>
-		end
 
 	Option_name: STRING = "export_thunderbird_to_body"
 

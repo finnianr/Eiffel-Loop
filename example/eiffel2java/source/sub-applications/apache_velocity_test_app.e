@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:51:46 GMT (Friday 14th June 2019)"
-	revision: "5"
+	date: "2020-02-20 17:57:28 GMT (Thursday 20th February 2020)"
+	revision: "6"
 
 class
 	APACHE_VELOCITY_TEST_APP
 
 inherit
 	REGRESSION_TESTABLE_SUB_APPLICATION
+		rename
+			extra_log_filter as no_log_filter
+		end
 
 create
 	make
@@ -133,13 +136,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "apache_velocity"
 
 	Description: STRING = "Create and XML manifest of Eiffel base library"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{APACHE_VELOCITY_TEST_APP}, All_routines]
-			>>
-		end
 
 end

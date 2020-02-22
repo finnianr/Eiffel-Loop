@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:51:46 GMT (Friday 14th June 2019)"
-	revision: "5"
+	date: "2020-02-20 17:57:08 GMT (Thursday 20th February 2020)"
+	revision: "6"
 
 class
 	JAVA_TEST_APP
@@ -154,6 +154,14 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
+	extra_log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{J_J2E_TEST_TARGET}, All_routines]
+			>>
+		end
+		
 	many_references_test
 			-- See what happens if we have 1000+ references to Java Objects
 		local
@@ -219,14 +227,5 @@ feature {NONE} -- Constants
 	Option_name: STRING = "java_test"
 
 	Description: STRING = "Basic Java access tests"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{JAVA_TEST_APP}, All_routines],
-				[{J_J2E_TEST_TARGET}, All_routines]
-			>>
-		end
 
 end

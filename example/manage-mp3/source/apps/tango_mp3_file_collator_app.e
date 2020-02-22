@@ -12,14 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:07 GMT (Wednesday 25th September 2019)"
-	revision: "12"
+	date: "2020-02-20 17:58:27 GMT (Thursday 20th February 2020)"
+	revision: "13"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [TANGO_MP3_FILE_COLLATOR]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name
 		end
@@ -68,14 +70,5 @@ feature {NONE} -- Constants
 	Description: STRING = "[
 		Collates mp3 files using the path form: <genre>/<artist>/<title>.<id>.mp3
 	]"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{TANGO_MP3_FILE_COLLATOR_APP}, All_routines],
-				[{TANGO_MP3_FILE_COLLATOR}, All_routines]
-			>>
-		end
 
 end
