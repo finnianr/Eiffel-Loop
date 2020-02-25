@@ -287,7 +287,7 @@ feature {STRING_HANDLER} -- Implementation
 feature -- Constants
 
 	Default_area: SPECIAL [CHARACTER_32]
-		once ("process")
+		once ("PROCESS")
 			create Result.make_empty (0)
 		end
 

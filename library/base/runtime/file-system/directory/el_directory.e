@@ -1,13 +1,13 @@
 note
-	description: "Object to manage file system directory"
+	description: "Object to manage file system directory accessible via [$source EL_SHARED_DIRECTORY]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 11:12:34 GMT (Friday 27th December 2019)"
-	revision: "14"
+	date: "2020-02-25 10:50:08 GMT (Tuesday 25th February 2020)"
+	revision: "15"
 
 class
 	EL_DIRECTORY

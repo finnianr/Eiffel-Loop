@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 10:40:38 GMT (Thursday 20th February 2020)"
-	revision: "2"
+	date: "2020-02-22 13:01:51 GMT (Saturday 22nd February 2020)"
+	revision: "3"
 
 class
 	HORSE
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_filled (' ', Maximum_steps + 3)
 			Result.replace_substring (horse_representation, 1, 3)
-			Result [101] := '|' -- add finish line
+			Result [Maximum_steps + 1] := '|' -- add finish line
 		end
 
 feature {NONE} -- Internal attributes

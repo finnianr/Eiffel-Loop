@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 12:17:35 GMT (Saturday 22nd February 2020)"
-	revision: "8"
+	date: "2020-02-24 11:12:46 GMT (Monday 24th February 2020)"
+	revision: "9"
 
 class
 	COORDINATE_VECTOR

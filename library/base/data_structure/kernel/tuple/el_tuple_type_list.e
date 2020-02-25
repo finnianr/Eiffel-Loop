@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:32:25 GMT (Sunday 1st December 2019)"
-	revision: "4"
+	date: "2020-02-23 13:20:25 GMT (Sunday 23rd February 2020)"
+	revision: "5"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -81,7 +81,7 @@ feature -- Basic operations
 feature {NONE} -- Constants
 
 	Empty_list: ARRAYED_LIST [TYPE [ANY]]
-		once ("PROCESS")
+		once
 			create Result.make (0)
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-28 17:28:48 GMT (Wednesday 28th August 2019)"
-	revision: "7"
+	date: "2020-02-23 14:28:25 GMT (Sunday 23rd February 2020)"
+	revision: "8"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -139,7 +139,7 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 feature {NONE} -- Constant
 
 	Default_next_context: EL_DEFAULT_EIF_OBJ_XPATH_CONTEXT
-		once ("PROCESS")
+		once
 			create Result
 			Result.set_default_attributes
 		end
@@ -147,7 +147,7 @@ feature {NONE} -- Constant
 	Xpath_step_separator: CHARACTER_32 = '/'
 
 	Default_node: EL_XML_NODE
-		once ("PROCESS")
+		once
 			create Result
 		end
 
