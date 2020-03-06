@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 10:34:24 GMT (Tuesday 18th February 2020)"
-	revision: "5"
+	date: "2020-03-06 11:11:39 GMT (Friday 6th March 2020)"
+	revision: "6"
 
 deferred class
 	FEATURE_EDITOR
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])
+	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		deferred
 		end
 

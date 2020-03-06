@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-03-01 12:42:26 GMT (Sunday 1st March 2020)"
+	revision: "6"
 
 class
 	EL_THREAD_BLOCK
 
 inherit
-	DISPOSABLE
+	EL_SINGLE_THREAD_ACCESS
+		rename
+			make_default as make
+		redefine
+			make
+		end
 
 create
 	make
@@ -23,7 +28,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create mutex.make
+			Precursor
 			create condition.make
 		end
 
@@ -32,9 +37,7 @@ feature -- Basic operations
 	suspend
 			--
 		do
-			mutex.lock
-			condition.wait (mutex)
-			mutex.unlock
+			wait_until (condition)
 		end
 
 	resume
@@ -45,15 +48,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	dispose
-			--
-		do
-			mutex.destroy
-			condition.destroy
-		end
-
 	condition: CONDITION_VARIABLE
-
-	mutex: MUTEX
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 11:12:19 GMT (Saturday 22nd February 2020)"
-	revision: "7"
+	date: "2020-03-02 10:42:04 GMT (Monday 2nd March 2020)"
+	revision: "8"
 
 class
 	CAD_POLYGON
@@ -164,12 +164,10 @@ feature {NONE} -- Implementation
 			last_included := circular_i_th (offset + included_count - 1)
 			first_excluded := circular_i_th (offset + included_count)
 			if not is_surface_point (last_included) then
---				Result.extend (last_included.surface_intersection (first_excluded))
 				Result.extend (Surface_plane.intersection_point (last_included, first_excluded))
 			end
 			first_included := circular_i_th (offset); last_excluded := circular_i_th (offset - 1)
 			if not is_surface_point (first_included) then
---				Result.extend (first_included.surface_intersection (last_excluded))
 				Result.extend (Surface_plane.intersection_point (first_included, last_excluded))
 			end
 		end

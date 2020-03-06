@@ -6,19 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:06 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-02-25 17:14:07 GMT (Tuesday 25th February 2020)"
+	revision: "5"
 
 deferred class
 	EL_SUSPENDABLE
+
+inherit
+	EL_SINGLE_THREAD_ACCESS
+		redefine
+			make_default
+		end
 
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
+			Precursor
 			create can_resume.make
-			create mutex.make
 		end
 
 feature -- Basic operations
@@ -26,19 +32,21 @@ feature -- Basic operations
 	resume
 			-- unblock thread
 		do
-			mutex.lock; mutex.unlock -- ensures thread is in wait condition before signaling
+			restrict_access
+				 -- ensures thread is in wait condition before signaling
+			end_restriction
 			can_resume.signal
 		end
 
 	suspend
 			-- block thread and wait for signal to resume
 		do
-			mutex.lock
+			restrict_access
 				internal_is_suspended := True
 				on_suspension
-			can_resume.wait (mutex)
+				wait_until_signaled (can_resume)
 				internal_is_suspended := False
-			mutex.unlock
+			end_restriction
 		end
 
 feature -- Status query
@@ -46,9 +54,9 @@ feature -- Status query
 	is_suspended: BOOLEAN
 			--
 		do
-			mutex.lock
+			restrict_access
 				Result := internal_is_suspended
-			mutex.unlock
+			end_restriction
 		end
 
 feature {NONE} -- Event handling
@@ -63,7 +71,5 @@ feature {NONE} -- Implementation
 	internal_is_suspended: BOOLEAN
 
 	can_resume: CONDITION_VARIABLE
-
-	mutex: MUTEX
 
 end

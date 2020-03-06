@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 10:29:56 GMT (Monday 2nd September 2019)"
-	revision: "14"
+	date: "2020-02-25 17:29:23 GMT (Tuesday 25th February 2020)"
+	revision: "15"
 
 class
 	EIFFEL_VIEW_APP
@@ -43,7 +43,8 @@ feature {NONE} -- Constants
 			Result := <<
 				[{EIFFEL_VIEW_APP}, All_routines],
 				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
-				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines]
+				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines],
+				[{EL_LOGGED_WORK_DISTRIBUTION_THREAD}, All_routines]
 			>>
 		end
 

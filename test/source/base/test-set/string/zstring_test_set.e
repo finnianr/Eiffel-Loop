@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:01:40 GMT (Friday 14th February 2020)"
-	revision: "21"
+	date: "2020-03-06 14:09:52 GMT (Friday 6th March 2020)"
+	revision: "22"
 
 class
 	ZSTRING_TEST_SET
@@ -48,11 +48,53 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("prepend_substring",	agent test_prepend_substring)
-			eval.call ("joined", 				agent test_joined)
-			eval.call ("append_substring",	agent test_append_substring)
-			eval.call ("left_adjust",			agent test_left_adjust)
-			eval.call ("xml_escape",			agent test_xml_escape)
+			eval.call ("mirror", agent test_mirror)
+			eval.call ("split", agent test_split)
+			eval.call ("substring_split", agent test_substring_split)
+			eval.call ("append", agent test_append)
+			eval.call ("append_string_general", agent test_append_string_general)
+			eval.call ("append_substring", agent test_append_substring)
+			eval.call ("append_to_string_32", agent test_append_to_string_32)
+			eval.call ("append_unicode", agent test_append_unicode)
+			eval.call ("case_changing", agent test_case_changing)
+			eval.call ("enclose", agent test_enclose)
+			eval.call ("insert_character", agent test_insert_character)
+			eval.call ("insert_string", agent test_insert_string)
+			eval.call ("left_adjust", agent test_left_adjust)
+			eval.call ("prepend", agent test_prepend)
+			eval.call ("prepend_substring", agent test_prepend_substring)
+			eval.call ("prune_all", agent test_prune_all)
+			eval.call ("prune_leading", agent test_prune_leading)
+			eval.call ("prune_trailing", agent test_prune_trailing)
+			eval.call ("put_unicode", agent test_put_unicode)
+			eval.call ("remove_substring", agent test_remove_substring)
+			eval.call ("replace_character", agent test_replace_character)
+			eval.call ("replace_substring", agent test_replace_substring)
+			eval.call ("replace_substring_all", agent test_replace_substring_all)
+			eval.call ("right_adjust", agent test_right_adjust)
+			eval.call ("to_utf_8", agent test_to_utf_8)
+			eval.call ("translate", agent test_translate)
+			eval.call ("ends_with", agent test_ends_with)
+			eval.call ("for_all_split", agent test_for_all_split)
+			eval.call ("has", agent test_has)
+			eval.call ("is_canonically_spaced", agent test_is_canonically_spaced)
+			eval.call ("sort", agent test_sort)
+			eval.call ("starts_with", agent test_starts_with)
+			eval.call ("there_exists_split", agent test_there_exists_split)
+			eval.call ("remove", agent test_remove)
+			eval.call ("remove_head", agent test_remove_head)
+			eval.call ("remove_tail", agent test_remove_tail)
+			eval.call ("index_of", agent test_index_of)
+			eval.call ("joined", agent test_joined)
+			eval.call ("last_index_of", agent test_last_index_of)
+			eval.call ("occurrences", agent test_occurrences)
+			eval.call ("substring_index", agent test_substring_index)
+			eval.call ("unicode_index_of", agent test_unicode_index_of)
+			eval.call ("substring", agent test_substring)
+			eval.call ("bash_escape", agent test_bash_escape)
+			eval.call ("xml_escape", agent test_xml_escape)
+			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
+			eval.call ("unescape", agent test_unescape)
 		end
 
 feature -- Conversion tests

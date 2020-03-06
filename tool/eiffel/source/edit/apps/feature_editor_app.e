@@ -1,6 +1,6 @@
 note
 	description: "[
-		This application can save a lot of unecessary keyboard typing during Eiffel development. It performs 
+		This application can save a lot of unnecessary keyboard typing during Eiffel development. It performs 
 		a series of expansions on shorthand expressions present in a single Eiffel class. In addition to performing
 		expansions, it also alphabetically orders the routines in each feature block. It can be usefully incoporated
 		into EiffelStudio using this external.
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:34:44 GMT (Tuesday 18th February 2020)"
-	revision: "13"
+	date: "2020-03-06 10:17:37 GMT (Friday 6th March 2020)"
+	revision: "14"
 
 class
 	FEATURE_EDITOR_APP

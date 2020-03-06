@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:41:15 GMT (Tuesday 18th February 2020)"
-	revision: "20"
+	date: "2020-02-25 16:57:20 GMT (Tuesday 25th February 2020)"
+	revision: "21"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -28,6 +28,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
+
+	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_DIRECTORY
 
@@ -187,14 +189,14 @@ feature -- Basic operations
 	read_source_files
 		local
 			class_list: like directory_list.item.class_list; list: like sorted_path_list
-			distributer: EL_PROCEDURE_DISTRIBUTER [like Current]
+			distributer: like new_distributer
 			parent_dir: EL_DIR_PATH; source_directory: SOURCE_DIRECTORY
 			source_path: EL_FILE_PATH
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
 			create parent_dir
-			create distributer.make (repository.thread_count)
+			distributer := new_distributer
 
 			directory_list.wipe_out
 			list := sorted_path_list
@@ -235,6 +237,15 @@ feature {NONE} -- Factory
 					list := OS.file_list (path.item, Eiffel_wildcard)
 					Result.append (list)
 				end
+			end
+		end
+
+	new_distributer: EL_PROCEDURE_DISTRIBUTER [like Current]
+		do
+			if Log_manager.is_logging_active then
+				create {EL_LOGGED_PROCEDURE_DISTRIBUTER [like Current]} Result.make (repository.thread_count)
+			else
+				create Result.make (repository.thread_count)
 			end
 		end
 

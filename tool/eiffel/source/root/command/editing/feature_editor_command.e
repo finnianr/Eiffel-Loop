@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 13:49:03 GMT (Tuesday 18th February 2020)"
-	revision: "8"
+	date: "2020-03-06 11:12:31 GMT (Friday 6th March 2020)"
+	revision: "9"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -44,10 +44,10 @@ feature {NONE} -- Implementation
 			Precursor (line)
 		end
 
-	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])
+	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		do
 			feature_list.do_all (agent {CLASS_FEATURE}.expand_shorthand)
-			feature_list.sort
+			feature_list.order_by (agent {CLASS_FEATURE}.name, True)
 		end
 
 	expand (line: ZSTRING)

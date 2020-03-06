@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-17 16:06:05 GMT (Monday 17th February 2020)"
-	revision: "6"
+	date: "2020-03-01 12:35:24 GMT (Sunday 1st March 2020)"
+	revision: "7"
 
 class
 	EL_DOUBLE_MATH
@@ -49,7 +49,7 @@ feature -- Status query
 
 	approximately_equal (u, v, precision: DOUBLE): BOOLEAN
 		local
-			m, p, d: DOUBLE
+			m, p: DOUBLE
 		do
 			m := u.abs.max (v.abs); p := m * precision
 			Result := (u - v).abs < p

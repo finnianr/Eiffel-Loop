@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-03-06 10:33:58 GMT (Friday 6th March 2020)"
+	revision: "5"
 
 class
 	FEATURE_CONSTANTS
@@ -18,37 +18,39 @@ feature {NONE} -- Constants
 		once
 			create Result.make_equal (20)
 
+--			One word
 			Result ["ac"] := "Access"
 			Result ["at"] := "Attributes"
-			Result ["aa"] := "Access attributes"
-			Result ["bo"] := "Basic operations"
 			Result ["co"] := "Constants"
-			Result ["cp"] := "Comparison"
-			Result ["cs"] := "Contract Support"
-			Result ["cv"] := "Conversion"
-			Result ["cm"] := "Cursor movement"
-			Result ["dm"] := "Dimensions"
-			Result ["dp"] := "Disposal"
+			Result ["com"] := "Comparison"
+			Result ["con"] := "Conversion"
+			Result ["di"] := "Dimensions"
+			Result ["dis"] := "Disposal"
 			Result ["du"] := "Duplication"
-			Result ["ec"] := "Element change"
-			Result ["er"] := "Evolicity reflection"
-			Result ["ev"] := "Event handling"
 			Result ["fa"] := "Factory"
 			Result ["im"] := "Implementation"
-			Result ["ip"] := "Inapplicable"
-			Result ["ia"] := "Internal attributes"
 			Result ["in"] := "Initialization"
+			Result ["ina"] := "Inapplicable"
 			Result ["me"] := "Measurement"
 			Result ["mi"] := "Miscellaneous"
 			Result ["ob"] := "Obsolete"
-			Result ["rm"] := "Removal"
-			Result ["rs"] := "Resizing"
+			Result ["re"] := "Removal"
+			Result ["te"] := "Tests"
+			Result ["tr"] := "Transformation"
+			Result ["un"] := "Unimplemented"
+
+--			Two words
+			Result ["aa"] := "Access attributes"
+			Result ["bo"] := "Basic operations"
+			Result ["cs"] := "Contract Support"
+			Result ["cm"] := "Cursor movement"
+			Result ["ec"] := "Element change"
+			Result ["eh"] := "Event handling"
+			Result ["er"] := "Evolicity reflection"
+			Result ["ia"] := "Internal attributes"
 			Result ["sc"] := "Status change"
 			Result ["sq"] := "Status query"
-			Result ["sr"] := "Status report"
 			Result ["td"] := "Type definitions"
-			Result ["tf"] := "Transformation"
-			Result ["un"] := "Unimplemented"
 		end
 
 end

@@ -12,7 +12,7 @@ inherit
 
 feature -- Access
 
-	Template: STRING is
+	Template: STRING =
 		--
 	"[
 		cp

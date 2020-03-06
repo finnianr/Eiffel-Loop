@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:51:59 GMT (Thursday 20th February 2020)"
-	revision: "9"
+	date: "2020-03-01 11:56:53 GMT (Sunday 1st March 2020)"
+	revision: "10"
 
 class
 	EVOLICITY_TEST_APP
@@ -74,6 +74,11 @@ feature -- Test
 		end
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [EVOLICITY_TUPLE_CONTEXT]
+		do
+			create Result
+		end
 
 	initialize_root_context
 			--

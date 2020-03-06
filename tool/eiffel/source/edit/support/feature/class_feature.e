@@ -6,19 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 8:23:49 GMT (Monday 2nd September 2019)"
-	revision: "13"
+	date: "2020-03-06 11:49:34 GMT (Friday 6th March 2020)"
+	revision: "14"
 
-class
+deferred class
 	CLASS_FEATURE
 
 inherit
-	COMPARABLE
+	ANY
 
 	EL_ZSTRING_CONSTANTS
-
-create
-	make, make_with_lines
 
 feature {NONE} -- Initialization
 
@@ -69,50 +66,12 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Element change
-
 	expand_shorthand
 			-- expand shorthand notation
-		local
-			line, variable_name: ZSTRING; variable_name_list: EL_ARRAYED_LIST [ZSTRING]
-			pos_marker, i, pos_at_from, tab_count: INTEGER; from_shorthand_found: BOOLEAN
-		do
-			line := lines.first
-			if line.starts_with (Setter_shorthand) then
-				put_attribute_setter_lines (line.substring_end (Setter_shorthand.count + 2))
-
-			elseif line.has_substring (Insertion_symbol) then
-				create variable_name_list.make (3)
-				from pos_marker := 1 until pos_marker = 0 loop
-					pos_marker := line.substring_index (Insertion_symbol, pos_marker)
-					if pos_marker > 0 then
-						from i := pos_marker - 1 until Boundary_characters.has (line.z_code (i)) or i = 1 loop
-							i := i - 1
-						end
-						variable_name := line.substring (i + 1, pos_marker - 1)
-						line.replace_substring (Argument_template #$ [variable_name, variable_name], i + 1, pos_marker + 1)
-						variable_name_list.extend (variable_name)
-					end
-				end
-				if not variable_name_list.is_empty then
-					insert_attribute_assignments (variable_name_list)
-				end
-			end
-			across body_interval as n until from_shorthand_found loop
-				lines.go_i_th (n.item)
-				line := lines.item
-				pos_at_from := line.substring_index (From_shorthand, 1)
-				if pos_at_from > 0 then
-					tab_count := line.leading_occurrences ('%T')
-					if tab_count + 1 = pos_at_from then
-						from_shorthand_found := True
-					end
-				end
-			end
-			if from_shorthand_found then
-				replace_line (expanded_from_loop (line.substring_end (pos_at_from + From_shorthand.count + 1)), tab_count)
-			end
+		deferred
 		end
+
+feature -- Element change
 
 	set_lines (a_lines: like lines)
 		do
@@ -123,13 +82,6 @@ feature -- Element change
 			found_line := Empty_string
 			lines.start
 			lines.put_auto_edit_comment_right ("replacement", 3)
-		end
-
-feature -- Comparison
-
-	is_less alias "<" (other: like Current): BOOLEAN
-		do
-			Result := name < other.name
 		end
 
 feature {NONE} -- Implementation
@@ -187,46 +139,6 @@ feature {NONE} -- Implementation
 			create Result.make_with_lines (loop_code)
 		end
 
-	insert_attribute_assignments (variable_names: EL_ARRAYED_LIST [ZSTRING])
-		local
-			l_found: BOOLEAN
-			assignment_code: ZSTRING
-		do
-			-- Find 'do' keyword
-			from lines.start until lines.after or l_found loop
-				if lines.item.ends_with (Keyword_do) and then lines.item.z_code (lines.item.count - 2) = Tab_code then
-					l_found := True
-				end
-				lines.forth
-			end
-			if l_found then
-				create assignment_code.make_filled ('%T', 3)
-				across variable_names as variable loop
-					if assignment_code.count > 3 then
-						assignment_code.append_string_general (once "; ")
-					end
-					assignment_code.append (Assignment_template #$ [variable.item, variable.item])
-				end
-				lines.back
-				lines.put_right (assignment_code)
-			end
-		end
-
-	put_attribute_setter_lines (variable_name: ZSTRING)
-		local
-			setter_lines: EL_ZSTRING_LIST
-		do
-			Atttribute_setter_template.set_variable (once "name", variable_name)
-			lines.wipe_out
-			create setter_lines.make_with_lines (Atttribute_setter_template.substituted)
-			setter_lines.indent (1)
-			lines.append (setter_lines)
-
-			name.wipe_out
-			name.append_string_general ("set_")
-			name.append (variable_name)
-		end
-
 	replace_line (a_lines: like lines; tab_count: INTEGER)
 		do
 			if not lines.after then
@@ -266,11 +178,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- String Constants
 
-	Argument_template: ZSTRING
-		once
-			Result := "a_%S: like %S"
-		end
-
 	Assignment_template: ZSTRING
 		once
 			Result := "%S := a_%S"
@@ -296,11 +203,6 @@ feature {NONE} -- String Constants
 			Result := "@from"
 		end
 
-	Insertion_symbol: ZSTRING
-		once
-			Result := ":@"
-		end
-
 	Keyword_do: ZSTRING
 		once
 			Result := "do"
@@ -309,11 +211,6 @@ feature {NONE} -- String Constants
 	Numeric_increment: ZSTRING
 		once
 			Result := "%S := %S + 1"
-		end
-
-	Setter_shorthand: ZSTRING
-		once
-			Result := "%T@set"
 		end
 
 	Var_increment: ZSTRING
@@ -327,25 +224,6 @@ feature {NONE} -- String Constants
 		end
 
 feature {NONE} -- Constants
-
-	Boundary_characters: ARRAY [NATURAL]
-		once
-			Result := << ('(').natural_32_code, (' ').natural_32_code, (';').natural_32_code >>
-		end
-
-	Atttribute_setter_template: EL_ZSTRING_TEMPLATE
-		local
-			str: STRING
-		once
-			str := "[
-				set_$name (a_$name: like $name)
-					do
-						$name := a_$name
-					end
-			]"
-			str.append_character ('%N')
-			create Result.make (str)
-		end
 
 	Loop_template: EL_ZSTRING_TEMPLATE
 		once

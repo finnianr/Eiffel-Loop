@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:48:41 GMT (Friday 14th February 2020)"
-	revision: "9"
+	date: "2020-03-06 14:13:46 GMT (Friday 6th March 2020)"
+	revision: "10"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -25,14 +25,107 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("search_path_list",				agent test_search_path_list)
-			eval.call ("delete_content_with_action",	agent test_delete_content_with_action)
-			eval.call ("delete_with_action",				agent test_delete_with_action)
-			eval.call ("read_directories",				agent test_read_directories)
-			eval.call ("read_directory_files",			agent test_read_directory_files)
+			eval.call ("gnome_virtual_file_system", agent test_gnome_virtual_file_system)
+			eval.call ("relative_file_move_and_copy", agent test_relative_file_move_and_copy)
+			eval.call ("absolute_file_move_and_copy", agent test_absolute_file_move_and_copy)
+			eval.call ("delete_paths", agent test_delete_paths)
+			eval.call ("dir_tree_delete", agent test_dir_tree_delete)
+			eval.call ("directory_info", agent test_directory_info)
+			eval.call ("find_directories", agent test_find_directories)
+			eval.call ("find_files", agent test_find_files)
+			eval.call ("search_path_list", agent test_search_path_list)
+			eval.call ("read_directories", agent test_read_directories)
+			eval.call ("read_directory_files", agent test_read_directory_files)
+			eval.call ("delete_content_with_action", agent test_delete_content_with_action)
+			eval.call ("delete_with_action", agent test_delete_with_action)
 		end
 
 feature -- Tests
+
+	test_absolute_file_move_and_copy
+		do
+			lio.enter ("test_absolute_file_move_and_copy")
+			file_move_and_copy (False)
+			lio.exit
+		end
+
+	test_delete_content_with_action
+		local
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
+			path_count: INTEGER
+		do
+			create deleted_count
+			create l_dir.make (Help_pages_dir)
+			path_count := l_dir.file_count (True) + l_dir.directory_count (True)
+			l_dir.delete_content_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
+			assert ("all files deleted", path_count = deleted_count.item)
+			assert ("tree exists", Help_pages_dir.exists)
+			assert ("is_empty", l_dir.is_empty)
+		end
+
+	test_delete_paths
+		local
+			l_file_set: like file_set
+		do
+			lio.enter ("delete_paths")
+			l_file_set := file_set.subset_exclude (agent path_contains (?, Help_pages_bcd_dir))
+			l_file_set := l_file_set.subset_exclude (agent path_contains (?, Wireless_notes_path))
+			Command.new_delete_file (Work_area_dir + Wireless_notes_path).execute
+			Command.new_delete_tree (Work_area_dir.joined_dir_path (Help_pages_bcd_dir)).execute
+
+			execute_and_assert (all_files_cmd (Work_area_dir), l_file_set)
+
+			lio.exit
+		end
+
+	test_delete_with_action
+		local
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
+			path_count: INTEGER
+		do
+			create deleted_count
+			create l_dir.make (Help_pages_dir)
+			path_count := l_dir.file_count (True) + l_dir.directory_count (True) + 1
+			l_dir.delete_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
+			assert ("all files deleted", path_count = deleted_count.item)
+			assert ("not tree exists", not Help_pages_dir.exists)
+		end
+
+	test_dir_tree_delete
+		local
+			help_dir: EL_DIR_PATH
+		do
+			lio.enter ("test_dir_tree_delete")
+			help_dir := Work_area_dir.joined_dir_path (Help_pages)
+			OS.delete_tree (help_dir)
+			assert ("no longer exists", not help_dir.exists)
+			lio.exit
+		end
+
+	test_directory_info
+		local
+			directory_info_cmd: like Command.new_directory_info
+		do
+			lio.enter ("test_directory_info")
+			directory_info_cmd := Command.new_directory_info (Work_area_dir)
+			assert ("same file count", directory_info_cmd.file_count = file_set.count)
+			assert ("same total bytes", directory_info_cmd.size = total_file_size)
+			lio.exit
+		end
+
+	test_find_directories
+		do
+			lio.enter ("test_find_directories")
+			find_directories (True); find_directories (False)
+			lio.exit
+		end
+
+	test_find_files
+		do
+			lio.enter ("test_find_files")
+			find_files (True); find_files (False)
+			lio.exit
+		end
 
 	test_gnome_virtual_file_system
 		local
@@ -75,76 +168,6 @@ feature -- Tests
 			end
 			execute_and_assert (Command.new_find_files (Current_work_area_dir, "*"), l_file_set)
 			lio.exit
-		end
-
-	test_relative_file_move_and_copy
-		do
-			lio.enter ("test_relative_file_move_and_copy")
-			file_move_and_copy (True)
-			lio.exit
-		end
-
-	test_absolute_file_move_and_copy
-		do
-			lio.enter ("test_absolute_file_move_and_copy")
-			file_move_and_copy (False)
-			lio.exit
-		end
-
-	test_delete_paths
-		local
-			l_file_set: like file_set
-		do
-			lio.enter ("delete_paths")
-			l_file_set := file_set.subset_exclude (agent path_contains (?, Help_pages_bcd_dir))
-			l_file_set := l_file_set.subset_exclude (agent path_contains (?, Wireless_notes_path))
-			Command.new_delete_file (Work_area_dir + Wireless_notes_path).execute
-			Command.new_delete_tree (Work_area_dir.joined_dir_path (Help_pages_bcd_dir)).execute
-
-			execute_and_assert (all_files_cmd (Work_area_dir), l_file_set)
-
-			lio.exit
-		end
-
-	test_dir_tree_delete
-		local
-			help_dir: EL_DIR_PATH
-		do
-			lio.enter ("test_dir_tree_delete")
-			help_dir := Work_area_dir.joined_dir_path (Help_pages)
-			OS.delete_tree (help_dir)
-			assert ("no longer exists", not help_dir.exists)
-			lio.exit
-		end
-
-	test_directory_info
-		local
-			directory_info_cmd: like Command.new_directory_info
-		do
-			lio.enter ("test_directory_info")
-			directory_info_cmd := Command.new_directory_info (Work_area_dir)
-			assert ("same file count", directory_info_cmd.file_count = file_set.count)
-			assert ("same total bytes", directory_info_cmd.size = total_file_size)
-			lio.exit
-		end
-
-	test_find_directories
-		do
-			lio.enter ("test_find_directories")
-			find_directories (True); find_directories (False)
-			lio.exit
-		end
-
-	test_find_files
-		do
-			lio.enter ("test_find_files")
-			find_files (True); find_files (False)
-			lio.exit
-		end
-
-	test_search_path_list
-		do
-			assert ("has estudio", Execution_environment.search_path_has ("estudio"))
 		end
 
 	test_read_directories
@@ -192,31 +215,16 @@ feature -- Tests
 			assert_same_entries (l_dir.recursive_files_with_extension ("text"), find_files_cmd.path_list)
 		end
 
-	test_delete_content_with_action
-		local
-			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
-			path_count: INTEGER
+	test_relative_file_move_and_copy
 		do
-			create deleted_count
-			create l_dir.make (Help_pages_dir)
-			path_count := l_dir.file_count (True) + l_dir.directory_count (True)
-			l_dir.delete_content_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
-			assert ("all files deleted", path_count = deleted_count.item)
-			assert ("tree exists", Help_pages_dir.exists)
-			assert ("is_empty", l_dir.is_empty)
+			lio.enter ("test_relative_file_move_and_copy")
+			file_move_and_copy (True)
+			lio.exit
 		end
 
-	test_delete_with_action
-		local
-			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
-			path_count: INTEGER
+	test_search_path_list
 		do
-			create deleted_count
-			create l_dir.make (Help_pages_dir)
-			path_count := l_dir.file_count (True) + l_dir.directory_count (True) + 1
-			l_dir.delete_with_action (agent on_files_deleted (?, deleted_count), Void, 5)
-			assert ("all files deleted", path_count = deleted_count.item)
-			assert ("not tree exists", not Help_pages_dir.exists)
+			assert ("has estudio", Execution_environment.search_path_has ("estudio"))
 		end
 
 feature {NONE} -- Events
@@ -243,9 +251,9 @@ feature {NONE} -- Events
 
 feature {NONE} -- Filters
 
-	file_within_depth (dir_path: EL_DIR_PATH; path: EL_FILE_PATH; interval: INTEGER_INTERVAL): BOOLEAN
+	directory_path_contains (path: EL_DIR_PATH; str: ZSTRING): BOOLEAN
 		do
-			Result := interval.has (path.relative_path (dir_path).steps.count)
+			Result := path.to_string.has_substring (str)
 		end
 
 	directory_within_depth (dir_path, path: EL_DIR_PATH; interval: INTEGER_INTERVAL): BOOLEAN
@@ -257,9 +265,9 @@ feature {NONE} -- Filters
 			end
 		end
 
-	directory_path_contains (path: EL_DIR_PATH; str: ZSTRING): BOOLEAN
+	file_within_depth (dir_path: EL_DIR_PATH; path: EL_FILE_PATH; interval: INTEGER_INTERVAL): BOOLEAN
 		do
-			Result := path.to_string.has_substring (str)
+			Result := interval.has (path.relative_path (dir_path).steps.count)
 		end
 
 	path_contains (path: EL_FILE_PATH; str: ZSTRING): BOOLEAN
@@ -273,6 +281,11 @@ feature {NONE} -- Filters
 		end
 
 feature {NONE} -- Implementation
+
+	all_files_cmd (dir_path: EL_DIR_PATH): like Command.new_find_files
+		do
+			Result := Command.new_find_files (dir_path, "*")
+		end
 
 	assert_same_entries (entries_1, entries_2: LIST [EL_PATH])
 		do
@@ -291,6 +304,14 @@ feature {NONE} -- Implementation
 			assert ("same count", entries_1.count = entries_2.count)
 			assert ("all 1st in 2nd", across entries_1 as entry all entries_2.has (entry.item) end)
 			assert ("all 2nd in 1st", across entries_2 as entry all entries_1.has (entry.item) end)
+		end
+
+	dir_set_absolute: like dir_set
+		do
+			create Result.make_equal (dir_set.count)
+			across dir_set as path loop
+				Result.put (Directory.current_working.joined_dir_path (path.item))
+			end
 		end
 
 	execute_all (commands: ARRAY [EL_COMMAND])
@@ -327,6 +348,41 @@ feature {NONE} -- Implementation
 			end
 			assert ("same set count", find_cmd.path_list.count = a_path_set.count)
 			assert ("same set members", across find_cmd.path_list as path all a_path_set.has (path.item) end)
+		end
+
+	file_move_and_copy (use_relative_paths: BOOLEAN)
+		local
+			copy_file_cmd: like Command.new_copy_file
+			l_file_set: like file_set; mint_copy_dir, dir_path: EL_DIR_PATH
+		do
+			if use_relative_paths then
+				l_file_set := new_file_set; dir_path := Work_area_dir
+			else
+				l_file_set := file_set_absolute; dir_path := Current_work_area_dir
+			end
+			l_file_set.put (dir_path + Wireless_notes_path_copy)
+			mint_copy_dir := Help_pages_mint_dir.joined_dir_path ("copy")
+			l_file_set.put (dir_path + mint_copy_dir.joined_file_path (Wireless_notes_path.base))
+
+			l_file_set.prune (dir_path + Wireless_notes_path)
+			l_file_set.put (dir_path + (Help_pages_mint_docs_dir + Wireless_notes_path.base))
+
+			across new_file_tree [Help_pages_mint_docs_dir] as path loop
+				l_file_set.put (dir_path.joined_dir_path (mint_copy_dir).joined_file_steps (<<
+					{STRING_32} "docs", path.item.to_string_32
+				>>))
+			end
+			execute_all (<<
+				Command.new_copy_file (dir_path + Wireless_notes_path, dir_path + Wireless_notes_path_copy),
+				Command.new_make_directory (dir_path.joined_dir_path (mint_copy_dir)),
+				Command.new_copy_file (dir_path + Wireless_notes_path, dir_path.joined_dir_path (mint_copy_dir)),
+				Command.new_copy_tree (
+					dir_path.joined_dir_path (Help_pages_mint_docs_dir), dir_path.joined_dir_path (mint_copy_dir)
+				),
+				Command.new_move_file (dir_path + Wireless_notes_path, dir_path.joined_dir_path (Help_pages_mint_docs_dir))
+			>>)
+
+			execute_and_assert (all_files_cmd (dir_path), l_file_set)
 		end
 
 	find_directories (use_relative_path: BOOLEAN)
@@ -391,68 +447,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	file_move_and_copy (use_relative_paths: BOOLEAN)
-		local
-			copy_file_cmd: like Command.new_copy_file
-			l_file_set: like file_set; mint_copy_dir, dir_path: EL_DIR_PATH
-		do
-			if use_relative_paths then
-				l_file_set := new_file_set; dir_path := Work_area_dir
-			else
-				l_file_set := file_set_absolute; dir_path := Current_work_area_dir
-			end
-			l_file_set.put (dir_path + Wireless_notes_path_copy)
-			mint_copy_dir := Help_pages_mint_dir.joined_dir_path ("copy")
-			l_file_set.put (dir_path + mint_copy_dir.joined_file_path (Wireless_notes_path.base))
-
-			l_file_set.prune (dir_path + Wireless_notes_path)
-			l_file_set.put (dir_path + (Help_pages_mint_docs_dir + Wireless_notes_path.base))
-
-			across new_file_tree [Help_pages_mint_docs_dir] as path loop
-				l_file_set.put (dir_path.joined_dir_path (mint_copy_dir).joined_file_steps (<<
-					{STRING_32} "docs", path.item.to_string_32
-				>>))
-			end
-			execute_all (<<
-				Command.new_copy_file (dir_path + Wireless_notes_path, dir_path + Wireless_notes_path_copy),
-				Command.new_make_directory (dir_path.joined_dir_path (mint_copy_dir)),
-				Command.new_copy_file (dir_path + Wireless_notes_path, dir_path.joined_dir_path (mint_copy_dir)),
-				Command.new_copy_tree (
-					dir_path.joined_dir_path (Help_pages_mint_docs_dir), dir_path.joined_dir_path (mint_copy_dir)
-				),
-				Command.new_move_file (dir_path + Wireless_notes_path, dir_path.joined_dir_path (Help_pages_mint_docs_dir))
-			>>)
-
-			execute_and_assert (all_files_cmd (dir_path), l_file_set)
-		end
-
-	dir_set_absolute: like dir_set
-		do
-			create Result.make_equal (dir_set.count)
-			across dir_set as path loop
-				Result.put (Directory.current_working.joined_dir_path (path.item))
-			end
-		end
-
-	all_files_cmd (dir_path: EL_DIR_PATH): like Command.new_find_files
-		do
-			Result := Command.new_find_files (dir_path, "*")
-		end
-
 feature {NONE} -- Internal attributes
 
 	dir_set: EL_HASH_SET [EL_DIR_PATH]
 
 feature {NONE} -- Constants
 
-	Help_pages_dir: EL_DIR_PATH
-		once
-			Result := Work_area_dir.joined_dir_tuple ([Help_pages])
-		end
-
 	File_protocol: ZSTRING
 		once
 			Result := "file"
+		end
+
+	Help_pages_dir: EL_DIR_PATH
+		once
+			Result := Work_area_dir.joined_dir_tuple ([Help_pages])
 		end
 
 	Wireless_notes_path_copy: EL_FILE_PATH

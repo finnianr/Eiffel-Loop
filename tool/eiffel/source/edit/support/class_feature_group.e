@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:39:35 GMT (Monday 5th November 2018)"
-	revision: "5"
+	date: "2020-03-06 13:29:08 GMT (Friday 6th March 2020)"
+	revision: "6"
 
 class
 	CLASS_FEATURE_GROUP
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	features: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE]
+	features: EL_ARRAYED_LIST [CLASS_FEATURE]
 
 	header: SOURCE_LINES
 
@@ -42,6 +42,13 @@ feature -- Access
 				Result := line.substring_end (line.substring_index (Comment_marks, 1) + 3)
 				Result.right_adjust
 			end
+		end
+
+feature -- Element change
+
+	append (line: ZSTRING)
+		do
+			features.last.lines.extend (line)
 		end
 
 feature {NONE} -- Constants

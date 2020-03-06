@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:35:18 GMT (Tuesday 18th February 2020)"
-	revision: "6"
+	date: "2020-03-06 13:29:08 GMT (Friday 6th March 2020)"
+	revision: "7"
 
 class
 	SOURCE_MODEL
@@ -107,7 +107,7 @@ feature {NONE} -- State handlers
 			-- find first feature in feature group
 		do
 			if code_line_is_feature_declaration then
-				last_feature_extend (line, True)
+				add_feature (line)
 				state := agent find_next_feature
 			else
 				feature_groups.last.header.extend (line)
@@ -139,10 +139,10 @@ feature {NONE} -- State handlers
 				state := agent find_first_feature
 
 			elseif code_line_is_feature_declaration then
-				last_feature_extend (line, True)
+				add_feature (line)
 				state := agent find_next_feature
 			else
-				last_feature_extend (line, False)
+				feature_groups.last.append (line)
 			end
 			if code_line_is_verbatim_string_start then
 				state := agent find_verbatim_string_end
@@ -151,7 +151,7 @@ feature {NONE} -- State handlers
 
 	find_verbatim_string_end (line: ZSTRING)
 		do
-			last_feature_extend (line, False)
+			feature_groups.last.append (line)
 			if code_line_is_verbatim_string_end then
 				state := agent find_next_feature
 			end
@@ -159,16 +159,29 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	last_feature_extend (line: ZSTRING; is_new: BOOLEAN)
+	add_feature (line: ZSTRING)
+		local
+			l_feature: CLASS_FEATURE; pos_equals: INTEGER
 		do
-			if is_new then
-				feature_groups.last.features.extend (create {CLASS_FEATURE}.make (line))
+			pos_equals := line.index_of ('=', 1)
+			if pos_equals > 1 and then line [pos_equals - 1] /= '#' then
+				create {CONSTANT_FEATURE} l_feature.make (line)
+
+			elseif line.starts_with (Setter_shorthand) then
+				create {SETTER_SHORTHAND_FEATURE} l_feature.make (line)
+
+			elseif line.has_substring (Insertion_symbol) then
+				create {MAKE_ROUTINE_FEATURE} l_feature.make (line)
+
+			elseif across Test_evaluator_do_all as str all line.has_substring (str.item) end then
+				create {EQA_TEST_EVALUATION_CALLBACK_FEATURE} l_feature.make (Current, line)
 			else
-				feature_groups.last.features.last.lines.extend (line)
+				create {ROUTINE_FEATURE} l_feature.make (line)
 			end
+			feature_groups.last.features.extend (l_feature)
 		end
 
-feature {NONE} -- Implementation attributes
+feature {CLASS_FEATURE} -- Implementation attributes
 
 	class_footer: SOURCE_LINES
 
@@ -184,6 +197,11 @@ feature {NONE} -- Implementation attributes
 
 feature {NONE} -- Constants
 
+	Test_evaluator_do_all: ARRAY [ZSTRING]
+		once
+			Result := << "do_all", "EL_EQA_TEST_EVALUATOR)" >>
+		end
+
 	Default_group: CLASS_FEATURE_GROUP
 		once
 			create Result.make ("")
@@ -192,6 +210,16 @@ feature {NONE} -- Constants
 	Feature_header_export: EL_ZSTRING
 		once
 			Result := "feature {%S} -- "
+		end
+
+	Insertion_symbol: ZSTRING
+		once
+			Result := ":@"
+		end
+
+	Setter_shorthand: ZSTRING
+		once
+			Result := "%T@set"
 		end
 
 end

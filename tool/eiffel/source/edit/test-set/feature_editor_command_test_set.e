@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 13:57:58 GMT (Tuesday 18th February 2020)"
-	revision: "2"
+	date: "2020-03-06 13:24:00 GMT (Friday 6th March 2020)"
+	revision: "3"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -41,8 +41,7 @@ feature {NONE} -- Implementation
 
 	edit_file (file_path: EL_FILE_PATH)
 		local
-			command: FEATURE_EDITOR_COMMAND
-			bom: BOOLEAN
+			command: FEATURE_EDITOR_COMMAND; bom: BOOLEAN
 		do
 			bom := has_bom (file_path)
 			create command.make (file_path)
@@ -70,9 +69,13 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
 		once
 			create Result.make_equal (11)
-			Result ["el_copy_file_impl.e"] := 1046023952
+			Result ["el_copy_file_impl.e"] := 2820257958
 			Result ["el_mp3_convert_command.e"] := 4019820802
-			Result ["el_subject_line_decoder_test_set.e"] := 27958385
+
+			-- Test insertions for: do_all (eval: EL_EQA_TEST_EVALUATOR)
+			-- and test correct BOM marker for UTF-8 encoding
+			Result ["el_subject_line_decoder_test_set.e"] := 4132782535
+
 			Result ["job_duration_parser.e"] := 287350020
 			Result ["subscription_delivery_email.e"] := 4210816405
 		end

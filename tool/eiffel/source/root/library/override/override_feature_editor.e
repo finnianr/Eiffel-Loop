@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 10:50:11 GMT (Friday 18th December 2015)"
 	revision: "1"
@@ -28,7 +28,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 feature {NONE} -- Implementation
 
-	edit_feature_group (feature_list: EL_SORTABLE_ARRAYED_LIST [CLASS_FEATURE])
+	edit_feature_group (feature_list: EL_ARRAYED_LIST [CLASS_FEATURE])
 		do
 			across feature_list as l_feature loop
 				feature_edit_actions.search (l_feature.item.name)

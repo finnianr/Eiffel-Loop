@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:50:29 GMT (Friday 14th February 2020)"
-	revision: "75"
+	date: "2020-03-06 18:40:36 GMT (Friday 6th March 2020)"
+	revision: "76"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [CHAIN_TEST_SET]
+	test_type: TUPLE [PATH_TEST_SET]
 		do
 			create Result
 		end

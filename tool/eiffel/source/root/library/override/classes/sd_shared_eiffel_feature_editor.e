@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2016-03-04 12:16:25 GMT (Friday 4th March 2016)"
 	revision: "1"
@@ -25,7 +25,7 @@ feature -- Basic operations
 
 	write_edited_lines (output_path: EL_FILE_PATH)
 		local
-			class_feature: CLASS_FEATURE
+			class_feature: ROUTINE_FEATURE
 			type_definition_group: CLASS_FEATURE_GROUP
 		do
 --			Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
@@ -41,7 +41,7 @@ feature -- Basic operations
 
 --			Type_widget_factory: SD_WIDGET_FACTORY
 			type_definition_group := new_feature_group ("NONE", "Type definitions")
-			type_definition_group.features.extend (create {CLASS_FEATURE}.make_with_lines (Source_type_widget_factory))
+			type_definition_group.features.extend (create {ROUTINE_FEATURE}.make_with_lines (Source_type_widget_factory))
 			type_definition_group.features.last.lines.indent (1)
 
 			feature_groups.extend (type_definition_group)

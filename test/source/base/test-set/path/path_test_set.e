@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:15:16 GMT (Friday 14th February 2020)"
-	revision: "12"
+	date: "2020-03-06 14:11:55 GMT (Friday 6th March 2020)"
+	revision: "13"
 
 class
 	PATH_TEST_SET
@@ -28,6 +28,10 @@ feature -- Basic operations
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("joined_steps", agent test_joined_steps)
+			evaluator.call ("make_from_steps", agent test_make_from_steps)
+			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
+			evaluator.call ("parent_of", agent test_parent_of)
 		end
 
 feature -- Tests
@@ -54,6 +58,25 @@ feature -- Tests
 			assert ("same path", config_path.to_string.to_latin_1 ~ "/home/finnian/.config")
 		end
 
+	test_parent_of
+		local
+			dir_home, dir: EL_DIR_PATH; dir_string, dir_string_home: ZSTRING
+			is_parent: BOOLEAN
+		do
+			create dir_string.make_empty
+			dir_string_home := "/home/finnian"
+			dir_home := dir_string_home
+			across Path_string.split ('/') as step loop
+				if step.cursor_index > 1 then
+					dir_string.append_character ('/')
+				end
+				dir_string.append (step.item)
+				dir := dir_string
+				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
+				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
+			end
+		end
+
 	test_universal_relative_path
 		local
 			path_1, relative_path: EL_FILE_PATH; path_2: EL_DIR_PATH
@@ -77,36 +100,17 @@ feature -- Tests
 			log.exit
 		end
 
-	test_parent_of
-		local
-			dir_home, dir: EL_DIR_PATH; dir_string, dir_string_home: ZSTRING
-			is_parent: BOOLEAN
-		do
-			create dir_string.make_empty
-			dir_string_home := "/home/finnian"
-			dir_home := dir_string_home
-			across Path_string.split ('/') as step loop
-				if step.cursor_index > 1 then
-					dir_string.append_character ('/')
-				end
-				dir_string.append (step.item)
-				dir := dir_string
-				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
-				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
-			end
-		end
-
 feature {NONE} -- Constants
-
-	Path_string: ZSTRING
-		once
-			Result := "/home/finnian/Documents/Eiffel"
-		end
 
 	Eiffel_dir: EL_DIR_PATH
 		once
 			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
 			Result.expand
+		end
+
+	Path_string: ZSTRING
+		once
+			Result := "/home/finnian/Documents/Eiffel"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 15:51:41 GMT (Thursday 30th January 2020)"
-	revision: "2"
+	date: "2020-03-02 10:35:33 GMT (Monday 2nd March 2020)"
+	revision: "3"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -20,8 +20,6 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_REFLECTION_CONSTANTS
-
 create
 	make
 
@@ -31,42 +29,39 @@ feature {NONE} -- Initialization
 		require
 			enough_field_names: tuple.count = field_names.occurrences (',') + 1
 		local
-			tuple_info: like Tuple_info_table.item; type, index: INTEGER
-			field_type: TYPE [ANY]
+			name_list: EL_STRING_8_LIST; type, index: INTEGER
 		do
 			make_context
 			type := Eiffel.dynamic_type (tuple)
-			if Tuple_info_table.has_key (type) then
-				tuple_info := Tuple_info_table.found_item
+			if Name_list_table.has_key (type) then
+				name_list := Name_list_table.found_item
 			else
-				create tuple_info
-				tuple_info.field_types := create {EL_TUPLE_TYPE_ARRAY}.make_from_tuple (tuple)
-				tuple_info.name_list := create {EL_STRING_8_LIST}.make_with_separator (field_names, ',', True)
-				Tuple_info_table.extend (tuple_info, type)
+				create name_list.make_with_separator (field_names, ',', True)
+				Name_list_table.extend (name_list, type)
 			end
-			across tuple_info.name_list as name loop
+			across name_list as name loop
 				index := name.cursor_index
-				field_type := tuple_info.field_types [index]
-				inspect Eiffel.abstract_type (field_type.type_id)
-					when Integer_32_type then
+				inspect tuple.item_code (index)
+					when {TUPLE}.Integer_32_code then
 						put_integer (name.item, tuple.integer_32_item (index))
-					when Natural_32_type then
+					when {TUPLE}.Natural_32_code then
 						put_natural (name.item, tuple.natural_32_item (index))
-					when Real_32_type then
+					when {TUPLE}.Real_32_code then
 						put_real (name.item, tuple.real_32_item (index))
-					when Real_64_type then
+					when {TUPLE}.Real_64_code then
 						put_double (name.item, tuple.real_64_item (index))
-					when Boolean_type then
+					when {TUPLE}.Boolean_code then
 						put_boolean (name.item, tuple.boolean_item (index))
-					when Reference_type then
+					when {TUPLE}.Reference_code then
 						put_variable (tuple.reference_item (index), name.item)
-				else end
+				else
+				end
 			end
 		end
 
 feature {NONE} -- Constants
 
-	Tuple_info_table: HASH_TABLE [TUPLE [field_types: EL_TUPLE_TYPE_ARRAY; name_list: EL_STRING_8_LIST], INTEGER]
+	Name_list_table: HASH_TABLE [EL_STRING_8_LIST, INTEGER]
 		once
 			 create Result.make (3)
 		end
