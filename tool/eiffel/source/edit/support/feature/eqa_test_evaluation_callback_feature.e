@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 12:49:15 GMT (Friday 6th March 2020)"
-	revision: "1"
+	date: "2020-03-07 9:35:14 GMT (Saturday 7th March 2020)"
+	revision: "2"
 
 class
 	EQA_TEST_EVALUATION_CALLBACK_FEATURE
@@ -33,9 +33,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_model: like model; line: ZSTRING)
+	make (a_feature_group_list: like feature_group_list; line: ZSTRING)
 		do
-			model := a_model
+			feature_group_list := a_feature_group_list
 			make_feature (line)
 		end
 
@@ -50,7 +50,7 @@ feature -- Element change
 			eval := lines.first.substring_between_general ("(", ":", 1)
 
 			create do_end_list.make (20)
-			across model.feature_groups as group loop
+			across feature_group_list as group loop
 				group_name := group.item.name.as_lower
 				if across Test_endings as ending some group_name.ends_with (ending.item) end then
 					across group.item.features as l_feature loop
@@ -80,7 +80,7 @@ feature -- Element change
 
 feature {NONE} -- Internal attributes
 
-	model: SOURCE_MODEL
+	feature_group_list: FEATURE_GROUP_LIST
 
 feature {NONE} -- Constants
 

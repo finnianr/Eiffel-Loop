@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:55:47 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-03-07 11:48:55 GMT (Saturday 7th March 2020)"
+	revision: "4"
 
 class
 	STRING_EDITION_HISTORY_TEST_SET
@@ -20,31 +20,11 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("zstring_editions", agent test_zstring_editions)
+			eval.call ("string_8_editions", agent test_string_8_editions)
 		end
 
 feature -- Tests
-
-	test_zstring_editions
-		local
-			history: EL_ZSTRING_EDITION_HISTORY
-			string: ZSTRING
-		do
-			create history.make (20)
-			across Editions_list as edition loop
-				history.extend (edition.item)
-			end
-
-			undo_zstring_changes (history)
-
-			across Editions_list as edition loop
-				history.redo
-				string := edition.item
-				assert ("same string", history.string ~ string)
-			end
-
-			undo_zstring_changes (history)
-		end
-
 
 	test_string_8_editions
 		local
@@ -65,6 +45,27 @@ feature -- Tests
 			end
 
 			undo_string_8_changes (history)
+		end
+
+	test_zstring_editions
+		local
+			history: EL_ZSTRING_EDITION_HISTORY
+			string: ZSTRING
+		do
+			create history.make (20)
+			across Editions_list as edition loop
+				history.extend (edition.item)
+			end
+
+			undo_zstring_changes (history)
+
+			across Editions_list as edition loop
+				history.redo
+				string := edition.item
+				assert ("same string", history.string ~ string)
+			end
+
+			undo_zstring_changes (history)
 		end
 
 feature {NONE} -- Implementation

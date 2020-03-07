@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 11:11:39 GMT (Friday 6th March 2020)"
-	revision: "6"
+	date: "2020-03-07 10:49:45 GMT (Saturday 7th March 2020)"
+	revision: "7"
 
 deferred class
 	FEATURE_EDITOR
@@ -35,11 +35,11 @@ feature {NONE} -- Implementation
 
 	edited_lines: EL_ZSTRING_LIST
 		do
-			create Result.make (class_notes.count + class_footer.count + class_header.count + feature_groups.count * 5)
+			create Result.make (class_notes.count + class_footer.count + class_header.count + feature_group_list.string_count)
 			Result.append (class_notes)
 			Result.append (class_header)
-			across feature_groups as group loop
-				Result.append (group.item.header)
+			across feature_group_list as group loop
+				Result.extend (group.item.header)
 				edit_feature_group (group.item.features)
 				across group.item.features as l_feature loop
 					Result.append (l_feature.item.lines)

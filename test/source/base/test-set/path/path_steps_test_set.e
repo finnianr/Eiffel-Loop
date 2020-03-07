@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:54:58 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-03-07 11:47:41 GMT (Saturday 7th March 2020)"
+	revision: "4"
 
 class
 	PATH_STEPS_TEST_SET
@@ -20,9 +20,10 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("path_to_steps", agent test_path_to_steps)
 		end
 
-feature -- Test routines
+feature -- Tests
 
 	test_path_to_steps
 		note

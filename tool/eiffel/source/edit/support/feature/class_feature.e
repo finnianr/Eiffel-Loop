@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 11:49:34 GMT (Friday 6th March 2020)"
-	revision: "14"
+	date: "2020-03-07 10:52:28 GMT (Saturday 7th March 2020)"
+	revision: "15"
 
 deferred class
 	CLASS_FEATURE
@@ -52,6 +52,11 @@ feature -- Status query
 	found: BOOLEAN
 		do
 			Result := found_line /= Empty_string
+		end
+
+	string_count: INTEGER
+		do
+			Result := lines.count
 		end
 
 feature -- Basic operations

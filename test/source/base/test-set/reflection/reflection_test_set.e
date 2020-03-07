@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:55:21 GMT (Friday 14th February 2020)"
-	revision: "7"
+	date: "2020-03-07 11:06:50 GMT (Saturday 7th March 2020)"
+	revision: "8"
 
 class
 	REFLECTION_TEST_SET
@@ -20,6 +20,10 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
+			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
+			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
+			eval.call ("reflection", agent test_reflection)
 		end
 
 feature -- Tests

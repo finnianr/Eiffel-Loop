@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:56:46 GMT (Friday 14th February 2020)"
-	revision: "6"
+	date: "2020-03-07 12:40:21 GMT (Saturday 7th March 2020)"
+	revision: "7"
 
 class
 	ZSTRING_TOKEN_TABLE_TEST_SET
@@ -20,6 +20,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("tokens", agent test_tokens)
 		end
 
 feature -- Tests

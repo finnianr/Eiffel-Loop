@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 13:47:36 GMT (Thursday 13th February 2020)"
-	revision: "34"
+	date: "2020-03-07 9:18:47 GMT (Saturday 7th March 2020)"
+	revision: "35"
 
 deferred class
 	EL_PATH
@@ -50,12 +50,14 @@ feature {NONE} -- Initialization
 
 	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])
 		local
-			l_path: ZSTRING
+			l_path: ZSTRING; not_first: BOOLEAN
 		do
 			l_path := Temp_path; l_path.wipe_out
 			across a_steps as step loop
-				if not l_path.is_empty then
+				if not_first then
 					l_path.append_character (Separator)
+				else
+					not_first := True
 				end
 				l_path.append_string_general (step.item)
 			end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:55:36 GMT (Friday 14th February 2020)"
-	revision: "7"
+	date: "2020-03-07 11:50:03 GMT (Saturday 7th March 2020)"
+	revision: "8"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -27,6 +27,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("delimited_list", agent test_delimited_list)
 		end
 
 feature -- Conversion tests

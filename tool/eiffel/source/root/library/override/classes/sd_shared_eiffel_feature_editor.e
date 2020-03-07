@@ -18,6 +18,8 @@ inherit
 			write_edited_lines
 		end
 
+	EL_MODULE_EXCEPTION
+
 create
 	make
 
@@ -25,18 +27,20 @@ feature -- Basic operations
 
 	write_edited_lines (output_path: EL_FILE_PATH)
 		local
-			class_feature: ROUTINE_FEATURE
-			type_definition_group: CLASS_FEATURE_GROUP
+			class_feature: ROUTINE_FEATURE; type_definition_group: FEATURE_GROUP
+			implementation_list: LIST [FEATURE_GROUP]
 		do
 --			Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
-			start; search (Group_implementation)
-			if group_found then
-				search (Group_implementation)
-				if group_found then
-					create class_feature.make_with_lines (Source_widget_factory_cell)
-					class_feature.lines.indent (1)
-					found_group.features.extend (class_feature)
-				end
+			implementation_list := feature_group_list.query_if (agent is_implementation_group)
+
+			if implementation_list.count >= 2 then
+				create class_feature.make_with_lines (Source_widget_factory_cell)
+				class_feature.lines.indent (1)
+				implementation_list.i_th (2).features.extend (class_feature)
+			else
+				Exception.raise_developer (
+					"implementation_list: LIST [FEATURE_GROUP] has only %S groups", [implementation_list.count]
+				)
 			end
 
 --			Type_widget_factory: SD_WIDGET_FACTORY
@@ -44,7 +48,7 @@ feature -- Basic operations
 			type_definition_group.features.extend (create {ROUTINE_FEATURE}.make_with_lines (Source_type_widget_factory))
 			type_definition_group.features.last.lines.indent (1)
 
-			feature_groups.extend (type_definition_group)
+			feature_group_list.extend (type_definition_group)
 
 			Precursor (output_path)
 		end
@@ -61,6 +65,11 @@ feature {NONE} -- Implementation
 	replace_widget_factory (a_feature: CLASS_FEATURE)
 		do
 			a_feature.set_lines (Source_widget_factory)
+		end
+
+	is_implementation_group (group: FEATURE_GROUP): BOOLEAN
+		do
+			Result := group.name ~ Implementation
 		end
 
 feature {NONE} -- Constants
@@ -103,7 +112,7 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Group_implementation: ZSTRING
+	Implementation: ZSTRING
 		once
 			Result := "Implementation"
 		end

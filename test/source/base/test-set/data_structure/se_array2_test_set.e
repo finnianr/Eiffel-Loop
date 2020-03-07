@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:53:42 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2020-03-07 11:46:52 GMT (Saturday 7th March 2020)"
+	revision: "5"
 
 class
 	SE_ARRAY2_TEST_SET
@@ -20,8 +20,9 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("array_read_write", agent test_array_read_write)
 		end
-		
+
 feature -- Tests
 
 	test_array_read_write
@@ -37,6 +38,32 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
+
+	array_sum (row_offset, col_offset: INTEGER; array: SE_ARRAY2 [INTEGER]): INTEGER
+		local
+			row, col: INTEGER
+		do
+			from row := 1 until row > array.height loop
+				from col := 1 until col > array.width loop
+					Result := Result + array [row_offset + row, col_offset + col]
+					col := col + 1
+				end
+				row := row + 1
+			end
+		end
+
+	check_sum (height, width: INTEGER): INTEGER
+		local
+			row, col: INTEGER
+		do
+			from row := 1 until row > height loop
+				from col := 1 until col > width loop
+					Result := Result + (row |<< 16) | col
+					col := col + 1
+				end
+				row := row + 1
+			end
+		end
 
 	do_test (height, width, a_check_sum: INTEGER)
 		local
@@ -64,32 +91,6 @@ feature {NONE} -- Implementation
 			from row := 1 until row > array.height loop
 				from col := 1 until col > array.width loop
 					array [row_offset + row, col_offset + col] := (row |<< 16) | col
-					col := col + 1
-				end
-				row := row + 1
-			end
-		end
-
-	check_sum (height, width: INTEGER): INTEGER
-		local
-			row, col: INTEGER
-		do
-			from row := 1 until row > height loop
-				from col := 1 until col > width loop
-					Result := Result + (row |<< 16) | col
-					col := col + 1
-				end
-				row := row + 1
-			end
-		end
-
-	array_sum (row_offset, col_offset: INTEGER; array: SE_ARRAY2 [INTEGER]): INTEGER
-		local
-			row, col: INTEGER
-		do
-			from row := 1 until row > array.height loop
-				from col := 1 until col > array.width loop
-					Result := Result + array [row_offset + row, col_offset + col]
 					col := col + 1
 				end
 				row := row + 1

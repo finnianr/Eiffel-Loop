@@ -38,6 +38,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Factory
+
+	new_feature_group (export_list, name: ZSTRING): FEATURE_GROUP
+		local
+			header: EL_ZSTRING_LIST
+		do
+			create header.make (3)
+			if export_list.is_empty then
+				header.extend ("feature -- ")
+			else
+				header.extend (Feature_header_export #$ [export_list])
+			end
+			header.first.append (name)
+			header.extend ("-- AUTO EDITION: new feature group")
+			header.extend ("")
+			create Result.make (header)
+		end
+
 	new_feature_edit_actions: like feature_edit_actions
 		deferred
 		end
@@ -46,4 +64,10 @@ feature {NONE} -- Internal attributes
 
 	feature_edit_actions: EL_ZSTRING_HASH_TABLE [PROCEDURE [CLASS_FEATURE]]
 
+feature {NONE} -- Constants
+
+	Feature_header_export: EL_ZSTRING
+		once
+			Result := "feature {%S} -- "
+		end
 end
