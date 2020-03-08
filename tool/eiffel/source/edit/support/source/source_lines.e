@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 18:21:02 GMT (Thursday 12th October 2017)"
-	revision: "3"
+	date: "2020-03-07 13:40:03 GMT (Saturday 7th March 2020)"
+	revision: "4"
 
 class
 	SOURCE_LINES
@@ -19,7 +19,10 @@ inherit
 		end
 
 create
-	make, make_with_lines
+	make, make_with_lines, make_from_list
+
+convert
+	make_from_list ({EL_ZSTRING_LIST})
 
 feature -- Element change
 

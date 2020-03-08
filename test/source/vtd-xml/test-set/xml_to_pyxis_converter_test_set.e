@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:42:38 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-03-08 13:45:26 GMT (Sunday 8th March 2020)"
+	revision: "4"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -81,9 +81,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
+	Checksum_table: HASH_TABLE [NATURAL, STRING]
 		once
-			create Result.make_equal (11)
+			create Result.make (11)
 			Result ["Rhythmbox.bkup"] := 3119031178
 			Result ["uuid.ecf"] := 2254695445
 			Result ["XML XSL Example.xsl"] := 2435139533

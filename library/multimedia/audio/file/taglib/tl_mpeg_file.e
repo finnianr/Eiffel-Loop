@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-29 11:00:57 GMT (Tuesday 29th October 2019)"
-	revision: "5"
+	date: "2020-03-08 11:08:52 GMT (Sunday 8th March 2020)"
+	revision: "6"
 
 class
 	TL_MPEG_FILE

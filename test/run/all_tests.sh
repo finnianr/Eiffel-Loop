@@ -31,6 +31,9 @@ $do_test -paypal_standard_button_manager_autotest
 # search-engine.ecf
 $do_test -search_engine_autotest
 
+# TagLib.ecf
+$do_test -taglib_autotest
+
 $do_test -vtd_xml_autotest
 
 $do_test -eros_autotest

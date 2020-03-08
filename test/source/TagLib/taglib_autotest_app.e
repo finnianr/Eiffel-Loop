@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:58:45 GMT (Friday 14th February 2020)"
-	revision: "62"
+	date: "2020-03-08 14:08:42 GMT (Sunday 8th March 2020)"
+	revision: "63"
 
 class
 	TAGLIB_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
 
 create
 	make

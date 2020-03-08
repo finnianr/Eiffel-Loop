@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 10:53:53 GMT (Saturday 7th March 2020)"
-	revision: "7"
+	date: "2020-03-07 13:47:32 GMT (Saturday 7th March 2020)"
+	revision: "8"
 
 class
 	FEATURE_GROUP
@@ -17,23 +17,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_header: EL_ZSTRING_LIST)
+	make (a_header: SOURCE_LINES)
 		local
-			pos_comment, pos_new_line: INTEGER
+			comments: LIST [ZSTRING]; pos_comment: INTEGER
 		do
-			header := a_header.joined_lines
+			header := a_header
 			create features.make (5)
 
-			pos_comment := header.substring_index (Comment_marks, 1)
-			if pos_comment > 0 then
-				name := header.substring_end (pos_comment + 2)
-				pos_new_line := name.index_of ('%N', 1)
-				if pos_new_line > 0 then
-					name.keep_head (pos_new_line - 1)
-				end
-				name.adjust
-			else
+			comments := header.query_if (agent has_comment)
+			if comments.is_empty then
 				create name.make_empty
+			else
+				pos_comment := comments.first.substring_index (Comment_marks, 1)
+				name := comments.first.substring_end (pos_comment + 2)
+				name.adjust
 			end
 		end
 
@@ -41,7 +38,7 @@ feature -- Access
 
 	features: EL_ARRAYED_LIST [CLASS_FEATURE]
 
-	header: ZSTRING
+	header: SOURCE_LINES
 
 	name: ZSTRING
 
@@ -55,6 +52,13 @@ feature -- Element change
 	append (line: ZSTRING)
 		do
 			features.last.lines.extend (line)
+		end
+
+feature {NONE} -- Implementation
+
+	has_comment (line: ZSTRING): BOOLEAN
+		do
+			Result := line.has_substring (Comment_marks)
 		end
 
 feature {NONE} -- Constants

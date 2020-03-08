@@ -184,3 +184,6 @@ Removed need for test set evaluation class EL_EQA_TEST_EVALUATOR
 Tue 18th Feb 2020, 18:24:20
 Simplified EL_CONSOLE_LOG_OUTPUT to use color routine set_text_color
 
+Sat 7th Mar 2020, 13:14:08
+Base test sets available as finalized versions
+

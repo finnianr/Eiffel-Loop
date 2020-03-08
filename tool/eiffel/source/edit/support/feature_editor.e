@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 10:49:45 GMT (Saturday 7th March 2020)"
-	revision: "7"
+	date: "2020-03-07 13:43:29 GMT (Saturday 7th March 2020)"
+	revision: "8"
 
 deferred class
 	FEATURE_EDITOR
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 			Result.append (class_notes)
 			Result.append (class_header)
 			across feature_group_list as group loop
-				Result.extend (group.item.header)
+				Result.append (group.item.header)
 				edit_feature_group (group.item.features)
 				across group.item.features as l_feature loop
 					Result.append (l_feature.item.lines)

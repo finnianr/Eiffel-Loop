@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 12:50:19 GMT (Friday 6th March 2020)"
-	revision: "1"
+	date: "2020-03-07 14:46:55 GMT (Saturday 7th March 2020)"
+	revision: "2"
 
 class
 	MAKE_ROUTINE_FEATURE
@@ -95,6 +95,11 @@ feature {NONE} -- Constants
 	Argument_template: ZSTRING
 		once
 			Result := "a_%S: like %S"
+		end
+
+	Assignment_template: ZSTRING
+		once
+			Result := "%S := a_%S"
 		end
 
 	Boundary_characters: ARRAY [NATURAL]
