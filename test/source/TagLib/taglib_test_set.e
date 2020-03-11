@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-08 15:24:46 GMT (Sunday 8th March 2020)"
-	revision: "16"
+	date: "2020-03-11 15:34:33 GMT (Wednesday 11th March 2020)"
+	revision: "18"
 
 class
 	TAGLIB_TEST_SET
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Data_dir, "*.tag")
+			Result := OS.file_list (Data_dir, "*")
 		end
 
 feature {NONE} -- Constants
@@ -183,11 +183,14 @@ feature {NONE} -- Constants
 			create Result.make (11)
 			Result ["221-compressed.tag"] := checksums (2345267516, 3246236924)
 			Result ["230-compressed.tag"] := checksums (237988789, 985249350)
-			Result ["230-syncedlyrics.tag"] := checksums (474628871, 2355430315)
+			Result ["230-syncedlyrics.tag"] := checksums (474628871, 4124037141)
 			Result ["230-picture.tag"] := checksums (267318710, 32249346)
 			Result ["230-unicode.tag"] := checksums (2150173072, 1124208054)
 			Result ["ozzy.tag"] := checksums (1477293703, 3042106295)
 			Result ["thatspot.tag"] := checksums (1087552321, 2234758446)
+			-- MP3 extension
+			Result ["240-silence.mp3"] := checksums (161761856, 1488597223)
+			Result ["crc53865.mp3"] := checksums (4078009405, 3992252498)
 		end
 
 	Data_dir: EL_DIR_PATH

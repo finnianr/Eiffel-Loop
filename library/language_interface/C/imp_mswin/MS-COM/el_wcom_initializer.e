@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:54:58 GMT (Tuesday 28th January 2020)"
-	revision: "6"
+	date: "2020-03-09 10:09:20 GMT (Monday 9th March 2020)"
+	revision: "7"
 
 class
 	EL_WCOM_INITIALIZER
 
 inherit
-	EL_INITIALIZEABLE_I
+	EL_INITIALIZEABLE
 
 	DISPOSABLE
 		rename
@@ -36,10 +36,6 @@ feature {NONE} -- Initialization
 				is_initialized := True
 			end
 		end
-
-feature -- Status query
-
-	is_initialized: BOOLEAN
 
 feature {NONE} -- C externals
 

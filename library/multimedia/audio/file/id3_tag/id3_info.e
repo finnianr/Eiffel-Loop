@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-10 14:11:43 GMT (Thursday 10th October 2019)"
-	revision: "8"
+	date: "2020-03-10 11:19:53 GMT (Tuesday 10th March 2020)"
+	revision: "9"
 
 class
 	ID3_INFO
@@ -275,7 +275,12 @@ feature -- Access
 	field_string (id: STRING): ZSTRING
 				--
 		do
-			Result := field_of_type (agent {ID3_FRAME}.string, id)
+--			Result := field_of_type (agent {ID3_FRAME}.string, id)
+			if basic_fields.has_key (id) then
+				Result := basic_fields.found_item.string
+			else
+				create Result.make_empty
+			end
 		end
 
 	field_language (id: STRING): ZSTRING

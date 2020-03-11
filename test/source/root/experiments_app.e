@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 21:22:06 GMT (Thursday 13th February 2020)"
-	revision: "53"
+	date: "2020-03-11 15:24:06 GMT (Wednesday 11th March 2020)"
+	revision: "55"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,7 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("general.array_manifest_types")
-			general.array_manifest_types
+			log.enter ("file.read_id3")
 			log.exit
 		end
 

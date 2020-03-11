@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 16:13:04 GMT (Sunday 29th December 2019)"
-	revision: "2"
+	date: "2020-03-09 9:55:25 GMT (Monday 9th March 2020)"
+	revision: "3"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM
@@ -50,25 +50,36 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	ATM: NATURAL_8
+		-- An ATM network interface.
 
 	BLUETOOTH: NATURAL_8
 		-- Extra identifier not in Microsoft API
 
 	ETHERNET_CSMACD: NATURAL_8
+		-- An Ethernet network interface.
 
 	IEEE1394: NATURAL_8
+		-- An IEEE 1394 (Firewire) high performance serial bus network interface.
 
 	IEEE80211: NATURAL_8
+		-- An IEEE 802.11 wireless network interface.
+		-- On Windows Vista and later, wireless network cards are reported as IF_TYPE_IEEE80211.
+		-- On earlier versions of Windows, wireless network cards are reported as IF_TYPE_ETHERNET_CSMACD.
 
 	ISO88025_TOKENRING: NATURAL_8
+		-- A token ring network interface.
 
 	OTHER: NATURAL_8
+		-- Some other type of network interface.
 
 	PPP: NATURAL_8
+		-- A PPP network interface.
 
 	SOFTWARE_LOOPBACK: NATURAL_8
+		-- A software loopback network interface.
 
 	TUNNEL: NATURAL_8
+		-- A tunnel type encapsulation network interface.
 
 feature -- Conversion
 

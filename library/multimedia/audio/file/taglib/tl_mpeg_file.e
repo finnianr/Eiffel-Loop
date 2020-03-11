@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-08 11:08:52 GMT (Sunday 8th March 2020)"
-	revision: "6"
+	date: "2020-03-11 12:19:21 GMT (Wednesday 11th March 2020)"
+	revision: "8"
 
 class
 	TL_MPEG_FILE
@@ -20,8 +20,6 @@ inherit
 
 	TL_MPEG_FILE_CPP_API
 
-	EL_SHARED_ONCE_ZSTRING
-
 create
 	make
 
@@ -29,14 +27,25 @@ feature {NONE} -- Implementation
 
 	make (path: EL_FILE_PATH)
 		local
-			file_name: TL_FILE_NAME; str: ZSTRING
+			file_name: TL_FILE_NAME
 		do
-			str := empty_once_string; path.append_to (str)
-			create file_name.make (str)
+			file_name := path
 			make_from_pointer (cpp_new (file_name.item))
 		end
 
 feature -- Access
+
+	tag: TL_ID3_TAG
+		do
+			inspect tag_version
+				when 1 then
+					Result := tag_v1
+				when 2 then
+					Result := tag_v2
+			else
+				create {TL_DEFAULT_ID3_TAG} Result
+			end
+		end
 
 	tag_v1: TL_ID3_V1_TAG
 		require
@@ -50,18 +59,6 @@ feature -- Access
 			has_version_2: has_version_2
 		do
 			create Result.make (cpp_ID3_v2_tag (self_ptr, False))
-		end
-
-	tag: TL_ID3_TAG
-		do
-			inspect tag_version
-				when 1 then
-					Result := tag_v1
-				when 2 then
-					Result := tag_v2
-			else
-				create {TL_DEFAULT_ID3_TAG} Result
-			end
 		end
 
 	tag_version: INTEGER
@@ -86,5 +83,9 @@ feature -- Status query
 		do
 			Result := cpp_has_id3_v2_tag (self_ptr)
 		end
+
+feature {NONE} -- Internal attributes
+
+
 
 end

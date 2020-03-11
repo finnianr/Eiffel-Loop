@@ -9,35 +9,40 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 9:30:16 GMT (Saturday 26th October 2019)"
-	revision: "2"
+	date: "2020-03-11 15:23:04 GMT (Wednesday 11th March 2020)"
+	revision: "4"
 
 class
 	TL_FILE_NAME
 
 inherit
+	TL_FILE_NAME_I
+
 	MANAGED_POINTER
 		rename
 			make as make_sized
 		export
 			{NONE} all
-			{EL_C_OBJECT} item
+			{EL_C_OBJECT} item, count
 		end
 
 	EL_SHARED_ONCE_STRING_8
 
 create
-	make
+	make, make_from_string
 
-feature {NONE} -- Implementation
+convert
+	make ({EL_FILE_PATH})
 
-	make (name: ZSTRING)
+feature {NONE} -- Initialization
+
+	make_from_string (name: ZSTRING)
 		local
-			utf_8: STRING
+			utf_8: STRING; to_c: ANY
 		do
 			utf_8 := empty_once_string_8
 			name.append_to_utf_8 (utf_8)
-			make_sized (utf_8.count)
-			make_from_pointer (utf_8.area.base_address, utf_8.count)
+			to_c := utf_8.to_c
+			make_from_pointer ($to_c, utf_8.count + 1)
 		end
 end

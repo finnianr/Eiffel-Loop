@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 7:57:57 GMT (Sunday 12th January 2020)"
-	revision: "5"
+	date: "2020-03-11 15:23:58 GMT (Wednesday 11th March 2020)"
+	revision: "7"
 
 class
 	FILE_EXPERIMENTS
 
 inherit
 	EXPERIMENTAL
+
+	EL_MODULE_OS
+
+	EL_MODULE_DIRECTORY
 
 feature -- Basic operations
 

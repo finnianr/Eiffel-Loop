@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 15:03:05 GMT (Monday 27th January 2020)"
-	revision: "6"
+	date: "2020-03-09 10:12:54 GMT (Monday 9th March 2020)"
+	revision: "7"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -33,6 +33,7 @@ inherit
 	EL_SHARED_C_WIDE_CHARACTER_STRING
 
 	EL_SHARED_NETWORK_DEVICE_TYPE
+	
 create
 	make
 

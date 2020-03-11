@@ -1,13 +1,13 @@
 note
-	description: "Cpp object"
+	description: "C++ object"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 9:54:18 GMT (Saturday 26th October 2019)"
-	revision: "7"
+	date: "2020-03-09 14:11:42 GMT (Monday 9th March 2020)"
+	revision: "8"
 
 class
 	EL_CPP_OBJECT

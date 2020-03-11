@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 16:57:20 GMT (Tuesday 25th February 2020)"
-	revision: "21"
+	date: "2020-03-08 16:14:28 GMT (Sunday 8th March 2020)"
+	revision: "22"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -195,12 +195,16 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
-			create parent_dir
+			create parent_dir; create source_path
 			distributer := new_distributer
 
 			directory_list.wipe_out
 			list := sorted_path_list
 			from list.start until list.after loop
+				if source_path ~ list.path then
+					lio.put_labeled_string ("Duplicate", source_path.base)
+					lio.put_new_line
+				end
 				source_path := list.path
 				if source_path.parent /~ parent_dir then
 					create class_list.make (10)
