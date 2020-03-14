@@ -6,13 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-29 10:56:38 GMT (Tuesday 29th October 2019)"
-	revision: "2"
+	date: "2020-03-13 13:56:00 GMT (Friday 13th March 2020)"
+	revision: "3"
 
 class
 	TL_ID3_V2_HEADER
 
 inherit
+	TL_ID3_HEADER
+		redefine
+			major_version, revision_number, tag_size
+		end
+
 	EL_CPP_OBJECT
 		rename
 			make_from_pointer as make

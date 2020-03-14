@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-11 12:19:21 GMT (Wednesday 11th March 2020)"
-	revision: "8"
+	date: "2020-03-14 14:19:38 GMT (Saturday 14th March 2020)"
+	revision: "9"
 
 class
 	TL_MPEG_FILE
@@ -25,52 +25,39 @@ create
 
 feature {NONE} -- Implementation
 
-	make (path: EL_FILE_PATH)
+	make (a_path: EL_FILE_PATH)
 		local
 			file_name: TL_FILE_NAME
 		do
-			file_name := path
+			path := a_path
+			file_name := a_path
 			make_from_pointer (cpp_new (file_name.item))
+			if has_version_1 then
+				create {TL_ID3_V1_TAG} tag.make (cpp_ID3_v1_tag (self_ptr, False))
+			elseif has_version_2 then
+				create {TL_ID3_V2_TAG} tag.make (cpp_ID3_v2_tag (self_ptr, False))
+			else
+				create {TL_ID3_V0_TAG} tag
+			end
 		end
 
 feature -- Access
 
+	id3_version: TUPLE [version, major, revision: INTEGER]
+		-- id3 version tuple of `tag'
+		local
+			h: TL_ID3_HEADER
+		do
+			create Result
+			Result.version := tag.version
+			h := tag.header
+			Result.major := h.major_version
+			Result.revision := h.revision_number
+		end
+
+	path: EL_FILE_PATH
+
 	tag: TL_ID3_TAG
-		do
-			inspect tag_version
-				when 1 then
-					Result := tag_v1
-				when 2 then
-					Result := tag_v2
-			else
-				create {TL_DEFAULT_ID3_TAG} Result
-			end
-		end
-
-	tag_v1: TL_ID3_V1_TAG
-		require
-			has_version_1: has_version_1
-		do
-			create Result.make (cpp_ID3_v1_tag (self_ptr, False))
-		end
-
-	tag_v2: TL_ID3_V2_TAG
-		require
-			has_version_2: has_version_2
-		do
-			create Result.make (cpp_ID3_v2_tag (self_ptr, False))
-		end
-
-	tag_version: INTEGER
-		-- highest available tag version
-		do
-			-- prioritize v2 tag over v1, because maybe both exist
-			if has_version_2 then
-				Result := 2
-			elseif has_version_1 then
-				Result := 1
-			end
-		end
 
 feature -- Status query
 
@@ -84,8 +71,12 @@ feature -- Status query
 			Result := cpp_has_id3_v2_tag (self_ptr)
 		end
 
-feature {NONE} -- Internal attributes
+	is_saved: BOOLEAN
 
+feature -- Basic operations
 
-
+	save
+		do
+			is_saved := cpp_save (self_ptr)
+		end
 end

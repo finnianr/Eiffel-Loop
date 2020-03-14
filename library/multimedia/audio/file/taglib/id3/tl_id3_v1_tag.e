@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 11:13:34 GMT (Monday 11th November 2019)"
-	revision: "5"
+	date: "2020-03-14 18:58:47 GMT (Saturday 14th March 2020)"
+	revision: "6"
 
 class
 	TL_ID3_V1_TAG
@@ -40,10 +40,25 @@ feature -- Access
 			Result := Once_string.to_string
 		end
 
+	duration: INTEGER
+		do
+		end
+
 	title: ZSTRING
 		do
 			cpp_get_title (self_ptr, Once_string.self_ptr)
 			Result := Once_string.to_string
 		end
+
+feature -- Element change
+
+	set_picture (a_picture: TL_ID3_PICTURE)
+		do
+		end
+
+feature -- Constants
+
+	version: INTEGER = 1
+		-- ID3 version number
 
 end

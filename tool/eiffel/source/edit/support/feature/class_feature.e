@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 14:46:54 GMT (Saturday 7th March 2020)"
-	revision: "16"
+	date: "2020-03-14 12:59:23 GMT (Saturday 14th March 2020)"
+	revision: "17"
 
 deferred class
 	CLASS_FEATURE
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_EIFFEL_KEYWORDS
 
 feature {NONE} -- Initialization
 
@@ -92,24 +94,28 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	update_name
+		local
+			list: like Split_list
 		do
-			name := lines.first.twin
-			name.left_adjust; name.right_adjust
-			if name.has (' ') then
-				name := name.substring (1, name.index_of (' ', 1) - 1)
-				name.prune_all_trailing (':')
+			list := Split_list
+			list.set_string (lines.first, character_string (' '))
+			from list.start until list.after or else not list.item (False).is_equal (Keyword_frozen) loop
+				list.forth
 			end
-		end
-
-feature {NONE} -- String Constants
-
-	Keyword_do: ZSTRING
-		once
-			Result := "do"
+			if not list.after then
+				name := list.item (True)
+			end
+			name.prune_all_trailing (':')
 		end
 
 feature {NONE} -- Constants
 
 	Tab_code: NATURAL = 9
+
+	Split_list: EL_SPLIT_ZSTRING_LIST
+		once
+			create Result.make_empty
+			Result.enable_left_adjust
+		end
 
 end

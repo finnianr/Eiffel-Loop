@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:43:26 GMT (Tuesday 12th November 2019)"
-	revision: "4"
+	date: "2020-03-14 13:24:48 GMT (Saturday 14th March 2020)"
+	revision: "5"
 
 class
 	TL_BYTE_VECTOR
 
 inherit
 	EL_OWNED_CPP_OBJECT
-		rename
-			make_from_pointer as make
 		export
 			{EL_CPP_API} self_ptr
 		end
@@ -27,13 +25,18 @@ inherit
 	TL_SHARED_FRAME_ID_ENUM
 
 create
-	make, make_empty
+	make, make_from_pointer, make_empty
 
 feature {NONE} -- Initialization
 
+	make (a_data: MANAGED_POINTER)
+		do
+			make_from_pointer (cpp_new (a_data.item, a_data.count))
+		end
+
 	make_empty
 		do
-			make (cpp_new)
+			make_from_pointer (cpp_new_empty)
 		end
 
 feature -- Access
@@ -42,6 +45,11 @@ feature -- Access
 		-- data item pointer
 		do
 			Result := cpp_data (self_ptr)
+		end
+
+	checksum: NATURAL
+		do
+			Result := cpp_checksum (self_ptr)
 		end
 
 	count: INTEGER
@@ -118,17 +126,22 @@ feature -- Conversion
 
 feature -- Element change
 
-	set_data (str: STRING)
+	set_data_from_string (str: STRING)
 		local
 			to_c: ANY
 		do
 			to_c := str.to_c
-			cpp_set_data (self_ptr, $to_c)
+			cpp_set_data_from_string (self_ptr, $to_c)
+		end
+
+	set_data (a_data: like data)
+		do
+			cpp_set_data (self_ptr, a_data.item, a_data.count)
 		end
 
 	set_from_frame_id (enum_code: NATURAL_8)
 		do
-			set_data (Frame_id.name (enum_code))
+			set_data_from_string (Frame_id.name (enum_code))
 		end
 
 end

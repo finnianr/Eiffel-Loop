@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-11 15:34:33 GMT (Wednesday 11th March 2020)"
-	revision: "18"
+	date: "2020-03-14 19:09:15 GMT (Saturday 14th March 2020)"
+	revision: "19"
 
 class
 	TAGLIB_TEST_SET
@@ -30,6 +30,8 @@ inherit
 
 	EL_SHARED_CONSOLE_COLORS
 
+	TL_SHARED_PICTURE_TYPE_ENUM
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
@@ -37,9 +39,27 @@ feature -- Basic operations
 		do
 			eval.call ("read_basic_id3", agent test_read_basic_id3)
 			eval.call ("read_v2_frames", agent test_read_v2_frames)
+			eval.call ("picture_edit", agent test_picture_edit)
 		end
 
 feature -- Tests
+
+	test_picture_edit
+		local
+			mp3: TL_MPEG_FILE; picture: TL_ID3_PICTURE
+		do
+			file_list.find_first_equal (Picture_230_tag, agent {EL_FILE_PATH}.base_matches)
+			if file_list.found then
+				create mp3.make (file_list.path)
+				create picture.make (Top_png_path, "Upwards arrow", "image/png", Picture_type.other)
+				mp3.tag.set_picture (picture)
+				mp3.save
+				mp3.dispose
+
+				create mp3.make (file_list.path)
+--				picture_2 := mp3.tag.p
+			end
+		end
 
 	test_read_basic_id3
 		do
@@ -101,17 +121,35 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
+	print_tag (relative_path: EL_FILE_PATH)
+		local
+			mp3: TL_MPEG_FILE; tag: TL_ID3_TAG; field_string: ZSTRING
+		do
+			create mp3.make (Work_area_dir + relative_path)
+			tag := mp3.tag
+			print_version (mp3)
+			if attached {TL_ID3_V2_TAG} tag as v2 and then v2.duration > 0 then
+				lio.put_integer_field ("Duration", v2.duration)
+				lio.put_new_line
+			end
+			across Field_table as field loop
+				field_string := field.item (tag)
+				if not field_string.is_empty then
+					print_field (field.key, field_string)
+				end
+			end
+		end
+
 	print_v2_frames (relative_path: EL_FILE_PATH)
 		local
-			mp3: TL_MPEG_FILE; tag: TL_ID3_V2_TAG; name: STRING
+			mp3: TL_MPEG_FILE; name: STRING
 		do
 			create mp3.make (Work_area_dir + relative_path)
 			if mp3.has_version_1 then
-				print_version (mp3, mp3.tag_v1)
+				print_version (mp3)
 
-			elseif mp3.has_version_2 then
-				tag := mp3.tag_v2
-				print_version (mp3, tag)
+			elseif attached {TL_ID3_V2_TAG} mp3.tag as tag then
+				print_version (mp3)
 				across tag.all_frames_list as frame loop
 					name := Naming.class_as_upper_snake (frame.item, 1, 2)
 					log.put_labeled_string (name, frame.item.id.to_string_8)
@@ -139,30 +177,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	print_tag (relative_path: EL_FILE_PATH)
-		local
-			mp3: TL_MPEG_FILE; tag: TL_ID3_TAG; field_string: ZSTRING
+	print_version (mp3: TL_MPEG_FILE)
 		do
-			create mp3.make (Work_area_dir + relative_path)
-			tag := mp3.tag
-			print_version (mp3, tag)
-			across Field_table as field loop
-				field_string := field.item (tag)
-				if not field_string.is_empty then
-					print_field (field.key, field_string)
-				end
-			end
-		end
-
-	print_version (mp3: TL_MPEG_FILE; tag: TL_ID3_TAG)
-		local
-			major_version, revision_number: INTEGER
-		do
-			if attached {TL_ID3_V2_TAG} tag as v2 and then attached {TL_ID3_V2_HEADER} v2.header as h then
-				major_version := h.major_version
-				revision_number := h.revision_number
-			end
-			log.put_labeled_substitution ("Version", "%S.%S.%S", [mp3.tag_version, major_version, revision_number])
+			log.put_labeled_substitution ("Version", "%S.%S.%S", mp3.id3_version)
 			log.put_new_line
 		end
 
@@ -172,6 +189,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Array_template: ZSTRING
+		once
+			Result := "%S [%S]"
+		end
 
 	CR_new_line: ZSTRING
 		once
@@ -184,10 +206,11 @@ feature {NONE} -- Constants
 			Result ["221-compressed.tag"] := checksums (2345267516, 3246236924)
 			Result ["230-compressed.tag"] := checksums (237988789, 985249350)
 			Result ["230-syncedlyrics.tag"] := checksums (474628871, 4124037141)
-			Result ["230-picture.tag"] := checksums (267318710, 32249346)
+			Result [Picture_230_tag] := checksums (267318710, 32249346)
 			Result ["230-unicode.tag"] := checksums (2150173072, 1124208054)
-			Result ["ozzy.tag"] := checksums (1477293703, 3042106295)
-			Result ["thatspot.tag"] := checksums (1087552321, 2234758446)
+			Result ["ozzy.tag"] := checksums (4088983894, 3042106295)
+			Result ["thatspot.tag"] := checksums (1455176272, 2234758446)
+
 			-- MP3 extension
 			Result ["240-silence.mp3"] := checksums (161761856, 1488597223)
 			Result ["crc53865.mp3"] := checksums (4078009405, 3992252498)
@@ -208,8 +231,14 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Array_template: ZSTRING
+	Picture_230_tag: ZSTRING
 		once
-			Result := "%S [%S]"
+			Result := "230-picture.tag"
 		end
+
+	Top_png_path: EL_FILE_PATH
+		once
+			Result := Eiffel_loop_dir + "doc/images/top.png"
+		end
+
 end

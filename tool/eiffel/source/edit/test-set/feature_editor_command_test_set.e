@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 13:24:00 GMT (Friday 6th March 2020)"
-	revision: "3"
+	date: "2020-03-14 13:06:05 GMT (Saturday 14th March 2020)"
+	revision: "4"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -78,6 +78,7 @@ feature {NONE} -- Constants
 
 			Result ["job_duration_parser.e"] := 287350020
 			Result ["subscription_delivery_email.e"] := 4210816405
+			Result ["tl_id3_tag_frame_cpp_api.e"] := 3298906707 -- test frozen feature name sort
 		end
 
 	Data_dir: EL_DIR_PATH

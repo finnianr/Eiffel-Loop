@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 13:31:06 GMT (Friday 6th March 2020)"
-	revision: "1"
+	date: "2020-03-14 12:52:07 GMT (Saturday 14th March 2020)"
+	revision: "2"
 
 class
 	SETTER_SHORTHAND_FEATURE
@@ -34,8 +34,8 @@ feature -- Element change
 	expand_shorthand
 		-- expand setter shorthand notation
 		local
-			line: ZSTRING; pos_space: INTEGER
 			variable_name: ZSTRING; setter_lines: EL_ZSTRING_LIST
+			line: ZSTRING
 		do
 			line := lines.first
 

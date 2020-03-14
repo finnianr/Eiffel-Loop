@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 13:51:18 GMT (Sunday 22nd December 2019)"
-	revision: "5"
+	date: "2020-03-14 13:16:04 GMT (Saturday 14th March 2020)"
+	revision: "6"
 
 class
 	TL_PICTURE_ID3_FRAME_CPP_API
@@ -19,7 +19,15 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Initialization
+
+	frozen cpp_new_empty: POINTER
+		-- TagLib::ID3v2::AttachedPictureFrame();
+		external
+			"C++ [new TagLib::ID3v2::AttachedPictureFrame %"mpeg/id3v2/frames/attachedpictureframe.h%"] ()"
+		end
+
+feature {NONE} -- Implemenation
 
 	frozen cpp_conforms (frame: POINTER): BOOLEAN
 		-- True if frame conforms to type `TagLib::ID3v2::AttachedPictureFrame'
@@ -32,12 +40,7 @@ feature {NONE} -- C++ Externals
 			]"
 		end
 
-	frozen cpp_picture (self: POINTER): POINTER
-		external
-			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
-		alias
-			"new TagLib::ByteVector (((TagLib::ID3v2::AttachedPictureFrame*)$self)->picture ())"
-		end
+feature {NONE} -- Access
 
 	frozen cpp_get_description (self, text_out: POINTER)
 		external
@@ -59,6 +62,13 @@ feature {NONE} -- C++ Externals
 			]"
 		end
 
+	frozen cpp_picture (self: POINTER): POINTER
+		external
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+		alias
+			"new TagLib::ByteVector (((TagLib::ID3v2::AttachedPictureFrame*)$self)->picture ())"
+		end
+
 	frozen cpp_type_enum (self: POINTER): NATURAL_8
 		external
 			"C++ [TagLib::ID3v2::AttachedPictureFrame %"mpeg/id3v2/frames/attachedpictureframe.h%"] (): EIF_NATURAL_8"
@@ -66,4 +76,50 @@ feature {NONE} -- C++ Externals
 			"type"
 		end
 
+feature {NONE} -- Element change
+
+	frozen cpp_set_description (self, text: POINTER)
+		-- void setDescription(const String &desc);
+		external
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+		alias
+			"[
+				TagLib::String &text = *((TagLib::String*)$text);
+				((TagLib::ID3v2::AttachedPictureFrame*)$self)->setDescription (text)
+			]"
+		end
+
+	frozen cpp_set_mime_type (self, str: POINTER)
+		-- void setMimeType(const String &m);
+		external
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+		alias
+			"[
+				TagLib::String &mime_type = *((TagLib::String*)$str);
+				((TagLib::ID3v2::AttachedPictureFrame*)$self)->setMimeType (mime_type)
+			]"
+		end
+
+	frozen cpp_set_picture (self, data: POINTER)
+		-- void AttachedPictureFrame::setPicture(const ByteVector &p)
+		external
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+		alias
+			"[
+				TagLib::ByteVector& picture = *((TagLib::ByteVector*)$data);
+				((TagLib::ID3v2::AttachedPictureFrame*)$self)->setPicture (picture)
+			]"
+		end
+
+	frozen cpp_set_type (self: POINTER; a_type: NATURAL_8)
+		-- void setType(Type t);
+		external
+			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
+		alias
+			"[
+				TagLib::ID3v2::AttachedPictureFrame::Type type = (TagLib::ID3v2::AttachedPictureFrame::Type)$a_type;
+				((TagLib::ID3v2::AttachedPictureFrame*)$self)->setType (type)
+			]"
+		end
 end
+

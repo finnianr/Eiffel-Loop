@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 12:02:37 GMT (Monday 11th November 2019)"
-	revision: "6"
+	date: "2020-03-13 11:19:05 GMT (Friday 13th March 2020)"
+	revision: "7"
 
 class
 	TL_STRING
@@ -105,6 +105,16 @@ feature -- Conversion
 			create Result.make (count)
 			from i := 1 until i > count loop
 				Result.extend (i_th_code (i).to_character_8)
+				i := i + 1
+			end
+		end
+
+	to_integer: INTEGER
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > count loop
+				Result := Result * 10 + (i_th_code (i).to_integer_32 - {ASCII}.Zero)
 				i := i + 1
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 20:37:57 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2020-03-14 9:30:17 GMT (Saturday 14th March 2020)"
+	revision: "4"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -25,7 +25,7 @@ inherit
 	TL_SHARED_ONCE_STRING
 
 create
-	make
+	make_from_pointer
 
 feature -- Access
 

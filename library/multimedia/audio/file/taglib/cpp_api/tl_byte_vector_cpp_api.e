@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 18:52:35 GMT (Sunday 10th November 2019)"
-	revision: "2"
+	date: "2020-03-14 13:24:14 GMT (Saturday 14th March 2020)"
+	revision: "3"
 
 class
 	TL_BYTE_VECTOR_CPP_API
@@ -19,7 +19,28 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Initialization
+
+	frozen cpp_new_empty: POINTER
+		external
+			"C++ [new TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
+		end
+
+	frozen cpp_new (data: POINTER; length: INTEGER): POINTER
+		-- ByteVector(const char *data, unsigned int length);
+		external
+			"C++ [new TagLib::ByteVector %"toolkit/tbytevector.h%"] (const char *, unsigned int)"
+		end
+
+feature {NONE} -- Access
+
+	frozen cpp_checksum (self_ptr: POINTER): NATURAL
+		-- unsigned int checksum() const;
+		external
+			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (): EIF_NATURAL"
+		alias
+			"checksum"
+		end
 
 	frozen cpp_i_th (self_ptr: POINTER; index: NATURAL): CHARACTER
 		-- char at(unsigned int index) const;
@@ -36,25 +57,6 @@ feature {NONE} -- C++ Externals
 			"data"
 		end
 
-	frozen cpp_delete (self: POINTER)
-			--
-		external
-			"C++ [delete TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
-		end
-
-	frozen cpp_new: POINTER
-			--
-		external
-			"C++ [new TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
-		end
-
-	frozen cpp_set_data (self_ptr, data: POINTER)
-		external
-			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (const char *)"
-		alias
-			"setData"
-		end
-
 	frozen cpp_size (self_ptr: POINTER): NATURAL
 		external
 			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (): EIF_NATURAL"
@@ -62,4 +64,29 @@ feature {NONE} -- C++ Externals
 			"size"
 		end
 
+feature {NONE} -- Disposal
+
+	frozen cpp_delete (self: POINTER)
+		external
+			"C++ [delete TagLib::ByteVector %"toolkit/tbytevector.h%"] ()"
+		end
+
+feature {NONE} -- Element change
+
+	frozen cpp_set_data_from_string (self_ptr, str: POINTER)
+		-- Sets the data for the byte array copies data up to the first null byte.
+		-- ByteVector &setData(const char *data);
+		external
+			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (const char *)"
+		alias
+			"setData"
+		end
+
+	frozen cpp_set_data (self_ptr, data: POINTER; length: INTEGER)
+		-- ByteVector &setData(const char *data, unsigned int length);
+		external
+			"C++ [TagLib::ByteVector %"toolkit/tbytevector.h%"] (const char *, unsigned int)"
+		alias
+			"setData"
+		end
 end

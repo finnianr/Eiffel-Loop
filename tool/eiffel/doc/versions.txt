@@ -1,3 +1,6 @@
+1.1.1
+Sort frozen features correctly in FEATURE_EDITOR_COMMAND_TEST_SET
+
 1.1.0
 Added EQA_TEST_EVALUATION_CALLBACK_FEATURE and create hierarchy based on CLASS_FEATURE
 
