@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 12:15:48 GMT (Friday 11th January 2019)"
-	revision: "7"
+	date: "2020-03-17 12:49:01 GMT (Tuesday 17th March 2020)"
+	revision: "8"
 
 class
 	EL_STRING_32_ROUTINES
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32]
+
+	EL_SHARED_ONCE_STRING_32
 
 feature -- Conversion
 
@@ -25,6 +27,23 @@ feature -- Conversion
 			from i := 1 until i > s.count loop
 				Result [i] := s.code (i).to_natural_8
 				i := i + 1
+			end
+		end
+
+	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING_32
+		do
+			if attached {STRING_32} str as str_32 then
+				Result := str_32
+			else
+				Result := empty_once_string_32
+				if attached {ZSTRING} str as z_str then
+					z_str.append_to_string_32 (Result)
+				else
+					Result.append_string_general (str)
+				end
+				if keep_ref then
+					Result := Result.twin
+				end
 			end
 		end
 

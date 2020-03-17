@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:50:22 GMT (Saturday 14th March 2020)"
-	revision: "5"
+	date: "2020-03-17 13:04:23 GMT (Tuesday 17th March 2020)"
+	revision: "6"
 
 class
 	TL_PICTURE_ID3_FRAME
@@ -30,51 +30,44 @@ inherit
 	TL_SHARED_BYTE_VECTOR
 
 create
-	make, make_from_pointer, default_create
+	make, make_from_pointer
 
 feature {NONE} -- Initialization
 
-	make (data: MANAGED_POINTER; a_description: ZSTRING; a_mime_type: STRING; a_type_enum: NATURAL_8)
-		-- make from picture `data'
+	make (a_picture: TL_ID3_PICTURE)
+		-- make from `a_picture'
+		-- This must be added to a tag inorder for the C++ object to be owned
 		require
-			valid_enum: Picture_type.is_valid_value (a_type_enum)
+			valid_enum: Picture_type.is_valid_value (a_picture.type_enum)
 		local
-			l_picture: like picture
+			l_data: like picture
 		do
 			make_from_pointer (cpp_new_empty)
-			l_picture := Once_byte_vector
-			l_picture.set_data (data)
-			set_picture (l_picture)
-			set_description (a_description)
-			set_mime_type (a_mime_type)
-			set_type_enum (a_type_enum)
+			l_data := Once_byte_vector
+			l_data.set_data (a_picture.data)
+			set_picture (l_data)
+			set_description (a_picture.description)
+			set_mime_type (a_picture.mime_type)
+			set_type_enum (a_picture.type_enum)
 		end
 
 feature -- Access
 
 	description: ZSTRING
 		do
-			if is_attached (self_ptr) then
-				cpp_get_description (self_ptr, Once_string.self_ptr)
-				Result := Once_string.to_string
-			else
-				create Result.make_empty
-			end
+			cpp_get_description (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
 		end
 
 	mime_type: STRING
 		do
-			if is_attached (self_ptr) then
-				cpp_get_mime_type (self_ptr, Once_string.self_ptr)
-				Result := Once_string.to_string_8
-			end
+			cpp_get_mime_type (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string_8
 		end
 
 	picture: TL_BYTE_VECTOR
 		do
-			if is_attached (self_ptr) then
-				create Result.make_from_pointer (cpp_picture (self_ptr))
-			end
+			create Result.make_from_pointer (cpp_picture (self_ptr))
 		end
 
 	type: STRING
@@ -84,9 +77,7 @@ feature -- Access
 
 	type_enum: NATURAL_8
 		do
-			if is_attached (self_ptr) then
-				Result := cpp_type_enum (self_ptr)
-			end
+			Result := cpp_type_enum (self_ptr)
 		ensure
 			valid_type: Picture_type.is_valid_value (Result)
 		end
@@ -94,26 +85,24 @@ feature -- Access
 feature -- Element change
 
 	set_description (a_description: like description)
-		local
-			l_text: like Once_string
 		do
-			l_text.set_from_string (a_description)
-			cpp_set_description (self_ptr, l_text.self_ptr)
+			Once_string.set_from_string (a_description)
+			cpp_set_description (self_ptr, Once_string.self_ptr)
 		ensure
 			set: description ~ a_description
 		end
 
 	set_mime_type (a_mime_type: like mime_type)
-		local
-			l_text: like Once_string
 		do
-			l_text.set_from_string_8 (a_mime_type)
-			cpp_set_mime_type (self_ptr, l_text.self_ptr)
+			Once_string.set_from_string (a_mime_type)
+			cpp_set_mime_type (self_ptr, Once_string.self_ptr)
+		ensure
+			set: mime_type ~ a_mime_type
 		end
 
-	set_picture (a_picture: like picture)
+	set_picture (a_picture: TL_BYTE_VECTOR)
 		do
-			cpp_set_picture (self_ptr, a_picture.item)
+			cpp_set_picture (self_ptr, a_picture.self_ptr)
 		ensure
 			set: picture.checksum = a_picture.checksum
 		end

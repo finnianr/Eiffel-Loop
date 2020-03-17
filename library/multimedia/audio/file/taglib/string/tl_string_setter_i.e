@@ -6,79 +6,70 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:05:55 GMT (Sunday 10th November 2019)"
-	revision: "1"
+	date: "2020-03-17 12:56:12 GMT (Tuesday 17th March 2020)"
+	revision: "2"
 
 deferred class
-	TL_STRING_SETTER_I
+	TL_STRING_SETTER_I [N -> NUMERIC]
 
 inherit
-	ANY EL_SHARED_ONCE_STRING_32
+	ARRAYED_LIST [N]
+		rename
+			make as make_list
+		export
+			{NONE} all
+		end
+
+	EL_MODULE_STRING_32
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			create utf_16_sequence.make
+			make_list (60)
+		end
 
 feature -- Basic operations
 
-	set_string (target: TL_STRING; a_source: ZSTRING)
+	set_text (target: TL_STRING; source: READABLE_STRING_GENERAL)
 		local
-			source: STRING_32
+			i, n: INTEGER; l_area: SPECIAL [CHARACTER_32]
+			utf_16: like utf_16_sequence
 		do
-			source := empty_once_string_32
-			a_source.append_to_string_32 (source)
-			set_string_32 (target, source)
-		end
-
-	set_string_32 (target: TL_STRING; source: STRING_32)
-		local
-			area: like utf_16_area
-			i, n, m, p: INTEGER; c: NATURAL_32
-		do
-			area := utf_16_area; area.wipe_out
-			from
-				m := 0
-				n := source.count
-				p := n
-				area := area.aliased_resized_area (p + 1)
-			until
-				i >= n
-			loop
+			wipe_out
+			utf_16 := utf_16_sequence
+			l_area := String_32.from_general (source, False).area; n := source.count
+			from until i = n loop
+				utf_16.set (l_area [i])
+				append_sequence (utf_16)
 				i := i + 1
-					-- Make sure there is sufficient room for at least 2 code units.
-				if p < m + 2 then
-					p := m + (n - i) + 2
-					area := area.aliased_resized_area (p + 1)
-				end
-				c := source.code (i)
-				if c <= 0xFFFF then
-						-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
-					extend (area, c)
-					m := m + 1
-				else
-						-- Supplementary Planes: surrogate pair with lead and trail surrogates.
-					extend (area, 0xD7C0 + (c |>> 10))
-					extend (area, 0xDC00 + (c & 0x3FF))
-					m := m + 2
-				end
 			end
-			extend (area, 0)
-			target.set_from_utf_16 (area.base_address)
-			utf_16_area := area
-		end
-
-	set_string_8 (target: TL_STRING; a_source: STRING)
-		local
-			source: STRING_32
-		do
-			source := empty_once_string_32
-			source.append_string_general (a_source)
-			set_string_32 (target, source)
+			utf_16.set (Null_character)
+			append_sequence (utf_16)
+			target.set_from_utf_16 (area)
 		end
 
 feature {NONE} -- Implementation
 
-	extend (area: like utf_16_area; code: NATURAL)
+	append_sequence (utf_16: like utf_16_sequence)
+		do
+			extend_part (utf_16.lead)
+			if utf_16.count = 2 then
+				extend_part (utf_16.trail)
+			end
+		end
+
+	extend_part (p: NATURAL)
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	utf_16_area: SPECIAL [NUMERIC]
+	utf_16_sequence: EL_UTF_16_SEQUENCE
+
+feature {NONE} -- Constants
+
+	Null_character: CHARACTER_32 = '%/0/'
+
 end

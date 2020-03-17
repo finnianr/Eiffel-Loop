@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 13:16:04 GMT (Saturday 14th March 2020)"
-	revision: "6"
+	date: "2020-03-15 11:50:27 GMT (Sunday 15th March 2020)"
+	revision: "7"
 
 class
 	TL_PICTURE_ID3_FRAME_CPP_API
@@ -38,6 +38,12 @@ feature {NONE} -- Implemenation
 				const TagLib::ID3v2::Frame* frame = (const TagLib::ID3v2::Frame*)$frame;
 				return dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame*>(frame) != NULL
 			]"
+		end
+
+	frozen cpp_delete (self: POINTER)
+			--
+		external
+			"C++ [delete TagLib::ID3v2::AttachedPictureFrame %"mpeg/id3v2/frames/attachedpictureframe.h%"] ()"
 		end
 
 feature {NONE} -- Access
@@ -106,7 +112,7 @@ feature {NONE} -- Element change
 			"C++ inline use <mpeg/id3v2/frames/attachedpictureframe.h>"
 		alias
 			"[
-				TagLib::ByteVector& picture = *((TagLib::ByteVector*)$data);
+				const TagLib::ByteVector& picture = *((const TagLib::ByteVector*)$data);
 				((TagLib::ID3v2::AttachedPictureFrame*)$self)->setPicture (picture)
 			]"
 		end

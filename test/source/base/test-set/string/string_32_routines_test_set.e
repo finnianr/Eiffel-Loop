@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 11:50:03 GMT (Saturday 7th March 2020)"
-	revision: "8"
+	date: "2020-03-16 10:22:55 GMT (Monday 16th March 2020)"
+	revision: "9"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -16,9 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	TEST_STRING_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_MODULE_STRING_32
 

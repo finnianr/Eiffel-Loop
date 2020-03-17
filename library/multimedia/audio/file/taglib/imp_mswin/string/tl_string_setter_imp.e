@@ -6,26 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:07:23 GMT (Sunday 10th November 2019)"
-	revision: "1"
+	date: "2020-03-17 11:37:18 GMT (Tuesday 17th March 2020)"
+	revision: "2"
 
 class
 	TL_STRING_SETTER_IMP
 
 inherit
-	TL_STRING_SETTER_I
-		redefine
-			utf_16_area
-		end
+	TL_STRING_SETTER_I [NATURAL_16]
 
 feature {NONE} -- Implementation
 
-	extend (area: like utf_16_area; code: NATURAL)
+	extend_part (p: NATURAL)
 		do
-			area.extend (code.to_natural_16)
+			extend (p.to_natural_16)
 		end
-
-feature {NONE} -- Internal attributes
-
-	utf_16_area: SPECIAL [NATURAL_16]
 end

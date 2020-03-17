@@ -187,3 +187,6 @@ Simplified EL_CONSOLE_LOG_OUTPUT to use color routine set_text_color
 Sat 7th Mar 2020, 13:14:08
 Base test sets available as finalized versions
 
+Sat 14th Mar 2020, 19:12:42
+Added class TL_ID3_PICTURE
+

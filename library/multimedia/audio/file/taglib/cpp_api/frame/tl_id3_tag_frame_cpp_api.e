@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 19:11:48 GMT (Monday 11th November 2019)"
-	revision: "4"
+	date: "2020-03-17 13:23:12 GMT (Tuesday 17th March 2020)"
+	revision: "5"
 
 class
 	TL_ID3_TAG_FRAME_CPP_API
@@ -19,7 +19,7 @@ class
 inherit
 	EL_CPP_API
 
-feature {TL_ID3_FRAME_LIST_ITERATOR_CPP_API} -- C++ Externals
+feature {TL_ID3_FRAME_LIST_ITERATOR_CPP_API} -- Access
 
 	frozen cpp_frame_id (self: POINTER): POINTER
 		external
@@ -46,6 +46,25 @@ feature {TL_ID3_FRAME_LIST_ITERATOR_CPP_API} -- C++ Externals
 			"[
 				TagLib::String &text = *((TagLib::String*)$text_out);
 				text.clear().append(((TagLib::ID3v2::Frame*)$self)->toString ())
+			]"
+		end
+
+feature {NONE} -- Element change
+
+	frozen cpp_set_text (self, text: POINTER)
+		-- virtual void setText(const String &text);
+
+		-- If the frame type supports multiple text encodings, this will not
+      -- change the text encoding of the frame; the string will be converted to
+      -- that frame's encoding.  Please use the specific APIs of the frame types
+      -- to set the encoding if that is desired.
+
+		external
+			"C++ inline use <mpeg/id3v2/id3v2frame.h>"
+		alias
+			"[
+				TagLib::String &text = *((TagLib::String*)$text);
+				((TagLib::ID3v2::Frame*)$self)->setText (text)
 			]"
 		end
 

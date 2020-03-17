@@ -1,30 +1,30 @@
 note
-	description: "Shared frame ID enumeration codes"
+	description: "Shared access to [$source TL_STRING_ENCODING_ENUM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:17:12 GMT (Tuesday 17th March 2020)"
-	revision: "5"
+	date: "2020-03-17 17:26:33 GMT (Tuesday 17th March 2020)"
+	revision: "1"
 
 deferred class
-	TL_SHARED_FRAME_ID_ENUM
+	TL_SHARED_STRING_ENCODING_ENUM
 
 inherit
 	EL_ANY_SHARED
 
 feature -- Status query
 
-	valid_frame_id (id: NATURAL_8): BOOLEAN
+	valid_encoding (code: NATURAL_8): BOOLEAN
 		do
-			Result := Frame_id.is_valid_value (id)
+			Result := String_encoding.is_valid_value (code)
 		end
 
 feature {NONE} -- Constants
 
-	Frame_id: TL_FRAME_ID_ENUM
+	String_encoding: TL_STRING_ENCODING_ENUM
 		once
 			create Result.make
 		end

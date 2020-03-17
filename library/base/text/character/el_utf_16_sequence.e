@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-28 11:23:18 GMT (Monday 28th October 2019)"
-	revision: "4"
+	date: "2020-03-17 11:44:20 GMT (Tuesday 17th March 2020)"
+	revision: "5"
 
 class
 	EL_UTF_16_SEQUENCE
@@ -37,15 +37,39 @@ feature -- Access
 			valid_count: count >= 1 and then count = 2 implies is_surrogate_pair
 		do
 			if count = 2 then
-				Result := (first |<< 10) + area [1] - 0x35FDC00
+				Result := (lead |<< 10) + trail - 0x35FDC00
 			else
-				Result := first
+				Result := lead
 			end
 		end
 
-	first: NATURAL
+	lead: NATURAL
 		do
 			Result := area [0]
+		end
+
+	trail: NATURAL
+		do
+			Result := area [1]
+		end
+
+	set (uc: CHARACTER_32)
+		local
+			c: NATURAL
+		do
+			c := uc.natural_32_code
+			if c <= 0xFFFF then
+					-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
+				area [0] := c
+				count := 1
+			else
+					-- Supplementary Planes: surrogate pair with lead and trail surrogates.
+				area [0] := 0xD7C0 + (c |>> 10)
+				area [1] := 0xDC00 + (c & 0x3FF)
+				count := 2
+			end
+		ensure
+			set: uc.natural_32_code = code
 		end
 
 feature -- Status query
@@ -54,6 +78,6 @@ feature -- Status query
 		require
 			valid_count: count >= 1
 		do
-			Result := not (first < 0xD800 or first >= 0xE000)
+			Result := not (lead < 0xD800 or lead >= 0xE000)
 		end
 end

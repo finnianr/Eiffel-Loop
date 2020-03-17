@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 14:09:52 GMT (Friday 6th March 2020)"
-	revision: "22"
+	date: "2020-03-17 10:40:48 GMT (Tuesday 17th March 2020)"
+	revision: "23"
 
 class
 	ZSTRING_TEST_SET
@@ -22,9 +22,6 @@ inherit
 		end
 
 	TEST_STRING_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_ZSTRING_CONSTANTS
 
@@ -210,10 +207,15 @@ feature -- Element change tests
 				tuple := Substituted_words [line.cursor_index]
 				index := 0
 				from i := 1 until i > tuple.count loop
-					if tuple.is_reference_item (i) and then
-						attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word
-					then
-						l_word := word
+					inspect tuple.item_code (i)
+						when {TUPLE}.Character_code then
+							create {STRING} l_word.make_filled (tuple.character_item (i), 1)
+						when {TUPLE}.Character_32_code then
+							create {STRING_32} l_word.make_filled (tuple.character_32_item (i), 1)
+						when {TUPLE}.Reference_code then
+							if  attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word then
+								l_word := word
+							end
 					else
 						l_word := tuple.item (i).out
 					end
@@ -1043,6 +1045,20 @@ feature {NONE} -- String 8 constants
 	Right_adjust: STRING = "right_right"
 
 feature {NONE} -- Constants
+
+	Substituted_words: ARRAY [TUPLE]
+		once
+			Result := <<
+				[{STRING_32} "и", {STRING_32} "съесть",{STRING_32} "лезть"],
+				["eat", "fish", "catching"],
+				[1, 1],
+				[15],
+				['´'],
+				['€']
+			>>
+		ensure
+			same_number: Result.count = Text_russian_and_english.occurrences ('%N') + 1
+		end
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
 		local

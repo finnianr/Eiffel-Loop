@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:58:47 GMT (Saturday 14th March 2020)"
-	revision: "6"
+	date: "2020-03-17 18:24:17 GMT (Tuesday 17th March 2020)"
+	revision: "7"
 
 class
 	TL_ID3_V1_TAG
@@ -52,8 +52,26 @@ feature -- Access
 
 feature -- Element change
 
+	set_album (a_album: READABLE_STRING_GENERAL)
+		do
+			Once_string.set_from_string (a_album)
+			cpp_set_album (self_ptr, Once_string.self_ptr)
+		end
+
+	set_artist (a_artist: READABLE_STRING_GENERAL)
+		do
+			Once_string.set_from_string (a_artist)
+			cpp_set_artist (self_ptr, Once_string.self_ptr)
+		end
+
 	set_picture (a_picture: TL_ID3_PICTURE)
 		do
+		end
+
+	set_title (a_title: READABLE_STRING_GENERAL)
+		do
+			Once_string.set_from_string (a_title)
+			cpp_set_title (self_ptr, Once_string.self_ptr)
 		end
 
 feature -- Constants

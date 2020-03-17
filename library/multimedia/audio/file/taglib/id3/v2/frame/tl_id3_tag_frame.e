@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:54:15 GMT (Saturday 14th March 2020)"
-	revision: "5"
+	date: "2020-03-17 13:25:59 GMT (Tuesday 17th March 2020)"
+	revision: "6"
 
 class
 	TL_ID3_TAG_FRAME
@@ -27,18 +27,14 @@ inherit
 	TL_SHARED_FRAME_ID_ENUM
 
 create
-	make_from_pointer, default_create
+	make_from_pointer
 
 feature -- Access
 
 	id: STRING
 		do
-			if is_attached (self_ptr) then
-				cpp_get_frame_id (self_ptr, Once_byte_vector.self_ptr)
-				Result := Once_byte_vector.to_string_8
-			else
-				create Result.make_empty
-			end
+			cpp_get_frame_id (self_ptr, Once_byte_vector.self_ptr)
+			Result := Once_byte_vector.to_string_8
 		end
 
 	id_enum: NATURAL_8
@@ -50,12 +46,14 @@ feature -- Access
 
 	text: ZSTRING
 		do
-			if is_attached (self_ptr) then
-				cpp_get_string (self_ptr, Once_string.self_ptr)
-				Result := Once_string.to_string
-			else
-				create Result.make_empty
-			end
+			cpp_get_string (self_ptr, Once_string.self_ptr)
+			Result := Once_string.to_string
+		end
+
+	set_text (a_text: READABLE_STRING_GENERAL)
+		do
+			Once_string.set_from_string (a_text)
+			cpp_set_text (self_ptr, Once_string.self_ptr)
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-13 11:19:05 GMT (Friday 13th March 2020)"
-	revision: "7"
+	date: "2020-03-17 13:04:09 GMT (Tuesday 17th March 2020)"
+	revision: "8"
 
 class
 	TL_STRING
@@ -121,19 +121,11 @@ feature -- Conversion
 
 feature -- Element change
 
-	set_from_string (str: ZSTRING)
+	set_from_string (str: READABLE_STRING_GENERAL)
 		do
-			Setter.set_string (Current, str)
-		end
-
-	set_from_string_8 (str: STRING)
-		do
-			Setter.set_string_8 (Current, str)
-		end
-
-	set_from_string_32 (str: STRING_32)
-		do
-			Setter.set_string_32 (Current, str)
+			Setter.set_text (Current, str)
+		ensure
+			set: to_string_32 (False).same_string_general (str)
 		end
 
 	wipe_out
@@ -143,10 +135,10 @@ feature -- Element change
 
 feature {TL_STRING_SETTER_I} -- Element change
 
-	set_from_utf_16 (utf_16: POINTER)
+	set_from_utf_16 (area: SPECIAL [NUMERIC])
 		do
 			wipe_out
-			cpp_append (self_ptr, utf_16)
+			cpp_append (self_ptr, area.base_address)
 		end
 
 feature {NONE} -- Implementation
@@ -161,9 +153,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	Setter: TL_STRING_SETTER_I
+	Setter: TL_STRING_SETTER_I [NUMERIC]
 		once
-			create {TL_STRING_SETTER_IMP} Result
+			create {TL_STRING_SETTER_IMP} Result.make
 		end
 
 end

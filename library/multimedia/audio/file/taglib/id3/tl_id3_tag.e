@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:58:26 GMT (Saturday 14th March 2020)"
-	revision: "6"
+	date: "2020-03-17 18:25:01 GMT (Tuesday 17th March 2020)"
+	revision: "7"
 
 deferred class
 	TL_ID3_TAG
@@ -45,9 +45,9 @@ feature -- Access
 			create Result
 		end
 
-	picture: TL_PICTURE_ID3_FRAME
+	picture: TL_ID3_PICTURE
 		do
-			create Result
+			create Result.make_empty
 		end
 
 	title: ZSTRING
@@ -61,8 +61,26 @@ feature -- Access
 
 feature -- Element change
 
+	set_album (a_album: READABLE_STRING_GENERAL)
+		deferred
+		ensure
+			set: version > 0 implies album.same_string (a_album)
+		end
+
+	set_artist (a_artist: READABLE_STRING_GENERAL)
+		deferred
+		ensure
+			set: version > 0 implies artist.same_string (a_artist)
+		end
+
 	set_picture (a_picture: TL_ID3_PICTURE)
 		deferred
+		end
+
+	set_title (a_title: READABLE_STRING_GENERAL)
+		deferred
+		ensure
+			set: version > 0 implies title.same_string (a_title)
 		end
 
 feature -- Status query

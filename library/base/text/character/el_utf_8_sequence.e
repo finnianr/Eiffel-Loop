@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-10 19:07:24 GMT (Thursday 10th January 2019)"
-	revision: "3"
+	date: "2020-03-17 11:20:02 GMT (Tuesday 17th March 2020)"
+	revision: "4"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -31,9 +31,8 @@ feature -- Element change
 
 	set (uc: CHARACTER_32)
 		local
-			code: NATURAL; l_area: like area
+			code: NATURAL
 		do
-			l_area := area
 			code := uc.natural_32_code
 			if code <= 0x7F then
 					-- 0xxxxxxx

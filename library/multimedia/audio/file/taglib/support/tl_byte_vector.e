@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 13:24:48 GMT (Saturday 14th March 2020)"
-	revision: "5"
+	date: "2020-03-15 11:54:20 GMT (Sunday 15th March 2020)"
+	revision: "6"
 
 class
 	TL_BYTE_VECTOR
@@ -132,11 +132,15 @@ feature -- Element change
 		do
 			to_c := str.to_c
 			cpp_set_data_from_string (self_ptr, $to_c)
+		ensure
+			same_count: count = str.count
 		end
 
 	set_data (a_data: like data)
 		do
 			cpp_set_data (self_ptr, a_data.item, a_data.count)
+		ensure
+			same_count: count = a_data.count
 		end
 
 	set_from_frame_id (enum_code: NATURAL_8)

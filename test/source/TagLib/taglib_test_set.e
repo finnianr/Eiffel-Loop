@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 19:09:15 GMT (Saturday 14th March 2020)"
-	revision: "19"
+	date: "2020-03-17 18:25:34 GMT (Tuesday 17th March 2020)"
+	revision: "20"
 
 class
 	TAGLIB_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		redefine
+			on_clean
+		end
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
@@ -32,14 +35,18 @@ inherit
 
 	TL_SHARED_PICTURE_TYPE_ENUM
 
+	TEST_STRING_CONSTANTS
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+--			eval.call ("picture_edit", agent test_picture_edit)
 			eval.call ("read_basic_id3", agent test_read_basic_id3)
 			eval.call ("read_v2_frames", agent test_read_v2_frames)
-			eval.call ("picture_edit", agent test_picture_edit)
+			eval.call ("string_setting", agent test_string_setting)
+			eval.call ("string_conversion", agent test_string_conversion)
 		end
 
 feature -- Tests
@@ -47,17 +54,23 @@ feature -- Tests
 	test_picture_edit
 		local
 			mp3: TL_MPEG_FILE; picture: TL_ID3_PICTURE
+			base_230: ZSTRING
 		do
-			file_list.find_first_equal (Picture_230_tag, agent {EL_FILE_PATH}.base_matches)
+			base_230 := Picture_230_tag.twin
+			base_230.remove_tail (4)
+
+			file_list.find_first_true (agent {EL_FILE_PATH}.base_matches (base_230))
 			if file_list.found then
 				create mp3.make (file_list.path)
-				create picture.make (Top_png_path, "Upwards arrow", "image/png", Picture_type.other)
+				create picture.make (Top_png_path, "Upwards arrow", Picture_type.other)
 				mp3.tag.set_picture (picture)
 				mp3.save
 				mp3.dispose
-
 				create mp3.make (file_list.path)
---				picture_2 := mp3.tag.p
+				assert ("same picture", picture ~ mp3.tag.picture)
+				mp3.dispose
+			else
+				assert (Picture_230_tag + " not found", False)
 			end
 		end
 
@@ -69,7 +82,6 @@ feature -- Tests
 					agent print_tag, [path.item.relative_path (Work_area_dir)]
 				)
 			end
-			{MEMORY}.full_collect
 		end
 
 	test_read_v2_frames
@@ -80,7 +92,31 @@ feature -- Tests
 					agent print_v2_frames, [path.item.relative_path (Work_area_dir)]
 				)
 			end
-			{MEMORY}.full_collect
+		end
+
+	test_string_conversion
+		local
+			tl_string: TL_STRING
+		do
+			create tl_string.make_empty
+			across Text_lines as line loop
+				tl_string.set_from_string (line.item)
+				assert ("same string", tl_string.to_string_32 (False) ~ line.item)
+			end
+		end
+
+	test_string_setting
+		local
+			mp3: TL_MPEG_FILE; title: ZSTRING
+		do
+			across file_list as path loop
+				create mp3.make (path.item)
+				title := Text_lines.circular_i_th (path.cursor_index)
+				if not mp3.tag.is_default then
+					mp3.tag.set_title (title)
+					assert ("title set", mp3.tag.title ~ title)
+				end
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -186,6 +222,14 @@ feature {NONE} -- Implementation
 	source_file_list: EL_FILE_PATH_LIST
 		do
 			Result := OS.file_list (Data_dir, "*")
+		end
+
+feature {NONE} -- Events
+
+	on_clean
+		do
+			{MEMORY}.full_collect
+			Precursor {EL_COPIED_FILE_DATA_TEST_SET}
 		end
 
 feature {NONE} -- Constants
