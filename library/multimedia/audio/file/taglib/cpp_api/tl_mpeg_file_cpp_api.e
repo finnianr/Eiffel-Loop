@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 14:20:54 GMT (Saturday 14th March 2020)"
-	revision: "8"
+	date: "2020-03-18 12:10:54 GMT (Wednesday 18th March 2020)"
+	revision: "9"
 
 class
 	TL_MPEG_FILE_CPP_API
@@ -42,17 +42,19 @@ feature {NONE} -- Disposal
 
 feature {NONE} -- Basic operations
 
-	frozen cpp_save (self_ptr: POINTER): BOOLEAN
-		-- Save the file.  If at least one tag -- ID3v1 or ID3v2 -- exists this
-		-- will duplicate its content into the other tag.  This returns true
-		-- if saving was successful.
-		-- If neither exists or if both tags are empty, this will strip the tags
-		-- from the file.
-		-- This is the same as calling save(AllTags);
+	frozen cpp_save (self_ptr: POINTER; types: INTEGER): BOOLEAN
+		--	bool save(int tags);
 
-		--	virtual bool save();
+		-- Save the file.  This will attempt to save all of the tag types that are
+		-- specified by OR-ing together TagTypes values.  The save() method above
+		-- uses AllTags.  This returns true if saving was successful.
+
+		-- This strips all tags not included in the mask, but does not modify them
+		-- in memory, so later calls to save() which make use of these tags will
+		-- remain valid.  This also strips empty tags.
+
 		external
-			"C++ [TagLib::MPEG::File %"mpeg/mpegfile.h%"] (): EIF_BOOLEAN"
+			"C++ [TagLib::MPEG::File %"mpeg/mpegfile.h%"] (int): EIF_BOOLEAN"
 		alias
 			"save"
 		end

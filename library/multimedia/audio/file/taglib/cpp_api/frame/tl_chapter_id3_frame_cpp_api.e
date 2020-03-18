@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 14:37:17 GMT (Tuesday 12th November 2019)"
-	revision: "3"
+	date: "2020-03-18 16:59:29 GMT (Wednesday 18th March 2020)"
+	revision: "4"
 
 class
 	TL_CHAPTER_ID3_FRAME_CPP_API
@@ -19,7 +19,7 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Status query
 
 	frozen cpp_conforms (frame: POINTER): BOOLEAN
 		-- True if frame conforms to type `TagLib::ID3v2::ChapterFrame'
@@ -31,6 +31,8 @@ feature {NONE} -- C++ Externals
 				return dynamic_cast<const TagLib::ID3v2::ChapterFrame*>(frame) != NULL
 			]"
 		end
+
+feature {NONE} -- Measurement
 
 	frozen cpp_start_time (self: POINTER): NATURAL
 		-- unsigned int startTime() const;

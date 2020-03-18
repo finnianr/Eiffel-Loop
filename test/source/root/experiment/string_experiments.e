@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 21:21:11 GMT (Thursday 13th February 2020)"
-	revision: "3"
+	date: "2020-03-18 10:40:29 GMT (Wednesday 18th March 2020)"
+	revision: "4"
 
 class
 	STRING_EXPERIMENTS
@@ -75,6 +75,20 @@ feature -- Basic operations
 			message := "Euro sign: "
 			message.append_code (0x20AC)
 			lio.put_line (message)
+		end
+
+	fuzzy_match
+		local
+			a: STRING
+		do
+			a := "image/jpeg"
+			across << "jpg", "jpeg", "png" >> as ext loop
+				lio.put_labeled_string ("Matched " + ext.item, a.fuzzy_index (ext.item, 1, 1).to_boolean.out )
+				lio.put_new_line
+			end
+--			Matched jpg: True
+--			Matched jpeg: True
+--			Matched png: True
 		end
 
 	hexadecimal_to_natural_64

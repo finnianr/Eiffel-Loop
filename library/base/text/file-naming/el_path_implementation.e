@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 17:18:49 GMT (Tuesday 24th December 2019)"
-	revision: "3"
+	date: "2020-03-18 11:10:33 GMT (Wednesday 18th March 2020)"
+	revision: "4"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -52,7 +52,9 @@ feature -- Measurement
 	dot_index: INTEGER
 		-- index of last dot, 0 if none
 		do
-			Result := base.last_index_of ('.', base.count)
+			if not base.is_empty then
+				Result := base.last_index_of ('.', base.count)
+			end
 		end
 
 	parent_count: INTEGER

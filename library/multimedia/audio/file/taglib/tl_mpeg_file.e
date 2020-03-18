@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 14:19:38 GMT (Saturday 14th March 2020)"
-	revision: "9"
+	date: "2020-03-18 12:12:12 GMT (Wednesday 18th March 2020)"
+	revision: "10"
 
 class
 	TL_MPEG_FILE
@@ -32,10 +32,13 @@ feature {NONE} -- Implementation
 			path := a_path
 			file_name := a_path
 			make_from_pointer (cpp_new (file_name.item))
-			if has_version_1 then
-				create {TL_ID3_V1_TAG} tag.make (cpp_ID3_v1_tag (self_ptr, False))
-			elseif has_version_2 then
+
+			if has_version_2 then
 				create {TL_ID3_V2_TAG} tag.make (cpp_ID3_v2_tag (self_ptr, False))
+
+			elseif has_version_1 then
+				create {TL_ID3_V1_TAG} tag.make (cpp_ID3_v1_tag (self_ptr, False))
+
 			else
 				create {TL_ID3_V0_TAG} tag
 			end
@@ -76,7 +79,8 @@ feature -- Status query
 feature -- Basic operations
 
 	save
+		-- save only the `tag' with `tag.type' and discard others
 		do
-			is_saved := cpp_save (self_ptr)
+			is_saved := cpp_save (self_ptr, tag.type)
 		end
 end

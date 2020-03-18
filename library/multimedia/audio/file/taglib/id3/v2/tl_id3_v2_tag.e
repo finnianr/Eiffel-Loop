@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 18:27:46 GMT (Tuesday 17th March 2020)"
-	revision: "10"
+	date: "2020-03-18 18:04:10 GMT (Wednesday 18th March 2020)"
+	revision: "11"
 
 class
 	TL_ID3_V2_TAG
@@ -15,7 +15,7 @@ class
 inherit
 	TL_ID3_TAG
 		redefine
-			header, picture
+			header, picture, set_unique_id
 		end
 
 	TL_ID3_V2_TAG_CPP_API
@@ -25,6 +25,8 @@ inherit
 	TL_SHARED_BYTE_VECTOR
 
 	TL_SHARED_STRING_ENCODING_ENUM
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -54,10 +56,10 @@ feature -- ID3 fields
 
 	picture: TL_ID3_PICTURE
 		do
-			if has_frame (Frame_id.apic) and then attached {TL_PICTURE_ID3_FRAME} first_frame (Frame_id.apic) as frame then
+			if attached {TL_PICTURE_ID3_FRAME} first_frame (Frame_id.apic) as frame then
 				create Result.make_from_frame (frame)
 			else
-				create Result.make_empty
+				create Result.make_default
 			end
 		end
 
@@ -76,6 +78,11 @@ feature -- Frames
 			end
 		end
 
+	all_unique_id_list: like unique_id_list
+		do
+			Result := unique_id_list (Empty_string)
+		end
+
 	frame_integer (enum_code: NATURAL_8): INTEGER
 		require
 			valid_code: valid_frame_id (enum_code)
@@ -88,6 +95,23 @@ feature -- Frames
 			valid_code: valid_frame_id (enum_code)
 		do
 			Result := filled_once_string (enum_code).to_string
+		end
+
+	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER_FRAME]
+		-- unique identifier frames with owner equal to `owner'
+		-- unless owner is the string `Empty_string' in which case all frames are added
+		local
+			found: BOOLEAN
+		do
+			create Result.make (2)
+			across frame_list (Frame_id.UFID) as ufid until found loop
+				if attached {TL_UNIQUE_FILE_IDENTIFIER_FRAME} ufid.item as ufid_frame then
+					if owner /= Empty_string and then owner.same_string (ufid_frame.owner) then
+						found := True
+					end
+					Result.extend (ufid_frame)
+				end
+			end
 		end
 
 feature -- Access
@@ -140,7 +164,9 @@ feature -- Element change
 			if attached {TL_PICTURE_ID3_FRAME} first_frame (Frame_id.APIC) as l_frame then
 				remove_frame (l_frame)
 			end
-			add_frame (create {TL_PICTURE_ID3_FRAME}.make (a_picture))
+			add_frame (a_picture.to_frame)
+		ensure then
+			set: picture ~ a_picture
 		end
 
 	set_title (a_title: READABLE_STRING_GENERAL)
@@ -148,9 +174,39 @@ feature -- Element change
 			set_frame_text (Frame_id.TIT2, a_title)
 		end
 
+	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
+		local
+			list: like unique_id_list
+			ufid: TL_UNIQUE_FILE_IDENTIFIER_FRAME
+		do
+			list := unique_id_list (owner)
+			if list.is_empty then
+				create ufid.make (owner, identifier)
+				add_frame (ufid)
+			else
+				list.first.set_identifier (identifier)
+			end
+		end
+
+feature -- Removal
+
+	remove_frame (frame: TL_ID3_TAG_FRAME)
+		do
+			cpp_remove_frame (self_ptr, frame.self_ptr)
+		end
+
+	remove_unique_id (owner: READABLE_STRING_GENERAL)
+		do
+			across unique_id_list (owner) as ufid loop
+				remove_frame (ufid.item)
+			end
+		end
+
 feature -- Constants
 
-	version: INTEGER = 2
+	Type: INTEGER = 2
+
+	Version: INTEGER = 2
 		-- ID3 version number
 
 feature {NONE} -- Implementation
@@ -202,11 +258,6 @@ feature {NONE} -- Implementation
 	iterable_frames: EL_CPP_STD_LIST [TL_ID3_FRAME_ITERATION_CURSOR, TL_ID3_TAG_FRAME]
 		do
 			create Result.make (agent cpp_frame_list_begin (self_ptr), agent cpp_frame_list_end (self_ptr))
-		end
-
-	remove_frame (frame: TL_ID3_TAG_FRAME)
-		do
-			cpp_remove_frame (self_ptr, frame.self_ptr)
 		end
 
 	set_frame_text (enum_code: NATURAL_8; text: READABLE_STRING_GENERAL)

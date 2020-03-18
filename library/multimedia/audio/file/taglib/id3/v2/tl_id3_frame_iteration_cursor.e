@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 17:13:15 GMT (Saturday 14th March 2020)"
-	revision: "6"
+	date: "2020-03-18 16:52:47 GMT (Wednesday 18th March 2020)"
+	revision: "7"
 
 class
 	TL_ID3_FRAME_ITERATION_CURSOR
@@ -38,6 +38,10 @@ feature -- Access
 
 			elseif {TL_TEXT_IDENTIFICATION_ID3_FRAME}.cpp_conforms (frame) then
 				create {TL_TEXT_IDENTIFICATION_ID3_FRAME} Result.make_from_pointer (frame)
+
+			elseif {TL_UNIQUE_FILE_IDENTIFIER_FRAME}.cpp_conforms (frame) then
+				create {TL_UNIQUE_FILE_IDENTIFIER_FRAME} Result.make_from_pointer (frame)
+				
 			else
 				create Result.make_from_pointer (frame)
 			end

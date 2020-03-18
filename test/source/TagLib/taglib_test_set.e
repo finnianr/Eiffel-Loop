@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 18:25:34 GMT (Tuesday 17th March 2020)"
-	revision: "20"
+	date: "2020-03-18 17:23:15 GMT (Wednesday 18th March 2020)"
+	revision: "21"
 
 class
 	TAGLIB_TEST_SET
@@ -43,10 +43,11 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 --			eval.call ("picture_edit", agent test_picture_edit)
-			eval.call ("read_basic_id3", agent test_read_basic_id3)
-			eval.call ("read_v2_frames", agent test_read_v2_frames)
-			eval.call ("string_setting", agent test_string_setting)
-			eval.call ("string_conversion", agent test_string_conversion)
+--			eval.call ("picture_mime_types", agent test_picture_mime_types)
+--			eval.call ("read_basic_id3", agent test_read_basic_id3)
+			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
+--			eval.call ("string_conversion", agent test_string_conversion)
+--			eval.call ("string_setting", agent test_string_setting)
 		end
 
 feature -- Tests
@@ -54,12 +55,8 @@ feature -- Tests
 	test_picture_edit
 		local
 			mp3: TL_MPEG_FILE; picture: TL_ID3_PICTURE
-			base_230: ZSTRING
 		do
-			base_230 := Picture_230_tag.twin
-			base_230.remove_tail (4)
-
-			file_list.find_first_true (agent {EL_FILE_PATH}.base_matches (base_230))
+			file_list.find_first_base (Picture_230_tag)
 			if file_list.found then
 				create mp3.make (file_list.path)
 				create picture.make (Top_png_path, "Upwards arrow", Picture_type.other)
@@ -68,9 +65,22 @@ feature -- Tests
 				mp3.dispose
 				create mp3.make (file_list.path)
 				assert ("same picture", picture ~ mp3.tag.picture)
-				mp3.dispose
 			else
 				assert (Picture_230_tag + " not found", False)
+			end
+		end
+
+	test_picture_mime_types
+		local
+			picture: TL_ID3_PICTURE
+			table: EL_HASH_TABLE [STRING, STRING]
+		do
+			create table.make (<<
+				["pic.jpeg", "image/jpeg"], ["pic.jpg", "image/jpeg"], ["pic.png", "image/png"]
+			>>)
+			across table as pic loop
+				create picture.make (pic.key, "", Picture_type.other)
+				assert ("valid mime type", picture.mime_type ~ pic.item)
 			end
 		end
 
@@ -204,6 +214,10 @@ feature {NONE} -- Implementation
 						across text.field_list.arrayed as field loop
 							print_field (Array_template #$ ["field_list", field.cursor_index], field.item)
 						end
+					elseif attached {TL_UNIQUE_FILE_IDENTIFIER_FRAME} frame.item as l_unique then
+						log.put_string_field ("; identifier", l_unique.identifier)
+						log.put_string_field ("; owner", l_unique.owner)
+						log.put_new_line
 					else
 						print_field ("; text", frame.item.text)
 					end

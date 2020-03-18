@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 13:04:09 GMT (Tuesday 17th March 2020)"
-	revision: "8"
+	date: "2020-03-18 11:38:33 GMT (Wednesday 18th March 2020)"
+	revision: "9"
 
 class
 	TL_STRING
@@ -54,9 +54,7 @@ feature -- Status query
 
 	is_latin_1: BOOLEAN
 		do
-			if is_attached (self_ptr) then
-				Result := cpp_is_latin_1 (self_ptr)
-			end
+			Result := cpp_is_latin_1 (self_ptr)
 		end
 
 feature -- Measurement

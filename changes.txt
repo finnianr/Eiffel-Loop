@@ -190,3 +190,6 @@ Base test sets available as finalized versions
 Sat 14th Mar 2020, 19:12:42
 Added class TL_ID3_PICTURE
 
+Tue 17th Mar 2020, 18:31:09
+Passed test set to set strings on TL_MPEG_FILE
+

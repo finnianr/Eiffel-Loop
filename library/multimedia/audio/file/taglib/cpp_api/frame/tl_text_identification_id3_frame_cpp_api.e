@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:12:35 GMT (Tuesday 17th March 2020)"
-	revision: "5"
+	date: "2020-03-18 16:49:44 GMT (Wednesday 18th March 2020)"
+	revision: "6"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			]"
 		end
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Status query
 
 	frozen cpp_conforms (frame: POINTER): BOOLEAN
 		-- True if frame conforms to type `TagLib::ID3v2::TextIdentificationFrame'
@@ -44,6 +44,8 @@ feature {NONE} -- C++ Externals
 				return dynamic_cast<const TagLib::ID3v2::TextIdentificationFrame*>(frame) != NULL
 			]"
 		end
+
+feature {NONE} -- Access
 
 	frozen cpp_field_list (self: POINTER): POINTER
 		external

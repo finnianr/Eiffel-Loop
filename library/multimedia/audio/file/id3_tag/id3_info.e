@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-10 11:19:53 GMT (Tuesday 10th March 2020)"
-	revision: "9"
+	date: "2020-03-18 17:46:31 GMT (Wednesday 18th March 2020)"
+	revision: "10"
 
 class
 	ID3_INFO
@@ -578,12 +578,11 @@ feature -- Status report
  			set_field_of_type (agent {ID3_FRAME}.set_language, name, value, a_encoding)
  		end
 
-	append_unique_ids (id_list: LINKED_LIST [ID3_UNIQUE_FILE_ID_FRAME])
+	append_unique_ids (id_list: ITERABLE [ID3_UNIQUE_FILE_ID_FRAME])
 			--
 		do
-			from id_list.start until id_list.after loop
-				set_unique_id (id_list.item.owner, id_list.item.id)
-				id_list.forth
+			across id_list as l_unique loop
+				set_unique_id (l_unique.item.owner, l_unique.item.id)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 18:24:17 GMT (Tuesday 17th March 2020)"
-	revision: "7"
+	date: "2020-03-18 12:05:21 GMT (Wednesday 18th March 2020)"
+	revision: "8"
 
 class
 	TL_ID3_V1_TAG
@@ -75,6 +75,8 @@ feature -- Element change
 		end
 
 feature -- Constants
+
+	Type: INTEGER = 1
 
 	version: INTEGER = 1
 		-- ID3 version number

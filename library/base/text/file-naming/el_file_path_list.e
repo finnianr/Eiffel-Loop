@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 15:40:47 GMT (Saturday 25th January 2020)"
-	revision: "12"
+	date: "2020-03-18 11:32:29 GMT (Wednesday 18th March 2020)"
+	revision: "13"
 
 class
 	EL_FILE_PATH_LIST
@@ -82,4 +82,17 @@ feature -- Basic operations
 			make_from_array (ordered_by (agent File_system.file_byte_count, in_ascending_order).to_array)
 		end
 
+feature -- Cursor movement
+
+	find_first_base (base: ZSTRING)
+		do
+			find_first_true (agent base_matches (?, base))
+		end
+
+feature {NONE} -- Implementation
+
+	base_matches (a_path: EL_FILE_PATH; base: ZSTRING): BOOLEAN
+		do
+			Result := a_path.base ~ base
+		end
 end

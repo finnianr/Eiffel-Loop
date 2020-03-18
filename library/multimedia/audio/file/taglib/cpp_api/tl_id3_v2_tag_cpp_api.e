@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:52:39 GMT (Saturday 14th March 2020)"
-	revision: "8"
+	date: "2020-03-18 18:16:43 GMT (Wednesday 18th March 2020)"
+	revision: "9"
 
 class
 	TL_ID3_V2_TAG_CPP_API
@@ -19,7 +19,7 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Access
 
 	frozen cpp_frame_count (tag: POINTER): INTEGER
 		external
@@ -28,12 +28,12 @@ feature {NONE} -- C++ Externals
 			"((TagLib::ID3v2::Tag*)$tag)->frameList().size()"
 		end
 
-	frozen cpp_frame_list (tag, id: POINTER): POINTER
+	frozen cpp_frame_list (tag, frame_id: POINTER): POINTER
 		external
 			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
 		alias
 			"[
-				const TagLib::ByteVector frame_id = *((const TagLib::ByteVector*)$id);
+				const TagLib::ByteVector frame_id = *((const TagLib::ByteVector*) $frame_id);
 				return new TagLib::ID3v2::FrameList (((TagLib::ID3v2::Tag*)$tag)->frameList (frame_id))
 			]"
 		end
@@ -86,13 +86,6 @@ feature {NONE} -- C++ Externals
 			"header"
 		end
 
-	frozen cpp_title (tag: POINTER): POINTER
-		external
-			"C++ inline use <mpeg/id3v2/id3v2tag.h>"
-		alias
-			"new TagLib::String (((TagLib::ID3v2::Tag*)$tag)->title ())"
-		end
-
 feature {NONE} -- Element change
 
 	frozen cpp_add_frame (self_ptr, frame_ptr: POINTER)
@@ -106,6 +99,8 @@ feature {NONE} -- Element change
 		alias
 			"((TagLib::ID3v2::Tag*)$self_ptr)->addFrame ((TagLib::ID3v2::Frame*)$frame_ptr)"
 		end
+
+feature {NONE} -- Removal
 
 	frozen cpp_remove_frame (self_ptr, frame_ptr: POINTER)
 		-- void removeFrame(Frame *frame, bool del = true);

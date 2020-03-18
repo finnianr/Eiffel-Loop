@@ -1,13 +1,24 @@
 note
-	description: "ID3 tag"
+	description: "ID3 tag that is owned by [$source TL_MPEG_FILE]"
+	notes: "[
+		**Tag Types**
+		
+			enum TagTypes {
+				NoTags  = 0x0000, // Empty set.  Matches no tag types.
+				ID3v1   = 0x0001, //! Matches ID3v1 tags.
+				ID3v2   = 0x0002, //! Matches ID3v2 tags.
+				APE     = 0x0004, //! Matches APE tags.
+				AllTags = 0xffff //! Matches all tag types.
+			};
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 18:25:01 GMT (Tuesday 17th March 2020)"
-	revision: "7"
+	date: "2020-03-18 17:58:52 GMT (Wednesday 18th March 2020)"
+	revision: "8"
 
 deferred class
 	TL_ID3_TAG
@@ -47,7 +58,7 @@ feature -- Access
 
 	picture: TL_ID3_PICTURE
 		do
-			create Result.make_empty
+			create Result.make_default
 		end
 
 	title: ZSTRING
@@ -56,6 +67,10 @@ feature -- Access
 
 	version: INTEGER
 		-- ID3 version number
+		deferred
+		end
+
+	type: INTEGER
 		deferred
 		end
 
@@ -81,6 +96,10 @@ feature -- Element change
 		deferred
 		ensure
 			set: version > 0 implies title.same_string (a_title)
+		end
+
+	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
+		do
 		end
 
 feature -- Status query
