@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-12 19:57:27 GMT (Tuesday 12th November 2019)"
-	revision: "2"
+	date: "2020-03-19 12:10:12 GMT (Thursday 19th March 2020)"
+	revision: "3"
 
 deferred class
 	TL_SHARED_BYTE_VECTOR

@@ -1,22 +1,19 @@
 note
-	description: "Tl id3 frame list"
+	description: "TagLib ID3 frame list `TagLib::ID3v2::FrameList'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 18:00:10 GMT (Saturday 14th March 2020)"
-	revision: "3"
+	date: "2020-03-19 16:01:01 GMT (Thursday 19th March 2020)"
+	revision: "4"
 
 class
 	TL_ID3_FRAME_LIST
 
 inherit
 	EL_OWNED_CPP_OBJECT
-		rename
-			make_from_pointer as make
-		end
 
 	TL_ID3_FRAME_LIST_CPP_API
 
@@ -25,16 +22,28 @@ inherit
 	ITERABLE [TL_ID3_TAG_FRAME]
 
 create
-	make, default_create
+	make, make_from_pointer
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_from_pointer (cpp_new)
+		end
 
 feature -- Status query
 
 	is_empty: BOOLEAN
 		do
-			Result := not is_attached (self_ptr) or else cpp_is_empty (self_ptr)
+			Result := cpp_is_empty (self_ptr)
 		end
 
 feature -- Access
+
+	count: INTEGER
+		do
+			Result := cpp_size (self_ptr)
+		end
 
 	first_text: ZSTRING
 		require
@@ -57,7 +66,7 @@ feature {TL_ID3_V2_TAG} -- Implementation
 			valid_object: is_attached (a_ptr)
 		do
 			dispose
-			self_ptr := a_ptr
+			make_from_pointer (a_ptr)
 		end
 
 end

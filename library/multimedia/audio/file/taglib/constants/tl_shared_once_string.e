@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-11 19:20:06 GMT (Monday 11th November 2019)"
-	revision: "1"
+	date: "2020-03-19 12:12:46 GMT (Thursday 19th March 2020)"
+	revision: "2"
 
-class
+deferred class
 	TL_SHARED_ONCE_STRING
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

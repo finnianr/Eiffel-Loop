@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 17:23:15 GMT (Wednesday 18th March 2020)"
-	revision: "21"
+	date: "2020-03-19 16:48:52 GMT (Thursday 19th March 2020)"
+	revision: "22"
 
 class
 	TAGLIB_TEST_SET
@@ -25,6 +25,8 @@ inherit
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
+	EL_MODULE_DIGEST
+
 	EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
@@ -34,6 +36,8 @@ inherit
 	EL_SHARED_CONSOLE_COLORS
 
 	TL_SHARED_PICTURE_TYPE_ENUM
+
+	TL_SHARED_ONCE_STRING_LIST
 
 	TEST_STRING_CONSTANTS
 
@@ -45,9 +49,12 @@ feature -- Basic operations
 --			eval.call ("picture_edit", agent test_picture_edit)
 --			eval.call ("picture_mime_types", agent test_picture_mime_types)
 --			eval.call ("read_basic_id3", agent test_read_basic_id3)
-			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
+--			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
 --			eval.call ("string_conversion", agent test_string_conversion)
+--			eval.call ("string_list", agent test_string_list)
 --			eval.call ("string_setting", agent test_string_setting)
+--			eval.call ("ufid", agent test_ufid)
+			eval.call ("user_text", agent test_user_text)
 		end
 
 feature -- Tests
@@ -115,6 +122,16 @@ feature -- Tests
 			end
 		end
 
+	test_string_list
+		local
+			list: EL_ZSTRING_LIST
+		do
+			create list.make_with_separator ("one, two, three", ',', True)
+			Once_string_list.wipe_out
+			Once_string_list.append (list)
+			assert ("same list", list ~ Once_string_list.to_list)
+		end
+
 	test_string_setting
 		local
 			mp3: TL_MPEG_FILE; title: ZSTRING
@@ -127,6 +144,52 @@ feature -- Tests
 					assert ("title set", mp3.tag.title ~ title)
 				end
 			end
+		end
+
+	test_ufid
+		local
+			mp3: TL_MPEG_FILE; list: LIST [TL_UNIQUE_FILE_IDENTIFIER]
+			owner: ZSTRING; id: STRING
+		do
+			file_list.find_first_base (Unicode_230_tag)
+			if file_list.found then
+				create mp3.make (file_list.path)
+				across << "FJR", "MGH" >> as owner_id loop
+					owner := owner_id.item; id := Digest.md5 (owner_id.item).to_base_64_string
+					mp3.tag.set_unique_id (owner, id)
+					list := mp3.tag.unique_id_list (owner)
+					assert ("one result", list.count = 1)
+					assert ("same owner", owner ~ list.first.owner)
+					assert ("same id", id ~ list.first.identifier)
+				end
+				assert ("two ufids", mp3.tag.all_unique_id_list.count = 2)
+			end
+		end
+
+	test_user_text
+		local
+			mp3: TL_MPEG_FILE; title: ZSTRING
+			user_text_table: EL_HASH_TABLE [STRING, STRING]
+			count: INTEGER
+		do
+			create user_text_table.make (<<
+				["compression example", "This sample user text"],
+				["example text frame", "This text and the description"]
+			>>)
+			across file_list as path loop
+				create mp3.make (path.item)
+				if mp3.tag.has_any_user_text then
+					across user_text_table as text loop
+						if mp3.tag.has_user_text (text.key) then
+							assert ("text starts with", mp3.tag.user_text (text.key).starts_with_general (text.item))
+							mp3.tag.set_user_text (text.key, text.item)
+							assert ("same text", text.item ~ mp3.tag.user_text (text.key).to_latin_1)
+							count := count + 1
+						end
+					end
+				end
+			end
+			assert ("all examples found", count = user_text_table.count)
 		end
 
 feature {NONE} -- Implementation
@@ -209,12 +272,16 @@ feature {NONE} -- Implementation
 						log.put_integer_field ("; byte count", pic.picture.count)
 						log.put_new_line
 						print_field ("description", pic.description)
-					elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as text then
+					elseif attached {TL_TEXT_ID3_FRAME} frame.item as text then
+						if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} text as user then
+							log.put_string_field ("; description", user.description)
+						end
 						log.put_new_line
-						across text.field_list.arrayed as field loop
+						across text.field_list as field loop
 							print_field (Array_template #$ ["field_list", field.cursor_index], field.item)
 						end
-					elseif attached {TL_UNIQUE_FILE_IDENTIFIER_FRAME} frame.item as l_unique then
+
+					elseif attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} frame.item as l_unique then
 						log.put_string_field ("; identifier", l_unique.identifier)
 						log.put_string_field ("; owner", l_unique.owner)
 						log.put_new_line
@@ -262,10 +329,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make (11)
 			Result ["221-compressed.tag"] := checksums (2345267516, 3246236924)
-			Result ["230-compressed.tag"] := checksums (237988789, 985249350)
+			Result ["230-compressed.tag"] := checksums (237988789, 3424301073)
 			Result ["230-syncedlyrics.tag"] := checksums (474628871, 4124037141)
 			Result [Picture_230_tag] := checksums (267318710, 32249346)
-			Result ["230-unicode.tag"] := checksums (2150173072, 1124208054)
+			Result [Unicode_230_tag] := checksums (2150173072, 3709611927)
 			Result ["ozzy.tag"] := checksums (4088983894, 3042106295)
 			Result ["thatspot.tag"] := checksums (1455176272, 2234758446)
 
@@ -287,6 +354,11 @@ feature {NONE} -- Constants
 				["comment", agent {TL_ID3_TAG}.comment],
 				["title", agent {TL_ID3_TAG}.title]
 			>>)
+		end
+
+	Unicode_230_tag: ZSTRING
+		once
+			Result := "230-unicode.tag"
 		end
 
 	Picture_230_tag: ZSTRING

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-10 19:40:29 GMT (Sunday 10th November 2019)"
-	revision: "2"
+	date: "2020-03-19 12:09:38 GMT (Thursday 19th March 2020)"
+	revision: "3"
 
 class
 	TL_STRING_LIST_CPP_API
@@ -19,7 +19,15 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Initialization
+
+	frozen cpp_new: POINTER
+			--
+		external
+			"C++ [new TagLib::StringList %"toolkit/tstringlist.h%"] ()"
+		end
+
+feature {NONE} -- Disposal
 
 	frozen cpp_delete (self: POINTER)
 			--
@@ -27,14 +35,51 @@ feature {NONE} -- C++ Externals
 			"C++ [delete TagLib::StringList %"toolkit/tstringlist.h%"] ()"
 		end
 
+feature {NONE} -- Measurement
+
 	frozen cpp_size (self_ptr: POINTER): INTEGER
-		--	Returns the size of the string.
-		-- unsigned int size() const;
+		--	number of elements in the list.
 		external
 			"C++ [TagLib::StringList %"toolkit/tstringlist.h%"] (): EIF_INTEGER"
 		alias
 			"size"
 		end
+
+feature {NONE} -- Element change
+
+	frozen cpp_append (self, string: POINTER)
+		-- StringList &append(const String &s);
+		external
+			"C++ inline use <toolkit/tstringlist.h>"
+		alias
+			"[
+				TagLib::String &string = *((TagLib::String*)$string);
+				((TagLib::StringList*)$self)->append (string)
+			]"
+		end
+
+	frozen cpp_append_list (self, list: POINTER)
+		-- StringList &append(const StringList &l);
+		external
+			"C++ inline use <toolkit/tstringlist.h>"
+		alias
+			"[
+				TagLib::StringList &list = *((TagLib::StringList*)$list);
+				((TagLib::StringList*)$self)->append (list)
+			]"
+		end
+
+	frozen cpp_clear (self: POINTER)
+		-- List<T> &clear();
+		external
+			"C++ inline use <toolkit/tstringlist.h>"
+		alias
+			"[
+				((TagLib::StringList*)$self)->clear ()
+			]"
+		end
+
+feature {NONE} -- Cursor movement
 
 	frozen cpp_iterator_begin (self: POINTER): POINTER
 		external

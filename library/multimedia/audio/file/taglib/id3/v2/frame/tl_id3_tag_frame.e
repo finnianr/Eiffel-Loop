@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 13:25:59 GMT (Tuesday 17th March 2020)"
-	revision: "6"
+	date: "2020-03-19 12:18:22 GMT (Thursday 19th March 2020)"
+	revision: "7"
 
 class
 	TL_ID3_TAG_FRAME
@@ -25,6 +25,8 @@ inherit
 	TL_SHARED_BYTE_VECTOR
 
 	TL_SHARED_FRAME_ID_ENUM
+
+	TL_SHARED_ONCE_STRING_LIST
 
 create
 	make_from_pointer

@@ -193,3 +193,6 @@ Added class TL_ID3_PICTURE
 Tue 17th Mar 2020, 18:31:09
 Passed test set to set strings on TL_MPEG_FILE
 
+Wed 18th Mar 2020, 18:20:21
+New class TL_UNIQUE_FILE_IDENTIFIER_FRAME
+

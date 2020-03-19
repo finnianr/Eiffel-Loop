@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 17:58:52 GMT (Wednesday 18th March 2020)"
-	revision: "8"
+	date: "2020-03-19 16:31:30 GMT (Thursday 19th March 2020)"
+	revision: "9"
 
 deferred class
 	TL_ID3_TAG
@@ -33,10 +33,17 @@ inherit
 
 	TL_SHARED_ONCE_STRING
 
+	EL_ZSTRING_CONSTANTS
+
 feature -- Access
 
 	album: ZSTRING
 		deferred
+		end
+
+	all_unique_id_list: like unique_id_list
+		do
+			Result := unique_id_list (Empty_string)
 		end
 
 	artist: ZSTRING
@@ -63,6 +70,21 @@ feature -- Access
 
 	title: ZSTRING
 		deferred
+		end
+
+	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
+		do
+			create Result.make_empty
+		end
+
+	user_text (a_description: READABLE_STRING_GENERAL): ZSTRING
+		do
+			create Result.make_empty
+		end
+
+	user_text_list (a_description: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		do
+			create Result.make_empty
 		end
 
 	version: INTEGER
@@ -102,6 +124,10 @@ feature -- Element change
 		do
 		end
 
+	set_user_text (a_description, a_text: READABLE_STRING_GENERAL)
+		do
+		end
+
 feature -- Status query
 
 	is_default, is_version_zero: BOOLEAN
@@ -110,4 +136,11 @@ feature -- Status query
 			Result := version = 0
 		end
 
+	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
+		do
+		end
+
+	has_any_user_text: BOOLEAN
+		do
+		end
 end

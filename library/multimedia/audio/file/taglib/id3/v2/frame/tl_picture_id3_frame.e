@@ -1,13 +1,13 @@
 note
-	description: "Picture image ID3 frame"
+	description: "Picture image for ID3 ver 2.x frame"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 13:04:23 GMT (Tuesday 17th March 2020)"
-	revision: "6"
+	date: "2020-03-19 10:10:16 GMT (Thursday 19th March 2020)"
+	revision: "7"
 
 class
 	TL_PICTURE_ID3_FRAME

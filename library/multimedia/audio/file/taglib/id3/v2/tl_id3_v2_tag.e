@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 18:04:10 GMT (Wednesday 18th March 2020)"
-	revision: "11"
+	date: "2020-03-19 16:55:28 GMT (Thursday 19th March 2020)"
+	revision: "12"
 
 class
 	TL_ID3_V2_TAG
@@ -15,7 +15,8 @@ class
 inherit
 	TL_ID3_TAG
 		redefine
-			header, picture, set_unique_id
+			header, picture, set_unique_id, unique_id_list, user_text_list, user_text,
+			has_user_text, has_any_user_text, set_user_text
 		end
 
 	TL_ID3_V2_TAG_CPP_API
@@ -26,7 +27,7 @@ inherit
 
 	TL_SHARED_STRING_ENCODING_ENUM
 
-	EL_ZSTRING_CONSTANTS
+	TL_SHARED_ONCE_STRING_LIST
 
 create
 	make
@@ -68,6 +69,26 @@ feature -- ID3 fields
 			Result := frame_text (Frame_id.TIT2)
 		end
 
+	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
+		-- unique identifier frames with owner equal to `owner'
+		-- unless owner is the string `Empty_string' in which case all frames are added
+		local
+			found: BOOLEAN
+		do
+			create Result.make (2)
+			across frame_list (Frame_id.UFID) as ufid until found loop
+				if attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} ufid.item as ufid_frame then
+					if owner = Empty_string then
+						Result.extend (ufid_frame)
+
+					elseif owner.same_string (ufid_frame.owner) then
+						Result.extend (ufid_frame)
+						found := True
+					end
+				end
+			end
+		end
+
 feature -- Frames
 
 	all_frames_list: EL_ARRAYED_LIST [TL_ID3_TAG_FRAME]
@@ -76,11 +97,6 @@ feature -- Frames
 			across iterable_frames as frame loop
 				Result.extend (frame.item)
 			end
-		end
-
-	all_unique_id_list: like unique_id_list
-		do
-			Result := unique_id_list (Empty_string)
 		end
 
 	frame_integer (enum_code: NATURAL_8): INTEGER
@@ -97,20 +113,24 @@ feature -- Frames
 			Result := filled_once_string (enum_code).to_string
 		end
 
-	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER_FRAME]
-		-- unique identifier frames with owner equal to `owner'
-		-- unless owner is the string `Empty_string' in which case all frames are added
-		local
-			found: BOOLEAN
+	user_text (a_description: READABLE_STRING_GENERAL): ZSTRING
 		do
-			create Result.make (2)
-			across frame_list (Frame_id.UFID) as ufid until found loop
-				if attached {TL_UNIQUE_FILE_IDENTIFIER_FRAME} ufid.item as ufid_frame then
-					if owner /= Empty_string and then owner.same_string (ufid_frame.owner) then
-						found := True
-					end
-					Result.extend (ufid_frame)
-				end
+			Result := user_text_list (a_description).joined_lines
+		end
+
+	user_text_list (a_description: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		local
+			frame_ptr, description_ptr: POINTER
+			frame: TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
+		do
+			Once_string.set_from_string (a_description)
+			description_ptr := Once_string.self_ptr
+			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
+			if is_attached (frame_ptr) then
+				create frame.make_from_pointer (frame_ptr)
+				Result := frame.text_list
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -147,6 +167,21 @@ feature -- Status query
 			Result := first_frame (enum_code) /= Default_frame
 		end
 
+	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			frame_ptr, description_ptr: POINTER
+		do
+			Once_string.set_from_string (a_description)
+			description_ptr := Once_string.self_ptr
+			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
+			Result := is_attached (frame_ptr)
+		end
+
+	has_any_user_text: BOOLEAN
+		do
+			Result := frame_list (Frame_id.TXXX).count > 0
+		end
+
 feature -- Element change
 
 	set_album (a_album: READABLE_STRING_GENERAL)
@@ -177,7 +212,7 @@ feature -- Element change
 	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
 		local
 			list: like unique_id_list
-			ufid: TL_UNIQUE_FILE_IDENTIFIER_FRAME
+			ufid: TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME
 		do
 			list := unique_id_list (owner)
 			if list.is_empty then
@@ -186,6 +221,25 @@ feature -- Element change
 			else
 				list.first.set_identifier (identifier)
 			end
+		end
+
+	set_user_text (a_description, a_text: READABLE_STRING_GENERAL)
+		local
+			frame_ptr, description_ptr: POINTER
+			frame: TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
+		do
+			Once_string.set_from_string (a_description)
+			description_ptr := Once_string.self_ptr
+			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
+			if is_attached (frame_ptr) then
+				create frame.make_from_pointer (frame_ptr)
+				frame.set_text (a_text)
+			else
+				create frame.make (a_description, a_text.split ('%N'), String_encoding.utf_16)
+				add_frame (frame)
+			end
+		ensure then
+			set: a_text.same_string (user_text (a_description))
 		end
 
 feature -- Removal
@@ -198,7 +252,9 @@ feature -- Removal
 	remove_unique_id (owner: READABLE_STRING_GENERAL)
 		do
 			across unique_id_list (owner) as ufid loop
-				remove_frame (ufid.item)
+				if attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} ufid.item as frame then
+					remove_frame (frame)
+				end
 			end
 		end
 
@@ -286,7 +342,7 @@ feature {NONE} -- Constants
 
 	Once_frame_list: TL_ID3_FRAME_LIST
 		once
-			create Result
+			create Result.make
 		end
 
 end

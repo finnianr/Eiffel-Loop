@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:25:00 GMT (Tuesday 17th March 2020)"
-	revision: "4"
+	date: "2020-03-19 16:07:49 GMT (Thursday 19th March 2020)"
+	revision: "5"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME
 
 inherit
-	TL_ID3_TAG_FRAME
+	TL_TEXT_ID3_FRAME
 
 	TL_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
 		export
@@ -36,10 +36,4 @@ feature {NONE} -- Initialization
 			make_from_pointer (cpp_new (Once_byte_vector.self_ptr, encoding))
 		end
 
-feature -- Access
-
-	field_list: TL_STRING_LIST
-		do
-			create Result.make (cpp_field_list (self_ptr))
-		end
 end
