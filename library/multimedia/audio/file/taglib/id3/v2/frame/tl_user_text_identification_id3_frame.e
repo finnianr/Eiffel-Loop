@@ -6,15 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:52:12 GMT (Thursday 19th March 2020)"
-	revision: "1"
+	date: "2020-03-19 18:07:54 GMT (Thursday 19th March 2020)"
+	revision: "2"
 
 class
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
 
 inherit
-	TL_TEXT_ID3_FRAME
+	TL_TEXT_IDENTIFICATION_ID3_FRAME
 		rename
+			make as make_frame,
 			field_list as text_list
 		redefine
 			text_list, set_text
@@ -22,7 +23,7 @@ inherit
 
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
 		export
-			{TL_ID3_FRAME_ITERATION_CURSOR} cpp_conforms
+			{TL_ID3_FRAME_ITERATION_CURSOR} cpp_user_conforms
 		end
 
 	TL_SHARED_STRING_ENCODING_ENUM
@@ -41,7 +42,7 @@ feature {NONE} -- Initialization
 			Once_string.set_from_string (a_description)
 			list := Once_string_list
 			list.wipe_out; list.append (values)
-			make_from_pointer (cpp_new (Once_string.self_ptr, list.self_ptr, encoding))
+			make_from_pointer (cpp_user_new (Once_string.self_ptr, list.self_ptr, encoding))
 		ensure
 			description_set: a_description.same_string (description)
 		end
@@ -50,16 +51,33 @@ feature -- Access
 
 	description: ZSTRING
 		do
-			cpp_get_description (self_ptr, Once_string.self_ptr)
+			cpp_user_get_description (self_ptr, Once_string.self_ptr)
 			Result := Once_string.to_string
 		end
 
 	text_list: EL_ZSTRING_LIST
 		-- `field_list' with `description' removed from head
 		do
-			Result := Precursor
+			Once_string_list.replace_all (cpp_user_field_list (self_ptr))
+			Result := Once_string_list.to_list
 			if not Result.is_empty then
 				Result.remove_head (1)
+			end
+		end
+
+feature {TL_ID3_V2_TAG} -- Implementation
+
+	fill (a_text_list: EL_ZSTRING_LIST)
+		local
+			not_first: BOOLEAN
+		do
+			Once_string_list.replace_all (cpp_user_field_list (self_ptr))
+			across Once_string_list as string loop
+				if not_first then
+					a_text_list.extend (string.item)
+				else
+					not_first := True
+				end
 			end
 		end
 
@@ -76,7 +94,7 @@ feature -- Element change
 			else
 				list.extend (a_text)
 			end
-			cpp_set_text_from_list (self_ptr, list.self_ptr)
+			cpp_user_set_text_from_list (self_ptr, list.self_ptr)
 		ensure then
 			set: text_list ~ (create {EL_ZSTRING_LIST}.make_with_lines (a_text))
 		end

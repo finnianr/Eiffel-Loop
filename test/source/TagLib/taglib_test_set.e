@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:48:52 GMT (Thursday 19th March 2020)"
-	revision: "22"
+	date: "2020-03-19 17:48:18 GMT (Thursday 19th March 2020)"
+	revision: "23"
 
 class
 	TAGLIB_TEST_SET
@@ -46,14 +46,14 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("picture_edit", agent test_picture_edit)
---			eval.call ("picture_mime_types", agent test_picture_mime_types)
---			eval.call ("read_basic_id3", agent test_read_basic_id3)
---			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
---			eval.call ("string_conversion", agent test_string_conversion)
---			eval.call ("string_list", agent test_string_list)
---			eval.call ("string_setting", agent test_string_setting)
---			eval.call ("ufid", agent test_ufid)
+			eval.call ("picture_edit", agent test_picture_edit)
+			eval.call ("picture_mime_types", agent test_picture_mime_types)
+			eval.call ("read_basic_id3", agent test_read_basic_id3)
+			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
+			eval.call ("string_conversion", agent test_string_conversion)
+			eval.call ("string_list", agent test_string_list)
+			eval.call ("string_setting", agent test_string_setting)
+			eval.call ("ufid", agent test_ufid)
 			eval.call ("user_text", agent test_user_text)
 		end
 
@@ -272,7 +272,7 @@ feature {NONE} -- Implementation
 						log.put_integer_field ("; byte count", pic.picture.count)
 						log.put_new_line
 						print_field ("description", pic.description)
-					elseif attached {TL_TEXT_ID3_FRAME} frame.item as text then
+					elseif attached {TL_TEXT_IDENTIFICATION_ID3_FRAME} frame.item as text then
 						if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} text as user then
 							log.put_string_field ("; description", user.description)
 						end

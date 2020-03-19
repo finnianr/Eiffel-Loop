@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:07:49 GMT (Thursday 19th March 2020)"
-	revision: "5"
+	date: "2020-03-19 17:45:04 GMT (Thursday 19th March 2020)"
+	revision: "6"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME
 
 inherit
-	TL_TEXT_ID3_FRAME
+	TL_ID3_TAG_FRAME
 
 	TL_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
 		export
@@ -34,6 +34,14 @@ feature {NONE} -- Initialization
 		do
 			Once_byte_vector.set_data_from_string (Frame_id.name (enum_code))
 			make_from_pointer (cpp_new (Once_byte_vector.self_ptr, encoding))
+		end
+
+feature -- Access
+
+	field_list: EL_ZSTRING_LIST
+		do
+			Once_string_list.replace_all (cpp_field_list (self_ptr))
+			Result := Once_string_list.to_list
 		end
 
 end

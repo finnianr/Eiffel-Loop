@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:55:28 GMT (Thursday 19th March 2020)"
-	revision: "12"
+	date: "2020-03-19 18:11:50 GMT (Thursday 19th March 2020)"
+	revision: "13"
 
 class
 	TL_ID3_V2_TAG
@@ -20,6 +20,8 @@ inherit
 		end
 
 	TL_ID3_V2_TAG_CPP_API
+
+	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
 
 	TL_SHARED_FRAME_ID_ENUM
 
@@ -114,24 +116,20 @@ feature -- Frames
 		end
 
 	user_text (a_description: READABLE_STRING_GENERAL): ZSTRING
+		local
+			list: like user_text_list
 		do
-			Result := user_text_list (a_description).joined_lines
+			list := shared_user_text_list (a_description)
+			if list.count = 1 then
+				Result := list.first
+			else
+				Result := list.joined_lines
+			end
 		end
 
-	user_text_list (a_description: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
-		local
-			frame_ptr, description_ptr: POINTER
-			frame: TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
+	user_text_list (a_description: READABLE_STRING_GENERAL): like shared_user_text_list
 		do
-			Once_string.set_from_string (a_description)
-			description_ptr := Once_string.self_ptr
-			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
-			if is_attached (frame_ptr) then
-				create frame.make_from_pointer (frame_ptr)
-				Result := frame.text_list
-			else
-				create Result.make_empty
-			end
+			Result := shared_user_text_list (a_description).twin
 		end
 
 feature -- Access
@@ -173,7 +171,7 @@ feature -- Status query
 		do
 			Once_string.set_from_string (a_description)
 			description_ptr := Once_string.self_ptr
-			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
+			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
 			Result := is_attached (frame_ptr)
 		end
 
@@ -230,7 +228,7 @@ feature -- Element change
 		do
 			Once_string.set_from_string (a_description)
 			description_ptr := Once_string.self_ptr
-			frame_ptr := {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_find_user_text_frame (self_ptr, description_ptr)
+			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
 			if is_attached (frame_ptr) then
 				create frame.make_from_pointer (frame_ptr)
 				frame.set_text (a_text)
@@ -306,6 +304,24 @@ feature {NONE} -- Implementation
 			Result.set_from_pointer (cpp_frame_list (self_ptr, id.self_ptr))
 		end
 
+	shared_user_text_list (a_description: READABLE_STRING_GENERAL): like Once_user_text_list
+		-- shared user text list `Once_user_text_list'
+		local
+			frame_ptr, description_ptr: POINTER
+			frame: TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
+		do
+			Result := Once_user_text_list
+			Result.wipe_out
+
+			Once_string.set_from_string (a_description)
+			description_ptr := Once_string.self_ptr
+			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
+			if is_attached (frame_ptr) then
+				create frame.make_from_pointer (frame_ptr)
+				frame.fill (Result)
+			end
+		end
+
 	iterable_frame_codes: EL_CPP_STD_LIST [TL_ID3_FRAME_CODE_ITERATION_CURSOR, NATURAL_8]
 		do
 			create Result.make (agent cpp_frame_list_begin (self_ptr), agent cpp_frame_list_end (self_ptr))
@@ -343,6 +359,11 @@ feature {NONE} -- Constants
 	Once_frame_list: TL_ID3_FRAME_LIST
 		once
 			create Result.make
+		end
+
+	Once_user_text_list: EL_ZSTRING_LIST
+		once
+			create Result.make_empty
 		end
 
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 13:12:26 GMT (Thursday 19th March 2020)"
-	revision: "8"
+	date: "2020-03-19 17:45:37 GMT (Thursday 19th March 2020)"
+	revision: "9"
 
 class
 	TL_ID3_FRAME_ITERATION_CURSOR
@@ -49,7 +49,7 @@ feature -- Access
 				create {TL_PICTURE_ID3_FRAME} Result.make_from_pointer (frame)
 
 			-- must check before C++ parent TextIdentificationFrame
-			elseif {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME}.cpp_conforms (frame) then
+			elseif {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API}.cpp_user_conforms (frame) then
 				create {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} Result.make_from_pointer (frame)
 
 			elseif {TL_TEXT_IDENTIFICATION_ID3_FRAME}.cpp_conforms (frame) then
