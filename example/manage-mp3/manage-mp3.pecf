@@ -140,6 +140,10 @@ system:
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
+			name = EL_taglib; readonly = false
+			location = "$EIFFEL_LOOP/library/TagLib.ecf"
+
+		library:
 			name = EL_text_formats; readonly = false
 			location = "$EIFFEL_LOOP/library/text-formats.ecf"
 

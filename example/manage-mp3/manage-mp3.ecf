@@ -54,7 +54,7 @@ See doc/manage-mp3.txt for details
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
-		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
 		<!--
 			use_application_options = true
 			
@@ -63,14 +63,15 @@ See doc/manage-mp3.txt for details
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_id3_tags" location = "$EIFFEL_LOOP/library/ID3-tags.ecf" readonly = "false"/>
-		<library name = "EL_ftp" location = "$EIFFEL_LOOP/library/ftp.ecf" readonly = "false"/>
+		<library name = "EL_id3_tags" readonly = "false" location = "$EIFFEL_LOOP/library/ID3-tags.ecf"/>
+		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
+		<library name = "EL_taglib" readonly = "false" location = "$EIFFEL_LOOP/library/TagLib.ecf"/>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_text_process" readonly = "false" location = "$EIFFEL_LOOP/library/text-process.ecf"/>
-		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
-		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
+		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 	</target>
 </system>

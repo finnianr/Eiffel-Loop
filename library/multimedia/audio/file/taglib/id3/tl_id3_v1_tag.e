@@ -1,13 +1,13 @@
 note
-	description: "ID3 ver. 1.0 Tag"
+	description: "ID3 ver. 1.x Tag"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 12:05:21 GMT (Wednesday 18th March 2020)"
-	revision: "8"
+	date: "2020-03-19 18:44:29 GMT (Thursday 19th March 2020)"
+	revision: "9"
 
 class
 	TL_ID3_V1_TAG

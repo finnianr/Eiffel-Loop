@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:31:30 GMT (Thursday 19th March 2020)"
-	revision: "9"
+	date: "2020-03-20 10:15:08 GMT (Friday 20th March 2020)"
+	revision: "10"
 
 deferred class
 	TL_ID3_TAG
@@ -72,6 +72,10 @@ feature -- Access
 		deferred
 		end
 
+	type: INTEGER
+		deferred
+		end
+
 	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
 		do
 			create Result.make_empty
@@ -89,10 +93,6 @@ feature -- Access
 
 	version: INTEGER
 		-- ID3 version number
-		deferred
-		end
-
-	type: INTEGER
 		deferred
 		end
 
@@ -128,7 +128,20 @@ feature -- Element change
 		do
 		end
 
+feature -- Removal
+
+	remove_user_text (a_description: READABLE_STRING_GENERAL)
+		do
+		end
+
 feature -- Status query
+
+	has_any_user_text: BOOLEAN
+		do
+		end
+	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
+		do
+		end
 
 	is_default, is_version_zero: BOOLEAN
 		-- `True' if type is `TL_ID3_V0_TAG'
@@ -136,11 +149,4 @@ feature -- Status query
 			Result := version = 0
 		end
 
-	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
-		do
-		end
-
-	has_any_user_text: BOOLEAN
-		do
-		end
 end

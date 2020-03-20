@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 13:24:30 GMT (Sunday 22nd December 2019)"
-	revision: "3"
+	date: "2020-03-20 9:56:11 GMT (Friday 20th March 2020)"
+	revision: "4"
 
 class
 	TL_FRAME_ID_ENUM
@@ -30,7 +30,7 @@ inherit
 create
 	make
 
-feature -- Access
+feature -- Codes A
 
 	AENC: NATURAL_8
 		-- Audio encryption
@@ -41,11 +41,15 @@ feature -- Access
 	ASPI: NATURAL_8
 		-- Audio seek point index
 
+feature -- Codes B
+
 	BUF: NATURAL_8
 		-- Recommended buffer size
 
 	CNT: NATURAL_8
 		-- Play counter
+
+feature -- Codes C
 
 	COM: NATURAL_8
 		-- Comments
@@ -61,6 +65,8 @@ feature -- Access
 
 	CRM: NATURAL_8
 		-- Encrypted meta frame
+
+feature -- Codes E
 
 	ENCR: NATURAL_8
 		-- Encryption method registration
@@ -80,6 +86,8 @@ feature -- Access
 	ETCO: NATURAL_8
 		-- Event timing codes
 
+feature -- Codes C
+
 	GEO: NATURAL_8
 		-- General encapsulated object
 
@@ -89,17 +97,23 @@ feature -- Access
 	GRID: NATURAL_8
 		-- Group identification registration
 
+feature -- Codes I
+
 	IPL: NATURAL_8
 		-- Involved people list
 
 	IPLS: NATURAL_8
 		-- Involved people list
 
+feature -- Codes L
+
 	LINK: NATURAL_8
 		-- Linked information
 
 	LNK: NATURAL_8
 		-- Linked information
+
+feature -- Codes M
 
 	MCDI: NATURAL_8
 		-- Music CD identifier
@@ -113,8 +127,12 @@ feature -- Access
 	MLLT: NATURAL_8
 		-- MPEG location lookup table
 
+feature -- Codes O
+
 	OWNE: NATURAL_8
 		-- Ownership frame
+
+feature -- Codes P
 
 	PCNT: NATURAL_8
 		-- Play counter
@@ -134,6 +152,8 @@ feature -- Access
 	PRIV: NATURAL_8
 		-- Private frame
 
+feature -- Codes R
+
 	RBUF: NATURAL_8
 		-- Recommended buffer size
 
@@ -152,6 +172,8 @@ feature -- Access
 	RVRB: NATURAL_8
 		-- Reverb
 
+feature -- Codes S
+
 	SEEK: NATURAL_8
 		-- Seek frame
 
@@ -169,6 +191,8 @@ feature -- Access
 
 	SYTC: NATURAL_8
 		-- Synchronized tempo codes
+
+feature -- Codes T
 
 	TAL: NATURAL_8
 		-- Album/Movie/Show title
@@ -434,6 +458,8 @@ feature -- Access
 	TYER: NATURAL_8
 		-- Year
 
+feature -- Codes U
+
 	UFI: NATURAL_8
 		-- Unique file identifier
 
@@ -448,6 +474,8 @@ feature -- Access
 
 	USLT: NATURAL_8
 		-- Unsychronized lyric/text transcription
+
+feature -- Codes W
 
 	WAF: NATURAL_8
 		-- Official audio file webpage

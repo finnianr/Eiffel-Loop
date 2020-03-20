@@ -196,3 +196,6 @@ Passed test set to set strings on TL_MPEG_FILE
 Wed 18th Mar 2020, 18:20:21
 New class TL_UNIQUE_FILE_IDENTIFIER_FRAME
 
+Thu 19th Mar 2020, 18:18:11
+Added fill routine to TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
+

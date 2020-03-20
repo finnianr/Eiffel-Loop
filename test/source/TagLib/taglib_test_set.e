@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 17:48:18 GMT (Thursday 19th March 2020)"
-	revision: "23"
+	date: "2020-03-20 11:18:03 GMT (Friday 20th March 2020)"
+	revision: "24"
 
 class
 	TAGLIB_TEST_SET
@@ -46,18 +46,26 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("picture_edit", agent test_picture_edit)
-			eval.call ("picture_mime_types", agent test_picture_mime_types)
-			eval.call ("read_basic_id3", agent test_read_basic_id3)
-			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
-			eval.call ("string_conversion", agent test_string_conversion)
-			eval.call ("string_list", agent test_string_list)
-			eval.call ("string_setting", agent test_string_setting)
-			eval.call ("ufid", agent test_ufid)
-			eval.call ("user_text", agent test_user_text)
+--			eval.call ("picture_edit", agent test_picture_edit)
+--			eval.call ("picture_mime_types", agent test_picture_mime_types)
+--			eval.call ("read_basic_id3", agent test_read_basic_id3)
+--			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
+--			eval.call ("string_conversion", agent test_string_conversion)
+--			eval.call ("string_list", agent test_string_list)
+--			eval.call ("string_setting", agent test_string_setting)
+--			eval.call ("ufid", agent test_ufid)
+--			eval.call ("user_text", agent test_user_text)
+			eval.call ("major_version_change", agent test_major_version_change)
 		end
 
 feature -- Tests
+
+	test_music_brainz
+		local
+			mp3: TL_MUSICBRAINZ_MPEG_FILE
+		do
+
+		end
 
 	test_picture_edit
 		local
@@ -190,6 +198,21 @@ feature -- Tests
 				end
 			end
 			assert ("all examples found", count = user_text_table.count)
+		end
+
+	test_major_version_change
+		local
+			mp3: TL_MPEG_FILE
+		do
+			file_list.find_first_base (Silence_240_mp3)
+			if file_list.found then
+				create mp3.make (file_list.path)
+				assert ("major version 4", mp3.id3_version.major = 4)
+				mp3.save_version (3)
+				mp3.dispose
+				create mp3.make (file_list.path)
+				assert ("major version 3", mp3.id3_version.major = 3)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -337,7 +360,7 @@ feature {NONE} -- Constants
 			Result ["thatspot.tag"] := checksums (1455176272, 2234758446)
 
 			-- MP3 extension
-			Result ["240-silence.mp3"] := checksums (161761856, 1488597223)
+			Result [Silence_240_mp3] := checksums (161761856, 1488597223)
 			Result ["crc53865.mp3"] := checksums (4078009405, 3992252498)
 		end
 
@@ -364,6 +387,11 @@ feature {NONE} -- Constants
 	Picture_230_tag: ZSTRING
 		once
 			Result := "230-picture.tag"
+		end
+
+	Silence_240_mp3: ZSTRING
+		once
+			Result := "240-silence.mp3"
 		end
 
 	Top_png_path: EL_FILE_PATH

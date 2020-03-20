@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 12:10:54 GMT (Wednesday 18th March 2020)"
-	revision: "9"
+	date: "2020-03-20 11:02:06 GMT (Friday 20th March 2020)"
+	revision: "10"
 
 class
 	TL_MPEG_FILE_CPP_API
@@ -55,6 +55,26 @@ feature {NONE} -- Basic operations
 
 		external
 			"C++ [TagLib::MPEG::File %"mpeg/mpegfile.h%"] (int): EIF_BOOLEAN"
+		alias
+			"save"
+		end
+
+	frozen cpp_save_version (self_ptr: POINTER; types: INTEGER; strip_others: BOOLEAN; id3_v2_version: INTEGER): BOOLEAN
+		--	bool save(int tags, bool stripOthers, int id3v2Version);
+
+		--	Save the file.  This will attempt to save all of the tag types that are
+		--	specified by OR-ing together TagTypes values.  The save() method above
+		--	uses AllTags.  This returns true if saving was successful.
+
+		--	If stripOthers is true this strips all tags not included in the mask,
+		--	but does not modify them in memory, so later calls to save() which make
+		--	use of these tags will remain valid.  This also strips empty tags.
+
+		--	The id3v2Version parameter specifies the version of the saved
+		--	ID3v2 tag. It can be either 4 or 3.
+
+		external
+			"C++ [TagLib::MPEG::File %"mpeg/mpegfile.h%"] (int, bool, int): EIF_BOOLEAN"
 		alias
 			"save"
 		end

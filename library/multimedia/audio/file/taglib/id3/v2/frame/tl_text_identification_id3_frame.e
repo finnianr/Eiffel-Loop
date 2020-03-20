@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 17:45:04 GMT (Thursday 19th March 2020)"
-	revision: "6"
+	date: "2020-03-20 9:40:49 GMT (Friday 20th March 2020)"
+	revision: "7"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME
@@ -27,16 +27,24 @@ create
 
 feature {NONE} -- Initialization
 
-	make (enum_code, encoding: NATURAL_8)
+	make (enum_code, a_encoding: NATURAL_8)
 		require
 			valid_code: valid_frame_id (enum_code)
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: valid_encoding (a_encoding)
 		do
 			Once_byte_vector.set_data_from_string (Frame_id.name (enum_code))
-			make_from_pointer (cpp_new (Once_byte_vector.self_ptr, encoding))
+			make_from_pointer (cpp_new (Once_byte_vector.self_ptr, a_encoding))
 		end
 
 feature -- Access
+
+	encoding: NATURAL_8
+		-- the text encoding used when rendering this frame
+		do
+			Result := cpp_text_encoding (self_ptr)
+		ensure
+			valid: String_encoding.is_valid_value (Result)
+		end
 
 	field_list: EL_ZSTRING_LIST
 		do

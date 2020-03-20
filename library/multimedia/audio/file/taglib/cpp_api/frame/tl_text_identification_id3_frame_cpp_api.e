@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 17:44:48 GMT (Thursday 19th March 2020)"
-	revision: "7"
+	date: "2020-03-20 9:41:48 GMT (Friday 20th March 2020)"
+	revision: "8"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
@@ -52,6 +52,14 @@ feature {NONE} -- Access
 			"C++ inline use <mpeg/id3v2/frames/textidentificationframe.h>"
 		alias
 			"new TagLib::StringList (((TagLib::ID3v2::TextIdentificationFrame*)$self)->fieldList ())"
+		end
+
+	frozen cpp_text_encoding (self: POINTER): NATURAL_8
+		-- String::Type textEncoding() const;
+		external
+			"C++ [TagLib::ID3v2::TextIdentificationFrame %"mpeg/id3v2/frames/textidentificationframe.h%"] (): EIF_NATURAL_8"
+		alias
+			"textEncoding"
 		end
 
 end

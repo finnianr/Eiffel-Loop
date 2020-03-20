@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 12:12:12 GMT (Wednesday 18th March 2020)"
-	revision: "10"
+	date: "2020-03-20 11:04:56 GMT (Friday 20th March 2020)"
+	revision: "11"
 
 class
 	TL_MPEG_FILE
@@ -83,4 +83,13 @@ feature -- Basic operations
 		do
 			is_saved := cpp_save (self_ptr, tag.type)
 		end
+
+	save_version (v2_version: INTEGER)
+		-- save only the `tag' with `tag.type' and discard others
+		require
+			valid_version: v2_version = 3 or v2_version = 4
+		do
+			is_saved := cpp_save_version (self_ptr, tag.type, True, v2_version)
+		end
+
 end
