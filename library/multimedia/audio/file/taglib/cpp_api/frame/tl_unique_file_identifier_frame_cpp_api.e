@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 18:10:02 GMT (Wednesday 18th March 2020)"
-	revision: "1"
+	date: "2020-03-21 14:00:38 GMT (Saturday 21st March 2020)"
+	revision: "2"
 
 class
 	TL_UNIQUE_FILE_IDENTIFIER_FRAME_CPP_API
@@ -37,6 +37,17 @@ feature {NONE} -- Initialization
 		end
 
 feature {NONE} -- Access
+
+	frozen cpp_find_by_owner (tag, owner: POINTER): POINTER
+		-- static UniqueFileIdentifierFrame *findByOwner(const Tag *tag, const String &o);
+		external
+			"C++ inline use <mpeg/id3v2/frames/uniquefileidentifierframe.h>"
+		alias
+			"[
+				TagLib::String &owner = *((TagLib::String*)$owner);
+				return TagLib::ID3v2::UniqueFileIdentifierFrame::findByOwner ((TagLib::ID3v2::Tag*)$tag, owner)
+			]"
+		end
 
 	frozen cpp_get_identifier (self, id_out: POINTER)
 		-- ByteVector identifier() const;

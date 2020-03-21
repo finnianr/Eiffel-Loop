@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 18:44:29 GMT (Thursday 19th March 2020)"
-	revision: "9"
+	date: "2020-03-21 12:52:34 GMT (Saturday 21st March 2020)"
+	revision: "10"
 
 class
 	TL_ID3_V1_TAG
@@ -56,6 +56,10 @@ feature -- Element change
 		do
 			Once_string.set_from_string (a_album)
 			cpp_set_album (self_ptr, Once_string.self_ptr)
+		end
+
+	set_album_artist, set_composer (a_album: READABLE_STRING_GENERAL)
+		do
 		end
 
 	set_artist (a_artist: READABLE_STRING_GENERAL)

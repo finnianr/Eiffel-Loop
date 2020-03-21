@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-20 11:18:03 GMT (Friday 20th March 2020)"
-	revision: "24"
+	date: "2020-03-21 19:19:44 GMT (Saturday 21st March 2020)"
+	revision: "25"
 
 class
 	TAGLIB_TEST_SET
@@ -46,25 +46,35 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("picture_edit", agent test_picture_edit)
---			eval.call ("picture_mime_types", agent test_picture_mime_types)
---			eval.call ("read_basic_id3", agent test_read_basic_id3)
---			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
---			eval.call ("string_conversion", agent test_string_conversion)
---			eval.call ("string_list", agent test_string_list)
---			eval.call ("string_setting", agent test_string_setting)
---			eval.call ("ufid", agent test_ufid)
---			eval.call ("user_text", agent test_user_text)
+			eval.call ("comments", agent test_comments)
+			eval.call ("picture_edit", agent test_picture_edit)
+			eval.call ("picture_mime_types", agent test_picture_mime_types)
+			eval.call ("read_basic_id3", agent test_read_basic_id3)
+			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
+			eval.call ("string_conversion", agent test_string_conversion)
+			eval.call ("string_list", agent test_string_list)
+			eval.call ("string_setting", agent test_string_setting)
+			eval.call ("ufid", agent test_ufid)
+			eval.call ("user_text", agent test_user_text)
 			eval.call ("major_version_change", agent test_major_version_change)
 		end
 
 feature -- Tests
 
-	test_music_brainz
+	test_comments
 		local
-			mp3: TL_MUSICBRAINZ_MPEG_FILE
+			mp3: TL_MPEG_FILE
+			table: EL_HASH_TABLE [STRING, STRING]
 		do
-
+			create table.make (<<
+				["Tempo", "Pretty fast"], ["Mood", "Upbeat"], ["Situation", "Any"]
+			>>)
+			file_list.find_first_base (That_spot_tag)
+			assert ("exists", file_list.found)
+			create mp3.make (file_list.path)
+			across table as text loop
+				assert ("same string", mp3.tag.comment_with ("MusicMatch_" + text.key).text.same_string (text.item))
+			end
 		end
 
 	test_picture_edit
@@ -156,21 +166,26 @@ feature -- Tests
 
 	test_ufid
 		local
-			mp3: TL_MPEG_FILE; list: LIST [TL_UNIQUE_FILE_IDENTIFIER]
+			mp3: TL_MPEG_FILE; ufid: TL_UNIQUE_FILE_IDENTIFIER
+			ufid_list: ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
 			owner: ZSTRING; id: STRING
 		do
 			file_list.find_first_base (Unicode_230_tag)
+			create ufid_list.make (2)
 			if file_list.found then
 				create mp3.make (file_list.path)
 				across << "FJR", "MGH" >> as owner_id loop
 					owner := owner_id.item; id := Digest.md5 (owner_id.item).to_base_64_string
 					mp3.tag.set_unique_id (owner, id)
-					list := mp3.tag.unique_id_list (owner)
-					assert ("one result", list.count = 1)
-					assert ("same owner", owner ~ list.first.owner)
-					assert ("same id", id ~ list.first.identifier)
+					ufid := mp3.tag.unique_id (owner)
+					ufid_list.extend (ufid)
+					assert ("not default", not ufid.is_default)
+					assert ("same owner", owner ~ ufid.owner)
+					assert ("same id", id ~ ufid.identifier)
 				end
-				assert ("two ufids", mp3.tag.all_unique_id_list.count = 2)
+				across mp3.tag.unique_id_list as l_ufid loop
+					assert ("same identifier", l_ufid.item.same_as (ufid_list.i_th (l_ufid.cursor_index)))
+				end
 			end
 		end
 
@@ -357,7 +372,7 @@ feature {NONE} -- Constants
 			Result [Picture_230_tag] := checksums (267318710, 32249346)
 			Result [Unicode_230_tag] := checksums (2150173072, 3709611927)
 			Result ["ozzy.tag"] := checksums (4088983894, 3042106295)
-			Result ["thatspot.tag"] := checksums (1455176272, 2234758446)
+			Result [That_spot_tag] := checksums (1455176272, 2234758446)
 
 			-- MP3 extension
 			Result [Silence_240_mp3] := checksums (161761856, 1488597223)
@@ -392,6 +407,11 @@ feature {NONE} -- Constants
 	Silence_240_mp3: ZSTRING
 		once
 			Result := "240-silence.mp3"
+		end
+
+	That_spot_tag: ZSTRING
+		once
+			Result := "thatspot.tag"
 		end
 
 	Top_png_path: EL_FILE_PATH

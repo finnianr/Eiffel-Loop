@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 17:46:07 GMT (Thursday 19th March 2020)"
-	revision: "2"
+	date: "2020-03-21 19:31:58 GMT (Saturday 21st March 2020)"
+	revision: "3"
 
 class
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
@@ -70,8 +70,6 @@ feature {NONE} -- Access
 			"new TagLib::StringList (((TagLib::ID3v2::UserTextIdentificationFrame*)$self)->fieldList ())"
 		end
 
-feature {TL_ID3_V2_TAG} -- Access
-
 	frozen cpp_user_find_text_frame (tag, description: POINTER): POINTER
 		-- static UserTextIdentificationFrame *find(Tag *tag, const String &description);
 		external
@@ -84,6 +82,17 @@ feature {TL_ID3_V2_TAG} -- Access
 		end
 
 feature {NONE} -- Element change
+
+	frozen cpp_user_set_description (self, text: POINTER)
+		-- void setDescription(const String &desc);
+		external
+			"C++ inline use <mpeg/id3v2/frames/textidentificationframe.h>"
+		alias
+			"[
+				TagLib::String &text = *((TagLib::String*)$text);
+				((TagLib::ID3v2::UserTextIdentificationFrame*)$self)->setDescription (text)
+			]"
+		end
 
 	frozen cpp_user_set_text_from_list (self, list: POINTER)
 		-- void UserTextIdentificationFrame::setText(const StringList &fields)

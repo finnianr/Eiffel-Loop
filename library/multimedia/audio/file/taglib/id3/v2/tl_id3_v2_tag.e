@@ -6,22 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-20 10:32:02 GMT (Friday 20th March 2020)"
-	revision: "14"
+	date: "2020-03-21 19:53:15 GMT (Saturday 21st March 2020)"
+	revision: "15"
 
 class
 	TL_ID3_V2_TAG
 
 inherit
 	TL_ID3_TAG
+		export
+			{TL_FRAME_TABLE} self_ptr
 		redefine
-			header, picture, set_unique_id, unique_id_list, user_text_list, user_text,
+			album_artist, unique_id_list, composer, comment_list, comment_with,
+			header, picture, set_unique_id, user_text_list, user_text, unique_id,
 			has_user_text, has_any_user_text, set_user_text, make, remove_user_text
 		end
 
 	TL_ID3_V2_TAG_CPP_API
-
-	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
 
 	TL_SHARED_FRAME_ID_ENUM
 
@@ -30,6 +31,8 @@ inherit
 	TL_SHARED_STRING_ENCODING_ENUM
 
 	TL_SHARED_ONCE_STRING_LIST
+
+	TL_SHARED_DEFAULT_FRAME
 
 create
 	make
@@ -50,6 +53,17 @@ feature {NONE} -- Initialization
 					found := True
 				end
 			end
+			found := False
+			language := Default_language
+			across frame_list (Frame_id.COMM) as frame until found loop
+				if attached {TL_COMMENTS_ID3_FRAME} frame as l_comment then
+					Language_set.put (l_comment.language)
+					if not Language_set.found_item.is_empty then
+						language := Language_set.found_item
+						found := True
+					end
+				end
+			end
 		end
 
 feature -- ID3 fields
@@ -57,6 +71,11 @@ feature -- ID3 fields
 	album: ZSTRING
 		do
 			Result := frame_text (Frame_id.TALB)
+		end
+
+	album_artist: ZSTRING
+		do
+			Result := frame_text (Frame_id.TPE2)
 		end
 
 	artist: ZSTRING
@@ -68,6 +87,11 @@ feature -- ID3 fields
 		do
 			cpp_get_comment (self_ptr, Once_string.self_ptr)
 			Result := Once_string.to_string
+		end
+
+	composer: ZSTRING
+		do
+			Result := frame_text (Frame_id.TCOM)
 		end
 
 	duration: INTEGER
@@ -89,23 +113,44 @@ feature -- ID3 fields
 			Result := frame_text (Frame_id.TIT2)
 		end
 
-	unique_id_list (owner: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
-		-- unique identifier frames with owner equal to `owner'
-		-- unless owner is the string `Empty_string' in which case all frames are added
-		local
-			found: BOOLEAN
-		do
-			create Result.make (2)
-			across frame_list (Frame_id.UFID) as ufid until found loop
-				if attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} ufid.item as ufid_frame then
-					if owner = Empty_string then
-						Result.extend (ufid_frame)
+feature -- Access
 
-					elseif owner.same_string (ufid_frame.owner) then
-						Result.extend (ufid_frame)
-						found := True
-					end
+	comment_list: EL_ARRAYED_LIST [TL_COMMENTS]
+		do
+			create Result.make (3)
+			across frame_list (Frame_id.COMM) as frame loop
+				if attached {TL_COMMENTS_ID3_FRAME} frame.item as l_frame then
+					Result.extend (l_frame)
 				end
+			end
+		end
+
+	comment_with (description: READABLE_STRING_GENERAL): TL_COMMENTS
+		do
+			if Comments_table.has_key (Current, description) then
+				Result := Comments_table.found_item
+			else
+				create {TL_DEFAULT_COMMENTS} Result
+			end
+		end
+
+	unique_id_list: EL_ARRAYED_LIST [TL_UNIQUE_FILE_IDENTIFIER]
+		do
+			create Result.make (3)
+			across frame_list (Frame_id.UFID) as ufid loop
+				if attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} ufid.item as ufid_frame then
+					Result.extend (ufid_frame)
+				end
+			end
+		end
+
+	unique_id (owner: READABLE_STRING_GENERAL): TL_UNIQUE_FILE_IDENTIFIER
+		-- unique identifier frames with owner equal to `owner'
+		do
+			if Unique_file_identifier_table.has_key (Current, owner) then
+				Result := Unique_file_identifier_table.found_item
+			else
+				create {TL_DEFAULT_UNIQUE_FILE_IDENTIFIER} Result
 			end
 		end
 
@@ -189,13 +234,8 @@ feature -- Status query
 		end
 
 	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			frame_ptr, description_ptr: POINTER
 		do
-			Once_string.set_from_string (a_description)
-			description_ptr := Once_string.self_ptr
-			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
-			Result := is_attached (frame_ptr)
+			Result := User_text_table.has (Current, a_description)
 		end
 
 feature -- Element change
@@ -203,11 +243,41 @@ feature -- Element change
 	set_album (a_album: READABLE_STRING_GENERAL)
 		do
 			set_frame_text (Frame_id.TALB, a_album)
+		ensure then
+			set: album.same_string (a_album)
+		end
+
+	set_album_artist (a_album_artist: READABLE_STRING_GENERAL)
+		do
+			set_frame_text (Frame_id.TPE2, a_album_artist)
+		ensure then
+			set: album_artist.same_string (a_album_artist)
 		end
 
 	set_artist (a_artist: READABLE_STRING_GENERAL)
 		do
 			set_frame_text (Frame_id.TPE1, a_artist)
+		end
+
+	set_comment (description, text: READABLE_STRING_GENERAL)
+		local
+			frame: TL_COMMENTS_ID3_FRAME
+		do
+			if Comments_table.has_key (Current, description) then
+				Comments_table.found_item.set_text (text)
+			else
+				create frame.make (description, text, language, text_encoding)
+				add_frame (frame)
+			end
+		ensure then
+			set: text.same_string (comment_with (description).text)
+		end
+
+	set_composer (a_composer: READABLE_STRING_GENERAL)
+		do
+			set_frame_text (Frame_id.TCOM, a_composer)
+		ensure then
+			set: composer.same_string (a_composer)
 		end
 
 	set_picture (a_picture: TL_ID3_PICTURE)
@@ -223,33 +293,30 @@ feature -- Element change
 	set_title (a_title: READABLE_STRING_GENERAL)
 		do
 			set_frame_text (Frame_id.TIT2, a_title)
+		ensure then
+			set: title.same_string (a_title)
 		end
 
 	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
 		local
-			list: like unique_id_list
 			ufid: TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME
 		do
-			list := unique_id_list (owner)
-			if list.is_empty then
+			if Unique_file_identifier_table.has_key (Current, owner) then
+				Unique_file_identifier_table.found_item.set_identifier (identifier)
+			else
 				create ufid.make (owner, identifier)
 				add_frame (ufid)
-			else
-				list.first.set_identifier (identifier)
 			end
+		ensure then
+			set: identifier.same_string (unique_id (owner).identifier)
 		end
 
 	set_user_text (a_description, a_text: READABLE_STRING_GENERAL)
 		local
-			frame_ptr, description_ptr: POINTER
 			frame: TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
 		do
-			Once_string.set_from_string (a_description)
-			description_ptr := Once_string.self_ptr
-			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
-			if is_attached (frame_ptr) then
-				create frame.make_from_pointer (frame_ptr)
-				frame.set_text (a_text)
+			if User_text_table.has_key (Current, a_description) then
+				User_text_table.found_item.set_text (a_text)
 			else
 				create frame.make (a_description, a_text.split ('%N'), text_encoding)
 				add_frame (frame)
@@ -267,17 +334,15 @@ feature -- Removal
 
 	remove_unique_id (owner: READABLE_STRING_GENERAL)
 		do
-			across unique_id_list (owner) as ufid loop
-				if attached {TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME} ufid.item as frame then
-					remove_frame (frame)
-				end
+			if Unique_file_identifier_table.has_key (Current, owner) then
+				remove_frame (Unique_file_identifier_table.found_item)
 			end
 		end
 
 	remove_user_text (a_description: READABLE_STRING_GENERAL)
 		do
-			if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} find_user_text_frame (a_description) as user then
-				remove_frame (user)
+			if User_text_table.has_key (Current, a_description) then
+				remove_frame (User_text_table.found_item)
 			end
 		end
 
@@ -315,20 +380,6 @@ feature {NONE} -- Implementation
 				Result := Default_frame
 			else
 				Result := cursor.item
-			end
-		end
-
-	find_user_text_frame (a_description: READABLE_STRING_GENERAL): TL_ID3_TAG_FRAME
-		local
-			frame_ptr, description_ptr: POINTER
-		do
-			Once_string.set_from_string (a_description)
-			description_ptr := Once_string.self_ptr
-			frame_ptr := cpp_user_find_text_frame (self_ptr, description_ptr)
-			if is_attached (frame_ptr) then
-				create {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} Result.make_from_pointer (frame_ptr)
-			else
-				Result := Default_frame
 			end
 		end
 
@@ -375,8 +426,8 @@ feature {NONE} -- Implementation
 		do
 			Result := Once_user_text_list
 			Result.wipe_out
-			if attached {TL_USER_TEXT_IDENTIFICATION_ID3_FRAME} find_user_text_frame (a_description) as user then
-				user.fill (Result)
+			if User_text_table.has_key (Current, a_description) then
+				User_text_table.found_item.fill (Result)
 			end
 		end
 
@@ -385,16 +436,14 @@ feature {NONE} -- Internal attributes
 	text_encoding: NATURAL_8
 		-- the text encoding to be used when creating new frames
 
+	language: STRING
+		-- language for comments
+
 feature {NONE} -- Constants
 
 	Basic_text_frame_id_array: ARRAY [NATURAL_8]
 		once
 			Result := << Frame_id.TIT2, Frame_id.TALB, Frame_id.TPE1 >>
-		end
-
-	Default_frame: TL_DEFAULT_ID3_TAG_FRAME
-		once
-			create Result.make
 		end
 
 	Once_frame_list: TL_ID3_FRAME_LIST
@@ -405,6 +454,29 @@ feature {NONE} -- Constants
 	Once_user_text_list: EL_ZSTRING_LIST
 		once
 			create Result.make_empty
+		end
+
+	Comments_table: TL_COMMENTS_FRAME_TABLE
+		once
+			create Result
+		end
+
+	Default_language: STRING = "eng"
+
+	Language_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_equal (5)
+			Result.put (Default_language)
+		end
+
+	Unique_file_identifier_table: TL_UNIQUE_FILE_IDENTIFIER_FRAME_TABLE
+		once
+			create Result
+		end
+
+	User_text_table: TL_USER_TEXT_FRAME_TABLE
+		once
+			create Result
 		end
 
 end

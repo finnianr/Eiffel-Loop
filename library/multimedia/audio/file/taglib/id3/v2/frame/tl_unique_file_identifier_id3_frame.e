@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 10:31:22 GMT (Thursday 19th March 2020)"
-	revision: "2"
+	date: "2020-03-21 19:28:03 GMT (Saturday 21st March 2020)"
+	revision: "3"
 
 class
 	TL_UNIQUE_FILE_IDENTIFIER_ID3_FRAME
@@ -15,13 +15,17 @@ class
 inherit
 	TL_UNIQUE_FILE_IDENTIFIER
 
-	TL_ID3_TAG_FRAME undefine is_equal end
+	TL_DESCRIBEABLE_ID3_TAG_FRAME
+		rename
+			description as owner,
+			set_description as set_owner,
+			cpp_get_description as cpp_get_owner,
+			cpp_set_description as cpp_set_owner
+		end
 
 	TL_UNIQUE_FILE_IDENTIFIER_FRAME_CPP_API
 		export
 			{TL_ID3_FRAME_ITERATION_CURSOR} cpp_conforms
-		undefine
-			is_equal
 		end
 
 create
@@ -44,10 +48,10 @@ feature -- Access
 			Result := Once_byte_vector.to_string_8
 		end
 
-	owner: ZSTRING
+feature -- Status query
+
+	is_default: BOOLEAN
 		do
-			cpp_get_owner (self_ptr, Once_string.self_ptr)
-			Result := Once_string.to_string
 		end
 
 feature -- Element change
@@ -58,9 +62,4 @@ feature -- Element change
 			cpp_set_identifier (self_ptr, Once_byte_vector.self_ptr)
 		end
 
-	set_owner (a_owner: READABLE_STRING_GENERAL)
-		do
-			Once_string.set_from_string (a_owner)
-			cpp_set_owner (self_ptr, Once_string.self_ptr)
-		end
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-22 10:18:25 GMT (Wednesday 22nd January 2020)"
-	revision: "5"
+	date: "2020-03-21 19:38:39 GMT (Saturday 21st March 2020)"
+	revision: "6"
 
 class
 	TL_COMMENTS_ID3_FRAME_CPP_API
@@ -19,7 +19,15 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Initialization
+
+	frozen cpp_new (encoding: NATURAL_8): POINTER
+		-- explicit CommentsFrame(String::Type encoding = String::Latin1);
+		external
+			"C++ [new TagLib::ID3v2::CommentsFrame %"mpeg/id3v2/frames/commentsframe.h%"] (TagLib::String::Type)"
+		end
+
+feature -- Status query
 
 	frozen cpp_conforms (frame: POINTER): BOOLEAN
 		-- True if frame conforms to type `TagLib::ID3v2::CommentsFrame'
@@ -29,6 +37,19 @@ feature {NONE} -- C++ Externals
 			"[
 				const TagLib::ID3v2::Frame* frame = (const TagLib::ID3v2::Frame*)$frame;
 				return dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(frame) != NULL
+			]"
+		end
+
+feature {NONE} -- Access
+
+	frozen cpp_find_by_description (tag, description: POINTER): POINTER
+		-- static CommentsFrame *findByDescription(const Tag *tag, const String &d);
+		external
+			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
+		alias
+			"[
+				TagLib::String &description = *((TagLib::String*)$description);
+				return TagLib::ID3v2::CommentsFrame::findByDescription ((TagLib::ID3v2::Tag*)$tag, description)
 			]"
 		end
 
@@ -49,6 +70,31 @@ feature {NONE} -- C++ Externals
 			"[
 				TagLib::ByteVector &language = *((TagLib::ByteVector *)$language_out);
 				language.clear().append (((TagLib::ID3v2::CommentsFrame*)$self)->language ())
+			]"
+		end
+
+feature {NONE} -- Element change
+
+	frozen cpp_set_description (self, text: POINTER)
+		-- void setDescription(const String &desc);
+		external
+			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
+		alias
+			"[
+				TagLib::String &text = *((TagLib::String*)$text);
+				((TagLib::ID3v2::CommentsFrame*)$self)->setDescription (text)
+			]"
+		end
+
+	frozen cpp_set_language (self, language: POINTER)
+		-- void setLanguage(const ByteVector &languageCode);
+		-- Set the language using the 3 byte language code from http://en.wikipedia.org/wiki/ISO_639
+		external
+			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
+		alias
+			"[
+				const TagLib::ByteVector& language = *((const TagLib::ByteVector*)$language);
+				((TagLib::ID3v2::CommentsFrame*)$self)->setLanguage (language)
 			]"
 		end
 

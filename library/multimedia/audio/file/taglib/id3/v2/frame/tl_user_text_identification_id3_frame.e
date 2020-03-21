@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-20 9:41:02 GMT (Friday 20th March 2020)"
-	revision: "3"
+	date: "2020-03-21 19:30:46 GMT (Saturday 21st March 2020)"
+	revision: "4"
 
 class
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
@@ -19,6 +19,14 @@ inherit
 			field_list as text_list
 		redefine
 			text_list, set_text
+		end
+
+	TL_DESCRIBEABLE_ID3_TAG_FRAME
+		rename
+			cpp_get_description as cpp_user_get_description,
+			cpp_set_description as cpp_user_set_description
+		redefine
+			set_text
 		end
 
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME_CPP_API
@@ -48,12 +56,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	description: ZSTRING
-		do
-			cpp_user_get_description (self_ptr, Once_string.self_ptr)
-			Result := Once_string.to_string
-		end
 
 	text_list: EL_ZSTRING_LIST
 		-- `field_list' with `description' removed from head

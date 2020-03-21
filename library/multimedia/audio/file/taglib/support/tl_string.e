@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 11:38:33 GMT (Wednesday 18th March 2020)"
-	revision: "9"
+	date: "2020-03-21 13:41:56 GMT (Saturday 21st March 2020)"
+	revision: "10"
 
 class
 	TL_STRING
@@ -20,7 +20,7 @@ inherit
 		rename
 			make_from_pointer as make
 		export
-			{EL_CPP_API} self_ptr
+			{EL_CPP_API, TL_FRAME_TABLE} self_ptr
 		end
 
 	TL_STRING_CPP_API

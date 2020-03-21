@@ -6,17 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 10:31:22 GMT (Thursday 19th March 2020)"
-	revision: "1"
+	date: "2020-03-21 19:18:38 GMT (Saturday 21st March 2020)"
+	revision: "2"
 
 deferred class
 	TL_UNIQUE_FILE_IDENTIFIER
-
-inherit
-	ANY
-		redefine
-			is_equal
-		end
 
 feature -- Access
 
@@ -28,23 +22,29 @@ feature -- Access
 		deferred
 		end
 
+feature -- Status query
+
+	is_default: BOOLEAN
+		deferred
+		end
+
 feature -- Element change
 
 	set_identifier (a_identifier: STRING)
 		deferred
 		ensure
-			set: identifier ~ a_identifier
+			set: not is_default implies identifier ~ a_identifier
 		end
 
 	set_owner (a_owner: READABLE_STRING_GENERAL)
 		deferred
 		ensure
-			set: a_owner.same_string (owner)
+			set: not is_default implies a_owner.same_string (owner)
 		end
 
 feature -- Comparison
 
-	is_equal (other: like Current): BOOLEAN
+	same_as (other: like Current): BOOLEAN
 		do
 			Result := owner ~ other.owner and then identifier ~ other.identifier
 		end

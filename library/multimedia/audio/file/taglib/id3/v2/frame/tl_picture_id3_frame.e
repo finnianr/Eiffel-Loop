@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 10:10:16 GMT (Thursday 19th March 2020)"
-	revision: "7"
+	date: "2020-03-21 19:25:53 GMT (Saturday 21st March 2020)"
+	revision: "8"
 
 class
 	TL_PICTURE_ID3_FRAME
 
 inherit
-	TL_ID3_TAG_FRAME
+	TL_DESCRIBEABLE_ID3_TAG_FRAME
 
 	TL_PICTURE_ID3_FRAME_CPP_API
 		export
@@ -53,12 +53,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	description: ZSTRING
-		do
-			cpp_get_description (self_ptr, Once_string.self_ptr)
-			Result := Once_string.to_string
-		end
-
 	mime_type: STRING
 		do
 			cpp_get_mime_type (self_ptr, Once_string.self_ptr)
@@ -83,14 +77,6 @@ feature -- Access
 		end
 
 feature -- Element change
-
-	set_description (a_description: like description)
-		do
-			Once_string.set_from_string (a_description)
-			cpp_set_description (self_ptr, Once_string.self_ptr)
-		ensure
-			set: description ~ a_description
-		end
 
 	set_mime_type (a_mime_type: like mime_type)
 		do
