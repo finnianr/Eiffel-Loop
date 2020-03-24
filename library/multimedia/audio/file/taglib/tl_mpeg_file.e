@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-20 11:04:56 GMT (Friday 20th March 2020)"
-	revision: "11"
+	date: "2020-03-24 12:36:12 GMT (Tuesday 24th March 2020)"
+	revision: "12"
 
 class
 	TL_MPEG_FILE
@@ -56,6 +56,23 @@ feature -- Access
 			h := tag.header
 			Result.major := h.major_version
 			Result.revision := h.revision_number
+		end
+
+	formatted_version: STRING
+		local
+			v: like id3_version
+		do
+			v := id3_version
+			create Result.make (5)
+			Result.append_integer (v.version)
+			Result.append_character ('.')
+			Result.append_integer (v.major)
+		end
+
+	duration: TIME_DURATION
+			--
+		do
+			create Result.make_by_fine_seconds (tag.duration / 1000)
 		end
 
 	path: EL_FILE_PATH

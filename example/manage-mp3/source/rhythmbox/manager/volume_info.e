@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:34:22 GMT (Tuesday 10th September 2019)"
-	revision: "3"
+	date: "2020-03-24 14:33:29 GMT (Tuesday 24th March 2020)"
+	revision: "4"
 
 class
 	VOLUME_INFO
@@ -40,6 +40,11 @@ feature -- Access
 	destination_dir: EL_DIR_PATH
 
 	id3_version: REAL
+
+	major_version: INTEGER
+		do
+			Result := (id3_version * 10).rounded \\ 10
+		end
 
 	is_windows_format: BOOLEAN
 

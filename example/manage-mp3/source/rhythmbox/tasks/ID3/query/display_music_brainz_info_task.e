@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:01:27 GMT (Tuesday 5th November 2019)"
-	revision: "4"
+	date: "2020-03-24 14:30:06 GMT (Tuesday 24th March 2020)"
+	revision: "5"
 
 class
 	DISPLAY_MUSIC_BRAINZ_INFO_TASK
@@ -22,20 +22,20 @@ feature -- Basic operations
 
 	apply
 		local
-			id3_info: ID3_INFO
+			id3_info: TL_MPEG_FILE
 		do
 			log.enter ("apply")
 			across Database.songs.query (not song_has_audio_id) as song loop
 				lio.put_path_field ("MP3", song.item.mp3_path)
 				lio.put_new_line
 				create id3_info.make (song.item.mp3_path)
-				across id3_info.user_text_table as user_text loop
-					lio.put_string_field (user_text.key, user_text.item.string)
+				across id3_info.tag.user_text_frame_list as user loop
+					lio.put_string_field (user.item.description, user.item.text)
 					lio.put_new_line
 				end
 				lio.put_line ("UNIQUE IDs")
-				across id3_info.unique_id_list as unique_id loop
-					lio.put_string_field (unique_id.item.owner, unique_id.item.id)
+				across id3_info.tag.unique_id_list as id loop
+					lio.put_string_field (id.item.owner, id.item.identifier)
 					lio.put_new_line
 				end
 				lio.put_new_line

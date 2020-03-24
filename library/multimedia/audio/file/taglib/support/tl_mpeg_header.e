@@ -1,16 +1,16 @@
 note
-	description: "ID3 header"
+	description: "MPEG file header"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:56:25 GMT (Tuesday 24th March 2020)"
+	date: "2020-03-24 15:31:35 GMT (Tuesday 24th March 2020)"
 	revision: "7"
 
 class
-	ID3_HEADER
+	TL_MPEG_HEADER
 
 create
 	make, make_from_file

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 19:19:44 GMT (Saturday 21st March 2020)"
-	revision: "25"
+	date: "2020-03-24 13:47:15 GMT (Tuesday 24th March 2020)"
+	revision: "26"
 
 class
 	TAGLIB_TEST_SET
@@ -49,7 +49,7 @@ feature -- Basic operations
 			eval.call ("comments", agent test_comments)
 			eval.call ("picture_edit", agent test_picture_edit)
 			eval.call ("picture_mime_types", agent test_picture_mime_types)
-			eval.call ("read_basic_id3", agent test_read_basic_id3)
+			eval.call ("get_set_basic_fields", agent test_get_set_basic_fields)
 			eval.call ("read_frames_v2_x", agent test_read_v2_frames)
 			eval.call ("string_conversion", agent test_string_conversion)
 			eval.call ("string_list", agent test_string_list)
@@ -63,17 +63,27 @@ feature -- Tests
 
 	test_comments
 		local
-			mp3: TL_MPEG_FILE
+			mp3: TL_MPEG_FILE; preference: ZSTRING; musicmatch: STRING
 			table: EL_HASH_TABLE [STRING, STRING]
 		do
+			musicmatch := "MusicMatch_"
 			create table.make (<<
-				["Tempo", "Pretty fast"], ["Mood", "Upbeat"], ["Situation", "Any"]
+				["Tempo", "Pretty fast"], ["Mood", "Upbeat"], ["Situation", "Any"], ["Preference", "Excellent"]
 			>>)
 			file_list.find_first_base (That_spot_tag)
 			assert ("exists", file_list.found)
 			create mp3.make (file_list.path)
 			across table as text loop
-				assert ("same string", mp3.tag.comment_with ("MusicMatch_" + text.key).text.same_string (text.item))
+				assert ("same string", mp3.tag.comment_with (musicmatch + text.key).text.same_string (text.item))
+			end
+
+			create table.make (<<
+				["First_line", "In that spot, over here in that spot."], -- Test new comment
+				["Preference", "5 stars"]
+			>>)
+			across table as text loop
+				mp3.tag.set_comment_with (musicmatch + text.key, text.item)
+				assert ("same string", mp3.tag.comment_with (musicmatch + text.key).text.same_string (text.item))
 			end
 		end
 
@@ -109,12 +119,12 @@ feature -- Tests
 			end
 		end
 
-	test_read_basic_id3
+	test_get_set_basic_fields
 		do
 			across file_list as path loop
 				do_test (
-					"print_tag", Checksum_table.item (path.item.base).print_tag,
-					agent print_tag, [path.item.relative_path (Work_area_dir)]
+					"get_set_basic_fields", Checksum_table.item (path.item.base).get_set_basic_fields,
+					agent get_set_basic_fields, [path.item.relative_path (Work_area_dir)]
 				)
 			end
 		end
@@ -201,9 +211,9 @@ feature -- Tests
 			>>)
 			across file_list as path loop
 				create mp3.make (path.item)
-				if mp3.tag.has_any_user_text then
+				if mp3.tag.has_user_text then
 					across user_text_table as text loop
-						if mp3.tag.has_user_text (text.key) then
+						if mp3.tag.has_user_text_with (text.key) then
 							assert ("text starts with", mp3.tag.user_text (text.key).starts_with_general (text.item))
 							mp3.tag.set_user_text (text.key, text.item)
 							assert ("same text", text.item ~ mp3.tag.user_text (text.key).to_latin_1)
@@ -231,6 +241,11 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
+
+	enclosed (a_str: ZSTRING): ZSTRING
+		do
+			Result := a_str.enclosed ('(', ')')
+		end
 
 	checksums (a_print_tag, a_print_frames: NATURAL): like Checksum_table.item
 		do
@@ -268,21 +283,43 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	print_tag (relative_path: EL_FILE_PATH)
+	get_set_basic_fields (relative_path: EL_FILE_PATH)
 		local
-			mp3: TL_MPEG_FILE; tag: TL_ID3_TAG; field_string: ZSTRING
+			mp3: TL_MPEG_FILE; tag: TL_ID3_TAG; field_string, string: ZSTRING
+			value, index: INTEGER
 		do
 			create mp3.make (Work_area_dir + relative_path)
 			tag := mp3.tag
 			print_version (mp3)
-			if attached {TL_ID3_V2_TAG} tag as v2 and then v2.duration > 0 then
-				lio.put_integer_field ("Duration", v2.duration)
-				lio.put_new_line
-			end
-			across Field_table as field loop
-				field_string := field.item (tag)
-				if not field_string.is_empty then
-					print_field (field.key, field_string)
+			if tag.version > 0 then
+				across Get_set_names as name loop
+					index := (name.cursor_index - 1) * 2 + 1
+					if attached {FUNCTION [TL_ID3_TAG, ZSTRING]} Get_set_routines [index] as get_string then
+						field_string := get_string (tag)
+						if not field_string.is_empty then
+							print_field (name.item, field_string)
+						end
+						if attached {PROCEDURE [TL_ID3_TAG, READABLE_STRING_GENERAL]} Get_set_routines [index + 1] as set_string then
+							if field_string.starts_with_general ("THAT SPOT") then
+								-- why is post-condition failing?
+							else
+								field_string := enclosed (field_string)
+							end
+							set_string (tag, field_string)
+							string := get_string (tag)
+							assert ("same string", get_string (tag) ~ field_string)
+						end
+					elseif attached {FUNCTION [TL_ID3_TAG, INTEGER]} Get_set_routines [index] as get_integer then
+						value := get_integer (tag)
+						if value > 0 then
+							log.put_integer_field (name.item, value)
+							log.put_new_line
+							if attached {PROCEDURE [TL_ID3_TAG, INTEGER]} Get_set_routines [index + 1] as set_integer then
+								set_integer (tag, value + 1)
+								assert ("same value", get_integer (tag) = value + 1)
+							end
+						end
+					end
 				end
 			end
 		end
@@ -363,20 +400,20 @@ feature {NONE} -- Constants
 			Result := "%R%N"
 		end
 
-	Checksum_table: HASH_TABLE [TUPLE [print_tag, print_frames: NATURAL], STRING]
+	Checksum_table: HASH_TABLE [TUPLE [get_set_basic_fields, print_frames: NATURAL], STRING]
 		once
 			create Result.make (11)
-			Result ["221-compressed.tag"] := checksums (2345267516, 3246236924)
-			Result ["230-compressed.tag"] := checksums (237988789, 3424301073)
-			Result ["230-syncedlyrics.tag"] := checksums (474628871, 4124037141)
-			Result [Picture_230_tag] := checksums (267318710, 32249346)
-			Result [Unicode_230_tag] := checksums (2150173072, 3709611927)
-			Result ["ozzy.tag"] := checksums (4088983894, 3042106295)
-			Result [That_spot_tag] := checksums (1455176272, 2234758446)
+			Result ["221-compressed.tag"] := checksums (3085819510, 3246236924)
+			Result ["230-compressed.tag"] := checksums (839599359, 3424301073)
+			Result ["230-syncedlyrics.tag"] := checksums (1669786640, 4124037141)
+			Result [Picture_230_tag] := checksums (1095970239, 32249346)
+			Result [Unicode_230_tag] := checksums (109896957, 3709611927)
+			Result ["ozzy.tag"] := checksums (3778416931, 3042106295)
+			Result [That_spot_tag] := checksums (4253022495, 2234758446)
 
 			-- MP3 extension
-			Result [Silence_240_mp3] := checksums (161761856, 1488597223)
-			Result ["crc53865.mp3"] := checksums (4078009405, 3992252498)
+			Result [Silence_240_mp3] := checksums (3490969276, 1488597223)
+			Result ["crc53865.mp3"] := checksums (1317037298, 3992252498)
 		end
 
 	Data_dir: EL_DIR_PATH
@@ -384,14 +421,24 @@ feature {NONE} -- Constants
 			Result := EL_test_data_dir.joined_dir_path ("id3$")
 		end
 
-	Field_table: EL_HASH_TABLE [FUNCTION [TL_ID3_TAG, ZSTRING], STRING]
+	Get_set_routines: ARRAY [ROUTINE]
 		once
-			create Result.make (<<
-				["album", agent {TL_ID3_TAG}.album],
-				["artist", agent {TL_ID3_TAG}.artist],
-				["comment", agent {TL_ID3_TAG}.comment],
-				["title", agent {TL_ID3_TAG}.title]
-			>>)
+			Result := <<
+				agent {TL_ID3_TAG}.album, agent {TL_ID3_TAG}.set_album,
+				agent {TL_ID3_TAG}.artist, agent {TL_ID3_TAG}.set_artist,
+				agent {TL_ID3_TAG}.comment, agent {TL_ID3_TAG}.set_comment,
+				agent {TL_ID3_TAG}.genre, agent {TL_ID3_TAG}.set_genre,
+				agent {TL_ID3_TAG}.title, agent {TL_ID3_TAG}.set_title,
+				agent {TL_ID3_TAG}.track, agent {TL_ID3_TAG}.set_track,
+				agent {TL_ID3_TAG}.year, agent {TL_ID3_TAG}.set_year
+			>>
+		ensure
+			twice_number_of_names: Result.count // Get_set_names.count = 2
+		end
+
+	Get_set_names: EL_STRING_8_LIST
+		once
+			create Result.make_with_separator ("album, artist, comment, genre, title, track, year", ',', True)
 		end
 
 	Unicode_230_tag: ZSTRING

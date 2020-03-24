@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 16:01:01 GMT (Thursday 19th March 2020)"
-	revision: "4"
+	date: "2020-03-23 9:31:52 GMT (Monday 23rd March 2020)"
+	revision: "5"
 
 class
 	TL_ID3_FRAME_LIST
@@ -53,7 +53,7 @@ feature -- Access
 			Result := Once_string.to_string
 		end
 
-feature {TL_ID3_V2_TAG} -- Implementation
+feature {TL_ID3_V2_TAG_FRAME_ROUTINES} -- Implementation
 
 	new_cursor: TL_ID3_FRAME_ITERATION_CURSOR
 		do

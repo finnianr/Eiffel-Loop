@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 13:57:33 GMT (Saturday 21st March 2020)"
-	revision: "1"
+	date: "2020-03-23 9:18:52 GMT (Monday 23rd March 2020)"
+	revision: "2"
 
 deferred class
 	TL_FRAME_TABLE [F -> TL_ID3_TAG_FRAME create make_from_pointer end]
@@ -23,18 +23,18 @@ feature -- Access
 
 feature -- Status query
 
-	has (tag: TL_ID3_V2_TAG; key: READABLE_STRING_GENERAL): BOOLEAN
+	has (tag_ptr: POINTER; key: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Once_string.set_from_string (key)
-			Result := is_attached (cpp_find_frame (tag.self_ptr, Once_string.self_ptr))
+			Result := is_attached (cpp_find_frame (tag_ptr, Once_string.self_ptr))
 		end
 
-	has_key (tag: TL_ID3_V2_TAG; key: READABLE_STRING_GENERAL): BOOLEAN
+	has_key (tag_ptr: POINTER; key: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			frame_ptr: POINTER
 		do
 			Once_string.set_from_string (key)
-			frame_ptr := cpp_find_frame (tag.self_ptr, Once_string.self_ptr)
+			frame_ptr := cpp_find_frame (tag_ptr, Once_string.self_ptr)
 			if is_attached (frame_ptr) then
 				create found_item.make_from_pointer (frame_ptr)
 				Result := True
@@ -43,7 +43,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	cpp_find_frame (tag, key: POINTER): POINTER
+	cpp_find_frame (tag_ptr, key: POINTER): POINTER
 		deferred
 		end
 

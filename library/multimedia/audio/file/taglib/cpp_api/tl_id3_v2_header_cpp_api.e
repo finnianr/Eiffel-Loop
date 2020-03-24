@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-31 16:14:55 GMT (Thursday 31st October 2019)"
-	revision: "3"
+	date: "2020-03-24 15:07:47 GMT (Tuesday 24th March 2020)"
+	revision: "4"
 
 class
 	TL_ID3_V2_HEADER_CPP_API
@@ -19,7 +19,7 @@ class
 inherit
 	EL_CPP_API
 
-feature {NONE} -- C++ Externals
+feature {NONE} -- Access
 
 	frozen cpp_major_version (self_ptr: POINTER): INTEGER
 		--	unsigned int majorVersion()
@@ -35,6 +35,16 @@ feature {NONE} -- C++ Externals
 			"C++ [TagLib::ID3v2::Header %"mpeg/id3v2/id3v2header.h%"] (): EIF_INTEGER"
 		alias
 			"revisionNumber"
+		end
+
+feature {NONE} -- Measurement
+
+	frozen cpp_complete_tag_size (self_ptr: POINTER): INTEGER
+		--	unsigned int Header::completeTagSize()
+		external
+			"C++ [TagLib::ID3v2::Header %"mpeg/id3v2/id3v2header.h%"] (): EIF_INTEGER"
+		alias
+			"completeTagSize"
 		end
 
 	frozen cpp_tag_size (self_ptr: POINTER): INTEGER

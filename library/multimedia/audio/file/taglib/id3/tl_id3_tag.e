@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 18:42:20 GMT (Saturday 21st March 2020)"
-	revision: "11"
+	date: "2020-03-24 14:53:47 GMT (Tuesday 24th March 2020)"
+	revision: "12"
 
 deferred class
 	TL_ID3_TAG
@@ -29,45 +29,22 @@ inherit
 			make_from_pointer as make
 		end
 
-	TL_SHARED_FRAME_ID_ENUM
+	TL_BASIC_ID3_TAG_FIELDS
 
-	TL_SHARED_ONCE_STRING
+	TL_SHARED_FRAME_ID_ENUM
 
 	EL_ZSTRING_CONSTANTS
 
-feature -- ID3 fields
-
-	album: ZSTRING
-		deferred
-		end
+feature -- Access
 
 	album_artist, composer: ZSTRING
 		do
 			create Result.make_empty
 		end
 
-	artist: ZSTRING
-		deferred
-		end
-
-	comment: ZSTRING
-		deferred
-		end
-
-	duration: INTEGER
-		deferred
-		end
-
-	picture: TL_ID3_PICTURE
+	beats_per_minute: INTEGER
 		do
-			create Result.make_default
 		end
-
-	title: ZSTRING
-		deferred
-		end
-
-feature -- Access
 
 	comment_list: EL_ARRAYED_LIST [TL_COMMENTS]
 		do
@@ -79,9 +56,18 @@ feature -- Access
 			create {TL_DEFAULT_COMMENTS} Result
 		end
 
+	duration: INTEGER
+		do
+		end
+
 	header: TL_ID3_HEADER
 		do
 			create Result
+		end
+
+	picture: TL_ID3_PICTURE
+		do
+			create Result.make_default
 		end
 
 	type: INTEGER
@@ -98,7 +84,18 @@ feature -- Access
 			create Result.make_empty
 		end
 
+	unique_id_group_table: EL_GROUP_TABLE [TL_UNIQUE_FILE_IDENTIFIER, ZSTRING]
+		-- table of UFID's grouped by owner
+		do
+			create Result.make (agent {TL_UNIQUE_FILE_IDENTIFIER}.owner, unique_id_list)
+		end
+
 	user_text (a_description: READABLE_STRING_GENERAL): ZSTRING
+		do
+			create Result.make_empty
+		end
+
+	user_text_frame_list: EL_ARRAYED_LIST [TL_USER_TEXT_IDENTIFICATION_ID3_FRAME]
 		do
 			create Result.make_empty
 		end
@@ -113,55 +110,39 @@ feature -- Access
 		deferred
 		end
 
-feature -- Element change
-
-	set_album (a_album: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_album_artist (a_album_artist: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_artist (a_artist: READABLE_STRING_GENERAL)
-		deferred
-		ensure
-			set: version > 0 implies artist.same_string (a_artist)
-		end
-
-	set_composer (a_composer: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_picture (a_picture: TL_ID3_PICTURE)
-		deferred
-		end
-
-	set_title (a_title: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
-		do
-		end
-
-	set_user_text (a_description, a_text: READABLE_STRING_GENERAL)
-		do
-		end
-
-feature -- Removal
-
-	remove_user_text (a_description: READABLE_STRING_GENERAL)
-		do
-		end
-
 feature -- Status query
 
-	has_any_user_text: BOOLEAN
+	has_comment: BOOLEAN
 		do
 		end
 
-	has_user_text (a_description: READABLE_STRING_GENERAL): BOOLEAN
+	has_comment_with (a_description: READABLE_STRING_GENERAL): BOOLEAN
+		do
+		end
+
+	has_frame (a_frame_id: NATURAL_8): BOOLEAN
+		require
+			valid_code: valid_frame_id (a_frame_id)
+		do
+		end
+
+	has_picture: BOOLEAN
+		do
+		end
+
+	has_user_text: BOOLEAN
+		do
+		end
+
+	has_unique_id: BOOLEAN
+		do
+		end
+
+	has_unique_id_with (owner: READABLE_STRING_GENERAL): BOOLEAN
+		do
+		end
+
+	has_user_text_with (description: READABLE_STRING_GENERAL): BOOLEAN
 		do
 		end
 
@@ -170,5 +151,64 @@ feature -- Status query
 		do
 			Result := version = 0
 		end
+
+feature -- Element change
+
+	set_album_artist, set_composer (text: READABLE_STRING_GENERAL)
+		do
+		end
+
+	set_comment_with, set_user_text (description, text: READABLE_STRING_GENERAL)
+		do
+		end
+
+	set_duration, set_beats_per_minute (n: INTEGER)
+		do
+		end
+
+	set_picture (a_picture: TL_ID3_PICTURE)
+		do
+		end
+
+	set_unique_id (owner: READABLE_STRING_GENERAL; identifier: STRING)
+		do
+		end
+
+	set_year_from_days (days: INTEGER)
+			--
+		do
+			set_year (days // Days_in_year)
+		end
+
+feature -- Removal
+
+	remove_all (a_frame_id: NATURAL_8)
+		-- remove all frames with `a_frame_id'
+		require
+			valid_frame: valid_frame_id (a_frame_id)
+		do
+		ensure
+			removed: not has_frame (a_frame_id)
+		end
+
+	remove_all_unique_ids
+		do
+		end
+
+	remove_comment (a_description: READABLE_STRING_GENERAL)
+		do
+		end
+
+	remove_picture
+		do
+		end
+
+	remove_user_text (a_description: READABLE_STRING_GENERAL)
+		do
+		end
+
+feature -- Constants
+
+	Days_in_year: INTEGER = 365
 
 end

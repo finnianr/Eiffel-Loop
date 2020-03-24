@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 10:10:16 GMT (Thursday 19th March 2020)"
-	revision: "4"
+	date: "2020-03-24 12:16:19 GMT (Tuesday 24th March 2020)"
+	revision: "5"
 
 class
 	TL_ID3_PICTURE
@@ -27,6 +27,11 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
+	EL_MODULE_CHECKSUM
+		rename
+			checksum as Mod_checksum
+		end
+
 create
 	make, make_default, make_from_frame
 
@@ -43,6 +48,7 @@ feature {NONE} -- Initialization
 			type_enum := a_type_enum
 			if path.exists then
 				data := File_system.file_data (path)
+				checksum := Mod_checksum.data (data)
 			else
 				create data.make (0)
 			end
@@ -72,6 +78,7 @@ feature {NONE} -- Initialization
 				mime_type := frame.mime_type
 			end
 			data := frame.picture.data
+			checksum := Mod_checksum.data (data)
 			type_enum := frame.type_enum
 		end
 
@@ -81,6 +88,8 @@ feature -- Access
 		-- picture data
 
 	description: ZSTRING
+
+	checksum: NATURAL
 
 	mime_type: STRING
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-13 13:56:00 GMT (Friday 13th March 2020)"
-	revision: "3"
+	date: "2020-03-24 15:08:32 GMT (Tuesday 24th March 2020)"
+	revision: "4"
 
 class
 	TL_ID3_V2_HEADER
@@ -15,7 +15,7 @@ class
 inherit
 	TL_ID3_HEADER
 		redefine
-			major_version, revision_number, tag_size
+			complete_tag_size, major_version, revision_number, tag_size
 		end
 
 	EL_CPP_OBJECT
@@ -38,6 +38,13 @@ feature -- Access
 	revision_number: INTEGER
 		do
 			Result := cpp_revision_number (self_ptr)
+		end
+
+feature -- Measurement
+
+	complete_tag_size: INTEGER
+		do
+			Result := cpp_complete_tag_size (self_ptr)
 		end
 
 	tag_size: INTEGER

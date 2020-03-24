@@ -63,8 +63,18 @@ AIFF, MP4 and ASF files.
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
+		<external_object location = "-L$(ISE_LIBRARY)/C_library/zlib -lz">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_object>
 		<!--ISE libraries-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</library>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>

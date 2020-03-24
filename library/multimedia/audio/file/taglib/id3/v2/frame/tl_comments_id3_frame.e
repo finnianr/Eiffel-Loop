@@ -1,13 +1,13 @@
 note
-	description: "Tl comments id3 frame"
+	description: "Comments id3 frame"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 19:39:05 GMT (Saturday 21st March 2020)"
-	revision: "5"
+	date: "2020-03-22 10:53:36 GMT (Sunday 22nd March 2020)"
+	revision: "6"
 
 class
 	TL_COMMENTS_ID3_FRAME

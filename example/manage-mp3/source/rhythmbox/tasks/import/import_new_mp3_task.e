@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:00:31 GMT (Tuesday 5th November 2019)"
-	revision: "3"
+	date: "2020-03-24 11:38:58 GMT (Tuesday 24th March 2020)"
+	revision: "4"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -60,20 +60,20 @@ feature {NONE} -- Implementation
 		require
 			not_already_present: not Database.songs_by_location.has (mp3_path)
 		local
-			relative_path_steps: EL_PATH_STEPS; id3_info: ID3_INFO
+			relative_path_steps: EL_PATH_STEPS; id3_info: TL_MUSICBRAINZ_MPEG_FILE
 		do
 			relative_path_steps := mp3_path.relative_path (music_dir).steps
 			if relative_path_steps.count = 3 then
 				create id3_info.make (mp3_path)
-				if id3_info.title.is_empty then
+				if id3_info.tag.title.is_empty then
 					song.set_title (mp3_path.base_sans_extension)
 				else
-					song.set_title (id3_info.title)
+					song.set_title (id3_info.tag.title)
 				end
-				song.set_duration (id3_info.duration.seconds_count)
-				song.set_album (id3_info.album)
-				song.set_track_number (id3_info.track)
-				song.set_recording_year (id3_info.year)
+				song.set_duration (id3_info.tag.duration)
+				song.set_album (id3_info.tag.album)
+				song.set_track_number (id3_info.tag.track)
+				song.set_recording_year (id3_info.tag.year)
 
 				song.set_genre (relative_path_steps.item (1))
 				song.set_artist (relative_path_steps.item (2))

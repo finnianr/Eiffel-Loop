@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 13:41:56 GMT (Saturday 21st March 2020)"
-	revision: "10"
+	date: "2020-03-23 9:40:20 GMT (Monday 23rd March 2020)"
+	revision: "11"
 
 class
 	TL_STRING
@@ -26,6 +26,8 @@ inherit
 	TL_STRING_CPP_API
 
 	EL_SHARED_ONCE_STRING_32
+
+	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_empty
@@ -124,6 +126,15 @@ feature -- Element change
 			Setter.set_text (Current, str)
 		ensure
 			set: to_string_32 (False).same_string_general (str)
+		end
+
+	set_from_integer (n: INTEGER)
+		local
+			n_str: STRING
+		do
+			n_str := empty_once_string_8
+			n_str.append_integer (n)
+			set_from_string (n_str)
 		end
 
 	wipe_out

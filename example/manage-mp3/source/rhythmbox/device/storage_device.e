@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:57:03 GMT (Sunday 22nd December 2019)"
-	revision: "13"
+	date: "2020-03-24 14:33:47 GMT (Tuesday 24th March 2020)"
+	revision: "14"
 
 class
 	STORAGE_DEVICE
@@ -225,14 +225,14 @@ feature {NONE} -- Volume file operations
 
 feature {NONE} -- Implementation
 
-	adjust_genre (id3_info: ID3_INFO)
+	adjust_genre (id3_info: TL_MPEG_FILE)
 		do
 		end
 
 	export_item (media_item: MEDIA_ITEM)
 		local
 			temp_file_path, relative_file_path: EL_FILE_PATH
-			id3_info: ID3_INFO; m3u_playlist: like new_m3u_playlist
+			id3_info: TL_MPEG_FILE; m3u_playlist: like new_m3u_playlist
 		do
 			relative_file_path := media_item.exported_relative_path (is_windows_format)
 			temp_file_path := temporary_dir + relative_file_path.base
@@ -241,10 +241,9 @@ feature {NONE} -- Implementation
 				if attached {RBOX_SONG} media_item as song then
 					OS.copy_file (song.mp3_path, temp_file_path)
 
-					create id3_info.make (temp_file_path); id3_info.set_encoding ("UTF-8")
+					create id3_info.make (temp_file_path)
 					adjust_genre (id3_info)
-					id3_info.set_version (task.volume.id3_version)
-					id3_info.update
+					id3_info.save_version (task.volume.major_version)
 
 				elseif attached {RBOX_PLAYLIST} media_item as playlist then
 					m3u_playlist := new_m3u_playlist (playlist, temp_file_path)

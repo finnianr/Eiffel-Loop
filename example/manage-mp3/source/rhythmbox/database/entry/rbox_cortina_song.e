@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 12:22:06 GMT (Wednesday 4th September 2019)"
-	revision: "7"
+	date: "2020-03-24 11:33:55 GMT (Tuesday 24th March 2020)"
+	revision: "8"
 
 class
 	RBOX_CORTINA_SONG
@@ -85,7 +85,7 @@ feature -- Basic operations
 			convertor.execute
 			OS.delete_file (faded_wav_path)
 
-			write_id3_info (id3_info)
+			write_id3_info (mp3_info)
 		end
 
 feature {NONE} -- Constants

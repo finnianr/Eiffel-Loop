@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-05 16:00:32 GMT (Tuesday 5th November 2019)"
-	revision: "9"
+	date: "2020-03-24 12:24:15 GMT (Tuesday 24th March 2020)"
+	revision: "10"
 
 class
 	RBOX_TEST_DATABASE
@@ -91,7 +91,8 @@ feature {TEST_MANAGEMENT_TASK} -- Access
 			valid_duration: song.duration > 0
 		local
 			mp3_writer: like Audio_command.new_wav_to_mp3
-			relative_path, wav_path: EL_FILE_PATH; l_id3_info: ID3_INFO
+			relative_path, wav_path: EL_FILE_PATH
+			mp3_info: TL_MUSICBRAINZ_MPEG_FILE
 		do
 			relative_path := song.mp3_path.relative_path (music_dir)
 
@@ -123,8 +124,8 @@ feature {TEST_MANAGEMENT_TASK} -- Access
 				mp3_writer.execute
 				File_system.remove_file (wav_path)
 
-				create l_id3_info.make (wav_path.with_new_extension ("mp3"))
-				song.write_id3_info (l_id3_info)
+				create mp3_info.make (wav_path.with_new_extension ("mp3"))
+				song.write_id3_info (mp3_info)
 			end
 		ensure
 			file_exists: Result.exists

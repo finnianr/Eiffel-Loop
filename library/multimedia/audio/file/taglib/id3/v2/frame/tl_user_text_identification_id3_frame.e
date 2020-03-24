@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 19:30:46 GMT (Saturday 21st March 2020)"
-	revision: "4"
+	date: "2020-03-23 9:31:20 GMT (Monday 23rd March 2020)"
+	revision: "5"
 
 class
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
@@ -67,7 +67,7 @@ feature -- Access
 			end
 		end
 
-feature {TL_ID3_V2_TAG} -- Implementation
+feature {TL_ID3_V2_TAG_FRAME_ROUTINES} -- Implementation
 
 	fill (a_text_list: EL_ZSTRING_LIST)
 		local

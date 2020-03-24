@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 12:18:22 GMT (Thursday 19th March 2020)"
-	revision: "7"
+	date: "2020-03-23 9:46:30 GMT (Monday 23rd March 2020)"
+	revision: "8"
 
 class
 	TL_ID3_TAG_FRAME
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CPP_OBJECT
 		export
-			{TL_ID3_V2_TAG} self_ptr
+			{TL_ID3_V2_TAG_FRAME_ROUTINES} self_ptr
 		end
 
 	TL_ID3_TAG_FRAME_CPP_API
@@ -55,6 +55,12 @@ feature -- Access
 	set_text (a_text: READABLE_STRING_GENERAL)
 		do
 			Once_string.set_from_string (a_text)
+			cpp_set_text (self_ptr, Once_string.self_ptr)
+		end
+
+	set_integer_value (n: INTEGER)
+		do
+			Once_string.set_from_integer (n)
 			cpp_set_text (self_ptr, Once_string.self_ptr)
 		end
 

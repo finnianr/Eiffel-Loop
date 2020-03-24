@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:55:01 GMT (Sunday 22nd December 2019)"
-	revision: "25"
+	date: "2020-03-24 15:32:28 GMT (Tuesday 24th March 2020)"
+	revision: "26"
 
 class
 	RBOX_SONG
@@ -38,9 +38,9 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_OS
+	TL_MUSICBRAINZ_CONSTANTS
 
-	ID3_MODULE_TAG
+	EL_MODULE_OS
 
 	EL_MODULE_COLON_FIELD
 
@@ -177,7 +177,7 @@ feature -- Access
 			Result := l_time.formatted_out ("mi:[0]ss")
 		end
 
-	id3_info: ID3_INFO
+	mp3_info: TL_MUSICBRAINZ_MPEG_FILE
 		do
 			create Result.make (mp3_path)
 		end
@@ -448,13 +448,13 @@ feature -- Element change
 
 	update_audio_id
 		local
-			l_id3_info: like id3_info
+			mp3: like mp3_info
 		do
 			audio_id := new_audio_id
-			l_id3_info := id3_info
---			l_id3_info.remove_unique_id ("RBOX"); l_id3_info.remove_unique_id ("UFID")
-			l_id3_info.set_music_brainz_track_id (music_brainz_track_id)
-			l_id3_info.update
+			mp3 := mp3_info
+--			mp3.remove_unique_id ("RBOX"); mp3.remove_unique_id ("UFID")
+			mp3.set_mb_track_id (music_brainz_track_id)
+			mp3.save
 			update_file_info
 		end
 
@@ -480,40 +480,40 @@ feature -- Basic operations
 
 	save_id3_info
 		do
-			write_id3_info (id3_info)
+			write_id3_info (mp3_info)
 		end
 
-	write_id3_info (a_id3_info: ID3_INFO)
+	write_id3_info (mp3: TL_MUSICBRAINZ_MPEG_FILE)
 			--
 		do
-			a_id3_info.set_title (title)
-			a_id3_info.set_artist (artist)
-			a_id3_info.set_genre (genre)
-			a_id3_info.set_album (album)
-			a_id3_info.set_album_artist (album_artist)
+			mp3.tag.set_title (title)
+			mp3.tag.set_artist (artist)
+			mp3.tag.set_genre (genre)
+			mp3.tag.set_album (album)
+			mp3.tag.set_album_artist (album_artist)
 
 			if composer ~ Unknown_string then
-				a_id3_info.remove_basic_field (Tag.composer)
+				mp3.tag.set_composer (Empty_string)
 			else
-				a_id3_info.set_composer (composer)
+				mp3.tag.set_composer (composer)
 			end
 
 			if track_number > 0 then
-				a_id3_info.set_track (track_number)
+				mp3.tag.set_track (track_number)
 			end
 			if beats_per_minute > 0 then
-				a_id3_info.set_beats_per_minute (beats_per_minute)
+				mp3.tag.set_beats_per_minute (beats_per_minute)
 			end
 
-			a_id3_info.set_year_from_days (recording_date)
-			a_id3_info.set_comment (ID3_comment_description, comment)
+			mp3.tag.set_year_from_days (recording_date)
+			mp3.tag.set_comment_with (ID3_comment_description, comment)
 
-			a_id3_info.set_music_brainz_field ("albumartistid", mb_albumartistid)
-			a_id3_info.set_music_brainz_field ("albumid", mb_albumid)
-			a_id3_info.set_music_brainz_field ("artistid", mb_artistid)
-			a_id3_info.set_music_brainz_field ("artistsortname", mb_artistsortname)
+			mp3.set_mb_field ("albumartistid", mb_albumartistid)
+			mp3.set_mb_field ("albumid", mb_albumid)
+			mp3.set_mb_field ("artistid", mb_artistid)
+			mp3.set_mb_field ("artistsortname", mb_artistsortname)
 
-			a_id3_info.update
+			mp3.save
 			update_file_info
 		end
 

@@ -128,10 +128,6 @@ system:
 			location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_id3_tags; readonly = false
-			location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
-
-		library:
 			name = EL_ftp; readonly = false
 			location = "$EIFFEL_LOOP/library/ftp.ecf"
 
