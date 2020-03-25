@@ -20,26 +20,26 @@ inherit
 			make as make_with_count
 		end
 
+	EL_MODULE_ITERABLE
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (key: FUNCTION [G, K]; a_list: FINITE [G])
+	make (key: FUNCTION [G, K]; a_list: ITERABLE [G])
 		-- Group items `list' into groups defined by `key' function
 		local
-			l_key: K; list: LINEAR [G]
+			l_key: K
 		do
-			make_equal ((a_list.count // 10).min (11))
-			list := a_list.linear_representation
-			from list.start until list.after loop
-				l_key := key (list.item)
-				search (l_key)
-				if not found then
-					put (create {EL_ARRAYED_LIST [G]}.make (5), l_key)
+			make_equal ((Iterable.count (a_list) // 2).min (11))
+			across a_list as l_list loop
+				l_key := key (l_list.item)
+				if has_key (l_key) then
+					found_item.extend (l_list.item)
+				else
+					extend (create {like item}.make (5), l_key)
 				end
-				found_item.extend (list.item)
-				list.forth
 			end
 		end
 

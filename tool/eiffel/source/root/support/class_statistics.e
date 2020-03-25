@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create source_lines.make (source_path)
-			byte_count := byte_count + source_lines.byte_count
+			byte_count := source_lines.byte_count
 			do_once_with_file_lines (agent count_words, source_lines)
 		end
 
@@ -41,14 +41,10 @@ feature {NONE} -- Initialization
 		local
 			lines: EL_SPLIT_ZSTRING_LIST; index: INTEGER
 		do
-			New_line.keep_head (1)
 			index := source.substring_index (New_line, 1)
-			-- In case it's a MS windows file
-			if index > 1 and then source [index - 1] = Carriage_return then
-				New_line.append_character (Carriage_return)
-			end
 			create lines.make (source, New_line)
 			do_with_split_list (agent count_words, lines, False)
+			byte_count := source.count
 		end
 
 feature -- Access
@@ -126,8 +122,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Carriage_return: CHARACTER_32 = '%R'
 
 	Code_start_keywords: ARRAY [ZSTRING]
 		once

@@ -202,3 +202,6 @@ Added fill routine to TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
 Sat 21st Mar 2020, 19:57:49
 New TL_FRAME_TABLE and TL_DESCRIBEABLE_ID3_TAG_FRAME
 
+Tue 24th Mar 2020, 15:44:56
+Replaced ID3-tags with TabLib in manage-mp3.ecf
+

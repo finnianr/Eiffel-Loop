@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 				new_log_filter ({EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines)
 		end
 
-	test_type: TUPLE [FEATURE_EDITOR_COMMAND_TEST_SET]
+	test_type: TUPLE [REPOSITORY_PUBLISHER_TEST_SET]
 		do
 			create Result
 		end

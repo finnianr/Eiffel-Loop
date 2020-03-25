@@ -27,7 +27,7 @@ feature -- Element change
 
 	set_mb_field (name: STRING; value: READABLE_STRING_GENERAL)
 		require
-			valid_name: Musicbrainz_fields.has (name)
+			version_2: tag.version = 2
 		local
 			mb_name: ZSTRING
 		do
@@ -44,6 +44,8 @@ feature -- Element change
 		end
 
 	set_mb_track_id (track_id: STRING)
+		require
+			version_2: tag.version = 2
 		do
 			tag.set_unique_id (Http_musicbrainz_org, track_id)
 		end
