@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-15 9:30:55 GMT (Sunday 15th September 2019)"
-	revision: "3"
+	date: "2020-03-27 8:59:37 GMT (Friday 27th March 2020)"
+	revision: "4"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TEST_TASK
@@ -36,12 +36,13 @@ feature -- Basic operations
 			if selected_genres.is_empty then
 				log.put_line ("Hiding Classical songs")
 
-				Database.songs.do_query (not song_is_hidden and song_is_genre ("Classical"))
-				Database.songs.last_query_items.do_all (agent {RBOX_SONG}.hide)
+				across Database.songs.query (not song_is_hidden and song_is_genre ("Classical")) as song loop
+					song.item.hide
+				end
 
 				log.put_line ("Changing titles on Rock Songs")
-				Database.songs.do_query (not song_is_hidden and song_is_genre ("Rock"))
-				across Database.songs.last_query_items as song loop
+
+				across Database.songs.query (not song_is_hidden and song_is_genre ("Rock")) as song loop
 					title := song.item.title
 					title.prepend_character ('X')
 					song.item.set_title (title)

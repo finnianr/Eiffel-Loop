@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 14:35:12 GMT (Sunday 22nd December 2019)"
-	revision: "1"
+	date: "2020-03-27 9:09:57 GMT (Friday 27th March 2020)"
+	revision: "2"
 
 class
 	TL_PICTURE_TYPE_ENUM
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 		do
 			artist := 0x08
-			back_cover  := 0x04
+			back_cover := 0x04
 			band := 0x0A
 			band_logo := 0x13
 			coloured_fish := 0x11

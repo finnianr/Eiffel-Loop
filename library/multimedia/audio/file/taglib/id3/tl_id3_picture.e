@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 12:16:19 GMT (Tuesday 24th March 2020)"
-	revision: "5"
+	date: "2020-03-27 10:12:17 GMT (Friday 27th March 2020)"
+	revision: "6"
 
 class
 	TL_ID3_PICTURE
@@ -44,14 +44,10 @@ feature {NONE} -- Initialization
 		local
 			extension: STRING
 		do
+			create internal
+			internal.file_path := path
 			create description.make_from_general (a_description)
 			type_enum := a_type_enum
-			if path.exists then
-				data := File_system.file_data (path)
-				checksum := Mod_checksum.data (data)
-			else
-				create data.make (0)
-			end
 			extension := path.extension; extension.to_lower
 
 			Mime_types.find_first_true (agent type_matches (?, extension))
@@ -77,19 +73,31 @@ feature {NONE} -- Initialization
 			else
 				mime_type := frame.mime_type
 			end
-			data := frame.picture.data
-			checksum := Mod_checksum.data (data)
+			create internal
+			internal.data := frame.picture.data
 			type_enum := frame.type_enum
 		end
 
 feature -- Access
 
+	checksum: NATURAL
+		do
+			Result := Mod_checksum.data (data)
+		end
+
 	data: MANAGED_POINTER
 		-- picture data
+		do
+			if attached {MANAGED_POINTER} internal.data as l_data then
+				Result := l_data
+			elseif attached {EL_FILE_PATH} internal.file_path as path then
+				Result := File_system.file_data (path)
+			else
+				create Result.make (0)
+			end
+		end
 
 	description: ZSTRING
-
-	checksum: NATURAL
 
 	mime_type: STRING
 
@@ -99,7 +107,7 @@ feature -- Status query
 
 	is_default: BOOLEAN
 		do
-			Result := data.count = 0 and then description.is_empty and then type_enum = Picture_type.other
+			Result := data.count = 0 and then description.is_empty and then type_enum = 0
 		end
 
 feature -- Conversion
@@ -134,6 +142,10 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	internal: TUPLE [file_path: EL_FILE_PATH; data: MANAGED_POINTER]
 
 feature {NONE} -- Constants
 

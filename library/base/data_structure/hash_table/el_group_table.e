@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-31 11:28:23 GMT (Thursday 31st August 2017)"
-	revision: "3"
+	date: "2020-03-27 10:29:53 GMT (Friday 27th March 2020)"
+	revision: "4"
 
 class
 	EL_GROUP_TABLE [G, K -> HASHABLE]
@@ -23,7 +23,7 @@ inherit
 	EL_MODULE_ITERABLE
 
 create
-	make
+	make, make_with_count
 
 feature {NONE} -- Initialization
 
@@ -31,16 +31,21 @@ feature {NONE} -- Initialization
 		-- Group items `list' into groups defined by `key' function
 		local
 			l_key: K
+			group: like item
 		do
 			make_equal ((Iterable.count (a_list) // 2).min (11))
 			across a_list as l_list loop
 				l_key := key (l_list.item)
 				if has_key (l_key) then
-					found_item.extend (l_list.item)
+					group := found_item
 				else
-					extend (create {like item}.make (5), l_key)
+					create group.make (5)
+					extend (group, l_key)
 				end
+				group.extend (l_list.item)
 			end
+		ensure
+			each_item_in_group: across a_list as l_list all item (key (l_list.item)).has (l_list.item) end
 		end
 
 end

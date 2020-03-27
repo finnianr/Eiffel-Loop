@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 11:57:29 GMT (Tuesday 24th March 2020)"
-	revision: "2"
+	date: "2020-03-26 11:56:57 GMT (Thursday 26th March 2020)"
+	revision: "3"
 
 deferred class
 	TL_MUSICBRAINZ_CONSTANTS
@@ -24,10 +24,10 @@ feature {NONE} -- Constants
 			Result := "http://musicbrainz.org"
 		end
 
-	MB_field: TUPLE [artistid, albumid, albumartistid, artistsortname: STRING]
+	MB_field: TUPLE [artistid, albumid, albumartistid, artistsortname, trackid: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "artistid, albumid, albumartistid, artistsortname")
+			Tuple.fill (Result, "artistid, albumid, albumartistid, artistsortname, trackid")
 		end
 
 	Musicbrainz_fields: EL_STRING_8_LIST

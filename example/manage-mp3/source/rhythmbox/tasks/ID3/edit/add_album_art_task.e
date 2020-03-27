@@ -6,19 +6,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 12:22:00 GMT (Tuesday 24th March 2020)"
-	revision: "6"
+	date: "2020-03-27 10:20:18 GMT (Friday 27th March 2020)"
+	revision: "7"
 
 class
 	ADD_ALBUM_ART_TASK
 
 inherit
 	ID3_TASK
+		redefine
+			make
+		end
 
 	TL_SHARED_PICTURE_TYPE_ENUM
 
+	EL_MODULE_STRING_8
+
 create
 	make
+
+feature {RBOX_MUSIC_MANAGER} -- Initialization
+
+	make (a_file_path: EL_FILE_PATH)
+		local
+			picture_list: like new_picture_list
+		do
+			Precursor (a_file_path)
+			if album_art_dir.exists then
+				picture_list := new_picture_list (OS.file_list (album_art_dir, "*.jpeg"))
+			else
+				create picture_list.make_empty
+			end
+			create picture_group_table.make (agent picture_type_enum, picture_list)
+		end
 
 feature -- Access
 
@@ -80,5 +100,29 @@ feature {NONE} -- Implementation
 				song.update_checksum
 			end
 		end
+
+	new_picture_list (jpeg_path_list: LIST [EL_FILE_PATH]): EL_ARRAYED_LIST [TL_ID3_PICTURE]
+		local
+			picture: TL_ID3_PICTURE; type_enum: NATURAL_8
+			type_name: STRING
+		do
+			create Result.make (jpeg_path_list.count)
+			across jpeg_path_list as jpeg loop
+				type_name := jpeg.item.parent.base
+				type_name.to_lower
+				String_8.replace_character (type_name, ' ', '_')
+				create picture.make (jpeg.item, jpeg.item.base_sans_extension, Picture_type.value (type_name))
+				Result.extend (picture)
+			end
+		end
+
+	picture_type_enum (picture: TL_ID3_PICTURE): NATURAL_8
+		do
+			Result := picture.type_enum
+		end
+
+feature {NONE} -- Internal attributes
+
+	picture_group_table: EL_GROUP_TABLE [TL_ID3_PICTURE, NATURAL_8]
 
 end

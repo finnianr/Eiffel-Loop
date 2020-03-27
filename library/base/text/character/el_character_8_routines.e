@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 16:55:50 GMT (Saturday 1st February 2020)"
-	revision: "10"
+	date: "2020-03-25 10:48:47 GMT (Wednesday 25th March 2020)"
+	revision: "11"
 
 class
 	EL_CHARACTER_8_ROUTINES
@@ -16,6 +16,15 @@ inherit
 	EL_LATIN_1
 
 feature -- Status query
+
+	is_a_to_z_caseless (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'z', 'A' .. 'Z' then
+					Result := True
+			else
+			end
+		end
 
 	is_latin1_alpha (c: CHARACTER): BOOLEAN
 			--

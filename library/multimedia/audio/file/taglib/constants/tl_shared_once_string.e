@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 12:12:46 GMT (Thursday 19th March 2020)"
-	revision: "2"
+	date: "2020-03-26 12:33:24 GMT (Thursday 26th March 2020)"
+	revision: "3"
 
 deferred class
 	TL_SHARED_ONCE_STRING
@@ -18,6 +18,11 @@ inherit
 feature {NONE} -- Constants
 
 	Once_string: TL_STRING
+		once
+			create Result.make_empty
+		end
+
+	Once_string_2: TL_STRING
 		once
 			create Result.make_empty
 		end

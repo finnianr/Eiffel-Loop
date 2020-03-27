@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 12:15:54 GMT (Friday 11th January 2019)"
-	revision: "7"
+	date: "2020-03-25 10:43:05 GMT (Wednesday 25th March 2020)"
+	revision: "8"
 
 class
 	EL_STRING_8_ROUTINES
@@ -24,6 +24,20 @@ feature -- Conversion
 			create Result.make_filled (0, 1, s.count)
 			from i := 1 until i > s.count loop
 				Result [i] := s.code (i).to_natural_8
+				i := i + 1
+			end
+		end
+
+	filtered (str: STRING; included: PREDICATE [CHARACTER]): STRING
+		local
+			i: INTEGER; c: CHARACTER
+		do
+			create Result.make (str.count)
+			from i := 1 until i > str.count loop
+				c := str [i]
+				if included (c) then
+					Result.extend (c)
+				end
 				i := i + 1
 			end
 		end
@@ -52,4 +66,5 @@ feature -- Transformation
 		do
 			str.right_adjust
 		end
+
 end

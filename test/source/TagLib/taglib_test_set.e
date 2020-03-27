@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 13:47:15 GMT (Tuesday 24th March 2020)"
-	revision: "26"
+	date: "2020-03-26 13:40:26 GMT (Thursday 26th March 2020)"
+	revision: "27"
 
 class
 	TAGLIB_TEST_SET
@@ -33,6 +33,8 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	TL_MUSICBRAINZ_CONSTANTS
+
 	EL_SHARED_CONSOLE_COLORS
 
 	TL_SHARED_PICTURE_TYPE_ENUM
@@ -46,7 +48,8 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("comments", agent test_comments)
+--			eval.call ("comments", agent test_comments)
+			eval.call ("musicbrainz", agent test_musicbrainz)
 			eval.call ("picture_edit", agent test_picture_edit)
 			eval.call ("picture_mime_types", agent test_picture_mime_types)
 			eval.call ("get_set_basic_fields", agent test_get_set_basic_fields)
@@ -84,6 +87,22 @@ feature -- Tests
 			across table as text loop
 				mp3.tag.set_comment_with (musicmatch + text.key, text.item)
 				assert ("same string", mp3.tag.comment_with (musicmatch + text.key).text.same_string (text.item))
+			end
+		end
+
+	test_musicbrainz
+		local
+			mp3: TL_MUSICBRAINZ_MPEG_FILE; id: STRING
+		do
+			across file_list as path loop
+				create mp3.make (path.item)
+				if mp3.tag.version = 2 then
+					id := Digest.md5 (path.item.base).to_base_64_string
+					mp3.set_track_id (id)
+					mp3.set_recording_id (id)
+					assert ("track_id set", id ~ mp3.track_id)
+					assert ("recording_id set", id ~ mp3.recording_id)
+				end
 			end
 		end
 
@@ -408,8 +427,8 @@ feature {NONE} -- Constants
 			Result ["230-syncedlyrics.tag"] := checksums (1669786640, 4124037141)
 			Result [Picture_230_tag] := checksums (1095970239, 32249346)
 			Result [Unicode_230_tag] := checksums (109896957, 3709611927)
-			Result ["ozzy.tag"] := checksums (3778416931, 3042106295)
-			Result [That_spot_tag] := checksums (4253022495, 2234758446)
+			Result ["ozzy.tag"] := checksums (3778416931, 67249581)
+			Result [That_spot_tag] := checksums (4253022495, 1648797912)
 
 			-- MP3 extension
 			Result [Silence_240_mp3] := checksums (3490969276, 1488597223)

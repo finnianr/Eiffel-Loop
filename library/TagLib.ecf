@@ -11,10 +11,15 @@
 	<description>
 TagLib Audio Meta-Data Library
 
-Eiffel binding for the ID3v1 and ID3v2 tag manager from the [https://taglib.org/ TagLib C++ library].
+Eiffel binding for the ID3 v1 and v2 tag manager from the [https://taglib.org/ TagLib C++ library].
+
 TagLib can read and edit the meta-data of many popular audio formats. Currently it supports both ID3v1
 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack,
 TrueAudio, WAV, AIFF, MP4 and ASF files.
+
+**Test Set**
+
+[./test/test.taglib.html test/test.ecf#taglib]
 
 **Future Development**
 

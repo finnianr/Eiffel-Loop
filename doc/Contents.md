@@ -102,7 +102,21 @@ Demonstration program for the [Eiffel-Loop Java interface library](http://www.ei
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## TagLib Audio Meta-Data Library
-Eiffel binding for the [TagLib C++ library](https://taglib.org/). TagLib can read and edit the meta-data of many popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack, TrueAudio, WAV, AIFF, MP4 and ASF files.
+Eiffel binding for the ID3 v1 and v2 tag manager from the [TagLib C++ library](https://taglib.org/).
+
+TagLib can read and edit the meta-data of many popular audio formats. Currently it supports both ID3v1 and ID3v2 for MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC, MPC, Speex, WavPack, TrueAudio, WAV, AIFF, MP4 and ASF files.
+
+**Test Set**
+
+[test/test.ecf#taglib](http://www.eiffel-loop.com/test/test.taglib.html)
+
+**Future Development**
+
+Support for `m4a` and `flac` meta-data.
+
+**Credits**
+
+Special thanks to [Scott Wheeler](https://github.com/scotchi), the original author of the TagLib library, for his kind assistance and and support in creating this Eiffel binding.
 ## WAV Audio Processing
 Classes for reading and writing wav files on the Windows OS
 ## Windows Audio

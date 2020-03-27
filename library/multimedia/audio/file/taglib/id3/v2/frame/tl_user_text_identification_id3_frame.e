@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-23 9:31:20 GMT (Monday 23rd March 2020)"
-	revision: "5"
+	date: "2020-03-26 12:33:49 GMT (Thursday 26th March 2020)"
+	revision: "6"
 
 class
 	TL_USER_TEXT_IDENTIFICATION_ID3_FRAME
@@ -43,14 +43,14 @@ feature {NONE} -- Initialization
 
 	make (a_description: READABLE_STRING_GENERAL; values: ITERABLE [READABLE_STRING_GENERAL]; a_encoding: NATURAL_8)
 		require
-			valid_encoding: valid_encoding (encoding)
+			valid_encoding: valid_encoding (a_encoding)
 		local
 			list: like Once_string_list
 		do
-			Once_string.set_from_string (a_description)
+			Once_string_2.set_from_string (a_description)
 			list := Once_string_list
 			list.wipe_out; list.append (values)
-			make_from_pointer (cpp_user_new (Once_string.self_ptr, list.self_ptr, a_encoding))
+			make_from_pointer (cpp_user_new (Once_string_2.self_ptr, list.self_ptr, a_encoding))
 		ensure
 			description_set: a_description.same_string (description)
 		end

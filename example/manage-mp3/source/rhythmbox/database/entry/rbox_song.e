@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 15:32:28 GMT (Tuesday 24th March 2020)"
-	revision: "26"
+	date: "2020-03-26 13:01:27 GMT (Thursday 26th March 2020)"
+	revision: "27"
 
 class
 	RBOX_SONG
@@ -37,8 +37,6 @@ inherit
 	M3U_PLAY_LIST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
-
-	TL_MUSICBRAINZ_CONSTANTS
 
 	EL_MODULE_OS
 
@@ -453,7 +451,7 @@ feature -- Element change
 			audio_id := new_audio_id
 			mp3 := mp3_info
 --			mp3.remove_unique_id ("RBOX"); mp3.remove_unique_id ("UFID")
-			mp3.set_mb_track_id (music_brainz_track_id)
+			mp3.set_recording_id (music_brainz_track_id)
 			mp3.save
 			update_file_info
 		end
@@ -508,10 +506,10 @@ feature -- Basic operations
 			mp3.tag.set_year_from_days (recording_date)
 			mp3.tag.set_comment_with (ID3_comment_description, comment)
 
-			mp3.set_mb_field ("albumartistid", mb_albumartistid)
-			mp3.set_mb_field ("albumid", mb_albumid)
-			mp3.set_mb_field ("artistid", mb_artistid)
-			mp3.set_mb_field ("artistsortname", mb_artistsortname)
+			mp3.set_album_artist_id (mb_albumartistid)
+			mp3.set_album_id (mb_albumid)
+			mp3.set_artist_id (mb_artistid)
+			mp3.set_artist_sort_name (mb_artistsortname)
 
 			mp3.save
 			update_file_info
