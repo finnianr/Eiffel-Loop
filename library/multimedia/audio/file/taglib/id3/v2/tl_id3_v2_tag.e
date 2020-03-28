@@ -6,17 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:39:21 GMT (Tuesday 24th March 2020)"
-	revision: "16"
+	date: "2020-03-27 15:37:26 GMT (Friday 27th March 2020)"
+	revision: "17"
 
 class
 	TL_ID3_V2_TAG
 
 inherit
 	TL_ID3_TAG
+		rename
+			field_text as frame_text,
+			set_field_text as set_frame_text
 		undefine
-			has_frame, album_artist, composer, beats_per_minute, duration,
-			set_album_artist, set_beats_per_minute, set_composer, set_duration,
+			has_frame, album_artist, composer, beats_per_minute, duration, frame_text,
+			set_album_artist, set_beats_per_minute, set_composer, set_duration, set_frame_text,
 			remove_all, user_text_frame_list
 		redefine
 			make,
@@ -109,6 +112,11 @@ feature -- Access
 			Result := frame_integer (Frame_id.TLEN)
 		end
 
+	header: TL_ID3_V2_HEADER
+		do
+			create Result.make (cpp_header (self_ptr))
+		end
+
 	picture: TL_ID3_PICTURE
 		do
 			if attached {TL_PICTURE_ID3_FRAME} first_frame (Frame_id.apic) as frame then
@@ -153,13 +161,6 @@ feature -- Access
 	user_text_list (a_description: READABLE_STRING_GENERAL): like shared_user_text_list
 		do
 			Result := shared_user_text_list (a_description).twin
-		end
-
-feature -- Access
-
-	header: TL_ID3_V2_HEADER
-		do
-			create Result.make (cpp_header (self_ptr))
 		end
 
 feature -- Status query

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:55:24 GMT (Tuesday 24th March 2020)"
-	revision: "11"
+	date: "2020-03-27 13:34:18 GMT (Friday 27th March 2020)"
+	revision: "12"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -122,39 +122,6 @@ feature {NONE} -- Conditions
 					Result := song.album ~ name
 
 				end (?, a_name)
-			)
-		end
-
-	song_has_artist_or_album_picture (
-		pictures: EL_ZSTRING_HASH_TABLE [TL_ID3_PICTURE]
-	): EL_OR_QUERY_CONDITION [RBOX_SONG]
-		do
-			Result := song_has_artist_picture (pictures) or song_has_album_picture (pictures)
-		end
-
-	song_has_artist_picture (picture_table: EL_ZSTRING_HASH_TABLE [TL_ID3_PICTURE]): like predicate
-		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [TL_ID3_PICTURE]): BOOLEAN
-				do
-					pictures.search (song.artist)
-					if pictures.found then
-						Result := pictures.found_item.description ~ Picture_artist
-					end
-
-				end (?, picture_table)
-			)
-		end
-
-	song_has_album_picture (picture_table: EL_ZSTRING_HASH_TABLE [TL_ID3_PICTURE]): like predicate
-		do
-			Result := predicate (agent (song: RBOX_SONG; pictures: EL_ZSTRING_HASH_TABLE [TL_ID3_PICTURE]): BOOLEAN
-				do
-					pictures.search (song.album)
-					if pictures.found then
-						Result := pictures.found_item.description ~ Picture_album
-					end
-
-				end (?, picture_table)
 			)
 		end
 

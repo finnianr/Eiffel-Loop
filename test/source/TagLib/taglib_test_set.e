@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-26 13:40:26 GMT (Thursday 26th March 2020)"
-	revision: "27"
+	date: "2020-03-27 15:46:58 GMT (Friday 27th March 2020)"
+	revision: "28"
 
 class
 	TAGLIB_TEST_SET
@@ -32,8 +32,6 @@ inherit
 	EL_MODULE_TUPLE
 
 	EL_ZSTRING_CONSTANTS
-
-	TL_MUSICBRAINZ_CONSTANTS
 
 	EL_SHARED_CONSOLE_COLORS
 

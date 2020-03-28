@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 18:17:01 GMT (Thursday 20th February 2020)"
-	revision: "8"
+	date: "2020-03-28 13:00:01 GMT (Saturday 28th March 2020)"
+	revision: "9"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -55,6 +55,7 @@ feature -- Testing
 	test_types: ARRAY [TYPE [EL_MODULE_LOG]]
 		do
 			Result := <<
+				{ADD_ALBUM_ART_TEST_TASK},
 				{TEST_STORAGE_DEVICE},
 				{EXPORT_MUSIC_TO_DEVICE_TEST_TASK},
 				{EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK},

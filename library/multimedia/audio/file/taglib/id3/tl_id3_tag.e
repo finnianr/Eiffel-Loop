@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:53:47 GMT (Tuesday 24th March 2020)"
-	revision: "12"
+	date: "2020-03-27 15:37:07 GMT (Friday 27th March 2020)"
+	revision: "13"
 
 deferred class
 	TL_ID3_TAG
@@ -58,6 +58,13 @@ feature -- Access
 
 	duration: INTEGER
 		do
+		end
+
+	field_text (a_frame_id: NATURAL_8): ZSTRING
+		require
+			valid_frame_id: valid_frame_id (a_frame_id)
+		do
+			create Result.make_empty
 		end
 
 	header: TL_ID3_HEADER
@@ -163,6 +170,10 @@ feature -- Element change
 		end
 
 	set_duration, set_beats_per_minute (n: INTEGER)
+		do
+		end
+
+	set_field_text (a_frame_id: NATURAL_8; text: READABLE_STRING_GENERAL)
 		do
 		end
 

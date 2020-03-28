@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 17:26:33 GMT (Tuesday 17th March 2020)"
-	revision: "1"
+	date: "2020-03-27 14:04:26 GMT (Friday 27th March 2020)"
+	revision: "2"
 
 deferred class
 	TL_SHARED_STRING_ENCODING_ENUM

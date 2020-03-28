@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 10:22:44 GMT (Friday 24th January 2020)"
-	revision: "12"
+	date: "2020-03-27 13:54:57 GMT (Friday 27th March 2020)"
+	revision: "13"
 
 class
 	EL_NAMING_ROUTINES
@@ -63,12 +63,6 @@ feature -- Class name derivations
 			Result.to_lower
 		end
 
-	class_with_separator_as_lower (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
-		do
-			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
-			Result.to_lower
-		end
-
 	class_as_upper_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
 			Result := class_with_separator (object_or_type, '_', head_count, tail_count)
@@ -95,6 +89,12 @@ feature -- Class name derivations
 				end
 				Result := split_string.joined (separator)
 			end
+		end
+
+	class_with_separator_as_lower (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
+		do
+			Result := class_with_separator (object_or_type, separator, head_count, tail_count)
+			Result.to_lower
 		end
 
 feature -- Import names
@@ -227,7 +227,7 @@ feature -- Export names
 			words: EL_SPLIT_STRING_LIST [STRING]
 		do
 			upper_case_words.compare_objects
-			create words.make (name_in, once "_")
+			create words.make (name_in, Underscore)
 			words.do_all (agent append_english_word (upper_case_words, ?, english_out))
 			english_out [1] := english_out.item (1).as_upper
 		end
@@ -251,6 +251,27 @@ feature -- Export names
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
+		end
+
+	to_title (name_in, title_out: STRING)
+		require
+			empty_title_out: title_out.is_empty
+		local
+			words: EL_SPLIT_STRING_LIST [STRING]
+			word: STRING
+		do
+			create words.make (name_in, Underscore)
+			from words.start until words.after loop
+				if not title_out.is_empty then
+					title_out.append_character (' ')
+				end
+				word := words.item (False)
+				if word.count > 0 then
+					word [1] := word.item (1).as_upper
+				end
+				title_out.append (word)
+				words.forth
+			end
 		end
 
 	to_upper_camel_case (name_in, name_out: STRING)
@@ -291,5 +312,7 @@ feature {NONE} -- Constants
 	State_numeric: INTEGER = 3
 
 	State_upper: INTEGER = 1
+
+	Underscore: STRING = "_"
 
 end

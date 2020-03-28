@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 10:12:17 GMT (Friday 27th March 2020)"
-	revision: "6"
+	date: "2020-03-28 14:08:51 GMT (Saturday 28th March 2020)"
+	revision: "7"
 
 class
 	TL_ID3_PICTURE
@@ -32,49 +32,41 @@ inherit
 			checksum as Mod_checksum
 		end
 
+	EL_MODULE_STRING_8
+
 create
 	make, make_default, make_from_frame
 
 feature {NONE} -- Initialization
 
-	make (path: EL_FILE_PATH; a_description: READABLE_STRING_GENERAL; a_type_enum: NATURAL_8)
+	make (a_path: EL_FILE_PATH; a_description: READABLE_STRING_GENERAL; a_type_enum: NATURAL_8)
 		-- make from picture `data'
 		require
 			valid_enum: Picture_type.is_valid_value (a_type_enum)
 		local
 			extension: STRING
 		do
-			create internal
-			internal.file_path := path
+			file_path := a_path
 			create description.make_from_general (a_description)
 			type_enum := a_type_enum
-			extension := path.extension; extension.to_lower
-
-			Mime_types.find_first_true (agent type_matches (?, extension))
-			if Mime_types.found then
-				mime_type := Mime_types.item
-			else
-				mime_type := Mime_types.first
+			extension := a_path.extension; extension.to_lower
+			if extension ~ "jpg" then
+				extension := "jpeg"
 			end
+			set_mime_type (Image_prefix + extension)
 		end
 
 	make_default
 		do
-			make (create {EL_FILE_PATH}, "", Picture_type.other)
+			make (Default_file_path, "", Picture_type.other)
 		end
 
 	make_from_frame (frame: TL_PICTURE_ID3_FRAME)
 		do
+			file_path := Default_file_path
 			description := frame.description
-			Mime_types.start
-			Mime_types.search (frame.mime_type)
-			if Mime_types.found then
-				mime_type := Mime_types.item
-			else
-				mime_type := frame.mime_type
-			end
-			create internal
-			internal.data := frame.picture.data
+			set_mime_type (frame.mime_type)
+			internal_data := frame.picture.data
 			type_enum := frame.type_enum
 		end
 
@@ -88,10 +80,11 @@ feature -- Access
 	data: MANAGED_POINTER
 		-- picture data
 		do
-			if attached {MANAGED_POINTER} internal.data as l_data then
+			if attached internal_data as l_data then
 				Result := l_data
-			elseif attached {EL_FILE_PATH} internal.file_path as path then
-				Result := File_system.file_data (path)
+			elseif file_path.exists then
+				Result := File_system.file_data (file_path)
+				internal_data := Result
 			else
 				create Result.make (0)
 			end
@@ -99,15 +92,34 @@ feature -- Access
 
 	description: ZSTRING
 
+	file_path: EL_FILE_PATH
+
 	mime_type: STRING
+		do
+			Result := Image_prefix + Mime_types.i_th (mime_type_index)
+		end
 
 	type_enum: NATURAL_8
+
+	type_name: STRING
+		do
+			Result := Picture_type.name (type_enum)
+		end
+
+feature -- Constants
+
+	Image_prefix: STRING = "image/"
 
 feature -- Status query
 
 	is_default: BOOLEAN
 		do
-			Result := data.count = 0 and then description.is_empty and then type_enum = 0
+			Result := file_path = Default_file_path and not attached internal_data
+		end
+
+	same_type_and_description (other: TL_ID3_PICTURE): BOOLEAN
+		do
+			Result := type_enum = other.type_enum and then description ~ other.description
 		end
 
 feature -- Conversion
@@ -125,36 +137,42 @@ feature -- Comparison
 				and then type_enum = other.type_enum and then data ~ other.data
 		end
 
-feature {NONE} -- Implementation
+feature -- Element change
 
-	type_matches (type, extension: STRING): BOOLEAN
-		-- matches both "jpg" and "jpeg" to "image/jpeg"
-		local
-			pos_slash, ext_count: INTEGER
+	set_mime_type (a_mime_type: STRING)
+		require
+			valid_type: a_mime_type.starts_with (Image_prefix)
 		do
-			ext_count := extension.count
-			if ext_count > 0 and then extension [ext_count] = type [type.count] then
-				pos_slash := type.index_of ('/', 1)
-				if type.count - pos_slash = extension.count then
-					Result := extension ~ type.substring (pos_slash + 1, type.count)
-				else
-					Result := extension.starts_with (type.substring (pos_slash + 1, pos_slash + 2))
-				end
+			Mime_types.start
+			Mime_types.search (a_mime_type.substring (Image_prefix.count + 1, a_mime_type.count))
+			if Mime_types.found then
+				mime_type_index := Mime_types.index
+			else
+				mime_type_index := Mime_types.count
 			end
+		ensure
+			set: a_mime_type ~ mime_type
 		end
 
 feature {NONE} -- Internal attributes
 
-	internal: TUPLE [file_path: EL_FILE_PATH; data: MANAGED_POINTER]
+	internal_data: detachable MANAGED_POINTER
+
+	mime_type_index: INTEGER
 
 feature {NONE} -- Constants
 
+	Default_file_path: EL_FILE_PATH
+		once ("PROCESS")
+			Result := "image.jpeg"
+		end
+
 	Mime_types: EL_STRING_8_LIST
 		once
-			create Result.make (10)
-			across ("jpeg,png,bmp,ico,gif,svg,exif,tiff,webp").split (',') as type loop
-				Result.extend ("image/" + type.item)
-			end
+			create Result.make_with_separator ("bmp,exif,gif,ico,jpeg,png,svg,tiff,webp,xxx", ',', False)
 		end
+
+invariant
+	valid_mime_type_index: Mime_types.valid_index (mime_type_index)
 
 end

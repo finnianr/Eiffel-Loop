@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 12:44:21 GMT (Saturday 21st March 2020)"
-	revision: "5"
+	date: "2020-03-28 8:49:24 GMT (Saturday 28th March 2020)"
+	revision: "6"
 
 class
 	TL_FRAME_ID_ENUM

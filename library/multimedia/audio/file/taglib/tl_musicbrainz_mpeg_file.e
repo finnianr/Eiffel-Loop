@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-26 13:02:15 GMT (Thursday 26th March 2020)"
-	revision: "3"
+	date: "2020-03-27 16:09:32 GMT (Friday 27th March 2020)"
+	revision: "4"
 
 class
 	TL_MUSICBRAINZ_MPEG_FILE
@@ -16,7 +16,9 @@ class
 inherit
 	TL_MPEG_FILE
 
-	TL_MUSICBRAINZ_CONSTANTS
+	TL_SHARED_MUSICBRAINZ_ENUM
+
+	TL_SHARED_FRAME_ID_ENUM
 
 create
 	make
@@ -25,33 +27,22 @@ feature -- Access
 
 	album_artist_id: STRING
 		do
-			Result := field (MB_field.albumartistid)
+			Result := mb_field (Musicbrainz.album_artist_id)
 		end
 
 	album_id: STRING
 		do
-			Result := field (MB_field.albumid)
+			Result := mb_field (Musicbrainz.album_id)
 		end
 
 	artist_id: STRING
 		do
-			Result := field (MB_field.artistid)
+			Result := mb_field (Musicbrainz.artist_id)
 		end
 
 	artist_sort_name: ZSTRING
 		do
-			Result := field (MB_field.artistsortname)
-		end
-
-	field (name: STRING): ZSTRING
-		do
-			Result := tag.user_text (qualified_name (name))
-		end
-
-	track_id: STRING
-		-- TXXX:MusicBrainz Release Track Id
-		do
-			Result := field (MB_field.trackid)
+			Result := tag.field_text (Frame_id.TSOP)
 		end
 
 	recording_id: STRING
@@ -59,45 +50,34 @@ feature -- Access
 			Result := tag.unique_id (Http_musicbrainz_org).identifier
 		end
 
+	track_id: STRING
+		-- TXXX:MusicBrainz Release Track Id
+		do
+			Result := mb_field (Musicbrainz.release_track_id)
+		end
+
 feature -- Element change
 
 	set_album_artist_id (id: STRING)
 		do
-			set_field (MB_field.albumartistid, id)
+			set_mb_field (Musicbrainz.album_artist_id, id)
 		end
 
 	set_album_id (id: STRING)
 		do
-			set_field (MB_field.albumid, id)
+			set_mb_field (Musicbrainz.album_id, id)
 		end
 
 	set_artist_id (id: STRING)
 		do
-			set_field (MB_field.artistid, id)
+			set_mb_field (Musicbrainz.artist_id, id)
 		end
 
 	set_artist_sort_name (name: READABLE_STRING_GENERAL)
 		do
-			set_field (MB_field.artistsortname, name)
-		end
-
-	set_field (name: STRING; value: READABLE_STRING_GENERAL)
-		require
-			version_2: tag.version = 2
-		do
-			if value.is_empty then
-				tag.remove_user_text (qualified_name (name))
-			else
-				tag.set_user_text (qualified_name (name), value)
-			end
+			tag.set_field_text (Frame_id.TSOP, name)
 		ensure
-			set: not value.is_empty implies value.same_string (field (name))
-		end
-
-	set_track_id (id: STRING)
-		-- set TXXX:MusicBrainz Release Track Id
-		do
-			set_field (MB_field.trackid, id)
+			set: name.same_string (artist_sort_name)
 		end
 
 	set_recording_id (id: STRING)
@@ -109,23 +89,44 @@ feature -- Element change
 			set: id ~ recording_id
 		end
 
+	set_track_id (id: STRING)
+		-- set TXXX:MusicBrainz Release Track Id
+		do
+			set_mb_field (Musicbrainz.release_track_id, id)
+		end
+
+feature -- Removal
+
+	remove_mb_field (enum: NATURAL_8)
+		do
+			tag.remove_user_text (Musicbrainz.name_exported (enum, False))
+			tag.remove_user_text (Musicbrainz.identifier (enum))
+		end
+
 feature {NONE} -- Implementation
 
-	qualified_name (name: STRING): ZSTRING
+	mb_field (enum: NATURAL_8): ZSTRING
 		do
-			Result := Name_buffer
-			Result.wipe_out
-			Result.append_string_general (name)
-			if not Result.starts_with (Musicbrainz_prefix) then
-				Result.prepend (Musicbrainz_prefix)
+			Result := tag.user_text (Musicbrainz.name_exported (enum, False))
+			if Result.is_empty then
+				Result := tag.user_text (Musicbrainz.identifier (enum))
 			end
+		end
+
+	set_mb_field (enum: NATURAL_8; text: READABLE_STRING_GENERAL)
+		-- set double fields
+		do
+			tag.set_user_text (Musicbrainz.name_exported (enum, False), text)
+			tag.set_user_text (Musicbrainz.identifier (enum), text)
+		ensure
+			set: text.same_string (mb_field (enum))
 		end
 
 feature {NONE} -- Constants
 
-	Name_buffer: ZSTRING
+	Http_musicbrainz_org: ZSTRING
 		once
-			create Result.make_empty
+			Result := "http://musicbrainz.org"
 		end
 
 end

@@ -6,3 +6,4 @@ add_album_art:
 
 	album_art_dir = "$HOME/Pictures/Album Art"
 
+	create_folders = True

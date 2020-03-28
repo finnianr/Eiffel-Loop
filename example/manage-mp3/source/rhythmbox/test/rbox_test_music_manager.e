@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 16:43:10 GMT (Wednesday 25th September 2019)"
-	revision: "14"
+	date: "2020-03-28 12:55:34 GMT (Saturday 28th March 2020)"
+	revision: "15"
 
 class
 	RBOX_TEST_MUSIC_MANAGER
@@ -61,6 +61,8 @@ feature {NONE} -- Constants
 		end
 
 	Testing_tasks: TUPLE [
+		ADD_ALBUM_ART_TEST_TASK,
+
 		EXPORT_MUSIC_TO_DEVICE_TEST_TASK,
 		EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK,
 

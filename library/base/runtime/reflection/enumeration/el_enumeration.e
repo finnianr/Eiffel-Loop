@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 0:32:19 GMT (Friday 31st January 2020)"
-	revision: "26"
+	date: "2020-03-27 14:12:03 GMT (Friday 27th March 2020)"
+	revision: "27"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -88,12 +88,17 @@ feature -- Access
 		end
 
 	name (a_value: N): STRING_8
+		do
+			Result := name_exported (a_value, True)
+		end
+
+	name_exported (a_value: N; keep_ref: BOOLEAN): STRING_8
 		local
 			table: like name_by_value
 		do
 			table := name_by_value
 			if table.has_key (a_value) then
-				Result := export_name (table.found_item, True)
+				Result := export_name (table.found_item, keep_ref)
 			else
 				create Result.make_empty
 			end
