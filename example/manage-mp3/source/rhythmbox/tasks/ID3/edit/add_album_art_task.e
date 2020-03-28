@@ -134,6 +134,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	p: like Picture_type
+		do
+			Result := Picture_type
+		end
+
 	song_picture (song: RBOX_SONG): TL_ID3_PICTURE
 		local
 			field_map: like Picture_to_field_map
@@ -188,10 +193,7 @@ feature {NONE} -- Internal attributes
 feature -- Constants
 
 	Album_picture_types: ARRAY [NATURAL_8]
-		local
-			p: like Picture_type
 		once
-			p := Picture_type
 			Result := <<
 				p.back_cover, p.front_cover, p.leaflet_page, p.media,
 				p.recording_location, p.other, p.publisher_logo
@@ -204,10 +206,7 @@ feature -- Constants
 		end
 
 	Lead_artist_picture_types: ARRAY [NATURAL_8]
-		local
-			p: like Picture_type
 		once
-			p := Picture_type
 			Result := <<
 				p.artist, p.band, p.band_logo, p.composer, p.conductor,
 				p.during_performance, p.during_recording,
@@ -216,10 +215,7 @@ feature -- Constants
 		end
 
 	Picture_to_field_map: EL_ARRAYED_MAP_LIST [FUNCTION [RBOX_SONG, ZSTRING], ARRAY [NATURAL_8]]
-		local
-			p: like Picture_type
 		once
-			p := Picture_type
 			create Result.make_from_array (<<
 				[agent {RBOX_SONG}.lead_artist, Lead_artist_picture_types],
 				[agent {RBOX_SONG}.album, Album_picture_types],
