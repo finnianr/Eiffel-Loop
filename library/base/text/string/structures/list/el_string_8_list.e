@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 19:02:45 GMT (Monday 17th December 2018)"
-	revision: "8"
+	date: "2020-03-29 10:33:04 GMT (Sunday 29th March 2020)"
+	revision: "9"
 
 class
 	EL_STRING_8_LIST
@@ -17,7 +17,7 @@ inherit
 
 create
 	make, make_empty, make_with_separator, make_with_lines, make_with_words, make_from_array, make_from_tuple,
-	make_from_general
+	make_from_general, make_with_csv
 
 convert
 	make_from_array ({ARRAY [STRING]}), make_with_words ({STRING}), make_from_tuple ({TUPLE})

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-26 13:01:27 GMT (Thursday 26th March 2020)"
-	revision: "27"
+	date: "2020-03-29 10:36:00 GMT (Sunday 29th March 2020)"
+	revision: "28"
 
 class
 	RBOX_SONG
@@ -352,10 +352,10 @@ feature -- Element change
 			if not (text.is_empty or text ~ Unknown_string) then
 				type := Colon_field.name (text)
 				if type.is_empty then
-					create list.make_with_separator (text, ',', True)
+					create list.make_with_csv (text)
 					album_artists := [Unknown_string, list]
 				else
-					create list.make_with_separator (Colon_field.value (text), ',', True)
+					create list.make_with_csv (Colon_field.value (text))
 					Artist_type_list.find_first_true (agent ZString.starts_with (type, ?))
 					if Artist_type_list.after then
 						album_artists := [type, list]

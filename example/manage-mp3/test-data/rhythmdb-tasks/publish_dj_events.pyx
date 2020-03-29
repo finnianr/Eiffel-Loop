@@ -2,7 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
 publish_dj_events:
-	is_dry_run = false; test_checksum = 2325763999
+	is_dry_run = false; test_checksum = 4066120722
 	music_dir = "workarea/rhythmdb/Music"
 
 	publish:

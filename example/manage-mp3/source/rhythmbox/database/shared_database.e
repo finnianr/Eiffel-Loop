@@ -1,13 +1,13 @@
 note
-	description: "Shared database"
+	description: "Shared access to instance of class [$source RBOX_DATABASE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-04 15:38:51 GMT (Wednesday 4th September 2019)"
-	revision: "2"
+	date: "2020-03-29 11:00:18 GMT (Sunday 29th March 2020)"
+	revision: "3"
 
 deferred class
 	SHARED_DATABASE

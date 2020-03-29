@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 16:06:07 GMT (Thursday 30th January 2020)"
-	revision: "13"
+	date: "2020-03-29 10:33:49 GMT (Sunday 29th March 2020)"
+	revision: "14"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -229,7 +229,7 @@ feature -- External field setters
 			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
 			tuple_type := tuple.generating_type
-			create xpath_list.make_with_separator (a_xpath_list, ',', True)
+			create xpath_list.make_with_csv (a_xpath_list)
 			across xpath_list as l_xpath loop
 				index := l_xpath.cursor_index
 				xpath := l_xpath.item
@@ -254,7 +254,7 @@ feature -- External field setters
 
 					when {TUPLE}.Boolean_code then
 						tuple.put_boolean (is_xpath (xpath), index)
-						
+
 					when {TUPLE}.Reference_code then
 						type_id := tuple_type.generic_parameter_type (index).type_id
 						if type_id = Class_id.ZSTRING then

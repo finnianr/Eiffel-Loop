@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-04 9:58:01 GMT (Tuesday 4th February 2020)"
-	revision: "14"
+	date: "2020-03-29 10:32:37 GMT (Sunday 29th March 2020)"
+	revision: "15"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -29,6 +29,11 @@ feature {NONE} -- Initialization
 		do
 			make_empty
 			append (list)
+		end
+
+	make_with_csv (a_string: READABLE_STRING_GENERAL)
+		do
+			make_with_separator (a_string, ',', True)
 		end
 
 	make_with_lines (a_string: READABLE_STRING_GENERAL)

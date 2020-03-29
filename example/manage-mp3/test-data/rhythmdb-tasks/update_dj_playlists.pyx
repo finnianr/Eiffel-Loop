@@ -3,7 +3,7 @@ pyxis-doc:
 
 # update DJ event playlists with any new Rhythmbox playlists
 update_dj_playlists:
-	is_dry_run = false; test_checksum = 1173142770
+	is_dry_run = false; test_checksum = 698926347
 	music_dir = "workarea/rhythmdb/Music"
 
 	dj_events:

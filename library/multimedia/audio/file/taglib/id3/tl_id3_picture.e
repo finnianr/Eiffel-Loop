@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-28 14:08:51 GMT (Saturday 28th March 2020)"
-	revision: "7"
+	date: "2020-03-29 10:34:21 GMT (Sunday 29th March 2020)"
+	revision: "8"
 
 class
 	TL_ID3_PICTURE
@@ -169,7 +169,7 @@ feature {NONE} -- Constants
 
 	Mime_types: EL_STRING_8_LIST
 		once
-			create Result.make_with_separator ("bmp,exif,gif,ico,jpeg,png,svg,tiff,webp,xxx", ',', False)
+			create Result.make_with_csv ("bmp, exif, gif, ico, jpeg, png, svg, tiff, webp, xxx")
 		end
 
 invariant

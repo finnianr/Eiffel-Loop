@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-15 9:30:37 GMT (Sunday 15th September 2019)"
-	revision: "2"
+	date: "2020-03-29 13:25:24 GMT (Sunday 29th March 2020)"
+	revision: "3"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -31,7 +31,6 @@ feature -- Basic operations
 				Video_songs.put (song.item, song.item.title)
 			end
 			Database.delete (is_video_song)
-
 			Precursor
 		end
 
@@ -69,7 +68,7 @@ feature {NONE} -- Implementation
 		do
 			AVconv_mp3_to_mp4.put_path ("mp3_path", song.mp3_path)
 			AVconv_mp3_to_mp4.put_path ("mp4_path", song.mp3_path.parent + (song.title + ".mp4"))
-			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", "workarea/rhythmdb/album-art/Artist/Unknown.jpeg")
+			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", "workarea/rhythmdb/album-art/Other/Unknown.jpeg")
 			AVconv_mp3_to_mp4.execute
 		end
 
@@ -98,6 +97,5 @@ feature {NONE} -- Constants
 		once
 			create Result.make_equal (2)
 		end
-
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:58:27 GMT (Thursday 20th February 2020)"
-	revision: "13"
+	date: "2020-03-29 12:18:39 GMT (Sunday 29th March 2020)"
+	revision: "14"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
@@ -34,7 +34,7 @@ feature -- Testing
 			--
 		do
 			Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-			Test.do_file_tree_test ("rhythmdb", agent test_normal_run, 2437132812) -- Sept 2019
+			Test.do_file_tree_test ("rhythmdb", agent test_normal_run, 2889609822) -- March 2020
 		end
 
 	test_normal_run (a_dir_path: EL_DIR_PATH)

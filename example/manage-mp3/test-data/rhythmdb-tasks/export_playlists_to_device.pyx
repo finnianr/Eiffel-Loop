@@ -3,7 +3,7 @@ pyxis-doc:
 
 export_playlists_to_device:
 	# Needs fixing
-	is_dry_run = false; test_checksum = 2406523077
+	is_dry_run = false; test_checksum = 1014829034
 	music_dir = "workarea/rhythmdb/Music"
 
 	volume:

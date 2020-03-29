@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-28 14:09:17 GMT (Saturday 28th March 2020)"
-	revision: "8"
+	date: "2020-03-28 19:37:48 GMT (Saturday 28th March 2020)"
+	revision: "9"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -39,6 +39,8 @@ inherit
 	EL_MODULE_STRING_8
 
 	EL_MODULE_FILE_SYSTEM
+
+	RHYTHMBOX_CONSTANTS
 
 create
 	make
@@ -120,6 +122,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	cortina_type (song: RBOX_SONG): ZSTRING
+		do
+			if song.title.starts_with (Tanda.the_end) then
+				Result := Tanda.the_end
+			else
+				Result := song.title.substring_between (Dot_space, Space_tanda, 1)
+			end
+		end
+
 	new_picture_list (jpeg_path_list: LIST [EL_FILE_PATH]): EL_ARRAYED_LIST [TL_ID3_PICTURE]
 		local
 			picture: TL_ID3_PICTURE; type_name: STRING
@@ -146,21 +157,30 @@ feature {NONE} -- Implementation
 			picture_table: like picture_group_table.found_item
 		do
 			Result := Default_picture; field_map := Picture_to_field_map
-
-			from field_map.start until field_map.after or found loop
-				field_value := field_map.item_key (song)
-				if not (field_value.is_empty or else field_value ~ Unknown_string) then
-					across field_map.item_value as picture_code until found loop
-						if picture_group_table.has_key (picture_code.item) then
-							picture_table := picture_group_table.found_item
-							if picture_table.has_key (field_value) then
-								Result := picture_table.found_item
-								found := True
+			if song.genre ~ Extra_genre.cortina
+				and then picture_group_table.has_key (Picture_type.illustration)
+			then
+				field_value := cortina_type (song)
+				picture_table := picture_group_table.found_item
+				if picture_table.has_key (field_value) then
+					Result := picture_table.found_item
+				end
+			else
+				from field_map.start until field_map.after or found loop
+					field_value := field_map.item_key (song)
+					if not (field_value.is_empty or else field_value ~ Unknown_string) then
+						across field_map.item_value as picture_code until found loop
+							if picture_group_table.has_key (picture_code.item) then
+								picture_table := picture_group_table.found_item
+								if picture_table.has_key (field_value) then
+									Result := picture_table.found_item
+									found := True
+								end
 							end
 						end
 					end
+					field_map.forth
 				end
-				field_map.forth
 			end
 		end
 
@@ -190,7 +210,19 @@ feature {NONE} -- Internal attributes
 
 	change_count: INTEGER
 
-feature -- Constants
+feature {NONE} -- String Constants
+
+	Dot_space: ZSTRING
+		once
+			Result := ". "
+		end
+
+	Space_tanda: ZSTRING
+		once
+			Result := " tanda"
+		end
+
+feature {NONE} -- Constants
 
 	Album_picture_types: ARRAY [NATURAL_8]
 		once

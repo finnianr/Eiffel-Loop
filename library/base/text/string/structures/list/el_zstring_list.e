@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 19:23:05 GMT (Wednesday 30th October 2019)"
-	revision: "8"
+	date: "2020-03-29 10:33:11 GMT (Sunday 29th March 2020)"
+	revision: "9"
 
 class
 	EL_ZSTRING_LIST
@@ -20,7 +20,7 @@ inherit
 
 create
 	make, make_empty, make_with_separator, make_with_lines, make_from_list, make_with_words,
-	make_from_array, make_from_tuple, make_from_general, make_filled
+	make_from_array, make_from_tuple, make_from_general, make_filled, make_with_csv
 
 convert
 	make_from_array ({ARRAY [ZSTRING]}), make_with_words ({ZSTRING}), make_from_tuple ({TUPLE})

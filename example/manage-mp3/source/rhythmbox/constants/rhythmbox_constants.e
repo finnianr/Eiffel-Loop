@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:56:15 GMT (Wednesday 11th September 2019)"
-	revision: "8"
+	date: "2020-03-29 10:35:37 GMT (Sunday 29th March 2020)"
+	revision: "9"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -109,10 +109,9 @@ feature {NONE} -- Constants
 			Result := "Unknown"
 		end
 
-	Unknown_artist_names: ARRAY [ZSTRING]
+	Unknown_artist_names: EL_ZSTRING_LIST
 		once
-			Result := << "Various", "Various Artists", "Unknown" >>
-			Result.compare_objects
+			create Result.make_with_csv ("Various, Various Artists, Unknown")
 		end
 
 	Unescaped_location_characters: DS_HASH_SET [CHARACTER]

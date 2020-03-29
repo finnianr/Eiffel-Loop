@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-20 11:14:58 GMT (Sunday 20th January 2019)"
-	revision: "7"
+	date: "2020-03-29 10:36:40 GMT (Sunday 29th March 2020)"
+	revision: "8"
 
 class
 	EL_MARKUP_ROUTINES
@@ -38,7 +38,7 @@ feature -- Access
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_with_separator (string_list, ',', True)
+			create list.make_with_csv (string_list)
 			create Result.make (list.count)
 			across list as name loop
 				Result.extend (tag (name.item))
