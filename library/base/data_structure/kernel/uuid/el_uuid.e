@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:46:55 GMT (Wednesday 29th January 2020)"
-	revision: "14"
+	date: "2020-03-30 10:33:19 GMT (Monday 30th March 2020)"
+	revision: "15"
 
 class
 	EL_UUID
@@ -48,15 +48,54 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
-	to_string: STRING
+	to_delimited (c: CHARACTER): STRING
+		local
+			i: INTEGER
 		do
-			Result := out
+			Result := to_string
+			from i := 1 until i > Result.count loop
+				inspect i
+					when 9, 14, 19, 24 then
+						Result.put (c, i)
+				else
+				end
+				i := i + 1
+			end
+		end
+
+	to_string: STRING
+		local
+			start_index, end_index, i: INTEGER
+			n, digit: NATURAL_64
+		do
+			create Result.make_filled (Separator_char_8, 36)
+			across <<
+				data_1.to_natural_64, data_2.to_natural_64, data_3.to_natural_64, data_4.to_natural_64, data_5
+			>> as data loop
+				n := data.item
+				inspect data.cursor_index
+					when 1 then
+						start_index := 1; end_index := 8
+					when 2 then
+						start_index := 10; end_index := 13
+					when 3 then
+						start_index := 15; end_index := 18
+					when 4 then
+						start_index := 20; end_index := 23
+					when 5 then
+						start_index := 25; end_index := 36
+				else
+				end
+				from i := end_index until i < start_index loop
+					digit := n & Nibble_15_mask
+					Result.put (digit.to_hex_character, i)
+					n := n |>> 4
+					i := i - 1
+				end
+			end
 		end
 
 feature -- Constants
-
-	Ordered_alphabetically: BOOLEAN = True
-		-- read/write fields in alphabetical order
 
 	Byte_count: INTEGER
 		once
@@ -64,5 +103,10 @@ feature -- Constants
 		end
 
 	Field_hash: NATURAL = 201719989
+
+	Nibble_15_mask: NATURAL_64 = 0xF
+
+	Ordered_alphabetically: BOOLEAN = True
+		-- read/write fields in alphabetical order
 
 end

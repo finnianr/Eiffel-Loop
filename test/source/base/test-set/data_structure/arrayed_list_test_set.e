@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:53:14 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2020-03-30 9:57:43 GMT (Monday 30th March 2020)"
+	revision: "5"
 
 class
 	ARRAYED_LIST_TEST_SET
@@ -20,8 +20,9 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("shift", agent test_shift)
 		end
-		
+
 feature -- Tests
 
 	test_shift

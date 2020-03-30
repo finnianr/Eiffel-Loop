@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:18:16 GMT (Friday 14th February 2020)"
-	revision: "10"
+	date: "2020-03-30 9:54:26 GMT (Monday 30th March 2020)"
+	revision: "11"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -30,6 +30,9 @@ feature -- Basic operations
 feature -- Tests
 
 	test_file_crc
+		note
+			testing: "covers/{EL_CRC_32_CHECKSUM_ROUTINES}.utf_8_file_content",
+						"covers/{EL_CRC_32_CHECKSUM_ROUTINES}.string_list"
 		local
 			file_out: EL_PLAIN_TEXT_FILE; file_path: EL_FILE_PATH
 		do

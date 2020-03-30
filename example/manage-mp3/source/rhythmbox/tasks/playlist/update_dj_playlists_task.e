@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:16:12 GMT (Wednesday 11th September 2019)"
-	revision: "3"
+	date: "2020-03-30 8:03:55 GMT (Monday 30th March 2020)"
+	revision: "4"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK

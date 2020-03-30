@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:27:25 GMT (Tuesday 24th March 2020)"
-	revision: "8"
+	date: "2020-03-30 7:58:27 GMT (Monday 30th March 2020)"
+	revision: "9"
 
 class
 	ID3_TAG_INFO_ROUTINES
@@ -151,25 +151,6 @@ feature -- Basic operations
 	set_version_23 (id3_info: TL_MPEG_FILE; relative_song_path: EL_FILE_PATH)
 		do
 			print_id3 (id3_info, relative_song_path)
-			id3_info.save_version (3)
-		end
-
-	save_album_picture_id3 (id3_info: TL_MPEG_FILE; relative_song_path: EL_FILE_PATH; name: ZSTRING)
-		local
-			jpg_file: RAW_FILE; album_picture: TL_ID3_PICTURE
-		do
-			print_id3_comments (id3_info, relative_song_path)
-			if id3_info.tag.has_picture then
-				print_id3 (id3_info, relative_song_path)
-				create jpg_file.make_open_write (id3_info.path.with_new_extension ("jpg"))
-				album_picture := id3_info.tag.picture
-				jpg_file.put_managed_pointer (album_picture.data, 0, album_picture.data.count)
-				jpg_file.close
-			else
-				create album_picture.make (id3_info.path.parent + (name + ".jpeg"), name, Picture_type.lead_artist)
-				id3_info.tag.set_picture (album_picture)
-				id3_info.tag.set_user_text ("picture checksum", album_picture.checksum.out)
-			end
 			id3_info.save_version (3)
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 12:40:50 GMT (Saturday 7th March 2020)"
-	revision: "77"
+	date: "2020-03-30 9:58:51 GMT (Monday 30th March 2020)"
+	revision: "78"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [ZSTRING_TEST_SET]
+	test_type: TUPLE [UUID_TEST_SET]
 		do
 			create Result
 		end
@@ -60,6 +60,7 @@ feature {NONE} -- Implementation
 
 		TEMPLATE_TEST_SET,
 		URI_ENCODING_TEST_SET,
+		UUID_TEST_SET,
 		ZSTRING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
 	]

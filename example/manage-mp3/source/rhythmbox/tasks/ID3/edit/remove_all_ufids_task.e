@@ -1,13 +1,13 @@
 note
-	description: "Remove all ufids task"
+	description: "Remove all UFID's task"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:10:45 GMT (Tuesday 24th March 2020)"
-	revision: "5"
+	date: "2020-03-30 7:55:28 GMT (Monday 30th March 2020)"
+	revision: "6"
 
 class
 	REMOVE_ALL_UFIDS_TASK

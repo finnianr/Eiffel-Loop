@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 16:44:51 GMT (Wednesday 25th September 2019)"
-	revision: "18"
+	date: "2020-03-30 8:07:06 GMT (Monday 30th March 2020)"
+	revision: "19"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -155,6 +155,7 @@ feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 		ARCHIVE_SONGS_TASK,
 		COLLATE_SONGS_TASK,
 		DELETE_COMMENTS_TASK,
+		DISPLAY_AUDIO_ID_TASK,
 		DISPLAY_INCOMPLETE_ID3_INFO_TASK,
 		DISPLAY_MUSIC_BRAINZ_INFO_TASK,
 		EXPORT_MUSIC_TO_DEVICE_TASK,

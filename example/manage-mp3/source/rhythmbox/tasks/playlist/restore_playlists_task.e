@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 7:29:12 GMT (Thursday 5th September 2019)"
-	revision: "1"
+	date: "2020-03-30 8:04:02 GMT (Monday 30th March 2020)"
+	revision: "2"
 
 class
 	RESTORE_PLAYLISTS_TASK

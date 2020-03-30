@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 12:51:07 GMT (Thursday 3rd October 2019)"
-	revision: "17"
+	date: "2020-03-30 9:29:54 GMT (Monday 30th March 2020)"
+	revision: "18"
 
 class
 	RBOX_PLAYLIST
