@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:36:00 GMT (Sunday 29th March 2020)"
-	revision: "28"
+	date: "2020-03-30 17:38:43 GMT (Monday 30th March 2020)"
+	revision: "29"
 
 class
 	RBOX_SONG
@@ -27,9 +27,11 @@ inherit
 
 	MEDIA_ITEM
 		rename
-			id as audio_id,
+			id as mb_trackid,
+			Default_id as Default_audio_id,
 			relative_path as mp3_relative_path,
-			checksum as last_checksum
+			checksum as last_checksum,
+			set_id_from_uuid as set_audio_id_from_uuid
 		undefine
 			is_equal
 		end
@@ -53,7 +55,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			audio_id := Default_audio_id
+			set_audio_id (Default_audio_id)
 			set_first_seen_time (Time.Unix_origin)
 		end
 
@@ -154,6 +156,11 @@ feature -- Access
 			if mb_albumid.is_natural then
 				Result := mb_albumid.to_natural
 			end
+		end
+
+	audio_id: STRING
+		do
+			Result := mb_trackid
 		end
 
 	file_size_mb: DOUBLE
@@ -338,6 +345,11 @@ feature -- Element change
 			log.exit
 		end
 
+	set_audio_id (id: STRING)
+		do
+			mb_trackid := id
+		end
+
 	set_album (a_album: like album)
 			--
 		do
@@ -448,10 +460,10 @@ feature -- Element change
 		local
 			mp3: like mp3_info
 		do
-			audio_id := new_audio_id
+			set_audio_id_from_uuid (new_audio_id)
 			mp3 := mp3_info
 --			mp3.remove_unique_id ("RBOX"); mp3.remove_unique_id ("UFID")
-			mp3.set_recording_id (music_brainz_track_id)
+			mp3.set_recording_id (mb_trackid)
 			mp3.save
 			update_file_info
 		end
@@ -510,6 +522,7 @@ feature -- Basic operations
 			mp3.set_album_id (mb_albumid)
 			mp3.set_artist_id (mb_artistid)
 			mp3.set_artist_sort_name (mb_artistsortname)
+			mp3.set_recording_id (mb_trackid)
 
 			mp3.save
 			update_file_info
@@ -532,15 +545,7 @@ feature {NONE} -- Implementation
 			Result := crc.checksum
 		end
 
-	music_brainz_track_id: STRING
-		do
-			Result := audio_id.out
-			if not audio_id.is_null then
-				set_uuid_delimiter (Result, ':')
-			end
-		end
-
-	new_audio_id: like audio_id
+	new_audio_id: EL_UUID
 		local
 			mp3: MP3_IDENTIFIER
 		do
@@ -561,13 +566,6 @@ feature {NONE} -- Implementation
 			-- Remove problematic characters from last step of name
 		end
 
-	set_uuid_delimiter (uuid: STRING; delimiter: CHARACTER)
-		do
-			across << 9, 14, 19, 24 >> as pos loop
-				uuid.put (delimiter, pos.item)
-			end
-		end
-
 feature {NONE} -- Build from XML
 
 	on_context_exit
@@ -578,24 +576,14 @@ feature {NONE} -- Build from XML
 			set_album_artists (album_artist)
 		end
 
-	set_audio_id_from_node
-		local
-			id: STRING
-		do
-			id := node.to_string_8
-			if id.occurrences (':') = 4 then
-				set_uuid_delimiter (id, '-')
-				create audio_id.make_from_string (id)
-			end
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			Result := Precursor
 			Result.merge (building_actions_for_type ({DOUBLE}, Text_element_node))
-			Result := Result + 	["hidden/text()", agent do is_hidden := node.to_integer = 1 end] +
-										["mb-trackid/text()", agent set_audio_id_from_node]
+			Result := Result +
+				["hidden/text()", agent do is_hidden := node.to_integer = 1 end] +
+				["mb-trackid/text()", agent do mb_trackid := node end]
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -604,35 +592,28 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			Result := Precursor +
-				["audio_id", 						agent: STRING do Result := audio_id.out end] +
+				["artists", 					agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end] +
+				["lead_artist", 				agent: ZSTRING do Result := Xml.escaped (lead_artist) end] +
+				["album_artists", 			agent: ZSTRING do Result := Xml.escaped (album_artist) end] +
+				["artist_list", 				agent: ITERABLE [ZSTRING] do Result := artists_list end] +
 
-				["artists", 						agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end] +
-				["lead_artist", 					agent: ZSTRING do Result := Xml.escaped (lead_artist) end] +
-				["album_artists", 				agent: ZSTRING do Result := Xml.escaped (album_artist) end] +
-				["artist_list", 					agent: ITERABLE [ZSTRING] do Result := artists_list end] +
+				["duration_time", 			agent formatted_duration_time] +
 
-				["mb_trackid",						agent music_brainz_track_id] +
-				["duration_time", 				agent formatted_duration_time] +
+				["replaygain_track_gain", 	agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end] +
+				["replaygain_track_peak", 	agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end] +
 
-				["replaygain_track_gain", 		agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end] +
-				["replaygain_track_peak", 		agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end] +
+				["last_checksum", 			agent: NATURAL_32_REF do Result := last_checksum.to_reference end] +
+				["recording_year", 			agent: INTEGER_REF do Result := recording_year.to_reference end] +
 
-				["last_checksum", 				agent: NATURAL_32_REF do Result := last_checksum.to_reference end] +
-				["recording_year", 				agent: INTEGER_REF do Result := recording_year.to_reference end] +
-
-				["is_hidden", 						agent: BOOLEAN_REF do Result := is_hidden.to_reference end] +
-				["is_cortina",						agent: BOOLEAN_REF do Result := is_cortina.to_reference end] +
-				["has_other_artists",			agent: BOOLEAN_REF do Result := has_other_artists.to_reference end]
+				["is_hidden", 					agent: BOOLEAN_REF do Result := is_hidden.to_reference end] +
+				["is_cortina",					agent: BOOLEAN_REF do Result := is_cortina.to_reference end] +
+				["has_other_artists",		agent: BOOLEAN_REF do Result := has_other_artists.to_reference end] +
+				["string_8_fields",			agent get_string_8_fields]
 		end
 
 feature -- Constants
 
 	Days_in_year: INTEGER = 365
-
-	Default_audio_id: EL_UUID
-		once
-			create Result.make_default
-		end
 
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox Database
@@ -652,6 +633,9 @@ feature -- Constants
 
 	Template: STRING = "[
 		<entry type="song">
+		#across $string_8_fields as $field loop
+			<$field.key>$field.item</$field.key>
+		#end
 		#across $non_empty_string_fields as $field loop
 			<$field.key>$field.item</$field.key>
 		#end
@@ -660,7 +644,6 @@ feature -- Constants
 			<replaygain-track-gain>$replaygain_track_gain</replaygain-track-gain>
 			<replaygain-track-peak>$replaygain_track_peak</replaygain-track-peak>
 			#end
-			<mb-trackid>$mb_trackid</mb-trackid>
 		#across $non_zero_integer_fields as $field loop
 			<$field.key>$field.item</$field.key>
 		#end

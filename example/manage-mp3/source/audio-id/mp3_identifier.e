@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 15:30:41 GMT (Tuesday 24th March 2020)"
-	revision: "10"
+	date: "2020-03-30 14:43:47 GMT (Monday 30th March 2020)"
+	revision: "11"
 
 class
 	MP3_IDENTIFIER
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_SHARED_DIGESTS
 
 create
 	make, make_default
@@ -32,7 +34,7 @@ feature {NONE} -- Initialization
 			file_path := a_file_path
 			create mp3_file.make_open_read (file_path); create header.make_from_file (mp3_file)
 			if header.is_valid then
-				create audio_id.make_from_array (new_signature (mp3_file, header.total_size))
+				audio_id := new_signature (mp3_file, header.total_size).to_uuid
 			else
 				create audio_id.make_default
 			end
@@ -68,11 +70,11 @@ feature {NONE} -- Implementation
 			Result := i = 8 and then hex_digit = first
 		end
 
-	new_signature (mp3_file: RAW_FILE; header_size: INTEGER): ARRAY [NATURAL_8]
+	new_signature (mp3_file: RAW_FILE; header_size: INTEGER): EL_DIGEST_ARRAY
 		local
-			md5: MD5; i, data_size: INTEGER; n: NATURAL
+			md5: like MD5_128; i, data_size: INTEGER; n: NATURAL
 		do
-			create Result.make_filled (0, 1, 16); create md5.make
+			md5 := MD5_128; md5.reset
 
 			data_size := mp3_file.count - header_size
 			md5.sink_natural_32_be (data_size.to_natural_32)
@@ -85,7 +87,7 @@ feature {NONE} -- Implementation
 					i := i + 1
 				end
 			end
-			md5.do_final (Result.area, 0)
+			create Result.make_final (md5)
 		end
 
 feature {NONE} -- Constants

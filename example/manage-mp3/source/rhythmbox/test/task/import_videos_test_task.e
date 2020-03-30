@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 13:25:24 GMT (Sunday 29th March 2020)"
-	revision: "3"
+	date: "2020-03-30 15:15:55 GMT (Monday 30th March 2020)"
+	revision: "4"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -26,22 +26,21 @@ feature -- Basic operations
 
 	apply
 		do
-			across Database.songs.query (is_video_song) as song loop
+			across Video_songs as song loop
 				write_video_song (song.item)
-				Video_songs.put (song.item, song.item.title)
+				Database.delete (song.item)
 			end
-			Database.delete (is_video_song)
 			Precursor
 		end
 
 feature {NONE} -- Factory
 
-	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING):  like SONG_INFO
+	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING): like SONG_INFO
 		local
 			song: RBOX_SONG
 		do
 			create Result
-			song := Video_songs [title]
+			Result.song := Video_songs [title]
 			if title ~ Video_song_titles [1] then
 				Result.time_from := new_time (5.0)
 				Result.time_to := new_time (8.0)
@@ -49,25 +48,18 @@ feature {NONE} -- Factory
 				Result.time_from := new_time (0)
 				Result.time_to := new_time (duration_time.fine_seconds_count)
 			end
-			Result.title := song.title
-			Result.album_artists := song.album_artist
-			Result.album_name := song.album
-			Result.recording_year := song.recording_year
 		end
 
 feature {NONE} -- Implementation
 
-	is_video_song: EL_QUERY_CONDITION [RBOX_SONG]
-		do
-			Result := not song_is_hidden and predicate (
-				agent (song: RBOX_SONG): BOOLEAN do Result := Video_song_titles.has (song.title) end
-			)
-		end
-
 	write_video_song (song: RBOX_SONG)
+		local
+			mp3_path: EL_FILE_PATH
 		do
 			AVconv_mp3_to_mp4.put_path ("mp3_path", song.mp3_path)
-			AVconv_mp3_to_mp4.put_path ("mp4_path", song.mp3_path.parent + (song.title + ".mp4"))
+			mp3_path := song.unique_normalized_mp3_path.without_extension
+
+			AVconv_mp3_to_mp4.put_path ("mp4_path", mp3_path.with_new_extension ("mp4"))
 			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", "workarea/rhythmdb/album-art/Other/Unknown.jpeg")
 			AVconv_mp3_to_mp4.execute
 		end
@@ -96,6 +88,11 @@ feature {NONE} -- Constants
 	Video_songs: EL_ZSTRING_HASH_TABLE [RBOX_SONG]
 		once
 			create Result.make_equal (2)
+			across Database.songs.query (not song_is_hidden) as song loop
+				if Video_song_titles.has (song.item.title) then
+					Result.put (song.item, song.item.title)
+				end
+			end
 		end
 
 end

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-28 19:37:48 GMT (Saturday 28th March 2020)"
-	revision: "9"
+	date: "2020-03-30 17:37:21 GMT (Monday 30th March 2020)"
+	revision: "10"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -118,6 +118,7 @@ feature {NONE} -- Implementation
 				mpeg.set_album_id (a_picture.checksum.out)
 				mpeg.save
 				song.set_album_picture_checksum (a_picture.checksum)
+				song.update_file_info
 				song.update_checksum
 			end
 		end

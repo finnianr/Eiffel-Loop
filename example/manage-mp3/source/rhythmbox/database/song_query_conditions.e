@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 13:34:18 GMT (Friday 27th March 2020)"
-	revision: "12"
+	date: "2020-03-30 12:01:53 GMT (Monday 30th March 2020)"
+	revision: "13"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -138,7 +138,7 @@ feature {NONE} -- Conditions
 		do
 			Result := predicate (agent (song: RBOX_SONG): BOOLEAN
 				do
-					Result := not song.audio_id.is_null
+					Result := song.has_audio_id
 				end
 			)
 		end
@@ -212,9 +212,9 @@ feature {NONE} -- Conditions
 			)
 		end
 
-	song_in_set (a_audio_id_set: DS_HASH_SET [EL_UUID]): like predicate
+	song_in_set (a_audio_id_set: EL_HASH_SET [STRING]): like predicate
 		do
-			Result := predicate (agent (song: RBOX_SONG; audio_id_set: DS_HASH_SET [EL_UUID]): BOOLEAN
+			Result := predicate (agent (song: RBOX_SONG; audio_id_set: EL_HASH_SET [STRING]): BOOLEAN
 				do
 					Result := audio_id_set.has (song.audio_id)
 

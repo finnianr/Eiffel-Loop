@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 16:09:32 GMT (Friday 27th March 2020)"
-	revision: "4"
+	date: "2020-03-30 13:43:24 GMT (Monday 30th March 2020)"
+	revision: "5"
 
 class
 	TL_MUSICBRAINZ_MPEG_FILE
@@ -84,7 +84,11 @@ feature -- Element change
 		require
 			version_2: tag.version = 2
 		do
-			tag.set_unique_id (Http_musicbrainz_org, id)
+			if id.is_empty then
+				tag.remove_unique_id (Http_musicbrainz_org)
+			else
+				tag.set_unique_id (Http_musicbrainz_org, id)
+			end
 		ensure
 			set: id ~ recording_id
 		end
@@ -116,8 +120,13 @@ feature {NONE} -- Implementation
 	set_mb_field (enum: NATURAL_8; text: READABLE_STRING_GENERAL)
 		-- set double fields
 		do
-			tag.set_user_text (Musicbrainz.name_exported (enum, False), text)
-			tag.set_user_text (Musicbrainz.identifier (enum), text)
+			across << Musicbrainz.name_exported (enum, False), Musicbrainz.identifier (enum) >> as id loop
+				if text.is_empty then
+					tag.remove_user_text (id.item)
+				else
+					tag.set_user_text (id.item, text)
+				end
+			end
 		ensure
 			set: text.same_string (mb_field (enum))
 		end

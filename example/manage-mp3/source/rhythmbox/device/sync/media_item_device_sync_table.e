@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:05:43 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-03-30 12:03:00 GMT (Monday 30th March 2020)"
+	revision: "6"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
 
 inherit
-	HASH_TABLE [MEDIA_SYNC_ITEM, EL_UUID]
+	HASH_TABLE [MEDIA_SYNC_ITEM, STRING]
 		rename
 			make as make_table
 		end
@@ -49,12 +49,12 @@ feature {NONE} -- Initialization
 	make_from_root_node (root_node: EL_XPATH_ROOT_NODE_CONTEXT)
 			--
 		local
-			node_list: EL_XPATH_NODE_CONTEXT_LIST; id: EL_UUID
+			node_list: EL_XPATH_NODE_CONTEXT_LIST; id: STRING
 		do
 			node_list := root_node.context_list ("//item")
 			accommodate (node_list.count)
 			across node_list as l_item loop
-				create id.make_from_string (l_item.node.attributes.string_8 (Attribute_id))
+				id := l_item.node.attributes.string_8 (Attribute_id)
 				put (create {like item}.make_from_xpath_context (id, l_item.node), id)
 			end
 		end

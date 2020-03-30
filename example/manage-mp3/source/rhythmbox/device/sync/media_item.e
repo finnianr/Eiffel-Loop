@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-03-30 12:18:33 GMT (Monday 30th March 2020)"
+	revision: "5"
 
 deferred class
 	MEDIA_ITEM
@@ -45,7 +45,7 @@ feature -- Access
 		deferred
 		end
 
-	id: EL_UUID
+	id: STRING
 
 	relative_path: EL_FILE_PATH
 		deferred
@@ -62,10 +62,28 @@ feature -- Status change
 			is_update := True
 		end
 
+feature -- Element change
+
+	set_id_from_uuid (a_id: EL_UUID)
+		do
+			id := a_id.to_delimited (':')
+		end
+
 feature {NONE} -- Constants
+
+	Default_uuid: EL_UUID
+		once
+			create Result.make_default
+		end
+
+	Default_id: STRING
+		once
+			Result := Default_uuid.to_delimited (':')
+		end
 
 	NTFS_hyphens_substitute: ZSTRING
 		once
 			create Result.make_filled ('-', Invalid_NTFS_characters.count)
 		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-03-30 12:03:25 GMT (Monday 30th March 2020)"
+	revision: "5"
 
 class
 	MEDIA_SYNC_ITEM
@@ -41,7 +41,7 @@ feature -- Access
 
 	checksum: NATURAL
 
-	id: EL_UUID
+	id: STRING
 
 	relative_file_path: EL_FILE_PATH
 		-- volume file path

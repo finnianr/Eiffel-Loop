@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 17:55:00 GMT (Friday 22nd November 2019)"
-	revision: "27"
+	date: "2020-03-30 13:19:01 GMT (Monday 30th March 2020)"
+	revision: "28"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -19,7 +19,7 @@ inherit
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make_default, on_context_exit, set_field_from_node, building_action_table, Except_fields
+			make_default, set_field_from_node, building_action_table, Except_fields
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -72,7 +72,7 @@ feature -- Rhythmbox XML fields
 
 	genre: ZSTRING
 
-	media_type: ZSTRING
+	media_type: STRING
 
 	title: ZSTRING
 
@@ -140,16 +140,8 @@ feature {NONE} -- Build from XML
 			--
 		do
 			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +
+				["media-type/text()", agent do media_type := node.to_set_match_8 (Media_type_list) end] +
 				["location/text()", agent build_location]
-		end
-
-	on_context_exit
-		do
-			Media_type_list.start
-			Media_type_list.search (media_type)
-			if not Media_type_list.exhausted then
-				media_type := Media_type_list.item
-			end
 		end
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)
@@ -164,6 +156,12 @@ feature {NONE} -- Build from XML
 		end
 
 feature {NONE} -- Evolicity fields
+
+	get_string_8_fields: EL_REFERENCE_FIELD_VALUE_TABLE [STRING]
+		do
+			create Result.make (2)
+			fill_field_value_table (Result)
+		end
 
 	get_non_empty_string_fields: EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE
 		do
@@ -187,6 +185,7 @@ feature {NONE} -- Evolicity fields
 				["title", 							agent: ZSTRING do Result := Xml.escaped (title) end],
 				["genre_main", 					agent: ZSTRING do Result := Xml.escaped (genre_main) end],
 				["location_uri", 					agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end],
+				["media_type",						agent: STRING do Result := media_type end],
 				["non_zero_integer_fields", 	agent get_non_zero_integer_fields],
 				["non_empty_string_fields",	agent get_non_empty_string_fields]
 			>>)
@@ -210,6 +209,7 @@ feature {NONE} -- Constants
 		once
 			Result := "[
 			<entry type="iradio">
+				<media-type>$media_type</media-type>
 			#across $non_empty_string_fields as $field loop
 				<$field.key>$field.item</$field.key>
 			#end

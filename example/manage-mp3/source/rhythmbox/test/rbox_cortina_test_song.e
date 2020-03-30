@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-06 21:00:42 GMT (Friday 6th September 2019)"
-	revision: "2"
+	date: "2020-03-30 12:07:28 GMT (Monday 30th March 2020)"
+	revision: "3"
 
 class
 	RBOX_CORTINA_TEST_SONG
@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_audio_id: like audio_id
+	new_audio_id: EL_UUID
 		-- workaround for the fact that the MP3 test data is not consistent between runs
 		-- bit of a mystery why
 		do

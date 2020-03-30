@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:30:37 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-03-30 14:51:48 GMT (Monday 30th March 2020)"
+	revision: "9"
 
 class
 	EL_XML_NODE
@@ -37,6 +37,8 @@ inherit
 		end
 
 	EL_SHARED_UTF_8_ZCODEC
+
+	EL_SHARED_ONCE_STRING_32
 
 create
 	default_create
@@ -95,20 +97,20 @@ feature -- Conversion
 		require else
 			valid_node: is_boolean
 		do
-			Result := to_string_32.to_boolean
+			Result := raw_adjusted.to_boolean
 		end
 
 	to_character_8: CHARACTER
 		do
 			if not is_empty then
-				Result := to_string_32.item (1).to_character_8
+				Result := raw_adjusted.item (1).to_character_8
 			end
 		end
 
 	to_character_32: CHARACTER_32
 		do
 			if not is_empty then
-				Result := to_string_32.item (1)
+				Result := raw_adjusted.item (1)
 			end
 		end
 
@@ -124,12 +126,14 @@ feature -- Conversion
 			Result.expand
 		end
 
+feature -- Numeric conversion
+
 	to_integer: INTEGER
 			--
 		require else
 			valid_node: is_integer
 		do
-			Result := to_string_32.to_integer
+			Result := raw_adjusted.to_integer
 		end
 
 	to_integer_8: INTEGER_8
@@ -137,7 +141,7 @@ feature -- Conversion
 		require else
 			valid_node: is_integer
 		do
-			Result := to_string_32.to_integer_8
+			Result := raw_adjusted.to_integer_8
 		end
 
 	to_integer_16: INTEGER_16
@@ -145,7 +149,7 @@ feature -- Conversion
 		require else
 			valid_node: is_integer
 		do
-			Result := to_string_32.to_integer_16
+			Result := raw_adjusted.to_integer_16
 		end
 
 	to_natural_8: NATURAL_8
@@ -153,7 +157,7 @@ feature -- Conversion
 		require else
 			valid_node: is_natural
 		do
-			Result := to_string_32.to_natural_8
+			Result := raw_adjusted.to_natural_8
 		end
 
 	to_natural_16: NATURAL_16
@@ -161,7 +165,7 @@ feature -- Conversion
 		require else
 			valid_node: is_natural
 		do
-			Result := to_string_32.to_natural_16
+			Result := raw_adjusted.to_natural_16
 		end
 
 	to_natural: NATURAL
@@ -169,7 +173,7 @@ feature -- Conversion
 		require else
 			valid_node: is_natural
 		do
-			Result := to_string_32.to_natural
+			Result := raw_adjusted.to_natural
 		end
 
 	to_natural_64: NATURAL_64
@@ -177,7 +181,7 @@ feature -- Conversion
 		require else
 			valid_node: is_natural_64
 		do
-			Result := to_string_32.to_natural_64
+			Result := raw_adjusted.to_natural_64
 		end
 
 	to_integer_64: INTEGER_64
@@ -185,7 +189,7 @@ feature -- Conversion
 		require else
 			valid_node: is_integer_64
 		do
-			Result := to_string_32.to_integer_64
+			Result := raw_adjusted.to_integer_64
 		end
 
 	to_real: REAL
@@ -193,7 +197,7 @@ feature -- Conversion
 		require else
 			valid_node: is_real
 		do
-			Result := to_string_32.to_real
+			Result := raw_adjusted.to_real
 		end
 
 	to_double: DOUBLE
@@ -201,10 +205,10 @@ feature -- Conversion
 		require else
 			valid_node: is_double
 		do
-			Result := to_string_32.to_double
+			Result := raw_adjusted.to_double
 		end
 
-feature -- Extended Latin
+feature -- To ZSTRING
 
 	to_raw_string: ZSTRING
 			--
@@ -215,15 +219,7 @@ feature -- Extended Latin
 	to_string: ZSTRING
 			--
 		do
-			Result := raw_content
-			trim (Result)
-		end
-
-	to_string_8: STRING
-			--
-		do
-			Result := raw_content
-			trim (Result)
+			Result := raw_adjusted
 		end
 
 	to_trim_lines: EL_ZSTRING_LIST
@@ -231,7 +227,7 @@ feature -- Extended Latin
 		do
 			create Result.make_with_lines (to_string)
 			across Result as line loop
-				trim (line.item)
+				line.item.adjust
 			end
 		end
 
@@ -239,6 +235,47 @@ feature -- Extended Latin
 			--
 		do
 			Result := to_normalized_case_string_32
+		end
+
+	to_set_match (a_set: ITERABLE [ZSTRING]): ZSTRING
+		-- matching item in `a_set' or else `to_string'
+		local
+			found: BOOLEAN
+		do
+			across a_set as set until found loop
+				if same_as (set.item) then
+					Result := set.item
+					found := True
+				end
+			end
+			if not found then
+				Result := to_string
+			end
+		end
+
+feature -- To Latin-1
+
+	to_string_8: STRING
+			--
+		do
+			Result := raw_content
+			Result.adjust
+		end
+
+	to_set_match_8 (a_set: ITERABLE [STRING]): STRING
+		-- matching item in `a_set' or else `to_string_8'
+		local
+			found: BOOLEAN
+		do
+			across a_set as set until found loop
+				if same_as (set.item) then
+					Result := set.item
+					found := True
+				end
+			end
+			if not found then
+				Result := to_string_8
+			end
 		end
 
 feature -- Strings: UTF-8 encoded
@@ -252,7 +289,7 @@ feature -- Strings: UTF-8 encoded
 	to_utf_8: STRING
 			--
 		do
-			Result := Utf_8_codec.as_utf_8 (to_string_32, True)
+			Result := Utf_8_codec.as_utf_8 (raw_adjusted, True)
 		end
 
 	to_normalized_case_utf_8: STRING
@@ -273,7 +310,7 @@ feature -- Strings: UTF-32 encoded
 			--
 		do
 			Result := raw_content.string
-			trim (Result)
+			Result.adjust
 		end
 
 	to_normalized_case_string_32: STRING_32
@@ -295,6 +332,22 @@ feature -- Strings: UTF-32 encoded
 				end
 				Result.append (word)
 				words.forth
+			end
+		end
+
+	to_set_match_32 (a_set: ITERABLE [STRING_32]): STRING_32
+		-- matching item in `a_set' or else `to_string_32'
+		local
+			found: BOOLEAN
+		do
+			across a_set as set until found loop
+				if same_as (set.item) then
+					Result := set.item
+					found := True
+				end
+			end
+			if not found then
+				Result := to_string_32
 			end
 		end
 
@@ -351,49 +404,49 @@ feature -- Status query
 	is_boolean: BOOLEAN
 			--
 		do
-			Result := to_string.is_boolean
+			Result := raw_adjusted.is_boolean
 		end
 
 	is_natural: BOOLEAN
 			--
 		do
-			Result := to_string.is_natural
+			Result := raw_adjusted.is_natural
 		end
 
 	is_natural_64: BOOLEAN
 			--
 		do
-			Result := to_string.is_natural
+			Result := raw_adjusted.is_natural
 		end
 
 	is_integer: BOOLEAN
 			--
 		do
-			Result := to_string.is_integer
+			Result := raw_adjusted.is_integer
 		end
 
 	is_integer_64: BOOLEAN
 			--
 		do
-			Result := to_string.is_integer_64
+			Result := raw_adjusted.is_integer_64
 		end
 
 	is_real: BOOLEAN
 			--
 		do
-			Result := to_string.is_real
+			Result := raw_adjusted.is_real
 		end
 
 	is_double: BOOLEAN
 			--
 		do
-			Result := to_string.is_double
+			Result := raw_adjusted.is_double
 		end
 
 	is_empty: BOOLEAN
 			--
 		do
-			Result := to_string.is_empty
+			Result := raw_adjusted.is_empty
 		end
 
 	is_raw_empty: BOOLEAN
@@ -405,10 +458,23 @@ feature -- Status query
 	is_content_equal (a_string: STRING_32): BOOLEAN
 			--
 		do
-			Result := to_string_32.is_equal (a_string)
+			Result := a_string ~ raw_adjusted
+		end
+
+	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
+			--
+		do
+			Result := a_string.same_string (raw_adjusted)
 		end
 
 feature {EL_XML_NODE_CLIENT, EL_XML_NODE} -- Implementation	
+
+	raw_adjusted: STRING_32
+		-- shared once string
+		do
+			Result := once_copy_32 (raw_content)
+			Result.adjust
+		end
 
 	raw_content: STRING_32
 		-- Unadjusted text content of node
@@ -416,16 +482,6 @@ feature {EL_XML_NODE_CLIENT, EL_XML_NODE} -- Implementation
 	to_pointer: POINTER
 		-- Unused
 		do
-		end
-
-feature  {NONE} -- Implementation
-
-	trim (a_string: STRING_GENERAL)
-		do
-			if a_string.count > 0 then
-				a_string.right_adjust
-				a_string.left_adjust
-			end
 		end
 
 feature -- Constant

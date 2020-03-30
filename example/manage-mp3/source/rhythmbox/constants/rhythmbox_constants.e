@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:35:37 GMT (Sunday 29th March 2020)"
-	revision: "9"
+	date: "2020-03-30 12:56:23 GMT (Monday 30th March 2020)"
+	revision: "10"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -72,13 +72,13 @@ feature {NONE} -- Constants
 			Result := "c0"
 		end
 
-	Media_type: TUPLE [octet_stream, mpeg, plain_text, pyxis: ZSTRING]
+	Media_type: TUPLE [octet_stream, mpeg, plain_text, pyxis: STRING]
 		once
 			create Result
 			Tuple.fill (Result, "application/octet-stream, audio/mpeg, text/plain, text/pyxis")
 		end
 
-	Media_type_list: EL_ZSTRING_LIST
+	Media_type_list: EL_STRING_8_LIST
 		once
 			create Result.make_from_tuple (Media_type)
 		end

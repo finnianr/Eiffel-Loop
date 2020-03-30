@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 15:37:07 GMT (Friday 27th March 2020)"
-	revision: "13"
+	date: "2020-03-30 13:42:37 GMT (Monday 30th March 2020)"
+	revision: "14"
 
 deferred class
 	TL_ID3_TAG
@@ -211,6 +211,10 @@ feature -- Removal
 		end
 
 	remove_picture
+		do
+		end
+
+	remove_unique_id (owner: READABLE_STRING_GENERAL)
 		do
 		end
 

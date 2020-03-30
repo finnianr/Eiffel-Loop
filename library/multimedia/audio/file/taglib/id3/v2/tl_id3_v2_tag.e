@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 15:37:26 GMT (Friday 27th March 2020)"
-	revision: "17"
+	date: "2020-03-30 13:43:00 GMT (Monday 30th March 2020)"
+	revision: "18"
 
 class
 	TL_ID3_V2_TAG
@@ -30,7 +30,7 @@ inherit
 
 			has_comment_with, has_comment, has_user_text_with, has_unique_id_with, has_user_text, has_picture,
 			has_unique_id,
-			remove_all_unique_ids, remove_comment, remove_user_text, remove_picture
+			remove_all_unique_ids, remove_comment, remove_user_text, remove_unique_id, remove_picture
 		end
 
 	TL_ID3_V2_TAG_FRAME_ROUTINES

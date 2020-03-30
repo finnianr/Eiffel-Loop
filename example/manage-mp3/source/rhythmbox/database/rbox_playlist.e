@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 9:29:54 GMT (Monday 30th March 2020)"
-	revision: "18"
+	date: "2020-03-30 12:15:11 GMT (Monday 30th March 2020)"
+	revision: "19"
 
 class
 	RBOX_PLAYLIST
@@ -142,7 +142,7 @@ feature -- Status query
 
 feature -- Element change
 
-	add_song_from_audio_id (a_audio_id: EL_UUID)
+	add_song_from_audio_id (a_audio_id: STRING)
 		do
 			log.enter_with_args ("add_song_from_audio_id", [a_audio_id])
 			index_by_audio_id.search (a_audio_id)
@@ -168,15 +168,15 @@ feature -- Element change
 		do
 			name := a_name
 			if a_name.is_empty then
-				create id.make_default
+				id := Default_id
 			else
-				id := Digest.md5 (a_name.to_utf_8)
+				set_id_from_uuid (Digest.md5 (a_name.to_utf_8))
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	index_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
+	index_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
 		do
 			Result := Database.songs_by_audio_id
 		end
@@ -197,17 +197,9 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["location/text()", agent
-					do
-						add_song_from_path (Database.decoded_location (node.to_string_8))
-					end
-				],
-				["audio-id/text()", agent
-					do
-						add_song_from_audio_id (create {EL_UUID}.make_from_string (node.to_string_8))
-					end
-				],
-				["@name", agent do set_name (node.to_string) end]
+				["location/text()", agent do add_song_from_path (Database.decoded_location (node)) end],
+				["audio-id/text()", agent do add_song_from_audio_id (node) end],
+				["@name", agent do set_name (node) end]
 			>>)
 		end
 

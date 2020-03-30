@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:24:24 GMT (Tuesday 24th March 2020)"
-	revision: "20"
+	date: "2020-03-30 17:57:24 GMT (Monday 30th March 2020)"
+	revision: "21"
 
 class
 	RBOX_DATABASE
@@ -52,6 +52,8 @@ inherit
 	EL_MODULE_BUILD_INFO
 
 	EL_MODULE_URL
+
+	EL_MODULE_ITERABLE
 
 	SHARED_DATABASE
 
@@ -182,7 +184,7 @@ feature -- Access attributes
 
 	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 
-	songs_by_audio_id: HASH_TABLE [RBOX_SONG, EL_UUID]
+	songs_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
 
 	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
 
@@ -256,7 +258,7 @@ feature -- Element change
 
 	extend_with_song (song: RBOX_SONG)
 		local
-			audio_id: EL_UUID;
+			audio_id: STRING
 		do
 			if not song.has_audio_id then
 				song.update_audio_id
@@ -269,13 +271,8 @@ feature -- Element change
 				lio.put_new_line
 			else
 				songs.extend (song)
-				audio_id := song.audio_id
-				if audio_id.is_null then
-					lio.put_new_line
-					lio.put_line ("NULL AUDIO ID")
-					lio.put_path_field ("Song", song.mp3_path)
-					lio.put_new_line
-				else
+				if song.has_audio_id then
+					audio_id := song.audio_id
 					songs_by_audio_id.put (song, audio_id)
 					if songs_by_audio_id.conflict then
 						lio.put_new_line
@@ -285,6 +282,11 @@ feature -- Element change
 						lio.put_path_field ("Song 2", song.mp3_path)
 						lio.put_new_line
 					end
+				else
+					lio.put_new_line
+					lio.put_line ("NULL AUDIO ID")
+					lio.put_path_field ("Song", song.mp3_path)
+					lio.put_new_line
 				end
 				if song.is_genre_silence and then silence_intervals.valid_index (song.duration) then
 					silence_intervals [song.duration] := song
@@ -316,7 +318,7 @@ feature -- Element change
 			across songs.query (condition) as song loop
 				directory_set.put (song.item.mp3_path.parent)
 			end
-			delete (condition)
+			delete_if (condition)
 
 			across directory_set as cortina_dir loop
 				File_system.delete_if_empty (cortina_dir.item)
@@ -448,31 +450,29 @@ feature -- Basic operations
 
 feature -- Removal
 
-	delete (condition: EL_QUERY_CONDITION [RBOX_SONG])
-		local
-			song: like songs.item; entry_removed: BOOLEAN
+	delete (song: RBOX_SONG)
 		do
-			from songs.start; entries.start until songs.after loop
-				song := songs.item
-				if condition.met (song) then
-					songs_by_location.remove (song.mp3_path)
-					songs_by_audio_id.remove (song.audio_id)
-					OS.delete_file (song.mp3_path)
-					songs.remove
-					from entry_removed := False until entries.after or else entry_removed loop
-						if song = entries.item then
-							entries.remove
-							entry_removed := True
-						else
-							entries.forth
-						end
-					end
-				else
-					songs.forth
-				end
+			delete_all (<< song >>)
+		end
+
+	delete_if (condition: EL_QUERY_CONDITION [RBOX_SONG])
+		do
+			delete_all (songs.query (condition))
+		end
+
+	delete_all (a_list: ITERABLE [RBOX_SONG])
+		local
+			song: RBOX_SONG
+		do
+			across a_list as list loop
+				song := list.item
+				prune (song)
+				OS.delete_file (song.mp3_path)
 			end
 		ensure
-			same_number_removed: old songs.count - songs.count = old entries.count - entries.count
+			removed_songs: old songs.count - songs.count = Iterable.count (a_list)
+			removed_entries: old entries.count - entries.count = Iterable.count (a_list)
+			removed_locations: old songs_by_location.count - songs_by_location.count = Iterable.count (a_list)
 		end
 
 	remove (song: RBOX_SONG)
@@ -480,10 +480,7 @@ feature -- Removal
 		require
 			not_in_any_playlist: across all_playlists as playlist all not playlist.item.has (song) end
 		do
-			songs.start; songs.prune (song)
-			entries.start; entries.prune (song)
-			songs_by_location.remove (song.mp3_path)
-			songs_by_audio_id.remove (song.audio_id)
+			prune (song)
 		end
 
 	wipe_out
@@ -509,6 +506,14 @@ feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
 		do
 			Result := Url.encoded_uri_custom (uri , Unescaped_location_characters, False)
+		end
+
+	prune (song: RBOX_SONG)
+		do
+			songs.start; songs.prune (song)
+			entries.start; entries.prune (song)
+			songs_by_location.remove (song.mp3_path)
+			songs_by_audio_id.remove (song.audio_id)
 		end
 
 feature {NONE} -- Evolicity reflection
