@@ -74,16 +74,16 @@ feature -- Access
 
 			from j := 0 until j = 5 loop
 				n := array [j]
-				inspect j + 1
-					when 1 then
+				inspect j
+					when 0 then
 						start_index := 1; end_index := 8
-					when 2 then
+					when 1 then
 						start_index := 10; end_index := 13
-					when 3 then
+					when 2 then
 						start_index := 15; end_index := 18
-					when 4 then
+					when 3 then
 						start_index := 20; end_index := 23
-					when 5 then
+					when 4 then
 						start_index := 25; end_index := 36
 				else
 				end
