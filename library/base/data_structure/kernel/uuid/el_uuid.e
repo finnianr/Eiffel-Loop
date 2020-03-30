@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 10:33:19 GMT (Monday 30th March 2020)"
-	revision: "15"
+	date: "2020-03-30 11:05:21 GMT (Monday 30th March 2020)"
+	revision: "16"
 
 class
 	EL_UUID
@@ -65,15 +65,16 @@ feature -- Access
 
 	to_string: STRING
 		local
-			start_index, end_index, i: INTEGER
-			n, digit: NATURAL_64
+			start_index, end_index, i, j: INTEGER
+			n, digit: NATURAL_64; array: SPECIAL [NATURAL_64]
 		do
 			create Result.make_filled (Separator_char_8, 36)
-			across <<
-				data_1.to_natural_64, data_2.to_natural_64, data_3.to_natural_64, data_4.to_natural_64, data_5
-			>> as data loop
-				n := data.item
-				inspect data.cursor_index
+			create array.make_filled (data_5, 5)
+			array [0] := data_1; array [1] := data_2; array [2] := data_3; array [3] := data_4
+
+			from j := 0 until j = 5 loop
+				n := array [j]
+				inspect j + 1
 					when 1 then
 						start_index := 1; end_index := 8
 					when 2 then
@@ -92,7 +93,10 @@ feature -- Access
 					n := n |>> 4
 					i := i - 1
 				end
+				j := j + 1
 			end
+		ensure then
+			result_is_valid_uuid: is_valid_uuid (Result)
 		end
 
 feature -- Constants
