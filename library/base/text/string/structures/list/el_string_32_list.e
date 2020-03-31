@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:32:58 GMT (Sunday 29th March 2020)"
-	revision: "8"
+	date: "2020-03-31 11:48:53 GMT (Tuesday 31st March 2020)"
+	revision: "9"
 
 class
 	EL_STRING_32_LIST
@@ -20,5 +20,5 @@ create
 	make_from_general, make_with_csv
 
 convert
-	make_from_array ({ARRAY [STRING_32]}), make_with_words ({STRING_32}), make_from_tuple ({TUPLE})
+	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_with_csv ({STRING_32})
 end

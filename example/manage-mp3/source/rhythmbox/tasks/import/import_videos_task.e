@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 14:35:56 GMT (Monday 30th March 2020)"
-	revision: "4"
+	date: "2020-03-31 14:12:16 GMT (Tuesday 31st March 2020)"
+	revision: "5"
 
 class
 	IMPORT_VIDEOS_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
+
+	DATABASE_UPDATE_TASK
 
 	EL_MODULE_AUDIO_COMMAND
 

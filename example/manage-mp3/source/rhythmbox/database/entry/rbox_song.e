@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 17:38:43 GMT (Monday 30th March 2020)"
-	revision: "29"
+	date: "2020-03-31 13:49:28 GMT (Tuesday 31st March 2020)"
+	revision: "30"
 
 class
 	RBOX_SONG
@@ -61,8 +61,9 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			album_artists := Default_album_artists
 			Precursor
+			album_artists := Default_album_artists
+			media_type := Media_types.mpeg
 		end
 
 feature -- Rhythmbox XML fields
@@ -465,6 +466,7 @@ feature -- Element change
 --			mp3.remove_unique_id ("RBOX"); mp3.remove_unique_id ("UFID")
 			mp3.set_recording_id (mb_trackid)
 			mp3.save
+			mp3.dispose
 			update_file_info
 		end
 
@@ -525,7 +527,6 @@ feature -- Basic operations
 			mp3.set_recording_id (mb_trackid)
 
 			mp3.save
-			update_file_info
 		end
 
 feature {NONE} -- Implementation

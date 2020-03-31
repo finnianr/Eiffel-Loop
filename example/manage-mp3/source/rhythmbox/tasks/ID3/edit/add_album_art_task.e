@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 17:37:21 GMT (Monday 30th March 2020)"
-	revision: "10"
+	date: "2020-03-31 14:13:00 GMT (Tuesday 31st March 2020)"
+	revision: "11"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -33,6 +33,8 @@ inherit
 		redefine
 			make
 		end
+
+	DATABASE_UPDATE_TASK
 
 	TL_SHARED_PICTURE_TYPE_ENUM
 
@@ -117,10 +119,12 @@ feature {NONE} -- Implementation
 				-- Rhythmbox changes musicbrainz_albumid to match "MusicBrainz Album Id"
 				mpeg.set_album_id (a_picture.checksum.out)
 				mpeg.save
+				mpeg.dispose
 				song.set_album_picture_checksum (a_picture.checksum)
 				song.update_file_info
 				song.update_checksum
 			end
+			mpeg.dispose
 		end
 
 	cortina_type (song: RBOX_SONG): ZSTRING

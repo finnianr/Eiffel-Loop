@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 8:04:08 GMT (Monday 30th March 2020)"
-	revision: "3"
+	date: "2020-03-31 14:09:05 GMT (Tuesday 31st March 2020)"
+	revision: "4"
 
 class
 	ARCHIVE_SONGS_TASK
@@ -17,6 +17,8 @@ inherit
 		redefine
 			error_check
 		end
+
+	DATABASE_UPDATE_TASK
 
 create
 	make

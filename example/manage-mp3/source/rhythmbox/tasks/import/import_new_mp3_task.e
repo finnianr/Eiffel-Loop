@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 11:38:58 GMT (Tuesday 24th March 2020)"
-	revision: "4"
+	date: "2020-03-31 14:12:07 GMT (Tuesday 31st March 2020)"
+	revision: "5"
 
 class
 	IMPORT_NEW_MP3_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
+
+	DATABASE_UPDATE_TASK
 
 	EL_MODULE_OS
 
@@ -80,6 +82,8 @@ feature {NONE} -- Implementation
 				song.set_mp3_path (mp3_path)
 
 				song.write_id3_info (id3_info)
+				id3_info.dispose
+				song.update_file_info
 			end
 		end
 

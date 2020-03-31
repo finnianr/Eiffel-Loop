@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-05 6:59:30 GMT (Thursday 5th September 2019)"
-	revision: "2"
+	date: "2020-03-31 14:10:11 GMT (Tuesday 31st March 2020)"
+	revision: "3"
 
 class
 	DELETE_COMMENTS_TASK
 
 inherit
 	ID3_TASK
+
+	DATABASE_UPDATE_TASK
 
 create
 	make

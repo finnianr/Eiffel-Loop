@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-28 13:00:01 GMT (Saturday 28th March 2020)"
-	revision: "9"
+	date: "2020-03-31 11:15:23 GMT (Tuesday 31st March 2020)"
+	revision: "10"
 
 class
 	TEST_RHYTHMBOX_MUSIC_MANAGER_APP
@@ -47,7 +47,7 @@ feature -- Testing
 			--
 		do
 			if not has_argument_errors then
-				Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
+				Test.set_excluded_file_extensions (<< "mp3", "jpeg", "xml" >>)
 				Test.do_file_tree_test ("rhythmdb", agent test_music_manager, command.task.test_checksum)
 			end
 		end

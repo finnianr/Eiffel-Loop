@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 15:54:15 GMT (Friday 27th March 2020)"
-	revision: "6"
+	date: "2020-03-31 14:12:42 GMT (Tuesday 31st March 2020)"
+	revision: "7"
 
 class
 	REMOVE_UNKNOWN_ALBUM_PICTURES_TASK
 
 inherit
 	ID3_TASK
+
+	DATABASE_UPDATE_TASK
 
 	TL_SHARED_MUSICBRAINZ_ENUM
 

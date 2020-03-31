@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 12:24:15 GMT (Tuesday 24th March 2020)"
-	revision: "10"
+	date: "2020-03-31 13:53:29 GMT (Tuesday 31st March 2020)"
+	revision: "11"
 
 class
 	RBOX_TEST_DATABASE
@@ -126,6 +126,8 @@ feature {TEST_MANAGEMENT_TASK} -- Access
 
 				create mp3_info.make (wav_path.with_new_extension ("mp3"))
 				song.write_id3_info (mp3_info)
+				mp3_info.dispose
+				song.update_file_info
 			end
 		ensure
 			file_exists: Result.exists

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 8:33:50 GMT (Monday 30th March 2020)"
-	revision: "4"
+	date: "2020-03-31 13:35:54 GMT (Tuesday 31st March 2020)"
+	revision: "5"
 
 class
 	MUSIC_MANAGER_SUB_APPLICATION
@@ -52,7 +52,6 @@ feature {NONE} -- Implementation
 				[{ADD_ALBUM_ART_TASK}, All_routines],
 				[{COLLATE_SONGS_TASK}, All_routines],
 				[{DELETE_COMMENTS_TASK}, All_routines],
-				[{DISPLAY_AUDIO_ID_TASK}, All_routines],
 				[{DISPLAY_INCOMPLETE_ID3_INFO_TASK}, All_routines],
 				[{DISPLAY_MUSIC_BRAINZ_INFO_TASK}, All_routines],
 				[{EXPORT_MUSIC_TO_DEVICE_TASK}, All_routines],

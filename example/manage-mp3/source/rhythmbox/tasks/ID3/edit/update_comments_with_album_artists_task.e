@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 13:07:08 GMT (Tuesday 24th March 2020)"
-	revision: "5"
+	date: "2020-03-31 14:12:36 GMT (Tuesday 31st March 2020)"
+	revision: "6"
 
 class
 	UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK
 
 inherit
 	ID3_TASK
+
+	DATABASE_UPDATE_TASK
 
 	EL_STRING_8_CONSTANTS
 
@@ -49,7 +51,7 @@ feature {NONE} -- Implementation
 				id3_info.tag.set_album_artist (Empty_string)
 				l_album_artists := song.album_artist
 			end
-			if l_album_artists /~ id3_info.tag.comment_with (ID3_frame_c0) then
+			if l_album_artists /~ id3_info.tag.comment_with (ID3_frame_c0).text then
 				print_id3 (id3_info, relative_song_path)
 				lio.put_string_field ("Album artists", l_album_artists)
 				lio.put_new_line

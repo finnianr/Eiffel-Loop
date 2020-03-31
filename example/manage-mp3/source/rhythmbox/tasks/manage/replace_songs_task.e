@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 8:03:59 GMT (Monday 30th March 2020)"
-	revision: "3"
+	date: "2020-03-31 14:14:17 GMT (Tuesday 31st March 2020)"
+	revision: "4"
 
 class
 	REPLACE_SONGS_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
+
+	DATABASE_UPDATE_TASK
 
 create
 	make

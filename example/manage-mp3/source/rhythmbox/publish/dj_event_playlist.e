@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 19:13:53 GMT (Sunday 26th January 2020)"
-	revision: "15"
+	date: "2020-03-31 11:35:49 GMT (Tuesday 31st March 2020)"
+	revision: "16"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			dj_name := a_dj_name; title := a_title
-			word_list := playlist.name
+			create word_list.make_with_words (playlist.name)
 			date_str := word_list.first.to_latin_1
 			if Date_checker.date_valid (date_str, Name_date_format) then
 				create date.make_from_string (date_str, Name_date_format)

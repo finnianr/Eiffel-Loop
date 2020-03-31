@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 13:19:01 GMT (Monday 30th March 2020)"
-	revision: "28"
+	date: "2020-03-31 10:44:41 GMT (Tuesday 31st March 2020)"
+	revision: "29"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -60,6 +60,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
+			media_type := Media_types.octet_stream
 		end
 
 	make

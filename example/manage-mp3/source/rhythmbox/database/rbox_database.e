@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 17:57:24 GMT (Monday 30th March 2020)"
-	revision: "21"
+	date: "2020-03-31 11:05:20 GMT (Tuesday 31st March 2020)"
+	revision: "22"
 
 class
 	RBOX_DATABASE
@@ -389,25 +389,26 @@ feature -- Basic operations
 	)
 			--
 		local
-			song: RBOX_SONG
+			song: RBOX_SONG; mp3: TL_MPEG_FILE
 		do
 			across songs.query (condition) as query loop
-				song := query.item
-				do_with_song_id3 (song, song.mp3_relative_path, song.mp3_info)
+				song := query.item; mp3 := song.mp3_info
+				do_with_song_id3 (song, song.mp3_relative_path, mp3)
+				mp3.dispose
 			end
 		end
 
 	for_all_songs_id3_info (
-		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_id3_edit: PROCEDURE [TL_MPEG_FILE, EL_FILE_PATH]
+		condition: EL_QUERY_CONDITION [RBOX_SONG]; do_id3_edit: PROCEDURE [TL_MPEG_FILE, EL_FILE_PATH]
 	)
 			--
 		local
-			song: RBOX_SONG
+			song: RBOX_SONG; mp3: TL_MPEG_FILE
 		do
 			across songs.query (condition) as query loop
-				song := query.item
-				do_id3_edit (song.mp3_info, song.mp3_relative_path)
+				song := query.item; mp3 := song.mp3_info
+				do_id3_edit (mp3, song.mp3_relative_path)
+				mp3.dispose
 			end
 		end
 

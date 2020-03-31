@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:33:47 GMT (Tuesday 24th March 2020)"
-	revision: "14"
+	date: "2020-03-31 10:57:31 GMT (Tuesday 31st March 2020)"
+	revision: "15"
 
 class
 	STORAGE_DEVICE
@@ -244,6 +244,7 @@ feature {NONE} -- Implementation
 					create id3_info.make (temp_file_path)
 					adjust_genre (id3_info)
 					id3_info.save_version (task.volume.major_version)
+					id3_info.dispose
 
 				elseif attached {RBOX_PLAYLIST} media_item as playlist then
 					m3u_playlist := new_m3u_playlist (playlist, temp_file_path)

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 7:55:28 GMT (Monday 30th March 2020)"
-	revision: "6"
+	date: "2020-03-31 14:11:10 GMT (Tuesday 31st March 2020)"
+	revision: "7"
 
 class
 	REMOVE_ALL_UFIDS_TASK
 
 inherit
 	ID3_TASK
+
+	DATABASE_UPDATE_TASK
 
 create
 	make

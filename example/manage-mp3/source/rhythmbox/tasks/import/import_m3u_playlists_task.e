@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 10:54:13 GMT (Monday 16th September 2019)"
-	revision: "2"
+	date: "2020-03-31 14:12:28 GMT (Tuesday 31st March 2020)"
+	revision: "3"
 
 class
 	IMPORT_M3U_PLAYLISTS_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
+
+	DATABASE_UPDATE_TASK
 
 	EL_MODULE_OS
 

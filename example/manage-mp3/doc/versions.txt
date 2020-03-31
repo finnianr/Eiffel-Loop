@@ -1,3 +1,6 @@
+# 2.1.1
+Print out XML for tests that modify database in mp3-manager.ecf
+
 # 2.1.0
 changed {RBOX_SONG}.audio_id type from EL_UUID to STRING
 
