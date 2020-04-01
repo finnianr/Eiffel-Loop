@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 10:26:59 GMT (Friday 17th January 2020)"
-	revision: "8"
+	date: "2020-04-01 9:21:21 GMT (Wednesday 1st April 2020)"
+	revision: "9"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -48,7 +48,7 @@ feature {NONE}  -- Initialisation
 	make_default
 			--
 		do
-			create last_node
+			create last_node.make
 			event_source := default_event_source
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content

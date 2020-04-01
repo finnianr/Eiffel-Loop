@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-04-01 9:22:15 GMT (Wednesday 1st April 2020)"
+	revision: "6"
 
 class
 	EL_XML_ATTRIBUTE_LIST
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			make_list (Default_size)
 			create node_cache.make (Default_size)
 			from until node_cache.full loop
-				node_cache.extend (create {like node})
+				node_cache.extend (create {like node}.make)
 			end
 			reset
 		end
@@ -56,7 +56,7 @@ feature -- Element change
 			--
 		do
 			if count = node_cache.upper then
-				node_cache.extend (create {like node})
+				node_cache.extend (create {like node}.make)
 			end
 			extend_list (node_cache [count + 1])
 			finish

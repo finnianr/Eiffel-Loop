@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 15:15:55 GMT (Monday 30th March 2020)"
-	revision: "4"
+	date: "2020-04-01 10:19:27 GMT (Wednesday 1st April 2020)"
+	revision: "5"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -36,8 +36,6 @@ feature -- Basic operations
 feature {NONE} -- Factory
 
 	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING): like SONG_INFO
-		local
-			song: RBOX_SONG
 		do
 			create Result
 			Result.song := Video_songs [title]

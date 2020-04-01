@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-04-01 9:21:47 GMT (Wednesday 1st April 2020)"
+	revision: "7"
 
 class
 	EL_XML_ATTRIBUTE_NODE
@@ -15,15 +15,15 @@ class
 inherit
 	EL_XML_NODE
 		redefine
-			default_create, xpath_name
+			make, xpath_name
 		end
-		
+
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
 			Precursor

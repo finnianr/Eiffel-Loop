@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 9:52:14 GMT (Tuesday 10th September 2019)"
-	revision: "18"
+	date: "2020-04-01 11:24:06 GMT (Wednesday 1st April 2020)"
+	revision: "19"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -208,6 +208,20 @@ feature {NONE} -- Implementation
 
 				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
 					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
+				elseif Field_sets.has_key (field_list.item.name) then
+					if attached {EL_HASH_SET [ZSTRING]} Field_sets.found_item as set
+						and then attached {EL_REFLECTED_ZSTRING} field_list.item as field
+					then
+						Result [new_xpath (field_list.item, node_type)] := agent set_zstring_field_from_node (set, field)
+					elseif attached {EL_HASH_SET [STRING]} Field_sets.found_item as set
+						and then attached {EL_REFLECTED_STRING_8} field_list.item as field
+					then
+						Result [new_xpath (field_list.item, node_type)] := agent set_string_8_field_from_node (set, field)
+					elseif attached {EL_HASH_SET [STRING_32]} Field_sets.found_item as set
+						and then attached {EL_REFLECTED_STRING_32} field_list.item as field
+					then
+						Result [new_xpath (field_list.item, node_type)] := agent set_string_32_field_from_node (set, field)
+					end
 				else
 					Result [new_xpath (field_list.item, node_type)] := agent set_field_from_node (field_list.item)
 				end
@@ -272,6 +286,24 @@ feature {NONE} -- Implementation
 			field.set_from_readable (current_reflective, node)
 		end
 
+	set_string_8_field_from_node (set: EL_HASH_SET [STRING]; field: EL_REFLECTED_STRING_8)
+		do
+			node.put_string_8_into (set)
+			field.set_from_string (current_reflective, set.found_item)
+		end
+
+	set_string_32_field_from_node (set: EL_HASH_SET [STRING_32]; field: EL_REFLECTED_STRING_32)
+		do
+			node.put_string_32_into (set)
+			field.set_from_string (current_reflective, set.found_item)
+		end
+
+	set_zstring_field_from_node (set: EL_HASH_SET [ZSTRING]; field: EL_REFLECTED_ZSTRING)
+		do
+			node.put_string_into (set)
+			field.set_from_string (current_reflective, set.found_item)
+		end
+
 	set_path_field_from_node (field: EL_REFLECTED_PATH)
 		do
 			field.set_from_readable (current_reflective, node)
@@ -302,6 +334,11 @@ feature {NONE} -- Node types
 	Text_element_node: INTEGER = 3
 
 feature {NONE} -- Constants
+
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+		once
+			create Result
+		end
 
 	Item_name: STRING
 		-- list item name

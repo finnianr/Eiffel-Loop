@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 10:44:41 GMT (Tuesday 31st March 2020)"
-	revision: "29"
+	date: "2020-04-01 11:52:57 GMT (Wednesday 1st April 2020)"
+	revision: "30"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -19,7 +19,7 @@ inherit
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make_default, set_field_from_node, building_action_table, Except_fields
+			make_default, set_field_from_node, building_action_table, Except_fields, Field_sets
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -127,7 +127,8 @@ feature -- Element change
 
 	set_media_type (a_media_type: like media_type)
 		do
-			media_type := a_media_type
+			Media_type_set.put (a_media_type)
+			media_type := Media_type_set.found_item
 		end
 
 feature {NONE} -- Build from XML
@@ -140,9 +141,13 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			Result := building_actions_for_type ({ZSTRING}, Text_element_node) +
-				["media-type/text()", agent do media_type := node.to_set_match_8 (Media_type_list) end] +
-				["location/text()", agent build_location]
+			Result := building_actions_for_type ({ZSTRING}, Text_element_node) + ["location/text()", agent build_location]
+
+			if field_table.has_key ("media_type")
+				and then attached {EL_REFLECTED_STRING_8} field_table.found_item as field
+			then
+				Result ["media-type/text()"] := agent set_string_8_field_from_node (Media_type_set, field)
+			end
 		end
 
 	set_field_from_node (field: EL_REFLECTED_FIELD)
@@ -192,19 +197,6 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-feature {NONE} -- Constants
-
-	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox database
-		once
-			Result := Precursor + ", encoding_bitmap"
-		end
-
-	Protocol: ZSTRING
-		once
-			Result := "http"
-		end
-
 	Template: STRING
 			--
 		once
@@ -218,6 +210,43 @@ feature {NONE} -- Constants
 				<date>0</date>
 			</entry>
 			]"
+		end
+
+feature {NONE} -- Constants
+
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+		once
+			create Result.make (<<
+				["genre", Genre_set],
+				["media_type", Media_type_set],
+				["title", Title_set]
+			>>)
+		end
+
+	Genre_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (50)
+		end
+
+	Media_type_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_from_array (Media_type_list.to_array)
+		end
+
+	Except_fields: STRING
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := Precursor + ", encoding_bitmap"
+		end
+
+	Protocol: ZSTRING
+		once
+			Result := "http"
+		end
+
+	Title_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (100)
 		end
 
 end

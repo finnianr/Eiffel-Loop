@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 13:49:28 GMT (Tuesday 31st March 2020)"
-	revision: "30"
+	date: "2020-04-01 11:37:51 GMT (Wednesday 1st April 2020)"
+	revision: "31"
 
 class
 	RBOX_SONG
@@ -22,7 +22,7 @@ inherit
 			set_location as set_mp3_path
 		redefine
 			make, make_default, building_action_table, getter_function_table, on_context_exit,
-			Except_fields, Template
+			Except_fields, Template, Field_sets
 		end
 
 	MEDIA_ITEM
@@ -35,6 +35,8 @@ inherit
 		undefine
 			is_equal
 		end
+
+	RBOX_SONG_FIELDS undefine is_equal end
 
 	M3U_PLAY_LIST_CONSTANTS
 
@@ -65,54 +67,6 @@ feature {NONE} -- Initialization
 			album_artists := Default_album_artists
 			media_type := Media_types.mpeg
 		end
-
-feature -- Rhythmbox XML fields
-
-	album_artist: ZSTRING
-
-	artist: ZSTRING
-
-	album: ZSTRING
-
-	beats_per_minute: INTEGER
-		-- If beats per minute <= 3 it indicates silence duration appended to playlist
-
-	bitrate: INTEGER
-
-	comment: ZSTRING
-
-	composer: ZSTRING
-
-	disc_number: INTEGER
-
-	duration: INTEGER
-
-	date: INTEGER
-		-- Recording date in days
-
-	file_size: INTEGER
-
-	first_seen: INTEGER
-
-	last_played: INTEGER
-
-	mb_artistid: ZSTRING
-
-	mb_albumid: ZSTRING
-
-	mb_albumartistid: ZSTRING
-
-	mb_artistsortname: ZSTRING
-
-	play_count: INTEGER
-
-	track_number: INTEGER
-
-	rating: INTEGER
-
-	replaygain_track_gain: DOUBLE
-
-	replaygain_track_peak: DOUBLE
 
 feature -- Artist
 
@@ -346,17 +300,6 @@ feature -- Element change
 			log.exit
 		end
 
-	set_audio_id (id: STRING)
-		do
-			mb_trackid := id
-		end
-
-	set_album (a_album: like album)
-			--
-		do
-			album := a_album
-		end
-
 	set_album_artists (text: ZSTRING)
 			--
 		local
@@ -379,49 +322,9 @@ feature -- Element change
 			end
 		end
 
-	set_album_picture_checksum (picture_checksum: NATURAL)
-			-- Set this if album art changes to affect the main checksum
+	set_audio_id (id: STRING)
 		do
-			mb_albumid := picture_checksum.out
-		end
-
-	set_artist (a_artist: like artist)
-			--
-		do
-			artist := a_artist
-		end
-
-	set_bitrate (a_bitrate: like bitrate)
-			--
-		do
-			bitrate := a_bitrate
-		end
-
-	set_beats_per_minute (a_beats_per_minute: like beats_per_minute)
-			--
-		do
-			beats_per_minute := a_beats_per_minute
-		end
-
-	set_comment (a_comment: like comment)
-			--
-		do
-			comment := a_comment
-		end
-
-	set_composer (a_composer: like composer)
-			--
-		do
-			if a_composer ~ Unknown_string then
-				composer := Unknown_string
-			else
-				composer := a_composer
-			end
-		end
-
-	set_duration (a_duration: like duration)
-		do
-			duration := a_duration
+			mb_trackid := id
 		end
 
 	set_first_seen_time (a_first_seen_time: like first_seen_time)
@@ -439,16 +342,6 @@ feature -- Element change
 			--
 		do
 			date := a_recording_date
-		end
-
-	set_recording_year (a_year: INTEGER)
-		do
-			date := a_year * Days_in_year
-		end
-
-	set_track_number (a_track_number: like track_number)
-		do
-			track_number := a_track_number
 		end
 
 	update_checksum
@@ -572,7 +465,6 @@ feature {NONE} -- Build from XML
 	on_context_exit
 			-- Called when the parser leaves the current context
 		do
-			Precursor
 			update_checksum
 			set_album_artists (album_artist)
 		end
@@ -614,12 +506,19 @@ feature {NONE} -- Evolicity reflection
 
 feature -- Constants
 
-	Days_in_year: INTEGER = 365
-
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox Database
 		once
 			Result := Precursor + ", album_artists"
+		end
+
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+		once
+			create Result.make (<<
+				["album", Album_set],
+				["artist", Artist_set]
+			>>)
+			Result.merge (Precursor)
 		end
 
 	Problem_file_name_characters: ZSTRING

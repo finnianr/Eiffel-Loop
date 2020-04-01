@@ -205,3 +205,6 @@ New TL_FRAME_TABLE and TL_DESCRIBEABLE_ID3_TAG_FRAME
 Tue 24th Mar 2020, 15:44:56
 Replaced ID3-tags with TabLib in manage-mp3.ecf
 
+Tue 31st Mar 2020, 14:47:35
+Print out XML for tests that modify database in mp3-manager.ecf
+

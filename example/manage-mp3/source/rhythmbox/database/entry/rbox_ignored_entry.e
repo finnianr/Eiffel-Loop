@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 9:33:35 GMT (Wednesday 11th September 2019)"
-	revision: "15"
+	date: "2020-04-01 11:51:53 GMT (Wednesday 1st April 2020)"
+	revision: "16"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -58,7 +58,8 @@ feature -- Element change
 	set_genre (a_genre: like genre)
 			--
 		do
-			genre := a_genre
+			Genre_set.put (a_genre)
+			genre := Genre_set.found_item
 		end
 
 	set_last_seen_time (a_last_seen_time: like last_seen_time)
@@ -74,7 +75,8 @@ feature -- Element change
 	set_title (a_title: like title)
 			--
 		do
-			title := a_title
+			Title_set.put (a_title)
+			title := Title_set.found_item
 		end
 
 feature -- Rhythmbox XML fields
