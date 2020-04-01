@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 13:51:22 GMT (Tuesday 31st March 2020)"
-	revision: "10"
+	date: "2020-04-01 12:43:14 GMT (Wednesday 1st April 2020)"
+	revision: "11"
 
 class
 	RBOX_CORTINA_SONG
@@ -59,7 +59,6 @@ feature -- Basic operations
 			convertor: like Audio_command.new_wav_to_mp3; fader: like Audio_command.new_wav_fader
 			wav_path, faded_wav_path: EL_FILE_PATH
 			audio_properties: like Audio_command.new_audio_properties
-			mp3: like mp3_info
 		do
 			wav_path := mp3_path.with_new_extension ("wav")
 			faded_wav_path := mp3_path.with_new_extension ("faded.wav")
@@ -86,10 +85,7 @@ feature -- Basic operations
 			convertor.execute
 			OS.delete_file (faded_wav_path)
 
-			mp3 := mp3_info
-			write_id3_info (mp3)
-			mp3.dispose
-			update_file_info
+			save_id3_info
 	end
 
 feature {NONE} -- Constants

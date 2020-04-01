@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 10:19:27 GMT (Wednesday 1st April 2020)"
-	revision: "5"
+	date: "2020-04-01 13:14:56 GMT (Wednesday 1st April 2020)"
+	revision: "6"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -52,12 +52,16 @@ feature {NONE} -- Implementation
 
 	write_video_song (song: RBOX_SONG)
 		local
-			mp3_path: EL_FILE_PATH
+			mp4_path: EL_FILE_PATH
 		do
 			AVconv_mp3_to_mp4.put_path ("mp3_path", song.mp3_path)
-			mp3_path := song.unique_normalized_mp3_path.without_extension
 
-			AVconv_mp3_to_mp4.put_path ("mp4_path", mp3_path.with_new_extension ("mp4"))
+			from mp4_path := song.unique_normalized_mp3_path until not mp4_path.has_dot_extension loop
+				mp4_path.remove_extension
+			end
+			mp4_path.add_extension ("mp4")
+			File_system.make_directory (mp4_path.parent)
+			AVconv_mp3_to_mp4.put_path ("mp4_path", mp4_path)
 			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", "workarea/rhythmdb/album-art/Other/Unknown.jpeg")
 			AVconv_mp3_to_mp4.execute
 		end

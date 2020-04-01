@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 11:37:51 GMT (Wednesday 1st April 2020)"
-	revision: "31"
+	date: "2020-04-01 12:42:07 GMT (Wednesday 1st April 2020)"
+	revision: "32"
 
 class
 	RBOX_SONG
@@ -384,8 +384,13 @@ feature -- Status setting
 feature -- Basic operations
 
 	save_id3_info
+		local
+			mp3: like mp3_info
 		do
-			write_id3_info (mp3_info)
+			mp3 := mp3_info
+			write_id3_info (mp3)
+			mp3.dispose
+			update_file_info
 		end
 
 	write_id3_info (mp3: TL_MUSICBRAINZ_MPEG_FILE)

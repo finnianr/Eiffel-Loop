@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:12:16 GMT (Tuesday 31st March 2020)"
-	revision: "5"
+	date: "2020-04-01 12:36:38 GMT (Wednesday 1st April 2020)"
+	revision: "6"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -119,13 +119,19 @@ feature {NONE} -- Factory
 		local
 			video_properties: like Audio_command.new_audio_properties
 			video_to_mp3_command: like Audio_command.new_video_to_mp3
-			genre_path, artist_path: EL_DIR_PATH; l_info: like SONG_INFO
+			genre, artist: ZSTRING; l_info: like SONG_INFO
 			duration_time: TIME_DURATION; mp3: MP3_IDENTIFIER
+			steps: EL_PATH_STEPS
 		do
-			artist_path := video_path.parent; genre_path := artist_path.parent
+			steps := video_path
+			steps.remove_tail (1); artist := steps.last
+			steps.remove_tail (1); genre := steps.last
+
 			video_properties := Audio_command.new_audio_properties (video_path)
-			l_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist_path.base)
+			l_info := new_song_info_input (video_properties.duration, video_path.base_sans_extension, artist)
 			Result := l_info.song
+			Result.set_genre (genre)
+			Result.set_artist (artist)
 			Result.set_mp3_path (Result.unique_normalized_mp3_path)
 
 			video_to_mp3_command := Audio_command.new_video_to_mp3 (video_path, Result.mp3_path)
