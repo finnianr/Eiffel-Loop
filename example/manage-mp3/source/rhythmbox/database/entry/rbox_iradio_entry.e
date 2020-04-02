@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 11:52:57 GMT (Wednesday 1st April 2020)"
-	revision: "30"
+	date: "2020-04-02 8:10:33 GMT (Thursday 2nd April 2020)"
+	revision: "31"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -118,6 +118,13 @@ feature -- Access
 
 feature -- Element change
 
+	set_genre (a_genre: like genre)
+			--
+		do
+			Genre_set.put (a_genre)
+			genre := Genre_set.found_item
+		end
+
 	set_location (a_location: like location)
 			--
 		do
@@ -146,7 +153,7 @@ feature {NONE} -- Build from XML
 			if field_table.has_key ("media_type")
 				and then attached {EL_REFLECTED_STRING_8} field_table.found_item as field
 			then
-				Result ["media-type/text()"] := agent set_string_8_field_from_node (Media_type_set, field)
+				Result ["media-type/text()"] := agent set_cached_field_from_node (Media_type_set, field)
 			end
 		end
 
@@ -214,7 +221,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Constants
 
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
 		once
 			create Result.make (<<
 				["genre", Genre_set],

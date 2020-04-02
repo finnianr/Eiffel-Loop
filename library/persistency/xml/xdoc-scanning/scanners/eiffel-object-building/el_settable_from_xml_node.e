@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 11:24:06 GMT (Wednesday 1st April 2020)"
-	revision: "19"
+	date: "2020-04-02 8:11:52 GMT (Thursday 2nd April 2020)"
+	revision: "20"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -67,7 +67,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 						end
 						xml_out.put_indent (tab_count + 1); xml_out.put_string_8 (field.item.name)
 						xml_out.put_string_8 (once " = %"")
-						put_value (xml_out, value, attached {EL_REFLECTED_STRING_GENERAL [STRING_GENERAL]} field.item)
+						put_value (xml_out, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field.item)
 						xml_out.put_string_8 (once "%"%N")
 						attribute_count := attribute_count + 1
 					end
@@ -208,20 +208,13 @@ feature {NONE} -- Implementation
 
 				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
 					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
-				elseif Field_sets.has_key (field_list.item.name) then
-					if attached {EL_HASH_SET [ZSTRING]} Field_sets.found_item as set
-						and then attached {EL_REFLECTED_ZSTRING} field_list.item as field
-					then
-						Result [new_xpath (field_list.item, node_type)] := agent set_zstring_field_from_node (set, field)
-					elseif attached {EL_HASH_SET [STRING]} Field_sets.found_item as set
-						and then attached {EL_REFLECTED_STRING_8} field_list.item as field
-					then
-						Result [new_xpath (field_list.item, node_type)] := agent set_string_8_field_from_node (set, field)
-					elseif attached {EL_HASH_SET [STRING_32]} Field_sets.found_item as set
-						and then attached {EL_REFLECTED_STRING_32} field_list.item as field
-					then
-						Result [new_xpath (field_list.item, node_type)] := agent set_string_32_field_from_node (set, field)
-					end
+
+				elseif Field_sets.has_key (field_list.item.name)
+					and then attached {EL_REFLECTED_STRING [STRING_GENERAL]} field_list.item as field
+				then
+					-- Field value caching
+					xpath := new_xpath (field_list.item, node_type)
+					Result [xpath] := agent set_cached_field_from_node (Field_sets.found_item, field)
 				else
 					Result [new_xpath (field_list.item, node_type)] := agent set_field_from_node (field_list.item)
 				end
@@ -286,22 +279,10 @@ feature {NONE} -- Implementation
 			field.set_from_readable (current_reflective, node)
 		end
 
-	set_string_8_field_from_node (set: EL_HASH_SET [STRING]; field: EL_REFLECTED_STRING_8)
+	set_cached_field_from_node (set: EL_HASH_SET [STRING_GENERAL]; field: EL_REFLECTED_STRING [STRING_GENERAL])
+		-- set string `field' with a cached value from `set'
 		do
-			node.put_string_8_into (set)
-			field.set_from_string (current_reflective, set.found_item)
-		end
-
-	set_string_32_field_from_node (set: EL_HASH_SET [STRING_32]; field: EL_REFLECTED_STRING_32)
-		do
-			node.put_string_32_into (set)
-			field.set_from_string (current_reflective, set.found_item)
-		end
-
-	set_zstring_field_from_node (set: EL_HASH_SET [ZSTRING]; field: EL_REFLECTED_ZSTRING)
-		do
-			node.put_string_into (set)
-			field.set_from_string (current_reflective, set.found_item)
+			field.read_from_set (current_reflective, node, set)
 		end
 
 	set_path_field_from_node (field: EL_REFLECTED_PATH)
@@ -335,7 +316,9 @@ feature {NONE} -- Node types
 
 feature {NONE} -- Constants
 
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
+		-- mapping of field name to set of values
+		-- redefine in data class to provide field value caching
 		once
 			create Result
 		end

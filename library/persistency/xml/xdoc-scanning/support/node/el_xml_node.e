@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 9:48:10 GMT (Wednesday 1st April 2020)"
-	revision: "10"
+	date: "2020-04-02 8:17:40 GMT (Thursday 2nd April 2020)"
+	revision: "11"
 
 class
 	EL_XML_NODE
@@ -37,6 +37,13 @@ inherit
 	EL_ZSTRING_XML_NODE
 
 	EL_NUMERIC_XML_NODE
+
+	EL_CACHED_FIELD_READER
+		rename
+			read_string as put_string_into,
+			read_string_8 as put_string_8_into,
+			read_string_32 as put_string_32_into
+		end
 
 create
 	make

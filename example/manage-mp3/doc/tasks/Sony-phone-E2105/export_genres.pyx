@@ -21,5 +21,6 @@ export_music_to_device:
 			"Milonga (Electro)"
 			"Tango"
 			"Tango (Electro)"
+			"Timer"
 			"Vals"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 12:36:38 GMT (Wednesday 1st April 2020)"
-	revision: "6"
+	date: "2020-04-01 13:30:30 GMT (Wednesday 1st April 2020)"
+	revision: "7"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -41,7 +41,7 @@ feature -- Basic operations
 			end
 			song_count := Database.songs.count
 			lio.put_new_line
-			across Video_extensions.split (',') as extension loop
+			across Video_extensions as extension loop
 				across OS.file_list (Database.music_dir, "*." + extension.item) as video_path loop
 					lio.put_path_field ("Found", video_path.item.relative_path (Database.music_dir))
 					lio.put_new_line
@@ -189,7 +189,10 @@ feature {NONE} -- Constants
 
 	Fine_time_format: STRING = "mi:ss.ff3"
 
-	Video_extensions: STRING = "flv,m4a,m4v,mp4,mov"
+	Video_extensions: EL_STRING_8_LIST
+		once
+			Result := "flac, flv, m4a, m4v, mp4, mov, wav"
+		end
 
 	Video_import_notes: ZSTRING
 			-- '#' is the same as '%S'

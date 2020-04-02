@@ -1,13 +1,13 @@
 note
-	description: "Video to mp3 command i"
+	description: "Video to mp3 command interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-04-01 13:33:16 GMT (Wednesday 1st April 2020)"
+	revision: "6"
 
 deferred class
 	EL_VIDEO_TO_MP3_COMMAND_I
@@ -105,7 +105,7 @@ feature {NONE} -- Evolicity reflection
 				["has_duration",			agent: BOOLEAN_REF do Result := has_duration.to_reference end] +
 				["has_offset_time",		agent: BOOLEAN_REF do Result := has_offset_time.to_reference end] +
 				["offset_time", 			agent: STRING do Result := offset_time.formatted_out (Duration_format) end]
-				
+
 			Result.merge (Precursor {EL_AVCONV_OS_COMMAND_I})
 		end
 

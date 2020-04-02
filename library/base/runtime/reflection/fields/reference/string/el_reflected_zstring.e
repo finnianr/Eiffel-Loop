@@ -6,19 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 9:24:39 GMT (Tuesday 11th June 2019)"
-	revision: "1"
+	date: "2020-04-02 8:17:40 GMT (Thursday 2nd April 2020)"
+	revision: "2"
 
 class
 	EL_REFLECTED_ZSTRING
 
 inherit
-	EL_REFLECTED_STRING_GENERAL [ZSTRING]
+	EL_REFLECTED_STRING [ZSTRING]
 
 create
 	make
 
 feature -- Basic operations
+
+	read_from_set (a_object: EL_REFLECTIVE; reader: EL_CACHED_FIELD_READER; a_set: EL_HASH_SET [ZSTRING])
+		do
+			reader.read_string (a_set)
+			set (a_object, a_set.found_item)
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 12:16:21 GMT (Thursday 30th January 2020)"
-	revision: "17"
+	date: "2020-04-02 8:04:20 GMT (Thursday 2nd April 2020)"
+	revision: "18"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -156,23 +156,26 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_REFLECTED_REFERENCE
+				[$source EL_REFLECTED_PATH]
 				[$source EL_REFLECTED_READABLE]*
 					[$source EL_REFLECTED_STORABLE]
 					[$source EL_REFLECTED_DATE_TIME]
-					[$source EL_REFLECTED_TUPLE]
+					[$source EL_REFLECTED_STORABLE_TUPLE]
+				[$source EL_REFLECTED_TUPLE]
+					[$source EL_REFLECTED_STORABLE_TUPLE]
 				[$source EL_REFLECTED_BOOLEAN_REF]
-				[$source EL_REFLECTED_PATH]
-				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
-				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
-				[$source EL_REFLECTED_STRING_GENERAL]*
-					[$source EL_REFLECTED_ZSTRING]
-					[$source EL_REFLECTED_STRING_8]
-					[$source EL_REFLECTED_STRING_32]
-				[$source EL_REFLECTED_COLLECTION]
 				[$source EL_REFLECTED_MAKEABLE_FROM_STRING]*
 					[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
+				[$source EL_REFLECTED_COLLECTION]
+				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
+				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
+				[$source EL_REFLECTED_STRING]*
+					[$source EL_REFLECTED_ZSTRING]
+					[$source EL_REFLECTED_STRING_8]
+					[$source EL_REFLECTED_STRING_32]
 	]"
+
 end
 

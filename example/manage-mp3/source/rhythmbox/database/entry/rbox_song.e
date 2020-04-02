@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 12:42:07 GMT (Wednesday 1st April 2020)"
-	revision: "32"
+	date: "2020-04-02 8:07:31 GMT (Thursday 2nd April 2020)"
+	revision: "33"
 
 class
 	RBOX_SONG
@@ -517,7 +517,7 @@ feature -- Constants
 			Result := Precursor + ", album_artists"
 		end
 
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [READABLE_STRING_GENERAL], STRING]
+	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
 		once
 			create Result.make (<<
 				["album", Album_set],

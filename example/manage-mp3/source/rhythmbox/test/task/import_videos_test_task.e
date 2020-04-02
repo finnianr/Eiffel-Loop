@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 13:14:56 GMT (Wednesday 1st April 2020)"
-	revision: "6"
+	date: "2020-04-01 13:19:56 GMT (Wednesday 1st April 2020)"
+	revision: "7"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -83,7 +83,7 @@ feature {NONE} -- Constants
 
 	Video_song_titles: ARRAY [ZSTRING]
 		once
-			Result := << "L'Autre Valse d'Amélie", "The Hangmans Reel">>
+			Result := << "L'Autre Valse d'Amélie", "The Hangmans Reel" >>
 			Result.compare_objects
 		end
 

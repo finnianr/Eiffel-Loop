@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 11:51:53 GMT (Wednesday 1st April 2020)"
-	revision: "16"
+	date: "2020-04-01 15:42:05 GMT (Wednesday 1st April 2020)"
+	revision: "17"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -54,13 +54,6 @@ feature -- Status query
 		end
 
 feature -- Element change
-
-	set_genre (a_genre: like genre)
-			--
-		do
-			Genre_set.put (a_genre)
-			genre := Genre_set.found_item
-		end
 
 	set_last_seen_time (a_last_seen_time: like last_seen_time)
 		do
