@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:07:31 GMT (Thursday 2nd April 2020)"
-	revision: "33"
+	date: "2020-04-02 10:17:28 GMT (Thursday 2nd April 2020)"
+	revision: "34"
 
 class
 	RBOX_SONG

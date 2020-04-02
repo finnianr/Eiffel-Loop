@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 11:10:33 GMT (Wednesday 18th March 2020)"
-	revision: "4"
+	date: "2020-04-02 11:39:56 GMT (Thursday 2nd April 2020)"
+	revision: "5"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -144,12 +144,12 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		require
 			relative_path: not a_path.is_absolute
 		local
-			l_path: ZSTRING
+			l_path: ZSTRING; i: INTEGER
 		do
 			if not a_path.is_empty then
 				l_path := temporary_path
-
-				if not l_path.is_empty then
+				i := l_path.count
+				if i > 0 and then l_path [i] /= Separator then
 					l_path.append_unicode (Separator.natural_32_code)
 				end
 				l_path.append (a_path.parent_path)

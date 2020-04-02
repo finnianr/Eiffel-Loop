@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 19:38:39 GMT (Saturday 21st March 2020)"
-	revision: "6"
+	date: "2020-04-02 12:27:31 GMT (Thursday 2nd April 2020)"
+	revision: "7"
 
 class
 	TL_COMMENTS_ID3_FRAME_CPP_API
@@ -65,7 +65,7 @@ feature {NONE} -- Access
 
 	frozen cpp_get_language (self, language_out: POINTER)
 		external
-			"C++ inline use <mpeg/id3v2/id3v2frame.h>"
+			"C++ inline use <mpeg/id3v2/frames/commentsframe.h>"
 		alias
 			"[
 				TagLib::ByteVector &language = *((TagLib::ByteVector *)$language_out);

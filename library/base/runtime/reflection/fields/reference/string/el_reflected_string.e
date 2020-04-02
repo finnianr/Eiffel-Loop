@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:17:40 GMT (Thursday 2nd April 2020)"
-	revision: "10"
+	date: "2020-04-02 12:08:05 GMT (Thursday 2nd April 2020)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTED_STRING [S -> STRING_GENERAL]
@@ -17,7 +17,14 @@ inherit
 		undefine
 			reset, set_from_readable, set_from_string, write
 		redefine
-			reset, set_from_readable, set_from_string, to_string, write
+			to_string
+		end
+
+	EL_CACHEABLE_REFLECTED_REFERENCE [S]
+		undefine
+			reset, set_from_readable, set_from_string, write
+		redefine
+			to_string
 		end
 
 feature -- Access
@@ -25,12 +32,6 @@ feature -- Access
 	to_string (a_object: EL_REFLECTIVE): S
 		do
 			Result := value (a_object)
-		end
-
-feature -- Basic operations
-
-	read_from_set (a_object: EL_REFLECTIVE; reader: EL_CACHED_FIELD_READER; a_set: EL_HASH_SET [S])
-		deferred
 		end
 
 end

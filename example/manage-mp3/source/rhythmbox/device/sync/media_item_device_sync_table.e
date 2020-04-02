@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 12:03:00 GMT (Monday 30th March 2020)"
-	revision: "6"
+	date: "2020-04-02 8:43:53 GMT (Thursday 2nd April 2020)"
+	revision: "7"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -35,6 +35,8 @@ inherit
 
 	EL_MODULE_LOG
 
+	EL_MODULE_STRING_8
+
 create
 	make_default, make_from_file
 
@@ -55,6 +57,7 @@ feature {NONE} -- Initialization
 			accommodate (node_list.count)
 			across node_list as l_item loop
 				id := l_item.node.attributes.string_8 (Attribute_id)
+				String_8.replace_character (id, '-', ':')
 				put (create {like item}.make_from_xpath_context (id, l_item.node), id)
 			end
 		end

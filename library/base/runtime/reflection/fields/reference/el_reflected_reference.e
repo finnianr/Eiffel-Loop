@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:04:20 GMT (Thursday 2nd April 2020)"
-	revision: "18"
+	date: "2020-04-02 12:13:15 GMT (Thursday 2nd April 2020)"
+	revision: "19"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -171,10 +171,12 @@ note
 				[$source EL_REFLECTED_COLLECTION]
 				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
 				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
-				[$source EL_REFLECTED_STRING]*
-					[$source EL_REFLECTED_ZSTRING]
-					[$source EL_REFLECTED_STRING_8]
-					[$source EL_REFLECTED_STRING_32]
+				[$source EL_CACHEABLE_REFLECTED_REFERENCE]*
+					[$source EL_REFLECTED_STRING]*
+						[$source EL_REFLECTED_ZSTRING]
+						[$source EL_REFLECTED_STRING_8]
+						[$source EL_REFLECTED_STRING_32]
+				[$source EL_REFLECTED_STRING* [S -> STRING_GENERAL]]
 	]"
 
 end

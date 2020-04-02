@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:11:52 GMT (Thursday 2nd April 2020)"
-	revision: "20"
+	date: "2020-04-02 12:09:39 GMT (Thursday 2nd April 2020)"
+	revision: "21"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -210,7 +210,7 @@ feature {NONE} -- Implementation
 					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
 
 				elseif Field_sets.has_key (field_list.item.name)
-					and then attached {EL_REFLECTED_STRING [STRING_GENERAL]} field_list.item as field
+					and then attached {EL_CACHEABLE_REFLECTED_REFERENCE [HASHABLE]} field_list.item as field
 				then
 					-- Field value caching
 					xpath := new_xpath (field_list.item, node_type)
@@ -279,7 +279,7 @@ feature {NONE} -- Implementation
 			field.set_from_readable (current_reflective, node)
 		end
 
-	set_cached_field_from_node (set: EL_HASH_SET [STRING_GENERAL]; field: EL_REFLECTED_STRING [STRING_GENERAL])
+	set_cached_field_from_node (set: EL_HASH_SET [HASHABLE]; field: EL_CACHEABLE_REFLECTED_REFERENCE [HASHABLE])
 		-- set string `field' with a cached value from `set'
 		do
 			field.read_from_set (current_reflective, node, set)

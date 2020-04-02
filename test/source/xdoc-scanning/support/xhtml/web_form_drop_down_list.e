@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 9:41:02 GMT (Monday 6th January 2020)"
-	revision: "5"
+	date: "2020-04-02 11:21:27 GMT (Thursday 2nd April 2020)"
+	revision: "6"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -59,7 +59,7 @@ feature {NONE} -- Build from XML
 	set_selected_option
 			--
 		do
-			if node.is_content_equal ("true") then
+			if node.same_as ("true") then
 				selected_option := option_list.count
 				log_assignment ("selected_option", option_list.count)
 			end
