@@ -28,9 +28,9 @@ Multi-media management classes
 		<!--Source code-->
 		<cluster name = "audio" location = "multimedia/audio" recursive = "true">
 			<description>
-Video
+Audio Processing
 
-Classes for managing audio files
+Classes for processing audio files and sample data
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
@@ -47,7 +47,7 @@ Classes for managing audio files
 		</cluster>
 		<cluster name = "video" location = "multimedia/video" recursive = "true">
 			<description>
-Video
+Video Processing
 
 Classes for converting video files
 			</description>

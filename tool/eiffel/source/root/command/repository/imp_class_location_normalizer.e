@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-27 11:08:39 GMT (Thursday 27th December 2018)"
-	revision: "3"
+	date: "2020-04-03 16:54:21 GMT (Friday 3rd April 2020)"
+	revision: "4"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER
@@ -36,7 +36,7 @@ feature {NONE} -- Factory
 
 	new_configuration_file (ecf: ECF_INFO): CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
 		do
-			create Result.make (Current, ecf)
+			create Result.make (Current, ecf, parser)
 		end
 
 end

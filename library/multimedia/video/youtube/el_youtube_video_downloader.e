@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:04:06 GMT (Friday 3rd April 2020)"
-	revision: "9"
+	date: "2020-04-03 15:22:39 GMT (Friday 3rd April 2020)"
+	revision: "10"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER

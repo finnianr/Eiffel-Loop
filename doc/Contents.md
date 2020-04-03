@@ -99,6 +99,10 @@ Warning: **Use at your own risk.** It is recommended that you have a backup of y
 Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Eiffel to Java
 Demonstration program for the [Eiffel-Loop Java interface library](http://www.eiffel-loop.com/library/eiffel2java.html). This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+## Audio Processing
+Classes for processing audio files and sample data
+## Video Processing
+Classes for converting video files
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## TagLib Audio Meta-Data Library
@@ -117,8 +121,6 @@ Support for `m4a` and `flac` meta-data.
 **Credits**
 
 Special thanks to [Scott Wheeler](https://github.com/scotchi), the original author of the TagLib library, for his kind assistance and and support in creating this Eiffel binding.
-## WAV Audio Processing
-Classes for reading and writing wav files on the Windows OS
 ## Windows Audio
 Audio extensions for the [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL) that facilitate playback and other audio functions.
 ## Vision2 Audio
@@ -1597,7 +1599,7 @@ EQA_TEST_SET*
 ````
 
 ## search-engine.ecf
-See class [SEARCH_ENGINE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/search-engine/search_engine_autotest_app.html)
+See class [SEARCH_ENGINE_AUTOTEST_APP]($source)
 ## TagLib.ecf
 See class [TAGLIB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/TagLib/taglib_autotest_app.html)
 ## text-formats.ecf
@@ -1611,6 +1613,6 @@ Tests for Eiffel interface VTD-XML C API
 
 See class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 ## wel-x-audio.ecf
-Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_mswin/media_player_dummy_app.html)
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
 Test application class: [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/apps/xdoc_scanning_autotest_app.html)

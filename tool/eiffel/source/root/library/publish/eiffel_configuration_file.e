@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 11:04:19 GMT (Friday 3rd April 2020)"
-	revision: "23"
+	date: "2020-04-03 18:17:34 GMT (Friday 3rd April 2020)"
+	revision: "24"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO)
+	make (a_repository: like repository; ecf: ECF_INFO; parser: EIFFEL_CLASS_PARSER)
 			--
 		local
 			root: EL_XPATH_ROOT_NODE_CONTEXT; l_description: ZSTRING
@@ -67,6 +67,8 @@ feature {NONE} -- Initialization
 				end
 				set_name_and_description (l_description)
 			end
+			set_directory_list (parser)
+			parser.update (False)
 		end
 
 	make_default
@@ -138,10 +140,10 @@ feature -- Access
 
 feature -- Status query
 
-	is_library: BOOLEAN
-
 	is_cluster: BOOLEAN
 		-- True if classes are selected from one cluster in ecf
+
+	is_library: BOOLEAN
 
 feature -- Element change
 
@@ -178,8 +180,7 @@ feature -- Basic operations
 
 	read_source_files (parser: EIFFEL_CLASS_PARSER)
 		local
-			list: like sorted_path_list
-			parent_dir: EL_DIR_PATH; source_directory: SOURCE_DIRECTORY
+			parent_dir: EL_DIR_PATH; directory_group: SOURCE_DIRECTORY
 			source_path: EL_FILE_PATH
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
@@ -187,28 +188,35 @@ feature -- Basic operations
 			create parent_dir; create source_path
 
 			directory_list.wipe_out
-			list := sorted_path_list
-			from list.start until list.after loop
-				if source_path ~ list.path then
+			across sorted_path_list as path loop
+				if source_path ~ path.item then
 					lio.put_labeled_string ("Duplicate", source_path.base)
 					lio.put_new_line
 				end
-				source_path := list.path
+				source_path := path.item
 				if source_path.parent /~ parent_dir then
-					create source_directory.make (Current, directory_list.count + 1)
-					directory_list.extend (source_directory)
+					create directory_group.make (Current, directory_list.count + 1)
+					directory_list.extend (directory_group)
 					parent_dir := source_path.parent
 				end
 				lio.put_character ('.')
-				if list.index \\ 80 = 0 or list.islast then
+				if path.cursor_index \\ 80 = 0 or path.is_last then
 					lio.put_new_line
 				end
-				parser.queue (Current, source_directory, source_path)
-				list.forth
+				parser.queue (Current, directory_group, source_path)
 			end
 		end
 
-feature {NONE} -- Factory
+feature {EIFFEL_CLASS_PARSER} -- Factory
+
+	new_class (source_path: EL_FILE_PATH): EIFFEL_CLASS
+		do
+			if is_library then
+				create {LIBRARY_CLASS} Result.make (source_path, Current, repository)
+			else
+				create Result.make (source_path, Current, repository)
+			end
+		end
 
 	new_path_list: EL_FILE_PATH_LIST
 		local
@@ -276,6 +284,32 @@ feature {NONE} -- Factory
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	set_directory_list (parser: EIFFEL_CLASS_PARSER)
+		local
+			group_table: EL_GROUP_TABLE [EL_FILE_PATH, EL_DIR_PATH]
+			directory_group: SOURCE_DIRECTORY; file_count: INTEGER
+		do
+			lio.put_labeled_string ("Reading classes", html_index_path)
+			lio.put_new_line
+			create group_table.make (agent {EL_FILE_PATH}.parent, sorted_path_list)
+			create directory_list.make (group_table.count)
+
+			across group_table as group loop
+				create directory_group.make (Current, group.item.count)
+				directory_list.extend (directory_group)
+				file_count := file_count + 1
+				across group.item as path loop
+					lio.put_character ('.')
+					if file_count \\ 80 = 0 or (directory_list.full and then path.is_last) then
+						lio.put_new_line
+					end
+					parser.queue (Current, directory_group, path.item)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation attributes
 
 	repository: REPOSITORY_PUBLISHER
@@ -330,16 +364,16 @@ feature {NONE} -- Constants
 			Result := "../"
 		end
 
+	Relative_location_symbol: ZSTRING
+		once
+			Result := "$|"
+		end
+
 	See_details: TUPLE [begins, ends: ZSTRING]
 		once
 			create Result
 			Result.begins := "See "
 			Result.ends := " for details"
-		end
-
-	Relative_location_symbol: ZSTRING
-		once
-			Result := "$|"
 		end
 
 	Translater: MARKDOWN_TRANSLATER

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-20 15:37:21 GMT (Tuesday 20th February 2018)"
-	revision: "3"
+	date: "2020-04-03 17:06:27 GMT (Friday 3rd April 2020)"
+	revision: "4"
 
 class
 	EL_FUNCTION_DISTRIBUTER [G]
@@ -41,6 +41,14 @@ feature -- Basic operations
 		-- (following call to `do_final')
 		do
 			move (final_applied, result_list)
+		end
+
+feature -- Type definitions
+
+	Result_type: G
+		require
+			never_called: False
+		do
 		end
 
 feature {NONE} -- Implementation

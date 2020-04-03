@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 20:33:30 GMT (Tuesday 18th February 2020)"
-	revision: "19"
+	date: "2020-04-03 18:29:43 GMT (Friday 3rd April 2020)"
+	revision: "20"
 
 class
 	EIFFEL_CLASS
@@ -37,16 +37,11 @@ inherit
 			copy
 		end
 
-	EL_SINGLE_THREAD_ACCESS
-		undefine
-			is_equal, copy
-		redefine
-			make_default
-		end
-
 	EL_EIFFEL_KEYWORDS undefine is_equal, copy end
 
 	EL_ZSTRING_CONSTANTS
+
+	PUBLISHER_CONSTANTS
 
 	EL_MODULE_DIRECTORY
 
@@ -79,9 +74,6 @@ feature {NONE} -- Initialization
 
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 			create stats.make (code_text)
-			restrict_access
-				Class_source_table.put (relative_source_path.with_new_extension (Html), name)
-			end_restriction
 		end
 
 	make_default
@@ -89,8 +81,7 @@ feature {NONE} -- Initialization
 			create source_path
 			create name.make_empty
 			make_machine
-			Precursor {EL_SINGLE_THREAD_ACCESS}
-			Precursor {EVOLICITY_SERIALIZEABLE}
+			Precursor
 		end
 
 feature -- Access
@@ -114,7 +105,6 @@ feature -- Access
 	relative_html_path: EL_FILE_PATH
 		-- html path relative to `library_ecf.ecf_dir'
 		do
-			Result := source_path.relative_path (library_ecf.dir_path)
 			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension ("html")
 		end
 
@@ -151,9 +141,13 @@ feature -- Status report
 			Result := not further_information_fields.is_empty
 		end
 
+	is_example: BOOLEAN
+		do
+			Result := not is_library
+		end
+
 	is_library: BOOLEAN
 		do
-			Result := relative_source_path.first_step ~ Library
 		end
 
 	notes_filled: BOOLEAN
@@ -330,31 +324,6 @@ feature {NONE} -- Constants
 			across Class_declaration_keywords as keyword loop
 				Result.extend (character_string ('%N') + keyword.item)
 			end
-		end
-
-	Html: ZSTRING
-		once
-			Result := "html"
-		end
-
-	Library: ZSTRING
-		once
-			Result := "library"
-		end
-
-	Note_description: ZSTRING
-		once
-			Result := "description"
-		end
-
-	Relative_root: EL_DIR_PATH
-		once
-			create Result
-		end
-
-	Source_link: ZSTRING
-		once
-			Result := "[$source"
 		end
 
 	Template: STRING = ""

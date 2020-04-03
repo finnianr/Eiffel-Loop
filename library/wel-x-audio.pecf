@@ -92,7 +92,7 @@ system:
 
 		# Source code
 		cluster:
-			name = wel_x_audio; location = "multimedia/audio/wel-x-audio"; recursive = true
+			name = wel_x_audio; location = "multimedia/wel-x-audio"; recursive = true
 			condition:
 				platform:
 					value = windows

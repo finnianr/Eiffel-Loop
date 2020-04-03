@@ -56,7 +56,7 @@ that facilitate playback and other audio functions.
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_multimedia" location = "multi-media.ecf" readonly = "false"/>
 		<!--Source code-->
-		<cluster name = "wel_x_audio" location = "multimedia/audio/wel-x-audio" recursive = "true">
+		<cluster name = "wel_x_audio" location = "multimedia/wel-x-audio" recursive = "true">
 			<condition>
 				<platform value = "windows"/>
 			</condition>

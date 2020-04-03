@@ -52,9 +52,9 @@ system:
 			name = audio; location = "multimedia/audio"; recursive = true
 			description:
 				"""
-					Video
+					Audio Processing
 
-					Classes for managing audio files
+					Classes for processing audio files and sample data
 				"""
 			file_rule:
 				exclude:
@@ -74,7 +74,7 @@ system:
 			name = video; location = "multimedia/video"; recursive = true
 			description:
 				"""
-					Video
+					Video Processing
 
 					Classes for converting video files
 				"""

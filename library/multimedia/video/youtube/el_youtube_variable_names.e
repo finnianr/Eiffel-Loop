@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:29:39 GMT (Wednesday 31st October 2018)"
-	revision: "2"
+	date: "2020-04-03 15:21:40 GMT (Friday 3rd April 2020)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_VARIABLE_NAMES

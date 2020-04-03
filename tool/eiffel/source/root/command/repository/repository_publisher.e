@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 11:07:07 GMT (Friday 3rd April 2020)"
-	revision: "22"
+	date: "2020-04-03 18:24:11 GMT (Friday 3rd April 2020)"
+	revision: "23"
 
 class
 	REPOSITORY_PUBLISHER
@@ -46,7 +46,14 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_file_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do
 			config_path := a_file_path; version := a_version; thread_count := a_thread_count
+			log_thread_count
+			create parser.make (example_classes, a_thread_count)
 			make_from_file (a_file_path)
+			parser.update (True)
+
+			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
+			-- makes a consistent value for make `current_digest'
+			example_classes.sort
 		ensure then
 			has_name: not name.is_empty
 			has_at_least_one_source_tree: not ecf_list.is_empty
@@ -68,11 +75,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
-		-- Client examples list
-
 	config_path: EL_FILE_PATH
 		-- config file path
+
+	ecf_list: EL_SORTABLE_ARRAYED_LIST [like new_configuration_file]
+
+	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
+		-- Client examples list
 
 	ftp_sync: EL_BUILDER_CONTEXT_FTP_SYNC
 
@@ -95,37 +104,23 @@ feature -- Access
 
 	templates: REPOSITORY_HTML_TEMPLATES
 
-	ecf_list: EL_SORTABLE_ARRAYED_LIST [like new_configuration_file]
+	thread_count: INTEGER
 
 	version: STRING
 
 	web_address: ZSTRING
-
-	thread_count: INTEGER
 
 feature -- Basic operations
 
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN i: NATURAL
-			parser: EIFFEL_CLASS_PARSER
 		do
-			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
 
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
 			end
-
-			example_classes.wipe_out
-			create parser.make (Current)
-			across ecf_list as ecf loop
-				ecf.item.read_source_files (parser)
-				parser.update (ecf.is_last)
-			end
-			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions' makes a consistent value for
-			-- make `current_digest'
-			example_classes.sort
 
 			lio.put_labeled_string ("Adding to current_digest", "description $source variable paths and client example paths")
 			lio.put_new_line
@@ -189,6 +184,11 @@ feature -- Status query
 
 feature {NONE} -- Factory
 
+	new_configuration_file (ecf: ECF_INFO): EIFFEL_CONFIGURATION_FILE
+		do
+			create Result.make (Current, ecf, parser)
+		end
+
 	new_ecf_pages: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
 		do
 			create Result.make (ecf_list.count)
@@ -198,36 +198,12 @@ feature {NONE} -- Factory
 			Result.sort
 		end
 
-	new_configuration_file (ecf: ECF_INFO): EIFFEL_CONFIGURATION_FILE
-		do
-			create Result.make (Current, ecf)
-		end
-
 feature {NONE} -- Implementation
 
 	log_thread_count
 		do
 			lio.put_integer_field ("Thread count", thread_count)
 			lio.put_new_line
-		end
-
-	previous_version: STRING
-		do
-			if version_path.exists then
-				Result := File_system.plain_text (version_path)
-			else
-				create Result.make_empty
-			end
-		end
-
-	pages: EL_ARRAYED_LIST [REPOSITORY_HTML_PAGE]
-		local
-			ecf_pages: like new_ecf_pages
-		do
-			ecf_pages := new_ecf_pages
-			create Result.make (ecf_pages.count + 1)
-			Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (Current, ecf_pages))
-			Result.append (ecf_pages)
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -247,6 +223,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	pages: EL_ARRAYED_LIST [REPOSITORY_HTML_PAGE]
+		local
+			ecf_pages: like new_ecf_pages
+		do
+			ecf_pages := new_ecf_pages
+			create Result.make (ecf_pages.count + 1)
+			Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (Current, ecf_pages))
+			Result.append (ecf_pages)
+		end
+
+	previous_version: STRING
+		do
+			if version_path.exists then
+				Result := File_system.plain_text (version_path)
+			else
+				create Result.make_empty
+			end
+		end
+
 	version_path: EL_FILE_PATH
 		do
 			Result := output_dir + "version.txt"
@@ -263,10 +258,20 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
-	set_template_context
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			templates.set_config_dir (config_path.parent)
-			set_next_context (templates)
+			create Result.make (<<
+				["@name", 							agent do name := node.to_string end],
+				["@output-dir",		 			agent do output_dir := node.to_expanded_dir_path end],
+				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
+				["@github-url", 					agent do github_url := node.to_string end],
+				["@web-address", 					agent do web_address := node.to_string end],
+
+				["templates",						agent set_template_context],
+				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
+				["ftp-site", 						agent do set_next_context (ftp_sync) end],
+				["include-notes/note/text()", agent do note_fields.extend (node.to_string) end]
+			>>)
 		end
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
@@ -285,21 +290,15 @@ feature {NONE} -- Build from Pyxis
 			end
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
+	set_template_context
 		do
-			create Result.make (<<
-				["@name", 							agent do name := node.to_string end],
-				["@output-dir",		 			agent do output_dir := node.to_expanded_dir_path end],
-				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
-				["@github-url", 					agent do github_url := node.to_string end],
-				["@web-address", 					agent do web_address := node.to_string end],
-
-				["templates",						agent set_template_context],
-				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
-				["ftp-site", 						agent do set_next_context (ftp_sync) end],
-				["include-notes/note/text()", agent do note_fields.extend (node.to_string) end]
-			>>)
+			templates.set_config_dir (config_path.parent)
+			set_next_context (templates)
 		end
+
+feature {NONE} -- Internal attributes
+
+	parser: EIFFEL_CLASS_PARSER
 
 feature {NONE} -- Constants
 
