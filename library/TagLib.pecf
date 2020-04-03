@@ -124,7 +124,7 @@ system:
 
 		# Source code
 		cluster:
-			name = taglib; location = "multimedia/audio/file/taglib"; recursive = true
+			name = taglib; location = "multimedia/ID3/taglib"; recursive = true
 			file_rule:
 				exclude:
 					"/imp_mswin$"

@@ -29,6 +29,19 @@ This depends on the [./library/wel-x-audio.html WEL audio extensions] library.
 			</condition>
 		</library>
 		<!--Source code-->
-		<cluster name = "EL_audio" location = "multimedia/audio/vision2-x-audio/implementation/mswin"/>
+		<cluster name = "EL_audio" location = "multimedia/vision2-x-audio" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 	</target>
 </system>

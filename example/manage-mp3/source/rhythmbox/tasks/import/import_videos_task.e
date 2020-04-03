@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 13:30:30 GMT (Wednesday 1st April 2020)"
-	revision: "7"
+	date: "2020-04-03 14:47:20 GMT (Friday 3rd April 2020)"
+	revision: "8"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -18,6 +18,8 @@ inherit
 	DATABASE_UPDATE_TASK
 
 	EL_MODULE_AUDIO_COMMAND
+
+	EL_MODULE_VIDEO_COMMAND
 
 	EL_MODULE_TIME
 
@@ -118,9 +120,9 @@ feature {NONE} -- Factory
 	new_video_song (video_path: EL_FILE_PATH): RBOX_SONG
 		local
 			video_properties: like Audio_command.new_audio_properties
-			video_to_mp3_command: like Audio_command.new_video_to_mp3
+			video_to_mp3_command: like Video_command.new_video_to_mp3
 			genre, artist: ZSTRING; l_info: like SONG_INFO
-			duration_time: TIME_DURATION; mp3: MP3_IDENTIFIER
+			duration_time: TIME_DURATION; mp3: EL_MP3_IDENTIFIER
 			steps: EL_PATH_STEPS
 		do
 			steps := video_path
@@ -134,7 +136,7 @@ feature {NONE} -- Factory
 			Result.set_artist (artist)
 			Result.set_mp3_path (Result.unique_normalized_mp3_path)
 
-			video_to_mp3_command := Audio_command.new_video_to_mp3 (video_path, Result.mp3_path)
+			video_to_mp3_command := Video_command.new_video_to_mp3 (video_path, Result.mp3_path)
 
 			if l_info.time_from.seconds > 0
 				or l_info.time_to.fine_seconds /~ video_properties.duration.fine_seconds_count

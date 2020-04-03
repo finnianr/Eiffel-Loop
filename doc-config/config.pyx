@@ -41,11 +41,12 @@ publish-repository:
 			ignore = test
 			"example/eiffel2java/eiffel2java.ecf"
 
-		# Library Audio
+		# Library Multimedia
 		ecf:
+			"library/multi-media.ecf#audio"
+			"library/multi-media.ecf#video"
 			"library/ID3-tags.ecf"
 			"library/TagLib.ecf"
-			"library/wav-audio.ecf"
 			"library/wel-x-audio.ecf"
 			"library/vision2-x-audio.ecf"
 			"library/laabhair.ecf"

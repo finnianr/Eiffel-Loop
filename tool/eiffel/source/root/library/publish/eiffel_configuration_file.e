@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-08 16:14:28 GMT (Sunday 8th March 2020)"
-	revision: "22"
+	date: "2020-04-03 11:04:19 GMT (Friday 3rd April 2020)"
+	revision: "23"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -20,16 +20,7 @@ inherit
 			getter_function_table, make_default, new_path_list
 		end
 
-	EL_SINGLE_THREAD_ACCESS
-		undefine
-			is_equal
-		redefine
-			make_default
-		end
-
 	EL_MODULE_LOG
-
-	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_DIRECTORY
 
@@ -86,8 +77,7 @@ feature {NONE} -- Initialization
 			create ecf_dir
 			create relative_ecf_path
 			create sub_category.make_empty
-			Precursor {EL_SINGLE_THREAD_ACCESS}
-			Precursor {SOURCE_TREE}
+			Precursor
 		end
 
 feature -- Access
@@ -186,17 +176,15 @@ feature -- Element change
 
 feature -- Basic operations
 
-	read_source_files
+	read_source_files (parser: EIFFEL_CLASS_PARSER)
 		local
-			class_list: like directory_list.item.class_list; list: like sorted_path_list
-			distributer: like new_distributer
+			list: like sorted_path_list
 			parent_dir: EL_DIR_PATH; source_directory: SOURCE_DIRECTORY
 			source_path: EL_FILE_PATH
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
 			create parent_dir; create source_path
-			distributer := new_distributer
 
 			directory_list.wipe_out
 			list := sorted_path_list
@@ -207,8 +195,7 @@ feature -- Basic operations
 				end
 				source_path := list.path
 				if source_path.parent /~ parent_dir then
-					create class_list.make (10)
-					create source_directory.make (Current, class_list, directory_list.count + 1)
+					create source_directory.make (Current, directory_list.count + 1)
 					directory_list.extend (source_directory)
 					parent_dir := source_path.parent
 				end
@@ -216,16 +203,9 @@ feature -- Basic operations
 				if list.index \\ 80 = 0 or list.islast then
 					lio.put_new_line
 				end
-				distributer.wait_apply (
-					agent separate_create_class (is_library, source_path, class_list, repository.example_classes)
-				)
-				if not list.islast then
-					distributer.discard_applied
-				end
+				parser.queue (Current, source_directory, source_path)
 				list.forth
 			end
-			distributer.do_final
-			distributer.discard_final_applied
 		end
 
 feature {NONE} -- Factory
@@ -241,15 +221,6 @@ feature {NONE} -- Factory
 					list := OS.file_list (path.item, Eiffel_wildcard)
 					Result.append (list)
 				end
-			end
-		end
-
-	new_distributer: EL_PROCEDURE_DISTRIBUTER [like Current]
-		do
-			if Log_manager.is_logging_active then
-				create {EL_LOGGED_PROCEDURE_DISTRIBUTER [like Current]} Result.make (repository.thread_count)
-			else
-				create Result.make (repository.thread_count)
 			end
 		end
 
@@ -303,29 +274,6 @@ feature {NONE} -- Factory
 			else
 				create Result.make_empty
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	separate_create_class (
-		a_is_library: BOOLEAN; source_path: EL_FILE_PATH
-		class_list, example_list: LIST [EIFFEL_CLASS]
-	)
-		-- routine to parse class executed in separate thread
-		local
-			l_class: EIFFEL_CLASS
-		do
-			if a_is_library then
-				create {LIBRARY_CLASS} l_class.make (source_path, Current, repository)
-			else
-				create l_class.make (source_path, Current, repository)
-			end
-			restrict_access
-				class_list.extend (l_class)
-				if not is_library then
-					example_list.extend (l_class)
-				end
-			end_restriction
 		end
 
 feature {NONE} -- Implementation attributes

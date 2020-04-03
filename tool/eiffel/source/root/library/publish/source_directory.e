@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 16:58:48 GMT (Monday 9th September 2019)"
-	revision: "9"
+	date: "2020-04-03 10:12:00 GMT (Friday 3rd April 2020)"
+	revision: "10"
 
 class
 	SOURCE_DIRECTORY
 
 inherit
 	ANY
-	
+
 	EVOLICITY_EIFFEL_CONTEXT
 
 	EL_MODULE_XML
@@ -24,12 +24,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_library_ecf: like library_ecf; a_class_list: like class_list; a_index: like index)
+	make (a_library_ecf: like library_ecf; a_index: like index)
 			--
 		do
 			make_default
-			library_ecf := a_library_ecf; class_list := a_class_list; index := a_index
+			library_ecf := a_library_ecf; index := a_index
 			relative_dir := a_library_ecf.relative_dir_path
+			create class_list.make (10)
 		end
 
 feature -- Access

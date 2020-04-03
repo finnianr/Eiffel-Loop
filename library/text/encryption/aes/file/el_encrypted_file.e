@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-04-03 12:42:20 GMT (Friday 3rd April 2020)"
+	revision: "4"
 
 class
 	EL_ENCRYPTED_FILE
@@ -51,7 +51,6 @@ feature -- Access
 			is_readable: file_readable
 		local
 			cipher_data: EL_BYTE_ARRAY
-			plain_array: ARRAY [NATURAL_8]
 		do
 			go (0)
 			create cipher_data.make (count)

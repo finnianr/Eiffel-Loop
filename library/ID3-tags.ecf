@@ -81,6 +81,6 @@ GetRawText() routine will return null for utf8 strings.
 		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
 		<!--Source code-->
-		<cluster name = "id3_tag" location = "multimedia/audio/file/id3_tag" recursive = "true"/>
+		<cluster name = "id3_tag" location = "multimedia/ID3/id3_tag" recursive = "true"/>
 	</target>
 </system>

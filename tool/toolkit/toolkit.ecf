@@ -60,6 +60,7 @@ See doc/toolkit.txt for details.
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
+		<library name = "EL_multimedia" location = "$EIFFEL_LOOP/library/multi-media.ecf" readonly = "false"/>
 		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>

@@ -42,4 +42,17 @@ system:
 
 		# Source code
 		cluster:
-			name = EL_audio; location = "multimedia/audio/vision2-x-audio/implementation/mswin"
+			name = EL_audio; location = "multimedia/vision2-x-audio"; recursive = true
+			file_rule:
+				exclude:
+					"/imp_mswin$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/imp_unix$"
+				condition:
+					platform:
+						value = windows

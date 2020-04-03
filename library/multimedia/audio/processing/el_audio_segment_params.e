@@ -6,18 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-04-03 13:08:49 GMT (Friday 3rd April 2020)"
+	revision: "5"
 
 class
 	EL_AUDIO_SEGMENT_PARAMS
 
 inherit
 	INTEGER_INTERVAL
-		rename 
+		rename
 			upper as offset, 			-- millisecs
 			lower as onset, 			-- millisecs
-			
 			count as segment_duration	-- millisecs
 		end
 
@@ -27,7 +26,7 @@ create
 feature -- Initialization
 
 	make_from_secs (an_onset_secs, an_offset_secs, duration_secs: REAL)
-			-- 
+			--
 		do
 			make ((an_onset_secs * 1000).rounded, (an_offset_secs * 1000).rounded)
 			total_duration := (duration_secs * 1000).rounded
@@ -36,29 +35,29 @@ feature -- Initialization
 feature -- Measurement
 
 	relative_onset: REAL
-			-- 
+			--
 		do
 			Result := (onset / total_duration).truncated_to_real
 		end
-	
+
 	relative_offset: REAL
-			-- 
+			--
 		do
 			Result := (offset / total_duration).truncated_to_real
 		end
-	
+
 	onset_secs: REAL
-			-- 
+			--
 		do
 			Result := (onset / 1000).truncated_to_real
 		end
-		
+
 	offset_secs: REAL
-			-- 
+			--
 		do
 			Result := (offset / 1000).truncated_to_real
 		end
-	
+
 	total_duration: INTEGER
 		-- Total audio duration in millisces
 

@@ -23,6 +23,6 @@ See doc/laabhair.txt for details
 	<target name = "EL_laabhair">
 		<root all_classes = "true"/>
 		<!--Classes-->
-		<cluster name = "EL_laabhair" location = "multimedia/audio/laabhair"/>
+		<cluster name = "EL_laabhair" location = "multimedia/laabhair"/>
 	</target>
 </system>

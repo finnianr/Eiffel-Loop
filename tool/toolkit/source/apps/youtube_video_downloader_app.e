@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:36 GMT (Wednesday 25th September 2019)"
-	revision: "8"
+	date: "2020-04-03 15:07:03 GMT (Friday 3rd April 2020)"
+	revision: "9"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [YOUTUBE_VIDEO_DOWNLOADER]
+	EL_COMMAND_LINE_SUB_APPLICATION [EL_YOUTUBE_VIDEO_DOWNLOADER]
 		redefine
 			Option_name, is_valid_platform
 		end
@@ -49,15 +49,6 @@ feature {NONE} -- Constants
 	Option_name: STRING = "youtube_dl"
 
 	Description: STRING = "Download selected video and audio stream from youtube video and merge to container"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{YOUTUBE_VIDEO_DOWNLOADER}, All_routines]
-			>>
-		end
 
 note
 	notes: "[

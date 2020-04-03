@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 12:18:37 GMT (Thursday 13th February 2020)"
-	revision: "21"
+	date: "2020-04-03 11:07:07 GMT (Friday 3rd April 2020)"
+	revision: "22"
 
 class
 	REPOSITORY_PUBLISHER
@@ -108,6 +108,7 @@ feature -- Basic operations
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN i: NATURAL
+			parser: EIFFEL_CLASS_PARSER
 		do
 			log_thread_count
 			ftp_sync.set_root_dir (output_dir)
@@ -117,7 +118,11 @@ feature -- Basic operations
 			end
 
 			example_classes.wipe_out
-			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)
+			create parser.make (Current)
+			across ecf_list as ecf loop
+				ecf.item.read_source_files (parser)
+				parser.update (ecf.is_last)
+			end
 			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions' makes a consistent value for
 			-- make `current_digest'
 			example_classes.sort

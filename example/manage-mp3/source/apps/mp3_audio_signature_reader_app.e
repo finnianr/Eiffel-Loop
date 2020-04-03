@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:02 GMT (Wednesday 25th September 2019)"
-	revision: "11"
+	date: "2020-04-03 14:52:18 GMT (Friday 3rd April 2020)"
+	revision: "12"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [MP3_AUDIO_SIGNATURE_READER]
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [EL_MP3_AUDIO_SIGNATURE_READER]
 		redefine
 			Option_name
 		end
@@ -46,8 +46,7 @@ feature {NONE} -- Constants
 			--
 		do
 			Result := <<
-				[{MP3_AUDIO_SIGNATURE_READER_APP}, All_routines],
-				[{MP3_AUDIO_SIGNATURE_READER}, All_routines]
+				[{like Current}, All_routines]
 			>>
 		end
 

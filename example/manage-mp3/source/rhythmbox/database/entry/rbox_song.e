@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 10:17:28 GMT (Thursday 2nd April 2020)"
-	revision: "34"
+	date: "2020-04-03 14:27:04 GMT (Friday 3rd April 2020)"
+	revision: "35"
 
 class
 	RBOX_SONG
@@ -446,7 +446,7 @@ feature {NONE} -- Implementation
 
 	new_audio_id: EL_UUID
 		local
-			mp3: MP3_IDENTIFIER
+			mp3: EL_MP3_IDENTIFIER
 		do
 			create mp3.make (mp3_path)
 			Result := mp3.audio_id

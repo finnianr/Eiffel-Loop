@@ -132,6 +132,10 @@ system:
 			location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
+			name = EL_multimedia; readonly = false
+			location = "$EIFFEL_LOOP/library/multi-media.ecf"
+
+		library:
 			name = EL_os_command; readonly = false
 			location = "$EIFFEL_LOOP/library/os-command.ecf"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 13:33:27 GMT (Tuesday 31st March 2020)"
-	revision: "2"
+	date: "2020-04-03 14:27:04 GMT (Friday 3rd April 2020)"
+	revision: "3"
 
 class
 	ADD_ALBUM_ART_TEST_TASK
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 
 	verify_mb_track_id
 		local
-			mp3: MP3_IDENTIFIER
+			mp3: EL_MP3_IDENTIFIER
 		do
 			log.enter ("verify_mb_track_id")
 			across Database.songs.query (not song_is_hidden) as song loop

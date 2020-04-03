@@ -22,14 +22,44 @@ that facilitate playback and other audio functions.
 				<platform value = "windows"/>
 			</condition>
 		</library>
+		<!--For Windows: Internal WaveOut API callback function.-->
+		<external_include location = "$(EL_C_LIB)/audio/source">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_include>
+		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
+		<external_object location = "$(EL_C_LIB)/audio/spec/$(ISE_PLATFORM)/el_audio.lib">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_object>
+		<external_object location = "WinMM.lib">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</external_object>
+		<external_object location = "-L$(ISE_LIBRARY)/C_library/zlib -lz">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</external_object>
+		<library name = "c_library_zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</library>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_c_api" location = "C-language-interface.ecf" readonly = "false"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
-		<library name = "EL_wav_audio" location = "wav-audio.ecf" readonly = "false"/>
+		<library name = "EL_multimedia" location = "multi-media.ecf" readonly = "false"/>
 		<!--Source code-->
-		<cluster name = "memory" location = "multimedia/audio/memory"/>
-		<cluster name = "processing" location = "multimedia/audio/processing"/>
-		<cluster name = "wel_x_audio" location = "multimedia/audio/wel-x-audio" recursive = "true"/>
+		<cluster name = "wel_x_audio" location = "multimedia/audio/wel-x-audio" recursive = "true">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</cluster>
 	</target>
 </system>

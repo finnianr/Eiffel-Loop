@@ -30,5 +30,5 @@ system:
 
 		# Classes
 		cluster:
-			name = EL_laabhair; location = "multimedia/audio/laabhair"
+			name = EL_laabhair; location = "multimedia/laabhair"
 

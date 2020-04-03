@@ -94,7 +94,7 @@ for his kind assistance and and support in creating this Eiffel binding.
 		<library name = "EL_base" location = "base/base.ecf" readonly = "false"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<!--Source code-->
-		<cluster name = "taglib" location = "multimedia/audio/file/taglib" recursive = "true">
+		<cluster name = "taglib" location = "multimedia/ID3/taglib" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>

@@ -112,6 +112,6 @@ system:
 
 		# Source code
 		cluster:
-			name = id3_tag; location = "multimedia/audio/file/id3_tag"; recursive = true
+			name = id3_tag; location = "multimedia/ID3/id3_tag"; recursive = true
 
 
