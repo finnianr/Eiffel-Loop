@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-23 11:12:28 GMT (Monday 23rd December 2019)"
-	revision: "11"
+	date: "2020-04-04 9:32:09 GMT (Saturday 4th April 2020)"
+	revision: "12"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -31,9 +31,25 @@ create
 feature {NONE} -- Initialization
 
 	make
+	 	local
+	 		n, i: INTEGER; c: NATURAL
 		do
 			is_shared := True
 			set_from_pointer (Default_pointer, 0)
+	 		create table.make_filled (0, 256)
+	 		from n := 0 until n = table.count loop
+	 			c := n.to_natural_32
+	 			from i := 1 until i > 8 loop
+	 				if (c & 1) /= 0 then
+	 					c := (c |>> 1).bit_xor (0xEDB88320)
+	 				else
+	 					c := c |>> 1
+	 				end
+	 				i := i + 1
+	 			end
+	 			table [n] := c
+	 			n := n + 1
+	 		end
 		end
 
 feature -- Access
@@ -64,16 +80,16 @@ feature -- Add basic types
 			add_memory ($b, 1, Boolean_bytes)
 		end
 
-	add_character_8 (c: CHARACTER)
-			--
-		do
-			add_memory ($c, 1, Character_8_bytes)
-		end
-
 	add_character_32 (c: CHARACTER_32)
 			--
 		do
 			add_memory ($c, 1, Character_32_bytes)
+		end
+
+	add_character_8 (c: CHARACTER)
+			--
+		do
+			add_memory ($c, 1, Character_8_bytes)
 		end
 
 	add_data (data: MANAGED_POINTER)
@@ -167,12 +183,6 @@ feature -- Add reals
 
 feature -- Add integers
 
-	add_integer_8 (n: INTEGER_8)
-			--
-		do
-			add_memory ($n, 1, Integer_8_bytes)
-		end
-
 	add_integer_16 (n: INTEGER_16)
 			--
 		do
@@ -191,13 +201,13 @@ feature -- Add integers
 			add_memory ($n, 1, Integer_64_bytes)
 		end
 
-feature -- Add naturals
-
-	add_natural_8 (n: NATURAL_8)
+	add_integer_8 (n: INTEGER_8)
 			--
 		do
-			add_memory ($n, 1, Natural_8_bytes)
+			add_memory ($n, 1, Integer_8_bytes)
 		end
+
+feature -- Add naturals
 
 	add_natural_16 (n: NATURAL_16)
 			--
@@ -217,14 +227,13 @@ feature -- Add naturals
 			add_memory ($n, 1, Natural_64_bytes)
 		end
 
-feature -- Add strings
-
-	add_path (path: EL_PATH)
+	add_natural_8 (n: NATURAL_8)
 			--
 		do
-			add_string (path.parent_path)
-			add_string (path.base)
+			add_memory ($n, 1, Natural_8_bytes)
 		end
+
+feature -- Add strings
 
 	add_ise_path (path: PATH)
 			--
@@ -232,11 +241,11 @@ feature -- Add strings
 			add_data (path.native_string.managed_data)
 		end
 
-	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
+	add_path (path: EL_PATH)
+			--
 		do
-			across list as str loop
-				add_string_general (str.item)
-			end
+			add_string (path.parent_path)
+			add_string (path.base)
 		end
 
 	add_string (str: ZSTRING)
@@ -271,6 +280,13 @@ feature -- Add strings
 			end
 		end
 
+	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
+		do
+			across list as str loop
+				add_string_general (str.item)
+			end
+		end
+
 feature -- Element change
 
 	reset
@@ -289,9 +305,7 @@ feature {NONE} -- Implementation
 		-- add `count' items of raw memory data of size `item_bytes'
 		local
 			i: INTEGER; c, index: NATURAL
-			table: like CRC_table
 		do
-			table := CRC_table
 			set_from_pointer (array_ptr, count * item_bytes)
 			c := checksum.bit_not
 			from i := 0 until i = byte_count loop
@@ -303,27 +317,8 @@ feature {NONE} -- Implementation
 			set_from_pointer (Default_pointer, 0)
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Internal attributes
 
-	CRC_table: SPECIAL [NATURAL]
- 			--
-	 	local
-	 		n, i: INTEGER; c: NATURAL
-	 	once
-	 		create Result.make_filled (0, 256)
-	 		from n := 0 until n = Result.count loop
-	 			c := n.to_natural_32
-	 			from i := 1 until i > 8 loop
-	 				if (c & 1) /= 0 then
-	 					c := (c |>> 1).bit_xor (0xEDB88320)
-	 				else
-	 					c := c |>> 1
-	 				end
-	 				i := i + 1
-	 			end
-	 			Result [n] := c
-	 			n := n + 1
-	 		end
-	 	end
+	table: SPECIAL [NATURAL]
 
 end

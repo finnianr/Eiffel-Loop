@@ -30,7 +30,7 @@ Multi-media management classes
 			<description>
 Audio Processing
 
-Classes for processing audio files and sample data
+Classes for processing audio files and sample data.
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
@@ -49,7 +49,7 @@ Classes for processing audio files and sample data
 			<description>
 Video Processing
 
-Classes for converting video files
+Wrappers for various video conversion operations using OS commands
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

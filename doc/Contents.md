@@ -100,9 +100,9 @@ Test application for selected components from Eiffel-Loop [extension libraries f
 ## Eiffel to Java
 Demonstration program for the [Eiffel-Loop Java interface library](http://www.eiffel-loop.com/library/eiffel2java.html). This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Audio Processing
-Classes for processing audio files and sample data
+Classes for processing audio files and sample data.
 ## Video Processing
-Classes for converting video files
+Wrappers for various video conversion operations using OS commands
 ## ID3 Tagging for MP3
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
 ## TagLib Audio Meta-Data Library
@@ -1599,7 +1599,7 @@ EQA_TEST_SET*
 ````
 
 ## search-engine.ecf
-See class [SEARCH_ENGINE_AUTOTEST_APP]($source)
+See class [SEARCH_ENGINE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/search-engine/search_engine_autotest_app.html)
 ## TagLib.ecf
 See class [TAGLIB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/TagLib/taglib_autotest_app.html)
 ## text-formats.ecf

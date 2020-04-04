@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:21:45 GMT (Saturday 1st February 2020)"
-	revision: "43"
+	date: "2020-04-04 10:43:42 GMT (Saturday 4th April 2020)"
+	revision: "44"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -479,6 +479,15 @@ feature -- Access
 				create Result.make (zstr, str)
 			else
 				create Result.make_empty
+			end
+		end
+
+	substring_right_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+		-- index to right of first occurrence of `other' if valid index or else 0
+		do
+			Result := substring_index (other, start_index)
+			if Result > 0 and then Result + other.count <= count then
+				Result := Result + other.count
 			end
 		end
 

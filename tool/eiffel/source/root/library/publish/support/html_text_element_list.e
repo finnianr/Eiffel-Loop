@@ -172,21 +172,8 @@ feature {NONE} -- Implementation
 						lines.remove
 					end
 					lines.expand_tabs (3)
-					from lines.start until lines.after loop
-						line := lines.item
-						if line.count > Maximum_code_width then
-							from pos_space := line.count + 1 until pos_space < Maximum_code_width loop
-								pos_space := line.last_index_of (' ', pos_space - 1)
-							end
-							line := line.substring_end (pos_space)
-							lines.item.remove_tail (line.count)
-							lines.put_right (new_filler (Maximum_code_width - line.count) + line)
-							lines.forth
-						end
-						lines.forth
-					end
+					lines := wrapped_lines
 					extend (new_preformatted_html_element)
-
 				else
 					if element_type ~ Type_ordered_list or element_type ~ Type_unordered_list then
 						lines.extend (new_list_item_tag (element_type, False))
@@ -194,6 +181,29 @@ feature {NONE} -- Implementation
 					extend (new_html_element)
 				end
 				lines.wipe_out
+			end
+		end
+
+	wrapped_lines: EL_ZSTRING_LIST
+		local
+			line: ZSTRING; i: INTEGER
+		do
+			create Result.make (lines.count)
+			across lines as l loop
+				line := l.item
+				if line.count > Maximum_code_width then
+					from i := Maximum_code_width + 1 until i = 0 or else not line.is_alpha_numeric_item (i) loop
+						i := i - 1
+					end
+					if i = 0 then
+						i := Maximum_code_width + 1
+					end
+					Result.extend (line.substring (1, i - 1))
+					line := line.substring_end (i)
+					Result.extend (new_filler (Maximum_code_width - line.count) + line)
+				else
+					Result.extend (line)
+				end
 			end
 		end
 

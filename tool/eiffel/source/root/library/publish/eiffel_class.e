@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:29:43 GMT (Friday 3rd April 2020)"
-	revision: "20"
+	date: "2020-04-04 13:20:34 GMT (Saturday 4th April 2020)"
+	revision: "21"
 
 class
 	EIFFEL_CLASS
@@ -21,6 +21,8 @@ inherit
 			file_path as ftp_file_path
 		undefine
 			is_equal, copy
+		redefine
+			make_sync_item
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -32,10 +34,9 @@ inherit
 			make_default, serialize, copy
 		end
 
-	COMPARABLE
-		undefine
-			copy
-		end
+	COMPARABLE undefine copy end
+
+	CLASS_STATISTICS_I undefine is_equal, copy end
 
 	EL_EIFFEL_KEYWORDS undefine is_equal, copy end
 
@@ -62,6 +63,8 @@ feature {NONE} -- Initialization
 
 	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_repository: like repository)
 			--
+		local
+			stats: CLASS_STATISTICS
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
@@ -71,17 +74,30 @@ feature {NONE} -- Initialization
 			name := source_path.base_sans_extension.as_upper
 			code_text := new_code_text (File_system.plain_text (source_path))
 			make_sync_item (html_output_path)
-
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
-			create stats.make (code_text)
+
+--			if is_modified or else word_count = 0 then
+				create stats.make_from_source (code_text, File_system.file_byte_count (source_path))
+				word_count := stats.word_count; file_size := stats.file_size
+--			end
 		end
 
 	make_default
 		do
 			create source_path
 			create name.make_empty
-			make_machine
 			Precursor
+		end
+
+	make_sync_item (html_path: EL_FILE_PATH)
+		local
+			reader: EL_HTML_META_VALUE_READER [EL_EIFFEL_CLASS_META_DATA]
+		do
+			create reader.make (html_path)
+			meta_crc_digest := reader.meta_value.digest
+			file_size := reader.meta_value.file_size
+			word_count := reader.meta_value.word_count
+			make_sync
 		end
 
 feature -- Access
@@ -111,8 +127,6 @@ feature -- Access
 	relative_source_path: EL_FILE_PATH
 
 	source_path: EL_FILE_PATH
-
-	stats: CLASS_STATISTICS
 
 feature -- Status report
 
@@ -250,6 +264,12 @@ feature {NONE} -- Implementation
 			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
 		end
 
+	sink_content (crc: like crc_generator)
+		do
+			crc.add_string (code_text)
+			crc.add_string (relative_source_path)
+		end
+
 	sink_source_path (start_index, end_index: INTEGER; substring: ZSTRING; crc: like crc_generator)
 		local
 			l_name: ZSTRING
@@ -259,12 +279,6 @@ feature {NONE} -- Implementation
 			if Class_source_table.has_key (l_name) then
 				crc.add_path (Class_source_table.found_item)
 			end
-		end
-
-	sink_content (crc: like crc_generator)
-		do
-			crc.add_string (code_text)
-			crc.add_string (relative_source_path)
 		end
 
 feature {NONE} -- Factory
@@ -300,6 +314,9 @@ feature {NONE} -- Evolicity fields
 				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
 
 				["crc_digest", 				agent current_digest_ref],
+				["word_count", 				agent: INTEGER_REF do Result := word_count end ],
+				["file_size", 					agent: INTEGER_REF do Result := file_size end ],
+
 				["notes_text", 				agent notes_text],
 				["class_text", 				agent class_text],
 				["further_information",		agent further_information],

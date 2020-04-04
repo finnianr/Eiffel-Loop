@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:29:49 GMT (Friday 3rd April 2020)"
-	revision: "2"
+	date: "2020-04-03 18:38:44 GMT (Friday 3rd April 2020)"
+	revision: "3"
 
 class
 	EIFFEL_CLASS_PARSER
@@ -31,10 +31,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_example_classes: like example_classes; thread_count: INTEGER)
+	make (a_repository: like repository)
 		do
-			make_distributer (thread_count)
-			example_classes := a_example_classes
+			make_distributer (a_repository.thread_count)
+			repository := a_repository
 			create result_list.make (100)
 		end
 
@@ -60,7 +60,7 @@ feature -- Basic operations
 
 				l_result.item.directory.class_list.extend (e_class)
 				if e_class.is_example then
-					example_classes.extend (e_class)
+					repository.example_classes.extend (e_class)
 				end
 			end
 			result_list.wipe_out
@@ -76,7 +76,7 @@ feature {NONE} -- Separate function
 
 feature {NONE} -- Internal attributes
 
-	example_classes: LIST [EIFFEL_CLASS]
+	repository: REPOSITORY_PUBLISHER
 
 	result_list: ARRAYED_LIST [like Result_type]
 

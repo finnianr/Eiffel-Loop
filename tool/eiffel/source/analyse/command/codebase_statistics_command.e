@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 20:32:35 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2020-04-04 12:26:37 GMT (Saturday 4th April 2020)"
+	revision: "11"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -81,11 +81,11 @@ feature -- Basic operations
 			add_class_stats (create {CLASS_STATISTICS}.make_from_file (source_path))
 		end
 
-	add_class_stats (a_class: CLASS_STATISTICS)
+	add_class_stats (a_class: CLASS_STATISTICS_I)
 		do
 			class_count := class_count + 1
 			word_count := word_count + a_class.word_count
-			byte_count := byte_count + a_class.byte_count
+			byte_count := byte_count + a_class.file_size
 		end
 
 feature {NONE} -- Evolicity fields

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-03 12:41:19 GMT (Wednesday 3rd October 2018)"
-	revision: "6"
+	date: "2020-04-04 12:26:31 GMT (Saturday 4th April 2020)"
+	revision: "7"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 				across ecf.item.directory_list as dir loop
 					across dir.item.class_list as l_class loop
 						if not class_set.has (l_class.item.source_path) then
-							stats_cmd.add_class_stats (l_class.item.stats)
+							stats_cmd.add_class_stats (l_class.item)
 							class_set.extend (l_class.item, l_class.item.source_path)
 						end
 					end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:24:11 GMT (Friday 3rd April 2020)"
-	revision: "23"
+	date: "2020-04-04 13:23:26 GMT (Saturday 4th April 2020)"
+	revision: "24"
 
 class
 	REPOSITORY_PUBLISHER
@@ -47,7 +47,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			config_path := a_file_path; version := a_version; thread_count := a_thread_count
 			log_thread_count
-			create parser.make (example_classes, a_thread_count)
+			create parser.make (Current)
 			make_from_file (a_file_path)
 			parser.update (True)
 
@@ -121,17 +121,16 @@ feature -- Basic operations
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
 			end
-
 			lio.put_labeled_string ("Adding to current_digest", "description $source variable paths and client example paths")
 			lio.put_new_line
 			across ecf_list as tree loop
 				across tree.item.directory_list as directory loop
-					across directory.item.class_list as eiffel_class loop
-						eiffel_class.item.sink_source_subsitutions
-						if eiffel_class.item.html_output_path.exists then
-							ftp_sync.extend (eiffel_class.item)
+					across directory.item.class_list as e_class loop
+						e_class.item.sink_source_subsitutions
+						if e_class.item.html_output_path.exists then
+							ftp_sync.extend (e_class.item)
 						else
-							ftp_sync.force (eiffel_class.item)
+							ftp_sync.force (e_class.item)
 						end
 						print_progress (i); i := i + 1
 					end

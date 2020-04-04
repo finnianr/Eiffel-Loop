@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 9:54:26 GMT (Monday 30th March 2020)"
-	revision: "11"
+	date: "2020-04-04 9:36:58 GMT (Saturday 4th April 2020)"
+	revision: "12"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -25,6 +25,7 @@ feature -- Basic operations
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("file_crc", agent test_file_crc)
 		end
 
 feature -- Tests

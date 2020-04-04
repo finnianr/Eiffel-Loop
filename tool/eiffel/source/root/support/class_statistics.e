@@ -10,22 +10,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-25 9:32:59 GMT (Wednesday 25th March 2020)"
-	revision: "5"
+	date: "2020-04-04 12:35:43 GMT (Saturday 4th April 2020)"
+	revision: "6"
 
 class
 	CLASS_STATISTICS
 
 inherit
+	CLASS_STATISTICS_I
+
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
 		end
 
 create
-	make, make_from_file
+	make_from_source, make_from_file
 
 feature {NONE} -- Initialization
+
+	make (a_file_size, a_word_count: INTEGER)
+		do
+			make_machine
+			file_size := a_file_size; word_count := a_word_count
+		end
 
 	make_from_file (source_path: EL_FILE_PATH)
 		local
@@ -33,25 +41,19 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create source_lines.make (source_path)
-			byte_count := source_lines.byte_count
+			file_size := source_lines.byte_count
 			do_once_with_file_lines (agent count_words, source_lines)
 		end
 
-	make (source: ZSTRING)
+	make_from_source (source: ZSTRING; a_file_size: INTEGER)
 		local
 			lines: EL_SPLIT_ZSTRING_LIST; index: INTEGER
 		do
+			file_size := a_file_size
 			index := source.substring_index (New_line, 1)
 			create lines.make (source, New_line)
 			do_with_split_list (agent count_words, lines, False)
-			byte_count := source.count
 		end
-
-feature -- Access
-
-	byte_count: INTEGER
-
-	word_count: INTEGER
 
 feature {NONE} -- Line state handlers
 

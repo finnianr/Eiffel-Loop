@@ -41,6 +41,8 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create fields.make_equal (3)
+			create last_field_name.make_empty
+			create note_lines.make (5)
 			relative_class_dir := a_relative_class_dir; selected_fields := a_selected_fields
 		end
 
@@ -117,13 +119,19 @@ feature -- Basic operations
 		end
 
 	fill (source_path: EL_FILE_PATH)
+		local
+			key_list: EL_ZSTRING_LIST
 		do
 			do_once_with_file_lines (agent find_note_section, create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, source_path))
-			across fields.current_keys as key loop
-				if fields.item (key.item).is_empty then
-					fields.remove (key.item)
+
+			-- prune empty fields
+			key_list := note_lines; key_list.wipe_out
+			across fields as f loop
+				if f.item.is_empty then
+					key_list.extend (f.key)
 				end
 			end
+			key_list.do_all (agent fields.remove)
 		end
 
 feature -- Element change
@@ -135,7 +143,7 @@ feature -- Element change
 
 feature {NONE} -- Line states
 
-	find_field_text_start (line, field_name: ZSTRING; lines: EL_ZSTRING_LIST)
+	find_field_text_start (line: ZSTRING)
 		local
 			pos_quote: INTEGER; text: ZSTRING
 		do
@@ -145,27 +153,27 @@ feature {NONE} -- Line states
 				inspect text [text.count]
 					when '"' then
 						text.remove_tail (1)
-						if field_name ~ Field_description
+						if last_field_name ~ Field_description
 							and then Standard_descriptions.there_exists (agent Zstring.starts_with (text, ?))
 						then
 							text.wipe_out
 						end
 						if not text.is_empty then
-							lines.extend (text)
+							note_lines.extend (text)
 						end
 						state := agent find_note_section_end
 					when '%%' then
 						-- is a split line string
 						text.remove_tail (1)
-						state := agent find_split_line_string_end (?, text, lines)
+						state := agent find_split_line_string_end (?, text)
 					when '[' then
-						state := agent find_manifest_string_end (?, lines)
+						state := agent find_manifest_string_end
 				else
 				end
 			end
 		end
 
-	find_manifest_string_end (line: ZSTRING; lines: EL_ZSTRING_LIST)
+	find_manifest_string_end (line: ZSTRING)
 		local
 			indent: INTEGER
 		do
@@ -175,7 +183,7 @@ feature {NONE} -- Line states
 			if line ~ Manifest_string_end then
 				state := agent find_note_section_end
 			else
-				lines.extend (line)
+				note_lines.extend (line)
 			end
 		end
 
@@ -187,29 +195,25 @@ feature {NONE} -- Line states
 		end
 
 	find_note_section_end (line: ZSTRING)
-		local
-			field_name: ZSTRING; lines: EL_ZSTRING_LIST; found_end_keyword: BOOLEAN
-			keywords: like Note_end_keywords
 		do
-			keywords := Note_end_keywords
-			from keywords.start until keywords.after or found_end_keyword loop
-				found_end_keyword := line.starts_with (keywords.item)
-				keywords.forth
-			end
-			if found_end_keyword then
-				state := agent find_note_section
-			else
-				field_name := Colon_field.name (line)
-				if selected_fields.has (field_name) or else field_name ~ Field_description then
-					create lines.make (5)
-					fields [field_name] := lines
-					state := agent find_field_text_start (?, field_name, lines)
-					find_field_text_start (line, field_name, lines)
+			if not note_lines.is_empty then
+				if selected_fields.has (last_field_name) or else last_field_name ~ Field_description then
+					fields [last_field_name] := note_lines.twin
 				end
+				note_lines.wipe_out
+			end
+			Note_end_keywords.find_first_true (agent Zstring.starts_with (line, ?))
+			if Note_end_keywords.found then
+				state := agent find_note_section
+
+			elseif line.has (':') then
+				last_field_name := Colon_field.name (line)
+				state := agent find_field_text_start
+				find_field_text_start (line)
 			end
 		end
 
-	find_split_line_string_end (line, text: ZSTRING; lines: EL_ZSTRING_LIST)
+	find_split_line_string_end (line, text: ZSTRING)
 		local
 			text_part: ZSTRING; pos_percent: INTEGER
 		do
@@ -220,7 +224,7 @@ feature {NONE} -- Line states
 					when '"' then
 						text_part.remove_tail (1)
 						text.append (text_part)
-						lines.append (text.substring_split (Escaped_new_line))
+						note_lines.append (text.substring_split (Escaped_new_line))
 						state := agent find_note_section_end
 
 					when '%%' then
@@ -263,6 +267,10 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	note_lines: EL_ZSTRING_LIST
+
+	last_field_name: ZSTRING
 
 	fields: EL_ZSTRING_HASH_TABLE [EL_ZSTRING_LIST]
 

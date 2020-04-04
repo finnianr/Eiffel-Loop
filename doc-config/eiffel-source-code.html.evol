@@ -3,6 +3,8 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<meta name="digest" content="$crc_digest"/>
+		<meta name="word-count" content="$word_count"/>
+		<meta name="file-size" content="$file_size"/>
 		<meta name="description" content="Source code for class $name"/>
 
 		<title>$name_as_lower</title>
