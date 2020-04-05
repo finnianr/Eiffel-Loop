@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 19:21:48 GMT (Saturday 4th April 2020)"
-	revision: "22"
+	date: "2020-04-05 18:36:05 GMT (Sunday 5th April 2020)"
+	revision: "23"
 
 class
 	EIFFEL_CLASS
@@ -188,6 +188,17 @@ feature -- Basic operations
 			Precursor
 		end
 
+	sink_source_subsitutions
+		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
+		local
+			crc: like crc_generator
+		do
+			crc := crc_generator
+			crc.set_checksum (current_digest)
+			code_text.edit (Source_link, character_string (']'), agent sink_source_path (?, ?, ?, crc))
+			current_digest := crc.checksum
+		end
+
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
@@ -204,19 +215,6 @@ feature -- Comparison
 			else
 				Result := notes.has_description
 			end
-		end
-
-feature -- Element change
-
-	sink_source_subsitutions
-		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
-		local
-			crc: like crc_generator
-		do
-			crc := crc_generator
-			crc.set_checksum (current_digest)
-			code_text.edit (Source_link, character_string (']'), agent sink_source_path (?, ?, ?, crc))
-			current_digest := crc.checksum
 		end
 
 feature {NONE} -- Implementation

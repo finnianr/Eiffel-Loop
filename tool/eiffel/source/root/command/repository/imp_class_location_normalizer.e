@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 16:54:21 GMT (Friday 3rd April 2020)"
-	revision: "4"
+	date: "2020-04-05 17:55:41 GMT (Sunday 5th April 2020)"
+	revision: "5"
 
 class
 	IMP_CLASS_LOCATION_NORMALIZER
@@ -19,24 +19,21 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			execute, new_configuration_file
+			execute, ecf_list
 		end
 
 create
 	make
 
+feature -- Access
+
+	ecf_list: EIFFEL_CONFIGURATION_LIST [CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE]
+
 feature -- Basic operations
 
 	execute
 		do
-			ecf_list.do_all (agent {like new_configuration_file}.normalize_imp_classes)
-		end
-
-feature {NONE} -- Factory
-
-	new_configuration_file (ecf: ECF_INFO): CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
-		do
-			create Result.make (Current, ecf, parser)
+			ecf_list.do_all (agent {CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE}.normalize_imp_classes)
 		end
 
 end

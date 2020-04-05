@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 19:13:49 GMT (Saturday 4th April 2020)"
-	revision: "25"
+	date: "2020-04-05 18:42:12 GMT (Sunday 5th April 2020)"
+	revision: "26"
 
 class
 	REPOSITORY_PUBLISHER
@@ -36,8 +36,6 @@ inherit
 
 	EL_MODULE_OS
 
-	EL_ITERATION_OUTPUT
-
 create
 	make
 
@@ -62,7 +60,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make_default
 		do
 			create name.make_empty
-			create ecf_list.make (10)
+			create ecf_list.make (Current)
 			create note_fields.make (2); note_fields.compare_objects
 			create templates.make
 			create root_dir
@@ -78,7 +76,7 @@ feature -- Access
 	config_path: EL_FILE_PATH
 		-- config file path
 
-	ecf_list: EL_SORTABLE_ARRAYED_LIST [like new_configuration_file]
+	ecf_list: EIFFEL_CONFIGURATION_LIST [EIFFEL_CONFIGURATION_FILE]
 
 	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
@@ -96,12 +94,6 @@ feature -- Access
 
 	root_dir: EL_DIR_PATH
 
-	sorted_tree_list: like ecf_list
-		do
-			ecf_list.sort
-			Result := ecf_list
-		end
-
 	templates: REPOSITORY_HTML_TEMPLATES
 
 	thread_count: INTEGER
@@ -114,30 +106,19 @@ feature -- Basic operations
 
 	execute
 		local
-			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN i: NATURAL
+			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 		do
 			ftp_sync.set_root_dir (output_dir)
 
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
 			end
-			lio.put_labeled_string ("Adding to current_digest", "description $source variable paths and client example paths")
+
+			ecf_list.sink_source_subsitutions
+			ecf_list.fill_ftp_sync
+
 			lio.put_new_line
-			across ecf_list as tree loop
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as e_class loop
-						e_class.item.sink_source_subsitutions
-						if e_class.item.html_output_path.exists then
-							ftp_sync.extend (e_class.item)
-						else
-							ftp_sync.force (e_class.item)
-						end
-						print_progress (i); i := i + 1
-					end
-				end
-			end
-			lio.put_new_line
-			across pages as page loop
+			across ecf_list.to_html_page_list as page loop
 				if page.item.is_modified then
 					page.item.serialize
 				end
@@ -181,22 +162,6 @@ feature -- Status query
 			Result := User_input.entered_letter ('y')
 		end
 
-feature {NONE} -- Factory
-
-	new_configuration_file (ecf: ECF_INFO): EIFFEL_CONFIGURATION_FILE
-		do
-			create Result.make (Current, ecf, parser)
-		end
-
-	new_ecf_pages: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
-		do
-			create Result.make (ecf_list.count)
-			across ecf_list as tree loop
-				Result.extend (create {EIFFEL_CONFIGURATION_INDEX_PAGE}.make (Current, tree.item))
-			end
-			Result.sort
-		end
-
 feature {NONE} -- Implementation
 
 	log_thread_count
@@ -220,16 +185,6 @@ feature {NONE} -- Implementation
 					Result.extend (output_dir.joined_dir_path (first_step))
 				end
 			end
-		end
-
-	pages: EL_ARRAYED_LIST [REPOSITORY_HTML_PAGE]
-		local
-			ecf_pages: like new_ecf_pages
-		do
-			ecf_pages := new_ecf_pages
-			create Result.make (ecf_pages.count + 1)
-			Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (Current, ecf_pages))
-			Result.append (ecf_pages)
 		end
 
 	previous_version: STRING
@@ -281,7 +236,7 @@ feature {NONE} -- Build from Pyxis
 				ecf := info.normalized
 				ecf_path := root_dir + ecf.path
 				if ecf_path.exists then
-					ecf_list.extend (new_configuration_file (ecf))
+					ecf_list.extend (ecf)
 				else
 					lio.put_path_field ("Cannot find", ecf_path)
 					lio.put_new_line
@@ -295,13 +250,11 @@ feature {NONE} -- Build from Pyxis
 			set_next_context (templates)
 		end
 
-feature {NONE} -- Internal attributes
+feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 
 	parser: EIFFEL_CLASS_PARSER
 
 feature {NONE} -- Constants
-
-	Iterations_per_dot: NATURAL_32 = 200
 
 	Root_node_name: STRING = "publish-repository"
 

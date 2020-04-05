@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 12:26:31 GMT (Saturday 4th April 2020)"
-	revision: "7"
+	date: "2020-04-05 18:49:23 GMT (Sunday 5th April 2020)"
+	revision: "8"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			class_set: EL_HASH_TABLE [EIFFEL_CLASS, EL_FILE_PATH]
 		do
 			make_page (a_repository)
-			ecf_pages := a_ecf_pages
+			ecf_pages := a_repository.ecf_list.sorted_index_page_list
 			create class_set.make_equal (2000)
 			across repository.ecf_list as ecf loop
 				across ecf.item.directory_list as dir loop
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create ecf_pages.make (0)
+			ecf_pages := Default_ecf_pages
 			create stats_cmd.make_default
 			Precursor
 		end
@@ -110,11 +110,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Initialization
 
-	ecf_pages: like repository.new_ecf_pages
+	ecf_pages: LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
 
 	stats_cmd: CODEBASE_STATISTICS_COMMAND
 
 feature -- Constants
+
+	Default_ecf_pages: ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
+		once
+			create Result.make (0)
+		end
 
 	Step_count: INTEGER = 0
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:17:34 GMT (Friday 3rd April 2020)"
-	revision: "24"
+	date: "2020-04-05 17:52:58 GMT (Sunday 5th April 2020)"
+	revision: "25"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO; parser: EIFFEL_CLASS_PARSER)
+	make (a_repository: like repository; ecf: ECF_INFO)
 			--
 		local
 			root: EL_XPATH_ROOT_NODE_CONTEXT; l_description: ZSTRING
@@ -67,8 +67,8 @@ feature {NONE} -- Initialization
 				end
 				set_name_and_description (l_description)
 			end
-			set_directory_list (parser)
-			parser.update (False)
+			set_directory_list (a_repository.parser)
+			a_repository.parser.update (False)
 		end
 
 	make_default
