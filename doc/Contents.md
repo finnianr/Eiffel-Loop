@@ -1453,6 +1453,9 @@ See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 * Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP]($source)
 * Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP]($source)
 
+## multimedia.ecf
+* Test wav to mp3 conversion
+
 ## network.ecf
 Test network library classes
 
@@ -1461,7 +1464,9 @@ Test network library classes
 * [SIMPLE_SERVER_TEST_APP]($source)
 
 ## os-command.ecf
-Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](http://www.eiffel-loop.com/test/source/os-command/test-set/file_and_directory_test_set.html)
+
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]($source)
 ## Root class and Experiments

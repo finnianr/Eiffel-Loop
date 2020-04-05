@@ -1,28 +1,19 @@
 note
-	description: "Zstring implementation"
+	description: "Aspect of [$source EL_ZSTRING] as an array of 8-bit characters"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:05:30 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2020-04-05 13:55:23 GMT (Sunday 5th April 2020)"
+	revision: "9"
 
 deferred class
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 
 inherit
 	STRING_HANDLER
-
-	EL_ZSTRING_APPEND_ROUTINES
-		rename
-			append as internal_append,
-			append_substring as internal_append_substring,
-			prepend as internal_prepend,
-			prepend_character as internal_prepend_character,
-			prepend_substring as internal_prepend_substring
-		end
 
 feature {NONE} -- Initialization
 
@@ -151,7 +142,7 @@ feature -- Measurement
 
 feature -- Status query
 
-	ends_with (s: EL_ZSTRING_IMPLEMENTATION): BOOLEAN
+	ends_with (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
 			-- Does string finish with `s'?
 		do
 			Result := current_string_8.ends_with (string_8_argument (s, 1))
@@ -184,7 +175,7 @@ feature -- Status query
 			Result := current_string_8.is_integer
 		end
 
-	starts_with (s: EL_ZSTRING_IMPLEMENTATION): BOOLEAN
+	starts_with (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
 			-- Does string begin with `s'?
 		do
 			Result := current_string_8.starts_with (string_8_argument (s, 1))
@@ -234,7 +225,7 @@ feature -- Resizing
 
 feature -- Comparison
 
- 	same_characters (other: EL_ZSTRING_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+ 	same_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		require
@@ -253,7 +244,7 @@ feature -- Comparison
 			same_characters: Result = substring (index_pos, index_pos + end_pos - start_pos).same_string (other.substring (start_pos, end_pos))
 		end
 
-	same_string (other: EL_ZSTRING_IMPLEMENTATION): BOOLEAN
+	same_string (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
 			-- Do `Current' and `other' have same character sequence?
 		require
 			other_not_void: other /= Void
@@ -273,6 +264,10 @@ feature -- Comparison
 		end
 
 feature -- Conversion
+
+	elks_checking: BOOLEAN
+		deferred
+		end
 
 	linear_representation: LINEAR [CHARACTER_8]
 			-- Representation as a linear structure
@@ -341,7 +336,7 @@ feature {NONE} -- Element change
 			stable_after_i: elks_checking implies substring (i + 1, count) ~ (old substring (i, count))
 		end
 
-	insert_string (s: EL_ZSTRING_IMPLEMENTATION; i: INTEGER)
+	insert_string (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER)
 			-- Insert `s' at index `i', shifting characters between ranks
 			-- `i' and `count' rightwards.
 		local
@@ -397,7 +392,7 @@ feature {NONE} -- Element change
 			-- removed: For every `i' in 1..`count', `item' (`i') /= `c'
 		end
 
-	replace_substring (s: EL_ZSTRING_IMPLEMENTATION; start_index, end_index: INTEGER)
+	replace_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
 			-- Replace characters from `start_index' to `end_index' with `s'.
 		require
 			valid_start_index: 1 <= start_index
@@ -444,7 +439,7 @@ feature {NONE} -- Implementation
 			set_from_string_8 (str)
 		end
 
-	share (other: EL_ZSTRING_IMPLEMENTATION)
+	share (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Make current string share the text of `other'.
 			-- Subsequent changes to the characters of current string
 			-- will also affect `other', and conversely.
@@ -507,7 +502,7 @@ feature {STRING_HANDLER} -- Implementation
 			reset_hash
 		end
 
-feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
+feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 
 	additional_space: INTEGER
 		deferred
@@ -586,7 +581,7 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Implementation
 			area := str.area set_count (str.count)
 		end
 
-	string_8_argument (zstr: EL_ZSTRING_IMPLEMENTATION; index: INTEGER): EL_STRING_8
+	string_8_argument (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; index: INTEGER): EL_STRING_8
 		do
 			Result := String_8_args [index - 1]
 			Result.set_area_and_count (zstr.area, zstr.count)

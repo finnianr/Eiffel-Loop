@@ -1,3 +1,6 @@
+1.1.13
+* Added multimedia cluster and fixed os_command tests
+
 1.1.12
 * Fixed issue with GC on TL_MPEG_FILE causing file locking
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-05 20:53:22 GMT (Saturday 5th October 2019)"
-	revision: "2"
+	date: "2020-04-05 13:29:18 GMT (Sunday 5th April 2020)"
+	revision: "3"
 
 class
 	EL_STRING_8
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (zstr: EL_ZSTRING_IMPLEMENTATION)
+	make (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 		do
 			set_area_and_count (zstr.area, zstr.count)
 		end

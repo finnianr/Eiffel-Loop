@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 9:06:10 GMT (Sunday 5th April 2020)"
-	revision: "45"
+	date: "2020-04-05 15:32:03 GMT (Sunday 5th April 2020)"
+	revision: "46"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -23,13 +23,17 @@ inherit
 			is_case_insensitive_equal as is_case_insensitive_equal_general,
 			starts_with as starts_with_general
 		undefine
+--			Access
+			index_of, last_index_of,
 --			Status query			
 			is_double, is_real_64, is_integer, is_integer_32,
 --			Conversion
-			to_boolean, to_double, to_real_64, to_integer, to_integer_32
+			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
+--			Measurement
+			occurrences
 		redefine
 --			Access
-			hash_code, out, index_of, last_index_of, occurrences,
+			hash_code, out,
 --			Status query
 			ends_with_general, starts_with_general, has,
 --			Comparison
@@ -40,7 +44,7 @@ inherit
 			copy
 		end
 
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 		rename
 			ends_with as internal_ends_with,
 			fill_character as internal_fill_character,
@@ -80,54 +84,34 @@ inherit
 			make_from_string
 		end
 
-	EL_UNENCODED_CHARACTERS
+	EL_APPENDABLE_ZSTRING
 		rename
-			append as append_unencoded,
-			area as unencoded_area,
-			code as unencoded_code,
-			count_greater_than_zero_flags as respective_encoding,
-			grow as unencoded_grow,
-			hash_code as unencoded_hash_code,
-			has as unencoded_has,
-			index_of as unencoded_index_of,
-			interval_index as unencoded_interval_index,
-			insert as insert_unencoded,
-			item as unencoded_item,
-			last_index_of as unencoded_last_index_of,
-			last_upper as unencoded_last_upper,
-			make as make_unencoded,
-			make_from_other as make_unencoded_from_other,
-			not_empty as has_mixed_encoding,
-			occurrences as unencoded_occurrences,
-			overlaps as overlaps_unencoded,
-			put_code as put_unencoded_code,
-			remove as remove_unencoded,
-			remove_substring as remove_unencoded_substring,
-			same_string as same_unencoded_string,
-			set_area as set_unencoded_area,
-			set_from_extendible as set_from_extendible_unencoded,
-			shift as shift_unencoded,
-			shift_from as shift_unencoded_from,
-			shifted as shifted_unencoded,
-			substring as unencoded_substring,
-			substring_list as unencoded_substring_list,
-			sum_count as unencoded_count,
-			to_lower as unencoded_to_lower,
-			to_upper as unencoded_to_upper,
-			utf_8_byte_count as unencoded_utf_8_byte_count,
-			write as write_unencoded,
-			z_code as unencoded_z_code
+			append as internal_append,
+			append_substring as internal_append_substring,
+			append_tuple_item as internal_append_tuple_item,
+			insert_string as internal_insert_string,
+			prepend as internal_prepend,
+			prepend_character as internal_prepend_character,
+			prepend_substring as internal_prepend_substring,
+			string as internal_string,
+			substring as internal_substring
+		undefine
+			copy, is_equal, out
+		end
+
+	EL_TRANSFORMABLE_ZSTRING
 		export
-			{EL_ZSTRING, EL_READABLE_ZSTRING} all
+			{EL_TRANSFORMABLE_ZSTRING} shifted_unencoded, unencoded_substring
+			{EL_ZSTRING_UNICODE_IMPLEMENTATION} area_i_th_z_code
 			{STRING_HANDLER}
 				unencoded_z_code, set_unencoded_area, unencoded_interval_index, unencoded_area,
-				extendible_unencoded, unencoded_count
+				extendible_unencoded, unencoded_count, area
 			{ANY} has_mixed_encoding
-		undefine
-			is_equal, copy, out
-		redefine
-			is_unencoded_valid
 		end
+
+	EL_MEASUREABLE_ZSTRING
+
+	EL_SEARCHABLE_ZSTRING
 
 	READABLE_INDEXABLE [CHARACTER_32]
 		rename
@@ -277,44 +261,6 @@ feature -- Access
 			end
 		end
 
-	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
-		local
-			c: CHARACTER
-		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
-				Result := unencoded_index_of (uc.natural_32_code, start_index)
-			else
-				Result := internal_index_of (c, start_index)
-			end
-		ensure then
-			valid_result: Result = 0 or (start_index <= Result and Result <= count)
-			zero_if_absent: (Result = 0) = not substring (start_index, count).has (uc)
-			found_if_present: substring (start_index, count).has (uc) implies item (Result) = uc
-			none_before: substring (start_index, count).has (uc) implies
-				not substring (start_index, Result - 1).has (uc)
-		end
-
-	index_of_z_code (a_z_code: NATURAL; start_index: INTEGER): INTEGER
-		do
-			if a_z_code <= 0xFF then
-				Result := internal_index_of (a_z_code.to_character_8, start_index)
-			else
-				Result := unencoded_index_of (z_code_to_unicode (a_z_code), start_index)
-			end
-		ensure then
-			valid_result: Result = 0 or (start_index <= Result and Result <= count)
-			zero_if_absent: (Result = 0) = not substring (start_index, count).has_z_code (a_z_code)
-			found_if_present: substring (start_index, count).has_z_code (a_z_code) implies z_code (Result) = a_z_code
-			none_before: substring (start_index, count).has_z_code (a_z_code) implies
-				not substring (start_index, Result - 1).has_z_code (a_z_code)
-		end
-
-	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32
-			-- Character at position `i'
-		deferred
-		end
-
 	joined (a_list: ITERABLE [like Current]): ZSTRING
 		-- `a_list' joined with `Current' as delimiter
 		local
@@ -355,20 +301,6 @@ feature -- Access
 				end
 				Result.append_string_general (cursor.item)
 				cursor.forth
-			end
-		end
-
-	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-			-- Position of last occurrence of `c',
-			-- 0 if none.
-		local
-			c: CHARACTER
-		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
-				Result := unencoded_last_index_of (uc.natural_32_code, start_index_from_end)
-			else
-				Result := internal_last_index_of (c, start_index_from_end)
 			end
 		end
 
@@ -434,40 +366,6 @@ feature -- Access
 			Result := substring_between (adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index)
 		end
 
-	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		do
-			inspect respective_encoding (other)
-				when Both_have_mixed_encoding, Only_current, Neither then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (Current, other.as_expanded (1), start_index, count)
-				when Only_other then
-					Result := 0
-			else
-			end
-		end
-
-	substring_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		do
-			Result := substring_index (adapted_argument (other, 1), start_index)
-		end
-
-	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
-		do
-			inspect respective_encoding (other)
-				when Both_have_mixed_encoding, Only_current, Neither then
-					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (Current, other.as_expanded (1), start_pos, end_pos)
-				when Only_other then
-					Result := 0
-			else
-			end
-		end
-
-	substring_index_in_bounds_general (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
-		do
-			Result := substring_index_in_bounds (adapted_argument (other, 1), start_pos, end_pos)
-		end
-
 	substring_index_list (delimiter: EL_READABLE_ZSTRING): like internal_substring_index_list
 		do
 			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
@@ -480,92 +378,6 @@ feature -- Access
 			else
 				create Result.make_empty
 			end
-		end
-
-	substring_right_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		-- index to right of first occurrence of `other' if valid index or else 0
-		do
-			Result := substring_index (other, start_index)
-			if Result > 0 and then Result + other.count <= count then
-				Result := Result + other.count
-			end
-		end
-
-	substring_right_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		do
-			Result := substring_index_general (other, start_index)
-			if Result > 0 and then Result + other.count <= count then
-				Result := Result + other.count
-			end
-		end
-
-	unicode (i: INTEGER): NATURAL_32
-		local
-			c: CHARACTER
-		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				Result := unencoded_code (i)
-			else
-				Result := codec.as_unicode_character (c).natural_32_code
-			end
-		end
-
-	unicode_item (i: INTEGER): CHARACTER_32
-		do
-			Result := unicode (i).to_character_32
-		end
-
-	word_index (word: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
-		local
-			has_left_boundary, has_right_boundary, found: BOOLEAN
-			index: INTEGER
-		do
-			from index := start_index; Result := 1 until Result = 0 or else found or else index + word.count - 1 > count loop
-				Result := substring_index (word, index)
-				if Result > 0 then
-					has_left_boundary := Result = 1 or else not is_alpha_numeric_item (Result - 1)
-					has_right_boundary := Result + word.count - 1 = count or else not is_alpha_numeric_item (Result + word.count)
-					if has_left_boundary and has_right_boundary then
-						found := True
-					else
-						index := Result + 1
-					end
-				end
-			end
-		end
-
-	word_index_general (word: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		do
-			Result := word_index (adapted_argument (word, 1), start_index)
-		end
-
-	z_code (i: INTEGER): NATURAL_32
-			-- Returns hybrid code of latin and unicode
-			-- Single byte codes are reserved for latin encoding.
-			-- Unicode characters below 0xFF are shifted into the private use range 0xE000 .. 0xF8FF
-			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
-
-			-- Implementation of {READABLE_STRING_GENERAL}.code
-			-- Client classes include `EL_ZSTRING_SEARCHER'
-		local
-			c: CHARACTER
-		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				Result := unencoded_z_code (i)
-			else
-				Result := c.natural_32_code
-			end
-		ensure then
-			first_byte_is_reserved_for_latin: area [i - 1] = Unencoded_character implies Result > 0xFF
-		end
-
-feature -- Constants
-
-	Substitution_marker: EL_ZSTRING
-		once
-			Result := "%S"
 		end
 
 feature -- Output
@@ -600,182 +412,6 @@ feature -- Output
 			end
 		end
 
-feature -- Measurement
-
-	Lower: INTEGER = 1
-
-	leading_occurrences (uc: CHARACTER_32): INTEGER
-			-- Returns count of continous occurrences of `uc' or white space starting from the begining
-		local
-			i, l_count: INTEGER; l_area: like area; c, c_i: CHARACTER; uc_code: NATURAL
-		do
-			c := encoded_character (uc); uc_code := uc.natural_32_code
-			l_area := area; l_count := count
-			if c = Unencoded_character then
-				if has_mixed_encoding then
-					from i := 0 until i = l_count loop
-						c_i := l_area [i]
-						if c_i = Unencoded_character and then unencoded_code (i + 1) = uc_code then
-							Result := Result + 1
-						else
-							i := l_count - 1 -- break out of loop
-						end
-						i := i + 1
-					end
-				end
-			else
-				from i := 0 until i = l_count loop
-					c_i := l_area [i]
-					-- `Unencoded_character' is space
-					if c_i = c then
-						Result := Result + 1
-					else
-						i := l_count - 1 -- break out of loop
-					end
-					i := i + 1
-				end
-			end
-		ensure
-			substring_agrees: substring (1, Result).occurrences (uc) = Result
-		end
-
-	leading_white_space: INTEGER
-		local
-			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			l_prop: like character_properties
-		do
-			l_area := area; l_count := count; l_prop := character_properties
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				-- `Unencoded_character' is space
-				if c_i = Unencoded_character then
-					if l_prop.is_space (unencoded_item (i + 1)) then
-						Result := Result + 1
-					else
-						i := l_count - 1 -- break out of loop
-					end
-				elseif c_i.is_space then
-					Result := Result + 1
-				else
-					i := l_count - 1 -- break out of loop
-				end
-				i := i + 1
-			end
-		ensure
-			substring_agrees: across substring (1, Result) as uc all character_properties.is_space (uc.item) end
-		end
-
-	occurrences (uc: CHARACTER_32): INTEGER
-		local
-			c: like area.item
-		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
-				Result := unencoded_occurrences (uc.natural_32_code)
-			else
-				Result := internal_occurrences (c)
-			end
-		end
-
-	substitution_marker_count: INTEGER
-		-- count of unescaped template substitution markers '%S' AKA '#'
-		local
-			l_index_list: like substring_index_list
-			index: INTEGER; escape_code: NATURAL
-		do
-			l_index_list := substring_index_list (Substitution_marker)
-			escape_code := ('%%').natural_32_code
-			from l_index_list.start until l_index_list.after loop
-				index := l_index_list.item
-				if index > 1 and then z_code (index - 1) = escape_code then
-					l_index_list.remove
-				else
-					l_index_list.forth
-				end
-			end
-			Result := l_index_list.count
-		end
-
-	trailing_occurrences (uc: CHARACTER_32): INTEGER
-			-- Returns count of continous occurrences of `uc' or white space starting from the end
-		local
-			i: INTEGER; l_area: like area; c, c_i: CHARACTER
-			l_unencoded: like unencoded_interval_index; uc_code: NATURAL
-		do
-			c := encoded_character (uc); uc_code := uc.natural_32_code
-			l_area := area; l_unencoded := unencoded_interval_index
-			if c = Unencoded_character then
-				if has_mixed_encoding then
-					from i := count - 1 until i < 0 loop
-						c_i := l_area [i]
-						if c_i = Unencoded_character and then unencoded_code (i + 1) = uc_code then
-							Result := Result + 1
-						else
-							i := 0 -- break out of loop
-						end
-						i := i - 1
-					end
-				end
-			else
-				from i := count - 1 until i < 0 loop
-					c_i := l_area [i]
-					-- `Unencoded_character' is space
-					if c_i = c then
-						Result := Result + 1
-					else
-						i := 0 -- break out of loop
-					end
-					i := i - 1
-				end
-			end
-		ensure
-			substring_agrees: substring (count - Result + 1, count).occurrences (uc) = Result
-		end
-
-	trailing_white_space: INTEGER
-		local
-			i: INTEGER; l_area: like area; c_i: CHARACTER
-			l_unencoded: like unencoded_interval_index; l_prop: like character_properties
-		do
-			l_area := area; l_unencoded := unencoded_interval_index; l_prop := character_properties
-			from i := count - 1 until i < 0 loop
-				c_i := l_area [i]
-				-- `Unencoded_character' is space
-				if c_i = Unencoded_character then
-					if l_prop.is_space (l_unencoded.code (i + 1).to_character_32) then
-						Result := Result + 1
-					else
-						i := 0 -- break out of loop
-					end
-				elseif c_i.is_space then
-					Result := Result + 1
-				else
-					i := 0 -- break out of loop
-				end
-				i := i - 1
-			end
-		ensure
-			substring_agrees: across substring (count - Result + 1, count) as uc all character_properties.is_space (uc.item) end
-		end
-
-	utf_8_byte_count: INTEGER
-		local
-			i, l_count: INTEGER; l_area: like area; unencoded_found: BOOLEAN
-		do
-			l_count := count; l_area := area
-			from i := 0 until i = l_count loop
-				if l_area [i] = Unencoded_character then
-					unencoded_found := True
-				else
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-			if unencoded_found then
-				Result := Result + unencoded_utf_8_byte_count
-			end
-		end
-
 feature -- Character status query
 
 	is_alpha_item (i: INTEGER): BOOLEAN
@@ -786,7 +422,7 @@ feature -- Character status query
 		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
-		require
+		require else
 			valid_index: valid_index (i)
 		local
 			c: CHARACTER
@@ -1141,36 +777,6 @@ feature -- Conversion
 			Result := split ('%N')
 		end
 
-	mirror
-			-- Reverse the order of characters.
-			-- "Hello world" -> "dlrow olleH".
-		local
-			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			l_unencoded: like extendible_unencoded
-		do
-			l_count := count
-			if l_count > 1 then
-				if has_mixed_encoding then
-					l_area := area; l_unencoded := extendible_unencoded
-					from i := l_count - 1 until i < 0 loop
-						c_i := l_area.item (i)
-						if c_i = Unencoded_character then
-							l_unencoded.extend (unencoded_code (i + 1), l_count - i)
-						end
-						i := i - 1
-					end
-					internal_mirror
-					set_unencoded_area (l_unencoded.area_copy)
-				else
-					internal_mirror
-				end
-				internal_hash_code := 0
-			end
-		ensure
-			same_count: count = old count
-			-- reversed: For every `i' in 1..`count', `item' (`i') = old `item' (`count'+1-`i')
-		end
-
 	mirrored: like Current
 			-- Mirror image of string;
 			-- Result for "Hello world" is "dlrow olleH".
@@ -1285,45 +891,6 @@ feature -- Conversion
 		-- split string on substring delimiter
 		do
 			Result := split_intervals (delimiter).as_list
-		end
-
-	to_canonically_spaced
-		-- adjust so that `is_canonically_spaced' becomes true
-		local
-			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN
-			z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
-		do
-			if not is_canonically_spaced then
-				l_area := area; l_count := count
-				create z_code_array.make (l_count)
-				from i := 0 until i = l_count loop
-					c_i := l_area [i]
-					if c_i = Unencoded_character then
-						is_space := Char_32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
-						l_z_code := unencoded_z_code (i + 1)
-					else
-						is_space := c_i.is_space
-						l_z_code := c_i.natural_32_code
-					end
-					if is_space_state then
-						if not is_space then
-							is_space_state := False
-							z_code_array.extend (l_z_code)
-						end
-					elseif is_space then
-						is_space_state := True
-						z_code_array.extend (32)
-					else
-						z_code_array.extend (l_z_code)
-					end
-					i := i + 1
-				end
-				make (z_code_array.count)
-				z_code_array.do_all (agent append_z_code)
-			end
-		ensure
-			canonically_spaced: is_canonically_spaced
 		end
 
 	to_latin_string_8: STRING
@@ -1511,424 +1078,6 @@ feature -- Comparison
 			end
 		end
 
-feature {EL_READABLE_ZSTRING} -- Removal
-
-	keep_head (n: INTEGER)
-			-- Remove all characters except for the first `n';
-			-- do nothing if `n' >= `count'.
-		local
-			old_count: INTEGER
-		do
-			old_count := count
-			internal_keep_head (n)
-			if has_mixed_encoding and then unencoded_last_upper > n then
-				if n = 0 then
-					make_unencoded
-				else
-					set_from_extendible_unencoded (unencoded_substring (1, n))
-				end
-			end
-		ensure then
-			valid_unencoded: is_unencoded_valid
-		end
-
-	keep_tail (n: INTEGER)
-			-- Remove all characters except for the last `n';
-			-- do nothing if `n' >= `count'.
-		local
-			old_count: INTEGER
-		do
-			old_count := count
-			internal_keep_tail (n)
-			if n < old_count and then has_mixed_encoding then
-				if n = 0 then
-					make_unencoded
-				else
-					set_from_extendible_unencoded (unencoded_substring (old_count - n + 1, old_count))
-				end
-			end
-		ensure then
-			valid_unencoded: is_unencoded_valid
-		end
-
-	remove_head (n: INTEGER)
-			-- Remove first `n' characters;
-			-- if `n' > `count', remove all.
-		require
-			n_non_negative: n >= 0
-		do
-			if n > count then
-				count := 0
-				internal_hash_code := 0
-			else
-				keep_tail (count - n)
-			end
-		ensure
-			removed: elks_checking implies Current ~ (old substring (n.min (count) + 1, count))
-		end
-
-	remove_tail (n: INTEGER)
-			-- Remove last `n' characters;
-			-- if `n' > `count', remove all.
-		require
-			n_non_negative: n >= 0
-		local
-			l_count: INTEGER
-		do
-			l_count := count
-			if n > l_count then
-				count := 0
-				internal_hash_code := 0
-			else
-				keep_head (l_count - n)
-			end
-		ensure
-			removed: elks_checking implies Current ~ (old substring (1, count - n.min (count)))
-		end
-
-	unescape (unescaper: EL_ZSTRING_UNESCAPER)
-		do
-			make_from_other (unescaped (unescaper))
-		end
-
-feature {EL_READABLE_ZSTRING} -- Element change
-
-	append_character, extend (uc: CHARACTER_32)
-		do
-			append_unicode (uc.natural_32_code)
-		end
-
-	append_string, append (s: EL_READABLE_ZSTRING)
-		local
-			old_count: INTEGER
-		do
-			if s.has_mixed_encoding then
-				old_count := count
-				internal_append (s)
-				append_unencoded (s.shifted_unencoded (old_count))
-			else
-				internal_append (s)
-			end
-		ensure
-			new_count: count = old (count + s.count)
-			inserted: elks_checking implies same_string (old (Current + s))
-		end
-
-	append_string_general (str: READABLE_STRING_GENERAL)
-		local
-			old_count: INTEGER
-		do
-			if attached {EL_ZSTRING} str as str_z then
-				append_string (str_z)
-			else
-				old_count := count
-				grow (old_count + str.count)
-				set_count (old_count + str.count)
-				encode (str, old_count)
-				reset_hash
-			end
-		ensure then
-			unencoded_valid: is_unencoded_valid
-		end
-
-	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
-		local
-			old_count: INTEGER; l_unencoded: like unencoded_substring
-		do
-			old_count := count
-			internal_append_substring (s, start_index, end_index)
-			if s.has_mixed_encoding then
-				l_unencoded := s.unencoded_substring (start_index, end_index)
-				if l_unencoded.not_empty then
-					l_unencoded.shift (old_count)
-					append_unencoded (l_unencoded)
-				end
-			end
-		ensure
-			new_count: count = old count + (end_index - start_index + 1)
-			appended: elks_checking implies same_string (old (Current + s.substring (start_index, end_index)))
-		end
-
-	append_tuple_item (tuple: TUPLE; i: INTEGER)
-		local
-			l_reference: ANY
-		do
-			inspect tuple.item_code (i)
-				when {TUPLE}.Boolean_code then
-					append_boolean (tuple.boolean_item (i))
-
-				when {TUPLE}.Character_8_code then
-					append_character (tuple.character_8_item (i))
-
-				when {TUPLE}.Character_32_code then
-					append_character (tuple.character_32_item (i))
-
-				when {TUPLE}.Integer_8_code then
-					append_integer_8 (tuple.integer_8_item (i))
-
-				when {TUPLE}.Integer_16_code then
-					append_integer_16 (tuple.integer_16_item (i))
-
-				when {TUPLE}.Integer_32_code then
-					append_integer (tuple.integer_item (i))
-
-				when {TUPLE}.Integer_64_code then
-					append_integer_64 (tuple.integer_64_item (i))
-
-				when {TUPLE}.Natural_8_code then
-					append_natural_8 (tuple.natural_8_item (i))
-
-				when {TUPLE}.Natural_16_code then
-					append_integer_16 (tuple.integer_16_item (i))
-
-				when {TUPLE}.Natural_32_code then
-					append_natural_32 (tuple.natural_32_item (i))
-
-				when {TUPLE}.Natural_64_code then
-					append_natural_64 (tuple.natural_64_item (i))
-
-				when {TUPLE}.Real_32_code then
-					append_real (tuple.real_32_item (i))
-
-				when {TUPLE}.Real_64_code then
-					append_double (tuple.real_64_item (i))
-
-				when {TUPLE}.Pointer_code then
-					append_string_general (tuple.pointer_item (i).out)
-
-				when {TUPLE}.Reference_code then
-					l_reference := tuple.reference_item (i)
-					if attached {READABLE_STRING_GENERAL} l_reference as string then
-						append_string_general (string)
-					elseif attached {EL_PATH} l_reference as l_path then
-						append_string (l_path.to_string)
-					elseif attached {PATH} l_reference as path then
-						append_string_general (path.name)
-					else
-						append_string_general (l_reference.out)
-					end
-			else
-			end
-		end
-
-	append_unicode (uc: like unicode)
-			-- Append `uc' at end.
-			-- It would be nice to make this routine over ride 'append_code' but unfortunately
-			-- the post condition links it to 'code' and for performance reasons it is undesirable to have
-			-- code return unicode.
-		local
-			l_count: INTEGER
-		do
-			l_count := count + 1
-			if l_count > capacity then
-				resize (l_count)
-			end
-			set_count (l_count)
-			put_unicode (uc, l_count)
-		ensure then
-			item_inserted: unicode (count) = uc
-			new_count: count = old count + 1
-			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
-		end
-
-	append_z_code (c: like z_code)
-		deferred
-		end
-
-	enclose (left, right: CHARACTER_32)
-		do
-			grow (count + 2); prepend_character (left); append_character (right)
-		end
-
-	fill_character (uc: CHARACTER_32)
-		local
-			c: CHARACTER
-		do
-			c := encoded_character (uc)
-			if c = Unencoded_character then
-			else
-				internal_fill_character (c)
-			end
-		end
-
-	multiply (n: INTEGER)
-			-- Duplicate a string within itself
-			-- ("hello").multiply(3) => "hellohellohello"
-		require
-			meaningful_multiplier: n >= 1
-		local
-			i, old_count: INTEGER
-		do
-			old_count := count
-			grow (n * count)
-			from i := n until i = 1 loop
-				append_substring (Current, 1, old_count)
-				i := i - 1
-			end
-		end
-
-	precede, prepend_character (uc: CHARACTER_32)
-		local
-			c: CHARACTER
-		do
-			c := encoded_character (uc)
-			internal_prepend_character (c)
-			shift_unencoded (1)
-			if c = Unencoded_character then
-				put_unencoded_code (uc.natural_32_code, 1)
-			end
-		end
-
-	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
-		local
-			old_count: INTEGER; l_unencoded: like unencoded_substring
-		do
-			old_count := count
-			internal_prepend_substring (s, start_index, end_index)
-			inspect respective_encoding (s)
-				when Both_have_mixed_encoding then
-					shift_unencoded (end_index - start_index + 1)
-					l_unencoded := s.unencoded_substring (start_index, end_index)
-					if l_unencoded.not_empty then
-						l_unencoded.append (Current)
-						unencoded_area := l_unencoded.area_copy
-					end
-				when Only_current then
-					shift_unencoded (end_index - start_index + 1)
-				when Only_other then
-					l_unencoded := s.unencoded_substring (start_index, end_index)
-					if l_unencoded.not_empty then
-						unencoded_area := l_unencoded.area_copy
-					end
-			else
-			end
-		ensure
-			new_count: count = old count + (end_index - start_index + 1)
-			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + Current))
-		end
-
-	put_unicode (a_code: NATURAL_32; i: INTEGER)
-			-- put unicode at i th position
-		require -- from STRING_GENERAL
-			valid_index: valid_index (i)
-		local
-			c: CHARACTER
-		do
-			c := codec.encoded_character (a_code)
-			area [i - 1] := c
-			if c = Unencoded_character then
-				put_unencoded_code (a_code, i)
-			end
-			internal_hash_code := 0
-		ensure
-			inserted: unicode (i) = a_code
-			stable_count: count = old count
-			stable_before_i: Elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: Elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
-		end
-
-	quote (type: INTEGER)
-		require
-			type_is_single_or_double: type = 1 or type = 2
-		local
-			c: CHARACTER_32
-		do
-			if type = 1 then
-				 c := '%''
-			else
-				 c := '"'
-			end
-			enclose (c, c)
-		end
-
-	to_lower
-			-- Convert to lower case.
-		do
-			to_lower_area (area, 0, count - 1)
-			unencoded_to_lower
-			internal_hash_code := 0
-		ensure
-			length_and_content: elks_checking implies Current ~ (old as_lower)
-		end
-
-	to_proper_case
-		local
-			i, l_count: INTEGER; state_alpha: BOOLEAN
-			l_area: like area
-		do
-			to_lower
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				if state_alpha then
-					if not is_area_alpha_item (l_area, i) then
-						state_alpha := False
-					end
-				else
-					if is_area_alpha_item (l_area, i) then
-						state_alpha := True
-						to_upper_area (l_area, i, i)
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	to_upper
-			-- Convert to upper case.
-		do
-			to_upper_area (area, 0, count - 1)
-			unencoded_to_upper
-			internal_hash_code := 0
-		ensure
-			length_and_content: elks_checking implies Current ~ (old as_upper)
-		end
-
-	translate (old_characters, new_characters: EL_READABLE_ZSTRING)
-		do
-			translate_deleting_null_characters (old_characters, new_characters, False)
-		end
-
-	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
-		require
-			each_old_has_new: old_characters.count = new_characters.count
-		deferred
-		ensure
-			valid_unencoded: is_unencoded_valid
-			unchanged_count: not delete_null implies count = old count
-			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
-		end
-
-	translate_general (old_characters, new_characters: READABLE_STRING_GENERAL)
-		do
-			translate (adapted_argument (old_characters, 1), adapted_argument (new_characters, 2))
-		end
-
-feature {EL_READABLE_ZSTRING} -- Removal
-
-	left_adjust
-			-- Remove leading whitespace.
-		do
-			if is_left_adjustable then
-				if has_mixed_encoding then
-					remove_head (leading_white_space)
-				else
-					internal_left_adjust
-				end
-			end
-		end
-
-	right_adjust
-			-- Remove trailing whitespace.
-		do
-			if is_right_adjustable then
-				if has_mixed_encoding then
-					remove_tail (trailing_white_space)
-				else
-					internal_right_adjust
-				end
-			end
-		end
-
 feature {EL_READABLE_ZSTRING} -- Duplication
 
 	copy (other: like Current)
@@ -1951,60 +1100,7 @@ feature {EL_READABLE_ZSTRING} -- Duplication
 			-- same_characters: For every `i' in 1..`count', `item' (`i') = `other'.`item' (`i')
 		end
 
-feature {EL_READABLE_ZSTRING} -- Contract Support
-
-	deleted_count (old_characters, new_characters: EL_READABLE_ZSTRING): INTEGER
-		local
-			i: INTEGER
-		do
-			across to_string_32 as uc loop
-				i := old_characters.index_of (uc.item, 1)
-				if i > 0 and then new_characters.z_code (i) = 0 then
-					Result := Result + 1
-				end
-			end
-		end
-
-	is_unencoded_valid: BOOLEAN
-			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
-		local
-			i, j, l_lower, l_upper, l_count, l_sum_count, array_count: INTEGER
-			l_unencoded: like unencoded_area; l_area: like area
-		do
-			if is_empty then
-				Result := not has_mixed_encoding
-			else
-				l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
-				Result := unencoded_last_upper <= count
-				if array_count > 0 then
-					from i := 0 until not Result or else  i = array_count loop
-						l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
-						l_count := l_upper - l_lower + 1
-						from j := l_lower until not Result or else j > l_upper loop
-							Result := Result and l_area [j - 1] = Unencoded_character
-							j := j + 1
-						end
-						l_sum_count := l_sum_count + l_count
-						i := i + l_count + 2
-					end
-					Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
-				end
-			end
-		end
-
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
-
-	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL
-		local
-			c_i: CHARACTER
-		do
-			c_i := a_area [i]
-			if c_i = Unencoded_character then
-				Result := unencoded_z_code (i + 1)
-			else
-				Result := c_i.natural_32_code
-			end
-		end
 
 	as_expanded (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
@@ -2015,7 +1111,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Access
 			fill_expanded (Result)
 		end
 
-feature -- Basic operation
+feature -- Append to output
 
 	append_to (output: like Current)
 		do
@@ -2063,49 +1159,9 @@ feature -- Basic operation
 
 feature {NONE} -- Implementation
 
-	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
-		require
-			valid_index: 1 <= index and index <= Once_adapted_argument.count
+	current_readable: EL_READABLE_ZSTRING
 		do
-			if attached {EL_ZSTRING} a_general as zstring then
-				Result := zstring
-			else
-				inspect index
-					when 1 .. 3 then
-						Result := Once_adapted_argument [index - 1]
-						Result.wipe_out
-				else
-					create Result.make (a_general.count)
-				end
-				Result.append_string_general (a_general)
-			end
-		end
-
-	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
-		require
-			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
-		local
-			l_unencoded: like extendible_unencoded
-		do
-			l_unencoded := extendible_unencoded
-			codec.encode (a_unicode, area, area_offset, l_unencoded)
-
-			inspect respective_encoding (l_unencoded)
-				when Both_have_mixed_encoding then
-					append_unencoded (l_unencoded)
-				when Only_other then
-					unencoded_area := l_unencoded.area_copy
-			else
-			end
-		end
-
-	encoded_character (uc: CHARACTER_32): CHARACTER
-		do
-			if uc.natural_32_code <= Tilde_code then
-				Result := uc.to_character_8
-			else
-				Result := codec.encoded_character (uc.natural_32_code)
-			end
+			Result := Current
 		end
 
 	fill_expanded (str: STRING_32)
@@ -2153,18 +1209,6 @@ feature {NONE} -- Implementation
 						index := index + str_count
 					end
 				end
-			end
-		end
-
-	is_area_alpha_item (a_area: like area; i: INTEGER): BOOLEAN
-		local
-			c: CHARACTER
-		do
-			c := a_area [i]
-			if c = Unencoded_character then
-				Result := unencoded_item (i + 1).is_alpha
-			else
-				Result := Codec.is_alpha (c.natural_32_code)
 			end
 		end
 
@@ -2233,50 +1277,12 @@ feature {NONE} -- Implementation
 			internal_hash_code := 0
 		end
 
-	same_unencoded_substring (other: EL_READABLE_ZSTRING; start_index: INTEGER): BOOLEAN
-			-- True if characters in `other' are unencoded at the same
-			-- positions as `Current' starting at `start_index'
-		require
-			valid_start_index: start_index + other.count - 1 <= count
-		local
-			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded_other: like unencoded_interval_index
-		do
-			Result := True
-			l_area := area; l_count := other.count
-			unencoded_other := other.unencoded_interval_index
-			from i := 0 until i = l_count or else not Result loop
-				c_i := l_area [i + start_index - 1]
-				check
-					same_unencoded_positions: c_i = Unencoded_character implies c_i = other.area [i]
-				end
-				if c_i = Unencoded_character then
-					Result := Result and unencoded_code (start_index + i) = unencoded_other.code (i + 1)
-				end
-				i := i + 1
-			end
-		end
-
 	sum_count (cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]): INTEGER
 		do
 			from until cursor.after loop
 				Result := Result + cursor.item.count
 				cursor.forth
 			end
-		end
-
-	to_lower_area (a: like area; start_index, end_index: INTEGER)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their lower version when available.
-		do
-			codec.to_lower (a, start_index, end_index, Current)
-		end
-
-	to_upper_area (a: like area; start_index, end_index: INTEGER)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their upper version when available.
-		do
-			codec.to_upper (a, start_index, end_index, Current)
 		end
 
 	tuple_as_string_count (tuple: TUPLE): INTEGER
@@ -2339,13 +1345,6 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Once_adapted_argument: SPECIAL [ZSTRING]
-		once
-			create Result.make_filled (create {ZSTRING}.make_empty, 3)
-			Result [1] := create {ZSTRING}.make_empty
-			Result [2] := create {ZSTRING}.make_empty
-		end
-
 	Once_expanded_strings: SPECIAL [STRING_32]
 		once
 			create Result.make_filled (create {STRING_32}.make_empty, 2)
@@ -2356,14 +1355,5 @@ feature {NONE} -- Constants
 		do
 			create Result.make (5)
 		end
-
-	String_searcher: EL_ZSTRING_SEARCHER
-		once
-			create Result.make
-		end
-
-	Tilde_code: NATURAL = 0x7E
-		-- Point at which different Latin and Window character sets start to diverge
-		-- (Apart from some control characters)
 
 end

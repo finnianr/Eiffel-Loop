@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-14 14:04:10 GMT (Monday 14th October 2019)"
-	revision: "19"
+	date: "2020-04-05 15:20:52 GMT (Sunday 5th April 2020)"
+	revision: "20"
 
 class
 	EL_ZSTRING
@@ -40,8 +40,10 @@ inherit
 
 			precede, put_unicode, quote,
 			translate, translate_general,
---			Conversion
-			to_lower, to_proper_case, to_upper,
+--			Transformation
+			mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
+			replace_substring, replace_substring_all, replace_substring_general, replace_substring_general_all,
+			to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
 			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust
@@ -129,19 +131,6 @@ convert
 	to_string_32: {STRING_32}, to_latin_1: {STRING}
 
 feature -- Access
-
-	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32 assign put
-			-- Unicode character at position `i'
-		local
-			c: CHARACTER
-		do
-			c := internal_item (i)
-			if c = Unencoded_character then
-				Result := unencoded_item (i)
-			else
-				Result := codec.as_unicode_character (c)
-			end
-		end
 
 	plus alias "+" (s: READABLE_STRING_GENERAL): like Current
 		do
@@ -340,152 +329,6 @@ feature -- Element change
 			unencoded_valid: is_unencoded_valid
 		end
 
-	put (uc: CHARACTER_32; i: INTEGER)
-			-- Replace character at position `i' by `uc'.
-		do
-			put_unicode (uc.natural_32_code, i)
-		ensure then
-			stable_count: count = old count
-			stable_before_i: elks_checking implies substring (1, i - 1) ~ (old substring (1, i - 1))
-			stable_after_i: elks_checking implies substring (i + 1, count) ~ (old substring (i + 1, count))
-		end
-
-	put_z_code (a_z_code: like z_code; i: INTEGER)
-		do
-			if a_z_code <= 0xFF then
-				area [i - 1] := a_z_code.to_character_8
-			else
-				area [i - 1] := Unencoded_character
-				put_unencoded_code (z_code_to_unicode (a_z_code), i)
-			end
-		end
-
-	replace_character (uc_old, uc_new: CHARACTER_32)
-		local
-			code_old, code_new: NATURAL; c_i, c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
-		do
-			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
-			c_old := encoded_character (uc_old); c_new := encoded_character (uc_new)
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				if c_i = c_old and then (c_i = Unencoded_character implies code_old = unencoded_code (i + 1)) then
-					l_area [i] := c_new
-					if c_new = Unencoded_character then
-						put_unencoded_code (code_new, i + 1)
-					elseif c_i = Unencoded_character then
-						remove_unencoded (i + 1, False)
-					end
-				end
-				i := i + 1
-			end
-		end
-
-	replace_delimited_substring (left, right, new: EL_READABLE_ZSTRING; include_delimiter: BOOLEAN; start_index: INTEGER)
-			-- Searching from start_index, replaces text delimited by left and right with 'new'
-			-- Text replaced includeds delimiter if 'include_delimiter' is true
-		local
-			pos_left, pos_right, start_pos, end_pos: INTEGER
-		do
-			pos_left := substring_index (left, start_index)
-			if pos_left > 0 then
-				start_pos := pos_left + left.count
-				pos_right := substring_index (right, start_pos)
-				if pos_right > 0 then
-					end_pos := pos_right - 1
-					if include_delimiter then
-						start_pos := start_pos - left.count
-						end_pos := end_pos + right.count
-					end
-					replace_substring (new, start_pos, end_pos)
-				end
-			end
-		end
-
-	replace_delimited_substring_general (
-		left, right, new: READABLE_STRING_GENERAL; include_delimiter: BOOLEAN; start_index: INTEGER
-	)
-		do
-			replace_delimited_substring (
-				adapted_argument (left, 1), adapted_argument (right, 2), adapted_argument (new, 3), include_delimiter, start_index
-			)
-		end
-
-	replace_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
-		do
-			internal_replace_substring (s, start_index, end_index)
-			inspect respective_encoding (s)
-				when Both_have_mixed_encoding then
-					remove_unencoded_substring (start_index, end_index)
-					shift_unencoded_from (start_index, s.count)
-					insert_unencoded (s.shifted_unencoded (start_index - 1))
-
-				when Only_current then
-					remove_unencoded_substring (start_index, end_index)
-					shift_unencoded_from (start_index, s.count)
-
-				when Only_other then
-					set_unencoded_area (s.shifted_unencoded (start_index - 1).area)
-			else
-			end
-		ensure
-			new_count: count = old count + old s.count - end_index + start_index - 1
-			replaced: elks_checking implies (Current ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
-			valid_unencoded: is_unencoded_valid
-		end
-
-	replace_substring_all (original, new: EL_READABLE_ZSTRING)
-		local
-			replace_not_done: BOOLEAN; positions: ARRAYED_LIST [INTEGER]
-			size_difference, end_index, original_count, new_count: INTEGER
-		do
-			inspect respective_encoding (original)
-				when Both_have_mixed_encoding, Only_current then
-					replace_not_done := True
-				when Only_other then
-					-- Do nothing since original cannot match anything
-				when Neither then
-					if new.has_mixed_encoding then
-						replace_not_done := True
-					else
-						-- Can use STRING_8 implemenation
-						internal_replace_substring_all (original, new)
-					end
-			else
-				replace_not_done := True
-			end
-			if replace_not_done and then not is_empty and then original /~ new then
-				original_count := original.count
-				positions := internal_substring_index_list (original)
-				if not positions.is_empty then
-					size_difference := new.count - original_count
-					new_count := count + (new.count - original_count) * positions.count
-					if new_count > count then
-						resize (new_count)
-					end
-					from positions.start until positions.after loop
-						positions.replace (positions.item + size_difference * (positions.index - 1))
-						positions.forth
-					end
-					from positions.start until positions.after loop
-						end_index := positions.item + original_count - 1
-						replace_substring (new, positions.item, end_index)
-						positions.forth
-					end
-				end
-			end
-		end
-
-	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
-		do
-			replace_substring (adapted_argument (s, 1), start_index, end_index)
-		end
-
-	replace_substring_general_all (original, new: READABLE_STRING_GENERAL)
-		do
-			replace_substring_all (adapted_argument (original, 1), adapted_argument (new, 2))
-		end
-
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)
 		do
 			append_string (once_padding (uc, a_count))
@@ -508,43 +351,6 @@ feature -- Element change
 	translate_and_delete (old_characters, new_characters: EL_READABLE_ZSTRING)
 		do
 			translate_deleting_null_characters (old_characters, new_characters, True)
-		end
-
-	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
-			-- substitute characters occurring in `old_characters' with character
-			-- at same position in `new_characters'. If `delete_null' is true, remove any characters
-			-- corresponding to null value '%U'
-		local
-			i, j, index, l_count: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: like extendible_unencoded; l_unencoded: like unencoded_interval_index
-			l_area, new_characters_area: like area; old_expanded, new_expanded: like as_expanded
-		do
-			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := extendible_unencoded; l_unencoded := unencoded_interval_index
-			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
-			from until i = l_count loop
-				old_z_code := area_i_th_z_code (l_area, i)
-				index := old_expanded.index_of (old_z_code.to_character_32, 1)
-				if index > 0 then
-					new_z_code := new_expanded.code (index)
-				else
-					new_z_code := old_z_code
-				end
-				if delete_null implies new_z_code > 0 then
-					if new_z_code > 0xFF then
-						l_new_unencoded.extend_z_code (new_z_code, j + 1)
-						l_area.put (Unencoded_character, j)
-					else
-						l_area.put (new_z_code.to_character_8, j)
-					end
-					j := j + 1
-				end
-				i := i + 1
-			end
-			count := j
-			l_area [j] := '%U'
-			set_from_extendible_unencoded (l_new_unencoded)
-			reset_hash
 		end
 
 feature -- Removal
