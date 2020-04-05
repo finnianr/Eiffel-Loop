@@ -43,7 +43,7 @@ inherit
 --			Transformation
 			mirror, replace_character, replace_delimited_substring, replace_delimited_substring_general,
 			replace_substring, replace_substring_all, replace_substring_general, replace_substring_general_all,
-			to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
+			to_canonically_spaced, to_lower, to_proper_case, to_upper, translate_deleting_null_characters,
 			unescape,
 --			Removal
 			keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust

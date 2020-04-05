@@ -95,7 +95,7 @@ feature -- Access
 
 	hash_code: INTEGER
 		local
-			i, j, l_count, value_part, byte_count: INTEGER
+			i, j, value_part, byte_count: INTEGER
 			value: DOUBLE; value_ptr, value_part_ptr: POINTER
 		do
 			if internal_hash_code = 0 then

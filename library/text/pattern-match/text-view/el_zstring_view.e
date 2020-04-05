@@ -111,7 +111,7 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	area: like text.area
+	area: SPECIAL [CHARACTER_8]
 
 	text: EL_ZSTRING
 
