@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:34:47 GMT (Sunday 29th March 2020)"
-	revision: "6"
+	date: "2020-04-05 9:58:59 GMT (Sunday 5th April 2020)"
+	revision: "7"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -33,6 +33,8 @@ inherit
 		rename
 			make as make_machine
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -87,15 +89,14 @@ feature {NONE} -- Line states
 
 	find_duration_tag (line: ZSTRING)
 		local
-			pos_duration, pos_comma: INTEGER
-			time: TIME
+			start_index: INTEGER
+			time: TIME; time_string: ZSTRING
 		do
-			pos_duration := line.substring_index (Duration_tag, 1)
-			if pos_duration > 0 then
-				pos_duration := pos_duration + Duration_tag.count + 1
-				pos_comma := line.index_of (',', pos_duration)
-				create time.make_from_string (line.to_latin_1.substring (pos_duration, pos_comma - 1), "hh24:[0]mi:[0]ss.ff2")
-				duration := time.relative_duration (Time_zero)
+			start_index := line.substring_right_index (Duration_tag, 1)
+			if start_index > 0 then
+				time_string := line.substring_between (character_string (' '), character_string (','), start_index)
+				create time.make_from_string (time_string, "hh24:[0]mi:[0]ss.ff2")
+				create duration.make_by_fine_seconds (time.fine_seconds)
 				state := agent find_audio_tag
 			end
 		end
@@ -132,11 +133,6 @@ feature {NONE} -- Constants
 	Duration_tag: ZSTRING
 		once
 			Result := "Duration:"
-		end
-
-	Time_zero: TIME
-		once
-			create Result.make_by_seconds (0)
 		end
 
 end

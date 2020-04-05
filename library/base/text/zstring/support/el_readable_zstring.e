@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 10:43:42 GMT (Saturday 4th April 2020)"
-	revision: "44"
+	date: "2020-04-05 9:06:10 GMT (Sunday 5th April 2020)"
+	revision: "45"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -486,6 +486,14 @@ feature -- Access
 		-- index to right of first occurrence of `other' if valid index or else 0
 		do
 			Result := substring_index (other, start_index)
+			if Result > 0 and then Result + other.count <= count then
+				Result := Result + other.count
+			end
+		end
+
+	substring_right_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
+		do
+			Result := substring_index_general (other, start_index)
 			if Result > 0 and then Result + other.count <= count then
 				Result := Result + other.count
 			end

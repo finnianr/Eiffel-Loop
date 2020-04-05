@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 12:55:22 GMT (Saturday 4th April 2020)"
-	revision: "1"
+	date: "2020-04-04 14:31:56 GMT (Saturday 4th April 2020)"
+	revision: "2"
 
 class
 	EL_HTML_META_VALUE_READER [M -> EL_HTML_META_VALUES create make end]

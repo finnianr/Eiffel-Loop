@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:28:41 GMT (Tuesday 31st December 2019)"
-	revision: "10"
+	date: "2020-04-05 10:10:49 GMT (Sunday 5th April 2020)"
+	revision: "11"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -19,12 +19,21 @@ inherit
 
 	EL_SHARED_BASE_OPTION
 
+	EL_MODULE_ENCODINGS
+
 feature {NONE} -- Initialization
 
 	make
 		do
 			make_default
 			create visible_types.make (20)
+		end
+
+feature -- Access
+
+	code_page: STRING
+		do
+			Result := Encodings.Console_encoding.code_page
 		end
 
 feature -- Status change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-04-05 10:21:05 GMT (Sunday 5th April 2020)"
+	revision: "6"
 
 deferred class
 	EL_WAV_TO_MP3_COMMAND_I
@@ -15,10 +15,12 @@ deferred class
 inherit
 	EL_FILE_CONVERSION_COMMAND_I
 		redefine
-			make_default, getter_function_table, valid_input_extension, valid_output_extension
+			make_default, execute, getter_function_table, valid_input_extension, valid_output_extension
 		end
 
 	EL_MULTIMEDIA_CONSTANTS
+
+	EL_MODULE_CONSOLE
 
 feature {NONE} -- Initialization
 
@@ -31,16 +33,26 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-feature -- Element change
+feature -- Basic operations
 
-	set_album (a_album: like album)
+	execute
+			--
+		require else
+			valid_code_page: valid_code_page
 		do
-			album := a_album
+			Precursor
 		end
 
-	set_artist (a_artist: like artist)
+feature -- Element change
+
+	set_album (a_album: READABLE_STRING_GENERAL)
 		do
-			artist := a_artist
+			create album.make_from_general (a_album)
+		end
+
+	set_artist (a_artist: READABLE_STRING_GENERAL)
+		do
+			create artist.make_from_general (a_artist)
 		end
 
 	set_bit_rate_per_channel (a_bit_rate_per_channel: INTEGER)
@@ -57,9 +69,9 @@ feature -- Element change
 			num_channels := a_num_channels
 		end
 
-	set_title (a_title: like title)
+	set_title (a_title: READABLE_STRING_GENERAL)
 		do
-			title := a_title
+			create title.make_from_general (a_title)
 		end
 
 feature -- Access
@@ -76,11 +88,18 @@ feature -- Access
 
 feature -- ID3 fields
 
-	album: STRING
+	album: ZSTRING
 
-	artist: STRING
+	artist: ZSTRING
 
-	title: STRING
+	title: ZSTRING
+
+feature -- Status query
+
+	valid_code_page: BOOLEAN
+		do
+			Result := {PLATFORM}.is_unix implies Console.code_page ~ "UTF-8"
+		end
 
 feature {NONE} -- Evolicity reflection
 
@@ -92,21 +111,21 @@ feature {NONE} -- Evolicity reflection
 				["mode", 		agent: STRING do Result := Mode_letters.item (num_channels).out end] +
 
 				-- ID3 fields
-				["album", 		agent: STRING do Result := album end] +
-				["artist", 		agent: STRING do Result := artist end] +
-				["title", 		agent: STRING do Result := title end]
+				["album", 		agent: ZSTRING do Result := album end] +
+				["artist", 		agent: ZSTRING do Result := artist end] +
+				["title", 		agent: ZSTRING do Result := title end]
 		end
 
 feature -- Contract Support
 
-	valid_number_channels (a_num_channels: like num_channels): BOOLEAN
-		do
-			Result := (1 |..| 2).has (a_num_channels)
-		end
-
 	valid_input_extension (extension: ZSTRING): BOOLEAN
 		do
 			Result := extension ~ File_extension_wav
+		end
+
+	valid_number_channels (a_num_channels: like num_channels): BOOLEAN
+		do
+			Result := (1 |..| 2).has (a_num_channels)
 		end
 
 	valid_output_extension (extension: ZSTRING): BOOLEAN

@@ -348,6 +348,14 @@ system:
 					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 				"""
 		cluster:
+			name = multimedia; location = "source/multimedia"; recursive = true
+			description:
+				"""
+					multimedia.ecf
+					
+					* Test wav to mp3 conversion
+				"""
+		cluster:
 			name = network; location = "source/network"; recursive = true
 			description:
 				"""
@@ -364,7 +372,8 @@ system:
 				"""
 					os-command.ecf
 					
-					Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
+					* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
+					* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
 				"""
 		cluster:
 			name = paypal_sbm; location = "source/paypal-SBM"; recursive = true

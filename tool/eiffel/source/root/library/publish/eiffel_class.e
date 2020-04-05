@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 13:20:34 GMT (Saturday 4th April 2020)"
-	revision: "21"
+	date: "2020-04-04 19:21:48 GMT (Saturday 4th April 2020)"
+	revision: "22"
 
 class
 	EIFFEL_CLASS
@@ -76,10 +76,10 @@ feature {NONE} -- Initialization
 			make_sync_item (html_output_path)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 
---			if is_modified or else word_count = 0 then
+			if is_modified or else word_count = 0 then
 				create stats.make_from_source (code_text, File_system.file_byte_count (source_path))
 				word_count := stats.word_count; file_size := stats.file_size
---			end
+			end
 		end
 
 	make_default

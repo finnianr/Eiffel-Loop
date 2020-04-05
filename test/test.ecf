@@ -221,6 +221,13 @@ markup-docs.ecf
 * Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 			</description>
 		</cluster>
+		<cluster name = "multimedia" location = "source/multimedia" recursive = "true">
+			<description>
+multimedia.ecf
+
+* Test wav to mp3 conversion
+			</description>
+		</cluster>
 		<cluster name = "network" location = "source/network" recursive = "true">
 			<description>
 network.ecf
@@ -235,7 +242,8 @@ Test network library classes
 			<description>
 os-command.ecf
 
-Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
+* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
+* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
 			</description>
 		</cluster>
 		<cluster name = "paypal_sbm" location = "source/paypal-SBM" recursive = "true">

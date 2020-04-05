@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:15:46 GMT (Friday 14th February 2020)"
-	revision: "7"
+	date: "2020-04-05 10:35:12 GMT (Sunday 5th April 2020)"
+	revision: "8"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -22,11 +22,14 @@ inherit
 
 	EL_MODULE_AUDIO_COMMAND
 
+	EL_MODULE_CONSOLE
+
 feature -- Basic operations
 
 	do_all (evaluator: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			evaluator.call ("mp3_audio", agent test_mp3_audio)
 		end
 
 feature -- Tests
@@ -35,8 +38,8 @@ feature -- Tests
 		local
 			generation_cmd: like Audio_command.new_wave_generation
 			mp3_cmd: like Audio_command.new_wav_to_mp3
-			extract_cmd: like Audio_command.new_extract_mp3_info
 			properties_cmd: like Audio_command.new_audio_properties
+			mp3: TL_MPEG_FILE
 		do
 			log.enter ("test_mp3_audio")
 			if {PLATFORM}.is_unix then
@@ -50,13 +53,12 @@ feature -- Tests
 				mp3_cmd.set_title (Id3_title)
 				mp3_cmd.execute
 
-				extract_cmd := Audio_command.new_extract_mp3_info (Mp3_file_path)
-				extract_cmd.execute
-				assert ("same album", extract_cmd.fields.item ("album").same_string (Id3_album))
-				assert ("same artist", extract_cmd.fields.item ("artist").same_string (Id3_artist))
+				create mp3.make (Mp3_file_path)
+				assert ("same album", Id3_album.same_string_general (mp3.tag.album))
+				assert ("same artist", Id3_artist.same_string_general (mp3.tag.artist))
 
---				If this assert fails, try setting the value for LANG in execution environment to UTF-8
-				assert ("same title", extract_cmd.fields.item ("title").same_string (Id3_title))
+				assert ("UTF-8 code page", Console.code_page ~ "UTF-8")
+				assert ("same title", Id3_title.same_string_general (mp3.tag.title))
 
 				properties_cmd := Audio_command.new_audio_properties (Mp3_file_path)
 				assert ("valid bitrate", properties_cmd.bit_rate = 128)
@@ -68,15 +70,15 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Mp3_file_path: EL_FILE_PATH
-		once
-			Result := Work_area_dir + (Id3_title + ".mp3")
-		end
-
 	Id3_album: STRING = "Poema"
 
 	Id3_artist: STRING = "Franciso Canaro"
 
 	Id3_title: STRING = "La Copla Porteña"
+
+	Mp3_file_path: EL_FILE_PATH
+		once
+			Result := Work_area_dir + (Id3_title + ".mp3")
+		end
 
 end

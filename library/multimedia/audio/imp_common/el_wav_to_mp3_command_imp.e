@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-04-05 10:17:44 GMT (Sunday 5th April 2020)"
+	revision: "5"
 
 class
 	EL_WAV_TO_MP3_COMMAND_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			make_default
+			make_default, execute
 		end
 
 create

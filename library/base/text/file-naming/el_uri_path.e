@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:12:10 GMT (Wednesday 11th September 2019)"
-	revision: "12"
+	date: "2020-04-05 9:13:58 GMT (Sunday 5th April 2020)"
+	revision: "13"
 
 deferred class
 	EL_URI_PATH
@@ -52,13 +52,13 @@ feature -- Initialization
 			is_uri: is_uri_string (a_uri)
 			is_absolute: is_uri_absolute (a_uri)
 		local
-			l_path: ZSTRING; pos_sign, pos_separator: INTEGER
+			l_path: ZSTRING; start_index, pos_separator: INTEGER
 		do
 			l_path := temporary_copy (a_uri)
 			protocol := uri_protocol (l_path)
-			pos_sign := l_path.substring_index (Protocol_sign, 1)
-			if pos_sign >= 3 then
-				l_path.remove_head (pos_sign + Protocol_sign.count - 1)
+			start_index := l_path.substring_right_index (Protocol_sign, 1)
+			if start_index > 0 then
+				l_path.remove_head (start_index - 1)
 			end
 			if protocol ~ Protocol_name.file then
 				create domain.make_empty

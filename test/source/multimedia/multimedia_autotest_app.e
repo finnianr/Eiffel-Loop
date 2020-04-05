@@ -1,12 +1,11 @@
 note
-	description: "Finalized executable tests for library [./library/os-command.html os-command.ecf]"
+	description: "Finalized executable tests for library [./library/multi-media.html multi-media.ecf]"
 	notes: "[
 		Command option: `-os_command_autotest'
 		
 		**Test Sets**
 		
-			[$source OS_COMMAND_TEST_SET]
-			[$source FILE_AND_DIRECTORY_TEST_SET]
+			[$source AUDIO_COMMAND_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:36:44 GMT (Sunday 5th April 2020)"
+	date: "2020-04-05 10:34:38 GMT (Sunday 5th April 2020)"
 	revision: "63"
 
 class
-	OS_COMMAND_AUTOTEST_APP
+	MULTIMEDIA_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_SUB_APPLICATION
@@ -28,12 +27,12 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type: TUPLE [FILE_AND_DIRECTORY_TEST_SET]
+	test_type: TUPLE [AUDIO_COMMAND_TEST_SET]
 		do
 			create Result
 		end
 
-	test_types_all: TUPLE [OS_COMMAND_TEST_SET, FILE_AND_DIRECTORY_TEST_SET]
+	test_types_all: TUPLE [AUDIO_COMMAND_TEST_SET]
 		do
 			create Result
 		end

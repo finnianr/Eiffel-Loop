@@ -168,6 +168,7 @@ publish-repository:
 			"test/test.ecf#id3_tags"
 			"test/test.ecf#image_utils"
 			"test/test.ecf#markup_docs"
+			"test/test.ecf#multimedia"
 			"test/test.ecf#network"
 			"test/test.ecf#os_command"
 			"test/test.ecf#paypal_sbm"

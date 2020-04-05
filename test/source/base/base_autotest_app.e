@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 9:37:24 GMT (Saturday 4th April 2020)"
-	revision: "80"
+	date: "2020-04-05 10:37:58 GMT (Sunday 5th April 2020)"
+	revision: "81"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [MODULE_CRC_32_TEST_SET]
+	test_type: TUPLE [DIR_URI_PATH_TEST_SET]
 		do
 			create Result
 		end
@@ -44,7 +44,6 @@ feature {NONE} -- Implementation
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
 		DIR_URI_PATH_TEST_SET,
-		FILE_AND_DIRECTORY_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
 		GENERAL_TEST_SET,
 		PATH_TEST_SET,

@@ -18,6 +18,12 @@ $do_test -image_utils_autotest
 # i18n.ecf
 $do_test -i18n_autotest
 
+# multi-media.ecf
+$do_test -multimedia_autotest
+
+# os-command.ecf
+$do_test -os_command_autotest
+
 # xdoc-scanning.ecf
 $do_test -xdoc_scanning_autotest
 
