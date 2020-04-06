@@ -115,11 +115,6 @@ feature -- Access
 	html_index_path: EL_FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
 
-	qualified_name: ZSTRING
-		do
-			Result := Qualified_template #$ [category, name]
-		end
-
 	relative_dir_path: EL_DIR_PATH
 		do
 			Result := dir_path.relative_path (repository.root_dir)
@@ -367,11 +362,6 @@ feature {NONE} -- Constants
 	Parent_dir_dots: ZSTRING
 		once
 			Result := "../"
-		end
-
-	Qualified_template: ZSTRING
-		once
-			Result := "%S (%S)"
 		end
 
 	Relative_location_symbol: ZSTRING
