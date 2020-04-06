@@ -80,7 +80,7 @@ feature -- Basic operations
 			)
 			lio.put_new_line
 			across Current as tree loop
-				lio.put_labeled_string (tree.item.type, tree.item.relative_ecf_path.base)
+				lio.put_labeled_string (tree.item.type, tree.item.qualified_name)
 				lio.put_new_line
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
