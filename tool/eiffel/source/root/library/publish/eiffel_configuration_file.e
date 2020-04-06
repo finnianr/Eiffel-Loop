@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 17:52:58 GMT (Sunday 5th April 2020)"
-	revision: "25"
+	date: "2020-04-05 19:04:45 GMT (Sunday 5th April 2020)"
+	revision: "26"
 
 class
 	EIFFEL_CONFIGURATION_FILE

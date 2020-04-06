@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 18:49:23 GMT (Sunday 5th April 2020)"
-	revision: "1"
+	date: "2020-04-05 19:05:53 GMT (Sunday 5th April 2020)"
+	revision: "2"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -22,7 +22,7 @@ inherit
 			{ANY} count, sort, is_empty, do_all
 		end
 
-	EL_ITERATION_OUTPUT
+	EL_MODULE_LIO
 
 create
 	make
@@ -74,23 +74,19 @@ feature -- Basic operations
 		end
 
 	sink_source_subsitutions
-		local
-			 i: NATURAL
 		do
 			lio.put_labeled_string (
 				"Adding to current_digest", "description $source variable paths and client example paths"
 			)
 			lio.put_new_line
 			across Current as tree loop
-				lio.put_labeled_string ("Project", tree.item.ecf_name)
+				lio.put_labeled_string (tree.item.type, tree.item.relative_ecf_path.base)
 				lio.put_new_line
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
 						e_class.item.sink_source_subsitutions
-						print_progress (i); i := i + 1
 					end
 				end
-				lio.put_new_line
 			end
 		end
 
@@ -104,9 +100,5 @@ feature -- Element change
 feature {NONE} -- Internal attributes
 
 	repository: REPOSITORY_PUBLISHER
-
-feature {NONE} -- Constants
-
-	Iterations_per_dot: NATURAL_32 = 200
 
 end

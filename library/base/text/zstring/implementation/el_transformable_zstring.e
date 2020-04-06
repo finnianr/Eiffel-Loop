@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 15:42:38 GMT (Sunday 5th April 2020)"
-	revision: "1"
+	date: "2020-04-06 10:18:55 GMT (Monday 6th April 2020)"
+	revision: "2"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
 
 inherit
-	EL_ZSTRING_UNICODE_IMPLEMENTATION
+	EL_ZSTRING_IMPLEMENTATION
+
+	EL_APPENDABLE_ZSTRING
 
 	EL_MODULE_CHAR_32
 
@@ -122,7 +124,7 @@ feature {EL_READABLE_ZSTRING} -- Appending
 		ensure then
 			item_inserted: unicode (count) = uc
 			new_count: count = old count + 1
-			stable_before: elks_checking implies substring (1, count - 1) ~ (old twin)
+			stable_before: elks_checking implies substring (1, count - 1) ~ (old current_readable)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Prepending
@@ -457,7 +459,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			end
 		ensure
 			new_count: count = old count + old s.count - end_index + start_index - 1
-			replaced: elks_checking implies (Current ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
+			replaced: elks_checking implies
+				(current_readable ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
 			valid_unencoded: is_unencoded_valid
 		end
 
@@ -566,7 +569,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				keep_tail (count - n)
 			end
 		ensure
-			removed: elks_checking implies Current ~ (old substring (n.min (count) + 1, count))
+			removed: elks_checking implies current_readable ~ (old substring (n.min (count) + 1, count))
 		end
 
 	remove_tail (n: INTEGER)
@@ -585,7 +588,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				keep_head (l_count - n)
 			end
 		ensure
-			removed: elks_checking implies Current ~ (old substring (1, count - n.min (count)))
+			removed: elks_checking implies current_readable ~ (old substring (1, count - n.min (count)))
 		end
 
 	left_adjust
@@ -627,50 +630,6 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
-
-	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
-		deferred
-		end
-
-	internal_append_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	internal_left_adjust
-		deferred
-		end
-
-	internal_keep_head (n: INTEGER)
-		deferred
-		end
-
-	internal_keep_tail (n: INTEGER)
-		deferred
-		end
-
-	internal_mirror
-		deferred
-		end
-
-	internal_prepend_character (c: CHARACTER_8)
-		deferred
-		end
-
-	internal_prepend_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	internal_replace_substring (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	internal_replace_substring_all (original, new: EL_READABLE_ZSTRING)
-		deferred
-		end
-
-	internal_right_adjust
-		deferred
-		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred

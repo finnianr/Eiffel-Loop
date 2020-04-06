@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 13:55:23 GMT (Sunday 5th April 2020)"
-	revision: "9"
+	date: "2020-04-06 9:27:08 GMT (Monday 6th April 2020)"
+	revision: "10"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -339,12 +339,16 @@ feature {NONE} -- Element change
 	insert_string (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER)
 			-- Insert `s' at index `i', shifting characters between ranks
 			-- `i' and `count' rightwards.
+		require
+			valid_insertion_index: 1 <= i and i <= count + 1
 		local
 			str: like current_string_8
 		do
 			str := current_string_8
 			str.insert_string (string_8_argument (s, 1), i)
 			set_from_string_8 (str)
+		ensure
+			inserted: elks_checking implies (string ~ (old substring (1, i - 1) + old (s.string) + old substring (i, count)))
 		end
 
 	keep_head (n: INTEGER)
@@ -582,6 +586,8 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		end
 
 	string_8_argument (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; index: INTEGER): EL_STRING_8
+		require
+			valid_index: 1 <= index and index <= 2
 		do
 			Result := String_8_args [index - 1]
 			Result.set_area_and_count (zstr.area, zstr.count)

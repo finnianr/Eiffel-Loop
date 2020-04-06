@@ -1,7 +1,7 @@
 note
 	description: "[
-		Aspect of [$source EL_ZSTRING] that supports unicode encoding of characters not supported
-		in the 8-bit encoding of [$source EL_ZSTRING_CHARACTER_8_IMPLEMENTATION]
+		Core implementation of [$source EL_ZSTRING] using an 8 bit array to sotre characters encodeable
+		by `codec', and a compacted array of 32-bit arrays to encode any character not defined by the 8-bit encoding.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 15:42:38 GMT (Sunday 5th April 2020)"
-	revision: "1"
+	date: "2020-04-06 10:38:51 GMT (Monday 6th April 2020)"
+	revision: "2"
 
 deferred class
-	EL_ZSTRING_UNICODE_IMPLEMENTATION
+	EL_ZSTRING_IMPLEMENTATION
 
 inherit
 	EL_UNENCODED_CHARACTERS
@@ -59,12 +59,45 @@ inherit
 			is_unencoded_valid
 		end
 
-	EL_SHARED_ZCODEC
-
-	STRING_HANDLER
+	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
+		rename
+			ends_with as internal_ends_with,
+			fill_character as internal_fill_character,
+			has as internal_has,
+			hash_code as area_hash_code,
+			item as internal_item,
+			index_of as internal_index_of,
+			insert_character as internal_insert_character,
+			insert_string as internal_insert_string,
+			keep_head as internal_keep_head,
+			keep_tail as internal_keep_tail,
+			last_index_of as internal_last_index_of,
+			linear_representation as internal_linear_representation,
+			left_adjust as internal_left_adjust,
+			make as internal_make,
+			mirror as internal_mirror,
+			occurrences as internal_occurrences,
+			order_comparison as internal_order_comparison,
+			prune_all as internal_prune_all,
+			remove as internal_remove,
+			remove_substring as internal_remove_substring,
+			replace_substring as internal_replace_substring,
+			replace_substring_all as internal_replace_substring_all,
+			same_characters as internal_same_characters,
+			same_string as internal_same_string,
+			share as internal_share,
+			starts_with as internal_starts_with,
+			string as internal_string,
+			substring as internal_substring,
+			right_adjust as internal_right_adjust,
+			wipe_out as internal_wipe_out
+		export
+			{STRING_HANDLER} area, area_lower
 		undefine
-			is_equal, copy, out
+			copy, is_equal, out
 		end
+
+	EL_SHARED_ZCODEC
 
 feature -- Access
 
@@ -117,6 +150,30 @@ feature -- Element change
 			else
 				area [i - 1] := Unencoded_character
 				put_unencoded_code (z_code_to_unicode (a_z_code), i)
+			end
+		end
+
+feature -- Status query
+
+	has (uc: CHARACTER_32): BOOLEAN
+			-- Does string include `uc'?
+		local
+			c: CHARACTER
+		do
+			c := codec.encoded_character (uc.natural_32_code)
+			if c = Unencoded_character then
+				Result := unencoded_has (uc.natural_32_code)
+			else
+				Result := internal_has (c)
+			end
+		end
+
+	has_z_code (a_z_code: NATURAL): BOOLEAN
+		do
+			if a_z_code <= 0xFF then
+				Result := internal_has (a_z_code.to_character_8)
+			else
+				Result := unencoded_has (z_code_to_unicode (a_z_code))
 			end
 		end
 
@@ -336,25 +393,11 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	capacity: INTEGER
-			-- Allocated space
-		deferred
-		end
-
 	character_properties: CHARACTER_PROPERTY
 		deferred
 		end
 
-	count: INTEGER
-		-- Actual number of characters making up the string
-		deferred
-		end
-
 	current_readable: EL_READABLE_ZSTRING
-		deferred
-		end
-
-	grow (newsize: INTEGER)
 		deferred
 		end
 
@@ -367,7 +410,7 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	make_from_other (other: EL_READABLE_ZSTRING)
+	make_from_other (other: EL_CONVERTABLE_ZSTRING)
 		deferred
 		end
 
@@ -375,15 +418,7 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	resize (newsize: INTEGER)
-		deferred
-		end
-
 	same_string (other: READABLE_STRING_GENERAL): BOOLEAN
-		deferred
-		end
-
-	set_count (number: INTEGER)
 		deferred
 		end
 
@@ -399,34 +434,11 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
-	unescaped (unescaper: EL_ZSTRING_UNESCAPER): EL_READABLE_ZSTRING
+	unescaped (unescaper: EL_ZSTRING_UNESCAPER): EL_CONVERTABLE_ZSTRING
 		deferred
 		end
 
 	valid_index (i: INTEGER): BOOLEAN
-		deferred
-		end
-
-feature {NONE} -- 8 bit routines
-
-	area: SPECIAL [CHARACTER_8]
-			-- Storage for characters.
-		deferred
-		end
-
-	internal_append_tuple_item (tuple: TUPLE; i: INTEGER)
-		deferred
-		end
-
-	internal_fill_character (c: CHARACTER_8)
-		deferred
-		end
-
-	internal_item (i: INTEGER): CHARACTER_8
-		deferred
-		end
-
-	internal_occurrences (c: CHARACTER_8): INTEGER
 		deferred
 		end
 

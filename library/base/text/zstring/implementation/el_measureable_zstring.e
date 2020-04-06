@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 14:54:04 GMT (Sunday 5th April 2020)"
-	revision: "1"
+	date: "2020-04-06 9:39:27 GMT (Monday 6th April 2020)"
+	revision: "2"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
 
 inherit
-	EL_ZSTRING_UNICODE_IMPLEMENTATION
+	EL_ZSTRING_IMPLEMENTATION
 
 feature -- Measurement
 
