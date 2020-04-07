@@ -16,26 +16,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:05:20 GMT (Tuesday 31st March 2020)"
-	revision: "22"
+	date: "2020-04-07 12:07:03 GMT (Tuesday 7th April 2020)"
+	revision: "23"
 
 class
 	RBOX_DATABASE
 
 inherit
-	EL_FILE_PERSISTENT_BUILDABLE_FROM_XML
+	EL_BUILDABLE_FROM_NODE_SCAN
+		undefine
+			make_from_file
+		redefine
+			make_default, on_context_return
+		end
+
+	EVOLICITY_SERIALIZEABLE_AS_XML
 		rename
 			output_path as xml_database_path,
 			set_output_path as set_xml_database_path,
-			store as store_entries
+			save_as_xml as store_as
 		redefine
-			store_entries, getter_function_table, on_context_return
+			make_default
 		end
 
-	MARKUP_LINE_COUNTER
-		undefine
-			is_equal, copy
-		end
+	EL_XML_PARSE_EVENT_TYPE
 
 	SONG_QUERY_CONDITIONS
 
@@ -65,7 +69,8 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
 			--
 		local
-			playlist: DJ_EVENT_PLAYLIST
+			playlist: DJ_EVENT_PLAYLIST; xml: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
+
 		do
 			call (Database)
 
@@ -73,7 +78,15 @@ feature {NONE} -- Initialization
 
 			lio.put_path_field ("Reading", a_xml_database_path)
 			lio.put_new_line
-		 	create entries.make (1000)
+
+			if a_xml_database_path.exists then
+				xml := File_system.raw_plain_text (a_xml_database_path)
+			else
+				xml := Default_xml
+			end
+			create entry_occurences.make (xml, "<entry type")
+
+		 	create entries.make (entry_occurences.count)
 			create songs_by_location.make_equal (entries.capacity)
 			create songs_by_audio_id.make_equal (entries.capacity)
 			create songs.make (entries.capacity)
@@ -82,14 +95,9 @@ feature {NONE} -- Initialization
 
 			File_system.make_directory (dj_playlist_dir)
 
-			if a_xml_database_path.exists then
-			 	songs.grow (line_ends_with_count (a_xml_database_path, "type=%"song%">"))
-				entries.grow (songs.capacity + 50)
-				create songs_by_location.make (entries.capacity)
-				create songs_by_audio_id.make (entries.capacity)
-			end
-
 			make_from_file (a_xml_database_path)
+			build_from_string (xml)
+			set_encoding_from_name (node_source.item.encoding_name)
 			lio.put_new_line
 
 			playlists_xml_path := xml_database_path.parent + "playlists.xml"
@@ -105,6 +113,13 @@ feature {NONE} -- Initialization
 				entries.forth
 			end
 			is_initialized := not songs.is_empty
+		end
+
+	make_default
+		do
+			-- NOT THIS:
+			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
+			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
 		end
 
 feature -- Access
@@ -422,7 +437,7 @@ feature -- Basic operations
 	store_entries
 		do
 			log.put_line ("Saving entries")
-			Precursor
+			serialize
 		end
 
 	store_in_directory (a_dir_path: EL_DIR_PATH)
@@ -530,25 +545,14 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Build from XML
 
-	Root_node_name: STRING = "rhythmdb"
-
-	add_song_entry
-			--
-		do
-			if songs.count \\ 10 = 0 or else songs.count = songs.capacity then
-				io.put_string (Read_progress_template #$ [songs.count, songs.capacity])
-			end
-			set_next_context (new_song)
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb
 		do
 			create Result.make (<<
-				["@version", agent do version := node.to_real end],
-				["entry[@type='song']", agent add_song_entry],
-				["entry[@type='iradio']", agent do set_next_context (new_iradio_entry) end],
-				["entry[@type='ignore']", agent do set_next_context (new_ignored_entry) end]
+				["@version",					agent do version := node.to_real end],
+				["entry[@type='iradio']",	agent do set_next_context (new_iradio_entry) end],
+				["entry[@type='ignore']",	agent do set_next_context (new_ignored_entry) end],
+				["entry[@type='song']",		agent do set_next_context (new_song) end]
 			>>)
 		end
 
@@ -558,7 +562,12 @@ feature {NONE} -- Build from XML
 			if attached {RBOX_IRADIO_ENTRY} context as entry then
 				extend (entry)
 			end
+			if entries.count \\ 10 = 0 or else entries.count = entries.capacity then
+				io.put_string (Read_progress_template #$ [entries.count, entries.capacity])
+			end
 		end
+
+	Root_node_name: STRING = "rhythmdb"
 
 feature {NONE} -- Constants
 
@@ -572,9 +581,18 @@ feature {NONE} -- Constants
 			Result := "Artists: "
 		end
 
+	Default_xml: STRING
+		once
+			Result := "[
+				<?xml version="1.0" standalone="yes"?>
+				<rhythmdb version="1.9"/>
+			]"
+		end
+
 	Read_progress_template: ZSTRING
 		once
-			Result := "%RSongs: [%S of %S]"
+			Result := "Reading entries: [%S of %S]"
+			Result.prepend_character ('%R')
 		end
 
 	Template: STRING =

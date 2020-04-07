@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:47:20 GMT (Friday 3rd April 2020)"
-	revision: "8"
+	date: "2020-04-06 19:07:04 GMT (Monday 6th April 2020)"
+	revision: "9"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -37,7 +37,7 @@ feature -- Basic operations
 			song_count: INTEGER
 		do
 			lio.put_line ("VIDEO IMPORT NOTES")
-			import_notes := Video_import_notes #$ [Video_extensions]
+			import_notes := Video_import_notes #$ [Video_extensions.joined_with_string (", ")]
 			across import_notes.lines as line loop
 				lio.put_line (line.item)
 			end

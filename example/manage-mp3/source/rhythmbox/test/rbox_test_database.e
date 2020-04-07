@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 12:52:03 GMT (Wednesday 1st April 2020)"
-	revision: "12"
+	date: "2020-04-07 11:53:31 GMT (Tuesday 7th April 2020)"
+	revision: "13"
 
 class
 	RBOX_TEST_DATABASE
@@ -15,8 +15,7 @@ class
 inherit
 	RBOX_DATABASE
 		redefine
-			add_song_entry, new_cortina, new_song, extend_with_song,
-			decoded_location, encoded_location_uri
+			new_cortina, new_song, extend_with_song, decoded_location, encoded_location_uri
 		end
 
 	EL_MODULE_AUDIO_COMMAND
@@ -77,11 +76,6 @@ feature {RBOX_IRADIO_ENTRY} -- location codecs
 
 feature {NONE} -- Build from XML
 
-	add_song_entry
-			--
-		do
-			set_next_context (new_song)
-		end
 
 feature {TEST_MANAGEMENT_TASK} -- Access
 
@@ -94,9 +88,6 @@ feature {TEST_MANAGEMENT_TASK} -- Access
 			relative_path, wav_path: EL_FILE_PATH; mp3_info: TL_MUSICBRAINZ_MPEG_FILE
 		do
 			relative_path := song.mp3_path.relative_path (music_dir)
-
-			log.put_path_field ("Reading", relative_path)
-			log.put_new_line
 
 			Result := Directory.new_path ("build") + relative_path
 			if not Result.exists then

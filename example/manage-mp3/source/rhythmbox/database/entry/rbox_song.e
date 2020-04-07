@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:27:04 GMT (Friday 3rd April 2020)"
-	revision: "35"
+	date: "2020-04-07 11:10:36 GMT (Tuesday 7th April 2020)"
+	revision: "36"
 
 class
 	RBOX_SONG
@@ -21,7 +21,7 @@ inherit
 			relative_location as relative_mp3_path,
 			set_location as set_mp3_path
 		redefine
-			make, make_default, building_action_table, getter_function_table, on_context_exit,
+			make, make_default, getter_function_table, on_context_exit,
 			Except_fields, Template, Field_sets
 		end
 
@@ -250,6 +250,9 @@ feature -- Status query
 		end
 
 	is_hidden: BOOLEAN
+		do
+			Result := hidden.to_boolean
+		end
 
 	is_modified: BOOLEAN
 			--
@@ -373,12 +376,12 @@ feature -- Status setting
 
 	hide
 		do
-			is_hidden := True
+			hidden := 1
 		end
 
 	show
 		do
-			is_hidden := False
+			hidden := 0
 		end
 
 feature -- Basic operations
@@ -472,16 +475,6 @@ feature {NONE} -- Build from XML
 		do
 			update_checksum
 			set_album_artists (album_artist)
-		end
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			Result := Precursor
-			Result.merge (building_actions_for_type ({DOUBLE}, Text_element_node))
-			Result := Result +
-				["hidden/text()", agent do is_hidden := node.to_integer = 1 end] +
-				["mb-trackid/text()", agent do mb_trackid := node end]
 		end
 
 feature {NONE} -- Evolicity reflection

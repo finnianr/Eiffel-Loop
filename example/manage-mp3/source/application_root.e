@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 15:34:00 GMT (Tuesday 24th March 2020)"
-	revision: "12"
+	date: "2020-04-07 17:30:24 GMT (Tuesday 7th April 2020)"
+	revision: "13"
 
 class
 	APPLICATION_ROOT
@@ -21,6 +21,7 @@ create
 feature {NONE} -- Constants
 
 	Applications: TUPLE [
+		GENERATE_RBOX_DATABASE_FIELDS_APP,
 		ID3_EDITOR_APP,
 		MP3_AUDIO_SIGNATURE_READER_APP,
 		RHYTHMBOX_MUSIC_MANAGER_APP,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 13:14:46 GMT (Saturday 4th January 2020)"
-	revision: "21"
+	date: "2020-04-07 11:34:33 GMT (Tuesday 7th April 2020)"
+	revision: "22"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -58,39 +58,39 @@ feature -- Access
 		require
 			file_exists: a_file_path.exists
 		local
-			text_file: PLAIN_TEXT_FILE
+			file: PLAIN_TEXT_FILE
 		do
-			create text_file.make_open_read (a_file_path)
+			create file.make_open_read (a_file_path)
 			create Result.make_empty
-			if not text_file.is_empty then
-				text_file.read_line
-				Result := text_file.last_string
+			if not file.is_empty then
+				file.read_line
+				Result := file.last_string
 			end
-			text_file.close
+			file.close
 		end
 
 	plain_text (a_file_path: EL_FILE_PATH): STRING
-			--
+		--
 		require
 			file_exists: a_file_path.exists
 		local
-			text_file: PLAIN_TEXT_FILE; count: INTEGER; line: STRING
+			file: PLAIN_TEXT_FILE; count: INTEGER; line: STRING
 		do
-			create text_file.make_open_read (a_file_path)
-			create Result.make (text_file.count)
-			if not text_file.is_empty then
-				from until text_file.end_of_file loop
-					text_file.read_line
-					line := text_file.last_string
+			create file.make_open_read (a_file_path)
+			create Result.make (file.count)
+			if not file.is_empty then
+				from until file.end_of_file loop
+					file.read_line
+					line := file.last_string
 					count := count + line.count + 1
 					line.prune_all_trailing ('%R')
 					Result.append (line)
-					if count < text_file.count then
+					if count < file.count then
 						Result.append_character ('%N')
 					end
 				end
 			end
-			text_file.close
+			file.close
 		end
 
 	plain_text_bomless (a_file_path: EL_FILE_PATH): STRING
@@ -100,6 +100,20 @@ feature -- Access
 			if Result.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
 				Result.remove_head (3)
 			end
+		end
+
+	raw_plain_text (a_file_path: EL_FILE_PATH): STRING
+		-- plain text preserving carriage return characters '%R'
+		require
+			file_exists: a_file_path.exists
+		local
+			file: PLAIN_TEXT_FILE; line: STRING; pointer: MANAGED_POINTER
+		do
+			create file.make_open_read (a_file_path)
+			create Result.make_filled (' ', file.count)
+			create pointer.share_from_pointer (Result.area.base_address, Result.count)
+			file.read_to_managed_pointer (pointer, 0, Result.count)
+			file.close
 		end
 
 feature -- File lists
@@ -292,11 +306,11 @@ feature -- Basic operations
 	write_plain_text (a_file_path: EL_FILE_PATH; text: STRING)
 			--
 		local
-			text_file: PLAIN_TEXT_FILE
+			file: PLAIN_TEXT_FILE
 		do
-			create text_file.make_open_write (a_file_path)
-			text_file.put_string (text)
-			text_file.close
+			create file.make_open_write (a_file_path)
+			file.put_string (text)
+			file.close
 		end
 
 feature -- Status query

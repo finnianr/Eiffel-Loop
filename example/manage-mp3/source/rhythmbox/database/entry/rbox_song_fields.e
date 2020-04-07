@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 11:50:39 GMT (Wednesday 1st April 2020)"
-	revision: "1"
+	date: "2020-04-07 12:38:45 GMT (Tuesday 7th April 2020)"
+	revision: "2"
 
 deferred class
 	RBOX_SONG_FIELDS
@@ -45,14 +45,9 @@ feature -- Rhythmbox XML fields
 
 	artist: ZSTRING
 
-	beats_per_minute: INTEGER
-		-- If beats per minute <= 3 it indicates silence duration appended to playlist
-
 	bitrate: INTEGER
 
 	comment: ZSTRING
-
-	composer: ZSTRING
 
 	date: INTEGER
 		-- Recording date in days
@@ -84,6 +79,11 @@ feature -- Rhythmbox XML fields
 	replaygain_track_peak: DOUBLE
 
 	track_number: INTEGER
+
+	beats_per_minute: INTEGER
+		-- If beats per minute <= 3 it indicates silence duration appended to playlist
+
+	composer: ZSTRING
 
 feature -- Element change
 

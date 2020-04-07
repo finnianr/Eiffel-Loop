@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 15:42:05 GMT (Wednesday 1st April 2020)"
-	revision: "17"
+	date: "2020-04-07 11:16:01 GMT (Tuesday 7th April 2020)"
+	revision: "18"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -15,7 +15,7 @@ class
 inherit
 	RBOX_IRADIO_ENTRY
 		redefine
-			make, building_action_table, Template, Protocol
+			make, Template, Protocol
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -89,15 +89,6 @@ feature -- Rhythmbox XML fields
 		-- 	rb_debug ("not modified: %s", rb_refstring_get (event->real_uri));
 		-- } else {
 		-- 	rb_debug ("changed: %s", rb_refstring_get (event->real_uri));
-
-feature {NONE} -- Build from XML
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			Result := Precursor
-			Result.merge (building_actions_for_type ({INTEGER}, Text_element_node))
-		end
 
 feature -- Constants
 

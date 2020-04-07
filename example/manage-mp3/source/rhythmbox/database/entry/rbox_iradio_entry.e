@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:10:33 GMT (Thursday 2nd April 2020)"
-	revision: "31"
+	date: "2020-04-07 18:19:50 GMT (Tuesday 7th April 2020)"
+	revision: "32"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -19,7 +19,7 @@ inherit
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make_default, set_field_from_node, building_action_table, Except_fields, Field_sets
+			make_default, building_action_table, Except_fields, Field_sets
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -34,15 +34,11 @@ inherit
 			Media_type as Media_types
 		end
 
-	EL_XML_ESCAPING_CONSTANTS
-		undefine
-			is_equal
-		end
+	EL_XML_ESCAPING_CONSTANTS undefine is_equal end
 
-	HASHABLE
-		undefine
-			is_equal
-		end
+	RBOX_DATABASE_FIELDS undefine is_equal end
+
+	HASHABLE undefine is_equal end
 
 	EL_MODULE_XML
 
@@ -76,6 +72,8 @@ feature -- Rhythmbox XML fields
 	media_type: STRING
 
 	title: ZSTRING
+
+	hidden: NATURAL_8
 
 feature -- Access
 
@@ -140,32 +138,19 @@ feature -- Element change
 
 feature {NONE} -- Build from XML
 
-	build_location
-		do
-			set_location (database.decoded_location (node.to_string_8))
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			Result := building_actions_for_type ({ZSTRING}, Text_element_node) + ["location/text()", agent build_location]
-
-			if field_table.has_key ("media_type")
-				and then attached {EL_REFLECTED_STRING_8} field_table.found_item as field
-			then
-				Result ["media-type/text()"] := agent set_cached_field_from_node (Media_type_set, field)
+			create Result.make_equal (field_table.count)
+			across Build_types as type loop
+				Result.merge (building_actions_for_type (type.item, Text_element_node))
 			end
+			Result ["location/text()"] := agent do set_location (database.decoded_location (node.to_string_8)) end
 		end
 
-	set_field_from_node (field: EL_REFLECTED_FIELD)
-		do
-			if attached {EL_REFLECTED_ZSTRING} field as zstring_field
-				and then zstring_field.value (Current) ~ Unknown_string
-			then
-				zstring_field.set (Current, Unknown_string)
-			else
-				field.set_from_readable (Current, node)
-			end
+	Build_types: ARRAY [TYPE [ANY]]
+		once
+			Result := << {DOUBLE}, {NATURAL_8}, {INTEGER}, {ZSTRING}, {STRING} >>
 		end
 
 feature {NONE} -- Evolicity fields
