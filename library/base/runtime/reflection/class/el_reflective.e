@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
-	revision: "25"
+	date: "2020-04-08 10:56:04 GMT (Wednesday 8th April 2020)"
+	revision: "26"
 
 deferred class
 	EL_REFLECTIVE
@@ -116,7 +116,7 @@ feature -- Element change
 			from table_other.start until table_other.after loop
 				other_field := table_other.item_for_iteration
 				if not except_indices.has (other_field.index) then
-					if table.has_name (other_field.name, Current) then
+					if table.has_key (other_field.name) then
 						field := table.found_item
 						if other_field.type_id = field.type_id then
 							field.set (Current, other_field.value (other))

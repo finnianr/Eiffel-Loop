@@ -6,14 +6,124 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 9:39:27 GMT (Monday 6th April 2020)"
-	revision: "4"
+	date: "2020-04-08 16:13:01 GMT (Wednesday 8th April 2020)"
+	revision: "5"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
+
+feature {EL_READABLE_ZSTRING} -- Append strings
+
+	append_string, append (s: EL_READABLE_ZSTRING)
+		local
+			old_count: INTEGER
+		do
+			if s.has_mixed_encoding then
+				old_count := count
+				internal_append (s)
+				append_unencoded (s.shifted_unencoded (old_count))
+			else
+				internal_append (s)
+			end
+		ensure
+			new_count: count = old (count + s.count)
+			inserted: elks_checking implies same_string (old (current_readable + s))
+		end
+
+	append_string_general (str: READABLE_STRING_GENERAL)
+		local
+			old_count: INTEGER
+		do
+			if attached {EL_ZSTRING} str as str_z then
+				append_string (str_z)
+			else
+				old_count := count
+				grow (old_count + str.count)
+				set_count (old_count + str.count)
+				encode (str, old_count)
+				reset_hash
+			end
+		ensure then
+			unencoded_valid: is_unencoded_valid
+		end
+
+	append_tuple_item (tuple: TUPLE; i: INTEGER)
+		local
+			l_reference: ANY
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					append_character (tuple.character_8_item (i))
+
+				when {TUPLE}.Character_32_code then
+					append_character (tuple.character_32_item (i))
+
+				when {TUPLE}.Pointer_code then
+					append_string_general (tuple.pointer_item (i).out)
+
+				when {TUPLE}.Reference_code then
+					l_reference := tuple.reference_item (i)
+					if attached {READABLE_STRING_GENERAL} l_reference as string then
+						append_string_general (string)
+					elseif attached {EL_PATH} l_reference as l_path then
+						append_string (l_path.to_string)
+					elseif attached {PATH} l_reference as path then
+						append_string_general (path.name)
+					else
+						append_string_general (l_reference.out)
+					end
+			else
+				internal_append_tuple_item (tuple, i)
+			end
+		end
+
+	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
+		local
+			old_count: INTEGER; l_unencoded: like unencoded_substring
+		do
+			old_count := count
+			internal_append_substring (s, start_index, end_index)
+			if s.has_mixed_encoding then
+				l_unencoded := s.unencoded_substring (start_index, end_index)
+				if l_unencoded.not_empty then
+					l_unencoded.shift (old_count)
+					append_unencoded (l_unencoded)
+				end
+			end
+		ensure
+			new_count: count = old count + (end_index - start_index + 1)
+			appended: elks_checking implies same_string (old (current_readable + s.substring (start_index, end_index)))
+		end
+
+feature {NONE} -- Append character
+
+	append_character, extend (uc: CHARACTER_32)
+		do
+			append_unicode (uc.natural_32_code)
+		end
+
+	append_unicode (uc: NATURAL)
+			-- Append `uc' at end.
+			-- It would be nice to make this routine over ride 'append_code' but unfortunately
+			-- the post condition links it to 'code' and for performance reasons it is undesirable to have
+			-- code return unicode.
+		local
+			l_count: INTEGER
+		do
+			l_count := count + 1
+			if l_count > capacity then
+				resize (l_count)
+			end
+			set_count (l_count)
+			put_unicode (uc, l_count)
+		ensure then
+			item_inserted: unicode (count) = uc
+			new_count: count = old count + 1
+			stable_before: elks_checking implies substring (1, count - 1) ~ (old current_readable)
+		end
 
 feature {NONE} -- Append integers
 
@@ -143,6 +253,48 @@ feature {NONE} -- Prepend general
 		do
 			str := current_string_8; str.prepend_double (n)
 			set_from_string_8 (str)
+		end
+
+feature {EL_READABLE_ZSTRING} -- Prepending
+
+	precede, prepend_character (uc: CHARACTER_32)
+		local
+			c: CHARACTER
+		do
+			c := encoded_character (uc)
+			internal_prepend_character (c)
+			shift_unencoded (1)
+			if c = Unencoded_character then
+				put_unencoded_code (uc.natural_32_code, 1)
+			end
+		end
+
+	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
+		local
+			old_count: INTEGER; l_unencoded: like unencoded_substring
+		do
+			old_count := count
+			internal_prepend_substring (s, start_index, end_index)
+			inspect respective_encoding (s)
+				when Both_have_mixed_encoding then
+					shift_unencoded (end_index - start_index + 1)
+					l_unencoded := s.unencoded_substring (start_index, end_index)
+					if l_unencoded.not_empty then
+						l_unencoded.append (Current)
+						unencoded_area := l_unencoded.area_copy
+					end
+				when Only_current then
+					shift_unencoded (end_index - start_index + 1)
+				when Only_other then
+					l_unencoded := s.unencoded_substring (start_index, end_index)
+					if l_unencoded.not_empty then
+						unencoded_area := l_unencoded.area_copy
+					end
+			else
+			end
+		ensure
+			new_count: count = old count + (end_index - start_index + 1)
+			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + current_readable))
 		end
 
 feature {NONE} -- Implementation

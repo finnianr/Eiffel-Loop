@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-29 12:35:15 GMT (Monday 29th October 2018)"
-	revision: "9"
+	date: "2020-04-09 18:06:30 GMT (Thursday 9th April 2020)"
+	revision: "10"
 
 class
 	EL_HTML_ROUTINES
@@ -48,14 +48,14 @@ feature -- Access
 
 	text_element (name: READABLE_STRING_GENERAL; attributes: ARRAY [READABLE_STRING_GENERAL]): EL_XML_TEXT_ELEMENT
 		do
-			create Result.make (name)
-			Result.set_attributes (attributes)
+			create Result.make_empty (name)
+			Result.set_attributes_from_pairs (attributes)
 		end
 
 	text_element_class (name, class_name: READABLE_STRING_GENERAL): EL_XML_TEXT_ELEMENT
 		do
-			create Result.make (name)
-			Result.set_attributes (<< "class=" + class_name >>)
+			create Result.make_empty (name)
+			Result.set_attributes_from_pairs (<< "class=" + class_name >>)
 		end
 
 	hyperlink (url, title, text: ZSTRING): ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:26:32 GMT (Saturday 1st February 2020)"
-	revision: "6"
+	date: "2020-04-08 11:00:15 GMT (Wednesday 8th April 2020)"
+	revision: "7"
 
 class
 	PP_HTTP_RESPONSE
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			table: like field_table
 		do
 			table := field_table
-			if table.has_name (key, Current) then
+			if table.has_imported (key, Current) then
 				set_reflected_field (table.found_item, Current, value)
 			else
 				set_indexed_value (variable (key), value)

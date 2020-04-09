@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 11:59:37 GMT (Thursday 30th January 2020)"
-	revision: "18"
+	date: "2020-04-08 10:54:00 GMT (Wednesday 8th April 2020)"
+	revision: "19"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -83,7 +83,9 @@ feature -- Basic operations
 
 feature -- Status query
 
-	has_name (a_name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE): BOOLEAN
+	has_imported (a_name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE): BOOLEAN
+		-- `True' if imported `a_name' is present
+		-- If `True' then `found_item' is set to the field
 		local
 			name: STRING
 		do

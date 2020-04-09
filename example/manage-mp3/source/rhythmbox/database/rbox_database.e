@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 12:07:03 GMT (Tuesday 7th April 2020)"
-	revision: "23"
+	date: "2020-04-08 16:19:46 GMT (Wednesday 8th April 2020)"
+	revision: "24"
 
 class
 	RBOX_DATABASE
@@ -61,6 +61,8 @@ inherit
 
 	SHARED_DATABASE
 
+	RBOX_SHARED_DATABASE_FIELD_ENUM
+
 create
 	make
 
@@ -73,6 +75,7 @@ feature {NONE} -- Initialization
 
 		do
 			call (Database)
+			call (Db_field)
 
 			music_dir := a_music_dir
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2020-04-09 18:58:08 GMT (Thursday 9th April 2020)"
+	revision: "8"
 
 class
 	EL_XML_EMPTY_ELEMENT
@@ -25,6 +25,10 @@ inherit
 			copy, is_equal
 		end
 
+	EL_MODULE_ZSTRING
+
+	EL_MODULE_ITERABLE
+
 create
 	make
 
@@ -35,25 +39,23 @@ feature {NONE} -- Initialization
 
 	make (a_name: READABLE_STRING_GENERAL)
 		do
-			open := new_tag (a_name, True)
-			open.insert_character ('/', open.count)
+			open := Open_template #$ [a_name]
+			internal_attribute_list := Default_attribute_list
 		end
 
 feature -- Access
 
-	name: ZSTRING
-		local
-			pos_space: INTEGER
+	attribute_list: like Default_attribute_list
 		do
-			if open.item (open_slash_position) = '"' then
-				pos_space := open.index_of (' ', 1)
-				if pos_space > 0 then
-					Result := open.substring (2, pos_space - 1)
-				else
-					create Result.make_empty
-				end
+			Result := internal_attribute_list.twin
+		end
+
+	name: ZSTRING
+		do
+			if open.count < 3 then
+				create Result.make_empty
 			else
-				Result := open.substring (2, open_slash_position - 1)
+				Result := open.substring (2, name_end_index)
 			end
 		end
 
@@ -63,7 +65,11 @@ feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_string (open)
+			if internal_attribute_list.is_empty then
+				medium.put_string (open)
+			else
+				write_attributes (medium)
+			end
 			medium.put_new_line
 		end
 
@@ -76,31 +82,29 @@ feature -- Comparison
 
 feature -- Element change
 
-	set_attributes (attributes: ARRAY [READABLE_STRING_GENERAL])
-		require
-			valid_attributes: across attributes as attrib all attrib.item.has ('=') end
-		local
-			count_extra: INTEGER; name_value_pair: ZSTRING
-			escaped_attributes: EL_ZSTRING_LIST
+	set_attributes_list (list: ITERABLE [like Default_attribute_list.item])
 		do
-			create escaped_attributes.make (attributes.count)
-			across attributes as attrib loop
-				create name_value_pair.make (attrib.item.count + 2)
-				name_value_pair.append_string_general (attrib.item)
-				name_value_pair.escape (Attribute_escaper)
-				name_value_pair.insert_character ('"', name_value_pair.index_of ('=', 1) + 1)
-				name_value_pair.append_character ('"')
-				count_extra := count_extra + name_value_pair.count + 1
-				escaped_attributes.extend (name_value_pair)
+			create internal_attribute_list.make (Iterable.count (list))
+			across list as attrib loop
+				internal_attribute_list.extend (attrib.item)
 			end
-			if open [open_slash_position - 1] = '"' then
-				open := new_tag (name, True)
-				open.insert_character ('/', open.count)
-			end
-			open.grow (count_extra)
-			across escaped_attributes as attrib loop
-				open.insert_character (' ', open_slash_position)
-				open.insert_string (attrib.item, open_slash_position)
+		end
+
+	set_attributes_list_8 (list: EL_STRING_8_LIST)
+		do
+			set_attributes_from_pairs (list)
+		end
+
+	set_attributes_from_pairs (nvp_list: ITERABLE [READABLE_STRING_GENERAL])
+		require
+			valid_attributes: across nvp_list as attrib all attrib.item.has ('=') end
+		local
+			name_value_pair: like Default_attribute_list.item
+		do
+			create internal_attribute_list.make (Iterable.count (nvp_list))
+			across nvp_list as nvp loop
+				create name_value_pair.make_from_string (nvp.item)
+				internal_attribute_list.extend (name_value_pair)
 			end
 		end
 
@@ -108,39 +112,49 @@ feature {NONE} -- Duplication
 
 	copy (other: like Current)
 		do
-			open := other.open.twin
+			if other /= Current then
+				standard_copy (other)
+				if other.internal_attribute_list.count > 0 then
+					internal_attribute_list := other.internal_attribute_list.twin
+				end
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	open_slash_position: INTEGER
+	name_end_index: INTEGER
 		do
-			Result := open.count - 1
+			Result := open.count - 2
 		end
 
-	new_tag (a_name: READABLE_STRING_GENERAL; is_open: BOOLEAN): ZSTRING
+	write_attributes (medium: EL_OUTPUT_MEDIUM)
 		local
-			count: INTEGER
+			l_string: like once_substring
+			escaper: like Attribute_escaper
 		do
-			if is_open then
-				count := a_name.count + 2
+			l_string := once_substring (open, 1, name_end_index)
+			if medium.encoded_as_latin (1) then
+				escaper := Attribute_128_plus_escaper
 			else
-				count := a_name.count + 3
+				escaper := Attribute_escaper
 			end
-			create Result.make (count)
-			Result.append_character (Left_bracket)
-			if not is_open then
-				Result.append_character ('/')
+			across internal_attribute_list as attrib loop
+				l_string.append_character (' ')
+				l_string.append (attrib.item.escaped (escaper, False))
 			end
-			Result.append_string_general (a_name)
-			Result.append_character (Right_bracket)
+			l_string.append_substring (open, name_end_index + 1, open.count)
+			medium.put_string (l_string)
 		end
+
+feature {EL_XML_EMPTY_ELEMENT} -- Initialization
+
+	internal_attribute_list: like Default_attribute_list
 
 feature {NONE} -- Constants
 
-	Empty_attributes: ARRAY [READABLE_STRING_GENERAL]
+	Default_attribute_list: EL_ARRAYED_LIST [EL_XML_ELEMENT_ATTRIBUTE]
 		once
-			create Result.make_empty
+			create Result.make (0)
 		end
 
 	Escaped_quote: ZSTRING
@@ -148,19 +162,13 @@ feature {NONE} -- Constants
 			Result := "&quot;"
 		end
 
-	Left_bracket: CHARACTER
-		once
-			Result := '<'
-		end
-
 	Quote: ZSTRING
 		once
 			Result := "%""
 		end
 
-	Right_bracket: CHARACTER
+	Open_template: ZSTRING
 		once
-			Result := '>'
+			Result := "<%S/>"
 		end
-
 end

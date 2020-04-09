@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 15:43:47 GMT (Saturday 25th January 2020)"
-	revision: "12"
+	date: "2020-04-08 10:57:42 GMT (Wednesday 8th April 2020)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -27,7 +27,7 @@ inherit
 		rename
 			field_included as is_field_convertable_from_xml,
 			export_name as xml_names,
-			import_name as import_default
+			import_name as xml_names
 		export
 			{NONE} all
 		redefine

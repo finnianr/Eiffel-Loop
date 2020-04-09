@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 11:10:36 GMT (Tuesday 7th April 2020)"
-	revision: "36"
+	date: "2020-04-08 12:15:03 GMT (Wednesday 8th April 2020)"
+	revision: "37"
 
 class
 	RBOX_SONG
@@ -357,13 +357,14 @@ feature -- Element change
 		local
 			mp3: like mp3_info
 		do
-			set_audio_id_from_uuid (new_audio_id)
-			mp3 := mp3_info
---			mp3.remove_unique_id ("RBOX"); mp3.remove_unique_id ("UFID")
-			mp3.set_recording_id (mb_trackid)
-			mp3.save
-			mp3.dispose
-			update_file_info
+			if mp3_path.exists then
+				set_audio_id_from_uuid (new_audio_id)
+				mp3 := mp3_info
+				mp3.set_recording_id (mb_trackid)
+				mp3.save
+				mp3.dispose
+				update_file_info
+			end
 		end
 
 	update_file_info
@@ -448,6 +449,8 @@ feature {NONE} -- Implementation
 		end
 
 	new_audio_id: EL_UUID
+		require
+			path_exists: mp3_path.exists
 		local
 			mp3: EL_MP3_IDENTIFIER
 		do

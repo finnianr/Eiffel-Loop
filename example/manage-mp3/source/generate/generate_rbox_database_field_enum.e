@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command to generate class [$source RBOX_DATABASE_FIELDS] from C source file `rhythmdb.c'
+		Command to generate class [$source RBOX_DATABASE_FIELD_ENUM] from C source file `rhythmdb.c'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 18:19:19 GMT (Tuesday 7th April 2020)"
-	revision: "1"
+	date: "2020-04-08 16:15:27 GMT (Wednesday 8th April 2020)"
+	revision: "2"
 
 class
-	GENERATE_RBOX_DATABASE_FIELDS
+	GENERATE_RBOX_DATABASE_FIELD_ENUM
 
 inherit
 	EL_COMMAND
@@ -31,12 +31,14 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_MODULE_STRING_8
+
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_c_source_path: EL_FILE_PATH)
 		do
 			c_source_path := a_c_source_path
-			make_from_file ("workarea/rbox_database_fields.e")
+			make_from_file ("workarea/rbox_database_field_enum.e")
 		end
 
 	make_default
@@ -63,7 +65,7 @@ feature {NONE} -- Line states
 
 	compile_table (line: ZSTRING)
 		local
-			list: EL_ZSTRING_LIST; type: ZSTRING
+			list: EL_ZSTRING_LIST; type, name: ZSTRING
 		do
 			if line.has_substring (Terminator) then
 				state := final
@@ -71,11 +73,14 @@ feature {NONE} -- Line states
 				line.adjust
 				create list.make_with_csv (line)
 				if list.count >= 3 then
-					list.i_th (3).prune_all_trailing (')')
+					name := list.i_th (3)
+					name.prune_all_trailing (')')
+					name.remove_head (1); name.remove_tail (1)
 					type := list.i_th (2).as_lower
 					type [1] := type.item (1).as_upper
+					name.replace_character ('-', '_')
 					type_set.put (type)
-					field_table.extend (type_set.found_item, list [3])
+					field_table.extend (type_set.found_item, name)
 				end
 			end
 		end
@@ -106,23 +111,51 @@ feature {EL_COMMAND_CLIENT} -- Evolicity fields
 		end
 
 	Template: STRING = "[
-		class RBOX_DATABASE_FIELDS
+		class
+			RBOX_DATABASE_FIELD_ENUM
+
+		inherit
+			EL_ENUMERATION [NATURAL_16]
+				rename
+					import_name as from_kebab_case,
+					export_name as to_kebab_case
+				export
+					{NONE} all
+					{ANY} value, is_valid_value, name, list
+				redefine
+					initialize_fields
+				end
+
+		create
+			make
+
+		feature {NONE} -- Initialization
+
+			initialize_fields
+				do
+				#across $field_table as $field loop
+					$field.key := ($field.cursor_index).to_natural_16 |<< 8 | $field.item
+				#end
+				end
+
+		feature -- Access
+
+		#across $field_table as $field loop
+			$field.key: NATURAL_16
+
+		#end
 
 		feature {NONE} -- Constants
 
-			Field_type_table: EL_HASH_TABLE [INTEGER, STRING]
-				once
-					create Result.make (<<
-					#across $field_table as $field loop
-						[$field.key, $field.item],
-					#end
-					>>)
-				end
+			G_type_boolean: NATURAL_16 = 0
 
-		#across $type_set as $type loop
-			$type.item: INTEGER = $type.cursor_index
+			G_type_double: NATURAL_16 = 0x1
 
-		#end
+			G_type_string: NATURAL_16 = 0x2
+
+			G_type_uint64: NATURAL_16 = 0x4
+
+			G_type_ulong: NATURAL_16 = 0x8
 
 		end
 	]"

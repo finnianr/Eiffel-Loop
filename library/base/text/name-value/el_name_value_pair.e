@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 16:32:01 GMT (Saturday 4th January 2020)"
-	revision: "6"
+	date: "2020-04-09 10:47:06 GMT (Thursday 9th April 2020)"
+	revision: "7"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]
@@ -39,21 +39,17 @@ feature -- Element change
 
 	set_from_string (str: G; delimiter: CHARACTER_32)
 		local
-			pos_colon: INTEGER
+			index: INTEGER
 		do
-			pos_colon := str.index_of (delimiter, 1)
-			if pos_colon > 0 then
-				name := str.substring (1, pos_colon - 1)
-				value := str.substring (pos_colon + 1, str.count)
-				value.left_adjust; value.right_adjust
+			index := str.index_of (delimiter, 1)
+			if index > 0 then
+				name := str.substring (1, index - 1)
+				value := str.substring (index + 1, str.count)
+				value.adjust
 			end
 		end
 
 feature -- Access
-
-	name: G
-
-	value: G
 
 	as_assignment: G
 		do
@@ -63,8 +59,20 @@ feature -- Access
 	joined (separator: CHARACTER): G
 		do
 			create Result.make (name.count + value.count + 1)
-			Result.append (name)
-			Result.append_code (separator.natural_32_code)
-			Result.append (value)
+			append_to (Result, separator)
 		end
+
+	name: G
+
+	value: G
+
+feature -- Basic operations
+
+	append_to (str: G; separator: CHARACTER)
+		do
+			str.append (name)
+			str.append_code (separator.natural_32_code)
+			str.append (value)
+		end
+
 end

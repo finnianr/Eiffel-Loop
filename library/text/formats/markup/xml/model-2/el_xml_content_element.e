@@ -6,20 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-04-09 13:02:08 GMT (Thursday 9th April 2020)"
+	revision: "4"
 
 deferred class
 	EL_XML_CONTENT_ELEMENT
 
 inherit
 	EL_XML_EMPTY_ELEMENT
-		rename
-			open_slash_position as open_right_bracket_position
 		undefine
 			write
 		redefine
-			make, copy, is_equal, open_right_bracket_position
+			make, is_equal, name_end_index, Open_template
 		end
 
 feature {NONE} -- Initialization
@@ -27,8 +25,7 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL)
 		do
 			Precursor (a_name)
-			open.remove (open.count - 1)
-			closed := new_tag (a_name, False)
+			closed := close_template #$ [a_name]
 		end
 
 feature -- Access
@@ -44,16 +41,20 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	open_right_bracket_position: INTEGER
+	name_end_index: INTEGER
 		do
-			Result := open.count
+			Result := open.count - 1
 		end
 
-feature {NONE} -- Duplication
+feature {NONE} -- Constants
 
-	copy (other: like Current)
-		do
-			Precursor (other)
-			closed := other.closed.twin
+	Open_template: ZSTRING
+		once
+			Result := "<%S>"
+		end
+
+	Close_template: ZSTRING
+		once
+			Result := "</%S>"
 		end
 end

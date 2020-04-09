@@ -1,11 +1,11 @@
 note
 	description: "[
-		Sub-application to generate class [$source RBOX_DATABASE_FIELDS] from C source file `rhythmdb.c'
+		Sub-application to generate class [$source RBOX_DATABASE_FIELD_ENUM] from C source file `rhythmdb.c'
 	]"
 	notes: "[
 		**Usage:*
 		
-			el_rhythmbox -generate_rbox_database_fields -source <path>
+			el_rhythmbox -generate_rbox_database_field_enum -source <path>
 
 	]"
 
@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 17:32:47 GMT (Tuesday 7th April 2020)"
-	revision: "1"
+	date: "2020-04-08 12:54:50 GMT (Wednesday 8th April 2020)"
+	revision: "2"
 
 class
-	GENERATE_RBOX_DATABASE_FIELDS_APP
+	GENERATE_RBOX_DATABASE_FIELD_ENUM_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [GENERATE_RBOX_DATABASE_FIELDS]
+	EL_COMMAND_LINE_SUB_APPLICATION [GENERATE_RBOX_DATABASE_FIELD_ENUM]
 
 create
 	make

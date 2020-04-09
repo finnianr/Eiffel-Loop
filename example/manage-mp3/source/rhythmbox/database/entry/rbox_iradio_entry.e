@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 18:19:50 GMT (Tuesday 7th April 2020)"
-	revision: "32"
+	date: "2020-04-09 9:23:59 GMT (Thursday 9th April 2020)"
+	revision: "33"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -36,8 +36,6 @@ inherit
 
 	EL_XML_ESCAPING_CONSTANTS undefine is_equal end
 
-	RBOX_DATABASE_FIELDS undefine is_equal end
-
 	HASHABLE undefine is_equal end
 
 	EL_MODULE_XML
@@ -46,18 +44,12 @@ inherit
 
 	SHARED_DATABASE
 
+	RBOX_SHARED_DATABASE_FIELD_ENUM
+
 create
 	make
 
 feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_SERIALIZEABLE}
-			media_type := Media_types.octet_stream
-		end
 
 	make
 		do
@@ -65,15 +57,24 @@ feature {NONE} -- Initialization
 			music_dir := Database.music_dir
 		end
 
+	make_default
+			--
+		do
+			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
+			Precursor {EVOLICITY_SERIALIZEABLE}
+			media_type := Media_types.octet_stream
+			string_field_table := Default_string_table
+		end
+
 feature -- Rhythmbox XML fields
 
 	genre: ZSTRING
 
+	hidden: NATURAL_8
+
 	media_type: STRING
 
 	title: ZSTRING
-
-	hidden: NATURAL_8
 
 feature -- Access
 
@@ -102,6 +103,8 @@ feature -- Access
 			create Result.make_protocol (Protocol, location)
 		end
 
+	music_dir: EL_DIR_PATH
+
 	relative_location: EL_FILE_PATH
 		do
 			Result := location.relative_path (music_dir)
@@ -111,8 +114,6 @@ feature -- Access
 		do
 			Result := database.encoded_location_uri (location_uri)
 		end
-
-	music_dir: EL_DIR_PATH
 
 feature -- Element change
 
@@ -136,7 +137,29 @@ feature -- Element change
 			media_type := Media_type_set.found_item
 		end
 
+	set_string_field (field_code: NATURAL_16; value: ZSTRING)
+		-- set extra field not in attributes
+		require
+			valid_string_field: valid_string_field (field_code)
+		do
+			string_field_table [field_code] := value
+		end
+
+feature -- Contract Support
+
+	valid_string_field (field_code: NATURAL_16): BOOLEAN
+		-- valid extra field
+		do
+			if not field_table.has (Db_field.name (field_code)) then
+			end
+		end
+
 feature {NONE} -- Build from XML
+
+	Build_types: ARRAY [TYPE [ANY]]
+		once
+			Result := << {DOUBLE}, {NATURAL_8}, {INTEGER}, {ZSTRING}, {STRING} >>
+		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
@@ -148,17 +171,42 @@ feature {NONE} -- Build from XML
 			Result ["location/text()"] := agent do set_location (database.decoded_location (node.to_string_8)) end
 		end
 
-	Build_types: ARRAY [TYPE [ANY]]
-		once
-			Result := << {DOUBLE}, {NATURAL_8}, {INTEGER}, {ZSTRING}, {STRING} >>
-		end
-
 feature {NONE} -- Evolicity fields
 
-	get_string_8_fields: EL_REFERENCE_FIELD_VALUE_TABLE [STRING]
+	Template: STRING
+			--
+		once
+			Result := "[
+			<entry type="iradio">
+				<media-type>$media_type</media-type>
+			#across $non_empty_string_fields as $field loop
+				<$field.key>$field.item</$field.key>
+			#end
+				<location>$location_uri</location>
+				<date>0</date>
+			</entry>
+			]"
+		end
+
+	get_element_list: EL_ZSTRING_LIST
+		local
+			tex: ZSTRING
 		do
-			create Result.make (2)
-			fill_field_value_table (Result)
+			Result := Element_list
+			Result.wipe_out
+			across DB_field.sorted as enum loop
+			end
+		end
+
+	get_element (field_enum: NATURAL_16): EL_XML_ELEMENT
+		do
+			if field_table.has_key (Db_field.name (field_enum)) then
+			else
+				inspect DB_field.type (field_enum)
+					when {RBOX_DATABASE_FIELD_ENUM}.G_type_string then
+				else
+				end
+			end
 		end
 
 	get_non_empty_string_fields: EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE
@@ -172,6 +220,12 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (11)
 			Result.set_condition (agent (v: INTEGER): BOOLEAN do Result := v /= v.zero end)
+			fill_field_value_table (Result)
+		end
+
+	get_string_8_fields: EL_REFERENCE_FIELD_VALUE_TABLE [STRING]
+		do
+			create Result.make (2)
 			fill_field_value_table (Result)
 		end
 
@@ -189,22 +243,33 @@ feature {NONE} -- Evolicity fields
 			>>)
 		end
 
-	Template: STRING
-			--
-		once
-			Result := "[
-			<entry type="iradio">
-				<media-type>$media_type</media-type>
-			#across $non_empty_string_fields as $field loop
-				<$field.key>$field.item</$field.key>
-			#end
-				<location>$location_uri</location>
-				<date>0</date>
-			</entry>
-			]"
-		end
+feature {NONE} -- Initialization
+
+	string_field_table: like Default_string_table
+		-- extra string fields
 
 feature {NONE} -- Constants
+
+	Default_string_table: HASH_TABLE [ZSTRING, NATURAL_16]
+		once
+			create Result.make (0)
+		end
+
+	Default_xml_elememt: EL_XML_EMPTY_ELEMENT
+		once
+			create Result.make ("")
+		end
+
+	Element_list: EL_ZSTRING_LIST
+		once
+			create Result.make (0)
+		end
+
+	Except_fields: STRING
+			-- Object attributes that are not stored in Rhythmbox database
+		once
+			Result := Precursor + ", encoding_bitmap"
+		end
 
 	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
 		once
@@ -223,12 +288,6 @@ feature {NONE} -- Constants
 	Media_type_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_from_array (Media_type_list.to_array)
-		end
-
-	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox database
-		once
-			Result := Precursor + ", encoding_bitmap"
 		end
 
 	Protocol: ZSTRING
