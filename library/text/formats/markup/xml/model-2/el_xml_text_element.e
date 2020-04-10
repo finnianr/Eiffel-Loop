@@ -32,16 +32,16 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_empty (a_name: READABLE_STRING_GENERAL)
-		do
-			make_element (a_name)
-			create text.make_empty
-		end
-
 	make (a_name, a_text: READABLE_STRING_GENERAL)
 		do
 			make_element (a_name)
 			text := Zstring.as_zstring (a_text)
+		end
+
+	make_empty (a_name: READABLE_STRING_GENERAL)
+		do
+			make_element (a_name)
+			create text.make_empty
 		end
 
 feature -- Access
@@ -66,20 +66,9 @@ feature -- Access
 feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
-		local
-			escaper: like Xml_escaper
 		do
-			if internal_attribute_list.is_empty then
-				medium.put_string (open)
-			else
-				write_attributes (medium)
-			end
-			if medium.encoded_as_latin (1) then
-				escaper := Xml_128_plus_escaper
-			else
-				escaper := Xml_escaper
-			end
-			medium.put_string (escaper.escaped (text, False))
+			write_open_element (medium)
+			write_text (medium)
 			medium.put_string (closed)
 			medium.put_new_line
 		end
@@ -104,6 +93,20 @@ feature {NONE} -- Duplication
 		do
 			Precursor (other)
 			text := other.text.twin
+		end
+
+feature {NONE} -- Implementation
+
+	write_text (medium: EL_OUTPUT_MEDIUM)
+		local
+			escaper: like Xml_escaper
+		do
+			if medium.encoded_as_latin (1) then
+				escaper := Xml_128_plus_escaper
+			else
+				escaper := Xml_escaper
+			end
+			medium.put_string (escaper.escaped (text, False))
 		end
 
 end

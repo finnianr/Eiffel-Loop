@@ -61,15 +61,18 @@ feature -- Access
 
 	open: ZSTRING
 
+feature -- Measurement
+
+	attribute_count: INTEGER
+		do
+			Result := internal_attribute_list.count
+		end
+
 feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			if internal_attribute_list.is_empty then
-				medium.put_string (open)
-			else
-				write_attributes (medium)
-			end
+			write_open_element (medium)
 			medium.put_new_line
 		end
 
@@ -90,8 +93,11 @@ feature -- Element change
 			end
 		end
 
-	set_attributes_list_8 (list: EL_STRING_8_LIST)
+	set_attributes_from_string (csv_pair_list: STRING)
+		local
+			list: EL_STRING_8_LIST
 		do
+			list := csv_pair_list
 			set_attributes_from_pairs (list)
 		end
 
@@ -127,23 +133,27 @@ feature {NONE} -- Implementation
 			Result := open.count - 2
 		end
 
-	write_attributes (medium: EL_OUTPUT_MEDIUM)
+	write_open_element (medium: EL_OUTPUT_MEDIUM)
 		local
 			l_string: like once_substring
 			escaper: like Attribute_escaper
 		do
-			l_string := once_substring (open, 1, name_end_index)
-			if medium.encoded_as_latin (1) then
-				escaper := Attribute_128_plus_escaper
+			if attribute_count > 0 then
+				l_string := once_substring (open, 1, name_end_index)
+				if medium.encoded_as_latin (1) then
+					escaper := Attribute_128_plus_escaper
+				else
+					escaper := Attribute_escaper
+				end
+				across internal_attribute_list as attrib loop
+					l_string.append_character (' ')
+					l_string.append (attrib.item.escaped (escaper, False))
+				end
+				l_string.append_substring (open, name_end_index + 1, open.count)
+				medium.put_string (l_string)
 			else
-				escaper := Attribute_escaper
+				medium.put_string (open)
 			end
-			across internal_attribute_list as attrib loop
-				l_string.append_character (' ')
-				l_string.append (attrib.item.escaped (escaper, False))
-			end
-			l_string.append_substring (open, name_end_index + 1, open.count)
-			medium.put_string (l_string)
 		end
 
 feature {EL_XML_EMPTY_ELEMENT} -- Initialization

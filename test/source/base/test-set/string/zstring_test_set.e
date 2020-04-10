@@ -75,6 +75,7 @@ feature -- Basic operations
 			eval.call ("for_all_split", agent test_for_all_split)
 			eval.call ("has", agent test_has)
 			eval.call ("is_canonically_spaced", agent test_is_canonically_spaced)
+			eval.call ("same_characters", agent test_same_characters)
 			eval.call ("sort", agent test_sort)
 			eval.call ("starts_with", agent test_starts_with)
 			eval.call ("there_exists_split", agent test_there_exists_split)
@@ -627,6 +628,23 @@ feature -- Status query tests
 			str.insert_character (' ', 5)
 			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
 			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
+		end
+
+	test_same_characters
+		local
+			line, word: ZSTRING; i: INTEGER
+			word_list: EL_ZSTRING_LIST
+		do
+			across Text_lines as l loop
+				line := l.item
+				create word_list.make_with_words (l.item)
+				i := 1
+				across word_list as w loop
+					word := w.item
+					i := line.substring_index (word, i)
+					assert ("same characters", line.same_characters (word, 1, word.count, i))
+				end
+			end
 		end
 
 	test_sort

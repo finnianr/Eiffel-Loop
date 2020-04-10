@@ -102,13 +102,17 @@ feature -- Access
 		-- index to right of first occurrence of `other' if valid index or else 0
 		do
 			Result := substring_index (other, start_index)
-			Result := Result + other.count
+			if Result > 0 then
+				Result := Result + other.count
+			end
 		end
 
 	substring_right_index_general (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		do
 			Result := substring_index_general (other, start_index)
-			Result := Result + other.count
+			if Result > 0 then
+				Result := Result + other.count
+			end
 		end
 
 	word_index (word: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER

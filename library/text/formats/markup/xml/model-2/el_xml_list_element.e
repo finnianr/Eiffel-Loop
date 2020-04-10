@@ -29,36 +29,51 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL)
 		do
 			Precursor (a_name)
-			create {ARRAY [EL_XML_ELEMENT]} list.make_empty
+			create list.make_empty
 		end
 
 feature -- Access
 
-	list: INDEXABLE [EL_XML_ELEMENT, INTEGER]
+	list: EL_ARRAYED_LIST [EL_XML_ELEMENT]
 
 feature -- Basic operations
 
 	write (medium: EL_OUTPUT_MEDIUM)
 		do
-			medium.put_string (open)
-			if not list.is_empty then
-				medium.put_new_line
-				across list.index_set as index loop
-					list.item (index.item).write (medium)
-				end
-			end
-			medium.put_string (closed)
-			medium.put_new_line
+			write_indented (medium, "")
 		end
 
 feature -- Element change
 
-	set_list (a_list: like list)
+	set_list (a_list: ITERABLE [EL_XML_ELEMENT])
 		do
-			list := a_list
+			list.wipe_out
+			list.append (a_list)
 		end
 
-feature {NONE} -- Duplication
+feature {EL_XML_LIST_ELEMENT} -- Implementation
+
+	write_indented (medium: EL_OUTPUT_MEDIUM; indent: STRING)
+		do
+			medium.put_string_8 (indent)
+			write_open_element (medium)
+			if not list.is_empty then
+				indent.append_character ('%T')
+				medium.put_new_line
+				across list as l loop
+					if attached {EL_XML_LIST_ELEMENT} l.item as list_elem then
+						list_elem.write_indented (medium, indent)
+					else
+						medium.put_string_8 (indent)
+						l.item.write (medium)
+					end
+				end
+				indent.remove_tail (1)
+			end
+			medium.put_string_8 (indent)
+			medium.put_string (closed)
+			medium.put_new_line
+		end
 
 	copy (other: like Current)
 		do

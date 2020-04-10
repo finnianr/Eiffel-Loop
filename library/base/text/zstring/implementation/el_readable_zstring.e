@@ -604,13 +604,20 @@ feature -- Comparison
  	same_characters (other: READABLE_STRING_GENERAL; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
+		local
+			i, other_i, l_count: INTEGER; l_area, other_area: like area
 		do
 			if attached {like Current} other as z_other then
+				Result := internal_same_characters (z_other, start_pos, end_pos, index_pos)
 				if has_mixed_encoding or else z_other.has_mixed_encoding then
-					Result := same_unencoded_string (z_other)
-									and then internal_same_characters (z_other, start_pos, end_pos, index_pos)
-				else
-					Result := internal_same_characters (z_other, start_pos, end_pos, index_pos)
+					l_area := area; other_area := z_other.area
+					l_count := end_pos - start_pos + 1
+					from i := index_pos - 1; other_i := start_pos - 1 until not Result or else i = index_pos + l_count - 1 loop
+						if l_area [i] = Unencoded_character then
+							Result := unencoded_code (i + 1) = z_other.unencoded_code (other_i + 1)
+						end
+						i := i + 1; other_i := other_i + 1
+					end
 				end
 			else
 				Result := Precursor (other, start_pos, end_pos, index_pos)

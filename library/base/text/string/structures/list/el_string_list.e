@@ -20,6 +20,7 @@ inherit
 		export
 			{NONE} array_subchain
 		undefine
+			make_from_list,
 			is_equal, copy, prune_all, readable, prune, new_cursor, to_array,
 			first, last, i_th, at,
 			start, finish, move, go_i_th, remove, find_next_item,

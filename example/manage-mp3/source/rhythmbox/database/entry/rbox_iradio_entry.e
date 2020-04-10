@@ -189,8 +189,6 @@ feature {NONE} -- Evolicity fields
 		end
 
 	get_element_list: EL_ZSTRING_LIST
-		local
-			tex: ZSTRING
 		do
 			Result := Element_list
 			Result.wipe_out

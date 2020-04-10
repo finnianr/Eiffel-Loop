@@ -21,14 +21,20 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make (n: INTEGER)
+		deferred
+		end
+
 	make_empty
 		deferred
 		end
 
 	make_from_list (list: ITERABLE [S])
 		do
-			make_empty
-			append (list)
+			make (Iterable.count (list))
+			across list as l loop
+				extend (l.item)
+			end
 		end
 
 	make_with_csv (a_string: READABLE_STRING_GENERAL)

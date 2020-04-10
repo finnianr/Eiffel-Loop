@@ -37,7 +37,8 @@ inherit
 		end
 
 create
-	make, make_default_filled, make_filled, make_from_array, make_empty, make_from_sub_list, make_from_tuple
+	make, make_empty, make_default_filled, make_filled,
+	make_from_array, make_from_list, make_from_sub_list, make_from_tuple
 
 convert
 	make_from_array ({ARRAY [G]})
@@ -54,6 +55,14 @@ feature {NONE} -- Initialization
 			make (n)
 			from until full loop
 				extend (new_item (count + 1))
+			end
+		end
+
+	make_from_list (list: ITERABLE [G])
+		do
+			make (Iterable.count (list))
+			across list as l loop
+				extend (l.item)
 			end
 		end
 

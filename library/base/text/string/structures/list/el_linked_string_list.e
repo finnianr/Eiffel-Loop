@@ -32,10 +32,10 @@ inherit
 create
 	make_empty, make_with_separator, make_with_lines, make_with_words
 
-feature {NONE} -- Unused
+feature {NONE} -- Unimplemented
 
-	grow (i: INTEGER)
-			-- Change the capacity to at least `i'.
+	make, grow (n: INTEGER)
+		-- do nothing
 		do
 		end
 
