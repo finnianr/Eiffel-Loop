@@ -667,6 +667,7 @@
 		<artist>(India-USA) Kronos Quartet &amp; Asha Bhosle - Ekta Deshlai Kathi Jwalao (Light a Match)</artist>
 		<album>Awards for World Music 2006 (Disk 2 of 2)</album>
 		<track-number>2</track-number>
+		<disc-number>1</disc-number>
 		<duration>238</duration>
 		<file-size>7638594</file-size>
 		<location>file://$MUSIC/Recent/Awards%20for%20World%20Music%202006/(India-USA)%20Kronos%20Quartet%20%26%20Asha%20Bhosle%20-%20Ekta%20Deshlai%20Kathi%20Jwalao%20(Light%20a%20Match).mp3</location>
@@ -674,6 +675,8 @@
 		<last-seen>1381244876</last-seen>
 		<bitrate>256</bitrate>
 		<date>732312</date>
+		<replaygain-track-gain>0.5</replaygain-track-gain>
+		<replaygain-track-peak>1.8</replaygain-track-peak>
 		<media-type>audio/mpeg</media-type>
 		<composer>Unknown</composer>
 	</entry>

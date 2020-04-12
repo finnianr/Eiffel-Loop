@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 12:15:03 GMT (Wednesday 8th April 2020)"
-	revision: "37"
+	date: "2020-04-12 16:56:39 GMT (Sunday 12th April 2020)"
+	revision: "38"
 
 class
 	RBOX_SONG
@@ -22,7 +22,7 @@ inherit
 			set_location as set_mp3_path
 		redefine
 			make, make_default, getter_function_table, on_context_exit,
-			Except_fields, Template, Field_sets
+			Except_fields, Field_sets
 		end
 
 	MEDIA_ITEM
@@ -306,18 +306,18 @@ feature -- Element change
 	set_album_artists (text: ZSTRING)
 			--
 		local
-			list: EL_ZSTRING_LIST; type: ZSTRING
+			list: EL_ZSTRING_LIST; l_type: ZSTRING
 		do
 			if not (text.is_empty or text ~ Unknown_string) then
-				type := Colon_field.name (text)
-				if type.is_empty then
+				l_type := Colon_field.name (text)
+				if l_type.is_empty then
 					create list.make_with_csv (text)
 					album_artists := [Unknown_string, list]
 				else
 					create list.make_with_csv (Colon_field.value (text))
-					Artist_type_list.find_first_true (agent ZString.starts_with (type, ?))
+					Artist_type_list.find_first_true (agent ZString.starts_with (l_type, ?))
 					if Artist_type_list.after then
-						album_artists := [type, list]
+						album_artists := [l_type, list]
 					else
 						album_artists := [Artist_type_list.item, list]
 					end
@@ -493,16 +493,12 @@ feature {NONE} -- Evolicity reflection
 
 				["duration_time", 			agent formatted_duration_time] +
 
-				["replaygain_track_gain", 	agent: DOUBLE_REF do Result := replaygain_track_gain.to_reference end] +
-				["replaygain_track_peak", 	agent: DOUBLE_REF do Result := replaygain_track_peak.to_reference end] +
-
 				["last_checksum", 			agent: NATURAL_32_REF do Result := last_checksum.to_reference end] +
 				["recording_year", 			agent: INTEGER_REF do Result := recording_year.to_reference end] +
 
 				["is_hidden", 					agent: BOOLEAN_REF do Result := is_hidden.to_reference end] +
 				["is_cortina",					agent: BOOLEAN_REF do Result := is_cortina.to_reference end] +
-				["has_other_artists",		agent: BOOLEAN_REF do Result := has_other_artists.to_reference end] +
-				["string_8_fields",			agent get_string_8_fields]
+				["has_other_artists",		agent: BOOLEAN_REF do Result := has_other_artists.to_reference end]
 		end
 
 feature -- Constants
@@ -531,27 +527,5 @@ feature -- Constants
 		once
 			create Result.make_filled ('-', Problem_file_name_characters.count)
 		end
-
-	Template: STRING = "[
-		<entry type="song">
-		#across $string_8_fields as $field loop
-			<$field.key>$field.item</$field.key>
-		#end
-		#across $non_empty_string_fields as $field loop
-			<$field.key>$field.item</$field.key>
-		#end
-			<location>$location_uri</location>
-			#if not ($replaygain_track_gain = 0.0) then
-			<replaygain-track-gain>$replaygain_track_gain</replaygain-track-gain>
-			<replaygain-track-peak>$replaygain_track_peak</replaygain-track-peak>
-			#end
-		#across $non_zero_integer_fields as $field loop
-			<$field.key>$field.item</$field.key>
-		#end
-			#if $is_hidden then
-			<hidden>1</hidden>
-			#end
-		</entry>
-	]"
 
 end

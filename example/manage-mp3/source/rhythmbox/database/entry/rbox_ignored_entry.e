@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 11:16:01 GMT (Tuesday 7th April 2020)"
-	revision: "18"
+	date: "2020-04-12 16:57:06 GMT (Sunday 12th April 2020)"
+	revision: "19"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -15,7 +15,7 @@ class
 inherit
 	RBOX_IRADIO_ENTRY
 		redefine
-			make, Template, Protocol
+			make, Protocol, Type
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -97,21 +97,9 @@ feature -- Constants
 			Result := "file"
 		end
 
-	Template: STRING
-			--
+	Type: STRING
 		once
-			Result := "[
-				<entry type="ignore">
-				#across $non_empty_string_fields as $field loop
-					<$field.key>$field.item</$field.key>
-				#end
-					<location>$location_uri</location>
-				#across $non_zero_integer_fields as $field loop
-					<$field.key>$field.item</$field.key>
-				#end
-					<date>0</date>
-				</entry>
-			]"
+			Result := "ignored"
 		end
 
 end

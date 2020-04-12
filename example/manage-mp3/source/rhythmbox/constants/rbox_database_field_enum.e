@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-09 10:35:22 GMT (Thursday 9th April 2020)"
-	revision: "1"
+	date: "2020-04-12 17:03:20 GMT (Sunday 12th April 2020)"
+	revision: "2"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -19,7 +19,7 @@ inherit
 			export_name as to_kebab_case
 		export
 			{NONE} all
-			{ANY} value, is_valid_value, name, list
+			{ANY} value, is_valid_value, name, name_exported, list
 		redefine
 			initialize_fields, make
 		end

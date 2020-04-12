@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:38:39 GMT (Monday 30th September 2019)"
-	revision: "7"
+	date: "2020-04-12 16:04:54 GMT (Sunday 12th April 2020)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -35,6 +35,15 @@ feature -- Access
 			end
 		end
 
+feature -- Status query
+
+	is_zero (a_object: EL_REFLECTIVELY_SETTABLE): BOOLEAN
+		local
+			l_zero: N
+		do
+			Result := value (a_object) = l_zero
+		end
+
 feature {NONE} -- Implementation
 
 	append (string: STRING; a_value: like value)
@@ -43,7 +52,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	One: STRING = "1"
 	Zero: STRING = "0"
 
-	One: STRING = "1"
 end

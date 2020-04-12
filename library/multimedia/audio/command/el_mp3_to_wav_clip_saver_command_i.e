@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-04-12 16:43:48 GMT (Sunday 12th April 2020)"
+	revision: "7"
 
 deferred class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I

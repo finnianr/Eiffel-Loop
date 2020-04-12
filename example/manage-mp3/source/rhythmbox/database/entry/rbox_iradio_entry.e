@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-09 19:01:36 GMT (Thursday 9th April 2020)"
-	revision: "34"
+	date: "2020-04-12 17:25:50 GMT (Sunday 12th April 2020)"
+	revision: "35"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -73,6 +73,8 @@ feature -- Rhythmbox XML fields
 	hidden: NATURAL_8
 
 	media_type: STRING
+
+	rating: DOUBLE
 
 	title: ZSTRING
 
@@ -142,6 +144,9 @@ feature -- Element change
 		require
 			valid_string_field: valid_string_field (field_code)
 		do
+			if string_field_table = Default_string_table then
+				create string_field_table.make_equal (3)
+			end
 			string_field_table [field_code] := value
 		end
 
@@ -163,68 +168,67 @@ feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
+		local
+			l_xpath: STRING
 		do
 			create Result.make_equal (field_table.count)
-			across Build_types as type loop
-				Result.merge (building_actions_for_type (type.item, Text_element_node))
+			across Build_types as l_type loop
+				Result.merge (building_actions_for_type (l_type.item, Text_element_node))
 			end
 			Result ["location/text()"] := agent do set_location (database.decoded_location (node.to_string_8)) end
-		end
-
-feature {NONE} -- Evolicity fields
-
-	Template: STRING
-			--
-		once
-			Result := "[
-			<entry type="iradio">
-				<media-type>$media_type</media-type>
-			#across $non_empty_string_fields as $field loop
-				<$field.key>$field.item</$field.key>
-			#end
-				<location>$location_uri</location>
-				<date>0</date>
-			</entry>
-			]"
-		end
-
-	get_element_list: EL_ZSTRING_LIST
-		do
-			Result := Element_list
-			Result.wipe_out
 			across DB_field.sorted as enum loop
-			end
-		end
-
-	get_element (field_enum: NATURAL_16): EL_XML_ELEMENT
-		do
-			if field_table.has_key (Db_field.name (field_enum)) then
-			else
-				inspect DB_field.type (field_enum)
-					when {RBOX_DATABASE_FIELD_ENUM}.G_type_string then
-				else
+				if DB_field.type (enum.item) = {RBOX_DATABASE_FIELD_ENUM}.G_type_string then
+					l_xpath := DB_field.name_exported (enum.item, False) + "/text()"
+					Result.put (agent set_string_field_from_node (enum.item), l_xpath)
 				end
 			end
 		end
 
-	get_non_empty_string_fields: EL_ESCAPED_ZSTRING_FIELD_VALUE_TABLE
+	set_string_field_from_node (field_code: NATURAL_16)
 		do
-			create Result.make (11, Xml_128_plus_escaper)
-			Result.set_condition (agent (str: ZSTRING): BOOLEAN do Result := not str.is_empty end)
-			fill_field_value_table (Result)
+			set_string_field (field_code, node)
 		end
 
-	get_non_zero_integer_fields: EL_INTEGER_FIELD_VALUE_TABLE
-		do
-			create Result.make (11)
-			Result.set_condition (agent (v: INTEGER): BOOLEAN do Result := v /= v.zero end)
-			fill_field_value_table (Result)
-		end
+feature {NONE} -- Evolicity fields
 
-	get_string_8_fields: EL_REFERENCE_FIELD_VALUE_TABLE [STRING]
+	Template: STRING = "[
+		<entry type="$type">
+		#foreach $element in $element_list loop
+			$element
+		#end
+		</entry>
+	]"
+
+	get_element_list: like Element_list
+		local
+			element: EL_XML_TEXT_ELEMENT
 		do
-			create Result.make (2)
-			fill_field_value_table (Result)
+			Result := Element_list
+			Result.wipe_out
+			across DB_field.sorted as enum loop
+				element := DB_field.xml_element (enum.item)
+				element.text.wipe_out
+
+				if enum.item = DB_field.location then
+						element.text.append (url_encoded_location_uri)
+
+				elseif field_table.has_key (DB_field.name (enum.item)) then
+					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
+						if not numeric.is_zero (Current) then
+							numeric.write (Current, element.text)
+						end
+					else
+						field_table.found_item.write (Current, element.text)
+					end
+
+				elseif string_field_table.has_key (enum.item) then
+					element.text.append (string_field_table.found_item)
+
+				end
+				if not element.text.is_empty then
+					Result.extend (element.to_latin_1 (True))
+				end
+			end
 		end
 
 	getter_function_table: like getter_functions
@@ -232,12 +236,12 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				-- title is included for reference by template loaded from DJ_EVENT_HTML_PAGE
-				["title", 							agent: ZSTRING do Result := Xml.escaped (title) end],
-				["genre_main", 					agent: ZSTRING do Result := Xml.escaped (genre_main) end],
-				["location_uri", 					agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end],
-				["media_type",						agent: STRING do Result := media_type end],
-				["non_zero_integer_fields", 	agent get_non_zero_integer_fields],
-				["non_empty_string_fields",	agent get_non_empty_string_fields]
+				["title", 				agent: ZSTRING do Result := Xml.escaped (title) end],
+				["genre_main", 		agent: ZSTRING do Result := Xml.escaped (genre_main) end],
+				["location_uri", 		agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end],
+				["media_type",			agent: STRING do Result := media_type end],
+				["type",					agent: STRING do Result := type end],
+				["element_list",		agent get_element_list]
 			>>)
 		end
 
@@ -258,7 +262,7 @@ feature {NONE} -- Constants
 			create Result.make ("")
 		end
 
-	Element_list: EL_ZSTRING_LIST
+	Element_list: EL_STRING_8_LIST
 		once
 			create Result.make (0)
 		end
@@ -291,6 +295,11 @@ feature {NONE} -- Constants
 	Protocol: ZSTRING
 		once
 			Result := "http"
+		end
+
+	Type: STRING
+		once
+			Result := "iradio"
 		end
 
 	Title_set: EL_HASH_SET [ZSTRING]

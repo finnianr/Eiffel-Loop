@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 12:38:45 GMT (Tuesday 7th April 2020)"
-	revision: "2"
+	date: "2020-04-12 16:42:48 GMT (Sunday 12th April 2020)"
+	revision: "3"
 
 deferred class
 	RBOX_SONG_FIELDS
@@ -72,7 +72,9 @@ feature -- Rhythmbox XML fields
 
 	play_count: INTEGER
 
-	rating: INTEGER
+	replaygain_album_gain: DOUBLE
+
+	replaygain_album_peak: DOUBLE
 
 	replaygain_track_gain: DOUBLE
 

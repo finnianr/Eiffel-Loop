@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 12:43:14 GMT (Wednesday 1st April 2020)"
-	revision: "11"
+	date: "2020-04-12 16:43:39 GMT (Sunday 12th April 2020)"
+	revision: "12"
 
 class
 	RBOX_CORTINA_SONG
