@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-14 9:03:09 GMT (Thursday 14th March 2019)"
-	revision: "9"
+	date: "2020-04-11 11:28:54 GMT (Saturday 11th April 2020)"
+	revision: "10"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_shell (name: READABLE_STRING_GENERAL)
+	make_shell (name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
 		local
 			table: like new_command_table
 		do
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			across table as command loop
 				command_table [command.key] := command.item
 			end
-			create menu.make (name, command_table.current_keys)
+			create menu.make (name, command_table.current_keys, a_row_count)
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:08:13 GMT (Sunday 1st December 2019)"
-	revision: "7"
+	date: "2020-04-12 11:31:16 GMT (Sunday 12th April 2020)"
+	revision: "8"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	visible_types: TUPLE [EL_CAPTURED_OS_COMMAND, DUPLICITY_TARGET_INFO]
+	visible_types: TUPLE [EL_CAPTURED_OS_COMMAND, DUPLICITY_TARGET_INFO_OS_CMD]
 		do
 			create Result
 		end

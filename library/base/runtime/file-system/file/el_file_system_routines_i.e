@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-07 11:34:33 GMT (Tuesday 7th April 2020)"
-	revision: "22"
+	date: "2020-04-11 11:23:16 GMT (Saturday 11th April 2020)"
+	revision: "23"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -107,7 +107,7 @@ feature -- Access
 		require
 			file_exists: a_file_path.exists
 		local
-			file: PLAIN_TEXT_FILE; line: STRING; pointer: MANAGED_POINTER
+			file: PLAIN_TEXT_FILE; pointer: MANAGED_POINTER
 		do
 			create file.make_open_read (a_file_path)
 			create Result.make_filled (' ', file.count)

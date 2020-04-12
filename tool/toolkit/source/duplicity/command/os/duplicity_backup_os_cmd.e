@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 18:46:45 GMT (Tuesday 12th March 2019)"
-	revision: "1"
+	date: "2020-04-12 11:28:33 GMT (Sunday 12th April 2020)"
+	revision: "2"
 
 class
-	DUPLICITY_BACKUP_COMMAND
+	DUPLICITY_BACKUP_OS_CMD
 
 inherit
 	EL_OS_COMMAND

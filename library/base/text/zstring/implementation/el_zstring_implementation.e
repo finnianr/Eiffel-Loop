@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 10:38:51 GMT (Monday 6th April 2020)"
-	revision: "2"
+	date: "2020-04-10 11:18:30 GMT (Friday 10th April 2020)"
+	revision: "3"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION

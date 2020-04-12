@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-23 19:14:57 GMT (Saturday 23rd November 2019)"
-	revision: "8"
+	date: "2020-04-12 11:31:16 GMT (Sunday 12th April 2020)"
+	revision: "9"
 
 class
 	DUPLICITY_BACKUP
@@ -46,7 +46,7 @@ feature -- Basic operations
 	 execute
 		local
 			destination_dir: EL_DIR_URI_PATH; continue: BOOLEAN
-			backup_command: DUPLICITY_BACKUP_COMMAND
+			backup_command: DUPLICITY_BACKUP_OS_CMD
 			arguments: DUPLICITY_ARGUMENTS
 		do
 			lio.put_labeled_string ("Backup", destination_name)
@@ -96,7 +96,7 @@ feature -- Basic operations
 
 	user_accepts_dry_run (destination_dir: EL_DIR_URI_PATH): BOOLEAN
 		local
-			target_info: DUPLICITY_TARGET_INFO; arguments: DUPLICITY_ARGUMENTS
+			target_info: DUPLICITY_TARGET_INFO_OS_CMD; arguments: DUPLICITY_ARGUMENTS
 		do
 			create arguments.make (Current, destination_dir, True)
 			create target_info.make (arguments, target_dir)

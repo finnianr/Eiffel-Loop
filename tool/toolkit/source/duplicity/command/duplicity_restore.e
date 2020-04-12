@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-12 16:11:18 GMT (Wednesday 12th February 2020)"
-	revision: "10"
+	date: "2020-04-12 12:59:00 GMT (Sunday 12th April 2020)"
+	revision: "11"
 
 class
 	DUPLICITY_RESTORE
@@ -24,6 +24,8 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_FORMAT
+
+	DUPLICITY_CONSTANTS
 
 create
 	make
@@ -51,42 +53,13 @@ feature -- Basic operations
 					lio.put_labeled_string ("Restore", target_dir.base)
 					lio.put_new_line_x2
 					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir.base >>)
-					create shell.make ("BACKUPS", new_command_table)
+					create shell.make ("BACKUPS", new_command_table, 20)
 					shell.run_command_loop
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	date_list: EL_SORTABLE_ARRAYED_LIST [DATE]
-		local
-			file_list: like OS.file_list; parts: EL_SPLIT_ZSTRING_LIST
-			l_date: DATE; l_name: ZSTRING; found: BOOLEAN
-		do
-			-- match either:
-			--		duplicity-inc.20190606T065915Z.to.20190613T153838Z.manifest.gpg
-			-- 	duplicity-inc.20190606T065915Z.to.20190613T153838Z.manifest
-
-			file_list := OS.file_list (backup_dir.to_dir_path, "*.manifest*")
-			create Result.make (file_list.count)
-			Result.compare_objects
-			across file_list as path loop
-				l_name := path.item.base
-				create parts.make (l_name, character_string ('.'))
-				from parts.finish; found := false until found or parts.before loop
-					if parts.item (False).ends_with_character ('Z') then
-						l_date := Date.from_iso_8601_formatted (parts.item (False).to_latin_1).date
-						if not Result.has (l_date) then
-							Result.extend (l_date)
-						end
-						found := True
-					end
-					parts.back
-				end
-			end
-			Result.sort
-		end
 
 	is_file (uri: EL_DIR_URI_PATH): BOOLEAN
 		do
@@ -95,22 +68,29 @@ feature {NONE} -- Implementation
 
 	new_command_table: EL_PROCEDURE_TABLE [ZSTRING]
 		local
-			l_date_list: LIST [DATE]; key: ZSTRING
+			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
+			list: EL_ARRAYED_MAP_LIST [ZSTRING, DATE_TIME]
 		do
-			l_date_list := date_list
-			create Result.make_equal (l_date_list.count)
-			across l_date_list as l_date loop
-				key := Date.formatted (l_date.item, {EL_DATE_FORMATS}.dd_mmm_yyyy)
-				Result [key] := agent restore_date (l_date.item)
+			create collection.make (backup_dir)
+			create Result.make_equal (collection.backup_list.count)
+
+			list := collection.backup_list
+			from list.start until list.after loop
+				if list.islast then
+					Result [list.item_key] := agent restore_date (Time_now)
+				else
+					Result [list.item_key] := agent restore_date (list.item_value)
+				end
+				list.forth
 			end
 		end
 
-	restore_date (a_date: DATE)
+	restore_date (a_time: DATE_TIME)
 		local
-			cmd: DUPLICITY_LISTING_COMMAND; restore_cmd: DUPLICITY_RESTORE_ALL_COMMAND
+			cmd: DUPLICITY_LISTING_OS_CMD; restore_cmd: DUPLICITY_RESTORE_ALL_OS_CMD
 			path_list: EL_FILE_PATH_LIST; file_path: EL_FILE_PATH; i: INTEGER
 		do
-			create cmd.make (a_date, backup_dir, User_input.line ("Enter search string"))
+			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))
 			lio.put_new_line
 			lio.put_labeled_string (" 0.", "Quit")
 			lio.put_new_line
@@ -133,15 +113,15 @@ feature {NONE} -- Implementation
 				end
 				file_path := path_list [i]
 				if i = 1 then
-					create restore_cmd.make (Current, a_date, file_path)
+					create restore_cmd.make (Current, a_time, file_path)
 				else
-					create {DUPLICITY_RESTORE_FILE_COMMAND} restore_cmd.make (Current, a_date, file_path)
+					create {DUPLICITY_RESTORE_FILE_OS_CMD} restore_cmd.make (Current, a_time, file_path)
 				end
 				restore_cmd.execute
 			end
 		end
 
-feature {DUPLICITY_RESTORE_ALL_COMMAND} -- Internal attributes
+feature {DUPLICITY_RESTORE_ALL_OS_CMD} -- Internal attributes
 
 	backup_dir: EL_DIR_URI_PATH
 

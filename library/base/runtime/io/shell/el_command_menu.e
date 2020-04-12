@@ -24,24 +24,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:37:56 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-04-11 12:14:29 GMT (Saturday 11th April 2020)"
+	revision: "8"
 
 class
 	EL_COMMAND_MENU
 
 inherit
-	ANY EL_MODULE_LIO
+	SINGLE_MATH
+
+	EL_MODULE_LIO
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_name: READABLE_STRING_GENERAL; a_options: like options)
+	make (a_name: READABLE_STRING_GENERAL; a_options: like options; a_row_count: INTEGER)
 		do
-			create name.make_from_general (a_name); options := a_options
+			create name.make_from_general (a_name); options := a_options; row_count := a_row_count
 			max_column_widths := new_max_column_widths
+			create option_number.make (log10 (a_options.count).ceiling)
 		end
 
 feature -- Access
@@ -70,14 +73,14 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("MENU", name)
 			lio.put_new_line_x2
-			from row := 0 until row > options.count.min (9) loop
+			from row := 0 until row > options.count.min (row_count - 1) loop
 				from column := 1 until column > (full_column_count + 1) loop
-					index := (column - 1) * 10 + row + 1
+					index := (column - 1) * row_count + row + 1
 					if options.valid_index (index) then
 						if column > 1 then
 							lio.put_string (padding (row, column - 1))
 						end
-						lio.put_labeled_string ((index - 1).out, options [index])
+						lio.put_labeled_string (option_number.formatted (index - 1), options [index])
 					end
 					column := column + 1
 				end
@@ -92,7 +95,7 @@ feature {NONE} -- Implementation
 	full_column_count: INTEGER
 			-- count of columns that are full
 		do
-			Result := options.count // 10
+			Result := options.count // row_count
 		end
 
 	new_max_column_widths: ARRAY [INTEGER]
@@ -101,8 +104,8 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_filled (0, 1, full_column_count)
 			from column := 1 until column > full_column_count loop
-				from i := 1 until i > 10 loop
-					index := (column - 1) * 10 + i
+				from i := 1 until i > row_count loop
+					index := (column - 1) * row_count + i
 					menu_item := options [index]
 					if menu_item.count > Result [column] then
 						Result [column] := menu_item.count
@@ -117,13 +120,17 @@ feature {NONE} -- Implementation
 		local
 			index: INTEGER
 		do
-			index := (column - 1) * 10 + row + 1
+			index := (column - 1) * row_count + row + 1
 			create Result.make_filled (' ', max_column_widths [column] - options.item (index).count + 1)
 		end
 
 feature {NONE} -- Internal attributes
 
 	max_column_widths: like new_max_column_widths
+
+	row_count: INTEGER
+
+	option_number: FORMAT_INTEGER
 
 	options: ARRAY [ZSTRING]
 

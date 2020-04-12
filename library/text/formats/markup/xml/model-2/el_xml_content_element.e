@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-09 13:02:08 GMT (Thursday 9th April 2020)"
-	revision: "4"
+	date: "2020-04-11 10:44:17 GMT (Saturday 11th April 2020)"
+	revision: "5"
 
 deferred class
 	EL_XML_CONTENT_ELEMENT
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL)
 		do
 			Precursor (a_name)
-			closed := close_template #$ [a_name]
+			closed := Closed_template #$ [a_name]
 		end
 
 feature -- Access
@@ -53,7 +53,7 @@ feature {NONE} -- Constants
 			Result := "<%S>"
 		end
 
-	Close_template: ZSTRING
+	Closed_template: ZSTRING
 		once
 			Result := "</%S>"
 		end

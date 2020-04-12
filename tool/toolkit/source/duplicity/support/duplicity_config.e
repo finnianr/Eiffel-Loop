@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-13 10:07:04 GMT (Wednesday 13th March 2019)"
-	revision: "3"
+	date: "2020-04-12 11:26:16 GMT (Sunday 12th April 2020)"
+	revision: "4"
 
 deferred class
 	DUPLICITY_CONFIG

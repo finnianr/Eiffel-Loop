@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:01:45 GMT (Tuesday 5th March 2019)"
-	revision: "9"
+	date: "2020-04-11 11:29:36 GMT (Saturday 11th April 2020)"
+	revision: "10"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -31,7 +31,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (tree_dir: EL_DIR_PATH)
 		do
-			make_shell ("LOCALIZATION")
+			make_shell ("LOCALIZATION", 10)
 			create unchecked_translations.make (0)
 			file_list := OS.file_list (tree_dir, "*.pyx")
 		end

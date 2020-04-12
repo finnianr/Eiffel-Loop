@@ -208,3 +208,6 @@ Replaced ID3-tags with TabLib in manage-mp3.ecf
 Tue 31st Mar 2020, 14:47:35
 Print out XML for tests that modify database in mp3-manager.ecf
 
+Sun 12th Apr 2020, 11:07:26
+Refactored EL_READABLE_ZSTRING into classes by function
+

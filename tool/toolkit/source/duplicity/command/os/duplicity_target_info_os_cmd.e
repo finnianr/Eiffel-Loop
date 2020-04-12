@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-19 15:47:16 GMT (Tuesday 19th March 2019)"
-	revision: "2"
+	date: "2020-04-12 11:31:16 GMT (Sunday 12th April 2020)"
+	revision: "3"
 
 class
-	DUPLICITY_TARGET_INFO
+	DUPLICITY_TARGET_INFO_OS_CMD
 
 inherit
 	EL_CAPTURED_OS_COMMAND

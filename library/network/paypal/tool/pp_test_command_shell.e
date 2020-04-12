@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 12:38:48 GMT (Tuesday 27th August 2019)"
-	revision: "14"
+	date: "2020-04-11 11:37:01 GMT (Saturday 11th April 2020)"
+	revision: "15"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -35,7 +35,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		local
 			pp_config: PP_CONFIGURATION
 		do
-			make_shell ("Paypal Buttons")
+			make_shell ("Paypal Buttons", 10)
 
 			create pp_config.make (config_path, encrypter)
 
