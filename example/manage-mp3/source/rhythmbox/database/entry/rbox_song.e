@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:56:39 GMT (Sunday 12th April 2020)"
-	revision: "38"
+	date: "2020-04-13 8:59:00 GMT (Monday 13th April 2020)"
+	revision: "39"
 
 class
 	RBOX_SONG
@@ -22,7 +22,7 @@ inherit
 			set_location as set_mp3_path
 		redefine
 			make, make_default, getter_function_table, on_context_exit,
-			Except_fields, Field_sets
+			Except_fields, Field_sets, Type
 		end
 
 	MEDIA_ITEM
@@ -526,6 +526,11 @@ feature -- Constants
 	Problem_file_name_substitutes: ZSTRING
 		once
 			create Result.make_filled ('-', Problem_file_name_characters.count)
+		end
+
+	Type: STRING
+		once
+			Result := "song"
 		end
 
 end

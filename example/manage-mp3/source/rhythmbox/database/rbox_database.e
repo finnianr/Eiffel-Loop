@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:45:06 GMT (Sunday 12th April 2020)"
-	revision: "25"
+	date: "2020-04-13 16:51:39 GMT (Monday 13th April 2020)"
+	revision: "26"
 
 class
 	RBOX_DATABASE
@@ -75,7 +75,7 @@ feature {NONE} -- Initialization
 
 		do
 			call (Database)
-			call (Db_field)
+			call (DB_field)
 
 			music_dir := a_music_dir
 
@@ -566,7 +566,7 @@ feature {NONE} -- Build from XML
 				extend (entry)
 			end
 			if entries.count \\ 10 = 0 or else entries.count = entries.capacity then
-				io.put_string (Read_progress_template #$ [entries.count, entries.capacity])
+				lio.put_string (Read_progress_template #$ [entries.count, entries.capacity])
 			end
 		end
 

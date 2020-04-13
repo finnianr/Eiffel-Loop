@@ -1,13 +1,24 @@
 note
-	description: "Rbox database field enum"
+	description: "Fields from `rhythmdb.c' for Rhythmbox version 3.0.1"
+	notes: "[
+		Generated from C array by utility [$source GENERATE_RBOX_DATABASE_FIELD_ENUM_APP]
+		
+		**C array**
+			static const RhythmDBPropertyDef rhythmdb_properties[] = {
+				PROP_ENTRY(TYPE, G_TYPE_OBJECT, "type"),
+				PROP_ENTRY(ENTRY_ID, G_TYPE_ULONG, "entry-id"),
+				PROP_ENTRY(TITLE, G_TYPE_STRING, "title"),
+				..
+			}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 17:03:20 GMT (Sunday 12th April 2020)"
-	revision: "2"
+	date: "2020-04-13 11:06:11 GMT (Monday 13th April 2020)"
+	revision: "3"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -17,9 +28,6 @@ inherit
 		rename
 			import_name as from_kebab_case,
 			export_name as to_kebab_case
-		export
-			{NONE} all
-			{ANY} value, is_valid_value, name, name_exported, list
 		redefine
 			initialize_fields, make
 		end
@@ -269,12 +277,25 @@ feature -- Access
 			Result := field_code & 0xFF
 		end
 
+	type_group_table: EL_GROUP_TABLE [NATURAL_16, NATURAL_16]
+		-- fields grouped by `type'
+		do
+			create Result.make (agent type, sorted)
+		end
+
 	xml_element (field_code: NATURAL_16): EL_XML_TEXT_ELEMENT
 		do
 			Result := element_cache_table.item (field_code)
 		end
 
-feature -- Constants
+feature -- Status query
+
+	is_string_type (field_code: NATURAL_16): BOOLEAN
+		do
+			Result := type (field_code) = G_type_string
+		end
+
+feature {NONE} -- Constants
 
 	G_type_boolean: NATURAL_16 = 0
 

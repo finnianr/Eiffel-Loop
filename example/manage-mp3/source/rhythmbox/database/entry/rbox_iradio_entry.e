@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 17:25:50 GMT (Sunday 12th April 2020)"
-	revision: "35"
+	date: "2020-04-13 10:57:37 GMT (Monday 13th April 2020)"
+	revision: "36"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -156,6 +156,14 @@ feature -- Contract Support
 		-- valid extra field
 		do
 			if not field_table.has (Db_field.name (field_code)) then
+				Result := DB_field.is_string_type (field_code)
+			end
+		end
+
+	all_non_string_fields_are_class_attributes: BOOLEAN
+		do
+			Result := across DB_field.sorted as field all
+				not DB_field.is_string_type (field.item) implies field_table.has (DB_field.field_name (field.item))
 			end
 		end
 
@@ -167,7 +175,8 @@ feature {NONE} -- Build from XML
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
+		require else
+			all_non_string_fields_are_class_attributes: all_non_string_fields_are_class_attributes
 		local
 			l_xpath: STRING
 		do
@@ -177,7 +186,7 @@ feature {NONE} -- Build from XML
 			end
 			Result ["location/text()"] := agent do set_location (database.decoded_location (node.to_string_8)) end
 			across DB_field.sorted as enum loop
-				if DB_field.type (enum.item) = {RBOX_DATABASE_FIELD_ENUM}.G_type_string then
+				if DB_field.is_string_type (enum.item) then
 					l_xpath := DB_field.name_exported (enum.item, False) + "/text()"
 					Result.put (agent set_string_field_from_node (enum.item), l_xpath)
 				end
@@ -212,7 +221,7 @@ feature {NONE} -- Evolicity fields
 				if enum.item = DB_field.location then
 						element.text.append (url_encoded_location_uri)
 
-				elseif field_table.has_key (DB_field.name (enum.item)) then
+				elseif field_table.has_key (DB_field.field_name (enum.item)) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
 						if not numeric.is_zero (Current) then
 							numeric.write (Current, element.text)

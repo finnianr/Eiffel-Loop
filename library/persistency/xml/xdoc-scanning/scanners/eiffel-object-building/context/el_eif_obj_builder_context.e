@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:06:16 GMT (Wednesday 8th January 2020)"
-	revision: "10"
+	date: "2020-04-13 10:45:10 GMT (Monday 13th April 2020)"
+	revision: "11"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -87,7 +87,6 @@ feature -- Element change
 feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 	new_building_actions: like building_actions
-			--
 		local
 			action_table: like building_action_table
 		do

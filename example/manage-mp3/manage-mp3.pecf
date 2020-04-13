@@ -40,9 +40,6 @@ system:
 			debug:
 				name = pyxis; enabled = false
 
-			#assertions:
-			#	precondition = true; postcondition = true; check = true; invariant = true
-
 			assertions:
 				precondition = true; postcondition = true; check = true; invariant = true
 
@@ -165,5 +162,9 @@ system:
 
 		cluster:
 			name = project; location = "source"; recursive = true
+			class_option:
+				class = COLLATE_SONGS_TASK_TEST_SET
+				assertions:
+					precondition = true; postcondition = true; check = true
 
 

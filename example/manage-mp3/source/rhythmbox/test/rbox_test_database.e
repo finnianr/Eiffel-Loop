@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:44:05 GMT (Sunday 12th April 2020)"
-	revision: "14"
+	date: "2020-04-13 9:02:52 GMT (Monday 13th April 2020)"
+	revision: "15"
 
 class
 	RBOX_TEST_DATABASE
@@ -73,9 +73,6 @@ feature {RBOX_IRADIO_ENTRY} -- location codecs
 			Result := Precursor (uri)
 			Result.replace_substring_all (Encoded_music_dir, Var_music.to_latin_1)
 		end
-
-feature {NONE} -- Build from XML
-
 
 feature {TEST_MANAGEMENT_TASK} -- Access
 

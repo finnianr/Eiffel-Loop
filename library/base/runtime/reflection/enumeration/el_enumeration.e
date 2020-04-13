@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 14:12:03 GMT (Friday 27th March 2020)"
-	revision: "27"
+	date: "2020-04-13 9:51:39 GMT (Monday 13th April 2020)"
+	revision: "28"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -39,6 +39,8 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			make_default as make
+		export
+			{NONE} all
 		redefine
 			make, initialize_fields
 		end
@@ -46,6 +48,14 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
+
+	initialize_fields
+			-- initialize fields with unique value
+		do
+			across field_table as field loop
+				field.item.set_from_integer (Current, field.cursor_index)
+			end
+		end
 
 	make
 		do
@@ -62,19 +72,49 @@ feature {NONE} -- Initialization
 			no_duplicate_values: not has_duplicate_value
 		end
 
-	initialize_fields
-			-- initialize fields with unique value
-		do
-			across field_table as field loop
-				field.item.set_from_integer (Current, field.cursor_index)
-			end
-		end
-
-feature -- Access
+feature -- Measurement
 
 	count: INTEGER
 		do
 			Result := value_by_name.count
+		end
+
+feature -- Access
+
+	field_name (a_value: N): STRING
+		-- unexported field name (with underscores)
+		local
+			table: like name_by_value
+		do
+			table := name_by_value
+			if table.has_key (a_value) then
+				Result := table.found_item
+			else
+				create Result.make_empty
+			end
+		end
+
+	list: EL_ARRAYED_LIST [N]
+		do
+			create Result.make_from_array (name_by_value.current_keys)
+		end
+
+	name (a_value: N): STRING
+		-- exported name
+		do
+			Result := name_exported (a_value, True)
+		end
+
+	name_exported (a_value: N; keep_ref: BOOLEAN): STRING
+		local
+			table: like name_by_value
+		do
+			table := name_by_value
+			if table.has_key (a_value) then
+				Result := export_name (table.found_item, keep_ref)
+			else
+				create Result.make_empty
+			end
 		end
 
 	value (a_name: STRING_8): N
@@ -87,40 +127,18 @@ feature -- Access
 			end
 		end
 
-	name (a_value: N): STRING_8
-		do
-			Result := name_exported (a_value, True)
-		end
-
-	name_exported (a_value: N; keep_ref: BOOLEAN): STRING_8
-		local
-			table: like name_by_value
-		do
-			table := name_by_value
-			if table.has_key (a_value) then
-				Result := export_name (table.found_item, keep_ref)
-			else
-				create Result.make_empty
-			end
-		end
-
-	list: EL_ARRAYED_LIST [N]
-		do
-			create Result.make_from_array (name_by_value.current_keys)
-		end
-
 feature -- Status query
 
 	has_duplicate_value: BOOLEAN
 
-	is_valid_value (a_value: N): BOOLEAN
-		do
-			Result := name_by_value.has_key (a_value)
-		end
-
 	is_valid_name (a_name: STRING_8): BOOLEAN
 		do
 			Result := value_by_name.has_key (a_name)
+		end
+
+	is_valid_value (a_value: N): BOOLEAN
+		do
+			Result := name_by_value.has_key (a_value)
 		end
 
 feature {NONE} -- Implementation
@@ -144,9 +162,9 @@ feature {NONE} -- Internal attributes
 	field_type_id: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration
 
-	value_by_name: HASH_TABLE [N, STRING_8]
+	name_by_value: HASH_TABLE [STRING_8, N]
 
-	name_by_value: HASH_TABLE [STRING_8, N];
+	value_by_name: HASH_TABLE [N, STRING_8];
 
 note
 	descendants: "[
@@ -159,5 +177,6 @@ note
 				[$source EL_HTTP_STATUS_ENUM]
 				[$source PP_L_VARIABLE_ENUM]
 	]"
+
 end -- class EL_ENUMERATION
 

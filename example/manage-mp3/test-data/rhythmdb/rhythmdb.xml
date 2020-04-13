@@ -678,6 +678,8 @@
 		<replaygain-track-gain>0.5</replaygain-track-gain>
 		<replaygain-track-peak>1.8</replaygain-track-peak>
 		<media-type>audio/mpeg</media-type>
+		<description>Award winning fusion music</description>
+		<copyright>Kronos Quartet 2005</copyright>
 		<composer>Unknown</composer>
 	</entry>
 	<entry type="song">
