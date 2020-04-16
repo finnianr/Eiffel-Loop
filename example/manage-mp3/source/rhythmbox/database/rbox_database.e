@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 16:51:39 GMT (Monday 13th April 2020)"
-	revision: "26"
+	date: "2020-04-16 11:49:47 GMT (Thursday 16th April 2020)"
+	revision: "27"
 
 class
 	RBOX_DATABASE
@@ -59,7 +59,7 @@ inherit
 
 	EL_MODULE_ITERABLE
 
-	SHARED_DATABASE
+	EL_SHARED_SINGLETONS
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 			playlist: DJ_EVENT_PLAYLIST; xml: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
 
 		do
-			call (Database)
+			put_singleton (Current)
 			call (DB_field)
 
 			music_dir := a_music_dir

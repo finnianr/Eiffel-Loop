@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:13:00 GMT (Tuesday 31st March 2020)"
-	revision: "11"
+	date: "2020-04-14 10:12:22 GMT (Tuesday 14th April 2020)"
+	revision: "12"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -84,7 +84,6 @@ feature -- Basic operations
 		local
 			picture_dir: EL_DIR_PATH
 		do
-			log.enter ("apply")
 			if create_folders then
 				across Picture_type.list as type loop
 					picture_dir := album_art_dir.joined_dir_path (Picture_type.name (type.item))
@@ -95,10 +94,9 @@ feature -- Basic operations
 			end
 			update_pictures
 			Database.store_all
-			log.exit
 		end
 
-feature {NONE} -- Implementation
+feature {EQA_TEST_SET} -- Implementation
 
 	add_picture (song: RBOX_SONG; a_picture: TL_ID3_PICTURE)
 		local
@@ -205,7 +203,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EQA_TEST_SET} -- Internal attributes
 
 	create_folders: BOOLEAN
 

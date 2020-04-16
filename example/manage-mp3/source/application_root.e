@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 16:17:35 GMT (Monday 13th April 2020)"
-	revision: "15"
+	date: "2020-04-16 11:27:20 GMT (Thursday 16th April 2020)"
+	revision: "16"
 
 class
 	APPLICATION_ROOT
@@ -29,8 +29,7 @@ feature {NONE} -- Constants
 		EL_DEBIAN_PACKAGER_APP,
 
 --		Testing
-		TASK_AUTOTEST_APP,
-		TEST_RHYTHMBOX_MUSIC_MANAGER_APP
+		TASK_AUTOTEST_APP
 	]
 		once
 			create Result

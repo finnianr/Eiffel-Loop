@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 9:02:52 GMT (Monday 13th April 2020)"
-	revision: "15"
+	date: "2020-04-16 8:35:39 GMT (Thursday 16th April 2020)"
+	revision: "16"
 
 class
 	RBOX_TEST_DATABASE
@@ -74,7 +74,7 @@ feature {RBOX_IRADIO_ENTRY} -- location codecs
 			Result.replace_substring_all (Encoded_music_dir, Var_music.to_latin_1)
 		end
 
-feature {TEST_MANAGEMENT_TASK} -- Access
+feature {EQA_TEST_SET} -- Access
 
 	cached_song_file_path (song: RBOX_SONG): EL_FILE_PATH
 			-- Path to auto generated mp3 file under build directory

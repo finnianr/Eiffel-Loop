@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:32:27 GMT (Tuesday 31st March 2020)"
-	revision: "5"
+	date: "2020-04-16 11:18:53 GMT (Thursday 16th April 2020)"
+	revision: "6"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK
@@ -27,10 +27,8 @@ feature -- Basic operations
 
 	apply
 		do
-			log.enter ("apply")
 			Database.update_dj_playlists (dj_events.dj_name, dj_events.default_title)
 			Database.store_all
-			log.exit
 		end
 
 feature {NONE} -- Internal attributes

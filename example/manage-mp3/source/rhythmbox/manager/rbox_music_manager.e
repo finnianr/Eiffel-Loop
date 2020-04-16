@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 13:35:54 GMT (Tuesday 31st March 2020)"
-	revision: "20"
+	date: "2020-04-16 11:47:55 GMT (Thursday 16th April 2020)"
+	revision: "21"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -46,6 +46,8 @@ feature -- Basic operations
 
 	execute
 			--
+		local
+			database: RBOX_DATABASE
 		do
 			log.enter ("execute")
 			from until user_quit loop
@@ -59,7 +61,8 @@ feature -- Basic operations
 					else
 						task.error_check
 						if task.error_message.is_empty then
-							call (Database)
+							create database.make (xml_file_path ("rhythmdb"), task.music_dir)
+
 
 							lio.put_labeled_string ("Executing", task_name)
 							lio.put_new_line
@@ -137,11 +140,6 @@ feature {NONE} -- Internal attributes
 	file_path: EL_FILE_PATH
 
 feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
-
-	Database: RBOX_DATABASE
-		once
-			create Result.make (xml_file_path ("rhythmdb"), task.music_dir)
-		end
 
 	Quit: ZSTRING
 		once

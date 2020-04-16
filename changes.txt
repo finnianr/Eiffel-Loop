@@ -211,3 +211,6 @@ Print out XML for tests that modify database in mp3-manager.ecf
 Sun 12th Apr 2020, 11:07:26
 Refactored EL_READABLE_ZSTRING into classes by function
 
+Mon 13th Apr 2020, 17:00:54
+First successful test of COLLATE_SONGS_TASK_TEST_SET
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:13:49 GMT (Tuesday 31st March 2020)"
-	revision: "3"
+	date: "2020-04-16 11:08:36 GMT (Thursday 16th April 2020)"
+	revision: "4"
 
 class
 	REPLACE_CORTINA_SET_TASK
@@ -33,7 +33,6 @@ feature -- Basic operations
 		local
 			new_set: CORTINA_SET; cortina_path: EL_FILE_PATH
 		do
-			log.enter ("apply")
 			cortina_path := user_input_file_path ("mp3 for cortina")
 
 			if Database.songs_by_location.has (cortina_path) then
@@ -45,7 +44,6 @@ feature -- Basic operations
 				lio.put_path_field ("ERROR file not found", cortina_path)
 				lio.put_new_line
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation

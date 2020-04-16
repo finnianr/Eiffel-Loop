@@ -1,13 +1,13 @@
 note
-	description: "Shared access to instance of class [$source RBOX_DATABASE]"
+	description: "Shared access to instance of class conforming to [$source RBOX_DATABASE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 11:00:18 GMT (Sunday 29th March 2020)"
-	revision: "3"
+	date: "2020-04-16 11:55:25 GMT (Thursday 16th April 2020)"
+	revision: "4"
 
 deferred class
 	SHARED_DATABASE
@@ -20,11 +20,10 @@ inherit
 feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
+		local
+			conforming: EL_CONFORMING_SINGLETON [RBOX_DATABASE]
 		once
-			if attached {RBOX_DATABASE} Current as db then
-				Result := db
-			else
-				Exception.raise_developer ("Attempt to initialize Database once variable from %S", [generator])
-			end
+			create conforming
+			Result := conforming.singleton
 		end
 end

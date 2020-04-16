@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 16:41:40 GMT (Monday 13th April 2020)"
-	revision: "1"
+	date: "2020-04-16 11:21:53 GMT (Thursday 16th April 2020)"
+	revision: "2"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -24,6 +24,8 @@ inherit
 		redefine
 			on_prepare
 		end
+
+	SONG_QUERY_CONDITIONS undefine default_create, is_equal end
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
@@ -56,9 +58,8 @@ feature {NONE} -- Events
 	on_prepare
 		do
 			Precursor {EL_COPIED_DIRECTORY_DATA_TEST_SET}
-			File_system.write_plain_text (Task_file_path, task_code)
-			create task.make (Task_file_path)
-			task.set_absolute_music_dir
+
+			task := new_task (task_config)
 
 			create database.make (task.music_dir.parent + "rhythmdb.xml", task.music_dir)
 			database.update_index_by_audio_id
@@ -78,6 +79,13 @@ feature {NONE} -- Implementation
 				print_rhythmdb_xml
 				print_playlist_xml
 			end
+		end
+
+	new_task (pyxis_code: STRING): like task
+		do
+			File_system.write_plain_text (Task_file_path, Pyxis_doc + pyxis_code)
+			create Result.make (Task_file_path)
+			Result.set_absolute_music_dir
 		end
 
 	print_field (name: STRING; entry_node: EL_XPATH_NODE_CONTEXT; character_count: INTEGER_REF)
@@ -157,7 +165,7 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	task_code: STRING
+	task_config: STRING
 		deferred
 		end
 
@@ -170,6 +178,20 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Attribute_type: STRING = "type"
+
+	Playlists_dir: EL_DIR_PATH
+		once
+			Result := work_area_data_dir.joined_dir_path ("Music/Playlists")
+		end
+
+	Pyxis_doc: STRING
+		once
+			Result := "[
+				pyxis-doc:
+				version = 1.0; encoding = "ISO-8859-1"
+			]"
+			Result.append ("%N%N")
+		end
 
 	Source_dir: EL_DIR_PATH
 		once

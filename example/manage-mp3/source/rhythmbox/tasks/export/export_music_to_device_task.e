@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 14:38:00 GMT (Tuesday 10th September 2019)"
-	revision: "3"
+	date: "2020-04-15 11:20:55 GMT (Wednesday 15th April 2020)"
+	revision: "4"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK
@@ -32,11 +32,14 @@ feature -- Status query
 feature -- Basic operations
 
 	apply
-		local
-			device: like new_device
 		do
-			log.enter ("apply")
-			device := new_device
+			do_export (new_device)
+		end
+
+feature {NONE} -- Implementation
+
+	do_export (device: like new_device)
+		do
 			if device.volume.is_valid then
 				if selected_genres.is_empty then
 					device.export_songs_and_playlists (songs_all)
@@ -57,10 +60,7 @@ feature -- Basic operations
 			else
 				notify_invalid_volume
 			end
-			log.exit
 		end
-
-feature {NONE} -- Implementation
 
 	export_to_device (
 		device: like new_device; a_condition: EL_QUERY_CONDITION [RBOX_SONG]; name_clashes: LINKED_LIST [EL_FILE_PATH]

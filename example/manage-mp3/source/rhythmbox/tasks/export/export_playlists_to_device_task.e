@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-01 16:28:45 GMT (Sunday 1st September 2019)"
-	revision: "1"
+	date: "2020-04-15 11:20:06 GMT (Wednesday 15th April 2020)"
+	revision: "2"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK
@@ -15,26 +15,21 @@ class
 inherit
 	EXPORT_MUSIC_TO_DEVICE_TASK
 		redefine
-			apply
+			do_export
 		end
 
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	apply
-		local
-			device: like new_device
+	do_export (device: like new_device)
 		do
-			log.enter ("apply")
-			device := new_device
 			if device.volume.is_valid then
 				export_to_device (device, song_in_some_playlist (Database), Database.case_insensitive_name_clashes)
 			else
 				notify_invalid_volume
 			end
-			log.exit
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 13:19:56 GMT (Wednesday 1st April 2020)"
-	revision: "7"
+	date: "2020-04-16 9:09:56 GMT (Thursday 16th April 2020)"
+	revision: "8"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -17,23 +17,15 @@ inherit
 		undefine
 			root_node_name
 		redefine
-			apply, new_song_info_input, video_contains_another_song
+			new_song_info_input, video_contains_another_song
 		end
 
 	TEST_MANAGEMENT_TASK
 
-feature -- Basic operations
+create
+	make
 
-	apply
-		do
-			across Video_songs as song loop
-				write_video_song (song.item)
-				Database.delete (song.item)
-			end
-			Precursor
-		end
-
-feature {NONE} -- Factory
+feature {NONE} -- Implementation
 
 	new_song_info_input (duration_time: TIME_DURATION; title, lead_artist: ZSTRING): like SONG_INFO
 		do
@@ -48,38 +40,11 @@ feature {NONE} -- Factory
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	write_video_song (song: RBOX_SONG)
-		local
-			mp4_path: EL_FILE_PATH
-		do
-			AVconv_mp3_to_mp4.put_path ("mp3_path", song.mp3_path)
-
-			from mp4_path := song.unique_normalized_mp3_path until not mp4_path.has_dot_extension loop
-				mp4_path.remove_extension
-			end
-			mp4_path.add_extension ("mp4")
-			File_system.make_directory (mp4_path.parent)
-			AVconv_mp3_to_mp4.put_path ("mp4_path", mp4_path)
-			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", "workarea/rhythmdb/album-art/Other/Unknown.jpeg")
-			AVconv_mp3_to_mp4.execute
-		end
-
 	video_contains_another_song: BOOLEAN
 		do
 		end
 
-feature {NONE} -- Constants
-
-	AVconv_mp3_to_mp4: EL_OS_COMMAND
-		once
-			create Result.make_with_name ("avconv.generate_mp4", "[
-				avconv -v quiet -i $mp3_path
-				-f image2 -loop 1 -r 10 -i $jpeg_path
-				-shortest -strict experimental -acodec aac -c:v libx264 -crf 23 -ab 48000 $mp4_path
-			]")
-		end
+feature {EQA_TEST_SET} -- Constants
 
 	Video_song_titles: ARRAY [ZSTRING]
 		once

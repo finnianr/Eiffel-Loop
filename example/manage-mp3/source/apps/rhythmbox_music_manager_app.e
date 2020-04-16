@@ -30,17 +30,21 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:36:52 GMT (Tuesday 31st December 2019)"
-	revision: "21"
+	date: "2020-04-16 11:48:29 GMT (Thursday 16th April 2020)"
+	revision: "22"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
 
 inherit
-	MUSIC_MANAGER_SUB_APPLICATION
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [RBOX_MUSIC_MANAGER]
 		rename
 			Application_option as Sub_application_option
+		redefine
+			Option_name, Visible_types
 		end
+
+	RHYTHMBOX_CONSTANTS
 
 	EL_INSTALLABLE_SUB_APPLICATION
 		redefine
@@ -49,7 +53,64 @@ inherit
 
 	SHARED_APPLICATION_OPTION
 
+feature {NONE} -- Implementation
+
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
+		do
+			Result := <<
+				valid_required_argument ("config", "Task configuration file",  << file_must_exist >>)
+			>>
+		end
+
+	default_make: PROCEDURE [like command]
+		do
+			Result := agent {like command}.make (create {EL_FILE_PATH})
+		end
+
+	log_filter: ARRAY [like CLASS_ROUTINES]
+			--
+		do
+			Result := <<
+				[{like Current}, All_routines],
+				
+				[{RBOX_MUSIC_MANAGER}, All_routines],
+				[{RBOX_DATABASE}, All_routines],
+
+				[{STORAGE_DEVICE}, All_routines],
+				[{NOKIA_PHONE_DEVICE}, All_routines],
+				[{SAMSUNG_TABLET_DEVICE}, All_routines],
+
+				[{ADD_ALBUM_ART_TASK}, All_routines],
+				[{COLLATE_SONGS_TASK}, All_routines],
+				[{DELETE_COMMENTS_TASK}, All_routines],
+				[{DISPLAY_INCOMPLETE_ID3_INFO_TASK}, All_routines],
+				[{DISPLAY_MUSIC_BRAINZ_INFO_TASK}, All_routines],
+				[{EXPORT_MUSIC_TO_DEVICE_TASK}, All_routines],
+				[{NORMALIZE_COMMENTS_TASK}, All_routines],
+				[{PRINT_COMMENTS_TASK}, All_routines],
+				[{PUBLISH_DJ_EVENTS_TASK}, All_routines],
+				[{REMOVE_ALL_UFIDS_TASK}, All_routines]
+			>>
+		end
+
+	visible_types: TUPLE [EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK], M3U_PLAYLIST_READER]
+		do
+			create Result
+		end
+
 feature {NONE} -- Installer constants
+
+	Desktop: EL_MENU_DESKTOP_ENVIRONMENT_I
+		once
+			create {EL_MENU_DESKTOP_ENVIRONMENT_IMP} Result.make (Current)
+			Result.enable_desktop_launcher
+			Result.set_command_line_options (Application_option.Options_list)
+		end
+
+	Desktop_launcher: EL_DESKTOP_MENU_ITEM
+		once
+			Result := new_launcher (Launcher_relative_icon_path)
+		end
 
 	Desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 			--
@@ -63,16 +124,16 @@ feature {NONE} -- Installer constants
 			Result := "MP3-manager.png"
 		end
 
-	Desktop_launcher: EL_DESKTOP_MENU_ITEM
+feature {NONE} -- Constants
+
+	Description: STRING
 		once
-			Result := new_launcher (Launcher_relative_icon_path)
+			Result := "Manage Rhythmbox Music Collection"
 		end
 
-	Desktop: EL_MENU_DESKTOP_ENVIRONMENT_I
+	Option_name: STRING
 		once
-			create {EL_MENU_DESKTOP_ENVIRONMENT_IMP} Result.make (Current)
-			Result.enable_desktop_launcher
-			Result.set_command_line_options (Application_option.Options_list)
+			Result := "manager"
 		end
 
 	is_main: BOOLEAN = True
