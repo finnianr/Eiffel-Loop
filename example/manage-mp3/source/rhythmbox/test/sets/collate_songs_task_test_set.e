@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 17:57:50 GMT (Thursday 16th April 2020)"
-	revision: "2"
+	date: "2020-04-18 9:38:19 GMT (Saturday 18th April 2020)"
+	revision: "3"
 
 class
 	COLLATE_SONGS_TASK_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 3520081511
+	Checksum: NATURAL = 4013746582
 
 	Task_config: STRING = "[
 		collate_songs:

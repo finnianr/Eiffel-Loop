@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 8:35:39 GMT (Thursday 16th April 2020)"
-	revision: "16"
+	date: "2020-04-18 9:26:21 GMT (Saturday 18th April 2020)"
+	revision: "17"
 
 class
 	RBOX_TEST_DATABASE
 
 inherit
 	RBOX_DATABASE
+		export
+			{EQA_TEST_SET} make
 		redefine
 			new_cortina, new_song, extend_with_song, decoded_location, encoded_location_uri
 		end

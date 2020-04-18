@@ -1,7 +1,7 @@
 note
-	description: "Finalized executable tasks executed by [$source RBOX_MUSIC_MANAGER] command"
+	description: "Finalized executable test sets"
 	notes: "[
-		Command option: `-task_autotest'
+		Command option: `-rbox_autotest'
 		
 		**Test Sets**
 		
@@ -16,6 +16,7 @@ note
 			[$source PUBLISH_DJ_EVENTS_TASK_TEST_TASK]
 			[$source REPLACE_CORTINA_SET_TASK_TEST_SET]
 			[$source REPLACE_SONGS_TASK_TEST_SET]
+			[$source TANGO_MP3_FILE_COLLATOR_TEST_SET]
 			[$source UPDATE_DJ_PLAYLISTS_TASK_TEST_SET]
 	]"
 
@@ -24,11 +25,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 17:55:33 GMT (Thursday 16th April 2020)"
-	revision: "2"
+	date: "2020-04-18 11:21:39 GMT (Saturday 18th April 2020)"
+	revision: "3"
 
 class
-	TASK_AUTOTEST_APP
+	RBOX_AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
@@ -43,10 +44,11 @@ feature {NONE} -- Implementation
 
 	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
 		do
-			Result := Precursor + new_log_filter ({TEST_STORAGE_DEVICE}, All_routines)
+			Result := Precursor +
+				new_log_filter ({TEST_STORAGE_DEVICE}, All_routines)
 		end
 
-	test_type: TUPLE [UPDATE_DJ_PLAYLISTS_TASK_TEST_SET]
+	test_type: TUPLE [TANGO_MP3_FILE_COLLATOR_TEST_SET]
 		do
 			create Result
 		end
@@ -62,6 +64,7 @@ feature {NONE} -- Implementation
 		PUBLISH_DJ_EVENTS_TASK_TEST_TASK,
 		REPLACE_CORTINA_SET_TASK_TEST_SET,
 		REPLACE_SONGS_TASK_TEST_SET,
+		TANGO_MP3_FILE_COLLATOR_TEST_SET,
 		UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
 	]
 		do

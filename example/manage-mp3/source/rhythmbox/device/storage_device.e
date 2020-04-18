@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 10:57:31 GMT (Tuesday 31st March 2020)"
-	revision: "15"
+	date: "2020-04-17 12:05:21 GMT (Friday 17th April 2020)"
+	revision: "16"
 
 class
 	STORAGE_DEVICE
@@ -115,6 +115,13 @@ feature -- Basic operations
 			export_temporary_dir
 			File_system.delete_empty_branch (temporary_dir)
 			log.exit
+		end
+
+	delete_sync_table_file
+		do
+			if local_sync_table_file_path.exists then
+				File_system.remove_file (local_sync_table_file_path)
+			end
 		end
 
 feature {NONE} -- Factory

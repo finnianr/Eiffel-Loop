@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:35:23 GMT (Tuesday 24th March 2020)"
-	revision: "10"
+	date: "2020-04-18 11:21:32 GMT (Saturday 18th April 2020)"
+	revision: "11"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -42,7 +42,6 @@ feature -- Basic operations
 			file_list: like OS.file_list
 			per_page: INTEGER
 		do
-			log.enter ("execute")
 			per_page := 50
 			if dir_path.exists then
 				file_list := OS.file_list (dir_path, "*.mp3")
@@ -68,7 +67,6 @@ feature -- Basic operations
 					end
 				end
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation
@@ -165,6 +163,7 @@ feature {NONE} -- Implementation
 				lio.put_path_field ("ORIGINAL", mp3_path.relative_path (dir_path))
 				lio.put_new_line
 			end
+			id3_info.dispose
 		end
 
 	song_title_counts: EL_HASH_TABLE [INTEGER, EL_FILE_PATH]

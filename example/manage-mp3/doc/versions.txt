@@ -1,3 +1,6 @@
+# 2.1.4
+Finished TASK_AUTOTEST_APP
+
 # 2.1.3
 Fixed IMPORT_VIDEOS_TEST_TASK and genre setting
 

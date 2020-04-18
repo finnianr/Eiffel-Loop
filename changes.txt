@@ -214,3 +214,9 @@ Refactored EL_READABLE_ZSTRING into classes by function
 Mon 13th Apr 2020, 17:00:54
 First successful test of COLLATE_SONGS_TASK_TEST_SET
 
+Thu 16th Apr 2020, 18:03:16
+Finished TASK_AUTOTEST_APP for mp3-manager.ecf
+
+Sat 18th Apr 2020, 11:27:36
+Migrated all manage-mp3.ecf tests to RBOX_AUTOTEST_APP
+

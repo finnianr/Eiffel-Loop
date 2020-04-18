@@ -12,40 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 12:18:39 GMT (Sunday 29th March 2020)"
-	revision: "14"
+	date: "2020-04-18 11:18:06 GMT (Saturday 18th April 2020)"
+	revision: "15"
 
 class
 	TANGO_MP3_FILE_COLLATOR_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [TANGO_MP3_FILE_COLLATOR]
-		rename
-			extra_log_filter as no_log_filter
+	EL_COMMAND_LINE_SUB_APPLICATION [TANGO_MP3_FILE_COLLATOR]
 		redefine
 			Option_name
-		end
-
-	RHYTHMBOX_CONSTANTS
-
-feature -- Testing
-
-	test_run
-			--
-		do
-			Test.set_excluded_file_extensions (<< "mp3", "jpeg" >>)
-			Test.do_file_tree_test ("rhythmdb", agent test_normal_run, 2889609822) -- March 2020
-		end
-
-	test_normal_run (a_dir_path: EL_DIR_PATH)
-			--
-		local
-			db: RBOX_TEST_DATABASE; music_dir: EL_DIR_PATH
-		do
-			music_dir := a_dir_path.joined_dir_path ("Music")
-			create db.make (a_dir_path + "rhythmdb.xml", music_dir)
-			create command.make (music_dir, True)
-			normal_run
 		end
 
 feature {NONE} -- Implementation

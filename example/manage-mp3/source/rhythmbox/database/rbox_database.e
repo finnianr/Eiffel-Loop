@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 11:49:47 GMT (Thursday 16th April 2020)"
-	revision: "27"
+	date: "2020-04-18 9:34:16 GMT (Saturday 18th April 2020)"
+	revision: "28"
 
 class
 	RBOX_DATABASE
@@ -115,7 +115,6 @@ feature {NONE} -- Initialization
 				end
 				entries.forth
 			end
-			is_initialized := not songs.is_empty
 		end
 
 	make_default
@@ -177,6 +176,17 @@ feature -- Access
 				Result := songs_by_location.found_item.title_and_album
 			else
 				create Result.make_empty
+			end
+		end
+
+	location_keys: ARRAYED_LIST [ZSTRING]
+		local
+			l_template: ZSTRING
+		do
+			l_template := "item [%S]: %S"
+			create Result.make (songs_by_location.count)
+			across songs_by_location.current_keys as key loop
+				Result.extend (l_template #$ [key.cursor_index, key.item.base])
 			end
 		end
 
@@ -243,8 +253,6 @@ feature -- Status query
 				l_playlist.item.name ~ name
 			end
 		end
-
-	is_initialized: BOOLEAN
 
 	is_song_in_any_playlist (song: RBOX_SONG): BOOLEAN
 		local

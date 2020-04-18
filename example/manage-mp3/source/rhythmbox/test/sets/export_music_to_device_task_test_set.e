@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 10:37:52 GMT (Thursday 16th April 2020)"
-	revision: "1"
+	date: "2020-04-17 12:09:17 GMT (Friday 17th April 2020)"
+	revision: "2"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -15,7 +15,19 @@ class
 inherit
 	RBOX_MANAGEMENT_TASK_TEST_SET [EXPORT_MUSIC_TO_DEVICE_TASK]
 		redefine
-			do_task
+			do_task, on_prepare
+		end
+
+feature {NONE} -- Events
+
+	on_prepare
+		local
+			device: TEST_STORAGE_DEVICE
+		do
+			Precursor
+			-- Delete sync table file cached under Directory.app_data
+			create device.make (task)
+			device.delete_sync_table_file
 		end
 
 feature {NONE} -- Implementation

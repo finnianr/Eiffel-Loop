@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 8:56:06 GMT (Friday 4th October 2019)"
-	revision: "1"
+	date: "2020-04-18 9:29:38 GMT (Saturday 18th April 2020)"
+	revision: "2"
 
 class
 	EL_SINGLETON_TABLE
@@ -16,7 +16,8 @@ inherit
 	HASH_TABLE [ANY, INTEGER]
 		rename
 			put as table_put,
-			item as table_item
+			item as table_item,
+			has as has_type_id
 		export
 			{NONE} all
 		redefine
@@ -62,7 +63,7 @@ feature -- Status query
 		-- `True' if table has `a_type_id' or else if `conforming' then `True' if a conforming type exists
 		do
 			restrict_access
-				Result := has (a_type_id)
+				Result := has_type_id (a_type_id)
 				if not Result and conforming then
 					Result := across current_keys as type_id some
 						{ISE_RUNTIME}.type_conforms_to (type_id.item, a_type_id)
