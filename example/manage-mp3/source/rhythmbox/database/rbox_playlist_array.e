@@ -1,13 +1,13 @@
 note
-	description: "Rbox playlist array"
+	description: "Rhythmbox playlist array"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 9:52:57 GMT (Friday 13th September 2019)"
-	revision: "10"
+	date: "2020-04-19 8:54:21 GMT (Sunday 19th April 2020)"
+	revision: "11"
 
 class
 	RBOX_PLAYLIST_ARRAY

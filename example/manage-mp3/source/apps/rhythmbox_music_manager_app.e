@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 11:48:29 GMT (Thursday 16th April 2020)"
-	revision: "22"
+	date: "2020-04-19 9:16:03 GMT (Sunday 19th April 2020)"
+	revision: "23"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -72,24 +72,13 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				[{like Current}, All_routines],
-				
+
 				[{RBOX_MUSIC_MANAGER}, All_routines],
 				[{RBOX_DATABASE}, All_routines],
 
 				[{STORAGE_DEVICE}, All_routines],
 				[{NOKIA_PHONE_DEVICE}, All_routines],
-				[{SAMSUNG_TABLET_DEVICE}, All_routines],
-
-				[{ADD_ALBUM_ART_TASK}, All_routines],
-				[{COLLATE_SONGS_TASK}, All_routines],
-				[{DELETE_COMMENTS_TASK}, All_routines],
-				[{DISPLAY_INCOMPLETE_ID3_INFO_TASK}, All_routines],
-				[{DISPLAY_MUSIC_BRAINZ_INFO_TASK}, All_routines],
-				[{EXPORT_MUSIC_TO_DEVICE_TASK}, All_routines],
-				[{NORMALIZE_COMMENTS_TASK}, All_routines],
-				[{PRINT_COMMENTS_TASK}, All_routines],
-				[{PUBLISH_DJ_EVENTS_TASK}, All_routines],
-				[{REMOVE_ALL_UFIDS_TASK}, All_routines]
+				[{SAMSUNG_TABLET_DEVICE}, All_routines]
 			>>
 		end
 

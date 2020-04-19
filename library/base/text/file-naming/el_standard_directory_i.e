@@ -2,14 +2,27 @@ note
 	description: "[
 		Platform independent interface to standard OS directories accessible via [$source EL_MODULE_DIRECTORY]
 	]"
+	notes: "[
+		**Gnome Convention**
+		
+		This class follows the Gnome convention of locating:	
+
+		* user data in `~/.local/share' (accessible via `Directory.app_data')
+		* configuration in `~/.config' (accessible via `Directory.configuration')
+		* non-essential data files in `~/.cache' (accessible via `Directory.cache')
+		
+		**MS Windows**
+		
+		For windows these directories are mapped to equivalent directories
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 10:52:03 GMT (Tuesday 25th February 2020)"
-	revision: "12"
+	date: "2020-04-19 10:10:39 GMT (Sunday 19th April 2020)"
+	revision: "13"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -69,6 +82,7 @@ feature -- Access
 feature -- Paths
 
 	app_data: EL_DIR_PATH
+		-- user application data
 		deferred
 		end
 
@@ -78,6 +92,7 @@ feature -- Paths
 		end
 
 	configuration: EL_DIR_PATH
+		-- application configuration data
 		deferred
 		end
 

@@ -6,19 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:58:59 GMT (Thursday 20th February 2020)"
-	revision: "12"
+	date: "2020-04-19 9:18:05 GMT (Sunday 19th April 2020)"
+	revision: "13"
 
 class
 	ID3_EDITOR_APP
 
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [ID3_EDITOR]
+		rename
+			extra_log_filter as no_log_filter
 		redefine
 			Option_name, Ask_user_to_quit
 		end
 
 	RHYTHMBOX_CONSTANTS
+
+	ID3_TAG_INFO_ROUTINES
+		undefine
+			new_lio
+		end
 
 feature -- Testing
 
@@ -33,15 +40,12 @@ feature -- Testing
 
 	test_normal_run (a_media_dir: EL_DIR_PATH)
 			--
-		local
-			edits: ID3_TAG_INFO_ROUTINES
 		do
-			create edits
---			create command.make (a_media_dir, agent edits.save_album_picture_id3 (?, ?, "Rafael Canaro"))
---			create command.make (a_media_dir, agent edits.set_version_23)
---			create command.make (a_media_dir, agent edits.normalize_comment)
---			create command.make (a_media_dir, agent edits.print_id3)
---			create command.make (a_media_dir, agent edits.test)
+--			create command.make (a_media_dir, agent save_album_picture_id3 (?, ?, "Rafael Canaro"))
+--			create command.make (a_media_dir, agent set_version_23)
+--			create command.make (a_media_dir, agent normalize_comment)
+--			create command.make (a_media_dir, agent print_id3)
+--			create command.make (a_media_dir, agent test)
 
 			normal_run
 
@@ -61,15 +65,6 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make ("", "default")
-		end
-
-	extra_log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
---				[{EL_ID3_INFO}, No_routines],
-				[{ID3_TAG_INFO_ROUTINES}, All_routines]
-			>>
 		end
 
 feature {NONE} -- Constants
