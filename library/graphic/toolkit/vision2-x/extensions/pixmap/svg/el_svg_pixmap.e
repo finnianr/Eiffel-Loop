@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:01:30 GMT (Monday 30th September 2019)"
-	revision: "9"
+	date: "2020-04-20 8:34:22 GMT (Monday 20th April 2020)"
+	revision: "10"
 
 class
 	EL_SVG_PIXMAP
@@ -234,7 +234,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 		do
 			base_path := Directory.Application_installation
 			if base_path.is_parent_of (svg_path) then
-				pixmap_base_path := Directory.App_configuration
+				pixmap_base_path := Directory.App_cache
 			else
 				base_path := svg_path.parent
 				pixmap_base_path := base_path

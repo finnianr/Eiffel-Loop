@@ -5,15 +5,13 @@ note
 	notes: "[
 		**Gnome Convention**
 		
-		This class follows the Gnome convention of locating:	
+		This class follows the Gnome convention of locating:
 
-		* user data in `~/.local/share' (accessible via `Directory.app_data')
-		* configuration in `~/.config' (accessible via `Directory.configuration')
-		* non-essential data files in `~/.cache' (accessible via `Directory.cache')
+		* user data in `~/.local/share' (`user_local')
+		* configuration in `~/.config' (`configuration')
+		* non-essential data files in `~/.cache' (`cache')
 		
-		**MS Windows**
-		
-		For windows these directories are mapped to equivalent directories
+		For MS Windows these directories are mapped to equivalent directories
 	]"
 
 	author: "Finnian Reilly"
@@ -21,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 10:10:39 GMT (Sunday 19th April 2020)"
-	revision: "13"
+	date: "2020-04-20 10:59:10 GMT (Monday 20th April 2020)"
+	revision: "14"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -53,9 +51,9 @@ feature -- Factory
 
 feature -- Access
 
-	separator: CHARACTER
-		do
-			Result := Operating_environment.Directory_separator
+	App_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+		once
+			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
 		end
 
 	relative_parent (step_count: INTEGER): ZSTRING
@@ -74,25 +72,15 @@ feature -- Access
 			end
 		end
 
-	relative_app_data: EL_DIR_PATH
-			-- path to application data files relative to user profile directory
-		deferred
+	separator: CHARACTER
+		do
+			Result := Operating_environment.Directory_separator
 		end
 
 feature -- Paths
 
-	app_data: EL_DIR_PATH
-		-- user application data
-		deferred
-		end
-
 	applications: EL_DIR_PATH
 			-- In Windows this is "Program Files"
-		deferred
-		end
-
-	configuration: EL_DIR_PATH
-		-- application configuration data
 		deferred
 		end
 
@@ -109,6 +97,10 @@ feature -- Paths
 		end
 
 	home: EL_DIR_PATH
+		-- user home directory
+		
+		-- On Unix: /home/$USER
+		-- On Windows 7: $HOMEDRIVE$HOMEPATH (Usually C:\Users\$USERNAME)
 		deferred
 		end
 
@@ -123,14 +115,8 @@ feature -- Paths
 		end
 
 	user_local: EL_DIR_PATH
-		-- For windows this is something like C:\Users\xxxx\AppData\Local
-		-- For Linux: /home/xxxx/.local/share
-		deferred
-		end
-
-	users: EL_DIR_PATH
-		-- For windows 7: C:\Users
-		-- For Linux: /home
+		-- On Unix: $HOME/.local/share
+		-- On Windows 7: $LOCALAPPDATA (Usually C:\Users\$USERNAME\AppData\Local)
 		deferred
 		end
 
@@ -140,6 +126,21 @@ feature -- Paths
 		end
 
 feature -- Path constants
+
+	App_cache: EL_DIR_PATH
+		once
+			Result := cache.joined_dir_path (Relative_app_data)
+		end
+
+	App_configuration: EL_DIR_PATH
+		once
+			Result := configuration.joined_dir_path (Relative_app_data)
+		end
+
+	App_data: EL_DIR_PATH
+		once
+			Result := user_local.joined_dir_path (Relative_app_data)
+		end
 
 	Application_bin: EL_DIR_PATH
 			-- Installed application executable directory
@@ -152,9 +153,35 @@ feature -- Path constants
 			Result := applications.joined_dir_path (Build_info.installation_sub_directory)
 		end
 
-	App_configuration: EL_DIR_PATH
+	Cache: EL_DIR_PATH
+		-- non-essential application data files
+
+		-- On Unix: $HOME/.cache
+		-- On Windows 7: $HOMEDRIVE$HOMEPATH\.cache (Usually C:\Users\$USERNAME\.cache)
 		once
-			Result := configuration.joined_dir_path (Build_info.installation_sub_directory)
+			Result := home.joined_dir_path (".cache")
+		end
+
+	Configuration: EL_DIR_PATH
+		-- application configuration data
+
+		-- On Unix: /home/$USER/.config
+		-- On Windows 7: $HOMEDRIVE$HOMEPATH\.config (Usually C:\Users\$USERNAME\.config)
+		once
+			Result := home.joined_dir_path (".config")
+		end
+
+	Relative_app_data: EL_DIR_PATH
+		-- path to application data files relative to `local_share' directory
+		once
+			Result := Build_info.installation_sub_directory.to_string
+		end
+
+	Users: EL_DIR_PATH
+		-- On Unix: /home
+		-- On windows 7: C:\Users
+		once
+			Result := Home.parent
 		end
 
 feature -- Constants
@@ -162,6 +189,20 @@ feature -- Constants
 	Parent: ZSTRING
 		once
 			Result := "/.."
+		end
+
+	Legacy_table: EL_HASH_TABLE [EL_DIR_PATH, EL_DIR_PATH]
+		once
+			create Result.make (<<
+				[App_configuration, Legacy.app_configuration],
+				[App_data, Legacy.app_data]
+			>>)
+		end
+
+	Legacy: EL_LEGACY_DIRECTORY_I
+		-- values for `app_data' and `configuration' prior to April 2020
+		once
+			create {EL_LEGACY_DIRECTORY_IMP} Result
 		end
 
 end

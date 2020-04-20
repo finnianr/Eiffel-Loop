@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-19 9:31:16 GMT (Monday 19th August 2019)"
-	revision: "7"
+	date: "2020-04-20 9:43:23 GMT (Monday 20th April 2020)"
+	revision: "8"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 
 	read_xml (file_path: EL_FILE_PATH): STRING
 		do
-			lio.put_path_field ("Reading", file_path.relative_path (Directory.app_configuration))
+			lio.put_path_field ("Reading", file_path.relative_path (Directory.App_cache))
 			lio.put_new_line
 			Result := File_system.plain_text (file_path)
 		end

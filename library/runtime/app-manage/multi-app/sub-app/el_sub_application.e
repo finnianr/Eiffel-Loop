@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 17:17:31 GMT (Sunday 2nd February 2020)"
-	revision: "40"
+	date: "2020-04-20 9:14:07 GMT (Monday 20th April 2020)"
+	revision: "41"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -32,6 +32,7 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 	EL_MODULE_LIO
 	EL_MODULE_OS_RELEASE
+	EL_MODULE_OS
 
 	EL_SHARED_SINGLETONS
 	EL_SHARED_BASE_OPTION
@@ -59,6 +60,11 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			across standard_options as options loop
 				across options.item.help_table as help loop
 					options_help.extend (help.key, help.item.description, help.item.default_value)
+				end
+			end
+			across App_directory_list as list loop
+				if not list.item.exists then
+					create_app_directory (list.item)
 				end
 			end
 			init_console
@@ -176,6 +182,21 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	create_app_directory (data_dir: EL_DIR_PATH)
+		-- create cache, configuration and data user directories
+		local
+			legacy: like Directory.Legacy_table
+		do
+			legacy := Directory.Legacy_table
+			-- If a differing legacy data directory exists already, move it to standard location
+			if legacy.has_key (data_dir) and then legacy.found_item.exists and then legacy.found_item /~ data_dir then
+				-- migrate from legacy directories
+				migrate (legacy.found_item, data_dir)
+			else
+				File_system.make_directory (data_dir)
+			end
+		end
+
 	do_application
 		local
 			ctrl_c_pressed: BOOLEAN
@@ -183,11 +204,6 @@ feature {NONE} -- Implementation
 			if ctrl_c_pressed then
 				on_operating_system_signal
 			else
-				across Data_directories as dir loop
-					if not dir.item.exists then
-						File_system.make_directory (dir.item)
-					end
-				end
 				read_command_options
 				if not is_valid_platform then
 					lio.put_labeled_string ("Application option", option_name)
@@ -250,6 +266,16 @@ feature {NONE} -- Implementation
 			lio.put_new_line_X2
 		end
 
+	migrate (legacy, standard: EL_DIR_PATH)
+		-- migrate legacy paths to standard
+		require
+			legacy_exists: legacy.exists
+		do
+			File_system.make_directory (standard.parent)
+			OS.move_to_directory (legacy, standard.parent)
+			File_system.delete_if_empty (legacy.parent)
+		end
+
 	on_operating_system_signal
 			--
 		do
@@ -282,9 +308,9 @@ feature {NONE} -- Implementation
 
 feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 
-	Data_directories: ARRAY [EL_DIR_PATH]
+	App_directory_list: EL_ARRAYED_LIST [EL_DIR_PATH]
 		once
-			Result := << Directory.App_data, Directory.App_configuration >>
+			Result := Directory.app_list
 		end
 
 note

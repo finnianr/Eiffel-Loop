@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:55:58 GMT (Sunday 19th April 2020)"
-	revision: "18"
+	date: "2020-04-19 14:19:33 GMT (Sunday 19th April 2020)"
+	revision: "19"
 
 class
 	RBOX_TEST_DATABASE
@@ -88,7 +88,7 @@ feature {EQA_TEST_SET} -- Access
 		do
 			relative_path := song.mp3_path.relative_path (music_dir)
 
-			Result := Directory.new_path ("build") + relative_path
+			Result := Directory.App_cache.joined_dir_tuple (["test-mp3"]) + relative_path
 			if not Result.exists then
 				File_system.make_directory (Result.parent)
 				wav_path := Result.with_new_extension ("wav")
@@ -113,10 +113,11 @@ feature {EQA_TEST_SET} -- Access
 				mp3_writer.execute
 				File_system.remove_file (wav_path)
 
+				song.update_file_info
+
 				create mp3_info.make (Result)
 				song.write_id3_info (mp3_info)
 				mp3_info.dispose
-				song.update_file_info
 			end
 		ensure
 			file_exists: Result.exists

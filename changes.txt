@@ -220,3 +220,6 @@ Finished TASK_AUTOTEST_APP for mp3-manager.ecf
 Sat 18th Apr 2020, 11:27:36
 Migrated all manage-mp3.ecf tests to RBOX_AUTOTEST_APP
 
+Mon 20th Apr 2020, 13:55:57
+Reorganized standard folders with addition of .cache
+

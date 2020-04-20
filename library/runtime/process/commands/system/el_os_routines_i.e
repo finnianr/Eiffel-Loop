@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 12:16:33 GMT (Friday 25th January 2019)"
-	revision: "5"
+	date: "2020-04-19 12:36:10 GMT (Sunday 19th April 2020)"
+	revision: "6"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -89,6 +89,14 @@ feature -- OS commands
 			Move_file_cmd.execute
 		end
 
+	move_to_directory (a_path: EL_PATH; destination_path: EL_DIR_PATH)
+			--
+		do
+			Move_to_directory_cmd.set_source_path (a_path)
+			Move_to_directory_cmd.set_destination_path (destination_path)
+			Move_to_directory_cmd.execute
+		end
+
 feature -- Constants
 
 	CPU_model_name: STRING
@@ -156,4 +164,9 @@ feature {NONE} -- Constants
 			create {EL_MOVE_FILE_COMMAND_IMP} Result.make_default
 		end
 
+	Move_to_directory_cmd: EL_MOVE_TO_DIRECTORY_COMMAND_I
+			--
+		once
+			create {EL_MOVE_TO_DIRECTORY_COMMAND_IMP} Result.make_default
+		end
 end

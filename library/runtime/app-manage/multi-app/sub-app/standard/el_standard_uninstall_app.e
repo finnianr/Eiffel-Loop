@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:06:08 GMT (Tuesday 31st December 2019)"
-	revision: "16"
+	date: "2020-04-19 12:50:02 GMT (Sunday 19th April 2020)"
+	revision: "17"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -30,7 +30,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			option_name, Data_directories
+			option_name, App_directory_list
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -144,7 +144,7 @@ feature {NONE} -- Installer constants
 
 feature {NONE} -- Application constants
 
-	Data_directories: ARRAY [EL_DIR_PATH]
+	App_directory_list: EL_ARRAYED_LIST [EL_DIR_PATH]
 		-- so nothing is created in /home/root
 		once
 			create Result.make_empty

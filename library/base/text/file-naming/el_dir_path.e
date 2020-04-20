@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 14:08:22 GMT (Tuesday 24th December 2019)"
-	revision: "14"
+	date: "2020-04-19 11:12:57 GMT (Sunday 19th April 2020)"
+	revision: "15"
 
 class
 	EL_DIR_PATH
@@ -135,7 +135,9 @@ feature {NONE} -- Implementation
 					Result.append_unicode (Separator.natural_32_code)
 				end
 				if tuple.is_reference_item (i) then
-					if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
+					if attached {ZSTRING} tuple.reference_item (i) as zstr then
+						Result.append (zstr)
+					elseif attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
 						Result.append_string_general (general)
 					elseif attached {EL_PATH} tuple.reference_item (i) as path
 						and then not path.is_absolute

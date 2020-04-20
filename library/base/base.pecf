@@ -270,6 +270,16 @@ system:
 					* UTF encoding/decoding
 				"""
 			cluster:
+				name = imp_unix; location = "$|imp_unix"; recursive = true
+				condition:
+					platform:
+						value = unix
+			cluster:
+				name = imp_mswin; location = "$|imp_mswin"; recursive = true
+				condition:
+					platform:
+						value = windows
+			cluster:
 				name = character; location = "$|character"; recursive = true
 			cluster:
 				name = text_encoding; location = "$|encoding"; recursive = true

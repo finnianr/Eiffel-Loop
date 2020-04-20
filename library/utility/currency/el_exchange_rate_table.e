@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 13:54:42 GMT (Tuesday 24th December 2019)"
-	revision: "9"
+	date: "2020-04-20 9:35:00 GMT (Monday 20th April 2020)"
+	revision: "10"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -114,7 +114,7 @@ feature {NONE} -- Constants
 
 	Rates_dir: EL_DIR_PATH
 		once
-			Result := Directory.app_configuration.joined_dir_path ("ECB-euro-exchange-rates")
+			Result := Directory.App_cache.joined_dir_path ("ECB-euro-exchange-rates")
 		end
 
 	XML_extension: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 9:42:43 GMT (Monday 7th October 2019)"
-	revision: "9"
+	date: "2020-04-19 12:31:02 GMT (Sunday 19th April 2020)"
+	revision: "10"
 
 class
 	EL_COMMAND_FACTORY
@@ -85,6 +85,11 @@ feature -- File management
 	new_move_file (a_source_path: EL_FILE_PATH; a_destination_path: EL_PATH): EL_MOVE_FILE_COMMAND_I
 		do
 			create {EL_MOVE_FILE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
+		end
+
+	new_move_to_directory (a_source_path: EL_PATH; a_destination_path: EL_DIR_PATH): EL_MOVE_TO_DIRECTORY_COMMAND_I
+		do
+			create {EL_MOVE_TO_DIRECTORY_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 		end
 
 	new_make_directory (a_path: EL_DIR_PATH): EL_MAKE_DIRECTORY_COMMAND_I

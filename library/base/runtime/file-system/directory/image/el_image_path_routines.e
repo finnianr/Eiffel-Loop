@@ -14,15 +14,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:24:27 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-04-20 8:57:48 GMT (Monday 20th April 2020)"
+	revision: "8"
 
 class
 	EL_IMAGE_PATH_ROUTINES
 
 inherit
 	ANY
-	
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_TUPLE
@@ -66,17 +66,17 @@ feature -- Constants
 
 	User_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step.icons)
+			Result := Directory.App_cache.joined_dir_path (Step.icons)
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step.desktop_icons)
+			Result := Directory.App_cache.joined_dir_path (Step.desktop_icons)
 		end
 
 	User_images_path: EL_DIR_PATH
 		once
-			Result := Directory.App_configuration.joined_dir_path (Step.images)
+			Result := Directory.App_cache.joined_dir_path (Step.images)
 		end
 
 	Step: TUPLE [icons, desktop_icons, images: ZSTRING]
