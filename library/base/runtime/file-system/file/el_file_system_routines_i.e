@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 11:23:16 GMT (Saturday 11th April 2020)"
-	revision: "23"
+	date: "2020-04-23 11:52:18 GMT (Thursday 23rd April 2020)"
+	revision: "24"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -23,6 +23,12 @@ inherit
 			copy as copy_object
 		end
 
+	EL_MODULE_DIRECTORY
+		rename
+			copy as copy_object,
+			Directory as Stanard_directory
+		end
+
 feature {NONE} -- Initialization
 
 	make
@@ -31,6 +37,14 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	cached (relative_path: EL_FILE_PATH; write_file: PROCEDURE [EL_FILE_PATH]): EL_FILE_PATH
+		do
+			Result := Stanard_directory.App_cache + relative_path
+			if not Result.exists then
+				write_file (Result)
+			end
+		end
 
 	closed_none_plain_text: PLAIN_TEXT_FILE
 		do

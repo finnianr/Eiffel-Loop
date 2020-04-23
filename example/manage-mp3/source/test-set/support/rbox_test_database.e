@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 14:19:33 GMT (Sunday 19th April 2020)"
-	revision: "19"
+	date: "2020-04-23 13:03:58 GMT (Thursday 23rd April 2020)"
+	revision: "20"
 
 class
 	RBOX_TEST_DATABASE
@@ -41,7 +41,6 @@ feature -- Element change
 				File_system.make_directory (song.mp3_path.parent)
 				OS.copy_file (cached_song_file_path (song), song.mp3_path)
 			end
-			song.set_modification_time (Test_time)
 			Precursor (song)
 		end
 
@@ -79,48 +78,62 @@ feature {RBOX_IRADIO_ENTRY} -- location codecs
 feature {EQA_TEST_SET} -- Access
 
 	cached_song_file_path (song: RBOX_SONG): EL_FILE_PATH
+		local
+			relative_path: EL_PATH_STEPS
+		do
+			relative_path := song.mp3_path.relative_path (music_dir)
+			relative_path.put_front ("test-mp3")
+			Result := File_system.cached (relative_path, agent generate_mp3_file (song, ?))
+		end
+
+	generate_mp3_file (song: RBOX_SONG; mp3_path: EL_FILE_PATH)
 			-- Path to auto generated mp3 file under build directory
 		require
 			valid_duration: song.duration > 0
 		local
 			mp3_writer: like Audio_command.new_wav_to_mp3
-			relative_path, wav_path: EL_FILE_PATH; mp3_info: TL_MUSICBRAINZ_MPEG_FILE
+			temp_path, wav_path: EL_FILE_PATH; mp3_info: TL_MUSICBRAINZ_MPEG_FILE
+			modification_time: DATE_TIME
 		do
-			relative_path := song.mp3_path.relative_path (music_dir)
+			temp_path := song.mp3_path
+			modification_time := song.modification_time
+			song.set_mp3_path (mp3_path)
 
-			Result := Directory.App_cache.joined_dir_tuple (["test-mp3"]) + relative_path
-			if not Result.exists then
-				File_system.make_directory (Result.parent)
-				wav_path := Result.with_new_extension ("wav")
+			File_system.make_directory (mp3_path.parent)
+			wav_path := mp3_path.with_new_extension ("wav")
 
-				-- Create a unique Random wav file
-				Test_wav_generator.set_output_file_path (wav_path)
-				Test_wav_generator.set_frequency_lower (100 + (200 * Random.real_item).rounded)
-				Random.forth
-				Test_wav_generator.set_frequency_upper (600  + (600 * Random.real_item).rounded)
-				Random.forth
-				Test_wav_generator.set_cycles_per_sec ((1.0 + Random.real_item.to_double).truncated_to_real)
-				Random.forth
+			-- Create a unique Random wav file
+			Test_wav_generator.set_output_file_path (wav_path)
+			Test_wav_generator.set_frequency_lower (100 + (200 * Random.real_item).rounded)
+			Random.forth
+			Test_wav_generator.set_frequency_upper (600  + (600 * Random.real_item).rounded)
+			Random.forth
+			Test_wav_generator.set_cycles_per_sec ((1.0 + Random.real_item.to_double).truncated_to_real)
+			Random.forth
 
-				if song.duration > 0 then
-					Test_wav_generator.set_duration (song.duration)
-				end
-				Test_wav_generator.execute
-
-				mp3_writer := Audio_command.new_wav_to_mp3 (wav_path, Result)
-				mp3_writer.set_bit_rate_per_channel (48)
-				mp3_writer.set_num_channels (1)
-				mp3_writer.execute
-				File_system.remove_file (wav_path)
-
-				song.update_file_info
-
-				create mp3_info.make (Result)
-				song.write_id3_info (mp3_info)
-				mp3_info.dispose
+			if song.duration > 0 then
+				Test_wav_generator.set_duration (song.duration)
 			end
+			Test_wav_generator.execute
+
+			mp3_writer := Audio_command.new_wav_to_mp3 (wav_path, mp3_path)
+			mp3_writer.set_bit_rate_per_channel (48)
+			mp3_writer.set_num_channels (1)
+			mp3_writer.execute
+			File_system.remove_file (wav_path)
+
+			song.update_file_info
+
+			create mp3_info.make (mp3_path)
+			song.write_id3_info (mp3_info)
+			mp3_info.dispose
+
+			song.set_modification_time (modification_time)
+			File_system.set_file_modification_time (mp3_path, song.mtime)
+			song.set_mp3_path (temp_path)
 		ensure
-			file_exists: Result.exists
+			file_exists: mp3_path.exists
+			song_path_unchange: old song.mp3_path ~ song.mp3_path
 		end
 
 	update_mp3_root_location
@@ -151,11 +164,6 @@ feature {NONE} -- Constants
 	Random: RANDOM
 		once
 			create Result.make
-		end
-
-	Test_time: DATE_TIME
-		once
-			create Result.make (2011, 11, 11, 11, 11, 11)
 		end
 
 end

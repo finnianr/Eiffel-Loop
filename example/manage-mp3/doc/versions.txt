@@ -1,3 +1,9 @@
+2.2.1
+Fixed modification time in cached_song_file_path
+
+2.2.0
+New application directories .cache and .local/share
+
 # 2.1.4
 Finished TASK_AUTOTEST_APP
 

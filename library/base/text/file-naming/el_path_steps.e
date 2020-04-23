@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-15 9:23:32 GMT (Sunday 15th September 2019)"
-	revision: "23"
+	date: "2020-04-23 12:04:51 GMT (Thursday 23rd April 2020)"
+	revision: "24"
 
 class
 	EL_PATH_STEPS
@@ -299,7 +299,7 @@ feature -- Element change
 			token_list.put (table.last_token, i)
 		end
 
-	put_front (step: ZSTRING)
+	put_front (step: READABLE_STRING_GENERAL)
 		do
 			token_list.prepend_character (Token_table.token (as_zstring (step)))
 		end

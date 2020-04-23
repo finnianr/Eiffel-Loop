@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:36:23 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2020-04-21 8:17:34 GMT (Tuesday 21st April 2020)"
+	revision: "4"
 
 deferred class
 	EL_INSTALLER_DEBUG
@@ -38,9 +38,9 @@ feature {NONE} -- Constants
 	Parent_dir_map: EL_HASH_TABLE [EL_DIR_PATH, EL_DIR_PATH]
 		once
 			create Result.make (<<
-				[Directory.new_path ("/opt"), Directory.Desktop],
-				[Directory.new_path ("/usr"), Directory.Home.joined_dir_path (".local")],
-				[Directory.new_path ("/etc/xdg"),Directory.Home.joined_dir_path (".config")]
+				[Directory.new ("/opt"), Directory.Desktop],
+				[Directory.new ("/usr"), Directory.Home.joined_dir_path (".local")],
+				[Directory.new ("/etc/xdg"),Directory.Home.joined_dir_path (".config")]
 			>>)
 		end
 end

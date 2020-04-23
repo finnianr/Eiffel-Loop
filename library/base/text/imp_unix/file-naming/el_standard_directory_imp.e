@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 11:38:02 GMT (Monday 20th April 2020)"
-	revision: "8"
+	date: "2020-04-21 8:23:50 GMT (Tuesday 21st April 2020)"
+	revision: "9"
 
 class
 	EL_STANDARD_DIRECTORY_IMP
@@ -29,7 +29,7 @@ feature -- Access
 			Result := Home.joined_dir_tuple (["Documents"])
 		end
 
-	Desktop: EL_DIR_PATH
+	Desktop, Desktop_common: EL_DIR_PATH
 		once
 			Result := Home.joined_dir_path ("Desktop")
 		end
@@ -44,11 +44,6 @@ feature -- Access
 	User_local: EL_DIR_PATH
 		once
 			Result := Home.joined_dir_tuple ([".local/share"])
-		end
-
-	Desktop_common: EL_DIR_PATH
-		once
-			Result := Desktop
 		end
 
 	Root: STRING_32

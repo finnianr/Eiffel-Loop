@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 10:53:35 GMT (Thursday 16th April 2020)"
-	revision: "1"
+	date: "2020-04-23 13:14:08 GMT (Thursday 23rd April 2020)"
+	revision: "2"
 
 class
 	IMPORT_NEW_MP3_TASK_TEST_SET
@@ -42,6 +42,7 @@ feature {NONE} -- Implementation
 
 			across << song1, song2 >> as song loop
 				song.item.update_checksum
+				song.item.set_modification_time (Test_time)
 				File_system.make_directory (song.item.mp3_path.parent)
 				OS.move_file (database.cached_song_file_path (song.item), song.item.mp3_path)
 			end
@@ -53,10 +54,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2894564646
+	Checksum: NATURAL = 2219296053
 
 	Task_config: STRING = "[
 		import_new_mp3:
 			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
 	]"
+
+	Test_time: DATE_TIME
+		once
+			create Result.make (2011, 11, 11, 11, 11, 11)
+		end
 end
