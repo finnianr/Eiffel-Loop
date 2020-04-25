@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:24:50 GMT (Friday 14th February 2020)"
-	revision: "8"
+	date: "2020-04-25 10:42:20 GMT (Saturday 25th April 2020)"
+	revision: "9"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -22,6 +22,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("import_export", agent test_import_export)
 		end
 
 feature -- Test
@@ -36,16 +37,32 @@ feature -- Test
 		local
 			job_list: like new_job_list
 		do
-			log.enter ("test_import_export")
 			job_list := new_job_list
 
 			do_import_test (job_list)
 
 			do_export_test (job_list)
-			log.exit
 		end
 
 feature {NONE} -- Implementation
+
+	do_export_test (job_list: like new_job_list)
+		local
+			parser: EL_COMMA_SEPARATED_LINE_PARSER
+			job, job_2: JOB
+		do
+			job_list.find_first_true (agent role_contains (?, "Change Manager"))
+			job := job_list.item
+
+			create parser.make
+			parser.parse (job.comma_separated_names)
+			log.put_line (job.comma_separated_values)
+			parser.parse (job.comma_separated_values)
+
+			create job_2.make_default
+			parser.set_object (job_2)
+			assert ("jobs equal", job ~ job_2)
+		end
 
 	do_import_test (job_list: like new_job_list)
 		do
@@ -58,26 +75,15 @@ feature {NONE} -- Implementation
 			assert ("3 new-lines description", job_list.item.description.occurrences ('%N') = 3)
 		end
 
-	do_export_test (job_list: like new_job_list)
-		local
-			parser: EL_COMMA_SEPARATED_LINE_PARSER
-			job, job_2: JOB
-		do
-			job_list.find_first_true (agent role_contains (?, "Change Manager"))
-			job := job_list.item
-
-			create parser.make
-			parser.parse (job.comma_separated_names)
-			parser.parse (job.comma_separated_values)
-
-			create job_2.make_default
-			parser.set_object (job_2)
-			assert ("jobs equal", job ~ job_2)
-		end
-
 	is_type (job: JOB; name: STRING): BOOLEAN
 		do
 			Result := job.type ~ name
+		end
+
+	new_job_list: EL_IMPORTABLE_ARRAYED_LIST [JOB]
+		do
+			create Result.make (10)
+			Result.import_csv_latin_1 ("data/csv/JobServe.csv")
 		end
 
 	role_contains (job: JOB; word: STRING): BOOLEAN
@@ -90,9 +96,4 @@ feature {NONE} -- Implementation
 			Result := job.telephone_1.starts_with (a_prefix)
 		end
 
-	new_job_list: EL_IMPORTABLE_ARRAYED_LIST [JOB]
-		do
-			create Result.make (10)
-			Result.import_csv_latin_1 ("data/csv/JobServe.csv")
-		end
 end

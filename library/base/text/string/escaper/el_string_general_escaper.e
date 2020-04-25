@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 9:38:07 GMT (Friday 13th September 2019)"
-	revision: "5"
+	date: "2020-04-25 11:04:49 GMT (Saturday 25th April 2020)"
+	revision: "6"
 
 deferred class
 	EL_STRING_GENERAL_ESCAPER
@@ -73,7 +73,7 @@ feature -- Conversion
 				code := str.code (i)
 				table.search (code)
 				if is_escaped (table, code) then
-					append_escape_sequence (Result, code)
+					append_escape_sequence (Result, table.found_item)
 				else
 					Result.append_code (code)
 				end

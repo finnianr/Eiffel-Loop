@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 15:50:49 GMT (Monday 13th April 2020)"
-	revision: "83"
+	date: "2020-04-25 9:23:31 GMT (Saturday 25th April 2020)"
+	revision: "84"
 
 class
 	BASE_AUTOTEST_APP
@@ -24,6 +24,11 @@ create
 
 feature {NONE} -- Implementation
 
+	array: ARRAY [TYPE [ANY]]
+		once
+			Result := << {COMMA_SEPARATED_IMPORT_TEST_SET} >>
+		end
+
 	compile: TUPLE [
 		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
@@ -35,7 +40,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [CHAIN_TEST_SET]
+	test_type: TUPLE [SEQUENTIAL_INTERVALS_TEST_SET]
 		do
 			create Result
 		end
@@ -51,6 +56,7 @@ feature {NONE} -- Implementation
 		REFLECTION_TEST_SET,
 
 		SE_ARRAY2_TEST_SET,
+		SEQUENTIAL_INTERVALS_TEST_SET,
 		STRING_EDITION_HISTORY_TEST_SET,
 		STRING_EDITOR_TEST_SET,
 		STRING_32_ROUTINES_TEST_SET,
@@ -89,6 +95,7 @@ note
 			[$source REFLECTION_TEST_SET]
 
 			[$source SE_ARRAY2_TEST_SET]
+			[$source SEQUENTIAL_INTERVALS_TEST_SET]
 			[$source STRING_EDITION_HISTORY_TEST_SET]
 			[$source STRING_EDITOR_TEST_SET]
 			[$source STRING_32_ROUTINES_TEST_SET]

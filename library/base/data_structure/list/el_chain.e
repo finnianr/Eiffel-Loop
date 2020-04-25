@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-04 9:09:31 GMT (Tuesday 4th February 2020)"
-	revision: "28"
+	date: "2020-04-25 9:46:34 GMT (Saturday 25th April 2020)"
+	revision: "29"
 
 deferred class EL_CHAIN [G]
 
@@ -435,8 +435,12 @@ feature -- Contract Support
 	proto_item: G
 		-- uninitialized item for contract support
 		do
-			if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
-				Result := new
+			if is_empty then
+				if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
+					Result := new
+				end
+			else
+				Result := first
 			end
 		end
 

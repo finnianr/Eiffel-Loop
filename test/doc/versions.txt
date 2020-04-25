@@ -1,3 +1,6 @@
+1.2.1
+Fixed bug in {EL_STRING_GENERAL_ESCAPER}.escaped for COMMA_SEPARATED_IMPORT_TEST_SET
+
 1.2.0
 New application directories .cache and .local/share
 

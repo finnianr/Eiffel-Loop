@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-14 19:09:03 GMT (Saturday 14th April 2018)"
-	revision: "1"
+	date: "2020-04-25 11:00:16 GMT (Saturday 25th April 2020)"
+	revision: "2"
 
 class
 	EL_COMMA_SEPARATED_VALUE_ESCAPER
@@ -48,11 +48,10 @@ feature {NONE} -- Implementation
 		do
 			if code = Double_quote then
 				-- Escape " as ""
-				str.append_z_code (Double_quote)
+				str.append_z_code (Double_quote); str.append_z_code (Double_quote)
 			else
-				str.append_z_code (escape_code)
+				Precursor (str, code)
 			end
-			str.append_z_code (code)
 		end
 
 feature {NONE} -- Constants
@@ -68,4 +67,5 @@ feature {NONE} -- Constants
 		end
 
 	Double_quote: NATURAL = 34
+
 end

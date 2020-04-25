@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:59:00 GMT (Friday 14th February 2020)"
-	revision: "2"
+	date: "2020-04-25 9:25:26 GMT (Saturday 25th April 2020)"
+	revision: "3"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -29,7 +29,12 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type, test_types_all: TUPLE [
+	test_type: TUPLE [COMMA_SEPARATED_IMPORT_TEST_SET]
+		do
+			create Result
+		end
+
+	test_types_all: TUPLE [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
 		JSON_NAME_VALUE_LIST_TEST_SET,
 		SETTABLE_FROM_JSON_STRING_TEST_SET

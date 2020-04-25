@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 10:59:27 GMT (Wednesday 8th April 2020)"
-	revision: "16"
+	date: "2020-04-25 10:32:01 GMT (Saturday 25th April 2020)"
+	revision: "17"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER
@@ -40,7 +40,7 @@ feature -- Access
 
 	count: INTEGER
 
-	fields: ARRAYED_LIST [TUPLE [name: STRING; value: ZSTRING]]
+	fields: EL_ARRAYED_MAP_LIST [STRING, ZSTRING]
 
 feature -- Basic operations
 
@@ -60,8 +60,8 @@ feature -- Basic operations
 		do
 			table := object.field_table; field := fields
 			from field.start until field.after loop
-				if table.has_imported (field.item.name, object) then
-					table.found_item.set_from_string (object, field.item.value)
+				if table.has_imported (field.item_key, object) then
+					table.found_item.set_from_string (object, field.item_value)
 				end
 				field.forth
 			end
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 		do
 			column := column + 1
 			if count = 1 then
-				fields.extend ([field_string.twin, Empty_string])
+				fields.extend (field_string.twin, Empty_string)
 			else
 				fields.i_th (column).value := new_string
 			end
