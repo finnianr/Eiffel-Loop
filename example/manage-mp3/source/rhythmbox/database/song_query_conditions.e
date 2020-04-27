@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-14 10:22:09 GMT (Tuesday 14th April 2020)"
-	revision: "14"
+	date: "2020-04-26 9:17:49 GMT (Sunday 26th April 2020)"
+	revision: "15"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -247,53 +247,33 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			SONG_QUERY_CONDITIONS
-				[$source STORAGE_DEVICE]
-					[$source SAMSUNG_TABLET_DEVICE]
-					[$source NOKIA_PHONE_DEVICE]
-					[$source TEST_STORAGE_DEVICE]
 				[$source RBOX_DATABASE]
 					[$source RBOX_TEST_DATABASE]
+				[$source STORAGE_DEVICE]
+					[$source NOKIA_PHONE_DEVICE]
+					[$source SAMSUNG_TABLET_DEVICE]
+					[$source TEST_STORAGE_DEVICE]
 				[$source RBOX_MANAGEMENT_TASK]*
 					[$source COLLATE_SONGS_TASK]
-					[$source PUBLISH_DJ_EVENTS_TASK]
-					[$source ID3_TASK]*
-						[$source ADD_ALBUM_ART_TASK]
-						[$source DELETE_COMMENTS_TASK]
-						[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
-						[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
-						[$source NORMALIZE_COMMENTS_TASK]
-						[$source PRINT_COMMENTS_TASK]
-						[$source REMOVE_ALL_UFIDS_TASK]
-						[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
-						[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
-					[$source UPDATE_DJ_PLAYLISTS_TASK]
-						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
-					[$source IMPORT_NEW_MP3_TASK]
-						[$source IMPORT_NEW_MP3_TEST_TASK]
-					[$source DEFAULT_TASK]
-					[$source ARCHIVE_SONGS_TASK]
 					[$source IMPORT_VIDEOS_TASK]
 						[$source IMPORT_VIDEOS_TEST_TASK]
+					[$source TEST_MANAGEMENT_TASK]*
+						[$source IMPORT_VIDEOS_TEST_TASK]
+						[$source REPLACE_SONGS_TEST_TASK]
+						[$source REPLACE_CORTINA_SET_TEST_TASK]
+					[$source UPDATE_DJ_PLAYLISTS_TASK]
 					[$source REPLACE_CORTINA_SET_TASK]
 						[$source REPLACE_CORTINA_SET_TEST_TASK]
-					[$source REPLACE_SONGS_TASK]
-						[$source REPLACE_SONGS_TEST_TASK]
+					[$source ARCHIVE_SONGS_TASK]
+					[$source IMPORT_NEW_MP3_TASK]
+					[$source IMPORT_M3U_PLAYLISTS_TASK]
 					[$source RESTORE_PLAYLISTS_TASK]
+					[$source DEFAULT_TASK]
 					[$source EXPORT_TO_DEVICE_TASK]*
 						[$source EXPORT_MUSIC_TO_DEVICE_TASK]
 							[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
-								[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-						[$source EXPORT_TO_DEVICE_TEST_TASK]*
-							[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-							[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-					[$source TEST_MANAGEMENT_TASK]*
-						[$source EXPORT_TO_DEVICE_TEST_TASK]*
-						[$source IMPORT_VIDEOS_TEST_TASK]
-						[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
+					[$source PUBLISH_DJ_EVENTS_TASK]
+					[$source REPLACE_SONGS_TASK]
 						[$source REPLACE_SONGS_TEST_TASK]
-						[$source REPLACE_CORTINA_SET_TEST_TASK]
-						[$source IMPORT_NEW_MP3_TEST_TASK]
-					[$source IMPORT_M3U_PLAYLISTS_TASK]
 	]"
 end

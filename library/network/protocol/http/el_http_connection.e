@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:18:10 GMT (Thursday 6th February 2020)"
-	revision: "22"
+	date: "2020-04-27 9:25:38 GMT (Monday 27th April 2020)"
+	revision: "23"
 
 class
 	EL_HTTP_CONNECTION
@@ -75,6 +75,8 @@ inherit
 			{NONE} all
 		end
 
+	STRING_HANDLER
+
 create
 	make
 
@@ -86,7 +88,7 @@ feature {NONE} -- Initialization
 			create last_string.make_empty
 			create http_response.make_empty
 			create headers.make_equal (0)
-			create post_data.make_empty (0)
+			create post_data.make (0)
 			create user_agent.make_empty
 			create url.make_empty
 		end
@@ -182,7 +184,11 @@ feature -- Basic operations
 			-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url.wipe_out
-			headers.wipe_out; post_data.set_count (0)
+			headers.wipe_out; post_data_count := 0
+			if post_data.count > Max_post_data_count then
+				post_data.resize (Max_post_data_count)
+			end
+			post_data.item.memory_set (0, post_data.count)
 			dispose
 
 			-- Workaround for a weird bug where a second call to read_string would hang
@@ -284,7 +290,7 @@ feature -- Element change
 		do
 			last_string.wipe_out
 			url.wipe_out
-			post_data.set_count (0)
+			post_data_count := 0
 			error_code := 0
 		end
 
@@ -350,12 +356,16 @@ feature -- Element change
 		-- libcurl will not convert or encode it for you in any way. For example, the web server may
 		-- assume that this data is url-encoded.
 		do
-			post_data.set_string (raw_string_8)
+			post_data_count := raw_string_8.count
+			if post_data_count > post_data.count then
+				post_data.resize (post_data_count)
+			end
+			post_data.put_special_character_8 (raw_string_8.area, 0, 0, post_data_count)
 		end
 
 	set_post_parameters (parameters: EL_URL_QUERY_ZSTRING_HASH_TABLE)
 		do
-			set_post_data (parameters.url_query_string)
+			set_post_data (parameters.query_string (False))
 		end
 
 	set_ssl_certificate_verification (flag: BOOLEAN)
@@ -558,7 +568,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			set_curl_boolean_option (CURLOPT_post, True)
 			if post_data.count > 0 then
 				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
-				set_curl_integer_option (CURLOPT_postfieldsize, post_data.count)
+				set_curl_integer_option (CURLOPT_postfieldsize, post_data_count)
 			end
 		end
 
@@ -690,7 +700,9 @@ feature {NONE} -- Implementation attributes
 
 	http_response: CURL_STRING
 
-	post_data: C_STRING
+	post_data: MANAGED_POINTER
+
+	post_data_count: INTEGER
 
 feature {NONE} -- Constants
 
@@ -705,6 +717,8 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+	Max_post_data_count: INTEGER = 1024
 
 	Title_tag: STRING = "<title>"
 

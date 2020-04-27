@@ -1,3 +1,6 @@
+1.2.2
+Fixed HTTP_CONNECTION_TEST_SET and added {EL_HTTP_CONNECTION}.post_data_count
+
 1.2.1
 Fixed bug in {EL_STRING_GENERAL_ESCAPER}.escaped for COMMA_SEPARATED_IMPORT_TEST_SET
 

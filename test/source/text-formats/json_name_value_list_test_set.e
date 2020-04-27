@@ -1,13 +1,13 @@
 ﻿note
-	description: "Json name value list test set"
+	description: "JSON name value list test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:25:35 GMT (Friday 14th February 2020)"
-	revision: "5"
+	date: "2020-04-25 11:29:02 GMT (Saturday 25th April 2020)"
+	revision: "6"
 
 class
 	JSON_NAME_VALUE_LIST_TEST_SET
@@ -22,6 +22,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("parse", agent test_parse)
 		end
 
 feature -- Tests

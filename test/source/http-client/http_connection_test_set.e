@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:26:08 GMT (Tuesday 18th February 2020)"
-	revision: "23"
+	date: "2020-04-27 10:43:22 GMT (Monday 27th April 2020)"
+	revision: "24"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -45,16 +45,19 @@ feature -- Test routines
 			city_location, json_fields: EL_URL_QUERY_ZSTRING_HASH_TABLE
 			url: ZSTRING; cookies: EL_HTTP_COOKIE_TABLE
 		do
-			city_location := new_city_location
-			url := Set_cookie_url + city_location.url_query_string
-			lio.put_labeled_string ("url", url)
-			lio.put_new_line
+			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
+			-- so we do a loop instead
+			across new_city_location.query_string (False).split ('&') as nvp loop
+				url := Set_cookie_url + nvp.item
+				lio.put_labeled_string ("url", url)
+				lio.put_new_line
 
-			web.set_cookie_paths (Cookie_path)
-			web.open (url)
-			web.read_string_get
-			assert ("is redirection page", h1_text (web.last_string).same_string ("Redirecting..."))
-			web.close
+				web.set_cookie_paths (Cookie_path)
+				web.open (url)
+				web.read_string_get
+				assert ("is redirection page", h1_text (web.last_string).same_string ("Redirecting..."))
+				web.close
+			end
 
 			create cookies.make_from_file (Cookie_path)
 			web.open (Cookies_url)
@@ -230,8 +233,11 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	element_text (name: STRING; text: ZSTRING): ZSTRING
+	element_text (name: STRING; a_text: STRING): ZSTRING
+		local
+			text: ZSTRING
 		do
+			text := a_text
 			Result := text.substring_between_general (Html.open_tag (name), Html.closed_tag (name), 1)
 		end
 
@@ -240,7 +246,7 @@ feature {NONE} -- Implementation
 			Result := element_text ("em", text)
 		end
 
-	h1_text (text: ZSTRING): ZSTRING
+	h1_text (text: STRING): ZSTRING
 		do
 			Result := element_text ("h1", text)
 		end

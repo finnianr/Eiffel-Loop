@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:44:08 GMT (Saturday 1st February 2020)"
-	revision: "1"
+	date: "2020-04-27 10:47:14 GMT (Monday 27th April 2020)"
+	revision: "2"
 
 deferred class
 	EL_URL_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
@@ -71,7 +71,14 @@ feature -- Element change
 feature -- Conversion
 
 	url_query_string: STRING
-			-- utf-8 URL encoded name value pairs
+		-- utf-8 URL encoded name value pairs
+		do
+			Result := query_string (True)
+		end
+
+	query_string (keep_ref: BOOLEAN): STRING
+		-- utf-8 URL encoded name value pairs
+		-- `keep_ref' must be true if you wish to keep the reference (forces a clone of shared EL_URL_QUERY_STRING_8)
 		local
 			url: like Once_url_string
 		do
@@ -86,7 +93,11 @@ feature -- Conversion
 				url.append_general (item_for_iteration)
 				forth
 			end
-			create Result.make_from_string (url)
+			if keep_ref then
+				create Result.make_from_string (url)
+			else
+				Result := url
+			end
 		end
 
 feature {NONE} -- Implementation

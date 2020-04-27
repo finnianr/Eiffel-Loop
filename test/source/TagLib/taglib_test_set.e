@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 15:46:58 GMT (Friday 27th March 2020)"
-	revision: "28"
+	date: "2020-04-25 11:32:56 GMT (Saturday 25th April 2020)"
+	revision: "29"
 
 class
 	TAGLIB_TEST_SET
@@ -46,7 +46,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("comments", agent test_comments)
+			eval.call ("comments", agent test_comments)
 			eval.call ("musicbrainz", agent test_musicbrainz)
 			eval.call ("picture_edit", agent test_picture_edit)
 			eval.call ("picture_mime_types", agent test_picture_mime_types)

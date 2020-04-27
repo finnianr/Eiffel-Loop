@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:25:41 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2020-04-25 11:29:10 GMT (Saturday 25th April 2020)"
+	revision: "4"
 
 class
 	SETTABLE_FROM_JSON_STRING_TEST_SET
@@ -20,6 +20,8 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("conversion", agent test_conversion)
+			eval.call ("json_reflection", agent test_json_reflection)
 		end
 
 feature -- Tests
