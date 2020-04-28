@@ -16,6 +16,8 @@ inherit
 	ID3_STRING_LIST_FIELD
 
 	LIBID3_STRING_FIELD
+		rename
+			count as character_count
 		export
 			{NONE} string, set_string
 		undefine
@@ -43,15 +45,15 @@ feature -- Access
 
 	i_th_string (index: INTEGER): ZSTRING
 		local
-			l_encoding: INTEGER
+			l_encoding: NATURAL_8
 		do
 			l_encoding := encoding
 			if l_encoding = Encoding_enum.ISO_8859_1 then
 				create Result.make_from_general (i_th_latin (index))
 
-			elseif l_encoding = Encoding_enum.UTF_16 or l_encoding = Encoding_enum.UTF_16_BE then
+			elseif Encoding_enum.is_utf_16 (l_encoding) then
 				-- A bit strange that only Big Endian decoding works
-				Result := i_th_utf_16_be (index).as_string
+				Result := i_th_text_32 (index)
 
 			elseif l_encoding = Encoding_enum.UTF_8 then
 				create Result.make_from_utf_8 (i_th_latin (index))
@@ -89,10 +91,29 @@ feature {NONE} -- Implementation
 			Result.from_c (cpp_text_item (self_ptr, index - 1))
 		end
 
-	i_th_utf_16_be (index: INTEGER): EL_C_STRING_16_BE
+	i_th_character_count (index: INTEGER): INTEGER
 			--
+		local
+			n: NATURAL_16; ptr: POINTER
 		do
-			create Result.make_shared (cpp_unicode_text_item (self_ptr, index - 1))
+			ptr := cpp_unicode_text_item (self_ptr, index - 1)
+			from n := 1 until n = 0 loop
+				ptr.memory_copy ($n, 2)
+				if n > 0 then
+					Result := Result + 1
+				end
+				ptr := ptr + 2
+			end
+		end
+
+	i_th_text_32 (index: INTEGER): STRING_32
+		local
+			data: like Unicode_buffer
+		do
+			Result := empty_once_string_32
+			data := Unicode_buffer
+			data.set_from_pointer (cpp_unicode_text_item (self_ptr, index - 1), i_th_character_count (index) * 2 + 2)
+			UTF.utf_16_be_0_pointer_into_string_32 (data, Result)
 		end
 
 end

@@ -45,25 +45,25 @@ feature -- Class name derivations
 		local
 			l_name: STRING
 		do
-			l_name := class_as_lower_snake (object_or_type, head_count, tail_count)
+			l_name := class_as_snake_lower (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
 			to_camel_case (l_name, Result)
 			String_8.first_to_upper (Result)
 		end
 
-	class_as_lower_kebab (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+	class_as_kebab_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
 			Result := class_with_separator (object_or_type, '-', head_count, tail_count)
 			Result.to_lower
 		end
 
-	class_as_lower_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+	class_as_snake_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
-			Result := class_as_upper_snake (object_or_type, head_count, tail_count)
+			Result := class_as_snake_upper (object_or_type, head_count, tail_count)
 			Result.to_lower
 		end
 
-	class_as_upper_snake (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+	class_as_snake_upper (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		do
 			Result := class_with_separator (object_or_type, '_', head_count, tail_count)
 		end
@@ -139,24 +139,7 @@ feature -- Import names
 			end
 		end
 
-	from_kebab_case (name_in, name_out: STRING)
-		-- Eg. "from-kebab-case"
-		require
-			empty_name_out: name_out.is_empty
-		do
-			name_out.append (name_in)
-			name_out.to_lower
-			String_8.replace_character (name_out, '-', '_')
-		end
-
-	from_lower_snake_case (name_in, name_out: STRING)
-		require
-			empty_name_out: name_out.is_empty
-		do
-			name_out.append (name_in)
-		end
-
-	from_upper_camel_case (name_in, name_out: STRING; boundary_hints: ARRAY [STRING])
+	from_camel_case_upper (name_in, name_out: STRING; boundary_hints: ARRAY [STRING])
 		-- Convert from UPPERCASECAMEL using word boundaries hints `boundary_hints'
 		-- For example `<< "sub" >>' is sufficient to convert BUTTONSUBTYPE to
 		-- button_sub_type.
@@ -184,7 +167,24 @@ feature -- Import names
 			end
 		end
 
-	from_upper_snake_case (name_in, name_out: STRING)
+	from_kebab_case (name_in, name_out: STRING)
+		-- Eg. "from-kebab-case"
+		require
+			empty_name_out: name_out.is_empty
+		do
+			name_out.append (name_in)
+			name_out.to_lower
+			String_8.replace_character (name_out, '-', '_')
+		end
+
+	from_snake_case_lower (name_in, name_out: STRING)
+		require
+			empty_name_out: name_out.is_empty
+		do
+			name_out.append (name_in)
+		end
+
+	from_snake_case_upper (name_in, name_out: STRING)
 		-- Eg. "FROM_UPPER_SNAKE_CASE"
 		require
 			empty_name_out: name_out.is_empty
@@ -220,6 +220,18 @@ feature -- Export names
 			end
 		end
 
+	to_camel_case_lower (name_in, name_out: STRING)
+		do
+			to_camel_case (name_in, name_out)
+			name_out.to_lower
+		end
+
+	to_camel_case_upper (name_in, name_out: STRING)
+		do
+			to_camel_case (name_in, name_out)
+			name_out.to_upper
+		end
+
 	to_english (name_in, english_out: STRING; upper_case_words: like no_words)
 		require
 			empty_name_out: english_out.is_empty
@@ -240,17 +252,31 @@ feature -- Export names
 			String_8.replace_character (name_out, '_', '-')
 		end
 
-	to_kebab_lower_case (name_in, name_out: STRING)
+	to_kebab_case_lower (name_in, name_out: STRING)
 		do
 			to_kebab_case (name_in, name_out)
 			name_out.to_lower
 		end
 
-	to_lower_snake_case (name_in, name_out: STRING)
+	to_kebab_case_upper (name_in, name_out: STRING)
+		do
+			to_kebab_case (name_in, name_out)
+			name_out.to_upper
+		end
+
+	to_snake_case_lower (name_in, name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
+		end
+
+	to_snake_case_upper (name_in, name_out: STRING)
+		require
+			empty_name_out: name_out.is_empty
+		do
+			name_out.append (name_in)
+			name_out.to_upper
 		end
 
 	to_title (name_in, title_out: STRING)
@@ -272,20 +298,6 @@ feature -- Export names
 				title_out.append (word)
 				words.forth
 			end
-		end
-
-	to_upper_camel_case (name_in, name_out: STRING)
-		do
-			to_camel_case (name_in, name_out)
-			name_out.to_upper
-		end
-
-	to_upper_snake_case (name_in, name_out: STRING)
-		require
-			empty_name_out: name_out.is_empty
-		do
-			name_out.append (name_in)
-			name_out.to_upper
 		end
 
 feature {NONE} -- Implementation

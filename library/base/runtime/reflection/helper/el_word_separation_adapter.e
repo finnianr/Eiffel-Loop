@@ -17,21 +17,14 @@ inherit
 
 feature {NONE} -- Name exporting
 
-	to_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := name_in
-			if keeping_ref then
-				Result := Result.twin
-			end
-		end
-
 	to_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.to_camel_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := camel_case_string (name_in, To_default, keeping_ref)
+		end
+
+	to_camel_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := camel_case_string (name_in, To_upper, keeping_ref)
 		end
 
 	to_english (name_in: STRING; keeping_ref: BOOLEAN): STRING
@@ -45,20 +38,27 @@ feature {NONE} -- Name exporting
 
 	to_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.to_kebab_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := kebab_case_string (name_in, To_default, keeping_ref)
 		end
 
-	to_kebab_lower_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	to_kebab_case_lower (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.to_kebab_lower_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := kebab_case_string (name_in, To_lower, keeping_ref)
+		end
+
+	to_kebab_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := kebab_case_string (name_in, To_upper, keeping_ref)
+		end
+
+	to_snake_case_lower (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := snake_case_string (name_in, To_lower, keeping_ref)
+		end
+
+	to_snake_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := snake_case_string (name_in, To_upper, keeping_ref)
 		end
 
 	to_title (name_in: STRING; keeping_ref: BOOLEAN): STRING
@@ -70,71 +70,69 @@ feature {NONE} -- Name exporting
 			end
 		end
 
-	to_upper_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := empty_name_out
-			Naming.to_upper_camel_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
-		end
-
-	to_upper_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := empty_name_out
-			Naming.to_upper_snake_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
-		end
-
 feature {NONE} -- Name importing
 
 	from_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.from_camel_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := camel_case_string (name_in, From_default, keeping_ref)
+		end
+
+	from_camel_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := camel_case_string (name_in, From_upper, keeping_ref)
 		end
 
 	from_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.from_kebab_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := kebab_case_string (name_in, From_default, keeping_ref)
 		end
 
-	from_upper_camel_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	from_snake_case_lower (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			import_from_upper_camel_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := snake_case_string (name_in, From_lower, keeping_ref)
 		end
 
-	from_upper_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	from_snake_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := empty_name_out
-			Naming.from_upper_snake_case (name_in, Result)
-			if keeping_ref then
-				Result := Result.twin
-			end
-		end
-
-	from_lower_snake_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := name_in
-			if keeping_ref then
-				Result := Result.twin
-			end
+			Result := snake_case_string (name_in, From_upper, keeping_ref)
 		end
 
 feature {NONE} -- Implementation
+
+	camel_case_string (name_in: STRING; case: INTEGER; keeping_ref: BOOLEAN): STRING
+		do
+			Result := empty_name_out
+			inspect case
+				when From_default then
+					Naming.from_camel_case (name_in, Result)
+
+				when From_lower then
+					Result.append (name_in)
+
+				when From_upper then
+					import_from_camel_case_upper (name_in, Result)
+
+				when To_default then
+					Naming.to_camel_case (name_in, Result)
+
+				when To_lower then
+					Naming.to_camel_case_lower (name_in, Result)
+
+				when To_upper then
+					Naming.to_camel_case_upper (name_in, Result)
+			else
+				Naming.to_camel_case (name_in, Result)
+			end
+			if keeping_ref then
+				Result := Result.twin
+			end
+		end
+
+	empty_name_out: STRING
+		do
+			Result := Once_name_out
+			Result.wipe_out
+		end
 
 	export_to_english (name_in, english_out: STRING)
 		do
@@ -146,24 +144,76 @@ feature {NONE} -- Implementation
 			Naming.to_title (name_in, title_out)
 		end
 
-	import_from_upper_camel_case (name_in, a_name_out: STRING)
+	import_from_camel_case_upper (name_in, a_name_out: STRING)
 		-- redefine in descendant to change `boundary_hints' in 3rd argument to
 		-- `from_upper_camel_case'
 		do
-			Naming.from_upper_camel_case (name_in, a_name_out, Naming.no_words)
+			Naming.from_camel_case_upper (name_in, a_name_out, Naming.no_words)
 		end
 
-	empty_name_out: STRING
+	kebab_case_string (name_in: STRING; case: INTEGER; keeping_ref: BOOLEAN): STRING
 		do
-			Result := Once_name_out
-			Result.wipe_out
+			Result := empty_name_out
+			inspect case
+				when From_default then
+					Naming.from_kebab_case (name_in, Result)
+
+				when To_default then
+					Naming.to_kebab_case (name_in, Result)
+
+				when To_upper then
+					Naming.to_kebab_case_upper (name_in, Result)
+
+				when To_lower then
+					Naming.to_kebab_case_lower (name_in, Result)
+			else
+				Naming.from_kebab_case (name_in, Result)
+			end
+			if keeping_ref then
+				Result := Result.twin
+			end
+		end
+
+	snake_case_string (name_in: STRING; case: INTEGER; keeping_ref: BOOLEAN): STRING
+		do
+			inspect case
+				when From_lower, To_default, To_lower then
+					Result := name_in
+			else
+				Result := empty_name_out
+				inspect case
+					when From_upper then
+						Naming.from_snake_case_upper (name_in, Result)
+					when To_upper then
+						Naming.to_snake_case_upper (name_in, Result)
+					when To_lower then
+						Naming.to_snake_case_lower (name_in, Result)
+				else
+					Result := name_in
+				end
+			end
+			if keeping_ref then
+				Result := Result.twin
+			end
 		end
 
 feature {NONE} -- Constants
+
+	From_default: INTEGER = 3
+
+	From_lower: INTEGER = 4
+
+	From_upper: INTEGER = 5
 
 	Once_name_out: STRING
 		once
 			create Result.make (30)
 		end
+
+	To_default: INTEGER = 0
+
+	To_lower: INTEGER = 1
+
+	To_upper: INTEGER = 2
 
 end

@@ -58,4 +58,55 @@ feature -- Status query
 			end
 		end
 
+feature -- Basic operations
+
+	utf_16_be_0_pointer_into_string_32 (p: MANAGED_POINTER; a_result: STRING_32)
+			-- Copy {STRING_32} object corresponding to UTF-16BE sequence `p' which is zero-terminated
+			-- appended into `a_result'.
+		require
+			minimum_size: p.count >= 2
+			valid_count: p.count \\ 2 = 0
+		do
+			utf_16_be_0_subpointer_into_string_32 (p, 0, p.count // 2 - 1, True, a_result)
+		end
+
+	utf_16_be_0_subpointer_into_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER; a_stop_at_null: BOOLEAN; a_result: STRING_32)
+			-- Copy {STRING_32} object corresponding to UTF-16BE sequence `p' between code units `start_pos' and
+			-- `end_pos' or the first null character encountered if `a_stop_at_null' appended into `a_result'.
+		require
+			minimum_size: p.count >= 2
+			start_position_big_enough: start_pos >= 0
+			end_position_big_enough: start_pos <= end_pos + 1
+			end_pos_small_enough: end_pos < p.count // 2
+		local
+			i, n: INTEGER
+			c: NATURAL_32
+		do
+			from
+					-- Allocate Result with the same number of bytes as copied from `p'.
+				a_result.grow (a_result.count + end_pos - start_pos + 1)
+				i := start_pos * 2
+				n := end_pos * 2
+			until
+				i > n
+			loop
+				c := p.read_natural_16_be (i)
+				if c = 0 and a_stop_at_null then
+						-- We hit our null terminating character, we can stop
+					i := n + 1
+				else
+					i := i + 2
+					if c < 0xD800 or c >= 0xE000 then
+							-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
+						a_result.extend (c.to_character_32)
+					else
+							-- Supplementary Planes: surrogate pair with lead and trail surrogates.
+						if i <= n then
+							a_result.extend (((c.as_natural_32 |<< 10) + p.read_natural_16_be (i) - 0x35FDC00).to_character_32)
+							i := i + 2
+						end
+					end
+				end
+			end
+		end
 end

@@ -1,5 +1,5 @@
 note
-	description: "ID3 tag info test set"
+	description: "Test set for classes [$source LIBID3_TAG_INFO] and [$source UNDERBIT_ID3_TAG_INFO]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,16 +13,14 @@ class
 	ID3_TAG_INFO_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
-		rename
-			data_dir as EL_test_data_dir
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
+
+	EL_EQA_REGRESSION_TEST_SET
+		undefine
+			on_prepare, on_clean
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
-
 	EL_STRING_8_CONSTANTS
-
-	EL_MODULE_LIO
 
 	EL_MODULE_NAMING
 
@@ -33,20 +31,20 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("libid3_info", 	agent test_libid3_info)
 			eval.call ("underbit_id3_info", agent test_underbit_id3_info)
+--			eval.call ("libid3_info", 	agent test_libid3_info)
 		end
 
 feature -- Tests
 
 	test_libid3_info
 		do
-			read_id3 (create {LIBID3_TAG_INFO}.make)
+			do_test ("read_id3", 2594784551, agent read_id3, [create {LIBID3_TAG_INFO}.make])
 		end
 
 	test_underbit_id3_info
 		do
-			read_id3 (create {UNDERBIT_ID3_TAG_INFO}.make)
+			do_test ("read_id3", 4103542626, agent read_id3, [create {UNDERBIT_ID3_TAG_INFO}.make])
 		end
 
 feature {NONE} -- Implementation
@@ -68,18 +66,18 @@ feature {NONE} -- Implementation
 		local
 			l_path: EL_FILE_PATH; header: ID3_HEADER; prefix_words: INTEGER
 		do
-			across file_list as path loop
+			across new_id3_file_list as path loop
 				l_path := path.item
 				create header.make (l_path)
-				lio.put_path_field ("ID3", l_path.relative_path (Work_area_dir))
-				lio.put_new_line
-				lio.put_labeled_string ("Version", header.version_name)
-				lio.put_new_line
+				log.put_path_field ("ID3", l_path.relative_path (Work_area_dir))
+				log.put_new_line
+				log.put_labeled_string ("Version", header.version_name)
+				log.put_new_line
 				if attached {UNDERBIT_ID3_TAG_INFO} info then
 					info.link_and_read (l_path)
 					prefix_words := 2
 				elseif l_path.base.has_substring ("compressed") then
-					lio.put_line ("compressed ignored")
+					log.put_line ("compressed ignored")
 				else
 					info.link_and_read (l_path)
 					prefix_words := 1
@@ -101,9 +99,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	source_file_list: EL_FILE_PATH_LIST
+	new_id3_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Eiffel_loop_dir.joined_dir_tuple (["id3$"]), filter)
+			Result := OS.file_list (work_area_data_dir, filter)
 		end
 
 	put_frames (list: ARRAYED_LIST [ID3_FRAME]; prefix_words: INTEGER)
@@ -111,33 +109,33 @@ feature {NONE} -- Implementation
 			string_value: READABLE_STRING_GENERAL
 		do
 			across list as frame loop
-				lio.put_labeled_string (Square_brackets #$ [frame.item.generator, frame.cursor_index], frame.item.code)
-				lio.put_new_line
-				lio.tab_right
-				lio.put_new_line
+				log.put_labeled_string (Square_brackets #$ [frame.item.generator, frame.cursor_index], frame.item.code)
+				log.put_new_line
+				log.tab_right
+				log.put_new_line
 				across frame.item.field_list as field loop
 					string_value := Empty_string_8
 					if Frame_field_table.has_key (field.item.type) then
 						string_value := Frame_field_table.found_item (frame.item)
 					end
-					lio.put_labeled_substitution (
+					log.put_labeled_substitution (
 						Square_brackets #$ [Naming.class_with_separator (field.item, '_', prefix_words, 0), field.cursor_index],
 						"%S: %S", [field.item.type_name, string_value]
 					)
-					lio.put_new_line
+					log.put_new_line
 					if attached {ID3_STRING_LIST_FIELD} field.item as l_field then
 						across l_field.list as str loop
 							if str.cursor_index > 1 then
-								lio.put_string_field (Square_brackets #$ ["string_list", str.cursor_index], str.item)
-								lio.put_new_line
+								log.put_string_field (Square_brackets #$ ["string_list", str.cursor_index], str.item)
+								log.put_new_line
 							end
 						end
 					end
 				end
-				lio.tab_left
-				lio.put_new_line
+				log.tab_left
+				log.put_new_line
 			end
-			lio.put_new_line
+			log.put_new_line
 		end
 
 feature {NONE} -- Constants
@@ -162,6 +160,11 @@ feature {NONE} -- Constants
 				[Field_type.string, agent {ID3_FRAME}.string],
 				[Field_type.string_list, agent string_list_first]
 			>>)
+		end
+
+	Source_dir: EL_DIR_PATH
+		once
+			Result := "data/id3$"
 		end
 
 	Square_brackets: ZSTRING

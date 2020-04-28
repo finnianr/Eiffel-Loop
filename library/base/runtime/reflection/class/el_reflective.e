@@ -149,7 +149,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 
 	export_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := to_lower_snake_case (name_in, keeping_ref)
+			Result := to_snake_case_lower (name_in, keeping_ref)
 		end
 
 	import_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
@@ -160,7 +160,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 
 	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := from_lower_snake_case (name_in, keeping_ref)
+			Result := from_snake_case_lower (name_in, keeping_ref)
 		end
 
 feature {NONE} -- Implementation

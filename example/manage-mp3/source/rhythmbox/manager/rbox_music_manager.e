@@ -177,7 +177,7 @@ feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 
 	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]
 		once
-			create Result.make (agent Naming.class_as_lower_snake (?, 0, 1), Task_types)
+			create Result.make (agent Naming.class_as_snake_lower (?, 0, 1), Task_types)
 			Result.set_make_default (agent {RBOX_MANAGEMENT_TASK}.make_default)
 		end
 

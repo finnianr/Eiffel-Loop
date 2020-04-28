@@ -16,9 +16,9 @@ inherit
 	PP_REFLECTIVELY_SETTABLE
 		rename
 			export_name as to_paypal_name,
-			import_name as from_upper_camel_case
+			import_name as from_camel_case_upper
 		undefine
-			import_from_upper_camel_case
+			import_from_camel_case_upper
 		end
 
 	EL_SETTABLE_FROM_ZSTRING

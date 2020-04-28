@@ -352,7 +352,7 @@ feature {NONE} -- Implementation
 			elseif attached {TL_ID3_V2_TAG} mp3.tag as tag then
 				print_version (mp3)
 				across tag.all_frames_list as frame loop
-					name := Naming.class_as_upper_snake (frame.item, 1, 2)
+					name := Naming.class_as_snake_upper (frame.item, 1, 2)
 					log.put_labeled_string (name, frame.item.id.to_string_8)
 					if attached {TL_COMMENTS_ID3_FRAME} frame.item as comments then
 						print_field ("; language", comments.language)

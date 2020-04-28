@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 
 	date_file_path: EL_FILE_PATH
 		do
-			Result := updated_dir + (Naming.class_as_lower_kebab (Current, 0, 1) + ".date")
+			Result := updated_dir + (Naming.class_as_kebab_lower (Current, 0, 1) + ".date")
 		end
 
 	existing_modification_time (item: EL_FILE_MANIFEST_ITEM): INTEGER

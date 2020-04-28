@@ -75,7 +75,7 @@ feature -- Access
 	name: STRING
 		do
 			-- Use {Current} do prevent invariant violiation
-			Result := Naming.class_as_upper_snake ({like Current}, 0, Trailing_word_count)
+			Result := Naming.class_as_snake_upper ({like Current}, 0, Trailing_word_count)
 		end
 
 	status: INTEGER_8
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 		do
 			l_name := name
 			create file_name.make (l_name.count)
-			Naming.to_kebab_lower_case (l_name, file_name)
+			Naming.to_kebab_case_lower (l_name, file_name)
 			Result := Directory.App_data + file_name
 			Result.add_extension (Default_file_extension)
 		end

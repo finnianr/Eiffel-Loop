@@ -22,7 +22,7 @@ inherit
 			make_default as make,
 			field_included as is_any_field,
 			export_name as export_default,
-			import_name as from_upper_snake_case
+			import_name as from_snake_case_upper
 		redefine
 			make, Except_fields
 		end

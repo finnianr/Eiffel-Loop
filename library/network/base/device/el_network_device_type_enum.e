@@ -21,8 +21,8 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_upper_snake_case,
-			import_name as from_upper_snake_case
+			export_name as to_snake_case_upper,
+			import_name as from_snake_case_upper
 		redefine
 			initialize_fields
 		end

@@ -43,7 +43,7 @@ feature {NONE} -- Evolicity reflection
 
 	new_root_node_name (type: TYPE [EROS_XML_RESULT]): STRING
 		do
-			Result := Naming.class_as_lower_kebab (type, 1, 1)
+			Result := Naming.class_as_kebab_lower (type, 1, 1)
 		end
 
 feature {NONE} -- Building from XML

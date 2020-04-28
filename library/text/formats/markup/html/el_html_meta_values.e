@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
-			export_name as to_kebab_lower_case,
+			export_name as to_kebab_case_lower,
 			import_name as from_kebab_case,
 			make_default as make
 		export

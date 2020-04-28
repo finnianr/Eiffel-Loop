@@ -2,7 +2,7 @@ note
 	description: "[
 		Instant Access response codes with corresponding names accessible as `message'. 
 		Accessible via `{[$source AIA_SHARED_ENUMERATIONS]}.Response_enum'. 
-		See also class [$source AIA_PURCHASE_REASON]. 
+		See also class [$source AIA_PURCHASE_REASON].
 	]"
 
 	author: "Finnian Reilly"
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_upper_snake_case,
+			export_name as to_snake_case_upper,
 			import_name as import_default
 		end
 

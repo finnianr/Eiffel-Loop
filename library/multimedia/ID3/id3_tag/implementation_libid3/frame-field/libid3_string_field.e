@@ -26,6 +26,10 @@ inherit
 			Libid3_types
 		end
 
+	EL_MODULE_UTF
+
+	EL_SHARED_ONCE_STRING_32
+
 create
 	make
 
@@ -33,23 +37,29 @@ feature -- Access
 
 	string: ZSTRING
 			--
-		local
-			l_encoding: INTEGER
 		do
-			l_encoding := encoding
-			if l_encoding = Encoding_enum.ISO_8859_1 then
+			if encoding = Encoding_enum.ISO_8859_1 then
 				create Result.make_from_general (shared_latin)
 
-			elseif l_encoding = Encoding_enum.UTF_16 or l_encoding = Encoding_enum.UTF_16_BE then
-				-- A bit strange that only Big Endian decoding works
-				Result := text_utf_16_be.as_string
+			elseif Encoding_enum.is_utf_16 (encoding) then
+				Result := text_32 -- A bit strange that only Big Endian decoding works
 
-			elseif l_encoding = Encoding_enum.UTF_8 then
+			elseif encoding = Encoding_enum.UTF_8 then
 				create Result.make_from_utf_8 (shared_latin)
 			else
 				create Result.make_empty
-
 			end
+		end
+
+	count: INTEGER
+		do
+			Result := cpp_size (self_ptr)
+		end
+
+	self_encoding: NATURAL_8
+			--
+		do
+			Result := Encoding_enum.from_libid3 (cpp_encoding (self_ptr))
 		end
 
 feature -- Element change
@@ -72,17 +82,17 @@ feature -- Element change
 	set_string (str: like string)
 			--
 		local
-			l_encoding: INTEGER
+			code: INTEGER
 		do
-			l_encoding := encoding
-			if l_encoding = Encoding_enum.ISO_8859_1 then
+			code := encoding
+			if code = Encoding_enum.ISO_8859_1 then
 				set_latin_1_string (str.to_latin_1)
 
-			elseif l_encoding = Encoding_enum.UTF_16 or l_encoding = Encoding_enum.UTF_16_BE then
+			elseif code = Encoding_enum.UTF_16 or code = Encoding_enum.UTF_16_BE then
 				-- A bit strange that only Big Endian works
 				set_text_unicode (str.to_string_32)
 
-			elseif l_encoding = Encoding_enum.UTF_8 then
+			elseif code = Encoding_enum.UTF_8 then
 				set_latin_1_string (str.to_utf_8)
 
 			end
@@ -90,10 +100,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	text_utf_16_be: EL_C_STRING_16_BE
-			--
+	text_32: STRING_32
+		local
+			data: like Unicode_buffer
 		do
-			create Result.make_shared (cpp_unicode_text (self_ptr))
+			Result := empty_once_string_32
+			data := Unicode_buffer
+			data.set_from_pointer (cpp_unicode_text (self_ptr), count * 2 + 2)
+			UTF.utf_16_be_0_pointer_into_string_32 (data, Result)
 		end
 
 	set_text_unicode (str: STRING_32)
@@ -105,10 +119,15 @@ feature {NONE} -- Implementation
 			bytes_read := cpp_set_text_unicode (self_ptr, c_string.base_address)
 		ensure
 			unicode_field_correct_size: bytes_read // 2 = str.count
-			same_string: str ~ text_utf_16_be.as_string_32
+--			same_string: str ~ text_utf_16_be.as_string_32
 		end
 
 feature {NONE} -- Constant
+
+	Unicode_buffer: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (Default_pointer, 0)
+		end
 
 	Libid3_types: ARRAY [INTEGER]
 		once

@@ -74,7 +74,7 @@ feature -- Element change
 		local
 			class_name: STRING
 		do
-			class_name := Naming.class_as_upper_snake (proxy_object, 0, 1)
+			class_name := Naming.class_as_snake_upper (proxy_object, 0, 1)
 
 			serializeable := Default_serializeable
 

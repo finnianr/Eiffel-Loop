@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 	root_node_name: STRING
 			--
 		do
-			Result := Naming.class_as_lower_snake (Current, 0, 1)
+			Result := Naming.class_as_snake_lower (Current, 0, 1)
 		end
 
 feature {NONE} -- Constants

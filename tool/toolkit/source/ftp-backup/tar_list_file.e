@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter ("write_specifiers")
 			across specifier_list as specifier loop
-				lio.put_string_field (Naming.class_as_lower_snake (Current, 0, 1), specifier.item)
+				lio.put_string_field (Naming.class_as_snake_lower (Current, 0, 1), specifier.item)
 				lio.put_new_line
 				put_file_specifier (specifier.item)
 			end

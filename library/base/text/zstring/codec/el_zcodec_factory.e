@@ -110,11 +110,11 @@ feature {NONE} -- Constants
 
 	ISO_8859_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
 		once
-			create Result.make (agent Naming.class_as_lower_snake (?, 3, 1), ISO_8859_codecs)
+			create Result.make (agent Naming.class_as_snake_lower (?, 3, 1), ISO_8859_codecs)
 		end
 
 	Windows_factory: EL_OBJECT_FACTORY [EL_ZCODEC]
 		once
-			create Result.make (agent Naming.class_as_lower_snake (?, 2, 1), windows_codecs)
+			create Result.make (agent Naming.class_as_snake_lower (?, 2, 1), windows_codecs)
 		end
 end

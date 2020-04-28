@@ -15,8 +15,8 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_upper_snake_case,
-			import_name as from_upper_snake_case
+			export_name as to_kebab_case_upper,
+			import_name as import_default
 		redefine
 			initialize_fields
 		end
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature -- Access
+feature -- Codes
 
 	ISO_8859_1: NATURAL_8
 
@@ -59,18 +59,25 @@ feature -- Access
 
 	Unknown: NATURAL_8
 
-feature -- Conversion
+feature -- Status query
 
-	to_libid3 (code: NATURAL_8): INTEGER
-		-- Underbit -> libid3
+	is_utf_16 (code: NATURAL_8): BOOLEAN
 		do
-			Result := libid3_table [code]
+			Result := code = UTF_16 or else code = UTF_16_BE
 		end
+
+feature -- Conversion
 
 	from_libid3 (libid3_code: INTEGER): NATURAL_8
 		-- libid3 -> Underbit
 		do
 			Result := underbit_table [libid3_code]
+		end
+
+	to_libid3 (code: NATURAL_8): INTEGER
+		-- Underbit -> libid3
+		do
+			Result := libid3_table [code]
 		end
 
 feature {NONE} -- Internal attributes

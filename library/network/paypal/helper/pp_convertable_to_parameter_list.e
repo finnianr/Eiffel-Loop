@@ -16,14 +16,14 @@ inherit
 	EL_CONVERTABLE_TO_HTTP_PARAMETER_LIST
 		rename
 			field_included as is_paypal_field,
-			import_name as from_upper_snake_case, -- for reading PP_CREDENTIALS from file
-			export_name as to_upper_camel_case
+			import_name as from_snake_case_upper, -- for reading PP_CREDENTIALS from file
+			export_name as to_camel_case_upper
 		end
 
 	PP_REFLECTIVELY_SETTABLE
 		rename
-			import_name as from_upper_snake_case, -- for reading PP_CREDENTIALS from file
-			export_name as to_upper_camel_case
+			import_name as from_snake_case_upper, -- for reading PP_CREDENTIALS from file
+			export_name as to_camel_case_upper
 		end
 
 end

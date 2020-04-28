@@ -20,8 +20,8 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			import_name as from_upper_snake_case,
-			export_name as to_upper_snake_case
+			import_name as from_snake_case_upper,
+			export_name as to_snake_case_upper
 		export
 			{NONE} all
 			{ANY} value, is_valid_value, name

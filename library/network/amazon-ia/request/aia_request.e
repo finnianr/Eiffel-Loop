@@ -52,7 +52,7 @@ feature {AIA_REQUEST_MANAGER} -- Access
 
 	operation: STRING
 		do
-			Result := Naming.class_as_lower_snake (Current, 1, 1)
+			Result := Naming.class_as_snake_lower (Current, 1, 1)
 		end
 
 	response: AIA_RESPONSE

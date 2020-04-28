@@ -20,7 +20,7 @@ inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
 			export_name as to_english,
-			import_name as from_upper_snake_case
+			import_name as from_snake_case_upper
 		end
 
 create

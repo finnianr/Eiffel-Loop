@@ -13,6 +13,9 @@ $do_test -base_autotest
 
 $do_test -encryption_autotest
 
+# http-client.ecf
+$do_test -http_client_autotest
+
 $do_test -image_utils_autotest
 
 # i18n.ecf

@@ -23,8 +23,6 @@ inherit
 			set_binary_data as set_picture_data,
 			set_integer as set_picture_type,
 			set_latin_1_string as set_mime_type
-		undefine
-			set_description, description
 		end
 
 	LIBID3_CONSTANTS

@@ -133,7 +133,7 @@ feature -- Access
 	encoding_name: STRING
 			--
 		do
-			Result := Encoding_enum.name (encoding)
+			Result := Encoding_enum.name_exported (encoding, True)
 		end
 
 	field_count: INTEGER

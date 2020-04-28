@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 		-- adjust for idiosyncrasy in Paypal naming
 		do
 			Result := empty_name_out
-			Naming.to_upper_camel_case (name_in, Result)
+			Naming.to_camel_case_upper (name_in, Result)
 			-- insert underscore for `L_' variables
 			if name_in.starts_with (once "l_") then
 				Result.insert_character ('_', 2)
@@ -35,9 +35,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	import_from_upper_camel_case (name_in, name_out: STRING)
+	import_from_camel_case_upper (name_in, name_out: STRING)
 		do
-			Naming.from_upper_camel_case (name_in, name_out, Word_boundary_hints)
+			Naming.from_camel_case_upper (name_in, name_out, Word_boundary_hints)
 		end
 
 feature {NONE} -- Constants
