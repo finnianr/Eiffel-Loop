@@ -33,13 +33,12 @@ def build_taglib (target, source, env):
 		if path.exists (cmake_path):
 			file_util.move_file (cmake_path, cmake_path [:-6])
 
-#Import ('env')
+Import ('env')
 
 env = Environment (
 	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
 	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = ise.platform
 )
-
 
 if platform.is_unix ():
 	build_dir =  project.platform_spec_build_dir ()
@@ -51,7 +50,7 @@ if platform.is_unix ():
 	lib = env.C_library (path.join (build_dir, 'libtag.a'), File (path.join (build_dir, 'taglib.getlib')))
 	
 	env.NoClean (lib)
-#	Return (['downloaded_DLLs', 'dll_import_libs'])
+	Return ('lib')
 	
 
 

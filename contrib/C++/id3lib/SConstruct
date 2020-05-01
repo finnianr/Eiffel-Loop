@@ -1,87 +1,51 @@
-# 	Port of id3lib autoconf configuration to Scons
+# id3lib 3.8.3 with consolidated_patches from
+# http://www.linuxfromscratch.org/patches/blfs/svn/id3lib-3.8.3-consolidated_patches-1.patch
 #
-#	author: "Finnian Reilly"
-#	copyright: "Copyright (c) 2001-2010 Finnian Reilly"
-#	contact: "finnian at eiffel hyphen loop dot com"
-#	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "6 Jan 2010"
-#	revision: "0.1"
+# author: "Finnian Reilly"
+# copyright: "Copyright (c) 2001-2010 Finnian Reilly"
+# contact: "finnian at eiffel hyphen loop dot com"
+# license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+# date: "30 Apr 2020"
+# revision: "0.1"
 
-import os, sys, config_h, platform
+import os, sys, platform
+
 from os import path
 
-from eiffel_loop.scons import c as c_scons
-from eiffel_loop.scons.c import CONFIG_HEADER
+from eiffel_loop import platform
+
+from eiffel_loop.scons import c_library
+from eiffel_loop.scons import util
+
+from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
-include_path = [path.normpath ('$ISE_EIFFEL/C_library/zlib'), path.abspath (os.curdir), 'include', path.join ('include', 'id3')]
+from eiffel_loop.distutils import file_util
+from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
 
-if platform.system () == "Windows":
-	compiler_flags = ['-Ox', '-Zi', '-MT', '-w', '-nologo', '-DID3LIB_LINKOPTION=1', '-EHsc', '-DWIN32']
-	cpp_defines = ['HAVE_CONFIG_H']
-	
-else:
-	compiler_flags = [
-		'-g', '-O2', '-Wall', '-Woverloaded-virtual', '-Wmissing-declarations', '-Wno-write-strings', '-Wno-unused', '-Wno-inline'
-	]
-	cpp_defines = ['HAVE_CONFIG_H', 'HAVE_UNISTD_H']
+#Import ('env')
 
-	
-env = Environment(
-	CCFLAGS = compiler_flags, CPPPATH = include_path, CPPDEFINES = cpp_defines,
-	ENV = os.environ, ISE_EIFFEL = os.environ ['ISE_EIFFEL']
+env = Environment (
+	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = ise.platform
 )
 
-if not env.GetOption ('clean'):
-	conf = Configure (env)
-	config_header = CONFIG_HEADER (conf, '.')
 
-	config_header.set_defines_for_C_function_availability ([
-		'getopt_long', 'mkstemp', 'truncate']
+if platform.is_unix ():
+	build_dir =  project.platform_spec_build_dir ()
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	env ['BUILDERS']['C_library'] = Builder (
+		action = c_library.build, suffix='.a', src_suffix='.getlib', emitter = util.complete_targets
 	)
-
-	config_header.set_defines_for_C_header_availability ([
-		'dlfcn.h', 'inttypes.h', 'libcw/sys.h', 'memory.h', 'stdint.h', 'stdlib.h',
-		'sys/param.h', 'sys/stat.h', 'sys/types.h', 'unistd.h', 'wchar.h', 'zlib.h'
-	])
-	config_header.set_defines_for_CPP_header_availability ([
-		'bitset', 'cctype', 'climits', 'cstdio', 'cstdlib',
-		'cstring', 'fstream', 'fstream.h', 'iomanip', 'iomanip.h', 'iostream',
-		'iostream.h' ,'string' ,'strings.h' ,'string.h'
-	])
-
-	if c_scons.has_ansi_C_standard_headers (conf):
-		config_header.set_defines ([
-			('STDC_HEADERS', 1, 'if you have the ANSI C header files.')
-		])
+	lib = env.C_library (path.join (build_dir, 'libid3.a'), File (path.join (build_dir, 'id3.getlib')))
 	
-	config_header.set_string_defines ([
-		('VERSION', '3.8.3', None),
-		('_ID3LIB_NAME', 'id3lib', None),
-		('_ID3LIB_VERSION', '3.8.3', None),
-		('_ID3_COMPILED_WITH_DEBUGGING', 'minimum', None),
-		('_ID3LIB_FULLNAME', 'id3lib-3.8.3', None)
+	env.NoClean (lib)
+#	Return (['downloaded_DLLs', 'dll_import_libs'])
+	
 
-	])
-	config_header.set_defines ([
-		('_ID3LIB_MAJOR_VERSION', 3, None), ('_ID3LIB_MINOR_VERSION', 8, None),  ('_ID3LIB_PATCH_VERSION', 4, None),
-		('_ID3LIB_INTERFACE_AGE', 0, None), ('_ID3LIB_BINARY_AGE', 0, None)
-	])
 
-	config_header.append_text (config_h.header_text)
 
-	config_header.save ()
-	env = conf.Finish()
 
-build_dir = project.platform_spec_build_dir ()
 
-VariantDir (build_dir, 'source', duplicate=0)
 
-library_path = path.join (build_dir, 'id3')
-
-source_list = Glob (path.join (build_dir, '*.cpp'))
-
-lib = env.StaticLibrary (library_path, source_list)
-
-env.NoClean (lib)
-#Return ('lib')

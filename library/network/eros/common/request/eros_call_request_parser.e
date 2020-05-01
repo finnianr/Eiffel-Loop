@@ -198,7 +198,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Precursor
-			routine_name.clear_all
+			routine_name.wipe_out
 			argument_list.wipe_out
 		end
 

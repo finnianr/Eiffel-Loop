@@ -8,6 +8,7 @@
 from __future__ import absolute_import
 
 import os, subprocess, tarfile, zipfile, urllib, platform, xml
+from eiffel_loop.distutils import file_util
 
 from distutils import dir_util
 from os import path
@@ -32,13 +33,43 @@ def display_progress (a, b, c):
 
 # CLASSES
 
+class LIBRARY_INFO (object):
+# information from .getlib source file	
+
+# Initialization
+	def __init__ (self, a_path):
+		self.test_data = None
+		self.include = None
+		self.url = None
+		self.clib = None
+		self.extracted = None
+		self.configure = None
+		self.makefile = 'Makefile'
+		
+		for k, v in file_util.read_table (a_path).items():
+			setattr (self, k, v)
+
+		if self.c_dev:
+			self.c_dev = path.expandvars (self.c_dev)
+
+# Access
+	def link_table (self):
+		# links to `include' and `test_dir'
+		result = {
+			'include' : self.include,
+			'test_data' : self.test_data
+		}
+		return result
+
+
 class SOFTWARE_PACKAGE (object):
 
 # Initialization
-	def __init__ (self, url, dest_dir = default_download_dir, rel_unpacked = None):
+	def __init__ (self, url, dest_dir = default_download_dir, rel_unpacked = None, makefile = 'Makefile'):
 		self.url = url
 		self.target_table = {}
 		self.dest_dir = dest_dir # download directory
+		self.makefile = makefile
 
 		self.basename = url.rsplit ('/')[-1:][0]
 		if rel_unpacked:
@@ -51,6 +82,10 @@ class SOFTWARE_PACKAGE (object):
 			self.file_path = path.normpath (url [7:])
 		else:
 			self.file_path = path.join (dest_dir, self.basename)
+	
+	@classmethod
+	def from_library_info (cls, info):
+		return cls (info.url, info.c_dev, info.extracted, info.makefile)
 
 # Access
 	def type_name (self):
@@ -68,6 +103,10 @@ class SOFTWARE_PACKAGE (object):
 
 	def unpacked (self):
 		return path.exists (self.unpacked_dir)
+
+	def is_configured (self):
+		return path.exists (path.join (self.unpacked_dir, self.makefile))
+	
 
 # Element change
 	def append (self, target, member_name):
@@ -102,7 +141,8 @@ class SOFTWARE_PACKAGE (object):
 
 	def remove (self):
 		# remove archive `self.file_path'
-		os.remove (self.file_path)
+		if path.exists (self.file_path):
+			os.remove (self.file_path)
 
 # Implementation
 
@@ -177,12 +217,27 @@ class TAR_GZ_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 		tar.close ()
 		self.popd ()
 
-	def build (self, configure_cmd):
-		# build package using `extracted_dir' relative
+	def configure (self, configure_cmd):
+		# configure package with `configure_cmd' command or lists of commands
 		self.chdir_package (self.unpacked_dir)
-		if subprocess.call (configure_cmd.split (' ')) == 0:
-			subprocess.call (['make'])
+		if isinstance (configure_cmd, list):
+			cmd_list = configure_cmd
+		else:
+			cmd_list = [configure_cmd]
+
+		for cmd in cmd_list:
+			if not subprocess.call (cmd.split (' ')) == 0:
+				raise Exception ("Configuration command failed: " + cmd)			
 		self.popd ()
+
+	def build (self):
+		# build package using `extracted_dir' relative
+		if self.is_configured ():
+			self.chdir_package (self.unpacked_dir)
+			subprocess.call (['make'])
+			self.popd ()
+		else:
+			raise Exception ("Not configured. No %s found" % (self.makefile))
 
 class WINDOWS_INSTALL_PACKAGE (SOFTWARE_PACKAGE):
 
@@ -193,7 +248,25 @@ class WINDOWS_INSTALL_PACKAGE (SOFTWARE_PACKAGE):
 	def extension (self):
 		return 'exe'
 
+# Basic operations
 	def install (self):
 		return subprocess.call ([self.file_path])
+	
+
+class SOFTWARE_PATCH (SOFTWARE_PACKAGE):
+
+# Access
+	def type_name (self):
+		return 'Code Patch'
+
+	def extension (self):
+		return 'patch'
+
+# Basic operations
+	def apply (self):
+		self.chdir_package (self.unpacked_dir)
+		cmd = ['patch', '-Np1', '-i', self.file_path]
+		subprocess.call (cmd)
+		self.popd ()
 	
 

@@ -7,7 +7,15 @@
 
 # cmake required to make taglib.ecf
 
-sudo apt-get install python2.7-dev python-lxml scons libxrandr-dev librsvg2-dev cmake
+for name in automake autoconf cmake libtool libxrandr-dev librsvg2-dev patch python2.7-dev python-lxml scons; do
+	install_status="$(dpkg -s $name 2>/dev/null | grep -c "install ok")"
+	if [[ $install_status -eq "0" ]]; then
+		sudo apt-get install $name
+	else
+		echo "Checking for $name OK"
+	fi
+done
+
 # Required for example/manage-mp3 and toolkit
 sudo apt-get install siggen libav-tools sox lame exiv2
 if [ $? == "0" ]

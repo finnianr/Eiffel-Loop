@@ -31,8 +31,8 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("underbit_id3_info", agent test_underbit_id3_info)
---			eval.call ("libid3_info", 	agent test_libid3_info)
+--			eval.call ("underbit_id3_info", agent test_underbit_id3_info)
+			eval.call ("libid3_info", 	agent test_libid3_info)
 		end
 
 feature -- Tests

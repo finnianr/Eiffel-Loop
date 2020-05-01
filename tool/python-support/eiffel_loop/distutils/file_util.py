@@ -62,13 +62,26 @@ def match_count (file_path, is_match):
 def read_table (file_path):
 	# return dictionary of values read from file
 	result = {}
+	collect_lines = False
 	f = open (file_path, 'r')
 	for line in f:
-		pos_colon = line.find (':')
-		if pos_colon > 0 and line [0] != '#':
-			name = line [:pos_colon]
-			value = (line [(pos_colon + 1):]).strip ()
-			result [name] = value
+		if collect_lines and len (line) > 0 and line [0] == '\t':
+			value = line.strip ()
+			if value:
+				result.get (name).append (value)
+			else:
+				collect_lines = False
+
+		else:
+			pos_colon = line.find (':')
+			if pos_colon > 0 and line [0] != '#':
+				name = line [:pos_colon]
+				value = (line [(pos_colon + 1):]).strip ()
+				if value:
+					result [name] = value
+				else:
+					result [name] = []
+					collect_lines = True
 		
 	f.close ()
 	return result;
