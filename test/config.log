@@ -1,4 +1,4 @@
-file /home/finnian/dev/Eiffel/library/Eiffel-Loop/tool/python-support/eiffel_loop/scons/eiffel.py,line 53:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 53:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C library cairo... 
 scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
