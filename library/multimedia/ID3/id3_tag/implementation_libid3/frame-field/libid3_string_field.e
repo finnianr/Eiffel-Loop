@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-17 12:52:39 GMT (Thursday 17th October 2019)"
-	revision: "7"
+	date: "2020-04-28 14:03:59 GMT (Tuesday 28th April 2020)"
+	revision: "8"
 
 class
 	LIBID3_STRING_FIELD

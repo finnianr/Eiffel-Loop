@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 18:01:09 GMT (Saturday 28th April 2018)"
-	revision: "1"
+	date: "2020-04-28 8:26:44 GMT (Tuesday 28th April 2020)"
+	revision: "2"
 
 class
 	PP_CONVERTABLE_TO_PARAMETER_LIST

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-09 9:55:25 GMT (Monday 9th March 2020)"
-	revision: "3"
+	date: "2020-04-28 8:28:10 GMT (Tuesday 28th April 2020)"
+	revision: "4"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM

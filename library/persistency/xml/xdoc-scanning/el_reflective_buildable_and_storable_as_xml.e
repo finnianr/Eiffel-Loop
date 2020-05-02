@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 11:07:46 GMT (Wednesday 29th January 2020)"
-	revision: "11"
+	date: "2020-04-28 8:37:19 GMT (Tuesday 28th April 2020)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-28 11:50:49 GMT (Saturday 28th September 2019)"
-	revision: "7"
+	date: "2020-04-28 8:28:52 GMT (Tuesday 28th April 2020)"
+	revision: "8"
 
 class
 	PP_L_VARIABLE_ENUM

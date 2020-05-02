@@ -223,3 +223,6 @@ Migrated all manage-mp3.ecf tests to RBOX_AUTOTEST_APP
 Mon 20th Apr 2020, 13:55:57
 Reorganized standard folders with addition of .cache
 
+Fri 1st May 2020, 18:38:08
+Added python support for .getlib patch url
+

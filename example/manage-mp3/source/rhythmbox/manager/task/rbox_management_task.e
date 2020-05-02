@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:11:52 GMT (Sunday 19th April 2020)"
-	revision: "9"
+	date: "2020-04-28 8:40:20 GMT (Tuesday 28th April 2020)"
+	revision: "10"
 
 deferred class
 	RBOX_MANAGEMENT_TASK

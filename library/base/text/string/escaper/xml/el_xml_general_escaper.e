@@ -1,13 +1,13 @@
 note
-	description: "Xml general escaper"
+	description: "XML general string escaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 15:28:38 GMT (Tuesday 1st October 2019)"
-	revision: "9"
+	date: "2020-05-02 12:14:51 GMT (Saturday 2nd May 2020)"
+	revision: "10"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -22,18 +22,13 @@ inherit
 
 	EL_SHARED_ONCE_ZSTRING
 
+	EL_SHARED_ONCE_STRING_8
+
 feature {NONE} -- Initialization
 
 	make
 		do
-			create predefined_entities.make (4, agent new_sequence)
-			extend_entities ('<', "lt")
-			extend_entities ('>', "gt")
-			extend_entities ('&', "amp")
-			extend_entities ('%'', "apos")
-			extend_entities ('"', "quot")
-
-			make_escaper (new_predefined_string)
+			make_escaper (Basic_entities)
 		end
 
 	make_128_plus
@@ -44,26 +39,51 @@ feature {NONE} -- Initialization
 
 feature -- Transformation
 
-	escape_sequence (code: NATURAL): like new_string
-		do
-			Result := predefined_entities.item (code)
-		end
-
 	append_escape_sequence (str: like new_string; code: NATURAL)
 		do
 			str.append (escape_sequence (code))
 		end
 
-feature -- Element change
-
-	extend (uc: CHARACTER_32)
+	escape_sequence (code: NATURAL): STRING
+		local
+			byte_count, i: INTEGER
+			n, digit: NATURAL
 		do
-			predefined_entities.extend (escape_sequence (uc.natural_32_code), uc.natural_32_code)
-		end
+			Result := empty_once_string_8
+			if escape_128_plus and then code > 128 then
+				Result.append (once "&#x")
 
-	extend_entities (uc: CHARACTER_32; name: STRING)
-		do
-			predefined_entities.extend (named_entity (name), uc.natural_32_code)
+				byte_count := hex_byte_count (code)
+				from i := 1 until i > byte_count loop
+					Result.append_character ('0')
+					i := i + 1
+				end
+				n := code
+				from i := Result.count until i = Result.count - byte_count loop
+					digit := (n & 0xF)
+					Result [i] := digit.to_hex_character
+					n := n |>> 4
+					i := i - 1
+				end
+			else
+				Result.append_character ('&')
+				inspect code.to_character_8
+					when '<' then
+						Result.append (once "lt")
+					when '>' then
+						Result.append (once "gt")
+					when '&' then
+						Result.append (once "amp")
+					when '%'' then
+						Result.append (once "apos")
+					when '"' then
+						Result.append (once "quot")
+				else
+				end
+			end
+			Result.append_character (';')
+		ensure
+			valid_count: Result.count >= 4 and then (Result [1] = '&' and Result [Result.count] = ';')
 		end
 
 feature {NONE} -- Implementation
@@ -81,35 +101,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_escaped (table: like code_table; code: NATURAL): BOOLEAN
+	is_escaped (code: NATURAL): BOOLEAN
 		do
-			Result := table.found or else (escape_128_plus and then code > 128)
-		end
-
-	named_entity (a_name: STRING): like new_string
-		do
-			Result := new_string (a_name.count + 2)
-			Result.append_code (('&').natural_32_code)
-			Result.append (a_name)
-			Result.append_code ((';').natural_32_code)
-		end
-
-	new_sequence (code: NATURAL): like new_string
-		local
-			byte_count: INTEGER
-		do
-			byte_count := hex_byte_count (code)
-			Result := new_string (4 + byte_count)
-			Result.append (once "&#x")
-			Result.append_substring (code.to_hex_string, 8 - byte_count + 1, 8)
-			Result.append_code ((';').natural_32_code)
-		end
-
-	new_predefined_string: STRING
-		do
-			create Result.make (predefined_entities.count)
-			across predefined_entities as entity loop
-				Result.append_code (entity.key)
+			if escape_128_plus and then code > 128 then
+				Result := True
+			else
+				Result := code_table.has_key (code)
 			end
 		end
 
@@ -121,6 +118,8 @@ feature {NONE} -- Internal attributes
 
 	escape_128_plus: BOOLEAN
 
-	predefined_entities: EL_CACHE_TABLE [like new_string, NATURAL]
+feature {NONE} -- Constants
+
+	Basic_entities: STRING = "<>&'%""
 
 end

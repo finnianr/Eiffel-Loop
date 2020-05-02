@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 11:04:49 GMT (Saturday 25th April 2020)"
-	revision: "6"
+	date: "2020-05-02 10:30:20 GMT (Saturday 2nd May 2020)"
+	revision: "7"
 
 deferred class
 	EL_STRING_GENERAL_ESCAPER
@@ -64,16 +64,14 @@ feature -- Conversion
 		-- escaped `str' in once buffer
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		local
-			i: INTEGER; code: NATURAL; table: like code_table
+			i: INTEGER; code: NATURAL
 		do
 			Result := once_buffer
 			wipe_out (Result)
-			table := code_table
 			from i := 1 until i > str.count loop
 				code := str.code (i)
-				table.search (code)
-				if is_escaped (table, code) then
-					append_escape_sequence (Result, table.found_item)
+				if is_escaped (code) then
+					append_escape_sequence (Result, code)
 				else
 					Result.append_code (code)
 				end
@@ -95,12 +93,12 @@ feature {NONE} -- Implementation
 	append_escape_sequence (str: like once_buffer; code: NATURAL)
 		do
 			str.append_code (escape_code)
-			str.append_code (code)
+			str.append_code (code_table.found_item)
 		end
 
-	is_escaped (table: like code_table; code: NATURAL): BOOLEAN
+	is_escaped (code: NATURAL): BOOLEAN
 		do
-			Result := table.found
+			Result := code_table.has_key (code)
 		end
 
 	new_characters_string (characters: READABLE_STRING_GENERAL): STRING_32

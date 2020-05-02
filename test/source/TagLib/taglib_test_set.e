@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 11:32:56 GMT (Saturday 25th April 2020)"
-	revision: "29"
+	date: "2020-04-28 8:41:17 GMT (Tuesday 28th April 2020)"
+	revision: "30"
 
 class
 	TAGLIB_TEST_SET

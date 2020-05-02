@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 14:45:47 GMT (Thursday 23rd April 2020)"
-	revision: "5"
+	date: "2020-05-01 18:47:03 GMT (Friday 1st May 2020)"
+	revision: "6"
 
 class
 	RBOX_AUTOTEST_APP
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 				new_log_filter ({TEST_STORAGE_DEVICE}, All_routines)
 		end
 
-	test_type: TUPLE [UPDATE_DJ_PLAYLISTS_TASK_TEST_SET]
+	test_type: TUPLE [COLLATE_SONGS_TASK_TEST_SET]
 		do
 			create Result
 		end

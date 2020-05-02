@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 8:09:33 GMT (Friday 11th May 2018)"
-	revision: "4"
+	date: "2020-04-28 8:29:47 GMT (Tuesday 28th April 2020)"
+	revision: "5"
 
 deferred class
 	PP_NAMING_ROUTINES

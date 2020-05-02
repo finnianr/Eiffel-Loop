@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 16:29:35 GMT (Wednesday 30th October 2019)"
-	revision: "1"
+	date: "2020-04-28 13:36:55 GMT (Tuesday 28th April 2020)"
+	revision: "2"
 
 class
 	LIBID3_FRAME_FIELD_ITERATION_CURSOR

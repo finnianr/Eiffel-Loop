@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 11:00:16 GMT (Saturday 25th April 2020)"
-	revision: "2"
+	date: "2020-05-02 10:31:12 GMT (Saturday 2nd May 2020)"
+	revision: "3"
 
 class
 	EL_COMMA_SEPARATED_VALUE_ESCAPER
