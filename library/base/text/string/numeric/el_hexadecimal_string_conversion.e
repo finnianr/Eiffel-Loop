@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-05 15:27:40 GMT (Thursday 5th April 2018)"
-	revision: "2"
+	date: "2020-05-03 8:39:53 GMT (Sunday 3rd May 2020)"
+	revision: "3"
 
 class
 	EL_HEXADECIMAL_STRING_CONVERSION
@@ -15,13 +15,28 @@ class
 inherit
 	EL_POWER_2_BASE_NUMERIC_STRING_CONVERSION
 
+feature -- Access
+
+	natural_digit_count (code: NATURAL): INTEGER
+		local
+			mask: NATURAL
+		do
+			Result := 8
+			mask := 0xF
+			mask := mask |<< (32 - 4)
+			from until mask = 0 or else (code & mask).to_boolean loop
+				mask := mask |>> 4
+				Result := Result - 1
+			end
+		end
+
 feature -- Conversion
 
 	to_decimal (code: NATURAL): NATURAL
 		do
 			if code <= Code_nine then
 				Result := code - Code_zero
-				
+
 			elseif code >= Code_a_lower then
 				Result := code - Code_a_lower + 10
 

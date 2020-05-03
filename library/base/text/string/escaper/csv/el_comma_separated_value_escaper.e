@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-02 10:31:12 GMT (Saturday 2nd May 2020)"
-	revision: "3"
+	date: "2020-05-03 7:57:14 GMT (Sunday 3rd May 2020)"
+	revision: "4"
 
 class
 	EL_COMMA_SEPARATED_VALUE_ESCAPER
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Conversion
 
-	escaped (value: like READABLE; keeping_ref: BOOLEAN): like once_buffer
+	escaped (value: ZSTRING; keeping_ref: BOOLEAN): like once_buffer
 		-- return value with characters `%R, %N, ", \' escaped with `\'
 		-- and enclose with double quotes if `value.has (',')'
 		do

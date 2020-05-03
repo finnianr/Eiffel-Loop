@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-02 10:35:45 GMT (Saturday 2nd May 2020)"
-	revision: "85"
+	date: "2020-05-03 7:47:57 GMT (Sunday 3rd May 2020)"
+	revision: "86"
 
 class
 	BASE_AUTOTEST_APP
@@ -33,7 +33,9 @@ feature {NONE} -- Implementation
 		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
-		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE]
+		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
+
+		EL_XML_STRING_8_ESCAPER
 	]
 		-- Compile classes for maintenance
 		do

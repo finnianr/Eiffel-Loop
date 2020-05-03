@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:54:36 GMT (Monday 30th September 2019)"
-	revision: "6"
+	date: "2020-05-03 9:05:16 GMT (Sunday 3rd May 2020)"
+	revision: "7"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -18,6 +18,11 @@ inherit
 			read_mails as export_mails
 		redefine
 			make_default, export_mails, set_header_subject
+		end
+
+	EL_XML_ESCAPE_ROUTINES
+		rename
+			entity as xml_entity
 		end
 
 	EL_HTML_CONSTANTS
@@ -245,7 +250,7 @@ feature {NONE} -- Editing
 		do
 			entity_name := substring.substring (start_index, end_index)
 			if Entity_numbers.has_key (entity_name) then
-				substring.share (XML.entity (Entity_numbers.found_item))
+				substring.share (xml_entity (Entity_numbers.found_item.to_character_8, False))
 			end
 		end
 
