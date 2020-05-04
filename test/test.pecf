@@ -150,9 +150,6 @@ system:
 			name = EL_i18n; readonly = false; location = "$EIFFEL_LOOP/library/i18n.ecf"
 
 		library:
-			name = EL_id3_tags; readonly = false; location = "$EIFFEL_LOOP/library/ID3-tags.ecf"
-			
-		library:
 			name = EL_image_utils; readonly = false; location="$EIFFEL_LOOP/library/image-utils.ecf"
 
 		library:
@@ -321,14 +318,6 @@ system:
 					
 					Test localization library.
 					See class [$source I18N_AUTOTEST_APP]
-				"""
-		cluster:
-			name = id3_tags; location = "source/ID3-tags"; recursive = true
-			description:
-				"""
-					ID3-tags.ecf
-					
-					See class [$source ID3_TAGS_AUTOTEST_APP]
 				"""
 		cluster:
 			name = image_utils; location = "source/image-utils"; recursive = true

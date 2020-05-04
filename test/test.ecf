@@ -69,7 +69,6 @@
 		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
 		<library name = "EL_http_client" readonly = "false" location = "$EIFFEL_LOOP/library/http-client.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
-		<library name = "EL_id3_tags" readonly = "false" location = "$EIFFEL_LOOP/library/ID3-tags.ecf"/>
 		<library name = "EL_image_utils" readonly = "false" location = "$EIFFEL_LOOP/library/image-utils.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_markup_docs" readonly = "false" location = "$EIFFEL_LOOP/library/markup-docs.ecf"/>
@@ -197,13 +196,6 @@ i18n.ecf
 
 Test localization library.
 See class [$source I18N_AUTOTEST_APP]
-			</description>
-		</cluster>
-		<cluster name = "id3_tags" location = "source/ID3-tags" recursive = "true">
-			<description>
-ID3-tags.ecf
-
-See class [$source ID3_TAGS_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "image_utils" location = "source/image-utils" recursive = "true">

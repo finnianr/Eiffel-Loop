@@ -11,9 +11,10 @@ manifest:
 		"example/net/EROS/test-clients/source"
 		"test/source"
 
-	# tools
+	# testing
 	location:
 		"test/source"
+		"test/ID3-tags/source"
 
 	# tools
 	location:

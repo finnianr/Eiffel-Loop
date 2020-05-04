@@ -1,0 +1,50 @@
+# libid3tag 0.15.1b
+#
+# author: "Finnian Reilly"
+# copyright: "Copyright (c) 2001-2020 Finnian Reilly"
+# contact: "finnian at eiffel hyphen loop dot com"
+# license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+# date: "4 May 2020"
+# revision: "0.1"
+
+import os, sys, platform
+
+from os import path
+
+from eiffel_loop import platform
+
+from eiffel_loop.scons import c_library
+from eiffel_loop.scons import util
+
+from eiffel_loop.eiffel import ise
+from eiffel_loop.eiffel import project
+
+from eiffel_loop.distutils import file_util
+from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
+
+#Import ('env')
+
+env = Environment (
+	ENV = os.environ, # this is needed to reproduce the environment for external commands like LIB
+	EIFFEL_LOOP = os.environ ['EIFFEL_LOOP'], ISE_PLATFORM = ise.platform
+)
+
+if platform.is_unix ():
+	build_dir =  project.platform_spec_build_dir ()
+	VariantDir (build_dir, 'source', duplicate=0)
+
+	env ['BUILDERS']['C_library'] = Builder (
+		action = c_library.build, suffix='.a', src_suffix='.getlib', emitter = util.complete_targets
+	)
+	lib = env.C_library (path.join (build_dir, 'libid3tag.a'), File (path.join (build_dir, 'id3tag.getlib')))
+	
+	env.NoClean (lib)
+
+#	Return ('lib')
+	
+
+
+
+
+
+

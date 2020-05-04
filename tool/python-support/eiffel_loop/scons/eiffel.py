@@ -66,4 +66,3 @@ def check_C_libraries (env, build):
 			print 'no'
 			Script.Exit (1)
 
-		# Build: Fri Mar 28 12:33:23 GMT 2014

@@ -18,3 +18,21 @@ New application directories .cache and .local/share
 
 1.0.9
 * Converted ENCRYPTION_TEST_APP to ENCRYPTION_TEST_SET
+
+1.0.7
+Compare hash-set vs linear search
+
+1.0.6
+Improved benchmarking shell and fixed EL_DATE_TIME_DURATION bug
+
+1.0.5
+Reimplemented EL_WORK_DISTRIBUTION_THREAD to use semaphores
+
+1.0.4
+Changed ZSTRING argument adapation to NOT use appending to once string
+
+1.0.2
+Refactored ZSTRING_BENCHMARK_APP
+
+1.0.1
+Added ZSTRING_BENCHMARK_APP

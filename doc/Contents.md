@@ -104,7 +104,13 @@ Classes for processing audio files and sample data.
 ## Video Processing
 Wrappers for various video conversion operations using OS commands
 ## ID3 Tagging for MP3
+**Description**
+
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the C libraries `libid3tag (C)` and `id3lib (C++)`. The former C library is used for ID3 version 2.4 tags and the latter for earlier versions from 2.0 to 2.3.
+
+**Status Obsolete**
+
+Due to numerous problems with the id3lib C++ library this project has been abandoned in favor of the [TagLib library](http://www.eiffel-loop.com/library/TagLib.html) which is still maintained and supports many more meta-data types besides ID3.
 ## TagLib Audio Meta-Data Library
 Eiffel binding for the ID3 v1 and v2 tag manager from the [TagLib C++ library](https://taglib.org/).
 
@@ -1446,7 +1452,9 @@ See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http
 ## i18n.ecf
 Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
 ## ID3-tags.ecf
-See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ID3-tags/id3_tags_autotest_app.html)
+See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/ID3-tags/source/id3_tags_autotest_app.html)
+
+Due to C name space clashes with `TagLib.ecf` these tests have been separated from `test.ecf`
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 ## markup-docs.ecf

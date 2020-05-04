@@ -1,4 +1,4 @@
-url: https://downloads.sourceforge.net/id3lib/id3lib-3.8.3.tar.gz
+url: https://ftp.osuosl.org/pub/blfs/conglomeration/id3lib/id3lib-3.8.3.tar.gz
 patch_url: http://www.linuxfromscratch.org/patches/blfs/svn/id3lib-3.8.3-consolidated_patches-1.patch
 
 # download here

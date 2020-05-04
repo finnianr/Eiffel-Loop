@@ -165,7 +165,7 @@ publish-repository:
 			"test/test.ecf#ftp"
 			"test/test.ecf#http_client"
 			"test/test.ecf#i18n"
-			"test/test.ecf#id3_tags"
+			"test/ID3-tags/id3-test.ecf"
 			"test/test.ecf#image_utils"
 			"test/test.ecf#markup_docs"
 			"test/test.ecf#multimedia"

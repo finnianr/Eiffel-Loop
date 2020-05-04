@@ -34,7 +34,10 @@ def build (target, source, env):
 			link_dir_abs = path.join (sconscript_path, name)
 			if not path.exists (link_dir_abs):
 				print 'Creating link to:', link_dir_abs
-				os.symlink (path.join (pkg.unpacked_dir, actual_name), link_dir_abs)
+				if actual_name == '.':
+					os.symlink (pkg.unpacked_dir, link_dir_abs)
+				else:
+					os.symlink (path.join (pkg.unpacked_dir, actual_name), link_dir_abs)
 
 		src_path = path.join (pkg.unpacked_dir, info.clib)
 		if pkg.is_configured ():

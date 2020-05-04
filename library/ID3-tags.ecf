@@ -11,9 +11,17 @@
 	<description>
 ID3 Tagging for MP3
 
+**Description**
+
 Classes for reading and writing ID3 tags to MP3 files using a common interface to the
 C libraries `libid3tag (C)&apos; and `id3lib (C++)&apos;. The former C library is used for ID3 version 2.4 tags
 and the latter for earlier versions from 2.0 to 2.3.
+
+**Status Obsolete**
+
+Due to numerous problems with the id3lib C++ library this project has been abandoned in
+favor of the [./library/TagLib.html TagLib library] which is still maintained and supports
+many more meta-data types besides ID3.
 	</description>
 	<target name = "EL_id3_tag">
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
@@ -21,7 +29,7 @@ and the latter for earlier versions from 2.0 to 2.3.
 		</option>
 		<root all_classes = "true"/>
 		<!--libid3 and libid3tag externals-->
-		<external_include location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/include"/>
+		<external_include location = "$(EL_CONTRIB)/C/libid3tag/include"/>
 		<!--For Windows: libid3 and libid3tag externals-->
 		<external_include location = "$(EL_CONTRIB)/C++/id3lib/include">
 			<condition>
@@ -33,7 +41,7 @@ and the latter for earlier versions from 2.0 to 2.3.
 				<platform value = "windows"/>
 			</condition>
 		</external_cflag>
-		<external_object location = "$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM)/id3tag.lib">
+		<external_object location = "$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM)/id3tag.lib">
 			<condition>
 				<platform value = "windows"/>
 			</condition>
@@ -54,7 +62,7 @@ and the latter for earlier versions from 2.0 to 2.3.
 				<platform value = "unix"/>
 			</condition>
 		</external_object>
-		<external_object location = "-L$(EL_CONTRIB)/C/libid3tag-0.15.1b/spec/$(ISE_PLATFORM) -lid3tag">
+		<external_object location = "-L$(EL_CONTRIB)/C/libid3tag/spec/$(ISE_PLATFORM) -lid3tag">
 			<description>
 WARNING: subtle bug
 Only link against a static library. If linked against a shared object library

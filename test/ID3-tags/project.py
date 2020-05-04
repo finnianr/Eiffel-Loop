@@ -2,4 +2,5 @@
 
 from eiffel_loop.eiffel.dev_environ import *
 
-ecf = 'manage-mp3.ecf'
+ecf = 'id3-test.ecf'
+

@@ -45,6 +45,7 @@ class LIBRARY_INFO (object):
 		self.extracted = None
 		self.configure = None
 		self.makefile = 'Makefile'
+		self.patch_url = None
 		
 		for k, v in file_util.read_table (a_path).items():
 			setattr (self, k, v)
@@ -55,10 +56,12 @@ class LIBRARY_INFO (object):
 # Access
 	def link_table (self):
 		# links to `include' and `test_dir'
-		result = {
-			'include' : self.include,
-			'test_data' : self.test_data
-		}
+		result = {}
+		if self.include:
+			result ['include'] = self.include
+		if self.test_data:
+			result ['test_data'] = self.test_data
+
 		return result
 
 

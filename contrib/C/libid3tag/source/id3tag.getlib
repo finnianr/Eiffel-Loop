@@ -1,0 +1,19 @@
+url: http://repository.timesys.com/buildsources/l/libid3tag/libid3tag-0.15.1b/libid3tag-0.15.1b.tar.gz
+
+# download here
+c_dev: $HOME/dev/C
+
+# Relative to `c_dev'
+extracted: libid3tag-0.15.1b
+
+# Relative to `extracted'
+clib: .libs/libid3tag.a
+
+# Same as `extracted'
+include: .
+
+# WARNING: subtle bug
+# Only link against a static library. If linked against a shared object library
+# GetRawText() routine will return null for utf8 strings.
+configure: ./configure --disable-shared
+
