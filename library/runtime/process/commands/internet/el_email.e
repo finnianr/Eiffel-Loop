@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-05-05 12:25:16 GMT (Tuesday 5th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_EMAIL
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make_default, serialize
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -35,18 +37,19 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	serialize
-		local
-			file_out: EL_PLAIN_TEXT_FILE
 		do
 			File_system.make_directory (email_path.parent)
-			create file_out.make_open_write (email_path)
-			file_out.set_encoding_from_other (Current)
-			across as_text.lines as line loop
-				file_out.put_string (line.item)
-				file_out.put_raw_character_8 ('%R')
-				file_out.put_new_line
+			if attached open (email_path, Write) as file_out then
+				file_out.set_encoding_from_other (Current)
+				across as_text.lines as line loop
+					file_out.put_string (line.item)
+					file_out.put_raw_character_8 ('%R')
+					file_out.put_new_line
+				end
+				close
 			end
-			file_out.close
+		ensure then
+			files_closed: all_closed
 		end
 
 feature -- Access

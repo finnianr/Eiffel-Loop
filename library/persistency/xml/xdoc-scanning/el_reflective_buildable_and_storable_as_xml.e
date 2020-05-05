@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:37:19 GMT (Tuesday 28th April 2020)"
-	revision: "12"
+	date: "2020-05-05 12:40:54 GMT (Tuesday 5th May 2020)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -45,6 +45,8 @@ inherit
 
 	EL_MODULE_XML
 
+	EL_FILE_OPEN_ROUTINES
+
 feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: like file_path)
@@ -74,12 +76,12 @@ feature {NONE} -- Implementation
 		end
 
 	store_as (a_file_path: EL_FILE_PATH)
-		local
-			xml_out: EL_PLAIN_TEXT_FILE
 		do
-			create xml_out.make_open_write (a_file_path)
-			put_xml_document (xml_out)
-			xml_out.close
+			if attached open (a_file_path, Write) as xml_out then
+				put_xml_document (xml_out); close
+			end
+		ensure then
+			files_closed: all_closed
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 11:23:24 GMT (Friday 10th April 2020)"
-	revision: "25"
+	date: "2020-05-05 10:38:52 GMT (Tuesday 5th May 2020)"
+	revision: "26"
 
 class
 	ZSTRING_TEST_SET
@@ -21,7 +21,7 @@ inherit
 			on_prepare
 		end
 
-	TEST_STRING_CONSTANTS
+	EL_TEST_STRINGS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -90,7 +90,6 @@ feature -- Basic operations
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
 			eval.call ("bash_escape", agent test_bash_escape)
-			eval.call ("xml_escape", agent test_xml_escape)
 			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
 			eval.call ("unescape", agent test_unescape)
 		end
@@ -899,17 +898,6 @@ feature -- Escape tests
 		do
 			create bash_escaper.make; create bash_escaper_32.make
 			escape_test ("BASH", bash_escaper, bash_escaper_32)
-		end
-
-	test_xml_escape
-		local
-			xml_escaper: EL_XML_ZSTRING_ESCAPER; xml_escaper_32: EL_XML_STRING_32_ESCAPER
-		do
-			create xml_escaper.make; create xml_escaper_32.make
-			escape_test ("XML basic", xml_escaper, xml_escaper_32)
-
-			create xml_escaper.make_128_plus; create xml_escaper_32.make_128_plus
-			escape_test ("XML 128 plus", xml_escaper, xml_escaper_32)
 		end
 
 feature -- Unescape tests

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:44:48 GMT (Friday 14th February 2020)"
-	revision: "6"
+	date: "2020-05-05 12:00:30 GMT (Tuesday 5th May 2020)"
+	revision: "7"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP

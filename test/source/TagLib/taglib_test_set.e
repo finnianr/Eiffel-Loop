@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:41:17 GMT (Tuesday 28th April 2020)"
-	revision: "30"
+	date: "2020-05-05 10:27:07 GMT (Tuesday 5th May 2020)"
+	revision: "31"
 
 class
 	TAGLIB_TEST_SET
@@ -39,7 +39,7 @@ inherit
 
 	TL_SHARED_ONCE_STRING_LIST
 
-	TEST_STRING_CONSTANTS
+	EL_TEST_STRINGS
 
 feature -- Basic operations
 

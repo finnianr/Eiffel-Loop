@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 10:46:30 GMT (Friday 10th April 2020)"
-	revision: "8"
+	date: "2020-05-05 10:27:28 GMT (Tuesday 5th May 2020)"
+	revision: "9"
 
 deferred class
-	TEST_STRING_CONSTANTS
+	EL_TEST_STRINGS
 
 inherit
 	EL_ANY_SHARED

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 10:42:20 GMT (Saturday 25th April 2020)"
-	revision: "9"
+	date: "2020-05-05 11:37:28 GMT (Tuesday 5th May 2020)"
+	revision: "10"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EL_EQA_REGRESSION_TEST_SET
 
 	EL_MODULE_LOG
 
@@ -41,7 +41,7 @@ feature -- Test
 
 			do_import_test (job_list)
 
-			do_export_test (job_list)
+			do_test ("do_export_test", 978561297, agent do_export_test, [job_list])
 		end
 
 feature {NONE} -- Implementation
@@ -49,14 +49,22 @@ feature {NONE} -- Implementation
 	do_export_test (job_list: like new_job_list)
 		local
 			parser: EL_COMMA_SEPARATED_LINE_PARSER
-			job, job_2: JOB
+			job, job_2: JOB; list: EL_ZSTRING_LIST
 		do
 			job_list.find_first_true (agent role_contains (?, "Change Manager"))
 			job := job_list.item
 
 			create parser.make
 			parser.parse (job.comma_separated_names)
-			log.put_line (job.comma_separated_values)
+			create list.make_with_csv (job.comma_separated_values)
+			across list as value loop
+				if value.item.count > 140 then
+					log.put_string_field_to_max_length ("LONG", value.item, 140)
+					log.put_new_line
+				else
+					log.put_line (value.item)
+				end
+			end
 			parser.parse (job.comma_separated_values)
 
 			create job_2.make_default

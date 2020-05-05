@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 9:25:26 GMT (Saturday 25th April 2020)"
-	revision: "3"
+	date: "2020-05-05 11:31:21 GMT (Tuesday 5th May 2020)"
+	revision: "4"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
 
 create
 	make
@@ -37,7 +37,8 @@ feature {NONE} -- Implementation
 	test_types_all: TUPLE [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
 		JSON_NAME_VALUE_LIST_TEST_SET,
-		SETTABLE_FROM_JSON_STRING_TEST_SET
+		SETTABLE_FROM_JSON_STRING_TEST_SET,
+		XML_ESCAPER_TEST_SET
 	]
 		do
 			create Result

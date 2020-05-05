@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 14:18:01 GMT (Thursday 13th February 2020)"
-	revision: "12"
+	date: "2020-05-05 12:42:51 GMT (Tuesday 5th May 2020)"
+	revision: "13"
 
 class
 	EL_EXCEPTION_ROUTINES
 
 inherit
 	ANY
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_UNIX_SIGNALS
 
@@ -141,12 +143,14 @@ feature -- Basic operations
 
 	write_last_trace (object: ANY)
 		local
-			trace_path: EL_FILE_PATH; trace_file: EL_PLAIN_TEXT_FILE
+			trace_path: EL_FILE_PATH
 		do
 			trace_path := object.generator + "-exception.01.txt"
-			create trace_file.make_open_write (trace_path.next_version_path)
-			trace_file.put_string_32 (last_trace)
-			trace_file.close
+			if attached open (trace_path.next_version_path, Write) as file then
+				file.put_string_32 (last_trace); close
+			end
+		ensure then
+			files_closed: all_closed
 		end
 
 feature {NONE} -- Internal attributes

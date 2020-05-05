@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:29:33 GMT (Tuesday 18th February 2020)"
-	revision: "4"
+	date: "2020-05-05 12:41:10 GMT (Tuesday 5th May 2020)"
+	revision: "5"
 
 class
 	IMAGE_UTILS_TEST_SET
@@ -31,6 +31,8 @@ inherit
 			on_prepare, on_clean
 		end
 
+	EL_FILE_OPEN_ROUTINES
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_SVG
@@ -41,8 +43,7 @@ feature {NONE} -- Initialization
 
 	on_prepare
 		local
-			svg_file: EL_PLAIN_TEXT_FILE; icon_path: EL_FILE_PATH
-			context: EVOLICITY_CONTEXT_IMP
+			icon_path: EL_FILE_PATH; context: EVOLICITY_CONTEXT_IMP
 		do
 			Precursor {EL_GENERATED_FILE_DATA_TEST_SET}
 			svg_path := Work_area_dir + Button_svg_path.base
@@ -52,8 +53,11 @@ feature {NONE} -- Initialization
 			create context.make
 			context.put_string ("png_path", icon_path)
 			Evolicity_templates.put_file (Button_svg_path, Utf_8_encoding)
-			create svg_file.make_open_write (svg_path)
-			Evolicity_templates.merge_to_file (Button_svg_path, context, svg_file)
+			if attached open (svg_path, Write) as svg_file then
+				Evolicity_templates.merge_to_file (Button_svg_path, context, svg_file); close
+			end
+		ensure then
+			files_closed: all_closed
 		end
 
 feature -- Basic operations

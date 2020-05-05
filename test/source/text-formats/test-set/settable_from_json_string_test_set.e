@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 11:29:10 GMT (Saturday 25th April 2020)"
-	revision: "4"
+	date: "2020-05-05 10:47:00 GMT (Tuesday 5th May 2020)"
+	revision: "5"
 
 class
 	SETTABLE_FROM_JSON_STRING_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EL_EQA_REGRESSION_TEST_SET
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 9:36:58 GMT (Saturday 4th April 2020)"
-	revision: "12"
+	date: "2020-05-05 12:41:04 GMT (Tuesday 5th May 2020)"
+	revision: "13"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_MODULE_CHECKSUM
+
+	EL_FILE_OPEN_ROUTINES
 
 feature -- Basic operations
 
@@ -35,14 +37,15 @@ feature -- Tests
 			testing: "covers/{EL_CRC_32_CHECKSUM_ROUTINES}.utf_8_file_content",
 						"covers/{EL_CRC_32_CHECKSUM_ROUTINES}.string_list"
 		local
-			file_out: EL_PLAIN_TEXT_FILE; file_path: EL_FILE_PATH
+			file_path: EL_FILE_PATH
 		do
 			file_path := Work_area_dir + "data.txt"
-			create file_out.make_open_write (file_path)
-			file_out.put_lines (Strings)
-			file_out.close
-
+			if attached open (file_path, Write) as file_out then
+				file_out.put_lines (Strings); close
+			end
 			assert ("same crc", Checksum.utf_8_file_content (file_path) = Checksum.string_list (Strings))
+		ensure then
+			files_closed: all_closed
 		end
 
 feature {NONE} -- Constants
