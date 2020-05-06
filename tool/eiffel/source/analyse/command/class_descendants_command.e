@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:12:36 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2020-05-06 10:25:18 GMT (Wednesday 6th May 2020)"
+	revision: "7"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -26,6 +26,8 @@ inherit
 		rename
 			make as make_machine
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_COMMAND
 
@@ -98,7 +100,6 @@ feature {NONE} -- Implementation
 
 	output_lines
 		local
-			file_out: EL_PLAIN_TEXT_FILE
 			lines: EL_ZSTRING_LIST; tab_count, count: INTEGER
 			line, text: ZSTRING
 		do
@@ -109,35 +110,38 @@ feature {NONE} -- Implementation
 			if not output_dir.exists then
 				File_system.make_directory (output_dir)
 			end
-			create file_out.make_open_write (output_path)
-			file_out.put_lines (<<
-				"note",
-				"%Tdescendants: %"See end of class%"",
-				"%Tdescendants: %"["
-			>>)
-			file_out.put_new_line
-			from lines.start until lines.after loop
-				line := lines.item
-				tab_count := line.leading_occurrences ('%T')
-				if line.count > tab_count then
-					count := count + 1
-					line.prune_all_trailing ('.')
-					if count > 1 then
-						line.insert_string_general ("[$source ", tab_count + 1)
-						if line [line.count] = '*' then
-							line.insert_character (']', line.count)
-						else
-							line.append_character (']')
+			if attached open (output_path, Write) as file_out then
+				file_out.put_lines (<<
+					"note",
+					"%Tdescendants: %"See end of class%"",
+					"%Tdescendants: %"["
+				>>)
+				file_out.put_new_line
+				from lines.start until lines.after loop
+					line := lines.item
+					tab_count := line.leading_occurrences ('%T')
+					if line.count > tab_count then
+						count := count + 1
+						line.prune_all_trailing ('.')
+						if count > 1 then
+							line.insert_string_general ("[$source ", tab_count + 1)
+							if line [line.count] = '*' then
+								line.insert_character (']', line.count)
+							else
+								line.append_character (']')
+							end
 						end
+						file_out.put_string_8 ("%T%T")
+						file_out.put_string (line)
+						file_out.put_new_line
 					end
-					file_out.put_string_8 ("%T%T")
-					file_out.put_string (line)
-					file_out.put_new_line
+					lines.forth
 				end
-				lines.forth
+				file_out.put_string_8 ("%T]%"")
+				close_open
 			end
-			file_out.put_string_8 ("%T]%"")
-			file_out.close
+		ensure then
+			files_closed: all_closed
 		end
 
 	remove_parameter_brackets (start_index, end_index: INTEGER; substring: ZSTRING)

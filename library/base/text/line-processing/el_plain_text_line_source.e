@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:51:26 GMT (Thursday 6th February 2020)"
-	revision: "10"
+	date: "2020-05-06 9:41:05 GMT (Wednesday 6th May 2020)"
+	revision: "11"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -33,11 +33,18 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_path: READABLE_STRING_GENERAL)
 		-- UTF-8 by default
+		local
+			l_file: like file
 		do
-			make_from_file (create {like file}.make_with_name (a_file_path))
-			check_for_bom
+			create l_file.make_with_name (a_path)
+			if l_file.exists then
+				make_from_file (l_file)
+				check_for_bom
+			else
+				make_default
+			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
 		end
 
@@ -49,7 +56,7 @@ feature {NONE} -- Initialization
 			add_encoding_change_action (agent update_codec)
 		end
 
-	make_encoded (encoding: EL_ENCODING_BASE; a_file_path: EL_FILE_PATH)
+	make_encoded (encoding: EL_ENCODING_BASE; a_file_path: READABLE_STRING_GENERAL)
 		do
 			make (a_file_path)
 			if not has_utf_8_bom then
@@ -57,7 +64,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_latin (a_encoding: INTEGER; a_file_path: EL_FILE_PATH)
+	make_latin (a_encoding: NATURAL; a_file_path: READABLE_STRING_GENERAL)
 		do
 			make (a_file_path)
 			if not has_utf_8_bom then
@@ -65,7 +72,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_windows (a_encoding: INTEGER; a_file_path: EL_FILE_PATH)
+	make_windows (a_encoding: NATURAL; a_file_path: READABLE_STRING_GENERAL)
 		do
 			make (a_file_path)
 			if not has_utf_8_bom then

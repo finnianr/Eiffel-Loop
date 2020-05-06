@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:48:47 GMT (Sunday 22nd December 2019)"
-	revision: "2"
+	date: "2020-05-06 9:47:34 GMT (Wednesday 6th May 2020)"
+	revision: "3"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
 
 inherit
 	ANY
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -74,7 +76,8 @@ feature -- Measurement
 		-- returns CRC 32 checksum for UTF-8 encoded file as a list of ZSTRING's
 		do
 			if file_path.exists then
-				Result := string_list (create {EL_PLAIN_TEXT_LINE_SOURCE}.make (file_path))
+				Result := string_list (open_lines (file_path, Utf_8))
+				close_open
 			end
 		end
 

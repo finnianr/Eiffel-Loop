@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:35:37 GMT (Tuesday 28th April 2020)"
-	revision: "11"
+	date: "2020-05-06 9:10:57 GMT (Wednesday 6th May 2020)"
+	revision: "12"
 
 class
 	EL_ZCODEC_FACTORY
@@ -36,7 +36,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_codec_by_id (id: INTEGER): EL_ZCODEC
+	new_codec_by_id (id: NATURAL): EL_ZCODEC
 		do
 			inspect id
 				when 1 .. 11, 13 .. 15 then
@@ -89,7 +89,7 @@ feature {NONE} -- Status query
 			Result := encoding.encoded_as_utf (8) or else has_codec_id (encoding.id)
 		end
 
-	has_codec_id (id: INTEGER): BOOLEAN
+	has_codec_id (id: NATURAL): BOOLEAN
 		do
 			inspect id
 				when 1 .. 11, 13 .. 15 then
@@ -103,7 +103,7 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Constants
 
-	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, INTEGER]
+	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, NATURAL]
 		once
 			create Result.make_equal (30, agent new_codec_by_id)
 		end

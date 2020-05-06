@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-01 9:21:21 GMT (Wednesday 1st April 2020)"
-	revision: "9"
+	date: "2020-05-06 9:11:42 GMT (Wednesday 6th May 2020)"
+	revision: "10"
 
 deferred class
 	EL_XML_DOCUMENT_SCANNER
@@ -56,7 +56,7 @@ feature {NONE}  -- Initialisation
 
 feature -- Access
 
-	encoding_id: INTEGER
+	encoding_id: NATURAL
 			--
 		do
 			Result := event_source.encoding_id
@@ -68,7 +68,7 @@ feature -- Access
 			Result := event_source.encoding_name
 		end
 
-	encoding_type: INTEGER
+	encoding_type: NATURAL
 			--
 		do
 			Result := event_source.encoding_type

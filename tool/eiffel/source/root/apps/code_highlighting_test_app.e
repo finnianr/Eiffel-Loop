@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:47:39 GMT (Thursday 20th February 2020)"
-	revision: "7"
+	date: "2020-05-06 10:25:18 GMT (Wednesday 6th May 2020)"
+	revision: "8"
 
 class
 	CODE_HIGHLIGHTING_TEST_APP
@@ -19,6 +19,8 @@ inherit
 		redefine
 			Option_name
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -46,17 +48,20 @@ feature -- Tests
 			--
 		local
 			transformer: CODE_HIGHLIGHTING_TRANSFORMER
-			output_path: EL_FILE_PATH; html_file: EL_PLAIN_TEXT_FILE
+			output_path: EL_FILE_PATH
 		do
 			log.enter ("test_code_highlighting")
 			output_path := file_path.without_extension
 			output_path.add_extension ("e.html")
-			create html_file.make_open_write (output_path)
-			create transformer.make (html_file)
-			transformer.set_file_path (file_path)
-			transformer.edit
-			html_file.close
+			if attached open (output_path, Write) as html_file then
+				create transformer.make (html_file)
+				transformer.set_file_path (file_path)
+				transformer.edit
+				close_open
+			end
 			log.exit
+		ensure then
+			files_closed: all_closed
 		end
 
 feature {NONE} -- Constants

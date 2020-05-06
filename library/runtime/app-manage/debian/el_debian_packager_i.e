@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-02 13:38:59 GMT (Thursday 2nd January 2020)"
-	revision: "10"
+	date: "2020-05-06 8:25:36 GMT (Wednesday 6th May 2020)"
+	revision: "11"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_SHARED_APPLICATION_LIST
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_DEBIAN_CONSTANTS
 
@@ -62,19 +64,21 @@ feature -- Basic operations
 
 	execute
 		local
-			script: EL_DEBIAN_MAKE_SCRIPT; config_file: EL_PLAIN_TEXT_FILE
+			script: EL_DEBIAN_MAKE_SCRIPT
 		do
 			put_opt_contents; put_xdg_entries; put_debian_files
 
 			configuration_file_list.extend (Empty_string) -- needed to prevent erroneous error message "line too long in conffiles"
-			create config_file.make_open_write (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]))
-			config_file.put_lines (configuration_file_list)
-			config_file.close
-
+			if attached open (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]), Write) as file then
+				file.put_lines (configuration_file_list)
+				close_open
+			end
 			create script.make (Current)
 			script.execute
 
 			OS.move_file (package_file_path, output_dir)
+		ensure then
+			files_closed: all_closed
 		end
 
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation

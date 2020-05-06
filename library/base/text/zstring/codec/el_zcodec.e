@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:47:34 GMT (Friday 24th January 2020)"
-	revision: "12"
+	date: "2020-05-06 9:11:24 GMT (Wednesday 6th May 2020)"
+	revision: "13"
 
 deferred class
 	EL_ZCODEC
@@ -60,13 +60,13 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 						end
 					when 3 then
 						if is_windows_encoded then
-							set_encoding (Type_windows, l_name.integer_item)
+							set_encoding (Type_windows, l_name.natural_item)
 						elseif is_utf_encoded then
-							set_encoding (Type_utf, l_name.integer_item)
+							set_encoding (Type_utf, l_name.natural_item)
 						end
 					when 4 then
 						if is_latin_encoded then
-							set_encoding (Type_latin, l_name.integer_item)
+							set_encoding (Type_latin, l_name.natural_item)
 						end
 				else
 				end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-15 17:55:58 GMT (Wednesday 15th January 2020)"
-	revision: "8"
+	date: "2020-05-06 9:03:17 GMT (Wednesday 6th May 2020)"
+	revision: "9"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	frozen set_encoding (type, id: INTEGER)
+	frozen set_encoding (type, id: NATURAL)
 			--
 		local
 			changed: BOOLEAN

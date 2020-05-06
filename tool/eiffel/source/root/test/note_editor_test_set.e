@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:53:50 GMT (Tuesday 18th February 2020)"
-	revision: "14"
+	date: "2020-05-05 12:56:51 GMT (Tuesday 5th May 2020)"
+	revision: "15"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -24,6 +24,8 @@ inherit
 		undefine
 			default_create
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
@@ -59,7 +61,6 @@ feature -- Tests
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
 			file_path: EL_FILE_PATH; old_revision, new_revision: INTEGER_REF
-			file: PLAIN_TEXT_FILE
 		do
 			log.enter ("test_editor")
 			across Sources as path loop
@@ -83,9 +84,10 @@ feature -- Tests
 						agent get_revision (?, revision.item), create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, file_path)
 					)
 					if revision.cursor_index = 1 then
-						create file.make_with_name (file_path)
-						file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
-						editor.edit
+						if attached open (file_path, Closed) as file then
+							file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
+							editor.edit
+						end
 					end
 				end
 				assert ("revision incremented", new_revision ~ old_revision + 1)

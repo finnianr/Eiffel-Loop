@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 12:41:10 GMT (Tuesday 5th May 2020)"
-	revision: "5"
+	date: "2020-05-06 8:10:16 GMT (Wednesday 6th May 2020)"
+	revision: "6"
 
 class
 	IMAGE_UTILS_TEST_SET
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			context.put_string ("png_path", icon_path)
 			Evolicity_templates.put_file (Button_svg_path, Utf_8_encoding)
 			if attached open (svg_path, Write) as svg_file then
-				Evolicity_templates.merge_to_file (Button_svg_path, context, svg_file); close
+				Evolicity_templates.merge_to_file (Button_svg_path, context, svg_file); close_open
 			end
 		ensure then
 			files_closed: all_closed

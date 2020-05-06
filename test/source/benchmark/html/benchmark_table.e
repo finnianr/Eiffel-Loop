@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-05-06 9:26:10 GMT (Wednesday 6th May 2020)"
+	revision: "7"
 
 deferred class
 	BENCHMARK_TABLE
@@ -26,7 +26,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_encoding_id: INTEGER; a_benchmark: like benchmark)
+	make (a_encoding_id: NATURAL; a_benchmark: like benchmark)
 		require
 			valid_zstring_benchmark: attached {ZSTRING_BENCHMARK} a_benchmark.zstring
 			valid_string_32_benchmark: attached {STRING_32_BENCHMARK} a_benchmark.string_32

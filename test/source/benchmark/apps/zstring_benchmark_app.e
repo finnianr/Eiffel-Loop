@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
-	revision: "10"
+	date: "2020-05-06 9:26:26 GMT (Wednesday 6th May 2020)"
+	revision: "11"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -48,7 +48,7 @@ feature -- Basic operations
 			--
 		do
 			log.enter ("run")
-			lio.put_integer_field ("Codec is latin", system_codec.id)
+			lio.put_natural_field ("Codec is latin", system_codec.id)
 			lio.put_new_line
 			lio.put_integer_field ("Runs per test", Benchmark_option.number_of_runs)
 			lio.put_new_line

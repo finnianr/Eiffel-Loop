@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:45:46 GMT (Tuesday 5th March 2019)"
-	revision: "13"
+	date: "2020-05-06 8:25:54 GMT (Wednesday 6th May 2020)"
+	revision: "14"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -19,6 +19,8 @@ inherit
 		export
 			{ANY} make_shell
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_BASE_64
 
@@ -76,7 +78,7 @@ feature -- Basic operations
 	encrypt_file_with_aes
 		local
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
-			plain_text_file: PLAIN_TEXT_FILE; encrypter: like new_encrypter; pass_phrase: like new_pass_phrase
+			encrypter: like new_encrypter; pass_phrase: like new_pass_phrase
 			input_path, output_path: EL_FILE_PATH
 		do
 			lio.enter ("encrypt_file_with_aes")
@@ -95,19 +97,22 @@ feature -- Basic operations
 				lio.put_new_line
 				lio.put_line ("Key: " + encrypter.out)
 
-				create plain_text_file.make_open_read (input_path)
-				create cipher_file.make_open_write (output_path)
-				cipher_file.set_encrypter (encrypter)
+				if attached open (input_path, Read) as plain_text then
+					create cipher_file.make_open_write (output_path)
+					cipher_file.set_encrypter (encrypter)
 
-				from plain_text_file.read_line until plain_text_file.after loop
-					cipher_file.put_string (plain_text_file.last_string)
-					cipher_file.put_new_line
-					plain_text_file.read_line
+					from plain_text.read_line until plain_text.after loop
+						cipher_file.put_string (plain_text.last_string)
+						cipher_file.put_new_line
+						plain_text.read_line
+					end
+					cipher_file.close
+					close_open
 				end
-				cipher_file.close
-				plain_text_file.close
 			end
 			lio.exit
+		ensure then
+			files_closed: all_closed
 		end
 
 	export_x509_private_key_to_aes

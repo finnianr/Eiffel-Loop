@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-06 18:13:44 GMT (Wednesday 6th March 2019)"
-	revision: "6"
+	date: "2020-05-06 9:42:23 GMT (Wednesday 6th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -147,14 +147,18 @@ feature -- Cursor movement
 	start
 			-- Move to first position if any.
 		do
-			open_at_start
-			count := 0
-			if file.off then
-				index := 1
-				item.wipe_out
+			if file = default_file then
+				count := 0; index := 1
 			else
-				index := 0
-				forth
+				open_at_start
+				count := 0
+				if file.off then
+					index := 1
+					item.wipe_out
+				else
+					index := 0
+					forth
+				end
 			end
 		end
 

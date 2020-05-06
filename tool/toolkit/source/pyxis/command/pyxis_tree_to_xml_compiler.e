@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:20:36 GMT (Sunday 2nd June 2019)"
-	revision: "8"
+	date: "2020-05-06 8:25:54 GMT (Wednesday 6th May 2020)"
+	revision: "9"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -19,6 +19,8 @@ inherit
 		rename
 			make as make_compiler
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -35,16 +37,19 @@ feature {NONE} -- Implementation
 
 	compile_tree
 		local
-			converter: EL_PYXIS_XML_TEXT_GENERATOR; xml_out: EL_PLAIN_TEXT_FILE
+			converter: EL_PYXIS_XML_TEXT_GENERATOR
 		do
-			create xml_out.make_open_write (output_file_path)
-			xml_out.byte_order_mark.enable
 			create converter.make
-			lio.put_new_line
-			lio.put_path_field ("Compiling", output_file_path)
-			lio.put_line (" ..")
-			converter.convert_lines (merged_lines, xml_out)
-			xml_out.close
+			if attached open (output_file_path, Write) as xml_out then
+				xml_out.byte_order_mark.enable
+				lio.put_new_line
+				lio.put_path_field ("Compiling", output_file_path)
+				lio.put_line (" ..")
+				converter.convert_lines (merged_lines, xml_out)
+				close_open
+			end
+		ensure then
+			files_closed: all_closed
 		end
 
 	new_output_modification_time: DATE_TIME

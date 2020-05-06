@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:08:26 GMT (Friday 7th February 2020)"
-	revision: "4"
+	date: "2020-05-05 17:05:55 GMT (Tuesday 5th May 2020)"
+	revision: "5"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -20,7 +20,7 @@ inherit
 					extendible, file_readable, readable, is_closed, end_of_file,
 					close, count
 		redefine
-			make_with_name, put_string, read_line, open_append, open_write, open_read
+			make_with_name, put_raw_string_8, read_line, open_append, open_write, open_read
 		end
 
 	EL_ENCRYPTABLE
@@ -46,7 +46,7 @@ feature -- Access
 
 feature -- Element change
 
-	put_string (s: STRING)
+	put_raw_string_8 (s: STRING)
 		do
 			Precursor (encrypter.base64_encrypted (s))
 		end

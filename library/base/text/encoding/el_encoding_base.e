@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:36:22 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2020-05-06 9:19:05 GMT (Wednesday 6th May 2020)"
+	revision: "9"
 
 class
 	EL_ENCODING_BASE
 
 feature {NONE} -- Initialization
 
-	make_bitmap (a_encoding_bitmap: INTEGER)
+	make_bitmap (a_encoding_bitmap: NATURAL)
 		do
 			make_default
 			encoding_bitmap := a_encoding_bitmap
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	id: INTEGER
+	id: NATURAL
 		-- A 12-bit code suffix that qualifies the `type'
 		-- For `Type_utf' these are: {8, 16, 32}
 		-- For `Type_latin' these are: 1..15
@@ -60,11 +60,11 @@ feature -- Access
 				else
 				end
 				Result.append_character ('-')
-				Result.append_integer (id)
+				Result.append_natural_32 (id)
 			end
 		end
 
-	type: INTEGER
+	type: NATURAL
 		-- a 4-bit code left-shifted by 12 representing the encoding type: UTF, WINDOWS or ISO-8859
 		do
 			Result := encoding_bitmap & ID_mask
@@ -72,21 +72,21 @@ feature -- Access
 
 feature -- Status query
 
-	encoded_as_latin (a_id: INTEGER): BOOLEAN
+	encoded_as_latin (a_id: NATURAL): BOOLEAN
 		require
 			valid_id: is_valid_latin_id (a_id)
 		do
 			Result := encoding_bitmap = Type_latin | a_id
 		end
 
-	encoded_as_utf (a_id: INTEGER): BOOLEAN
+	encoded_as_utf (a_id: NATURAL): BOOLEAN
 		require
 			valid_id: is_valid_utf_id (a_id)
 		do
 			Result := encoding_bitmap = Type_utf | a_id
 		end
 
-	encoded_as_windows (a_id: INTEGER): BOOLEAN
+	encoded_as_windows (a_id: NATURAL): BOOLEAN
 		require
 			valid_id: is_valid_windows_id (a_id)
 		do
@@ -103,29 +103,53 @@ feature -- Status query
 			Result := type = Type_utf
 		end
 
-	is_valid_encoding (a_type, a_id: INTEGER): BOOLEAN
+	is_valid_encoding (a_type, a_id: NATURAL): BOOLEAN
 		do
-			Result := is_valid_encoding_type (a_type) and then Valid_id_sets.item (a_type).has (a_id)
+			inspect a_type
+				when Type_utf then
+					Result := is_valid_utf_id (a_id)
+				when Type_latin then
+					Result := is_valid_latin_id (a_id)
+				when Type_windows then
+					Result := is_valid_windows_id (a_id)
+			else
+			end
 		end
 
-	is_valid_latin_id (a_id: INTEGER): BOOLEAN
+	is_valid_latin_id (a_id: NATURAL): BOOLEAN
 		do
-			Result := is_valid_encoding (Type_latin, a_id)
+			inspect a_id
+				when 1 .. 11, 13 .. 15 then
+					Result := True
+			else
+			end
 		end
 
-	is_valid_encoding_type (a_type: INTEGER): BOOLEAN
+	is_valid_encoding_type (a_type: NATURAL): BOOLEAN
 		do
-			Result := Valid_types.has (a_type)
+			inspect a_type
+				when Type_utf, Type_windows, Type_latin then
+					Result := True
+			else
+			end
 		end
 
-	is_valid_utf_id (a_id: INTEGER): BOOLEAN
+	is_valid_utf_id (a_id: NATURAL): BOOLEAN
 		do
-			Result := is_valid_encoding (Type_latin, a_id)
+			inspect a_id
+				when 8, 16, 32 then
+					Result := True
+			else
+			end
 		end
 
-	is_valid_windows_id (a_id: INTEGER): BOOLEAN
+	is_valid_windows_id (a_id: NATURAL): BOOLEAN
 		do
-			Result := is_valid_encoding (Type_windows, a_id)
+			inspect a_id
+				when 1250 .. 1258 then
+					Result := True
+			else
+			end
 		end
 
 	is_windows_encoded: BOOLEAN
@@ -145,7 +169,7 @@ feature -- Element change
 			set_utf (8)
 		end
 
-	set_encoding (a_type, a_id: INTEGER)
+	set_encoding (a_type, a_id: NATURAL)
 			--
 		require
 			valid_type_and_id: is_valid_encoding (a_type, a_id)
@@ -160,7 +184,7 @@ feature -- Element change
 			--
 		local
 			parts: EL_SPLIT_STRING_LIST [STRING]
-			part: STRING; l_type, l_id: INTEGER
+			part: STRING; l_type, l_id: NATURAL
 		do
 			create parts.make (a_name.to_string_8, once "-")
 			from parts.start until parts.after loop
@@ -178,7 +202,7 @@ feature -- Element change
 						l_type := Type_utf
 					end
 				else
-					l_id := part.to_integer
+					l_id := part.to_natural
 				end
 				parts.forth
 			end
@@ -198,38 +222,33 @@ feature -- Element change
 			same_encoding: encoding_bitmap = other.encoding_bitmap
 		end
 
-	set_latin, set_iso_8859 (a_id: INTEGER)
+	set_latin, set_iso_8859 (a_id: NATURAL)
 		do
 			set_encoding (Type_latin, a_id)
 		end
 
-	set_utf (a_id: INTEGER)
+	set_utf (a_id: NATURAL)
 		do
 			set_encoding (Type_utf, a_id)
 		end
 
-	set_windows (a_id: INTEGER)
+	set_windows (a_id: NATURAL)
 		do
 			set_encoding (Type_windows, a_id)
 		end
 
 feature {EL_ENCODING_BASE} -- Internal attributes
 
-	encoding_bitmap: INTEGER
+	encoding_bitmap: NATURAL
 		-- bitwise OR of `type' and `id'
 
 feature {NONE} -- Encoding types
 
-	Type_latin: INTEGER = 0x1000
+	Type_latin: NATURAL = 0x1000
 
-	Type_utf: INTEGER = 0x3000
+	Type_utf: NATURAL = 0x3000
 
-	Type_windows: INTEGER = 0x2000
-
-	Valid_types: ARRAY [INTEGER]
-		once
-			Result := Valid_id_sets.current_keys
-		end
+	Type_windows: NATURAL = 0x2000
 
 feature {NONE} -- Strings
 
@@ -241,23 +260,10 @@ feature {NONE} -- Strings
 
 feature {NONE} -- Constants
 
-	ID_mask: INTEGER = 0xF000
+	ID_mask: NATURAL = 0xF000
 		-- masks out the `id' from `encoding_bitmap'
 
-	Type_mask: INTEGER = 0xFFF
+	Type_mask: NATURAL = 0xFFF
 		-- masks out the `type' from `encoding_bitmap'
-
-	Valid_id_sets: HASH_TABLE [SET [INTEGER], INTEGER]
-		local
-			utf_encodings: ARRAYED_SET [INTEGER]
-		once
-			create Result.make_equal (3)
-			create utf_encodings.make (3)
-			across << 8, 16, 32 >> as bytes loop utf_encodings.put (bytes.item) end
-			Result [Type_utf] := utf_encodings
-
-			Result [Type_latin] := 1 |..| 15
-			Result [Type_windows] := 1250 |..| 1258
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 12:24:52 GMT (Tuesday 5th May 2020)"
-	revision: "4"
+	date: "2020-05-06 8:10:34 GMT (Wednesday 6th May 2020)"
+	revision: "5"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -66,7 +66,7 @@ feature -- Basic operations
 
 					xml_generator.convert_stream (in_file, out_file)
 				end
-				close_all
+				close_all_open
 			end
 		ensure then
 			files_closed: all_closed

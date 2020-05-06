@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 15:25:43 GMT (Saturday 4th April 2020)"
-	revision: "10"
+	date: "2020-05-06 10:25:17 GMT (Wednesday 6th May 2020)"
+	revision: "11"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -162,8 +162,6 @@ feature {NONE} -- Factory
 feature {NONE} -- Implementation
 
 	add_element
-		local
-			pos_space: INTEGER; line: ZSTRING
 		do
 			if not lines.is_empty then
 				if element_type ~ Type_preformatted then

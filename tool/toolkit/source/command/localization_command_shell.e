@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 11:29:36 GMT (Saturday 11th April 2020)"
-	revision: "10"
+	date: "2020-05-06 8:25:54 GMT (Wednesday 6th May 2020)"
+	revision: "11"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -23,6 +23,8 @@ inherit
 	EL_MODULE_OS
 
 	EL_MODULE_USER_INPUT
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -80,7 +82,7 @@ feature {EQA_TEST_SET} -- Implementation
 
 		local
 			lines: EL_ZSTRING_LIST; line, trim_line: ZSTRING
-			line_source: EL_PLAIN_TEXT_LINE_SOURCE; file_out: EL_PLAIN_TEXT_FILE
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			lio.put_path_field ("add_check_attribute", file_path)
 			lio.put_new_line
@@ -100,10 +102,13 @@ feature {EQA_TEST_SET} -- Implementation
 			end
 			line_source.close
 
-			create file_out.make_open_write (file_path)
-			file_out.set_encoding_from_other (line_source)
-			file_out.put_lines (lines)
-			file_out.close
+			if attached open (file_path, Write) as file_out then
+				file_out.set_encoding_from_other (line_source)
+				file_out.put_lines (lines)
+				close_open
+			end
+		ensure then
+			files_closed: all_closed
 		end
 
 	input_language: STRING

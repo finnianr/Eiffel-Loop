@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:39:49 GMT (Thursday 20th February 2020)"
-	revision: "14"
+	date: "2020-05-06 8:26:02 GMT (Wednesday 6th May 2020)"
+	revision: "15"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -19,6 +19,8 @@ inherit
 		redefine
 			Option_name
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -34,14 +36,17 @@ feature -- Test
 	test_www_export (a_dir_path: EL_DIR_PATH)
 			--
 		local
-			config_path: EL_FILE_PATH; pyxis_out: EL_PLAIN_TEXT_FILE
+			config_path: EL_FILE_PATH
 		do
 			config_path := a_dir_path + "config.pyx"
-			create pyxis_out.make_open_write (config_path)
-			pyxis_out.put_string (Pyxis_template #$ ["pop.eiffel-loop.com"])
-			pyxis_out.close
+			if attached open (config_path, Write) as pyxis_out then
+				pyxis_out.put_string (Pyxis_template #$ ["pop.eiffel-loop.com"])
+				close_open
+			end
 			create command.make_from_file (config_path)
 			normal_run
+		ensure then
+			files_closed: all_closed
 		end
 
 feature {NONE} -- Implementation
