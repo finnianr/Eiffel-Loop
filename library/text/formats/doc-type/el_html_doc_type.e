@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:15:39 GMT (Tuesday 5th March 2019)"
-	revision: "10"
+	date: "2020-05-07 10:16:07 GMT (Thursday 7th May 2020)"
+	revision: "11"
 
 class
 	EL_HTML_DOC_TYPE
 
 inherit
 	EL_DOC_TYPE
+		rename
+			make as make_doc_type
+		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -31,21 +34,23 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		do
-			make
+			make (Utf_8)
 			set_from_file (a_file_path)
 		end
 
-	make
+	make (a_encoding: NATURAL)
+		require
+			valid_encoding: valid_encoding (a_encoding)
 		do
-			make_utf_8 ("html")
 			make_machine
+			make_doc_type ("html", a_encoding)
 		end
 
 feature -- Element change
 
 	set_from_file (a_file_path: EL_FILE_PATH)
 		do
-			do_once_with_file_lines (agent find_charset, create {EL_PLAIN_TEXT_LINE_SOURCE}.make (a_file_path))
+			do_once_with_file_lines (agent find_charset, open_lines (a_file_path, Utf_8))
 		end
 
 feature {NONE} -- State handlers

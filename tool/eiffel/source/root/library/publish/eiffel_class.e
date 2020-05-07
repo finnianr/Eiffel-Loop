@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 18:36:05 GMT (Sunday 5th April 2020)"
-	revision: "23"
+	date: "2020-05-07 12:39:09 GMT (Thursday 7th May 2020)"
+	revision: "24"
 
 class
 	EIFFEL_CLASS
@@ -49,6 +49,9 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_UTF
+		rename
+			Utf as Conv
+		end
 
 	EL_MODULE_XML
 
@@ -283,8 +286,8 @@ feature {NONE} -- Factory
 
 	new_code_text (raw_source: STRING): ZSTRING
 		do
-			if raw_source.starts_with (UTF.Utf_8_bom_to_string_8) then
-				raw_source.remove_head (UTF.Utf_8_bom_to_string_8.count)
+			if raw_source.starts_with (Conv.Utf_8_bom_to_string_8) then
+				raw_source.remove_head (Conv.Utf_8_bom_to_string_8.count)
 				create Result.make_from_utf_8 (raw_source)
 			else
 				Result := raw_source

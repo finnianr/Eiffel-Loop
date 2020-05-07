@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:25:36 GMT (Wednesday 6th May 2020)"
-	revision: "11"
+	date: "2020-05-07 9:45:13 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -23,6 +23,8 @@ inherit
 		rename
 			make as make_machine
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_SHARED_APPLICATION_LIST
 
@@ -47,15 +49,13 @@ inherit
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_debian_dir, a_output_dir, a_package_dir: EL_DIR_PATH)
-		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			debian_dir := a_debian_dir; output_dir := a_output_dir; package_dir := a_package_dir
 			make_machine
 			create package.make_empty
-			create lines.make (debian_dir + Control)
+
 			create configuration_file_list.make_empty
-			do_once_with_file_lines (agent find_package, lines)
+			do_once_with_file_lines (agent find_package, open_lines (debian_dir + Control, Utf_8))
 			versioned_package := package_name_parts.joined ('-')
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
 		end
@@ -71,14 +71,12 @@ feature -- Basic operations
 			configuration_file_list.extend (Empty_string) -- needed to prevent erroneous error message "line too long in conffiles"
 			if attached open (versioned_package_dir.joined_file_tuple ([Debian, Conffiles]), Write) as file then
 				file.put_lines (configuration_file_list)
-				close_open
+				file.close
 			end
 			create script.make (Current)
 			script.execute
 
 			OS.move_file (package_file_path, output_dir)
-		ensure then
-			files_closed: all_closed
 		end
 
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation

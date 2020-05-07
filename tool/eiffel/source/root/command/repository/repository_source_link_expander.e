@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:25:17 GMT (Wednesday 6th May 2020)"
-	revision: "6"
+	date: "2020-05-07 12:38:44 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -57,14 +57,10 @@ feature -- Basic operations
 		do
 			log_thread_count
 			ecf_list.do_all (agent {EIFFEL_CONFIGURATION_FILE}.read_source_files)
-			create lines.make (file_path)
 			if attached open (expanded_file_path, Write) as file_out then
-				lines.do_all (agent expand_links (?, file_out))
-				close_open
+				open_lines (file_path, Utf_8).do_all (agent expand_links (?, file_out))
+				file_out.close
 			end
-			lines.close
-		ensure then
-			files_closed: all_closed
 		end
 
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)

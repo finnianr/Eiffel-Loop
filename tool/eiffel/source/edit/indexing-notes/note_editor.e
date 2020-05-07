@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:53:50 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2020-05-07 15:11:22 GMT (Thursday 7th May 2020)"
+	revision: "11"
 
 class
 	NOTE_EDITOR
@@ -83,6 +83,8 @@ feature -- Basic operations
 					input_lines.close
 				end
 			end
+		ensure then
+			input_lines_closed: not input_lines.is_open
 		end
 
 feature -- Status query

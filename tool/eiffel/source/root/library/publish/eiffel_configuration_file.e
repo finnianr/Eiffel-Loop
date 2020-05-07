@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 11:27:56 GMT (Monday 6th April 2020)"
-	revision: "27"
+	date: "2020-05-07 11:26:26 GMT (Thursday 7th May 2020)"
+	revision: "28"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -19,6 +19,8 @@ inherit
 		redefine
 			getter_function_table, make_default, new_path_list
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_LOG
 
@@ -152,9 +154,8 @@ feature -- Element change
 		-- if `a_description' contains some text "See <file_path> for details", then set `description_lines'
 		-- from text in referenced file path
 		local
-			lines: like description_lines
 			doc_path, relative_doc_path: EL_FILE_PATH
-			file_lines: EL_PLAIN_TEXT_LINE_SOURCE
+			lines: like description_lines
 		do
 			create lines.make_with_lines (a_description)
 			from lines.start until lines.after loop
@@ -163,9 +164,9 @@ feature -- Element change
 				elseif lines.item.starts_with (See_details.begins) and then lines.item.has_substring (See_details.ends) then
 					relative_doc_path := lines.item.substring_between (See_details.begins, See_details.ends, 1)
 					doc_path := ecf_dir + relative_doc_path
-					if doc_path.exists then
-						create file_lines.make (doc_path)
+					if doc_path.exists and then attached open_lines (doc_path, Utf_8) as file_lines then
 						file_lines.do_all (agent description_lines.extend)
+						file_lines.close
 					else
 						description_lines.extend (lines.item + " (Missing file?)")
 					end

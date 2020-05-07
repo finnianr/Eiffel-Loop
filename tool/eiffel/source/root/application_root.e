@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 11:41:22 GMT (Saturday 21st March 2020)"
-	revision: "23"
+	date: "2020-05-07 15:20:56 GMT (Thursday 7th May 2020)"
+	revision: "24"
 
 class
 	APPLICATION_ROOT
@@ -33,6 +33,7 @@ feature {NONE} -- Constants
 		NOTE_DATE_FIXER_APP,
 
 		ECF_TO_PECF_APP,
+		EDITOR_AUTOTEST_APP, 
 		ENCODING_CHECK_APP,
 		EIFFEL_VIEW_APP,
 

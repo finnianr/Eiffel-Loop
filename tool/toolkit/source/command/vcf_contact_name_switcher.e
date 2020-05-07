@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:56:08 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2020-05-07 10:21:22 GMT (Thursday 7th May 2020)"
+	revision: "6"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -41,14 +41,10 @@ feature {EL_SUB_APPLICATION} -- Initialization
 feature -- Basic operations
 
 	execute
-		local
-			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			log.enter ("execute")
-			create source_lines.make_latin (1, vcf_path)
-
 			vcf_out.open_write
-			do_once_with_file_lines (agent find_name, source_lines)
+			do_once_with_file_lines (agent find_name, open_lines (vcf_path, Latin_1))
 			vcf_out.close
 			log.exit
 		end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 11:54:41 GMT (Saturday 21st March 2020)"
-	revision: "3"
+	date: "2020-05-07 11:13:52 GMT (Thursday 7th May 2020)"
+	revision: "4"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -51,7 +51,6 @@ feature -- Basic operations
 
 	execute
 		local
-			file_lines: EL_PLAIN_TEXT_LINE_SOURCE
 			parts: EL_SPLIT_ZSTRING_LIST; version: INTEGER
 			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, like field_table.item]
 			code_class: ID3_CODE_CLASS
@@ -64,8 +63,7 @@ feature -- Basic operations
 
 					lio.put_labeled_string ("SPECIFICATION", path.item.base)
 					lio.put_new_line_x2
-					create file_lines.make (path.item)
-					do_once_with_file_lines (agent find_frames_list (?, version), file_lines)
+					do_once_with_file_lines (agent find_frames_list (?, version), open_lines (path.item, Utf_8))
 					lio.put_new_line_x2
 					create code_class.make (Current, version, "workarea")
 					code_class.serialize

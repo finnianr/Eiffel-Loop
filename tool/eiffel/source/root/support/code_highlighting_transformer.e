@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:11:09 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2020-05-07 11:12:23 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 class
 	CODE_HIGHLIGHTING_TRANSFORMER
@@ -50,21 +50,20 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_output: like output; a_file_path: EL_FILE_PATH; a_selected_features: like selected_features)
 			--
-		local
-			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make (a_output)
 
  			file_path := a_file_path
  			selected_features := a_selected_features
- 			create source_lines.make (file_path)
-			create selected_text.make (source_lines.byte_count)
+ 			if attached open_lines (file_path, Utf_8) as source_lines then
+				create selected_text.make (source_lines.byte_count)
 
-			if selected_features.is_empty then
-				do_once_with_file_lines (agent find_class_declaration, source_lines)
-			else
-				do_once_with_file_lines (agent find_feature_block, source_lines)
-			end
+				if selected_features.is_empty then
+					do_once_with_file_lines (agent find_class_declaration, source_lines)
+				else
+					do_once_with_file_lines (agent find_feature_block, source_lines)
+				end
+ 			end
 			set_source_text (selected_text)
 		end
 

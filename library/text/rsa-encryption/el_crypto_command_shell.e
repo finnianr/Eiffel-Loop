@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:25:54 GMT (Wednesday 6th May 2020)"
-	revision: "14"
+	date: "2020-05-07 8:02:46 GMT (Thursday 7th May 2020)"
+	revision: "15"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -106,13 +106,10 @@ feature -- Basic operations
 						cipher_file.put_new_line
 						plain_text.read_line
 					end
-					cipher_file.close
-					close_open
+					cipher_file.close; plain_text.close
 				end
 			end
 			lio.exit
-		ensure then
-			files_closed: all_closed
 		end
 
 	export_x509_private_key_to_aes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:44:43 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-05-07 9:08:25 GMT (Thursday 7th May 2020)"
+	revision: "8"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
 		undefine
 			default_create
 		end
@@ -51,9 +53,9 @@ feature {NONE} -- Initaliazation
 			make_from_string (File_system.plain_text (a_file_path))
 		end
 
-	make_from_fragment (xml_fragment: STRING; encoding: STRING)
+	make_from_fragment (xml_fragment: STRING; a_encoding: STRING)
 		do
-			make_from_string (Header_template.substituted_tuple (encoding).to_latin_1 + xml_fragment)
+			make_from_string (Header_template.substituted_tuple (a_encoding).to_latin_1 + xml_fragment)
 		end
 
 	make_from_string (a_xml: STRING)

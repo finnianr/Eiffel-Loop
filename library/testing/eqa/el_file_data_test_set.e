@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 14:58:04 GMT (Monday 13th April 2020)"
-	revision: "8"
+	date: "2020-05-07 14:01:19 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		redefine
 			on_prepare, on_clean
 		end
+
+	EL_MODULE_OS
 
 feature {NONE} -- Events
 
@@ -51,7 +53,24 @@ feature {NONE} -- Implementation
 			l_dir.delete_content
 		end
 
+	has_changed (file_path: EL_FILE_PATH): BOOLEAN
+		require
+			file_checksums.has (file_path)
+		do
+			Result := file_checksums [file_path] /= OS.File_system.file_checksum (file_path)
+		end
+
+	store_checksum (file_path: EL_FILE_PATH)
+		do
+			file_checksums [file_path] := OS.File_system.file_checksum (file_path)
+		end
+
 feature {NONE} -- Constants
+
+	File_checksums: EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
+		once
+			create Result.make_equal (23)
+		end
 
 	Work_area_dir: EL_DIR_PATH
 		once

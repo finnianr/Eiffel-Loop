@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 10:55:06 GMT (Monday 16th September 2019)"
-	revision: "9"
+	date: "2020-05-07 15:32:45 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	M3U_PLAYLIST_READER
@@ -19,6 +19,9 @@ inherit
 		end
 
 	EL_MODULE_UTF
+		rename
+			Utf as Conv
+		end
 
 	EL_MODULE_LIO
 
@@ -31,16 +34,13 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH)
 			-- Build object from xml file
-		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
 			name := a_file_path.base_sans_extension
 			create playlist.make (a_file_path.base_sans_extension)
 
 			if a_file_path.exists then
-				create lines.make (a_file_path)
-				do_once_with_file_lines (agent find_extinf, lines)
+				do_once_with_file_lines (agent find_extinf, open_lines (a_file_path, Utf_8))
 			end
 		end
 

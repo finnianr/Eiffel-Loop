@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:04:54 GMT (Tuesday 5th March 2019)"
-	revision: "3"
+	date: "2020-05-07 11:05:46 GMT (Thursday 7th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -34,7 +34,7 @@ feature {NONE} -- Factory
 
  	new_input_lines (a_file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
  		do
- 			create Result.make_latin (1, a_file_path)
+ 			create Result.make (Latin_1, a_file_path)
  		end
 
 feature {NONE} -- Patterns

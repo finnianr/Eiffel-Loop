@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:25:18 GMT (Wednesday 6th May 2020)"
-	revision: "8"
+	date: "2020-05-07 12:39:26 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 class
 	CODE_HIGHLIGHTING_TEST_APP
@@ -57,11 +57,9 @@ feature -- Tests
 				create transformer.make (html_file)
 				transformer.set_file_path (file_path)
 				transformer.edit
-				close_open
+				html_file.close
 			end
 			log.exit
-		ensure then
-			files_closed: all_closed
 		end
 
 feature {NONE} -- Constants

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:15:43 GMT (Wednesday 6th May 2020)"
-	revision: "10"
+	date: "2020-05-07 10:14:06 GMT (Thursday 7th May 2020)"
+	revision: "11"
 
 class
 	EL_MARKUP_ENCODING
@@ -28,8 +28,9 @@ inherit
 		end
 
 	EL_ENCODING
-
-	EL_FILE_OPEN_ROUTINES
+		rename
+			make as make_encoding
+		end
 
 create
 	make_from_file
@@ -39,9 +40,8 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: EL_FILE_PATH)
 		do
 			make_machine
-			make_latin_1
-			do_with_lines (agent find_encoding, open_lines (a_file_path, Utf_8))
-			close_open
+			make_encoding (Latin_1)
+			do_once_with_file_lines (agent find_encoding, open_lines (a_file_path, Utf_8))
 		end
 
 feature {NONE} -- State handlers

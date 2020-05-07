@@ -1,3 +1,6 @@
+1.2.1
+Revised EL_FILE_OPEN_ROUTINES open_files and EL_ENCODEABLE_BASE
+
 1.2.0
 
 New application directories .cache and .local/share

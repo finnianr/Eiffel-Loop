@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 11:33:11 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2020-05-07 8:35:35 GMT (Thursday 7th May 2020)"
+	revision: "6"
 
 class
 	EL_ZSTRING_IO_MEDIUM
@@ -61,9 +61,9 @@ feature -- Character output
 
 feature -- String output
 
-	put_raw_string_8 (utf_8: STRING)
+	put_raw_string_8 (a_utf_8: STRING)
 		do
-			text.append_utf_8 (utf_8)
+			text.append_utf_8 (a_utf_8)
 		end
 
 	put_string (str: ZSTRING)

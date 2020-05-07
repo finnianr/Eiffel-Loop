@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:31:39 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-05-07 9:29:34 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 class
 	EVOLICITY_INCLUDE_DIRECTIVE
@@ -28,7 +28,7 @@ feature -- Basic operations
 			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			if attached {ZSTRING} context.referenced_item (variable_ref) as file_path then
-				create line_source.make_encoded (output, file_path)
+				create line_source.make (output.encoding, file_path)
 				line_source.enable_shared_item
 
 				if Evolicity_templates.is_nested_output_indented then

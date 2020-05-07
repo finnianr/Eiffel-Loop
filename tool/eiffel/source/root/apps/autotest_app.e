@@ -1,11 +1,10 @@
 note
 	description: "Finalized executable tests for sub-applications"
 	notes: "[
-		Command option: `-development_autotest'
+		Command option: `-autotest'
 		
 		**Test Sets**
 		
-			[$source NOTE_EDITOR_TEST_SET]
 			[$source UNDEFINE_PATTERN_COUNTER_TEST_SET]
 			[$source REPOSITORY_PUBLISHER_TEST_SET]
 			[$source REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET]
@@ -16,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-25 9:18:02 GMT (Wednesday 25th March 2020)"
-	revision: "31"
+	date: "2020-05-07 15:23:14 GMT (Thursday 7th May 2020)"
+	revision: "32"
 
 class
 	AUTOTEST_APP
@@ -47,17 +46,15 @@ feature {NONE} -- Implementation
 		end
 
 	test_types_all: TUPLE [
-		FEATURE_EDITOR_COMMAND_TEST_SET,
 		UNDEFINE_PATTERN_COUNTER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
-		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET,
-		NOTE_EDITOR_TEST_SET
+		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
 	]
 		do
 			create Result
 		end
 
-	visible_types: TUPLE [FEATURE_EDITOR_COMMAND, UNDEFINE_PATTERN_COUNTER_COMMAND]
+	visible_types: TUPLE [UNDEFINE_PATTERN_COUNTER_COMMAND]
 		do
 			create Result
 		end

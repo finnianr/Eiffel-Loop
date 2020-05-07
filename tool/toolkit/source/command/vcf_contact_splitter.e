@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:56:14 GMT (Tuesday 5th March 2019)"
-	revision: "8"
+	date: "2020-05-07 10:22:16 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -43,14 +43,9 @@ feature {EL_SUB_APPLICATION} -- Initialization
 feature -- Basic operations
 
 	execute
-		local
-			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			log.enter ("execute")
-			create source_lines.make (vcf_path)
-			source_lines.set_latin_encoding (1)
-
-			do_once_with_file_lines (agent find_begin_record, source_lines)
+			do_once_with_file_lines (agent find_begin_record, open_lines (vcf_path, Latin_1))
 			log.exit
 		end
 

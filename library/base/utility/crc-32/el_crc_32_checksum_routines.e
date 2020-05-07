@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 9:47:34 GMT (Wednesday 6th May 2020)"
-	revision: "3"
+	date: "2020-05-06 15:19:48 GMT (Wednesday 6th May 2020)"
+	revision: "4"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -75,9 +75,9 @@ feature -- Measurement
 	utf_8_file_content (file_path: EL_FILE_PATH): NATURAL
 		-- returns CRC 32 checksum for UTF-8 encoded file as a list of ZSTRING's
 		do
-			if file_path.exists then
-				Result := string_list (open_lines (file_path, Utf_8))
-				close_open
+			if file_path.exists and then attached open_lines (file_path, Utf_8) as lines then
+				Result := string_list (lines)
+				lines.close
 			end
 		end
 

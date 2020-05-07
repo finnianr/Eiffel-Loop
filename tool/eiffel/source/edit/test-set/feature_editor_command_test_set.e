@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 13:06:05 GMT (Saturday 14th March 2020)"
-	revision: "4"
+	date: "2020-05-07 11:41:20 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		undefine
 			on_prepare, on_clean
 		end
+
+	EL_ENCODING_CONSTANTS
 
 feature -- Basic operations
 
@@ -60,7 +62,7 @@ feature {NONE} -- Implementation
 		local
 			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create lines.make_latin (1, file_path)
+			create lines.make (Latin_1, file_path)
 			Result := lines.encoded_as_utf (8)
 		end
 

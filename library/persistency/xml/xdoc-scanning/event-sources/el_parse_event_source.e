@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-12 10:01:25 GMT (Monday 12th November 2018)"
-	revision: "6"
+	date: "2020-05-07 9:00:25 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
+		end
 
 	EL_XML_NODE_CLIENT
 

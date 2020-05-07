@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:25:17 GMT (Wednesday 6th May 2020)"
-	revision: "11"
+	date: "2020-05-07 10:32:55 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -22,6 +22,7 @@ inherit
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
+			Append as Append_mode,
 			make as make_machine
 		undefine
 			is_equal, copy
@@ -136,7 +137,7 @@ feature {NONE} -- Factory
 			create Result.make_filled (' ', n)
 		end
 
-	new_list_item_tag (type: STRING; open: BOOLEAN): STRING
+	new_list_item_tag (type: STRING; is_open: BOOLEAN): STRING
 		-- returns one of: [li], [oli], [/li], [/oli]
 		do
 			create Result.make (6)
@@ -144,7 +145,7 @@ feature {NONE} -- Factory
 			if type = Type_ordered_list then
 				Result.insert_character ('o', 2)
 			end
-			if not open then
+			if not is_open then
 				Result.insert_character ('/', 2)
 			end
 		end

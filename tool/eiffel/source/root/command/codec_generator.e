@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:52:49 GMT (Tuesday 18th February 2020)"
-	revision: "11"
+	date: "2020-05-07 11:19:56 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	CODEC_GENERATOR
@@ -41,13 +41,8 @@ feature {EL_SUB_APPLICATION} -- Initialization
 feature -- Basic operations
 
 	execute
-		local
-			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create source_lines.make (source_path)
-			source_lines.set_utf_encoding (8)
-
-			do_once_with_file_lines (agent find_void_function, source_lines)
+			do_once_with_file_lines (agent find_void_function, open_lines (source_path, Utf_8))
 		end
 
 feature {NONE} -- State handlers
@@ -113,6 +108,6 @@ feature {NONE} -- Constants
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once
-			create Result.make_utf_8
+			create Result.make_default
 		end
 end

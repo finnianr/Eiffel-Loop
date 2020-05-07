@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 17:23:14 GMT (Saturday 4th April 2020)"
-	revision: "15"
+	date: "2020-05-07 11:13:02 GMT (Thursday 7th May 2020)"
+	revision: "16"
 
 class
 	EIFFEL_NOTES
@@ -122,7 +122,7 @@ feature -- Basic operations
 		local
 			key_list: EL_ZSTRING_LIST
 		do
-			do_once_with_file_lines (agent find_note_section, create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, source_path))
+			do_once_with_file_lines (agent find_note_section, open_lines (source_path, Latin_1))
 
 			-- prune empty fields
 			key_list := note_lines; key_list.wipe_out

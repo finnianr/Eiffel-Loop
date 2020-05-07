@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 10:44:34 GMT (Saturday 7th March 2020)"
-	revision: "8"
+	date: "2020-05-07 11:20:53 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 class
 	SOURCE_MODEL
@@ -25,8 +25,6 @@ inherit
 feature {NONE} -- Initialization
 
 	make (a_source_path: like source_path)
-		local
-			input_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
 			source_path := a_source_path
@@ -36,10 +34,11 @@ feature {NONE} -- Initialization
 			create group_header.make (3)
 			create feature_group_list.make (8)
 
-			create input_lines.make_latin (1, source_path)
-			create encoding.make_from_other (input_lines)
-			
-			do_once_with_file_lines (agent find_class_declaration, input_lines)
+			if attached open_lines (source_path, Latin_1) as input_lines then
+				create encoding.make_from_other (input_lines)
+
+				do_once_with_file_lines (agent find_class_declaration, input_lines)
+			end
 		end
 
 feature {NONE} -- State handlers

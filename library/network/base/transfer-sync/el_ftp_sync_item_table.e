@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:10:15 GMT (Wednesday 6th May 2020)"
-	revision: "8"
+	date: "2020-05-07 9:28:43 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE
@@ -52,10 +52,8 @@ feature -- Basic operations
 					file.put_string (map_list.item_key)
 					map_list.forth
 				end
-				close_open
+				file.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 feature -- Element change
@@ -67,7 +65,7 @@ feature -- Element change
 			file_path := a_file_path
 			if file_path.exists then
 				create nvp.make_empty
-				create line_source.make (file_path)
+				create line_source.make_utf_8 (file_path)
 				line_source.enable_shared_item
 				across line_source as line loop
 					nvp.set_from_string (line.item, ':')

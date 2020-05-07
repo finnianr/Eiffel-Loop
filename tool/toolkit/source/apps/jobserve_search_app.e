@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:29:15 GMT (Thursday 20th February 2020)"
-	revision: "9"
+	date: "2020-05-07 10:26:13 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -19,6 +19,8 @@ inherit
 		redefine
 			option_name, read_command_options
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_COMMAND_ARGUMENT_CONSTANTS
 
@@ -93,21 +95,20 @@ feature {NONE} -- Tests
 	test_parser (file_path: EL_FILE_PATH)
 			--
 		local
-			duration_text_list: EL_PLAIN_TEXT_LINE_SOURCE
 			end_index: INTEGER
 		do
 			log.enter ("test_parser")
-			create duration_text_list.make (file_path)
-			from duration_text_list.start until duration_text_list.after loop
-				end_index := duration_text_list.item.substring_index_general ("(occurrences:", 1) - 2
-				duration_parser.set_duration_interval (duration_text_list.item.substring (1, end_index))
+			if attached open_lines (file_path, Utf_8) as lines then
+				across lines as line loop
+					end_index := line.item.substring_index_general ("(occurrences:", 1) - 2
+					duration_parser.set_duration_interval (line.item.substring (1, end_index))
 
-				log.put_integer_interval_field ("Range", duration_parser.duration_interval)
-				log.put_string (" ")
-				log.put_string (duration_text_list.item)
-				log.put_new_line
-
-				duration_text_list.forth
+					log.put_integer_interval_field ("Range", duration_parser.duration_interval)
+					log.put_string (" ")
+					log.put_string (line.item)
+					log.put_new_line
+				end
+				lines.close
 			end
 			log.exit
 		end

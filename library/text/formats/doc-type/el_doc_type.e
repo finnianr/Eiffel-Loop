@@ -6,26 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-21 12:15:34 GMT (Thursday 21st March 2019)"
-	revision: "6"
+	date: "2020-05-07 9:53:58 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 class
 	EL_DOC_TYPE
 
+inherit
+	ANY
+
+	EL_ENCODING_CONSTANTS
+
 create
-	make_utf_8, make_latin_1
+	make
 
 feature {NONE} -- Initialization
 
-	make_latin_1 (a_type: STRING)
+	make (a_type: STRING; a_encoding: NATURAL)
+		require
+			valid_encoding: valid_encoding (a_encoding)
 		do
-			create encoding.make_latin_1
-			type := a_type; specification := new_specification
-		end
-
-	make_utf_8 (a_type: STRING)
-		do
-			create encoding.make_utf_8
+			create encoding.make (a_encoding)
 			type := a_type; specification := new_specification
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 9:41:05 GMT (Wednesday 6th May 2020)"
-	revision: "11"
+	date: "2020-05-07 12:17:53 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -18,32 +18,39 @@ class
 inherit
 	EL_FILE_LINE_SOURCE
 		rename
-			make as make_from_file,
-			make_latin_1 as make_latin_1_encoding
+			make as make_from_file
 		export
 			{ANY} file
 		redefine
-			make_default, open_at_start
+			make_default, open_at_start, make_from_file
 		end
 
 	EL_ZCODEC_FACTORY
 
 create
-	make_default, make, make_encoded, make_latin, make_from_file, make_windows
+	make_default, make, make_from_file, make_utf_8
 
 feature {NONE} -- Initialization
 
-	make (a_path: READABLE_STRING_GENERAL)
-		-- UTF-8 by default
-		local
-			l_file: like file
+	make_utf_8 (a_path: READABLE_STRING_GENERAL)
 		do
-			create l_file.make_with_name (a_path)
-			if l_file.exists then
-				make_from_file (l_file)
+			make (Utf_8, a_path)
+		end
+
+	make_from_file (a_file: like file)
+		do
+			Precursor (a_file)
+			if a_file.exists then
 				check_for_bom
-			else
-				make_default
+			end
+		end
+
+	make (a_encoding: NATURAL; a_path: READABLE_STRING_GENERAL)
+		-- UTF-8 by default
+		do
+			make_from_file (create {like file}.make_with_name (a_path))
+			if not has_utf_8_bom then
+				set_encoding (a_encoding)
 			end
 			is_file_external := False -- Causes file to close automatically when after position is reached
 		end
@@ -54,30 +61,6 @@ feature {NONE} -- Initialization
 			Precursor
 			update_codec
 			add_encoding_change_action (agent update_codec)
-		end
-
-	make_encoded (encoding: EL_ENCODING_BASE; a_file_path: READABLE_STRING_GENERAL)
-		do
-			make (a_file_path)
-			if not has_utf_8_bom then
-				set_encoding_from_other (encoding)
-			end
-		end
-
-	make_latin (a_encoding: NATURAL; a_file_path: READABLE_STRING_GENERAL)
-		do
-			make (a_file_path)
-			if not has_utf_8_bom then
-				set_latin_encoding (a_encoding)
-			end
-		end
-
-	make_windows (a_encoding: NATURAL; a_file_path: READABLE_STRING_GENERAL)
-		do
-			make (a_file_path)
-			if not has_utf_8_bom then
-				set_windows_encoding (a_encoding)
-			end
 		end
 
 feature -- Access

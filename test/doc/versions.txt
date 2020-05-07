@@ -1,3 +1,7 @@
+1.2.4
+
+Simplified EL_ENCODING_BASE and created EL_ENCODING_CONSTANTS
+
 1.2.3
 Added test XML_ESCAPER_TEST_SET
 

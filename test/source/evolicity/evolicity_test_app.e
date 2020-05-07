@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-01 11:56:53 GMT (Sunday 1st March 2020)"
-	revision: "10"
+	date: "2020-05-07 9:22:28 GMT (Thursday 7th May 2020)"
+	revision: "11"
 
 class
 	EVOLICITY_TEST_APP
@@ -134,7 +134,7 @@ feature {NONE} -- Constants
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once
-			create Result.make_utf_8
+			create Result.make_default -- UTF-8
 		end
 
 end

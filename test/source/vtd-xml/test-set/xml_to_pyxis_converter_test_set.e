@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-08 13:45:26 GMT (Sunday 8th March 2020)"
-	revision: "4"
+	date: "2020-05-07 9:33:20 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 		do
 			create converter.make (file_path)
 			converter.execute
-			create source.make_encoded (converter.source_encoding, converter.output_path)
+			create source.make (converter.source_encoding.encoding, converter.output_path)
 			source.print_first (log, 20)
 			source.close
 		end

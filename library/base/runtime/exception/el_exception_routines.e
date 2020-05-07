@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:10:15 GMT (Wednesday 6th May 2020)"
-	revision: "14"
+	date: "2020-05-06 15:20:05 GMT (Wednesday 6th May 2020)"
+	revision: "15"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -147,10 +147,9 @@ feature -- Basic operations
 		do
 			trace_path := object.generator + "-exception.01.txt"
 			if attached open (trace_path.next_version_path, Write) as file then
-				file.put_string_32 (last_trace); close_open
+				file.put_string_32 (last_trace)
+				file.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 feature {NONE} -- Internal attributes

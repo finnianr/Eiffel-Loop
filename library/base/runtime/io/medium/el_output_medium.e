@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 14:33:34 GMT (Sunday 26th January 2020)"
-	revision: "17"
+	date: "2020-05-07 9:07:48 GMT (Thursday 7th May 2020)"
+	revision: "18"
 
 deferred class
 	EL_OUTPUT_MEDIUM
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
 		redefine
 			make_default
 		end

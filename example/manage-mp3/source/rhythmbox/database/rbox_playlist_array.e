@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 8:54:21 GMT (Sunday 19th April 2020)"
-	revision: "11"
+	date: "2020-05-07 15:32:03 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -29,7 +29,8 @@ inherit
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
-			make as make_machine
+			make as make_machine,
+			Append as Append_mode
 		undefine
 			is_equal, copy
 		end
@@ -175,12 +176,11 @@ feature {RBOX_DATABASE} -- Implementation
 		end
 
 	build_from_file (a_file_path: EL_FILE_PATH)
-		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create lines.make (a_file_path)
-			create xml_string.make (lines.byte_count)
-			do_once_with_file_lines (agent find_playlist, lines)
+			if attached open_lines (a_file_path, Utf_8) as lines then
+				create xml_string.make (lines.byte_count)
+				do_once_with_file_lines (agent find_playlist, lines)
+			end
 			make_array (static_playlist_count)
 			build_from_string (xml_string.to_utf_8)
 		end

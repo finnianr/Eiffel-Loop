@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:46:45 GMT (Friday 24th January 2020)"
-	revision: "4"
+	date: "2020-05-07 9:29:34 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 class
 	EL_OS_RELEASE_IMP
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			name := Empty_string
-			create source.make ("/etc/os-release")
+			create source.make_utf_8 ("/etc/os-release")
 			do_once_with_file_lines (agent find_name, source)
 		end
 

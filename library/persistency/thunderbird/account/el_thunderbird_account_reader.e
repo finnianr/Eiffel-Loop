@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:58:09 GMT (Tuesday 5th March 2019)"
-	revision: "11"
+	date: "2020-05-07 10:11:21 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -30,6 +30,8 @@ inherit
 		redefine
 			make_default, make_from_file, building_action_table
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_LIO
 
@@ -50,7 +52,7 @@ feature {NONE} -- Initialization
 
 	make_from_file (a_file_path: EL_FILE_PATH)
 		local
-			profile_lines: EL_PLAIN_TEXT_LINE_SOURCE; mail_dir_path_steps: EL_PATH_STEPS
+			mail_dir_path_steps: EL_PATH_STEPS
 		do
 			Precursor (a_file_path)
 			lio.put_labeled_string ("Account", account)
@@ -60,13 +62,17 @@ feature {NONE} -- Initialization
 
 			mail_dir_path_steps := home_dir
 			mail_dir_path_steps.extend (".thunderbird")
-			create profile_lines.make (mail_dir_path_steps.as_directory_path + "profiles.ini")
-			profile_lines.enable_shared_item
-			
-			across profile_lines as line loop
-				if line.item.starts_with (Path_equals) then
-					mail_dir_path_steps.extend (line.item.split ('=').last)
+			if attached open_lines (mail_dir_path_steps.as_directory_path + "profiles.ini", Utf_8)
+				as profile_lines
+			then
+				profile_lines.enable_shared_item
+
+				across profile_lines as line loop
+					if line.item.starts_with (Path_equals) then
+						mail_dir_path_steps.extend (line.item.split ('=').last)
+					end
 				end
+				profile_lines.close
 			end
 			mail_dir_path_steps.extend ("Mail")
 			mail_dir_path_steps.extend (account)

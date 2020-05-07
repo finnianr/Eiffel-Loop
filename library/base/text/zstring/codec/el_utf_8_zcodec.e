@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:23:16 GMT (Saturday 1st February 2020)"
-	revision: "5"
+	date: "2020-05-07 8:47:21 GMT (Thursday 7th May 2020)"
+	revision: "6"
 
 class
 	EL_UTF_8_ZCODEC
@@ -77,18 +77,18 @@ feature -- Conversion
 			Result := code.to_character_32.as_lower.natural_32_code
 		end
 
-	as_unicode (utf_8: STRING; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
+	as_unicode (a_utf_8: STRING; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `utf_8' string as unicode
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		local
 			str_32: STRING_32
 		do
-			if is_single_byte_utf_8 (utf_8) then
-				Result := utf_8
+			if is_single_byte_utf_8 (a_utf_8) then
+				Result := a_utf_8
 			else
 				str_32 := Unicode_buffer
 				str_32.wipe_out
-				utf_8_string_8_into_string_32 (utf_8, str_32)
+				utf_8_string_8_into_string_32 (a_utf_8, str_32)
 				Result := str_32
 			end
 			if keeping_ref then
@@ -145,11 +145,11 @@ feature -- Character query
 
 feature {NONE} -- Implementation
 
-	is_single_byte_utf_8 (utf_8: STRING): BOOLEAN
+	is_single_byte_utf_8 (a_utf_8: STRING): BOOLEAN
 		local
 			l_area: SPECIAL [CHARACTER_8]; i: INTEGER
 		do
-			l_area := utf_8.area; Result := True
+			l_area := a_utf_8.area; Result := True
 			from i := 0 until not Result or i = l_area.count loop
 				if l_area [i] > '%/127/' then
 					Result := False

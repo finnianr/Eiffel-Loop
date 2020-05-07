@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 18:22:46 GMT (Tuesday 5th March 2019)"
-	revision: "6"
+	date: "2020-05-07 9:28:43 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_FILE_PARSER
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
 		redefine
 			make_default
 		end
@@ -61,7 +63,7 @@ feature {NONE} -- Factory
 
  	new_input_lines (file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
  		do
- 			create Result.make_encoded (Current, file_path)
+ 			create Result.make (encoding, file_path)
  			Result.enable_shared_item
  		end
 

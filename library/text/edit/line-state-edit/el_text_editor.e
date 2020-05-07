@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:19:49 GMT (Sunday 2nd June 2019)"
-	revision: "4"
+	date: "2020-05-07 9:14:29 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 deferred class
 	EL_TEXT_EDITOR
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
 		redefine
 			make_default
 		end

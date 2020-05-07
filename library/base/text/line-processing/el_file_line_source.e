@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 9:42:23 GMT (Wednesday 6th May 2020)"
-	revision: "7"
+	date: "2020-05-07 8:58:18 GMT (Thursday 7th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -29,6 +29,8 @@ inherit
 	ITERABLE [ZSTRING]
 
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
 		redefine
 			make_default
 		end

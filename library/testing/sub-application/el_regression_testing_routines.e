@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:19:30 GMT (Friday 31st January 2020)"
-	revision: "19"
+	date: "2020-05-07 9:33:29 GMT (Thursday 7th May 2020)"
+	revision: "20"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -128,7 +128,7 @@ feature {NONE} -- Implementation
 					if binary_file_extensions.has (extension) then
 						Test_crc.add_file (file_list.path)
 					else
-						create lines.make (file_list.path)
+						create lines.make_utf_8 (file_list.path)
 						from lines.start until lines.after loop
 							lines.item.replace_substring_all (Current_working_dir, Empty_pattern)
 							Test_crc.add_string (lines.item)

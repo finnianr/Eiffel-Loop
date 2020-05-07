@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 14:43:30 GMT (Monday 10th February 2020)"
-	revision: "9"
+	date: "2020-05-07 14:01:19 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -23,8 +23,6 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_OS
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -36,8 +34,6 @@ feature {NONE} -- Initialization
 			text_file: PLAIN_TEXT_FILE
 		do
 			Precursor
-			create file_checksums.make_equal (3)
-
 			file_set := new_file_set
 			across file_set as path loop
 				OS.File_system.make_directory (path.item.parent)
@@ -57,18 +53,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	has_changed (file_path: EL_FILE_PATH): BOOLEAN
-		require
-			file_checksums.has (file_path)
-		do
-			Result := file_checksums [file_path] /= OS.File_system.file_checksum (file_path)
-		end
-
-	store_checksum (file_path: EL_FILE_PATH)
-		do
-			file_checksums [file_path] := OS.File_system.file_checksum (file_path)
-		end
-
 	total_file_size: INTEGER
 		do
 			across file_set as path loop
@@ -77,8 +61,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	file_checksums: EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
 
 	file_set: EL_HASH_SET [EL_FILE_PATH]
 

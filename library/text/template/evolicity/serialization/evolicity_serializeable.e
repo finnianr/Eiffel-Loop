@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-15 17:53:49 GMT (Wednesday 15th January 2020)"
-	revision: "19"
+	date: "2020-05-07 9:11:35 GMT (Thursday 7th May 2020)"
+	revision: "20"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -25,7 +25,8 @@ inherit
 		end
 
 	EL_ENCODEABLE_AS_TEXT
-		
+		rename
+			make as make_encodeable
 		redefine
 			make_default
 		end
@@ -253,7 +254,7 @@ feature {NONE} -- Constants
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once
-			create Result.make_utf_8
+			create Result.make_default -- UTF-8
 		end
 
 note

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:34:59 GMT (Friday 14th June 2019)"
-	revision: "3"
+	date: "2020-05-07 10:20:45 GMT (Thursday 7th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -97,9 +97,7 @@ feature {NONE} -- Implementation
 				lio.put_path_field ("Merging", source_path.item)
 				lio.put_new_line
 				file_count := file_count + 1
-				do_once_with_file_lines (
-					agent find_root_element (?, Result), create {EL_PLAIN_TEXT_LINE_SOURCE}.make (source_path.item)
-				)
+				do_once_with_file_lines (agent find_root_element (?, Result), open_lines (source_path.item, Utf_8))
 			end
 		end
 

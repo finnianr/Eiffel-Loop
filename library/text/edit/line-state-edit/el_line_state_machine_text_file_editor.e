@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:10:35 GMT (Tuesday 5th March 2019)"
-	revision: "3"
+	date: "2020-05-07 11:04:56 GMT (Thursday 7th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 
 	new_input_lines (a_file_path: like file_path): EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create Result.make_encoded (Current, file_path)
+			create Result.make (encoding, file_path)
 		end
 
 	put_editions

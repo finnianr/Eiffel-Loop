@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:26:02 GMT (Wednesday 6th May 2020)"
-	revision: "15"
+	date: "2020-05-07 8:04:45 GMT (Thursday 7th May 2020)"
+	revision: "16"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -41,12 +41,10 @@ feature -- Test
 			config_path := a_dir_path + "config.pyx"
 			if attached open (config_path, Write) as pyxis_out then
 				pyxis_out.put_string (Pyxis_template #$ ["pop.eiffel-loop.com"])
-				close_open
+				pyxis_out.close
 			end
 			create command.make_from_file (config_path)
 			normal_run
-		ensure then
-			files_closed: all_closed
 		end
 
 feature {NONE} -- Implementation

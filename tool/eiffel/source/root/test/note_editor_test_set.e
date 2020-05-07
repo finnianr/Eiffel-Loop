@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 12:56:51 GMT (Tuesday 5th May 2020)"
-	revision: "15"
+	date: "2020-05-07 15:17:04 GMT (Thursday 7th May 2020)"
+	revision: "16"
 
 class
 	NOTE_EDITOR_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
+	EL_COPIED_FILE_DATA_TEST_SET
 		redefine
 			on_prepare
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			make as make_machine
 		undefine
 			default_create
 		end
@@ -45,7 +45,20 @@ inherit
 
 	EL_MODULE_TIME
 
+	EL_MODULE_LOG
+
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+feature {NONE} -- Initialization
+
+	on_prepare
+		do
+			Precursor
+			make_machine
+			create file_out.make_with_name (file_list.first_path)
+			create license_notes.make_from_file (Eiffel_loop_dir + "license.pyx")
+			create editor.make (license_notes)
+		end
 
 feature -- Basic operations
 
@@ -60,31 +73,28 @@ feature -- Tests
 	test_editor_with_new_class
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
-			file_path: EL_FILE_PATH; old_revision, new_revision: INTEGER_REF
+			old_revision, new_revision: INTEGER_REF
 		do
 			log.enter ("test_editor")
-			across Sources as path loop
-				file_path := Work_area_dir + path.item.base
-				restore_default_fields (file_path)
+			across file_list as path loop
+				restore_default_fields (path.item)
 
-				encoding := encoding_name (file_path); crc := crc_32 (file_path)
-				editor.set_file_path (Work_area_dir + file_path.base)
+				encoding := encoding_name (path.item); crc := crc_32 (path.item)
+				editor.set_file_path (path.item)
 				editor.edit
-				encoding_after := encoding_name (file_path)
+				encoding_after := encoding_name (path.item)
 				assert ("encoding has not changed", encoding.is_equal (encoding_after))
-				assert ("code has not changed", crc = crc_32 (file_path))
+				assert ("code has not changed", crc = crc_32 (path.item))
 
-				store_checksum (file_path)
+				store_checksum (path.item)
 				editor.edit
-				assert ("not file changed", not has_changed (file_path))
+				assert ("not file changed", not has_changed (path.item))
 
 				create old_revision; create new_revision
 				across << old_revision, new_revision >> as revision loop
-					do_once_with_file_lines (
-						agent get_revision (?, revision.item), create {EL_PLAIN_TEXT_LINE_SOURCE}.make_latin (1, file_path)
-					)
+					do_once_with_file_lines (agent get_revision (?, revision.item), open_lines (path.item, Latin_1))
 					if revision.cursor_index = 1 then
-						if attached open (file_path, Closed) as file then
+						if attached open (path.item, Closed) as file then
 							file.stamp (Time.unix_date_time (create {DATE_TIME}.make_now_utc) + 5)
 							editor.edit
 						end
@@ -136,21 +146,6 @@ feature {NONE} -- Line states
 			end
 		end
 
-feature {NONE} -- Events
-
-	on_prepare
-		do
-			Precursor
-			make
-			create file_out.make_with_name (Sources.i_th (1))
-			create license_notes.make_from_file (Eiffel_loop_dir + "license.pyx")
-			create editor.make (license_notes)
-
-			across Sources as path loop
-				OS.copy_file (path.item, Work_area_dir)
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	crc_32 (file_path: EL_FILE_PATH): NATURAL
@@ -165,27 +160,36 @@ feature {NONE} -- Implementation
 		end
 
 	encoding_name (file_path: EL_FILE_PATH): STRING
-		local
-			source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create source.make_latin (1, file_path)
-			Result := source.encoding_name
+			Result := open_lines (file_path, Latin_1).encoding_name
 		end
 
 	restore_default_fields (file_path: EL_FILE_PATH)
 		local
-			source: EL_PLAIN_TEXT_LINE_SOURCE; lines: EL_ZSTRING_LIST
+			list: EL_ZSTRING_LIST
 		do
-			create source.make_latin (1, file_path)
-			lines := source.list
+			if file_path.exists and then attached open_lines (file_path, Latin_1) as lines then
+				list := lines.list
 
-			create file_out.make_open_write (file_path)
-			file_out.byte_order_mark.enable
-			file_out.set_encoding_from_other (source)
-			file_out.put_bom
+				create file_out.make_open_write (file_path)
+				file_out.byte_order_mark.enable
+				file_out.set_encoding_from_other (lines)
+				file_out.put_bom
 
-			do_with_lines (agent find_author, lines)
-			file_out.close
+				do_with_lines (agent find_author, list)
+				file_out.close
+			end
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		-- Line with 'ñ' was giving trouble
+		-- 	Id3_title: STRING = "La Copla Porteña"
+		do
+			create Result.make_with_count (2)
+			-- UTF-8 + Latin-1
+			across << "hexagram_strings.e", "audio_command_test_set.e" >> as name loop
+				Result.append (OS.file_list (Data_dir.joined_dir_path ("source"), name.item))
+			end
 		end
 
 feature {NONE} -- Internal attributes
@@ -208,24 +212,9 @@ feature {NONE} -- Constants
 			Result.indent (1)
 		end
 
-	Sources: ARRAYED_LIST [EL_FILE_PATH]
-		-- Line with 'ñ' was giving trouble
-		-- 	Id3_title: STRING = "La Copla Porteña"
+	Data_dir: EL_DIR_PATH
 		once
-			create Result.make_from_array (<<
-				"hexagram_strings.e", -- UTF-8
-				"audio_command_test_set.e"	-- Latin-1
-			>>)
-			across Result as path loop
-				across OS.file_list (Test_source, path.item.base) as full_path loop
-					path.item.set_parent_path (full_path.item.parent)
-				end
-			end
-		end
-
-	Test_source: EL_DIR_PATH
-		once
-			Result := Eiffel_loop_dir.joined_dir_tuple (["test/source"])
+			Result := Eiffel_loop_dir.joined_dir_path ("test")
 		end
 
 end

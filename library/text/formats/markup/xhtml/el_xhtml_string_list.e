@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:07:20 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2020-05-07 10:30:29 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	EL_XHTML_STRING_LIST
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
+		rename
+			Append as Append_mode
 		undefine
 			is_equal, copy
 		redefine

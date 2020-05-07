@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:08:21 GMT (Thursday 16th January 2020)"
-	revision: "2"
+	date: "2020-05-07 10:05:07 GMT (Thursday 7th May 2020)"
+	revision: "3"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -16,6 +16,8 @@ inherit
 	EL_COMMAND
 
 	EL_ITERATION_OUTPUT
+
+	EL_FILE_OPEN_ROUTINES
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -27,18 +29,17 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
-		local
-			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			dot_count := 0
-			create line_source.make (log_path)
-			across line_source as line loop
-				print_progress (line.cursor_index.to_natural_32)
-				if line.item.occurrences ('%"') = 6 then
-					do_with (new_web_log_entry (line.item))
+			if attached open_lines (log_path, Utf_8) as line_source then
+				across line_source as line loop
+					print_progress (line.cursor_index.to_natural_32)
+					if line.item.occurrences ('%"') = 6 then
+						do_with (new_web_log_entry (line.item))
+					end
 				end
+				line_source.close
 			end
-			line_source.close
 			lio.put_new_line
 		end
 

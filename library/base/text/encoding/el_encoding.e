@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 10:33:26 GMT (Tuesday 18th February 2020)"
-	revision: "4"
+	date: "2020-05-07 10:13:18 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 class
 	EL_ENCODING
@@ -22,7 +22,7 @@ inherit
 		end
 
 create
-	make_default, make_utf_8, make_latin_1, make_from_name, make_from_other
+	make_default, make, make_from_name, make_from_other
 
 convert
 	make_from_other ({EL_ENCODING_BASE})
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 	make_from_other (other: EL_ENCODING_BASE)
 		do
-			make_bitmap (other.encoding_bitmap)
+			make (other.encoding)
 		end
 
 end

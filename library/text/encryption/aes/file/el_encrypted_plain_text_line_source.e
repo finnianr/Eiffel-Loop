@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:48:17 GMT (Tuesday 5th March 2019)"
-	revision: "4"
+	date: "2020-05-07 10:00:17 GMT (Thursday 7th May 2020)"
+	revision: "5"
 
 class
 	EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 		do
-			make_latin (1, a_file_path)
+			make_line_source (Latin_1, a_file_path)
 			file.set_encrypter (a_encrypter)
 		end
 

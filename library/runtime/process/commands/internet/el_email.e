@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:10:15 GMT (Wednesday 6th May 2020)"
-	revision: "8"
+	date: "2020-05-06 15:17:22 GMT (Wednesday 6th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_EMAIL
@@ -46,10 +46,8 @@ feature -- Basic operations
 					file_out.put_raw_character_8 ('%R')
 					file_out.put_new_line
 				end
-				close_open
+				file_out.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 feature -- Access

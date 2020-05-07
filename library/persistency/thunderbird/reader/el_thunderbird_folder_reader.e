@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 16:06:45 GMT (Friday 24th January 2020)"
-	revision: "8"
+	date: "2020-05-07 10:18:51 GMT (Thursday 7th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -62,7 +62,7 @@ feature -- Basic operations
 		do
 			-- Read headers as Latin-1, but this is changed for HTML section according to
 			-- charset field
-			create line_source.make_latin (1, mails_path)
+			create line_source.make (Latin_1, mails_path)
 			subject_list.wipe_out
 
 			export_steps := config.export_steps (mails_path)

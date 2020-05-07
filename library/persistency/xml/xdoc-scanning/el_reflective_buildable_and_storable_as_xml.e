@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:10:15 GMT (Wednesday 6th May 2020)"
-	revision: "14"
+	date: "2020-05-06 15:17:22 GMT (Wednesday 6th May 2020)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -78,10 +78,9 @@ feature {NONE} -- Implementation
 	store_as (a_file_path: EL_FILE_PATH)
 		do
 			if attached open (a_file_path, Write) as xml_out then
-				put_xml_document (xml_out); close_open
+				put_xml_document (xml_out)
+				xml_out.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN

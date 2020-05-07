@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 20:31:04 GMT (Tuesday 18th February 2020)"
-	revision: "13"
+	date: "2020-05-07 10:13:45 GMT (Thursday 7th May 2020)"
+	revision: "14"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -27,6 +27,8 @@ inherit
 			traverse as do_with_lines,
 			item_number as line_number
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 feature -- Basic operations
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:25:18 GMT (Wednesday 6th May 2020)"
-	revision: "7"
+	date: "2020-05-07 12:34:35 GMT (Thursday 7th May 2020)"
+	revision: "8"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -138,10 +138,8 @@ feature {NONE} -- Implementation
 					lines.forth
 				end
 				file_out.put_string_8 ("%T]%"")
-				close_open
+				file_out.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 	remove_parameter_brackets (start_index, end_index: INTEGER; substring: ZSTRING)
@@ -153,15 +151,13 @@ feature {NONE} -- Implementation
 	set_ecf_path_from_target
 		local
 			find_files: EL_FIND_FILES_COMMAND_I
-			ecf_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			find_files := Command.new_find_files (Directory.current_working, "*.ecf")
 			find_files.set_max_depth (1)
 			find_files.execute
 
 			across find_files.path_list as path until not ecf_path.is_empty loop
-				create ecf_lines.make_latin (1, path.item)
-				do_once_with_file_lines (agent find_target_name (?, path.item), ecf_lines)
+				do_with_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
 			end
 		end
 

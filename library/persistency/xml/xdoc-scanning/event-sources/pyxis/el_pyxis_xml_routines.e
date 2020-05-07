@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 10:12:03 GMT (Thursday 6th February 2020)"
-	revision: "9"
+	date: "2020-05-07 10:17:35 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_ZSTRING_CONSTANTS
 
@@ -50,24 +52,25 @@ feature -- Access
 
 	root_element (file_path: EL_FILE_PATH): ZSTRING
 		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE; done: BOOLEAN
+			done: BOOLEAN
 		do
-			create lines.make_latin (1, file_path)
 			create Result.make_empty
-			from lines.start until done or lines.after loop
-				lines.item.right_adjust
-				if lines.index = 1 then
-					if not lines.item.starts_with (Pyxis_doc) then
+			if attached open_lines (file_path, Latin_1) as lines then
+				from lines.start until done or lines.after loop
+					lines.item.right_adjust
+					if lines.index = 1 then
+						if not lines.item.starts_with (Pyxis_doc) then
+							done := True
+						end
+					elseif lines.item.ends_with (character_string (':')) then
+						Result := lines.item
+						Result.remove_tail (1)
 						done := True
 					end
-				elseif lines.item.ends_with (character_string (':')) then
-					Result := lines.item
-					Result.remove_tail (1)
-					done := True
+					lines.forth
 				end
-				lines.forth
+				lines.close
 			end
-			lines.close
 		end
 
 	to_utf_8_xml (a_pyxis_file_path: EL_FILE_PATH): STRING

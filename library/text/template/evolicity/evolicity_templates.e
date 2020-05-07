@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 14:23:57 GMT (Wednesday 19th February 2020)"
-	revision: "12"
+	date: "2020-05-07 9:11:19 GMT (Thursday 7th May 2020)"
+	revision: "13"
 
 class
 	EVOLICITY_TEMPLATES
@@ -244,7 +244,7 @@ feature {NONE} -- Global attributes
 
 	Default_encoding: EL_ENCODEABLE_AS_TEXT
 		once ("PROCESS")
-			create Result.make_utf_8
+			create Result.make_default -- UTF-8
 		end
 
 end

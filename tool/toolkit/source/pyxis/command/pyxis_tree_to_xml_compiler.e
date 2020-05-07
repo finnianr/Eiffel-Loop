@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:25:54 GMT (Wednesday 6th May 2020)"
-	revision: "9"
+	date: "2020-05-07 8:04:45 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -46,10 +46,8 @@ feature {NONE} -- Implementation
 				lio.put_path_field ("Compiling", output_file_path)
 				lio.put_line (" ..")
 				converter.convert_lines (merged_lines, xml_out)
-				close_open
+				xml_out.close
 			end
-		ensure then
-			files_closed: all_closed
 		end
 
 	new_output_modification_time: DATE_TIME

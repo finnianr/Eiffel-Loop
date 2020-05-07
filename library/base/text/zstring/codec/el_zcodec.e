@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 9:11:24 GMT (Wednesday 6th May 2020)"
-	revision: "13"
+	date: "2020-05-07 9:01:27 GMT (Thursday 7th May 2020)"
+	revision: "14"
 
 deferred class
 	EL_ZCODEC
@@ -15,13 +15,11 @@ deferred class
 inherit
 	EL_ENCODING_BASE
 		rename
+			make as make_encodeable,
 			set_default as set_default_encoding
-
 		redefine
 			set_default_encoding
 		end
-
-	EL_MODULE_UTF
 
 	STRING_HANDLER
 
@@ -52,28 +50,28 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 				inspect l_name.index
 					when 2 then
 						if l_name.same_item_as (Name_iso) then
-							encoding_bitmap := Type_latin
+							encoding := Latin_1
 						elseif l_name.same_item_as (Name_windows)  then
-							encoding_bitmap := Type_windows
+							encoding := Windows | 1258
 						elseif l_name.same_item_as (Name_utf) then
-							encoding_bitmap := Type_utf
+							encoding := Utf_8
 						end
 					when 3 then
 						if is_windows_encoded then
-							set_encoding (Type_windows, l_name.natural_item)
+							set_encoding (Windows | l_name.natural_item)
 						elseif is_utf_encoded then
-							set_encoding (Type_utf, l_name.natural_item)
+							set_encoding (Utf | l_name.natural_item)
 						end
 					when 4 then
 						if is_latin_encoded then
-							set_encoding (Type_latin, l_name.natural_item)
+							set_encoding (Latin | l_name.natural_item)
 						end
 				else
 				end
 				l_name.forth
 			end
 		ensure then
-			valid_encoding: is_valid_encoding (type, id)
+			valid_encoding: valid_encoding (type | id)
 		end
 
 feature -- Character query

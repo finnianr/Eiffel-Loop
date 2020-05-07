@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:25:08 GMT (Sunday 22nd December 2019)"
-	revision: "9"
+	date: "2020-05-07 9:44:09 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -32,6 +32,11 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
+	EL_FILE_OPEN_ROUTINES
+		rename
+			Append as Append_mode
+		end
+
 create
 	make_empty, make_from_template_and_output, make_from_file, make_from_string
 
@@ -50,19 +55,19 @@ feature -- Access
 
 	manifest_digest: NATURAL
 		local
-			lines: EL_PLAIN_TEXT_LINE_SOURCE
 			l_found: BOOLEAN
 		do
 			if output_path.exists then
-				create lines.make (output_path)
-				lines.enable_shared_item
-				across lines as line until l_found loop
-					if line.item.has_substring (Digest_attribute) then
-						Result := line.item.substring_between (Digest_attribute, character_string ('"'), 1).to_natural_32
-						l_found := True
+				if attached open_lines (output_path, Utf_8) as lines then
+					lines.enable_shared_item
+					across lines as line until l_found loop
+						if line.item.has_substring (Digest_attribute) then
+							Result := line.item.substring_between (Digest_attribute, character_string ('"'), 1).to_natural_32
+							l_found := True
+						end
 					end
+					lines.close
 				end
-				lines.close
 			end
 		end
 

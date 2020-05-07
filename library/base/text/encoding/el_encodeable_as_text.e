@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 9:03:17 GMT (Wednesday 6th May 2020)"
-	revision: "9"
+	date: "2020-05-07 9:09:35 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -43,7 +43,7 @@ inherit
 		end
 
 create
-	make_default, make_utf_8, make_latin_1
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -55,13 +55,13 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	frozen set_encoding (type, id: NATURAL)
+	frozen set_encoding (a_encoding: NATURAL)
 			--
 		local
 			changed: BOOLEAN
 		do
-			changed := encoding_bitmap /= type | id
-			encoding_bitmap := type | id
+			changed := encoding /= a_encoding
+			encoding := a_encoding
 			if changed then
 				notify
 			end

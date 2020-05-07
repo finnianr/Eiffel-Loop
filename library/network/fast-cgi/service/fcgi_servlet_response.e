@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:18:59 GMT (Thursday 6th February 2020)"
-	revision: "14"
+	date: "2020-05-07 9:58:50 GMT (Thursday 7th May 2020)"
+	revision: "15"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -170,8 +170,8 @@ feature -- Element change
 			buffer: like Encoding_buffer
 		do
 			content_type := type
-			if attached {STRING} text as latin_1 and then type.encoding.encoded_as_latin (1) then
-				content := latin_1
+			if attached {STRING} text as latin_1_str and then type.encoding.encoded_as_latin (1) then
+				content := latin_1_str
 			else
 				buffer := Encoding_buffer
 				buffer.wipe_out
@@ -196,12 +196,12 @@ feature -- Element change
 			content_type := type
 		end
 
-	set_content_utf_8 (utf_8: STRING; type: EL_DOC_TYPE)
+	set_content_utf_8 (a_utf_8: STRING; type: EL_DOC_TYPE)
 		-- set `content' with pre-encoded `utf_8' text
 		require
-			is_utf_8_encoded: type.encoding.encoded_as_utf (8) and is_valid_utf_8_string_8 (utf_8)
+			is_utf_8_encoded: type.encoding.encoded_as_utf (8) and is_valid_utf_8_string_8 (a_utf_8)
 		do
-			content_type := type; content := utf_8
+			content_type := type; content := a_utf_8
 		end
 
 	set_header (name, value: STRING)

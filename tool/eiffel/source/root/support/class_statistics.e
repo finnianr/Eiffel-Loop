@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 12:35:43 GMT (Saturday 4th April 2020)"
-	revision: "6"
+	date: "2020-05-07 11:03:54 GMT (Thursday 7th May 2020)"
+	revision: "7"
 
 class
 	CLASS_STATISTICS
@@ -36,13 +36,12 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_file (source_path: EL_FILE_PATH)
-		local
-			source_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_machine
-			create source_lines.make (source_path)
-			file_size := source_lines.byte_count
-			do_once_with_file_lines (agent count_words, source_lines)
+			if attached open_lines (source_path, Latin_1) as source_lines then
+				file_size := source_lines.byte_count
+				do_once_with_file_lines (agent count_words, source_lines)
+			end
 		end
 
 	make_from_source (source: ZSTRING; a_file_size: INTEGER)

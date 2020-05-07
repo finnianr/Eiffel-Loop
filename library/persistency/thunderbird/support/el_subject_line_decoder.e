@@ -14,14 +14,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 10:30:28 GMT (Saturday 11th January 2020)"
-	revision: "5"
+	date: "2020-05-07 9:22:02 GMT (Thursday 7th May 2020)"
+	revision: "6"
 
 class
 	EL_SUBJECT_LINE_DECODER
 
 inherit
 	EL_ENCODEABLE_AS_TEXT
+		rename
+			make as make_encodeable
+		end
 
 	EL_ZCODEC_FACTORY
 
@@ -38,7 +41,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_latin_1
+			make_encodeable (Latin_1)
 			set_codec
 			add_encoding_change_action (agent set_codec)
 			create line.make_empty
@@ -55,7 +58,7 @@ feature -- Access
 
 	decoded_line: ZSTRING
 		local
-			parts: EL_ZSTRING_LIST; latin: STRING
+			parts: EL_ZSTRING_LIST; latin_str: STRING
 		do
 			if line.starts_with (Encoded_begin) and then line.ends_with (Encoded_end) then
 				create parts.make_with_separator (line.substring (3, line.count - 2), '?', False)
@@ -64,14 +67,14 @@ feature -- Access
 				inspect parts.i_th (2) [1]
 					when 'Q' then
 						-- Eg: =?ISO-8859-15?Q?=DCber_My_Ching?=
-						latin := unescaped (parts.last)
+						latin_str := unescaped (parts.last)
 					when 'B' then
 						-- Eg: =?UTF-8?B?w5xiZXLigqwgTXkgQ2hpbmc=?=
-						latin := Base_64.decoded (parts.last)
+						latin_str := Base_64.decoded (parts.last)
 				else
-					latin := unescaped (parts.last)
+					latin_str := unescaped (parts.last)
 				end
-				create Result.make_from_general (codec.as_unicode (latin, False))
+				create Result.make_from_general (codec.as_unicode (latin_str, False))
 			else
 				Result := line
 			end

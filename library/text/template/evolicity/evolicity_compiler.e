@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-09 10:14:09 GMT (Wednesday 9th October 2019)"
-	revision: "9"
+	date: "2020-05-07 8:51:20 GMT (Thursday 7th May 2020)"
+	revision: "10"
 
 class
 	EVOLICITY_COMPILER
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			make_default
 			create modification_time.make (0, 0, 0, 0, 0, 0)
 			reset_directives
-			encoding_bitmap := 0 -- indicates a text source by default
+			encoding := 0 -- indicates a text source by default
 		end
 
 feature -- Access
@@ -60,7 +60,7 @@ feature -- Element change
 
  	set_source_text_from_file (file_path: EL_FILE_PATH)
  		require else
- 			valid_encoding_set: is_valid_encoding (encoding_type, encoding_id)
+ 			valid_encoding_set: valid_encoding (encoding_type | encoding_id)
 		do
 			modification_time := file_path.modification_date_time
 			Precursor (file_path)

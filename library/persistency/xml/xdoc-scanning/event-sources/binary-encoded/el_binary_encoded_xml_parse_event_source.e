@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 14:00:25 GMT (Monday 10th February 2020)"
-	revision: "11"
+	date: "2020-05-07 9:16:52 GMT (Thursday 7th May 2020)"
+	revision: "12"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -21,6 +21,9 @@ inherit
 	EL_PARSE_EVENT_CONSTANTS
 
 	EL_MODULE_UTF
+		rename
+			Utf as Conv
+		end
 
 create
 	make
@@ -33,7 +36,7 @@ feature {NONE}  -- Initialisation
 			Precursor (a_scanner)
 			create attribute_list.make
 			create name_index_array.make (Name_index_table_size)
-			set_encoding (scanner.encoding_type, scanner.encoding_id)
+			set_encoding (scanner.encoding)
 		end
 
 feature -- Factory
@@ -223,7 +226,7 @@ feature {NONE} -- Implementation
 			str.wipe_out
 			input.read_stream (count)
 			if is_utf_8_encoded then
-				UTF.utf_8_string_8_into_string_32 (input.last_string, str)
+				Conv.utf_8_string_8_into_string_32 (input.last_string, str)
 			else
 				str.append_string_general (input.last_string)
 			end
