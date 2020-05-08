@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 12:29:52 GMT (Thursday 7th May 2020)"
-	revision: "3"
+	date: "2020-05-08 11:51:15 GMT (Friday 8th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -30,6 +30,7 @@ feature {NONE} -- Basic operations
 		end
 
 	frozen open_lines (path: READABLE_STRING_GENERAL; encoding: NATURAL): EL_PLAIN_TEXT_LINE_SOURCE
+		-- open file for reading using LINEAR iterator
 		require
 			valid_encoding: valid_encoding (encoding)
 		local
@@ -105,6 +106,5 @@ feature {NONE} -- Mode bitmaps
 	Read: NATURAL = 4
 
 	Write: NATURAL = 8
-
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:17:04 GMT (Thursday 7th May 2020)"
-	revision: "16"
+	date: "2020-05-08 11:47:43 GMT (Friday 8th May 2020)"
+	revision: "17"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -168,16 +168,18 @@ feature {NONE} -- Implementation
 		local
 			list: EL_ZSTRING_LIST
 		do
-			if file_path.exists and then attached open_lines (file_path, Latin_1) as lines then
+			if attached open_lines (file_path, Latin_1) as lines then
 				list := lines.list
 
-				create file_out.make_open_write (file_path)
-				file_out.byte_order_mark.enable
-				file_out.set_encoding_from_other (lines)
-				file_out.put_bom
+				if list.count > 0 then
+					create file_out.make_open_write (file_path)
+					file_out.byte_order_mark.enable
+					file_out.set_encoding_from_other (lines)
+					file_out.put_bom
 
-				do_with_lines (agent find_author, list)
-				file_out.close
+					do_with_lines (agent find_author, list)
+					file_out.close
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 15:18:35 GMT (Wednesday 6th May 2020)"
-	revision: "15"
+	date: "2020-05-08 10:12:29 GMT (Friday 8th May 2020)"
+	revision: "16"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -28,6 +28,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			evaluator.call ("file_crc", agent test_file_crc)
+			evaluator.call ("non_existing", agent test_non_existing)
 		end
 
 feature -- Tests
@@ -45,6 +46,13 @@ feature -- Tests
 				file_out.close
 			end
 			assert ("same crc", Checksum.utf_8_file_content (file_path) = Checksum.string_list (Strings))
+		end
+
+	test_non_existing
+		note
+			testing: "covers/{EL_PLAIN_TEXT_LINE_SOURCE}.start" -- when file is closed
+		do
+			assert ("zero", Checksum.utf_8_file_content ("no such file.txt") = 0)
 		end
 
 feature {NONE} -- Constants

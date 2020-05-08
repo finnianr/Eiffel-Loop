@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:00:57 GMT (Wednesday 6th May 2020)"
-	revision: "6"
+	date: "2020-05-08 10:54:40 GMT (Friday 8th May 2020)"
+	revision: "7"
 
 class
 	EL_NOTIFYING_PLAIN_TEXT_FILE
@@ -19,14 +19,14 @@ inherit
 			put_string as put_raw_string_8,
 			put_character as put_raw_character_8
 		undefine
-			is_plain_text, make_with_path
+			is_plain_text, make_with_path, make_with_name
 		end
 
 	EL_PLAIN_TEXT_FILE
 		rename
 			notify as encoding_notify
 		undefine
-			make_with_name, open_read, open_write, close, move, go, recede, back, start, finish, forth
+			open_read, open_write, close, move, go, recede, back, start, finish, forth
 		end
 
 create

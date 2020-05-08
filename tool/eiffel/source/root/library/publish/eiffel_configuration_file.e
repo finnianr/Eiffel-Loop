@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:26:26 GMT (Thursday 7th May 2020)"
-	revision: "28"
+	date: "2020-05-08 11:39:22 GMT (Friday 8th May 2020)"
+	revision: "29"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -164,7 +164,7 @@ feature -- Element change
 				elseif lines.item.starts_with (See_details.begins) and then lines.item.has_substring (See_details.ends) then
 					relative_doc_path := lines.item.substring_between (See_details.begins, See_details.ends, 1)
 					doc_path := ecf_dir + relative_doc_path
-					if doc_path.exists and then attached open_lines (doc_path, Utf_8) as file_lines then
+					if attached open_lines (doc_path, Utf_8) as file_lines then
 						file_lines.do_all (agent description_lines.extend)
 						file_lines.close
 					else

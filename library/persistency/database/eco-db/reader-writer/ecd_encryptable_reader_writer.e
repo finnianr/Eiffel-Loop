@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-05-08 10:43:22 GMT (Friday 8th May 2020)"
+	revision: "7"
 
 class
 	ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -17,10 +17,13 @@ inherit
 		rename
 			make as make_default
 		redefine
-			set_buffer_from_writeable, set_readable_from_buffer, set_data_version
+			make_default, set_buffer_from_writeable, set_readable_from_buffer, set_data_version
 		end
 
 	EL_ENCRYPTABLE
+		redefine
+			make_default
+		end
 
 create
 	make
@@ -34,6 +37,12 @@ feature {NONE} -- Initialization
 			encrypter := a_encrypter
 			create plain_text_reader.make
 			plain_text_reader.set_for_reading
+		end
+
+	make_default
+		do
+			Precursor {EL_ENCRYPTABLE}
+			Precursor {ECD_READER_WRITER}
 		end
 
 feature -- Element change

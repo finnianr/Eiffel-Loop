@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 21:11:59 GMT (Wednesday 20th February 2019)"
-	revision: "7"
+	date: "2020-05-08 10:41:02 GMT (Friday 8th May 2020)"
+	revision: "8"
 
 class
 	EL_ENCRYPTABLE
 
 feature {NONE} -- Initialization
 
-	make_default_encryptable
+	make_default
 		do
 			encrypter := Default_encrypter
 		end

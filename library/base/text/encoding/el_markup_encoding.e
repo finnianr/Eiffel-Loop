@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:14:06 GMT (Thursday 7th May 2020)"
-	revision: "11"
+	date: "2020-05-08 11:26:23 GMT (Friday 8th May 2020)"
+	revision: "12"
 
 class
 	EL_MARKUP_ENCODING
@@ -34,6 +34,9 @@ inherit
 
 create
 	make_from_file
+
+convert
+	encoding: {NATURAL}
 
 feature {NONE} -- Initialization
 

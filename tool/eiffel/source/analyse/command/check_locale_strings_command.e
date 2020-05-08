@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 12:35:38 GMT (Thursday 7th May 2020)"
-	revision: "8"
+	date: "2020-05-08 11:37:14 GMT (Friday 8th May 2020)"
+	revision: "9"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -191,7 +191,7 @@ feature {NONE} -- Implementation
 	do_with_file (a_source_path: EL_FILE_PATH)
 		do
 			source_path := a_source_path
-			do_with_lines (agent find_class_declaration, open_lines (source_path, Latin_1))
+			do_once_with_file_lines (agent find_class_declaration, open_lines (source_path, Latin_1))
 			save_missing_keys (source_path.base_sans_extension)
 		end
 

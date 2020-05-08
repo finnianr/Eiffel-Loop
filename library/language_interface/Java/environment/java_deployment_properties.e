@@ -9,16 +9,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:30:51 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-05-08 11:35:42 GMT (Friday 8th May 2020)"
+	revision: "7"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
 
 inherit
 	ANY
-	
+
 	EL_MODULE_LIO
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -37,15 +39,15 @@ feature {NONE} -- Initialization
 
 	make (file_path: EL_FILE_PATH)
 			--
-		local
-			property_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			make_default
-			create property_lines.make (file_path)
-			across property_lines as line loop
-				if not (line.item.is_empty or else line.item.starts_with (Hash_sign)) then
-					import_line (line.item)
+			if attached open_lines (file_path, Utf_8) as property_lines then
+				across property_lines as line loop
+					if not (line.item.is_empty or else line.item.starts_with (Hash_sign)) then
+						import_line (line.item)
+					end
 				end
+				property_lines.close
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 12:17:53 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2020-05-08 10:30:41 GMT (Friday 8th May 2020)"
+	revision: "13"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 	make (a_encoding: NATURAL; a_path: READABLE_STRING_GENERAL)
 		-- UTF-8 by default
 		do
-			make_from_file (create {like file}.make_with_name (a_path))
+			make_from_file (new_file (a_encoding, a_path))
 			if not has_utf_8_bom then
 				set_encoding (a_encoding)
 			end
@@ -135,6 +135,11 @@ feature {NONE} -- Implementation
 			if not is_open_read then
 				file.close
 			end
+		end
+
+	new_file (a_encoding: NATURAL; a_path: READABLE_STRING_GENERAL): like default_file
+		do
+			create Result.make_with_name (a_path)
 		end
 
 	update_item

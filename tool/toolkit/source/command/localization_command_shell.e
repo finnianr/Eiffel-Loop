@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:23:35 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2020-05-08 11:26:57 GMT (Friday 8th May 2020)"
+	revision: "13"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_OS
+
+	EL_MODULE_PYXIS
 
 	EL_MODULE_USER_INPUT
 
@@ -81,31 +83,30 @@ feature {EQA_TEST_SET} -- Implementation
 		-- `lang = de; check = false'
 
 		local
-			lines: EL_ZSTRING_LIST; line, trim_line: ZSTRING
+			lines: EL_ZSTRING_LIST; line: ZSTRING
+			encoding: NATURAL
 		do
 			lio.put_path_field ("add_check_attribute", file_path)
 			lio.put_new_line
-			if attached open_lines (file_path, Utf_8) as line_source then
-				create lines.make (100)
-				from line_source.start until line_source.after loop
-					line := line_source.item
-					trim_line := line.stripped
-					if trim_line.starts_with (Lang_equals)
-						and then not trim_line.has_substring ("check") and then not trim_line.ends_with (EN)
-					then
-						lines.extend (line + "; check = false")
-					else
-						lines.extend (line)
-					end
-					line_source.forth
-				end
-				line_source.close
 
-				if attached open (file_path, Write) as file_out then
-					file_out.set_encoding_from_other (line_source)
-					file_out.put_lines (lines)
-					file_out.close
+			encoding := Pyxis.encoding (file_path)
+
+			lines := open_lines (file_path, encoding).list
+
+			from lines.start until lines.after loop
+				lines.item.adjust
+				if lines.item.starts_with (Lang_equals)
+					and then not lines.item.has_substring ("check") and then not lines.item.ends_with (EN)
+				then
+					lines.replace (lines.item + "; check = false")
 				end
+				lines.forth
+			end
+
+			if attached open (file_path, Write) as file_out then
+				file_out.set_encoding (encoding)
+				file_out.put_lines (lines)
+				file_out.close
 			end
 		end
 

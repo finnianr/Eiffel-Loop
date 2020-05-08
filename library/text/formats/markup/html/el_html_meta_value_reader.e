@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:05:46 GMT (Thursday 7th May 2020)"
-	revision: "4"
+	date: "2020-05-08 11:40:25 GMT (Friday 8th May 2020)"
+	revision: "5"
 
 class
 	EL_HTML_META_VALUE_READER [M -> EL_HTML_META_VALUES create make end]
@@ -36,9 +36,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create meta_value.make
-			if html_path.exists then
-				do_once_with_file_lines (agent find_names, open_lines (html_path, Latin_1))
-			end
+			do_once_with_file_lines (agent find_names, open_lines (html_path, Latin_1))
 		end
 
 feature -- Access

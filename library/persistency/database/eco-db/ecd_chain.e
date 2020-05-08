@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-28 11:05:24 GMT (Saturday 28th December 2019)"
-	revision: "18"
+	date: "2020-05-08 10:49:59 GMT (Friday 8th May 2020)"
+	revision: "19"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -83,7 +83,7 @@ feature {NONE} -- Initialization
 			l_file: like new_file
 		do
 			if not attached encrypter then
-				make_default_encryptable
+				make_default
 			end
 			Precursor (a_file_path)
 			reader_writer := new_reader_writer

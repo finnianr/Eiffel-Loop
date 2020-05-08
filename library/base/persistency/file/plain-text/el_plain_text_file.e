@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 8:01:56 GMT (Wednesday 6th May 2020)"
-	revision: "5"
+	date: "2020-05-08 11:04:13 GMT (Friday 8th May 2020)"
+	revision: "6"
 
 class
 	EL_PLAIN_TEXT_FILE

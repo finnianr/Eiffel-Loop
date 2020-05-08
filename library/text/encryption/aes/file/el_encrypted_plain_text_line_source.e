@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:00:17 GMT (Thursday 7th May 2020)"
-	revision: "5"
+	date: "2020-05-08 10:37:03 GMT (Friday 8th May 2020)"
+	revision: "6"
 
 class
 	EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_line_source
 		redefine
-			Default_file
+			Default_file, new_file
 		end
 
 create
@@ -29,6 +29,13 @@ feature {NONE} -- Initialization
 		do
 			make_line_source (Latin_1, a_file_path)
 			file.set_encrypter (a_encrypter)
+		end
+
+feature {NONE} -- Implementation
+
+	new_file (a_encoding: NATURAL; a_path: READABLE_STRING_GENERAL): like default_file
+		do
+			create Result.make_with_name (a_path)
 		end
 
 feature {NONE} -- Constants

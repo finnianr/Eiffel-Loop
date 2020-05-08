@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:11:21 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2020-05-08 10:16:33 GMT (Friday 8th May 2020)"
+	revision: "13"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -62,9 +62,7 @@ feature {NONE} -- Initialization
 
 			mail_dir_path_steps := home_dir
 			mail_dir_path_steps.extend (".thunderbird")
-			if attached open_lines (mail_dir_path_steps.as_directory_path + "profiles.ini", Utf_8)
-				as profile_lines
-			then
+			if attached open_lines (mail_dir_path_steps.as_directory_path + "profiles.ini", Utf_8) as profile_lines then
 				profile_lines.enable_shared_item
 
 				across profile_lines as line loop

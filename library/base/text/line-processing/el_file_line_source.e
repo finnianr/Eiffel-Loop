@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:58:18 GMT (Thursday 7th May 2020)"
-	revision: "8"
+	date: "2020-05-08 10:11:28 GMT (Friday 8th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -41,6 +41,9 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			file := a_file
+			if attached {EL_PLAIN_TEXT_FILE} a_file as plain then
+				set_encoding (plain.encoding)
+			end
 			is_file_external := True
 		end
 
@@ -134,7 +137,10 @@ feature -- Cursor movement
 		require else
 			file_is_open: is_open
 		do
-			if file.end_of_file then
+			if file = default_file then
+				index := count
+
+			elseif file.end_of_file then
 				if not is_file_external then
 					file.close
 				end
@@ -150,7 +156,7 @@ feature -- Cursor movement
 			-- Move to first position if any.
 		do
 			if file = default_file then
-				count := 0; index := 1
+				count := index + 1
 			else
 				open_at_start
 				count := 0

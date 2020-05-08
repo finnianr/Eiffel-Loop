@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 17:05:55 GMT (Tuesday 5th May 2020)"
-	revision: "5"
+	date: "2020-05-08 10:51:53 GMT (Friday 8th May 2020)"
+	revision: "6"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -20,21 +20,24 @@ inherit
 					extendible, file_readable, readable, is_closed, end_of_file,
 					close, count
 		redefine
-			make_with_name, put_raw_string_8, read_line, open_append, open_write, open_read
+			make_default, put_raw_string_8, read_line, open_append, open_write, open_read
 		end
 
 	EL_ENCRYPTABLE
+		redefine
+			make_default
+		end
 
 create
 	make_with_name, make_open_read, make_open_write
 
 feature -- Initialization
 
-	make_with_name (fn: READABLE_STRING_GENERAL)
-			-- Create file object with `fn' as file name.
+	make_default
 		do
-			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE} (fn)
-			make_default_encryptable
+			Precursor {EL_ENCRYPTABLE}
+			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
+			set_encoding (Latin_1)
 		end
 
 feature -- Access

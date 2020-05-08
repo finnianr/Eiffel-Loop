@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 12:34:35 GMT (Thursday 7th May 2020)"
-	revision: "8"
+	date: "2020-05-08 11:37:51 GMT (Friday 8th May 2020)"
+	revision: "9"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -157,7 +157,7 @@ feature {NONE} -- Implementation
 			find_files.execute
 
 			across find_files.path_list as path until not ecf_path.is_empty loop
-				do_with_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
+				do_once_with_file_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
 			end
 		end
 
