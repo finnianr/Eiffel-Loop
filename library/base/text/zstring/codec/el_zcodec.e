@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:01:27 GMT (Thursday 7th May 2020)"
-	revision: "14"
+	date: "2020-05-14 13:53:05 GMT (Thursday 14th May 2020)"
+	revision: "15"
 
 deferred class
 	EL_ZCODEC
@@ -30,7 +30,9 @@ inherit
 			z_code_to_unicode as multi_byte_z_code_to_unicode
 		end
 
-feature {EL_FACTORY_CLIENT} -- Initialization
+	EL_MODULE_NAMING
+
+feature {EL_ZCODEC_FACTORY} -- Initialization
 
 	make
 		do
@@ -42,36 +44,10 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 	set_default_encoding
 		-- derive encoding from generator class name
-		local
-			l_name: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create l_name.make (generator, once "_")
-			from l_name.start until l_name.after loop
-				inspect l_name.index
-					when 2 then
-						if l_name.same_item_as (Name_iso) then
-							encoding := Latin_1
-						elseif l_name.same_item_as (Name_windows)  then
-							encoding := Windows | 1258
-						elseif l_name.same_item_as (Name_utf) then
-							encoding := Utf_8
-						end
-					when 3 then
-						if is_windows_encoded then
-							set_encoding (Windows | l_name.natural_item)
-						elseif is_utf_encoded then
-							set_encoding (Utf | l_name.natural_item)
-						end
-					when 4 then
-						if is_latin_encoded then
-							set_encoding (Latin | l_name.natural_item)
-						end
-				else
-				end
-				l_name.forth
-			end
+			set_from_name (Naming.class_as_kebab_upper (Current, 1, 1))
 		ensure then
-			valid_encoding: valid_encoding (type | id)
+			valid_encoding: encoding > 0
 		end
 
 feature -- Character query
@@ -98,12 +74,11 @@ feature -- Character query
 			end
 		end
 
-
 	is_upper (code: NATURAL): BOOLEAN
 		deferred
 		end
 
-feature {EL_SHARED_ZCODEC, EL_ZCODEC_FACTORY} -- Access
+feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE} -- Access
 
 	unicode_table: like new_unicode_table
 		-- map latin to unicode

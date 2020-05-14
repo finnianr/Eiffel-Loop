@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:07:48 GMT (Thursday 7th May 2020)"
-	revision: "18"
+	date: "2020-05-14 11:58:01 GMT (Thursday 14th May 2020)"
+	revision: "19"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -48,7 +48,7 @@ inherit
 			put_string_general
 		end
 
-	EL_ZCODEC_FACTORY
+	EL_SHARED_ZCODEC_FACTORY
 
 	EL_STRING_8_CONSTANTS
 
@@ -227,7 +227,7 @@ feature {NONE} -- Implementation
 	set_codec
 			--
 		do
-			codec := new_codec (Current)
+			codec := Codec_factory.codec (Current)
 		end
 
 feature {NONE} -- Internal attributes

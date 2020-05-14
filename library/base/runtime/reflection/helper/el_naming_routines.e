@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 9:21:56 GMT (Tuesday 28th April 2020)"
-	revision: "14"
+	date: "2020-05-09 10:54:21 GMT (Saturday 9th May 2020)"
+	revision: "15"
 
 class
 	EL_NAMING_ROUTINES
@@ -55,6 +55,11 @@ feature -- Class name derivations
 		do
 			Result := class_with_separator (object_or_type, '-', head_count, tail_count)
 			Result.to_lower
+		end
+
+	class_as_kebab_upper (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
+		do
+			Result := class_with_separator (object_or_type, '-', head_count, tail_count)
 		end
 
 	class_as_snake_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING

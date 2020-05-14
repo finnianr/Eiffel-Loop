@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 11:18:30 GMT (Friday 10th April 2020)"
-	revision: "3"
+	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -97,7 +97,7 @@ inherit
 			copy, is_equal, out
 		end
 
-	EL_SHARED_ZCODEC
+	EL_SHARED_ZSTRING_CODEC
 
 feature -- Access
 

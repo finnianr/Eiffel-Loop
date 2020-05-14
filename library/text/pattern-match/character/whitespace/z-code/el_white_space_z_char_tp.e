@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:23:02 GMT (Saturday 1st February 2020)"
-	revision: "7"
+	date: "2020-05-14 13:37:46 GMT (Thursday 14th May 2020)"
+	revision: "8"
 
 class
 	EL_WHITE_SPACE_Z_CHAR_TP
@@ -18,7 +18,7 @@ inherit
 			code_matches
 		end
 
-	EL_SHARED_ZCODEC
+	EL_SHARED_ZSTRING_CODEC
 
 	EL_ZCODE_CONVERSION
 

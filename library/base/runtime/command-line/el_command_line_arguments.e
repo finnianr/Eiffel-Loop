@@ -6,24 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:02:45 GMT (Tuesday 31st December 2019)"
-	revision: "8"
+	date: "2020-05-14 11:09:46 GMT (Thursday 14th May 2020)"
+	revision: "9"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
-
-inherit
-	ARGUMENTS_32
-		rename
-			command_name as command_name_32,
-			i_th_argument_string as i_th_argument_string_32,
-			option_sign as option_sign_cell
-		export
-			{NONE} all
-			{ANY} argument_count
-		redefine
-			index_of_word_option
-		end
 
 create
 	make
@@ -32,13 +19,21 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			i: INTEGER; item: ZSTRING
+			i: INTEGER; item: ZSTRING; args: ARGUMENTS_32
 		do
-			option_sign := option_sign_cell.item
+			create args
+			argument_count := args.argument_count
+			option_sign := args.option_sign.item
+
 			create internal_option_key.make_empty
 			create list.make (argument_count + 1)
-			from i := 1 until i > argument_count loop
-				list.extend (i_th_argument_string (i))
+			from i := 0 until i > argument_count loop
+				create item.make_from_general (args.argument (i))
+				if i = 0 then
+					command_name := item
+				else
+					list.extend (item)
+				end
 				i := i + 1
 			end
 			create table.make_equal (list.count)
@@ -57,10 +52,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	argument_count: INTEGER
+
 	command_name: ZSTRING
-		do
-			Result := i_th_argument_string (0)
-		end
 
 	directory_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
 		require
@@ -216,14 +210,6 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 			Result.append_character (option_sign)
 			Result.append_string_general (opt)
-		end
-
-	i_th_argument_string (i: INTEGER): ZSTRING
-		require
-			index_large_enough: i >= 0
-			index_small_enough: i <= argument_count
-		do
-			create Result.make_from_general (i_th_argument_string_32 (i))
 		end
 
 	is_option (str: ZSTRING): BOOLEAN

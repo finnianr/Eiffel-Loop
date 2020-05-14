@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 15:55:14 GMT (Sunday 5th April 2020)"
-	revision: "21"
+	date: "2020-05-14 13:26:45 GMT (Thursday 14th May 2020)"
+	revision: "22"
 
 class
 	EL_ZSTRING
@@ -502,6 +502,17 @@ feature {NONE} -- Constants
 note
 
 	notes: "[
+		**DEFAULT CODEC**
+		
+		By default `area' characters are encoded using the codec {[$source EL_ZCODEC_FACTORY]}.default_codec. By
+		default this is ISO-8859-15 but can be set for the application using the command line option:
+		
+			-system_codec [name]
+			
+		Example:
+		
+			-system_codec WINDOWS-1258
+		
 		**FEATURES**
 		
 		`ZSTRING' has many useful routines not found in `STRING_32'. Probably the most useful is Python style templates 

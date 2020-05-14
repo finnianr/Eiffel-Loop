@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:28:06 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
+	revision: "8"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ZCODEC
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make

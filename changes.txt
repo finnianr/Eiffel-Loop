@@ -226,3 +226,6 @@ Reorganized standard folders with addition of .cache
 Fri 1st May 2020, 18:38:08
 Added python support for .getlib patch url
 
+Fri 8th May 2020, 12:41:21
+Added EL_FILE_OPEN_ROUTINES
+

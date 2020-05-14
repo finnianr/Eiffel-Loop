@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:38:52 GMT (Tuesday 5th May 2020)"
-	revision: "26"
+	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
+	revision: "27"
 
 class
 	ZSTRING_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_STRING_32
 
-	EL_SHARED_ZCODEC
+	EL_SHARED_ZSTRING_CODEC
 
 	EL_SHARED_UTF_8_ZCODEC
 

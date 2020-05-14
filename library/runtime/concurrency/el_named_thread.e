@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-05-09 11:40:18 GMT (Saturday 9th May 2020)"
+	revision: "6"
 
 class
 	EL_NAMED_THREAD
@@ -23,11 +23,12 @@ feature {NONE} -- Factory
 
 	new_name (a_class_name: STRING): ZSTRING
 		do
- 			if a_class_name.starts_with (once "EL_") then
- 				a_class_name.remove_head (3)
- 			end
- 			a_class_name.to_lower
- 			Result := a_class_name
- 			Result.replace_character ('_', ' ')
+			Result := a_class_name
+			if Result.index_of ('_', 1) = 3 then
+				Result.remove_head (3)
+			end
+ 			Result.to_lower
+  			Result.put (Result.item (1).upper, 1)
+			Result.replace_character ('_', ' ')
 		end
 end

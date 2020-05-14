@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:30:41 GMT (Friday 8th May 2020)"
-	revision: "13"
+	date: "2020-05-14 11:56:03 GMT (Thursday 14th May 2020)"
+	revision: "14"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -25,7 +25,7 @@ inherit
 			make_default, open_at_start, make_from_file
 		end
 
-	EL_ZCODEC_FACTORY
+	EL_SHARED_ZCODEC_FACTORY
 
 create
 	make_default, make, make_from_file, make_utf_8
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 
 	update_codec
 		do
-			codec := new_codec (Current)
+			codec := Codec_factory.codec (Current)
 		end
 
 feature {NONE} -- Internal attributes

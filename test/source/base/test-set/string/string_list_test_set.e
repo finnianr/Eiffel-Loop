@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:58:56 GMT (Friday 14th February 2020)"
-	revision: "8"
+	date: "2020-05-09 11:28:40 GMT (Saturday 9th May 2020)"
+	revision: "9"
 
 class
 	STRING_LIST_TEST_SET
@@ -26,17 +26,40 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("split_and_join_3",		agent test_split_and_join_3)
-			eval.call ("fill_tuple",				agent test_fill_tuple)
-			eval.call ("path_split",				agent test_path_split)
-			eval.call ("test_split_sort",			agent test_split_sort)
-			eval.call ("split_string_8",			agent test_split_string_8)
-			eval.call ("split_and_join_1",		agent test_split_and_join_1)
-			eval.call ("split_and_join_2",		agent test_split_and_join_2)
-			eval.call ("occurrence_intervals",	agent test_occurrence_intervals)
+			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
+			eval.call ("path_split", agent test_path_split)
+			eval.call ("split_and_join_1", agent test_split_and_join_1)
+			eval.call ("split_and_join_2", agent test_split_and_join_2)
+			eval.call ("split_and_join_3", agent test_split_and_join_3)
+			eval.call ("split_sort", agent test_split_sort)
+			eval.call ("split_string_8", agent test_split_string_8)
+			eval.call ("named_thread", agent test_named_thread)
+			eval.call ("fill_tuple", agent test_fill_tuple)
 		end
 
 feature -- Tests
+
+	test_fill_tuple
+		local
+			t1: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
+			t2: TUPLE [currency: STRING; symbol: STRING_32]
+		do
+			create t1
+			Tuple.fill (t1, "cat, C, 6.5, 4")
+			assert ("cat", t1.animal ~ "cat")
+			assert ("C", t1.letter = 'C')
+			assert ("6.5 kg", t1.weight = 6.5)
+			assert ("4 years", t1.age = 4)
+
+			create t2
+			tuple.fill (t2, {STRING_32} "euro, €")
+			across tuple.debug_lines as line loop
+				lio.put_string_field (line.cursor_index.out, line.item)
+				lio.put_new_line
+			end
+			assert ("same currency", t2.currency ~ "euro")
+			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+		end
 
 	test_occurrence_intervals
 		local
@@ -141,26 +164,12 @@ feature -- Tests
 			end
 		end
 
-	test_fill_tuple
+	test_named_thread
 		local
-			t1: TUPLE [animal: STRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
-			t2: TUPLE [currency: STRING; symbol: STRING_32]
+			t: EL_NAMED_THREAD
 		do
-			create t1
-			Tuple.fill (t1, "cat, C, 6.5, 4")
-			assert ("cat", t1.animal ~ "cat")
-			assert ("C", t1.letter = 'C')
-			assert ("6.5 kg", t1.weight = 6.5)
-			assert ("4 years", t1.age = 4)
-
-			create t2
-			tuple.fill (t2, {STRING_32} "euro, €")
-			across tuple.debug_lines as line loop
-				lio.put_string_field (line.cursor_index.out, line.item)
-				lio.put_new_line
-			end
-			assert ("same currency", t2.currency ~ "euro")
-			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+			create t
+			assert ("same string", t.name.same_string ("Named thread"))
 		end
 
 feature {NONE} -- Constants

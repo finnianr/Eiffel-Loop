@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 15:51:18 GMT (Thursday 30th January 2020)"
-	revision: "10"
+	date: "2020-05-14 12:04:07 GMT (Thursday 14th May 2020)"
+	revision: "11"
 
 class
 	EL_INTERNAL
@@ -94,6 +94,11 @@ feature -- Type queries
 		end
 
 feature -- Access
+
+	new_object (type: TYPE [ANY]): detachable ANY
+		do
+			Result := new_instance_of (type.type_id)
+		end
 
 	new_factory_instance (factory_type, type: TYPE [ANY]): detachable ANY
 		require

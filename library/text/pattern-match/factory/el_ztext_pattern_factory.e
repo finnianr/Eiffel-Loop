@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 13:18:20 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2020-05-14 13:37:44 GMT (Thursday 14th May 2020)"
+	revision: "7"
 
 class
 	EL_ZTEXT_PATTERN_FACTORY
@@ -23,7 +23,7 @@ inherit
 			white_space_character
 		end
 
-	EL_SHARED_ZCODEC
+	EL_SHARED_ZSTRING_CODEC
 
 feature -- Basic patterns
 

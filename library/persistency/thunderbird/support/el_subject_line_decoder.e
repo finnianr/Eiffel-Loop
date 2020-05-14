@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:22:02 GMT (Thursday 7th May 2020)"
-	revision: "6"
+	date: "2020-05-14 11:56:46 GMT (Thursday 14th May 2020)"
+	revision: "7"
 
 class
 	EL_SUBJECT_LINE_DECODER
@@ -26,7 +26,7 @@ inherit
 			make as make_encodeable
 		end
 
-	EL_ZCODEC_FACTORY
+	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_BASE_64
 
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 
 	set_codec
 		do
-			codec := new_codec (Current)
+			codec := Codec_factory.codec (Current)
 		end
 
 	unescaped (str: ZSTRING): STRING
@@ -109,7 +109,7 @@ feature {NONE} -- Internal attributes
 
 	line: ZSTRING
 
-	codec: like new_codec
+	codec: EL_ZCODEC
 
 feature {NONE} -- Constants
 

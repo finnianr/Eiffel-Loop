@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:42:08 GMT (Thursday 7th May 2020)"
-	revision: "11"
+	date: "2020-05-14 13:06:13 GMT (Thursday 14th May 2020)"
+	revision: "12"
 
 deferred class
 	EL_ENCODING_BASE
@@ -31,10 +31,13 @@ feature {NONE} -- Initialization
 	make_default
 		-- make UTF-8
 		do
-			encoding := Utf_8
+			set_default
 		end
 
 feature -- Access
+
+	encoding: NATURAL
+		-- bitwise OR of `type' and `id'
 
 	id: NATURAL
 		-- A 12-bit code suffix that qualifies the `type'
@@ -44,9 +47,6 @@ feature -- Access
 		do
 			Result := encoding & Encoding_id_mask
 		end
-
-	encoding: NATURAL
-		-- bitwise OR of `type' and `id'
 
 	name: STRING
 			--
@@ -138,31 +138,11 @@ feature -- Element change
 	set_from_name (a_name: READABLE_STRING_GENERAL)
 			--
 		local
-			parts: EL_SPLIT_STRING_LIST [STRING]
-			part: STRING; l_type, l_id: NATURAL
+			l_encoding: NATURAL
 		do
-			create parts.make (a_name.to_string_8, once "-")
-			from parts.start until parts.after loop
-				part := parts.item (False)
-				if parts.index = 1 then
-					part.to_upper
-					if part ~ Name_iso then
-						parts.forth
-						if not parts.after and then parts.integer_item = 8859 then
-							l_type := Latin
-						end
-					elseif part ~ Name_windows then
-						l_type := Windows
-					elseif part ~ Name_utf then
-						l_type := Utf
-					end
-				else
-					l_id := part.to_natural
-				end
-				parts.forth
-			end
-			if valid_encoding (l_type | l_id) then
-				set_encoding (l_type | l_id)
+			l_encoding := name_to_encoding (a_name)
+			if valid_encoding (l_encoding) then
+				set_encoding (l_encoding)
 			else
 				encoding := 0
 			end
@@ -196,6 +176,43 @@ feature -- Element change
 			valid_windows (a_id)
 		do
 			set_encoding (Windows | a_id)
+		end
+
+feature -- Conversion
+
+	name_to_encoding (a_name: READABLE_STRING_GENERAL): NATURAL
+		local
+			parts: EL_SPLIT_STRING_LIST [STRING]
+			part: STRING; l_type, l_id: NATURAL
+		do
+			create parts.make (a_name.to_string_8, once "-")
+			from parts.start until parts.after loop
+				part := parts.item (False)
+				if parts.index = 1 then
+					part.to_upper
+					if part ~ Name_iso then
+						parts.forth
+						if not parts.after and then parts.integer_item = 8859 then
+							l_type := Latin
+						end
+					elseif part ~ Name_windows then
+						l_type := Windows
+					elseif part ~ Name_utf then
+						l_type := Utf
+					end
+				else
+					l_id := part.to_natural
+				end
+				parts.forth
+			end
+			Result := l_type | l_id
+		end
+
+feature -- Contract Support
+
+	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := valid_encoding (name_to_encoding (a_name))
 		end
 
 feature {NONE} -- Strings

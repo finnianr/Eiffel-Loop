@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:09:21 GMT (Monday 20th January 2020)"
-	revision: "3"
+	date: "2020-05-14 13:47:03 GMT (Thursday 14th May 2020)"
+	revision: "4"
 
 class
 	ZSTRING_BENCHMARK_COMMAND_OPTIONS
@@ -28,7 +28,6 @@ feature {NONE} -- Initialization
 	initialize_fields
 		do
 			Precursor
-			codec := 1
 			if Execution_environment.is_work_bench_mode then
 				runs := 1
 			else
@@ -37,8 +36,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Options
-
-	codec: INTEGER
 
 	filter: ZSTRING
 
@@ -65,8 +62,6 @@ feature {NONE} -- Constants
 	Help_text: STRING
 		once
 			Result := "[
-				codec:
-					Set Latin character set for `system_codec'
 				runs:
 					Set number of runs to average over
 				filter:

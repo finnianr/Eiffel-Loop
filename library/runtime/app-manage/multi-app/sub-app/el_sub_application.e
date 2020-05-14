@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 9:14:07 GMT (Monday 20th April 2020)"
-	revision: "41"
+	date: "2020-05-14 10:42:33 GMT (Thursday 14th May 2020)"
+	revision: "42"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -79,14 +79,12 @@ feature -- Access
 	argument_errors: ARRAYED_LIST [EL_COMMAND_ARGUMENT_ERROR]
 
 	default_option_name: STRING
-		-- lower case generator with `_app*' removed from tail
-		local
-			words: LIST [STRING]
+		-- lower case generator with `_app' removed from tail
 		do
-			Result := generator.as_lower
-			words := Result.split ('_')
-			if words.last.starts_with ("app") then
-				Result.remove_tail (words.last.count + 1)
+			Result := generator
+			Result.to_lower
+			if Result.ends_with ("_app") then
+				Result.remove_tail (4)
 			end
 		end
 

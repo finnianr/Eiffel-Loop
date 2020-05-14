@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:12:04 GMT (Monday 20th January 2020)"
-	revision: "4"
+	date: "2020-05-14 13:48:03 GMT (Thursday 14th May 2020)"
+	revision: "5"
 
 class
 	EL_BASE_COMMAND_OPTIONS
@@ -18,13 +18,18 @@ inherit
 create
 	make, make_default
 
-feature -- Access
+feature -- Options
 
 	no_highlighting: BOOLEAN
 		-- turns off logging color highlighting
 
 	silent: BOOLEAN
 		-- all console output is suppressed
+
+	zstring_codec: STRING
+		-- defaults to ISO-8859-15
+
+feature -- Constants
 
 	Opt_silent: STRING
 		once
@@ -38,5 +43,7 @@ feature {NONE} -- Constants
 			Turn off color highlighting for console output
 		silent:
 			Suppress all output to console
+		zstring_codec:
+			Name of character set used to set once function: `{EL_ZSTRING}.codec'
 	]"
 end

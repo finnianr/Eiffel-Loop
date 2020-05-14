@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:23:18 GMT (Saturday 26th October 2019)"
-	revision: "9"
+	date: "2020-05-14 11:58:25 GMT (Thursday 14th May 2020)"
+	revision: "10"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -48,7 +48,7 @@ inherit
 			make_parser, set_fixed_address
 		end
 
-	EL_ZCODEC_FACTORY
+	EL_SHARED_ZCODEC_FACTORY
 
 	EL_MODULE_C_DECODER
 		export
@@ -423,8 +423,8 @@ feature {NONE} -- Expat callbacks
 				encoding_set: name ~ encoding_name
 			end
 			create encoding_info.share_from_pointer (exml_encoding_info_map (encoding_info_ptr), exml_XML_encoding_size)
-			if has_codec (Current) then
-				codec := new_codec (Current)
+			if Codec_factory.has_codec (Current) then
+				codec := Codec_factory.codec (Current)
 				unicode_table := codec.unicode_table
 				from i := 0 until i > 255 loop
 					encoding_info.put_natural_32 (unicode_table.item (i).natural_32_code, i)
