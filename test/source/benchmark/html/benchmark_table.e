@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				title := Title_latin #$ [a_encoding_id]
 			end
 			benchmark := a_benchmark
+			number_of_runs := benchmark.zstring.number_of_runs
 			set_data_rows
 		end
 
@@ -55,6 +56,8 @@ feature -- Access
 	title: ZSTRING
 
 	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK]
+
+	number_of_runs: INTEGER
 
 feature {NONE} -- Implementation
 
@@ -78,10 +81,10 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["column_title", 	agent: STRING do Result := column_title end],
-				["title", 			agent: ZSTRING do Result := title end],
-				["data_rows", 		agent: EL_ZSTRING_LIST do Result := data_rows end],
-				["table_id", 		agent next_table_id]
+				["column_title", 		agent: STRING do Result := column_title end],
+				["title", 				agent: ZSTRING do Result := title end],
+				["data_rows", 			agent: EL_ZSTRING_LIST do Result := data_rows end],
+				["table_id", 			agent next_table_id]
 			>>)
 		end
 

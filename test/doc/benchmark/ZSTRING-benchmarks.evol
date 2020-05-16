@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ZSTRING v STRING_32</title>
+		<style type="text/css">
+			body {
+				font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
+				font-size: 20px;
+			}
+			div#content {
+				margin-left: auto;
+				margin-right: auto;
+				width: 60em;
+			}
+			h1 { text-align: center; }
+			table {
+				background-color: white;
+				border: 1px solid green;
+				width: 35em;
+			}
+			table caption { text-align: left }
+			table#hexagrams {
+				width: 60em;
+			}
+			th, td {
+				text-align: left;
+				vertical-align: text-top;
+				padding: 3px;
+			}
+			td {
+				font-weight: normal;
+			}
+			tr:nth-child(even) {
+				 background-color: Lightblue;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+		<h1>ZSTRING v STRING_32</h1>
+		<h2>Benchmark Source Code</h2>
+	#across $source_links as $link loop
+		#if $link.cursor_index > 1 then
+		<br>
+		#end
+		<a target="_blank" href="../test/$link.item">$link.key</a>
+	#end
+		<h2>Input Test Data</h2>
+		<p>See <a href="#test_strings">table below</a></p>
+		<p>
+			<b>$$A</b> = string from column A<br/>
+			<b>$$B</b> = string from column B<br/>
+			<b>$$C</b> = string from column C<br/>
+			<b>$$D</b> = string from column D
+		</p>
+		<p>Each test iterates over 64 table rows and the average time is taken of $number_of_runs executions</p>
+
+		<h2>Memory Consumption</h2>
+	#across $memory_tables as $table loop
+		#evaluate ($table.item.template_name, $table.item)
+	#end
+		<h2>Runtime Performance</h2>
+	#across $performance_tables as $table loop
+		#evaluate ($table.item.template_name, $table.item)
+	#end
+		<a name="test_strings"/>
+		<h2>I Ching Hexagram Test Strings</h2>
+		<table id="hexagrams">
+			<caption>Table 5</caption>
+			<tr>
+				<th width="8%">A</th>
+				<th width="9%">B</th>
+				<th width="4%">C</th>
+				<th>D</th>
+			</tr>
+		#across $data_rows as $row loop
+			<tr>
+				$row.item
+			</tr>
+		#end
+		</table>
+	</div>
+	</body>
+</html>
+

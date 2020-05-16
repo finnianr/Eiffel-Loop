@@ -46,6 +46,8 @@ feature -- Access
 
 	memory_tests: ARRAYED_LIST [TUPLE [description: STRING; input_format: STRING; storage_size: INTEGER]]
 
+	number_of_runs: INTEGER
+
 feature -- Basic operations
 
 	do_performance_tests
@@ -688,8 +690,6 @@ feature {NONE} -- Internal attributes
 		-- first column of `input_string_list'
 
 	input_substring_list: ARRAYED_LIST [TUPLE [first_word, middle_word, last_word, first_character, last_character: STRING_GENERAL]]
-
-	number_of_runs: INTEGER
 
 	output_string: STRING_GENERAL
 

@@ -29,7 +29,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			number_of_runs := a_number_of_runs; routine_filter := filter
 			h := Hexagram
-			create benchmark_html.make_from_file (output_dir + Output_name #$ [codec.id])
+			create benchmark_html.make ("doc/benchmark/ZSTRING-benchmarks.evol", output_dir + Output_name #$ [codec.id])
 		end
 
 feature -- Basic operations

@@ -59,6 +59,16 @@
 		<a target="_blank" href="../test/source/benchmark/string/zstring/mixed_encoding_zstring_benchmark.html">MIXED_ENCODING_ZSTRING_BENCHMARK</a>
 		<br>
 		<a target="_blank" href="../test/source/benchmark/string/zstring/zstring_benchmark.html">ZSTRING_BENCHMARK</a>
+		<h2>Input Test Data</h2>
+		<p>See <a href="#test_strings">table below</a></p>
+		<p>
+			<b>$A</b> = string from column A<br/>
+			<b>$B</b> = string from column B<br/>
+			<b>$C</b> = string from column C<br/>
+			<b>$D</b> = string from column D
+		</p>
+		<p>Each test iterates over 64 table rows and the average time is taken of ($number_of_runs undefined) executions</p>
+
 		<h2>Memory Consumption</h2>
 		<h3>Pure Latin-1 Encoding</h3>
 		<caption>Table 1</caption>
@@ -118,7 +128,7 @@
 				<td>append_string_general</td><td>A,D</td><td> 2.000 ms</td><td> 2.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string</td><td>D</td><td>+50%</td><td> 6.000 ms</td>
+				<td>append_string</td><td>D</td><td>+42%</td><td> 7.000 ms</td>
 			</tr>
 		</table>
 		<h3>Mixed Latin-1 and Unicode Encoding</h3>
@@ -134,9 +144,10 @@
 				<td>append_string_general</td><td>A,B,C,D</td><td> 3.000 ms</td><td> 3.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string</td><td>&quot;$B $C&quot;</td><td>+56%</td><td> 4.000 ms</td>
+				<td>append_string</td><td>&quot;$B $C&quot;</td><td>+60%</td><td> 4.000 ms</td>
 			</tr>
 		</table>
+		<a name="test_strings"/>
 		<h2>I Ching Hexagram Test Strings</h2>
 		<table id="hexagrams">
 			<caption>Table 5</caption>
@@ -342,3 +353,4 @@
 	</div>
 	</body>
 </html>
+

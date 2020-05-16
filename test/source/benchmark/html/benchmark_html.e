@@ -14,6 +14,8 @@ class
 
 inherit
 	EVOLICITY_SERIALIZEABLE
+		rename
+			make_from_template_and_output as make
 		redefine
 			make_default
 		end
@@ -27,7 +29,7 @@ inherit
 	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
 create
-	make_from_file
+	make
 
 feature {NONE} -- Initialization
 
@@ -87,15 +89,21 @@ feature {NONE} -- Implemenation
 
 feature {NONE} -- Evolicity fields
 
+	get_number_of_runs: INTEGER_REF
+		do
+			Result := performance_tables.first.number_of_runs.to_reference
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["performance_tables", 	agent: like performance_tables do Result := performance_tables end],
-				["memory_tables", 	agent: like memory_tables do Result := memory_tables end],
-				["data_rows", 	agent data_rows],
-				["github_link", 	agent: STRING do Result := github_link end],
-				["source_links", agent source_links_table]
+				["performance_tables",	agent: like performance_tables do Result := performance_tables end],
+				["memory_tables", 		agent: like memory_tables do Result := memory_tables end],
+				["data_rows",				agent data_rows],
+				["github_link",			agent: STRING do Result := github_link end],
+				["source_links",			agent source_links_table],
+				["number_of_runs",		agent get_number_of_runs]
 			>>)
 		end
 
@@ -103,81 +111,6 @@ feature {NONE} -- Constants
 
 	Github_link: STRING = "https://github.com/finnianr/Eiffel-Loop/blob/master/test/source"
 
-	Template: STRING = "[
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-			<head>
-				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-				<title>ZSTRING v STRING_32</title>
-				<style type="text/css">
-					body {
-						font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;
-						font-size: 20px;
-					}
-					div#content {
-						margin-left: auto;
-						margin-right: auto;
-						width: 60em;
-					}
-					h1 { text-align: center; }
-					table {
-						background-color: white;
-						border: 1px solid green;
-						width: 35em;
-					}
-					table caption { text-align: left }
-					table#hexagrams {
-						width: 60em;
-					}
-					th, td {
-						text-align: left;
-						vertical-align: text-top;
-						padding: 3px;
-					}
-					td {
-						font-weight: normal;
-					}
-					tr:nth-child(even) {
-						 background-color: Lightblue;
-					}
-				</style>
-			</head>
-			<body>
-				<div id="content">
-				<h1>ZSTRING v STRING_32</h1>
-				<h2>Benchmark Source Code</h2>
-			#across $source_links as $link loop
-				#if $link.cursor_index > 1 then
-				<br>
-				#end
-				<a target="_blank" href="../test/$link.item">$link.key</a>
-			#end
-				<h2>Memory Consumption</h2>
-			#across $memory_tables as $table loop
-				#evaluate ($table.item.template_name, $table.item)
-			#end
-				<h2>Runtime Performance</h2>
-			#across $performance_tables as $table loop
-				#evaluate ($table.item.template_name, $table.item)
-			#end
-				<h2>I Ching Hexagram Test Strings</h2>
-				<table id="hexagrams">
-					<caption>Table 5</caption>
-					<tr>
-						<th width="8%">A</th>
-						<th width="9%">B</th>
-						<th width="4%">C</th>
-						<th>D</th>
-					</tr>
-				#across $data_rows as $row loop
-					<tr>
-						$row.item
-					</tr>
-				#end
-				</table>
-			</div>
-			</body>
-		</html>
-	]"
+	Template: STRING = ""
 
 end
