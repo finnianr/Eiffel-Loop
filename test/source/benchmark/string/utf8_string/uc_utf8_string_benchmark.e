@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 8:28:26 GMT (Monday 13th January 2020)"
-	revision: "5"
+	date: "2020-05-15 11:02:41 GMT (Friday 15th May 2020)"
+	revision: "6"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -27,9 +27,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (benchmark_option: ZSTRING_BENCHMARK_COMMAND_OPTIONS)
+	make (command: ZSTRING_BENCHMARK_COMMAND)
 		do
-			Precursor (benchmark_option)
+			Precursor (command)
 			create xml_escaper.make_128_plus
 		end
 

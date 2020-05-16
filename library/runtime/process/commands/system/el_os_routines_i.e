@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 12:36:10 GMT (Sunday 19th April 2020)"
-	revision: "6"
+	date: "2020-05-16 12:38:45 GMT (Saturday 16th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -70,6 +70,17 @@ feature -- OS commands
 			Find_directories_cmd.set_dir_path (a_dir_path)
 			Find_directories_cmd.execute
 			Result := Find_directories_cmd.path_list.twin
+		end
+
+	query_file_list (
+		a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; filter: EL_QUERY_CONDITION [ZSTRING]
+	): EL_FILE_PATH_LIST
+			-- list of path that meet `filter' condition
+			-- Use Filter.* in class `EL_SHARED_FIND_FILE_FILTER_FACTORY'
+		do
+			Find_files_cmd.set_filter (filter)
+			Result := file_list (a_dir_path, a_file_pattern)
+			Find_files_cmd.set_default_filter
 		end
 
 	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST

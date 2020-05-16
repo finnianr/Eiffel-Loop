@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:52:48 GMT (Thursday 14th May 2020)"
-	revision: "13"
+	date: "2020-05-14 17:13:56 GMT (Thursday 14th May 2020)"
+	revision: "14"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -46,17 +46,16 @@ feature -- Access
 			Result := Codec_table.item (a_encoding)
 		end
 
-	default_codec: EL_ZCODEC
+	zstring_codec: EL_ZCODEC
 		-- codec defined by command line option `-zstring_codec' or else
 		-- instance of `EL_ISO_8859_15_ZCODEC' if command option not present
-		-- (used to set {EL_ZSTRING}.codec)
 		local
-			args: ARGUMENTS_32; i, id_index: INTEGER
+			args: ARGUMENTS_32; i: INTEGER
 			codec_name: STRING
 		do
 			create args
 			create codec_name.make_empty
-			from i := 1 until id_index > 0 or else i > args.argument_count loop
+			from i := 1 until codec_name.count > 0 or else i > args.argument_count loop
 				if args.argument (i) ~ Codec_option_name and then i < args.argument_count then
 					codec_name := args.argument (i + 1).to_string_8
 				end
@@ -71,7 +70,7 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_codec_by_code (a_encoding: NATURAL): EL_ZCODEC
+	new_codec (a_encoding: NATURAL): EL_ZCODEC
 		require
 			valid_encoding: valid_encoding (a_encoding)
 		do
@@ -96,7 +95,7 @@ feature {NONE} -- Constants
 
 	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, NATURAL]
 		once
-			create Result.make_equal (30, agent new_codec_by_code)
+			create Result.make_equal (30, agent new_codec)
 		end
 
 	Codec_type_table: EL_HASH_TABLE [TYPE [EL_ZCODEC], NATURAL]
@@ -113,9 +112,7 @@ feature {NONE} -- Constants
 				[Latin | 9, {EL_ISO_8859_9_ZCODEC}],
 				[Latin | 10, {EL_ISO_8859_10_ZCODEC}],
 				[Latin | 11, {EL_ISO_8859_11_ZCODEC}],
---				EL_ISO_8859_12_ZCODEC is not available as No. 12 was missing from the original C-source code
---				used to generate codecs
---				[Latin | 12, {EL_ISO_8859_12_ZCODEC}],
+--				ISO-8859-12 for Celtic languages was abandoned in 1997
 				[Latin | 13, {EL_ISO_8859_13_ZCODEC}],
 				[Latin | 14, {EL_ISO_8859_14_ZCODEC}],
 				[Latin | 15, {EL_ISO_8859_15_ZCODEC}],

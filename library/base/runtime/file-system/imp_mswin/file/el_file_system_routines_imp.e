@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 14:47:29 GMT (Tuesday 24th December 2019)"
-	revision: "7"
+	date: "2020-05-16 9:16:39 GMT (Saturday 16th May 2020)"
+	revision: "8"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -25,11 +25,12 @@ create
 
 feature {NONE} -- Implementation
 
-	escaped_path (a_path: EL_PATH): ZSTRING
+	escaped_path (a_path: ZSTRING): ZSTRING
 		do
-			Result := a_path.to_string
-			if Result.has (' ') then
-				Result.quote (2)
+			if a_path.has (' ') then
+				Result := a_path.quoted (2)
+			else
+				Result := a_path
 			end
 		end
 

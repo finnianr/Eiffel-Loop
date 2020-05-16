@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 15:01:56 GMT (Tuesday 24th December 2019)"
-	revision: "8"
+	date: "2020-05-16 9:12:43 GMT (Saturday 16th May 2020)"
+	revision: "9"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -25,10 +25,9 @@ create
 
 feature {NONE} -- Implementation
 
-	escaped_path (path: EL_PATH): ZSTRING
+	escaped_path (path: ZSTRING): ZSTRING
 		do
-			Result := path.to_string
-			Result.escape (Path_escaper)
+			Result := Path_escaper.escaped (path, True)
 		end
 
 	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)

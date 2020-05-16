@@ -1,9 +1,9 @@
 note
-	description: "Zstring benchmark app"
+	description: "Command line interface to create and execute [$source ZSTRING_BENCHMARK_COMMAND]"
 	notes: "[
 		**Usage**
 		
-			-zstring_benchmark [-logging]
+			-zstring_benchmark [-zstring_codec <codec-name>]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,102 +11,48 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:42:28 GMT (Thursday 14th May 2020)"
-	revision: "12"
+	date: "2020-05-15 11:03:20 GMT (Friday 15th May 2020)"
+	revision: "13"
 
 class
 	ZSTRING_BENCHMARK_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
-		redefine
-			standard_options
-		end
-
-	SHARED_HEXAGRAM_STRINGS
-
-	EL_SHARED_ZSTRING_CODEC
+	EL_COMMAND_LINE_SUB_APPLICATION [ZSTRING_BENCHMARK_COMMAND]
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	initialize
-		do
-			log.enter ("initialize")
-			call (Hexagram)
-			create benchmark_html.make_from_file (Output_path #$ [codec.id])
-			log.exit
-		end
-
-feature -- Basic operations
-
-	run
-			--
-		do
-			log.enter ("run")
-			lio.put_labeled_string ("{ZSTRING}.codec", codec.name)
-			lio.put_new_line
-			lio.put_integer_field ("Runs per test", Benchmark_option.number_of_runs)
-			lio.put_new_line
-			lio.put_new_line
-
-			add_benchmarks ([
-				create {ZSTRING_BENCHMARK}.make (Benchmark_option),
-				create {STRING_32_BENCHMARK}.make (Benchmark_option)
-			])
-			add_benchmarks ([
-				create {MIXED_ENCODING_ZSTRING_BENCHMARK}.make (Benchmark_option),
-				create {MIXED_ENCODING_STRING_32_BENCHMARK}.make (Benchmark_option)
-			])
-
-			benchmark_html.serialize
-
-			log.exit
-		end
-
 feature {NONE} -- Implementation
 
-	add_benchmarks (benchmark: TUPLE [STRING_BENCHMARK, STRING_BENCHMARK])
+	compile: TUPLE [UC_UTF8_STRING_BENCHMARK]
 		do
-			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (codec.id, benchmark))
-			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (codec.id, benchmark))
+			create Result
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				[{ZSTRING_BENCHMARK_APP}, All_routines],
-				[{STRING_32_BENCHMARK}, All_routines],
-				[{ZSTRING_BENCHMARK}, All_routines],
-				[{MIXED_ENCODING_STRING_32_BENCHMARK}, All_routines],
-				[{MIXED_ENCODING_ZSTRING_BENCHMARK}, All_routines]
+				optional_argument ("output", "HTML output directory"),
+				optional_argument ("runs", "The number of test runs to average over"),
+				optional_argument ("filter", "Routine filter")
 			>>
 		end
 
-	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
+	default_make: PROCEDURE [like command]
+		local
+			number_of_runs: INTEGER
 		do
-			Result := Precursor + Benchmark_option
+			if Execution_environment.is_work_bench_mode then
+				number_of_runs := 1
+			else
+				number_of_runs := 100
+			end
+			Result := agent {like command}.make ("doc/benchmark", number_of_runs, "")
 		end
-
-feature {NONE} -- Internal attributes
-
-	benchmark_html: BENCHMARK_HTML
 
 feature {NONE} -- Constants
 
-	Benchmark_option: ZSTRING_BENCHMARK_COMMAND_OPTIONS
-		once
-			create Result.make
-		end
-
 	Description: STRING = "Benchmark ZSTRING in relation to STRING_32"
-
-	Output_path: ZSTRING
-		once
-			Result := "doc/benchmark/ZSTRING-benchmarks-latin-%S.html"
-		end
 
 end

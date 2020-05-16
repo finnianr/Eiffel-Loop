@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 12:35:59 GMT (Tuesday 5th May 2020)"
-	revision: "87"
+	date: "2020-05-15 9:29:11 GMT (Friday 15th May 2020)"
+	revision: "88"
 
 class
 	BASE_AUTOTEST_APP
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [MODULE_CRC_32_TEST_SET]
+	test_type: TUPLE [ZSTRING_TEST_SET] -- test with ISO-8859-1
 		do
 			create Result
 		end

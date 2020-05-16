@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 10:55:19 GMT (Tuesday 19th November 2019)"
-	revision: "3"
+	date: "2020-05-16 11:27:26 GMT (Saturday 16th May 2020)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -45,6 +45,6 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- list of comma-separated fields to be excluded
 		once
-			Result := Precursor + ", encoding_bitmap, output_path, template_path"
+			Result := Precursor + ", encoding, output_path, template_path"
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 9:13:58 GMT (Sunday 5th April 2020)"
-	revision: "13"
+	date: "2020-05-16 9:21:44 GMT (Saturday 16th May 2020)"
+	revision: "14"
 
 deferred class
 	EL_URI_PATH
@@ -17,7 +17,7 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			default_create, make, make_from_other,
+			default_create, make, make_from_other, escaped,
 			is_uri, is_equal, is_less,
 			set_path, part_count, part_string,
 			Separator, Type_parent
@@ -143,19 +143,24 @@ feature -- Status query
 
 feature -- Conversion
 
+	escaped: ZSTRING
+		do
+			Result := to_encoded_utf_8
+		end
+
 	to_file_path: EL_PATH
 		deferred
 		end
 
-	 to_encoded_utf_8: STRING
-	 	local
-	 		string: ZSTRING; url: EL_URL_STRING_8
-	 	do
-	 		string := to_string
-	 		create url.make_empty
-	 		url.append_substring_general (string, protocol.count + Protocol_sign.count + 1, string.count)
-	 		Result := (protocol + Protocol_sign).to_string_8 + url.to_string_8
-	 	end
+	to_encoded_utf_8: STRING
+		local
+			string: ZSTRING; url: EL_URL_STRING_8
+		do
+			string := to_string
+			create url.make_empty
+			url.append_substring_general (string, protocol.count + Protocol_sign.count + 1, string.count)
+			Result := (protocol + Protocol_sign).to_string_8 + url.to_string_8
+		end
 
 feature -- Comparison
 

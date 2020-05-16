@@ -1,3 +1,6 @@
+2.2.2
+Fixed escaping of URI paths for EL_GVFS* commands
+
 2.2.1
 Fixed modification time in cached_song_file_path
 

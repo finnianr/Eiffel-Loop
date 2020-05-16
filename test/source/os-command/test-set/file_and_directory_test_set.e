@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 14:13:46 GMT (Friday 6th March 2020)"
-	revision: "10"
+	date: "2020-05-16 11:16:20 GMT (Saturday 16th May 2020)"
+	revision: "11"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -389,6 +389,7 @@ feature {NONE} -- Implementation
 		local
 			find_directories_cmd: like Command.new_find_directories
 			dir_path: EL_DIR_PATH; l_dir_set: like dir_set; lower, upper: INTEGER
+			has_substring: EL_PREDICATE_FIND_CONDITION
 		do
 			if use_relative_path then
 				lio.put_line ("Using relative paths")
@@ -400,9 +401,10 @@ feature {NONE} -- Implementation
 			find_directories_cmd := Command.new_find_directories (dir_path)
 			execute_and_assert (find_directories_cmd, l_dir_set)
 
-			find_directories_cmd.set_not_path_included_condition (agent path_has_substring (?, "bcd"))
+			has_substring := agent path_has_substring (?, "bcd")
+			find_directories_cmd.set_filter (not has_substring)
 			execute_and_assert (find_directories_cmd, l_dir_set.subset_exclude (agent directory_path_contains (?, "bcd")))
-			find_directories_cmd.set_any_path_included
+			find_directories_cmd.set_default_filter
 
 --			Test with restricted depth
 			from upper := 1 until upper > 3 loop
@@ -432,9 +434,9 @@ feature {NONE} -- Implementation
 			find_files_cmd := Command.new_find_files (dir_path, "*")
 			execute_and_assert (find_files_cmd, l_file_set)
 
-			find_files_cmd.set_not_path_included_condition (agent path_has_substring (?, "bcd"))
-			execute_and_assert (find_files_cmd, l_file_set.subset_exclude (agent path_contains (?, "bcd")))
-			find_files_cmd.set_any_path_included
+			find_files_cmd.set_predicate_filter (agent path_has_substring (?, "bcd"))
+			execute_and_assert (find_files_cmd, l_file_set.subset_include (agent path_contains (?, "bcd")))
+			find_files_cmd.set_default_filter
 
 --				Test depth
 			from upper := 3 until upper > 4 loop

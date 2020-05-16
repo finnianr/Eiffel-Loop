@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 7:58:54 GMT (Sunday 3rd May 2020)"
-	revision: "8"
+	date: "2020-05-16 9:05:24 GMT (Saturday 16th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_STRING_GENERAL_ESCAPER
@@ -61,14 +61,20 @@ feature {NONE} -- Initialization
 feature -- Conversion
 
 	escaped (str: like READABLE; keeping_ref: BOOLEAN): like once_buffer
+		do
+			Result := escaped_substring (str, 1, str.count, keeping_ref)
+		end
+
+	escaped_substring (str: like READABLE; start_index, end_index: INTEGER; keeping_ref: BOOLEAN): like once_buffer
 		-- escaped `str' in once buffer
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		local
-			i: INTEGER; code: NATURAL
+			i, min_index: INTEGER; code: NATURAL
 		do
 			Result := once_buffer
 			wipe_out (Result)
-			from i := 1 until i > str.count loop
+			min_index := str.count.min (end_index)
+			from i := start_index until i > min_index loop
 				code := str.code (i)
 				if is_escaped (code) then
 					append_escape_sequence (Result, code)

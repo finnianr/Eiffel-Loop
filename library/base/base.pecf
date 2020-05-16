@@ -250,6 +250,11 @@ system:
 					* [https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131 ZSTRING released in Eiffel-Loop 1.3.1]
 					* [https://www.eiffel.org/blog/finnianr/introducing_class_zstring Introducing class ZSTRING]
 					* [https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859 ISO-8859 is dead, long live ISO-8859]
+
+					**Benchmarks ZSTRING vs STRING_32**
+
+					* [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
+					* [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
 				"""
 		cluster:
 			name = text; location = text

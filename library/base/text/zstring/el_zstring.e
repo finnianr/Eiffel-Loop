@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:26:45 GMT (Thursday 14th May 2020)"
-	revision: "22"
+	date: "2020-05-16 13:12:15 GMT (Saturday 16th May 2020)"
+	revision: "23"
 
 class
 	EL_ZSTRING
@@ -531,7 +531,7 @@ note
 
 		This is something to consider if your application is going to be used in for example: Russia or Japan.
 		If the user locale is for a language that is supported by a ISO-8859-x what you can do is over-ride
-		`{[$source EL_SHARED_ZCODEC]}.Default_codec', and initialize it immediately after application launch.
+		`{[$source EL_SHARED_ZSTRING_CODEC]}.Default_codec', and initialize it immediately after application launch.
 		This will force `ZSTRING' to switch to a more optimal character-set for the user-locale.
 
 		The execution performance will be worst for Asian characters.

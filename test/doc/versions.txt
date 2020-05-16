@@ -1,5 +1,7 @@
-1.2.4
+1.2.5
+Changed EL_URI_PATH.escaped to return `to_encoded_utf_8'
 
+1.2.4
 Simplified EL_ENCODING_BASE and created EL_ENCODING_CONSTANTS
 
 1.2.3

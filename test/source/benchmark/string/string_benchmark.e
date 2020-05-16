@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
-	revision: "7"
+	date: "2020-05-15 10:00:45 GMT (Friday 15th May 2020)"
+	revision: "8"
 
 deferred class
 	STRING_BENCHMARK
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	MEMORY
 
@@ -27,10 +27,10 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (benchmark_option: ZSTRING_BENCHMARK_COMMAND_OPTIONS)
+	make (command: ZSTRING_BENCHMARK_COMMAND)
 		do
-			number_of_runs := benchmark_option.number_of_runs
-			routine_filter := benchmark_option.routine_filter
+			number_of_runs := command.number_of_runs
+			routine_filter := command.routine_filter
 			create {STRING} output_string.make (0)
 			create input_string_list.make (64)
 			create input_substring_list.make (64)
@@ -412,20 +412,19 @@ feature {NONE} -- Implementation
 			timer: EL_EXECUTION_TIMER; i: INTEGER
 		do
 			if routines.has_substring (routine_filter) then
-				log.enter_no_header ("do_performance_test")
 				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_input_format)
 				lio.put_new_line
 				input_format := a_input_format
 				fill_input_strings (routines)
 				full_collect
 				create timer.make
+				timer.start
 				from i := 1 until i > number_of_runs loop
 					procedure.apply; full_collect
 					i := i + 1
 				end
 				timer.stop
 				performance_tests.extend ([routines, displayed_input_format, timer.elapsed_millisecs / number_of_runs])
-				log.exit_no_trailer
 			end
 		end
 
@@ -435,7 +434,6 @@ feature {NONE} -- Implementation
 		local
 			i: INTEGER; description: STRING
 		do
-			log.enter_no_header ("do_memory_test")
 			if rows = 1 then
 				description := "First line only"
 			else
@@ -452,7 +450,6 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			memory_tests.extend ([description, displayed_input_format, storage_bytes (output_string)])
-			log.exit_no_trailer
 		end
 
 	displayed_input_format: STRING

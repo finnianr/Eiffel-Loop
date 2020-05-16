@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 14:01:19 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2020-05-15 11:46:14 GMT (Friday 15th May 2020)"
+	revision: "11"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -27,19 +27,20 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
+	EL_FILE_OPEN_ROUTINES
+
 feature {NONE} -- Initialization
 
 	on_prepare
-		local
-			text_file: PLAIN_TEXT_FILE
 		do
 			Precursor
 			file_set := new_file_set
 			across file_set as path loop
 				OS.File_system.make_directory (path.item.parent)
-				create text_file.make_open_write (path.item)
-				text_file.put_integer (path.cursor_index)
-				text_file.close
+				if attached open (path.item, Write) as file then
+					file.put_integer (path.cursor_index)
+					file.close
+				end
 			end
 		end
 

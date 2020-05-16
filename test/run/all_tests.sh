@@ -11,6 +11,7 @@ $do_test -simple_client_server_test
 $do_test -amazon_instant_access_autotest
 
 $do_test -base_autotest
+$do_test -base_autotest -single -zstring_codec ISO-8859-1
 
 $do_test -encryption_autotest
 

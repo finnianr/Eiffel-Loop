@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 23:04:47 GMT (Wednesday 11th September 2019)"
-	revision: "13"
+	date: "2020-05-16 9:21:59 GMT (Saturday 16th May 2020)"
+	revision: "14"
 
 class
 	EL_DIR_URI_PATH
@@ -15,7 +15,7 @@ class
 inherit
 	EL_DIR_PATH
 		undefine
-			default_create, make, make_from_other,
+			default_create, make, make_from_other, escaped,
 			is_equal, is_less, is_uri,
 			Type_parent, Separator,
 			set_path, part_count, part_string

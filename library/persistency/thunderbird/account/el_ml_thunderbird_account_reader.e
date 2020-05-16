@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-19 11:14:26 GMT (Friday 19th October 2018)"
-	revision: "9"
+	date: "2020-05-16 11:31:11 GMT (Saturday 16th May 2020)"
+	revision: "10"
 
 deferred class
 	EL_ML_THUNDERBIRD_ACCOUNT_READER
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 		do
 			find_cmd := Command.new_find_directories (mail_dir)
 			find_cmd.set_depth (1 |..| 1)
-			find_cmd.set_path_included_condition (agent is_folder_included)
+			find_cmd.set_predicate_filter (agent is_folder_included)
 			find_cmd.execute
 			Result := find_cmd.path_list
 		end

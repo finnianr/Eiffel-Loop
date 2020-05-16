@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:23:05 GMT (Thursday 7th May 2020)"
-	revision: "1"
+	date: "2020-05-15 10:54:25 GMT (Friday 15th May 2020)"
+	revision: "2"
 
 class
 	EDITOR_AUTOTEST_APP
@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type: TUPLE [FEATURE_EDITOR_COMMAND_TEST_SET]
+	test_type: TUPLE [NOTE_EDITOR_TEST_SET]
 		do
 			create Result
 		end

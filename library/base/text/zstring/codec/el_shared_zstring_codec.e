@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:40:37 GMT (Thursday 14th May 2020)"
-	revision: "7"
+	date: "2020-05-14 17:10:40 GMT (Thursday 14th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_SHARED_ZSTRING_CODEC
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 
 	default_codec: EL_ZCODEC
 		do
-			Result := Codec_factory.default_codec
+			Result := Codec_factory.zstring_codec
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 11:52:18 GMT (Thursday 23rd April 2020)"
-	revision: "24"
+	date: "2020-05-16 9:13:16 GMT (Saturday 16th May 2020)"
+	revision: "25"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -51,7 +51,7 @@ feature -- Access
 			create Result.make_with_name ("None.txt")
 		end
 
-	escaped_path (path: EL_PATH): ZSTRING
+	escaped_path (path: ZSTRING): ZSTRING
 		deferred
 		end
 

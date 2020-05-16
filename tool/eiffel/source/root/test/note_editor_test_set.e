@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:47:43 GMT (Friday 8th May 2020)"
-	revision: "17"
+	date: "2020-05-16 12:37:36 GMT (Saturday 16th May 2020)"
+	revision: "18"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -48,6 +48,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
 feature {NONE} -- Initialization
 
@@ -187,11 +189,11 @@ feature {NONE} -- Implementation
 		-- Line with 'ñ' was giving trouble
 		-- 	Id3_title: STRING = "La Copla Porteña"
 		do
-			create Result.make_with_count (2)
 			-- UTF-8 + Latin-1
-			across << "hexagram_strings.e", "audio_command_test_set.e" >> as name loop
-				Result.append (OS.file_list (Data_dir.joined_dir_path ("source"), name.item))
-			end
+			Result := OS.query_file_list (
+				Data_dir.joined_dir_path ("source"), "*.e",
+				Filter.base_name_in (<< "hexagram_strings.e", "audio_command_test_set.e" >>)
+			)
 		end
 
 feature {NONE} -- Internal attributes

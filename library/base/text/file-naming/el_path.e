@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-15 12:32:12 GMT (Sunday 15th March 2020)"
-	revision: "36"
+	date: "2020-05-16 9:13:37 GMT (Saturday 16th May 2020)"
+	revision: "37"
 
 deferred class
 	EL_PATH
@@ -593,7 +593,7 @@ feature -- Conversion
 
 	escaped: ZSTRING
 		do
-			Result := File_system.escaped_path (Current)
+			Result := File_system.escaped_path (temporary_path)
 		end
 
 	out: STRING

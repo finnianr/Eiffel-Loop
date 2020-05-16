@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
-	revision: "6"
+	date: "2020-05-16 12:59:13 GMT (Saturday 16th May 2020)"
+	revision: "7"
 
 class
 	BENCHMARK_HTML
@@ -20,7 +20,11 @@ inherit
 
 	EL_MODULE_HTML
 
+	EL_MODULE_OS
+
 	SHARED_HEXAGRAM_STRINGS
+
+	EL_SHARED_FIND_FILE_FILTER_FACTORY
 
 create
 	make_from_file
@@ -59,18 +63,26 @@ feature {NONE} -- Implemenation
 			end
 		end
 
-	source_links: EL_ZSTRING_LIST
+	source_links_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+		local
+			name: ZSTRING
+			has_string_or_benchmark: like Filter.predicate
 		do
-			create Result.make_from_array (<<
-				"apps/string/zstring_benchmark_app.e",
-				"benchmark/string/string_benchmark.e",
-				"benchmark/string/zstring/zstring_benchmark.e",
-				"benchmark/string/string_32/string_32_benchmark.e",
+			create Result.make_equal (11)
+			has_string_or_benchmark := Filter.predicate (agent base_name_has_words (?, << "string", "benchmark" >>))
+			across OS.query_file_list ("source/benchmark", "*.e", has_string_or_benchmark) as path loop
+				name := path.item.base.as_upper
+				name.remove_tail (2)
+				Result [name] := path.item.with_new_extension ("html")
+			end
+		end
 
-				"benchmark/string/mixed_encoding_string_benchmark.e",
-				"benchmark/string/zstring/mixed_encoding_zstring_benchmark.e",
-				"benchmark/string/string_32/mixed_encoding_string_32_benchmark.e"
-			>>)
+	base_name_has_words (a_path: ZSTRING; words: ARRAY [ZSTRING]): BOOLEAN
+		local
+			path: EL_FILE_PATH
+		do
+			path := a_path
+			Result := across words as word all path.base.has_substring (word.item) end
 		end
 
 feature {NONE} -- Evolicity fields
@@ -83,7 +95,7 @@ feature {NONE} -- Evolicity fields
 				["memory_tables", 	agent: like memory_tables do Result := memory_tables end],
 				["data_rows", 	agent data_rows],
 				["github_link", 	agent: STRING do Result := github_link end],
-				["source_links", agent source_links]
+				["source_links", agent source_links_table]
 			>>)
 		end
 
@@ -133,14 +145,12 @@ feature {NONE} -- Constants
 			<body>
 				<div id="content">
 				<h1>ZSTRING v STRING_32</h1>
-				<h2>Benchmark Source Code on Github</h2>
+				<h2>Benchmark Source Code</h2>
 			#across $source_links as $link loop
 				#if $link.cursor_index > 1 then
-					<br>
+				<br>
 				#end
-				<a title="Source on github.com" target="_blank" href="$github_link/$link.item">
-					Eiffel-Loop/test/source/$link.item
-				</a>
+				<a target="_blank" href="../test/$link.item">$link.key</a>
 			#end
 				<h2>Memory Consumption</h2>
 			#across $memory_tables as $table loop

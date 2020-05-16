@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 10:42:30 GMT (Thursday 26th September 2019)"
-	revision: "8"
+	date: "2020-05-16 10:37:46 GMT (Saturday 16th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			is_path_included := agent is_any_path
+			filter := Default_filter
 			create path_list.make (20)
 			follow_symbolic_links := True
 			set_limitless_max_depth
@@ -86,25 +86,20 @@ feature -- Status change
 			follow_symbolic_links := flag
 		end
 
-feature -- Path filter change
-
-	set_any_path_included
+	set_default_filter
 		do
-			is_path_included := agent is_any_path
-			not_path_included := False
+			filter := Default_filter
 		end
 
-	set_path_included_condition (condition: like is_path_included)
+	set_filter (condition: like filter)
 		do
-			is_path_included := condition
-			not_path_included := False
+			filter := condition
 		end
 
-	set_not_path_included_condition (condition: like is_path_included)
-			-- set inverse of `set_path_included_condition'
+	set_predicate_filter (condition: EL_PREDICATE_FIND_CONDITION)
+		-- set agent predicate filter
 		do
-			is_path_included := condition
-			not_path_included := True
+			filter := condition
 		end
 
 feature -- Element change
@@ -179,30 +174,15 @@ feature {NONE} -- Implementation
 	do_with_lines (lines: like adjusted_lines)
 			--
 		local
-			line: ZSTRING; is_included, all_included: BOOLEAN
+			line: ZSTRING
 		do
-			all_included := (create {EL_PREDICATE}.make (agent is_any_path)).same_predicate (is_path_included)
 			from lines.start until lines.after loop
 				line := lines.item
-				if line.is_empty then
-					is_included := False
-				elseif all_included then
-					is_included := True
-				elseif not_path_included then
-					is_included := not is_path_included (line)
-				else
-					is_included := is_path_included (line)
-				end
-				if is_included then
+				if line.count > 0 and then filter.met (line) then
 					path_list.extend (new_path (line))
 				end
 				lines.forth
 			end
-		end
-
-	is_any_path (line: ZSTRING): BOOLEAN
-		do
-			Result := True
 		end
 
 	new_path (a_path: ZSTRING): EL_PATH
@@ -218,8 +198,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	is_path_included: PREDICATE [ZSTRING]
+	filter: EL_QUERY_CONDITION [ZSTRING]
 
-	not_path_included: BOOLEAN
+feature {NONE} -- Constants
+
+	Default_filter: EL_ANY_FILE_FIND_CONDITION
+		once
+			create Result
+		end
 
 end
