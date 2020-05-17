@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:40:20 GMT (Tuesday 28th April 2020)"
-	revision: "22"
+	date: "2020-05-17 10:36:17 GMT (Sunday 17th May 2020)"
+	revision: "23"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -32,8 +32,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_task_path: EL_FILE_PATH)
 		do
-			create file_path; create dir_path
-			set_task (a_task_path)
+			task_path := a_task_path
+			create dir_path
+			set_task
 		end
 
 feature -- Access
@@ -41,36 +42,35 @@ feature -- Access
 	task: RBOX_MANAGEMENT_TASK
 
 	task_name: ZSTRING
+		do
+			Result := Naming.class_as_snake_lower (task, 0, 1)
+			if Result.starts_with ("export") then
+				Result := Name_template #$ [Result, task_path.parent.base]
+			end
+		end
 
 feature -- Basic operations
 
 	execute
 			--
-		local
-			database: RBOX_DATABASE
 		do
 			log.enter ("execute")
 			from until user_quit loop
-				if attached {DEFAULT_TASK} task then
+				if is_rhythmbox_open then
+					lio.put_line ("ERROR: Rhythmbox application is open. Exit and try again.")
+
+				elseif attached {DEFAULT_TASK} task then
 					lio.put_line ("ERROR")
 					lio.put_labeled_string ("Task not found", task_name)
 					lio.put_new_line
+
 				else
-					if is_rhythmbox_open then
-						lio.put_line ("ERROR: Rhythmbox application is open. Exit and try again.")
+					task.error_check
+					if task.error_message.is_empty then
+						apply_task
 					else
-						task.error_check
-						if task.error_message.is_empty then
-							create database.make (xml_file_path ("rhythmdb"), task.music_dir)
-
-
-							lio.put_labeled_string ("Executing", task_name)
-							lio.put_new_line
-							task.apply
-						else
-							lio.put_labeled_string ("ERROR", task.error_message)
-							lio.put_new_line
-						end
+						lio.put_labeled_string ("ERROR", task.error_message)
+						lio.put_new_line
 					end
 				end
 				ask_user_for_task
@@ -93,53 +93,59 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	apply_task
+		local
+			database: RBOX_DATABASE
+		do
+			if not shared_database.is_created then
+				create database.make (User_config_dir + "rhythmdb.xml", task.music_dir)
+			end
+
+			lio.put_labeled_string ("Executing", task_name)
+			lio.put_new_line
+			task.apply
+		end
+
 	ask_user_for_task
 		local
-			task_file_path: EL_FILE_PATH; done: BOOLEAN
+			done: BOOLEAN
 		do
 			from until done loop
-				task_file_path := User_input.file_path ("Drag and drop a task")
-				if task_file_path.base ~ Quit then
+				task_path := User_input.file_path ("Drag and drop a task")
+				if task_path.base ~ Quit then
 					done := True; user_quit := True
 
-				elseif task_file_path.exists then
-					set_task (task_file_path)
+				elseif task_path.exists then
+					set_task
 					done := True
 				end
 				lio.put_new_line
 			end
 		end
 
-	call (obj: ANY)
+	set_task
 		do
+			task := Task_factory.instance_from_pyxis (agent {RBOX_MANAGEMENT_TASK}.make (task_path))
 		end
 
-	set_task (a_file_path: EL_FILE_PATH)
+	shared_database: EL_SINGLETON [RBOX_DATABASE]
 		do
-			task := Task_factory.instance_from_pyxis (agent {RBOX_MANAGEMENT_TASK}.make (a_file_path))
-			task_name := Task_factory.last_root_element
-			if task_name.is_empty then
-				task_name := a_file_path.base
-			end
-		end
-
-	xml_data_dir: EL_DIR_PATH
-		do
-			Result := User_config_dir
-		end
-
-	xml_file_path (name: STRING): EL_FILE_PATH
-		do
-			Result := xml_data_dir + (name + ".xml")
+			create Result
 		end
 
 feature {NONE} -- Internal attributes
 
 	dir_path: EL_DIR_PATH
 
-	file_path: EL_FILE_PATH
+	task_path: EL_FILE_PATH
+		-- path to task config file
 
 feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
+
+	Name_template: ZSTRING
+		once
+			Result := "%S (%S)"
+		end
 
 	Quit: ZSTRING
 		once

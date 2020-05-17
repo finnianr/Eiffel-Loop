@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 11:55:25 GMT (Thursday 16th April 2020)"
-	revision: "4"
+	date: "2020-05-17 9:28:57 GMT (Sunday 17th May 2020)"
+	revision: "5"
 
 deferred class
 	SHARED_DATABASE
@@ -20,10 +20,7 @@ inherit
 feature {NONE} -- Constants
 
 	Database: RBOX_DATABASE
-		local
-			conforming: EL_CONFORMING_SINGLETON [RBOX_DATABASE]
 		once
-			create conforming
-			Result := conforming.singleton
+			Result := create {EL_CONFORMING_SINGLETON [RBOX_DATABASE]}
 		end
 end

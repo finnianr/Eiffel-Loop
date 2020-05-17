@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 11:45:24 GMT (Friday 10th April 2020)"
-	revision: "16"
+	date: "2020-05-17 15:35:06 GMT (Sunday 17th May 2020)"
+	revision: "17"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -20,7 +20,7 @@ inherit
 		export
 			{NONE} array_subchain
 		undefine
-			make_from_list,
+			make_from_list, joined_chain,
 			is_equal, copy, prune_all, readable, prune, new_cursor, to_array,
 			first, last, i_th, at,
 			start, finish, move, go_i_th, remove, find_next_item,
@@ -32,6 +32,7 @@ inherit
 
 	EL_SORTABLE_ARRAYED_LIST [S]
 		rename
+			joined as joined_chain,
 			subchain as array_subchain
 		export
 			{NONE} array_subchain

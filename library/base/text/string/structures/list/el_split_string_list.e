@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 0:55:19 GMT (Sunday 16th February 2020)"
-	revision: "18"
+	date: "2020-05-17 15:17:54 GMT (Sunday 17th May 2020)"
+	revision: "19"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -30,6 +30,7 @@ inherit
 			item as interval_item,
 			item_lower as item_start_index,
 			item_upper as item_end_index,
+			joined as joined_intervals,
 			new_cursor as new_interval_cursor,
 			there_exists as there_exists_interval
 		redefine

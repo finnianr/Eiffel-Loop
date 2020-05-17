@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:21:56 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2020-05-17 9:29:13 GMT (Sunday 17th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_LOG_MANAGER
@@ -20,7 +20,7 @@ feature {NONE} -- Implementation
 	Log_manager: EL_LOG_MANAGER
 		--	
 		once ("PROCESS")
-			Result := (create {EL_CONFORMING_SINGLETON [EL_LOG_MANAGER]}).singleton
+			Result := create {EL_CONFORMING_SINGLETON [EL_LOG_MANAGER]}
 		end
 
 	current_thread_log_file: EL_FILE_AND_CONSOLE_LOG_OUTPUT

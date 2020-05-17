@@ -229,3 +229,6 @@ Added python support for .getlib patch url
 Fri 8th May 2020, 12:41:21
 Added EL_FILE_OPEN_ROUTINES
 
+Sun 17th May 2020, 12:31:20
+Updated ZSTRING benchmarks
+

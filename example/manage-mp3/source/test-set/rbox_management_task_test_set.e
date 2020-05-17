@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-18 15:17:40 GMT (Saturday 18th April 2020)"
-	revision: "4"
+	date: "2020-05-17 9:54:11 GMT (Sunday 17th May 2020)"
+	revision: "5"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -29,16 +29,9 @@ inherit
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
-	SHARED_DATABASE
-		rename
-			Database as Shared_database
-		end
-
 	EL_MODULE_TUPLE
 
 	EL_MODULE_URL
-
-	EL_SHARED_SINGLETONS
 
 feature -- Basic operations
 
@@ -64,10 +57,8 @@ feature {NONE} -- Events
 
 			task := new_task (task_config)
 
-			if Singleton_table.has_type (({RBOX_TEST_DATABASE}).type_id, False)
-				and then attached {like Database} Shared_database as shared
-			then
-				database := shared
+			if shared_database.is_created then
+				database := shared_database.item
 				-- remake the database
 				database.make (rhythmdb_path, task.music_dir)
 			else
@@ -168,6 +159,11 @@ feature {NONE} -- Implementation
 	rhythmdb_path: EL_FILE_PATH
 		do
 			Result := task.music_dir.parent + "rhythmdb.xml"
+		end
+
+	shared_database: EL_SINGLETON [RBOX_TEST_DATABASE]
+		do
+			create Result
 		end
 
 feature {NONE} -- Deferred implementation

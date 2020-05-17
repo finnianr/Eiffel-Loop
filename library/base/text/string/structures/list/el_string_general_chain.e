@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 11:43:28 GMT (Friday 10th April 2020)"
-	revision: "16"
+	date: "2020-05-17 15:16:00 GMT (Sunday 17th May 2020)"
+	revision: "17"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
 	EL_CHAIN [S]
+		rename
+			joined as joined_chain
+		end
 
 	EL_JOINED_STRINGS [S]
 

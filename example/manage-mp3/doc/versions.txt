@@ -1,3 +1,6 @@
+2.2.3
+Fixed sharing of database across tasks
+
 2.2.2
 Fixed escaping of URI paths for EL_GVFS* commands
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 9:46:34 GMT (Saturday 25th April 2020)"
-	revision: "29"
+	date: "2020-05-17 15:38:29 GMT (Sunday 17th May 2020)"
+	revision: "30"
 
 deferred class EL_CHAIN [G]
 
@@ -95,6 +95,17 @@ feature -- Access
 				end
 				pop_cursor
 			end
+		end
+
+	joined (list: ITERABLE [G]): like Current
+		do
+			push_cursor
+			finish; forth
+			Result := duplicate (0)
+			Result.accommodate (count + Iterable.count (list))
+			Result.append_sequence (Current)
+			Result.append (list)
+			pop_cursor
 		end
 
 feature -- Item query

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 17:39:16 GMT (Friday 4th October 2019)"
-	revision: "1"
+	date: "2020-05-17 9:25:47 GMT (Sunday 17th May 2020)"
+	revision: "2"
 
 class
 	EL_CONFORMING_SINGLETON [G]
@@ -19,13 +19,13 @@ inherit
 		end
 
 convert
-	singleton: {G}
+	item: {G}
 
 feature {NONE} -- Implementation
 
 	exception_insert: TUPLE
 		do
-			Result := ["conforming to " + ({G}).name]
+			Result := ["conforming to " + base_type.name]
 		end
 
 feature {NONE} -- Constants

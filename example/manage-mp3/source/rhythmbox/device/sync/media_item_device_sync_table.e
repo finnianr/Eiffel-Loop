@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:43:53 GMT (Thursday 2nd April 2020)"
-	revision: "7"
+	date: "2020-05-17 13:22:56 GMT (Sunday 17th May 2020)"
+	revision: "8"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -26,11 +26,6 @@ inherit
 			is_equal, copy
 		redefine
 			make_default
-		end
-
-	EL_QUERY_CONDITION_FACTORY [MEDIA_ITEM]
-		undefine
-			is_equal, copy
 		end
 
 	EL_MODULE_LOG
@@ -80,25 +75,28 @@ feature -- Access
 			end
 		end
 
-feature -- Query predicates
+feature -- Query conditions
 
-	exported_item_is_new: like predicate
+	exported_item_is_new: EL_PREDICATE_QUERY_CONDITION [MEDIA_ITEM]
 		do
-			Result := predicate (agent (media_item: MEDIA_ITEM): BOOLEAN
-				do
-					Result := not has_key (media_item.id)
-				end
-			)
+			Result := agent not_has_media_item
 		end
 
-	exported_item_is_updated: like predicate
+	exported_item_is_updated: EL_PREDICATE_QUERY_CONDITION [MEDIA_ITEM]
 		do
-			Result := predicate (agent (media_item: MEDIA_ITEM): BOOLEAN
-				do
-					search (media_item.id)
-					Result := found and then found_item.checksum /= media_item.checksum
-				end
-			)
+			Result := agent media_item_is_updated
+		end
+
+feature {NONE} -- Implementation
+
+	not_has_media_item (media_item: MEDIA_ITEM): BOOLEAN
+		do
+			Result := not has (media_item.id)
+		end
+
+	media_item_is_updated (media_item: MEDIA_ITEM): BOOLEAN
+		do
+			Result := has_key (media_item.id) and then found_item.checksum /= media_item.checksum
 		end
 
 feature {NONE} -- Evolicity reflection

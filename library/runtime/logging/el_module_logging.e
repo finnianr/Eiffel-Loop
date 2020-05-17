@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 8:58:35 GMT (Monday 6th January 2020)"
-	revision: "10"
+	date: "2020-05-17 9:29:25 GMT (Sunday 17th May 2020)"
+	revision: "11"
 
 deferred class
 	EL_MODULE_LOGGING
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	Logging: EL_GLOBAL_LOGGING
 		--	
 		once ("PROCESS")
-			Result := (create {EL_SINGLETON [EL_GLOBAL_LOGGING]}).singleton
+			Result := create {EL_SINGLETON [EL_GLOBAL_LOGGING]}
 		end
 
 end

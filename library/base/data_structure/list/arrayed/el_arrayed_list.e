@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 11:45:02 GMT (Friday 10th April 2020)"
-	revision: "28"
+	date: "2020-05-17 15:39:09 GMT (Sunday 17th May 2020)"
+	revision: "29"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -33,7 +33,7 @@ inherit
 			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
 			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array, order_by
 		redefine
-			find_next_item, push_cursor, pop_cursor
+			find_next_item, joined, push_cursor, pop_cursor
 		end
 
 create
@@ -113,6 +113,13 @@ feature -- Access
 				create Result.make_filled (item, 1, end_pos - index + 1)
 				Result.area.copy_data (area_v2, index - 1, 0, end_pos - index + 1)
 			end
+		end
+
+	joined (list: ITERABLE [G]): like Current
+		do
+			create Result.make (count + Iterable.count (list))
+			Result.append_sequence (Current)
+			Result.append (list)
 		end
 
 	sub_list (start_index, end_index: INTEGER): like Current

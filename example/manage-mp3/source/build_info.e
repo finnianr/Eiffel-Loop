@@ -7,7 +7,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 12:34:22 GMT (Saturday 16th May 2020)"
+	date: "2020-05-17 15:57:10 GMT (Sunday 17th May 2020)"
 	revision: "1"
 
 class
@@ -18,9 +18,9 @@ inherit
 
 feature -- Constants
 
-	Version_number: NATURAL = 02_02_02
+	Version_number: NATURAL = 02_02_03
 
-	Build_number: NATURAL = 28
+	Build_number: NATURAL = 36
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

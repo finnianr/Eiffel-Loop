@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-17 12:05:21 GMT (Friday 17th April 2020)"
-	revision: "16"
+	date: "2020-05-17 15:39:58 GMT (Sunday 17th May 2020)"
+	revision: "17"
 
 class
 	STORAGE_DEVICE
@@ -80,7 +80,7 @@ feature -- Basic operations
 		local
 			songs_to_export: like songs.query; old_sync_table: like sync_table
 			items_to_export: EL_QUERYABLE_ARRAYED_LIST [MEDIA_ITEM]
-			items_to_copy, items_to_update: ARRAYED_LIST [MEDIA_ITEM]
+			items_to_copy, items_to_update: EL_ARRAYED_LIST [MEDIA_ITEM]
 		do
 			log.enter ("export_songs")
 			File_system.make_directory (temporary_dir)
@@ -97,8 +97,8 @@ feature -- Basic operations
 
 			if attached {SONG_IN_PLAYLIST_QUERY_CONDITION} a_condition then
 				-- If we are only exporting playlist songs we don't want to delete everything else on device
-				across items_to_copy as media loop
-					sync_table [media.item.id] := new_sync_item (media.item)
+				across items_to_copy.joined (items_to_update) as media loop
+					sync_table [media.item.id] := media.item.to_sync_item (is_windows_format)
 				end
 				sync_table.deletion_list (sync_table, items_to_update).do_all (agent delete_file)
 			else
@@ -137,13 +137,8 @@ feature {NONE} -- Factory
 			Result.set_output_path (sync_table.output_path)
 			Result.accommodate (media_item_list.count)
 			across media_item_list as media loop
-				Result [media.item.id] := new_sync_item (media.item)
+				Result [media.item.id] := media.item.to_sync_item (is_windows_format)
 			end
-		end
-
-	new_sync_item (media_item: MEDIA_ITEM): MEDIA_SYNC_ITEM
-		do
-			create Result.make (media_item.id, media_item.checksum, media_item.exported_relative_path (is_windows_format))
 		end
 
 feature {NONE} -- Volume file operations
@@ -341,7 +336,7 @@ feature {NONE} -- Implementation
 
 	local_sync_table_file_path: EL_FILE_PATH
 		do
-			Result := Directory.app_data.joined_file_tuple ([Device_data, task.volume.name, Sync_table_name])
+			Result := Directory.app_cache.joined_file_tuple ([Device_data, task.volume.name, Sync_table_name])
 		end
 
 feature {NONE} -- Internal attributes

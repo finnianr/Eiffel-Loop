@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:09:41 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2020-05-17 9:18:43 GMT (Sunday 17th May 2020)"
+	revision: "5"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			logging: EL_GLOBAL_LOGGING
 		do
 			create global
-			if not global.is_singleton_created then
+			if not global.is_created then
 				create logging.make (False)
 			end
 		end

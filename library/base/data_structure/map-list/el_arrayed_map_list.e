@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 13:11:26 GMT (Saturday 25th January 2020)"
-	revision: "7"
+	date: "2020-05-17 15:17:13 GMT (Sunday 17th May 2020)"
+	revision: "8"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -126,22 +126,22 @@ feature -- Element change
 
 feature -- Conversion
 
-	as_string_32_list (joined: FUNCTION [K, G, STRING_32]): EL_ARRAYED_LIST [STRING_32]
+	as_string_32_list (a_joined: FUNCTION [K, G, STRING_32]): EL_ARRAYED_LIST [STRING_32]
 		do
 			create Result.make (count)
-			do_all (agent extend_string_32_list (Result, joined, ?))
+			do_all (agent extend_string_32_list (Result, a_joined, ?))
 		end
 
-	as_string_8_list (joined: FUNCTION [K, G, STRING_8]): EL_ARRAYED_LIST [STRING_8]
+	as_string_8_list (a_joined: FUNCTION [K, G, STRING_8]): EL_ARRAYED_LIST [STRING_8]
 		do
 			create Result.make (count)
-			do_all (agent extend_string_8_list (Result, joined, ?))
+			do_all (agent extend_string_8_list (Result, a_joined, ?))
 		end
 
-	as_string_list (joined: FUNCTION [K, G, ZSTRING]): EL_ARRAYED_LIST [ZSTRING]
+	as_string_list (a_joined: FUNCTION [K, G, ZSTRING]): EL_ARRAYED_LIST [ZSTRING]
 		do
 			create Result.make (count)
-			do_all (agent extend_string_list (Result, joined, ?))
+			do_all (agent extend_string_list (Result, a_joined, ?))
 		end
 
 feature {NONE} -- Implementation
@@ -151,19 +151,19 @@ feature {NONE} -- Implementation
 			list.extend (a_item.key)
 		end
 
-	extend_string_32_list (list: like as_string_32_list; joined: FUNCTION [K, G, STRING_32]; a_item: like item)
+	extend_string_32_list (list: like as_string_32_list; a_joined: FUNCTION [K, G, STRING_32]; a_item: like item)
 		do
-			list.extend (joined (a_item.key, a_item.value))
+			list.extend (a_joined (a_item.key, a_item.value))
 		end
 
-	extend_string_8_list (list: like as_string_8_list; joined: FUNCTION [K, G, STRING_8]; a_item: like item)
+	extend_string_8_list (list: like as_string_8_list; a_joined: FUNCTION [K, G, STRING_8]; a_item: like item)
 		do
-			list.extend (joined (a_item.key, a_item.value))
+			list.extend (a_joined (a_item.key, a_item.value))
 		end
 
-	extend_string_list (list: like as_string_list; joined: FUNCTION [K, G, ZSTRING]; a_item: like item)
+	extend_string_list (list: like as_string_list; a_joined: FUNCTION [K, G, ZSTRING]; a_item: like item)
 		do
-			list.extend (joined (a_item.key, a_item.value))
+			list.extend (a_joined (a_item.key, a_item.value))
 		end
 
 	extend_value_list (list: like value_list; a_item: like item)

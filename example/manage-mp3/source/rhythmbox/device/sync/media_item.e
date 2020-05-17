@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 12:18:33 GMT (Monday 30th March 2020)"
-	revision: "5"
+	date: "2020-05-17 15:51:37 GMT (Sunday 17th May 2020)"
+	revision: "6"
 
 deferred class
 	MEDIA_ITEM
@@ -24,6 +24,11 @@ feature -- Access
 
 	checksum: NATURAL_32
 		deferred
+		end
+
+	to_sync_item (is_windows_format: BOOLEAN): MEDIA_SYNC_ITEM
+		do
+			create Result.make (id, checksum, exported_relative_path (is_windows_format))
 		end
 
 	exported_relative_path (is_windows_format: BOOLEAN): EL_FILE_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-25 11:02:39 GMT (Wednesday 25th December 2019)"
-	revision: "14"
+	date: "2020-05-17 15:59:46 GMT (Sunday 17th May 2020)"
+	revision: "15"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -15,7 +15,8 @@ deferred class
 inherit
 	EVOLICITY_CONTEXT
 		rename
-			object_table as getter_functions
+			object_table as getter_functions,
+			joined as joined_strings
 		redefine
 			context_item, put_variable
 		end

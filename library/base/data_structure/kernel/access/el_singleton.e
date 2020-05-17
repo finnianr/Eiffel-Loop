@@ -3,7 +3,7 @@ note
 		Allow implementation of shared [https://en.wikipedia.org/wiki/Singleton_pattern singleton] for type `G'.
 		See class [$source EL_SHARED_SINGLETONS] for details.
 		
-		if `descendant_allowed' is enabled then `singleton' may also be a type conforming to `G'
+		if `descendant_allowed' is enabled then `item' may also be a type conforming to `G'
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 11:51:46 GMT (Saturday 4th January 2020)"
-	revision: "5"
+	date: "2020-05-17 9:27:49 GMT (Sunday 17th May 2020)"
+	revision: "6"
 
 class
 	EL_SINGLETON [G]
@@ -25,34 +25,30 @@ inherit
 	EL_MODULE_EXCEPTION
 
 convert
-	singleton: {G}
+	item: {G}
 
 feature -- Status query
 
-	is_singleton_created: BOOLEAN
+	is_created: BOOLEAN
+		-- True if `item' has been created
 		do
-			Result := Singleton_table.has_type (base_type_id, match_conforming)
+			Result := Singleton_table.has_type (base_type, match_conforming)
 		end
 
 feature -- Access
 
-	singleton: G
+	item: G
 		require
-			singleton_created: is_singleton_created
+			item_created: is_created
 		do
-			if attached {G} Singleton_table.item (base_type_id, match_conforming) as item then
-				Result := item
+			if attached {G} Singleton_table.item (base_type.type_id, match_conforming) as l_item then
+				Result := l_item
 			else
 				Exception.raise_developer ("Shared `Singleton_table' does not have type %S", exception_insert)
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	base_type_id: INTEGER
-		do
-			Result := ({G}).type_id
-		end
 
 	match_conforming: BOOLEAN
 		--  if `True' then a type conforming to `G' may be also be assigned
@@ -61,7 +57,12 @@ feature {NONE} -- Implementation
 
 	exception_insert: TUPLE
 		do
-			Result := [({G}).name]
+			Result := [base_type.name]
+		end
+
+	base_type: TYPE [G]
+		do
+			Result := {G}
 		end
 
 end

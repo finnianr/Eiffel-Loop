@@ -310,6 +310,12 @@ An implementation of a memory compact string with the same unicode character ran
 * [Introducing class ZSTRING](https://www.eiffel.org/blog/finnianr/introducing_class_zstring)
 * [ISO-8859 is dead, long live ISO-8859](https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859)
 
+**Benchmarks ZSTRING vs STRING_32**
+
+
+* [Base character-set Latin-1](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html)
+* [Base character-set Latin-15](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-15.html)
+
 ## Image Utilities
 Image utilities providing:
 
