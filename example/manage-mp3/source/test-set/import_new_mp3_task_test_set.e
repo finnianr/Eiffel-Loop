@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 13:14:08 GMT (Thursday 23rd April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:07:01 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	IMPORT_NEW_MP3_TASK_TEST_SET
@@ -54,11 +54,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2219296053
+	Checksum: NATURAL = 2290954739
 
 	Task_config: STRING = "[
 		import_new_mp3:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 
 	Test_time: DATE_TIME

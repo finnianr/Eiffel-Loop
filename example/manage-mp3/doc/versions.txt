@@ -1,3 +1,9 @@
+2.2.5
+Added LIST_VOLUMES_TASK
+
+2.2.4
+Fixed fields that should always be saved even when empty
+
 2.2.3
 Fixed sharing of database across tasks
 

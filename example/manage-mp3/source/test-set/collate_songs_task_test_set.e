@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 13:07:52 GMT (Thursday 23rd April 2020)"
-	revision: "4"
+	date: "2020-05-19 10:06:15 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	COLLATE_SONGS_TASK_TEST_SET
@@ -17,11 +17,11 @@ inherit
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 3027792290
+	Checksum: NATURAL = 253096984
 
 	Task_config: STRING = "[
 		collate_songs:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 
 end

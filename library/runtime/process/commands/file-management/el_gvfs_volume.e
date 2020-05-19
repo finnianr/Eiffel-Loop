@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:17:23 GMT (Wednesday 11th September 2019)"
-	revision: "9"
+	date: "2020-05-19 9:45:29 GMT (Tuesday 19th May 2020)"
+	revision: "10"
 
 class
 	EL_GVFS_VOLUME
@@ -34,15 +34,8 @@ feature {NONE} -- Initialization
 
 	make_with_volume (a_name: like name; a_is_windows_format: BOOLEAN)
 		do
-			make_default
-			name := a_name; is_windows_format := a_is_windows_format
-			if a_name ~ Current_directory then
-				create {EL_DIR_PATH} uri_root.make (once ".")
-			elseif a_name ~ Home_directory then
-				create {EL_DIR_URI_PATH} uri_root.make_from_path (Directory.home)
-			else
-				reset_uri_root
-			end
+			make (new_uri_root (a_name), a_is_windows_format)
+			name := a_name
 		end
 
 feature -- Access
@@ -195,16 +188,8 @@ feature -- Element change
 		end
 
 	reset_uri_root
-		local
-			command: like Mount_list_command
 		do
-			command := Mount_list_command
-			command.execute
-			if command.uri_root_table.has_key (name) then
-				uri_root := command.uri_root_table.found_item
-			else
-				uri_root := Default_uri_root
-			end
+			uri_root := new_uri_root (name)
 		end
 
 	set_uri_root (a_uri_root: like uri_root)
@@ -249,6 +234,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	mount_table: EL_GVFS_MOUNT_TABLE
+		do
+			create Result.make
+		end
+
 	move (source_path: EL_PATH; destination_path: EL_PATH)
 		local
 			command: like Move_command
@@ -257,6 +247,24 @@ feature {NONE} -- Implementation
 			command.put_path (Var_source_path, source_path)
 			command.put_path (Var_uri, destination_path)
 			command.execute
+		end
+
+	new_uri_root (a_name: ZSTRING): like uri_root
+		local
+			table: like mount_table
+		do
+			if a_name ~ Current_directory then
+				create {EL_DIR_PATH} Result.make (Current_directory)
+			elseif a_name ~ Home_directory then
+				create {EL_DIR_URI_PATH} Result.make_from_path (Directory.home)
+			else
+				table := mount_table
+				if table.has_key (a_name) then
+					Result := table.found_item
+				else
+					Result := Default_uri_root
+				end
+			end
 		end
 
 	remove (a_uri: EL_PATH)
@@ -314,11 +322,6 @@ feature {NONE} -- Special commands
 		end
 
 	Get_file_type_commmand: EL_GVFS_FILE_EXISTS_COMMAND
-		once
-			create Result.make
-		end
-
-	Mount_list_command: EL_GVFS_MOUNT_LIST_COMMAND
 		once
 			create Result.make
 		end

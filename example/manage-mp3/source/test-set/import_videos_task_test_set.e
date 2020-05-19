@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 13:15:59 GMT (Thursday 23rd April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:09:04 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	IMPORT_VIDEOS_TASK_TEST_SET
@@ -60,11 +60,11 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Checksum: NATURAL = 3938710347
+	Checksum: NATURAL = 2809486844
 
 	Task_config: STRING = "[
 		import_videos:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 
 end

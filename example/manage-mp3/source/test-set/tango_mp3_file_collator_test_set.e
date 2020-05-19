@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-18 15:16:03 GMT (Saturday 18th April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:08:40 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	TANGO_MP3_FILE_COLLATOR_TEST_SET
@@ -53,7 +53,7 @@ feature {NONE} -- Constants
 
 	Task_config: STRING = "[
 		default:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 
 end

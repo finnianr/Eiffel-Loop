@@ -6,5 +6,4 @@ pyxis-doc:
 # 'c0' command are saved as 'Comment' and are no longer visible on reload.
 
 normalize_comments:
-	is_dry_run = false
 

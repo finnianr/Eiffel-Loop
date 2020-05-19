@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 11:20:01 GMT (Wednesday 31st October 2018)"
-	revision: "8"
+	date: "2020-05-19 8:57:15 GMT (Tuesday 19th May 2020)"
+	revision: "9"
 
-class
+deferred class
 	EL_XML_ESCAPING_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

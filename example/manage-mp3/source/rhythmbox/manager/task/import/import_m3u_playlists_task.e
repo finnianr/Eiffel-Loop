@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:12:28 GMT (Tuesday 31st March 2020)"
-	revision: "3"
+	date: "2020-05-19 10:01:03 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	IMPORT_M3U_PLAYLISTS_TASK
@@ -51,9 +51,7 @@ feature -- Basic operations
 					lio.put_new_line
 					lio.put_new_line
 				end
-				if not is_dry_run then
-					Database.playlists.store
-				end
+				Database.playlists.store
 			else
 				lio.put_line ("ERROR")
 				lio.put_path_field ("m3u_dir", m3u_dir)

@@ -1,13 +1,13 @@
 note
-	description: "Rbox iradio entry"
+	description: "Rhythmbox radio station entry"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 11:27:10 GMT (Saturday 16th May 2020)"
-	revision: "37"
+	date: "2020-05-19 8:57:27 GMT (Tuesday 19th May 2020)"
+	revision: "38"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -15,28 +15,26 @@ class
 inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
+			make_default as make,
 			xml_names as to_kebab_case,
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make_default, building_action_table, Except_fields, Field_sets
+			make, building_action_table, Except_fields, Field_sets
 		end
 
 	EVOLICITY_SERIALIZEABLE
+		rename
+			make_default as make
 		undefine
 			is_equal
 		redefine
-			make_default, getter_function_table, Template
+			make, getter_function_table, Template
 		end
-
-	RHYTHMBOX_CONSTANTS
-		rename
-			Media_type as Media_types
-		end
-
-	EL_XML_ESCAPING_CONSTANTS undefine is_equal end
 
 	HASHABLE undefine is_equal end
+
+	EL_XML_ESCAPING_CONSTANTS
 
 	EL_MODULE_XML
 
@@ -46,6 +44,8 @@ inherit
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
+	RBOX_IRADIO_FIELDS
+
 create
 	make
 
@@ -53,30 +53,12 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_default
-			music_dir := Database.music_dir
-		end
-
-	make_default
-			--
-		do
 			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EVOLICITY_SERIALIZEABLE}
 			media_type := Media_types.octet_stream
 			string_field_table := Default_string_table
+			music_dir := Database.music_dir
 		end
-
-feature -- Rhythmbox XML fields
-
-	genre: ZSTRING
-
-	hidden: NATURAL_8
-
-	media_type: STRING
-
-	rating: DOUBLE
-
-	title: ZSTRING
 
 feature -- Access
 
@@ -119,24 +101,11 @@ feature -- Access
 
 feature -- Element change
 
-	set_genre (a_genre: like genre)
-			--
-		do
-			Genre_set.put (a_genre)
-			genre := Genre_set.found_item
-		end
-
 	set_location (a_location: like location)
 			--
 		do
 			location := a_location
 			location.enable_out_abbreviation
-		end
-
-	set_media_type (a_media_type: like media_type)
-		do
-			Media_type_set.put (a_media_type)
-			media_type := Media_type_set.found_item
 		end
 
 	set_string_field (field_code: NATURAL_16; value: ZSTRING)
@@ -210,11 +179,12 @@ feature {NONE} -- Evolicity fields
 
 	get_element_list: like Element_list
 		local
-			element: EL_XML_TEXT_ELEMENT
+			element: EL_XML_TEXT_ELEMENT; always_saved: BOOLEAN
 		do
 			Result := Element_list
 			Result.wipe_out
 			across DB_field.sorted as enum loop
+				always_saved := DB_field.always_saved_set.has (enum.item)
 				element := DB_field.xml_element (enum.item)
 				element.text.wipe_out
 
@@ -223,7 +193,7 @@ feature {NONE} -- Evolicity fields
 
 				elseif field_table.has_key (DB_field.field_name (enum.item)) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
-						if not numeric.is_zero (Current) then
+						if always_saved or else not numeric.is_zero (Current) then
 							numeric.write (Current, element.text)
 						end
 					else
@@ -234,7 +204,7 @@ feature {NONE} -- Evolicity fields
 					element.text.append (string_field_table.found_item)
 
 				end
-				if not element.text.is_empty then
+				if always_saved or else not element.text.is_empty then
 					Result.extend (element.to_latin_1 (True))
 				end
 			end
@@ -291,16 +261,6 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Genre_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (50)
-		end
-
-	Media_type_set: EL_HASH_SET [STRING]
-		once
-			create Result.make_from_array (Media_type_list.to_array)
-		end
-
 	Protocol: ZSTRING
 		once
 			Result := "http"
@@ -309,11 +269,6 @@ feature {NONE} -- Constants
 	Type: STRING
 		once
 			Result := "iradio"
-		end
-
-	Title_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (100)
 		end
 
 end

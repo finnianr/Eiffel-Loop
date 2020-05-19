@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 10:53:27 GMT (Thursday 16th April 2020)"
-	revision: "1"
+	date: "2020-05-19 10:06:47 GMT (Tuesday 19th May 2020)"
+	revision: "2"
 
 class
 	IMPORT_M3U_PLAYLISTS_TASK_TEST_SET
@@ -21,7 +21,7 @@ feature {NONE} -- Constants
 
 	Task_config: STRING = "[
 		import_m3u_playlists:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 			m3u_dir = "test-data/rhythmdb/m3u"
 	]"
 end

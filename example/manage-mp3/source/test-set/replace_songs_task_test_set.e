@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 14:45:00 GMT (Thursday 23rd April 2020)"
-	revision: "3"
+	date: "2020-05-19 10:08:46 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	REPLACE_SONGS_TASK_TEST_SET
@@ -17,10 +17,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 3405796200
+	Checksum: NATURAL = 2893710720
 
 	Task_config: STRING = "[
 		replace_songs:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 end

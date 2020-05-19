@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:43:39 GMT (Sunday 12th April 2020)"
-	revision: "12"
+	date: "2020-05-19 8:54:33 GMT (Tuesday 19th May 2020)"
+	revision: "13"
 
 class
 	RBOX_CORTINA_SONG
@@ -15,7 +15,7 @@ class
 inherit
 	RBOX_SONG
 		rename
-			make as make_song
+			make as make_default
 		end
 
 	RHYTHMBOX_CONSTANTS
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make (a_source_song: RBOX_SONG; tanda_type: ZSTRING; a_track_number, a_duration: INTEGER)
 		do
-			make_song
+			make_default
 			source_song := a_source_song; track_number := a_track_number; duration := a_duration
 			if tanda_type ~ Tanda.the_end then
 				title := Tanda.the_end

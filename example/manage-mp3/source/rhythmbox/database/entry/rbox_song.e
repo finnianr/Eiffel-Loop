@@ -1,6 +1,8 @@
 note
 	description: "[
-		Object representing Rhythmbox 2.99.1 song entry in rhythmdb.xml
+		Object representing Rhythmbox 3.0.1 song entry in rhythmdb.xml
+		
+		See field enumeration class [$source RBOX_DATABASE_FIELD_ENUM]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 8:59:00 GMT (Monday 13th April 2020)"
-	revision: "39"
+	date: "2020-05-19 8:53:55 GMT (Tuesday 19th May 2020)"
+	revision: "40"
 
 class
 	RBOX_SONG
@@ -21,13 +23,13 @@ inherit
 			relative_location as relative_mp3_path,
 			set_location as set_mp3_path
 		redefine
-			make, make_default, getter_function_table, on_context_exit,
+			make, getter_function_table, on_context_exit,
 			Except_fields, Field_sets, Type
 		end
 
 	MEDIA_ITEM
 		rename
-			id as mb_trackid,
+			id as mb_trackid, -- XML field name
 			Default_id as Default_audio_id,
 			relative_path as mp3_relative_path,
 			checksum as last_checksum,
@@ -36,7 +38,7 @@ inherit
 			is_equal
 		end
 
-	RBOX_SONG_FIELDS undefine is_equal end
+	RBOX_SONG_FIELDS
 
 	M3U_PLAY_LIST_CONSTANTS
 
@@ -54,18 +56,13 @@ create
 feature {NONE} -- Initialization
 
 	make
-			--
-		do
-			Precursor
-			set_audio_id (Default_audio_id)
-			set_first_seen_time (Time.Unix_origin)
-		end
-
-	make_default
 		do
 			Precursor
 			album_artists := Default_album_artists
 			media_type := Media_types.mpeg
+			set_last_seen_time (Time.Unix_origin)
+			set_audio_id (Default_audio_id)
+			set_first_seen_time (Time.Unix_origin)
 		end
 
 feature -- Artist
@@ -106,13 +103,6 @@ feature -- Tags
 
 feature -- Access
 
-	album_picture_checksum: NATURAL
-		do
-			if mb_albumid.is_natural then
-				Result := mb_albumid.to_natural
-			end
-		end
-
 	audio_id: STRING
 		do
 			Result := mb_trackid
@@ -121,20 +111,6 @@ feature -- Access
 	file_size_mb: DOUBLE
 		do
 			Result := File_system.file_megabyte_count (mp3_path)
-		end
-
-	first_seen_time: DATE_TIME
-		do
-			create Result.make_from_epoch (first_seen)
-		end
-
-	formatted_duration_time: STRING
-			--
-		local
-			l_time: TIME
-		do
-			create l_time.make_by_seconds (duration)
-			Result := l_time.formatted_out ("mi:[0]ss")
 		end
 
 	mp3_info: TL_MUSICBRAINZ_MPEG_FILE
@@ -247,11 +223,6 @@ feature -- Status query
 			-- Is genre a short silent clip used to pad a song
 		do
 			Result := genre ~ Extra_genre.silence
-		end
-
-	is_hidden: BOOLEAN
-		do
-			Result := hidden.to_boolean
 		end
 
 	is_modified: BOOLEAN
@@ -371,18 +342,6 @@ feature -- Element change
 		do
 			mtime := File_system.file_modification_time (mp3_path)
 			file_size := File_system.file_byte_count (mp3_path)
-		end
-
-feature -- Status setting
-
-	hide
-		do
-			hidden := 1
-		end
-
-	show
-		do
-			hidden := 0
 		end
 
 feature -- Basic operations

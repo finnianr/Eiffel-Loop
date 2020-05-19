@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 12:07:28 GMT (Monday 30th March 2020)"
-	revision: "3"
+	date: "2020-05-19 8:54:56 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	RBOX_CORTINA_TEST_SONG
@@ -22,7 +22,7 @@ inherit
 
 	RBOX_TEST_SONG
 		rename
-			make as make_song
+			make as make_default
 		redefine
 			new_audio_id
 		end

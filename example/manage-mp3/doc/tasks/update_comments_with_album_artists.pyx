@@ -4,5 +4,4 @@ pyxis-doc:
 # Replace 'c0' comment with album-artist info
 
 update_comments_with_album_artists:
-	is_dry_run = false
 

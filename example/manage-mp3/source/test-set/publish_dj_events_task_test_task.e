@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:23:16 GMT (Sunday 19th April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:08:04 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	PUBLISH_DJ_EVENTS_TASK_TEST_TASK
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	Task_config: STRING = "[
 		publish_dj_events:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 			
 			publish:
 				html_template = "playlist.html.evol"; html_index_template = "playlist-index.html.evol"

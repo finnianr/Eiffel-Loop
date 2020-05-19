@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 13:11:10 GMT (Thursday 23rd April 2020)"
-	revision: "3"
+	date: "2020-05-19 10:06:37 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -117,7 +117,7 @@ feature {NONE} -- Constants
 		once
 			Result := "[
 				export_music_to_device:
-					is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+					music_dir = "workarea/rhythmdb/Music"
 				
 					volume:
 						name = TABLET; type = TEST; destination_dir = "Card/Music"; id3_version = 2.3

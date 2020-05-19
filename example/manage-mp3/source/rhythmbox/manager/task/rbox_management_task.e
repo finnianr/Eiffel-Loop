@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:40:20 GMT (Tuesday 28th April 2020)"
-	revision: "10"
+	date: "2020-05-19 10:00:18 GMT (Tuesday 19th May 2020)"
+	revision: "11"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -59,10 +59,6 @@ feature -- Access
 		-- root directory of mp3 files
 
 	file_path: EL_FILE_PATH
-
-feature -- Status query
-
-	is_dry_run: BOOLEAN
 
 feature -- Basic operations
 

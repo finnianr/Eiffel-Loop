@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 11:06:11 GMT (Monday 13th April 2020)"
-	revision: "3"
+	date: "2020-05-18 10:44:54 GMT (Monday 18th May 2020)"
+	revision: "4"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -124,7 +124,7 @@ feature {NONE} -- Initialization
 			create element_cache_table.make (count, agent new_element)
 		end
 
-feature -- Fields
+feature -- Fields A
 
 	album: NATURAL_16
 
@@ -159,6 +159,8 @@ feature -- Fields
 	artist_sortname_folded: NATURAL_16
 
 	artist_sortname_sort_key: NATURAL_16
+
+feature -- Fields B to G
 
 	beats_per_minute: NATURAL_16
 
@@ -200,6 +202,8 @@ feature -- Fields
 
 	genre_sort_key: NATURAL_16
 
+feature -- Fields H to P
+
 	hidden: NATURAL_16
 
 	image: NATURAL_16
@@ -240,6 +244,8 @@ feature -- Fields
 
 	post_time: NATURAL_16
 
+feature -- Fields R to Z
+
 	rating: NATURAL_16
 
 	replaygain_album_gain: NATURAL_16
@@ -269,6 +275,12 @@ feature -- Fields
 	year: NATURAL_16
 
 feature -- Access
+
+	always_saved_set: ARRAY [NATURAL_16]
+		-- Fields that are always saved in XML media item entries even when empty
+		once
+			Result := << artist, album, date, genre, title >>
+		end
 
 	sorted: ARRAY [NATURAL_16]
 

@@ -31,26 +31,55 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:42:48 GMT (Sunday 12th April 2020)"
-	revision: "3"
+	date: "2020-05-18 10:58:22 GMT (Monday 18th May 2020)"
+	revision: "4"
 
 deferred class
 	RBOX_SONG_FIELDS
 
+inherit
+	EL_MODULE_TIME
+
+feature -- Access
+
+	album_picture_checksum: NATURAL
+		do
+			if mb_albumid.is_natural then
+				Result := mb_albumid.to_natural
+			end
+		end
+
+	first_seen_time: DATE_TIME
+		do
+			create Result.make_from_epoch (first_seen)
+		end
+
+	formatted_duration_time: STRING
+			--
+		local
+			l_time: TIME
+		do
+			create l_time.make_by_seconds (duration)
+			Result := l_time.formatted_out ("mi:[0]ss")
+		end
+
+	last_seen_time: DATE_TIME
+		do
+			create Result.make_from_epoch (last_seen)
+		end
+
+	modification_time: DATE_TIME
+		do
+			create Result.make_from_epoch (mtime)
+		end
+
 feature -- Rhythmbox XML fields
 
-	album: ZSTRING
-
 	album_artist: ZSTRING
-
-	artist: ZSTRING
 
 	bitrate: INTEGER
 
 	comment: ZSTRING
-
-	date: INTEGER
-		-- Recording date in days
 
 	disc_number: INTEGER
 
@@ -62,6 +91,8 @@ feature -- Rhythmbox XML fields
 
 	last_played: INTEGER
 
+	last_seen: INTEGER
+
 	mb_albumartistid: ZSTRING
 
 	mb_albumid: ZSTRING
@@ -69,6 +100,20 @@ feature -- Rhythmbox XML fields
 	mb_artistid: ZSTRING
 
 	mb_artistsortname: ZSTRING
+
+	mtime: INTEGER
+		-- Combination of file modification time and file size
+		--
+		-- rhythmdb.c
+		-- /* compare modification time and size to the values in the Database.
+		--  * if either has changed, we'll re-read the file.
+		--  */
+		-- new_mtime = g_file_info_get_attribute_uint64 (event->file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+		-- new_size = g_file_info_get_attribute_uint64 (event->file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+		-- if (entry->mtime == new_mtime && (new_size == 0 || entry->file_size == new_size)) {
+		-- 	rb_debug ("not modified: %s", rb_refstring_get (event->real_uri));
+		-- } else {
+		-- 	rb_debug ("changed: %s", rb_refstring_get (event->real_uri));
 
 	play_count: INTEGER
 
@@ -89,24 +134,10 @@ feature -- Rhythmbox XML fields
 
 feature -- Element change
 
-	set_album (a_album: like album)
-			--
-		do
-			Album_set.put (a_album)
-			album := Album_set.found_item
-		end
-
 	set_album_picture_checksum (picture_checksum: NATURAL)
 			-- Set this if album art changes to affect the main checksum
 		do
 			mb_albumid := picture_checksum.out
-		end
-
-	set_artist (a_artist: like artist)
-			--
-		do
-			Artist_set.put (a_artist)
-			artist := Artist_set.found_item
 		end
 
 	set_beats_per_minute (a_beats_per_minute: like beats_per_minute)
@@ -139,9 +170,14 @@ feature -- Element change
 			duration := a_duration
 		end
 
-	set_recording_year (a_year: INTEGER)
+	set_last_seen_time (a_last_seen_time: DATE_TIME)
 		do
-			date := a_year * Days_in_year
+			last_seen := Time.unix_date_time (a_last_seen_time)
+		end
+
+	set_modification_time (a_modification_time: DATE_TIME)
+		do
+			mtime := Time.unix_date_time (a_modification_time)
 		end
 
 	set_track_number (a_track_number: like track_number)
@@ -157,21 +193,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Album_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (100)
-		end
-
-	Artist_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (100)
-		end
-
 	Composer_set: EL_HASH_SET [ZSTRING]
 		once
 			create Result.make (100)
 		end
-
-	Days_in_year: INTEGER = 365
 
 end

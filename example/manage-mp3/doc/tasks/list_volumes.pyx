@@ -1,7 +1,7 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
-replace_songs:
+list_volumes:
 
 	
 

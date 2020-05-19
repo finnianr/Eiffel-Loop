@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 15:39:58 GMT (Sunday 17th May 2020)"
-	revision: "17"
+	date: "2020-05-17 21:14:59 GMT (Sunday 17th May 2020)"
+	revision: "18"
 
 class
 	STORAGE_DEVICE
@@ -95,7 +95,7 @@ feature -- Basic operations
 			items_to_update := items_to_export.query (sync_table.exported_item_is_updated)
 			items_to_update.do_all (agent {MEDIA_ITEM}.mark_as_update)
 
-			if attached {SONG_IN_PLAYLIST_QUERY_CONDITION} a_condition then
+			if attached {like song_in_some_playlist} a_condition then
 				-- If we are only exporting playlist songs we don't want to delete everything else on device
 				across items_to_copy.joined (items_to_update) as media loop
 					sync_table [media.item.id] := media.item.to_sync_item (is_windows_format)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 14:43:44 GMT (Thursday 23rd April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:08:12 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	REPLACE_CORTINA_SET_TASK_TEST_SET
@@ -38,11 +38,11 @@ feature {NONE} -- Constants
 			Result := Playlists_dir + "2014-10-01 Belvedere.pyx"
 		end
 
-	Checksum: NATURAL = 3471210172
+	Checksum: NATURAL = 2125152643
 
 	Task_config: STRING = "[
 		replace_cortina_set:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 		
 			cortina_set:
 				fade_in = 1.0; fade_out = 1.0; clip_duration = 5

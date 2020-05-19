@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 11:16:20 GMT (Saturday 16th May 2020)"
-	revision: "11"
+	date: "2020-05-19 10:30:00 GMT (Tuesday 19th May 2020)"
+	revision: "12"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -129,16 +129,15 @@ feature -- Tests
 
 	test_gnome_virtual_file_system
 		local
-			mount_list_cmd: EL_GVFS_MOUNT_LIST_COMMAND; volume: EL_GVFS_VOLUME
+			mount_table: EL_GVFS_MOUNT_TABLE; volume: EL_GVFS_VOLUME
 			found_volume: BOOLEAN; l_file_set: like file_set_absolute; file_path_string, volume_name: ZSTRING
 			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: EL_DIR_PATH
 			relative_file_path: EL_FILE_PATH
 		do
 			lio.enter ("test_gnome_virtual_file_system")
 			l_file_set := file_set_absolute; l_file_set.start
-			create mount_list_cmd.make
-			mount_list_cmd.execute
-			across mount_list_cmd.uri_root_table as root until found_volume loop
+			create mount_table.make
+			across mount_table as root until found_volume loop
 				lio.put_path_field (root.key, root.item)
 				lio.put_new_line
 				if root.item.protocol ~ File_protocol then

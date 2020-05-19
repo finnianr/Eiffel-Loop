@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 10:36:17 GMT (Sunday 17th May 2020)"
-	revision: "23"
+	date: "2020-05-19 9:56:43 GMT (Tuesday 19th May 2020)"
+	revision: "24"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -166,6 +166,7 @@ feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 		IMPORT_NEW_MP3_TASK,
 		IMPORT_VIDEOS_TASK,
 		IMPORT_M3U_PLAYLISTS_TASK,
+		LIST_VOLUMES_TASK,
 		NORMALIZE_COMMENTS_TASK,
 		PRINT_COMMENTS_TASK,
 		PUBLISH_DJ_EVENTS_TASK,

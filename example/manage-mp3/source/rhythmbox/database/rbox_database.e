@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-18 9:34:16 GMT (Saturday 18th April 2020)"
-	revision: "28"
+	date: "2020-05-19 10:53:51 GMT (Tuesday 19th May 2020)"
+	revision: "29"
 
 class
 	RBOX_DATABASE
@@ -72,7 +72,7 @@ feature {NONE} -- Initialization
 			--
 		local
 			playlist: DJ_EVENT_PLAYLIST; xml: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
-
+			song_count: INTEGER
 		do
 			put_singleton (Current)
 			call (DB_field)
@@ -87,12 +87,18 @@ feature {NONE} -- Initialization
 			else
 				xml := Default_xml
 			end
-			create entry_occurences.make (xml, "<entry type")
+			create entry_occurences.make (xml, "<entry type=")
+			from entry_occurences.start until entry_occurences.after loop
+				if xml [entry_occurences.item_upper + 2] = 's' then
+					song_count := song_count + 1
+				end
+				entry_occurences.forth
+			end
 
 		 	create entries.make (entry_occurences.count)
-			create songs_by_location.make_equal (entries.capacity)
-			create songs_by_audio_id.make_equal (entries.capacity)
-			create songs.make (entries.capacity)
+			create songs_by_location.make_equal (song_count)
+			create songs_by_audio_id.make_equal (song_count)
+			create songs.make (song_count)
 		 	create silence_intervals.make_filled (new_song, 1, 3)
 			create dj_playlists.make (20)
 
@@ -289,7 +295,6 @@ feature -- Element change
 			if not song.has_audio_id then
 				song.update_audio_id
 			end
-
 			songs_by_location.put (song, song.mp3_path)
 			if songs_by_location.conflict then
 				lio.put_new_line
@@ -572,9 +577,9 @@ feature {NONE} -- Build from XML
 		do
 			if attached {RBOX_IRADIO_ENTRY} context as entry then
 				extend (entry)
-			end
-			if entries.count \\ 10 = 0 or else entries.count = entries.capacity then
-				lio.put_string (Read_progress_template #$ [entries.count, entries.capacity])
+				if entries.count \\ 10 = 0 or else entries.count = entries.capacity then
+					lio.put_string (Read_progress_template #$ [entries.count, entries.capacity])
+				end
 			end
 		end
 

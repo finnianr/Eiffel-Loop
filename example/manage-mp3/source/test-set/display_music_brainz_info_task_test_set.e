@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 14:22:44 GMT (Sunday 19th April 2020)"
-	revision: "2"
+	date: "2020-05-19 10:06:26 GMT (Tuesday 19th May 2020)"
+	revision: "3"
 
 class
 	DISPLAY_MUSIC_BRAINZ_INFO_TASK_TEST_SET
@@ -21,6 +21,6 @@ feature {NONE} -- Constants
 
 	Task_config: STRING = "[
 		display_music_brainz_info:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 	]"
 end

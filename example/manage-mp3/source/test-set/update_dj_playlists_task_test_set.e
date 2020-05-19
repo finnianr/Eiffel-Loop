@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 11:24:36 GMT (Thursday 16th April 2020)"
-	revision: "1"
+	date: "2020-05-19 10:08:31 GMT (Tuesday 19th May 2020)"
+	revision: "2"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
@@ -36,15 +36,16 @@ feature {NONE} -- Implementation
 				log.put_labeled_string (path.item.to_string, file_digest (path.item).to_base_64_string)
 				log.put_new_line
 			end
+			print_rhythmdb_xml
 		end
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 109168177
+	Checksum: NATURAL = 2083116530
 
 	Task_config: STRING = "[
 		update_dj_playlists:
-			is_dry_run = false; music_dir = "workarea/rhythmdb/Music"
+			music_dir = "workarea/rhythmdb/Music"
 			dj_events:
 				dj_name = "Finnian Reilly"; default_title = "DATS Milonga Playlist"
 	]"

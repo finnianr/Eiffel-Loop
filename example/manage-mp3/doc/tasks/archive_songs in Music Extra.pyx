@@ -5,6 +5,5 @@ pyxis-doc:
 # This playlist should always contain the song "Silence 1 second" to prevent it being removed by Rhythmbox
 
 archive_songs:
-	is_dry_run = false
 	archive_dir = "$HOME/Music Extra"
 
