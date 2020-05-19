@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:09:05 GMT (Tuesday 31st March 2020)"
-	revision: "4"
+	date: "2020-05-19 17:29:39 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	ARCHIVE_SONGS_TASK
@@ -15,13 +15,23 @@ class
 inherit
 	RBOX_MANAGEMENT_TASK
 		redefine
-			error_check
+			make
 		end
 
 	DATABASE_UPDATE_TASK
 
 create
 	make
+
+feature {RBOX_MUSIC_MANAGER} -- Initialization
+
+	make (a_file_path: EL_FILE_PATH)
+		do
+			Precursor (a_file_path)
+			if not archive_dir.exists then
+				error_message := "Use 'archive-dir' in the task configuration to specify the archive directory"
+			end
+		end
 
 feature -- Access
 
@@ -55,16 +65,6 @@ feature -- Basic operations
 				Database.archive_playlist.wipe_out
 				Database.archive_playlist.extend (silence_1_sec)
 				Database.store_all
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	error_check
-		do
-			error_message.wipe_out
-			if not archive_dir.exists then
-				error_message := "Use 'archive-dir' in the task configuration to specify the archive directory"
 			end
 		end
 

@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:16:03 GMT (Sunday 19th April 2020)"
-	revision: "23"
+	date: "2020-05-19 18:00:11 GMT (Tuesday 19th May 2020)"
+	revision: "24"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -74,11 +74,7 @@ feature {NONE} -- Implementation
 				[{like Current}, All_routines],
 
 				[{RBOX_MUSIC_MANAGER}, All_routines],
-				[{RBOX_DATABASE}, All_routines],
-
-				[{STORAGE_DEVICE}, All_routines],
-				[{NOKIA_PHONE_DEVICE}, All_routines],
-				[{SAMSUNG_TABLET_DEVICE}, All_routines]
+				[{RBOX_DATABASE}, All_routines]
 			>>
 		end
 

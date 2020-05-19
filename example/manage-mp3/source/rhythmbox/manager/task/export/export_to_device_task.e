@@ -6,16 +6,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-15 11:32:53 GMT (Wednesday 15th April 2020)"
-	revision: "5"
+	date: "2020-05-19 18:03:52 GMT (Tuesday 19th May 2020)"
+	revision: "6"
 
 deferred class
 	EXPORT_TO_DEVICE_TASK
 
 inherit
 	RBOX_MANAGEMENT_TASK
+		redefine
+			make
+		end
 
 	EL_MODULE_TUPLE
+
+feature {RBOX_MUSIC_MANAGER} -- Initialization
+
+	make (a_file_path: EL_FILE_PATH)
+		do
+			Precursor (a_file_path)
+			device := new_device
+			if not device.volume.is_valid then
+				error_message := Volume_error #$ [volume.name]
+			end
+		end
 
 feature -- Access
 
@@ -29,7 +43,7 @@ feature -- Status query
 		deferred
 		end
 
-feature -- Factory
+feature {NONE} -- Factory
 
 	new_device: STORAGE_DEVICE
 		do
@@ -50,6 +64,29 @@ feature -- Factory
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	export_to_device (a_condition: EL_QUERY_CONDITION [RBOX_SONG]; name_clashes: LINKED_LIST [EL_FILE_PATH])
+		do
+			if name_clashes.is_empty then
+				device.export_songs_and_playlists (a_condition)
+			else
+				-- A problem on NTFS and FAT32 filesystems
+				lio.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
+				lio.put_new_line
+				across name_clashes as path loop
+					lio.put_path_field ("MP3", path.item)
+					lio.put_new_line
+				end
+				lio.put_new_line
+				lio.put_line ("Fix before proceeding")
+			end
+		end
+
+feature {EL_EQA_TEST_SET} -- Initialization
+
+	device: like new_device
+
 feature {NONE} -- Constants
 
 	Device_type: TUPLE [test, samsung_tablet, nokia_phone: ZSTRING]
@@ -61,6 +98,11 @@ feature {NONE} -- Constants
 	Tablet: ZSTRING
 		once
 			Result := "TABLET"
+		end
+
+	Volume_error: ZSTRING
+		once
+			Result := "Volume %"%S%" not mounted"
 		end
 
 end

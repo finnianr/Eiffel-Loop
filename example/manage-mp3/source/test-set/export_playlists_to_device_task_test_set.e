@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:09:21 GMT (Tuesday 19th May 2020)"
-	revision: "3"
+	date: "2020-05-19 18:06:19 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET
@@ -45,7 +45,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2054392898
+	Checksum: NATURAL = 2291699579
 
 	Task_config: STRING = "[
 		export_playlists_to_device:

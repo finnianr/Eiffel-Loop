@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 9:45:29 GMT (Tuesday 19th May 2020)"
-	revision: "10"
+	date: "2020-05-19 17:04:41 GMT (Tuesday 19th May 2020)"
+	revision: "11"
 
 class
 	EL_GVFS_VOLUME
@@ -16,15 +16,9 @@ inherit
 	ANY EL_MODULE_DIRECTORY
 
 create
-	make, make_with_volume
+	make, make_default
 
 feature {NONE} -- Initialization
-
-	make (a_uri_root: like uri_root; a_is_windows_format: BOOLEAN)
-		do
-			make_default
-			uri_root := a_uri_root; is_windows_format := a_is_windows_format
-		end
 
 	make_default
 		do
@@ -32,9 +26,9 @@ feature {NONE} -- Initialization
 			uri_root := Default_uri_root
 		end
 
-	make_with_volume (a_name: like name; a_is_windows_format: BOOLEAN)
+	make (a_name: like name; a_is_windows_format: BOOLEAN)
 		do
-			make (new_uri_root (a_name), a_is_windows_format)
+			uri_root := new_uri_root (a_name); is_windows_format := a_is_windows_format
 			name := a_name
 		end
 

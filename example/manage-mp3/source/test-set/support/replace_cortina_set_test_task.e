@@ -6,23 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 10:50:54 GMT (Thursday 16th April 2020)"
-	revision: "4"
+	date: "2020-05-19 17:42:11 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	REPLACE_CORTINA_SET_TEST_TASK
 
 inherit
 	REPLACE_CORTINA_SET_TASK
-		undefine
-			root_node_name
 		redefine
 			user_input_file_path
-		end
-
-	TEST_MANAGEMENT_TASK
-		undefine
-			error_check, user_input_file_path
 		end
 
 create

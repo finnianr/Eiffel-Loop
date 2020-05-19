@@ -25,30 +25,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:22:36 GMT (Tuesday 19th May 2020)"
-	revision: "9"
+	date: "2020-05-19 18:05:40 GMT (Tuesday 19th May 2020)"
+	revision: "10"
 
 class
 	RBOX_AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
-		redefine
-			new_log_filter_list
-		end
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
-		do
-			Result := Precursor +
-				new_log_filter ({TEST_STORAGE_DEVICE}, All_routines)
-		end
-
-	test_type: TUPLE [COLLATE_SONGS_TASK_TEST_SET]
+	test_type: TUPLE [EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET]
 		do
 			create Result
 		end

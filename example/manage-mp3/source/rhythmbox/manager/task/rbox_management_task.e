@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:00:18 GMT (Tuesday 19th May 2020)"
-	revision: "11"
+	date: "2020-05-19 17:44:38 GMT (Tuesday 19th May 2020)"
+	revision: "12"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -55,20 +55,24 @@ feature -- Access
 
 	error_message: ZSTRING
 
+	file_path: EL_FILE_PATH
+
 	music_dir: EL_DIR_PATH
 		-- root directory of mp3 files
 
-	file_path: EL_FILE_PATH
+feature -- Status query
+
+	has_error: BOOLEAN
+		do
+			Result := error_message.count > 0
+		end
 
 feature -- Basic operations
 
 	apply
+		require
+			no_errors: error_message.is_empty
 		deferred
-		end
-
-	error_check
-		do
-			error_message.wipe_out
 		end
 
 feature -- Element change
@@ -82,12 +86,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	user_input_file_path (name: ZSTRING): EL_FILE_PATH
-		do
-			Result := User_input.file_path (Drag_and_drop_template #$ [name])
-			lio.put_new_line
-		end
-
 	new_instance_functions: like Default_initial_values
 		do
 			create Result.make_from_array (<<
@@ -100,9 +98,23 @@ feature {NONE} -- Implementation
 		end
 
 	root_node_name: STRING
-			--
 		do
-			Result := Naming.class_as_snake_lower (Current, 0, 1)
+			Result := Naming.class_as_snake_lower (Current, 0, tail_count)
+		end
+
+	tail_count: INTEGER
+		do
+			if generator.ends_with (once "_TEST_TASK") then
+				Result := 2
+			else
+				Result := 1
+			end
+		end
+
+	user_input_file_path (name: ZSTRING): EL_FILE_PATH
+		do
+			Result := User_input.file_path (Drag_and_drop_template #$ [name])
+			lio.put_new_line
 		end
 
 feature {NONE} -- Constants

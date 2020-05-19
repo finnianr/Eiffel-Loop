@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:06:37 GMT (Tuesday 19th May 2020)"
-	revision: "4"
+	date: "2020-05-19 18:05:32 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -26,8 +26,7 @@ feature {NONE} -- Events
 		do
 			Precursor
 			-- Delete sync table file cached under Directory.app_data
-			create device.make (task)
-			device.delete_sync_table_file
+			task.device.delete_sync_table_file
 		end
 
 feature {NONE} -- Implementation
@@ -91,7 +90,7 @@ feature {NONE} -- Constants
 
 	Checksum: NATURAL
 		once
-			Result := 1337896918
+			Result := 2242490370
 		end
 
 	Export_dir: EL_DIR_PATH

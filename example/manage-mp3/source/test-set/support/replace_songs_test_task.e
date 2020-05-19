@@ -6,21 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 10:56:33 GMT (Thursday 16th April 2020)"
-	revision: "3"
+	date: "2020-05-19 17:41:50 GMT (Tuesday 19th May 2020)"
+	revision: "4"
 
 class
 	REPLACE_SONGS_TEST_TASK
 
 inherit
 	REPLACE_SONGS_TASK
-		undefine
-			root_node_name
 		redefine
 			new_substitution_list
 		end
-
-	TEST_MANAGEMENT_TASK
 
 create
 	make

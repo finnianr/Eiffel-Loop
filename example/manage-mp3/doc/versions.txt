@@ -1,3 +1,6 @@
+2.2.6
+Removed routine `check_error' from RBOX_MANAGEMENT_TASK
+
 2.2.5
 Added LIST_VOLUMES_TASK
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 21:14:59 GMT (Sunday 17th May 2020)"
-	revision: "18"
+	date: "2020-05-19 18:28:48 GMT (Tuesday 19th May 2020)"
+	revision: "19"
 
 class
 	STORAGE_DEVICE
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_OS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
@@ -42,7 +42,6 @@ feature {NONE} -- Initialization
 
 	make (a_task: like task)
 		do
-			log.enter_with_args ("make", [a_task.volume.name, a_task.volume.destination_dir])
 			task := a_task
 			set_volume (task.volume.to_gvfs)
 			create sync_table.make_default
@@ -51,7 +50,6 @@ feature {NONE} -- Initialization
 			if temporary_dir.exists then
 				OS.delete_tree (temporary_dir)
 			end
-			log.exit
 		end
 
 feature -- Access
@@ -71,7 +69,9 @@ feature -- Element change
 	set_volume (a_volume: like volume)
 		do
 			volume := a_volume
-			volume.extend_uri_root (task.volume.destination_dir)
+			if volume.is_valid then
+				volume.extend_uri_root (task.volume.destination_dir)
+			end
 		end
 
 feature -- Basic operations
@@ -82,7 +82,6 @@ feature -- Basic operations
 			items_to_export: EL_QUERYABLE_ARRAYED_LIST [MEDIA_ITEM]
 			items_to_copy, items_to_update: EL_ARRAYED_LIST [MEDIA_ITEM]
 		do
-			log.enter ("export_songs")
 			File_system.make_directory (temporary_dir)
 			read_sync_table
 			songs_to_export := songs.query (not song_is_hidden and a_condition)
@@ -106,7 +105,7 @@ feature -- Basic operations
 				old_sync_table.deletion_list (sync_table, items_to_update).do_all (agent delete_file)
 			end
 			export_media_items (joined (items_to_copy, items_to_update))
-			log.put_new_line
+			lio.put_new_line
 
 			store_sync_table
 			if has_sync_table_changed and then task.is_full_export_task then
@@ -114,7 +113,6 @@ feature -- Basic operations
 			end
 			export_temporary_dir
 			File_system.delete_empty_branch (temporary_dir)
-			log.exit
 		end
 
 	delete_sync_table_file
@@ -145,11 +143,9 @@ feature {NONE} -- Volume file operations
 
 	 read_sync_table
 	 	local
-	 		stack_count: INTEGER; backup_table_path: EL_FILE_PATH
+	 		backup_table_path: EL_FILE_PATH
 	 		local_sync_table_dir: EL_DIR_PATH
 	 	do
-	 		stack_count := log.call_stack_count
-
 			lio.put_line ("Reading file sync info")
 			if local_sync_table_file_path.exists then
 				backup_table_path := local_sync_table_file_path.with_new_extension ("bak")
@@ -166,21 +162,17 @@ feature {NONE} -- Volume file operations
 			create sync_table.make_from_file (local_sync_table_file_path)
 			last_sync_checksum := sync_checksum
 		rescue
-			recover_from_error (stack_count); retry
+			recover_from_error; retry
 	 	end
 
 	delete_file (file_path: EL_FILE_PATH)
 			-- delete file on volume
-	 	local
-	 		stack_count: INTEGER
 	 	do
-	 		stack_count := log.call_stack_count
-
 			lio.put_path_field ("Deleting", file_path)
 			lio.put_new_line
 			volume.delete_file (file_path)
 		rescue
-			recover_from_error (stack_count); retry
+			recover_from_error; retry
 		end
 
 	move_file_to_volume (file_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
@@ -190,22 +182,17 @@ feature {NONE} -- Volume file operations
 		end
 
 	copy_file_to_volume (file_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
-	 	local
-	 		stack_count: INTEGER
 	 	do
-	 		stack_count := log.call_stack_count
-
 			volume.make_directory (volume_dir)
 			volume.copy_file_to (file_path, volume_dir)
 		rescue
-			recover_from_error (stack_count); retry
+			recover_from_error ; retry
 		end
 
-	recover_from_error (log_stack_count: INTEGER)
+	recover_from_error
 		local
 			volume_is_valid: BOOLEAN; message: READABLE_STRING_GENERAL
 		do
-			lio.restore (log_stack_count)
 			message := last_exception.description
 			from until volume_is_valid loop
 				lio.put_line (message)
@@ -267,9 +254,9 @@ feature {NONE} -- Implementation
 					 exported_mb := exported_mb + media.item.file_size_mb
 				end
 				create progress_info.make (exported_mb, 1, "mb")
-				if log.current_routine_is_active then
-					progress_info.enable_line_advance
-				end
+--				if log.current_routine_is_active then
+--					progress_info.enable_line_advance
+--				end
 				across list as media loop
 					progress_info.increment (media.item.file_size_mb)
 					lio.put_string (progress_info.last_string)

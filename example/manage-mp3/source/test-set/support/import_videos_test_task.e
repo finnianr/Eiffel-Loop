@@ -6,21 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 9:09:56 GMT (Thursday 16th April 2020)"
-	revision: "8"
+	date: "2020-05-19 17:41:59 GMT (Tuesday 19th May 2020)"
+	revision: "9"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
 
 inherit
 	IMPORT_VIDEOS_TASK
-		undefine
-			root_node_name
 		redefine
 			new_song_info_input, video_contains_another_song
 		end
-
-	TEST_MANAGEMENT_TASK
 
 create
 	make

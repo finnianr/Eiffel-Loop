@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:30:00 GMT (Tuesday 19th May 2020)"
-	revision: "12"
+	date: "2020-05-19 17:03:21 GMT (Tuesday 19th May 2020)"
+	revision: "13"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -153,7 +153,7 @@ feature -- Tests
 			end
 			lio.put_labeled_string ("volume_name", volume_name)
 			lio.put_new_line
-			create volume.make_with_volume (volume_name, False)
+			create volume.make (volume_name, False)
 			volume_workarea_copy_dir := volume_workarea_dir.joined_dir_path ("copy")
 			volume.make_directory (volume_workarea_copy_dir)
 			across file_set as path loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 9:56:43 GMT (Tuesday 19th May 2020)"
-	revision: "24"
+	date: "2020-05-19 17:27:01 GMT (Tuesday 19th May 2020)"
+	revision: "25"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -64,14 +64,11 @@ feature -- Basic operations
 					lio.put_labeled_string ("Task not found", task_name)
 					lio.put_new_line
 
+				elseif task.has_error then
+					lio.put_labeled_string ("ERROR", task.error_message)
+					lio.put_new_line
 				else
-					task.error_check
-					if task.error_message.is_empty then
-						apply_task
-					else
-						lio.put_labeled_string ("ERROR", task.error_message)
-						lio.put_new_line
-					end
+					apply_task
 				end
 				ask_user_for_task
 			end

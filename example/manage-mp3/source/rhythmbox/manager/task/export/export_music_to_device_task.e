@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-15 11:20:55 GMT (Wednesday 15th April 2020)"
-	revision: "4"
+	date: "2020-05-19 17:32:18 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK
@@ -33,58 +33,22 @@ feature -- Basic operations
 
 	apply
 		do
-			do_export (new_device)
-		end
-
-feature {NONE} -- Implementation
-
-	do_export (device: like new_device)
-		do
-			if device.volume.is_valid then
-				if selected_genres.is_empty then
-					device.export_songs_and_playlists (songs_all)
-				else
-					across selected_genres as genre loop
-						if Database.is_valid_genre (genre.item) then
-							lio.put_string_field ("Genre " + genre.cursor_index.out, genre.item)
-						else
-							lio.put_string_field ("Invalid genre", genre.item)
-						end
-						lio.put_new_line
+			if selected_genres.is_empty then
+				device.export_songs_and_playlists (songs_all)
+			else
+				across selected_genres as genre loop
+					if Database.is_valid_genre (genre.item) then
+						lio.put_string_field ("Genre " + genre.cursor_index.out, genre.item)
+					else
+						lio.put_string_field ("Invalid genre", genre.item)
 					end
-					export_to_device (
-						device, song_in_some_playlist (Database) or song_one_of_genres (selected_genres),
-						Database.case_insensitive_name_clashes
-					)
-				end
-			else
-				notify_invalid_volume
-			end
-		end
-
-	export_to_device (
-		device: like new_device; a_condition: EL_QUERY_CONDITION [RBOX_SONG]; name_clashes: LINKED_LIST [EL_FILE_PATH]
-	)
-		do
-			if name_clashes.is_empty then
-				device.export_songs_and_playlists (a_condition)
-			else
-				-- A problem on NTFS and FAT32 filesystems
-				lio.put_line ("CASE INSENSITIVE NAME CLASHES FOUND")
-				lio.put_new_line
-				across name_clashes as path loop
-					lio.put_path_field ("MP3", path.item)
 					lio.put_new_line
 				end
-				lio.put_new_line
-				lio.put_line ("Fix before proceeding")
+				export_to_device (
+					song_in_some_playlist (Database) or song_one_of_genres (selected_genres),
+					Database.case_insensitive_name_clashes
+				)
 			end
-		end
-
-	notify_invalid_volume
-		do
-			lio.put_labeled_string ("Volume not mounted", volume.name)
-			lio.put_new_line
 		end
 
 end

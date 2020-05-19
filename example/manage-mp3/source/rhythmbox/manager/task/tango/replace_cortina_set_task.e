@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-16 11:08:36 GMT (Thursday 16th April 2020)"
-	revision: "4"
+	date: "2020-05-19 17:30:31 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	REPLACE_CORTINA_SET_TASK
@@ -15,13 +15,23 @@ class
 inherit
 	RBOX_MANAGEMENT_TASK
 		redefine
-			error_check
+			make
 		end
 
 	DATABASE_UPDATE_TASK
 
 create
 	make
+
+feature {RBOX_MUSIC_MANAGER} -- Initialization
+
+	make (a_file_path: EL_FILE_PATH)
+		do
+			Precursor (a_file_path)
+			if cortina_set.tango_count \\ cortina_set.tangos_per_vals /= 0 then
+				error_message := "tango_count must be exactly divisible by tangos_per_vals"
+			end
+		end
 
 feature -- Access
 
@@ -46,13 +56,4 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	error_check
-		do
-			error_message.wipe_out
-			if cortina_set.tango_count \\ cortina_set.tangos_per_vals /= 0 then
-				error_message := "tango_count must be exactly divisible by tangos_per_vals"
-			end
-		end
 end

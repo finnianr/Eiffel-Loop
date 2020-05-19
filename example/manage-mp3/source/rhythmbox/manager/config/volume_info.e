@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 14:33:29 GMT (Tuesday 24th March 2020)"
-	revision: "4"
+	date: "2020-05-19 17:03:02 GMT (Tuesday 19th May 2020)"
+	revision: "5"
 
 class
 	VOLUME_INFO
@@ -56,7 +56,7 @@ feature -- Conversion
 
 	to_gvfs: EL_GVFS_VOLUME
 		do
-			create Result.make_with_volume (name, is_windows_format)
+			create Result.make (name, is_windows_format)
 			Result.enable_path_translation
 		end
 
