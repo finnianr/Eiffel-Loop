@@ -32,7 +32,10 @@ inherit
 
 	EL_SHARED_LOG_OPTION
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 create
 	make
@@ -42,8 +45,8 @@ feature {NONE} -- Initialization
 	 make (logging_active: BOOLEAN; a_output_directory: EL_DIR_PATH)
 			--
 		do
-			put_singleton (Current)
-			make_default
+			make_solitary; make_default
+			
 			is_logging_active := logging_active
 			output_directory := a_output_directory
 			create log_file_by_thread_id_table.make (11)

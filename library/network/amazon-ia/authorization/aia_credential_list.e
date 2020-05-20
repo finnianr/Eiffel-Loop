@@ -22,7 +22,10 @@ inherit
 			make_queryable
 		end
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 create
 	make, make_from_array
@@ -31,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make_queryable
 		do
-			put_singleton (Current)
+			make_solitary
 			create last_query_items.make (0)
 		end
 

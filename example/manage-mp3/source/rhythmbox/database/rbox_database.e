@@ -39,6 +39,11 @@ inherit
 			make_default
 		end
 
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
 	EL_XML_PARSE_EVENT_TYPE
 
 	SONG_QUERY_CONDITIONS
@@ -59,8 +64,6 @@ inherit
 
 	EL_MODULE_ITERABLE
 
-	EL_SHARED_SINGLETONS
-
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
 create
@@ -74,7 +77,8 @@ feature {NONE} -- Initialization
 			playlist: DJ_EVENT_PLAYLIST; xml: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
 			song_count: INTEGER
 		do
-			put_singleton (Current)
+			make_solitary
+
 			call (DB_field)
 
 			music_dir := a_music_dir
@@ -125,7 +129,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			-- NOT THIS:
 			Precursor {EL_BUILDABLE_FROM_NODE_SCAN}
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
 		end

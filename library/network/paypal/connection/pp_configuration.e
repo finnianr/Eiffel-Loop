@@ -16,7 +16,10 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 create
 	make
@@ -25,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make (path: EL_FILE_PATH; a_decrypter: like decrypter)
 		do
-			put_singleton (Current)
+			make_solitary
 			decrypter := a_decrypter
 			make_from_file (path)
 		end

@@ -25,6 +25,11 @@ deferred class
 inherit
 	ANY
 
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
 	EL_MODULE_BUILD_INFO
 	EL_MODULE_EXCEPTION
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -34,7 +39,6 @@ inherit
 	EL_MODULE_OS_RELEASE
 	EL_MODULE_OS
 
-	EL_SHARED_SINGLETONS
 	EL_SHARED_BASE_OPTION
 	EL_SHARED_APPLICATION_OPTION
 
@@ -48,7 +52,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 	make
 			--
 		do
-			put_singleton (Current)
+			make_solitary
 			call (new_locale)
 			-- Necessary to redefine `Build_info' as type `BUILD_INFO' if the project root class is `Current'
 			call (Build_info)

@@ -17,17 +17,13 @@ deferred class
 
 inherit
 	ANY
-		redefine
+		undefine
 			default_create
 		end
 
-	EL_SHARED_SINGLETONS
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			put_singleton (Current)
+	EL_SOLITARY
+		rename
+			make as default_create
 		end
 
 feature -- Access

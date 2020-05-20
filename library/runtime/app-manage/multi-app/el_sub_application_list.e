@@ -20,13 +20,16 @@ inherit
 			make_empty
 		end
 
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
 	EL_MODULE_ARGS
 
 	EL_MODULE_EIFFEL
 
 	EL_MODULE_STRING_8
-
-	EL_SHARED_SINGLETONS
 
 	EL_SHARED_BASE_OPTION
 
@@ -37,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make (type_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]; a_select_first: BOOLEAN)
 		do
-			put_singleton (Current)
+			make_solitary
 			make_list (type_list.count)
 			select_first := a_select_first
 			create installable_list.make (5)

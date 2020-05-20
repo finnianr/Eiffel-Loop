@@ -19,7 +19,10 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 create
 	make
@@ -29,8 +32,8 @@ feature {NONE} -- Initialization
 	 make (active: BOOLEAN)
 			--
 		do
-			put_singleton (Current)
-			make_default
+			make_solitary; make_default
+			
 			create filter_access.make
 
 			create Log_enabled_routines.make (Routine_hash_table_size)

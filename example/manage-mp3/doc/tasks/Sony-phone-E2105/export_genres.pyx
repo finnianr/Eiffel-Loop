@@ -3,7 +3,7 @@ pyxis-doc:
 
 export_music_to_device:
 	volume:
-		name = "E2105Z"; destination_dir = "SD Card/Music"; id3_version = 2.3
+		name = "E2105"; destination_dir = "SD Card/Music"; id3_version = 2.3
 	playlist_export:
 		root = "/storage/sdcard1"; subdirectory_name = "playlists"
 	

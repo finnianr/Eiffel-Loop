@@ -59,6 +59,13 @@ feature -- Access
 
 feature -- Status query
 
+	has (obj: ANY): BOOLEAN
+		do
+			restrict_access
+				Result := has_type_id ({ISE_RUNTIME}.dynamic_type (obj))
+			end_restriction
+		end
+
 	has_type (type: TYPE [ANY]; conforming: BOOLEAN): BOOLEAN
 		-- `True' if table has `type' or else if `conforming' then `True' if a conforming type exists
 		do

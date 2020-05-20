@@ -23,13 +23,16 @@ inherit
 			in
 		end
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 feature {NONE} -- Initialization
 
  	make
  		do
- 			put_singleton (Current)
+ 			make_solitary
  			make_with_language (key_language, key_language)
  			create other_locales.make_equal (3, agent new_locale)
  		end

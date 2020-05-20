@@ -15,17 +15,10 @@ class
 inherit
 	EL_DEFERRED_LOCALE_I
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make
-		do
- 			put_singleton (Current)
-		end
 
 feature {NONE} -- Implementation
 
