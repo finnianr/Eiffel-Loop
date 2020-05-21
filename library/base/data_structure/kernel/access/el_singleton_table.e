@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 8:40:58 GMT (Sunday 17th May 2020)"
-	revision: "3"
+	date: "2020-05-20 10:06:02 GMT (Wednesday 20th May 2020)"
+	revision: "4"
 
 class
 	EL_SINGLETON_TABLE

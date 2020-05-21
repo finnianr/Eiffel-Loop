@@ -1,3 +1,6 @@
+1.3.1
+New classes EL_YOUTUBE_STREAM_SELECTOR and EL_YOUTUBE_STREAM_DOWNLOAD
+
 1.3.0
 New application directories .cache and .local/share
 

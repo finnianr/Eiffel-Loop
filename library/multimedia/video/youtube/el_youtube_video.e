@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:22:13 GMT (Friday 3rd April 2020)"
-	revision: "10"
+	date: "2020-05-21 17:59:12 GMT (Thursday 21st May 2020)"
+	revision: "11"
 
 class
 	EL_YOUTUBE_VIDEO
 
 inherit
+	ANY
+
 	EL_ZSTRING_CONSTANTS
 
-	EL_YOUTUBE_VARIABLE_NAMES
+	EL_YOUTUBE_CONSTANTS
 
 	EL_MODULE_DIRECTORY
 
@@ -31,59 +33,17 @@ feature {NONE} -- Initialization
 	make (a_url: ZSTRING)
 		require
 			not_empty: not a_url.is_empty
-		local
-			stream: EL_YOUTUBE_STREAM
-			video_map: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_YOUTUBE_STREAM]
 		do
-			url := a_url
-			create selected
-			title := User_input.line ("Enter a title")
+			url := a_url; title := User_input.line ("Enter a title")
 			lio.put_new_line
-
 			create output_path
-			create stream_table.make (17)
-			lio.put_labeled_string ("Fetching formats for", a_url)
-			lio.put_new_line
-			Cmd_get_youtube_options.put_string (Var_url, a_url)
-			Cmd_get_youtube_options.execute
-
-			create video_map.make (20)
-			across Cmd_get_youtube_options.lines as line loop
-				create stream.make (Current, line.item)
-				-- Filter out low resolution videos
-				if stream.is_audio then
-					stream_table [stream.code] := stream
-				elseif stream.is_video then
-					video_map.extend (stream.resolution_x, stream)
-				end
-			end
-			video_map.sort (False)
-			from video_map.start until video_map.after or else video_map.index > 6 loop
-				stream_table [video_map.item_value.code] := video_map.item_value
-				video_map.forth
-			end
+			create stream_table.make (a_url, 6)
+			download := [Default_download, Default_download]
 		end
 
 feature -- Access
 
-	selected_audio_stream: EL_YOUTUBE_STREAM
-		do
-			Result := stream_info (selected.audio_code)
-		end
-
-	selected_video_stream: EL_YOUTUBE_STREAM
-		do
-			Result := stream_info (selected.video_code)
-		end
-
-	stream_info (code: NATURAL): EL_YOUTUBE_STREAM
-		do
-			if stream_table.has_key (code) then
-				Result := stream_table.found_item
-			else
-				create Result.make_default
-			end
-		end
+	download: TUPLE [audio, video: EL_YOUTUBE_STREAM_DOWNLOAD]
 
 	title: ZSTRING
 
@@ -94,14 +54,14 @@ feature -- Basic operations
 	cleanup
 		do
 			if output_path.exists then
-				selected_audio_stream.remove
-				selected_video_stream.remove
+				download.audio.remove
+				download.video.remove
 			end
 		end
 
 	convert_streams_to_mp4
 		require
-			audio_and_video_selected: audio_and_video_selected
+			valid_downloads: valid_downloads
 		do
 			output_path := video_output_path
 			output_path.add_extension (MP4_extension)
@@ -111,20 +71,20 @@ feature -- Basic operations
 
 	download_streams
 		require
-			audio_and_video_selected: audio_and_video_selected
+			valid_downloads: valid_downloads
 		do
-			selected_audio_stream.download
-			selected_video_stream.download
+			download.audio.execute
+			download.video.execute
 		end
 
 	merge_streams
 		-- merge audio and video streams using same video container
 		require
-			audio_and_video_selected: audio_and_video_selected
+			valid_downloads: valid_downloads
 		local
 			extension: ZSTRING
 		do
-			extension := selected_video_stream.download_path.extension
+			extension := download.video.file_path.extension
 			output_path := video_output_path
 			output_path.add_extension (extension)
 
@@ -132,24 +92,29 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	select_streams
+	select_downloads
+		local
+			selector: EL_YOUTUBE_STREAM_SELECTOR
 		do
-			selected.audio_code := select_stream ("AUDIO", agent {EL_YOUTUBE_STREAM}.is_audio)
-			selected.video_code := select_stream ("VIDEO", agent {EL_YOUTUBE_STREAM}.is_video)
+			across << Audio_stream, Video_stream >> as stream loop
+				create selector.make (stream.item, stream_table)
+				selector.get_code
+				download.put_reference (selector.download (output_dir, title), stream.cursor_index)
+			end
 		ensure
-			audio_and_video_selected: audio_and_video_selected
+			valid_downloads: valid_downloads
 		end
 
 feature -- Status query
 
-	audio_and_video_selected: BOOLEAN
+	valid_downloads: BOOLEAN
 		do
-			Result := stream_table.has (selected.audio_code) and stream_table.has (selected.video_code)
+			Result := not (download.audio.is_default or download.video.is_default)
 		end
 
-	is_downloaded: BOOLEAN
+	downloads_exists: BOOLEAN
 		do
-			Result := selected_audio_stream.download_path.exists and selected_video_stream.download_path.exists
+			Result := download.audio.exists and download.video.exists
 		end
 
 	is_merge_complete: BOOLEAN
@@ -160,17 +125,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	display (a_title: ZSTRING; included: PREDICATE [EL_YOUTUBE_STREAM])
-		do
-			lio.put_line (a_title)
-			across stream_table as stream loop
-				if included (stream.item) then
-					lio.put_line (stream.item.description)
-				end
-			end
-			lio.put_new_line
-		end
-
 	do_conversion (command: EL_OS_COMMAND; description: STRING)
 		local
 			socket: EL_UNIX_STREAM_SOCKET; progress_display: EL_CONSOLE_PROGRESS_DISPLAY
@@ -180,8 +134,8 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string (description, output_path.to_string)
 			lio.put_new_line
 
-			command.put_path (Var_audio_path, selected_audio_stream.download_path)
-			command.put_path (Var_video_path, selected_video_stream.download_path)
+			command.put_path (Var_audio_path, download.audio.file_path)
+			command.put_path (Var_video_path, download.video.file_path)
 			command.put_path (Var_output_path, output_path)
 			command.put_path (Var_socket_path, Socket_path)
 			command.put_string (Var_title, title)
@@ -218,29 +172,16 @@ feature {NONE} -- Implementation
 			create Result.make_from_string (time_string, once "[0]hh:[0]mi:[0]ss.ff3")
 		end
 
-	select_stream (type: STRING; included: PREDICATE [EL_YOUTUBE_STREAM]): NATURAL
-		local
-			l_title, prompt_template: ZSTRING
-		do
-			l_title := type; l_title.append_string_general (" STREAMS")
-			prompt_template := "Enter %S code"
-			from until stream_table.has_key (Result) and then included (stream_table.found_item) loop
-				display (l_title, included)
-				Result := User_input.natural (prompt_template #$ [type.as_lower])
-				lio.put_new_line
-			end
-		end
-
 	video_duration_fine_seconds: DOUBLE
 		do
-			Cmd_video_duration.put_path (Var_video_path, selected_video_stream.download_path)
+			Cmd_video_duration.put_path (Var_video_path, download.video.file_path)
 			Cmd_video_duration.execute
 			Result := new_time (Cmd_video_duration.lines.first.substring_between_general ("Duration: ", ", ", 1)).fine_seconds
 		end
 
 	video_output_path: EL_FILE_PATH
 		do
-			Result := selected_video_stream.download_path.without_extension
+			Result := download.video.file_path.without_extension
 			Result.remove_extension
 		end
 
@@ -248,9 +189,7 @@ feature {NONE} -- Internal attributes
 
 	output_path: EL_FILE_PATH
 
-	selected: TUPLE [audio_code, video_code: NATURAL]
-
-	stream_table: HASH_TABLE [EL_YOUTUBE_STREAM, NATURAL]
+	stream_table: EL_YOUTUBE_STREAM_TABLE
 
 feature {NONE} -- OS commands
 
@@ -263,11 +202,6 @@ feature {NONE} -- OS commands
 				% -metadata title=%"$title%"%
 				% -movflags faststart -profile:v high -level 5.1 -c:a copy $output_path"
 			)
-		end
-
-	Cmd_get_youtube_options: EL_CAPTURED_OS_COMMAND
-		once
-			create Result.make_with_name ("get_youtube_options", "youtube-dl -F $url")
 		end
 
 	Cmd_merge: EL_OS_COMMAND
@@ -286,9 +220,20 @@ feature {NONE} -- OS commands
 
 feature {NONE} -- Constants
 
+	Default_download: EL_YOUTUBE_STREAM_DOWNLOAD
+		once
+			create Result.make_default
+		end
+
 	Minimum_x_resolution: INTEGER = 1920
 
 	Out_time_field: STRING = "out_time="
+
+	Output_dir: EL_DIR_PATH
+		once
+			Result := "$HOME/Videos"
+			Result.expand
+		end
 
 	Socket_path: EL_FILE_PATH
 		once

@@ -6,18 +6,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:21:40 GMT (Friday 3rd April 2020)"
-	revision: "3"
+	date: "2020-05-21 16:48:15 GMT (Thursday 21st May 2020)"
+	revision: "4"
 
-class
-	EL_YOUTUBE_VARIABLE_NAMES
+deferred class
+	EL_YOUTUBE_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	Audio_stream: STRING = "AUDIO"
+
+	Video_stream: STRING = "VIDEO"
 
 	MP4_extension: ZSTRING
 		once
 			Result := "mp4"
 		end
+
+	Stream_predicate_table: EL_HASH_TABLE [PREDICATE [EL_YOUTUBE_STREAM], STRING]
+		once
+			create Result.make (<<
+				[Audio_stream, agent {EL_YOUTUBE_STREAM}.is_audio],
+				[Video_stream, agent {EL_YOUTUBE_STREAM}.is_video]
+			>>)
+		end
+
+feature {NONE} -- Variable names
 
 	Var_audio_path: STRING = "audio_path"
 

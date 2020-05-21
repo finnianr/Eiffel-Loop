@@ -6,18 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:22:13 GMT (Friday 3rd April 2020)"
-	revision: "6"
+	date: "2020-05-21 16:42:01 GMT (Thursday 21st May 2020)"
+	revision: "7"
 
 class
 	EL_YOUTUBE_STREAM
 
 inherit
+	ANY
+
 	EL_MODULE_LIO
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_YOUTUBE_VARIABLE_NAMES
+	EL_YOUTUBE_CONSTANTS
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -26,12 +28,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_video: EL_YOUTUBE_VIDEO; info_line: ZSTRING)
+	make (a_url, info_line: ZSTRING)
 		local
-			parts: EL_SPLIT_ZSTRING_LIST; base_name: ZSTRING
+			parts: EL_SPLIT_ZSTRING_LIST
 		do
 			make_default
-			url := a_video.url
+			url := a_url
 			description := info_line
 			create parts.make (info_line.as_canonically_spaced, character_string (' '))
 			parts.start
@@ -57,11 +59,6 @@ feature {NONE} -- Initialization
 					parts.forth
 				end
 			end
-			base_name := a_video.title.as_lower
-			base_name.replace_character (' ', '-')
-			download_path := Output_dir + base_name
-			download_path.add_extension (type)
-			download_path.add_extension (extension)
 		end
 
 	make_default
@@ -71,7 +68,6 @@ feature {NONE} -- Initialization
 			extension := Empty_string
 			resolution_x_y := Empty_string
 			description := Empty_string
-			create download_path
 		end
 
 feature -- Access
@@ -79,8 +75,6 @@ feature -- Access
 	code: NATURAL
 
 	description: ZSTRING
-
-	download_path: EL_FILE_PATH
 
 	extension: ZSTRING
 
@@ -104,25 +98,6 @@ feature -- Status query
 			Result := type = Video
 		end
 
-feature -- Basic operations
-
-	download
-		do
-			lio.put_substitution ("Downloading %S for %S", [type, url])
-			Cmd_download.put_file_path (Var_output_path, download_path)
-			Cmd_download.put_natural (Var_format, code)
-			Cmd_download.put_string (Var_url, url)
-			Cmd_download.execute
-			lio.put_new_line
-		end
-
-	remove
-		do
-			if download_path.exists then
-				File_system.remove_file (download_path)
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Audio: ZSTRING
@@ -130,20 +105,9 @@ feature {NONE} -- Constants
 			Result := "audio"
 		end
 
-	Cmd_download: EL_OS_COMMAND
-		once
-			create Result.make_with_name ("youtube_download", "youtube-dl -f $format -o $output_path $url")
-		end
-
 	Video: ZSTRING
 		once
 			Result := "video"
-		end
-
-	Output_dir: EL_DIR_PATH
-		once
-			Result := "$HOME/Videos"
-			Result.expand
 		end
 
 end

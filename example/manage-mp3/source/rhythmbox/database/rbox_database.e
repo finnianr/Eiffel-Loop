@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:53:51 GMT (Tuesday 19th May 2020)"
-	revision: "29"
+	date: "2020-05-20 10:16:56 GMT (Wednesday 20th May 2020)"
+	revision: "30"
 
 class
 	RBOX_DATABASE

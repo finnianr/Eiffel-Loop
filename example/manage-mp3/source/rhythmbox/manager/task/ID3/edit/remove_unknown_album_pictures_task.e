@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:14:31 GMT (Sunday 19th April 2020)"
-	revision: "8"
+	date: "2020-05-21 8:52:53 GMT (Thursday 21st May 2020)"
+	revision: "9"
 
 class
 	REMOVE_UNKNOWN_ALBUM_PICTURES_TASK
@@ -27,7 +27,8 @@ feature -- Basic operations
 	apply
 		do
 			Database.for_all_songs (
-				not song_is_hidden and song_has_unknown_artist_and_album, agent remove_unknown_album_picture
+				not song_is_hidden and predicate (agent song_has_unknown_artist_and_album),
+				agent remove_unknown_album_picture
 			)
 			Database.store_all
 		end

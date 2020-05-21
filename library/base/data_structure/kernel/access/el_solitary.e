@@ -18,9 +18,14 @@ note
 		In this example the routine will return either [$source RBOX_DATABASE] or [$source RBOX_TEST_DATABASE]
 		depending on which instance is found in `Singleton_table'.
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2020-05-20 10:29:05 GMT (Wednesday 20th May 2020)"
+	revision: "1"
 
 deferred class
 	EL_SOLITARY

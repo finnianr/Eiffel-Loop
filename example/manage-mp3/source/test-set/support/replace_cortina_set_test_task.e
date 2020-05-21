@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:42:11 GMT (Tuesday 19th May 2020)"
-	revision: "5"
+	date: "2020-05-21 8:50:29 GMT (Thursday 21st May 2020)"
+	revision: "6"
 
 class
 	REPLACE_CORTINA_SET_TEST_TASK
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 
 	user_input_file_path (name: ZSTRING): EL_FILE_PATH
 		do
-			Database.songs.find_first (song_has_title_substring ("Disamistade"))
+			Database.songs.find_first_true (agent song_has_title_substring (?, "Disamistade"))
 			if Database.songs.found then
 				Result := Database.songs.item.mp3_path
 			else

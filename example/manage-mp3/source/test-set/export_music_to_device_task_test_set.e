@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 18:05:32 GMT (Tuesday 19th May 2020)"
-	revision: "5"
+	date: "2020-05-21 8:42:49 GMT (Thursday 21st May 2020)"
+	revision: "6"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -21,8 +21,6 @@ inherit
 feature {NONE} -- Events
 
 	on_prepare
-		local
-			device: TEST_STORAGE_DEVICE
 		do
 			Precursor
 			-- Delete sync table file cached under Directory.app_data

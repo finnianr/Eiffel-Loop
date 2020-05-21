@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:22:39 GMT (Friday 3rd April 2020)"
-	revision: "10"
+	date: "2020-05-21 17:57:42 GMT (Thursday 21st May 2020)"
+	revision: "11"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -32,7 +32,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_YOUTUBE_VARIABLE_NAMES
+	EL_YOUTUBE_CONSTANTS
 
 create
 	make
@@ -51,17 +51,17 @@ feature -- Basic operations
 		local
 			output_extension: ZSTRING; done: BOOLEAN
 		do
-			video.select_streams
+			video.select_downloads
 
 			output_extension := User_input.line ("Enter an output extension")
 			lio.put_new_line
 
 			from until done loop
 				video.download_streams
-				if video.is_downloaded then
-					if video.selected_video_stream.extension ~ output_extension then
+				if video.downloads_exists then
+					if video.download.video.stream.extension ~ output_extension then
 						video.merge_streams
-					elseif video.selected_video_stream.extension ~ Mp4_extension then
+					elseif video.download.video.stream.extension ~ Mp4_extension then
 						video.convert_streams_to_mp4
 					end
 					if video.is_merge_complete then
