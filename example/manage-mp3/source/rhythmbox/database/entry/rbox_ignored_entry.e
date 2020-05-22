@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-18 10:54:32 GMT (Monday 18th May 2020)"
-	revision: "20"
+	date: "2020-05-22 14:01:19 GMT (Friday 22nd May 2020)"
+	revision: "21"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -15,18 +15,32 @@ class
 inherit
 	RBOX_IRADIO_ENTRY
 		redefine
-			Protocol, Type
+			Type, set_location_from_node, url_encoded_location_uri
 		end
 
 create
 	make
 
-feature -- Constants
+feature -- Access
 
-	Protocol: ZSTRING
-		once
-			Result := "file"
+	file_path: EL_FILE_PATH
+		do
+			Result := location_uri.to_file_path
 		end
+
+feature {NONE} -- Implemenatation
+
+	set_location_from_node
+		do
+			set_location_uri (Database.expanded_file_uri (decoded_location (node)))
+		end
+
+	url_encoded_location_uri: STRING
+		do
+			Result := Database.shortened_file_uri (encoded_location_uri (location_uri))
+		end
+
+feature -- Constants
 
 	Type: STRING
 		once

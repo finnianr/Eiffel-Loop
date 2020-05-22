@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:27:01 GMT (Tuesday 19th May 2020)"
-	revision: "25"
+	date: "2020-05-22 9:12:18 GMT (Friday 22nd May 2020)"
+	revision: "26"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_PYXIS
 
 	EL_MODULE_USER_INPUT
+
+	EL_MODULE_URL
 
 	RHYTHMBOX_CONSTANTS
 
@@ -122,7 +124,13 @@ feature {NONE} -- Implementation
 
 	set_task
 		do
-			task := Task_factory.instance_from_pyxis (agent {RBOX_MANAGEMENT_TASK}.make (task_path))
+			if attached {ZSTRING} task_path.to_string as str
+				and then URL.is_http_uri (str) and then str.has_substring ("you")
+			then
+				create {IMPORT_YOUTUBE_M4A_TASK} task.make (str)
+			else
+				task := Task_factory.instance_from_pyxis (agent {RBOX_MANAGEMENT_TASK}.make (task_path))
+			end
 		end
 
 	shared_database: EL_SINGLETON [RBOX_DATABASE]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 9:13:37 GMT (Saturday 16th May 2020)"
-	revision: "37"
+	date: "2020-05-22 17:17:18 GMT (Friday 22nd May 2020)"
+	revision: "38"
 
 deferred class
 	EL_PATH
@@ -41,6 +41,8 @@ feature {NONE} -- Initialization
 			parent_path := other.parent_path
 			internal_hash_code := other.internal_hash_code
 			out_abbreviated := other.out_abbreviated
+		ensure
+			same_string: to_string ~ other.to_string
 		end
 
 	make_from_path (a_path: PATH)

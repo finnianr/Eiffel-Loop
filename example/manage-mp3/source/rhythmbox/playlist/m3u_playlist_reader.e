@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:32:45 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2020-05-22 17:36:57 GMT (Friday 22nd May 2020)"
+	revision: "11"
 
 class
 	M3U_PLAYLIST_READER
@@ -66,7 +66,7 @@ feature {NONE} -- State line procedures
 			--
 		local
 			steps: EL_PATH_STEPS; index: INTEGER
-			song_path, relative_path: EL_FILE_PATH
+			song_path: EL_FILE_URI_PATH; relative_path: EL_FILE_PATH
 		do
 			if not line.is_empty then
 				steps := line
@@ -74,8 +74,8 @@ feature {NONE} -- State line procedures
 				if index > 0 then
 					steps := steps.sub_steps (index + 1, steps.count)
 				end
-				song_path := Database.music_dir + steps.as_file_path
-				relative_path := song_path.relative_path (Database.music_dir)
+				song_path := Database.music_uri + steps
+				relative_path := song_path.relative_path (Database.music_uri)
 				if Database.has_song (song_path) then
 					playlist.add_song_from_path (song_path)
 					lio.put_path_field ("Found", relative_path)

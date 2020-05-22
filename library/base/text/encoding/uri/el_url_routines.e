@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2020-05-22 10:33:23 GMT (Friday 22nd May 2020)"
+	revision: "7"
 
 class
 	EL_URL_ROUTINES
@@ -22,12 +22,12 @@ feature -- Conversion
 	encoded_uri (a_uri: EL_URI_PATH; leave_reserved_unescaped: BOOLEAN): STRING
 			--
 		do
-			Result := encoded_path (a_uri.to_string.to_utf_8, leave_reserved_unescaped)
+			Result := encoded_path (a_uri.to_utf_8, leave_reserved_unescaped)
 		end
 
 	encoded_uri_custom (a_uri: EL_URI_PATH; unescaped_chars: DS_SET [CHARACTER]; escape_space_as_plus: BOOLEAN): STRING
 		do
-			Result := escape_custom (a_uri.to_string.to_utf_8, unescaped_chars, escape_space_as_plus)
+			Result := escape_custom (a_uri.to_utf_8, unescaped_chars, escape_space_as_plus)
 		end
 
 	encoded (str: ZSTRING): STRING
@@ -75,16 +75,11 @@ feature {NONE} -- Implementation
 
 	Default_unescaped_and_reserved: DS_HASH_SET [CHARACTER]
 			--
-		local
-			unescape_set: STRING
 		once
-			create unescape_set.make_empty;
-			unescape_set.append_string_general (Rfc_digit_characters)
-			unescape_set.append_string_general (Rfc_lowalpha_characters)
-			unescape_set.append_string_general (Rfc_upalpha_characters)
-			unescape_set.append_string_general (Rfc_mark_characters)
-			unescape_set.append_string_general (Rfc_reserved_characters)
-			Result := new_character_set (unescape_set)
+			Result := new_character_set (
+				Rfc_digit_characters + Rfc_lowalpha_characters + Rfc_upalpha_characters +
+				Rfc_mark_characters + Rfc_reserved_characters
+			)
 		end
 
 	Url_encoded_plus_sign: STRING

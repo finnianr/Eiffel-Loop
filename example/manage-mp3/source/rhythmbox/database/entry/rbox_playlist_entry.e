@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-12 7:48:24 GMT (Thursday 12th September 2019)"
-	revision: "2"
+	date: "2020-05-22 12:52:19 GMT (Friday 22nd May 2020)"
+	revision: "3"
 
 class
 	RBOX_PLAYLIST_ENTRY
@@ -29,6 +29,6 @@ feature {NONE} -- Initialization
 			set_genre (Playlist_genre)
 			set_title (playlist.title)
 			set_media_type (Media_types.pyxis)
-			set_location (playlist.output_path)
+			set_location_uri (playlist.output_path)
 		end
 end

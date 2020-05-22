@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 18:05:40 GMT (Tuesday 19th May 2020)"
-	revision: "10"
+	date: "2020-05-22 17:38:41 GMT (Friday 22nd May 2020)"
+	revision: "11"
 
 class
 	RBOX_AUTOTEST_APP
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type: TUPLE [EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET]
+	test_type: TUPLE [IMPORT_VIDEOS_TASK_TEST_SET]
 		do
 			create Result
 		end

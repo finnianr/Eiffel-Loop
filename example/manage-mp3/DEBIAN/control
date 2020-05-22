@@ -3,7 +3,7 @@ Version: $version
 Architecture: amd64
 Maintainer: Finnian Reilly <finnian@eiffel-loop.com>
 Installed-Size: $installed_size
-Pre-Depends: sox, swgen, avconv, lame, gvfs-mount
+Pre-Depends: sox, swgen, avconv, lame, gvfs-mount, youtube-dl
 Section: sound
 Priority: optional
 Homepage: http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html

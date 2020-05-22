@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 13:03:58 GMT (Thursday 23rd April 2020)"
-	revision: "20"
+	date: "2020-05-22 14:57:46 GMT (Friday 22nd May 2020)"
+	revision: "21"
 
 class
 	RBOX_TEST_DATABASE
@@ -17,7 +17,7 @@ inherit
 		export
 			{EQA_TEST_SET} make
 		redefine
-			new_cortina, new_song, extend_with_song, decoded_location, encoded_location_uri
+			new_cortina, new_song, extend_with_song, expanded_file_uri, shortened_file_uri
 		end
 
 	EL_MODULE_AUDIO_COMMAND
@@ -58,20 +58,17 @@ feature -- Factory
 			create Result.make (a_source_song, a_tanda_type, a_track_number, a_duration)
 		end
 
-feature {RBOX_IRADIO_ENTRY} -- location codecs
+feature {RBOX_IRADIO_ENTRY} -- Implementation
 
-	decoded_location (a_path: STRING): EL_FILE_PATH
-		local
-			path: ZSTRING
+	expanded_file_uri (a_uri: ZSTRING): ZSTRING
 		do
-			path := Precursor (a_path)
-			path.replace_substring_all (Var_music, music_dir.to_string)
-			Result := path
+			Result := a_uri.twin
+			Result.replace_substring_all (Var_music, music_dir.to_string)
 		end
 
-	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
+	shortened_file_uri (a_uri: STRING): STRING
 		do
-			Result := Precursor (uri)
+			Result := a_uri.twin
 			Result.replace_substring_all (Encoded_music_dir, Var_music.to_latin_1)
 		end
 
@@ -148,12 +145,9 @@ feature {NONE} -- Constants
 		end
 
 	Encoded_music_dir: STRING
-		local
-			uri: EL_DIR_URI_PATH
 		once
-			uri := music_dir
-			Result := Url.encoded_uri_custom (uri, Unescaped_location_characters, False)
-			Result.remove_head (File_protocol_prefix.count)
+			Encoded_location.set_from_string (music_dir)
+			create Result.make_from_string (Encoded_location)
 		end
 
 	Test_wav_generator: EL_WAV_GENERATION_COMMAND_I

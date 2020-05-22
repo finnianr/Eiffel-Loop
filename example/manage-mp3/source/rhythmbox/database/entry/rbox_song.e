@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 8:53:55 GMT (Tuesday 19th May 2020)"
-	revision: "40"
+	date: "2020-05-22 14:50:49 GMT (Friday 22nd May 2020)"
+	revision: "41"
 
 class
 	RBOX_SONG
@@ -19,9 +19,9 @@ class
 inherit
 	RBOX_IGNORED_ENTRY
 		rename
-			location as mp3_path,
-			relative_location as relative_mp3_path,
-			set_location as set_mp3_path
+			file_path as mp3_path,
+			location_uri as mp3_uri,
+			set_location_uri as set_mp3_uri
 		redefine
 			make, getter_function_table, on_context_exit,
 			Except_fields, Field_sets, Type
@@ -157,6 +157,11 @@ feature -- Access
 			end
 		end
 
+	relative_mp3_path: EL_FILE_PATH
+		do
+			Result := mp3_path.relative_path (music_dir)
+		end
+
 	short_silence: RBOX_SONG
 			-- short silence played at end of song to compensate for recorded silence
 		local
@@ -264,7 +269,7 @@ feature -- Element change
 		do
 			log.enter ("move_mp3_to_genre_and_artist_directory")
 			old_mp3_path := mp3_path
-			mp3_path := unique_normalized_mp3_path
+			set_mp3_uri (unique_normalized_mp3_path)
 
 			File_system.make_directory (mp3_path.parent)
 			OS.move_file (old_mp3_path, mp3_path)
@@ -310,6 +315,11 @@ feature -- Element change
 			--
 		do
 			music_dir := a_music_dir
+		end
+
+	set_mp3_path (a_mp3_path: like mp3_path)
+		do
+			set_mp3_uri (a_mp3_path)
 		end
 
 	set_recording_date (a_recording_date: like recording_date)

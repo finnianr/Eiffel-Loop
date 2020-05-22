@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:50:26 GMT (Tuesday 31st March 2020)"
-	revision: "11"
+	date: "2020-05-22 13:09:17 GMT (Friday 22nd May 2020)"
+	revision: "12"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
 
 inherit
-	EL_MODULE_URL
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_TUPLE
@@ -67,6 +65,11 @@ feature {NONE} -- Constants
 			Result := [Unknown_string, create {EL_ZSTRING_LIST}.make_empty]
 		end
 
+	Encoded_location: ENCODED_LOCATION
+		once
+			create Result.make_empty
+		end
+
 	ID3_comment_description: ZSTRING
 		once
 			Result := "c0"
@@ -112,19 +115,6 @@ feature {NONE} -- Constants
 	Unknown_artist_names: EL_ZSTRING_LIST
 		once
 			Result := "Various, Various Artists, Unknown"
-		end
-
-	Unescaped_location_characters: DS_HASH_SET [CHARACTER]
-			--
-		local
-			l_set: STRING
-		once
-			create l_set.make_empty;
-			l_set.append_string_general (Url.Rfc_digit_characters)
-			l_set.append_string_general (Url.Rfc_lowalpha_characters)
-			l_set.append_string_general (Url.Rfc_upalpha_characters)
-			l_set.append_string_general ("/!$&*()_+-=':@~,.")
-			Result := Url.new_character_set (l_set)
 		end
 
 	User_config_dir: EL_DIR_PATH

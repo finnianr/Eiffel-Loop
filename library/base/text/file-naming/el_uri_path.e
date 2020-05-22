@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 9:21:44 GMT (Saturday 16th May 2020)"
-	revision: "14"
+	date: "2020-05-22 17:27:37 GMT (Friday 22nd May 2020)"
+	revision: "15"
 
 deferred class
 	EL_URI_PATH
@@ -36,6 +36,8 @@ inherit
 
 	EL_MODULE_UTF
 
+	EL_SHARED_ONCE_ZSTRING
+
 feature {NONE} -- Initialization
 
 	default_create
@@ -52,13 +54,15 @@ feature -- Initialization
 			is_uri: is_uri_string (a_uri)
 			is_absolute: is_uri_absolute (a_uri)
 		local
-			l_path: ZSTRING; start_index, pos_separator: INTEGER
+			l_path, l_protocol: ZSTRING; start_index, pos_separator: INTEGER
 		do
 			l_path := temporary_copy (a_uri)
-			protocol := uri_protocol (l_path)
-			start_index := l_path.substring_right_index (Protocol_sign, 1)
+			start_index := a_uri.substring_index (Protocol_sign, 1)
 			if start_index > 0 then
-				l_path.remove_head (start_index - 1)
+				l_protocol := empty_once_string
+				l_protocol.append_substring_general (a_uri, 1, start_index - 1)
+				set_protocol (l_protocol)
+				l_path.remove_head (start_index + Protocol_sign.count - 1)
 			end
 			if protocol ~ Protocol_name.file then
 				create domain.make_empty
@@ -73,12 +77,12 @@ feature -- Initialization
 			is_absolute: is_absolute
 		end
 
-	make_file (a_path: ZSTRING)
+	make_file (a_path: READABLE_STRING_GENERAL)
 			-- make with implicit `file' protocol
 		require
 			is_absolute: a_path.starts_with (Forward_slash)
 		do
-			make (Protocol_name.file + Protocol_sign + a_path)
+			make_protocol (Protocol_name.file, create {EL_FILE_PATH}.make (a_path))
 		end
 
 	make_from_file_path (a_path: EL_PATH)
@@ -91,28 +95,33 @@ feature -- Initialization
 			elseif {PLATFORM}.is_windows then
 				make_file (Forward_slash + a_path.as_unix.to_string)
 			else
-				make_file (a_path.to_string)
+				make_protocol (Protocol_name.file, a_path)
 			end
 		end
 
 	make_from_other (other: EL_URI_PATH)
 		do
-			Precursor {EL_PATH} (other)
 			domain := other.domain.twin
-			protocol := other.protocol.twin
+			protocol := other.protocol
+			Precursor {EL_PATH} (other)
 		end
 
-	make_protocol (a_protocol: ZSTRING; a_path: EL_PATH)
+	make_protocol (a_protocol: READABLE_STRING_GENERAL; a_path: EL_PATH)
 		require
-			path_absolute_for_file_protocol: a_protocol ~ Protocol_name.file implies a_path.is_absolute
+			path_absolute_for_file_protocol: Protocol_name.file.same_string (a_protocol) implies a_path.is_absolute
 			path_relative_for_other_protocols:
 				(a_protocol /~ Protocol_name.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
+		local
+			l_path: ZSTRING
 		do
 			if attached {EL_URI_PATH} a_path as l_uri_path then
 				make_from_other (l_uri_path)
-				set_protocol (a_protocol)
 			else
-				make (a_protocol + Protocol_sign + a_path.to_string)
+				create l_path.make (a_protocol.count + Protocol_sign.count + a_path.count)
+				l_path.append_string_general (a_protocol)
+				l_path.append (Protocol_sign)
+				a_path.append_to (l_path)
+				make (l_path)
 			end
 		end
 
@@ -124,9 +133,21 @@ feature -- Access
 
 feature -- Element change
 
-	set_protocol (a_protocol: like protocol)
+	set_protocol (a_protocol: READABLE_STRING_GENERAL)
+		local
+			l_protocol: ZSTRING
 		do
-			protocol := a_protocol
+			if attached {ZSTRING} a_protocol as zstr then
+				l_protocol := zstr
+			else
+				l_protocol := temporary_copy (a_protocol)
+			end
+			if Protocol_set.has_key (l_protocol) then
+				protocol := Protocol_set.found_item
+			else
+				protocol := l_protocol.twin
+				Protocol_set.put (protocol)
+			end
 		end
 
 	set_path (a_path: ZSTRING)
@@ -235,6 +256,11 @@ feature -- Constants
 		end
 
 feature {NONE} -- Constants
+
+	Protocol_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (50)
+		end
 
 	Separator_string: ZSTRING
 		once

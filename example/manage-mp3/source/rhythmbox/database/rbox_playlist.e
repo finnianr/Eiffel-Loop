@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 12:15:11 GMT (Monday 30th March 2020)"
-	revision: "19"
+	date: "2020-05-22 13:38:08 GMT (Friday 22nd May 2020)"
+	revision: "20"
 
 class
 	RBOX_PLAYLIST
@@ -156,9 +156,9 @@ feature -- Element change
 			log.exit
 		end
 
-	add_song_from_path (a_song_file_path: EL_FILE_PATH)
+	add_song_from_path (song_uri: EL_FILE_URI_PATH)
 		do
-			index_by_location.search (a_song_file_path)
+			index_by_location.search (song_uri)
 			if index_by_location.found then
 				extend (index_by_location.found_item)
 			end
@@ -193,11 +193,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from XML
 
+	add_song_from_location_node
+		do
+			Encoded_location.share (node)
+			add_song_from_path (Database.expanded_file_uri (Encoded_location.decoded))
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<
-				["location/text()", agent do add_song_from_path (Database.decoded_location (node)) end],
+				["location/text()", agent add_song_from_location_node],
 				["audio-id/text()", agent do add_song_from_audio_id (node) end],
 				["@name", agent do set_name (node) end]
 			>>)

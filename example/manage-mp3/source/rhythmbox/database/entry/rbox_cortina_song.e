@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 8:54:33 GMT (Tuesday 19th May 2020)"
-	revision: "13"
+	date: "2020-05-22 12:56:49 GMT (Friday 22nd May 2020)"
+	revision: "14"
 
 class
 	RBOX_CORTINA_SONG
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 			end
 			artist := source_song.artist
 			genre := Extra_genre.cortina
-			mp3_path := music_dir.joined_file_steps (<< genre, artist, title + ".mp3" >>)
+			mp3_uri := music_dir.joined_file_steps (<< genre, artist, title + ".mp3" >>)
 			album := source_song.album
 		end
 

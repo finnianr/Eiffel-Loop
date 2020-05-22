@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-09 16:19:22 GMT (Monday 9th April 2018)"
-	revision: "2"
+	date: "2020-05-22 15:22:52 GMT (Friday 22nd May 2020)"
+	revision: "3"
 
 class
 	EL_URI_STRING_8
@@ -18,7 +18,7 @@ class
 inherit
 	EL_ENCODED_STRING_8
 		redefine
-			new_string
+			new_string, adjusted_character, append_character
 		end
 
 create
@@ -27,7 +27,43 @@ create
 convert
 	make_encoded ({STRING})
 
+feature -- Element change
+
+	append_character (c: CHARACTER_8)
+		do
+			if c = ' ' and then plus_sign_equals_space then
+				Precursor ('+')
+			else
+				Precursor (c)
+			end
+		end
+
+feature -- Status change
+
+	escape_space_as_plus
+		do
+			plus_sign_equals_space := True
+		end
+
+	escape_space_as_space
+		do
+			plus_sign_equals_space := False
+		end
+
+feature -- Status query
+
+	plus_sign_equals_space: BOOLEAN
+
 feature {NONE} -- Implementation
+
+	adjusted_character (c: CHARACTER): CHARACTER
+		do
+			if c = '+' and then plus_sign_equals_space then
+				Result := ' '
+			else
+				Result := c
+			end
+		end
 
 	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
 		do

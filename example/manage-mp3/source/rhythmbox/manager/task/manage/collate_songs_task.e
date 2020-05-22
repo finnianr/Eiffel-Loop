@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 9:00:03 GMT (Thursday 21st May 2020)"
-	revision: "6"
+	date: "2020-05-22 14:49:29 GMT (Friday 22nd May 2020)"
+	revision: "7"
 
 class
 	COLLATE_SONGS_TASK
@@ -47,7 +47,7 @@ feature -- Basic operations
 					if song.mp3_path.parent.exists then
 						File_system.delete_empty_branch (song.mp3_path.parent)
 					end
-					Database.songs_by_location.replace_key (new_mp3_path, song.mp3_path)
+					Database.songs_by_location.replace_key (new_mp3_path, song.mp3_uri)
 					song.set_mp3_path (new_mp3_path)
 				end
 				Database.store_all

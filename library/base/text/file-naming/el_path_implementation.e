@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 11:39:56 GMT (Thursday 2nd April 2020)"
-	revision: "5"
+	date: "2020-05-22 17:23:50 GMT (Friday 22nd May 2020)"
+	revision: "6"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -34,6 +34,7 @@ inherit
 
 	EL_MODULE_FORMAT
 
+	EL_SHARED_ONCE_STRING_8
 
 feature -- Measurement
 
@@ -92,6 +93,18 @@ feature -- Conversion
 				Result.append (part_string (i))
 				i := i + 1
 			end
+		end
+
+	to_utf_8: STRING
+		local
+			i: INTEGER
+		do
+			Result := empty_once_string_8
+			from i := 1 until i > part_count loop
+				part_string (i).append_to_utf_8 (Result)
+				i := i + 1
+			end
+			Result := Result.twin
 		end
 
 feature -- Basic operations

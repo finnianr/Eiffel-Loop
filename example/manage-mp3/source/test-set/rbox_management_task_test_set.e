@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 9:54:11 GMT (Sunday 17th May 2020)"
-	revision: "5"
+	date: "2020-05-22 14:33:54 GMT (Friday 22nd May 2020)"
+	revision: "6"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -30,8 +30,6 @@ inherit
 	RBOX_SHARED_DATABASE_FIELD_ENUM
 
 	EL_MODULE_TUPLE
-
-	EL_MODULE_URL
 
 feature -- Basic operations
 
@@ -119,7 +117,8 @@ feature {NONE} -- Implementation
 				end
 				log.put_new_line
 				across playlist.node.context_list (Tag.location) as location loop
-					log.put_line (Url.decoded_path (location.node.string_8_value))
+					Encoded_location.share (location.node.string_8_value)
+					log.put_line (Encoded_location.decoded)
 				end
 				log.put_new_line
 			end
@@ -135,7 +134,8 @@ feature {NONE} -- Implementation
 			create character_count
 			create root_node.make_from_file (Database.xml_database_path)
 			across root_node.context_list ("/rhythmdb/entry") as entry loop
-				log.put_line (Url.decoded_path (entry.node.string_8_at_xpath (Tag.location)))
+				Encoded_location.share (entry.node.string_8_at_xpath (Tag.location))
+				log.put_line (Encoded_location.decoded)
 				log.put_labeled_string (entry.node.attributes [Attribute_type], entry.node.string_at_xpath (Tag.media_type))
 				print_field (Tag.mb_trackid, entry.node, 1)
 				log.put_new_line

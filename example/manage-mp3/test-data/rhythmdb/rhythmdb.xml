@@ -201,7 +201,7 @@
 		<disc-number>1</disc-number>
 		<duration>134</duration>
 		<file-size>2380115</file-size>
-		<location>file://$MUSIC/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20%26%20His%20Orchestra%20-%20No%20te%20Quiero%20M_s.mp3</location>
+		<location>file://$MUSIC/Recent/Feb%2017/Enrique%20Rodr%C3%ADguez/Enrique%20Rodriguez%20&amp;%20His%20Orchestra%20-%20No%20te%20Quiero%20M_s.mp3</location>
 		<mtime>1384173013</mtime>
 		<first-seen>1266846786</first-seen>
 		<last-seen>1381244876</last-seen>
@@ -594,7 +594,7 @@
 		<disc-number>1</disc-number>
 		<duration>142</duration>
 		<file-size>3879893</file-size>
-		<location>file://$MUSIC/Recent/Feb%2028/Juan%20D%27Arienzo%20-%20Tu%20Olvido.mp3</location>
+		<location>file://$MUSIC/Recent/Feb%2028/Juan%20D'Arienzo%20-%20Tu%20Olvido.mp3</location>
 		<first-seen>1267378198</first-seen>
 		<last-seen>1381244876</last-seen>
 		<play-count>4</play-count>
@@ -670,7 +670,7 @@
 		<disc-number>1</disc-number>
 		<duration>238</duration>
 		<file-size>7638594</file-size>
-		<location>file://$MUSIC/Recent/Awards%20for%20World%20Music%202006/(India-USA)%20Kronos%20Quartet%20%26%20Asha%20Bhosle%20-%20Ekta%20Deshlai%20Kathi%20Jwalao%20(Light%20a%20Match).mp3</location>
+		<location>file://$MUSIC/Recent/Awards%20for%20World%20Music%202006/(India-USA)%20Kronos%20Quartet%20&amp;%20Asha%20Bhosle%20-%20Ekta%20Deshlai%20Kathi%20Jwalao%20(Light%20a%20Match).mp3</location>
 		<first-seen>1250776233</first-seen>
 		<last-seen>1381244876</last-seen>
 		<bitrate>256</bitrate>
@@ -795,7 +795,7 @@
 		<genre>Modern Rock</genre>
 		<artist></artist>
 		<album></album>
-		<location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vx</location>
+		<location>http://www.smgradio.com/core/audio/ogg/live.pls%3Fservice=vx</location>
 		<date>0</date>
 		<media-type>application/octet-stream</media-type>
 	</entry>
@@ -804,7 +804,7 @@
 		<genre>Modern Rock</genre>
 		<artist></artist>
 		<album></album>
-		<location>http://www.smgradio.com/core/audio/ogg/live.pls?service=vxbb</location>
+		<location>http://www.smgradio.com/core/audio/ogg/live.pls%3Fservice=vxbb</location>
 		<date>0</date>
 		<media-type>application/octet-stream</media-type>
 	</entry>
@@ -822,7 +822,7 @@
     <genre>playlist</genre>
     <artist></artist>
     <album></album>
-    <location>file://$MUSIC/Playlists/2014-10-01 Belvedere.pyx</location>
+    <location>file://$MUSIC/Playlists/2014-10-01%20Belvedere.pyx</location>
     <date>0</date>
     <media-type>text/pyxis</media-type>
   </entry>

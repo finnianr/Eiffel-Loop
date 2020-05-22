@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:16:56 GMT (Wednesday 20th May 2020)"
-	revision: "30"
+	date: "2020-05-22 15:03:44 GMT (Friday 22nd May 2020)"
+	revision: "31"
 
 class
 	RBOX_DATABASE
@@ -60,8 +60,6 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_MODULE_URL
-
 	EL_MODULE_ITERABLE
 
 	RBOX_SHARED_DATABASE_FIELD_ENUM
@@ -79,9 +77,10 @@ feature {NONE} -- Initialization
 		do
 			make_solitary
 
-			call (DB_field)
+			if attached DB_field then
+			end
 
-			music_dir := a_music_dir
+			music_dir := a_music_dir; music_uri := a_music_dir
 
 			lio.put_path_field ("Reading", a_xml_database_path)
 			lio.put_new_line
@@ -119,7 +118,7 @@ feature {NONE} -- Initialization
 			-- This can only be done after all the songs have been read
 			from entries.start until entries.after loop
 				if attached {RBOX_IGNORED_ENTRY} entries.item as ignored and then ignored.is_playlist then
-					create playlist.make_from_file (ignored.location)
+					create playlist.make_from_file (ignored.file_path)
 					dj_playlists.extend (playlist)
 					entries.replace (playlist.new_rbox_entry) -- replace `RBOX_IGNORED_ENTRY' with `DJ_EVENT_PLAYLIST'
 				end
@@ -178,7 +177,7 @@ feature -- Access
 			end
 		end
 
-	title_and_album (mp3_path: EL_FILE_PATH): ZSTRING
+	title_and_album (mp3_path: EL_FILE_URI_PATH): ZSTRING
 		do
 			songs_by_location.search (mp3_path)
 			if songs_by_location.found then
@@ -213,6 +212,8 @@ feature -- Access attributes
 
 	music_dir: EL_DIR_PATH
 
+	music_uri: EL_DIR_URI_PATH
+
 	playlists: RBOX_PLAYLIST_ARRAY
 
 	playlists_xml_path: EL_FILE_PATH
@@ -223,7 +224,7 @@ feature -- Access attributes
 
 	songs_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
 
-	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
+	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_URI_PATH]
 
 	version: REAL
 
@@ -251,7 +252,7 @@ feature -- Factory
 
 feature -- Status query
 
-	has_song (song_path: EL_FILE_PATH): BOOLEAN
+	has_song (song_path: EL_FILE_URI_PATH): BOOLEAN
 		do
 			Result := songs_by_location.has (song_path)
 		end
@@ -298,7 +299,7 @@ feature -- Element change
 			if not song.has_audio_id then
 				song.update_audio_id
 			end
-			songs_by_location.put (song, song.mp3_path)
+			songs_by_location.put (song, song.mp3_uri)
 			if songs_by_location.conflict then
 				lio.put_new_line
 				lio.put_path_field ("DUPLICATE", song.mp3_path)
@@ -328,7 +329,7 @@ feature -- Element change
 			end
 		end
 
-	replace (deleted_path, replacement_path: EL_FILE_PATH)
+	replace (deleted_path, replacement_path: EL_FILE_URI_PATH)
 		require
 			not_same_song: deleted_path /~ replacement_path
 			has_deleted_path: songs_by_location.has (deleted_path)
@@ -529,25 +530,21 @@ feature -- Removal
 
 feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 
-	call (obj: ANY)
+	shortened_file_uri (a_uri: STRING): STRING
 		do
+			Result := a_uri
 		end
 
-	decoded_location (path: STRING): EL_FILE_PATH
+	expanded_file_uri (a_uri: ZSTRING): ZSTRING
 		do
-			Result := Url.remove_protocol_prefix (Url.decoded_path (path))
-		end
-
-	encoded_location_uri (uri: EL_FILE_URI_PATH): STRING
-		do
-			Result := Url.encoded_uri_custom (uri , Unescaped_location_characters, False)
+			Result := a_uri
 		end
 
 	prune (song: RBOX_SONG)
 		do
 			songs.start; songs.prune (song)
 			entries.start; entries.prune (song)
-			songs_by_location.remove (song.mp3_path)
+			songs_by_location.remove (song.mp3_uri)
 			songs_by_audio_id.remove (song.audio_id)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 8:57:27 GMT (Tuesday 19th May 2020)"
-	revision: "38"
+	date: "2020-05-22 14:01:32 GMT (Friday 22nd May 2020)"
+	revision: "39"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -36,9 +36,7 @@ inherit
 
 	EL_XML_ESCAPING_CONSTANTS
 
-	EL_MODULE_XML
-
-	EL_MODULE_LOG
+	EL_MODULE_XML EL_MODULE_LOG EL_MODULE_URL
 
 	SHARED_DATABASE
 
@@ -77,35 +75,20 @@ feature -- Access
 
 	hash_code: INTEGER
 		do
-			Result := location.hash_code
+			Result := location_uri.hash_code
 		end
-
-	location: EL_FILE_PATH
 
 	location_uri: EL_FILE_URI_PATH
-		do
-			create Result.make_protocol (Protocol, location)
-		end
 
 	music_dir: EL_DIR_PATH
 
-	relative_location: EL_FILE_PATH
-		do
-			Result := location.relative_path (music_dir)
-		end
-
-	url_encoded_location_uri: ZSTRING
-		do
-			Result := database.encoded_location_uri (location_uri)
-		end
-
 feature -- Element change
 
-	set_location (a_location: like location)
+	set_location_uri (a_location_uri: like location_uri)
 			--
 		do
-			location := a_location
-			location.enable_out_abbreviation
+			location_uri := a_location_uri
+			location_uri.enable_out_abbreviation
 		end
 
 	set_string_field (field_code: NATURAL_16; value: ZSTRING)
@@ -121,6 +104,13 @@ feature -- Element change
 
 feature -- Contract Support
 
+	all_non_string_fields_are_class_attributes: BOOLEAN
+		do
+			Result := across DB_field.sorted as field all
+				not DB_field.is_string_type (field.item) implies field_table.has (DB_field.field_name (field.item))
+			end
+		end
+
 	valid_string_field (field_code: NATURAL_16): BOOLEAN
 		-- valid extra field
 		do
@@ -129,11 +119,25 @@ feature -- Contract Support
 			end
 		end
 
-	all_non_string_fields_are_class_attributes: BOOLEAN
+feature {NONE} -- Implementation
+
+	decoded_location (path: STRING): ZSTRING
 		do
-			Result := across DB_field.sorted as field all
-				not DB_field.is_string_type (field.item) implies field_table.has (DB_field.field_name (field.item))
-			end
+			Encoded_location.share (path)
+			Result := Encoded_location.decoded
+		ensure
+			reversible: path ~ encoded_location_uri (Result)
+		end
+
+	encoded_location_uri (uri: ZSTRING): STRING
+		do
+			Encoded_location.set_from_string (uri)
+			create Result.make_from_string (Encoded_location)
+		end
+
+	url_encoded_location_uri: STRING
+		do
+			Result := encoded_location_uri (location_uri)
 		end
 
 feature {NONE} -- Build from XML
@@ -153,13 +157,18 @@ feature {NONE} -- Build from XML
 			across Build_types as l_type loop
 				Result.merge (building_actions_for_type (l_type.item, Text_element_node))
 			end
-			Result ["location/text()"] := agent do set_location (database.decoded_location (node.to_string_8)) end
+			Result ["location/text()"] := agent set_location_from_node
 			across DB_field.sorted as enum loop
 				if DB_field.is_string_type (enum.item) then
 					l_xpath := DB_field.name_exported (enum.item, False) + "/text()"
 					Result.put (agent set_string_field_from_node (enum.item), l_xpath)
 				end
 			end
+		end
+
+	set_location_from_node
+		do
+			set_location_uri (decoded_location (node))
 		end
 
 	set_string_field_from_node (field_code: NATURAL_16)
@@ -189,7 +198,7 @@ feature {NONE} -- Evolicity fields
 				element.text.wipe_out
 
 				if enum.item = DB_field.location then
-						element.text.append (url_encoded_location_uri)
+					element.text.append_raw_string_8 (url_encoded_location_uri)
 
 				elseif field_table.has_key (DB_field.field_name (enum.item)) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
@@ -259,11 +268,6 @@ feature {NONE} -- Constants
 				["media_type", Media_type_set],
 				["title", Title_set]
 			>>)
-		end
-
-	Protocol: ZSTRING
-		once
-			Result := "http"
 		end
 
 	Type: STRING
