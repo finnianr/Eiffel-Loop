@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 17:23:50 GMT (Friday 22nd May 2020)"
-	revision: "6"
+	date: "2020-05-25 6:56:59 GMT (Monday 25th May 2020)"
+	revision: "7"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -33,6 +33,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FORMAT
+
+	EL_MODULE_STRING_8
 
 	EL_SHARED_ONCE_STRING_8
 
@@ -105,6 +107,25 @@ feature -- Conversion
 				i := i + 1
 			end
 			Result := Result.twin
+		end
+
+	to_uri: EL_URI
+		local
+			uri: like Uri_string; i: INTEGER
+		do
+			uri := Uri_string; uri.wipe_out
+			uri.append_raw_8 (once "file://")
+			if {PLATFORM}.is_windows then
+				uri.append_character ('/')
+			end
+			from i := 1 until i > part_count loop
+				uri.append_general (part_string (i))
+				i := i + 1
+			end
+			if {PLATFORM}.is_windows then
+				String_8.replace_character (uri, '\', '/')
+			end
+			create Result.make (uri)
 		end
 
 feature -- Basic operations
@@ -271,6 +292,11 @@ feature {NONE} -- Constants
 		end
 
 	Temp_path: ZSTRING
+		once
+			create Result.make_empty
+		end
+
+	URI_string: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
 		end

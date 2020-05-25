@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 17:38:41 GMT (Friday 22nd May 2020)"
-	revision: "11"
+	date: "2020-05-25 7:00:18 GMT (Monday 25th May 2020)"
+	revision: "12"
 
 class
 	RBOX_AUTOTEST_APP
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type: TUPLE [IMPORT_VIDEOS_TASK_TEST_SET]
+	test_type: TUPLE [COLLATE_SONGS_TASK_TEST_SET]
 		do
 			create Result
 		end

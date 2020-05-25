@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-18 10:52:41 GMT (Monday 18th May 2020)"
-	revision: "1"
+	date: "2020-05-25 7:11:43 GMT (Monday 25th May 2020)"
+	revision: "2"
 
 deferred class
 	RBOX_IRADIO_FIELDS
@@ -44,6 +44,8 @@ feature -- XML field names
 	genre: ZSTRING
 
 	hidden: NATURAL_8
+
+	location: EL_URI
 
 	media_type: STRING
 

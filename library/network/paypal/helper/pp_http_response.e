@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 11:00:15 GMT (Wednesday 8th April 2020)"
-	revision: "7"
+	date: "2020-05-24 11:08:16 GMT (Sunday 24th May 2020)"
+	revision: "8"
 
 class
 	PP_HTTP_RESPONSE
 
 inherit
-	EL_URL_QUERY_TABLE
+	EL_URI_QUERY_TABLE
 		undefine
 			is_equal
 		end
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 			Result.set_from_string (key)
 		end
 
-	decoded_string (url: EL_URL_QUERY_STRING_8): ZSTRING
+	decoded_string (url: EL_URI_QUERY_STRING_8): ZSTRING
 		do
 			Result := url.decoded
 		end

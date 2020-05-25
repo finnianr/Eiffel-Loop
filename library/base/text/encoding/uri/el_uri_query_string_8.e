@@ -1,21 +1,21 @@
 note
-	description: "Encoded location"
+	description: "URI query string"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 9:41:32 GMT (Friday 22nd May 2020)"
-	revision: "1"
+	date: "2020-05-24 11:12:49 GMT (Sunday 24th May 2020)"
+	revision: "8"
 
 class
-	ENCODED_LOCATION
+	EL_URI_QUERY_STRING_8
 
 inherit
 	EL_URI_STRING_8
 		redefine
-			is_unescaped_extra
+			set_reserved_character_set
 		end
 
 create
@@ -26,12 +26,9 @@ convert
 
 feature {NONE} -- Implementation
 
-	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
+	set_reserved_character_set
 		do
-			Result := Extra_characters.has (c.to_character_8)
+			escape_space_as_plus
+			reserved_character_set := Uri_reserved_chars.allowed_in_query
 		end
-
-feature {NONE} -- Constants
-
-	Extra_characters: STRING = "/!$&*()_+-=':@~,."
 end

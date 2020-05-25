@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:13:54 GMT (Sunday 19th April 2020)"
-	revision: "5"
+	date: "2020-05-23 9:29:27 GMT (Saturday 23rd May 2020)"
+	revision: "6"
 
 class
 	REPLACE_SONGS_TASK

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-27 10:43:22 GMT (Monday 27th April 2020)"
-	revision: "24"
+	date: "2020-05-24 11:15:43 GMT (Sunday 24th May 2020)"
+	revision: "25"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -42,7 +42,7 @@ feature -- Test routines
 
 	test_cookies
 		local
-			city_location, json_fields: EL_URL_QUERY_ZSTRING_HASH_TABLE
+			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: ZSTRING; cookies: EL_HTTP_COOKIE_TABLE
 		do
 			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
@@ -153,13 +153,13 @@ feature -- Test routines
 		note
 			testing: "covers/{EL_URL_QUERY_STRING_8}.to_string","covers/{EL_URL_QUERY_HASH_TABLE}.make_from_url_query"
 		local
-			table_1, table_2: EL_URL_QUERY_ZSTRING_HASH_TABLE
+			table_1, table_2: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			query_string: STRING
 		do
 			create table_1.make_equal (2)
 			table_1.set_string_general ("city", "Dún Búinne")
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
-			query_string := table_1.url_query_string
+			query_string := table_1.uri_query_string
 			lio.put_line (query_string)
 			create table_2.make (query_string)
 			across table_2 as variable loop
@@ -171,7 +171,7 @@ feature -- Test routines
 
 	test_http_post
 		local
-			city_location, json_fields: EL_URL_QUERY_ZSTRING_HASH_TABLE
+			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: ZSTRING
 		do
 			city_location := new_city_location
@@ -274,7 +274,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory
 
-	new_city_location: EL_URL_QUERY_ZSTRING_HASH_TABLE
+	new_city_location: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		do
 			create Result.make_equal (2)
 			Result.set_string ("city", "Köln")
@@ -293,7 +293,7 @@ feature {NONE} -- Factory
 			Result.add_extension (name)
 		end
 
-	new_json_fields (json_data: STRING): EL_URL_QUERY_ZSTRING_HASH_TABLE
+	new_json_fields (json_data: STRING): EL_URI_QUERY_ZSTRING_HASH_TABLE
 		local
 			lines: EL_STRING_8_LIST
 			pair_list: EL_JSON_NAME_VALUE_LIST

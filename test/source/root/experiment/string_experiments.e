@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 10:40:29 GMT (Wednesday 18th March 2020)"
-	revision: "4"
+	date: "2020-05-23 12:59:21 GMT (Saturday 23rd May 2020)"
+	revision: "5"
 
 class
 	STRING_EXPERIMENTS
@@ -176,7 +176,7 @@ feature -- Basic operations
 
 	url_string
 		local
-			str: EL_URL_STRING_8
+			str: EL_URI_PATH_ELEMENT_STRING_8
 		do
 			create str.make_empty
 			str.append_general ("freilly8@gmail.com")

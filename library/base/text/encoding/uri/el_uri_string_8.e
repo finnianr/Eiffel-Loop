@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 15:22:52 GMT (Friday 22nd May 2020)"
-	revision: "3"
+	date: "2020-05-24 11:35:41 GMT (Sunday 24th May 2020)"
+	revision: "4"
 
 class
 	EL_URI_STRING_8
@@ -18,8 +18,10 @@ class
 inherit
 	EL_ENCODED_STRING_8
 		redefine
-			new_string, adjusted_character, append_character
+			new_string, adjusted_character, append_unencoded, is_unreserved
 		end
+
+	EL_SHARED_URI_RESERVED_CHARS
 
 create
 	make_encoded, make_empty, make
@@ -29,25 +31,26 @@ convert
 
 feature -- Element change
 
-	append_character (c: CHARACTER_8)
+	set_reserved_characters (character_set: STRING)
 		do
-			if c = ' ' and then plus_sign_equals_space then
-				Precursor ('+')
-			else
-				Precursor (c)
-			end
+			reserved_character_set := character_set
+		end
+
+	set_plus_sign_equals_space (a_plus_sign_equals_space: BOOLEAN)
+		do
+			plus_sign_equals_space := a_plus_sign_equals_space
 		end
 
 feature -- Status change
 
+	disable_escape_space_as_plus
+		do
+			plus_sign_equals_space := False
+		end
+
 	escape_space_as_plus
 		do
 			plus_sign_equals_space := True
-		end
-
-	escape_space_as_space
-		do
-			plus_sign_equals_space := False
 		end
 
 feature -- Status query
@@ -65,19 +68,33 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
+	append_unencoded (c: CHARACTER_8)
 		do
-			inspect c
-				when '-', '_', '.', '~' then
-					Result := True
+			if c = ' ' and then plus_sign_equals_space then
+				append_character ('+')
+			else
+				append_character (c)
+			end
+		end
 
-			else end
+	is_unreserved (c: CHARACTER_32): BOOLEAN
+		do
+			if c = ' ' and then plus_sign_equals_space then
+				Result := True
+			else
+				Result := Precursor (c)
+			end
 		end
 
 	new_string (n: INTEGER): like Current
 			-- New instance of current with space for at least `n' characters.
 		do
 			create Result.make (n)
+		end
+
+	set_reserved_character_set
+		do
+			reserved_character_set := Uri_reserved_chars.generic_delimiters
 		end
 
 feature {NONE} -- Constants

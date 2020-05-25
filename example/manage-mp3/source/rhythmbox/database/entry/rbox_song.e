@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 14:50:49 GMT (Friday 22nd May 2020)"
-	revision: "41"
+	date: "2020-05-25 7:13:53 GMT (Monday 25th May 2020)"
+	revision: "42"
 
 class
 	RBOX_SONG
@@ -20,8 +20,7 @@ inherit
 	RBOX_IGNORED_ENTRY
 		rename
 			file_path as mp3_path,
-			location_uri as mp3_uri,
-			set_location_uri as set_mp3_uri
+			set_location as set_mp3_uri
 		redefine
 			make, getter_function_table, on_context_exit,
 			Except_fields, Field_sets, Type
@@ -118,6 +117,11 @@ feature -- Access
 			create Result.make (mp3_path)
 		end
 
+	mp3_uri: EL_URI
+		do
+			Result := location
+		end
+		
 	m3u_entry (tanda_index: INTEGER; is_windows_format, is_nokia_phone: BOOLEAN): ZSTRING
 			-- For example:
 

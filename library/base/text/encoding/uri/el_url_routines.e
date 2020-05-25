@@ -6,51 +6,68 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 10:33:23 GMT (Friday 22nd May 2020)"
-	revision: "7"
+	date: "2020-05-24 12:38:15 GMT (Sunday 24th May 2020)"
+	revision: "8"
 
 class
 	EL_URL_ROUTINES
 
 inherit
-	UT_URL_ENCODING
-
 	EL_URI_ROUTINES
 
 feature -- Conversion
 
-	encoded_uri (a_uri: EL_URI_PATH; leave_reserved_unescaped: BOOLEAN): STRING
+	decoded_path (escaped_utf8_path: STRING): ZSTRING
 			--
+		local
+			uri: like URI_string
 		do
-			Result := encoded_path (a_uri.to_utf_8, leave_reserved_unescaped)
-		end
-
-	encoded_uri_custom (a_uri: EL_URI_PATH; unescaped_chars: DS_SET [CHARACTER]; escape_space_as_plus: BOOLEAN): STRING
-		do
-			Result := escape_custom (a_uri.to_utf_8, unescaped_chars, escape_space_as_plus)
-		end
-
-	encoded (str: ZSTRING): STRING
-		do
-			Result := escape_custom (str.to_utf_8, Default_unescaped, False)
-		end
-
-	encoded_path (a_path: ZSTRING; leave_reserved_unescaped: BOOLEAN): STRING
-			--
-		do
-			if leave_reserved_unescaped then
-				Result := escape_custom (a_path.to_utf_8, Default_unescaped_and_reserved, False)
-			else
-				Result := escape_custom (a_path.to_utf_8, Default_unescaped, False)
-			end
+			uri := URI_string; uri.share (escaped_utf8_path)
+			uri.escape_space_as_plus
+			uri.set_reserved_characters (URI_reserved_chars.allowed_in_path)
+			Result := uri.decoded
 		end
 
 	decoded_path_latin_1 (escaped_path: STRING): STRING
 			--
+		local
+			uri: like URI_string
 		do
-			create Result.make_from_string (escaped_path)
-			Result.replace_substring_all (once "+", Url_encoded_plus_sign)
-			Result := unescape_string (Result)
+			uri := URI_string; uri.share (escaped_path)
+			uri.escape_space_as_plus
+			Result := uri.to_latin_1
+		end
+
+	encoded (str: ZSTRING): STRING
+		do
+			Result := encoded_custom (str.to_utf_8, URI_reserved_chars.rfc_2396, False)
+		end
+
+	encoded_path (a_path: ZSTRING): STRING
+			--
+		local
+			uri: like URI_string
+		do
+			uri := URI_string
+			uri.set_reserved_characters (URI_reserved_chars.allowed_in_path)
+			uri.set_from_string (a_path)
+			create Result.make_from_string (uri)
+		end
+
+	encoded_uri_custom (a_uri: EL_URI_PATH; reserved_char_set: STRING; escape_space_as_plus: BOOLEAN): STRING
+		do
+			Result := encoded_custom (a_uri.to_utf_8, reserved_char_set, escape_space_as_plus)
+		end
+
+	encoded_custom (a_string: STRING; reserved_char_set: STRING; escape_space_as_plus: BOOLEAN): STRING
+		local
+			uri: like URI_string
+		do
+			uri := URI_string
+			uri.set_reserved_characters (reserved_char_set)
+			uri.set_plus_sign_equals_space (escape_space_as_plus)
+			uri.set_from_string (a_string)
+			create Result.make_from_string (uri)
 		end
 
 	remove_protocol_prefix (a_uri: ZSTRING): ZSTRING
@@ -58,34 +75,14 @@ feature -- Conversion
 		require
 			is_valid_uri: is_uri (a_uri)
 		do
-			Result := a_uri.substring_end (a_uri.substring_index (Protocol_sign, 1) + 3)
+			Result := a_uri.substring_end (a_uri.substring_index (Colon_slash_x2, 1) + 3)
 		end
 
-	decoded_path (escaped_utf8_path: STRING): ZSTRING
-			--
-		local
-			l_escaped_path: STRING
-		do
-			l_escaped_path := escaped_utf8_path.twin
-			l_escaped_path.replace_substring_all ("+", Url_encoded_plus_sign)
-			create Result.make_from_utf_8 (unescape_string (l_escaped_path))
-		end
+feature {NONE} -- Constants
 
-feature {NONE} -- Implementation
-
-	Default_unescaped_and_reserved: DS_HASH_SET [CHARACTER]
-			--
+	URI_string: EL_URI_STRING_8
 		once
-			Result := new_character_set (
-				Rfc_digit_characters + Rfc_lowalpha_characters + Rfc_upalpha_characters +
-				Rfc_mark_characters + Rfc_reserved_characters
-			)
-		end
-
-	Url_encoded_plus_sign: STRING
-			--
-		once
-			Result := escape_string ("+")
+			create Result.make_empty
 		end
 
 end

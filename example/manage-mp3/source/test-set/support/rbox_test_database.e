@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 14:57:46 GMT (Friday 22nd May 2020)"
-	revision: "21"
+	date: "2020-05-25 7:32:45 GMT (Monday 25th May 2020)"
+	revision: "22"
 
 class
 	RBOX_TEST_DATABASE
@@ -17,7 +17,7 @@ inherit
 		export
 			{EQA_TEST_SET} make
 		redefine
-			new_cortina, new_song, extend_with_song, expanded_file_uri, shortened_file_uri
+			new_cortina, new_song, extend_with_song, expanded_file_uri, shortened_file_uri, on_context_return
 		end
 
 	EL_MODULE_AUDIO_COMMAND
@@ -60,16 +60,30 @@ feature -- Factory
 
 feature {RBOX_IRADIO_ENTRY} -- Implementation
 
-	expanded_file_uri (a_uri: ZSTRING): ZSTRING
+	expanded_file_uri (a_uri: EL_URI): EL_URI
+		local
+			modified: STRING
 		do
-			Result := a_uri.twin
-			Result.replace_substring_all (Var_music, music_dir.to_string)
+			create modified.make_from_string (a_uri)
+			modified.replace_substring_all (Var_music, Encoded_music_dir)
+			Result := modified
 		end
 
-	shortened_file_uri (a_uri: STRING): STRING
+	shortened_file_uri (a_uri: EL_URI): EL_URI
+		local
+			modified: STRING
 		do
-			Result := a_uri.twin
-			Result.replace_substring_all (Encoded_music_dir, Var_music.to_latin_1)
+			create modified.make_from_string (a_uri)
+			modified.replace_substring_all (Encoded_music_dir, Var_music)
+			Result := modified
+		end
+
+	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
+		do
+			if attached {RBOX_IGNORED_ENTRY} context as entry then
+				entry.set_location (expanded_file_uri (entry.location))
+			end
+			Precursor (context)
 		end
 
 feature {EQA_TEST_SET} -- Access
@@ -139,7 +153,7 @@ feature {EQA_TEST_SET} -- Access
 
 feature {NONE} -- Constants
 
-	Var_music: ZSTRING
+	Var_music: STRING
 		once
 			Result := "$MUSIC"
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:11:50 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-05-24 12:42:25 GMT (Sunday 24th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -16,8 +16,6 @@ inherit
 	EL_MODULE_TUPLE
 
 feature -- Constants
-
-	File_protocol_prefix: STRING = "file://"
 
 	Http_protocols: ARRAY [ZSTRING]
 		once
@@ -32,14 +30,9 @@ feature -- Constants
 			Tuple.fill (Result, "file, ftp, http, https")
 		end
 
-	Protocol_sign: ZSTRING
+	Colon_slash_x2: ZSTRING
 		once
 			Result := "://"
-		end
-
-	Secure_protocol: ZSTRING
-		once
-			Result := "https:"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 13:09:17 GMT (Friday 22nd May 2020)"
-	revision: "12"
+	date: "2020-05-23 15:03:19 GMT (Saturday 23rd May 2020)"
+	revision: "13"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -65,7 +65,7 @@ feature {NONE} -- Constants
 			Result := [Unknown_string, create {EL_ZSTRING_LIST}.make_empty]
 		end
 
-	Encoded_location: ENCODED_LOCATION
+	Encoded_location: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
 		end

@@ -1,3 +1,6 @@
+1.2.6
+Removed dependency on UT_URL_ENCODING and created class 
+
 1.2.5
 Changed EL_URI_PATH.escaped to return `to_encoded_utf_8'
 

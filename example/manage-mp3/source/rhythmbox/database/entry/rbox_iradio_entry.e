@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 14:01:32 GMT (Friday 22nd May 2020)"
-	revision: "39"
+	date: "2020-05-25 7:12:57 GMT (Monday 25th May 2020)"
+	revision: "40"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -75,20 +75,17 @@ feature -- Access
 
 	hash_code: INTEGER
 		do
-			Result := location_uri.hash_code
+			Result := location.hash_code
 		end
-
-	location_uri: EL_FILE_URI_PATH
 
 	music_dir: EL_DIR_PATH
 
 feature -- Element change
 
-	set_location_uri (a_location_uri: like location_uri)
+	set_location (a_uri: EL_URI)
 			--
 		do
-			location_uri := a_location_uri
-			location_uri.enable_out_abbreviation
+			location := a_uri
 		end
 
 	set_string_field (field_code: NATURAL_16; value: ZSTRING)
@@ -135,16 +132,16 @@ feature {NONE} -- Implementation
 			create Result.make_from_string (Encoded_location)
 		end
 
-	url_encoded_location_uri: STRING
+	get_location_uri: EL_URI
 		do
-			Result := encoded_location_uri (location_uri)
+			Result := location
 		end
 
 feature {NONE} -- Build from XML
 
 	Build_types: ARRAY [TYPE [ANY]]
 		once
-			Result := << {DOUBLE}, {NATURAL_8}, {INTEGER}, {ZSTRING}, {STRING} >>
+			Result := << {DOUBLE}, {NATURAL_8}, {INTEGER}, {ZSTRING}, {STRING}, {EL_URI} >>
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
@@ -157,18 +154,12 @@ feature {NONE} -- Build from XML
 			across Build_types as l_type loop
 				Result.merge (building_actions_for_type (l_type.item, Text_element_node))
 			end
-			Result ["location/text()"] := agent set_location_from_node
 			across DB_field.sorted as enum loop
 				if DB_field.is_string_type (enum.item) then
 					l_xpath := DB_field.name_exported (enum.item, False) + "/text()"
 					Result.put (agent set_string_field_from_node (enum.item), l_xpath)
 				end
 			end
-		end
-
-	set_location_from_node
-		do
-			set_location_uri (decoded_location (node))
 		end
 
 	set_string_field_from_node (field_code: NATURAL_16)
@@ -198,7 +189,7 @@ feature {NONE} -- Evolicity fields
 				element.text.wipe_out
 
 				if enum.item = DB_field.location then
-					element.text.append_raw_string_8 (url_encoded_location_uri)
+					element.text.append_raw_string_8 (get_location_uri)
 
 				elseif field_table.has_key (DB_field.field_name (enum.item)) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
@@ -226,7 +217,7 @@ feature {NONE} -- Evolicity fields
 				-- title is included for reference by template loaded from DJ_EVENT_HTML_PAGE
 				["title", 				agent: ZSTRING do Result := Xml.escaped (title) end],
 				["genre_main", 		agent: ZSTRING do Result := Xml.escaped (genre_main) end],
-				["location_uri", 		agent: STRING do Result := Xml.escaped (url_encoded_location_uri) end],
+				["location_uri", 		agent: STRING do Result := Xml_8.escaped (get_location_uri, False) end],
 				["media_type",			agent: STRING do Result := media_type end],
 				["type",					agent: STRING do Result := type end],
 				["element_list",		agent get_element_list]
@@ -273,6 +264,11 @@ feature {NONE} -- Constants
 	Type: STRING
 		once
 			Result := "iradio"
+		end
+
+	Xml_8: EL_XML_STRING_8_ESCAPER
+		once
+			create Result.make
 		end
 
 end

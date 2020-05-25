@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:06:46 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2020-05-24 11:23:01 GMT (Sunday 24th May 2020)"
+	revision: "5"
 
 class
 	EL_COOKIE_STRING_8
@@ -20,10 +20,12 @@ inherit
 		rename
 			is_sequence_digit as is_octal_digit
 		redefine
-			append_encoded, is_octal_digit, is_unescaped_basic, new_string, sequence_code
+			append_encoded, is_octal_digit, is_unreserved, new_string, sequence_code
 		end
 
 	EL_MODULE_OCTAL
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make_encoded, make_empty, make
@@ -39,7 +41,7 @@ feature {NONE} -- Implementation
 			append_string (utf_8.to_octal_escaped (Escape_character))
 		end
 
-	is_unescaped_basic (c: CHARACTER_32): BOOLEAN
+	is_unreserved (c: CHARACTER_32): BOOLEAN
 		-- The value of a cookie may consist of any printable ASCII character
 		--  (! through ~, Unicode \u0021 through \u007E) excluding , and ; and whitespace characters.
 		do
@@ -53,8 +55,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
+	set_reserved_character_set
 		do
+			reserved_character_set := Empty_string_8
 		end
 
 	is_octal_digit (c: CHARACTER): BOOLEAN

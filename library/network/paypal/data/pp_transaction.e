@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:26:05 GMT (Saturday 1st February 2020)"
-	revision: "20"
+	date: "2020-05-24 11:07:57 GMT (Sunday 24th May 2020)"
+	revision: "21"
 
 class
 	PP_TRANSACTION
 
 inherit
-	EL_URL_QUERY_TABLE
+	EL_URI_QUERY_TABLE
 		undefine
 			is_equal
 		end
@@ -171,7 +171,7 @@ feature {NONE} -- Implementation
 			set_field (key, a_value)
 		end
 
-	decoded_string (url: EL_URL_QUERY_STRING_8): ZSTRING
+	decoded_string (url: EL_URI_QUERY_STRING_8): ZSTRING
 		do
 			Result := url.decoded
 		end

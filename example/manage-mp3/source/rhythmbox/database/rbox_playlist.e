@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 13:38:08 GMT (Friday 22nd May 2020)"
-	revision: "20"
+	date: "2020-05-25 6:40:16 GMT (Monday 25th May 2020)"
+	revision: "21"
 
 class
 	RBOX_PLAYLIST
@@ -156,7 +156,7 @@ feature -- Element change
 			log.exit
 		end
 
-	add_song_from_path (song_uri: EL_FILE_URI_PATH)
+	add_song_from_path (song_uri: EL_URI)
 		do
 			index_by_location.search (song_uri)
 			if index_by_location.found then
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 			Result := Database.songs_by_audio_id
 		end
 
-	index_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_PATH]
+	index_by_location: HASH_TABLE [RBOX_SONG, EL_URI]
 		do
 			Result := Database.songs_by_location
 		end
@@ -195,8 +195,7 @@ feature {NONE} -- Build from XML
 
 	add_song_from_location_node
 		do
-			Encoded_location.share (node)
-			add_song_from_path (Database.expanded_file_uri (Encoded_location.decoded))
+			add_song_from_path (Database.expanded_file_uri (node.to_string_8))
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]

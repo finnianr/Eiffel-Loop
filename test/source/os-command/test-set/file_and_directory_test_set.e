@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:03:21 GMT (Tuesday 19th May 2020)"
-	revision: "13"
+	date: "2020-05-24 9:57:47 GMT (Sunday 24th May 2020)"
+	revision: "14"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -140,7 +140,7 @@ feature -- Tests
 			across mount_table as root until found_volume loop
 				lio.put_path_field (root.key, root.item)
 				lio.put_new_line
-				if root.item.protocol ~ File_protocol then
+				if root.item.scheme ~ File_protocol then
 					file_path_string := root.item.to_string
 					file_path_string.remove_head (File_protocol.count + 3)
 					if l_file_set.item_for_iteration.to_string.starts_with (file_path_string) then

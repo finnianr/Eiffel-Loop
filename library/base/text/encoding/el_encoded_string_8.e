@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:38:32 GMT (Saturday 1st February 2020)"
-	revision: "7"
+	date: "2020-05-25 5:22:18 GMT (Monday 25th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -25,8 +25,12 @@ inherit
 		export
 			{NONE} all
 			{ANY} append_character, is_empty, wipe_out, share, set_encoded, count, area,
-			capacity, same_string, to_c, to_string_8,
-			Is_string_8
+					capacity, same_string, to_c, to_string_8, Is_string_8
+
+			{STRING_HANDLER} set_count, append_raw_8
+
+		redefine
+			make_encoded, make
 		end
 
 	EL_MODULE_UTF
@@ -35,28 +39,62 @@ inherit
 
 	EL_SHARED_ONCE_STRING_32
 
+feature {NONE} -- Initialization
+
+	make_encoded (s: READABLE_STRING_8)
+		do
+			set_reserved_character_set
+			Precursor (s)
+		end
+
+	make (n: INTEGER)
+		do
+			set_reserved_character_set
+			Precursor (n)
+		end
+
 feature -- Conversion
 
 	decoded: ZSTRING
 		do
-			create Result.make_from_utf_8 (to_utf_8)
+			create Result.make_from_general (decoded_32 (False))
 		end
 
 	decoded_8: STRING_8
 		do
-			Result := empty_once_string_32
-			UTF.utf_8_string_8_into_string_32 (to_utf_8, Result)
-			Result := Result.to_string_8
+			Result := decoded_32 (False).to_string_8
 		end
 
-	decoded_32: STRING_32
+	decoded_32 (keep_ref: BOOLEAN): STRING_32
+		local
+			l_area: like area; i, step: INTEGER; c: CHARACTER
+			sequence: like Utf_8_sequence
 		do
 			Result := empty_once_string_32
-			UTF.utf_8_string_8_into_string_32 (to_utf_8, Result)
-			Result := Result.twin
+			sequence := Utf_8_sequence; sequence.wipe_out
+			sequence.wipe_out
+			l_area := area
+			from i := 0 until i = count loop
+				c := l_area [i]
+				if c = escape_character and then is_sequence (l_area, i + 1) then
+					sequence.extend (sequence_code (l_area, i + 1))
+					if sequence.full then
+						Result.append_code (sequence.to_unicode)
+						sequence.wipe_out
+					end
+					step := sequence_count + 1
+				else
+					Result.append_character (adjusted_character (c))
+					step := 1
+				end
+				i := i + step
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
-	to_utf_8: STRING
+	to_utf_8, to_latin_1: STRING
 		-- unescaped utf-8
 		local
 			l_area: like area; i, step: INTEGER; c: CHARACTER
@@ -90,16 +128,16 @@ feature -- Element change
 			valid_bounds: start_index <= end_index + 1
 		local
 			uc: CHARACTER_32; i, utf_count, s_count: INTEGER
-			utf_8: like Utf_8_sequence
+			utf_8: like Utf_8_sequence; reserved_set: STRING_32
 		do
-			utf_8 := Utf_8_sequence
+			utf_8 := Utf_8_sequence; reserved_set := reserved_character_set
 			s_count := end_index - start_index + 1
 			utf_count := utf_8.byte_count (s, start_index, end_index)
 			grow (count + utf_count + (utf_count - s_count) // 2)
 			from i := start_index until i > end_index loop
 				uc := s [i]
-				if is_unescaped_basic (uc) or else is_unescaped_extra (uc) then
-					append_character (uc.to_character_8)
+				if is_unreserved (uc) or else reserved_set.has (uc) then
+					append_unencoded (uc.to_character_8)
 				else
 					append_encoded	(utf_8, uc)
 				end
@@ -161,6 +199,12 @@ feature {NONE} -- Implementation
 			append_string (utf_8.to_hexadecimal_escaped (Escape_character))
 		end
 
+	append_unencoded (c: CHARACTER_8)
+		-- append reserved or unreserved character
+		do
+			append_character (c)
+		end
+
 	is_sequence (a_area: like area; offset: INTEGER): BOOLEAN
 		local
 			i: INTEGER
@@ -179,12 +223,14 @@ feature {NONE} -- Implementation
 			Result := c.is_hexa_digit
 		end
 
-	is_unescaped_basic (c: CHARACTER_32): BOOLEAN
+	is_unreserved (c: CHARACTER_32): BOOLEAN
 		do
 			inspect c
-				when '0' .. '9', 'A' .. 'Z', 'a' .. 'z' then
-					Result := True
+				when '-', '.', '_', '~' then
 
+					Result := True
+				when '0' .. '9', 'A' .. 'Z', 'a' .. 'z'then
+					Result := True
 			else end
 		end
 
@@ -195,6 +241,10 @@ feature {NONE} -- Implementation
 			hi_c := a_area.item (offset).natural_32_code
 			low_c := a_area.item (offset + 1).natural_32_code
 			Result := (Hexadecimal.to_decimal (hi_c) |<< 4) | Hexadecimal.to_decimal (low_c)
+		end
+
+	set_reserved_character_set
+		deferred
 		end
 
 	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING
@@ -209,14 +259,14 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
-		deferred
-		end
-
 	sequence_count: INTEGER
 		-- count of escape sequence digits
 		deferred
 		end
+
+feature {NONE} -- Internal attributes
+
+	reserved_character_set: STRING_32
 
 feature {NONE} -- Constants
 

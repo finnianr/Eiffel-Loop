@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-18 9:14:36 GMT (Monday 18th May 2020)"
-	revision: "89"
+	date: "2020-05-24 15:01:57 GMT (Sunday 24th May 2020)"
+	revision: "90"
 
 class
 	BASE_AUTOTEST_APP
@@ -42,7 +42,8 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [ZSTRING_TEST_SET] -- allows testing with ISO-8859-1
+--	test_type: TUPLE [ZSTRING_TEST_SET] -- allows testing with ISO-8859-1
+	test_type: TUPLE [URI_PATH_TEST_SET]
 		do
 			create Result
 		end
@@ -50,11 +51,10 @@ feature {NONE} -- Implementation
 	test_types_all: TUPLE [
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
-		DIR_URI_PATH_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
 		GENERAL_TEST_SET,
 		MODULE_CRC_32_TEST_SET,
-		
+
 		PATH_TEST_SET,
 		PATH_STEPS_TEST_SET,
 		REFLECTION_TEST_SET,
@@ -69,6 +69,7 @@ feature {NONE} -- Implementation
 
 		TEMPLATE_TEST_SET,
 		URI_ENCODING_TEST_SET,
+		URI_PATH_TEST_SET,
 		UUID_TEST_SET,
 
 		ZSTRING_TEST_SET,

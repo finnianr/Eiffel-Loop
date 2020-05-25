@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-27 9:25:38 GMT (Monday 27th April 2020)"
-	revision: "23"
+	date: "2020-05-24 12:43:11 GMT (Sunday 24th May 2020)"
+	revision: "24"
 
 class
 	EL_HTTP_CONNECTION
@@ -363,7 +363,7 @@ feature -- Element change
 			post_data.put_special_character_8 (raw_string_8.area, 0, 0, post_data_count)
 		end
 
-	set_post_parameters (parameters: EL_URL_QUERY_ZSTRING_HASH_TABLE)
+	set_post_parameters (parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE)
 		do
 			set_post_data (parameters.query_string (False))
 		end
@@ -463,7 +463,7 @@ feature -- Element change
 --			Curl already does url encoding
 			set_curl_string_8_option (CURLOPT_url, l_encoded)
 			-- Essential calls for using https
-			if a_url.starts_with (Secure_protocol) then
+			if a_url.starts_with (Protocol.https) then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end
@@ -626,7 +626,7 @@ feature {NONE} -- Implementation
 		do
 			Result := Encoded_url
 			Result.wipe_out
-			start_index := a_url.substring_index (Protocol_sign, 1)
+			start_index := a_url.substring_index (Colon_slash_x2, 1)
 			qmark_index := a_url.index_of ('?', 1)
 			if qmark_index > 0 then
 				end_index := qmark_index - 1
@@ -713,7 +713,7 @@ feature {NONE} -- Constants
 
 	Doctype_declaration: STRING = "<!DOCTYPE"
 
-	Encoded_url: EL_URL_STRING_8
+	Encoded_url: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
 		end

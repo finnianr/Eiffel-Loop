@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:02:49 GMT (Saturday 1st February 2020)"
-	revision: "9"
+	date: "2020-05-24 11:10:16 GMT (Sunday 24th May 2020)"
+	revision: "10"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -41,7 +41,7 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	method_parameters: EL_URL_QUERY_ZSTRING_HASH_TABLE
+	method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		-- non-duplicate http parameters from either the GET-data (URI query string)
 		-- or POST-data (`raw_stdin_content')
 		do

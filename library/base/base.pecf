@@ -300,6 +300,8 @@ system:
 				name = name_value; location = "$|name-value"; recursive = true
 			cluster:
 				name = styled; location = "$|styled"; recursive = true
+			cluster:
+				name = uri; location = "$|uri"; recursive = true
 		cluster:
 			name = utility; location = utility; recursive = true
 			description:

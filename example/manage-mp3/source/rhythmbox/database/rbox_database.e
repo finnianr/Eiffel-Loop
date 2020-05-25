@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 15:03:44 GMT (Friday 22nd May 2020)"
-	revision: "31"
+	date: "2020-05-25 6:28:20 GMT (Monday 25th May 2020)"
+	revision: "32"
 
 class
 	RBOX_DATABASE
@@ -177,7 +177,7 @@ feature -- Access
 			end
 		end
 
-	title_and_album (mp3_path: EL_FILE_URI_PATH): ZSTRING
+	title_and_album (mp3_path: EL_URI): ZSTRING
 		do
 			songs_by_location.search (mp3_path)
 			if songs_by_location.found then
@@ -194,7 +194,7 @@ feature -- Access
 			l_template := "item [%S]: %S"
 			create Result.make (songs_by_location.count)
 			across songs_by_location.current_keys as key loop
-				Result.extend (l_template #$ [key.cursor_index, key.item.base])
+				Result.extend (l_template #$ [key.cursor_index, key.item.to_file_path.base])
 			end
 		end
 
@@ -224,7 +224,7 @@ feature -- Access attributes
 
 	songs_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
 
-	songs_by_location: HASH_TABLE [RBOX_SONG, EL_FILE_URI_PATH]
+	songs_by_location: HASH_TABLE [RBOX_SONG, EL_URI]
 
 	version: REAL
 
@@ -252,7 +252,7 @@ feature -- Factory
 
 feature -- Status query
 
-	has_song (song_path: EL_FILE_URI_PATH): BOOLEAN
+	has_song (song_path: EL_URI): BOOLEAN
 		do
 			Result := songs_by_location.has (song_path)
 		end
@@ -329,7 +329,7 @@ feature -- Element change
 			end
 		end
 
-	replace (deleted_path, replacement_path: EL_FILE_URI_PATH)
+	replace (deleted_path, replacement_path: EL_URI)
 		require
 			not_same_song: deleted_path /~ replacement_path
 			has_deleted_path: songs_by_location.has (deleted_path)
@@ -530,12 +530,12 @@ feature -- Removal
 
 feature {RBOX_IRADIO_ENTRY, RBOX_PLAYLIST} -- Implemenation
 
-	shortened_file_uri (a_uri: STRING): STRING
+	shortened_file_uri (a_uri: EL_URI): EL_URI
 		do
 			Result := a_uri
 		end
 
-	expanded_file_uri (a_uri: ZSTRING): ZSTRING
+	expanded_file_uri (a_uri: EL_URI): EL_URI
 		do
 			Result := a_uri
 		end

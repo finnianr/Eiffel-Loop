@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 11:20:02 GMT (Tuesday 17th March 2020)"
-	revision: "4"
+	date: "2020-05-23 15:07:38 GMT (Saturday 23rd May 2020)"
+	revision: "5"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -25,6 +25,48 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_filled_area (0, 4)
+		end
+
+feature -- Status query
+
+	full: BOOLEAN
+		local
+			c: like area
+		do
+			c := area
+			inspect count
+				when 1 then
+					Result := is_0xxxxxxx_sequence (c [0])
+				when 2 then
+					Result := is_110xxxxx_10xxxxxx_sequence (c [0], c [1])
+				when 3 then
+					Result := is_1110xxxx_10xxxxxx_10xxxxxx_sequence (c [0], c [1], c [2])
+				when 4 then
+					Result := is_11110xxx_10xxxxxx_10xxxxxx_10xxxxxx_sequence (c [0], c [1], c [2], c [3])
+			else
+				Result := True
+			end
+		ensure
+			valid_sequence: Result implies is_valid
+		end
+
+	is_valid: BOOLEAN
+		-- `True' if sequence is valid
+		local
+			c: like area
+		do
+			c := area
+			inspect count
+				when 1 then
+					Result := is_0xxxxxxx_sequence (c [0])
+				when 2 then
+					Result := is_110xxxxx_10xxxxxx_sequence (c [0], c [1])
+				when 3 then
+					Result := is_1110xxxx_10xxxxxx_10xxxxxx_sequence (c [0], c [1], c [2])
+				when 4 then
+					Result := is_11110xxx_10xxxxxx_10xxxxxx_10xxxxxx_sequence (c [0], c [1], c [2], c [3])
+			else
+			end
 		end
 
 feature -- Element change
@@ -135,6 +177,26 @@ feature -- Conversion
 			Result.set_count (l_count * 3)
 		end
 
+	to_unicode: NATURAL
+		require
+			valid_sequence: is_valid
+		local
+			c: like area
+		do
+			c := area
+			inspect count
+				when 1 then
+					Result := c [0]
+				when 2 then
+					Result := ((c [0] & 0x1F) |<< 6) | (c [1] & 0x3F)
+				when 3 then
+					Result := (((c [0] & 0xF) |<< 12) | ((c [1] & 0x3F) |<< 6) | ( c [2] & 0x3F))
+				when 4 then
+					Result := ((((c [0] & 0x7) |<< 18) | ((c [1] & 0x3F) |<< 12) | ((c [2] & 0x3F) |<< 6)) | (c [3] & 0x3F))
+			else
+			end
+		end
+
 	to_utf_8: STRING
 		local
 			i, l_count: INTEGER; l_area: like area
@@ -165,6 +227,26 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	is_0xxxxxxx_sequence (c1: NATURAL): BOOLEAN
+		do
+			Result := c1 <= 0x7F
+		end
+
+	is_110xxxxx_10xxxxxx_sequence (c1, c2: NATURAL): BOOLEAN
+		do
+			Result := c1 & 0xE0 = 0xC0 and then c2 & 0xC0 = 0x80
+		end
+
+	is_1110xxxx_10xxxxxx_10xxxxxx_sequence (c1, c2, c3: NATURAL): BOOLEAN
+		do
+			Result := c1 & 0xF0 = 0xE0 and then (c2 & 0xC0) = 0x80 and then (c2 & 0xC0) = 0x80
+		end
+
+	is_11110xxx_10xxxxxx_10xxxxxx_10xxxxxx_sequence (c1, c2, c3, c4: NATURAL): BOOLEAN
+		do
+			Result := c1 & 0xF8 = 0xF0 and then c2 & 0xC0 = 0x80 and then c3 & 0xC0 = 0x80 and then c4 & 0xC0 = 0x80
+		end
 
 	octal_character (n: NATURAL): CHARACTER_8
 			-- Convert `n' to its corresponding character representation.

@@ -1,21 +1,21 @@
 note
-	description: "URL encoded string with unescaped path separator"
+	description: "Encoded location"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "7"
+	date: "2020-05-23 12:59:58 GMT (Saturday 23rd May 2020)"
+	revision: "2"
 
 class
-	EL_URL_STRING_8
+	EL_URI_PATH_STRING_8
 
 inherit
 	EL_URI_STRING_8
 		redefine
-			is_unescaped_extra
+			set_reserved_character_set
 		end
 
 create
@@ -26,13 +26,8 @@ convert
 
 feature {NONE} -- Implementation
 
-	is_unescaped_extra (c: CHARACTER_32): BOOLEAN
+	set_reserved_character_set
 		do
-			if c = '/' then
-				Result := True
-			else
-				Result := Precursor (c)
-			end
+			reserved_character_set := Uri_reserved_chars.allowed_in_path
 		end
-
 end

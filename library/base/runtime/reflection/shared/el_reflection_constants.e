@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:01:08 GMT (Thursday 2nd April 2020)"
-	revision: "32"
+	date: "2020-05-25 7:19:56 GMT (Monday 25th May 2020)"
+	revision: "33"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -58,7 +58,13 @@ feature {NONE} -- Reference types
 
 	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_STRING [STRING_GENERAL]]
 		once
-			create Result.make (<< {EL_REFLECTED_STRING_8}, {EL_REFLECTED_STRING_32}, {EL_REFLECTED_ZSTRING} >>)
+			create Result.make (<<
+				{EL_REFLECTED_URI}, {EL_REFLECTED_STRING_8}, {EL_REFLECTED_STRING_32}, {EL_REFLECTED_ZSTRING}
+			>>)
+		ensure
+			uri_before_string_8: across Result as reflected some
+											reflected.item ~ {EL_REFLECTED_URI} implies reflected.cursor_index = 1
+										end
 		end
 
 	frozen Storable_type_table: EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE

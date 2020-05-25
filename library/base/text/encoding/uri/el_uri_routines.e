@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:04:25 GMT (Wednesday 11th September 2019)"
-	revision: "7"
+	date: "2020-05-24 12:38:15 GMT (Sunday 24th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_URI_ROUTINES
@@ -23,11 +23,13 @@ inherit
 			{NONE} all
 		end
 
+	EL_SHARED_URI_RESERVED_CHARS
+
 feature -- Status query
 
 	is_http_uri (uri: ZSTRING): BOOLEAN
 		do
-			Result := is_uri (uri) and then Http_protocols.has (uri_protocol (uri))
+			Result := is_uri (uri) and then Http_protocols.has (uri_scheme (uri))
 		end
 
 	is_uri (a_uri: READABLE_STRING_GENERAL): BOOLEAN
@@ -35,8 +37,8 @@ feature -- Status query
 			pos_sign: INTEGER; uri: ZSTRING
 		do
 			uri := as_zstring (a_uri)
-			pos_sign := uri.substring_index (Protocol_sign, 1)
-			if pos_sign >= 3 and then uri.count > pos_sign + Protocol_sign.count
+			pos_sign := uri.substring_index (Colon_slash_x2, 1)
+			if pos_sign >= 3 and then uri.count > pos_sign + Colon_slash_x2.count
 				and then is_alpha_string (uri.substring (1, pos_sign - 1))
 			then
 				Result := True
@@ -47,8 +49,8 @@ feature -- Status query
 		local
 			pos_sign: INTEGER
 		do
-			pos_sign := uri.substring_index (Protocol_sign, 1)
-			if pos_sign > 0 and then uri.count > pos_sign + Protocol_sign.count
+			pos_sign := uri.substring_index (Colon_slash_x2, 1)
+			if pos_sign > 0 and then uri.count > pos_sign + Colon_slash_x2.count
 				and then uri.substring (1, pos_sign - 1) ~ type
 			then
 				Result := True
@@ -61,17 +63,17 @@ feature -- Access
 		local
 			pos_sign: INTEGER
 		do
-			pos_sign := uri.substring_index (Protocol_sign, 1)
+			pos_sign := uri.substring_index (Colon_slash_x2, 1)
 			if pos_sign >= 3 then
-				Result := uri.substring (pos_sign + Protocol_sign.count, uri.count)
+				Result := uri.substring (pos_sign + Colon_slash_x2.count, uri.count)
 			else
 				create Result.make_empty
 			end
 		end
 
-	uri_protocol (uri: ZSTRING): ZSTRING
+	uri_scheme (uri: ZSTRING): ZSTRING
 		do
-			Result := uri.substring (1, uri.substring_index (Protocol_sign, 1) - 1)
+			Result := uri.substring (1, uri.substring_index (Colon_slash_x2, 1) - 1)
 		end
 
 feature {NONE} -- Implementation

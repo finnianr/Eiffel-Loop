@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:24:29 GMT (Tuesday 28th April 2020)"
-	revision: "17"
+	date: "2020-05-24 11:09:34 GMT (Sunday 24th May 2020)"
+	revision: "18"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -182,7 +182,7 @@ feature -- Access
 			end
 		end
 
-	method_parameters: EL_URL_QUERY_ZSTRING_HASH_TABLE
+	method_parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		-- non-duplicate http parameters from either the GET-data (URI query string)
 		-- or POST-data (`raw_stdin_content')
 		do

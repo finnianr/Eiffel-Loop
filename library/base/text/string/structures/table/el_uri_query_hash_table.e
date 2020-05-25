@@ -1,19 +1,19 @@
 note
-	description: "Hash table of URL query string name-value pairs"
+	description: "Hash table of URI query string name-value pairs"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-27 10:47:14 GMT (Monday 27th April 2020)"
-	revision: "2"
+	date: "2020-05-24 11:15:22 GMT (Sunday 24th May 2020)"
+	revision: "3"
 
 deferred class
-	EL_URL_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
+	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_URL_QUERY_TABLE
+	EL_URI_QUERY_TABLE
 		rename
 			make_count as make_equal
 		undefine
@@ -70,7 +70,7 @@ feature -- Element change
 
 feature -- Conversion
 
-	url_query_string: STRING
+	uri_query_string: STRING
 		-- utf-8 URL encoded name value pairs
 		do
 			Result := query_string (True)
@@ -80,23 +80,23 @@ feature -- Conversion
 		-- utf-8 URL encoded name value pairs
 		-- `keep_ref' must be true if you wish to keep the reference (forces a clone of shared EL_URL_QUERY_STRING_8)
 		local
-			url: like Once_url_string
+			uri: like Once_uri_string
 		do
-			url := Once_url_string
-			url.wipe_out
+			uri := Once_uri_string
+			uri.wipe_out
 			from start until after loop
-				if not url.is_empty then
-					url.append_character ('&')
+				if not uri.is_empty then
+					uri.append_character ('&')
 				end
-				url.append_general (key_for_iteration)
-				url.append_character ('=')
-				url.append_general (item_for_iteration)
+				uri.append_general (key_for_iteration)
+				uri.append_character ('=')
+				uri.append_general (item_for_iteration)
 				forth
 			end
 			if keep_ref then
-				create Result.make_from_string (url)
+				create Result.make_from_string (uri)
 			else
-				Result := url
+				Result := uri
 			end
 		end
 
@@ -119,7 +119,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Once_url_string: EL_URL_QUERY_STRING_8
+	Once_uri_string: EL_URI_QUERY_STRING_8
 		once
 			create Result.make_empty
 		end
