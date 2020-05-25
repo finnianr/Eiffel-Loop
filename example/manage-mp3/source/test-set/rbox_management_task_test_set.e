@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 14:33:54 GMT (Friday 22nd May 2020)"
-	revision: "6"
+	date: "2020-05-25 16:23:56 GMT (Monday 25th May 2020)"
+	revision: "7"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -105,9 +105,14 @@ feature {NONE} -- Implementation
 	print_playlist_xml
 		local
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			xpath: STRING
 		do
 			log.enter ("print_playlist_xml")
 			create root_node.make_from_file (Database.playlists_xml_path)
+			xpath := "count (/rhythmdb-playlists/playlist/location)"
+			log.put_integer_field (xpath, root_node.integer_at_xpath (xpath))
+			log.put_new_line_x2
+
 			across root_node.context_list ("/rhythmdb-playlists/playlist") as playlist loop
 				across << Tag.name, Tag.type >> as name loop
 					if name.cursor_index > 1 then
@@ -127,12 +132,15 @@ feature {NONE} -- Implementation
 
 	print_rhythmdb_xml
 		local
-			root_node: EL_XPATH_ROOT_NODE_CONTEXT; name: STRING
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT; name, xpath: STRING
 			character_count: INTEGER_REF
 		do
 			log.enter ("print_rhythmdb_xml")
 			create character_count
 			create root_node.make_from_file (Database.xml_database_path)
+			xpath := "count (/rhythmdb/entry)"
+			log.put_integer_field (xpath, root_node.integer_at_xpath (xpath))
+			log.put_new_line_x2
 			across root_node.context_list ("/rhythmdb/entry") as entry loop
 				Encoded_location.share (entry.node.string_8_at_xpath (Tag.location))
 				log.put_line (Encoded_location.decoded)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:56:59 GMT (Monday 25th May 2020)"
-	revision: "7"
+	date: "2020-05-25 17:09:00 GMT (Monday 25th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -126,6 +126,11 @@ feature -- Conversion
 				String_8.replace_character (uri, '\', '/')
 			end
 			create Result.make (uri)
+		end
+
+	to_path: PATH
+		do
+			create Result.make_from_string (as_string_32)
 		end
 
 feature -- Basic operations

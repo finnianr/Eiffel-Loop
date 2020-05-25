@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:40:16 GMT (Monday 25th May 2020)"
-	revision: "21"
+	date: "2020-05-25 9:13:04 GMT (Monday 25th May 2020)"
+	revision: "22"
 
 class
 	RBOX_PLAYLIST
@@ -158,8 +158,7 @@ feature -- Element change
 
 	add_song_from_path (song_uri: EL_URI)
 		do
-			index_by_location.search (song_uri)
-			if index_by_location.found then
+			if index_by_location.has_key (song_uri) then
 				extend (index_by_location.found_item)
 			end
 		end

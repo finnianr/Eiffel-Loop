@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 14:49:29 GMT (Friday 22nd May 2020)"
-	revision: "7"
+	date: "2020-05-25 16:04:11 GMT (Monday 25th May 2020)"
+	revision: "8"
 
 class
 	COLLATE_SONGS_TASK
@@ -28,9 +28,7 @@ feature -- Basic operations
 		local
 			new_mp3_path: EL_FILE_PATH; song: RBOX_SONG
 		do
-			Database.songs.do_query (
-				not one_of (<< song_is_hidden, song_is_cortina, song_has_normalized_mp3_path >>)
-			)
+			Database.songs.do_query (not one_of (<< song_is_hidden, song_is_cortina, song_has_normalized_mp3_path >>))
 			if Database.songs.last_query_items.is_empty then
 				lio.put_line ("All songs are normalized")
 			else

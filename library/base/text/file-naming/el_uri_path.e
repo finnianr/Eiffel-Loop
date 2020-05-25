@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:49:20 GMT (Monday 25th May 2020)"
-	revision: "16"
+	date: "2020-05-25 17:00:48 GMT (Monday 25th May 2020)"
+	revision: "17"
 
 deferred class
 	EL_URI_PATH
@@ -55,7 +55,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_PATH}
 			authority := Empty_path; scheme := Empty_path
-			query := Empty_path; fragment := Empty_path
 		end
 
 feature -- Initialization
@@ -160,15 +159,6 @@ feature -- Access
 
 	scheme: ZSTRING
 
-	query: ZSTRING
-
-	fragment: ZSTRING
-
-	query_table: EL_URI_QUERY_ZSTRING_HASH_TABLE
-		-- query parameter table
-		do
-		end
-
 feature -- Element change
 
 	set_scheme (a_scheme: READABLE_STRING_GENERAL)
@@ -263,7 +253,7 @@ feature {NONE} -- Implementation
 
 	part_count: INTEGER
 		do
-			Result := 7
+			Result := 5
 		end
 
 	part_string (index: INTEGER): ZSTRING
@@ -277,12 +267,8 @@ feature {NONE} -- Implementation
 					Result := authority
 				when 4 then
 					Result := parent_path
-				when 5 then
-					Result := base
-				when 6 then
-					Result := query
 			else
-				Result := fragment
+				Result := base
 			end
 		end
 
@@ -311,7 +297,4 @@ feature {NONE} -- Constants
 			Result := "/"
 		end
 
-invariant
-	valid_query: query.count > 0 implies query [1] = '?'
-	valid_fragment: fragment.count > 0 implies fragment [1] = '#'
 end

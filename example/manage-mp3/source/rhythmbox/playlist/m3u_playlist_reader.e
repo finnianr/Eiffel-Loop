@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:10:48 GMT (Monday 25th May 2020)"
-	revision: "12"
+	date: "2020-05-25 17:01:45 GMT (Monday 25th May 2020)"
+	revision: "13"
 
 class
 	M3U_PLAYLIST_READER
@@ -75,7 +75,7 @@ feature {NONE} -- State line procedures
 					steps := steps.sub_steps (index + 1, steps.count)
 				end
 				song_path := Database.music_dir + steps
-				relative_path := song_path.relative_path (Database.music_uri)
+				relative_path := song_path.relative_path (Database.music_dir)
 				song_uri := song_path
 				if Database.has_song (song_uri) then
 					playlist.add_song_from_path (song_uri)

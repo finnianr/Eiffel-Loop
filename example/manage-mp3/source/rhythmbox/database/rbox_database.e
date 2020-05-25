@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:28:20 GMT (Monday 25th May 2020)"
-	revision: "32"
+	date: "2020-05-25 17:01:25 GMT (Monday 25th May 2020)"
+	revision: "33"
 
 class
 	RBOX_DATABASE
@@ -212,7 +212,7 @@ feature -- Access attributes
 
 	music_dir: EL_DIR_PATH
 
-	music_uri: EL_DIR_URI_PATH
+	music_uri: EL_URI
 
 	playlists: RBOX_PLAYLIST_ARRAY
 

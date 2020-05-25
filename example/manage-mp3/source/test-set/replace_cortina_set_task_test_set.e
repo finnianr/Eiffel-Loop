@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:08:12 GMT (Tuesday 19th May 2020)"
-	revision: "3"
+	date: "2020-05-25 17:24:12 GMT (Monday 25th May 2020)"
+	revision: "4"
 
 class
 	REPLACE_CORTINA_SET_TASK_TEST_SET
@@ -38,7 +38,7 @@ feature {NONE} -- Constants
 			Result := Playlists_dir + "2014-10-01 Belvedere.pyx"
 		end
 
-	Checksum: NATURAL = 2125152643
+	Checksum: NATURAL = 2262026292
 
 	Task_config: STRING = "[
 		replace_cortina_set:

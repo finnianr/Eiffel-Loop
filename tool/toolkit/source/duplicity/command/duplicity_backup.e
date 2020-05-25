@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 11:31:16 GMT (Sunday 12th April 2020)"
-	revision: "9"
+	date: "2020-05-25 17:23:31 GMT (Monday 25th May 2020)"
+	revision: "10"
 
 class
 	DUPLICITY_BACKUP
@@ -119,12 +119,12 @@ feature {NONE} -- Implementation
 
 	is_file_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
-			Result := dir.protocol ~ Protocol.file
+			Result := dir.scheme ~ Protocol.file
 		end
 
 	is_ftp_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
-			Result := dir.protocol ~ Protocol.ftp
+			Result := dir.scheme ~ Protocol.ftp
 		end
 
 	set_ftp_password
@@ -168,7 +168,7 @@ feature {NONE} -- Constants
 
 	File_protocol: ZSTRING
 		once
-			Result := File_protocol_prefix
+			Result := Colon_slash_x2
 		end
 
 	Verbosity: TUPLE [error, warning, notice, info, debug_: STRING]

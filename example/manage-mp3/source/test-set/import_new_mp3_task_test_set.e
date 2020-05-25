@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:07:01 GMT (Tuesday 19th May 2020)"
-	revision: "3"
+	date: "2020-05-25 17:14:58 GMT (Monday 25th May 2020)"
+	revision: "4"
 
 class
 	IMPORT_NEW_MP3_TASK_TEST_SET
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2290954739
+	Checksum: NATURAL = 1777850739
 
 	Task_config: STRING = "[
 		import_new_mp3:

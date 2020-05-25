@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 9:51:36 GMT (Tuesday 19th May 2020)"
-	revision: "8"
+	date: "2020-05-25 17:12:34 GMT (Monday 25th May 2020)"
+	revision: "9"
 
 class
 	EL_GVFS_MOUNT_TABLE
@@ -54,7 +54,7 @@ feature {NONE} -- Line states
 			if line.starts_with (Text_mount) then
 				create split_list.make (Colon_field.value (line), Arrow_symbol)
 				if split_list.count = 2 then
-					put (split_list.last_item (True), split_list.first_item (True))
+					put (split_list.last_item (True).to_latin_1, split_list.first_item (True))
 				end
 			end
 		end

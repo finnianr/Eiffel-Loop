@@ -1,3 +1,6 @@
+2.2.7
+Changed location to type EL_URI in mp3-manager.ecf
+
 2.2.6
 Removed routine `check_error' from RBOX_MANAGEMENT_TASK
 

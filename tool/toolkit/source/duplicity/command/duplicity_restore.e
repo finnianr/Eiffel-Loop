@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 12:59:00 GMT (Sunday 12th April 2020)"
-	revision: "11"
+	date: "2020-05-25 17:22:47 GMT (Monday 25th May 2020)"
+	revision: "12"
 
 class
 	DUPLICITY_RESTORE
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 
 	is_file (uri: EL_DIR_URI_PATH): BOOLEAN
 		do
-			Result := uri.protocol ~ Protocol.file
+			Result := uri.scheme ~ Protocol.file
 		end
 
 	new_command_table: EL_PROCEDURE_TABLE [ZSTRING]

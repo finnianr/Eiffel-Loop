@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:57:42 GMT (Monday 25th May 2020)"
-	revision: "16"
+	date: "2020-05-25 9:19:24 GMT (Monday 25th May 2020)"
+	revision: "17"
 
 class
 	EL_URI
@@ -31,7 +31,7 @@ inherit
 			substring as uri_substring
 		export
 			{NONE} all
-			{ANY} hash_code
+			{ANY} hash_code, to_string_8
 			{STRING_HANDLER} append_string_general, wipe_out, share
 		redefine
 			make

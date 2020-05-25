@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 17:17:18 GMT (Friday 22nd May 2020)"
-	revision: "38"
+	date: "2020-05-25 17:09:47 GMT (Monday 25th May 2020)"
+	revision: "39"
 
 deferred class
 	EL_PATH
@@ -172,11 +172,6 @@ feature -- Access
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
 		deferred
-		end
-
-	to_path: PATH
-		do
-			create Result.make_from_string (as_string_32)
 		end
 
 	to_unix, as_unix: like Current

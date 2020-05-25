@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:08:46 GMT (Tuesday 19th May 2020)"
-	revision: "4"
+	date: "2020-05-25 17:30:52 GMT (Monday 25th May 2020)"
+	revision: "5"
 
 class
 	REPLACE_SONGS_TASK_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 2893710720
+	Checksum: NATURAL = 2948467619
 
 	Task_config: STRING = "[
 		replace_songs:
