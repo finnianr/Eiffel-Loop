@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-21 17:03:01 GMT (Wednesday 21st February 2018)"
-	revision: "4"
+	date: "2020-05-29 13:01:42 GMT (Friday 29th May 2020)"
+	revision: "5"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 
 	open_url (url: EL_FILE_URI_PATH)
 		do
-			system ({STRING_32} "xdg-open " + url.escaped.to_string_32)
+			system (Open_url_command + url.escaped)
 		end
 
 	set_console_code_page (code_page_id: NATURAL)
@@ -68,6 +68,11 @@ feature {NONE} -- Constants
 	Data_dir_name_prefix: ZSTRING
 		once
 			Result := "."
+		end
+
+	Open_url_command: ZSTRING
+		once
+			Result := "xdg-open "
 		end
 
 	Search_path_separator: CHARACTER_32 = ':'

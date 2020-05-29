@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 17:09:01 GMT (Friday 24th January 2020)"
-	revision: "8"
+	date: "2020-05-28 14:58:13 GMT (Thursday 28th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_SHARED_NEW_INSTANCE_TABLE
@@ -36,6 +36,8 @@ feature {NONE} -- Constants
 				agent: ZSTRING do create Result.make_empty end,
 				agent: STRING_8 do create Result.make_empty end,
 				agent: STRING_32 do create Result.make_empty end,
+				agent: EL_URI do create Result.make_empty end,
+				agent: EL_URL do create Result.make_empty end,
 
 				-- String lists
 				agent: EL_ZSTRING_LIST do create Result.make_empty end,

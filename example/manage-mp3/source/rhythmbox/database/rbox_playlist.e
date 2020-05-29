@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 9:13:04 GMT (Monday 25th May 2020)"
-	revision: "22"
+	date: "2020-05-28 12:46:12 GMT (Thursday 28th May 2020)"
+	revision: "23"
 
 class
 	RBOX_PLAYLIST
@@ -42,8 +42,6 @@ inherit
 	M3U_PLAY_LIST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
-
-	EL_MODULE_URL
 
 	EL_MODULE_UTF
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 11:18:10 GMT (Tuesday 6th August 2019)"
-	revision: "7"
+	date: "2020-05-26 10:11:54 GMT (Tuesday 26th May 2020)"
+	revision: "8"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -41,16 +41,18 @@ inherit
 			put, has, extend, prune, extendible
 		end
 
+	EL_MODULE_ITERABLE
+
 create
-	make, make_equal, make_from_array
+	make, make_equal, make_from_list
 
 feature {NONE} -- Initialization
 
-	make_from_array (set: ARRAY [G])
+	make_from_list (list: ITERABLE [G])
 		do
-			make_equal (set.count)
-			across set as l loop
-				ht_extend (l.item, l.item)
+			make_equal (Iterable.count (list))
+			across list as l loop
+				extend (l.item)
 			end
 		end
 

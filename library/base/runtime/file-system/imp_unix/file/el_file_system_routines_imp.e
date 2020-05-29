@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 9:12:43 GMT (Saturday 16th May 2020)"
-	revision: "9"
+	date: "2020-05-27 7:26:06 GMT (Wednesday 27th May 2020)"
+	revision: "10"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -20,14 +20,19 @@ inherit
 			copy as copy_object
 		end
 
+	EL_MODULE_ZSTRING
+		rename
+			copy as copy_object
+		end
+
 create
 	make
 
 feature {NONE} -- Implementation
 
-	escaped_path (path: ZSTRING): ZSTRING
+	escaped_path (path: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Result := Path_escaper.escaped (path, True)
+			Result := Path_escaper.escaped (Zstring.as_zstring (path), True)
 		end
 
 	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
@@ -47,4 +52,5 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
+
 end

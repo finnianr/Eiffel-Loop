@@ -6,23 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:07:57 GMT (Sunday 24th May 2020)"
-	revision: "8"
+	date: "2020-05-28 9:50:51 GMT (Thursday 28th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_URI_QUERY_TABLE
 
 feature {NONE} -- Initialization
 
-	make (url_query: STRING)
-		-- call `set_name_value' for each decoded name-value pair found in `url_query' string
+	make_url (query: STRING)
+		do
+			make_query_table (query, True)
+		end
+
+	make_uri (query: STRING)
+		do
+			make_query_table (query, False)
+		end
+
+	make_query_table (query: STRING; is_url: BOOLEAN)
+		-- call `set_name_value' for each decoded name-value pair found in `query' string
 		local
 			list: EL_SPLIT_STRING_LIST [STRING]; name_value_pair: STRING
 			name, value: EL_URI_QUERY_STRING_8; pos_equals: INTEGER
 		do
-			create list.make (url_query, Ampersand)
+			create list.make (query, Ampersand)
 			make_count (list.count)
-			create name.make_empty; create value.make_empty
+			name := empty_query_string (is_url); value := new_query_string (is_url)
+
 			from list.start until list.after loop
 				name_value_pair := list.item (False)
 				pos_equals := name_value_pair.index_of ('=', 1)
@@ -55,8 +66,37 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_query_string (is_url: BOOLEAN): EL_URI_QUERY_STRING_8
+		do
+			if is_url then
+				create {EL_URL_QUERY_STRING_8} Result.make_empty
+			else
+				create Result.make_empty
+			end
+		end
+
+	empty_query_string (is_url: BOOLEAN): EL_URI_QUERY_STRING_8
+		do
+			if is_url then
+				Result := Once_url_string
+			else
+				Result := Once_uri_string
+			end
+			Result.wipe_out
+		end
+
 feature {NONE} -- Constants
 
 	Ampersand: STRING = "&"
+
+	Once_uri_string: EL_URI_QUERY_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Once_url_string: EL_URL_QUERY_STRING_8
+		once
+			create Result.make_empty
+		end
 
 end

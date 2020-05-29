@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-22 9:12:18 GMT (Friday 22nd May 2020)"
-	revision: "26"
+	date: "2020-05-28 10:51:41 GMT (Thursday 28th May 2020)"
+	revision: "27"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_MODULE_URL
+	EL_MODULE_URI
 
 	RHYTHMBOX_CONSTANTS
 
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 	set_task
 		do
 			if attached {ZSTRING} task_path.to_string as str
-				and then URL.is_http_uri (str) and then str.has_substring ("you")
+				and then URI.is_http (str) and then str.has_substring ("you")
 			then
 				create {IMPORT_YOUTUBE_M4A_TASK} task.make (str)
 			else

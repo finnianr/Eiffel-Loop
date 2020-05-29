@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 5:22:18 GMT (Monday 25th May 2020)"
-	revision: "8"
+	date: "2020-05-29 14:29:00 GMT (Friday 29th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -24,10 +24,10 @@ inherit
 			set as set_encoded
 		export
 			{NONE} all
-			{ANY} append_character, is_empty, wipe_out, share, set_encoded, count, area,
+			{ANY} append_character, append_substring, is_empty, wipe_out, share, set_encoded, count, area,
 					capacity, same_string, to_c, to_string_8, Is_string_8
 
-			{STRING_HANDLER} set_count, append_raw_8
+			{STRING_HANDLER} set_count, append_raw_8, item, put
 
 		redefine
 			make_encoded, make
@@ -37,20 +37,22 @@ inherit
 
 	EL_MODULE_HEXADECIMAL
 
+	EL_MODULE_STRING_32
+
 	EL_SHARED_ONCE_STRING_32
 
 feature {NONE} -- Initialization
-
-	make_encoded (s: READABLE_STRING_8)
-		do
-			set_reserved_character_set
-			Precursor (s)
-		end
 
 	make (n: INTEGER)
 		do
 			set_reserved_character_set
 			Precursor (n)
+		end
+
+	make_encoded (s: READABLE_STRING_8)
+		do
+			set_reserved_character_set
+			Precursor (s)
 		end
 
 feature -- Conversion
@@ -60,38 +62,14 @@ feature -- Conversion
 			create Result.make_from_general (decoded_32 (False))
 		end
 
+	decoded_32 (keep_ref: BOOLEAN): STRING_32
+		do
+			Result := decoded_32_substring (1, count, keep_ref)
+		end
+
 	decoded_8: STRING_8
 		do
 			Result := decoded_32 (False).to_string_8
-		end
-
-	decoded_32 (keep_ref: BOOLEAN): STRING_32
-		local
-			l_area: like area; i, step: INTEGER; c: CHARACTER
-			sequence: like Utf_8_sequence
-		do
-			Result := empty_once_string_32
-			sequence := Utf_8_sequence; sequence.wipe_out
-			sequence.wipe_out
-			l_area := area
-			from i := 0 until i = count loop
-				c := l_area [i]
-				if c = escape_character and then is_sequence (l_area, i + 1) then
-					sequence.extend (sequence_code (l_area, i + 1))
-					if sequence.full then
-						Result.append_code (sequence.to_unicode)
-						sequence.wipe_out
-					end
-					step := sequence_count + 1
-				else
-					Result.append_character (adjusted_character (c))
-					step := 1
-				end
-				i := i + step
-			end
-			if keep_ref then
-				Result := Result.twin
-			end
 		end
 
 	to_utf_8, to_latin_1: STRING
@@ -144,7 +122,7 @@ feature -- Element change
 				i := i + 1
 			end
 		ensure
-			reversible: substring_utf_8 (s, start_index, end_index) ~ substring (old count + 1, count).to_utf_8
+			reversible: is_append_reversible (s.substring (start_index, end_index), old count)
 		end
 
 	append_unencoded_general (s: READABLE_STRING_GENERAL)
@@ -186,6 +164,13 @@ feature -- Element change
 			append_general (str)
 		end
 
+feature {NONE} -- Contract Support
+
+	is_append_reversible (s: READABLE_STRING_GENERAL; old_count: INTEGER): BOOLEAN
+		do
+			Result := s.same_string (decoded_32_substring (old_count + 1, count, False))
+		end
+
 feature {NONE} -- Implementation
 
 	adjusted_character (c: CHARACTER): CHARACTER
@@ -203,6 +188,34 @@ feature {NONE} -- Implementation
 		-- append reserved or unreserved character
 		do
 			append_character (c)
+		end
+
+	decoded_32_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING_32
+		local
+			l_area: like area; i, step: INTEGER; c: CHARACTER
+			sequence: like Utf_8_sequence
+		do
+			Result := empty_once_string_32
+			sequence := Utf_8_sequence; sequence.wipe_out
+			l_area := area
+			from i := start_index until i > end_index loop
+				c := l_area [i - 1]
+				if c = escape_character and then is_sequence (l_area, i) then
+					sequence.extend (sequence_code (l_area, i))
+					if sequence.full then
+						Result.append_code (sequence.to_unicode)
+						sequence.wipe_out
+					end
+					step := sequence_count + 1
+				else
+					Result.append_character (adjusted_character (c))
+					step := 1
+				end
+				i := i + step
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
 	is_sequence (a_area: like area; offset: INTEGER): BOOLEAN
@@ -270,14 +283,14 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Utf_8_sequence: EL_UTF_8_SEQUENCE
-		once
-			create Result.make
-		end
-
 	Unencoded_character: CHARACTER = '%/026/'
 		-- The substitute character SUB
 		-- A substitute character (SUB) is a control character that is used in the place of a character that is
 		-- recognized to be invalid or in error or that cannot be represented on a given device.
 		-- See https://en.wikipedia.org/wiki/Substitute_character
+	Utf_8_sequence: EL_UTF_8_SEQUENCE
+		once
+			create Result.make
+		end
+
 end

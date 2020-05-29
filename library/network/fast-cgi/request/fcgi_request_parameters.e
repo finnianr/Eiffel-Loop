@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:09:34 GMT (Sunday 24th May 2020)"
-	revision: "18"
+	date: "2020-05-28 8:04:21 GMT (Thursday 28th May 2020)"
+	revision: "19"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -187,9 +187,9 @@ feature -- Access
 		-- or POST-data (`raw_stdin_content')
 		do
 			if is_get_request then
-				create Result.make (query_string)
+				create Result.make_url (query_string)
 			elseif is_post_request and headers.content_length > 0 then
-				create Result.make (content)
+				create Result.make_url (content)
 			else
 				create Result.make_default
 			end
@@ -333,7 +333,7 @@ feature {NONE} -- Constants
 
 	Header_prefixes: EL_ARRAYED_LIST [STRING]
 		once
-			create Result.make_from_array (<< "CONTENT_", "HTTP_" >>)
+			create Result.make_from_list (<< "CONTENT_", "HTTP_" >>)
 		end
 
 	Method_get: ZSTRING

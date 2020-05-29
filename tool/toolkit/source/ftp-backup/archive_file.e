@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 19:22:35 GMT (Monday 9th September 2019)"
-	revision: "7"
+	date: "2020-05-28 9:52:03 GMT (Thursday 28th May 2020)"
+	revision: "8"
 
 class
 	ARCHIVE_FILE
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 					Encryption_command.set_working_directory (archive_dir)
 
 					Encryption_command.put_string (GPG_KEY_ID, backup.gpg_key)
-					Encryption_command.put_file_path (TAR_NAME, file_path)
+					Encryption_command.put_path (TAR_NAME, file_path)
 
 					Encryption_command.execute
 					File_system.remove_file (file_path)

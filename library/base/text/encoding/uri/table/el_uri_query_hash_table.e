@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:15:22 GMT (Sunday 24th May 2020)"
-	revision: "3"
+	date: "2020-05-28 9:52:19 GMT (Thursday 28th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
@@ -70,20 +70,25 @@ feature -- Element change
 
 feature -- Conversion
 
-	uri_query_string: STRING
+	url_query: STRING
 		-- utf-8 URL encoded name value pairs
 		do
-			Result := query_string (True)
+			Result := query_string (True, True)
 		end
 
-	query_string (keep_ref: BOOLEAN): STRING
+	uri_query: STRING
 		-- utf-8 URL encoded name value pairs
+		do
+			Result := query_string (False, True)
+		end
+
+	query_string (is_url: BOOLEAN; keep_ref: BOOLEAN): STRING
+		-- utf-8 encoded name value pairs
 		-- `keep_ref' must be true if you wish to keep the reference (forces a clone of shared EL_URL_QUERY_STRING_8)
 		local
 			uri: like Once_uri_string
 		do
-			uri := Once_uri_string
-			uri.wipe_out
+			uri := empty_query_string (is_url)
 			from start until after loop
 				if not uri.is_empty then
 					uri.append_character ('&')
@@ -115,13 +120,6 @@ feature {NONE} -- Implementation
 	new_string (n: INTEGER): S
 		do
 			create Result.make (n)
-		end
-
-feature {NONE} -- Constants
-
-	Once_uri_string: EL_URI_QUERY_STRING_8
-		once
-			create Result.make_empty
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 13:10:01 GMT (Saturday 25th January 2020)"
-	revision: "4"
+	date: "2020-05-27 7:03:13 GMT (Wednesday 27th May 2020)"
+	revision: "5"
 
 class
 	EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [K, G -> COMPARABLE]
@@ -16,7 +16,7 @@ inherit
 	EL_SORTABLE_ARRAYED_MAP_LIST [K, G]
 
 create
-	make, make_filled, make_from_array, make_empty, make_sorted, make_from_table
+	make, make_filled, make_from_list, make_empty, make_sorted, make_from_table
 
 feature {NONE} -- Implementation
 

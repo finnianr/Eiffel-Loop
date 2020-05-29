@@ -6,21 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:08:26 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2020-05-29 12:52:16 GMT (Friday 29th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_ENVIRONMENT
 
 inherit
-	EL_MODULE
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_SHARED_OPERATING_ENVIRON
 
 feature {NONE} -- Constants
 
-	Environment: EL_SHARED_ENVIRONMENTS
+	Environment: TUPLE [execution: EL_EXECUTION_ENVIRONMENT_I; operating: EL_OPERATING_ENVIRONMENT_I]
 			--
-		once ("PROCESS")
-			create Result
+		once
+			Result := [Execution_environment, Operating_environ]
 		end
 
 end

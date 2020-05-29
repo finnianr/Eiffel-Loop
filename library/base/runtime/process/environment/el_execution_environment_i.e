@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-08 11:01:32 GMT (Saturday 8th February 2020)"
-	revision: "16"
+	date: "2020-05-29 13:49:17 GMT (Friday 29th May 2020)"
+	revision: "17"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -18,7 +18,7 @@ inherit
 			sleep as sleep_nanosecs,
 			current_working_directory as current_working_directory_obselete
 		redefine
-			put
+			item, launch, put, system
 		end
 
 	EL_MODULE_ARGS
@@ -26,7 +26,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ENVIRONMENTS
+	EL_SHARED_OPERATING_ENVIRON
 		export
 			{NONE} all
 		end
@@ -34,6 +34,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_STRING_32
+
+	EL_MODULE_ZSTRING
 
 	EL_MODULE_EXCEPTION
 
@@ -107,6 +109,11 @@ feature -- Access
 			end
 		end
 
+	item (s: READABLE_STRING_GENERAL): detachable STRING_32
+		do
+			Result := Precursor (ZSTRING.to_unicode_general (s))
+		end
+
 	search_path_separator: CHARACTER_32
 		deferred
 		end
@@ -130,15 +137,32 @@ feature -- Access
 
 feature -- Basic operations
 
+	clear_screen
+		do
+			system (Operating_environ.clear_screen_command)
+		end
+
 	exit (code: INTEGER)
 		do
 			Exception.general.die (code)
+		end
+
+	launch (s: READABLE_STRING_GENERAL)
+		do
+			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
+			Precursor (ZSTRING.to_unicode_general (s))
 		end
 
 	sleep (millisecs: DOUBLE)
 			--
 		do
 			sleep_nanosecs ((millisecs * Nanosecs_per_millisec).truncated_to_integer_64)
+		end
+
+	system (s: READABLE_STRING_GENERAL)
+		do
+			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
+			Precursor (ZSTRING.to_unicode_general (s))
 		end
 
 	pop_current_working
@@ -181,12 +205,9 @@ feature -- Status report
 
 	search_path_has (name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if executable `name' is in the environment search path `PATH'
-		local
-			l_name: STRING_32
 		do
-			l_name := name.to_string_32
 			across executable_search_path_list as path until Result loop
-				Result := Shared_directory.named (path.item).has_executable (l_name)
+				Result := Shared_directory.named (path.item).has_executable (name)
 			end
 		end
 
@@ -194,7 +215,7 @@ feature -- Status setting
 
 	put (value, key: READABLE_STRING_GENERAL)
 		do
-			Precursor (value.to_string_32, key.to_string_32)
+			Precursor (ZSTRING.to_unicode_general (value), ZSTRING.to_unicode_general (key))
 		end
 
 	restore_last_code_page
@@ -234,7 +255,7 @@ feature -- Transformation
 			extension: ZSTRING
 		do
 			create Result
-			path_list := executable_search_path.split (Operating.Search_path_separator)
+			path_list := executable_search_path.split (Operating_environ.Search_path_separator)
 			extensions := executable_file_extensions
 			from path_list.start until not Result.is_empty or path_list.after loop
 				create base_permutation_path.make (path_list.item)
@@ -262,10 +283,10 @@ feature -- Transformation
 			-- 	Windows: Result = "svg.dll"
 		do
 			create Result.make (module_name.count + 7)
-			Result.append_string_general (Operating.C_library_prefix)
+			Result.append_string_general (Operating_environ.C_library_prefix)
 			Result.append_string_general (module_name)
 			Result.append_character ('.')
-			Result.append_string_general (Operating.Dynamic_module_extension)
+			Result.append_string_general (Operating_environ.Dynamic_module_extension)
 		end
 
 feature -- Element change
@@ -325,7 +346,7 @@ feature -- Constants
 
 	Executable_and_user_name: ZSTRING
 		once
-			Result := executable_name + "-" + Operating.user_name
+			Result := executable_name + "-" + Operating_environ.user_name
 		end
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000_000

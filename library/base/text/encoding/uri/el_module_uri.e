@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:09:22 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-05-28 10:41:56 GMT (Thursday 28th May 2020)"
+	revision: "6"
 
 deferred class
 	EL_MODULE_URI
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	URI: EL_URI_ROUTINES_IMP
+	URI: EL_URI_ROUTINES
 		once
 			create Result
 		end

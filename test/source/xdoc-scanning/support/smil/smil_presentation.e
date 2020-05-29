@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 11:16:49 GMT (Tuesday 7th January 2020)"
-	revision: "8"
+	date: "2020-05-28 12:34:15 GMT (Thursday 28th May 2020)"
+	revision: "9"
 
 class
 	SMIL_PRESENTATION
@@ -23,7 +23,7 @@ inherit
 
 	OUTPUT_ROUTINES
 
-	EL_MODULE_URL
+	STRING_HANDLER
 
 create
 	make_from_file, make_from_string, make
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			create title.make_empty
 
 			create author.make_empty
-			create location
+			create location.make_empty
 		end
 
 feature -- Access
@@ -49,7 +49,7 @@ feature -- Access
 
 	author: STRING
 
-	location: EL_DIR_PATH
+	location: EL_URI
 
 feature {NONE} -- Evolicity fields
 
@@ -60,7 +60,7 @@ feature {NONE} -- Evolicity fields
 				["to_xml",				agent to_xml],
 				["author",				agent: STRING do Result := author end],
 				["title", 				agent: STRING do Result := title end],
-				["location", 			agent: STRING do Result := location.to_string end],
+				["location", 			agent: STRING do Result := location end],
 				["audio_sequence",	agent: ITERABLE [SMIL_AUDIO_SEQUENCE] do Result := audio_sequence end]
 			>>)
 		end
@@ -87,7 +87,7 @@ feature {NONE} -- Build from XML
 			lio.put_line ("on_context_exit")
 			lio.put_string_field ("Presentation", title); lio.put_new_line
 			lio.put_string_field ("author", author); lio.put_new_line
-			lio.put_string_field ("location", location.to_string)
+			lio.put_path_field ("location", location.to_dir_path)
 			lio.put_new_line_x2
 		end
 
@@ -99,8 +99,7 @@ feature {NONE} -- Build from XML
 				["head/meta[@name='author']/@content", agent do author := node.to_string end],
 				["head/meta[@name='base']/@content", agent
 					do
-						location := URL.remove_protocol_prefix (node.to_string)
-						location.base.prune_all_trailing ('/')
+						location := node.to_string_8; location.prune_all_trailing ('/')
 					end
 				],
 --				["body/seq[@id='seq_1']", agent extend_audio_sequence],

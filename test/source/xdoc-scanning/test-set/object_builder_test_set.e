@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:32:23 GMT (Tuesday 18th February 2020)"
-	revision: "4"
+	date: "2020-05-28 10:19:25 GMT (Thursday 28th May 2020)"
+	revision: "5"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter_with_args ("build", [type])
 			name := Routine_name
-			do_test (name, 3081022579,
+			do_test (name, 561488628,
 				agent build_and_serialize_file, [File.smil_presentation, agent type.new_smil_presentation]
 			)
 			do_test (name, 3086032535, agent build_and_serialize_file, [File.web_form, agent type.new_web_form] )
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter_with_args ("smart_build", [type])
 			name := Routine_name
-			do_test (name, 3661389843, agent build_and_serialize_file, [File.smil_presentation, agent type.new_serializeable])
+			do_test (name, 944788983, agent build_and_serialize_file, [File.smil_presentation, agent type.new_serializeable])
 			do_test (name, 540764938, agent build_and_serialize_file, [File.web_form, agent type.new_serializeable])
 			do_test (name, 4129507502, agent build_and_serialize_file, [File.matrix_average, agent type.new_serializeable])
 			do_test (name, 345614884, agent build_and_serialize_file, [File.matrix_sum, agent type.new_serializeable])

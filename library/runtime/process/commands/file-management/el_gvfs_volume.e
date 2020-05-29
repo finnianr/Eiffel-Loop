@@ -6,17 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:04:41 GMT (Tuesday 19th May 2020)"
-	revision: "11"
+	date: "2020-05-27 7:37:40 GMT (Wednesday 27th May 2020)"
+	revision: "12"
 
 class
 	EL_GVFS_VOLUME
 
 inherit
-	ANY EL_MODULE_DIRECTORY
+	ANY
+	EL_MODULE_DIRECTORY
+	EL_MODULE_TUPLE
 
 create
-	make, make_default
+	make, make_default, make_with_mounts
 
 feature {NONE} -- Initialization
 
@@ -28,7 +30,12 @@ feature {NONE} -- Initialization
 
 	make (a_name: like name; a_is_windows_format: BOOLEAN)
 		do
-			uri_root := new_uri_root (a_name); is_windows_format := a_is_windows_format
+			make_with_mounts (a_name, mount_table, a_is_windows_format)
+		end
+
+	make_with_mounts (a_name: like name; a_table: like mount_table; a_is_windows_format: BOOLEAN)
+		do
+			uri_root := new_uri_root (a_name, a_table); is_windows_format := a_is_windows_format
 			name := a_name
 		end
 
@@ -36,7 +43,7 @@ feature -- Access
 
 	name: ZSTRING
 
-	uri_root: EL_DIR_PATH
+	uri_root: EL_URI
 
 feature -- File operations
 
@@ -44,18 +51,18 @@ feature -- File operations
 			-- copy file from volume to external
 		require
 			volume_path_relative_to_root: not volume_path.is_absolute
-			destination_not_on_volume: not destination_dir.to_string.starts_with (uri_root.to_string)
+			destination_not_on_volume: not uri_root.is_file implies not destination_dir.to_uri.starts_with (uri_root)
 		do
-			copy_file (uri_root + volume_path, destination_dir)
+			copy_file (uri_root.joined (volume_path), destination_dir)
 		end
 
 	copy_file_to (source_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
 			-- copy file from volume to external
 		require
 			volume_dir_relative_to_root: not volume_dir.is_absolute
-			source_not_on_volume: not source_path.to_string.starts_with (uri_root.to_string)
+			source_not_on_volume: not source_path.to_uri.starts_with (uri_root)
 		do
-			copy_file (source_path, uri_root.joined_dir_path (volume_dir))
+			copy_file (source_path.to_uri, uri_root.joined (volume_dir))
 		end
 
 	delete_directory (dir_path: EL_DIR_PATH)
@@ -64,7 +71,7 @@ feature -- File operations
 			is_relative_to_root: not dir_path.is_absolute
 			is_directory_empty (dir_path)
 		do
-			remove (uri_root.joined_dir_path (dir_path))
+			remove_file (uri_root.joined (dir_path))
 		end
 
 	delete_directory_files (dir_path: EL_DIR_PATH; wild_card: ZSTRING)
@@ -83,7 +90,7 @@ feature -- File operations
 					create extension.make_empty
 				end
 				command.reset
-				command.put_path (Var_uri, uri_root.joined_dir_path (dir_path))
+				command.put_uri (Var.uri, uri_root.joined (dir_path))
 				command.execute
 				across command.file_list as file_path loop
 					match_found := False
@@ -116,7 +123,7 @@ feature -- File operations
 		require
 			is_relative_to_root: not file_path.is_absolute
 		do
-			remove (uri_root + file_path)
+			remove_file (uri_root.joined (file_path))
 		end
 
 	delete_if_empty (dir_path: EL_DIR_PATH)
@@ -133,7 +140,7 @@ feature -- File operations
 		require
 			relative_path: not dir_path.is_absolute
 		do
-			make_uri (uri_root.joined_dir_path (dir_path))
+			make_uri_directory (uri_root.joined (dir_path))
 		end
 
 feature -- Status query
@@ -142,14 +149,14 @@ feature -- Status query
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		do
-			Result := uri_exists (uri_root.joined_dir_path (dir_path))
+			Result := uri_exists (uri_root.joined (dir_path))
 		end
 
 	file_exists (file_path: EL_FILE_PATH): BOOLEAN
 		require
 			is_relative_to_root: not file_path.is_absolute
 		do
-			Result := uri_exists (uri_root + file_path)
+			Result := uri_exists (uri_root.joined (file_path))
 		end
 
 	is_directory_empty (dir_path: EL_DIR_PATH): BOOLEAN
@@ -157,7 +164,7 @@ feature -- Status query
 			command: like Get_file_count_commmand
 		do
 			command := Get_file_count_commmand
-			command.put_path (Var_uri, uri_root.joined_dir_path (dir_path))
+			command.put_uri (Var.uri, uri_root.joined (dir_path))
 			command.execute
 			Result := command.is_empty
 		end
@@ -176,14 +183,16 @@ feature -- Status query
 feature -- Element change
 
 	extend_uri_root (relative_dir: EL_DIR_PATH)
+		require
+			valid_volume: is_valid
 		do
 			make_directory (relative_dir)
-			uri_root.append_dir_path (relative_dir)
+			uri_root.join (relative_dir)
 		end
 
 	reset_uri_root
 		do
-			uri_root := new_uri_root (name)
+			uri_root := new_uri_root (name, mount_table)
 		end
 
 	set_uri_root (a_uri_root: like uri_root)
@@ -200,29 +209,29 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
-	copy_file (source_path: EL_PATH; destination_path: EL_PATH)
+	copy_file (source_path: EL_URI; destination_path: EL_URI)
 		local
 			command: like Copy_command
 		do
 			command := Copy_command
-			command.put_path (Var_source_path, source_path)
-			command.put_path (Var_destination_path, destination_path)
+			command.put_uri (Var.source_path, source_path)
+			command.put_uri (Var.destination_path, destination_path)
 			command.execute
 		end
 
-	make_uri (a_uri: EL_DIR_PATH)
+	make_uri_directory (a_uri: EL_URI)
 		local
 			command: like Make_directory_command
-			parent_uri: EL_DIR_PATH
+			parent_uri: EL_URI
 		do
 			if not uri_exists (a_uri) then
 				if a_uri.has_parent then
 					parent_uri := a_uri.parent
 					if not uri_exists (parent_uri) then
-						make_uri (parent_uri)
+						make_uri_directory (parent_uri)
 					end
 					command := Make_directory_command
-					command.put_path (Var_uri, a_uri)
+					command.put_uri (Var.uri, a_uri)
 					command.execute
 				end
 			end
@@ -233,50 +242,45 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	move (source_path: EL_PATH; destination_path: EL_PATH)
+	move_file (source_path: EL_PATH; destination_path: EL_PATH)
 		local
 			command: like Move_command
 		do
 			command := Move_command
-			command.put_path (Var_source_path, source_path)
-			command.put_path (Var_uri, destination_path)
+			command.put_path (Var.source_path, source_path)
+			command.put_path (Var.uri, destination_path)
 			command.execute
 		end
 
-	new_uri_root (a_name: ZSTRING): like uri_root
-		local
-			table: like mount_table
+	new_uri_root (a_name: ZSTRING; table: like mount_table): like uri_root
 		do
 			if a_name ~ Current_directory then
-				create {EL_DIR_PATH} Result.make (Current_directory)
+				Result := Directory.current_working.to_uri
 			elseif a_name ~ Home_directory then
-				create {EL_DIR_URI_PATH} Result.make_from_path (Directory.home)
+				Result := Directory.home.to_uri
+			elseif table.has_key (a_name) then
+				Result := table.found_item
 			else
-				table := mount_table
-				if table.has_key (a_name) then
-					Result := table.found_item
-				else
-					Result := Default_uri_root
-				end
+				Result := Default_uri_root
 			end
 		end
 
-	remove (a_uri: EL_PATH)
+	remove_file (a_uri: EL_URI)
 			--
 		local
 			command: like Remove_command
 		do
 			command := Remove_command
-			command.put_path (Var_uri, a_uri)
+			command.put_uri (Var.uri, a_uri)
 			command.execute
 		end
 
-	uri_exists (a_uri: EL_PATH): BOOLEAN
+	uri_exists (a_uri: EL_URI): BOOLEAN
 		local
 			command: like get_file_type_commmand
 		do
 			command := get_file_type_commmand
-			command.put_path (Var_uri, a_uri)
+			command.put_uri (Var.uri, a_uri)
 			command.execute
 			Result := command.file_exists
 		end
@@ -327,9 +331,9 @@ feature {NONE} -- Constants
 			Result := "."
 		end
 
-	Default_uri_root: EL_DIR_PATH
+	Default_uri_root: EL_URI
 		once
-			create Result
+			create Result.make_empty
 		end
 
 	Home_directory: ZSTRING
@@ -347,10 +351,10 @@ feature {NONE} -- Constants
 			Result := "*."
 		end
 
-	Var_destination_path: STRING = "destination_path"
-
-	Var_source_path: STRING = "source_path"
-
-	Var_uri: STRING = "uri"
+	Var: TUPLE [destination_path, source_path, uri: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "destination_path, source_path, uri")
+		end
 
 end

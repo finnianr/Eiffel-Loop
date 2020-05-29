@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:09:34 GMT (Sunday 24th May 2020)"
-	revision: "14"
+	date: "2020-05-28 8:03:28 GMT (Thursday 28th May 2020)"
+	revision: "15"
 
 class
 	EL_URI_QUERY_ZSTRING_HASH_TABLE
@@ -16,7 +16,7 @@ inherit
 	EL_URI_QUERY_HASH_TABLE [ZSTRING]
 
 create
-	make_equal, make, make_default
+	make_equal, make_uri, make_url, make_default
 
 feature {NONE} -- Implementation
 

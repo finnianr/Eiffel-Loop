@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:03:02 GMT (Wednesday 31st October 2018)"
-	revision: "3"
+	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
@@ -18,7 +18,7 @@ inherit
 			dir_path as target_path,
 			set_dir_path as set_target_path
 		undefine
-			do_command, new_command_string
+			do_command, new_command_parts
 		redefine
 			make, var_name_path, reset
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 10:37:46 GMT (Saturday 16th May 2020)"
-	revision: "9"
+	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
+	revision: "10"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_DIR_PATH_OPERAND_COMMAND_I
 		undefine
-			do_command, new_command_string, reset
+			do_command, new_command_parts, reset
 		redefine
 			getter_function_table, make_default
 		end

@@ -4,7 +4,7 @@
 	<description>
 OS Command Wrapping
 
-Classes for creating cross platform wrappers of OS commands with about 30 "out of the box" commands provided.
+Classes for creating cross platform wrappers of OS commands with about 30 &quot;out of the box&quot; commands provided.
 
 See doc/os-command.txt for details.
 	</description>
@@ -20,6 +20,7 @@ See doc/os-command.txt for details.
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
+		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<!--Source code-->
 		<cluster name = "os_command" location = "runtime/process/commands" recursive = "true">

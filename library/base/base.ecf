@@ -233,7 +233,6 @@ Classes providing the following:
 			<cluster name = "line_processing" location = "$|line-processing" recursive = "true"/>
 			<cluster name = "name_value" location = "$|name-value" recursive = "true"/>
 			<cluster name = "styled" location = "$|styled" recursive = "true"/>
-			<cluster name = "uri" location = "$|uri" recursive = "true"/>
 		</cluster>
 		<cluster name = "utility" location = "utility" recursive = "true">
 			<description>

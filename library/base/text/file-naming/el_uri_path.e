@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:00:48 GMT (Monday 25th May 2020)"
-	revision: "17"
+	date: "2020-05-29 14:49:13 GMT (Friday 29th May 2020)"
+	revision: "18"
 
 deferred class
 	EL_URI_PATH
@@ -28,24 +28,20 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			default_create, make, make_from_other, escaped,
+			append_file_prefix, default_create, make, make_from_other, escaped,
 			is_uri, is_equal, is_less,
 			set_path, part_count, part_string,
 			Separator, Type_parent
 		end
 
-	EL_URI_ROUTINES
+	EL_PROTOCOL_CONSTANTS
 		rename
-			Protocol as Protocol_name,
-			is_uri as is_uri_string
-		export
-			{NONE} all
-			{ANY} is_uri_of_type, is_uri_string, Protocol_name, uri_path
-		undefine
-			copy, default_create, is_equal, out
+			Protocol as Protocol_name
 		end
 
 	EL_MODULE_UTF
+
+	EL_MODULE_URI
 
 	EL_SHARED_ONCE_ZSTRING
 
@@ -116,29 +112,25 @@ feature -- Initialization
 			Precursor {EL_PATH} (other)
 		end
 
-	make_from_encoded (uri: STRING)
+	make_from_encoded (a_uri: STRING)
 		local
-			qmark_index: INTEGER; query_part: STRING
+			qmark_index: INTEGER; l_path: like empty_uri_path
 		do
-			URI_string.share (uri)
-			qmark_index := uri.index_of ('?', 1)
+			l_path := empty_uri_path
+			qmark_index := a_uri.index_of ('?', 1)
 			if qmark_index > 0 then
-				URI_string.set_count (qmark_index - 1)
+				l_path.append_substring (a_uri, 1, qmark_index - 1)
+			else
+				l_path.append_raw_8 (a_uri)
 			end
-			make (URI_string.decoded_32 (False))
-			if qmark_index > 0 then
-				query_part := uri.substring (qmark_index + 1, uri.count)
-				uri.set_count (uri.count + query_part.count + 1)
-			end
-		ensure
-			same_uri_count: uri.count = old uri.count
+			make (l_path.decoded_32 (False))
 		end
 
 	make_scheme (a_scheme: READABLE_STRING_GENERAL; a_path: EL_PATH)
 		require
-			path_absolute_for_file_scheme: Protocol_name.file.same_string (a_scheme) implies a_path.is_absolute
+			path_absolute_for_file_scheme: is_file_scheme (a_scheme) implies a_path.is_absolute
 			path_relative_for_other_schemes:
-				(a_scheme /~ Protocol_name.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
+				(not is_file_scheme (a_scheme) and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
 		local
 			l_path: ZSTRING
 		do
@@ -147,7 +139,7 @@ feature -- Initialization
 			else
 				create l_path.make (a_scheme.count + Colon_slash_x2.count + a_path.count)
 				l_path.append_string_general (a_scheme)
-				l_path.append (Colon_slash_x2)
+				l_path.append_string_general (Colon_slash_x2)
 				a_path.append_to (l_path)
 				make (l_path)
 			end
@@ -203,14 +195,14 @@ feature -- Conversion
 
 	to_encoded_utf_8: STRING
 		local
-			i: INTEGER
+			i: INTEGER; l_path: like empty_uri_path
 		do
-			URI_string.wipe_out
+			l_path := empty_uri_path
 			from i := 1 until i > part_count loop
-				URI_string.append_general (part_string (i))
+				l_path.append_general (part_string (i))
 				i := i + 1
 			end
-			create Result.make_from_string (URI_string)
+			create Result.make_from_string (l_path)
 		end
 
 feature -- Comparison
@@ -239,17 +231,31 @@ feature -- Contract Support
 
 	is_uri_absolute (a_uri: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			uri: ZSTRING
+			l_uri: ZSTRING
 		do
-			uri := temporary_copy (a_uri)
-			if uri_scheme (uri) ~ Protocol_name.file then
-				Result := uri_path (uri).starts_with (Forward_slash)
+			l_uri := temporary_copy (a_uri)
+			if URI.scheme (l_uri) ~ Protocol_name.file then
+				Result := URI.path (l_uri).starts_with (Forward_slash)
 			else
-				Result := uri_path (uri).has (Forward_slash [1])
+				Result := URI.path (l_uri).has (Forward_slash [1])
 			end
 		end
 
+	is_file_scheme (a_uri: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := URI.is_file (a_uri)
+		end
+
+	is_uri_string (a_uri: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := URI.is_valid (a_uri)
+		end
+
 feature {NONE} -- Implementation
+
+	append_file_prefix (a_uri: EL_URI_STRING_8)
+		do
+		end
 
 	part_count: INTEGER
 		do

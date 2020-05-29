@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:15:43 GMT (Sunday 24th May 2020)"
-	revision: "25"
+	date: "2020-05-28 10:28:54 GMT (Thursday 28th May 2020)"
+	revision: "26"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -29,13 +29,13 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("http_hash_table",						agent test_http_hash_table)
-			eval.call ("download_image_and_headers",		agent test_download_image_and_headers)
 			eval.call ("cookies",								agent test_cookies)
-			eval.call ("image_headers",						agent test_image_headers)
 			eval.call ("documents_download",					agent test_documents_download)
+			eval.call ("download_image_and_headers",		agent test_download_image_and_headers)
 			eval.call ("download_document_and_headers",	agent test_download_document_and_headers)
+			eval.call ("http_hash_table",						agent test_http_hash_table)
 			eval.call ("http_post",								agent test_http_post)
+			eval.call ("image_headers",						agent test_image_headers)
 		end
 
 feature -- Test routines
@@ -47,7 +47,7 @@ feature -- Test routines
 		do
 			-- There is an issue with httpbin.org that prevents setting of 2 cookies with 1 call
 			-- so we do a loop instead
-			across new_city_location.query_string (False).split ('&') as nvp loop
+			across new_city_location.query_string (True, False).split ('&') as nvp loop
 				url := Set_cookie_url + nvp.item
 				lio.put_labeled_string ("url", url)
 				lio.put_new_line
@@ -159,9 +159,9 @@ feature -- Test routines
 			create table_1.make_equal (2)
 			table_1.set_string_general ("city", "Dún Búinne")
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
-			query_string := table_1.uri_query_string
+			query_string := table_1.url_query
 			lio.put_line (query_string)
-			create table_2.make (query_string)
+			create table_2.make_url (query_string)
 			across table_2 as variable loop
 				table_1.search (variable.key)
 				assert ("has variable", table_1.found)

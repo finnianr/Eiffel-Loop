@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 15:39:55 GMT (Sunday 29th December 2019)"
-	revision: "6"
+	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
+	revision: "7"
 
 class
 	EL_IP_ADAPTER_INFO_COMMAND_IMP
@@ -22,7 +22,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			new_command_string, do_command, make_default
+			new_command_parts, do_command, make_default
 		redefine
 			is_valid_platform
 		end

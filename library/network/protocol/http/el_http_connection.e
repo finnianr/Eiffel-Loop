@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 12:43:11 GMT (Sunday 24th May 2020)"
-	revision: "24"
+	date: "2020-05-28 12:33:56 GMT (Thursday 28th May 2020)"
+	revision: "25"
 
 class
 	EL_HTTP_CONNECTION
@@ -45,11 +45,6 @@ inherit
 			is_valid as is_valid_form_constant
 		export
 			{NONE} all
-		end
-
-	EL_MODULE_URL
-		rename
-			Url as Mod_url
 		end
 
 	EL_MODULE_BASE_64
@@ -365,7 +360,7 @@ feature -- Element change
 
 	set_post_parameters (parameters: EL_URI_QUERY_ZSTRING_HASH_TABLE)
 		do
-			set_post_data (parameters.query_string (False))
+			set_post_data (parameters.query_string (True, False))
 		end
 
 	set_ssl_certificate_verification (flag: BOOLEAN)

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 10:24:05 GMT (Saturday 16th May 2020)"
-	revision: "64"
+	date: "2020-05-26 17:30:54 GMT (Tuesday 26th May 2020)"
+	revision: "65"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Implementation
 
-	test_type: TUPLE [FILE_AND_DIRECTORY_TEST_SET]
+	test_type: TUPLE [OS_COMMAND_TEST_SET]
 		do
 			create Result
 		end

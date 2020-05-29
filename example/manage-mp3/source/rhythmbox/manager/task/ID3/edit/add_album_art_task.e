@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-14 10:12:22 GMT (Tuesday 14th April 2020)"
-	revision: "12"
+	date: "2020-05-28 12:49:26 GMT (Thursday 28th May 2020)"
+	revision: "13"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -231,7 +231,7 @@ feature {NONE} -- Constants
 		once
 			Result := <<
 				p.back_cover, p.front_cover, p.leaflet_page, p.media,
-				p.recording_location, p.other, p.publisher_logo
+				p.recording_location, p.other, p.publisher_logo, p.movie_screen_capture
 			>>
 		end
 
@@ -245,7 +245,7 @@ feature {NONE} -- Constants
 			Result := <<
 				p.artist, p.band, p.band_logo, p.composer, p.conductor,
 				p.during_performance, p.during_recording,
-				p.lead_artist, p.lyricist, p.other
+				p.lead_artist, p.lyricist, p.other, p.movie_screen_capture
 			>>
 		end
 

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:08:16 GMT (Sunday 24th May 2020)"
-	revision: "8"
+	date: "2020-05-28 8:18:21 GMT (Thursday 28th May 2020)"
+	revision: "9"
 
 class
 	PP_HTTP_RESPONSE
 
 inherit
 	EL_URI_QUERY_TABLE
+		rename
+			make_url as make
 		undefine
 			is_equal
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:16:38 GMT (Monday 25th May 2020)"
-	revision: "4"
+	date: "2020-05-27 7:51:11 GMT (Wednesday 27th May 2020)"
+	revision: "5"
 
 class
 	IMPORT_VIDEOS_TASK_TEST_SET
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 			mp4_path.add_extension ("mp4")
 			File_system.make_directory (mp4_path.parent)
 			AVconv_mp3_to_mp4.put_path ("mp4_path", mp4_path)
-			AVconv_mp3_to_mp4.put_file_path ("jpeg_path", work_area_data_dir + "album-art/Other/Unknown.jpeg")
+			AVconv_mp3_to_mp4.put_path ("jpeg_path", work_area_data_dir + "album-art/Other/Unknown.jpeg")
 			AVconv_mp3_to_mp4.execute
 		end
 

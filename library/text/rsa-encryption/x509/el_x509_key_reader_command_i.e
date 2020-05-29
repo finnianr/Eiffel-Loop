@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:07:02 GMT (Wednesday 31st October 2018)"
-	revision: "3"
+	date: "2020-05-28 9:28:18 GMT (Thursday 28th May 2020)"
+	revision: "4"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 			{ANY} execute
 		undefine
-			do_command, new_command_string
+			do_command, new_command_parts
 		redefine
 			make_default, Var_name_path
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-12 11:21:33 GMT (Tuesday 12th March 2019)"
-	revision: "8"
+	date: "2020-05-29 12:29:32 GMT (Friday 29th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -15,19 +15,17 @@ deferred class
 inherit
 	EL_OS_COMMAND_I
 		redefine
-			do_command, new_command_string
+			do_command, new_command_parts
 		end
 
 feature {NONE} -- Factory
 
-	new_command_string (a_system_command: like system_command): STRING_32
-		local
-			temp_path: STRING_32
+	new_command_parts (a_system_command: like system_command): ARRAY [ZSTRING]
 		do
-			Result := Precursor (a_system_command)
-			temp_path := temporary_output_file_path
-			Result.grow (Result.count + Output_redirection_operator.count + temp_path.count)
-			Result.append (Output_redirection_operator); Result.append (temp_path)
+			Result := <<
+				command_prefix, a_system_command, Error_redirection_operator, temporary_error_file_path,
+				Output_redirection_operator, temporary_output_file_path
+			>>
 		end
 
 feature {NONE} -- Implementation
@@ -75,9 +73,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Output_redirection_operator: STRING_32
+	Output_redirection_operator: ZSTRING
 		once
-			Result := " > "
+			Result := ">"
 		end
 
 	Temporary_output_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_CAPTURED_OS_COMMAND_I, EL_FILE_PATH]

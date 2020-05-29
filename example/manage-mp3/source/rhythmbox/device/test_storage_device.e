@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-15 11:41:14 GMT (Wednesday 15th April 2020)"
-	revision: "4"
+	date: "2020-05-26 13:30:15 GMT (Tuesday 26th May 2020)"
+	revision: "5"
 
 class
 	TEST_STORAGE_DEVICE
@@ -25,7 +25,7 @@ feature -- Element change
 
 	set_volume (a_volume: like volume)
 		do
-			a_volume.set_uri_root (".")
+			a_volume.set_uri_root (Directory.current_working)
 			a_volume.extend_uri_root ("workarea/rhythmdb/TABLET")
 			Precursor (a_volume)
 		end

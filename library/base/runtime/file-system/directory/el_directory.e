@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 10:50:08 GMT (Tuesday 25th February 2020)"
-	revision: "15"
+	date: "2020-05-29 13:35:58 GMT (Friday 29th May 2020)"
+	revision: "16"
 
 class
 	EL_DIRECTORY
@@ -178,10 +178,12 @@ feature -- Element change
 			name_set: internal_path ~ a_path.as_string_32
 		end
 
-	set_path_name (a_name: STRING_32)
+	set_path_name (a_name: READABLE_STRING_GENERAL)
 			-- Set `name' with `a_name'.
 		do
-			internal_path := a_name
+			if internal_path /= a_name then
+				internal_path.wipe_out; internal_path.append_string_general (a_name)
+			end
 			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
 		end
 
@@ -272,15 +274,18 @@ feature {EL_SHARED_DIRECTORY} -- Access
 			Result := Current
 		end
 
+	named_as (a_name: READABLE_STRING_GENERAL): EL_DIRECTORY
+		do
+			set_path_name (a_name)
+			Result := Current
+		end
+
 feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
 	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
-		local
-			l_name: STRING_32
 		do
-			l_name := a_name.to_string_32
 			across Current as entry until Result loop
-				if entry.item ~ a_name and then entry.exists then
+				if a_name.same_string (entry.item) and then entry.exists then
 					inspect a_type
 						when Type_any then
 							Result := True

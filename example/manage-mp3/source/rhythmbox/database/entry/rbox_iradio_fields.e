@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:11:43 GMT (Monday 25th May 2020)"
-	revision: "2"
+	date: "2020-05-26 10:16:25 GMT (Tuesday 26th May 2020)"
+	revision: "3"
 
 deferred class
 	RBOX_IRADIO_FIELDS
@@ -139,7 +139,7 @@ feature {NONE} -- Constants
 
 	Media_type_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_from_array (Media_type_list.to_array)
+			create Result.make_from_list (Media_type_list)
 		end
 
 	Title_set: EL_HASH_SET [ZSTRING]

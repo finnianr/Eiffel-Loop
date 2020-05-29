@@ -6,21 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 14:38:26 GMT (Monday 9th September 2019)"
-	revision: "8"
+	date: "2020-05-27 7:44:42 GMT (Wednesday 27th May 2020)"
+	revision: "9"
 
 class
 	EL_OS_COMMAND
 
 inherit
 	EL_OS_COMMAND_I
+		rename
+			template as Empty_string
 		redefine
-			template_name, new_temporary_name, temporary_error_file_path, put_variable
+			has_variable, system_command, template_name, new_temporary_name, temporary_error_file_path, put_variable
 		end
 
 	EL_OS_COMMAND_IMP
+		rename
+			template as Empty_string
 		redefine
-			template_name, new_temporary_name, temporary_error_file_path, put_variable
+			has_variable, system_command, template_name, new_temporary_name, temporary_error_file_path, put_variable
 		end
 
 	EL_REFLECTION_HANDLER
@@ -30,30 +34,27 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_template: like template)
+	make (a_template: READABLE_STRING_GENERAL)
 			--
 		do
 			make_with_name (a_template.substring (1, a_template.index_of (' ', 1) - 1), a_template)
 		end
 
-	make_with_name (name: READABLE_STRING_GENERAL; a_template: like template)
+	make_with_name (name, a_template: READABLE_STRING_GENERAL)
 		do
-			template := a_template
+			create template.make (a_template)
 			template_name := name_template #$ [generator, name]
 			make_default
 		end
 
+feature -- Status query
+
+	has_variable (name: STRING): BOOLEAN
+		do
+			Result:= template.has_variable (name)
+		end
+
 feature -- Element change
-
-	put_directory_path (variable_name: STRING; a_dir_path: EL_DIR_PATH)
-		do
-			put_path (variable_name, a_dir_path)
-		end
-
-	put_file_path (variable_name: STRING; a_file_path: EL_FILE_PATH)
-		do
-			put_path (variable_name, a_file_path)
-		end
 
 	put_object (object: EL_REFLECTIVE)
 		local
@@ -62,11 +63,13 @@ feature -- Element change
 			table := object.field_table
 			from table.start until table.after loop
 				field := table.item_for_iteration
-				if variable_in_template (field.name) then
+				if template.has_variable (field.name) then
 					if attached {EL_REFLECTED_PATH} field as path_field then
-						put_path (field.name, path_field.value (object))
+						template.set_variable (field.name, path_field.value (object).escaped)
+					elseif attached {EL_REFLECTED_URI} field as uri_field then
+						template.set_variable (field.name, File_system.escaped_path (uri_field.value (object)))
 					else
-						getter_functions [field.name] := agent get_context_item (field.to_string (object))
+						template.set_variable (field.name, field.to_string (object))
 					end
 				end
 				table.forth
@@ -75,7 +78,14 @@ feature -- Element change
 
 	put_path (variable_name: STRING; a_path: EL_PATH)
 		do
-			getter_functions [variable_name] := agent escaped_path (a_path)
+			template.set_variable (variable_name, a_path.escaped)
+		end
+
+	put_uri (variable_name: STRING; uri: EL_URI)
+		require
+			has_variable: has_variable (variable_name)
+		do
+			template.set_variable (variable_name, File_system.escaped_path (uri))
 		end
 
 	put_variable (object: ANY; variable_name: STRING)
@@ -83,48 +93,32 @@ feature -- Element change
 			if attached {EL_PATH} object as path then
 				put_path (variable_name, path)
 			else
-				Precursor (object, variable_name)
+				template.set_variable (variable_name, object)
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	variable_in_template (name: STRING): BOOLEAN
-		local
-			name_pos: INTEGER
-		do
-			name_pos := template.substring_index (name, 1)
-			if name_pos > 1 then
-				inspect template [name_pos - 1]
-					when '$' then
-						Result := True
-					when '{' then
-						Result := name_pos > 2
-							and then name_pos + name.count <= template.count
-							and then template [name_pos - 2] = '$'
-							and then template [name_pos + name.count] = '}'
-				else end
-			end
-		end
-
-	escaped_path (a_path: EL_PATH): ZSTRING
-		do
-			Result := a_path.escaped
-		end
 
 	new_temporary_name: ZSTRING
 		do
 			Result := template_name.base
 		end
 
-	template: READABLE_STRING_GENERAL
-
-	template_name: EL_FILE_PATH
+	system_command: ZSTRING
+		do
+			Result := template.substituted
+		end
 
 	temporary_error_file_path: EL_FILE_PATH
 		do
 			Result := new_temporary_file_path ("err")
 		end
+
+feature {NONE} -- Internal attributes
+
+	template: EL_ZSTRING_TEMPLATE
+
+	template_name: EL_FILE_PATH
 
 feature {NONE} -- Evolicity reflection
 

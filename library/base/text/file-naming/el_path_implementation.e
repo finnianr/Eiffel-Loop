@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:09:00 GMT (Monday 25th May 2020)"
-	revision: "8"
+	date: "2020-05-29 14:39:25 GMT (Friday 29th May 2020)"
+	revision: "9"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -111,20 +111,10 @@ feature -- Conversion
 
 	to_uri: EL_URI
 		local
-			uri: like Uri_string; i: INTEGER
+			uri: like empty_uri_path
 		do
-			uri := Uri_string; uri.wipe_out
-			uri.append_raw_8 (once "file://")
-			if {PLATFORM}.is_windows then
-				uri.append_character ('/')
-			end
-			from i := 1 until i > part_count loop
-				uri.append_general (part_string (i))
-				i := i + 1
-			end
-			if {PLATFORM}.is_windows then
-				String_8.replace_character (uri, '\', '/')
-			end
+			uri := empty_uri_path
+			append_to_uri (uri)
 			create Result.make (uri)
 		end
 
@@ -156,6 +146,26 @@ feature -- Basic operations
 			from i := 1 until i > part_count loop
 				part_string (i).append_to_string_32 (str)
 				i := i + 1
+			end
+		end
+
+	append_to_uri (uri: EL_URI_STRING_8)
+		local
+			i, old_count: INTEGER
+		do
+			old_count := uri.count
+			append_file_prefix (uri)
+			from i := 1 until i > part_count loop
+				uri.append_general (part_string (i))
+				i := i + 1
+			end
+			if {PLATFORM}.is_windows then
+				from i := old_count + 1 until i > uri.count loop
+					if uri [i] = '\' then
+						uri.put ('/', i)
+					end
+					i := i + 1
+				end
 			end
 		end
 
@@ -197,6 +207,21 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			end
 		end
 
+	append_file_prefix (uri: EL_URI_STRING_8)
+		do
+			if is_absolute then
+				uri.append_raw_8 (once "file://")
+				if {PLATFORM}.is_windows then
+					uri.append_character ('/')
+				end
+			end
+		end
+
+	empty_uri_path: like URI_path_string
+		do
+			Result := URI_path_string; Result.wipe_out
+		end
+
 	part_count: INTEGER
 		-- count of string components
 		-- (5 in the case of URI paths)
@@ -226,6 +251,10 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		end
 
 feature {EL_PATH} -- Implementation
+
+	is_absolute: BOOLEAN
+		deferred
+		end
 
 	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
 		local
@@ -301,7 +330,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	URI_string: EL_URI_PATH_STRING_8
+	URI_path_string: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
 		end

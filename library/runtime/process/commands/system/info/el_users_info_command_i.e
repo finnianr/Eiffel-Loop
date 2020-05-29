@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 12:57:41 GMT (Sunday 24th November 2019)"
-	revision: "7"
+	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
+	revision: "8"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -22,7 +22,7 @@ inherit
 			set_dir_path as set_users_dir,
 			make as make_with_path
 		undefine
-			do_command, make_default, new_command_string
+			do_command, make_default, new_command_parts
 		end
 
 	EL_CAPTURED_OS_COMMAND_I

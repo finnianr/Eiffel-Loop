@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:06:39 GMT (Wednesday 31st October 2018)"
-	revision: "5"
+	date: "2020-05-28 9:28:18 GMT (Thursday 28th May 2020)"
+	revision: "6"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -50,7 +50,7 @@ inherit
 			{NONE} all
 			{ANY} execute
 		undefine
-			do_command, new_command_string
+			do_command, new_command_parts
 		redefine
 			make_default, Var_name_path
 		end

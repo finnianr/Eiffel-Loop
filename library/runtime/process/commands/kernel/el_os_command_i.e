@@ -1,13 +1,13 @@
 note
-	description: "Os command i"
+	description: "Operating System command interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 10:12:40 GMT (Sunday 12th January 2020)"
-	revision: "17"
+	date: "2020-05-29 12:54:51 GMT (Friday 29th May 2020)"
+	revision: "18"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -22,13 +22,13 @@ inherit
 			make_default, system_command
 		end
 
-	EL_MODULE_ENVIRONMENT
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_LIO
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_OPERATING_ENVIRON
 
 feature {NONE} -- Initialization
 
@@ -47,7 +47,7 @@ feature -- Access
 	executable_search_path: ZSTRING
 			--
 		do
-			Result := Environment.execution.executable_search_path
+			Result := Execution_environment.executable_search_path
 		end
 
 	working_directory: EL_DIR_PATH
@@ -117,13 +117,13 @@ feature -- Change OS environment
 	extend_executable_search_path (path: STRING)
 			--
 		do
-			Environment.execution.extend_executable_search_path (path)
+			Execution_environment.extend_executable_search_path (path)
 		end
 
 	set_executable_search_path (env_path: STRING)
 			--
 		do
-			Environment.execution.set_executable_search_path (env_path)
+			Execution_environment.set_executable_search_path (env_path)
 		end
 
 feature {NONE} -- Implementation
@@ -178,27 +178,27 @@ feature {NONE} -- Implementation
 	do_command (a_system_command: like system_command)
 			--
 		local
-			command_string: like new_command_string; error_path: EL_FILE_PATH
+			command_parts: EL_ZSTRING_LIST; error_path: EL_FILE_PATH
 		do
 			if is_forked then
-				Environment.execution.launch (a_system_command.to_string_32)
+				Execution_environment.launch (a_system_command)
 			else
 				if not working_directory.is_empty then
-					Environment.execution.push_current_working (working_directory)
+					Execution_environment.push_current_working (working_directory)
 				end
-
-				command_string := new_command_string (a_system_command)
+				create command_parts.make_from_array (new_command_parts (a_system_command))
+				command_parts.prune_all_empty -- `command_prefix' is empty on Unix
 
 				error_path := temporary_error_file_path
 				File_system_mutex.lock
 					File_system.make_directory (error_path.parent)
 				File_system_mutex.unlock
 
-				Environment.execution.system (command_string)
+				Execution_environment.system (command_parts.joined_words)
 
-				set_has_error (Environment.execution.return_code)
+				set_has_error (Execution_environment.return_code)
 				if not working_directory.is_empty then
-					Environment.execution.pop_current_working
+					Execution_environment.pop_current_working
 				end
 				if has_error then
 					create errors.make (5)
@@ -242,24 +242,18 @@ feature {NONE} -- Implementation
 
 feature {EL_OS_COMMAND_I} -- Factory
 
-	new_command_string (a_system_command: like system_command): STRING_32
-		local
-			system_cmd_32, error_file_path: STRING_32
+	new_command_parts (a_system_command: like system_command): ARRAY [ZSTRING]
 		do
-			system_cmd_32 := a_system_command
-			error_file_path := temporary_error_file_path.as_string_32
-			create Result.make (
-				command_prefix.count +  system_cmd_32.count +  Error_redirection_operator.count +  error_file_path.count
-			)
-			Result.append (command_prefix); Result.append (system_cmd_32)
-			Result.append (Error_redirection_operator); Result.append (error_file_path)
+			Result := <<
+				command_prefix, a_system_command, Error_redirection_operator, temporary_error_file_path
+			>>
 		end
 
 	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
 		-- uniquely numbered temporary file in temporary area set by env label "TEMP"
 		do
 			Result := Temporary_path_format #$ [
-				Environment.Operating.temp_directory_name, Environment.execution.Executable_and_user_name,
+				Operating_environ.temp_directory_name, Execution_environment.Executable_and_user_name,
 				new_temporary_name, once "00." + a_extension
 			]
 			-- check if directory already exists with root ownership (perhaps created by installer program)
@@ -305,9 +299,9 @@ feature {NONE} -- Constants
 			Result := "EL_"
 		end
 
-	Error_redirection_operator: STRING_32
+	Error_redirection_operator: ZSTRING
 		once
-			Result := " 2> "
+			Result := "2>"
 		end
 
 	Extension_err: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:12:57 GMT (Monday 25th May 2020)"
-	revision: "40"
+	date: "2020-05-28 12:46:35 GMT (Thursday 28th May 2020)"
+	revision: "41"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -36,7 +36,9 @@ inherit
 
 	EL_XML_ESCAPING_CONSTANTS
 
-	EL_MODULE_XML EL_MODULE_LOG EL_MODULE_URL
+	EL_MODULE_LOG
+
+	EL_MODULE_XML
 
 	SHARED_DATABASE
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 15:55:39 GMT (Sunday 12th January 2020)"
-	revision: "10"
+	date: "2020-05-29 12:25:54 GMT (Friday 29th May 2020)"
+	revision: "11"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -133,7 +133,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			restrict_access
-				Environment.Execution.system (Environment.Operating.clear_screen_command)
+				Execution_environment.clear_screen
 
 				-- 1st time
 				close; open_read

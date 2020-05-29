@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 15:17:13 GMT (Sunday 17th May 2020)"
-	revision: "8"
+	date: "2020-05-27 7:51:29 GMT (Wednesday 27th May 2020)"
+	revision: "9"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -27,7 +27,7 @@ inherit
 	EL_MODULE_ITERABLE
 
 create
-	make, make_filled, make_from_array, make_empty,
+	make, make_filled, make_from_list, make_empty, make_from_array,
 	make_from_keys, make_from_table, make_from_values
 
 feature {NONE} -- Initialization

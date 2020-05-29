@@ -1,3 +1,9 @@
+1.2.8
+Refactored URL encoding classes
+
+1.2.7
+Changed OS_COMMAND to use EL_ZSTRING_TEMPLATE and added {OS_COMMAND_I}.new_command_parts
+
 1.2.6
 Removed dependency on UT_URL_ENCODING and created class 
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 17:52:01 GMT (Thursday 21st May 2020)"
-	revision: "1"
+	date: "2020-05-28 9:52:03 GMT (Thursday 28th May 2020)"
+	revision: "2"
 
 class
 	EL_YOUTUBE_STREAM_DOWNLOAD
@@ -72,7 +72,7 @@ feature -- Basic operations
 				lio.put_line ("No valid stream")
 			else
 				lio.put_substitution ("Downloading %S for %S", [stream.type, stream.url])
-				Cmd_download.put_file_path (Var_output_path, file_path)
+				Cmd_download.put_path (Var_output_path, file_path)
 				Cmd_download.put_natural (Var_format, stream.code)
 				Cmd_download.put_string (Var_url, stream.url)
 				Cmd_download.execute

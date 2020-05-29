@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:12:34 GMT (Monday 25th May 2020)"
-	revision: "9"
+	date: "2020-05-26 12:38:37 GMT (Tuesday 26th May 2020)"
+	revision: "10"
 
 class
 	EL_GVFS_MOUNT_TABLE
 
 inherit
-	EL_ZSTRING_HASH_TABLE [EL_DIR_URI_PATH]
+	EL_ZSTRING_HASH_TABLE [EL_URI]
 		rename
 			make as make_with_array
 		end
@@ -48,13 +48,13 @@ feature {NONE} -- Line states
 
 	find_mount (line: ZSTRING)
 		local
-			split_list: EL_SPLIT_ZSTRING_LIST
+			split_list: EL_SPLIT_STRING_8_LIST
 		do
 			line.left_adjust
 			if line.starts_with (Text_mount) then
 				create split_list.make (Colon_field.value (line), Arrow_symbol)
 				if split_list.count = 2 then
-					put (split_list.last_item (True).to_latin_1, split_list.first_item (True))
+					put (split_list.last_item (True), split_list.first_item (True))
 				end
 			end
 		end

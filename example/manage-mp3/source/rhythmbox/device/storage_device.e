@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 18:28:48 GMT (Tuesday 19th May 2020)"
-	revision: "19"
+	date: "2020-05-29 13:53:28 GMT (Friday 29th May 2020)"
+	revision: "20"
 
 class
 	STORAGE_DEVICE
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_SHARED_ENVIRONMENTS
+	EL_SHARED_OPERATING_ENVIRON
 
 	SONG_QUERY_CONDITIONS
 
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			task := a_task
 			set_volume (task.volume.to_gvfs)
 			create sync_table.make_default
-			temporary_dir := Operating.Temp_directory_path.joined_dir_path (generator)
+			temporary_dir := Operating_environ.Temp_directory_path.joined_dir_path (generator)
 			temporary_dir.append_dir_path (task.volume.destination_dir)
 			if temporary_dir.exists then
 				OS.delete_tree (temporary_dir)

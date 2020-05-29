@@ -11,14 +11,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:07:57 GMT (Sunday 24th May 2020)"
-	revision: "21"
+	date: "2020-05-28 8:03:52 GMT (Thursday 28th May 2020)"
+	revision: "22"
 
 class
 	PP_TRANSACTION
 
 inherit
 	EL_URI_QUERY_TABLE
+		rename
+			make_url as make
 		undefine
 			is_equal
 		end

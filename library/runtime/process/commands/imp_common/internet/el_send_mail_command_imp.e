@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
+	revision: "8"
 
 class
 	EL_SEND_MAIL_COMMAND_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			make_default, execute, do_command, new_command_string
+			make_default, execute, do_command, new_command_parts
 		end
 
 create
