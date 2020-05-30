@@ -1,3 +1,6 @@
+2.2.9
+New routine {RBOX_DATABASE}.existing_songs_query
+
 2.2.8
 Changed OS_COMMAND to use EL_ZSTRING_TEMPLATE
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:54:04 GMT (Wednesday 27th May 2020)"
-	revision: "7"
+	date: "2020-05-30 11:35:22 GMT (Saturday 30th May 2020)"
+	revision: "8"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 
 	assert_expected_count (condition: EL_QUERY_CONDITION [RBOX_SONG])
 		do
-			assert ("expected mp3 count", mp3_file_count = database.songs.query (not song_is_hidden and condition).count)
+			assert ("expected mp3 count", mp3_file_count = database.existing_songs_query (condition).count)
 		end
 
 	do_task
@@ -49,27 +49,27 @@ feature {NONE} -- Implementation
 			assert_expected_count (condition)
 
 			task := new_task (Export_all_code)
-			do_export (task, songs_all)
+			do_export (task, any_song)
 
 			log.put_line ("Hiding Classical songs")
-			across database.songs.query (not song_is_hidden and song_is_genre ("Classical")) as song loop
+			across database.existing_songs_query (song_is_genre ("Classical")) as song loop
 				song.item.hide
 			end
 			log.put_line ("Changing titles on Rock Songs")
-			across database.songs.query (not song_is_hidden and song_is_genre ("Rock")) as song loop
+			across database.existing_songs_query (song_is_genre ("Rock")) as song loop
 				title := song.item.title
 				title.prepend_character ('X')
 				song.item.set_title (title)
 				song.item.update_checksum
 			end
 			task.apply
-			assert_expected_count (songs_all)
+			assert_expected_count (any_song)
 		end
 
 	do_export (a_task: RBOX_MANAGEMENT_TASK; condition: EL_QUERY_CONDITION [RBOX_SONG])
 		do
 			a_task.apply
-			assert_expected_count (not song_is_hidden and condition)
+			assert_expected_count (condition)
 
 			a_task.apply
 		end

@@ -1,15 +1,12 @@
 note
-	description: "Uniform Resource Identifier for a file as defined by [https://tools.ietf.org/html/rfc3986 RFC 3986]"
+	description: "Unescaped URI to a file"
 	notes: "[
-	  The following are two example URIs and their component parts:
+	  Example URIs and their component parts:
 
-	         foo://example.com:8042/over/there?name=ferret#nose
-	         \_/   \______________/\_________/ \_________/ \__/
-	          |           |            |            |        |
-	       scheme     authority       path        query   fragment
-	          |   _____________________|__
-	         / \ /                        \
-	         urn:example:animal:ferret:nose
+			  foo://example.com:8042/over/there
+			  \_/   \______________/\_________/
+			   |           |            |
+			scheme     authority       path
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 14:18:29 GMT (Friday 29th May 2020)"
-	revision: "16"
+	date: "2020-05-30 10:11:30 GMT (Saturday 30th May 2020)"
+	revision: "17"
 
 class
 	EL_FILE_URI_PATH

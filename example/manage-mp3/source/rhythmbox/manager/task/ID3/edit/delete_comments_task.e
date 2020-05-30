@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:25:32 GMT (Sunday 19th April 2020)"
-	revision: "4"
+	date: "2020-05-30 11:42:26 GMT (Saturday 30th May 2020)"
+	revision: "5"
 
 class
 	DELETE_COMMENTS_TASK
@@ -25,7 +25,7 @@ feature -- Basic operations
 	apply
 		-- Delete comments except 'c0'
 		do
-			Database.for_all_songs_id3_info (not song_is_hidden, agent delete_id3_comments)
+			Database.for_all_songs_id3_info (any_song, agent delete_id3_comments)
 			Database.store_all
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:11:29 GMT (Sunday 19th April 2020)"
-	revision: "7"
+	date: "2020-05-30 11:40:17 GMT (Saturday 30th May 2020)"
+	revision: "8"
 
 class
 	UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK
@@ -26,7 +26,7 @@ feature -- Basic operations
 
 	apply
 		do
-			Database.for_all_songs (not song_is_hidden, agent update_song_comment_with_album_artists)
+			Database.for_all_songs (any_song, agent update_song_comment_with_album_artists)
 			Database.store_all
 		end
 

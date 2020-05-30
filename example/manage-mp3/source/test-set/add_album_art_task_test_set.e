@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:06:07 GMT (Tuesday 19th May 2020)"
-	revision: "2"
+	date: "2020-05-30 10:47:01 GMT (Saturday 30th May 2020)"
+	revision: "3"
 
 class
 	ADD_ALBUM_ART_TASK_TEST_SET
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 			log.exit
 			assert ("task.change_count = 0", task.change_count = 0)
 			assert ("All song audio id match the file audio id",
-				across database.songs.query (not song_is_hidden) as song all
+				across database.existing_songs as song all
 					mp3 (song.item.mp3_path).audio_id.to_delimited (':').is_equal (song.item.audio_id)
 				end
 			)

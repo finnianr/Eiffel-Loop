@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:15:11 GMT (Sunday 19th April 2020)"
-	revision: "7"
+	date: "2020-05-30 11:39:05 GMT (Saturday 30th May 2020)"
+	revision: "8"
 
 class
 	DISPLAY_INCOMPLETE_ID3_INFO_TASK
@@ -23,7 +23,7 @@ feature -- Basic operations
 	apply
 			-- Display songs with incomplete TXXX ID3 tags
 		do
-			Database.for_all_songs (not song_is_hidden, agent display_incomplete_id3_info)
+			Database.for_all_songs (any_song, agent display_incomplete_id3_info)
 		end
 
 feature {NONE} -- Implementation

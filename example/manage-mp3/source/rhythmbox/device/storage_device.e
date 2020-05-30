@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 13:53:28 GMT (Friday 29th May 2020)"
-	revision: "20"
+	date: "2020-05-30 11:44:11 GMT (Saturday 30th May 2020)"
+	revision: "21"
 
 class
 	STORAGE_DEVICE
@@ -78,13 +78,13 @@ feature -- Basic operations
 
 	export_songs_and_playlists (a_condition: EL_QUERY_CONDITION [RBOX_SONG])
 		local
-			songs_to_export: like songs.query; old_sync_table: like sync_table
+			songs_to_export: like Database.songs.query; old_sync_table: like sync_table
 			items_to_export: EL_QUERYABLE_ARRAYED_LIST [MEDIA_ITEM]
 			items_to_copy, items_to_update: EL_ARRAYED_LIST [MEDIA_ITEM]
 		do
 			File_system.make_directory (temporary_dir)
 			read_sync_table
-			songs_to_export := songs.query (not song_is_hidden and a_condition)
+			songs_to_export := Database.existing_songs_query (a_condition)
 
 			create items_to_export.make (songs_to_export.count + playlists.count)
 			items_to_export.append (songs_to_export)
@@ -305,11 +305,6 @@ feature {NONE} -- Implementation
 				has_sync_table_changed := True
 			end
 	 	end
-
-	songs: like Database.songs
-		do
-			Result := Database.songs
-		end
 
 	songs_by_audio_id: like Database.songs_by_audio_id
 		do

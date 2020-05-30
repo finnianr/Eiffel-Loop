@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:01:25 GMT (Monday 25th May 2020)"
-	revision: "33"
+	date: "2020-05-30 11:48:59 GMT (Saturday 30th May 2020)"
+	revision: "34"
 
 class
 	RBOX_DATABASE
@@ -198,7 +198,7 @@ feature -- Access
 			end
 		end
 
-feature -- Access attributes
+feature -- Access
 
 	dj_playlist_dir: EL_DIR_PATH
 		do
@@ -207,8 +207,6 @@ feature -- Access attributes
 
 	dj_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 		-- Playlists with DJ event information stored in $HOME/Music/Playlists using Pyxis format
-
-	entries: EL_ARRAYED_LIST [RBOX_IRADIO_ENTRY]
 
 	music_dir: EL_DIR_PATH
 
@@ -220,13 +218,27 @@ feature -- Access attributes
 
 	silence_intervals: ARRAY [RBOX_SONG]
 
-	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
-
 	songs_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
 
 	songs_by_location: HASH_TABLE [RBOX_SONG, EL_URI]
 
 	version: REAL
+
+feature -- Entry lists
+
+	entries: EL_ARRAYED_LIST [RBOX_IRADIO_ENTRY]
+
+	existing_songs: like songs.query
+		do
+			Result := songs.query (not song_is_hidden)
+		end
+
+	existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
+		do
+			Result := songs.query (not song_is_hidden and condition)
+		end
+
+	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 
 feature -- Factory
 
@@ -345,15 +357,15 @@ feature -- Element change
 	replace_cortinas (a_cortina_set: CORTINA_SET)
 		local
 			directory_set: EL_HASH_SET [EL_DIR_PATH]
-			condition: EL_AND_QUERY_CONDITION [RBOX_SONG]
+			query_result: like songs.query
 		do
 			create directory_set.make_equal (2)
-			condition := not song_is_hidden and song_is_genre (Extra_genre.cortina)
 
-			across songs.query (condition) as song loop
+			query_result := existing_songs_query (song_is_genre (Extra_genre.cortina))
+			across query_result as song loop
 				directory_set.put (song.item.mp3_path.parent)
 			end
-			delete_if (condition)
+			delete_all (query_result)
 
 			across directory_set as cortina_dir loop
 				File_system.delete_if_empty (cortina_dir.item)
@@ -422,11 +434,11 @@ feature -- Basic operations
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
 		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, TL_MPEG_FILE]
 	)
-			--
+		-- apply `do_with_song_id3' to all existing songs meeting `condition'
 		local
 			song: RBOX_SONG; mp3: TL_MPEG_FILE
 		do
-			across songs.query (condition) as query loop
+			across existing_songs_query (condition) as query loop
 				song := query.item; mp3 := song.mp3_info
 				do_with_song_id3 (song, song.mp3_relative_path, mp3)
 				mp3.dispose
@@ -436,11 +448,11 @@ feature -- Basic operations
 	for_all_songs_id3_info (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]; do_id3_edit: PROCEDURE [TL_MPEG_FILE, EL_FILE_PATH]
 	)
-			--
+			-- apply `do_id3_edit' to all existing songs meeting `condition'
 		local
 			song: RBOX_SONG; mp3: TL_MPEG_FILE
 		do
-			across songs.query (condition) as query loop
+			across existing_songs_query (condition) as query loop
 				song := query.item; mp3 := song.mp3_info
 				do_id3_edit (mp3, song.mp3_relative_path)
 				mp3.dispose
@@ -489,11 +501,6 @@ feature -- Removal
 	delete (song: RBOX_SONG)
 		do
 			delete_all (<< song >>)
-		end
-
-	delete_if (condition: EL_QUERY_CONDITION [RBOX_SONG])
-		do
-			delete_all (songs.query (condition))
 		end
 
 	delete_all (a_list: ITERABLE [RBOX_SONG])

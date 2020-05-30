@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 16:04:11 GMT (Monday 25th May 2020)"
-	revision: "8"
+	date: "2020-05-30 10:53:51 GMT (Saturday 30th May 2020)"
+	revision: "9"
 
 class
 	COLLATE_SONGS_TASK
@@ -26,13 +26,13 @@ feature -- Basic operations
 		-- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
 		-- Playlist locations will be updated to match new locations.
 		local
-			new_mp3_path: EL_FILE_PATH; song: RBOX_SONG
+			new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
 		do
-			Database.songs.do_query (not one_of (<< song_is_hidden, song_is_cortina, song_has_normalized_mp3_path >>))
-			if Database.songs.last_query_items.is_empty then
+			query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
+			if query_result.is_empty then
 				lio.put_line ("All songs are normalized")
 			else
-				across Database.songs.last_query_items as query loop
+				across query_result as query loop
 					song := query.item
 					new_mp3_path := song.unique_normalized_mp3_path
 					lio.put_labeled_string ("Old path", song.mp3_relative_path)

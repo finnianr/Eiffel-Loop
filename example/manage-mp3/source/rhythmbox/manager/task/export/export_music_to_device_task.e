@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:32:18 GMT (Tuesday 19th May 2020)"
-	revision: "5"
+	date: "2020-05-30 11:35:23 GMT (Saturday 30th May 2020)"
+	revision: "6"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK
@@ -34,7 +34,7 @@ feature -- Basic operations
 	apply
 		do
 			if selected_genres.is_empty then
-				device.export_songs_and_playlists (songs_all)
+				device.export_songs_and_playlists (any_song)
 			else
 				across selected_genres as genre loop
 					if Database.is_valid_genre (genre.item) then

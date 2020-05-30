@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:56:36 GMT (Wednesday 27th May 2020)"
-	revision: "5"
+	date: "2020-05-30 11:29:55 GMT (Saturday 30th May 2020)"
+	revision: "6"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			assert_expected_count (song_in_some_playlist (database))
 			assert ("m3u file for each playlist", m3u_file_count = database.playlists.count)
 
-			song_count := database.songs.query (not song_is_hidden and song_in_some_playlist (database)).count
+			song_count := database.existing_songs_query (song_in_some_playlist (database)).count
 
 			log.put_line ("Removing first playlist")
 			-- Expected behaviour is that it shouldn't delete anything

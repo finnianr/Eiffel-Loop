@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:15:03 GMT (Sunday 19th April 2020)"
-	revision: "5"
+	date: "2020-05-30 11:42:26 GMT (Saturday 30th May 2020)"
+	revision: "6"
 
 class
 	NORMALIZE_COMMENTS_TASK
@@ -28,7 +28,7 @@ feature -- Basic operations
 
 	apply
 		do
-			Database.for_all_songs_id3_info (not song_is_hidden, agent normalize_comment)
+			Database.for_all_songs_id3_info (any_song, agent normalize_comment)
 			Database.store_all
 		end
 

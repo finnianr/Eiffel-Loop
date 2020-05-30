@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 12:49:26 GMT (Thursday 28th May 2020)"
-	revision: "13"
+	date: "2020-05-30 10:42:58 GMT (Saturday 30th May 2020)"
+	revision: "14"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -192,7 +192,7 @@ feature {EQA_TEST_SET} -- Implementation
 			picture: TL_ID3_PICTURE
 		do
 			change_count := 0
-			across Database.songs.query (not song_is_hidden) as song loop
+			across Database.existing_songs as song loop
 				picture := song_picture (song.item)
 				if not picture.is_default and then picture.checksum /= song.item.album_picture_checksum then
 					add_picture (song.item, picture)

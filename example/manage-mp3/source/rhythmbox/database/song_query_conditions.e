@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 15:21:59 GMT (Thursday 21st May 2020)"
-	revision: "16"
+	date: "2020-05-30 11:35:03 GMT (Saturday 30th May 2020)"
+	revision: "17"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -22,7 +22,7 @@ class
 inherit
 	EL_QUERY_CONDITION_FACTORY [RBOX_SONG]
 		rename
-			any as songs_all
+			any as any_song
 		export
 			{NONE} all
 		end

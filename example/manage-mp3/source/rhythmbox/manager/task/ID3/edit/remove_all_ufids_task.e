@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:14:31 GMT (Sunday 19th April 2020)"
-	revision: "8"
+	date: "2020-05-30 11:39:24 GMT (Saturday 30th May 2020)"
+	revision: "9"
 
 class
 	REMOVE_ALL_UFIDS_TASK
@@ -25,7 +25,7 @@ feature -- Basic operations
 	apply
 			--
 		do
-			Database.for_all_songs (not song_is_hidden, agent remove_ufid)
+			Database.for_all_songs (any_song, agent remove_ufid)
 			Database.store_all
 		end
 

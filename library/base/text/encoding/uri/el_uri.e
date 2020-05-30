@@ -3,13 +3,13 @@ note
 	notes: "[
 	  The following are two example URIs and their component parts:
 
-	         foo://example.com:8042/over/there?name=ferret#nose
-	         \_/   \______________/\_________/ \_________/ \__/
-	          |           |            |            |        |
-	       scheme     authority       path        query   fragment
-	          |   _____________________|__
-	         / \ /                        \
-	         urn:example:animal:ferret:nose
+			  foo://example.com:8042/over/there?name=ferret#nose
+			  \_/   \______________/\_________/ \_________/ \__/
+			   |           |            |            |        |
+			scheme     authority       path        query   fragment
+			   |   _____________________|__
+			  / \ /                        \
+			  urn:example:animal:ferret:nose
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 14:09:22 GMT (Friday 29th May 2020)"
-	revision: "18"
+	date: "2020-05-29 17:38:11 GMT (Friday 29th May 2020)"
+	revision: "19"
 
 class
 	EL_URI

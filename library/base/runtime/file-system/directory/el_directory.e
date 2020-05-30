@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 13:35:58 GMT (Friday 29th May 2020)"
-	revision: "16"
+	date: "2020-05-30 11:23:02 GMT (Saturday 30th May 2020)"
+	revision: "17"
 
 class
 	EL_DIRECTORY
@@ -20,7 +20,7 @@ inherit
 			internal_name as internal_path,
 			make as make_from_string,
 			make_open_read as make_open_read_general,
-			set_name as set_path_name,
+			set_name as set_internal_path,
 			path as ise_path,
 
 			-- obsolete routines
@@ -31,11 +31,11 @@ inherit
 			readentry as obs_readentry
 		export
 			{NONE}	obs_readentry, obs_lastentry, obs_recursive_delete_with_action,
-						obs_delete_content_with_action, set_path_name
+						obs_delete_content_with_action
 
 			{EL_DIRECTORY_ITERATION_CURSOR, DIRECTORY} file_info, last_entry_pointer
 		redefine
-			delete_content, internal_path, set_path_name
+			delete_content, internal_path, set_internal_path
 		end
 
 	ITERABLE [STRING_32]
@@ -173,7 +173,7 @@ feature -- Element change
 	set_path (a_path: EL_PATH)
 		do
 			internal_path.wipe_out; a_path.append_to_32 (internal_path)
-			set_path_name (internal_path)
+			set_internal_path (internal_path)
 		ensure
 			name_set: internal_path ~ a_path.as_string_32
 		end
@@ -181,10 +181,8 @@ feature -- Element change
 	set_path_name (a_name: READABLE_STRING_GENERAL)
 			-- Set `name' with `a_name'.
 		do
-			if internal_path /= a_name then
-				internal_path.wipe_out; internal_path.append_string_general (a_name)
-			end
-			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
+			internal_path.wipe_out; internal_path.append_string_general (a_name)
+			set_internal_path (internal_path)
 		end
 
 feature -- Status query
@@ -404,6 +402,13 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 				read_recursive_entries (list, type, extension)
 			end
 			set_path (l_path)
+		end
+
+	set_internal_path (a_name: STRING_32)
+			-- Set `name' with `a_name'.
+		do
+			internal_path := a_name
+			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
 		end
 
 feature {EL_DIRECTORY_ITERATION_CURSOR} -- Internal attributes

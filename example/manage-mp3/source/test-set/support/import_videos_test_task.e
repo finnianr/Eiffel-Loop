@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:41:59 GMT (Tuesday 19th May 2020)"
-	revision: "9"
+	date: "2020-05-30 11:30:40 GMT (Saturday 30th May 2020)"
+	revision: "10"
 
 class
 	IMPORT_VIDEOS_TEST_TASK
@@ -51,7 +51,7 @@ feature {EQA_TEST_SET} -- Constants
 	Video_songs: EL_ZSTRING_HASH_TABLE [RBOX_SONG]
 		once
 			create Result.make_equal (2)
-			across Database.songs.query (not song_is_hidden) as song loop
+			across Database.existing_songs as song loop
 				if Video_song_titles.has (song.item.title) then
 					Result.put (song.item, song.item.title)
 				end
