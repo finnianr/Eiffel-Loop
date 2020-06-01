@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:49:51 GMT (Tuesday 31st March 2020)"
-	revision: "9"
+	date: "2020-05-30 12:26:48 GMT (Saturday 30th May 2020)"
+	revision: "10"
 
 class
 	TL_ID3_PICTURE
@@ -143,15 +143,24 @@ feature -- Element change
 		require
 			valid_type: a_mime_type.starts_with (Image_prefix)
 		do
-			Mime_types.start
-			Mime_types.search (a_mime_type.substring (Image_prefix.count + 1, a_mime_type.count))
+			Mime_types.start; Mime_types.search (image_type (a_mime_type))
 			if Mime_types.found then
 				mime_type_index := Mime_types.index
 			else
 				mime_type_index := Mime_types.count
 			end
 		ensure
-			set: a_mime_type ~ mime_type
+			set: mime_type_index /= Mime_types.count implies mime_type ~ Image_prefix + image_type (a_mime_type)
+		end
+
+feature {NONE} -- Implementation
+
+	image_type (a_mime_type: STRING): STRING
+		do
+			Result := a_mime_type.substring (a_mime_type.index_of ('/', 1) + 1, a_mime_type.count)
+			if Result ~ once "jpg" then
+				Result.insert_character ('e', 3)
+			end
 		end
 
 feature {NONE} -- Internal attributes

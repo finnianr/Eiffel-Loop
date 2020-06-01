@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
-	revision: "49"
+	date: "2020-06-01 12:15:25 GMT (Monday 1st June 2020)"
+	revision: "50"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -80,8 +80,6 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_SHARED_UTF_8_ZCODEC
 
 	EL_MODULE_CHAR_32
 
@@ -679,14 +677,17 @@ feature -- Append to output
 
 	append_to_string_32 (output: STRING_32)
 		local
-			old_count: INTEGER
+			old_count: INTEGER; area_out: SPECIAL [CHARACTER_32]
 		do
 			old_count := output.count
 			output.grow (old_count + count)
+			area_out := output.area
+
+			codec.decode (count, area, area_out, old_count)
+			write_unencoded (area_out, old_count)
+
+			area_out [old_count + count] := '%U'
 			output.set_count (old_count + count)
-			output.area [old_count + count] := '%U'
-			codec.decode (count, area, output.area, old_count)
-			write_unencoded (output, old_count)
 		end
 
 	append_to_string_8 (output: STRING_8)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-06-01 13:50:26 GMT (Monday 1st June 2020)"
+	revision: "4"
 
 deferred class
 	MIXED_ENCODING_STRING_BENCHMARK
@@ -26,6 +26,7 @@ feature -- Basic operations
 			do_performance_test ("append_string_general", "A,B,C,D", agent test_append_string_general)
 
 			do_performance_test ("as_lower", "$A $B $C $D", agent test_as_lower)
+			do_performance_test ("as_string_8", "$A $B $C $D", agent test_as_string_8)
 			do_performance_test ("as_string_32", "$A $B $C $D", agent test_as_string_32)
 			do_performance_test ("as_upper", "$A $B $C $D", agent test_as_upper)
 
@@ -58,6 +59,8 @@ feature -- Basic operations
 			do_performance_test ("starts_with", "$B $C", agent test_starts_with)
 			do_performance_test ("substring_index", "$A $B $C", agent test_substring_index)
 			do_performance_test ("substring_index", "$B $C $A", agent test_substring_index)
+
+			do_performance_test ("to_utf_8", "$A $B $C $D", agent test_to_utf_8)
 			do_performance_test ("translate", "$B $C", agent test_translate)
 
 			set_escape_character (Pinyin_u)

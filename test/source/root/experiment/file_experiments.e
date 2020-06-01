@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-11 15:23:58 GMT (Wednesday 11th March 2020)"
-	revision: "7"
+	date: "2020-05-30 13:06:53 GMT (Saturday 30th May 2020)"
+	revision: "8"
 
 class
 	FILE_EXPERIMENTS
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_OS
 
 	EL_MODULE_DIRECTORY
+
+	TL_SHARED_PICTURE_TYPE_ENUM
 
 feature -- Basic operations
 
@@ -108,6 +110,23 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 			end
+		end
+
+	set_picture
+		local
+			mp3: TL_MPEG_FILE; path, jpeg_path: EL_FILE_PATH
+			picture: TL_ID3_PICTURE
+		do
+			path := "$HOME/Music/Timer/Qi Kung/The Expanse Theme (90 secs).01.mp3"
+			path.expand
+			jpeg_path := "$HOME/Pictures/Album Art/Movie screen capture/The Expanse.jpeg"
+			jpeg_path.expand
+
+			create mp3.make (path)
+			create picture.make (jpeg_path, "Expanse opening credits", Picture_type.movie_screen_capture)
+			mp3.tag.set_picture (picture)
+			mp3.save
+			mp3.dispose
 		end
 
 	self_deletion_from_batch

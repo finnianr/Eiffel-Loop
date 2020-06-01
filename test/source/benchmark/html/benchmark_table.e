@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 14:08:43 GMT (Saturday 16th May 2020)"
-	revision: "8"
+	date: "2020-06-01 13:33:46 GMT (Monday 1st June 2020)"
+	revision: "9"
 
 deferred class
 	BENCHMARK_TABLE
@@ -61,8 +61,21 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	set_data_rows
+	append_to_row (row: like Html_row; index: INTEGER)
 		deferred
+		end
+
+	sorted_indices: EL_ARRAYED_LIST [INTEGER]
+		deferred
+		end
+
+	set_data_rows
+		do
+			across sorted_indices as index loop
+				Html_row.wipe_out
+				append_to_row (Html_row, index.item)
+				data_rows.extend (Html_row.twin)
+			end
 		end
 
 	column_title: STRING
@@ -111,7 +124,7 @@ feature {NONE} -- Constants
 	Template: STRING =
 	"[
 		<h3>$title</h3>
-		<caption>Table $table_id</caption>
+		<caption>Table $table_id (In ascending order of ZSTRING percentage)</caption>
 		<table>
 			<tr>
 				<th width="40%">$column_title</th>

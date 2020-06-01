@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:47:21 GMT (Thursday 7th May 2020)"
-	revision: "6"
+	date: "2020-06-01 13:27:51 GMT (Monday 1st June 2020)"
+	revision: "7"
 
 class
 	EL_UTF_8_ZCODEC
@@ -46,18 +46,19 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	append_general_to_utf_8 (general_in: READABLE_STRING_GENERAL; utf_8_out: STRING)
+	append_general_to_utf_8 (unicode_in: READABLE_STRING_GENERAL; utf_8_out: STRING)
 		local
-			str_32: STRING_32
+			str_32: STRING_32; l_unicode_in: READABLE_STRING_GENERAL
 		do
-			str_32 := Unicode_buffer; str_32.wipe_out
-			if attached {EL_READABLE_ZSTRING} general_in as zstring_in then
+			if attached {EL_READABLE_ZSTRING} unicode_in as zstring_in then
+				str_32 := Unicode_buffer; str_32.wipe_out
 				zstring_in.append_to_string_32 (str_32)
+				l_unicode_in := str_32
 			else
-				str_32.append_string_general (general_in)
+				l_unicode_in := unicode_in
 			end
-			utf_8_out.grow (utf_8_out.count + utf_8_bytes_count (str_32, 1, str_32.count))
-			string_32_into_utf_8_string_8 (str_32, utf_8_out)
+			utf_8_out.grow (utf_8_out.count + utf_8_bytes_count (l_unicode_in, 1, l_unicode_in.count))
+			write_string_general_to_utf_8 (l_unicode_in, utf_8_out)
 		end
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
@@ -164,4 +165,5 @@ feature -- Constants
 		once
 			create Result.make (100)
 		end
+
 end

@@ -8,13 +8,15 @@ note
 
 		Song fields are mapped to picture types according to mapping specified in `Picture_to_field_map'
 		
-			create Result.make_from_array (<<
-				[agent {RBOX_SONG}.lead_artist, Lead_artist_picture_types],
-				[agent {RBOX_SONG}.album, Album_picture_types],
-				[agent {RBOX_SONG}.composer, << p.composer >>],
-				[agent {RBOX_SONG}.title_and_album, << p.movie_screen_capture, p.illustration, p.other >>]
-			>>)
-
+			Picture_to_field_map: EL_ARRAYED_MAP_LIST [FUNCTION [RBOX_SONG, ZSTRING], ARRAY [NATURAL_8]]
+				once
+					create Result.make_from_array (<<
+						[agent {RBOX_SONG}.lead_artist, Lead_artist_picture_types],
+						[agent {RBOX_SONG}.album, Album_picture_types],
+						[agent {RBOX_SONG}.composer, << p.composer >>],
+						[agent {RBOX_SONG}.title_and_album, << p.movie_screen_capture, p.illustration, p.other >>]
+					>>)
+				end
 	]"
 
 	author: "Finnian Reilly"
@@ -22,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 10:42:58 GMT (Saturday 30th May 2020)"
-	revision: "14"
+	date: "2020-05-31 10:31:57 GMT (Sunday 31st May 2020)"
+	revision: "15"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -43,6 +45,8 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	RHYTHMBOX_CONSTANTS
+
+	EL_ITERATION_OUTPUT
 
 create
 	make
@@ -104,10 +108,10 @@ feature {EQA_TEST_SET} -- Implementation
 		do
 			mpeg := song.mp3_info; mpeg_picture := mpeg.tag.picture
 			if mpeg_picture.is_default or else mpeg_picture.same_type_and_description (a_picture) then
+				lio.put_new_line
 				lio.put_string_field ("Setting " + a_picture.type_name, a_picture.description)
 				lio.put_new_line
 				lio.put_path_field ("Song", song.mp3_relative_path)
-				lio.put_new_line
 				lio.put_new_line
 
 				mpeg.tag.set_picture (a_picture)
@@ -191,8 +195,9 @@ feature {EQA_TEST_SET} -- Implementation
 		local
 			picture: TL_ID3_PICTURE
 		do
-			change_count := 0
+			change_count := 0; reset
 			across Database.existing_songs as song loop
+				print_progress (song.cursor_index.to_natural_32)
 				picture := song_picture (song.item)
 				if not picture.is_default and then picture.checksum /= song.item.album_picture_checksum then
 					add_picture (song.item, picture)
@@ -201,6 +206,7 @@ feature {EQA_TEST_SET} -- Implementation
 			if change_count = 0 then
 				lio.put_line ("No pictures changed")
 			end
+			lio.put_new_line
 		end
 
 feature {EQA_TEST_SET} -- Internal attributes
@@ -248,6 +254,8 @@ feature {NONE} -- Constants
 				p.lead_artist, p.lyricist, p.other, p.movie_screen_capture
 			>>
 		end
+
+	Iterations_per_dot: NATURAL_32 = 50
 
 	Picture_to_field_map: EL_ARRAYED_MAP_LIST [FUNCTION [RBOX_SONG, ZSTRING], ARRAY [NATURAL_8]]
 		once

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 14:29:00 GMT (Friday 29th May 2020)"
-	revision: "9"
+	date: "2020-05-31 14:57:00 GMT (Sunday 31st May 2020)"
+	revision: "10"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -110,7 +110,7 @@ feature -- Element change
 		do
 			utf_8 := Utf_8_sequence; reserved_set := reserved_character_set
 			s_count := end_index - start_index + 1
-			utf_count := utf_8.byte_count (s, start_index, end_index)
+			utf_count := utf_8.substring_byte_count (s, start_index, end_index)
 			grow (count + utf_count + (utf_count - s_count) // 2)
 			from i := start_index until i > end_index loop
 				uc := s [i]

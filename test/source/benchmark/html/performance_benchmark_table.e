@@ -6,75 +6,52 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-06-01 11:19:41 GMT (Monday 1st June 2020)"
+	revision: "5"
 
 class
 	PERFORMANCE_BENCHMARK_TABLE
 
 inherit
 	BENCHMARK_TABLE
-		redefine
-			make_default
-		end
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			Precursor
-			create sorted_data_rows.make (23)
-		end
-
 feature {NONE} -- Implementation
 
-	set_data_rows
+	append_to_row (row: like Html_row; index: INTEGER)
 		local
-			string_32_test: like Type_benchmark.performance_tests.item
-			l_sorted_data_rows: ARRAY [like sorted_data_rows.item]
-			sorter: DS_ARRAY_QUICK_SORTER [like sorted_data_rows.item]
+			string_32_test, zstring_test: like Type_benchmark.performance_tests.item
 			zstring_time, string_32_time: DOUBLE
 		do
-			benchmark.zstring.do_performance_tests
-			benchmark.string_32.do_performance_tests
+			string_32_test := benchmark.string_32.performance_tests [index]
+			zstring_test := benchmark.zstring.performance_tests [index]
 
-			across benchmark.zstring.performance_tests as zstring_test loop
-				string_32_test := benchmark.string_32.performance_tests [zstring_test.cursor_index]
-				Html_row.wipe_out
-				Html_row.append (Html.table_data (zstring_test.item.routines))
-				Html_row.append (Html.table_data (XML.escaped (zstring_test.item.input_format)))
+			row.append (Html.table_data (zstring_test.routines))
+			row.append (Html.table_data (XML.escaped (zstring_test.input_format)))
 
-				zstring_time := zstring_test.item.average_time; string_32_time := string_32_test.average_time
+			zstring_time := zstring_test.average_time; string_32_time := string_32_test.average_time
 
-				Html_row.append (Html.table_data (comparative_millisecs_string (zstring_time, string_32_time)))
-				Html_row.append (Html.table_data (comparative_millisecs_string (string_32_time, string_32_time)))
-
-				sorted_data_rows.extend ([relative_percentage (zstring_time, string_32_time), Html_row.twin])
-			end
-
-			l_sorted_data_rows := sorted_data_rows.to_array
-			create sorter.make (performance_comparator)
-			sorter.sort (l_sorted_data_rows)
-
-			across l_sorted_data_rows as row loop
-				data_rows.extend (row.item.html)
-			end
+			row.append (Html.table_data (comparative_millisecs_string (zstring_time, string_32_time)))
+			row.append (Html.table_data (comparative_millisecs_string (string_32_time, string_32_time)))
 		end
 
-	is_less_than (a, b: like sorted_data_rows.item): BOOLEAN
+	relative_percentage_for_index (index: INTEGER): INTEGER
+		local
+			a, b: DOUBLE
 		do
-			Result := a.percent < b.percent
+			a := benchmark.zstring.performance_tests.i_th (index).average_time
+			b := benchmark.string_32.performance_tests.i_th (index).average_time
+			Result := relative_percentage (a, b)
 		end
 
-	performance_comparator: KL_AGENT_COMPARATOR [like sorted_data_rows.item]
+	sorted_indices: EL_ARRAYED_LIST [INTEGER]
 		do
-			create Result.make (agent is_less_than)
+			create Result.make (benchmark.zstring.performance_tests.count)
+			Result.append (1 |..| benchmark.zstring.performance_tests.count)
+			Result.order_by (agent relative_percentage_for_index, True)
 		end
-
-	sorted_data_rows: ARRAYED_LIST [TUPLE [percent: INTEGER; html: ZSTRING]]
 
 feature {NONE} -- Constants
 

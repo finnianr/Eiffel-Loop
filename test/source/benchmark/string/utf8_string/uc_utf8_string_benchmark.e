@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-15 11:02:41 GMT (Friday 15th May 2020)"
-	revision: "6"
+	date: "2020-06-01 12:44:07 GMT (Monday 1st June 2020)"
+	revision: "7"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -105,6 +105,11 @@ feature {NONE} -- Implementation
 		do
 			l_string := string
 			Result := l_string.to_string_32
+		end
+
+	to_utf_8 (string: like new_string): STRING
+		do
+			Result := string
 		end
 
 	translate (target, old_characters, new_characters: like new_string)

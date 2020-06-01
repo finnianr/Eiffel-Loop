@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 10:34:47 GMT (Wednesday 18th March 2020)"
-	revision: "56"
+	date: "2020-05-30 12:59:59 GMT (Saturday 30th May 2020)"
+	revision: "57"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.fuzzy_match")
-			string.fuzzy_match
+			log.enter ("file.set_picture")
+			file.set_picture
 			log.exit
 		end
 

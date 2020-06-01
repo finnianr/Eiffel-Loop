@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-23 15:07:38 GMT (Saturday 23rd May 2020)"
-	revision: "5"
+	date: "2020-05-31 14:58:31 GMT (Sunday 31st May 2020)"
+	revision: "6"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -106,7 +106,7 @@ feature -- Element change
 
 feature -- Measurement
 
-	byte_count (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER
+	substring_byte_count (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER
 		require
 			start_index_valid: start_index >= 1
 			end_index_valid: end_index <= str.count
@@ -115,24 +115,28 @@ feature -- Measurement
 			i: INTEGER; code: NATURAL
 		do
 			from i := start_index until i > end_index loop
-				code := str.item (i).natural_32_code
-				if code <= 0x7F then
-						-- 0xxxxxxx
-					Result := Result + 1
-
-				elseif code <= 0x7FF then
-						-- 110xxxxx 10xxxxxx
-					Result := Result + 2
-
-				elseif code <= 0xFFFF then
-						-- 1110xxxx 10xxxxxx 10xxxxxx
-					Result := Result + 3
-				else
-						-- code <= 1FFFFF - there are no higher code points
-						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-					Result := Result + 4
-				end
+				Result := Result + byte_count (str.item (i).natural_32_code)
 				i := i + 1
+			end
+		end
+
+	byte_count (code: NATURAL): INTEGER
+		do
+			if code <= 0x7F then
+					-- 0xxxxxxx
+				Result := 1
+
+			elseif code <= 0x7FF then
+					-- 110xxxxx 10xxxxxx
+				Result := 2
+
+			elseif code <= 0xFFFF then
+					-- 1110xxxx 10xxxxxx 10xxxxxx
+				Result := 3
+			else
+					-- code <= 1FFFFF - there are no higher code points
+					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+				Result := 4
 			end
 		end
 
@@ -210,7 +214,7 @@ feature -- Conversion
 				buffer_area [i] := l_area.item (i).to_character_8
 				i := i + 1
 			end
-			Result.set_count (l_count * 3)
+			Result.set_count (l_count)
 		end
 
 feature -- Basic operations

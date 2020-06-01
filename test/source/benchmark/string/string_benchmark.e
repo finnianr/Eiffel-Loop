@@ -6,13 +6,15 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 13:47:20 GMT (Saturday 16th May 2020)"
-	revision: "9"
+	date: "2020-06-01 13:50:01 GMT (Monday 1st June 2020)"
+	revision: "10"
 
 deferred class
 	STRING_BENCHMARK
 
 inherit
+	EL_COMMAND
+
 	SHARED_HEXAGRAM_STRINGS
 
 	EL_MODULE_STRING_32
@@ -42,13 +44,26 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	performance_tests: ARRAYED_LIST [TUPLE [routines: STRING_32; input_format: STRING; average_time: DOUBLE]]
-
-	memory_tests: ARRAYED_LIST [TUPLE [description: STRING; input_format: STRING; storage_size: INTEGER]]
+	memory_tests: EL_ARRAYED_LIST [TUPLE [description: STRING; input_format: STRING; storage_size: INTEGER]]
 
 	number_of_runs: INTEGER
 
+	performance_tests: EL_ARRAYED_LIST [TUPLE [routines: STRING_32; input_format: STRING; average_time: DOUBLE]]
+
 feature -- Basic operations
+
+	execute
+		do
+			do_performance_tests; do_memory_tests
+		end
+
+feature {NONE} -- Implementation
+
+	do_memory_tests
+		do
+			do_memory_test ("$A $D", 1)
+			do_memory_test ("$A $D", 64)
+		end
 
 	do_performance_tests
 		do
@@ -56,6 +71,7 @@ feature -- Basic operations
 			do_performance_test ("append_string_general", "A,D", agent test_append_string_general)
 
 			do_performance_test ("as_lower", "$A $D", agent test_as_lower)
+			do_performance_test ("as_string_8", "$A $D", agent test_as_string_8)
 			do_performance_test ("as_string_32", "$A $D", agent test_as_string_32)
 			do_performance_test ("as_upper", "$A $D", agent test_as_upper)
 
@@ -86,15 +102,11 @@ feature -- Basic operations
 			do_performance_test ("starts_with", "D", agent test_starts_with)
 			do_performance_test ("substring_index", "$A $D", agent test_substring_index)
 
+			do_performance_test ("to_utf_8", "$A $D", agent test_to_utf_8)
+
 			do_performance_test ("translate", "D", agent test_translate)
 
 			do_performance_test ("unescape (C lang string)", "escaped (D)", agent test_unescape)
-		end
-
-	do_memory_tests
-		do
-			do_memory_test ("$A $D", 1)
-			do_memory_test ("$A $D", 64)
 		end
 
 feature -- Benchmark tests
@@ -119,14 +131,17 @@ feature -- Benchmark tests
 			change_case (True)
 		end
 
-	test_as_string_32
-		local
-			str: like new_string; i: INTEGER
+	test_as_string_8
 		do
 			across input_string_list as string loop
-				i := string.cursor_index
-				str := string.item
-				call (str.as_string_32)
+				call (string.item.as_string_8)
+			end
+		end
+
+	test_as_string_32
+		do
+			across input_string_list as string loop
+				call (string.item.as_string_32)
 			end
 		end
 
@@ -170,6 +185,16 @@ feature -- Benchmark tests
 			end
 		end
 
+	test_insert_string
+		local
+			str: STRING_GENERAL
+		do
+			across input_string_list as string loop
+				str := string.item.twin
+				insert_string (str, input_substring_list.i_th (string.cursor_index).last_word, str.count // 2)
+			end
+		end
+
 	test_item
 		local
 			i: INTEGER; str: STRING_GENERAL
@@ -180,16 +205,6 @@ feature -- Benchmark tests
 					call (item (str, i))
 					i := i + 1
 				end
-			end
-		end
-
-	test_insert_string
-		local
-			str: STRING_GENERAL
-		do
-			across input_string_list as string loop
-				str := string.item.twin
-				insert_string (str, input_substring_list.i_th (string.cursor_index).last_word, str.count // 2)
 			end
 		end
 
@@ -311,6 +326,15 @@ feature -- Benchmark tests
 			end
 		end
 
+	test_to_utf_8
+		local
+			str: like new_string
+		do
+			across input_string_list as string loop
+				call (to_utf_8 (string.item))
+			end
+		end
+
 	test_translate
 		local
 			str: STRING_GENERAL; old_characters, new_characters: STRING_GENERAL
@@ -407,26 +431,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE)
-		require
-			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
+	displayed_input_format: STRING
 		local
-			timer: EL_EXECUTION_TIMER; i: INTEGER
+			pos_first, pos_last: INTEGER
 		do
-			if routines.has_substring (routine_filter) then
-				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_input_format)
-				lio.put_new_line
-				input_format := a_input_format
-				fill_input_strings (routines)
-				full_collect
-				create timer.make
-				timer.start
-				from i := 1 until i > number_of_runs loop
-					procedure.apply; full_collect
-					i := i + 1
-				end
-				timer.stop
-				performance_tests.extend ([routines, displayed_input_format, timer.elapsed_millisecs / number_of_runs])
+			pos_first := input_format.index_of ('$', 1)
+			if pos_first > 0 then
+				Result := input_format.twin
+				Result.insert_character ('"', pos_first)
+				pos_last := Result.last_index_of ('$', Result.count)
+				Result.insert_character ('"', pos_last + 2)
+			else
+				Result := input_format
 			end
 		end
 
@@ -454,18 +470,26 @@ feature {NONE} -- Implementation
 			memory_tests.extend ([description, displayed_input_format, storage_bytes (output_string)])
 		end
 
-	displayed_input_format: STRING
+	do_performance_test (routines: STRING_32; a_input_format: STRING; procedure: PROCEDURE)
+		require
+			valid_input_format: across input_arguments (a_input_format) as c all c.item.is_alpha implies c.item.is_upper end
 		local
-			pos_first, pos_last: INTEGER
+			timer: EL_EXECUTION_TIMER; i: INTEGER
 		do
-			pos_first := input_format.index_of ('$', 1)
-			if pos_first > 0 then
-				Result := input_format.twin
-				Result.insert_character ('"', pos_first)
-				pos_last := Result.last_index_of ('$', Result.count)
-				Result.insert_character ('"', pos_last + 2)
-			else
-				Result := input_format
+			if routines.has_substring (routine_filter) then
+				lio.put_labeled_string (generator, routines); lio.put_labeled_string (" input", a_input_format)
+				lio.put_new_line
+				input_format := a_input_format
+				fill_input_strings (routines)
+				full_collect
+				create timer.make
+				timer.start
+				from i := 1 until i > number_of_runs loop
+					procedure.apply; full_collect
+					i := i + 1
+				end
+				timer.stop
+				performance_tests.extend ([routines, displayed_input_format, timer.elapsed_millisecs / number_of_runs])
 			end
 		end
 
@@ -527,17 +551,6 @@ feature {NONE} -- Implementation
 				words := str.split (' ')
 				input_substring_list.extend ([words [1], words [(words.count // 2) + 1], words [words.count], first_character, last_character])
 				input_character_list.extend ([str [1], str [count]])
-			end
-		end
-
-	put_ampersands_input_strings
-		do
-			across input_string_list as string loop
-				if attached {STRING_32} string.item as str_32 then
-					str_32.replace_substring_all (" ", "&")
-				elseif attached {EL_ZSTRING} string.item as str_z then
-					str_z.replace_character (' ', '&')
-				end
 			end
 		end
 
@@ -607,6 +620,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	put_ampersands_input_strings
+		do
+			across input_string_list as string loop
+				if attached {STRING_32} string.item as str_32 then
+					str_32.replace_substring_all (" ", "&")
+				elseif attached {EL_ZSTRING} string.item as str_z then
+					str_z.replace_character (' ', '&')
+				end
+			end
+		end
+
 	set_escape_character (a_escape_character: like escape_character)
 		do
 			C_escape_table.remove (escape_character)
@@ -661,6 +685,10 @@ feature {NONE} -- Deferred implementation
 		end
 
 	to_string_32 (string: STRING_GENERAL): STRING_32
+		deferred
+		end
+
+	to_utf_8 (string: STRING_GENERAL): STRING
 		deferred
 		end
 
@@ -720,9 +748,9 @@ feature {NONE} -- Constants
 
 	Padded: STRING = "padded"
 
-	Put_amp: STRING = "put_amp"
-
 	Pinyin_u: CHARACTER_32 = 'ū'
+
+	Put_amp: STRING = "put_amp"
 
 	Space_padding: STRING_32
 		once

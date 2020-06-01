@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 13:29:34 GMT (Saturday 16th May 2020)"
-	revision: "2"
+	date: "2020-06-01 10:36:21 GMT (Monday 1st June 2020)"
+	revision: "3"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -57,7 +57,12 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	add_benchmarks (benchmark: TUPLE [STRING_BENCHMARK, STRING_BENCHMARK])
+		local
+			list: EL_ARRAYED_LIST [STRING_BENCHMARK]
 		do
+			create list.make_from_tuple (benchmark)
+			list.do_all (agent {STRING_BENCHMARK}.execute)
+
 			benchmark_html.performance_tables.extend (create {PERFORMANCE_BENCHMARK_TABLE}.make (codec.id, benchmark))
 			benchmark_html.memory_tables.extend (create {MEMORY_BENCHMARK_TABLE}.make (codec.id, benchmark))
 		end

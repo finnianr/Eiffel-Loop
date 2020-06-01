@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-15 10:01:07 GMT (Friday 15th May 2020)"
-	revision: "7"
+	date: "2020-06-01 12:44:14 GMT (Monday 1st June 2020)"
+	revision: "8"
 
 class
 	ZSTRING_BENCHMARK
@@ -110,6 +110,11 @@ feature {NONE} -- Implementation
 			if s.has_mixed_encoding then
 				Result := Result + Eiffel.physical_size (s.unencoded_area)
 			end
+		end
+
+	to_utf_8 (string: like new_string): STRING
+		do
+			Result := string.to_utf_8
 		end
 
 	translate (target, old_characters, new_characters: like new_string)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
-	revision: "4"
+	date: "2020-06-01 11:52:31 GMT (Monday 1st June 2020)"
+	revision: "5"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -443,6 +443,11 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Latin_1_codec: EL_ZCODEC
+		once
+			Result := Codec_factory.codec_by ({EL_ENCODING_CONSTANTS}.Latin_1)
+		end
 
 	Once_adapted_argument: SPECIAL [ZSTRING]
 		once

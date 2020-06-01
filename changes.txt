@@ -235,3 +235,9 @@ Updated ZSTRING benchmarks
 Fri 29th May 2020, 17:20:39
 Finished testing EL_URI and EL_URL
 
+Sun 31st May 2020, 18:34:20
+Changed EL_ZSTRING to use SPECIAL arrays for encoding/decoding
+
+Mon 1st Jun 2020, 11:43:39
+End of failed experiment to improve ZSTRING performance with unicode once array
+

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
-	revision: "27"
+	date: "2020-05-31 16:57:49 GMT (Sunday 31st May 2020)"
+	revision: "28"
 
 class
 	ZSTRING_TEST_SET
@@ -89,6 +89,7 @@ feature -- Basic operations
 			eval.call ("substring_index", agent test_substring_index)
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
+			eval.call ("to_general", agent test_to_general)
 			eval.call ("bash_escape", agent test_bash_escape)
 			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
 			eval.call ("unescape", agent test_unescape)
@@ -163,6 +164,16 @@ feature -- Conversion tests
 			assert ("substring_split OK", str.same_string (Text_russian_and_english))
 		end
 
+	test_to_general
+		local
+			str: ZSTRING; str_32: STRING_32
+		do
+			across Text_lines as line_32 loop
+				str_32 := line_32.item
+				str := str_32
+				assert ("same string", str.to_general.same_string (str_32))
+			end
+		end
 feature -- Element change tests
 
 	test_append

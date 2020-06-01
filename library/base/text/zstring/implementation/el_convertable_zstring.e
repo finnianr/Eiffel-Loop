@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 10:53:17 GMT (Monday 6th April 2020)"
-	revision: "1"
+	date: "2020-06-01 13:28:16 GMT (Monday 1st June 2020)"
+	revision: "2"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -19,7 +19,16 @@ inherit
 			{EL_CONVERTABLE_ZSTRING} all
 		end
 
+	EL_MODULE_UTF
+
 	EL_SHARED_ONCE_STRING_32
+
+	EL_SHARED_ONCE_STRING_8
+		rename
+			once_string_8 as shared_once_string_8
+		end
+
+	EL_SHARED_UTF_8_ZCODEC
 
 feature -- Measurement
 
@@ -31,19 +40,37 @@ feature -- To Strings
 
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
 		local
-			l_unencoded: like extendible_unencoded
-			str_32: STRING_32
+			l_result_area: like to_latin_1.area
+			l_unicode: CHARACTER_32; l_area: SPECIAL [CHARACTER_32];
+			str_32: STRING_32; l_count, i: INTEGER
 		do
-			if codec.same_as (a_codec) then
-				Result := to_latin_string_8
+			if a_codec.encoded_as_utf (8) then
+				str_32 := empty_once_string_32; append_to_string_32 (str_32)
+				create Result.make (Utf.utf_8_bytes_count (str_32, 1, count))
+				UTF.utf_32_string_into_utf_8_string_8 (str_32, Result)
+
+			elseif codec.same_as (a_codec) then
+				create Result.make_filled (Unencoded_character, count)
+				Result.area.copy_data (area, 0, 0, count)
+
 			elseif a_codec.encoded_as_latin (1) then
-				Result := to_latin_1
+				l_count := count
+				create Result.make_filled (Unencoded_character, l_count)
+				str_32 := empty_once_string_32
+				append_to_string_32 (str_32)
+				l_area := str_32.area; l_result_area := Result.area
+				from i := 0  until i = l_count loop
+					l_unicode := l_area [i]
+					if l_unicode.natural_32_code <= 0xFF then
+						l_result_area [i] := l_unicode.to_character_8
+					end
+					i := i + 1
+				end
 			else
 				str_32 := empty_once_string_32
 				append_to_string_32 (str_32)
 				create Result.make_filled ('%U', count)
-				l_unencoded := extendible_unencoded
-				a_codec.encode (str_32, Result.area, 0, l_unencoded)
+				a_codec.encode (str_32, Result.area, 0, extendible_unencoded)
 			end
 		ensure
 			all_encoded: not Result.has (Unencoded_character)
@@ -67,13 +94,6 @@ feature -- To Strings
 			end
 		end
 
-	to_latin_string_8: STRING
-			-- string with same encoding as `Codec'
-		do
-			create Result.make_filled (Unencoded_character, count)
-			Result.area.copy_data (area, 0, 0, count)
-		end
-
 	to_string_32, as_string_32: STRING_32
 			-- UCS-4
 		do
@@ -83,27 +103,8 @@ feature -- To Strings
 
 	to_string_8, to_latin_1, as_string_8: STRING
 			-- encoded as ISO-8859-1
-		local
-			i, l_count: INTEGER; l_unicode: CHARACTER_32
-			l_area: SPECIAL [CHARACTER_32]; l_result_area: like to_latin_1.area
-			str_32: STRING_32
 		do
-			if Codec.encoded_as_latin (1) then
-				Result := to_latin_string_8
-			else
-				l_count := count
-				create Result.make_filled (Unencoded_character, l_count)
-				str_32 := empty_once_string_32
-				append_to_string_32 (str_32)
-				l_area := str_32.area; l_result_area := Result.area
-				from i := 0  until i = l_count loop
-					l_unicode := l_area [i]
-					if l_unicode.natural_32_code <= 0xFF then
-						l_result_area [i] := l_unicode.to_character_8
-					end
-					i := i + 1
-				end
-			end
+			Result := as_encoded_8 (Latin_1_codec)
 		end
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
@@ -121,30 +122,21 @@ feature -- To Strings
 
 	to_utf_8: STRING
 		do
-			create Result.make (count)
-			append_to_utf_8 (Result)
+			Result := as_encoded_8 (Utf_8_codec)
 		end
 
 feature -- To list
 
 	linear_representation: LIST [CHARACTER_32]
 		local
-			l_count, i: INTEGER; c_i: CHARACTER
-			l_area: like area; l_unencoded: like extendible_unencoded
-			l_codec: like codec
+			char_32_array: ARRAYED_LIST [CHARACTER_32]
+			str_32: STRING_32
 		do
-			l_unencoded := extendible_unencoded
-			l_area := area; l_count := count; l_codec := codec
-			create {ARRAYED_LIST [CHARACTER_32]} Result.make (l_count)
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				if c_i = Unencoded_character then
-					Result.extend (l_unencoded.item (i + 1))
-				else
-					Result.extend (l_codec.as_unicode_character (c_i))
-				end
-				i := i + 1
-			end
+			create char_32_array.make_filled (count)
+			str_32 := empty_once_string_32
+			append_to_string_32 (str_32)
+			char_32_array.area.copy_data (str_32.area, 0, 0, count)
+			Result := char_32_array
 		end
 
 	lines: like split

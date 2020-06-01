@@ -1,3 +1,6 @@
+1.2.9
+Added new ZSTRING benchmark tests to_utf_8 and as_string_8
+
 1.2.8
 Refactored URL encoding classes
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 12:53:28 GMT (Thursday 14th May 2020)"
-	revision: "2"
+	date: "2020-05-31 13:41:28 GMT (Sunday 31st May 2020)"
+	revision: "3"
 
 deferred class
 	EL_ENCODING_CONSTANTS
@@ -57,7 +57,7 @@ feature {NONE} -- Contract Support
 			end
 		end
 
-feature {NONE} -- Encoding types
+feature {STRING_HANDLER} -- Encoding types
 
 	Latin: NATURAL = 0x1000
 

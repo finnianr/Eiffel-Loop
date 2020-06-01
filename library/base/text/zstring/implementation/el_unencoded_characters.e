@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 14:59:54 GMT (Sunday 5th April 2020)"
-	revision: "9"
+	date: "2020-05-31 11:15:29 GMT (Sunday 31st May 2020)"
+	revision: "10"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -592,10 +592,10 @@ feature -- Removal
 
 feature -- Basic operations
 
-	write (expanded_str: STRING_32; offset: INTEGER)
+	write (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER)
 			-- write substrings into expanded string 'str'
 		require
-			string_big_enough: last_upper + offset <= expanded_str.count
+			string_big_enough: last_upper + offset <= area_out.count
 		local
 			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
 		do
@@ -604,7 +604,7 @@ feature -- Basic operations
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
-					expanded_str.put_code (l_area.item (i + j + 1), lower + j - 1 + offset)
+					area_out [lower + j - 2 + offset] := l_area.item (i + j + 1).to_character_32
 					j := j + 1
 				end
 				i := i + count + 2

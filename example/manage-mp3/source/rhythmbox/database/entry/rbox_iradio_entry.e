@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 12:46:35 GMT (Thursday 28th May 2020)"
-	revision: "41"
+	date: "2020-05-31 9:36:35 GMT (Sunday 31st May 2020)"
+	revision: "42"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -134,11 +134,6 @@ feature {NONE} -- Implementation
 			create Result.make_from_string (Encoded_location)
 		end
 
-	get_location_uri: EL_URI
-		do
-			Result := location
-		end
-
 feature {NONE} -- Build from XML
 
 	Build_types: ARRAY [TYPE [ANY]]
@@ -212,17 +207,23 @@ feature {NONE} -- Evolicity fields
 			end
 		end
 
+	get_location_uri: EL_URI
+		do
+			Result := location
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
+				["element_list",		agent get_element_list],
+
 				-- title is included for reference by template loaded from DJ_EVENT_HTML_PAGE
-				["title", 				agent: ZSTRING do Result := Xml.escaped (title) end],
-				["genre_main", 		agent: ZSTRING do Result := Xml.escaped (genre_main) end],
-				["location_uri", 		agent: STRING do Result := Xml_8.escaped (get_location_uri, False) end],
+				["title", 				agent: ZSTRING do Result := XML.escaped (title) end],
+				["genre_main", 		agent: ZSTRING do Result := XML.escaped (genre_main) end],
+				["location_uri", 		agent: STRING do Result := XML_8.escaped (get_location_uri, False) end],
 				["media_type",			agent: STRING do Result := media_type end],
-				["type",					agent: STRING do Result := type end],
-				["element_list",		agent get_element_list]
+				["type",					agent: STRING do Result := type end]
 			>>)
 		end
 
