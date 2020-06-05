@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 10:39:39 GMT (Sunday 11th August 2019)"
-	revision: "6"
+	date: "2020-06-04 8:16:34 GMT (Thursday 4th June 2020)"
+	revision: "7"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -40,7 +40,8 @@ feature {NONE} -- Initialization
 
 	make_from_other (other: EL_MODEL_ROTATED_RECTANGLE)
 		do
-			make_with_coordinates (other.point_array)
+			default_create
+			set_coordinates_from (other)
 		end
 
 	make_with_coordinates (a_points: EL_COORDINATE_ARRAY)
@@ -67,11 +68,6 @@ feature -- Access
 					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
 			else end
-		end
-
-	coordinate_array: EL_COORDINATE_ARRAY
-		do
-			Result := point_array
 		end
 
 	height_precise: DOUBLE
@@ -104,9 +100,9 @@ feature -- Access
 			end
 		end
 
-	point_angle (p: EV_COORDINATE): DOUBLE
+	angle_to_center (p: EV_COORDINATE): DOUBLE
 		do
-			Result := line_angle (p.x_precise, p.y_precise, center.x_precise, center.y_precise)
+			Result := point_angle (p, center)
 		end
 
 	radius: DOUBLE
@@ -124,9 +120,17 @@ feature -- Access
 
 feature -- Basic operations
 
-	copy_coordinates_to (target: EV_MODEL)
+	set_coordinates_from (other: EV_MODEL)
+		require
+			equal_point_count: point_count = other.point_count
+		local
+			i: INTEGER
 		do
-			coordinate_array.copy_to (target.point_array)
+			from i := 0 until i = point_array.count loop
+				point_array.item (i).copy (other.point_array [i])
+				i := i + 1
+			end
+			set_center
 		end
 
 	displace (a_distance, a_angle: DOUBLE)
@@ -214,8 +218,7 @@ feature -- Element change
 
 	set_points (other: EL_MODEL_ROTATED_RECTANGLE)
 		do
-			other.coordinate_array.copy_to (point_array)
-			set_center
+			set_coordinates_from (other)
 		end
 
 end

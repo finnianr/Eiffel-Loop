@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-11 12:01:02 GMT (Sunday 11th August 2019)"
-	revision: "14"
+	date: "2020-06-05 17:58:28 GMT (Friday 5th June 2020)"
+	revision: "15"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -282,6 +282,23 @@ feature -- Element change
 
 feature -- Transform
 
+	rotate_quarter (n: INTEGER)
+		-- rotate `n * 90' degrees
+		local
+			half_width, half_height: DOUBLE
+		do
+			if n /= 0 then
+				half_width := (width / 2).rounded; half_height := (height / 2).rounded
+				translate (half_width, half_height)
+				rotate (n * {MATH_CONST}.Pi_2)
+				if n.abs \\ 2 = 1 then
+					translate (half_height.opposite, half_width.opposite)
+				else
+					translate (half_width.opposite, half_height.opposite)
+				end
+			end
+		end
+
 	rotate (angle: DOUBLE)
 			-- rotate coordinate system by angle in radians
 		do
@@ -363,6 +380,18 @@ feature -- Conversion
 			not_locked: not is_locked
 		do
 			Result := implementation.to_rgb_24_buffer
+		end
+
+	quarter_rotated (n: INTEGER): like Current
+		-- copy of buffer rotated `n * 90' degrees
+		do
+			if n.abs \\ 2 = 1 then
+				create Result.make_with_size (height, width)
+			else
+				create Result.make_with_size (width, height)
+			end
+			Result.rotate_quarter (n)
+			Result.draw_pixel_buffer (0, 0, Current)
 		end
 
 feature -- Contract Support

@@ -3,13 +3,10 @@ note
 	notes: "[
 	  The following are two example URIs and their component parts:
 
-			  foo://example.com:8042/over/there?name=ferret#nose
-			  \_/   \______________/\_________/ \_________/ \__/
-			   |           |            |            |        |
-			scheme     authority       path        query   fragment
-			   |   _____________________|__
-			  / \ /                        \
-			  urn:example:animal:ferret:nose
+			  foo://example.com:8042/over/there
+			  \_/   \______________/\_________/
+			   |           |            |
+			scheme     authority       path
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 17:40:37 GMT (Friday 29th May 2020)"
-	revision: "19"
+	date: "2020-06-02 12:53:34 GMT (Tuesday 2nd June 2020)"
+	revision: "20"
 
 deferred class
 	EL_URI_PATH
@@ -45,12 +42,16 @@ inherit
 
 	EL_SHARED_ONCE_ZSTRING
 
+	EL_STRING_8_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	default_create
 		do
 			Precursor {EL_PATH}
-			authority := Empty_path; scheme := Empty_path
+			authority := Empty_string; scheme := Empty_string_8
 		end
 
 feature -- Initialization
@@ -149,28 +150,31 @@ feature -- Access
 
 	authority: ZSTRING
 
-	scheme: ZSTRING
+	scheme: STRING
 
 feature -- Element change
 
-	set_scheme (a_scheme: READABLE_STRING_GENERAL)
-		local
-			l_scheme: ZSTRING
+	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			if attached {ZSTRING} a_scheme as zstr then
-				l_scheme := zstr
+			if Authority_set.has_key (once_copy_general (a_authority)) then
+				authority := Authority_set.found_item
 			else
-				l_scheme := temporary_copy (a_scheme)
+				create authority.make_from_general (a_authority)
+				Authority_set.put (authority)
 			end
-			if Scheme_set.has_key (l_scheme) then
+		end
+
+	set_scheme (a_scheme: STRING)
+		do
+			if Scheme_set.has_key (a_scheme) then
 				scheme := Scheme_set.found_item
 			else
-				scheme := l_scheme.twin
+				scheme := a_scheme.twin
 				Scheme_set.put (scheme)
 			end
 		end
 
-	set_path (a_path: ZSTRING)
+	set_path (a_path: READABLE_STRING_GENERAL)
 		do
 			make (a_path)
 		end
@@ -230,15 +234,8 @@ feature -- Comparison
 feature -- Contract Support
 
 	is_uri_absolute (a_uri: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			l_uri: ZSTRING
 		do
-			l_uri := temporary_copy (a_uri)
-			if URI.scheme (l_uri) ~ Protocol_name.file then
-				Result := URI.path (l_uri).starts_with (Forward_slash)
-			else
-				Result := URI.path (l_uri).has (Forward_slash [1])
-			end
+			Result := URI.is_absolute (a_uri)
 		end
 
 	is_file_scheme (a_uri: READABLE_STRING_GENERAL): BOOLEAN
@@ -262,7 +259,7 @@ feature {NONE} -- Implementation
 			Result := 5
 		end
 
-	part_string (index: INTEGER): ZSTRING
+	part_string (index: INTEGER): READABLE_STRING_GENERAL
 		do
 			inspect index
 				when 1 then
@@ -293,9 +290,14 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Scheme_set: EL_HASH_SET [ZSTRING]
+	Authority_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (50)
+			create Result.make (5)
+		end
+
+	Scheme_set: EL_HASH_SET [STRING]
+		once
+			create Result.make (5)
 		end
 
 	Separator_string: ZSTRING

@@ -6,52 +6,69 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 11:18:29 GMT (Thursday 28th May 2020)"
-	revision: "9"
+	date: "2020-06-02 12:52:45 GMT (Tuesday 2nd June 2020)"
+	revision: "10"
 
 frozen class
 	EL_URI_ROUTINES
 
 inherit
-	EL_PROTOCOL_CONSTANTS
-		export
-			{NONE} all
-		end
-
 	EL_ZSTRING_ROUTINES
 		export
 			{NONE} all
 		end
 
-	EL_MODULE_CHAR_8
+	EL_PROTOCOL_CONSTANTS
 
 feature -- Status query
 
+	has_scheme (uri: READABLE_STRING_GENERAL; a_scheme: STRING): BOOLEAN
+		do
+			if uri.starts_with (a_scheme) then
+				Result := uri.substring_index (Colon_slash_x2, a_scheme.count) = a_scheme.count + 1
+			end
+		end
+
+	is_absolute (uri: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if is_file (uri) then
+				Result := path_start_index (uri) = 8
+			else
+				Result := path_start_index (uri) > 0
+			end
+		end
+
 	is_file (uri: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := is_valid (uri) and then scheme (uri) ~ Protocol.file
+			Result := has_scheme (uri, Protocol.file)
 		end
 
 	is_http (uri: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := is_valid (uri) and then Http_protocols.has (scheme (uri))
+			Result := has_scheme (uri, Protocol.http)
+		end
+
+	is_https (uri: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := has_scheme (uri, Protocol.https)
 		end
 
 	is_valid (uri: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			index: INTEGER
+			index, i: INTEGER
 		do
 			index := uri.substring_index (Colon_slash_x2, 1)
-			if index >= 3 and then uri.count > index + Colon_slash_x2.count
-				and then is_alpha_string (uri.substring (1, index - 1))
-			then
+			if index > 3 then
 				Result := True
+				from i := 1 until i = index or not Result loop
+					inspect uri [i]
+						when 'a' .. 'z', 'A' .. 'Z' then
+					else
+						Result := False
+					end
+					i := i + 1
+				end
 			end
-		end
-
-	is_of_type (uri, type: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := scheme (uri) ~ as_zstring (type)
 		end
 
 feature -- Access
@@ -68,9 +85,14 @@ feature -- Access
 			end
 		end
 
-	scheme (uri: READABLE_STRING_GENERAL): ZSTRING
+	path_start_index (uri: READABLE_STRING_GENERAL): INTEGER
+		local
+			index: INTEGER
 		do
-			Result := as_zstring (uri.substring (1, uri.substring_index (Colon_slash_x2, 1) - 1))
+			index := uri.substring_index (Colon_slash_x2, 1)
+			if index > 0 then
+				Result := uri.index_of ('/', index + Colon_slash_x2.count)
+			end
 		end
 
 	remove_protocol_prefix (a_uri: READABLE_STRING_GENERAL): ZSTRING
@@ -88,12 +110,16 @@ feature -- Access
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	is_alpha_string (str: READABLE_STRING_GENERAL): BOOLEAN
+	scheme (uri: READABLE_STRING_GENERAL): STRING
+		local
+			index: INTEGER
 		do
-			Result := str.is_valid_as_string_8 and then across str.to_string_8 as c all
-				Char_8.is_a_to_z_caseless (c.item)
+			index :=  uri.substring_index (Colon_slash_x2, 1)
+			if index > 0 then
+				create Result.make (index - 1)
+				Result.append_substring_general (uri, 1, index - 1)
+			else
+				create Result.make_empty
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-18 9:05:51 GMT (Wednesday 18th September 2019)"
-	revision: "9"
+	date: "2020-06-05 15:41:24 GMT (Friday 5th June 2020)"
+	revision: "10"
 
 class
 	EL_ORIENTATION_ROUTINES
@@ -60,6 +60,15 @@ feature {NONE} -- Axis
 			end
 		end
 
+	orthogonal (axis: INTEGER): INTEGER
+		do
+			if axis = X_axis then
+				Result := Y_axis
+			else
+				Result := X_axis
+			end
+		end
+
 	to_axis (letter: CHARACTER): INTEGER
 		do
 			inspect letter.as_upper
@@ -87,7 +96,12 @@ feature {NONE} -- Directions
 
 feature {NONE} -- Four sides/directions
 
-	All_sides, All_directions: ARRAY [INTEGER]
+	All_directions: ARRAY [INTEGER]
+		once
+			Result := << Top_left, Top, Top_right, Right, Bottom_right, Bottom, Bottom_left, Left >>
+		end
+
+	All_sides: ARRAY [INTEGER]
 		once
 			Result := << Left, Bottom, Right, Top >>
 		end
@@ -107,12 +121,12 @@ feature {NONE} -- Corner bitmasks
 			Result := << Top_left, Top_right, Bottom_right, Bottom_left >>
 		end
 
-	Bottom_left: INTEGER = 8
+	Bottom_left: INTEGER = 12
 
-	Bottom_right: INTEGER = 4
+	Bottom_right: INTEGER = 6
 
-	Top_left: INTEGER = 1
+	Top_left: INTEGER = 9
 
-	Top_right: INTEGER = 2
+	Top_right: INTEGER = 3
 
 end

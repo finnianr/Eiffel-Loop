@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 13:33:46 GMT (Monday 1st June 2020)"
-	revision: "9"
+	date: "2020-06-01 18:40:14 GMT (Monday 1st June 2020)"
+	revision: "10"
 
 deferred class
 	BENCHMARK_TABLE
@@ -51,13 +51,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	data_rows: EL_ZSTRING_LIST
-
-	title: ZSTRING
-
 	benchmark: TUPLE [zstring, string_32: STRING_BENCHMARK]
 
+	data_rows: EL_ZSTRING_LIST
+
 	number_of_runs: INTEGER
+
+	title: ZSTRING
 
 feature {NONE} -- Implementation
 
@@ -65,8 +65,23 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	sorted_indices: EL_ARRAYED_LIST [INTEGER]
+	column_title: STRING
 		deferred
+		end
+
+	next_table_id: INTEGER_REF
+		do
+			Table_id.set_item (Table_id.item + 1)
+			Result := Table_id.twin
+		end
+
+	relative_percentage_at_index (index: INTEGER): INTEGER
+		local
+			a, b: DOUBLE
+		do
+			a := test_result (benchmark.zstring, index)
+			b := test_result (benchmark.string_32, index)
+			Result := relative_percentage (a, b)
 		end
 
 	set_data_rows
@@ -78,14 +93,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	column_title: STRING
+	sorted_indices: EL_ARRAYED_LIST [INTEGER]
+		do
+			create Result.make_from_list (1 |..| test_count)
+			Result.order_by (agent relative_percentage_at_index, True)
+		end
+
+	test_count: INTEGER
 		deferred
 		end
 
-	next_table_id: INTEGER_REF
-		do
-			Table_id.set_item (Table_id.item + 1)
-			Result := Table_id.twin
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
+		deferred
 		end
 
 feature {NONE} -- Evolicity fields
@@ -140,14 +159,14 @@ feature {NONE} -- Constants
 		</table>
 	]"
 
-	Title_mixed: ZSTRING
-		once
-			Result := "Mixed Latin-%S and Unicode Encoding"
-		end
-
 	Title_latin: ZSTRING
 		once
 			Result := "Pure Latin-%S Encoding"
+		end
+
+	Title_mixed: ZSTRING
+		once
+			Result := "Mixed Latin-%S and Unicode Encoding"
 		end
 
 end

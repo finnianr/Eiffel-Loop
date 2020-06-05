@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 14:39:25 GMT (Friday 29th May 2020)"
-	revision: "9"
+	date: "2020-06-02 8:01:21 GMT (Tuesday 2nd June 2020)"
+	revision: "10"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -35,6 +35,8 @@ inherit
 	EL_MODULE_FORMAT
 
 	EL_MODULE_STRING_8
+
+	EL_MODULE_UTF
 
 	EL_SHARED_ONCE_STRING_8
 
@@ -74,11 +76,16 @@ feature -- Conversion
 
 	as_string_32: STRING_32
 		local
-			i: INTEGER
+			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
 		do
 			create Result.make (count)
 			from i := 1 until i > part_count loop
-				part_string (i).append_to_string_32 (Result)
+				i_th_part := part_string (i)
+				if attached {ZSTRING} i_th_part as zstr then
+					zstr.append_to_string_32 (Result)
+				else
+					Result.append_string_general (i_th_part)
+				end
 				i := i + 1
 			end
 		ensure then
@@ -92,18 +99,23 @@ feature -- Conversion
 		do
 			create Result.make (count)
 			from i := 1 until i > part_count loop
-				Result.append (part_string (i))
+				Result.append_string_general (part_string (i))
 				i := i + 1
 			end
 		end
 
 	to_utf_8: STRING
 		local
-			i: INTEGER
+			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
 		do
 			Result := empty_once_string_8
 			from i := 1 until i > part_count loop
-				part_string (i).append_to_utf_8 (Result)
+				i_th_part := part_string (i)
+				if attached {ZSTRING} i_th_part as zstr then
+					zstr.append_to_utf_8 (Result)
+				else
+					UTF.utf_32_string_into_utf_8_string_8 (i_th_part, Result)
+				end
 				i := i + 1
 			end
 			Result := Result.twin
@@ -132,7 +144,7 @@ feature -- Basic operations
 		do
 			str.grow (str.count + count)
 			from i := 1 until i > part_count loop
-				str.append (part_string (i))
+				str.append_string_general (part_string (i))
 				i := i + 1
 			end
 		end
@@ -140,11 +152,16 @@ feature -- Basic operations
 	append_to_32 (str: STRING_32)
 		-- append path to string `str'
 		local
-			i: INTEGER
+			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
 		do
 			str.grow (str.count + count)
 			from i := 1 until i > part_count loop
-				part_string (i).append_to_string_32 (str)
+				i_th_part := part_string (i)
+				if attached {ZSTRING} i_th_part as zstr then
+					zstr.append_to_string_32 (str)
+				else
+					str.append_string_general (i_th_part)
+				end
 				i := i + 1
 			end
 		end
@@ -229,7 +246,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			Result := 2
 		end
 
-	part_string (index: INTEGER): ZSTRING
+	part_string (index: INTEGER): READABLE_STRING_GENERAL
 		require
 			valid_index:  1 <= index and index <= part_count
 		do

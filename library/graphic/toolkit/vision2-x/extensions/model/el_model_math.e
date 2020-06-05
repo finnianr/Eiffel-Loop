@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 9:16:00 GMT (Thursday 18th July 2019)"
-	revision: "7"
+	date: "2020-06-03 19:06:40 GMT (Wednesday 3rd June 2020)"
+	revision: "8"
 
 class
 	EL_MODEL_MATH
 
 inherit
-	DOUBLE_MATH
-		export
-			{NONE} all
-		end
+	EV_MODEL_DOUBLE_MATH
 
 	EL_ORIENTATION_ROUTINES
 
@@ -86,6 +83,11 @@ feature {NONE} -- Implementation
 	mid_point (p1, p2: EV_COORDINATE): EV_COORDINATE
 		do
 			create Result.make_precise ((p1.x_precise + p2.x_precise) / 2, (p1.y_precise + p2.y_precise) / 2)
+		end
+
+	point_angle (p1, p2: EV_COORDINATE): DOUBLE
+		do
+			Result := line_angle (p1.x_precise, p1.y_precise, p2.x_precise, p2.y_precise)
 		end
 
 	point_distance (p1, p2: EV_COORDINATE): DOUBLE

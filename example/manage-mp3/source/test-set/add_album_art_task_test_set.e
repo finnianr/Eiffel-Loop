@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 10:47:01 GMT (Saturday 30th May 2020)"
-	revision: "3"
+	date: "2020-06-01 18:13:36 GMT (Monday 1st June 2020)"
+	revision: "4"
 
 class
 	ADD_ALBUM_ART_TASK_TEST_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Checksum: NATURAL = 1626245021
+	Checksum: NATURAL = 4142368163
 
 	Task_config: STRING = "[
 		add_album_art:

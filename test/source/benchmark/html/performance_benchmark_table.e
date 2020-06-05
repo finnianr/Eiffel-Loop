@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 11:19:41 GMT (Monday 1st June 2020)"
-	revision: "5"
+	date: "2020-06-01 18:38:27 GMT (Monday 1st June 2020)"
+	revision: "6"
 
 class
 	PERFORMANCE_BENCHMARK_TABLE
@@ -37,20 +37,14 @@ feature {NONE} -- Implementation
 			row.append (Html.table_data (comparative_millisecs_string (string_32_time, string_32_time)))
 		end
 
-	relative_percentage_for_index (index: INTEGER): INTEGER
-		local
-			a, b: DOUBLE
+	test_count: INTEGER
 		do
-			a := benchmark.zstring.performance_tests.i_th (index).average_time
-			b := benchmark.string_32.performance_tests.i_th (index).average_time
-			Result := relative_percentage (a, b)
+			Result := benchmark.zstring.performance_tests.count
 		end
 
-	sorted_indices: EL_ARRAYED_LIST [INTEGER]
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
 		do
-			create Result.make (benchmark.zstring.performance_tests.count)
-			Result.append (1 |..| benchmark.zstring.performance_tests.count)
-			Result.order_by (agent relative_percentage_for_index, True)
+			Result := a_benchmark.performance_tests.i_th (index).average_time
 		end
 
 feature {NONE} -- Constants

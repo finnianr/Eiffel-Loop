@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 17:38:11 GMT (Friday 29th May 2020)"
-	revision: "19"
+	date: "2020-06-02 8:47:03 GMT (Tuesday 2nd June 2020)"
+	revision: "20"
 
 class
 	EL_URI
@@ -40,7 +40,7 @@ inherit
 	EL_SHARED_ONCE_STRING_8
 
 create
-	make_empty, make
+	make_empty, make, make_from_general
 
 convert
 	make ({STRING_8})
@@ -52,6 +52,15 @@ feature {NONE} -- Initialization
 			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 0
 		do
 			Precursor (uri)
+		end
+
+	make_from_general (unencoded_string: READABLE_STRING_GENERAL)
+		local
+			l_path: like Uri_path
+		do
+			l_path := Uri_path; l_path.wipe_out
+			l_path.append_general (unencoded_string)
+			make (l_path)
 		end
 
 feature -- Access
@@ -128,6 +137,15 @@ feature -- Conversion
 	to_file_path: EL_FILE_PATH
 		do
 			create Result.make (once_path_copy.decoded_32 (False))
+		end
+
+	to_string: ZSTRING
+		local
+			l_path: like Uri_path
+		do
+			l_path := Uri_path; l_path.wipe_out
+			l_path.append_substring (Current, 1, path_end_index (path_start_index))
+			Result := l_path.decoded
 		end
 
 feature -- Element change

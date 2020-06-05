@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:09:47 GMT (Monday 25th May 2020)"
-	revision: "39"
+	date: "2020-06-02 7:55:26 GMT (Tuesday 2nd June 2020)"
+	revision: "40"
 
 deferred class
 	EL_PATH
@@ -277,19 +277,13 @@ feature -- Measurement
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, j, nb: INTEGER; part: ZSTRING
-			l_area: like base.area
+			i: INTEGER
 		do
 			Result := internal_hash_code
 			if Result = 0 then
-				from j := 1 until j > part_count loop
-					part := part_string (j)
-					l_area := part.area; nb := part.count
-					from i := 0 until i = nb loop
-						Result := ((Result \\ Magic_number) |<< 8) + l_area.item (i).code
-						i := i + 1
-					end
-					j := j + 1
+				from i := 1 until i > part_count loop
+					Result := ((Result \\ Magic_number) |<< 8) + part_string (i).hash_code
+					i := i + 1
 				end
 				internal_hash_code := Result
 			end

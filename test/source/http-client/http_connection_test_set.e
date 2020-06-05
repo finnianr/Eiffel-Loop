@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "[
 		Eiffel tests for class [$source EL_HTTP_CONNECTION] that can be executed with testing tool.
 	]"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 10:28:54 GMT (Thursday 28th May 2020)"
-	revision: "26"
+	date: "2020-06-02 12:00:17 GMT (Tuesday 2nd June 2020)"
+	revision: "27"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -157,7 +157,7 @@ feature -- Test routines
 			query_string: STRING
 		do
 			create table_1.make_equal (2)
-			table_1.set_string_general ("city", "D�n B�inne")
+			table_1.set_string_general ("city", "Dún Búinne")
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
 			query_string := table_1.url_query
 			lio.put_line (query_string)
@@ -212,6 +212,18 @@ feature -- Test routines
 
 				web.close
 			end
+		end
+
+	test_open_url
+		local
+			url: EL_URL; title: ZSTRING
+		do
+			title := {STRING_32} "<title>Категория:Телесериалы США — Википедия</title>"
+			create url.make_from_general ({STRING_32} "http://www.académie-française.fr/")
+			web.open_url (url)
+			web.read_string_get
+			web.close
+			assert ("correct title", web.content.has_substring (title))
 		end
 
 feature {NONE} -- Implementation
@@ -277,8 +289,8 @@ feature {NONE} -- Factory
 	new_city_location: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		do
 			create Result.make_equal (2)
-			Result.set_string ("city", "K�ln")
-			Result.set_string ("district", "K�ln-Altstadt-S�d")
+			Result.set_string ("city", "Köln")
+			Result.set_string ("district", "Köln-Altstadt-Süd")
 		end
 
 	new_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
@@ -327,7 +339,7 @@ feature {NONE} -- Constants
 
 	Folder_name: STRING_32
 		once
-			Result := "Gef��" -- vessel
+			Result := "Gefäß" -- vessel
 		end
 
 	Html_post_url: STRING = "://httpbin.org/post"

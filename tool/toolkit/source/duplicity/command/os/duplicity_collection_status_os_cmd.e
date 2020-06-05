@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 13:05:04 GMT (Sunday 12th April 2020)"
-	revision: "1"
+	date: "2020-06-04 8:32:04 GMT (Thursday 4th June 2020)"
+	revision: "2"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -58,7 +58,7 @@ feature {NONE} -- Line states
 	find_end_of_backup_set (line: ZSTRING)
 		do
 			if line.starts_with (Dashed_line) then
-				state := final
+				state := agent find_backup_set
 			else
 				line.remove_tail (1) -- remove volume number
 				line.adjust

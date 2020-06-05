@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-18 9:05:05 GMT (Wednesday 18th September 2019)"
-	revision: "10"
+	date: "2020-06-04 7:34:46 GMT (Thursday 4th June 2020)"
+	revision: "11"
 
 class
 	EL_MODEL_ROTATED_PICTURE

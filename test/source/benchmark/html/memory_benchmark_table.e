@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 11:17:50 GMT (Monday 1st June 2020)"
-	revision: "5"
+	date: "2020-06-01 18:38:27 GMT (Monday 1st June 2020)"
+	revision: "6"
 
 class
 	MEMORY_BENCHMARK_TABLE
@@ -36,11 +36,14 @@ feature {NONE} -- Implementation
 			row.append (Html.table_data (comparative_bytes (string_32_bytes, string_32_bytes)))
 		end
 
-	sorted_indices: EL_ARRAYED_LIST [INTEGER]
+	test_count: INTEGER
 		do
-			create Result.make (benchmark.zstring.memory_tests.count)
-			Result.append (1 |..| benchmark.zstring.memory_tests.count)
-			Result.order_by (agent relative_storage_size_for_index, True)
+			Result := benchmark.zstring.memory_tests.count
+		end
+
+	test_result (a_benchmark: STRING_BENCHMARK; index: INTEGER): DOUBLE
+		do
+			Result := a_benchmark.memory_tests.i_th (index).storage_size
 		end
 
 	comparative_bytes (a, b: INTEGER): STRING
@@ -50,15 +53,6 @@ feature {NONE} -- Implementation
 			else
 				Result := relative_percentage_string (a, b)
 			end
-		end
-
-	relative_storage_size_for_index (index: INTEGER): INTEGER
-		local
-			a, b: REAL
-		do
-			a := benchmark.zstring.memory_tests.i_th (index).storage_size
-			b := benchmark.string_32.memory_tests.i_th (index).storage_size
-			Result := (a / b * 100).rounded
 		end
 
 feature {NONE} -- Constants

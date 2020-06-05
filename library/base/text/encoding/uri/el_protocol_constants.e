@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 10:59:54 GMT (Thursday 28th May 2020)"
-	revision: "10"
+	date: "2020-06-02 12:16:58 GMT (Tuesday 2nd June 2020)"
+	revision: "11"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -17,22 +17,19 @@ inherit
 
 feature {NONE} -- Constants
 
-	Http_protocols: ARRAY [ZSTRING]
+	Http_protocols: ARRAY [STRING]
 		once
 			Result := << Protocol.http, Protocol.https >>
 			Result.compare_objects
 		end
 
-	Protocol: TUPLE [file, ftp, http, https: ZSTRING]
+	Protocol: TUPLE [file, ftp, http, https: STRING]
 			-- common protocols
 		once
 			create Result
 			Tuple.fill (Result, "file, ftp, http, https")
 		end
 
-	Colon_slash_x2: STRING
-		once
-			Result := "://"
-		end
+	Colon_slash_x2: STRING = "://"
 
 end

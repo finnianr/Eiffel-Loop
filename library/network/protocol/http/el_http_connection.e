@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 12:33:56 GMT (Thursday 28th May 2020)"
-	revision: "25"
+	date: "2020-06-02 12:05:31 GMT (Tuesday 2nd June 2020)"
+	revision: "26"
 
 class
 	EL_HTTP_CONNECTION
@@ -48,14 +48,10 @@ inherit
 		end
 
 	EL_MODULE_BASE_64
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_LIO
-		export
-			{NONE} all
-		end
+
+	EL_MODULE_URI
 
 	EL_SHARED_HTTP_STATUS
 
@@ -89,6 +85,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	content: ZSTRING
+		do
+			create Result.make_from_utf_8 (last_string)
+		end
 
 	cookie_load_path: EL_FILE_PATH
 
@@ -212,6 +213,22 @@ feature -- Basic operations
 			reset
 			make_from_pointer (Curl.new_pointer)
 			set_url_with_parameters (a_url, parameter_table)
+			set_curl_boolean_option (CURLOPT_verbose, False)
+			if not user_agent.is_empty then
+				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+			end
+		ensure
+			opened: is_open
+		end
+
+	open_url (a_url: EL_URL)
+		do
+			if is_lio_enabled then
+				lio.put_labeled_string ("open", a_url.to_string); lio.put_new_line
+			end
+			reset
+			make_from_pointer (Curl.new_pointer)
+			set_curl_string_8_option (CURLOPT_url, a_url)
 			set_curl_boolean_option (CURLOPT_verbose, False)
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
@@ -458,7 +475,7 @@ feature -- Element change
 --			Curl already does url encoding
 			set_curl_string_8_option (CURLOPT_url, l_encoded)
 			-- Essential calls for using https
-			if a_url.starts_with (Protocol.https) then
+			if URI.is_http (a_url) then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end

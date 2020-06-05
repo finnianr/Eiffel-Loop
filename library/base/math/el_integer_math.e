@@ -6,13 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-03 17:16:45 GMT (Monday 3rd February 2020)"
-	revision: "7"
+	date: "2020-06-05 16:34:09 GMT (Friday 5th June 2020)"
+	revision: "8"
 
 class
 	EL_INTEGER_MATH
 
 feature -- Access
+
+	modulo (number, modulus: INTEGER): INTEGER
+		do
+			Result := number \\ modulus
+			if Result < 0 then
+				Result := Result + modulus
+			end
+		end
 
 	rounded (number, n: INTEGER): INTEGER
 			-- number rounded to n significant digit_count

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 11:16:44 GMT (Thursday 21st May 2020)"
-	revision: "32"
+	date: "2020-06-05 16:34:08 GMT (Friday 5th June 2020)"
+	revision: "33"
 
 deferred class EL_CHAIN [G]
 
@@ -30,6 +30,11 @@ inherit
 
 	EL_MODULE_EIFFEL
 	EL_MODULE_ITERABLE
+
+	EL_INTEGER_MATH
+		export
+			{NONE} all
+		end
 
 feature -- Access
 
@@ -459,16 +464,6 @@ feature -- Contract Support
 
 		do
 			Result := value.generating_type.generic_parameter_type (2)
-		end
-
-feature {NONE} -- Implementation
-
-	modulo (number, modulus: INTEGER): INTEGER
-		do
-			Result := number \\ modulus
-			if Result < 0 then
-				Result := Result + modulus
-			end
 		end
 
 feature {NONE} -- Constants
