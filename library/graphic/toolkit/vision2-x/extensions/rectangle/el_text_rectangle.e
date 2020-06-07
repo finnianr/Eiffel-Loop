@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:46:18 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2020-06-07 16:07:13 GMT (Sunday 7th June 2020)"
+	revision: "8"
 
 class
 	EL_TEXT_RECTANGLE
@@ -165,7 +165,7 @@ feature -- Basic operations
 
 	draw_rotated_border (canvas: EL_DRAWABLE; a_angle: DOUBLE)
 		local
-			rect: EL_ROTATABLE_RECTANGLE
+			rect: EL_MODEL_ROTATED_RECTANGLE
 		do
 			create rect.make_rotated (width, height, a_angle)
 			rect.move (x, y)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 18:42:48 GMT (Tuesday 27th August 2019)"
-	revision: "12"
+	date: "2020-06-07 16:12:02 GMT (Sunday 7th June 2020)"
+	revision: "13"
 
 class
 	PP_NVP_API_CONNECTION
@@ -16,7 +16,7 @@ inherit
 	PP_HTTP_CONNECTION
 		rename
 			make as make_http_connection,
-			open as open_url
+			open as open_connection
 		export
 			{NONE} open_url
 			{PP_BUTTON_METHOD} last_string, set_post_parameters, read_string_post, has_error, reset
@@ -109,7 +109,7 @@ feature -- Basic operations
 
 	open
 		do
-			open_url (api_url)
+			open_connection (api_url)
 		end
 
 feature -- Status query

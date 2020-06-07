@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 9:08:16 GMT (Thursday 18th July 2019)"
-	revision: "4"
+	date: "2020-06-07 15:08:09 GMT (Sunday 7th June 2020)"
+	revision: "5"
 
 class
 	EL_COORDINATE_ARRAY
@@ -26,7 +26,7 @@ inherit
 		end
 
 create
-	make_from_area, make, make_square
+	make_from_area, make
 
 convert
 	make_from_area ({SPECIAL [EV_COORDINATE]})
@@ -51,16 +51,6 @@ feature {NONE} -- Initialization
 			upper := a.count - 1
 		end
 
-	make_square (a_p0: EV_COORDINATE; angle, width: DOUBLE)
-
-		do
-			make (4)
-			p0.copy (a_p0)
-			set_point_on_circle (p1, a_p0, angle, width)
-			set_point_on_circle (p2, p1, angle + radians (90), width)
-			set_point_on_circle (p3, p2, angle + radians (180), width)
-		end
-
 feature -- Access
 
 	p0: EV_COORDINATE
@@ -75,18 +65,9 @@ feature -- Access
 			Result := item (1)
 		end
 
-	p2: EV_COORDINATE
-		require
-			valid_index: valid_index (2)
+	to_list: ARRAYED_LIST [EV_COORDINATE]
 		do
-			Result := item (2)
-		end
-
-	p3: EV_COORDINATE
-		require
-			valid_index: valid_index (3)
-		do
-			Result := item (3)
+			create Result.make_from_array (Current)
 		end
 
 feature -- Basic operations

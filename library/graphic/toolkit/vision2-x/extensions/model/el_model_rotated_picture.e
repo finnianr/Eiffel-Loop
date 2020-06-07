@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-04 7:34:46 GMT (Thursday 4th June 2020)"
-	revision: "11"
+	date: "2020-06-07 12:02:49 GMT (Sunday 7th June 2020)"
+	revision: "12"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -59,7 +59,7 @@ feature -- Access
 
 	outer_radial_square: EV_RECTANGLE
 		local
-			points: EL_COORDINATE_ARRAY; l_width, l_height: INTEGER_32
+			points: EL_RECTANGLE_POINT_ARRAY; l_width, l_height: INTEGER_32
 		do
 			points := outer_radial_square_coordinates
 			l_width := (points.p1.x_precise - points.p0.x_precise).rounded

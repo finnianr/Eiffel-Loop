@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 16:04:43 GMT (Tuesday 10th September 2019)"
-	revision: "6"
+	date: "2020-06-07 16:04:12 GMT (Sunday 7th June 2020)"
+	revision: "7"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -64,12 +64,12 @@ feature -- Visitor
 	project (a_projector: EV_MODEL_DRAWING_ROUTINES)
 			-- <Precursor>
 		local
-			circle: like Once_circle; points: EL_COORDINATE_ARRAY
+			circle: like Once_circle; points: EL_SQUARE_POINT_ARRAY
 			l_width: DOUBLE; p0: EV_COORDINATE
 		do
 			l_width := width_precise.min (height_precise) * 0.17
 			p0 := point_on_circle (point_array [0], angle + radians (45), l_width / 6)
-			create points.make_square (p0, angle, l_width)
+			create points.make (p0, angle, l_width)
 
 			circle := Once_circle
 			points.copy_to (circle.point_array)
