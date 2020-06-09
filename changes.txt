@@ -241,3 +241,6 @@ Changed EL_ZSTRING to use SPECIAL arrays for encoding/decoding
 Mon 1st Jun 2020, 11:43:39
 End of failed experiment to improve ZSTRING performance with unicode once array
 
+Sun 7th Jun 2020, 17:51:53
+New class el_square_point_array
+

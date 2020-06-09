@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-03 19:06:40 GMT (Wednesday 3rd June 2020)"
-	revision: "8"
+	date: "2020-06-09 15:00:52 GMT (Tuesday 9th June 2020)"
+	revision: "9"
 
 class
 	EL_MODEL_MATH
@@ -64,20 +64,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	distance_from_points (x, y: DOUBLE; p1, p2: EV_COORDINATE): DOUBLE
-			-- Calculate distance between (`x', `y') and (`p1.x', `p1.y')-(`p2.x', `p2.y').
-			-- The line is considered to be infinite.
+	perpendicular_distance (p, line_p1, line_p2: EV_COORDINATE): DOUBLE
+			-- perpendicular distance of point `p' to line defined by points `line_p1' and `line_p2'
+			-- (See https://rosettacode.org/wiki/Ramer-Douglas-Peucker_line_simplification)
 		local
-			dx, dy, alpha, beta, sine_theta, x_dist, y_dist: DOUBLE
+			dx, dy, mag, pvx, pvy, pvdot, ax, ay: DOUBLE
 		do
-			dx := (x - p1.x).abs
-			dy := (y - p1.y).abs
-			alpha := arc_tangent ((p2.y - p1.y) / (p2.x - p1.x))
-			beta := arc_tangent (dy / dx)
-			sine_theta := sine (beta - alpha)
-			x_dist := sine_theta * dx
-			y_dist := sine_theta * dy
-			Result := sqrt (x_dist ^ 2 + y_dist ^ 2)
+			dx := line_p2.x_precise - line_p1.x_precise
+			dy := line_p2.y_precise - line_p1.y_precise
+			-- Normalize
+			mag := sqrt (dx * dx + dy * dy)
+			if mag > mag.zero then
+				dx := dx / mag
+				dy := dy / mag
+			end
+			pvx := p.x_precise - line_p1.x_precise
+			pvy := p.y_precise - line_p1.y_precise
+
+			-- Get dot product (project pv onto normalized direction)
+			pvdot := dx * pvx + dy * pvy
+
+			-- Scale line direction vector and subtract it from pv
+			ax := pvx - pvdot * dx
+			ay := pvy - pvdot * dy
+
+			Result := sqrt (ax * ax + ay * ay)
 		end
 
 	mid_point (p1, p2: EV_COORDINATE): EV_COORDINATE

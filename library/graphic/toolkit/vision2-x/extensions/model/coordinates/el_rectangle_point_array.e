@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 17:25:58 GMT (Sunday 7th June 2020)"
-	revision: "1"
+	date: "2020-06-07 20:40:43 GMT (Sunday 7th June 2020)"
+	revision: "2"
 
 class
 	EL_RECTANGLE_POINT_ARRAY
@@ -46,7 +46,6 @@ feature -- Access
 	inner_radius: DOUBLE
 		-- radius of largest circle that fits inside center of rectangle
 		do
-
 			if point_distance (p0, p1) > point_distance (p1, p2) then
 				Result := point_distance (center, mid_point (p0, p1))
 			else

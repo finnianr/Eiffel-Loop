@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 12:02:49 GMT (Sunday 7th June 2020)"
-	revision: "12"
+	date: "2020-06-09 18:10:38 GMT (Tuesday 9th June 2020)"
+	revision: "13"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -20,13 +20,13 @@ inherit
 		rename
 			make as make_from_rectangle
 		redefine
-			default_create, make_from_other
+			copy, default_create, set_from_other, is_equal
 		end
 
 	EL_SHARED_PROGRESS_LISTENER
 
 create
-	make, default_create
+	make, default_create, make_from_other
 
 feature {NONE} -- Initialization
 
@@ -45,14 +45,8 @@ feature {NONE} -- Initialization
 
 	make_from_other (other: EL_MODEL_ROTATED_PICTURE)
 		do
-			Precursor (other)
-			pixel_buffer := other.pixel_buffer
-			set_foreground_color (other.foreground_color)
-			if other.is_filled then
-				set_background_color (other.background_color)
-			end
-			border_drawing.set_state (other.border_drawing.is_enabled)
-			mirror_state := other.mirror_state
+			default_create
+			set_from_other (other)
 		end
 
 feature -- Access
@@ -91,6 +85,16 @@ feature -- Status query
 			Result := is_mirrored (Y_axis)
 		end
 
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := point_array ~ other.point_array
+					and then mirror_state = other.mirror_state
+					and then pixel_buffer = other.pixel_buffer
+
+		end
+
 feature -- Transformation
 
 	mirror (axis: INTEGER)
@@ -118,6 +122,29 @@ feature -- Basic operations
 			pixels.draw_scaled_pixel_buffer (0, 0, width, By_width, pixel_buffer)
 			pixels.restore
 			progress_listener.notify_tick
+		end
+
+feature -- Duplication
+
+	copy (other: like Current)
+		do
+			if other /= Current then
+				standard_copy (other)
+				point_array := point_array.resized_area (point_count)
+				set_from_other (other)
+			end
+		end
+
+	set_from_other (other: EL_MODEL_ROTATED_PICTURE)
+		do
+			set_coordinates_from (other)
+			pixel_buffer := other.pixel_buffer
+			set_foreground_color (other.foreground_color)
+			if other.is_filled then
+				set_background_color (other.background_color)
+			end
+			border_drawing.set_state (other.border_drawing.is_enabled)
+			mirror_state := other.mirror_state
 		end
 
 feature {EL_MODEL_BUFFER_PROJECTOR, EV_MODEL} -- Access
