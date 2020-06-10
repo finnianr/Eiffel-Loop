@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-09 16:54:31 GMT (Tuesday 9th June 2020)"
-	revision: "1"
+	date: "2020-06-09 21:47:17 GMT (Tuesday 9th June 2020)"
+	revision: "2"
 
 class
 	EL_MODEL_LINE
@@ -56,8 +56,12 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	cross_product (p: EV_COORDINATE): DOUBLE
+		local
+			a, b: EV_COORDINATE; a_x, a_y: DOUBLE
 		do
-			Result := (point_b_x - point_a_x) * (p.y_precise - point_a_y) - (point_b_y - point_a_y) * (p.x_precise - point_a_x)
+			a := point_array [0]; b := point_array [1]
+			a_x := a.x_precise; a_y := a.y_precise
+			Result := (b.x_precise - a_x) * (p.y_precise - a_y) - (b.y_precise - a_y) * (p.x_precise - a_x)
 		end
 
 end
