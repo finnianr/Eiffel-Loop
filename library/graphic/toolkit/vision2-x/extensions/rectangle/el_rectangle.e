@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-22 9:39:08 GMT (Monday 22nd July 2019)"
-	revision: "10"
+	date: "2020-06-17 11:45:13 GMT (Wednesday 17th June 2020)"
+	revision: "11"
 
 class
 	EL_RECTANGLE
@@ -81,6 +81,13 @@ feature -- Access
 	dimensions: TUPLE [width, height: INTEGER]
 		do
 			Result := [width, height]
+		end
+
+feature -- Measurement
+
+	area: INTEGER
+		do
+			Result := width * height
 		end
 
 feature -- Status query

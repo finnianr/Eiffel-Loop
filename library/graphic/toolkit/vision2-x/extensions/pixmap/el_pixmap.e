@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:49:56 GMT (Monday 1st July 2019)"
-	revision: "10"
+	date: "2020-06-17 11:53:10 GMT (Wednesday 17th June 2020)"
+	revision: "11"
 
 class
 	EL_PIXMAP
@@ -31,6 +31,9 @@ create
 	default_create,
 	make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle,
 	make_from_other, make_scaled_to_width, make_scaled_to_height
+
+convert
+	make_with_rectangle ({EL_RECTANGLE})
 
 feature {NONE} -- Initialization
 
@@ -64,6 +67,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	dimensions: EL_RECTANGLE
+		do
+			create Result.make_size (width, height)
+		end
 
 	file_path: EL_FILE_PATH
 		do
