@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 16:04:12 GMT (Sunday 7th June 2020)"
-	revision: "7"
+	date: "2020-06-17 10:30:08 GMT (Wednesday 17th June 2020)"
+	revision: "8"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -19,13 +19,6 @@ inherit
 			{FRACTAL_LAYER_LIST} center
 		redefine
 			make, project
-		end
-
-	EL_ORIENTATION_ROUTINES
-		rename
-			Top_left as Top_left_corner
-		undefine
-			default_create
 		end
 
 	MODEL_CONSTANTS
@@ -49,7 +42,7 @@ feature {NONE} -- Initialization
 			make_from_other (other)
 			scale (size_proportion)
 			l_distance := other.radius * displaced_radius_proportion + radius
-			displace (l_distance, relative_angle)
+			move_in_direction (relative_angle, l_distance)
 		end
 
 	make_scaled (other: like Current; position: EV_COORDINATE; proportion: DOUBLE)

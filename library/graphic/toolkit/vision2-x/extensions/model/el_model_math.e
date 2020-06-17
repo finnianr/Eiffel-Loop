@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-09 15:00:52 GMT (Tuesday 9th June 2020)"
-	revision: "9"
+	date: "2020-06-12 9:59:06 GMT (Friday 12th June 2020)"
+	revision: "10"
 
 class
 	EL_MODEL_MATH
@@ -62,6 +62,12 @@ feature {NONE} -- Implementation
 			if Result > 180 then
 				Result := Result - 360
 			end
+		end
+
+	is_point_in_circle (p, center: EV_COORDINATE; radius: DOUBLE): BOOLEAN
+		-- `True' if point `p' is inside circle with `center' and `radius'
+		do
+			Result := point_distance (p, center) <= radius
 		end
 
 	perpendicular_distance (p, line_p1, line_p2: EV_COORDINATE): DOUBLE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-14 14:16:11 GMT (Sunday 14th July 2019)"
-	revision: "11"
+	date: "2020-06-13 13:27:35 GMT (Saturday 13th June 2020)"
+	revision: "12"
 
 class
 	EL_VISION_2_FACTORY
@@ -69,10 +69,22 @@ feature -- Factory
 			Result.align_text_left
 		end
 
+	new_label_bold (a_text: READABLE_STRING_GENERAL): EV_LABEL
+			--
+
+		local
+			bold: EV_FONT
+		do
+			create bold
+			bold.set_weight (Weight_bold)
+			Result := new_label_with_font (a_text.to_string_32, bold)
+			Result.align_text_left
+		end
+
 	new_label_with_font (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT): EV_LABEL
 			--
 		do
-			Result := new_label (a_text)
+			Result := new_label (a_text.to_string_32)
 			Result.set_font (a_font)
 		end
 

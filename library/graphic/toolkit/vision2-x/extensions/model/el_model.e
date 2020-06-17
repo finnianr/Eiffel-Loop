@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-09 18:52:41 GMT (Tuesday 9th June 2020)"
-	revision: "1"
+	date: "2020-06-17 10:29:39 GMT (Wednesday 17th June 2020)"
+	revision: "2"
 
 deferred class
 	EL_MODEL
@@ -99,7 +99,7 @@ feature -- Element change
 	reflect (line: EL_MODEL_LINE)
 		-- move and rotate model to be reflection on opposite side of line
 		local
-			orthogonal_angle, counter_angle, delta_angle, l_distance: DOUBLE; c: like center
+			orthogonal_angle, delta_angle, l_distance: DOUBLE; c: like center
 		do
 			c := center
 			l_distance := line.perpendicular_distance (c)
