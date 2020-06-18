@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-11 13:57:34 GMT (Thursday 11th June 2020)"
-	revision: "14"
+	date: "2020-06-18 8:54:05 GMT (Thursday 18th June 2020)"
+	revision: "15"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -147,7 +147,7 @@ feature -- Duplication
 			mirror_state := other.mirror_state
 		end
 
-feature {EL_MODEL_BUFFER_PROJECTOR, EV_MODEL} -- Access
+feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
 	pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
 

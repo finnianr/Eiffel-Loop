@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-17 11:53:10 GMT (Wednesday 17th June 2020)"
-	revision: "11"
+	date: "2020-06-18 8:41:07 GMT (Thursday 18th June 2020)"
+	revision: "12"
 
 class
 	EL_PIXMAP
@@ -33,11 +33,11 @@ create
 	make_from_other, make_scaled_to_width, make_scaled_to_height
 
 convert
-	make_with_rectangle ({EL_RECTANGLE})
+	make_with_rectangle ({EV_RECTANGLE, EL_RECTANGLE})
 
 feature {NONE} -- Initialization
 
-	make_with_rectangle (r: EL_RECTANGLE)
+	make_with_rectangle (r: EV_RECTANGLE)
 		do
 			make_with_size (r.width, r.height)
 		end

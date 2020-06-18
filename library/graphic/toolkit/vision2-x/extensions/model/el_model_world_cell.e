@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-18 12:57:25 GMT (Tuesday 18th June 2019)"
-	revision: "2"
+	date: "2020-06-18 8:16:16 GMT (Thursday 18th June 2020)"
+	revision: "3"
 
 class
 	EL_MODEL_WORLD_CELL
@@ -19,13 +19,13 @@ inherit
 		end
 
 create
-	make_with_world
+	make_with_world, default_create
 
 feature {NONE} -- Implementation
 
-	new_projector: EV_MODEL_WIDGET_PROJECTOR
+	new_projector: EL_MODEL_BUFFER_PROJECTOR
 		do
-			create {EL_MODEL_BUFFER_PROJECTOR} Result.make (world, drawing_area)
+			create Result.make (world, drawing_area)
 		end
 
 end

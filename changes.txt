@@ -244,3 +244,6 @@ End of failed experiment to improve ZSTRING performance with unicode once array
 Sun 7th Jun 2020, 17:51:53
 New class el_square_point_array
 
+Wed 17th Jun 2020, 12:22:52
+New routine {EL_MODEL_ROTATED_RECTANGLE}.scale_to_fit
+
