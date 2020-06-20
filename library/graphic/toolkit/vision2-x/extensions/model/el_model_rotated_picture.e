@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-18 8:54:05 GMT (Thursday 18th June 2020)"
-	revision: "15"
+	date: "2020-06-20 17:28:04 GMT (Saturday 20th June 2020)"
+	revision: "16"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -33,8 +33,9 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			Precursor
-			create pixel_buffer
 			border_drawing := False
+			pixel_buffer := Default_pixel_buffer
+			create buffer_size_cache.make (7, agent new_scaled_pixel_buffer)
 		end
 
 	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like pixel_buffer)
@@ -51,6 +52,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	mirror_state: NATURAL_8
+		-- bit OR'd combination of `X_axis' and `Y_axis'
+
 	outer_radial_square: EV_RECTANGLE
 		local
 			points: EL_RECTANGLE_POINT_ARRAY; l_width, l_height: INTEGER_32
@@ -60,9 +64,6 @@ feature -- Access
 			l_height := (points.p2.y_precise - points.p1.y_precise).rounded
 			create Result.make (points.p0.x, points.p0.y, l_width, l_height)
 		end
-
-	mirror_state: NATURAL_8
-		-- bit OR'd combination of `X_axis' and `Y_axis'
 
 feature -- Status query
 
@@ -119,7 +120,7 @@ feature -- Basic operations
 
 			pixels.flip (width, height, mirror_state)
 
-			pixels.draw_scaled_pixel_buffer (0, 0, width, By_width, pixel_buffer)
+			pixels.draw_pixel_buffer (0, 0, buffer_size_cache.item (width))
 			pixels.restore
 			progress_listener.notify_tick
 		end
@@ -139,6 +140,7 @@ feature -- Duplication
 		do
 			set_coordinates_from (other)
 			pixel_buffer := other.pixel_buffer
+			buffer_size_cache := other.buffer_size_cache
 			set_foreground_color (other.foreground_color)
 			if other.is_filled then
 				set_background_color (other.background_color)
@@ -147,8 +149,24 @@ feature -- Duplication
 			mirror_state := other.mirror_state
 		end
 
+feature {NONE} -- Implementation
+
+	new_scaled_pixel_buffer (a_width: INTEGER): like pixel_buffer
+		do
+			create Result.make_scaled_to_width (pixel_buffer, a_width)
+		end
+
 feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
+
+	buffer_size_cache: EL_CACHE_TABLE [EL_DRAWABLE_PIXEL_BUFFER, INTEGER]
+		-- cache of pixel buffers of particular width
 
 	pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
 
+feature {NONE} -- Constants
+
+	Default_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+		once
+			create Result
+		end
 end

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-05 17:58:28 GMT (Friday 5th June 2020)"
-	revision: "15"
+	date: "2020-06-20 17:09:33 GMT (Saturday 20th June 2020)"
+	revision: "16"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -57,6 +57,8 @@ create
 	make_rgb_24_with_pixmap,
 	make_rgb_24_with_size, make_with_path,
 	make_rgb_24_with_sized_pixmap,
+	make_scaled_to_height,
+	make_scaled_to_width,
 	make_with_pixmap,
 	make_with_size,
 	make_with_svg_image
@@ -98,6 +100,29 @@ feature {NONE} -- Initialization
 			lock
 			draw_scaled_pixmap (0, 0, a_size, dimension, a_pixmap)
 			unlock
+		end
+
+	make_scaled (dimension, a_size: INTEGER; other: like Current)
+		local
+			proportion: DOUBLE
+		do
+			if dimension = By_width then
+				proportion := a_size / other.width
+			else
+				proportion := a_size / other.height
+			end
+			make_with_size ((other.width * proportion).rounded, (other.height * proportion).rounded)
+			draw_scaled_pixel_buffer (0, 0, a_size, dimension, other)
+		end
+
+	make_scaled_to_height (other: like Current; a_height: INTEGER)
+		do
+			make_scaled (By_height, a_height, other)
+		end
+
+	make_scaled_to_width (other: like Current; a_width: INTEGER)
+		do
+			make_scaled (By_width, a_width, other)
 		end
 
 	make_with_path (a_png_file_path: EL_FILE_PATH)
