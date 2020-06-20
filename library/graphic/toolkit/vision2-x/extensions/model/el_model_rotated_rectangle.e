@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-17 11:46:28 GMT (Wednesday 17th June 2020)"
-	revision: "10"
+	date: "2020-06-20 9:05:34 GMT (Saturday 20th June 2020)"
+	revision: "11"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -152,21 +152,25 @@ feature -- Basic operations
 
 feature -- Element change
 
-	scale_to_fit (rectangle: EL_RECTANGLE; area_proportion, max_height_proportion: DOUBLE)
+	scale_to_fit (rectangle: EL_RECTANGLE; area_proportion, max_dimension_proportion: DOUBLE)
 		-- scale model so that the model area is equal to `area_proportion' of `rectangle'
-		-- but `height_precise' must be <= `rectangle.height * max_height_proportion'
+		-- but `max_dimension_proportion' is not exceeded for `width' or `height'
 		local
 			proportion: DOUBLE
 		do
 			proportion := {DOUBLE_MATH}.sqrt (rectangle.area * area_proportion / (height_precise * width_precise))
 
-			if proportion * height_precise > rectangle.height * max_height_proportion then
-				proportion := rectangle.height * max_height_proportion / height_precise
+			if proportion * height_precise > rectangle.height * max_dimension_proportion then
+				proportion := rectangle.height * max_dimension_proportion / height_precise
+
+			elseif proportion * width_precise > rectangle.width * max_dimension_proportion then
+				proportion := rectangle.width * max_dimension_proportion / width_precise
 			end
 			scale (proportion)
 		ensure
 			valid_area: (height_precise * width_precise).rounded <= (rectangle.area * area_proportion).rounded
-			valid_height: height <= (rectangle.height * max_height_proportion).rounded
+			valid_height: height <= (rectangle.height * max_dimension_proportion).rounded
+			valid_width: width <= (rectangle.width * max_dimension_proportion).rounded
 		end
 
 	set_from_other (other: EL_MODEL_ROTATED_RECTANGLE)

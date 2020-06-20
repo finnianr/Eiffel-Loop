@@ -247,3 +247,6 @@ New class el_square_point_array
 Wed 17th Jun 2020, 12:22:52
 New routine {EL_MODEL_ROTATED_RECTANGLE}.scale_to_fit
 
+Thu 18th Jun 2020, 10:44:33
+New classes EL_MODEL_PIXMAP_PROJECTOR and EL_MODEL_DRAWER
+
