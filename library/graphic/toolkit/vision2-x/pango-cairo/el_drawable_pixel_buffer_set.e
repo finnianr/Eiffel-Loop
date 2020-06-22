@@ -6,11 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:47:18 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2020-06-21 10:40:32 GMT (Sunday 21st June 2020)"
+	revision: "7"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_SET
+
 inherit
 	ANY
 		redefine

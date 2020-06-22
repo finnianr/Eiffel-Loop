@@ -250,3 +250,9 @@ New routine {EL_MODEL_ROTATED_RECTANGLE}.scale_to_fit
 Thu 18th Jun 2020, 10:44:33
 New classes EL_MODEL_PIXMAP_PROJECTOR and EL_MODEL_DRAWER
 
+Sat 20th Jun 2020, 17:31:43
+Optimize {EL_MODEL_ROTATED_PICTURE}.render with addition of buffer_size_cache: EL_CACHE_TABLE
+
+Mon 22nd Jun 2020, 14:54:24
+Fixed scaled pixel buffer caching in EL_MODEL_ROTATED_RECTANGLE
+

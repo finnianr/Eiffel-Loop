@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:46:53 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-06-22 14:24:29 GMT (Monday 22nd June 2020)"
+	revision: "9"
 
 deferred class
 	EL_BOX
@@ -24,11 +24,6 @@ feature {NONE} -- Initialization
 			default_create
 			set_spacing_cms (a_border_cms, a_padding_cms)
 		end
-
---	framed (a_text: READABLE_STRING_GENERAL): EL_FRAME [like Current]
---		do
---			create Result.make_with_text_and_widget (a_text, Current)
---		end
 
 	make_unexpanded (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
 		do

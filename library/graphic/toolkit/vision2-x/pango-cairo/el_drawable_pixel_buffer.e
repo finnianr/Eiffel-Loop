@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-20 17:09:33 GMT (Saturday 20th June 2020)"
-	revision: "16"
+	date: "2020-06-22 10:22:47 GMT (Monday 22nd June 2020)"
+	revision: "17"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -36,19 +36,30 @@ inherit
 			set_with_named_path as set_with_path_as_rgb_24
 		export
 			{NONE} buffer_draw_text, draw_pixel_buffer_with_x_y
+		undefine
+			out
 		redefine
 			make_with_pixmap, make_rgb_24_with_size, actual_implementation, create_implementation, implementation,
 			to_pixmap, lock, unlock, set_with_path_as_rgb_24
 		end
 
 	EV_FONTABLE
+		undefine
+			out
 		redefine
 			implementation
 		end
 
 	EL_ORIENTATION_ROUTINES
 		undefine
+			default_create, copy, out
+		end
+
+	DEBUG_OUTPUT
+		undefine
 			default_create, copy
+		redefine
+			out
 		end
 
 create
@@ -156,6 +167,24 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			implementation.make_with_size (a_width, a_height)
+		end
+
+feature -- Access
+
+	id: like internal_id
+		do
+			Result := internal_id
+			if Result = Result.zero then
+				Last_id.increment
+				internal_id := Last_id.value
+				Result := internal_id
+			end
+		end
+
+	debug_output, out: STRING
+			-- Return readable string.
+		do
+			Result := Tag_template #$ [id, width, height]
 		end
 
 feature -- Status query
@@ -435,10 +464,23 @@ feature {NONE} -- Implementation
 			implementation := actual_implementation
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_PIXEL_BUFFER} -- Implementation
+feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_PIXEL_BUFFER} -- Internal attributes
 
 	actual_implementation: EL_DRAWABLE_PIXEL_BUFFER_IMP
 
 	implementation: EL_DRAWABLE_PIXEL_BUFFER_I
 
+	internal_id: NATURAL_16
+
+feature {NONE} -- Constants
+
+	Last_id: EL_MUTEX_NUMERIC [NATURAL_16]
+		once
+			create Result
+		end
+
+	Tag_template: ZSTRING
+		once
+			Result := "ID: %S Width: %S Height: %S"
+		end
 end
