@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-17 11:27:55 GMT (Wednesday 17th June 2020)"
-	revision: "3"
+	date: "2020-06-23 12:28:00 GMT (Tuesday 23rd June 2020)"
+	revision: "4"
 
 deferred class
 	EL_MODEL
@@ -19,16 +19,25 @@ inherit
 		undefine
 			bounding_box, default_create, point_count
 		redefine
-			copy, is_equal
+			copy
 		end
 
 	EL_MODEL_MATH undefine copy, default_create, is_equal end
 
 feature -- Comparison
 
-	is_equal (other: like Current): BOOLEAN
+	same_points (other: like Current): BOOLEAN
+		local
+			i, n: INTEGER
 		do
-			Result := point_array ~ other.point_array
+			Result := point_array.count = other.point_array.count
+			if Result then
+				n := point_count
+				from i := 0 until not Result or else i = n loop
+					Result := point_array.item (i) ~ other.point_array [i]
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Conversion
@@ -38,11 +47,24 @@ feature -- Conversion
 			Result := point_array
 		end
 
+	point_array_twin: like point_array
+		do
+		end
+
 feature -- Duplication
 
 	copy (other: like Current)
+		local
+			i, n: INTEGER
 		do
-			set_coordinates_from (other)
+			standard_copy (other)
+			n := other.point_count
+			create point_array.make_empty (n)
+			from i := 0 until i = n loop
+				point_array.extend (other.point_array.item (i).twin)
+				i := i + 1
+			end
+			center := other.center.twin
 		end
 
 	reflected (line: EL_MODEL_LINE): like Current

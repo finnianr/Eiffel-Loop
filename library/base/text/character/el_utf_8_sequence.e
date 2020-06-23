@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 14:58:31 GMT (Sunday 31st May 2020)"
-	revision: "6"
+	date: "2020-06-22 15:17:33 GMT (Monday 22nd June 2020)"
+	revision: "7"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -112,7 +112,7 @@ feature -- Measurement
 			end_index_valid: end_index <= str.count
 			valid_bounds: start_index <= end_index + 1
 		local
-			i: INTEGER; code: NATURAL
+			i: INTEGER
 		do
 			from i := start_index until i > end_index loop
 				Result := Result + byte_count (str.item (i).natural_32_code)

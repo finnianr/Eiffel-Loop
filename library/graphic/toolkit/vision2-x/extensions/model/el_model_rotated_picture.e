@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-22 10:26:49 GMT (Monday 22nd June 2020)"
-	revision: "17"
+	date: "2020-06-23 12:17:44 GMT (Tuesday 23rd June 2020)"
+	revision: "18"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -93,10 +93,9 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := point_array ~ other.point_array
+			Result := same_points (other)
 					and then mirror_state = other.mirror_state
 					and then pixel_buffer = other.pixel_buffer
-
 		end
 
 feature -- Transformation
@@ -136,9 +135,8 @@ feature -- Duplication
 	copy (other: like Current)
 		do
 			if other /= Current then
-				standard_copy (other)
-				point_array := point_array.resized_area (point_count)
-				set_from_other (other)
+				Precursor (other)
+				create border_drawing.make (other.border_drawing.is_enabled)
 			end
 		end
 

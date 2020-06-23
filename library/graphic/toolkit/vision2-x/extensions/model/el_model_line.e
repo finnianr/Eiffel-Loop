@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-09 21:47:17 GMT (Tuesday 9th June 2020)"
-	revision: "2"
+	date: "2020-06-23 12:16:35 GMT (Tuesday 23rd June 2020)"
+	revision: "3"
 
 class
 	EL_MODEL_LINE
@@ -15,7 +15,7 @@ class
 inherit
 	EV_MODEL_LINE
 		undefine
-			copy, is_equal
+			copy
 		redefine
 			angle
 		end

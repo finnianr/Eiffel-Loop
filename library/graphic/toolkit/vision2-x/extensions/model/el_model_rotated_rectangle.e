@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-20 9:05:34 GMT (Saturday 20th June 2020)"
-	revision: "11"
+	date: "2020-06-23 12:06:12 GMT (Tuesday 23rd June 2020)"
+	revision: "12"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -171,6 +171,12 @@ feature -- Element change
 			valid_area: (height_precise * width_precise).rounded <= (rectangle.area * area_proportion).rounded
 			valid_height: height <= (rectangle.height * max_dimension_proportion).rounded
 			valid_width: width <= (rectangle.width * max_dimension_proportion).rounded
+		end
+
+	scale_to_circle (a_radius: DOUBLE)
+		-- scale to fit inside circle with radius `a_radius'
+		do
+			scale (a_radius / radius)
 		end
 
 	set_from_other (other: EL_MODEL_ROTATED_RECTANGLE)
