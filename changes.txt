@@ -256,3 +256,6 @@ Optimize {EL_MODEL_ROTATED_PICTURE}.render with addition of buffer_size_cache: E
 Mon 22nd Jun 2020, 14:54:24
 Fixed scaled pixel buffer caching in EL_MODEL_ROTATED_RECTANGLE
 
+Tue 23rd Jun 2020, 13:16:43
+Changes to copy for EL_MODEL_ROTATED_PICTURE
+

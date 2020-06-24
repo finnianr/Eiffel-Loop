@@ -6,18 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-23 12:16:35 GMT (Tuesday 23rd June 2020)"
-	revision: "3"
+	date: "2020-06-24 16:51:20 GMT (Wednesday 24th June 2020)"
+	revision: "4"
 
 class
 	EL_MODEL_LINE
 
 inherit
 	EV_MODEL_LINE
+		export
+			{EV_MODEL} set_center
 		undefine
 			copy
 		redefine
-			angle
+			angle --, make_with_points
 		end
 
 	EL_MODEL
@@ -34,6 +36,19 @@ feature -- Measurement
 			-- actually we do care!
 		do
 			Result := point_angle (point_array [0], point_array [1])
+		end
+
+	normal_angle: DOUBLE
+		-- normalized acute angle
+		do
+			if point_array.item (0).x_precise <= point_array.item (1).x_precise then
+				Result := point_angle (point_array [0], point_array [1])
+			else
+				Result := point_angle (point_array [1], point_array [0])
+			end
+			if Result > Pi then
+				Result := Result - 2 * Pi
+			end
 		end
 
 	perpendicular_distance (p: EV_COORDINATE): DOUBLE

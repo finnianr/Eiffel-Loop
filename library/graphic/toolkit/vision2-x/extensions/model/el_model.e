@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-23 12:28:00 GMT (Tuesday 23rd June 2020)"
-	revision: "4"
+	date: "2020-06-24 11:17:28 GMT (Wednesday 24th June 2020)"
+	revision: "5"
 
 deferred class
 	EL_MODEL
@@ -23,6 +23,18 @@ inherit
 		end
 
 	EL_MODEL_MATH undefine copy, default_create, is_equal end
+
+feature -- Access
+
+	bottom_most: EV_COORDINATE
+		do
+			Result := utmost (False)
+		end
+
+	top_most: EV_COORDINATE
+		do
+			Result := utmost (True)
+		end
 
 feature -- Comparison
 
@@ -42,13 +54,13 @@ feature -- Comparison
 
 feature -- Conversion
 
+	point_array_twin: like point_array
+		do
+		end
+
 	to_point_array: EL_COORDINATE_ARRAY
 		do
 			Result := point_array
-		end
-
-	point_array_twin: like point_array
-		do
 		end
 
 feature -- Duplication
@@ -75,6 +87,11 @@ feature -- Duplication
 
 feature -- Basic operations
 
+	draw (canvas: EL_DRAWABLE)
+		do
+			canvas.draw_polyline (to_point_array, True)
+		end
+
 	move_in_direction (a_angle, a_distance: DOUBLE)
 		-- move model by `a_distance' in direction of `a_angle'
 		local
@@ -94,11 +111,6 @@ feature -- Basic operations
 				end
 			end
 			set_center
-		end
-
-	draw (canvas: EL_DRAWABLE)
-		do
-			canvas.draw_polyline (to_point_array, True)
 		end
 
 	move_to_center (other: EL_MODEL)
@@ -178,4 +190,22 @@ feature -- Element change
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	utmost (a_top_most: BOOLEAN): EV_COORDINATE
+		local
+			i: INTEGER
+		do
+			Result := point_array [0]
+			from i := 1 until i = point_count loop
+				if a_top_most then
+					if point_array.item (i).y_precise < Result.y_precise then
+						Result := point_array [i]
+					end
+				elseif point_array.item (i).y_precise > Result.y_precise then
+					Result := point_array [i]
+				end
+				i := i + 1
+			end
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 15:08:09 GMT (Sunday 7th June 2020)"
-	revision: "5"
+	date: "2020-06-24 16:02:51 GMT (Wednesday 24th June 2020)"
+	revision: "6"
 
 class
 	EL_COORDINATE_ARRAY
@@ -65,7 +65,7 @@ feature -- Access
 			Result := item (1)
 		end
 
-	to_list: ARRAYED_LIST [EV_COORDINATE]
+	to_list: EL_ARRAYED_LIST [EV_COORDINATE]
 		do
 			create Result.make_from_array (Current)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-23 12:06:12 GMT (Tuesday 23rd June 2020)"
-	revision: "12"
+	date: "2020-06-24 12:29:54 GMT (Wednesday 24th June 2020)"
+	revision: "13"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -42,13 +42,6 @@ feature {NONE} -- Initialization
 			make_with_coordinates (rect.to_point_array)
 		end
 
-	make_with_coordinates (a_points: EL_COORDINATE_ARRAY)
-		do
-			default_create
-			a_points.copy_to (point_array)
-			set_center
-		end
-
 	make_rotated (a_width, a_height: INTEGER; a_angle: DOUBLE)
 		do
 			make_rectangle (0, 0, a_width, a_height)
@@ -60,11 +53,18 @@ feature {NONE} -- Initialization
 			make_rotated (Screen.horizontal_pixels (width_cms), Screen.vertical_pixels (height_cms), a_angle)
 		end
 
+	make_with_coordinates (a_points: EL_COORDINATE_ARRAY)
+		do
+			default_create
+			a_points.copy_to (point_array)
+			set_center
+		end
+
 feature -- Access
 
-	angle_to_center (p: EV_COORDINATE): DOUBLE
+	bottom_most_line: EL_MODEL_LINE
 		do
-			Result := point_angle (p, center)
+			Result := utmost_line (False)
 		end
 
 	center_line_points (axis: INTEGER): EL_COORDINATE_ARRAY
@@ -84,20 +84,6 @@ feature -- Access
 			else end
 		end
 
-	height_precise: DOUBLE
-			-- The `height' of the parallelogram.
-		local
-			points: like point_array
-			p0, p3: EV_COORDINATE
-		do
-			points := point_array
-			p0 := points.item (0)
-			p3 := points.item (3)
-			Result := point_distance (p0, p3)
-		ensure
-			height_positive: height >= Result.zero
-		end
-
 	outer_radial_square_coordinates: EL_RECTANGLE_POINT_ARRAY
 		-- coordinates of square that encloses circle circumscribing `Current'
 		local
@@ -112,6 +98,32 @@ feature -- Access
 				set_point_on_circle (Result.item (i), center, corner_angle (All_corners [i + 1]), l_radius)
 				i := i + 1
 			end
+		end
+
+	top_most_line: EL_MODEL_LINE
+		do
+			Result := utmost_line (True)
+		end
+
+feature -- Measurement
+
+	angle_to_center (p: EV_COORDINATE): DOUBLE
+		do
+			Result := point_angle (p, center)
+		end
+
+	height_precise: DOUBLE
+			-- The `height' of the parallelogram.
+		local
+			points: like point_array
+			p0, p3: EV_COORDINATE
+		do
+			points := point_array
+			p0 := points.item (0)
+			p3 := points.item (3)
+			Result := point_distance (p0, p3)
+		ensure
+			height_positive: height >= Result.zero
 		end
 
 	radius: DOUBLE
@@ -152,6 +164,12 @@ feature -- Basic operations
 
 feature -- Element change
 
+	scale_to_circle (a_radius: DOUBLE)
+		-- scale to fit inside circle with radius `a_radius'
+		do
+			scale (a_radius / radius)
+		end
+
 	scale_to_fit (rectangle: EL_RECTANGLE; area_proportion, max_dimension_proportion: DOUBLE)
 		-- scale model so that the model area is equal to `area_proportion' of `rectangle'
 		-- but `max_dimension_proportion' is not exceeded for `width' or `height'
@@ -171,12 +189,6 @@ feature -- Element change
 			valid_area: (height_precise * width_precise).rounded <= (rectangle.area * area_proportion).rounded
 			valid_height: height <= (rectangle.height * max_dimension_proportion).rounded
 			valid_width: width <= (rectangle.width * max_dimension_proportion).rounded
-		end
-
-	scale_to_circle (a_radius: DOUBLE)
-		-- scale to fit inside circle with radius `a_radius'
-		do
-			scale (a_radius / radius)
 		end
 
 	set_from_other (other: EL_MODEL_ROTATED_RECTANGLE)
@@ -205,6 +217,36 @@ feature -- Conversion
 			create Result
 			Result.set_coordinates_from (Current)
 			Result.enable_dashed_line_style
+		end
+
+feature {NONE} -- Implementation
+
+	utmost_line (a_top_most: BOOLEAN): EL_MODEL_LINE
+		-- line with center point closest to top (or bottom if `a_top_most' is False)
+		local
+			i, index: INTEGER; utmost_distance, l_distance: DOUBLE
+			p1, p2: EV_COORDINATE
+		do
+			from i := 0 until i = 3 loop
+				p1 := point_array [i]; p2 := point_array [i + 1]
+				if i = 0 then
+					utmost_distance := mid_point (p1, p2).y_precise
+				else
+					l_distance := mid_point (p1, p2).y_precise
+					if a_top_most then
+						if l_distance < utmost_distance then
+							utmost_distance := l_distance
+							index := i
+						end
+					elseif l_distance > utmost_distance then
+						utmost_distance := l_distance
+						index := i
+					end
+				end
+				i := i + 1
+			end
+			create Result.make_with_points (point_array [index], point_array [index + 1])
+			Result.set_center
 		end
 
 end
