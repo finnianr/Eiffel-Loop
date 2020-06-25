@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-08 10:26:18 GMT (Monday 8th June 2020)"
-	revision: "1"
+	date: "2020-06-25 9:46:59 GMT (Thursday 25th June 2020)"
+	revision: "2"
 
 class
 	EL_MODEL_CIRCLE
@@ -15,7 +15,7 @@ class
 inherit
 	EV_MODEL_ELLIPSE
 
-	EL_MODEL_MATH undefine default_create end
+	EL_GEOMETRY_MATH undefine default_create end
 
 create
 	make

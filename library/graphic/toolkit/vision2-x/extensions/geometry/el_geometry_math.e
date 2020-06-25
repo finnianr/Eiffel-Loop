@@ -1,16 +1,16 @@
 note
-	description: "Model math"
+	description: "Geometry math"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-12 9:59:06 GMT (Friday 12th June 2020)"
-	revision: "10"
+	date: "2020-06-25 9:47:17 GMT (Thursday 25th June 2020)"
+	revision: "11"
 
 class
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 
 inherit
 	EV_MODEL_DOUBLE_MATH

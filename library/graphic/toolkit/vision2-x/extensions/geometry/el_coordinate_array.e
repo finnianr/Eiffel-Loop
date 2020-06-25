@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-24 16:02:51 GMT (Wednesday 24th June 2020)"
-	revision: "6"
+	date: "2020-06-25 9:47:00 GMT (Thursday 25th June 2020)"
+	revision: "7"
 
 class
 	EL_COORDINATE_ARRAY
@@ -20,7 +20,7 @@ inherit
 			make_from_area
 		end
 
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 		undefine
 			is_equal, copy
 		end

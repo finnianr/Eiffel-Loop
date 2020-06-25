@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-24 11:17:28 GMT (Wednesday 24th June 2020)"
-	revision: "5"
+	date: "2020-06-25 9:47:00 GMT (Thursday 25th June 2020)"
+	revision: "6"
 
 deferred class
 	EL_MODEL
@@ -22,7 +22,7 @@ inherit
 			copy
 		end
 
-	EL_MODEL_MATH undefine copy, default_create, is_equal end
+	EL_GEOMETRY_MATH undefine copy, default_create, is_equal end
 
 feature -- Access
 

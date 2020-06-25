@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:31:13 GMT (Monday 30th September 2019)"
-	revision: "15"
+	date: "2020-06-25 9:47:00 GMT (Thursday 25th June 2020)"
+	revision: "16"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -52,7 +52,7 @@ inherit
 			default_create
 		end
 
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 		undefine
 			default_create
 		end

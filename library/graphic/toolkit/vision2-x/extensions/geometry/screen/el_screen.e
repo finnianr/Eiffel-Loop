@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-19 9:52:15 GMT (Friday 19th July 2019)"
-	revision: "7"
+	date: "2020-06-25 10:24:53 GMT (Thursday 25th June 2020)"
+	revision: "8"
 
 class
 	EL_SCREEN
@@ -66,13 +66,19 @@ feature -- Measurement
 			Result := height_cms / width_cms
 		end
 
+	height_cms: REAL
+		-- screen height in centimeters
+
 	height_mm: INTEGER
 		do
 			Result := implementation.height_mm
 		end
 
-	height_cms: REAL
-		-- screen height in centimeters
+	horizontal_resolution: REAL
+		-- Pixels per centimeter
+
+	vertical_resolution: REAL
+		-- Pixels per centimeter
 
 	width_cms: REAL
 		-- screen width in centimeters
@@ -82,12 +88,6 @@ feature -- Measurement
 		do
 			Result := implementation.width_mm
 		end
-
-	vertical_resolution: REAL
-		-- Pixels per centimeter
-
-	horizontal_resolution: REAL
-		-- Pixels per centimeter
 
 feature -- Element change
 
@@ -109,6 +109,16 @@ feature -- Conversion
 			-- centimeters to vertical pixels
 		do
 			Result := (vertical_resolution * cms).rounded
+		end
+
+feature -- Status query
+
+	contains (position: EV_COORDINATE; widget: EV_POSITIONABLE): BOOLEAN
+		-- `True' if widget can be displayed on screen at `position' without overlapping the edges
+		do
+			 if 0 <= position.x and then position.x + widget.width <= width then
+			 	Result := 0 <= position.y and then position.y + widget.height <= height
+			 end
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
