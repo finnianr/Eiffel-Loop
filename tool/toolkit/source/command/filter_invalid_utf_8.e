@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-13 15:08:58 GMT (Thursday 13th December 2018)"
-	revision: "6"
+	date: "2020-06-28 9:31:26 GMT (Sunday 28th June 2020)"
+	revision: "7"
 
 class
 	FILTER_INVALID_UTF_8
@@ -16,8 +16,6 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_LOG
-
-	EL_MODULE_UTF
 
 create
 	make
@@ -37,7 +35,7 @@ feature -- Basic operations
 	execute
 		local
 			in_file, out_file: PLAIN_TEXT_FILE; line: STRING
-			bad_count: INTEGER
+			bad_count: INTEGER; c: EL_UTF_CONVERTER
 		do
 			log.enter ("execute")
 			lio.put_path_field ("Filtering", source_path)
@@ -49,7 +47,7 @@ feature -- Basic operations
 			from until in_file.end_of_file loop
 				in_file.read_line
 				line := in_file.last_string
-				if UTF.is_valid_utf_8_string_8 (line) then
+				if c.is_valid_utf_8_string_8 (line) then
 					if out_file.position > 0 then
 						out_file.put_new_line
 					end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:05:29 GMT (Wednesday 31st October 2018)"
-	revision: "7"
+	date: "2020-06-28 9:13:15 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -22,7 +22,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			do_command, make_default, new_command_string
+			do_command, make_default, new_command_parts
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 11:24:47 GMT (Tuesday 5th May 2020)"
-	revision: "1"
+	date: "2020-06-28 9:40:56 GMT (Sunday 28th June 2020)"
+	revision: "2"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -18,8 +18,6 @@ inherit
 	EL_TEST_STRINGS
 
 	EL_MODULE_STRING_32
-
-	EL_MODULE_UTF
 
 feature -- Basic operations
 

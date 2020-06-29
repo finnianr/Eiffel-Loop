@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-22 10:22:47 GMT (Monday 22nd June 2020)"
-	revision: "17"
+	date: "2020-06-29 12:37:41 GMT (Monday 29th June 2020)"
+	revision: "18"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -51,6 +51,9 @@ inherit
 		end
 
 	EL_ORIENTATION_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_valid_dimension
 		undefine
 			default_create, copy, out
 		end
@@ -99,31 +102,28 @@ feature {NONE} -- Initialization
 			implementation.make_rgb_24_with_size (a_width, a_height)
 		end
 
-	make_rgb_24_with_sized_pixmap (a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+	make_rgb_24_with_sized_pixmap (size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
 		require
 			valid_dimension: is_valid_dimension (dimension)
+		local
+			rectangle: EL_RECTANGLE
 		do
-			if dimension = By_width then
-				make_rgb_24_with_size (a_size, (a_pixmap.height * a_size / a_pixmap.width).floor)
-			else
-				make_rgb_24_with_size ((a_pixmap.width * a_size / a_pixmap.height).floor, a_size)
-			end
+			create rectangle.make_scaled_for_widget (a_pixmap, dimension, size)
+			make_rgb_24_with_size (rectangle.width, rectangle.height)
 			lock
-			draw_scaled_pixmap (0, 0, a_size, dimension, a_pixmap)
+			draw_scaled_pixmap (0, 0, size, dimension, a_pixmap)
 			unlock
 		end
 
-	make_scaled (dimension, a_size: INTEGER; other: like Current)
+	make_scaled (dimension: NATURAL_8; size: INTEGER; other: like Current)
+		require
+			valid_dimension: is_valid_dimension (dimension)
 		local
-			proportion: DOUBLE
+			rectangle: EL_RECTANGLE
 		do
-			if dimension = By_width then
-				proportion := a_size / other.width
-			else
-				proportion := a_size / other.height
-			end
-			make_with_size ((other.width * proportion).rounded, (other.height * proportion).rounded)
-			draw_scaled_pixel_buffer (0, 0, a_size, dimension, other)
+			create rectangle.make_scaled_for_pixels (other, dimension, size)
+			make_with_size (rectangle.width, rectangle.height)
+			draw_scaled_pixel_buffer (0, 0, size, dimension, other)
 		end
 
 	make_scaled_to_height (other: like Current; a_height: INTEGER)
@@ -242,14 +242,14 @@ feature -- Basic operations
 			implementation.draw_pixmap (x, y, a_pixmap)
 		end
 
-	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (x, y, a_size: INTEGER; dimension: NATURAL_8; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
 			implementation.draw_scaled_pixel_buffer (x, y, a_size, dimension, a_buffer)
 		end
 
-	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (x, y, a_size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
@@ -292,6 +292,11 @@ feature -- Basic operations
 			-- Save as png file
 		do
 			implementation.save_as (file_path)
+		end
+
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+		do
+			implementation.save_as_jpeg (file_path, quality)
 		end
 
 feature -- Element change

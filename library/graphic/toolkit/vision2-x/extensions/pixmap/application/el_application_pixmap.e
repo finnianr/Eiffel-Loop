@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-18 9:09:54 GMT (Saturday 18th January 2020)"
-	revision: "10"
+	date: "2020-06-27 11:14:01 GMT (Saturday 27th June 2020)"
+	revision: "11"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -24,17 +24,18 @@ inherit
 
 	EL_FACTORY_CLIENT
 
+	EL_ORIENTATION_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_valid_dimension
+		end
+
 feature -- Access
 
 	from_file (a_file_path: EL_FILE_PATH): EL_PIXMAP
 			--
 		do
-			if a_file_path.exists then
-				create Result
-				Result.set_with_named_file (a_file_path)
-			else
-				Result := Unknown_pixmap
-			end
+			Result := new_pixmap (a_file_path)
 		end
 
 	image_path (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
@@ -73,13 +74,57 @@ feature -- Constants
 			Result := svg_pixmap.Transparent_color
 		end
 
+feature -- Colored PNG
+
+	of_height_and_color (relative_path_steps: EL_PATH_STEPS; height: INTEGER; background_color: EV_COLOR): EL_PIXMAP
+			-- Pixmap scaled to `height' in pixels
+		do
+			Result := of_size_and_color (relative_path_steps, By_height, height, background_color)
+		end
+
+	of_height_and_color_cms (relative_path_steps: EL_PATH_STEPS; height_cms: REAL; background_color: EV_COLOR): EL_PIXMAP
+			-- Pixmap scaled to `height_cms' centimeters
+		do
+			Result := of_size_and_color (relative_path_steps, By_height, Screen.vertical_pixels (height_cms), background_color)
+		end
+
+	of_size_and_color (
+		relative_path_steps: EL_PATH_STEPS; dimension: NATURAL_8; size: INTEGER; background_color: EV_COLOR
+	): EL_PIXMAP
+			-- pixmap scaled to `size' in pixels for `dimension' and filled with `background_color'
+			-- (The pixmap must have an alpha channel)
+		local
+			top_layer, bottom_layer: EL_DRAWABLE_PIXEL_BUFFER
+			rectangle: EL_RECTANGLE
+		do
+			top_layer := new_pixel_buffer (relative_path_steps)
+			create rectangle.make_scaled_for_pixels (top_layer, dimension, size)
+			create bottom_layer.make_with_size (rectangle.width, rectangle.height)
+			bottom_layer.set_color (background_color)
+			bottom_layer.fill
+			bottom_layer.draw_scaled_pixel_buffer (0, 0, size, dimension, top_layer)
+			Result := bottom_layer.to_pixmap
+		end
+
+	of_width_and_color (relative_path_steps: EL_PATH_STEPS; width: INTEGER; background_color: EV_COLOR): EL_PIXMAP
+			-- Pixmap scaled to `width' in pixels
+		do
+			Result := of_size_and_color (relative_path_steps, By_width, width, background_color)
+		end
+
+	of_width_and_color_cms (relative_path_steps: EL_PATH_STEPS; width_cms: REAL; background_color: EV_COLOR): EL_PIXMAP
+			-- Pixmap scaled to `width_cms' centimeters
+		do
+			Result := of_size_and_color (relative_path_steps, By_width, Screen.horizontal_pixels (width_cms), background_color)
+		end
+
 feature -- PNG
 
-	of_height (relative_path_steps: EL_PATH_STEPS; a_height: INTEGER): EL_PIXMAP
+	of_height (relative_path_steps: EL_PATH_STEPS; height: INTEGER): EL_PIXMAP
 			-- Pixmap scaled to height in pixels
 		do
 			Result := pixmap (relative_path_steps)
-			Result.scale_to_height (a_height)
+			Result.scale_to_height (height)
 		end
 
 	of_height_cms (relative_path_steps: EL_PATH_STEPS; height_cms: REAL): EL_PIXMAP
@@ -89,11 +134,11 @@ feature -- PNG
 			Result.scale_to_height_cms (height_cms)
 		end
 
-	of_width (relative_path_steps: EL_PATH_STEPS; a_width: INTEGER): EL_PIXMAP
+	of_width (relative_path_steps: EL_PATH_STEPS; width: INTEGER): EL_PIXMAP
 			-- Pixmap scaled to width in pixels
 		do
 			Result := pixmap (relative_path_steps)
-			Result.scale_to_width (a_width)
+			Result.scale_to_width (width)
 		end
 
 	of_width_cms (relative_path_steps: EL_PATH_STEPS; width_cms: REAL): EL_PIXMAP
@@ -169,22 +214,29 @@ feature {NONE} -- Factory
 			end
 		end
 
-feature -- Constants
+	new_pixel_buffer (relative_path_steps: EL_PATH_STEPS): EL_DRAWABLE_PIXEL_BUFFER
+		do
+			create Result.make_with_path (image_path (relative_path_steps))
+		end
 
-	Unknown_pixmap: EL_PIXMAP
-			-- Square tile with a question mark
+	new_pixmap (a_file_path: EL_FILE_PATH): EL_PIXMAP
+			--
 		local
-			font: EL_FONT
-			rect: EL_RECTANGLE
-		once
-			create font.make_bold ("Verdana", 1.0)
-			create rect.make_for_text ("?", font)
-			create Result.make_with_rectangle (rect)
-			Result.set_background_color (Color.Black)
-			Result.set_foreground_color (Color.White)
-			Result.clear
-			Result.set_font (font)
-			Result.draw_centered_text ("?", rect)
+			font: EL_FONT rect: EL_RECTANGLE
+		do
+			if a_file_path.exists then
+				create Result
+				Result.set_with_named_file (a_file_path)
+			else
+				create font.make_bold ("Verdana", 1.0)
+				create rect.make_for_text ("?", font)
+				create Result.make_with_rectangle (rect)
+				Result.set_background_color (Color.Black)
+				Result.set_foreground_color (Color.White)
+				Result.clear
+				Result.set_font (font)
+				Result.draw_centered_text ("?", rect)
+			end
 		end
 
 feature {NONE} -- Constants

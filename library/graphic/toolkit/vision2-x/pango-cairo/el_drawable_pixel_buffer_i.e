@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-25 9:47:00 GMT (Thursday 25th June 2020)"
-	revision: "16"
+	date: "2020-06-29 12:48:34 GMT (Monday 29th June 2020)"
+	revision: "17"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -56,8 +56,6 @@ inherit
 		undefine
 			default_create
 		end
-
-	EL_MODULE_UTF
 
 	EL_MODULE_GUI
 
@@ -344,7 +342,7 @@ feature -- Basic operations
 			restore
 		end
 
-	draw_scaled_pixel_buffer (x, y, a_size, dimension: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (x, y, a_size: INTEGER; dimension: NATURAL_8; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit and a_buffer.locked_for_rgb_24_bit
 			valid_dimension: is_valid_dimension (dimension)
@@ -363,7 +361,7 @@ feature -- Basic operations
 			restore
 		end
 
-	draw_scaled_pixmap (x, y, a_size, dimension: INTEGER; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (x, y, a_size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
@@ -469,9 +467,19 @@ feature -- Basic operations
 		local
 			file_out: EL_PNG_IMAGE_FILE
 		do
-			create file_out.make_open_write (file_path)
-			file_out.put_image (cairo_surface)
-			file_out.close
+			if is_rgb_24_bit then
+				create file_out.make_open_write (file_path)
+				file_out.put_image (cairo_surface)
+				file_out.close
+			else
+				to_rgb_24_buffer.save_as (file_path)
+			end
+		end
+
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+		require
+			unlocked_for_24_rgb_format: is_rgb_24_bit implies not is_locked
+		deferred
 		end
 
 feature -- Status query
@@ -718,10 +726,11 @@ feature {NONE} -- Implementation
 	set_layout_text (a_text: READABLE_STRING_GENERAL)
 		local
 			utf8_text: STRING; l_text: READABLE_STRING_GENERAL
+			c: EL_UTF_CONVERTER
 		do
 			l_text := Zstring.to_unicode_general (a_text)
 			utf8_text := empty_once_string_8
-			UTF.utf_32_string_into_utf_8_string_8 (l_text, utf8_text)
+			c.utf_32_string_into_utf_8_string_8 (l_text, utf8_text)
 			Pango.set_layout_text (pango_layout, utf8_text.area.base_address, utf8_text.count)
 			adjust_pango_font (font.string_width (l_text))
 		end

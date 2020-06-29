@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:01:45 GMT (Monday 25th May 2020)"
-	revision: "13"
+	date: "2020-06-28 9:43:07 GMT (Sunday 28th June 2020)"
+	revision: "14"
 
 class
 	M3U_PLAYLIST_READER
@@ -16,11 +16,6 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		end
-
-	EL_MODULE_UTF
-		rename
-			Utf as Conv
 		end
 
 	EL_MODULE_LIO

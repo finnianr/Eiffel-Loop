@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-25 9:47:17 GMT (Thursday 25th June 2020)"
-	revision: "11"
+	date: "2020-06-27 10:17:40 GMT (Saturday 27th June 2020)"
+	revision: "12"
 
 class
 	EL_GEOMETRY_MATH
@@ -16,6 +16,10 @@ inherit
 	EV_MODEL_DOUBLE_MATH
 
 	EL_ORIENTATION_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_valid_corner, is_valid_side, is_valid_axis
+		end
 
 feature {NONE} -- Implementation
 

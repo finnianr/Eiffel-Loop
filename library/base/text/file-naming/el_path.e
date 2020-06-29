@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-02 7:55:26 GMT (Tuesday 2nd June 2020)"
-	revision: "40"
+	date: "2020-06-28 11:01:46 GMT (Sunday 28th June 2020)"
+	revision: "41"
 
 deferred class
 	EL_PATH
@@ -282,9 +282,10 @@ feature -- Measurement
 			Result := internal_hash_code
 			if Result = 0 then
 				from i := 1 until i > part_count loop
-					Result := ((Result \\ Magic_number) |<< 8) + part_string (i).hash_code
+					Result := Result + part_string (i).hash_code
 					i := i + 1
 				end
+				Result := Result.abs
 				internal_hash_code := Result
 			end
 		end

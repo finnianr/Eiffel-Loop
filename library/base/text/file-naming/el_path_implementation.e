@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-02 8:01:21 GMT (Tuesday 2nd June 2020)"
-	revision: "10"
+	date: "2020-06-28 12:01:07 GMT (Sunday 28th June 2020)"
+	revision: "11"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -36,9 +36,9 @@ inherit
 
 	EL_MODULE_STRING_8
 
-	EL_MODULE_UTF
-
 	EL_SHARED_ONCE_STRING_8
+
+	EL_SHARED_ONCE_STRING_32
 
 feature -- Measurement
 
@@ -75,19 +75,9 @@ feature -- Measurement
 feature -- Conversion
 
 	as_string_32: STRING_32
-		local
-			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
 		do
 			create Result.make (count)
-			from i := 1 until i > part_count loop
-				i_th_part := part_string (i)
-				if attached {ZSTRING} i_th_part as zstr then
-					zstr.append_to_string_32 (Result)
-				else
-					Result.append_string_general (i_th_part)
-				end
-				i := i + 1
-			end
+			append_to_32 (Result)
 		ensure then
 			same_as_to_string: to_string.as_string_32 ~ Result
 		end
@@ -107,6 +97,7 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
+			c: EL_UTF_CONVERTER
 		do
 			Result := empty_once_string_8
 			from i := 1 until i > part_count loop
@@ -114,7 +105,7 @@ feature -- Conversion
 				if attached {ZSTRING} i_th_part as zstr then
 					zstr.append_to_utf_8 (Result)
 				else
-					UTF.utf_32_string_into_utf_8_string_8 (i_th_part, Result)
+					c.utf_32_string_into_utf_8_string_8 (i_th_part, Result)
 				end
 				i := i + 1
 			end
@@ -131,8 +122,12 @@ feature -- Conversion
 		end
 
 	to_path: PATH
+		local
+			str: STRING_32
 		do
-			create Result.make_from_string (as_string_32)
+			str := empty_once_string_32
+			append_to_32 (str)
+			create Result.make_from_string (str)
 		end
 
 feature -- Basic operations

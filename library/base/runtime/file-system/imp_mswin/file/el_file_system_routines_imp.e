@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:28:42 GMT (Wednesday 27th May 2020)"
-	revision: "9"
+	date: "2020-06-28 9:15:11 GMT (Sunday 28th June 2020)"
+	revision: "10"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Implementation
 
-	escaped_path (a_path: READABLE_STRING_GENERAL): ZSTRING
+	escaped_path (path: READABLE_STRING_GENERAL): ZSTRING
 		local
 			l_path: ZSTRING
 		do

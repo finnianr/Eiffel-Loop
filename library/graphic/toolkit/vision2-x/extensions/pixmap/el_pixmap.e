@@ -6,21 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-18 8:41:07 GMT (Thursday 18th June 2020)"
-	revision: "12"
+	date: "2020-06-29 11:33:57 GMT (Monday 29th June 2020)"
+	revision: "13"
 
 class
 	EL_PIXMAP
 
 inherit
 	EV_PIXMAP
+		export
+			{EV_ANY, EV_ANY_I, EV_ANY_HANDLER, EL_JPEG_PIXMAP_IMP} implementation
 		redefine
-			sub_pixmap, make_with_pixel_buffer
+			create_implementation, implementation, sub_pixmap, make_with_pixel_buffer
 		end
 
 	EL_DRAWABLE
 
 	EL_ORIENTATION_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_valid_dimension
 		undefine
 			is_equal, default_create, copy
 		end
@@ -30,7 +35,7 @@ inherit
 create
 	default_create,
 	make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle,
-	make_from_other, make_scaled_to_width, make_scaled_to_height
+	make_from_other, make_scaled_to_width, make_scaled_to_height, make_from_model
 
 convert
 	make_with_rectangle ({EV_RECTANGLE, EL_RECTANGLE})
@@ -47,14 +52,37 @@ feature {NONE} -- Initialization
 			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
 		end
 
+	make_from_model (world: EV_MODEL_WORLD; area: detachable EV_RECTANGLE)
+		local
+			projector: EL_MODEL_PIXMAP_PROJECTOR
+		do
+			if attached area as rectangle then
+				make_with_rectangle (rectangle)
+			else
+				make_with_rectangle (world.bounding_box)
+			end
+			create projector.make (world, Current)
+			projector.full_project
+		end
+
+	make_scaled_to_size (other: like Current; size: INTEGER; dimension: NATURAL_8)
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			pixels: EL_DRAWABLE_PIXEL_BUFFER
+		do
+			create pixels.make_rgb_24_with_sized_pixmap (size, dimension, other)
+			make_with_pixel_buffer (pixels)
+		end
+
 	make_scaled_to_width (other: like Current; a_width: INTEGER)
 		do
-			make_with_pixel_buffer (create {EL_DRAWABLE_PIXEL_BUFFER}.make_rgb_24_with_sized_pixmap (a_width, By_width, other))
+			make_scaled_to_size (other, a_width, By_width)
 		end
 
 	make_scaled_to_height (other: like Current; a_height: INTEGER)
 		do
-			make_with_pixel_buffer (create {EL_DRAWABLE_PIXEL_BUFFER}.make_rgb_24_with_sized_pixmap (a_height, By_height, other))
+			make_scaled_to_size (other, a_height, By_height)
 		end
 
 	make_with_pixel_buffer (a_pixel_buffer: EV_PIXEL_BUFFER)
@@ -106,7 +134,6 @@ feature -- Measurement setting
 		do
 			create l_buffer.make_with_pixmap (Current)
 			make_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
---			stretch ((width * a_factor).rounded, (height * a_factor).rounded)
 		end
 
 feature -- Duplication
@@ -117,10 +144,25 @@ feature -- Duplication
 			Result.draw_sub_pixmap (0, 0, Current, area)
 		end
 
+	to_jpeg (quality: INTEGER): EL_JPEG_PIXMAP_I
+		do
+			Result := implementation.to_jpeg (quality)
+		end
+
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
+
+	implementation: EL_PIXMAP_I
+			-- Responsible for interaction with native graphics toolkit.
+
 feature {NONE} -- Implementation
 
 	redraw
 		do
 		end
 
+	create_implementation
+			-- See `{EV_ANY}.create_implementation'.
+		do
+			create {EL_PIXMAP_IMP} implementation.make
+		end
 end

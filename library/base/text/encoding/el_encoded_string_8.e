@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 14:57:00 GMT (Sunday 31st May 2020)"
-	revision: "10"
+	date: "2020-06-28 9:29:08 GMT (Sunday 28th June 2020)"
+	revision: "11"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -32,8 +32,6 @@ inherit
 		redefine
 			make_encoded, make
 		end
-
-	EL_MODULE_UTF
 
 	EL_MODULE_HEXADECIMAL
 
@@ -261,8 +259,10 @@ feature {NONE} -- Implementation
 		end
 
 	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING
+		local
+			c: EL_UTF_CONVERTER
 		do
-			Result := UTF.utf_32_string_to_utf_8_string_8 (s.substring (start_index, end_index).to_string_32)
+			Result := c.utf_32_string_to_utf_8_string_8 (s.substring (start_index, end_index).to_string_32)
 		end
 
 feature {NONE} -- Deferred implementation

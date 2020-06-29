@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "4"
+	date: "2020-06-28 8:49:45 GMT (Sunday 28th June 2020)"
+	revision: "5"
 
 class
 	EL_BATCH_SCRIPT_FILE
@@ -21,6 +21,9 @@ inherit
 		end
 
 	EL_CONSOLE_ENCODEABLE
+		rename
+			Utf_8 as Utf_8_encoding
+		end
 
 create
 	make, make_with_name, make_with_path,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-24 12:29:54 GMT (Wednesday 24th June 2020)"
-	revision: "13"
+	date: "2020-06-26 10:26:55 GMT (Friday 26th June 2020)"
+	revision: "14"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -82,6 +82,23 @@ feature -- Access
 					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
 			else end
+		end
+
+	direction_vector_list: ARRAYED_LIST [EL_MODEL_LINE]
+		-- line vectors from center point to the mid point of each side
+		local
+			i: INTEGER; c, p: like center
+			point_list: EL_ARRAYED_LIST [EV_COORDINATE]
+		do
+			create Result.make (4)
+			c := center
+			point_list := to_point_array.to_list
+			from i := 0 until i = 4 loop
+				-- side mid point
+				p := mid_point (point_list.circular_i_th (i), point_list.circular_i_th (i + 1))
+				Result.extend (create {EL_MODEL_LINE}.make_with_points (c, p))
+				i := i + 1
+			end
 		end
 
 	outer_radial_square_coordinates: EL_RECTANGLE_POINT_ARRAY

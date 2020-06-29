@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:44:54 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-06-29 13:06:12 GMT (Monday 29th June 2020)"
+	revision: "9"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -45,6 +45,12 @@ create
 
 feature {NONE} -- Initialization
 
+	make
+		do
+			default_create
+			Precursor
+		end
+
 	make_pixel_buffer_with_size (a_width, a_height: INTEGER)
 			-- Create with size.
 		local
@@ -63,12 +69,6 @@ feature {NONE} -- Initialization
 			else
 				create internal_pixmap.make_with_size (a_width, a_height)
 			end
-		end
-
-	make
-		do
-			default_create
-			Precursor
 		end
 
 	old_make (an_interface: EL_DRAWABLE_PIXEL_BUFFER)
@@ -97,16 +97,32 @@ feature -- Measurement
 			end
 		end
 
-feature {EV_ANY, EV_ANY_I} -- Implementation
+feature -- Basic operations
+
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+		require else
+			valid_gtk_version: {GTK}.gtk_maj_ver >= 2
+		local
+			jpeg: EL_JPEG_PIXMAP_IMP
+		do
+			if interface.is_rgb_24_bit then
+				create jpeg.make (gdk_pixbuf, quality, False)
+				jpeg.save_as (file_path)
+			else
+				interface.to_rgb_24_buffer.save_as_jpeg (file_path, quality)
+			end
+		end
+
+feature {EV_ANY, EV_ANY_I} -- Implementation attributes
 
 	interface: detachable EL_DRAWABLE_PIXEL_BUFFER note option: stable attribute end;
 
 feature {NONE} -- Implementation
 
-	update_cairo_color (a_cairo_ctx: POINTER)
+	dispose
 		do
-			-- Red and blue are intentionally swapped as a workaround to a bug
-			Cairo.set_source_rgba (a_cairo_ctx, color.blue, color.green, color.red, 1.0)
+			Precursor {EL_DRAWABLE_PIXEL_BUFFER_I}
+			Precursor {EV_PIXEL_BUFFER_IMP}
 		end
 
 	set_surface_color_order
@@ -122,10 +138,10 @@ feature {NONE} -- Implementation
 			Result := {GTK}.gdk_pixbuf_get_rowstride (gdk_pixbuf).to_integer_32
 		end
 
-	dispose
+	update_cairo_color (a_cairo_ctx: POINTER)
 		do
-			Precursor {EL_DRAWABLE_PIXEL_BUFFER_I}
-			Precursor {EV_PIXEL_BUFFER_IMP}
+			-- Red and blue are intentionally swapped as a workaround to a bug
+			Cairo.set_source_rgba (a_cairo_ctx, color.blue, color.green, color.red, 1.0)
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:22:58 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2020-06-28 15:11:37 GMT (Sunday 28th June 2020)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_PIXMAP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:16:52 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2020-06-28 9:41:36 GMT (Sunday 28th June 2020)"
+	revision: "13"
 
 class
 	EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE
@@ -19,11 +19,6 @@ inherit
 		end
 
 	EL_PARSE_EVENT_CONSTANTS
-
-	EL_MODULE_UTF
-		rename
-			Utf as Conv
-		end
 
 create
 	make
@@ -222,11 +217,13 @@ feature {NONE} -- Implementation
 
 	set_string_from_stream (str: STRING_32; count: INTEGER)
 			--
+		local
+			c: EL_UTF_CONVERTER
 		do
 			str.wipe_out
 			input.read_stream (count)
 			if is_utf_8_encoded then
-				Conv.utf_8_string_8_into_string_32 (input.last_string, str)
+				c.utf_8_string_8_into_string_32 (input.last_string, str)
 			else
 				str.append_string_general (input.last_string)
 			end

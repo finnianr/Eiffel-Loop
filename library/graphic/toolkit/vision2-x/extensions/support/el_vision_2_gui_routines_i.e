@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-17 10:26:31 GMT (Wednesday 17th June 2020)"
-	revision: "19"
+	date: "2020-06-26 10:55:09 GMT (Friday 26th June 2020)"
+	revision: "20"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -113,12 +113,17 @@ feature -- Constants
 			sort (Result)
 		end
 
-feature -- Basic operations
+feature -- Apply styling
 
 	apply_background_color (a_components: ARRAY [EV_COLORIZABLE]; a_color: EV_COLOR)
 			--
 		do
 			a_components.do_all (agent {EV_COLORIZABLE}.set_background_color (a_color))
+		end
+
+	apply_bold (font: EV_FONT)
+		do
+			font.set_weight (Weight_bold)
 		end
 
 	apply_foreground_and_background_color (
@@ -135,6 +140,8 @@ feature -- Basic operations
 		do
 			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
+
+feature -- Basic operations
 
 	block_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
@@ -235,7 +242,6 @@ feature -- Basic operations
 			--
 		do
 			field.set_font (a_font)
---			field.set_minimum_width (a_font.maximum_width * capacity + a_font.maximum_width // 3)
 			field.set_minimum_width_in_characters (capacity)
 		end
 

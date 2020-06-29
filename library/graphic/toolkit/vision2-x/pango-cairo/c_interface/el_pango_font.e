@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:16:51 GMT (Saturday 26th October 2019)"
-	revision: "7"
+	date: "2020-06-28 9:33:25 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	EL_PANGO_FONT
@@ -35,8 +35,6 @@ inherit
 			{ANY} Pango_stretch_values
 		end
 
-	EL_MODULE_UTF
-
 	EL_SHARED_ONCE_STRING_8
 
 create
@@ -49,13 +47,12 @@ feature {NONE} -- Initialization
 
 	make (a_font: EV_FONT)
 		local
-			utf8_family_name: STRING
-			c_name: ANY
+			utf8_family_name: STRING; c_name: ANY; c: EL_UTF_CONVERTER
 		do
 			make_from_pointer (Pango.new_font_description)
 
 			utf8_family_name := empty_once_string_8
-			UTF.string_32_into_utf_8_string_8 (a_font.name, utf8_family_name)
+			c.string_32_into_utf_8_string_8 (a_font.name, utf8_family_name)
 			c_name := utf8_family_name.to_c
 
 			Pango.set_font_family (item, $c_name)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 14:30:41 GMT (Friday 27th December 2019)"
-	revision: "8"
+	date: "2020-06-28 10:32:16 GMT (Sunday 28th June 2020)"
+	revision: "9"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -56,9 +56,12 @@ feature -- Element change
 	append_tuples (array: ARRAY [like as_map_list.item])
 			--
 		local
-			i: INTEGER; map: like as_map_list.item
+			i, new_count: INTEGER; map: like as_map_list.item
 		do
-			accommodate (count + array.count)
+			new_count := count + array.count
+			if new_count > capacity then
+				accommodate (new_count)
+			end
 			from i := 1 until i > array.count loop
 				map := array [i]
 				force (map.value, map.key)

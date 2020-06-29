@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:21:26 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2020-06-28 9:39:29 GMT (Sunday 28th June 2020)"
+	revision: "10"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -28,8 +28,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_UTF
 
 create
 	make

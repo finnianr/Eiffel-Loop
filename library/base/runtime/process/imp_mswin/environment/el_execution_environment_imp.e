@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 12:10:57 GMT (Friday 29th May 2020)"
-	revision: "7"
+	date: "2020-06-28 9:17:39 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -27,7 +27,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			put
+			put, item, launch, system
 		end
 
 	EL_OS_IMPLEMENTATION
@@ -45,9 +45,8 @@ feature {NONE} -- Implementation
 	architecture_bits: INTEGER
 		once
 			Result := 64
-			if attached {STRING_32} execution.item (Processor_architecture) as str
-				and then str.ends_with_general (once "86")
-				and then not attached execution.item (Processor_architecture_WOW6432)
+			if attached item (Processor_architecture) as str and then str.ends_with_general (once "86")
+				and then not attached item (Processor_architecture_WOW6432)
 			then
 				Result := 32
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-24 16:51:20 GMT (Wednesday 24th June 2020)"
-	revision: "4"
+	date: "2020-06-26 10:14:45 GMT (Friday 26th June 2020)"
+	revision: "5"
 
 class
 	EL_MODEL_LINE
@@ -30,21 +30,38 @@ inherit
 create
 	default_create, make_with_positions, make_with_points
 
+feature -- Access
+
+	p0: EV_COORDINATE
+		do
+			Result := point_array [0]
+		end
+
+	p1: EV_COORDINATE
+		do
+			Result := point_array [1]
+		end
+
 feature -- Measurement
 
 	angle: DOUBLE
 			-- actually we do care!
 		do
-			Result := point_angle (point_array [0], point_array [1])
+			Result := point_angle (p0, p1)
+		end
+
+	length_precise: DOUBLE
+		do
+			Result := point_distance (p0, p1)
 		end
 
 	normal_angle: DOUBLE
 		-- normalized acute angle
 		do
 			if point_array.item (0).x_precise <= point_array.item (1).x_precise then
-				Result := point_angle (point_array [0], point_array [1])
+				Result := point_angle (p0, p1)
 			else
-				Result := point_angle (point_array [1], point_array [0])
+				Result := point_angle (p1, p0)
 			end
 			if Result > Pi then
 				Result := Result - 2 * Pi
@@ -53,7 +70,7 @@ feature -- Measurement
 
 	perpendicular_distance (p: EV_COORDINATE): DOUBLE
 		do
-			Result := perpendicular_distance_to_line (p, point_array [0], point_array [1])
+			Result := perpendicular_distance_to_line (p, p0, p1)
 		end
 
 feature -- Status query
@@ -68,13 +85,21 @@ feature -- Status query
 			Result := cross_product (p) < 0
 		end
 
+feature -- Element change
+
+	grow (delta: DOUBLE)
+		-- grow line by `delta' in the direction of `point_b'
+		do
+			set_point_on_circle (p1, p0, angle, length_precise + delta)
+		end
+
 feature {NONE} -- Implementation
 
 	cross_product (p: EV_COORDINATE): DOUBLE
 		local
 			a, b: EV_COORDINATE; a_x, a_y: DOUBLE
 		do
-			a := point_array [0]; b := point_array [1]
+			a := p0; b := p1
 			a_x := a.x_precise; a_y := a.y_precise
 			Result := (b.x_precise - a_x) * (p.y_precise - a_y) - (b.y_precise - a_y) * (p.x_precise - a_x)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-05 14:48:38 GMT (Wednesday 5th June 2019)"
-	revision: "3"
+	date: "2020-06-27 9:46:17 GMT (Saturday 27th June 2020)"
+	revision: "4"
 
 class
 	FRACTAL_CONFIG
@@ -20,9 +20,7 @@ inherit
 			make
 		end
 
-	EL_ORIENTATION_ROUTINES
-
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 
 create
 	make

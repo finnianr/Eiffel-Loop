@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 15:35:46 GMT (Monday 10th February 2020)"
-	revision: "2"
+	date: "2020-06-28 9:28:24 GMT (Sunday 28th June 2020)"
+	revision: "3"
 
 deferred class
 	EL_SHARED_ONCE_STRING_8
@@ -43,10 +43,10 @@ feature {NONE} -- Implementation
 
 	once_utf_8_copy (general: READABLE_STRING_GENERAL): STRING
 		local
-			converter: expanded EL_UTF_CONVERTER
+			c: EL_UTF_CONVERTER
 		do
 			Result := empty_once_string_8
-			converter.utf_32_string_into_utf_8_string_8 (general, Result)
+			c.utf_32_string_into_utf_8_string_8 (general, Result)
 		end
 
 feature {NONE} -- Constants

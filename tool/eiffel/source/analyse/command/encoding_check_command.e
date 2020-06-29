@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:23:57 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2020-06-28 9:25:18 GMT (Sunday 28th June 2020)"
+	revision: "10"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -18,11 +18,6 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_UTF
-		rename
-			Utf as Conv
-		end
 
 	EL_MODULE_DIRECTORY
 
@@ -35,16 +30,17 @@ feature -- Basic operations
 		local
 			source_32: STRING_32; source_utf_8: STRING; relative_source_path: EL_FILE_PATH
 			last_date: INTEGER; source_out: PLAIN_TEXT_FILE
+			c: EL_UTF_CONVERTER
 		do
 			if attached open_lines (source_path, Latin_1) as source_lines then
 				if source_lines.encoded_as_utf (8) then
 					relative_source_path := source_path.relative_path (Directory.current_working)
 					source_utf_8 := File_system.plain_text (source_path)
 					source_utf_8.remove_head (3)
-					if Conv.is_valid_utf_8_string_8 (source_utf_8) then
+					if c.is_valid_utf_8_string_8 (source_utf_8) then
 						lio.put_new_line
 						lio.put_path_field ("UTF-8", relative_source_path)
-						source_32 := Conv.utf_8_string_8_to_string_32 (source_utf_8)
+						source_32 := c.utf_8_string_8_to_string_32 (source_utf_8)
 						if is_latin_1_encodeable (source_32) then
 							lio.put_new_line
 							lio.put_path_field ("Latin-1 encodeable", relative_source_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-18 8:53:12 GMT (Thursday 18th June 2020)"
-	revision: "7"
+	date: "2020-06-28 11:32:55 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	EL_MODEL_BUFFER_PROJECTOR
@@ -25,5 +25,4 @@ inherit
 
 create
 	make, make_with_buffer
-
 end

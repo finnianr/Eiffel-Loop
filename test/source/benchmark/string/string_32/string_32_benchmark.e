@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 12:43:58 GMT (Monday 1st June 2020)"
-	revision: "8"
+	date: "2020-06-28 9:41:54 GMT (Sunday 28th June 2020)"
+	revision: "9"
 
 class
 	STRING_32_BENCHMARK
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_MODULE_UTF
 
 create
 	make
@@ -94,8 +92,10 @@ feature {NONE} -- Implementation
 		end
 
 	to_utf_8 (string: like new_string): STRING
+		local
+			c: EL_UTF_CONVERTER
 		do
-			Result := UTF.string_32_to_utf_8_string_8 (string)
+			Result := c.string_32_to_utf_8_string_8 (string)
 		end
 
 	translate (target, old_characters, new_characters: like new_string)

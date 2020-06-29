@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 11:44:50 GMT (Wednesday 2nd October 2019)"
-	revision: "6"
+	date: "2020-06-28 9:13:57 GMT (Sunday 28th June 2020)"
+	revision: "7"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		undefine
 			make_default,
-			adjusted_lines, new_command_string, getter_function_table
+			adjusted_lines, new_command_parts, getter_function_table
 		redefine
 			getter_function_table
 		end

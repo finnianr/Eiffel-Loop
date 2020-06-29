@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 13:28:16 GMT (Monday 1st June 2020)"
-	revision: "2"
+	date: "2020-06-28 9:28:01 GMT (Sunday 28th June 2020)"
+	revision: "3"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -18,8 +18,6 @@ inherit
 			{STRING_HANDLER} extendible_unencoded
 			{EL_CONVERTABLE_ZSTRING} all
 		end
-
-	EL_MODULE_UTF
 
 	EL_SHARED_ONCE_STRING_32
 
@@ -40,14 +38,14 @@ feature -- To Strings
 
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
 		local
-			l_result_area: like to_latin_1.area
+			l_result_area: like to_latin_1.area; c: EL_UTF_CONVERTER
 			l_unicode: CHARACTER_32; l_area: SPECIAL [CHARACTER_32];
 			str_32: STRING_32; l_count, i: INTEGER
 		do
 			if a_codec.encoded_as_utf (8) then
 				str_32 := empty_once_string_32; append_to_string_32 (str_32)
-				create Result.make (Utf.utf_8_bytes_count (str_32, 1, count))
-				UTF.utf_32_string_into_utf_8_string_8 (str_32, Result)
+				create Result.make (c.utf_8_bytes_count (str_32, 1, count))
+				c.utf_32_string_into_utf_8_string_8 (str_32, Result)
 
 			elseif codec.same_as (a_codec) then
 				create Result.make_filled (Unencoded_character, count)

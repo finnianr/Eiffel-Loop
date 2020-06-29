@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:49:47 GMT (Tuesday 28th January 2020)"
-	revision: "7"
+	date: "2020-06-28 9:30:40 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	EL_WCOM_OBJECT
@@ -16,8 +16,6 @@ inherit
 	EL_EXTERNAL_LIBRARY [EL_WCOM_INITIALIZER]
 
 	EL_OWNED_CPP_OBJECT
-
-	EL_MODULE_UTF
 
 feature {NONE}  -- Initialization
 
@@ -44,8 +42,10 @@ feature {NONE} -- Implementation
 
 	wide_string (str: ZSTRING): SPECIAL [NATURAL_16]
 			-- UTF-16 encoded string
+		local
+			c: EL_UTF_CONVERTER
 		do
-			Result := UTF.utf_32_string_to_utf_16_0 (str.to_unicode)
+			Result := c.utf_32_string_to_utf_16_0 (str.to_unicode)
 		end
 
 	last_call_result: INTEGER

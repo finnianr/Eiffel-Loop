@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-14 9:11:54 GMT (Tuesday 14th January 2020)"
-	revision: "5"
+	date: "2020-06-27 9:46:07 GMT (Saturday 27th June 2020)"
+	revision: "6"
 
 class
 	SATELLITE_PARAMETERS
@@ -21,12 +21,7 @@ inherit
 			make_default, building_action_table
 		end
 
-	EL_ORIENTATION_ROUTINES
-		undefine
-			is_equal
-		end
-
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 		undefine
 			is_equal
 		end

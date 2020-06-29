@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:18:03 GMT (Friday 7th February 2020)"
-	revision: "12"
+	date: "2020-06-28 9:26:48 GMT (Sunday 28th June 2020)"
+	revision: "13"
 
 class
 	EL_AES_ENCRYPTER
@@ -24,8 +24,6 @@ inherit
 
 	EL_MODULE_DIGEST
 
-	EL_MODULE_UTF
-
 create
 	default_create, make, make_from_key, make_from_other
 
@@ -41,9 +39,9 @@ feature {NONE} -- Initialization
 		require
 			valid_key_size: Bit_sizes.has (key_size_bits)
 		local
-			size_bytes: INTEGER
+			size_bytes: INTEGER; c: EL_UTF_CONVERTER
 		do
-			key_data := Digest.sha_256 (UTF.string_32_to_utf_8_string_8 (pass_phrase.to_string_32))
+			key_data := Digest.sha_256 (c.string_32_to_utf_8_string_8 (pass_phrase.to_string_32))
 
 			size_bytes := key_size_bits.to_integer_32 // 8
 			if size_bytes < key_data.count then

@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:46:55 GMT (Tuesday 5th May 2020)"
-	revision: "7"
+	date: "2020-06-28 9:40:55 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 class
 	JSON_NAME_VALUE_LIST_TEST_SET
 
 inherit
 	EL_EQA_REGRESSION_TEST_SET
-
-	EL_MODULE_UTF
 
 feature -- Basic operations
 

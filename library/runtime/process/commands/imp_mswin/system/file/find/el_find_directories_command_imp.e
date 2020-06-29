@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-02 11:44:07 GMT (Wednesday 2nd October 2019)"
-	revision: "5"
+	date: "2020-06-28 9:13:56 GMT (Sunday 28th June 2020)"
+	revision: "6"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			adjusted_lines, new_command_string
+			adjusted_lines, new_command_parts
 		end
 
 	EL_FIND_COMMAND_IMP

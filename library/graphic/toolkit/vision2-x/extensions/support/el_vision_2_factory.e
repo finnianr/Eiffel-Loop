@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-13 13:27:35 GMT (Saturday 13th June 2020)"
-	revision: "12"
+	date: "2020-06-26 10:57:15 GMT (Friday 26th June 2020)"
+	revision: "13"
 
 class
 	EL_VISION_2_FACTORY
@@ -71,7 +71,6 @@ feature -- Factory
 
 	new_label_bold (a_text: READABLE_STRING_GENERAL): EV_LABEL
 			--
-
 		local
 			bold: EV_FONT
 		do

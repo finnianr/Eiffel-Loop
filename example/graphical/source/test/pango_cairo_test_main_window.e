@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:10:15 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-06-27 9:46:19 GMT (Saturday 27th June 2020)"
+	revision: "9"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -18,14 +18,9 @@ inherit
 			make
 		end
 
-	EL_MODEL_MATH
+	EL_GEOMETRY_MATH
 		rename
 			log as natural_log
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_ORIENTATION_ROUTINES
 		undefine
 			default_create, copy, is_equal
 		end

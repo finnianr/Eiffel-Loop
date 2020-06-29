@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-05 15:41:24 GMT (Friday 5th June 2020)"
-	revision: "10"
+	date: "2020-06-27 10:04:45 GMT (Saturday 27th June 2020)"
+	revision: "11"
 
 class
 	EL_ORIENTATION_ROUTINES
@@ -26,7 +26,7 @@ feature -- Contract Support
 			Result := ((Top | Bottom) & side).to_boolean
 		end
 
-	is_valid_dimension (dimension: INTEGER): BOOLEAN
+	is_valid_dimension (dimension: NATURAL_8): BOOLEAN
 		do
 			inspect dimension
 				when By_width, By_height then
@@ -90,9 +90,9 @@ feature {NONE} -- Axis
 
 feature {NONE} -- Directions
 
-	By_height: INTEGER = 1
+	By_height: NATURAL_8 = 1
 
-	By_width: INTEGER = 2
+	By_width: NATURAL_8 = 2
 
 feature {NONE} -- Four sides/directions
 

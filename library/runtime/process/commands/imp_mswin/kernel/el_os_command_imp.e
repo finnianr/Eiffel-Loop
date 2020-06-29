@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 6:44:32 GMT (Wednesday 27th May 2020)"
-	revision: "7"
+	date: "2020-06-28 9:10:42 GMT (Sunday 28th June 2020)"
+	revision: "8"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -17,14 +17,7 @@ inherit
 
 	EL_OS_IMPLEMENTATION
 
-	EL_MODULE_UTF
-
 	SYSTEM_ENCODINGS
-
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		end
 
 feature -- Basic operations
 
@@ -32,6 +25,7 @@ feature -- Basic operations
 		local
 			file: RAW_FILE; raw_text: NATIVE_STRING; list: LIST [READABLE_STRING_GENERAL]
 			line: ZSTRING; l_encoding: ENCODING; last_string: STRING
+			converter: EL_UTF_CONVERTER
 		do
 			if file_path.exists then
 				create file.make_open_read (file_path)
@@ -41,7 +35,7 @@ feature -- Basic operations
 			else
 				create last_string.make_empty
 			end
-			if UTF.is_valid_utf_16le_string_8 (last_string) then
+			if converter.is_valid_utf_16le_string_8 (last_string) then
 				create raw_text.make_from_raw_string (last_string)
 				list := raw_text.string.split ('%N')
 			else
