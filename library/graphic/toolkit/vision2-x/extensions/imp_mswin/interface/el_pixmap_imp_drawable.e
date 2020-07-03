@@ -2,22 +2,21 @@ note
 	description: "[
 		EiffelVision pixmap. MS Windows implementation for drawable pixmap (drawable, not self-displayable)
 	]"
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2020-07-02 9:18:11 GMT (Thursday 2nd July 2020)"
 	revision: "1"
 
-class
+class 
 	EL_PIXMAP_IMP_DRAWABLE
 
 inherit
 	EV_PIXMAP_IMP_DRAWABLE
 		redefine
-			interface, promote_to_widget
+			interface,
+			promote_to_widget
 		end
 
 	EL_PIXMAP_I
@@ -36,26 +35,28 @@ inherit
 
 	EL_PIXMAP_TO_JPEG_IMP
 
-create
-	make_with_simple, make_with_pixel_buffer
+create 
+	make_with_simple,
+	make_with_pixel_buffer
 
-feature {NONE} -- Implementation
+feature {NONE} 
 
 	promote_to_widget
-			-- Promote the current implementation to
-			-- EV_PIXMAP_IMP_WIDGET which allows
-			-- drawing operations on the pixmap and
-			-- display on the screen.
 		local
 			widget_pixmap: EL_PIXMAP_IMP_WIDGET
 		do
-			create widget_pixmap.make_with_drawable(Current)
-			attached_interface.replace_implementation(widget_pixmap)
+			create widget_pixmap.make_with_drawable (Current)
+			attached_interface.replace_implementation (widget_pixmap)
 		end
+	
+feature {EV_ANY, EV_ANY_I} 
 
-feature {EV_ANY, EV_ANY_I} -- Implementation attributes
+	interface: EL_PIXMAP
+		note
+			option: stable
+		attribute
+		end
+	
+end -- class EL_PIXMAP_IMP_DRAWABLE
 
- 	interface: detachable EL_PIXMAP note option: stable attribute end
-			-- Interface for the bridge pattern.
 
-end

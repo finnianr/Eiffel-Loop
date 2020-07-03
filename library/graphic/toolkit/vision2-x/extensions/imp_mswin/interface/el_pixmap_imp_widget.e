@@ -1,15 +1,13 @@
 note
 	description: "Pixmap imp widget"
-
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2020-07-02 9:18:22 GMT (Thursday 2nd July 2020)"
 	revision: "1"
 
-class
+class 
 	EL_PIXMAP_IMP_WIDGET
 
 inherit
@@ -22,7 +20,8 @@ inherit
 		undefine
 			flush,
 			save_to_named_path,
-			on_orphaned, on_parented,
+			on_orphaned,
+			on_parented,
 			set_pebble,
 			set_actual_drop_target_agent,
 			set_pebble_function,
@@ -34,12 +33,18 @@ inherit
 
 	EL_PIXMAP_TO_JPEG_IMP
 
-create
-	make_with_simple, make_with_drawable
+create 
+	make_with_simple,
+	make_with_drawable
 
-feature {EV_ANY, EV_ANY_I} -- Implementation
+feature {EV_ANY, EV_ANY_I} 
 
- 	interface: detachable EL_PIXMAP note option: stable attribute end;
-			-- Interface for the bridge pattern.
+	interface: EL_PIXMAP
+		note
+			option: stable
+		attribute
+		end
+	
+end -- class EL_PIXMAP_IMP_WIDGET
 
-end
+

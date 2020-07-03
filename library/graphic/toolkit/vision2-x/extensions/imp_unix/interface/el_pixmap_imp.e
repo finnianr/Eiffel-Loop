@@ -25,15 +25,10 @@ inherit
 			interface
 		end
 
+	EL_PIXMAP_TO_JPEG_IMP
+
 create
 	make
-
-feature -- Conversion
-
-	to_jpeg (quality: INTEGER): EL_JPEG_PIXMAP_IMP
-		do
-			create Result.make (pixbuf_from_drawable, quality, True)
-		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
 

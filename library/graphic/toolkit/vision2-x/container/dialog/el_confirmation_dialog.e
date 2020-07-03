@@ -23,7 +23,7 @@ inherit
 		export
 			{ANY} label
 		undefine
-			add_locale_button, locale_button
+			add_locale_button, locale_button, set_text
 		redefine
 			initialize, add_locale_button, locale_button
 		end

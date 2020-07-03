@@ -23,7 +23,7 @@ inherit
 		export
 			{ANY} label
 		redefine
-			add_locale_button, locale_button
+			add_locale_button, locale_button, set_text
 		end
 
 	EL_WINDOW
@@ -44,6 +44,11 @@ feature -- Element change
 	set_label_font (a_font: EL_FONT)
 		do
 			label.set_font (a_font)
+		end
+
+	set_text (a_text: READABLE_STRING_GENERAL)
+		do
+			Precursor (Zstring.to_unicode_general (a_text))
 		end
 
 feature {NONE} -- Implementation

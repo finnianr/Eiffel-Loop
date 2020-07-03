@@ -102,7 +102,7 @@ feature {NONE} -- Event handling
 				end
 			end
 			if file_path.exists then
-				create dialog.make_with_text (Confirmation_template.substituted_tuple ([file_path.base]).to_string_32)
+				create dialog.make_with_text (Confirmation_template #$ [file_path.base])
 				dialog.show_modal_to_window (a_window)
 				confirmed := dialog.ok_selected
 			else

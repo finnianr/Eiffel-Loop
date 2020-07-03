@@ -1,5 +1,5 @@
 note
-	description: "Pixmap to jpeg imp"
+	description: "Windows implementation of `to_jpeg'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

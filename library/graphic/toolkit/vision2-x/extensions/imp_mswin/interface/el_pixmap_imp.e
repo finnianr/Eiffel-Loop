@@ -15,7 +15,7 @@ class
 inherit
 	EV_PIXMAP_IMP
 		redefine
-			interface, promote_to_drawable, promote_to_widget
+			effective_load_file, interface, promote_to_drawable, promote_to_widget
 		end
 
 	EL_PIXMAP_I
@@ -71,12 +71,33 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	effective_load_file
+		local
+			l_path: EL_FILE_PATH; bitmap: WEL_GDIP_BITMAP
+		do
+			l_path := pixmap_filename
+			if l_path.has_some_extension (Jpeg_extensions, True) and then l_path.exists then
+				disable_initialized
+				create bitmap.make_with_size (1, 1)
+				bitmap.load_image_from_path (pixmap_filename)
+				set_bitmap_and_mask (bitmap.new_bitmap, Void, bitmap.width, bitmap.height)
+				set_is_initialized (True)
+			else
+				Precursor
+			end
+		end
+
 feature {EV_ANY, EV_ANY_I} -- Implementation
 
 	interface: detachable EL_PIXMAP note option: stable attribute end;
 
 feature {NONE} -- Constants
 
-	Type_jpeg: STRING = "jpeg"
+	Jpeg_extensions: ARRAY [STRING]
+		once
+			Result := << "jpeg", "jpg" >>
+		end
 
 end
