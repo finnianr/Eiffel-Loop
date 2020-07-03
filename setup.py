@@ -8,6 +8,19 @@
 from distutils.core import setup
 from os import path
 
+
+#setup (
+#	name = 'ghar',
+#	version = '2020-7',
+#	description = 'Windows support for symlinks',
+#	author = 'Onno Broekmans',
+#	author_email = 'onnodb@gmail.com',
+#	url = 'https://github.com/philips/ghar',
+#	
+#	packages = ['ghar'],
+#	package_dir = {'' : 'contrib/Python'}
+#)
+
 script_path = path.normpath ('tool/python-support/eiffel_loop/scripts/%s.py')
 
 setup (
@@ -28,7 +41,7 @@ setup (
 		'eiffel_loop.scripts', 
 		'eiffel_loop.xml'
 	],
-	package_dir = {'': 'tool/python-support'},
+	package_dir = {'' : 'tool/python-support'},
 	scripts = [
 		script_path % 'build_c_library',
 		script_path % 'launch_estudio',

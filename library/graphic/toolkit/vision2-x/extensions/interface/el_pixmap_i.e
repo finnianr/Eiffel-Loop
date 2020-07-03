@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 11:24:49 GMT (Monday 29th June 2020)"
-	revision: "1"
+	date: "2020-06-29 16:54:04 GMT (Monday 29th June 2020)"
+	revision: "2"
 
 deferred class
 	EL_PIXMAP_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EV_PIXMAP_I
 
-feature -- Basic operations
+feature -- Conversion
 
 	to_jpeg (quality: INTEGER): EL_JPEG_PIXMAP_I
 		deferred

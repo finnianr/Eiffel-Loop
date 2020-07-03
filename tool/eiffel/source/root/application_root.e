@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:20:56 GMT (Thursday 7th May 2020)"
-	revision: "24"
+	date: "2020-07-01 10:24:02 GMT (Wednesday 1st July 2020)"
+	revision: "25"
 
 class
 	APPLICATION_ROOT
@@ -21,8 +21,11 @@ create
 feature {NONE} -- Constants
 
 	Applications: TUPLE [
+--		Test
 		AUTOTEST_APP,
+		EDITOR_AUTOTEST_APP,
 
+--		Utilities
 		CHECK_LOCALE_STRINGS_APP,
 		CLASS_DESCENDANTS_APP,
 		CLASS_PREFIX_REMOVAL_APP,
@@ -33,7 +36,6 @@ feature {NONE} -- Constants
 		NOTE_DATE_FIXER_APP,
 
 		ECF_TO_PECF_APP,
-		EDITOR_AUTOTEST_APP, 
 		ENCODING_CHECK_APP,
 		EIFFEL_VIEW_APP,
 

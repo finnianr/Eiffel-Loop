@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 11:01:46 GMT (Sunday 28th June 2020)"
-	revision: "41"
+	date: "2020-07-03 9:41:54 GMT (Friday 3rd July 2020)"
+	revision: "42"
 
 deferred class
 	EL_PATH
@@ -319,12 +319,14 @@ feature -- Status Query
 		end
 
 	has_extension (a_extension: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			index: INTEGER
 		do
-			index := dot_index
-			if index > 0 then
-				Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
+			Result := same_extension (a_extension, False)
+		end
+
+	has_some_extension (extension_list: ITERABLE [READABLE_STRING_GENERAL]; case_insensitive: BOOLEAN): BOOLEAN
+		do
+			Result := across extension_list as l_extension some
+				same_extension (l_extension.item, case_insensitive)
 			end
 		end
 
@@ -408,6 +410,20 @@ feature -- Status Query
 
 	out_abbreviated: BOOLEAN
 		-- is the current directory in 'out string' abbreviated to $CWD
+
+	same_extension (a_extension: READABLE_STRING_GENERAL; case_insensitive: BOOLEAN): BOOLEAN
+		local
+			index: INTEGER
+		do
+			index := dot_index
+			if index > 0 then
+				if case_insensitive then
+					Result := base.same_caseless_characters_general (a_extension, 1, a_extension.count, index + 1)
+				else
+					Result := base.same_characters (a_extension, 1, a_extension.count, index + 1)
+				end
+			end
+		end
 
 feature -- Status change
 

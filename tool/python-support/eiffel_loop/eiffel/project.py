@@ -22,11 +22,8 @@ from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
 from subprocess import call
 
-
-global __CSL
 global program_files
 
-__CSL = None
 program_files = 'Program Files'
 
 def platform_spec_build_dir ():
@@ -331,21 +328,7 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return glob (path.join (dir_path, '*.dll'))
 
 	def link (self, target, link_name):
-		if path.exists (link_name):
-			print "removing", link_name
-			os.unlink (link_name)
-
-		if __CSL is None:
-			csl = ctypes.windll.kernel32.CreateSymbolicLinkW
-			csl.argtypes = (ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32)
-			csl.restype = ctypes.c_ubyte
-			__CSL = csl
-			flags = 0
-		if source is not None and os.path.isdir(source):
-			flags = 1
-		if __CSL(link_name, source, flags) == 0:
-			raise ctypes.WinError()
-		return 0
+		return call (['mklink', link_name, target])
 
 # Implementation
 

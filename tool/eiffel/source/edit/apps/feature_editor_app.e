@@ -1,11 +1,13 @@
 note
-	description: "[
+	description: "Command line interface to command [$source FEATURE_EDITOR_COMMAND]"
+	notes: "[
 		This application can save a lot of unnecessary keyboard typing during Eiffel development. It performs 
 		a series of expansions on shorthand expressions present in a single Eiffel class. In addition to performing
 		expansions, it also alphabetically orders the routines in each feature block. It can be usefully incoporated
 		into EiffelStudio using this external.
-		command template:
-			el_eiffel -feature_edit -no_highlighting -source "$file_name"
+
+		USAGE
+			el_eiffel -feature_editor -no_highlighting -source <path to Eiffel source>
 	]"
 	instructions: "See bottom of page"
 
@@ -14,17 +16,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 10:17:37 GMT (Friday 6th March 2020)"
-	revision: "14"
+	date: "2020-07-01 9:19:27 GMT (Wednesday 1st July 2020)"
+	revision: "15"
 
 class
 	FEATURE_EDITOR_APP
 
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [FEATURE_EDITOR_COMMAND]
-		redefine
-			Option_name
-		end
 
 feature {NONE} -- Implementation
 
@@ -41,8 +40,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Option_name: STRING = "feature_edit"
 
 	Description: STRING = "Performs a series of edits and shorthand expansions on an Eiffel class"
 

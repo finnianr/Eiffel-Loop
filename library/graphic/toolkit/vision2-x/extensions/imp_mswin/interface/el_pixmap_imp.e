@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 10:11:50 GMT (Monday 29th June 2020)"
-	revision: "1"
+	date: "2020-07-02 9:27:47 GMT (Thursday 2nd July 2020)"
+	revision: "3"
 
 class
 	EL_PIXMAP_IMP
@@ -15,36 +15,60 @@ class
 inherit
 	EV_PIXMAP_IMP
 		redefine
-			interface
+			interface, promote_to_drawable, promote_to_widget
 		end
 
 	EL_PIXMAP_I
 		undefine
 			flush,
-			save_to_named_path
+			save_to_named_path,
+			on_parented,
+			set_pebble,
+			set_actual_drop_target_agent,
+			set_pebble_function,
+			draw_straight_line,
+			disable_initialized
 		redefine
 			interface
 		end
 
+	EL_PIXMAP_TO_JPEG_IMP
+
 create
 	make
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	save_as_jpeg (file_path: EL_FILE_PATH; a_quality: INTEGER)
+	promote_to_drawable
+			-- Promote the current implementation to
+			-- EL_PIXMAP_IMP_DRAWABLE which allows
+			-- drawing operations on the pixmap.
 		local
-			gerror, gdk_pixbuf: POINTER
---			handle, type, quality: EV_GTK_C_STRING
+			drawable_pixmap: EL_PIXMAP_IMP_DRAWABLE
 		do
---			gdk_pixbuf := pixbuf_from_drawable
---			create handle.make_from_path (file_path)
---			type := Type_jpeg; quality := a_quality.out
---			{EL_GTK2}.gdk_pixbuf_save_jpeg (gdk_pixbuf, handle.item, type.item, quality.item, $gerror)
-			if gerror /= default_pointer then
-				-- We could not save the image so raise an exception
-				(create {EXCEPTIONS}).raise ("Could not save image file.")
+				-- Discard current implementation
+			if not is_destroyed then
+				create drawable_pixmap.make_with_simple (Current)
+				attached_interface.replace_implementation (drawable_pixmap)
+				safe_destroy
 			end
---			{GTK2}.object_unref (gdk_pixbuf)
+		end
+
+	promote_to_widget
+			-- Promote the current implementation to
+			-- EL_PIXMAP_IMP_WIDGET which allows
+			-- drawing operations on the pixmap and
+			-- display on the screen.
+		local
+			widget_pixmap: EL_PIXMAP_IMP_WIDGET
+		do
+			if not is_destroyed then
+				create widget_pixmap.make_with_simple (Current)
+				attached_interface.replace_implementation (widget_pixmap)
+
+					-- Discard current implementation
+				safe_destroy
+			end
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

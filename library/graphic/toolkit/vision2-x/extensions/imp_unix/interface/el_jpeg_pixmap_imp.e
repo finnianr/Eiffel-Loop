@@ -1,13 +1,13 @@
 note
-	description: "Unix implemenation of interface [$source EL_JPEG_FILE_I]"
+	description: "Unix implemenation of interface [$source EL_JPEG_PIXMAP_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 13:03:50 GMT (Monday 29th June 2020)"
-	revision: "1"
+	date: "2020-06-29 13:37:56 GMT (Monday 29th June 2020)"
+	revision: "2"
 
 class
 	EL_JPEG_PIXMAP_IMP

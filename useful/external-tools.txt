@@ -1,14 +1,16 @@
-1. Normalize features
-el_toolkit2 -feature_edit -no_highlighting -source "$file_name"
+UNIX
 
-2. Install executable
-cp -v $f_code/el_* ~/bin
+1. Expand shorthand and sort features
+el_eiffel -feature_editor -no_highlighting -source "$file_name"
 
-3. Nautilus
+2. Install F_code executable
+python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin
+
+3. Open project directory
 launch_nautilus.sh "$(dirname "$(dirname "$project_directory")")"
 
 4. List feature catagories
-cat feature_constants.e
+cat feature_constants.e | tail -n 36 | expand -t3
 working dir: /home/finnian/dev/Eiffel/Eiffel-Loop/tool/toolkit/source/eiffel-dev/class-edit/support
 
 5. Edit pecf
@@ -16,3 +18,15 @@ edit_pecf.sh "$(dirname "$(dirname "$project_directory")")"
 
 6. Edit project.py
 edit_project_py.sh "$(dirname "$(dirname "$project_directory")")"
+
+7. Open class directory
+launch_nautilus.sh "$(dirname "$file_name")"
+
+WINDOWS
+
+1. Expand shorthand and sort features
+el_eiffel -feature_editor -no_highlighting -source "$file_name"
+
+2. Install F_code executable
+python -m eiffel_loop.scripts.ec_install_app --f_code --install "c:\Program files"
+

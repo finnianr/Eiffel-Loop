@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-31 6:39:00 GMT (Wednesday 31st July 2019)"
-	revision: "8"
+	date: "2020-06-29 16:29:01 GMT (Monday 29th June 2020)"
+	revision: "9"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -71,6 +71,12 @@ feature -- Measurement
 			else
 				Result := Precursor
 			end
+		end
+
+feature -- Basic operations
+
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+		do
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

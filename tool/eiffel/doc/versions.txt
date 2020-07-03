@@ -1,3 +1,6 @@
+1.2.2
+Changed command switch to default for FEATURE_EDITOR_APP and NOTE_EDITOR_APP
+
 1.2.1
 Revised EL_FILE_OPEN_ROUTINES open_files and EL_ENCODEABLE_BASE
 

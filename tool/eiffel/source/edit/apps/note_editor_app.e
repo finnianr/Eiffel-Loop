@@ -1,7 +1,10 @@
 note
-	description: "[
-		Command line interface to [$source NOTE_EDITOR_COMMAND]
-		
+	description: "Command line interface to [$source NOTE_EDITOR_COMMAND]"
+	notes: "[
+		USAGE
+			
+			el_eiffel -note_editor -sources <path to manifest pyx> -licence <path to license pyx>
+			
 		This command edits the note fields of all classes defined by a source tree manifest argument
 		by filling in default values for license fields listed in supplied `license' argument.
 		If the modification date/time has changed, it fills in the note-fields.
@@ -14,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 10:29:58 GMT (Wednesday 6th May 2020)"
-	revision: "20"
+	date: "2020-07-01 9:13:45 GMT (Wednesday 1st July 2020)"
+	revision: "21"
 
 class
 	NOTE_EDITOR_APP
@@ -24,8 +27,6 @@ inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 		rename
 			extra_log_filter as no_log_filter
-		redefine
-			Option_name
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -76,11 +77,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Option_name: STRING
-		once
-			Result := "edit_notes"
-		end
 
 	Description: STRING = "[
 		Edit the note fields of all classes defined by the source tree manifest argument.
