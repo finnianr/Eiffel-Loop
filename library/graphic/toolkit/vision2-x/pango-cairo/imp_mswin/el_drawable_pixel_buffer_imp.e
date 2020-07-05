@@ -17,21 +17,25 @@ inherit
 		rename
 			draw_text as buffer_draw_text,
 			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
-			make_with_pixmap as make_pixel_buffer,
-			make_with_size as make_pixel_buffer_with_size,
-			set_with_named_path as set_pixel_buffer_with_named_path,
-			unlock as unlock_buffer
+			lock as lock_rgb_24,
+			unlock as unlock_rgb_24,
+			make_with_pixmap as make_rgb_24_with_pixmap,
+			make as make_rgb_24,
+			make_with_size as make_rgb_24_with_size,
+			set_with_named_path as set_rgb_24_with_path,
+			height as buffer_height,
+			width as buffer_width
 		undefine
-			lock, default_create
+			default_create
 		redefine
-			interface, old_make, make, width, height
+			interface, old_make
 		end
 
 	EL_DRAWABLE_PIXEL_BUFFER_I
+		undefine
+			unlock_rgb_24
 		redefine
-			unlock, interface, check_font_availability
-		select
-			make_with_pixmap, unlock
+			interface, check_font_availability
 		end
 
 	EL_MODULE_SYSTEM_FONTS
@@ -41,36 +45,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
-		do
-			default_create
-			Precursor
-		end
-
 	old_make (an_interface: EL_DRAWABLE_PIXEL_BUFFER)
 			-- Creation method.
 		do
 			assign_interface (an_interface)
-		end
-
-feature -- Measurement
-
-	height: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_height (cairo_surface)
-			else
-				Result := Precursor
-			end
-		end
-
-	width: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_width (cairo_surface)
-			else
-				Result := Precursor
-			end
 		end
 
 feature -- Basic operations
@@ -97,17 +75,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	draw_pixel_32_bit_buffer (x, y: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		do
+			
+		end
+
 	stride: INTEGER
 		do
 			Result := data.stride
-		end
-
-	unlock
-		do
-			if is_locked then
-				Precursor {EL_DRAWABLE_PIXEL_BUFFER_I}
-				unlock_buffer
-			end
 		end
 
 feature {NONE} -- Constants

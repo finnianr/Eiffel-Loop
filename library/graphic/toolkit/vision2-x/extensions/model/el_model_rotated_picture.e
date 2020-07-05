@@ -180,7 +180,7 @@ feature {NONE} -- Constants
 
 	Default_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		once
-			create Result.make_with_size (1, 1)
+			create Result.make_with_size (32, 1, 1)
 		end
 
 	Width_mask: NATURAL = 0xFFFF

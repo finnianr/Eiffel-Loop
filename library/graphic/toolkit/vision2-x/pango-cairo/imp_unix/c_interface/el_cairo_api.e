@@ -31,6 +31,14 @@ feature -- Access
 			"cairo_get_antialias"
 		end
 
+	frozen format_stride_for_width (format, width: INTEGER): INTEGER
+			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
+		external
+			"C signature (cairo_format_t, int): EIF_INTEGER use <cairo.h>"
+		alias
+			"cairo_format_stride_for_width"
+		end
+
 	frozen surface_data (surface: POINTER): POINTER
 			-- unsigned char * cairo_image_surface_get_data (cairo_surface_t *surface);
 		external
@@ -64,6 +72,14 @@ feature -- Access
 		end
 
 feature -- Status setting
+
+	frozen finish (surface: POINTER)
+			-- void cairo_surface_finish (cairo_surface_t *surface);
+		external
+			"C signature (cairo_surface_t *) use <cairo.h>"
+		alias
+			"cairo_surface_finish"
+		end
 
 	frozen reset_clip (context: POINTER)
 			-- void cairo_reset_clip (cairo_t *cr);
@@ -213,20 +229,20 @@ feature -- Basic operations
 			"cairo_fill"
 		end
 
-	frozen format_stride_for_width (format, width: INTEGER): INTEGER
-			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
-		external
-			"C signature (cairo_format_t, int): EIF_INTEGER use <cairo.h>"
-		alias
-			"cairo_format_stride_for_width"
-		end
-
 	frozen line_to (context: POINTER; x, y: DOUBLE)
 			-- void cairo_line_to (cairo_t *cr, double x, double y);
 		external
 			"C signature (cairo_t *, double, double) use <cairo.h>"
 		alias
 			"cairo_line_to"
+		end
+
+	frozen mask_surface (context, surface: POINTER; x, y: DOUBLE)
+			-- void cairo_mask_surface (cairo_t *cr, cairo_surface_t *surface, double surface_x, double surface_y);
+		external
+			"C signature (cairo_t *, cairo_surface_t *, double, double) use <cairo.h>"
+		alias
+			"cairo_mask_surface"
 		end
 
 	frozen move_to (context: POINTER; x, y: DOUBLE)

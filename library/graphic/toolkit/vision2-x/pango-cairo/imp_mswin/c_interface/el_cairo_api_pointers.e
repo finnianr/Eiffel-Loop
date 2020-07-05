@@ -38,11 +38,15 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	fill: POINTER
 
+	finish: POINTER
+
 	format_stride_for_width: POINTER
 
 	image_surface_create_for_data: POINTER
 
 	line_to: POINTER
+
+	mask_surface: POINTER
 
 	move_to: POINTER
 

@@ -171,6 +171,20 @@ feature -- Factory
 
 feature -- Status setting
 
+	frozen cairo_finish (function, surface: POINTER)
+			-- void cairo_surface_finish (cairo_surface_t *surface);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_surface_t *))$function
+				) (
+					(cairo_surface_t *)$surface
+				)
+			]"
+		end
+
 	frozen cairo_surface_mark_dirty (function, surface: POINTER)
 			-- void	cairo_surface_mark_dirty (cairo_surface_t *surface);
 		external
@@ -393,6 +407,20 @@ feature -- Basic operations
 					FUNCTION_CAST(void, (cairo_t *, double, double))$function
 				) (
 					(cairo_t *)$context, (double)$x, (double)$y
+				)
+			]"
+		end
+
+	frozen cairo_mask_surface (function, context, surface: POINTER; x, y: DOUBLE)
+			-- void cairo_mask_surface (cairo_t *cr, cairo_surface_t *surface, double surface_x, double surface_y);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_t *, cairo_surface_t *, double, double))$function
+				) (
+					(cairo_t *)$context, (cairo_surface_t *)$surface, (double)$x, (double)$y
 				)
 			]"
 		end

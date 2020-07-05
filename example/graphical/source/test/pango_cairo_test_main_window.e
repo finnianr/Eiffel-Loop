@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 			l_pixmap.draw_rectangle (name_rect.x, name_rect.y, name_rect.width, name_rect.height)
 
 --			create Result.make_with_pixmap (l_pixmap) -- _rgb_24
-			create Result.make_with_size (l_pixmap.width, l_pixmap.height) -- _rgb_24
+			create Result.make_with_size (32, l_pixmap.width, l_pixmap.height) -- _rgb_24
 
 --			Result.lock
 

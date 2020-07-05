@@ -25,27 +25,27 @@ feature -- Font styles
 
 feature -- Font weights
 
-  Pango_weight_thin: INTEGER = 100
+	Pango_weight_thin: INTEGER = 100
 
-  Pango_weight_ultralight: INTEGER = 200
+	Pango_weight_ultralight: INTEGER = 200
 
-  Pango_weight_light: INTEGER = 300
+	Pango_weight_light: INTEGER = 300
 
-  Pango_weight_book: INTEGER = 380
+	Pango_weight_book: INTEGER = 380
 
-  Pango_weight_normal: INTEGER = 400
+	Pango_weight_normal: INTEGER = 400
 
-  Pango_weight_medium: INTEGER = 500
+	Pango_weight_medium: INTEGER = 500
 
-  Pango_weight_semibold: INTEGER = 600
+	Pango_weight_semibold: INTEGER = 600
 
-  Pango_weight_bold: INTEGER = 700
+	Pango_weight_bold: INTEGER = 700
 
-  Pango_weight_ultrabold: INTEGER = 800
+	Pango_weight_ultrabold: INTEGER = 800
 
-  Pango_weight_heavy: INTEGER = 900
+	Pango_weight_heavy: INTEGER = 900
 
-  Pango_weight_ultraheavy: INTEGER = 1000
+	Pango_weight_ultraheavy: INTEGER = 1000
 
 feature -- Font horizontal stretch
 

@@ -15,22 +15,26 @@ class
 inherit
 	EV_PIXEL_BUFFER_IMP
 		rename
+			data_ptr as pixel_data,
 			draw_text as buffer_draw_text,
 			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
-			make_with_pixmap as make_pixel_buffer,
-			make_with_size as make_pixel_buffer_with_size,
-			set_with_named_path as set_pixel_buffer_with_named_path
+			lock as lock_rgb_24,
+			unlock as unlock_rgb_24,
+			make_with_pixmap as make_rgb_24_with_pixmap,
+			make as make_rgb_24,
+			make_with_size as make_rgb_24_with_size,
+			set_with_named_path as set_rgb_24_with_path,
+			height as buffer_height,
+			width as buffer_width
 		undefine
-			lock, unlock, default_create
+			default_create
 		redefine
-			make, make_pixel_buffer_with_size, interface, old_make, dispose, width, height
+			interface, old_make, dispose
 		end
 
 	EL_DRAWABLE_PIXEL_BUFFER_I
 		redefine
 			interface, dispose, update_cairo_color, set_surface_color_order
-		select
-			make_with_pixmap
 		end
 
 	EL_MODULE_COLOR
@@ -45,56 +49,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_argb_32 (a_width, a_height: INTEGER)
 		do
-			default_create
-			Precursor
-		end
-
-	make_pixel_buffer_with_size (a_width, a_height: INTEGER)
-			-- Create with size.
-		local
-			l_width, l_height: NATURAL_32
-		do
-			if {GTK}.gtk_maj_ver >= 2 then
-				l_width := a_width.as_natural_32
-				l_height := a_height.as_natural_32
-				set_gdkpixbuf ({GTK}.gdk_pixbuf_new ({GTK}.gdk_colorspace_rgb_enum, True, 8, a_width, a_height))
-					-- Creating managed pointer used for inspecting RGBA data.
-				create reusable_managed_pointer.share_from_pointer (default_pointer, 0)
-				lock
-				set_color (Mod_color.black)
-				fill_rectangle (0, 0, a_width, a_height)
-				unlock
-			else
-				create internal_pixmap.make_with_size (a_width, a_height)
-			end
+			gdk_pixbuf := {GTK}.gdk_pixbuf_new ({GTK}.gdk_colorspace_rgb_enum, True, 8, a_width, a_height)
 		end
 
 	old_make (an_interface: EL_DRAWABLE_PIXEL_BUFFER)
 			-- Creation method.
 		do
 			assign_interface (an_interface)
-		end
-
-feature -- Measurement
-
-	height: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_height (cairo_surface)
-			else
-				Result := Precursor
-			end
-		end
-
-	width: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_width (cairo_surface)
-			else
-				Result := Precursor
-			end
 		end
 
 feature -- Basic operations
@@ -105,7 +68,7 @@ feature -- Basic operations
 		local
 			jpeg: EL_JPEG_PIXMAP_IMP
 		do
-			if interface.is_rgb_24_bit then
+			if interface.is_rgb_24_format then
 				create jpeg.make (gdk_pixbuf, quality, False)
 				jpeg.save_as (file_path)
 			else
@@ -118,6 +81,16 @@ feature {EV_ANY, EV_ANY_I} -- Implementation attributes
 	interface: detachable EL_DRAWABLE_PIXEL_BUFFER note option: stable attribute end;
 
 feature {NONE} -- Implementation
+
+	adjust_color_channels
+		local
+			l_gdk_pixbuf: POINTER
+		do
+			Image_utils.format_argb_to_abgr (pixel_data, width * height)
+			l_gdk_pixbuf := {GTK2}.gdk_pixbuf_add_alpha (gdk_pixbuf, False, 0, 0, 0)
+			{GTK2}.object_unref (gdk_pixbuf)
+			gdk_pixbuf := l_gdk_pixbuf
+		end
 
 	dispose
 		do

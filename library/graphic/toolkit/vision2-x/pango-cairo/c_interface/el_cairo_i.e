@@ -35,6 +35,13 @@ feature -- Access
 		deferred
 		end
 
+feature -- Measurement
+
+	format_stride_for_width (format, width: INTEGER): INTEGER
+			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
+		deferred
+		end
+
 	surface_height (surface: POINTER): INTEGER
 		require
 			is_attached: is_attached (surface)
@@ -48,6 +55,12 @@ feature -- Access
 		end
 
 feature -- Status change
+
+	finish (surface: POINTER)
+		require
+			is_attached: is_attached (surface)
+		deferred
+		end
 
 	surface_mark_dirty (surface: POINTER)
 		require
@@ -163,14 +176,16 @@ feature -- Drawing operations
 		deferred
 		end
 
-	format_stride_for_width (format, width: INTEGER): INTEGER
-			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
-		deferred
-		end
-
 	line_to (context: POINTER; x, y: DOUBLE)
 		require
 			is_attached: is_attached (context)
+		deferred
+		end
+
+	mask_surface (context, surface: POINTER; x, y: DOUBLE)
+		require
+			is_context_attached: is_attached (context)
+			is_surface_attached: is_attached (surface)
 		deferred
 		end
 

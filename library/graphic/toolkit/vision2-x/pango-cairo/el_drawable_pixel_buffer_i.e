@@ -1,5 +1,8 @@
 note
-	description: "Drawable pixel buffer i"
+	description: "Platform independent interface for drawable pixel buffer with Cairo drawing operations"
+	notes: "[
+		If `is_rgb_24_format' is True than a new cairo context is create each time `lock' is called
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -17,45 +20,39 @@ inherit
 		rename
 			draw_text as buffer_draw_text,
 			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
-			make_with_size as make_pixel_buffer_with_size,
-			set_with_named_path as set_pixel_buffer_with_named_path
+			lock as lock_rgb_24,
+			unlock as unlock_rgb_24,
+			make as make_rgb_24,
+			make_with_size as make_rgb_24_with_size,
+			make_with_pixmap as make_rgb_24_with_pixmap,
+			set_with_named_path as set_rgb_24_with_path,
+
+			-- Measurement
+			height as buffer_height,
+			width as buffer_width
 		redefine
-			lock, unlock, interface, default_create
+			interface
 		end
 
 	EV_FONTABLE_I
-		undefine
-			default_create
+		rename
+			make as make_rgb_24
 		redefine
 			interface
 		end
 
 	EL_DISPOSEABLE
-		undefine
-			default_create
 		redefine
 			dispose
 		end
 
 	EL_CAIRO_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_ORIENTATION_ROUTINES
-		undefine
-			default_create
-		end
 
 	EL_PANGO_CAIRO_CONSTANTS
-		undefine
-			default_create
-		end
 
 	EL_GEOMETRY_MATH
-		undefine
-			default_create
-		end
 
 	EL_MODULE_GUI
 
@@ -71,21 +68,98 @@ inherit
 
 	EL_SHARED_GOBJECT_API
 
-
 feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 
-	default_create
+	make
 			-- Called from {EL_DRAWABLE_PIXEL_BUFFER_IMP}.make
 		do
-			create font; create color
+			font := Default_font; color := Default_color
 			set_opaque
+			make_rgb_24
+		end
+
+	make_argb_32 (a_width, a_height: INTEGER)
+		deferred
+		end
+
+	make_from_other (other: EL_DRAWABLE_PIXEL_BUFFER)
+		do
+			make_argb_32 (other.width, other.height)
+			lock_rgb_24
+			make_cairo (Cairo.new_image_surface_for_data (pixel_data, Cairo_format_ARGB_32, width, height, stride))
+			draw_pixel_buffer (0, 0, other)
+			adjust_color_channels
+			unlock
 		end
 
 	make_cairo (a_cairo_surface: POINTER)
 		do
+			create font; create color
 			cairo_surface := a_cairo_surface
 			cairo_ctx := Cairo.new_cairo (a_cairo_surface)
 			pango_layout := Pango_cairo.create_layout (cairo_ctx)
+		end
+
+	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
+			-- make alpha 32 bit format
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			make_with_size (a_buffer.width, a_buffer.height)
+			if a_buffer.is_rgb_24_format then
+				a_buffer.lock
+			end
+			inspect axis
+				when X_axis then
+					translate (0, a_buffer.height); scale (1, -1)
+				when Y_axis then
+					translate (a_buffer.width, 0); scale (-1, 1)
+			else end
+			draw_pixel_buffer (0, 0, a_buffer)
+			if a_buffer.is_rgb_24_format then
+				a_buffer.unlock
+			end
+		end
+
+	make_with_pixmap (a_pixmap: EV_PIXMAP)
+		local
+			buffer_24: EL_DRAWABLE_PIXEL_BUFFER
+		do
+			if is_rgb_24_format then
+				make_rgb_24_with_pixmap (a_pixmap)
+				adjust_color_channels
+			else
+				make_with_size (a_pixmap.width, a_pixmap.height)
+				create buffer_24.make_with_pixmap (24, a_pixmap)
+				buffer_24.lock
+				draw_pixel_buffer (0, 0, buffer_24)
+				buffer_24.unlock
+			end
+		end
+
+	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; a_pixmap: EV_PIXMAP)
+		local
+			rectangle: EL_RECTANGLE
+		do
+			create rectangle.make_scaled_for_widget (a_pixmap, dimension, size)
+			make_with_size (rectangle.width, rectangle.height)
+			if is_rgb_24_format then
+				lock
+			end
+			draw_scaled_pixmap (0, 0, size, dimension, a_pixmap)
+			if is_rgb_24_format then
+				adjust_color_channels
+				unlock
+			end
+		end
+
+	make_with_size (a_width, a_height: INTEGER)
+		do
+			if is_rgb_24_format then
+				make_rgb_24_with_size (a_width, a_height)
+			else
+				make_cairo (Cairo.new_image_surface (Cairo_format_ARGB_32, a_width, a_height))
+			end
 		end
 
 	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
@@ -99,61 +173,24 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			svg_image.render (Current)
 		end
 
-	make_pixel_buffer (a_pixmap: EV_PIXMAP)
-		deferred
-		end
+feature -- Measurement
 
-	make_pixel_buffer_with_size (a_width, a_height: INTEGER)
-		deferred
-		end
-
-	make_rgb_24_with_pixmap (a_pixmap: EV_PIXMAP)
-			-- make rgb 24 bit format
+	height: INTEGER
 		do
-			make_pixel_buffer (a_pixmap)
-		end
-
-	make_rgb_24_with_size (a_width, a_height: INTEGER)
-		do
-			make_pixel_buffer_with_size (a_width, a_height)
-		end
-
-	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
-			-- make alpha 32 bit format
-		require
-			valid_axis: is_valid_axis (axis)
-		do
-			make_with_size (a_buffer.width, a_buffer.height)
-			if a_buffer.is_rgb_24_bit then
-				a_buffer.lock
-			end
-			inspect axis
-				when X_axis then
-					translate (0, a_buffer.height); scale (1, -1)
-				when Y_axis then
-					translate (a_buffer.width, 0); scale (-1, 1)
-			else end
-			draw_pixel_buffer (0, 0, a_buffer.implementation)
-			if a_buffer.is_rgb_24_bit then
-				a_buffer.unlock
+			if is_rgb_24_format then
+				Result := buffer_height
+			else
+				Result := Cairo.surface_height (cairo_surface)
 			end
 		end
 
-	make_with_pixmap (a_pixmap: EV_PIXMAP)
-			-- make alpha 32 bit format
-		local
-			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	width: INTEGER
 		do
-			make_with_size (a_pixmap.width, a_pixmap.height)
-			create rgb_24_buffer.make_rgb_24_with_pixmap (a_pixmap)
-			rgb_24_buffer.lock
-			draw_pixel_buffer (0, 0, rgb_24_buffer.implementation)
-			rgb_24_buffer.unlock
-		end
-
-	make_with_size (a_width, a_height: INTEGER)
-		do
-			make_cairo (Cairo.new_image_surface (Cairo_format_argb32, a_width, a_height))
+			if is_rgb_24_format then
+				Result := buffer_width
+			else
+				Result := Cairo.surface_width (cairo_surface)
+			end
 		end
 
 feature -- Element change
@@ -219,33 +256,32 @@ feature -- Element change
 			Cairo.set_line_width (cairo_ctx, size)
 		end
 
-	set_opaque
-		do
-			opacity := 100
-		end
-
 	set_opacity (percentage: INTEGER)
 		do
 			opacity := percentage
 		end
 
-	set_with_named_path_as_rgb_24 (a_file_name: PATH)
+	set_opaque
 		do
-			dispose
-			set_pixel_buffer_with_named_path (a_file_name)
+			opacity := 100
 		end
 
 	set_with_path (file_path: EL_FILE_PATH)
 		local
 			cairo_file: EL_PNG_IMAGE_FILE; l_cairo_surface: POINTER
 		do
-			create cairo_file.make_open_read (file_path)
-			l_cairo_surface := cairo_file.read_cairo_surface
-			cairo_file.close
-			if l_cairo_surface /= default_pointer then
+			if is_rgb_24_format then
 				dispose
-				make_cairo (l_cairo_surface)
-				set_surface_color_order
+				set_rgb_24_with_path (file_path)
+			else
+				create cairo_file.make_open_read (file_path)
+				l_cairo_surface := cairo_file.read_cairo_surface
+				cairo_file.close
+				if l_cairo_surface /= default_pointer then
+					dispose
+					make_cairo (l_cairo_surface)
+--					set_surface_color_order
+				end
 			end
 		end
 
@@ -269,30 +305,25 @@ feature -- Basic operations
 			end
 		end
 
-	draw_pixel_buffer (x, y: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER_I)
+	draw_pixel_buffer (x, y: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
-			Cairo.set_source_surface (cairo_ctx, a_buffer.cairo_surface, x, y)
-			Cairo.set_antialias (cairo_ctx, Cairo_antialias_best)
-			if opacity = 100 then
-				Cairo.paint (cairo_ctx)
-			elseif opacity > 0 then
-				Cairo.paint_with_alpha (cairo_ctx, opacity / 100)
+			if attached buffer.implementation as l_buffer then
+				cairo_draw_pixel_buffer (x, y, l_buffer)
 			end
-			set_color (color) -- Need to restore color after set_source_surface
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
-			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+			buffer_24: EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create rgb_24_buffer.make_rgb_24_with_pixmap (a_pixmap)
-			rgb_24_buffer.lock
-			draw_pixel_buffer (x, y, rgb_24_buffer.implementation)
-			rgb_24_buffer.unlock
+			create buffer_24.make_with_pixmap (24, a_pixmap)
+			buffer_24.lock
+			draw_pixel_buffer (x, y, buffer_24)
+			buffer_24.unlock
 		end
 
 	draw_rectangle (x, y, a_width, a_height: INTEGER)
@@ -320,7 +351,7 @@ feature -- Basic operations
 			l_x, l_y, hyphen_width: INTEGER
 		do
 			create text_rect.make_for_text (a_text, font)
-			create text_pixel_buffer.make_with_size (text_rect.width, text_rect.height)
+			create text_pixel_buffer.make_with_size (32, text_rect.width, text_rect.height)
 
 			text_pixel_buffer.set_color (color.twin)
 			text_pixel_buffer.set_antialias_best
@@ -338,7 +369,7 @@ feature -- Basic operations
 
 			save
 			translate (x, y); rotate (angle)
-			draw_pixel_buffer (0, 0, text_pixel_buffer.implementation)
+			draw_pixel_buffer (0, 0, text_pixel_buffer)
 			restore
 		end
 
@@ -357,7 +388,7 @@ feature -- Basic operations
 					scale_factor := a_size / a_buffer.height
 			else end
 			scale (scale_factor, scale_factor)
-			draw_pixel_buffer (x, y, a_buffer.implementation)
+			draw_pixel_buffer (x, y, a_buffer)
 			restore
 		end
 
@@ -365,12 +396,12 @@ feature -- Basic operations
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		local
-			rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+			buffer_24: EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create rgb_24_buffer.make_rgb_24_with_pixmap (a_pixmap)
-			rgb_24_buffer.lock
-			draw_scaled_pixel_buffer (x, y, a_size, dimension, rgb_24_buffer)
-			rgb_24_buffer.unlock
+			create buffer_24.make_with_pixmap (24, a_pixmap)
+			buffer_24.lock
+			draw_scaled_pixel_buffer (x, y, a_size, dimension, buffer_24)
+			buffer_24.unlock
 		end
 
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
@@ -467,31 +498,31 @@ feature -- Basic operations
 		local
 			file_out: EL_PNG_IMAGE_FILE
 		do
-			if is_rgb_24_bit then
+			if is_rgb_24_format then
+				save_to_named_path (file_path)
+			else
 				create file_out.make_open_write (file_path)
 				file_out.put_image (cairo_surface)
 				file_out.close
-			else
-				to_rgb_24_buffer.save_as (file_path)
 			end
 		end
 
 	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
 		require
-			unlocked_for_24_rgb_format: is_rgb_24_bit implies not is_locked
+			unlocked_for_24_rgb_format: is_rgb_24_format implies not is_locked
 		deferred
 		end
 
 feature -- Status query
 
-	is_alpha_rgb_32_bit: BOOLEAN
+	is_argb_32_format: BOOLEAN
 		do
-			Result := format = Cairo_format_argb32
+			Result := interface.format = 32
 		end
 
-	is_rgb_24_bit: BOOLEAN
+	is_rgb_24_format: BOOLEAN
 		do
-			Result := format = Cairo_format_rgb24
+			Result := interface.format = 24
 		end
 
 feature -- Transform
@@ -526,8 +557,8 @@ feature -- Status change
 		require else
 			unlocked: not is_locked
 		do
-			make_cairo (Cairo.new_image_surface_for_data (data_ptr, Cairo_format_RGB24, width, height, stride))
-			Precursor
+			make_cairo (Cairo.new_image_surface_for_data (pixel_data, Cairo_format_RGB_24, width, height, stride))
+			lock_rgb_24
 		end
 
 	remove_clip
@@ -563,23 +594,9 @@ feature -- Status change
 		require else
 			locked: is_locked
 		do
-			free_cairo_context
-			Precursor
-		end
-
-feature -- Conversion
-
-	to_rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
-		require
-			unlocked_for_24_rgb_format: is_rgb_24_bit implies not is_locked
-		do
-			if is_rgb_24_bit then
-				Result := interface
-			else
-				create Result.make_rgb_24_with_size (width, height)
-				Result.lock
-				Result.draw_pixel_buffer (0, 0, interface)
-				Result.unlock
+			if is_locked then
+				free_cairo_context
+				unlock_rgb_24
 			end
 		end
 
@@ -588,7 +605,7 @@ feature -- Contract Support
 	locked_for_rgb_24_bit: BOOLEAN
 		-- `False' if `format = Cairo_format_rgb24' and `not locked'
 		do
-			Result := is_rgb_24_bit implies is_locked
+			Result := is_rgb_24_format implies is_locked
 		end
 
 feature {EL_SVG_IMAGE, EL_DRAWABLE_PIXEL_BUFFER_I} -- Access
@@ -603,6 +620,10 @@ feature {EV_ANY, EV_ANY_I} -- Implementation
 	interface: detachable EL_DRAWABLE_PIXEL_BUFFER note option: stable attribute end;
 
 feature {NONE} -- Implementation
+
+	adjust_color_channels
+		deferred
+		end
 
 	adjust_pango_font (required_width: INTEGER)
 		local
@@ -633,6 +654,18 @@ feature {NONE} -- Implementation
 					adjustment := adjustment // 2
 				end
 			end
+		end
+
+	cairo_draw_pixel_buffer (x, y: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER_I)
+		do
+			Cairo.set_source_surface (cairo_ctx, buffer.cairo_surface, x, y)
+			Cairo.set_antialias (cairo_ctx, Cairo_antialias_best)
+			if opacity = 100 then
+				Cairo.paint (cairo_ctx)
+			elseif opacity > 0 then
+				Cairo.paint_with_alpha (cairo_ctx, opacity / 100)
+			end
+			set_color (color) -- Need to restore color after set_source_surface
 		end
 
 	check_font_availability
@@ -670,15 +703,6 @@ feature {NONE} -- Implementation
 			else end
 			Cairo.close_sub_path (cairo_ctx)
 			Cairo.fill (cairo_ctx);
-		end
-
-	format: INTEGER
-		do
-			if is_attached (cairo_surface) then
-				Result := Cairo.surface_format (cairo_surface)
-			else
-				Result := Cairo_format_rgb24
-			end
 		end
 
 	free_cairo_context
@@ -752,7 +776,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred implementation
 
-	data_ptr: POINTER
+	pixel_data: POINTER
 		deferred
 		end
 
@@ -761,6 +785,8 @@ feature {NONE} -- Deferred implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	ctx: EL_PANGO_CAIRO_CONTEXT
 
 	color: EV_COLOR
 
@@ -772,5 +798,22 @@ feature {NONE} -- Internal attributes
 	pango_layout: POINTER
 
 	rotation_angle: DOUBLE
+
+feature {NONE} -- Constants
+
+	Default_color: EV_COLOR
+		once
+			create Result
+		end
+
+	Default_font: EV_FONT
+		once
+			create Result
+		end
+
+	Default_managed_pointer: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (default_pointer, 0)
+		end
 
 end

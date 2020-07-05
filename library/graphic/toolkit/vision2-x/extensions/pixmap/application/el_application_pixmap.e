@@ -99,7 +99,7 @@ feature -- Colored PNG
 		do
 			top_layer := new_pixel_buffer (relative_path_steps)
 			create rectangle.make_scaled_for_pixels (top_layer, dimension, size)
-			create bottom_layer.make_with_size (rectangle.width, rectangle.height)
+			create bottom_layer.make_with_size (32, rectangle.width, rectangle.height)
 			bottom_layer.set_color (background_color)
 			bottom_layer.fill
 			bottom_layer.draw_scaled_pixel_buffer (0, 0, size, dimension, top_layer)
@@ -216,7 +216,7 @@ feature {NONE} -- Factory
 
 	new_pixel_buffer (relative_path_steps: EL_PATH_STEPS): EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create Result.make_with_path (image_path (relative_path_steps))
+			create Result.make_with_path (32, image_path (relative_path_steps))
 		end
 
 	new_pixmap (a_file_path: EL_FILE_PATH): EL_PIXMAP

@@ -87,6 +87,11 @@ feature -- Factory
 
 feature -- Status setting
 
+	finish (surface: POINTER)
+		do
+			cairo_finish (api.finish, surface)
+		end
+
 	surface_mark_dirty (surface: POINTER)
 			-- void	cairo_surface_mark_dirty (cairo_surface_t *surface);
 		do
@@ -173,6 +178,11 @@ feature -- Basic operations
 	line_to (context: POINTER; x, y: DOUBLE)
 		do
 			cairo_line_to (api.line_to, context, x, y)
+		end
+
+	mask_surface (context, surface: POINTER; x, y: DOUBLE)
+		do
+			cairo_mask_surface (api.mask_surface, context, surface, x, y)
 		end
 
 	move_to (context: POINTER; x, y: DOUBLE)

@@ -25,7 +25,7 @@ feature -- Factory
 			rectangle: EL_RECTANGLE; image: EL_DRAWABLE_PIXEL_BUFFER
 		do
 			image_path.expand
-			create image.make_with_path (image_path)
+			create image.make_with_path (32, image_path)
 			create rectangle.make (0, 0, image.width, image.height)
 			create Result.make (rectangle.to_point_array, image)
 			across transformation_list as transform loop

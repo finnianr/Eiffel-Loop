@@ -33,14 +33,15 @@ inherit
 			draw_text as buffer_draw_text,
 			draw_pixel_buffer as old_draw_pixel_buffer,
 			make_with_size as make_rgb_24_with_size,
-			set_with_named_path as set_with_path_as_rgb_24
+			make_with_pixmap as make_rgb_24_with_pixmap,
+			set_with_named_path as set_rgb_24_with_path
 		export
-			{NONE} buffer_draw_text, draw_pixel_buffer_with_x_y
+			{NONE} buffer_draw_text, draw_pixel_buffer_with_x_y, set_rgb_24_with_path
 		undefine
 			out
 		redefine
-			make_with_pixmap, make_rgb_24_with_size, actual_implementation, create_implementation, implementation,
-			to_pixmap, lock, unlock, set_with_path_as_rgb_24
+			actual_implementation, create_implementation, implementation,
+			to_pixmap, lock, unlock, height, width
 		end
 
 	EV_FONTABLE
@@ -67,52 +68,33 @@ inherit
 
 create
 	default_create,
+	make_from_other,
 	make_mirrored,
-	make_rgb_24_with_pixmap,
-	make_rgb_24_with_size, make_with_path,
-	make_rgb_24_with_sized_pixmap,
 	make_scaled_to_height,
 	make_scaled_to_width,
-	make_with_pixmap,
+	make_with_path,
 	make_with_size,
+	make_with_scaled_pixmap,
+	make_with_pixmap,
 	make_with_svg_image
-
-convert
-	make_with_pixmap ({EL_PIXMAP})
 
 feature {NONE} -- Initialization
 
-	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
-		do
-			default_create
-			implementation.make_with_svg_image (svg_image, a_background_color)
-		end
-
-	make_rgb_24_with_pixmap (a_pixmap: EV_PIXMAP)
-			-- make rgb 24 bit format
-		do
-			default_create
-			implementation.make_rgb_24_with_pixmap (a_pixmap)
-		end
-
-	make_rgb_24_with_size (a_width, a_height: INTEGER)
-			-- make rgb 24 bit format
-		do
-			default_create
-			implementation.make_rgb_24_with_size (a_width, a_height)
-		end
-
-	make_rgb_24_with_sized_pixmap (size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
+	make_from_other (a_format: NATURAL_8; other: like Current)
 		require
-			valid_dimension: is_valid_dimension (dimension)
-		local
-			rectangle: EL_RECTANGLE
+			valid_format: is_format_valid (a_format)
 		do
-			create rectangle.make_scaled_for_widget (a_pixmap, dimension, size)
-			make_rgb_24_with_size (rectangle.width, rectangle.height)
-			lock
-			draw_scaled_pixmap (0, 0, size, dimension, a_pixmap)
-			unlock
+			format := a_format; default_create
+			implementation.make_from_other (other)
+		end
+
+	make_mirrored (other: like Current; axis: INTEGER)
+		-- create copy mirrored in the y-axis
+		require
+			valid_axis: is_valid_axis (axis)
+		do
+			format := other.format; default_create
+			implementation.make_mirrored (other, axis)
 		end
 
 	make_scaled (dimension: NATURAL_8; size: INTEGER; other: like Current)
@@ -122,7 +104,7 @@ feature {NONE} -- Initialization
 			rectangle: EL_RECTANGLE
 		do
 			create rectangle.make_scaled_for_pixels (other, dimension, size)
-			make_with_size (rectangle.width, rectangle.height)
+			make_with_size (32, rectangle.width, rectangle.height)
 			draw_scaled_pixel_buffer (0, 0, size, dimension, other)
 		end
 
@@ -136,40 +118,73 @@ feature {NONE} -- Initialization
 			make_scaled (By_width, a_width, other)
 		end
 
-	make_with_path (a_png_file_path: EL_FILE_PATH)
+	make_with_path (a_format: NATURAL_8; a_png_file_path: EL_FILE_PATH)
 		-- make from a PNG file
+		require
+			valid_format: is_format_valid (a_format)
 		do
-			default_create
+			format := a_format; default_create
 			implementation.set_with_path (a_png_file_path)
 		end
 
-	make_with_pixmap (a_pixmap: EV_PIXMAP)
+	make_with_pixmap (a_format: NATURAL_8; a_pixmap: EV_PIXMAP)
 			-- make alpha rgb 32 bit format
+		require
+			valid_format: is_format_valid (a_format)
 		do
-			default_create
+			format := a_format; default_create
 			implementation.make_with_pixmap (a_pixmap)
 		end
 
-	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
-		-- create copy mirrored in the y-axis
+	make_with_scaled_pixmap (a_format, dimension: NATURAL_8; size: INTEGER; a_pixmap: EV_PIXMAP)
 		require
-			valid_axis: is_valid_axis (axis)
+			valid_dimension: is_valid_dimension (dimension)
+			valid_format: is_format_valid (a_format)
 		do
-			default_create
-			implementation.make_mirrored (a_buffer, axis)
+			format := a_format; default_create
+			implementation.make_with_scaled_pixmap (dimension, size, a_pixmap)
 		end
 
-	make_with_size (a_width, a_height: INTEGER)
-			--- make alpha rgb 32 bit format
+	make_with_size (a_format: NATURAL_8; a_width, a_height: INTEGER)
 		require
+			valid_format: is_format_valid (a_format)
 			a_width_valid: a_width > 0
 			a_height_valid: a_height > 0
 		do
+			format := a_format
 			default_create
 			implementation.make_with_size (a_width, a_height)
 		end
 
+	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+		do
+			format := 32; default_create
+			implementation.make_with_svg_image (svg_image, a_background_color)
+		end
+
+feature -- Measurement
+
+	height: INTEGER
+			-- Height of `Current' in pixels.
+		do
+			Result := actual_implementation.height
+		end
+
+	width: INTEGER
+			-- Width of `Current' in pixels.
+		do
+			Result := actual_implementation.width
+		end
+
 feature -- Access
+
+	debug_output, out: STRING
+			-- Return readable string.
+		do
+			Result := Tag_template #$ [id, width, height]
+		end
+
+	format: NATURAL_8
 
 	id: like internal_id
 		do
@@ -181,22 +196,16 @@ feature -- Access
 			end
 		end
 
-	debug_output, out: STRING
-			-- Return readable string.
-		do
-			Result := Tag_template #$ [id, width, height]
-		end
-
 feature -- Status query
 
-	is_alpha_rgb_32_bit: BOOLEAN
+	is_argb_32_format: BOOLEAN
 		do
-			Result := implementation.is_alpha_rgb_32_bit
+			Result := format = 32
 		end
 
-	is_rgb_24_bit: BOOLEAN
+	is_rgb_24_format: BOOLEAN
 		do
-			Result := implementation.is_rgb_24_bit
+			Result := format = 24
 		end
 
 feature -- Basic operations
@@ -208,7 +217,7 @@ feature -- Basic operations
 
 	draw_pixel_buffer (x, y: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
-			implementation.draw_pixel_buffer (x, y, a_buffer.implementation)
+			implementation.draw_pixel_buffer (x, y, a_buffer)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -232,7 +241,7 @@ feature -- Basic operations
 			implementation.set_clip_rounded_rectangle (
 				x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius, corners_bitmap
 			)
-			implementation.draw_pixel_buffer (x, y, a_pixel_buffer.implementation)
+			implementation.draw_pixel_buffer (x, y, a_pixel_buffer)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
@@ -334,46 +343,7 @@ feature -- Element change
 			implementation.set_with_path (file_path)
 		end
 
-	set_with_path_as_rgb_24 (a_file_name: PATH)
-		do
-			implementation.set_with_named_path_as_rgb_24 (a_file_name)
-		end
-
 feature -- Transform
-
-	rotate_quarter (n: INTEGER)
-		-- rotate `n * 90' degrees
-		local
-			half_width, half_height: DOUBLE
-		do
-			if n /= 0 then
-				half_width := (width / 2).rounded; half_height := (height / 2).rounded
-				translate (half_width, half_height)
-				rotate (n * {MATH_CONST}.Pi_2)
-				if n.abs \\ 2 = 1 then
-					translate (half_height.opposite, half_width.opposite)
-				else
-					translate (half_width.opposite, half_height.opposite)
-				end
-			end
-		end
-
-	rotate (angle: DOUBLE)
-			-- rotate coordinate system by angle in radians
-		do
-			implementation.rotate (angle)
-		end
-
-	scale (x_factor, y_factor: DOUBLE)
-		do
-			implementation.scale (x_factor, y_factor)
-		end
-
-	translate (x, y: DOUBLE)
-			-- translate coordinate origin to point x, y
-		do
-			implementation.translate (x, y)
-		end
 
 	flip (a_width, a_height: DOUBLE; mirror_state: INTEGER)
 		-- mirror_state is bit OR'd combination of `X_axis' and `Y_axis'
@@ -393,11 +363,45 @@ feature -- Transform
 			end
 		end
 
+	rotate (angle: DOUBLE)
+			-- rotate coordinate system by angle in radians
+		do
+			implementation.rotate (angle)
+		end
+
+	rotate_quarter (n: INTEGER)
+		-- rotate `n * 90' degrees
+		local
+			half_width, half_height: DOUBLE
+		do
+			if n /= 0 then
+				half_width := (width / 2).rounded; half_height := (height / 2).rounded
+				translate (half_width, half_height)
+				rotate (n * {MATH_CONST}.Pi_2)
+				if n.abs \\ 2 = 1 then
+					translate (half_height.opposite, half_width.opposite)
+				else
+					translate (half_width.opposite, half_height.opposite)
+				end
+			end
+		end
+
+	scale (x_factor, y_factor: DOUBLE)
+		do
+			implementation.scale (x_factor, y_factor)
+		end
+
+	translate (x, y: DOUBLE)
+			-- translate coordinate origin to point x, y
+		do
+			implementation.translate (x, y)
+		end
+
 feature -- Status change
 
 	lock
 		require else
-			not_alpha_32_format: not is_alpha_rgb_32_bit
+			not_alpha_32_format: not is_argb_32_format
 		do
 			implementation.lock
 		end
@@ -421,12 +425,24 @@ feature -- Status change
 
 	unlock
 		require else
-			not_alpha_32_format: not is_alpha_rgb_32_bit
+			not_alpha_32_format: not is_argb_32_format
 		do
 			implementation.unlock
 		end
 
 feature -- Conversion
+
+	quarter_rotated (n: INTEGER): like Current
+		-- copy of buffer rotated `n * 90' degrees
+		do
+			if n.abs \\ 2 = 1 then
+				create Result.make_with_size (32, height, width)
+			else
+				create Result.make_with_size (32, width, height)
+			end
+			Result.rotate_quarter (n)
+			Result.draw_pixel_buffer (0, 0, Current)
+		end
 
 	to_pixmap: EL_PIXMAP
 			-- Convert to EV_PIXMAP.
@@ -438,22 +454,19 @@ feature -- Conversion
 		require
 			not_locked: not is_locked
 		do
-			Result := implementation.to_rgb_24_buffer
-		end
-
-	quarter_rotated (n: INTEGER): like Current
-		-- copy of buffer rotated `n * 90' degrees
-		do
-			if n.abs \\ 2 = 1 then
-				create Result.make_with_size (height, width)
-			else
-				create Result.make_with_size (width, height)
-			end
-			Result.rotate_quarter (n)
-			Result.draw_pixel_buffer (0, 0, Current)
+			create Result.make_from_other (24, Current)
 		end
 
 feature -- Contract Support
+
+	is_format_valid (a_format: NATURAL_8): BOOLEAN
+		do
+			inspect a_format
+				when 24, 32 then
+					Result := True
+			else
+			end
+		end
 
 	locked_for_rgb_24_bit: BOOLEAN
 		do
@@ -488,4 +501,7 @@ feature {NONE} -- Constants
 		once
 			Result := "ID: %S Width: %S Height: %S"
 		end
+
+invariant
+	valid_format: is_format_valid (format)
 end

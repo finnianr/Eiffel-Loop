@@ -16,9 +16,9 @@ feature {NONE} -- Image formats
 
 	Cairo_format_INVALID: INTEGER = -1
 
-	Cairo_format_ARGB32: INTEGER = 0
+	Cairo_format_ARGB_32: INTEGER = 0
 
-	Cairo_format_RGB24: INTEGER = 1
+	Cairo_format_RGB_24: INTEGER = 1
 
 	Cairo_format_A8: INTEGER = 2
 

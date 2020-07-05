@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 		local
 			pixels: EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create pixels.make_rgb_24_with_sized_pixmap (size, dimension, other)
+			create pixels.make_with_scaled_pixmap (24, dimension, size, other)
 			make_with_pixel_buffer (pixels)
 		end
 
@@ -85,12 +85,12 @@ feature {NONE} -- Initialization
 			make_scaled_to_size (other, a_height, By_height)
 		end
 
-	make_with_pixel_buffer (a_pixel_buffer: EV_PIXEL_BUFFER)
+	make_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
 		do
-			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_pixel_buffer as drawable_buffer then
-				Precursor (drawable_buffer.to_rgb_24_buffer)
+			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_buffer as l_buffer and then l_buffer.is_argb_32_format then
+				Precursor (l_buffer.to_rgb_24_buffer)
 			else
-				Precursor (a_pixel_buffer)
+				Precursor (a_buffer)
 			end
 		end
 

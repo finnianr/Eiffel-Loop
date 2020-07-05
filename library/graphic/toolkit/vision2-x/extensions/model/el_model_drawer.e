@@ -22,6 +22,8 @@ inherit
 
 	EL_MODULE_COLOR
 
+	EL_MODULE_DIRECTORY
+
 feature -- Basic operations
 
 	draw_figure_parallelogram (parallelogram: EV_MODEL_PARALLELOGRAM)
@@ -40,6 +42,7 @@ feature -- Basic operations
 		local
 			radial_square, drawable_rectangle, intersection: EV_RECTANGLE; half_width: DOUBLE
 			pixels: detachable EL_DRAWABLE_PIXEL_BUFFER; x, y: INTEGER
+			file_path: EL_FILE_PATH
 		do
 			radial_square := picture.outer_radial_square
 			radial_square.move (radial_square.x + offset_x, radial_square.y + offset_y)
@@ -47,11 +50,17 @@ feature -- Basic operations
 
 			create drawable_rectangle.make (0, 0, drawable.width, drawable.height)
 			if drawable_rectangle.contains (radial_square) then
-				create pixels.make_with_pixmap (drawable.sub_pixmap (radial_square))
+				if picture.generator.starts_with ("DAUGHT") then
+					file_path := "$HOME\Desktop\daughter.png"
+					file_path.expand
+--					drawable.sub_pixmap (radial_square).save_to_named_file (create {EV_PNG_FORMAT}, file_path.as_string_32)
+--					pixels.save_as (file_path)
+				end
+				create pixels.make_with_pixmap (32, drawable.sub_pixmap (radial_square))
 
 			elseif drawable_rectangle.intersects (radial_square) then
 				intersection := drawable_rectangle.intersection (radial_square)
-				create pixels.make_with_size (radial_square.width, radial_square.height)
+				create pixels.make_with_size (32, radial_square.width, radial_square.height)
 				if attached picture.world.background_color as background_color then
 					pixels.set_color (background_color)
 					pixels.fill
