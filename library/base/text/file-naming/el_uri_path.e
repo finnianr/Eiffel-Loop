@@ -236,9 +236,9 @@ feature -- Contract Support
 			Result := URI.is_absolute (a_uri)
 		end
 
-	is_file_scheme (a_uri: READABLE_STRING_GENERAL): BOOLEAN
+	is_file_scheme (a_scheme: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := URI.is_file (a_uri)
+			Result := a_scheme.same_string (Protocol_name.file)
 		end
 
 	is_uri_string (a_uri: READABLE_STRING_GENERAL): BOOLEAN

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-25 9:44:11 GMT (Thursday 25th June 2020)"
-	revision: "9"
+	date: "2020-07-08 17:51:44 GMT (Wednesday 8th July 2020)"
+	revision: "10"
 
 class
 	EL_TEXT_RECTANGLE
@@ -35,6 +35,7 @@ inherit
 	EL_TEXT_ALIGNMENT
 		export
 			{ANY} Left_alignment, Center_alignment, Right_alignment
+			{EL_ALIGNED_TEXT} alignment_code
 		undefine
 			out
 		end
@@ -67,17 +68,36 @@ feature -- Access
 
 	font: EV_FONT
 
-	line_count: INTEGER
-		do
-			Result := internal_lines.count
-		end
-
 	lines: like word_wrapped_lines
 		do
 			create Result.make (internal_lines.count)
 			across internal_lines as line loop
 				Result.extend (line.item.text)
 			end
+		end
+
+feature -- Measurement
+
+	available_height: INTEGER
+		do
+			Result := height
+			across internal_lines as line loop
+				Result := Result - line.item.height
+			end
+			Result := Result.max (0)
+		end
+
+	bottom_most_y: INTEGER
+		-- y coordinate of bottom of bottom-most line
+		do
+			if internal_lines.count > 0 then
+				Result := internal_lines.last.bottom
+			end
+		end
+
+	line_count: INTEGER
+		do
+			Result := internal_lines.count
 		end
 
 feature -- Status query
@@ -108,12 +128,13 @@ feature -- Element change
 
 	add_separation (a_separation_cms: REAL)
 		local
-			separator: like STYLED_TEXT
+			separator: EL_ALIGNED_TEXT; l_bottom: INTEGER
 		do
-			separator := create_line ("")
-			separator.rectangle.set_height (Screen.vertical_pixels (a_separation_cms))
-			if not internal_lines.is_empty then
-				separator.rectangle.set_y (internal_lines.last.rectangle.bottom + 1)
+			separator := new_aligned_text ("")
+			separator.set_height (Screen.vertical_pixels (a_separation_cms))
+			l_bottom := bottom_most_y
+			if l_bottom > 0 then
+				separator.set_y (l_bottom + 1)
 			end
 			internal_lines.extend (separator)
 		end
@@ -146,14 +167,11 @@ feature -- Element change
 feature -- Basic operations
 
 	draw (canvas: EL_DRAWABLE)
-		local
-			rect: EL_RECTANGLE
 		do
 			across internal_lines as line loop
 				if not line.item.text.is_empty then
-					rect := aligned_rectangle (line.item)
-					canvas.set_font (line.item.font)
-					canvas.draw_text_top_left (rect.x, rect.y, line.item.text.to_unicode)
+					line.item.align (Current)
+					line.item.draw (canvas)
 				end
 			end
 		end
@@ -172,45 +190,16 @@ feature -- Basic operations
 			rect.draw (canvas)
 		end
 
-	draw_rotated_border_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
-		do
-			buffer.save
-			buffer.translate (x, y)
-			buffer.rotate (a_angle)
-			buffer.draw_rectangle (0, 0, width, height)
-			buffer.restore
-		end
-
-	draw_rotated_on_buffer (buffer: EL_DRAWABLE_PIXEL_BUFFER; a_angle: DOUBLE)
-		local
-			rect: EL_RECTANGLE; line: like STYLED_TEXT
-		do
-			buffer.save
-			buffer.translate (x, y)
-			buffer.rotate (a_angle)
-			buffer.set_antialias_best
-			from internal_lines.start until internal_lines.after loop
-				line := internal_lines.item
-				if not line.is_empty then
-					rect := aligned_rectangle (line)
-					buffer.set_font (line.font)
-					buffer.draw_text_top_left (rect.x - x, rect.y - y, line.text.to_unicode)
-				end
-				internal_lines.forth
-			end
-			buffer.restore
-		end
-
 	draw_rotated_top_left (canvas: EL_DRAWABLE; a_angle: DOUBLE)
 		local
 			text_group: like line_text_group
-			line: like STYLED_TEXT
+			line: EL_ALIGNED_TEXT
 		do
 			text_group := line_text_group
 			text_group.rotate_around (a_angle, x, y)
 			across text_group as text_point loop
 				line := internal_lines [text_point.cursor_index]
-				if not line.is_empty and then attached {EV_MODEL_DOT} text_point.item as point then
+				if attached {EV_MODEL_DOT} text_point.item as point then
 					canvas.set_font (line.font)
 					canvas.draw_rotated_text (point.x, point.y, a_angle.truncated_to_real.opposite, line.text)
 				end
@@ -226,60 +215,9 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	aligned_rectangle (line: like STYLED_TEXT): EL_RECTANGLE
-		require
-			valid_alignment: (<< Left_alignment, Center_alignment, Right_alignment >>).has (line.alignment)
-		local
-			difference: INTEGER
-		do
-			if line.text.is_empty or line.alignment = Left_alignment then
-				Result := line.rectangle
-			else
-				Result := line.rectangle.twin
-				difference := Result.width - line.font.string_width (line.text.to_unicode)
-				inspect line.alignment
-					when Right_alignment then
-						Result.grow_left (difference.opposite)
-
-					when Center_alignment then
-						difference := difference // 2
-						Result.grow_left (difference.opposite)
-						Result.grow_right (difference.opposite)
-				else
-				end
-			end
-			if is_vertically_centered then
-				Result.set_y (Result.y + available_height // 2)
-			end
-		end
-
-	available_height: INTEGER
-		do
-			Result := height
-			across internal_lines as line loop
-				Result := Result - line.item.rectangle.height
-			end
-			Result := Result.max (0)
-		end
-
-	create_line (a_text: ZSTRING): like STYLED_TEXT
-		local
-			rect: EL_RECTANGLE
-		do
-			create Result
-			Result.text := a_text
-			Result.font := font.twin
-			Result.alignment := alignment_code
-			create rect.make (x, y, width, font.line_height)
-			if not internal_lines.is_empty then
-				rect.set_y (internal_lines.last.rectangle.bottom + 1)
-			end
-			Result.rectangle := rect
-		end
-
 	extend_lines (a_line: ZSTRING)
 		do
-			internal_lines.extend (create_line (a_line))
+			internal_lines.extend (new_aligned_text (a_line))
 		end
 
 	flow_text (line: ZSTRING)
@@ -327,15 +265,19 @@ feature {NONE} -- Implementation
 
 	line_text_group: EV_MODEL_GROUP
 		local
-			r: EL_RECTANGLE; line: like STYLED_TEXT
+			line: EL_ALIGNED_TEXT
 		do
 			create Result.make_with_position (x, y)
-			from internal_lines.start until internal_lines.after loop
-				line := internal_lines.item
-				r := aligned_rectangle (line)
-				Result.extend (create {EV_MODEL_DOT}.make_with_position (r.x, r.y))
-				internal_lines.forth
+			across internal_lines as list loop
+				line := list.item
+				line.align (Current)
+				Result.extend (create {EV_MODEL_DOT}.make_with_position (line.x, line.y))
 			end
+		end
+
+	new_aligned_text (a_text: ZSTRING): EL_ALIGNED_TEXT
+		do
+			create Result.make (a_text, Current)
 		end
 
 	squeeze_flow_text (line: ZSTRING)
@@ -417,16 +359,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
 
-	internal_lines: EL_ARRAYED_LIST [like STYLED_TEXT]
+	internal_lines: EL_ARRAYED_LIST [EL_ALIGNED_TEXT]
 
 feature {NONE} -- Constants
-
-	STYLED_TEXT: TUPLE [text: ZSTRING; font: EV_FONT; rectangle: EL_RECTANGLE; alignment: INTEGER]
-		once
-			create Result
-		end
 
 	Comma_or_dot: ZSTRING
 		once

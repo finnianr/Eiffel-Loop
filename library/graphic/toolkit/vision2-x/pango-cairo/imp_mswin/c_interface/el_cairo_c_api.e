@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 15:02:57 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-07-05 10:28:48 GMT (Sunday 5th July 2020)"
+	revision: "8"
 
 class
 	EL_CAIRO_C_API
@@ -171,7 +171,7 @@ feature -- Factory
 
 feature -- Status setting
 
-	frozen cairo_finish (function, surface: POINTER)
+	frozen cairo_surface_finish (function, surface: POINTER)
 			-- void cairo_surface_finish (cairo_surface_t *surface);
 		external
 			"C inline use <cairo.h>"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-07-05 9:42:40 GMT (Sunday 5th July 2020)"
+	revision: "6"
 
 class
 	EL_PANGO_CAIRO_CONSTANTS

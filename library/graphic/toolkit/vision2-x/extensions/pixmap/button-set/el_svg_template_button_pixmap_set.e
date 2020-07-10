@@ -25,7 +25,7 @@ feature -- Access
 
 	normal: EL_SVG_TEMPLATE_PIXMAP
 		do
-			Result := pixmaps [Normal_svg]
+			Result := pixmap_table [SVG.normal]
 		end
 
 feature {NONE} -- Implementation

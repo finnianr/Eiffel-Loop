@@ -1,11 +1,13 @@
 note
 	description: "Pixmap imp widget"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-02 9:18:22 GMT (Thursday 2nd July 2020)"
-	revision: "1"
+	date: "2020-07-03 13:14:59 GMT (Friday 3rd July 2020)"
+	revision: "2"
 
 class 
 	EL_PIXMAP_IMP_WIDGET

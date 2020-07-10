@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 11:33:57 GMT (Monday 29th June 2020)"
-	revision: "13"
+	date: "2020-07-08 15:53:41 GMT (Wednesday 8th July 2020)"
+	revision: "14"
 
 class
 	EL_PIXMAP
@@ -30,6 +30,8 @@ inherit
 			is_equal, default_create, copy
 		end
 
+	EL_MODULE_DIRECTORY
+
 	EL_MODULE_SCREEN
 
 create
@@ -42,16 +44,6 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_with_rectangle (r: EV_RECTANGLE)
-		do
-			make_with_size (r.width, r.height)
-		end
-
-	make_from_other (other: like Current)
-		do
-			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
-		end
-
 	make_from_model (world: EV_MODEL_WORLD; area: detachable EV_RECTANGLE)
 		local
 			projector: EL_MODEL_PIXMAP_PROJECTOR
@@ -63,6 +55,16 @@ feature {NONE} -- Initialization
 			end
 			create projector.make (world, Current)
 			projector.full_project
+		end
+
+	make_from_other (other: like Current)
+		do
+			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
+		end
+
+	make_scaled_to_height (other: like Current; a_height: INTEGER)
+		do
+			make_scaled_to_size (other, a_height, By_height)
 		end
 
 	make_scaled_to_size (other: like Current; size: INTEGER; dimension: NATURAL_8)
@@ -80,18 +82,15 @@ feature {NONE} -- Initialization
 			make_scaled_to_size (other, a_width, By_width)
 		end
 
-	make_scaled_to_height (other: like Current; a_height: INTEGER)
-		do
-			make_scaled_to_size (other, a_height, By_height)
-		end
-
 	make_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
 		do
-			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_buffer as l_buffer and then l_buffer.is_argb_32_format then
-				Precursor (l_buffer.to_rgb_24_buffer)
-			else
-				Precursor (a_buffer)
-			end
+			default_create
+			set_with_pixel_buffer (a_buffer)
+		end
+
+	make_with_rectangle (r: EV_RECTANGLE)
+		do
+			make_with_size (r.width, r.height)
 		end
 
 feature -- Access
@@ -108,14 +107,12 @@ feature -- Access
 
 feature -- Measurement setting
 
-	scale_to_width (a_width: INTEGER)
+	scale (a_factor: DOUBLE)
+		local
+			l_buffer: EV_PIXEL_BUFFER
 		do
-			scale (a_width / width)
-		end
-
-	scale_to_width_cms (a_width_cms: REAL)
-		do
-			scale (Screen.horizontal_pixels (a_width_cms) / width)
+			create l_buffer.make_with_pixmap (Current)
+			make_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
 		end
 
 	scale_to_height (a_height: INTEGER)
@@ -128,12 +125,25 @@ feature -- Measurement setting
 			scale (Screen.vertical_pixels (a_height_cms) / height)
 		end
 
-	scale (a_factor: DOUBLE)
-		local
-			l_buffer: EV_PIXEL_BUFFER
+	scale_to_width (a_width: INTEGER)
 		do
-			create l_buffer.make_with_pixmap (Current)
-			make_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
+			scale (a_width / width)
+		end
+
+	scale_to_width_cms (a_width_cms: REAL)
+		do
+			scale (Screen.horizontal_pixels (a_width_cms) / width)
+		end
+
+feature -- Element change
+
+	set_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
+		do
+			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_buffer as l_buffer and then l_buffer.is_argb_32_format then
+				implementation.init_from_pixel_buffer (l_buffer.to_rgb_24_buffer)
+			else
+				implementation.init_from_pixel_buffer (a_buffer)
+			end
 		end
 
 feature -- Duplication
@@ -156,13 +166,13 @@ feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 
 feature {NONE} -- Implementation
 
-	redraw
-		do
-		end
-
 	create_implementation
 			-- See `{EV_ANY}.create_implementation'.
 		do
 			create {EL_PIXMAP_IMP} implementation.make
 		end
+	redraw
+		do
+		end
+
 end

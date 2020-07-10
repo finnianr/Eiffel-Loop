@@ -251,15 +251,15 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	rendering_variables: ARRAYED_LIST [like Type_rendering_variable]
+	rendering_variables: EL_ARRAYED_MAP_LIST [STRING, INTEGER]
 		do
 			create Result.make (5)
 			if is_width_scaled then
-				Result.extend ([Initial_w, dimension])
+				Result.extend (Initial_w, dimension)
 			else
-				Result.extend ([Initial_h, dimension])
+				Result.extend (Initial_h, dimension)
 			end
-			Result.extend ([Initial_c, background_color.rgb_32_bit])
+			Result.extend (Initial_c, background_color.rgb_32_bit)
 		end
 
 	set_centered_text_origin (a_width, a_height, left_offset, right_offset: INTEGER)
@@ -287,12 +287,11 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			hex_string, base: ZSTRING
 		do
 			base := empty_once_string
-			create Result.make (base)
 			across rendering_variables as modifier loop
 				if modifier.cursor_index > 1 then
 					base.append_character ('.')
 				end
-				base.append_string_general (modifier.item.code)
+				base.append_string_general (modifier.item.key)
 				hex_string := modifier.item.value.to_hex_string
 				hex_string.prune_all_leading ('0')
 				if hex_string.is_empty then
@@ -356,12 +355,6 @@ feature -- Conversion
 		do
 			create pixel_buffer.make_with_pixmap (Current)
 			create Result.make_with_pixel_buffer (pixel_buffer)
-		end
-
-feature {NONE} -- Type definitions
-
-	Type_rendering_variable: TUPLE [code: STRING; value: INTEGER]
-		once
 		end
 
 feature -- Constants

@@ -74,11 +74,11 @@ feature -- Element change
 
 feature {EL_SVG_PIXMAP} -- Implementation
 
-	rendering_variables: ARRAYED_LIST [like Type_rendering_variable]
+	rendering_variables: EL_ARRAYED_MAP_LIST [STRING, INTEGER]
 		do
 			Result := Precursor
 			across color_table as l_color loop
-				Result.extend ([Initial_c, l_color.item])
+				Result.extend (Initial_c, l_color.item)
 			end
 		end
 

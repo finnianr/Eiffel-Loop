@@ -259,3 +259,9 @@ Fixed scaled pixel buffer caching in EL_MODEL_ROTATED_RECTANGLE
 Tue 23rd Jun 2020, 13:16:43
 Changes to copy for EL_MODEL_ROTATED_PICTURE
 
+Sun 5th Jul 2020, 16:14:47
+creation of EL_PANGO_CAIRO_CONTEXT_I and refactor of EL_DRAWABLE_PIXEL_BUFFER
+
+Wed 8th Jul 2020, 17:57:22
+New class EL_PANGO_CAIRO_CONTEXT_I
+

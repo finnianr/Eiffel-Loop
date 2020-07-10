@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 18:07:42 GMT (Friday 31st May 2019)"
-	revision: "6"
+	date: "2020-07-05 8:23:00 GMT (Sunday 5th July 2020)"
+	revision: "7"
 
 deferred class
 	EL_CAIRO_I
@@ -56,7 +56,7 @@ feature -- Measurement
 
 feature -- Status change
 
-	finish (surface: POINTER)
+	surface_finish (surface: POINTER)
 		require
 			is_attached: is_attached (surface)
 		deferred
@@ -98,11 +98,26 @@ feature -- Factory
 		deferred
 		end
 
+	new_path (context: POINTER)
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
+
 	new_win32_surface_create (hdc: POINTER): POINTER
 		deferred
 		end
 
 feature -- Element change
+
+	select_font_face (context, family_utf8: POINTER; slant, weight: INTEGER)
+			-- cairo_public void cairo_select_font_face (
+			--		cairo_t *cr, const char *family, cairo_font_slant_t slant, cairo_font_weight_t weight
+			-- );
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
 
 	set_antialias (context: POINTER; a_antialias: INTEGER)
 		require
@@ -144,7 +159,29 @@ feature -- Element change
 		deferred
 		end
 
-feature -- Drawing operations
+feature -- Transformations
+
+	rotate (context: POINTER; angle: DOUBLE)
+			-- void cairo_rotate (cairo_t *cr, double angle);
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
+
+	scale (context: POINTER; sx, sy: DOUBLE)
+			-- void cairo_scale (cairo_t *cr, double sx, double sy);
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
+
+	translate (context: POINTER; tx, ty: DOUBLE)
+		require
+			is_attached: is_attached (context)
+		deferred
+		end
+
+feature -- Commands
 
 	arc (context: POINTER; xc, yc, radius, angle1, angle2: DOUBLE)
 		require
@@ -196,12 +233,6 @@ feature -- Drawing operations
 		deferred
 		end
 
-	new_path (context: POINTER)
-		require
-			is_attached: is_attached (context)
-		deferred
-		end
-
 	paint (context: POINTER)
 		require
 			is_attached: is_attached (context)
@@ -227,31 +258,8 @@ feature -- Drawing operations
 		deferred
 		end
 
-	rotate (context: POINTER; angle: DOUBLE)
-			-- void cairo_rotate (cairo_t *cr, double angle);
-		require
-			is_attached: is_attached (context)
-		deferred
-		end
-
 	save (context: POINTER)
 			-- void cairo_save (cairo_t *cr);
-		require
-			is_attached: is_attached (context)
-		deferred
-		end
-
-	scale (context: POINTER; sx, sy: DOUBLE)
-			-- void cairo_scale (cairo_t *cr, double sx, double sy);
-		require
-			is_attached: is_attached (context)
-		deferred
-		end
-
-	select_font_face (context, family_utf8: POINTER; slant, weight: INTEGER)
-			-- cairo_public void cairo_select_font_face (
-			--		cairo_t *cr, const char *family, cairo_font_slant_t slant, cairo_font_weight_t weight
-			-- );
 		require
 			is_attached: is_attached (context)
 		deferred
@@ -272,12 +280,6 @@ feature -- Drawing operations
 
 	show_text (context, text_utf8: POINTER)
 			-- void cairo_show_text (cairo_t *cr, const char *utf8);
-		require
-			is_attached: is_attached (context)
-		deferred
-		end
-
-	translate (context: POINTER; tx, ty: DOUBLE)
 		require
 			is_attached: is_attached (context)
 		deferred

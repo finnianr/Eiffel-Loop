@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 13:06:12 GMT (Monday 29th June 2020)"
-	revision: "9"
+	date: "2020-07-06 8:46:35 GMT (Monday 6th July 2020)"
+	revision: "10"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -21,7 +21,6 @@ inherit
 			lock as lock_rgb_24,
 			unlock as unlock_rgb_24,
 			make_with_pixmap as make_rgb_24_with_pixmap,
-			make as make_rgb_24,
 			make_with_size as make_rgb_24_with_size,
 			set_with_named_path as set_rgb_24_with_path,
 			height as buffer_height,
@@ -29,12 +28,12 @@ inherit
 		undefine
 			default_create
 		redefine
-			interface, old_make, dispose
+			interface, old_make
 		end
 
 	EL_DRAWABLE_PIXEL_BUFFER_I
 		redefine
-			interface, dispose, update_cairo_color, set_surface_color_order
+			interface
 		end
 
 	EL_MODULE_COLOR
@@ -90,31 +89,6 @@ feature {NONE} -- Implementation
 			l_gdk_pixbuf := {GTK2}.gdk_pixbuf_add_alpha (gdk_pixbuf, False, 0, 0, 0)
 			{GTK2}.object_unref (gdk_pixbuf)
 			gdk_pixbuf := l_gdk_pixbuf
-		end
-
-	dispose
-		do
-			Precursor {EL_DRAWABLE_PIXEL_BUFFER_I}
-			Precursor {EV_PIXEL_BUFFER_IMP}
-		end
-
-	set_surface_color_order
-			-- swap red and blue color channels
-		do
-			Cairo.surface_flush (cairo_surface)
-			Image_utils.format_argb_to_abgr (Cairo.surface_data (cairo_surface), width * height)
-			Cairo.surface_mark_dirty (cairo_surface)
-		end
-
-	stride: INTEGER
-		do
-			Result := {GTK}.gdk_pixbuf_get_rowstride (gdk_pixbuf).to_integer_32
-		end
-
-	update_cairo_color (a_cairo_ctx: POINTER)
-		do
-			-- Red and blue are intentionally swapped as a workaround to a bug
-			Cairo.set_source_rgba (a_cairo_ctx, color.blue, color.green, color.red, 1.0)
 		end
 
 end

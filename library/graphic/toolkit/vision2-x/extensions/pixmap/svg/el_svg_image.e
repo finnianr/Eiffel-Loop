@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 10:16:31 GMT (Saturday 26th October 2019)"
-	revision: "7"
+	date: "2020-07-06 8:02:52 GMT (Monday 6th July 2020)"
+	revision: "8"
 
 class
 	EL_SVG_IMAGE
@@ -55,18 +55,18 @@ feature -- Access
 
 feature -- Conversion
 
-	to_pixmap: EL_PIXMAP
-		require
-			height_and_width_defined: dimensions_defined
-		do
-			Result:= to_pixel_buffer.to_pixmap
-		end
-
 	to_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
 		require
 			height_and_width_defined: dimensions_defined
 		do
 			create Result.make_with_svg_image (Current, background_color)
+		end
+
+	to_pixmap: EL_PIXMAP
+		require
+			height_and_width_defined: dimensions_defined
+		do
+			Result:= to_pixel_buffer.to_pixmap
 		end
 
 feature -- Element change
@@ -95,15 +95,15 @@ feature -- Status query
 
 	render_succeeded: BOOLEAN
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
+feature -- Basic operations
 
-	render (pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER_I)
+	render (cairo_ctx: EL_PANGO_CAIRO_CONTEXT_I)
 		require
 			dimensions_defined: dimensions_defined
-			pixel_buffer_correct_size: pixel_buffer.width = width and pixel_buffer.height = height
+			pixel_buffer_correct_size: cairo_ctx.width = width and cairo_ctx.height = height
 		do
 			render_succeeded := False
-			render_succeeded := Image_utils.rsvg_render_to_cairo (self_ptr, pixel_buffer.cairo_ctx)
+			render_succeeded := Image_utils.rsvg_render_to_cairo (self_ptr, cairo_ctx.self_ptr)
 		end
 
 feature {NONE} -- Internal attributes
@@ -122,16 +122,9 @@ feature {NONE} -- Disposal
 
 feature {NONE} -- C Externals
 
-	frozen c_set_width (dimension: POINTER; a_width: INTEGER_32)
+	frozen c_dimension_height (dimension: POINTER): INTEGER_32
 		external
-			"C [struct <rsvg.h>] (RsvgDimensionData, int)"
-		alias
-			"width"
-		end
-
-	frozen c_set_height (dimension: POINTER; a_height: INTEGER_32)
-		external
-			"C [struct <rsvg.h>] (RsvgDimensionData, int)"
+			"C [struct <rsvg.h>] (RsvgDimensionData): EIF_INTEGER"
 		alias
 			"height"
 		end
@@ -143,11 +136,18 @@ feature {NONE} -- C Externals
 			"width"
 		end
 
-	frozen c_dimension_height (dimension: POINTER): INTEGER_32
+	frozen c_set_height (dimension: POINTER; a_height: INTEGER_32)
 		external
-			"C [struct <rsvg.h>] (RsvgDimensionData): EIF_INTEGER"
+			"C [struct <rsvg.h>] (RsvgDimensionData, int)"
 		alias
 			"height"
+		end
+
+	frozen c_set_width (dimension: POINTER; a_width: INTEGER_32)
+		external
+			"C [struct <rsvg.h>] (RsvgDimensionData, int)"
+		alias
+			"width"
 		end
 
 	frozen c_sizeof_dimension_data: INTEGER_32

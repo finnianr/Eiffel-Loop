@@ -1,7 +1,5 @@
 note
-	description: "[
-		Buttons with images for 3 states stored in application icons location
-	]"
+	description: "Buttons with images for 3 states stored in application icons location"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -16,7 +14,7 @@ class
 
 inherit
 	ANY
-	
+
 	EL_MODULE_ICON
 
 	EL_MODULE_FILE_SYSTEM
@@ -27,6 +25,8 @@ inherit
 
 	EL_MODULE_IMAGE_PATH
 
+	EL_MODULE_TUPLE
+
 create
 	make_default, make, make_transparent
 
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create pixmaps.make_equal (3)
+			create pixmap_table.make_equal (3)
 			create background_color
 			create icon_path_steps
 			is_enabled := True
@@ -60,17 +60,17 @@ feature -- Access
 
 	normal: EL_SVG_PIXMAP
 		do
-			Result := pixmap (Normal_svg)
+			Result := pixmap (SVG.normal)
 		end
 
 	highlighted: like normal
 		do
-			Result := pixmap (Highlighted_svg)
+			Result := pixmap (SVG.highlighted)
 		end
 
 	depressed: like normal
 		do
-			Result := pixmap (depressed_svg)
+			Result := pixmap (SVG.depressed)
 		end
 
 	background_color: EL_COLOR
@@ -85,7 +85,7 @@ feature -- Element change
 	set_background_color (a_background_color: like background_color)
 		do
 			if background_color /~ a_background_color then
-				across pixmaps as l_pixmap loop
+				across pixmap_table as l_pixmap loop
 					l_pixmap.item.set_background_color (a_background_color)
 				end
 			end
@@ -107,10 +107,8 @@ feature -- Status setting
 feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
-		local
-
 		do
-			across << Normal_svg, Highlighted_svg, depressed_svg >> as svg_file loop
+			across svg_name_list as svg_file loop
 				set_pixmap (svg_file.item, svg_icon (svg_file.item, width_cms))
 			end
 		end
@@ -122,6 +120,11 @@ feature {NONE} -- Implementation
 			icon_path_steps.remove_tail (1)
 		end
 
+	svg_name_list: EL_ZSTRING_LIST
+		do
+			create Result.make_from_tuple (SVG)
+		end
+
 	new_svg_image (svg_path: EL_FILE_PATH; width_cms: REAL): like normal
 		do
 			create Result.make_with_width_cms (svg_path, width_cms, background_color)
@@ -129,8 +132,8 @@ feature {NONE} -- Implementation
 
 	pixmap (a_name: ZSTRING): like normal
 		do
-			if pixmaps.has_key (a_name) then
-				Result := pixmaps.found_item
+			if pixmap_table.has_key (a_name) then
+				Result := pixmap_table.found_item
 			else
 				create Result
 			end
@@ -138,29 +141,20 @@ feature {NONE} -- Implementation
 
 	set_pixmap (name: ZSTRING; a_svg_icon: like normal)
 		do
-			pixmaps [name] := a_svg_icon
+			pixmap_table [name] := a_svg_icon
 		end
 
 	icon_path_steps: EL_PATH_STEPS
 
 feature {NONE} -- Constants
 
-	Highlighted_svg: ZSTRING
+	SVG: TUPLE [depressed, highlighted, normal: ZSTRING]
 		once
-			Result := "highlighted.svg"
+			create Result
+			Tuple.fill (Result, "depressed.svg, highlighted.svg, normal.svg")
 		end
 
-	Depressed_svg: ZSTRING
-		once
-			Result := "depressed.svg"
-		end
-
-	Normal_svg: ZSTRING
-		once
-			Result := "normal.svg"
-		end
-
-	pixmaps: EL_ZSTRING_HASH_TABLE [like normal]
+	pixmap_table: EL_ZSTRING_HASH_TABLE [like normal]
 
 	Highlighted_stop_color: STRING = "f9ffff"
 

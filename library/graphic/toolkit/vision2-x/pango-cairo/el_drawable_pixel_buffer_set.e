@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-21 10:40:32 GMT (Sunday 21st June 2020)"
-	revision: "7"
+	date: "2020-07-07 14:29:03 GMT (Tuesday 7th July 2020)"
+	revision: "8"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_SET
@@ -35,9 +35,9 @@ feature {NONE} -- Initialization
 
 	make (a_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET)
 		do
-			create normal.make_with_path (a_pixmap_set.normal.png_output_path)
-			create depressed.make_with_path (a_pixmap_set.depressed.png_output_path)
-			create highlighted.make_with_path (a_pixmap_set.highlighted.png_output_path)
+			create normal.make_with_path (32, a_pixmap_set.normal.png_output_path)
+			create depressed.make_with_path (32, a_pixmap_set.depressed.png_output_path)
+			create highlighted.make_with_path (32, a_pixmap_set.highlighted.png_output_path)
 		end
 
 feature -- Access

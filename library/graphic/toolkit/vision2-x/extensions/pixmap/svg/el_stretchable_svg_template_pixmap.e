@@ -42,11 +42,11 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	rendering_variables: ARRAYED_LIST [like Type_rendering_variable]
+	rendering_variables: EL_ARRAYED_MAP_LIST [STRING, INTEGER]
 			-- Make sure rendered png is unique for svg_width
 		do
 			Result := Precursor
-			Result.extend ([once "svgw", svg_width])
+			Result.extend (once "svgw", svg_width)
 		end
 
 feature {NONE} -- Constants

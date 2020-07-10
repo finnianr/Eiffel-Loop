@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-20 11:55:43 GMT (Saturday 20th June 2020)"
-	revision: "2"
+	date: "2020-07-04 14:46:05 GMT (Saturday 4th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_MODEL_DRAWER
@@ -42,7 +42,6 @@ feature -- Basic operations
 		local
 			radial_square, drawable_rectangle, intersection: EV_RECTANGLE; half_width: DOUBLE
 			pixels: detachable EL_DRAWABLE_PIXEL_BUFFER; x, y: INTEGER
-			file_path: EL_FILE_PATH
 		do
 			radial_square := picture.outer_radial_square
 			radial_square.move (radial_square.x + offset_x, radial_square.y + offset_y)
@@ -50,13 +49,9 @@ feature -- Basic operations
 
 			create drawable_rectangle.make (0, 0, drawable.width, drawable.height)
 			if drawable_rectangle.contains (radial_square) then
-				if picture.generator.starts_with ("DAUGHT") then
-					file_path := "$HOME\Desktop\daughter.png"
-					file_path.expand
---					drawable.sub_pixmap (radial_square).save_to_named_file (create {EV_PNG_FORMAT}, file_path.as_string_32)
---					pixels.save_as (file_path)
-				end
+--				drawable.sub_pixmap (radial_square).save_to_named_file (create {EV_PNG_FORMAT}, Directory.desktop + "daughter.png")
 				create pixels.make_with_pixmap (32, drawable.sub_pixmap (radial_square))
+				pixels.save_to_desktop
 
 			elseif drawable_rectangle.intersects (radial_square) then
 				intersection := drawable_rectangle.intersection (radial_square)
@@ -71,6 +66,7 @@ feature -- Basic operations
 				if intersection.y > radial_square.y then
 					y := intersection.y - radial_square.y
 				end
+				drawable.sub_pixmap (intersection).save_to_named_file (create {EV_PNG_FORMAT}, Directory.desktop + "daughter.png")
 				pixels.draw_pixmap (x, y, drawable.sub_pixmap (intersection))
 			end
 --			Show corners of square	

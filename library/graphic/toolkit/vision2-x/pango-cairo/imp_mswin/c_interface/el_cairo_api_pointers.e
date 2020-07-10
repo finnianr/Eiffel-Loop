@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 18:38:53 GMT (Friday 31st May 2019)"
-	revision: "3"
+	date: "2020-07-05 10:54:50 GMT (Sunday 5th July 2020)"
+	revision: "4"
 
 class
 	EL_CAIRO_API_POINTERS
@@ -36,9 +36,9 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	surface_destroy: POINTER
 
-	fill: POINTER
+	surface_finish: POINTER
 
-	finish: POINTER
+	fill: POINTER
 
 	format_stride_for_width: POINTER
 

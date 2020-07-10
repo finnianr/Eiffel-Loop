@@ -2,12 +2,14 @@ note
 	description: "[
 		EiffelVision pixmap. MS Windows implementation for drawable pixmap (drawable, not self-displayable)
 	]"
+
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-02 9:18:11 GMT (Thursday 2nd July 2020)"
-	revision: "1"
+	date: "2020-07-03 13:14:08 GMT (Friday 3rd July 2020)"
+	revision: "2"
 
 class 
 	EL_PIXMAP_IMP_DRAWABLE

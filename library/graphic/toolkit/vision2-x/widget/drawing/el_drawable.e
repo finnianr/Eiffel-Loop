@@ -95,8 +95,11 @@ feature -- Drawing operations
 		end
 
 	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
+		local
+			rectangle: EL_RECTANGLE
 		do
-			draw_sub_pixel_buffer (x, y, a_pixels, create {EV_RECTANGLE}.make (0, 0, a_pixels.width, a_pixels.height))
+			create rectangle.make_for_pixels (a_pixels)
+			draw_sub_pixel_buffer (x, y, a_pixels, rectangle)
 		end
 
 --feature -- Duplication

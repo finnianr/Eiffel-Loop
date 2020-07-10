@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 12:37:41 GMT (Monday 29th June 2020)"
-	revision: "18"
+	date: "2020-07-08 17:37:20 GMT (Wednesday 8th July 2020)"
+	revision: "19"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -66,6 +66,8 @@ inherit
 			out
 		end
 
+	EL_MODULE_DIRECTORY
+
 create
 	default_create,
 	make_from_other,
@@ -73,6 +75,7 @@ create
 	make_scaled_to_height,
 	make_scaled_to_width,
 	make_with_path,
+	make_with_rectangle,
 	make_with_size,
 	make_with_scaled_pixmap,
 	make_with_pixmap,
@@ -134,6 +137,13 @@ feature {NONE} -- Initialization
 		do
 			format := a_format; default_create
 			implementation.make_with_pixmap (a_pixmap)
+		end
+
+	make_with_rectangle (a_format: NATURAL_8; rectangle: EV_RECTANGLE)
+		require
+			valid_format: is_format_valid (a_format)
+		do
+			make_with_size (a_format, rectangle.width, rectangle.height)
 		end
 
 	make_with_scaled_pixmap (a_format, dimension: NATURAL_8; size: INTEGER; a_pixmap: EV_PIXMAP)
@@ -208,7 +218,7 @@ feature -- Status query
 			Result := format = 24
 		end
 
-feature -- Basic operations
+feature -- Drawing operations
 
 	draw_line (x1, y1, x2, y2: INTEGER)
 		do
@@ -230,6 +240,16 @@ feature -- Basic operations
 			implementation.draw_rectangle (x, y, a_width, a_height)
 		end
 
+	draw_rotated_rectangle (rectangle: EV_RECTANGLE; a_angle: DOUBLE)
+		do
+			implementation.draw_rotated_rectangle (rectangle, a_angle)
+		end
+
+	draw_rotated_text (rectangle: EL_TEXT_RECTANGLE; a_angle: DOUBLE)
+		do
+			implementation.draw_rotated_text (rectangle, a_angle)
+		end
+
 	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
 		do
 			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
@@ -238,17 +258,13 @@ feature -- Basic operations
 	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.set_clip_rounded_rectangle (
-				x, y, a_pixel_buffer.width, a_pixel_buffer.height, radius, corners_bitmap
-			)
-			implementation.draw_pixel_buffer (x, y, a_pixel_buffer)
+			implementation.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, a_pixel_buffer)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius, corners_bitmap)
-			implementation.draw_pixmap (x, y, a_pixmap)
+			implementation.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 		end
 
 	draw_scaled_pixel_buffer (x, y, a_size: INTEGER; dimension: NATURAL_8; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
@@ -281,13 +297,13 @@ feature -- Basic operations
 		end
 
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
 			implementation.fill_concave_corners (radius, corners_bitmap)
 		end
 
 	fill_convex_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
 			implementation.fill_convex_corners (radius, corners_bitmap)
 		end
@@ -296,6 +312,8 @@ feature -- Basic operations
 		do
 			implementation.fill_rectangle (x, y, a_width, a_height)
 		end
+
+feature -- Basic operations
 
 	save_as (file_path: EL_FILE_PATH)
 			-- Save as png file
@@ -308,13 +326,12 @@ feature -- Basic operations
 			implementation.save_as_jpeg (file_path, quality)
 		end
 
-feature -- Element change
-
-	set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+	save_to_desktop
 		do
-			implementation.set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap)
+			save_as (Directory.desktop + (generator.as_lower + ".png"))
 		end
+
+feature -- Element change
 
 	set_color (a_color: EV_COLOR)
 		do
@@ -345,22 +362,10 @@ feature -- Element change
 
 feature -- Transform
 
-	flip (a_width, a_height: DOUBLE; mirror_state: INTEGER)
+	flip (a_width, a_height: INTEGER; mirror_state: NATURAL_8)
 		-- mirror_state is bit OR'd combination of `X_axis' and `Y_axis'
-		local
-			x_factor, y_factor, l_width, l_height: DOUBLE
 		do
-			if mirror_state.to_boolean then
-				x_factor := x_factor.one; y_factor := y_factor.one
-				if (mirror_state & X_axis).to_boolean then
-					l_height := a_height; y_factor := y_factor.opposite
-				end
-				if (mirror_state & Y_axis).to_boolean then
-					l_width := a_width; x_factor := x_factor.opposite
-				end
-				implementation.translate (l_width, l_height)
-				implementation.scale (x_factor, y_factor)
-			end
+			implementation.flip (a_width, a_height, mirror_state)
 		end
 
 	rotate (angle: DOUBLE)
@@ -371,19 +376,8 @@ feature -- Transform
 
 	rotate_quarter (n: INTEGER)
 		-- rotate `n * 90' degrees
-		local
-			half_width, half_height: DOUBLE
 		do
-			if n /= 0 then
-				half_width := (width / 2).rounded; half_height := (height / 2).rounded
-				translate (half_width, half_height)
-				rotate (n * {MATH_CONST}.Pi_2)
-				if n.abs \\ 2 = 1 then
-					translate (half_height.opposite, half_width.opposite)
-				else
-					translate (half_width.opposite, half_height.opposite)
-				end
-			end
+			implementation.rotate_quarter (n)
 		end
 
 	scale (x_factor, y_factor: DOUBLE)
@@ -482,7 +476,7 @@ feature {NONE} -- Implementation
 			implementation := actual_implementation
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_PIXEL_BUFFER} -- Internal attributes
+feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
 
 	actual_implementation: EL_DRAWABLE_PIXEL_BUFFER_IMP
 

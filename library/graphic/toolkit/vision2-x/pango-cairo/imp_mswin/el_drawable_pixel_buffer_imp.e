@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-29 16:29:01 GMT (Monday 29th June 2020)"
-	revision: "9"
+	date: "2020-07-06 8:46:13 GMT (Monday 6th July 2020)"
+	revision: "10"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -15,12 +15,12 @@ class
 inherit
 	EV_PIXEL_BUFFER_IMP
 		rename
+			data_ptr as pixel_data,
 			draw_text as buffer_draw_text,
 			draw_pixel_buffer as draw_pixel_buffer_at_rectangle,
 			lock as lock_rgb_24,
 			unlock as unlock_rgb_24,
 			make_with_pixmap as make_rgb_24_with_pixmap,
-			make as make_rgb_24,
 			make_with_size as make_rgb_24_with_size,
 			set_with_named_path as set_rgb_24_with_path,
 			height as buffer_height,
@@ -35,7 +35,7 @@ inherit
 		undefine
 			unlock_rgb_24
 		redefine
-			interface, check_font_availability
+			interface
 		end
 
 	EL_MODULE_SYSTEM_FONTS
@@ -63,30 +63,8 @@ feature {EV_ANY, EV_ANY_I} -- Implementation
 
 feature {NONE} -- Implementation
 
-	check_font_availability
-		local
-			substitute_fonts: like System_fonts.Substitute_fonts
+	adjust_color_channels
 		do
-			substitute_fonts := System_fonts.Substitute_fonts
-			substitute_fonts.search (font.name)
-			if substitute_fonts.found then
-				font.preferred_families.start
-				font.preferred_families.replace (substitute_fonts.found_item.to_string_32)
-			end
 		end
-
-	draw_pixel_32_bit_buffer (x, y: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		do
-			
-		end
-
-	stride: INTEGER
-		do
-			Result := data.stride
-		end
-
-feature {NONE} -- Constants
-
-	Pango_font_scale_factor: REAL = 1.01
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-31 18:38:25 GMT (Friday 31st May 2019)"
-	revision: "7"
+	date: "2020-07-05 10:56:23 GMT (Sunday 5th July 2020)"
+	revision: "8"
 
 class
 	EL_CAIRO_API
@@ -80,6 +80,11 @@ feature -- Factory
 			)
 		end
 
+	new_path (context: POINTER)
+		do
+			cairo_new_path (api.new_path, context)
+		end
+
 	new_win32_surface_create (hdc: POINTER): POINTER
 		do
 			Result := cairo_win32_surface_create (api.win32_surface_create, hdc)
@@ -87,9 +92,9 @@ feature -- Factory
 
 feature -- Status setting
 
-	finish (surface: POINTER)
+	surface_finish (surface: POINTER)
 		do
-			cairo_finish (api.finish, surface)
+			cairo_surface_finish (api.surface_finish, surface)
 		end
 
 	surface_mark_dirty (surface: POINTER)
@@ -104,6 +109,14 @@ feature -- Status setting
 		end
 
 feature -- Element change
+
+	select_font_face (context, family_utf8: POINTER; slant, weight: INTEGER)
+			-- cairo_public void cairo_select_font_face (
+			--		cairo_t *cr, const char *family, cairo_font_slant_t slant, cairo_font_weight_t weight
+			-- );
+		do
+			cairo_select_font_face (api.select_font_face, context, family_utf8, slant, weight)
+		end
 
 	set_antialias (context: POINTER; a_antialias: INTEGER)
 			-- void cairo_set_antialias (cairo_t *cr, cairo_antialias_t antialias);
@@ -146,6 +159,26 @@ feature -- Status change
 			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
 		do
 			Result := cairo_format_stride_for_width (api.format_stride_for_width, format, width)
+		end
+
+feature -- Transformations
+
+	rotate (context: POINTER; angle: DOUBLE)
+			-- void cairo_rotate (cairo_t *cr, double angle);
+		do
+			cairo_rotate (api.rotate, context, angle)
+		end
+
+	scale (context: POINTER; sx, sy: DOUBLE)
+			-- void cairo_scale (cairo_t *cr, double sx, double sy);
+		do
+			cairo_scale (api.scale, context, sx, sy)
+		end
+
+	translate (context: POINTER; tx, ty: DOUBLE)
+			-- void cairo_translate (cairo_t *cr, double tx, double ty);
+		do
+			cairo_translate (api.translate, context, tx, ty)
 		end
 
 feature -- Basic operations
@@ -191,11 +224,6 @@ feature -- Basic operations
 			cairo_move_to (api.move_to, context, x, y)
 		end
 
-	new_path (context: POINTER)
-		do
-			cairo_new_path (api.new_path, context)
-		end
-
 	paint (context: POINTER)
 		do
 			cairo_paint (api.paint, context)
@@ -218,30 +246,10 @@ feature -- Basic operations
 			cairo_restore (api.restore, context)
 		end
 
-	rotate (context: POINTER; angle: DOUBLE)
-			-- void cairo_rotate (cairo_t *cr, double angle);
-		do
-			cairo_rotate (api.rotate, context, angle)
-		end
-
 	save (context: POINTER)
 			-- void cairo_save (cairo_t *cr);
 		do
 			cairo_save (api.save, context)
-		end
-
-	scale (context: POINTER; sx, sy: DOUBLE)
-			-- void cairo_scale (cairo_t *cr, double sx, double sy);
-		do
-			cairo_scale (api.scale, context, sx, sy)
-		end
-
-	select_font_face (context, family_utf8: POINTER; slant, weight: INTEGER)
-			-- cairo_public void cairo_select_font_face (
-			--		cairo_t *cr, const char *family, cairo_font_slant_t slant, cairo_font_weight_t weight
-			-- );
-		do
-			cairo_select_font_face (api.select_font_face, context, family_utf8, slant, weight)
 		end
 
 	stroke (context: POINTER)
@@ -260,12 +268,6 @@ feature -- Basic operations
 			-- void cairo_show_text (cairo_t *cr, const char *utf8);
 		do
 			cairo_show_text (api.show_text, context, text_utf8)
-		end
-
-	translate (context: POINTER; tx, ty: DOUBLE)
-			-- void cairo_translate (cairo_t *cr, double tx, double ty);
-		do
-			cairo_translate (api.translate, context, tx, ty)
 		end
 
 feature -- C memory release

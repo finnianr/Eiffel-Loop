@@ -121,12 +121,12 @@ feature {NONE} -- Corner bitmasks
 			Result := << Top_left, Top_right, Bottom_right, Bottom_left >>
 		end
 
-	Bottom_left: INTEGER = 12
+	Bottom_left: INTEGER = 16
 
-	Bottom_right: INTEGER = 6
+	Bottom_right: INTEGER = 32
 
-	Top_left: INTEGER = 9
+	Top_left: INTEGER = 64
 
-	Top_right: INTEGER = 3
+	Top_right: INTEGER = 128
 
 end
