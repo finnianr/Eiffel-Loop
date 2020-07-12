@@ -1,13 +1,13 @@
 note
-	description: "Drawable pixel buffer imp"
+	description: "Windows implementation of [$source EL_DRAWABLE_PIXEL_BUFFER_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-06 8:46:13 GMT (Monday 6th July 2020)"
-	revision: "10"
+	date: "2020-07-11 13:27:22 GMT (Saturday 11th July 2020)"
+	revision: "11"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP

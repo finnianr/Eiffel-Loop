@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:33:25 GMT (Wednesday 8th July 2020)"
-	revision: "1"
+	date: "2020-07-12 16:48:31 GMT (Sunday 12th July 2020)"
+	revision: "2"
 
 deferred class
 	EL_DRAWABLE_CAIRO_CONTEXT
@@ -258,6 +258,18 @@ feature -- Drawing operations
 				paint
 				restore_color -- Need to restore color after set_source_surface
 			end
+		end
+
+	draw_pixmap (x, y: INTEGER; pixmap: EV_PIXMAP)
+		local
+			source: EL_CAIRO_SURFACE_I
+		do
+			create {EL_CAIRO_SURFACE_IMP} source.make_with_pixmap (pixmap)
+
+			Cairo.set_source_surface (context, source.item, x, y)
+			Cairo.set_antialias (context, Cairo_antialias_best)
+			paint
+			restore_color -- Need to restore color after set_source_surface
 		end
 
 	draw_rectangle (x, y, a_width, a_height: INTEGER)

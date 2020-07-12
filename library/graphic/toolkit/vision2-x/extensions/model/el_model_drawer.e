@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-04 14:46:05 GMT (Saturday 4th July 2020)"
-	revision: "3"
+	date: "2020-07-12 9:59:40 GMT (Sunday 12th July 2020)"
+	revision: "4"
 
 deferred class
 	EL_MODEL_DRAWER
@@ -49,9 +49,7 @@ feature -- Basic operations
 
 			create drawable_rectangle.make (0, 0, drawable.width, drawable.height)
 			if drawable_rectangle.contains (radial_square) then
---				drawable.sub_pixmap (radial_square).save_to_named_file (create {EV_PNG_FORMAT}, Directory.desktop + "daughter.png")
 				create pixels.make_with_pixmap (32, drawable.sub_pixmap (radial_square))
-				pixels.save_to_desktop
 
 			elseif drawable_rectangle.intersects (radial_square) then
 				intersection := drawable_rectangle.intersection (radial_square)
@@ -66,7 +64,6 @@ feature -- Basic operations
 				if intersection.y > radial_square.y then
 					y := intersection.y - radial_square.y
 				end
-				drawable.sub_pixmap (intersection).save_to_named_file (create {EV_PNG_FORMAT}, Directory.desktop + "daughter.png")
 				pixels.draw_pixmap (x, y, drawable.sub_pixmap (intersection))
 			end
 --			Show corners of square	

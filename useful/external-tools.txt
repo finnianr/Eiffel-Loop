@@ -7,20 +7,23 @@ el_eiffel -feature_editor -no_highlighting -source "$file_name"
 python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin
 
 3. Open project directory
-launch_nautilus.sh "$(dirname "$(dirname "$project_directory")")"
+ec_open_directory.py "$project_directory" 2
 
 4. List feature catagories
 cat feature_constants.e | tail -n 36 | expand -t3
-working dir: /home/finnian/dev/Eiffel/Eiffel-Loop/tool/toolkit/source/eiffel-dev/class-edit/support
+working dir: /home/finnian/dev/Eiffel/Eiffel-Loop/tool/eiffel/source/edit/support
 
 5. Edit pecf
-edit_pecf.sh "$(dirname "$(dirname "$project_directory")")"
+ec_gedit_project.py pecf
 
-6. Edit project.py
-edit_project_py.sh "$(dirname "$(dirname "$project_directory")")"
+6. Edit versions
+ec_gedit_project.py txt
 
 7. Open class directory
-launch_nautilus.sh "$(dirname "$file_name")"
+ec_open_directory.py "$file_name" 1
+
+9. Open imp_mswin
+ec_gedit_implementation.py "$file_name"
 
 WINDOWS
 
@@ -29,4 +32,20 @@ el_eiffel -feature_editor -no_highlighting -source "$file_name"
 
 2. Install F_code executable
 python -m eiffel_loop.scripts.ec_install_app --f_code --install "c:\Program files"
+
+3. Open project directory
+ec_open_directory.py "$project_directory" 2
+
+4. List feature catagories
+sed 's/\t/   /g' feature_constants.e | tail -n 36
+working dir: D:\Eiffel\library\Eiffel-Loop\tool\eiffel\source\edit\support
+
+5. Edit pecf
+python -m eiffel_loop.scripts.ec_gedit_project pecf
+
+6. Edit versions
+python -m eiffel_loop.scripts.ec_gedit_project txt
+
+7. Open class directory
+python -m eiffel_loop.scripts.ec_open_directory.py "$file_name" 1
 

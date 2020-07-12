@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:52:21 GMT (Wednesday 8th July 2020)"
-	revision: "1"
+	date: "2020-07-12 9:43:27 GMT (Sunday 12th July 2020)"
+	revision: "2"
 
 deferred class
 	EL_PANGO_CAIRO_CONTEXT_I
@@ -22,6 +22,8 @@ inherit
 		rename
 			context as self_ptr
 		end
+
+	EV_ANY_HANDLER
 
 	EL_MODULE_ZSTRING
 

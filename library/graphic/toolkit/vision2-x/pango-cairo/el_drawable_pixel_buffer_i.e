@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:36:40 GMT (Wednesday 8th July 2020)"
-	revision: "18"
+	date: "2020-07-12 11:02:45 GMT (Sunday 12th July 2020)"
+	revision: "19"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -89,9 +89,12 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 				adjust_color_channels
 			else
 				make_with_size (a_pixmap.width, a_pixmap.height)
-				if attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
-					draw_pixel_buffer (0, 0, buffer)
-					buffer.unlock
+				if attached cairo_context as c then
+					c.draw_pixmap (0, 0, a_pixmap)
+
+--				elseif attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
+--					draw_pixel_buffer (0, 0, buffer)
+--					buffer.unlock
 				end
 			end
 		end

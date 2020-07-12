@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 15:53:41 GMT (Wednesday 8th July 2020)"
-	revision: "14"
+	date: "2020-07-11 8:33:08 GMT (Saturday 11th July 2020)"
+	revision: "15"
 
 class
 	EL_PIXMAP
@@ -30,7 +30,7 @@ inherit
 			is_equal, default_create, copy
 		end
 
-	EL_MODULE_DIRECTORY
+	EL_IMAGE_DEBUG
 
 	EL_MODULE_SCREEN
 
@@ -159,6 +159,13 @@ feature -- Duplication
 			Result := implementation.to_jpeg (quality)
 		end
 
+feature -- Basic operations
+
+	save_as (a_file_path: EL_FILE_PATH)
+		do
+			save_to_named_file (create {EV_PNG_FORMAT}, a_file_path)
+		end
+
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 
 	implementation: EL_PIXMAP_I
@@ -171,6 +178,7 @@ feature {NONE} -- Implementation
 		do
 			create {EL_PIXMAP_IMP} implementation.make
 		end
+		
 	redraw
 		do
 		end

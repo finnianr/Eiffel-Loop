@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:37:20 GMT (Wednesday 8th July 2020)"
-	revision: "19"
+	date: "2020-07-11 8:16:34 GMT (Saturday 11th July 2020)"
+	revision: "20"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -66,7 +66,7 @@ inherit
 			out
 		end
 
-	EL_MODULE_DIRECTORY
+	EL_IMAGE_DEBUG
 
 create
 	default_create,
@@ -324,11 +324,6 @@ feature -- Basic operations
 	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
 		do
 			implementation.save_as_jpeg (file_path, quality)
-		end
-
-	save_to_desktop
-		do
-			save_as (Directory.desktop + (generator.as_lower + ".png"))
 		end
 
 feature -- Element change

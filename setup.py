@@ -48,7 +48,10 @@ setup (
 		script_path % 'ec_build_finalized',
 		script_path % 'ec_clean_build',
 		script_path % 'ec_create_f_code_tar_gz',
+		script_path % 'ec_gedit_project',
+		script_path % 'ec_gedit_implementation',
 		script_path % 'ec_install_app',
+		script_path % 'ec_open_directory',
 		script_path % 'ec_write_set_environ',
 		script_path % 'ec_write_software_version'
 	]
