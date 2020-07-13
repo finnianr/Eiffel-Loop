@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-12 16:45:51 GMT (Sunday 12th July 2020)"
+	date: "2020-07-13 9:13:21 GMT (Monday 13th July 2020)"
 	revision: "1"
 
 class
@@ -14,44 +14,20 @@ class
 
 inherit
 	EL_CAIRO_SURFACE_I
-		redefine
-			dispose
-		end
-
-	EV_PIXEL_BUFFER_IMP
-		redefine
-			make_with_pixmap, dispose
-		end
 
 	EL_SHARED_IMAGE_UTILS_API
 
 create
-	make_with_pixmap
+	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
 
-feature {NONE} -- Initialization
+feature -- Status change
 
-	make_with_pixmap (a_pixmap: EV_PIXMAP)
-		local
-			pixel_data: POINTER
+	set_surface_color_order
+			-- swap red and blue color channels
 		do
-			Precursor (a_pixmap)
-			pixel_data := data_ptr
-			Image_utils.format_argb_to_abgr (pixel_data, width * height)
-
-			item := Cairo.new_image_surface_for_data (pixel_data, Cairo_format_RGB_24, width, height, stride)
-		end
-
-feature {NONE} -- Implementation
-
-	stride: INTEGER
-		do
-			Result := {GTK}.gdk_pixbuf_get_rowstride (gdk_pixbuf).to_integer_32
-		end
-
-	dispose
-		do
-			Precursor {EL_CAIRO_SURFACE_I}
-			Precursor {EV_PIXEL_BUFFER_IMP}
+			flush
+			Image_utils.format_argb_to_abgr (Cairo.surface_data (self_ptr), width * height)
+			mark_dirty
 		end
 
 end

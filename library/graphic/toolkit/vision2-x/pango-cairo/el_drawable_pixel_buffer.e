@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-11 8:16:34 GMT (Saturday 11th July 2020)"
-	revision: "20"
+	date: "2020-07-13 17:27:35 GMT (Monday 13th July 2020)"
+	revision: "21"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -321,9 +321,9 @@ feature -- Basic operations
 			implementation.save_as (file_path)
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
 		do
-			implementation.save_as_jpeg (file_path, quality)
+			to_rgb_24_buffer.implementation.save_as_jpeg (file_path, quality)
 		end
 
 feature -- Element change
@@ -443,7 +443,11 @@ feature -- Conversion
 		require
 			not_locked: not is_locked
 		do
-			create Result.make_from_other (24, Current)
+			if is_rgb_24_format then
+				Result := Current
+			else
+				create Result.make_from_other (24, Current)
+			end
 		end
 
 feature -- Contract Support
@@ -471,7 +475,7 @@ feature {NONE} -- Implementation
 			implementation := actual_implementation
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
+feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT, EL_DRAWABLE_PIXEL_BUFFER} -- Internal attributes
 
 	actual_implementation: EL_DRAWABLE_PIXEL_BUFFER_IMP
 

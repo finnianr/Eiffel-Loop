@@ -6,24 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-12 9:43:27 GMT (Sunday 12th July 2020)"
-	revision: "2"
+	date: "2020-07-13 9:27:53 GMT (Monday 13th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_PANGO_CAIRO_CONTEXT_I
 
 inherit
-	EL_OWNED_C_OBJECT
-		export
-			{EL_DRAWABLE_PIXEL_BUFFER_I, EL_SVG_IMAGE, EL_DRAWABLE_CAIRO_CONTEXT} self_ptr
-		end
-
 	EL_DRAWABLE_CAIRO_CONTEXT
-		rename
-			context as self_ptr
+		redefine
+			make, c_free
 		end
-
-	EV_ANY_HANDLER
 
 	EL_MODULE_ZSTRING
 
@@ -37,100 +30,17 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_argb_32 (a_width, a_height: INTEGER)
+	make (a_surface: EL_CAIRO_SURFACE_I)
 		do
-			make_with_surface (Cairo.new_image_surface (Cairo_format_ARGB_32, a_width, a_height))
-		end
-
-	make_default
-		do
-			create color
 			create font
-			set_opaque
-		end
-
-	make_from_file (file_path: EL_FILE_PATH)
-		require
-			exists: file_path.exists
-		local
-			cairo_file: EL_PNG_IMAGE_FILE
-		do
-			make_default
-			if file_path.exists then
-				create cairo_file.make_open_read (file_path)
-				make_with_surface (cairo_file.read_cairo_surface)
-				cairo_file.close
-			end
-		ensure
-			initialized: is_attached (self_ptr)
-		end
-
-	make_rgb_24 (a_width, a_height: INTEGER)
-		do
-			make_with_surface (Cairo.new_image_surface (Cairo_format_RGB_24, a_width, a_height))
-		end
-
-	make_with_argb_32_data (pixel_data: POINTER; a_width, a_height: INTEGER)
-		do
-			make_with_data (pixel_data, Cairo_format_ARGB_32, a_width, a_height)
-		end
-
-	make_with_data (pixel_data: POINTER; format, a_width, a_height: INTEGER)
-		require
-			valid_format: format = Cairo_format_ARGB_32 or format = Cairo_format_RGB_24
-		local
-			stride: INTEGER
-		do
-			stride := Cairo.format_stride_for_width (format, a_width)
-			make_with_surface (Cairo.new_image_surface_for_data (pixel_data, format, a_width, a_height, stride))
-		end
-
-	make_with_rgb_24_data (pixel_data: POINTER; a_width, a_height: INTEGER)
-		do
-			make_with_data (pixel_data, Cairo_format_RGB_24, a_width, a_height)
-		end
-
-	make_with_surface (a_surface: POINTER)
-		do
-			make_default
-			surface := a_surface
-			if is_attached (a_surface) then
-				make_from_pointer (Cairo.new_cairo (a_surface))
-			end
+			Precursor (a_surface)
 		end
 
 feature -- Access
 
-	color: EV_COLOR
-
 	font: EV_FONT
 
-feature -- Measurement
-
-	height: INTEGER
-		do
-			Result := Cairo.surface_height (surface)
-		end
-
-	width: INTEGER
-		do
-			Result := Cairo.surface_width (surface)
-		end
-
-feature -- Status change
-
-	set_surface_color_order
-		-- set color channel order (needed for Unix)
-		deferred
-		end
-
 feature -- Element change
-
-	set_color (a_color: like color)
-		do
-			color := a_color
-			set_source_color
-		end
 
 	set_font (a_font: like font)
 		do
@@ -149,18 +59,6 @@ feature -- Element change
 			c.utf_32_string_into_utf_8_string_8 (l_text, utf8_text)
 			Pango.set_layout_text (pango_layout, utf8_text.area.base_address, utf8_text.count)
 			adjust_pango_font (font.string_width (l_text))
-		end
-
-feature -- Basic operations
-
-	save_as (file_path: EL_FILE_PATH)
-			-- Save as png file
-		local
-			file_out: EL_PNG_IMAGE_FILE
-		do
-			create file_out.make_open_write (file_path)
-			file_out.put_image (surface)
-			file_out.close
 		end
 
 feature -- Text drawing
@@ -270,7 +168,7 @@ feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
 			if is_attached (internal_pango_layout) then
 				Gobject.object_unref (internal_pango_layout)
 			end
-			Cairo.destroy (self_ptr); Cairo.destroy_surface (surface)
+			Precursor (this)
 		end
 
 	check_font_availability
@@ -279,8 +177,8 @@ feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
 
 	draw_layout_text
 		do
-			Pango_cairo.update_layout (self_ptr, pango_layout)
-			Pango_cairo.show_layout (self_ptr, pango_layout)
+			Pango_cairo.update_layout (context, pango_layout)
+			Pango_cairo.show_layout (context, pango_layout)
 		end
 
 	text_height: INTEGER
@@ -297,14 +195,9 @@ feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
 		do
 			Result := internal_pango_layout
 			if not is_attached (Result) then
-				Result := Pango_cairo.create_layout (self_ptr)
+				Result := Pango_cairo.create_layout (context)
 				internal_pango_layout := Result
 			end
-		end
-
-	restore_color
-		do
-			set_color (color)
 		end
 
 	set_layout_text_font (pango_font: EL_PANGO_FONT)
@@ -312,14 +205,8 @@ feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
 			Pango.set_layout_font_description (pango_layout, pango_font.item)
 		end
 
-	set_source_color
-		deferred
-		end
-
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
+feature {NONE} -- Internal attributes
 
 	internal_pango_layout: POINTER
-
-	surface: POINTER
 
 end

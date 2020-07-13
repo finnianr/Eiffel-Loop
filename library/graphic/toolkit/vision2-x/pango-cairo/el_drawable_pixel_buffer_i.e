@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-12 11:02:45 GMT (Sunday 12th July 2020)"
-	revision: "19"
+	date: "2020-07-13 17:28:50 GMT (Monday 13th July 2020)"
+	revision: "20"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -116,11 +116,14 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 		end
 
 	make_with_size (a_width, a_height: INTEGER)
+		local
+			surface: EL_CAIRO_SURFACE_I
 		do
 			if is_rgb_24_format then
 				make_rgb_24_with_size (a_width, a_height)
 			else
-				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make_argb_32 (a_width, a_height)
+				create {EL_CAIRO_SURFACE_IMP} surface.make_argb_32 (a_width, a_height)
+				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
 			end
 		end
 
@@ -231,12 +234,15 @@ feature -- Element change
 		end
 
 	set_with_path (file_path: EL_FILE_PATH)
+		local
+			surface: EL_CAIRO_SURFACE_I
 		do
 			if is_rgb_24_format then
 				cairo_context := Void
 				set_rgb_24_with_path (file_path)
 			else
-				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make_from_file (file_path)
+				create {EL_CAIRO_SURFACE_IMP} surface.make_from_file (file_path)
+				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
 			end
 		end
 
@@ -306,6 +312,15 @@ feature -- Basic operations
 			end
 		end
 
+	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		require
+			locked_for_rgb_24_bit: locked_for_rgb_24_bit
+		do
+			if attached cairo_context as c then
+				c.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
+			end
+		end
+
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
@@ -313,15 +328,6 @@ feature -- Basic operations
 			if attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
 				draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
 				buffer.unlock
-			end
-		end
-
-	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		require
-			locked_for_rgb_24_bit: locked_for_rgb_24_bit
-		do
-			if attached cairo_context as c then
-				c.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
 			end
 		end
 
@@ -411,9 +417,10 @@ feature -- Basic operations
 			end
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
 		require
-			unlocked_for_24_rgb_format: is_rgb_24_format implies not is_locked
+			rgb_24_format: is_rgb_24_format
+			not_locked: not is_locked
 		deferred
 		end
 
@@ -484,8 +491,11 @@ feature -- Status change
 	lock
 		require else
 			unlocked: not is_locked
+		local
+			surface: EL_CAIRO_SURFACE_I
 		do
-			create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make_with_rgb_24_data (pixel_data, width, height)
+			create {EL_CAIRO_SURFACE_IMP} surface.make_with_rgb_24_data (pixel_data, width, height)
+			create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
 			lock_rgb_24
 		end
 

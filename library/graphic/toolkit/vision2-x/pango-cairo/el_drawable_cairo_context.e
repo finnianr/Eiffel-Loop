@@ -6,14 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-12 16:48:31 GMT (Sunday 12th July 2020)"
-	revision: "2"
+	date: "2020-07-13 10:08:01 GMT (Monday 13th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_DRAWABLE_CAIRO_CONTEXT
 
 inherit
-	EL_SHARED_CAIRO_API
+	EL_OWNED_C_OBJECT
+		rename
+			self_ptr as context
+		export
+			{EL_DRAWABLE_PIXEL_BUFFER_I, EL_SVG_IMAGE, EL_DRAWABLE_CAIRO_CONTEXT} context
+		end
+
+	EL_CAIRO_COMMAND_CONTEXT
+
+	EV_ANY_HANDLER
 
 	EL_GEOMETRY_MATH
 		export
@@ -23,14 +32,46 @@ inherit
 
 	EL_CAIRO_CONSTANTS
 
+feature {NONE} -- Initialization
+
+	make (a_surface: EL_CAIRO_SURFACE_I)
+		do
+			create color
+			set_opaque
+			surface := a_surface
+			if a_surface.is_initialized then
+				make_from_pointer (a_surface.new_context)
+			end
+		end
+
+feature -- Access
+
+	color: EV_COLOR
+
 feature -- Measurement
+
+	height: INTEGER
+		do
+			Result := surface.height
+		end
 
 	opacity: INTEGER
 		-- percentage opacity. 100 is totally opaque
 
 	rotation_angle: DOUBLE
 
+	width: INTEGER
+		do
+			Result := surface.width
+		end
+
 feature -- Element change
+
+	set_color (a_color: like color)
+		do
+			color := a_color
+			set_source_color
+		end
 
 	set_opacity (percentage: INTEGER)
 		do
@@ -42,77 +83,16 @@ feature -- Element change
 			opacity := 100
 		end
 
-feature -- Commands
+feature -- Basic operations
 
-	arc (xc, yc, radius, angle1, angle2: DOUBLE)
+	save_as (file_path: EL_FILE_PATH)
+			-- Save as png file
+		local
+			file_out: EL_PNG_IMAGE_FILE
 		do
-			Cairo.arc (context, xc, yc, radius, angle1, angle2)
-		end
-
-	clip
-		do
-			Cairo.clip (context)
-		end
-
-	close_sub_path
-		do
-			Cairo.close_sub_path (context)
-		end
-
-	define_sub_path
-		do
-			Cairo.define_sub_path (context)
-		end
-
-	fill
-		do
-			Cairo.fill (context)
-		end
-
-	line_to (x, y: DOUBLE)
-		do
-			Cairo.line_to (context, x, y)
-		end
-
-	mask (x, y: DOUBLE)
-		do
-			Cairo.mask_surface (context, surface, x, y)
-		end
-
-	move_to (x, y: DOUBLE)
-		do
-			Cairo.move_to (context, x, y)
-		end
-
-	paint
-		do
-			if opacity = 100 then
-				Cairo.paint (context)
-			elseif opacity > 0 then
-				Cairo.paint_with_alpha (context, opacity / 100)
-			end
-		end
-
-	reset_clip
-		do
-			Cairo.reset_clip (context)
-		end
-
-	restore
-			-- restore last drawing setting state from state stack
-		do
-			Cairo.restore (context)
-		end
-
-	save
-			-- save current drawing setting state on to a stack
-		do
-			Cairo.save (context)
-		end
-
-	stroke
-		do
-			Cairo.stroke (context)
+			create file_out.make_open_write (file_path)
+			file_out.put_image (surface.self_ptr)
+			file_out.close
 		end
 
 feature -- Transformations
@@ -232,6 +212,17 @@ feature -- Status change
 			Cairo.set_line_width (context, size)
 		end
 
+	set_source_surface (a_surface: EL_CAIRO_SURFACE_I; x, y: DOUBLE)
+		do
+			Cairo.set_source_surface (context, a_surface.self_ptr, x, y)
+		end
+
+	set_surface_color_order
+		-- set color channel order (needed for Unix)
+		do
+			surface.set_surface_color_order
+		end
+
 feature -- Drawing operations
 
 	draw_line (x1, y1, x2, y2: INTEGER)
@@ -253,7 +244,7 @@ feature -- Drawing operations
 	draw_pixel_buffer (x, y: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
 			if attached buffer.implementation as l_buffer then
-				Cairo.set_source_surface (context, l_buffer.cairo_context.surface, x, y)
+				set_source_surface (l_buffer.cairo_context.surface, x, y)
 				Cairo.set_antialias (context, Cairo_antialias_best)
 				paint
 				restore_color -- Need to restore color after set_source_surface
@@ -262,11 +253,10 @@ feature -- Drawing operations
 
 	draw_pixmap (x, y: INTEGER; pixmap: EV_PIXMAP)
 		local
-			source: EL_CAIRO_SURFACE_I
+			source: EL_CAIRO_PIXMAP_SURFACE_I
 		do
-			create {EL_CAIRO_SURFACE_IMP} source.make_with_pixmap (pixmap)
-
-			Cairo.set_source_surface (context, source.item, x, y)
+			create {EL_CAIRO_PIXMAP_SURFACE_IMP} source.make (pixmap)
+			set_source_surface (source, x, y)
 			Cairo.set_antialias (context, Cairo_antialias_best)
 			paint
 			restore_color -- Need to restore color after set_source_surface
@@ -380,24 +370,23 @@ feature -- Drawing operations
 
 feature {NONE} -- Implementation
 
-	context: POINTER
-		deferred
-		end
-
-	height: INTEGER
-		deferred
+	c_free (this: POINTER)
+			--
+		do
+			Cairo.destroy (this)
 		end
 
 	restore_color
+		do
+			set_color (color)
+		end
+
+	set_source_color
 		deferred
 		end
 
-	surface: POINTER
-		deferred
-		end
+feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
 
-	width: INTEGER
-		deferred
-		end
+	surface: EL_CAIRO_SURFACE_I
 
 end

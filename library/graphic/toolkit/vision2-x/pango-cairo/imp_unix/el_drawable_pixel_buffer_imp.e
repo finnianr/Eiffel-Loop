@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-11 13:27:48 GMT (Saturday 11th July 2020)"
-	revision: "11"
+	date: "2020-07-13 17:41:20 GMT (Monday 13th July 2020)"
+	revision: "12"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -61,18 +61,14 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: INTEGER)
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
 		require else
 			valid_gtk_version: {GTK}.gtk_maj_ver >= 2
 		local
 			jpeg: EL_JPEG_PIXMAP_IMP
 		do
-			if interface.is_rgb_24_format then
-				create jpeg.make (gdk_pixbuf, quality, False)
-				jpeg.save_as (file_path)
-			else
-				interface.to_rgb_24_buffer.save_as_jpeg (file_path, quality)
-			end
+			create jpeg.make (gdk_pixbuf, quality, False)
+			jpeg.save_as (file_path)
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation attributes

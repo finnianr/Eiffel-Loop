@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-11 8:33:08 GMT (Saturday 11th July 2020)"
-	revision: "15"
+	date: "2020-07-13 17:46:20 GMT (Monday 13th July 2020)"
+	revision: "16"
 
 class
 	EL_PIXMAP
@@ -154,7 +154,7 @@ feature -- Duplication
 			Result.draw_sub_pixmap (0, 0, Current, area)
 		end
 
-	to_jpeg (quality: INTEGER): EL_JPEG_PIXMAP_I
+	to_jpeg (quality: NATURAL): EL_JPEG_PIXMAP_I
 		do
 			Result := implementation.to_jpeg (quality)
 		end
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 		do
 			create {EL_PIXMAP_IMP} implementation.make
 		end
-		
+
 	redraw
 		do
 		end

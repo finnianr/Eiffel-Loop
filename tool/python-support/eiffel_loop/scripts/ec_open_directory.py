@@ -9,15 +9,7 @@
 
 import sys, os, platform
 
-from os import path
-
-def open_directory (a_path):
-	command_table = {
-		"Windows" : "c:/Windows/explorer.exe",
-		"Linux" : "/usr/bin/xdg-open"
-	}
-	cmd_path = path.normpath (command_table [platform.system()])
-	os.spawnv (os.P_NOWAIT, cmd_path, [path.basename (cmd_path), a_path])
+from eiffel_loop.os import system
 
 if len (sys.argv) >= 2:
 	dir_path = sys.argv [1]
@@ -31,7 +23,7 @@ else:
 
 if delete_count in range (0, 4) and dir_path:
 	steps = dir_path.split (os.sep) [:-delete_count]
-	open_directory (os.sep.join (steps)) 
+	system.open_directory (os.sep.join (steps)) 
 else:
 	print "USAGE: ec_open_directory <dir-path> <tail-delete-count>"
 

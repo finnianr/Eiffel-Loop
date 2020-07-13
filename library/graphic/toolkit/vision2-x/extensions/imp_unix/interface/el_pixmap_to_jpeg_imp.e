@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 13:06:04 GMT (Friday 3rd July 2020)"
-	revision: "2"
+	date: "2020-07-13 17:44:01 GMT (Monday 13th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_PIXMAP_TO_JPEG_IMP
 
 feature -- Conversion
 
-	to_jpeg (quality: INTEGER): EL_JPEG_PIXMAP_IMP
+	to_jpeg (quality: NATURAL): EL_JPEG_PIXMAP_IMP
 		do
 			create Result.make (pixbuf_from_drawable, quality, True)
 		end

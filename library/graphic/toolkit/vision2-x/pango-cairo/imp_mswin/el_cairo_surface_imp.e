@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-12 17:56:05 GMT (Sunday 12th July 2020)"
-	revision: "1"
+	date: "2020-07-13 10:00:56 GMT (Monday 13th July 2020)"
+	revision: "2"
 
 class
 	EL_CAIRO_SURFACE_IMP
@@ -15,27 +15,13 @@ class
 inherit
 	EL_CAIRO_SURFACE_I
 
-	EV_ANY_HANDLER
-
 create
-	make_with_pixmap
+	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
 
-feature {NONE} -- Initialization
+feature -- Status change
 
-	make_with_pixmap (a_pixmap: EV_PIXMAP)
+	set_surface_color_order
+			-- swap red and blue color channels
 		do
-			if attached {EV_PIXMAP_IMP_STATE} a_pixmap.implementation as l_pixmap then
-				create mem_dc.make
-				bitmap := l_pixmap.get_bitmap
-				mem_dc.select_bitmap (bitmap)
-				item := Cairo.new_win32_surface_create (mem_dc.item)
-			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	bitmap: WEL_BITMAP
-
-	mem_dc: WEL_MEMORY_DC
-
 end

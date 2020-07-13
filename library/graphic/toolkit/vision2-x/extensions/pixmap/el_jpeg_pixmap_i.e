@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-11 8:21:20 GMT (Saturday 11th July 2020)"
-	revision: "2"
+	date: "2020-07-13 17:43:51 GMT (Monday 13th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_JPEG_PIXMAP_I
@@ -22,7 +22,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_pixel_buffer: POINTER; a_quality: INTEGER; owned: BOOLEAN)
+	make (a_pixel_buffer: POINTER; a_quality: NATURAL; owned: BOOLEAN)
 		require
 			percentage: 0 <= a_quality and a_quality <= 100
 		do
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	quality: INTEGER
+	quality: NATURAL
 
 feature -- Basic operations
 

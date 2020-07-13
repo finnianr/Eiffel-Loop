@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-06 8:02:52 GMT (Monday 6th July 2020)"
-	revision: "8"
+	date: "2020-07-13 9:23:19 GMT (Monday 13th July 2020)"
+	revision: "9"
 
 class
 	EL_SVG_IMAGE
@@ -103,7 +103,7 @@ feature -- Basic operations
 			pixel_buffer_correct_size: cairo_ctx.width = width and cairo_ctx.height = height
 		do
 			render_succeeded := False
-			render_succeeded := Image_utils.rsvg_render_to_cairo (self_ptr, cairo_ctx.self_ptr)
+			render_succeeded := Image_utils.rsvg_render_to_cairo (self_ptr, cairo_ctx.context)
 		end
 
 feature {NONE} -- Internal attributes

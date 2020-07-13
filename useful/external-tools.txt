@@ -49,3 +49,6 @@ python -m eiffel_loop.scripts.ec_gedit_project txt
 7. Open class directory
 python -m eiffel_loop.scripts.ec_open_directory.py "$file_name" 1
 
+9. Open imp_unix
+python -m eiffel_loop.scripts.ec_gedit_implementation "$file_name"
+

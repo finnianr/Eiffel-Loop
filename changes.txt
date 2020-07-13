@@ -265,3 +265,6 @@ creation of EL_PANGO_CAIRO_CONTEXT_I and refactor of EL_DRAWABLE_PIXEL_BUFFER
 Wed 8th Jul 2020, 17:57:22
 New class EL_PANGO_CAIRO_CONTEXT_I
 
+Sun 12th Jul 2020, 18:15:29
+Created class EL_CAIRO_SURFACE_I to use as cairo pixmap source
+

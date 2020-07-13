@@ -13,21 +13,7 @@ import sys, os, platform
 
 from eiffel_loop.eiffel.project import new_eiffel_project
 from eiffel_loop.os import path
-
-global gedit_path
-
-command_table = {
-	"Windows" : "C:/Program Files/gedit/bin/gedit.exe",
-	"Linux" : "/usr/bin/gedit"
-}
-gedit_path = path.normpath (command_table [platform.system()])
-
-def edit_file (file_path):
-	if path.exists (file_path):
-		print "Editing", file_path
-		os.spawnv (os.P_NOWAIT, gedit_path, [path.basename (gedit_path), file_path])
-	else:
-		print "path not found:", file_path
+from eiffel_loop.os import system
 
 if len (sys.argv) == 2:
 	file_path = sys.argv [1]
@@ -45,7 +31,7 @@ if file_path:
 
 	file_path = os.sep.join (steps)
 
-	edit_file (file_path)
+	system.edit_file (file_path)
 
 else:
 	print "USAGE: ec_gedit_project.py [ecf | pecf | versions]"

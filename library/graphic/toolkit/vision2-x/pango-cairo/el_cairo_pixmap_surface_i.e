@@ -1,23 +1,23 @@
 note
-	description: "EiffelVision pixmap. Implementation interface."
+	description: "Cairo pixmap source surface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:46:09 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-13 10:06:08 GMT (Monday 13th July 2020)"
+	revision: "2"
 
 deferred class
-	EL_PIXMAP_I
+	EL_CAIRO_PIXMAP_SURFACE_I
 
 inherit
-	EV_PIXMAP_I
+	EL_CAIRO_SURFACE_I
 
-feature -- Conversion
+feature {NONE} -- Initialization
 
-	to_jpeg (quality: NATURAL): EL_JPEG_PIXMAP_I
+	make (a_pixmap: EV_PIXMAP)
 		deferred
 		end
 
