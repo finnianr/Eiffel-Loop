@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:46:20 GMT (Monday 13th July 2020)"
-	revision: "16"
+	date: "2020-07-14 13:15:36 GMT (Tuesday 14th July 2020)"
+	revision: "17"
 
 class
 	EL_PIXMAP
 
 inherit
 	EV_PIXMAP
-		export
-			{EV_ANY, EV_ANY_I, EV_ANY_HANDLER, EL_JPEG_PIXMAP_IMP} implementation
 		redefine
-			create_implementation, implementation, sub_pixmap, make_with_pixel_buffer
+			create_implementation, sub_pixmap, make_with_pixel_buffer
 		end
+
+	EL_JPEG_CONVERTABLE
 
 	EL_DRAWABLE
 
@@ -154,22 +154,12 @@ feature -- Duplication
 			Result.draw_sub_pixmap (0, 0, Current, area)
 		end
 
-	to_jpeg (quality: NATURAL): EL_JPEG_PIXMAP_I
-		do
-			Result := implementation.to_jpeg (quality)
-		end
-
 feature -- Basic operations
 
 	save_as (a_file_path: EL_FILE_PATH)
 		do
 			save_to_named_file (create {EV_PNG_FORMAT}, a_file_path)
 		end
-
-feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
-
-	implementation: EL_PIXMAP_I
-			-- Responsible for interaction with native graphics toolkit.
 
 feature {NONE} -- Implementation
 

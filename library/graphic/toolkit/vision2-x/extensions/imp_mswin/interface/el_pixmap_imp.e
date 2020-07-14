@@ -1,13 +1,13 @@
 note
-	description: "Unix implemenation of interface [$source EL_PIXMAP_I]"
+	description: "Windows implemenation of interface [$source EL_PIXMAP_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 12:49:34 GMT (Friday 3rd July 2020)"
-	revision: "4"
+	date: "2020-07-14 14:30:57 GMT (Tuesday 14th July 2020)"
+	revision: "5"
 
 class
 	EL_PIXMAP_IMP
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EV_ANY, EV_ANY_I} -- Implementation
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 
 	interface: detachable EL_PIXMAP note option: stable attribute end;
 

@@ -268,3 +268,6 @@ New class EL_PANGO_CAIRO_CONTEXT_I
 Sun 12th Jul 2020, 18:15:29
 Created class EL_CAIRO_SURFACE_I to use as cairo pixmap source
 
+Mon 13th Jul 2020, 17:52:56
+Separated surface in EL_DRAWABLE_CAIRO_CONTEXT into separate class EL_CAIRO_SURFACE_I
+

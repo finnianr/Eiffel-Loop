@@ -6,27 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:43:51 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-14 14:45:47 GMT (Tuesday 14th July 2020)"
+	revision: "4"
 
 deferred class
-	EL_JPEG_PIXMAP_I
+	EL_JPEG_IMAGE_I
 
 inherit
-	EL_MEMORY
-		redefine
-			dispose
-		end
+	EV_ANY_HANDLER
 
 	EL_MODULE_EXCEPTION
 
+	EL_POINTER_ROUTINES
+
 feature {NONE} -- Initialization
 
-	make (a_pixel_buffer: POINTER; a_quality: NATURAL; owned: BOOLEAN)
+	make (component: EV_ANY_I; a_quality: NATURAL)
 		require
+			valid_type: attached {EV_PIXMAP_I} component or attached {EL_DRAWABLE_PIXEL_BUFFER_I} component
+			buffer_is_rgb_24: attached {EL_DRAWABLE_PIXEL_BUFFER_I} component as buffer implies buffer.is_rgb_24_format
 			percentage: 0 <= a_quality and a_quality <= 100
 		do
-			pixel_buffer := a_pixel_buffer; quality := a_quality; is_owned := owned
+			pixel_component := component; quality := a_quality
 		end
 
 feature -- Access
@@ -39,26 +40,6 @@ feature -- Basic operations
 		deferred
 		end
 
-feature {NONE} -- Disposal
-
-	dispose
-			-- Release memory pointed by `item'.
-		local
-			null: POINTER
-		do
-			if is_owned then
-				free_buffer
-			end
-			pixel_buffer := null
-			is_owned := False
-		ensure then
-			shared_reset: not is_owned
-		end
-
-	free_buffer
-		deferred
-		end
-
 feature {NONE} -- Event handling
 
 	on_fail (base: ZSTRING)
@@ -68,16 +49,10 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	is_owned: BOOLEAN
-		-- `True' if `pixel_buffer' is owned
-
-	pixel_buffer: POINTER
+	pixel_component: EV_ANY_I
 
 feature {NONE} -- Constants
 
 	Type_jpeg: STRING = "jpeg"
-
-invariant
-	quality_is_percent: 0 <= quality and quality <= 100
 
 end

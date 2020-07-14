@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:41:20 GMT (Monday 13th July 2020)"
-	revision: "12"
+	date: "2020-07-14 14:02:01 GMT (Tuesday 14th July 2020)"
+	revision: "13"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -25,6 +25,8 @@ inherit
 			set_with_named_path as set_rgb_24_with_path,
 			height as buffer_height,
 			width as buffer_width
+		export
+			{EV_ANY_HANDLER} gdk_pixbuf
 		undefine
 			default_create
 		redefine
@@ -57,18 +59,6 @@ feature {NONE} -- Initialization
 			-- Creation method.
 		do
 			assign_interface (an_interface)
-		end
-
-feature -- Basic operations
-
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
-		require else
-			valid_gtk_version: {GTK}.gtk_maj_ver >= 2
-		local
-			jpeg: EL_JPEG_PIXMAP_IMP
-		do
-			create jpeg.make (gdk_pixbuf, quality, False)
-			jpeg.save_as (file_path)
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation attributes

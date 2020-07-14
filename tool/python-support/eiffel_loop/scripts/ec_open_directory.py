@@ -23,7 +23,9 @@ else:
 
 if delete_count in range (0, 4) and dir_path:
 	steps = dir_path.split (os.sep) [:-delete_count]
-	system.open_directory (os.sep.join (steps)) 
+	system.open_directory (os.sep.join (steps))
+	print "DONE"; exit (0)
 else:
 	print "USAGE: ec_open_directory <dir-path> <tail-delete-count>"
+
 

@@ -6,32 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 13:05:03 GMT (Friday 3rd July 2020)"
-	revision: "2"
+	date: "2020-07-14 14:56:41 GMT (Tuesday 14th July 2020)"
+	revision: "3"
 
 class
 	EL_PIXMAP_IMP
 
 inherit
 	EV_PIXMAP_IMP
-		redefine
-			interface
+		export
+			{EV_ANY_HANDLER} pixbuf_from_drawable
 		end
-
-	EL_PIXMAP_I
-		undefine
-			flush, save_to_named_path
-		redefine
-			interface
-		end
-
-	EL_PIXMAP_TO_JPEG_IMP
 
 create
 	make
-
-feature {EV_ANY, EV_ANY_I} -- Implementation
-
-	interface: detachable EV_PIXMAP note option: stable attribute end;
 
 end

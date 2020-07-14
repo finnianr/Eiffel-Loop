@@ -11,27 +11,26 @@ import sys, os, platform
 
 from os import path
 
+def launch_program (command_table, a_path):
+	if path.exists (a_path):
+		cmd_path = path.normpath (command_table [platform.system()])
+		os.spawnv (os.P_NOWAITO, cmd_path, [path.basename (cmd_path), a_path])
+	else:
+		print "Executable path not found:", a_path
+
 def edit_file (file_path):
 	command_table = {
 		"Windows" : "C:/Program Files/gedit/bin/gedit.exe",
 		"Linux" : "/usr/bin/gedit"
 	}
-	gedit_path = path.normpath (command_table [platform.system()])
+	steps = file_path.split (os.sep)[-3:]
+	print "Editing", os.sep.join (steps)
+	launch_program (command_table, file_path)
 
-	if path.exists (file_path):
-		print "Editing", file_path
-		os.spawnv (os.P_NOWAIT, gedit_path, [path.basename (gedit_path), file_path])
-	else:
-		print "path not found:", file_path
-
-def open_directory (a_path):
+def open_directory (dir_path):
 	command_table = {
 		"Windows" : "c:/Windows/explorer.exe",
 		"Linux" : "/usr/bin/xdg-open"
 	}
-	if path.exists (a_path):
-		cmd_path = path.normpath (command_table [platform.system()])
-		os.spawnv (os.P_NOWAIT, cmd_path, [path.basename (cmd_path), a_path])
-	else:
-		print "path not found:", a_path
+	launch_program (command_table, dir_path)
 

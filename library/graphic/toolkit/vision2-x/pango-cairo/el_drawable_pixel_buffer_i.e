@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:28:50 GMT (Monday 13th July 2020)"
-	revision: "20"
+	date: "2020-07-14 13:37:51 GMT (Tuesday 14th July 2020)"
+	revision: "21"
 
 deferred class
 	EL_DRAWABLE_PIXEL_BUFFER_I
@@ -417,13 +417,6 @@ feature -- Basic operations
 			end
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
-		require
-			rgb_24_format: is_rgb_24_format
-			not_locked: not is_locked
-		deferred
-		end
-
 feature -- Status query
 
 	is_argb_32_format: BOOLEAN
@@ -574,6 +567,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Deferred implementation
 
 	pixel_data: POINTER
+		-- make sure to call `unlock' after accessing this on Windows
 		deferred
 		end
 

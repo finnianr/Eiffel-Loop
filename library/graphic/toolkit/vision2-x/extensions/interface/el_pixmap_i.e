@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:46:09 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-14 14:12:59 GMT (Tuesday 14th July 2020)"
+	revision: "4"
 
 deferred class
 	EL_PIXMAP_I
@@ -17,7 +17,7 @@ inherit
 
 feature -- Conversion
 
-	to_jpeg (quality: NATURAL): EL_JPEG_PIXMAP_I
+	to_jpeg (quality: NATURAL): EL_JPEG_IMAGE_I
 		deferred
 		end
 

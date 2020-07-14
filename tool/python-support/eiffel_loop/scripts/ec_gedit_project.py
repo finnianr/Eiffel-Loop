@@ -28,9 +28,11 @@ if extension in ['ecf', 'pecf']:
 		file_path = path.join (path.curdir (), project.pecf_name)
 
 	system.edit_file (file_path)
+	print "DONE"; exit (0)
 
 elif extension == 'txt':
 	system.edit_file (path.join (path.curdir (), 'doc', 'versions.txt'))
+	print "DONE"; exit (0)
 
 else:
 	print "USAGE: ec_gedit_project.py [ecf | pecf | versions]"

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:27:35 GMT (Monday 13th July 2020)"
-	revision: "21"
+	date: "2020-07-14 14:42:58 GMT (Tuesday 14th July 2020)"
+	revision: "22"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -42,6 +42,11 @@ inherit
 		redefine
 			actual_implementation, create_implementation, implementation,
 			to_pixmap, lock, unlock, height, width
+		end
+
+	EL_JPEG_CONVERTABLE
+		redefine
+			to_jpeg
 		end
 
 	EV_FONTABLE
@@ -321,11 +326,6 @@ feature -- Basic operations
 			implementation.save_as (file_path)
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
-		do
-			to_rgb_24_buffer.implementation.save_as_jpeg (file_path, quality)
-		end
-
 feature -- Element change
 
 	set_color (a_color: EV_COLOR)
@@ -433,8 +433,13 @@ feature -- Conversion
 			Result.draw_pixel_buffer (0, 0, Current)
 		end
 
+	to_jpeg (quality: NATURAL): EL_JPEG_IMAGE_I
+		do
+			create {EL_JPEG_IMAGE_IMP} Result.make (to_rgb_24_buffer.implementation, quality)
+		end
+
 	to_pixmap: EL_PIXMAP
-			-- Convert to EV_PIXMAP.
+		-- Convert to EV_PIXMAP.
 		do
 			create Result.make_with_pixel_buffer (to_rgb_24_buffer)
 		end
@@ -475,7 +480,7 @@ feature {NONE} -- Implementation
 			implementation := actual_implementation
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, EL_DRAWABLE_CAIRO_CONTEXT, EL_DRAWABLE_PIXEL_BUFFER} -- Internal attributes
+feature {EV_ANY_HANDLER, EL_JPEG_CONVERTABLE} -- Internal attributes
 
 	actual_implementation: EL_DRAWABLE_PIXEL_BUFFER_IMP
 
