@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:14:10 GMT (Tuesday 24th September 2019)"
-	revision: "3"
+	date: "2020-07-15 10:18:57 GMT (Wednesday 15th July 2020)"
+	revision: "4"
 
 class
 	EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
@@ -70,21 +70,23 @@ feature -- Element change
 
 	remove_bar
 		do
-			finish; remove
+			prune (progress_bar)
+			progress_bar := Void
 		end
 
 	set_progress (proportion: DOUBLE)
 		local
-			l_pixmap: EV_PIXMAP
+			bar: EV_PIXMAP
 		do
-			create l_pixmap.make_with_size (width, Screen.vertical_pixels (0.1))
-			l_pixmap.set_foreground_color (foreground_color)
-			l_pixmap.fill_rectangle (0, 0, (l_pixmap.width * proportion).rounded, l_pixmap.height)
-			if count = 1 then
-				extend_unexpanded (l_pixmap)
+			if attached progress_bar as b then
+				bar := b
 			else
-				finish; replace (l_pixmap)
+				create bar.make_with_size (width, Screen.vertical_pixels (0.1))
+				bar.set_foreground_color (foreground_color)
+				extend_unexpanded (bar)
+				progress_bar := bar
 			end
+			bar.fill_rectangle (0, 0, (bar.width * proportion).rounded, bar.height)
 			GUI.application.process_events
 		end
 
@@ -104,4 +106,8 @@ feature {NONE} -- Implementation
 	set_identified_text (id: INTEGER; a_text: ZSTRING)
 		do
 		end
+
+feature {NONE} -- Internal attributes
+
+	progress_bar: detachable EV_PIXMAP
 end

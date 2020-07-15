@@ -271,3 +271,6 @@ Created class EL_CAIRO_SURFACE_I to use as cairo pixmap source
 Mon 13th Jul 2020, 17:52:56
 Separated surface in EL_DRAWABLE_CAIRO_CONTEXT into separate class EL_CAIRO_SURFACE_I
 
+Tue 14th Jul 2020, 15:05:31
+Completed EL_JPEG_CONVERTABLE to work for both pixmaps and buffers
+

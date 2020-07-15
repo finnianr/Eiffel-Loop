@@ -6,124 +6,82 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:32:22 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-07-15 11:16:30 GMT (Wednesday 15th July 2020)"
+	revision: "8"
 
 class
 	EL_BUTTON
 
 inherit
 	EV_BUTTON
+		redefine
+			initialize, set_text
+		end
 
-	EV_BUILDER
+	EL_HAND_POINTER_BUTTON
+		redefine
+			initialize
+		end
 
 	EL_MODULE_GUI
 
-	EL_MODULE_PIXMAP
-		rename
-			Pixmap as Mod_pixmap
-		end
-
 	EL_MODULE_SCREEN
 
+	EL_ZSTRING_CONSTANTS
+
+	EL_MODULE_ZSTRING
+
 create
-	make, make_with_pixmap_and_action
+	default_create,
+	make_with_text,
+	make_with_text_and_action,
+	make_with_pixmap_and_action
 
 feature {NONE} -- Initialization
 
-	 make
-			--
+	initialize
 		do
-			default_create
-			pointer_enter_actions.extend (agent on_pointer_enter)
-			pointer_leave_actions.extend (agent on_pointer_leave)
-			pointer_motion_actions.extend (agent on_pointer_motion)
+			Precursor {EV_BUTTON}
+			Precursor {EL_HAND_POINTER_BUTTON}
 			pointer_button_press_actions.extend (agent on_pointer_button_press)
 			pointer_button_release_actions.extend (agent on_pointer_button_release)
+
+			create alternate_pixmap
 		end
 
-	make_with_pixmap_and_action (a_pixmap: EV_PIXMAP; an_action: PROCEDURE)
+	make_with_pixmap_and_action (a_pixmap: EV_PIXMAP; a_action: PROCEDURE)
 			--
+		local
+			new_pixmap: EV_PIXMAP; inner_rect: EV_RECTANGLE
+			border_width: INTEGER
 		do
-			make
+			make_with_text_and_action (Empty_string, a_action)
 			set_pixmap (a_pixmap)
 			set_minimum_size (a_pixmap.width, a_pixmap.height)
-			-- + graphics_system.centimetre_pixels_x (0.2)
-			select_actions.extend (an_action)
-			pixmap_at_start := a_pixmap
-		end
 
-feature -- Access
+			create new_pixmap.make_with_size (a_pixmap.width, a_pixmap.height)
+			border_width := (a_pixmap.width * 0.03).rounded
+			new_pixmap.set_background_color (background_color)
+			new_pixmap.clear
+			create inner_rect.make (
+				border_width - 1, border_width - 1, pixmap.width - border_width * 2,  a_pixmap.height  - border_width * 2
+			)
+			new_pixmap.draw_pixmap (border_width - 1, border_width - 1, a_pixmap.sub_pixmap (inner_rect))
 
-	pixmap_at_start: EV_PIXMAP
-
-feature -- Status report
-
-	is_cursor_over: BOOLEAN
-
-	disabled: BOOLEAN
-
-feature -- Status change
-
-	disable: BOOLEAN
-			--
-		do
-			disabled := True
-			on_pointer_leave
-			squeeze
-		end
-
-	enable: BOOLEAN
-			--
-		do
-			disabled := False
-			unsqueeze
+			alternate_pixmap.bigger := a_pixmap
+			alternate_pixmap.smaller := new_pixmap
 		end
 
 feature -- Element change
 
-	set_fixed (a_fixed: EV_FIXED; a_offset: INTEGER)
-			--
+	set_text (a_text: READABLE_STRING_GENERAL)
 		do
-			fixed := a_fixed
-			offset := a_offset
+			Precursor (Zstring.to_unicode_general (a_text))
 		end
 
 feature {NONE} -- Event handlers
 
-	on_pointer_enter
-			--
-		do
-			set_pointer_style (Mod_pixmap.Hyperlink_cursor)
-			is_cursor_over := True
---			background_color_at_start := background_color
---			set_background_color (GUI.Red)
-		end
-
-	on_pointer_leave
-			--
-		do
-			set_pointer_style (Mod_pixmap.Standard_cursor)
-			is_cursor_over := False
---			set_background_color (background_color_at_start)
-		end
-
-	on_pointer_motion (
-		a_x: INTEGER; a_y: INTEGER; a_x_tilt: DOUBLE; a_y_tilt: DOUBLE;
-		a_pressure: DOUBLE; a_screen_x: INTEGER; a_screen_y: INTEGER
-
-	)
-			--
-		do
-			if not disabled and then not is_cursor_over then
-				on_pointer_enter
-			end
-		end
-
-	on_pointer_button_press (
-		a_x: INTEGER; a_y: INTEGER; a_button: INTEGER
-		a_x_tilt: DOUBLE; a_y_tilt: DOUBLE; a_pressure: DOUBLE; a_screen_x: INTEGER; a_screen_y: INTEGER
-	)
+	on_pointer_button_press (a_x, a_y, a_button: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
 			--
 		do
 			if a_button = 1 then
@@ -131,10 +89,7 @@ feature {NONE} -- Event handlers
 			end
 		end
 
-	on_pointer_button_release (
-		a_x: INTEGER; a_y: INTEGER; a_button: INTEGER
-		a_x_tilt: DOUBLE; a_y_tilt: DOUBLE; a_pressure: DOUBLE; a_screen_x: INTEGER; a_screen_y: INTEGER
-	)
+	on_pointer_button_release  (a_x, a_y, a_button: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
 			--
 		do
 			if a_button = 1 then
@@ -146,27 +101,22 @@ feature {NONE} -- Implementation
 
 	squeeze
 			--
-		local
-			new_pixmap: EV_PIXMAP
-			border_width: INTEGER
-			inner_rect: EV_RECTANGLE
 		do
-			create new_pixmap.make_with_size (pixmap.width, pixmap.height)
-			border_width := (pixmap.width * 0.03).rounded
-			new_pixmap.set_background_color (background_color)
-			new_pixmap.clear
-			create inner_rect.make (border_width - 1, border_width - 1, pixmap.width - border_width * 2,  pixmap.height  - border_width * 2)
-			new_pixmap.draw_pixmap (border_width - 1, border_width - 1, pixmap.sub_pixmap (inner_rect))
-			set_pixmap (new_pixmap)
+			if attached alternate_pixmap.smaller as smaller then
+				set_pixmap (smaller)
+			end
 		end
 
 	unsqueeze
 			--
 		do
-			set_pixmap (pixmap_at_start)
+			if attached alternate_pixmap.bigger as bigger then
+				set_pixmap (bigger)
+			end
 		end
 
-	fixed: EV_FIXED
+feature {NONE} -- Internal attributes
 
-	offset: INTEGER
+	alternate_pixmap: TUPLE [smaller, bigger: EV_PIXMAP]
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:45:47 GMT (Tuesday 14th July 2020)"
-	revision: "4"
+	date: "2020-07-15 7:57:06 GMT (Wednesday 15th July 2020)"
+	revision: "5"
 
 deferred class
 	EL_JPEG_IMAGE_I
@@ -44,7 +44,7 @@ feature {NONE} -- Event handling
 
 	on_fail (base: ZSTRING)
 		do
-			Exception.raise_developer ("Could not save file as jpeg: %"%S%"", [base])
+			Exception.raise_developer ("Could not save file %"%S%" as jpeg", [base])
 		end
 
 feature {NONE} -- Internal attributes

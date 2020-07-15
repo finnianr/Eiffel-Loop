@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 15:11:37 GMT (Sunday 28th June 2020)"
-	revision: "10"
+	date: "2020-07-15 10:00:08 GMT (Wednesday 15th July 2020)"
+	revision: "11"
 
 deferred class
 	EL_MODULE_PIXMAP
@@ -20,7 +20,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Pixmap: EV_STOCK_PIXMAPS
+	Pixmap: EL_STOCK_PIXMAPS
 			--
 		once
 			create Result

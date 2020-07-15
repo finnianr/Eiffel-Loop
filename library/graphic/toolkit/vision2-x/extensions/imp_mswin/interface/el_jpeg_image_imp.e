@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:50:44 GMT (Tuesday 14th July 2020)"
-	revision: "3"
+	date: "2020-07-15 7:55:01 GMT (Wednesday 15th July 2020)"
+	revision: "4"
 
 class
 	EL_JPEG_IMAGE_IMP
@@ -49,6 +49,8 @@ feature -- Basic operations
 				create list.make (1)
 				list.parameters.extend (quality_parameter)
 				l_bitmap.save_image_to_path_with_encoder_and_parameters (file_path, Jpeg, list)
+			else
+				on_fail (file_path.base)
 			end
 		end
 

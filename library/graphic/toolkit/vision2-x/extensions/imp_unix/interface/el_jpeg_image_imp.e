@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:58:34 GMT (Tuesday 14th July 2020)"
-	revision: "3"
+	date: "2020-07-14 23:02:48 GMT (Tuesday 14th July 2020)"
+	revision: "4"
 
 class
 	EL_JPEG_IMAGE_IMP
@@ -36,6 +36,8 @@ feature -- Basic operations
 				if gerror /= default_pointer then
 					on_fail (file_path.base)
 				end
+			else
+				on_fail (file_path.base)
 			end
 		end
 
