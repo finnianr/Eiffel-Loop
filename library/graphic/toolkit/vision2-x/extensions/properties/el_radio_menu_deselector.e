@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-03 10:39:00 GMT (Sunday 3rd February 2019)"
-	revision: "1"
+	date: "2020-07-16 9:30:39 GMT (Thursday 16th July 2020)"
+	revision: "2"
 
 class
 	EL_RADIO_MENU_DESELECTOR

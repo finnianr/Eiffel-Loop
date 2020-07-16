@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 11:29:44 GMT (Sunday 12th April 2020)"
-	revision: "11"
+	date: "2020-07-16 11:16:25 GMT (Thursday 16th July 2020)"
+	revision: "12"
 
 class
 	DUPLICITY_RESTORE_APP
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	visible_types: TUPLE [EL_CAPTURED_OS_COMMAND, DUPLICITY_RESTORE_ALL_OS_CMD]
+	visible_types: TUPLE [DUPLICITY_COLLECTION_STATUS_OS_CMD]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

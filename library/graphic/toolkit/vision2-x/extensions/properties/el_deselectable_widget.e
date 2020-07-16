@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 12:14:17 GMT (Monday 15th July 2019)"
-	revision: "2"
+	date: "2020-07-16 9:48:52 GMT (Thursday 16th July 2020)"
+	revision: "3"
 
 deferred class
 	EL_DESELECTABLE_WIDGET
@@ -15,14 +15,12 @@ deferred class
 inherit
 	EV_DESELECTABLE
 
-	EL_MODULE_ZSTRING
-
 feature {NONE} -- Initialization
 
 	make_with_text (a_text: READABLE_STRING_GENERAL; selected: BOOLEAN; a_set_selected: like set_selected)
 		do
 			make (selected, a_set_selected)
-			set_text (Zstring.to_unicode_general (a_text))
+			set_text (a_text)
 		end
 
 	make (selected: BOOLEAN; a_set_selected: like set_selected)

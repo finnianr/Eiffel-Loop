@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-15 10:48:55 GMT (Wednesday 15th July 2020)"
-	revision: "2"
+	date: "2020-07-16 9:29:35 GMT (Thursday 16th July 2020)"
+	revision: "3"
 
 class
 	EL_TOGGLE_BUTTON
@@ -17,13 +17,24 @@ inherit
 		rename
 			make_with_text as make_button_with_text,
 			pixmap as button_pixmap
+		undefine
+			set_text
 		redefine
 			implementation, initialize
 		end
 
-	EL_HAND_POINTER_BUTTON
+	EL_HAND_STYLE_POINTER_ACTION
 		redefine
-			initialize
+			implementation, initialize
+		end
+
+	EL_TEXTABLE
+		rename
+			make_with_text as make_button_with_text
+		undefine
+			initialize, is_in_default_state
+		redefine
+			implementation
 		end
 
 	EL_DESELECTABLE_WIDGET
@@ -41,7 +52,7 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			Precursor {EV_TOGGLE_BUTTON}
-			Precursor {EL_HAND_POINTER_BUTTON}
+			Precursor {EL_HAND_STYLE_POINTER_ACTION}
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation

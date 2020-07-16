@@ -1,3 +1,6 @@
+1.3.3
+Fixed duplicity problem where My%20Ching is not being decoded
+
 1.3.2
 Fix to DUPLICITY_COLLECTION_STATUS_OS_CMD to find all backup chains
 

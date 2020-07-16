@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 13:00:25 GMT (Sunday 12th April 2020)"
-	revision: "3"
+	date: "2020-07-16 13:00:15 GMT (Thursday 16th July 2020)"
+	revision: "4"
 
 class
 	DUPLICITY_RESTORE_ALL_OS_CMD
@@ -28,6 +28,8 @@ inherit
 			{ANY} execute
 		end
 
+	DUPLICITY_OS_COMMAND
+
 	EL_MODULE_TUPLE
 
 	DUPLICITY_ROUTINES
@@ -40,7 +42,7 @@ feature {NONE} -- Initialization
 	make (restore: DUPLICITY_RESTORE; time: DATE_TIME; file_path: EL_FILE_PATH)
 		do
 			make_command (Cmd_template)
-			put_path (Var.backup_uri, restore.backup_dir)
+			set_target_dir (restore.backup_dir)
 			put_path (Var.restored_path, restore.restore_dir + file_path.base)
 
 			put_string (Var.time, formatted (time))
@@ -55,13 +57,13 @@ feature {NONE} -- Constants
 
 	Cmd_template: STRING
 		once
-			Result := "sudo -E duplicity $encryption --verbosity info --time $time $backup_uri $restored_path"
+			Result := "sudo -E duplicity $encryption --verbosity info --time $time $target_dir $restored_path"
 		end
 
-	Var: TUPLE [backup_uri, time, encryption, restored_path: STRING]
+	Var: TUPLE [time, encryption, restored_path: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "backup_uri, time, encryption, restored_path")
+			Tuple.fill (Result, "time, encryption, restored_path")
 		end
 
 end

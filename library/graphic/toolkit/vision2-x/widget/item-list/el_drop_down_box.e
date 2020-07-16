@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 10:32:58 GMT (Monday 15th July 2019)"
-	revision: "6"
+	date: "2020-07-16 9:59:46 GMT (Thursday 16th July 2020)"
+	revision: "7"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -105,7 +105,8 @@ feature -- Element change
 
 	set_value (a_value: G)
 		do
-			set_text (Zstring.to_unicode_general (displayed_value (a_value)))
+			-- more efficient search loop if set to `STRING_32'
+			set_text (displayed_value (a_value).to_string_32)
 		end
 
 	select_initial_item (a_index: INTEGER)

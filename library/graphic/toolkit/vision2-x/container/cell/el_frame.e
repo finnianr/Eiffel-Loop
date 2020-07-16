@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 10:25:41 GMT (Monday 15th July 2019)"
-	revision: "5"
+	date: "2020-07-16 10:06:24 GMT (Thursday 16th July 2020)"
+	revision: "6"
 
 class
 	EL_FRAME [B -> EL_BOX create make end]
@@ -17,34 +17,29 @@ inherit
 		rename
 			extend as set_item,
  			make_with_text as make_frame_with_text
+ 		undefine
+ 			set_text
+		redefine
+			implementation
+		end
+
+	EL_TEXTABLE
+		rename
+ 			make_with_text as make_frame_with_text
+		undefine
+			initialize, is_in_default_state
+		redefine
+			implementation
 		end
 
 	EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
 
-	EL_MODULE_ZSTRING
-
 create
 	default_create, make_with_text_and_widget, make_with_text, make
 
 feature {NONE} -- Initialization
-
-	make_with_text_and_widget (a_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL; a_widget: EV_WIDGET)
-			--
-		do
-			make_with_text (a_border_cms, a_padding_cms, a_text)
-			extend (a_widget)
-		end
-
-	make_with_text (a_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL)
-			--
-		do
-			make (a_border_cms, a_padding_cms)
-			if not a_text.is_empty then
-				set_text (Zstring.to_unicode_general (" [ " + a_text + " ] "))
-			end
-		end
 
 	make (a_border_cms, a_padding_cms: REAL)
 			--
@@ -52,6 +47,22 @@ feature {NONE} -- Initialization
 			default_create
 			create box.make (a_border_cms, a_padding_cms)
 			set_item (box)
+		end
+
+	make_with_text (a_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL)
+			--
+		do
+			make (a_border_cms, a_padding_cms)
+			if not a_text.is_empty then
+				set_text (Bracket_template #$ [a_text])
+			end
+		end
+
+	make_with_text_and_widget (a_border_cms, a_padding_cms: REAL; a_text: READABLE_STRING_GENERAL; a_widget: EV_WIDGET)
+			--
+		do
+			make_with_text (a_border_cms, a_padding_cms, a_text)
+			extend (a_widget)
 		end
 
 feature -- Element change
@@ -96,5 +107,17 @@ feature -- Status setting
 feature -- Access
 
 	box: B
+
+feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	implementation: EV_FRAME_I
+			-- Responsible for interaction with native graphics toolkit.
+
+feature {NONE} -- Constants
+
+	Bracket_template: ZSTRING
+		once
+			Result := " [ %S ] "
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:26:47 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-07-16 14:16:13 GMT (Thursday 16th July 2020)"
+	revision: "6"
 
 deferred class
 	EL_DRAWING_AREA_BASE
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_DRAWABLE
-
-	EL_MODULE_STRING_32
 
 feature -- Access
 
@@ -49,13 +47,13 @@ feature -- Basic operations
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
 		do
-			Precursor (x, y, a_text.to_string_32)
+			Precursor (x, y, Zstring.to_unicode_general (a_text))
 		end
 
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
 		do
-			Precursor (x, y, a_text.to_string_32)
+			Precursor (x, y, Zstring.to_unicode_general (a_text))
 		end
 
 	simulate_pointer_motion

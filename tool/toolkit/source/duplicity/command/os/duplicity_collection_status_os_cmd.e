@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-04 8:32:04 GMT (Thursday 4th June 2020)"
-	revision: "2"
+	date: "2020-07-16 12:55:08 GMT (Thursday 16th July 2020)"
+	revision: "3"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -20,6 +20,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	DUPLICITY_OS_COMMAND
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -36,7 +38,7 @@ feature {NONE} -- Initialization
 			make_machine
 			make_command ("duplicity collection-status $target_dir")
 			create backup_list.make (50)
-			put_path (Var_target_dir, a_target_dir)
+			set_target_dir (a_target_dir)
 
 			execute
 			do_with_lines (agent find_backup_set, lines)
@@ -102,7 +104,5 @@ feature {NONE} -- Constants
 		once
 			Result := "Type of backup set"
 		end
-
-	Var_target_dir: STRING = "target_dir"
 
 end

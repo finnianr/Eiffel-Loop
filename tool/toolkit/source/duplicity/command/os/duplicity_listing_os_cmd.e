@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 12:15:07 GMT (Sunday 12th April 2020)"
-	revision: "6"
+	date: "2020-07-16 12:55:30 GMT (Thursday 16th July 2020)"
+	revision: "7"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -20,6 +20,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	DUPLICITY_OS_COMMAND
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -43,8 +45,8 @@ feature {NONE} -- Initialization
 			make_command ("duplicity list-current-files --time $time $target_dir")
 			search_string := a_search_string
 			create path_list.make (50)
-			put_path (Var.target_dir, a_target_dir)
-			put_string (Var.time, formatted (a_time))
+			set_target_dir (a_target_dir)
+			put_string (Var_time, formatted (a_time))
 
 			execute
 			do_with_lines (agent find_first_line, lines)
@@ -127,11 +129,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Var: TUPLE [time, target_dir: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "time, target_dir")
-		end
+	Var_time: STRING = "time"
 
 	Space_dot: ZSTRING
 		once
