@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:48:59 GMT (Wednesday 8th July 2020)"
-	revision: "1"
+	date: "2020-07-18 10:52:05 GMT (Saturday 18th July 2020)"
+	revision: "2"
 
 class
 	EL_ALIGNED_TEXT
@@ -30,16 +30,18 @@ inherit
 			{ANY} x, y, height, width, set_height, set_y, bottom
 		end
 
+	EL_MODULE_GUI
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_text: ZSTRING; rectangle: EL_TEXT_RECTANGLE)
+	make (a_text: READABLE_STRING_GENERAL; rectangle: EL_TEXT_RECTANGLE)
 		local
 			bottom_most: INTEGER
 		do
-			text := a_text
+			text := as_zstring (a_text)
 			font := rectangle.font.twin
 			alignment := rectangle.alignment_code
 			make_rectangle (rectangle.x, rectangle.y, rectangle.width, font.line_height)
@@ -58,7 +60,7 @@ feature -- Element change
 			difference: INTEGER
 		do
 			if text.count > 0 and alignment /= Left_alignment then
-				difference := width - font.string_width (text.to_unicode)
+				difference := width - GUI.string_width (text, font)
 				inspect alignment
 					when Right_alignment then
 						grow_left (difference.opposite)
@@ -80,7 +82,7 @@ feature -- Basic operations
 	draw (canvas: EL_DRAWABLE)
 		do
 			canvas.set_font (font)
-			canvas.draw_text_top_left (x, y, text.to_unicode)
+			canvas.draw_text_top_left (x, y, text)
 		end
 
 feature -- Access

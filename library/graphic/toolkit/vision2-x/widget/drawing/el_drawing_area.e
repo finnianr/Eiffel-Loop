@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-07-18 12:17:58 GMT (Saturday 18th July 2020)"
+	revision: "6"
 
 class
 	EL_DRAWING_AREA
@@ -15,10 +15,7 @@ class
 inherit
 	EL_DRAWING_AREA_BASE
 
-create
-	default_create
-
-feature {NONE} -- Event handlers
+feature {NONE} -- Event handling
 
 	on_redraw (a_x, a_y, a_width, a_height: INTEGER)
 		do

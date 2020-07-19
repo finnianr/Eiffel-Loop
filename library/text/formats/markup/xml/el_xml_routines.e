@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 8:59:36 GMT (Sunday 3rd May 2020)"
-	revision: "10"
+	date: "2020-07-17 9:47:28 GMT (Friday 17th July 2020)"
+	revision: "11"
 
 class
 	EL_XML_ROUTINES
@@ -51,6 +51,11 @@ feature -- Access
 	encoding (file_path: EL_FILE_PATH): EL_MARKUP_ENCODING
 		do
 			create Result.make_from_file (file_path)
+		end
+
+	entity (unicode: NATURAL): ZSTRING
+		do
+			Result := xml_escaper.escape_sequence (unicode)
 		end
 
 	header (a_version: REAL; a_encoding: STRING): ZSTRING

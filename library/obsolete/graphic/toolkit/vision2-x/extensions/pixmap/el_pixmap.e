@@ -6,28 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 12:03:45 GMT (Saturday 18th July 2020)"
-	revision: "18"
+	date: "2020-07-14 13:15:36 GMT (Tuesday 14th July 2020)"
+	revision: "17"
 
 class
 	EL_PIXMAP
 
 inherit
 	EV_PIXMAP
-		undefine
-			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
 		redefine
-			create_implementation, implementation, sub_pixmap, make_with_pixel_buffer
-		end
-
-	EL_DRAWABLE
-		undefine
-			copy, is_equal, is_in_default_state, sub_pixmap
-		redefine
-			implementation
+			create_implementation, sub_pixmap, make_with_pixel_buffer
 		end
 
 	EL_JPEG_CONVERTABLE
+
+	EL_DRAWABLE
 
 	EL_ORIENTATION_ROUTINES
 		export
@@ -179,9 +172,5 @@ feature {NONE} -- Implementation
 	redraw
 		do
 		end
-
-feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
-
-	implementation: EV_PIXMAP_I
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-26 10:55:09 GMT (Friday 26th June 2020)"
-	revision: "20"
+	date: "2020-07-18 10:43:59 GMT (Saturday 18th July 2020)"
+	revision: "21"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -362,12 +362,7 @@ feature -- Measurement
 
 	string_width (string: READABLE_STRING_GENERAL; a_font: EV_FONT): INTEGER
 		do
-			if attached {ZSTRING} string as str_z then
-				str_z.append_to_string_32 (empty_once_string_32)
-				Result := a_font.string_width (Once_string_32)
-			else
-				Result := a_font.string_width (string)
-			end
+			Result := a_font.string_width (once_copy_general_32 (string))
 		end
 
 	widest_width (strings: FINITE [READABLE_STRING_GENERAL]; font: EV_FONT): INTEGER

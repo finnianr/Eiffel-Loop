@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:55:56 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-07-17 9:59:10 GMT (Friday 17th July 2020)"
+	revision: "7"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
+
+	EL_ENCODING_CONSTANTS
 
 create
 	make, make_default
@@ -133,7 +135,7 @@ feature {NONE} -- Implementation
 			generated_svg_image_dir: EL_DIR_PATH
 			image_dir_path: EL_DIR_PATH
 		do
-			pixmaps [Normal_svg] := svg_icon (Normal_svg, width_cms)
+			pixmap_table [SVG.normal] := svg_icon (SVG.normal, width_cms)
 
 			final_relative_path_steps := icon_path_steps.twin
 			final_relative_path_steps.put_front (Image_path.Step.icons)
@@ -146,27 +148,27 @@ feature {NONE} -- Implementation
 				generated_svg_relative_path_steps
 			)
 			File_system.make_directory (generated_svg_image_dir)
-			generated_svg_highlighted_file_path := generated_svg_image_dir + Highlighted_svg
+			generated_svg_highlighted_file_path := generated_svg_image_dir + SVG.highlighted
 			if not generated_svg_highlighted_file_path.exists then
 				create file_highlighted.make_open_write (generated_svg_highlighted_file_path)
-				create file_clicked.make_open_write (generated_svg_image_dir + Depressed_svg)
+				create file_clicked.make_open_write (generated_svg_image_dir + SVG.depressed)
 
 				create linear_gradient_lines.make (12)
 
 				-- Generate highlighted.svg and clicked.svg from normal.svg
 				do_with_lines (
-					agent find_linear_gradient_stop, create {EL_PLAIN_TEXT_LINE_SOURCE}.make (image_dir_path + Normal_svg)
+					agent find_linear_gradient_stop, create {EL_PLAIN_TEXT_LINE_SOURCE}.make (Latin_1, image_dir_path + SVG.normal)
 				)
 				file_highlighted.close; file_clicked.close
 
 			end
-			final_relative_path_steps.extend (Highlighted_svg)
-			pixmaps [Highlighted_svg] := create {like normal}.make_with_width_cms (
+			final_relative_path_steps.extend (SVG.highlighted)
+			pixmap_table [SVG.highlighted] := create {like normal}.make_with_width_cms (
 				Directory.App_configuration.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color
 			)
-			final_relative_path_steps [final_relative_path_steps.count] := Depressed_svg
-			pixmaps [Depressed_svg] := create {like normal}.make_with_width_cms (
+			final_relative_path_steps [final_relative_path_steps.count] := SVG.depressed
+			pixmap_table [SVG.depressed] := create {like normal}.make_with_width_cms (
 				Directory.App_configuration.joined_file_steps (final_relative_path_steps),
 				width_cms, background_color
 			)

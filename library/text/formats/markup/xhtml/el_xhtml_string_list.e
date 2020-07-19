@@ -1,13 +1,13 @@
 note
-	description: "Xhtml string list"
+	description: "XHTML string list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 9:22:57 GMT (Tuesday 19th May 2020)"
-	revision: "11"
+	date: "2020-07-17 9:52:42 GMT (Friday 17th July 2020)"
+	revision: "12"
 
 class
 	EL_XHTML_STRING_LIST
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 				[Tab, 					XML.entity ({ASCII}.Tabulation.to_natural_32)],
 				[Line_break, 			break_tag]
 			>>)
-			create line_source.make (file_path)
+			create line_source.make_utf_8 (file_path)
 			do_with_lines (agent initial, line_source)
 			remove_trailing_line_breaks
 		end

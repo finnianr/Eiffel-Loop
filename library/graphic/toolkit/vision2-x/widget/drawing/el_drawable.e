@@ -6,18 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-09 11:23:49 GMT (Thursday 9th July 2020)"
-	revision: "9"
+	date: "2020-07-18 11:59:04 GMT (Saturday 18th July 2020)"
+	revision: "10"
 
 deferred class
 	EL_DRAWABLE
 
 inherit
+	EV_DRAWABLE
+		redefine
+			implementation, draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
+		end
+
 	EL_MODULE_GUI
 
 	EL_MODULE_COLOR
 
-	EL_MODULE_ZSTRING
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		undefine
+			copy, default_create
+		end
 
 feature -- Drawing operations
 
@@ -33,7 +43,7 @@ feature -- Drawing operations
 			draw_text_top_left (x + offset, y + offset, a_text)
 
 			set_foreground_color (l_color)
-			draw_text_top_left (x, y, Zstring.to_unicode_general (a_text))
+			draw_text_top_left (x, y, to_unicode_general (a_text))
 		end
 
 	draw_raised_rectangle (x, y, a_width, a_height: INTEGER; a_color: EV_COLOR)
@@ -91,7 +101,7 @@ feature -- Drawing operations
 			centered_rect.move_center (rect)
 			centered_rect.set_y (centered_rect.y - font.descent // 2)
 
-			draw_text_top_left (centered_rect.x, centered_rect.y, Zstring.to_unicode_general (a_text))
+			draw_text_top_left (centered_rect.x, centered_rect.y, to_unicode_general (a_text))
 		end
 
 	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
@@ -110,57 +120,11 @@ feature -- Drawing operations
 --			create Result.make_with_pixmap (sub_pixmap (area))
 --		end
 
-feature -- Element change
-
-	set_foreground_color (a_color: EV_COLOR)
-			--
-		deferred
-		end
-
-	set_background_color (a_color: EV_COLOR)
-			--
-		deferred
-		end
-
-	set_line_width (a_width: INTEGER)
-			--
-		deferred
-		end
-
-	set_font (a_font: EV_FONT)
-			--
-		deferred
-		end
-
 feature -- Status query
 
 	has_saved_colors: BOOLEAN
 		do
 			Result := Color_stack.count >= 2
-		end
-
-feature -- Measurement
-
-	width: INTEGER
-		deferred
-		end
-
-	height: INTEGER
-		deferred
-		end
-
-feature -- Access
-
-	font: EV_FONT
-		deferred
-		end
-
-	foreground_color: EV_COLOR
-		deferred
-		end
-
-	background_color: EV_COLOR
-		deferred
 		end
 
 feature -- Basic operations
@@ -181,15 +145,34 @@ feature -- Basic operations
 			Color_stack.remove
 		end
 
-feature -- EV_DRAWABLE routines
+feature -- Drawing operations
 
-	clear
-		deferred
+	draw_ellipsed_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL; clipping_width: INTEGER)
+			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
+			-- Text is clipped to `clipping_width' in pixels and ellipses are displayed
+			-- to show truncated characters if any.
+		do
+			implementation.draw_ellipsed_text (x, y, to_unicode_general (a_text), clipping_width)
+		end
+
+	draw_ellipsed_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL; clipping_width: INTEGER)
+			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
+			-- Text is clipped to `clipping_width' in pixels and ellipses are displayed
+			-- to show truncated characters if any.
+		do
+			implementation.draw_ellipsed_text_top_left (x, y, to_unicode_general (a_text), clipping_width)
+		end
+
+	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
+			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
+		do
+			implementation.draw_text (x, y, to_unicode_general (a_text))
 		end
 
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
-		deferred
+		do
+			implementation.draw_text_top_left (x, y, to_unicode_general (a_text))
 		end
 
 	draw_rotated_text (x, y: INTEGER; angle: REAL; a_text: READABLE_STRING_GENERAL)
@@ -197,53 +180,13 @@ feature -- EV_DRAWABLE routines
 			-- Rotation is number of radians counter-clockwise from horizontal plane.
 		do
 			if attached {EV_DRAWABLE_IMP} implementation as imp then
-				imp.draw_rotated_text (x, y, angle, Zstring.to_unicode_general (a_text))
+				imp.draw_rotated_text (x, y, angle, to_unicode_general (a_text))
 			end
 		end
 
-	draw_segment (x1, y1, x2, y2: INTEGER)
-			--
-		deferred
-		end
-
-	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
-		deferred
-		end
-
-	draw_polyline (points: ARRAY [EV_COORDINATE]; is_closed: BOOLEAN)
-		deferred
-		end
-
-	draw_sub_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP; area: EV_RECTANGLE)
-		deferred
-		end
-
-	draw_sub_pixel_buffer (x, y: INTEGER; a_pixmap: EV_PIXEL_BUFFER; area: EV_RECTANGLE)
-		deferred
-		end
-
-	draw_rectangle (x, y, a_width, a_height: INTEGER)
-		deferred
-		end
-
-	fill_rectangle (x, y, a_width, a_height: INTEGER)
-			--
-		deferred
-		end
-
-	redraw
-		deferred
-		end
-
-	sub_pixmap (area: EV_RECTANGLE): EV_PIXMAP
-		deferred
-		end
-
-feature {NONE} -- Implementation
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 
 	implementation: EV_DRAWABLE_I
-		deferred
-		end
 
 feature {NONE} -- Constants
 

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 17:31:53 GMT (Sunday 31st May 2020)"
-	revision: "5"
+	date: "2020-07-17 9:52:25 GMT (Friday 17th July 2020)"
+	revision: "6"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -28,6 +28,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_XHTML_STRING_LIST, EL_XHTML_UTF_8_SOURCE]
+		do
+			create Result
+		end
 
 	test_type: TUPLE [JSON_NAME_VALUE_LIST_TEST_SET]
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 9:02:14 GMT (Sunday 3rd May 2020)"
-	revision: "11"
+	date: "2020-07-17 9:48:21 GMT (Friday 17th July 2020)"
+	revision: "12"
 
 deferred class
 	EL_XML_GENERAL_ESCAPER
@@ -35,12 +35,7 @@ feature {NONE} -- Initialization
 			make; escape_128_plus := True
 		end
 
-feature {NONE} -- Implementation
-
-	append_escape_sequence (str: like once_buffer; code: NATURAL)
-		do
-			str.append (escape_sequence (code))
-		end
+feature -- Access
 
 	escape_sequence (code: NATURAL): STRING
 		do
@@ -49,6 +44,13 @@ feature {NONE} -- Implementation
 			else
 				Result := entity (code.to_character_8, False)
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	append_escape_sequence (str: like once_buffer; code: NATURAL)
+		do
+			str.append (escape_sequence (code))
 		end
 
 	is_escaped (code: NATURAL): BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-27 10:40:11 GMT (Saturday 27th June 2020)"
-	revision: "13"
+	date: "2020-07-19 14:14:11 GMT (Sunday 19th July 2020)"
+	revision: "14"
 
 class
 	EL_RECTANGLE
@@ -15,9 +15,12 @@ class
 inherit
 	EV_RECTANGLE
 
-	EL_MODULE_SCREEN
-
-	EL_MODULE_ZSTRING
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		undefine
+			out
+		end
 
 	EL_ORIENTATION_ROUTINES
 		rename
@@ -31,6 +34,8 @@ inherit
 		undefine
 			out
 		end
+
+	EL_MODULE_SCREEN
 
 	EL_DOUBLE_MATH undefine out end
 
@@ -56,7 +61,7 @@ feature {NONE} -- Initialization
 
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
 		do
-			make (0, 0, font.string_width (Zstring.to_unicode_general (a_text)), font.line_height)
+			make (0, 0, font.string_width (to_unicode_general (a_text)), font.line_height)
 		end
 
 	make_for_pixels (buffer: EV_PIXEL_BUFFER)
@@ -69,7 +74,7 @@ feature {NONE} -- Initialization
 			make (0, 0, widget.width, widget.height)
 		end
 
-	make_from_cms_tuple (a: TUPLE [pos_x: DOUBLE; pos_y: DOUBLE; width: DOUBLE; height: DOUBLE])
+	make_from_cms_tuple (a: TUPLE [pos_x, pos_y, width, height: DOUBLE])
 		do
 			make_cms (
 				a.pos_x.truncated_to_real, a.pos_y.truncated_to_real,

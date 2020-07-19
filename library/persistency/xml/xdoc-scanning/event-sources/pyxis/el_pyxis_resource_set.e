@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 14:39:23 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2020-07-17 9:54:38 GMT (Friday 17th July 2020)"
+	revision: "6"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -75,7 +75,7 @@ feature {NONE} -- Initialization
 			if pyxis_file_paths.first.modification_time  > monolithic_xml_file_path.modification_time then
 				create pyxis_out.make_open_write (monolithic_pyxis_path)
 				across pyxis_file_paths as pyxis_file_path loop
-					create pyxis_lines.make (pyxis_file_path.item)
+					create pyxis_lines.make_utf_8 (pyxis_file_path.item)
 					do_with_lines (agent find_root_element (?, pyxis_out, pyxis_file_path.cursor_index = 1), pyxis_lines)
 				end
 				pyxis_out.close

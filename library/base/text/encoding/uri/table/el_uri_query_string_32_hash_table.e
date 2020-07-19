@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 12:36:55 GMT (Thursday 28th May 2020)"
-	revision: "15"
+	date: "2020-07-17 9:25:58 GMT (Friday 17th July 2020)"
+	revision: "16"
 
 class
 	EL_URI_QUERY_STRING_32_HASH_TABLE
@@ -22,6 +22,6 @@ feature {NONE} -- Implementation
 
 	decoded_string (url: EL_URI_QUERY_STRING_8): STRING_32
 		do
-			Result := url.decoded_32
+			Result := url.decoded_32 (True)
 		end
 end

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:27:47 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-07-18 12:10:28 GMT (Saturday 18th July 2020)"
+	revision: "9"
 
 class
 	EL_HYPERLINK_AREA
 
 inherit
 	EL_DRAWING_AREA_BASE
+		redefine
+			on_redraw
+		end
 
 	EL_MIXED_FONT_STYLEABLE
 		rename

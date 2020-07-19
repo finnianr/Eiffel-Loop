@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 18:59:09 GMT (Thursday 23rd January 2020)"
-	revision: "13"
+	date: "2020-07-19 14:45:35 GMT (Sunday 19th July 2020)"
+	revision: "14"
 
 deferred class
 	EL_LOCALE_I
@@ -77,6 +77,26 @@ feature -- Access
 		-- selected language code with translation, defaults to English if no
 		-- translation available
 		-- Possible values: en, de, fr..
+
+	paragraph_list (key: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		-- `translation' lines joined together as paragraphs with
+		-- an empty line interpreted as a paragraph delimiter
+		local
+			lines, sub_list: EL_ZSTRING_LIST
+		once
+			create lines.make_with_lines (translation (key))
+			create Result.make (lines.count_of (agent {ZSTRING}.is_empty) + 1)
+			create sub_list.make (lines.count // Result.capacity + 1)
+			across lines as l loop
+				if not l.item.is_empty then
+					sub_list.extend (l.item)
+				end
+				if l.item.is_empty or l.is_last then
+					Result.extend (sub_list.joined (' '))
+					sub_list.wipe_out
+				end
+			end
+		end
 
 	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- translation with adjustments according to value of quanity

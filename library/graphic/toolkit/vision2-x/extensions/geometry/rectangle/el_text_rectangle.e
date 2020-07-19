@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-08 17:51:44 GMT (Wednesday 8th July 2020)"
-	revision: "10"
+	date: "2020-07-19 11:52:59 GMT (Sunday 19th July 2020)"
+	revision: "11"
 
 class
 	EL_TEXT_RECTANGLE
@@ -42,7 +42,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 	EL_MODULE_GUI
 
@@ -105,7 +105,7 @@ feature -- Status query
 	is_text_squeezable: BOOLEAN
 		-- if true allows squeezing of text into available space by reducing font size
 
-	line_fits (line: ZSTRING): BOOLEAN
+	line_fits (line: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := GUI.string_width (line, font) <= width
 		end
@@ -139,17 +139,17 @@ feature -- Element change
 			internal_lines.extend (separator)
 		end
 
-	append_line (a_line: ZSTRING)
+	append_line (a_line: READABLE_STRING_GENERAL)
 			-- append line without wrapping
 		do
 			if is_text_squeezable then
-				squeeze_line (a_line)
+				squeeze_line (as_zstring (a_line))
 			else
-				extend_lines (a_line)
+				extend_lines (as_zstring (a_line))
 			end
 		end
 
-	append_words (line: ZSTRING)
+	append_words (line: READABLE_STRING_GENERAL)
 			-- append words wrapping them if they do not fit in one line
 		do
 			if is_text_squeezable then
@@ -220,9 +220,11 @@ feature {NONE} -- Implementation
 			internal_lines.extend (new_aligned_text (a_line))
 		end
 
-	flow_text (line: ZSTRING)
+	flow_text (line: READABLE_STRING_GENERAL)
 		do
-			word_wrapped_lines (line).do_all (agent extend_lines)
+			across word_wrapped_lines (line) as l_line loop
+				extend_lines (l_line.item)
+			end
 		end
 
 	hypenate_word (words: EL_SEQUENTIAL_INTERVALS; line, line_out: ZSTRING)
@@ -280,7 +282,7 @@ feature {NONE} -- Implementation
 			create Result.make (a_text, Current)
 		end
 
-	squeeze_flow_text (line: ZSTRING)
+	squeeze_flow_text (line: READABLE_STRING_GENERAL)
 			-- append words, decreasing font size until text fits
 		local
 			appended: BOOLEAN; old_font: like font
@@ -319,19 +321,25 @@ feature {NONE} -- Implementation
 			font := old_font
 		end
 
-	word_wrapped_lines (line: ZSTRING): EL_ZSTRING_LIST
+	word_wrapped_lines (a_line: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
 		local
-			line_out: ZSTRING; old_count: INTEGER; words: EL_SEQUENTIAL_INTERVALS
+			line_out: ZSTRING; old_count: INTEGER; words: EL_SPLIT_ZSTRING_LIST
+			line: ZSTRING
 		do
-			create Result.make (0); create line_out.make_empty
+			create Result.make (0); create line_out.make_empty; line := as_zstring (a_line)
 
 			words := line.split_intervals (character_string (' '))
+			if is_lio_enabled then
+				lio.put_line (a_line)
+				lio.put_line ("WRAPPED")
+				lio.put_new_line
+			end
 			from words.start until words.after loop
 				old_count := line_out.count
 				if not line_out.is_empty then
 					line_out.append_character (' ')
 				end
-				line_out.append_substring (line, words.item_lower, words.item_upper)
+				words.append_item_to (line_out)
 				if line_fits (line_out) then
 					words.forth
 				else
@@ -343,7 +351,7 @@ feature {NONE} -- Implementation
 							words.forth
 						end
 					else
-						if line_out.same_characters (line, words.item_lower, words.item_upper, 1) then
+						if words.same_item_as (line_out) then
 							-- Allow a line consisting of a single word even though it's too wide
 							words.forth
 						else
@@ -356,6 +364,12 @@ feature {NONE} -- Implementation
 			end
 			if not line_out.is_empty then
 				Result.extend (line_out)
+			end
+			if is_lio_enabled then
+				across Result as l loop
+					lio.put_line (l.item)
+				end
+				lio.put_new_line
 			end
 		end
 

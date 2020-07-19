@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 9:27:53 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-18 10:47:48 GMT (Saturday 18th July 2020)"
+	revision: "4"
 
 deferred class
 	EL_PANGO_CAIRO_CONTEXT_I
@@ -75,7 +75,7 @@ feature -- Text drawing
 				line := list.item
 				set_font (line.font)
 				line.align (rectangle)
-				draw_text_top_left (line.x - rectangle.x, line.y - rectangle.y, line.text.to_unicode)
+				draw_text_top_left (line.x - rectangle.x, line.y - rectangle.y, line.text)
 			end
 			restore
 		end

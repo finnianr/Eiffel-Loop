@@ -13,8 +13,8 @@ from os import path
 
 def launch_program (command_table, a_path):
 	if path.exists (a_path):
-		cmd_path = path.normpath (command_table [platform.system()])
-		os.spawnv (os.P_NOWAITO, cmd_path, [path.basename (cmd_path), a_path])
+		cmd_path = command_table [platform.system()]
+		os.spawnv (os.P_NOWAIT, path.normpath (cmd_path), [path.basename (cmd_path), a_path])
 	else:
 		print "Executable path not found:", a_path
 
@@ -30,7 +30,7 @@ def edit_file (file_path):
 def open_directory (dir_path):
 	command_table = {
 		"Windows" : "c:/Windows/explorer.exe",
-		"Linux" : "/usr/bin/xdg-open"
+		"Linux" : "/usr/bin/nautilus"
 	}
 	launch_program (command_table, dir_path)
 

@@ -277,3 +277,6 @@ Completed EL_JPEG_CONVERTABLE to work for both pixmaps and buffers
 Wed 15th Jul 2020, 13:50:56
 New class EL_HAND_POINTER_BUTTON and revised EL_BUTTON
 
+Thu 16th Jul 2020, 14:22:31
+Refactor for widgets to use EL_TEXTABLE for ZSTRING support
+

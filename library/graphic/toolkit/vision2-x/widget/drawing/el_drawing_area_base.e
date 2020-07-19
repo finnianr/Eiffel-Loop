@@ -6,19 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 14:16:13 GMT (Thursday 16th July 2020)"
-	revision: "6"
+	date: "2020-07-18 12:17:07 GMT (Saturday 18th July 2020)"
+	revision: "7"
 
 deferred class
 	EL_DRAWING_AREA_BASE
 
 inherit
 	EV_DRAWING_AREA
+		undefine
+			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
 		redefine
-			draw_text_top_left, draw_text
+			implementation
 		end
 
 	EL_DRAWABLE
+		undefine
+			is_in_default_state
+		redefine
+			implementation
+		end
 
 feature -- Access
 
@@ -44,24 +51,14 @@ feature -- Basic operations
 			resize_actions.extend (agent on_resize)
 		end
 
-	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
-			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
-		do
-			Precursor (x, y, Zstring.to_unicode_general (a_text))
-		end
-
-	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
-			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
-		do
-			Precursor (x, y, Zstring.to_unicode_general (a_text))
-		end
-
 	simulate_pointer_motion
 		local
 			position: EV_COORDINATE
 		do
 			position := pointer_position
-			pointer_motion_actions.call ([position.x, position.y, 0.0, 0.0, 0.0, screen_x + position.x, screen_y + position.y])
+			pointer_motion_actions.call (
+				[position.x, position.y, 0.0, 0.0, 0.0, screen_x + position.x, screen_y + position.y]
+			)
 		end
 
 feature {NONE} -- Event handlers
@@ -86,5 +83,9 @@ feature {NONE} -- Implementation
 		do
 			set_minimum_size (a_width, a_height)
 		end
+
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
+
+	implementation: EV_DRAWING_AREA_I
 
 end

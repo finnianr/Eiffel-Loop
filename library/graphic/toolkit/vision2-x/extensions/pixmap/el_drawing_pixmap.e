@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:25:56 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-07-18 12:12:25 GMT (Saturday 18th July 2020)"
+	revision: "8"
 
 deferred class
 	EL_DRAWING_PIXMAP
@@ -15,10 +15,15 @@ deferred class
 inherit
 	EL_PIXMAP
 		redefine
-			initialize, redraw
+			initialize, implementation, redraw
 		end
 
 	EL_DRAWABLE
+		undefine
+			initialize, copy, is_equal, is_in_default_state, sub_pixmap
+		redefine
+			implementation
+		end
 
 feature {NONE} -- Initialization
 
@@ -50,4 +55,9 @@ feature {NONE} -- Implementation
 	on_redraw (a_x, a_y, a_width, a_height: INTEGER)
 		deferred
 		end
+
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
+
+	implementation: EV_PIXMAP_I
+
 end

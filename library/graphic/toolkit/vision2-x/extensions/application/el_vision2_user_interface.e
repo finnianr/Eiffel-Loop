@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:39:07 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-07-19 11:03:50 GMT (Sunday 19th July 2020)"
+	revision: "7"
 
 class
 	EL_VISION2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -22,8 +22,6 @@ inherit
 		end
 
 	EV_BUILDER
-
-	EL_MODULE_LOG
 
 	EL_MODULE_SCREEN
 
@@ -50,7 +48,6 @@ feature {NONE} -- Initialization
 			error_dialog: EV_INFORMATION_DIALOG; pixmaps: EV_STOCK_PIXMAPS
 		do
 			call (Thread_manager)
-			log.enter ("make")
 			create error_message.make_empty
 			default_create
 
@@ -70,7 +67,6 @@ feature {NONE} -- Initialization
 				error_dialog.set_icon_pixmap (pixmaps.Error_pixmap)
 				error_dialog.show
 			end
-			log.exit
 		end
 
 	initialize

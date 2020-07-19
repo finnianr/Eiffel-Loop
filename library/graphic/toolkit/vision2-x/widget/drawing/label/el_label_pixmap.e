@@ -6,23 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:14:15 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2020-07-18 12:15:33 GMT (Saturday 18th July 2020)"
+	revision: "7"
 
 class
 	EL_LABEL_PIXMAP
 
 inherit
 	EL_DRAWING_PIXMAP
-		undefine
-			redraw
+		redefine
+			redraw, implementation
 		end
 
 	EL_DRAWABLE_LABEL
 		undefine
-			default_create, copy, is_equal
+			copy, initialize, is_equal, is_in_default_state, sub_pixmap
 		redefine
-			redraw
+			implementation
 		end
 
 create
@@ -36,4 +36,9 @@ feature -- Basic operations
 				Precursor
 			end
 		end
+
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
+
+	implementation: EV_PIXMAP_I
+
 end

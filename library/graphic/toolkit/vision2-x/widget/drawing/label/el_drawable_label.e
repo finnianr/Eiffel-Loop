@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 5:01:09 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2020-07-18 12:19:15 GMT (Saturday 18th July 2020)"
+	revision: "9"
 
 deferred class
 	EL_DRAWABLE_LABEL
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_DRAWABLE
 
-	EL_WORD_WRAPPABLE
+	EL_WORD_WRAPPABLE undefine copy, default_create end
 
 	EL_SHARED_ONCE_ZSTRING
 
@@ -83,7 +83,6 @@ feature -- Element change
 			--
 		do
 			text := a_text
-			redraw
 		end
 
 	set_font_and_height (a_font: EV_FONT)

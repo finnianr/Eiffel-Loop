@@ -1,19 +1,21 @@
 note
-	description: "Xhtml utf 8 source"
+	description: "XHTML utf 8 source"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:08:07 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-07-17 9:52:25 GMT (Friday 17th July 2020)"
+	revision: "6"
 
 class
 	EL_XHTML_UTF_8_SOURCE
 
 inherit
-	ANY EL_MODULE_XML
+	ANY
+
+	EL_MODULE_XML
 
 create
 	make

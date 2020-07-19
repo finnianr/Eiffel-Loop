@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 10:20:30 GMT (Thursday 28th May 2020)"
-	revision: "8"
+	date: "2020-07-17 9:54:24 GMT (Friday 17th July 2020)"
+	revision: "9"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
@@ -32,6 +32,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_PYXIS_RESOURCE_SET]
+		do
+			create Result
+		end
 
 	test_type: TUPLE [CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET]
 		do

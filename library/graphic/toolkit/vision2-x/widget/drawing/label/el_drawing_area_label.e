@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 8:14:56 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2020-07-18 12:21:45 GMT (Saturday 18th July 2020)"
+	revision: "7"
 
 class
 	EL_DRAWING_AREA_LABEL
@@ -15,14 +15,16 @@ class
 inherit
 	EL_DRAWING_AREA
 		undefine
-			on_redraw, on_resize
+			on_redraw
+		redefine
+			on_resize, implementation
 		end
 
 	EL_DRAWABLE_LABEL
 		undefine
-			default_create, copy, is_equal
+			copy, is_equal, is_in_default_state
 		redefine
-			make_with_text_and_font
+			implementation, make_with_text_and_font
 		end
 
 create
@@ -45,5 +47,9 @@ feature {NONE} -- Event handlers
 				redraw
 			end
 		end
+
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
+
+	implementation: EV_DRAWING_AREA_I
 
 end

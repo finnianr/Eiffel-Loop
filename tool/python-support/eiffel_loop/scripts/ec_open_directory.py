@@ -23,6 +23,7 @@ else:
 
 if delete_count in range (0, 4) and dir_path:
 	steps = dir_path.split (os.sep) [:-delete_count]
+	print "Opening", steps [-1]
 	system.open_directory (os.sep.join (steps))
 	print "DONE"; exit (0)
 else:
