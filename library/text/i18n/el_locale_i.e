@@ -85,6 +85,7 @@ feature -- Access
 			lines, sub_list: EL_ZSTRING_LIST
 		once
 			create lines.make_with_lines (translation (key))
+			
 			create Result.make (lines.count_of (agent {ZSTRING}.is_empty) + 1)
 			create sub_list.make (lines.count // Result.capacity + 1)
 			across lines as l loop

@@ -149,6 +149,19 @@ feature -- Element change
 			end
 		end
 
+	append_paragraphs (list: ITERABLE [READABLE_STRING_GENERAL]; separation_cms: REAL)
+		local
+			i: INTEGER
+		do
+			across list as l loop
+				if i > 0 then
+					add_separation (separation_cms)
+				end
+				append_words (l.item)
+				i := i + 1
+			end
+		end
+
 	append_words (line: READABLE_STRING_GENERAL)
 			-- append words wrapping them if they do not fit in one line
 		do

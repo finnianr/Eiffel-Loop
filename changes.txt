@@ -280,3 +280,6 @@ New class EL_HAND_POINTER_BUTTON and revised EL_BUTTON
 Thu 16th Jul 2020, 14:22:31
 Refactor for widgets to use EL_TEXTABLE for ZSTRING support
 
+Sun 19th Jul 2020, 15:29:22
+Fixed EL_DRAWABLE refactor for My Ching
+
