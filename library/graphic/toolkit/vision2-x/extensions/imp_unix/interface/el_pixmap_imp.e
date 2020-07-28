@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 12:14:38 GMT (Tuesday 28th July 2020)"
-	revision: "4"
+	date: "2020-07-28 18:52:44 GMT (Tuesday 28th July 2020)"
+	revision: "5"
 
 class
 	EL_PIXMAP_IMP
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		local
 			a_gdkpixbuf, scaled_pixbuf: POINTER
 			a_scale_type: INTEGER; area: EL_RECTANGLE

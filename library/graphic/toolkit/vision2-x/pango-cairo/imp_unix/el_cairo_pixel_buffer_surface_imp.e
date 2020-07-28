@@ -1,16 +1,16 @@
 note
-	description: "Unix implementation of [$source EL_CAIRO_PIXMAP_SURFACE_I]"
+	description: "Unix implementation of [$source EL_CAIRO_PIXEL_BUFFER_SURFACE_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 16:21:59 GMT (Tuesday 28th July 2020)"
-	revision: "3"
+	date: "2020-07-28 18:54:04 GMT (Tuesday 28th July 2020)"
+	revision: "4"
 
 class
-	EL_CAIRO_PIXMAP_SURFACE_IMP
+	EL_CAIRO_PIXEL_BUFFER_SURFACE_IMP
 
 inherit
 	EL_CAIRO_PIXEL_BUFFER_SURFACE_I
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 
 	dispose
 		do
-			Precursor {EL_CAIRO_PIXMAP_SURFACE_I}
+			Precursor {EL_CAIRO_PIXEL_BUFFER_SURFACE_I}
 			Precursor {EV_PIXEL_BUFFER_IMP}
 		end
 
