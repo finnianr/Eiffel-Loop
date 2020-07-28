@@ -15,7 +15,7 @@ class
 inherit
 	EV_PIXMAP
 		undefine
-			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
+			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left, draw_sub_pixel_buffer
 		redefine
 			create_implementation, implementation, sub_pixmap, make_with_pixel_buffer
 		end
@@ -44,10 +44,11 @@ inherit
 create
 	default_create,
 	make_with_size, make_with_pointer_style, make_with_pixel_buffer, make_with_rectangle,
-	make_from_other, make_scaled_to_width, make_scaled_to_height, make_from_model
+	make_from_other, make_scaled_to_width, make_scaled_to_height, make_scaled_to_size, make_from_model
 
 convert
-	make_with_rectangle ({EV_RECTANGLE, EL_RECTANGLE})
+	make_with_rectangle ({EV_RECTANGLE, EL_RECTANGLE}),
+	dimensions: {EL_RECTANGLE}
 
 feature {NONE} -- Initialization
 
@@ -64,35 +65,33 @@ feature {NONE} -- Initialization
 			projector.full_project
 		end
 
-	make_from_other (other: like Current)
+	make_from_other (other: EV_PIXMAP)
 		do
 			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
 		end
 
-	make_scaled_to_height (other: like Current; a_height: INTEGER)
+	make_scaled_to_height (other: EV_PIXMAP; a_height: INTEGER)
 		do
-			make_scaled_to_size (other, a_height, By_height)
+			make_scaled_to_size (other, By_height, a_height)
 		end
 
-	make_scaled_to_size (other: like Current; size: INTEGER; dimension: NATURAL_8)
+	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
 		require
 			valid_dimension: is_valid_dimension (dimension)
-		local
-			pixels: EL_DRAWABLE_PIXEL_BUFFER
 		do
-			create pixels.make_with_scaled_pixmap (24, dimension, size, other)
-			make_with_pixel_buffer (pixels)
+			default_create
+			implementation.make_scaled_to_size (other, dimension, size)
 		end
 
-	make_scaled_to_width (other: like Current; a_width: INTEGER)
+	make_scaled_to_width (other: EV_PIXMAP; a_width: INTEGER)
 		do
-			make_scaled_to_size (other, a_width, By_width)
+			make_scaled_to_size (other, By_width, a_width)
 		end
 
 	make_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
 		do
 			default_create
-			set_with_pixel_buffer (a_buffer)
+			implementation.init_from_pixel_buffer (as_rgb_24 (a_buffer))
 		end
 
 	make_with_rectangle (r: EV_RECTANGLE)
@@ -112,14 +111,14 @@ feature -- Access
 			Result := pixmap_path
 		end
 
-feature -- Measurement setting
+feature -- Scaling
 
 	scale (a_factor: DOUBLE)
 		local
 			l_buffer: EV_PIXEL_BUFFER
 		do
 			create l_buffer.make_with_pixmap (Current)
-			make_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
+			set_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
 		end
 
 	scale_to_height (a_height: INTEGER)
@@ -146,11 +145,7 @@ feature -- Element change
 
 	set_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
 		do
-			if attached {EL_DRAWABLE_PIXEL_BUFFER} a_buffer as l_buffer and then l_buffer.is_argb_32_format then
-				implementation.init_from_pixel_buffer (l_buffer.to_rgb_24_buffer)
-			else
-				implementation.init_from_pixel_buffer (a_buffer)
-			end
+			make_with_pixel_buffer (a_buffer)
 		end
 
 feature -- Duplication
@@ -159,6 +154,30 @@ feature -- Duplication
 		do
 			create Result.make_with_size (area.width, area.height)
 			Result.draw_sub_pixmap (0, 0, Current, area)
+		end
+
+feature -- Conversion
+
+	to_argb_32_buffer: EL_DRAWABLE_PIXEL_BUFFER
+		do
+			create Result.make_with_pixmap (32, Current)
+		end
+
+	to_rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+		do
+			create Result.make_with_pixmap (24, Current)
+		end
+
+	to_scaled_rgb_24_buffer (dimension: NATURAL_8; size: INTEGER): EV_PIXEL_BUFFER
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			area: EL_RECTANGLE
+		do
+			area := dimensions
+			area.scale_to_size (dimension, size)
+			create Result.make_with_pixmap (Current)
+			Result := Result.stretched (area.width, area.height)
 		end
 
 feature -- Basic operations
@@ -182,6 +201,6 @@ feature {NONE} -- Implementation
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
 
-	implementation: EV_PIXMAP_I
+	implementation: EL_PIXMAP_I
 
 end

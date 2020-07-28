@@ -16,7 +16,18 @@ inherit
 	EL_CAIRO_SURFACE_I
 
 create
-	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
+	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file,
+	make_from_pointer, make_with_buffer
+
+feature {NONE} -- Initialization
+
+	make_with_buffer (buffer: EV_PIXEL_BUFFER)
+		do
+			if attached {EV_PIXEL_BUFFER_IMP} buffer.implementation as imp then
+				make_with_argb_32_data (imp.data_ptr, buffer.width, buffer.height)
+				imp.unlock
+			end
+		end
 
 feature -- Status change
 
@@ -24,4 +35,5 @@ feature -- Status change
 			-- swap red and blue color channels
 		do
 		end
+
 end

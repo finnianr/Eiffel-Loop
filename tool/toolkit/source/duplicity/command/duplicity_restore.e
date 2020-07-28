@@ -52,7 +52,7 @@ feature -- Basic operations
 				if not destination_dir_list.after then
 					lio.put_labeled_string ("Restore", target_dir.base)
 					lio.put_new_line_x2
-					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir.base >>)
+					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir_base >>)
 					create shell.make ("BACKUPS", new_command_table, 20)
 					shell.run_command_loop
 				end
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string (" 0.", "Quit")
 			lio.put_new_line
 			create path_list.make_with_count (cmd.path_list.count)
-			path_list.extend (target_dir.base)
+			path_list.extend (target_dir_base)
 			across cmd.path_list as path loop
 				path_list.extend (path.item)
 			end

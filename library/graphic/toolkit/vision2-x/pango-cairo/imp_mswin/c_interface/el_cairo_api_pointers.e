@@ -18,9 +18,7 @@ inherit
 create
 	make
 
-feature {EL_DYNAMIC_MODULE} -- Access
-
-	get_antialias: POINTER
+feature {EL_DYNAMIC_MODULE} -- Functions A - G
 
 	arc: POINTER
 
@@ -28,39 +26,57 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	close_path: POINTER
 
-	new_sub_path: POINTER
-
 	create_: POINTER
 
 	destroy: POINTER
-
-	surface_destroy: POINTER
-
-	surface_finish: POINTER
 
 	fill: POINTER
 
 	format_stride_for_width: POINTER
 
+	get_antialias: POINTER
+
+feature {EL_DYNAMIC_MODULE} -- Functions I
+
+	image_surface_create: POINTER
+
 	image_surface_create_for_data: POINTER
+
+	image_surface_create_from_png: POINTER
+
+	image_surface_get_data: POINTER
+
+	image_surface_get_format: POINTER
+
+	image_surface_get_height: POINTER
+
+	image_surface_get_width: POINTER
+
+feature {EL_DYNAMIC_MODULE} -- Functions L - P
 
 	line_to: POINTER
 
 	mask_surface: POINTER
 
+	matrix_init_scale: POINTER
+
 	move_to: POINTER
-
-	image_surface_create: POINTER
-
-	image_surface_create_from_png: POINTER
 
 	new_path: POINTER
 
-	win32_surface_create: POINTER
+	new_sub_path: POINTER
 
 	paint: POINTER
 
 	paint_with_alpha: POINTER
+
+	pattern_create_for_surface: POINTER
+
+	pattern_destroy: POINTER
+
+	pattern_set_matrix: POINTER
+
+feature {EL_DYNAMIC_MODULE} -- Functions R
 
 	rectangle: POINTER
 
@@ -69,6 +85,8 @@ feature {EL_DYNAMIC_MODULE} -- Access
 	restore: POINTER
 
 	rotate: POINTER
+
+feature {EL_DYNAMIC_MODULE} -- Functions S
 
 	save: POINTER
 
@@ -82,6 +100,8 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	set_line_width: POINTER
 
+	set_source: POINTER
+
 	set_source_rgb: POINTER
 
 	set_source_rgba: POINTER
@@ -92,18 +112,24 @@ feature {EL_DYNAMIC_MODULE} -- Access
 
 	stroke: POINTER
 
-	image_surface_get_data: POINTER
+	surface_destroy: POINTER
+
+	surface_finish: POINTER
 
 	surface_flush: POINTER
 
-	image_surface_get_format: POINTER
-
-	image_surface_get_height: POINTER
-
 	surface_mark_dirty: POINTER
 
-	image_surface_get_width: POINTER
+feature {EL_DYNAMIC_MODULE} -- Functions T - Z
 
 	translate: POINTER
+
+	version: POINTER
+
+	win32_surface_create: POINTER
+		--	win32_surface_create_with_format: POINTER
+		-- Only available since version 1.14
+
+	win32_surface_get_dc: POINTER
 
 end

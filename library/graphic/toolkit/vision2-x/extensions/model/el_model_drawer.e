@@ -77,7 +77,7 @@ feature -- Basic operations
 
 				l_pixels.flip (picture.width, picture.height, picture.mirror_state)
 
-				l_pixels.draw_scaled_pixel_buffer (0, 0, picture.width, By_width, picture.pixel_buffer)
+				l_pixels.draw_scaled_pixel_buffer (By_width, 0, 0, picture.width, picture.pixel_buffer)
 				if attached intersection then
 					intersection.move (x, y)
 					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, l_pixels.to_rgb_24_buffer, intersection)

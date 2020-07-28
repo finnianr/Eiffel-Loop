@@ -23,6 +23,14 @@ inherit
 			implementation, create_implementation
 		end
 
+	EL_ORIENTATION_ROUTINES
+		export
+			{NONE} all
+			{ANY} is_valid_dimension
+		undefine
+			is_equal, default_create, copy
+		end
+
 create
 	make
 
@@ -99,16 +107,28 @@ feature -- Element change
 
 feature -- Conversion
 
-	horizontal_pixels (cms: REAL): INTEGER
-			-- centimeters to horizontal pixels
+	horizontal_pixels (distance_cms: REAL): INTEGER
+			--  `distance_cms' in centimeters to horizontal pixels
 		do
-			Result := (horizontal_resolution * cms).rounded
+			Result := (horizontal_resolution * distance_cms).rounded
 		end
 
-	vertical_pixels (cms: REAL): INTEGER
-			-- centimeters to vertical pixels
+	vertical_pixels (distance_cms: REAL): INTEGER
+			-- `distance_cms' in centimeters to vertical pixels
 		do
-			Result := (vertical_resolution * cms).rounded
+			Result := (vertical_resolution * distance_cms).rounded
+		end
+
+	dimension_pixels (dimension: NATURAL_8; distance_cms: REAL): INTEGER
+			-- `distance_cms' in centimeters to pixels in `dimension'
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		do
+			if dimension = By_width then
+				Result := horizontal_pixels (distance_cms)
+			else
+				Result := vertical_pixels (distance_cms)
+			end
 		end
 
 feature -- Status query

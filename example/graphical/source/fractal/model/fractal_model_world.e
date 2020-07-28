@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 			opacity, minimum_opacity, decrement: DOUBLE
 		do
 			create Result.make_with_size (32, rectangle.width, rectangle.height)
-			Result.draw_scaled_pixmap (0, 0, rectangle.width, By_width, background_image)
+			Result.draw_scaled_pixmap (By_width, 0, 0, rectangle.width, background_image)
 
 			opacity := fractal_config.fading.maximum / 100
 			minimum_opacity := fractal_config.fading.minimum / 100

@@ -45,8 +45,10 @@ create
 	make_scaled_for_pixels, make_scaled_for_widget, make_size
 
 convert
-	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE, DOUBLE, DOUBLE]}),
-	make_from_other ({EV_RECTANGLE})
+	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE]}),
+	make_from_other ({EV_RECTANGLE}),
+	make_for_pixels ({EV_PIXEL_BUFFER}),
+	make_for_widget ({EV_PIXMAP})
 
 feature {NONE} -- Initialization
 
@@ -74,12 +76,9 @@ feature {NONE} -- Initialization
 			make (0, 0, widget.width, widget.height)
 		end
 
-	make_from_cms_tuple (a: TUPLE [pos_x, pos_y, width, height: DOUBLE])
+	make_from_cms_tuple (a: TUPLE [width, height: DOUBLE])
 		do
-			make_cms (
-				a.pos_x.truncated_to_real, a.pos_y.truncated_to_real,
-				a.width.truncated_to_real, a.height.truncated_to_real
-			)
+			make_cms (0, 0, a.width.truncated_to_real, a.height.truncated_to_real)
 		end
 
 	make_from_other (other: EV_RECTANGLE)
@@ -87,13 +86,13 @@ feature {NONE} -- Initialization
 			make (other.x, other.y, other.width, other.height)
 		end
 
-	make_scaled_for_widget (widget: EV_POSITIONED; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_for_widget (dimension: NATURAL_8; widget: EV_POSITIONED; size: INTEGER)
 		do
 			make_for_widget (widget)
 			scale_to_size (dimension, size)
 		end
 
-	make_scaled_for_pixels (buffer: EV_PIXEL_BUFFER; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_for_pixels (dimension: NATURAL_8; buffer: EV_PIXEL_BUFFER; size: INTEGER)
 		do
 			make_for_pixels (buffer)
 			scale_to_size (dimension, size)
@@ -138,9 +137,13 @@ feature -- Status query
 feature -- Basic operations
 
 	move_center (other: EV_RECTANGLE)
-			-- center on other
+		-- center `Current' on `other'
+		local
+			offset_x, offset_y: INTEGER
 		do
-			move (other.x + (other.width - width) // 2, other.y + (other.height - height) // 2)
+			offset_x := ((other.width - width) / 2).rounded
+			offset_y := ((other.height - height) / 2).rounded
+			move (other.x + offset_x, other.y + offset_y)
 		end
 
 	move_down_cms (offset_cms: REAL)
@@ -165,10 +168,15 @@ feature -- Basic operations
 
 feature -- Element change
 
-	scale (proportion: REAL)
+	scale (proportion: DOUBLE)
 		do
 			set_width ((width * proportion).rounded)
 			set_height ((height * proportion).rounded)
+		end
+
+	scale_to_height (a_height: INTEGER)
+		do
+			scale_to_size (By_height, a_height)
 		end
 
 	scale_to_size (dimension: NATURAL_8; size: INTEGER)
@@ -184,6 +192,11 @@ feature -- Element change
 			end
 		ensure
 			proportions_unchanged: approximately_equal (old (height / width), height / width, 0.02)
+		end
+
+	scale_to_width (a_width: INTEGER)
+		do
+			scale_to_size (By_width, a_width)
 		end
 
 feature -- Conversion

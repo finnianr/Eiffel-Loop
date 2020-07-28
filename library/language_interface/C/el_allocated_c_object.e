@@ -1,5 +1,5 @@
 note
-	description: "C struct wrapper with memory allocated for it in `MANAGED_POINTER' attribute"
+	description: "C struct wrapper with managed memory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -9,23 +9,45 @@ note
 	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
 	revision: "2"
 
-class
+deferred class
 	EL_ALLOCATED_C_OBJECT
 
 inherit
 	EL_C_OBJECT
+		rename
+			make_from_pointer as make_c_object
+		undefine
+			copy, is_equal
+		redefine
+			self_ptr
+		end
+
+	MANAGED_POINTER
+		rename
+			make as make_with_size,
+			item as self_ptr
+		export
+			{NONE} all
+		redefine
+			self_ptr
+		end
 
 feature {NONE} -- Initialization
 
-	make_with_size (size: INTEGER)
-			--
+	make_default
 		do
-			create memory.make (size)
-			make_from_pointer (memory.item)
+			make_with_size (c_size_of)
 		end
 
 feature {NONE} -- Implementation
 
-	memory: MANAGED_POINTER
+	c_size_of: INTEGER
+		-- size of C struct to allocate
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	self_ptr: POINTER
 		-- allocated memory
 end

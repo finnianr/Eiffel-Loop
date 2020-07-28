@@ -93,16 +93,18 @@ feature -- Colored PNG
 	): EL_PIXMAP
 			-- pixmap scaled to `size' in pixels for `dimension' and filled with `background_color'
 			-- (The pixmap must have an alpha channel)
+		require
+			valid_dimension: is_valid_dimension (dimension)
 		local
 			top_layer, bottom_layer: EL_DRAWABLE_PIXEL_BUFFER
 			rectangle: EL_RECTANGLE
 		do
 			top_layer := new_pixel_buffer (relative_path_steps)
-			create rectangle.make_scaled_for_pixels (top_layer, dimension, size)
+			create rectangle.make_scaled_for_pixels (dimension, top_layer, size)
 			create bottom_layer.make_with_size (32, rectangle.width, rectangle.height)
 			bottom_layer.set_color (background_color)
 			bottom_layer.fill
-			bottom_layer.draw_scaled_pixel_buffer (0, 0, size, dimension, top_layer)
+			bottom_layer.draw_scaled_pixel_buffer (dimension, 0, 0, size, top_layer)
 			Result := bottom_layer.to_pixmap
 		end
 
@@ -123,35 +125,42 @@ feature -- PNG
 	of_height (relative_path_steps: EL_PATH_STEPS; height: INTEGER): EL_PIXMAP
 			-- Pixmap scaled to height in pixels
 		do
-			Result := pixmap (relative_path_steps)
-			Result.scale_to_height (height)
+			create Result.make_scaled_to_height (pixmap (relative_path_steps), height)
 		end
 
 	of_height_cms (relative_path_steps: EL_PATH_STEPS; height_cms: REAL): EL_PIXMAP
 			-- Pixmap scaled to height in centimeters
 		do
-			Result := pixmap (relative_path_steps)
-			Result.scale_to_height_cms (height_cms)
+			Result := of_size_cms (relative_path_steps, By_height, height_cms)
 		end
 
 	of_width (relative_path_steps: EL_PATH_STEPS; width: INTEGER): EL_PIXMAP
 			-- Pixmap scaled to width in pixels
 		do
-			Result := pixmap (relative_path_steps)
-			Result.scale_to_width (width)
+			create Result.make_scaled_to_width (pixmap (relative_path_steps), width)
 		end
 
 	of_width_cms (relative_path_steps: EL_PATH_STEPS; width_cms: REAL): EL_PIXMAP
 			-- Pixmap scaled to width in centimeters
 		do
-			Result := pixmap (relative_path_steps)
-			Result.scale_to_width_cms (width_cms)
+			Result := of_size_cms (relative_path_steps, By_width, width_cms)
 		end
 
 	pixmap (relative_path_steps: EL_PATH_STEPS): EL_PIXMAP
 			-- Unscaled pixmap
 		do
 			Result := from_file (image_path (relative_path_steps))
+		end
+
+	of_size_cms (relative_path_steps: EL_PATH_STEPS; dimension: NATURAL_8; distance_cms: REAL): EL_PIXMAP
+			-- Pixmap scaled to height in centimeters
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			size_pixels: INTEGER
+		do
+			size_pixels := Screen.dimension_pixels (dimension, distance_cms)
+			create Result.make_scaled_to_size (pixmap (relative_path_steps), dimension, size_pixels)
 		end
 
 feature -- SVG

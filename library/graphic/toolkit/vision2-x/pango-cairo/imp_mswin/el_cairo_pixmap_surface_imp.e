@@ -13,11 +13,20 @@ class
 	EL_CAIRO_PIXMAP_SURFACE_IMP
 
 inherit
-	EL_CAIRO_PIXMAP_SURFACE_I
+	EV_PIXEL_BUFFER_IMP
+		rename
+			make as make_buffer,
+			make_with_pixmap as make,
+			data as buffer_data
+		undefine
+			is_initialized
+		redefine
+			make
+		end
 
-	EL_CAIRO_SURFACE_IMP
+	EL_CAIRO_PIXMAP_SURFACE_I undefine copy, default_create, width, height end
 
-	EV_ANY_HANDLER
+	EL_CAIRO_SURFACE_IMP undefine copy, default_create, width, height end
 
 create
 	make
@@ -26,18 +35,9 @@ feature {NONE} -- Initialization
 
 	make (a_pixmap: EV_PIXMAP)
 		do
-			if attached {EV_PIXMAP_IMP_STATE} a_pixmap.implementation as l_pixmap then
-				create mem_dc.make
-				bitmap := l_pixmap.get_bitmap
-				mem_dc.select_bitmap (bitmap)
-				self_ptr := Cairo.new_win32_surface_create (mem_dc.item)
-			end
+			Precursor (a_pixmap)
+			make_with_argb_32_data (data_ptr, width, height)
+			unlock
 		end
-
-feature {NONE} -- Internal attributes
-
-	bitmap: WEL_BITMAP
-
-	mem_dc: WEL_MEMORY_DC
 
 end

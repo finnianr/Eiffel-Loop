@@ -26,6 +26,21 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
+		local
+			factor: DOUBLE
+		do
+			save
+			if dimension = By_width then
+				factor := a_size / a_pixmap.width
+			else
+				factor := a_size / a_pixmap.height
+			end
+			scale_by (factor)
+			draw_pixmap ((x / factor).rounded, (y / factor).rounded, a_pixmap)
+			restore
+		end
+
 	set_source_color
 		do
 			Cairo.set_source_rgba (context, color.red, color.green, color.blue, 1.0)

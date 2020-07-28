@@ -67,10 +67,21 @@ feature -- Access
 	exclude_files_list: EL_ZSTRING_LIST
 
 	name: ZSTRING
+		-- possible alias for `target_dir.base' used as backup destination
 
 	restore_dir: EL_DIR_PATH
 
 	target_dir: EL_DIR_PATH
+
+	target_dir_base: ZSTRING
+		-- `target_dir.base' or an alias `name'
+		do
+			if name.is_empty then
+				Result := target_dir.base
+			else
+				Result := name
+			end
+		end
 
 feature {NONE} -- Build from XML
 

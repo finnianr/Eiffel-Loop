@@ -15,7 +15,8 @@ deferred class
 inherit
 	EV_DRAWABLE
 		redefine
-			implementation, draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
+			implementation, draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left,
+			draw_sub_pixel_buffer
 		end
 
 	EL_MODULE_GUI
@@ -31,19 +32,20 @@ inherit
 
 feature -- Drawing operations
 
-	draw_shadowed_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL; a_shadow_color: EV_COLOR)
+	draw_centered_text (a_text: READABLE_STRING_GENERAL; rect: EL_RECTANGLE)
 		local
-			l_color: EV_COLOR
-			offset: INTEGER
+			centered_rect: EL_RECTANGLE
 		do
-			offset := (font.width * 0.08).rounded.min (1)
-			l_color := foreground_color.twin
+			create centered_rect.make_for_text (a_text, font)
+			centered_rect.move_center (rect)
+			centered_rect.set_y (centered_rect.y - font.descent // 2)
 
-			set_foreground_color (a_shadow_color)
-			draw_text_top_left (x + offset, y + offset, a_text)
+			draw_text_top_left (centered_rect.x, centered_rect.y, to_unicode_general (a_text))
+		end
 
-			set_foreground_color (l_color)
-			draw_text_top_left (x, y, to_unicode_general (a_text))
+	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
+		do
+			draw_sub_pixel_buffer (x, y, a_pixels, create {EL_RECTANGLE}.make_for_pixels (a_pixels))
 		end
 
 	draw_raised_rectangle (x, y, a_width, a_height: INTEGER; a_color: EV_COLOR)
@@ -93,23 +95,24 @@ feature -- Drawing operations
 			end
 		end
 
-	draw_centered_text (a_text: READABLE_STRING_GENERAL; rect: EL_RECTANGLE)
+	draw_shadowed_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL; a_shadow_color: EV_COLOR)
 		local
-			centered_rect: EL_RECTANGLE
+			l_color: EV_COLOR
+			offset: INTEGER
 		do
-			create centered_rect.make_for_text (a_text, font)
-			centered_rect.move_center (rect)
-			centered_rect.set_y (centered_rect.y - font.descent // 2)
+			offset := (font.width * 0.08).rounded.min (1)
+			l_color := foreground_color.twin
 
-			draw_text_top_left (centered_rect.x, centered_rect.y, to_unicode_general (a_text))
+			set_foreground_color (a_shadow_color)
+			draw_text_top_left (x + offset, y + offset, a_text)
+
+			set_foreground_color (l_color)
+			draw_text_top_left (x, y, to_unicode_general (a_text))
 		end
 
-	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
-		local
-			rectangle: EL_RECTANGLE
+	draw_sub_pixel_buffer (x, y: INTEGER; a_pixel_buffer: EV_PIXEL_BUFFER; area: EV_RECTANGLE)
 		do
-			create rectangle.make_for_pixels (a_pixels)
-			draw_sub_pixel_buffer (x, y, a_pixels, rectangle)
+			implementation.draw_sub_pixel_buffer (x, y, as_rgb_24 (a_pixel_buffer), area)
 		end
 
 --feature -- Duplication
@@ -129,12 +132,6 @@ feature -- Status query
 
 feature -- Basic operations
 
-	save_colors
-		do
-			Color_stack.put (foreground_color.twin)
-			Color_stack.put (background_color.twin)
-		end
-
 	restore_colors
 		require
 			has_saved_colors: has_saved_colors
@@ -143,6 +140,12 @@ feature -- Basic operations
 			Color_stack.remove
 			set_foreground_color (Color_stack.item)
 			Color_stack.remove
+		end
+
+	save_colors
+		do
+			Color_stack.put (foreground_color.twin)
+			Color_stack.put (background_color.twin)
 		end
 
 feature -- Drawing operations
@@ -163,6 +166,15 @@ feature -- Drawing operations
 			implementation.draw_ellipsed_text_top_left (x, y, to_unicode_general (a_text), clipping_width)
 		end
 
+	draw_rotated_text (x, y: INTEGER; angle: REAL; a_text: READABLE_STRING_GENERAL)
+			-- Draw rotated text `a_text' with left of baseline at (`x', `y') using `font'.
+			-- Rotation is number of radians counter-clockwise from horizontal plane.
+		do
+			if attached {EV_DRAWABLE_IMP} implementation as imp then
+				imp.draw_rotated_text (x, y, angle, to_unicode_general (a_text))
+			end
+		end
+
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
 			-- Draw `a_text' with left of baseline at (`x', `y') using `font'.
 		do
@@ -175,16 +187,17 @@ feature -- Drawing operations
 			implementation.draw_text_top_left (x, y, to_unicode_general (a_text))
 		end
 
-	draw_rotated_text (x, y: INTEGER; angle: REAL; a_text: READABLE_STRING_GENERAL)
-			-- Draw rotated text `a_text' with left of baseline at (`x', `y') using `font'.
-			-- Rotation is number of radians counter-clockwise from horizontal plane.
+feature {NONE} -- Implementation
+
+	as_rgb_24 (a_buffer: EV_PIXEL_BUFFER): EV_PIXEL_BUFFER
 		do
-			if attached {EV_DRAWABLE_IMP} implementation as imp then
-				imp.draw_rotated_text (x, y, angle, to_unicode_general (a_text))
+			Result := a_buffer
+			if attached {EL_DRAWABLE_PIXEL_BUFFER} Result as drawable then
+				Result := drawable.to_rgb_24_buffer
 			end
 		end
 
-feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
+feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
 
 	implementation: EV_DRAWABLE_I
 

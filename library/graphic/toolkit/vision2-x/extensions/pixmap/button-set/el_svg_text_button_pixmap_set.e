@@ -94,9 +94,8 @@ feature {NONE} -- Implementation
 
 	draw_text
 		local
+			l_pixmap: like normal; l_text: READABLE_STRING_GENERAL; half_font_descent: INTEGER
 			text_rect: EL_RECTANGLE
-			l_pixmap: like normal; l_pixels: EL_DRAWABLE_PIXEL_BUFFER
-			l_text: READABLE_STRING_GENERAL; half_font_descent: INTEGER
 		do
 			l_text := text.to_unicode
 			across pixmap_table as a_pixmap loop
@@ -107,18 +106,18 @@ feature {NONE} -- Implementation
 				text_rect.set_y (text_rect.y - half_font_descent)
 				text_rect.move (text_rect.x - half_font_descent, text_rect.y)
 
-				create l_pixels.make_with_pixmap (32, l_pixmap)
+				if attached l_pixmap.to_argb_32_buffer as buffer then
+					buffer.set_font (font)
 
-				l_pixels.set_font (font)
+					if is_enabled then
+						buffer.set_color (text_color)
+					else
+						buffer.set_color (disabled_text_color)
+					end
+					buffer.draw_text_top_left (text_rect.x, text_rect.y, l_text)
 
-				if is_enabled then
-					l_pixels.set_color (text_color)
-				else
-					l_pixels.set_color (disabled_text_color)
+					l_pixmap.set_with_pixel_buffer (buffer)
 				end
-				l_pixels.draw_text_top_left (text_rect.x, text_rect.y, l_text)
-
-				l_pixmap.set_with_pixel_buffer (l_pixels.to_rgb_24_buffer)
 			end
 		end
 

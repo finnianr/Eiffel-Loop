@@ -26,10 +26,11 @@ class
 inherit
 	EL_ALLOCATED_C_OBJECT
 		rename
+			c_size_of as c_size_of_display_device_struct,
 			is_attached as is_pointer_attached
 		end
 
-	EL_WEL_CONVERSION
+	EL_WEL_CONVERSION undefine copy, is_equal end
 
 create
 	make
@@ -39,7 +40,7 @@ feature {NONE} -- Initialization
 	make (adapter_name: STRING_32; device_number: INTEGER)
 			--
 		do
-			make_with_size (c_size_of_display_device_struct)
+			make_default
 			cwin_set_struct_size (self_ptr, c_size_of_display_device_struct)
 
 			is_valid := cwin_enum_display_devices (wel_string_from_string (adapter_name).item, device_number, self_ptr, 0)

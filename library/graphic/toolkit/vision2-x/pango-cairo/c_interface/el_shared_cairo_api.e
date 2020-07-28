@@ -1,5 +1,5 @@
 note
-	description: "Shared cairo api"
+	description: "Shared Cairo api"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

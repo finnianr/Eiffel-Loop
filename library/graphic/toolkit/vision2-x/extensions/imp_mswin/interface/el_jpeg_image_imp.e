@@ -29,13 +29,10 @@ create
 feature {NONE} -- Initialization
 
 	make (component: EV_ANY_I; a_quality: NATURAL)
-		local
-			buffer: EL_DRAWABLE_PIXEL_BUFFER
 		do
 			Precursor (component, a_quality)
 			if attached {EL_PIXMAP_IMP} component as pixmap then
-				create buffer.make_with_pixmap (24, pixmap.interface)
-				pixel_component := buffer.implementation
+				pixel_component := pixmap.interface.to_rgb_24_buffer.implementation
 			end
 		end
 

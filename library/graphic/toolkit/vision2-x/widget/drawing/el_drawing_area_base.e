@@ -15,7 +15,7 @@ deferred class
 inherit
 	EV_DRAWING_AREA
 		undefine
-			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left
+			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left, draw_sub_pixel_buffer
 		redefine
 			implementation
 		end

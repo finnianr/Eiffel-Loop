@@ -23,7 +23,6 @@ else:
 if file_path:
 	Windows_imp_list = ['imp_mswin', 'mswin']
 	Unix_imp_list = ['imp_unix', 'gtk']
-	
 
 	steps = file_path.split (os.sep)
 	if os.name == 'nt':
@@ -40,6 +39,7 @@ if file_path:
 	file_path = os.sep.join (steps)
 
 	system.edit_file (file_path)
+
 	print "DONE"; exit (0)
 
 else:

@@ -12,52 +12,86 @@ note
 class
 	EL_CAIRO_CONSTANTS
 
-feature {NONE} -- Image formats
+feature -- Contract support
 
-	Cairo_format_INVALID: INTEGER = -1
+	is_valid_format (format: INTEGER): BOOLEAN
+		do
+			inspect format
+				when Format_ARGB_32 .. Format_RGB30 then
+					Result := True
+			else
+			end
+		end
 
-	Cairo_format_ARGB_32: INTEGER = 0
+	is_valid_filter (filter: INTEGER): BOOLEAN
+		do
+			inspect filter
+				when Filter_fast .. Filter_gaussian then
+					Result := True
+			else
+			end
+		end
 
-	Cairo_format_RGB_24: INTEGER = 1
+feature -- Filter type
 
-	Cairo_format_A8: INTEGER = 2
+    Filter_fast: INTEGER = 0
 
-	Cairo_format_A1: INTEGER = 3
+    Filter_good: INTEGER = 1
 
-	Cairo_format_RGB16_565: INTEGER = 4
+    Filter_best: INTEGER = 2
 
-	Cairo_format_RGB30: INTEGER = 5
+    Filter_nearest: INTEGER = 3
+
+    Filter_bilinear: INTEGER = 4
+
+    Filter_gaussian: INTEGER = 5
+
+feature -- Image formats
+
+	Format_INVALID: INTEGER = -1
+
+	Format_ARGB_32: INTEGER = 0
+
+	Format_RGB_24: INTEGER = 1
+
+	Format_A8: INTEGER = 2
+
+	Format_A1: INTEGER = 3
+
+	Format_RGB16_565: INTEGER = 4
+
+	Format_RGB30: INTEGER = 5
 
 feature {NONE} -- Font shapes
 
-	Cairo_font_slant_normal: INTEGER = 0
+	Font_slant_normal: INTEGER = 0
 
-	Cairo_font_slant_italic: INTEGER = 1
+	Font_slant_italic: INTEGER = 1
 
-	Cairo_font_slant_oblique: INTEGER = 2
+	Font_slant_oblique: INTEGER = 2
 
-feature {NONE} -- Font weights
+feature -- Font weights
 
-	Cairo_font_weight_normal: INTEGER = 0
+	Font_weight_normal: INTEGER = 0
 
-	Cairo_font_weight_bold: INTEGER = 1
+	Font_weight_bold: INTEGER = 1
 
-feature {NONE} -- Antialias modes
+feature -- Antialias modes
 
-	Cairo_antialias_default: INTEGER = 0
+	Antialias_default: INTEGER = 0
 
     -- method
-	Cairo_antialias_none: INTEGER = 1
+	Antialias_none: INTEGER = 1
 
-	Cairo_antialias_gray: INTEGER = 2
+	Antialias_gray: INTEGER = 2
 
-	Cairo_antialias_subpixel: INTEGER = 3
+	Antialias_subpixel: INTEGER = 3
 
     -- hints
-	Cairo_antialias_fast: INTEGER = 4
+	Antialias_fast: INTEGER = 4
 
-	Cairo_antialias_good: INTEGER = 5
+	Antialias_good: INTEGER = 5
 
-	Cairo_antialias_best: INTEGER = 6
+	Antialias_best: INTEGER = 6
 
 end

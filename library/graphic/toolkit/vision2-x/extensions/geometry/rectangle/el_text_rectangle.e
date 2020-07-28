@@ -242,7 +242,7 @@ feature {NONE} -- Implementation
 
 	hypenate_word (words: EL_SEQUENTIAL_INTERVALS; line, line_out: ZSTRING)
 		local
-			old_count, word_lower: INTEGER; outside_bounds: BOOLEAN
+			old_count, i: INTEGER; outside_bounds: BOOLEAN
 		do
 			if words.item_count >= 4 then
 				old_count := line_out.count
@@ -254,22 +254,23 @@ feature {NONE} -- Implementation
 				line_out.append_character ('-')
 
 				if line_fits (line_out) then
-					from word_lower := words.item_lower + 2 until word_lower > words.item_upper or outside_bounds loop
-						line_out.insert_character (line [word_lower], line_out.count)
+					from i := words.item_lower + 2 until i > words.item_upper or outside_bounds loop
+						line_out.insert_character (line [i], line_out.count)
 						if line_fits (line_out) then
-							word_lower := word_lower + 1
+							i := i + 1
 						else
 							outside_bounds := True
 							line_out.remove_substring (line_out.count - 1, line_out.count - 1) -- Undo insertion
 						end
 					end
-					words.replace (word_lower, words.item_upper)
+					words.replace (i, words.item_upper)
 					if words.item_count = 1
 						or else words.item_count = 2
-							and then line.is_alpha_item (word_lower) and then Comma_or_dot.has (line [word_lower + 1])
+									and then line.is_alpha_item (i)
+									and then is_comma_or_dot (line [i + 1])
 					then
 						line_out.remove_tail (1)
-						line_out.append_substring (line, word_lower, words.item_upper)
+						line_out.append_substring (line, i, words.item_upper)
 						words.replace (words.item_upper + 1, words.item_upper) -- set to zero
 					end
 				else
@@ -287,6 +288,15 @@ feature {NONE} -- Implementation
 				line := list.item
 				line.align (Current)
 				Result.extend (create {EV_MODEL_DOT}.make_with_position (line.x, line.y))
+			end
+		end
+
+	is_comma_or_dot (c: CHARACTER_32): BOOLEAN
+		do
+			inspect c
+				when ',', '.' then
+					Result := True
+			else
 			end
 		end
 
@@ -386,14 +396,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
+feature {EL_DRAWABLE_CAIRO_CONTEXT_I} -- Internal attributes
 
 	internal_lines: EL_ARRAYED_LIST [EL_ALIGNED_TEXT]
 
-feature {NONE} -- Constants
-
-	Comma_or_dot: ZSTRING
-		once
-			Result := ",."
-		end
 end

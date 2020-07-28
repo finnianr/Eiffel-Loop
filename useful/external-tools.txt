@@ -1,3 +1,8 @@
+launch_script.sh
+#!/usr/bin/env bash
+# launch script in background
+$* 2> /dev/null > /dev/null &
+
 UNIX
 
 1. Expand shorthand and sort features
@@ -7,23 +12,23 @@ el_eiffel -feature_editor -no_highlighting -source "$file_name"
 python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin
 
 3. Open project directory
-ec_open_directory.py "$project_directory" 2
+launch_script.sh ec_open_directory.py "$project_directory" 2
 
 4. List feature catagories
 cat feature_constants.e | tail -n 36 | expand -t3
 working dir: /home/finnian/dev/Eiffel/Eiffel-Loop/tool/eiffel/source/edit/support
 
 5. Edit pecf
-ec_gedit_project.py pecf
+launch_script.sh ec_gedit_project.py pecf
 
 6. Edit versions
-ec_gedit_project.py txt
+launch_script.sh ec_gedit_project.py txt
 
 7. Open class directory
-ec_open_directory.py "$file_name" 1
+launch_script.sh ec_open_directory.py "$file_name" 1
 
 9. Open imp_mswin
-ec_gedit_implementation.py "$file_name"
+launch_script.sh ec_gedit_implementation.py "$file_name"
 
 WINDOWS
 

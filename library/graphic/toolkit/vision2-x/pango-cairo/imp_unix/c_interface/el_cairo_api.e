@@ -1,5 +1,5 @@
 note
-	description: "Cairo api"
+	description: "Unix implementation of [$source EL_CAIRO_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -14,6 +14,11 @@ class
 
 inherit
 	EL_CAIRO_I
+		rename
+			default_create as make
+		end
+
+	EL_OS_IMPLEMENTATION
 		rename
 			default_create as make
 		end
@@ -71,7 +76,26 @@ feature -- Access
 			"cairo_image_surface_get_width"
 		end
 
+	frozen version_compact: INTEGER
+			-- int cairo_version ();
+		external
+			"C signature (): EIF_INTEGER use <cairo.h>"
+		alias
+			"cairo_version"
+		end
+
 feature -- Status setting
+
+	frozen matrix_init_scale (matrix: POINTER; scale_x, scale_y: DOUBLE)
+		-- Initializes matrix to a transformation that scales by `scale_x', `scale_y'
+		-- in the X and Y dimensions, respectively.
+
+		-- void cairo_matrix_init_scale (cairo_matrix_t *matrix, double sx, double sy);
+		external
+			"C signature (cairo_matrix_t *, double, double) use <cairo.h>"
+		alias
+			"cairo_matrix_init_scale"
+		end
 
 	frozen surface_finish (surface: POINTER)
 			-- void cairo_surface_finish (cairo_surface_t *surface);
@@ -133,8 +157,12 @@ feature -- Factory
 			"cairo_image_surface_create_for_data"
 		end
 
-	new_win32_surface_create (hdc: POINTER): POINTER
-		do
+	frozen new_pattern_for_surface (surface: POINTER): POINTER
+		-- cairo_pattern_t * cairo_pattern_create_for_surface (cairo_surface_t *surface);
+		external
+			"C signature (cairo_surface_t *): EIF_POINTER use <cairo.h>"
+		alias
+			"cairo_pattern_create_for_surface"
 		end
 
 feature -- Element change
@@ -163,8 +191,33 @@ feature -- Element change
 			"cairo_set_font_size"
 		end
 
+	frozen set_pattern_matrix (pattern, matrix: POINTER)
+		-- Sets the pattern's transformation matrix to matrix
+		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);
+		external
+			"C signature (cairo_pattern_t *, cairo_matrix_t *) use <cairo.h>"
+		alias
+			"cairo_pattern_set_matrix"
+		end
+
+	frozen set_pattern_filter (pattern: POINTER; filter: INTEGER)
+		-- void cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+		external
+			"C signature (cairo_pattern_t *, cairo_filter_t) use <cairo.h>"
+		alias
+			"cairo_pattern_set_filter"
+		end
+
+	frozen set_source (context, pattern: POINTER)
+		-- void cairo_set_source (cairo_t *cr, cairo_pattern_t *source);
+		external
+			"C signature (cairo_t *, cairo_pattern_t *) use <cairo.h>"
+		alias
+			"cairo_set_source"
+		end
+
 	frozen set_source_rgb (context: POINTER; red, green, blue: DOUBLE)
-			-- void cairo_set_source_rgb (cairo_t *cr, double red, double green, double blue);
+		-- void cairo_set_source_rgb (cairo_t *cr, double red, double green, double blue);
 		external
 			"C signature (cairo_t *, double, double, double) use <cairo.h>"
 		alias
@@ -362,11 +415,19 @@ feature -- Basic operations
 feature -- Memory release
 
 	frozen destroy (context: POINTER)
-			-- void cairo_destroy (cairo_t *cr);
+		-- void cairo_destroy (cairo_t *cr);
 		external
 			"C signature (cairo_t*) use <cairo.h>"
 		alias
 			"cairo_destroy"
+		end
+
+	frozen destroy_pattern (pattern: POINTER)
+		-- void cairo_pattern_destroy (cairo_pattern_t *pattern);
+		external
+			"C signature (cairo_pattern_t*) use <cairo.h>"
+		alias
+			"cairo_pattern_destroy"
 		end
 
 	frozen destroy_surface (surface: POINTER)
@@ -375,6 +436,25 @@ feature -- Memory release
 			"C signature (cairo_surface_t*) use <cairo.h>"
 		alias
 			"cairo_surface_destroy"
+		end
+
+feature {NONE} -- MS windows
+
+	frozen windows_surface_dc (surface: POINTER): POINTER
+		-- Windows surface device context or NULL if it is not a windows surface
+		-- HDC cairo_win32_surface_get_dc (cairo_surface_t *surface);
+		do
+			-- Not implemented on Unix
+		end
+
+	frozen new_win32_surface_create (hdc: POINTER): POINTER
+		do
+			-- Not implemented on Unix
+		end
+
+	frozen new_win32_surface_create_with_format (hdc: POINTER; format: INTEGER): POINTER
+		do
+			-- Not implemented on Unix
 		end
 
 end

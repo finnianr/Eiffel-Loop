@@ -43,6 +43,11 @@ feature -- Status query
 			Result := has_scheme (uri, Protocol.file)
 		end
 
+	is_http_any (uri: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := is_http (uri) or else is_https (uri)
+		end
+
 	is_http (uri: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := has_scheme (uri, Protocol.http)

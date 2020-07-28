@@ -1,5 +1,5 @@
 note
-	description: "Cairo i"
+	description: "Cairo API interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -14,6 +14,8 @@ deferred class
 
 inherit
 	EL_POINTER_ROUTINES
+
+	EL_CAIRO_CONSTANTS
 
 feature -- Access
 
@@ -35,10 +37,30 @@ feature -- Access
 		deferred
 		end
 
+	version: EL_SOFTWARE_VERSION
+		do
+			create Result.make (version_compact.to_natural_32, 0)
+		end
+
+	version_compact: INTEGER
+		deferred
+		end
+
+	windows_surface_dc (surface: POINTER): POINTER
+		-- Windows surface device context or NULL if it is not a windows surface
+		-- HDC cairo_win32_surface_get_dc (cairo_surface_t *surface);
+		require
+			ms_windows: {PLATFORM}.is_windows
+			is_attached: is_attached (surface)
+		deferred
+		end
+
 feature -- Measurement
 
 	format_stride_for_width (format, width: INTEGER): INTEGER
 			-- int cairo_format_stride_for_width (cairo_format_t format, int width);
+		require
+			valid_format: is_valid_format (format)
 		deferred
 		end
 
@@ -55,6 +77,12 @@ feature -- Measurement
 		end
 
 feature -- Status change
+
+	matrix_init_scale (matrix: POINTER; scale_x, scale_y: DOUBLE)
+		-- Initializes matrix to a transformation that scales by `scale_x', `scale_y'
+		-- in the X and Y dimensions, respectively.
+		deferred
+		end
 
 	surface_finish (surface: POINTER)
 		require
@@ -84,6 +112,8 @@ feature -- Factory
 		end
 
 	new_image_surface (format, width, height: INTEGER): POINTER
+		require
+			valid_format: is_valid_format (format)
 		deferred
 		end
 
@@ -95,6 +125,8 @@ feature -- Factory
 			-- cairo_surface_t * cairo_image_surface_create_for_data (
 			--		unsigned char *data, cairo_format_t format, int width, int height, int stride
 			-- );
+		require
+			valid_format: is_valid_format (format)
 		deferred
 		end
 
@@ -104,7 +136,25 @@ feature -- Factory
 		deferred
 		end
 
+	new_pattern_for_surface (surface: POINTER): POINTER
+		require
+			is_attached: is_attached (surface)
+		deferred
+		end
+
 	new_win32_surface_create (hdc: POINTER): POINTER
+		require
+			ms_windows: {PLATFORM}.is_windows
+			is_attached: is_attached (hdc)
+		deferred
+		end
+
+	new_win32_surface_create_with_format (hdc: POINTER; format: INTEGER): POINTER
+		require
+			ms_windows: {PLATFORM}.is_windows
+			is_attached: is_attached (hdc)
+			valid_version: version_compact >= 1_14_00
+			valid_format: is_valid_format (format)
 		deferred
 		end
 
@@ -126,7 +176,7 @@ feature -- Element change
 		end
 
 	set_font_size (context: POINTER; size: DOUBLE)
-			-- void cairo_set_font_size (cairo_t *cr, double size);
+		-- void cairo_set_font_size (cairo_t *cr, double size);
 		require
 			is_attached: is_attached (context)
 		deferred
@@ -135,6 +185,29 @@ feature -- Element change
 	set_line_width (context: POINTER; size: DOUBLE)
 		require
 			is_attached: is_attached (context)
+		deferred
+		end
+
+	set_pattern_filter (pattern: POINTER; filter: INTEGER)
+		-- void cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+		require
+			is_attached: is_attached (pattern)
+			valid_filter: is_valid_filter (filter)
+		deferred
+		end
+
+	set_pattern_matrix (pattern, matrix: POINTER)
+		-- Sets the pattern's transformation matrix to matrix
+		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);
+		require
+			is_attached: is_attached (pattern) and is_attached (matrix)
+		deferred
+		end
+
+	set_source (context, pattern: POINTER)
+			-- void cairo_set_source (cairo_t *cr, cairo_pattern_t *source);
+		require
+			is_attached: is_attached (context) and is_attached (pattern)
 		deferred
 		end
 
@@ -169,7 +242,7 @@ feature -- Transformations
 		end
 
 	scale (context: POINTER; sx, sy: DOUBLE)
-			-- void cairo_scale (cairo_t *cr, double sx, double sy);
+		-- void cairo_scale (cairo_t *cr, double sx, double sy);
 		require
 			is_attached: is_attached (context)
 		deferred
@@ -291,6 +364,13 @@ feature -- Memory release
 			-- void cairo_destroy (cairo_t *cr);
 		require
 			is_attached: is_attached (context)
+		deferred
+		end
+
+	destroy_pattern (pattern: POINTER)
+			-- void cairo_pattern_destroy (cairo_pattern_t *pattern);
+		require
+			is_attached: is_attached (pattern)
 		deferred
 		end
 

@@ -21,4 +21,9 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
+feature -- Basic operations
+
+	destroy
+		deferred
+		end
 end

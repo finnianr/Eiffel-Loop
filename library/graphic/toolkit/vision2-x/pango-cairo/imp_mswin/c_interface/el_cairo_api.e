@@ -1,5 +1,7 @@
 note
-	description: "Cairo api"
+	description: "Windows implementation of [$source EL_CAIRO_I]"
+
+	notes: "Using Cairo version 1.12.16 from package gtk+-bundle_3.10.4-20131202_win64.zip"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -18,6 +20,8 @@ inherit
 	EL_CAIRO_I
 
 	EL_CAIRO_C_API
+
+	EL_OS_IMPLEMENTATION
 
 create
 	make
@@ -50,6 +54,18 @@ feature -- Access
 	surface_width (surface: POINTER): INTEGER
 		do
 			Result := cairo_image_surface_get_width (api.image_surface_get_width, surface)
+		end
+
+	version_compact: INTEGER
+		do
+			Result := cairo_version (api.version)
+		end
+
+	windows_surface_dc (surface: POINTER): POINTER
+		-- Windows surface device context or NULL if it is not a windows surface
+		-- HDC cairo_win32_surface_get_dc (cairo_surface_t *surface);
+		do
+			Result := cairo_win32_surface_get_dc (api.win32_surface_get_dc, surface)
 		end
 
 feature -- Factory
@@ -85,12 +101,30 @@ feature -- Factory
 			cairo_new_path (api.new_path, context)
 		end
 
+	new_pattern_for_surface (surface: POINTER): POINTER
+		do
+			Result := cairo_pattern_create_for_surface (api.pattern_create_for_surface, surface)
+		end
+
 	new_win32_surface_create (hdc: POINTER): POINTER
 		do
 			Result := cairo_win32_surface_create (api.win32_surface_create, hdc)
 		end
 
+	new_win32_surface_create_with_format (hdc: POINTER; format: INTEGER): POINTER
+		do
+--			Not available in version 1.12.16 of Cairo for Windows
+--			Result := cairo_win32_surface_create_with_format (api.win32_surface_create_with_format, hdc, format)
+		end
+
 feature -- Status setting
+
+	matrix_init_scale (matrix: POINTER; scale_x, scale_y: DOUBLE)
+		-- Initializes matrix to a transformation that scales by `scale_x', `scale_y'
+		-- in the X and Y dimensions, respectively.
+		do
+			cairo_matrix_init_scale (api.matrix_init_scale, matrix, scale_x, scale_y)
+		end
 
 	surface_finish (surface: POINTER)
 		do
@@ -136,10 +170,23 @@ feature -- Element change
 			cairo_set_line_width (api.set_line_width, context, size)
 		end
 
+	set_pattern_matrix (pattern, matrix: POINTER)
+		-- Sets the pattern's transformation matrix to matrix
+		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);
+		do
+			cairo_pattern_set_matrix (api.pattern_set_matrix, pattern, matrix)
+		end
+
 	set_source_rgb (context: POINTER; red, green, blue: DOUBLE)
 			-- void cairo_set_source_rgb (cairo_t *cr, double red, double green, double blue);
 		do
 			cairo_set_source_rgb (api.set_source_rgb, context, red, green, blue)
+		end
+
+	set_source (context, pattern: POINTER)
+			-- void cairo_set_source (cairo_t *cr, cairo_pattern_t *source);
+		do
+			cairo_set_source (api.set_source, context, pattern)
 		end
 
 	set_source_rgba (context: POINTER; red, green, blue, alpha: DOUBLE)
@@ -276,6 +323,11 @@ feature -- C memory release
 			-- void cairo_destroy (cairo_t *cr);
 		do
 			cairo_destroy (api.destroy, context)
+		end
+
+	destroy_pattern (pattern: POINTER)
+		do
+			cairo_pattern_destroy (api.pattern_destroy, pattern)
 		end
 
 	destroy_surface (surface_ptr: POINTER)

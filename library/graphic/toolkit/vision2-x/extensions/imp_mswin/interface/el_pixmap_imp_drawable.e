@@ -11,7 +11,7 @@ note
 	date: "2020-07-03 13:14:08 GMT (Friday 3rd July 2020)"
 	revision: "2"
 
-class 
+class
 	EL_PIXMAP_IMP_DRAWABLE
 
 inherit
@@ -37,11 +37,16 @@ inherit
 
 	EL_PIXMAP_TO_JPEG_IMP
 
-create 
-	make_with_simple,
-	make_with_pixel_buffer
+create
+	make_with_simple, make_with_pixel_buffer
 
-feature {NONE} 
+feature {NONE} -- Initialization
+
+	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+		do
+		end
+
+feature {NONE} -- Implementation
 
 	promote_to_widget
 		local
@@ -50,15 +55,15 @@ feature {NONE}
 			create widget_pixmap.make_with_drawable (Current)
 			attached_interface.replace_implementation (widget_pixmap)
 		end
-	
-feature {EV_ANY, EV_ANY_I} 
+
+feature {EV_ANY, EV_ANY_I}
 
 	interface: EL_PIXMAP
 		note
 			option: stable
 		attribute
 		end
-	
+
 end -- class EL_PIXMAP_IMP_DRAWABLE
 
 

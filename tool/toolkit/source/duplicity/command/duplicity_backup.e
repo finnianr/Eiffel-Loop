@@ -49,7 +49,7 @@ feature -- Basic operations
 			backup_command: DUPLICITY_BACKUP_OS_CMD
 			arguments: DUPLICITY_ARGUMENTS
 		do
-			lio.put_labeled_string ("Backup", destination_name)
+			lio.put_labeled_string ("Backup", target_dir_base)
 			lio.put_new_line
 			continue := True
 			across destination_dir_list.query_if (agent is_file_protocol) as file_uri until not continue loop
@@ -63,7 +63,7 @@ feature -- Basic operations
 				set_ftp_password
 			end
 			across destination_dir_list as dir until not continue loop
-				destination_dir := dir.item.joined_dir_path (destination_name)
+				destination_dir := dir.item.joined_dir_path (target_dir_base)
 				if dir.cursor_index = 1 then
 					lio.put_path_field ("Backup", target_dir)
 					lio.put_new_line
@@ -107,15 +107,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	destination_name: ZSTRING
-		do
-			if name.is_empty then
-				Result := target_dir.base
-			else
-				Result := name
-			end
-		end
 
 	is_file_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do

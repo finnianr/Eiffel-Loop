@@ -15,6 +15,8 @@ def launch_program (command_table, a_path):
 	if path.exists (a_path):
 		cmd_path = command_table [platform.system()]
 		os.spawnv (os.P_NOWAIT, path.normpath (cmd_path), [path.basename (cmd_path), a_path])
+		if os.name == 'posix':
+			os.wait ()
 	else:
 		print "Executable path not found:", a_path
 

@@ -86,6 +86,9 @@ create
 	make_with_pixmap,
 	make_with_svg_image
 
+convert
+	dimensions: {EL_RECTANGLE}
+
 feature {NONE} -- Initialization
 
 	make_from_other (a_format: NATURAL_8; other: like Current)
@@ -109,11 +112,11 @@ feature {NONE} -- Initialization
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		local
-			rectangle: EL_RECTANGLE
+			scaled: EL_RECTANGLE
 		do
-			create rectangle.make_scaled_for_pixels (other, dimension, size)
-			make_with_size (32, rectangle.width, rectangle.height)
-			draw_scaled_pixel_buffer (0, 0, size, dimension, other)
+			scaled := other.scaled_dimensions (dimension, size)
+			make_with_size (32, scaled.width, scaled.height)
+			draw_scaled_pixel_buffer (dimension, 0, 0, size, other)
 		end
 
 	make_scaled_to_height (other: like Current; a_height: INTEGER)
@@ -199,6 +202,11 @@ feature -- Access
 			Result := Tag_template #$ [id, width, height]
 		end
 
+	dimensions: EL_RECTANGLE
+		do
+			create Result.make_size (width, height)
+		end
+
 	format: NATURAL_8
 
 	id: like internal_id
@@ -209,6 +217,11 @@ feature -- Access
 				internal_id := Last_id.value
 				Result := internal_id
 			end
+		end
+
+	scaled_dimensions (dimension: NATURAL_8; size: INTEGER): EL_RECTANGLE
+		do
+			create Result.make_scaled_for_pixels (dimension, Current, size)
 		end
 
 feature -- Status query
@@ -272,18 +285,18 @@ feature -- Drawing operations
 			implementation.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 		end
 
-	draw_scaled_pixel_buffer (x, y, a_size: INTEGER; dimension: NATURAL_8; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, a_size: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
-			implementation.draw_scaled_pixel_buffer (x, y, a_size, dimension, a_buffer)
+			implementation.draw_scaled_pixel_buffer (dimension, x, y, a_size, a_buffer)
 		end
 
-	draw_scaled_pixmap (x, y, a_size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: INTEGER; a_pixmap: EV_PIXMAP)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
-			implementation.draw_scaled_pixmap (x, y, a_size, dimension, a_pixmap)
+			implementation.draw_scaled_pixmap (dimension, x, y, a_size, a_pixmap)
 		end
 
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
@@ -389,8 +402,6 @@ feature -- Transform
 feature -- Status change
 
 	lock
-		require else
-			not_alpha_32_format: not is_argb_32_format
 		do
 			implementation.lock
 		end

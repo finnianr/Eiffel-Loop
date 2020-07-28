@@ -45,20 +45,12 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 	make_from_other (other: EL_DRAWABLE_PIXEL_BUFFER)
 		do
 			make_with_size (other.width, other.height)
-			if is_rgb_24_format then
-				lock
-			end
-			if other.is_rgb_24_format then
+			lock
 				other.lock
-			end
-			draw_pixel_buffer (0, 0, other)
-			if other.is_rgb_24_format then
+				draw_pixel_buffer (0, 0, other)
 				other.unlock
-			end
-			if is_rgb_24_format then
-				unlock
-				adjust_color_channels
-			end
+			unlock
+			adjust_color_channels
 		end
 
 	make_mirrored (a_buffer: EL_DRAWABLE_PIXEL_BUFFER; axis: INTEGER)
@@ -67,19 +59,15 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 			valid_axis: is_valid_axis (axis)
 		do
 			make_with_size (a_buffer.width, a_buffer.height)
-			if a_buffer.is_rgb_24_format then
-				a_buffer.lock
-			end
-			inspect axis
-				when X_axis then
-					translate (0, a_buffer.height); scale (1, -1)
-				when Y_axis then
-					translate (a_buffer.width, 0); scale (-1, 1)
-			else end
-			draw_pixel_buffer (0, 0, a_buffer)
-			if a_buffer.is_rgb_24_format then
-				a_buffer.unlock
-			end
+			a_buffer.lock
+				inspect axis
+					when X_axis then
+						translate (0, a_buffer.height); scale (1, -1)
+					when Y_axis then
+						translate (a_buffer.width, 0); scale (-1, 1)
+				else end
+				draw_pixel_buffer (0, 0, a_buffer)
+			a_buffer.unlock
 		end
 
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
@@ -91,39 +79,30 @@ feature {EL_DRAWABLE_PIXEL_BUFFER} -- Initialization
 				make_with_size (a_pixmap.width, a_pixmap.height)
 				if attached cairo_context as c then
 					c.draw_pixmap (0, 0, a_pixmap)
-
---				elseif attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
---					draw_pixel_buffer (0, 0, buffer)
---					buffer.unlock
 				end
 			end
 		end
 
 	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; a_pixmap: EV_PIXMAP)
 		local
-			rectangle: EL_RECTANGLE
+			scaled: EL_RECTANGLE
 		do
-			create rectangle.make_scaled_for_widget (a_pixmap, dimension, size)
-			make_with_size (rectangle.width, rectangle.height)
-			if is_rgb_24_format then
-				lock
-			end
-			draw_scaled_pixmap (0, 0, size, dimension, a_pixmap)
+			create scaled.make_scaled_for_widget (dimension, a_pixmap, size)
+			make_with_size (scaled.width, scaled.height)
+			lock
+			draw_scaled_pixmap (dimension, 0, 0, size, a_pixmap)
 			if is_rgb_24_format then
 				adjust_color_channels
-				unlock
 			end
+			unlock
 		end
 
 	make_with_size (a_width, a_height: INTEGER)
-		local
-			surface: EL_CAIRO_SURFACE_I
 		do
 			if is_rgb_24_format then
 				make_rgb_24_with_size (a_width, a_height)
 			else
-				create {EL_CAIRO_SURFACE_IMP} surface.make_argb_32 (a_width, a_height)
-				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
+				cairo_context := new_cairo (create {EL_CAIRO_SURFACE_IMP}.make_argb_32 (a_width, a_height))
 			end
 		end
 
@@ -234,15 +213,12 @@ feature -- Element change
 		end
 
 	set_with_path (file_path: EL_FILE_PATH)
-		local
-			surface: EL_CAIRO_SURFACE_I
 		do
 			if is_rgb_24_format then
 				cairo_context := Void
 				set_rgb_24_with_path (file_path)
 			else
-				create {EL_CAIRO_SURFACE_IMP} surface.make_from_file (file_path)
-				create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
+				cairo_context := new_cairo (create {EL_CAIRO_SURFACE_IMP}.make_from_file (file_path))
 			end
 		end
 
@@ -270,9 +246,8 @@ feature -- Basic operations
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
-			if attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
-				draw_pixel_buffer (x, y, buffer)
-				buffer.unlock
+			if attached cairo_context as c then
+				c.draw_pixmap (x, y, a_pixmap)
 			end
 		end
 
@@ -325,38 +300,27 @@ feature -- Basic operations
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
-			if attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
-				draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
-				buffer.unlock
+			if attached cairo_context as c then
+				c.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 			end
 		end
 
-	draw_scaled_pixel_buffer (x, y, a_size: INTEGER; dimension: NATURAL_8; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, a_size: INTEGER; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit and a_buffer.locked_for_rgb_24_bit
 			valid_dimension: is_valid_dimension (dimension)
-		local
-			scale_factor: DOUBLE
 		do
-			save
-			inspect dimension
-				when By_width then
-					scale_factor := a_size / a_buffer.width
-				when By_height then
-					scale_factor := a_size / a_buffer.height
-			else end
-			scale (scale_factor, scale_factor)
-			draw_pixel_buffer (x, y, a_buffer)
-			restore
+			if attached cairo_context as c then
+				c.draw_scaled_pixel_buffer (dimension, x, y, a_size, a_buffer)
+			end
 		end
 
-	draw_scaled_pixmap (x, y, a_size: INTEGER; dimension: NATURAL_8; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: INTEGER; a_pixmap: EV_PIXMAP)
 		require
 			locked_for_rgb_24_bit: locked_for_rgb_24_bit
 		do
-			if attached new_locked_rgb_24_buffer (a_pixmap) as buffer then
-				draw_scaled_pixel_buffer (x, y, a_size, dimension, buffer)
-				buffer.unlock
+			if attached cairo_context as c then
+				c.draw_scaled_pixmap (dimension, x, y, a_size, a_pixmap)
 			end
 		end
 
@@ -484,11 +448,10 @@ feature -- Status change
 	lock
 		require else
 			unlocked: not is_locked
-		local
-			surface: EL_CAIRO_SURFACE_I
 		do
-			create {EL_CAIRO_SURFACE_IMP} surface.make_with_rgb_24_data (pixel_data, width, height)
-			create {EL_PANGO_CAIRO_CONTEXT_IMP} cairo_context.make (surface)
+			if is_rgb_24_format then
+				cairo_context := new_cairo (create {EL_CAIRO_SURFACE_IMP}.make_with_rgb_24_data (pixel_data, width, height))
+			end
 			lock_rgb_24
 		end
 
@@ -535,7 +498,9 @@ feature -- Status change
 			locked: is_locked
 		do
 			if is_locked then
-				cairo_context := Void
+				if is_rgb_24_format then
+					cairo_context := Void
+				end
 				unlock_rgb_24
 			end
 		end
@@ -548,7 +513,7 @@ feature -- Contract Support
 			Result := is_rgb_24_format implies is_locked
 		end
 
-feature {EV_ANY, EV_ANY_I} -- Implementation
+feature {EV_ANY, EV_ANY_I} -- Internal attributes
 
 	interface: detachable EL_DRAWABLE_PIXEL_BUFFER note option: stable attribute end;
 
@@ -558,10 +523,10 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_locked_rgb_24_buffer (a_pixmap: EV_PIXMAP): EL_DRAWABLE_PIXEL_BUFFER
+	new_cairo (surface: EL_CAIRO_SURFACE_I): EL_PANGO_CAIRO_CONTEXT_I
+		-- new cairo context
 		do
-			create Result.make_with_pixmap (24, a_pixmap)
-			Result.lock
+			create {EL_PANGO_CAIRO_CONTEXT_IMP} Result.make (surface)
 		end
 
 feature {NONE} -- Deferred implementation
@@ -571,15 +536,8 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-feature {EL_DRAWABLE_CAIRO_CONTEXT} -- Internal attributes
+feature {EL_DRAWABLE_CAIRO_CONTEXT_I} -- Internal attributes
 
 	cairo_context: detachable EL_PANGO_CAIRO_CONTEXT_I
-
-feature {NONE} -- Constants
-
-	Default_managed_pointer: MANAGED_POINTER
-		once
-			create Result.share_from_pointer (default_pointer, 0)
-		end
 
 end

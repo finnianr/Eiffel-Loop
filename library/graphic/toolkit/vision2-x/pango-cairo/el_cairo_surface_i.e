@@ -15,18 +15,16 @@ deferred class
 inherit
 	EL_OWNED_C_OBJECT
 		export
-			{EL_CAIRO_COMMAND_CONTEXT, EL_PNG_IMAGE_FILE} self_ptr
+			{EL_SHARED_CAIRO_API} self_ptr, dispose
 		end
 
 	EL_SHARED_CAIRO_API
-
-	EL_CAIRO_CONSTANTS
 
 feature {NONE} -- Initialization
 
 	make_argb_32 (a_width, a_height: INTEGER)
 		do
-			make_from_pointer (Cairo.new_image_surface (Cairo_format_ARGB_32, a_width, a_height))
+			make_from_pointer (Cairo.new_image_surface (Cairo.Format_ARGB_32, a_width, a_height))
 		end
 
 	make_from_file (file_path: EL_FILE_PATH)
@@ -46,27 +44,43 @@ feature {NONE} -- Initialization
 
 	make_rgb_24 (a_width, a_height: INTEGER)
 		do
-			make_from_pointer (Cairo.new_image_surface (Cairo_format_RGB_24, a_width, a_height))
+			make_from_pointer (Cairo.new_image_surface (Cairo.Format_RGB_24, a_width, a_height))
 		end
 
 	make_with_argb_32_data (pixel_data: POINTER; a_width, a_height: INTEGER)
 		do
-			make_with_data (pixel_data, Cairo_format_ARGB_32, a_width, a_height)
+			make_with_data (pixel_data, Cairo.Format_ARGB_32, a_width, a_height)
 		end
 
-	make_with_data (pixel_data: POINTER; format, a_width, a_height: INTEGER)
+	make_with_buffer (buffer: EV_PIXEL_BUFFER)
+		deferred
+		end
+
+	make_with_data (pixel_data: POINTER; a_format, a_width, a_height: INTEGER)
 		require
-			valid_format: format = Cairo_format_ARGB_32 or format = Cairo_format_RGB_24
+			valid_format: Cairo.is_valid_format (a_format)
 		local
 			stride: INTEGER
 		do
-			stride := Cairo.format_stride_for_width (format, a_width)
-			make_from_pointer (Cairo.new_image_surface_for_data (pixel_data, format, a_width, a_height, stride))
+			stride := Cairo.format_stride_for_width (a_format, a_width)
+			make_from_pointer (Cairo.new_image_surface_for_data (pixel_data, a_format, a_width, a_height, stride))
 		end
 
 	make_with_rgb_24_data (pixel_data: POINTER; a_width, a_height: INTEGER)
 		do
-			make_with_data (pixel_data, Cairo_format_RGB_24, a_width, a_height)
+			make_with_data (pixel_data, Cairo.Format_RGB_24, a_width, a_height)
+		end
+
+feature -- Access
+
+	data: POINTER
+		do
+			Result := Cairo.surface_data (self_ptr)
+		end
+
+	format: INTEGER
+		do
+			Result := Cairo.surface_format (self_ptr)
 		end
 
 feature -- Measurement
@@ -100,6 +114,15 @@ feature -- Basic operations
 			Cairo.surface_mark_dirty (self_ptr)
 		end
 
+	save_as (file_path: EL_FILE_PATH)
+			-- Save as png file
+		local
+			file_out: EL_PNG_IMAGE_FILE
+		do
+			create file_out.make_open_write (file_path)
+			file_out.put_image (self_ptr)
+			file_out.close
+		end
 feature -- Status query
 
 	is_initialized: BOOLEAN
@@ -107,7 +130,7 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-feature {EL_DRAWABLE_CAIRO_CONTEXT} -- Implementation
+feature {EL_DRAWABLE_CAIRO_CONTEXT_I} -- Implementation
 
 	c_free (this: POINTER)
 		do

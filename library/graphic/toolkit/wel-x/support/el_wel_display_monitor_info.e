@@ -14,8 +14,13 @@ class
 
 inherit
 	EL_ALLOCATED_C_OBJECT
+		rename
+			c_size_of as c_size_of_monitor_info_struct
+		end
 
-	EL_WEL_DISPLAY_MONITOR_API
+	EL_WEL_DISPLAY_MONITOR_API undefine copy, is_equal end
+
+	EL_WEL_CONVERSION undefine copy, is_equal end
 
 	EL_MODULE_DIRECTORY
 
@@ -25,8 +30,6 @@ inherit
 
 	EL_MODULE_REG_KEY
 
-	EL_WEL_CONVERSION
-
 create
 	make
 
@@ -35,11 +38,10 @@ feature {NONE} -- Initialization
 	make
 			--
 		local
-			monitor: POINTER
-			point: WEL_POINT
+			monitor: POINTER; point: WEL_POINT
 		do
+			make_default
 			create EDID.make (0)
-			make_with_size (c_size_of_monitor_info_struct)
 			cwin_set_struct_size (self_ptr, c_size_of_monitor_info_struct)
 
 			create point.make (0, 0)

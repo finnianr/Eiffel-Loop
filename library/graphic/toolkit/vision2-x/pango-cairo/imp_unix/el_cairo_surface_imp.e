@@ -20,6 +20,15 @@ inherit
 create
 	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
 
+feature {NONE} -- Initialization
+
+	make_with_buffer (buffer: EV_PIXEL_BUFFER)
+		do
+			if attached {EV_PIXEL_BUFFER_IMP} buffer.implementation as imp then
+				make_with_argb_32_data (imp.data_ptr, buffer.width, buffer.height)
+			end
+		end
+
 feature -- Status change
 
 	set_surface_color_order

@@ -475,7 +475,7 @@ feature -- Element change
 --			Curl already does url encoding
 			set_curl_string_8_option (CURLOPT_url, l_encoded)
 			-- Essential calls for using https
-			if URI.is_http (a_url) then
+			if URI.is_https (a_url) then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end

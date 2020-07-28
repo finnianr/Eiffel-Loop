@@ -15,9 +15,9 @@ deferred class
 inherit
 	EV_PIXMAP_I
 
-feature -- Conversion
+feature {EL_PIXMAP} -- Initialization
 
-	to_jpeg (quality: NATURAL): EL_JPEG_IMAGE_I
+	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
 		deferred
 		end
 

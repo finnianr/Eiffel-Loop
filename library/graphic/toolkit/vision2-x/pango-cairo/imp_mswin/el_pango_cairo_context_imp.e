@@ -14,6 +14,9 @@ class
 
 inherit
 	EL_PANGO_CAIRO_CONTEXT_I
+		redefine
+			draw_scaled_pixel_buffer
+		end
 
 	EL_MODULE_SYSTEM_FONTS
 
@@ -32,6 +35,26 @@ feature {NONE} -- Implementation
 				font.preferred_families.start
 				font.preferred_families.replace (substitute_fonts.found_item.to_string_32)
 			end
+		end
+
+	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		-- Using this pattern example to scale buffer
+		-- https://cpp.hotexamples.com/examples
+		-- /-/-/cairo_pattern_create_for_surface/cpp-cairo_pattern_create_for_surface-function-examples.html
+		do
+			buffer.lock
+			if attached {EL_DRAWABLE_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
+				draw_scaled_surface (dimension, x, y, size, imp_buffer.cairo_context.surface)
+			end
+			buffer.unlock
+		end
+
+	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EL_PIXMAP)
+		local
+			scaled: EL_PIXMAP
+		do
+			create scaled.make_scaled_to_size (a_pixmap, dimension, a_size.rounded)
+			draw_pixmap (x, y, scaled)
 		end
 
 	set_source_color

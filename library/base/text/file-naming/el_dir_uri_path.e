@@ -24,7 +24,7 @@ inherit
 	EL_DIR_PATH
 		undefine
 			append_file_prefix, default_create, make, make_from_other, escaped,
-			is_equal, is_less, is_uri,
+			is_absolute, is_equal, is_less, is_uri,
 			Type_parent, Separator,
 			set_path, part_count, part_string
 		redefine

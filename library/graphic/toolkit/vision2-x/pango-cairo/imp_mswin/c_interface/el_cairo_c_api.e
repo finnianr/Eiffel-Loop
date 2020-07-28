@@ -1,5 +1,5 @@
 note
-	description: "Cairo c api"
+	description: "Cairo C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -89,6 +89,16 @@ feature -- Access
 			]"
 		end
 
+	frozen cairo_version (function: POINTER): INTEGER
+			-- int cairo_version (void);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (FUNCTION_CAST(int, ())$function) ()
+			]"
+		end
+
 feature -- Factory
 
 	frozen cairo_create (function, surface_ptr: POINTER): POINTER
@@ -111,6 +121,7 @@ feature -- Factory
 			-- cairo_surface_t * cairo_win32_surface_create (HDC hdc);		
 		require
 			fn_ptr_attached: is_attached (function)
+			hdc_attached: is_attached (hdc)
 		external
 			"C inline use <cairo.h>"
 		alias
@@ -119,6 +130,39 @@ feature -- Factory
 					FUNCTION_CAST(cairo_surface_t *, (HDC))$function
 				) (
 					(HDC)$hdc
+				)
+			]"
+		end
+
+	frozen cairo_win32_surface_create_with_format (function, hdc: POINTER; format: INTEGER): POINTER
+			-- cairo_surface_t * cairo_win32_surface_create_with_format (HDC hdc, cairo_format_t format);
+		require
+			fn_ptr_attached: is_attached (function)
+			hdc_attached: is_attached (hdc)
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(cairo_surface_t *, (HDC, cairo_format_t))$function
+				) (
+					(HDC)$hdc, (cairo_format_t)$format
+				)
+			]"
+		end
+
+	frozen cairo_win32_surface_get_dc (function, surface_ptr: POINTER): POINTER
+			-- HDC cairo_win32_surface_get_dc (cairo_surface_t *surface);
+		require
+			fn_ptr_attached: is_attached (function)
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(HDC, (cairo_surface_t *))$function
+				) (
+					(cairo_surface_t *)$surface_ptr
 				)
 			]"
 		end
@@ -169,7 +213,38 @@ feature -- Factory
 			]"
 		end
 
+	frozen cairo_pattern_create_for_surface (function, surface: POINTER): POINTER
+		-- cairo_pattern_t * cairo_pattern_create_for_surface (cairo_surface_t *surface);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(cairo_pattern_t *, (cairo_surface_t *))$function
+				) (
+					(cairo_surface_t *)$surface
+				)
+			]"
+		end
+
 feature -- Status setting
+
+	frozen cairo_matrix_init_scale (function, matrix: POINTER; sx, sy: DOUBLE)
+		-- Initializes matrix to a transformation that scales by `scale_x', `scale_y'
+		-- in the X and Y dimensions, respectively.
+
+		-- void cairo_matrix_init_scale (cairo_matrix_t *matrix, double sx, double sy);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_matrix_t *, double, double))$function
+				) (
+					(cairo_matrix_t *)$matrix, (double)$sx, (double)$sy
+				)
+			]"
+		end
 
 	frozen cairo_surface_finish (function, surface: POINTER)
 			-- void cairo_surface_finish (cairo_surface_t *surface);
@@ -215,8 +290,24 @@ feature -- Status setting
 
 feature -- Element change
 
+	frozen cairo_pattern_set_matrix (function, pattern, matrix: POINTER)
+		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);
+		require
+			fn_ptr_attached: is_attached (function)
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_pattern_t *, cairo_matrix_t *))$function
+				) (
+					(cairo_pattern_t *)$pattern, (cairo_matrix_t *)$matrix
+				)
+			]"
+		end
+
 	frozen cairo_set_antialias (function, context: POINTER; a_antialias: INTEGER)
-			-- void cairo_set_antialias (cairo_t *cr, cairo_antialias_t antialias);
+		-- void cairo_set_antialias (cairo_t *cr, cairo_antialias_t antialias);
 		require
 			fn_ptr_attached: is_attached (function)
 		external
@@ -259,6 +350,20 @@ feature -- Element change
 					FUNCTION_CAST(void, (cairo_t *, double))$function
 				) (
 					(cairo_t *)$context, (double)$size
+				)
+			]"
+		end
+
+	cairo_set_source (function, context, pattern: POINTER)
+			-- void cairo_set_source (cairo_t *cr, cairo_pattern_t *source);
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_t *, cairo_pattern_t *))$function
+				) (
+					(cairo_t *)$context, (cairo_pattern_t *)$pattern
 				)
 			]"
 		end
@@ -664,6 +769,21 @@ feature -- C memory release
 			]"
 		end
 
+	frozen cairo_pattern_destroy  (function, pattern_ptr: POINTER)
+			-- void cairo_pattern_destroy (cairo_pattern_t *pattern);
+		require
+			fn_ptr_attached: is_attached (function)
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_pattern_t*))$function
+				) (
+					(cairo_pattern_t*)$pattern_ptr
+				)
+			]"
+		end
 	frozen cairo_surface_destroy (function, surface_ptr: POINTER)
 			-- void cairo_surface_destroy (cairo_surface_t *surface);
 		require

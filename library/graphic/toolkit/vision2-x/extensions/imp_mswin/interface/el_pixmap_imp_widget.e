@@ -9,7 +9,7 @@ note
 	date: "2020-07-03 13:14:59 GMT (Friday 3rd July 2020)"
 	revision: "2"
 
-class 
+class
 	EL_PIXMAP_IMP_WIDGET
 
 inherit
@@ -35,18 +35,23 @@ inherit
 
 	EL_PIXMAP_TO_JPEG_IMP
 
-create 
-	make_with_simple,
-	make_with_drawable
+create
+	make_with_simple, make_with_drawable
 
-feature {EV_ANY, EV_ANY_I} 
+feature {NONE} -- Initialization
+
+	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+		do
+		end
+
+feature {EV_ANY, EV_ANY_I} -- Internal attributes
 
 	interface: EL_PIXMAP
 		note
 			option: stable
 		attribute
 		end
-	
+
 end -- class EL_PIXMAP_IMP_WIDGET
 
 

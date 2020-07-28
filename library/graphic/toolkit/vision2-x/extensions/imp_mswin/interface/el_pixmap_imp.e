@@ -37,6 +37,36 @@ inherit
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+		local
+			src_bitmap, dest_bitmap: WEL_GDIP_BITMAP; area: EL_RECTANGLE
+			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT
+		do
+			create area.make_scaled_for_widget (dimension, other, size)
+			create dest_bitmap.make_with_size (area.width, area.height)
+
+			if attached {EV_PIXMAP_IMP} other.implementation as imp_other then
+				create src_bitmap.make_from_bitmap (imp_other.get_bitmap, imp_other.palette)
+				create graphics.make_from_image (dest_bitmap)
+
+				create source_rect.make (0, 0, other.width, other.height)
+				create dest_rect.make (0, 0, area.width, area.height)
+
+				graphics.draw_image_with_dest_rect_src_rect (src_bitmap, dest_rect, source_rect)
+
+				dest_rect.dispose; source_rect.dispose
+				graphics.destroy_item
+
+				set_bitmap_and_mask (dest_bitmap.new_bitmap, Void, dest_bitmap.width, dest_bitmap.height)
+				check
+					dimensions_match: height = area.height and width = area.width
+				end
+				set_is_initialized (True)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	promote_to_drawable

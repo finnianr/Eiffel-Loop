@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			pixel_data := data_ptr
 			Image_utils.format_argb_to_abgr (pixel_data, width * height)
 
-			self_ptr := Cairo.new_image_surface_for_data (pixel_data, Cairo_format_RGB_24, width, height, stride)
+			self_ptr := Cairo.new_image_surface_for_data (pixel_data, Cairo.Format_RGB_24, width, height, stride)
 		end
 
 feature -- Status query

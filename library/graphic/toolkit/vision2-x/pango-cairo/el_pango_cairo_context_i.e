@@ -13,7 +13,7 @@ deferred class
 	EL_PANGO_CAIRO_CONTEXT_I
 
 inherit
-	EL_DRAWABLE_CAIRO_CONTEXT
+	EL_DRAWABLE_CAIRO_CONTEXT_I
 		redefine
 			make, c_free
 		end

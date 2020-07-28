@@ -26,7 +26,7 @@ inherit
 			{ANY} Forward_slash
 		redefine
 			append_file_prefix, default_create, make, make_from_other, escaped,
-			is_uri, is_equal, is_less,
+			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string,
 			Separator, Type_parent
 		end
@@ -97,8 +97,6 @@ feature -- Initialization
 		do
 			if attached {EL_URI_PATH} a_path as l_uri_path then
 				make_from_other (l_uri_path)
-			elseif {PLATFORM}.is_windows then
-				make_file (Forward_slash + a_path.as_unix.to_string)
 			else
 				make_scheme (Protocol_name.file, a_path)
 			end
@@ -136,10 +134,16 @@ feature -- Initialization
 			if attached {EL_URI_PATH} a_path as l_uri_path then
 				make_from_other (l_uri_path)
 			else
-				create l_path.make (a_scheme.count + Colon_slash_x2.count + a_path.count)
+				create l_path.make (a_scheme.count + Colon_slash_x2.count + a_path.count + 1)
 				l_path.append_string_general (a_scheme)
 				l_path.append_string_general (Colon_slash_x2)
+				if {PLATFORM}.is_windows and a_path.is_absolute then
+					l_path.append_character (separator)
+				end
 				a_path.append_to (l_path)
+				if {PLATFORM}.is_windows then
+					l_path.replace_character (Windows_separator, separator)
+				end
 				make (l_path)
 			end
 		end
@@ -178,6 +182,13 @@ feature -- Element change
 		end
 
 feature -- Status query
+
+	is_absolute: BOOLEAN
+		do
+			if attached parent_path as str then
+				Result := not str.is_empty and then str [1] = Separator
+			end
+		end
 
 	is_uri: BOOLEAN
 		do
