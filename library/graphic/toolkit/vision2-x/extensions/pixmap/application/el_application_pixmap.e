@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-04 15:11:45 GMT (Saturday 4th July 2020)"
-	revision: "12"
+	date: "2020-07-28 15:00:17 GMT (Tuesday 28th July 2020)"
+	revision: "13"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -160,7 +160,7 @@ feature -- PNG
 			size_pixels: INTEGER
 		do
 			size_pixels := Screen.dimension_pixels (dimension, distance_cms)
-			create Result.make_scaled_to_size (pixmap (relative_path_steps), dimension, size_pixels)
+			create Result.make_scaled_to_size (dimension, pixmap (relative_path_steps), size_pixels)
 		end
 
 feature -- SVG

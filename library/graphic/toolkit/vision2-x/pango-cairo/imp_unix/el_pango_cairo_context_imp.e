@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 9:23:43 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-28 13:16:13 GMT (Tuesday 28th July 2020)"
+	revision: "4"
 
 class
 	EL_PANGO_CAIRO_CONTEXT_IMP
@@ -24,21 +24,6 @@ feature {NONE} -- Implementation
 
 	check_font_availability
 		do
-		end
-
-	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
-		local
-			factor: DOUBLE
-		do
-			save
-			if dimension = By_width then
-				factor := a_size / a_pixmap.width
-			else
-				factor := a_size / a_pixmap.height
-			end
-			scale_by (factor)
-			draw_pixmap ((x / factor).rounded, (y / factor).rounded, a_pixmap)
-			restore
 		end
 
 	set_source_color

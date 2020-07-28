@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:30:57 GMT (Tuesday 14th July 2020)"
-	revision: "5"
+	date: "2020-07-28 14:58:09 GMT (Tuesday 28th July 2020)"
+	revision: "6"
 
 class
 	EL_PIXMAP_IMP
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		local
 			src_bitmap, dest_bitmap: WEL_GDIP_BITMAP; area: EL_RECTANGLE
 			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT

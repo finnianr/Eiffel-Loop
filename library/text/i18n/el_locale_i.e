@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-19 14:45:35 GMT (Sunday 19th July 2020)"
-	revision: "14"
+	date: "2020-07-19 18:36:19 GMT (Sunday 19th July 2020)"
+	revision: "15"
 
 deferred class
 	EL_LOCALE_I

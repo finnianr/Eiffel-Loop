@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:23:31 GMT (Monday 25th May 2020)"
-	revision: "10"
+	date: "2020-07-27 11:00:56 GMT (Monday 27th July 2020)"
+	revision: "11"
 
 class
 	DUPLICITY_BACKUP

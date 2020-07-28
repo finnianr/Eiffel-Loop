@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-10 8:56:31 GMT (Friday 10th July 2020)"
-	revision: "9"
+	date: "2020-07-28 13:34:12 GMT (Tuesday 28th July 2020)"
+	revision: "10"
 
 class
 	EL_CAIRO_C_API
@@ -289,6 +289,22 @@ feature -- Status setting
 		end
 
 feature -- Element change
+
+	frozen cairo_pattern_set_filter (function, pattern: POINTER; filter: INTEGER)
+		-- void cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+		require
+			fn_ptr_attached: is_attached (function)
+		external
+			"C inline use <cairo.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (cairo_pattern_t *, cairo_filter_t))$function
+				) (
+					(cairo_pattern_t *)$pattern, (cairo_filter_t)$filter
+				)
+			]"
+		end
 
 	frozen cairo_pattern_set_matrix (function, pattern, matrix: POINTER)
 		-- void cairo_pattern_set_matrix (cairo_pattern_t *pattern, const cairo_matrix_t *matrix);

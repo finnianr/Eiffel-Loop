@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-19 11:52:59 GMT (Sunday 19th July 2020)"
-	revision: "11"
+	date: "2020-07-26 9:01:32 GMT (Sunday 26th July 2020)"
+	revision: "12"
 
 class
 	EL_TEXT_RECTANGLE

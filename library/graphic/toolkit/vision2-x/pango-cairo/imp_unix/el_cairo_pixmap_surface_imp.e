@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 17:43:24 GMT (Monday 13th July 2020)"
-	revision: "2"
+	date: "2020-07-28 16:21:59 GMT (Tuesday 28th July 2020)"
+	revision: "3"
 
 class
 	EL_CAIRO_PIXMAP_SURFACE_IMP
 
 inherit
-	EL_CAIRO_PIXMAP_SURFACE_I
+	EL_CAIRO_PIXEL_BUFFER_SURFACE_I
 		undefine
 			height, width, dispose, is_initialized
 		end
@@ -27,20 +27,19 @@ inherit
 
 	EV_PIXEL_BUFFER_IMP
 		rename
-			make as make_buffer,
-			make_with_pixmap as make
+			make as make_buffer
 		redefine
-			make, dispose, is_initialized
+			make_with_pixmap, dispose, is_initialized
 		end
 
 	EL_SHARED_IMAGE_UTILS_API
 
 create
-	make
+	make_with_pixmap
 
 feature {NONE} -- Initialization
 
-	make (a_pixmap: EV_PIXMAP)
+	make_with_pixmap (a_pixmap: EV_PIXMAP)
 		local
 			pixel_data: POINTER
 		do

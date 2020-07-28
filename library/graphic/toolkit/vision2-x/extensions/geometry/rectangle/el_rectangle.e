@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-19 14:14:11 GMT (Sunday 19th July 2020)"
-	revision: "14"
+	date: "2020-07-28 18:34:56 GMT (Tuesday 28th July 2020)"
+	revision: "15"
 
 class
 	EL_RECTANGLE
@@ -191,7 +191,7 @@ feature -- Element change
 				height := size
 			end
 		ensure
-			proportions_unchanged: approximately_equal (old (height / width), height / width, 0.02)
+			proportions_unchanged: approximately_equal (old (height / width), height / width, 0.03)
 		end
 
 	scale_to_width (a_width: INTEGER)

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 13:14:08 GMT (Friday 3rd July 2020)"
-	revision: "2"
+	date: "2020-07-28 14:58:42 GMT (Tuesday 28th July 2020)"
+	revision: "3"
 
 class
 	EL_PIXMAP_IMP_DRAWABLE
@@ -42,7 +42,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		do
 		end
 

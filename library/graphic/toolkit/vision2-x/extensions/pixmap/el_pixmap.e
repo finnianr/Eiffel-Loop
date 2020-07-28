@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 12:03:45 GMT (Saturday 18th July 2020)"
-	revision: "18"
+	date: "2020-07-28 15:00:01 GMT (Tuesday 28th July 2020)"
+	revision: "19"
 
 class
 	EL_PIXMAP
@@ -72,20 +72,20 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_height (other: EV_PIXMAP; a_height: INTEGER)
 		do
-			make_scaled_to_size (other, By_height, a_height)
+			make_scaled_to_size (By_height, other, a_height)
 		end
 
-	make_scaled_to_size (other: EV_PIXMAP; dimension: NATURAL_8; size: INTEGER)
+	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
 			default_create
-			implementation.make_scaled_to_size (other, dimension, size)
+			implementation.make_scaled_to_size (dimension, other, size)
 		end
 
 	make_scaled_to_width (other: EV_PIXMAP; a_width: INTEGER)
 		do
-			make_scaled_to_size (other, By_width, a_width)
+			make_scaled_to_size (By_width, other, a_width)
 		end
 
 	make_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)

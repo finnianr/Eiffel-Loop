@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-10 8:56:55 GMT (Friday 10th July 2020)"
-	revision: "5"
+	date: "2020-07-28 13:32:29 GMT (Tuesday 28th July 2020)"
+	revision: "6"
 
 class
 	EL_CAIRO_API_POINTERS
@@ -73,6 +73,8 @@ feature {EL_DYNAMIC_MODULE} -- Functions L - P
 	pattern_create_for_surface: POINTER
 
 	pattern_destroy: POINTER
+
+	pattern_set_filter: POINTER
 
 	pattern_set_matrix: POINTER
 

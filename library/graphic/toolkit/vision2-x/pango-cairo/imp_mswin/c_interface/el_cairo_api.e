@@ -1,6 +1,5 @@
 note
 	description: "Windows implementation of [$source EL_CAIRO_I]"
-
 	notes: "Using Cairo version 1.12.16 from package gtk+-bundle_3.10.4-20131202_win64.zip"
 
 	author: "Finnian Reilly"
@@ -8,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-10 9:14:21 GMT (Friday 10th July 2020)"
-	revision: "9"
+	date: "2020-07-28 13:35:27 GMT (Tuesday 28th July 2020)"
+	revision: "10"
 
 class
 	EL_CAIRO_API
@@ -168,6 +167,12 @@ feature -- Element change
 			-- void cairo_set_line_width (cairo_t *cr, double width);
 		do
 			cairo_set_line_width (api.set_line_width, context, size)
+		end
+
+	set_pattern_filter (pattern: POINTER; filter: INTEGER)
+		-- void cairo_pattern_set_filter (cairo_pattern_t *pattern, cairo_filter_t filter);
+		do
+			cairo_pattern_set_filter (api.pattern_set_filter, pattern, filter)
 		end
 
 	set_pattern_matrix (pattern, matrix: POINTER)

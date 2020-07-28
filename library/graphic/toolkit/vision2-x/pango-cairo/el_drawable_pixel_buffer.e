@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:42:58 GMT (Tuesday 14th July 2020)"
-	revision: "22"
+	date: "2020-07-28 16:05:01 GMT (Tuesday 28th July 2020)"
+	revision: "23"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER

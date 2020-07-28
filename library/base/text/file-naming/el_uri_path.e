@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-09 10:19:17 GMT (Thursday 9th July 2020)"
-	revision: "22"
+	date: "2020-07-22 11:37:20 GMT (Wednesday 22nd July 2020)"
+	revision: "23"
 
 deferred class
 	EL_URI_PATH

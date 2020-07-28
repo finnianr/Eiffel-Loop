@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-13 10:08:01 GMT (Monday 13th July 2020)"
-	revision: "3"
+	date: "2020-07-28 15:49:05 GMT (Tuesday 28th July 2020)"
+	revision: "4"
 
 deferred class
 	EL_DRAWABLE_CAIRO_CONTEXT_I
@@ -227,6 +227,46 @@ feature -- Status change
 			surface.set_surface_color_order
 		end
 
+feature -- Drawing alternatives
+
+	draw_scaled_pixel_buffer_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+		-- alternative way to implement `draw_scaled_pixel_buffer' using scaled pattern
+		-- Which is better? not sure.
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			factor: DOUBLE
+		do
+			save
+			if dimension = By_width then
+				factor := a_size / a_buffer.width
+			else
+				factor := a_size / a_buffer.height
+			end
+			scale_by (factor)
+			draw_pixel_buffer (x / factor, y / factor, a_buffer)
+			restore
+		end
+
+	draw_scaled_pixmap_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
+		-- alternative way to implement `draw_scaled_pixmap' using scaled pattern
+		-- Seems to produce identical results when screenshot inspected in image viewer
+		require
+			valid_dimension: is_valid_dimension (dimension)
+		local
+			factor: DOUBLE
+		do
+			save
+			if dimension = By_width then
+				factor := a_size / a_pixmap.width
+			else
+				factor := a_size / a_pixmap.height
+			end
+			scale_by (factor)
+			draw_pixmap ((x / factor).rounded, (y / factor).rounded, a_pixmap)
+			restore
+		end
+
 feature -- Drawing operations
 
 	draw_line (x1, y1, x2, y2: INTEGER)
@@ -254,9 +294,9 @@ feature -- Drawing operations
 
 	draw_pixmap (x, y: DOUBLE; pixmap: EV_PIXMAP)
 		local
-			l_surface: EL_CAIRO_PIXMAP_SURFACE_I
+			l_surface: EL_CAIRO_PIXEL_BUFFER_SURFACE_I
 		do
-			create {EL_CAIRO_PIXMAP_SURFACE_IMP} l_surface.make (pixmap)
+			create {EL_CAIRO_PIXEL_BUFFER_SURFACE_IMP} l_surface.make_with_pixmap (pixmap)
 			draw_surface (x, y, l_surface)
 			l_surface.destroy
 		end
@@ -311,27 +351,11 @@ feature -- Drawing operations
 			buffer.unlock
 		end
 
-	draw_scaled_pixel_bufferX (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		require
-			valid_dimension: is_valid_dimension (dimension)
-		local
-			factor: DOUBLE
-		do
-			save
-			if dimension = By_width then
-				factor := a_size / a_buffer.width
-			else
-				factor := a_size / a_buffer.height
-			end
-			scale_by (factor)
-			draw_pixel_buffer (x / factor, y / factor, a_buffer)
-			restore
-		end
-
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
 		require
 			valid_dimension: is_valid_dimension (dimension)
-		deferred
+		do
+			draw_scaled_surface (dimension, x, y, a_size, create {EL_CAIRO_PIXEL_BUFFER_SURFACE_IMP}.make_with_pixmap (a_pixmap))
 		end
 
 	draw_scaled_surface (dimension: NATURAL_8; x, y, size: DOUBLE; a_surface: EL_CAIRO_SURFACE_I)
