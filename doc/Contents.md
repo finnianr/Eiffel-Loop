@@ -409,6 +409,8 @@ Various extensions for the [EiffelVision2](https://www.eiffel.org/resources/libr
 Classes for 2D geometry and graphical drawing
 ## Pango-Cairo 2D Graphics
 Eiffel interface to the [Cairo 2D graphics library](https://cairographics.org/) providing pixel buffer rendering with transparencies and anti-aliasing.
+## Vision2-X Pixmap Extensions
+Classes for managing pixmaps
 ## Vision2-X UI Widget Extensions
 Widgets extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library
 

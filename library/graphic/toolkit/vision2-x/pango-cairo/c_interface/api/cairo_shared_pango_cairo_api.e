@@ -1,5 +1,5 @@
 note
-	description: "Shared pango cairo api"
+	description: "Shared access to instance of class conforming to [$source CAIRO_PANGO_LAYOUT_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
