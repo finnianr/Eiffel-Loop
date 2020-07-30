@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-07-30 12:41:48 GMT (Thursday 30th July 2020)"
+	revision: "5"
 
 class
 	EL_USEABLE_SCREEN_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_USEABLE_SCREEN_I
 
-	EL_GTK_INIT_API
+	CAIRO_GTK_INIT_API
 
 	EL_OS_IMPLEMENTATION
 

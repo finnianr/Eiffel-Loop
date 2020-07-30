@@ -75,7 +75,9 @@ publish-repository:
 			"library/html-viewer.ecf"
 			"library/vision2-x.ecf#container"
 			"library/vision2-x.ecf#extensions"
+			"library/vision2-x.ecf#graphics_2D"
 			"library/vision2-x.ecf#pango_cairo"
+			"library/vision2-x.ecf#pixmap"	
 			"library/vision2-x.ecf#widget"
 			"library/wel-x.ecf"
 

@@ -104,13 +104,31 @@ CLUSTERS
 			</condition>
 		</library>
 		<!--Source clusters-->
+		<cluster name = "graphics_2D" location = "graphic/toolkit/vision2-x/graphics-2D" recursive = "true">
+			<description>
+Vision2-X 2D Graphics
+
+Classes for 2D geometry and graphical drawing
+			</description>
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
 		<cluster name = "pango_cairo" location = "graphic/toolkit/vision2-x/pango-cairo" recursive = "true">
 			<description>
 Pango-Cairo 2D Graphics
 
 Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
-providing advanced pixel buffer rendering with transparencies and anti-aliasing.
-See class [$source EL_DRAWABLE_PIXEL_BUFFER].
+providing pixel buffer rendering with transparencies and anti-aliasing.
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
@@ -152,6 +170,25 @@ Window, dialogs and other widget-container extensions for the
 [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 
 See doc/vision2-x.container.txt for details
+			</description>
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+		</cluster>
+		<cluster name = "pixmap" location = "graphic/toolkit/vision2-x/pixmap" recursive = "true">
+			<description>
+Vision2-X Pixmap Extensions
+
+Classes for managing pixmaps
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

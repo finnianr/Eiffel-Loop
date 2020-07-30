@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 14:58:09 GMT (Tuesday 28th July 2020)"
-	revision: "6"
+	date: "2020-07-29 9:22:10 GMT (Wednesday 29th July 2020)"
+	revision: "7"
 
 class
 	EL_PIXMAP_IMP
@@ -34,6 +34,8 @@ inherit
 
 	EL_PIXMAP_TO_JPEG_IMP
 
+	EL_MODULE_GDI_BITMAP
+
 create
 	make
 
@@ -41,30 +43,16 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		local
-			src_bitmap, dest_bitmap: WEL_GDIP_BITMAP; area: EL_RECTANGLE
-			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT
+			src_bitmap, dest_bitmap: WEL_GDIP_BITMAP
 		do
-			create area.make_scaled_for_widget (dimension, other, size)
-			create dest_bitmap.make_with_size (area.width, area.height)
+			src_bitmap := Gdi_bitmap.new (other)
+			dest_bitmap := Gdi_bitmap.new_scaled (dimension, src_bitmap, size)
 
-			if attached {EV_PIXMAP_IMP} other.implementation as imp_other then
-				create src_bitmap.make_from_bitmap (imp_other.get_bitmap, imp_other.palette)
-				create graphics.make_from_image (dest_bitmap)
+			set_bitmap_and_mask (dest_bitmap.new_bitmap, Void, dest_bitmap.width, dest_bitmap.height)
 
-				create source_rect.make (0, 0, other.width, other.height)
-				create dest_rect.make (0, 0, area.width, area.height)
+			dest_bitmap.destroy_item; src_bitmap.destroy_item
 
-				graphics.draw_image_with_dest_rect_src_rect (src_bitmap, dest_rect, source_rect)
-
-				dest_rect.dispose; source_rect.dispose
-				graphics.destroy_item
-
-				set_bitmap_and_mask (dest_bitmap.new_bitmap, Void, dest_bitmap.width, dest_bitmap.height)
-				check
-					dimensions_match: height = area.height and width = area.width
-				end
-				set_is_initialized (True)
-			end
+			set_is_initialized (True)
 		end
 
 feature {NONE} -- Implementation

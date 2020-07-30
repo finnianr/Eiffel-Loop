@@ -158,14 +158,34 @@ system:
 
 		# Source clusters
 		cluster:
+			name = graphics_2D; location = "graphic/toolkit/vision2-x/graphics-2D"; recursive = true
+			description:
+				"""
+					Vision2-X 2D Graphics
+
+					Classes for 2D geometry and graphical drawing
+				"""
+			file_rule:
+				exclude:
+					"/imp_mswin$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/imp_unix$"
+				condition:
+					platform:
+						value = windows
+		cluster:
 			name = pango_cairo; location = "graphic/toolkit/vision2-x/pango-cairo"; recursive = true
 			description:
 				"""
 					Pango-Cairo 2D Graphics
 
 					Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library]
-					providing advanced pixel buffer rendering with transparencies and anti-aliasing.
-					See class [$source EL_DRAWABLE_PIXEL_BUFFER].
+					providing pixel buffer rendering with transparencies and anti-aliasing.
 				"""
 			file_rule:
 				exclude:
@@ -211,6 +231,28 @@ system:
 					[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 
 					See doc/vision2-x.container.txt for details
+				"""
+			file_rule:
+				exclude:
+					"/imp_mswin$"
+				condition:
+					platform:
+						value = unix
+
+			file_rule:
+				exclude:
+					"/imp_unix$"
+				condition:
+					platform:
+						value = windows
+
+		cluster:
+			name = pixmap; location = "graphic/toolkit/vision2-x/pixmap"; recursive = true
+			description:
+				"""
+					Vision2-X Pixmap Extensions
+
+					Classes for managing pixmaps
 				"""
 			file_rule:
 				exclude:
