@@ -1,13 +1,13 @@
 note
-	description: "Pixmap imp widget"
+	description: "Pixmap widget implementation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 14:58:55 GMT (Tuesday 28th July 2020)"
-	revision: "3"
+	date: "2020-07-31 13:41:16 GMT (Friday 31st July 2020)"
+	revision: "4"
 
 class
 	EL_PIXMAP_IMP_WIDGET
@@ -41,6 +41,11 @@ create
 feature {NONE} -- Initialization
 
 	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
+		do
+		end
+
+	init_from_buffer (pixel_buffer: EL_PIXEL_BUFFER)
+			-- Initialize from `pixel_buffer'
 		do
 		end
 

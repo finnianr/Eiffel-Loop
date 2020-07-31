@@ -158,7 +158,7 @@ system:
 
 		# Source clusters
 		cluster:
-			name = graphics_2D; location = "graphic/toolkit/vision2-x/graphics-2D"; recursive = true
+			name = graphics; location = "graphic/toolkit/vision2-x/graphics"; recursive = true
 			description:
 				"""
 					Vision2-X 2D Graphics

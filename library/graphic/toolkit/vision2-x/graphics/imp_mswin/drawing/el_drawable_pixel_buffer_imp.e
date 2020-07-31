@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-29 12:04:21 GMT (Wednesday 29th July 2020)"
-	revision: "15"
+	date: "2020-07-31 13:38:02 GMT (Friday 31st July 2020)"
+	revision: "16"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER_IMP
@@ -55,7 +55,7 @@ feature {EV_ANY_HANDLER} -- Access
 
 	to_gdi_bitmap: WEL_GDIP_BITMAP
 		do
-			if attached {EL_CAIRO_SURFACE_IMP} cairo_context.surface as surface then
+			if attached {CAIRO_SURFACE_IMP} cairo_context.surface as surface then
 				Result := surface.new_gdi_bitmap
 			end
 		end

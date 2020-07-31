@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:35:15 GMT (Thursday 30th July 2020)"
-	revision: "7"
+	date: "2020-07-31 13:43:42 GMT (Friday 31st July 2020)"
+	revision: "8"
 
 class
-	CAIRO_PANGO_API
+	CAIRO_PANGO_LAYOUT_API
 
 inherit
-	EL_DYNAMIC_MODULE [CAIRO_PANGO_CAIRO_API_POINTERS]
+	EL_DYNAMIC_MODULE [CAIRO_PANGO_LAYOUT_API_POINTERS]
 
 	CAIRO_PANGO_LAYOUT_I
 
-	CAIRO_PANGO_C_API
+	CAIRO_PANGO_LAYOUT_C_API
 
 create
 	make

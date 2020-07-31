@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "4"
+	date: "2020-07-31 13:38:02 GMT (Friday 31st July 2020)"
+	revision: "5"
 
 class
 	CAIRO_SURFACE_IMP
@@ -54,7 +54,7 @@ feature {EV_ANY_I} -- Implementation
 		-- copy of surface data
 		local
 			source_rect: WEL_GDIP_RECT; l_data: WEL_GDIP_BITMAP_DATA
-			l_surface: CAIRO_SURFACE_I; l_context: PANGO_CAIRO_CONTEXT_I
+			l_surface: CAIRO_SURFACE_I; l_context: CAIRO_PANGO_CONTEXT_I
 		do
 			-- Using premultiplied based on this info
 			-- https://stackoverflow.com/questions/35521246/alpha-transparency-in-cairo
@@ -63,7 +63,7 @@ feature {EV_ANY_I} -- Implementation
 			l_data := Result.lock_bits (source_rect, Write_only, Format32bppPArgb)
 
 			create {CAIRO_SURFACE_IMP} l_surface.make_with_argb_32_data (l_data.scan_0, width, height)
-			create {PANGO_CAIRO_CONTEXT_IMP} l_context.make (l_surface)
+			create {CAIRO_PANGO_CONTEXT_IMP} l_context.make (l_surface)
 			l_context.draw_surface (0, 0, Current)
 			Result.unlock_bits (l_data)
 		end

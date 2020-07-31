@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-29 9:22:10 GMT (Wednesday 29th July 2020)"
-	revision: "7"
+	date: "2020-07-31 15:09:11 GMT (Friday 31st July 2020)"
+	revision: "8"
 
 class
 	EL_PIXMAP_IMP
@@ -53,6 +53,24 @@ feature {NONE} -- Initialization
 			dest_bitmap.destroy_item; src_bitmap.destroy_item
 
 			set_is_initialized (True)
+		end
+
+	init_from_buffer (buffer: EL_PIXEL_BUFFER)
+			-- Initialize from `pixel_buffer'
+		local
+			l_bitmap: WEL_GDIP_BITMAP
+		do
+			if attached {EL_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
+				if attached private_bitmap as private then
+					private.delete
+				end
+				if attached private_mask_bitmap as private then
+					private.delete
+				end
+				l_bitmap := imp_buffer.to_gdi_bitmap
+				set_bitmap_and_mask (l_bitmap.new_bitmap, Void, imp_buffer.width, imp_buffer.height)
+				l_bitmap.destroy_item
+			end
 		end
 
 feature {NONE} -- Implementation

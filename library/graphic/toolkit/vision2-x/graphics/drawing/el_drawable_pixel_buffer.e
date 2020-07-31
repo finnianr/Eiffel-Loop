@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 16:05:01 GMT (Tuesday 28th July 2020)"
-	revision: "23"
+	date: "2020-07-31 15:47:03 GMT (Friday 31st July 2020)"
+	revision: "24"
 
 class
 	EL_DRAWABLE_PIXEL_BUFFER
@@ -274,13 +274,13 @@ feature -- Drawing operations
 		end
 
 	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; a_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
 			implementation.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, a_pixel_buffer)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
 			implementation.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 		end

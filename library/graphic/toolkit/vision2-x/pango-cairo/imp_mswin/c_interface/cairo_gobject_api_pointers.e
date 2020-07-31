@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "3"
+	date: "2020-07-31 13:36:37 GMT (Friday 31st July 2020)"
+	revision: "4"
 
 class
-	GOBJECT_API_POINTERS
+	CAIRO_GOBJECT_API_POINTERS
 
 inherit
 	EL_DYNAMIC_MODULE_POINTERS

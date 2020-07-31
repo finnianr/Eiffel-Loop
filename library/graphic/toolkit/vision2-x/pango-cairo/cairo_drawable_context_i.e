@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2020-07-31 15:50:45 GMT (Friday 31st July 2020)"
+	revision: "7"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -245,6 +245,13 @@ feature -- Drawing operations
 			end
 		end
 
+	draw_pixel_buf (x, y: DOUBLE; buffer: EL_PIXEL_BUFFER)
+		do
+			if attached buffer.implementation as l_buffer then
+				draw_surface (x, y, l_buffer.cairo.surface)
+			end
+		end
+
 	draw_pixel_buffer (x, y: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
 			if attached buffer.implementation as l_buffer then
@@ -285,6 +292,13 @@ feature -- Drawing operations
 			restore
 		end
 
+	draw_rounded_pixel_buf (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
+		do
+			set_clip_rounded_rectangle (x, y, buffer.width, buffer.height, radius, corners_bitmap)
+			draw_pixel_buf (x, y, buffer)
+			reset_clip
+		end
+
 	draw_rounded_pixel_buffer (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
 		do
 			set_clip_rounded_rectangle (x, y, buffer.width, buffer.height, radius, corners_bitmap)
@@ -297,6 +311,11 @@ feature -- Drawing operations
 			set_clip_rounded_rectangle (x, y, a_pixmap.width, a_pixmap.height, radius, corners_bitmap)
 			draw_pixmap (x, y, a_pixmap)
 			reset_clip
+		end
+
+	draw_scaled_pixel_buf (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_PIXEL_BUFFER)
+		do
+			draw_scaled_surface (dimension, x, y, size, buffer.implementation.cairo.surface)
 		end
 
 	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
@@ -500,7 +519,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, CAIRO_DRAWABLE_CONTEXT_I} -- Internal attributes
+feature {EL_DRAWABLE_PIXEL_BUFFER_I, CAIRO_DRAWABLE_CONTEXT_I, EL_PIXEL_BUFFER_I} -- Internal attributes
 
 	surface: CAIRO_SURFACE_I
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:39:27 GMT (Thursday 30th July 2020)"
-	revision: "3"
+	date: "2020-07-31 12:47:03 GMT (Friday 31st July 2020)"
+	revision: "4"
 
 deferred class
 	CAIRO_SURFACE_I
@@ -27,14 +27,14 @@ feature {NONE} -- Initialization
 			make_from_pointer (Cairo.new_image_surface (Cairo.Format_ARGB_32, a_width, a_height))
 		end
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (image_path: EL_FILE_PATH)
 		require
-			exists: file_path.exists
+			image_exists: image_path.exists
 		local
 			cairo_file: EL_PNG_IMAGE_FILE
 		do
-			if file_path.exists then
-				create cairo_file.make_open_read (file_path)
+			if image_path.exists then
+				create cairo_file.make_open_read (image_path)
 				make_from_pointer (cairo_file.read_cairo_surface)
 				cairo_file.close
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-29 12:15:02 GMT (Wednesday 29th July 2020)"
-	revision: "1"
+	date: "2020-07-31 13:41:54 GMT (Friday 31st July 2020)"
+	revision: "2"
 
 class
 	EL_GDI_BITMAP_ROUTINES
@@ -54,7 +54,6 @@ feature -- Factory
 
 	new_scaled (dimension: NATURAL_8; bitmap: WEL_GDIP_BITMAP; size: INTEGER): WEL_GDIP_BITMAP
 		local
-			src_bitmap, dest_bitmap: WEL_GDIP_BITMAP
 			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT
 			proportion: DOUBLE
 		do

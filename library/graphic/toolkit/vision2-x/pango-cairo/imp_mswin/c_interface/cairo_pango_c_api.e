@@ -1,13 +1,13 @@
 note
-	description: "Pango c api"
+	description: "Pango C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:35:02 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2020-07-31 13:42:39 GMT (Friday 31st July 2020)"
+	revision: "7"
 
 class
 	CAIRO_PANGO_C_API
