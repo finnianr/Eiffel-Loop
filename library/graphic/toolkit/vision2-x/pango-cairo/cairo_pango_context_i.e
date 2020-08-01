@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:43:09 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2020-08-01 8:51:04 GMT (Saturday 1st August 2020)"
+	revision: "7"
 
 deferred class
 	CAIRO_PANGO_CONTEXT_I
@@ -82,11 +82,11 @@ feature -- Text drawing
 
 	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
 		local
-			text_rect: EL_RECTANGLE; text_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+			text_rect: EL_RECTANGLE; text_pixel_buffer: EL_PIXEL_BUFFER
 			l_x, l_y, hyphen_width: INTEGER
 		do
 			create text_rect.make_for_text (a_text, font)
-			create text_pixel_buffer.make_with_size (32, text_rect.width, text_rect.height)
+			create text_pixel_buffer.make_with_size (text_rect.width, text_rect.height)
 
 			text_pixel_buffer.set_color (color.twin)
 			text_pixel_buffer.set_antialias_best

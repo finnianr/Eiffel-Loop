@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-22 10:05:59 GMT (Wednesday 22nd July 2020)"
-	revision: "12"
+	date: "2020-08-01 9:09:51 GMT (Saturday 1st August 2020)"
+	revision: "13"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 					end
 					buffer.draw_text_top_left (text_rect.x, text_rect.y, l_text)
 
-					l_pixmap.set_with_pixel_buffer (buffer)
+					l_pixmap.set_with_argb_32_buffer (buffer)
 				end
 			end
 		end

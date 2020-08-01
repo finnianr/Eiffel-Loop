@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-26 15:36:31 GMT (Sunday 26th July 2020)"
-	revision: "5"
+	date: "2020-08-01 13:21:48 GMT (Saturday 1st August 2020)"
+	revision: "6"
 
 deferred class
 	EL_MODEL_DRAWER
@@ -41,7 +41,7 @@ feature -- Basic operations
 	draw_figure_rotated_picture (picture: EL_MODEL_ROTATED_PICTURE)
 		local
 			radial_square, drawable_rectangle, intersection: EV_RECTANGLE; half_width: DOUBLE
-			pixels: detachable EL_DRAWABLE_PIXEL_BUFFER; x, y: INTEGER
+			pixels: detachable EL_PIXEL_BUFFER; x, y: INTEGER
 		do
 			radial_square := picture.outer_radial_square
 			radial_square.move (radial_square.x + offset_x, radial_square.y + offset_y)
@@ -49,11 +49,11 @@ feature -- Basic operations
 
 			create drawable_rectangle.make (0, 0, drawable.width, drawable.height)
 			if drawable_rectangle.contains (radial_square) then
-				create pixels.make_with_pixmap (32, drawable.sub_pixmap (radial_square))
+				create pixels.make_with_pixmap (drawable.sub_pixmap (radial_square))
 
 			elseif drawable_rectangle.intersects (radial_square) then
 				intersection := drawable_rectangle.intersection (radial_square)
-				create pixels.make_with_size (32, radial_square.width, radial_square.height)
+				create pixels.make_with_size (radial_square.width, radial_square.height)
 				if attached picture.world.background_color as background_color then
 					pixels.set_color (background_color)
 					pixels.fill
@@ -80,7 +80,7 @@ feature -- Basic operations
 				l_pixels.draw_scaled_pixel_buffer (By_width, 0, 0, picture.width, picture.pixel_buffer)
 				if attached intersection then
 					intersection.move (x, y)
-					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, l_pixels.to_rgb_24_buffer, intersection)
+					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, l_pixels, intersection)
 				else
 					drawable.draw_pixmap (radial_square.x, radial_square.y, l_pixels.to_pixmap)
 				end

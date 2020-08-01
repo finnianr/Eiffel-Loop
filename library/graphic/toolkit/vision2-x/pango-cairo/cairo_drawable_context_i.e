@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 15:50:45 GMT (Friday 31st July 2020)"
-	revision: "7"
+	date: "2020-08-01 11:06:13 GMT (Saturday 1st August 2020)"
+	revision: "8"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -245,17 +245,10 @@ feature -- Drawing operations
 			end
 		end
 
-	draw_pixel_buf (x, y: DOUBLE; buffer: EL_PIXEL_BUFFER)
+	draw_pixel_buffer (x, y: DOUBLE; buffer: EL_PIXEL_BUFFER)
 		do
 			if attached buffer.implementation as l_buffer then
 				draw_surface (x, y, l_buffer.cairo.surface)
-			end
-		end
-
-	draw_pixel_buffer (x, y: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		do
-			if attached buffer.implementation as l_buffer then
-				draw_surface (x, y, l_buffer.cairo_context.surface)
 			end
 		end
 
@@ -292,14 +285,7 @@ feature -- Drawing operations
 			restore
 		end
 
-	draw_rounded_pixel_buf (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
-		do
-			set_clip_rounded_rectangle (x, y, buffer.width, buffer.height, radius, corners_bitmap)
-			draw_pixel_buf (x, y, buffer)
-			reset_clip
-		end
-
-	draw_rounded_pixel_buffer (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_rounded_pixel_buffer (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
 		do
 			set_clip_rounded_rectangle (x, y, buffer.width, buffer.height, radius, corners_bitmap)
 			draw_pixel_buffer (x, y, buffer)
@@ -313,23 +299,9 @@ feature -- Drawing operations
 			reset_clip
 		end
 
-	draw_scaled_pixel_buf (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_PIXEL_BUFFER)
 		do
 			draw_scaled_surface (dimension, x, y, size, buffer.implementation.cairo.surface)
-		end
-
-	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
-		-- Using this pattern example to scale buffer
-		-- https://cpp.hotexamples.com/examples
-		-- /-/-/cairo_pattern_create_for_surface/cpp-cairo_pattern_create_for_surface-function-examples.html
-		do
-			buffer.lock
-			if buffer.is_locked
-				and then attached {EL_DRAWABLE_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer
-			then
-				draw_scaled_surface (dimension, x, y, size, imp_buffer.cairo_context.surface)
-				buffer.unlock
-			end
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
@@ -453,7 +425,7 @@ feature -- Drawing operations
 
 feature {NONE} -- Alternative methods
 
-	draw_scaled_pixel_buffer_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: EL_PIXEL_BUFFER)
 		-- alternative way to implement `draw_scaled_pixel_buffer' using scaled pattern
 		-- Which is better? not sure.
 		require

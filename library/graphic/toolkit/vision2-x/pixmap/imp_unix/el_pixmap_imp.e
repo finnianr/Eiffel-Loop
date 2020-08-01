@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 15:23:56 GMT (Friday 31st July 2020)"
-	revision: "6"
+	date: "2020-08-01 12:39:31 GMT (Saturday 1st August 2020)"
+	revision: "7"
 
 class
 	EL_PIXMAP_IMP
@@ -63,13 +63,10 @@ feature {NONE} -- Element change
 
 	init_from_buffer (buffer: EL_PIXEL_BUFFER)
 			-- Initialize from `pixel_buffer'
-		local
-			surface: CAIRO_PIXEL_SURFACE_IMP
 		do
-			if attached {EL_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
-				surface := imp_buffer.to_pixel_surface
-				surface.swap_blue_and_red
+			if attached {CAIRO_PIXEL_SURFACE_IMP} buffer.to_surface as surface then
 				set_pixmap_from_pixbuf (surface.gdk_pixel_buffer)
+				surface.destroy
 			end
 		end
 

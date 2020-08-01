@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:43:08 GMT (Thursday 30th July 2020)"
-	revision: "10"
+	date: "2020-08-01 8:57:22 GMT (Saturday 1st August 2020)"
+	revision: "11"
 
 class
 	EL_SVG_IMAGE
@@ -55,7 +55,7 @@ feature -- Access
 
 feature -- Conversion
 
-	to_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	to_pixel_buffer: EL_PIXEL_BUFFER
 		require
 			height_and_width_defined: dimensions_defined
 		do

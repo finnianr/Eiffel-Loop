@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-29 11:03:04 GMT (Wednesday 29th July 2020)"
-	revision: "1"
+	date: "2020-08-01 12:39:46 GMT (Saturday 1st August 2020)"
+	revision: "2"
 
 class
 	EL_GTK_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EV_ANY_HANDLER
 
-	EL_SHARED_ACCESS
+	EL_SHARED_IMAGE_ACCESS
 
 feature -- Factory
 
@@ -25,7 +25,7 @@ feature -- Factory
 		do
 			if attached {EV_PIXMAP_IMP} a_pixmap.implementation as p then
 				l_pixbuf := {GTK2}.gdk_pixbuf_get_from_drawable (
-					default_pointer, Access.image_data (p), default_pointer, 0, 0, 0, 0, p.width, p.height
+					default_pointer, Image_access.data (p), default_pointer, 0, 0, 0, 0, p.width, p.height
 				)
 				if {GTK2}.gdk_pixbuf_get_has_alpha (l_pixbuf) then
 					Result := l_pixbuf

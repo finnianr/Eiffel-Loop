@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 14:35:21 GMT (Friday 31st July 2020)"
-	revision: "6"
+	date: "2020-08-01 11:06:54 GMT (Saturday 1st August 2020)"
+	revision: "7"
 
 class
 	CAIRO_PANGO_CONTEXT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	CAIRO_PANGO_CONTEXT_I
 		redefine
-			draw_scaled_pixel_buffer, draw_scaled_pixel_buf
+			draw_scaled_pixel_buffer
 		end
 
 	EL_MODULE_SYSTEM_FONTS
@@ -39,16 +39,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	draw_scaled_pixel_buf (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; x, y, size: DOUBLE)
-		local
-			l_surface: CAIRO_PIXEL_SURFACE_I
-		do
-			create {CAIRO_PIXEL_SURFACE_IMP} l_surface.make_with_scaled_buf (dimension, buffer, size.rounded)
-			draw_surface (x, y, l_surface)
-			l_surface.destroy
-		end
-
-	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_PIXEL_BUFFER)
 		local
 			l_surface: CAIRO_PIXEL_SURFACE_I
 		do

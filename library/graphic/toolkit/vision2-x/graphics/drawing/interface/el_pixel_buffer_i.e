@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 16:03:04 GMT (Friday 31st July 2020)"
-	revision: "2"
+	date: "2020-08-01 14:15:38 GMT (Saturday 1st August 2020)"
+	revision: "3"
 
 deferred class
 	EL_PIXEL_BUFFER_I
@@ -33,6 +33,12 @@ inherit
 
 feature {EL_PIXEL_BUFFER} -- Initialization
 
+	make_with_pixmap (a_pixmap: EV_PIXMAP)
+		do
+			make_with_size (a_pixmap.width, a_pixmap.height)
+			cairo.draw_pixmap (0, 0, a_pixmap)
+		end
+
 	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; pixmap: EV_PIXMAP)
 		require
 			valid_dimension: is_valid_dimension (dimension)
@@ -51,6 +57,17 @@ feature {EL_PIXEL_BUFFER} -- Initialization
 			height_valid: a_height > 0
 		do
 			cairo := new_cairo (create {CAIRO_SURFACE_IMP}.make_argb_32 (a_width, a_height))
+		end
+
+	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+		do
+			make_with_size (svg_image.width, svg_image.height)
+			if not a_background_color.is_transparent then
+				set_color (a_background_color)
+				fill_rectangle (0, 0, width, height)
+			end
+			cairo.set_surface_color_order
+			svg_image.render (cairo)
 		end
 
 feature -- Access
@@ -72,6 +89,20 @@ feature -- Measurement
 			-- Width
 		do
 			Result := cairo.width
+		end
+
+feature -- Conversion
+
+	to_rgb_24_buffer: EV_PIXEL_BUFFER
+		deferred
+		end
+
+	to_surface: CAIRO_PIXEL_SURFACE_I
+		-- to cairo pixel surface
+		do
+			create {CAIRO_PIXEL_SURFACE_IMP} Result.make_with_size (width, height)
+			new_cairo (Result).draw_surface (0, 0, cairo.surface)
+			Result.adjust_colors
 		end
 
 feature -- Element change
@@ -119,6 +150,14 @@ feature -- Element change
 			cairo := new_cairo (create {CAIRO_SURFACE_IMP}.make_from_file (image_path))
 		end
 
+feature -- Basic operations
+
+	save_as (file_path: EL_FILE_PATH)
+			-- Save as png file
+		do
+			cairo.save_as (file_path)
+		end
+
 feature -- Drawing operations
 
 	draw_line (x1, y1, x2, y2: INTEGER)
@@ -128,7 +167,7 @@ feature -- Drawing operations
 
 	draw_pixel_buffer (x, y: INTEGER; buffer: EL_PIXEL_BUFFER)
 		do
-			cairo.draw_pixel_buf (x, y, buffer)
+			cairo.draw_pixel_buffer (x, y, buffer)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -158,7 +197,7 @@ feature -- Drawing operations
 
 	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
 		do
-			cairo.draw_rounded_pixel_buf (x, y, radius, corners_bitmap, buffer)
+			cairo.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
@@ -168,7 +207,7 @@ feature -- Drawing operations
 
 	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: INTEGER; buffer: EL_PIXEL_BUFFER)
 		do
-			cairo.draw_scaled_pixel_buf (dimension, x, y, size, buffer)
+			cairo.draw_scaled_pixel_buffer (dimension, x, y, size, buffer)
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, size: INTEGER; pixmap: EV_PIXMAP)
@@ -201,14 +240,6 @@ feature -- Drawing operations
 	fill_rectangle (x, y, a_width, a_height: INTEGER)
 		do
 			cairo.fill_rectangle (x, y, a_width, a_height)
-		end
-
-feature -- Basic operations
-
-	save_as (file_path: EL_FILE_PATH)
-			-- Save as png file
-		do
-			cairo.save_as (file_path)
 		end
 
 feature -- Transform
@@ -266,6 +297,12 @@ feature -- Status change
 		end
 
 feature {EV_ANY_I} -- Implementation
+
+	destroy
+			-- Destroy `Current'.
+		do
+			set_is_destroyed (True)
+		end
 
 	new_cairo (surface: CAIRO_SURFACE_I): CAIRO_PANGO_CONTEXT_I
 		-- new cairo context

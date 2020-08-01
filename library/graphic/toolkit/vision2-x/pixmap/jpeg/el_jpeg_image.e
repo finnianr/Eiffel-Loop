@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 9:33:30 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2020-08-01 12:15:33 GMT (Saturday 1st August 2020)"
+	revision: "7"
 
-deferred class
-	EL_JPEG_IMAGE_I
+class
+	EL_JPEG_IMAGE
 
 inherit
 	EV_ANY_HANDLER
@@ -19,12 +19,14 @@ inherit
 
 	EL_POINTER_ROUTINES
 
+create
+	make
+
 feature {NONE} -- Initialization
 
-	make (component: EV_ANY_I; a_quality: NATURAL)
+	make (component: EV_ANY; a_quality: NATURAL)
 		require
-			valid_type: attached {EV_PIXMAP_I} component or attached {EL_DRAWABLE_PIXEL_BUFFER_I} component
-			buffer_is_rgb_24: attached {EL_DRAWABLE_PIXEL_BUFFER_I} component as buffer implies buffer.is_rgb_24_format
+			valid_type: attached {EV_PIXMAP} component or attached {EL_PIXEL_BUFFER} component
 			percentage: 0 <= a_quality and a_quality <= 100
 		do
 			pixel_component := component; quality := a_quality
@@ -36,8 +38,19 @@ feature -- Access
 
 feature -- Basic operations
 
-	save_as (a_file_path: EL_FILE_PATH)
-		deferred
+	save_as (file_path: EL_FILE_PATH)
+		local
+			surface: detachable CAIRO_PIXEL_SURFACE_I
+		do
+			if attached {EL_PIXEL_BUFFER} pixel_component as buffer then
+				surface := buffer.to_surface
+			elseif attached {EV_PIXMAP} pixel_component as pixmap then
+				create {CAIRO_PIXEL_SURFACE_IMP} surface.make_with_pixmap (pixmap)
+			end
+			if attached surface as s then
+				s.save_as_jpeg (file_path, quality)
+				s.destroy
+			end
 		end
 
 feature {NONE} -- Event handling
@@ -49,7 +62,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	pixel_component: EV_ANY_I
+	pixel_component: EV_ANY
 
 feature {NONE} -- Constants
 

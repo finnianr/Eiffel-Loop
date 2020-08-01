@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-23 9:10:42 GMT (Thursday 23rd July 2020)"
-	revision: "11"
+	date: "2020-08-01 13:19:58 GMT (Saturday 1st August 2020)"
+	revision: "12"
 
 deferred class
 	EL_DRAWABLE
@@ -45,7 +45,7 @@ feature -- Drawing operations
 
 	draw_pixel_buffer (x, y: INTEGER; a_pixels: EV_PIXEL_BUFFER)
 		do
-			draw_sub_pixel_buffer (x, y, a_pixels, create {EL_RECTANGLE}.make_for_pixels (a_pixels))
+			draw_sub_pixel_buffer (x, y, a_pixels, a_pixels.area)
 		end
 
 	draw_raised_rectangle (x, y, a_width, a_height: INTEGER; a_color: EV_COLOR)
@@ -112,16 +112,8 @@ feature -- Drawing operations
 
 	draw_sub_pixel_buffer (x, y: INTEGER; a_pixel_buffer: EV_PIXEL_BUFFER; area: EV_RECTANGLE)
 		do
-			implementation.draw_sub_pixel_buffer (x, y, as_rgb_24 (a_pixel_buffer), area)
+			implementation.draw_sub_pixel_buffer (x, y, a_pixel_buffer, area)
 		end
-
---feature -- Duplication
-
---	sub_drawable_pixel_buffer (area: EV_RECTANGLE): EL_DRAWABLE_PIXEL_BUFFER
---			-- Return a pixmap region of `Current' represented by rectangle `area'
---		do
---			create Result.make_with_pixmap (sub_pixmap (area))
---		end
 
 feature -- Status query
 
@@ -185,16 +177,6 @@ feature -- Drawing operations
 			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
 		do
 			implementation.draw_text_top_left (x, y, to_unicode_general (a_text))
-		end
-
-feature {NONE} -- Implementation
-
-	as_rgb_24 (a_buffer: EV_PIXEL_BUFFER): EV_PIXEL_BUFFER
-		do
-			Result := a_buffer
-			if attached {EL_DRAWABLE_PIXEL_BUFFER} Result as drawable then
-				Result := drawable.to_rgb_24_buffer
-			end
 		end
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:41:54 GMT (Friday 31st July 2020)"
-	revision: "2"
+	date: "2020-08-01 14:11:16 GMT (Saturday 1st August 2020)"
+	revision: "3"
 
 class
 	EL_GDI_BITMAP_ROUTINES
@@ -39,6 +39,14 @@ feature -- Factory
 			else
 				create Result.make_formatted (a_pixmap.width, a_pixmap.width, Format32bppPArgb)
 			end
+		end
+
+	new_clone (bitmap: WEL_GDIP_BITMAP; format: INTEGER): WEL_GDIP_BITMAP
+		local
+			rect: WEL_GDIP_RECT
+		do
+			create rect.make_with_size (0, 0, bitmap.width, bitmap.height)
+			Result := bitmap.clone_rectangle_pixel_format (rect, format)
 		end
 
 	new_data (bitmap: WEL_GDIP_BITMAP; lock_bitmode_flag: NATURAL_32): WEL_GDIP_BITMAP_DATA

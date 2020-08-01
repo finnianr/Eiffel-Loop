@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-14 14:42:34 GMT (Tuesday 14th July 2020)"
-	revision: "4"
+	date: "2020-08-01 12:08:54 GMT (Saturday 1st August 2020)"
+	revision: "5"
 
 deferred class
 	EL_JPEG_CONVERTABLE
 
 inherit
-	ANY
+	EV_ANY
 		undefine
-			copy, default_create, is_equal, out
+			copy, is_equal, is_in_default_state, out
 		end
 
 feature -- Basic operations
@@ -27,17 +27,9 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_jpeg (quality: NATURAL): EL_JPEG_IMAGE_I
+	to_jpeg (quality: NATURAL): EL_JPEG_IMAGE
 		do
-			create {EL_JPEG_IMAGE_IMP} Result.make (implementation, quality)
-		end
-
-feature {NONE} -- Implementation
-
-	implementation: EV_ANY_I
-		deferred
-		ensure
-			valid_type: attached {EV_PIXMAP_I} Result or attached {EL_DRAWABLE_PIXEL_BUFFER_I} Result
+			create Result.make (Current, quality)
 		end
 
 end

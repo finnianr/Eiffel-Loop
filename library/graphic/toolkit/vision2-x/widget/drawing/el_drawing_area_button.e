@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-15 10:43:57 GMT (Monday 15th July 2019)"
-	revision: "7"
+	date: "2020-08-01 9:52:23 GMT (Saturday 1st August 2020)"
+	revision: "8"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -89,7 +89,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	draw (drawable_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw (drawable_buffer: EL_PIXEL_BUFFER)
 		do
 			if is_displayed then
 				drawable_buffer.draw_pixel_buffer (x, y, state_image)
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 			drawing_area.redraw
 		end
 
-	draw_tooltip (drawable_buffer: EL_DRAWABLE_PIXEL_BUFFER)
+	draw_tooltip (drawable_buffer: EL_PIXEL_BUFFER)
 		local
 			text_rect: EL_RECTANGLE; l_font: EL_FONT; position: EV_COORDINATE
 		do
@@ -183,9 +183,9 @@ feature {NONE} -- Implementation
 
 	button_press_action: PROCEDURE
 
-	state_image: EL_DRAWABLE_PIXEL_BUFFER
+	state_image: EL_PIXEL_BUFFER
 
-	image_set: EL_DRAWABLE_PIXEL_BUFFER_SET
+	image_set: EL_PIXEL_BUFFER_SET
 
 	tool_tip: READABLE_STRING_GENERAL
 

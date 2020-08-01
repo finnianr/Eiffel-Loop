@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 15:10:50 GMT (Friday 31st July 2020)"
-	revision: "5"
+	date: "2020-08-01 14:13:15 GMT (Saturday 1st August 2020)"
+	revision: "6"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
 
 inherit
 	CAIRO_PIXEL_SURFACE_I
+		rename
+			adjust_colors as do_nothing
+		end
 
 	CAIRO_SURFACE_IMP
 
@@ -21,10 +24,13 @@ inherit
 
 	EL_MODULE_GDI_BITMAP
 
-	CAIRO_SHARED_GDK_API
+	WEL_GDIP_IMAGE_ENCODER_CONSTANTS
+		export
+			{NONE} all
+		end
 
 create
-	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_buffer, make_with_scaled_buf, make_with_size
+	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_buffer, make_with_size, make_with_rgb_24
 
 feature {NONE} -- Initialization
 
@@ -32,8 +38,8 @@ feature {NONE} -- Initialization
 		do
 			bitmap := a_bitmap
 			image_data := Gdi_bitmap.new_data (a_bitmap, {WEL_GDIP_IMAGE_LOCK_MODE}.Read_only)
-			is_locked := True
 			make_with_argb_32_data (image_data.scan_0, a_bitmap.width, a_bitmap.height)
+			is_locked := True
 		end
 
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
@@ -41,22 +47,18 @@ feature {NONE} -- Initialization
 			make_with_bitmap (Gdi_bitmap.new (a_pixmap))
 		end
 
-	make_with_scaled_buf (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; size: DOUBLE)
+	make_with_rgb_24 (a_buffer: EV_PIXEL_BUFFER)
+		do
+			if attached {EV_PIXEL_BUFFER_IMP} a_buffer.implementation as imp_buffer then
+				make_with_bitmap (Gdi_bitmap.new_clone (imp_buffer.gdip_bitmap, Format32bppPArgb))
+			end
+		end
+
+	make_with_scaled_buffer (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; size: DOUBLE)
 		local
 			l_bitmap: WEL_GDIP_BITMAP
 		do
 			if attached {EL_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
-				l_bitmap := imp_buffer.to_gdi_bitmap
-				make_with_bitmap (Gdi_bitmap.new_scaled (dimension, l_bitmap, size.rounded))
-				l_bitmap.destroy_item
-			end
-		end
-
-	make_with_scaled_buffer (dimension: NATURAL_8; buffer: EL_DRAWABLE_PIXEL_BUFFER; size: DOUBLE)
-		local
-			l_bitmap: WEL_GDIP_BITMAP
-		do
-			if attached {EL_DRAWABLE_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
 				l_bitmap := imp_buffer.to_gdi_bitmap
 				make_with_bitmap (Gdi_bitmap.new_scaled (dimension, l_bitmap, size.rounded))
 				l_bitmap.destroy_item
@@ -90,6 +92,17 @@ feature -- Basic operations
 				unlock
 			end
 			bitmap.destroy_item
+		end
+
+	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
+		local
+			list: WEL_GDIP_IMAGE_ENCODER_PARAMETERS
+			quality_parameter: WEL_GDIP_IMAGE_ENCODER_PARAMETER
+		do
+			create quality_parameter.make (Jpeg.Quality, quality)
+			create list.make (1)
+			list.parameters.extend (quality_parameter)
+			bitmap.save_image_to_path_with_encoder_and_parameters (file_path, Jpeg, list)
 		end
 
 	unlock

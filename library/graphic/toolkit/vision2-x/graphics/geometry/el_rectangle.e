@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 18:34:56 GMT (Tuesday 28th July 2020)"
-	revision: "15"
+	date: "2020-08-01 8:00:45 GMT (Saturday 1st August 2020)"
+	revision: "16"
 
 class
 	EL_RECTANGLE
@@ -41,13 +41,12 @@ inherit
 
 create
 	default_create, make, make_cms, make_for_text,
-	make_for_pixels, make_for_widget, make_from_cms_tuple, make_from_other,
-	make_scaled_for_pixels, make_scaled_for_widget, make_size
+	make_for_widget, make_from_cms_tuple, make_from_other,
+	make_scaled_for_widget, make_size
 
 convert
 	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE]}),
 	make_from_other ({EV_RECTANGLE}),
-	make_for_pixels ({EV_PIXEL_BUFFER}),
 	make_for_widget ({EV_PIXMAP})
 
 feature {NONE} -- Initialization
@@ -64,11 +63,6 @@ feature {NONE} -- Initialization
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
 		do
 			make (0, 0, font.string_width (to_unicode_general (a_text)), font.line_height)
-		end
-
-	make_for_pixels (buffer: EV_PIXEL_BUFFER)
-		do
-			make (0, 0, buffer.width, buffer.height)
 		end
 
 	make_for_widget (widget: EV_POSITIONED)
@@ -89,12 +83,6 @@ feature {NONE} -- Initialization
 	make_scaled_for_widget (dimension: NATURAL_8; widget: EV_POSITIONED; size: INTEGER)
 		do
 			make_for_widget (widget)
-			scale_to_size (dimension, size)
-		end
-
-	make_scaled_for_pixels (dimension: NATURAL_8; buffer: EV_PIXEL_BUFFER; size: INTEGER)
-		do
-			make_for_pixels (buffer)
 			scale_to_size (dimension, size)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-28 15:00:17 GMT (Tuesday 28th July 2020)"
-	revision: "13"
+	date: "2020-08-01 8:04:54 GMT (Saturday 1st August 2020)"
+	revision: "14"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -96,12 +96,12 @@ feature -- Colored PNG
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		local
-			top_layer, bottom_layer: EL_DRAWABLE_PIXEL_BUFFER
+			top_layer, bottom_layer: EL_PIXEL_BUFFER
 			rectangle: EL_RECTANGLE
 		do
 			top_layer := new_pixel_buffer (relative_path_steps)
-			create rectangle.make_scaled_for_pixels (dimension, top_layer, size)
-			create bottom_layer.make_with_size (32, rectangle.width, rectangle.height)
+			rectangle := top_layer.scaled_dimensions (dimension, size)
+			create bottom_layer.make_with_size (rectangle.width, rectangle.height)
 			bottom_layer.set_color (background_color)
 			bottom_layer.fill
 			bottom_layer.draw_scaled_pixel_buffer (dimension, 0, 0, size, top_layer)
@@ -223,9 +223,9 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_pixel_buffer (relative_path_steps: EL_PATH_STEPS): EL_DRAWABLE_PIXEL_BUFFER
+	new_pixel_buffer (relative_path_steps: EL_PATH_STEPS): EL_PIXEL_BUFFER
 		do
-			create Result.make_with_path (32, image_path (relative_path_steps))
+			create Result.make_with_path (image_path (relative_path_steps))
 		end
 
 	new_pixmap (a_file_path: EL_FILE_PATH): EL_PIXMAP

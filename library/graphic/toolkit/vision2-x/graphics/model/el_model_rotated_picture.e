@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-04 14:26:23 GMT (Saturday 4th July 2020)"
-	revision: "19"
+	date: "2020-08-01 8:09:18 GMT (Saturday 1st August 2020)"
+	revision: "20"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -111,11 +111,11 @@ feature -- Transformation
 
 feature -- Basic operations
 
-	render (pixels: EL_DRAWABLE_PIXEL_BUFFER)
+	render (pixels: EL_PIXEL_BUFFER)
 		require
 			valid_width: width <= Max_width
 		local
-			p0: EV_COORDINATE; scaled_pixels: EL_DRAWABLE_PIXEL_BUFFER
+			p0: EV_COORDINATE; scaled_pixels: EL_PIXEL_BUFFER
 		do
 			p0 := point_array [0]
 			pixels.save
@@ -169,18 +169,18 @@ feature {NONE} -- Implementation
 
 feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
-	pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	pixel_buffer: EL_PIXEL_BUFFER
 
 feature {NONE} -- Constants
 
-	Scaled_buffer_cache: EL_CACHE_TABLE [EL_DRAWABLE_PIXEL_BUFFER, NATURAL]
+	Scaled_buffer_cache: EL_CACHE_TABLE [EL_PIXEL_BUFFER, NATURAL]
 		once
 			create Result.make (13, agent new_scaled_pixel_buffer)
 		end
 
-	Default_pixel_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	Default_pixel_buffer: EL_PIXEL_BUFFER
 		once
-			create Result.make_with_size (32, 1, 1)
+			create Result.make_with_size (1, 1)
 		end
 
 	Width_mask: NATURAL = 0xFFFF

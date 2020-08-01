@@ -1,13 +1,13 @@
 note
-	description: "Windows implementation of [$source EL_PIXEL_BUFFER_I]"
+	description: "Unix implementation of [$source EL_PIXEL_BUFFER_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 15:05:47 GMT (Friday 31st July 2020)"
-	revision: "1"
+	date: "2020-08-01 13:45:05 GMT (Saturday 1st August 2020)"
+	revision: "2"
 
 class
 	EL_PIXEL_BUFFER_IMP
@@ -32,13 +32,17 @@ feature {NONE} -- Initialization
 			assign_interface (an_interface)
 		end
 
-feature {EV_ANY_HANDLER, EL_PIXMAP_I} -- Access
+feature -- Conversion
 
-	to_gdi_bitmap: WEL_GDIP_BITMAP
+	to_rgb_24_buffer: EV_PIXEL_BUFFER
+		local
+			surface: CAIRO_PIXEL_SURFACE_I
 		do
-			if attached {CAIRO_SURFACE_IMP} cairo.surface as surface then
-				Result := surface.new_gdi_bitmap
-			end
+			create Result.make_with_size (width, height)
+			create {CAIRO_PIXEL_SURFACE_IMP} surface.make_with_rgb_24 (Result)
+			new_cairo (surface).draw_surface (0, 0, cairo.surface)
+			surface.adjust_colors
+			surface.destroy
 		end
 
 feature {NONE} -- Implementation

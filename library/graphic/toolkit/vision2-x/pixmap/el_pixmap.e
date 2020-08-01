@@ -6,18 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 10:00:22 GMT (Friday 31st July 2020)"
-	revision: "20"
+	date: "2020-08-01 12:07:55 GMT (Saturday 1st August 2020)"
+	revision: "21"
 
 class
 	EL_PIXMAP
 
 inherit
 	EV_PIXMAP
+		rename
+			make_with_pixel_buffer as make_with_rgb_24
 		undefine
 			draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left, draw_sub_pixel_buffer
 		redefine
-			create_implementation, implementation, sub_pixmap, make_with_pixel_buffer
+			create_implementation, implementation, sub_pixmap, make_with_rgb_24
 		end
 
 	EL_DRAWABLE
@@ -28,6 +30,9 @@ inherit
 		end
 
 	EL_JPEG_CONVERTABLE
+		redefine
+			implementation
+		end
 
 	EL_ORIENTATION_ROUTINES
 		export
@@ -44,7 +49,7 @@ inherit
 create
 	default_create,
 	make_with_size, make_with_rectangle, make_scaled_to_width, make_scaled_to_height, make_scaled_to_size,
-	make_with_pointer_style, make_with_pixel_buffer, make_with_buffer,
+	make_with_pointer_style, make_with_rgb_24, make_with_argb_32,
 	make_from_other, make_from_model
 
 convert
@@ -68,7 +73,7 @@ feature {NONE} -- Initialization
 
 	make_from_other (other: EV_PIXMAP)
 		do
-			make_with_pixel_buffer (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
+			make_with_rgb_24 (create {EV_PIXEL_BUFFER}.make_with_pixmap (other))
 		end
 
 	make_scaled_to_height (other: EV_PIXMAP; a_height: INTEGER)
@@ -89,13 +94,7 @@ feature {NONE} -- Initialization
 			make_scaled_to_size (By_width, other, a_width)
 		end
 
-	make_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
-		do
-			default_create
-			implementation.init_from_pixel_buffer (as_rgb_24 (a_buffer))
-		end
-
-	make_with_buffer (a_buffer: EL_PIXEL_BUFFER)
+	make_with_argb_32 (a_buffer: EL_PIXEL_BUFFER)
 		do
 			default_create
 			implementation.init_from_buffer (a_buffer)
@@ -104,6 +103,12 @@ feature {NONE} -- Initialization
 	make_with_rectangle (r: EV_RECTANGLE)
 		do
 			make_with_size (r.width, r.height)
+		end
+
+	make_with_rgb_24 (a_buffer: EV_PIXEL_BUFFER)
+		do
+			default_create
+			implementation.init_from_pixel_buffer (a_buffer)
 		end
 
 feature -- Access
@@ -125,7 +130,7 @@ feature -- Scaling
 			l_buffer: EV_PIXEL_BUFFER
 		do
 			create l_buffer.make_with_pixmap (Current)
-			set_with_pixel_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
+			set_with_rgb_24_buffer (l_buffer.stretched ((width * a_factor).rounded, (height * a_factor).rounded))
 		end
 
 	scale_to_height (a_height: INTEGER)
@@ -150,9 +155,14 @@ feature -- Scaling
 
 feature -- Element change
 
-	set_with_pixel_buffer (a_buffer: EV_PIXEL_BUFFER)
+	set_with_argb_32_buffer (a_buffer: EL_PIXEL_BUFFER)
 		do
-			make_with_pixel_buffer (a_buffer)
+			make_with_argb_32 (a_buffer)
+		end
+
+	set_with_rgb_24_buffer (a_buffer: EV_PIXEL_BUFFER)
+		do
+			make_with_rgb_24 (a_buffer)
 		end
 
 feature -- Duplication
@@ -165,14 +175,14 @@ feature -- Duplication
 
 feature -- Conversion
 
-	to_argb_32_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	to_argb_32_buffer: EL_PIXEL_BUFFER
 		do
-			create Result.make_with_pixmap (32, Current)
+			create Result.make_with_pixmap (Current)
 		end
 
-	to_rgb_24_buffer: EL_DRAWABLE_PIXEL_BUFFER
+	to_rgb_24_buffer: EV_PIXEL_BUFFER
 		do
-			create Result.make_with_pixmap (24, Current)
+			create Result.make_with_pixmap (Current)
 		end
 
 	to_scaled_rgb_24_buffer (dimension: NATURAL_8; size: INTEGER): EV_PIXEL_BUFFER
