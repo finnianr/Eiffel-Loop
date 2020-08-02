@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 13:26:05 GMT (Thursday 13th February 2020)"
-	revision: "6"
+	date: "2020-08-02 15:46:25 GMT (Sunday 2nd August 2020)"
+	revision: "7"
 
 class
 	ECF_INFO
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -34,6 +36,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	cluster_count (root: EL_XPATH_ROOT_NODE_CONTEXT): INTEGER
+		do
+			Result := root.integer_at_xpath (once "count (" + cluster_xpath + once ")")
+		end
 
 	cluster_xpath: STRING
 		local
@@ -55,9 +62,9 @@ feature -- Access
 			end
 		end
 
-	description: ZSTRING
+	description (root: EL_XPATH_ROOT_NODE_CONTEXT): ZSTRING
 		do
-			create Result.make_empty
+			Result := root.string_at_xpath (description_xpath).stripped
 		end
 
 	description_xpath: STRING
@@ -65,22 +72,26 @@ feature -- Access
 			Result := Xpath_description
 		end
 
+	html_index_path: EL_FILE_PATH
+		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
+		do
+			Result := path.with_new_extension (Html)
+		end
+
 	ignored_clusters: like Default_ignored_clusters
 
 	path: EL_FILE_PATH
 
-feature -- Status query
-
-	is_cluster: BOOLEAN
+	type_qualifier: STRING
 		do
-			Result := path.base.has ('#')
+			Result := Empty_string_8
 		end
 
 feature -- Conversion
 
 	normalized: ECF_INFO
 		do
-			if is_cluster then
+			if path.base.has ('#') then
 				create {ECF_CLUSTER_INFO} Result.make (Current)
 			else
 				Result := Current
@@ -102,6 +113,11 @@ feature {NONE} -- Constants
 	Default_ignored_clusters: EL_STRING_8_LIST
 		once
 			create Result.make_empty
+		end
+
+	Html: ZSTRING
+		once
+			Result := "html"
 		end
 
 	Xpath_cluster: STRING = "/system/target/cluster"

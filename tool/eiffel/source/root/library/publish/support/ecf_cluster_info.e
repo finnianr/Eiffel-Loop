@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 11:52:08 GMT (Thursday 13th February 2020)"
-	revision: "3"
+	date: "2020-08-02 15:39:58 GMT (Sunday 2nd August 2020)"
+	revision: "4"
 
 class
 	ECF_CLUSTER_INFO
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_default
 		redefine
-			cluster_xpath, description, description_xpath
+			cluster_xpath, description, description_xpath, type_qualifier, html_index_path
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	make (ecf: ECF_INFO)
 			--
 		require
-			valid_format: ecf.is_cluster
+			valid_path: ecf.path.base.has ('#')
 		local
 			parts: LIST [ZSTRING]
 		do
@@ -56,12 +56,15 @@ feature -- Access
 			end
 		end
 
-	description: ZSTRING
+	description (root: EL_XPATH_ROOT_NODE_CONTEXT): ZSTRING
 		local
 			word_list: EL_ZSTRING_LIST
 		do
-			create word_list.make_with_separator (name, '_', False)
-			Result := word_list.joined_propercase_words
+			Result := Precursor (root)
+			if Result.is_empty then
+				create word_list.make_with_separator (name, '_', False)
+				Result := word_list.joined_propercase_words
+			end
 		end
 
 	description_xpath: STRING
@@ -69,7 +72,17 @@ feature -- Access
 			Result := cluster_xpath + once "/description"
 		end
 
+	html_index_path: EL_FILE_PATH
+		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
+		do
+			Result := path.with_new_extension (name + character_string ('.') + Html)
+		end
+
 	name: ZSTRING
+
+feature -- Constants
+
+	Type_qualifier: STRING = " cluster"
 
 feature -- Status query
 
@@ -77,14 +90,14 @@ feature -- Status query
 
 feature {NONE} -- Constants
 
-	Selected_cluster_starts_with: ZSTRING
-		once
-			Result := "%S[starts-with (@name, '%S')]"
-		end
-
 	Selected_cluster: ZSTRING
 		once
 			Result := "%S[@name='%S']"
+		end
+
+	Selected_cluster_starts_with: ZSTRING
+		once
+			Result := "%S[starts-with (@name, '%S')]"
 		end
 
 end

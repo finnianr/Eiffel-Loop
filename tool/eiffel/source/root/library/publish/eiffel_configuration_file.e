@@ -1,13 +1,13 @@
 note
-	description: "Eiffel configuration file"
+	description: "Eiffel project configuration file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:39:22 GMT (Friday 8th May 2020)"
-	revision: "29"
+	date: "2020-08-02 15:59:14 GMT (Sunday 2nd August 2020)"
+	revision: "30"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -26,55 +26,43 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
+	EL_STRING_8_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO)
+	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XPATH_ROOT_NODE_CONTEXT)
 			--
-		local
-			root: EL_XPATH_ROOT_NODE_CONTEXT; l_description: ZSTRING
+		require
+			parse_ok: not root.parse_failed
 		do
 			make_default
 			repository := a_repository
 			relative_ecf_path.share (ecf.path)
-
-			html_index_path := relative_ecf_path.without_extension
-			if attached {ECF_CLUSTER_INFO} ecf as cluster then
-				html_index_path.add_extension (cluster.name)
-				is_cluster := True
-			end
-			html_index_path.add_extension (Html)
-
+			type_qualifier := ecf.type_qualifier
+			html_index_path := ecf.html_index_path
 			ecf_dir := ecf_path.parent
-			create root.make_from_file (a_repository.root_dir + relative_ecf_path)
-			if root.parse_failed then
-				lio.put_path_field ("Parse failed", relative_ecf_path)
-				lio.put_new_line
-			else
-				is_library := root.is_xpath (Xpath_all_classes)
-				source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
-				across source_dir_list as path loop
-					if path.cursor_index = 1 then
-						dir_path := path.item
-					elseif not dir_path.is_parent_of (path.item) then
-						dir_path := path.item.parent
-					end
+			source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
+			across source_dir_list as path loop
+				if path.cursor_index = 1 then
+					dir_path := path.item
+				elseif not dir_path.is_parent_of (path.item) then
+					dir_path := path.item.parent
 				end
-				path_list := new_path_list; sub_category := new_sub_category
-				l_description := root.string_at_xpath (ecf.description_xpath).stripped
-				if is_cluster and l_description.is_empty then
-					l_description := ecf.description
-				end
-				set_name_and_description (l_description)
 			end
+			path_list := new_path_list; sub_category := new_sub_category
+			set_name_and_description (ecf.description (root))
 			set_directory_list (a_repository.parser)
 			a_repository.parser.update (False)
 		end
 
 	make_default
 		do
+			type_qualifier := Empty_string_8
 			create source_dir_list.make (0)
 			create directory_list.make_empty
 			create description_lines.make_empty
@@ -89,6 +77,27 @@ feature -- Access
 	category: ZSTRING
 		do
 			Result := relative_dir_path.first_step.as_proper_case
+		end
+
+	category_index_title: ZSTRING
+		-- Category title for sitemap index
+		do
+			Result := category.twin
+			if Result [Result.count] = 'y' then
+				Result.remove_tail (1); Result.append_string_general ("ies")
+			else
+				Result.append_character ('s')
+			end
+		end
+
+	category_title: ZSTRING
+		-- displayed category title
+		do
+			if sub_category.is_empty then
+				Result := category
+			else
+				Result := sub_category + character_string (' ') + category
+			end
 		end
 
 	class_count: INTEGER
@@ -130,22 +139,10 @@ feature -- Access
 
 	type: STRING
 		do
-			if is_library then
-				Result := once "library"
-			else
-				Result := once "project"
-			end
-			if is_cluster then
-				Result := Result + once " cluster"
-			end
+			Result := once "project" + type_qualifier
 		end
 
-feature -- Status query
-
-	is_cluster: BOOLEAN
-		-- True if classes are selected from one cluster in ecf
-
-	is_library: BOOLEAN
+	type_qualifier: STRING
 
 feature -- Element change
 
@@ -208,15 +205,11 @@ feature -- Basic operations
 			end
 		end
 
-feature {EIFFEL_CLASS_PARSER} -- Factory
+feature -- Factory
 
 	new_class (source_path: EL_FILE_PATH): EIFFEL_CLASS
 		do
-			if is_library then
-				create {LIBRARY_CLASS} Result.make (source_path, Current, repository)
-			else
-				create Result.make (source_path, Current, repository)
-			end
+			create Result.make (source_path, Current, repository)
 		end
 
 	new_path_list: EL_FILE_PATH_LIST
@@ -231,6 +224,11 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 					Result.append (list)
 				end
 			end
+		end
+
+	new_sort_category: ZSTRING
+		do
+			Result := category
 		end
 
 	new_source_dir_list (cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: EL_DIR_PATH): EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -267,22 +265,8 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 		end
 
 	new_sub_category: ZSTRING
-		local
-			words: EL_ZSTRING_LIST; steps: EL_PATH_STEPS
 		do
-			if is_library then
-				if not dir_path.is_empty then
-					steps := dir_path.relative_path (repository.root_dir)
-					if steps.count >= 2 then
-						create words.make_with_separator (steps.item (2), '_', False)
-						Result := words.joined_propercase_words
-					else
-						create Result.make_empty
-					end
-				end
-			else
-				create Result.make_empty
-			end
+			create Result.make_empty
 		end
 
 feature {NONE} -- Implementation
@@ -334,8 +318,6 @@ feature {NONE} -- Xpath constants
 
 	Element_cluster: STRING = "cluster"
 
-	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
-
 feature {NONE} -- Constants
 
 	Dot: ZSTRING
@@ -344,11 +326,6 @@ feature {NONE} -- Constants
 		end
 
 	Eiffel_wildcard: STRING = "*.e"
-
-	Html: ZSTRING
-		once
-			Result := "html"
-		end
 
 	Library: ZSTRING
 		once

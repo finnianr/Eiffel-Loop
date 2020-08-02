@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:41:26 GMT (Tuesday 18th February 2020)"
-	revision: "16"
+	date: "2020-08-02 16:00:09 GMT (Sunday 2nd August 2020)"
+	revision: "17"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 		do
 			repository := a_repository; eiffel_config := a_source_tree
 			make_page (repository)
-			sort_category := new_sort_category
+			sort_category := eiffel_config.new_sort_category
 			make_sync_item (output_path)
 		end
 
@@ -61,43 +61,15 @@ feature -- Access
 
 feature -- Access
 
-	category: ZSTRING
-		do
-			Result := eiffel_config.category
-		end
-
-	category_title: ZSTRING
-		-- displayed category title
-		do
-			if sub_category.is_empty then
-				Result := category
-			else
-				Result := sub_category + character_string (' ') + category
-			end
-		end
-
 	category_index_title: ZSTRING
 		-- Category title for sitemap index
 		do
-			Result := category.twin
-			if Result [Result.count] = 'y' then
-				Result.remove_tail (1); Result.append_string_general ("ies")
-			else
-				Result.append_character ('s')
-			end
-			if eiffel_config.is_library then
-				Result := Category_title_template #$ [Result, sub_category]
-			end
+			Result := eiffel_config.category_index_title
 		end
 
 	relative_path: EL_DIR_PATH
 		do
 			Result := eiffel_config.relative_dir_path
-		end
-
-	sub_category: ZSTRING
-		do
-			Result := eiffel_config.sub_category
 		end
 
 	sort_category: ZSTRING
@@ -184,15 +156,6 @@ feature {NONE} -- Implementation
 			Result := relative_file_path.step_count - 1
 		end
 
-	new_sort_category: ZSTRING
-		do
-			if eiffel_config.is_library then
-				Result := category + character_string (' ') + sub_category
-			else
-				Result := category
-			end
-		end
-
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -208,7 +171,7 @@ feature {NONE} -- Evolicity fields
 
 				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end] +
 				["description_elements",		agent description_elements] +
-				["category_title",	 			agent: ZSTRING do Result := category_title end] +
+				["category_title",	 			agent: ZSTRING do Result := eiffel_config.category_title end] +
 				["ecf_name",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end] +
 				["ecf_path",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path end] +
 				["github_url",			 			agent: ZSTRING do Result := repository.github_url end] +
@@ -221,11 +184,6 @@ feature {NONE} -- Internal attributes
 	eiffel_config: EIFFEL_CONFIGURATION_FILE
 
 feature {NONE} -- Constants
-
-	Category_title_template: ZSTRING
-		once
-			Result := "%S (%S)"
-		end
 
 	Title_template: ZSTRING
 		once

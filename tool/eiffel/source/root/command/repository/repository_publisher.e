@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 18:42:12 GMT (Sunday 5th April 2020)"
-	revision: "26"
+	date: "2020-08-02 16:25:09 GMT (Sunday 2nd August 2020)"
+	revision: "28"
 
 class
 	REPOSITORY_PUBLISHER
@@ -35,6 +35,8 @@ inherit
 	EL_MODULE_LOG_MANAGER
 
 	EL_MODULE_OS
+
+	EL_MODULE_EXCEPTION
 
 create
 	make
@@ -231,15 +233,37 @@ feature {NONE} -- Build from Pyxis
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
 			ecf_path: EL_FILE_PATH; ecf: ECF_INFO
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT
+			has_error: BOOLEAN
 		do
 			if attached {ECF_INFO} context as info then
 				ecf := info.normalized
 				ecf_path := root_dir + ecf.path
 				if ecf_path.exists then
-					ecf_list.extend (ecf)
+					create root_node.make_from_file (ecf_path)
+					if root_node.parse_failed then
+						lio.put_path_field ("Configuration parse failed", ecf_path)
+						has_error := True
+
+					elseif ecf.cluster_count (root_node) = 0 then
+						lio.put_path_field ("Configuration", ecf_path)
+						lio.put_new_line
+						lio.put_labeled_string ("Zero nodes found for xpath", ecf.cluster_xpath)
+						has_error := True
+
+					elseif root_node.is_xpath (Xpath_all_classes) then
+						ecf_list.extend (create {EIFFEL_LIBRARY_CONFIGURATION_FILE}.make (Current, ecf, root_node))
+					else
+						ecf_list.extend (create {EIFFEL_CONFIGURATION_FILE}.make (Current, ecf, root_node))
+					end
 				else
 					lio.put_path_field ("Cannot find", ecf_path)
+					has_error := True
+				end
+				if has_error then
 					lio.put_new_line
+					User_input.press_enter
+					Exception.raise_developer ("Configuration error", [])
 				end
 			end
 		end
@@ -257,5 +281,7 @@ feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Root_node_name: STRING = "publish-repository"
+
+	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 11:28:09 GMT (Monday 6th April 2020)"
-	revision: "3"
+	date: "2020-08-02 15:12:18 GMT (Sunday 2nd August 2020)"
+	revision: "4"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -15,11 +15,10 @@ class
 inherit
 	EL_SORTABLE_ARRAYED_LIST [G]
 		rename
-			make as make_list,
-			extend as extend_list
+			make as make_list
 		export
 			{NONE} all
-			{ANY} count, sort, is_empty, do_all
+			{ANY} count, sort, is_empty, do_all, extend
 		end
 
 	EL_MODULE_LIO
@@ -88,13 +87,6 @@ feature -- Basic operations
 					end
 				end
 			end
-		end
-
-feature -- Element change
-
-	extend (ecf: ECF_INFO)
-		do
-			extend_list (create {like item}.make (repository, ecf))
 		end
 
 feature {NONE} -- Internal attributes
