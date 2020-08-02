@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 9:53:08 GMT (Sunday 2nd August 2020)"
-	revision: "8"
+	date: "2020-08-02 11:44:13 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 deferred class
 	CAIRO_PANGO_CONTEXT_I
@@ -129,7 +129,7 @@ feature -- Text drawing
 			draw_layout_text
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I} -- Implementation
+feature {NONE} -- Implementation
 
 	adjust_pango_font (required_width: INTEGER)
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:28:01 GMT (Sunday 28th June 2020)"
-	revision: "3"
+	date: "2020-08-02 12:07:32 GMT (Sunday 2nd August 2020)"
+	revision: "4"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -371,6 +371,15 @@ feature -- Conversion
 		do
 			Result := twin
 			Result.translate_general (old_characters, new_characters)
+		end
+
+	unquoted: like Current
+		do
+			if count >= 2 then
+				Result := substring (2, count - 1)
+			else
+				Result := twin
+			end
 		end
 
 	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current

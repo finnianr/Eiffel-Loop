@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:20:06 GMT (Sunday 2nd August 2020)"
-	revision: "8"
+	date: "2020-08-02 11:44:40 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EV_PIXMAP_I, EL_JPEG_IMAGE_I} -- Internal attributes
+feature {EV_PIXMAP_I} -- Internal attributes
 
 	pixel_data: POINTER
 
