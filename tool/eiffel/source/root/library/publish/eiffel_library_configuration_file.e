@@ -28,7 +28,7 @@ feature -- Access
 	category_index_title: ZSTRING
 		-- Category title for sitemap index
 		do
-			Result := Category_title_template #$ [Result, sub_category]
+			Result := Category_title_template #$ [Precursor, sub_category]
 		end
 
 	type: STRING
@@ -52,7 +52,9 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 		local
 			words: EL_ZSTRING_LIST; steps: EL_PATH_STEPS
 		do
-			if not dir_path.is_empty then
+			if dir_path.is_empty then
+				create Result.make_empty
+			else
 				steps := dir_path.relative_path (repository.root_dir)
 				if steps.count >= 2 then
 					create words.make_with_separator (steps.item (2), '_', False)

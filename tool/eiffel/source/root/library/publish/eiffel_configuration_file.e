@@ -82,11 +82,12 @@ feature -- Access
 	category_index_title: ZSTRING
 		-- Category title for sitemap index
 		do
-			Result := category.twin
-			if Result [Result.count] = 'y' then
-				Result.remove_tail (1); Result.append_string_general ("ies")
+			if category.is_empty then
+				Result := category
+			elseif category [category.count] = 'y' then
+				Result := category.substring (1, category.count - 1) + Y_plural
 			else
-				Result.append_character ('s')
+				Result := category + character_string ('s')
 			end
 		end
 
@@ -357,6 +358,11 @@ feature {NONE} -- Constants
 	Translater: MARKDOWN_TRANSLATER
 		once
 			create Result.make (repository.web_address)
+		end
+
+	Y_plural: ZSTRING
+		once
+			Result := "ies"
 		end
 
 end
