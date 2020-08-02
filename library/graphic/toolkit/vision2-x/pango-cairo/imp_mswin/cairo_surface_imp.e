@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:38:02 GMT (Friday 31st July 2020)"
-	revision: "5"
+	date: "2020-08-02 11:18:44 GMT (Sunday 2nd August 2020)"
+	revision: "6"
 
 class
 	CAIRO_SURFACE_IMP
 
 inherit
 	CAIRO_SURFACE_I
+
+	EL_OS_IMPLEMENTATION
 
 	WEL_GDIP_PIXEL_FORMAT
 		export
@@ -29,23 +31,13 @@ inherit
 
 create
 	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file,
-	make_from_pointer, make_with_buffer
+	make_from_pointer
 
-feature {NONE} -- Initialization
+feature -- Factory
 
-	make_with_buffer (buffer: EV_PIXEL_BUFFER)
+	new_drawable: CAIRO_PANGO_CONTEXT_I
 		do
-			if attached {EV_PIXEL_BUFFER_IMP} buffer.implementation as imp then
-				make_with_argb_32_data (imp.data_ptr, buffer.width, buffer.height)
-				imp.unlock
-			end
-		end
-
-feature -- Status change
-
-	set_surface_color_order
-			-- swap red and blue color channels
-		do
+			create {CAIRO_PANGO_CONTEXT_IMP} Result.make (Current)
 		end
 
 feature {EV_ANY_I} -- Implementation

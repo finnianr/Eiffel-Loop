@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 14:45:32 GMT (Friday 31st July 2020)"
-	revision: "6"
+	date: "2020-08-02 8:48:23 GMT (Sunday 2nd August 2020)"
+	revision: "7"
 
 deferred class
 	EL_PIXMAP_I
@@ -21,7 +21,7 @@ feature {EL_PIXMAP} -- Initialization
 		deferred
 		end
 
-	init_from_buffer (buffer: EL_PIXEL_BUFFER)
+	init_from_buffer (buffer: CAIRO_DRAWING_AREA)
 			-- Initialize from `buffer'
 		deferred
 		ensure

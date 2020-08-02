@@ -283,3 +283,6 @@ Refactor for widgets to use EL_TEXTABLE for ZSTRING support
 Sun 19th Jul 2020, 15:29:22
 Fixed EL_DRAWABLE refactor for My Ching
 
+Sat 1st Aug 2020, 14:28:17
+New implementation of EL_PIXEL_BUFFER that does not descend from EV_PIXEL_BUFFER
+

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 8:57:22 GMT (Saturday 1st August 2020)"
-	revision: "11"
+	date: "2020-08-02 9:47:41 GMT (Sunday 2nd August 2020)"
+	revision: "12"
 
 class
 	EL_SVG_IMAGE
@@ -55,7 +55,7 @@ feature -- Access
 
 feature -- Conversion
 
-	to_pixel_buffer: EL_PIXEL_BUFFER
+	to_drawing_area: CAIRO_DRAWING_AREA
 		require
 			height_and_width_defined: dimensions_defined
 		do
@@ -66,7 +66,7 @@ feature -- Conversion
 		require
 			height_and_width_defined: dimensions_defined
 		do
-			Result:= to_pixel_buffer.to_pixmap
+			Result:= to_drawing_area.to_pixmap
 		end
 
 feature -- Element change
@@ -97,7 +97,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	render (cairo_ctx: CAIRO_PANGO_CONTEXT_I)
+	render (cairo_ctx: CAIRO_DRAWABLE_CONTEXT_I)
 		require
 			dimensions_defined: dimensions_defined
 			pixel_buffer_correct_size: cairo_ctx.width = width and cairo_ctx.height = height

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 12:46:45 GMT (Friday 31st July 2020)"
-	revision: "4"
+	date: "2020-08-02 11:18:21 GMT (Sunday 2nd August 2020)"
+	revision: "5"
 
 class
 	CAIRO_SURFACE_IMP
@@ -17,26 +17,16 @@ inherit
 
 	EL_SHARED_IMAGE_UTILS_API
 
+	EL_OS_IMPLEMENTATION
+
 create
 	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file
 
-feature {NONE} -- Initialization
+feature -- Factory
 
-	make_with_buffer (buffer: EV_PIXEL_BUFFER)
+	new_drawable: CAIRO_PANGO_CONTEXT_I
 		do
-			if attached {EV_PIXEL_BUFFER_IMP} buffer.implementation as imp then
-				make_with_argb_32_data (imp.data_ptr, buffer.width, buffer.height)
-			end
-		end
-
-feature -- Status change
-
-	set_surface_color_order
-			-- swap red and blue color channels
-		do
-			flush
-			Image_utils.format_argb_to_abgr (Cairo.surface_data (self_ptr), width * height)
-			mark_dirty
+			create {CAIRO_PANGO_CONTEXT_IMP} Result.make (Current)
 		end
 
 end

@@ -1,19 +1,16 @@
 note
-	description: "[
-		Pixel buffer drawing using the [https://cairographics.org/ Cairo] and [http://www.pango.org/ Pangocairo]
-		graphics libraries.
-	]"
+	description: "Cross-platform interface for [$source CAIRO_DRAWING_AREA]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 14:15:38 GMT (Saturday 1st August 2020)"
-	revision: "3"
+	date: "2020-08-02 11:26:01 GMT (Sunday 2nd August 2020)"
+	revision: "4"
 
 deferred class
-	EL_PIXEL_BUFFER_I
+	CAIRO_DRAWING_AREA_I
 
 inherit
 	EV_FONTABLE_I
@@ -31,12 +28,22 @@ inherit
 			default_create, copy, out
 		end
 
-feature {EL_PIXEL_BUFFER} -- Initialization
+feature {CAIRO_DRAWING_AREA} -- Initialization
+
+	make
+			-- Initialize `Current'.
+		do
+			set_is_initialized (True)
+		end
+
+	make_cairo_context (a_surface: CAIRO_SURFACE_I)
+		deferred
+		end
 
 	make_with_pixmap (a_pixmap: EV_PIXMAP)
 		do
 			make_with_size (a_pixmap.width, a_pixmap.height)
-			cairo.draw_pixmap (0, 0, a_pixmap)
+			draw_pixmap (0, 0, a_pixmap)
 		end
 
 	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; pixmap: EV_PIXMAP)
@@ -56,247 +63,212 @@ feature {EL_PIXEL_BUFFER} -- Initialization
 			width_valid: a_width > 0
 			height_valid: a_height > 0
 		do
-			cairo := new_cairo (create {CAIRO_SURFACE_IMP}.make_argb_32 (a_width, a_height))
+			make_cairo_context (create {CAIRO_SURFACE_IMP}.make_argb_32 (a_width, a_height))
 		end
 
 	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+		deferred
+		end
+
+	old_make (an_interface: CAIRO_DRAWING_AREA)
+			-- Creation method.
 		do
-			make_with_size (svg_image.width, svg_image.height)
-			if not a_background_color.is_transparent then
-				set_color (a_background_color)
-				fill_rectangle (0, 0, width, height)
-			end
-			cairo.set_surface_color_order
-			svg_image.render (cairo)
+			assign_interface (an_interface)
 		end
 
 feature -- Access
 
 	font: EV_FONT
-		do
-			Result := cairo.font
+		deferred
 		end
 
 feature -- Measurement
 
 	height: INTEGER
 			-- Height
-		do
-			Result := cairo.height
+		deferred
 		end
 
 	width: INTEGER
 			-- Width
-		do
-			Result := cairo.width
+		deferred
 		end
 
 feature -- Conversion
 
-	to_rgb_24_buffer: EV_PIXEL_BUFFER
+	to_buffer: EV_PIXEL_BUFFER
+		-- Vision-2 pixel buffer
 		deferred
 		end
 
 	to_surface: CAIRO_PIXEL_SURFACE_I
 		-- to cairo pixel surface
+		-- don't forget to call destroy on result for Windows
 		do
 			create {CAIRO_PIXEL_SURFACE_IMP} Result.make_with_size (width, height)
-			new_cairo (Result).draw_surface (0, 0, cairo.surface)
+			Result.new_drawable.draw_surface (0, 0, surface)
 			Result.adjust_colors
 		end
 
 feature -- Element change
 
 	set_angle (angle: DOUBLE)
-		do
-			cairo.rotate (angle)
+		deferred
 		end
 
-	set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap: INTEGER)
+	set_clip_rounded_rectangle (x, y, a_width, a_height, radius: DOUBLE; corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
-		do
-			cairo.set_clip_rounded_rectangle (x, y, a_width, a_height, radius, corners_bitmap)
+		deferred
 		end
 
 	set_color (a_color: EV_COLOR)
-		do
-			cairo.set_color (a_color)
+		deferred
 		end
 
 	set_font (a_font: like font)
-		do
-			cairo.set_font (a_font)
+		deferred
 		end
 
 	set_line_width (size: INTEGER)
-		do
-			cairo.set_line_width (size)
+		deferred
 		end
 
 	set_opacity (percentage: INTEGER)
-		do
-			cairo.set_opacity (percentage)
+		deferred
 		end
 
 	set_opaque
-		do
-			cairo.set_opaque
+		deferred
 		end
 
 	set_with_path (image_path: EL_FILE_PATH)
 		require
 			image_exists: image_path.exists
 		do
-			cairo := new_cairo (create {CAIRO_SURFACE_IMP}.make_from_file (image_path))
+			make_cairo_context (create {CAIRO_SURFACE_IMP}.make_from_file (image_path))
 		end
 
 feature -- Basic operations
 
 	save_as (file_path: EL_FILE_PATH)
 			-- Save as png file
-		do
-			cairo.save_as (file_path)
+		deferred
 		end
 
 feature -- Drawing operations
 
+	draw_drawing_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+		deferred
+		end
+
 	draw_line (x1, y1, x2, y2: INTEGER)
-		do
-			cairo.draw_line (x1, y1, x2, y2)
+		deferred
 		end
 
-	draw_pixel_buffer (x, y: INTEGER; buffer: EL_PIXEL_BUFFER)
-		do
-			cairo.draw_pixel_buffer (x, y, buffer)
+	draw_pixmap (x, y: DOUBLE; pixmap: EV_PIXMAP)
+		deferred
 		end
 
-	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
-		do
-			cairo.draw_pixmap (x, y, a_pixmap)
-		end
-
-	draw_rectangle (x, y, a_width, a_height: INTEGER)
-		do
-			cairo.draw_rectangle (x, y, a_width, a_height)
+	draw_rectangle (x, y, a_width, a_height: DOUBLE)
+		deferred
 		end
 
 	draw_rotated_rectangle (rectangle: EV_RECTANGLE; a_angle: DOUBLE)
-		do
-			cairo.draw_rotated_rectangle (rectangle, a_angle)
+		deferred
 		end
 
 	draw_rotated_text (rectangle: EL_TEXT_RECTANGLE; a_angle: DOUBLE)
-		do
-			cairo.draw_rotated_text (rectangle, a_angle)
+		deferred
 		end
 
 	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
-		do
-			cairo.draw_rotated_text_top_left (x, y, angle, a_text)
+		deferred
 		end
 
-	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
-		do
-			cairo.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, buffer)
+	draw_rounded_drawing_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
+		deferred
 		end
 
-	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
-		do
-			cairo.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
+	draw_rounded_pixmap (x, y, radius: DOUBLE; corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
+		deferred
 		end
 
-	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: INTEGER; buffer: EL_PIXEL_BUFFER)
-		do
-			cairo.draw_scaled_pixel_buffer (dimension, x, y, size, buffer)
+	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+		deferred
 		end
 
-	draw_scaled_pixmap (dimension: NATURAL_8; x, y, size: INTEGER; pixmap: EV_PIXMAP)
-		do
-			cairo.draw_scaled_pixmap (dimension, x, y, size, pixmap)
+	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
+		deferred
 		end
 
 	draw_text (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
-		do
-			cairo.draw_text (x, y, a_text)
+		deferred
 		end
 
 	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
-		do
-			cairo.draw_text_top_left (x, y, a_text)
+		deferred
 		end
 
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
-		do
-			cairo.fill_concave_corners (radius, corners_bitmap)
+		deferred
 		end
 
 	fill_convex_corners (radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
-		do
-			cairo.fill_convex_corners (radius, corners_bitmap)
+		deferred
 		end
 
-	fill_rectangle (x, y, a_width, a_height: INTEGER)
-		do
-			cairo.fill_rectangle (x, y, a_width, a_height)
+	fill_rectangle (x, y, a_width, a_height: DOUBLE)
+		deferred
 		end
 
 feature -- Transform
 
 	flip (a_width, a_height: INTEGER; mirror_state: NATURAL_8)
-		do
-			cairo.flip (a_width, a_height, mirror_state)
+		deferred
 		end
 
 	rotate (angle: DOUBLE)
 			-- rotate coordinate system by angle in radians
-		do
-			cairo.rotate (angle)
+		deferred
 		end
 
 	rotate_quarter (n: INTEGER)
 		-- rotate `n * 90' degrees
-		do
-			cairo.rotate_quarter (n)
+		deferred
 		end
 
 	scale (x_factor, y_factor: DOUBLE)
-		do
-			cairo.scale (x_factor, y_factor)
+		deferred
 		end
 
 	translate (x, y: DOUBLE)
 			-- translate coordinate origin to point x, y
-		do
-			cairo.translate (x, y)
+		deferred
 		end
 
 feature -- Status change
 
 	remove_clip
-		do
-			cairo.reset_clip
+		deferred
 		end
 
 	restore
 			-- restore last drawing setting state from state stack
-		do
-			cairo.restore
+		deferred
 		end
 
 	save
 			-- save current drawing setting state on to a stack
-		do
-			cairo.save
+		deferred
 		end
 
 	set_antialias_best
-		do
-			cairo.set_antialias_best
+		deferred
 		end
 
-feature {EV_ANY_I} -- Implementation
+feature {EV_ANY_I, EV_ANY_HANDLER} -- Implementation
 
 	destroy
 			-- Destroy `Current'.
@@ -304,17 +276,13 @@ feature {EV_ANY_I} -- Implementation
 			set_is_destroyed (True)
 		end
 
-	new_cairo (surface: CAIRO_SURFACE_I): CAIRO_PANGO_CONTEXT_I
-		-- new cairo context
-		do
-			create {CAIRO_PANGO_CONTEXT_IMP} Result.make (surface)
+	surface: CAIRO_SURFACE_I
+		deferred
 		end
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
 
-	cairo: CAIRO_PANGO_CONTEXT_I
-
-	interface: detachable EL_PIXEL_BUFFER note option: stable attribute end;
+	interface: detachable CAIRO_DRAWING_AREA note option: stable attribute end;
 		-- Interface object for `Current'.
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:34:28 GMT (Thursday 30th July 2020)"
-	revision: "7"
+	date: "2020-08-02 10:07:41 GMT (Sunday 2nd August 2020)"
+	revision: "8"
 
 class
 	CAIRO_GOBJECT_IMP
@@ -18,6 +18,8 @@ inherit
 	CAIRO_GOBJECT_C_API
 
 	CAIRO_GOBJECT_I
+
+	EL_OS_IMPLEMENTATION
 
 create
 	make

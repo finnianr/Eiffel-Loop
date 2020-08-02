@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 12:07:55 GMT (Saturday 1st August 2020)"
-	revision: "21"
+	date: "2020-08-02 9:10:10 GMT (Sunday 2nd August 2020)"
+	revision: "22"
 
 class
 	EL_PIXMAP
@@ -30,8 +30,8 @@ inherit
 		end
 
 	EL_JPEG_CONVERTABLE
-		redefine
-			implementation
+		rename
+			to_pixel_surface as to_cairo_surface
 		end
 
 	EL_ORIENTATION_ROUTINES
@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 			make_scaled_to_size (By_width, other, a_width)
 		end
 
-	make_with_argb_32 (a_buffer: EL_PIXEL_BUFFER)
+	make_with_argb_32 (a_buffer: CAIRO_DRAWING_AREA)
 		do
 			default_create
 			implementation.init_from_buffer (a_buffer)
@@ -155,7 +155,7 @@ feature -- Scaling
 
 feature -- Element change
 
-	set_with_argb_32_buffer (a_buffer: EL_PIXEL_BUFFER)
+	set_with_argb_32_buffer (a_buffer: CAIRO_DRAWING_AREA)
 		do
 			make_with_argb_32 (a_buffer)
 		end
@@ -175,17 +175,22 @@ feature -- Duplication
 
 feature -- Conversion
 
-	to_argb_32_buffer: EL_PIXEL_BUFFER
+	to_drawing_area: CAIRO_DRAWING_AREA
 		do
 			create Result.make_with_pixmap (Current)
 		end
 
-	to_rgb_24_buffer: EV_PIXEL_BUFFER
+	to_cairo_surface: CAIRO_PIXEL_SURFACE_I
+		do
+			create {CAIRO_PIXEL_SURFACE_IMP} Result.make_with_pixmap (Current)
+		end
+
+	to_buffer: EV_PIXEL_BUFFER
 		do
 			create Result.make_with_pixmap (Current)
 		end
 
-	to_scaled_rgb_24_buffer (dimension: NATURAL_8; size: INTEGER): EV_PIXEL_BUFFER
+	to_scaled_buffer (dimension: NATURAL_8; size: INTEGER): EV_PIXEL_BUFFER
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 13:41:16 GMT (Friday 31st July 2020)"
-	revision: "4"
+	date: "2020-08-02 10:26:04 GMT (Sunday 2nd August 2020)"
+	revision: "5"
 
 class
 	EL_PIXMAP_IMP_WIDGET
@@ -33,8 +33,6 @@ inherit
 			interface
 		end
 
-	EL_PIXMAP_TO_JPEG_IMP
-
 create
 	make_with_simple, make_with_drawable
 
@@ -44,8 +42,8 @@ feature {NONE} -- Initialization
 		do
 		end
 
-	init_from_buffer (pixel_buffer: EL_PIXEL_BUFFER)
-			-- Initialize from `pixel_buffer'
+	init_from_buffer (drawing: CAIRO_DRAWING_AREA)
+			-- Initialize from `drawing'
 		do
 		end
 

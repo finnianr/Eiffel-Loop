@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 8:51:04 GMT (Saturday 1st August 2020)"
-	revision: "7"
+	date: "2020-08-02 9:53:08 GMT (Sunday 2nd August 2020)"
+	revision: "8"
 
 deferred class
 	CAIRO_PANGO_CONTEXT_I
@@ -82,29 +82,29 @@ feature -- Text drawing
 
 	draw_rotated_text_top_left (x, y: INTEGER; angle: DOUBLE; a_text: READABLE_STRING_GENERAL)
 		local
-			text_rect: EL_RECTANGLE; text_pixel_buffer: EL_PIXEL_BUFFER
+			text_rect: EL_RECTANGLE; text_drawing: CAIRO_DRAWING_AREA
 			l_x, l_y, hyphen_width: INTEGER
 		do
 			create text_rect.make_for_text (a_text, font)
-			create text_pixel_buffer.make_with_size (text_rect.width, text_rect.height)
+			create text_drawing.make_with_size (text_rect.width, text_rect.height)
 
-			text_pixel_buffer.set_color (color.twin)
-			text_pixel_buffer.set_antialias_best
-			text_pixel_buffer.set_font (font)
-			text_pixel_buffer.draw_text_top_left (0, 0, a_text)
+			text_drawing.set_color (color.twin)
+			text_drawing.set_antialias_best
+			text_drawing.set_font (font)
+			text_drawing.draw_text_top_left (0, 0, a_text)
 
 			-- Make last hyphen more prominent
 			if a_text [a_text.count] = '-' then
 				l_x := font.string_width (a_text.substring (1, a_text.count - 1))
 				l_y := font.ascent - font.descent + 1
 				hyphen_width := font.string_width (once "-") - 1
-				text_pixel_buffer.set_line_width (1)
-				text_pixel_buffer.draw_line (l_x + 1, l_y, l_x + hyphen_width, l_y)
+				text_drawing.set_line_width (1)
+				text_drawing.draw_line (l_x + 1, l_y, l_x + hyphen_width, l_y)
 			end
 
 			save
 			translate (x, y); rotate (angle)
-			draw_pixel_buffer (0, 0, text_pixel_buffer)
+			draw_drawing_area (0, 0, text_drawing)
 			restore
 		end
 

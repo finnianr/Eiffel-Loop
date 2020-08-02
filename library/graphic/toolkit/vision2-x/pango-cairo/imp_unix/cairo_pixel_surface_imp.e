@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 12:44:25 GMT (Saturday 1st August 2020)"
-	revision: "7"
+	date: "2020-08-02 11:20:06 GMT (Sunday 2nd August 2020)"
+	revision: "8"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -32,7 +32,7 @@ inherit
 	EL_SHARED_IMAGE_ACCESS
 
 create
-	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_buffer, make_with_size, make_with_rgb_24
+	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_drawing, make_with_size, make_with_buffer
 
 feature {NONE} -- Initialization
 
@@ -51,11 +51,16 @@ feature {NONE} -- Initialization
 			make_with_gdk_buffer (GTK.new_gdk_pixel_buffer (a_pixmap), a_pixmap.width, a_pixmap.height)
 		end
 
-	make_with_scaled_buffer (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; size: DOUBLE)
+	make_with_scaled_drawing (dimension: NATURAL_8; drawing: CAIRO_DRAWING_AREA; size: DOUBLE)
+		local
+			scaled: EL_RECTANGLE
 		do
+			scaled := drawing.scaled_dimensions (dimension, size.rounded)
+			make_argb_32 (scaled.width, scaled.height)
+			new_drawable.draw_scaled_drawing_area (dimension, 0, 0, size, drawing)
 		end
 
-	make_with_rgb_24 (a_buffer: EV_PIXEL_BUFFER)
+	make_with_buffer (a_buffer: EV_PIXEL_BUFFER)
 		do
 			if attached {EV_PIXEL_BUFFER_IMP} a_buffer.implementation as imp_buffer then
 				pixel_data := imp_buffer.data_ptr
@@ -112,7 +117,9 @@ feature -- Status change
 
 	swap_blue_and_red
 		do
+			flush
 			Image_utils.format_argb_to_abgr (pixel_data, width * height)
+			mark_dirty
 		end
 
 feature {NONE} -- Event handling

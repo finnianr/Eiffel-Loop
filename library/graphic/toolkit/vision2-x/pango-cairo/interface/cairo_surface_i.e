@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 12:47:03 GMT (Friday 31st July 2020)"
-	revision: "4"
+	date: "2020-08-02 11:17:48 GMT (Sunday 2nd August 2020)"
+	revision: "5"
 
 deferred class
 	CAIRO_SURFACE_I
@@ -52,10 +52,6 @@ feature {NONE} -- Initialization
 			make_with_data (pixel_data, Cairo.Format_ARGB_32, a_width, a_height)
 		end
 
-	make_with_buffer (buffer: EV_PIXEL_BUFFER)
-		deferred
-		end
-
 	make_with_data (pixel_data: POINTER; a_format, a_width, a_height: INTEGER)
 		require
 			valid_format: Cairo.is_valid_format (a_format)
@@ -95,13 +91,6 @@ feature -- Measurement
 			Result := Cairo.surface_width (self_ptr)
 		end
 
-feature -- Status change
-
-	set_surface_color_order
-			-- swap red and blue color channels
-		deferred
-		end
-
 feature -- Basic operations
 
 	flush
@@ -123,11 +112,18 @@ feature -- Basic operations
 			file_out.put_image (self_ptr)
 			file_out.close
 		end
+
 feature -- Status query
 
 	is_initialized: BOOLEAN
 		do
 			Result := is_attached (self_ptr)
+		end
+
+feature -- Factory
+
+	new_drawable: CAIRO_PANGO_CONTEXT_I
+		deferred
 		end
 
 feature {CAIRO_DRAWABLE_CONTEXT_I} -- Implementation

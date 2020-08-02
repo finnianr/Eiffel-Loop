@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 12:39:31 GMT (Saturday 1st August 2020)"
-	revision: "7"
+	date: "2020-08-02 11:25:25 GMT (Sunday 2nd August 2020)"
+	revision: "8"
 
 class
 	EL_PIXMAP_IMP
@@ -61,12 +61,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Element change
 
-	init_from_buffer (buffer: EL_PIXEL_BUFFER)
+	init_from_buffer (buffer: CAIRO_DRAWING_AREA)
 			-- Initialize from `pixel_buffer'
 		do
 			if attached {CAIRO_PIXEL_SURFACE_IMP} buffer.to_surface as surface then
 				set_pixmap_from_pixbuf (surface.gdk_pixel_buffer)
-				surface.destroy
 			end
 		end
 

@@ -1,13 +1,16 @@
 note
 	description: "Command-line interface to [$source EL_DIRECTORY_TREE_FILE_PROCESSOR] command"
+	to_do: "[
+		* 1st Aug 2020 Throw an exception for invalid cluster names in form doc/config.pyx
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:53:18 GMT (Thursday 20th February 2020)"
-	revision: "16"
+	date: "2020-08-01 14:39:13 GMT (Saturday 1st August 2020)"
+	revision: "17"
 
 class
 	ECF_TO_PECF_APP

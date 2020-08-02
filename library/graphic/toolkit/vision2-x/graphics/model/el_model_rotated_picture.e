@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 8:09:18 GMT (Saturday 1st August 2020)"
-	revision: "20"
+	date: "2020-08-02 10:00:01 GMT (Sunday 2nd August 2020)"
+	revision: "21"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -34,13 +34,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			border_drawing := False
-			pixel_buffer := Default_pixel_buffer
+			drawing_area := Default_drawing_area
 		end
 
-	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like pixel_buffer)
+	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like drawing_area)
 		do
 			make_with_coordinates (a_points)
-			pixel_buffer := a_pixel_buffer
+			drawing_area := a_pixel_buffer
 		end
 
 	make_from_other (other: EL_MODEL_ROTATED_PICTURE)
@@ -95,7 +95,7 @@ feature -- Comparison
 		do
 			Result := same_points (other)
 					and then mirror_state = other.mirror_state
-					and then pixel_buffer = other.pixel_buffer
+					and then drawing_area = other.drawing_area
 		end
 
 feature -- Transformation
@@ -111,22 +111,22 @@ feature -- Transformation
 
 feature -- Basic operations
 
-	render (pixels: EL_PIXEL_BUFFER)
+	render (drawing: CAIRO_DRAWING_AREA)
 		require
 			valid_width: width <= Max_width
 		local
-			p0: EV_COORDINATE; scaled_pixels: EL_PIXEL_BUFFER
+			p0: EV_COORDINATE; scaled_drawing: CAIRO_DRAWING_AREA
 		do
 			p0 := point_array [0]
-			pixels.save
-			pixels.translate (p0.x, p0.y)
-			pixels.rotate (angle)
+			drawing.save
+			drawing.translate (p0.x, p0.y)
+			drawing.rotate (angle)
 
-			pixels.flip (width, height, mirror_state)
-			Scaled_buffer_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
-			scaled_pixels := Scaled_buffer_cache.item ((pixel_buffer.id.to_natural_32 |<< 16) | width.to_natural_32)
-			pixels.draw_pixel_buffer (0, 0, scaled_pixels)
-			pixels.restore
+			drawing.flip (width, height, mirror_state)
+			Scaled_drawing_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
+			scaled_drawing := Scaled_drawing_cache.item ((drawing_area.id.to_natural_32 |<< 16) | width.to_natural_32)
+			drawing.draw_drawing_area (0, 0, scaled_drawing)
+			drawing.restore
 			progress_listener.notify_tick
 		end
 
@@ -143,7 +143,7 @@ feature -- Duplication
 	set_from_other (other: EL_MODEL_ROTATED_PICTURE)
 		do
 			set_coordinates_from (other)
-			pixel_buffer := other.pixel_buffer
+			drawing_area := other.drawing_area
 			set_foreground_color (other.foreground_color)
 			if other.is_filled then
 				set_background_color (other.background_color)
@@ -154,31 +154,31 @@ feature -- Duplication
 
 feature {NONE} -- Implementation
 
-	new_scaled_pixel_buffer (id_width_key: NATURAL): like pixel_buffer
+	new_scaled_drawing_area (id_width_key: NATURAL): like drawing_area
 		local
 			scaled_width: INTEGER
 		do
 			scaled_width := (id_width_key & Width_mask).to_integer_32
 
-			if scaled_width = pixel_buffer.width then
-				Result := pixel_buffer
+			if scaled_width = drawing_area.width then
+				Result := drawing_area
 			else
-				create Result.make_scaled_to_width (pixel_buffer, scaled_width)
+				create Result.make_scaled_to_width (drawing_area, scaled_width)
 			end
 		end
 
 feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
-	pixel_buffer: EL_PIXEL_BUFFER
+	drawing_area: CAIRO_DRAWING_AREA
 
 feature {NONE} -- Constants
 
-	Scaled_buffer_cache: EL_CACHE_TABLE [EL_PIXEL_BUFFER, NATURAL]
+	Scaled_drawing_cache: EL_CACHE_TABLE [CAIRO_DRAWING_AREA, NATURAL]
 		once
-			create Result.make (13, agent new_scaled_pixel_buffer)
+			create Result.make (13, agent new_scaled_drawing_area)
 		end
 
-	Default_pixel_buffer: EL_PIXEL_BUFFER
+	Default_drawing_area: CAIRO_DRAWING_AREA
 		once
 			create Result.make_with_size (1, 1)
 		end
@@ -186,6 +186,6 @@ feature {NONE} -- Constants
 	Width_mask: NATURAL = 0xFFFF
 
 invariant
-	valid_pixel_buffer_id: pixel_buffer.id.to_integer_32 <= Max_width
+	valid_pixel_buffer_id: drawing_area.id.to_integer_32 <= Max_width
 
 end

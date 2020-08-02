@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-01 10:24:02 GMT (Wednesday 1st July 2020)"
-	revision: "25"
+	date: "2020-08-01 14:38:27 GMT (Saturday 1st August 2020)"
+	revision: "26"
 
 class
 	APPLICATION_ROOT
@@ -76,6 +76,7 @@ note
 	]"
 	to_do: "[
 		* [Oct 2019] Fix "tests" note not appearing in published page
+		* 1st Aug 2020 Throw an exception for invalid cluster names in form doc/config.pyx
 	]"
 	ideas: "[
 		* use lftp to sync with ftp account

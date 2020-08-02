@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:41:15 GMT (Thursday 30th July 2020)"
-	revision: "8"
+	date: "2020-08-02 10:07:50 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 class
 	CAIRO_GOBJECT_IMP
@@ -19,6 +19,11 @@ inherit
 		end
 
 	CAIRO_GTK2_API
+		rename
+			default_create as make
+		end
+
+	EL_OS_IMPLEMENTATION
 		rename
 			default_create as make
 		end

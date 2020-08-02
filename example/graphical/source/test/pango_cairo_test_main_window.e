@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-05 9:53:31 GMT (Sunday 5th July 2020)"
-	revision: "10"
+	date: "2020-08-02 10:13:22 GMT (Sunday 2nd August 2020)"
+	revision: "11"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -104,10 +104,10 @@ feature {NONE} -- Implementation
 
 	new_pixmap: EL_PIXMAP
 		do
-			Result := new_pixel_buffer (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
+			Result := new_drawing_area (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
 		end
 
-	new_pixel_buffer (title_font: EL_FONT): EL_DRAWABLE_PIXEL_BUFFER
+	new_drawing_area (title_font: EL_FONT): CAIRO_DRAWING_AREA
 		local
 			name_rect: EL_RECTANGLE; l_pixmap: EL_PIXMAP
 			l_title: STRING
@@ -140,23 +140,17 @@ feature {NONE} -- Implementation
 			end
 			l_pixmap.draw_rectangle (name_rect.x, name_rect.y, name_rect.width, name_rect.height)
 
---			create Result.make_with_pixmap (l_pixmap) -- _rgb_24
-			create Result.make_with_size (32, l_pixmap.width, l_pixmap.height) -- _rgb_24
-
---			Result.lock
+			create Result.make_with_size (l_pixmap.width, l_pixmap.height) -- _rgb_24
 
 			Result.set_color (Color.White)
 			Result.fill_rectangle (0, 0, l_pixmap.width, l_pixmap.height)
 			Result.draw_rounded_pixmap (0, 0, 35, Top_left | Top_right | Bottom_right | Bottom_left, l_pixmap)
---			Result.draw_pixmap (0, 0, l_pixmap)
 			Result.set_font (title_font)
 			if text_angle = 0 then
 				Result.draw_text_top_left (name_rect.x, name_rect.y, l_title)
 			else
 				Result.draw_rotated_text_top_left (name_rect.x + name_rect.width, name_rect.y, Pi_2, l_title)
 			end
---			Result.unlock
-
 		end
 
 	new_pixmap_cell (a_pixmap: EV_PIXMAP): EV_CELL

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 14:13:15 GMT (Saturday 1st August 2020)"
-	revision: "6"
+	date: "2020-08-02 10:39:42 GMT (Sunday 2nd August 2020)"
+	revision: "7"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -30,7 +30,7 @@ inherit
 		end
 
 create
-	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_buffer, make_with_size, make_with_rgb_24
+	make_with_pixmap, make_with_scaled_pixmap, make_with_scaled_drawing, make_with_size, make_with_buffer
 
 feature {NONE} -- Initialization
 
@@ -47,19 +47,20 @@ feature {NONE} -- Initialization
 			make_with_bitmap (Gdi_bitmap.new (a_pixmap))
 		end
 
-	make_with_rgb_24 (a_buffer: EV_PIXEL_BUFFER)
+	make_with_buffer (a_buffer: EV_PIXEL_BUFFER)
+		-- make with Vision-2 pixel buffer
 		do
 			if attached {EV_PIXEL_BUFFER_IMP} a_buffer.implementation as imp_buffer then
 				make_with_bitmap (Gdi_bitmap.new_clone (imp_buffer.gdip_bitmap, Format32bppPArgb))
 			end
 		end
 
-	make_with_scaled_buffer (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; size: DOUBLE)
+	make_with_scaled_drawing (dimension: NATURAL_8; drawing: CAIRO_DRAWING_AREA; size: DOUBLE)
 		local
 			l_bitmap: WEL_GDIP_BITMAP
 		do
-			if attached {EL_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
-				l_bitmap := imp_buffer.to_gdi_bitmap
+			if attached {CAIRO_DRAWING_AREA_IMP} drawing.implementation as drawing_imp then
+				l_bitmap := drawing_imp.to_gdi_bitmap
 				make_with_bitmap (Gdi_bitmap.new_scaled (dimension, l_bitmap, size.rounded))
 				l_bitmap.destroy_item
 			end

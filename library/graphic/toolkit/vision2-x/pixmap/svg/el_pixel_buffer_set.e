@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 9:52:23 GMT (Saturday 1st August 2020)"
-	revision: "10"
+	date: "2020-08-02 9:01:42 GMT (Sunday 2nd August 2020)"
+	revision: "11"
 
 class
 	EL_PIXEL_BUFFER_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	normal: EL_PIXEL_BUFFER
+	normal: CAIRO_DRAWING_AREA
 
 	highlighted: like normal
 

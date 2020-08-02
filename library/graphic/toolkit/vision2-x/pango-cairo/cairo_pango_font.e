@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:40:16 GMT (Thursday 30th July 2020)"
-	revision: "9"
+	date: "2020-08-02 8:51:20 GMT (Sunday 2nd August 2020)"
+	revision: "10"
 
 class
 	CAIRO_PANGO_FONT

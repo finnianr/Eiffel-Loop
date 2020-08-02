@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-26 16:00:48 GMT (Sunday 26th July 2020)"
-	revision: "10"
+	date: "2020-08-02 10:12:55 GMT (Sunday 2nd August 2020)"
+	revision: "11"
 
 class
 	FRACTAL_MODEL_WORLD
@@ -146,7 +146,7 @@ feature -- Conversion
 
 	as_picture: EV_MODEL_PICTURE
 		do
-			create Result.make_with_pixmap (rendered_pixels.to_pixmap)
+			create Result.make_with_pixmap (rendered_drawing.to_pixmap)
 		end
 
 feature {NONE} -- Implementation
@@ -157,11 +157,11 @@ feature {NONE} -- Implementation
 			refill
 		end
 
-	rendered_pixels: EL_DRAWABLE_PIXEL_BUFFER
+	rendered_drawing: CAIRO_DRAWING_AREA
 		local
 			opacity, minimum_opacity, decrement: DOUBLE
 		do
-			create Result.make_with_size (32, rectangle.width, rectangle.height)
+			create Result.make_with_size (rectangle.width, rectangle.height)
 			Result.draw_scaled_pixmap (By_width, 0, 0, rectangle.width, background_image)
 
 			opacity := fractal_config.fading.maximum / 100

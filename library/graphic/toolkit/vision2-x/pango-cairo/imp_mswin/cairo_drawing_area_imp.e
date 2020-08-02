@@ -1,19 +1,28 @@
 note
-	description: "Windows implementation of [$source EL_PIXEL_BUFFER_I]"
+	description: "Windows implementation of [$source CAIRO_DRAWING_AREA_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 14:18:12 GMT (Saturday 1st August 2020)"
-	revision: "2"
+	date: "2020-08-02 10:53:32 GMT (Sunday 2nd August 2020)"
+	revision: "3"
 
 class
-	EL_PIXEL_BUFFER_IMP
+	CAIRO_DRAWING_AREA_IMP
 
 inherit
-	EL_PIXEL_BUFFER_I
+	CAIRO_DRAWING_AREA_I
+		rename
+			remove_clip as reset_clip,
+			set_angle as rotate
+		end
+
+	CAIRO_PANGO_CONTEXT_IMP
+		rename
+			make as make_cairo_context
+		end
 
 	WEL_GDIP_PIXEL_FORMAT
 		export
@@ -25,23 +34,10 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-			-- Initialize `Current'.
-		do
-			set_is_initialized (True)
-		end
-
-	old_make (an_interface: EL_PIXEL_BUFFER)
-			-- Creation method.
-		do
-			assign_interface (an_interface)
-		end
-
 feature -- Conversion
 
-	to_rgb_24_buffer: EV_PIXEL_BUFFER
+	to_buffer: EV_PIXEL_BUFFER
+		-- Vision-2 pixel buffer
 		local
 			bitmap: like to_gdi_bitmap
 		do
@@ -57,8 +53,8 @@ feature {EV_ANY_HANDLER, EL_PIXMAP_I} -- Access
 
 	to_gdi_bitmap: WEL_GDIP_BITMAP
 		do
-			if attached {CAIRO_SURFACE_IMP} cairo.surface as surface then
-				Result := surface.new_gdi_bitmap
+			if attached {CAIRO_SURFACE_IMP} surface as l_surface then
+				Result := l_surface.new_gdi_bitmap
 			end
 		end
 

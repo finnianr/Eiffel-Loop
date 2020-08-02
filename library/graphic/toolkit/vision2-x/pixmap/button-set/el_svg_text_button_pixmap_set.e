@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 9:09:51 GMT (Saturday 1st August 2020)"
-	revision: "13"
+	date: "2020-08-02 9:08:14 GMT (Sunday 2nd August 2020)"
+	revision: "14"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 				text_rect.set_y (text_rect.y - half_font_descent)
 				text_rect.move (text_rect.x - half_font_descent, text_rect.y)
 
-				if attached l_pixmap.to_argb_32_buffer as buffer then
+				if attached l_pixmap.to_drawing_area as buffer then
 					buffer.set_font (font)
 
 					if is_enabled then

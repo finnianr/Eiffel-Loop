@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 9:52:23 GMT (Saturday 1st August 2020)"
-	revision: "8"
+	date: "2020-08-02 10:01:50 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -89,12 +89,12 @@ feature -- Element change
 
 feature -- Basic operations
 
-	draw (drawable_buffer: EL_PIXEL_BUFFER)
+	draw (drawing: CAIRO_DRAWING_AREA)
 		do
 			if is_displayed then
-				drawable_buffer.draw_pixel_buffer (x, y, state_image)
+				drawing.draw_drawing_area (x, y, state_image)
 				if is_tooltip_displayed and then not tool_tip.is_empty then
-					draw_tooltip (drawable_buffer)
+					draw_tooltip (drawing)
 				end
 			end
 		end
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 			drawing_area.redraw
 		end
 
-	draw_tooltip (drawable_buffer: EL_PIXEL_BUFFER)
+	draw_tooltip (drawing: CAIRO_DRAWING_AREA)
 		local
 			text_rect: EL_RECTANGLE; l_font: EL_FONT; position: EV_COORDINATE
 		do
@@ -168,22 +168,22 @@ feature {NONE} -- Implementation
 			position.set_x ((position.x + l_font.descent * 2).min (drawing_area.width - text_rect.width - l_font.descent * 2))
 			position.set_y (position.y + l_font.descent * 3)
 			text_rect.move (position.x, position.y)
-			drawable_buffer.set_color (Tool_tip_color)
-			drawable_buffer.fill_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
-			drawable_buffer.set_color (color_with_lightness (Tool_tip_color, -0.2).twin)
-			drawable_buffer.set_line_width (2)
-			drawable_buffer.draw_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
+			drawing.set_color (Tool_tip_color)
+			drawing.fill_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
+			drawing.set_color (color_with_lightness (Tool_tip_color, -0.2).twin)
+			drawing.set_line_width (2)
+			drawing.draw_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
 
-			drawable_buffer.set_font (l_font)
-			drawable_buffer.set_color (Color.Black)
-			drawable_buffer.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip)
+			drawing.set_font (l_font)
+			drawing.set_color (Color.Black)
+			drawing.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip)
 		end
 
 	drawing_area: EL_DRAWING_AREA_BASE
 
 	button_press_action: PROCEDURE
 
-	state_image: EL_PIXEL_BUFFER
+	state_image: CAIRO_DRAWING_AREA
 
 	image_set: EL_PIXEL_BUFFER_SET
 

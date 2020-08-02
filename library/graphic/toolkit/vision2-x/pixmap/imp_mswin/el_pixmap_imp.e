@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-31 15:09:11 GMT (Friday 31st July 2020)"
-	revision: "8"
+	date: "2020-08-02 10:26:14 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 class
 	EL_PIXMAP_IMP
@@ -32,8 +32,6 @@ inherit
 			interface
 		end
 
-	EL_PIXMAP_TO_JPEG_IMP
-
 	EL_MODULE_GDI_BITMAP
 
 create
@@ -55,20 +53,20 @@ feature {NONE} -- Initialization
 			set_is_initialized (True)
 		end
 
-	init_from_buffer (buffer: EL_PIXEL_BUFFER)
+	init_from_buffer (drawing: CAIRO_DRAWING_AREA)
 			-- Initialize from `pixel_buffer'
 		local
 			l_bitmap: WEL_GDIP_BITMAP
 		do
-			if attached {EL_PIXEL_BUFFER_IMP} buffer.implementation as imp_buffer then
+			if attached {CAIRO_DRAWING_AREA_IMP} drawing.implementation as drawing_imp then
 				if attached private_bitmap as private then
 					private.delete
 				end
 				if attached private_mask_bitmap as private then
 					private.delete
 				end
-				l_bitmap := imp_buffer.to_gdi_bitmap
-				set_bitmap_and_mask (l_bitmap.new_bitmap, Void, imp_buffer.width, imp_buffer.height)
+				l_bitmap := drawing_imp.to_gdi_bitmap
+				set_bitmap_and_mask (l_bitmap.new_bitmap, Void, drawing_imp.width, drawing_imp.height)
 				l_bitmap.destroy_item
 			end
 		end

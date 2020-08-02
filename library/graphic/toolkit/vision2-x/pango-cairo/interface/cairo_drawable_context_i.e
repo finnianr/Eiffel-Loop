@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 11:06:13 GMT (Saturday 1st August 2020)"
-	revision: "8"
+	date: "2020-08-02 11:04:13 GMT (Sunday 2nd August 2020)"
+	revision: "9"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -17,7 +17,7 @@ inherit
 		rename
 			self_ptr as context
 		export
-			{EL_DRAWABLE_PIXEL_BUFFER_I, EL_SVG_IMAGE, CAIRO_DRAWABLE_CONTEXT_I} context
+			{EL_SVG_IMAGE, CAIRO_DRAWABLE_CONTEXT_I} context
 		end
 
 	CAIRO_COMMAND_CONTEXT
@@ -40,6 +40,16 @@ feature {NONE} -- Initialization
 			if a_surface.is_initialized then
 				make_from_pointer (a_surface.new_context)
 			end
+		end
+
+	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
+		do
+			make (create {CAIRO_SURFACE_IMP}.make_argb_32 (svg_image.width, svg_image.height))
+			if not a_background_color.is_transparent then
+				set_color (a_background_color)
+				fill_rectangle (0, 0, width, height)
+			end
+			svg_image.render (Current)
 		end
 
 feature -- Access
@@ -221,13 +231,14 @@ feature -- Status change
 			Cairo.set_source_surface (context, a_surface.self_ptr, x, y)
 		end
 
-	set_surface_color_order
-		-- set color channel order (needed for Unix)
-		do
-			surface.set_surface_color_order
-		end
-
 feature -- Drawing operations
+
+	draw_drawing_area (x, y: DOUBLE; drawing: CAIRO_DRAWING_AREA)
+		do
+			if attached drawing.implementation as drawing_imp then
+				draw_surface (x, y, drawing_imp.surface)
+			end
+		end
 
 	draw_line (x1, y1, x2, y2: INTEGER)
 		local
@@ -242,13 +253,6 @@ feature -- Drawing operations
 			stroke
 			if rotation_angle = rotation_angle.zero then
 				Cairo.set_antialias (context, l_antialias)
-			end
-		end
-
-	draw_pixel_buffer (x, y: DOUBLE; buffer: EL_PIXEL_BUFFER)
-		do
-			if attached buffer.implementation as l_buffer then
-				draw_surface (x, y, l_buffer.cairo.surface)
 			end
 		end
 
@@ -285,10 +289,10 @@ feature -- Drawing operations
 			restore
 		end
 
-	draw_rounded_pixel_buffer (x, y, radius: DOUBLE; corners_bitmap: INTEGER; buffer: EL_PIXEL_BUFFER)
+	draw_rounded_drawing_area (x, y, radius: DOUBLE; corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		do
-			set_clip_rounded_rectangle (x, y, buffer.width, buffer.height, radius, corners_bitmap)
-			draw_pixel_buffer (x, y, buffer)
+			set_clip_rounded_rectangle (x, y, drawing.width, drawing.height, radius, corners_bitmap)
+			draw_drawing_area (x, y, drawing)
 			reset_clip
 		end
 
@@ -299,9 +303,9 @@ feature -- Drawing operations
 			reset_clip
 		end
 
-	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, size: DOUBLE; buffer: EL_PIXEL_BUFFER)
+	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, size: DOUBLE; drawing: CAIRO_DRAWING_AREA)
 		do
-			draw_scaled_surface (dimension, x, y, size, buffer.implementation.cairo.surface)
+			draw_scaled_surface (dimension, x, y, size, drawing.implementation.surface)
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
@@ -425,7 +429,7 @@ feature -- Drawing operations
 
 feature {NONE} -- Alternative methods
 
-	draw_scaled_pixel_buffer_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: EL_PIXEL_BUFFER)
+	draw_scaled_pixel_buffer_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_buffer: CAIRO_DRAWING_AREA)
 		-- alternative way to implement `draw_scaled_pixel_buffer' using scaled pattern
 		-- Which is better? not sure.
 		require
@@ -440,7 +444,7 @@ feature {NONE} -- Alternative methods
 				factor := a_size / a_buffer.height
 			end
 			scale_by (factor)
-			draw_pixel_buffer (x / factor, y / factor, a_buffer)
+			draw_drawing_area (x / factor, y / factor, a_buffer)
 			restore
 		end
 
@@ -491,7 +495,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {EL_DRAWABLE_PIXEL_BUFFER_I, CAIRO_DRAWABLE_CONTEXT_I, EL_PIXEL_BUFFER_I} -- Internal attributes
+feature {CAIRO_DRAWABLE_CONTEXT_I, CAIRO_DRAWING_AREA_I} -- Internal attributes
 
 	surface: CAIRO_SURFACE_I
 

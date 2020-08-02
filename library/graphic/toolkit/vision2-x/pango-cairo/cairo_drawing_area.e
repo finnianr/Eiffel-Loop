@@ -1,7 +1,7 @@
 note
 	description: "[
-		Pixel buffer drawing providing access to the [https://cairographics.org/ Cairo] 
-		and [http://www.pango.org/ Pangocairo] graphics libraries.
+		Drawing area based on the [https://cairographics.org/ Cairo Graphics] 
+		and [http://www.pango.org/ Pangocairo Graphics] libraries.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 13:21:00 GMT (Saturday 1st August 2020)"
-	revision: "3"
+	date: "2020-08-02 11:25:43 GMT (Sunday 2nd August 2020)"
+	revision: "4"
 
 class
-	EL_PIXEL_BUFFER
+	CAIRO_DRAWING_AREA
 
 inherit
 	EV_FONTABLE
@@ -22,8 +22,8 @@ inherit
 		end
 
 	EL_JPEG_CONVERTABLE
-		redefine
-			implementation
+		rename
+			to_pixel_surface as to_surface
 		end
 
 	EL_ORIENTATION_ROUTINES
@@ -42,7 +42,7 @@ create
 	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height
 
 convert
-	dimensions: {EL_RECTANGLE}, to_rgb_24_buffer: {EV_PIXEL_BUFFER}
+	dimensions: {EL_RECTANGLE}, to_buffer: {EV_PIXEL_BUFFER}
 
 feature {NONE} -- Initialization
 
@@ -61,20 +61,20 @@ feature {NONE} -- Initialization
 			implementation.make_with_pixmap (a_pixmap)
 		end
 
-	make_scaled (dimension: NATURAL_8; size: INTEGER; other: EL_PIXEL_BUFFER)
+	make_scaled (dimension: NATURAL_8; size: INTEGER; other: CAIRO_DRAWING_AREA)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
 			make_with_rectangle (other.scaled_dimensions (dimension, size))
-			draw_scaled_pixel_buffer (dimension, 0, 0, size, other)
+			draw_scaled_drawing_area (dimension, 0, 0, size, other)
 		end
 
-	make_scaled_to_height (other: EL_PIXEL_BUFFER; a_height: INTEGER)
+	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER)
 		do
 			make_scaled (By_height, a_height, other)
 		end
 
-	make_scaled_to_width (other: EL_PIXEL_BUFFER; a_width: INTEGER)
+	make_scaled_to_width (other: CAIRO_DRAWING_AREA; a_width: INTEGER)
 		do
 			make_scaled (By_width, a_width, other)
 		end
@@ -158,12 +158,15 @@ feature -- Conversion
 			create Result.make_with_argb_32 (Current)
 		end
 
-	to_rgb_24_buffer: EV_PIXEL_BUFFER
+	to_buffer: EV_PIXEL_BUFFER
+		-- Vision-2 pixel buffer
 		do
-			Result := implementation.to_rgb_24_buffer
+			Result := implementation.to_buffer
 		end
 
 	to_surface: CAIRO_PIXEL_SURFACE_I
+		-- Cairo pixmap surface
+		-- don't forget to call destroy on result for Windows
 		do
 			Result := implementation.to_surface
 		end
@@ -262,9 +265,9 @@ feature -- Drawing operations
 			implementation.draw_line (x1, y1, x2, y2)
 		end
 
-	draw_pixel_buffer (x, y: INTEGER; a_buffer: EL_PIXEL_BUFFER)
+	draw_drawing_area (x, y: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		do
-			implementation.draw_pixel_buffer (x, y, a_buffer)
+			implementation.draw_drawing_area (x, y, drawing)
 		end
 
 	draw_pixmap (x, y: INTEGER; a_pixmap: EV_PIXMAP)
@@ -292,10 +295,10 @@ feature -- Drawing operations
 			implementation.draw_rotated_text_top_left (x, y, angle, a_text)
 		end
 
-	draw_rounded_pixel_buffer (x, y, radius, corners_bitmap: INTEGER; a_pixel_buffer: EL_PIXEL_BUFFER)
+	draw_rounded_drawing_area (x, y, radius, corners_bitmap: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. `Top_left | Top_right'
 		do
-			implementation.draw_rounded_pixel_buffer (x, y, radius, corners_bitmap, a_pixel_buffer)
+			implementation.draw_rounded_drawing_area (x, y, radius, corners_bitmap, drawing)
 		end
 
 	draw_rounded_pixmap (x, y, radius, corners_bitmap: INTEGER; a_pixmap: EV_PIXMAP)
@@ -304,11 +307,11 @@ feature -- Drawing operations
 			implementation.draw_rounded_pixmap (x, y, radius, corners_bitmap, a_pixmap)
 		end
 
-	draw_scaled_pixel_buffer (dimension: NATURAL_8; x, y, a_size: INTEGER; a_buffer: EL_PIXEL_BUFFER)
+	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		do
-			implementation.draw_scaled_pixel_buffer (dimension, x, y, a_size, a_buffer)
+			implementation.draw_scaled_drawing_area (dimension, x, y, a_size, drawing)
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: INTEGER; a_pixmap: EV_PIXMAP)
@@ -355,7 +358,7 @@ feature {NONE} -- Implementation
 	create_implementation
 			-- Create implementation
 		do
-			create {EL_PIXEL_BUFFER_IMP} implementation.make
+			create {CAIRO_DRAWING_AREA_IMP} implementation.make
 		end
 
 	create_interface_objects
@@ -364,7 +367,7 @@ feature {NONE} -- Implementation
 
 feature {EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes
 
-	implementation: EL_PIXEL_BUFFER_I
+	implementation: CAIRO_DRAWING_AREA_I
 		-- Implementation interface
 
 	internal_id: NATURAL_16

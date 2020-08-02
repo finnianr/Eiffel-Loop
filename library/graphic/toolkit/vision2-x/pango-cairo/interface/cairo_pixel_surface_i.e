@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 11:48:41 GMT (Saturday 1st August 2020)"
-	revision: "6"
+	date: "2020-08-02 11:09:09 GMT (Sunday 2nd August 2020)"
+	revision: "7"
 
 deferred class
 	CAIRO_PIXEL_SURFACE_I
@@ -34,13 +34,14 @@ feature {NONE} -- Initialization
 			initialized: is_initialized
 		end
 
-	make_with_rgb_24 (a_buffer: EV_PIXEL_BUFFER)
+	make_with_buffer (a_buffer: EV_PIXEL_BUFFER)
+		-- make with Vision-2 pixel buffer
 		deferred
 		ensure
 			initialized: is_initialized
 		end
 
-	make_with_scaled_buffer (dimension: NATURAL_8; buffer: EL_PIXEL_BUFFER; size: DOUBLE)
+	make_with_scaled_drawing (dimension: NATURAL_8; buffer: CAIRO_DRAWING_AREA; size: DOUBLE)
 		require
 			valid_dimension: is_valid_dimension (dimension)
 		deferred
@@ -65,7 +66,7 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	adjust_colors
-		-- adjust colors for platform
+		-- adjust order of color channels for OS platform
 		deferred
 		end
 

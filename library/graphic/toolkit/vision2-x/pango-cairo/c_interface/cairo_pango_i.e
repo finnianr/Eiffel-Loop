@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:40:58 GMT (Thursday 30th July 2020)"
-	revision: "6"
+	date: "2020-08-02 8:52:54 GMT (Sunday 2nd August 2020)"
+	revision: "7"
 
 deferred class
 	CAIRO_PANGO_I
