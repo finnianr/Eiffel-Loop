@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:22:48 GMT (Sunday 2nd August 2020)"
-	revision: "3"
+	date: "2020-08-03 10:17:57 GMT (Monday 3rd August 2020)"
+	revision: "4"
 
 class
 	CAIRO_DRAWING_AREA_IMP
@@ -19,7 +19,7 @@ inherit
 			set_angle as rotate
 		end
 
-	CAIRO_PANGO_CONTEXT_IMP
+	CAIRO_DRAWING_CONTEXT_IMP
 		rename
 			make as make_cairo_context
 		end
@@ -37,7 +37,7 @@ feature -- Conversion
 		do
 			create Result.make_with_size (width, height)
 			create {CAIRO_PIXEL_SURFACE_IMP} l_surface.make_with_buffer (Result)
-			l_surface.new_drawable.draw_surface (0, 0, surface)
+			l_surface.new_context.draw_surface (0, 0, surface)
 			l_surface.adjust_colors
 			l_surface.destroy
 		end

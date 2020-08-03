@@ -10,17 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 13:59:07 GMT (Sunday 9th February 2020)"
-	revision: "6"
+	date: "2020-08-03 13:06:00 GMT (Monday 3rd August 2020)"
+	revision: "7"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
 
 inherit
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
-		redefine
-			make_default
-		end
 
 	EL_XML_PARSE_EVENT_TYPE
 
@@ -34,7 +31,6 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor
 			create label_count
 			create par_id_count
 			create data_value_field_set.make (21)

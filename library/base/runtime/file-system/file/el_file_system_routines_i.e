@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:24:50 GMT (Wednesday 27th May 2020)"
-	revision: "26"
+	date: "2020-08-03 12:15:32 GMT (Monday 3rd August 2020)"
+	revision: "27"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -52,6 +52,9 @@ feature -- Access
 		end
 
 	escaped_path (path: READABLE_STRING_GENERAL): ZSTRING
+		-- escaped for use as command line argument
+		-- On Unix characters like colon, space etc are prefixed with a backslash
+		-- On Windows this results in a quoted string
 		deferred
 		end
 

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 14:13:55 GMT (Wednesday 29th January 2020)"
-	revision: "18"
+	date: "2020-08-03 13:05:32 GMT (Monday 3rd August 2020)"
+	revision: "19"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -32,8 +32,6 @@ inherit
 			{NONE} all
 			{ANY} build_from_stream, build_from_string, build_from_lines, build_from_file,
 					set_parser_type, generator
-		redefine
-			make_default
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -51,7 +49,6 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_BUILDER_OBJECT_FACTORY} -- Initiali
 		do
 			create xml_name_space.make_empty
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EL_CREATEABLE_FROM_NODE_SCAN}
 			PI_building_actions := PI_building_actions_by_type.item (Current)
 		end
 

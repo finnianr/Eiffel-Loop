@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 15:17:22 GMT (Wednesday 6th May 2020)"
-	revision: "15"
+	date: "2020-08-03 13:06:50 GMT (Monday 3rd August 2020)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -61,7 +61,6 @@ feature {NONE} -- Initialization
 			if not attached file_path then
 				create file_path
 			end
-			create node_source.make (agent new_node_source)
 			Precursor {EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN}
 		end
 

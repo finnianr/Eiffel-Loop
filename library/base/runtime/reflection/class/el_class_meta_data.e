@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 17:41:39 GMT (Thursday 30th January 2020)"
-	revision: "26"
+	date: "2020-08-03 13:19:39 GMT (Monday 3rd August 2020)"
+	revision: "27"
 
 class
 	EL_CLASS_META_DATA
@@ -18,6 +18,12 @@ inherit
 			{NONE} all
 		redefine
 			make, enclosing_object
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			object as sink_except_fields,
+			new_object as new_sink_except_fields
 		end
 
 	EL_REFLECTION_CONSTANTS
@@ -45,7 +51,6 @@ feature {NONE} -- Initialization
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			create field_list.make (new_field_list.to_array)
-			create sink_except_fields.make (agent new_sink_except_fields)
 			field_table := field_list.to_table (a_enclosing_object)
 		end
 
@@ -61,7 +66,7 @@ feature -- Access
 
 	sink_except (a_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; a_excluded_fields: STRING)
 		do
-			if attached sink_except_fields.item as cached then
+			if attached sink_except_fields as cached then
 				field_list.sink_except (a_object, sinkable, cached.item (a_excluded_fields))
 			end
 		end
@@ -196,9 +201,6 @@ feature {NONE} -- Internal attributes
 	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
-
-	sink_except_fields: EL_DEFERRED_CELL [like new_sink_except_fields]
-		-- workaround for exceptions thrown by once ("OBJECT")
 
 feature {NONE} -- Constants
 

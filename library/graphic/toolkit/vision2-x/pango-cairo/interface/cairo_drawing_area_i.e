@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:26:01 GMT (Sunday 2nd August 2020)"
-	revision: "4"
+	date: "2020-08-03 9:20:04 GMT (Monday 3rd August 2020)"
+	revision: "5"
 
 deferred class
 	CAIRO_DRAWING_AREA_I
@@ -106,7 +106,7 @@ feature -- Conversion
 		-- don't forget to call destroy on result for Windows
 		do
 			create {CAIRO_PIXEL_SURFACE_IMP} Result.make_with_size (width, height)
-			Result.new_drawable.draw_surface (0, 0, surface)
+			Result.new_context.draw_surface (0, 0, surface)
 			Result.adjust_colors
 		end
 

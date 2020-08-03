@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:44:40 GMT (Sunday 2nd August 2020)"
-	revision: "9"
+	date: "2020-08-03 9:20:04 GMT (Monday 3rd August 2020)"
+	revision: "10"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 		do
 			scaled := drawing.scaled_dimensions (dimension, size.rounded)
 			make_argb_32 (scaled.width, scaled.height)
-			new_drawable.draw_scaled_drawing_area (dimension, 0, 0, size, drawing)
+			new_context.draw_scaled_drawing_area (dimension, 0, 0, size, drawing)
 		end
 
 	make_with_buffer (a_buffer: EV_PIXEL_BUFFER)

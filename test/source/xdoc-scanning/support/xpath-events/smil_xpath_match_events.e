@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 11:08:19 GMT (Wednesday 29th January 2020)"
-	revision: "7"
+	date: "2020-08-03 13:26:06 GMT (Monday 3rd August 2020)"
+	revision: "8"
 
 class
 	SMIL_XPATH_MATCH_EVENTS
@@ -22,7 +22,19 @@ inherit
 create
 	make_from_file
 
+feature {NONE} -- Initialization
+
+	make_default
+		do
+		end
+
 feature {NONE} -- XPath match event handlers
+
+	increment_audio_count
+			--
+		do
+			count := count + 1
+		end
 
 	on_audio_title
 			--
@@ -38,12 +50,6 @@ feature {NONE} -- XPath match event handlers
 			log.put_new_line
 		end
 
-	increment_audio_count
-			--
-		do
-			count := count + 1
-		end
-
 	on_smil_end
 			--
 		do
@@ -52,6 +58,8 @@ feature {NONE} -- XPath match event handlers
 		end
 
 feature {NONE} -- Implementation
+
+	count: INTEGER
 
 	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
 			--
@@ -67,7 +75,5 @@ feature {NONE} -- Implementation
 				[on_open, "//meta/@name", agent on_meta_tag]
 			>>
 		end
-
-	count: INTEGER
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:17:48 GMT (Sunday 2nd August 2020)"
-	revision: "5"
+	date: "2020-08-03 10:17:57 GMT (Monday 3rd August 2020)"
+	revision: "6"
 
 deferred class
 	CAIRO_SURFACE_I
@@ -122,8 +122,9 @@ feature -- Status query
 
 feature -- Factory
 
-	new_drawable: CAIRO_PANGO_CONTEXT_I
-		deferred
+	new_context: CAIRO_DRAWING_CONTEXT_I
+		do
+			create {CAIRO_DRAWING_CONTEXT_IMP} Result.make (Current)
 		end
 
 feature {CAIRO_DRAWABLE_CONTEXT_I} -- Implementation
@@ -131,11 +132,6 @@ feature {CAIRO_DRAWABLE_CONTEXT_I} -- Implementation
 	c_free (this: POINTER)
 		do
 			Cairo.destroy_surface (this)
-		end
-
-	new_context: POINTER
-		do
-			Result := Cairo.new_cairo (self_ptr)
 		end
 
 end

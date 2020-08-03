@@ -1,4 +1,6 @@
-1.2.9
+1.2.10
+Replaced EL_DEFERRED_CELL with EL_LAZY_ATTRIBUTE
+
 Added new ZSTRING benchmark tests to_utf_8 and as_string_8
 
 1.2.8

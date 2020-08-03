@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 12:26:48 GMT (Saturday 30th May 2020)"
-	revision: "10"
+	date: "2020-08-03 13:19:39 GMT (Monday 3rd August 2020)"
+	revision: "11"
 
 class
 	TL_ID3_PICTURE
 
 inherit
-	ANY
+	EL_LAZY_ATTRIBUTE
+		rename
+			object as data,
+			new_object as new_data,
+			actual_object as actual_data
 		redefine
 			is_equal
 		end
@@ -66,7 +70,7 @@ feature {NONE} -- Initialization
 			file_path := Default_file_path
 			description := frame.description
 			set_mime_type (frame.mime_type)
-			internal_data := frame.picture.data
+			actual_data := frame.picture.data
 			type_enum := frame.type_enum
 		end
 
@@ -77,14 +81,11 @@ feature -- Access
 			Result := Mod_checksum.data (data)
 		end
 
-	data: MANAGED_POINTER
+	new_data: MANAGED_POINTER
 		-- picture data
 		do
-			if attached internal_data as l_data then
-				Result := l_data
-			elseif file_path.exists then
+			if file_path.exists then
 				Result := File_system.file_data (file_path)
-				internal_data := Result
 			else
 				create Result.make (0)
 			end
@@ -114,7 +115,7 @@ feature -- Status query
 
 	is_default: BOOLEAN
 		do
-			Result := file_path = Default_file_path and not attached internal_data
+			Result := file_path = Default_file_path and not attached actual_data
 		end
 
 	same_type_and_description (other: TL_ID3_PICTURE): BOOLEAN
@@ -164,8 +165,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	internal_data: detachable MANAGED_POINTER
 
 	mime_type_index: INTEGER
 

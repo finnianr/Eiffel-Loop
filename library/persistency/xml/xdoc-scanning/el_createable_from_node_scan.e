@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 11:07:15 GMT (Wednesday 29th January 2020)"
-	revision: "11"
+	date: "2020-08-03 13:25:35 GMT (Monday 3rd August 2020)"
+	revision: "12"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -17,12 +17,16 @@ deferred class
 inherit
 	EL_BUILDABLE_FROM_FILE
 
+	EL_LAZY_ATTRIBUTE
+		rename
+			object as node_source,
+			new_object as new_node_source
+		end
+
 feature {NONE} -- Initialization
 
 	make_default
-			--
-		do
-			create node_source.make (agent new_node_source)
+		deferred
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
@@ -55,7 +59,7 @@ feature -- Basic operations
 		local
 			file: FILE
 		do
-			file := node_source.item.event_source.new_file_stream (a_file_path)
+			file := node_source.event_source.new_file_stream (a_file_path)
 			if file.exists then
 				file.open_read
 				build_from_stream (file)
@@ -68,7 +72,7 @@ feature -- Basic operations
 	build_from_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
 			--
 		do
-			node_source.item.apply_from_lines (Current, lines)
+			node_source.apply_from_lines (Current, lines)
 		end
 
 	build_from_stream (a_stream: IO_MEDIUM)
@@ -76,13 +80,13 @@ feature -- Basic operations
 		require
 			open_stream: a_stream.is_open_read
 		do
-			node_source.item.apply_from_stream (Current, a_stream)
+			node_source.apply_from_stream (Current, a_stream)
 		end
 
 	build_from_string (a_string: STRING)
 			--
 		do
-			node_source.item.apply_from_string (Current, a_string)
+			node_source.apply_from_string (Current, a_string)
 		end
 
 feature -- Element change
@@ -90,22 +94,17 @@ feature -- Element change
 	set_parser_type (type: TYPE [EL_PARSE_EVENT_SOURCE])
 			--
 		do
-			node_source.item.set_parser_type (type)
+			node_source.set_parser_type (type)
 		end
 
 feature {NONE} -- Implementation
 
 	new_node_source: EL_XML_NODE_SCAN_SOURCE
-			--
 		deferred
 		end
 
 	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]
 		deferred
 		end
-
-feature {NONE} -- Internal attributes
-
-	node_source: EL_DEFERRED_CELL [EL_XML_NODE_SCAN_SOURCE]
 
 end

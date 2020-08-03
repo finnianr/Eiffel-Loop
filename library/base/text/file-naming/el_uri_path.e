@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-22 11:37:20 GMT (Wednesday 22nd July 2020)"
-	revision: "23"
+	date: "2020-08-03 12:08:58 GMT (Monday 3rd August 2020)"
+	revision: "24"
 
 deferred class
 	EL_URI_PATH
@@ -25,7 +25,7 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			append_file_prefix, default_create, make, make_from_other, escaped,
+			append_file_prefix, default_create, make, make_from_other,
 			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string,
 			Separator, Type_parent
@@ -196,11 +196,6 @@ feature -- Status query
 		end
 
 feature -- Conversion
-
-	escaped: ZSTRING
-		do
-			Result := to_encoded_utf_8
-		end
 
 	to_file_path: EL_PATH
 		deferred

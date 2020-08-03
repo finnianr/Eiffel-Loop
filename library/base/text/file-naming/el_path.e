@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 9:41:54 GMT (Friday 3rd July 2020)"
-	revision: "42"
+	date: "2020-08-03 12:15:16 GMT (Monday 3rd August 2020)"
+	revision: "43"
 
 deferred class
 	EL_PATH
@@ -600,6 +600,9 @@ feature -- Removal
 feature -- Conversion
 
 	escaped: ZSTRING
+		-- escaped for use as command line argument
+		-- On Unix characters like colon, space etc are prefixed with a backslash
+		-- On Windows this results in a quoted string
 		do
 			Result := File_system.escaped_path (temporary_path)
 		end

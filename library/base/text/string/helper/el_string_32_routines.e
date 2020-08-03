@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 12:49:01 GMT (Tuesday 17th March 2020)"
-	revision: "8"
+	date: "2020-08-03 9:57:51 GMT (Monday 3rd August 2020)"
+	revision: "9"
 
 class
 	EL_STRING_32_ROUTINES
@@ -16,6 +16,8 @@ inherit
 	EL_STRING_X_ROUTINES [STRING_32]
 
 	EL_SHARED_ONCE_STRING_32
+
+	EL_SHARED_ONCE_STRING_8
 
 feature -- Conversion
 
@@ -27,6 +29,17 @@ feature -- Conversion
 			from i := 1 until i > s.count loop
 				Result [i] := s.code (i).to_natural_8
 				i := i + 1
+			end
+		end
+
+	to_utf_8 (str: STRING_32; keep_ref: BOOLEAN): STRING
+		local
+			c: EL_UTF_CONVERTER
+		do
+			Result := empty_once_string_8
+			c.utf_32_string_into_utf_8_string_8 (str, Result)
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 

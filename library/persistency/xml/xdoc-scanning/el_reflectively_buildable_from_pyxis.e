@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:37:19 GMT (Tuesday 28th April 2020)"
-	revision: "6"
+	date: "2020-08-03 13:42:32 GMT (Monday 3rd August 2020)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -27,9 +27,7 @@ inherit
 		rename
 			xml_name_space as xmlns
 		undefine
-			is_equal, new_building_actions
-		redefine
-			make_default
+			is_equal, new_building_actions, make_default
 		end
 
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
@@ -39,19 +37,9 @@ inherit
 			xml_name_space as xmlns
 		export
 			{NONE} all
-		redefine
-			make_default
 		end
 
 	EL_MODULE_XML
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			create node_source.make (agent new_node_source)
-			Precursor {EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN}
-		end
 
 feature {NONE} -- Implementation
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 11:08:45 GMT (Wednesday 29th January 2020)"
-	revision: "10"
+	date: "2020-08-03 13:06:27 GMT (Monday 3rd August 2020)"
+	revision: "11"
 
 deferred class
 	EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN
@@ -46,7 +46,7 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
 			if a_file_path.exists then
 				build_from_file (a_file_path)
-				set_encoding_from_name (node_source.item.encoding_name)
+				set_encoding_from_name (node_source.encoding_name)
 			end
 		end
 

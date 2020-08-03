@@ -24,7 +24,7 @@ note
 						[on_close, "/bix", agent log_results], -- matches only when closing tag encountered
 
 						-- Wildcard paths
-						[on_open, "//par/value/*", agent on_parameter_data_value_field],
+						[on_open, "//par/va	lue/*", agent on_parameter_data_value_field],
 						[on_open, "//label/text()", agent on_label],
 						[on_open, "//label", agent increment (label_count)],
 						[on_open, "//par/id", agent increment (par_id_count)],
@@ -39,8 +39,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:02:19 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2020-08-03 13:34:06 GMT (Monday 3rd August 2020)"
+	revision: "6"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS

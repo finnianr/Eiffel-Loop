@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:04:13 GMT (Sunday 2nd August 2020)"
-	revision: "9"
+	date: "2020-08-03 11:44:26 GMT (Monday 3rd August 2020)"
+	revision: "10"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -17,7 +17,7 @@ inherit
 		rename
 			self_ptr as context
 		export
-			{EL_SVG_IMAGE, CAIRO_DRAWABLE_CONTEXT_I} context
+			{EL_SVG_IMAGE, CAIRO_DRAWABLE_CONTEXT_I, CAIRO_TEXT_LAYOUT_I} context
 		end
 
 	CAIRO_COMMAND_CONTEXT
@@ -30,32 +30,6 @@ inherit
 			{ANY} is_valid_corner, is_valid_dimension
 		end
 
-feature {NONE} -- Initialization
-
-	make (a_surface: CAIRO_SURFACE_I)
-		do
-			create color
-			set_opaque
-			surface := a_surface
-			if a_surface.is_initialized then
-				make_from_pointer (a_surface.new_context)
-			end
-		end
-
-	make_with_svg_image (svg_image: EL_SVG_IMAGE; a_background_color: EL_COLOR)
-		do
-			make (create {CAIRO_SURFACE_IMP}.make_argb_32 (svg_image.width, svg_image.height))
-			if not a_background_color.is_transparent then
-				set_color (a_background_color)
-				fill_rectangle (0, 0, width, height)
-			end
-			svg_image.render (Current)
-		end
-
-feature -- Access
-
-	color: EV_COLOR
-
 feature -- Measurement
 
 	height: INTEGER
@@ -63,40 +37,11 @@ feature -- Measurement
 			Result := surface.height
 		end
 
-	opacity: INTEGER
-		-- percentage opacity. 100 is totally opaque
-
 	rotation_angle: DOUBLE
 
 	width: INTEGER
 		do
 			Result := surface.width
-		end
-
-feature -- Element change
-
-	set_color (a_color: like color)
-		do
-			color := a_color
-			set_source_color
-		end
-
-	set_opacity (percentage: INTEGER)
-		do
-			opacity := percentage
-		end
-
-	set_opaque
-		do
-			opacity := 100
-		end
-
-feature -- Basic operations
-
-	save_as (file_path: EL_FILE_PATH)
-			-- Save as png file
-		do
-			surface.save_as (file_path)
 		end
 
 feature -- Transformations
@@ -124,6 +69,7 @@ feature -- Transformations
 			Cairo.rotate (context, angle)
 			rotation_angle := angle
 		end
+
 
 	rotate_quarter (n: INTEGER)
 		-- rotate `n * 90' degrees
@@ -351,6 +297,8 @@ feature -- Drawing operations
 			restore_color -- Need to restore color after set_source_surface
 		end
 
+feature -- Filling operations
+
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
 		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
 		local
@@ -448,7 +396,7 @@ feature {NONE} -- Alternative methods
 			restore
 		end
 
-	draw_scaled_pixmap_alternative (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
+	draw_scaled_pixmap_alternative_1 (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
 		-- alternative way to implement `draw_scaled_pixmap' using scaled pattern
 		-- Seems to produce identical results when screenshot inspected in image viewer
 		require
@@ -480,15 +428,8 @@ feature {NONE} -- Alternative methods
 
 feature {NONE} -- Implementation
 
-	c_free (this: POINTER)
-			--
-		do
-			Cairo.destroy (this)
-		end
-
 	restore_color
-		do
-			set_color (color)
+		deferred
 		end
 
 	set_source_color

@@ -12,7 +12,7 @@ el_eiffel -feature_editor -no_highlighting -source "$file_name"
 python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin
 
 3. Open project directory
-launch_script.sh ec_open_directory.py "$project_directory" 2
+ec_open_directory.py "$project_directory" 2 2> /dev/null > /dev/null &
 
 4. List feature catagories
 cat feature_constants.e | tail -n 36 | expand -t3

@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 13:59:07 GMT (Sunday 26th January 2020)"
-	revision: "12"
+	date: "2020-08-03 13:33:03 GMT (Monday 3rd August 2020)"
+	revision: "13"
 
 class
 	EL_HTML_TEXT
@@ -87,7 +87,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create text_blocks.make (5)
 			create page_title.make_empty
 			create link_stack.make (1)

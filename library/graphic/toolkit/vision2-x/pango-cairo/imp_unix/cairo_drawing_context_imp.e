@@ -1,19 +1,19 @@
 note
-	description: "Unix implementation of [$source PANGO_CAIRO_CONTEXT_I]"
+	description: "Unix implementation of [$source CAIRO_DRAWING_CONTEXT_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:04:08 GMT (Sunday 2nd August 2020)"
-	revision: "6"
+	date: "2020-08-03 10:42:02 GMT (Monday 3rd August 2020)"
+	revision: "7"
 
 class
-	CAIRO_PANGO_CONTEXT_IMP
+	CAIRO_DRAWING_CONTEXT_IMP
 
 inherit
-	CAIRO_PANGO_CONTEXT_I
+	CAIRO_DRAWING_CONTEXT_I
 
 	EL_OS_IMPLEMENTATION
 
@@ -23,10 +23,6 @@ create
 	make, make_with_svg_image
 
 feature {NONE} -- Implementation
-
-	check_font_availability
-		do
-		end
 
 	set_source_color
 		do

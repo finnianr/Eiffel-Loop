@@ -6,81 +6,84 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "7"
+	date: "2020-08-03 14:55:41 GMT (Monday 3rd August 2020)"
+	revision: "8"
 
 class
 	CAIRO_PANGO_CONSTANTS
 
 feature -- Font styles
 
-	Pango_style_normal: INTEGER = 0
+	Style_italic: INTEGER = 0
+		-- the font is slanted in an italic style.
+
+	Style_normal: INTEGER = 0
 		-- the font is upright.
 
-	Pango_style_oblique: INTEGER = 0
+	Style_oblique: INTEGER = 0
 		-- the font is slanted, but in a roman style.
-
-	Pango_style_italic: INTEGER = 0
-		-- the font is slanted in an italic style.
 
 feature -- Font weights
 
-	Pango_weight_thin: INTEGER = 100
+	Weight_bold: INTEGER = 700
 
-	Pango_weight_ultralight: INTEGER = 200
+	Weight_book: INTEGER = 380
 
-	Pango_weight_light: INTEGER = 300
+	Weight_heavy: INTEGER = 900
 
-	Pango_weight_book: INTEGER = 380
+	Weight_light: INTEGER = 300
 
-	Pango_weight_normal: INTEGER = 400
+	Weight_medium: INTEGER = 500
 
-	Pango_weight_medium: INTEGER = 500
+	Weight_normal: INTEGER = 400
 
-	Pango_weight_semibold: INTEGER = 600
+	Weight_semibold: INTEGER = 600
 
-	Pango_weight_bold: INTEGER = 700
+	Weight_thin: INTEGER = 100
 
-	Pango_weight_ultrabold: INTEGER = 800
+	Weight_ultrabold: INTEGER = 800
 
-	Pango_weight_heavy: INTEGER = 900
+	Weight_ultraheavy: INTEGER = 1000
 
-	Pango_weight_ultraheavy: INTEGER = 1000
+	Weight_ultralight: INTEGER = 200
 
 feature -- Font horizontal stretch
 
-	Pango_stretch_ultra_condensed: INTEGER = 0
-		-- ultra condensed width
-
-	Pango_stretch_extra_condensed: INTEGER = 1
-		-- extra condensed width
-
-	Pango_stretch_condensed: INTEGER = 2
+	Stretch_condensed: INTEGER = 2
 		-- condensed width
 
-	Pango_stretch_semi_condensed: INTEGER = 3
-		-- semi condensed width
-
-	Pango_stretch_normal: INTEGER = 4
-		-- the normal width
-
-	Pango_stretch_semi_expanded: INTEGER = 5
-		-- semi expanded width
-
-	Pango_stretch_expanded: INTEGER = 6
+	Stretch_expanded: INTEGER = 6
 		-- expanded width
 
-	Pango_stretch_extra_expanded: INTEGER = 7
+	Stretch_extra_condensed: INTEGER = 1
+		-- extra condensed width
+
+	Stretch_extra_expanded: INTEGER = 7
 		-- extra expanded width
 
-	Pango_stretch_ultra_expanded: INTEGER = 8
+	Stretch_normal: INTEGER = 4
+		-- the normal width
+
+	Stretch_semi_condensed: INTEGER = 3
+		-- semi condensed width
+
+	Stretch_semi_expanded: INTEGER = 5
+		-- semi expanded width
+
+	Stretch_ultra_condensed: INTEGER = 0
+		-- ultra condensed width
+
+	Stretch_ultra_expanded: INTEGER = 8
 		-- ultra expanded width
 
-	Pango_stretch_values: ARRAYED_LIST [INTEGER]
-		once
-			create Result.make (9)
-			across 0 |..| 8 as value loop
-				Result.extend (value.item)
+feature -- Contract Support
+
+	is_valid_stretch (value: INTEGER): BOOLEAN
+		do
+			inspect value
+				when Stretch_ultra_condensed .. Stretch_ultra_expanded then
+					Result := True
+			else
 			end
 		end
 

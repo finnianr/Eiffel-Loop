@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 11:00:56 GMT (Monday 27th July 2020)"
-	revision: "14"
+	date: "2020-08-03 13:49:49 GMT (Monday 3rd August 2020)"
+	revision: "15"
 
 class
 	DUPLICITY_RESTORE
@@ -53,7 +53,7 @@ feature -- Basic operations
 					lio.put_labeled_string ("Restore", target_dir.base)
 					lio.put_new_line_x2
 					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir_base >>)
-					create shell.make ("BACKUPS", new_command_table, 20)
+					create shell.make ("BACKUPS", new_command_table, 30)
 					shell.run_command_loop
 				end
 			end

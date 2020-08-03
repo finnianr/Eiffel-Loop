@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 9:47:41 GMT (Sunday 2nd August 2020)"
-	revision: "12"
+	date: "2020-08-03 11:26:04 GMT (Monday 3rd August 2020)"
+	revision: "13"
 
 class
 	EL_SVG_IMAGE
@@ -97,7 +97,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	render (cairo_ctx: CAIRO_DRAWABLE_CONTEXT_I)
+	render (cairo_ctx: CAIRO_DRAWING_CONTEXT_I)
 		require
 			dimensions_defined: dimensions_defined
 			pixel_buffer_correct_size: cairo_ctx.width = width and cairo_ctx.height = height

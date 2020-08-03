@@ -1,6 +1,10 @@
 note
 	description: "A cell with deferred initialization of the item"
 	notes: "[
+		**Obsolete**
+		
+		Use [$source EL_LAZY_ATTRIBUTE] which is more efficient
+
 		Originally introduced as workaround for segmentation fault caused by using following once-per-object
 		attribute in class [$source EL_CREATEABLE_FROM_NODE_SCAN] and others.
 		
@@ -17,11 +21,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 19:24:47 GMT (Thursday 30th January 2020)"
-	revision: "2"
+	date: "2020-08-03 13:32:42 GMT (Monday 3rd August 2020)"
+	revision: "3"
 
 class
 	EL_DEFERRED_CELL [G]
+
+obsolete "Use EL_LAZY_ATTRIBUTE"
 
 create
 	make

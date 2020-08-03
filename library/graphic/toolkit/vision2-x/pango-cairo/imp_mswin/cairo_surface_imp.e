@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:18:44 GMT (Sunday 2nd August 2020)"
-	revision: "6"
+	date: "2020-08-03 1:19:20 GMT (Monday 3rd August 2020)"
+	revision: "7"
 
 class
 	CAIRO_SURFACE_IMP
@@ -32,13 +32,6 @@ inherit
 create
 	make_argb_32, make_rgb_24, make_with_argb_32_data, make_with_rgb_24_data, make_from_file,
 	make_from_pointer
-
-feature -- Factory
-
-	new_drawable: CAIRO_PANGO_CONTEXT_I
-		do
-			create {CAIRO_PANGO_CONTEXT_IMP} Result.make (Current)
-		end
 
 feature {EV_ANY_I} -- Implementation
 
