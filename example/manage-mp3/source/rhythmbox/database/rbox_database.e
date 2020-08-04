@@ -109,7 +109,7 @@ feature {NONE} -- Initialization
 
 			make_from_file (a_xml_database_path)
 			build_from_string (xml)
-			set_encoding_from_name (node_source.item.encoding_name)
+			set_encoding_from_name (node_source.encoding_name)
 			lio.put_new_line
 
 			playlists_xml_path := xml_database_path.parent + "playlists.xml"

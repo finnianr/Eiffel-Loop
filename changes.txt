@@ -289,3 +289,6 @@ New implementation of EL_PIXEL_BUFFER that does not descend from EV_PIXEL_BUFFER
 Sun 2nd Aug 2020, 11:31:10
 Renamed EL_PIXEL_BUFFER to CAIRO_DRAWING_AREA
 
+Tue 4th Aug 2020, 16:15:28
+Various
+

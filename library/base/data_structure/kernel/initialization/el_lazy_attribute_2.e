@@ -1,7 +1,7 @@
 note
-	description: "Object attribute that is created only if it is needed"
-	notes: "[
-		This is a duplicate of [$source EL_LAZY_ATTRIBUTE] for use in the case of an inheritance conflict.
+	description: "[
+		A second object attribute that is created only if it is needed.
+		This is a duplicate of [$source EL_LAZY_ATTRIBUTE] to solve any inheritance conflict.
 	]"
 
 	author: "Finnian Reilly"
@@ -17,24 +17,24 @@ deferred class
 
 feature -- Access
 
-	object: like new_object
+	item: like new_item
 		do
-			if attached actual_object_2 as obj then
+			if attached actual_item_2 as obj then
 				Result := obj
 			else
-				Result := new_object
-				actual_object_2 := Result
+				Result := new_item
+				actual_item_2 := Result
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_object: ANY
+	new_item: ANY
 		deferred
 		end
 
-	actual_object_2: detachable like new_object
+	actual_item_2: detachable like new_item
 		-- actual created instance
 		-- typically this is not renamed in descendant so suffixed with `_2'
-		-- to prevent name clash with `{EL_LAZY_ATTRIBUTE}.actual_object'
+		-- to prevent name clash with `{EL_LAZY_ATTRIBUTE}.actual_item'
 end

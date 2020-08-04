@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Implementation
 
-	check_font_availability
+	update_preferred_families
 		do
 		end
 

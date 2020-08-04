@@ -56,9 +56,11 @@ feature -- Element change
 
 	set_font (a_font: like font)
 		do
-			font.copy (a_font)
-			check_font_availability
-			set_pango_font (font)
+			-- Need to make a copy because `font.preferred_families' is modified by `preferred_families'
+			font := a_font.twin
+--			`font.copy (a_font)' has a bug on Windows, ES version 16.05.9
+			update_preferred_families
+			set_pango_font (a_font)
 		end
 
 	set_text (a_text: READABLE_STRING_GENERAL)
@@ -110,7 +112,8 @@ feature {NONE} -- Implementation
 			Gobject.object_unref (this)
 		end
 
-	check_font_availability
+	update_preferred_families
+		-- update `preferred_families' for platform
 		deferred
 		end
 

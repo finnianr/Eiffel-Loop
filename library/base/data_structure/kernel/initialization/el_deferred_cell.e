@@ -1,20 +1,5 @@
 note
-	description: "A cell with deferred initialization of the item"
-	notes: "[
-		**Obsolete**
-		
-		Use [$source EL_LAZY_ATTRIBUTE] which is more efficient
-
-		Originally introduced as workaround for segmentation fault caused by using following once-per-object
-		attribute in class [$source EL_CREATEABLE_FROM_NODE_SCAN] and others.
-		
-			node_source: EL_XML_NODE_SCAN_SOURCE
-				once ("OBJECT")
-					Result := new_node_source
-				end
-
-
-	]"
+	description: "A data cell with deferred initialization of the item"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -27,34 +12,35 @@ note
 class
 	EL_DEFERRED_CELL [G]
 
-obsolete "Use EL_LAZY_ATTRIBUTE"
+inherit
+	EL_LAZY_ATTRIBUTE
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_new_item: like new_item)
+	make (a_item_factory: like item_factory)
 		do
-			new_item := a_new_item
+			item_factory := a_item_factory
 		end
 
-feature -- Access
+feature -- Element change
 
-	item: G
+	update
 		do
-			if attached actual_item as actual then
-				Result := actual
-			else
-				new_item.apply
-				Result := new_item.last_result
-				actual_item := Result
-			end
+			actual_item := new_item
+		end
+
+feature {NONE} -- Implementation
+
+	new_item: G
+		do
+			item_factory.apply
+			Result := item_factory.last_result
 		end
 
 feature {NONE} -- Internal attributes
 
-	actual_item: detachable G
-
-	new_item: FUNCTION [G]
+	item_factory: FUNCTION [G]
 end

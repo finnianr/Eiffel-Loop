@@ -31,8 +31,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE_2
 		rename
-			object as output_modification_time,
-			new_object as new_output_modification_time
+			item as output_modification_time,
+			new_item as new_output_modification_time
 		end
 
 feature {NONE} -- Initialization

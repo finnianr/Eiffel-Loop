@@ -19,8 +19,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			object as node_source,
-			new_object as new_node_source
+			item as node_source,
+			new_item as new_node_source
 		end
 
 feature {NONE} -- Initialization

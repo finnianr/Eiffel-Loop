@@ -22,8 +22,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			object as sink_except_fields,
-			new_object as new_sink_except_fields
+			item as sink_except_fields,
+			new_item as new_sink_except_fields
 		end
 
 	EL_REFLECTION_CONSTANTS

@@ -15,9 +15,9 @@ class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			object as data,
-			new_object as new_data,
-			actual_object as actual_data
+			item as data,
+			new_item as new_data,
+			actual_item as actual_data
 		redefine
 			is_equal
 		end

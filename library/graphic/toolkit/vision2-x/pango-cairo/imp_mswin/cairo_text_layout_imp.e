@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Implementation
 
-	check_font_availability
+	update_preferred_families
 		local
 			substitute_fonts: like System_fonts.Substitute_fonts
 		do
@@ -35,6 +35,5 @@ feature {NONE} -- Implementation
 				font.preferred_families.replace (substitute_fonts.found_item.to_string_32)
 			end
 		end
-
 
 end

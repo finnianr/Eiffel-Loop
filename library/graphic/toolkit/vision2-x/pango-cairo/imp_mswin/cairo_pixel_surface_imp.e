@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 		-- make with Vision-2 pixel buffer
 		do
 			if attached {EV_PIXEL_BUFFER_IMP} a_buffer.implementation as imp_buffer then
-				make_with_bitmap (Gdi_bitmap.new_clone (imp_buffer.gdip_bitmap, Format32bppPArgb))
+				make_with_bitmap (Gdi_bitmap.new_clone (imp_buffer.gdip_bitmap, Format_premultiplied_ARGB_32))
 			end
 		end
 
@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 
 	make_with_size (a_width, a_height: INTEGER)
 		do
-			make_with_bitmap (create {WEL_GDIP_BITMAP}.make_formatted (a_width, a_height, Format32bppPArgb))
+			make_with_bitmap (create {WEL_GDIP_BITMAP}.make_formatted (a_width, a_height, Format_premultiplied_ARGB_32))
 		end
 
 feature -- Status query

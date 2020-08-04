@@ -1,7 +1,7 @@
 note
-	description: "Object attribute that is created only if it is needed"
+	description: "Detachable object attribute that is created only when needed"
 	notes: "[
-		This is a workaround for the fact that the following construct is buggy in ES version 16.05.9
+		This class is a workaround for bug in ES version 16.05.9 for the "once per object" construct
 		
 			object: MY_CLASS
 				once ("OBJECT")
@@ -22,21 +22,21 @@ deferred class
 
 feature -- Access
 
-	object: like new_object
+	item: like new_item
 		do
-			if attached actual_object as obj then
+			if attached actual_item as obj then
 				Result := obj
 			else
-				Result := new_object
-				actual_object := Result
+				Result := new_item
+				actual_item := Result
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_object: ANY
+	new_item: ANY
 		deferred
 		end
 
-	actual_object: detachable like new_object
+	actual_item: detachable like new_item
 end

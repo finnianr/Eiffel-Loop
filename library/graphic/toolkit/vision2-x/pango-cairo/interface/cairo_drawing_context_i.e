@@ -19,8 +19,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			object as text_layout,
-			new_object as new_text_layout
+			item as text_layout,
+			new_item as new_text_layout
 		end
 
 feature {NONE} -- Initialization

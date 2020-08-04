@@ -19,7 +19,7 @@ inherit
 			set_angle as rotate
 		end
 
-	CAIRO_PANGO_CONTEXT_IMP
+	CAIRO_DRAWING_CONTEXT_IMP
 		rename
 			make as make_cairo_context
 		end
