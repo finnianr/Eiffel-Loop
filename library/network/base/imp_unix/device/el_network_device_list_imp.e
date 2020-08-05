@@ -1,7 +1,8 @@
 note
-	description: "[
-		Parse terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
-		to get list of network adapter devices: [$source EL_ADAPTER_DEVICE]
+	description: "Unix implementation of [$source EL_NETWORK_DEVICE_LIST_I]"
+	notes: "[
+		Parses terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
+		to get list of network adapter devices [$source EL_NETWORK_DEVICE_I].
 		
 			nmcli --terse --fields GENERAL dev list
 		
@@ -39,7 +40,6 @@ note
 			GENERAL.AUTOCONNECT:yes
 			GENERAL.FIRMWARE-MISSING:no
 			GENERAL.CONNECTION:/org/freedesktop/NetworkManager/ActiveConnection/0
-
 	]"
 
 	author: "Finnian Reilly"
@@ -47,56 +47,76 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 15:52:29 GMT (Sunday 29th December 2019)"
-	revision: "6"
+	date: "2020-08-05 19:17:47 GMT (Wednesday 5th August 2020)"
+	revision: "8"
 
-deferred class
-	EL_IP_ADAPTER_INFO_COMMAND_I
+class
+	EL_NETWORK_DEVICE_LIST_IMP
 
 inherit
-	EL_CAPTURED_OS_COMMAND_I
+	EL_NETWORK_DEVICE_LIST_I
 		export
 			{NONE} all
+		end
+
+	EL_CAPTURED_OS_COMMAND_I
+		rename
+			make_default as make
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
 		redefine
-			do_with_lines, make_default
+			do_with_lines, make, is_valid_platform
 		end
 
 	EL_MODULE_COLON_FIELD
+
+	EL_OS_COMMAND_IMP
+		rename
+			make_default as make
+		undefine
+			new_command_parts, do_command, make, is_equal, copy
+		redefine
+			is_valid_platform
+		end
+
+create
+	make
 
 feature {NONE} -- Initialization
 
 	make
 		do
-			make_default
+			make_list (10)
+			Precursor {EL_CAPTURED_OS_COMMAND_I}
 			execute
 		end
 
-	make_default
-			--
+
+feature {NONE} -- Status query
+
+	is_valid_platform: BOOLEAN
 		do
-			create device.make_default
-			create adapter_list.make (3)
-			Precursor
+			Result := {PLATFORM}.is_unix
 		end
-
-feature -- Access
-
-	adapter_list: EL_ARRAYED_LIST [EL_ADAPTER_DEVICE]
 
 feature {NONE} -- Implementation
 
 	do_with_lines (lines: like adjusted_lines)
 			--
 		local
-			table: like Field_actions
-			do_with_value: PROCEDURE [ZSTRING]
+			name: STRING
 		do
-			table := Field_actions
 			from lines.start until lines.after loop
-				if lines.item.starts_with (General_dot) and then table.has_key (field_name (lines.item)) then
-					do_with_value := table.found_item
-					do_with_value.set_target (Current)
-					do_with_value (Colon_field.value (lines.item))
+				if lines.item.starts_with (General_dot) then
+					name := field_name (lines.item)
+					if name ~ Field_device then
+						extend (create {EL_NETWORK_DEVICE_IMP}.make)
+					end
+					if attached {EL_NETWORK_DEVICE_IMP} last as device then
+						device.set_field (name, Colon_field.value (lines.item))
+					end
 				end
 				lines.forth
 			end
@@ -116,53 +136,14 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-feature {NONE} -- Field actions
+feature {NONE} -- Constants
 
-	create_device (name: ZSTRING)
-		do
-			create device.make (name)
-			try_set_adapter_address (name) -- For bluetooth `name' maybe a hardware address
-		end
+	Field_device: STRING = "DEVICE"
 
-	extend_list (value: ZSTRING)
-		do
-			adapter_list.extend (device)
-		end
-
-	set_description (value: ZSTRING)
-		do
-			device.set_description (value)
-		end
-
-	set_type (value: ZSTRING)
-		do
-			device.set_type (value)
-		end
-
-	try_set_adapter_address (address_candidate: ZSTRING)
-		do
-			if device.valid_hardware_address (address_candidate) then
-				device.set_address_from_string (address_candidate)
-			end
-		end
-
-feature {NONE} -- Internal attributes
-
-	device: EL_ADAPTER_DEVICE
+	General_dot: STRING = "GENERAL."
 
 feature {NONE} -- Constants
 
-	Field_actions: EL_HASH_TABLE [PROCEDURE [ZSTRING], STRING]
-		once
-			create Result.make (<<
-				["DEVICE",		agent create_device],
-				["TYPE",			agent set_type],
-				["PRODUCT",		agent set_description],
-				["HWADDR",		agent try_set_adapter_address],
-				["CONNECTION",	agent extend_list]
-			>>)
-		end
-
-	General_dot: STRING = "GENERAL."
+	Template: STRING = "nmcli --terse --fields GENERAL dev list"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:07:27 GMT (Tuesday 24th September 2019)"
-	revision: "11"
+	date: "2020-08-05 10:18:04 GMT (Wednesday 5th August 2020)"
+	revision: "12"
 
 class
 	EL_FTP_WEBSITE
@@ -27,18 +27,18 @@ create
 
 feature -- Element change
 
-	make (url: ZSTRING; user_home_directory: EL_DIR_PATH)
+	make (url: STRING; user_home_directory: EL_DIR_PATH)
 		local
 			ftp_site: FTP_URL
 		do
-			create ftp_site.make (url.to_latin_1)
+			create ftp_site.make (url)
 			if url.is_empty then
 				make_default
 			else
 				if is_lio_enabled then
 					lio.put_string_field ("url", ftp_site.path)
 					lio.put_new_line
-					lio.put_path_field ("user-home", user_home_directory.as_unix)
+					lio.put_path_field ("user-home", user_home_directory)
 					lio.put_new_line
 				end
 				make_write (ftp_site)

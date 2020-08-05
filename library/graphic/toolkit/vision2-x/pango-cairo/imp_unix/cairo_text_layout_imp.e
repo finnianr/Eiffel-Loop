@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 11:16:30 GMT (Monday 3rd August 2020)"
-	revision: "1"
+	date: "2020-08-04 11:03:05 GMT (Tuesday 4th August 2020)"
+	revision: "2"
 
 class
 	CAIRO_TEXT_LAYOUT_IMP

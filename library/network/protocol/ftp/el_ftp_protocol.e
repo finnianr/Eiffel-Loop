@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 19:29:49 GMT (Tuesday 19th November 2019)"
-	revision: "13"
+	date: "2020-08-05 12:03:52 GMT (Wednesday 5th August 2020)"
+	revision: "14"
 
 class
 	EL_FTP_PROTOCOL
@@ -41,6 +41,10 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
+	EL_MODULE_TUPLE
+
+	EL_MODULE_ZSTRING
+
 	EL_SHARED_PROGRESS_LISTENER
 
 create
@@ -68,11 +72,11 @@ feature {EL_FTP_SYNC} -- Initialization
 
 	make_default
 		do
-			user_prompt := Default_user_prompt
-			password_prompt := Default_password_prompt
+			input_prompt := Default_prompt
 			create current_directory
 			set_binary_mode
 			create reply_parser.make_with_delimiter (ftp_reply_pattern)
+			create login_details.make (1)
 			make_protocol (Default_url)
 		end
 
@@ -82,9 +86,7 @@ feature -- Access
 
 	home_directory: EL_DIR_PATH
 
-	password_prompt: ZSTRING
-
-	user_prompt: ZSTRING
+	input_prompt: like Default_prompt
 
 	last_reply: ZSTRING
 		do
@@ -116,14 +118,12 @@ feature -- Element change
 			home_directory := a_home_directory
 		end
 
-	set_password_prompt (a_password_prompt: like password_prompt)
+	set_input_prompts (user_name_and_password_prompt: STRING_GENERAL)
+		require
+			has_delimiter: user_name_and_password_prompt.has (',')
 		do
-			password_prompt := a_password_prompt
-		end
-
-	set_user_prompt (a_user_prompt: like user_prompt)
-		do
-			user_prompt := a_user_prompt
+			create input_prompt
+			Tuple.fill (input_prompt, user_name_and_password_prompt)
 		end
 
 feature -- Remote operations
@@ -205,6 +205,8 @@ feature -- Basic operations
 		ensure
 			data_socket_close: data_socket.is_closed
 		rescue
+			lio.put_labeled_string ("Socket error", data_socket.error)
+			lio.put_new_line
 			data_socket.close
 			reset_error
 			close
@@ -263,13 +265,33 @@ feature -- Status change
 		local
 			attempts: INTEGER
 		do
+			if not is_open then
+				open
+			end
 			from attempts := 1 until is_logged_in or attempts > Max_login_attempts loop
 				reset_error
-				open
 				if is_open then
 					try_login
+					if is_logged_in then
+						if send_transfer_mode_command then
+							bytes_transferred := 0
+							transfer_initiated := False
+							is_count_valid := False
+						else
+							lio.put_labeled_string ("ERROR", "cannot set transfer mode")
+							lio.put_new_line
+							is_logged_in := False
+						end
+					else
+						lio.put_labeled_string ("ERROR", Invalid_login_error)
+						lio.put_new_line
+						is_logged_in := False
+					end
 				end
 				attempts := attempts + 1
+			end
+			if not is_logged_in then
+				close
 			end
 		end
 
@@ -352,21 +374,6 @@ feature {NONE} -- Implementation
 			last_succeeded := reply_code_ok (last_reply_utf_8, codes)
 		end
 
-	set_login_detail (
-		prompt: ZSTRING; setter: PROCEDURE; get_detail_action: FUNCTION [STRING]
-	)
-		local
-			detail: ZSTRING
-		do
-			lio.put_new_line
-			detail := User_input.line (prompt)
-			if detail.is_empty then
-				-- Use previous value
-				detail := get_detail_action (address)
-			end
-			setter (detail.to_latin_1)
-		end
-
 	transfer_file_data (a_file_path: EL_FILE_PATH)
 			--
 		local
@@ -402,29 +409,37 @@ feature {NONE} -- Implementation
 			-- Log in to server.
 		require
 			opened: is_open
+		local
+			prompt_list: EL_ZSTRING_LIST; details: like login_details.item
+			i: INTEGER
 		do
-			set_login_detail (user_prompt, agent set_username, agent {FTP_URL}.username)
-			set_login_detail (password_prompt, agent set_password, agent {FTP_URL}.password)
-
-			if send_username and then send_password and then send_transfer_mode_command then
-				bytes_transferred := 0
-				transfer_initiated := False
-				is_count_valid := False
-				is_logged_in := True
+			create prompt_list.make_from_tuple (input_prompt)
+			if login_details.is_empty then
+				details := << address.username, address.password >>
+				across prompt_list as list loop
+					i := list.cursor_index
+					details.item (i).share (User_input.line (list.item))
+					lio.put_new_line
+				end
 			else
-				close
+				details := login_details.item
+				login_details.remove
 			end
-			if not is_logged_in then
-				lio.put_new_line
-				lio.put_line ("ERROR: login failed")
+			is_logged_in := send_username and then send_password
+			if is_logged_in then
+				login_details.put (details)
 			end
+		ensure
+			valid_details_count: login_details.count.to_boolean = is_logged_in
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Internal attributes
 
 	last_ftp_cmd_result: STRING
 
 	last_reply_code: INTEGER
+
+	login_details: ARRAYED_STACK [ARRAY [STRING]]
 
 feature {NONE} -- Implementation: parsing
 
@@ -479,14 +494,10 @@ feature {NONE} -- Constants
 			Result := 2048
 		end
 
-	Default_password_prompt: ZSTRING
+	Default_prompt: TUPLE [username, password: ZSTRING]
 		once
-			Result := "Password"
-		end
-
-	Default_user_prompt: ZSTRING
-		once
-			Result := "Enter FTP access username"
+			create Result
+			Tuple.fill (Result, "Enter FTP access username, Password")
 		end
 
 	Default_url: FTP_URL
@@ -495,6 +506,11 @@ feature {NONE} -- Constants
 		end
 
 	Directory_separator: CHARACTER = '/'
+
+	Invalid_login_error: READABLE_STRING_GENERAL
+		once
+			Result := "Invalid username or password"
+		end
 
 	Max_login_attempts: INTEGER
 		once

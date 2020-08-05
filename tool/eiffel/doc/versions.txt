@@ -1,3 +1,6 @@
+1.2.4
+Improved EL_FTP_PROTOCOL for retries on socket errors
+
 1.2.3
 Added detection for invalid ECF cluster xpaths in REPOSITORY_PUBLISHER
 

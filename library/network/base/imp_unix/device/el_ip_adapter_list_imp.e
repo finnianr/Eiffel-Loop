@@ -1,13 +1,13 @@
 note
-	description: "Unix implementation of [$source EL_IP_ADAPTER_LIST_I] interface"
+	description: "Unix implementation of [$source EL_IP_ADAPTER_LIST_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 16:01:30 GMT (Sunday 29th December 2019)"
-	revision: "7"
+	date: "2020-08-05 17:18:51 GMT (Wednesday 5th August 2020)"
+	revision: "8"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -23,26 +23,15 @@ inherit
 			copy, is_equal
 		end
 
-	EL_MODULE_COMMAND
-
-	EL_SHARED_NETWORK_DEVICE_TYPE
-
 create
 	make
 
-feature {NONE} -- Initialization
+feature {NONE} -- Factory
 
-	initialize
-		local
-			ip_adapter: EL_IP_ADAPTER
+	new_device_list: EL_NETWORK_DEVICE_LIST_I
 		do
-			across Command.new_ip_adapter_info.adapter_list as adapter loop
-				create ip_adapter.make (
-					Network_device_type.from_linux (adapter.item.type),
-					adapter.item.name, adapter.item.description, adapter.item.address
-				)
-				extend (ip_adapter)
-			end
+			create {EL_NETWORK_DEVICE_LIST_IMP} Result.make
+			-- make calls execute
 		end
 
 end

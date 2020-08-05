@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-09 10:12:54 GMT (Monday 9th March 2020)"
-	revision: "7"
+	date: "2020-08-05 18:59:03 GMT (Wednesday 5th August 2020)"
+	revision: "8"
 
 class
 	EL_IP_ADAPTER_LIST_IMP
@@ -18,158 +18,19 @@ inherit
 			{NONE} all
 		end
 
-	EL_POINTER_ROUTINES
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
-
 	EL_OS_IMPLEMENTATION
 		undefine
 			copy, is_equal
 		end
 
-	EL_SHARED_C_WIDE_CHARACTER_STRING
-
-	EL_SHARED_NETWORK_DEVICE_TYPE
-	
 create
 	make
 
-feature {NONE} -- Initialization
+feature {NONE} -- Factory
 
-	initialize
-		local
-			buffer: MANAGED_POINTER; adapter_ptr: POINTER
-			buffer_size, try_count: INTEGER; done: BOOLEAN
+	new_device_list: EL_NETWORK_DEVICE_LIST_IMP
 		do
-			from buffer_size := Default_buffer_size until done or try_count = 3 loop
-				create buffer.make (buffer_size)
-				if c_get_adapter_addresses (buffer.item, $buffer_size) = c_error_buffer_overflow then
-					buffer_size := buffer_size * 3 // 2
-					try_count := try_count + 1
-				else
-					done := True
-				end
-			end
-			if done then
-				from adapter_ptr := buffer.item until adapter_ptr = Default_pointer loop
-					extend (new_adapter (adapter_ptr))
-					adapter_ptr := c_get_next_adapter (adapter_ptr)
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	new_adapter (adapter_ptr: POINTER): EL_IP_ADAPTER
-		local
-			physical_address: ARRAY [NATURAL_8]
-			address_size: INTEGER; type: NATURAL_8; name, description: ZSTRING
-		do
-			address_size := c_get_adapter_physical_address_size (adapter_ptr)
-			if address_size > 0 then
-				create physical_address.make (1, address_size)
-				physical_address.area.base_address.memory_copy (
-					c_get_adapter_physical_address (adapter_ptr), physical_address.count
-				)
-			else
-				create physical_address.make_filled (0, 1, 6)
-			end
-			name := wide_string (c_get_adapter_name (adapter_ptr))
-			description := wide_string (c_get_adapter_description (adapter_ptr))
-			type := c_get_adapter_type (adapter_ptr).to_natural_8
-			if type = Network_device_type.ETHERNET_CSMACD and then name.starts_with (Bluetooth) then
-				-- What happens if locale is not English?
-				type := Network_device_type.BLUETOOTH
-			end
-			create Result.make (type, name, description, physical_address)
-		end
-
-feature {NONE} -- C Externals
-
-	c_get_adapter_addresses (address_buffer, buffer_size: POINTER): INTEGER
-		require
-			is_address_buffer_attached: is_attached (address_buffer)
-			is_buffer_size_attached: is_attached (buffer_size)
-		external
-			"C (EIF_POINTER, EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_addresses"
-		end
-
-	c_get_adapter_name (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_name"
-		end
-
-	c_get_adapter_description (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_description"
-		end
-
-	c_get_adapter_type (adapter_ptr: POINTER): INTEGER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_type"
-		end
-
-	c_get_adapter_physical_address (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_adapter_physical_address"
-		end
-
-	c_get_adapter_physical_address_size (adapter_ptr: POINTER): INTEGER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_INTEGER | <network-adapter.h>"
-		alias
-			"get_adapter_physical_address_size"
-		end
-
-	c_get_next_adapter (adapter_ptr: POINTER): POINTER
-		require
-			is_ptr_adapter_attached: is_attached (adapter_ptr)
-		external
-			"C (EIF_POINTER): EIF_POINTER | <network-adapter.h>"
-		alias
-			"get_next_adapter"
-		end
-
-feature {NONE} -- C constants
-
-	c_error_buffer_overflow: INTEGER
-			--
-		external
-			"C [macro <Iphlpapi.h>]"
-		alias
-			"ERROR_BUFFER_OVERFLOW"
-		end
-
-feature {NONE} -- Constants
-
-	Default_buffer_size: INTEGER = 15000
-
-	Bluetooth: ZSTRING
-		once
-			Result := "Bluetooth"
+			create Result.make
 		end
 
 end

@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-29 16:02:46 GMT (Sunday 29th December 2019)"
-	revision: "8"
+	date: "2020-08-05 19:35:51 GMT (Wednesday 5th August 2020)"
+	revision: "9"
 
 class
 	EL_IP_ADAPTER
 
 inherit
 	ANY
-	
+
 	EL_SHARED_NETWORK_DEVICE_TYPE
 
 create
@@ -44,10 +44,29 @@ feature -- Access
 			end
 		end
 
-	name: ZSTRING
-
 	description: ZSTRING
 
+	name: ZSTRING
+
 	type: NATURAL_8
+
+	type_name: STRING
+		do
+			Result := Network_device_type.field_name (type)
+		end
+
+feature -- Status query
+
+	had_default_address: BOOLEAN
+		do
+			Result := address.is_equal (Default_address)
+		end
+
+feature {NONE} -- Constants
+
+	Default_address: ARRAY [NATURAL_8]
+		once
+			create Result.make_filled (0, 1, 6)
+		end
 
 end

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 13:19:10 GMT (Monday 3rd August 2020)"
-	revision: "1"
+	date: "2020-08-04 11:04:32 GMT (Tuesday 4th August 2020)"
+	revision: "2"
 
 deferred class
 	EL_LAZY_ATTRIBUTE

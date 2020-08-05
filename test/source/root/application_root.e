@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-04 11:13:42 GMT (Monday 4th May 2020)"
-	revision: "46"
+	date: "2020-08-05 9:51:29 GMT (Wednesday 5th August 2020)"
+	revision: "47"
 
 class
 	APPLICATION_ROOT
@@ -72,6 +72,7 @@ feature {NONE} -- Constants
 		MULTIMEDIA_AUTOTEST_APP,
 
 		-- Test network.ecf
+		FTP_TEST_APP,
 		SIMPLE_CLIENT_SERVER_TEST_APP,
 
 		-- Test os-command.ecf

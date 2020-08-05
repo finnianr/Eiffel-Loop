@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:28:10 GMT (Tuesday 28th April 2020)"
-	revision: "4"
+	date: "2020-08-05 15:10:43 GMT (Wednesday 5th August 2020)"
+	revision: "5"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM
@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 			PPP := 23
 			SOFTWARE_LOOPBACK := 24
 			TUNNEL := 131
+			USB_IEEE80211 := 72
 		end
 
 feature -- Access
@@ -81,20 +82,8 @@ feature -- Access
 	TUNNEL: NATURAL_8
 		-- A tunnel type encapsulation network interface.
 
-feature -- Conversion
-
-	from_linux (type: STRING): NATURAL_8
-		-- convert from type shown in output of Linux `nmcli' command
-		do
-			if type.has_substring ("bluetooth") then
-				Result := BLUETOOTH
-			elseif type.has_substring ("ethernet") then
-				Result := ETHERNET_CSMACD
-			elseif type.has_substring ("wireless") then
-				Result := IEEE80211
-			else
-				Result := OTHER
-			end
-		end
+	USB_IEEE80211: NATURAL_8
+		-- An IEEE 802.11 wireless USB network interface.
+		-- An extra category not in Windows or Unix
 
 end

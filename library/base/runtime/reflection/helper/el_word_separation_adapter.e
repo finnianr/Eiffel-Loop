@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 9:28:25 GMT (Tuesday 28th April 2020)"
-	revision: "6"
+	date: "2020-08-05 12:49:53 GMT (Wednesday 5th August 2020)"
+	revision: "7"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -85,6 +85,11 @@ feature {NONE} -- Name importing
 	from_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := kebab_case_string (name_in, From_default, keeping_ref)
+		end
+
+	from_kebab_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := kebab_case_string (name_in, From_upper, keeping_ref)
 		end
 
 	from_snake_case_lower (name_in: STRING; keeping_ref: BOOLEAN): STRING

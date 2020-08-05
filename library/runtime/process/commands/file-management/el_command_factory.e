@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 12:31:02 GMT (Sunday 19th April 2020)"
-	revision: "10"
+	date: "2020-08-05 14:22:19 GMT (Wednesday 5th August 2020)"
+	revision: "11"
 
 class
 	EL_COMMAND_FACTORY
@@ -41,12 +41,6 @@ feature -- Informational
 	new_directory_info (a_dir_path: EL_DIR_PATH): EL_DIRECTORY_INFO_COMMAND_I
 		do
 			create {EL_DIRECTORY_INFO_COMMAND_IMP} Result.make (a_dir_path)
-			-- make calls execute
-		end
-
-	new_ip_adapter_info: EL_IP_ADAPTER_INFO_COMMAND_I
-		do
-			create {EL_IP_ADAPTER_INFO_COMMAND_IMP} Result.make
 			-- make calls execute
 		end
 
