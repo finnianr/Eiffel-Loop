@@ -47,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 9:13:15 GMT (Thursday 6th August 2020)"
-	revision: "9"
+	date: "2020-08-06 10:18:21 GMT (Thursday 6th August 2020)"
+	revision: "10"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -91,7 +91,6 @@ feature {NONE} -- Initialization
 			make_list (10)
 			Precursor {EL_CAPTURED_OS_COMMAND_I}
 			execute
-			do_all (agent {EL_NETWORK_DEVICE_I}.set_type_enum_id)
 		end
 
 
@@ -121,6 +120,7 @@ feature {NONE} -- Implementation
 				end
 				lines.forth
 			end
+			do_all (agent {EL_NETWORK_DEVICE_I}.set_type_enum_id)
 		end
 
 	field_name (line: ZSTRING): STRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 12:03:52 GMT (Wednesday 5th August 2020)"
-	revision: "14"
+	date: "2020-08-06 12:16:48 GMT (Thursday 6th August 2020)"
+	revision: "15"
 
 class
 	EL_FTP_PROTOCOL
@@ -21,7 +21,7 @@ inherit
 			login as ftp_login,
 			last_reply as last_reply_utf_8
 		export
-			{ANY} send_username, send_password
+			{EL_FTP_AUTHENTICATOR} send_username, send_password
 		redefine
 			close, open
 		end
@@ -38,10 +38,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_TUPLE
 
 	EL_MODULE_ZSTRING
 
@@ -72,11 +68,10 @@ feature {EL_FTP_SYNC} -- Initialization
 
 	make_default
 		do
-			input_prompt := Default_prompt
+			create authenticator.make (Current)
 			create current_directory
 			set_binary_mode
 			create reply_parser.make_with_delimiter (ftp_reply_pattern)
-			create login_details.make (1)
 			make_protocol (Default_url)
 		end
 
@@ -85,8 +80,6 @@ feature -- Access
 	current_directory: EL_DIR_PATH
 
 	home_directory: EL_DIR_PATH
-
-	input_prompt: like Default_prompt
 
 	last_reply: ZSTRING
 		do
@@ -118,12 +111,11 @@ feature -- Element change
 			home_directory := a_home_directory
 		end
 
-	set_input_prompts (user_name_and_password_prompt: STRING_GENERAL)
+	set_login_prompts (user_name_and_password: READABLE_STRING_GENERAL)
 		require
-			has_delimiter: user_name_and_password_prompt.has (',')
+			comma_separated: user_name_and_password.has (',')
 		do
-			create input_prompt
-			Tuple.fill (input_prompt, user_name_and_password_prompt)
+			authenticator.set_input_prompts (user_name_and_password)
 		end
 
 feature -- Remote operations
@@ -271,7 +263,7 @@ feature -- Status change
 			from attempts := 1 until is_logged_in or attempts > Max_login_attempts loop
 				reset_error
 				if is_open then
-					try_login
+					authenticator.try_login
 					if is_logged_in then
 						if send_transfer_mode_command then
 							bytes_transferred := 0
@@ -280,12 +272,10 @@ feature -- Status change
 						else
 							lio.put_labeled_string ("ERROR", "cannot set transfer mode")
 							lio.put_new_line
-							is_logged_in := False
 						end
 					else
 						lio.put_labeled_string ("ERROR", Invalid_login_error)
 						lio.put_new_line
-						is_logged_in := False
 					end
 				end
 				attempts := attempts + 1
@@ -335,7 +325,7 @@ feature -- Status change
 			make_default
 		end
 
-feature {NONE} -- Implementation
+feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 	absolute_dir (dir_path: EL_DIR_PATH): EL_DIR_PATH
 		do
@@ -405,32 +395,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	try_login
+	authenticate
 			-- Log in to server.
 		require
 			opened: is_open
-		local
-			prompt_list: EL_ZSTRING_LIST; details: like login_details.item
-			i: INTEGER
 		do
-			create prompt_list.make_from_tuple (input_prompt)
-			if login_details.is_empty then
-				details := << address.username, address.password >>
-				across prompt_list as list loop
-					i := list.cursor_index
-					details.item (i).share (User_input.line (list.item))
-					lio.put_new_line
-				end
-			else
-				details := login_details.item
-				login_details.remove
-			end
 			is_logged_in := send_username and then send_password
-			if is_logged_in then
-				login_details.put (details)
-			end
-		ensure
-			valid_details_count: login_details.count.to_boolean = is_logged_in
 		end
 
 feature {NONE} -- Internal attributes
@@ -439,7 +409,7 @@ feature {NONE} -- Internal attributes
 
 	last_reply_code: INTEGER
 
-	login_details: ARRAYED_STACK [ARRAY [STRING]]
+	authenticator: EL_FTP_AUTHENTICATOR
 
 feature {NONE} -- Implementation: parsing
 
@@ -492,12 +462,6 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := 2048
-		end
-
-	Default_prompt: TUPLE [username, password: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "Enter FTP access username, Password")
 		end
 
 	Default_url: FTP_URL

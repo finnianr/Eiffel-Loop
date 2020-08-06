@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 12:09:52 GMT (Wednesday 5th August 2020)"
-	revision: "1"
+	date: "2020-08-06 11:19:09 GMT (Thursday 6th August 2020)"
+	revision: "2"
 
 class
 	FTP_TEST_APP
@@ -35,7 +35,7 @@ feature -- Basic operations
 			--
 		do
 			log.enter ("run")
-			Test.do_file_test ("txt/file.txt", agent send_file, 3332199476)
+			Test.do_file_test ("txt/file.txt", agent send_file, 942172748)
 			log.exit
 		end
 
