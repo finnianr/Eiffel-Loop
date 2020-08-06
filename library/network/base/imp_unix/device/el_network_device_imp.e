@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 19:44:55 GMT (Wednesday 5th August 2020)"
-	revision: "1"
+	date: "2020-08-06 9:11:13 GMT (Thursday 6th August 2020)"
+	revision: "2"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -91,37 +91,29 @@ feature -- Access
 			Result := type
 		end
 
-	type_enum_id: NATURAL_8
+feature -- Status change
+
+	set_type_enum_id
 		do
 			if type.has_substring (Protocol.wireless) then
 				if udi_plus_driver_lower (False).has_substring (Protocol.usb) then
-					Result := Network_device_type.USB_IEEE80211
+					type_enum_id := Network_device_type.USB_IEEE80211
 				else
-					Result := Network_device_type.IEEE80211
+					type_enum_id := Network_device_type.IEEE80211
 				end
 
 			elseif type.has_substring (Protocol.bluetooth) then
-				Result := Network_device_type.BLUETOOTH
+				type_enum_id := Network_device_type.BLUETOOTH
 
 			elseif type.has_substring (Protocol.ethernet) then
-				Result := Network_device_type.ETHERNET_CSMACD
+				type_enum_id := Network_device_type.ETHERNET_CSMACD
 
 			else
-				Result := Network_device_type.OTHER
+				type_enum_id := Network_device_type.OTHER
 			end
 		end
 
-	udi_plus_driver_lower (keep_ref: BOOLEAN): STRING
-		do
-			Result := once_copy_8 (driver)
-			Result.append (udi)
-			Result.to_lower
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
-
-feature -- Fields
+feature -- nmcli fields
 
 	autoconnect: STRING
 
@@ -172,6 +164,18 @@ feature {NONE} -- Factory
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
 				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item).to_natural_8
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	udi_plus_driver_lower (keep_ref: BOOLEAN): STRING
+		do
+			Result := once_copy_8 (udi)
+			Result.append (driver)
+			Result.to_lower
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 19:17:19 GMT (Wednesday 5th August 2020)"
-	revision: "8"
+	date: "2020-08-06 9:51:56 GMT (Thursday 6th August 2020)"
+	revision: "9"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -30,6 +30,8 @@ inherit
 			copy, is_equal
 		end
 
+	EL_MODULE_EXCEPTION
+
 create
 	make
 
@@ -37,26 +39,40 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			buffer: MANAGED_POINTER; next_ptr: POINTER
-			buffer_size, try_count: INTEGER; done: BOOLEAN
+			next_ptr: POINTER; read: BOOLEAN
 		do
 			make_list (10)
-			from buffer_size := Default_buffer_size until done or try_count = 3 loop
-				create buffer.make (buffer_size)
-				if c_get_adapter_addresses (buffer.item, $buffer_size) = c_error_buffer_overflow then
-					buffer_size := buffer_size * 3 // 2
-					try_count := try_count + 1
-				else
-					done := True
-				end
+			across Address_buffer_sizes as size until read loop
+				adapter_buffer := new_adapter_buffer (size.item)
+				read := adapter_buffer /= Default_buffer
 			end
-			if done then
-				from next_ptr := buffer.item until not is_attached (next_ptr) loop
+			if read then
+				from next_ptr := adapter_buffer.item until not is_attached (next_ptr) loop
 					extend (create {EL_NETWORK_DEVICE_IMP}.make (next_ptr))
+					last.set_type_enum_id
 					next_ptr := c_get_next_adapter (next_ptr)
 				end
+			else
+				Exception.raise_developer (
+					"Buffer allocation of %S insufficient for network adapter addresses",
+					[Address_buffer_sizes [Address_buffer_sizes.count]]
+				)
 			end
 		end
+
+feature {NONE} -- Factory
+
+	new_adapter_buffer (size: INTEGER): MANAGED_POINTER
+		do
+			create Result.make (size)
+			if c_get_adapter_addresses (Result.item, $size) = error_buffer_overflow then
+				Result := Default_buffer
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	adapter_buffer: MANAGED_POINTER
 
 feature {NONE} -- C Externals
 
@@ -81,7 +97,7 @@ feature {NONE} -- C Externals
 
 feature {NONE} -- C constants
 
-	c_error_buffer_overflow: INTEGER
+	error_buffer_overflow: INTEGER
 			--
 		external
 			"C [macro <Iphlpapi.h>]"
@@ -91,7 +107,14 @@ feature {NONE} -- C constants
 
 feature {NONE} -- Constants
 
-	Default_buffer_size: INTEGER = 15000
+	Address_buffer_sizes: ARRAY [INTEGER]
+		once
+			Result := << 15_000, 20_000, 25_000 >>
+		end
 
+	Default_buffer: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (default_pointer, 0)
+		end
 
 end

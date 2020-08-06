@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 19:46:01 GMT (Wednesday 5th August 2020)"
-	revision: "1"
+	date: "2020-08-06 9:10:15 GMT (Thursday 6th August 2020)"
+	revision: "2"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -64,16 +64,21 @@ feature -- Access
 			Result := wide_string (c_get_adapter_name (self_ptr))
 		end
 
-	type_enum_id: NATURAL_8
+feature -- Status change
+
+	set_type_enum_id
 		do
-			Result := type
-			if Result = Network_device_type.ETHERNET_CSMACD then
+			if type = Network_device_type.ETHERNET_CSMACD then
 				-- What happens if locale is not English?
 				if name.as_lower.has_substring (Protocol.bluetooth) then
-					Result := Network_device_type.BLUETOOTH
+					type_enum_id := Network_device_type.BLUETOOTH
 				elseif description.as_lower.has_substring (Protocol.usb) then
-					Result := Network_device_type.USB_IEEE80211
+					type_enum_id := Network_device_type.USB_IEEE80211
+				else
+					type_enum_id := type
 				end
+			else
+				type_enum_id := type
 			end
 		end
 

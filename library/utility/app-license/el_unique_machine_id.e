@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 19:45:05 GMT (Wednesday 5th August 2020)"
-	revision: "13"
+	date: "2020-08-06 10:03:14 GMT (Thursday 6th August 2020)"
+	revision: "14"
 
 class
 	EL_UNIQUE_MACHINE_ID
@@ -40,14 +40,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	base_64_value: STRING
-		do
-			Result := md5.digest_base_64
-		end
-
 	array_value: like md5.digest
 		do
 			Result := md5.digest
+		end
+
+	base_64_value: STRING
+		do
+			Result := md5.digest_base_64
 		end
 
 	md5: EL_MD5_128
@@ -55,31 +55,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	mac_address: ARRAY [NATURAL_8]
-		local
-			adapter_list: like new_adapter_list
-		do
-			adapter_list := new_adapter_list
-			if adapter_list.is_empty then
-				create Result.make_filled (0, 1, 6)
-			else
-				Result := adapter_list.ordered_by (agent order_key, True).first.address
-			end
-		end
-
-	new_adapter_list: EL_IP_ADAPTER_LIST_I
-		do
-			create {EL_IP_ADAPTER_LIST_IMP} Result.make
-		end
-
-	order_key (adapter: EL_IP_ADAPTER): INTEGER
-		do
-			Result := Priority_order.index_of (adapter.type, 1)
-		ensure
-			not_zero: Result > 0
-		end
-
-	log_array (adapter_array: ARRAY [EL_IP_ADAPTER])
+	log_array (adapter_array: ARRAY [EL_NETWORK_DEVICE_I])
 		do
 --			log.enter ("log_array")
 			across adapter_array as adapter loop
@@ -94,6 +70,32 @@ feature {NONE} -- Implementation
 --				log.put_new_line
 			end
 --			log.exit
+		end
+
+	mac_address: ARRAY [NATURAL_8]
+		local
+			adapter_list: like new_adapter_list
+		do
+			adapter_list := new_adapter_list
+			if attached adapter_list.query_if (agent {EL_NETWORK_DEVICE_I}.has_address) as list then
+				if list.is_empty then
+					create Result.make_filled (0, 1, 6)
+				else
+					Result := list.ordered_by (agent order_key, True).first.address
+				end
+			end
+		end
+
+	new_adapter_list: EL_NETWORK_DEVICE_LIST_I
+		do
+			create {EL_NETWORK_DEVICE_LIST_IMP} Result.make
+		end
+
+	order_key (adapter: EL_NETWORK_DEVICE_I): INTEGER
+		do
+			Result := Priority_order.index_of (adapter.type_enum_id, 1)
+		ensure
+			not_zero: Result > 0
 		end
 
 feature {NONE} -- Constants

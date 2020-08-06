@@ -292,3 +292,6 @@ Renamed EL_PIXEL_BUFFER to CAIRO_DRAWING_AREA
 Tue 4th Aug 2020, 16:15:28
 Various
 
+Wed 5th Aug 2020, 19:53:54
+New class EL_NETWORK_DEVICE_LIST_I and demoted priority of USB wireless devices for Unique ID
+
