@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 12:59:59 GMT (Saturday 30th May 2020)"
-	revision: "57"
+	date: "2020-08-06 15:33:18 GMT (Thursday 6th August 2020)"
+	revision: "58"
 
 class
 	EXPERIMENTS_APP
@@ -31,8 +31,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("file.set_picture")
-			file.set_picture
+			log.enter ("numeric.hex_conversion")
+			numeric.hex_conversion
 			log.exit
 		end
 

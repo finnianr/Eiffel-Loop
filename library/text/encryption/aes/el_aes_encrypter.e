@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:26:48 GMT (Sunday 28th June 2020)"
-	revision: "13"
+	date: "2020-08-07 9:08:44 GMT (Friday 7th August 2020)"
+	revision: "14"
 
 class
 	EL_AES_ENCRYPTER
@@ -34,16 +34,16 @@ feature {NONE} -- Initialization
 			make_from_key (new_block)
 		end
 
-	make (pass_phrase: READABLE_STRING_GENERAL; key_size_bits: NATURAL)
+	make (pass_phrase: READABLE_STRING_GENERAL; key_size_bits: INTEGER)
 			--
 		require
-			valid_key_size: Bit_sizes.has (key_size_bits)
+			valid_key_size: valid_key_bit_count (key_size_bits)
 		local
 			size_bytes: INTEGER; c: EL_UTF_CONVERTER
 		do
 			key_data := Digest.sha_256 (c.string_32_to_utf_8_string_8 (pass_phrase.to_string_32))
 
-			size_bytes := key_size_bits.to_integer_32 // 8
+			size_bytes := key_size_bits // 8
 			if size_bytes < key_data.count then
 				key_data.keep_head (size_bytes)
 			end
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 	make_from_key (a_key_data: like new_block)
 			--
 		require
-			valid_key_size: Byte_sizes.has (a_key_data.count.to_natural_32)
+			valid_key_size: valid_key_byte_count (a_key_data.count)
 		local
 			i: INTEGER; initial: SPECIAL [NATURAL_8]
 		do

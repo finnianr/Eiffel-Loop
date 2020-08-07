@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 16:27:10 GMT (Thursday 23rd January 2020)"
-	revision: "6"
+	date: "2020-08-07 9:13:52 GMT (Friday 7th August 2020)"
+	revision: "7"
 
 class
 	EL_BYTE_ARRAY
 
 inherit
 	TO_SPECIAL [NATURAL_8]
-		rename
-			set_area as make_from_area
+		export
+			{ANY} set_area
 		redefine
 			is_equal
 		end
@@ -26,7 +26,7 @@ inherit
 		end
 
 create
-	make_from_area, make_from_string, make_from_managed, make
+	make_from_area, make_filled, make_from_string, make_from_managed, make
 
 convert
 	make_from_string ({STRING}),
@@ -41,7 +41,17 @@ feature {NONE} -- Initialization
 
 	make (size: INTEGER)
 		do
-			create area.make_filled (0, size)
+			make_filled (0, size)
+		end
+
+	make_filled (value: NATURAL_8; size: INTEGER)
+		do
+			create area.make_filled (value, size)
+		end
+
+	make_from_area (a_area: like area)
+		do
+			area := a_area
 		end
 
 	make_from_managed (managed: MANAGED_POINTER; n: INTEGER)

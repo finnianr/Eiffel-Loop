@@ -1,13 +1,13 @@
 note
-	description: "Model drawer with support for rotated pictures using features of [$source EL_DRAWABLE_PIXEL_BUFFER]"
+	description: "Model drawer with support for rotated pictures using features of [$source CAIRO_DRAWING_AREA]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:00:31 GMT (Sunday 2nd August 2020)"
-	revision: "7"
+	date: "2020-08-06 12:34:09 GMT (Thursday 6th August 2020)"
+	revision: "8"
 
 deferred class
 	EL_MODEL_DRAWER

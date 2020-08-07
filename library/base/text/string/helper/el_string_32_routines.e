@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 9:57:51 GMT (Monday 3rd August 2020)"
-	revision: "9"
+	date: "2020-08-06 17:23:00 GMT (Thursday 6th August 2020)"
+	revision: "10"
 
 class
 	EL_STRING_32_ROUTINES
@@ -32,7 +32,7 @@ feature -- Conversion
 			end
 		end
 
-	to_utf_8 (str: STRING_32; keep_ref: BOOLEAN): STRING
+	to_utf_8 (str: READABLE_STRING_32; keep_ref: BOOLEAN): STRING
 		local
 			c: EL_UTF_CONVERTER
 		do

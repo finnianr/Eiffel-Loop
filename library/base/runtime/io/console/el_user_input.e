@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-13 17:10:44 GMT (Friday 13th September 2019)"
-	revision: "8"
+	date: "2020-08-07 9:59:05 GMT (Friday 7th August 2020)"
+	revision: "9"
 
 class
 	EL_USER_INPUT
@@ -72,6 +72,16 @@ feature -- Input
 				elseif l_line.is_integer then
 					Result := l_line.to_integer; done := True
 				end
+			end
+		end
+
+	integer_from_values (prompt: READABLE_STRING_GENERAL; values: FINITE [INTEGER]): INTEGER
+		local
+			done: BOOLEAN
+		do
+			from until done loop
+				Result := integer (prompt + valid_values (values))
+				done := values.has (Result)
 			end
 		end
 

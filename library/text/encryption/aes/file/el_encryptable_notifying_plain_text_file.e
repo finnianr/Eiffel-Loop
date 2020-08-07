@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:51:53 GMT (Friday 8th May 2020)"
-	revision: "6"
+	date: "2020-08-06 17:37:54 GMT (Thursday 6th August 2020)"
+	revision: "7"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -16,17 +16,19 @@ inherit
 	EL_NOTIFYING_PLAIN_TEXT_FILE
 		export
 			{NONE} all
-			{ANY} put_string, put_new_line, after, read_line, last_string,
-					extendible, file_readable, readable, is_closed, end_of_file,
+			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_new_line, after, read_line, last_string,
+					extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file,
 					close, count
 		redefine
-			make_default, put_raw_string_8, read_line, open_append, open_write, open_read
+			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line, open_append, open_write, open_read
 		end
 
 	EL_ENCRYPTABLE
 		redefine
 			make_default
 		end
+
+	EL_MODULE_STRING_32
 
 create
 	make_with_name, make_open_read, make_open_write
@@ -37,7 +39,6 @@ feature -- Initialization
 		do
 			Precursor {EL_ENCRYPTABLE}
 			Precursor {EL_NOTIFYING_PLAIN_TEXT_FILE}
-			set_encoding (Latin_1)
 		end
 
 feature -- Access
@@ -47,12 +48,24 @@ feature -- Access
 
 	line_index: INTEGER
 
-feature -- Element change
+feature -- Write string
 
-	put_raw_string_8 (s: STRING)
+	put_string_general (str: READABLE_STRING_GENERAL)
 		do
-			Precursor (encrypter.base64_encrypted (s))
+			put_raw_string_8 (String_32.to_utf_8 (String_32.from_general (str, False), False))
 		end
+
+	put_string (str: ZSTRING)
+		do
+			put_string_general (str)
+		end
+
+	put_string_8 (str: STRING)
+		do
+			put_string_general (str)
+		end
+
+feature -- Element change
 
 	set_line_start (a_line_start: like line_start)
 		do
@@ -106,6 +119,11 @@ feature -- Input
 		end
 
 feature {NONE} -- Implementation
+
+	put_raw_string_8 (s: STRING)
+		do
+			Precursor (encrypter.base64_encrypted (s))
+		end
 
 	call (object: ANY)
 		do

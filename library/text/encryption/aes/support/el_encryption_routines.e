@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:09:04 GMT (Friday 7th February 2020)"
-	revision: "7"
+	date: "2020-08-07 9:09:33 GMT (Friday 7th August 2020)"
+	revision: "8"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -19,7 +19,7 @@ inherit
 
 	EL_AES_CONSTANTS
 		export
-			{ANY} Bit_sizes
+			{ANY} valid_key_bit_count
 		end
 
 feature -- Conversion
@@ -45,9 +45,9 @@ feature -- Conversion
 
 feature -- Factory
 
-	new_aes_encrypter (pass_phrase: ZSTRING; bit_count: NATURAL): EL_AES_ENCRYPTER
+	new_aes_encrypter (pass_phrase: ZSTRING; bit_count: INTEGER): EL_AES_ENCRYPTER
 		require
-			valid_bit_count: Bit_sizes.has (bit_count)
+			valid_bit_count: valid_key_bit_count (bit_count)
 		do
 			create Result.make (pass_phrase, bit_count)
 		end

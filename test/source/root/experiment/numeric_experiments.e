@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 10:04:43 GMT (Tuesday 6th August 2019)"
-	revision: "2"
+	date: "2020-08-06 15:36:50 GMT (Thursday 6th August 2020)"
+	revision: "3"
 
 class
 	NUMERIC_EXPERIMENTS
@@ -25,6 +25,14 @@ feature -- Basic operations
 			number := n
 			number := number + number.one
 			lio.put_labeled_string ("number", number.out)
+		end
+
+	hex_conversion
+		local
+			n: NATURAL_64
+		do
+			n := 0xAAAABBBBCCCCDDDD
+			lio.put_labeled_string ("to_hex_string", n.to_hex_string)
 		end
 
 	iteration_10_to_pow_8

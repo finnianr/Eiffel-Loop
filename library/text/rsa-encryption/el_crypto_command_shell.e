@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:02:46 GMT (Thursday 7th May 2020)"
-	revision: "15"
+	date: "2020-08-07 9:58:55 GMT (Friday 7th August 2020)"
+	revision: "16"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -330,7 +330,7 @@ feature {NONE} -- Factory
 
 	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
 		do
-			Result := pass_phrase.new_aes_encrypter (User_input.natural_from_values ("AES encryption bit count", AES_types))
+			Result := pass_phrase.new_aes_encrypter (User_input.integer_from_values ("AES encryption bit count", AES_types))
 			lio.put_new_line
 		end
 
@@ -363,7 +363,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Constants
 
-	AES_types: ARRAY [NATURAL]
+	AES_types: ARRAY [INTEGER]
 		once
 			Result := << 128, 256 >>
 		end

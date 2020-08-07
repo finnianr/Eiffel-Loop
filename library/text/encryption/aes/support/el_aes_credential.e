@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:53:09 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2020-08-07 9:08:59 GMT (Friday 7th August 2020)"
+	revision: "10"
 
 class
 	EL_AES_CREDENTIAL
@@ -29,7 +29,7 @@ inherit
 
 	EL_AES_CONSTANTS
 		export
-			{ANY} Bit_sizes
+			{ANY} valid_key_bit_count
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
@@ -196,10 +196,10 @@ feature -- Status query
 
 feature -- Factory
 
-	new_aes_encrypter (bit_count: NATURAL): EL_AES_ENCRYPTER
+	new_aes_encrypter (bit_count: INTEGER): EL_AES_ENCRYPTER
 		require
 			valid_pass_phrase: is_valid
-			valid_bit_count: Bit_sizes.has (bit_count)
+			valid_bit_count: valid_key_bit_count (bit_count)
 		do
 			create Result.make (phrase, bit_count)
 		end

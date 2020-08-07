@@ -6,21 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 21:07:30 GMT (Wednesday 20th February 2019)"
-	revision: "1"
+	date: "2020-08-07 9:08:13 GMT (Friday 7th August 2020)"
+	revision: "2"
 
 class
 	EL_AES_CONSTANTS
 
 feature {NONE} -- Constants
-
-	Bit_sizes: ARRAYED_LIST [NATURAL]
-		once
-			create Result.make (3)
-			across Byte_sizes as count loop
-				Result.extend (count.item * 8)
-			end
-		end
 
 	Block_size: INTEGER
 		local
@@ -30,10 +22,24 @@ feature {NONE} -- Constants
 			Result := key.Block_size
 		end
 
-	Byte_sizes: ARRAY [NATURAL]
-		once
-			Result := << 16, 24, 32 >>
+feature {NONE} -- Contract Support
+
+	valid_key_bit_count (count: INTEGER): BOOLEAN
+		do
+			inspect count
+				when 128, 192, 256 then
+					Result := True
+			else
+			end
 		end
 
+	valid_key_byte_count (count: INTEGER): BOOLEAN
+		do
+			inspect count
+				when 16, 24, 32 then
+					Result := True
+			else
+			end
+		end
 
 end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 18:52:26 GMT (Friday 17th January 2020)"
-	revision: "20"
+	date: "2020-08-07 7:47:36 GMT (Friday 7th August 2020)"
+	revision: "21"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -121,7 +121,7 @@ feature -- Factory
 			end
 		end
 
-	new_item_from_name (class_name: STRING): detachable G
+	new_item_from_name (class_name: READABLE_STRING_GENERAL): detachable G
 			--
 		require
 			valid_type: valid_name (class_name)
@@ -201,7 +201,7 @@ feature -- Contract support
 			end
 		end
 
-	valid_name (class_name: STRING): BOOLEAN
+	valid_name (class_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			if not class_name.is_empty then
 				Result := valid_type_id (Eiffel.dynamic_type_from_string (class_name))
