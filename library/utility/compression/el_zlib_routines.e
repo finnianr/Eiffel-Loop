@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-08-14 10:20:01 GMT (Friday 14th August 2020)"
+	revision: "6"
 
 class
 	EL_ZLIB_ROUTINES
@@ -21,7 +21,7 @@ inherit
 
 feature -- Conversion
 
-	compress (source: MANAGED_POINTER; expected_compression_ratio: DOUBLE; level: INTEGER): STRING
+	compress (source: MANAGED_POINTER; expected_compression_ratio: DOUBLE; level: INTEGER): SPECIAL [NATURAL_8]
 		require
 			valid_level: (-1 |..| 9).has (level)
 		local
@@ -39,11 +39,11 @@ feature -- Conversion
 			loop
 				compressed_count := upper_bound.min ((source.count * compression_ratio).rounded)
 
-				create Result.make (compressed_count.to_integer)
-				status := c_compress2 (Result.area.base_address, $compressed_count, source.item, source.count, level)
+				create Result.make_filled (0, compressed_count.to_integer)
+				status := c_compress2 (Result.base_address, $compressed_count, source.item, source.count, level)
 				inspect status
 					when Z_ok then
-						Result.set_count (compressed_count.to_integer)
+						Result.keep_head (compressed_count.to_integer)
 						is_done := True
 
 					when Z_buf_error then
@@ -57,21 +57,20 @@ feature -- Conversion
 				end
 			end
 		ensure
-			compressed: not Result.is_empty
+			compressed: Result.count > 0
 		end
 
-	uncompress (source: MANAGED_POINTER; orginal_count: INTEGER): STRING
+	uncompress (source: MANAGED_POINTER; orginal_count: INTEGER): SPECIAL [NATURAL_8]
 			--
 		local
-			status: INTEGER
-			uncompressed_count: INTEGER_64
+			status: INTEGER; uncompressed_count: INTEGER_64
 		do
 			uncompressed_count := orginal_count
-			create Result.make (uncompressed_count.to_integer)
-			status := c_uncompress (Result.area.base_address, $uncompressed_count, source.item, source.count)
+			create Result.make_filled (0, uncompressed_count.to_integer)
+			status := c_uncompress (Result.base_address, $uncompressed_count, source.item, source.count)
 			inspect status
 				when Z_ok then
-					Result.set_count (uncompressed_count.to_integer)
+					Result.keep_head (uncompressed_count.to_integer)
 					last_compression_ratio := (source.count / uncompressed_count.to_integer).truncated_to_real
 			else
 				on_error (status)

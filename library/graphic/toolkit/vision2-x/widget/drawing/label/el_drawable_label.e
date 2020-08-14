@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 12:19:15 GMT (Saturday 18th July 2020)"
-	revision: "9"
+	date: "2020-08-09 10:23:11 GMT (Sunday 9th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_DRAWABLE_LABEL
@@ -43,11 +43,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	tile_pixmap: EV_PIXMAP
-
 	pixmap: EV_PIXMAP
 
 	text: READABLE_STRING_GENERAL
+
+	tile_pixmap: EV_PIXMAP
 
 feature -- Status query
 
@@ -55,14 +55,14 @@ feature -- Status query
 
 feature -- Status change
 
-	enable_word_wrapping
-		do
-			is_word_wrapped := True
-		end
-
 	disable_word_wrapping
 		do
 			is_word_wrapped := False
+		end
+
+	enable_word_wrapping
+		do
+			is_word_wrapped := True
 		end
 
 feature -- Element change
@@ -73,40 +73,27 @@ feature -- Element change
 			pixmap := a_pixmap
 		end
 
-	set_tile_pixmap (a_tile_pixmap: like tile_pixmap)
-			--
-		do
-			tile_pixmap := a_tile_pixmap
-		end
-
 	set_text (a_text: like text)
 			--
 		do
 			text := a_text
 		end
 
+	set_tile_pixmap (a_tile_pixmap: like tile_pixmap)
+			--
+		do
+			tile_pixmap := a_tile_pixmap
+		end
+
+feature -- Status change
+
 	set_font_and_height (a_font: EV_FONT)
 		do
 			set_font (a_font)
 			set_minimum_height ((font.line_height * 1.5).rounded)
---			set_minimum_size (font.string_width (text) + font.maximum_width * 2, (font.line_height * 1.5).rounded)
 		end
 
 feature {NONE} -- Implementation
-
-	on_redraw (a_x, a_y, a_width, a_height: INTEGER)
-			--
-		local
-			l_text: ZSTRING
-		do
-			clear; draw_background
-			create l_text.make_from_general (text)
-			if is_word_wrapped then
-				new_wrapped_text_rectangle (l_text).draw (Current)
-			else
-				new_text_rectangle (l_text).draw (Current)
-			end
-		end
 
 	draw_background
 		local
@@ -119,6 +106,20 @@ feature {NONE} -- Implementation
 				create r.make (0, 0, width, height)
 				draw_row_of_tiles (r, tile_pixmap)
 				draw_rectangle_shadows (r.x, r.y, r.width, r.height)
+			end
+		end
+
+	on_redraw (a_x, a_y, a_width, a_height: INTEGER)
+			--
+		local
+			l_text: ZSTRING
+		do
+			clear; draw_background
+			create l_text.make_from_general (text)
+			if is_word_wrapped then
+				new_wrapped_text_rectangle (l_text).draw (Current)
+			else
+				new_text_rectangle (l_text).draw (Current)
 			end
 		end
 

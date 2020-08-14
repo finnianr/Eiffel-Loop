@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-08-08 16:50:51 GMT (Saturday 8th August 2020)"
+	revision: "6"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -32,15 +32,21 @@ create
 
 feature {NONE} -- Initialization
 
+	make (a_modulus: INTEGER_X)
+			--
+		do
+			make_with_exponent (a_modulus, Default_exponent)
+		end
+
 	make_default
 		do
 			make (2)
 		end
 
-	make_from_hex_byte_sequence (sequence: STRING)
-			-- used to intialize from X509 cert
+	make_from_array (a_modulus: ARRAY [NATURAL_8])
+			--
 		do
-			make (RSA.integer_x_from_hex_sequence (sequence))
+			make (Rsa.integer_x_from_array (a_modulus.area))
 		end
 
 	make_from_base_64 (base_64_string: STRING)
@@ -49,10 +55,10 @@ feature {NONE} -- Initialization
 			make_from_array (Base_64.decoded_array (base_64_string))
 		end
 
-	make_from_array (a_modulus: ARRAY [NATURAL_8])
-			--
+	make_from_hex_byte_sequence (sequence: STRING)
+			-- used to intialize from X509 cert
 		do
-			make (Rsa.integer_x_from_array (a_modulus.area))
+			make (RSA.integer_x_from_hex_sequence (sequence))
 		end
 
 	make_from_manifest (a_modulus: ARRAY [INTEGER])
@@ -77,19 +83,7 @@ feature {NONE} -- Initialization
 			make_from_pkcs1 (reader_cmd.lines)
 		end
 
-	make (a_modulus: INTEGER_X)
-			--
-		do
-			make_with_exponent (a_modulus, Default_exponent)
-		end
-
 feature -- Basic operations
-
-	verify_base_64 (message: INTEGER_X; base64_signature: STRING): BOOLEAN
-			--
-		do
-			Result := verify (message, Rsa.integer_x_from_base_64 (base64_signature))
-		end
 
 	encrypt_base_64 (base64_message: STRING): INTEGER_X
 			--
@@ -100,4 +94,29 @@ feature -- Basic operations
 			Result := encrypt (message)
 		end
 
+	verify_base_64 (message: INTEGER_X; base64_signature: STRING): BOOLEAN
+			--
+		do
+			Result := verify (message, Rsa.integer_x_from_base_64 (base64_signature))
+		end
+
+feature -- Access
+
+	decrypted_string (cipher_message: INTEGER_X; count: INTEGER): STRING
+		-- convert signed `cipher_message' to string with `count' character
+		local
+			plain_message: INTEGER_X; plain_data: ARRAY [NATURAL_8]
+		do
+			-- counterintutive but correct, `encrypt' reverses signing with private key
+			plain_message := encrypt (cipher_message)
+			create Result.make (count)
+
+			-- check precondition for `to_fixed_width_byte_array'
+			if count - plain_message.bytes >= 0 then
+				create plain_data.make_from_special (plain_message.as_fixed_width_byte_array (count))
+				across plain_data as byte until byte.item = 0 loop
+					Result.append_character (byte.item.to_character_8)
+				end
+			end
+		end
 end

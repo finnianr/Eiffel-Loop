@@ -11,28 +11,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:41:27 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-08-14 17:51:12 GMT (Friday 14th August 2020)"
+	revision: "8"
 
 class
 	EL_DECORATED_BUTTON
 
 inherit
-	EV_BUTTON
+	EL_BUTTON
+		export
+			{NONE} set_text
 		redefine
-			initialize, set_background_color, enable_sensitive, disable_sensitive, is_sensitive
+			initialize, set_background_color, enable_sensitive, disable_sensitive, is_sensitive,
+			text
 		end
 
 	EV_BUILDER
-
-	EL_MODULE_GUI
-
-	EL_MODULE_PIXMAP
-		rename
-			Pixmap as Mod_pixmap
-		end
-
-	EL_MODULE_SCREEN
 
 create
 	default_create, make, make_with_action
@@ -43,6 +37,7 @@ feature {NONE} -- Initialization
 		do
 			is_sensitive := True
 			pixmap_set := Default_pixmap_set
+			selected_pixmap := pixmap_set.normal
 			Precursor
 		end
 
@@ -55,6 +50,9 @@ feature {NONE} -- Initialization
 			pointer_motion_actions.extend (agent on_pointer_motion)
 			pointer_button_press_actions.extend (agent on_pointer_button_press)
 			pointer_button_release_actions.extend (agent on_pointer_button_release)
+
+			focus_in_actions.extend (agent on_focus_in)
+			focus_out_actions.extend (agent on_focus_out)
 
 			pixmap_set := a_pixmap_set
 			set_pixmap (pixmap_set.normal)
@@ -69,22 +67,39 @@ feature {NONE} -- Initialization
 			select_actions.extend (a_action)
 		end
 
+feature -- Access
+
+	text: STRING_32
+		do
+			if attached {EL_SVG_TEXT_BUTTON_PIXMAP_SET} pixmap_set as text_pixmap then
+				Result := text_pixmap.text.to_string_32
+			else
+				Result := Precursor
+			end
+		end
+
 feature -- Status report
 
 	is_cursor_over: BOOLEAN
 
 	is_sensitive: BOOLEAN
 
-feature -- Status setting
-
-	enable_sensitive
-			-- Make object sensitive to user input.
+	is_depressed: BOOLEAN
 		do
-			pixmap_set.set_enabled
-			is_sensitive := True
-			select_actions.resume
-			on_pointer_leave
+			Result := selected_pixmap = pixmap_set.depressed
 		end
+
+	is_normal: BOOLEAN
+		do
+			Result := selected_pixmap = pixmap_set.normal
+		end
+
+	is_highlighted: BOOLEAN
+		do
+			Result := selected_pixmap = pixmap_set.highlighted
+		end
+
+feature -- Status setting
 
 	disable_sensitive
 			-- Make object non-sensitive to user input.
@@ -95,7 +110,45 @@ feature -- Status setting
 			on_pointer_leave
 		end
 
+	enable_sensitive
+			-- Make object sensitive to user input.
+		do
+			pixmap_set.set_enabled
+			is_sensitive := True
+			select_actions.resume
+			on_pointer_leave
+		end
+
 feature -- Element change
+
+	set_background_color (a_color: like background_color)
+		do
+			Precursor (a_color)
+			pixmap_set.set_background_color (a_color)
+			if is_cursor_over then
+				set_pixmap_highlighted
+			else
+				set_pixmap_normal
+			end
+		end
+
+	set_pixmap_depressed
+		do
+			set_pixmap (pixmap_set.depressed)
+			selected_pixmap := pixmap_set.depressed
+		end
+
+	set_pixmap_highlighted
+		do
+			set_pixmap (pixmap_set.highlighted)
+			selected_pixmap := pixmap_set.highlighted
+		end
+
+	set_pixmap_normal
+		do
+			set_pixmap (pixmap_set.normal)
+			selected_pixmap := pixmap_set.normal
+		end
 
 	set_pixmap_set (a_pixmap_set: like pixmap_set)
 		do
@@ -114,57 +167,19 @@ feature -- Element change
 			end
 		end
 
-	set_background_color (a_color: like background_color)
-		do
-			Precursor (a_color)
-			pixmap_set.set_background_color (a_color)
-			if is_cursor_over then
-				set_pixmap_highlighted
-			else
-				set_pixmap_normal
-			end
-		end
-
-	set_pixmap_normal
-		do
-			set_pixmap (pixmap_set.normal)
-		end
-
-	set_pixmap_depressed
-		do
-			set_pixmap (pixmap_set.depressed)
-		end
-
-	set_pixmap_highlighted
-		do
-			set_pixmap (pixmap_set.highlighted)
-		end
-
 feature {NONE} -- Event handlers
 
-	on_pointer_enter
-			--
+	on_focus_in
 		do
-			if is_sensitive then
-				set_pointer_style (Mod_pixmap.Hyperlink_cursor)
-				is_cursor_over := True
+			if not is_highlighted then
 				set_pixmap_highlighted
 			end
 		end
 
-	on_pointer_leave
-			--
+	on_focus_out
 		do
-			set_pointer_style (Mod_pixmap.Standard_cursor)
-			is_cursor_over := False
-			set_pixmap_normal
-		end
-
-	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
-			--
-		do
-			if is_sensitive and then not is_cursor_over then
-				on_pointer_enter
+			if not is_normal then
+				set_pixmap_normal
 			end
 		end
 
@@ -184,9 +199,37 @@ feature {NONE} -- Event handlers
 			end
 		end
 
+	on_pointer_enter
+			--
+		do
+			if is_sensitive then
+				set_pointer_style (Style.Hyperlink_cursor)
+				is_cursor_over := True
+				set_pixmap_highlighted
+			end
+		end
+
+	on_pointer_leave
+			--
+		do
+			set_pointer_style (Style.Standard_cursor)
+			is_cursor_over := False
+			set_pixmap_normal
+		end
+
+	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
+			--
+		do
+			if is_sensitive and then not is_cursor_over then
+				on_pointer_enter
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	pixmap_set: EL_SVG_BUTTON_PIXMAP_SET
+
+	selected_pixmap: EV_PIXMAP
 
 feature {NONE} -- Constants
 

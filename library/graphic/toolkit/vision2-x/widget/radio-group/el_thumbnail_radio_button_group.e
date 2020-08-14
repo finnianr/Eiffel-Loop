@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-05-20 13:30:34 GMT (Monday 20th May 2019)"
-	revision: "6"
+	date: "2020-08-14 11:59:35 GMT (Friday 14th August 2020)"
+	revision: "7"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
@@ -37,9 +37,12 @@ feature {NONE} -- Initialization
 			make_button_group (initial_value, values, a_value_change_action)
 			thumbnails := a_thumbnails
 			create previous_color
+			highlight_color := Color.White
 		end
 
 feature -- Access
+
+	highlight_color: EL_COLOR
 
 	horizontal_table (a_border_cms, a_padding_cms: REAL): EV_TABLE
 		do
@@ -51,24 +54,44 @@ feature -- Access
 			Result := table (buttons.count, 1, a_border_cms, a_padding_cms)
 		end
 
+feature -- Status change
+
+	set_highlight_color (a_highlight_color: EV_COLOR)
+		do
+			highlight_color := a_highlight_color
+		end
+
 feature {NONE} -- Event Handlers
 
 	on_enter (a_box: EL_HORIZONTAL_BOX; a_button: EV_RADIO_BUTTON)
 		do
 			previous_color := a_box.background_color
-			a_box.set_background_color (Highlight_color)
-			a_button.set_background_color (Highlight_color)
+			a_box.set_background_color (highlight_color)
+			a_button.set_background_color (highlight_color)
 		end
 
 	on_leave (a_box: EL_HORIZONTAL_BOX; a_button: EV_RADIO_BUTTON)
 		do
-			if a_box.background_color.rgb_24_bit = Highlight_color.rgb_24_bit then
+			if a_box.background_color.rgb_24_bit = highlight_color.rgb_24_bit then
 				a_box.set_background_color (previous_color)
 				a_button.set_background_color (previous_color)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	displayed_value (string: ZSTRING): ZSTRING
+		do
+			create Result.make_empty
+		end
+
+	previous_color: EV_COLOR
+
+	set_highlight_actions (a_widget: EV_WIDGET; a_box: EL_HORIZONTAL_BOX; a_button: EV_RADIO_BUTTON)
+		do
+			a_widget.pointer_enter_actions.extend (agent on_enter (a_box, a_button))
+			a_widget.pointer_leave_actions.extend (agent on_leave (a_box, a_button))
+		end
 
 	set_table_items (a_table: EV_TABLE; rows, cols: INTEGER)
 		local
@@ -92,26 +115,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_highlight_actions (a_widget: EV_WIDGET; a_box: EL_HORIZONTAL_BOX; a_button: EV_RADIO_BUTTON)
-		do
-			a_widget.pointer_enter_actions.extend (agent on_enter (a_box, a_button))
-			a_widget.pointer_leave_actions.extend (agent on_leave (a_box, a_button))
-		end
-
-	displayed_value (string: ZSTRING): ZSTRING
-		do
-			create Result.make_empty
-		end
-
 	thumbnails: ARRAYED_LIST [EL_PIXMAP]
-
-	previous_color: EV_COLOR
-
-feature {NONE} -- Constants
-
-	Highlight_color: EV_COLOR
-		once
-			Result := Color.Green
-		end
 
 end

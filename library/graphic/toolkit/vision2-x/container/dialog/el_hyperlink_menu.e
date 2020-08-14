@@ -6,26 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:46:05 GMT (Monday 1st July 2019)"
-	revision: "9"
+	date: "2020-08-12 16:27:40 GMT (Wednesday 12th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
 
 inherit
-	EL_HORIZONTAL_DIALOG
+	EL_HORIZONTAL_VIEW_DIALOG
+		rename
+			make as make_dialog
 		redefine
-			on_cancel, on_show, dialog_buttons, Widget_separation_cms, content_area_color
+			on_cancel, on_show
 		end
 
 	EL_MODULE_COLOR
 
-	EL_MODULE_KEY
-
 feature {NONE} -- Initialization
 
 	make (
-		a_heading: ZSTRING; a_item_list: like item_list; a_select_action: like select_action;
+		a_model: like model; a_item_list: like item_list; a_select_action: like select_action;
 		a_font: like font; a_link_text_color: EV_COLOR
 	)
 		local
@@ -42,29 +42,20 @@ feature {NONE} -- Initialization
 				links.extend (link)
 				item_list.forth
 			end
-			make_dialog (a_heading, agent do_nothing)
-			focus_out_actions.extend (agent on_cancel)
-			create keyboard_shortcuts.make (Current)
-			keyboard_shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
-		end
-
-feature -- Access
-
-	content_area_color: EL_COLOR
-		do
-			Result := GUI.text_field_background_color
+			make_info (a_model)
+			internal_dialog.focus_out_actions.extend (agent on_cancel)
 		end
 
 feature {NONE} -- Events
 
 	on_show
 		do
-			set_focus
+			internal_dialog.set_focus
 		end
 
 	on_cancel
 		do
-			focus_out_actions.block
+			internal_dialog.focus_out_actions.block
 			Precursor
 		end
 
@@ -93,17 +84,8 @@ feature {NONE} -- Internal attributes
 
 	item_list: LIST [G]
 
-	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
-
 	select_action: PROCEDURE [G]
 
 	links: ARRAYED_LIST [EV_WIDGET]
-
-feature {NONE} -- Dimensions
-
-	Widget_separation_cms: REAL
-		once
-			Result := 0.1
-		end
 
 end

@@ -295,3 +295,15 @@ Various
 Wed 5th Aug 2020, 19:53:54
 New class EL_NETWORK_DEVICE_LIST_I and demoted priority of USB wireless devices for Unique ID
 
+Mon 10th Aug 2020, 10:26:41
+New class EL_DIALOG_PROPERTIES for EL_VERTICAL_DIALOG_2
+
+Mon 10th Aug 2020, 18:24:40
+EL_VERTICAL_DIALOG_2 can now show decorated buttons
+
+Tue 11th Aug 2020, 16:05:08
+Advanced EL_VIEW_DIALOG and EL_DIALOG_MODEL
+
+Fri 14th Aug 2020, 18:10:48
+View dialog changes and focus_in actions for EL_DECORATED_BUTTON
+

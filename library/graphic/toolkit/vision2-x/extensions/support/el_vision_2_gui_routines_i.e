@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 10:43:59 GMT (Saturday 18th July 2020)"
-	revision: "21"
+	date: "2020-08-09 11:02:45 GMT (Sunday 9th August 2020)"
+	revision: "22"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -365,18 +365,16 @@ feature -- Measurement
 			Result := a_font.string_width (once_copy_general_32 (string))
 		end
 
-	widest_width (strings: FINITE [READABLE_STRING_GENERAL]; font: EV_FONT): INTEGER
+	widest_width (strings: ITERABLE [READABLE_STRING_GENERAL]; font: EV_FONT): INTEGER
 			-- widest string width for font
 		local
-			list: LINEAR [READABLE_STRING_GENERAL]; width: INTEGER
+			width: INTEGER
 		do
-			list := strings.linear_representation
-			from list.start until list.after loop
+			across strings as list loop
 				width := string_width (list.item, font)
 				if width > Result then
 					Result := width
 				end
-				list.forth
 			end
 		end
 

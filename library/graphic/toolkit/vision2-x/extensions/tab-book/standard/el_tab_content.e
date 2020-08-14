@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-08-12 16:34:17 GMT (Wednesday 12th August 2020)"
+	revision: "5"
 
 deferred class
-	EL_TAB_CONTENT [W -> {EV_WINDOW}]
+	EL_TAB_CONTENT [W -> EV_POSITIONABLE]
 
 inherit
 	EL_MODULE_DEFERRED_LOCALE

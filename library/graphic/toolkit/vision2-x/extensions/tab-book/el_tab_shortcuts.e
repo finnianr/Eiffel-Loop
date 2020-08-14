@@ -8,31 +8,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:47:58 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2020-08-12 16:34:35 GMT (Wednesday 12th August 2020)"
+	revision: "5"
 
 deferred class
 	EL_TAB_SHORTCUTS
 
 inherit
-	ANY
-	
+	EV_ANY_HANDLER
+
+	EL_KEY_MODIFIER_CONSTANTS
+		export
+			{NONE} all
+		end
+
 	EL_MODULE_KEY
 
 	EL_MODULE_GUI
 
 feature {NONE} -- Initialization
 
-	init_keyboard_shortcuts (a_window: EV_WINDOW)
+	init_keyboard_shortcuts (a_window: EV_POSITIONABLE)
 		local
 			shortcuts: EL_KEYBOARD_SHORTCUTS
-			page_up_accelerator, page_down_accelerator: EV_ACCELERATOR
 		do
-			create shortcuts.make (a_window)
-			page_up_accelerator := shortcuts.create_accelerator (Key.Key_page_up, {EL_KEY_MODIFIER_CONSTANTS}.Modifier_ctrl)
-			page_down_accelerator := shortcuts.create_accelerator (Key.Key_page_down, {EL_KEY_MODIFIER_CONSTANTS}.Modifier_ctrl)
-			page_up_accelerator.actions.extend (agent select_left_tab)
-			page_down_accelerator.actions.extend (agent select_right_tab)
+			if attached {EV_WINDOW} a_window as w then
+				create shortcuts.make (w)
+			elseif attached {EL_VIEW_DIALOG} a_window as view then
+				create shortcuts.make (view.internal_dialog)
+			end
+			if attached shortcuts as s then
+				s.create_accelerator (Key.Key_page_up, Modifier_ctrl).actions.extend (agent select_left_tab)
+				s.create_accelerator (Key.Key_page_down, Modifier_ctrl).actions.extend (agent select_right_tab)
+			end
 		end
 
 feature -- Basic operations

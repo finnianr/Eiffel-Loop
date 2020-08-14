@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 10:15:14 GMT (Monday 27th July 2020)"
-	revision: "8"
+	date: "2020-08-09 10:23:38 GMT (Sunday 9th August 2020)"
+	revision: "9"
 
 class
 	EL_LABEL_PIXMAP
@@ -35,6 +35,13 @@ feature -- Basic operations
 			if width > 1 and height > 1 then
 				Precursor
 			end
+		end
+
+feature -- Status change
+
+	set_width_for_border (border_cms: REAL)
+		do
+			set_minimum_width (GUI.string_width (text, font) + Screen.horizontal_pixels (border_cms))
 		end
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes

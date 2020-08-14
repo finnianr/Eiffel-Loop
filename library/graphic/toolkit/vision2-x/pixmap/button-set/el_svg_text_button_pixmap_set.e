@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 9:08:14 GMT (Sunday 2nd August 2020)"
-	revision: "14"
+	date: "2020-08-09 10:35:56 GMT (Sunday 9th August 2020)"
+	revision: "15"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			font := a_font; text := a_text
 			height := (font.line_height * relative_height).rounded
-			svg_text_width := (a_font.string_width (text.to_unicode) / height * svg_height).rounded
+			svg_text_width := (GUI.string_width (text, a_font) / height * svg_height).rounded
 			make_pixmap_set (a_icon_path_steps, height / Screen.vertical_resolution, a_background_color)
 		end
 
@@ -44,7 +44,7 @@ feature -- Access
 			Result := pixmap_table [SVG.normal]
 		end
 
-	text: ZSTRING
+	text: READABLE_STRING_GENERAL
 
 	font: EL_FONT
 
@@ -94,13 +94,12 @@ feature {NONE} -- Implementation
 
 	draw_text
 		local
-			l_pixmap: like normal; l_text: READABLE_STRING_GENERAL; half_font_descent: INTEGER
+			l_pixmap: like normal; half_font_descent: INTEGER
 			text_rect: EL_RECTANGLE
 		do
-			l_text := text.to_unicode
 			across pixmap_table as a_pixmap loop
 				l_pixmap := a_pixmap.item
-				create text_rect.make_for_text (l_text, font)
+				create text_rect.make_for_text (text, font)
 				text_rect.move_center (create {EL_RECTANGLE}.make_for_widget (l_pixmap))
 				half_font_descent := font.descent // 2
 				text_rect.set_y (text_rect.y - half_font_descent)
@@ -114,7 +113,7 @@ feature {NONE} -- Implementation
 					else
 						buffer.set_color (disabled_text_color)
 					end
-					buffer.draw_text_top_left (text_rect.x, text_rect.y, l_text)
+					buffer.draw_text_top_left (text_rect.x, text_rect.y, text)
 
 					l_pixmap.set_with_argb_32_buffer (buffer)
 				end

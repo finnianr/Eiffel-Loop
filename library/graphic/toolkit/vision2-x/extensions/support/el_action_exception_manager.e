@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-30 11:02:22 GMT (Saturday 30th June 2018)"
-	revision: "5"
+	date: "2020-08-14 12:55:53 GMT (Friday 14th August 2020)"
+	revision: "7"
 
 class
-	EL_ACTION_EXCEPTION_MANAGER [D -> EL_DIALOG create make end]
+	EL_ACTION_EXCEPTION_MANAGER [D -> EL_INFORMATION_VIEW_DIALOG create make_info end]
 
 inherit
 	EXCEPTION_MANAGER
@@ -22,19 +22,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_parent_window: like parent_window; a_error_conditions: like error_conditions)
+	make (a_parent_window: EV_WINDOW; a_error_list: like error_list; a_new_properties: like new_properties)
 		do
-			parent_window := a_parent_window; error_conditions := a_error_conditions
+			parent_window := a_parent_window; error_list := a_error_list
+			new_properties := a_new_properties
 		end
 
 feature -- Status query
+
+	error_occurred: BOOLEAN
 
 	successfull: BOOLEAN
 		do
 			Result := not error_occurred
 		end
-
-	error_occurred: BOOLEAN
 
 feature -- Status change
 
@@ -48,13 +49,13 @@ feature -- Basic operations
 	try (a_action: PROCEDURE)
 		local
 			condition_found: BOOLEAN; title, message: ZSTRING; position_widget: EV_WIDGET
-			error_dialog: D
+			error_dialog: D; properties: EL_DIALOG_MODEL
 		do
 			if error_occurred then
 				title := Default_title; message := Default_message
 				position_widget := parent_window.item
-				across error_conditions as condition until condition_found loop
-					if condition.item.exception_message ~ last_exception.message
+				across error_list as condition until condition_found loop
+					if last_exception.description.same_string (condition.item.exception_message)
 						and condition.item.exception_recipient_name ~ last_exception.recipient_name
 					then
 						condition_found := True
@@ -63,7 +64,9 @@ feature -- Basic operations
 						position_widget := condition.item.dialog_position_widget
 					end
 				end
-				create error_dialog.make (title.as_upper, message)
+				properties := new_properties (title.as_upper)
+				properties.set_paragraphs (message)
+				create error_dialog.make_info (properties)
 				error_dialog.set_position (
 					position_widget.screen_x + position_widget.width // 2 - error_dialog.width // 2,
 					position_widget.screen_y + position_widget.height
@@ -82,31 +85,35 @@ feature -- Basic operations
 
 feature -- Type definitions
 
-	Type_error_condition: TUPLE [
-		exception_message, exception_recipient_name: STRING
+	ERROR_CONDITION: TUPLE [
+		exception_message: READABLE_STRING_GENERAL; exception_recipient_name: STRING
 		dialog_position_widget: EV_WIDGET -- Dialog is centered below this widget
 		title, message: ZSTRING
 	]
-		once
+		require
+			never_called: False
+		do
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
-	error_conditions: ARRAY [like Type_error_condition]
+	error_list: ARRAY [like ERROR_CONDITION]
+
+	new_properties: FUNCTION [READABLE_STRING_GENERAL, EL_DIALOG_MODEL]
 
 	parent_window: EV_WINDOW
 
 feature {NONE} -- Constants
 
-	Default_title: ZSTRING
-		once
-			Result := Locale * "Error"
-		end
-
 	Default_message: ZSTRING
 		once
 			Locale.set_next_translation ("Something bad happened that prevented this operation!")
 			Result := Locale * "{something bad happened}"
+		end
+
+	Default_title: ZSTRING
+		once
+			Result := Locale * "Error"
 		end
 
 end

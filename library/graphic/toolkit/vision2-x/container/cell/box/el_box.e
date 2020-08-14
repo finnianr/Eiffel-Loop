@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-22 14:24:29 GMT (Monday 22nd June 2020)"
-	revision: "9"
+	date: "2020-08-14 14:18:29 GMT (Friday 14th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_BOX
@@ -75,6 +75,16 @@ feature -- Element change
 		do
 			extend (v)
 			disable_item_expand (v)
+		end
+
+	insert_unexpanded (v: like item; i: INTEGER)
+			--
+		do
+			if valid_index (i) then
+				go_i_th (i)
+				put_left (v)
+				disable_item_expand (v)
+			end
 		end
 
 	prepend_unexpanded (v: like item)

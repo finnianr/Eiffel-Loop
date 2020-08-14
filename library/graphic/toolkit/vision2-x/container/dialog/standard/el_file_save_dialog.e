@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 10:25:12 GMT (Friday 3rd July 2020)"
-	revision: "4"
+	date: "2020-08-14 12:57:58 GMT (Friday 14th August 2020)"
+	revision: "6"
 
 class
 	EL_FILE_SAVE_DIALOG
@@ -25,7 +25,7 @@ inherit
 
 	EL_ZSTRING_ROUTINES undefine default_create, copy end
 
-	EL_WINDOW
+	EL_POSITIONABLE
 
 	EL_MODULE_ZSTRING
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 14:04:49 GMT (Thursday 16th July 2020)"
-	revision: "1"
+	date: "2020-08-10 6:29:07 GMT (Monday 10th August 2020)"
+	revision: "2"
 
 class
 	EL_WRAPPED_LABEL
@@ -35,6 +35,8 @@ inherit
 
 	EL_MODULE_SCREEN
 
+	EL_MODULE_ZSTRING
+
 create
 	default_create, make, make_to_width
 
@@ -48,19 +50,19 @@ feature {NONE} -- Initialization
 			resize_actions.block
 		end
 
-	make (a_text: ZSTRING)
+	make (a_text: READABLE_STRING_GENERAL)
 			--
 		do
 			default_create
 			set_text (a_text)
 		end
 
-	make_to_width (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER)
+	make_to_width (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER)
 		do
 			default_create
 			set_minimum_width (a_width)
 			set_font (a_font)
-			unwrapped_text := a_text
+			unwrapped_text := Zstring.to (a_text)
 			wrap_text
 		end
 
@@ -70,22 +72,22 @@ feature -- Access
 
 feature -- Element change
 
-	set_text (a_text: ZSTRING)
+	set_text (a_text: READABLE_STRING_GENERAL)
 		-- wraps during component resizing
 		do
-			unwrapped_text := a_text
+			unwrapped_text := Zstring.to (a_text)
 			resize_actions.resume
 		end
 
-	set_text_to_width (a_text: ZSTRING; a_width: INTEGER)
+	set_text_to_width (a_text: READABLE_STRING_GENERAL; a_width: INTEGER)
 			-- does an immediate wrap
 		do
 			set_minimum_width (a_width)
-			unwrapped_text := a_text
+			unwrapped_text := Zstring.to (a_text)
 			wrap_text
 		end
 
-	set_text_to_width_cms (a_text: ZSTRING; a_width_cms: REAL)
+	set_text_to_width_cms (a_text: READABLE_STRING_GENERAL; a_width_cms: REAL)
 		do
 			set_text_to_width (a_text, Screen.horizontal_pixels (a_width_cms))
 		end
@@ -147,7 +149,7 @@ feature {NONE} -- Implementation
 					end
 				end
 --				resize_actions.block
-				set_text_general (wrapped.joined_lines.to_string_32)
+				set_text_general (wrapped.joined_lines)
 --				resize_actions.resume
 			else
 				GUI.do_once_on_idle (agent wrap_text)

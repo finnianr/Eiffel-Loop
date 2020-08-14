@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2020-08-12 16:34:01 GMT (Wednesday 12th August 2020)"
+	revision: "5"
 
 class
-	EL_NOTEBOOK_TAB [W -> {EV_WINDOW}]
+	EL_NOTEBOOK_TAB [W -> EV_POSITIONABLE]
 
 inherit
 	EV_NOTEBOOK_TAB

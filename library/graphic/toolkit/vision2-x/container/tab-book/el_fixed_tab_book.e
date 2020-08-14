@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-04 10:37:31 GMT (Tuesday 4th February 2020)"
-	revision: "10"
+	date: "2020-08-12 16:33:38 GMT (Wednesday 12th August 2020)"
+	revision: "11"
 
 deferred class
-	EL_FIXED_TAB_BOOK [W -> {EV_WINDOW}]
+	EL_FIXED_TAB_BOOK [W -> EV_POSITIONABLE]
 
 inherit
 	EV_NOTEBOOK
@@ -25,10 +25,7 @@ inherit
 			initialize
 		end
 
-	EL_TAB_SHORTCUTS
-		undefine
-			copy , default_create, is_equal
-		end
+	EL_TAB_SHORTCUTS undefine copy, default_create, is_equal end
 
 	EL_MODULE_COLOR
 
@@ -51,6 +48,7 @@ feature {NONE} -- Initialization
 			window := a_window
 			default_create
 			init_keyboard_shortcuts (a_window)
+
 			set_background_color (Color.face_3d)
 			selection_actions.extend (agent
 				do

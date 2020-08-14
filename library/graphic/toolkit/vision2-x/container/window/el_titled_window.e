@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-13 10:11:46 GMT (Saturday 13th July 2019)"
-	revision: "6"
+	date: "2020-08-11 7:21:44 GMT (Tuesday 11th August 2020)"
+	revision: "7"
 
 class
 	EL_TITLED_WINDOW
@@ -22,7 +22,7 @@ inherit
 			implementation, create_implementation, initialize
 		end
 
-	EL_WINDOW
+	EL_POSITIONABLE
 
 	EL_MODULE_SCREEN
 

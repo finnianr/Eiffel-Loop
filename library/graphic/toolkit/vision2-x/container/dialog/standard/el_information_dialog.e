@@ -1,19 +1,19 @@
 note
-	description: "Error dialog"
+	description: "An information dialog with optional deferred localization"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-04 9:28:28 GMT (Saturday 4th July 2020)"
-	revision: "2"
+	date: "2020-08-14 12:58:04 GMT (Friday 14th August 2020)"
+	revision: "7"
 
 class
-	EL_ERROR_DIALOG
+	EL_INFORMATION_DIALOG
 
 inherit
-	EV_ERROR_DIALOG
+	EV_INFORMATION_DIALOG
 		rename
 			set_position as set_absolute_position,
 			set_x_position as set_absolute_x_position,
@@ -34,21 +34,15 @@ inherit
 		end
 
 create
-	default_create, make_with_text
+	default_create, make_with_text, make_with_template
 
 feature {NONE} -- Initialization
 
 	initialize
 			-- Initialize `Current'.
 		do
-			Precursor {EV_ERROR_DIALOG}
-			set_title (Locale * ev_error_dialog_title)
+			Precursor {EV_INFORMATION_DIALOG}
+			set_title (Locale * ev_information_dialog_title)
 		end
 
-feature -- Access
-
-	retry_button: like default_push_button
-		do
-			Result := default_push_button
-		end
 end

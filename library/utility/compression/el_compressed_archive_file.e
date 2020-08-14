@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:14:38 GMT (Sunday 22nd December 2019)"
-	revision: "6"
+	date: "2020-08-14 11:33:17 GMT (Friday 14th August 2020)"
+	revision: "7"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -19,7 +19,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} close, last_string, name, start, end_of_file, position,
-				is_closed, is_open_read, is_open_write
+				is_closed, is_open_read, is_open_write, path
 		redefine
 			make_with_name, after, off
 		end
@@ -31,6 +31,8 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_ZLIB
+
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 create
 	make_open_write, make_open_read, make_default
@@ -47,26 +49,139 @@ feature {NONE} -- Initialization
 		do
 			Precursor (fn)
 			create last_file_path
-			create last_managed_pointer.share_from_pointer (Default_pointer, 0)
+			create last_data.make_empty (0)
 			enable_checksum
+			level := 9
+			expected_compression_ratio := 0.4
 		end
 
 feature -- Access
 
-	extracted_count: INTEGER
+	file_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_FILE_PATH]
+		require
+			open_read: is_open_read and then position = 0
+		local
+			done: BOOLEAN
+		do
+			file_count := 0
+			create Result.make (100)
+			from start until after or done loop
+				read_file_name
+				if last_file_path.is_empty then
+					done := True
+				else
+					read_content_size
+					Result.extend (last_uncompressed_count, last_file_path)
+				end
+			end
+		end
 
 	last_file_path: EL_FILE_PATH
 
-	last_managed_pointer: MANAGED_POINTER
+	last_data: SPECIAL [NATURAL_8]
+		-- data read by `read_compressed_file'
+
+	last_uncompressed_count: INTEGER
+
+feature -- Measurement
+
+	expected_compression_ratio: DOUBLE
+
+	file_count: INTEGER
+
+	level: INTEGER
 
 feature -- Element change
 
-	append_file (a_file_path: EL_FILE_PATH; expected_compression_ratio: DOUBLE; level: INTEGER)
+	set_expected_compression_ratio (a_expected_compression_ratio: DOUBLE)
+		do
+			expected_compression_ratio := a_expected_compression_ratio
+		end
+
+	set_level (a_level: INTEGER)
+		do
+			level := a_level
+		end
+
+feature -- Status change
+
+	disable_checksum
+		do
+			is_checksum_enabled := False
+		end
+
+	enable_checksum
+		do
+			is_checksum_enabled := True
+		end
+
+feature -- Status query
+
+	is_checksum_enabled: BOOLEAN
+
+	is_last_data_ok: BOOLEAN
+		-- `True' if `last_data' was read without error
+
+feature -- Basic operations
+
+	append_file_list (list: ITERABLE [EL_FILE_PATH])
+		require
+			open_append: is_open_write
+			files_exists: across list as l all l.item.exists end
+			valid_expected_compression_ratio: expected_compression_ratio > 0.0
+			valid_level: level > 0
+		do
+			across list as file loop
+				progress_listener.increase_file_data_estimate (file.item)
+			end
+			across list as file loop
+				append_file (file.item)
+			end
+		end
+
+	decompress_all (handler: EL_FILE_DECOMPRESS_HANDLER)
+		require
+			open_read: is_open_read and then position = 0
+		local
+			done: BOOLEAN
+		do
+			file_count := 0
+			if attached file_list as list then
+				from list.start until list.after loop
+					progress_listener.increase_data_estimate (list.item_key)
+					list.forth
+				end
+			end
+			from start until after or done loop
+				read_file_name
+				if last_file_path.is_empty then
+					done := True
+				else
+					read_compressed_file (handler)
+				end
+			end
+		end
+
+	write_last_data (a_file_path: EL_FILE_PATH)
+		-- write content of `last_data' to file `a_file_path'
+		local
+			output_file: RAW_FILE
+		do
+			create output_file.make_open_write (a_file_path)
+
+			Data_pointer.set_from_pointer (last_data.base_address, last_data.count)
+			output_file.put_managed_pointer (Data_pointer, 0, last_data.count)
+			output_file.close
+		end
+
+feature {NONE} -- Implementation
+
+	append_file (a_file_path: EL_FILE_PATH)
 		require
 			open_append: is_open_write
 		local
-			file_data: MANAGED_POINTER; compressed_data, utf8_path: STRING
-			l_checksum: NATURAL
+			file_data: MANAGED_POINTER; compressed_data: SPECIAL [NATURAL_8]
+			utf8_path: STRING; l_checksum: NATURAL
 		do
 			file_data := File_system.file_data (a_file_path)
 			if is_checksum_enabled then
@@ -83,34 +198,22 @@ feature -- Element change
 			if is_checksum_enabled then
 				put_natural (l_checksum)
 			end
-			put_string (compressed_data)
+			Data_pointer.set_from_pointer (compressed_data.base_address, compressed_data.count)
+			put_managed_pointer (Data_pointer, 0, Data_pointer.count)
+			progress_listener.on_notify (file_data.count)
 		end
 
-feature -- Status change
-
-	enable_checksum
-		do
-			is_checksum_enabled := True
-		end
-
-	disable_checksum
-		do
-			is_checksum_enabled := False
-		end
-
-feature -- Input
-
-	read_compressed_file
+	read_compressed_file (handler: EL_FILE_DECOMPRESS_HANDLER)
 			-- results available in last_string
 		require
 			open_read: is_open_read
 		local
-			uncompressed_count: INTEGER; compressed_data: MANAGED_POINTER; l_checksum, actual_checksum: NATURAL
+			compressed_data: MANAGED_POINTER; l_checksum, actual_checksum: NATURAL
 		do
 			read_integer
-			uncompressed_count := last_integer
+			last_uncompressed_count := last_integer
 			if is_lio_enabled then
-				lio.put_integer_field ("READ: uncompressed_count", uncompressed_count)
+				lio.put_integer_field ("READ: last_uncompressed_count", last_uncompressed_count)
 			end
 			read_integer
 			create compressed_data.make (last_integer)
@@ -122,16 +225,22 @@ feature -- Input
 				lio.put_integer_field (" compressed_data.count", compressed_data.count)
 			end
 			read_to_managed_pointer (compressed_data, 0, compressed_data.count)
-			last_string := Zlib.uncompress (compressed_data, uncompressed_count)
-			last_managed_pointer.set_from_pointer (last_string.area.base_address, last_string.count)
+			last_data := Zlib.uncompress (compressed_data, last_uncompressed_count)
 			if is_checksum_enabled then
-				actual_checksum := Checksum.data (last_managed_pointer)
+				Data_pointer.set_from_pointer (last_data.base_address, last_data.count)
+				actual_checksum := Checksum.data (Data_pointer)
 				if is_lio_enabled then
 					lio.put_string_field (" actual_checksum", actual_checksum.out)
 				end
-				is_last_managed_pointer_ok := l_checksum = actual_checksum
+				is_last_data_ok := l_checksum = actual_checksum
+				if is_last_data_ok then
+					handler.on_decompressed (Current, file_count + 1)
+					progress_listener.on_notify (last_uncompressed_count)
+				else
+					handler.on_decompression_error (last_file_path, True)
+				end
 				if is_lio_enabled then
-					if is_last_managed_pointer_ok then
+					if is_last_data_ok then
 						lio.put_string (" OK")
 					else
 						lio.put_string (" ERROR")
@@ -139,9 +248,26 @@ feature -- Input
 					lio.put_new_line
 				end
 			else
-				is_last_managed_pointer_ok := True
+				is_last_data_ok := True
+				handler.on_decompressed (Current, file_count + 1)
+				progress_listener.on_notify (last_uncompressed_count)
 			end
-			extracted_count := extracted_count + 1
+			file_count := file_count + 1
+		end
+
+	read_content_size
+		local
+			compressed_data_count: INTEGER
+		do
+			read_integer
+			last_uncompressed_count := last_integer
+			read_integer
+			compressed_data_count := last_integer
+			if is_checksum_enabled then
+				read_natural
+			end
+			move (compressed_data_count)
+			file_count := file_count + 1
 		end
 
 	read_file_name
@@ -151,16 +277,24 @@ feature -- Input
 			file_name_count: INTEGER
 			l_file_path: ZSTRING
 		do
-			read_integer
-			file_name_count := last_integer
-			if file_name_count < count - 4 then
-				read_stream (file_name_count)
-				create l_file_path.make_from_utf_8 (last_string)
-				last_file_path := l_file_path
-			end
-			if is_lio_enabled then
-				lio.put_path_field ("Read", last_file_path)
-				lio.put_new_line
+			if (count - position) > {PLATFORM}.Integer_32_bytes then
+				read_integer
+				file_name_count := last_integer
+				if (count - position) > file_name_count
+					and then 4 <= file_name_count and file_name_count <= Maximum_file_name_count
+				then
+					read_stream (file_name_count)
+					create l_file_path.make_from_utf_8 (last_string)
+					last_file_path := l_file_path
+					if is_lio_enabled then
+						lio.put_path_field ("Read", last_file_path)
+						lio.put_new_line
+					end
+				else
+					create last_file_path
+				end
+			else
+				create last_file_path
 			end
 		end
 
@@ -178,8 +312,15 @@ feature -- Status query
 			Result := (count = 0) or else is_closed or else count = position
 		end
 
-	is_checksum_enabled: BOOLEAN
+feature {NONE} -- Constants
 
-	is_last_managed_pointer_ok: BOOLEAN
+	Data_pointer: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (Default_pointer, 0)
+		end
 
+	Maximum_file_name_count: INTEGER
+		once
+			Result := 500
+		end
 end

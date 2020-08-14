@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 10:14:38 GMT (Saturday 18th July 2020)"
-	revision: "9"
+	date: "2020-08-09 11:13:11 GMT (Sunday 9th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_WORD_WRAPPABLE
@@ -23,7 +23,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_text_rectangle (a_text: ZSTRING): EL_TEXT_RECTANGLE
+	new_text_rectangle (a_text: READABLE_STRING_GENERAL): EL_TEXT_RECTANGLE
 		require
 			GUI.is_word_wrappable (a_text, font, width)
 		do
