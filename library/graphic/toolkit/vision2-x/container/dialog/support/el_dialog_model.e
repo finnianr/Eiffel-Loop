@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 15:39:54 GMT (Friday 14th August 2020)"
-	revision: "2"
+	date: "2020-08-17 13:56:02 GMT (Monday 17th August 2020)"
+	revision: "3"
 
 class
 	EL_DIALOG_MODEL
@@ -44,7 +44,13 @@ feature {NONE} -- Initialization
 			layout := Default_layout
 			style := Default_style
 			paragraph_list := Default_paragraph_list
-			english := [Empty_string_8, Empty_string_8]
+
+			create progress_meter
+			progress_meter.completion_text := Locale * {EL_DIALOG_CONSTANTS}.Eng_complete
+			progress_meter.label_text := Locale * {EL_DIALOG_CONSTANTS}.Eng_progress
+
+			default_button_text := Empty_string_8
+			cancel_button_text := Empty_string_8
 			escape_key_enabled := True
 		end
 
@@ -53,37 +59,27 @@ feature {NONE} -- Initialization
 			make (Empty_string_8)
 		end
 
-feature -- Access
+feature -- Text
 
 	cancel_button_text: READABLE_STRING_GENERAL
-		do
-			if has_cancel_button_text then
-				Result := Locale * english.cancel_button
-			else
-				Result := Empty_string_8
-			end
-		end
 
 	default_button_text: READABLE_STRING_GENERAL
 		-- button text of dialog `default_button'
-		do
-			if has_default_button_text then
-				Result := Locale * english.default_button
-			else
-				Result := Empty_string_8
-			end
-		end
+
+	paragraph_list: EL_ZSTRING_LIST
+
+	progress_meter: TUPLE [label_text, completion_text: READABLE_STRING_GENERAL]
+
+	title: READABLE_STRING_GENERAL
+
+feature -- Access
 
 	icon: EV_PIXMAP
 		-- icon expressing a mood: positive/negative
 
 	layout: EL_DIALOG_LAYOUT
 
-	paragraph_list: EL_ZSTRING_LIST
-
 	style: EL_DIALOG_STYLE
-
-	title: READABLE_STRING_GENERAL
 
 feature -- Measurement
 
@@ -125,12 +121,12 @@ feature -- Status query
 
 	has_cancel_button_text: BOOLEAN
 		do
-			Result := english.cancel_button /= Empty_string_8
+			Result := not cancel_button_text.is_empty
 		end
 
 	has_default_button_text: BOOLEAN
 		do
-			Result := english.default_button /= Empty_string_8
+			Result := not default_button_text.is_empty
 		end
 
 	has_title: BOOLEAN
@@ -138,37 +134,32 @@ feature -- Status query
 			Result := not title.is_empty
 		end
 
-feature -- Element change
+feature -- Set text
 
-	set_buttons_english (a_default, a_cancel: STRING)
+	set_cancel_button_text (a_cancel_button_text: READABLE_STRING_GENERAL)
 		do
-			english := [a_default, a_cancel]
+			cancel_button_text := a_cancel_button_text
 		end
 
-	set_cancel_button_english (en_text: STRING)
+	set_default_button_text (a_default_button_text: READABLE_STRING_GENERAL)
 		do
-			english.put_reference (en_text, 2)
+			default_button_text := a_default_button_text
 		end
 
-	set_default_button_english (en_text: STRING)
+	set_localized_buttons (default_eng_key, cancel_eng_key: STRING)
 		do
-			english.put_reference (en_text, 1)
+			set_localized_default_button (default_eng_key)
+			set_localized_cancel_button (cancel_eng_key)
 		end
 
-	set_icon (a_icon: like icon)
+	set_localized_cancel_button (en_key: STRING)
 		do
-			icon := a_icon.twin
-			icon.set_minimum_size (a_icon.width, a_icon.height)
+			cancel_button_text := Locale * en_key
 		end
 
-	set_layout (a_layout: like layout)
+	set_localized_default_button (en_key: STRING)
 		do
-			layout := a_layout
-		end
-
-	set_minimum_width_cms (a_minimum_width_cms: like minimum_width_cms)
-		do
-			minimum_width_cms := a_minimum_width_cms
+			default_button_text := Locale * en_key
 		end
 
 	set_paragraph_list (list: ITERABLE [READABLE_STRING_GENERAL])
@@ -192,17 +183,46 @@ feature -- Element change
 			set_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (Zstring.to (string), Paragraph_separator))
 		end
 
-	set_style (a_style: like style)
-		do
-			style := a_style
-		end
-
 	set_title (a_title: like title)
 		do
 			title := a_title
 		end
 
+feature -- Element change
+
+	set_icon (a_icon: like icon)
+		do
+			icon := a_icon.twin
+			icon.set_minimum_size (a_icon.width, a_icon.height)
+		end
+
+	set_layout (a_layout: like layout)
+		do
+			layout := a_layout
+		end
+
+	set_minimum_width_cms (a_minimum_width_cms: like minimum_width_cms)
+		do
+			minimum_width_cms := a_minimum_width_cms
+		end
+
+	set_style (a_style: like style)
+		do
+			style := a_style
+		end
+
 feature -- Basic operations
+
+	show_centered_confirmation (parent: EV_WINDOW; action: PROCEDURE)
+		local
+			dialog: EL_CONFIRMATION_VIEW_DIALOG
+		do
+			create dialog.make (Current, action)
+			if attached {EL_POSITIONABLE} parent as p then
+				dialog.position_center (p)
+			end
+			dialog.show_modal_to_window (parent)
+		end
 
 	show_centered_information (parent: EV_WINDOW)
 		require
@@ -216,21 +236,6 @@ feature -- Basic operations
 			end
 			dialog.show_modal_to_window (parent)
 		end
-
-	show_centered_confirmation (parent: EV_WINDOW; action: PROCEDURE)
-		local
-			dialog: EL_CONFIRMATION_VIEW_DIALOG
-		do
-			create dialog.make (Current, action)
-			if attached {EL_POSITIONABLE} parent as p then
-				dialog.position_center (p)
-			end
-			dialog.show_modal_to_window (parent)
-		end
-
-feature {NONE} -- Internal attributes
-
-	english: TUPLE [default_button, cancel_button: STRING]
 
 feature {NONE} -- Constants
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 18:12:48 GMT (Sunday 9th August 2020)"
-	revision: "4"
+	date: "2020-08-16 12:05:16 GMT (Sunday 16th August 2020)"
+	revision: "5"
 
 class
 	EL_DIALOG_CONSTANTS
@@ -29,6 +29,8 @@ feature -- Button Texts
 
 	Eng_close: STRING = "Close"
 
+	Eng_complete: STRING = "Complete"
+
 	Eng_continue: STRING = "Continue"
 
 	Eng_discard: STRING = "Discard"
@@ -42,6 +44,8 @@ feature -- Button Texts
 	Eng_open: STRING = "Open"
 
 	Eng_print: STRING = "Print"
+
+	Eng_progress: STRING = "Progress"
 
 	Eng_rename: STRING = "Rename"
 

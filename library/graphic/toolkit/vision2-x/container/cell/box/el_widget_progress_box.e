@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 15:57:52 GMT (Friday 14th August 2020)"
-	revision: "6"
+	date: "2020-08-16 9:13:09 GMT (Sunday 16th August 2020)"
+	revision: "7"
 
 class
 	EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
@@ -17,8 +17,6 @@ inherit
 		rename
 			make as make_box
 		end
-
-	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
 
 	EL_MODULE_GUI
 
@@ -41,14 +39,12 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			widget := a_widget
-			clear_on_finish := True
 			extend_unexpanded (a_widget)
-			create progress_bar
-			progress_bar.set_minimum_size ((widget.width * 0.92).rounded, Screen.vertical_pixels (0.1))
-			progress_bar.set_background_color (Color.face_3d)
-			progress_bar.expose_actions.extend (agent on_redraw_progress)
+			create bar.make ((widget.width * 0.92).rounded, Screen.vertical_pixels (0.1))
+			bar.set_background_color (Color.face_3d)
+			bar.enable_reset_on_finish
 
-			extend_unexpanded (progress_bar)
+			extend_unexpanded (bar)
 		end
 
 	make_default
@@ -59,6 +55,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	widget: W
+
+	bar: EL_PROGRESS_BAR
 
 feature -- Basic operations
 
@@ -71,67 +69,8 @@ feature -- Basic operations
 		do
 			parent.set_pointer_style (Pixmap.Busy_cursor)
 			tick_count.apply
-			Track.progress (Current, tick_count.last_result, an_action)
+			Track.progress (bar, tick_count.last_result, an_action)
 			parent.set_pointer_style (Pixmap.Standard_cursor)
 		end
-
-feature -- Element change
-
-	set_progress (proportion: DOUBLE)
-		do
-			proportion_filled := proportion
-			progress_bar.redraw
-			GUI.application.process_events
-		end
-
-feature -- Status query
-
-	clear_on_finish: BOOLEAN
-		-- progress bar is cleared on finish when `True'
-
-feature -- Status change
-
-	disable_clear_on_finish
-		do
-			clear_on_finish := False
-		end
-
-feature {NONE} -- Event handling
-
-	on_finish
-		do
-			if clear_on_finish then
-				proportion_filled := zero
-				progress_bar.redraw
-			end
-		end
-
-	on_redraw_progress (a_x, a_y, a_width, a_height: INTEGER)
-		do
-			if proportion_filled = zero then
-				progress_bar.clear
-				progress_bar.set_foreground_color (foreground_color)
-			else
-				progress_bar.fill_rectangle (0, 0, (progress_bar.width * proportion_filled).rounded, progress_bar.height)
-			end
-		end
-
-	on_start (bytes_per_tick: INTEGER)
-		do
-			proportion_filled := zero
-		end
-
-feature {NONE} -- Implementation
-
-	set_identified_text (id: INTEGER; a_text: ZSTRING)
-		do
-		end
-
-feature {NONE} -- Internal attributes
-
-	Zero: DOUBLE = 0.0
-	progress_bar: EV_DRAWING_AREA
-
-	proportion_filled: DOUBLE
 
 end

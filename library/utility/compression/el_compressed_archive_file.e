@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 11:33:17 GMT (Friday 14th August 2020)"
-	revision: "7"
+	date: "2020-08-18 12:06:41 GMT (Tuesday 18th August 2020)"
+	revision: "8"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -18,8 +18,8 @@ inherit
 			append_file as append_file_contents
 		export
 			{NONE} all
-			{ANY} close, last_string, name, start, end_of_file, position,
-				is_closed, is_open_read, is_open_write, path
+			{ANY} close, last_string, name, start, end_of_file, position, make_open_read,
+				is_closed, is_open_read, is_open_write, path, date
 		redefine
 			make_with_name, after, off
 		end
@@ -137,6 +137,7 @@ feature -- Basic operations
 			across list as file loop
 				append_file (file.item)
 			end
+			progress_listener.finish
 		end
 
 	decompress_all (handler: EL_FILE_DECOMPRESS_HANDLER)
@@ -160,6 +161,7 @@ feature -- Basic operations
 					read_compressed_file (handler)
 				end
 			end
+			progress_listener.finish
 		end
 
 	write_last_data (a_file_path: EL_FILE_PATH)

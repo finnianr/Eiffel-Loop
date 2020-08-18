@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-10 17:53:16 GMT (Monday 10th August 2020)"
-	revision: "1"
+	date: "2020-08-16 11:03:39 GMT (Sunday 16th August 2020)"
+	revision: "2"
 
 class
 	EL_DIALOG_STYLE
@@ -19,6 +19,9 @@ inherit
 		end
 
 	EL_MODULE_COLOR
+		rename
+			Color as Mod_color
+		end
 
 	EL_MODULE_GUI
 
@@ -30,63 +33,56 @@ feature {NONE} -- Initialization
 	make
 		do
 			create label_font
+			progress_meter_font := label_font
+
 			create title_font
 			title_font.set_weight (GUI.Weight_bold)
 			title_background_pixmap := Default_pixmap
 			application_icon_pixmap := Default_pixmap
-			content_area_color := Default_color
-			default_border_color := Color.gray
-			button_box_color := Default_color
+
+			create color
+			color.button_box := Default_color
+			color.content_area := Default_color
+			color.default_border := Mod_color.gray
+			color.progress_bar := Mod_color.Blue
+
 			new_button_pixmap_set := Default_new_button_pixmap_set
 		end
+
+
 
 feature -- Colors
 
 	border_color: EL_COLOR
 		do
 			if has_content_area_color then
-				Result := color_with_lightness (content_area_color, -0.2).twin
+				Result := color_with_lightness (color.content_area, -0.2).twin
 			else
-				Result := default_border_color
+				Result := color.default_border
 			end
 		end
 
-	button_box_color: EL_COLOR
+	color: TUPLE [button_box, content_area, default_border, progress_bar: EL_COLOR]
 
-	content_area_color: EL_COLOR
-
-	default_border_color: EL_COLOR
-
-feature -- Access
+feature -- Pixmaps
 
 	application_icon_pixmap: EV_PIXMAP
 
-	label_font: EV_FONT
-
 	title_background_pixmap: EV_PIXMAP
+
+feature -- Fonts
+
+	label_font: EV_FONT
 
 	title_font: EV_FONT
 
-feature -- Element change
+	progress_meter_font: EV_FONT
+
+feature -- Set pixmap
 
 	set_application_icon_pixmap (a_application_icon_pixmap: EV_PIXMAP)
 		do
 			application_icon_pixmap := a_application_icon_pixmap
-		end
-
-	set_content_area_color (a_content_area_color: EL_COLOR)
-		do
-			content_area_color := a_content_area_color
-		end
-
-	set_default_border_color (a_default_border_color: EL_COLOR)
-		do
-			default_border_color := a_default_border_color
-		end
-
-	set_label_font (a_label_font: EV_FONT)
-		do
-			label_font := a_label_font
 		end
 
 	set_new_button_pixmap_set (a_new_button_pixmap_set: like new_button_pixmap_set)
@@ -97,6 +93,21 @@ feature -- Element change
 	set_title_background_pixmap (a_title_background_pixmap: EV_PIXMAP)
 		do
 			title_background_pixmap := a_title_background_pixmap
+		end
+
+feature -- Set fonts
+
+	set_label_font (a_label_font: EV_FONT)
+		do
+			if progress_meter_font = label_font then
+				progress_meter_font := a_label_font
+			end
+			label_font := a_label_font
+		end
+
+	set_progress_meter_font (a_progress_meter_font: EV_FONT)
+		do
+			progress_meter_font := a_progress_meter_font
 		end
 
 	set_title_font (a_title_font: EV_FONT)
@@ -118,12 +129,12 @@ feature -- Status query
 
 	has_button_box_color: BOOLEAN
 		do
-			Result := button_box_color /= Default_color
+			Result := color.button_box /= Default_color
 		end
 
 	has_content_area_color: BOOLEAN
 		do
-			Result := content_area_color /= Default_color
+			Result := color.content_area /= Default_color
 		end
 
 	has_new_button_pixmap_set: BOOLEAN

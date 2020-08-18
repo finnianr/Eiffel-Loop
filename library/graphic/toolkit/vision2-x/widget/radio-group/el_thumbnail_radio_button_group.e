@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 11:59:35 GMT (Friday 14th August 2020)"
-	revision: "7"
+	date: "2020-08-17 10:32:23 GMT (Monday 17th August 2020)"
+	revision: "8"
 
 class
 	EL_THUMBNAIL_RADIO_BUTTON_GROUP
@@ -30,11 +30,11 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		initial_value: ZSTRING; values: FINITE [ZSTRING]; a_thumbnails: like thumbnails
+		initial_value: ZSTRING; a_value_list: ITERABLE [ZSTRING]; a_thumbnails: like thumbnails
 		a_value_change_action: like value_change_action
 	)
 		do
-			make_button_group (initial_value, values, a_value_change_action)
+			make_button_group (initial_value, a_value_list, a_value_change_action)
 			thumbnails := a_thumbnails
 			create previous_color
 			highlight_color := Color.White

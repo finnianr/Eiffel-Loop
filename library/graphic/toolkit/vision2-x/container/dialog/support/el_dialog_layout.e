@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 11:23:53 GMT (Wednesday 12th August 2020)"
-	revision: "2"
+	date: "2020-08-16 10:52:54 GMT (Sunday 16th August 2020)"
+	revision: "3"
 
 class
 	EL_DIALOG_LAYOUT
@@ -30,6 +30,10 @@ feature {NONE} -- Initialization
 			paragraph.alignment := Ev_text_alignment_left
 			paragraph.separation_cms := 0.3
 			paragraph.width_cms := 15.5
+
+			create progress_meter
+			progress_meter.bar_width_cms := 5.0
+			progress_meter.bar_height_cms := 0.1
 
 			border_inner_width_cms := 0.35
 			box_separation_cms := 0.3
@@ -90,6 +94,8 @@ feature -- Dimensions
 feature -- Access
 
 	paragraph: TUPLE [alignment: INTEGER; separation_cms, width_cms: REAL]
+
+	progress_meter: TUPLE [bar_width_cms, bar_height_cms: REAL]
 
 feature -- Status query
 

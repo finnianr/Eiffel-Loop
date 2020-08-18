@@ -6,16 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:11:25 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-08-17 10:09:06 GMT (Monday 17th August 2020)"
+	revision: "7"
 
 class
 	EL_COMBO_BOX
 
 inherit
 	EV_COMBO_BOX
+		undefine
+			set_editable_text
 		redefine
-			set_strings, set_font
+			set_strings, set_font, implementation
+		end
+
+	EL_TEXTABLE
+		rename
+			set_text as set_editable_text
+		undefine
+			is_equal, is_in_default_state
+		redefine
+			implementation
 		end
 
 	EL_MODULE_GUI
@@ -93,5 +104,10 @@ feature -- Status query
 		do
 			Result := implementation.selected_item /= Void
 		end
+
+feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	implementation: EV_COMBO_BOX_I
+			-- Responsible for interaction with native graphics toolkit.
 
 end

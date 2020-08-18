@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-23 10:49:51 GMT (Monday 23rd September 2019)"
-	revision: "8"
+	date: "2020-08-17 10:34:12 GMT (Monday 17th August 2020)"
+	revision: "9"
 
 deferred class
 	EL_FINITE_DATA_SET_WIDGET [G]
@@ -19,23 +19,25 @@ deferred class
 inherit
 	PART_COMPARATOR [EL_WIDGET_VALUE [G]]
 
+	EL_MODULE_ITERABLE
+
 feature {NONE} -- Initialization
 
-	make (initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action)
+	make (initial_value: G; value_list: ITERABLE [G]; change_action: PROCEDURE [G])
 		do
-			value_change_action := a_value_change_action
-			make_widget (new_value_list (initial_value, values))
+			value_change_action := change_action
+			make_widget (new_value_list (initial_value, value_list))
 		end
 
 	make_sorted (
-		initial_value: G; values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN
+		initial_value: G; value_list: ITERABLE [G]; change_action: PROCEDURE [G]; in_ascending_order: BOOLEAN
 	)
 		local
 			quick: QUICK_SORTER [EL_WIDGET_VALUE [G]]
 			list: like new_value_list
 		do
-			value_change_action := a_value_change_action
-			list := new_value_list (initial_value, values)
+			value_change_action := change_action
+			list := new_value_list (initial_value, value_list)
 			create quick.make (Current)
 			if in_ascending_order then
 				quick.sort (list)
@@ -66,23 +68,13 @@ feature {NONE} -- Implementation
 			Result := a.as_string < b.as_string
 		end
 
-	new_value_list (initial_value: G; values: FINITE [G]): ARRAYED_LIST [EL_WIDGET_VALUE [G]]
+	new_value_list (initial_value: G; value_list: ITERABLE [G]): ARRAYED_LIST [EL_WIDGET_VALUE [G]]
 		local
 			l_values: LINEAR [G]; index: INTEGER
 		do
-			create Result.make (values.count)
-			l_values := values.linear_representation
-			-- Save cursor position
-			if not l_values.off then
-				index := l_values.index
-			end
-			from l_values.start until l_values.after loop
-				Result.extend (create {EL_WIDGET_VALUE [G]}.make (initial_value, l_values.item, displayed_value (l_values.item)))
-				l_values.forth
-			end
-			-- Restore cursor position
-			if index > 0 and then attached {CHAIN [G]} values as values_chain then
-				values_chain.go_i_th (index)
+			create Result.make (Iterable.count (value_list))
+			across value_list as list loop
+				Result.extend (create {EL_WIDGET_VALUE [G]}.make (initial_value, list.item, displayed_value (list.item)))
 			end
 		end
 

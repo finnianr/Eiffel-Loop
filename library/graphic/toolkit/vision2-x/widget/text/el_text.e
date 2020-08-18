@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-05 9:26:51 GMT (Tuesday 5th February 2019)"
-	revision: "7"
+	date: "2020-08-17 10:50:21 GMT (Monday 17th August 2020)"
+	revision: "8"
 
 class
 	EL_TEXT
 
 inherit
 	EV_TEXT
+		undefine
+			set_text
 		redefine
 			create_implementation, implementation, paste
 		end

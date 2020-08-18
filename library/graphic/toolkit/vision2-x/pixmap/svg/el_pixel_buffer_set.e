@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 9:01:42 GMT (Sunday 2nd August 2020)"
-	revision: "11"
+	date: "2020-08-18 19:29:37 GMT (Tuesday 18th August 2020)"
+	revision: "12"
 
 class
 	EL_PIXEL_BUFFER_SET
@@ -17,6 +17,8 @@ inherit
 		redefine
 			default_create
 		end
+
+	EL_BUTTON_CONSTANTS
 
 create
 	make, default_create
@@ -35,17 +37,17 @@ feature {NONE} -- Initialization
 
 	make (a_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET)
 		do
-			create normal.make_with_path (a_pixmap_set.normal.png_output_path)
-			create depressed.make_with_path (a_pixmap_set.depressed.png_output_path)
-			create highlighted.make_with_path (a_pixmap_set.highlighted.png_output_path)
+			create normal.make_with_pixmap (a_pixmap_set.pixmap (Button_state.normal))
+			create depressed.make_with_pixmap (a_pixmap_set.pixmap (Button_state.depressed))
+			create highlighted.make_with_pixmap (a_pixmap_set.pixmap (Button_state.highlighted))
 		end
 
 feature -- Access
 
 	normal: CAIRO_DRAWING_AREA
 
-	highlighted: like normal
+	highlighted: CAIRO_DRAWING_AREA
 
-	depressed: like normal
+	depressed: CAIRO_DRAWING_AREA
 
 end

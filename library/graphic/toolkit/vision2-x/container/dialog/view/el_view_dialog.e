@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 14:16:03 GMT (Friday 14th August 2020)"
-	revision: "10"
+	date: "2020-08-18 16:50:38 GMT (Tuesday 18th August 2020)"
+	revision: "11"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -31,24 +31,7 @@ inherit
 
 	EL_POSITIONABLE
 
-	EV_ANY_HANDLER undefine copy, default_create end
-
-	EL_DIALOG_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			copy, default_create
-		end
-
-	EL_MODULE_GUI
-
-	EL_MODULE_ITERABLE
-
-	EL_MODULE_KEY
-
-	EL_MODULE_SCREEN
-
-	EL_MODULE_VISION_2
+	EL_VIEW_DIALOG_COMPONENTS undefine copy, default_create end
 
 feature {NONE} -- Initialization
 
@@ -75,7 +58,7 @@ feature {NONE} -- Initialization
 				internal_dialog.set_icon_pixmap (model.style.application_icon_pixmap)
 			end
 			create dialog.make_with_container (internal_dialog, agent new_dialog_box)
-			set_buttons
+			set_dialog_buttons
 
 			-- make sure escape key works even without any buttons
 			if not a_model.has_buttons and a_model.escape_key_enabled then
@@ -97,25 +80,13 @@ feature -- Access
 			Result := internal_dialog.background_color
 		end
 
-	model: EL_DIALOG_MODEL
-
 feature -- Status query
 
 	is_cancelled: BOOLEAN
 
-	is_container_propagated_with_content_area_color (container: EV_CONTAINER): BOOLEAN
-		do
-			Result := not attached {EV_NOTEBOOK} container
-		end
-
 	is_displayed: BOOLEAN
 		do
 			Result := internal_dialog.is_displayed
-		end
-
-	is_widget_content_area_color (widget: EV_WIDGET): BOOLEAN
-		do
-			Result := not attached {EV_TEXT_COMPONENT} widget
 		end
 
 feature -- Status change
@@ -132,30 +103,29 @@ feature -- Status change
 
 feature -- Element change
 
-	set_default_button (a_button: like new_button)
-		-- replace the default button
+	update_default_button
+		-- update the default button
+		local
+			managed: EL_MANAGED_WIDGET [like new_button]
 		do
-			button_box.start; button_box.search (default_button)
-			if not button_box.exhausted then
-				button_box.replace (a_button)
-				button_box.disable_item_expand (a_button)
-				default_button := a_button
-				default_button.select_actions.extend (agent on_default)
-				internal_dialog.set_default_push_button (a_button)
-			end
+			create managed.make (default_button, agent new_default_button)
+			default_button := managed.item
+			internal_dialog.set_default_push_button (default_button)
 		end
 
 feature -- Basic operations
 
 	position_center (a_window: EL_POSITIONABLE)
+		-- position `Current' dialog in center of `a_window'
 		do
 			a_window.position_window_center (internal_dialog)
 		end
 
 	rebuild
 		do
+			create_interface_objects
 			dialog.update
-			set_buttons
+			set_dialog_buttons
 		end
 
 	show
@@ -203,20 +173,26 @@ feature {NONE} -- Factory
 
 	new_border_box: EL_VERTICAL_BOX
 		local
-			inner_border_cms: REAL
+			button_box: EL_HORIZONTAL_BOX; inner_border_cms: REAL
 		do
 			inner_border_cms := model.layout.border_inner_width_cms - 0.05
-			create Result.make_unexpanded (inner_border_cms, inner_border_cms, << new_outer_box >>)
+			create Result.make_unexpanded (inner_border_cms, inner_border_cms, << new_content_widget >>)
 			if model.has_buttons then
+				create button_box.make_unexpanded (0, model.layout.button_separation_cms, new_button_row.to_array)
+				if model.style.has_button_box_color then
+					button_box.set_background_color (model.style.color.button_box)
+				end
 				Result.extend_unexpanded (button_box)
-			else
-				create default_button
-				create cancel_button
 			end
 			if model.style.has_content_area_color then
 				propagate_content_area_color (Result)
 			end
-			Result.set_background_color (model.style.content_area_color)
+			Result.set_background_color (model.style.color.content_area)
+		end
+
+	new_content_widget: EV_WIDGET
+		do
+			Result := new_outer_box
 		end
 
 	new_box_section_list: ARRAYED_LIST [EL_BOX]
@@ -231,29 +207,14 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_button (a_text: READABLE_STRING_GENERAL): EL_BUTTON
-		do
-			if model.style.has_new_button_pixmap_set then
-				create {EL_DECORATED_BUTTON} Result.make (new_text_pixmap (a_text))
-			else
-				create Result.make_with_text (a_text)
-			end
-		end
-
 	new_button_list: ARRAYED_LIST [like new_button]
 		do
 			create Result.make (2)
 			if model.has_default_button_text then
-				default_button := new_button (model.default_button_text)
 				Result.extend (default_button)
-			else
-				create default_button
 			end
 			if model.has_cancel_button_text then
-				cancel_button := new_button (model.cancel_button_text)
 				Result.extend (cancel_button)
-			else
-				create cancel_button
 			end
 		end
 
@@ -286,14 +247,6 @@ feature {NONE} -- Factory
 			Result.set_background_color (model.style.border_color)
 		end
 
-	new_label (a_text: READABLE_STRING_GENERAL): EL_LABEL
-		do
-			create Result.make_with_text (a_text)
-			Result.set_background_color (model.style.content_area_color)
-			Result.set_font (model.style.label_font)
-			Result.align_text_left
-		end
-
 	new_outer_box: EL_BOX
 		do
 			create {EL_VERTICAL_BOX} Result.make_unexpanded (
@@ -314,26 +267,6 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_text_pixmap (a_text: READABLE_STRING_GENERAL): EL_SVG_TEXT_BUTTON_PIXMAP_SET
-		do
-			Result := model.style.new_button_pixmap_set (a_text, model.style.content_area_color)
-		end
-
-	new_title_label: EL_LABEL_PIXMAP
-		do
-			create Result.make_with_text_and_font (internal_dialog.title, model.style.title_font)
-			Result.set_width_for_border (model.layout.border_inner_width_cms)
-			if model.style.has_title_background_pixmap then
-				Result.set_tile_pixmap (model.style.title_background_pixmap)
-			end
-			Result.align_text_center
-		end
-
-	new_wrapped_label (a_text: READABLE_STRING_GENERAL; a_width: INTEGER): EL_WRAPPED_LABEL
-		do
-			create Result.make_to_width (a_text, model.style.label_font, a_width)
-		end
-
 feature {NONE} -- Implementation
 
 	adjust_bottom_border (a_window: EV_WINDOW)
@@ -342,6 +275,17 @@ feature {NONE} -- Implementation
 		do
 			if {PLATFORM}.is_windows and then attached {EV_UNTITLED_DIALOG} a_window as a_untitled_dialog then
 				internal_dialog.show_actions.extend_kamikaze (agent draw_bottom_border)
+			end
+		end
+
+	is_content_area_color_applicable (widget: EV_WIDGET): BOOLEAN
+		do
+			if attached {EV_NOTEBOOK} widget or attached {EV_GRID} widget or attached {EV_TEXT_COMPONENT} widget then
+				Result := False
+			elseif attached {EV_FRAME} widget as frame and then attached {EL_PROGRESS_BAR} frame.item then
+				Result := False
+			else
+				Result := True
 			end
 		end
 
@@ -358,9 +302,26 @@ feature {NONE} -- Implementation
 
 	create_interface_objects
 		do
-			create button_box.make_unexpanded (0, model.layout.button_separation_cms, new_button_row.to_array)
-			if model.style.has_button_box_color then
-				button_box.set_background_color (model.style.button_box_color)
+			if model.has_default_button_text then
+				default_button := new_default_button
+			else
+				create default_button
+			end
+			if model.has_cancel_button_text then
+				cancel_button := new_button (model.cancel_button_text)
+				cancel_button.select_actions.extend (agent on_cancel)
+			else
+				create cancel_button
+			end
+		end
+
+	set_dialog_buttons
+		do
+			if model.has_default_button_text then
+				internal_dialog.set_default_push_button (default_button)
+			end
+			if model.has_cancel_button_text then
+				internal_dialog.set_default_cancel_button (cancel_button)
 			end
 		end
 
@@ -389,38 +350,19 @@ feature {NONE} -- Implementation
 			internal_dialog.ev_application.process_events
 		end
 
-	propagate_content_area_color (container: EV_CONTAINER)
-		require
-			content_area_color_set: model.style.has_content_area_color
+	propagate_content_area_color (widget: EV_WIDGET)
 		local
 			list: LINEAR [EV_WIDGET]
 		do
-			if is_container_propagated_with_content_area_color (container) then
-				if is_widget_content_area_color (container) then
-					container.set_background_color (model.style.content_area_color)
-				end
-				list := container.linear_representation
-				from list.start until list.after loop
-					if attached {EV_CONTAINER} list.item as l_container then
-						propagate_content_area_color (l_container)
-
-					elseif is_widget_content_area_color (list.item) then
-						list.item.set_background_color (model.style.content_area_color)
+			if is_content_area_color_applicable (widget) then
+				widget.set_background_color (model.style.color.content_area)
+				if attached {EV_CONTAINER} widget as container then
+					list := container.linear_representation
+					from list.start until list.after loop
+						propagate_content_area_color (list.item)
+						list.forth
 					end
-					list.forth
 				end
-			end
-		end
-
-	set_buttons
-		do
-			if model.has_default_button_text then
-				internal_dialog.set_default_push_button (default_button)
-				default_button.select_actions.extend (agent on_default)
-			end
-			if model.has_cancel_button_text then
-				internal_dialog.set_default_cancel_button (cancel_button)
-				cancel_button.select_actions.extend (agent on_cancel)
 			end
 		end
 
@@ -432,13 +374,9 @@ feature {NONE} -- Unimplementated
 
 feature {EV_ANY_HANDLER} -- Implementation: attributes
 
-	internal_dialog: EL_DIALOG
-
 	internal_set_title: PROCEDURE [READABLE_STRING_GENERAL]
 
 feature {NONE} -- Implementation: attributes
-
-	button_box: EL_HORIZONTAL_BOX
 
 	cancel_button: like new_button
 

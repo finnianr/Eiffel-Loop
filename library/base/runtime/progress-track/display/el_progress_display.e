@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 11:20:38 GMT (Thursday 26th September 2019)"
-	revision: "7"
+	date: "2020-08-18 9:31:35 GMT (Tuesday 18th August 2020)"
+	revision: "8"
 
 deferred class
 	EL_PROGRESS_DISPLAY
 
 feature -- Element change
 
-	set_identified_text (id: INTEGER; a_text: ZSTRING)
+	set_identified_text (id: INTEGER; a_text: READABLE_STRING_GENERAL)
 		deferred
 		end
 
@@ -22,7 +22,7 @@ feature -- Element change
 		deferred
 		end
 
-	set_text (a_text: ZSTRING)
+	set_text (a_text: READABLE_STRING_GENERAL)
 		do
 			set_identified_text (0, a_text)
 		end

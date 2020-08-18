@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-21 12:12:13 GMT (Monday 21st May 2018)"
-	revision: "4"
+	date: "2020-08-17 10:30:49 GMT (Monday 17th August 2020)"
+	revision: "5"
 
 class
 	EL_INTEGER_ITEM_RADIO_BUTTON_GROUP
@@ -27,12 +27,12 @@ create
 feature {NONE} -- Initialization
 
 	make (
-		initial_value: INTEGER; values: FINITE [INTEGER]; a_suffix: like suffix
+		initial_value: INTEGER; value_list: ITERABLE [INTEGER]; a_suffix: like suffix
 		a_value_change_action: like value_change_action
 	)
 		do
 			suffix := a_suffix
-			make_button_group (initial_value, values, a_value_change_action)
+			make_button_group (initial_value, value_list, a_value_change_action)
 		end
 
 feature -- Access

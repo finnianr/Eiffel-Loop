@@ -12,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-05 17:16:14 GMT (Tuesday 5th February 2019)"
-	revision: "5"
+	date: "2020-08-17 10:48:14 GMT (Monday 17th August 2020)"
+	revision: "6"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT
 
 inherit
-	EV_TEXT_COMPONENT
+	EL_TEXT_COMPONENT
 		redefine
 			implementation
 		end

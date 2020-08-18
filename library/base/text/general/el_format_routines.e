@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-13 15:12:47 GMT (Wednesday 13th March 2019)"
-	revision: "1"
+	date: "2020-08-16 12:27:59 GMT (Sunday 16th August 2020)"
+	revision: "2"
 
 class
 	EL_FORMAT_ROUTINES
@@ -33,6 +33,16 @@ feature -- Access
 		-- zero padded integer
 		do
 			Result := internal_integer (n, width, True)
+		end
+
+	percentage (proportion: DOUBLE): STRING
+		do
+			Result := percent ((proportion * 100).rounded)
+		end
+
+	percent (n: INTEGER): STRING
+		do
+			Result := internal_integer (n, 3, False) + Percent_string
 		end
 
 feature {NONE} -- Implementation
@@ -67,5 +77,7 @@ feature {NONE} -- Constants
 		once
 			Result := Result.one |<< 32
 		end
+
+	Percent_string: STRING = "%%"
 
 end

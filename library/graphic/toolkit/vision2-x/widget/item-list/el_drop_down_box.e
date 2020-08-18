@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 9:59:46 GMT (Thursday 16th July 2020)"
-	revision: "7"
+	date: "2020-08-17 10:34:54 GMT (Monday 17th August 2020)"
+	revision: "8"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -55,19 +55,19 @@ feature {NONE} -- Initialization
 			create value_list.make (0)
 		end
 
-	make (a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action)
+	make (a_initial_value: G; a_value_list: ITERABLE [G]; change_action: PROCEDURE [G])
 		do
 			is_width_adjusted := True
-			make_unadjusted (a_initial_value, a_values, a_value_change_action)
+			make_unadjusted (a_initial_value, a_value_list, change_action)
 		end
 
 	make_sorted (
-		a_initial_value: G; a_values: FINITE [G]; a_value_change_action: like value_change_action; in_ascending_order: BOOLEAN
+		a_initial_value: G; a_value_list: ITERABLE [G]; change_action: PROCEDURE [G]; in_ascending_order: BOOLEAN
 	)
 			-- sorted alphabetially
 		do
 			is_width_adjusted := True
-			make_unadjusted_sorted (a_initial_value, a_values, a_value_change_action, in_ascending_order)
+			make_unadjusted_sorted (a_initial_value, a_value_list, change_action, in_ascending_order)
 		end
 
 	make_widget (a_value_list: like new_value_list)

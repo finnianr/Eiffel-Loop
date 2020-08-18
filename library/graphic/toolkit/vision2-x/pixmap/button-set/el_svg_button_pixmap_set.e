@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-10 16:59:39 GMT (Friday 10th July 2020)"
-	revision: "6"
+	date: "2020-08-18 19:37:21 GMT (Tuesday 18th August 2020)"
+	revision: "7"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
 
 inherit
 	ANY
+
+	EL_BUTTON_CONSTANTS
 
 	EL_MODULE_ICON
 
@@ -25,12 +27,21 @@ inherit
 
 	EL_MODULE_IMAGE_PATH
 
-	EL_MODULE_TUPLE
-
 create
 	make_default, make, make_transparent
 
 feature {NONE} -- Initialization
+
+	make (a_icon_path_steps: like icon_path_steps; width_cms: REAL; a_background_color: EL_COLOR)
+			--
+		do
+			make_default
+			icon_path_steps.grow (a_icon_path_steps.count + 1)
+			icon_path_steps.append (a_icon_path_steps)
+			background_color := a_background_color
+
+			fill_pixmaps (width_cms)
+		end
 
 	make_default
 		do
@@ -45,35 +56,18 @@ feature {NONE} -- Initialization
 			make (a_icon_path_steps, width_cms, Icon.Transparent_color)
 		end
 
-	make (a_icon_path_steps: like icon_path_steps; width_cms: REAL; a_background_color: EL_COLOR)
-			--
-		do
-			make_default
-			icon_path_steps.grow (a_icon_path_steps.count + 1)
-			icon_path_steps.append (a_icon_path_steps)
-			background_color := a_background_color
-
-			fill_pixmaps (width_cms)
-		end
-
 feature -- Access
 
-	normal: EL_SVG_PIXMAP
-		do
-			Result := pixmap (SVG.normal)
-		end
-
-	highlighted: like normal
-		do
-			Result := pixmap (SVG.highlighted)
-		end
-
-	depressed: like normal
-		do
-			Result := pixmap (SVG.depressed)
-		end
-
 	background_color: EL_COLOR
+
+	pixmap (state: ZSTRING): EV_PIXMAP
+		do
+			if pixmap_table.has_key (state) then
+				Result := pixmap_table.found_item
+			else
+				create Result
+			end
+		end
 
 feature -- Status query
 
@@ -94,74 +88,62 @@ feature -- Element change
 
 feature -- Status setting
 
-	set_enabled
-		do
-			is_enabled := True
-		end
-
 	set_disabled
 		do
 			is_enabled := False
+		end
+
+	set_enabled
+		do
+			is_enabled := True
 		end
 
 feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
 		do
-			across svg_name_list as svg_file loop
-				set_pixmap (svg_file.item, svg_icon (svg_file.item, width_cms))
+			across Button_state_list as state loop
+				set_pixmap (state.item, svg_icon (state.item + Dot_svg, width_cms))
 			end
 		end
 
-	svg_icon (last_step: ZSTRING; width_cms: REAL): like normal
+	new_svg_image (svg_path: EL_FILE_PATH; width_cms: REAL): EL_SVG_PIXMAP
+		do
+			create Result.make_with_width_cms (svg_path, width_cms, background_color)
+		end
+
+	set_pixmap (name: ZSTRING; a_svg_icon: EV_PIXMAP)
+		do
+			pixmap_table [name] := a_svg_icon
+		end
+
+	svg_icon (last_step: ZSTRING; width_cms: REAL): like new_svg_image
 		do
 			icon_path_steps.extend (last_step)
 			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
 			icon_path_steps.remove_tail (1)
 		end
 
-	svg_name_list: EL_ZSTRING_LIST
-		do
-			create Result.make_from_tuple (SVG)
-		end
-
-	new_svg_image (svg_path: EL_FILE_PATH; width_cms: REAL): like normal
-		do
-			create Result.make_with_width_cms (svg_path, width_cms, background_color)
-		end
-
-	pixmap (a_name: ZSTRING): like normal
-		do
-			if pixmap_table.has_key (a_name) then
-				Result := pixmap_table.found_item
-			else
-				create Result
-			end
-		end
-
-	set_pixmap (name: ZSTRING; a_svg_icon: like normal)
-		do
-			pixmap_table [name] := a_svg_icon
-		end
+feature {NONE} -- Internal attributes
 
 	icon_path_steps: EL_PATH_STEPS
 
+	pixmap_table: EL_ZSTRING_HASH_TABLE [EV_PIXMAP]
+
 feature {NONE} -- Constants
-
-	SVG: TUPLE [depressed, highlighted, normal: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "depressed.svg, highlighted.svg, normal.svg")
-		end
-
-	pixmap_table: EL_ZSTRING_HASH_TABLE [like normal]
-
-	Highlighted_stop_color: STRING = "f9ffff"
-
-	Clicked_border_width: CHARACTER = '6'
 
 	Clicked_border_color: ZSTRING
 		once
 			Result := "efebe3"
 		end
+
+	Clicked_border_width: CHARACTER = '6'
+
+	Dot_svg: ZSTRING
+		once
+			Result := ".svg"
+		end
+
+	Highlighted_stop_color: STRING = "f9ffff"
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 10:35:56 GMT (Sunday 9th August 2020)"
-	revision: "15"
+	date: "2020-08-18 19:59:06 GMT (Tuesday 18th August 2020)"
+	revision: "16"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_pixmap_set
 		redefine
-			normal, new_svg_image, fill_pixmaps, set_enabled, set_disabled, svg_icon
+			new_svg_image, pixmap, svg_icon
 		end
 
 	SD_COLOR_HELPER
@@ -39,26 +39,40 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	normal: EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
-		do
-			Result := pixmap_table [SVG.normal]
-		end
-
-	text: READABLE_STRING_GENERAL
-
-	font: EL_FONT
-
-	text_color: EV_COLOR
-		deferred
-		end
-
 	disabled_text_color: EV_COLOR
 		deferred
 		end
 
-	text_shadow_color: EV_COLOR
+	font: EL_FONT
+
+	pixmap (state: ZSTRING): EL_PIXMAP
+		-- `{EL_PIXMAP}.draw_text_top_left' not working on Windows so this is a workaround
+		local
+			half_font_descent: INTEGER; text_rect: EL_RECTANGLE
+			buffer: CAIRO_DRAWING_AREA
 		do
-			Result := color_with_lightness (text_color, -0.6).twin
+			create buffer.make_with_pixmap (Precursor (state))
+			create text_rect.make_for_text (text, font)
+			text_rect.move_center (buffer.dimensions)
+			half_font_descent := font.descent // 2
+			text_rect.set_y (text_rect.y - half_font_descent)
+			text_rect.move (text_rect.x - half_font_descent, text_rect.y)
+
+			buffer.set_font (font)
+
+			if is_enabled then
+				buffer.set_color (text_color)
+			else
+				buffer.set_color (disabled_text_color)
+			end
+			buffer.draw_text_top_left (text_rect.x, text_rect.y, text)
+			Result := buffer.to_pixmap
+		end
+
+	text: READABLE_STRING_GENERAL
+
+	text_color: EV_COLOR
+		deferred
 		end
 
 feature -- Measurement
@@ -70,57 +84,9 @@ feature -- Measurement
 		deferred
 		end
 
-feature -- Status setting
-
-	set_enabled
-		do
-			Precursor
-			draw_text
-		end
-
-	set_disabled
-		do
-			Precursor
-			draw_text
-		end
-
 feature {NONE} -- Implementation
 
-	fill_pixmaps (height_cms: REAL)
-		do
-			Precursor (height_cms)
-			draw_text
-		end
-
-	draw_text
-		local
-			l_pixmap: like normal; half_font_descent: INTEGER
-			text_rect: EL_RECTANGLE
-		do
-			across pixmap_table as a_pixmap loop
-				l_pixmap := a_pixmap.item
-				create text_rect.make_for_text (text, font)
-				text_rect.move_center (create {EL_RECTANGLE}.make_for_widget (l_pixmap))
-				half_font_descent := font.descent // 2
-				text_rect.set_y (text_rect.y - half_font_descent)
-				text_rect.move (text_rect.x - half_font_descent, text_rect.y)
-
-				if attached l_pixmap.to_drawing_area as buffer then
-					buffer.set_font (font)
-
-					if is_enabled then
-						buffer.set_color (text_color)
-					else
-						buffer.set_color (disabled_text_color)
-					end
-					buffer.draw_text_top_left (text_rect.x, text_rect.y, text)
-
-					l_pixmap.set_with_argb_32_buffer (buffer)
-				end
-			end
-		end
-
-	svg_icon (last_step: ZSTRING; width_cms: REAL): like normal
+	svg_icon (last_step: ZSTRING; width_cms: REAL): like new_svg_image
 		do
 			Result := Precursor (last_step, width_cms)
 			Result.set_svg_width (svg_base_width + svg_text_width)
@@ -129,18 +95,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_svg_image (svg_path: EL_FILE_PATH; height_cms: REAL): like normal
-		do
-			create Result.make_with_height_cms (svg_path, height_cms, background_color)
-		end
-
 feature {NONE} -- Implementation
 
-	svg_text_width: INTEGER
-		-- text width in SVG units
+	lighter_text_color: EV_COLOR
+		do
+			Result := color_with_lightness (text_color, Lightness_proportion).twin
+		end
 
-	svg_height: INTEGER
-		deferred
+	new_svg_image (svg_path: EL_FILE_PATH; height_cms: REAL): EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
+		do
+			create Result.make_with_height_cms (svg_path, height_cms, background_color)
 		end
 
 	svg_base_width: INTEGER
@@ -151,6 +115,22 @@ feature {NONE} -- Implementation
 	svg_base_width_table: EL_HASH_TABLE [INTEGER, STRING]
 			-- dependant base widths to which text width will be added
 		deferred
+		end
+
+	svg_height: INTEGER
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	svg_text_width: INTEGER
+		-- text width in SVG units
+
+feature {NONE} -- Constants
+
+	Lightness_proportion: REAL
+		once
+			Result := 0.5
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:24:44 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2020-08-18 15:39:10 GMT (Tuesday 18th August 2020)"
+	revision: "5"
 
 class
 	EL_MANAGED_WIDGET [W -> EV_WIDGET create default_create end]
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make_with_container, default_create
+	make_with_container, make, default_create
 
 feature {NONE} -- Initialization
 
@@ -39,6 +39,12 @@ feature -- Initialization
 		do
 			container := a_container; new_item := a_new_item
 			update
+		end
+
+	make (a_item: like item; a_new_item: like new_item)
+		do
+			container := a_item.parent; new_item := a_new_item
+			item := a_item
 		end
 
 feature -- Element change

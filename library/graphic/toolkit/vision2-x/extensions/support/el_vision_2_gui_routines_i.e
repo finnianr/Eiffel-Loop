@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 11:02:45 GMT (Sunday 9th August 2020)"
-	revision: "22"
+	date: "2020-08-16 13:19:37 GMT (Sunday 16th August 2020)"
+	revision: "23"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -141,6 +141,24 @@ feature -- Apply styling
 			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
 
+	propagate_background_color (a_container: EV_CONTAINER; background_color: EV_COLOR; is_excluded: PREDICATE [EV_WIDGET])
+			-- Propagate background
+		do
+			if not is_excluded (a_container) then
+				a_container.set_background_color (background_color)
+				if attached a_container.linear_representation as list then
+					from list.start until list.after loop
+						if attached {EV_CONTAINER} list.item as container then
+							propagate_background_color (container, background_color, is_excluded)
+						elseif not is_excluded (list.item) then
+							list.item.set_background_color (background_color)
+						end
+						list.forth
+					end
+				end
+			end
+		end
+
 feature -- Basic operations
 
 	block_all (actions: ARRAY [ACTION_SEQUENCE])
@@ -177,30 +195,6 @@ feature -- Basic operations
 				widget.enable_sensitive
 			else
 				widget.disable_sensitive
-			end
-		end
-
-	propagate_background_color (container: EV_CONTAINER; background_color: EV_COLOR; exclusions: ARRAY [EV_WIDGET])
-			-- Propagate background
-		require
-			 exclusions_comparable_by_reference: not exclusions.object_comparison
-		local
-			list: LINEAR [EV_WIDGET]
-		do
-			if not exclusions.has (container) then
-				container.set_background_color (background_color)
-			end
-			list := container.linear_representation
-			from list.start until list.after loop
-				if attached {EV_CONTAINER} list.item as l_container
-					and then not exclusions.has (l_container)
-				then
-					propagate_background_color (l_container, background_color, exclusions)
-
-				elseif not exclusions.has (list.item) then
-					list.item.set_background_color (background_color)
-				end
-				list.forth
 			end
 		end
 

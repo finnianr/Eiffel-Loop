@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 17:51:12 GMT (Friday 14th August 2020)"
-	revision: "8"
+	date: "2020-08-18 19:39:30 GMT (Tuesday 18th August 2020)"
+	revision: "9"
 
 class
 	EL_DECORATED_BUTTON
@@ -28,6 +28,8 @@ inherit
 
 	EV_BUILDER
 
+	EL_BUTTON_CONSTANTS
+
 create
 	default_create, make, make_with_action
 
@@ -37,7 +39,7 @@ feature {NONE} -- Initialization
 		do
 			is_sensitive := True
 			pixmap_set := Default_pixmap_set
-			selected_pixmap := pixmap_set.normal
+			state := button_state.normal
 			Precursor
 		end
 
@@ -55,8 +57,10 @@ feature {NONE} -- Initialization
 			focus_out_actions.extend (agent on_focus_out)
 
 			pixmap_set := a_pixmap_set
-			set_pixmap (pixmap_set.normal)
-			set_minimum_size (pixmap_set.normal.width, pixmap_set.normal.height)
+			set_state (Button_state.normal)
+			if attached a_pixmap_set.pixmap (Button_state.normal) as p then
+				set_minimum_size (p.width, p.height)
+			end
 			focus_out_actions.extend (agent set_pixmap_normal)
 		end
 
@@ -82,22 +86,22 @@ feature -- Status report
 
 	is_cursor_over: BOOLEAN
 
-	is_sensitive: BOOLEAN
-
 	is_depressed: BOOLEAN
 		do
-			Result := selected_pixmap = pixmap_set.depressed
-		end
-
-	is_normal: BOOLEAN
-		do
-			Result := selected_pixmap = pixmap_set.normal
+			Result := state = Button_state.depressed
 		end
 
 	is_highlighted: BOOLEAN
 		do
-			Result := selected_pixmap = pixmap_set.highlighted
+			Result := state = Button_state.highlighted
 		end
+
+	is_normal: BOOLEAN
+		do
+			Result := state = Button_state.normal
+		end
+
+	is_sensitive: BOOLEAN
 
 feature -- Status setting
 
@@ -134,20 +138,17 @@ feature -- Element change
 
 	set_pixmap_depressed
 		do
-			set_pixmap (pixmap_set.depressed)
-			selected_pixmap := pixmap_set.depressed
+			set_state (button_state.depressed)
 		end
 
 	set_pixmap_highlighted
 		do
-			set_pixmap (pixmap_set.highlighted)
-			selected_pixmap := pixmap_set.highlighted
+			set_state (button_state.highlighted)
 		end
 
 	set_pixmap_normal
 		do
-			set_pixmap (pixmap_set.normal)
-			selected_pixmap := pixmap_set.normal
+			set_state (button_state.normal)
 		end
 
 	set_pixmap_set (a_pixmap_set: like pixmap_set)
@@ -227,9 +228,22 @@ feature {NONE} -- Event handlers
 
 feature {NONE} -- Implementation
 
+	set_state (a_state: ZSTRING)
+		do
+			state := a_state
+			set_pixmap (pixmap_set.pixmap (a_state))
+		end
+
+	update_pixmap
+		do
+			set_pixmap (pixmap_set.pixmap (state))
+		end
+
+feature {NONE} -- Internal attributes
+
 	pixmap_set: EL_SVG_BUTTON_PIXMAP_SET
 
-	selected_pixmap: EV_PIXMAP
+	state: ZSTRING
 
 feature {NONE} -- Constants
 

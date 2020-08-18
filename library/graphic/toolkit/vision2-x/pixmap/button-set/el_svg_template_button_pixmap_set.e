@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-09 10:35:20 GMT (Thursday 9th July 2020)"
-	revision: "6"
+	date: "2020-08-18 17:43:07 GMT (Tuesday 18th August 2020)"
+	revision: "7"
 
 class
 	EL_SVG_TEMPLATE_BUTTON_PIXMAP_SET
@@ -15,25 +15,23 @@ class
 inherit
 	EL_SVG_BUTTON_PIXMAP_SET
 		redefine
-			normal, set_pixmap
+			new_svg_image, set_pixmap
 		end
 
 create
 	make
 
-feature -- Access
-
-	normal: EL_SVG_TEMPLATE_PIXMAP
-		do
-			Result := pixmap_table [SVG.normal]
-		end
-
 feature {NONE} -- Implementation
 
-	set_pixmap (name: ZSTRING; a_svg_icon: like normal)
+	set_pixmap (name: ZSTRING; a_svg_icon: like new_svg_image)
 		do
 			Precursor (name, a_svg_icon)
 			a_svg_icon.update_png
+		end
+
+	new_svg_image (svg_path: EL_FILE_PATH; width_cms: REAL): EL_SVG_TEMPLATE_PIXMAP
+		do
+			create Result.make_with_width_cms (svg_path, width_cms, background_color)
 		end
 
 end

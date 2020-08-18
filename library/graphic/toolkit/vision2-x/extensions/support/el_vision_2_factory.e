@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-26 10:57:15 GMT (Friday 26th June 2020)"
-	revision: "13"
+	date: "2020-08-17 10:03:15 GMT (Monday 17th August 2020)"
+	revision: "14"
 
 class
 	EL_VISION_2_FACTORY
@@ -130,13 +130,13 @@ feature -- Factory
 			GUI.set_text_field_characteristics (Result, capacity, a_font)
 		end
 
-	new_text_field (capacity: INTEGER): EV_TEXT_FIELD
+	new_text_field (capacity: INTEGER): EL_TEXT_FIELD
 			--
 		do
 			Result := new_text_field_with_font (capacity, GUI.text_field_font)
 		end
 
-	new_text_field_with_font (capacity: INTEGER; a_font: EV_FONT): EV_TEXT_FIELD
+	new_text_field_with_font (capacity: INTEGER; a_font: EV_FONT): EL_TEXT_FIELD
 			--
 		do
 			create Result
