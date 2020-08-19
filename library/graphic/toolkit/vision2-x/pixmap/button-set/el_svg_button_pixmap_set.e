@@ -6,16 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 19:37:21 GMT (Tuesday 18th August 2020)"
-	revision: "7"
+	date: "2020-08-19 17:55:18 GMT (Wednesday 19th August 2020)"
+	revision: "8"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
 
 inherit
-	ANY
+	ARRAY [EL_SVG_PIXMAP]
+		rename
+			make as make_array,
+			item as svg_item,
+			valid_index as valid_state
+		export
+			{NONE} all
+			{ANY} valid_state
+		end
 
-	EL_BUTTON_CONSTANTS
+	EL_SHARED_BUTTON_STATE
 
 	EL_MODULE_ICON
 
@@ -45,7 +53,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create pixmap_table.make_equal (3)
+			make_filled (Default_pixmap, 1, Button_state.count)
 			create background_color
 			create icon_path_steps
 			is_enabled := True
@@ -60,10 +68,22 @@ feature -- Access
 
 	background_color: EL_COLOR
 
-	pixmap (state: ZSTRING): EV_PIXMAP
+	pixmap (state: NATURAL_8): EL_PIXMAP
+		require
+			valid_state: Button_state.is_valid_value (state)
 		do
-			if pixmap_table.has_key (state) then
-				Result := pixmap_table.found_item
+			Result := svg_item (state.to_integer_32)
+		end
+
+	drawing_area (state: NATURAL_8): CAIRO_DRAWING_AREA
+		require
+			valid_state: Button_state.is_valid_value (state)
+		local
+			png_output_path: EL_FILE_PATH
+		do
+			png_output_path := svg_item (state).png_output_path
+			if png_output_path.exists then
+				create Result.make_with_path (png_output_path)
 			else
 				create Result
 			end
@@ -79,7 +99,7 @@ feature -- Element change
 	set_background_color (a_background_color: like background_color)
 		do
 			if background_color /~ a_background_color then
-				across pixmap_table as l_pixmap loop
+				across Current as l_pixmap loop
 					l_pixmap.item.set_background_color (a_background_color)
 				end
 			end
@@ -102,8 +122,8 @@ feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
 		do
-			across Button_state_list as state loop
-				set_pixmap (state.item, svg_icon (state.item + Dot_svg, width_cms))
+			across Button_state.list as state loop
+				set_pixmap (state.item, svg_icon (state.item, width_cms))
 			end
 		end
 
@@ -112,23 +132,31 @@ feature {NONE} -- Implementation
 			create Result.make_with_width_cms (svg_path, width_cms, background_color)
 		end
 
-	set_pixmap (name: ZSTRING; a_svg_icon: EV_PIXMAP)
+	set_pixmap (state: NATURAL_8; a_svg_icon: EL_SVG_PIXMAP)
 		do
-			pixmap_table [name] := a_svg_icon
+			put (a_svg_icon, state)
 		end
 
-	svg_icon (last_step: ZSTRING; width_cms: REAL): like new_svg_image
+	svg_icon (a_state: NATURAL_8; width_cms: REAL): like new_svg_image
 		do
-			icon_path_steps.extend (last_step)
+			icon_path_steps.extend (svg_name (a_state))
 			Result := new_svg_image (Image_path.icon (icon_path_steps), width_cms)
 			icon_path_steps.remove_tail (1)
+		end
+
+	svg_name (state: NATURAL_8): ZSTRING
+		local
+			name: STRING
+		do
+			name := Button_state.name (state.item)
+			create Result.make (name.count + 4)
+			Result.append_string_general (name)
+			Result.append (Dot_svg)
 		end
 
 feature {NONE} -- Internal attributes
 
 	icon_path_steps: EL_PATH_STEPS
-
-	pixmap_table: EL_ZSTRING_HASH_TABLE [EV_PIXMAP]
 
 feature {NONE} -- Constants
 
@@ -138,6 +166,11 @@ feature {NONE} -- Constants
 		end
 
 	Clicked_border_width: CHARACTER = '6'
+
+	Default_pixmap: EL_SVG_PIXMAP
+		once
+			create Result
+		end
 
 	Dot_svg: ZSTRING
 		once

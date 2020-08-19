@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 19:59:06 GMT (Tuesday 18th August 2020)"
-	revision: "16"
+	date: "2020-08-19 17:52:50 GMT (Wednesday 19th August 2020)"
+	revision: "17"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -22,7 +22,7 @@ inherit
 
 	SD_COLOR_HELPER
 		undefine
-			default_create
+			copy, default_create, is_equal
 		end
 
 	EL_MODULE_GUI
@@ -45,13 +45,14 @@ feature -- Access
 
 	font: EL_FONT
 
-	pixmap (state: ZSTRING): EL_PIXMAP
+	pixmap (state: NATURAL_8): EL_PIXMAP
 		-- `{EL_PIXMAP}.draw_text_top_left' not working on Windows so this is a workaround
 		local
 			half_font_descent: INTEGER; text_rect: EL_RECTANGLE
 			buffer: CAIRO_DRAWING_AREA
 		do
-			create buffer.make_with_pixmap (Precursor (state))
+			buffer := Precursor (state).to_drawing_area
+
 			create text_rect.make_for_text (text, font)
 			text_rect.move_center (buffer.dimensions)
 			half_font_descent := font.descent // 2
@@ -86,9 +87,9 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	svg_icon (last_step: ZSTRING; width_cms: REAL): like new_svg_image
+	svg_icon (a_state: NATURAL_8; width_cms: REAL): like new_svg_image
 		do
-			Result := Precursor (last_step, width_cms)
+			Result := Precursor (a_state, width_cms)
 			Result.set_svg_width (svg_base_width + svg_text_width)
 			across svg_base_width_table as svg_width loop
 				Result.set_variable (svg_width.key, svg_width.item + svg_text_width)

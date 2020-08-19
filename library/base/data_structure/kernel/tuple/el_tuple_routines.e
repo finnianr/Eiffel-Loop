@@ -1,13 +1,13 @@
 note
-	description: "Routines accessible from once routine `Tuple' in [$source EL_MODULE_TUPLE]"
+	description: "Routines for populating tuple fields. Accessible via shared instance [$source EL_MODULE_TUPLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 13:14:48 GMT (Saturday 1st February 2020)"
-	revision: "11"
+	date: "2020-08-19 15:47:31 GMT (Wednesday 19th August 2020)"
+	revision: "12"
 
 class
 	EL_TUPLE_ROUTINES
@@ -21,9 +21,7 @@ inherit
 
 	EL_MODULE_STRING_8
 
-feature -- Access
-
-	debug_lines: ARRAYED_LIST [STRING_GENERAL]
+	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -53,9 +51,7 @@ feature -- Basic operations
 			if left_adjusted then
 				list.enable_left_adjust
 			end
-			create debug_lines.make (list.count)
 			from list.start until list.index > tuple.count or list.after loop
-				debug_lines.extend (list.item (True))
 				list_item := list.item (False)
 				item_type := tuple_type.generic_parameter_type (list.index)
 				type_id := item_type.type_id
@@ -90,6 +86,61 @@ feature -- Basic operations
 				end
 				list.forth
 			end
+		ensure
+			filled: across 1 |..| tuple.count as index all attached tuple.reference_item (index.item) end
+		end
+
+	fill_default (tuple: TUPLE; default_value: ANY)
+		local
+			i: INTEGER; type_id: INTEGER
+			tuple_type: TYPE [TUPLE]
+		do
+			type_id := {ISE_RUNTIME}.dynamic_type (default_value)
+			tuple_type := tuple.generating_type
+			from i := 1 until i > tuple.count loop
+				if tuple.item_code (i) = {TUPLE}.Reference_code and then
+					Eiffel.field_conforms_to (type_id, tuple_type.generic_parameter_type (i).type_id)
+				then
+					tuple.put_reference (default_value, i)
+				end
+				i := i + 1
+			end
+		ensure
+			filled: across 1 |..| tuple.count as index all attached tuple.reference_item (index.item) end
+		end
+
+	fill_with_new (tuple: TUPLE; csv_field_list: STRING; a_new_item: FUNCTION [STRING, ANY]; start_index: INTEGER)
+		-- fill tuple from `start_index' with factory function call `a_new_item (x)' where `x' is a field name
+		-- in the comma separated field list `csv_field_list'
+		require
+			valid_start_index: start_index >= 1
+			valid_list: csv_field_list.count > 0 and then start_index + csv_field_list.occurrences (',') <= tuple.count
+			not_filled:	across start_index |..| (start_index + csv_field_list.occurrences (',')) as n all
+								not attached tuple.reference_item (n.item)
+							end
+		local
+			result_type_id: INTEGER; list: EL_SPLIT_STRING_8_LIST
+			tuple_type: TYPE [TUPLE]; index: INTEGER
+		do
+			result_type_id := a_new_item.generating_type.generic_parameter_type (2).type_id
+			tuple_type := tuple.generating_type
+			create list.make (csv_field_list, Comma)
+			list.enable_left_adjust
+
+			from list.start until (start_index + list.index - 1) > tuple.count or list.after loop
+				index := start_index + list.index - 1
+				if tuple.item_code (index) = {TUPLE}.Reference_code and then
+					Eiffel.field_conforms_to (result_type_id, tuple_type.generic_parameter_type (index).type_id)
+					and then attached a_new_item (list.item (False)) as new
+				then
+					tuple.put_reference (new, index)
+				end
+				list.forth
+			end
+		ensure
+			filled:	across start_index |..| (start_index + csv_field_list.occurrences (',')) as n all
+							attached tuple.reference_item (n.item)
+						end
 		end
 
 	to_string_32_list (tuple: TUPLE): EL_STRING_32_LIST

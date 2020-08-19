@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:01:50 GMT (Sunday 2nd August 2020)"
-	revision: "9"
+	date: "2020-08-19 11:49:17 GMT (Wednesday 19th August 2020)"
+	revision: "10"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -17,6 +17,8 @@ inherit
 		rename
 			make as make_rectangle
 		end
+
+	EL_SHARED_BUTTON_STATE
 
 	SD_COLOR_HELPER
 		export
@@ -42,9 +44,9 @@ feature {NONE} -- Initialization
 		do
 			drawing_area := a_drawing_area; image_set := a_image_set; button_press_action := a_button_press_action
 
-			state_image := image_set.normal
+			state := Button_state.normal
 
-			make_rectangle (0, 0, state_image.width, state_image.height)
+			make_from_other (a_image_set.drawing_area (state).dimensions)
 
 			drawing_area.pointer_button_press_actions.extend (agent on_pointer_button_press)
 			drawing_area.pointer_button_release_actions.extend (agent on_pointer_button_release)
@@ -58,26 +60,26 @@ feature -- Status report
 
 	is_cursor_over: BOOLEAN
 		do
-			Result := state_image = image_set.highlighted or else state_image = image_set.depressed
+			Result := state = Button_state.highlighted or else state = Button_state.depressed
 		end
 
 	is_depressed: BOOLEAN
 		do
-			Result := state_image = image_set.depressed
+			Result := state = Button_state.depressed
 		end
 
 	is_displayed: BOOLEAN
 
 feature -- Status change
 
-	show
-		do
-			is_displayed := True
-		end
-
 	hide
 		do
 			is_displayed := False
+		end
+
+	show
+		do
+			is_displayed := True
 		end
 
 feature -- Element change
@@ -92,7 +94,7 @@ feature -- Basic operations
 	draw (drawing: CAIRO_DRAWING_AREA)
 		do
 			if is_displayed then
-				drawing.draw_drawing_area (x, y, state_image)
+				drawing.draw_drawing_area (x, y, image_set.drawing_area (state))
 				if is_tooltip_displayed and then not tool_tip.is_empty then
 					draw_tooltip (drawing)
 				end
@@ -101,25 +103,11 @@ feature -- Basic operations
 
 feature {NONE} -- Event handlers
 
-	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
-			--
-		do
-			if is_cursor_over then
-				if not has_x_y (a_x, a_y) then
-					set_state_image (image_set.normal)
-				end
-			else
-				if has_x_y (a_x, a_y) then
-					set_state_image (image_set.highlighted)
-				end
-			end
-		end
-
 	on_pointer_button_press (a_x, a_y, a_button: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
 			--
 		do
 			if a_button = 1 and is_cursor_over then
-				set_state_image (image_set.depressed)
+				set_state_image (Button_state.depressed)
 			end
 		end
 
@@ -127,33 +115,26 @@ feature {NONE} -- Event handlers
 			--
 		do
 			if a_button = 1 and is_depressed then
-				set_state_image (image_set.normal)
+				set_state_image (Button_state.normal)
 				button_press_action.apply
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	set_state_image (a_state_image: like state_image)
+	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
+			--
 		do
-			state_image := a_state_image
-			if state_image = image_set.highlighted then
-				timer.actions.extend_kamikaze (
-					agent
-						do
-							is_tooltip_displayed := True
-							drawing_area.redraw
-						end
-				)
-				timer.set_interval (1200)
-				drawing_area.set_pointer_style (Pixmap.Hyperlink_cursor)
+			if is_cursor_over then
+				if not has_x_y (a_x, a_y) then
+					set_state_image (Button_state.normal)
+				end
 			else
-				is_tooltip_displayed := False
-				timer.set_interval (0)
-				drawing_area.set_pointer_style (Pixmap.Standard_cursor)
+				if has_x_y (a_x, a_y) then
+					set_state_image (Button_state.highlighted)
+				end
 			end
-			drawing_area.redraw
 		end
+
+feature {NONE} -- Implementation
 
 	draw_tooltip (drawing: CAIRO_DRAWING_AREA)
 		local
@@ -179,19 +160,42 @@ feature {NONE} -- Implementation
 			drawing.draw_text_top_left (text_rect.x + l_font.descent, text_rect.y, tool_tip)
 		end
 
-	drawing_area: EL_DRAWING_AREA_BASE
+	set_state_image (a_state: NATURAL_8)
+		do
+			state := a_state
+			if state = Button_state.highlighted then
+				timer.actions.extend_kamikaze (
+					agent
+						do
+							is_tooltip_displayed := True
+							drawing_area.redraw
+						end
+				)
+				timer.set_interval (1200)
+				drawing_area.set_pointer_style (Pixmap.Hyperlink_cursor)
+			else
+				is_tooltip_displayed := False
+				timer.set_interval (0)
+				drawing_area.set_pointer_style (Pixmap.Standard_cursor)
+			end
+			drawing_area.redraw
+		end
+
+feature {NONE} -- Internal attributes
 
 	button_press_action: PROCEDURE
 
-	state_image: CAIRO_DRAWING_AREA
+	drawing_area: EL_DRAWING_AREA_BASE
 
-	image_set: EL_PIXEL_BUFFER_SET
+	image_set: EL_BUTTON_DRAWING_AREA_SET
 
-	tool_tip: READABLE_STRING_GENERAL
+	is_tooltip_displayed: BOOLEAN
+
+	state: NATURAL_8
 
 	timer: EV_TIMEOUT
 
-	is_tooltip_displayed: BOOLEAN
+	tool_tip: READABLE_STRING_GENERAL
 
 feature {NONE} -- Constants
 

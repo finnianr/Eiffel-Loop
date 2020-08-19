@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 19:39:30 GMT (Tuesday 18th August 2020)"
-	revision: "9"
+	date: "2020-08-19 11:49:17 GMT (Wednesday 19th August 2020)"
+	revision: "10"
 
 class
 	EL_DECORATED_BUTTON
@@ -28,7 +28,7 @@ inherit
 
 	EV_BUILDER
 
-	EL_BUTTON_CONSTANTS
+	EL_SHARED_BUTTON_STATE
 
 create
 	default_create, make, make_with_action
@@ -228,7 +228,7 @@ feature {NONE} -- Event handlers
 
 feature {NONE} -- Implementation
 
-	set_state (a_state: ZSTRING)
+	set_state (a_state: NATURAL_8)
 		do
 			state := a_state
 			set_pixmap (pixmap_set.pixmap (a_state))
@@ -243,7 +243,7 @@ feature {NONE} -- Internal attributes
 
 	pixmap_set: EL_SVG_BUTTON_PIXMAP_SET
 
-	state: ZSTRING
+	state: NATURAL_8
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 17:43:07 GMT (Tuesday 18th August 2020)"
-	revision: "7"
+	date: "2020-08-19 12:56:47 GMT (Wednesday 19th August 2020)"
+	revision: "8"
 
 class
 	EL_SVG_TEMPLATE_BUTTON_PIXMAP_SET
@@ -23,9 +23,9 @@ create
 
 feature {NONE} -- Implementation
 
-	set_pixmap (name: ZSTRING; a_svg_icon: like new_svg_image)
+	set_pixmap (state: NATURAL_8; a_svg_icon: like new_svg_image)
 		do
-			Precursor (name, a_svg_icon)
+			Precursor (state, a_svg_icon)
 			a_svg_icon.update_png
 		end
 

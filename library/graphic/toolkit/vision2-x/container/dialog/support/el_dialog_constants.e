@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 12:05:16 GMT (Sunday 16th August 2020)"
-	revision: "5"
+	date: "2020-08-19 19:00:18 GMT (Wednesday 19th August 2020)"
+	revision: "6"
 
 class
 	EL_DIALOG_CONSTANTS
@@ -52,6 +52,8 @@ feature -- Button Texts
 	Eng_retry: STRING = "Retry"
 
 	Eng_save: STRING = "Save"
+
+	Eng_select: STRING = "Select"
 
 	Eng_yes: STRING = "Yes"
 
