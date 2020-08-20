@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 10:34:12 GMT (Monday 17th August 2020)"
-	revision: "9"
+	date: "2020-08-20 11:53:40 GMT (Thursday 20th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_FINITE_DATA_SET_WIDGET [G]
@@ -69,8 +69,6 @@ feature {NONE} -- Implementation
 		end
 
 	new_value_list (initial_value: G; value_list: ITERABLE [G]): ARRAYED_LIST [EL_WIDGET_VALUE [G]]
-		local
-			l_values: LINEAR [G]; index: INTEGER
 		do
 			create Result.make (Iterable.count (value_list))
 			across value_list as list loop

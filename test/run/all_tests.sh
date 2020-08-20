@@ -13,6 +13,10 @@ $do_test -amazon_instant_access_autotest
 $do_test -base_autotest
 $do_test -base_autotest -single -zstring_codec ISO-8859-1
 
+# compression.ecf
+$do_test -compression_autotest
+
+# encryption.ecf
 $do_test -encryption_autotest
 
 # http-client.ecf

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 10:11:29 GMT (Thursday 20th August 2020)"
-	revision: "51"
+	date: "2020-08-20 12:03:38 GMT (Thursday 20th August 2020)"
+	revision: "52"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -202,11 +202,6 @@ feature -- Access
 				Result := unencoded_hash_code (area_hash_code)
 				internal_hash_code := Result
 			end
-		end
-
-	joined (a_tuple: TUPLE): ZSTRING
-		-- `Current' with contents of tuple appended
-		do
 		end
 
 	share (other: like Current)
