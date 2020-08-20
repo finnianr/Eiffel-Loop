@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 12:06:41 GMT (Tuesday 18th August 2020)"
-	revision: "8"
+	date: "2020-08-20 11:43:41 GMT (Thursday 20th August 2020)"
+	revision: "9"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -18,8 +18,9 @@ inherit
 			append_file as append_file_contents
 		export
 			{NONE} all
-			{ANY} close, last_string, name, start, end_of_file, position, make_open_read,
-				is_closed, is_open_read, is_open_write, path, date
+			{ANY} close, last_string, name, start, end_of_file, position,
+				is_closed, is_open_read, is_open_write, path, date,
+				open_read, open_write, make_open_write, make_open_read
 		redefine
 			make_with_name, after, off
 		end

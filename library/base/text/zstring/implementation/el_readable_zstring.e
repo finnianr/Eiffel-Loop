@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 12:15:25 GMT (Monday 1st June 2020)"
-	revision: "50"
+	date: "2020-08-20 10:11:29 GMT (Thursday 20th August 2020)"
+	revision: "51"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -204,47 +204,9 @@ feature -- Access
 			end
 		end
 
-	joined (a_list: ITERABLE [like Current]): ZSTRING
-		-- `a_list' joined with `Current' as delimiter
-		local
-			cursor: ITERATION_CURSOR [like Current]
+	joined (a_tuple: TUPLE): ZSTRING
+		-- `Current' with contents of tuple appended
 		do
-			cursor := a_list.new_cursor
-			create Result.make (sum_count (cursor) + (lines.count - 1) * count)
-			if attached {INDEXABLE_ITERATION_CURSOR [like Current]} cursor as l_cursor then
-				l_cursor.start
-			else
-				cursor := a_list.new_cursor
-			end
-			from until cursor.after loop
-				if not Result.is_empty then
-					Result.append (Current)
-				end
-				Result.append (cursor.item)
-				cursor.forth
-			end
-		end
-
-	joined_general (a_list: ITERABLE [READABLE_STRING_GENERAL]): ZSTRING
-		-- `a_list' joined with `Current' as delimiter
-		local
-			cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]
-		do
-			cursor := a_list.new_cursor
-			create Result.make (sum_count (cursor) + (lines.count - 1) * count)
-
-			if attached {INDEXABLE_ITERATION_CURSOR [READABLE_STRING_GENERAL]} cursor as l_cursor then
-				l_cursor.start
-			else
-				cursor := a_list.new_cursor
-			end
-			from until cursor.after loop
-				if not Result.is_empty then
-					Result.append (Current)
-				end
-				Result.append_string_general (cursor.item)
-				cursor.forth
-			end
 		end
 
 	share (other: like Current)

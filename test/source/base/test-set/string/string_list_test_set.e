@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-09 11:28:40 GMT (Saturday 9th May 2020)"
-	revision: "9"
+	date: "2020-08-20 10:12:23 GMT (Thursday 20th August 2020)"
+	revision: "10"
 
 class
 	STRING_LIST_TEST_SET
@@ -53,10 +53,6 @@ feature -- Tests
 
 			create t2
 			tuple.fill (t2, {STRING_32} "euro, €")
-			across tuple.debug_lines as line loop
-				lio.put_string_field (line.cursor_index.out, line.item)
-				lio.put_new_line
-			end
 			assert ("same currency", t2.currency ~ "euro")
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:23:02 GMT (Saturday 30th May 2020)"
-	revision: "17"
+	date: "2020-08-20 11:49:04 GMT (Thursday 20th August 2020)"
+	revision: "18"
 
 class
 	EL_DIRECTORY
@@ -74,36 +74,49 @@ feature -- Access
 		do
 			create Result.make (20)
 			read_entries (Result, Type_directory, Empty_string_8)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	directories_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_DIR_PATH]
 		do
 			create Result.make (20)
+			Result.compare_objects
 			read_entries (Result, Type_directory, extension)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	entries: EL_ARRAYED_LIST [EL_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_any, Empty_string_8)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	entries_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_any, extension)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	files: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_file, Empty_string_8)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
 			create Result.make (20)
 			read_entries (Result, Type_file, extension)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	path: EL_DIR_PATH
@@ -115,18 +128,24 @@ feature -- Access
 		do
 			create Result.make (20)
 			read_recursive_entries (Result, Type_directory, Empty_string_8)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	recursive_files: like files
 		do
 			create Result.make (20)
 			read_recursive_entries (Result, Type_file, Empty_string_8)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 	recursive_files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
 			create Result.make (20)
 			read_recursive_entries (Result, Type_file, extension)
+		ensure
+			object_comparison: Result.object_comparison
 		end
 
 feature -- Measurement
@@ -352,6 +371,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		local
 			name: STRING_32; extension_matches: BOOLEAN; dot_position: INTEGER
 		do
+			list.compare_objects
 			across Current as entry loop
 				if not entry.is_current_or_parent then
 					name := entry.item

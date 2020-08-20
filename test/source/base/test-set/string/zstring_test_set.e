@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 16:57:49 GMT (Sunday 31st May 2020)"
-	revision: "28"
+	date: "2020-08-20 10:13:45 GMT (Thursday 20th August 2020)"
+	revision: "29"
 
 class
 	ZSTRING_TEST_SET
@@ -83,7 +83,7 @@ feature -- Basic operations
 			eval.call ("remove_head", agent test_remove_head)
 			eval.call ("remove_tail", agent test_remove_tail)
 			eval.call ("index_of", agent test_index_of)
-			eval.call ("joined", agent test_joined)
+			eval.call ("join", agent test_join)
 			eval.call ("last_index_of", agent test_last_index_of)
 			eval.call ("occurrences", agent test_occurrences)
 			eval.call ("substring_index", agent test_substring_index)
@@ -332,6 +332,10 @@ feature -- Element change tests
 					end
 				end
 			end
+		end
+
+	test_join
+		do
 		end
 
 	test_left_adjust
@@ -796,26 +800,6 @@ feature -- Access tests
 						assert ("index_of OK", str.index_of (uc, i) = str_32.index_of (uc, i))
 					end
 				end
-			end
-		end
-
-	test_joined
-		local
-			list: EL_ZSTRING_LIST; str: ZSTRING
-			list_32: LIST [STRING_32] linked: LINKED_LIST [ZSTRING]
-		do
-			across Text_lines as line loop
-				str := line.item
-				create list.make_with_separator (str, ' ', False)
-				create linked.make
-				list.do_all (agent linked.extend)
-				across << list, list.to_array, linked >> as l_list loop
-					if attached {ITERABLE [ZSTRING]} l_list.item as iterable then
-						assert ("same joined", str ~ character_string (' ').joined (iterable))
-					end
-				end
-				list_32 := line.item.split (' ')
-				assert ("same joined", str ~ character_string (' ').joined_general (list_32))
 			end
 		end
 
