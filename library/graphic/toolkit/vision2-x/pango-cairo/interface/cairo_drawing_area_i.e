@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 9:20:04 GMT (Monday 3rd August 2020)"
-	revision: "5"
+	date: "2020-08-21 10:03:25 GMT (Friday 21st August 2020)"
+	revision: "6"
 
 deferred class
 	CAIRO_DRAWING_AREA_I
@@ -20,13 +20,7 @@ inherit
 			interface
 		end
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		undefine
-			default_create, copy, out
-		end
+	EL_MODULE_ORIENTATION
 
 feature {CAIRO_DRAWING_AREA} -- Initialization
 
@@ -48,7 +42,7 @@ feature {CAIRO_DRAWING_AREA} -- Initialization
 
 	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; pixmap: EV_PIXMAP)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			scaled: EL_RECTANGLE
 		do

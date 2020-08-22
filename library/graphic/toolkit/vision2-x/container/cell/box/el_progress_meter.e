@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 12:19:27 GMT (Tuesday 18th August 2020)"
-	revision: "1"
+	date: "2020-08-20 15:48:24 GMT (Thursday 20th August 2020)"
+	revision: "2"
 
 class
 	EL_PROGRESS_METER
@@ -46,8 +46,9 @@ feature {NONE} -- Initialization
 			create bar.make_size (bar_width_cms, bar_height_cms)
 			create framed_bar
 			framed_bar.extend (bar)
-			framed_bar.set_style (GUI.Ev_frame_raised)
+			framed_bar.set_style (GUI.Ev_frame_etched_in)
 			framed_bar.set_border_width (2)
+
 
 			create label
 			label.set_font (text_font)

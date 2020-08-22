@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-23 9:35:20 GMT (Thursday 23rd July 2020)"
-	revision: "9"
+	date: "2020-08-21 10:27:42 GMT (Friday 21st August 2020)"
+	revision: "10"
 
 class
 	EL_SCREEN
@@ -23,13 +23,7 @@ inherit
 			implementation, create_implementation
 		end
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		undefine
-			is_equal, default_create, copy
-		end
+	EL_MODULE_ORIENTATION
 
 create
 	make
@@ -122,9 +116,9 @@ feature -- Conversion
 	dimension_pixels (dimension: NATURAL_8; distance_cms: REAL): INTEGER
 			-- `distance_cms' in centimeters to pixels in `dimension'
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			if dimension = By_width then
+			if dimension = {EL_DIRECTION}.By_width then
 				Result := horizontal_pixels (distance_cms)
 			else
 				Result := vertical_pixels (distance_cms)

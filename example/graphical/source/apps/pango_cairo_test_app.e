@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-19 11:36:28 GMT (Tuesday 19th June 2018)"
-	revision: "4"
+	date: "2020-08-21 15:26:58 GMT (Friday 21st August 2020)"
+	revision: "5"
 
 class
 	PANGO_CAIRO_TEST_APP
@@ -38,7 +38,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	gui: EL_VISION2_USER_INTERFACE [PANGO_CAIRO_TEST_MAIN_WINDOW]
+	gui: EL_VISION_2_USER_INTERFACE [PANGO_CAIRO_TEST_MAIN_WINDOW]
 
 feature {NONE} -- Constants
 

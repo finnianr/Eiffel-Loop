@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-27 9:46:07 GMT (Saturday 27th June 2020)"
-	revision: "6"
+	date: "2020-08-21 16:26:24 GMT (Friday 21st August 2020)"
+	revision: "7"
 
 class
 	SATELLITE_PARAMETERS
@@ -22,6 +22,13 @@ inherit
 		end
 
 	EL_GEOMETRY_MATH
+		undefine
+			is_equal
+		end
+
+	EL_DIRECTION
+		export
+			{NONE} all
 		undefine
 			is_equal
 		end

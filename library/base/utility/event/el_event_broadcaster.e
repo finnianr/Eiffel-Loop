@@ -6,15 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 16:30:59 GMT (Saturday 11th January 2020)"
-	revision: "3"
+	date: "2020-08-21 15:03:41 GMT (Friday 21st August 2020)"
+	revision: "4"
 
 class
 	EL_EVENT_BROADCASTER
 
+create
+	make
+
 feature {NONE} -- Initialization
 
-	make_default
+	make
 		do
 			listener := Default_listener
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:00:23 GMT (Sunday 2nd August 2020)"
-	revision: "15"
+	date: "2020-08-21 10:13:31 GMT (Friday 21st August 2020)"
+	revision: "16"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -16,6 +16,7 @@ inherit
 	EL_MODULE_COLOR
 	EL_MODULE_EXCEPTION
 	EL_MODULE_SCREEN
+	EL_MODULE_ORIENTATION
 
 	EL_MODULE_IMAGE_PATH
 		rename
@@ -24,11 +25,7 @@ inherit
 
 	EL_FACTORY_CLIENT
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		end
+	EL_DIRECTION
 
 feature -- Access
 
@@ -85,7 +82,9 @@ feature -- Colored PNG
 	of_height_and_color_cms (relative_path_steps: EL_PATH_STEPS; height_cms: REAL; background_color: EV_COLOR): EL_PIXMAP
 			-- Pixmap scaled to `height_cms' centimeters
 		do
-			Result := of_size_and_color (relative_path_steps, By_height, Screen.vertical_pixels (height_cms), background_color)
+			Result := of_size_and_color (
+				relative_path_steps, By_height, Screen.vertical_pixels (height_cms), background_color
+			)
 		end
 
 	of_size_and_color (
@@ -94,7 +93,7 @@ feature -- Colored PNG
 			-- pixmap scaled to `size' in pixels for `dimension' and filled with `background_color'
 			-- (The pixmap must have an alpha channel)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			top_layer, bottom_layer: CAIRO_DRAWING_AREA
 			rectangle: EL_RECTANGLE
@@ -117,7 +116,9 @@ feature -- Colored PNG
 	of_width_and_color_cms (relative_path_steps: EL_PATH_STEPS; width_cms: REAL; background_color: EV_COLOR): EL_PIXMAP
 			-- Pixmap scaled to `width_cms' centimeters
 		do
-			Result := of_size_and_color (relative_path_steps, By_width, Screen.horizontal_pixels (width_cms), background_color)
+			Result := of_size_and_color (
+				relative_path_steps, By_width, Screen.horizontal_pixels (width_cms), background_color
+			)
 		end
 
 feature -- PNG
@@ -155,7 +156,7 @@ feature -- PNG
 	of_size_cms (relative_path_steps: EL_PATH_STEPS; dimension: NATURAL_8; distance_cms: REAL): EL_PIXMAP
 			-- Pixmap scaled to height in centimeters
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			size_pixels: INTEGER
 		do

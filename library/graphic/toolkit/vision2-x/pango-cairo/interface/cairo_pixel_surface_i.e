@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:09:09 GMT (Sunday 2nd August 2020)"
-	revision: "7"
+	date: "2020-08-21 10:04:04 GMT (Friday 21st August 2020)"
+	revision: "8"
 
 deferred class
 	CAIRO_PIXEL_SURFACE_I
@@ -18,11 +18,7 @@ deferred class
 inherit
 	CAIRO_SURFACE_I
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		end
+	EL_MODULE_ORIENTATION
 
 	EL_MODULE_EXCEPTION
 
@@ -43,7 +39,7 @@ feature {NONE} -- Initialization
 
 	make_with_scaled_drawing (dimension: NATURAL_8; buffer: CAIRO_DRAWING_AREA; size: DOUBLE)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		deferred
 		ensure
 			initialized: is_initialized
@@ -51,7 +47,7 @@ feature {NONE} -- Initialization
 
 	make_with_scaled_pixmap (dimension: NATURAL_8; other: EV_PIXMAP; size: DOUBLE)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		deferred
 		ensure
 			initialized: is_initialized

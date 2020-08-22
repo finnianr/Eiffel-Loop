@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 10:33:28 GMT (Sunday 9th August 2020)"
-	revision: "17"
+	date: "2020-08-22 11:45:27 GMT (Saturday 22nd August 2020)"
+	revision: "18"
 
 class
 	EL_RECTANGLE
@@ -22,22 +22,11 @@ inherit
 			out
 		end
 
-	EL_ORIENTATION_ROUTINES
-		rename
-			Left as Left_side,
-			Top as Top_end,
-			Right as Right_side,
-			Bottom as Bottom_end
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		undefine
-			out
-		end
-
 	EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
+
+	EL_MODULE_ORIENTATION
 
 	EL_DOUBLE_MATH undefine out end
 
@@ -110,6 +99,43 @@ feature -- Access
 			Result := [width, height]
 		end
 
+	edge_coordinate (position_enum: INTEGER): EL_INTEGER_COORDINATE
+		require
+			valid_position: Orientation.is_valid_position (position_enum)
+		do
+			create Result.make (x, y)
+			inspect position_enum
+				-- Going clockwise
+
+				when {EL_DIRECTION}.Top_left then
+					Result.move (0, 0)
+
+				when {EL_DIRECTION}.Top then
+					Result.move (width // 2, 0)
+
+				when {EL_DIRECTION}.Top_right then
+					Result.move (width, 0)
+
+				when {EL_DIRECTION}.Right then
+					Result.move (width, height // 2)
+
+				when {EL_DIRECTION}.Bottom_right then
+					Result.move (width, height)
+
+				when {EL_DIRECTION}.Bottom then
+					Result.move (width // 2, height)
+
+				when {EL_DIRECTION}.Bottom_left then
+					Result.move (0, height)
+
+				when {EL_DIRECTION}.Left then
+					Result.move (0, height // 2)
+
+			else -- Center
+				Result.move (width // 2, height // 2)
+			end
+		end
+
 feature -- Measurement
 
 	area: INTEGER
@@ -166,14 +192,14 @@ feature -- Element change
 
 	scale_to_height (a_height: INTEGER)
 		do
-			scale_to_size (By_height, a_height)
+			scale_to_size ({EL_DIRECTION}.By_height, a_height)
 		end
 
 	scale_to_size (dimension: NATURAL_8; size: INTEGER)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			if dimension = By_width then
+			if dimension = {EL_DIRECTION}.By_width then
 				height := (height * size / width).rounded
 				width := size
 			else
@@ -186,7 +212,7 @@ feature -- Element change
 
 	scale_to_width (a_width: INTEGER)
 		do
-			scale_to_size (By_width, a_width)
+			scale_to_size ({EL_DIRECTION}.By_width, a_width)
 		end
 
 feature -- Conversion

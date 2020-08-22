@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-11 7:21:44 GMT (Tuesday 11th August 2020)"
-	revision: "7"
+	date: "2020-08-21 15:25:24 GMT (Friday 21st August 2020)"
+	revision: "8"
 
 class
 	EL_TITLED_WINDOW
@@ -37,7 +37,7 @@ inherit
 create
 	make
 
-feature {EL_VISION2_USER_INTERFACE} -- Initialization
+feature {EL_VISION_2_USER_INTERFACE} -- Initialization
 
 	initialize
 		do
@@ -87,7 +87,7 @@ feature -- Status query
 			Result := implementation.has_wide_theme_border
 		end
 
-feature {EL_VISION2_USER_INTERFACE} -- Event handlers
+feature {EL_VISION_2_USER_INTERFACE} -- Event handlers
 
 	on_close_request
 			--

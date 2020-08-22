@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 11:03:24 GMT (Monday 27th July 2020)"
-	revision: "6"
+	date: "2020-08-21 14:25:45 GMT (Friday 21st August 2020)"
+	revision: "7"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -104,7 +104,7 @@ feature {NONE} -- Build from XML
 			parent_dir: ZSTRING
 		do
 			create exclude_files_list.make_with_lines (node.to_string)
-			parent_dir := target_dir.base + character_string (Operating_environ.Directory_separator)
+			parent_dir := target_dir.base #+ [Operating_environ.Directory_separator]
 
 			across exclude_files_list as file loop
 				file.item.prepend_string (parent_dir)

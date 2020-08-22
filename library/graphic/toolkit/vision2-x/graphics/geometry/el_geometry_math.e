@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-27 10:17:40 GMT (Saturday 27th June 2020)"
-	revision: "12"
+	date: "2020-08-21 10:18:08 GMT (Friday 21st August 2020)"
+	revision: "13"
 
 class
 	EL_GEOMETRY_MATH
@@ -15,42 +15,38 @@ class
 inherit
 	EV_MODEL_DOUBLE_MATH
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_corner, is_valid_side, is_valid_axis
-		end
+	EL_MODULE_ORIENTATION
 
 feature {NONE} -- Implementation
 
 	corner_angle (corner: INTEGER): DOUBLE
 		require
-			valid_corner: is_valid_corner (corner)
+			valid_corner: Orientation.is_valid_corner (corner)
 		do
 			inspect corner
-				when Top_left then
+				when {EL_DIRECTION}.Top_left then
 					Result := radians (135).opposite
-				when Top_right then
+				when {EL_DIRECTION}.Top_right then
 					Result := radians (45).opposite
-				when Bottom_right then
+				when {EL_DIRECTION}.Bottom_right then
 					Result := radians (45)
-				when Bottom_left then
+				when {EL_DIRECTION}.Bottom_left then
 					Result := radians (135)
 			else end
 		end
 
 	direction_angle (direction: INTEGER): DOUBLE
 		require
-			valid_corner: is_valid_side (direction)
+			valid_corner: Orientation.is_valid_side (direction)
 		do
 			inspect direction
-				when Left then
+				when {EL_DIRECTION}.Left then
 					Result := radians (0)
-				when Bottom then
+				when {EL_DIRECTION}.Bottom then
 					Result := radians (90)
-				when Right then
+				when {EL_DIRECTION}.Right then
 					Result := radians (180)
-				when Top then
+				when {EL_DIRECTION}.Top then
 					Result := radians (270)
 			else end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-26 10:26:55 GMT (Friday 26th June 2020)"
-	revision: "14"
+	date: "2020-08-22 12:46:44 GMT (Saturday 22nd August 2020)"
+	revision: "15"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_MODEL
-		rename
-			Top_left as Top_left_corner
 		redefine
 			to_point_array
 		end
@@ -74,11 +72,11 @@ feature -- Access
 				set_center
 			end
 			inspect axis
-				when X_axis then
+				when {EL_DIRECTION}.X_axis then
 					set_point_on_circle (Result.p0, center, angle, width_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (180), width_precise / 2)
 
-				when Y_axis then
+				when {EL_DIRECTION}.Y_axis then
 					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
 					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
 			else end
@@ -112,7 +110,7 @@ feature -- Access
 			l_radius := point_distance (center, point_on_circle (p_top, alpha, radius))
 			create Result.make_default
 			from i := 0 until i = 4 loop
-				set_point_on_circle (Result.item (i), center, corner_angle (All_corners [i + 1]), l_radius)
+				set_point_on_circle (Result.item (i), center, corner_angle (Orientation.clockwise_corners [i + 1]), l_radius)
 				i := i + 1
 			end
 		end

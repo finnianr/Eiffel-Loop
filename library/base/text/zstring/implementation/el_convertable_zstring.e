@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 12:07:22 GMT (Thursday 20th August 2020)"
-	revision: "5"
+	date: "2020-08-20 14:31:11 GMT (Thursday 20th August 2020)"
+	revision: "6"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -304,14 +304,15 @@ feature -- Conversion
 			Result := escaper.escaped (current_readable, True)
 		end
 
-	joined (a_tuple: TUPLE): like Current
+	joined alias "#+" (a_tuple: TUPLE): like Current
 		-- concatentation of `Current' with elements of `a_tuple'
 		local
 			i: INTEGER
 		do
 			Result := new_string (count + tuple_as_string_count (a_tuple))
+			Result.append (current_readable)
 			from i := 1 until i > a_tuple.count loop
-				append_tuple_item (a_tuple, i)
+				Result.append_tuple_item (a_tuple, i)
 				i := i + 1
 			end
 		end

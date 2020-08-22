@@ -1,29 +1,84 @@
 note
-	description: "[
-		Constants for defining directions/dimensions of drawing operations in class [$source EL_DRAWABLE_PIXEL_BUFFER]
-	]"
+	description: "Constants for defining directions/dimensions/axes of geometry operations"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-29 7:44:16 GMT (Wednesday 29th July 2020)"
-	revision: "13"
+	date: "2020-08-22 12:50:25 GMT (Saturday 22nd August 2020)"
+	revision: "14"
 
-class
+frozen class
 	EL_ORIENTATION_ROUTINES
+
+inherit
+	EL_DIRECTION
+		redefine
+			default_create
+		end
+
+create
+	default_create
+
+feature {NONE} -- Initialization
+
+	default_create
+		local
+			n: INTEGER
+		do
+			clockwise_directions := << Top_left, Top, Top_right, Right, Bottom_right, Bottom, Bottom_left, Left >>
+
+			create clockwise_positions.make (9)
+			create clockwise_sides.make (4)
+			create clockwise_corners.make (4)
+
+			across clockwise_directions as list loop
+				clockwise_positions.extend (list.item)
+				if is_valid_side (list.item) then
+					clockwise_sides.extend (list.item)
+				end
+				if is_valid_corner (list.item) then
+					clockwise_corners.extend (list.item)
+				end
+			end
+			clockwise_positions.extend (Center)
+		ensure then
+			clock_wise_top: clockwise_directions [1] = Top_left and clockwise_directions [3] = Top_right
+			clock_wise_bottom: clockwise_directions [5] = Bottom_right and clockwise_directions [7] = Bottom_left
+			
+			all_lists_filled:	across << clockwise_positions, clockwise_sides, clockwise_corners >> as list all
+										list.item.full
+									end
+		end
 
 feature -- Contract Support
 
-	is_valid_axis (axis: INTEGER): BOOLEAN
-		do
-			Result := X_Y_axes.has (axis)
-		end
-
 	is_horizontal_side (side: INTEGER): BOOLEAN
 		do
-			Result := ((Top | Bottom) & side).to_boolean
+			inspect side
+				when Top, Bottom then
+					Result := True
+			else
+			end
+		end
+
+	is_valid_axis (axis: INTEGER): BOOLEAN
+		do
+			inspect axis
+				when X_axis, Y_axis then
+					Result := True
+			else
+			end
+		end
+
+	is_valid_corner (corner: INTEGER): BOOLEAN
+		do
+			inspect corner
+				when Top_left, Top_right, Bottom_left, Bottom_right  then
+					Result := True
+			else
+			end
 		end
 
 	is_valid_dimension (dimension: NATURAL_8): BOOLEAN
@@ -34,22 +89,35 @@ feature -- Contract Support
 			else end
 		end
 
-	is_valid_corner (corner: INTEGER): BOOLEAN
+	is_valid_position (position: INTEGER): BOOLEAN
 		do
-			Result := All_corners.has (corner)
+			Result := clockwise_positions.has (position)
 		end
 
 	is_valid_side (side: INTEGER): BOOLEAN
 		do
-			Result := All_sides.has (side)
+			inspect side
+				when Left, Bottom, Right, Top then
+					Result := True
+			else
+			end
 		end
 
 	is_vertical_side (side: INTEGER): BOOLEAN
 		do
-			Result := ((Left | Right) & side).to_boolean
+			inspect side
+				when Left, Right then
+					Result := True
+			else
+			end
 		end
 
-feature {NONE} -- Axis
+feature -- Axis
+
+	X_Y_axes: ARRAY [INTEGER]
+		once
+			Result := << X_axis, Y_axis >>
+		end
 
 	axis_letter (axis: INTEGER): CHARACTER
 		do
@@ -79,54 +147,14 @@ feature {NONE} -- Axis
 			else end
 		end
 
-	X_axis: INTEGER = 1
+feature -- Clockwise lists
 
-	Y_axis: INTEGER = 2
+	clockwise_corners: ARRAYED_LIST [INTEGER]
 
-	X_Y_axes: ARRAY [INTEGER]
-		once
-			Result := << X_axis, Y_axis >>
-		end
+	clockwise_directions: ARRAY [INTEGER]
 
-feature {NONE} -- Directions
+	clockwise_positions: ARRAYED_LIST [INTEGER]
 
-	By_height: NATURAL_8 = 1
-
-	By_width: NATURAL_8 = 2
-
-feature {NONE} -- Four sides/directions
-
-	All_directions: ARRAY [INTEGER]
-		once
-			Result := << Top_left, Top, Top_right, Right, Bottom_right, Bottom, Bottom_left, Left >>
-		end
-
-	All_sides: ARRAY [INTEGER]
-		once
-			Result := << Left, Bottom, Right, Top >>
-		end
-
-	Bottom: INTEGER = 4
-
-	Left: INTEGER = 8
-
-	Right: INTEGER = 2
-
-	Top: INTEGER = 1
-
-feature {NONE} -- Corner bitmasks
-
-	All_corners: ARRAY [INTEGER]
-		once
-			Result := << Top_left, Top_right, Bottom_right, Bottom_left >>
-		end
-
-	Bottom_left: INTEGER = 16
-
-	Bottom_right: INTEGER = 32
-
-	Top_left: INTEGER = 64
-
-	Top_right: INTEGER = 128
+	clockwise_sides: ARRAYED_LIST [INTEGER]
 
 end

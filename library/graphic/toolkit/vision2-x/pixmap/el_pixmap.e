@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 9:10:10 GMT (Sunday 2nd August 2020)"
-	revision: "22"
+	date: "2020-08-21 9:57:36 GMT (Friday 21st August 2020)"
+	revision: "23"
 
 class
 	EL_PIXMAP
@@ -34,17 +34,11 @@ inherit
 			to_pixel_surface as to_cairo_surface
 		end
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		undefine
-			is_equal, default_create, copy
-		end
-
 	EL_IMAGE_DEBUG
 
 	EL_MODULE_SCREEN
+
+	EL_MODULE_ORIENTATION
 
 create
 	default_create,
@@ -78,12 +72,12 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_height (other: EV_PIXMAP; a_height: INTEGER)
 		do
-			make_scaled_to_size (By_height, other, a_height)
+			make_scaled_to_size (Orientation.By_height, other, a_height)
 		end
 
 	make_scaled_to_size (dimension: NATURAL_8; other: EV_PIXMAP; size: INTEGER)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			default_create
 			implementation.make_scaled_to_size (dimension, other, size)
@@ -91,7 +85,7 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_width (other: EV_PIXMAP; a_width: INTEGER)
 		do
-			make_scaled_to_size (By_width, other, a_width)
+			make_scaled_to_size (Orientation.By_width, other, a_width)
 		end
 
 	make_with_argb_32 (a_buffer: CAIRO_DRAWING_AREA)
@@ -192,7 +186,7 @@ feature -- Conversion
 
 	to_scaled_buffer (dimension: NATURAL_8; size: INTEGER): EV_PIXEL_BUFFER
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			area: EL_RECTANGLE
 		do

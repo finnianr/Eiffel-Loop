@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:09:35 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2020-08-21 15:04:16 GMT (Friday 21st August 2020)"
+	revision: "11"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -34,6 +34,7 @@ inherit
 
 	EL_EVENT_BROADCASTER
 		rename
+			make as make_default,
 			add_listener as add_encoding_change_listener,
 			add_agent_listener as add_encoding_change_action
 		export

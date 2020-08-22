@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 11:49:17 GMT (Wednesday 19th August 2020)"
-	revision: "10"
+	date: "2020-08-21 11:06:45 GMT (Friday 21st August 2020)"
+	revision: "11"
 
 class
 	EL_DRAWING_AREA_BUTTON
@@ -138,17 +138,17 @@ feature {NONE} -- Implementation
 
 	draw_tooltip (drawing: CAIRO_DRAWING_AREA)
 		local
-			text_rect: EL_RECTANGLE; l_font: EL_FONT; position: EV_COORDINATE
+			text_rect: EL_RECTANGLE; l_font: EL_FONT; coord: EV_COORDINATE
 		do
 			l_font := Vision_2.new_font_regular ("", 0.35)
-			position := drawing_area.pointer_position
+			coord := drawing_area.pointer_position
 
 			create text_rect.make_for_text (tool_tip, l_font)
 			text_rect.grow_left (l_font.descent); text_rect.grow_right (l_font.descent)
 
-			position.set_x ((position.x + l_font.descent * 2).min (drawing_area.width - text_rect.width - l_font.descent * 2))
-			position.set_y (position.y + l_font.descent * 3)
-			text_rect.move (position.x, position.y)
+			coord.set_x ((coord.x + l_font.descent * 2).min (drawing_area.width - text_rect.width - l_font.descent * 2))
+			coord.set_y (coord.y + l_font.descent * 3)
+			text_rect.move (coord.x, coord.y)
 			drawing.set_color (Tool_tip_color)
 			drawing.fill_rectangle (text_rect.x, text_rect.y, text_rect.width, text_rect.height)
 			drawing.set_color (color_with_lightness (Tool_tip_color, -0.2).twin)

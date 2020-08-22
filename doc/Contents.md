@@ -1440,7 +1440,7 @@ Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.co
 ````
 
 ## compression.ecf
-See class [COMPRESSION_TEST_APP](http://www.eiffel-loop.com/test/source/compression/compression_test_app.html)
+See class [COMPRESSION_TEST_APP]($source)
 ## encryption.ecf
 See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/app/encryption_autotest_app.html)
 ## eros.ecf

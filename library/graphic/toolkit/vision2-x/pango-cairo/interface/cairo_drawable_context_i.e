@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 11:44:26 GMT (Monday 3rd August 2020)"
-	revision: "10"
+	date: "2020-08-22 12:46:44 GMT (Saturday 22nd August 2020)"
+	revision: "11"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -27,7 +27,12 @@ inherit
 	EL_GEOMETRY_MATH
 		export
 			{NONE} all
-			{ANY} is_valid_corner, is_valid_dimension
+			{ANY} Orientation
+		end
+
+	EL_DIRECTION
+		export
+			{NONE} all
 		end
 
 feature -- Measurement
@@ -113,7 +118,7 @@ feature -- Status change
 
 	set_clip_concave_corner (x, y, radius, corner: INTEGER)
 		require
-			valid_corner: is_valid_corner (corner)
+			valid_corner: Orientation.is_valid_corner (corner)
 		do
 			define_sub_path
 			inspect corner
@@ -256,7 +261,7 @@ feature -- Drawing operations
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			l_surface: CAIRO_PIXEL_SURFACE_I
 		do
@@ -305,7 +310,7 @@ feature -- Filling operations
 			x, y, corner, i: INTEGER
 		do
 			from i := 1 until i > 4 loop
-				corner := All_corners [i]
+				corner := Orientation.clockwise_corners [i]
 				if (corner & corners_bitmap).to_boolean then
 					inspect corner
 						when Top_left then
@@ -327,17 +332,20 @@ feature -- Filling operations
 
 	fill_convex_corner (x, y, radius, corner: INTEGER)
 		require
-			valid_corner: is_valid_corner (corner)
+			valid_corner: Orientation.is_valid_corner (corner)
 		do
 			define_sub_path
 			move_to (x, y)
 			inspect corner
 				when Top_left then
 					arc (x, y, radius, 0, radians (90))
+
 				when Top_right then
 					arc (x, y, radius, radians (90), radians (180))
+
 				when Bottom_right then
 					arc (x, y, radius, radians (180), radians (270))
+
 				when Bottom_left then
 					arc (x, y, radius, radians (270), radians (360))
 			else end
@@ -351,7 +359,7 @@ feature -- Filling operations
 			x, y, corner, i: INTEGER
 		do
 			from i := 1 until i > 4 loop
-				corner := All_corners [i]
+				corner := Orientation.clockwise_corners [i]
 				if (corner & corners_bitmap).to_boolean then
 					inspect corner
 						when Top_left then
@@ -381,7 +389,7 @@ feature {NONE} -- Alternative methods
 		-- alternative way to implement `draw_scaled_pixel_buffer' using scaled pattern
 		-- Which is better? not sure.
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			factor: DOUBLE
 		do
@@ -400,7 +408,7 @@ feature {NONE} -- Alternative methods
 		-- alternative way to implement `draw_scaled_pixmap' using scaled pattern
 		-- Seems to produce identical results when screenshot inspected in image viewer
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			factor: DOUBLE
 		do
@@ -417,7 +425,7 @@ feature {NONE} -- Alternative methods
 
 	draw_scaled_pixmap_alternative_2 (dimension: NATURAL_8; x, y, a_size: DOUBLE; a_pixmap: EV_PIXMAP)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		local
 			l_surface: CAIRO_PIXEL_SURFACE_I
 		do

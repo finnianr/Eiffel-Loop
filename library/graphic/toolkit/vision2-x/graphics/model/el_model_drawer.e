@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 12:34:09 GMT (Thursday 6th August 2020)"
-	revision: "8"
+	date: "2020-08-21 10:25:08 GMT (Friday 21st August 2020)"
+	revision: "9"
 
 deferred class
 	EL_MODEL_DRAWER
@@ -17,8 +17,6 @@ inherit
 		redefine
 			draw_figure_parallelogram
 		end
-
-	EL_ORIENTATION_ROUTINES
 
 	EL_MODULE_COLOR
 
@@ -77,7 +75,7 @@ feature -- Basic operations
 
 				l_drawing.flip (picture.width, picture.height, picture.mirror_state)
 
-				l_drawing.draw_scaled_drawing_area (By_width, 0, 0, picture.width, picture.drawing_area)
+				l_drawing.draw_scaled_drawing_area ({EL_DIRECTION}.By_width, 0, 0, picture.width, picture.drawing_area)
 				if attached intersection then
 					intersection.move (x, y)
 					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, l_drawing, intersection)

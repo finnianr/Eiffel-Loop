@@ -6,24 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 13:19:37 GMT (Sunday 16th August 2020)"
-	revision: "23"
+	date: "2020-08-22 11:43:44 GMT (Saturday 22nd August 2020)"
+	revision: "24"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
 
 inherit
-	EL_MODULE_COLOR
-
 	EV_FRAME_CONSTANTS
 
 	EV_FONT_CONSTANTS
 
-	EL_MODULE_LOG
-
-	EL_MODULE_HEXADECIMAL
-
-	EL_MODULE_PIXMAP
+	EL_MODULE_COLOR EL_MODULE_LOG EL_MODULE_HEXADECIMAL EL_MODULE_PIXMAP EL_MODULE_ORIENTATION
 
 	EL_MODULE_SCREEN
 		export
@@ -249,24 +243,15 @@ feature -- Mouse pointer setting
 			end
 		end
 
-	set_busy_pointer (widget: EV_WIDGET; position: INTEGER)
+	set_busy_pointer (widget: EV_WIDGET; relative_position: INTEGER)
 		require
-			valid_position: valid_relative_position (position)
+			valid_position: Orientation.is_valid_position (relative_position)
+		local
+			coord: EL_INTEGER_COORDINATE; rectangle: EL_RECTANGLE
 		do
-			inspect position
-				when To_left then
-					set_busy_pointer_at_position (widget, 0, widget.height // 2)
-				when To_right then
-					set_busy_pointer_at_position (widget, widget.width, widget.height // 2)
-				when To_top then
-					set_busy_pointer_at_position (widget, widget.width // 2, 0)
-				when To_bottom then
-					set_busy_pointer_at_position (widget, widget.width // 2, widget.height)
-				when To_center then
-					set_busy_pointer_at_position (widget, widget.width // 2, widget.height // 2)
-			else
-				set_busy_pointer (widget, To_center)
-			end
+			create rectangle.make_for_widget (widget)
+			coord := rectangle.edge_coordinate (relative_position)
+			set_busy_pointer_at_position (widget, coord.x, coord.y)
 		end
 
 	set_busy_pointer_at (widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
@@ -315,23 +300,6 @@ feature -- Mouse pointer setting
 		do
 			set_busy_pointer (widget, position)
 			do_later (agent restore_standard_pointer, duration_seconds * 1000)
-		end
-
-feature -- Relative positions
-
-	To_bottom: INTEGER = 4
-
-	To_center: INTEGER = 5
-
-	To_left: INTEGER = 1
-
-	To_right: INTEGER = 2
-
-	To_top: INTEGER = 3
-
-	valid_relative_position (position: INTEGER): BOOLEAN
-		do
-			Result := position >= 1 and position <= 5
 		end
 
 feature -- Contract support

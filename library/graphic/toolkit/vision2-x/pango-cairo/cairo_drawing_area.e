@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 11:25:43 GMT (Sunday 2nd August 2020)"
-	revision: "4"
+	date: "2020-08-21 10:02:23 GMT (Friday 21st August 2020)"
+	revision: "5"
 
 class
 	CAIRO_DRAWING_AREA
@@ -26,13 +26,7 @@ inherit
 			to_pixel_surface as to_surface
 		end
 
-	EL_ORIENTATION_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_valid_dimension
-		undefine
-			default_create, copy, out
-		end
+	EL_MODULE_ORIENTATION
 
 	EL_IMAGE_DEBUG
 
@@ -63,7 +57,7 @@ feature {NONE} -- Initialization
 
 	make_scaled (dimension: NATURAL_8; size: INTEGER; other: CAIRO_DRAWING_AREA)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			make_with_rectangle (other.scaled_dimensions (dimension, size))
 			draw_scaled_drawing_area (dimension, 0, 0, size, other)
@@ -71,17 +65,17 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER)
 		do
-			make_scaled (By_height, a_height, other)
+			make_scaled (Orientation.By_height, a_height, other)
 		end
 
 	make_scaled_to_width (other: CAIRO_DRAWING_AREA; a_width: INTEGER)
 		do
-			make_scaled (By_width, a_width, other)
+			make_scaled (Orientation.By_width, a_width, other)
 		end
 
 	make_with_scaled_pixmap (dimension: NATURAL_8; size: INTEGER; a_pixmap: EV_PIXMAP)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			default_create
 			implementation.make_with_scaled_pixmap (dimension, size, a_pixmap)
@@ -309,14 +303,14 @@ feature -- Drawing operations
 
 	draw_scaled_drawing_area (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing: CAIRO_DRAWING_AREA)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			implementation.draw_scaled_drawing_area (dimension, x, y, a_size, drawing)
 		end
 
 	draw_scaled_pixmap (dimension: NATURAL_8; x, y, a_size: INTEGER; a_pixmap: EV_PIXMAP)
 		require
-			valid_dimension: is_valid_dimension (dimension)
+			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			implementation.draw_scaled_pixmap (dimension, x, y, a_size, a_pixmap)
 		end

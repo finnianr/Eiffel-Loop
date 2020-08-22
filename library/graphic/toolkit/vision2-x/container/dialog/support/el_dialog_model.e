@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 13:56:02 GMT (Monday 17th August 2020)"
-	revision: "3"
+	date: "2020-08-20 14:13:22 GMT (Thursday 20th August 2020)"
+	revision: "4"
 
 class
 	EL_DIALOG_MODEL
@@ -43,7 +43,6 @@ feature {NONE} -- Initialization
 			icon := Default_icon
 			layout := Default_layout
 			style := Default_style
-			paragraph_list := Default_paragraph_list
 
 			create progress_meter
 			progress_meter.completion_text := Locale * {EL_DIALOG_CONSTANTS}.Eng_complete
@@ -52,6 +51,7 @@ feature {NONE} -- Initialization
 			default_button_text := Empty_string_8
 			cancel_button_text := Empty_string_8
 			escape_key_enabled := True
+			text := Empty_string_8
 		end
 
 	make_default
@@ -67,8 +67,19 @@ feature -- Text
 		-- button text of dialog `default_button'
 
 	paragraph_list: EL_ZSTRING_LIST
+		-- paragraphs explictly set with `set_paragraph_list' or else `text' split into paragraphs
+		do
+			if attached internal_paragraph_list as list then
+				Result := list
+			else
+				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (Zstring.to (text), Paragraph_separator))
+				internal_paragraph_list := Result
+			end
+		end
 
 	progress_meter: TUPLE [label_text, completion_text: READABLE_STRING_GENERAL]
+
+	text: READABLE_STRING_GENERAL
 
 	title: READABLE_STRING_GENERAL
 
@@ -85,10 +96,12 @@ feature -- Measurement
 
 	minimum_width_cms: REAL
 
-	paragraph_width: INTEGER
+	paragraph_width (text_list: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
+		local
+			maximum_width: INTEGER
 		do
-			Result := (GUI.widest_width (paragraph_list, style.label_font) * 1.03).rounded
-			Result := Result.min (Screen.horizontal_pixels (layout.paragraph.width_cms))
+			maximum_width := Screen.horizontal_pixels (layout.paragraph.width_cms)
+			Result := maximum_width.min ((GUI.widest_width (text_list, style.label_font) * 1.03).rounded)
 		end
 
 feature -- Factory
@@ -162,25 +175,14 @@ feature -- Set text
 			default_button_text := Locale * en_key
 		end
 
-	set_paragraph_list (list: ITERABLE [READABLE_STRING_GENERAL])
-		local
-			lines: EL_ZSTRING_LIST; text: ZSTRING
+	set_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL])
 		do
-			create paragraph_list.make (Iterable.count (list))
-			across list as paragraph loop
-				text := Zstring.to (paragraph.item)
-				if text.has ('%N') then
-					create lines.make_with_lines (text)
-					paragraph_list.extend (lines.joined_words)
-				else
-					paragraph_list.extend (text)
-				end
-			end
+			internal_paragraph_list := new_paragraph_list (list_general)
 		end
 
-	set_paragraphs (string: READABLE_STRING_GENERAL)
+	set_text (a_text: READABLE_STRING_GENERAL)
 		do
-			set_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (Zstring.to (string), Paragraph_separator))
+			text := a_text
 		end
 
 	set_title (a_title: like title)
@@ -236,6 +238,28 @@ feature -- Basic operations
 			end
 			dialog.show_modal_to_window (parent)
 		end
+
+feature {NONE} -- Implementation
+
+	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): like paragraph_list
+		local
+			lines: EL_ZSTRING_LIST; l_text: ZSTRING
+		do
+			create Result.make (Iterable.count (list_general))
+			across list_general as paragraph loop
+				l_text := Zstring.to (paragraph.item)
+				if text.has ('%N') then
+					create lines.make_with_lines (l_text)
+					Result.extend (lines.joined_words)
+				else
+					Result.extend (l_text)
+				end
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	internal_paragraph_list: detachable EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
 

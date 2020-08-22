@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 12:57:22 GMT (Friday 14th August 2020)"
-	revision: "2"
+	date: "2020-08-20 14:09:49 GMT (Thursday 20th August 2020)"
+	revision: "3"
 
 class
 	EL_INFORMATION_VIEW_DIALOG
@@ -40,11 +40,12 @@ feature {NONE} -- Factory
 	new_paragraphs: ARRAYED_LIST [EV_WIDGET]
 		local
 			label: like new_wrapped_label; l_width: INTEGER
+			paragraph_list: LIST [ZSTRING]
 		do
-			l_width := model.paragraph_width
-
-			create Result.make (model.paragraph_list.count)
-			across model.paragraph_list as text loop
+			paragraph_list := model.paragraph_list
+			l_width := model.paragraph_width (paragraph_list)
+			create Result.make (paragraph_list.count)
+			across paragraph_list as text loop
 				label := new_wrapped_label (text.item, l_width)
 				align_paragraph (label)
 				Result.extend (label)

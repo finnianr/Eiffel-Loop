@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 12:55:53 GMT (Friday 14th August 2020)"
-	revision: "7"
+	date: "2020-08-20 13:48:21 GMT (Thursday 20th August 2020)"
+	revision: "8"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_INFORMATION_VIEW_DIALOG create make_info end]
@@ -65,7 +65,7 @@ feature -- Basic operations
 					end
 				end
 				properties := new_properties (title.as_upper)
-				properties.set_paragraphs (message)
+				properties.set_text (message)
 				create error_dialog.make_info (properties)
 				error_dialog.set_position (
 					position_widget.screen_x + position_widget.width // 2 - error_dialog.width // 2,
