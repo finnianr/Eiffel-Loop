@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 12:50:25 GMT (Saturday 22nd August 2020)"
-	revision: "14"
+	date: "2020-08-22 16:21:53 GMT (Saturday 22nd August 2020)"
+	revision: "15"
 
 frozen class
 	EL_ORIENTATION_ROUTINES
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 		ensure then
 			clock_wise_top: clockwise_directions [1] = Top_left and clockwise_directions [3] = Top_right
 			clock_wise_bottom: clockwise_directions [5] = Bottom_right and clockwise_directions [7] = Bottom_left
-			
+
 			all_lists_filled:	across << clockwise_positions, clockwise_sides, clockwise_corners >> as list all
 										list.item.full
 									end
@@ -150,11 +150,15 @@ feature -- Axis
 feature -- Clockwise lists
 
 	clockwise_corners: ARRAYED_LIST [INTEGER]
+		-- 4 corners in clockwise order starting `Top_left'
 
 	clockwise_directions: ARRAY [INTEGER]
+		-- 8 directions in clockwise order starting `Top_left'
 
 	clockwise_positions: ARRAYED_LIST [INTEGER]
+		-- 9 positions in clockwise order starting `Top_left' and finishing `Center'
 
 	clockwise_sides: ARRAYED_LIST [INTEGER]
+		-- 4 sides in clockwise order starting `Top'
 
 end

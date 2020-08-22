@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:03:41 GMT (Friday 21st August 2020)"
-	revision: "4"
+	date: "2020-08-22 16:19:01 GMT (Saturday 22nd August 2020)"
+	revision: "5"
 
 class
 	EL_EVENT_BROADCASTER
@@ -31,7 +31,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	add_agent_listener (action: PROCEDURE)
+	add_action (action: PROCEDURE)
 		do
 			add_listener (create {EL_AGENT_EVENT_LISTENER}.make (action))
 		end
@@ -55,8 +55,11 @@ feature -- Element change
 		ensure
 			incremented: listener.listener_count = old listener.listener_count + 1
 			assigned: listener.listener_count = 1 implies listener = a_listener
-			right_in_pair: listener.listener_count = 2 implies attached {EL_EVENT_LISTENER_PAIR} listener as pair and then pair.right = a_listener
-			last_in_list: listener.listener_count >= 3 implies attached {EL_EVENT_LISTENER_LIST} listener as list and then list.last = a_listener
+			right_in_pair: listener.listener_count = 2
+									implies attached {EL_EVENT_LISTENER_PAIR} listener as pair and then pair.right = a_listener
+
+			last_in_list: listener.listener_count >= 3
+									implies attached {EL_EVENT_LISTENER_LIST} listener as list and then list.last = a_listener
 		end
 
 feature {NONE} -- Internal attributes
