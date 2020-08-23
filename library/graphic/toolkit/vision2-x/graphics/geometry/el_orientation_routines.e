@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 16:21:53 GMT (Saturday 22nd August 2020)"
-	revision: "15"
+	date: "2020-08-23 10:14:08 GMT (Sunday 23rd August 2020)"
+	revision: "16"
 
 frozen class
 	EL_ORIENTATION_ROUTINES
@@ -24,8 +24,6 @@ create
 feature {NONE} -- Initialization
 
 	default_create
-		local
-			n: INTEGER
 		do
 			clockwise_directions := << Top_left, Top, Top_right, Right, Bottom_right, Bottom, Bottom_left, Left >>
 

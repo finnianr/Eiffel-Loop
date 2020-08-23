@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 12:58:01 GMT (Friday 14th August 2020)"
-	revision: "3"
+	date: "2020-08-23 11:23:05 GMT (Sunday 23rd August 2020)"
+	revision: "4"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -15,15 +15,10 @@ class
 inherit
 	EV_FILE_OPEN_DIALOG
 		rename
-			set_position as set_absolute_position,
-			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position,
 			file_path as file_path_string
 		end
 
 	EL_ZSTRING_ROUTINES undefine default_create, copy end
-
-	EL_POSITIONABLE
 
 	EL_MODULE_ZSTRING
 

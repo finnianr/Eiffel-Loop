@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 11:45:27 GMT (Saturday 22nd August 2020)"
-	revision: "18"
+	date: "2020-08-23 10:59:03 GMT (Sunday 23rd August 2020)"
+	revision: "19"
 
 class
 	EL_RECTANGLE
@@ -38,9 +38,9 @@ create
 convert
 	make_from_cms_tuple ({TUPLE [DOUBLE, DOUBLE]}),
 	make_from_other ({EV_RECTANGLE}),
-	make_for_widget ({EV_PIXMAP})
+	make_for_widget ({EV_POSITIONED})
 
-feature {NONE} -- Initialization
+feature {EV_ANY_HANDLER} -- Initialization
 
 	make_cms (x_cms, y_cms, width_cms, height_cms: REAL)
 		-- make from arguments in centimeters
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 
 	make_for_widget (widget: EV_POSITIONED)
 		do
-			make (0, 0, widget.width, widget.height)
+			make (widget.screen_x, widget.screen_y, widget.width, widget.height)
 		end
 
 	make_from_cms_tuple (a: TUPLE [width, height: DOUBLE])

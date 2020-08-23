@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 12:57:58 GMT (Friday 14th August 2020)"
-	revision: "6"
+	date: "2020-08-23 11:32:25 GMT (Sunday 23rd August 2020)"
+	revision: "7"
 
 class
 	EL_FILE_SAVE_DIALOG
@@ -15,17 +15,12 @@ class
 inherit
 	EV_FILE_SAVE_DIALOG
 		rename
-			set_position as set_absolute_position,
-			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position,
 			file_path as file_path_string
 		redefine
 			show_modal_to_window
 		end
 
 	EL_ZSTRING_ROUTINES undefine default_create, copy end
-
-	EL_POSITIONABLE
 
 	EL_MODULE_ZSTRING
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 14:13:22 GMT (Thursday 20th August 2020)"
-	revision: "4"
+	date: "2020-08-23 11:10:36 GMT (Sunday 23rd August 2020)"
+	revision: "5"
 
 class
 	EL_DIALOG_MODEL
@@ -220,9 +220,7 @@ feature -- Basic operations
 			dialog: EL_CONFIRMATION_VIEW_DIALOG
 		do
 			create dialog.make (Current, action)
-			if attached {EL_POSITIONABLE} parent as p then
-				dialog.position_center (p)
-			end
+			dialog.position_center (parent)
 			dialog.show_modal_to_window (parent)
 		end
 
@@ -233,9 +231,7 @@ feature -- Basic operations
 			dialog: EL_INFORMATION_VIEW_DIALOG
 		do
 			create dialog.make_info (Current)
-			if attached {EL_POSITIONABLE} parent as p then
-				dialog.position_center (p)
-			end
+			dialog.position_center (parent)
 			dialog.show_modal_to_window (parent)
 		end
 

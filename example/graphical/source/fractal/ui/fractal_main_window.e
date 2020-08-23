@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:07:53 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-08-23 10:14:38 GMT (Sunday 23rd August 2020)"
+	revision: "8"
 
 class
 	FRACTAL_MAIN_WINDOW
@@ -63,7 +63,7 @@ feature {NONE} -- Create UI
 			border_box.set_background_color (Color.Black)
 
 			extend (border_box)
-			center_window
+			Screen.center (Current)
 		end
 
 feature {NONE} -- Factory

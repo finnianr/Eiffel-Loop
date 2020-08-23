@@ -15,21 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 16:50:38 GMT (Tuesday 18th August 2020)"
-	revision: "11"
+	date: "2020-08-23 11:37:21 GMT (Sunday 23rd August 2020)"
+	revision: "12"
 
 deferred class
 	EL_VIEW_DIALOG
 
 inherit
 	EV_POSITIONABLE
-		rename
-			set_position as set_absolute_position,
-			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position
-		end
-
-	EL_POSITIONABLE
 
 	EL_VIEW_DIALOG_COMPONENTS undefine copy, default_create end
 
@@ -91,6 +84,12 @@ feature -- Status query
 
 feature -- Status change
 
+	position_center (a_window: EV_POSITIONED)
+		-- position `Current' dialog in center of `a_window'
+		do
+			Screen.center_in (internal_dialog, a_window, True)
+		end
+
 	set_maximum_size (a_maximum_width, a_maximum_height: INTEGER)
 		do
 			internal_dialog.set_maximum_size (a_maximum_width, a_maximum_height)
@@ -115,12 +114,6 @@ feature -- Element change
 
 feature -- Basic operations
 
-	position_center (a_window: EL_POSITIONABLE)
-		-- position `Current' dialog in center of `a_window'
-		do
-			a_window.position_window_center (internal_dialog)
-		end
-
 	rebuild
 		do
 			create_interface_objects
@@ -133,10 +126,10 @@ feature -- Basic operations
 			internal_dialog.show
 		end
 
-	show_modal_centered (main: EL_TITLED_WINDOW)
+	show_modal_centered (a_window: EV_WINDOW)
 		do
-			main.position_window_center (internal_dialog)
-			show_modal_to_window (main)
+			Screen.center_in (internal_dialog, a_window, True)
+			show_modal_to_window (a_window)
 		end
 
 	show_modal_to_window (a_window: EV_WINDOW)
@@ -292,7 +285,7 @@ feature {NONE} -- Implementation
 	create_implementation
 		do
 			if model.style.has_title_background_pixmap or model.title.is_empty then
-				create {EL_UNTITLED_DIALOG} internal_dialog
+				create {EV_UNTITLED_DIALOG} internal_dialog
 			else
 				create internal_dialog
 			end

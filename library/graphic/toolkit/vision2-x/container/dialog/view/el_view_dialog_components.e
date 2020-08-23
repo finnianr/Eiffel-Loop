@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 15:53:48 GMT (Tuesday 18th August 2020)"
-	revision: "1"
+	date: "2020-08-23 11:24:48 GMT (Sunday 23rd August 2020)"
+	revision: "2"
 
 deferred class
 	EL_VIEW_DIALOG_COMPONENTS
@@ -98,6 +98,6 @@ feature {NONE} -- Implementation
 
 feature {EV_ANY_HANDLER} -- Implementation: attributes
 
-	internal_dialog: EL_DIALOG
+	internal_dialog: EV_DIALOG
 
 end

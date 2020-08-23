@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 12:58:04 GMT (Friday 14th August 2020)"
-	revision: "7"
+	date: "2020-08-23 11:25:48 GMT (Sunday 23rd August 2020)"
+	revision: "8"
 
 class
 	EL_INFORMATION_DIALOG
@@ -15,9 +15,6 @@ class
 inherit
 	EV_INFORMATION_DIALOG
 		rename
-			set_position as set_absolute_position,
-			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position,
 			add_button as add_locale_button,
 			button as locale_button
 		export

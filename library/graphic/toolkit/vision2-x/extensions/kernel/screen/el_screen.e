@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:27:42 GMT (Friday 21st August 2020)"
-	revision: "10"
+	date: "2020-08-23 13:00:49 GMT (Sunday 23rd August 2020)"
+	revision: "11"
 
 class
 	EL_SCREEN
@@ -49,15 +49,15 @@ feature -- Access
 			Result := implementation.useable_area
 		end
 
-	widget_pixel_color (a_widget: EV_WIDGET; a_x, a_y: INTEGER): EV_COLOR
+	widget_pixel_color (a_widget: EV_WIDGET; x, y: INTEGER): EV_COLOR
 		do
 			if attached {EV_WIDGET_IMP} a_widget.implementation as widget_impl then
-				Result := implementation.widget_pixel_color (widget_impl, a_x, a_y)
+				Result := implementation.widget_pixel_color (widget_impl, x, y)
 			else
 				create Result
 			end
 --		ensure
---			same_color: pixel_color_relative_to (a_widget, a_x, a_y) ~ Result
+--			same_color: pixel_color_relative_to (a_widget, x, y) ~ Result
 			-- (May 2013) Ok on Linux Mint, failed on Windows 7
 		end
 
@@ -101,6 +101,18 @@ feature -- Element change
 
 feature -- Conversion
 
+	dimension_pixels (dimension: NATURAL_8; distance_cms: REAL): INTEGER
+			-- `distance_cms' in centimeters to pixels in `dimension'
+		require
+			valid_dimension: Orientation.is_valid_dimension (dimension)
+		do
+			if dimension = {EL_DIRECTION}.By_width then
+				Result := horizontal_pixels (distance_cms)
+			else
+				Result := vertical_pixels (distance_cms)
+			end
+		end
+
 	horizontal_pixels (distance_cms: REAL): INTEGER
 			--  `distance_cms' in centimeters to horizontal pixels
 		do
@@ -113,16 +125,48 @@ feature -- Conversion
 			Result := (vertical_resolution * distance_cms).rounded
 		end
 
-	dimension_pixels (dimension: NATURAL_8; distance_cms: REAL): INTEGER
-			-- `distance_cms' in centimeters to pixels in `dimension'
-		require
-			valid_dimension: Orientation.is_valid_dimension (dimension)
+feature -- Positioning
+
+	center (positionable: EV_POSITIONABLE)
+		-- center `positionable' inside `useable_area'
 		do
-			if dimension = {EL_DIRECTION}.By_width then
-				Result := horizontal_pixels (distance_cms)
-			else
-				Result := vertical_pixels (distance_cms)
+			positionable.set_x_position (useable_area.x + (useable_area.width - positionable.width) // 2)
+			positionable.set_y_position (useable_area.y + (useable_area.height - positionable.height) // 2)
+		end
+
+	center_in (a: EV_POSITIONABLE; b: EV_POSITIONED; top_maximum: BOOLEAN)
+		-- center `a' inside `b'
+		local
+			rect_a, rect_b: EL_RECTANGLE
+		do
+			create rect_a.make_for_widget (a)
+			create rect_b.make_for_widget (b)
+			rect_a.move_center (rect_b)
+			if top_maximum then
+				rect_a.set_y (rect_a.y.max (b.screen_y))
 			end
+			a.set_position (rect_a.x, rect_a.y)
+		end
+
+	set_position (positionable: EV_POSITIONABLE; x, y: INTEGER)
+		do
+			positionable.set_position (x.max (useable_area.x), (y.max (useable_area.y)))
+		end
+
+	set_position_left (positionable: EV_POSITIONABLE; y: INTEGER)
+		-- set position of `positionable' at left of `useable_area'
+		do
+			set_position (positionable, useable_area.width - positionable.width, y)
+		end
+
+	set_y_position (positionable: EV_POSITIONABLE; y: INTEGER)
+		do
+			set_position (positionable, positionable.x_position, y)
+		end
+
+	set_x_position (positionable: EV_POSITIONABLE; x: INTEGER)
+		do
+			set_position (positionable, x, positionable.y_position)
 		end
 
 feature -- Status query

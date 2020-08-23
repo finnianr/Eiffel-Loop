@@ -6,23 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:25:24 GMT (Friday 21st August 2020)"
-	revision: "8"
+	date: "2020-08-23 11:37:36 GMT (Sunday 23rd August 2020)"
+	revision: "9"
 
 class
 	EL_TITLED_WINDOW
 
 inherit
 	EV_TITLED_WINDOW
-		rename
-			set_position as set_absolute_position,
-			set_x_position as set_absolute_x_position,
-			set_y_position as set_absolute_y_position
 		redefine
 			implementation, create_implementation, initialize
 		end
-
-	EL_POSITIONABLE
 
 	EL_MODULE_SCREEN
 
@@ -76,7 +70,7 @@ feature -- Basic operations
 	show_centered_modal (dialog: EV_DIALOG)
 			--
 		do
-			position_window_center (dialog)
+			Screen.center_in (dialog, Current, True)
 			dialog.show_modal_to_window (Current)
 		end
 

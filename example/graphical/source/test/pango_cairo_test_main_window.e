@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 16:27:03 GMT (Friday 21st August 2020)"
-	revision: "12"
+	date: "2020-08-23 10:50:20 GMT (Sunday 23rd August 2020)"
+	revision: "13"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -84,7 +84,7 @@ feature {NONE} -- Initialization
 					>>)
 				>>)
 			)
-			set_position (100, 100)
+			Screen.set_position (Current, 100, 100)
 		end
 
 feature {NONE} -- Element change

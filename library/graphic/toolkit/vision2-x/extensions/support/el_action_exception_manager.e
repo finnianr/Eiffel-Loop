@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 13:48:21 GMT (Thursday 20th August 2020)"
-	revision: "8"
+	date: "2020-08-23 10:51:31 GMT (Sunday 23rd August 2020)"
+	revision: "9"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_INFORMATION_VIEW_DIALOG create make_info end]
@@ -16,6 +16,8 @@ inherit
 	EXCEPTION_MANAGER
 
 	EL_MODULE_DEFERRED_LOCALE
+
+	EL_MODULE_SCREEN
 
 create
 	make
@@ -67,12 +69,14 @@ feature -- Basic operations
 				properties := new_properties (title.as_upper)
 				properties.set_text (message)
 				create error_dialog.make_info (properties)
-				error_dialog.set_position (
+				Screen.set_position (
+					error_dialog,
 					position_widget.screen_x + position_widget.width // 2 - error_dialog.width // 2,
 					position_widget.screen_y + position_widget.height
 				)
 				if position_widget = parent_window.item then
-					error_dialog.set_y_position (parent_window.screen_y + (parent_window.height - parent_window.item.height))
+
+					Screen.set_y_position (error_dialog, parent_window.screen_y + (parent_window.height - parent_window.item.height))
 				end
 				error_dialog.show_modal_to_window (parent_window)
 			else
