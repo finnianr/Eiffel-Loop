@@ -1,3 +1,8 @@
+1.2.5
+* Test set
+* Fixed PYXIS_TRANSLATION_TREE_COMPILER encoding problem when merging files
+* Added new node translation/zero, translation/singular, translation/plural
+
 1.2.4
 Improved EL_FTP_PROTOCOL for retries on socket errors
 

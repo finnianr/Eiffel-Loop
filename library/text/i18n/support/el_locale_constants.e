@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-02 18:56:03 GMT (Saturday 2nd February 2019)"
-	revision: "2"
+	date: "2020-08-24 11:38:18 GMT (Monday 24th August 2020)"
+	revision: "3"
 
 class
 	EL_LOCALE_CONSTANTS
@@ -16,12 +16,12 @@ feature {NONE} -- Constants
 
 	Variable_quantity: STRING = "QUANTITY"
 
-	Dot_suffixes: SPECIAL [ZSTRING]
+	Number_suffix: SPECIAL [ZSTRING]
 		once
 			create Result.make_empty (3)
-			Result.extend (".zero")
-			Result.extend (".singular")
-			Result.extend (".plural")
+			Result.extend (":0") -- zero
+			Result.extend (":1") -- singular
+			Result.extend (":>1") -- plural
 		end
 
 	Unknown_key_template: ZSTRING

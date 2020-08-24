@@ -151,6 +151,7 @@ publish-repository:
 			"tool/eiffel/eiffel.ecf#root"
 			"tool/eiffel/eiffel.ecf#edit"
 			"tool/eiffel/eiffel.ecf#analyse"
+			"tool/eiffel/eiffel.ecf#test"
 		ecf:
 			ignore = test
 			"tool/toolkit/toolkit.ecf"

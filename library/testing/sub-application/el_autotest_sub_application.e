@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 15:54:08 GMT (Monday 13th April 2020)"
-	revision: "2"
+	date: "2020-08-24 10:43:39 GMT (Monday 24th August 2020)"
+	revision: "3"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION
@@ -84,7 +84,7 @@ feature {NONE} -- Implementation
 				create Result.make_from_tuple (test_types_all)
 			end
 		ensure
-			all_conform_to_EL_EQA_TEST_SET: Result.all_conform
+			all_conform_to_EL_EQA_TEST_SET: test_type_list.all_conform
 		end
 
 	log_filter: ARRAY [like CLASS_ROUTINES]

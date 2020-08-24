@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-08-29 14:09:30 GMT (Tuesday 29th August 2017)"
-	revision: "1"
+	date: "2020-08-24 11:37:18 GMT (Monday 24th August 2020)"
+	revision: "2"
 
 class
 	EL_ROUTINE_LOCALE_STRING_PARSER
@@ -159,7 +159,7 @@ feature {NONE} -- Event handlers
 				else
 					quantity_interval := 0 |..| 2
 				end
-				across Dot_suffixes as suffix loop
+				across Number_suffix as suffix loop
 					if quantity_interval.has (suffix.cursor_index - 1) then
 						locale_keys.extend (matched.to_string + suffix.item)
 					end

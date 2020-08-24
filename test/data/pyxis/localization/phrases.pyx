@@ -24,19 +24,21 @@ translations:
 			'Delete journal: "%S"\nAre you sure?'
 
 	item:
-		id = "{You can unlock}.singular"
+		id = "{for-n-years}"
 		translation:
 			lang = de; check = true
-			"""
-				Sie können diese Software auf 1 anderen Computer
-				mit diesem Pack Abonnement freizuschalten.
-			"""
+			singular:
+				"für $QUANTITY Jahr"
+			plural:
+				"für $QUANTITY Jahre"
+				
 		translation:
 			lang = en
-			"""
-				You can unlock My Ching on $QUANTITY other computers
-				with this subscription pack.
-			"""
+			singular:
+				"for $QUANTITY year"
+			plural:
+				"for $QUANTITY years"
+
 	item:
 		id = "&New entry"
 		translation:
@@ -45,5 +47,4 @@ translations:
 		translation:
 			lang = en
 			"&New entry\tCtrl-T"
-
 

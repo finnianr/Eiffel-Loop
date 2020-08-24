@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:16:05 GMT (Thursday 2nd April 2020)"
-	revision: "2"
+	date: "2020-08-24 10:24:06 GMT (Monday 24th August 2020)"
+	revision: "3"
 
 deferred class
 	EL_ZSTRING_XML_NODE
@@ -204,6 +204,18 @@ feature -- Status query
 			else
 				Result := a_string.same_string (raw_adjusted)
 			end
+		end
+
+	is_empty: BOOLEAN
+			--
+		do
+			Result := raw_adjusted.is_empty
+		end
+
+	is_raw_empty: BOOLEAN
+			--
+		do
+			Result := raw_content.is_empty
 		end
 
 feature {NONE} -- Implementation	

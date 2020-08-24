@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 14:12:54 GMT (Tuesday 18th February 2020)"
-	revision: "5"
+	date: "2020-08-24 9:43:41 GMT (Monday 24th August 2020)"
+	revision: "6"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET

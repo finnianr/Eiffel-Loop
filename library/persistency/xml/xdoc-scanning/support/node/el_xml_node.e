@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:17:40 GMT (Thursday 2nd April 2020)"
-	revision: "11"
+	date: "2020-08-24 10:23:51 GMT (Monday 24th August 2020)"
+	revision: "12"
 
 class
 	EL_XML_NODE
@@ -184,18 +184,6 @@ feature -- Status query
 			--
 		do
 			Result := raw_adjusted.is_boolean
-		end
-
-	is_empty: BOOLEAN
-			--
-		do
-			Result := raw_adjusted.is_empty
-		end
-
-	is_raw_empty: BOOLEAN
-			--
-		do
-			Result := raw_content.is_empty
 		end
 
 feature {EL_XML_NODE_CLIENT, EL_XML_NODE} -- Implementation	

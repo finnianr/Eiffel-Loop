@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:06:03 GMT (Tuesday 4th August 2020)"
-	revision: "6"
+	date: "2020-08-24 11:26:11 GMT (Monday 24th August 2020)"
+	revision: "7"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -34,6 +34,8 @@ inherit
 			item as output_modification_time,
 			new_item as new_output_modification_time
 		end
+
+	EL_MODULE_PYXIS
 
 feature {NONE} -- Initialization
 
@@ -90,7 +92,7 @@ feature {NONE} -- Implementation
 	merged_lines: EL_ZSTRING_LIST
 		local
 			path_list: like pyxis_file_path_list
-			count: INTEGER
+			count: INTEGER; markup: EL_MARKUP_ENCODING
 		do
 			path_list := pyxis_file_path_list
 			across path_list as source_path loop
@@ -99,10 +101,11 @@ feature {NONE} -- Implementation
 			create Result.make (count // 60)
 			file_count := 0
 			across path_list as source_path loop
-				lio.put_path_field ("Merging", source_path.item)
+				markup := Pyxis.encoding (source_path.item)
+				lio.put_path_field ("Merging " + markup.name, source_path.item)
 				lio.put_new_line
 				file_count := file_count + 1
-				do_once_with_file_lines (agent find_root_element (?, Result), open_lines (source_path.item, Utf_8))
+				do_once_with_file_lines (agent find_root_element (?, Result), open_lines (source_path.item, markup.encoding))
 			end
 		end
 

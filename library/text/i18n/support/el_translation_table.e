@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:39:21 GMT (Monday 1st July 2019)"
-	revision: "15"
+	date: "2020-08-24 12:30:48 GMT (Monday 24th August 2020)"
+	revision: "16"
 
 class
 	EL_TRANSLATION_TABLE
@@ -169,11 +169,11 @@ feature {NONE} -- Implementation
 		end
 
 	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
-			-- complete partial_key by appending .zero .singular OR .plural
+			-- complete partial_key by appending ":0", ":1" or ":>1"
 		do
-			Result := general.joined (partial_key, Dot_suffixes [quantity.min (2)])
+			Result := general.joined (partial_key, Number_suffix [quantity.min (2)])
 			if not has (Result) then
-				Result := general.joined (partial_key, Dot_suffixes [2])
+				Result := general.joined (partial_key, Number_suffix [2])
 			end
 		end
 

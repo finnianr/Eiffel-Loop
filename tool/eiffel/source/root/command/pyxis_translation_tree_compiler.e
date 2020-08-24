@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:05:26 GMT (Monday 25th November 2019)"
-	revision: "8"
+	date: "2020-08-24 12:18:33 GMT (Monday 24th August 2020)"
+	revision: "9"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -33,6 +33,8 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_LOCALE_CONSTANTS
 
 create
 	make
@@ -102,20 +104,29 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Build from XML
 
-	Root_node_name: STRING = "translations"
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["item/@id", 						agent do item_id := node.to_string end],
-				["item/translation/@lang", 	agent set_translation_list_from_node],
-				["item/translation/text()", 	agent extend_translation_list_from_node]
+				["item/@id", 									agent do item_id := node.to_string end],
+				["item/translation/@lang", 				agent set_translation_list_from_node],
+				["item/translation/text()",		 		agent extend_text_normal],
+				["item/translation/zero/text()", 		agent extend_text_quantity (0)],
+				["item/translation/singular/text()",	agent extend_text_quantity (1)],
+				["item/translation/plural/text()", 		agent extend_text_quantity (2)]
 			>>)
 		end
 
-	extend_translation_list_from_node
+	extend_text_normal
 		do
 			translations_list.extend (create {EL_TRANSLATION_ITEM}.make (item_id, node.to_string))
+		end
+
+	extend_text_quantity (index: INTEGER)
+		local
+			translation: EL_TRANSLATION_ITEM
+		do
+			create translation.make (item_id + Number_suffix [index], node.to_string)
+			translations_list.extend (translation)
 		end
 
 	set_translation_list_from_node
@@ -138,4 +149,7 @@ feature {NONE} -- Constants
 		once
 			Result := "en"
 		end
+
+	Root_node_name: STRING = "translations"
+
 end
