@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-08-29 11:02:53 GMT (Saturday 29th August 2020)"
+	revision: "5"
 
 class
 	EL_ELEMENT_ATTRIBUTE_TABLE
@@ -27,25 +27,7 @@ feature {NONE} -- Initialization
 			exception_callbacks_c_struct := element_context.exception_callbacks_c_struct
 		end
 
-feature -- Access
-
-	boolean (name: READABLE_STRING_GENERAL): BOOLEAN
-			-- attribute content as a BOOLEAN
-		require
-			exists: has (name)
-			is_boolean: item (name).is_boolean
-		do
-			Result := item (name).to_boolean
-		end
-
-	date (name: READABLE_STRING_GENERAL): DATE
-			-- attribute content as a DOUBLE
-		require
-			exists: has (name)
-			days_format: item (name).is_natural
-		do
-			create Result.make_by_days (integer (name))
-		end
+feature -- Numeric value
 
 	double (name: READABLE_STRING_GENERAL): DOUBLE
 			-- attribute content as a DOUBLE
@@ -71,6 +53,44 @@ feature -- Access
 			is_integer_64: item (name).is_integer_64
 		do
 			Result := c_node_context_attribute_integer_64 (name)
+		end
+
+	real (name: READABLE_STRING_GENERAL): REAL
+			-- attribute content as a REAL
+		require
+			exists: has (name)
+			is_real: item (name).is_real
+		do
+			Result := c_node_context_attribute_real (name)
+		end
+
+	natural (name: READABLE_STRING_GENERAL): NATURAL
+			-- attribute content as a NATURAL
+		require
+			exists: has (name)
+			is_natural: item (name).is_natural
+		do
+			Result := item (name).to_natural
+		end
+
+	natural_64 (name: READABLE_STRING_GENERAL): NATURAL_64
+			-- attribute content as a NATURAL_64
+		require
+			exists: has (name)
+			is_natural_64: item (name).is_natural_64
+		do
+			Result := item (name).to_natural_64
+		end
+
+feature -- Access
+
+	date (name: READABLE_STRING_GENERAL): DATE
+			-- attribute content as a DOUBLE
+		require
+			exists: has (name)
+			days_format: item (name).is_natural
+		do
+			create Result.make_by_days (integer (name))
 		end
 
 	item alias "[]", string (name: READABLE_STRING_GENERAL): ZSTRING
@@ -111,39 +131,47 @@ feature -- Access
 			Result := wide_string (c_node_context_attribute_raw_string (name))
 		end
 
-	real (name: READABLE_STRING_GENERAL): REAL
-			-- attribute content as a REAL
-		require
-			exists: has (name)
-			is_real: item (name).is_real
-		do
-			Result := c_node_context_attribute_real (name)
-		end
-
-	natural (name: READABLE_STRING_GENERAL): NATURAL
-			-- attribute content as a NATURAL
-		require
-			exists: has (name)
-			is_natural: item (name).is_natural
-		do
-			Result := item (name).to_natural
-		end
-
-	natural_64 (name: READABLE_STRING_GENERAL): NATURAL_64
-			-- attribute content as a NATURAL_64
-		require
-			exists: has (name)
-			is_natural_64: item (name).is_natural_64
-		do
-			Result := item (name).to_natural_64
-		end
-
 feature -- Status query
+
+	boolean (name: READABLE_STRING_GENERAL): BOOLEAN
+			-- `True' if attribute `name' equals "True" or "true"
+		require
+			exists: has (name)
+			is_boolean: item (name).is_boolean
+		local
+			s: like wide_string
+		do
+			s := wide_string (c_node_context_attribute_string (name))
+			if s.count = 4 then
+				inspect s.item (1).to_character_8
+					when 'T', 't' then
+						Result := True
+				else
+				end
+			end
+		end
 
 	has (name: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
 			Result := not c_node_context_attribute_string (name).is_default_pointer
+		end
+
+	same_as (name, value: READABLE_STRING_GENERAL): BOOLEAN
+			-- `True' if attribute `name' has the same characters as `value'
+		require
+			exists: has (name)
+		local
+			s: like wide_string; i: INTEGER
+		do
+			s := wide_string (c_node_context_attribute_string (name))
+			if s.count = value.count then
+				Result := True
+				from i := 1 until not Result or i > s.count loop
+					Result := s.item (i).to_character_32 = value.item (i)
+					i := i + 1
+				end
+			end
 		end
 
 end

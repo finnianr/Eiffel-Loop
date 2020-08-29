@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 13:07:45 GMT (Monday 3rd August 2020)"
-	revision: "10"
+	date: "2020-08-29 13:45:01 GMT (Saturday 29th August 2020)"
+	revision: "11"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	test_type: TUPLE [REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
+	test_type: TUPLE [PYXIS_TO_XML_TEST_SET]
 		do
 			create Result
 		end

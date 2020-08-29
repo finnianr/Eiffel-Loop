@@ -6,16 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-03 12:23:42 GMT (Sunday 3rd March 2019)"
-	revision: "4"
+	date: "2020-08-27 13:15:19 GMT (Thursday 27th August 2020)"
+	revision: "5"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
 
 inherit
 	EL_HTTP_CONNECTION
-
-	EL_MODULE_TUPLE
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -24,7 +25,7 @@ feature -- Access
 
 	wayback (a_url: like url): EL_WAYBACK_CLOSEST
 		local
-			pos_closest, pos_triple_brackets: INTEGER; json: STRING
+			pos_closest, pos_left, pos_right: INTEGER; json: STRING
 		do
 			Parameter_table [once "url"] := a_url
 			open_with_parameters (Wayback_available_url, Parameter_table)
@@ -34,8 +35,9 @@ feature -- Access
 			else
 				pos_closest := last_string.substring_index (Json_closest, 1)
 				if pos_closest > 0 then
-					pos_triple_brackets := last_string.substring_index (Json_triple_bracket, pos_closest + Json_closest.count)
-					json := last_string.substring (pos_closest + Json_closest.count + 1, pos_triple_brackets)
+					pos_left := last_string.index_of ('{', pos_closest)
+					pos_right := last_string.index_of ('}', pos_left)
+					json := last_string.substring (pos_left, pos_right)
 					create Result.make (json)
 				else
 					create Result.make_default
@@ -87,8 +89,6 @@ feature {NONE} -- Constants
 	Json_closest: STRING = "[
 		"closest":
 	]"
-
-	Json_triple_bracket: STRING = "}}}"
 
 	Parameter_table: HASH_TABLE [ZSTRING, STRING]
 		once

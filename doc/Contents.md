@@ -1361,6 +1361,8 @@ Count the number of classes in the source tree manifest that exhibit multiple in
 Download binary of [`el_eiffel`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
 
 
+## Eiffel Utility Tests
+Test sets for Eiffel utitlities
 ## Utilities Toolkit
 A "Swiss-army knife" of command line utilities accessible via a command line option.
 

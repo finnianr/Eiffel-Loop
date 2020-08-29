@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-22 10:28:43 GMT (Wednesday 22nd July 2020)"
-	revision: "27"
+	date: "2020-08-27 12:52:14 GMT (Thursday 27th August 2020)"
+	revision: "28"
 
 class
 	EL_HTTP_CONNECTION
@@ -630,13 +630,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	encoded (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table): like Encoded_url
+	encoded (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table): like Once_uri_path
 		local
 			start_index, end_index, path_index, qmark_index, equal_index: INTEGER
 			parameter_list: EL_SPLIT_STRING_LIST [STRING_32]
 			parameter_string: STRING_32
 		do
-			Result := Encoded_url
+			Result := Once_uri_path
 			Result.wipe_out
 			start_index := a_url.substring_index (Colon_slash_x2, 1)
 			qmark_index := a_url.index_of ('?', 1)
@@ -725,7 +725,7 @@ feature {NONE} -- Constants
 
 	Doctype_declaration: STRING = "<!DOCTYPE"
 
-	Encoded_url: EL_URI_PATH_STRING_8
+	Once_uri_path: EL_URI_PATH_STRING_8
 		once
 			create Result.make_empty
 		end

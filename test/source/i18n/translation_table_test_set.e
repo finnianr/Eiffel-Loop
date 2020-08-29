@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:12:01 GMT (Friday 14th February 2020)"
-	revision: "9"
+	date: "2020-08-29 13:29:31 GMT (Saturday 29th August 2020)"
+	revision: "10"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -33,12 +33,12 @@ feature -- Tests
 
 	test_reading_from_file
 		do
-			do_test ("test_reading_from_file", 20099276, agent test_reading, [agent new_table_from_file])
+			do_test ("test_reading_from_file", 459241925, agent test_reading, [agent new_table_from_file])
 		end
 
 	test_reading_from_source
 		do
-			do_test ("test_reading_from_source", 3377365178, agent test_reading, [agent new_table_from_source])
+			do_test ("test_reading_from_source", 3542890563, agent test_reading, [agent new_table_from_source])
 		end
 
 feature {NONE} -- Implementation

@@ -1,3 +1,6 @@
+1.2.12
+* Changed EOF logic in {EL_FILE_LINE_SOURCE}.forth
+
 1.2.11
 New COMPRESSION_TEST_SET
 

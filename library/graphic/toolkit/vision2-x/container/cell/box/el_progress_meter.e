@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 15:48:24 GMT (Thursday 20th August 2020)"
-	revision: "2"
+	date: "2020-08-27 9:58:14 GMT (Thursday 27th August 2020)"
+	revision: "3"
 
 class
 	EL_PROGRESS_METER
@@ -20,15 +20,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_COLOR
-
 	EL_MODULE_GUI
 
 	EL_MODULE_VISION_2
-
-	EL_MODULE_ZSTRING
-
-	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_DEFERRED_LOCALE
 
@@ -54,7 +48,7 @@ feature {NONE} -- Initialization
 			label.set_font (text_font)
 			create label_right.make_with_text (new_percentage (0))
 			label_right.set_font (text_font)
-			completion_text := Empty_string_8
+			create {STRING} completion_text.make_empty
 			make_unexpanded (0, 0.1, <<
 				label,
 				Vision_2.new_vertical_centered_box (0, 0, << framed_bar >>),
@@ -113,15 +107,17 @@ feature {NONE} -- Implementation
 	final_text: READABLE_STRING_GENERAL
 		do
 			if completion_text.count > 0 then
-				Result := Zstring.joined (' ', << new_percentage (1), completion_text >>)
+				Result := new_percentage (1).joined ([' ', completion_text])
 			else
 				Result := new_percentage (1)
 			end
 		end
 
-	new_percentage (proportion: DOUBLE): STRING
+	new_percentage (proportion: DOUBLE): ZSTRING
 		do
-			Result := (proportion * 100).rounded.out + Percent_string
+			create Result.make (20)
+			Result.append_integer ((proportion * 100).rounded)
+			Result.append_character ('%%')
 		end
 
 feature {NONE} -- Internal attributes
@@ -130,7 +126,4 @@ feature {NONE} -- Internal attributes
 
 	label_right: EL_LABEL
 
-feature {NONE} -- Constants
-
-	Percent_string: STRING = "%%"
 end

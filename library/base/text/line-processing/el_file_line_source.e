@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:11:28 GMT (Friday 8th May 2020)"
-	revision: "9"
+	date: "2020-08-29 13:13:30 GMT (Saturday 29th August 2020)"
+	revision: "10"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -146,8 +146,10 @@ feature -- Cursor movement
 				end
 			else
 				file.read_line
-				update_item
-				count := count + 1
+				if file.end_of_file implies file.last_string.count > 0 then
+					update_item
+					count := count + 1
+				end
 			end
 			index := index + 1
 		end
