@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 16:34:01 GMT (Wednesday 12th August 2020)"
-	revision: "5"
+	date: "2020-08-31 14:03:50 GMT (Monday 31st August 2020)"
+	revision: "6"
 
 class
 	EL_NOTEBOOK_TAB [W -> EV_POSITIONABLE]
@@ -15,18 +15,29 @@ class
 inherit
 	EV_NOTEBOOK_TAB
 
+	EL_REPLACEABLE_WIDGET
+		rename
+			item as content_box,
+			new_item as new_content_box,
+			replace_item as update,
+			widget as Mod_widget
+		export
+			{ANY} update
+		end
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_tab_book: like book; tab_content: EL_TAB_CONTENT [W])
+	make (a_tab_book: like book; a_tab_content: like tab_content)
 		local
 			cell: EV_CELL
 		do
-			book := a_tab_book
+			book := a_tab_book; tab_content := a_tab_content
 			create cell
-			create content_box.make_with_container (cell, agent tab_content.new_box)
+			content_box := new_content_box
+			cell.put (content_box)
 			book.extend_item (cell)
 			make_with_widgets (book, cell)
 			max_tab_text_width := Default_max_tab_text_width
@@ -52,13 +63,6 @@ feature -- Element change
 			set_text (name_shown (name).to_string_32)
 		end
 
-feature -- Basic operations
-
-	update
-		do
-			content_box.update
-		end
-
 feature {EL_FIXED_TAB_BOOK} -- Events
 
 	on_deselected
@@ -69,13 +73,20 @@ feature {EL_FIXED_TAB_BOOK} -- Events
 		do
 		end
 
+feature {NONE} -- Implementation
+
+	new_content_box: like tab_content.new_box
+		do
+			Result := tab_content.new_box
+		end
+
 feature {NONE} -- Internal attributes
 
-	content_box: EL_MANAGED_WIDGET [EL_VERTICAL_BOX]
+	book: EL_FIXED_TAB_BOOK [W]
 
 	max_tab_text_width: INTEGER
 
-	book: EL_FIXED_TAB_BOOK [W]
+	tab_content: EL_TAB_CONTENT [W]
 
 feature {NONE} -- Constant
 

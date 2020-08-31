@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 9:31:06 GMT (Thursday 16th July 2020)"
-	revision: "7"
+	date: "2020-08-31 14:21:03 GMT (Monday 31st August 2020)"
+	revision: "8"
 
 class
 	EL_WINDOW_DRAG
 
 inherit
 	ANY
-	
+
 	EL_MODULE_SCREEN
 
 	EL_MODULE_GUI
@@ -54,7 +54,7 @@ feature -- Event handling
 				old_position.set_position (window.screen_x, window.screen_y)
 				anchor_position.set_position (a_screen_x, a_screen_y)
 				anchor_position.set_y (title_bar.screen_y + title_bar.height // 5)
-				GUI.Screen.set_pointer_position (anchor_position.x, anchor_position.y)
+				Screen.set_pointer_position (anchor_position.x, anchor_position.y)
 
 				title_bar.set_pointer_style (Pixmap.Hyperlink_cursor)
 			end
@@ -97,7 +97,7 @@ feature {NONE} -- Implementation
 		local
 			position: EV_COORDINATE
 		do
-			position := GUI.Screen.pointer_position
+			position := Screen.pointer_position
 			on_pointer_motion (0, 0, 0, 0, 0, position.x, position.y)
 		end
 

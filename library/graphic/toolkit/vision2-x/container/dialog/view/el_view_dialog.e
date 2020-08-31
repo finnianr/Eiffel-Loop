@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:37:21 GMT (Sunday 23rd August 2020)"
-	revision: "12"
+	date: "2020-08-31 14:02:46 GMT (Monday 31st August 2020)"
+	revision: "13"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -25,6 +25,8 @@ inherit
 	EV_POSITIONABLE
 
 	EL_VIEW_DIALOG_COMPONENTS undefine copy, default_create end
+
+	EL_MODULE_WIDGET
 
 feature {NONE} -- Initialization
 
@@ -50,7 +52,8 @@ feature {NONE} -- Initialization
 			if model.style.has_application_icon_pixmap then
 				internal_dialog.set_icon_pixmap (model.style.application_icon_pixmap)
 			end
-			create dialog.make_with_container (internal_dialog, agent new_dialog_box)
+			dialog_box := new_dialog_box
+			internal_dialog.put (dialog_box)
 			set_dialog_buttons
 
 			-- make sure escape key works even without any buttons
@@ -102,22 +105,27 @@ feature -- Status change
 
 feature -- Element change
 
-	update_default_button
-		-- update the default button
+	replace_default_button
+		-- replace the `default_button' with a new one
 		local
-			managed: EL_MANAGED_WIDGET [like new_button]
+			new_default: like new_default_button
 		do
-			create managed.make (default_button, agent new_default_button)
-			default_button := managed.item
-			internal_dialog.set_default_push_button (default_button)
+			new_default := new_default_button
+			Widget.replace (default_button, new_default)
+			default_button := new_default
+			internal_dialog.set_default_push_button (new_default)
 		end
 
 feature -- Basic operations
 
 	rebuild
+		local
+			new_box: like new_dialog_box
 		do
 			create_interface_objects
-			dialog.update
+			new_box := new_dialog_box
+			Widget.replace (dialog_box, new_box)
+			dialog_box := new_box
 			set_dialog_buttons
 		end
 
@@ -271,11 +279,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_content_area_color_applicable (widget: EV_WIDGET): BOOLEAN
+	is_content_area_color_applicable (a_widget: EV_WIDGET): BOOLEAN
 		do
-			if attached {EV_NOTEBOOK} widget or attached {EV_GRID} widget or attached {EV_TEXT_COMPONENT} widget then
+			if attached {EV_NOTEBOOK} a_widget or attached {EV_GRID} a_widget or attached {EV_TEXT_COMPONENT} a_widget then
 				Result := False
-			elseif attached {EV_FRAME} widget as frame and then attached {EL_PROGRESS_BAR} frame.item then
+			elseif attached {EV_FRAME} a_widget as frame and then attached {EL_PROGRESS_BAR} frame.item then
 				Result := False
 			else
 				Result := True
@@ -343,13 +351,13 @@ feature {NONE} -- Implementation
 			internal_dialog.ev_application.process_events
 		end
 
-	propagate_content_area_color (widget: EV_WIDGET)
+	propagate_content_area_color (a_widget: EV_WIDGET)
 		local
 			list: LINEAR [EV_WIDGET]
 		do
-			if is_content_area_color_applicable (widget) then
-				widget.set_background_color (model.style.color.content_area)
-				if attached {EV_CONTAINER} widget as container then
+			if is_content_area_color_applicable (a_widget) then
+				a_widget.set_background_color (model.style.color.content_area)
+				if attached {EV_CONTAINER} a_widget as container then
 					list := container.linear_representation
 					from list.start until list.after loop
 						propagate_content_area_color (list.item)
@@ -377,7 +385,7 @@ feature {NONE} -- Implementation: attributes
 
 	default_button: like new_button
 
-	dialog: EL_MANAGED_WIDGET [like new_dialog_box]
+	dialog_box: like new_dialog_box
 
 	title_bar_drag: detachable EL_WINDOW_DRAG
 

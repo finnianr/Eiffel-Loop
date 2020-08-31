@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 11:59:34 GMT (Friday 21st December 2018)"
-	revision: "4"
+	date: "2020-08-31 15:12:06 GMT (Monday 31st August 2020)"
+	revision: "5"
 
 deferred class
 	EL_SUB_MENU
@@ -16,7 +16,7 @@ inherit
 	EL_MENU
 		rename
 			make as make_menu,
-			container as parent_menu
+			menu_item_list as parent_menu
 		redefine
 			parent_menu
 		end

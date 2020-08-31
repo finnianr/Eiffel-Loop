@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:46:33 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-08-31 14:18:30 GMT (Monday 31st August 2020)"
+	revision: "6"
 
 deferred class
 	EL_AUTO_CELL_HIDING_BOX
@@ -19,8 +19,7 @@ inherit
 	EL_BOX
 		rename
 			remove as internal_remove,
-			merge_right as internal_merge_right,
-			Screen as Mod_screen
+			merge_right as internal_merge_right
 		redefine
 			make
 		end
@@ -35,7 +34,6 @@ feature {NONE} -- Initialization
 			create hidden_components.make (3)
 			create always_hidden_components.make (3)
 			create internal_rectangle
-			screen := GUI.screen
 			resize_actions.extend (agent on_resize)
 		end
 
@@ -213,8 +211,6 @@ feature {NONE} -- Implementation
 			internal_rectangle.move_and_resize (a_widget.screen_x, a_widget.screen_y, a_widget.width, a_widget.height)
 			Result := internal_rectangle.has (screen.pointer_position)
 		end
-
-	screen: EV_SCREEN
 
 	internal_rectangle: EV_RECTANGLE
 

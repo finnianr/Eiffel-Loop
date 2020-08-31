@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-13 10:09:52 GMT (Saturday 13th July 2019)"
-	revision: "7"
+	date: "2020-08-31 15:24:55 GMT (Monday 31st August 2020)"
+	revision: "8"
 
 deferred class
 	EL_MENU
@@ -31,6 +31,15 @@ inherit
 			{NONE} all
 		end
 
+	EL_REPLACEABLE_ITEM
+		rename
+			item as menu,
+			new_item as new_menu,
+			replace_item as replace_menu
+		export
+			{ANY} menu
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_window: like window)
@@ -38,7 +47,8 @@ feature {NONE} -- Initialization
 			has_menu_bar: attached a_window.menu_bar
 		do
 			window := a_window
-			create internal_menu.make_with_container_at_position (container, agent new_menu, position)
+			menu := new_menu
+			Widget.insert_at (menu_item_list, menu, position)
 			create keyboard_shortcuts.make (window)
 			create shortcut_descriptions.make (11)
 
@@ -59,11 +69,6 @@ feature -- Access
 			end
 		end
 
-	menu: like internal_menu.item
-		do
-			Result := internal_menu.item
-		end
-
 	name: ZSTRING
 		do
 			Result := Locale * eng_name
@@ -73,13 +78,13 @@ feature -- Basic operations
 
 	update
 		do
-			internal_menu.update -- Replaces menu_bar menu with new one
+			replace_menu -- Replaces menu_bar menu with new one
 			fill; adjust_menu_texts; adjust_items_sensitivity
 		end
 
 feature -- Element change
 
-	add_identified_item (id: INTEGER; a_name: READABLE_STRING_GENERAL; action: like Type_menu_action)
+	add_identified_item (id: INTEGER; a_name: READABLE_STRING_GENERAL; action: PROCEDURE)
 		local
 			l_item: like new_item
 		do
@@ -95,7 +100,7 @@ feature -- Element change
 			sub_menu.menu.set_data (id)
 		end
 
-	add_item (a_name: READABLE_STRING_GENERAL; action: like Type_menu_action)
+	add_item (a_name: READABLE_STRING_GENERAL; action: PROCEDURE)
 		do
 			menu.extend (new_item (a_name, action))
 		end
@@ -195,12 +200,12 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_item (a_name: READABLE_STRING_GENERAL; action: like Type_menu_action): EV_MENU_ITEM
+	new_item (a_name: READABLE_STRING_GENERAL; action: PROCEDURE): EV_MENU_ITEM
 		do
 			create Result.make_with_text_and_action (a_name.to_string_32, action)
 		end
 
-	new_menu: like menu
+	new_menu: EV_MENU
 		do
 			create Result.make_with_text (name.to_unicode)
 			Result.select_actions.extend (agent adjust_items_sensitivity)
@@ -286,7 +291,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	container: EV_DYNAMIC_LIST [EV_CONTAINABLE]
+	menu_item_list: EV_MENU_ITEM_LIST
 		do
 			Result := window.menu_bar
 		end
@@ -319,8 +324,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_menu: EL_MANAGED_CONTAINABLE [EV_MENU]
-
 	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
 
 	shortcut_descriptions: HASH_TABLE [ZSTRING, INTEGER]
@@ -335,12 +338,6 @@ feature {NONE} -- Type definitions
 			Result := <<
 				[Modifier_ctrl, Locale * "Ctrl"], [Modifier_alt, Locale * "Alt"], [Modifier_shift, Locale * "Shift"]
 			>>
-		end
-
-	Type_menu_action: PROCEDURE
-		require
-			never_called: False
-		do
 		end
 
 feature {NONE} -- Constants

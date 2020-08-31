@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:23:30 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-08-31 14:20:17 GMT (Monday 31st August 2020)"
+	revision: "9"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -207,14 +207,14 @@ feature -- Basic operations
 
 	position_pointer_near_disabled_link
 		do
-			GUI.screen.set_pointer_position (
+			Screen.set_pointer_position (
 				disabled_page_link.screen_x + disabled_page_link.width, disabled_page_link.screen_y + disabled_page_link.height // 2
 			)
 		end
 
 	position_pointer_on_first_line
 		do
-			GUI.screen.set_pointer_position (
+			Screen.set_pointer_position (
 				screen_x + Screen.horizontal_pixels (3), screen_y + Screen.vertical_pixels (1)
 			)
 		end

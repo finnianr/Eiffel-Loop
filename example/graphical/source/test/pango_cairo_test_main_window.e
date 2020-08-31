@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 10:50:20 GMT (Sunday 23rd August 2020)"
-	revision: "13"
+	date: "2020-08-31 13:25:00 GMT (Monday 31st August 2020)"
+	revision: "14"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -16,6 +16,13 @@ inherit
 	EL_TITLED_WINDOW
 		redefine
 			make
+		end
+
+	EL_REPLACEABLE_WIDGET
+		rename
+			item as pixmap,
+			new_item as new_pixmap,
+			replace_item as replace_pixmap
 		end
 
 	EL_GEOMETRY_MATH
@@ -70,7 +77,8 @@ feature {NONE} -- Initialization
 			l_pixmap := lenna_pixmap
 			cell.set_minimum_size (l_pixmap.width, l_pixmap.height)
 
-			create pixmap_cell.make_with_container (cell, agent new_pixmap)
+			pixmap := new_pixmap
+			cell.put (pixmap)
 			picture_box := Vision_2.new_horizontal_box (0.3, 0.0, << cell >>)
 			picture_box.set_background_color (Color.White)
 			extend (
@@ -89,29 +97,32 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Element change
 
+	set_font_family (a_font_family: like font_family)
+		do
+			font_family := a_font_family
+			GUI.do_once_on_idle (agent replace_pixmap)
+		end
+
 	set_font_size (a_font_size: like font_size)
 		do
 			font_size := a_font_size
-			GUI.do_once_on_idle (agent pixmap_cell.update)
+			GUI.do_once_on_idle (agent replace_pixmap)
 		end
 
 	set_text_angle (a_text_angle: like text_angle)
 		do
 			text_angle := a_text_angle
-			GUI.do_once_on_idle (agent pixmap_cell.update)
-		end
-
-	set_font_family (a_font_family: like font_family)
-		do
-			font_family := a_font_family
-			GUI.do_once_on_idle (agent pixmap_cell.update)
+			GUI.do_once_on_idle (agent replace_pixmap)
 		end
 
 feature {NONE} -- Implementation
 
-	new_pixmap: EL_PIXMAP
+	lenna_pixmap: EL_PIXMAP
 		do
-			Result := new_drawing_area (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
+			create Result
+			Result.set_with_named_file (
+				Execution.variable_dir_path ("ISE_EIFFEL").joined_file_path ("library/vision2/tests/graphics/Lenna.png")
+			)
 		end
 
 	new_drawing_area (title_font: EL_FONT): CAIRO_DRAWING_AREA
@@ -160,6 +171,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_pixmap: EL_PIXMAP
+		do
+			Result := new_drawing_area (Vision_2.new_font_regular (font_family.to_latin_1, font_size)).to_pixmap
+		end
+
 	new_pixmap_cell (a_pixmap: EV_PIXMAP): EV_CELL
 		do
 			create Result
@@ -167,23 +183,15 @@ feature {NONE} -- Implementation
 			Result.set_minimum_size (a_pixmap.width, a_pixmap.height)
 		end
 
-	lenna_pixmap: EL_PIXMAP
-		do
-			create Result
-			Result.set_with_named_file (
-				Execution.variable_dir_path ("ISE_EIFFEL").joined_file_path ("library/vision2/tests/graphics/Lenna.png")
-			)
-		end
-
 	set_dimensions
 		do
 		end
 
-	pixmap_cell: EL_MANAGED_WIDGET [EL_PIXMAP]
-
-	font_size: REAL
+feature {NONE} -- Internal attributes
 
 	font_family: ZSTRING
+
+	font_size: REAL
 
 	text_angle: INTEGER
 

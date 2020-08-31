@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:35:39 GMT (Sunday 23rd August 2020)"
-	revision: "25"
+	date: "2020-08-31 14:22:58 GMT (Monday 31st August 2020)"
+	revision: "26"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -17,12 +17,7 @@ inherit
 
 	EV_FONT_CONSTANTS
 
-	EL_MODULE_COLOR EL_MODULE_LOG EL_MODULE_HEXADECIMAL EL_MODULE_PIXMAP EL_MODULE_ORIENTATION
-
-	EL_MODULE_SCREEN
-		export
-			{EL_MODULE_GUI} Screen
-		end
+	EL_MODULE_COLOR EL_MODULE_HEXADECIMAL EL_MODULE_PIXMAP
 
 	EL_ZSTRING_CONSTANTS
 
@@ -38,7 +33,6 @@ feature {NONE} -- Initialization
 			create environment
 			text_field_font := (create {EV_TEXT_FIELD}).font
 			create timer_list.make (3)
-			busy_widget := Default_busy_widget
 		end
 
 feature -- Access
@@ -55,24 +49,6 @@ feature -- Access
 		end
 
 	text_field_font: EV_FONT
-
-	widget_container (widget: EV_WIDGET): EV_CONTAINER
-		do
-			if attached {EV_CONTAINER} widget as container then
-				Result := container
-			else
-				Result := widget_container (widget.parent)
-			end
-		end
-
-	widget_window (widget: EV_WIDGET): EV_WINDOW
-		do
-			if attached {EV_WINDOW} widget as window then
-				Result := window
-			else
-				Result := widget_window (widget.parent)
-			end
-		end
 
 feature -- Constants
 
@@ -135,24 +111,6 @@ feature -- Apply styling
 			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
 		end
 
-	propagate_background_color (a_container: EV_CONTAINER; background_color: EV_COLOR; is_excluded: PREDICATE [EV_WIDGET])
-			-- Propagate background
-		do
-			if not is_excluded (a_container) then
-				a_container.set_background_color (background_color)
-				if attached a_container.linear_representation as list then
-					from list.start until list.after loop
-						if attached {EV_CONTAINER} list.item as container then
-							propagate_background_color (container, background_color, is_excluded)
-						elseif not is_excluded (list.item) then
-							list.item.set_background_color (background_color)
-						end
-						list.forth
-					end
-				end
-			end
-		end
-
 feature -- Basic operations
 
 	block_all (actions: ARRAY [ACTION_SEQUENCE])
@@ -192,12 +150,6 @@ feature -- Basic operations
 			end
 		end
 
-	refresh (a_widget: EV_WIDGET)
-		do
-			a_widget.refresh_now
-			application.process_graphical_events
-		end
-
 	resume_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
 			actions.do_all (agent {ACTION_SEQUENCE}.resume)
@@ -231,75 +183,6 @@ feature -- Basic operations
 		do
 			field.set_font (a_font)
 			field.set_minimum_width_in_characters (capacity)
-		end
-
-feature -- Mouse pointer setting
-
-	restore_standard_pointer
-		do
-			if busy_widget /= Default_busy_widget then
-				busy_widget.set_pointer_style (Pixmap.Standard_cursor)
-				busy_widget := Default_busy_widget
-			end
-		end
-
-	set_busy_pointer (widget: EV_WIDGET; relative_position: INTEGER)
-		require
-			valid_position: Orientation.is_valid_position (relative_position)
-		local
-			coord: EL_INTEGER_COORDINATE; rectangle: EL_RECTANGLE
-		do
-			create rectangle.make_for_widget (widget)
-			coord := rectangle.edge_coordinate (relative_position)
-			set_busy_pointer_at_position (widget, coord.x, coord.y)
-		end
-
-	set_busy_pointer_at (widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
-		do
-			set_busy_pointer_at_position (
-				widget, Screen.horizontal_pixels (position_x_cms), Screen.vertical_pixels (position_y_cms)
-			)
-		end
-
-	set_busy_pointer_at_position (widget: EV_WIDGET; position_x, position_y: INTEGER)
-		local
-			x, y: INTEGER; cursor: like Pixmap.Busy_cursor
-		do
-			cursor := Pixmap.Busy_cursor
-			x := position_x; y := position_y
-			if x = 0 then
-				x := cursor.x_hotspot - cursor.width
-			else
-				x := x + cursor.x_hotspot
-			end
-			if y = 0 then
-				y := cursor.y_hotspot - cursor.height
-			else
-				y := y + cursor.y_hotspot
-			end
-			Screen.set_pointer_position (widget.screen_x + x, widget.screen_y  + y)
-			busy_widget := widget_container (widget)
-			busy_widget.set_pointer_style (cursor)
-		end
-
-	set_busy_pointer_for_action (action: PROCEDURE; widget: EV_WIDGET; position: INTEGER)
-		do
-			set_busy_pointer (widget, position)
-			do_once_on_idle (action)
-			do_once_on_idle (agent restore_standard_pointer)
-		end
-
-	set_busy_pointer_for_action_at (action: PROCEDURE; widget: EV_WIDGET; position_x_cms, position_y_cms: REAL)
-		do
-			set_busy_pointer_at (widget, position_x_cms, position_y_cms)
-			do_once_on_idle (action)
-			do_once_on_idle (agent restore_standard_pointer)
-		end
-
-	set_busy_pointer_for_duration (widget: EV_WIDGET; position, duration_seconds: INTEGER)
-		do
-			set_busy_pointer (widget, position)
-			do_later (agent restore_standard_pointer, duration_seconds * 1000)
 		end
 
 feature -- Contract support
@@ -418,15 +301,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	busy_widget: EV_WIDGET
-
 	timer_list: ARRAYED_LIST [EV_TIMEOUT]
-
-feature {NONE} -- Constants
-
-	Default_busy_widget: EV_WIDGET
-		once
-			create {EV_CELL} Result
-		end
 
 end
