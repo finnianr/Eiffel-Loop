@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 10:59:03 GMT (Sunday 23rd August 2020)"
-	revision: "19"
+	date: "2020-09-01 15:05:02 GMT (Tuesday 1st September 2020)"
+	revision: "20"
 
 class
 	EL_RECTANGLE
@@ -100,6 +100,7 @@ feature -- Access
 		end
 
 	edge_coordinate (position_enum: INTEGER): EL_INTEGER_COORDINATE
+		-- relative edge coordinate
 		require
 			valid_position: Orientation.is_valid_position (position_enum)
 		do
@@ -180,6 +181,27 @@ feature -- Basic operations
 	move_up_cms (offset_cms: REAL)
 		do
 			move (x, y - Screen.vertical_pixels (offset_cms))
+		end
+
+	move_outside (other: EV_RECTANGLE; direction_enum: INTEGER; border_cms: REAL)
+		-- move `Current' to outside of `other' in direction of `direction_enum'
+		-- with a border clearance of `border_cms' centimeters
+		require
+			valid_direction_enum: Orientation.is_valid_position (direction_enum)
+		local
+			border_x, border_y: INTEGER
+			unit: EL_INTEGER_COORDINATE
+		do
+			border_x := Screen.horizontal_pixels (border_cms)
+			border_y := Screen.vertical_pixels (border_cms)
+			unit := Orientation.unit_vector (direction_enum)
+			move_center (other)
+			move_by (((width + other.width) // 2 + border_x) * unit.x, ((height + other.height) // 2 + border_y) * unit.y)
+		end
+
+	move_by (delta_x, delta_y: INTEGER)
+		do
+			x := x + delta_x; y := y + delta_y
 		end
 
 feature -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 15:21:42 GMT (Monday 31st August 2020)"
-	revision: "1"
+	date: "2020-09-01 9:14:13 GMT (Tuesday 1st September 2020)"
+	revision: "2"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -36,21 +36,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	container (widget: EV_WIDGET): EV_CONTAINER
+	parent_window (widget: EV_WIDGET): EV_WINDOW
 		do
-			if attached {EV_CONTAINER} widget as l_container then
-				Result := l_container
+			if attached {EV_WINDOW} widget as window then
+				Result := window
 			else
-				Result := container (widget.parent)
-			end
-		end
-
-	window (widget: EV_WIDGET): EV_WINDOW
-		do
-			if attached {EV_WINDOW} widget as l_window then
-				Result := l_window
-			else
-				Result := window (widget.parent)
+				Result := parent_window (widget.parent)
 			end
 		end
 
@@ -73,17 +64,15 @@ feature -- Basic operations
 			end
 		end
 
-	propagate_background_color (
-		a_container: EV_CONTAINER; background_color: EV_COLOR; is_excluded: PREDICATE [EV_WIDGET]
-	)
+	propagate_background_color (a_container: EV_CONTAINER; background_color: EV_COLOR; is_excluded: PREDICATE [EV_WIDGET])
 			-- Propagate background
 		do
 			if not is_excluded (a_container) then
 				a_container.set_background_color (background_color)
 				if attached a_container.linear_representation as list then
 					from list.start until list.after loop
-						if attached {EV_CONTAINER} list.item as l_container then
-							propagate_background_color (l_container, background_color, is_excluded)
+						if attached {EV_CONTAINER} list.item as container then
+							propagate_background_color (container, background_color, is_excluded)
 						elseif not is_excluded (list.item) then
 							list.item.set_background_color (background_color)
 						end
@@ -104,8 +93,8 @@ feature -- Basic operations
 		local
 			is_expanded: BOOLEAN
 		do
-			if attached {EV_CONTAINER} widget.parent as l_container then
-				if attached {EV_WIDGET_LIST} l_container as list then
+			if attached {EV_CONTAINER} widget.parent as container then
+				if attached {EV_WIDGET_LIST} container as list then
 					list.start; list.search (widget)
 					if not list.exhausted then
 						if attached {EV_BOX} list as box then
@@ -121,7 +110,7 @@ feature -- Basic operations
 						end
 					end
 				else
-					l_container.replace (new_widget)
+					container.replace (new_widget)
 				end
 			end
 		end
@@ -181,7 +170,9 @@ feature -- Mouse pointer setting
 				y := y + cursor.y_hotspot
 			end
 			Screen.set_pointer_position (widget.screen_x + x, widget.screen_y  + y)
-			busy_widget := container (widget)
+			from busy_widget := widget until attached {EV_CONTAINER} busy_widget loop
+				busy_widget := busy_widget.parent
+			end
 			busy_widget.set_pointer_style (cursor)
 		end
 

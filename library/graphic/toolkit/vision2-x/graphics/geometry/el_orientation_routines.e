@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 10:14:08 GMT (Sunday 23rd August 2020)"
-	revision: "16"
+	date: "2020-09-01 14:01:46 GMT (Tuesday 1st September 2020)"
+	revision: "17"
 
 frozen class
 	EL_ORIENTATION_ROUTINES
@@ -48,6 +48,44 @@ feature {NONE} -- Initialization
 			all_lists_filled:	across << clockwise_positions, clockwise_sides, clockwise_corners >> as list all
 										list.item.full
 									end
+		end
+
+feature -- Access
+
+	unit_vector (position_enum: INTEGER): EL_INTEGER_COORDINATE
+		-- coordinate relative to center (0, 0)
+		require
+			valid_position: is_valid_position (position_enum)
+		do
+			create Result.make (0, 0)
+			inspect position_enum
+				-- Going clockwise
+				when Top_left then
+					Result.move (-1, -1)
+
+				when Top then
+					Result.move (0, -1)
+
+				when Top_right then
+					Result.move (1, -1)
+
+				when Right then
+					Result.move (1, 0)
+
+				when Bottom_right then
+					Result.move (1, 1)
+
+				when Bottom then
+					Result.move (0, 1)
+
+				when Bottom_left then
+					Result.move (-1, 1)
+
+				when Left then
+					Result.move (-1, 0)
+
+			else
+			end
 		end
 
 feature -- Contract Support

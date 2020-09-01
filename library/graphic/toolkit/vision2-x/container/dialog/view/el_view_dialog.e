@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:02:46 GMT (Monday 31st August 2020)"
-	revision: "13"
+	date: "2020-09-01 15:23:10 GMT (Tuesday 1st September 2020)"
+	revision: "14"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -27,6 +27,8 @@ inherit
 	EL_VIEW_DIALOG_COMPONENTS undefine copy, default_create end
 
 	EL_MODULE_WIDGET
+
+	EL_MODULE_ORIENTATION
 
 feature {NONE} -- Initialization
 
@@ -127,6 +129,25 @@ feature -- Basic operations
 			Widget.replace (dialog_box, new_box)
 			dialog_box := new_box
 			set_dialog_buttons
+		end
+
+	set_best_position (rectangle: EV_RECTANGLE; preferred_directions: ITERABLE [INTEGER]; border_cms: REAL)
+		-- position `Current' in relation to point on `rectangle' indicated by `preferred_directions'
+		-- with a clearance of `border_cms' centimeters
+		require
+			valid_directions: across preferred_directions as direction all Orientation.is_valid_position (direction.item) end
+		local
+			current_rect: EL_RECTANGLE; contained: BOOLEAN
+		do
+			create current_rect.make_for_widget (Current)
+			across preferred_directions as direction until contained loop
+				current_rect.move_outside (rectangle, direction.item, 0.3)
+				contained := Screen.useable_area.contains (current_rect)
+			end
+			if not contained then
+				current_rect.move_center (rectangle)
+			end
+			Screen.set_position (Current, current_rect.x, current_rect.y)
 		end
 
 	show

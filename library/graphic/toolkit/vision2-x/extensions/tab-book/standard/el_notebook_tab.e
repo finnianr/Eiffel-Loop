@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:03:50 GMT (Monday 31st August 2020)"
-	revision: "6"
+	date: "2020-09-01 9:19:34 GMT (Tuesday 1st September 2020)"
+	revision: "7"
 
 class
 	EL_NOTEBOOK_TAB [W -> EV_POSITIONABLE]
@@ -15,7 +15,7 @@ class
 inherit
 	EV_NOTEBOOK_TAB
 
-	EL_REPLACEABLE_WIDGET
+	EL_REPLACEABLE_WIDGET_ITEM
 		rename
 			item as content_box,
 			new_item as new_content_box,

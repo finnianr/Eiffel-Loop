@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:57:32 GMT (Monday 31st August 2020)"
-	revision: "1"
+	date: "2020-09-01 9:19:34 GMT (Tuesday 1st September 2020)"
+	revision: "2"
 
 deferred class
-	EL_REPLACEABLE_WIDGET
+	EL_REPLACEABLE_WIDGET_ITEM
 
 inherit
 	EL_MODULE_WIDGET

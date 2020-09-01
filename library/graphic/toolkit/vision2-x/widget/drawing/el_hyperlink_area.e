@@ -1,13 +1,17 @@
 note
 	description: "Hyperlink area"
+	notes: "[
+		An indent can be achieved by including leading spaces in text.
+		The active-link underline will not underline leading spaces.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-18 12:10:28 GMT (Saturday 18th July 2020)"
-	revision: "9"
+	date: "2020-09-01 12:47:07 GMT (Tuesday 1st September 2020)"
+	revision: "10"
 
 class
 	EL_HYPERLINK_AREA
