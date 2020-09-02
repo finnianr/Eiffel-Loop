@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:11:35 GMT (Thursday 7th May 2020)"
-	revision: "20"
+	date: "2020-09-01 18:22:02 GMT (Tuesday 1st September 2020)"
+	revision: "21"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -186,10 +186,10 @@ feature {NONE} -- Implementation
 	stripped_template: ZSTRING
 			-- template stripped of any leading tabs
 		local
-			tab_count: NATURAL
+			tab_count: INTEGER
 		do
 			create Result.make_from_general (template)
-			tab_count := Result.leading_occurrences ('%T').to_natural_32
+			tab_count := Result.leading_occurrences ('%T')
 			if tab_count > 1 then
 				Result.prepend_character ('%N')
 				Result.replace_substring_all (New_line + n_character_string ('%T', tab_count), New_line)

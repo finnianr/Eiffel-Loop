@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2020-09-02 9:01:13 GMT (Wednesday 2nd September 2020)"
+	revision: "6"
 
 deferred class
 	EL_HYPERLINKABLE
 
 feature -- Access
 
-	text: EL_MIXED_STYLE_TEXT_LIST
+	text: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
 			--
 		deferred
 		end

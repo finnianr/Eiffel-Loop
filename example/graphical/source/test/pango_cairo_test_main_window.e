@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 13:25:00 GMT (Monday 31st August 2020)"
-	revision: "14"
+	date: "2020-09-02 12:34:53 GMT (Wednesday 2nd September 2020)"
+	revision: "15"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -18,7 +18,7 @@ inherit
 			make
 		end
 
-	EL_REPLACEABLE_WIDGET
+	EL_REPLACEABLE_WIDGET_ITEM
 		rename
 			item as pixmap,
 			new_item as new_pixmap,

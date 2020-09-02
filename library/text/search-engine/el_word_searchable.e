@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-24 1:58:23 GMT (Sunday 24th February 2019)"
-	revision: "12"
+	date: "2020-09-02 8:56:20 GMT (Wednesday 2nd September 2020)"
+	revision: "13"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -83,13 +83,7 @@ feature -- Access
 
 feature {EL_WORD_SEARCHABLE} -- Implementation
 
-	fixed_styled (str: ZSTRING): EL_MONOSPACED_STYLED_TEXT
-			--
-		do
-			Result := str
-		end
-
-	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_MIXED_STYLE_TEXT_LIST
+	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
 			--
 		local
 			pos_match, start_index, end_index: INTEGER
@@ -100,20 +94,19 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 			start_index := (pos_match - Keyword_quote_leeway).max (1)
 			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
 			if start_index > 1 then
-				Result.extend (Styled_ellipsis)
+				Result.extend ({EL_TEXT_STYLE}.Regular, Ellipsis)
 			end
 			if start_index < pos_match then
 				token_list := searchable_tokens.substring (start_index, pos_match - 1)
-				Result.extend (styled (word_table.tokens_to_string (token_list)))
+				Result.extend ({EL_TEXT_STYLE}.Regular, word_table.tokens_to_string (token_list))
 			end
-			Result.extend (styled (word_table.tokens_to_string (keyword_tokens)))
-			Result.last.set_bold
+			Result.extend ({EL_TEXT_STYLE}.Bold, word_table.tokens_to_string (keyword_tokens))
 			if end_index > pos_match + keyword_tokens.count - 1 then
 				token_list := searchable_tokens.substring (pos_match + keyword_tokens.count, end_index)
-				Result.extend (styled (word_table.tokens_to_string (token_list)))
+				Result.extend ({EL_TEXT_STYLE}.Regular, word_table.tokens_to_string (token_list))
 			end
 			if end_index < searchable_tokens.count then
-				Result.extend (Styled_ellipsis)
+				Result.extend ({EL_TEXT_STYLE}.Regular, Ellipsis)
 			end
 		end
 
@@ -122,12 +115,6 @@ feature {EL_WORD_SEARCHABLE} -- Implementation
 			Result := Once_searchable_paragraphs
 			Result.wipe_out
 			fill_searchable (Result)
-		end
-
-	styled (str: ZSTRING): EL_STYLED_TEXT
-			--
-		do
-			Result := str
 		end
 
 feature {EL_SEARCH_ENGINE} -- Internal attributes
@@ -156,7 +143,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Styled_ellipsis: EL_STYLED_TEXT
+	Ellipsis: STRING
 			--
 		once
 			Result := n_character_string_8 ('.', 2)

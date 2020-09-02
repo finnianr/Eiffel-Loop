@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:20:17 GMT (Monday 31st August 2020)"
-	revision: "9"
+	date: "2020-09-02 10:44:46 GMT (Wednesday 2nd September 2020)"
+	revision: "10"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -274,7 +274,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Factory
 
-	new_formatted_date (date: DATE): EL_STYLED_TEXT
+	new_formatted_date (date: DATE): STRING
 		do
 			Result := Locale.date_text.formatted (date, date_format)
 		end
@@ -326,15 +326,15 @@ feature {NONE} -- Factory
 			--
 		local
 			word_match_extracts: like result_set.item.word_match_extracts
-			date_line: EL_MIXED_STYLE_TEXT_LIST
+			date_line: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
 		do
 			word_match_extracts := result_item.word_match_extracts (search_words)
 			if attached {EL_DATEABLE} result_item as l_item and then not date_format.is_empty then
 				if word_match_extracts.is_empty then
-					create date_line.make (1); date_line.extend (new_formatted_date (l_item.date))
+					create date_line.make (1); date_line.extend ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
 					word_match_extracts.extend (date_line)
 				else
-					word_match_extracts.first.put_front (new_formatted_date (l_item.date))
+					word_match_extracts.first.put_front ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
 				end
 			end
 			create Result.make_with_styles (word_match_extracts, details_indent, font, fixed_font, background_color)
@@ -369,10 +369,9 @@ feature {NONE} -- Implementation: Routines
 			end
 		end
 
-	styled (a_string: EL_STYLED_TEXT): EL_MIXED_STYLE_TEXT_LIST
+	styled (a_text: READABLE_STRING_GENERAL): EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
 		do
-			create Result.make (1)
-			Result.extend (a_string)
+			create Result.make_regular (a_text)
 		end
 
 feature {NONE} -- Hyperlink actions

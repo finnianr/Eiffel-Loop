@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 12:47:07 GMT (Tuesday 1st September 2020)"
-	revision: "10"
+	date: "2020-09-02 11:20:07 GMT (Wednesday 2nd September 2020)"
+	revision: "11"
 
 class
 	EL_HYPERLINK_AREA
@@ -43,8 +43,8 @@ feature {NONE} -- Initialization
 	make (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE; a_font: EV_FONT; a_background_color: EV_COLOR)
 		do
 			create styled_text.make (1)
-			styled_text.extend (a_text)
-			make_with_styles (styled_text, a_font, default_fixed_font (a_font) , a_action, a_background_color)
+			styled_text.extend (Regular, a_text)
+			make_with_styles (styled_text, a_font, default_fixed_font (a_font), a_action, a_background_color)
 		end
 
 	make_default
@@ -65,9 +65,7 @@ feature {NONE} -- Initialization
 			set_background_color (a_background_color)
 			link_text_color := Color.Blue; disabled_link_text_color := Color.Black
 
-			create text_rect.make (
-				0, 0, mixed_style_width (styled_text), bold_font.line_height + bold_font.line_height // 8
-			)
+			create text_rect.make (0, 0, mixed_style_width (styled_text), (line_height * 1.2).rounded)
 			update_size
 
 			is_enabled := true
@@ -92,8 +90,7 @@ feature -- Access
 
 	link_text_color: EV_COLOR
 
-	styled_text: EL_MIXED_STYLE_TEXT_LIST
-		-- link text
+	styled_text: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
 
 feature -- Element change
 
@@ -204,7 +201,7 @@ feature {NONE} -- Event handling
 			draw_mixed_style_text_top_left (text_rect.x, 0, styled_text)
 
 			if is_underlined or is_selected then
-				l_leading_spaces_width := styled_text.first.leading_spaces_width (Current)
+				l_leading_spaces_width := leading_spaces_width (styled_text.first_style, styled_text.first_text)
 				-- We don't want to underline any leading spaces on a right justified fixed width text
 				draw_segment (
 					text_rect.x + l_leading_spaces_width,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 12:17:52 GMT (Saturday 25th January 2020)"
-	revision: "10"
+	date: "2020-09-01 18:21:14 GMT (Tuesday 1st September 2020)"
+	revision: "11"
 
 deferred class
 	EL_ZSTRING_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Implemenation
 			Result := n_character_string (uc, 1)
 		end
 
-	n_character_string (uc: CHARACTER_32; n: NATURAL_64): ZSTRING
+	n_character_string (uc: CHARACTER_32; n: INTEGER): ZSTRING
 		do
 			Result := Character_string_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
 		ensure

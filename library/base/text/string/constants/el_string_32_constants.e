@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 12:16:38 GMT (Saturday 25th January 2020)"
-	revision: "9"
+	date: "2020-09-01 18:20:56 GMT (Tuesday 1st September 2020)"
+	revision: "10"
 
 deferred class
 	EL_STRING_32_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Implemenation
 			Result := n_character_string_32 (uc, 1)
 		end
 
-	n_character_string_32 (uc: CHARACTER_32; n: NATURAL): STRING_32
+	n_character_string_32 (uc: CHARACTER_32; n: INTEGER): STRING_32
 		do
 			Result := Character_string_32_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
 		end

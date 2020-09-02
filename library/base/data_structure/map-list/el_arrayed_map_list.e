@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:51:29 GMT (Wednesday 27th May 2020)"
-	revision: "9"
+	date: "2020-09-02 9:37:33 GMT (Wednesday 2nd September 2020)"
+	revision: "10"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -21,7 +21,8 @@ class
 inherit
 	EL_ARRAYED_LIST [TUPLE [key: K; value: G]]
 		rename
-			extend as map_extend
+			extend as map_extend,
+			put_front as map_put_front
 		end
 
 	EL_MODULE_ITERABLE
@@ -122,6 +123,11 @@ feature -- Element change
 	extend (key: K; value: G)
 		do
 			map_extend ([key, value])
+		end
+
+	put_front (key: K; value: G)
+		do
+			map_put_front ([key, value])
 		end
 
 feature -- Conversion

@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 9:15:28 GMT (Friday 21st December 2018)"
-	revision: "3"
+	date: "2020-09-02 11:16:26 GMT (Wednesday 2nd September 2020)"
+	revision: "4"
 
 class
 	EL_MIXED_STYLE_FIXED_LABELS
@@ -25,6 +25,8 @@ inherit
 		undefine
 			is_equal, copy, default_create
 		end
+
+	EL_MODULE_ITERABLE
 
 create
 	make, make_with_styles
@@ -43,7 +45,6 @@ feature {NONE} -- Initialization
 			--
 		local
 			max_width, l_width, l_y: INTEGER
-			list: LINEAR [EL_MIXED_STYLE_TEXT_LIST]
 		do
 			styled_text_lines := a_styled_text_lines; left_margin := a_left_margin
 			make_mixed_font (a_font, a_fixed_font)
@@ -52,26 +53,23 @@ feature {NONE} -- Initialization
 			set_background_color (a_background_color)
 
 			-- Calculate maximum width
-			list := a_styled_text_lines.linear_representation
-			from list.start until list.after loop
+			across styled_text_lines as list loop
 				l_width := mixed_style_width (list.item)
 				if l_width > max_width then
 					max_width := l_width
 				end
-				list.forth
 			end
-			set_minimum_size (max_width, bold_font.line_height * styled_text_lines.count)
+			set_minimum_size (max_width, line_height * Iterable.count (styled_text_lines))
 
-			from list.start until list.after loop
+			across styled_text_lines as list loop
 				put_mixed_style_text_top_left (left_margin, l_y, list.item)
-				l_y := l_y + bold_font.line_height
-				list.forth
+				l_y := l_y + line_height
 			end
 		end
 
 feature -- Access
 
-	styled_text_lines: FINITE [EL_MIXED_STYLE_TEXT_LIST]
+	styled_text_lines: ITERABLE [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
 
 	font: EV_FONT
 

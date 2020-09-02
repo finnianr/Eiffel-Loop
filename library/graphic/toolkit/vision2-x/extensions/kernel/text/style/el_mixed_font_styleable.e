@@ -6,144 +6,78 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 12:03:13 GMT (Friday 21st December 2018)"
-	revision: "5"
+	date: "2020-09-02 11:16:50 GMT (Wednesday 2nd September 2020)"
+	revision: "6"
 
 deferred class
 	EL_MIXED_FONT_STYLEABLE
 
 inherit
-	EL_MIXED_FONT_STYLEABLE_I
-
 	EL_MODULE_GUI
 
 	EL_STRING_8_CONSTANTS
+
+	EL_TEXT_STYLE
+		export
+			{NONE} all
+			{ANY} is_valid_style
+		end
 
 feature {NONE} -- Initialization
 
 	make (a_font, a_fixed_font: EV_FONT)
 		do
-			regular_font := a_font
-			monospaced_font := a_fixed_font
+			create font_table.make_filled (a_font, 4)
+			font_table [Monospaced] := a_fixed_font
+			font_table [Bold] := a_font.twin
+			font_table.item (Bold).set_weight (GUI.Weight_bold)
 
-			bold_font := a_font.twin
-			bold_font.set_weight (GUI.Weight_bold)
+			font_table [Monospaced_bold] := a_fixed_font.twin
+			font_table.item (Monospaced_bold).set_weight (GUI.Weight_bold)
 
-			monospaced_bold_font := a_fixed_font.twin
-			monospaced_bold_font.set_weight (GUI.Weight_bold)
+			line_height := font_table.item (Bold).line_height.max (font_table.item (Monospaced_bold).line_height)
 		end
 
 feature -- Access
 
-	bold_font: EV_FONT
-
-	monospaced_bold_font: EV_FONT
-
-	monospaced_font: EV_FONT
-
-	regular_font: EV_FONT
+	font: EV_FONT
+		deferred
+		end
 
 feature -- Measurement
 
-	bold_width (text: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := GUI.string_width (text, bold_font)
-		end
-
-	mixed_style_width (a_mixed_text: FINITE [EL_STYLED_TEXT]): INTEGER
+	mixed_style_width (text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]): INTEGER
 		local
-			count, l_space_width: INTEGER;
-			text_list: LINEAR [EL_STYLED_TEXT]
+			l_space_width: INTEGER
 		do
-			count := a_mixed_text.count; l_space_width := space_width
-			text_list := a_mixed_text.linear_representation
+			l_space_width := space_width
 
 			from text_list.start until text_list.after loop
-				Result :=  Result + text_list.item.width (Current)
-				if text_list.index < count then
+				Result :=  Result + string_width (text_list.item_style, text_list.item_text)
+				if not text_list.islast then
 					Result := Result + l_space_width
 				end
 				text_list.forth
 			end
 		end
 
-	monospaced_bold_width (text: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := GUI.string_width (text, monospaced_bold_font)
-		end
-
-	monospaced_width (text: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := GUI.string_width (text, monospaced_font)
-		end
-
-	regular_width (text: READABLE_STRING_GENERAL): INTEGER
-		do
-			Result := GUI.string_width (text, regular_font)
-		end
-
 	space_width: INTEGER
 		do
-			Result := regular_font.string_width (character_string_8 (' '))
+			Result := font_table.item (Regular).string_width (character_string_8 (' '))
 		end
+
+	line_height: INTEGER
 
 feature -- Element change
 
-	set_bold
+	set_style_font (style: INTEGER)
+		require
+			valid_style: is_valid_style (style)
 		do
-			set_font (bold_font)
+			set_font (font_table [style])
 		end
 
-	set_font (a_font: EV_FONT)
-			--
-		deferred
-		end
-
-	set_monospaced
-		do
-			set_font (monospaced_font)
-		end
-
-	set_monospaced_bold
-		do
-			set_font (monospaced_bold_font)
-		end
-
-	set_regular
-		do
-			set_font (regular_font)
-		end
-
-feature -- Drawing operations
-
-	draw_mixed_style_text_top_left (x, y: INTEGER; a_mixed_text: FINITE [EL_STYLED_TEXT])
-		local
-			l_x, count, l_space_width: INTEGER
-			i_th_text: EL_STYLED_TEXT; text_list: LINEAR [EL_STYLED_TEXT]
-		do
-			l_space_width := space_width;  l_x := x
-			text_list := a_mixed_text.linear_representation; count := a_mixed_text.count
-
-			from text_list.start until text_list.after loop
-				i_th_text := text_list.item
-				i_th_text.change_font (Current)
-				draw_text_top_left (l_x, y, i_th_text.as_string_32)
-				l_x := l_x + i_th_text.width (Current)
-				if text_list.index < count then
-					l_x := l_x + l_space_width
-				end
-				text_list.forth
-			end
-		end
-
-feature -- EV_DRAWABLE routines
-
-	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
-			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
-		deferred
-		end
-
-feature -- Conversion
+feature {NONE} -- Implementation
 
 	default_fixed_font (a_font: EV_FONT): EV_FONT
 		do
@@ -151,5 +85,52 @@ feature -- Conversion
 				GUI.Family_typewriter, GUI.Weight_regular, GUI.Shape_regular, a_font.height
 			)
 		end
+
+	draw_text_top_left (x, y: INTEGER; a_text: READABLE_STRING_GENERAL)
+			-- Draw `a_text' with top left corner at (`x', `y') using `font'.
+		deferred
+		end
+
+	draw_mixed_style_text_top_left (x, y: INTEGER; text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL])
+		local
+			l_x, l_space_width: INTEGER
+		do
+			l_space_width := space_width; l_x := x
+
+			from text_list.start until text_list.after loop
+				set_style_font (text_list.item_style)
+				draw_text_top_left (l_x, y, text_list.item_text)
+				l_x := l_x + string_width (text_list.item_style, text_list.item_text)
+				if not text_list.islast then
+					l_x := l_x + l_space_width
+				end
+				text_list.forth
+			end
+		end
+
+	leading_spaces_width (style: INTEGER; string: READABLE_STRING_GENERAL): INTEGER
+			-- width of leading spaces in `text' for `a_styleable' component
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > string.count or else string [i] /= ' ' loop
+				i := i + 1
+			end
+			Result := string_width (style, n_character_string_8 (' ', i - 1))
+		end
+
+	set_font (a_font: EV_FONT)
+			--
+		deferred
+		end
+
+	string_width (style: INTEGER; string: READABLE_STRING_GENERAL): INTEGER
+		do
+			Result := GUI.string_width (string, font_table [style])
+		end
+
+feature {NONE} -- Internal attributes
+
+	font_table: SPECIAL [EV_FONT]
 
 end
