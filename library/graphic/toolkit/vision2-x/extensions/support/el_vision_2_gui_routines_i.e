@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:22:58 GMT (Monday 31st August 2020)"
-	revision: "26"
+	date: "2020-09-04 10:16:23 GMT (Friday 4th September 2020)"
+	revision: "27"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -193,6 +193,11 @@ feature -- Contract support
 		do
 			text := once_copy_general (a_text)
 			Result := text.for_all_split (character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
+		end
+
+	same_fonts (a, b: EV_FONT): BOOLEAN
+		do
+			Result := a ~ b and then a.name ~ b.name
 		end
 
 feature -- Measurement

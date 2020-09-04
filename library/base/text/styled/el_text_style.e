@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 10:17:59 GMT (Wednesday 2nd September 2020)"
-	revision: "1"
+	date: "2020-09-03 13:20:10 GMT (Thursday 3rd September 2020)"
+	revision: "2"
 
 class
 	EL_TEXT_STYLE
@@ -23,14 +23,14 @@ feature -- Contract Support
 			end
 		end
 
-feature -- Constants
+feature -- Styles
 
-	Bold: INTEGER = 0
+	Regular: INTEGER = 1
 
-	Monospaced: INTEGER = 1
+	Bold: INTEGER = 2
 
-	Monospaced_bold: INTEGER = 2
+	Monospaced: INTEGER = 3
 
-	Regular: INTEGER = 3
+	Monospaced_bold: INTEGER = 4
 
 end

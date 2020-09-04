@@ -1,13 +1,13 @@
 note
-	description: "Styled text list"
+	description: "List of font-style to string maps where style is an attribute of [$source EL_TEXT_STYLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 10:43:15 GMT (Wednesday 2nd September 2020)"
-	revision: "1"
+	date: "2020-09-04 14:02:00 GMT (Friday 4th September 2020)"
+	revision: "2"
 
 class
 	EL_STYLED_TEXT_LIST [S -> READABLE_STRING_GENERAL]

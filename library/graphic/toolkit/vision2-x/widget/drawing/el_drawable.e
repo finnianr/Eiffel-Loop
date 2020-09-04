@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 13:19:58 GMT (Saturday 1st August 2020)"
-	revision: "12"
+	date: "2020-09-04 14:03:01 GMT (Friday 4th September 2020)"
+	revision: "13"
 
 deferred class
 	EL_DRAWABLE
@@ -17,6 +17,11 @@ inherit
 		redefine
 			implementation, draw_text, draw_text_top_left, draw_ellipsed_text, draw_ellipsed_text_top_left,
 			draw_sub_pixel_buffer
+		end
+
+	EL_STYLED_TEXT_LIST_DRAWABLE
+		undefine
+			copy, default_create
 		end
 
 	EL_MODULE_GUI

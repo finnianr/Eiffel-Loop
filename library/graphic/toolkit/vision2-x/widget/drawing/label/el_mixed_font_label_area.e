@@ -6,21 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 10:09:34 GMT (Wednesday 2nd September 2020)"
-	revision: "7"
+	date: "2020-09-04 9:21:38 GMT (Friday 4th September 2020)"
+	revision: "8"
 
 class
-	EL_MIXED_STYLE_LABEL_AREA
+	EL_MIXED_FONT_LABEL_AREA
 
 inherit
 	EL_DRAWING_AREA_BASE
-
-	EL_MIXED_FONT_STYLEABLE
-		rename
-			make as make_mixed_font
-		undefine
-			copy, default_create
-		end
 
 	EL_MODULE_COLOR
 
@@ -30,18 +23,20 @@ create
 feature {NONE} -- Initialization
 
 	make (a_styled_text: like styled_text; a_font: EV_FONT; a_background_color: EV_COLOR)
+		local
+			table: EL_FONT_SET
 		do
-			make_with_styles (a_styled_text, a_font, default_fixed_font (a_font), a_background_color)
+			create table.make_monospace_default (a_font)
+			make_with_styles (a_styled_text, table, a_background_color)
 		end
 
-	make_with_styles (a_styled_text: like styled_text; a_font, a_fixed_font: EV_FONT; a_background_color: EV_COLOR)
+	make_with_styles (a_styled_text: like styled_text; a_font_set: EL_FONT_SET; a_background_color: EV_COLOR)
 			--
 		do
-			styled_text := a_styled_text
-			make_mixed_font (a_font, a_fixed_font)
+			styled_text := a_styled_text; font_set := a_font_set
 			default_create
 			set_background_color (a_background_color)
-			set_minimum_size (mixed_style_width (styled_text) , bold_font.line_height)
+			set_minimum_size (font_set.mixed_style_width (styled_text), font_set.line_height)
 			set_expose_actions
 		end
 
@@ -56,6 +51,11 @@ feature {NONE} -- Implementation
 		do
 			clear
 			set_foreground_color (Color.Black)
-			draw_mixed_style_text_top_left (0, 0, styled_text)
+			draw_styled_text_list_top_left (0, 0, font_set, styled_text)
 		end
+
+feature {NONE} -- Internal attributes
+
+	font_set: EL_FONT_SET
+
 end

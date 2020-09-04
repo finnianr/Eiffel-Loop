@@ -307,3 +307,6 @@ Advanced EL_VIEW_DIALOG and EL_DIALOG_MODEL
 Fri 14th Aug 2020, 18:10:48
 View dialog changes and focus_in actions for EL_DECORATED_BUTTON
 
+Wed 2nd Sep 2020, 13:10:49
+Refactor of styled text using arrayed map list and EL_TEXT_STYLE enum
+

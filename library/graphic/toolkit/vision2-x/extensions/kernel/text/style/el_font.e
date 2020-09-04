@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-19 11:40:26 GMT (Sunday 19th July 2020)"
-	revision: "10"
+	date: "2020-09-03 17:19:37 GMT (Thursday 3rd September 2020)"
+	revision: "11"
 
 class
 	EL_FONT
@@ -27,6 +27,12 @@ create
 
 feature {NONE} -- Initialization
 
+	make_bold (a_family: STRING; a_height_cms: REAL)
+		do
+			make_regular (a_family, a_height_cms)
+			set_weight (Weight_bold)
+		end
+
 	make_regular (a_family: STRING; a_height_cms: REAL)
 		do
 			default_create
@@ -34,12 +40,6 @@ feature {NONE} -- Initialization
 				preferred_families.extend (a_family)
 			end
 			set_height_cms (a_height_cms)
-		end
-
-	make_bold (a_family: STRING; a_height_cms: REAL)
-		do
-			make_regular (a_family, a_height_cms)
-			set_weight (Weight_bold)
 		end
 
 	make_thin (a_family: STRING; a_height_cms: REAL)
@@ -50,14 +50,14 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	string_width_cms (str: ZSTRING): REAL
-		do
-			Result := string_width (str) / Screen.horizontal_resolution
-		end
-
 	string_width (a_string: READABLE_STRING_GENERAL): INTEGER
 		do
 			Result := implementation.string_width (Zstring.to_unicode_general (a_string))
+		end
+
+	string_width_cms (str: ZSTRING): REAL
+		do
+			Result := string_width (str) / Screen.horizontal_resolution
 		end
 
 feature -- Element change
@@ -68,14 +68,22 @@ feature -- Element change
 --			implementation.set_height_cms (a_height_cms)
 		end
 
-feature {NONE} -- Implementation
+feature -- Conversion
 
-	implementation: EL_FONT_I
+	to_key: EL_FONT_KEY
+		-- hashable key
+		do
+			create Result.make (Current)
+		end
+
+feature {NONE} -- Implementation
 
 	create_implementation
 			--
 		do
 			create {EL_FONT_IMP} implementation.make
 		end
+
+	implementation: EL_FONT_I
 
 end

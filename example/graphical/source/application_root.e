@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 6:11:05 GMT (Monday 30th September 2019)"
-	revision: "7"
+	date: "2020-09-03 17:20:51 GMT (Thursday 3rd September 2020)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
@@ -30,7 +30,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Compile_also: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY]
+	Compile_also: TUPLE [EL_SEPARATE_PROGRESS_DISPLAY, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS]
 		once
 			create Result
 		end

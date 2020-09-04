@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 10:44:46 GMT (Wednesday 2nd September 2020)"
-	revision: "10"
+	date: "2020-09-04 9:19:59 GMT (Friday 4th September 2020)"
+	revision: "11"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -59,12 +59,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_result_selected_action: like result_selected_action; a_links_per_page: INTEGER; a_font, a_fixed_font: EV_FONT)
+	make (a_result_selected_action: like result_selected_action; a_links_per_page: INTEGER; a_font_table: EL_FONT_SET)
 			--
 		do
 			make_scrollable (Default_border_cms, Default_border_cms)
-			font := a_font
-			fixed_font := a_fixed_font
+			font_table := a_font_table
 
 			result_selected_action := a_result_selected_action
 			links_per_page := a_links_per_page
@@ -84,9 +83,7 @@ feature -- Access
 			Result := Current
 		end
 
-	fixed_font: EV_FONT
-
-	font: EV_FONT
+	font_table: EL_FONT_SET
 
 	link_text_color: EV_COLOR
 
@@ -125,14 +122,9 @@ feature -- Element change
 			details_indent := a_details_indent
 		end
 
-	set_fixed_font (a_fixed_font: EV_FONT)
+	set_font_table (a_font_table: EL_FONT_SET)
 		do
-			fixed_font := a_fixed_font
-		end
-
-	set_font (a_font: EV_FONT)
-		do
-			font := a_font
+			font_table := a_font_table
 		end
 
 	set_link_text_color (a_link_text_color: like link_text_color)
@@ -292,7 +284,7 @@ feature {NONE} -- Factory
 
 			if page > 1 then
 				create previous_page_link.make_with_styles (
-					styled (Link_text_previous), font, fixed_font, agent goto_previous_page, background_color
+					styled (Link_text_previous), font_table, agent goto_previous_page, background_color
 				)
 				previous_page_link.set_link_text_color (link_text_color)
 				Result.extend_unexpanded (previous_page_link)
@@ -300,7 +292,7 @@ feature {NONE} -- Factory
 
 			if result_set.count > links_per_page then
 				from i := l_lower until i > upper loop
-					create page_link.make_with_styles (styled (i.out), font, fixed_font, agent goto_page (i), background_color)
+					create page_link.make_with_styles (styled (i.out), font_table, agent goto_page (i), background_color)
 					page_link.set_link_text_color (link_text_color)
 					Result.extend_unexpanded (page_link)
 					if i = page then
@@ -315,7 +307,7 @@ feature {NONE} -- Factory
 
 			if page < page_count then
 				create next_page_link.make_with_styles (
-					styled (Link_text_next), font, fixed_font, agent goto_next_page, background_color
+					styled (Link_text_next), font_table, agent goto_next_page, background_color
 				)
 				next_page_link.set_link_text_color (link_text_color)
 				Result.extend_unexpanded (next_page_link)
@@ -337,7 +329,7 @@ feature {NONE} -- Factory
 					word_match_extracts.first.put_front ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
 				end
 			end
-			create Result.make_with_styles (word_match_extracts, details_indent, font, fixed_font, background_color)
+			create Result.make_with_styles (word_match_extracts, details_indent, font_table, background_color)
 		end
 
 feature {NONE} -- Implementation: Routines
@@ -357,7 +349,7 @@ feature {NONE} -- Implementation: Routines
 			from i := l_lower until i > Result.upper loop
 				result_item := result_set.i_th (i)
 				create result_link.make_with_styles (
-					result_item.text, font, fixed_font, agent call_selected_action (result_set, i, result_item), background_color
+					result_item.text, font_table, agent call_selected_action (result_set, i, result_item), background_color
 				)
 				result_link.set_link_text_color (link_text_color)
 				create result_link_box

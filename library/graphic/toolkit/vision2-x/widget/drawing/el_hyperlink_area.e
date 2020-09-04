@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 11:20:07 GMT (Wednesday 2nd September 2020)"
-	revision: "11"
+	date: "2020-09-04 9:48:23 GMT (Friday 4th September 2020)"
+	revision: "12"
 
 class
 	EL_HYPERLINK_AREA
@@ -20,13 +20,6 @@ inherit
 	EL_DRAWING_AREA_BASE
 		redefine
 			on_redraw
-		end
-
-	EL_MIXED_FONT_STYLEABLE
-		rename
-			make as make_mixed_font
-		undefine
-			default_create, copy
 		end
 
 	EL_MODULE_COLOR
@@ -42,9 +35,8 @@ feature {NONE} -- Initialization
 
 	make (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE; a_font: EV_FONT; a_background_color: EV_COLOR)
 		do
-			create styled_text.make (1)
-			styled_text.extend (Regular, a_text)
-			make_with_styles (styled_text, a_font, default_fixed_font (a_font), a_action, a_background_color)
+			create styled_text.make_regular (a_text)
+			make_with_styles (styled_text, Font_set_cache.font_set (a_font), a_action, a_background_color)
 		end
 
 	make_default
@@ -53,19 +45,18 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_styles (
-		a_styled_text: like styled_text; a_font, a_fixed_font: EV_FONT
-		a_action: PROCEDURE; a_background_color: EV_COLOR
+		a_styled_text: like styled_text; a_font_set: EL_FONT_SET; a_action: PROCEDURE; a_background_color: EV_COLOR
 	)
 			--
 		do
 			styled_text := a_styled_text; action := a_action
-			make_mixed_font (a_font, a_fixed_font)
+			font_set := a_font_set
 			default_create
 
 			set_background_color (a_background_color)
 			link_text_color := Color.Blue; disabled_link_text_color := Color.Black
 
-			create text_rect.make (0, 0, mixed_style_width (styled_text), (line_height * 1.2).rounded)
+			create text_rect.make (0, 0, font_set.mixed_style_width (styled_text), (font_set.line_height * 1.2).rounded)
 			update_size
 
 			is_enabled := true
@@ -198,10 +189,10 @@ feature {NONE} -- Event handling
 			else
 				set_foreground_color (disabled_link_text_color)
 			end
-			draw_mixed_style_text_top_left (text_rect.x, 0, styled_text)
+			draw_styled_text_list_top_left (text_rect.x, 0, font_set, styled_text)
 
 			if is_underlined or is_selected then
-				l_leading_spaces_width := leading_spaces_width (styled_text.first_style, styled_text.first_text)
+				l_leading_spaces_width := font_set.leading_spaces_width (styled_text)
 				-- We don't want to underline any leading spaces on a right justified fixed width text
 				draw_segment (
 					text_rect.x + l_leading_spaces_width,
@@ -213,8 +204,6 @@ feature {NONE} -- Event handling
 		end
 
 feature {NONE} -- Implementation
-
-	action: PROCEDURE
 
 	check_pointer_still_here
 		do
@@ -228,6 +217,12 @@ feature {NONE} -- Implementation
 		do
 			Result := text_rect.has (pointer_position)
 		end
+
+feature {NONE} -- Internal attributes
+
+	action: PROCEDURE
+
+	font_set: EL_FONT_SET
 
 	text_rect: EV_RECTANGLE
 
