@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 13:37:28 GMT (Saturday 11th January 2020)"
-	revision: "14"
+	date: "2020-09-06 13:31:40 GMT (Sunday 6th September 2020)"
+	revision: "15"
 
 class
 	EL_PYXIS_PARSER
@@ -66,7 +66,7 @@ feature -- Basic operations
 			end
 			if attached {EL_ENCODEABLE_AS_TEXT} line_source as encodeable_source then
 				-- propagate encoding change in pyxis-doc declaration
-				add_encoding_change_action (agent encodeable_source.set_encoding_from_other (Current))
+				on_encoding_change.add_action (agent encodeable_source.set_encoding_from_other (Current))
 			end
 			parse_from_lines (line_source)
 		end

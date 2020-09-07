@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:04:52 GMT (Friday 21st August 2020)"
-	revision: "11"
+	date: "2020-09-06 13:33:26 GMT (Sunday 6th September 2020)"
+	revision: "12"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -19,13 +19,6 @@ inherit
 	EL_ZSTRING_TOKEN_TABLE
 		redefine
 			make, put
-		end
-
-	EL_EVENT_BROADCASTER
-		rename
-			make as make_notifyable
-		undefine
-			is_equal, copy
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -39,13 +32,15 @@ feature -- Initialization
 			--
 		do
 			Precursor (n)
-			make_notifyable
+			create on_new_token_list.make
 			put (character_string ('%N')) -- paragraph separator for `New_line_token'
 		end
 
 feature -- Access
 
 	New_line_token: CHARACTER_32 = '%/01/'
+
+	on_new_token_list: EL_EVENT_BROADCASTER
 
 feature -- Status query
 
@@ -127,7 +122,7 @@ feature -- Conversion
 				end
 			end
 			Result := Result.twin
-			notify
+			on_new_token_list.notify
 		end
 
 	tokens_to_string (a_tokens: EL_WORD_TOKEN_LIST): ZSTRING

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 11:58:01 GMT (Thursday 14th May 2020)"
-	revision: "19"
+	date: "2020-09-06 13:31:40 GMT (Sunday 6th September 2020)"
+	revision: "20"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 			create byte_order_mark
 			Precursor
 			set_codec
-			add_encoding_change_action (agent set_codec)
+			on_encoding_change.add_action (agent set_codec)
 		end
 
 feature -- Access

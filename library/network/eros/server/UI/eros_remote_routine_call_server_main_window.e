@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
-	revision: "8"
+	date: "2020-09-04 14:15:30 GMT (Friday 4th September 2020)"
+	revision: "9"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			add_toolbar_components
 		end
 
-feature {EL_VISION2_USER_INTERFACE} -- Initialization
+feature {EV_APPLICATION} -- Initialization
 
 	prepare_to_show
 			--

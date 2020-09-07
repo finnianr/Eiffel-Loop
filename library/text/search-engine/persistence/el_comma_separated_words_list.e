@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 16:20:26 GMT (Saturday 11th January 2020)"
-	revision: "9"
+	date: "2020-09-06 13:33:26 GMT (Sunday 6th September 2020)"
+	revision: "10"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -43,7 +43,7 @@ inherit
 	EL_EVENT_LISTENER
 		rename
 			notify as on_table_update
-			
+
 		undefine
 			copy, is_equal
 		end
@@ -108,7 +108,7 @@ feature -- Measurement
 	set_table (a_table: like table)
 		do
 			table := a_table
-			table.add_listener (Current)
+			table.on_new_token_list.add_listener (Current)
 		end
 
 feature {NONE} -- Implementation

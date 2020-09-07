@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 16:23:34 GMT (Saturday 22nd August 2020)"
-	revision: "6"
+	date: "2020-09-06 13:20:39 GMT (Sunday 6th September 2020)"
+	revision: "7"
 
 class
 	EL_EVENT_BROADCASTER
@@ -27,6 +27,11 @@ feature -- Basic operations
 	notify
 		do
 			listener.notify
+		end
+
+	wipe_out
+		do
+			listener := Default_listener
 		end
 
 feature -- Element change

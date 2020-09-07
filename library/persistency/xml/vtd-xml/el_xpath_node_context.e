@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:33:49 GMT (Sunday 29th March 2020)"
-	revision: "14"
+	date: "2020-09-05 15:37:13 GMT (Saturday 5th September 2020)"
+	revision: "15"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -93,14 +93,6 @@ feature -- Access
 			Result := new_query (a_xpath).evaluate_number
 		end
 
-	found_node: EL_XPATH_NODE_CONTEXT
-			--
-		require
-			node_found: node_found
-		do
-			Result := actual_found_node
-		end
-
 	integer_64_at_xpath (a_xpath: READABLE_STRING_GENERAL): INTEGER_64
 			--
 		do
@@ -167,11 +159,14 @@ feature -- Element change
 
 feature -- Basic operations
 
-	find_node (a_xpath: READABLE_STRING_GENERAL)
+	find_node (a_xpath: READABLE_STRING_GENERAL): detachable EL_XPATH_NODE_CONTEXT
 			--
 		do
 			create actual_found_node.make_from_other (Current)
 			actual_found_node.do_query (a_xpath)
+			if actual_found_node.match_found then
+				Result := actual_found_node
+			end
 		end
 
 feature -- External field setters
@@ -215,9 +210,8 @@ feature -- External field setters
 	set_node_values (a_xpath: READABLE_STRING_GENERAL; set_values: PROCEDURE [EL_XPATH_NODE_CONTEXT])
 			-- call `set_values' with node at `a_xpath' if found
 		do
-			find_node (a_xpath)
-			if node_found then
-				set_values (found_node)
+			if attached find_node (a_xpath) as node then
+				set_values (node)
 			end
 		end
 
@@ -327,12 +321,6 @@ feature -- Status query
 			--
 		do
 			Result := new_query (a_xpath).evaluate_boolean
-		end
-
-	node_found: BOOLEAN
-			--
-		do
-			Result := actual_found_node.match_found
 		end
 
 feature -- Element values

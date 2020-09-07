@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 9:14:13 GMT (Tuesday 1st September 2020)"
-	revision: "2"
+	date: "2020-09-07 12:24:38 GMT (Monday 7th September 2020)"
+	revision: "3"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -45,7 +45,33 @@ feature -- Access
 			end
 		end
 
+	box_widget_list (container: EV_CONTAINER): ARRAYED_LIST [EV_WIDGET]
+		-- list of all box widgets recursively contained in `container'
+		do
+			create Result.make (20)
+			fill_box_widget_list (container, Result)
+		end
+
 feature -- Basic operations
+
+	fill_box_widget_list (container: EV_CONTAINER; a_list: ARRAYED_LIST [EV_WIDGET])
+		-- recursively fill `a_list' with all box widgets contained in `container'
+		local
+			list: LINEAR [EV_WIDGET]
+		do
+			if attached {EV_BOX} container as box then
+				across box as widget loop
+					a_list.extend (widget.item)
+				end
+			end
+			list := container.linear_representation
+			from list.start until list.after loop
+				if attached {EV_CONTAINER} list.item as sub_container then
+					fill_box_widget_list (sub_container, a_list)
+				end
+				list.forth
+			end
+		end
 
 	insert_at (list: EV_DYNAMIC_LIST [EV_CONTAINABLE]; item: EV_ITEM; position: INTEGER)
 		-- insert `item' into `list' at `position' or at the end if `position = 0'

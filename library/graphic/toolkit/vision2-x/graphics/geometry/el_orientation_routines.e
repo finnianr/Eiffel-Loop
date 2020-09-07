@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 14:01:46 GMT (Tuesday 1st September 2020)"
-	revision: "17"
+	date: "2020-09-07 9:37:51 GMT (Monday 7th September 2020)"
+	revision: "18"
 
 frozen class
 	EL_ORIENTATION_ROUTINES
@@ -85,6 +85,29 @@ feature -- Access
 					Result.move (-1, 0)
 
 			else
+			end
+		end
+
+	rectangle_corner (corner_enum, width, height: INTEGER): EL_INTEGER_COORDINATE
+		-- coordinate relative to center (0, 0)
+		require
+			valid_position: is_valid_corner (corner_enum)
+		do
+			inspect corner_enum
+				-- Going clockwise
+				when Top_left then
+					create Result.make (0, 0)
+
+				when Top_right then
+					create Result.make (width, 0)
+
+				when Bottom_right then
+					create Result.make (width, height)
+
+				when Bottom_left then
+					create Result.make (0, height)
+			else
+				create Result.make (0, 0)
 			end
 		end
 

@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 9:21:38 GMT (Friday 4th September 2020)"
-	revision: "8"
+	date: "2020-09-05 9:27:11 GMT (Saturday 5th September 2020)"
+	revision: "9"
 
 class
 	EL_MIXED_FONT_LABEL_AREA
 
 inherit
 	EL_DRAWING_AREA_BASE
+
+	EL_STYLED_TEXT_LIST_DRAWABLE
+		undefine
+			copy, default_create
+		end
 
 	EL_MODULE_COLOR
 
@@ -23,11 +28,8 @@ create
 feature {NONE} -- Initialization
 
 	make (a_styled_text: like styled_text; a_font: EV_FONT; a_background_color: EV_COLOR)
-		local
-			table: EL_FONT_SET
 		do
-			create table.make_monospace_default (a_font)
-			make_with_styles (a_styled_text, table, a_background_color)
+			make_with_styles (a_styled_text, Font_set_cache.font_set (font), a_background_color)
 		end
 
 	make_with_styles (a_styled_text: like styled_text; a_font_set: EL_FONT_SET; a_background_color: EV_COLOR)

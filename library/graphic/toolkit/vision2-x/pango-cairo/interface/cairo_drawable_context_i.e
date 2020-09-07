@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 12:46:44 GMT (Saturday 22nd August 2020)"
-	revision: "11"
+	date: "2020-09-07 9:47:34 GMT (Monday 7th September 2020)"
+	revision: "12"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -140,21 +140,21 @@ feature -- Status change
 		end
 
 	set_clip_rounded_rectangle (x, y, a_width, a_height, radius: DOUBLE; corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from EL_ORIENTATION_CONSTANTS, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_DIRECTION, eg. Top_left | Top_right
 		do
 			define_sub_path
 			if (Top_right & corners_bitmap).to_boolean then
-				arc (x + a_width - radius, y + radius, radius, radians (90).opposite, 0.0);
+				arc (x + radius, y + radius, radius, radians (180), radians (270));
 			else
 				line_to (x + a_width, y)
 			end
 			if (Top_left & corners_bitmap).to_boolean then
-				arc (x + radius, y + radius, radius, radians (180), radians (270));
+				arc (x + a_width - radius, y + radius, radius, radians (270), radians (360));
 			else
-				line_to (x, y)
+				line_to (x + width, y)
 			end
 			if (Bottom_right & corners_bitmap).to_boolean then
-				arc (x + a_width - radius, y + a_height - radius, radius, 0.0, radians (90));
+				arc (x + a_width - radius, y + a_height - radius, radius, radians (0), radians (90));
 			else
 				line_to (x + a_width, y + a_height)
 			end
@@ -305,7 +305,7 @@ feature -- Drawing operations
 feature -- Filling operations
 
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right
 		local
 			x, y, corner, i: INTEGER
 		do
@@ -354,7 +354,7 @@ feature -- Filling operations
 		end
 
 	fill_convex_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from `EL_ORIENTATION_CONSTANTS', eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right
 		local
 			x, y, corner, i: INTEGER
 		do

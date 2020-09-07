@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 12:34:53 GMT (Wednesday 2nd September 2020)"
-	revision: "15"
+	date: "2020-09-07 10:01:32 GMT (Monday 7th September 2020)"
+	revision: "16"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -56,8 +56,7 @@ feature {NONE} -- Initialization
 		local
 			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_ZSTRING_DROP_DOWN_BOX
 			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
-			cell: EV_CELL; l_pixmap: EL_PIXMAP
-			picture_box: EL_HORIZONTAL_BOX
+			cell: EV_CELL; l_pixmap: EL_PIXMAP; picture_box: EL_HORIZONTAL_BOX
 		do
 			Precursor
 			set_dimensions
@@ -74,7 +73,7 @@ feature {NONE} -- Initialization
 			create text_angle_drop_down.make (text_angle, << 0, 90 >>, agent set_text_angle)
 
 			create cell
-			l_pixmap := lenna_pixmap
+			create l_pixmap.make_from_other (Lenna_pixmap)
 			cell.set_minimum_size (l_pixmap.width, l_pixmap.height)
 
 			pixmap := new_pixmap
@@ -117,14 +116,6 @@ feature {NONE} -- Element change
 
 feature {NONE} -- Implementation
 
-	lenna_pixmap: EL_PIXMAP
-		do
-			create Result
-			Result.set_with_named_file (
-				Execution.variable_dir_path ("ISE_EIFFEL").joined_file_path ("library/vision2/tests/graphics/Lenna.png")
-			)
-		end
-
 	new_drawing_area (title_font: EL_FONT): CAIRO_DRAWING_AREA
 		local
 			name_rect: EL_RECTANGLE; l_pixmap: EL_PIXMAP
@@ -137,7 +128,7 @@ feature {NONE} -- Implementation
 			end
 			name_rect.move (10, 60)
 
-			l_pixmap := lenna_pixmap
+			create l_pixmap.make_from_other (Lenna_pixmap)
 			l_pixmap.set_foreground_color (Color.White)
 			l_pixmap.set_line_width (1)
 
@@ -200,6 +191,16 @@ feature {NONE} -- Constants
 	Font_sizes: ARRAY [REAL]
 		once
 			Result := << 0.5, 1.25, 1.5 >>
+		end
+
+	Lenna_pixmap: EL_PIXMAP
+		local
+			lenna_path: EL_FILE_PATH
+		once
+			lenna_path := "$ISE_EIFFEL/library/vision2/tests/graphics/Lenna.png"
+			lenna_path.expand
+			create Result
+			Result.set_with_named_file (lenna_path)
 		end
 
 end

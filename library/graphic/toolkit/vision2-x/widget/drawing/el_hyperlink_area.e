@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 9:48:23 GMT (Friday 4th September 2020)"
-	revision: "12"
+	date: "2020-09-05 9:26:17 GMT (Saturday 5th September 2020)"
+	revision: "13"
 
 class
 	EL_HYPERLINK_AREA
@@ -20,6 +20,11 @@ inherit
 	EL_DRAWING_AREA_BASE
 		redefine
 			on_redraw
+		end
+
+	EL_STYLED_TEXT_LIST_DRAWABLE
+		undefine
+			copy, default_create
 		end
 
 	EL_MODULE_COLOR

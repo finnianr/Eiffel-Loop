@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 11:56:03 GMT (Thursday 14th May 2020)"
-	revision: "14"
+	date: "2020-09-06 13:31:22 GMT (Sunday 6th September 2020)"
+	revision: "15"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			update_codec
-			add_encoding_change_action (agent update_codec)
+			on_encoding_change.add_action (agent update_codec)
 		end
 
 feature -- Access

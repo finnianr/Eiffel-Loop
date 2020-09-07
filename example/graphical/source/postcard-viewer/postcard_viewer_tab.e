@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:02:34 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-09-07 8:54:06 GMT (Monday 7th September 2020)"
+	revision: "6"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -73,8 +73,7 @@ feature {NONE} -- Factory
 
 	new_content_widget: EL_SCROLLABLE_VERTICAL_BOX
 		local
-			l_dir: EL_DIRECTORY
-			postcard: EL_PIXMAP
+			l_dir: EL_DIRECTORY; postcard: EL_PIXMAP
 		do
 			create Result.make (0.3, 0.3)
 			create l_dir.make (location)
@@ -101,7 +100,8 @@ feature {NONE} -- Implementation
 			icon_path: EL_FILE_PATH
 		do
 			create Result
-			icon_path := Execution.variable_dir_path ("ISE_EIFFEL") + "examples/vision2/edraw/toolbar/picture.png"
+			icon_path := "$ISE_EIFFEL/examples/vision2/edraw/toolbar/picture.png"
+			icon_path.expand
 			Result.set_with_named_file (icon_path)
 		end
 

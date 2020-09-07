@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-22 16:19:01 GMT (Saturday 22nd August 2020)"
-	revision: "12"
+	date: "2020-09-06 13:30:48 GMT (Sunday 6th September 2020)"
+	revision: "13"
 
 class
 	EL_ENCODEABLE_AS_TEXT
 
 inherit
+	ANY
+
 	EL_ENCODING_BASE
 		rename
 			id as encoding_id,
@@ -32,17 +34,6 @@ inherit
 			set_encoding, make_default
 		end
 
-	EL_EVENT_BROADCASTER
-		rename
-			make as make_default,
-			add_listener as add_encoding_change_listener,
-			add_action as add_encoding_change_action
-		export
-			{NONE} all
-		redefine
-			make_default
-		end
-
 create
 	make, make_default
 
@@ -50,9 +41,13 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor {EL_EVENT_BROADCASTER}
-			Precursor {EL_ENCODING_BASE}
+			create on_encoding_change.make
+			Precursor
 		end
+
+feature -- Access
+
+	on_encoding_change: EL_EVENT_BROADCASTER
 
 feature -- Element change
 
@@ -64,7 +59,7 @@ feature -- Element change
 			changed := encoding /= a_encoding
 			encoding := a_encoding
 			if changed then
-				notify
+				on_encoding_change.notify
 			end
 		end
 

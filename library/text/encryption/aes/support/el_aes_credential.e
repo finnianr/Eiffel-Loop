@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-07 9:08:59 GMT (Friday 7th August 2020)"
-	revision: "10"
+	date: "2020-09-06 12:25:04 GMT (Sunday 6th September 2020)"
+	revision: "11"
 
 class
 	EL_AES_CREDENTIAL
@@ -42,6 +42,8 @@ inherit
 
 	EL_MODULE_BASE_64
 
+	EL_SHARED_PASSPHRASE_ATTRIBUTE
+
 create
 	make, make_default
 
@@ -58,7 +60,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create phrase.make_empty
-			salt := Default_salt
+			create salt.make_empty (0)
 			create digest.make_filled (1, 32)
 		end
 
@@ -68,6 +70,11 @@ feature -- Access
 			-- pass phrase authentication digest
 		do
 			Result := base_64.encoded_special (digest)
+		end
+
+	new_password_attribute_map: EL_PASSPHRASE_ATTRIBUTE_LIST
+		do
+			create Result.make (phrase)
 		end
 
 	password_strength: ZSTRING
@@ -191,7 +198,7 @@ feature -- Status query
 
 	is_salt_set: BOOLEAN
 		do
-			Result := salt /= Default_salt
+			Result := salt.count = Salt_count
 		end
 
 feature -- Factory
@@ -246,7 +253,7 @@ feature {NONE} -- Implementation
 		local
 			i: INTEGER
 		do
-			create salt.make_empty (Default_salt.count)
+			create salt.make_empty (Salt_count)
 			from i := 0 until i = salt.capacity loop
 				salt.extend (rand_byte)
 				i := i + 1
@@ -272,10 +279,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Constants
 
-	Default_salt: SPECIAL [NATURAL_8]
-		once ("PROCESS")
-			create Result.make_filled (0, 24)
-		end
+	Salt_count: INTEGER = 24
 
 	Invalid_pass_phrase: ZSTRING
 		once
@@ -290,7 +294,7 @@ feature {NONE} -- Constants
 	Eng_password_strengths: ARRAY [STRING]
 			--
 		once
-			create Result.make (1, 9)
+			create Result.make_filled ("", 1, 9)
 			Result [1] := "is absolutely terrible"
 			Result [2] := "is very poor"
 			Result [3] := "is poor"

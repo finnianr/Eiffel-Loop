@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 8:50:26 GMT (Sunday 2nd August 2020)"
-	revision: "3"
+	date: "2020-09-07 9:14:13 GMT (Monday 7th September 2020)"
+	revision: "4"
 
 deferred class
 	CAIRO_COMMAND_CONTEXT
@@ -18,6 +18,18 @@ inherit
 feature -- Commands
 
 	arc (xc, yc, radius, angle1, angle2: DOUBLE)
+		-- Adds a circular arc of the given radius to the current path. The arc is centered at (xc , yc ),
+		-- begins at angle1 and proceeds in the direction of increasing angles to end at angle2 . If angle2
+		-- is less than angle1 it will be progressively increased by 2*M_PI until it is greater than angle1 .
+
+		-- If there is a current point, an initial line segment will be added to the path to connect the current
+		-- point to the beginning of the arc. If this initial line is undesired, it can be avoided by calling
+		-- cairo_new_sub_path() before calling cairo_arc().
+
+		-- Angles are measured in radians. An angle of 0.0 is in the direction of the positive X axis (in user space).
+		-- An angle of M_PI/2.0 radians (90 degrees) is in the direction of the positive Y axis (in user space).
+		-- Angles increase in the direction from the positive X axis toward the positive Y axis. So with the default
+		-- transformation matrix, angles increase in a clockwise direction.
 		do
 			Cairo.arc (context, xc, yc, radius, angle1, angle2)
 		end

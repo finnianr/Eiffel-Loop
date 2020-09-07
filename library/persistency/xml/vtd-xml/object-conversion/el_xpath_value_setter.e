@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-21 17:59:01 GMT (Sunday 21st May 2017)"
-	revision: "4"
+	date: "2020-09-05 15:34:46 GMT (Saturday 5th September 2020)"
+	revision: "5"
 
 deferred class
 	EL_XPATH_VALUE_SETTER [G]
@@ -25,12 +25,11 @@ feature -- Basic operations
 			if parts.xpath.is_empty then
 				try_set_attribute (node, parts, set_value)
 			else
-				node.find_node (parts.xpath)
-				if node.node_found then
+				if attached node.find_node (parts.xpath) as parts_node then
 					if parts.attribute_name.is_empty then
-						set_value (node_value (node.found_node))
+						set_value (node_value (parts_node))
 					else
-						try_set_attribute (node.found_node, parts, set_value)
+						try_set_attribute (parts_node, parts, set_value)
 					end
 				end
 			end

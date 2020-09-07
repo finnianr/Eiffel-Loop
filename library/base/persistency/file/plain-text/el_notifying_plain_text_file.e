@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:54:40 GMT (Friday 8th May 2020)"
-	revision: "7"
+	date: "2020-09-06 13:30:07 GMT (Sunday 6th September 2020)"
+	revision: "8"
 
 class
 	EL_NOTIFYING_PLAIN_TEXT_FILE
@@ -23,8 +23,6 @@ inherit
 		end
 
 	EL_PLAIN_TEXT_FILE
-		rename
-			notify as encoding_notify
 		undefine
 			open_read, open_write, close, move, go, recede, back, start, finish, forth
 		end

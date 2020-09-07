@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-06 12:32:38 GMT (Sunday 6th January 2019)"
-	revision: "9"
+	date: "2020-09-05 15:35:37 GMT (Saturday 5th September 2020)"
+	revision: "10"
 
 class
 	EL_XML_HTTP_CONNECTION
@@ -47,8 +47,7 @@ feature -- Status query
 
 	is_default_xml: BOOLEAN
 		do
-			root_node.find_node ("/default")
-			Result := root_node.node_found
+			Result := attached root_node.find_node ("/default")
 		end
 
 feature {NONE} -- Event handling

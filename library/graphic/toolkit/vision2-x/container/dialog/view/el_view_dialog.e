@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 15:23:10 GMT (Tuesday 1st September 2020)"
-	revision: "14"
+	date: "2020-09-07 12:31:26 GMT (Monday 7th September 2020)"
+	revision: "15"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -277,14 +277,14 @@ feature {NONE} -- Factory
 		end
 
 	new_section_box (widgets: ARRAY [EV_WIDGET]; section_index: INTEGER): EL_BOX
-		local
-			l_expanded: like expanded_widgets
 		do
-			l_expanded := expanded_widgets
 			Result := Vision_2.new_horizontal_box (0, model.layout.row_separation_cms, widgets)
-			across widgets as list loop
-				if l_expanded.has (list.item) then
-					Result.enable_item_expand (list.item)
+
+			if attached expanded_widgets as set and then set /= Empty_set then
+				across Widget.box_widget_list (Result) as list loop
+					if set.has (list.item) and then attached {EV_BOX} list.item.parent as box then
+						box.enable_item_expand (list.item)
+					end
 				end
 			end
 		end
@@ -364,7 +364,7 @@ feature {NONE} -- Implementation
 
 	expanded_widgets: ARRAY [EV_WIDGET]
 		do
-			Result := Default_expanded_widgets
+			Result := Empty_set
 		end
 
 	process_events
@@ -412,7 +412,7 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
-	Default_expanded_widgets: ARRAY [EV_WIDGET]
+	Empty_set: ARRAY [EV_WIDGET]
 		once
 			create Result.make_empty
 		end

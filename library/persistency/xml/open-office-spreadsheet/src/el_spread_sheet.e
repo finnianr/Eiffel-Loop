@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 10:10:54 GMT (Monday 10th February 2020)"
-	revision: "8"
+	date: "2020-09-05 15:35:21 GMT (Saturday 5th September 2020)"
+	revision: "9"
 
 class
 	EL_SPREAD_SHEET
@@ -60,7 +60,6 @@ feature {NONE} -- Initaliazation
 			xpath, cell_range_address, l_name: ZSTRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT; table_nodes: EL_XPATH_NODE_CONTEXT_LIST
 			defined_ranges: EL_ZSTRING_HASH_TABLE [ZSTRING]
-			spreadsheet_ctx, document_ctx: EL_XPATH_NODE_CONTEXT
 		do
 			name := file_path.base
 			create tables.make_equal (5)
@@ -72,9 +71,7 @@ feature {NONE} -- Initaliazation
 			create root_node.make_from_file (file_path)
 			root_node.set_namespace ("office")
 
-			root_node.find_node ("/office:document")
-			if root_node.node_found then
-				document_ctx := root_node.found_node
+			if attached root_node.find_node ("/office:document") as document_ctx then
 				document_ctx.set_namespace ("office")
 				office_version := document_ctx.real_at_xpath ("@office:version")
 				mimetype := document_ctx.string_at_xpath ("@office:mimetype")
@@ -82,9 +79,7 @@ feature {NONE} -- Initaliazation
 					valid_mimetype: mimetype ~ Open_document_spreadsheet
 					valid_office_version: office_version >= 1.1
 				end
-				document_ctx.find_node ("office:body/office:spreadsheet")
-				if document_ctx.node_found then
-					spreadsheet_ctx := document_ctx.found_node
+				if attached document_ctx.find_node ("office:body/office:spreadsheet") as spreadsheet_ctx then
 					spreadsheet_ctx.set_namespace ("table")
 					across spreadsheet_ctx.context_list ("table:named-expressions/table:named-range") as named_range loop
 						cell_range_address := named_range.node.attributes ["table:cell-range-address"]

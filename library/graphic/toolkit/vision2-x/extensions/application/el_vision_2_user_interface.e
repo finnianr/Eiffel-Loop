@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:25:24 GMT (Friday 21st August 2020)"
-	revision: "8"
+	date: "2020-09-07 8:50:28 GMT (Monday 7th September 2020)"
+	revision: "9"
 
 class
 	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -31,6 +31,8 @@ inherit
 
 	EL_SHARED_USEABLE_SCREEN
 
+	EL_MODULE_PIXMAP
+
 create
 	make, make_maximized
 
@@ -45,7 +47,7 @@ feature {NONE} -- Initialization
 	make (log_thread_management: BOOLEAN)
 			--
 		local
-			error_dialog: EV_INFORMATION_DIALOG; pixmaps: EV_STOCK_PIXMAPS
+			error_dialog: EV_INFORMATION_DIALOG
 		do
 			call (Thread_manager)
 			create error_message.make_empty
@@ -61,10 +63,9 @@ feature {NONE} -- Initialization
 				end
 			else
 				create error_dialog.make_with_text_and_actions (error_message , << agent destroy >>)
-				create pixmaps
 				error_dialog.set_title ("Application Initialization Error")
-				error_dialog.set_pixmap (pixmaps.Error_pixmap)
-				error_dialog.set_icon_pixmap (pixmaps.Error_pixmap)
+				error_dialog.set_pixmap (Pixmap.Error_pixmap)
+				error_dialog.set_icon_pixmap (Pixmap.Error_pixmap)
 				error_dialog.show
 			end
 		end
