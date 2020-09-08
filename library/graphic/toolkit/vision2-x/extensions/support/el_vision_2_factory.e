@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 10:03:15 GMT (Monday 17th August 2020)"
-	revision: "14"
+	date: "2020-09-08 11:25:49 GMT (Tuesday 8th September 2020)"
+	revision: "15"
 
 class
 	EL_VISION_2_FACTORY
@@ -23,10 +23,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_GUI
-		export
-			{NONE} all
-		end
+	EL_MODULE_GUI EL_MODULE_WIDGET
 
 feature -- Factory
 
@@ -127,7 +124,7 @@ feature -- Factory
 			--
 		do
 			create Result
-			GUI.set_text_field_characteristics (Result, capacity, a_font)
+			Widget.set_text_field_characteristics (Result, capacity, a_font)
 		end
 
 	new_text_field (capacity: INTEGER): EL_TEXT_FIELD
@@ -140,7 +137,7 @@ feature -- Factory
 			--
 		do
 			create Result
-			GUI.set_text_field_characteristics (Result, capacity, a_font)
+			Widget.set_text_field_characteristics (Result, capacity, a_font)
 		end
 
 	new_vertical_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX

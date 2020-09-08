@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-05 9:26:17 GMT (Saturday 5th September 2020)"
-	revision: "13"
+	date: "2020-09-08 10:18:34 GMT (Tuesday 8th September 2020)"
+	revision: "14"
 
 class
 	EL_HYPERLINK_AREA
@@ -175,7 +175,7 @@ feature {NONE} -- Event handling
 
 					-- Link exit not always detected by pointer motion event,
 					-- so check a little later if pointer is still over this link
-					GUI.do_later (agent check_pointer_still_here, 150)
+					GUI.do_later (150, agent check_pointer_still_here)
 				else
 					set_pointer_style (Pixmap.Standard_cursor)
 				end

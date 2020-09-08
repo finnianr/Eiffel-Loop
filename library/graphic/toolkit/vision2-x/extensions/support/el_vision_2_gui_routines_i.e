@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 10:16:23 GMT (Friday 4th September 2020)"
-	revision: "27"
+	date: "2020-09-08 12:22:26 GMT (Tuesday 8th September 2020)"
+	revision: "28"
 
 deferred class
 	EL_VISION_2_GUI_ROUTINES_I
@@ -53,65 +53,40 @@ feature -- Access
 feature -- Constants
 
 	General_font_families: ARRAYED_LIST [ZSTRING]
-			-- monospace + proportional
+		-- monospace + proportional
 		once
-			if attached {ARRAYED_LIST [STRING_32]} environment.Font_families as families then
+			if attached {LIST [STRING_32]} environment.Font_families as families then
 				create Result.make (families.count)
 				Result.compare_objects
-				from families.start until families.after loop
-					Result.extend (families.item)
-					families.forth
-				end
-			end
-			sort (Result)
-		end
-
-	Monospace_font_families: ARRAYED_LIST [ZSTRING]
-			--
-		local
-			l_font: EL_FONT; i_str, w_str: STRING
-		once
-			create Result.make (10)
-			Result.compare_objects
-			i_str := "i"; w_str := "w"
-			across General_font_families as family loop
-				create l_font.make_regular (family.item, 0.5)
-				if l_font.string_width (i_str) = l_font.string_width (w_str) then
+				across families as family loop
 					Result.extend (family.item)
 				end
 			end
 			sort (Result)
 		end
 
-feature -- Apply styling
-
-	apply_background_color (a_components: ARRAY [EV_COLORIZABLE]; a_color: EV_COLOR)
-			--
-		do
-			a_components.do_all (agent {EV_COLORIZABLE}.set_background_color (a_color))
+	Monospace_font_families: ARRAYED_LIST [ZSTRING]
+		--
+		local
+			l_font: EV_FONT; i_str, w_str: STRING
+		once
+			create l_font
+			i_str := "i"; w_str := "w"
+			if attached {LIST [STRING_32]} environment.Font_families as families then
+				create Result.make (families.count // 10)
+				Result.compare_objects
+				across families as family loop
+					l_font.preferred_families.wipe_out
+					l_font.preferred_families.extend (family.item)
+					if l_font.string_width (i_str) = l_font.string_width (w_str) then
+						Result.extend (family.item)
+					end
+				end
+			end
+			sort (Result)
 		end
 
-	apply_bold (font: EV_FONT)
-		do
-			font.set_weight (Weight_bold)
-		end
-
-	apply_foreground_and_background_color (
-		a_components: ARRAY [EV_COLORIZABLE]; foreground_color, background_color: EV_COLOR
-	)
-			--
-		do
-			apply_foreground_color (a_components, foreground_color)
-			apply_background_color (a_components, background_color)
-		end
-
-	apply_foreground_color (a_components: ARRAY [EV_COLORIZABLE]; a_color: EV_COLOR)
-			--
-		do
-			a_components.do_all (agent {EV_COLORIZABLE}.set_foreground_color (a_color))
-		end
-
-feature -- Basic operations
+feature -- Action management
 
 	block_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
@@ -121,14 +96,13 @@ feature -- Basic operations
 			end
 		end
 
-	do_later (a_action: PROCEDURE; millisecs_interval: INTEGER_32)
+	do_later (millisecs_interval: INTEGER_32; a_action: PROCEDURE)
 		local
 			timer: EV_TIMEOUT
 		do
 			create timer.make_with_interval (millisecs_interval)
 			timer_list.extend (timer)
-			timer.actions.extend_kamikaze (a_action)
-			timer.actions.extend_kamikaze (agent prune_timer (timer))
+			timer.actions.extend (agent do_once_action (timer, a_action))
 		end
 
 	do_once_on_idle (an_action: PROCEDURE)
@@ -136,53 +110,9 @@ feature -- Basic operations
 			application.do_once_on_idle (an_action)
 		end
 
-	enable_all_sensitive_if (item_list: ARRAY [EV_SENSITIVE]; condition_true: BOOLEAN)
-		do
-			item_list.do_all (agent enable_sensitive_if (?, condition_true))
-		end
-
-	enable_sensitive_if (widget: EV_SENSITIVE; condition_true: BOOLEAN)
-		do
-			if condition_true then
-				widget.enable_sensitive
-			else
-				widget.disable_sensitive
-			end
-		end
-
 	resume_all (actions: ARRAY [ACTION_SEQUENCE])
 		do
 			actions.do_all (agent {ACTION_SEQUENCE}.resume)
-		end
-
-	set_selection (widget: EV_SELECTABLE; is_selected: BOOLEAN)
-		require
-			has_select_actions: attached {EV_BUTTON_ACTION_SEQUENCES} widget or attached {EV_MENU_ITEM_ACTION_SEQUENCES} widget
-		local
-			select_actions: EV_NOTIFY_ACTION_SEQUENCE
-		do
-			if attached {EV_BUTTON_ACTION_SEQUENCES} widget as action_sequences then
-				select_actions := action_sequences.select_actions
-
-			elseif attached {EV_MENU_ITEM_ACTION_SEQUENCES} widget as action_sequences then
-				select_actions := action_sequences.select_actions
-
-			end
-			select_actions.block
-			if attached {EV_SELECTABLE} widget as selectable_button and then is_selected then
-				selectable_button.enable_select
-
-			elseif attached {EV_DESELECTABLE} widget as deselectable_button and then not is_selected then
-				deselectable_button.disable_select
-			end
-			select_actions.resume
-		end
-
-	set_text_field_characteristics (field: EV_TEXT_FIELD; capacity: INTEGER; a_font: EV_FONT)
-			--
-		do
-			field.set_font (a_font)
-			field.set_minimum_width_in_characters (capacity)
 		end
 
 feature -- Contract support
@@ -284,10 +214,11 @@ feature {NONE} -- Implementation
 			Result := line.for_all_split (character_string (' '), agent word_fits_width (?, a_font, a_width))
 		end
 
-	prune_timer (timer: EV_TIMEOUT)
+	do_once_action (timer: EV_TIMEOUT; action: PROCEDURE)
 		do
-			timer.set_interval (0)
+			timer.actions.block
 			timer_list.prune (timer)
+			action.apply
 		end
 
 	sort (a_list: ARRAYED_LIST [ZSTRING])

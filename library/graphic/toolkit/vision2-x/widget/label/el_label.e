@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 10:45:04 GMT (Thursday 16th July 2020)"
-	revision: "10"
+	date: "2020-09-08 11:15:15 GMT (Tuesday 8th September 2020)"
+	revision: "11"
 
 class
 	EL_LABEL
@@ -29,29 +29,26 @@ inherit
 
 	EL_MODULE_COLOR
 
+	EL_MODULE_GUI
+
 create
 	default_create, make_with_text
 
-feature -- Element change
+feature -- Basic operations
 
-	set_transient_text (a_text: separate READABLE_STRING_GENERAL; timeout_secs: REAL)
+	restore_later (seconds: REAL)
+		-- restore `foreground_color' and `text' in elapsed `seconds'
 		do
-			if attached internal_timer as timer then
-				set_text (a_text)
-				timer.set_interval ((1000 * timeout_secs).rounded)
-				timer.actions.extend_kamikaze (agent remove_text)
-				timer.actions.extend_kamikaze (agent set_foreground_color (Color.Default_foreground))
-			else
-				create internal_timer.make_with_interval (0)
-				set_transient_text (a_text, timeout_secs)
-			end
+			GUI.do_later ((seconds * 1000).rounded, agent set_color_and_text (foreground_color, text))
 		end
 
-feature {NONE} -- Internal attributes
-
-	internal_timer: detachable EV_TIMEOUT
-
 feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	set_color_and_text (a_color: EV_COLOR; a_text: READABLE_STRING_GENERAL)
+		do
+			set_foreground_color (a_color)
+			set_text (a_text)
+		end
 
 	implementation: EV_LABEL_I
 			-- Responsible for interaction with native graphics toolkit.

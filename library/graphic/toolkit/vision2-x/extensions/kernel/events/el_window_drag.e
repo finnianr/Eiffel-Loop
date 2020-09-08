@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:21:03 GMT (Monday 31st August 2020)"
-	revision: "8"
+	date: "2020-09-08 10:19:29 GMT (Tuesday 8th September 2020)"
+	revision: "9"
 
 class
 	EL_WINDOW_DRAG
@@ -85,7 +85,7 @@ feature -- Event handling
 		do
 			if is_active then
 				from i := 1 until i > 3 loop
-					GUI.do_later (agent move_window_to_pointer, i * 100)
+					GUI.do_later (i * 100, agent move_window_to_pointer)
 					i := i + 1
 				end
 			end

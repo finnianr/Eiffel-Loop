@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 12:34:32 GMT (Monday 7th September 2020)"
-	revision: "1"
+	date: "2020-09-08 13:08:53 GMT (Tuesday 8th September 2020)"
+	revision: "2"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -19,6 +19,8 @@ inherit
 		export
 			{ANY} item
 		end
+
+	EL_MODULE_GUI
 
 create
 	make
@@ -63,7 +65,21 @@ feature -- Status query
 			end
 		end
 
+	is_partially_confirmed: BOOLEAN
+		-- `True' if `text' starts with `mirror.text'
+		do
+			if attached mirror as m then
+				Result := text.starts_with (m.text)
+			end
+		end
+
 feature -- Status change
+
+	disable_for (seconds: REAL)
+		do
+			item.disable_sensitive
+			GUI.do_later ((seconds * 1000).rounded, agent item.enable_sensitive)
+		end
 
 	set_visibility (visible: BOOLEAN)
 		do

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:02:23 GMT (Friday 21st August 2020)"
-	revision: "5"
+	date: "2020-09-08 14:08:07 GMT (Tuesday 8th September 2020)"
+	revision: "6"
 
 class
 	CAIRO_DRAWING_AREA
@@ -36,6 +36,7 @@ create
 	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height
 
 convert
+	make_with_path ({EL_FILE_PATH}),
 	dimensions: {EL_RECTANGLE}, to_buffer: {EV_PIXEL_BUFFER}
 
 feature {NONE} -- Initialization

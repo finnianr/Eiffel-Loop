@@ -313,3 +313,6 @@ Refactor of styled text using arrayed map list and EL_TEXT_STYLE enum
 Fri 4th Sep 2020, 14:10:23
 New classes EL_FONT_KEY, EL_FONT_SET, EL_FONT_SET_CACHE
 
+Mon 7th Sep 2020, 18:36:58
+Fixed {CAIRO_DRAWABLE_CONTEXT_I}.set_clip_rounded_rectangle
+

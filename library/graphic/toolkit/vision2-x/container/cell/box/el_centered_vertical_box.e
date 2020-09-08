@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:43:58 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-09-08 11:33:32 GMT (Tuesday 8th September 2020)"
+	revision: "8"
 
 class
 	EL_CENTERED_VERTICAL_BOX
@@ -29,6 +29,8 @@ inherit
 		end
 
 	EL_MODULE_GUI
+
+	EL_MODULE_WIDGET
 
 create
 	make, default_create
@@ -83,7 +85,7 @@ feature -- Element change
 	set_border_color (a_color: like border_color)
 		do
 			Precursor (a_color)
-			GUI.apply_background_color (<< left_border, right_border, top_border, bottom_border, border_box >>, a_color)
+			Widget.apply_colors (<< left_border, right_border, top_border, bottom_border, border_box >>, Void, a_color)
 		end
 
 	set_horizontal_border_cms (a_width_cms: REAL)

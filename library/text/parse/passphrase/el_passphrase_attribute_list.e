@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 11:50:27 GMT (Monday 7th September 2020)"
-	revision: "1"
+	date: "2020-09-08 15:18:36 GMT (Tuesday 8th September 2020)"
+	revision: "2"
 
 class
 	EL_PASSPHRASE_ATTRIBUTE_LIST
@@ -23,7 +23,7 @@ inherit
 			item_value as item_has_attribute
 		export
 			{NONE} all
-			{ANY} start, forth, after, item_attribute, item_has_attribute
+			{ANY} start, forth, after, index, item, item_attribute, item_has_attribute
 		end
 
 	EL_SHARED_PASSPHRASE_ATTRIBUTE

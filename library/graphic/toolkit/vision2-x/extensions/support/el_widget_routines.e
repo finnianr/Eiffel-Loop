@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 12:24:38 GMT (Monday 7th September 2020)"
-	revision: "3"
+	date: "2020-09-08 11:40:07 GMT (Tuesday 8th September 2020)"
+	revision: "4"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -36,6 +36,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	box_widget_list (container: EV_CONTAINER): ARRAYED_LIST [EV_WIDGET]
+		-- list of all box widgets recursively contained in `container'
+		do
+			create Result.make (20)
+			fill_box_widget_list (container, Result)
+		end
+
 	parent_window (widget: EV_WIDGET): EV_WINDOW
 		do
 			if attached {EV_WINDOW} widget as window then
@@ -43,13 +50,6 @@ feature -- Access
 			else
 				Result := parent_window (widget.parent)
 			end
-		end
-
-	box_widget_list (container: EV_CONTAINER): ARRAYED_LIST [EV_WIDGET]
-		-- list of all box widgets recursively contained in `container'
-		do
-			create Result.make (20)
-			fill_box_widget_list (container, Result)
 		end
 
 feature -- Basic operations
@@ -151,6 +151,73 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Status change
+
+	enable_all_sensitive_if (item_list: ARRAY [EV_SENSITIVE]; condition_true: BOOLEAN)
+		do
+			item_list.do_all (agent enable_sensitive_if (?, condition_true))
+		end
+
+	enable_sensitive_if (widget: EV_SENSITIVE; condition_true: BOOLEAN)
+		do
+			if condition_true then
+				widget.enable_sensitive
+			else
+				widget.disable_sensitive
+			end
+		end
+
+	set_selection (widget: EV_SELECTABLE; is_selected: BOOLEAN)
+		-- set selection status on selectable `widget' without triggering actions
+		require
+			has_select_actions: attached {EV_BUTTON_ACTION_SEQUENCES} widget or attached {EV_MENU_ITEM_ACTION_SEQUENCES} widget
+		local
+			select_actions: EV_NOTIFY_ACTION_SEQUENCE
+		do
+			if attached {EV_BUTTON_ACTION_SEQUENCES} widget as action_sequences then
+				select_actions := action_sequences.select_actions
+
+			elseif attached {EV_MENU_ITEM_ACTION_SEQUENCES} widget as action_sequences then
+				select_actions := action_sequences.select_actions
+
+			end
+			select_actions.block
+			if attached {EV_SELECTABLE} widget as selectable_button and then is_selected then
+				selectable_button.enable_select
+
+			elseif attached {EV_DESELECTABLE} widget as deselectable_button and then not is_selected then
+				deselectable_button.disable_select
+			end
+			select_actions.resume
+		end
+
+	set_text_field_characteristics (field: EV_TEXT_FIELD; capacity: INTEGER; a_font: EV_FONT)
+			--
+		do
+			field.set_font (a_font)
+			field.set_minimum_width_in_characters (capacity)
+		end
+
+feature -- Apply styling
+
+	apply_bold (font: EV_FONT)
+		do
+			font.set_weight (GUI.Weight_bold)
+		end
+
+	apply_colors (widget_list: ARRAY [EV_COLORIZABLE]; foreground_color, background_color: detachable EV_COLOR)
+			--
+		do
+			across widget_list as widget loop
+				if attached foreground_color as foreground then
+					widget.item.set_foreground_color (foreground)
+				end
+				if attached background_color as background then
+					widget.item.set_background_color (background)
+				end
+			end
+		end
+
 feature -- Mouse pointer setting
 
 	restore_standard_pointer
@@ -219,7 +286,7 @@ feature -- Mouse pointer setting
 	set_busy_pointer_for_duration (widget: EV_WIDGET; position, duration_seconds: INTEGER)
 		do
 			set_busy_pointer (widget, position)
-			GUI.do_later (agent restore_standard_pointer, duration_seconds * 1000)
+			GUI.do_later (duration_seconds * 1000, agent restore_standard_pointer)
 		end
 
 feature {NONE} -- Internal attributes
