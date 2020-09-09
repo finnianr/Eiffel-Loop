@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 13:08:53 GMT (Tuesday 8th September 2020)"
-	revision: "2"
+	date: "2020-09-09 8:44:34 GMT (Wednesday 9th September 2020)"
+	revision: "3"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -36,11 +36,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	new_phrase_attributes: EL_PASSPHRASE_ATTRIBUTE_LIST
-		do
-			create Result.make (text)
-		end
 
 	on_change: EL_EVENT_BROADCASTER
 

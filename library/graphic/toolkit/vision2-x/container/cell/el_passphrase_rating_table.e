@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 18:32:44 GMT (Tuesday 8th September 2020)"
-	revision: "1"
+	date: "2020-09-09 10:15:47 GMT (Wednesday 9th September 2020)"
+	revision: "2"
 
 class
 	EL_PASSPHRASE_RATING_TABLE
@@ -31,46 +31,34 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_field: like field; a_new_label: like new_label; a_checked_image_path: EL_FILE_PATH)
+	make (a_new_label: like new_label; a_checked_image_path: EL_FILE_PATH)
 		do
-			field := a_field; new_label := a_new_label; checked_image_path := a_checked_image_path
-
-			field.on_change.add_action (agent on_field_change)
+			new_label := a_new_label; checked_image_path := a_checked_image_path
+			minimum_score := Default_minimum_score
 			make_box (0, 0.2)
 
-			phrase_attributes := field.new_phrase_attributes
+			create phrase_attributes.make
 			from phrase_attributes.start until phrase_attributes.after loop
-				extend_unexpanded (
-					Vision_2.new_horizontal_box (0, 0.3, <<
-						create {EV_CELL},
-						new_label (phrase_attributes.item_attribute),
-						create {EL_EXPANDED_CELL},
-						check_list [phrase_attributes.index]
-					>>)
-				)
+				add_row (new_label (phrase_attributes.item_attribute), check_list [phrase_attributes.index])
 				phrase_attributes.forth
 			end
-			extend_unexpanded (
-				Vision_2.new_horizontal_box (0, 0.3, <<
-					create {EV_CELL}, score_label, create {EL_EXPANDED_CELL}, secure_enough_check
-				>>)
-			)
+			add_row (score_label, secure_enough_check)
+			add_row (minimum_score_label, create {EV_CELL})
 		end
 
 feature -- Status query
 
 	minimum_score_met: BOOLEAN
 		do
-			Result := phrase_attributes.score >= 4
+			Result := phrase_attributes.score >= minimum_score
 		end
 
-feature {NONE} -- Event handlers
+feature -- Status change
 
-	on_field_change
+	update (passphrase: READABLE_STRING_GENERAL)
 			--
 		do
-			phrase_attributes := field.new_phrase_attributes
-
+			phrase_attributes.update (passphrase)
 			score_label.set_text (Score_template #$ [phrase_attributes.score])
 			secure_enough_check.set_checked (minimum_score_met)
 
@@ -80,17 +68,36 @@ feature {NONE} -- Event handlers
 			end
 		end
 
+feature -- Element change
+
+	set_minimum_score (a_minimum_score: INTEGER)
+		do
+			minimum_score := a_minimum_score
+			minimum_score_label.set_text (Minimum_score_template #$ [a_minimum_score])
+		end
+
 feature {NONE} -- Implementation
+
+	add_row (widget_left, widget_right: EV_WIDGET)
+		do
+			extend_unexpanded (
+				Vision_2.new_horizontal_box (0, 0.3, <<
+					create {EV_CELL}, widget_left, create {EL_EXPANDED_CELL}, widget_right
+				>>)
+			)
+		end
 
 	create_interface_objects
 		local
-			check_width: INTEGER; bold_font: EV_FONT
+			check_width: INTEGER
 		do
 			Precursor
 			score_label := new_label (Score_template #$ [0])
-			bold_font := score_label.font.twin
-			bold_font.set_weight (Gui.Weight_bold)
-			score_label.set_font (bold_font)
+			score_label.set_bold
+
+			minimum_score_label := new_label (Minimum_score_template #$ [Default_minimum_score])
+			minimum_score_label.set_italic
+
 			check_width := (score_label.height * 1.7).rounded
 			create check_list.make (6)
 			from until check_list.full loop
@@ -110,17 +117,30 @@ feature {NONE} -- Internal attributes
 
 	checked_image_path: EL_FILE_PATH
 
-	field: EL_PASSPHRASE_FIELD
+	minimum_score: INTEGER
+
+	minimum_score_label: EL_LABEL
 
 	new_label: FUNCTION [READABLE_STRING_GENERAL, EL_LABEL]
 
-	phrase_attributes: EL_PASSPHRASE_ATTRIBUTE_LIST
+	phrase_attributes: EL_PASSPHRASE_ATTRIBUTE_MAP
 
-	score_label: EV_LABEL
+	score_label: EL_LABEL
 
 	secure_enough_check: EL_CHECK_AREA
 
 feature {NONE} -- Constants
+
+	Default_minimum_score: INTEGER
+		once
+			Result := 3
+		end
+
+	Minimum_score_template: ZSTRING
+		once
+			Locale.set_next_translation ("(Minimum is %S)")
+			Result := Locale * "{minimum-score}"
+		end
 
 	Score_template: ZSTRING
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 11:15:15 GMT (Tuesday 8th September 2020)"
-	revision: "11"
+	date: "2020-09-09 10:11:30 GMT (Wednesday 9th September 2020)"
+	revision: "12"
 
 class
 	EL_LABEL
@@ -42,15 +42,35 @@ feature -- Basic operations
 			GUI.do_later ((seconds * 1000).rounded, agent set_color_and_text (foreground_color, text))
 		end
 
+feature -- Status change
+
+	set_bold
+		local
+			bold: EV_FONT
+		do
+			bold := font
+			bold.set_weight (GUI.Weight_bold)
+			set_font (bold)
+		end
+
+	set_italic
+		local
+			italic: EV_FONT
+		do
+			italic := font
+			italic.set_shape (GUI.Shape_italic)
+			set_font (italic)
+		end
+
 feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	implementation: EV_LABEL_I
+			-- Responsible for interaction with native graphics toolkit.
 
 	set_color_and_text (a_color: EV_COLOR; a_text: READABLE_STRING_GENERAL)
 		do
 			set_foreground_color (a_color)
 			set_text (a_text)
 		end
-
-	implementation: EV_LABEL_I
-			-- Responsible for interaction with native graphics toolkit.
 
 end

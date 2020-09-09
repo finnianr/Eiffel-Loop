@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 15:18:36 GMT (Tuesday 8th September 2020)"
-	revision: "2"
+	date: "2020-09-09 9:05:42 GMT (Wednesday 9th September 2020)"
+	revision: "3"
 
 class
-	EL_PASSPHRASE_ATTRIBUTE_LIST
+	EL_PASSPHRASE_ATTRIBUTE_MAP
 
 inherit
 	EL_ARRAYED_MAP_LIST [ZSTRING, BOOLEAN]
@@ -31,23 +31,31 @@ inherit
 	EL_MODULE_DEFERRED_LOCALE
 
 create
-	make, make_empty
+	make
 
 feature {NONE} -- Initialization
 
-	make (passphrase: ZSTRING)
+	make
 		local
-			key: ZSTRING; i: INTEGER; c: CHARACTER_32
+			key: ZSTRING
 		do
 			make_with_count (Passphrase_attribute.count)
 			across Passphrase_attribute.list as value loop
-				Locale.set_next_translation (Passphrase_attribute.description (value.item))
 				key := Passphrase_attribute.field_name (value.item)
 				key.enclose ('{', '}')
+				Locale.set_next_translation (Passphrase_attribute.description (value.item))
 				extend (Locale * key, False)
 			end
+		end
+
+feature -- Element change
+
+	update (passphrase: READABLE_STRING_GENERAL)
+		local
+			key: ZSTRING; i: INTEGER; c: CHARACTER_32
+		do
 			from i := 1 until i > passphrase.count loop
-				c := passphrase.unicode_item (i)
+				c := passphrase [i]
 				if c.is_digit then
 					i_th (Passphrase_attribute.has_numeric).value := True
 				elseif c.is_alpha then

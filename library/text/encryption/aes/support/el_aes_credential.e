@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-06 12:25:04 GMT (Sunday 6th September 2020)"
-	revision: "11"
+	date: "2020-09-09 8:50:43 GMT (Wednesday 9th September 2020)"
+	revision: "12"
 
 class
 	EL_AES_CREDENTIAL
@@ -72,66 +72,9 @@ feature -- Access
 			Result := base_64.encoded_special (digest)
 		end
 
-	new_password_attribute_map: EL_PASSPHRASE_ATTRIBUTE_LIST
-		do
-			create Result.make (phrase)
-		end
-
-	password_strength: ZSTRING
-		do
-			Result := Locale * Eng_password_strengths [security_score]
-		end
-
 	salt_base_64: STRING
 		do
 			Result := base_64.encoded_special (salt)
-		end
-
-	security_description: ZSTRING
-			--
-		do
-			if security_score > 0 then
-				Result := Security_description_template.substituted_tuple ([password_strength, security_score])
-			else
-				create Result.make_empty
-			end
-		end
-
-	security_score: INTEGER
-		local
-			i, upper_count, lower_count, numeric_count, other_count: INTEGER
-			c: CHARACTER_32
-		do
-			from i := 1 until i > phrase.count loop
-				c := phrase.unicode_item (i)
-				if c.is_digit then
-					numeric_count := numeric_count + 1
-
-				elseif c.is_alpha then
-					if c.is_upper then
-						upper_count := upper_count + 1
-					else
-						lower_count := lower_count + 1
-					end
-
-				else
-					other_count := other_count + 1
-
-				end
-				i := i + 1
-			end
-			Result := Result + upper_count.min (1)
-			Result := Result + lower_count.min (1)
-			Result := Result + numeric_count.min (1)
-			Result := Result + other_count.min (1)
-
-			from i := 1 until i > Password_count_levels.count loop
-				if phrase.count >= Password_count_levels [i] then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-			Result := Result.min (Eng_password_strengths.count)
 		end
 
 	phrase: ZSTRING
@@ -289,33 +232,6 @@ feature {NONE} -- Constants
 	User_prompt: ZSTRING
 		once
 			Result := Locale * "Enter pass phrase"
-		end
-
-	Eng_password_strengths: ARRAY [STRING]
-			--
-		once
-			create Result.make_filled ("", 1, 9)
-			Result [1] := "is absolutely terrible"
-			Result [2] := "is very poor"
-			Result [3] := "is poor"
-			Result [4] := "is below average"
-			Result [5] := "is average"
-			Result [6] := "is above average"
-			Result [7] := "is good"
-			Result [8] := "is very good"
-			Result [9] := "is excellent"
-		end
-
-	Password_count_levels: ARRAY [INTEGER]
-			--
-		once
-			Result := << 8, 10, 12, 14, 16, 18 >>
-		end
-
-	Security_description_template: ZSTRING
-		once
-			Locale.set_next_translation ("Passphrase strength %S (%S)")
-			Result := Locale * "{security-description-template}"
 		end
 
 end
