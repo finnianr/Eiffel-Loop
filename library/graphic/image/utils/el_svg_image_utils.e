@@ -10,15 +10,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:33:59 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-09-12 14:03:34 GMT (Saturday 12th September 2020)"
+	revision: "8"
 
 class
 	EL_SVG_IMAGE_UTILS
 
 inherit
 	ANY
-	
+
 	EL_SHARED_IMAGE_UTILS_API
 
 feature -- Basic operations
@@ -67,16 +67,15 @@ feature {NONE} -- Implementation
 			is_width_conversion: width > 0 implies height = Undefined_dimension
 			is_height_conversion: height > 0 implies width = Undefined_dimension
 		local
-			l_svg_path, l_png_path: STRING
+			l_svg_path, l_png_path: STRING; c_svg_path, c_png_path: ANY
 		do
 			if {PLATFORM}.is_windows then
 				l_svg_path := svg_path.to_string; l_png_path := png_path.to_string
 			else
 				l_svg_path := svg_path.to_string.to_utf_8; l_png_path := png_path.to_string.to_utf_8
 			end
-			last_write_succeeded := Image_utils.convert_svg_to_png (
-				l_svg_path.area.base_address, l_png_path.area.base_address, width, height, background_color
-			)
+			c_svg_path := l_svg_path.to_c; c_png_path := l_png_path.to_c
+			last_write_succeeded := Image_utils.convert_svg_to_png ($c_svg_path, $c_png_path, width, height, background_color)
 		ensure
 			succeeded: last_write_succeeded
 		end

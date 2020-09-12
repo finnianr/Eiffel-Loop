@@ -8,36 +8,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:51:59 GMT (Thursday 20th February 2020)"
-	revision: "7"
+	date: "2020-09-12 13:39:16 GMT (Saturday 12th September 2020)"
+	revision: "8"
 
 class
 	MEDIA_PLAYER_DUMMY_APP
 
 inherit
-	TEST_SUB_APPLICATION
-		rename
-			extra_log_filter as no_log_filter
-		redefine
-			Option_name
-		end
+	EL_SUB_APPLICATION
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- Initiliazation
 
--- Commented out on Unix
--- player_thread: EL_AUDIO_PLAYER_THREAD [EL_16_BIT_AUDIO_PCM_SAMPLE]
-
-	test_run
+	initialize
+			--
 		do
 		end
 
+feature -- Basic operations
+
+	run
+			--
+		do
+		end
+
+feature {NONE} -- Implementation
+
+--	player_thread: EL_AUDIO_PLAYER_THREAD [EL_16_BIT_AUDIO_PCM_SAMPLE]
+		-- compileable only on Windows
+
 feature {NONE} -- Constants
 
-	Option_name: STRING = "dummy"
-
-	Description: STRING = "Dummy application"
+	Description: STRING = "A 'do nothing app' for maintenance of class EL_AUDIO_PLAYER_THREAD"
 
 end

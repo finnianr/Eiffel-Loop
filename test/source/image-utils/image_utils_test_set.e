@@ -10,18 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:22:28 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2020-09-12 14:40:03 GMT (Saturday 12th September 2020)"
+	revision: "8"
 
 class
 	IMAGE_UTILS_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
 		redefine
-			on_prepare, Work_area_dir
+			on_prepare
 		end
 
 	EIFFEL_LOOP_TEST_CONSTANTS
@@ -43,19 +41,15 @@ feature {NONE} -- Initialization
 
 	on_prepare
 		local
-			icon_path: EL_FILE_PATH; context: EVOLICITY_CONTEXT_IMP
+			context: EVOLICITY_CONTEXT_IMP
 		do
-			Precursor {EL_GENERATED_FILE_DATA_TEST_SET}
-			svg_path := Work_area_dir + Button_svg_path.base
-			icon_path := Work_area_dir + Edit_icon_path.base
-			OS.copy_file (Edit_icon_path, icon_path)
-
+			Precursor {EL_COPIED_DIRECTORY_DATA_TEST_SET}
+			svg_path := file_path (Edit_button_svg)
 			create context.make
-			context.put_string ("png_path", icon_path)
-			Evolicity_templates.put_file (Button_svg_path, Utf_8_encoding)
+			context.put_string ("png_path", Directory.current_working + file_path (Edit_icon))
+			Evolicity_templates.put_file (file_path (Button_svg), Utf_8_encoding)
 			if attached open (svg_path, Write) as svg_file then
-				Evolicity_templates.merge_to_file (Button_svg_path, context, svg_file)
-				svg_file.close
+				Evolicity_templates.merge_to_file (file_path (Button_svg), context, svg_file)
 			end
 		end
 
@@ -74,14 +68,14 @@ feature -- Tests
 			name: STRING; checksum: NATURAL
 			i, size: INTEGER
 		do
-			-- 6 Feb 2020
+			-- 12 September 2020
 			name := "convert_to_width_and_color"
 			from i := 1; size := 64 until i > Colors.count loop
 				inspect i
-					when 1 then checksum := 427064073
-					when 2 then checksum := 1898336435
-					when 3 then checksum := 2457900068
-					when 4 then checksum := 3645165896
+					when 1 then checksum := 2564124925
+					when 2 then checksum := 1593938914
+					when 3 then checksum := 4059851870
+					when 4 then checksum := 123522188
 				else end
 				do_test (name, checksum, agent convert_to_width_and_color, [size, Colors [i]])
 				i := i + 1; size := size * 2
@@ -114,15 +108,14 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Button_svg_path: EL_FILE_PATH
+	Edit_button_svg: STRING
 		once
-			Result := EL_test_data_dir + "svg/button.svg"
+			Result := "edit-" + Button_svg
 		end
 
-	Edit_icon_path: EL_FILE_PATH
-		once
-			Result := EL_test_data_dir + "svg/edit-icon.png"
-		end
+	Button_svg: STRING = "button.svg"
+
+	Edit_icon: STRING = "edit-icon.png"
 
 	Colors: ARRAY [INTEGER]
 		once
@@ -142,9 +135,9 @@ feature {NONE} -- Constants
 
 	Red: INTEGER = 0xA52A2A
 
-	Work_area_dir: EL_DIR_PATH
+	Source_dir: EL_DIR_PATH
 		once
-			Result := Directory.current_working.joined_dir_path ("workarea")
+			Result := EL_test_data_dir.joined_dir_path ("svg")
 		end
 
 	Png_name_template: ZSTRING

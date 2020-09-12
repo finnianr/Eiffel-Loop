@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:43:58 GMT (Saturday 12th September 2020)"
-	revision: "49"
+	date: "2020-09-12 13:56:57 GMT (Saturday 12th September 2020)"
+	revision: "50"
 
 class
 	APPLICATION_ROOT
@@ -15,6 +15,8 @@ class
 inherit
 	EL_MULTI_APPLICATION_ROOT [
 		BUILD_INFO, TUPLE [
+			BATCH_TEST_APP,
+
 		-- For maintenance purposes only
 			MEDIA_PLAYER_DUMMY_APP,
 
@@ -23,6 +25,9 @@ inherit
 		-- Benchmarks
 			BENCHMARK_APP,
 			ZSTRING_BENCHMARK_APP,
+
+		-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
+			SIMPLE_CLIENT_SERVER_TEST_APP,
 
 		-- Test amazon-instant-access.ecf
 			AMAZON_INSTANT_ACCESS_AUTOTEST_APP,
@@ -39,7 +44,6 @@ inherit
 		-- Test eros.ecf
 			BEXT_CLIENT_TEST_APP,
 			BEXT_SERVER_TEST_APP,
-			EROS_AUTOTEST_APP,
 			FOURIER_MATH_CLIENT_TEST_APP,
 			FOURIER_MATH_SERVER_TEST_APP,
 
@@ -67,7 +71,6 @@ inherit
 
 		-- Test network.ecf
 			FTP_TEST_APP,
-			SIMPLE_CLIENT_SERVER_TEST_APP,
 
 		-- Test os-command.ecf
 			OS_COMMAND_AUTOTEST_APP,
@@ -95,7 +98,10 @@ inherit
 			VTD_XML_AUTOTEST_APP,
 
 		-- Test xdoc-scanning.ecf
-			XDOC_SCANNING_AUTOTEST_APP
+			XDOC_SCANNING_AUTOTEST_APP,
+
+		-- Test eros.ecf (Run last to give time for socket address to be released from `SIMPLE_CLIENT_SERVER_TEST_APP')
+			EROS_AUTOTEST_APP
 		]
 	]
 

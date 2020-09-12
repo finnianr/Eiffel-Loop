@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-29 13:13:30 GMT (Saturday 29th August 2020)"
-	revision: "10"
+	date: "2020-09-12 15:54:23 GMT (Saturday 12th September 2020)"
+	revision: "11"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -133,25 +133,26 @@ feature -- Conversion
 feature -- Cursor movement
 
 	forth
-			-- Move to next position
+		-- Move to next position
 		require else
 			file_is_open: is_open
 		do
 			if file = default_file then
 				index := count
 
-			elseif file.end_of_file then
-				if not is_file_external then
-					file.close
-				end
-			else
+			elseif not file.end_of_file then
 				file.read_line
 				if file.end_of_file implies file.last_string.count > 0 then
 					update_item
 					count := count + 1
 				end
 			end
+			if not is_file_external and then file.end_of_file then
+				file.close
+			end
 			index := index + 1
+		ensure then
+			closed_if_eof: after and not is_file_external implies file.is_closed
 		end
 
 	start

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:22:28 GMT (Thursday 7th May 2020)"
-	revision: "11"
+	date: "2020-09-12 13:51:40 GMT (Saturday 12th September 2020)"
+	revision: "12"
 
 class
 	EVOLICITY_TEST_APP
@@ -16,8 +16,6 @@ inherit
 	TEST_SUB_APPLICATION
 		rename
 			extra_log_filter as no_log_filter
-		redefine
-			option_name
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES
@@ -31,8 +29,8 @@ feature -- Basic operations
 			--
 		do
 			Test.set_excluded_file_extensions (<< "evc" >>)
-			Test.do_file_test ("jobserve-results.evol", agent write_substituted_template, 2094473397)
-			Test.do_file_test ("if_then.evol", agent test_if_then, 1380087703)
+			Test.do_file_test ("evol/jobserve-results.evol", agent write_substituted_template, 2710416379)
+			Test.do_file_test ("evol/if_then.evol", agent test_if_then, 1766908322)
 		end
 
 feature -- Test
@@ -129,8 +127,6 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Description: STRING = "Test Evolicity template substitution"
-
-	Option_name: STRING = "evolicity"
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once

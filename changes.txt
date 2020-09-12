@@ -316,3 +316,6 @@ New classes EL_FONT_KEY, EL_FONT_SET, EL_FONT_SET_CACHE
 Mon 7th Sep 2020, 18:36:58
 Fixed {CAIRO_DRAWABLE_CONTEXT_I}.set_clip_rounded_rectangle
 
+Sat 12th Sep 2020, 11:00:38
+Changed EL_MULTI_APPLICATION_ROOT to accept sub-app types as class parameters
+
