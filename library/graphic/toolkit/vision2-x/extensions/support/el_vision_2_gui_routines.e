@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 12:22:26 GMT (Tuesday 8th September 2020)"
-	revision: "28"
+	date: "2020-09-11 13:02:22 GMT (Friday 11th September 2020)"
+	revision: "29"
 
-deferred class
-	EL_VISION_2_GUI_ROUTINES_I
+class
+	EL_VISION_2_GUI_ROUTINES
 
 inherit
 	EV_FRAME_CONSTANTS
@@ -24,6 +24,9 @@ inherit
 	EL_SHARED_ONCE_STRING_8
 	EL_SHARED_ONCE_STRING_32
 	EL_SHARED_ONCE_ZSTRING
+
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -44,13 +47,9 @@ feature -- Access
 
 	environment: EV_ENVIRONMENT
 
-	text_field_background_color: EV_COLOR
-		deferred
-		end
+feature -- Font
 
 	text_field_font: EV_FONT
-
-feature -- Constants
 
 	General_font_families: ARRAYED_LIST [ZSTRING]
 		-- monospace + proportional

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 12:50:02 GMT (Sunday 19th April 2020)"
-	revision: "17"
+	date: "2020-09-12 10:24:49 GMT (Saturday 12th September 2020)"
+	revision: "18"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -152,13 +152,22 @@ feature {NONE} -- Application constants
 
 	Description: ZSTRING
 		once
-			Locale.set_next_translation ("Uninstall %S application")
-			Result := (Locale * "{uninstall-application}") #$ [Application_list.main.name]
+			if attached Application_list.main as main then
+				Result := Uninstall_template #$ [main.name]
+			else
+				Result := Uninstall_template #$ ["???"]
+			end
 		end
 
 	Option_name: STRING
 		once
 			Result := Application_option.sub_app.uninstall
+		end
+
+	Uninstall_template: ZSTRING
+		once
+			Locale.set_next_translation ("Uninstall %S application")
+			Result := Locale * "{uninstall-application}"
 		end
 
 end

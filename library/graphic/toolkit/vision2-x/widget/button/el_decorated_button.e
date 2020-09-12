@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 11:49:17 GMT (Wednesday 19th August 2020)"
-	revision: "10"
+	date: "2020-09-11 10:23:35 GMT (Friday 11th September 2020)"
+	revision: "11"
 
 class
 	EL_DECORATED_BUTTON
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			if attached a_pixmap_set.pixmap (Button_state.normal) as p then
 				set_minimum_size (p.width, p.height)
 			end
-			focus_out_actions.extend (agent set_pixmap_normal)
+			focus_out_actions.extend (agent set_state (button_state.normal))
 		end
 
 	make_with_action (a_pixmap_set: EL_SVG_BUTTON_PIXMAP_SET; a_action: PROCEDURE)
@@ -130,25 +130,10 @@ feature -- Element change
 			Precursor (a_color)
 			pixmap_set.set_background_color (a_color)
 			if is_cursor_over then
-				set_pixmap_highlighted
+				set_state (button_state.highlighted)
 			else
-				set_pixmap_normal
+				set_state (button_state.normal)
 			end
-		end
-
-	set_pixmap_depressed
-		do
-			set_state (button_state.depressed)
-		end
-
-	set_pixmap_highlighted
-		do
-			set_state (button_state.highlighted)
-		end
-
-	set_pixmap_normal
-		do
-			set_state (button_state.normal)
 		end
 
 	set_pixmap_set (a_pixmap_set: like pixmap_set)
@@ -159,12 +144,12 @@ feature -- Element change
 			pixmap_set := a_pixmap_set
 			if is_sensitive then
 				if is_cursor_over then
-					set_pixmap_highlighted
+					set_state (button_state.highlighted)
 				else
-					set_pixmap_normal
+					set_state (button_state.normal)
 				end
 			else
-				set_pixmap_normal
+				set_state (button_state.normal)
 			end
 		end
 
@@ -173,14 +158,14 @@ feature {NONE} -- Event handlers
 	on_focus_in
 		do
 			if not is_highlighted then
-				set_pixmap_highlighted
+				set_state (button_state.highlighted)
 			end
 		end
 
 	on_focus_out
 		do
 			if not is_normal then
-				set_pixmap_normal
+				set_state (button_state.normal)
 			end
 		end
 
@@ -188,7 +173,7 @@ feature {NONE} -- Event handlers
 			--
 		do
 			if a_button = 1 and then is_sensitive then
-				set_pixmap_depressed
+				set_state (button_state.depressed)
 			end
 		end
 
@@ -196,7 +181,7 @@ feature {NONE} -- Event handlers
 			--
 		do
 			if a_button = 1 and then is_sensitive then
-				set_pixmap_highlighted
+				set_state (button_state.highlighted)
 			end
 		end
 
@@ -206,7 +191,7 @@ feature {NONE} -- Event handlers
 			if is_sensitive then
 				set_pointer_style (Style.Hyperlink_cursor)
 				is_cursor_over := True
-				set_pixmap_highlighted
+				set_state (button_state.highlighted)
 			end
 		end
 
@@ -215,7 +200,7 @@ feature {NONE} -- Event handlers
 		do
 			set_pointer_style (Style.Standard_cursor)
 			is_cursor_over := False
-			set_pixmap_normal
+			set_state (button_state.normal)
 		end
 
 	on_pointer_motion (a_x, a_y: INTEGER; a_x_tilt, a_y_tilt, a_pressure: DOUBLE; a_screen_x, a_screen_y: INTEGER)
@@ -226,7 +211,7 @@ feature {NONE} -- Event handlers
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_SHARED_BUTTON_STATE} -- Implementation
 
 	set_state (a_state: NATURAL_8)
 		do

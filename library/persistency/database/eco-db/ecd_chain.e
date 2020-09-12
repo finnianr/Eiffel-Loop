@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:49:59 GMT (Friday 8th May 2020)"
-	revision: "19"
+	date: "2020-09-10 15:26:49 GMT (Thursday 10th September 2020)"
+	revision: "20"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -251,7 +251,7 @@ feature -- Status query
 
 	is_encrypted: BOOLEAN
 		do
-			Result := encrypter /= Default_encrypter
+			Result := not encrypter.is_default
 		end
 
 	has_version_mismatch: BOOLEAN

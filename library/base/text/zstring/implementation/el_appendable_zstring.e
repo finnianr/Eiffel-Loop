@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 12:02:03 GMT (Thursday 20th August 2020)"
-	revision: "6"
+	date: "2020-09-11 13:19:11 GMT (Friday 11th September 2020)"
+	revision: "7"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -29,7 +29,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				internal_append (s)
 			end
 		ensure
-			new_count: count = old (count + s.count)
+			new_count: count = old count + s.count
 			inserted: elks_checking implies same_string (old (current_readable + s))
 		end
 

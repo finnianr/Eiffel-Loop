@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:13:44 GMT (Wednesday 25th September 2019)"
-	revision: "2"
+	date: "2020-09-11 12:57:27 GMT (Friday 11th September 2020)"
+	revision: "3"
 
-class
-	EL_STOCK_COLORS
+deferred class
+	EL_STOCK_COLORS_I
 
 inherit
 	EV_STOCK_COLORS
@@ -23,6 +23,12 @@ inherit
 			Color_read_write as Read_write,
 			Default_background_color as Default_background,
 			Default_foreground_color as Default_foreground
+		end
+
+feature -- Access
+
+	text_field_background: EV_COLOR
+		deferred
 		end
 
 feature -- Factory

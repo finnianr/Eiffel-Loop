@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 13:54:06 GMT (Monday 31st August 2020)"
-	revision: "10"
+	date: "2020-09-11 12:57:55 GMT (Friday 11th September 2020)"
+	revision: "11"
 
 deferred class
 	EL_MODULE_GUI
@@ -17,10 +17,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	GUI: EL_VISION_2_GUI_ROUTINES_I
+	GUI: EL_VISION_2_GUI_ROUTINES
 			--
 		once ("PROCESS")
-			create {EL_VISION_2_GUI_ROUTINES_IMP} Result.make
+			create Result.make
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-11 13:30:34 GMT (Friday 11th January 2019)"
-	revision: "1"
+	date: "2020-09-11 12:59:01 GMT (Friday 11th September 2020)"
+	revision: "2"
 
 class
 	EL_HTML_TEXT_HYPERLINK_AREA
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			level := header.level
 			make_link (
 				header.text, agent html_text.scroll_to_heading_line (header.interval.lower),
-				html_text.content_heading_font (header), GUI.text_field_background_color
+				html_text.content_heading_font (header), Color.text_field_background
 			)
 		end
 

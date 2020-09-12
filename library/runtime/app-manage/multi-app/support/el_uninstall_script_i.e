@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 17:58:14 GMT (Sunday 24th November 2019)"
-	revision: "8"
+	date: "2020-09-12 10:27:10 GMT (Saturday 12th September 2020)"
+	revision: "9"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -99,7 +99,11 @@ feature {NONE} -- Implementation
 
 	menu_name: ZSTRING
 		do
-			Result := Application_list.main.desktop.menu_name
+			if attached Application_list.main as main then
+				Result := main.desktop.menu_name
+			else
+				create Result.make_empty
+			end
 		end
 
 	write_remove_directory (dir_path: EL_DIR_PATH)

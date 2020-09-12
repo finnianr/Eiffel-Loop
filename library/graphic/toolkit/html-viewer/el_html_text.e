@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 13:33:03 GMT (Monday 3rd August 2020)"
-	revision: "13"
+	date: "2020-09-11 12:58:51 GMT (Friday 11th September 2020)"
+	revision: "14"
 
 class
 	EL_HTML_TEXT
@@ -60,6 +60,8 @@ inherit
 			default_create, copy
 		end
 
+	EL_MODULE_COLOR
+
 	EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
@@ -78,7 +80,7 @@ feature {NONE} -- Initialization
 			set_font (a_font)
 
 			disable_edit
-			set_background_color (GUI.text_field_background_color)
+			set_background_color (Color.text_field_background)
 			set_tab_width (Screen.horizontal_pixels (0.5))
 			create style.make (a_font, background_color)
 

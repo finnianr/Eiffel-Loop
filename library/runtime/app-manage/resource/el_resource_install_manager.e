@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 14:29:20 GMT (Sunday 1st December 2019)"
-	revision: "6"
+	date: "2020-09-10 9:37:18 GMT (Thursday 10th September 2020)"
+	revision: "7"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -232,17 +232,17 @@ feature {NONE} -- Implementation
 
 	url_file_item (name: ZSTRING): ZSTRING
 		do
-			Result := url_template #$ [domain, name]
+			Result := url_template #$ [domain_name, name]
 		end
 
 	url_manifest: ZSTRING
 		do
-			Result := url_template #$ [domain, manifest_name]
+			Result := url_template #$ [domain_name, manifest_name]
 		end
 
 feature {NONE} -- Deferred implementation
 
-	domain: STRING
+	domain_name: STRING
 		deferred
 		end
 

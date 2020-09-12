@@ -15,14 +15,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 12:31:26 GMT (Monday 7th September 2020)"
-	revision: "15"
+	date: "2020-09-11 9:19:38 GMT (Friday 11th September 2020)"
+	revision: "16"
 
 deferred class
 	EL_VIEW_DIALOG
 
 inherit
 	EV_POSITIONABLE
+		redefine
+			destroy
+		end
 
 	EL_VIEW_DIALOG_COMPONENTS undefine copy, default_create end
 
@@ -119,6 +122,12 @@ feature -- Element change
 		end
 
 feature -- Basic operations
+
+	destroy
+		do
+			-- Cannot call `implementation.destroy' on Windows
+			internal_dialog.destroy
+		end
 
 	rebuild
 		local

@@ -13,12 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 8:34:27 GMT (Tuesday 31st December 2019)"
-	revision: "16"
+	date: "2020-09-12 10:56:59 GMT (Saturday 12th September 2020)"
+	revision: "17"
 
 deferred class
-	-- Generic to make sure scons generated `BUILD_INFO' is compiled from project source
-	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end]
+	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end, APPLICATION_TYPES -> TUPLE create default_create end]
 
 inherit
 	EL_FACTORY_CLIENT
@@ -34,8 +33,6 @@ inherit
 			Lio as Later_lio,
 			new_lio as new_temporary_lio
 		end
-
-	EL_SHARED_BASE_OPTION
 
 feature {NONE} -- Initialization
 
@@ -65,7 +62,7 @@ feature {NONE} -- Initialization
 --			this could effect subsequent programs that run in the same shell.
 --			Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
-			create list.make (application_type_list, select_first)
+			create list.make (create {APPLICATION_TYPES})
 			list.extend (create {EL_VERSION_APP})
 			list.find (lio, Args.option_name (1))
 			if list.found then
@@ -86,28 +83,6 @@ feature {NONE} -- Initialization
 			if exit_code > 0 then
 				Execution_environment.exit (exit_code)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	applications: TUPLE
-	 	deferred
-	 	end
-
-	call (obj: ANY)
-		do
-		end
-
-	select_first: BOOLEAN
-		-- if `True' first application in `Application_list' selected by default
-		do
-		end
-
-	application_type_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
-		do
-			create Result.make_from_tuple (applications)
-		ensure
-			all_conform_to_EL_SUB_APPLICATION: Result.all_conform
 		end
 
 end

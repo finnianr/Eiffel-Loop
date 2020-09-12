@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-07 9:08:44 GMT (Friday 7th August 2020)"
-	revision: "14"
+	date: "2020-09-10 15:31:14 GMT (Thursday 10th September 2020)"
+	revision: "15"
 
 class
 	EL_AES_ENCRYPTER
@@ -32,6 +32,8 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			make_from_key (new_block)
+		ensure then
+			is_default: is_default
 		end
 
 	make (pass_phrase: READABLE_STRING_GENERAL; key_size_bits: INTEGER)
@@ -123,6 +125,14 @@ feature -- Status setting
 		end
 
 feature -- Status query
+
+	is_default: BOOLEAN
+		-- `True' if created with `default_create'
+		do
+			if key_data.count = Block_size and then key_data.filled_with (0, 0, Block_size - 1) then
+				Result := True
+			end
+		end
 
 	is_default_state: BOOLEAN
 		do

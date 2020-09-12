@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 14:11:16 GMT (Saturday 1st August 2020)"
-	revision: "3"
+	date: "2020-09-10 8:44:09 GMT (Thursday 10th September 2020)"
+	revision: "4"
 
 class
 	EL_GDI_BITMAP_ROUTINES
 
 inherit
-	EL_ORIENTATION_ROUTINES
-
 	WEL_GDIP_IMAGE_LOCK_MODE
 		rename
 			is_valid as is_valid_lock_mode
@@ -65,7 +63,7 @@ feature -- Factory
 			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT
 			proportion: DOUBLE
 		do
-			if dimension = By_width then
+			if dimension = {EL_DIRECTION}.By_width then
 				proportion := size / bitmap.width
 			else
 				proportion := size / bitmap.height

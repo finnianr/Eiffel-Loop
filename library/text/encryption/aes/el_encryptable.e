@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 13:01:28 GMT (Monday 7th September 2020)"
-	revision: "9"
+	date: "2020-09-11 8:38:43 GMT (Friday 11th September 2020)"
+	revision: "10"
 
 class
 	EL_ENCRYPTABLE
@@ -29,9 +29,9 @@ feature -- Element change
 
 feature -- Status query
 
-	has_default_encrypter: BOOLEAN
+	is_default: BOOLEAN
 		do
-			Result := encrypter = Default_encrypter
+			Result := encrypter = Default_encrypter or else encrypter.is_default
 		end
 
 feature -- Access
@@ -41,7 +41,7 @@ feature -- Access
 feature {NONE} -- Constants
 
 	Default_encrypter: EL_AES_ENCRYPTER
-		once ("PROCESS")
+		once
 			create Result
 		end
 

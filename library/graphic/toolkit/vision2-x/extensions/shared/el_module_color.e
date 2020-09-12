@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 13:49:58 GMT (Monday 31st August 2020)"
-	revision: "11"
+	date: "2020-09-11 12:57:42 GMT (Friday 11th September 2020)"
+	revision: "12"
 
 deferred class
 	EL_MODULE_COLOR
@@ -20,10 +20,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	Color: EL_STOCK_COLORS
+	Color: EL_STOCK_COLORS_I
 			--
 		once
-			create Result
+			create {EL_STOCK_COLORS_IMP} Result
 		end
 
 end

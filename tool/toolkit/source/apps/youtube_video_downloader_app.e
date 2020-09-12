@@ -1,7 +1,7 @@
 note
 	description: "[
 		Sub-appliction to download and merge selected audio and video streams from a Youtube video.
-		See [$source YOUTUBE_VIDEO_DOWNLOADER] for details
+		See [$source EL_YOUTUBE_VIDEO_DOWNLOADER] for details
 	]"
 	notes: "See end of class"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:22:39 GMT (Friday 3rd April 2020)"
-	revision: "10"
+	date: "2020-09-10 12:27:32 GMT (Thursday 10th September 2020)"
+	revision: "11"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP

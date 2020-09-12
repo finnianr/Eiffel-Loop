@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:22:25 GMT (Wednesday 20th May 2020)"
-	revision: "14"
+	date: "2020-09-12 10:50:53 GMT (Saturday 12th September 2020)"
+	revision: "15"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -38,11 +38,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (type_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]; a_select_first: BOOLEAN)
+	make (type_tuple: TUPLE)
+		require
+			all_conform_to_EL_SUB_APPLICATION: new_type_list (type_tuple).all_conform
+		local
+			type_list: like new_type_list
 		do
 			make_solitary
+			type_list := new_type_list (type_tuple)
 			make_list (type_list.count)
-			select_first := a_select_first
 			create installable_list.make (5)
 			across type_list as type loop
 				if attached {EL_SUB_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
@@ -53,25 +57,23 @@ feature {NONE} -- Initialization
 				end
 			end
 			compare_objects
+		ensure
+			at_most_one_main_application: count_of (agent is_main) <= 1
 		end
 
 feature -- Access
 
 	installable_list: EL_ARRAYED_LIST [EL_INSTALLABLE_SUB_APPLICATION]
 
-	main: EL_INSTALLABLE_SUB_APPLICATION
+	main: detachable EL_INSTALLABLE_SUB_APPLICATION
 		-- main installable application
-		require
-			has_main_application: has_main
-		local
-			found_app: BOOLEAN
 		do
-			across installable_list as app until found_app loop
-				if app.item.is_main then
-					Result := app.item
-					found_app := True
-				end
+			push_cursor
+			find_first_true (agent is_main)
+			if attached {EL_INSTALLABLE_SUB_APPLICATION} item as main_app then
+				Result := main_app
 			end
+			pop_cursor
 		end
 
 	uninstaller: EL_STANDARD_UNINSTALL_APP
@@ -99,7 +101,8 @@ feature -- Access
 		require
 			has_main_application: has_main
 		once
-			if attached {EL_MENU_DESKTOP_ENVIRONMENT_I} main.desktop as main_app_installer then
+			if attached main as main_app
+				and then attached {EL_MENU_DESKTOP_ENVIRONMENT_I} main_app.desktop as main_app_installer then
 				Result := main_app_installer.launcher
 			else
 				create Result.make_default
@@ -132,17 +135,26 @@ feature -- Basic operations
 		end
 
 	find (lio: EL_LOGGABLE; name: ZSTRING)
-			-- find sub-application with `name' or else user selected application
+			-- if `count = 1' go to first app
+			-- 	or else find sub-application with `is_same_option (name)'
+			--		or else find `main' application
+			-- 	or go to user selected application
 		do
-			find_first_true (agent {EL_SUB_APPLICATION}.is_same_option (name))
-			if after then
-				if select_first then
-					start
-				elseif Base_option.silent then
-					lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
-				else
-					io_put_menu (lio)
-					go_i_th (user_selection)
+			if count = 1 then
+				go_i_th (1)
+			else
+				find_first_true (agent {EL_SUB_APPLICATION}.is_same_option (name))
+				if after then
+					find_first_true (agent is_main)
+
+					if after then
+						if not Base_option.silent then
+							lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
+						else
+							io_put_menu (lio)
+							go_i_th (user_selection)
+						end
+					end
 				end
 			end
 		end
@@ -152,7 +164,10 @@ feature -- Status query
 	has_main: BOOLEAN
 		-- `True' if has a main installable sub-application
 		do
-			Result := installable_list.there_exists (agent {EL_INSTALLABLE_SUB_APPLICATION}.is_main)
+			push_cursor
+			find_first_true (agent is_main)
+			Result := not after
+			pop_cursor
 		end
 
 	has_uninstaller: BOOLEAN
@@ -163,9 +178,6 @@ feature -- Status query
 			end
 		end
 
-	select_first: BOOLEAN
-		-- if `True' first application selected by default
-
 feature -- Removal
 
 	make_empty
@@ -175,6 +187,18 @@ feature -- Removal
 		end
 
 feature {NONE} -- Implementation
+
+	is_main (app: EL_SUB_APPLICATION): BOOLEAN
+		do
+			if attached {EL_INSTALLABLE_SUB_APPLICATION} app as installable then
+				Result := installable.is_main
+			end
+		end
+
+	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
+		do
+			create Result.make_from_tuple (type_tuple)
+		end
 
 	user_selection: INTEGER
 			-- Number selected by user from menu

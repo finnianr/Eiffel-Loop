@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 19:52:15 GMT (Thursday 16th January 2020)"
-	revision: "6"
+	date: "2020-09-10 10:23:36 GMT (Thursday 10th September 2020)"
+	revision: "7"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -175,6 +175,11 @@ feature {NONE} -- Internal attributes
 	write_listener: EL_EVENT_LISTENER
 
 feature {NONE} -- Constants
+
+	Default_listener: EL_DEFAULT_EVENT_LISTENER
+		once ("PROCESS")
+			create Result
+		end
 
 	Default_packet_size: INTEGER = 512
 

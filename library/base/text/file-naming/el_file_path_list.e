@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 11:32:29 GMT (Wednesday 18th March 2020)"
-	revision: "13"
+	date: "2020-09-11 15:05:26 GMT (Friday 11th September 2020)"
+	revision: "14"
 
 class
 	EL_FILE_PATH_LIST

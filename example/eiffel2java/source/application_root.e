@@ -6,24 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:34:41 GMT (Sunday 1st December 2019)"
-	revision: "6"
+	date: "2020-09-12 10:51:54 GMT (Saturday 12th September 2020)"
+	revision: "7"
 
 class
 	APPLICATION_ROOT
 
 inherit
-	EL_MULTI_APPLICATION_ROOT [BUILD_INFO]
+	EL_MULTI_APPLICATION_ROOT [
+		BUILD_INFO, TUPLE [
+			APACHE_VELOCITY_TEST_APP, JAVA_TEST_APP, SVG_TO_PNG_TEST_APP
+		]
+	]
 
 create
 	make
-
-feature {NONE} -- Constants
-
-	Applications: TUPLE [APACHE_VELOCITY_TEST_APP, JAVA_TEST_APP, SVG_TO_PNG_TEST_APP]
-		once
-			create Result
-		end
 
 note
 	to_do: "[
