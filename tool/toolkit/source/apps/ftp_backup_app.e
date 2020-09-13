@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:43:01 GMT (Thursday 20th February 2020)"
-	revision: "17"
+	date: "2020-09-13 11:31:15 GMT (Sunday 13th September 2020)"
+	revision: "18"
 
 class
 	FTP_BACKUP_APP
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_MODULE_USER_INPUT
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make

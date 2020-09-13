@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-03 8:56:35 GMT (Wednesday 3rd July 2019)"
-	revision: "9"
+	date: "2020-09-13 10:55:48 GMT (Sunday 13th September 2020)"
+	revision: "10"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_DIRECTORY
 
@@ -72,7 +72,7 @@ feature -- Access
 
 	application_command: ZSTRING
 		do
-			Result := Environment.Execution.Executable_name
+			Result := Executable.name
 		end
 
 	command_line_options: ZSTRING

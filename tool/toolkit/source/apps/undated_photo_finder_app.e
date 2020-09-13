@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:39:22 GMT (Thursday 20th February 2020)"
-	revision: "9"
+	date: "2020-09-13 11:30:52 GMT (Sunday 13th September 2020)"
+	revision: "10"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -23,6 +23,8 @@ inherit
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make

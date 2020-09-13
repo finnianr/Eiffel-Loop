@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 18:23:27 GMT (Saturday 25th January 2020)"
-	revision: "6"
+	date: "2020-09-13 11:29:12 GMT (Sunday 13th September 2020)"
+	revision: "7"
 
 class
 	EL_BOOK_ASSEMBLY
@@ -21,7 +21,7 @@ inherit
 			make as make_with_count
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 create
 	make
@@ -69,7 +69,7 @@ feature -- Basic operations
 				package
 			>>
 			parts.do_all (agent {EL_SERIALIZEABLE_BOOK_INDEXING}.serialize)
-			if Execution_environment.is_finalized_executable then
+			if Executable.is_finalized then
 				Kindlegen.set_working_directory (output_dir)
 				Kindlegen.put_string ("name", package.output_path.base)
 				Kindlegen.execute

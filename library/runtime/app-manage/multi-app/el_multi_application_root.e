@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:56:59 GMT (Saturday 12th September 2020)"
-	revision: "17"
+	date: "2020-09-13 10:52:04 GMT (Sunday 13th September 2020)"
+	revision: "18"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_ENVIRONMENT
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_LIO
 		rename
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 					-- Only has effect in Windows command console
 			end
 			-- Must be called before current_working_directory changes
-			if Environment.Execution.Executable_path.is_file then
+			if Executable.path.is_file then
 			end
 			lio := new_temporary_lio -- until the logging is initialized in `EL_SUB_APPLICATION'
 

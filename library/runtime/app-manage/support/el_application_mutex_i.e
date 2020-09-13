@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-09-13 11:37:19 GMT (Sunday 13th September 2020)"
+	revision: "7"
 
 deferred class
 	EL_APPLICATION_MUTEX_I
 
 inherit
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature {NONE} -- Implementation
 
@@ -24,14 +24,14 @@ feature {NONE} -- Implementation
 	make
 		do
 			make_default
-			try_lock (Execution_environment.Executable_and_user_name)
+			try_lock (Executable.User_qualified_name)
 		end
 
 	make_for_application_mode (option_name: STRING)
 			-- Create mutex for application  in mode specified by option_name
 		do
 			make_default
-			try_lock (Execution_environment.Executable_and_user_name + "." + option_name)
+			try_lock (Executable.User_qualified_name + "." + option_name)
 		end
 
 feature -- Status change

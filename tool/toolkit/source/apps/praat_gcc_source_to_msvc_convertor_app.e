@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:00 GMT (Wednesday 25th September 2019)"
-	revision: "6"
+	date: "2020-09-13 11:30:30 GMT (Sunday 13th September 2020)"
+	revision: "7"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -19,6 +19,8 @@ inherit
 		redefine
 			Option_name
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 feature {NONE} -- Implementation
 
@@ -33,7 +35,7 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (
-				"", Execution_environment.variable_dir_path ("EIFFEL_LOOP").joined_dir_path ("C_library/Praat-MSVC")
+				"", execution.variable_dir_path ("EIFFEL_LOOP").joined_dir_path ("C_library/Praat-MSVC")
 			)
 		end
 

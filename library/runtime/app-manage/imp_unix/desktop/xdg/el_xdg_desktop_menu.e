@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 14:08:11 GMT (Friday 22nd November 2019)"
-	revision: "7"
+	date: "2020-09-13 10:54:54 GMT (Sunday 13th September 2020)"
+	revision: "8"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_OS
 
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			l_name: ZSTRING; list: EL_ZSTRING_LIST
 		do
 			create list.make_from_general (<<
-				Build_info.installation_sub_directory.to_string, Environment.execution.Executable_name + ".menu"
+				Build_info.installation_sub_directory.to_string, Executable.name + ".menu"
 			>>)
 			l_name := list.joined ('-')
 			l_name.replace_character ('/', '-')

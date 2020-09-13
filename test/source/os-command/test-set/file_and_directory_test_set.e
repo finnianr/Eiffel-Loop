@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 13:01:10 GMT (Tuesday 26th May 2020)"
-	revision: "15"
+	date: "2020-09-13 11:21:43 GMT (Sunday 13th September 2020)"
+	revision: "16"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_MODULE_COMMAND
+
+	EL_MODULE_EXECUTABLE
 
 feature -- Basic operations
 
@@ -223,7 +225,7 @@ feature -- Tests
 
 	test_search_path_list
 		do
-			assert ("has estudio", Execution_environment.search_path_has ("estudio"))
+			assert ("has estudio", Executable.search_path_has ("estudio"))
 		end
 
 feature {NONE} -- Events

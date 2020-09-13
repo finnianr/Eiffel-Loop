@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 17:18:47 GMT (Sunday 19th April 2020)"
-	revision: "13"
+	date: "2020-09-13 11:36:13 GMT (Sunday 13th September 2020)"
+	revision: "14"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			destination_dir := Directory.Application_installation
 			if_installer_debug_enabled (destination_dir)
 
-			lio.put_labeled_string ("Installing program", Execution_environment.executable_name); lio.put_new_line
+			lio.put_labeled_string ("Installing program", Executable.name); lio.put_new_line
 			lio.put_path_field ("Source", Package_dir); lio.put_new_line
 			lio.put_path_field ("Destination", destination_dir); lio.put_new_line
 			lio.put_new_line

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-01-24 9:35:52 GMT (Wednesday 24th January 2018)"
-	revision: "2"
+	date: "2020-09-13 10:48:57 GMT (Sunday 13th September 2020)"
+	revision: "3"
 
 class
 	EL_CONSOLE_ENCODEABLE
@@ -21,7 +21,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature {NONE} -- Implementation
 
@@ -52,7 +52,7 @@ feature -- Constants
 
 	Is_console_utf_8_encoded: BOOLEAN
 		once
-			if {PLATFORM}.is_unix and then Execution_environment.is_work_bench_mode
+			if {PLATFORM}.is_unix and then Executable.is_work_bench
 				and then Console_encoding.code_page ~ Default_workbench_codepage
 			then
 				-- If the have forgotten to set LANG in execution parameters assume that

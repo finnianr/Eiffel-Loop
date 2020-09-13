@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 11:09:46 GMT (Thursday 14th May 2020)"
-	revision: "9"
+	date: "2020-09-13 10:36:49 GMT (Sunday 13th September 2020)"
+	revision: "10"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			from i := 0 until i > argument_count loop
 				create item.make_from_general (args.argument (i))
 				if i = 0 then
-					command_name := item
+					command_path := item
 				else
 					list.extend (item)
 				end
@@ -54,7 +54,7 @@ feature -- Access
 
 	argument_count: INTEGER
 
-	command_name: ZSTRING
+	command_path: EL_FILE_PATH
 
 	directory_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
 		require

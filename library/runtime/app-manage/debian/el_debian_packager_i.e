@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:45:13 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2020-09-13 11:29:51 GMT (Sunday 13th September 2020)"
+	revision: "13"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -36,7 +36,7 @@ inherit
 	EL_MODULE_COLON_FIELD
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 	EL_MODULE_OS
 
 	EL_SHARED_DIRECTORY
@@ -99,7 +99,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			dir_name: ZSTRING
 		do
 			dir_name := path.parent.base
-			if dir_name ~ Bin and then (path.has_extension (Bash_extension) or else path.base ~ execution.executable_name) then
+			if dir_name ~ Bin and then (path.has_extension (Bash_extension) or else path.base ~ Executable.name) then
 				Result := True
 			elseif dir_name ~ Debian and then OS.File_system.line_one (path).starts_with (once "#!/bin") then
 				Result := True

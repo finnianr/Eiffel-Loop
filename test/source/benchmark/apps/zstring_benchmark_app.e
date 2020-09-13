@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-15 11:03:20 GMT (Friday 15th May 2020)"
-	revision: "13"
+	date: "2020-09-13 11:00:09 GMT (Sunday 13th September 2020)"
+	revision: "14"
 
 class
 	ZSTRING_BENCHMARK_APP
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 		local
 			number_of_runs: INTEGER
 		do
-			if Execution_environment.is_work_bench_mode then
+			if Executable.is_work_bench then
 				number_of_runs := 1
 			else
 				number_of_runs := 100

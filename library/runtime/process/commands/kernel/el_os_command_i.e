@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 12:54:51 GMT (Friday 29th May 2020)"
-	revision: "18"
+	date: "2020-09-13 11:26:20 GMT (Sunday 13th September 2020)"
+	revision: "19"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -23,6 +23,8 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_LIO
 
@@ -43,12 +45,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	errors: EL_ZSTRING_LIST
-
-	executable_search_path: ZSTRING
-			--
-		do
-			Result := Execution_environment.executable_search_path
-		end
 
 	working_directory: EL_DIR_PATH
 
@@ -110,20 +106,6 @@ feature -- Basic operations
 				l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
 				do_command (l_command)
 			end
-		end
-
-feature -- Change OS environment
-
-	extend_executable_search_path (path: STRING)
-			--
-		do
-			Execution_environment.extend_executable_search_path (path)
-		end
-
-	set_executable_search_path (env_path: STRING)
-			--
-		do
-			Execution_environment.set_executable_search_path (env_path)
 		end
 
 feature {NONE} -- Implementation
@@ -253,7 +235,7 @@ feature {EL_OS_COMMAND_I} -- Factory
 		-- uniquely numbered temporary file in temporary area set by env label "TEMP"
 		do
 			Result := Temporary_path_format #$ [
-				Operating_environ.temp_directory_name, Execution_environment.Executable_and_user_name,
+				Operating_environ.temp_directory_name, Executable.user_qualified_name,
 				new_temporary_name, once "00." + a_extension
 			]
 			-- check if directory already exists with root ownership (perhaps created by installer program)

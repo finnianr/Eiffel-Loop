@@ -1640,6 +1640,6 @@ Tests for Eiffel interface VTD-XML C API
 
 See class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 ## wel-x-audio.ecf
-Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_unix/media_player_dummy_app.html)
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](http://www.eiffel-loop.com/test/source/wel-x-audio/imp_mswin/media_player_dummy_app.html)
 ## xdoc-scanning.ecf
 Test application class: [XDOC_SCANNING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/xdoc-scanning/xdoc_scanning_autotest_app.html)

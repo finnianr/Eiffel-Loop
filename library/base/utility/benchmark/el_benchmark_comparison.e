@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:00:30 GMT (Thursday 15th November 2018)"
-	revision: "1"
+	date: "2020-09-13 10:53:44 GMT (Sunday 13th September 2020)"
+	revision: "2"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 	new_iteration_count (finalized_count: INTEGER): INTEGER
 		-- iteration count with adjustment for work bench mode
 		do
-			if Execution_environment.is_work_bench_mode then
+			if Executable.is_work_bench then
 				Result := finalized_count // 100
 			else
 				Result := finalized_count

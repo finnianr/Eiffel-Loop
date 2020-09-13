@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 16:22:35 GMT (Saturday 12th September 2020)"
-	revision: "1"
+	date: "2020-09-13 11:50:04 GMT (Sunday 13th September 2020)"
+	revision: "2"
 
 class
 	BATCH_TEST_APP
@@ -22,6 +22,10 @@ inherit
 
 	EL_MODULE_NAMING
 
+	EL_MODULE_EXECUTABLE
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
 create
 	default_create
 
@@ -30,6 +34,7 @@ feature {NONE} -- Initiliazation
 	initialize
 			--
 		do
+			create omission_list.make_from_tuple (Omissions)
 		end
 
 feature -- Basic operations
@@ -39,7 +44,7 @@ feature -- Basic operations
 		local
 
 		do
-			across Application_list as app loop
+			across Application_list as app until execution.return_code.to_boolean loop
 				if not Omission_list.has (app.item.generating_type) then
 					test (app.item)
 				end
@@ -47,6 +52,19 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	call_command (cmd_list: EL_ZSTRING_LIST)
+		local
+			args_tuple: TUPLE
+		do
+			args_tuple := [' ', cmd_list.joined_words]
+			if Executable.is_finalized then
+				execution.system (Executable.path.to_string.joined (args_tuple))
+			else
+				lio.put_line (Executable.name.joined (args_tuple))
+				lio.put_new_line
+			end
+		end
 
 	test (application: EL_SUB_APPLICATION)
 		local
@@ -65,16 +83,18 @@ feature {NONE} -- Implementation
 				ecf_name.to_lower
 				lio.put_labeled_string ("Library", ecf_name)
 				lio.put_new_line
-				create cmd_list.make_from_general (<< EL_test_path.to_string, Hypen + application.option_name >>)
-				lio.put_line (cmd_list.joined_words)
-				lio.put_new_line
-				if application.generating_type ~ {BASE_AUTOTEST_APP} then
+				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
+				call_command (cmd_list)
+				if application.generating_type ~ {BASE_AUTOTEST_APP} and then execution.return_code = 0 then
 					cmd_list.append_general (<< "-single", "-zstring_codec", "ISO-8859-1" >>)
-					lio.put_line (cmd_list.joined_words)
-					lio.put_new_line
+					call_command (cmd_list)
 				end
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	omission_list: EL_TUPLE_TYPE_LIST [EL_SUB_APPLICATION]
 
 feature {NONE} -- Constants
 
@@ -92,16 +112,9 @@ feature {NONE} -- Constants
 			Result := "-"
 		end
 
-	Omission_list: ARRAY [TYPE [EL_SUB_APPLICATION]]
+	Omissions: TUPLE [FTP_TEST_APP, FTP_AUTOTEST_APP]
 		once
-			Result := << {FTP_TEST_APP}, {FTP_AUTOTEST_APP} >>
-			Result.compare_objects
-		end
-
-	EL_test_path: EL_FILE_PATH
-		once
-			Result := "build/$ISE_PLATFORM/package/bin/el_test"
-			Result.expand
+			create Result
 		end
 
 end

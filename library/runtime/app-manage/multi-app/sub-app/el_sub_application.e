@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:21:46 GMT (Wednesday 20th May 2020)"
-	revision: "43"
+	date: "2020-09-13 10:58:45 GMT (Sunday 13th September 2020)"
+	revision: "44"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_BUILD_INFO
 	EL_MODULE_EXCEPTION
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 	EL_MODULE_DIRECTORY
 	EL_MODULE_FILE_SYSTEM
 	EL_MODULE_LIO
@@ -257,7 +257,7 @@ feature {NONE} -- Implementation
 			else
 				build_version := Build_info.version.out
 			end
-			lio.put_labeled_string ("Executable", Execution.executable_path.base)
+			lio.put_labeled_string ("Executable", Executable.name)
 			lio.put_labeled_string (" Version", build_version)
 			lio.put_new_line
 

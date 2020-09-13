@@ -6,25 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:15:26 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2020-09-13 11:35:06 GMT (Sunday 13th September 2020)"
+	revision: "9"
 
 deferred class
 	EL_INSTALLER_CONSTANTS
 
 inherit
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature {NONE} -- Constants
 
 	Package_dir: EL_DIR_PATH
 		once
-			if Execution_environment.is_work_bench_mode then
+			if Executable.is_work_bench then
 				Result := "build/$ISE_PLATFORM/package"; Result.expand
 					-- Eg. "build/win64/package"
 			else
 				-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory
-				Result := Execution_environment.executable_path.parent.parent
+				Result := Executable.parent_dir.parent
 			end
 		end
 

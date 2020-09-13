@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 13:01:42 GMT (Friday 29th May 2020)"
-	revision: "5"
+	date: "2020-09-13 11:45:09 GMT (Sunday 13th September 2020)"
+	revision: "6"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -26,11 +26,6 @@ create
 	make
 
 feature {NONE} -- Implementation
-
-	executable_file_extensions: LIST [ZSTRING]
-		do
-			create {ARRAYED_LIST [ZSTRING]} Result.make_from_array (<< once "" >>)
-		end
 
 	console_code_page: NATURAL
 			-- For windows. Returns 0 in Unix
@@ -74,8 +69,6 @@ feature {NONE} -- Constants
 		once
 			Result := "xdg-open "
 		end
-
-	Search_path_separator: CHARACTER_32 = ':'
 
 	User_configuration_directory_name: ZSTRING
 		once

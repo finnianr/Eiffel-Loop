@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:27:10 GMT (Saturday 12th September 2020)"
-	revision: "9"
+	date: "2020-09-13 10:55:14 GMT (Sunday 13th September 2020)"
+	revision: "10"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_COMMAND
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_DEFERRED_LOCALE
 
@@ -142,7 +142,7 @@ feature {NONE} -- Constants
 
 	Application_path: EL_FILE_PATH
 		once
-			Result := Directory.Application_bin + Execution_environment.Executable_name
+			Result := Directory.Application_bin + Executable.name
 		end
 
 	Return_prompt: ZSTRING

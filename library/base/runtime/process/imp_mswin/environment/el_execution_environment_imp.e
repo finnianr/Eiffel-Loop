@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:17:39 GMT (Sunday 28th June 2020)"
-	revision: "8"
+	date: "2020-09-13 11:44:11 GMT (Sunday 13th September 2020)"
+	revision: "9"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -84,20 +84,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	executable_file_extensions: LIST [ZSTRING]
-		do
-			Result := Executable_extensions_spec.as_lower.split (';')
-			across Result as extensions loop
-				extensions.item.remove_head (1)
-			end
-		end
-
 	Data_dir_name_prefix: ZSTRING
 		once
 			create Result.make_empty
 		end
-
-	Search_path_separator: CHARACTER_32 = ';'
 
 	User_configuration_directory_name: ZSTRING
 		once

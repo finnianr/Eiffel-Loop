@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
-	revision: "22"
+	date: "2020-09-13 10:53:07 GMT (Sunday 13th September 2020)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -35,7 +35,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature -- Basic operations
 
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				print_field_meta_data (lio, Result.field_list.to_array)
 				lio.put_new_line
-				if not Execution_environment.is_work_bench_mode then
+				if not Executable.is_work_bench then
 					create exception
 					exception.set_description (field_structure_error)
 					exception.raise

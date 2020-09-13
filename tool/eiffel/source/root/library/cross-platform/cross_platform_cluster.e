@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-27 12:17:45 GMT (Thursday 27th December 2018)"
-	revision: "3"
+	date: "2020-09-13 11:33:18 GMT (Sunday 13th September 2020)"
+	revision: "4"
 
 class
 	CROSS_PLATFORM_CLUSTER
@@ -45,6 +45,8 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_EXECUTABLE
 
 create
 	make
@@ -130,7 +132,7 @@ feature {NONE} -- Implementation
 				lio.put_labeled_string ("copy", actual_path.to_string)
 				lio.put_labeled_string (" to", target_path)
 				lio.put_new_line
-				if Execution_environment.is_finalized_executable then
+				if Executable.is_finalized then
 					Execution_environment.push_current_working (cluster_dir)
 
 					File_system.make_directory (target_path.parent)

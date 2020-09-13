@@ -1,13 +1,13 @@
 note
-	description: "Ftp test set"
+	description: "FTP test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:09:46 GMT (Friday 14th February 2020)"
-	revision: "11"
+	date: "2020-09-12 16:30:10 GMT (Saturday 12th September 2020)"
+	revision: "12"
 
 class
 	FTP_TEST_SET
