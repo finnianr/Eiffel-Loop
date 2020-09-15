@@ -14,28 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:30:54 GMT (Tuesday 26th May 2020)"
-	revision: "65"
+	date: "2020-09-15 10:22:28 GMT (Tuesday 15th September 2020)"
+	revision: "66"
 
 class
 	OS_COMMAND_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION [TUPLE [OS_COMMAND_TEST_SET, FILE_AND_DIRECTORY_TEST_SET]]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type: TUPLE [OS_COMMAND_TEST_SET]
-		do
-			create Result
-		end
-
-	test_types_all: TUPLE [OS_COMMAND_TEST_SET, FILE_AND_DIRECTORY_TEST_SET]
-		do
-			create Result
-		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:50:04 GMT (Sunday 13th September 2020)"
-	revision: "2"
+	date: "2020-09-15 10:59:39 GMT (Tuesday 15th September 2020)"
+	revision: "3"
 
 class
 	BATCH_TEST_APP
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
 				call_command (cmd_list)
 				if application.generating_type ~ {BASE_AUTOTEST_APP} and then execution.return_code = 0 then
-					cmd_list.append_general (<< "-single", "-zstring_codec", "ISO-8859-1" >>)
+					cmd_list.append_general (<< "-test_set", "ZSTRING_TEST_SET", "-zstring_codec", "ISO-8859-1" >>)
 					call_command (cmd_list)
 				end
 			end

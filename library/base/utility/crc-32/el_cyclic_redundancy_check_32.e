@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 9:32:09 GMT (Saturday 4th April 2020)"
-	revision: "12"
+	date: "2020-09-13 19:35:19 GMT (Sunday 13th September 2020)"
+	revision: "13"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -281,9 +281,12 @@ feature -- Add strings
 		end
 
 	add_string_list (list: ITERABLE [READABLE_STRING_GENERAL])
+		local
+			l_str: READABLE_STRING_GENERAL
 		do
 			across list as str loop
-				add_string_general (str.item)
+				l_str := str.item
+				add_string_general (l_str)
 			end
 		end
 

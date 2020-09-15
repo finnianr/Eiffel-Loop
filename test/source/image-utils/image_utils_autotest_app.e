@@ -13,23 +13,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:51:18 GMT (Friday 14th February 2020)"
-	revision: "6"
+	date: "2020-09-15 11:04:20 GMT (Tuesday 15th September 2020)"
+	revision: "7"
 
 class
 	IMAGE_UTILS_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
+		TUPLE [IMAGE_UTILS_TEST_SET]
+	]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [IMAGE_UTILS_TEST_SET]
-		do
-			create Result
-		end
 
 end

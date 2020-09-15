@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 15:54:23 GMT (Saturday 12th September 2020)"
-	revision: "11"
+	date: "2020-09-13 20:29:25 GMT (Sunday 13th September 2020)"
+	revision: "12"
 
 deferred class
 	EL_FILE_LINE_SOURCE
@@ -136,21 +136,25 @@ feature -- Cursor movement
 		-- Move to next position
 		require else
 			file_is_open: is_open
+		local
+			found_item: BOOLEAN
 		do
-			if file = default_file then
-				index := count
-
-			elseif not file.end_of_file then
+			if not file.end_of_file then
 				file.read_line
-				if file.end_of_file implies file.last_string.count > 0 then
-					update_item
-					count := count + 1
+				if file.end_of_file then
+					found_item := file.last_string.count > 0
+				else
+					found_item := True
 				end
 			end
-			if not is_file_external and then file.end_of_file then
-				file.close
+			if found_item then
+				update_item
+				count := count + 1
 			end
 			index := index + 1
+			if after and not is_file_external then
+				file.close
+			end
 		ensure then
 			closed_if_eof: after and not is_file_external implies file.is_closed
 		end
@@ -159,7 +163,8 @@ feature -- Cursor movement
 			-- Move to first position if any.
 		do
 			if file = default_file then
-				count := index + 1
+				index := 1
+				count := 0
 			else
 				open_at_start
 				count := 0

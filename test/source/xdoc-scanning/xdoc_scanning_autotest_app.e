@@ -16,14 +16,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-29 13:45:01 GMT (Saturday 29th August 2020)"
-	revision: "11"
+	date: "2020-09-15 10:25:35 GMT (Tuesday 15th September 2020)"
+	revision: "12"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [
+		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
+		OBJECT_BUILDER_TEST_SET,
+		PYXIS_PARSER_TEST_SET,
+		PYXIS_TO_XML_TEST_SET,
+		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
+	]]
 		redefine
 			log_filter
 		end
@@ -34,22 +40,6 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [EL_PYXIS_RESOURCE_SET]
-		do
-			create Result
-		end
-
-	test_type: TUPLE [PYXIS_TO_XML_TEST_SET]
-		do
-			create Result
-		end
-
-	test_types_all: TUPLE [
-		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
-		OBJECT_BUILDER_TEST_SET,
-		PYXIS_PARSER_TEST_SET,
-		PYXIS_TO_XML_TEST_SET,
-		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
-	]
 		do
 			create Result
 		end

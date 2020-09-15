@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-06 13:31:40 GMT (Sunday 6th September 2020)"
-	revision: "20"
+	date: "2020-09-14 11:23:30 GMT (Monday 14th September 2020)"
+	revision: "21"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -105,6 +105,7 @@ feature -- String output
 			start_of_file: position = 0
 		do
 			if is_bom_writeable then
+			--	0xEF,0xBB,0xBF
 				put_raw_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 			end
 		end

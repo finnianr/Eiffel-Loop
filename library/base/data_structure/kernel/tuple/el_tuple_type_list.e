@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 10:12:53 GMT (Sunday 13th September 2020)"
-	revision: "6"
+	date: "2020-09-15 10:57:27 GMT (Tuesday 15th September 2020)"
+	revision: "7"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -17,10 +17,12 @@ inherit
 		rename
 			make as make_list,
 			make_from_tuple as make_list_from_tuple
+		redefine
+			make_from_array
 		end
 
 create
-	make, make_from_static, make_from_tuple
+	make, make_from_static, make_from_tuple, make_from_array
 
 feature {NONE} -- Initialization
 
@@ -40,6 +42,13 @@ feature {NONE} -- Initialization
 					non_conforming_list.extend (type.item)
 				end
 			end
+		end
+
+	make_from_array (a: ARRAY [TYPE [T]])
+		do
+			Precursor (a)
+			compare_objects
+			non_conforming_list := Empty_list
 		end
 
 	make_from_static (static_type: INTEGER)

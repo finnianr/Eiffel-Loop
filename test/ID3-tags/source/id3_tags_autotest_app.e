@@ -13,23 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 7:48:18 GMT (Tuesday 28th April 2020)"
-	revision: "63"
+	date: "2020-09-15 10:18:27 GMT (Tuesday 15th September 2020)"
+	revision: "64"
 
 class
 	ID3_TAGS_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [ID3_TAG_INFO_TEST_SET]]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [ID3_TAG_INFO_TEST_SET]
-		do
-			create Result
-		end
 
 end

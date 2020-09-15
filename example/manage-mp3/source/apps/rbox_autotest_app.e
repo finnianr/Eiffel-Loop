@@ -25,29 +25,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:50:49 GMT (Saturday 30th May 2020)"
-	revision: "15"
+	date: "2020-09-15 10:17:56 GMT (Tuesday 15th September 2020)"
+	revision: "16"
 
 class
 	RBOX_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
-		redefine
-			visible_types
-		end
-
-create
-	make
-
-feature {NONE} -- Implementation
-
-	test_type: TUPLE [ADD_ALBUM_ART_TASK_TEST_SET]
-		do
-			create Result
-		end
-
-	test_types_all: TUPLE [
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [
 		ADD_ALBUM_ART_TASK_TEST_SET,
 		COLLATE_SONGS_TASK_TEST_SET,
 		EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET,
@@ -60,10 +45,15 @@ feature {NONE} -- Implementation
 		REPLACE_SONGS_TASK_TEST_SET,
 		TANGO_MP3_FILE_COLLATOR_TEST_SET,
 		UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
-	]
-		do
-			create Result
+	]]
+		redefine
+			visible_types
 		end
+
+create
+	make
+
+feature {NONE} -- Implementation
 
 	visible_types: TUPLE [EL_GVFS_OS_COMMAND, EL_GVFS_FILE_EXISTS_COMMAND]
 		do

@@ -13,23 +13,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:49:45 GMT (Friday 14th February 2020)"
-	revision: "65"
+	date: "2020-09-15 11:04:07 GMT (Tuesday 15th September 2020)"
+	revision: "66"
 
 class
 	AMAZON_INSTANT_ACCESS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION [
+		TUPLE [AMAZON_INSTANT_ACCESS_TEST_SET]
+	]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [AMAZON_INSTANT_ACCESS_TEST_SET]
-		do
-			create Result
-		end
 
 end

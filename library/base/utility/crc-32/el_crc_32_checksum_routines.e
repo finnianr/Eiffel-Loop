@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:14:47 GMT (Friday 8th May 2020)"
-	revision: "5"
+	date: "2020-09-13 12:20:22 GMT (Sunday 13th September 2020)"
+	revision: "6"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -77,7 +77,6 @@ feature -- Measurement
 		do
 			if attached open_lines (file_path, Utf_8) as lines then
 				Result := string_list (lines)
-				lines.close
 			end
 		end
 

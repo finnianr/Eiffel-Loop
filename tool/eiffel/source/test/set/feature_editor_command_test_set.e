@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-01 10:41:45 GMT (Wednesday 1st July 2020)"
-	revision: "6"
+	date: "2020-09-14 11:28:21 GMT (Monday 14th September 2020)"
+	revision: "7"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -71,18 +71,18 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
 		once
 			create Result.make_equal (11)
-			Result ["el_copy_file_impl.e"] := os_checksum (2820257958, 976193777)
-			Result ["el_mp3_convert_command.e"] := os_checksum (4019820802, 1134168200)
+			Result ["el_copy_file_impl.e"] := os_checksum (3882863469, 976193777)
+			Result ["el_mp3_convert_command.e"] := os_checksum (3362452, 1134168200)
 
 --			Test insertions for: do_all (eval: EL_EQA_TEST_EVALUATOR)
 --			and test correct BOM marker for UTF-8 encoding
-			Result ["el_subject_line_decoder_test_set.e"] := os_checksum (4132782535, 679669806)
+			Result ["el_subject_line_decoder_test_set.e"] := os_checksum (323797391, 679669806)
 
-			Result ["job_duration_parser.e"] := os_checksum (287350020, 3154337433)
-			Result ["subscription_delivery_email.e"] := os_checksum (4210816405, 3806504259)
+			Result ["job_duration_parser.e"] := os_checksum (2651641799, 3154337433)
+			Result ["subscription_delivery_email.e"] := os_checksum (1955610778, 3806504259)
 
 --			test frozen feature name sort
-			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (3298906707, 762848606)
+			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (118099087, 762848606)
 		end
 
 	Data_dir: EL_DIR_PATH

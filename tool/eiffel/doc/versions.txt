@@ -1,3 +1,6 @@
+1.2.6
+* Important fix to {EL_FILE_LINE_SOURCE}.forth
+
 1.2.5
 * Test set
 * Fixed PYXIS_TRANSLATION_TREE_COMPILER encoding problem when merging files

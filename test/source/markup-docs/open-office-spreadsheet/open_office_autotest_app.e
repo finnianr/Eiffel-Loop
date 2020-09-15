@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:52:43 GMT (Friday 14th February 2020)"
-	revision: "13"
+	date: "2020-09-15 10:21:45 GMT (Tuesday 15th September 2020)"
+	revision: "14"
 
 class
 	OPEN_OFFICE_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [OPEN_OFFICE_TEST_SET]]
 		redefine
 			visible_types
 		end
@@ -31,11 +31,6 @@ create
 	make
 
 feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [OPEN_OFFICE_TEST_SET]
-		do
-			create Result
-		end
 
 	visible_types: TUPLE [EL_SPREAD_SHEET, EL_SPREAD_SHEET_TABLE]
 		do

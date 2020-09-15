@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:53:52 GMT (Friday 14th February 2020)"
-	revision: "7"
+	date: "2020-09-15 10:20:29 GMT (Tuesday 15th September 2020)"
+	revision: "8"
 
 class
 	EROS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION [TUPLE [EROS_TEST_SET]]
 		redefine
 			log_filter
 		end
@@ -31,11 +31,6 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [ROW_VECTOR_COMPLEX_64]
-		do
-			create Result
-		end
-
-	test_type, test_types_all: TUPLE [EROS_TEST_SET]
 		do
 			create Result
 		end

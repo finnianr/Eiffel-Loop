@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-31 13:20:00 GMT (Friday 31st January 2020)"
-	revision: "3"
+	date: "2020-09-15 9:59:35 GMT (Tuesday 15th September 2020)"
+	revision: "4"
 
 class
 	EL_AUTOTEST_COMMAND_OPTIONS
@@ -23,15 +23,15 @@ create
 
 feature -- Status query
 
-	single: BOOLEAN
+	test_set: STRING
 
 feature {NONE} -- Constants
 
 	Help_text: STRING
 		once
 			Result := joined (Precursor, "[
-				single:
-					Evaluate only the single test in `evaluator_type'
+				test_set:
+					Name of EQA test set to evaluate
 			]")
 		end
 

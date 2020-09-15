@@ -7,48 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-03 10:31:52 GMT (Friday 3rd July 2020)"
-	revision: "93"
+	date: "2020-09-15 11:07:02 GMT (Tuesday 15th September 2020)"
+	revision: "94"
 
 class
 	BASE_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
-		redefine
-			visible_types
-		end
-
-create
-	make
-
-feature {NONE} -- Implementation
-
-	array: ARRAY [TYPE [ANY]]
-		once
-			Result := << {COMMA_SEPARATED_IMPORT_TEST_SET} >>
-		end
-
-	compile: TUPLE [
-		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
-		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
-		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
-		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
-
-		EL_XML_STRING_8_ESCAPER
-	]
-		-- Compile classes for maintenance
-		do
-			create Result
-		end
-
-	test_type: TUPLE [PATH_TEST_SET]
---	test_type: TUPLE [ZSTRING_TEST_SET] -- allows testing with ISO-8859-1
-		do
-			create Result
-		end
-
-	test_types_all: TUPLE [
+	EL_AUTOTEST_SUB_APPLICATION [TUPLE [
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
@@ -74,7 +40,25 @@ feature {NONE} -- Implementation
 
 		ZSTRING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
+	]]
+		redefine
+			visible_types
+		end
+
+create
+	make
+
+feature {NONE} -- Implementation
+
+	compile: TUPLE [
+		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
+		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
+		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
+		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
+
+		EL_XML_STRING_8_ESCAPER
 	]
+		-- classes compiled for maintenance
 		do
 			create Result
 		end

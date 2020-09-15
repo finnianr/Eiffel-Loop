@@ -13,23 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:51:03 GMT (Friday 14th February 2020)"
-	revision: "62"
+	date: "2020-09-15 10:21:14 GMT (Tuesday 15th September 2020)"
+	revision: "63"
 
 class
 	I18N_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [TRANSLATION_TABLE_TEST_SET]]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [TRANSLATION_TABLE_TEST_SET]
-		do
-			create Result
-		end
 
 end

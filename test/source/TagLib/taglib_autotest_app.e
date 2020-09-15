@@ -13,23 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-08 14:08:42 GMT (Sunday 8th March 2020)"
-	revision: "63"
+	date: "2020-09-15 10:23:38 GMT (Tuesday 15th September 2020)"
+	revision: "64"
 
 class
 	TAGLIB_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [TAGLIB_TEST_SET]]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [TAGLIB_TEST_SET]
-		do
-			create Result
-		end
 
 end

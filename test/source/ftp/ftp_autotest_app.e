@@ -13,23 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:54:05 GMT (Friday 14th February 2020)"
-	revision: "62"
+	date: "2020-09-15 10:20:46 GMT (Tuesday 15th September 2020)"
+	revision: "63"
 
 class
 	FTP_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION
+	EL_AUTOTEST_SUB_APPLICATION [TUPLE [FTP_TEST_SET]]
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	test_type, test_types_all: TUPLE [FTP_TEST_SET]
-		do
-			create Result
-		end
 
 end
