@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:24:49 GMT (Saturday 12th September 2020)"
-	revision: "18"
+	date: "2020-09-17 12:51:56 GMT (Thursday 17th September 2020)"
+	revision: "19"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -30,7 +30,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			option_name, App_directory_list
+			option_name, App_directory_list, init_console
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -60,6 +60,11 @@ feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
 		do
 		end
 
+	init_console
+		do
+			create text.make
+		end
+
 feature -- Basic operations
 
 	run
@@ -67,15 +72,15 @@ feature -- Basic operations
 		require else
 			has_main_application: Application_list.has_main
 		do
-			lio.put_string_field (Locale * "Uninstall", Application_list.Main_launcher.name)
+			lio.put_string_field (text.uninstall, Application_list.Main_launcher.name)
 			lio.put_new_line_x2
-			lio.put_string (Uninstall_warning)
+			lio.put_string (text.uninstall_warning)
 			lio.put_new_line_x2
-			lio.put_string (Confirmation_prompt_template)
+			lio.put_string (text.uninstall_confirmation)
 
-			if User_input.entered_letter (yes.to_latin_1 [1]) then
+			if User_input.entered_letter (text.first_letter_yes.to_character_8) then
 				lio.put_new_line
-				lio.put_line (Commence_message)
+				lio.put_line (text.uninstalling)
 				across Application_list.installable_list as app loop
 					app.item.uninstall
 				end
@@ -88,40 +93,25 @@ feature -- Basic operations
 
 feature {EL_UNINSTALL_SCRIPT_I} -- String constants
 
-	Commence_message: ZSTRING
-		once
-			Result := Locale * "Uninstalling:"
-		end
-
-	Confirmation_prompt_template: ZSTRING
-		once
-			Locale.set_next_translation ("If you are sure press 'y' and <return>:")
-			Result := Locale * "{uninstall-confirmation}"
-		end
-
 	Name: ZSTRING
 		once
-			Result := Name_template #$ [Application_list.Main_launcher.name]
+			Result := text.uninstall_x #$ [Application_list.Main_launcher.name]
 		end
 
-	Name_template: ZSTRING
-		once
-			Locale.set_next_translation ("Uninstall %S")
-			Result := Locale * "{uninstall-x}"
-		end
+feature {NONE} -- Internal attributes
 
-	Uninstall_warning: ZSTRING
-		once
-			Locale.set_next_translation ("THIS ACTION WILL PERMANENTLY DELETE ALL YOUR DATA.")
-			Result := Locale * "{uninstall-warning}"
-		end
-
-	Yes: ZSTRING
-		once
-			Result := Locale * "yes"
-		end
+	text: EL_UNINSTALL_TEXTS
 
 feature {NONE} -- Installer constants
+
+	Desktop: EL_DESKTOP_ENVIRONMENT_I
+		once
+			if Application_list.has_main then
+				create {EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP} Result.make (Current)
+			else
+				Result := Default_desktop
+			end
+		end
 
 	Desktop_launcher: EL_DESKTOP_MENU_ITEM
 		once
@@ -131,15 +121,6 @@ feature {NONE} -- Installer constants
 	Desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 		once
 			Result := << new_category ("System") >>
-		end
-
-	Desktop: EL_DESKTOP_ENVIRONMENT_I
-		once
-			if Application_list.has_main then
-				create {EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP} Result.make (Current)
-			else
-				Result := Default_desktop
-			end
 		end
 
 feature {NONE} -- Application constants
@@ -153,21 +134,15 @@ feature {NONE} -- Application constants
 	Description: ZSTRING
 		once
 			if attached Application_list.main as main then
-				Result := Uninstall_template #$ [main.name]
+				Result := text.uninstall_application #$ [main.name]
 			else
-				Result := Uninstall_template #$ ["???"]
+				Result := text.uninstall_application #$ ["???"]
 			end
 		end
 
 	Option_name: STRING
 		once
 			Result := Application_option.sub_app.uninstall
-		end
-
-	Uninstall_template: ZSTRING
-		once
-			Locale.set_next_translation ("Uninstall %S application")
-			Result := Locale * "{uninstall-application}"
 		end
 
 end

@@ -1,17 +1,13 @@
 note
-	description: "[
-		Localizeable class for assessing, entering and validating pass phrases for AES encryption
-		
-		See file: `localization/el_pass_phrase.pyx'
-	]"
+	description: "Validate pass phrases for AES encryption"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-09 8:50:43 GMT (Wednesday 9th September 2020)"
-	revision: "12"
+	date: "2020-09-17 11:38:32 GMT (Thursday 17th September 2020)"
+	revision: "13"
 
 class
 	EL_AES_CREDENTIAL

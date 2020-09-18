@@ -10,15 +10,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:47:07 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2020-09-16 8:09:31 GMT (Wednesday 16th September 2020)"
+	revision: "5"
 
 class
 	EL_ADJUSTED_DISPLAY_SIZE
 
 inherit
 	ANY
-	
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
@@ -26,16 +26,17 @@ inherit
 	EL_MODULE_SCREEN
 
 create
-	make, make_directory
+	make, make_default
 
 feature {NONE} -- Initialization
 
 	make
 		do
 			make_default
-			set_dir_path (Directory.app_configuration)
-			if not file_path.exists then
-				set_dir_path (Directory.Application_installation)
+			across <<
+				Directory.app_configuration, Directory.Application_installation
+			>> as dir_path until file_path.exists loop
+				set_file_path (dir_path.item)
 			end
 		end
 
@@ -45,6 +46,7 @@ feature {NONE} -- Initialization
 		do
 			width_cms := Screen.width_cms
 			height_cms := Screen.height_cms
+			create file_path
 
 			-- On some Windows systems the correct EDID display size is missing
 			-- with an erroneous figure of 255 being used instead
@@ -62,12 +64,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_directory (dir_path: EL_DIR_PATH)
-		do
-			make_default
-			file_path := dir_path + Relative_path
-		end
-
 feature -- Access
 
 	height_cms: REAL
@@ -78,7 +74,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_dir_path (dir_path: EL_DIR_PATH)
+	set_file_path (dir_path: EL_DIR_PATH)
 		do
 			file_path := dir_path + Relative_path
 		end

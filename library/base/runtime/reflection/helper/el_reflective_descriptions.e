@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:09:22 GMT (Monday 13th January 2020)"
-	revision: "1"
+	date: "2020-09-17 10:17:55 GMT (Thursday 17th September 2020)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -40,27 +40,18 @@ feature -- Access
 		-- table of descriptions and default values derived from `help_text' and `default' option values
 		local
 			lines: EL_ZSTRING_LIST; line, text: ZSTRING
-			l_current: like current_reflective
+			l_current: like current_reflective; help_table: EL_DESCRIPTION_TABLE
 		do
 			if descriptions.is_empty then
 				create Result
 			else
 				l_current := current_reflective
-				create lines.make_with_lines (descriptions)
-				create Result.make_equal (lines.count // 2)
-				from lines.start until lines.after loop
-					line := lines.item
-					if line.ends_with (character_string (':'))
-						and then not line.starts_with (character_string ('%T'))
-					then
-						line.remove_tail (1)
-						if field_table.has_key (line) and then lines.index < lines.count then
-							text := lines [lines.index + 1]
-							text.prune_all_leading ('%T')
-							Result.extend ([text, field_table.found_item.value (l_current)], line)
-						end
+				create help_table.make (descriptions)
+				create Result.make_equal (help_table.count)
+				across help_table as table loop
+					if field_table.has_key (table.key) then
+						Result.extend ([table.item, field_table.found_item.value (l_current)], table.key)
 					end
-					lines.forth
 				end
 			end
 		ensure
