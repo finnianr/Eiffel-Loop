@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:18:59 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-09-20 11:40:21 GMT (Sunday 20th September 2020)"
+	revision: "7"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 			thread_list_box.extend_unexpanded (thread_name_drop_down_list)
 			thread_list_box.extend (create {EV_CELL})
 
- 			extend_unexpanded (create_navigation_toolbar)
+ 			extend_unexpanded (new_navigation_toolbar)
 
  			extend_unexpanded (label)
 
@@ -85,29 +85,31 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- GUI component creation
 
-	create_navigation_toolbar: EV_TOOL_BAR
+	new_navigation_toolbar: EV_TOOL_BAR
 			--
+		local
+			name, description: ZSTRING
 		do
 			create Result
-			Result.extend (create_tool_bar_button (Item_START_pixmap, "Switch to first thread", agent go_history_start))
-			Result.extend (create_tool_bar_button (Item_PREVIOUS_pixmap, "Switch to previous thread", agent go_history_left))
-			Result.extend (create_tool_bar_button (Item_NEXT_pixmap, "Switch to next thread", agent go_history_right))
-			Result.extend (create_tool_bar_button (Item_END_pixmap, "Switch to end thread", agent go_history_finish))
-			Result.extend (
-				create_tool_bar_button (Item_REFRESH_pixmap, "Refresh console with contents of thread's log file",
-				agent refresh_console_from_log_file)
-			)
+			Action_table.set_targets (Current)
+			across item_pixmap_list as list loop
+				name := list.item.name
+				if name ~ Refresh then
+					description := "Refresh console with contents of thread's log file"
+				else
+					description := Switch_template #$ [name]
+				end
+				Result.extend (new_tool_bar_button (list.item, description, Action_table [name]))
+			end
 		end
 
-	create_tool_bar_button (
-		pixmap: EV_PIXMAP; tooltip: STRING; select_action: PROCEDURE
-	): EV_TOOL_BAR_BUTTON
+	new_tool_bar_button (pixmap: EV_PIXMAP; tooltip: ZSTRING; select_action: PROCEDURE): EV_TOOL_BAR_BUTTON
 			--
 		do
 			create Result
 			Result.set_pixmap (pixmap)
 			Result.select_actions.force_extend (select_action)
-			Result.set_tooltip (tooltip)
+			Result.set_tooltip (tooltip.to_unicode)
 		end
 
 feature {NONE} -- GUI event handlers
@@ -123,8 +125,8 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 	add_keyboard_shortcuts (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS)
 			--
 		do
-			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_left, agent go_history_left)
-			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_right, agent go_history_right)
+			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_left, agent go_history_previous)
+			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_right, agent go_history_next)
 		end
 
 	add_thread (a_thread: EL_IDENTIFIED_THREAD_I)
@@ -150,9 +152,27 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 
 feature {NONE} -- Constants
 
+	Action_table: EL_PROCEDURE_TABLE [ZSTRING]
+		once
+			create Result.make (<<
+				["start", agent go_history_start],
+				["previous", agent go_history_previous],
+				["next", agent go_history_next],
+				["last", agent go_history_last],
+				["refresh", agent refresh_console_from_log_file]
+			>>)
+		end
+
 	Name_template: ZSTRING
 		once
 			Result := "%S. %S"
+		end
+
+	Refresh: STRING = "refresh"
+
+	Switch_template: ZSTRING
+		once
+			Result := "Switch to %S thread"
 		end
 
 end

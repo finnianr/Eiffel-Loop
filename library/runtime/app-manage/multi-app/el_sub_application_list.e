@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:50:53 GMT (Saturday 12th September 2020)"
-	revision: "15"
+	date: "2020-09-20 8:39:52 GMT (Sunday 20th September 2020)"
+	revision: "16"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -157,6 +157,14 @@ feature -- Basic operations
 					end
 				end
 			end
+		end
+
+	uninstall
+		do
+			across installable_list as app loop
+				app.item.uninstall
+			end
+			uninstall_script.write_remove_directories_script
 		end
 
 feature -- Status query

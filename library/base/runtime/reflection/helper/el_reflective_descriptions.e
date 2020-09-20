@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-17 10:17:55 GMT (Thursday 17th September 2020)"
-	revision: "2"
+	date: "2020-09-19 9:30:55 GMT (Saturday 19th September 2020)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -39,7 +39,6 @@ feature -- Access
 	description_table: EL_HASH_TABLE [TUPLE [description: ZSTRING; default_value: ANY], STRING]
 		-- table of descriptions and default values derived from `help_text' and `default' option values
 		local
-			lines: EL_ZSTRING_LIST; line, text: ZSTRING
 			l_current: like current_reflective; help_table: EL_DESCRIPTION_TABLE
 		do
 			if descriptions.is_empty then

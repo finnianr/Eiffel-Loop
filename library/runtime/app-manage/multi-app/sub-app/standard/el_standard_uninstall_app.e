@@ -5,24 +5,15 @@ note
 		After removing data, configuration and menu files, it generates a forked script to remove the program files
 		after the application has exited. The script has a pause in it to allow time for the parent process to exit.
 	]"
-	instructions: "[
-		**1.** Include the type representation `{EL_STANDARD_UNINSTALL_APP}' in the list
-		`{EL_MULTI_APPLICATION_ROOT}.application_types'.
-		
-		**2.** Designate one application to be the "main application" by over-riding
-		`{[$source EL_INSTALLABLE_SUB_APPLICATION]}.is_main' with value `True'.
-		
-		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
-		it somewhere else.
-	]"
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-17 12:51:56 GMT (Thursday 17th September 2020)"
-	revision: "19"
+	date: "2020-09-20 8:42:09 GMT (Sunday 20th September 2020)"
+	revision: "20"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -30,7 +21,7 @@ class
 inherit
 	EL_SUB_APPLICATION
 		redefine
-			option_name, App_directory_list, init_console
+			option_name, App_directory_list
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -53,16 +44,11 @@ inherit
 
 	EL_SHARED_APPLICATION_OPTION
 
-feature {EL_MULTI_APPLICATION_ROOT} -- Initiliazation
+feature {NONE} -- Initialization
 
 	initialize
 			--
 		do
-		end
-
-	init_console
-		do
-			create text.make
 		end
 
 feature -- Basic operations
@@ -72,35 +58,29 @@ feature -- Basic operations
 		require else
 			has_main_application: Application_list.has_main
 		do
-			lio.put_string_field (text.uninstall, Application_list.Main_launcher.name)
+			lio.put_string_field (Text.uninstall, Application_list.Main_launcher.name)
 			lio.put_new_line_x2
-			lio.put_string (text.uninstall_warning)
+			lio.put_string (Text.uninstall_warning)
 			lio.put_new_line_x2
-			lio.put_string (text.uninstall_confirmation)
+			lio.put_string (Text.uninstall_confirmation)
 
-			if User_input.entered_letter (text.first_letter_yes.to_character_8) then
+			if User_input.entered_letter (Text.first_letter_yes.to_character_8) then
 				lio.put_new_line
-				lio.put_line (text.uninstalling)
-				across Application_list.installable_list as app loop
-					app.item.uninstall
-				end
-				Application_list.uninstall_script.write_remove_directories_script
+				lio.put_line (Text.uninstalling)
+
+				Application_list.uninstall
 			else
 				-- let the uninstall script know the user changed her mind
 				exit_code := 1
 			end
 		end
 
-feature {EL_UNINSTALL_SCRIPT_I} -- String constants
+feature {EL_UNINSTALL_SCRIPT_I} -- Access
 
-	Name: ZSTRING
-		once
-			Result := text.uninstall_x #$ [Application_list.Main_launcher.name]
+	name: ZSTRING
+		do
+			Result := Text.uninstall_x #$ [Application_list.Main_launcher.name]
 		end
-
-feature {NONE} -- Internal attributes
-
-	text: EL_UNINSTALL_TEXTS
 
 feature {NONE} -- Installer constants
 
@@ -134,9 +114,9 @@ feature {NONE} -- Application constants
 	Description: ZSTRING
 		once
 			if attached Application_list.main as main then
-				Result := text.uninstall_application #$ [main.name]
+				Result := Text.uninstall_application #$ [main.name]
 			else
-				Result := text.uninstall_application #$ ["???"]
+				Result := Text.uninstall_application #$ ["???"]
 			end
 		end
 
@@ -144,5 +124,35 @@ feature {NONE} -- Application constants
 		once
 			Result := Application_option.sub_app.uninstall
 		end
+
+	Text: EL_UNINSTALL_TEXTS
+		once
+			create Result.make
+		end
+
+note
+	instructions: "[
+		**1.** Include the class name EL_STANDARD_UNINSTALL_APP in the generic parameters to class
+		[$source EL_MULTI_APPLICATION_ROOT]
+
+			class
+				APPLICATION_ROOT
+
+			inherit
+				EL_MULTI_APPLICATION_ROOT [
+					BUILD_INFO, TUPLE [MY_APP, EL_STANDARD_UNINSTALL_APP]
+				]
+
+			create
+				make
+
+			end
+
+		**2.** Designate one application to be the "main application" by over-riding
+		`{[$source EL_INSTALLABLE_SUB_APPLICATION]}.is_main' with value `True'.
+
+		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
+		it somewhere else.
+	]"
 
 end

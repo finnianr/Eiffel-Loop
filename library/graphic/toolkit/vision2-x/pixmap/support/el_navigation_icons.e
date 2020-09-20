@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 19:17:54 GMT (Tuesday 18th August 2020)"
-	revision: "7"
+	date: "2020-09-20 10:36:01 GMT (Sunday 20th September 2020)"
+	revision: "8"
 
 deferred class
 	EL_NAVIGATION_ICONS
@@ -15,44 +15,29 @@ deferred class
 inherit
 	EL_MODULE_ICON
 
-feature -- Constants
+	EL_MODULE_TUPLE
 
-	Item_START_pixmap: EV_PIXMAP
-			--
-		do
-			Result := navigation_pixmap ("START")
+feature -- Navigation
+
+	Item_pixmap: TUPLE [last, next, previous, refresh, start: EL_PIXMAP]
+		once
+			create Result
+			Tuple.fill_with_new (Result, "last, next, previous, refresh, start", agent new_navigation_pixmap, 1)
 		end
 
-	Item_PREVIOUS_pixmap: EV_PIXMAP
-			--
+	item_pixmap_list: EL_ARRAYED_LIST [EL_PIXMAP]
 		do
-			Result := navigation_pixmap ("PREVIOUS")
+			create Result.make_from_tuple (Item_pixmap)
 		end
 
-	Item_NEXT_pixmap: EV_PIXMAP
-			--
-		do
-			Result := navigation_pixmap ("NEXT")
+	Default_location: STRING
+		once
+			Result := "navigation"
 		end
-
-	Item_END_pixmap: EV_PIXMAP
-			--
-		do
-			Result := navigation_pixmap ("END")
-		end
-
-	Item_REFRESH_pixmap: EV_PIXMAP
-			--
-		do
-			Result := navigation_pixmap ("REFRESH")
-		end
-
-	Default_location: STRING = "navigation"
-			--
 
 feature {NONE} -- Implementation
 
-	navigation_pixmap (name: STRING): EV_PIXMAP
+	new_navigation_pixmap (name: STRING): EL_PIXMAP
 			--
 		do
 			Result := Icon.pixmap (<< Default_location, name + ".png" >>)

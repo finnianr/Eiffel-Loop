@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 10:58:45 GMT (Sunday 13th September 2020)"
-	revision: "44"
+	date: "2020-09-18 10:47:13 GMT (Friday 18th September 2020)"
+	revision: "45"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -158,6 +158,13 @@ feature -- Element change
 	set_exit_code (a_exit_code: INTEGER)
 		do
 			exit_code := a_exit_code
+		end
+
+feature -- Factory routines
+
+	new_application_mutex: EL_APPLICATION_MUTEX_I
+		do
+			create {EL_APPLICATION_MUTEX_IMP} Result.make_for_application_mode (option_name)
 		end
 
 feature {NONE} -- Factory routines

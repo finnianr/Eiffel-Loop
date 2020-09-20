@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 9:57:36 GMT (Friday 21st August 2020)"
-	revision: "23"
+	date: "2020-09-20 11:37:45 GMT (Sunday 20th September 2020)"
+	revision: "24"
 
 class
 	EL_PIXMAP
@@ -114,7 +114,16 @@ feature -- Access
 
 	file_path: EL_FILE_PATH
 		do
-			Result := pixmap_path
+			if attached pixmap_path as path then
+				Result := path
+			else
+				create Result
+			end
+		end
+
+	name: ZSTRING
+		do
+			Result := file_path.base_sans_extension
 		end
 
 feature -- Scaling

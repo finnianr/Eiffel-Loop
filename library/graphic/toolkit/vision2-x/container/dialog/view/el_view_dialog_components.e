@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:24:48 GMT (Sunday 23rd August 2020)"
-	revision: "2"
+	date: "2020-09-19 9:36:58 GMT (Saturday 19th September 2020)"
+	revision: "3"
 
 deferred class
 	EL_VIEW_DIALOG_COMPONENTS
 
 inherit
 	EV_ANY_HANDLER
-
-	EL_DIALOG_CONSTANTS
-		export
-			{NONE} all
-		end
 
 	EL_MODULE_GUI
 
@@ -29,6 +24,8 @@ inherit
 	EL_MODULE_SCREEN
 
 	EL_MODULE_VISION_2
+
+	EL_SHARED_WORD
 
 feature -- Access
 

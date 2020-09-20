@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:09:48 GMT (Friday 25th January 2019)"
-	revision: "6"
+	date: "2020-09-18 10:55:34 GMT (Friday 18th September 2020)"
+	revision: "7"
 
 deferred class
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -84,6 +84,12 @@ feature -- Status query
 			-- In Windows this will be the app listed in the Control Panel/Programs List
 		do
 			Result := False
+		end
+
+feature -- Factory routines
+
+	new_application_mutex: EL_APPLICATION_MUTEX_I
+		deferred
 		end
 
 feature {NONE} -- Factory

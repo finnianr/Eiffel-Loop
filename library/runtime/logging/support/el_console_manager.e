@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:23:34 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-09-20 10:19:07 GMT (Sunday 20th September 2020)"
+	revision: "6"
 
 deferred class
 	EL_CONSOLE_MANAGER
 
 inherit
 	ANY
-	
+
 	EL_MODULE_LOG_MANAGER
 
 	EL_SHARED_THREAD_MANAGER
@@ -35,7 +35,7 @@ feature {NONE} -- Basic operations
 		deferred
 		end
 
-	go_history_finish
+	go_history_last
 			--
 		do
 			if not navigation_history.is_empty then
@@ -45,7 +45,7 @@ feature {NONE} -- Basic operations
 			end
 		end
 
-	go_history_left
+	go_history_previous
 			--
 		do
 			if not navigation_history.is_empty and then not navigation_history.isfirst then
@@ -55,7 +55,7 @@ feature {NONE} -- Basic operations
 			end
 		end
 
-	go_history_right
+	go_history_next
 			--
 		do
 			if not navigation_history.is_empty and then not navigation_history.islast then

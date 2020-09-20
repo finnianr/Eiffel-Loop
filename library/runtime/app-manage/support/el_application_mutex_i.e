@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:37:19 GMT (Sunday 13th September 2020)"
-	revision: "7"
+	date: "2020-09-18 10:45:45 GMT (Friday 18th September 2020)"
+	revision: "8"
 
 deferred class
 	EL_APPLICATION_MUTEX_I
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 			try_lock (Executable.User_qualified_name)
 		end
 
-	make_for_application_mode (option_name: STRING)
+	make_for_application_mode (option_name: READABLE_STRING_GENERAL)
 			-- Create mutex for application  in mode specified by option_name
 		do
 			make_default

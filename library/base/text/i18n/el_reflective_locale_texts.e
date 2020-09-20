@@ -4,9 +4,11 @@ note
 	]"
 	notes: "[
 		Inherit this class and then string fields will be initialized with a localized value. See library [./library/i18n.html i18n.ecf]
+		By using the library, it over-rides the deferred Locale found in the [./library/base/base.text.html base.ecf#text cluster].
 
-		By default field values are set to the name of the field with underscores changed to spaces and the first letter capitalized
-		
+		By default field values are set to the name of the field with underscores changed to spaces and the first letter capitalized.
+		Any trailing underscore character to differentiate from an Eiffel keyword is removed.
+
 			install_application -> "Install application"
 			
 		If the default English text differs from this then it can be entered in the text table `english_table' formatted as follows:
@@ -14,13 +16,16 @@ note
 			install_application:
 				Install My Ching application
 			uninstall_application:
-				Uninstall My Ching application
+				Uninstall %S application
+				
+		Note the use of `%S' as a [$source EL_ZSTRING] template placeholder. This will be translated to the `#' character.
 				
 		The lookup keys for the localization files will be hypenated and enclosed with curly braces as in this example:
 		
 			{install-application}
 			{uninstall-application}
-
+			
+		See [$source EL_UNINSTALL_TEXTS] as an example.
 	]"
 
 	author: "Finnian Reilly"
@@ -28,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-18 9:10:20 GMT (Friday 18th September 2020)"
-	revision: "1"
+	date: "2020-09-19 10:08:46 GMT (Saturday 19th September 2020)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -52,6 +57,8 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_STRING_8_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	initialize_fields
@@ -66,11 +73,13 @@ feature {NONE} -- Initialization
 				if l_table.has_key (field.key) then
 					key.append_character ('{')
 					key.append_string_general (field.key)
+					key.prune_all_trailing ('_') -- in case of keyword differentiation
 					key.append_character ('}')
 					key.replace_character ('_', '-')
 					Locale.set_next_translation (l_table.found_item)
 				else
 					key.append_string_general (field.key)
+					key.prune_all_trailing ('_')
 					key.replace_character ('_', ' ')
 					key.put (key.unicode_item (1).as_upper, 1)
 				end
@@ -83,6 +92,11 @@ feature {NONE} -- Implementation
 	english_table: READABLE_STRING_GENERAL
 		-- description of attributes
 		deferred
+		end
+
+	joined (precursor_lines, lines: STRING): STRING
+		do
+			Result := precursor_lines + character_string_8 ('%N') + lines
 		end
 
 	new_english_table: EL_DESCRIPTION_TABLE
@@ -98,7 +112,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Substitution: TUPLE [string, character:ZSTRING]
+	Substitution: TUPLE [string, character: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result, "%%S, %S")

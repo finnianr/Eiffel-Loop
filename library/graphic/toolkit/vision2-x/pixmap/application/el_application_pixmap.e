@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:13:31 GMT (Friday 21st August 2020)"
-	revision: "16"
+	date: "2020-09-20 11:14:17 GMT (Sunday 20th September 2020)"
+	revision: "17"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -26,6 +26,8 @@ inherit
 	EL_FACTORY_CLIENT
 
 	EL_DIRECTION
+
+	EV_BUILDER
 
 feature -- Access
 
@@ -232,11 +234,14 @@ feature {NONE} -- Factory
 	new_pixmap (a_file_path: EL_FILE_PATH): EL_PIXMAP
 			--
 		local
-			font: EL_FONT rect: EL_RECTANGLE
+			font: EL_FONT rect: EL_RECTANGLE; path: PATH
 		do
 			if a_file_path.exists then
+				path := a_file_path
 				create Result
-				Result.set_with_named_file (a_file_path)
+				Result.set_with_named_path (path)
+				Result.set_pixmap_path (path)
+				Result.enable_pixmap_exists
 			else
 				create font.make_bold ("Verdana", 1.0)
 				create rect.make_for_text ("?", font)

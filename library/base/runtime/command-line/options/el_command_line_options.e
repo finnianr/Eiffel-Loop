@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:57:39 GMT (Monday 20th January 2020)"
-	revision: "17"
+	date: "2020-09-19 10:07:16 GMT (Saturday 19th September 2020)"
+	revision: "18"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -45,6 +45,8 @@ inherit
 			is_equal
 		end
 
+	EL_STRING_8_CONSTANTS
+
 feature {NONE} -- Initialization
 
 	make
@@ -70,7 +72,7 @@ feature {NONE} -- Implementation
 
 	joined (precursor_lines, lines: STRING): STRING
 		do
-			Result := precursor_lines + once "%N" + lines
+			Result := precursor_lines + character_string_8 ('%N') + lines
 		end
 
 feature {NONE} -- Constants

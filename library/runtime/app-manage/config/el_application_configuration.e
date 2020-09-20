@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-18 15:51:06 GMT (Thursday 18th July 2019)"
-	revision: "4"
+	date: "2020-09-18 11:16:22 GMT (Friday 18th September 2020)"
+	revision: "5"
 
 deferred class
 	EL_APPLICATION_CONFIGURATION
@@ -25,18 +25,16 @@ feature {NONE} -- Initialization
 		-- if local config file does not exist, use master copy in installation
 		-- or else just build the default
 		local
-			config_path: EL_FILE_PATH
+			config_path: EL_FILE_PATH; found: BOOLEAN
 		do
-			config_path := user_dir + base_name
-			if config_path.exists then
+			across location_list as dir until found loop
+				config_path := dir.item + base_name
+				found := config_path.exists
+			end
+			if found then
 				make_from_file (config_path)
 			else
-				config_path := Installation_config_dir + base_name
-				if config_path.exists then
-					make_from_file (config_path)
-				else
-					make_default
-				end
+				make_default
 			end
 			set_file_path (User_dir + base_name)
 			if not file_path.exists then
@@ -62,6 +60,12 @@ feature {NONE} -- Implementation
 
 	base_name: ZSTRING
 		deferred
+		end
+
+	location_list: ARRAY [EL_DIR_PATH]
+		do
+			Result := << User_dir, User_dir.twin, Installation_config_dir >>
+			Result.item (2).set_base ("main")
 		end
 
 feature {NONE} -- Constants

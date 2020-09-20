@@ -6,18 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:10:36 GMT (Sunday 23rd August 2020)"
-	revision: "5"
+	date: "2020-09-19 9:36:04 GMT (Saturday 19th September 2020)"
+	revision: "6"
 
 class
 	EL_DIALOG_MODEL
 
 inherit
-	EL_DIALOG_CONSTANTS
-		export
-			{NONE} all
-		end
-
+	ANY
+	
 	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_GUI
@@ -32,6 +29,8 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
+	EL_SHARED_WORD
+
 create
 	make, make_default
 
@@ -45,8 +44,8 @@ feature {NONE} -- Initialization
 			style := Default_style
 
 			create progress_meter
-			progress_meter.completion_text := Locale * {EL_DIALOG_CONSTANTS}.Eng_complete
-			progress_meter.label_text := Locale * {EL_DIALOG_CONSTANTS}.Eng_progress
+			progress_meter.completion_text := Locale * Word.complete
+			progress_meter.label_text := Locale * Word.progress
 
 			default_button_text := Empty_string_8
 			cancel_button_text := Empty_string_8

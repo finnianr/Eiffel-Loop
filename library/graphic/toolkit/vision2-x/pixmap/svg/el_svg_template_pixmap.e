@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-09 10:44:23 GMT (Thursday 9th July 2020)"
-	revision: "13"
+	date: "2020-09-20 11:38:51 GMT (Sunday 20th September 2020)"
+	revision: "14"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -62,14 +62,14 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_color (name: ZSTRING; a_color: EL_COLOR)
+	set_color (a_name: ZSTRING; a_color: EL_COLOR)
 		do
-			color_table [name] := a_color.rgb_24_bit
+			color_table [a_name] := a_color.rgb_24_bit
 		end
 
-	set_variable (name: ZSTRING; value: ANY)
+	set_variable (a_name: ZSTRING; value: ANY)
 		do
-			variables [name] := value
+			variables [a_name] := value
 		end
 
 feature {EL_SVG_PIXMAP} -- Implementation
