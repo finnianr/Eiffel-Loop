@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-19 10:08:46 GMT (Saturday 19th September 2020)"
-	revision: "2"
+	date: "2020-09-30 14:07:55 GMT (Wednesday 30th September 2020)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -81,7 +81,16 @@ feature {NONE} -- Initialization
 					key.append_string_general (field.key)
 					key.prune_all_trailing ('_')
 					key.replace_character ('_', ' ')
-					key.put (key.unicode_item (1).as_upper, 1)
+					inspect case
+						when Case_first_upper then
+							key.put (key.unicode_item (1).as_upper, 1)
+						when Case_upper then
+							key.to_upper
+						when Case_proper then
+							key.to_proper_case
+					else
+						-- lower case
+					end
 				end
 				field.item.set_from_string (current_reflective, Locale * key)
 			end
@@ -92,6 +101,15 @@ feature {NONE} -- Implementation
 	english_table: READABLE_STRING_GENERAL
 		-- description of attributes
 		deferred
+		ensure
+			renamed_as_empty_table: Result.is_empty implies Result = Empty_table
+		end
+
+	case: INTEGER
+		-- English word case modification for field names
+		deferred
+		ensure
+			renamed_as_case_constant: Case_lower <= Result and Result <= Case_first_upper
 		end
 
 	joined (precursor_lines, lines: STRING): STRING
@@ -117,4 +135,16 @@ feature {NONE} -- Constants
 			create Result
 			Tuple.fill (Result, "%%S, %S")
 		end
+
+	Case_lower: INTEGER = 1
+
+	Case_upper: INTEGER = 2
+
+	Case_proper: INTEGER = 3
+
+	Case_first_upper: INTEGER = 4
+		-- first letter only is upper cased
+
+	Empty_table: STRING = ""
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-19 9:50:23 GMT (Saturday 19th September 2020)"
-	revision: "1"
+	date: "2020-09-30 13:27:21 GMT (Wednesday 30th September 2020)"
+	revision: "2"
 
 class
 	EL_WORD_TEXTS
@@ -15,6 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
 		rename
+			case as Case_first_upper,
 			print as io_print
 		end
 

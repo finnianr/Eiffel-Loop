@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-17 15:59:23 GMT (Thursday 17th September 2020)"
-	revision: "1"
+	date: "2020-09-30 13:28:12 GMT (Wednesday 30th September 2020)"
+	revision: "2"
 
 class
 	EL_UNINSTALL_TEXTS
 
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
+		rename
+			case as Case_first_upper
+		end
 
 create
 	make
