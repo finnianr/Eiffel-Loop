@@ -328,7 +328,10 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return glob (path.join (dir_path, '*.dll'))
 
 	def link (self, target, link_name):
-		return call (['mklink', link_name, target])
+		if path.exists (link_name):
+			os.remove (link_name)
+		# need `shell = True' because `mklink' is built-in command
+		return call (['mklink', link_name, target], shell = True)
 
 # Implementation
 

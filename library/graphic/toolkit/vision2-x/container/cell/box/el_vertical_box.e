@@ -6,27 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 7:51:40 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2020-09-30 12:38:59 GMT (Wednesday 30th September 2020)"
+	revision: "7"
 
 class
 	EL_VERTICAL_BOX
 
 inherit
 	EL_BOX
-		rename
-			implementation as box_implementation
 		undefine
 			fill, item, is_in_default_state, is_equal, prune_all, extend, put, replace
+		redefine
+			implementation
 		end
 
 	EV_VERTICAL_BOX
-		select
+		redefine
 			implementation
 		end
 
 create
-	default_create, make, make_unexpanded
+	default_create, make, make_unexpanded, make_centered
 
 feature {NONE} -- Implementation
 
@@ -41,5 +41,10 @@ feature {NONE} -- Implementation
 		do
 			Result := Screen.vertical_pixels (cms)
 		end
+
+feature {EV_ANY, EV_ANY_I} -- Implementation
+
+	implementation: EV_VERTICAL_BOX_I
+		-- Responsible for interaction with native graphics toolkit.
 
 end

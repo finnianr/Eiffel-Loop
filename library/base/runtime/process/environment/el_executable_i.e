@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:47:33 GMT (Sunday 13th September 2020)"
-	revision: "1"
+	date: "2020-09-22 10:18:19 GMT (Tuesday 22nd September 2020)"
+	revision: "2"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -46,33 +46,30 @@ feature -- Access
 			-- Absolute path to command `a_name' if found in the search path
 			-- `Result.is_empty' if not found
 		local
-			path_list, extensions: LIST [ZSTRING]
-			base_permutation_path, full_permutation_path: EL_FILE_PATH
-			extension: ZSTRING
+			extension_list: LIST [ZSTRING]; found: BOOLEAN
 		do
 			create Result
-			path_list := search_path.split (Operating_environ.Search_path_separator)
-			extensions := file_extensions
-			from path_list.start until not Result.is_empty or path_list.after loop
-				create base_permutation_path.make (path_list.item)
-				base_permutation_path.append_file_path (a_name)
-				from extensions.start until not Result.is_empty or extensions.after loop
-					full_permutation_path := base_permutation_path.twin
-					extension := extensions.item
-					if not extension.is_empty then -- Empty on Unix
-						full_permutation_path.add_extension (extension)
-					end
-					if full_permutation_path.exists then
-						Result := full_permutation_path
-					else
-						extensions.forth
+			extension_list := file_extensions
+			across search_path.split (search_path_separator) as l_path until found loop
+				Result.set_path (l_path.item)
+				Result.append_step (a_name)
+				if extension_list.is_empty then
+					found := Result.exists -- Empty on Unix
+				else
+					-- Try all extention permutations on Windows
+					across extension_list as extension until found loop
+						if extension.is_first then
+							Result.add_extension (extension.item)
+						else
+							Result.replace_extension (extension.item)
+						end
+						found := Result.exists
 					end
 				end
-				path_list.forth
 			end
 		end
 
-	file_extensions: LIST [ZSTRING]
+	file_extensions: EL_ZSTRING_LIST
 		deferred
 		end
 

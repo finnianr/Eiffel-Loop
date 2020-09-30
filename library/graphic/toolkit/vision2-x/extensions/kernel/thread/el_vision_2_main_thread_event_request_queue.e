@@ -1,16 +1,16 @@
 note
-	description: "Vision2 main thread event request queue"
+	description: "Vision-2 main thread event request queue"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-21 12:00:02 GMT (Friday 21st December 2018)"
-	revision: "6"
+	date: "2020-09-24 10:41:19 GMT (Thursday 24th September 2020)"
+	revision: "7"
 
 class
-	EL_VISION2_MAIN_THREAD_EVENT_REQUEST_QUEUE
+	EL_VISION_2_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 inherit
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE

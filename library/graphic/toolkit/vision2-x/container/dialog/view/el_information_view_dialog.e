@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 14:09:49 GMT (Thursday 20th August 2020)"
-	revision: "3"
+	date: "2020-09-30 12:48:30 GMT (Wednesday 30th September 2020)"
+	revision: "4"
 
 class
 	EL_INFORMATION_VIEW_DIALOG
 
 inherit
 	EL_VIEW_DIALOG
+		redefine
+			create_interface_objects
+		end
 
 	EV_TEXT_ALIGNMENT_CONSTANTS
 		export
@@ -26,12 +29,19 @@ inherit
 create
 	make_info, make
 
+feature -- Element change
+
+	update_paragraphs
+		do
+			paragraph_box.replace_centered (new_paragraphs.to_array)
+		end
+
 feature {NONE} -- Components
 
 	components: ARRAY [ARRAY [EV_WIDGET]]
 		do
 			Result := <<
-				<< Vision_2.new_vertical_centered_box (0, 0, << model.new_icon_cell >>), new_vertical_centered_box >>
+				<< Vision_2.new_vertical_centered_box (0, 0, << model.new_icon_cell >>), paragraph_box >>
 			>>
 		end
 
@@ -52,11 +62,6 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_vertical_centered_box: EL_VERTICAL_BOX
-		do
-			Result := Vision_2.new_vertical_centered_box (0, model.layout.paragraph.separation_cms, new_paragraphs.to_array)
-		end
-
 feature {NONE} -- Implementation
 
 	align_paragraph (paragraph: EV_LABEL)
@@ -74,4 +79,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	create_interface_objects
+		do
+			Precursor
+			create paragraph_box.make_centered (0, model.layout.paragraph.separation_cms, new_paragraphs.to_array)
+		end
+
+feature {NONE} -- Internal attributes
+
+	paragraph_box: EL_VERTICAL_BOX
 end

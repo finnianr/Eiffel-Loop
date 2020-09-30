@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-19 9:36:48 GMT (Saturday 19th September 2020)"
-	revision: "17"
+	date: "2020-09-30 10:41:32 GMT (Wednesday 30th September 2020)"
+	revision: "18"
 
 deferred class
 	EL_VIEW_DIALOG
@@ -69,9 +69,9 @@ feature {NONE} -- Initialization
 			internal_dialog.show_actions.extend (agent on_show)
 		end
 
-	make_info (a_property: like model)
+	make_info (a_model: like model)
 		do
-			make (a_property, agent do_nothing)
+			make (a_model, agent do_nothing)
 		end
 
 feature -- Access
@@ -106,6 +106,15 @@ feature -- Status change
 	set_title (a_title: READABLE_STRING_GENERAL)
 		do
 			internal_set_title (a_title)
+		end
+
+	set_default_to_close
+		-- set `default_button' to close dialog giving focus to `default_button'
+		do
+			model.set_default_button_text (Word.close)
+			replace_default_button
+			default_action := agent destroy
+			GUI.do_once_on_idle (agent default_button.set_focus)
 		end
 
 feature -- Element change

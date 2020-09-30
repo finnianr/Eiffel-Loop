@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-20 8:42:09 GMT (Sunday 20th September 2020)"
-	revision: "20"
+	date: "2020-09-30 8:42:33 GMT (Wednesday 30th September 2020)"
+	revision: "21"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -75,14 +75,19 @@ feature -- Basic operations
 			end
 		end
 
-feature {EL_UNINSTALL_SCRIPT_I} -- Access
+feature -- Access
 
 	name: ZSTRING
 		do
 			Result := Text.uninstall_x #$ [Application_list.Main_launcher.name]
 		end
 
-feature {NONE} -- Installer constants
+	Option_name: STRING
+		once
+			Result := Application_option.sub_app.uninstall
+		end
+
+feature -- Installer constants
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once
@@ -118,11 +123,6 @@ feature {NONE} -- Application constants
 			else
 				Result := Text.uninstall_application #$ ["???"]
 			end
-		end
-
-	Option_name: STRING
-		once
-			Result := Application_option.sub_app.uninstall
 		end
 
 	Text: EL_UNINSTALL_TEXTS

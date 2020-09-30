@@ -1,5 +1,5 @@
 note
-	description: "Scrollable area imp"
+	description: "Windows implementation of [$source EL_SCROLLABLE_AREA_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

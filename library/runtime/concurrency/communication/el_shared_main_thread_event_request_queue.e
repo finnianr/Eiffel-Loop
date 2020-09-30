@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:25:37 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-09-24 10:43:25 GMT (Thursday 24th September 2020)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
@@ -28,20 +28,23 @@ feature -- Element change
 	set_main_thread_event_request_queue (a_event_request_queue: EL_MAIN_THREAD_EVENT_REQUEST_QUEUE)
 			--
 		do
-			if attached {EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE} main_thread_event_request_queue_cell.item
-				as default_queue
-			then
-				a_event_request_queue.put_event_indexes (default_queue.pending_events)
+			if attached {like new_default_queue} main_thread_event_request_queue as queue then
+				a_event_request_queue.put_event_indexes (queue.pending_events)
 			end
 			main_thread_event_request_queue_cell.replace (a_event_request_queue)
 		end
 
 feature {NONE} -- Implementation
 
+	new_default_queue: EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE
+		do
+			create Result.make
+		end
+
 	Main_thread_event_request_queue_cell: CELL [EL_MAIN_THREAD_EVENT_REQUEST_QUEUE]
 			--
 		once ("PROCESS")
-			create Result.put (create {EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE})
+			create Result.put (new_default_queue)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 14:17:19 GMT (Tuesday 24th December 2019)"
-	revision: "5"
+	date: "2020-09-23 16:11:46 GMT (Wednesday 23rd September 2020)"
+	revision: "6"
 
 class
 	EL_THREAD_MANAGER
@@ -25,6 +25,8 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_SHARED_SINGLETONS
+
 create
 	default_create
 
@@ -32,6 +34,7 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
+			put_singleton (Current)
 			make_default
 			create threads.make (10)
 		end

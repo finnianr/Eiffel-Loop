@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-09-23 16:03:03 GMT (Wednesday 23rd September 2020)"
+	revision: "5"
 
 class
 	EL_USEABLE_SCREEN_IMP
 
 inherit
 	EL_USEABLE_SCREEN_I
+		redefine
+			make
+		end
 
 	EL_OS_IMPLEMENTATION
 
@@ -25,6 +28,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
+			Precursor
 			create area.make (0, 0, 0, 0)
 		end
 

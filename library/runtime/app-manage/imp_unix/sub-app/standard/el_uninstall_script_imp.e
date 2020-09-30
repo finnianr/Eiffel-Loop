@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-19 9:50:08 GMT (Thursday 19th September 2019)"
-	revision: "6"
+	date: "2020-09-30 9:04:48 GMT (Wednesday 30th September 2020)"
+	revision: "7"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -27,6 +27,13 @@ feature -- Basic operations
 		do
 			Precursor
 			File_system.add_permission (output_path, "uog", "x")
+		end
+
+feature {NONE} -- Implementation
+
+	uninstall_base_list: EL_ZSTRING_LIST
+		do
+			create Result.make_from_array (<< escaped (application_path) >>)
 		end
 
 feature {NONE} -- Constants
@@ -51,7 +58,7 @@ feature {NONE} -- Constants
 
 	Template: STRING = "[
 		#!/usr/bin/env bash
-		$application_path -uninstall
+		$uninstall_command
 		RETVAL=$?
 		if [ $$RETVAL -eq 0 ]
 		then

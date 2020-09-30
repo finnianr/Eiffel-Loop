@@ -14,25 +14,25 @@ class
 
 inherit
 	ANY
-	
+
 	EL_MODULE_WIN_REGISTRY
 
 	EL_MODULE_REG_KEY
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_MODULE_EXECUTABLE
 
 feature -- Basic operations
 
 	install
 		do
 			Win_registry.set_integer (
-				HKLM_IE_feature_browser_emulation, Execution.executable_name, Internet_explorer_major_version * 1000 + 1
+				HKLM_IE_feature_browser_emulation, Executable.name, Internet_explorer_major_version * 1000 + 1
 			)
 		end
 
 	uninstall
 		do
-			Win_registry.remove_key_value (HKLM_IE_feature_browser_emulation, Execution.executable_name)
+			Win_registry.remove_key_value (HKLM_IE_feature_browser_emulation, Executable.name)
 		end
 
 feature {NONE} -- Constants

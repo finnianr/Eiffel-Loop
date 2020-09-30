@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:44:30 GMT (Sunday 13th September 2020)"
-	revision: "1"
+	date: "2020-09-22 9:25:23 GMT (Tuesday 22nd September 2020)"
+	revision: "2"
 
 class
 	EL_EXECUTABLE_IMP
@@ -32,10 +32,10 @@ feature {NONE} -- Implementation
 
 	file_extensions: EL_ZSTRING_LIST
 		do
-			Result := Executable_extensions_spec.as_lower.split (';')
-			across Result as extensions loop
-				extensions.item.remove_head (1)
-			end
+			-- C:\Users\finnian>echo %PATHEXT%
+			-- .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC	
+			create Result.make_from_list (Executable_extensions_spec.as_lower.split_intervals (";."))
+			Result.first.remove_head (1)
 		end
 
 feature {NONE} -- Constants

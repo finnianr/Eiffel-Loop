@@ -1,21 +1,33 @@
 note
-	description: "Vision 2 gui routines i"
+	description: "[
+		Vision 2 giving access to various shared objects and routines related to
+		
+		* Fonts and font string measurement
+		* Word wrapping
+		* Color code conversion
+		* Action management
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-11 13:02:22 GMT (Friday 11th September 2020)"
-	revision: "29"
+	date: "2020-09-23 15:53:04 GMT (Wednesday 23rd September 2020)"
+	revision: "30"
 
 class
 	EL_VISION_2_GUI_ROUTINES
 
 inherit
-	EV_FRAME_CONSTANTS
+	EV_SHARED_APPLICATION
+		export
+			{NONE} process_events_and_idle
+		end
 
 	EV_FONT_CONSTANTS
+
+	EV_FRAME_CONSTANTS
 
 	EL_MODULE_COLOR EL_MODULE_HEXADECIMAL EL_MODULE_PIXMAP
 
@@ -33,28 +45,52 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create environment
 			text_field_font := (create {EV_TEXT_FIELD}).font
+			application := ev_application
 			create timer_list.make (3)
 		end
 
 feature -- Access
 
 	application: EV_APPLICATION
-		do
-			Result := environment.application
-		end
-
-	environment: EV_ENVIRONMENT
 
 feature -- Font
 
 	text_field_font: EV_FONT
 
+	word_wrapped (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): EL_ZSTRING_LIST
+		-- string word wrapped with `a_font' across `a_width'
+		require
+			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
+		local
+			words: EL_SPLIT_ZSTRING_LIST; line: ZSTRING
+		do
+			create Result.make (10)
+			create line.make (60)
+			create words.make (a_text, character_string (' '))
+			from words.start until words.after loop
+				if not line.is_empty then
+					line.append_character (' ')
+				end
+				line.append (words.item (False))
+				if string_width (line, a_font) > a_width then
+					line.remove_tail (words.item_count)
+					line.right_adjust
+					Result.extend (line.twin)
+					line.wipe_out
+				else
+					words.forth
+				end
+			end
+			if not line.is_empty then
+				Result.extend (line)
+			end
+		end
+
 	General_font_families: ARRAYED_LIST [ZSTRING]
 		-- monospace + proportional
 		once
-			if attached {LIST [STRING_32]} environment.Font_families as families then
+			if attached {LIST [STRING_32]} shared_environment.Font_families as families then
 				create Result.make (families.count)
 				Result.compare_objects
 				across families as family loop
@@ -71,7 +107,7 @@ feature -- Font
 		once
 			create l_font
 			i_str := "i"; w_str := "w"
-			if attached {LIST [STRING_32]} environment.Font_families as families then
+			if attached {LIST [STRING_32]} shared_environment.Font_families as families then
 				create Result.make (families.count // 10)
 				Result.compare_objects
 				across families as family loop
@@ -157,7 +193,7 @@ feature -- Measurement
 			end
 		end
 
-feature -- Conversion
+feature -- Color code
 
 	html_code_to_rgb_code (html_code: STRING): INTEGER
 		require
@@ -173,37 +209,6 @@ feature -- Conversion
 			Result := rgb_code.to_hex_string
 			Result.put ('#', 2)
 			Result.remove_head (1)
-		end
-
-	word_wrapped (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): ZSTRING
-			--
-		require
-			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
-		local
-			wrapped_lines, words: EL_ZSTRING_LIST
-			line: ZSTRING
-		do
-			create wrapped_lines.make (10)
-			create line.make (60)
-			create words.make_with_words (a_text)
-			from words.start until words.after loop
-				if not line.is_empty then
-					line.append_character (' ')
-				end
-				line.append (words.item)
-				if string_width (line, a_font) > a_width then
-					line.remove_tail (words.item.count)
-					line.right_adjust
-					wrapped_lines.extend (line.twin)
-					line.wipe_out
-				else
-					words.forth
-				end
-			end
-			if not line.is_empty then
-				wrapped_lines.extend (line)
-			end
-			Result := wrapped_lines.joined_lines
 		end
 
 feature {NONE} -- Implementation

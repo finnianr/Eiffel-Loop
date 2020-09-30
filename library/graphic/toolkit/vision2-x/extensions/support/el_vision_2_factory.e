@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 9:26:47 GMT (Saturday 12th September 2020)"
-	revision: "16"
+	date: "2020-09-30 12:40:59 GMT (Wednesday 30th September 2020)"
+	revision: "17"
 
 class
 	EL_VISION_2_FACTORY
@@ -149,10 +149,7 @@ feature -- Factory
 	new_vertical_centered_box (a_border_cms, a_padding_cms: REAL; a_widgets: ARRAY [EV_WIDGET]): EL_VERTICAL_BOX
 			--
 		do
- 			create Result.make (a_border_cms, a_padding_cms)
- 			Result.extend (create {EV_CELL})
- 			Result.append_unexpanded (a_widgets)
- 			Result.extend (create {EV_CELL})
+ 			create Result.make_centered (a_border_cms, a_padding_cms, a_widgets)
 		end
 
 	new_vertical_framed_box (

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-14 14:18:29 GMT (Friday 14th August 2020)"
-	revision: "10"
+	date: "2020-09-30 12:52:57 GMT (Wednesday 30th September 2020)"
+	revision: "11"
 
 deferred class
 	EL_BOX
@@ -29,6 +29,13 @@ feature {NONE} -- Initialization
 		do
 			make (a_border_cms, a_padding_cms)
 			append_unexpanded (widgets)
+		end
+
+	make_centered (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
+		-- sandwich unexpanded `widgets' with two expanded cells
+		do
+			make (a_border_cms, a_padding_cms)
+			replace_centered (widgets)
 		end
 
 feature -- Element change
@@ -60,7 +67,7 @@ feature -- Element change
 		end
 
 	append_unexpanded (a_widgets: ARRAY [EV_WIDGET])
-			--
+		--
 		do
 			across a_widgets as widget loop
 				extend (widget.item)
@@ -92,6 +99,18 @@ feature -- Element change
 		do
 			put_front (v)
 			disable_item_expand (v)
+		end
+
+	replace_centered (a_widgets: ARRAY [EV_WIDGET])
+		local
+			l_widgets: ARRAYED_LIST [EV_WIDGET]
+		do
+			wipe_out
+			create l_widgets.make_from_array (a_widgets)
+			l_widgets.put_front (create {EL_EXPANDED_CELL})
+			l_widgets.extend (create {EL_EXPANDED_CELL})
+			append_unexpanded (l_widgets.to_array)
+			refresh_now
 		end
 
 feature -- Status setting
@@ -171,6 +190,7 @@ feature {NONE} -- Implementation
 			-- centimeters to pixels conversion according to box orientation
 		deferred
 		end
+
 	set_last_size (size: INTEGER)
 			--
 		deferred

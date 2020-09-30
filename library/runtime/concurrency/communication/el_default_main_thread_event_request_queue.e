@@ -9,21 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-09-24 10:41:08 GMT (Thursday 24th September 2020)"
+	revision: "5"
 
 class
 	EL_DEFAULT_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 inherit
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
-		redefine
-			default_create
-		end
-		
+
+create
+	make
+
 feature {NONE} -- Initialization
 
-	default_create
+	make
 		do
 			create pending_events.make
 		end

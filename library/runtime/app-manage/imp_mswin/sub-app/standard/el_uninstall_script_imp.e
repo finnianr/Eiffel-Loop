@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-09-30 9:05:40 GMT (Wednesday 30th September 2020)"
+	revision: "7"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_UNINSTALL_SCRIPT_I
 		redefine
-			serialize, script, getter_function_table
+			serialize, script
 		end
 
 	EL_OS_IMPLEMENTATION
@@ -33,19 +33,18 @@ feature -- Basic operations
 			script.close
 		end
 
+feature {NONE} -- Implementation
+
+	uninstall_base_list: EL_ZSTRING_LIST
+		do
+			create Result.make_with_csv ("start, /WAIT, /D")
+			Result.extend (Directory.Application_bin.escaped)
+			Result.extend (Executable.name)
+		end
+
 feature {NONE} -- Internal attributes
 
 	script: EL_BATCH_SCRIPT_FILE
-
-feature {NONE} -- Evolicity fields
-
-	getter_function_table: like getter_functions
-			--
-		do
-			Result := Precursor +
-				["application_bin", agent: ZSTRING do Result := Directory.Application_bin.escaped end] +
-				["executable_name", agent: ZSTRING do Result := Execution_environment.Executable_name end]
-		end
 
 feature {NONE} -- Constants
 
@@ -68,7 +67,7 @@ feature {NONE} -- Constants
 	Template: STRING = "[
 		@echo off
 		title $title
-		start /WAIT /D $application_bin $executable_name -uninstall
+		$uninstall_command
 		if %ERRORLEVEL% neq 0 goto Cancelled
 		call $remove_files_script_path
 		del $remove_files_script_path

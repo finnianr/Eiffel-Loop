@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-09-24 10:46:03 GMT (Thursday 24th September 2020)"
+	revision: "4"
 
 deferred class
 	EL_CONSUMER_MAIN_THREAD [P]
@@ -18,17 +18,14 @@ inherit
 			stop
 		end
 
-	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
-		export
-			{NONE} all
-		end
-
 	EL_EVENT_LISTENER
 		rename
 			notify as execute
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 feature -- Basic operations
 

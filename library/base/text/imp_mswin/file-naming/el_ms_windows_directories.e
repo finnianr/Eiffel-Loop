@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-09-22 9:20:29 GMT (Tuesday 22nd September 2020)"
+	revision: "7"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES

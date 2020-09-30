@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-20 8:39:52 GMT (Sunday 20th September 2020)"
-	revision: "16"
+	date: "2020-09-30 8:26:47 GMT (Wednesday 30th September 2020)"
+	revision: "17"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -76,25 +76,22 @@ feature -- Access
 			pop_cursor
 		end
 
-	uninstaller: EL_STANDARD_UNINSTALL_APP
-		require
-			has_uninstall: has_uninstaller
-		local
-			l_found: BOOLEAN
+	uninstall_app: detachable EL_STANDARD_UNINSTALL_APP
 		do
-			across installable_list as installable until l_found loop
+			across installable_list as installable until attached Result loop
 				if attached {EL_STANDARD_UNINSTALL_APP} installable.item as app then
 					Result := app
 				end
 			end
 		end
 
-	uninstall_script: EL_UNINSTALL_SCRIPT_I
+	uninstall_script: detachable EL_UNINSTALL_SCRIPT_I
 		require
-			has_uninstall: has_uninstaller
 			has_main: has_main
 		do
-			create {EL_UNINSTALL_SCRIPT_IMP} Result.make
+			if attached uninstall_app as app then
+				create {EL_UNINSTALL_SCRIPT_IMP} Result.make (app)
+			end
 		end
 
 	Main_launcher: EL_DESKTOP_MENU_ITEM
@@ -126,8 +123,8 @@ feature -- Basic operations
 
 	install_menus
 		do
-			if has_uninstaller and has_main then
-				uninstall_script.serialize
+			if has_main and then attached uninstall_script as script then
+				script.serialize
 			end
 			across installable_list as app loop
 				app.item.install
@@ -164,7 +161,9 @@ feature -- Basic operations
 			across installable_list as app loop
 				app.item.uninstall
 			end
-			uninstall_script.write_remove_directories_script
+			if has_main and then attached uninstall_script as script then
+				script.write_remove_directories_script
+			end
 		end
 
 feature -- Status query
@@ -181,9 +180,7 @@ feature -- Status query
 	has_uninstaller: BOOLEAN
 		-- `True' if there is a standard uninstaller
 		do
-			Result := across installable_list as installable some
-				attached {EL_STANDARD_UNINSTALL_APP} installable.item
-			end
+			Result := attached uninstall_app
 		end
 
 feature -- Removal

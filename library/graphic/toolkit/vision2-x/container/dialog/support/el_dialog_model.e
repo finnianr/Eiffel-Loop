@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-19 9:36:04 GMT (Saturday 19th September 2020)"
-	revision: "6"
+	date: "2020-09-24 10:26:39 GMT (Thursday 24th September 2020)"
+	revision: "7"
 
 class
 	EL_DIALOG_MODEL
 
 inherit
 	ANY
-	
-	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_GUI
 
@@ -44,8 +42,8 @@ feature {NONE} -- Initialization
 			style := Default_style
 
 			create progress_meter
-			progress_meter.completion_text := Locale * Word.complete
-			progress_meter.label_text := Locale * Word.progress
+			progress_meter.completion_text := Word.complete
+			progress_meter.label_text := Word.progress
 
 			default_button_text := Empty_string_8
 			cancel_button_text := Empty_string_8
@@ -153,25 +151,15 @@ feature -- Set text
 			cancel_button_text := a_cancel_button_text
 		end
 
+	set_buttons (a_default_button_text, a_cancel_button_text: READABLE_STRING_GENERAL)
+		do
+			default_button_text := a_default_button_text
+			cancel_button_text := a_cancel_button_text
+		end
+
 	set_default_button_text (a_default_button_text: READABLE_STRING_GENERAL)
 		do
 			default_button_text := a_default_button_text
-		end
-
-	set_localized_buttons (default_eng_key, cancel_eng_key: STRING)
-		do
-			set_localized_default_button (default_eng_key)
-			set_localized_cancel_button (cancel_eng_key)
-		end
-
-	set_localized_cancel_button (en_key: STRING)
-		do
-			cancel_button_text := Locale * en_key
-		end
-
-	set_localized_default_button (en_key: STRING)
-		do
-			default_button_text := Locale * en_key
 		end
 
 	set_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL])
