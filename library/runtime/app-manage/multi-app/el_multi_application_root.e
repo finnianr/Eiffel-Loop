@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 10:52:04 GMT (Sunday 13th September 2020)"
-	revision: "18"
+	date: "2020-10-08 9:19:26 GMT (Thursday 8th October 2020)"
+	revision: "19"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -39,10 +39,9 @@ feature {NONE} -- Initialization
 	make
 			--
 		local
-			list: EL_SUB_APPLICATION_LIST; app: EL_SUB_APPLICATION
-			lio: EL_LOGGABLE; exit_code: INTEGER; shared_build_info: B
+			list: EL_SUB_APPLICATION_LIST; lio: EL_LOGGABLE; exit_code: INTEGER
 		do
-			create shared_build_info
+			create_singletons
 			if not Base_option.silent then
 				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 
@@ -65,8 +64,7 @@ feature {NONE} -- Initialization
 			create list.make (create {APPLICATION_TYPES})
 			list.extend (create {EL_VERSION_APP})
 			list.find (lio, Args.option_name (1))
-			if list.found then
-				app := list.item
+			if list.found and then attached list.item as app then
 				app.make -- Initialize and run application
 
 				exit_code := app.exit_code
@@ -85,4 +83,13 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	create_singletons
+		-- create shared objects conforming to `EL_SOLITORY'
+		local
+			shared_build_info: B
+		do
+			create shared_build_info
+		end
 end

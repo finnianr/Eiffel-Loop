@@ -6,21 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 16:02:28 GMT (Wednesday 23rd September 2020)"
-	revision: "7"
+	date: "2020-10-08 8:58:10 GMT (Thursday 8th October 2020)"
+	revision: "8"
 
 deferred class
 	EL_USEABLE_SCREEN_I
 
 inherit
-	EL_SHARED_SINGLETONS
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			put_singleton (Current)
-		end
+	EL_SOLITARY
 
 feature -- Access
 

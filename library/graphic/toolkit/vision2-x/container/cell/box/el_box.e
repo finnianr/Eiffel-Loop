@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 12:52:57 GMT (Wednesday 30th September 2020)"
-	revision: "11"
+	date: "2020-10-03 10:42:51 GMT (Saturday 3rd October 2020)"
+	revision: "12"
 
 deferred class
 	EL_BOX
@@ -110,7 +110,6 @@ feature -- Element change
 			l_widgets.put_front (create {EL_EXPANDED_CELL})
 			l_widgets.extend (create {EL_EXPANDED_CELL})
 			append_unexpanded (l_widgets.to_array)
-			refresh_now
 		end
 
 feature -- Status setting

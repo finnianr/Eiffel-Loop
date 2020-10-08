@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 12:48:30 GMT (Wednesday 30th September 2020)"
-	revision: "4"
+	date: "2020-10-03 10:52:46 GMT (Saturday 3rd October 2020)"
+	revision: "5"
 
 class
 	EL_INFORMATION_VIEW_DIALOG
@@ -34,6 +34,7 @@ feature -- Element change
 	update_paragraphs
 		do
 			paragraph_box.replace_centered (new_paragraphs.to_array)
+			propagate_content_area_color (paragraph_box)
 		end
 
 feature {NONE} -- Components

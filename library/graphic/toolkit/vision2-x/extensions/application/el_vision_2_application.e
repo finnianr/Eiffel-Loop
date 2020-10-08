@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-24 12:52:03 GMT (Thursday 24th September 2020)"
-	revision: "1"
+	date: "2020-10-08 8:56:06 GMT (Thursday 8th October 2020)"
+	revision: "2"
 
 class
 	EL_VISION_2_APPLICATION
@@ -55,9 +55,9 @@ feature {NONE} -- Initialization
 		do
 			-- create shared thread manager
 			if log_thread_management then
-				create {EL_LOGGED_THREAD_MANAGER} shared_manager
+				create {EL_LOGGED_THREAD_MANAGER} shared_manager.make
 			else
-				create shared_manager
+				create shared_manager.make
 			end
 			create error_message.make_empty
 			default_create

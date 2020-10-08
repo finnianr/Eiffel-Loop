@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 14:17:39 GMT (Tuesday 24th December 2019)"
-	revision: "7"
+	date: "2020-10-08 8:55:56 GMT (Thursday 8th October 2020)"
+	revision: "8"
 
 class
 	EL_LOGGED_THREAD_MANAGER
@@ -21,6 +21,9 @@ inherit
 		end
 
 	EL_MODULE_LOG
+
+create
+	make
 
 feature {NONE} -- Implementation
 

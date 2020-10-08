@@ -6,36 +6,38 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 16:11:46 GMT (Wednesday 23rd September 2020)"
-	revision: "6"
+	date: "2020-10-08 8:56:40 GMT (Thursday 8th October 2020)"
+	revision: "7"
 
 class
 	EL_THREAD_MANAGER
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
-		redefine
-			default_create
-		end
 
 	EL_SINGLE_THREAD_ACCESS
-		undefine
-			default_create
+		rename
+			make_default as make
+		redefine
+			make
 		end
 
 	EL_MODULE_LIO
 
-	EL_SHARED_SINGLETONS
+	EL_SOLITARY
+		redefine
+			make
+		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 		do
-			put_singleton (Current)
-			make_default
+			Precursor {EL_SOLITARY}
+			Precursor {EL_SINGLE_THREAD_ACCESS}
 			create threads.make (10)
 		end
 

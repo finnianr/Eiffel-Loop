@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-24 10:26:39 GMT (Thursday 24th September 2020)"
-	revision: "7"
+	date: "2020-10-03 10:50:53 GMT (Saturday 3rd October 2020)"
+	revision: "8"
 
 class
 	EL_DIALOG_MODEL
@@ -169,7 +169,7 @@ feature -- Set text
 
 	set_text (a_text: READABLE_STRING_GENERAL)
 		do
-			text := a_text
+			text := a_text; internal_paragraph_list := Void
 		end
 
 	set_title (a_title: like title)
