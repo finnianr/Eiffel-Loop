@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 17:03:25 GMT (Saturday 30th November 2019)"
-	revision: "2"
+	date: "2020-10-08 11:21:16 GMT (Thursday 8th October 2020)"
+	revision: "3"
 
 class
 	EL_DEBIAN_MAKE_SCRIPT
@@ -68,8 +68,13 @@ feature -- Basic operations
 			create command.make (Dot_slash + output_path.base)
 			command.set_working_directory (output_path.parent)
 			command.execute
+			has_error := command.has_error
 			OS.delete_file (output_path)
 		end
+
+feature -- Status query
+
+	has_error: BOOLEAN
 
 feature {NONE} -- Evolicity fields
 
@@ -104,8 +109,14 @@ feature {NONE} -- Constants
 		#across $executables_list as $path loop
 		sudo chmod 755 $path.item
 		#end
-		sudo dpkg-deb --build $package_name
+		sudo dpkg-deb --build $package_name 2>&1
+		status=$?
 		sudo rm -r $package_name
-		sudo chown $user_name:$user_name ${package_name}.deb
+		if [ $$status -ne 0 ]; then
+			echo "Error building $package_name.deb"
+			exit $$status
+		else
+			sudo chown $user_name:$user_name ${package_name}.deb
+		fi
 	]"
 end

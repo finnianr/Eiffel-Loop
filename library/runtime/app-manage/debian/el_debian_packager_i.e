@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:29:51 GMT (Sunday 13th September 2020)"
-	revision: "13"
+	date: "2020-10-08 10:47:36 GMT (Thursday 8th October 2020)"
+	revision: "14"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -37,6 +37,7 @@ inherit
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_EXECUTABLE
+	EL_MODULE_LIO
 	EL_MODULE_OS
 
 	EL_SHARED_DIRECTORY
@@ -76,7 +77,11 @@ feature -- Basic operations
 			create script.make (Current)
 			script.execute
 
-			OS.move_file (package_file_path, output_dir)
+			if script.has_error then
+				lio.put_line ("Package not created")
+			else
+				OS.move_file (package_file_path, output_dir)
+			end
 		end
 
 feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
