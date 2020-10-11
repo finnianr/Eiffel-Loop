@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-17 11:38:32 GMT (Thursday 17th September 2020)"
-	revision: "13"
+	date: "2020-10-09 13:52:49 GMT (Friday 9th October 2020)"
+	revision: "14"
 
 class
 	EL_AES_CREDENTIAL
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	digest_base_64: STRING
-			-- pass phrase authentication digest
+		-- pass phrase authentication digest
 		do
 			Result := base_64.encoded_special (digest)
 		end
@@ -121,6 +121,9 @@ feature -- Element change
 		end
 
 	validate
+		-- set `salt' and `digest'
+		require
+			phrase_set: is_phrase_set
 		do
 			set_random_salt
 			digest := actual_digest
@@ -138,6 +141,11 @@ feature -- Status query
 	is_salt_set: BOOLEAN
 		do
 			Result := salt.count = Salt_count
+		end
+
+	is_phrase_set: BOOLEAN
+		do
+			Result := phrase.count > 0
 		end
 
 feature -- Factory

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:37:19 GMT (Tuesday 28th April 2020)"
-	revision: "17"
+	date: "2020-10-11 10:29:09 GMT (Sunday 11th October 2020)"
+	revision: "18"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -103,9 +103,8 @@ feature -- Basic operations
 		do
 			if is_integration_pending then
 				safe_store
-				if last_store_ok then
+				if last_store_ok and not editions.has_editions then
 					editions.close_and_delete
-					compact
 					status := Closed_safe_store
 				else
 					editions.close
@@ -122,16 +121,6 @@ feature -- Basic operations
 			-- This is so that incremental backups will work
 			if editions.exists and then not editions.is_bigger then
 				editions.restore_date
-			end
-		end
-
-	force_compaction
-		do
-			safe_store
-			if last_store_ok then
-				editions.close_and_delete
-				compact
-				editions.reopen
 			end
 		end
 
@@ -158,6 +147,13 @@ feature -- Basic operations
 		do
 			reader_writer.set_default_data_version
 			Precursor
+			if last_store_ok then
+				editions.close_and_delete
+				compact
+				editions.reopen
+			end
+		ensure then
+			editions_stripped: last_store_ok implies not editions.has_editions
 		end
 
 feature -- Removal

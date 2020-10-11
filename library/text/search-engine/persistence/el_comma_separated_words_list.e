@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-06 13:33:26 GMT (Sunday 6th September 2020)"
-	revision: "10"
+	date: "2020-10-11 9:17:57 GMT (Sunday 11th October 2020)"
+	revision: "11"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -127,8 +127,7 @@ feature {NONE} -- Event handler
 	on_table_update
 		-- extend any new words from `table' of word tokens.
 		local
-			new_words: EL_ZSTRING_LIST
-			delta_count: INTEGER
+			new_words: EL_ZSTRING_LIST; delta_count: INTEGER
 		do
 			if table.count > last_table_count then
 				delta_count := table.count - last_table_count

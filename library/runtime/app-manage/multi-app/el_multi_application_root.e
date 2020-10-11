@@ -1,9 +1,15 @@
 note
 	description: "[
-		Selects an application to launch from an array of sub-applications by either user input or command switch.
-		
+		Selects a sub-application to launch from a shared list of uninitialized instances conforming to [$source EL_SUB_APPLICATION].
+		The list is created using types defined by the `APPLICATION_TYPES' tuple parameter. A command line option matching the string
+		value `{EL_SUB_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application. 
+	]"
+	notes: "[
+		The [$source EL_VERSION_APP] application is automatically added to list of instances defined by `APPLICATION_TYPES' tuple.
+
 		Can also install/uninstall any sub-application conforming to [$source EL_INSTALLABLE_SUB_APPLICATION].
 		(System file context menu or system application launch menu) See sub-applications:
+
 			[$source EL_STANDARD_INSTALLER_APP]
 			[$source EL_STANDARD_UNINSTALL_APP]
 	]"
@@ -13,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-08 9:19:26 GMT (Thursday 8th October 2020)"
-	revision: "19"
+	date: "2020-10-10 11:47:17 GMT (Saturday 10th October 2020)"
+	revision: "20"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -65,7 +71,7 @@ feature {NONE} -- Initialization
 			list.extend (create {EL_VERSION_APP})
 			list.find (lio, Args.option_name (1))
 			if list.found and then attached list.item as app then
-				app.make -- Initialize and run application
+				app.make -- Initialize and run sub-application
 
 				exit_code := app.exit_code
 
@@ -75,7 +81,7 @@ feature {NONE} -- Initialization
 
 			list.make_empty
 
-				-- Causes a crash on some multi-threaded applications
+				-- Can cause a crash on multi-threaded applications if implementation of `dispose' has errors
 			{MEMORY}.full_collect
 
 			if exit_code > 0 then
