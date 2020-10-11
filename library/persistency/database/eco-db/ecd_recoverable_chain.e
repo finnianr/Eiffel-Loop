@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 10:29:09 GMT (Sunday 11th October 2020)"
-	revision: "18"
+	date: "2020-10-11 10:45:30 GMT (Sunday 11th October 2020)"
+	revision: "19"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -103,7 +103,7 @@ feature -- Basic operations
 		do
 			if is_integration_pending then
 				safe_store
-				if last_store_ok and not editions.has_editions then
+				if last_store_ok and editions.is_reset then
 					editions.close_and_delete
 					status := Closed_safe_store
 				else
@@ -111,7 +111,7 @@ feature -- Basic operations
 					status := Closed_safe_store_failed
 				end
 
-			elseif editions.has_editions then
+			elseif not editions.is_reset then
 				editions.close
 				status := Closed_editions
 			else
@@ -153,7 +153,7 @@ feature -- Basic operations
 				editions.reopen
 			end
 		ensure then
-			editions_stripped: last_store_ok implies not editions.has_editions
+			editions_stripped: last_store_ok implies editions.is_reset
 		end
 
 feature -- Removal

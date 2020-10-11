@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 12:02:44 GMT (Sunday 22nd December 2019)"
-	revision: "11"
+	date: "2020-10-11 10:44:49 GMT (Sunday 11th October 2020)"
+	revision: "12"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -89,13 +89,8 @@ feature -- Status report
 	has_checksum_mismatch: BOOLEAN
 		-- Has the file become corrupted somewhere
 
-	has_editions: BOOLEAN
-		do
-			Result := count > 0
-		end
-
 	is_bigger: BOOLEAN
-		-- True if file is bigger since object was created
+		-- `True' if file is bigger since object was created
 		do
 			Result := file_count > attributes.file_count
 		end
@@ -103,6 +98,12 @@ feature -- Status report
 	is_read_complete: BOOLEAN
 		do
 			Result := read_count = count
+		end
+
+	is_reset: BOOLEAN
+		-- `True' if edition count is zero
+		do
+			Result := count = 0
 		end
 
 feature -- Removal
