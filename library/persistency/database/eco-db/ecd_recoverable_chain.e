@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 10:45:30 GMT (Sunday 11th October 2020)"
-	revision: "19"
+	date: "2020-10-11 11:11:40 GMT (Sunday 11th October 2020)"
+	revision: "20"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -110,7 +110,6 @@ feature -- Basic operations
 					editions.close
 					status := Closed_safe_store_failed
 				end
-
 			elseif not editions.is_reset then
 				editions.close
 				status := Closed_editions

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 10:01:32 GMT (Monday 7th September 2020)"
-	revision: "16"
+	date: "2020-10-12 15:11:05 GMT (Monday 12th October 2020)"
+	revision: "17"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 		local
 			size_drop_down: EL_DROP_DOWN_BOX [REAL]; font_list_drop_down: EL_ZSTRING_DROP_DOWN_BOX
 			text_angle_drop_down: EL_DROP_DOWN_BOX [INTEGER]
-			cell: EV_CELL; l_pixmap: EL_PIXMAP; picture_box: EL_HORIZONTAL_BOX
+			cell: EV_CELL; l_pixmap: EL_PIXMAP
 		do
 			Precursor
 			set_dimensions
@@ -92,6 +92,7 @@ feature {NONE} -- Initialization
 				>>)
 			)
 			Screen.set_position (Current, 100, 100)
+			GUI.do_later (500, agent check_pixel_color)
 		end
 
 feature {NONE} -- Element change
@@ -114,7 +115,7 @@ feature {NONE} -- Element change
 			GUI.do_once_on_idle (agent replace_pixmap)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
 	new_drawing_area (title_font: EL_FONT): CAIRO_DRAWING_AREA
 		local
@@ -174,6 +175,19 @@ feature {NONE} -- Implementation
 			Result.set_minimum_size (a_pixmap.width, a_pixmap.height)
 		end
 
+feature {NONE} -- Implementation
+
+	check_pixel_color
+		local
+			assertion: STRING
+		do
+			assertion := "Screen.color_at_pixel (picture_box, 1, 1).is_equal (Color.White)"
+			if not Screen.color_at_pixel (picture_box, 1, 1).is_equal (Color.White) then
+			 assertion.prepend ("not ")
+			end
+			lio.put_line (assertion)
+		end
+
 	set_dimensions
 		do
 		end
@@ -185,6 +199,8 @@ feature {NONE} -- Internal attributes
 	font_size: REAL
 
 	text_angle: INTEGER
+
+	picture_box: EL_HORIZONTAL_BOX
 
 feature {NONE} -- Constants
 

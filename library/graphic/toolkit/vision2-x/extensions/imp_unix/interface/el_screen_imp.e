@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2020-10-12 15:15:43 GMT (Monday 12th October 2020)"
+	revision: "7"
 
 class
 	EL_SCREEN_IMP
@@ -34,45 +34,31 @@ create
 
 feature -- Access
 
+	color_at_pixel (a_object: EV_POSITIONED; a_x, a_y: INTEGER): EV_COLOR
+		-- From https://rosettacode.org/wiki/Color_of_a_screen_pixel#C
+		local
+			c: EL_X11_COLOR
+		do
+			c := Display.pixel_color (a_object.screen_x + a_x, a_object.screen_y + a_y)
+			create Result.make_with_rgb (c.red_proportion, c.green_proportion, c.blue_proportion)
+		end
+
 	useable_area: EV_RECTANGLE
 			-- useable area not obscured by taskbar
 		do
 			Result := Useable_screen.area
 		end
 
-	widget_pixel_color (a_widget: EV_WIDGET_IMP; a_x, a_y: INTEGER): EV_COLOR
-			--
-		local
-			l_rect, gdkpix: POINTER
-			l_pixmap: EV_PIXMAP
-			l_pixel_buffer: EV_PIXEL_BUFFER_IMP
-			l_result: EL_COLOR
-		do
-			l_rect := app_implementation.reusable_rectangle_struct
-			{GTK2}.set_gdk_rectangle_struct_width (l_rect, 1); {GTK2}.set_gdk_rectangle_struct_height (l_rect, 1)
-			{GTK2}.set_gdk_rectangle_struct_x (l_rect, a_x); {GTK2}.set_gdk_rectangle_struct_y  (l_rect, a_y)
-			create l_pixmap
-			gdkpix := {EL_GTK2}.widget_get_snapshot (a_widget.c_object, l_rect)
-			check attached {EV_PIXMAP_IMP} l_pixmap.implementation as pixmap_imp then
-				pixmap_imp.copy_from_gdk_data (gdkpix, a_widget.NULL, 1, 1)
-			end
-			{GTK}.gdk_pixmap_unref (gdkpix)
-			create l_pixel_buffer.make; l_pixel_buffer.make_with_pixmap (l_pixmap)
-			create Result
-			create l_result.make_with_rgb_24_bit ((l_pixel_buffer.get_pixel (0, 0) |>> 8).to_integer_32)
-			Result := l_result
-		end
-
 feature -- Measurement
 
 	height_mm: INTEGER
 		do
-			Result := X11_display.height_mm
+			Result := display_info.height_mm
 		end
 
 	width_mm: INTEGER
 		do
-			Result := X11_display.width_mm
+			Result := display_info.width_mm
 		end
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
@@ -81,12 +67,18 @@ feature {EV_ANY, EV_ANY_I} -- Implementation
 
 feature {NONE} -- Constants
 
-	X11_display: EL_X11_DISPLAY_OUTPUT_INFO
-		local
-			resources: EL_X11_SCREEN_RESOURCES_CURRENT
+	Display_info: EL_X11_DISPLAY_OUTPUT_INFO
 		once
-			create resources.make
-			Result := resources.connected_output_info
+			if attached Display.root_screen_resources.active_output_info as info then
+				Result := info
+			else
+				create Result
+			end
+		end
+
+	Display: EL_X11_DISPLAY
+		once
+			create Result.make
 		end
 
 end

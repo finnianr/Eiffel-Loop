@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 13:00:49 GMT (Sunday 23rd August 2020)"
-	revision: "11"
+	date: "2020-10-12 15:15:43 GMT (Monday 12th October 2020)"
+	revision: "12"
 
 class
 	EL_SCREEN
@@ -38,6 +38,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	color_at_pixel (a_object: EV_POSITIONED; a_x, a_y: INTEGER): EV_COLOR
+		do
+			Result := implementation.color_at_pixel (a_object, a_x, a_y)
+		end
+
 	resolution: STRING
 		do
 			Result := width.out + "x" + height.out
@@ -47,18 +52,6 @@ feature -- Access
 			-- useable area not obscured by taskbar
 		do
 			Result := implementation.useable_area
-		end
-
-	widget_pixel_color (a_widget: EV_WIDGET; x, y: INTEGER): EV_COLOR
-		do
-			if attached {EV_WIDGET_IMP} a_widget.implementation as widget_impl then
-				Result := implementation.widget_pixel_color (widget_impl, x, y)
-			else
-				create Result
-			end
---		ensure
---			same_color: pixel_color_relative_to (a_widget, x, y) ~ Result
-			-- (May 2013) Ok on Linux Mint, failed on Windows 7
 		end
 
 feature -- Measurement
