@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 12:15:16 GMT (Monday 3rd August 2020)"
-	revision: "43"
+	date: "2020-10-15 10:31:57 GMT (Thursday 15th October 2020)"
+	revision: "44"
 
 deferred class
 	EL_PATH
@@ -501,13 +501,14 @@ feature -- Element change
 			end
 		end
 
-	rename_base (new_name: ZSTRING; preserve_extension: BOOLEAN)
+	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
 			-- set new base to new_name, preserving extension if preserve_extension is True
 		local
 			l_extension: like extension
 		do
 			l_extension := extension
-			base.copy (new_name)
+			base.wipe_out
+			base.append_string_general (new_name)
 			if preserve_extension and then not has_extension (l_extension) then
 				add_extension (l_extension)
 			end

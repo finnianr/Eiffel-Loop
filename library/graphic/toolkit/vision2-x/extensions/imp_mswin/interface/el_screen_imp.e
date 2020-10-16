@@ -1,13 +1,13 @@
 note
-	description: "Windows extension to `EV_SCREEN_IMP'"
+	description: "Windows implemenation of interface [$source EL_SCREEN_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:15:14 GMT (Monday 12th October 2020)"
-	revision: "5"
+	date: "2020-10-13 10:50:43 GMT (Tuesday 13th October 2020)"
+	revision: "6"
 
 class
 	EL_SCREEN_IMP

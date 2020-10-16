@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 14:46:11 GMT (Monday 12th October 2020)"
-	revision: "1"
+	date: "2020-10-13 10:26:45 GMT (Tuesday 13th October 2020)"
+	revision: "2"
 
 class
 	EL_X11_COLOR

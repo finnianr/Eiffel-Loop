@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 10:44:49 GMT (Sunday 11th October 2020)"
-	revision: "12"
+	date: "2020-10-15 12:38:05 GMT (Thursday 15th October 2020)"
+	revision: "13"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -17,6 +17,8 @@ inherit
 		rename
 			make as make_file,
 			count as file_count
+		export
+			{ECD_RECOVERABLE_CHAIN} set_path
 		redefine
 			delete
 		end

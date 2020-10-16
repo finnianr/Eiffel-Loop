@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:20:58 GMT (Monday 12th October 2020)"
-	revision: "6"
+	date: "2020-10-13 10:47:18 GMT (Tuesday 13th October 2020)"
+	revision: "7"
 
 class
 	EL_X11_SCREEN_RESOURCES
@@ -42,8 +42,7 @@ feature {NONE} -- Initialization
 
 	make (a_display: EL_X11_DISPLAY)
 		do
-			make_from_pointer (XRR_get_screen_resources_current (a_display.self_ptr, a_display.root_window_number))
-
+			make_from_pointer (XRR_get_screen_resources_current (a_display.self_ptr, a_display.default_root_window))
 			display := a_display
 		end
 
@@ -71,7 +70,7 @@ feature -- Access
 			Result := XRR_screen_resource_i_th_output (self_ptr, i - 1)
 		end
 
-feature {EL_X11_DISPLAY_OUTPUT_INFO} -- Implementation
+feature {EL_X11_DISPLAY_OUTPUT_INFO} -- Factory
 
 	new_output_info (index: INTEGER): EL_X11_DISPLAY_OUTPUT_INFO
 		require

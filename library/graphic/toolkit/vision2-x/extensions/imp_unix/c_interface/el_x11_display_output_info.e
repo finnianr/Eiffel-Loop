@@ -29,6 +29,7 @@ note
 			for (o = 0; o < res->noutput; o++) {
 				XRROutputInfo	*output_info = XRRGetOutputInfo (dpy, res, res->outputs[o]);
 			}
+
 	]"
 
 	author: "Finnian Reilly"
@@ -36,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 12:17:10 GMT (Monday 12th October 2020)"
-	revision: "6"
+	date: "2020-10-13 10:49:40 GMT (Tuesday 13th October 2020)"
+	revision: "7"
 
 class
 	EL_X11_DISPLAY_OUTPUT_INFO
@@ -58,12 +59,16 @@ feature -- Access
 
 	connection: INTEGER
 		do
-			Result := XRR_output_info_connection (self_ptr)
+			if is_attached (self_ptr) then
+				Result := XRR_output_info_connection (self_ptr)
+			end
 		end
 
 	output_info: POINTER
 		do
-			Result := XRR_output_info_crtc (self_ptr)
+			if is_attached (self_ptr) then
+				Result := XRR_output_info_crtc (self_ptr)
+			end
 		end
 
 	width_mm: INTEGER
@@ -71,7 +76,7 @@ feature -- Access
 			if is_attached (self_ptr) then
 				Result := XRR_output_info_mm_width (self_ptr)
 			else
-				Result := 297
+				Result := 297 -- A4 landscape width
 			end
 		end
 
@@ -80,7 +85,7 @@ feature -- Access
 			if is_attached (self_ptr) then
 				Result := XRR_output_info_mm_height (self_ptr)
 			else
-				Result := 210
+				Result := 210 -- A4 landscape height
 			end
 		end
 

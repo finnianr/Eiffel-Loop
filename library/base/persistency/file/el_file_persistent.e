@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:49:52 GMT (Wednesday 20th February 2019)"
-	revision: "6"
+	date: "2020-10-16 11:37:28 GMT (Friday 16th October 2020)"
+	revision: "7"
 
 deferred class
 	EL_FILE_PERSISTENT
@@ -39,19 +39,21 @@ feature -- Status query
 
 feature -- Element change
 
-	rename_file (new_name: ZSTRING)
-			-- rename basename of file preserving the extension
+	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
+		-- rename basename of file preserving the extension if `preserve_extension' is true
 		local
 			old_path: like file_path
 		do
 			old_path := file_path.twin
-			file_path.rename_base (new_name, True)
+			file_path.rename_base (new_name, preserve_extension)
 			File_system.rename_file (old_path, file_path)
 		end
 
-	rename_file_extension (a_extension: ZSTRING)
+	rename_file_extension (a_extension: READABLE_STRING_GENERAL)
+		require
+			closed: is_closed
 		do
-			rename_file (file_path.with_new_extension (a_extension).base)
+			rename_base (file_path.with_new_extension (a_extension).base, False)
 		end
 
 	set_file_path (a_file_path: EL_FILE_PATH)
@@ -60,7 +62,7 @@ feature -- Element change
 			file_path := a_file_path
 		end
 
-	set_name_extension (a_extension: ZSTRING)
+	set_name_extension (a_extension: READABLE_STRING_GENERAL)
 			-- Set name extension
 		do
 			file_path := file_path.with_new_extension (a_extension)

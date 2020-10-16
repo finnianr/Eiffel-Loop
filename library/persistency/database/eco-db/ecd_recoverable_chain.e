@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 11:11:40 GMT (Sunday 11th October 2020)"
-	revision: "20"
+	date: "2020-10-16 11:36:08 GMT (Friday 16th October 2020)"
+	revision: "21"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			make_from_file, delete_file, on_retrieve, rename_file, safe_store, is_closed
+			make_from_file, delete_file, on_retrieve, rename_base, safe_store, is_closed
 		end
 
 	ECD_CHAIN_EDITIONS [G]
@@ -89,11 +89,17 @@ feature -- Status query
 
 feature -- Element change
 
-	rename_file (a_name: ZSTRING)
-			--
+	rename_base (new_name: READABLE_STRING_GENERAL; preserve_extension: BOOLEAN)
+		-- rename basename of files preserving the extension if `preserve_extension' is true
 		do
-			Precursor (a_name)
-			editions.rename_file (editions_file_path)
+			Precursor (new_name, preserve_extension)
+			if editions.exists then
+				editions.rename_file (editions_file_path)
+			else
+				editions.set_path (editions_file_path)
+			end
+		ensure then
+			editions_renamed: editions_file_path.base.same_string (editions.path.components.last.name)
 		end
 
 feature -- Basic operations

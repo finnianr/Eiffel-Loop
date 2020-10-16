@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:14:19 GMT (Monday 12th October 2020)"
-	revision: "1"
+	date: "2020-10-13 10:43:42 GMT (Tuesday 13th October 2020)"
+	revision: "2"
 
 class
 	EL_X11_DISPLAY
@@ -32,31 +32,41 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	default_root_window: INTEGER
+		do
+			Result := root_window (default_screen)
+		end
+
 	default_screen: INTEGER
+		-- number of default screen
 		do
 			Result := X11_default_screen (self_ptr)
 		end
 
-	root_window_number: INTEGER
-		do
-			Result := X11_root_window (self_ptr, default_screen)
-		end
-
-	root_screen_resources: EL_X11_SCREEN_RESOURCES
+	default_screen_resources: EL_X11_SCREEN_RESOURCES
 		do
 			create Result.make (Current)
 		end
 
-	root_window_image (x, y, height, width: INTEGER): EL_X11_IMAGE
+	default_window_image (x, y, height, width: INTEGER): EL_X11_IMAGE
+		-- image rectangle of screen identified by `root_window_id'
 		do
-			create Result.make (x11_get_image (self_ptr, root_window_number, x, y, height.to_natural_32, width.to_natural_32))
+			create Result.make (
+				X11_get_image (self_ptr, default_root_window, x, y, height.to_natural_32, width.to_natural_32)
+			)
 		end
 
 	pixel_color (x, y: INTEGER): EL_X11_COLOR
+		-- color of pixel on screen identified by `default_screen'
 		-- From https://rosettacode.org/wiki/Color_of_a_screen_pixel#C
 		do
-			Result := root_window_image (x, y, 1, 1).pixel_color (0, 0)
+			Result := default_window_image (x, y, 1, 1).pixel_color (0, 0)
 			X11_query_color_rgb (self_ptr, Result.self_ptr, default_screen)
+		end
+
+	root_window (number: INTEGER): INTEGER
+		do
+			Result := X11_root_window (self_ptr, number)
 		end
 
 feature {NONE} -- Implementation

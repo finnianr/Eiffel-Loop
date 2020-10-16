@@ -1,13 +1,13 @@
 note
-	description: "Screen imp"
+	description: "Unix implemenation of interface [$source EL_SCREEN_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:15:43 GMT (Monday 12th October 2020)"
-	revision: "7"
+	date: "2020-10-13 10:50:23 GMT (Tuesday 13th October 2020)"
+	revision: "8"
 
 class
 	EL_SCREEN_IMP
@@ -69,7 +69,7 @@ feature {NONE} -- Constants
 
 	Display_info: EL_X11_DISPLAY_OUTPUT_INFO
 		once
-			if attached Display.root_screen_resources.active_output_info as info then
+			if attached Display.default_screen_resources.active_output_info as info then
 				Result := info
 			else
 				create Result
