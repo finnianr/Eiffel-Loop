@@ -1,13 +1,13 @@
 note
-	description: "Pyxis to xml converter"
+	description: "Command to convert Pyxis format file to XML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 15:18:03 GMT (Wednesday 6th May 2020)"
-	revision: "6"
+	date: "2020-10-20 10:30:22 GMT (Tuesday 20th October 2020)"
+	revision: "7"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER

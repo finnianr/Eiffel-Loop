@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-25 11:14:20 GMT (Monday 25th November 2019)"
-	revision: "4"
+	date: "2020-10-17 10:49:34 GMT (Saturday 17th October 2020)"
+	revision: "5"
 
 class
 	EL_LOCALE_TABLE
@@ -23,6 +23,11 @@ inherit
 
 	EL_SHARED_DIRECTORY
 
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
 create
 	make, make_default
 
@@ -32,6 +37,7 @@ feature {NONE} -- Initialization
 		require
 			locale_dir_exists: a_locale_dir.exists
 		do
+			make_solitary
 			locale_dir := a_locale_dir
 			make_equal (7)
 			across Directory.named (locale_dir).files as path loop
@@ -43,6 +49,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			make_solitary
 			make_equal (0)
 			create locale_dir
 		end

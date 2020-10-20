@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-19 18:36:19 GMT (Sunday 19th July 2020)"
-	revision: "15"
+	date: "2020-10-18 12:25:52 GMT (Sunday 18th October 2020)"
+	revision: "16"
 
 deferred class
 	EL_LOCALE_I
@@ -30,20 +30,25 @@ inherit
 		end
 
 	EL_SINGLE_THREAD_ACCESS
+		rename
+			make_default as make_access
+		end
 
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_SHARED_LOCALE_TABLE
-
 	EL_LOCALE_CONSTANTS
+
+	EL_SHARED_SINGLETONS
 
 feature {NONE} -- Initialization
 
  	make (a_language: STRING; a_default_language: like default_language)
+ 		require
+ 			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE}, False)
 		do
-			make_default
+			make_access
 			restrict_access
 				default_language := a_default_language
 				if Locale_table.has (a_language) then
@@ -85,7 +90,7 @@ feature -- Access
 			lines, sub_list: EL_ZSTRING_LIST
 		once
 			create lines.make_with_lines (translation (key))
-			
+
 			create Result.make (lines.count_of (agent {ZSTRING}.is_empty) + 1)
 			create sub_list.make (lines.count // Result.capacity + 1)
 			across lines as l loop
@@ -186,6 +191,17 @@ feature -- Status report
 			end_restriction
 		end
 
+feature {EL_LOCALE_CONSTANTS} -- Factory
+
+	new_translation_table (a_language: STRING): EL_TRANSLATION_TABLE
+		local
+			items_list: EL_TRANSLATION_ITEMS_LIST
+		do
+			create items_list.make_from_file (Locale_table [a_language])
+			items_list.retrieve
+			Result := items_list.to_table (a_language)
+		end
+
 feature {NONE} -- Implementation
 
 	in (a_language: STRING): EL_LOCALE_I
@@ -224,11 +240,17 @@ feature {NONE} -- Internal attributes
 
 	translations: EL_TRANSLATION_TABLE
 
-feature {NONE} -- Constants
+feature {EL_LOCALE_CONSTANTS} -- Constants
 
 	Empty_substitutions: ARRAY [TUPLE [READABLE_STRING_GENERAL, ANY]]
 		once
 			create Result.make_empty
 		end
+
+	Locale_table: EL_LOCALE_TABLE
+	 	-- Table of all locale data file paths
+	 	once ("PROCESS")
+			Result := create {EL_SINGLETON [EL_LOCALE_TABLE]}
+	 	end
 
 end

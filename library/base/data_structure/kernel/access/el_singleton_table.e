@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:06:02 GMT (Wednesday 20th May 2020)"
-	revision: "4"
+	date: "2020-10-18 12:52:20 GMT (Sunday 18th October 2020)"
+	revision: "5"
 
 class
 	EL_SINGLETON_TABLE
@@ -16,6 +16,7 @@ inherit
 	HASH_TABLE [ANY, INTEGER]
 		rename
 			put as table_put,
+			remove as table_remove,
 			item as table_item,
 			has as has_type_id
 		export
@@ -43,6 +44,13 @@ feature -- Element change
 		do
 			restrict_access
 				table_put (obj, {ISE_RUNTIME}.dynamic_type (obj))
+			end_restriction
+		end
+
+	remove (obj: ANY)
+		do
+			restrict_access
+				table_remove ({ISE_RUNTIME}.dynamic_type (obj))
 			end_restriction
 		end
 

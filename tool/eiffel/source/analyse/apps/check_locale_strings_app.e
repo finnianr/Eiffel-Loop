@@ -8,16 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:38 GMT (Wednesday 25th September 2019)"
-	revision: "7"
+	date: "2020-10-18 11:50:02 GMT (Sunday 18th October 2020)"
+	revision: "8"
 
 class
 	CHECK_LOCALE_STRINGS_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
+	EL_COMMAND_LINE_SUB_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
 		redefine
-			Option_name
+			Option_name, new_locale
 		end
 
 create
@@ -38,18 +38,15 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "en")
 		end
 
+	new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
+		do
+			create Result.make_resources
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "check_locale_strings"
 
-	Description: STRING = "Check that every locale string can be found in given locale"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CHECK_LOCALE_STRINGS_APP}, All_routines]
-			>>
-		end
+	Description: STRING = "Check that every localized string can be found in resources/locales"
 
 end

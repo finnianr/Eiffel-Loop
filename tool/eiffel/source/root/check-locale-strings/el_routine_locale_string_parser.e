@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 11:37:18 GMT (Monday 24th August 2020)"
-	revision: "2"
+	date: "2020-10-18 11:27:23 GMT (Sunday 18th October 2020)"
+	revision: "3"
 
 class
 	EL_ROUTINE_LOCALE_STRING_PARSER
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
-
-	EL_SHARED_LOCALE_TABLE
 
 	EL_LOCALE_CONSTANTS
 

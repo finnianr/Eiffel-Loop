@@ -15,9 +15,6 @@ from os import path
 from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
-def convert_pyxis_to_xml (pecf_path):
-	subprocess.call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', pecf_path])
-
 project_py = project.read_project_py ()
 
 target_cpu = 'x64'
@@ -43,7 +40,7 @@ if parts [1] == '.pecf':
 	project_path = parts [0] + '.ecf'
 
 	if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (project_path)[stat.ST_MTIME]:
-		convert_pyxis_to_xml (pecf_path)
+		project.project.convert_pecf_to_xml (pecf_path)
 		
 eifgen_path = path.join ('build', ise.platform)	
 if not path.exists (eifgen_path):

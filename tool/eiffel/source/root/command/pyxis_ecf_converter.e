@@ -1,16 +1,16 @@
 note
-	description: "Pyxis to xml converter"
+	description: "Command to convert Pyxis format ECF file to XML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 12:52:47 GMT (Saturday 11th January 2020)"
-	revision: "13"
+	date: "2020-10-20 9:34:46 GMT (Tuesday 20th October 2020)"
+	revision: "1"
 
 class
-	PYXIS_TO_XML_CONVERTER
+	PYXIS_ECF_CONVERTER
 
 inherit
 	EL_PYXIS_TO_XML_CONVERTER

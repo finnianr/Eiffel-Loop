@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 12:26:12 GMT (Monday 24th August 2020)"
-	revision: "2"
+	date: "2020-10-18 12:53:31 GMT (Sunday 18th October 2020)"
+	revision: "3"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -22,11 +22,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
-	EL_SHARED_LOCALE_TABLE
-		redefine
-			Locales_dir
-		end
-
+	EL_SHARED_SINGLETONS
 
 feature -- Basic operations
 
@@ -52,7 +48,8 @@ feature {NONE} -- Implementation
 			restored_list: EL_TRANSLATION_ITEMS_LIST
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 			restored_table, filled_table: EL_TRANSLATION_TABLE
-			translation, years: ZSTRING; locale: EL_LOCALE_IMP
+			translation, years: ZSTRING; locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
+			locale_table: EL_LOCALE_TABLE
 		do
 			across 1 |..| 2 as n loop
 				lio.put_integer_field ("Run", n.item)
@@ -65,6 +62,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 			end
 			lio.put_line ("Checking restore")
+			create locale_table.make (Locales_dir)
 			across locale_table as language loop
 				lio.put_string_field ("language", language.key)
 				lio.put_new_line
@@ -87,7 +85,9 @@ feature {NONE} -- Implementation
 				end
 			end
 
-			create locale.make ("en", "en")
+			Singleton_table.remove (locale_table)
+
+			create locale.make (Work_area_dir)
 			across 1 |..| 2 as n loop
 				years := Years_template #$ [n.item]
 				if n.item = 2 then
@@ -99,14 +99,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Locales_dir: EL_DIR_PATH
+		once
+			Result := Work_area_dir.joined_dir_tuple (["locales"])
+		end
+
 	Source_dir: EL_DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("pyxis/localization")
-		end
-
-	Locales_dir: EL_DIR_PATH
-		once
-			Result := Work_area_dir.joined_dir_tuple ([Locales_dir_name])
 		end
 
 	Years_template: ZSTRING

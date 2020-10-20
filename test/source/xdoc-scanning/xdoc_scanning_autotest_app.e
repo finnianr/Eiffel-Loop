@@ -16,20 +16,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:25:35 GMT (Tuesday 15th September 2020)"
-	revision: "12"
+	date: "2020-10-18 13:00:39 GMT (Sunday 18th October 2020)"
+	revision: "13"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
 		OBJECT_BUILDER_TEST_SET,
 		PYXIS_PARSER_TEST_SET,
 		PYXIS_TO_XML_TEST_SET,
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
-	]]
+	]
 		redefine
 			log_filter
 		end

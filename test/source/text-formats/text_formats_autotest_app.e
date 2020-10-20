@@ -15,19 +15,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:24:19 GMT (Tuesday 15th September 2020)"
-	revision: "7"
+	date: "2020-10-18 13:00:28 GMT (Sunday 18th October 2020)"
+	revision: "8"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [TUPLE [
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
 		JSON_NAME_VALUE_LIST_TEST_SET,
 		SETTABLE_FROM_JSON_STRING_TEST_SET,
 		XML_ESCAPER_TEST_SET
-	]]
+	]
 
 create
 	make

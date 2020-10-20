@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-30 14:51:24 GMT (Saturday 30th November 2019)"
-	revision: "3"
+	date: "2020-10-17 11:08:43 GMT (Saturday 17th October 2020)"
+	revision: "4"
 
 class
 	EL_LOCALIZED_DEBIAN_PACKAGER_APP
@@ -18,18 +18,11 @@ inherit
 			new_locale
 		end
 
-	EL_SHARED_LOCALE_TABLE
-
 feature {NONE} -- Implementation
 
 	new_locale: EL_ENGLISH_DEFAULT_LOCALE_IMP
 		do
-			Locales_dir.copy (Resources_dir.joined_dir_tuple ([Locales_dir_name]))
-			create Result.make
+			create Result.make_resources
 		end
 
-	Resources_dir: EL_DIR_PATH
-		once
-			Result := "resources"
-		end
 end

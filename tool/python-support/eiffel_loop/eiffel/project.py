@@ -114,6 +114,13 @@ def new_eiffel_project ():
 		result = MSWIN_EIFFEL_PROJECT ()
 	return result
 
+def convert_pecf_to_xml (pecf_path):
+	# Generate new ecf XML file
+	result = call (['el_eiffel', '-pecf_to_xml', '-no_highlighting', '-in', pecf_path])
+	if result > 0:
+		print "Error converting %s to XML" % (pecf_path)
+	return result
+
 class TESTS (object):
 
 # Initialization
@@ -184,10 +191,7 @@ class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
 # Basic operations
 	def increment_build (self):
 		ECF_PROJECT_FILE.increment_build (self)
-		# Generate new ecf XML file
-		status = call (['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', self.name])
-		if status > 0:
-			print "Error in pecf to ecf conversion"
+		convert_pecf_to_xml (self.name)
 
 # Implementation
 	def edit_version_line (self, lines):

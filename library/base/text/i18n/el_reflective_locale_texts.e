@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 14:07:55 GMT (Wednesday 30th September 2020)"
-	revision: "3"
+	date: "2020-10-19 12:00:09 GMT (Monday 19th October 2020)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -44,16 +44,18 @@ inherit
 		rename
 			field_included as is_any_field,
 			export_name as export_default,
-			import_name as import_default,
-			make_default as make
+			import_name as import_default
 		export
 			{NONE} all
 			{ANY} print_fields
 		redefine
-			initialize_fields
+			initialize_fields, Except_fields
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
+		rename
+			Locale as Default_locale
+		end
 
 	EL_MODULE_TUPLE
 
@@ -76,7 +78,7 @@ feature {NONE} -- Initialization
 					key.prune_all_trailing ('_') -- in case of keyword differentiation
 					key.append_character ('}')
 					key.replace_character ('_', '-')
-					Locale.set_next_translation (l_table.found_item)
+					locale.set_next_translation (l_table.found_item)
 				else
 					key.append_string_general (field.key)
 					key.prune_all_trailing ('_')
@@ -92,24 +94,35 @@ feature {NONE} -- Initialization
 						-- lower case
 					end
 				end
-				field.item.set_from_string (current_reflective, Locale * key)
+				field.item.set_from_string (current_reflective, locale * key)
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	english_table: READABLE_STRING_GENERAL
-		-- description of attributes
-		deferred
-		ensure
-			renamed_as_empty_table: Result.is_empty implies Result = Empty_table
+	make
+		do
+			make_with_locale (Default_locale)
 		end
+
+	make_with_locale (a_locale: like locale)
+		do
+			locale := a_locale
+			make_default
+		end
+
+feature {NONE} -- Implementation
 
 	case: INTEGER
 		-- English word case modification for field names
 		deferred
 		ensure
 			renamed_as_case_constant: Case_lower <= Result and Result <= Case_first_upper
+		end
+
+	english_table: READABLE_STRING_GENERAL
+		-- description of attributes
+		deferred
+		ensure
+			renamed_as_empty_table: Result.is_empty implies Result = Empty_table
 		end
 
 	joined (precursor_lines, lines: STRING): STRING
@@ -128,23 +141,33 @@ feature {NONE} -- Implementation
 			valid_table: across Result as table all field_table.has (table.key) end
 		end
 
+feature {NONE} -- Internal attributes
+
+	locale: EL_DEFERRED_LOCALE_I
+
 feature {NONE} -- Constants
+
+	Case_first_upper: INTEGER = 4
+		-- first letter only is upper cased
+
+	Case_lower: INTEGER = 1
+
+	Case_proper: INTEGER = 3
+
+	Case_upper: INTEGER = 2
+
+	Empty_table: STRING = ""
+
+	Except_fields: STRING
+		-- list of comma-separated fields to be excluded
+		once
+			Result := Precursor + ", locale"
+		end
 
 	Substitution: TUPLE [string, character: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result, "%%S, %S")
 		end
-
-	Case_lower: INTEGER = 1
-
-	Case_upper: INTEGER = 2
-
-	Case_proper: INTEGER = 3
-
-	Case_first_upper: INTEGER = 4
-		-- first letter only is upper cased
-
-	Empty_table: STRING = ""
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:32:16 GMT (Wednesday 20th May 2020)"
-	revision: "8"
+	date: "2020-10-17 11:09:57 GMT (Saturday 17th October 2020)"
+	revision: "9"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -30,9 +30,24 @@ inherit
 
 feature {NONE} -- Initialization
 
- 	make
+	make_default
+		do
+			make (Directory.Application_installation)
+		end
+
+	make_resources
+		-- make using locale files in "resources/locales" directory
+		do
+			make (Resources_dir)
+		end
+
+ 	make (locales_parent_dir: EL_DIR_PATH)
+ 		local
+ 			table: EL_LOCALE_TABLE
  		do
  			make_solitary
+ 			create table.make (locales_parent_dir.joined_dir_path (Locales))
+
  			make_with_language (key_language, key_language)
  			create other_locales.make_equal (3, agent new_locale)
  		end
@@ -68,5 +83,18 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	other_locales: EL_CACHE_TABLE [EL_LOCALE_I, STRING]
+
+feature {NONE} -- Constants
+
+	Locales: EL_DIR_PATH
+		-- directory name for locales
+		once
+			Result := "locales"
+		end
+
+	Resources_dir: EL_DIR_PATH
+		once
+			Result := "resources"
+		end
 
 end

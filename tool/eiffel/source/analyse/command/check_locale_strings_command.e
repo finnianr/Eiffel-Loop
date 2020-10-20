@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:37:14 GMT (Friday 8th May 2020)"
-	revision: "9"
+	date: "2020-10-18 12:26:06 GMT (Sunday 18th October 2020)"
+	revision: "10"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -33,10 +33,9 @@ inherit
 			make as make_machine
 		end
 
-	EL_SHARED_LOCALE_TABLE
-		redefine
-			Locale_table
-		end
+	EL_MODULE_LOCALE
+
+	EL_LOCALE_CONSTANTS
 
 create
 	make
@@ -46,7 +45,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 	make (config_path: EL_FILE_PATH; language: STRING)
 		do
 			make_from_file (config_path)
-			translations := new_translation_table (language)
+			translations := Locale.new_translation_table (language)
 			translations.print_duplicates
 			create referenced_keys.make_equal (translations.count)
 		end
@@ -256,11 +255,6 @@ feature {NONE} -- Factory
 			Result.append (included_files)
 		end
 
-	new_locale_table: EL_LOCALE_TABLE
-		do
-			create Result.make (locale_resources_dir)
-		end
-
 feature {NONE} -- Internal attributes
 
 	additional_keys_table: EL_ZSTRING_HASH_TABLE [EL_ZSTRING_LIST]
@@ -270,8 +264,6 @@ feature {NONE} -- Internal attributes
 	included_files: EL_FILE_PATH_LIST
 
 	last_localized_file_name_extension: ZSTRING
-
-	locale_resources_dir: EL_DIR_PATH
 
 	localized_file_name_list: EL_FILE_PATH_LIST
 
@@ -297,7 +289,6 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
-				["locale-resource-dir/text()",				agent do locale_resources_dir := node.to_expanded_dir_path end],
 				["localized-file-names/@extension",			agent do last_localized_file_name_extension := node end],
 				["source-dir/text()",							agent do make_command (node.to_expanded_dir_path) end],
 				["include/@name",									agent do additional_keys_table.put (new_empty_list, node) end],
@@ -397,12 +388,6 @@ feature {NONE} -- Constants
 			prefix_1 := "English_"; prefix_2 := "Eng_"
 			Result := << prefix_1, prefix_2 >>
 		end
-
-	Locale_table: EL_LOCALE_TABLE
-	 	-- Table of all locale data file paths
-	 	once
-			create Result.make (locale_resources_dir)
-	 	end
 
 	Workarea_pyx_template: ZSTRING
 		once

@@ -9,6 +9,7 @@ import sys, os, subprocess
 
 from os import path
 from eiffel_loop import osprocess
+from eiffel_loop.eiffel import project
 from eiffel_loop.distutils import dir_util
 from distutils import file_util
 from SCons import Script
@@ -42,9 +43,9 @@ def compile_C_code (target, source, env):
 
 def write_ecf_from_pecf (target, source, env):
 	# Converts Pyxis format PECF to XML
-	pyxis_to_xml_cmd = ['el_toolkit', '-pyxis_to_xml', '-no_highlighting', '-in', str (source [0])]
-	sys.stdout.write (' '.join (pyxis_to_xml_cmd) + '\n')
-	if subprocess.call (pyxis_to_xml_cmd) != 0:
+	pecf_path = str (source [0])
+	sys.stdout.write ('Converting % to XML\n' % (pecf_path))
+	if project.convert_pecf_to_xml (pecf_path) != 0:
 		Script.Exit (1)
 
 def check_C_libraries (env, build):

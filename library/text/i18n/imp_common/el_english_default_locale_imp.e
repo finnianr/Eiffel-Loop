@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 11:01:47 GMT (Sunday 24th November 2019)"
-	revision: "5"
+	date: "2020-10-17 11:08:36 GMT (Saturday 17th October 2020)"
+	revision: "6"
 
 class
 	EL_ENGLISH_DEFAULT_LOCALE_IMP
@@ -35,7 +35,7 @@ inherit
 		end
 
 create
-	make
+	make_default, make, make_resources
 
 feature {NONE} -- Constants
 

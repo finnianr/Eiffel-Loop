@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:20:29 GMT (Tuesday 15th September 2020)"
-	revision: "8"
+	date: "2020-10-18 12:59:09 GMT (Sunday 18th October 2020)"
+	revision: "9"
 
 class
 	EROS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [TUPLE [EROS_TEST_SET]]
+	EL_AUTOTEST_SUB_APPLICATION [EROS_TEST_SET]
 		redefine
 			log_filter
 		end

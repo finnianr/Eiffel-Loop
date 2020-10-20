@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 8:26:47 GMT (Wednesday 30th September 2020)"
-	revision: "17"
+	date: "2020-10-20 10:49:07 GMT (Tuesday 20th October 2020)"
+	revision: "18"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -145,11 +145,11 @@ feature -- Basic operations
 					find_first_true (agent is_main)
 
 					if after then
-						if not Base_option.silent then
-							lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
-						else
+						if name.is_empty then
 							io_put_menu (lio)
 							go_i_th (user_selection)
+						elseif not Base_option.silent then
+							lio.put_labeled_substitution ("ERROR", "Cannot find sub-application option %"%S%"", [name])
 						end
 					end
 				end

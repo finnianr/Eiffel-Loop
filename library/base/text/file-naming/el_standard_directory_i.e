@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:08:31 GMT (Wednesday 27th May 2020)"
-	revision: "16"
+	date: "2020-10-19 13:55:28 GMT (Monday 19th October 2020)"
+	revision: "17"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -155,7 +155,6 @@ feature -- User
 		-- On Windows 7: $LOCALAPPDATA (Usually C:\Users\$USERNAME\AppData\Local)
 		deferred
 		end
-
 
 feature -- Application
 

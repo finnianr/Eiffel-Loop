@@ -66,10 +66,10 @@ def gedit_home_dir ():
 	return result
 
 class INSTALLER (object): # Common: Unix and Windows
-	def build_toolkit (self):
+	def build_eiffel_tool (self):
 		
-		os.chdir (path.join (eiffel_loop_home_dir, path.normpath ('tool/toolkit')))
-		if not environ.command_exists (['el_toolkit', '-pyxis_to_xml', '-h'], shell=self.is_windows ()):
+		os.chdir (path.join (eiffel_loop_home_dir, path.normpath ('tool/eiffel')))
+		if not environ.command_exists (['el_eiffel', '-version', '-no_highlighting'], shell=self.is_windows ()):
 			bin_path = self.tools_bin ()
 			if not path.exists (bin_path):
 				dir_util.mkpath (bin_path)
@@ -78,7 +78,7 @@ class INSTALLER (object): # Common: Unix and Windows
 			if subprocess.call (build_cmd, shell=self.is_windows ()) == 0:
 				self.print_completion ()
 			else:
-				print 'ERROR: failed to build el_toolkit'
+				print 'ERROR: failed to build required tool: el_eiffel'
 
 	def write_script_file (self, a_path, content):
 		print 'Writing:', a_path
@@ -117,7 +117,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 		self.install_batch_scripts ()
 	
 		self.install_precompiles (ise.platform)
-		self.build_toolkit ()
+		self.build_eiffel_tool ()
 		self.install_gedit_pecf_support ()
 
 	def tools_bin (self):
@@ -167,7 +167,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 
 	def install_gedit_pecf_support (self):
 		# If gedit installed, install pecf syntax
-		os.chdir (path.join (eiffel_loop_home_dir, r'tool\toolkit'))
+		os.chdir (path.join (eiffel_loop_home_dir, r'tool\eiffel'))
 
 		edit_cmd = None
 	
@@ -190,7 +190,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 		py_icon_path = path.join (python_home_dir, 'DLLs', 'py.ico')
 		estudio_logo_path = r'"%ISE_EIFFEL%\contrib\examples\web\ewf\upload_image\htdocs\favicon.ico"'
 
-		conversion_cmd = 'cmd /C el_toolkit -pyxis_to_xml -ask_user_to_quit -in "%1"'
+		conversion_cmd = 'cmd /C el_eiffel -pecf_to_xml -ask_user_to_quit -in "%1"'
 		open_with_estudio_cmd = '"%s" "%%1"' % path.join (python_home_dir, "launch_estudio.bat")
 
 		pecf_extension_cmds = {'open' : open_with_estudio_cmd, 'Convert To ECF' : conversion_cmd }
@@ -242,7 +242,7 @@ class UNIX_INSTALLER (INSTALLER):
 
 		self.install_precompiles (ise.platform)
 
-		self.build_toolkit ()
+		self.build_eiffel_tool ()
 
 		self.install_gedit_pecf_support ()
 
@@ -253,7 +253,7 @@ class UNIX_INSTALLER (INSTALLER):
 		return path.expanduser ('/usr/local/bin')
 
 	def install_gedit_pecf_support (self):
-		os.chdir (path.join (eiffel_loop_home_dir, 'tool/toolkit'))
+		os.chdir (path.join (eiffel_loop_home_dir, 'tool/eiffel'))
 
 		# Install language specs for both gedit 2.3 and gedit 3.2
 		language_specs_dir = 'language-specs'

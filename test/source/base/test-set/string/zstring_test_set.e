@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 10:13:45 GMT (Thursday 20th August 2020)"
-	revision: "29"
+	date: "2020-10-16 12:27:39 GMT (Friday 16th October 2020)"
+	revision: "30"
 
 class
 	ZSTRING_TEST_SET
@@ -83,7 +83,7 @@ feature -- Basic operations
 			eval.call ("remove_head", agent test_remove_head)
 			eval.call ("remove_tail", agent test_remove_tail)
 			eval.call ("index_of", agent test_index_of)
-			eval.call ("join", agent test_join)
+			eval.call ("joined", agent test_joined)
 			eval.call ("last_index_of", agent test_last_index_of)
 			eval.call ("occurrences", agent test_occurrences)
 			eval.call ("substring_index", agent test_substring_index)
@@ -334,8 +334,19 @@ feature -- Element change tests
 			end
 		end
 
-	test_join
+	test_joined
+		note
+			testing:	"covers/{ZSTRING}.joined"
+		local
+			line, joined: ZSTRING; line_32: STRING_32
 		do
+			across Text_lines as list loop
+				line_32 := list.item.twin; line := line_32
+				line_32.append_string_general (" 100-abc")
+				joined := line.joined ([' ', 100, "-abc"])
+				assert ("line not modified", line.same_string (list.item))
+				assert ("same joined", joined.same_string (line_32))
+			end
 		end
 
 	test_left_adjust

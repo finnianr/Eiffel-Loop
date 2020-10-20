@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:18:48 GMT (Wednesday 20th May 2020)"
-	revision: "8"
+	date: "2020-10-19 13:43:30 GMT (Monday 19th October 2020)"
+	revision: "9"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -21,6 +21,11 @@ create
 	make
 
 feature {NONE} -- Implementation
+
+	language: STRING
+		do
+			Result := "en"
+		end
 
 	in (a_language: STRING): EL_DEFERRED_LOCALE_I
 		do
