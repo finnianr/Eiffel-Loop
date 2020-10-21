@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 15:49:38 GMT (Monday 19th October 2020)"
-	revision: "1"
+	date: "2020-10-21 13:39:10 GMT (Wednesday 21st October 2020)"
+	revision: "2"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -22,19 +22,28 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
+	EL_MODULE_FILE_SYSTEM
+
 	WINZIP_SOFTWARE_COMMON
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (file_path: EL_FILE_PATH; architectures, targets: STRING)
+	make (a_pecf_path: EL_FILE_PATH; architectures, targets: STRING)
 		require
+			path_exits: a_pecf_path.exists
 			valid_architectures: valid_architecture_list (architectures)
 			valid_targets: valid_target_list (targets)
+		local
+			scanner: PYXIS_ECF_SCANNER
 		do
-			create config.make (file_path)
+			pecf_path := a_pecf_path
+			create scanner.make (a_pecf_path)
+			config := scanner.new_config
 			create architecture_list.make (2)
 			across architectures.split (',') as bit_count loop
 				bit_count.item.left_adjust
@@ -43,14 +52,36 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create target_list.make_with_csv (targets)
 		end
 
+feature -- Basic operations
+
 	execute
 		do
-			across Locale.all_languages as lang loop
-				build (Locale.in (lang.item))
+			if target_list.has (Target.exe) then
+				if architecture_list.has (64) then
+					increment_pecf_build
+				end
+			end
+			if target_list.has (Target.installer) then
+				across Locale.all_languages as lang loop
+					build_installer (Locale.in (lang.item))
+				end
 			end
 		end
 
-	build (a_locale: EL_DEFERRED_LOCALE_I)
+feature {NONE} -- Implementation
+
+	build_exe (bit_count: INTEGER)
+		local
+			compile_eiffel: BOOLEAN
+		do
+			compile_eiffel := bit_count /= 32
+			if compile_eiffel then
+				-- Excluded unwanted sub applications for windows
+				swap_application_root ("dev", "windows")
+			end
+		end
+
+	build_installer (a_locale: EL_DEFERRED_LOCALE_I)
 		local
 			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND
 		do
@@ -59,12 +90,87 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			command.execute
 		end
 
-feature {NONE} -- Implementation: attributes
+	exe_path (bit_count: INTEGER): EL_FILE_PATH
+		do
+			Result := Exe_path_template #$ [platform_name (bit_count), config.exe_name]
+		end
 
-	config: PACKAGE_BUILDER_CONFIG
+	increment_pecf_build
+		local
+			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
+			found: BOOLEAN; i, line_start, line_end: INTEGER
+		do
+			source_text := File_system.plain_text (pecf_path)
+			create list.make (source_text, character_string_8 ('%N'))
+			from list.start until list.after or found loop
+				line := list.item (False)
+				if line.has ('=') and then line.has_substring ("major")
+					and then line.has_substring ("build")
+				then
+					line := line.twin
+					line_start := list.item_start_index
+					line_end := list.item_end_index
+					found := True
+				end
+				list.forth
+			end
+			if found then
+				from i := line.count until i = 1 or not line.item (i).is_digit loop
+					i := i - 1
+				end
+				config.increment_build
+				line.replace_substring (config.build.out, i + 1, line.count)
+				source_text.replace_substring (line, line_start, line_end)
+				File_system.write_plain_text (pecf_path, source_text)
+			end
+		end
+
+	platform_name (bit_count: INTEGER): STRING
+		do
+			inspect bit_count
+				when 32 then
+					Result := "windows"
+
+				when 64 then
+					Result := "win64"
+			else
+				create Result.make_empty
+			end
+		end
+
+	swap_application_root (temp_extension, extension: STRING)
+		local
+			src_root: ZSTRING
+		do
+			src_root := "source/application_root.%S"
+			File_system.rename_file (src_root #$ ['e'], src_root #$ [temp_extension])
+			File_system.rename_file (src_root #$ [extension], src_root #$ ['e'])
+		end
+
+	yes_no (flag: BOOLEAN): STRING
+		do
+			if flag then
+				Result := "yes"
+			else
+				Result := "no"
+			end
+		end
+
+feature {NONE} -- Implementation: attributes
 
 	architecture_list: ARRAYED_LIST [INTEGER]
 
+	config: PACKAGE_BUILDER_CONFIG
+
+	pecf_path: EL_FILE_PATH
+
 	target_list: EL_STRING_8_LIST
+
+feature {NONE} -- Constants
+
+	Exe_path_template: ZSTRING
+		once
+			Result := "build/%S/package/bin/%S"
+		end
 
 end

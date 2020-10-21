@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:47:09 GMT (Friday 24th January 2020)"
-	revision: "10"
+	date: "2020-10-21 9:36:49 GMT (Wednesday 21st October 2020)"
+	revision: "11"
 
 class
 	EL_SOFTWARE_VERSION
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make, default_create
+	make, make_parts, default_create
 
 feature {NONE} -- Initialization
 
@@ -27,6 +27,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			compact_version := a_compact_version; build := a_build
+		end
+
+	make_parts (a_major, a_minor, a_release, a_build: NATURAL)
+		do
+			make (a_major * shift (4) + a_minor * shift (2) + a_release, a_build)
 		end
 
 feature -- Element change
@@ -90,6 +95,19 @@ feature -- Access
 			--
 		do
 			Result := compact_version  // 100 \\ 100
+		end
+
+feature {NONE} -- Implementation
+
+	shift (n: INTEGER): NATURAL
+		local
+			i: INTEGER
+		do
+			Result := 10
+			from i := 1 until i > n loop
+				Result := Result * 10
+				i := i + 1
+			end
 		end
 
 end

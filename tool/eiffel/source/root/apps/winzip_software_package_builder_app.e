@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 15:48:04 GMT (Monday 19th October 2020)"
-	revision: "1"
+	date: "2020-10-21 9:23:32 GMT (Wednesday 21st October 2020)"
+	revision: "2"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -40,15 +40,15 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_optional_argument ("config", "Path to configuration file", << file_must_exist >>),
-				valid_optional_argument ("architectures", "List of architectures (32, 64)", << valid_architectures >>),
-				valid_required_argument ("targets", "List of targets: (installer, exe)", << valid_targets >>)
+				valid_required_argument ("config", "Path to Pyxis configuration file", << file_must_exist >>),
+				valid_optional_argument ("arch", "List of architectures (32, 64)", << valid_architectures >>),
+				valid_optional_argument ("targets", "List of targets: (installer, exe)", << valid_targets >>)
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("config/winzip-package.pyx", "64", "package")
+			Result := agent {like command}.make ("", "64", "exe, installer")
 		end
 
 	new_locale: EL_DEFERRED_LOCALE_I

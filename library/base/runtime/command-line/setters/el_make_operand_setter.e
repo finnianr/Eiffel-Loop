@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:39:06 GMT (Monday 5th August 2019)"
-	revision: "10"
+	date: "2020-10-20 16:39:26 GMT (Tuesday 20th October 2020)"
+	revision: "11"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -41,25 +41,39 @@ feature -- Basic operations
 	set_operand (i: INTEGER)
 		local
 			string_value: ZSTRING; error: EL_COMMAND_ARGUMENT_ERROR
+			has_argument: BOOLEAN; ref_argument: ANY
 		do
 			if Args.has_value (argument.word_option) then
 				string_value := Args.value (argument.word_option)
+				has_argument := True
 			else
 				create string_value.make_empty
+				if make_routine.operands.is_reference_item (i)
+					and then attached make_routine.operands.reference_item (i) as ref_item
+				then
+					ref_argument := ref_item
+					has_argument := True
+				end
 			end
-			if argument.is_required and string_value.is_empty then
+			if argument.is_required and not has_argument then
 				create error.make (argument.word_option)
 				error.set_missing_argument
 				make_routine.extend_errors (error)
 
-			elseif not string_value.is_empty then
-				across new_list (string_value) as str loop
-					if is_convertible (str.item) then
-						try_put_value (value (str.item), i)
-					else
-						create error.make (argument.word_option)
-						error.set_type_error (type_description)
-						make_routine.extend_errors (error)
+			elseif has_argument then
+				if string_value.is_empty then
+					if attached {G} ref_argument as l_value then
+						try_put_value (l_value, i)
+					end
+				else
+					across new_list (string_value) as str loop
+						if is_convertible (str.item) then
+							try_put_value (value (str.item), i)
+						else
+							create error.make (argument.word_option)
+							error.set_type_error (type_description)
+							make_routine.extend_errors (error)
+						end
 					end
 				end
 			end

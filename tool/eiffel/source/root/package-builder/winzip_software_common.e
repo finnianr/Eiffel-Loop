@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 15:44:15 GMT (Monday 19th October 2020)"
-	revision: "1"
+	date: "2020-10-20 16:43:31 GMT (Tuesday 20th October 2020)"
+	revision: "2"
 
-class
+deferred class
 	WINZIP_SOFTWARE_COMMON
+
+inherit
+	EL_MODULE_TUPLE
 
 feature -- Contract Support
 
@@ -38,9 +41,15 @@ feature -- Contract Support
 
 feature {NONE} -- Constants
 
-	Target_set: ARRAY [STRING]
+	Target_set: EL_STRING_8_LIST
 		once
-			Result := << "exe", "installer" >>
-			Result.compare_objects
+			create Result.make_from_tuple (Target)
 		end
+
+	Target: TUPLE [exe, installer: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "exe, installer")
+		end
+
 end
