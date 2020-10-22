@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-21 13:17:48 GMT (Wednesday 21st October 2020)"
-	revision: "1"
+	date: "2020-10-22 9:45:17 GMT (Thursday 22nd October 2020)"
+	revision: "2"
 
 class
 	PYXIS_ECF_SCANNER
@@ -44,6 +44,8 @@ feature -- Factory
 	new_config: PACKAGE_BUILDER_CONFIG
 		do
 			create Result.make (configuration_lines.joined_lines.to_utf_8)
+		ensure
+			package_name_template_valid: Result.valid_package_name_template
 		end
 
 feature {NONE} -- Line states
@@ -100,6 +102,7 @@ feature {NONE} -- Line states
 
 			elseif line.has ('=') then
 				line.prepend_character ('%T')
+				line.replace_substring_all (Substitution.string, Substitution.character)
 				configuration_lines.extend (line)
 			end
 		end
@@ -147,6 +150,12 @@ feature {NONE} -- Constants
 		
 		package_builder_config:
 	]"
+
+	Substitution: TUPLE [string, character: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "%%S, %S")
+		end
 
 	Tag: TUPLE [description, name, version, system, target, triple_quote: ZSTRING]
 		once

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-18 10:47:13 GMT (Friday 18th September 2020)"
-	revision: "45"
+	date: "2020-10-22 8:33:21 GMT (Thursday 22nd October 2020)"
+	revision: "46"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -219,6 +219,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
 					lio.put_new_line
+					
 				elseif Application_option.help then
 					options_help.print_to_lio
 

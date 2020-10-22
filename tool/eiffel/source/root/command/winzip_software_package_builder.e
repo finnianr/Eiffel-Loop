@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-21 13:39:10 GMT (Wednesday 21st October 2020)"
-	revision: "2"
+	date: "2020-10-22 12:29:50 GMT (Thursday 22nd October 2020)"
+	revision: "3"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -22,7 +22,13 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
+	EL_MODULE_EXECUTABLE
+
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LIO
+
+	EL_MODULE_USER_INPUT
 
 	WINZIP_SOFTWARE_COMMON
 
@@ -33,15 +39,16 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_pecf_path: EL_FILE_PATH; architectures, targets: STRING)
+	make (a_pecf_path: EL_FILE_PATH; architectures, targets: STRING; a_output_dir: EL_DIR_PATH)
 		require
 			path_exits: a_pecf_path.exists
+			root_class_exists: root_class_exists (a_pecf_path)
 			valid_architectures: valid_architecture_list (architectures)
 			valid_targets: valid_target_list (targets)
 		local
 			scanner: PYXIS_ECF_SCANNER
 		do
-			pecf_path := a_pecf_path
+			pecf_path := a_pecf_path; output_dir := a_output_dir
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
 			create architecture_list.make (2)
@@ -52,18 +59,32 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create target_list.make_with_csv (targets)
 		end
 
+feature -- Status query
+
+	has_build_error: BOOLEAN
+
 feature -- Basic operations
 
 	execute
 		do
-			if target_list.has (Target.exe) then
-				if architecture_list.has (64) then
-					increment_pecf_build
+			across architecture_list as bit_count until has_build_error loop
+				if config.pass_phrase.is_empty then
+					config.pass_phrase.share (User_input.line ("Signing pass phrase"))
+					lio.put_new_line
 				end
-			end
-			if target_list.has (Target.installer) then
-				across Locale.all_languages as lang loop
-					build_installer (Locale.in (lang.item))
+				if target_list.has (Target.exe) then
+					if bit_count = 64 then
+						increment_pecf_build
+					end
+					build_exe (bit_count.item)
+					if not has_build_error then
+						sha_sign (target_exe_path (bit_count.item))
+					end
+				end
+				if target_list.has (Target.installer) and then not has_build_error then
+					across Locale.all_languages as lang loop
+						build_installer (Locale.in (lang.item), bit_count.item)
+					end
 				end
 			end
 		end
@@ -72,27 +93,64 @@ feature {NONE} -- Implementation
 
 	build_exe (bit_count: INTEGER)
 		local
-			compile_eiffel: BOOLEAN
+			compile_eiffel: BOOLEAN; build_command: EL_OS_COMMAND
 		do
-			compile_eiffel := bit_count /= 32
+			compile_eiffel := bit_count = 64
 			if compile_eiffel then
 				-- Excluded unwanted sub applications for windows
 				swap_application_root ("dev", "windows")
 			end
+			create build_command.make ("python $scons_py cpu=$cpu_target action=finalize compile_eiffel=$compile_eiffel")
+			build_command.put_path ("scons_py", Scons_py_path)
+			build_command.put_string ("cpu_target", cpu_architecture (bit_count))
+			build_command.put_string ("compile_eiffel", yes_no (compile_eiffel))
+
+			build_command.execute
+
+			has_build_error := build_command.has_error
+
+			if compile_eiffel then
+				-- Excluded unwanted sub applications for windows
+				swap_application_root ("windows", "dev")
+			end
 		end
 
-	build_installer (a_locale: EL_DEFERRED_LOCALE_I)
+	build_installer (a_locale: EL_DEFERRED_LOCALE_I; bit_count: INTEGER)
 		local
 			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND
 		do
-			config.update (a_locale)
-			create command.make (config)
-			command.execute
+			build_zip_archive (a_locale.language, bit_count)
+
+			if not has_build_error then
+				config.set_zip_archive_path (zip_archive_path (a_locale.language, bit_count))
+				config.update (a_locale)
+				create command.make (config)
+				command.execute
+			end
 		end
 
-	exe_path (bit_count: INTEGER): EL_FILE_PATH
+	build_zip_archive (language: STRING; bit_count: INTEGER)
+		local
+			zip_cmd: EL_OS_COMMAND
 		do
-			Result := Exe_path_template #$ [platform_name (bit_count), config.exe_name]
+			create zip_cmd.make ("wzzip -a -rP $zip_path package\*")
+			zip_cmd.put_path ("zip_path", zip_archive_path (language, bit_count))
+			zip_cmd.set_working_directory ("build/" + ise_platform (bit_count))
+			zip_cmd.execute
+			has_build_error := zip_cmd.has_error
+		end
+
+	cpu_architecture (bit_count: INTEGER): STRING
+		do
+			inspect bit_count
+				when 32 then
+					Result := "x86"
+
+				when 64 then
+					Result := "x64"
+			else
+				create Result.make_empty
+			end
 		end
 
 	increment_pecf_build
@@ -125,7 +183,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	platform_name (bit_count: INTEGER): STRING
+	installer_exe_path (language: STRING; bit_count: INTEGER): EL_FILE_PATH
+		local
+			inserts: TUPLE
+		do
+			inspect config.package_name_template.occurrences ('%S')
+				when 2 then
+					inserts := [bit_count, config.version.string]
+			else
+				inserts := [language, bit_count, config.version.string]
+			end
+			Result := output_dir + (config.package_name_template #$ inserts)
+		end
+
+	ise_platform (bit_count: INTEGER): STRING
 		do
 			inspect bit_count
 				when 32 then
@@ -138,13 +209,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	swap_application_root (temp_extension, extension: STRING)
+	sha_sign (exe_path: EL_FILE_PATH)
 		local
-			src_root: ZSTRING
+			sign_cmd: EL_OS_COMMAND
 		do
-			src_root := "source/application_root.%S"
-			File_system.rename_file (src_root #$ ['e'], src_root #$ [temp_extension])
-			File_system.rename_file (src_root #$ [extension], src_root #$ ['e'])
+			create sign_cmd.make (
+				"signtool sign /f $signing_certificate_path /p %"$pass_phrase%" %
+						%/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path"
+			)
+			config.set_exe_path (exe_path)
+			sign_cmd.put_object (config)
+			sign_cmd.execute
+		end
+
+	swap_application_root (temp_extension, extension: STRING)
+		do
+			if attached Application_root as template then
+				File_system.rename_file (Application_root_path, template #$ [temp_extension])
+				File_system.rename_file (template #$ [extension], Application_root_path)
+			end
+		end
+
+	target_exe_path (bit_count: INTEGER): EL_FILE_PATH
+		do
+			Result := Exe_path_template #$ [ise_platform (bit_count), config.exe_name]
 		end
 
 	yes_no (flag: BOOLEAN): STRING
@@ -156,11 +244,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	zip_archive_path (language: STRING; bit_count: INTEGER): EL_FILE_PATH
+		do
+			Result := installer_exe_path (language, bit_count).with_new_extension ("zip")
+		end
+
 feature {NONE} -- Implementation: attributes
 
 	architecture_list: ARRAYED_LIST [INTEGER]
 
 	config: PACKAGE_BUILDER_CONFIG
+
+	output_dir: EL_DIR_PATH
 
 	pecf_path: EL_FILE_PATH
 
@@ -171,6 +266,11 @@ feature {NONE} -- Constants
 	Exe_path_template: ZSTRING
 		once
 			Result := "build/%S/package/bin/%S"
+		end
+
+	Scons_py_path: EL_FILE_PATH
+		once
+			Result := Executable.absolute_path ("python").parent + "scons.py"
 		end
 
 end

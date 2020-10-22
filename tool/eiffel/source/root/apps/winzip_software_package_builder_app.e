@@ -3,7 +3,7 @@ note
 	notes: "[
 		**Usage**
 
-			el_toolkit -create_self_extracting_exe -config <file-path>
+			el_eiffel -winzip_exe_builder -config <pecf-path> -arch <cpu-bits-list> -targets <installer | exe> -output <dir-path>
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-21 9:23:32 GMT (Wednesday 21st October 2020)"
-	revision: "2"
+	date: "2020-10-22 12:33:17 GMT (Thursday 22nd October 2020)"
+	revision: "3"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -40,15 +40,16 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Path to Pyxis configuration file", << file_must_exist >>),
-				valid_optional_argument ("arch", "List of architectures (32, 64)", << valid_architectures >>),
-				valid_optional_argument ("targets", "List of targets: (installer, exe)", << valid_targets >>)
+				valid_required_argument ("config", "Path to Pyxis configuration file", << file_must_exist, root_class_must_exist >>),
+				valid_optional_argument ("arch", "List of architectures (32, 64)", << must_be_32_or_64 >>),
+				valid_optional_argument ("targets", "List of targets: (installer, exe)", << must_be_installer_or_exe >>),
+				optional_argument ("output", "Output directory for installer package")
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "64", "exe, installer")
+			Result := agent {like command}.make ("", "64", "exe, installer", "build")
 		end
 
 	new_locale: EL_DEFERRED_LOCALE_I
@@ -60,12 +61,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	valid_architectures: like always_valid
+	root_class_must_exist: like always_valid
+		do
+			Result := ["Root class %"source/application_root.e%" must exist", agent root_class_exists]
+		end
+
+	must_be_32_or_64: like always_valid
 		do
 			Result := ["Listed architecture must be 32 or 64", agent valid_architecture_list]
 		end
 
-	valid_targets: like always_valid
+	must_be_installer_or_exe: like always_valid
 		do
 			Result := ["Listed target must be 'installer' or 'exe'", agent valid_target_list]
 		end

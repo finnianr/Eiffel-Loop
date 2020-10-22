@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-21 13:03:30 GMT (Wednesday 21st October 2020)"
-	revision: "2"
+	date: "2020-10-22 10:09:51 GMT (Thursday 22nd October 2020)"
+	revision: "3"
 
 class
 	PACKAGE_BUILDER_CONFIG
@@ -27,16 +27,20 @@ create
 
 feature -- Access
 
-	exe_name: STRING
-
 	company: ZSTRING
 
+	exe_name: STRING
+
 	install_command: ZSTRING
+
+	package_name_template: ZSTRING
 
 	product: ZSTRING
 		-- product name
 
 	signing_certificate_path: EL_FILE_PATH
+
+	time_stamp_url: STRING
 
 feature -- Version
 
@@ -53,6 +57,14 @@ feature -- Version
 			create Result.make_parts (major, minor, release, build)
 		end
 
+feature -- Status query
+
+	valid_package_name_template: BOOLEAN
+		do
+			Result := package_name_template.ends_with_general (".exe")
+							and then (2 |..| 3).has (package_name_template.occurrences ('%S'))
+		end
+
 feature -- wzipse32 arguments
 
 	language: STRING
@@ -66,9 +78,20 @@ feature -- wzipse32 arguments
 
 	title: ZSTRING
 
-	zipped_package_path: EL_FILE_PATH
+	zip_archive_path: EL_FILE_PATH
+
+feature -- sign tool arguments
+
+	exe_path: EL_FILE_PATH
+
+	pass_phrase: STRING
 
 feature -- Basic operations
+
+	increment_build
+		do
+			build := build + 1
+		end
 
 	update (locale: EL_DEFERRED_LOCALE_I)
 		-- update arguments for language
@@ -86,9 +109,21 @@ feature -- Basic operations
 			end
 		end
 
-	increment_build
+feature -- Element change
+
+	set_exe_path (a_exe_path: like exe_path)
 		do
-			build := build + 1
+			exe_path := a_exe_path
+		end
+
+	set_pass_phrase (a_pass_phrase: STRING)
+		do
+			pass_phrase := a_pass_phrase
+		end
+
+	set_zip_archive_path (a_zip_archive_path: EL_FILE_PATH)
+		do
+			zip_archive_path := a_zip_archive_path
 		end
 
 end

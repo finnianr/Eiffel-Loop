@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 14:20:43 GMT (Monday 19th October 2020)"
-	revision: "1"
+	date: "2020-10-22 10:10:09 GMT (Thursday 22nd October 2020)"
+	revision: "2"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			config := a_config
 			-- language option appears twice in Python script. Why is this?
 			make_command (
-				"wzipse32 $zipped_package_path -Setup -l$language -auto -runasadmin -myesno $text_install_path%
+				"wzipse32 $zip_archive_path -Setup -l$language -auto -runasadmin -myesno $text_install_path%
 					% -i $package_ico -st $title -t $text_dialog_message_path -o -c $install_command"
 			)
 		end
