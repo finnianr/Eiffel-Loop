@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 10:09:51 GMT (Thursday 22nd October 2020)"
-	revision: "3"
+	date: "2020-10-25 15:21:33 GMT (Sunday 25th October 2020)"
+	revision: "4"
 
 class
 	PACKAGE_BUILDER_CONFIG
@@ -40,6 +40,8 @@ feature -- Access
 
 	signing_certificate_path: EL_FILE_PATH
 
+	signtool_dir: EL_DIR_PATH
+
 	time_stamp_url: STRING
 
 feature -- Version
@@ -67,8 +69,8 @@ feature -- Status query
 
 feature -- wzipse32 arguments
 
-	language: STRING
-		-- 'g' or 'e'
+	language_option: STRING
+		-- '-lg' or '-le'
 
 	package_ico: EL_FILE_PATH
 
@@ -102,10 +104,11 @@ feature -- Basic operations
 			text_dialog_message := template.installer_dialog_box #$ [product]
 			text_install := template.unzip_installation #$ [product]
 			title := template.installer_title #$ [product]
+			
 			if locale.language ~ "de" then
-				language := "g"
+				language_option := "-lg" -- German
 			else
-				language := "e"
+				language_option := "-le" -- English
 			end
 		end
 

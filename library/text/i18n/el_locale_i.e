@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:25:52 GMT (Sunday 18th October 2020)"
-	revision: "16"
+	date: "2020-10-24 12:22:50 GMT (Saturday 24th October 2020)"
+	revision: "17"
 
 deferred class
 	EL_LOCALE_I
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	all_languages: ARRAYED_LIST [STRING]
+	all_languages: EL_STRING_8_LIST
 		do
 			restrict_access -- synchronized
 				create Result.make_from_array (Locale_table.current_keys)

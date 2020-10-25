@@ -1,13 +1,16 @@
 note
 	description: "Wrapper for [https://www.winzip.com/win/en/prodpagese.html wzipse32 command]"
+	notes: "[
+		Template arguments match fields in  [$source PACKAGE_BUILDER_CONFIG]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 10:10:09 GMT (Thursday 22nd October 2020)"
-	revision: "2"
+	date: "2020-10-25 15:23:21 GMT (Sunday 25th October 2020)"
+	revision: "3"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -33,8 +36,8 @@ feature {NONE} -- Initialization
 			config := a_config
 			-- language option appears twice in Python script. Why is this?
 			make_command (
-				"wzipse32 $zip_archive_path -Setup -l$language -auto -runasadmin -myesno $text_install_path%
-					% -i $package_ico -st $title -t $text_dialog_message_path -o -c $install_command"
+				"wzipse32 $zip_archive_path -Setup $language_option -auto -runasadmin -myesno $text_install_path%
+					% -i $package_ico -st %"$title%" -t $text_dialog_message_path -o -c $install_command"
 			)
 		end
 
@@ -57,7 +60,7 @@ feature -- Basic operations
 					File_system.write_plain_text (path_list.last_path, field.value (config))
 				end
 			end
---			Precursor
+			Precursor -- execute
 			across path_list as path loop
 				File_system.remove_file (path.item)
 			end

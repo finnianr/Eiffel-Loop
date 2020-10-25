@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 12:29:50 GMT (Thursday 22nd October 2020)"
-	revision: "3"
+	date: "2020-10-25 16:09:50 GMT (Sunday 25th October 2020)"
+	revision: "4"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -22,7 +22,11 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
+	EL_MODULE_DIRECTORY
+
 	EL_MODULE_EXECUTABLE
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -39,16 +43,22 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_pecf_path: EL_FILE_PATH; architectures, targets: STRING; a_output_dir: EL_DIR_PATH)
+	make (a_pecf_path: EL_FILE_PATH; architectures, targets, languages: STRING; a_output_dir: EL_DIR_PATH)
 		require
 			path_exits: a_pecf_path.exists
 			root_class_exists: root_class_exists (a_pecf_path)
 			valid_architectures: valid_architecture_list (architectures)
 			valid_targets: valid_target_list (targets)
+			valid_languages: valid_language_list (languages)
 		local
 			scanner: PYXIS_ECF_SCANNER
 		do
-			pecf_path := a_pecf_path; output_dir := a_output_dir
+			pecf_path := a_pecf_path
+			if a_output_dir.is_absolute then
+				output_dir := a_output_dir
+			else
+				output_dir := Directory.current_working.joined_dir_path (a_output_dir)
+			end
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
 			create architecture_list.make (2)
@@ -57,6 +67,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				architecture_list.extend (bit_count.item.to_integer)
 			end
 			create target_list.make_with_csv (targets)
+			create language_list.make_with_csv (languages)
 		end
 
 feature -- Status query
@@ -70,6 +81,7 @@ feature -- Basic operations
 			across architecture_list as bit_count until has_build_error loop
 				if config.pass_phrase.is_empty then
 					config.pass_phrase.share (User_input.line ("Signing pass phrase"))
+--					config.pass_phrase.share ("Commodore-64")
 					lio.put_new_line
 				end
 				if target_list.has (Target.exe) then
@@ -78,11 +90,14 @@ feature -- Basic operations
 					end
 					build_exe (bit_count.item)
 					if not has_build_error then
-						sha_sign (target_exe_path (bit_count.item))
+						sha_256_sign (target_exe_path (bit_count.item))
 					end
 				end
 				if target_list.has (Target.installer) and then not has_build_error then
-					across Locale.all_languages as lang loop
+					if not output_dir.exists then
+						File_system.make_directory (output_dir)
+					end
+					across language_list as lang loop
 						build_installer (Locale.in (lang.item), bit_count.item)
 					end
 				end
@@ -117,15 +132,18 @@ feature {NONE} -- Implementation
 
 	build_installer (a_locale: EL_DEFERRED_LOCALE_I; bit_count: INTEGER)
 		local
-			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND
+			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND; zip_path: EL_FILE_PATH
 		do
 			build_zip_archive (a_locale.language, bit_count)
 
 			if not has_build_error then
-				config.set_zip_archive_path (zip_archive_path (a_locale.language, bit_count))
+				zip_path := zip_archive_path (a_locale.language, bit_count)
+				config.set_zip_archive_path (zip_path)
 				config.update (a_locale)
 				create command.make (config)
 				command.execute
+				File_system.remove_file (zip_path)
+				sha_256_sign (installer_exe_path (a_locale.language, bit_count))
 			end
 		end
 
@@ -209,17 +227,26 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	sha_sign (exe_path: EL_FILE_PATH)
+	sha_256_sign (exe_path: EL_FILE_PATH)
 		local
 			sign_cmd: EL_OS_COMMAND
 		do
-			create sign_cmd.make (
-				"signtool sign /f $signing_certificate_path /p %"$pass_phrase%" %
-						%/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path"
-			)
+			create sign_cmd.make ("[
+				signtool sign
+					/f $signing_certificate_path /p "$pass_phrase"
+					/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path
+			]")
 			config.set_exe_path (exe_path)
+			sign_cmd.set_working_directory (config.signtool_dir)
 			sign_cmd.put_object (config)
 			sign_cmd.execute
+			if sign_cmd.has_error then
+				has_build_error := True
+				lio.put_line ("ERROR: signing")
+				across sign_cmd.errors as line loop
+					lio.put_line (line.item)
+				end
+			end
 		end
 
 	swap_application_root (temp_extension, extension: STRING)
@@ -254,6 +281,8 @@ feature {NONE} -- Implementation: attributes
 	architecture_list: ARRAYED_LIST [INTEGER]
 
 	config: PACKAGE_BUILDER_CONFIG
+
+	language_list: EL_STRING_8_LIST
 
 	output_dir: EL_DIR_PATH
 

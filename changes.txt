@@ -319,3 +319,6 @@ Fixed {CAIRO_DRAWABLE_CONTEXT_I}.set_clip_rounded_rectangle
 Sat 12th Sep 2020, 11:00:38
 Changed EL_MULTI_APPLICATION_ROOT to accept sub-app types as class parameters
 
+Thu 22nd Oct 2020, 12:45:19
+Finished WINZIP_SOFTWARE_PACKAGE_BUILDER_APP for testing
+

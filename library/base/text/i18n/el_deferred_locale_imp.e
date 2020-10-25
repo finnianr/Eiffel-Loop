@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 13:43:30 GMT (Monday 19th October 2020)"
-	revision: "9"
+	date: "2020-10-24 12:22:41 GMT (Saturday 24th October 2020)"
+	revision: "10"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -60,9 +60,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	All_languages: ARRAYED_LIST [STRING]
+	All_languages: EL_STRING_8_LIST
 		once
-			create Result.make_from_array (<< "en" >>)
+			create Result.make_with_csv ("en")
 		end
 
 	Date_text: EL_ENGLISH_DATE_TEXT

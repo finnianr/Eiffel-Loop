@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 8:49:34 GMT (Thursday 22nd October 2020)"
-	revision: "3"
+	date: "2020-10-24 12:23:43 GMT (Saturday 24th October 2020)"
+	revision: "4"
 
 deferred class
 	WINZIP_SOFTWARE_COMMON
 
 inherit
 	EL_MODULE_TUPLE
+
+	EL_MODULE_DEFERRED_LOCALE
 
 feature -- Contract Support
 
@@ -36,6 +38,15 @@ feature -- Contract Support
 			across a_list.split (',') as list until not Result loop
 				list.item.left_adjust
 				Result := Target_set.has (list.item)
+			end
+		end
+
+	valid_language_list	(a_list: STRING): BOOLEAN
+		do
+			Result := True
+			across a_list.split (',') as list until not Result loop
+				list.item.left_adjust
+				Result := Locale.all_languages.has (list.item)
 			end
 		end
 

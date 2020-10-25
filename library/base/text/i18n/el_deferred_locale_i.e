@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 13:42:44 GMT (Monday 19th October 2020)"
-	revision: "8"
+	date: "2020-10-24 12:22:12 GMT (Saturday 24th October 2020)"
+	revision: "9"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -29,7 +29,7 @@ inherit
 
 feature -- Access
 
-	all_languages: ARRAYED_LIST [STRING]
+	all_languages: EL_STRING_8_LIST
 		deferred
 		end
 
