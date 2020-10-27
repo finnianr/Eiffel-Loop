@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-23 12:04:51 GMT (Thursday 23rd April 2020)"
-	revision: "24"
+	date: "2020-10-27 10:19:41 GMT (Tuesday 27th October 2020)"
+	revision: "25"
 
 class
 	EL_PATH_STEPS
@@ -264,7 +264,7 @@ feature -- Element change
 				create l_expanded.make_with_count (count)
 				across Current as step loop
 					if is_variable_name (step.item)
-						and then attached {STRING_32} Execution_environment.item (variable_name (step.item)) as value
+						and then attached Execution_environment.item (variable_name (step.item)) as value
 					then
 						l_expanded.append (create {EL_PATH_STEPS}.make (value))
 					else

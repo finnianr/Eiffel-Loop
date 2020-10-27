@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-25 16:09:50 GMT (Sunday 25th October 2020)"
-	revision: "4"
+	date: "2020-10-27 10:17:34 GMT (Tuesday 27th October 2020)"
+	revision: "5"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -59,6 +59,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			else
 				output_dir := Directory.current_working.joined_dir_path (a_output_dir)
 			end
+			lio.put_labeled_string ("$EIFFEL", execution.variable_dir_path ("EIFFEL"))
+			lio.put_new_line
+			lio.put_path_field ("Output", output_dir)
+			lio.put_new_line
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
 			create architecture_list.make (2)
@@ -85,7 +89,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 				if target_list.has (Target.exe) then
-					if bit_count = 64 then
+					if bit_count.item = 64 then
 						increment_pecf_build
 					end
 					build_exe (bit_count.item)
@@ -260,6 +264,7 @@ feature {NONE} -- Implementation
 	target_exe_path (bit_count: INTEGER): EL_FILE_PATH
 		do
 			Result := Exe_path_template #$ [ise_platform (bit_count), config.exe_name]
+			Result := Directory.current_working + Result
 		end
 
 	yes_no (flag: BOOLEAN): STRING

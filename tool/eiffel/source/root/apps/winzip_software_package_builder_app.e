@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source CREATE_SELF_EXTRACTING_EXE] command"
+	description: "Command line interface to [$source WINZIP_SOFTWARE_PACKAGE_BUILDER] command"
 	notes: "[
 		**Usage**
 
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-25 15:08:39 GMT (Sunday 25th October 2020)"
-	revision: "4"
+	date: "2020-10-27 18:39:52 GMT (Tuesday 27th October 2020)"
+	revision: "5"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
