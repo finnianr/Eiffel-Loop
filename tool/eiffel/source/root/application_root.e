@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 9:41:21 GMT (Tuesday 20th October 2020)"
-	revision: "29"
+	date: "2020-10-28 9:35:09 GMT (Wednesday 28th October 2020)"
+	revision: "30"
 
 class
 	APPLICATION_ROOT
@@ -60,13 +60,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Constants
-
-	Compile_also: TUPLE
-		once
-			create Result
-		end
 
 note
 	notes: "[

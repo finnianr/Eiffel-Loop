@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-27 10:19:41 GMT (Tuesday 27th October 2020)"
-	revision: "25"
+	date: "2020-10-31 11:37:07 GMT (Saturday 31st October 2020)"
+	revision: "26"
 
 class
 	EL_PATH_STEPS
@@ -113,18 +113,12 @@ feature {NONE} -- Initialization
 		local
 			sep: CHARACTER_32
 		do
-			sep:= Separator
+			sep := Separator
 			if not a_path.has (sep) then
 				-- Uses unix separators as default fall back.
 				sep := '/'
 			end
 			token_list := Token_table.token_list (as_zstring (a_path), sep)
-		end
-
-	make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
-			-- Create list from array `steps'.
-		do
-			token_list := Token_table.iterable_to_token_list (a_steps)
 		end
 
 	make_from_path (a_path: EL_PATH)
@@ -139,6 +133,12 @@ feature {NONE} -- Initialization
 			same_count: count = a_path.step_count
 			reversible_if_directory: attached {EL_DIR_PATH} a_path as dir_path implies dir_path ~ as_directory_path
 			reversible_if_file: attached {EL_FILE_PATH} a_path as file_path implies file_path ~ as_file_path
+		end
+
+	make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
+			-- Create list from array `steps'.
+		do
+			token_list := Token_table.iterable_to_token_list (a_steps)
 		end
 
 	make_from_tokens (a_tokens: STRING_32)
@@ -174,10 +174,7 @@ feature -- Access
 		-- Item at `i'-th position
 		-- do not keep as reference
 		do
-			Result := Internal_item
-			Result.wipe_out
-			Result.append (Token_table.token_string (token_list [i]))
-			create Result.make_from_other (Result)
+			create Result.make_from_other (i_th_token_string (i))
 		end
 
 	last: ZSTRING
@@ -258,18 +255,21 @@ feature -- Element change
 
 	expand_variables
 		local
-			l_expanded: EL_PATH_STEPS
+			l_expanded: EL_PATH_STEPS; i: INTEGER; l_step: ZSTRING
 		do
 			if across Current as step some is_variable_name (step.item) end then
 				create l_expanded.make_with_count (count)
-				across Current as step loop
-					if is_variable_name (step.item)
-						and then attached Execution_environment.item (variable_name (step.item)) as value
+				from i := 1 until i > token_list.count loop
+					l_step := i_th_token_string (i)
+					if is_variable_name (l_step)
+						and then attached variable_name (l_step) as name
+						and then attached Execution_environment.item (name) as value
 					then
 						l_expanded.append (create {EL_PATH_STEPS}.make (value))
 					else
-						l_expanded.extend (step.item)
+						l_expanded.extend (l_step)
 					end
+					i := i + 1
 				end
 				token_list := l_expanded.token_list
 			end
@@ -419,7 +419,7 @@ feature -- Conversion
 	expanded_path: like Current
 		do
 			Result := twin
-			result.expand_variables
+			Result.expand_variables
 		end
 
 	joined (steps: EL_PATH_STEPS): like Current
@@ -510,6 +510,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	i_th_token_string (i: INTEGER): ZSTRING
+		do
+			Result := Token_table.token_string (token_list [i])
+		end
+
 	is_volume_name (name: ZSTRING): BOOLEAN
 		do
 			Result := name.count = 2 and then name.is_alpha_item (1) and then name [2] = ':'
@@ -528,12 +533,12 @@ feature {EL_PATH_STEPS} -- Internal attributes
 
 feature {EL_PATH_STEPS} -- Constants
 
-	Lower: INTEGER = 1
-
 	Internal_item: ZSTRING
 		once
 			create Result.make_empty
 		end
+
+	Lower: INTEGER = 1
 
 	Token_table: EL_ZSTRING_TOKEN_TABLE
 		once

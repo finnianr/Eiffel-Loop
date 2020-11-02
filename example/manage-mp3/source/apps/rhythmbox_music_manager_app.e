@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 18:00:11 GMT (Tuesday 19th May 2020)"
-	revision: "24"
+	date: "2020-10-31 10:38:33 GMT (Saturday 31st October 2020)"
+	revision: "25"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	visible_types: TUPLE [EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK], M3U_PLAYLIST_READER]
+	visible_types: TUPLE [M3U_PLAYLIST_READER]
 		do
 			create Result
 		end

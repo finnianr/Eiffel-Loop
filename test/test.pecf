@@ -189,11 +189,6 @@ system:
 			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
 
 		library:
-			name = EL_wav_audio; readonly = false; location = "$EIFFEL_LOOP/library/wav-audio.ecf"
-			condition:
-				platform:
-					value = windows
-		library:
 			name = EL_wel_x_audio; readonly = false; location = "$EIFFEL_LOOP/library/wel-x-audio.ecf"
 			condition:
 				platform:

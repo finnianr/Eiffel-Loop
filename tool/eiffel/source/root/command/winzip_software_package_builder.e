@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-27 10:17:34 GMT (Tuesday 27th October 2020)"
-	revision: "5"
+	date: "2020-10-30 9:56:59 GMT (Friday 30th October 2020)"
+	revision: "6"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -38,6 +38,8 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
+	EL_FILE_OPEN_ROUTINES
+
 create
 	make
 
@@ -59,8 +61,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			else
 				output_dir := Directory.current_working.joined_dir_path (a_output_dir)
 			end
-			lio.put_labeled_string ("$EIFFEL", execution.variable_dir_path ("EIFFEL"))
-			lio.put_new_line
 			lio.put_path_field ("Output", output_dir)
 			lio.put_new_line
 			create scanner.make (a_pecf_path)
@@ -82,29 +82,32 @@ feature -- Basic operations
 
 	execute
 		do
-			across architecture_list as bit_count until has_build_error loop
-				if config.pass_phrase.is_empty then
-					config.pass_phrase.share (User_input.line ("Signing pass phrase"))
---					config.pass_phrase.share ("Commodore-64")
-					lio.put_new_line
+			if output_dir.exists then
+				across architecture_list as bit_count until has_build_error loop
+					if config.pass_phrase.is_empty then
+						config.pass_phrase.share (User_input.line ("Signing pass phrase"))
+						lio.put_new_line
+					end
+					if target_list.has (Target.exe) then
+						if bit_count.item = 64 then
+							increment_pecf_build
+						end
+						build_exe (bit_count.item)
+						if not has_build_error then
+							sha_256_sign (target_exe_path (bit_count.item))
+						end
+					end
+					if target_list.has (Target.installer) and then not has_build_error then
+						if not output_dir.exists then
+							File_system.make_directory (output_dir)
+						end
+						across language_list as lang loop
+							build_installer (Locale.in (lang.item), bit_count.item)
+						end
+					end
 				end
-				if target_list.has (Target.exe) then
-					if bit_count.item = 64 then
-						increment_pecf_build
-					end
-					build_exe (bit_count.item)
-					if not has_build_error then
-						sha_256_sign (target_exe_path (bit_count.item))
-					end
-				end
-				if target_list.has (Target.installer) and then not has_build_error then
-					if not output_dir.exists then
-						File_system.make_directory (output_dir)
-					end
-					across language_list as lang loop
-						build_installer (Locale.in (lang.item), bit_count.item)
-					end
-				end
+			else
+				lio.put_line ("Path not found")
 			end
 		end
 
@@ -202,6 +205,7 @@ feature {NONE} -- Implementation
 				line.replace_substring (config.build.out, i + 1, line.count)
 				source_text.replace_substring (line, line_start, line_end)
 				File_system.write_plain_text (pecf_path, source_text)
+				write_ecf (source_text)
 			end
 		end
 
@@ -265,6 +269,19 @@ feature {NONE} -- Implementation
 		do
 			Result := Exe_path_template #$ [ise_platform (bit_count), config.exe_name]
 			Result := Directory.current_working + Result
+		end
+
+	write_ecf (source_text: STRING)
+		local
+			ecf_generator: ECF_XML_GENERATOR; pecf_in: EL_STRING_8_IO_MEDIUM
+		do
+			if attached open (pecf_path.with_new_extension ("ecf"), Write) as ecf_out then
+				create pecf_in.make_open_read_from_text (source_text)
+				pecf_in.set_latin_encoding (1)
+				create ecf_generator.make
+				ecf_generator.convert_stream (pecf_in, ecf_out)
+				ecf_out.close
+			end
 		end
 
 	yes_no (flag: BOOLEAN): STRING

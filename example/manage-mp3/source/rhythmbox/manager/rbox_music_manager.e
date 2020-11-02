@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 10:51:41 GMT (Thursday 28th May 2020)"
-	revision: "27"
+	date: "2020-10-31 11:39:29 GMT (Saturday 31st October 2020)"
+	revision: "28"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -157,7 +157,8 @@ feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 			Result := "quit"
 		end
 
-	Task_types: TUPLE [
+	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK,
+
 		DEFAULT_TASK, -- Must be first
 
 		ADD_ALBUM_ART_TASK,
@@ -184,12 +185,7 @@ feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
 		UPDATE_DJ_PLAYLISTS_TASK
 	]
 		once
-			create Result
-		end
-
-	Task_factory: EL_BUILDER_OBJECT_FACTORY [RBOX_MANAGEMENT_TASK]
-		once
-			create Result.make (agent Naming.class_as_snake_lower (?, 0, 1), Task_types)
+			create Result.make (agent Naming.class_as_snake_lower (?, 0, 1))
 			Result.set_make_default (agent {RBOX_MANAGEMENT_TASK}.make_default)
 		end
 

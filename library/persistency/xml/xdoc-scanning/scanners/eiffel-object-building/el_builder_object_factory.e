@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 12:07:56 GMT (Friday 17th January 2020)"
-	revision: "6"
+	date: "2020-10-31 10:39:15 GMT (Saturday 31st October 2020)"
+	revision: "7"
 
 class
-	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN]
+	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN, DEFAULT -> G, TYPE_SET -> TUPLE create default_create end]
 
 inherit
-	EL_OBJECT_FACTORY [G]
+	EL_CLASS_SET_FACTORY [G, DEFAULT, TYPE_SET]
 		redefine
 			default_create
 		end
@@ -26,7 +26,7 @@ inherit
 	EL_MODULE_LIO
 
 create
-	make, make_words_lower, make_words_upper, make_from_table, default_create
+	make, default_create
 
 feature {NONE} -- Initialization
 

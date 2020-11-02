@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-15 10:31:57 GMT (Thursday 15th October 2020)"
-	revision: "44"
+	date: "2020-10-28 10:03:49 GMT (Wednesday 28th October 2020)"
+	revision: "45"
 
 deferred class
 	EL_PATH
@@ -382,6 +382,12 @@ feature -- Status Query
 			Result := parent_path.is_empty and base.is_empty
 		end
 
+	is_expandable: BOOLEAN
+		-- `True' if `base' or `parent' contain what maybe expandable variables
+		do
+			Result := has_expansion_variable (parent) or else has_expansion_variable (base)
+		end
+
 	is_file: BOOLEAN
 		do
 			Result := not is_directory
@@ -488,11 +494,11 @@ feature -- Element change
 		end
 
 	expand
-			-- expand environment variables in each step
+		-- expand environment variables in each step
 		local
 			l_steps: like steps
 		do
-			if is_potenially_expandable (parent) or else is_potenially_expandable (base) then
+			if is_expandable then
 				l_steps := steps
 				l_steps.expand_variables
 				base := l_steps.last.twin

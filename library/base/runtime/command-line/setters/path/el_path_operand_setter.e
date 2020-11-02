@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-30 19:08:10 GMT (Monday 30th December 2019)"
-	revision: "11"
+	date: "2020-10-30 10:01:04 GMT (Friday 30th October 2020)"
+	revision: "12"
 
 deferred class
-	EL_PATH_OPERAND_SETTER [G -> EL_PATH]
+	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make end]
 
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_PATH]
@@ -48,4 +48,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	value (str: ZSTRING): G
+		do
+			create Result.make (str)
+			-- `ARGUMENTS_32' only expands `$' arguments in workbench mode
+			-- So for finalized exe we need this line
+			Result.expand
+		end
 end

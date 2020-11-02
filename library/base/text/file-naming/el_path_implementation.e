@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 12:01:07 GMT (Sunday 28th June 2020)"
-	revision: "11"
+	date: "2020-10-28 9:54:26 GMT (Wednesday 28th October 2020)"
+	revision: "12"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -268,7 +268,8 @@ feature {EL_PATH} -- Implementation
 		deferred
 		end
 
-	is_potenially_expandable (a_path: ZSTRING): BOOLEAN
+	has_expansion_variable (a_path: ZSTRING): BOOLEAN
+		-- a step contains what might be an expandable variable
 		local
 			pos_dollor: INTEGER
 		do

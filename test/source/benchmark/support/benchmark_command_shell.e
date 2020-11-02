@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 11:02:38 GMT (Tuesday 25th February 2020)"
-	revision: "12"
+	date: "2020-10-31 11:00:38 GMT (Saturday 31st October 2020)"
+	revision: "13"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -25,7 +25,7 @@ feature {NONE} -- Constants
 
 	Factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
 		once
-			create Result.make_from_table (<<
+			create Result.make (<<
 				["Compare list iteration methods",					{LIST_ITERATION_COMPARISON}],
 				["Compare hash-set vs linear search",				{HASH_SET_VERSUS_LINEAR_COMPARISON}],
 				["Compare string concatenation methods",			{STRING_CONCATENATION_COMPARISON}],

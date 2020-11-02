@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:42:34 GMT (Sunday 18th October 2020)"
-	revision: "36"
+	date: "2020-10-28 9:38:11 GMT (Wednesday 28th October 2020)"
+	revision: "37"
 
 class
 	AUTOTEST_APP
@@ -24,10 +24,11 @@ class
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		FEATURE_EDITOR_COMMAND_TEST_SET,
-		UNDEFINE_PATTERN_COUNTER_TEST_SET,
+		PATH_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
 		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET,
-		TRANSLATION_TREE_COMPILER_TEST_SET
+		TRANSLATION_TREE_COMPILER_TEST_SET,
+		UNDEFINE_PATTERN_COUNTER_TEST_SET
 	]
 		redefine
 			new_log_filter_list, visible_types

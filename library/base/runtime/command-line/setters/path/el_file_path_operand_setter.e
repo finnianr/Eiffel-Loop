@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-15 9:19:36 GMT (Sunday 15th September 2019)"
-	revision: "7"
+	date: "2020-10-30 9:30:21 GMT (Friday 30th October 2020)"
+	revision: "8"
 
 class
 	EL_FILE_PATH_OPERAND_SETTER
@@ -17,12 +17,4 @@ inherit
 		rename
 			english_name as Eng_file
 		end
-
-feature {NONE} -- Implementation
-
-	value (str: ZSTRING): EL_FILE_PATH
-		do
-			Result := str
-		end
-
 end
