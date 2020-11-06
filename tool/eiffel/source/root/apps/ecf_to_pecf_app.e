@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 14:39:13 GMT (Saturday 1st August 2020)"
-	revision: "17"
+	date: "2020-11-06 16:38:34 GMT (Friday 6th November 2020)"
+	revision: "18"
 
 class
 	ECF_TO_PECF_APP
@@ -19,7 +19,7 @@ inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_DIRECTORY_TREE_FILE_PROCESSOR]
 		rename
 			command as tree_processor,
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name
 		end

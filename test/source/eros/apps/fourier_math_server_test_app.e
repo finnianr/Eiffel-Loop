@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 13:10:42 GMT (Tuesday 21st January 2020)"
-	revision: "11"
+	date: "2020-11-06 16:35:34 GMT (Friday 6th November 2020)"
+	revision: "12"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
@@ -26,15 +26,14 @@ create
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		EROS_CALL_REQUEST_HANDLER,
+		FFT_COMPLEX_64,
+		SIGNAL_MATH
+	]
 		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{EROS_CALL_REQUEST_HANDLER}, All_routines],
-				[{FFT_COMPLEX_64}, No_routines],
-				[{SIGNAL_MATH}, No_routines]
-			>>
+			create Result.make
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:40 GMT (Wednesday 25th September 2019)"
-	revision: "7"
+	date: "2020-11-06 16:50:50 GMT (Friday 6th November 2020)"
+	revision: "8"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -40,20 +40,17 @@ feature {NONE} -- Implementation
 			Result := list.to_array
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current, EIFFEL_CONFIGURATION_FILE, EIFFEL_CONFIGURATION_INDEX_PAGE
+	]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "expand_links"
 
 	Description: STRING = "Expand [$source MY_CLASS] links in text file using repository configuration"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{REPOSITORY_SOURCE_LINK_EXPANDER_APP}, All_routines],
-				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
-				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines]
-			>>
-		end
 
 end

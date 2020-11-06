@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:33:32 GMT (Thursday 20th February 2020)"
-	revision: "13"
+	date: "2020-11-06 16:43:17 GMT (Friday 6th November 2020)"
+	revision: "14"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -67,12 +67,10 @@ feature {NONE} -- Tests
 
 feature {NONE} -- Implementation
 
-	extra_log_filter: ARRAY [like CLASS_ROUTINES]
+	extra_log_filter_list: EL_LOG_FILTER_LIST [SIMPLE_SERVER_THREAD]
 			--
 		do
-			Result := <<
-				[{SIMPLE_SERVER_THREAD}, All_routines]
-			>>
+			create Result.make
 		end
 
 	visible_types: TUPLE [SIMPLE_COMMAND_HANDLER]

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:06:03 GMT (Sunday 1st December 2019)"
-	revision: "12"
+	date: "2020-11-05 18:32:33 GMT (Thursday 5th November 2020)"
+	revision: "13"
 
 class
 	LOCALIZATION_COMMAND_SHELL_APP
@@ -41,13 +41,12 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("")
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current, LOCALIZATION_COMMAND_SHELL_TEST_SET
+	]
 			--
 		do
-			Result := <<
-				[{LOCALIZATION_COMMAND_SHELL_APP}, All_routines],
-				[{LOCALIZATION_COMMAND_SHELL_TEST_SET}, All_routines]
-			>>
+			create Result.make
 		end
 
 	visible_types: TUPLE [EL_FTP_PROTOCOL]

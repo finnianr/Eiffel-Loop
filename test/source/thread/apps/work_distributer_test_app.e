@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 16:13:51 GMT (Tuesday 18th February 2020)"
-	revision: "13"
+	date: "2020-11-06 16:30:16 GMT (Friday 6th November 2020)"
+	revision: "14"
 
 class
 	WORK_DISTRIBUTER_TEST_APP
@@ -120,14 +120,11 @@ feature {NONE} -- Implementation
 			Result := function_integral.is_canceled or procedure_integral.is_canceled
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current, PROCEDURE_INTEGRAL, FUNCTION_INTEGRAL
+	]
 		do
-			Result := <<
-				[{WORK_DISTRIBUTER_TEST_APP}, All_routines],
-				[{PROCEDURE_INTEGRAL}, All_routines],
-				[{FUNCTION_INTEGRAL}, All_routines]
-			>>
+			create Result.make
 		end
 
 	repetition_count: INTEGER

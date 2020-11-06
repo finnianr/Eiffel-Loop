@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 13:51:40 GMT (Saturday 12th September 2020)"
-	revision: "12"
+	date: "2020-11-06 16:40:23 GMT (Friday 6th November 2020)"
+	revision: "13"
 
 class
 	EVOLICITY_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		end
 
 	EL_MODULE_EVOLICITY_TEMPLATES

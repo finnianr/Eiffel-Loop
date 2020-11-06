@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-28 9:38:11 GMT (Wednesday 28th October 2020)"
-	revision: "37"
+	date: "2020-11-06 16:37:10 GMT (Friday 6th November 2020)"
+	revision: "38"
 
 class
 	AUTOTEST_APP
@@ -39,12 +39,12 @@ create
 
 feature {NONE} -- Implementation
 
-	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 			--
 		do
-			Result := Precursor +
-				new_log_filter ({EIFFEL_CONFIGURATION_FILE}, All_routines) +
-				new_log_filter ({EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines)
+			Result := Precursor
+			Result.show_all_routines ({EIFFEL_CONFIGURATION_FILE})
+			Result.show_all_routines ({EIFFEL_CONFIGURATION_INDEX_PAGE})
 		end
 
 	visible_types: TUPLE [UNDEFINE_PATTERN_COUNTER_COMMAND, PYXIS_TRANSLATION_TREE_COMPILER]

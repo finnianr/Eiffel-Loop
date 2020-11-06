@@ -6,17 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 10:51:54 GMT (Saturday 12th September 2020)"
-	revision: "7"
+	date: "2020-11-06 16:55:00 GMT (Friday 6th November 2020)"
+	revision: "8"
 
 class
 	APPLICATION_ROOT
 
 inherit
-	EL_MULTI_APPLICATION_ROOT [
-		BUILD_INFO, TUPLE [
-			APACHE_VELOCITY_TEST_APP, JAVA_TEST_APP, SVG_TO_PNG_TEST_APP
-		]
+	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
+		APACHE_VELOCITY_TEST_APP,
+		JAVA_TEST_APP,
+		SVG_TO_PNG_TEST_APP
 	]
 
 create

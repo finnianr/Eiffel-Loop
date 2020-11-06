@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 9:16:33 GMT (Sunday 16th February 2020)"
-	revision: "2"
+	date: "2020-11-05 18:34:00 GMT (Thursday 5th November 2020)"
+	revision: "3"
 
 class
 	CAD_MODEL_SLICER_APP
@@ -48,13 +48,10 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, CAD_MODEL_SLICER]
 			--
 		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{CAD_MODEL_SLICER}, All_routines]
-			>>
+			create Result.make
 		end
 
 feature {NONE} -- Constants

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 11:16:25 GMT (Thursday 16th July 2020)"
-	revision: "12"
+	date: "2020-11-05 16:40:50 GMT (Thursday 5th November 2020)"
+	revision: "13"
 
 class
 	DUPLICITY_RESTORE_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_RESTORE]
+	EL_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_RESTORE]
 		redefine
 			Option_name, visible_types
 		end
@@ -33,14 +33,6 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {EL_FILE_PATH})
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 	visible_types: TUPLE [DUPLICITY_COLLECTION_STATUS_OS_CMD]

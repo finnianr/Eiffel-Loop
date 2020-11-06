@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:49:15 GMT (Thursday 20th February 2020)"
-	revision: "11"
+	date: "2020-11-06 16:38:34 GMT (Friday 6th November 2020)"
+	revision: "12"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
@@ -15,7 +15,7 @@ class
 inherit
 	SOURCE_TREE_EDITING_SUB_APPLICATION
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name, normal_initialize, set_defaults, test_sources
 		end

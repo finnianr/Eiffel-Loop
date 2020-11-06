@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:59:09 GMT (Sunday 18th October 2020)"
-	revision: "9"
+	date: "2020-11-06 16:42:46 GMT (Friday 6th November 2020)"
+	revision: "10"
 
 class
 	EROS_AUTOTEST_APP
@@ -22,7 +22,7 @@ class
 inherit
 	EL_AUTOTEST_SUB_APPLICATION [EROS_TEST_SET]
 		redefine
-			log_filter
+			log_filter_list
 		end
 
 create
@@ -35,16 +35,15 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		EROS_CALL_REQUEST_HANDLER_PROXY,
+		EROS_TEST_SET,
+		FFT_COMPLEX_64_PROXY,
+		SIGNAL_MATH_PROXY
+	]
 		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{FFT_COMPLEX_64_PROXY}, All_routines],
-				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EROS_CALL_REQUEST_HANDLER_PROXY}, All_routines],
-				[{EROS_TEST_SET}, All_routines]
-			>>
+			create Result.make
 		end
 
 end

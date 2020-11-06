@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-25 12:27:05 GMT (Friday 25th September 2020)"
-	revision: "10"
+	date: "2020-11-06 17:06:27 GMT (Friday 6th November 2020)"
+	revision: "11"
 
 class
 	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]
@@ -54,9 +54,9 @@ feature {NONE} -- Implementation
 	on_creation
 		-- on succesful execution of `default_create' without errors
 		local
-			window: like main_window
+			window: like new_window
 		do
-			create window.make
+			window := new_window
 			window.prepare_to_show
 			if is_maximized then
 				window.maximize
@@ -64,6 +64,11 @@ feature {NONE} -- Implementation
 				window.show
 			end
 			main_window := window
+		end
+
+	new_window: W
+		do
+			create Result.make
 		end
 
 end

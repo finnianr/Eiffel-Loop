@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:57:08 GMT (Thursday 20th February 2020)"
-	revision: "6"
+	date: "2020-11-06 16:56:23 GMT (Friday 6th November 2020)"
+	revision: "7"
 
 class
 	JAVA_TEST_APP
@@ -82,8 +82,7 @@ feature {NONE} -- Implementation
 			-- Basic Eiffel2Java library test
 		local
 			class_test: JAVA_CLASS; instance_of_class_test: JAVA_OBJECT
-			fid: POINTER
-			value: INTEGER
+			fid: POINTER; value: INTEGER
 		do
 			log.enter ("basic_tests_1")
 
@@ -131,10 +130,8 @@ feature {NONE} -- Implementation
 	basic_tests_2
 			--
 		local
-			j2e_test: J_J2E_TEST_TARGET
-			num_1, num_2, num_8255: J_INT
-			hello_msg, str: J_STRING
-			jfloat_value: J_FLOAT
+			j2e_test: J_J2E_TEST_TARGET; num_1, num_2, num_8255: J_INT
+			hello_msg, str: J_STRING; jfloat_value: J_FLOAT
 		do
 			log.enter ("basic_tests_2")
 
@@ -154,21 +151,16 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	extra_log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	extra_log_filter_list: EL_LOG_FILTER_LIST [J_J2E_TEST_TARGET]
 		do
-			Result := <<
-				[{J_J2E_TEST_TARGET}, All_routines]
-			>>
+			create Result.make
 		end
-		
+
 	many_references_test
 			-- See what happens if we have 1000+ references to Java Objects
 		local
-			j2e_test: J_J2E_TEST_TARGET
-			java_string_list: J_LINKED_LIST
-			string_list: LINKED_LIST [J_STRING]
-			i: INTEGER
+			j2e_test: J_J2E_TEST_TARGET; java_string_list: J_LINKED_LIST
+			string_list: LINKED_LIST [J_STRING]; i: INTEGER
 		do
 			log.enter ("many_references_test")
 			create j2e_test.make

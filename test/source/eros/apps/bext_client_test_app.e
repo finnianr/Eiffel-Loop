@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 10:56:38 GMT (Tuesday 21st January 2020)"
-	revision: "10"
+	date: "2020-11-06 16:34:17 GMT (Friday 6th November 2020)"
+	revision: "11"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -53,12 +53,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [like Current]
 		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
+			create Result.make
 		end
 
 feature {NONE} -- Internal attributes

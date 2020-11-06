@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:26:18 GMT (Wednesday 25th September 2019)"
-	revision: "5"
+	date: "2020-11-05 18:31:45 GMT (Thursday 5th November 2020)"
+	revision: "6"
 
 class
 	THUNDERBIRD_BOOK_EXPORTER_APP
@@ -46,17 +46,15 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make_from_file ("")
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current]
+			--
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Description: STRING = "Export emails from Thunderbird folders as HTML books"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{THUNDERBIRD_BOOK_EXPORTER_APP}, All_routines]
-			>>
-		end
 
 	Option_name: STRING = "export_book"
 end

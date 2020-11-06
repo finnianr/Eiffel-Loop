@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:51:40 GMT (Thursday 20th February 2020)"
-	revision: "12"
+	date: "2020-11-05 18:15:47 GMT (Thursday 5th November 2020)"
+	revision: "13"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -81,7 +81,7 @@ feature {NONE} -- Implementation
 
 			create global_logging.make (is_logging_active)
 			if global_logging.is_active then
-				global_logging.set_routines_to_log (Log_filter_list.item (Current))
+				global_logging.set_routines_to_log (Log_filter_list_table.item (Current))
 			else
 				if manager.is_console_manager_active then
 					lio.put_string ("Thread logging disabled")
@@ -96,18 +96,17 @@ feature {NONE} -- Implementation
 			log.enter_no_header ("io_put_header")
 			Precursor
 			log.exit_no_trailer
-			log.put_configuration_info (Log_filter_list.item (Current))
+			log.put_configuration_info (Log_filter_list_table.item (Current))
 			if not Logging.is_active then
 				lio.put_new_line_x2
 			end
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 		deferred
 		end
 
-	no_log_filter: ARRAY [like CLASS_ROUTINES]
+	empty_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 			--
 		do
 			create Result.make_empty
@@ -130,24 +129,10 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 			create Result.make ("Main")
 		end
 
-	new_log_filter (class_type: TYPE [EL_MODULE_LOG]; a_routines: STRING): EL_LOG_FILTER
-		do
-			create Result.make (class_type, a_routines)
-		end
-
-	new_log_filter_list: EL_ARRAYED_LIST [EL_LOG_FILTER]
+	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 			--
-		local
-			filters: like log_filter
 		do
-			filters := log_filter
-			create Result.make (filters.count)
-			Result.compare_objects
-			across filters as tuple loop
-				Result.extend (new_log_filter (tuple.item.class_type, tuple.item.routines))
-			end
-		ensure
-			no_duplicates: Result.count = logged_type_set (Result).count
+			Result := log_filter_list
 		end
 
 	new_log_manager: EL_LOG_MANAGER
@@ -155,29 +140,10 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 			create Result.make (is_logging_active, Log_output_directory)
 		end
 
-feature {NONE} -- Contract Support
-
-	logged_type_set (list: LIST [EL_LOG_FILTER]): EL_HASH_SET [INTEGER]
-		do
-			create Result.make (list.count)
-			across list as filter loop
-				Result.put (filter.item.class_type.type_id)
-			end
-		end
-
-feature {NONE} -- Type definitions
-
-	CLASS_ROUTINES: TUPLE [class_type: TYPE [EL_MODULE_LOG]; routines: STRING]
-		once
-			Result := [{like Current}, All_routines]
-		end
-
 feature {NONE} -- Constants
 
-	All_routines: STRING = "*"
-
-	Log_filter_list: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_SUB_APPLICATION, ARRAYED_LIST [EL_LOG_FILTER]]
-			--
+	Log_filter_list_table: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_SUB_APPLICATION, ARRAYED_LIST [EL_LOG_FILTER]]
+		-- table of filter lists by sub-application type
 		once
 			create Result.make (11, agent {EL_LOGGED_SUB_APPLICATION}.new_log_filter_list)
 		end
@@ -186,7 +152,5 @@ feature {NONE} -- Constants
 		once
 			Result := Directory.App_data.joined_dir_tuple ([option_name, "logs"])
 		end
-
-	No_routines: STRING = "-*"
 
 end

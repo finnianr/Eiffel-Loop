@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:53:27 GMT (Thursday 20th February 2020)"
-	revision: "15"
+	date: "2020-11-06 16:38:35 GMT (Friday 6th November 2020)"
+	revision: "16"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -17,7 +17,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CODEBASE_STATISTICS_COMMAND]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name
 		end

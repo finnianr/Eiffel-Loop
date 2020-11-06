@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:34 GMT (Wednesday 25th September 2019)"
-	revision: "14"
+	date: "2020-11-06 16:49:13 GMT (Friday 6th November 2020)"
+	revision: "15"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -33,19 +33,15 @@ feature {NONE} -- Implementation
 			>>
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, LIBRARY_OVERRIDE_GENERATOR]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "library_override"
 
 	Description: STRING = "Generates override of standard libaries to work with Eiffel-Loop"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{LIBRARY_OVERRIDE_APP}, "*"],
-				[{LIBRARY_OVERRIDE_GENERATOR}, "*"]
-			>>
-		end
 
 end

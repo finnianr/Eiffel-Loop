@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:43:01 GMT (Thursday 20th February 2020)"
-	revision: "6"
+	date: "2020-11-05 18:25:52 GMT (Thursday 5th November 2020)"
+	revision: "7"
 
 class
 	FILE_MANIFEST_APP
@@ -19,7 +19,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_FILE_MANIFEST_COMMAND]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name
 		end

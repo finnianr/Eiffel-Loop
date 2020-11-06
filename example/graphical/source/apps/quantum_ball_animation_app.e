@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 15:26:58 GMT (Friday 21st August 2020)"
-	revision: "4"
+	date: "2020-11-06 16:59:15 GMT (Friday 6th November 2020)"
+	revision: "5"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
@@ -75,6 +75,16 @@ feature {NONE} -- Install constants
 			Result := new_menu_desktop_environment
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER,
+		QUANTUM_BALL_MAIN_WINDOW,
+		QUANTUM_BALL_ANIMATION
+	]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING
@@ -85,19 +95,6 @@ feature {NONE} -- Constants
 	Description: STRING
 		once
 			Result := "Animation of hydrogen atom as timer thread test"
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{QUANTUM_BALL_ANIMATION_APP}, All_routines],
-				[{QUANTUM_BALL_MAIN_WINDOW}, All_routines],
-				[{QUANTUM_BALL_ANIMATION}, All_routines],
-				[{EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER}, All_routines]
---				[{EL_THREAD_PRODUCT_QUEUE [EL_REGULAR_INTERVAL_EVENT]}, All_routines]
---				[{EL_WEL_DISPLAY_MONITOR_INFO}, All_routines] Windows only
-			>>
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:23:55 GMT (Wednesday 25th September 2019)"
-	revision: "4"
+	date: "2020-11-06 16:59:38 GMT (Friday 6th November 2020)"
+	revision: "5"
 
 class
 	FRACTAL_APP
@@ -37,6 +37,11 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (fractal_config)
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, FRACTAL_MAIN_WINDOW]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING
@@ -47,15 +52,6 @@ feature {NONE} -- Constants
 	Description: STRING
 		once
 			Result := "Simple geometric fractal defined by Pyxis configuration file"
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{FRACTAL_APP}, All_routines],
-				[{FRACTAL_MAIN_WINDOW}, All_routines]
-			>>
 		end
 
 end

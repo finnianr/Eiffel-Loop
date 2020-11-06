@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:53:32 GMT (Thursday 20th February 2020)"
-	revision: "12"
+	date: "2020-11-06 16:38:35 GMT (Friday 6th November 2020)"
+	revision: "13"
 
 class
 	CODEC_GENERATOR_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CODEC_GENERATOR]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name
 		end

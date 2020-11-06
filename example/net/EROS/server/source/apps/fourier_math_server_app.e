@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
-	revision: "10"
+	date: "2020-11-06 17:02:58 GMT (Friday 6th November 2020)"
+	revision: "11"
 
 class
 	FOURIER_MATH_SERVER_APP
@@ -28,20 +28,19 @@ create
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		SIGNAL_MATH,
+		FFT_COMPLEX_64,
+		EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW,
+		EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD,
+		EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD,
+		EROS_CALL_REQUEST_HANDLING_THREAD,
+		EROS_CALL_REQUEST_HANDLER
+	]
 		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{SIGNAL_MATH}, All_routines],
-				[{FFT_COMPLEX_64}, All_routines],
-				[{EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW}, All_routines],
-				[{EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD}, All_routines],
-				[{EROS_CALL_REQUEST_CONNECTION_MANAGER_THREAD}, All_routines],
-				[{EROS_CALL_REQUEST_HANDLING_THREAD}, All_routines],
-				[{EROS_CALL_REQUEST_HANDLER}, All_routines],
-				[{EROS_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh"]
-			>>
+			create Result.make
+			Result.show_routines ({EROS_SERVER_ACTIVITY_METERS}, "prompt_refresh, refresh")
 		end
 
 feature {NONE} -- Remotely callable types

@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-31 10:38:33 GMT (Saturday 31st October 2020)"
-	revision: "25"
+	date: "2020-11-05 20:56:39 GMT (Thursday 5th November 2020)"
+	revision: "26"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -67,15 +67,13 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		RBOX_MUSIC_MANAGER,
+		RBOX_DATABASE
+	]
 		do
-			Result := <<
-				[{like Current}, All_routines],
-
-				[{RBOX_MUSIC_MANAGER}, All_routines],
-				[{RBOX_DATABASE}, All_routines]
-			>>
+			create Result.make
 		end
 
 	visible_types: TUPLE [M3U_PLAYLIST_READER]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 14:14:19 GMT (Friday 4th September 2020)"
-	revision: "7"
+	date: "2020-11-06 17:07:14 GMT (Friday 6th November 2020)"
+	revision: "8"
 
 class
 	EROS_REMOTE_ROUTINE_CALL_SERVER_UI
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_ui
 		redefine
-			prepare_to_show
+			new_window
 		end
 
 create
@@ -33,12 +33,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	prepare_to_show
-			--
+	new_window: EROS_REMOTE_ROUTINE_CALL_SERVER_MAIN_WINDOW
 		do
-			main_window.set_title (window_title)
-			main_window.set_connection_manager (port_number, request_handler_count_max)
-			main_window.prepare_to_show
+			create Result.make
+			Result.set_title (window_title)
+			Result.set_connection_manager (port_number, request_handler_count_max)
 		end
 
 	window_title: STRING

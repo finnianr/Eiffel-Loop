@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:56:24 GMT (Thursday 20th February 2020)"
-	revision: "5"
+	date: "2020-11-06 16:57:01 GMT (Friday 6th November 2020)"
+	revision: "6"
 
 class
 	SVG_TO_PNG_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	REGRESSION_TESTABLE_SUB_APPLICATION
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		end
 
 create

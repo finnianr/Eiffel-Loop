@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:36:37 GMT (Tuesday 21st January 2020)"
-	revision: "8"
+	date: "2020-11-06 17:07:29 GMT (Friday 6th November 2020)"
+	revision: "9"
 
 class
 	EROS_CALL_REQUEST_CLIENT_CONNECTION_QUEUE
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make (a_consumer_count_max: INTEGER; a_routine_call_event_listener: EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER)
 			--
 		do
-			make_connection_queue (a_consumer_count_max, create {EL_THREAD_MANAGER})
+			make_connection_queue (a_consumer_count_max, create {EL_THREAD_MANAGER}.make)
 			delegator.set_routine_call_event_listener (a_routine_call_event_listener)
 		end
 

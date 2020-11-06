@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 17:29:23 GMT (Tuesday 25th February 2020)"
-	revision: "15"
+	date: "2020-11-06 16:52:20 GMT (Friday 6th November 2020)"
+	revision: "16"
 
 class
 	EIFFEL_VIEW_APP
@@ -31,21 +31,20 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "", 0)
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		EIFFEL_CONFIGURATION_FILE,
+		EIFFEL_CONFIGURATION_INDEX_PAGE,
+		EL_LOGGED_WORK_DISTRIBUTION_THREAD
+	]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "eiffel_view"
 
 	Description: STRING = "Publishes source code and descriptions of Eiffel projects to a website as static html"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{EIFFEL_VIEW_APP}, All_routines],
-				[{EIFFEL_CONFIGURATION_FILE}, All_routines],
-				[{EIFFEL_CONFIGURATION_INDEX_PAGE}, All_routines],
-				[{EL_LOGGED_WORK_DISTRIBUTION_THREAD}, All_routines]
-			>>
-		end
 
 end

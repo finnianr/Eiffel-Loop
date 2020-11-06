@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 8:47:20 GMT (Monday 7th September 2020)"
-	revision: "6"
+	date: "2020-11-06 16:58:21 GMT (Friday 6th November 2020)"
+	revision: "7"
 
 class
 	PANGO_CAIRO_TEST_APP
@@ -42,17 +42,13 @@ feature {NONE} -- Implementation
 
 	gui: EL_VISION_2_USER_INTERFACE [PANGO_CAIRO_TEST_MAIN_WINDOW]
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, PANGO_CAIRO_TEST_MAIN_WINDOW]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Description: STRING = "Tests pangocairo drawing in EL_DRAWABLE_PIXEL_BUFFER "
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{PANGO_CAIRO_TEST_APP}, All_routines],
-				[{PANGO_CAIRO_TEST_MAIN_WINDOW}, All_routines]
-			>>
-		end
 
 end

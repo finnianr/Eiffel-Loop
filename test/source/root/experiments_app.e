@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 15:33:18 GMT (Thursday 6th August 2020)"
-	revision: "58"
+	date: "2020-11-06 16:46:50 GMT (Friday 6th November 2020)"
+	revision: "59"
 
 class
 	EXPERIMENTS_APP
 
 inherit
-	EL_LOGGED_SUB_APPLICATION
-		redefine
-			Option_name
-		end
+	EL_SUB_APPLICATION
 
 create
 	make
@@ -31,9 +28,9 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("numeric.hex_conversion")
+			lio.enter ("numeric.hex_conversion")
 			numeric.hex_conversion
-			log.exit
+			lio.exit
 		end
 
 feature {NONE} -- Experiments
@@ -92,13 +89,4 @@ feature {NONE} -- Constants
 
 	Description: STRING = "Experiments to check behaviour of Eiffel code"
 
-	Option_name: STRING = "experiments"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{EXPERIMENTS_APP}, All_routines]
-			>>
-		end
 end

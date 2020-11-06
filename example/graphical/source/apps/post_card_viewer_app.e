@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 8:42:03 GMT (Monday 7th September 2020)"
-	revision: "6"
+	date: "2020-11-06 16:57:59 GMT (Friday 6th November 2020)"
+	revision: "7"
 
 class
 	POST_CARD_VIEWER_APP
@@ -42,21 +42,18 @@ feature {NONE} -- Implementation
 
 	gui: EL_VISION_2_USER_INTERFACE [POSTCARD_VIEWER_MAIN_WINDOW]
 
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current, POSTCARD_VIEWER_MAIN_WINDOW, POSTCARD_VIEWER_TAB
+	]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Description: STRING
 		once
 			Result := "Image viewer for post card sized images"
-		end
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{POST_CARD_VIEWER_APP}, All_routines],
-				[{POSTCARD_VIEWER_MAIN_WINDOW}, All_routines],
-				[{POSTCARD_VIEWER_TAB}, All_routines]
-			>>
 		end
 
 end

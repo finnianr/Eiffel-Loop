@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 11:01:46 GMT (Tuesday 15th September 2020)"
-	revision: "4"
+	date: "2020-11-05 18:36:36 GMT (Thursday 5th November 2020)"
+	revision: "5"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -94,21 +94,18 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
+	log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 			--
 		local
-			list: ARRAYED_LIST [like CLASS_ROUTINES]
 			type_list: like test_type_list
 		do
 			type_list := test_type_list
-			create list.make (type_list.count + 1)
-			list.extend ([{like Current}, All_routines])
-			across type_list as type loop
-				if attached {TYPE [EL_MODULE_LOG]} type.item as logged_type then
-					list.extend ([logged_type, All_routines])
+			create Result.make_with_count (type_list.count + 1)
+			across type_list as list loop
+				if attached {TYPE [EL_MODULE_LOG]} list.item as logged_type then
+					Result.show_all_routines (logged_type)
 				end
 			end
-			Result := list.to_array
 		end
 
 feature {NONE} -- Internal attributes

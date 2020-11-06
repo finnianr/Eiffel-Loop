@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-01 9:13:45 GMT (Wednesday 1st July 2020)"
-	revision: "21"
+	date: "2020-11-06 16:38:35 GMT (Friday 6th November 2020)"
+	revision: "22"
 
 class
 	NOTE_EDITOR_APP
@@ -26,7 +26,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:26:13 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2020-11-05 18:24:57 GMT (Thursday 5th November 2020)"
+	revision: "11"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			option_name, read_command_options
 		end

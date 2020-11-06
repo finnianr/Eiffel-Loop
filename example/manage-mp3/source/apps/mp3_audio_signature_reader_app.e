@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:52:18 GMT (Friday 3rd April 2020)"
-	revision: "12"
+	date: "2020-11-05 20:57:24 GMT (Thursday 5th November 2020)"
+	revision: "13"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -36,18 +36,15 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", False)
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "read_signatures"
 
 	Description: STRING = "Read MP3 audio signatures"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
-		end
 
 end

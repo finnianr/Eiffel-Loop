@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:40:04 GMT (Thursday 20th February 2020)"
-	revision: "10"
+	date: "2020-11-05 18:25:52 GMT (Thursday 5th November 2020)"
+	revision: "11"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		redefine
 			Option_name, normal_initialize
 		end

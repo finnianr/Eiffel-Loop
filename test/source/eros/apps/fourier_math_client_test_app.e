@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:03:50 GMT (Tuesday 21st January 2020)"
-	revision: "15"
+	date: "2020-11-06 16:30:59 GMT (Friday 6th November 2020)"
+	revision: "16"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -148,15 +148,14 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_list: EL_LOG_FILTER_LIST [
+		like Current,
+		EROS_CALL_REQUEST_HANDLER_PROXY,
+		FFT_COMPLEX_64_PROXY,
+		SIGNAL_MATH_PROXY
+	]
 		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{FFT_COMPLEX_64_PROXY}, All_routines],
-				[{SIGNAL_MATH_PROXY}, All_routines],
-				[{EROS_CALL_REQUEST_HANDLER_PROXY}, All_routines]
-			>>
+			create Result.make
 		end
 
 	print_vector (vector: VECTOR_COMPLEX_64)

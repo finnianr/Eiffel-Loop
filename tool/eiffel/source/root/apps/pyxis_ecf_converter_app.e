@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 9:49:25 GMT (Tuesday 20th October 2020)"
-	revision: "1"
+	date: "2020-11-06 16:38:34 GMT (Friday 6th November 2020)"
+	revision: "2"
 
 class
 	PYXIS_ECF_CONVERTER_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_ECF_CONVERTER]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		undefine
 			test_data_dir
 		redefine

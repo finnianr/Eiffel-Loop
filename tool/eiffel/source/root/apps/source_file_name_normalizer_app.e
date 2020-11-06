@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-20 17:48:25 GMT (Thursday 20th February 2020)"
-	revision: "10"
+	date: "2020-11-06 16:48:10 GMT (Friday 6th November 2020)"
+	revision: "11"
 
 class
 	SOURCE_FILE_NAME_NORMALIZER_APP
@@ -29,12 +29,9 @@ create
 
 feature {NONE} -- Implementation
 
-	extra_log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	extra_log_filter_list: EL_LOG_FILTER_LIST [CLASS_FILE_NAME_NORMALIZER]
 		do
-			Result := <<
-				[{CLASS_FILE_NAME_NORMALIZER}, All_routines]
-			>>
+			create Result.make
 		end
 
 	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_FILE_NAME_NORMALIZER

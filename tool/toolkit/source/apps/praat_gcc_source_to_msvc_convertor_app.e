@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:30:30 GMT (Sunday 13th September 2020)"
-	revision: "7"
+	date: "2020-11-05 18:31:04 GMT (Thursday 5th November 2020)"
+	revision: "8"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -39,20 +39,20 @@ feature {NONE} -- Implementation
 			)
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [
+		PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP,
+		FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER,
+		PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER
+	]
+			--
+		do
+			 create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "praat_to_msvc"
 
 	Description: STRING = "Convert Praat C source file directory and make file to compile with MS Visual C++"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			 Result := <<
-				[{PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP}, All_routines],
-				[{FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}, All_routines],
-				[{PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER}, All_routines]
-			>>
-		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:24:40 GMT (Wednesday 25th September 2019)"
-	revision: "8"
+	date: "2020-11-06 16:49:40 GMT (Friday 6th November 2020)"
+	revision: "9"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -46,19 +46,15 @@ feature {NONE} -- Implementation
 			Result.expand
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, CLASS_DESCENDANTS_COMMAND]
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "descendants"
 
 	Description: STRING = "Output descendants of class to a file with wiki-markup"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{CLASS_DESCENDANTS_APP}, All_routines],
-				[{CLASS_DESCENDANTS_COMMAND}, All_routines]
-			>>
-		end
 
 end

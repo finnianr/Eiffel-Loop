@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 10:29:11 GMT (Tuesday 20th October 2020)"
-	revision: "22"
+	date: "2020-11-05 18:26:19 GMT (Thursday 5th November 2020)"
+	revision: "23"
 
 class
 	PYXIS_TO_XML_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_PYXIS_TO_XML_CONVERTER]
 		rename
-			extra_log_filter as no_log_filter
+			extra_log_filter_list as empty_log_filter_list
 		undefine
 			test_data_dir
 		redefine

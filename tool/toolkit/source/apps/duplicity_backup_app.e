@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 11:31:16 GMT (Sunday 12th April 2020)"
-	revision: "8"
+	date: "2020-11-05 16:40:33 GMT (Thursday 5th November 2020)"
+	revision: "9"
 
 class
 	DUPLICITY_BACKUP_APP
 
 inherit
-	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_BACKUP]
+	EL_COMMAND_LINE_SUB_APPLICATION [DUPLICITY_BACKUP]
 		redefine
 			Option_name, Visible_types
 		end
@@ -33,14 +33,6 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make (create {EL_FILE_PATH})
-		end
-
-	log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines]
-			>>
 		end
 
 	visible_types: TUPLE [EL_CAPTURED_OS_COMMAND, DUPLICITY_TARGET_INFO_OS_CMD]

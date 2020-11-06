@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:49 GMT (Wednesday 25th September 2019)"
-	revision: "7"
+	date: "2020-11-05 18:33:28 GMT (Thursday 5th November 2020)"
+	revision: "8"
 
 class
 	FILTER_INVALID_UTF_8_APP
@@ -38,20 +38,16 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("")
 		end
 
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, FILTER_INVALID_UTF_8]
+			--
+		do
+			create Result.make
+		end
+
 feature {NONE} -- Constants
 
 	Option_name: STRING = "filter_utf_8"
 
 	Description: STRING = "Filter out all invalid UTF-8 lines from file"
-
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
-		do
-			Result := <<
-				[{like Current}, All_routines],
-				[{FILTER_INVALID_UTF_8}, All_routines]
-			>>
-		end
-
 
 end
