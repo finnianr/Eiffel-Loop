@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:30:16 GMT (Friday 6th November 2020)"
-	revision: "14"
+	date: "2020-11-07 11:13:34 GMT (Saturday 7th November 2020)"
+	revision: "15"
 
 class
 	WORK_DISTRIBUTER_TEST_APP
@@ -120,9 +120,7 @@ feature {NONE} -- Implementation
 			Result := function_integral.is_canceled or procedure_integral.is_canceled
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
-		like Current, PROCEDURE_INTEGRAL, FUNCTION_INTEGRAL
-	]
+	log_filter_list: EL_LOG_FILTER_LIST [like Current, PROCEDURE_INTEGRAL, FUNCTION_INTEGRAL]
 		do
 			create Result.make
 		end

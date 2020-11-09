@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:37:10 GMT (Friday 6th November 2020)"
-	revision: "38"
+	date: "2020-11-07 16:35:43 GMT (Saturday 7th November 2020)"
+	revision: "39"
 
 class
 	AUTOTEST_APP
@@ -43,8 +43,8 @@ feature {NONE} -- Implementation
 			--
 		do
 			Result := Precursor
-			Result.show_all_routines ({EIFFEL_CONFIGURATION_FILE})
-			Result.show_all_routines ({EIFFEL_CONFIGURATION_INDEX_PAGE})
+			Result.show_all ({EIFFEL_CONFIGURATION_FILE})
+			Result.show_all ({EIFFEL_CONFIGURATION_INDEX_PAGE})
 		end
 
 	visible_types: TUPLE [UNDEFINE_PATTERN_COUNTER_COMMAND, PYXIS_TRANSLATION_TREE_COMPILER]

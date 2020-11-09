@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:20:48 GMT (Wednesday 20th May 2020)"
-	revision: "10"
+	date: "2020-11-09 9:38:13 GMT (Monday 9th November 2020)"
+	revision: "11"
 
 class
 	EL_GLOBAL_LOGGING
@@ -24,6 +24,8 @@ inherit
 			make as make_solitary
 		end
 
+	EL_LOG_CONSTANTS
+
 create
 	make
 
@@ -33,7 +35,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_solitary; make_default
-			
+
 			create filter_access.make
 
 			create Log_enabled_routines.make (Routine_hash_table_size)
@@ -66,7 +68,7 @@ feature -- Element change
 			end_restriction
 		end
 
-	set_routines_to_log (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
+	set_routines_to_log (log_filters: LIST [EL_LOG_FILTER])
 			-- Set class routines to log for all threads
 
 			-- Each array item is list of routines to log headed by the class name.
@@ -102,36 +104,21 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	set_routine_filter_for_class (a_filter: EL_LOG_FILTER)
-			--
-		require
-				-- If this contract fails check class names in Log_filter are valid.
-				-- Generic classes must have a single space before the character '['
-				-- eg: "MY_LIST [STRING]"
-
-			routine_names_not_empty: not a_filter.routines.is_empty
 		local
-			routine_name: STRING; routine: EL_LOGGED_ROUTINE_INFO
-			i, type_id: INTEGER
+			routine: EL_LOGGED_ROUTINE_INFO; type_id: INTEGER
 		do
 			type_id := a_filter.class_type.type_id
-			from i := 1 until i > a_filter.routines.count loop
-				routine_name := a_filter.routines [i]
-
-				inspect
-					routine_name.item (1)
-
-				when Disabled_routine_character then
-					-- Do nothing
-
-				when Wild_card_for_any_routine then
+			inspect a_filter.type
+				when Show_all then
 					Log_enabled_classes.put (type_id, type_id)
 
-				else
-					routine := routine_by_type_and_routine_id (type_id, routine_id (routine_name), routine_name)
+				when Show_none then
+					do_nothing
+			else
+				across a_filter.routines as name loop
+					routine := routine_by_type_and_routine_id (type_id, routine_id (name.item), name.item)
 					Log_enabled_routines.put (routine.id, routine.id)
-
 				end
-				i := i + 1
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:35:53 GMT (Thursday 5th November 2020)"
-	revision: "1"
+	date: "2020-11-07 16:33:01 GMT (Saturday 7th November 2020)"
+	revision: "2"
 
 class
 	EL_LOG_FILTER_LIST [TYPE_LIST -> TUPLE create default_create end]
@@ -19,6 +19,13 @@ inherit
 			extend as extend_list
 		export
 			{NONE} all
+		end
+
+	EL_LOG_CONSTANTS
+		rename
+			Show_all as Type_show_all,
+			Show_none as Type_show_none,
+			Show_selected as Type_show_selected
 		end
 
 create
@@ -48,18 +55,20 @@ feature {NONE} -- Initialization
 
 feature -- Status setting
 
-	hide_all_routines (class_type: TYPE [EL_MODULE_LOG])
+	hide_all (class_type: TYPE [EL_MODULE_LOG])
+		-- hide output of all routines of `class_type'
 		do
-			show_routines (class_type, No_routines)
+			show_selected (class_type, No_routines)
 		end
 
-	show_all_routines (class_type: TYPE [EL_MODULE_LOG])
+	show_all (class_type: TYPE [EL_MODULE_LOG])
+		-- show output for all routines of `class_type'
 		do
-			show_routines (class_type, All_routines)
+			show_selected (class_type, All_routines)
 		end
 
-	show_routines (class_type: TYPE [EL_MODULE_LOG]; routines_list: STRING)
-		-- log only routines in comma separated list `routines_list'
+	show_selected (class_type: TYPE [EL_MODULE_LOG]; routines_list: STRING)
+		-- show output only for selected routines of `class_type' in comma separated `routines_list'
 		local
 			filter: EL_LOG_FILTER; found: BOOLEAN
 		do
@@ -87,11 +96,5 @@ feature {NONE} -- Contract Support
 				Result.put (filter.item.class_type.type_id)
 			end
 		end
-
-feature {NONE} -- Constants
-
-	All_routines: STRING = "*"
-
-	No_routines: STRING = "-*"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:15:47 GMT (Thursday 5th November 2020)"
-	revision: "13"
+	date: "2020-11-09 9:36:34 GMT (Monday 9th November 2020)"
+	revision: "14"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -142,7 +142,7 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 
 feature {NONE} -- Constants
 
-	Log_filter_list_table: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_SUB_APPLICATION, ARRAYED_LIST [EL_LOG_FILTER]]
+	Log_filter_list_table: EL_FUNCTION_RESULT_TABLE [EL_LOGGED_SUB_APPLICATION, LIST [EL_LOG_FILTER]]
 		-- table of filter lists by sub-application type
 		once
 			create Result.make (11, agent {EL_LOGGED_SUB_APPLICATION}.new_log_filter_list)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:18:03 GMT (Thursday 5th November 2020)"
-	revision: "12"
+	date: "2020-11-07 16:31:40 GMT (Saturday 7th November 2020)"
+	revision: "13"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
@@ -77,8 +77,8 @@ feature {NONE} -- Implementation
 	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
 		do
 			Result := Precursor
-			Result.show_all_routines ({like Current})
-			Result.show_all_routines ({EL_REGRESSION_TESTING_ROUTINES})
+			Result.show_all ({like Current})
+			Result.show_all ({EL_REGRESSION_TESTING_ROUTINES})
 		end
 
 	normal_initialize

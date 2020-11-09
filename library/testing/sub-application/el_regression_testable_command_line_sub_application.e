@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:18:03 GMT (Thursday 5th November 2020)"
-	revision: "17"
+	date: "2020-11-07 16:31:58 GMT (Saturday 7th November 2020)"
+	revision: "18"
 
 deferred class
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 		do
 			Result := Precursor {EL_REGRESSION_TESTABLE_SUB_APPLICATION}
 			if attached {TYPE [EL_MODULE_LOG]} ({C}) as log_type then
-				Result.show_all_routines (log_type)
+				Result.show_all (log_type)
 			end
 		end
 

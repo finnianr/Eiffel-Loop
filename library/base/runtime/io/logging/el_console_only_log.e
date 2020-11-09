@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:57:59 GMT (Wednesday 19th February 2020)"
-	revision: "13"
+	date: "2020-11-09 9:37:37 GMT (Monday 9th November 2020)"
+	revision: "14"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -120,7 +120,7 @@ feature -- Output
 			log_sink.put_character (c)
 		end
 
-	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
+	put_configuration_info (log_filters: LIST [EL_LOG_FILTER])
 		do
 		end
 

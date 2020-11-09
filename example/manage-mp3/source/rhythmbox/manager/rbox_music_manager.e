@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 16:26:39 GMT (Thursday 5th November 2020)"
-	revision: "29"
+	date: "2020-11-07 16:36:33 GMT (Saturday 7th November 2020)"
+	revision: "30"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -145,7 +145,7 @@ feature {NONE} -- Internal attributes
 	task_path: EL_FILE_PATH
 		-- path to task config file
 
-feature {MUSIC_MANAGER_SUB_APPLICATION} -- Constants
+feature {NONE} -- Constants
 
 	Name_template: ZSTRING
 		once

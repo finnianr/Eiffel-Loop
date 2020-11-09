@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:56:09 GMT (Wednesday 19th February 2020)"
-	revision: "12"
+	date: "2020-11-09 9:36:53 GMT (Monday 9th November 2020)"
+	revision: "13"
 
 deferred class
 	EL_LOGGABLE
@@ -120,7 +120,7 @@ feature -- Output
 		deferred
 		end
 
-	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
+	put_configuration_info (log_filters: LIST [EL_LOG_FILTER])
 		deferred
 		end
 

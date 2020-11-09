@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:26:25 GMT (Wednesday 19th February 2020)"
-	revision: "10"
+	date: "2020-11-09 9:40:50 GMT (Monday 9th November 2020)"
+	revision: "11"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -88,11 +88,10 @@ feature -- Status
 
 feature -- Output
 
-	put_configuration_info (log_filters: ARRAYED_LIST [EL_LOG_FILTER])
+	put_configuration_info (filter_list: LIST [EL_LOG_FILTER])
 			-- Log logging configuration information
 		local
-			filter: EL_LOG_FILTER; l_out: like current_thread_log_file
-			routine_name, class_name: STRING; i: INTEGER
+			l_out: like current_thread_log_file
 		do
 			l_out := current_thread_log_file
 
@@ -103,44 +102,11 @@ feature -- Output
 			l_out.put_new_line
 			l_out.tab_right
 
-			from log_filters.start until log_filters.after loop
-				filter := log_filters.item
-				class_name := filter.class_type.name
-				if filter.class_type.type_id /= - 1 then
-					l_out.put_new_line
-					l_out.put_keyword ("class ")
-					l_out.put_classname (class_name)
-					l_out.put_character (':')
-
-					l_out.tab_right; l_out.put_new_line
-
-					from i := 1 until i > filter.routines.count loop
-						routine_name := filter.routines [i]
-						if routine_name.item (1) = '*' then
-							l_out.put_string ("(All routines)")
-
-						elseif routine_name.item (1) = '-' then
-							l_out.put_string (routine_name.substring (2, routine_name.count))
-							l_out.put_string (" (Disabled)")
-
-						else
-							l_out.put_string (routine_name)
-						end
-						if i < filter.routines.count then
-							l_out.put_new_line
-						end
-						i := i + 1
-					end
-					l_out.tab_left
-				else
-					l_out.put_label ("No such class")
-					l_out.put_classname (class_name)
+			across filter_list as list loop
+				list.item.print_to (l_out)
+				if not list.is_last then
 					l_out.put_new_line
 				end
-				if log_filters.index < log_filters.count then
-					l_out.put_new_line
-				end
-				log_filters.forth
 			end
 			l_out.tab_left; l_out.put_new_line
 
@@ -243,7 +209,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 
