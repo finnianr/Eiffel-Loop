@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 20:56:39 GMT (Thursday 5th November 2020)"
-	revision: "26"
+	date: "2020-11-10 10:16:44 GMT (Tuesday 10th November 2020)"
+	revision: "27"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH})
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		RBOX_MUSIC_MANAGER,
 		RBOX_DATABASE

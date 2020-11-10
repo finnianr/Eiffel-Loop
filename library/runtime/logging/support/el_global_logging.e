@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 9:38:13 GMT (Monday 9th November 2020)"
-	revision: "11"
+	date: "2020-11-09 13:43:02 GMT (Monday 9th November 2020)"
+	revision: "12"
 
 class
 	EL_GLOBAL_LOGGING
@@ -38,11 +38,11 @@ feature {NONE} -- Initialization
 
 			create filter_access.make
 
-			create Log_enabled_routines.make (Routine_hash_table_size)
-			create Log_enabled_classes.make (Routine_hash_table_size)
+			create log_enabled_routines.make (Routine_hash_table_size)
+			create log_enabled_classes.make (Routine_hash_table_size)
 
-			create Routine_table.make (Routine_hash_table_size)
-			create Routine_id_table.make (Routine_hash_table_size)
+			create routine_table.make (Routine_hash_table_size)
+			create routine_id_table.make (Routine_hash_table_size)
 			is_active := active
 		end
 
@@ -97,7 +97,7 @@ feature -- Status query
 			-- True if logging enabled for routine
 		do
 			restrict_access
-			Result := Log_enabled_classes.has (routine.class_type_id) or else Log_enabled_routines.has (routine.id)
+			Result := log_enabled_classes.has (routine.class_type_id) or else log_enabled_routines.has (routine.id)
 			end_restriction
 		end
 
@@ -110,14 +110,14 @@ feature {NONE} -- Implementation
 			type_id := a_filter.class_type.type_id
 			inspect a_filter.type
 				when Show_all then
-					Log_enabled_classes.put (type_id, type_id)
+					log_enabled_classes.put (type_id, type_id)
 
 				when Show_none then
 					do_nothing
 			else
 				across a_filter.routines as name loop
 					routine := routine_by_type_and_routine_id (type_id, routine_id (name.item), name.item)
-					Log_enabled_routines.put (routine.id, routine.id)
+					log_enabled_routines.put (routine.id, routine.id)
 				end
 			end
 		end
@@ -132,33 +132,33 @@ feature {NONE} -- Implementation
 		do
 			l_routine_id := type_id |<< Num_bits_routine_id + a_routine_id
 
-			if Routine_table.has_key (l_routine_id) then
-				Result := Routine_table.found_item
+			if routine_table.has_key (l_routine_id) then
+				Result := routine_table.found_item
 			else
 				class_name := Eiffel.type_name_of_type (type_id)
 				create Result.make (l_routine_id, type_id, routine_name, class_name)
-				Routine_table.put (Result, l_routine_id)
+				routine_table.put (Result, l_routine_id)
 			end
 		end
 
 	routine_id (routine_name: STRING): INTEGER
 			-- Unique identifier for routine name
 		do
-			if Routine_id_table.has_key (routine_name) then
-				Result := Routine_id_table.found_item
+			if routine_id_table.has_key (routine_name) then
+				Result := routine_id_table.found_item
 			else
-				Result := Routine_id_table.count + 1
-				Routine_id_table.put (Result, routine_name)
+				Result := routine_id_table.count + 1
+				routine_id_table.put (Result, routine_name)
 			end
 		end
 
-	Log_enabled_routines: HASH_TABLE [INTEGER, INTEGER]
+	log_enabled_routines: HASH_TABLE [INTEGER, INTEGER]
 
-	Log_enabled_classes: HASH_TABLE [INTEGER, INTEGER]
+	log_enabled_classes: HASH_TABLE [INTEGER, INTEGER]
 
-	Routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, INTEGER]
+	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, INTEGER]
 
-	Routine_id_table: HASH_TABLE [INTEGER, STRING]
+	routine_id_table: HASH_TABLE [INTEGER, STRING]
 
 	filter_access: MUTEX
 
@@ -183,10 +183,6 @@ feature -- Constants
 	Num_bits_routine_id: INTEGER = 18
 			-- Number of bits to store routine name id
 			-- (18 is enough for over 260,000 routine name ids and over 16000 class ids)
-
-	Wild_card_for_any_routine: CHARACTER = '*'
-
-	Disabled_routine_character: CHARACTER = '-'
 
 	Routine_hash_table_size: INTEGER = 53
 

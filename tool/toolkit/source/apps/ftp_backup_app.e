@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:35:19 GMT (Thursday 5th November 2020)"
-	revision: "19"
+	date: "2020-11-10 10:16:55 GMT (Tuesday 10th November 2020)"
+	revision: "20"
 
 class
 	FTP_BACKUP_APP
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 			Result := agent {like ftp_command}.make (create {EL_FILE_PATH}, False)
 		end
 
-	extra_log_filter_list: EL_LOG_FILTER_LIST [
+	extra_log_filter_set: EL_LOG_FILTER_SET [
 		ARCHIVE_FILE,
 		INCLUSION_LIST_FILE,
 		EXCLUSION_LIST_FILE,

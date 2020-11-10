@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 9:37:37 GMT (Monday 9th November 2020)"
-	revision: "14"
+	date: "2020-11-09 11:25:41 GMT (Monday 9th November 2020)"
+	revision: "15"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -128,6 +128,11 @@ feature -- Output
 			-- Log time elapsed since set_timer called
 		do
 			log_sink.put_elapsed_time
+		end
+
+	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
+		do
+			log_sink.put_labeled_lines (label, lines)
 		end
 
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)

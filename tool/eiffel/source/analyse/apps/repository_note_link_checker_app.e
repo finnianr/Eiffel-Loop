@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:50:20 GMT (Friday 6th November 2020)"
-	revision: "7"
+	date: "2020-11-10 10:11:24 GMT (Tuesday 10th November 2020)"
+	revision: "8"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER_APP
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "", 0)
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current, EIFFEL_CONFIGURATION_FILE, EIFFEL_CONFIGURATION_INDEX_PAGE
 	]
 		do

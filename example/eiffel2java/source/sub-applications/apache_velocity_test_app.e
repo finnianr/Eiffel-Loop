@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:57:01 GMT (Friday 6th November 2020)"
-	revision: "7"
+	date: "2020-11-10 10:07:33 GMT (Tuesday 10th November 2020)"
+	revision: "8"
 
 class
 	APACHE_VELOCITY_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	REGRESSION_TESTABLE_SUB_APPLICATION
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		end
 
 create

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:40:23 GMT (Friday 6th November 2020)"
-	revision: "3"
+	date: "2020-11-10 10:07:45 GMT (Tuesday 10th November 2020)"
+	revision: "4"
 
 class
 	FTP_TEST_APP
@@ -15,7 +15,7 @@ class
 inherit
 	TEST_SUB_APPLICATION
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			normal_initialize, Application_option
 		end

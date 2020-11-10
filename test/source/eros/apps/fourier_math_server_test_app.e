@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:35:34 GMT (Friday 6th November 2020)"
-	revision: "12"
+	date: "2020-11-10 10:29:32 GMT (Tuesday 10th November 2020)"
+	revision: "13"
 
 class
 	FOURIER_MATH_SERVER_TEST_APP
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Implementation
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		EROS_CALL_REQUEST_HANDLER,
 		FFT_COMPLEX_64,

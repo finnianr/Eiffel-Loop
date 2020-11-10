@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:56:23 GMT (Friday 6th November 2020)"
-	revision: "7"
+	date: "2020-11-10 10:16:17 GMT (Tuesday 10th November 2020)"
+	revision: "8"
 
 class
 	JAVA_TEST_APP
@@ -151,7 +151,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	extra_log_filter_list: EL_LOG_FILTER_LIST [J_J2E_TEST_TARGET]
+	extra_log_filter_set: EL_LOG_FILTER_SET [J_J2E_TEST_TARGET]
 		do
 			create Result.make
 		end

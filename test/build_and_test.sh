@@ -1,4 +1,3 @@
 ec_build_finalized.py
 
-. run/all_tests.sh
-
+. run/test.sh -batch_test

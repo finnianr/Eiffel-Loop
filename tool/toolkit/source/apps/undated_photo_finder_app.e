@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:26:20 GMT (Thursday 5th November 2020)"
-	revision: "11"
+	date: "2020-11-10 10:08:34 GMT (Tuesday 10th November 2020)"
+	revision: "12"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -19,7 +19,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [UNDATED_PHOTO_FINDER]
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name, normal_initialize, Test_data_dir
 		end

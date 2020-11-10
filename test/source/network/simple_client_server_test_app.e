@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:43:17 GMT (Friday 6th November 2020)"
-	revision: "14"
+	date: "2020-11-10 10:29:55 GMT (Tuesday 10th November 2020)"
+	revision: "15"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_APP
@@ -67,7 +67,7 @@ feature {NONE} -- Tests
 
 feature {NONE} -- Implementation
 
-	extra_log_filter_list: EL_LOG_FILTER_LIST [SIMPLE_SERVER_THREAD]
+	extra_log_filter_set: EL_LOG_FILTER_SET [SIMPLE_SERVER_THREAD]
 			--
 		do
 			create Result.make

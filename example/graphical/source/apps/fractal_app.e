@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:59:38 GMT (Friday 6th November 2020)"
-	revision: "5"
+	date: "2020-11-10 10:16:22 GMT (Tuesday 10th November 2020)"
+	revision: "6"
 
 class
 	FRACTAL_APP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (fractal_config)
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current, FRACTAL_MAIN_WINDOW]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, FRACTAL_MAIN_WINDOW]
 		do
 			create Result.make
 		end

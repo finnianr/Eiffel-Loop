@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:52:20 GMT (Friday 6th November 2020)"
-	revision: "16"
+	date: "2020-11-10 10:14:28 GMT (Tuesday 10th November 2020)"
+	revision: "17"
 
 class
 	EIFFEL_VIEW_APP
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "", 0)
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		EIFFEL_CONFIGURATION_FILE,
 		EIFFEL_CONFIGURATION_INDEX_PAGE,

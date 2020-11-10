@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:38:34 GMT (Friday 6th November 2020)"
-	revision: "18"
+	date: "2020-11-10 10:07:58 GMT (Tuesday 10th November 2020)"
+	revision: "19"
 
 class
 	SOURCE_TREE_CLASS_RENAME_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CLASS_RENAMER_COMMAND]
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name
 		end

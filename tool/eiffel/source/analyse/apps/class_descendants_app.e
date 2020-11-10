@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:49:40 GMT (Friday 6th November 2020)"
-	revision: "9"
+	date: "2020-11-10 10:14:24 GMT (Tuesday 10th November 2020)"
+	revision: "10"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			Result.expand
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current, CLASS_DESCENDANTS_COMMAND]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, CLASS_DESCENDANTS_COMMAND]
 		do
 			create Result.make
 		end

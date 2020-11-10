@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:25:52 GMT (Thursday 5th November 2020)"
-	revision: "12"
+	date: "2020-11-10 10:08:27 GMT (Tuesday 10th November 2020)"
+	revision: "13"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -23,7 +23,7 @@ inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_ENCRYPTER]
 		rename
 			command as pyxis_encrypter,
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name, normal_initialize, pyxis_encrypter
 		end

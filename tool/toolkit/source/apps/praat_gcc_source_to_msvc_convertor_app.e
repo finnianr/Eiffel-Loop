@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:31:04 GMT (Thursday 5th November 2020)"
-	revision: "8"
+	date: "2020-11-10 10:17:00 GMT (Tuesday 10th November 2020)"
+	revision: "9"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP,
 		FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER,
 		PROCEDURE_PRAAT_RUN_GCC_TO_MSVC_CONVERTER

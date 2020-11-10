@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 9:26:55 GMT (Monday 9th November 2020)"
-	revision: "9"
+	date: "2020-11-10 9:49:46 GMT (Tuesday 10th November 2020)"
+	revision: "10"
 
 class
 	EL_LOG_FILTER
@@ -18,28 +18,25 @@ inherit
 	EL_LOG_CONSTANTS
 
 create
-	make
+	make, make_selected
 
 feature {NONE} -- Initialization
 
-	make (a_class_type: like class_type; routine_list: STRING)
+	make (a_class_type: like class_type; a_type: NATURAL_8)
+		do
+			class_type := a_class_type; type := a_type
+			routines := Empty_routines
+		end
+
+	make_selected (a_class_type: like class_type; routine_list: STRING)
 		local
 			split_list: EL_STRING_8_LIST
 		do
-			class_type := a_class_type
-			routines := Empty_routines
-
-			if routine_list ~ All_routines then
-				type := Show_all
-			elseif routine_list ~ No_routines then
-				type := Show_none
-			else
-				type := Show_selected
-				create split_list.make_with_csv (routine_list)
-				routines := split_list.to_array
-			end
+			make (a_class_type, Show_selected)
+			create split_list.make_with_csv (routine_list)
+			routines := split_list.to_array
 		ensure
-			valid_selected: type = Show_selected implies routines.count > 0
+			valid_selected: routines.count > 0
 		end
 
 feature -- Access

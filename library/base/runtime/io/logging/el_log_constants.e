@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-07 15:48:37 GMT (Saturday 7th November 2020)"
-	revision: "1"
+	date: "2020-11-10 9:49:57 GMT (Tuesday 10th November 2020)"
+	revision: "2"
 
 deferred class
 	EL_LOG_CONSTANTS
@@ -17,14 +17,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	All_routines: STRING = "*"
-
-	No_routines: STRING = "-"
-
 	Show_all: NATURAL_8 = 1
 
 	Show_none: NATURAL_8 = 2
 
 	Show_selected: NATURAL_8 = 3
-	
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 9:36:34 GMT (Monday 9th November 2020)"
-	revision: "14"
+	date: "2020-11-10 10:34:33 GMT (Tuesday 10th November 2020)"
+	revision: "15"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -69,6 +69,12 @@ feature {NONE} -- Implementation
 			retry -- for normal exit
 		end
 
+	empty_log_filter_set: EL_LOG_FILTER_SET [TUPLE]
+			--
+		do
+			create Result.make_empty
+		end
+
 	init_console_and_logging
 			--
 		local
@@ -102,14 +108,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
+	log_filter_set: EL_LOG_FILTER_SET [TUPLE]
+		-- set of loggable classes
 		deferred
-		end
-
-	empty_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
-			--
-		do
-			create Result.make_empty
 		end
 
 	on_exception
@@ -129,10 +130,15 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 			create Result.make ("Main")
 		end
 
-	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
+	new_log_filter_list: LIST [EL_LOG_FILTER]
+		do
+			Result := new_log_filter_set.as_list
+		end
+
+	new_log_filter_set: EL_LOG_FILTER_SET [TUPLE]
 			--
 		do
-			Result := log_filter_list
+			Result := log_filter_set
 		end
 
 	new_log_manager: EL_LOG_MANAGER

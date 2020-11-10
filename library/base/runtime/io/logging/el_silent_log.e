@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:57:05 GMT (Wednesday 19th February 2020)"
-	revision: "11"
+	date: "2020-11-09 11:26:00 GMT (Monday 9th November 2020)"
+	revision: "12"
 
 class
 	EL_SILENT_LOG
@@ -117,6 +117,10 @@ feature -- Output
 
 	put_elapsed_time
 			-- Log time elapsed since set_timer called
+		do
+		end
+
+	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
 		do
 		end
 

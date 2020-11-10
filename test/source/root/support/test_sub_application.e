@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:34:26 GMT (Friday 6th November 2020)"
-	revision: "10"
+	date: "2020-11-10 10:30:01 GMT (Tuesday 10th November 2020)"
+	revision: "11"
 
 deferred class
 	TEST_SUB_APPLICATION
@@ -27,7 +27,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current]
+	log_filter_set: EL_LOG_FILTER_SET [like Current]
 		do
 			create Result.make
 		end

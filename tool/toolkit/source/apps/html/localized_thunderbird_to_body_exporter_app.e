@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:25:53 GMT (Thursday 5th November 2020)"
-	revision: "17"
+	date: "2020-11-10 10:08:20 GMT (Tuesday 10th November 2020)"
+	revision: "18"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
@@ -19,7 +19,7 @@ class
 inherit
 	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_XHTML_BODY_EXPORTER]
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name, test_html_body_export
 		end

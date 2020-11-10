@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:25:52 GMT (Thursday 5th November 2020)"
-	revision: "15"
+	date: "2020-11-10 10:08:14 GMT (Tuesday 10th November 2020)"
+	revision: "16"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -17,7 +17,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		undefine
 			Test_data_dir
 		redefine

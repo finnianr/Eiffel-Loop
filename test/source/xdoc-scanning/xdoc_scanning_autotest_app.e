@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:46:21 GMT (Friday 6th November 2020)"
-	revision: "14"
+	date: "2020-11-10 10:30:18 GMT (Tuesday 10th November 2020)"
+	revision: "15"
 
 class
 	XDOC_SCANNING_AUTOTEST_APP
@@ -31,7 +31,7 @@ inherit
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
 	]
 		redefine
-			log_filter_list
+			log_filter_set
 		end
 
 create
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		PYXIS_TO_XML_TEST_SET,
 		OBJECT_BUILDER_TEST_SET,

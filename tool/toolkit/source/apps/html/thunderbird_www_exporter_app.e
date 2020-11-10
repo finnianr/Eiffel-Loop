@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:25:51 GMT (Thursday 5th November 2020)"
-	revision: "17"
+	date: "2020-11-10 10:08:22 GMT (Tuesday 10th November 2020)"
+	revision: "18"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [THUNDERBIRD_WWW_EXPORTER]
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name
 		end

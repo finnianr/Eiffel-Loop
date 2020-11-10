@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:30:59 GMT (Friday 6th November 2020)"
-	revision: "16"
+	date: "2020-11-10 10:29:31 GMT (Tuesday 10th November 2020)"
+	revision: "17"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -148,7 +148,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		EROS_CALL_REQUEST_HANDLER_PROXY,
 		FFT_COMPLEX_64_PROXY,

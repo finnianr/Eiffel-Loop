@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:59:15 GMT (Friday 6th November 2020)"
-	revision: "5"
+	date: "2020-11-10 10:16:32 GMT (Tuesday 10th November 2020)"
+	revision: "6"
 
 class
 	QUANTUM_BALL_ANIMATION_APP
@@ -75,7 +75,7 @@ feature {NONE} -- Install constants
 			Result := new_menu_desktop_environment
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current,
 		EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER,
 		QUANTUM_BALL_MAIN_WINDOW,

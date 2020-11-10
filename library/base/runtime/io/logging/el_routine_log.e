@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:57:34 GMT (Wednesday 19th February 2020)"
-	revision: "16"
+	date: "2020-11-09 11:34:19 GMT (Monday 9th November 2020)"
+	revision: "17"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -151,6 +151,29 @@ feature -- Output
 			Timer.stop
 			put_labeled_string (once "TIME", Timer.elapsed_time.out)
 			put_new_line
+		end
+
+	put_labeled_lines (label: READABLE_STRING_GENERAL; line_list: ITERABLE [READABLE_STRING_GENERAL])
+		local
+			l_out: like output; not_first: BOOLEAN
+		do
+			l_out := output
+			l_out.put_label (label)
+			l_out.tab_right
+			l_out.put_new_line
+			l_out.set_text_color (Color.Yellow)
+			across line_list as list loop
+				if not_first then
+					l_out.put_new_line
+				else
+					not_first := True
+				end
+				l_out.put_string_general (list.item)
+			end
+			l_out.tab_left
+			l_out.put_new_line
+			l_out.set_text_color (Color.Default)
+			l_out.flush
 		end
 
 	put_labeled_string (label, str: READABLE_STRING_GENERAL)

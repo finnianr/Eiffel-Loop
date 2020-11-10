@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:58:21 GMT (Friday 6th November 2020)"
-	revision: "7"
+	date: "2020-11-10 10:16:25 GMT (Tuesday 10th November 2020)"
+	revision: "8"
 
 class
 	PANGO_CAIRO_TEST_APP
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 
 	gui: EL_VISION_2_USER_INTERFACE [PANGO_CAIRO_TEST_MAIN_WINDOW]
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current, PANGO_CAIRO_TEST_MAIN_WINDOW]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, PANGO_CAIRO_TEST_MAIN_WINDOW]
 		do
 			create Result.make
 		end

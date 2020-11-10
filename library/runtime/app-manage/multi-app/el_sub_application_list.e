@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 10:49:07 GMT (Tuesday 20th October 2020)"
-	revision: "18"
+	date: "2020-11-09 11:41:19 GMT (Monday 9th November 2020)"
+	revision: "19"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -113,10 +113,8 @@ feature -- Basic operations
 			lio.put_new_line
 			across Current as app loop
 				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
-				lio.tab_right
 				lio.put_new_line
-				lio.put_string_field_to_max_length ("Description", app.item.description, 300)
-				lio.tab_left
+				lio.put_labeled_lines ("Description", app.item.description.split ('%N'))
 				lio.put_new_line
 			end
 		end

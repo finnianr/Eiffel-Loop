@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:49:13 GMT (Friday 6th November 2020)"
-	revision: "15"
+	date: "2020-11-10 10:11:12 GMT (Tuesday 10th November 2020)"
+	revision: "16"
 
 class
 	LIBRARY_OVERRIDE_APP
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current, LIBRARY_OVERRIDE_GENERATOR]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, LIBRARY_OVERRIDE_GENERATOR]
 		do
 			create Result.make
 		end

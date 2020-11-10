@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:33:28 GMT (Thursday 5th November 2020)"
-	revision: "8"
+	date: "2020-11-10 10:14:51 GMT (Tuesday 10th November 2020)"
+	revision: "9"
 
 class
 	FILTER_INVALID_UTF_8_APP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("")
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current, FILTER_INVALID_UTF_8]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, FILTER_INVALID_UTF_8]
 			--
 		do
 			create Result.make

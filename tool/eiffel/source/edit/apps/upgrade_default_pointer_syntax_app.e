@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:38:35 GMT (Friday 6th November 2020)"
-	revision: "9"
+	date: "2020-11-10 10:08:01 GMT (Tuesday 10th November 2020)"
+	revision: "10"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_APP
@@ -19,7 +19,7 @@ class
 inherit
 	SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP
 		rename
-			extra_log_filter_list as empty_log_filter_list
+			extra_log_filter_set as empty_log_filter_set
 		redefine
 			Option_name, test_run
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-07 16:31:40 GMT (Saturday 7th November 2020)"
-	revision: "13"
+	date: "2020-11-10 10:09:16 GMT (Tuesday 10th November 2020)"
+	revision: "14"
 
 deferred class
 	EL_REGRESSION_TESTABLE_SUB_APPLICATION
@@ -15,9 +15,9 @@ deferred class
 inherit
 	EL_LOGGED_SUB_APPLICATION
 		rename
-			log_filter_list as extra_log_filter_list
+			log_filter_set as extra_log_filter_set
 		redefine
-			new_log_manager, new_lio, new_log_filter_list
+			new_log_manager, new_lio, new_log_filter_set
 		end
 
 	EL_MODULE_TEST
@@ -74,7 +74,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
+	new_log_filter_set: EL_LOG_FILTER_SET [TUPLE]
 		do
 			Result := Precursor
 			Result.show_all ({like Current})

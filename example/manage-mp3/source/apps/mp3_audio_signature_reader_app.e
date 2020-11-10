@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 20:57:24 GMT (Thursday 5th November 2020)"
-	revision: "13"
+	date: "2020-11-10 10:16:36 GMT (Tuesday 10th November 2020)"
+	revision: "14"
 
 class
 	MP3_AUDIO_SIGNATURE_READER_APP
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", False)
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current]
+	log_filter_set: EL_LOG_FILTER_SET [like Current]
 		do
 			create Result.make
 		end

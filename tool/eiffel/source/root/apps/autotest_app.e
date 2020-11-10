@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-07 16:35:43 GMT (Saturday 7th November 2020)"
-	revision: "39"
+	date: "2020-11-10 10:03:44 GMT (Tuesday 10th November 2020)"
+	revision: "40"
 
 class
 	AUTOTEST_APP
@@ -31,7 +31,7 @@ inherit
 		UNDEFINE_PATTERN_COUNTER_TEST_SET
 	]
 		redefine
-			new_log_filter_list, visible_types
+			new_log_filter_set, visible_types
 		end
 
 create
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_log_filter_list: EL_LOG_FILTER_LIST [TUPLE]
+	new_log_filter_set: EL_LOG_FILTER_SET [TUPLE]
 			--
 		do
 			Result := Precursor

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-05 18:31:45 GMT (Thursday 5th November 2020)"
-	revision: "6"
+	date: "2020-11-10 10:17:08 GMT (Tuesday 10th November 2020)"
+	revision: "7"
 
 class
 	THUNDERBIRD_BOOK_EXPORTER_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make_from_file ("")
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [like Current]
+	log_filter_set: EL_LOG_FILTER_SET [like Current]
 			--
 		do
 			create Result.make

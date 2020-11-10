@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 16:50:50 GMT (Friday 6th November 2020)"
-	revision: "8"
+	date: "2020-11-10 10:11:30 GMT (Tuesday 10th November 2020)"
+	revision: "9"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 			Result := list.to_array
 		end
 
-	log_filter_list: EL_LOG_FILTER_LIST [
+	log_filter_set: EL_LOG_FILTER_SET [
 		like Current, EIFFEL_CONFIGURATION_FILE, EIFFEL_CONFIGURATION_INDEX_PAGE
 	]
 		do
