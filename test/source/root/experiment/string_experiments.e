@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-23 12:59:21 GMT (Saturday 23rd May 2020)"
-	revision: "5"
+	date: "2020-11-11 11:14:38 GMT (Wednesday 11th November 2020)"
+	revision: "6"
 
 class
 	STRING_EXPERIMENTS
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_MODULE_HEXADECIMAL
+
+	EL_MODULE_EIFFEL
 
 feature -- Basic operations
 
@@ -42,6 +44,21 @@ feature -- Basic operations
 			across parts as part loop
 				lio.put_string_field (part.cursor_index.out, part.item)
 				lio.put_new_line
+			end
+		end
+
+	check_if_type_name_unique
+		local
+			name_1, name_2: STRING
+			type_id: INTEGER
+		do
+			type_id := ({like Current}).type_id
+			name_1 := Eiffel.type_name_of_type (type_id)
+			name_2 := Eiffel.type_name_of_type (type_id)
+			if name_1 = name_2 then
+				lio.put_line ("Unique")
+			else
+				lio.put_line ("Not unique")
 			end
 		end
 

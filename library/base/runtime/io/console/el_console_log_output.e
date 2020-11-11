@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:59:03 GMT (Wednesday 19th February 2020)"
-	revision: "15"
+	date: "2020-11-11 11:53:18 GMT (Wednesday 11th November 2020)"
+	revision: "16"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -89,9 +89,7 @@ feature -- Output
 			extended_buffer_last.append_character (c)
 		end
 
-	put_classname (a_name: STRING)
-		require
-			not_augmented_latin_string: not attached {ZSTRING} a_name
+	put_classname (a_name: IMMUTABLE_STRING_8)
 		do
 			set_text_color_light (Color.Blue)
 			buffer.extend (a_name)

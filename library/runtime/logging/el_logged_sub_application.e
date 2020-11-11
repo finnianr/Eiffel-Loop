@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:34:33 GMT (Tuesday 10th November 2020)"
-	revision: "15"
+	date: "2020-11-11 10:09:40 GMT (Wednesday 11th November 2020)"
+	revision: "16"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -78,8 +78,7 @@ feature {NONE} -- Implementation
 	init_console_and_logging
 			--
 		local
-			manager: like new_log_manager;
-			global_logging: EL_GLOBAL_LOGGING
+			manager: like new_log_manager; global_logging: EL_GLOBAL_LOGGING
 		do
 			Precursor
 			manager := new_log_manager
@@ -132,7 +131,7 @@ feature {EL_LOGGED_SUB_APPLICATION} -- Factory
 
 	new_log_filter_list: LIST [EL_LOG_FILTER]
 		do
-			Result := new_log_filter_set.as_list
+			Result := new_log_filter_set.linear_representation
 		end
 
 	new_log_filter_set: EL_LOG_FILTER_SET [TUPLE]

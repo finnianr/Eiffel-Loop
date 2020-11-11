@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 9:49:46 GMT (Tuesday 10th November 2020)"
-	revision: "10"
+	date: "2020-11-11 17:12:24 GMT (Wednesday 11th November 2020)"
+	revision: "11"
 
 class
 	EL_LOG_FILTER
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	make (a_class_type: like class_type; a_type: NATURAL_8)
 		do
 			class_type := a_class_type; type := a_type
-			routines := Empty_routines
+			routine_set := Empty_set
 		end
 
 	make_selected (a_class_type: like class_type; routine_list: STRING)
@@ -34,16 +34,18 @@ feature {NONE} -- Initialization
 		do
 			make (a_class_type, Show_selected)
 			create split_list.make_with_csv (routine_list)
-			routines := split_list.to_array
+			across split_list as list loop
+				routine_set.put (list.item)
+			end
 		ensure
-			valid_selected: routines.count > 0
+			valid_selected: routine_set.count > 0
 		end
 
 feature -- Access
 
 	class_type: TYPE [EL_MODULE_LIO]
 
-	routines: ARRAY [STRING]
+	routine_set: EL_HASH_SET [STRING]
 		-- selected routines when `type' = `Show_selected'
 
 	type: NATURAL_8
@@ -69,8 +71,8 @@ feature -- Basic operations
 					when Show_none then
 						output.put_string ("(None)")
 				else
-					across routines as list loop
-						name := list.item
+					across routine_set as set loop
+						name := set.item
 						if name.count > 0 and then name [1] = '-' then
 							output.put_string (name.substring (2, name.count))
 							output.put_string (" (Disabled)")
@@ -78,7 +80,7 @@ feature -- Basic operations
 						else
 							output.put_string (name)
 						end
-						if not list.is_last then
+						if not set.is_last then
 							output.put_new_line
 						end
 					end
@@ -93,9 +95,9 @@ feature -- Basic operations
 
 feature {NONE} -- Constants
 
-	Empty_routines: ARRAY [STRING]
+	Empty_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_empty
+			create Result.make (0)
 		end
 
 end

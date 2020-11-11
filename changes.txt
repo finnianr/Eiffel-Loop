@@ -322,3 +322,6 @@ Changed EL_MULTI_APPLICATION_ROOT to accept sub-app types as class parameters
 Thu 22nd Oct 2020, 12:45:19
 Finished WINZIP_SOFTWARE_PACKAGE_BUILDER_APP for testing
 
+Tue 10th Nov 2020, 18:41:11
+EL_LOG_FILTER_SET refactor
+

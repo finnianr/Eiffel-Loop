@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 13:43:02 GMT (Monday 9th November 2020)"
-	revision: "12"
+	date: "2020-11-11 18:04:09 GMT (Wednesday 11th November 2020)"
+	revision: "14"
 
 class
 	EL_GLOBAL_LOGGING
@@ -38,11 +38,10 @@ feature {NONE} -- Initialization
 
 			create filter_access.make
 
-			create log_enabled_routines.make (Routine_hash_table_size)
-			create log_enabled_classes.make (Routine_hash_table_size)
-
-			create routine_table.make (Routine_hash_table_size)
-			create routine_id_table.make (Routine_hash_table_size)
+			create routine_table.make (100)
+			create type_table.make (50, agent Eiffel.type_of_type)
+			create filter_table.make (30)
+			create routine_key.make_empty
 			is_active := active
 		end
 
@@ -52,8 +51,14 @@ feature {EL_CONSOLE_AND_FILE_LOG} -- Access
 			--
 		do
 			restrict_access
-			Result := routine_by_type_and_routine_id (type_id, routine_id (routine_name), routine_name)
-
+				routine_key.set (type_id, routine_name)
+				if routine_table.has_key (routine_key) then
+					Result := routine_table.found_item
+				else
+					create Result.make (type_table.item (type_id), routine_name)
+					routine_table.extend (Result, routine_key.twin)
+				end
+				Result := routine_table.item (routine_key)
 			end_restriction
 		end
 
@@ -97,93 +102,48 @@ feature -- Status query
 			-- True if logging enabled for routine
 		do
 			restrict_access
-			Result := log_enabled_classes.has (routine.class_type_id) or else log_enabled_routines.has (routine.id)
+			if filter_table.has_key (routine.type.type_id) then
+				inspect filter_table.found_item.type
+					when Show_all then
+						Result := True
+
+					when Show_selected then
+						if filter_table.found_item.routine_set.has (routine.name) then
+							Result := True
+						end
+				else
+
+				end
+			end
 			end_restriction
 		end
 
 feature {NONE} -- Implementation
 
 	set_routine_filter_for_class (a_filter: EL_LOG_FILTER)
-		local
-			routine: EL_LOGGED_ROUTINE_INFO; type_id: INTEGER
 		do
-			type_id := a_filter.class_type.type_id
 			inspect a_filter.type
-				when Show_all then
-					log_enabled_classes.put (type_id, type_id)
-
-				when Show_none then
-					do_nothing
+				when Show_all, Show_selected then
+					filter_table.put (a_filter, a_filter.class_type.type_id)
 			else
-				across a_filter.routines as name loop
-					routine := routine_by_type_and_routine_id (type_id, routine_id (name.item), name.item)
-					log_enabled_routines.put (routine.id, routine.id)
-				end
 			end
 		end
 
-	routine_by_type_and_routine_id (type_id, a_routine_id: INTEGER; routine_name: STRING): EL_LOGGED_ROUTINE_INFO
-			-- Unique routine by generating type and routine id
-		require
-			enough_space_to_store_type_in_routine_id_key: type_id <= Max_classes
-			enough_space_to_store_routine_id_in_routine_id_key: a_routine_id <= Max_routines
-		local
-			l_routine_id: INTEGER; class_name: STRING
-		do
-			l_routine_id := type_id |<< Num_bits_routine_id + a_routine_id
-
-			if routine_table.has_key (l_routine_id) then
-				Result := routine_table.found_item
-			else
-				class_name := Eiffel.type_name_of_type (type_id)
-				create Result.make (l_routine_id, type_id, routine_name, class_name)
-				routine_table.put (Result, l_routine_id)
-			end
-		end
-
-	routine_id (routine_name: STRING): INTEGER
-			-- Unique identifier for routine name
-		do
-			if routine_id_table.has_key (routine_name) then
-				Result := routine_id_table.found_item
-			else
-				Result := routine_id_table.count + 1
-				routine_id_table.put (Result, routine_name)
-			end
-		end
-
-	log_enabled_routines: HASH_TABLE [INTEGER, INTEGER]
-
-	log_enabled_classes: HASH_TABLE [INTEGER, INTEGER]
-
-	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, INTEGER]
-
-	routine_id_table: HASH_TABLE [INTEGER, STRING]
+feature {NONE} -- Internal attributes
 
 	filter_access: MUTEX
 
+	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, EL_ROUTINE_KEY]
+
+	routine_key: EL_ROUTINE_KEY
+		-- reusable key
+
+	type_table: EL_CACHE_TABLE [TYPE [ANY], INTEGER]
+		-- look up from type_id
+
+	filter_table: HASH_TABLE [EL_LOG_FILTER, INTEGER]
+		-- class filter by type_id
+
 	user_prompt_active: BOOLEAN
-
-feature -- Constants
-
-	Max_classes: INTEGER
-			-- Type id must fit into (32 - Num_bits_routine_id) bits
-			-- (Assuming INTEGER is 32 bits)
-		once
-			Result := (1 |<< (32 - Num_bits_routine_id)) - 1
-		end
-
-	Max_routines: INTEGER
-			-- Routine name id must fit into Num_bits_routine_id bits
-			-- (Assuming INTEGER is 32 bits)
-		once
-			Result := (1 |<< Num_bits_routine_id) - 1
-		end
-
-	Num_bits_routine_id: INTEGER = 18
-			-- Number of bits to store routine name id
-			-- (18 is enough for over 260,000 routine name ids and over 16000 class ids)
-
-	Routine_hash_table_size: INTEGER = 53
 
 end

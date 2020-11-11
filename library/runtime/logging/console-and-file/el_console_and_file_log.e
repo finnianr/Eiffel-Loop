@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 9:40:50 GMT (Monday 9th November 2020)"
-	revision: "11"
+	date: "2020-11-11 16:36:55 GMT (Wednesday 11th November 2020)"
+	revision: "12"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -209,7 +209,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

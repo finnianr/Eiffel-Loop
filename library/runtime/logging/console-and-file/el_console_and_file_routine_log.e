@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 15:28:59 GMT (Wednesday 19th February 2020)"
-	revision: "7"
+	date: "2020-11-11 16:36:47 GMT (Wednesday 11th November 2020)"
+	revision: "9"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -93,7 +93,7 @@ feature -- Basic operations
 			l_out.put_keyword (once "end")
 
 			l_out.set_text_color_light (Color.Green)
-			l_out.put_string (once " -- "); l_out.put_string (current_routine.class_name)
+			l_out.put_string (once " -- "); l_out.put_string_general (current_routine.type.name)
 			l_out.set_text_color (Color.Default)
 
 			l_out.tab_left
@@ -173,7 +173,7 @@ feature {NONE} -- Implementation
 			l_out := output
 
 			l_out.put_new_line
-			l_out.put_classname (current_routine.class_name)
+			l_out.put_classname (current_routine.type.name)
 			l_out.put_character ('.')
 			l_out.put_string (current_routine.name)
 
@@ -198,8 +198,6 @@ feature {NONE} -- Implementation
 	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]
 
 end
-
-
 
 
 

@@ -6,20 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:18:04 GMT (Tuesday 10th November 2020)"
-	revision: "3"
+	date: "2020-11-11 14:57:43 GMT (Wednesday 11th November 2020)"
+	revision: "4"
 
 class
 	EL_LOG_FILTER_SET [TYPE_LIST -> TUPLE create default_create end]
 
 inherit
-	HASH_TABLE [EL_LOG_FILTER, TYPE [EL_MODULE_LOG]]
+	HASH_TABLE [EL_LOG_FILTER, TYPE [EL_MODULE_LIO]]
 		rename
-			make as make_with_count,
-			linear_representation as as_list
+			make as make_with_count
 		export
 			{NONE} all
-			{ANY} as_list
+			{ANY} linear_representation
 		end
 
 	EL_LOG_CONSTANTS
@@ -35,15 +34,10 @@ create
 feature {NONE} -- Initialization
 
 	make
-		local
-			type_list: EL_TUPLE_TYPE_LIST [EL_MODULE_LOG]
-			filter: EL_LOG_FILTER
 		do
-			create type_list.make_from_tuple (create {TYPE_LIST})
 			make_with_count (type_list.count)
 			across type_list as type loop
-				create filter.make (type.item, Type_show_all)
-				put (filter, type.item)
+				put (create {EL_LOG_FILTER}.make (type.item, Type_show_all), type.item)
 			end
 		end
 
@@ -52,21 +46,28 @@ feature {NONE} -- Initialization
 			make_with_count (0)
 		end
 
+feature -- Access
+
+	type_list: EL_TUPLE_TYPE_LIST [EL_MODULE_LIO]
+		do
+			create Result.make_from_tuple (create {TYPE_LIST})
+		end
+
 feature -- Status setting
 
-	hide_all (class_type: TYPE [EL_MODULE_LOG])
+	hide_all (class_type: like type_list.item)
 		-- hide output of all routines of `class_type'
 		do
 			put (create {EL_LOG_FILTER}.make (class_type, Type_show_none), class_type)
 		end
 
-	show_all (class_type: TYPE [EL_MODULE_LOG])
+	show_all (class_type: like type_list.item)
 		-- show output for all routines of `class_type'
 		do
 			put (create {EL_LOG_FILTER}.make (class_type, Type_show_all), class_type)
 		end
 
-	show_selected (class_type: TYPE [EL_MODULE_LOG]; routines_list: STRING)
+	show_selected (class_type: like type_list.item; routines_list: STRING)
 		-- show output only for selected routines of `class_type' in comma separated `routines_list'
 		do
 			put (create {EL_LOG_FILTER}.make_selected (class_type, routines_list), class_type)
