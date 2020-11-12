@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 17:12:24 GMT (Wednesday 11th November 2020)"
-	revision: "11"
+	date: "2020-11-12 15:37:03 GMT (Thursday 12th November 2020)"
+	revision: "12"
 
 class
 	EL_LOG_FILTER
@@ -46,7 +46,7 @@ feature -- Access
 	class_type: TYPE [EL_MODULE_LIO]
 
 	routine_set: EL_HASH_SET [STRING]
-		-- selected routines when `type' = `Show_selected'
+		-- set of selected routines (when `type' = `Show_selected')
 
 	type: NATURAL_8
 		-- filter type
@@ -76,7 +76,6 @@ feature -- Basic operations
 						if name.count > 0 and then name [1] = '-' then
 							output.put_string (name.substring (2, name.count))
 							output.put_string (" (Disabled)")
-
 						else
 							output.put_string (name)
 						end

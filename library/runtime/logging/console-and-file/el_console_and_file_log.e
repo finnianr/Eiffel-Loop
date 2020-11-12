@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 16:36:55 GMT (Wednesday 11th November 2020)"
-	revision: "12"
+	date: "2020-11-12 15:24:45 GMT (Thursday 12th November 2020)"
+	revision: "13"
 
 class
 	EL_CONSOLE_AND_FILE_LOG
@@ -61,7 +61,7 @@ feature {EL_CONSOLE_ONLY_LOG, EL_MODULE_LOG} -- Element change
 			traced_object := current_logged_object
 		end
 
-	set_log_sink_for_routine (routine: EL_LOGGED_ROUTINE_INFO)
+	set_log_sink_for_routine (routine: EL_LOGGED_ROUTINE)
 			--
 		do
 			if logging.logging_enabled (routine) then
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]
+	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
 
 	traced_object: ANY
 
@@ -209,7 +209,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

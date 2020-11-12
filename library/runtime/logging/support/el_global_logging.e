@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 18:04:09 GMT (Wednesday 11th November 2020)"
-	revision: "14"
+	date: "2020-11-12 15:49:51 GMT (Thursday 12th November 2020)"
+	revision: "15"
 
 class
 	EL_GLOBAL_LOGGING
@@ -41,24 +41,24 @@ feature {NONE} -- Initialization
 			create routine_table.make (100)
 			create type_table.make (50, agent Eiffel.type_of_type)
 			create filter_table.make (30)
-			create routine_key.make_empty
+			create reusable_key.make_empty
 			is_active := active
 		end
 
 feature {EL_CONSOLE_AND_FILE_LOG} -- Access
 
-	loggable_routine (type_id: INTEGER; routine_name: STRING): EL_LOGGED_ROUTINE_INFO
+	loggable_routine (type_id: INTEGER; routine_name: STRING): EL_LOGGED_ROUTINE
 			--
 		do
 			restrict_access
-				routine_key.set (type_id, routine_name)
-				if routine_table.has_key (routine_key) then
+				reusable_key.set (type_id, routine_name)
+
+				if routine_table.has_key (reusable_key) then
 					Result := routine_table.found_item
 				else
 					create Result.make (type_table.item (type_id), routine_name)
-					routine_table.extend (Result, routine_key.twin)
+					routine_table.extend (Result, Result)
 				end
-				Result := routine_table.item (routine_key)
 			end_restriction
 		end
 
@@ -98,21 +98,18 @@ feature -- Status query
 			end_restriction
 		end
 
-	logging_enabled (routine: EL_LOGGED_ROUTINE_INFO): BOOLEAN
+	logging_enabled (routine: EL_LOGGED_ROUTINE): BOOLEAN
 			-- True if logging enabled for routine
 		do
 			restrict_access
-			if filter_table.has_key (routine.type.type_id) then
+			if filter_table.has_key (routine.type_id) then
 				inspect filter_table.found_item.type
 					when Show_all then
 						Result := True
 
 					when Show_selected then
-						if filter_table.found_item.routine_set.has (routine.name) then
-							Result := True
-						end
+						Result := filter_table.found_item.routine_set.has (routine.name)
 				else
-
 				end
 			end
 			end_restriction
@@ -133,9 +130,9 @@ feature {NONE} -- Internal attributes
 
 	filter_access: MUTEX
 
-	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE_INFO, EL_ROUTINE_KEY]
+	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE, EL_LOGGED_ROUTINE]
 
-	routine_key: EL_ROUTINE_KEY
+	reusable_key: EL_LOGGED_ROUTINE
 		-- reusable key
 
 	type_table: EL_CACHE_TABLE [TYPE [ANY], INTEGER]

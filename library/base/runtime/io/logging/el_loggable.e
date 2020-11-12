@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 16:37:59 GMT (Wednesday 11th November 2020)"
-	revision: "15"
+	date: "2020-11-12 15:24:46 GMT (Thursday 12th November 2020)"
+	revision: "16"
 
 deferred class
 	EL_LOGGABLE
@@ -236,7 +236,7 @@ feature -- Input
 
 feature {NONE} -- Implementation
 
-	current_routine: EL_LOGGED_ROUTINE_INFO
+	current_routine: EL_LOGGED_ROUTINE
 			--
 		require
 			valid_logged_routine_call_stack: not traced_routine_call_stack.is_empty
@@ -244,14 +244,14 @@ feature {NONE} -- Implementation
 			Result := traced_routine_call_stack.item
 		end
 
-	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]
+	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
 		do
 			Result := Default_traced_routine_call_stack
 		end
 
 feature {NONE} -- Constants
 
-	Default_traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE_INFO]
+	Default_traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
 		once
 			create Result.make (0)
 		end

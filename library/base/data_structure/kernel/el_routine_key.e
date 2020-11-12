@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 17:53:28 GMT (Wednesday 11th November 2020)"
-	revision: "1"
+	date: "2020-11-11 18:09:53 GMT (Wednesday 11th November 2020)"
+	revision: "2"
 
 class
 	EL_ROUTINE_KEY
@@ -37,7 +37,9 @@ feature -- Access
 
 	hash_code: INTEGER
 		do
-			Result := (type_id + name.hash_code).abs
+			-- The magic number `8388593' below is the greatest prime lower than
+			-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+			Result := ((name.hash_code \\ 8388593) |<< 8) + type_id
 		end
 
 	name: STRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:29:31 GMT (Tuesday 10th November 2020)"
-	revision: "17"
+	date: "2020-11-12 15:42:04 GMT (Thursday 12th November 2020)"
+	revision: "18"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
