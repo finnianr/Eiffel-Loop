@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-12 15:27:41 GMT (Thursday 12th November 2020)"
-	revision: "10"
+	date: "2020-11-14 9:44:28 GMT (Saturday 14th November 2020)"
+	revision: "11"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -18,7 +18,7 @@ inherit
 	EL_ROUTINE_LOG
 		redefine
 			clear, output, exit, pause_for_enter_key, enter_with_args, move_cursor_up,
-			set_text_color, set_text_color_light, traced_routine_call_stack
+			set_text_color, set_text_color_light
 		end
 
 	EL_MODULE_LOG_MANAGER
@@ -31,9 +31,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_traced_routine_call_stack: like traced_routine_call_stack)
+	make (a_call_stack: like routine_call_stack)
 		do
-			traced_routine_call_stack := a_traced_routine_call_stack
+			routine_call_stack := a_call_stack
 		end
 
 feature -- Status change
@@ -195,9 +195,6 @@ feature {NONE} -- Implementation
 			l_out.flush
 		end
 
-	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
-
 end
-
 
 

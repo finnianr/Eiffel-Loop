@@ -1007,23 +1007,25 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `Log_filter` as a once function returning an array of tuples. The `Log_filter` for class [TEST_VTD_XML_APP]($source) is implemented as follows:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](http://www.eiffel-loop.com/library/runtime/logging/el_logged_sub_application.html) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html) illustrates:
 
 
 ````
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 ````
 
 ````
-	Log_filter: ARRAY [like CLASS_ROUTINES]
-			--
+	log_filter_set: EL_LOG_FILTER_SET [
+		like Current,
+		EROS_CALL_REQUEST_HANDLER_PROXY,
+		FFT_COMPLEX_64_PROXY
+	]
 		do
-			Result := <<
-				[{TEST_VTD_XML_APP}, All_routines]
-			>>
+			create Result.make
+			Result.show_selected ({SIGNAL_MATH_PROXY}, "cosine_waveform")
 		end
 ````
-Each tuple in the array consists of the name of the class you wish to enable logging for, followed either by a list of individual routines or a `All_routines` to indicate that any and all routines are to be logged for that class. You can disable logging for any particular routine by prefixing the name with a hyphen. In the case of a wildcard, prefixing with a hyphen disables all logging for that class. The class filter is compared only with the generating class name so all child classes in a particular inheritance tree must be listed individually.
+The class filter is compared only with the generating class name so all child classes in a particular inheritance tree must be listed individually.
 
 **Command Options**
 

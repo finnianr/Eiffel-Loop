@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-02 10:11:20 GMT (Sunday 2nd February 2020)"
-	revision: "12"
+	date: "2020-11-14 9:45:41 GMT (Saturday 14th November 2020)"
+	revision: "13"
 
 deferred class
 	EL_MODULE_LIO
@@ -39,7 +39,7 @@ feature {NONE} -- Access
 	Sio, Silent_io: EL_SILENT_LOG
 		-- do nothing log
 		once
-			create Result
+			create Result.make
 		end
 
 feature {NONE} -- Status query
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 	new_lio: EL_LOGGABLE
 		do
 			if Base_option.silent then
-				create {EL_SILENT_LOG} Result
+				create {EL_SILENT_LOG} Result.make
 			else
 				create {EL_CONSOLE_ONLY_LOG} Result.make
 			end

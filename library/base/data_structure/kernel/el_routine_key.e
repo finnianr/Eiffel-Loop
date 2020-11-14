@@ -1,13 +1,13 @@
 note
-	description: "Hashable class routine key"
+	description: "Hashable class routine key based on name and class type"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 18:09:53 GMT (Wednesday 11th November 2020)"
-	revision: "2"
+	date: "2020-11-13 13:41:37 GMT (Friday 13th November 2020)"
+	revision: "3"
 
 class
 	EL_ROUTINE_KEY

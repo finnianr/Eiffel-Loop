@@ -10,14 +10,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 11:25:41 GMT (Monday 9th November 2020)"
-	revision: "15"
+	date: "2020-11-14 9:45:06 GMT (Saturday 14th November 2020)"
+	revision: "16"
 
 class
 	EL_CONSOLE_ONLY_LOG
 
 inherit
 	EL_LOGGABLE
+		rename
+			make_default as make
+		redefine
+			make
+		end
 
 	EL_MODULE_CONSOLE
 
@@ -28,6 +33,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			Precursor
 			create {EL_CONSOLE_ROUTINE_LOG} log_sink.make (new_output)
 		end
 

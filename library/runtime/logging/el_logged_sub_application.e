@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 10:09:40 GMT (Wednesday 11th November 2020)"
-	revision: "16"
+	date: "2020-11-13 13:47:45 GMT (Friday 13th November 2020)"
+	revision: "17"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 
 			create global_logging.make (is_logging_active)
 			if global_logging.is_active then
-				global_logging.set_routines_to_log (Log_filter_list_table.item (Current))
+				global_logging.set_loggable_routines (Log_filter_list_table.item (Current))
 			else
 				if manager.is_console_manager_active then
 					lio.put_string ("Thread logging disabled")

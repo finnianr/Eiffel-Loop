@@ -1,13 +1,13 @@
 note
-	description: "Logged routine"
+	description: "Logged routine type and name information"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-12 15:32:51 GMT (Thursday 12th November 2020)"
-	revision: "9"
+	date: "2020-11-13 13:40:45 GMT (Friday 13th November 2020)"
+	revision: "10"
 
 class
 	EL_LOGGED_ROUTINE

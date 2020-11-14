@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-12 15:49:51 GMT (Thursday 12th November 2020)"
-	revision: "15"
+	date: "2020-11-14 9:21:08 GMT (Saturday 14th November 2020)"
+	revision: "16"
 
 class
 	EL_GLOBAL_LOGGING
@@ -36,9 +36,7 @@ feature {NONE} -- Initialization
 		do
 			make_solitary; make_default
 
-			create filter_access.make
-
-			create routine_table.make (100)
+			create routine_table.make (30)
 			create type_table.make (50, agent Eiffel.type_of_type)
 			create filter_table.make (30)
 			create reusable_key.make_empty
@@ -73,15 +71,22 @@ feature -- Element change
 			end_restriction
 		end
 
-	set_routines_to_log (log_filters: LIST [EL_LOG_FILTER])
-			-- Set class routines to log for all threads
-
-			-- Each array item is list of routines to log headed by the class name.
-			-- Use '*' as a wildcard to log all routines for a class
-			-- Disable logging for individual routines by prepending '-'
+	set_loggable_routines (filter_list: LIST [EL_LOG_FILTER])
+			-- set `filter_table' contents to filter which routines are loggable
+		local
+			filter: EL_LOG_FILTER
 		do
 			restrict_access
-			log_filters.do_all (agent set_routine_filter_for_class)
+				filter_table.wipe_out
+				across filter_list as list loop
+					filter := list.item
+					inspect filter.type
+						when Show_all, Show_selected then
+							type_table.extend (filter.class_type, filter.class_type.type_id)
+							filter_table.put (filter, filter.class_type.type_id)
+					else
+					end
+				end
 			end_restriction
 		end
 
@@ -115,20 +120,7 @@ feature -- Status query
 			end_restriction
 		end
 
-feature {NONE} -- Implementation
-
-	set_routine_filter_for_class (a_filter: EL_LOG_FILTER)
-		do
-			inspect a_filter.type
-				when Show_all, Show_selected then
-					filter_table.put (a_filter, a_filter.class_type.type_id)
-			else
-			end
-		end
-
 feature {NONE} -- Internal attributes
-
-	filter_access: MUTEX
 
 	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE, EL_LOGGED_ROUTINE]
 
@@ -136,7 +128,6 @@ feature {NONE} -- Internal attributes
 		-- reusable key
 
 	type_table: EL_CACHE_TABLE [TYPE [ANY], INTEGER]
-		-- look up from type_id
 
 	filter_table: HASH_TABLE [EL_LOG_FILTER, INTEGER]
 		-- class filter by type_id

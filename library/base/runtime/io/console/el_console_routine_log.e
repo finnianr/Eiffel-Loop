@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-11-14 9:44:44 GMT (Saturday 14th November 2020)"
+	revision: "6"
 
 class
 	EL_CONSOLE_ROUTINE_LOG
@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 
 	make (a_output: like output)
 		do
+			make_default
 			output := a_output
 		end
 

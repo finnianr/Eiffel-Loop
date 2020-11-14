@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-12 15:24:46 GMT (Thursday 12th November 2020)"
-	revision: "16"
+	date: "2020-11-14 9:44:19 GMT (Saturday 14th November 2020)"
+	revision: "17"
 
 deferred class
 	EL_LOGGABLE
@@ -16,6 +16,13 @@ inherit
 	ANY
 
 	EL_SHARED_CONSOLE_COLORS
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			routine_call_stack := Empty_routine_call_stack
+		end
 
 feature -- Status
 
@@ -58,20 +65,10 @@ feature -- Query
 			-- For use in routines that did not call enter to
 			-- push routine on to call stack
 		do
-			Result := traced_routine_call_stack.count
+			Result := routine_call_stack.count
 		end
 
 feature -- Status change
-
-	tab_left
-			--
-		deferred
-		end
-
-	tab_right
-			--
-		deferred
-		end
 
 	set_text_color (code: INTEGER)
 		require
@@ -82,6 +79,16 @@ feature -- Status change
 	set_text_color_light (code: INTEGER)
 		require
 			valid_code: valid_colors.has (code)
+		deferred
+		end
+
+	tab_left
+			--
+		deferred
+		end
+
+	tab_right
+			--
 		deferred
 		end
 
@@ -154,16 +161,6 @@ feature -- Output
 		deferred
 		end
 
-	put_natural (n: NATURAL)
-			--
-		deferred
-		end
-
-	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
-			--
-		deferred
-		end
-
 	put_labeled_lines (label: READABLE_STRING_GENERAL; lines: ITERABLE [READABLE_STRING_GENERAL])
 			--
 		deferred
@@ -180,6 +177,16 @@ feature -- Output
 
 	put_line (l: READABLE_STRING_GENERAL)
 			-- put string with new line
+		deferred
+		end
+
+	put_natural (n: NATURAL)
+			--
+		deferred
+		end
+
+	put_natural_field (label: READABLE_STRING_GENERAL; field_value: NATURAL)
+			--
 		deferred
 		end
 
@@ -239,19 +246,17 @@ feature {NONE} -- Implementation
 	current_routine: EL_LOGGED_ROUTINE
 			--
 		require
-			valid_logged_routine_call_stack: not traced_routine_call_stack.is_empty
+			valid_logged_routine_call_stack: not routine_call_stack.is_empty
 		do
-			Result := traced_routine_call_stack.item
+			Result := routine_call_stack.item
 		end
 
-	traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
-		do
-			Result := Default_traced_routine_call_stack
-		end
+	routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
+		-- traced routine call stack
 
 feature {NONE} -- Constants
 
-	Default_traced_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
+	Empty_routine_call_stack: ARRAYED_STACK [EL_LOGGED_ROUTINE]
 		once
 			create Result.make (0)
 		end

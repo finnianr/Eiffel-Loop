@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 11:26:00 GMT (Monday 9th November 2020)"
-	revision: "12"
+	date: "2020-11-14 9:45:29 GMT (Saturday 14th November 2020)"
+	revision: "13"
 
 class
 	EL_SILENT_LOG
 
 inherit
 	EL_LOGGABLE
+		rename
+			make_default as make
+		end
+
+create
+	make
 
 feature -- Status
 
