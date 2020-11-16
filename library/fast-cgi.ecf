@@ -25,7 +25,7 @@ for creating single and multi-threaded HTTP servlet services.
 		<library name = "EL_net_base" location = "network.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf" readonly = "false"/>
+		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
 		<!--Source code-->
 		<cluster name = "protocol" location = "network/fast-cgi" recursive = "true">
 			<description>
@@ -57,7 +57,7 @@ Ver. 1.2.101
 		</cluster>
 		<cluster name = "service" location = "network/fcgi-service" recursive = "true">
 			<description>
-HTTP Services
+HTTP Servlet Services
 
 Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html Fast-CGI API]
 including:

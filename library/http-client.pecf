@@ -71,7 +71,7 @@ system:
 			name = EL_thread; location = "thread.ecf"
 
 		library:
-			name = EL_vtd_xml; location = "vtd-xml.ecf"; readonly = false
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		# Source code
 		cluster:

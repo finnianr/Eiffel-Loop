@@ -58,7 +58,7 @@ system:
 			name = EL_thread; location = "thread.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"; readonly = false
+			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		# Source code
 		cluster:
@@ -96,7 +96,7 @@ system:
 			name = service; location = "network/fcgi-service"; recursive = true
 			description:
 				"""
-					HTTP Services
+					HTTP Servlet Services
 
 					Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html Fast-CGI API]
 					including:
