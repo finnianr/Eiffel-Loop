@@ -40,6 +40,9 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
+			name = EL_evolicity; location = "evolicity.ecf"
+
+		library:
 			name = EL_logging; location = "logging.ecf"
 
 		library:
@@ -65,11 +68,15 @@ system:
 					Fast CGI Protocol
 					
 					This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast CGI protocol]
-					has been tested in production with the Cherokee webserver. The API allows you to create Fast-CGI
-					services that to services HTTP requests forwarded by a web server from a table of servlets.
-					
+					allows you to create Fast-CGI services that service HTTP requests forwarded by a web server via
+					a local network socket.
+
+					Each service implements a table of servlets to service particular requests. 					
 					The service is configured from a Pyxis format configuration file and listens either on a port number
 					or a Unix socket for request from the web server.
+					
+					This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server]
+					Ver. 1.2.101
 				"""
 			file_rule:
 				exclude:

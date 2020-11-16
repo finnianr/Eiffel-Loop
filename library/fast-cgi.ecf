@@ -19,6 +19,7 @@ for creating single and multi-threaded HTTP servlet services.
 		<library name = "time" location = "$ISE_EIFFEL/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
@@ -31,11 +32,15 @@ for creating single and multi-threaded HTTP servlet services.
 Fast CGI Protocol
 
 This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast CGI protocol]
-has been tested in production with the Cherokee webserver. The API allows you to create Fast-CGI
-services that to services HTTP requests forwarded by a web server from a table of servlets.
+allows you to create Fast-CGI services that service HTTP requests forwarded by a web server via
+a local network socket.
 
+Each service implements a table of servlets to service particular requests.
 The service is configured from a Pyxis format configuration file and listens either on a port number
 or a Unix socket for request from the web server.
+
+This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server]
+Ver. 1.2.101
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
