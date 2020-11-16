@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 11:15:04 GMT (Wednesday 11th November 2020)"
-	revision: "60"
+	date: "2020-11-14 10:19:16 GMT (Saturday 14th November 2020)"
+	revision: "61"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("string.check_if_type_name_unique")
-			string.check_if_type_name_unique
+			lio.enter ("general.once_same_for_classes")
+			general.once_same_for_classes
 			lio.exit
 		end
 

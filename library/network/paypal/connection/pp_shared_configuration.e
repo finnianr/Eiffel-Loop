@@ -1,13 +1,13 @@
 note
-	description: "Pp shared configuration"
+	description: "Paypal shared configuration"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 17:41:34 GMT (Friday 4th October 2019)"
-	revision: "3"
+	date: "2020-11-15 12:00:33 GMT (Sunday 15th November 2020)"
+	revision: "4"
 
 deferred class
 	PP_SHARED_CONFIGURATION

@@ -1,13 +1,13 @@
 note
-	description: "Cached geopgraphic lookup of ip number"
+	description: "Cached geographic lookup of IP number"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-06 7:44:03 GMT (Tuesday 6th August 2019)"
-	revision: "4"
+	date: "2020-11-16 10:00:32 GMT (Monday 16th November 2020)"
+	revision: "5"
 
 class
 	EL_GEOGRAPHICAL_ROUTINES

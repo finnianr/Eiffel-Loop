@@ -98,7 +98,8 @@ publish-repository:
 			"library/ftp.ecf"
 			"library/paypal-SBM.ecf"
 			"library/http-client.ecf"
-			"library/fast-cgi.ecf"
+			"library/fast-cgi.ecf#protocol"
+			"library/fast-cgi.ecf#service"
 
 		# Library (Override)
 		ecf:

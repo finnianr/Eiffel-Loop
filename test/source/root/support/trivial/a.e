@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 10:23:13 GMT (Wednesday 29th January 2020)"
-	revision: "6"
+	date: "2020-11-14 10:17:56 GMT (Saturday 14th November 2020)"
+	revision: "7"
 
 class
 	A
@@ -35,6 +35,11 @@ feature -- Access
 	character: CHARACTER
 		do
 			Result := Internal_character
+		end
+
+	once_xxx: STRING
+		once
+			Result := "xxx"
 		end
 
 feature {NONE} -- Constants

@@ -553,8 +553,16 @@ Classes providing
 An Eiffel interface to the [https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API].
 ## HTTP Client Services
 Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
-## Fast CGI Servlets
-An implementation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast-CGI protocol] for creating single and multi-threaded HTTP servlet services.
+## Fast CGI Protocol
+This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast CGI protocol] has been tested in production with the Cherokee webserver. The API allows you to create Fast-CGI services that to services HTTP requests forwarded by a web server from a table of servlets.
+
+The service is configured from a Pyxis format configuration file and listens either on a port number or a Unix socket for request from the web server.
+## Basic HTTP Services
+Some basic HTTP services implemented using the Fast-CGI API including:
+
+
+* IP address echo
+* Anti-hacking servlet that can used to block IP addresses of malicious attacks
 ## Override of EiffelVision2
 Override of Eiffel Software's EiffelVision2 for use with [./library/vision2-x.html Eiffel-Loop Vision2 extensions]
 ## Override of Eiffel2Java

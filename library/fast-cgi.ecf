@@ -20,12 +20,23 @@ for creating single and multi-threaded HTTP servlet services.
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
+		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf" readonly = "false"/>
 		<!--Source code-->
-		<cluster name = "fast_cgi" location = "network/fast-cgi" recursive = "true">
+		<cluster name = "protocol" location = "network/fast-cgi" recursive = "true">
+			<description>
+Fast CGI Protocol
+
+This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast CGI protocol]
+has been tested in production with the Cherokee webserver. The API allows you to create Fast-CGI
+services that to services HTTP requests forwarded by a web server from a table of servlets.
+
+The service is configured from a Pyxis format configuration file and listens either on a port number
+or a Unix socket for request from the web server.
+			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>
 				<condition>
@@ -38,6 +49,17 @@ for creating single and multi-threaded HTTP servlet services.
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
+		</cluster>
+		<cluster name = "service" location = "network/fcgi-service" recursive = "true">
+			<description>
+HTTP Services
+
+Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html Fast-CGI API]
+including:
+
+* IP address echo
+* Anti-hacking service that can used to block IP addresses of malicious attack sources.
+			</description>
 		</cluster>
 	</target>
 </system>

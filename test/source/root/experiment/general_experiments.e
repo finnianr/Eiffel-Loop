@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-09 14:51:27 GMT (Monday 9th March 2020)"
-	revision: "11"
+	date: "2020-11-14 10:18:56 GMT (Saturday 14th November 2020)"
+	revision: "12"
 
 class
 	GENERAL_EXPERIMENTS
@@ -153,6 +153,17 @@ feature -- Basic operations
 			lio.put_string ("a.character: " + a.character.out)
 			lio.put_string (" b.character: " + b.character.out)
 			lio.put_new_line
+		end
+
+	once_same_for_classes
+		local
+			a: A; b: B
+		do
+			create a.make; create b.make
+			lio.put_line (a.once_xxx + b.once_xxx)
+			if a.once_xxx = b.once_xxx then
+				lio.put_line ("same object")
+			end
 		end
 
 	pointer_width
