@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 9:25:55 GMT (Monday 16th November 2020)"
-	revision: "13"
+	date: "2020-11-17 13:36:10 GMT (Tuesday 17th November 2020)"
+	revision: "14"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -20,6 +20,8 @@ inherit
 	EL_SHARED_HTTP_STATUS
 
 	EL_SHARED_DOCUMENT_TYPES
+
+	FCGI_SHARED_HEADER
 
 feature {NONE} -- Initialization
 
@@ -65,12 +67,12 @@ feature -- Basic operations
 			response := new_response (broker); request := new_request (response)
 			serve (request, response)
 			if is_caching_disabled then
-				response.set_header (once "Cache-Control", once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
-				response.set_header (once "Pragma", once "no-cache"); -- HTTP 1.0.
-				response.set_header (once "Expires", once "0"); -- Proxies.
+				response.set_header (Header.cache_control, once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
+				response.set_header (Header.pragma, once "no-cache"); -- HTTP 1.0.
+				response.set_header (Header.expires, once "0"); -- Proxies.
 
 			elseif last_modified /= Default_date then
-				response.set_header (once "Last-Modified", formatted_date (last_modified))
+				response.set_header (Header.last_modified, formatted_date (last_modified))
 			end
 			response.send
 

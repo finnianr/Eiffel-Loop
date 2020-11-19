@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:58:50 GMT (Thursday 7th May 2020)"
-	revision: "15"
+	date: "2020-11-19 14:43:41 GMT (Thursday 19th November 2020)"
+	revision: "16"
 
 class
 	FCGI_SERVLET_RESPONSE
 
 inherit
+	SINGLE_MATH
+
 	EL_SHARED_DOCUMENT_TYPES
 
 	EL_SHARED_HTTP_STATUS
@@ -21,7 +23,9 @@ inherit
 
 	EL_SHARED_UTF_8_ZCODEC
 
-	SINGLE_MATH
+	EL_SHARED_ONCE_STRING_8
+
+	FCGI_SHARED_HEADER
 
 create
 	make
@@ -35,7 +39,7 @@ feature {NONE}-- Initialization
 			-- to be sent immediately.
 		do
 			broker := a_broker
-			create cookies.make (5)
+			create cookie_list.make (5)
 			create header_list.make (5)
 			content := Empty_string_8
 			content_type := Doc_type_plain_latin_1
@@ -95,17 +99,32 @@ feature -- Basic operations
 
 	send
 		-- send response headers and content
+		local
+			list: like header_list; buffer: STRING
 		do
 			if not is_sent then
 				set_default_headers
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				if is_head_request then
-					write (sorted_headers)
-				else
-					write (sorted_headers + content)
+				if write_ok then
+					buffer := empty_once_string_8
+					list := header_list
+					list.sort (True)
+					from list.start until list.after loop
+						buffer.append (list.item.key); buffer.append (once ": ")
+						buffer.append (list.item.value)
+						buffer.append (Carriage_return_new_line)
+						list.forth
+					end
+					buffer.append (Carriage_return_new_line) -- This is required even for HEAD requests
+
+					if not is_head_request then
+						buffer.append (content)
+					end
+					broker.write_stdout (buffer)
 				end
+				write_ok := broker.write_ok
 				is_sent := True
 			end
 		end
@@ -140,7 +159,7 @@ feature -- Element change
 			-- and headers.
 		do
 			content.wipe_out
-			cookies.wipe_out
+			cookie_list.wipe_out
 			header_list.wipe_out
 			content_type := Doc_type_plain_latin_1
 			set_status (Http_status.ok)
@@ -154,12 +173,14 @@ feature -- Element change
 
 	send_cookie (name, value: STRING)
 		do
-			cookies.extend (create {EL_HTTP_COOKIE}.make (name, value))
+			cookie_list.extend (create {EL_HTTP_COOKIE}.make (name, value))
 		end
 
-	send_cookies (list: FINITE [EL_HTTP_COOKIE])
+	send_cookies (a_cookie_list: ITERABLE [EL_HTTP_COOKIE])
 		do
-			list.linear_representation.do_all (agent cookies.extend)
+			across a_cookie_list as cookie loop
+				cookie_list.extend (cookie.item)
+			end
 		end
 
 	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
@@ -241,47 +262,23 @@ feature {NONE} -- Implementation
 			-- for each new cookie.
 			-- Also add cookie caching directive headers.
 		do
-			if not cookies.is_empty then
-				across cookies as cookie loop
-					add_header (once "Set-Cookie", cookie.item.header_string)
+			if not cookie_list.is_empty then
+				across cookie_list as cookie loop
+					add_header (Header.set_cookie, cookie.item.header_string)
 				end
 				-- add cache control headers for cookie management
-				add_header (once "Cache-control", once "no-cache=%"Set-Cookie%"")
-				set_header (once "Expires", Expired_date)
+				add_header (Header.cache_control, once "no-cache=%"Set-Cookie%"")
+				set_header (Header.expires, Expired_date)
 			end
 		end
 
 	set_default_headers
 			-- Set default headers for all responses including the Server and Date headers.	
 		do
-			set_header (once "Server", once "Eiffel-Loop FCGI servlet")
-			set_header (once "Status", status_message)
-			set_header (once "Content-Length", content_length.out)
-			set_header (once "Content-Type", content_type.specification)
-		end
-
-	sorted_headers: EL_STRING_8_LIST
-			-- sorted and formatted response headers
-		local
-			header: like header_list
-		do
-			header := header_list
-			header.sort (True)
-			create Result.make (header.count * 4 + 1)
-			from header.start until header.after loop
-				Result := Result + header.item.key + once ": " + header.item.value + Carriage_return_new_line
-				header.forth
-			end
-			Result.extend (Carriage_return_new_line) -- This is required even for HEAD requests
-		end
-
-	write (list: EL_STRING_8_LIST)
-			-- Write 'data' to the output stream for this response
-		do
-			if write_ok then
-				broker.write_stdout (list.joined_strings)
-			end
-			write_ok := broker.write_ok
+			set_header (Header.server, once "Eiffel-Loop FCGI servlet")
+			set_header (Header.status, status_message)
+			set_header (Header.content_length, content_length.out)
+			set_header (Header.content_type, content_type.specification)
 		end
 
 feature {FCGI_SERVLET_REQUEST} -- Internal attributes
@@ -293,8 +290,8 @@ feature {FCGI_SERVLET_REQUEST} -- Internal attributes
 
 feature {NONE} -- Internal attributes
 
-	cookies: ARRAYED_LIST [EL_HTTP_COOKIE]
-		-- The cookies that will be sent with this response.
+	cookie_list: ARRAYED_LIST [EL_HTTP_COOKIE]
+		-- The cookie_list that will be sent with this response.
 
 	header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, STRING]
 

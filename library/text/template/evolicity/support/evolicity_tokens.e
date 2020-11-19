@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-11-18 17:27:36 GMT (Wednesday 18th November 2020)"
+	revision: "5"
 
 class
 	EVOLICITY_TOKENS
@@ -184,4 +184,4 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-end -- class EVOLICITY_TOKENS
+end

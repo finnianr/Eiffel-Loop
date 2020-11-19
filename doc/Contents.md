@@ -559,7 +559,7 @@ This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html 
 Each service implements a table of servlets to service particular requests. The service is configured from a Pyxis format configuration file and listens either on a port number or a Unix socket for request from the web server.
 
 This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server] Ver. 1.2.101
-## HTTP Services
+## HTTP Servlet Services
 Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html Fast-CGI API] including:
 
 
@@ -1235,6 +1235,10 @@ A "Swiss-army knife" of Eiffel development utilities invokeable by a command-lin
 
 **Sub-applications**
 
+`-class_descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
+
+Useful external tool for EiffelStudio to output class descendants for selected class as a text file.
+
 `-eiffel_view`: [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html)
 
 A sub-application to publish source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
@@ -1269,6 +1273,10 @@ Normalize class filenames as lowercase classnames within a source directory
 `normalize_imp_location` [IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html)
 
 Normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+
+`-winzip_exe_builder`: [WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html)
+
+Build a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
 
 **Download**
 

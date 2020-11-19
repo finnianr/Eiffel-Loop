@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-14 10:19:16 GMT (Saturday 14th November 2020)"
-	revision: "61"
+	date: "2020-11-18 16:20:38 GMT (Wednesday 18th November 2020)"
+	revision: "62"
 
 class
 	EXPERIMENTS_APP
 
 inherit
-	EL_SUB_APPLICATION
+	EL_LOGGED_SUB_APPLICATION
 
 create
 	make
@@ -28,9 +28,9 @@ feature -- Basic operations
 
 	run
 		do
-			lio.enter ("general.once_same_for_classes")
-			general.once_same_for_classes
-			lio.exit
+			log.enter ("string.substring_beyond_bounds")
+			string.substring_beyond_bounds
+			log.exit
 		end
 
 feature {NONE} -- Experiments
@@ -75,14 +75,21 @@ feature {NONE} -- Experiments
 			create Result
 		end
 
+	tuple: TUPLE_EXPERIMENTS
+		do
+			create Result
+		end
+
 	type: TYPE_EXPERIMENTS
 		do
 			create Result
 		end
 
-	tuple: TUPLE_EXPERIMENTS
+feature {NONE} -- Implementation
+
+	log_filter_set: EL_LOG_FILTER_SET [like Current]
 		do
-			create Result
+			create Result.make
 		end
 
 feature {NONE} -- Constants

@@ -1,13 +1,14 @@
 note
-	description: "Traffic analysis command"
+	description: "Object to analyse web-server log geographically according to configuration"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:14:16 GMT (Monday 16th November 2020)"
-	revision: "4"
+	date: "2020-11-16 14:32:14 GMT (Monday 16th November 2020)"
+	revision: "5"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -157,5 +158,38 @@ feature {NONE} -- Constants
 		once
 			Result := "* %S *"
 		end
+
+note
+	notes: "[
+		**Example Configuration**
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			traffic_analysis_config:
+				page_list:
+					item:
+						"/en/download/latest-version.html"
+						"/en/purchase/purchase-a-subscription.html"
+					item:
+						"/download/install_my_ching.sh"
+						"/download/MyChing-en-win32"
+						"/download/MyChing-en-win64"
+
+				crawler_substrings:
+					item:
+						"archiver"
+						"bot"
+						"crawl"
+						"dataprovider"
+						"facebookexternalhit"
+						"go-http-client"
+						"ips-agent"
+						"libwww"
+						"researchscan"
+						"spider"
+						"netcraftsurveyagent"
+						"python"
+						"qwantify"
+	]"
 
 end

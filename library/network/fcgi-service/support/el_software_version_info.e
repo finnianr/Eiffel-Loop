@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 10:52:16 GMT (Monday 16th November 2020)"
-	revision: "2"
+	date: "2020-11-19 13:47:38 GMT (Thursday 19th November 2020)"
+	revision: "3"
 
 class
 	EL_SOFTWARE_VERSION_INFO
@@ -20,9 +20,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (download_dir: EL_DIR_PATH)
+	make (a_software_version: EL_CURRENT_SOFTWARE_VERSION)
 		do
-			create software_version.make (download_dir)
+			software_version := a_software_version
 			make_default
 		end
 
@@ -32,15 +32,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity
 
-	get_compact_version: NATURAL_32_REF
-		do
-			Result := software_version.compact_version.to_reference
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<  ["version",	agent get_compact_version] >>)
+			create Result.make (<<
+				["version",	agent: NATURAL_32_REF do Result := software_version.compact_version_ref end]
+			>>)
 		end
 
 	Template: STRING

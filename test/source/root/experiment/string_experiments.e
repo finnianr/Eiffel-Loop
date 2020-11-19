@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 11:14:38 GMT (Wednesday 11th November 2020)"
-	revision: "6"
+	date: "2020-11-18 16:18:49 GMT (Wednesday 18th November 2020)"
+	revision: "7"
 
 class
 	STRING_EXPERIMENTS
@@ -152,6 +152,15 @@ feature -- Basic operations
 			str := ""
 			lio.put_string ("str.is_integer: ")
 			lio.put_boolean (str.is_integer)
+		end
+
+	substring_beyond_bounds
+		local
+			name: STRING
+		do
+			name := "Muller"
+			lio.put_string_field ("name", name.substring (1, name.count + 1))
+			lio.put_new_line
 		end
 
 	substitute_template_with_string_8

@@ -1,5 +1,9 @@
 **Sub-applications**
 
+`-class_descendants': [$source CLASS_DESCENDANTS_APP]
+
+Useful external tool for EiffelStudio to output class descendants for selected class as a text file.
+
 `-eiffel_view': [$source EIFFEL_VIEW_APP]
 
 A sub-application to publish source code and descriptions of Eiffel projects
@@ -36,6 +40,10 @@ Normalize class filenames as lowercase classnames within a source directory
 
 Normalizes location of implementation classes in relation to respective interfaces
 for all projects listed in publisher configuration.
+
+`-winzip_exe_builder': [$source WINZIP_SOFTWARE_PACKAGE_BUILDER_APP]
+
+Build a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
 
 **Download**
 

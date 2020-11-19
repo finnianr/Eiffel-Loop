@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 11:23:38 GMT (Monday 16th November 2020)"
-	revision: "3"
+	date: "2020-11-19 13:46:30 GMT (Thursday 19th November 2020)"
+	revision: "4"
 
 class
 	EL_CURRENT_SOFTWARE_VERSION
@@ -39,6 +39,11 @@ feature -- Access
 				update
 			end
 			Result := actual_compact_version
+		end
+
+	compact_version_ref: NATURAL_32_REF
+		do
+			Result := compact_version.to_reference
 		end
 
 feature -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 11:24:12 GMT (Monday 16th November 2020)"
-	revision: "1"
+	date: "2020-11-19 13:43:28 GMT (Thursday 19th November 2020)"
+	revision: "2"
 
 class
 	EL_SOFTWARE_VERSION_INFO_SERVLET
@@ -23,10 +23,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_servlet_config: like servlet_config; download_dir: EL_DIR_PATH)
+	make (a_servlet_config: like servlet_config; software_version: EL_CURRENT_SOFTWARE_VERSION)
 		do
 			make_servlet (a_servlet_config)
-			create version_info.make (download_dir)
+			create version_info.make (software_version)
 		end
 
 feature {NONE} -- Implementation

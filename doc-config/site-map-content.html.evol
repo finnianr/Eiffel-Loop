@@ -15,8 +15,8 @@
 </p>
 <p><b>Website</b></p>
 <p>
-	The <i>Eiffel-Loop</i> website is published using the <a target="_blank" href="./tool/eiffel/source/apps/repository/repository_publisher_app.html">Eiffel-View repository publisher</a> tool found in the
-		<a href="tool/eiffel/eiffel.html" target="_blank">Eiffel Development Utility</a> project.
+	The <i>Eiffel-Loop</i> website is published using the <a target="_blank" href="./tool/eiffel/source/root/apps/eiffel_view_app.html">Eiffel-View repository publisher</a> tool found in the
+		<a href="./tool/eiffel/eiffel.root.html" target="_blank">Eiffel Development Utility</a> project.
 </p>
 
 <h2>The Developer</h2>
