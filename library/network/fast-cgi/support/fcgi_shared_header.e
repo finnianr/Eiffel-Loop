@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-17 13:48:16 GMT (Tuesday 17th November 2020)"
-	revision: "1"
+	date: "2020-11-20 15:43:55 GMT (Friday 20th November 2020)"
+	revision: "2"
 
 deferred class
 	FCGI_SHARED_HEADER
@@ -17,14 +17,9 @@ inherit
 
 feature {NONE} -- Constants
 
-	Header: TUPLE [
-		cache_control, content_length, content_type, expires, last_modified, pragma, set_cookie, server, status: STRING
-	]
+	Header: FCGI_HEADER_ENUMERATION
 		once
-			create Result
-			Tuple.fill (Result,
-				"Cache-control, Content-Length, Content-Type, Expires, Last-Modified, Pragma, Set-Cookie, Server, Status"
-			)
+			create Result.make
 		end
 
 end

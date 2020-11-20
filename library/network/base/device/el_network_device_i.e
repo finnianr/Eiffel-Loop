@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 10:11:44 GMT (Thursday 6th August 2020)"
-	revision: "2"
+	date: "2020-11-20 11:00:10 GMT (Friday 20th November 2020)"
+	revision: "3"
 
 deferred class
 	EL_NETWORK_DEVICE_I
@@ -46,7 +46,7 @@ feature -- Access
 
 	type_name: STRING
 		do
-			Result := Network_device_type.field_name (type_enum_id)
+			Result := Network_device_type.name (type_enum_id)
 		end
 
 feature -- Status change

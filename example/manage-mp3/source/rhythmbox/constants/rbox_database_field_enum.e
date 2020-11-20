@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-18 10:44:54 GMT (Monday 18th May 2020)"
-	revision: "4"
+	date: "2020-11-20 11:19:35 GMT (Friday 20th November 2020)"
+	revision: "5"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -323,7 +323,7 @@ feature {NONE} -- Implementation
 
 	new_element (field_code: NATURAL_16): EL_XML_TEXT_ELEMENT
 		do
-			create Result.make_empty (Name (field_code))
+			create Result.make_empty (name (field_code))
 		end
 
 feature {NONE} -- Internal attributes

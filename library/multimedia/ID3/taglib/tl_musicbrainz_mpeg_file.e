@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 13:43:24 GMT (Monday 30th March 2020)"
-	revision: "5"
+	date: "2020-11-20 13:24:23 GMT (Friday 20th November 2020)"
+	revision: "6"
 
 class
 	TL_MUSICBRAINZ_MPEG_FILE
@@ -103,7 +103,7 @@ feature -- Removal
 
 	remove_mb_field (enum: NATURAL_8)
 		do
-			tag.remove_user_text (Musicbrainz.name_exported (enum, False))
+			tag.remove_user_text (Musicbrainz.name (enum))
 			tag.remove_user_text (Musicbrainz.identifier (enum))
 		end
 
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 
 	mb_field (enum: NATURAL_8): ZSTRING
 		do
-			Result := tag.user_text (Musicbrainz.name_exported (enum, False))
+			Result := tag.user_text (Musicbrainz.name (enum))
 			if Result.is_empty then
 				Result := tag.user_text (Musicbrainz.identifier (enum))
 			end
@@ -120,7 +120,7 @@ feature {NONE} -- Implementation
 	set_mb_field (enum: NATURAL_8; text: READABLE_STRING_GENERAL)
 		-- set double fields
 		do
-			across << Musicbrainz.name_exported (enum, False), Musicbrainz.identifier (enum) >> as id loop
+			across << Musicbrainz.name (enum), Musicbrainz.identifier (enum) >> as id loop
 				if text.is_empty then
 					tag.remove_user_text (id.item)
 				else

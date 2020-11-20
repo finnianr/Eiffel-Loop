@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-19 14:43:41 GMT (Thursday 19th November 2020)"
-	revision: "16"
+	date: "2020-11-20 16:05:09 GMT (Friday 20th November 2020)"
+	revision: "17"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -18,8 +18,6 @@ inherit
 	EL_SHARED_DOCUMENT_TYPES
 
 	EL_SHARED_HTTP_STATUS
-
-	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_UTF_8_ZCODEC
 
@@ -41,7 +39,7 @@ feature {NONE}-- Initialization
 			broker := a_broker
 			create cookie_list.make (5)
 			create header_list.make (5)
-			content := Empty_string_8
+			create content.make_empty
 			content_type := Doc_type_plain_latin_1
 			set_status (Http_status.ok)
 			write_ok := True
@@ -112,7 +110,7 @@ feature -- Basic operations
 					list := header_list
 					list.sort (True)
 					from list.start until list.after loop
-						buffer.append (list.item.key); buffer.append (once ": ")
+						buffer.append (Header.name (list.item.key)); buffer.append (once ": ")
 						buffer.append (list.item.value)
 						buffer.append (Carriage_return_new_line)
 						list.forth
@@ -225,17 +223,17 @@ feature -- Element change
 			content_type := type; content := a_utf_8
 		end
 
-	set_header (name, value: STRING)
+	set_header (header_enum: NATURAL_8; value: STRING)
 			-- Set a response header with the given name and value. If the
 			-- header already exists, the new value overwrites the previous
 			-- one.
 		do
 			header_list.start
-			header_list.key_search (name)
+			header_list.key_search (header_enum)
 			if header_list.found then
-				header_list.replace (name, value)
+				header_list.replace (header_enum, value)
 			else
-				header_list.extend (name, value)
+				header_list.extend (header_enum, value)
 			end
 		end
 
@@ -250,11 +248,11 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	add_header (name, value: STRING)
-			-- Adds a response header with the given name and value. This
+	add_header (header_enum: NATURAL_8; value: STRING)
+			-- Adds a response header with the given `header_enum' and value. This
 			-- method allows response headers to have multiple values.
 		do
-			header_list.extend (name, value)
+			header_list.extend (header_enum, value)
 		end
 
 	set_cookie_headers
@@ -293,7 +291,8 @@ feature {NONE} -- Internal attributes
 	cookie_list: ARRAYED_LIST [EL_HTTP_COOKIE]
 		-- The cookie_list that will be sent with this response.
 
-	header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [STRING, STRING]
+	header_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [NATURAL_8, STRING]
+		-- list of mappings: header enumeration code -> value
 
 feature {NONE} -- Constants
 

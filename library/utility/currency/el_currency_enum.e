@@ -1,13 +1,18 @@
 note
 	description: "Currency code names"
+	notes: "[
+		**Problem to Solve**
+		
+		How to add ISK (Icelandic Krona) without changing exists values
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:28:28 GMT (Tuesday 28th April 2020)"
-	revision: "5"
+	date: "2020-11-20 16:01:06 GMT (Friday 20th November 2020)"
+	revision: "6"
 
 class
 	EL_CURRENCY_ENUM

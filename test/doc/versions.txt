@@ -1,3 +1,6 @@
+1.2.14
+Added {EL_ENUMERATION}.new_field_name_by_value and inherit EL_LAZY_ATTRIBUTE
+
 1.2.13
 * New class EL_LOG_FILTER_LIST
 

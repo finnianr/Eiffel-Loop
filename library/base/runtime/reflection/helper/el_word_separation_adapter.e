@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 12:49:53 GMT (Wednesday 5th August 2020)"
-	revision: "7"
+	date: "2020-11-20 13:34:49 GMT (Friday 20th November 2020)"
+	revision: "8"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -146,7 +146,7 @@ feature {NONE} -- Implementation
 
 	export_to_title (name_in, title_out: STRING)
 		do
-			Naming.to_title (name_in, title_out)
+			Naming.to_title (name_in, title_out, ' ')
 		end
 
 	import_from_camel_case_upper (name_in, a_name_out: STRING)

@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:08:35 GMT (Wednesday 27th May 2020)"
-	revision: "29"
+	date: "2020-11-20 15:28:59 GMT (Friday 20th November 2020)"
+	revision: "30"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -43,6 +43,14 @@ inherit
 			{NONE} all
 		redefine
 			make, initialize_fields
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as field_name_by_value,
+			new_item as new_field_name_by_value
+		undefine
+			is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -62,36 +70,35 @@ feature {NONE} -- Initialization
 			field_type_id := ({N}).type_id.to_character_32
 			Precursor
 			create name_by_value.make (field_table.count)
-			create value_by_name.make_equal (field_table.count)
-			across
-				field_table as field
-			loop
-				extend_field_tables (field.key, field.item)
+			across field_table as field loop
+				if attached {N} field.item.value (Current) as enum_value then
+					name_by_value.put (export_name (field.key, True), enum_value)
+					check
+						no_conflict: not name_by_value.conflict
+					end
+					count := count + 1
+				end
 			end
 		ensure then
-			no_duplicate_values: not has_duplicate_value
+			all_values_unique: all_values_unique
 		end
 
 feature -- Measurement
 
 	count: INTEGER
-		do
-			Result := value_by_name.count
-		end
 
 feature -- Access
 
 	field_name (a_value: N): STRING
-		-- unexported field name (with underscores)
-		local
-			table: like name_by_value
+		-- unexported field name with underscores
 		do
-			table := name_by_value
-			if table.has_key (a_value) then
-				Result := table.found_item
+			if field_name_by_value.has_key (a_value) then
+				Result := field_name_by_value.found_item
 			else
 				create Result.make_empty
 			end
+		ensure
+			not_empty: not Result.is_empty
 		end
 
 	list: EL_ARRAYED_LIST [N]
@@ -100,61 +107,62 @@ feature -- Access
 		end
 
 	name (a_value: N): STRING
-		-- exported name
 		do
-			Result := name_exported (a_value, True)
-		end
-
-	name_exported (a_value: N; keep_ref: BOOLEAN): STRING
-		local
-			table: like name_by_value
-		do
-			table := name_by_value
-			if table.has_key (a_value) then
-				Result := export_name (table.found_item, keep_ref)
+			if name_by_value.has_key (a_value) then
+				Result := name_by_value.found_item
 			else
 				create Result.make_empty
 			end
 		end
 
 	value (a_name: STRING_8): N
-		local
-			table: like value_by_name
-		do
-			table := value_by_name
-			if table.has_key (import_name (a_name, False)) then
-				Result := table.found_item
+		require
+			valid_name: is_valid_name (a_name)
+			do
+			if field_table.has_key (import_name (a_name, False))
+				and then attached {N} field_table.found_item.value (Current) as v
+			then
+				Result := v
+			else
+				check
+					value_found: False
+				end
 			end
 		end
 
 feature -- Status query
 
-	has_duplicate_value: BOOLEAN
+	all_values_unique: BOOLEAN
+		-- `True' if each enumeration field is asssigned a unique value
+		do
+			Result := name_by_value.count = count
+		end
 
 	is_valid_name (a_name: STRING_8): BOOLEAN
 		do
-			Result := value_by_name.has_key (a_name)
+			Result := field_table.has (import_name (a_name, False))
 		end
 
 	is_valid_value (a_value: N): BOOLEAN
 		do
-			Result := name_by_value.has_key (a_value)
+			Result := name_by_value.has (a_value)
 		end
 
 feature {NONE} -- Implementation
 
-	extend_field_tables (a_name: STRING_8; field: EL_REFLECTED_FIELD)
-		do
-			if attached {N} field.value (Current) as l_value then
-				name_by_value.put (a_name, l_value)
-				value_by_name.extend (l_value, a_name)
-			end
-			has_duplicate_value := has_duplicate_value or name_by_value.conflict
-		end
-
 	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
 			Result := field_type_id.natural_32_code = type_id.to_natural_32
+		end
+
+	new_field_name_by_value: HASH_TABLE [STRING_8, N]
+		do
+			create Result.make_equal (field_table.count)
+			across field_table as field loop
+				if attached {N} field.item.value (Current) as l_value then
+					Result.extend (field.item.name, l_value)
+				end
+			end
 		end
 
 feature {NONE} -- Internal attributes
@@ -162,9 +170,7 @@ feature {NONE} -- Internal attributes
 	field_type_id: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration
 
-	name_by_value: HASH_TABLE [STRING_8, N]
-
-	value_by_name: HASH_TABLE [N, STRING_8];
+	name_by_value: HASH_TABLE [STRING_8, N];
 
 note
 	descendants: "[
@@ -179,4 +185,3 @@ note
 	]"
 
 end -- class EL_ENUMERATION
-

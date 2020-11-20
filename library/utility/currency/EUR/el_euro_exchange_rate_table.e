@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 9:43:23 GMT (Monday 20th April 2020)"
-	revision: "8"
+	date: "2020-11-20 15:59:17 GMT (Friday 20th November 2020)"
+	revision: "9"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 
 	fill
 		local
-			web: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH; xml: STRING
+			web: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH; xml, code_name: STRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT; xml_file: PLAIN_TEXT_FILE
 			cached: like cached_dates; code: NATURAL_8
 		do
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 			if xml.has_substring (Closing_tag) then
 				create root_node.make_from_string (xml)
 				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
-					code := Currency.value (rate.node.attributes.string_8 (Name_currency))
-					if code > 0 then
-						extend (rate.node.attributes.real (Name_rate), code)
+					code_name := rate.node.attributes.string_8 (Name_currency)
+					if Currency.is_valid_name (code_name) then
+						extend (rate.node.attributes.real (Name_rate), Currency.value (code_name))
 					end
 				end
 			end

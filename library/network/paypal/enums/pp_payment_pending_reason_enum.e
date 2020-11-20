@@ -1,7 +1,7 @@
 note
 	description: "[
 		Reasons for pending payment. See
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		[https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#payment-information-variables
 		payment information variables] in IPN integration guide.
 	]"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:40:33 GMT (Monday 23rd April 2018)"
-	revision: "4"
+	date: "2020-11-20 14:47:16 GMT (Friday 20th November 2020)"
+	revision: "5"
 
 class
 	PP_PAYMENT_PENDING_REASON_ENUM

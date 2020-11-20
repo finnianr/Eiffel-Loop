@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 16:23:56 GMT (Monday 25th May 2020)"
-	revision: "7"
+	date: "2020-11-20 13:29:12 GMT (Friday 20th November 2020)"
+	revision: "8"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -150,7 +150,7 @@ feature {NONE} -- Implementation
 				across Db_field.type_group_table as group loop
 					character_count.set_item (0)
 					across group.item as field loop
-						name := Db_field.name_exported (field.item, False)
+						name := Db_field.name (field.item)
 						if not tag_names.has (name) and then entry.node.has (name) then
 							print_field (name, entry.node, character_count)
 						end

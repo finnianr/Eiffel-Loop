@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-09 10:54:21 GMT (Saturday 9th May 2020)"
-	revision: "15"
+	date: "2020-11-20 13:34:36 GMT (Friday 20th November 2020)"
+	revision: "16"
 
 class
 	EL_NAMING_ROUTINES
@@ -284,7 +284,7 @@ feature -- Export names
 			name_out.to_upper
 		end
 
-	to_title (name_in, title_out: STRING)
+	to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		require
 			empty_title_out: title_out.is_empty
 		local
@@ -293,8 +293,8 @@ feature -- Export names
 		do
 			create words.make (name_in, Underscore)
 			from words.start until words.after loop
-				if not title_out.is_empty then
-					title_out.append_character (' ')
+				if title_out.count > 0 then
+					title_out.append_character (separator_out)
 				end
 				word := words.item (False)
 				if word.count > 0 then

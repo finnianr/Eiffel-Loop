@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 9:36:35 GMT (Sunday 31st May 2020)"
-	revision: "42"
+	date: "2020-11-20 13:29:27 GMT (Friday 20th November 2020)"
+	revision: "43"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -153,7 +153,7 @@ feature {NONE} -- Build from XML
 			end
 			across DB_field.sorted as enum loop
 				if DB_field.is_string_type (enum.item) then
-					l_xpath := DB_field.name_exported (enum.item, False) + "/text()"
+					l_xpath := DB_field.name (enum.item) + "/text()"
 					Result.put (agent set_string_field_from_node (enum.item), l_xpath)
 				end
 			end

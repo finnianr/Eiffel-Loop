@@ -5,7 +5,6 @@ note
 		
 		**Test Sets**
 		
-			[$source COLLATE_SONGS_TASK_TEST_SET]
 			[$source ADD_ALBUM_ART_TASK_TEST_SET]
 			[$source COLLATE_SONGS_TASK_TEST_SET]
 			[$source EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET]
@@ -25,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:57:48 GMT (Sunday 18th October 2020)"
-	revision: "17"
+	date: "2020-11-20 11:34:17 GMT (Friday 20th November 2020)"
+	revision: "18"
 
 class
 	RBOX_AUTOTEST_APP

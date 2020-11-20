@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 16:15:11 GMT (Friday 27th March 2020)"
-	revision: "1"
+	date: "2020-11-20 13:25:37 GMT (Friday 20th November 2020)"
+	revision: "2"
 
 class
 	TL_MUSICBRAINZ_ENUM
@@ -46,7 +46,7 @@ feature -- Access
 			if a_value = release_track_id then
 				Result := Musicbrainz_trackid
 			else
-				table := name_by_value
+				table := field_name_by_value
 				if table.has_key (a_value) then
 					Result := to_camel_case (table.found_item, False)
 					Result.prepend (Musicbrainz)
