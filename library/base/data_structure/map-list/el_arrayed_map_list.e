@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 9:37:33 GMT (Wednesday 2nd September 2020)"
-	revision: "10"
+	date: "2020-11-21 14:34:28 GMT (Saturday 21st November 2020)"
+	revision: "11"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -104,14 +104,19 @@ feature -- Access
 feature -- Cursor movement
 
 	key_search (key: K)
+		-- search next tuple with key `key' using either reference or object comparison
+		-- depending on `object_comparison'
 		local
 			l_area: like area_v2; i, nb: INTEGER; match_found: BOOLEAN
 		do
 			l_area := area_v2
 			from nb := count - 1; i := index - 1 until i > nb or match_found loop
-				if key ~ l_area.item (i).key then
-					match_found := True
+				if object_comparison then
+					match_found := key ~ l_area.item (i).key
 				else
+					match_found := key = l_area.item (i).key
+				end
+				if not match_found then
 					i := i + 1
 				end
 			end
@@ -128,6 +133,20 @@ feature -- Element change
 	put_front (key: K; value: G)
 		do
 			map_put_front ([key, value])
+		end
+
+	set_key_item (key: like item_key; value: like item_value)
+		-- set first `item.value' with key matching `key' or else extend with new key-value tuple
+		-- key comparison is either by object or reference depending on `object_comparison'
+		do
+			push_cursor
+			start; key_search (key)
+			if found then
+				item.value := value
+			else
+				extend (key, value)
+			end
+			pop_cursor
 		end
 
 feature -- Conversion

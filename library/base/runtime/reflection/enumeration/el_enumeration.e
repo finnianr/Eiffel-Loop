@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 15:28:59 GMT (Friday 20th November 2020)"
-	revision: "30"
+	date: "2020-11-20 16:21:16 GMT (Friday 20th November 2020)"
+	revision: "31"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -107,6 +107,7 @@ feature -- Access
 		end
 
 	name (a_value: N): STRING
+		-- exported name
 		do
 			if name_by_value.has_key (a_value) then
 				Result := name_by_value.found_item
@@ -116,13 +117,14 @@ feature -- Access
 		end
 
 	value (a_name: STRING_8): N
+		-- enumuration value from `a_name'
 		require
 			valid_name: is_valid_name (a_name)
 			do
 			if field_table.has_key (import_name (a_name, False))
-				and then attached {N} field_table.found_item.value (Current) as v
+				and then attached {N} field_table.found_item.value (Current) as enum_value
 			then
-				Result := v
+				Result := enum_value
 			else
 				check
 					value_found: False

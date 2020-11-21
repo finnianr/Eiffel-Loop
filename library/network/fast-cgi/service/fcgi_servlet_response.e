@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 16:05:09 GMT (Friday 20th November 2020)"
-	revision: "17"
+	date: "2020-11-21 14:33:40 GMT (Saturday 21st November 2020)"
+	revision: "18"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -228,13 +228,7 @@ feature -- Element change
 			-- header already exists, the new value overwrites the previous
 			-- one.
 		do
-			header_list.start
-			header_list.key_search (header_enum)
-			if header_list.found then
-				header_list.replace (header_enum, value)
-			else
-				header_list.extend (header_enum, value)
-			end
+			header_list.set_key_item (header_enum, value)
 		end
 
 	set_status (a_status: like status)
