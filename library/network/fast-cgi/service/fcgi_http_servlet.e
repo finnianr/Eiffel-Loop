@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-17 13:36:10 GMT (Tuesday 17th November 2020)"
-	revision: "14"
+	date: "2020-11-22 16:30:33 GMT (Sunday 22nd November 2020)"
+	revision: "15"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -141,6 +141,8 @@ feature {NONE} -- Implementation
 		end
 
 	servlet_config: FCGI_SERVICE_CONFIG
+
+	service: FCGI_SERVLET_SERVICE
 
 feature {NONE} -- Constants
 

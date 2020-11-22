@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:10:16 GMT (Sunday 24th May 2020)"
-	revision: "10"
+	date: "2020-11-22 16:24:41 GMT (Sunday 22nd November 2020)"
+	revision: "11"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -120,8 +120,8 @@ feature -- Status query
 feature -- Measurement
 
 	content_length: INTEGER
-			-- The length in bytes of the request body or -1 if the length is
-			-- not known.
+		-- The length in bytes of the request body or -1 if the length is
+		-- not known.
 		do
 			Result := headers.content_length
 		end

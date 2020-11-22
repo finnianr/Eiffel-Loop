@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:35:48 GMT (Thursday 7th May 2020)"
-	revision: "8"
+	date: "2020-11-22 13:18:24 GMT (Sunday 22nd November 2020)"
+	revision: "9"
 
 class
 	EL_STRING_8_IO_MEDIUM
@@ -124,6 +124,4 @@ feature {NONE} -- Implementation
 			create Result.make (a_count)
 		end
 
-invariant
-	utf_8_encoded: encoded_as_utf (8)
 end

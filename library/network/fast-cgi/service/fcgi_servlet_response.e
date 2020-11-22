@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-21 14:33:40 GMT (Saturday 21st November 2020)"
-	revision: "18"
+	date: "2020-11-22 15:55:32 GMT (Sunday 22nd November 2020)"
+	revision: "19"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -22,6 +22,8 @@ inherit
 	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ONCE_STRING_8
+
+	EL_STRING_8_CONSTANTS
 
 	FCGI_SHARED_HEADER
 
@@ -39,7 +41,7 @@ feature {NONE}-- Initialization
 			broker := a_broker
 			create cookie_list.make (5)
 			create header_list.make (5)
-			create content.make_empty
+			content := Empty_string_8
 			content_type := Doc_type_plain_latin_1
 			set_status (Http_status.ok)
 			write_ok := True
@@ -48,10 +50,7 @@ feature {NONE}-- Initialization
 feature -- Access
 
 	content_length: INTEGER
-		-- The length of the content that will be sent with this response.
-		do
-			Result := content.count
-		end
+		-- the sent header length for `content'
 
 	content_type: EL_DOC_TYPE
 
@@ -80,6 +79,9 @@ feature -- Status query
 			Result := broker.is_head_request
 		end
 
+	is_encoded: BOOLEAN
+		-- `True' if content is encoded
+
 	is_sent: BOOLEAN
 			-- `True' when response has already had it's status code and headers written.
 
@@ -93,36 +95,48 @@ feature -- Contract Support
 			Result := Utf_8_codec.is_valid_utf_8_string_8 (s)
 		end
 
+	is_string_8_content: BOOLEAN
+		do
+			Result := attached {STRING} content
+		end
+
 feature -- Basic operations
 
 	send
 		-- send response headers and content
 		local
-			list: like header_list; buffer: STRING
+			list: like header_list; buffer, content_buffer: STRING
 		do
 			if not is_sent then
-				set_default_headers
+				content_buffer := encoded_content
+
+				set_header (Header.server, once "Eiffel-Loop FCGI servlet")
+				set_header (Header.status, status_message)
+				set_header (Header.content_length, content_buffer.count.out)
+				set_header (Header.content_type, content_type.specification)
+
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				if write_ok then
-					buffer := empty_once_string_8
-					list := header_list
-					list.sort (True)
-					from list.start until list.after loop
-						buffer.append (Header.name (list.item.key)); buffer.append (once ": ")
-						buffer.append (list.item.value)
-						buffer.append (Carriage_return_new_line)
-						list.forth
-					end
-					buffer.append (Carriage_return_new_line) -- This is required even for HEAD requests
-
-					if not is_head_request then
-						buffer.append (content)
-					end
-					broker.write_stdout (buffer)
+				buffer := empty_once_string_8
+				list := header_list
+				list.sort (True)
+				from list.start until list.after loop
+					buffer.append (Header.name (list.item.key)); buffer.append (once ": ")
+					buffer.append (list.item.value)
+					buffer.append (Carriage_return_new_line)
+					list.forth
 				end
+				buffer.append (Carriage_return_new_line) -- This is required even for HEAD requests
+
+				if not is_head_request then
+					buffer.append (content_buffer)
+				end
+				broker.write_stdout (buffer)
 				write_ok := broker.write_ok
+				if write_ok then
+					content_length := content_buffer.count
+				end
 				is_sent := True
 			end
 		end
@@ -156,10 +170,10 @@ feature -- Element change
 			-- Clear any data that exists in the buffer as well as the status code
 			-- and headers.
 		do
-			content.wipe_out
 			cookie_list.wipe_out
 			header_list.wipe_out
 			content_type := Doc_type_plain_latin_1
+			content_length := 0
 			set_status (Http_status.ok)
 			is_sent := False
 		end
@@ -181,23 +195,18 @@ feature -- Element change
 			end
 		end
 
-	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
+	set_encoded_content (text: STRING; type: EL_DOC_TYPE)
 		require
-			valid_mixed_encoding: attached {ZSTRING} text as z_text implies
-												(not type.encoding.encoded_as_utf (8) implies not z_text.has_mixed_encoding)
-		local
-			buffer: like Encoding_buffer
+			valid_utf_8: type.encoding.encoded_as_utf (8) implies is_valid_utf_8_string_8 (text)
 		do
-			content_type := type
-			if attached {STRING} text as latin_1_str and then type.encoding.encoded_as_latin (1) then
-				content := latin_1_str
-			else
-				buffer := Encoding_buffer
-				buffer.wipe_out
-				buffer.set_encoding_from_other (type.encoding)
-				buffer.put_string_general (text)
-				content := buffer.text.twin
-			end
+			content := text; content_type := type
+			is_encoded := True
+		end
+
+	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
+		do
+			content := text; content_type := type
+			is_encoded := False
 		end
 
 	set_content_ok
@@ -207,20 +216,9 @@ feature -- Element change
 		end
 
 	set_content_type (type: EL_DOC_TYPE)
-			-- set content type of the response being sent to the client.
-			-- The content type may include the type of character encoding used, for
-			-- example, 'text/html; charset=ISO-8859-15'
-
+		-- set content type of the response being sent to the client.
 		do
 			content_type := type
-		end
-
-	set_content_utf_8 (a_utf_8: STRING; type: EL_DOC_TYPE)
-		-- set `content' with pre-encoded `utf_8' text
-		require
-			is_utf_8_encoded: type.encoding.encoded_as_utf (8) and is_valid_utf_8_string_8 (a_utf_8)
-		do
-			content_type := type; content := a_utf_8
 		end
 
 	set_header (header_enum: NATURAL_8; value: STRING)
@@ -249,6 +247,23 @@ feature {NONE} -- Implementation
 			header_list.extend (header_enum, value)
 		end
 
+	encoded_content: STRING
+		local
+			buffer: like Encoding_buffer
+		do
+			if (is_encoded or else content_type.encoding.encoded_as_latin (1))
+				and then attached {STRING} content as encoded
+			then
+				Result := encoded
+			else
+				buffer := Encoding_buffer
+				buffer.wipe_out
+				buffer.set_encoding_from_other (content_type.encoding)
+				buffer.put_string_general (content)
+				Result := buffer.text
+			end
+		end
+
 	set_cookie_headers
 			-- Add 'Set-Cookie' header for cookies. Add a separate 'Set-Cookie' header
 			-- for each new cookie.
@@ -264,21 +279,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_default_headers
-			-- Set default headers for all responses including the Server and Date headers.	
-		do
-			set_header (Header.server, once "Eiffel-Loop FCGI servlet")
-			set_header (Header.status, status_message)
-			set_header (Header.content_length, content_length.out)
-			set_header (Header.content_type, content_type.specification)
-		end
-
 feature {FCGI_SERVLET_REQUEST} -- Internal attributes
 
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
 
-	content: STRING
+	content: READABLE_STRING_GENERAL
 
 feature {NONE} -- Internal attributes
 

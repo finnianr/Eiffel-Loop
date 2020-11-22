@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 16:18:00 GMT (Friday 20th November 2020)"
-	revision: "1"
+	date: "2020-11-21 14:48:12 GMT (Saturday 21st November 2020)"
+	revision: "2"
 
 class
 	FCGI_HEADER_ENUMERATION
@@ -45,7 +45,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	to_title_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		-- cache_control -> Cache-Control
+		-- Example: "cache_control" -> "Cache-Control"
 		do
 			Result := empty_name_out
 			Naming.to_title (name_in, Result, '-')
