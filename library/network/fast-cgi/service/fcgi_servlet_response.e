@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 15:55:32 GMT (Sunday 22nd November 2020)"
-	revision: "19"
+	date: "2020-11-22 17:53:00 GMT (Sunday 22nd November 2020)"
+	revision: "20"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -41,10 +41,7 @@ feature {NONE}-- Initialization
 			broker := a_broker
 			create cookie_list.make (5)
 			create header_list.make (5)
-			content := Empty_string_8
-			content_type := Doc_type_plain_latin_1
-			set_status (Http_status.ok)
-			write_ok := True
+			reset
 		end
 
 feature -- Access
@@ -172,9 +169,11 @@ feature -- Element change
 		do
 			cookie_list.wipe_out
 			header_list.wipe_out
+			content := Empty_string_8
 			content_type := Doc_type_plain_latin_1
 			content_length := 0
 			set_status (Http_status.ok)
+			write_ok := False
 			is_sent := False
 		end
 
@@ -205,8 +204,12 @@ feature -- Element change
 
 	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
 		do
-			content := text; content_type := type
-			is_encoded := False
+			if type.encoding.encoded_as_latin (1) and then attached {STRING} text as encoded_text then
+				set_encoded_content (encoded_text, type)
+			else
+				content := text; content_type := type
+				is_encoded := False
+			end
 		end
 
 	set_content_ok
@@ -251,9 +254,7 @@ feature {NONE} -- Implementation
 		local
 			buffer: like Encoding_buffer
 		do
-			if (is_encoded or else content_type.encoding.encoded_as_latin (1))
-				and then attached {STRING} content as encoded
-			then
+			if is_encoded and then attached {STRING} content as encoded then
 				Result := encoded
 			else
 				buffer := Encoding_buffer

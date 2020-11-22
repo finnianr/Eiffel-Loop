@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 14:56:53 GMT (Sunday 22nd November 2020)"
-	revision: "4"
+	date: "2020-11-22 16:32:47 GMT (Sunday 22nd November 2020)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_CACHEABLE_SERIALIZEABLE [MEDIUM -> EL_STRING_IO_MEDIUM create make_open_write end]
@@ -53,6 +53,7 @@ feature {NONE} -- Implementation
 	new_medium: MEDIUM
 		do
 			create Result.make_open_write (1024)
+			Result.set_encoding_from_other (Current)
 		end
 
 	new_text: like new_medium.text

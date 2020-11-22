@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:18:59 GMT (Thursday 6th February 2020)"
-	revision: "16"
+	date: "2020-11-22 17:41:41 GMT (Sunday 22nd November 2020)"
+	revision: "17"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -175,7 +175,7 @@ feature {NONE} -- States
 				log_message (
 					once "Servicing path", Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
 				)
-				table.found_item.serve_fast_cgi (broker)
+				table.found_item.serve_request
 			else
 				on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
 			end
@@ -282,13 +282,15 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-feature {NONE} -- Implementation: attributes
+feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
 
 	config: FCGI_SERVICE_CONFIG
 			-- Configuration for servlets
+
+feature {NONE} -- Implementation: attributes
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-19 13:43:28 GMT (Thursday 19th November 2020)"
-	revision: "2"
+	date: "2020-11-22 17:04:31 GMT (Sunday 22nd November 2020)"
+	revision: "3"
 
 class
 	EL_SOFTWARE_VERSION_INFO_SERVLET
@@ -23,15 +23,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_servlet_config: like servlet_config; software_version: EL_CURRENT_SOFTWARE_VERSION)
+	make (a_service: like service; software_version: EL_CURRENT_SOFTWARE_VERSION)
 		do
-			make_servlet (a_servlet_config)
+			make_servlet (a_service)
 			create version_info.make (software_version)
 		end
 
 feature {NONE} -- Implementation
 
-	serve (request: like new_request; response: like new_response)
+	serve
 			--
 		do
 			log.enter ("serve")

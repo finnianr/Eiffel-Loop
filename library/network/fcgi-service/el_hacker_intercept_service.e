@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 10:04:16 GMT (Monday 16th November 2020)"
-	revision: "4"
+	date: "2020-11-22 16:56:49 GMT (Sunday 22nd November 2020)"
+	revision: "5"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -34,17 +34,17 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			end
 		end
 
+feature -- Access
+
+	config: EL_HACKER_INTERCEPT_CONFIG
+
 feature {NONE} -- Implementation
 
 	servlet_table: like servlets
 		do
 			create Result.make (<<
-				[Default_servlet_key, create {EL_HACKER_INTERCEPT_SERVLET}.make (config)]
+				[Default_servlet_key, create {EL_HACKER_INTERCEPT_SERVLET}.make (Current)]
 			>>)
 		end
-
-feature {NONE} -- Implementation: attributes
-
-	config: EL_HACKER_INTERCEPT_CONFIG
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 16:24:41 GMT (Sunday 22nd November 2020)"
-	revision: "11"
+	date: "2020-11-22 17:43:25 GMT (Sunday 22nd November 2020)"
+	revision: "12"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -23,12 +23,12 @@ create
 
 feature {NONE} -- Initialisation
 
-	make (a_servlet: like servlet; a_response: FCGI_SERVLET_RESPONSE)
+	make (a_servlet: like servlet)
 			-- Create a new fast cgi servlet request wrapper for
 			-- the request information contained in 'fcgi_request'
 		do
-			servlet := a_servlet; internal_response := a_response
-			broker := a_response.broker
+			servlet := a_servlet
+			broker := a_servlet.service.broker
 			headers := parameters.headers
 		end
 
@@ -130,16 +130,13 @@ feature {NONE} -- Event handling
 
 	on_end_request
 		do
-			servlet.on_serve_done (Current)
+			servlet.on_serve_done
 		end
 
 feature {NONE} -- Internal attributes
 
 	broker: FCGI_REQUEST_BROKER
 		-- Internal request information and stream functionality.
-
-	internal_response: FCGI_SERVLET_RESPONSE
-		-- Response object held so that session cookie can be set.
 
 	servlet: FCGI_HTTP_SERVLET
 

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 10:04:16 GMT (Monday 16th November 2020)"
-	revision: "7"
+	date: "2020-11-22 17:03:54 GMT (Sunday 22nd November 2020)"
+	revision: "8"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -18,7 +18,7 @@ class
 inherit
 	FCGI_HTTP_SERVLET
 		redefine
-			servlet_config
+			service
 		end
 
 	EL_MODULE_TUPLE
@@ -34,15 +34,15 @@ create
 
 feature {NONE} -- Basic operations
 
-	serve (http_request: like new_request; response: like new_response)
+	serve
 		local
 			ip_number: NATURAL; ip_info: like IP_info_table.item
 		do
 			log.enter_no_header ("serve")
-			if http_request.remote_address_32 = Local_host_address then
+			if request.remote_address_32 = Local_host_address then
 				ip_number := Test_ip_number
 			else
-				ip_number := http_request.remote_address_32
+				ip_number := request.remote_address_32
 			end
 			if IP_info_table.has_key (ip_number) then
 				ip_info := IP_info_table.found_item
@@ -54,9 +54,9 @@ feature {NONE} -- Basic operations
 			if ip_info.is_blocked then
 				log.put_line (" (blocked)")
 				ip_info.is_blocked := False -- Try again to set firewall rule
-			elseif is_hacker_probe (http_request.relative_path_info.as_lower)then
+			elseif is_hacker_probe (request.relative_path_info.as_lower)then
 				log.put_line (" (blocking)")
-				servlet_config.block (IP_address.to_string (ip_number))
+				service.config.block (IP_address.to_string (ip_number))
 				Execution_environment.sleep (500) -- Wait half a second for firewall rule to apply
 				ip_info.is_blocked := True
 			else
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 				Result := True
 			else
-				Result := across servlet_config.filter_list as match some
+				Result := across service.config.filter_list as match some
 					match.item (path_lower)
 				end
 			end
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	servlet_config: EL_HACKER_INTERCEPT_CONFIG
+	service: EL_HACKER_INTERCEPT_SERVICE
 
 feature {NONE} -- Constants
 

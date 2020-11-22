@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 11:22:33 GMT (Monday 16th November 2020)"
-	revision: "2"
+	date: "2020-11-22 17:03:04 GMT (Sunday 22nd November 2020)"
+	revision: "3"
 
 class
 	EL_TEST_SERVLET
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Basic operations
 
-	serve (request: like new_request; response: like new_response)
+	serve
 		do
 			response.set_content (Hello_page, Doc_type_html_utf_8)
 		end

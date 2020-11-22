@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 16:30:33 GMT (Sunday 22nd November 2020)"
-	revision: "15"
+	date: "2020-11-22 17:45:58 GMT (Sunday 22nd November 2020)"
+	revision: "16"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -25,9 +25,11 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_servlet_config: like servlet_config)
+	make (a_service: like service)
 		do
-			servlet_config := a_servlet_config
+			service := a_service
+			create response.make (a_service.broker)
+			create request.make (Current)
 		end
 
 feature -- Access
@@ -45,6 +47,12 @@ feature -- Access
 
 feature -- Basic operations
 
+	log_service_error
+			-- Called if service routine generates an exception; may be redefined by descendents
+		do
+			-- Nothing by default
+		end
+
 	log_write_error (the_response: FCGI_SERVLET_RESPONSE)
 			-- Called if there was a problem sending response to the client
 			-- May be redefined by descendents
@@ -52,20 +60,14 @@ feature -- Basic operations
 			-- Nothing by default
 		end
 
-	log_service_error
-			-- Called if service routine generates an exception; may be redefined by descendents
-		do
-			-- Nothing by default
-		end
-
-	serve_fast_cgi (broker: FCGI_REQUEST_BROKER)
+	serve_request
 		local
-			request: like new_request; response: like new_response
 			message: STRING
 		do
-			log.enter_no_header (once "serve_fast_cgi")
-			response := new_response (broker); request := new_request (response)
-			serve (request, response)
+			log.enter_no_header (once "serve_request")
+
+			response.reset; serve
+
 			if is_caching_disabled then
 				response.set_header (Header.cache_control, once "no-cache, no-store, must-revalidate"); -- HTTP 1.1.
 				response.set_header (Header.pragma, once "no-cache"); -- HTTP 1.0.
@@ -85,7 +87,7 @@ feature -- Basic operations
 				log.put_integer_field (message, response.content_length)
 				log.put_new_line
 
-				broker.set_end_request_listener (request)
+				service.broker.set_end_request_listener (request)
 			else
 				log_write_error (response)
 			end
@@ -102,21 +104,9 @@ feature -- Status query
 		do
 		end
 
-feature {NONE} -- Factory
-
-	new_request (response: like new_response): FCGI_SERVLET_REQUEST
-		do
-			create Result.make (Current, response)
-		end
-
-	new_response (broker: FCGI_REQUEST_BROKER): FCGI_SERVLET_RESPONSE
-		do
-			create Result.make (broker)
-		end
-
 feature {FCGI_SERVLET_REQUEST, FCGI_SERVLET_SERVICE} -- Event handling
 
-	on_serve_done (request: like new_request)
+	on_serve_done
 			-- called on successful write of servlet response. See {FCGI_REQUEST}.end_request
 		do
 		end
@@ -136,11 +126,16 @@ feature {NONE} -- Implementation
 			Result := l_result.as_proper_case
 		end
 
-	serve (request: like new_request; response: like new_response)
+	serve
+		-- write response to `response'
 		deferred
 		end
 
-	servlet_config: FCGI_SERVICE_CONFIG
+feature {FCGI_SERVLET_REQUEST} -- Internal attributes
+
+	request: FCGI_SERVLET_REQUEST
+
+	response: FCGI_SERVLET_RESPONSE
 
 	service: FCGI_SERVLET_SERVICE
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 10:02:48 GMT (Monday 16th November 2020)"
-	revision: "7"
+	date: "2020-11-22 17:04:22 GMT (Sunday 22nd November 2020)"
+	revision: "8"
 
 deferred class
 	EL_DIVERGENT_SERVLET
@@ -26,9 +26,9 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_servlet_config: like servlet_config)
+	make (a_service: like service)
 		do
-			Precursor (a_servlet_config)
+			Precursor (a_service)
 			service_procedures := service_procedures_table
 			procedure_names := service_procedures.current_keys
 		end
@@ -39,7 +39,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	serve (request: like new_request; response: like new_response)
+	serve
 		do
 			service_procedures.search (request.dir_path.base)
 			if service_procedures.found then
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	serve_nothing (request: like new_request; response: like new_response)
+	serve_nothing
 			-- Useful for closing down a servlet thread by requesting this response from the main thread
 			-- using CURL. Add this agent to service_procedures_table.
 		do
