@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:07:36 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2020-11-23 10:57:05 GMT (Monday 23rd November 2020)"
+	revision: "6"
 
 class
 	EL_XML_TAG_LIST
@@ -63,13 +63,7 @@ feature -- Element change
 
 feature -- Conversion
 
-	to_xml: ZSTRING
-			--
-		do
-			Result := to_string
-		end
-
-	to_utf_8_xml: STRING
+	to_xml: STRING
 		do
 			Result := to_string.to_utf_8
 		end

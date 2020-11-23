@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:34:36 GMT (Friday 20th November 2020)"
-	revision: "16"
+	date: "2020-11-23 13:08:01 GMT (Monday 23rd November 2020)"
+	revision: "17"
 
 class
 	EL_NAMING_ROUTINES
@@ -174,12 +174,18 @@ feature -- Import names
 
 	from_kebab_case (name_in, name_out: STRING)
 		-- Eg. "from-kebab-case"
+		do
+			from_separated (name_in, name_out, '-')
+		end
+
+	from_separated (name_in, name_out: STRING; separator: CHARACTER)
+		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
 		do
 			name_out.append (name_in)
 			name_out.to_lower
-			String_8.replace_character (name_out, '-', '_')
+			String_8.replace_character (name_out, separator, '_')
 		end
 
 	from_snake_case_lower (name_in, name_out: STRING)

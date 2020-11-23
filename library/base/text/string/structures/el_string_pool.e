@@ -6,42 +6,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-27 10:24:36 GMT (Friday 27th April 2018)"
-	revision: "2"
+	date: "2020-11-23 13:33:05 GMT (Monday 23rd November 2020)"
+	revision: "3"
 
 class
 	EL_STRING_POOL [S -> STRING_GENERAL create make_empty end]
 
 inherit
-	ARRAYED_STACK [S]
-		export
-			{NONE} all
+	EL_RECYCLING_POOL [S]
+		rename
+			make as make_pool
+		redefine
+			reuseable_item
 		end
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_pool (agent: S do create Result.make_empty end)
+		end
+
 feature -- Access
 
-	new_string: like item
+	reuseable_item: like item
 		-- a new or recycled empty string
 		do
-			if is_empty then
-				create Result.make_empty
-			else
-				-- `recycle' has already wiped out the string
-				Result := item
-				remove
-			end
-		ensure
+			Result := Precursor
+			Result.keep_head (0)
+		ensure then
 			empty: Result.is_empty
 		end
 
-feature -- Element change
-
-	recycle (str: like item)
-		do
-			str.keep_head (0) -- wipe out
-			put (str)
-		end
 end

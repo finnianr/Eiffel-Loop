@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-06 9:39:54 GMT (Monday 6th January 2020)"
-	revision: "6"
+	date: "2020-11-23 11:09:39 GMT (Monday 23rd November 2020)"
+	revision: "7"
 
 deferred class
 	WEB_FORM_COMPONENT
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVOLICITY_SERIALIZEABLE
 		redefine
 			make_default
 		end
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML}
+			Precursor {EVOLICITY_SERIALIZEABLE}
 		end
 
 end

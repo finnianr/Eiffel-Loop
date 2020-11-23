@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 13:18:24 GMT (Sunday 22nd November 2020)"
-	revision: "9"
+	date: "2020-11-23 13:30:39 GMT (Monday 23rd November 2020)"
+	revision: "10"
 
 class
 	EL_STRING_8_IO_MEDIUM
@@ -122,6 +122,11 @@ feature {NONE} -- Implementation
 	new_string (a_count: INTEGER): like text
 		do
 			create Result.make (a_count)
+		end
+
+	wipe_out_text
+		do
+			text.wipe_out
 		end
 
 end

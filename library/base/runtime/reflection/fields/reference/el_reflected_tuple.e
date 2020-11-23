@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:22:19 GMT (Friday 24th January 2020)"
-	revision: "5"
+	date: "2020-11-23 11:59:52 GMT (Monday 23rd November 2020)"
+	revision: "6"
 
 class
 	EL_REFLECTED_TUPLE
@@ -89,17 +89,16 @@ feature -- Basic operations
 feature -- Conversion
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
-		local
-			str: ZSTRING
 		do
-			str := String_pool.new_string
-			write (a_object, str)
-			if member_types.is_latin_1_representable then
-				Result := str.to_latin_1
-			else
-				Result := str.twin
+			if attached String_pool.reuseable_item as str then
+				write (a_object, str)
+				if member_types.is_latin_1_representable then
+					Result := str.to_latin_1
+				else
+					Result := str.twin
+				end
+				String_pool.recycle (str)
 			end
-			String_pool.recycle (str)
 		end
 
 feature {NONE} -- Implementation

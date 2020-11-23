@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:04:31 GMT (Sunday 22nd November 2020)"
-	revision: "3"
+	date: "2020-11-23 10:47:32 GMT (Monday 23rd November 2020)"
+	revision: "4"
 
 class
 	EL_SOFTWARE_VERSION_INFO_SERVLET
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 		do
 			log.enter ("serve")
 			log.put_labeled_string ("IP", request.parameters.remote_addr)
-			response.set_content (version_info.to_utf_8_xml, Doc_type_xml_utf_8)
+			response.set_content (version_info.to_xml, Doc_type_xml_utf_8)
 			log.exit
 		end
 

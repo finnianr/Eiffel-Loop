@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:34:49 GMT (Friday 20th November 2020)"
-	revision: "8"
+	date: "2020-11-23 13:11:16 GMT (Monday 23rd November 2020)"
+	revision: "9"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -80,6 +80,15 @@ feature {NONE} -- Name importing
 	from_camel_case_upper (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := camel_case_string (name_in, From_upper, keeping_ref)
+		end
+
+	from_english (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := empty_name_out
+			Naming.from_separated (name_in, Result, ' ')
+			if keeping_ref then
+				Result := Result.twin
+			end
 		end
 
 	from_kebab_case (name_in: STRING; keeping_ref: BOOLEAN): STRING

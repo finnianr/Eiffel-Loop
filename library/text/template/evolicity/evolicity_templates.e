@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:11:19 GMT (Thursday 7th May 2020)"
-	revision: "13"
+	date: "2020-11-23 13:34:15 GMT (Monday 23rd November 2020)"
+	revision: "14"
 
 class
 	EVOLICITY_TEMPLATES
@@ -170,13 +170,14 @@ feature -- Basic operations
 
 	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
 			--
-		local
-			text_medium: EL_ZSTRING_IO_MEDIUM
 		do
-			create text_medium.make_open_write (1024)
-			merge (a_name, context, text_medium)
-			text_medium.close
-			Result := text_medium.text
+			if attached Medium_pool.reuseable_item as medium then
+				medium.open_write
+				merge (a_name, context, medium)
+				medium.close
+				Result := medium.text
+				Medium_pool.recycle (medium)
+			end
 		end
 
 	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
@@ -245,6 +246,12 @@ feature {NONE} -- Global attributes
 	Default_encoding: EL_ENCODEABLE_AS_TEXT
 		once ("PROCESS")
 			create Result.make_default -- UTF-8
+		end
+
+	Medium_pool: EL_RECYCLING_POOL [EL_ZSTRING_IO_MEDIUM]
+		-- pool of resuable mediums
+		once
+			create Result.make (agent: EL_ZSTRING_IO_MEDIUM do create Result.make (1000) end)
 		end
 
 end

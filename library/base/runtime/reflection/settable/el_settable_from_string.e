@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 10:59:27 GMT (Wednesday 8th April 2020)"
-	revision: "16"
+	date: "2020-11-23 12:00:46 GMT (Monday 23rd November 2020)"
+	revision: "17"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -251,21 +251,22 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 
 	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE; value: ANY)
 		local
-			name_part: STRING; pos_dot: INTEGER
+			pos_dot: INTEGER
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				name_part := Name_part_pool.new_string
-				name_part.append_substring_general (name, 1, pos_dot - 1)
-				if table.has_imported (name_part, object)
-					and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
-				then
-					name_part.wipe_out
-					name_part.append_substring_general (name, pos_dot + 1, name.count)
-					-- Recurse until no more dots in name
-					set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
+				if attached Name_part_pool.reuseable_item as name_part then
+					name_part.append_substring_general (name, 1, pos_dot - 1)
+					if table.has_imported (name_part, object)
+						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
+					then
+						name_part.wipe_out
+						name_part.append_substring_general (name, pos_dot + 1, name.count)
+						-- Recurse until no more dots in name
+						set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
+					end
+					Name_part_pool.recycle (name_part)
 				end
-				Name_part_pool.recycle (name_part)
 
 			elseif table.has_imported (name, object) then
 				set_reflected_field (table.found_item, object, value)
@@ -294,7 +295,7 @@ feature {NONE} -- Constants
 
 	Name_part_pool: EL_STRING_POOL [ZSTRING]
 		once
-			create Result.make (2)
+			create Result.make
 		end
 
 end

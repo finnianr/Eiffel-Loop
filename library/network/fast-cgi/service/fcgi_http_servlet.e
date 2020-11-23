@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:45:58 GMT (Sunday 22nd November 2020)"
-	revision: "16"
+	date: "2020-11-22 20:24:26 GMT (Sunday 22nd November 2020)"
+	revision: "17"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 		end
 
 	serve
-		-- write response to `response'
+		-- set content in `response' for `request'
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 17:25:53 GMT (Saturday 25th January 2020)"
-	revision: "8"
+	date: "2020-11-23 10:16:49 GMT (Monday 23rd November 2020)"
+	revision: "9"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -52,8 +52,7 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			template_path: EL_FILE_PATH
-			line: EL_SPLIT_ZSTRING_LIST
+			line: EL_SPLIT_ZSTRING_LIST; template_path: EL_FILE_PATH
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if not template_name.is_empty then

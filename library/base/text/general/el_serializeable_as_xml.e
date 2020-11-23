@@ -10,20 +10,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 14:02:36 GMT (Thursday 27th September 2018)"
-	revision: "5"
+	date: "2020-11-23 10:35:24 GMT (Monday 23rd November 2020)"
+	revision: "6"
 
 deferred class
 	EL_SERIALIZEABLE_AS_XML
 
 feature -- Conversion
 
-	to_xml: ZSTRING
-			--
-		deferred
-		end
-
-	to_utf_8_xml: STRING
+	to_xml: STRING
 			--
 		deferred
 		end

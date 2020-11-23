@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-25 10:43:05 GMT (Wednesday 25th March 2020)"
-	revision: "8"
+	date: "2020-11-23 13:04:37 GMT (Monday 23rd November 2020)"
+	revision: "9"
 
-class
+frozen class
 	EL_STRING_8_ROUTINES
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_8]
+		rename
+			replace_character as replace_character_32
+		redefine
+			replace_character_32
+		end
 
 feature -- Conversion
 
@@ -60,6 +65,28 @@ feature -- Transformation
 	prune_all_leading (str: STRING_8; c: CHARACTER_32)
 		do
 			str.prune_all_leading (c.to_character_8)
+		end
+
+	replace_character (target: STRING_8; a_old, a_new: CHARACTER)
+		local
+			i, n: INTEGER; area: SPECIAL [CHARACTER]
+		do
+			area := target.area; n := target.count
+			from i := 0 until i = n loop
+				if area [i] = a_old then
+					area [i] := a_new
+				end
+				i := i + 1
+			end
+		end
+
+	replace_character_32 (target: STRING_8; a_old, a_new: CHARACTER_32)
+		require else
+			are_character_8: a_old.is_character_8 and a_new.is_character_8
+		do
+			if a_old.is_character_8 and a_new.is_character_8 then
+				replace_character (target, a_old.to_character_8, a_new.to_character_8)
+			end
 		end
 
 	right_adjust (str: STRING_8)

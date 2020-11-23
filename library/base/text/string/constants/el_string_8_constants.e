@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 18:20:18 GMT (Tuesday 1st September 2020)"
-	revision: "9"
+	date: "2020-11-23 11:46:48 GMT (Monday 23rd November 2020)"
+	revision: "10"
 
 deferred class
 	EL_STRING_8_CONSTANTS
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	frozen String_8_pool: EL_STRING_POOL [STRING]
 		once
-			create Result.make (3)
+			create Result.make
 		end
 
 invariant

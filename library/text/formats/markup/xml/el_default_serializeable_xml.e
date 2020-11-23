@@ -1,13 +1,13 @@
 note
-	description: "Default serializeable xml"
+	description: "Default serializeable XML"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-11-23 10:36:34 GMT (Monday 23rd November 2020)"
+	revision: "6"
 
 class
 	EL_DEFAULT_SERIALIZEABLE_XML
@@ -17,13 +17,7 @@ inherit
 
 feature -- Conversion
 
-	to_xml: ZSTRING
-			--
-		do
-			Result := Default_xml
-		end
-
-	to_utf_8_xml: STRING
+	to_xml: STRING
 			--
 		do
 			Result := Default_xml

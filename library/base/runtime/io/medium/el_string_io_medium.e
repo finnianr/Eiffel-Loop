@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 11:31:08 GMT (Tuesday 5th March 2019)"
-	revision: "5"
+	date: "2020-11-23 13:29:57 GMT (Monday 23rd November 2020)"
+	revision: "6"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -39,7 +39,7 @@ inherit
 			readline, read_line, read_stream, readstream,
 			forth, finish, start, off, after, go,
 			close, open_read, open_write, open_append, open_read_write, create_read_write, open_read_append,
-			is_empty, end_of_file, exists, is_executable, readable, is_writable, wipe_out
+			is_empty, end_of_file, exists, is_executable, readable, is_writable
 		end
 
 	EL_OUTPUT_MEDIUM
@@ -221,7 +221,8 @@ feature -- Status setting
 	open_write
 			-- Open medium.
 		do
-			text.set_count (0)
+			wipe_out_text
+			position := 0
 			mode := Write_file
 		end
 
@@ -274,16 +275,6 @@ feature -- Resizing
 		deferred
 		end
 
-feature -- Removal
-
-	wipe_out
-		do
-			if attached {BAG [ANY]} text as bag then
-				bag.wipe_out
-			end
-			position := 0
-		end
-
 feature {NONE} -- Implementation
 
 	new_name: STRING
@@ -303,6 +294,10 @@ feature {NONE} -- Implementation
 		end
 
 	set_last_string (start_index, end_index: INTEGER)
+		deferred
+		end
+
+	wipe_out_text
 		deferred
 		end
 

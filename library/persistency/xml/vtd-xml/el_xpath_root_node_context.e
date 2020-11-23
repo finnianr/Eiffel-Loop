@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:08:25 GMT (Thursday 7th May 2020)"
-	revision: "8"
+	date: "2020-11-23 10:45:53 GMT (Monday 23rd November 2020)"
+	revision: "9"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -170,7 +170,7 @@ feature {NONE} -- Implementation
 			default_doc: EL_DEFAULT_SERIALIZEABLE_XML
 		do
 			create default_doc
-			Result := default_doc.to_utf_8_xml
+			Result := default_doc.to_xml
 		end
 
 feature {NONE} -- Constants

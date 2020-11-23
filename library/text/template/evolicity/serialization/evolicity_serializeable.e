@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 18:22:02 GMT (Tuesday 1st September 2020)"
-	revision: "21"
+	date: "2020-11-23 10:30:13 GMT (Monday 23rd November 2020)"
+	revision: "22"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -87,20 +87,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	output_path: EL_FILE_PATH
-
-feature -- Conversion
-
-	as_text: ZSTRING
-			--
-		do
-			Result := Evolicity_templates.merged (template_name, Current)
-		end
-
-	as_utf_8_text: STRING
-			--
-		do
-			Result := Evolicity_templates.merged_utf_8 (template_name, Current)
-		end
 
 feature -- Element change
 

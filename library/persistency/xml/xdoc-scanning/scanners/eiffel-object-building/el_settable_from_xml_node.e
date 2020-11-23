@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 12:09:39 GMT (Thursday 2nd April 2020)"
-	revision: "21"
+	date: "2020-11-23 12:02:18 GMT (Monday 23rd November 2020)"
+	revision: "22"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -44,44 +44,45 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 		-- recursively output elements to file as XML
 		local
 			has_child_element: BOOLEAN; table: like field_table
-			attribute_count: INTEGER; value: ZSTRING; l_name: STRING
+			attribute_count: INTEGER; l_name: STRING
 		do
 			table := field_table
-			value := String_pool.new_string
-			xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
-			xml_out.put_string_8 (name)
-			across table as field loop
-				l_name := field.item.name
-				if attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field.item
-					or else attached {EL_REFLECTED_COLLECTION [ANY]} field.item
-					or else attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field.item
-				then
-					has_child_element := True
-				else
-					value.wipe_out
-					field.item.write (current_reflective, value)
---					value.append_string_general (field.item.to_string (current_reflective))
-					if not value.is_empty then
-						if attribute_count = 0 then
-							xml_out.put_new_line
+			if attached String_pool.reuseable_item as value then
+				xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
+				xml_out.put_string_8 (name)
+				across table as field loop
+					l_name := field.item.name
+					if attached {EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT} field.item
+						or else attached {EL_REFLECTED_COLLECTION [ANY]} field.item
+						or else attached {EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT} field.item
+					then
+						has_child_element := True
+					else
+						value.wipe_out
+						field.item.write (current_reflective, value)
+	--					value.append_string_general (field.item.to_string (current_reflective))
+						if not value.is_empty then
+							if attribute_count = 0 then
+								xml_out.put_new_line
+							end
+							xml_out.put_indent (tab_count + 1); xml_out.put_string_8 (field.item.name)
+							xml_out.put_string_8 (once " = %"")
+							put_value (xml_out, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field.item)
+							xml_out.put_string_8 (once "%"%N")
+							attribute_count := attribute_count + 1
 						end
-						xml_out.put_indent (tab_count + 1); xml_out.put_string_8 (field.item.name)
-						xml_out.put_string_8 (once " = %"")
-						put_value (xml_out, value, attached {EL_REFLECTED_STRING [STRING_GENERAL]} field.item)
-						xml_out.put_string_8 (once "%"%N")
-						attribute_count := attribute_count + 1
 					end
 				end
+				if has_child_element then
+					xml_out.put_string_8 (once ">%N")
+					put_child_elements (xml_out, table, value, tab_count)
+					put_xml_tag_close (xml_out, name, tab_count, New_line)
+				else
+					xml_out.put_indent (tab_count)
+					xml_out.put_string_8 (once "/>%N")
+				end
+				String_pool.recycle (value)
 			end
-			if has_child_element then
-				xml_out.put_string_8 (once ">%N")
-				put_child_elements (xml_out, table, value, tab_count)
-				put_xml_tag_close (xml_out, name, tab_count, New_line)
-			else
-				xml_out.put_indent (tab_count)
-				xml_out.put_string_8 (once "/>%N")
-			end
-			String_pool.recycle (value)
 		end
 
 	put_child_elements (xml_out: EL_OUTPUT_MEDIUM; table: like field_table; value: ZSTRING; tab_count: INTEGER)
@@ -344,4 +345,3 @@ feature {NONE} -- Constants
 
 	Null: CHARACTER = '%/0/'
 end
-

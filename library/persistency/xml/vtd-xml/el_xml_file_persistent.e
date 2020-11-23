@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-20 12:40:27 GMT (Wednesday 20th February 2019)"
-	revision: "7"
+	date: "2020-11-23 11:05:51 GMT (Monday 23rd November 2020)"
+	revision: "8"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
 			make_from_template_and_output (other.template_path.twin, other.output_path.twin)
-			create root_node.make_from_string (other.to_utf_8_xml)
+			create root_node.make_from_string (other.to_xml)
 			set_encoding_from_name (root_node.encoding_name)
 			make_from_root_node (root_node)
 		end

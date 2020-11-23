@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2020-11-23 13:21:45 GMT (Monday 23rd November 2020)"
+	revision: "5"
 
 class
 	EVOLICITY_COMPOUND_DIRECTIVE
@@ -62,4 +62,4 @@ feature -- Basic operations
 			end
 		end
 
-end -- class EVOLICITY_COMPOUND_DIRECTIVE
+end

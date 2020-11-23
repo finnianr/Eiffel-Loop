@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:26:20 GMT (Sunday 13th September 2020)"
-	revision: "19"
+	date: "2020-11-23 10:30:42 GMT (Monday 23rd November 2020)"
+	revision: "20"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_COMMAND
 
-	EVOLICITY_SERIALIZEABLE
+	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as system_command
 		redefine

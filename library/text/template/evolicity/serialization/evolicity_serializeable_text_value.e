@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-07 10:42:39 GMT (Tuesday 7th January 2020)"
-	revision: "7"
+	date: "2020-11-23 11:00:11 GMT (Monday 23rd November 2020)"
+	revision: "8"
 
 class
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVOLICITY_SERIALIZEABLE
 		redefine
 			make_default
 		end

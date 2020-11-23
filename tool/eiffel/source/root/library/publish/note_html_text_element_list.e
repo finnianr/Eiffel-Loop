@@ -1,13 +1,13 @@
 note
-	description: "Note html text element list"
+	description: "Note HTML text element list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 10:17:17 GMT (Tuesday 2nd October 2018)"
-	revision: "6"
+	date: "2020-11-23 10:58:27 GMT (Monday 23rd November 2020)"
+	revision: "7"
 
 class
 	NOTE_HTML_TEXT_ELEMENT_LIST

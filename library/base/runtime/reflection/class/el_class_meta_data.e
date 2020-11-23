@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:04:17 GMT (Tuesday 4th August 2020)"
-	revision: "28"
+	date: "2020-11-23 11:57:51 GMT (Monday 23rd November 2020)"
+	revision: "29"
 
 class
 	EL_CLASS_META_DATA
@@ -78,7 +78,7 @@ feature -- Basic operations
 			line_length, length: INTEGER
 			name: STRING; value: ZSTRING; l_field: EL_REFLECTED_FIELD
 		do
-			value := String_8_pool.new_string
+			create value.make_empty
 			across field_list as fld loop
 				l_field := fld.item
 				if not hidden_fields.has (l_field.index) then

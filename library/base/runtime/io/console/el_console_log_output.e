@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 11:53:18 GMT (Wednesday 11th November 2020)"
-	revision: "16"
+	date: "2020-11-23 11:47:00 GMT (Monday 23rd November 2020)"
+	revision: "17"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -31,7 +31,7 @@ feature -- Initialization
 	make
 		do
 			create buffer.make (30)
-			create string_pool.make (30)
+			create string_pool.make
 			create recycle_buffer.make (30)
 			create new_line_prompt.make_from_string ("%N")
 			std_output := io.Output
@@ -219,7 +219,7 @@ feature {NONE} -- Implementation
 
 	extended_buffer_last: like string_pool.item
 		do
-			Result := string_pool.new_string
+			Result := string_pool.reuseable_item
 			recycle_buffer.extend (Result)
 			buffer.extend (Result)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:35:35 GMT (Thursday 7th May 2020)"
-	revision: "6"
+	date: "2020-11-23 13:30:50 GMT (Monday 23rd November 2020)"
+	revision: "7"
 
 class
 	EL_ZSTRING_IO_MEDIUM
@@ -158,10 +158,16 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (a_count)
 		end
+
 	set_last_string (start_index, end_index: INTEGER)
 		do
 			last_string.wipe_out
 			last_string.append_substring (text, start_index, end_index)
+		end
+
+	wipe_out_text
+		do
+			text.wipe_out
 		end
 
 end
