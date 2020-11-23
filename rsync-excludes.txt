@@ -3,6 +3,7 @@ build/
 contrib/C++/**/spec/
 contrib/C/**/spec/
 C_library/**/spec/
+test/data/XML.archive
 projects.data/XML/Legislation.xml
 **/Descendant*.txt
 **/.sconf_temp/

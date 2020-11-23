@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:46:26 GMT (Monday 23rd November 2020)"
-	revision: "6"
+	date: "2020-11-23 15:33:51 GMT (Monday 23rd November 2020)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_CACHEABLE_SERIALIZEABLE
@@ -34,7 +34,7 @@ feature -- Access
 feature -- Element change
 
 	clear_cache
-		-- cause `new_text' to be called on next call to `cached_text'
+		-- cause `as_text' to be called on next call to `cached_text'
 		do
 			internal_text := Void
 		end

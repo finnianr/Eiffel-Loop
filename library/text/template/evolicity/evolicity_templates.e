@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:34:15 GMT (Monday 23rd November 2020)"
-	revision: "14"
+	date: "2020-11-23 15:51:26 GMT (Monday 23rd November 2020)"
+	revision: "15"
 
 class
 	EVOLICITY_TEMPLATES
@@ -169,26 +169,25 @@ feature -- Basic operations
 		end
 
 	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
-			--
+		-- can be used in recursive contexts
+		local
+			medium: EL_ZSTRING_IO_MEDIUM
 		do
-			if attached Medium_pool.reuseable_item as medium then
-				medium.open_write
-				merge (a_name, context, medium)
-				medium.close
-				Result := medium.text
-				Medium_pool.recycle (medium)
-			end
+			create medium.make_open_write (1024)
+			merge (a_name, context, medium)
+			medium.close
+			Result := medium.text
 		end
 
 	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
 			--
 		local
-			utf8_text_medium: EL_STRING_8_IO_MEDIUM
+			medium: EL_STRING_8_IO_MEDIUM
 		do
-			create utf8_text_medium.make_open_write (1024)
-			merge (a_name, context, utf8_text_medium)
-			utf8_text_medium.close
-			Result := utf8_text_medium.text
+			create medium.make_open_write (1024)
+			merge (a_name, context, medium)
+			medium.close
+			Result := medium.text
 		end
 
 feature {NONE} -- Implementation
@@ -246,12 +245,6 @@ feature {NONE} -- Global attributes
 	Default_encoding: EL_ENCODEABLE_AS_TEXT
 		once ("PROCESS")
 			create Result.make_default -- UTF-8
-		end
-
-	Medium_pool: EL_RECYCLING_POOL [EL_ZSTRING_IO_MEDIUM]
-		-- pool of resuable mediums
-		once
-			create Result.make (agent: EL_ZSTRING_IO_MEDIUM do create Result.make (1000) end)
 		end
 
 end

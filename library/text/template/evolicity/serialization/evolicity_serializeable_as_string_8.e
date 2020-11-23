@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:28:26 GMT (Monday 23rd November 2020)"
-	revision: "1"
+	date: "2020-11-23 14:13:36 GMT (Monday 23rd November 2020)"
+	revision: "2"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_STRING_8
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_STRING
+	EVOLICITY_SERIALIZEABLE_AS_STRING_GENERAL
 
 feature {NONE} -- Constants
 
