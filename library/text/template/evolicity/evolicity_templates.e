@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 10:53:38 GMT (Tuesday 24th November 2020)"
-	revision: "16"
+	date: "2020-11-24 13:42:09 GMT (Tuesday 24th November 2020)"
+	revision: "17"
 
 class
 	EVOLICITY_TEMPLATES
@@ -46,9 +46,11 @@ feature -- Status query
 
 	has (a_name: EL_FILE_PATH): BOOLEAN
  		do
-			restrict_access (Compilers)
-				Result := Compilers.item.has (a_name)
-			end_restriction (Compilers)
+ 			if attached restricted_compiler_table as table then
+				Result := table.has (a_name)
+
+				end_restriction (Compiler_table)
+ 			end
 		end
 
 	is_nested_output_indented: BOOLEAN
@@ -75,14 +77,10 @@ feature -- Element change
 	clear_all
 			-- Clear all parsed templates
 		do
-			restrict_access (Compilers)
-				Compilers.item.wipe_out
-			end_restriction (Compilers)
-		end
-
-	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
-		do
-			put (a_name, as_zstring (template_source), Void)
+ 			if attached restricted_compiler_table as table then
+				table.wipe_out
+				end_restriction (Compiler_table)
+ 			end
 		end
 
 	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
@@ -93,14 +91,20 @@ feature -- Element change
 			put (file_path, Empty_string, encoding)
 		end
 
+	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
+		do
+			put (a_name, as_zstring (template_source), Void)
+		end
+
 feature -- Removal
 
 	remove (a_name: EL_FILE_PATH)
 			-- remove template
 		do
-			restrict_access (Compilers)
-				Compilers.item.remove (a_name)
-			end_restriction (Compilers)
+ 			if attached restricted_compiler_table as table then
+				table.remove (a_name)
+				end_restriction (Compiler_table)
+ 			end
 		end
 
 feature -- Basic operations
@@ -121,11 +125,11 @@ feature -- Basic operations
 				stack_table.extend (stack, a_name)
 			end
 			if stack.is_empty then
-				if attached {like Compilers.item} restricted_access (Compilers) as compiler_table then
-					if compiler_table.has_key (a_name) then
+				if attached restricted_compiler_table as table then
+					if table.has_key (a_name) then
 						-- Changed 23 Nov 2013
 						-- Before it used to make a deep_twin of an existing compiled template
-						template := compiler_table.found_item.compiled_template
+						template := table.found_item.compiled_template
 --						log.put_string_field ("Compiled template", a_name.to_string)
 --						log.put_new_line
 						stack.put (template)
@@ -133,7 +137,7 @@ feature -- Basic operations
 					else
 						Exception.raise_developer ("Template [%S] not found", [a_name])
 					end
-					end_restriction (Compilers)
+					end_restriction (Compiler_table)
 				end
 			else
 				template := stack_table.found_stack.item
@@ -187,30 +191,32 @@ feature -- Basic operations
 			Result := medium.text
 		end
 
-feature {NONE} -- Implementation
+feature -- Contract Support
 
 	is_type_template (key_path: EL_FILE_PATH): BOOLEAN
 		do
 			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with ("{}")
 		end
 
-	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
-			-- if `file_encoding' attached then compile template stored in file path `key_path'
-			-- and add to global template table, or else recompile existing template if file modified date is newer
+feature {NONE} -- Implementation
 
-			-- if not `file_encoding' attached then compile `template_source' and store
-			-- with key `key_path'
+	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
+		-- put compiled template into the thread safe global `Compiler_table' template table
+
+		-- if `file_encoding' attached then compile template stored in file path `key_path'
+		-- or else recompile existing template if file modified date is newer
+
+		-- if not `file_encoding' attached then compile `template_source' and store
+		-- with key `key_path'
 		require
 			valid_key_path: not attached file_encoding implies (is_type_template (key_path) and not template_source.is_empty)
 		local
-			compiler: EVOLICITY_COMPILER; compiler_table: like Compilers.item
-			source_is_new_or_updated: BOOLEAN
+			compiler: EVOLICITY_COMPILER; source_is_new_or_updated: BOOLEAN
  		do
-			restrict_access (Compilers)
-				compiler_table := Compilers.item
-				if compiler_table.has_key (key_path) then
+			if attached restricted_compiler_table as table then
+				if table.has_key (key_path) then
 					if attached file_encoding then
-						source_is_new_or_updated := key_path.modification_date_time > compiler_table.found_item.modification_time
+						source_is_new_or_updated := key_path.modification_date_time > table.found_item.modification_time
 					end
 				else
 					source_is_new_or_updated := True
@@ -225,14 +231,19 @@ feature {NONE} -- Implementation
 					end
 					compiler.parse
 					if compiler.parse_succeeded then
-						compiler_table [key_path] := compiler
---						log.put_string_field ("Parsed template", key_path.to_string)
---						log.put_new_line
+						table [key_path] := compiler
 					else
 						Exception.raise_developer ("Evolicity compilation failed %S", [key_path])
 					end
 				end
-			end_restriction (Compilers)
+				end_restriction (Compiler_table)
+			end
+		end
+
+	restricted_compiler_table: like Compiler_table.item
+		do
+			restrict_access (Compiler_table)
+			Result := Compiler_table.item
 		end
 
 feature {NONE} -- Internal attributes
@@ -243,10 +254,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Global attributes
 
-	Compilers: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, EL_FILE_PATH]]
+	Compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, EL_FILE_PATH]]
 			-- Global template compilers table
 		once ("PROCESS")
-			create Result.make (create {like Compilers.item}.make (11))
+			create Result.make (create {like Compiler_table.item}.make (11))
 		end
 
 end

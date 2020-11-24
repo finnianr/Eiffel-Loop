@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 9:36:19 GMT (Tuesday 24th November 2020)"
-	revision: "23"
+	date: "2020-11-24 13:55:45 GMT (Tuesday 24th November 2020)"
+	revision: "24"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -30,6 +30,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_MODULE_EIFFEL
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
@@ -80,7 +82,8 @@ feature {NONE} -- Initialization
 			make_default
 			output_path := a_output_path; template_path := a_template_path
 			if not template_path.is_empty then
-				Evolicity_templates.put_file (template_path, Utf_8_encoding)
+				-- Assume template is same encoding Current
+				Evolicity_templates.put_file (template_path, Current)
 			end
 		end
 
@@ -159,10 +162,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_template_name (type: TYPE [EVOLICITY_SERIALIZEABLE]): EL_FILE_PATH
+	new_template_name (type_id: INTEGER): EL_FILE_PATH
 		do
 			create Result
-			Result.set_base (Template_name_template #$ [type.name])
+			Result.set_base (Template_name_template #$ [Eiffel.type_of_type (type_id).name])
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN
@@ -193,10 +196,12 @@ feature {NONE} -- Implementation
 			--
 		do
 			if template_path.is_empty then
-				Result := Template_names.item (generating_type)
+				Result := Template_names.item ({ISE_RUNTIME}.dynamic_type (Current))
 			else
 				Result := template_path
 			end
+		ensure
+			valid_name: template_path.is_empty implies Evolicity_templates.is_type_template (Result)
 		end
 
 feature {NONE} -- Internal attributes
@@ -234,14 +239,9 @@ feature {NONE} -- Constants
 			Result := "{%S}.template"
 		end
 
-	Template_names: EL_CACHE_TABLE [EL_FILE_PATH, TYPE [EVOLICITY_SERIALIZEABLE]]
+	Template_names: EL_CACHE_TABLE [EL_FILE_PATH, INTEGER]
 		once
 			create Result.make (7, agent new_template_name)
-		end
-
-	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
-		once
-			create Result.make_default -- UTF-8
 		end
 
 note

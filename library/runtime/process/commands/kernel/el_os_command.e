@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:44:42 GMT (Wednesday 27th May 2020)"
-	revision: "9"
+	date: "2020-11-24 13:41:47 GMT (Tuesday 24th November 2020)"
+	revision: "10"
 
 class
 	EL_OS_COMMAND
@@ -132,7 +132,7 @@ feature {NONE} -- Constants
 
 	Name_template: ZSTRING
 		once
-			Result := "{%S}.%S"
+			Result := "{%S.%S}.template"
 		end
 
 end
