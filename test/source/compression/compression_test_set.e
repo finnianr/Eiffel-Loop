@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 11:51:33 GMT (Thursday 20th August 2020)"
-	revision: "1"
+	date: "2020-11-24 10:50:00 GMT (Tuesday 24th November 2020)"
+	revision: "2"
 
 class
 	COMPRESSION_TEST_SET
 
 inherit
-	EIFFEL_LOOP_TEST_SET
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_ZLIB
 
@@ -37,8 +39,8 @@ feature -- Tests
 			decompressed_list: EL_DECOMPRESSED_DATA_LIST
 			decompressed_data: MANAGED_POINTER
 		do
-			output_path := "XML.archive"
-			file_list := File_system.recursive_files ("XML")
+			output_path := work_area_dir + "XML.archive"
+			file_list := File_system.recursive_files (work_area_data_dir)
 			create archive.make_open_write (output_path)
 
 			archive.append_file_list (file_list)
@@ -64,7 +66,7 @@ feature -- Tests
 
 	test_zlib_compress
 		do
-			across File_system.recursive_files ("XML") as path loop
+			across File_system.recursive_files (work_area_data_dir) as path loop
 				test_zlib_with_file (path.item)
 			end
 		end
@@ -88,6 +90,11 @@ feature {NONE} -- Implementation
 			create uncompressed_data.share_from_pointer (array.base_address, array.count)
 
 			assert ("Decompressed ok", file_data ~ uncompressed_data)
+		end
+
+	Source_dir: EL_DIR_PATH
+		once
+			Result := EL_test_data_dir.joined_dir_path ("XML")
 		end
 
 end

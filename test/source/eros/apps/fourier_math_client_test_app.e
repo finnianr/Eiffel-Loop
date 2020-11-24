@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-12 15:42:04 GMT (Thursday 12th November 2020)"
-	revision: "18"
+	date: "2020-11-24 9:20:20 GMT (Tuesday 24th November 2020)"
+	revision: "19"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -48,7 +48,7 @@ feature {NONE} -- Initiliazation
 			create time.make_now
 			random.set_seed (time.compact_time)
 
-			Evolicity_templates.set_horrible_indentation
+			Evolicity_templates.disable_indentation
 		end
 
 feature -- Basic operations

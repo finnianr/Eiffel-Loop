@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 15:51:26 GMT (Monday 23rd November 2020)"
-	revision: "15"
+	date: "2020-11-24 10:53:38 GMT (Tuesday 24th November 2020)"
+	revision: "16"
 
 class
 	EVOLICITY_TEMPLATES
@@ -25,6 +25,11 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		end
+
 create
 	make
 
@@ -34,7 +39,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create stack_table.make_equal (19)
-			set_nice_indentation
+			enable_indentation
 		end
 
 feature -- Status query
@@ -52,14 +57,14 @@ feature -- Status query
 
 feature -- Status change
 
-	set_horrible_indentation
+	disable_indentation
 			-- Turn off the indenting feature that nicely indents nested XML
 			-- This will make application performance better
 		do
 			is_nested_output_indented := False
 		end
 
-	set_nice_indentation
+	enable_indentation
 			-- Turn on the indenting feature that nicely indents nested XML
 		do
 			is_nested_output_indented := True
@@ -76,15 +81,8 @@ feature -- Element change
 		end
 
 	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
-		local
-			source: ZSTRING
 		do
-			if attached {ZSTRING} template_source as zstring then
-				source := zstring
-			else
-				create source.make_from_general (template_source)
-			end
-			put (a_name, source, Default_encoding)
+			put (a_name, as_zstring (template_source), Void)
 		end
 
 	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
@@ -168,8 +166,7 @@ feature -- Basic operations
 			text_file.close
 		end
 
-	merged (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
-		-- can be used in recursive contexts
+	merged_to_string (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
 		local
 			medium: EL_ZSTRING_IO_MEDIUM
 		do
@@ -179,7 +176,7 @@ feature -- Basic operations
 			Result := medium.text
 		end
 
-	merged_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
+	merged_to_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
 			--
 		local
 			medium: EL_STRING_8_IO_MEDIUM
@@ -192,26 +189,36 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: EL_ENCODING_BASE)
-			-- if `file_encoding /= Default_encoding' then compile template stored in
-			-- file path `key_path' and add to global template table
-			-- or recompile existing template if file modified date is newer
+	is_type_template (key_path: EL_FILE_PATH): BOOLEAN
+		do
+			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with ("{}")
+		end
 
-			-- if `file_encoding = Default_encoding' then compile `template_source' and store
+	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
+			-- if `file_encoding' attached then compile template stored in file path `key_path'
+			-- and add to global template table, or else recompile existing template if file modified date is newer
+
+			-- if not `file_encoding' attached then compile `template_source' and store
 			-- with key `key_path'
+		require
+			valid_key_path: not attached file_encoding implies (is_type_template (key_path) and not template_source.is_empty)
 		local
 			compiler: EVOLICITY_COMPILER; compiler_table: like Compilers.item
-			is_file_path: BOOLEAN
+			source_is_new_or_updated: BOOLEAN
  		do
- 			is_file_path := file_encoding /= Default_encoding
 			restrict_access (Compilers)
 				compiler_table := Compilers.item
-				if not compiler_table.has_key (key_path)
-					or else is_file_path and then key_path.modification_date_time > compiler_table.found_item.modification_time
-				then
+				if compiler_table.has_key (key_path) then
+					if attached file_encoding then
+						source_is_new_or_updated := key_path.modification_date_time > compiler_table.found_item.modification_time
+					end
+				else
+					source_is_new_or_updated := True
+				end
+				if source_is_new_or_updated then
 					create compiler.make
-					if is_file_path then
-						compiler.set_encoding_from_other (file_encoding)
+					if attached file_encoding as encoding then
+						compiler.set_encoding_from_other (encoding)
 						compiler.set_source_text_from_file (key_path)
 					else
 						compiler.set_source_text (template_source)
@@ -240,11 +247,6 @@ feature {NONE} -- Global attributes
 			-- Global template compilers table
 		once ("PROCESS")
 			create Result.make (create {like Compilers.item}.make (11))
-		end
-
-	Default_encoding: EL_ENCODEABLE_AS_TEXT
-		once ("PROCESS")
-			create Result.make_default -- UTF-8
 		end
 
 end

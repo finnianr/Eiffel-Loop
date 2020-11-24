@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:40 GMT (Tuesday 10th November 2020)"
-	revision: "14"
+	date: "2020-11-24 9:17:01 GMT (Tuesday 24th November 2020)"
+	revision: "15"
 
 class
 	EVOLICITY_TEST_APP
@@ -48,11 +48,11 @@ feature -- Test
 
 			vars.put_integer (var_x, 2)
 			vars.put_integer (var_y, 2)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path, vars), 120)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, vars), 120)
 			log.put_new_line
 
 			vars.put_integer (var_x, 1)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged (template_path, vars), 120)
+			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, vars), 120)
 			log.exit
 		end
 

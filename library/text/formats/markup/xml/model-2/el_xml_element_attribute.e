@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-09 18:53:24 GMT (Thursday 9th April 2020)"
-	revision: "1"
+	date: "2020-11-24 10:16:29 GMT (Tuesday 24th November 2020)"
+	revision: "2"
 
 class
 	EL_XML_ELEMENT_ATTRIBUTE
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	make_from_string (nvp_pair: READABLE_STRING_GENERAL)
 		do
 			make (Zstring.as_zstring (nvp_pair), '=')
-			if value.enclosed_with_general ("%"%"") then
+			if value.enclosed_with ("%"%"") then
 				value.remove_head (1)
 				value.remove_tail (1)
 			end

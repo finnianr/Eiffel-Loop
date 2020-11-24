@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:30:13 GMT (Monday 23rd November 2020)"
-	revision: "22"
+	date: "2020-11-24 9:36:19 GMT (Tuesday 24th November 2020)"
+	revision: "23"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -161,7 +161,8 @@ feature {NONE} -- Implementation
 
 	new_template_name (type: TYPE [EVOLICITY_SERIALIZEABLE]): EL_FILE_PATH
 		do
-			Result := Template_name_template #$ [type.name]
+			create Result
+			Result.set_base (Template_name_template #$ [type.name])
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN

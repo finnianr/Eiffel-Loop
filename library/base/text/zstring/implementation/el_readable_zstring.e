@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 12:03:38 GMT (Thursday 20th August 2020)"
-	revision: "52"
+	date: "2020-11-24 10:34:09 GMT (Tuesday 24th November 2020)"
+	revision: "53"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -289,20 +289,17 @@ feature -- Status query
 			end
 		end
 
-	enclosed_with (character_pair: EL_READABLE_ZSTRING): BOOLEAN
+	enclosed_with (character_pair: READABLE_STRING_GENERAL): BOOLEAN
 		require
 			is_pair: character_pair.count = 2
 		do
-			if count >= 2 then
-				Result := z_code (1) = character_pair.z_code (1) and then z_code (count) = character_pair.z_code (2)
+			if count >= 2 and then character_pair.count = 2 then
+				if attached {EL_READABLE_ZSTRING} character_pair as zstr then
+					Result := z_code (1) = zstr.z_code (1) and then z_code (count) = zstr.z_code (2)
+				else
+					Result := item (1) = character_pair [1] and then item (count) = character_pair [2]
+				end
 			end
-		end
-
-	enclosed_with_general (character_pair: READABLE_STRING_GENERAL): BOOLEAN
-		require
-			is_pair: character_pair.count = 2
-		do
-			Result := enclosed_with (adapted_argument (character_pair, 1))
 		end
 
 	encoded_with (a_codec: EL_ZCODEC): BOOLEAN
