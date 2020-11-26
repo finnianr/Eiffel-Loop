@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 13:55:45 GMT (Tuesday 24th November 2020)"
-	revision: "24"
+	date: "2020-11-24 15:19:53 GMT (Tuesday 24th November 2020)"
+	revision: "25"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -50,8 +50,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_ENCODEABLE_AS_TEXT}
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
-			output_path := Empty_file_path
-			template_path := Empty_file_path
+			output_path := Default_file_path
+			template_path := Default_file_path
 			if has_string_template then
 				Evolicity_templates.put_source (template_name, stripped_template)
 			end
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_output_path: like output_path)
 			--
 		do
-			make_from_template_and_output (Empty_file_path, a_output_path)
+			make_from_template_and_output (Default_file_path, a_output_path)
 			if file_must_exist and not output_path.exists then
 				serialize
 			end
@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 	make_from_template (a_template_path: EL_FILE_PATH)
 			--
 		do
-			make_from_template_and_output (a_template_path, Empty_file_path)
+			make_from_template_and_output (a_template_path, Default_file_path)
 		end
 
 	make_from_template_and_output (a_template_path, a_output_path: EL_FILE_PATH)
@@ -217,7 +217,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "encoding_name, template_name, current")
 		end
 
-	Empty_file_path: EL_FILE_PATH
+	Default_file_path: EL_FILE_PATH
 			--
 		once
 			create Result

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 13:42:09 GMT (Tuesday 24th November 2020)"
-	revision: "17"
+	date: "2020-11-24 15:14:59 GMT (Tuesday 24th November 2020)"
+	revision: "18"
 
 class
 	EVOLICITY_TEMPLATES
@@ -40,71 +40,6 @@ feature {NONE} -- Initialization
 		do
 			create stack_table.make_equal (19)
 			enable_indentation
-		end
-
-feature -- Status query
-
-	has (a_name: EL_FILE_PATH): BOOLEAN
- 		do
- 			if attached restricted_compiler_table as table then
-				Result := table.has (a_name)
-
-				end_restriction (Compiler_table)
- 			end
-		end
-
-	is_nested_output_indented: BOOLEAN
-		-- is the indenting feature that nicely indents nested XML, active?
-		-- Active by default.
-
-feature -- Status change
-
-	disable_indentation
-			-- Turn off the indenting feature that nicely indents nested XML
-			-- This will make application performance better
-		do
-			is_nested_output_indented := False
-		end
-
-	enable_indentation
-			-- Turn on the indenting feature that nicely indents nested XML
-		do
-			is_nested_output_indented := True
-		end
-
-feature -- Element change
-
-	clear_all
-			-- Clear all parsed templates
-		do
- 			if attached restricted_compiler_table as table then
-				table.wipe_out
-				end_restriction (Compiler_table)
- 			end
-		end
-
-	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
-			--
-		require
-			file_exists: file_path.exists
-		do
-			put (file_path, Empty_string, encoding)
-		end
-
-	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
-		do
-			put (a_name, as_zstring (template_source), Void)
-		end
-
-feature -- Removal
-
-	remove (a_name: EL_FILE_PATH)
-			-- remove template
-		do
- 			if attached restricted_compiler_table as table then
-				table.remove (a_name)
-				end_restriction (Compiler_table)
- 			end
 		end
 
 feature -- Basic operations
@@ -170,6 +105,8 @@ feature -- Basic operations
 			text_file.close
 		end
 
+feature -- String output
+
 	merged_to_string (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
 		local
 			medium: EL_ZSTRING_IO_MEDIUM
@@ -189,6 +126,71 @@ feature -- Basic operations
 			merge (a_name, context, medium)
 			medium.close
 			Result := medium.text
+		end
+
+feature -- Status query
+
+	has (a_name: EL_FILE_PATH): BOOLEAN
+ 		do
+ 			if attached restricted_compiler_table as table then
+				Result := table.has (a_name)
+
+				end_restriction (Compiler_table)
+ 			end
+		end
+
+	is_nested_output_indented: BOOLEAN
+		-- is the indenting feature that nicely indents nested XML, active?
+		-- Active by default.
+
+feature -- Element change
+
+	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
+			--
+		require
+			file_exists: file_path.exists
+		do
+			put (file_path, Empty_string, encoding)
+		end
+
+	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
+		do
+			put (a_name, as_zstring (template_source), Void)
+		end
+
+feature -- Status change
+
+	disable_indentation
+			-- Turn off the indenting feature that nicely indents nested XML
+			-- This will make application performance better
+		do
+			is_nested_output_indented := False
+		end
+
+	enable_indentation
+			-- Turn on the indenting feature that nicely indents nested XML
+		do
+			is_nested_output_indented := True
+		end
+
+feature -- Removal
+
+	clear_all
+			-- Clear all parsed templates
+		do
+ 			if attached restricted_compiler_table as table then
+				table.wipe_out
+				end_restriction (Compiler_table)
+ 			end
+		end
+
+	remove (a_name: EL_FILE_PATH)
+			-- remove template
+		do
+ 			if attached restricted_compiler_table as table then
+				table.remove (a_name)
+				end_restriction (Compiler_table)
+ 			end
 		end
 
 feature -- Contract Support
@@ -242,8 +244,11 @@ feature {NONE} -- Implementation
 
 	restricted_compiler_table: like Compiler_table.item
 		do
-			restrict_access (Compiler_table)
-			Result := Compiler_table.item
+			if attached {like Compiler_table.item} restricted_access (Compiler_table) as table then
+				Result := table
+			else
+				create Result.make (0)
+			end
 		end
 
 feature {NONE} -- Internal attributes

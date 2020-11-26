@@ -1,8 +1,10 @@
 note
-	description: "HTTP parameters passed throught Fast CGI connection"
+	description: "HTTP parameters passed throught Fast CGI connection and set reflectively"
 	notes: "[
-		The uppercase "FCGI parameters" names exactly match the Fast CGI parameter names
-		so that the reflection mechanism will work for setting them.
+		Uppercase FastCGI parameters are translated to lowercase names that match class field names as for
+		example:
+		
+			SCRIPT_FILENAME -> script_filename
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 8:04:21 GMT (Thursday 28th May 2020)"
-	revision: "19"
+	date: "2020-11-26 15:34:38 GMT (Thursday 26th November 2020)"
+	revision: "20"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -38,6 +40,8 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
+	EL_MODULE_TUPLE
+
 create
 	make, make_from_table
 
@@ -52,105 +56,10 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_auth_type (a_auth_type: like auth_type)
-		do
-			auth_type := a_auth_type
-		end
-
 	set_content (a_content: like content)
 		do
 			content := a_content
 			headers.set_content_length (content.count)
-		end
-
-	set_document_root (a_document_root: like document_root)
-		do
-			document_root := a_document_root
-		end
-
-	set_gateway_interface (a_gateway_interface: like gateway_interface)
-		do
-			gateway_interface := a_gateway_interface
-		end
-
-	set_path (a_path: like path)
-		do
-			path := a_path
-		end
-
-	set_path_info (a_path_info: like path_info)
-		do
-			path_info := a_path_info
-		end
-
-	set_path_translated (a_path_translated: like path_translated)
-		do
-			path_translated := a_path_translated
-		end
-
-	set_query_string (a_query_string: like query_string)
-		do
-			query_string := a_query_string
-		end
-
-	set_remote_ident (a_remote_ident: like remote_ident)
-		do
-			remote_ident := a_remote_ident
-		end
-
-	set_request_method (a_request_method: like request_method)
-		do
-			request_method := a_request_method
-		end
-
-	set_request_uri (a_request_uri: like request_uri)
-		do
-			request_uri := a_request_uri
-		end
-
-	set_script_filename (a_script_filename: like script_filename)
-		do
-			script_filename := a_script_filename
-		end
-
-	set_script_name (a_script_name: like script_name)
-		do
-			script_name := a_script_name
-		end
-
-	set_script_url (a_script_url: like script_url)
-		do
-			script_url := a_script_url
-		end
-
-	set_server_addr (a_server_addr: like server_addr)
-		do
-			server_addr := a_server_addr
-		end
-
-	set_server_name (a_server_name: like server_name)
-		do
-			server_name := a_server_name
-		end
-
-	set_server_port (a_server_port: like server_port)
-		do
-			server_port := a_server_port
-		end
-
-	set_server_protocol (a_server_protocol: like server_protocol)
-		do
-			server_protocol := a_server_protocol
-		end
-
-	set_server_signature (a_server_signature: like server_signature)
-		do
-			server_signature := a_server_signature
-		end
-
-	set_server_software (a_server_software: like server_software)
-		do
-			server_software := a_server_software
 		end
 
 	wipe_out
@@ -296,16 +205,13 @@ feature {NONE} -- Implementation
 
 	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
 
-		local
-			prefixes: like Header_prefixes
 		do
-			prefixes := Header_prefixes
-			prefixes.find_first_true (agent starts_with (name, ?))
-			if prefixes.found then
-				if prefixes.index = 2 then
-					-- remove HTTP_
-					name.remove_head (prefixes.item.count)
-				end
+			if name.starts_with (Header_prefix.content) then
+				headers.set_field (name, value)
+
+			elseif name.starts_with (Header_prefix.http) then
+				-- trim "HTTP_"
+				name.remove_head (Header_prefix.http.count)
 				headers.set_field (name, value)
 			else
 				Precursor (table, name, value)
@@ -331,9 +237,10 @@ feature {NONE} -- Constants
 			Result := "/"
 		end
 
-	Header_prefixes: EL_ARRAYED_LIST [STRING]
+	Header_prefix: TUPLE [content, http: STRING]
 		once
-			create Result.make_from_list (<< "CONTENT_", "HTTP_" >>)
+			create Result
+			Tuple.fill (Result, "CONTENT_, HTTP_")
 		end
 
 	Method_get: ZSTRING

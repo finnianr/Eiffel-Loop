@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-19 10:07:16 GMT (Saturday 19th September 2020)"
-	revision: "18"
+	date: "2020-11-26 15:01:29 GMT (Thursday 26th November 2020)"
+	revision: "19"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -34,16 +34,16 @@ inherit
 			valid_description_table as valid_help_table
 		end
 
-	EL_MODULE_ARGS
-
-	EL_MODULE_TUPLE
-
 	EL_MAKEABLE
 		rename
 			make as make_default
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_ARGS
+
+	EL_MODULE_TUPLE
 
 	EL_STRING_8_CONSTANTS
 

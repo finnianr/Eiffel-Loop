@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 9:38:38 GMT (Monday 1st June 2020)"
-	revision: "23"
+	date: "2020-11-26 15:33:55 GMT (Thursday 26th November 2020)"
+	revision: "24"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -173,8 +173,12 @@ feature -- Authorization
 			verifier: AIA_VERIFIER
 		do
 			request := new_amazon_request
-			request.headers.set_accept ("*/*")
-			request.set_request_uri ("/service/foo.php")
+			request.set_from_parsed ("[
+				HTTP_ACCEPT:
+					*/*
+				REQUEST_URI:
+					/service/foo.php
+			]")
 			request.set_content ("{%"operation%" : %"bar%"}")
 
 			sign (request)
@@ -294,13 +298,20 @@ feature {NONE} -- Implementation
 	new_amazon_request: FCGI_REQUEST_PARAMETERS
 		do
 			create Result.make
-			Result.headers.set_host ("amazon.com")
-			Result.headers.set_content_type ("application/json")
-
-			Result.set_server_protocol ("HTTP/1.1")
-			Result.set_server_port (80)
-			Result.set_request_method ("POST")
-			Result.set_request_uri ("/")
+			Result.set_from_parsed ("[
+				HTTP_HOST:
+					amazon.com
+				CONTENT_TYPE:
+					application/json
+				SERVER_PROTOCOL:
+					HTTP/1.1
+				SERVER_PORT:
+					80
+				REQUEST_METHOD:
+					POST
+				REQUEST_URI:
+					/
+			]")
 		end
 
 	new_encrypter: EL_AES_ENCRYPTER

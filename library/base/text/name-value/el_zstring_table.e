@@ -14,11 +14,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-17 12:18:15 GMT (Thursday 17th September 2020)"
-	revision: "1"
+	date: "2020-11-26 14:58:46 GMT (Thursday 26th November 2020)"
+	revision: "2"
 
 class
-	EL_DESCRIPTION_TABLE
+	EL_ZSTRING_TABLE
 
 inherit
 	HASH_TABLE [ZSTRING, STRING]
