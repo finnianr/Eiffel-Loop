@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 16:21:16 GMT (Friday 20th November 2020)"
-	revision: "31"
+	date: "2020-11-28 10:03:04 GMT (Saturday 28th November 2020)"
+	revision: "32"
 
 deferred class
 	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
@@ -76,7 +76,7 @@ feature {NONE} -- Initialization
 					check
 						no_conflict: not name_by_value.conflict
 					end
-					count := count + 1
+					internal_count := internal_count.next
 				end
 			end
 		ensure then
@@ -86,6 +86,9 @@ feature {NONE} -- Initialization
 feature -- Measurement
 
 	count: INTEGER
+		do
+			Result := internal_count.code
+		end
 
 feature -- Access
 
@@ -168,6 +171,9 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	internal_count: CHARACTER_32
+		-- using CHARACTER_32 so it won't be included as part of enumeration
 
 	field_type_id: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration

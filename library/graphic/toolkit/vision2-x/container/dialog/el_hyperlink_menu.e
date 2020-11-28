@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-12 16:27:40 GMT (Wednesday 12th August 2020)"
-	revision: "10"
+	date: "2020-11-28 15:30:45 GMT (Saturday 28th November 2020)"
+	revision: "11"
 
 deferred class
-	EL_HYPERLINK_MENU [G -> EL_NAMEABLE]
+	EL_HYPERLINK_MENU [G -> EL_NAMEABLE [ZSTRING]]
 
 inherit
 	EL_HORIZONTAL_VIEW_DIALOG

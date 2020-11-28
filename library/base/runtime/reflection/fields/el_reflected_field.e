@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 8:03:41 GMT (Thursday 2nd April 2020)"
-	revision: "19"
+	date: "2020-11-28 15:29:30 GMT (Saturday 28th November 2020)"
+	revision: "20"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -24,6 +24,8 @@ inherit
 		redefine
 			is_equal
 		end
+
+	EL_NAMEABLE [STRING] undefine is_equal end
 
 	EL_REFLECTION_CONSTANTS undefine is_equal end
 

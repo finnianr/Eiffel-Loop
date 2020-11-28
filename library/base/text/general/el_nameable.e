@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2020-11-28 9:48:58 GMT (Saturday 28th November 2020)"
+	revision: "6"
 
 deferred class
-	EL_NAMEABLE
+	EL_NAMEABLE [S -> READABLE_STRING_GENERAL]
 
 feature -- Access
 
-	name: ZSTRING
+	name: S
 		deferred
 		end
 

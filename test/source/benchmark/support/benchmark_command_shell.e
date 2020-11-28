@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-31 11:00:38 GMT (Saturday 31st October 2020)"
-	revision: "13"
+	date: "2020-11-28 16:41:03 GMT (Saturday 28th November 2020)"
+	revision: "14"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -28,6 +28,7 @@ feature {NONE} -- Constants
 			create Result.make (<<
 				["Compare list iteration methods",					{LIST_ITERATION_COMPARISON}],
 				["Compare hash-set vs linear search",				{HASH_SET_VERSUS_LINEAR_COMPARISON}],
+				["Compare hash-table vs nameables-list search",	{HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON}],
 				["Compare string concatenation methods",			{STRING_CONCATENATION_COMPARISON}],
 				["Compare {ZSTRING}.replace_substring",			{REPLACE_SUBSTRING_COMPARISON}],
 				["Compare {ZSTRING}.substring_index",				{SUBSTRING_INDEX_COMPARISON}],

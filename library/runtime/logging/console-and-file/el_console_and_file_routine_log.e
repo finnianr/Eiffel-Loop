@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-14 9:44:28 GMT (Saturday 14th November 2020)"
-	revision: "11"
+	date: "2020-11-28 9:50:10 GMT (Saturday 28th November 2020)"
+	revision: "12"
 
 class
 	EL_CONSOLE_AND_FILE_ROUTINE_LOG
@@ -139,11 +139,11 @@ feature {NONE} -- Implementation
 			elseif attached {EL_PATH} arg_object as path_arg then
 				l_out.put_quoted_string (path_arg.to_string, Double_quote)
 
-			elseif attached {EL_NAMEABLE} arg_object as nameable then
+			elseif attached {EL_NAMEABLE [READABLE_STRING_GENERAL]} arg_object as nameable then
 				if nameable.name.has (' ') then
 					l_out.put_quoted_string (nameable.name, Double_quote)
 				else
-					l_out.put_string (nameable.name)
+					l_out.put_string_general (nameable.name)
 				end
 
 			elseif attached {BOOLEAN_REF} arg_object as bool then
@@ -196,5 +196,4 @@ feature {NONE} -- Implementation
 		end
 
 end
-
 

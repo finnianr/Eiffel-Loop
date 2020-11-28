@@ -1,11 +1,14 @@
 note
 	description: "[
-		Table of descriptions parsed from text with format
+		Table of [$source EL_ZSTRING] strings with keys of type `STRING_8' and createable from
+		parsed general text with format
 		
 			key_1:
-				Description One
+				Value One Line 1
+				Value One Line 2
+				..
 			key_2:
-				Description Two
+				Value Two
 				etc
 	]"
 
@@ -14,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 14:58:46 GMT (Thursday 26th November 2020)"
-	revision: "2"
+	date: "2020-11-26 19:47:31 GMT (Thursday 26th November 2020)"
+	revision: "3"
 
 class
 	EL_ZSTRING_TABLE

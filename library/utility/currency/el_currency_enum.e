@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 16:01:06 GMT (Friday 20th November 2020)"
-	revision: "6"
+	date: "2020-11-28 10:07:49 GMT (Saturday 28th November 2020)"
+	revision: "7"
 
 class
 	EL_CURRENCY_ENUM

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:08:32 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2020-11-28 15:30:34 GMT (Saturday 28th November 2020)"
+	revision: "7"
 
 class
-	EL_RIGHT_CONTEXT_MENU [G -> EL_NAMEABLE]
+	EL_RIGHT_CONTEXT_MENU [G -> EL_NAMEABLE [ZSTRING]]
 
 inherit
 	EV_MENU
@@ -43,7 +43,6 @@ feature {NONE} -- Initialization
 				item_list.forth
 			end
 		end
-
 
 feature {NONE} -- Implementation
 

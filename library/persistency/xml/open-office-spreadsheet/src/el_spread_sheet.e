@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-05 15:35:21 GMT (Saturday 5th September 2020)"
-	revision: "9"
+	date: "2020-11-28 9:49:07 GMT (Saturday 28th November 2020)"
+	revision: "10"
 
 class
 	EL_SPREAD_SHEET
@@ -34,7 +34,7 @@ inherit
 			is_equal, out, copy
 		end
 
-	EL_NAMEABLE
+	EL_NAMEABLE [ZSTRING]
 		undefine
 			is_equal, out, copy
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 10:54:00 GMT (Wednesday 8th April 2020)"
-	revision: "19"
+	date: "2020-11-28 16:32:40 GMT (Saturday 28th November 2020)"
+	revision: "20"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -17,9 +17,9 @@ inherit
 		rename
 			make as make_table
 		export
-			{EL_REFLECTED_FIELD_TABLE} all
-			{ANY} extend, found, found_item, count, start, after, forth, item_for_iteration, key_for_iteration,
-				has_key, has, current_keys
+			{EL_REFLECTION_HANDLER} all
+			{ANY} extend, found, found_item, count, start, after, forth, item_for_iteration,
+					key_for_iteration, has_key, has, current_keys
 		end
 
 	EL_REFLECTION_HANDLER
