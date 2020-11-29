@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 10:13:38 GMT (Sunday 29th November 2020)"
-	revision: "14"
+	date: "2020-11-29 16:07:37 GMT (Sunday 29th November 2020)"
+	revision: "15"
 
 class
 	PP_BUY_OPTIONS
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			make (0, Empty_string, Currency.EUR)
+			make (0, Empty_string, Currency_enum.EUR)
 		end
 
 feature -- Access
@@ -72,13 +72,13 @@ feature {NONE} -- Implementation
 			l_price_x100: INTEGER
 		do
 			create Result.make (5)
-			if Currency.unit.has (currency_code) then
+			if Currency_enum.unit.has (currency_code) then
 				l_price_x100 := (price_x100 / 100).rounded
 			else
 				l_price_x100 := price_x100
 			end
 			Result.append_integer (l_price_x100)
-			if Result.count >= 3 and not Currency.unit.has (currency_code) then
+			if Result.count >= 3 and not Currency_enum.unit.has (currency_code) then
 				Result.insert_character ('.', Result.count - 1)
 			end
 		end

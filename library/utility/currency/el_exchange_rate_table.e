@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 9:35:00 GMT (Monday 20th April 2020)"
-	revision: "10"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "11"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 			euro_table := new_euro_table
 			if euro_table.has (base_currency) then
 				base_euro_value := euro_table.euro_unit_value (base_currency)
-				extend (base_euro_value, Currency.EUR)
+				extend (base_euro_value, Currency_enum.EUR)
 				from euro_table.start until euro_table.after loop
 					if euro_table.key_for_iteration /~ base_currency then
 						extend (euro_table.item_for_iteration * base_euro_value, euro_table.key_for_iteration)

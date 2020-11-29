@@ -60,6 +60,7 @@
 		-->
 		<library name = "EL_c_api" readonly = "false" location = "$EIFFEL_LOOP/library/C-language-interface.ecf"/>
 		<library name = "EL_compression" readonly = "false" location = "$EIFFEL_LOOP/library/compression.ecf"/>
+		<library name = "EL_currency" readonly = "false" location = "$EIFFEL_LOOP/library/currency.ecf"/>
 		<library name = "EL_eco_db" readonly = "false" location = "$EIFFEL_LOOP/library/Eco-DB.ecf"/>
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<variable name = "eros_server_enabled" value = "false"/>

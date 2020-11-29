@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:04:17 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2020-11-29 16:08:57 GMT (Sunday 29th November 2020)"
+	revision: "8"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make (query: STRING)
 		do
 			Precursor (query)
-			options_list.do_all (agent {PP_BUTTON_OPTION}.set_currency (detail.currency_code.value))
+			options_list.do_all (agent {PP_BUTTON_OPTION}.set_currency (detail.currency_code))
 		end
 
 	make_default

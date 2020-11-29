@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 5:10:59 GMT (Saturday 25th January 2020)"
-	revision: "13"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "14"
 
 class
 	EL_CURRENCY
@@ -46,7 +46,7 @@ feature -- Access
 	code_name: STRING
 		-- EUR, USD etc
 		do
-			Result := Currency.name (code)
+			Result := Currency_enum.name (code)
 		end
 
 	formatted (amount_x100: INTEGER): ZSTRING

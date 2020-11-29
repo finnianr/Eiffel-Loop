@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-13 14:07:09 GMT (Wednesday 13th December 2017)"
-	revision: "2"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "3"
 
 class
 	EL_USD_EXCHANGE_RATE_TABLE
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 
 	Base_currency: NATURAL_8
 		once
-			Result := Currency.USD
+			Result := Currency_enum.USD
 		end
 
 end

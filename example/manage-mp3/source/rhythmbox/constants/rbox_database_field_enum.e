@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 11:19:35 GMT (Friday 20th November 2020)"
-	revision: "5"
+	date: "2020-11-29 16:31:06 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -114,13 +114,10 @@ feature {NONE} -- Initialization
 		end
 
 	make
-		local
-			l_list: EL_SORTABLE_ARRAYED_LIST [NATURAL_16]
 		do
 			Precursor
-			create l_list.make_from_array (name_by_value.current_keys)
-			l_list.sort
-			sorted := l_list.to_array
+			create sorted.make_from_array (list.to_array)
+			sorted.sort
 			create element_cache_table.make (count, agent new_element)
 		end
 
@@ -282,7 +279,7 @@ feature -- Access
 			Result := << artist, album, date, genre, title >>
 		end
 
-	sorted: ARRAY [NATURAL_16]
+	sorted: SORTABLE_ARRAY [NATURAL_16]
 
 	type (field_code: NATURAL_16): NATURAL_16
 		do

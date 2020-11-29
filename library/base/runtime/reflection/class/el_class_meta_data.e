@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 13:06:38 GMT (Sunday 29th November 2020)"
-	revision: "30"
+	date: "2020-11-29 13:27:00 GMT (Sunday 29th November 2020)"
+	revision: "31"
 
 class
 	EL_CLASS_META_DATA
@@ -53,14 +53,16 @@ feature {NONE} -- Initialization
 			create field_list.make (new_field_list.to_array)
 			field_table := field_list.to_table (a_enclosing_object)
 
---			set enumeration types
+--			associate enumerations with numeric fields
 			across a_enclosing_object.new_enumerations as enum loop
 				if field_table.has_key (enum.key) then
 					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
 						numeric.set_enumeration (enum.item)
 					end
 				else
-					check valid_enumeration_field_name: False end
+					check
+						valid_enumeration_field_name: False
+					end
 				end
 			end
 		end

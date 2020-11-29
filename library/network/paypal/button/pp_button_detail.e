@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-11 14:48:44 GMT (Friday 11th May 2018)"
-	revision: "7"
+	date: "2020-11-29 16:08:32 GMT (Sunday 29th November 2020)"
+	revision: "8"
 
 class
 	PP_BUTTON_DETAIL
@@ -38,7 +38,7 @@ feature -- Access
 
 	business: STRING
 
-	currency_code: EL_CURRENCY_CODE
+	currency_code: NATURAL_8
 
 	item_name: ZSTRING
 

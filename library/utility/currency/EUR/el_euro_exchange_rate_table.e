@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 10:01:20 GMT (Saturday 28th November 2020)"
-	revision: "10"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "11"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -81,8 +81,8 @@ feature {NONE} -- Implementation
 				create root_node.make_from_string (xml)
 				across root_node.context_list ("//Cube[boolean(@currency)]") as rate loop
 					code_name := rate.node.attributes.string_8 (Name_currency)
-					if Currency.is_valid_name (code_name) then
-						extend (rate.node.attributes.real (Name_rate), Currency.value (code_name))
+					if Currency_enum.is_valid_name (code_name) then
+						extend (rate.node.attributes.real (Name_rate), Currency_enum.value (code_name))
 					end
 				end
 			end
@@ -108,7 +108,7 @@ feature {NONE} -- Constants
 
 	Base_currency: NATURAL_8
 		once
-			Result := Currency.EUR
+			Result := Currency_enum.EUR
 		end
 
 	ECB_daily_rate_url: ZSTRING

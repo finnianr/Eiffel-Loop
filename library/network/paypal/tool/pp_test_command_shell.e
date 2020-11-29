@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 11:37:01 GMT (Saturday 11th April 2020)"
-	revision: "15"
+	date: "2020-11-29 16:09:13 GMT (Sunday 29th November 2020)"
+	revision: "16"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -41,7 +41,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 			create paypal.make (95.0)
 			paypal.open
-			currency_code := Currency.HUF
+			currency_code := Currency_enum.HUF
 		end
 
 feature -- Basic operations
@@ -175,9 +175,9 @@ feature {NONE} -- Implementation
 	new_single_license: PP_PRODUCT_INFO
 		do
 			create Result.make
-			Result.currency_code.set_value (currency_code)
+			Result.set_currency_code (currency_code)
 			Result.set_item_name ("Single PC subscription pack")
-			Result.set_item_number ("1.en." + Currency.name (currency_code))
+			Result.set_item_number ("1.en." + Currency_enum.name (currency_code))
 		end
 
 	paypal: PP_NVP_API_CONNECTION

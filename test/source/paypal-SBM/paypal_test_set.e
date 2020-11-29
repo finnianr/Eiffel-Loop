@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 13:17:27 GMT (Sunday 29th November 2020)"
-	revision: "6"
+	date: "2020-11-29 16:12:23 GMT (Sunday 29th November 2020)"
+	revision: "7"
 
 class
 	PAYPAL_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
 
 	PP_SHARED_TRANSACTION_TYPE_ENUM
+
+	EL_SHARED_CURRENCY_ENUM
 
 feature -- Basic operations
 
@@ -46,9 +48,9 @@ feature -- Test
 			assert ("charset=UTF-8", transaction.charset.name ~ "UTF-8")
 
 			assert ("mc_gross=4.85", transaction.amount_x100 = 485)
-			assert ("mc_currency=SGD", transaction.mc_currency.to_string ~ "SGD")
 
 --			Enumeration types
+			assert ("expected mc_currency", transaction.mc_currency = Currency_enum.sgd)
 			assert ("expected payment_status", transaction.payment_status = Payment_status_enum.canceled_reversal)
 			assert ("expected pending_reason", transaction.pending_reason = Pending_reason_enum.delayed_disbursement)
 			assert ("expected txn_type", transaction.txn_type = Transaction_type_enum.web_accept)

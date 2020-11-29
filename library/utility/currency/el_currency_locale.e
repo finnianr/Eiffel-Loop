@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 5:10:20 GMT (Saturday 25th January 2020)"
-	revision: "8"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "9"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 		rename
-			Currency as Currency_code
+			Currency_enum as Currency_code
 		end
 
 feature {NONE} -- Initialization

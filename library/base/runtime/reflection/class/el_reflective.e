@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 12:58:44 GMT (Sunday 29th November 2020)"
-	revision: "28"
+	date: "2020-11-29 16:16:37 GMT (Sunday 29th November 2020)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTIVE
@@ -146,6 +146,8 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		end
 
 	new_enumerations: like Default_enumerations
+		-- redefine to associate natural/integer fields with an enumeration constant
+		-- These fields then becomes settable by an enumeration string alias
 		do
 			Result := Default_enumerations
 		end

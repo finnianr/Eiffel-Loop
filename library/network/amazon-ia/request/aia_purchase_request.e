@@ -8,21 +8,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-28 16:26:00 GMT (Thursday 28th December 2017)"
-	revision: "3"
+	date: "2020-11-29 15:59:27 GMT (Sunday 29th November 2020)"
+	revision: "4"
 
 class
 	AIA_PURCHASE_REQUEST
 
 inherit
 	AIA_REQUEST
+		redefine
+			new_enumerations
+		end
 
 create
 	make
 
 feature -- Access
 
-	reason: AIA_PURCHASE_REASON
+	reason: NATURAL_8
 
 	product_id: STRING
 
@@ -35,6 +38,13 @@ feature {NONE} -- Implementation
 	default_response: AIA_PURCHASE_RESPONSE
 		do
 			create Result.make (response_enum.ok)
+		end
+
+	new_enumerations: like Default_enumerations
+		do
+			create Result.make (<<
+				["reason", Reason_enum]
+			>>)
 		end
 
 end

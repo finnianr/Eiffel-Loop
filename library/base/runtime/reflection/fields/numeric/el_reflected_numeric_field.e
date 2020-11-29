@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 12:33:44 GMT (Sunday 29th November 2020)"
-	revision: "9"
+	date: "2020-11-29 13:28:11 GMT (Sunday 29th November 2020)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -48,6 +48,7 @@ feature -- Status query
 		end
 
 	is_enumeration: BOOLEAN
+		-- `True' if field is associated with an enumeration
 		do
 			Result := attached enumeration
 		end

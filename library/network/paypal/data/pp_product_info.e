@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:42:58 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2020-11-29 16:08:32 GMT (Sunday 29th November 2020)"
+	revision: "4"
 
 class
 	PP_PRODUCT_INFO
@@ -30,7 +30,7 @@ create
 
 feature -- Access
 
-	currency_code: EL_CURRENCY_CODE
+	currency_code: NATURAL_8
 
 	item_name: ZSTRING
 

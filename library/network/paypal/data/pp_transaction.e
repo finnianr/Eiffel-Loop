@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 13:17:16 GMT (Sunday 29th November 2020)"
-	revision: "23"
+	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
+	revision: "24"
 
 class
 	PP_TRANSACTION
@@ -35,6 +35,8 @@ inherit
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
+
+	EL_SHARED_CURRENCY_ENUM
 
 	PP_SHARED_TRANSACTION_TYPE_ENUM
 
@@ -128,7 +130,7 @@ feature -- Money
 			Result := (mc_fee * 100).rounded
 		end
 
-	mc_currency: EL_CURRENCY_CODE
+	mc_currency: NATURAL_8
 
 	mc_fee: REAL
 
@@ -176,7 +178,8 @@ feature {NONE} -- Implementation
 			create Result.make (<<
 				["txn_type", Transaction_type_enum],
 				["payment_status", Payment_status_enum],
-				["pending_reason", Pending_reason_enum]
+				["pending_reason", Pending_reason_enum],
+				["mc_currency", Currency_enum]
 			>>)
 		end
 
