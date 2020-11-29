@@ -1,7 +1,7 @@
 note
-	description: "List of name-indexed objects conforming to [$source EL_NAMEABLE] `[READABLE_STRING_GENERAL]'"
+	description: "List of items conforming to [$source EL_NAMEABLE] `[READABLE_STRING_GENERAL]' and searchable by item name"
 	notes: "[
-		Benchmarks show that for small lists the performance is more or less the same as using a hash table.
+		Benchmarks show that for small lists the search performance is almost identical to a hash table.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 17:05:09 GMT (Saturday 28th November 2020)"
-	revision: "1"
+	date: "2020-11-28 18:11:40 GMT (Saturday 28th November 2020)"
+	revision: "2"
 
 class
 	EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]

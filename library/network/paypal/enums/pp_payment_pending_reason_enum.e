@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 14:47:16 GMT (Friday 20th November 2020)"
-	revision: "5"
+	date: "2020-11-29 11:02:55 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	PP_PAYMENT_PENDING_REASON_ENUM
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_english,
+			export_name as export_default,
 			import_name as import_default
 		end
 
@@ -30,7 +30,7 @@ feature -- Access
 
 	address: NATURAL_8
 		-- The payment is pending because your customer did not include a confirmed shipping address and your
-		-- Payment Receiving Preferences is set yo allow you to manually accept or deny each of these payments.
+		-- Payment Receiving Preferences is set to allow you to manually accept or deny each of these payments.
 		-- To change your preference, go to the Preferences section of your Profile.
 
 	authorization: NATURAL_8

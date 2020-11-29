@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 12:31:25 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2020-11-29 12:13:53 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	EL_REFLECTED_NATURAL_16
@@ -44,7 +44,11 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)
 		do
-			set (a_object, string.to_natural_16)
+			if attached enumeration as enum and then not string.is_natural_16 then
+				set (a_object, enumeration_value (enum, string))
+			else
+				set (a_object, string.to_natural_16)
+			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVELY_SETTABLE; readable: EL_READABLE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 16:04:54 GMT (Sunday 12th April 2020)"
-	revision: "8"
+	date: "2020-11-29 12:33:44 GMT (Sunday 29th November 2020)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -24,7 +24,10 @@ feature -- Access
 			n, v: like field_value; str: STRING
 		do
 			v := value (a_object)
-			if v = n.zero then
+			if attached enumeration as enum then
+				Result := enumeration.name (v)
+
+			elseif v = n.zero then
 				Result := Zero
 			elseif v = n.one then
 				Result := One
@@ -44,15 +47,41 @@ feature -- Status query
 			Result := value (a_object) = l_zero
 		end
 
+	is_enumeration: BOOLEAN
+		do
+			Result := attached enumeration
+		end
+
+feature -- Element change
+
+	set_enumeration (a_enumeration: EL_ENUMERATION [N])
+		do
+			enumeration := a_enumeration
+		end
+
 feature {NONE} -- Implementation
 
 	append (string: STRING; a_value: like value)
 		deferred
 		end
 
+	enumeration_value (a_enumeration: EL_ENUMERATION [N]; string: READABLE_STRING_GENERAL): like value
+		do
+			if attached {STRING} string as str_8 then
+				Result := a_enumeration.value (str_8)
+			else
+				Result := a_enumeration.value (once_general_copy_8 (string))
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	enumeration: detachable EL_ENUMERATION [N]
+
 feature {NONE} -- Constants
 
 	One: STRING = "1"
+
 	Zero: STRING = "0"
 
 end

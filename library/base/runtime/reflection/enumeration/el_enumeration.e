@@ -29,11 +29,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 10:03:04 GMT (Saturday 28th November 2020)"
-	revision: "32"
+	date: "2020-11-29 12:33:20 GMT (Sunday 29th November 2020)"
+	revision: "33"
 
 deferred class
-	EL_ENUMERATION [N -> {NUMERIC, HASHABLE}]
+	EL_ENUMERATION [N -> NUMERIC]
 
 inherit
 	EL_REFLECTIVELY_SETTABLE
@@ -71,8 +71,8 @@ feature {NONE} -- Initialization
 			Precursor
 			create name_by_value.make (field_table.count)
 			across field_table as field loop
-				if attached {N} field.item.value (Current) as enum_value then
-					name_by_value.put (export_name (field.key, True), enum_value)
+				if attached {HASHABLE} field.item.value (Current) as key then
+					name_by_value.put (export_name (field.key, True), key)
 					check
 						no_conflict: not name_by_value.conflict
 					end
@@ -95,7 +95,7 @@ feature -- Access
 	field_name (a_value: N): STRING
 		-- unexported field name with underscores
 		do
-			if field_name_by_value.has_key (a_value) then
+			if attached {HASHABLE} a_value as key and then field_name_by_value.has_key (key) then
 				Result := field_name_by_value.found_item
 			else
 				create Result.make_empty
@@ -106,13 +106,18 @@ feature -- Access
 
 	list: EL_ARRAYED_LIST [N]
 		do
-			create Result.make_from_array (name_by_value.current_keys)
+			create Result.make (field_table.count)
+			across field_table as field loop
+				if attached {N} field.item.value (Current) as l_value then
+					Result.extend (l_value)
+				end
+			end
 		end
 
 	name (a_value: N): STRING
 		-- exported name
 		do
-			if name_by_value.has_key (a_value) then
+			if attached {HASHABLE} a_value as key and then name_by_value.has_key (key) then
 				Result := name_by_value.found_item
 			else
 				create Result.make_empty
@@ -150,7 +155,9 @@ feature -- Status query
 
 	is_valid_value (a_value: N): BOOLEAN
 		do
-			Result := name_by_value.has (a_value)
+			if attached {HASHABLE} a_value as key then
+				Result := name_by_value.has (key)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -160,12 +167,12 @@ feature {NONE} -- Implementation
 			Result := field_type_id.natural_32_code = type_id.to_natural_32
 		end
 
-	new_field_name_by_value: HASH_TABLE [STRING_8, N]
+	new_field_name_by_value: like name_by_value
 		do
 			create Result.make_equal (field_table.count)
 			across field_table as field loop
-				if attached {N} field.item.value (Current) as l_value then
-					Result.extend (field.item.name, l_value)
+				if attached {HASHABLE} field.item.value (Current) as key then
+					Result.extend (field.item.name, key)
 				end
 			end
 		end
@@ -178,7 +185,7 @@ feature {NONE} -- Internal attributes
 	field_type_id: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration
 
-	name_by_value: HASH_TABLE [STRING_8, N];
+	name_by_value: HASH_TABLE [STRING_8, HASHABLE];
 
 note
 	descendants: "[

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Payment status codes. See
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		[https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#payment-information-variables
 		Payment information variables] in IPN integration guide.
 	]"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:24:56 GMT (Tuesday 28th April 2020)"
-	revision: "5"
+	date: "2020-11-29 11:40:20 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	PP_PAYMENT_STATUS_ENUM
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_english,
+			export_name as to_snake_case_title, -- eg. Canceled_Reversal
 			import_name as from_snake_case_upper
 		end
 

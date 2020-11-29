@@ -6,14 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:38:36 GMT (Friday 14th February 2020)"
-	revision: "5"
+	date: "2020-11-29 13:17:27 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	PAYPAL_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	PP_SHARED_PAYMENT_STATUS_ENUM
+
+	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
+
+	PP_SHARED_TRANSACTION_TYPE_ENUM
 
 feature -- Basic operations
 
@@ -41,12 +47,14 @@ feature -- Test
 
 			assert ("mc_gross=4.85", transaction.amount_x100 = 485)
 			assert ("mc_currency=SGD", transaction.mc_currency.to_string ~ "SGD")
-			assert ("payment_status=Completed", transaction.payment_status.to_string ~ "Completed")
+
+--			Enumeration types
+			assert ("expected payment_status", transaction.payment_status = Payment_status_enum.canceled_reversal)
+			assert ("expected pending_reason", transaction.pending_reason = Pending_reason_enum.delayed_disbursement)
+			assert ("expected txn_type", transaction.txn_type = Transaction_type_enum.web_accept)
 
 			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
 			assert ("payment_date=2018/4/10 10:22:41", transaction.payment_date.to_unix = date_time.to_unix)
-			assert ("pending_reason=other", transaction.pending_reason.to_string ~ "Other")
-			assert ("txn_type=web_accept", transaction.txn_type.to_string ~ "Web accept")
 		end
 
 feature {NONE} -- Implementation
@@ -69,7 +77,7 @@ feature {NONE} -- Constants
 		payer_id=4TGKH2TNNXLPQ
 		address_street=Home+sweet+home
 		payment_date=03%3A22%3A41+Apr+10%2C+2018+PDT
-		payment_status=Completed
+		payment_status=Canceled_Reversal
 		charset=UTF-8
 		address_zip=NA
 		first_name=test
@@ -82,7 +90,7 @@ feature {NONE} -- Constants
 		settle_currency=EUR
 		custom=
 		payer_status=verified
-		pending_reason=other
+		pending_reason=delayed_disbursement
 		business=finnian-facilitator%40eiffel-loop.com
 		address_country=Ireland
 		address_city=D%C3%BAn+B%C3%BAinne

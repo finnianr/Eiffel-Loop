@@ -5,7 +5,7 @@ note
 		of IPN message received. You can use the txn_type variable in the message to trigger the kind of processing
 		you want to perform.
 		See:
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/?mark=txn_type#ipn-transaction-types
+		[https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#ipn-transaction-types
 		IPN transaction types]
 	]"
 
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-23 12:37:24 GMT (Monday 23rd April 2018)"
-	revision: "3"
+	date: "2020-11-29 11:01:26 GMT (Sunday 29th November 2020)"
+	revision: "4"
 
 class
 	PP_TRANSACTION_TYPE_ENUM
@@ -23,7 +23,7 @@ class
 inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
-			export_name as to_english,
+			export_name as export_default,
 			import_name as import_default
 		end
 

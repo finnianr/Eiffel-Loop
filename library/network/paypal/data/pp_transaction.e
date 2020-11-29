@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 8:03:52 GMT (Thursday 28th May 2020)"
-	revision: "22"
+	date: "2020-11-29 13:17:16 GMT (Sunday 29th November 2020)"
+	revision: "23"
 
 class
 	PP_TRANSACTION
@@ -31,10 +31,16 @@ inherit
 			export_name as export_default,
 			import_name as import_default
 		redefine
-			make_default, new_instance_functions
+			make_default, new_instance_functions, new_enumerations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
+
+	PP_SHARED_TRANSACTION_TYPE_ENUM
+
+	PP_SHARED_PAYMENT_STATUS_ENUM
+
+	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
 
 create
 	make, make_default
@@ -138,17 +144,17 @@ feature -- Transaction detail
 
 	payment_date: PP_DATE_TIME
 
-	payment_status: PP_PAYMENT_STATUS
+	payment_status: NATURAL_8
 
 	payment_type: STRING
 		-- echeck: This payment was funded with an eCheck.
 		-- instant: This payment was funded with PayPal balance, credit card, or Instant Transfer.
 
-	pending_reason: PP_PAYMENT_PENDING_REASON
+	pending_reason: NATURAL_8
 
 	txn_id: STRING
 
-	txn_type: PP_TRANSACTION_TYPE
+	txn_type: NATURAL_8
 
 feature -- Access
 
@@ -162,6 +168,15 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_array (<<
 				agent: PP_DATE_TIME do create Result.make_now end
+			>>)
+		end
+
+	new_enumerations: like Default_enumerations
+		do
+			create Result.make (<<
+				["txn_type", Transaction_type_enum],
+				["payment_status", Payment_status_enum],
+				["pending_reason", Pending_reason_enum]
 			>>)
 		end
 

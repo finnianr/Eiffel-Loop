@@ -1,13 +1,13 @@
 note
-	description: "Pp buy options"
+	description: "Paypal buy options"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:42:02 GMT (Monday 5th August 2019)"
-	revision: "13"
+	date: "2020-11-29 10:13:38 GMT (Sunday 29th November 2020)"
+	revision: "14"
 
 class
 	PP_BUY_OPTIONS

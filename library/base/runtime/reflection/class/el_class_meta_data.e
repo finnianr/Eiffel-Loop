@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 11:57:51 GMT (Monday 23rd November 2020)"
-	revision: "29"
+	date: "2020-11-29 13:06:38 GMT (Sunday 29th November 2020)"
+	revision: "30"
 
 class
 	EL_CLASS_META_DATA
@@ -52,6 +52,17 @@ feature {NONE} -- Initialization
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			create field_list.make (new_field_list.to_array)
 			field_table := field_list.to_table (a_enclosing_object)
+
+--			set enumeration types
+			across a_enclosing_object.new_enumerations as enum loop
+				if field_table.has_key (enum.key) then
+					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
+						numeric.set_enumeration (enum.item)
+					end
+				else
+					check valid_enumeration_field_name: False end
+				end
+			end
 		end
 
 feature -- Access

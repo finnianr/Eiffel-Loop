@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:11:16 GMT (Monday 23rd November 2020)"
-	revision: "9"
+	date: "2020-11-29 11:35:17 GMT (Sunday 29th November 2020)"
+	revision: "10"
 
 deferred class
 	EL_WORD_SEPARATION_ADAPTER
@@ -51,6 +51,11 @@ feature {NONE} -- Name exporting
 			Result := kebab_case_string (name_in, To_upper, keeping_ref)
 		end
 
+	to_kebab_case_title (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := kebab_case_string (name_in, To_title, keeping_ref)
+		end
+
 	to_snake_case_lower (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := snake_case_string (name_in, To_lower, keeping_ref)
@@ -61,10 +66,15 @@ feature {NONE} -- Name exporting
 			Result := snake_case_string (name_in, To_upper, keeping_ref)
 		end
 
-	to_title (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	to_snake_case_title (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := snake_case_string (name_in, To_title, keeping_ref)
+		end
+
+	to_english_title (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
 			Result := empty_name_out
-			export_to_title (name_in, Result)
+			export_to_title (name_in, Result, ' ')
 			if keeping_ref then
 				Result := Result.twin
 			end
@@ -153,9 +163,9 @@ feature {NONE} -- Implementation
 			Naming.to_english (name_in, english_out, Naming.no_words)
 		end
 
-	export_to_title (name_in, title_out: STRING)
+	export_to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		do
-			Naming.to_title (name_in, title_out, ' ')
+			Naming.to_title (name_in, title_out, separator_out)
 		end
 
 	import_from_camel_case_upper (name_in, a_name_out: STRING)
@@ -175,11 +185,14 @@ feature {NONE} -- Implementation
 				when To_default then
 					Naming.to_kebab_case (name_in, Result)
 
+				when To_lower then
+					Naming.to_kebab_case_lower (name_in, Result)
+
 				when To_upper then
 					Naming.to_kebab_case_upper (name_in, Result)
 
-				when To_lower then
-					Naming.to_kebab_case_lower (name_in, Result)
+				when To_title then
+					Naming.to_title (name_in, Result, '-')
 			else
 				Naming.from_kebab_case (name_in, Result)
 			end
@@ -202,6 +215,9 @@ feature {NONE} -- Implementation
 						Naming.to_snake_case_upper (name_in, Result)
 					when To_lower then
 						Naming.to_snake_case_lower (name_in, Result)
+					when To_title then
+						Naming.to_title (name_in, Result, '_')
+
 				else
 					Result := name_in
 				end
@@ -213,11 +229,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	From_default: INTEGER = 3
+	From_default: INTEGER = 4
 
-	From_lower: INTEGER = 4
+	From_lower: INTEGER = 5
 
-	From_upper: INTEGER = 5
+	From_upper: INTEGER = 6
 
 	Once_name_out: STRING
 		once
@@ -229,5 +245,7 @@ feature {NONE} -- Constants
 	To_lower: INTEGER = 1
 
 	To_upper: INTEGER = 2
+
+	To_title: INTEGER = 3
 
 end

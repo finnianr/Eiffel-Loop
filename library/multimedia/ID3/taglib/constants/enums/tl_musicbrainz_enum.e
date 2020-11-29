@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:25:37 GMT (Friday 20th November 2020)"
-	revision: "2"
+	date: "2020-11-29 11:11:59 GMT (Sunday 29th November 2020)"
+	revision: "3"
 
 class
 	TL_MUSICBRAINZ_ENUM
@@ -18,7 +18,7 @@ inherit
 	EL_ENUMERATION [NATURAL_8]
 		rename
 			import_name as import_default,
-			export_name as to_title,
+			export_name as to_english_title,
 			export_to_title as export_to_musicbrainz_title
 		redefine
 			export_to_musicbrainz_title
@@ -60,9 +60,9 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	export_to_musicbrainz_title (name_in, title_out: STRING)
+	export_to_musicbrainz_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		do
-			Precursor (name_in, title_out)
+			Precursor (name_in, title_out, separator_out)
 			title_out.prepend (Musicbrainz)
 		end
 

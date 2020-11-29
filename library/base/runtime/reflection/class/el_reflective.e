@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:36:18 GMT (Tuesday 28th April 2020)"
-	revision: "27"
+	date: "2020-11-29 12:58:44 GMT (Sunday 29th November 2020)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTIVE
@@ -127,16 +127,27 @@ feature -- Element change
 			end
 		end
 
-feature {EL_REFLECTIVE} -- Factory
+feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		do
 			create Result.make (current_object, field_names)
 		end
 
+	new_instance_functions: like Default_initial_values
+		-- array of functions returning a new value for result type
+		do
+			Result := Default_initial_values
+		end
+
 	new_meta_data: EL_CLASS_META_DATA
 		do
 			create Result.make (Current)
+		end
+
+	new_enumerations: like Default_enumerations
+		do
+			Result := Default_enumerations
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
@@ -220,12 +231,6 @@ feature {EL_CLASS_META_DATA} -- Implementation
 			Result := Current
 		end
 
-	new_instance_functions: like Default_initial_values
-		-- array of functions returning a new value for result type
-		do
-			Result := Default_initial_values
-		end
-
 	field_included (basic_type, type_id: INTEGER): BOOLEAN
 		-- when True, include field of this type in `field_table' and `meta_data'
 		-- except when the name is one of those listed in `Except_fields'.
@@ -263,6 +268,11 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		end
 
 feature {EL_CLASS_META_DATA} -- Constants
+
+	Default_enumerations: EL_HASH_TABLE [EL_ENUMERATION [NUMERIC], STRING]
+		once
+			create Result.make_size (0)
+		end
 
 	Except_fields: STRING
 			-- list of comma-separated fields to be excluded

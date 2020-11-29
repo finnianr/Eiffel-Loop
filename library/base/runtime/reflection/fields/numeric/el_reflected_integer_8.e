@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 12:31:25 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2020-11-29 12:15:07 GMT (Sunday 29th November 2020)"
+	revision: "6"
 
 class
 	EL_REFLECTED_INTEGER_8
@@ -49,7 +49,11 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)
 		do
-			set (a_object, string.to_integer_8)
+			if attached enumeration as enum and then not string.is_integer_8 then
+				set (a_object, enumeration_value (enum, string))
+			else
+				set (a_object, string.to_integer_8)
+			end
 		end
 
 	write (a_object: EL_REFLECTIVELY_SETTABLE; writeable: EL_WRITEABLE)

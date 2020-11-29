@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:08:01 GMT (Monday 23rd November 2020)"
-	revision: "17"
+	date: "2020-11-29 12:36:11 GMT (Sunday 29th November 2020)"
+	revision: "18"
 
 class
 	EL_NAMING_ROUTINES
@@ -294,19 +294,15 @@ feature -- Export names
 		require
 			empty_title_out: title_out.is_empty
 		local
-			words: EL_SPLIT_STRING_LIST [STRING]
-			word: STRING
+			words: EL_SPLIT_STRING_LIST [STRING]; index: INTEGER
 		do
 			create words.make (name_in, Underscore)
+			title_out.append (name_in)
 			from words.start until words.after loop
-				if title_out.count > 0 then
-					title_out.append_character (separator_out)
+				if words.item_count > 0 then
+					index := words.item_start_index
+					title_out.put (title_out.item (index).as_upper, index)
 				end
-				word := words.item (False)
-				if word.count > 0 then
-					word [1] := word.item (1).as_upper
-				end
-				title_out.append (word)
 				words.forth
 			end
 		end
