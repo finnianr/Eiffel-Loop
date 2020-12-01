@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:12:23 GMT (Sunday 29th November 2020)"
-	revision: "7"
+	date: "2020-11-30 11:54:02 GMT (Monday 30th November 2020)"
+	revision: "8"
 
 class
 	PAYPAL_TEST_SET
@@ -43,13 +43,13 @@ feature -- Test
 			create transaction.make (ipn_url_query)
 			assert ("address_country=Ireland", transaction.address.country ~ "Ireland")
 			assert ("address_country_code=IE", transaction.address.country_code ~ "IE")
-			assert ("address_status=confirmed", transaction.address.status.to_string ~ "confirmed")
 
 			assert ("charset=UTF-8", transaction.charset.name ~ "UTF-8")
 
 			assert ("mc_gross=4.85", transaction.amount_x100 = 485)
 
 --			Enumeration types
+			assert ("expected address_status", transaction.address.status = Address_status_enum.confirmed)
 			assert ("expected mc_currency", transaction.mc_currency = Currency_enum.sgd)
 			assert ("expected payment_status", transaction.payment_status = Payment_status_enum.canceled_reversal)
 			assert ("expected pending_reason", transaction.pending_reason = Pending_reason_enum.delayed_disbursement)
@@ -117,4 +117,10 @@ feature {NONE} -- Constants
 		payment_gross=
 		ipn_track_id=30fe7b14ef9cb
 	]"
+
+	Address_status_enum: PP_ADDRESS_STATUS_ENUM
+		once
+			create Result.make
+		end
+
 end

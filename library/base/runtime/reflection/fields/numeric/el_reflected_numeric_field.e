@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 13:28:11 GMT (Sunday 29th November 2020)"
-	revision: "10"
+	date: "2020-11-30 15:08:17 GMT (Monday 30th November 2020)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -19,7 +19,7 @@ inherit
 
 feature -- Access
 
-	to_string (a_object: EL_REFLECTIVELY_SETTABLE): STRING
+	to_string (a_object: EL_REFLECTIVE): STRING
 		local
 			n, v: like field_value; str: STRING
 		do

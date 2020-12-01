@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 10:04:40 GMT (Saturday 28th April 2018)"
-	revision: "6"
+	date: "2020-11-30 11:14:31 GMT (Monday 30th November 2020)"
+	revision: "7"
 
 class
 	PP_ADDRESS
@@ -18,6 +18,8 @@ inherit
 			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
+		redefine
+			new_enumerations
 		end
 
 create
@@ -35,7 +37,12 @@ feature -- Access
 
 	state: ZSTRING
 
-	status: PP_ADDRESS_STATUS
+	status: NATURAL_8
+
+	status_name: STRING
+		do
+			Result := Status_enum.name (status)
+		end
 
 	street: ZSTRING
 
@@ -52,7 +59,23 @@ feature -- Status query
 
 	is_confirmed: BOOLEAN
 		do
-			Result := status
+			Result := status.to_boolean
+		end
+
+feature {NONE} -- Implementation
+
+	new_enumerations: like Default_enumerations
+		do
+			create Result.make (<<
+				["status", Status_enum]
+			>>)
+		end
+
+feature {NONE} -- Constants
+
+	Status_enum: PP_ADDRESS_STATUS_ENUM
+		once
+			create Result.make
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 11:59:52 GMT (Monday 23rd November 2020)"
-	revision: "6"
+	date: "2020-12-01 15:17:26 GMT (Tuesday 1st December 2020)"
+	revision: "7"
 
 class
 	EL_REFLECTED_TUPLE
@@ -37,6 +37,11 @@ feature {EL_CLASS_META_DATA} -- Initialization
 			create member_types.make_from_static (field_static_type (a_index))
 			Precursor (a_object, a_index, a_name)
 		end
+
+feature -- Access
+
+	member_types: EL_TUPLE_TYPE_ARRAY
+		-- types of tuple members
 
 feature -- Status query
 
@@ -273,10 +278,5 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	member_types: EL_TUPLE_TYPE_ARRAY
-		-- types of tuple members
 
 end

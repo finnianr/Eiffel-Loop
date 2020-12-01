@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:17:35 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2020-11-30 13:53:53 GMT (Monday 30th November 2020)"
+	revision: "11"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -41,6 +41,12 @@ feature -- Basic operations
 			create xml_generator.make
 			xml_generator.convert_stream (pyxis_in, xml_out)
 			pyxis_in.close
+		end
+
+	put_header (output: EL_OUTPUT_MEDIUM)
+		do
+			output.put_string (Header_template #$ [output.encoding_name])
+			output.put_new_line
 		end
 
 feature -- Access
@@ -100,4 +106,11 @@ feature {NONE} -- Constants
 			Result := "pyxis-doc:"
 		end
 
+	Header_template: ZSTRING
+		once
+			Result := "[
+				pyxis-doc:
+					version = 1.0; encoding = "#"
+			]"
+		end
 end

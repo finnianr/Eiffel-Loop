@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 22:39:56 GMT (Friday 30th November 2018)"
-	revision: "2"
+	date: "2020-11-30 9:41:30 GMT (Monday 30th November 2020)"
+	revision: "3"
 
 class
 	STRUCTURE_EXPERIMENTS
@@ -272,6 +272,13 @@ feature -- Basic operations
 			end
 		end
 
+	initialize_named_array
+		local
+			named: EL_NAMED [ZSTRING]
+		do
+
+		end
+
 	part_sorted_set
 			--
 		local
@@ -340,6 +347,11 @@ feature {NONE} -- Constants
 				"Yo no se que me han hecho tus ojos.mp3",
 				"Cambalache.mp3"
 			>>
+		end
+
+	Named_array: ARRAY [EL_NAMED [DATE_TIME]]
+		once
+			Result := << ["now", create {DATE_TIME}.make_now] >>
 		end
 
 	String_hello: STRING =	"hello"

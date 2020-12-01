@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 16:56:42 GMT (Saturday 1st February 2020)"
-	revision: "18"
+	date: "2020-12-01 10:26:14 GMT (Tuesday 1st December 2020)"
+	revision: "19"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -388,14 +388,30 @@ feature -- Status query
 			Result := has_enclosing (s, once "''")
 		end
 
-	is_convertible (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
+	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
 		-- `True' if `str' is convertible to type `basic_type'
 		local
 			convertible: PREDICATE [READABLE_STRING_GENERAL]
 		do
 			if Conversion_table.has_key (basic_type) then
 				convertible := Conversion_table.found_item.is_convertible
-				Result := convertible (str)
+				Result := convertible (s)
+			end
+		end
+
+	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := 1 until i > s.count or not Result loop
+				inspect s [i]
+					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
+						Result := i = 1 implies s.item (1).is_alpha
+				else
+					Result := False
+				end
+				i := i + 1
 			end
 		end
 

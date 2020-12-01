@@ -1,7 +1,7 @@
 note
 	description: "[
 		Reflectively settable Payment transaction information. See
-		[https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
+		[https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#transaction-and-notification-related-variables
 		Payment information variables] in IPN integration guide.
 	]"
 	tests: "Class [$source PP_TEST_SET]"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
-	revision: "24"
+	date: "2020-11-30 9:24:52 GMT (Monday 30th November 2020)"
+	revision: "25"
 
 class
 	PP_TRANSACTION

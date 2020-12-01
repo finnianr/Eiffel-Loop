@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 10:34:09 GMT (Tuesday 24th November 2020)"
-	revision: "53"
+	date: "2020-12-01 11:16:31 GMT (Tuesday 1st December 2020)"
+	revision: "54"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -339,7 +339,6 @@ feature -- Status query
 			consistent_indexes: start_index - 1 <= end_index
 		local
 			c_i: CHARACTER; i: INTEGER; l_area: like area
-
 		do
 			l_area := area
 			Result := True
@@ -401,6 +400,42 @@ feature -- Status query
 				elseif is_space then
 					is_space_state := True
 					space_count := 0
+				end
+				i := i + 1
+			end
+		end
+
+	is_code_identifier: BOOLEAN
+		-- is C, Eiffel or other language identifier
+		local
+			i, j, l_count: INTEGER; l_area, charset: like area
+			c_i, c_lower, c_upper: CHARACTER; found: BOOLEAN
+		do
+			charset := Identifier_characters.area
+			l_area := area; l_count := count
+			Result := True
+			from i := 0 until not Result or else i = l_count loop
+				c_i := l_area [i]
+				found := False
+				from j := 0 until j = 8 or found loop
+					c_lower := charset [j]; c_upper := charset [j + 1]
+					if c_lower <= c_i and c_i <= c_upper then
+						found := True
+					else
+						j := j + 1
+					end
+				end
+				inspect j
+					when 0 then -- a .. z
+						Result := True
+					when 2 then -- A .. Z
+						Result := True
+					when 4 then -- 0 .. 9
+						Result := i > 0
+					when 6 then -- _ .. _
+						Result := i > 0
+				else
+					Result := False
 				end
 				i := i + 1
 			end
@@ -794,6 +829,11 @@ feature {NONE} -- Constants
 	Once_substring_indices: ARRAYED_LIST [INTEGER]
 		do
 			create Result.make (5)
+		end
+
+	Identifier_characters: ZSTRING
+		once
+			Result := "azAZ09__"
 		end
 
 end

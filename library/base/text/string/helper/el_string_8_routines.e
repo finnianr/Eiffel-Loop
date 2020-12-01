@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 13:04:37 GMT (Monday 23rd November 2020)"
-	revision: "9"
+	date: "2020-12-01 10:26:30 GMT (Tuesday 1st December 2020)"
+	revision: "10"
 
 frozen class
 	EL_STRING_8_ROUTINES
@@ -17,7 +17,25 @@ inherit
 		rename
 			replace_character as replace_character_32
 		redefine
-			replace_character_32
+			is_eiffel_identifier, replace_character_32
+		end
+
+feature -- Status query
+
+	is_eiffel_identifier (s: STRING_8): BOOLEAN
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := 1 until i > s.count or not Result loop
+				inspect s [i]
+					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
+						Result := i = 1 implies s.item (1).is_alpha
+				else
+					Result := False
+				end
+				i := i + 1
+			end
 		end
 
 feature -- Conversion
