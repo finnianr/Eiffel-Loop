@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:27:41 GMT (Saturday 1st February 2020)"
-	revision: "2"
+	date: "2020-12-04 13:01:35 GMT (Friday 4th December 2020)"
+	revision: "3"
 
 class
 	LIST_ITERATION_COMPARISON
@@ -33,13 +33,13 @@ feature -- Basic operations
 			end
 			create sum
 			compare ("compare_list_iteration_methods", <<
-				["SPECIAL from i := 0 until i = count loop", agent iterate_special_from_i_until_i_eq_count (array.area, True, sum)],
+				["SPECIAL from i := 0 until i = count loop",			agent iterate_special_from_i_until_i_eq_count (array.area, True, sum)],
 				["SPECIAL from i := 0 until i = array.count loop", agent iterate_special_from_i_until_i_eq_count (array.area, False, sum)],
-				["from i := 1 until i > count loop",			agent iterate_from_i_until_i_gt_count (array, True, sum)],
-				["from i := 1 until i > array.count loop", 	agent iterate_from_i_until_i_gt_count (array, False, sum)],
-				["from array.start until array.after loop",  agent iterate_start_after_forth (array, sum)],
-				["across array as n loop",							agent iterate_across_array_as_n (array, sum)],
-				["array.do_all (agent increment (sum, ?))",	agent iterate_do_all (array, sum)]
+				["from i := 1 until i > count loop",					agent iterate_from_i_until_i_gt_count (array, True, sum)],
+				["from i := 1 until i > array.count loop", 			agent iterate_from_i_until_i_gt_count (array, False, sum)],
+				["from array.start until array.after loop",  		agent iterate_start_after_forth (array, sum)],
+				["across array as n loop",									agent iterate_across_array_as_n (array, sum)],
+				["array.do_all (agent increment (sum, ?))",			agent iterate_do_all (array, sum)]
 			>>)
 		end
 

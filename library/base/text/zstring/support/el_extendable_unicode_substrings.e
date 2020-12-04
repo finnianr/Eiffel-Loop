@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 14:57:16 GMT (Thursday 3rd December 2020)"
-	revision: "1"
+	date: "2020-12-04 17:15:45 GMT (Friday 4th December 2020)"
+	revision: "2"
 
 class
 	EL_EXTENDABLE_UNICODE_SUBSTRINGS
@@ -35,7 +35,7 @@ feature -- Access
 	area_copy: like substring_area
 		do
 			create Result.make_empty (substring_area.count)
-			Result.insert_data (substring_area, 0, 0, substring_area.count)
+			Result.copy_data (substring_area, 0, 0, substring_area.count)
 		end
 
 feature -- Element change

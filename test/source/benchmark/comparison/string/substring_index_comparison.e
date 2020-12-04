@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:27:51 GMT (Saturday 1st February 2020)"
-	revision: "3"
+	date: "2020-12-04 13:32:01 GMT (Friday 4th December 2020)"
+	revision: "4"
 
 class
 	SUBSTRING_INDEX_COMPARISON

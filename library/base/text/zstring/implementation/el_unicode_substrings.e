@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 16:37:52 GMT (Thursday 3rd December 2020)"
-	revision: "1"
+	date: "2020-12-04 17:24:09 GMT (Friday 4th December 2020)"
+	revision: "2"
 
 class
 	EL_UNICODE_SUBSTRINGS
@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	character_item (index: INTEGER): CHARACTER_32
+		-- {EL_UNENCODED_CHARACTERS}.item
 		local
 			substring: like substring_area.item; i, offset: INTEGER
 		do
@@ -37,6 +38,7 @@ feature -- Access
 		end
 
 	code_item (index: INTEGER): NATURAL
+		-- {EL_UNENCODED_CHARACTERS}.code
 		do
 			Result := character_item (index).natural_32_code
 		end
