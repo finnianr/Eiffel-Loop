@@ -18,14 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:21:59 GMT (Tuesday 15th September 2020)"
-	revision: "64"
+	date: "2020-12-03 10:39:16 GMT (Thursday 3rd December 2020)"
+	revision: "65"
 
 class
 	THUNDERBIRD_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [TUPLE [EL_SUBJECT_LINE_DECODER_TEST_SET]]
+	EL_AUTOTEST_SUB_APPLICATION [EL_SUBJECT_LINE_DECODER_TEST_SET]
 
 create
 	make

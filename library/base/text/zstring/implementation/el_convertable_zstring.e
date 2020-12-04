@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 14:31:11 GMT (Thursday 20th August 2020)"
-	revision: "6"
+	date: "2020-12-03 11:12:08 GMT (Thursday 3rd December 2020)"
+	revision: "7"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_TRANSFORMABLE_ZSTRING
 		export
-			{STRING_HANDLER} extendible_unencoded
+			{STRING_HANDLER} empty_once_unencoded
 			{EL_CONVERTABLE_ZSTRING} all
 		end
 
@@ -68,7 +68,7 @@ feature -- To Strings
 				str_32 := empty_once_string_32
 				append_to_string_32 (str_32)
 				create Result.make_filled ('%U', count)
-				a_codec.encode (str_32, Result.area, 0, extendible_unencoded)
+				a_codec.encode (str_32, Result.area, 0, empty_once_unencoded)
 			end
 		ensure
 			all_encoded: not Result.has (Unencoded_character)

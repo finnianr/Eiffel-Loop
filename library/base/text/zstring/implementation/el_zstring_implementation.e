@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 11:52:31 GMT (Monday 1st June 2020)"
-	revision: "5"
+	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
+	revision: "6"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -301,9 +301,9 @@ feature {NONE} -- Implementation
 		require
 			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
 		local
-			l_unencoded: like extendible_unencoded
+			l_unencoded: like empty_once_unencoded
 		do
-			l_unencoded := extendible_unencoded
+			l_unencoded := empty_once_unencoded
 			codec.encode (a_unicode, area, area_offset, l_unencoded)
 
 			inspect respective_encoding (l_unencoded)

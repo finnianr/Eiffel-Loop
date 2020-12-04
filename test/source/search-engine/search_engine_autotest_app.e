@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:23:04 GMT (Tuesday 15th September 2020)"
-	revision: "3"
+	date: "2020-12-03 10:39:28 GMT (Thursday 3rd December 2020)"
+	revision: "4"
 
 class
 	SEARCH_ENGINE_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [TUPLE [SEARCH_ENGINE_TEST_SET, ENCRYPTED_SEARCH_ENGINE_TEST_SET]]
+	EL_AUTOTEST_SUB_APPLICATION [SEARCH_ENGINE_TEST_SET, ENCRYPTED_SEARCH_ENGINE_TEST_SET]
 
 create
 	make

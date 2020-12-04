@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 10:24:42 GMT (Tuesday 15th September 2020)"
-	revision: "3"
+	date: "2020-12-03 10:39:22 GMT (Thursday 3rd December 2020)"
+	revision: "4"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [TUPLE [TEXT_PARSER_TEST_SET]]
+	EL_AUTOTEST_SUB_APPLICATION [TEXT_PARSER_TEST_SET]
 
 create
 	make

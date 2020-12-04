@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:14:41 GMT (Sunday 22nd December 2019)"
-	revision: "13"
+	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
+	revision: "14"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -153,7 +153,7 @@ feature -- Read operations
 			create Result.make (l_count)
 			if l_count <= buffer.count - count then
 				l_area := Result.area
-				extendible_unencoded := Result.extendible_unencoded
+				extendible_unencoded := Result.empty_once_unencoded
 				from i := 0 until i = l_count loop
 					c := read_character_8
 					l_area [i] := c

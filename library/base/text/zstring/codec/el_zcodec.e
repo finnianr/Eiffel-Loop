@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:53:05 GMT (Thursday 14th May 2020)"
-	revision: "15"
+	date: "2020-12-03 10:46:16 GMT (Thursday 3rd December 2020)"
+	revision: "16"
 
 deferred class
 	EL_ZCODEC
@@ -121,8 +121,8 @@ feature -- Basic operations
 		unicode_in: READABLE_STRING_GENERAL; latin_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
 		unencoded_characters: EL_EXTENDABLE_UNENCODED_CHARACTERS
 	)
-			-- encode unicode characters as latin
-			-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
+		-- encode unicode characters as latin
+		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
 		require
 			latin_out_big_enough: latin_out.count >= unicode_in.count
 			valid_offset_and_count: unicode_in.count > 0 implies latin_out.valid_index (unicode_in.count + out_offset - 1)

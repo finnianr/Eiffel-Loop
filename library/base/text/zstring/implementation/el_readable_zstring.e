@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 11:16:31 GMT (Tuesday 1st December 2020)"
-	revision: "54"
+	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
+	revision: "55"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -124,10 +124,10 @@ feature {NONE} -- Initialization
 	make_unescaped (unescaper: EL_ZSTRING_UNESCAPER; other: EL_READABLE_ZSTRING)
 		local
 			other_count, i, n, sequence_count: INTEGER; z_code_i, escape_code: NATURAL
-			l_area, other_area: like area; l_unencoded: like extendible_unencoded
+			l_area, other_area: like area; l_unencoded: like empty_once_unencoded
 		do
 			other_count := other.count; other_area := other.area
-			l_unencoded := extendible_unencoded; escape_code := unescaper.escape_code
+			l_unencoded := empty_once_unencoded; escape_code := unescaper.escape_code
 
 			make (other_count)
 			l_area := area

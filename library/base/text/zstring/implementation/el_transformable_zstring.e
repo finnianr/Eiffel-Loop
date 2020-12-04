@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 16:13:00 GMT (Wednesday 8th April 2020)"
-	revision: "3"
+	date: "2020-12-03 11:12:08 GMT (Thursday 3rd December 2020)"
+	revision: "4"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -43,12 +43,12 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- "Hello world" -> "dlrow olleH".
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			l_unencoded: like extendible_unencoded
+			l_unencoded: like empty_once_unencoded
 		do
 			l_count := count
 			if l_count > 1 then
 				if has_mixed_encoding then
-					l_area := area; l_unencoded := extendible_unencoded
+					l_area := area; l_unencoded := empty_once_unencoded
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Unencoded_character then
@@ -196,7 +196,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			l_area, new_characters_area: like area; old_expanded, new_expanded: STRING_32
 		do
 			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := extendible_unencoded; l_unencoded := unencoded_interval_index
+			l_new_unencoded := empty_once_unencoded; l_unencoded := unencoded_interval_index
 			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
 			from until i = l_count loop
 				old_z_code := area_i_th_z_code (l_area, i)

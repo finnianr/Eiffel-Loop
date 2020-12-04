@@ -7,14 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 11:07:02 GMT (Tuesday 15th September 2020)"
-	revision: "94"
+	date: "2020-12-03 14:54:57 GMT (Thursday 3rd December 2020)"
+	revision: "95"
 
 class
 	BASE_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [TUPLE [
+	EL_AUTOTEST_SUB_APPLICATION [
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
@@ -34,13 +34,15 @@ inherit
 		SUBSTITUTION_TEMPLATE_TEST_SET,
 
 		TEMPLATE_TEST_SET,
+
+		UNICODE_SUBSTRINGS_TEST,
 		URL_ENCODING_TEST_SET,
 		URI_PATH_TEST_SET,
 		UUID_TEST_SET,
 
 		ZSTRING_TEST_SET,
 		ZSTRING_TOKEN_TABLE_TEST_SET
-	]]
+	]
 		redefine
 			visible_types
 		end

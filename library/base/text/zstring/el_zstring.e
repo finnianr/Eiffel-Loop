@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 13:12:15 GMT (Saturday 16th May 2020)"
-	revision: "23"
+	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
+	revision: "24"
 
 class
 	EL_ZSTRING
@@ -368,12 +368,12 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 		local
 			i, j, l_count: INTEGER; c, c_i: CHARACTER; l_unicode, unicode_i: NATURAL; l_area: like area
-			l_new_unencoded: like extendible_unencoded; l_unencoded: like unencoded_interval_index
+			l_new_unencoded: like empty_once_unencoded; l_unencoded: like unencoded_interval_index
 		do
 			c := encoded_character (uc); l_unicode := uc.natural_32_code
 			if has_mixed_encoding then
 				l_area := area; l_count := count
-				l_new_unencoded := extendible_unencoded; l_unencoded := unencoded_interval_index
+				l_new_unencoded := empty_once_unencoded; l_unencoded := unencoded_interval_index
 				from  until i = l_count loop
 					c_i := l_area.item (i)
 					if c_i = Unencoded_character then

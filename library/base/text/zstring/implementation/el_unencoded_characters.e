@@ -4,14 +4,21 @@ note
 		a latin character set. The substring are held in the array unecoded: `SPECIAL [CHARACTER_32]'
 		Each substring is prececded by two 32 bit characters representing the lower and upper index.
 	]"
+	notes: "[
+		**Future development**
+		
+		Use and array of arrays with a binary search procedure. First character contains the offset into output STRING_32.
+		
+			sections: SPECIAL [SPECIAL [CHARACTER_32]]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 11:15:29 GMT (Sunday 31st May 2020)"
-	revision: "10"
+	date: "2020-12-03 15:23:13 GMT (Thursday 3rd December 2020)"
+	revision: "11"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -451,9 +458,9 @@ feature -- Element change
 		end
 
 	shift_from (index, n: INTEGER)
-			-- shift intervals right by `n' characters starting from `index'.
-			-- Split if interval has `index' and `index' > `lower'
-			-- n < 0 shifts to the left.
+		-- shift intervals right by `n' characters starting from `index'.
+		-- Split if interval has `index' and `index' > `lower'
+		-- n < 0 shifts to the left.
 		local
 			i, lower, upper, count, area_count: INTEGER; l_area: like area
 		do
@@ -660,9 +667,9 @@ feature -- Duplication
 			Result.shift (n)
 		end
 
-	substring (start_index, end_index: INTEGER): like extendible_unencoded
+	substring (start_index, end_index: INTEGER): like empty_once_unencoded
 		do
-			Result := extendible_unencoded
+			Result := empty_once_unencoded
 			append_substrings_into (Result, start_index, end_index)
 			Result.shift (-(start_index - 1))
 		end
@@ -749,7 +756,7 @@ feature {NONE} -- Implementation
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
 		end
 
-	extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+	empty_once_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
 		do
 			Result := Once_extendible_unencoded
 			Result.wipe_out
