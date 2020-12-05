@@ -1,16 +1,34 @@
 note
-	description: "Array of unicode substrings in order of occurence in source string"
+	description: "[
+		Array of unicode substrings in order of occurence in source string.
+	]"
+	notes: "[
+		This is an experiment to try and improve on the performance of [$source EL_UNENCODED_CHARACTERS]
+		
+		**Conclusion**
+		
+		Turns out that [$source EL_UNENCODED_CHARACTERS] is marginally faster:
+
+			Average execution times over 10000 runs (in ascending order)
+			{ZSTRING}.make_general      :  0.083 millisecs
+			{L1_UC_STRING}.make_general : +3%
+
+			Average execution times over 10000 runs (in ascending order)
+			{ZSTRING}.unicode      :  0.092 millisecs
+			{L1_UC_STRING}.unicode : +7%
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 11:40:23 GMT (Saturday 5th December 2020)"
-	revision: "3"
+	date: "2020-12-05 16:23:55 GMT (Saturday 5th December 2020)"
+	revision: "4"
 
 class
-	EL_SUBSTRING_32_ARRAY
+	SUBSTRING_32_ARRAY
 
 create
 	make

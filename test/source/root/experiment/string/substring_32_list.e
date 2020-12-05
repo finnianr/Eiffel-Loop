@@ -1,19 +1,19 @@
 note
-	description: "An [$source EL_SUBSTRING_32_ARRAY] object that can be extended"
+	description: "A descendant of [$source SUBSTRING_32_ARRAY] that can be extended as a list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 12:37:23 GMT (Saturday 5th December 2020)"
-	revision: "3"
+	date: "2020-12-05 16:18:20 GMT (Saturday 5th December 2020)"
+	revision: "4"
 
 class
-	EL_SUBSTRING_32_LIST
+	SUBSTRING_32_LIST
 
 inherit
-	EL_SUBSTRING_32_ARRAY
+	SUBSTRING_32_ARRAY
 		rename
 			make as make_empty
 		end

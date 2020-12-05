@@ -1,13 +1,15 @@
 note
-	description: "String for testing class [$source EL_SUBSTRING_32_ARRAY] and  [$source EL_SUBSTRING_32_LIST]"
+	description: "[
+		An experimental string for testing class [$source SUBSTRING_32_ARRAY] and  [$source SUBSTRING_32_LIST]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 12:38:19 GMT (Saturday 5th December 2020)"
-	revision: "2"
+	date: "2020-12-05 16:19:31 GMT (Saturday 5th December 2020)"
+	revision: "3"
 
 class
 	L1_UC_STRING
@@ -18,7 +20,7 @@ inherit
 			to_string_32
 		end
 
-	EL_SUBSTRING_32_ARRAY
+	SUBSTRING_32_ARRAY
 		rename
 			make as make_substrings,
 			substring_index as substrings_index,
@@ -99,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Once_substrings_buffer: EL_SUBSTRING_32_LIST
+	Once_substrings_buffer: SUBSTRING_32_LIST
 		once
 			create Result.make
 		end

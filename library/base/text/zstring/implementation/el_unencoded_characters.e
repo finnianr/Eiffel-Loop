@@ -4,32 +4,14 @@ note
 		a latin character set. The substring are held in the array unecoded: `SPECIAL [CHARACTER_32]'
 		Each substring is prececded by two 32 bit characters representing the lower and upper index.
 	]"
-	notes: "[
-		**Possible Improvement?**
-		
-		Use and array of arrays with a binary search procedure. First character contains the offset into output STRING_32.
-		
-			sections: SPECIAL [SPECIAL [CHARACTER_32]]
-			
-		Turns out the current method is faster
-
-			Average execution times over 10000 runs (in ascending order)
-			{ZSTRING}.make_general      :  0.083 millisecs
-			{L1_UC_STRING}.make_general : +3%
-
-			Average execution times over 10000 runs (in ascending order)
-			{ZSTRING}.unicode      :  0.092 millisecs
-			{L1_UC_STRING}.unicode : +7%
-
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 13:16:28 GMT (Saturday 5th December 2020)"
-	revision: "12"
+	date: "2020-12-05 16:21:45 GMT (Saturday 5th December 2020)"
+	revision: "13"
 
 class
 	EL_UNENCODED_CHARACTERS
