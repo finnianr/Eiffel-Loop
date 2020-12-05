@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
-	revision: "55"
+	date: "2020-12-05 13:08:55 GMT (Saturday 5th December 2020)"
+	revision: "56"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -520,6 +520,8 @@ feature -- Conversion
 	substring (start_index, end_index: INTEGER): like Current
 			-- Copy of substring containing all characters at indices
 			-- between `start_index' and `end_index'
+		local
+			l_unencoded: like empty_once_unencoded
 		do
 			if (1 <= start_index) and (start_index <= end_index) and (end_index <= count) then
 				Result := new_string (end_index - start_index + 1)
@@ -529,7 +531,9 @@ feature -- Conversion
 				Result := new_string (0)
 			end
 			if has_mixed_encoding and then overlaps_unencoded (start_index, end_index) then
-				Result.set_from_extendible_unencoded (unencoded_substring (start_index, end_index))
+				l_unencoded := empty_once_unencoded
+				l_unencoded.append_substring (Current, start_index, end_index)
+				Result.set_from_extendible_unencoded (l_unencoded)
 			end
 		ensure then
 			unencoded_valid: Result.is_unencoded_valid

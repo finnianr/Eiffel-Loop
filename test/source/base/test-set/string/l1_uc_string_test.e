@@ -1,16 +1,16 @@
 note
-	description: "Test class [$source EL_UNICODE_SUBSTRINGS] and [$source EL_EXTENDABLE_UNICODE_SUBSTRINGS]"
+	description: "Test class [$source L1_UC_STRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 17:05:46 GMT (Friday 4th December 2020)"
-	revision: "2"
+	date: "2020-12-05 11:47:46 GMT (Saturday 5th December 2020)"
+	revision: "3"
 
 class
-	UNICODE_SUBSTRINGS_TEST
+	L1_UC_STRING_TEST
 
 inherit
 	EL_EQA_TEST_SET
@@ -34,7 +34,7 @@ feature -- Tests
 
 	test_conversion
 		note
-			testing: "covers/{EL_UNICODE_SUBSTRINGS}.write", "covers/{EL_EXTENDABLE_UNICODE_SUBSTRINGS}.append_code"
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.write", "covers/{EL_SUBSTRING_32_LIST}.append_code"
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do
@@ -44,8 +44,8 @@ feature -- Tests
 
 	test_unicode_by_index
 		note
-			testing: "covers/{EL_UNICODE_SUBSTRINGS}.code_item",
-				"covers/{EL_EXTENDABLE_UNICODE_SUBSTRINGS}.append_code"
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.code_item",
+				"covers/{EL_SUBSTRING_32_LIST}.append_code"
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do

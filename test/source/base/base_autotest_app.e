@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 14:54:57 GMT (Thursday 3rd December 2020)"
-	revision: "95"
+	date: "2020-12-05 11:44:32 GMT (Saturday 5th December 2020)"
+	revision: "96"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,7 +35,7 @@ inherit
 
 		TEMPLATE_TEST_SET,
 
-		UNICODE_SUBSTRINGS_TEST,
+		L1_UC_STRING_TEST,
 		URL_ENCODING_TEST_SET,
 		URI_PATH_TEST_SET,
 		UUID_TEST_SET,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:58:38 GMT (Sunday 5th April 2020)"
-	revision: "7"
+	date: "2020-12-05 13:00:29 GMT (Saturday 5th December 2020)"
+	revision: "8"
 
 class
 	EL_EXTENDABLE_UNENCODED_CHARACTERS
@@ -44,6 +44,12 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	append_substring (str: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
+		do
+			str.append_substrings_into (Current, start_index, end_index)
+			shift ((start_index - 1).opposite)
+		end
 
 	extend_z_code (a_z_code: NATURAL; index: INTEGER)
 		do

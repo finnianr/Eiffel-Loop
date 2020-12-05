@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 11:12:08 GMT (Thursday 3rd December 2020)"
-	revision: "4"
+	date: "2020-12-05 13:10:32 GMT (Saturday 5th December 2020)"
+	revision: "5"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -372,7 +372,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			-- Remove all characters except for the first `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER
+			old_count: INTEGER; l_unencoded: like empty_once_unencoded
 		do
 			old_count := count
 			internal_keep_head (n)
@@ -380,7 +380,9 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				if n = 0 then
 					make_unencoded
 				else
-					set_from_extendible_unencoded (unencoded_substring (1, n))
+					l_unencoded := empty_once_unencoded
+					l_unencoded.append_substring (Current, 1, n)
+					set_from_extendible_unencoded (l_unencoded)
 				end
 			end
 		ensure then
@@ -391,7 +393,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			-- Remove all characters except for the last `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER
+			old_count: INTEGER; l_unencoded: like empty_once_unencoded
 		do
 			old_count := count
 			internal_keep_tail (n)
@@ -399,7 +401,9 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				if n = 0 then
 					make_unencoded
 				else
-					set_from_extendible_unencoded (unencoded_substring (old_count - n + 1, old_count))
+					l_unencoded := empty_once_unencoded
+					l_unencoded.append_substring (Current, old_count - n + 1, old_count)
+					set_from_extendible_unencoded (l_unencoded)
 				end
 			end
 		ensure then

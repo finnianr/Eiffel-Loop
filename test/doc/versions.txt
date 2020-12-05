@@ -1,3 +1,6 @@
+1.2.16
+New routine {EL_EXTENDABLE_UNENCODED_CHARACTERS}.append_substring to replace {EL_UNENCODED_CHARACTERS}.substring
+
 1.2.15
 Removed `as_text' routines from EVOLICITY_SERIALIZEABLE
 

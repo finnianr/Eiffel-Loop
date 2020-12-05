@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 16:41:03 GMT (Saturday 28th November 2020)"
-	revision: "14"
+	date: "2020-12-05 12:10:23 GMT (Saturday 5th December 2020)"
+	revision: "15"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -35,7 +35,9 @@ feature {NONE} -- Constants
 				["Compare {ZSTRING}.split_intervals",				{ZSTRING_SPLIT_COMPARISON}],
 				["Compare setting agent routine argument",		{SET_ROUTINE_ARGUMENT_COMPARISON}],
 				["Compare XML parsers",									{XML_PARSING_COMPARISON}],
-				["Compare finding files with extension",			{FINDING_FILES_WITH_EXTENSION_COMPARISON}]
+				["Compare finding files with extension",			{FINDING_FILES_WITH_EXTENSION_COMPARISON}],
+				["Compare {L1_UC_STRING}.make_general",			{MAKE_GENERAL_COMPARISON}],
+				["Compare {L1_UC_STRING}.unicode",					{UNICODE_ITEM_COMPARISON}]
 			>>)
 		end
 

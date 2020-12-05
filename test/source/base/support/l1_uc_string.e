@@ -1,13 +1,13 @@
 note
-	description: "String for testing class [$source EL_UNICODE_SUBSTRINGS]"
+	description: "String for testing class [$source EL_SUBSTRING_32_ARRAY] and  [$source EL_SUBSTRING_32_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 17:21:05 GMT (Friday 4th December 2020)"
-	revision: "1"
+	date: "2020-12-05 12:38:19 GMT (Saturday 5th December 2020)"
+	revision: "2"
 
 class
 	L1_UC_STRING
@@ -18,7 +18,7 @@ inherit
 			to_string_32
 		end
 
-	EL_UNICODE_SUBSTRINGS
+	EL_SUBSTRING_32_ARRAY
 		rename
 			make as make_substrings,
 			substring_index as substrings_index,
@@ -78,18 +78,18 @@ feature {NONE} -- Implementation
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		local
 			buffer: like Once_substrings_buffer; l_area: like area
-			i, uc_count: INTEGER; l_code: NATURAL
+			i, uc_count: INTEGER; uc: CHARACTER_32
 		do
 			buffer := Once_substrings_buffer; buffer.wipe_out
 			l_area := area
 			uc_count := a_unicode.count
 			from i := 1 until i > uc_count loop
-				l_code := a_unicode.code (i)
-				if l_code > 0xFF then
-					buffer.append_code (l_code, i)
+				uc := a_unicode [i]
+				if uc.natural_32_code > 0xFF then
+					buffer.append_character (uc, i)
 					l_area.put (Unencoded_character, i - 1)
 				else
-					l_area.put (l_code.to_character_8, i - 1)
+					l_area.put (uc.to_character_8, i - 1)
 				end
 				i := i + 1
 			end
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Once_substrings_buffer: EL_EXTENDABLE_UNICODE_SUBSTRINGS
+	Once_substrings_buffer: EL_SUBSTRING_32_LIST
 		once
 			create Result.make
 		end

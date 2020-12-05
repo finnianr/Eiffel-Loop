@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-11 13:19:11 GMT (Friday 11th September 2020)"
-	revision: "7"
+	date: "2020-12-05 13:02:59 GMT (Saturday 5th December 2020)"
+	revision: "8"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -82,14 +82,15 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; l_unencoded: like unencoded_substring
+			old_count: INTEGER; l_unencoded: like empty_once_unencoded
 		do
 			old_count := count
 			internal_append_substring (s, start_index, end_index)
 			if s.has_mixed_encoding then
-				l_unencoded := s.unencoded_substring (start_index, end_index)
+				l_unencoded := empty_once_unencoded
+				s.append_substrings_into (l_unencoded, start_index, end_index)
 				if l_unencoded.not_empty then
-					l_unencoded.shift (old_count)
+					l_unencoded.shift (old_count - start_index + 1)
 					append_unencoded (l_unencoded)
 				end
 			end
@@ -271,14 +272,15 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 
 	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; l_unencoded: like unencoded_substring
+			old_count: INTEGER; l_unencoded: like empty_once_unencoded
 		do
 			old_count := count
 			internal_prepend_substring (s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					shift_unencoded (end_index - start_index + 1)
-					l_unencoded := s.unencoded_substring (start_index, end_index)
+					l_unencoded := empty_once_unencoded
+					l_unencoded.append_substring (s, start_index, end_index)
 					if l_unencoded.not_empty then
 						l_unencoded.append (Current)
 						unencoded_area := l_unencoded.area_copy
@@ -286,7 +288,8 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 				when Only_current then
 					shift_unencoded (end_index - start_index + 1)
 				when Only_other then
-					l_unencoded := s.unencoded_substring (start_index, end_index)
+					l_unencoded := empty_once_unencoded
+					l_unencoded.append_substring (s, start_index, end_index)
 					if l_unencoded.not_empty then
 						unencoded_area := l_unencoded.area_copy
 					end

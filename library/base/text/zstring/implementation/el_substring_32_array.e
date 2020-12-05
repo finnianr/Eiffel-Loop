@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 17:24:09 GMT (Friday 4th December 2020)"
-	revision: "2"
+	date: "2020-12-05 11:40:23 GMT (Saturday 5th December 2020)"
+	revision: "3"
 
 class
-	EL_UNICODE_SUBSTRINGS
+	EL_SUBSTRING_32_ARRAY
 
 create
 	make

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
-	revision: "6"
+	date: "2020-12-05 13:06:53 GMT (Saturday 5th December 2020)"
+	revision: "7"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -45,7 +45,6 @@ inherit
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,
 			shifted as shifted_unencoded,
-			substring as unencoded_substring,
 			substring_list as unencoded_substring_list,
 			sum_count as unencoded_count,
 			to_lower as unencoded_to_lower,

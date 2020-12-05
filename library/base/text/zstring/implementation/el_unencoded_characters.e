@@ -5,11 +5,22 @@ note
 		Each substring is prececded by two 32 bit characters representing the lower and upper index.
 	]"
 	notes: "[
-		**Future development**
+		**Possible Improvement?**
 		
 		Use and array of arrays with a binary search procedure. First character contains the offset into output STRING_32.
 		
 			sections: SPECIAL [SPECIAL [CHARACTER_32]]
+			
+		Turns out the current method is faster
+
+			Average execution times over 10000 runs (in ascending order)
+			{ZSTRING}.make_general      :  0.083 millisecs
+			{L1_UC_STRING}.make_general : +3%
+
+			Average execution times over 10000 runs (in ascending order)
+			{ZSTRING}.unicode      :  0.092 millisecs
+			{L1_UC_STRING}.unicode : +7%
+
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 15:23:13 GMT (Thursday 3rd December 2020)"
-	revision: "11"
+	date: "2020-12-05 13:16:28 GMT (Saturday 5th December 2020)"
+	revision: "12"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -667,12 +678,12 @@ feature -- Duplication
 			Result.shift (n)
 		end
 
-	substring (start_index, end_index: INTEGER): like empty_once_unencoded
-		do
-			Result := empty_once_unencoded
-			append_substrings_into (Result, start_index, end_index)
-			Result.shift (-(start_index - 1))
-		end
+--	substring (start_index, end_index: INTEGER): like empty_once_unencoded
+--		do
+--			Result := empty_once_unencoded
+--			append_substrings_into (Result, start_index, end_index)
+--			Result.shift ((start_index - 1).opposite)
+--		end
 
 feature {NONE} -- Contract Support
 

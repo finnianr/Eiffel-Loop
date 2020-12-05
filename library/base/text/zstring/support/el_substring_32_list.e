@@ -1,19 +1,19 @@
 note
-	description: "An [$source EL_UNICODE_SUBSTRINGS] object that can be extended"
+	description: "An [$source EL_SUBSTRING_32_ARRAY] object that can be extended"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 17:15:45 GMT (Friday 4th December 2020)"
-	revision: "2"
+	date: "2020-12-05 12:37:23 GMT (Saturday 5th December 2020)"
+	revision: "3"
 
 class
-	EL_EXTENDABLE_UNICODE_SUBSTRINGS
+	EL_SUBSTRING_32_LIST
 
 inherit
-	EL_UNICODE_SUBSTRINGS
+	EL_SUBSTRING_32_ARRAY
 		rename
 			make as make_empty
 		end
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create substring_area.make_empty (20)
-			create buffer.make (100)
+			create buffer.make_empty (100)
 			last_index := 1
 		end
 
@@ -40,13 +40,13 @@ feature -- Access
 
 feature -- Element change
 
-	append_code (a_code: NATURAL; index: INTEGER)
+	append_character (uc: CHARACTER_32; index: INTEGER)
 		do
 			if index = last_upper_index + 1 then
-				buffer.append_code (a_code)
+				buffer.extend (uc)
 			else
 				finalize
-				buffer.append_code (a_code)
+				buffer.extend (uc)
 				last_index := index
 			end
 		end
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 			new_substring: like substring_area.item
 		do
 			create new_substring.make_filled (last_index.to_character_32, buffer.count + 1)
-			new_substring.copy_data (buffer.area, 0, 1, buffer.count)
+			new_substring.copy_data (buffer, 0, 1, buffer.count)
 			extend (new_substring)
 		end
 
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	buffer: STRING_32
+	buffer: SPECIAL [CHARACTER_32]
 
 	last_index: INTEGER
 
