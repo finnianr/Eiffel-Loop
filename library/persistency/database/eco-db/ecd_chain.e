@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-10 15:26:49 GMT (Thursday 10th September 2020)"
-	revision: "20"
+	date: "2020-12-06 11:36:39 GMT (Sunday 6th December 2020)"
+	revision: "21"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -149,18 +149,6 @@ feature -- Access
 		end
 
 feature -- Basic operations
-
-	print_meta_data (lio: EL_LOGGABLE)
-		local
-			l_item: G
-		do
-			if is_empty then
-				create l_item.make_default
-			else
-				l_item := first
-			end
-			l_item.print_meta_data (lio)
-		end
 
 	retrieve
 		local

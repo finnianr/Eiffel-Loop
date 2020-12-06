@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 12:33:20 GMT (Sunday 29th November 2020)"
-	revision: "33"
+	date: "2020-12-06 12:01:18 GMT (Sunday 6th December 2020)"
+	revision: "34"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -41,6 +41,7 @@ inherit
 			make_default as make
 		export
 			{NONE} all
+			{EL_REFLECTION_HANDLER} field_table
 		redefine
 			make, initialize_fields
 		end
@@ -93,7 +94,7 @@ feature -- Measurement
 feature -- Access
 
 	field_name (a_value: N): STRING
-		-- unexported field name with underscores
+		-- exported field name from field value `a_value'
 		do
 			if attached {HASHABLE} a_value as key and then field_name_by_value.has_key (key) then
 				Result := field_name_by_value.found_item

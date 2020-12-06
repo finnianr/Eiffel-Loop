@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:47:31 GMT (Wednesday 29th January 2020)"
-	revision: "8"
+	date: "2020-12-06 11:35:14 GMT (Sunday 6th December 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTED_STORABLE
@@ -17,7 +17,7 @@ class
 inherit
 	EL_REFLECTED_READABLE [EL_STORABLE]
 		redefine
-			 write, print_meta_data, to_string, set_from_string
+			 write, to_string, set_from_string
 		end
 
 create
@@ -38,18 +38,6 @@ feature -- Access
 		end
 
 feature -- Basic operations
-
-	print_meta_data (a_object: EL_REFLECTIVE; lio: EL_LOGGABLE; i: INTEGER; last: BOOLEAN)
-		do
-			Precursor (a_object, lio, i, True)
-			lio.tab_right; lio.tab_right
-			lio.put_new_line
-			value (a_object).print_meta_data (lio)
-			lio.tab_left; lio.tab_left
-			if not last then
-				lio.put_new_line
-			end
-		end
 
 	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
 		do

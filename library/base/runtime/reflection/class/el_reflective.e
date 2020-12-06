@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 15:17:58 GMT (Monday 30th November 2020)"
-	revision: "30"
+	date: "2020-12-06 11:35:37 GMT (Sunday 6th December 2020)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTIVE
@@ -76,17 +76,6 @@ feature -- Basic operations
 	print_fields (lio: EL_LOGGABLE)
 		do
 			meta_data.print_fields (Current, lio)
-		end
-
-	print_meta_data (lio: EL_LOGGABLE)
-		do
-			lio.put_labeled_string ("class", generator)
-			lio.tab_right
-			lio.put_new_line
-			print_field_meta_data (lio, meta_data.field_list.to_array)
-			lio.tab_left
-			lio.put_new_line
-			lio.put_line ("end")
 		end
 
 feature -- Element change
@@ -237,16 +226,6 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		-- when True, include field of this type in `field_table' and `meta_data'
 		-- except when the name is one of those listed in `Except_fields'.
 		deferred
-		end
-
-	print_field_meta_data (lio: EL_LOGGABLE; array: ARRAY [EL_REFLECTED_FIELD])
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > array.upper loop
-				array.item (i).print_meta_data (Current, lio, i, i = array.upper)
-				i := i + 1
-			end
 		end
 
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])

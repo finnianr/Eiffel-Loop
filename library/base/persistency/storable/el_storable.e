@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 19:03:14 GMT (Friday 17th January 2020)"
-	revision: "5"
+	date: "2020-12-06 11:35:59 GMT (Sunday 6th December 2020)"
+	revision: "6"
 
 deferred class
 	EL_STORABLE
@@ -53,10 +53,6 @@ feature -- Basic operations
 				read_version (a_reader, a_reader.data_version)
 			end
 			on_read
-		end
-
-	print_meta_data (lio: EL_LOGGABLE)
-		do
 		end
 
 	write (a_writer: EL_MEMORY_READER_WRITER)

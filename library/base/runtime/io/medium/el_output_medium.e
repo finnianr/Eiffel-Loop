@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-14 11:23:30 GMT (Monday 14th September 2020)"
-	revision: "21"
+	date: "2020-12-06 11:18:05 GMT (Sunday 6th December 2020)"
+	revision: "22"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -118,6 +118,12 @@ feature -- String output
 				put_raw_character_8 ('%T')
 				i := i + 1
 			end
+		end
+
+	put_indented_line (tab_count: INTEGER; line: READABLE_STRING_GENERAL)
+		do
+			put_indent (tab_count); put_string_general (line)
+			put_new_line
 		end
 
 	put_indented_lines (indent: STRING; lines: ITERABLE [READABLE_STRING_GENERAL])

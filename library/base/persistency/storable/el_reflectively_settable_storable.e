@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 15:40:20 GMT (Tuesday 1st December 2020)"
-	revision: "24"
+	date: "2020-12-06 12:16:52 GMT (Sunday 6th December 2020)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -19,7 +19,7 @@ deferred class
 inherit
 	EL_STORABLE
 		undefine
-			is_equal, print_meta_data
+			is_equal
 		end
 
 	EL_REFLECTIVELY_SETTABLE
@@ -32,6 +32,8 @@ inherit
 		redefine
 			is_equal, new_meta_data, use_default_values, Except_fields
 		end
+
+	EL_REFLECTION_HANDLER undefine is_equal end
 
 	EL_MODULE_LIO
 
@@ -85,12 +87,44 @@ feature -- Basic operations
 						elseif value.count > 0 then
 							value.enclose ('"', '"')
 							write_pyxis_field (output, table.key, tab_count)
-							output.put_indent (tab_count + 1)
-							output.put_string (value)
-							output.put_new_line
+							output.put_indented_line (tab_count + 1, value)
 						end
 					end
 				end
+			end
+		end
+
+	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
+		local
+			field_definition: STRING; enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
+		do
+			create enumeration_list.make (5)
+			output.put_indented_line (tab_count, "class " + generator)
+			across meta_data.field_list as list loop
+				-- Number
+				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
+
+				field_definition := list.item.name + ": " + list.item.class_name
+				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} list.item as numeric
+					and then attached {EL_ENUMERATION [NUMERIC]} numeric.enumeration as enumeration
+				then
+					enumeration_list.extend (enumeration)
+					field_definition.append (" -- Enumeration: " + enumeration.generator)
+				end
+				output.put_indented_line (tab_count + 1, field_definition)
+				if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item.value (Current) as storable then
+					storable.write_meta_data (output, tab_count + 1)
+				end
+			end
+			output.put_indented_line (tab_count, "end")
+
+			across enumeration_list as enum loop
+				output.put_new_line
+				output.put_indented_line (tab_count, "class " + enum.item.generator)
+				across enum.item.field_table as table loop
+					output.put_indented_line (tab_count + 1, table.item.name + " = " + table.item.value (enum.item).out)
+				end
+				output.put_indented_line (tab_count, "end")
 			end
 		end
 
@@ -175,9 +209,7 @@ feature {NONE} -- Implementation
 			across attribute_lines as line loop
 				if line.item.count > 0 then
 					line.item.remove_head (2)
-					output.put_indent (tab_count)
-					output.put_string (line.item)
-					output.put_new_line
+					output.put_indented_line (tab_count, line.item)
 				end
 			end
 			attribute_lines.do_all (agent String_pool.recycle)
@@ -198,7 +230,6 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				lio.put_labeled_string ("class " + generator, field_structure_error)
 				lio.put_new_line
-				print_field_meta_data (lio, Result.field_list.to_array)
 				lio.put_new_line
 				if not Executable.is_work_bench then
 					create exception
@@ -252,8 +283,7 @@ feature {NONE} -- Implementation
 			lines.put_front (Pyxis_triple_quote)
 			lines.extend (Pyxis_triple_quote)
 			across lines as list loop
-				output.put_indent (tab_count); output.put_string (list.item)
-				output.put_new_line
+				output.put_indented_line (tab_count, list.item)
 			end
 		end
 

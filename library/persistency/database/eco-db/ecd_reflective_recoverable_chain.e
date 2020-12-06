@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 11:32:49 GMT (Tuesday 1st December 2020)"
-	revision: "1"
+	date: "2020-12-06 11:04:47 GMT (Sunday 6th December 2020)"
+	revision: "2"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -27,6 +27,11 @@ feature -- Access
 	csv_file_path: EL_FILE_PATH
 		do
 			Result := file_path.with_new_extension ("csv")
+		end
+
+	meta_data_file_path: EL_FILE_PATH
+		do
+			Result := file_path.parent.joined_file_tuple (["meta_data", file_path.base_sans_extension + ".e"])
 		end
 
 	pyxis_file_path: EL_FILE_PATH
@@ -55,6 +60,22 @@ feature {NONE} -- Implementation
 				end
 				forth
 			end
+			file.close
+		end
+
+	export_meta_data (a_file_path: EL_FILE_PATH)
+		local
+			file: EL_PLAIN_TEXT_FILE; l_item: like item
+		do
+			File_system.make_directory (a_file_path.parent)
+			create file.make_open_write (a_file_path)
+			file.set_encoding (Latin_1)
+			if is_empty then
+				create l_item.make_default
+			else
+				l_item := first
+			end
+			l_item.write_meta_data (file, 0)
 			file.close
 		end
 

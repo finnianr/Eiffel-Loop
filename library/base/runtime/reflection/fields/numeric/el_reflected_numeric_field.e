@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 15:08:17 GMT (Monday 30th November 2020)"
-	revision: "11"
+	date: "2020-12-06 11:41:07 GMT (Sunday 6th December 2020)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -18,6 +18,8 @@ inherit
 	EL_SHARED_ONCE_STRING_8
 
 feature -- Access
+
+	enumeration: detachable EL_ENUMERATION [N]
 
 	to_string (a_object: EL_REFLECTIVE): STRING
 		local
@@ -74,10 +76,6 @@ feature {NONE} -- Implementation
 				Result := a_enumeration.value (once_general_copy_8 (string))
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	enumeration: detachable EL_ENUMERATION [N]
 
 feature {NONE} -- Constants
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 15:29:30 GMT (Saturday 28th November 2020)"
-	revision: "20"
+	date: "2020-12-06 11:34:56 GMT (Sunday 6th December 2020)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -104,17 +104,6 @@ feature -- Comparison
 		end
 
 feature -- Basic operations
-
-	print_meta_data (a_object: EL_REFLECTIVE; lio: EL_LOGGABLE; i: INTEGER; last: BOOLEAN)
-		local
-			label: STRING
-		do
-			label := new_numbered_label (i); label.append (name)
-			lio.put_labeled_string (label, class_name)
-			if not last then
-				lio.put_new_line
-			end
-		end
 
 	reset (a_object: EL_REFLECTIVE)
 		deferred
