@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 12:31:25 GMT (Sunday 28th October 2018)"
-	revision: "5"
+	date: "2020-12-07 11:51:38 GMT (Monday 7th December 2020)"
+	revision: "6"
 
 class
 	EL_REFLECTED_INTEGER_64
@@ -27,6 +27,14 @@ feature -- Access
 		do
 			create Result
 			Result.set_item (value (a_object))
+		end
+
+
+feature -- Conversion
+
+	to_enumeration (a_enumeration: EL_ENUMERATION [INTEGER_64]): EL_REFLECTED_ENUM_INTEGER_64
+		do
+			create Result.make (enclosing_object, index, name, a_enumeration)
 		end
 
 feature -- Basic operations

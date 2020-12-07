@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 12:16:52 GMT (Sunday 6th December 2020)"
-	revision: "25"
+	date: "2020-12-07 12:26:39 GMT (Monday 7th December 2020)"
+	revision: "26"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -105,17 +105,19 @@ feature -- Basic operations
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
 
 				field_definition := list.item.name + ": " + list.item.class_name
-				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} list.item as numeric
-					and then attached {EL_ENUMERATION [NUMERIC]} numeric.enumeration as enumeration
-				then
-					enumeration_list.extend (enumeration)
-					field_definition.append (" -- Enumeration: " + enumeration.generator)
+				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} list.item as numeric then
+					enumeration_list.extend (numeric.enumeration)
+					field_definition.append (" -- Enumeration: " + numeric.enumeration.generator)
 				end
 				output.put_indented_line (tab_count + 1, field_definition)
 				if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item.value (Current) as storable then
 					storable.write_meta_data (output, tab_count + 1)
 				end
 			end
+			output.put_new_line
+			output.put_indented_line (tab_count, "-- CRC checksum ")
+			output.put_indented_line (tab_count + 1, "Field_hash: NATURAL = " + field_hash.out)
+
 			output.put_indented_line (tab_count, "end")
 
 			across enumeration_list as enum loop
@@ -170,7 +172,7 @@ feature -- Comparison
 
 feature {EL_STORABLE_CLASS_META_DATA} -- Access
 
-	field_hash: NATURAL_32
+	field_hash: NATURAL
 		-- CRC checksum for field names and types of generating type
 		deferred
 		end
@@ -185,12 +187,10 @@ feature {NONE} -- Implementation
 			attribute_lines := << String_pool.reuseable_item, String_pool.reuseable_item, String_pool.reuseable_item >>
 			across field_table as table loop
 				-- output numeric as Pyxis element attributes
-				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.item as numeric then
-					if numeric.is_enumeration then
-						attribute_index := 3
-					else
-						attribute_index := 1
-					end
+				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} table.item then
+					attribute_index := 3
+				elseif attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.item then
+					attribute_index := 1
 				elseif attached {EL_REFLECTED_BOOLEAN} table.item then
 					attribute_index := 2
 				end
@@ -230,7 +230,8 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				lio.put_labeled_string ("class " + generator, field_structure_error)
 				lio.put_new_line
-				lio.put_new_line
+				lio.put_natural_field ("actual field_hash", Result.field_list.field_hash)
+				lio.put_new_line_x2
 				if not Executable.is_work_bench then
 					create exception
 					exception.set_description (field_structure_error)

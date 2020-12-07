@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 13:27:00 GMT (Sunday 29th November 2020)"
-	revision: "31"
+	date: "2020-12-07 12:21:22 GMT (Monday 7th December 2020)"
+	revision: "32"
 
 class
 	EL_CLASS_META_DATA
@@ -50,21 +50,9 @@ feature {NONE} -- Initialization
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
+			enumerations := enclosing_object.new_enumerations
 			create field_list.make (new_field_list.to_array)
 			field_table := field_list.to_table (a_enclosing_object)
-
---			associate enumerations with numeric fields
-			across a_enclosing_object.new_enumerations as enum loop
-				if field_table.has_key (enum.key) then
-					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field_table.found_item as numeric then
-						numeric.set_enumeration (enum.item)
-					end
-				else
-					check
-						valid_enumeration_field_name: False
-					end
-				end
-			end
 		end
 
 feature -- Access
@@ -196,11 +184,16 @@ feature {NONE} -- Factory
 		do
 			if attached new_field_factory (type) as factory then
 				Result := factory.new_item (enclosing_object, index, name)
+				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} Result as numeric
+					and then enumerations.has_key (name)
+				then
+					Result := numeric.to_enumeration (enumerations.found_item)
+				end
 			else
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 			end
 		ensure
-			same_type: Result.generating_type ~ type
+			same_type: not enumerations.has (name) implies Result.generating_type ~ type
 		end
 
 	new_sink_except_fields: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
@@ -214,6 +207,8 @@ feature {NONE} -- Internal attributes
 	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
 
 	enclosing_object: EL_REFLECTIVE
+
+	enumerations: like enclosing_object.new_enumerations
 
 feature {NONE} -- Constants
 

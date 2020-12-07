@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 12:01:18 GMT (Sunday 6th December 2020)"
-	revision: "34"
+	date: "2020-12-07 10:25:36 GMT (Monday 7th December 2020)"
+	revision: "35"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -161,6 +161,15 @@ feature -- Status query
 			end
 		end
 
+feature -- Basic operations
+
+	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			across field_table as field loop
+				crc.add_string_8 (field.item.name)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
@@ -180,10 +189,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_count: CHARACTER_32
+	field_type_id: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration
 
-	field_type_id: CHARACTER_32
+	internal_count: CHARACTER_32
 		-- using CHARACTER_32 so it won't be included as part of enumeration
 
 	name_by_value: HASH_TABLE [STRING_8, HASHABLE];

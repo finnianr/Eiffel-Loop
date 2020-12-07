@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:41:07 GMT (Sunday 6th December 2020)"
-	revision: "12"
+	date: "2020-12-07 11:26:02 GMT (Monday 7th December 2020)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -19,17 +19,12 @@ inherit
 
 feature -- Access
 
-	enumeration: detachable EL_ENUMERATION [N]
-
 	to_string (a_object: EL_REFLECTIVE): STRING
 		local
 			n, v: like field_value; str: STRING
 		do
 			v := value (a_object)
-			if attached enumeration as enum then
-				Result := enumeration.name (v)
-
-			elseif v = n.zero then
+			if v = n.zero then
 				Result := Zero
 			elseif v = n.one then
 				Result := One
@@ -38,6 +33,12 @@ feature -- Access
 				append (str, v)
 				Result := str.twin
 			end
+		end
+
+feature -- Conversion
+
+	to_enumeration (a_enumeration: EL_ENUMERATION [N]): EL_REFLECTED_ENUMERATION [N]
+		deferred
 		end
 
 feature -- Status query
@@ -49,32 +50,10 @@ feature -- Status query
 			Result := value (a_object) = l_zero
 		end
 
-	is_enumeration: BOOLEAN
-		-- `True' if field is associated with an enumeration
-		do
-			Result := attached enumeration
-		end
-
-feature -- Element change
-
-	set_enumeration (a_enumeration: EL_ENUMERATION [N])
-		do
-			enumeration := a_enumeration
-		end
-
 feature {NONE} -- Implementation
 
 	append (string: STRING; a_value: like value)
 		deferred
-		end
-
-	enumeration_value (a_enumeration: EL_ENUMERATION [N]; string: READABLE_STRING_GENERAL): like value
-		do
-			if attached {STRING} string as str_8 then
-				Result := a_enumeration.value (str_8)
-			else
-				Result := a_enumeration.value (once_general_copy_8 (string))
-			end
 		end
 
 feature {NONE} -- Constants
