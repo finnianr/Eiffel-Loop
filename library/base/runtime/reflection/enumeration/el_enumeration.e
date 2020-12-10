@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 10:25:36 GMT (Monday 7th December 2020)"
-	revision: "35"
+	date: "2020-12-10 9:30:59 GMT (Thursday 10th December 2020)"
+	revision: "36"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 			-- initialize fields with unique value
 		do
-			across field_table as field loop
+			across meta_data.field_list as field loop
 				field.item.set_from_integer (Current, field.cursor_index)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-26 12:43:46 GMT (Wednesday 26th December 2018)"
-	revision: "5"
+	date: "2020-12-10 11:19:16 GMT (Thursday 10th December 2020)"
+	revision: "6"
 
 class
 	EL_VTD_CONSTANTS
@@ -274,7 +274,7 @@ feature {NONE} -- Constants
 	Empty_context_image: EL_VTD_CONTEXT_IMAGE
 			--
 		once
-			create Result.make (1, 0)
+			create Result.make_empty
 		end
 
 end

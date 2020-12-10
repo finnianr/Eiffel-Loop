@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-09 9:05:42 GMT (Wednesday 9th September 2020)"
-	revision: "3"
+	date: "2020-12-10 11:09:36 GMT (Thursday 10th December 2020)"
+	revision: "4"
 
 class
 	EL_PASSPHRASE_ATTRIBUTE_MAP
@@ -52,7 +52,7 @@ feature -- Element change
 
 	update (passphrase: READABLE_STRING_GENERAL)
 		local
-			key: ZSTRING; i: INTEGER; c: CHARACTER_32
+			i: INTEGER; c: CHARACTER_32
 		do
 			from i := 1 until i > passphrase.count loop
 				c := passphrase [i]

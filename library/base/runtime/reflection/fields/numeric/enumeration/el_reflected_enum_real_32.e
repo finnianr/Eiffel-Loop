@@ -1,13 +1,13 @@
 note
-	description: "REAL_32 field with enumerated values"
+	description: "`REAL_32' field with enumerated values"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:05:02 GMT (Monday 7th December 2020)"
-	revision: "1"
+	date: "2020-12-07 12:39:08 GMT (Monday 7th December 2020)"
+	revision: "2"
 
 class
 	EL_REFLECTED_ENUM_REAL_32

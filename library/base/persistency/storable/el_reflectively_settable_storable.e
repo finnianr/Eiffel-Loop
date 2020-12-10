@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:26:39 GMT (Monday 7th December 2020)"
-	revision: "26"
+	date: "2020-12-10 10:47:01 GMT (Thursday 10th December 2020)"
+	revision: "27"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -49,12 +49,11 @@ feature -- Basic operations
 
 	write (a_writer: EL_MEMORY_READER_WRITER)
 		local
-			field_array: EL_REFLECTED_FIELD_LIST
-			i, field_count: INTEGER_32
+			field_array: EL_REFLECTED_FIELD_LIST;i, l_count: INTEGER_32
 		do
 			field_array := Meta_data_by_type.item (Current).field_list
-			field_count := field_array.count
-			from i := 1 until i > field_count loop
+			l_count := field_array.count
+			from i := 1 until i > l_count loop
 				write_field (field_array [i], a_writer)
 				i := i + 1
 			end
@@ -136,29 +135,13 @@ feature -- Element change
 			-- Read default (current) version of data
 		local
 			field_array: EL_REFLECTED_FIELD_LIST
-			i, field_count: INTEGER_32
+			i, l_count: INTEGER_32
 		do
 			field_array := Meta_data_by_type.item (Current).field_list
-			field_count := field_array.count
-			from i := 1 until i > field_count loop
+			l_count := field_array.count
+			from i := 1 until i > l_count loop
 				read_field (field_array [i], a_reader)
 				i := i + 1
-			end
-		end
-
-feature -- Status query
-
-	ordered_alphabetically: BOOLEAN
-		-- when `True' read/write fields in alphabetical order of field name
-		do
-		end
-
-feature {EL_STORABLE_CLASS_META_DATA} -- Implementation
-
-	adjust_field_order (fields: EL_REFLECTED_FIELD_LIST)
-		do
-			if ordered_alphabetically then
-				fields.order_by (agent {EL_REFLECTED_FIELD}.name, True)
 			end
 		end
 
@@ -193,6 +176,8 @@ feature {NONE} -- Implementation
 					attribute_index := 1
 				elseif attached {EL_REFLECTED_BOOLEAN} table.item then
 					attribute_index := 2
+				else
+					attribute_index := 0
 				end
 				if attribute_index > 0 then
 					cursor_index_set.extend (table.cursor_index)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-05 15:37:13 GMT (Saturday 5th September 2020)"
-	revision: "15"
+	date: "2020-12-10 11:19:34 GMT (Thursday 10th December 2020)"
+	revision: "16"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -487,7 +487,7 @@ feature {EL_XPATH_NODE_CONTEXT} -- Implementation
 		do
 			size := c_evx_size_of_node_context_image (self_ptr)
 			if actual_context_image.is_empty then
-				create actual_context_image.make (1, size)
+				create actual_context_image.make (size)
 
 			elseif actual_context_image.count /= size then
 				actual_context_image.conservative_resize (1, size)

@@ -1,13 +1,13 @@
 note
-	description: "INTEGER_64 field"
+	description: "`INTEGER_64' field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 11:51:38 GMT (Monday 7th December 2020)"
-	revision: "6"
+	date: "2020-12-08 10:13:09 GMT (Tuesday 8th December 2020)"
+	revision: "7"
 
 class
 	EL_REFLECTED_INTEGER_64
@@ -29,12 +29,11 @@ feature -- Access
 			Result.set_item (value (a_object))
 		end
 
-
 feature -- Conversion
 
 	to_enumeration (a_enumeration: EL_ENUMERATION [INTEGER_64]): EL_REFLECTED_ENUM_INTEGER_64
 		do
-			create Result.make (enclosing_object, index, name, a_enumeration)
+			create Result.make (Current, a_enumeration)
 		end
 
 feature -- Basic operations

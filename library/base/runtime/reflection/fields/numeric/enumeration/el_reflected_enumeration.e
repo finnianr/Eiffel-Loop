@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:33:52 GMT (Monday 7th December 2020)"
-	revision: "1"
+	date: "2020-12-08 10:03:48 GMT (Tuesday 8th December 2020)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTED_ENUMERATION [N -> NUMERIC]
@@ -22,12 +22,10 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: ANY; a_index: INTEGER; a_name: STRING; a_enumeration: EL_ENUMERATION [N])
+	make (a_field: EL_REFLECTED_NUMERIC_FIELD [N]; a_enumeration: EL_ENUMERATION [N])
 		do
-			if attached {EL_REFLECTIVE} a_object as reflective then
-				make_field (reflective, a_index, a_name)
-				enumeration := a_enumeration
-			end
+			make_field (a_field.enclosing_object, a_field.index, a_field.name)
+			enumeration := a_enumeration
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:21:22 GMT (Monday 7th December 2020)"
-	revision: "32"
+	date: "2020-12-10 11:16:21 GMT (Thursday 10th December 2020)"
+	revision: "33"
 
 class
 	EL_CLASS_META_DATA
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			enumerations := enclosing_object.new_enumerations
-			create field_list.make (new_field_list.to_array)
+			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
 		end
 
@@ -59,7 +59,7 @@ feature -- Access
 
 	excluded_fields: EL_FIELD_INDICES_SET
 
-	field_list: EL_REFLECTED_FIELD_LIST
+	field_list: like new_field_list
 
 	field_table: EL_REFLECTED_FIELD_TABLE
 
@@ -101,6 +101,14 @@ feature -- Basic operations
 			a_lio.put_new_line
 		end
 
+feature -- Status query
+
+	same_data_structure (a_field_hash: NATURAL): BOOLEAN
+		-- `True' if order, type and names of fields are unchanged
+		do
+			Result := field_list.field_hash = a_field_hash
+		end
+
 feature -- Comparison
 
 	all_fields_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
@@ -133,9 +141,9 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_field_list: ARRAYED_LIST [EL_REFLECTED_FIELD]
+	new_field_list: EL_REFLECTED_FIELD_LIST
 		local
-			i: INTEGER; name: STRING; excluded: like excluded_fields
+			i, offset: INTEGER; name: STRING; excluded: like excluded_fields
 		do
 			excluded := excluded_fields
 			create Result.make (field_count - excluded.count)
@@ -149,6 +157,19 @@ feature {NONE} -- Factory
 					end
 				end
 				i := i + 1
+			end
+			-- apply `field_order' sort if not default
+			if enclosing_object.field_order /= enclosing_object.Default_field_order then
+				Result.order_by (enclosing_object.field_order, True)
+			end
+			-- apply field order shifts if not default
+			if enclosing_object.field_shifts /= enclosing_object.Default_field_shifts then
+				across enclosing_object.field_shifts as shift loop
+					i := shift.item.index; offset := shift.item.offset
+					if Result.valid_shift (i, offset) then
+						Result.shift_i_th (i, offset)
+					end
+				end
 			end
 		end
 

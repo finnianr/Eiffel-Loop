@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:35:37 GMT (Sunday 6th December 2020)"
-	revision: "31"
+	date: "2020-12-10 11:25:52 GMT (Thursday 10th December 2020)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTIVE
@@ -228,6 +228,19 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		deferred
 		end
 
+	field_order: like Default_field_order
+		-- sorting function to be applied to result of `{EL_CLASS_META_DATA}.new_field_list'
+		do
+			Result := Default_field_order
+		end
+
+	field_shifts: like Default_field_shifts
+		-- arguments to be applied to `Result.shift_i_th' in `{EL_CLASS_META_DATA}.new_field_list'
+		-- after applying `field_order'
+		do
+			Result := Default_field_shifts
+		end
+
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])
 		-- set reference fields of `type' with `new_object' taking a exported name
 		require
@@ -253,6 +266,17 @@ feature {EL_CLASS_META_DATA} -- Constants
 	Default_enumerations: EL_HASH_TABLE [EL_ENUMERATION [NUMERIC], STRING]
 		once
 			create Result.make_size (0)
+		end
+
+	Default_field_order: FUNCTION [EL_REFLECTED_FIELD, STRING]
+		-- natural unsorted order
+		once ("PROCESS")
+			Result := agent {EL_REFLECTED_FIELD}.name
+		end
+
+	Default_field_shifts: ARRAY [TUPLE [index: INTEGER_32; offset: INTEGER_32]]
+		once ("PROCESS")
+			create Result.make_empty
 		end
 
 	Except_fields: STRING

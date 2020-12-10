@@ -1,13 +1,13 @@
 note
-	description: "NATURAL_8 field"
+	description: "`NATURAL_8' field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 11:21:08 GMT (Monday 7th December 2020)"
-	revision: "7"
+	date: "2020-12-08 10:12:44 GMT (Tuesday 8th December 2020)"
+	revision: "8"
 
 class
 	EL_REFLECTED_NATURAL_8
@@ -33,7 +33,7 @@ feature -- Conversion
 
 	to_enumeration (a_enumeration: EL_ENUMERATION [NATURAL_8]): EL_REFLECTED_ENUM_NATURAL_8
 		do
-			create Result.make (enclosing_object, index, name, a_enumeration)
+			create Result.make (Current, a_enumeration)
 		end
 
 feature -- Basic operations

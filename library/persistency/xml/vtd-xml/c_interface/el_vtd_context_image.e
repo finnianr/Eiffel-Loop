@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2020-12-10 11:19:15 GMT (Thursday 10th December 2020)"
+	revision: "4"
 
 class
 	EL_VTD_CONTEXT_IMAGE
 
 inherit
 	ARRAY [INTEGER]
+		rename
+			make as make_range
 		export
 			{ANY} twin
 		redefine
@@ -21,9 +23,15 @@ inherit
 		end
 
 create
-	make, make_from_other
+	make, make_empty, make_from_other
 
 feature {NONE} -- Initialization
+
+	make (size: INTEGER)
+			--
+		do
+			make_filled (0, 1, size)
+		end
 
 	make_from_other (other: EL_VTD_CONTEXT_IMAGE)
 			--

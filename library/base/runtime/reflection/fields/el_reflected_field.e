@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:34:56 GMT (Sunday 6th December 2020)"
-	revision: "21"
+	date: "2020-12-08 10:01:39 GMT (Tuesday 8th December 2020)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -22,7 +22,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			is_equal
+			is_equal, enclosing_object
 		end
 
 	EL_NAMEABLE [STRING] undefine is_equal end
@@ -35,7 +35,7 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: STRING)
+	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
 		do
 			make_reflected (a_object)
 			index := a_index; name := a_name
@@ -58,6 +58,10 @@ feature -- Access
 
 	name: STRING
 
+	reference_value (a_object: EL_REFLECTIVE): ANY
+		deferred
+		end
+
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		deferred
 		end
@@ -69,10 +73,6 @@ feature -- Access
 		-- generating type
 
 	value (a_object: EL_REFLECTIVE): ANY
-		deferred
-		end
-
-	reference_value (a_object: EL_REFLECTIVE): ANY
 		deferred
 		end
 
@@ -105,16 +105,16 @@ feature -- Comparison
 
 feature -- Basic operations
 
+	initialize (a_object: EL_REFLECTIVE)
+		do
+		end
+
 	reset (a_object: EL_REFLECTIVE)
 		deferred
 		end
 
 	set (a_object: EL_REFLECTIVE; a_value: like value)
 		deferred
-		end
-
-	initialize (a_object: EL_REFLECTIVE)
-		do
 		end
 
 	set_from_command_line (a_object: EL_REFLECTIVE; args: EL_COMMAND_LINE_ARGUMENTS)
@@ -164,6 +164,11 @@ feature {NONE} -- Implementation
 			end
 			Result.append_integer (i); Result.append (once ". ")
 		end
+
+feature {EL_REFLECTED_FIELD} -- Internal attributes
+
+	enclosing_object: separate EL_REFLECTIVE
+			-- Enclosing object containing `object' or a reference to `object.
 
 feature {NONE} -- Constants
 

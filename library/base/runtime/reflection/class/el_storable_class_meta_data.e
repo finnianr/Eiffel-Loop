@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:10:03 GMT (Wednesday 29th January 2020)"
-	revision: "10"
+	date: "2020-12-10 11:01:59 GMT (Thursday 10th December 2020)"
+	revision: "11"
 
 class
 	EL_STORABLE_CLASS_META_DATA
@@ -15,31 +15,11 @@ class
 inherit
 	EL_CLASS_META_DATA
 		redefine
-			make, enclosing_object, Reference_type_tables
+			Reference_type_tables
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make (a_enclosing_object: like enclosing_object)
-		do
-			Precursor (a_enclosing_object)
-			a_enclosing_object.adjust_field_order (field_list)
-		end
-
-feature -- Status query
-
-	same_data_structure (a_field_hash: NATURAL): BOOLEAN
-		-- `True' if order, type and names of fields are unchanged
-		do
-			Result := field_list.field_hash = a_field_hash
-		end
-
-feature {NONE} -- Internal attributes
-
-	enclosing_object: EL_REFLECTIVELY_SETTABLE_STORABLE
 
 feature {NONE} -- Constants
 

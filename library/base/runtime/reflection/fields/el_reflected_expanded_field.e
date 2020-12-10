@@ -1,13 +1,13 @@
 note
-	description: "Common expanded fields including BOOLEAN, POINTER and fields conforming to NUMERIC"
+	description: "Common expanded fields including `BOOLEAN', `POINTER' and fields conforming to `NUMERIC'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:48:12 GMT (Monday 30th September 2019)"
-	revision: "9"
+	date: "2020-12-07 12:43:39 GMT (Monday 7th December 2020)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]

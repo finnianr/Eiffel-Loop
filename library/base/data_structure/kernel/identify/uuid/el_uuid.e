@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 11:26:03 GMT (Monday 30th March 2020)"
-	revision: "17"
+	date: "2020-12-10 11:21:37 GMT (Thursday 10th December 2020)"
+	revision: "18"
 
 class
 	EL_UUID
@@ -26,7 +26,7 @@ inherit
 		undefine
 			out
 		redefine
-			ordered_alphabetically
+			field_order
 		end
 
 	EL_MAKEABLE_FROM_STRING [STRING_8]
@@ -99,6 +99,14 @@ feature -- Access
 			result_is_valid_uuid: is_valid_uuid (Result)
 		end
 
+feature {NONE} -- Implementation
+
+	field_order: like Default_field_order
+		-- read/write fields in alphabetical order
+		do
+			Result := agent {EL_REFLECTED_FIELD}.name
+		end
+
 feature -- Constants
 
 	Byte_count: INTEGER
@@ -109,8 +117,5 @@ feature -- Constants
 	Field_hash: NATURAL = 201719989
 
 	Nibble_15_mask: NATURAL_64 = 0xF
-
-	Ordered_alphabetically: BOOLEAN = True
-		-- read/write fields in alphabetical order
 
 end
