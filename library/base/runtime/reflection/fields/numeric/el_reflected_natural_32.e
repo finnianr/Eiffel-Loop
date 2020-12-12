@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-08 10:13:26 GMT (Tuesday 8th December 2020)"
-	revision: "8"
+	date: "2020-12-11 13:20:06 GMT (Friday 11th December 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTED_NATURAL_32
@@ -44,22 +44,22 @@ feature -- Basic operations
 			set_natural_32_field (index, a_value)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVELY_SETTABLE; readable: EL_READABLE)
+	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_natural_32)
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVELY_SETTABLE; a_value: INTEGER)
+	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
 		do
 			set (a_object, a_value.to_natural_32)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVELY_SETTABLE; string: READABLE_STRING_GENERAL)
+	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			set (a_object, string.to_natural_32)
 		end
 
-	write (a_object: EL_REFLECTIVELY_SETTABLE; writeable: EL_WRITEABLE)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_natural_32 (value (a_object))
 		end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 19:47:31 GMT (Thursday 26th November 2020)"
-	revision: "3"
+	date: "2020-12-11 14:43:32 GMT (Friday 11th December 2020)"
+	revision: "4"
 
 class
 	EL_ZSTRING_TABLE
@@ -26,7 +26,7 @@ class
 inherit
 	HASH_TABLE [ZSTRING, STRING]
 		rename
-			make as make_table
+			make as make_with_count
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -34,7 +34,7 @@ inherit
 	EL_MODULE_ZSTRING
 
 create
-	make
+	make, make_with_count
 
 feature {NONE} -- Initialization
 

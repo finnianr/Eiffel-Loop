@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:45:34 GMT (Wednesday 8th January 2020)"
-	revision: "14"
+	date: "2020-12-11 14:49:18 GMT (Friday 11th December 2020)"
+	revision: "15"
 
 class
 	COUNTRY
@@ -18,12 +18,16 @@ inherit
 			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
+		redefine
+			new_enumerations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
-			make_from_zkey_table as make
+			make_from_table as make
 		end
+
+	EL_SHARED_CURRENCY_ENUM
 
 create
 	make, make_default
@@ -31,6 +35,13 @@ create
 feature -- Access
 
 	code: STRING
+
+	currency: NATURAL_8
+
+	currency_name: STRING
+		do
+			Result := Currency_enum.name (currency)
+		end
 
 	literacy_rate: REAL
 
@@ -47,7 +58,12 @@ feature -- Element change
 			code := a_code
 		end
 
-	set_literacy_rate (a_literacy_rate: like literacy_rate)
+	set_currency (a_currency: NATURAL_8)
+		do
+			currency := a_currency
+		end
+
+	set_literacy_rate (a_literacy_rate: REAL)
 		do
 			literacy_rate := a_literacy_rate
 		end
@@ -57,7 +73,7 @@ feature -- Element change
 			name := a_name
 		end
 
-	set_population (a_population: like population)
+	set_population (a_population: INTEGER)
 		do
 			population := a_population
 		end
@@ -66,6 +82,15 @@ feature -- Element change
 		do
 			temperature_range.copy (a_temperature_range)
 			temperature_range.compare_objects
+		end
+
+feature {NONE} -- Reflection
+
+	new_enumerations: like Default_enumerations
+		do
+			create Result.make (<<
+				["currency", Currency_enum]
+			>>)
 		end
 
 end

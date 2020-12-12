@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 11:06:50 GMT (Saturday 7th March 2020)"
-	revision: "8"
+	date: "2020-12-11 14:49:51 GMT (Friday 11th December 2020)"
+	revision: "9"
 
 class
 	REFLECTION_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_TUPLE
 
 feature -- Basic operations
 
@@ -32,11 +34,11 @@ feature -- Tests
 		local
 			country, country_2: STORABLE_COUNTRY
 		do
-			create country.make (new_value_table)
+			create country.make (Value_table)
 			assert ("temperature_range not void", attached country.temperature_range)
 			assert ("unit_name.is_empty", country.temperature_range.unit_name.is_empty)
 
-			create country_2.make (new_value_table)
+			create country_2.make (Value_table)
 			assert ("country is equal to country_2", country ~ country_2)
 			country_2.temperature_range.unit_name := "Celcius"
 			assert ("country not equal to country_2", country /~ country_2)
@@ -46,15 +48,13 @@ feature -- Tests
 		note
 			testing: "covers/{EL_REFLECTIVELY_SETTABLE}.make_from_zkey_table, {EL_REFLECTIVELY_SETTABLE}.from_camel_case"
 		local
-			country: CAMEL_CASE_COUNTRY; table: like new_value_table
+			country: CAMEL_CASE_COUNTRY; table: like Value_table
 		do
-			table := new_value_table
+			create table.make_with_count (Value_table.count)
+			table.merge (Value_table)
 			table.replace_key ("LiteracyRate", "literacy_rate")
 			create country.make (table)
-			assert ("same name", country.name ~ Value_name)
-			assert ("same code", country.code  ~ Value_ie.to_string_8)
-			assert ("same literacy_rate", country.literacy_rate ~ Value_literacy_rate.to_real)
-			assert ("same population", country.population ~ Value_population.to_integer)
+			check_values (country)
 		end
 
 	test_object_initialization_from_table
@@ -63,11 +63,8 @@ feature -- Tests
 		local
 			country: COUNTRY
 		do
-			create country.make (new_value_table)
-			assert ("same name", country.name ~ Value_name)
-			assert ("same code", country.code  ~ Value_ie.to_string_8)
-			assert ("same literacy_rate", country.literacy_rate ~ Value_literacy_rate.to_real)
-			assert ("same population", country.population ~ Value_population.to_integer)
+			create country.make (Value_table)
+			check_values (country)
 		end
 
 	test_reflection
@@ -77,11 +74,11 @@ feature -- Tests
 		do
 			create object.make_default
 			create table.make_equal (object.field_table.count)
-			across object.field_table as field loop
-				if field.key ~ "boolean" then
-					table [field.key] := "True"
+			across object.field_table as l_field loop
+				if l_field.key ~ "boolean" then
+					table [l_field.key] := "True"
 				else
-					table [field.key] := field.cursor_index.out
+					table [l_field.key] := l_field.cursor_index.out
 				end
 			end
 			create object.make (table)
@@ -90,41 +87,37 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	new_value_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+	check_values (country: COUNTRY)
 		do
-			create Result.make (<<
-				["code", Value_ie],
-				["literacy_rate", Value_literacy_rate],
-				["population", Value_population],
-				["name", Value_name]
-			>>)
+			assert ("same name", country.name ~ Value_table.item (Field.name))
+			assert ("same code", country.code  ~ Value_table.item (Field.code).to_string_8)
+			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
+			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
+			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)
 		end
 
 feature {NONE} -- Constants
 
-	Value_data_1: ZSTRING
+	Field: TUPLE [code, currency, literacy_rate, population, name: STRING]
 		once
-			Result := "111"
+			create Result
+			Tuple.fill (Result, "code, currency, literacy_rate, population, name")
 		end
 
-	Value_ie: ZSTRING
+	Value_table: EL_ZSTRING_TABLE
 		once
-			Result := "IE"
-		end
-
-	Value_literacy_rate: ZSTRING
-		once
-			Result := "0.9"
-		end
-
-	Value_name: ZSTRING
-		once
-			Result := "Ireland"
-		end
-
-	Value_population: ZSTRING
-		once
-			Result := "6500000"
+			create Result.make ("[
+				code:
+					IE
+				currency:
+					EUR
+				literacy_rate:
+					0.9
+				population:
+					6500000
+				name:
+					Ireland
+			]")
 		end
 
 end

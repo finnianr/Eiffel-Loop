@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:27:42 GMT (Wednesday 8th January 2020)"
-	revision: "6"
+	date: "2020-12-11 14:50:47 GMT (Friday 11th December 2020)"
+	revision: "7"
 
 class
 	STORABLE_COUNTRY
@@ -23,6 +23,8 @@ inherit
 	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
 			read_version as read_default_version
+		undefine
+			new_enumerations
 		select
 			is_storable_field
 		end
@@ -32,6 +34,6 @@ create
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL_32 = 2100029591
+	Field_hash: NATURAL_32 = 355664244
 
 end

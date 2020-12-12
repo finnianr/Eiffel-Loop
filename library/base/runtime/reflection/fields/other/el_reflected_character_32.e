@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:47:52 GMT (Monday 30th September 2019)"
-	revision: "9"
+	date: "2020-12-11 13:20:45 GMT (Friday 11th December 2020)"
+	revision: "10"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -25,7 +25,7 @@ create
 
 feature -- Access
 
-	to_string (a_object: EL_REFLECTIVELY_SETTABLE): STRING_32
+	to_string (a_object: EL_REFLECTIVE): STRING_32
 		local
 			str: STRING_32
 		do

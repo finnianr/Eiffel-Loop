@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:28:24 GMT (Sunday 28th June 2020)"
-	revision: "3"
+	date: "2020-12-12 14:59:29 GMT (Saturday 12th December 2020)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_ONCE_STRING_8
@@ -32,7 +32,11 @@ feature {NONE} -- Implementation
 	once_general_copy_8 (general: READABLE_STRING_GENERAL): STRING
 		do
 			Result := empty_once_string_8
-			Result.append_string_general (general)
+			if attached {ZSTRING} general as zstr then
+				zstr.append_to_string_8 (Result)
+			else
+				Result.append_string_general (general)
+			end
 		end
 
 	once_substring_8 (str_8: STRING; start_index, end_index: INTEGER): STRING

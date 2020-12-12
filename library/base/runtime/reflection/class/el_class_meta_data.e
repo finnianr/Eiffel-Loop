@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 11:16:21 GMT (Thursday 10th December 2020)"
-	revision: "33"
+	date: "2020-12-11 12:06:35 GMT (Friday 11th December 2020)"
+	revision: "34"
 
 class
 	EL_CLASS_META_DATA
@@ -144,6 +144,8 @@ feature {NONE} -- Factory
 	new_field_list: EL_REFLECTED_FIELD_LIST
 		local
 			i, offset: INTEGER; name: STRING; excluded: like excluded_fields
+			field_order: like enclosing_object.field_order
+			field_shifts: like enclosing_object.field_shifts
 		do
 			excluded := excluded_fields
 			create Result.make (field_count - excluded.count)
@@ -159,12 +161,14 @@ feature {NONE} -- Factory
 				i := i + 1
 			end
 			-- apply `field_order' sort if not default
-			if enclosing_object.field_order /= enclosing_object.Default_field_order then
-				Result.order_by (enclosing_object.field_order, True)
+			field_order := enclosing_object.field_order
+			if field_order /= enclosing_object.Default_field_order then
+				Result.order_by (field_order, True)
 			end
 			-- apply field order shifts if not default
-			if enclosing_object.field_shifts /= enclosing_object.Default_field_shifts then
-				across enclosing_object.field_shifts as shift loop
+			field_shifts := enclosing_object.field_shifts
+			if field_shifts /= enclosing_object.Default_field_shifts then
+				across field_shifts as shift loop
 					i := shift.item.index; offset := shift.item.offset
 					if Result.valid_shift (i, offset) then
 						Result.shift_i_th (i, offset)

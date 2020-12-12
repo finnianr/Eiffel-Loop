@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 16:18:14 GMT (Sunday 7th June 2020)"
-	revision: "32"
+	date: "2020-12-11 12:58:43 GMT (Friday 11th December 2020)"
+	revision: "34"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -192,7 +192,7 @@ feature -- Cursor movement
 			Index_stack.put (index)
 		end
 
-feature -- Element change
+feature -- Reorder items
 
 	order_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
@@ -225,7 +225,7 @@ feature -- Element change
 				if offset < 0 then
 					go_i_th (index + offset - 1)
 				else
-					go_i_th (index + offset)
+					go_i_th (index + offset - 1)
 				end
 				put_right (l_item)
 			end
@@ -243,16 +243,25 @@ feature -- Element change
 				shift (offset)
 				pop_cursor
 			end
+		ensure
+			shifted_by_offset: old i_th (i) = i_th (i + offset)
 		end
 
 feature -- Contract Support
 
 	valid_shift (i, offset: INTEGER): BOOLEAN
-		local
-			new_i: INTEGER
+		-- `True' if `i_th (i)' item can be shifted `offset' positions to right
+		-- (to left if negative)
 		do
-			new_i := i + offset
-			Result := valid_index (i) and then 1 <= new_i and new_i <= count
+			if valid_index (i) then
+				if offset > 0 then
+					Result := offset <= (count - i)
+				elseif offset < 0 then
+					Result := offset.abs <= i - 1
+				else
+					Result := True
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

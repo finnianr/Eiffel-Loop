@@ -7,14 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 11:44:32 GMT (Saturday 5th December 2020)"
-	revision: "96"
+	date: "2020-12-11 12:14:48 GMT (Friday 11th December 2020)"
+	revision: "97"
 
 class
 	BASE_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_SUB_APPLICATION [
+		ARRAYED_LIST_TEST_SET,
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 9:34:17 GMT (Tuesday 10th September 2019)"
-	revision: "9"
+	date: "2020-12-11 13:21:02 GMT (Friday 11th December 2020)"
+	revision: "10"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -66,7 +66,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVELY_SETTABLE; writeable: EL_MEMORY_READER_WRITER)
+	write (a_object: EL_REFLECTIVE; writeable: EL_MEMORY_READER_WRITER)
 		do
 			writeable.write_date_time (value (a_object))
 		end

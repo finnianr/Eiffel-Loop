@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:08:22 GMT (Wednesday 27th May 2020)"
-	revision: "6"
+	date: "2020-12-11 12:34:14 GMT (Friday 11th December 2020)"
+	revision: "7"
 
 class
 	ARRAYED_LIST_TEST_SET
@@ -31,11 +31,11 @@ feature -- Tests
 		do
 			create list.make_from_array (<< 'a', 'b', 'c', 'd' >>)
 			list.shift_i_th (2, 2)
-			assert ("valid shift", to_string (list) ~ "acdb")
+			assert ("b shifted right by 2", to_string (list) ~ "acdb")
 			list.shift_i_th (4, -3)
-			assert ("valid shift", to_string (list) ~ "bacd")
+			assert ("b shifted left by 3", to_string (list) ~ "bacd")
 			list.shift_i_th (1, 1)
-			assert ("valid shift", to_string (list) ~ "abcd")
+			assert ("b shifted right by 1", to_string (list) ~ "abcd")
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 11:26:02 GMT (Monday 7th December 2020)"
-	revision: "13"
+	date: "2020-12-12 17:41:21 GMT (Saturday 12th December 2020)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -43,7 +43,7 @@ feature -- Conversion
 
 feature -- Status query
 
-	is_zero (a_object: EL_REFLECTIVELY_SETTABLE): BOOLEAN
+	is_zero (a_object: EL_REFLECTIVE): BOOLEAN
 		local
 			l_zero: N
 		do
@@ -52,7 +52,12 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	append (string: STRING; a_value: like value)
+	append (string: STRING; a_value: N)
+		deferred
+		end
+
+	set (a_object: EL_REFLECTIVE; a_value: N)
+		-- `a_value: like value' causes a segmentation fault in `{EL_REFLECTED_ENUMERATION}.set_from_string'
 		deferred
 		end
 
