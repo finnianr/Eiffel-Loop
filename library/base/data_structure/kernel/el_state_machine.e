@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:28:42 GMT (Thursday 15th November 2018)"
-	revision: "9"
+	date: "2020-12-20 10:19:08 GMT (Sunday 20th December 2020)"
+	revision: "10"
 
 class
 	EL_STATE_MACHINE [G]
@@ -32,6 +32,19 @@ feature -- Basic operations
 				item_number := item_number + 1
 				call (sequence.item)
 				sequence.forth
+			end
+		end
+
+	traverse_iterable (initial: like state; sequence: ITERABLE [G])
+			--
+		local
+			l_final: like final
+		do
+			item_number := 0; l_final := final
+			state := initial
+			across sequence as seq until state = l_final loop
+				item_number := item_number + 1
+				call (seq.item)
 			end
 		end
 

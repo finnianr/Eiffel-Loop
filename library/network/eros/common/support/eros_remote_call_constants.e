@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-19 16:20:12 GMT (Sunday 19th January 2020)"
-	revision: "10"
+	date: "2020-12-20 17:37:10 GMT (Sunday 20th December 2020)"
+	revision: "11"
 
 class
 	EROS_REMOTE_CALL_CONSTANTS
@@ -19,7 +19,7 @@ feature {NONE} -- Constants
 	Event_source: EL_HASH_TABLE [TYPE [EL_PARSE_EVENT_SOURCE], INTEGER]
 		once
 			create Result.make (<<
-				[Type_binary,		{EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE}],
+				[Type_binary,		{EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}],
 				[Type_plaintext,	{EL_EXPAT_XML_WITH_CTRL_Z_PARSER}]
 			>>)
 		end

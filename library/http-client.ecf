@@ -35,7 +35,7 @@ Classes for remotely interacting with a HTTP server. Supports the HTTP commands:
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
+		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<!--Source code-->
 		<cluster name = "http" location = "network/protocol/http" recursive = "true">
 			<option namespace = "Eiffel-Loop.http"/>

@@ -74,7 +74,7 @@ system:
 			name = EL_text_process; location = "text-process.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xml_scan; location = "xml-scan.ecf"
 
 		library:
 			name = EL_wel_regedit_x; location = "wel-regedit-x.ecf"

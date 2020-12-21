@@ -96,63 +96,55 @@ system:
 
 		# Eiffel-Loop
 		library:
-			name = EL_base; readonly = false
-			location = "$EIFFEL_LOOP/library/base/base.ecf"
+			name = EL_base; readonly = false; location = "$EIFFEL_LOOP/library/base/base.ecf"
 
 		library:
-			name = EL_app_manage; readonly = false
-			location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 
 		library:
-			name = EL_ftp; readonly = false
-			location = "$EIFFEL_LOOP/library/ftp.ecf"
+			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
 
 		library:
-			name = EL_evolicity; readonly = false
-			location = "$EIFFEL_LOOP/library/evolicity.ecf"
+			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
-			name = EL_logging; readonly = false
-			location = "$EIFFEL_LOOP/library/logging.ecf"
+			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
 		library:
-			name = EL_i18n; readonly = false
-			location = "$EIFFEL_LOOP/library/i18n.ecf"
+			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_i18n; readonly = false; location = "$EIFFEL_LOOP/library/i18n.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = false; invariant = false
 
 		library:
-			name = EL_network; readonly = false
-			location = "$EIFFEL_LOOP/library/network.ecf"
+			name = EL_network; readonly = false; location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
-			name = EL_os_command; readonly = false
-			location = "$EIFFEL_LOOP/library/os-command.ecf"
+			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
-			name = EL_text_formats; readonly = false
-			location = "$EIFFEL_LOOP/library/text-formats.ecf"
+			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"
 
 		library:
-			name = EL_text_process; readonly = false
-			location = "$EIFFEL_LOOP/library/text-process.ecf"
+			name = EL_text_formats; readonly = false; location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
 		library:
-			name = EL_testing; readonly = false
-			location = "$EIFFEL_LOOP/library/testing.ecf"
+			name = EL_text_process; readonly = false; location = "$EIFFEL_LOOP/library/text-process.ecf"
 
 		library:
-			name = EL_thread; readonly = false
-			location = "$EIFFEL_LOOP/library/thread.ecf"
+			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
 
 		library:
-			name = EL_vtd_xml; readonly = false
-			location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
 
 		library:
-			name = EL_xdoc_scanning; readonly = false
-			location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_vtd_xml; readonly = false; location = "$EIFFEL_LOOP/library/vtd-xml.ecf"
+
+		library:
+			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
 
 		cluster:
 			name = root; location = "source/root"; recursive = true

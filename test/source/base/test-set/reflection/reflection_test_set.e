@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 14:49:51 GMT (Friday 11th December 2020)"
-	revision: "9"
+	date: "2020-12-18 13:08:41 GMT (Friday 18th December 2020)"
+	revision: "10"
 
 class
 	REFLECTION_TEST_SET
@@ -88,8 +88,11 @@ feature -- Tests
 feature {NONE} -- Implementation
 
 	check_values (country: COUNTRY)
+		local
+			name: ZSTRING
 		do
-			assert ("same name", country.name ~ Value_table.item (Field.name))
+			name := Value_table.item (Field.name)
+			assert ("same name", country.name ~ name)
 			assert ("same code", country.code  ~ Value_table.item (Field.code).to_string_8)
 			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
 			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
@@ -98,10 +101,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field: TUPLE [code, currency, literacy_rate, population, name: STRING]
+	Field: TUPLE [code, currency, literacy_rate, name, population: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "code, currency, literacy_rate, population, name")
+			Tuple.fill (Result, "code, currency, literacy_rate, name, population")
 		end
 
 	Value_table: EL_ZSTRING_TABLE
@@ -113,10 +116,10 @@ feature {NONE} -- Constants
 					EUR
 				literacy_rate:
 					0.9
-				population:
-					6500000
 				name:
 					Ireland
+				population:
+					6500000
 			]")
 		end
 

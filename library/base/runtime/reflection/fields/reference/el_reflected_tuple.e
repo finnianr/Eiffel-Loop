@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 15:17:26 GMT (Tuesday 1st December 2020)"
-	revision: "7"
+	date: "2020-12-18 15:39:56 GMT (Friday 18th December 2020)"
+	revision: "8"
 
 class
 	EL_REFLECTED_TUPLE
@@ -88,7 +88,7 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
-			write_tuple (value (a_object), writeable, once ", ")
+			write_tuple (value (a_object), writeable, Comma_space)
 		end
 
 feature -- Conversion
@@ -96,7 +96,7 @@ feature -- Conversion
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
 			if attached String_pool.reuseable_item as str then
-				write (a_object, str)
+				write_tuple (value (a_object), str, Comma_space)
 				if member_types.is_latin_1_representable then
 					Result := str.to_latin_1
 				else
@@ -279,4 +279,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Comma_space: STRING = ", "
 end

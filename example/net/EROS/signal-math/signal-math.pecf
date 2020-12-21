@@ -67,16 +67,19 @@ system:
 			name = nel_fft_math; location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"
 
 		# Eiffel Loop libraries
+		variable:
+			name = eros_server_enabled; value = false
+
 		library:
 			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
 			#readonly = false; use_application_options = true
 
 		library:
-			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-			readonly = false
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 
-		variable:
-			name = eros_server_enabled; value = false
+		library:
+			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
+
 		library:
 			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
 
@@ -90,7 +93,7 @@ system:
 			name = EL_net_base; readonly = false; location = "$EIFFEL_LOOP/library/network.ecf"
 
 		library:
-			name = EL_xdoc_scanning; readonly = false; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
 
 		cluster:
 			name = project; location = "source"; recursive = true

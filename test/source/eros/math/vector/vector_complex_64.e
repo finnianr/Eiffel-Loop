@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:31:22 GMT (Tuesday 21st January 2020)"
-	revision: "9"
+	date: "2020-12-20 17:37:10 GMT (Sunday 20th December 2020)"
+	revision: "10"
 
 deferred class
 	VECTOR_COMPLEX_64
@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 			open_stream: a_stream.is_open_read
 		do
 			make_default
-			set_parser_type ({EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE})
+			set_parser_type ({EL_BINARY_ENCODED_PARSE_EVENT_SOURCE})
 			build_from_stream (a_stream)
 		end
 

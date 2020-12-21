@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-12 17:33:23 GMT (Saturday 12th December 2020)"
-	revision: "3"
+	date: "2020-12-15 14:33:01 GMT (Tuesday 15th December 2020)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTED_ENUMERATION [N -> NUMERIC]
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_field
 		redefine
-			to_string, write_crc
+			to_string, write_crc, set_from_string
 		end
 
 feature {EL_CLASS_META_DATA} -- Initialization
@@ -41,12 +41,13 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if not is_numeric (string) then
-				if attached {STRING} string as str_8 then
-					set (a_object, enumeration.value (str_8))
-				else
-					set (a_object, enumeration.value (once_general_copy_8 (string)))
-				end
+			if is_numeric (string) then
+				set (a_object, string_value (string))
+
+			elseif attached {STRING} string as str_8 then
+				set (a_object, enumeration.value (str_8))
+			else
+				set (a_object, enumeration.value (once_general_copy_8 (string)))
 			end
 		end
 

@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 2; release = 17; build = 76
+			major = 1; minor = 2; release = 17; build = 77
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -127,6 +127,9 @@ system:
 			name = EL_currency; readonly = false; location = "$EIFFEL_LOOP/library/currency.ecf"
 
 		library:
+			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"
+
+		library:
 			name = EL_eco_db; readonly = false; location = "$EIFFEL_LOOP/library/Eco-DB.ecf"
 
 		library:
@@ -134,6 +137,7 @@ system:
 
 		variable:
 			name = eros_server_enabled; value = false
+
 		library:
 			name = EL_eros; readonly = false; location = "$EIFFEL_LOOP/library/eros.ecf"
 
@@ -174,6 +178,9 @@ system:
 			name = EL_paypal_SBM; readonly = false; location = "$EIFFEL_LOOP/library/paypal-SBM.ecf"
 
 		library:
+			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"
+
+		library:
 			name = EL_search_engine; readonly = false; location = "$EIFFEL_LOOP/library/search-engine.ecf"
 
 		library:
@@ -201,7 +208,7 @@ system:
 			readonly = false
 
 		library:
-			name = EL_xdoc_scanning; readonly = false; location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
 
 		cluster:
 			name = root; location = "source/root"; recursive = true
@@ -266,6 +273,16 @@ system:
 					encryption.ecf
 					
 					See class [$source ENCRYPTION_AUTOTEST_APP]
+				"""
+		cluster:
+			name = eco_db; location = "source/Eco-DB"; recursive = true
+			description:
+				"""
+					Eco-DB.ecf
+					
+					Test [./library/Eco-DB.html Eco-DB (Eiffel CHAIN Orientated Database)] library.
+
+					Test application: [$source ECO_DB_AUTOTEST_APP]
 				"""
 		cluster:
 			name = eros; location = "source/eros"; recursive = true
@@ -372,6 +389,14 @@ system:
 					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
 				"""
 		cluster:
+			name = pyxis_scan; location = "source/pyxis-scan"; recursive = true
+			description:
+				"""
+					pyxis-scan.ecf
+					
+					Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
+				"""
+		cluster:
 			name = search_engine; location = "source/search-engine"; recursive = true
 			description:
 				"""
@@ -444,11 +469,11 @@ system:
 					platform:
 						value = unix
 		cluster:
-			name = xdoc_scanning; location = "source/xdoc-scanning"; recursive = true
+			name = xml_scan; location = "source/xml-scan"; recursive = true
 			description:
 				"""
-					xdoc-scanning.ecf
+					xml-scan.ecf
 					
-					Test application class: [$source XDOC_SCANNING_AUTOTEST_APP]
+					Test application class: [$source XML_SCAN_AUTOTEST_APP]
 				"""
 

@@ -49,6 +49,9 @@ system:
 			name = EL_app_manage; location = "app-manage.ecf"
 
 		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
+
+		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
@@ -70,7 +73,7 @@ system:
 					name = eros_server_enabled; value = true
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xml_scan; location = "xml-scan.ecf"
 
 		# Source code
 		cluster:

@@ -21,12 +21,13 @@ CLUSTERS
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_vtd_xml" location = "vtd-xml.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
+		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
 		<cluster name = "open_office" location = "persistency/xml/open-office-spreadsheet" recursive = "true">
 			<description>
 Open Office Spreadsheets

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 13:20:28 GMT (Friday 11th December 2020)"
-	revision: "8"
+	date: "2020-12-15 14:30:25 GMT (Tuesday 15th December 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTED_REAL_32
@@ -49,9 +49,9 @@ feature -- Basic operations
 			set (a_object, a_value)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	string_value (string: READABLE_STRING_GENERAL): REAL_32
 		do
-			set (a_object, string.to_real_32)
+			Result := string.to_real_32
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

@@ -74,7 +74,7 @@ system:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xml_scan; location = "xml-scan.ecf"
 
 		# Source code
 		cluster:

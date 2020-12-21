@@ -19,9 +19,10 @@ Classes providing
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
-		<library name = "EL_xdoc_scanning" readonly = "false" location = "xdoc-scanning.ecf"/>
+		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<!--Source code-->
 		<cluster name = "ftp" location = "network/protocol/ftp" recursive = "true"/>
 	</target>

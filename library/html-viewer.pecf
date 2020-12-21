@@ -45,10 +45,13 @@ system:
 			readonly = false
 
 		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
+
+		library:
 			name = EL_text_formats; location = "text-formats.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_xml_scan; location = "xml-scan.ecf"
 
 		library:
 			name = EL_vision2_x; location = "vision2-x.ecf"; readonly = false

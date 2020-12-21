@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:13:45 GMT (Thursday 7th May 2020)"
-	revision: "14"
+	date: "2020-12-20 10:21:57 GMT (Sunday 20th December 2020)"
+	revision: "15"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -25,6 +25,7 @@ inherit
 	EL_STATE_MACHINE [ZSTRING]
 		rename
 			traverse as do_with_lines,
+			traverse_iterable as do_with_iterable_lines,
 			item_number as line_number
 		end
 

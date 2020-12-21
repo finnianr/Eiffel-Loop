@@ -52,13 +52,13 @@ system:
 			name = EL_net_base; location = "network.ecf"
 
 		library:
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
+
+		library:
 			name = EL_text_formats; location = "text-formats.ecf"
 
 		library:
 			name = EL_thread; location = "thread.ecf"
-
-		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
 
 		# Source code
 		cluster:

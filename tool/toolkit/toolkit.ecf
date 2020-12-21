@@ -14,11 +14,11 @@
 	<description>
 Utilities Toolkit
 
-A "Swiss-army knife" of command line utilities accessible via a command line option.
+A &quot;Swiss-army knife&quot; of command line utilities accessible via a command line option.
 
 See doc/toolkit.txt for details.
 	</description>
-	<!--"Swiss army knife" toolkit containing a suite of command line tools for Eiffel development-->
+	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
 		<version major = "1" minor = "3" release = "6" build = "534" company = "Eiffel-Loop" product = "toolkit" copyright = "Finnian Reilly"/>
@@ -55,25 +55,27 @@ See doc/toolkit.txt for details.
 		<library name = "EL_app_license_keys" location = "$EIFFEL_LOOP/library/app-license-keys.ecf" readonly = "false"/>
 		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
 		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
+		<library name = "EL_doc_scan" readonly = "false" location = "$EIFFEL_LOOP/library/document-scan.ecf">
+			<class_option class = "EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT">
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
+			</class_option>
+		</library>
 		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
-		<library name = "EL_multimedia" location = "$EIFFEL_LOOP/library/multi-media.ecf" readonly = "false"/>
+		<library name = "EL_multimedia" readonly = "false" location = "$EIFFEL_LOOP/library/multi-media.ecf"/>
 		<library name = "EL_network" readonly = "false" location = "$EIFFEL_LOOP/library/network.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>
+		<library name = "EL_pyxis_scan" readonly = "false" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"/>
 		<library name = "EL_markup_docs" readonly = "false" location = "$EIFFEL_LOOP/library/markup-docs.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
 		<library name = "EL_text_process" readonly = "false" location = "$EIFFEL_LOOP/library/text-process.ecf"/>
 		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
-		<library name = "EL_xdoc_scanning" readonly = "false" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf">
-			<class_option class = "EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT">
-				<assertions precondition = "true" postcondition = "true" check = "true"/>
-			</class_option>
-		</library>
+		<library name = "EL_xml_scan" readonly = "false" location = "$EIFFEL_LOOP/library/xml-scan.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
 		<cluster name = "test" location = "$EIFFEL_LOOP/test/source/root/common"/>
 	</target>

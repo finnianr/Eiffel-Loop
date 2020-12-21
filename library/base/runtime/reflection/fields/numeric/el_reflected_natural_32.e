@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 13:20:06 GMT (Friday 11th December 2020)"
-	revision: "9"
+	date: "2020-12-15 14:33:15 GMT (Tuesday 15th December 2020)"
+	revision: "10"
 
 class
 	EL_REFLECTED_NATURAL_32
@@ -54,9 +54,9 @@ feature -- Basic operations
 			set (a_object, a_value.to_natural_32)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	string_value (string: READABLE_STRING_GENERAL): NATURAL_32
 		do
-			set (a_object, string.to_natural_32)
+			Result := string.to_natural_32
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

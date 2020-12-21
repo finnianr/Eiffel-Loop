@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:58:45 GMT (Sunday 18th October 2020)"
-	revision: "51"
+	date: "2020-12-21 13:04:50 GMT (Monday 21st December 2020)"
+	revision: "52"
 
 class
 	APPLICATION_ROOT
@@ -36,6 +36,9 @@ inherit
 
 	-- Test compression.ecf
 		COMPRESSION_AUTOTEST_APP,
+
+	-- Test Eco-DB.ecf
+		ECO_DB_AUTOTEST_APP,
 
 	-- Test encryption.ecf
 		ENCRYPTION_AUTOTEST_APP,
@@ -77,6 +80,9 @@ inherit
 	-- Test paypal-SBM.ecf
 		PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP,
 
+	-- Test pyxis-scan.ecf
+		PYXIS_SCAN_AUTOTEST_APP,
+
 	-- Test search-engine.ecf
 		SEARCH_ENGINE_AUTOTEST_APP,
 
@@ -96,8 +102,8 @@ inherit
 	-- Test vtd-xml.ecf
 		VTD_XML_AUTOTEST_APP,
 
-	-- Test xdoc-scanning.ecf
-		XDOC_SCANNING_AUTOTEST_APP,
+	-- Test xml-scan.ecf
+		XML_SCAN_AUTOTEST_APP,
 
 	-- Test eros.ecf (Run last to give time for socket address to be released from `SIMPLE_CLIENT_SERVER_TEST_APP')
 		EROS_AUTOTEST_APP

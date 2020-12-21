@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 9:30:59 GMT (Thursday 10th December 2020)"
-	revision: "36"
+	date: "2020-12-18 11:35:33 GMT (Friday 18th December 2020)"
+	revision: "37"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -43,7 +43,7 @@ inherit
 			{NONE} all
 			{EL_REFLECTION_HANDLER} field_table
 		redefine
-			make, initialize_fields
+			make, initialize_fields, field_order
 		end
 
 	EL_LAZY_ATTRIBUTE
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 			-- initialize fields with unique value
 		do
-			across meta_data.field_list as field loop
+			across field_table as field loop
 				field.item.set_from_integer (Current, field.cursor_index)
 			end
 		end
@@ -175,6 +175,12 @@ feature {NONE} -- Implementation
 	field_included (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
 			Result := field_type_id.natural_32_code = type_id.to_natural_32
+		end
+
+	field_order: like Default_field_order
+		-- sorting function to be applied to `{EL_CLASS_DATA}.field_list'
+		do
+			Result := agent {EL_REFLECTED_FIELD}.name
 		end
 
 	new_field_name_by_value: like name_by_value

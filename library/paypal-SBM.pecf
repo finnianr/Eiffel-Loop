@@ -46,7 +46,7 @@ system:
 			name = EL_network; location = "network.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
 
 		# Source code
 		cluster:

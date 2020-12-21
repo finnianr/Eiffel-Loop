@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 11:45:30 GMT (Wednesday 8th January 2020)"
-	revision: "7"
+	date: "2020-12-18 13:05:04 GMT (Friday 18th December 2020)"
+	revision: "8"
 
 class
 	CAMEL_CASE_COUNTRY

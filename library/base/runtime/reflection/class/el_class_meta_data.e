@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 12:06:35 GMT (Friday 11th December 2020)"
-	revision: "34"
+	date: "2020-12-17 11:42:48 GMT (Thursday 17th December 2020)"
+	revision: "35"
 
 class
 	EL_CLASS_META_DATA
@@ -24,6 +24,12 @@ inherit
 		rename
 			item as sink_except_fields,
 			new_item as new_sink_except_fields
+		end
+
+	EL_LAZY_ATTRIBUTE_2
+		rename
+			item as alphabetical_list,
+			new_item as new_alphabetical_list
 		end
 
 	EL_REFLECTION_CONSTANTS
@@ -53,6 +59,10 @@ feature {NONE} -- Initialization
 			enumerations := enclosing_object.new_enumerations
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
+		ensure then
+			same_order: across field_table as table all
+				table.key.is_equal (field_list.i_th (table.cursor_index).name)
+			end
 		end
 
 feature -- Access
@@ -124,6 +134,12 @@ feature -- Comparison
 		end
 
 feature {NONE} -- Factory
+
+	new_alphabetical_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		-- fields sorted alphabetically
+		do
+			Result := field_list.ordered_by (agent {EL_REFLECTED_FIELD}.name, True)
+		end
 
 	new_field_factory (type: TYPE [EL_REFLECTED_FIELD]): EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD]
 		do

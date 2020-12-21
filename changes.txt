@@ -334,3 +334,6 @@ Started on Pyxis export for ECD_REFLECTIVE_RECOVERABLE_CHAIN
 Sun 6th Dec 2020, 12:24:33
 Changed print_meta_data to write_meta_data in class EL_REFLECTIVELY_SETTABLE_STORABLE
 
+Sun 20th Dec 2020, 19:04:38
+Split of xdox-scanning.ecf into 3
+

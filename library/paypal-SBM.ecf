@@ -20,7 +20,7 @@ PayPal Payments Standard Button Manager NVP HTTP API].
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_http_client" location = "http-client.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
+		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
 		<!--Source code-->
 		<cluster name = "paypal" location = "network/paypal" recursive = "true"/>
 	</target>

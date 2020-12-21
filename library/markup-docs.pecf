@@ -39,6 +39,9 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
+
+		library:
 			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
@@ -54,7 +57,7 @@ system:
 			name = EL_vtd_xml; location = "vtd-xml.ecf"
 
 		library:
-			name = EL_xdoc_scanning; location = "xdoc-scanning.ecf"
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
 
 		cluster:
 			name = open_office; location = "persistency/xml/open-office-spreadsheet"; recursive = true

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:04:47 GMT (Sunday 6th December 2020)"
-	revision: "2"
+	date: "2020-12-17 12:32:39 GMT (Thursday 17th December 2020)"
+	revision: "3"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -20,7 +20,6 @@ inherit
 	ECD_RECOVERABLE_CHAIN [G]
 
 	EL_ENCODING_CONSTANTS
-
 
 feature -- Access
 

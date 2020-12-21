@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 10:47:01 GMT (Thursday 10th December 2020)"
-	revision: "27"
+	date: "2020-12-18 15:26:19 GMT (Friday 18th December 2020)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -62,30 +62,29 @@ feature -- Basic operations
 	write_as_pyxis (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			value: ZSTRING; cursor_index_set: ARRAYED_LIST [INTEGER]
+			name: STRING
 		do
 			create cursor_index_set.make (10)
 			value := empty_once_string
 			write_pyxis_attributes (output, tab_count, cursor_index_set)
 
-			across field_table as table loop
-				if not cursor_index_set.has (table.cursor_index) then
-					if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} table.item as storable then
-						write_pyxis_field (output, table.key, tab_count)
+			across meta_data.alphabetical_list as list loop
+				name := list.item.name
+				if not cursor_index_set.has (list.cursor_index) then
+					if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item as storable then
+						write_pyxis_field (output, name, tab_count)
 						storable.write_as_pyxis (output, tab_count + 1)
-					elseif attached {EL_REFLECTED_TUPLE} table.item as tuple then
-						write_pyxis_field (output, table.key, tab_count)
-						write_pyxis_tuple (output, tab_count + 1, tuple.value (Current))
 
 					else
 						value.wipe_out
-						value.append_string_general (table.item.to_string (Current))
+						value.append_string_general (list.item.to_string (Current))
 						if value.has ('%N') then
-							write_pyxis_field (output, table.key, tab_count)
+							write_pyxis_field (output, name, tab_count)
 							write_pyxis_manifest (output, value, tab_count + 1)
 
 						elseif value.count > 0 then
 							value.enclose ('"', '"')
-							write_pyxis_field (output, table.key, tab_count)
+							write_pyxis_field (output, name, tab_count)
 							output.put_indented_line (tab_count + 1, value)
 						end
 					end
@@ -168,26 +167,26 @@ feature {NONE} -- Implementation
 		do
 			value := empty_once_string
 			attribute_lines := << String_pool.reuseable_item, String_pool.reuseable_item, String_pool.reuseable_item >>
-			across field_table as table loop
+			across meta_data.alphabetical_list as list loop
 				-- output numeric as Pyxis element attributes
-				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} table.item then
+				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} list.item then
 					attribute_index := 3
-				elseif attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.item then
+				elseif attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} list.item then
 					attribute_index := 1
-				elseif attached {EL_REFLECTED_BOOLEAN} table.item then
+				elseif attached {EL_REFLECTED_BOOLEAN} list.item then
 					attribute_index := 2
 				else
 					attribute_index := 0
 				end
 				if attribute_index > 0 then
-					cursor_index_set.extend (table.cursor_index)
+					cursor_index_set.extend (list.cursor_index)
 					value.wipe_out
-					value.append_string_general (table.item.to_string (Current))
+					value.append_string_general (list.item.to_string (Current))
 					if value.count > 0 then
 						if attribute_index = 3 and then not value.is_code_identifier then
 							value.enclose ('"', '"')
 						end
-						attribute_lines.item (attribute_index).append (Pyxis_attribute #$ [table.key, value])
+						attribute_lines.item (attribute_index).append (Pyxis_attribute #$ [list.item.name, value])
 					end
 				end
 			end

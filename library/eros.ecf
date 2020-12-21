@@ -29,6 +29,7 @@ See doc/eros.txt for details
 		-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_app_manage" location = "app-manage.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_logging" location = "logging.ecf"/>
 		<library name = "EL_net_base" location = "network.ecf"/>
@@ -39,7 +40,7 @@ See doc/eros.txt for details
 				<custom name = "eros_server_enabled" value = "true"/>
 			</condition>
 		</library>
-		<library name = "EL_xdoc_scanning" location = "xdoc-scanning.ecf"/>
+		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<!--Source code-->
 		<cluster name = "common" location = "network/eros/common" recursive = "true"/>
 		<cluster name = "client" location = "network/eros/client" recursive = "true">

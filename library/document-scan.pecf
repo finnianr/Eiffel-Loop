@@ -1,0 +1,62 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"
+	name = EL_doc_scan; uuid = "8CF52022-42D4-11EB-9FC4-63D6C0F837E1" 
+	library_target = EL_doc_scan
+	description: 
+		"""
+			Document Node-scanning and Object Building
+
+			Provides:
+
+			* Document node scanning with mapping of xpath expressions to agent handler procedures. 
+			* Recursive building of Eiffel objects from document data using context-relative Xpath expressions.
+
+			Base library for:
+
+			* [./library/xml-scan.html XML Document Node-scanning and Object Building library]
+			* [./library/pyxis-scan.html Pyxis Document Node-scanning and Object Building library]
+			
+			See doc/document-scan.txt for details.
+		"""
+	target:
+		name = EL_doc_scan
+		root:
+			all_classes = true
+
+		option:
+			namespace = "Eiffel-Loop.Library.node-tree-scan"
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
+			assertions:
+				precondition = true; postcondition = true; check = true; invariant = true
+
+		# ISE libraries
+		library: 
+			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
+
+		library:
+			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		# Eiffel-Loop
+		library:
+			name = EL_base; location = "base/base.ecf"
+
+		library:
+			name = EL_evolicity; location = "evolicity.ecf"
+
+		library:
+			name = EL_text_formats; location = "text-formats.ecf"
+
+		library:
+			name = EL_text_process; location = "text-process.ecf"
+
+		# Source code
+		cluster:
+			name = node_tree; location = "persistency/document"; recursive = true
+			option:
+				namespace = document
+
+

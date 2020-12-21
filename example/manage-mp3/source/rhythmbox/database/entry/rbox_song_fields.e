@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-18 10:58:22 GMT (Monday 18th May 2020)"
-	revision: "4"
+	date: "2020-12-21 11:45:28 GMT (Monday 21st December 2020)"
+	revision: "5"
 
 deferred class
 	RBOX_SONG_FIELDS
@@ -187,7 +187,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	node: EL_XML_NODE
+	node: EL_DOCUMENT_NODE
 		deferred
 		end
 

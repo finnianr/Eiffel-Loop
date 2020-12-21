@@ -108,12 +108,14 @@ publish-repository:
 
 		# Library (Persistency)
 		ecf:
+			"library/document-scan.ecf"
 			"library/Eco-DB.ecf"
 			"library/markup-docs.ecf#kindle_book"
 			"library/markup-docs.ecf#thunderbird"
 			"library/markup-docs.ecf#open_office"
+			"library/pyxis-scan.ecf"
 			"library/xml-db.ecf"
-			"library/xdoc-scanning.ecf"
+			"library/xml-scan.ecf"
 			"library/vtd-xml.ecf"
 			"library/wel-regedit-x.ecf"
 
@@ -163,6 +165,7 @@ publish-repository:
 			"test/test.ecf#base"
 			"test/test.ecf#benchmark"
 			"test/test.ecf#compression"
+			"test/test.ecf#eco_db"
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"
@@ -176,6 +179,7 @@ publish-repository:
 			"test/test.ecf#network"
 			"test/test.ecf#os_command"
 			"test/test.ecf#paypal_sbm"
+			"test/test.ecf#pyxis_scan"
 			"test/test.ecf#root"
 			"test/test.ecf#search_engine"
 			"test/test.ecf#taglib"
@@ -184,7 +188,7 @@ publish-repository:
 			"test/test.ecf#thread"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"
-			"test/test.ecf#xdoc_scanning"
+			"test/test.ecf#xml_scan"
 
 
 
