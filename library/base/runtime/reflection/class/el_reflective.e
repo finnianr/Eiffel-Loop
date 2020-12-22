@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 11:25:52 GMT (Thursday 10th December 2020)"
-	revision: "32"
+	date: "2020-12-22 11:33:05 GMT (Tuesday 22nd December 2020)"
+	revision: "33"
 
 deferred class
 	EL_REFLECTIVE
@@ -215,6 +215,19 @@ feature {NONE} -- Implementation
 			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
 		end
 
+	valid_field_names (names: STRING): BOOLEAN
+		-- `True' if comma separated list of `names' are all valid field names
+		local
+			field_set: EL_FIELD_INDICES_SET
+		do
+			if names.is_empty then
+				Result := True
+			else
+				create field_set.make_from_reflective (Current, names)
+				Result := field_set.is_valid
+			end
+		end
+
 feature {EL_CLASS_META_DATA} -- Implementation
 
 	current_reflective: like Current
@@ -239,6 +252,15 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		-- after applying `field_order'
 		do
 			Result := Default_field_shifts
+		end
+
+	reordered_fields: STRING
+		-- comma separated list of explicitly ordered fields to be shifted to the end of `Meta_data.field_list'
+		-- after the `field_order' function has been applied
+		do
+			Result := Default_reordered_fields
+		ensure
+			valid_field_names: valid_field_names (Result)
 		end
 
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])
@@ -279,12 +301,17 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		end
 
+	Default_reordered_fields: STRING
+		once ("PROCESS")
+			create Result.make_empty
+		end
+
 	Except_fields: STRING
 			-- list of comma-separated fields to be excluded
 		once
 			create Result.make_empty
 		ensure
-			no_leading_comma: not Result.is_empty implies not (Result [1] = ',')
+			valid_field_names: valid_field_names (Result)
 		end
 
 	Hidden_fields: STRING
@@ -293,7 +320,7 @@ feature {EL_CLASS_META_DATA} -- Constants
 		once
 			create Result.make_empty
 		ensure
-			no_leading_comma: not Result.is_empty implies not (Result [1] = ',')
+			valid_field_names: valid_field_names (Result)
 		end
 
 	Meta_data_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]

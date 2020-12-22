@@ -9,11 +9,16 @@ system:
 		"""
 			Pyxis Document Node-scanning and Object Building
 
+			Library for parsing and scanning documents in [https://www.eiffel.org/node/143 Pyxis format]
+
 			Provides:
 
 			* Pyxis document node scanning with mapping of xpath expressions to agent handler procedures. 
 			* Recursive building of Eiffel objects from Pyxis data using context-relative Xpath expressions.
 			* Reflective building of Eiffel objects from Pyxis data with corresponding element and attribute names 
+
+			Class [$source EL_PYXIS_PARSER] generates events from a [https://www.eiffel.org/node/143 Pyxis format] parser.
+			Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 		"""
 	target:
 		name = EL_pyxis_scan
@@ -40,9 +45,6 @@ system:
 
 		library:
 			name = EL_doc_scan; location = "document-scan.ecf"
-
-		library:
-			name = EL_evolicity; location = "evolicity.ecf"
 
 		library:
 			name = EL_text_process; location = "text-process.ecf"

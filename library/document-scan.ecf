@@ -4,10 +4,14 @@
 	<description>
 Document Node-scanning and Object Building
 
+A set of abstractions for scanning the nodes of an XML-like document without any commitment to a particular
+document syntax. Parsers to generate events are provided by separate libraries.
+
 Provides:
 
 * Document node scanning with mapping of xpath expressions to agent handler procedures.
 * Recursive building of Eiffel objects from document data using context-relative Xpath expressions.
+* Reflective capabilities for documents with element or atttribute names that match Eiffel class attributes.
 
 Base library for:
 
@@ -30,7 +34,7 @@ See doc/document-scan.txt for details.
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
-		<cluster name = "node_tree" location = "persistency/document" recursive = "true">
+		<cluster name = "doc" location = "persistency/document" recursive = "true">
 			<option namespace = "document"/>
 		</cluster>
 	</target>

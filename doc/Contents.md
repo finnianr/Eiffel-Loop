@@ -569,20 +569,25 @@ Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html
 Override of Eiffel Software's EiffelVision2 for use with [./library/vision2-x.html Eiffel-Loop Vision2 extensions]
 ## Override of Eiffel2Java
 Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
-## Xpath Orientated Node-scanning and Object Building
-Base library for:
-
-[XML Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/xml-scan.html) [Pyxis Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/pyxis-scan.html)
+## Document Node-scanning and Object Building
+A set of abstractions for scanning the nodes of an XML-like document without any commitment to a particular document syntax. Parsers to generate events are provided by separate libraries.
 
 Provides:
 
 
 * Document node scanning with mapping of xpath expressions to agent handler procedures.
 * Recursive building of Eiffel objects from document data using context-relative Xpath expressions.
+* Reflective capabilities for documents with element or atttribute names that match Eiffel class attributes.
+
+Base library for:
+
+
+* [XML Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/xml-scan.html)
+* [Pyxis Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/pyxis-scan.html)
 
 **XML Node Scanning**
 
-The abstraction [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_parse_event_source.html) representing a parse-event source has 6 descendants:
+The abstraction [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_parse_event_source.html) representing a parse-event source has 5 useful descendants:
 
 
 ````
@@ -594,29 +599,13 @@ EL_PARSE_EVENT_SOURCE*
 		[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
 	[$source EL_PYXIS_PARSER]
 ````
-**EL_EXPAT_XML_PARSER** 
-
-An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
-
-**EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM**
-
-[eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to `EVOLICITY_SERIALIZEABLE_AS_XML`.
-
-**EL_EXPAT_XML_WITH_CTRL_Z_PARSER**
-
-[eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
-
-**EL_BINARY_ENCODED_PARSE_EVENT_SOURCE**
-
-A binary encoded XML event source. Useful for reducing the size of large documents for transfer across a network.
-
-**EL_PYXIS_PARSER** Generates events from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
+Class [EL_BINARY_ENCODED_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_binary_encoded_parse_event_source.html) is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.
 
 The following are the various kinds of scanners which can process the output from these event sources.
 
 **Eiffel Object Building Scanners**
 
-The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_buildable_from_xml.html) and [EL_BUILDABLE_FROM_PYXIS](http://www.eiffel-loop.com/library/persistency/pyxis-doc/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_buildable_from_xml.html) and [EL_BUILDABLE_FROM_PYXIS](http://www.eiffel-loop.com/library/persistency/pyxis-doc/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
 
 
 * Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
@@ -737,6 +726,8 @@ Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://
 
 Test class [OPEN_OFFICE_TEST_APP]($source)
 ## Pyxis Document Node-scanning and Object Building
+Library for parsing and scanning documents in [Pyxis format](https://www.eiffel.org/node/143)
+
 Provides:
 
 
@@ -744,6 +735,7 @@ Provides:
 * Recursive building of Eiffel objects from Pyxis data using context-relative Xpath expressions.
 * Reflective building of Eiffel objects from Pyxis data with corresponding element and attribute names
 
+Class [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/pyxis-doc/parser/el_pyxis_parser.html) generates events from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
@@ -755,7 +747,20 @@ Provides:
 * XML node scanning with mapping of xpath expressions to agent handler procedures.
 * Recursive building of Eiffel objects from XML data using context-relative Xpath expressions.
 
-## XML Document Scanning and Object Building (VTD-XML)
+**Parse Event Sources**
+
+[EL_EXPAT_XML_PARSER](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser.html)
+
+An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
+
+[EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser_output_medium.html)
+
+[eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to [EVOLICITY_SERIALIZEABLE_AS_XML](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable_as_xml.html).
+
+[EL_EXPAT_XML_WITH_CTRL_Z_PARSER](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_with_ctrl_z_parser.html)
+
+[eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
+## XML Scanning and Object Building with VTD-XML
 Classes for scanning XML documents and building Eiffel objects from XML contexts defined by relative Xpaths. Based on the [VTD-XML parser](http://vtd-xml.sourceforge.net/). This is a full implemenation of Xpath 1.0.
 
 VTD-XML uses a very fast and efficient method of building a compressed representation of an XML object using [virtual token descriptors](http://vtd-xml.sourceforge.net/VTD.html).
@@ -764,7 +769,7 @@ Using the Eiffel API is considerably easier and more intuitive to use than the o
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
 
-Test class [VTD_XML_TEST_APP]($source)
+Test class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 

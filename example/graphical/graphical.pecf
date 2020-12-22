@@ -38,10 +38,8 @@ system:
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			trace = false; debug = false; warning = true
-
 			assertions:
 				precondition = true; postcondition = true; check = false; invariant = false
-
 			debug:
 				name = __unnamed_debug__; enabled = false
 			debug:
@@ -121,44 +119,44 @@ system:
 					precondition = true; postcondition = true; check = true
 
 		library:
-			name = docking; readonly = false
-			location = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
-			
+			name = docking; readonly = false; location = "$EIFFEL_LOOP/library/override/ES-docking.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
 		# Eiffel Loop libraries
 		library:
-			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-			readonly = false
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			
 
 		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
-			readonly = false	
+			name = EL_base; readonly = false; location = "$EIFFEL_LOOP/library/base/base.ecf"
+			
 			#use_application_options = true
 
 		library:
-			name = EL_c_api; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
-			readonly = false	
+			name = EL_c_api; readonly = false; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
 
 		library:
-			name = EL_logging; readonly = false
-			location = "$EIFFEL_LOOP/library/logging.ecf"
+			name = EL_doc_scan; location = "$EIFFEL_LOOP/library/document-scan.ecf"
 
 		library:
-			name = EL_thread; readonly = false
-			location = "$EIFFEL_LOOP/library/thread.ecf"
+			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_wel_x; location = "$EIFFEL_LOOP/library/wel-x.ecf"; readonly = false
+			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"
+
+		library:
+			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
+
+		library:
+			name = EL_wel_x; readonly = false; location = "$EIFFEL_LOOP/library/wel-x.ecf"
 			condition:
 				platform:
 					value = windows
 
 		library:
-			name = EL_xdoc_scanning; readonly = false
-			location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf"
+			name = EL_xml_scan; readonly = false; location = "$EIFFEL_LOOP/library/xml-scan.ecf"
 
 		library:
 			name = EL_vision2; location = "$EIFFEL_LOOP/library/vision2-x.ecf"

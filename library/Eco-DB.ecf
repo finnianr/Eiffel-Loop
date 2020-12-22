@@ -17,7 +17,10 @@ See doc/eco-db.txt for details
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
+		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
+		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<!--Source code-->
 		<cluster name = "db" location = "persistency/database/eco-db" recursive = "true" readonly = "false"/>
 	</target>

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-17 12:32:39 GMT (Thursday 17th December 2020)"
-	revision: "3"
+	date: "2020-12-22 10:05:59 GMT (Tuesday 22nd December 2020)"
+	revision: "4"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -20,6 +20,9 @@ inherit
 	ECD_RECOVERABLE_CHAIN [G]
 
 	EL_ENCODING_CONSTANTS
+		export
+			{ANY} valid_encoding
+		end
 
 feature -- Access
 
@@ -38,7 +41,7 @@ feature -- Access
 			Result := file_path.parent.joined_file_tuple (["pyxis", file_path.base_sans_extension + ".pyx"])
 		end
 
-feature {NONE} -- Implementation
+feature -- Basic operations
 
 	export_csv (a_file_path: EL_FILE_PATH; encoding: NATURAL)
 		require
@@ -103,6 +106,28 @@ feature {NONE} -- Implementation
 				forth
 			end
 			file.close
+		end
+
+	import_csv (a_file_path: EL_FILE_PATH)
+		local
+			import_list: EL_IMPORTABLE_ARRAYED_LIST [G]
+		do
+			create import_list.make_empty
+			wipe_out
+			import_list.import_csv_utf_8 (a_file_path)
+			append_sequence (import_list)
+			safe_store
+		end
+
+	import_pyxis (a_file_path: EL_FILE_PATH)
+		-- replace all items with imported Pyxis data
+		local
+			importer: EL_PYXIS_TABLE_DATA_IMPORTER [G]
+		do
+--			wipe_out
+			create importer.make (Current, pyxis_file_path)
+			importer.execute
+--			safe_store
 		end
 
 feature {NONE} -- Constants

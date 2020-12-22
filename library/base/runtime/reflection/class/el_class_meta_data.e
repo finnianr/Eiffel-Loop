@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-17 11:42:48 GMT (Thursday 17th December 2020)"
-	revision: "35"
+	date: "2020-12-22 11:26:58 GMT (Tuesday 22nd December 2020)"
+	revision: "36"
 
 class
 	EL_CLASS_META_DATA
@@ -162,6 +162,8 @@ feature {NONE} -- Factory
 			i, offset: INTEGER; name: STRING; excluded: like excluded_fields
 			field_order: like enclosing_object.field_order
 			field_shifts: like enclosing_object.field_shifts
+			reordered_fields: like enclosing_object.reordered_fields
+			indices_set: EL_FIELD_INDICES_SET
 		do
 			excluded := excluded_fields
 			create Result.make (field_count - excluded.count)
@@ -188,6 +190,17 @@ feature {NONE} -- Factory
 					i := shift.item.index; offset := shift.item.offset
 					if Result.valid_shift (i, offset) then
 						Result.shift_i_th (i, offset)
+					end
+				end
+			end
+			-- move any explicitly ordered fields to the end of list
+			reordered_fields := enclosing_object.reordered_fields
+			if reordered_fields /= enclosing_object.Default_reordered_fields then
+				create indices_set.make (Current, reordered_fields)
+				across indices_set as index loop
+					Result.find_first_equal (index.item, agent {EL_REFLECTED_FIELD}.index)
+					if Result.found then
+						Result.shift (Result.count - Result.index)
 					end
 				end
 			end

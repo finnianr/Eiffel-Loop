@@ -42,19 +42,20 @@ See cluster[@name=&apos;project&apos;]/description below for more details
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "nel_fft_math" location = "$EIFFEL_LOOP/contrib/Eiffel/NEL-math/fft-math.ecf"/>
 		<!--Eiffel Loop libraries-->
-		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false"/>
+		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
 		<!--
 			use_application_options = true
 			
 		-->
-		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
+		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf"/>
+		<library name = "EL_eros" readonly = "false" location = "$EIFFEL_LOOP/library/eros.ecf"/>
 		<variable name = "eros_server_enabled" value = "true"/>
-		<library name = "EL_eros" location = "$EIFFEL_LOOP/library/eros.ecf" readonly = "false"/>
-		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
+		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_net_base" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
 		<library name = "EL_thread" readonly = "false" location = "$EIFFEL_LOOP/library/thread.ecf"/>
-		<library name = "EL_xdoc_scanning" location = "$EIFFEL_LOOP/library/xdoc-scanning.ecf" readonly = "false"/>
+		<library name = "EL_xml_scan" readonly = "false" location = "$EIFFEL_LOOP/library/xml-scan.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true">
 			<description>
 Signal Math EROS Server with GUI

@@ -101,36 +101,29 @@ system:
 
 		# Eiffel Loop overrides
 		library:
-			name = eiffel2java; readonly = false
-			location = "$EIFFEL_LOOP/library/override/ES-eiffel2java.ecf"
+			name = eiffel2java; readonly = false; location = "$EIFFEL_LOOP/library/override/ES-eiffel2java.ecf"
 
 		# Eiffel Loop
 		library:
-			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"
-			readonly = false
+			name = EL_base; readonly = false; location = "$EIFFEL_LOOP/library/base/base.ecf"
 
 		library:
-			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-			readonly = false
-
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+			
 		library:
-			name = EL_eiffel2java; location = "$EIFFEL_LOOP/library/eiffel2java.ecf"
-			readonly = false
+			name = EL_eiffel2java; readonly = false; location = "$EIFFEL_LOOP/library/eiffel2java.ecf"
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
 
 		library:
-			name = EL_logging; readonly = false
-			location = "$EIFFEL_LOOP/library/logging.ecf"
+			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
-			name = EL_os_command; readonly = false
-			location = "$EIFFEL_LOOP/library/os-command.ecf"
+			name = EL_os_command; readonly = false; location = "$EIFFEL_LOOP/library/os-command.ecf"
 
 		library:
-			name = EL_testing; readonly = false
-			location = "$EIFFEL_LOOP/library/testing.ecf"
+			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
 
 		cluster:
 			name = project; location = "source"; recursive = true

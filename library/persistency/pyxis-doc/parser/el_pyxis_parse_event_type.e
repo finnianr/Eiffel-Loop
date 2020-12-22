@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-28 10:29:48 GMT (Sunday 28th October 2018)"
-	revision: "1"
+	date: "2020-12-21 15:26:53 GMT (Monday 21st December 2020)"
+	revision: "2"
 
 class
 	EL_PYXIS_PARSE_EVENT_TYPE

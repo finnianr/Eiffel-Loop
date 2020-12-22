@@ -37,7 +37,16 @@ system:
 			name = EL_base; location = "base/base.ecf"
 
 		library:
+			name = EL_doc_scan; location = "document-scan.ecf"
+
+		library:
 			name = EL_encryption; location = "encryption.ecf"
+
+		library:
+			name = EL_pyxis_scan; location = "pyxis-scan.ecf"
+
+		library:
+			name = EL_text_formats; location = "text-formats.ecf"
 
 		# Source code
 		cluster:

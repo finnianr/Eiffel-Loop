@@ -9,10 +9,14 @@ system:
 		"""
 			Document Node-scanning and Object Building
 
+			A set of abstractions for scanning the nodes of an XML-like document without any commitment to a particular
+			document syntax. Parsers to generate events are provided by separate libraries.
+
 			Provides:
 
 			* Document node scanning with mapping of xpath expressions to agent handler procedures. 
 			* Recursive building of Eiffel objects from document data using context-relative Xpath expressions.
+			* Reflective capabilities for documents with element or atttribute names that match Eiffel class attributes.
 
 			Base library for:
 
@@ -55,7 +59,7 @@ system:
 
 		# Source code
 		cluster:
-			name = node_tree; location = "persistency/document"; recursive = true
+			name = doc; location = "persistency/document"; recursive = true
 			option:
 				namespace = document
 

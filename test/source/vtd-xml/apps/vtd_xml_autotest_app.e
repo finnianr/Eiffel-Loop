@@ -14,16 +14,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:59:39 GMT (Sunday 18th October 2020)"
-	revision: "8"
+	date: "2020-12-21 15:26:25 GMT (Monday 21st December 2020)"
+	revision: "9"
 
 class
 	VTD_XML_AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
-		VTD_XML_TEST_SET,
-		XML_TO_PYXIS_CONVERTER_TEST_SET
+		VTD_XML_TEST_SET, XML_TO_PYXIS_CONVERTER_TEST_SET
 	]
 
 create
