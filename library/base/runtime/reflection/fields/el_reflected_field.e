@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-08 10:01:39 GMT (Tuesday 8th December 2020)"
-	revision: "22"
+	date: "2020-12-22 16:48:35 GMT (Tuesday 22nd December 2020)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 			Result.append_integer (i); Result.append (once ". ")
 		end
 
-feature {EL_REFLECTED_FIELD} -- Internal attributes
+feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	enclosing_object: separate EL_REFLECTIVE
 			-- Enclosing object containing `object' or a reference to `object.

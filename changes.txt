@@ -337,3 +337,6 @@ Changed print_meta_data to write_meta_data in class EL_REFLECTIVELY_SETTABLE_STO
 Sun 20th Dec 2020, 19:04:38
 Split of xdox-scanning.ecf into 3
 
+Tue 22nd Dec 2020, 11:55:18
+New routine {ECD_REFLECTIVE_RECOVERABLE_CHAIN}.import_pyxis and {EL_REFLECTIVE}.reordered_fields
+

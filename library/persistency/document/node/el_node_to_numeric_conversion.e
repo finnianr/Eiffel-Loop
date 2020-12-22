@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:10:28 GMT (Sunday 20th December 2020)"
-	revision: "2"
+	date: "2020-12-22 17:25:32 GMT (Tuesday 22nd December 2020)"
+	revision: "3"
 
 deferred class
 	EL_NODE_TO_NUMERIC_CONVERSION
@@ -105,7 +105,7 @@ feature -- Status query
 	is_natural_64: BOOLEAN
 			--
 		do
-			Result := raw_content.is_natural
+			Result := raw_content.is_natural_64
 		end
 
 	is_integer: BOOLEAN

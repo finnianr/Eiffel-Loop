@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-18 15:26:19 GMT (Friday 18th December 2020)"
-	revision: "28"
+	date: "2020-12-22 17:08:25 GMT (Tuesday 22nd December 2020)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -71,7 +71,9 @@ feature -- Basic operations
 			across meta_data.alphabetical_list as list loop
 				name := list.item.name
 				if not cursor_index_set.has (list.cursor_index) then
-					if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item as storable then
+					if attached {EL_REFLECTED_STORABLE} list.item as storable_field
+						and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (Current) as storable
+					then
 						write_pyxis_field (output, name, tab_count)
 						storable.write_as_pyxis (output, tab_count + 1)
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 9:55:15 GMT (Tuesday 22nd December 2020)"
-	revision: "1"
+	date: "2020-12-22 20:01:48 GMT (Tuesday 22nd December 2020)"
+	revision: "2"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -31,23 +31,12 @@ feature {NONE} -- Initialization
 
 	make (a_chain: like chain; a_file_path: EL_FILE_PATH)
 		local
-			xpath_item, xpath_attribute: STRING; l_item: G
+			xpath_item: STRING
 		do
 			chain := a_chain; file_path := a_file_path
 			make_default
-			xpath_item := Xpath_template #$ [file_path.base_sans_extension]
-			match_events_list.extend ([On_open, xpath_item, agent push_item])
-			match_events_list.extend ([On_close, xpath_item, agent pop_item])
-
-			create l_item.make_default
-			across l_item.field_table as field loop
-				xpath_attribute := Xpath_attribute_template #$ [xpath_item, field.key]
-				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field.item as enum then
-					match_events_list.extend ([On_open, xpath_attribute, agent set_item_enumeration (field.item)])
-				elseif attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field.item as numeric then
-					match_events_list.extend ([On_open, xpath_attribute, agent set_item_attribute (field.item)])
-				end
-			end
+			xpath_item := Slash + file_path.base_sans_extension.to_latin_1 + Slash_item
+			fill_match_events (create {G}.make_default, xpath_item, "")
 		end
 
 	make_default
@@ -61,14 +50,48 @@ feature -- Basic operations
 	execute
 		do
 			build_from_file (file_path)
+		ensure then
+			empty_stack: stack.is_empty
 		end
 
 feature {NONE} -- Implementation
 
-	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
-			--
+	append_map (xpath: STRING; action: PROCEDURE)
 		do
-			Result := match_events_list.to_array
+			match_events_list.extend ([On_open, xpath, action])
+		end
+
+	fill_match_events (object: EL_REFLECTIVE; xpath, field_name: STRING)
+		-- recursive procedure to fill `match_events_list'
+		local
+			xpath_element: STRING; xpath_map: EL_XPATH_TO_AGENT_MAP
+		do
+			match_events_list.extend ([On_open, xpath, agent push_item (field_name)])
+			match_events_list.extend ([On_close, xpath, agent pop_item])
+
+			across object.field_table as field loop
+				if is_attribute (field.item) then
+					append_map (xpath + Slash_at + field.key, agent set_item_attribute (field.item))
+
+				elseif attached {EL_REFLECTED_STORABLE} field.item as storable_field
+					and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (object) as storable
+				then
+					xpath_element := xpath + Slash + field.key
+					fill_match_events (storable, xpath_element, field.key)
+				else
+					append_map (xpath + Slash + field.key + Slash_text, agent set_item_attribute (field.item))
+				end
+			end
+		end
+
+	is_attribute (field: EL_REFLECTED_FIELD): BOOLEAN
+		do
+			if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field
+				or else attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field
+				or else attached {EL_REFLECTED_BOOLEAN} field
+			then
+				Result := True
+			end
 		end
 
 	item: EL_REFLECTIVE
@@ -81,41 +104,51 @@ feature {NONE} -- Implementation
 			stack.remove
 		end
 
-	push_item
+	push_item (field_name: STRING)
 		do
-			stack.put (create {G}.make_default)
+			if field_name.is_empty then
+				stack.put (create {G}.make_default)
+
+			elseif item.field_table.has_key (field_name)
+				and then attached {EL_REFLECTIVE} item.field_table.found_item.value (item) as field_item
+			then
+				stack.put (field_item)
+			end
 		end
 
 	set_item_attribute (field: EL_REFLECTED_FIELD)
 		do
-			field.set_from_readable (item, last_node)
+			if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field then
+				field.set_from_string (item, last_node.to_raw_string_32)
+			else
+				field.set_from_readable (item, last_node)
+			end
 		end
 
-	set_item_enumeration (field: EL_REFLECTED_FIELD)
+	xpath_match_events: ARRAY [EL_XPATH_TO_AGENT_MAP]
+			--
 		do
-			field.set_from_string (item, last_node.to_raw_string_32)
+			Result := match_events_list.to_array
 		end
 
 feature {NONE} -- Internal attributes
 
 	chain: ECD_REFLECTIVE_RECOVERABLE_CHAIN [G]
 
-	match_events_list: ARRAYED_LIST [EL_XPATH_TO_AGENT_MAP]
-
 	file_path: EL_FILE_PATH
+
+	match_events_list: ARRAYED_LIST [EL_XPATH_TO_AGENT_MAP]
 
 	stack: ARRAYED_STACK [EL_REFLECTIVE]
 
 feature {NONE} -- Constants
 
-	Xpath_template: EL_ZSTRING
-		once
-			Result := "/%S/item"
-		end
+	Slash: STRING = "/"
 
-	Xpath_attribute_template: EL_ZSTRING
-		once
-			Result := "%S/@%S"
-		end
+	Slash_at: STRING = "/@"
+
+	Slash_item: STRING = "/item"
+
+	Slash_text: STRING = "/text()"
 
 end
