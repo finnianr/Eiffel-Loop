@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 10:26:14 GMT (Tuesday 1st December 2020)"
-	revision: "19"
+	date: "2020-12-23 10:49:20 GMT (Wednesday 23rd December 2020)"
+	revision: "20"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -18,6 +18,15 @@ inherit
 	EL_MODULE_CHAR_8
 
 feature -- Basic operations
+
+	append_to (str: S; extra: READABLE_STRING_GENERAL)
+		do
+			if attached {STRING} extra as str_8 then
+				str.append (str_8)
+			else
+				str.append (extra.to_string_32) -- Might be ZSTRING
+			end
+		end
 
 	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL
 			--
@@ -112,7 +121,7 @@ feature -- Lists
 			Result := splits.as_string_list
 		end
 
-	list (text: S): LIST [S]
+	to_list (text: S): LIST [S]
 		-- comma separated list
 		local
 			comma: S
@@ -145,7 +154,7 @@ feature -- Transformation
 		do
 			create Result.make (str.count + 2)
 			Result.append_code (left.natural_32_code)
-			Result.append (str)
+			append_to (Result, str)
 			Result.append_code (right.natural_32_code)
 		end
 
@@ -156,28 +165,29 @@ feature -- Transformation
 			end
 		end
 
-	joined_lines (lines: FINITE [READABLE_STRING_GENERAL]): S
+	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): S
 		do
-			Result := joined_with (lines, once "%N")
+			Result := joined_with (list, once "%N")
 		end
 
-	joined_with (lines: FINITE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): S
+	joined_with (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): S
 		local
-			l_lines: LINEAR [READABLE_STRING_GENERAL]
-			count: INTEGER
+			char_count, count: INTEGER
 		do
-			l_lines := lines.linear_representation
-			from l_lines.start until l_lines.after loop
-				count := count + l_lines.item.count
-				l_lines.forth
+			across list as ln loop
+				char_count := char_count + ln.item.count
+				count := count + 1
 			end
-			create Result.make (count + (lines.count - 1) * delimiter.count)
-			from l_lines.start until l_lines.after loop
-				if l_lines.index > 1 then
-					Result.append (delimiter)
+			if count > 0 then
+				create Result.make (char_count + (count - 1) * delimiter.count)
+				across list as ln loop
+					if Result.count > 0 then
+						append_to (Result, delimiter)
+					end
+					append_to (Result, ln.item)
 				end
-				Result.append (l_lines.item.to_string_32)
-				l_lines.forth
+			else
+				create Result.make (0)
 			end
 		end
 

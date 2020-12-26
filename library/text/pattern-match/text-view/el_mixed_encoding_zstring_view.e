@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 12:44:09 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2020-12-24 13:34:31 GMT (Thursday 24th December 2020)"
+	revision: "7"
 
 class
 	EL_MIXED_ENCODING_ZSTRING_VIEW
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unencoded: like text.unencoded_interval_index
+	unencoded: EL_UNENCODED_CHARACTERS_INDEX
 
 	z_code (i: INTEGER): NATURAL_32
 			-- Character at position `i'

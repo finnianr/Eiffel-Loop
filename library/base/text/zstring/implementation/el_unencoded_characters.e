@@ -1,7 +1,10 @@
 note
 	description: "[
 		Representation of consecutive substrings in a `STRING_32' string that could not be encoded using
-		a latin character set. The substring are held in the array unecoded: `SPECIAL [CHARACTER_32]'
+		a latin character set. The substring are held in the array 
+		
+			area: SPECIAL [NATURAL]
+			
 		Each substring is prececded by two 32 bit characters representing the lower and upper index.
 	]"
 
@@ -10,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 16:21:45 GMT (Saturday 5th December 2020)"
-	revision: "13"
+	date: "2020-12-26 17:50:32 GMT (Saturday 26th December 2020)"
+	revision: "14"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -183,6 +186,20 @@ feature -- Access
 
 feature -- Measurement
 
+	substring_count: INTEGER
+		-- count of substrings
+		local
+			i, lower, upper, count, area_count: INTEGER; l_area: like area
+		do
+			l_area := area; area_count := l_area.count
+			from i := 0 until i = area_count loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				count := upper - lower + 1
+				Result := Result + 1
+				i := i + count + 2
+			end
+		end
+
 	occurrences (unicode: NATURAL): INTEGER
 		local
 			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
@@ -201,8 +218,8 @@ feature -- Measurement
 			end
 		end
 
-	sum_count: INTEGER
-			-- sum of each substring count
+	character_count: INTEGER
+		-- sum of each substring count
 		local
 			i, lower, upper, count, area_count: INTEGER; l_area: like area
 		do
@@ -309,7 +326,7 @@ feature -- Element change
 				area := other.area.twin
 			end
 		ensure
-			valid_count: sum_count = old sum_count + other.sum_count
+			valid_count: character_count = old character_count + other.character_count
 		end
 
 	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
@@ -322,7 +339,7 @@ feature -- Element change
 			l_area.put (upper.to_natural_32, old_count + 1)
 			l_area.copy_data (a_area, source_index, old_count + 2, count)
 		ensure
-			count_increased_by_count: sum_count = old sum_count + upper - lower + 1
+			count_increased_by_count: character_count = old character_count + upper - lower + 1
 		end
 
 	insert (other: EL_UNENCODED_CHARACTERS)
@@ -611,18 +628,6 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Measurement
-
-	lower_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i).to_integer_32
-		end
-
-	upper_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i + 1).to_integer_32
-		end
-
 feature -- Duplication
 
 	append_substrings_into (other: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
@@ -667,7 +672,7 @@ feature -- Duplication
 --			Result.shift ((start_index - 1).opposite)
 --		end
 
-feature {NONE} -- Contract Support
+feature {EL_ZCODE_CONVERSION} -- Contract Support
 
 	is_unencoded_valid: BOOLEAN
 		do
@@ -698,6 +703,18 @@ feature {NONE} -- Contract Support
 				i := i + count + 2
 			end
 			Result := list.area_v2
+		end
+
+feature {EL_ZCODE_CONVERSION} -- Implementation
+
+	lower_bound (a_area: like area; i: INTEGER): INTEGER
+		do
+			Result := a_area.item (i).to_integer_32
+		end
+
+	upper_bound (a_area: like area; i: INTEGER): INTEGER
+		do
+			Result := a_area.item (i + 1).to_integer_32
 		end
 
 feature {NONE} -- Implementation

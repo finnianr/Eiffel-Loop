@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 20:01:48 GMT (Tuesday 22nd December 2020)"
-	revision: "2"
+	date: "2020-12-23 11:19:58 GMT (Wednesday 23rd December 2020)"
+	revision: "3"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -105,9 +105,13 @@ feature {NONE} -- Implementation
 		end
 
 	push_item (field_name: STRING)
+		local
+			new_item: G
 		do
 			if field_name.is_empty then
-				stack.put (create {G}.make_default)
+				create new_item.make_default
+				stack.put (new_item)
+				chain.extend (new_item)
 
 			elseif item.field_table.has_key (field_name)
 				and then attached {EL_REFLECTIVE} item.field_table.found_item.value (item) as field_item
@@ -120,6 +124,8 @@ feature {NONE} -- Implementation
 		do
 			if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field then
 				field.set_from_string (item, last_node.to_raw_string_32)
+			elseif attached {EL_REFLECTED_STORABLE_TUPLE} field as tuple_field then
+				tuple_field.set_from_string (item, last_node.to_raw_string_32)
 			else
 				field.set_from_readable (item, last_node)
 			end

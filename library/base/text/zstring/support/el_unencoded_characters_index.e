@@ -1,15 +1,13 @@
 note
-	description: "[
-		Fast lookup of code in unencoded intervals array
-	]"
+	description: "Fast lookup of code in unencoded intervals array"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-17 15:42:38 GMT (Wednesday 17th May 2017)"
-	revision: "2"
+	date: "2020-12-25 10:09:57 GMT (Friday 25th December 2020)"
+	revision: "3"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:30:52 GMT (Wednesday 17th October 2018)"
-	revision: "5"
+	date: "2020-12-25 10:51:36 GMT (Friday 25th December 2020)"
+	revision: "6"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -29,7 +29,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create {EL_STRING_8_VIEW} source_view.make (Empty_string_8)
 			create token_text_array.make (0)
 		end
 

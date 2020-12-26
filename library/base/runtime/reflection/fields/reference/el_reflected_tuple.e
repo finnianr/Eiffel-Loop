@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-18 15:39:56 GMT (Friday 18th December 2020)"
-	revision: "8"
+	date: "2020-12-23 11:06:38 GMT (Wednesday 23rd December 2020)"
+	revision: "9"
 
 class
 	EL_REFLECTED_TUPLE
@@ -84,6 +84,8 @@ feature -- Basic operations
 			end
 			list.enable_left_adjust
 			set_from_list (a_object, list)
+		ensure then
+			set: string.same_string (to_string (a_object))
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:14:18 GMT (Sunday 20th December 2020)"
-	revision: "16"
+	date: "2020-12-25 10:59:28 GMT (Friday 25th December 2020)"
+	revision: "17"
 
 class
 	EL_PYXIS_PARSER
@@ -155,12 +155,12 @@ feature {NONE} -- Line states
 				previous_state := state
 				gather_comments (line, True)
 
-			else
-				attribute_parser.set_source_text (line)
-				attribute_parser.parse
+			elseif attached attribute_parser as parser then
+				parser.set_source_text (line)
+				parser.parse
 
-				if attribute_parser.fully_matched then
-					across attribute_parser.attribute_list as l_attribute loop
+				if parser.fully_matched then
+					across parser.attribute_list as l_attribute loop
 						attribute_list.extend
 						attribute_list.last_node.set_name (l_attribute.item.name.to_unicode)
 						attribute_list.last_node.set_raw_content (l_attribute.item.value.to_unicode)
@@ -194,7 +194,7 @@ feature {NONE} -- Line states
 
 			else
 				state := previous_state
-				state.call ([line])
+				state (line)
 			end
 		end
 
@@ -235,7 +235,7 @@ feature {NONE} -- Line states
 			elseif line.is_empty then
 			else
 				state := previous_state
-				state.call ([line])
+				state (line)
 			end
 
 		end

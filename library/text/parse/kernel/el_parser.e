@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-17 13:24:57 GMT (Wednesday 17th October 2018)"
-	revision: "6"
+	date: "2020-12-25 10:48:42 GMT (Friday 25th December 2020)"
+	revision: "7"
 
 deferred class
 	EL_PARSER
@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			source_text := Empty_string_8
-			create {EL_STRING_8_VIEW} source_view.make (Empty_string_8)
+			source_view := Default_source_view
 			unmatched_action := default_action
 			set_pattern_changed
 			reset
@@ -116,6 +116,10 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
+	default_action: like pattern.Default_action
+		deferred
+		end
+
 	reassign_pattern_if_changed
 			--
 		do
@@ -125,16 +129,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	default_action: like pattern.Default_action
-		deferred
-		end
-
 feature {NONE} -- Internal attributes
-
-	unmatched_action: like default_action
 
 	pattern: EL_TEXT_PATTERN
 
 	source_view: EL_STRING_VIEW
+
+	unmatched_action: like default_action
+
+feature {NONE} -- Constants
+
+	Default_source_view: EL_STRING_8_VIEW
+		once
+			create Result.make (Empty_string_8)
+		end
 
 end

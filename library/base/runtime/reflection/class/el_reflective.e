@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 11:33:05 GMT (Tuesday 22nd December 2020)"
-	revision: "33"
+	date: "2020-12-23 10:29:47 GMT (Wednesday 23rd December 2020)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTIVE
@@ -33,6 +33,8 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
+
+	EL_MODULE_STRING_8
 
 feature {NONE} -- Initialization
 
@@ -139,6 +141,8 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		-- These fields then becomes settable by an enumeration string alias
 		do
 			Result := Default_enumerations
+		ensure
+			valid_names: valid_field_names (String_8.joined_with (Result.current_keys, ", "))
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Implementation

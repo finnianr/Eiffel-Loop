@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 10:05:59 GMT (Tuesday 22nd December 2020)"
-	revision: "4"
+	date: "2020-12-23 10:52:17 GMT (Wednesday 23rd December 2020)"
+	revision: "5"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -124,10 +124,10 @@ feature -- Basic operations
 		local
 			importer: EL_PYXIS_TABLE_DATA_IMPORTER [G]
 		do
---			wipe_out
+			wipe_out
 			create importer.make (Current, pyxis_file_path)
 			importer.execute
---			safe_store
+			safe_store
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 13:10:00 GMT (Monday 13th January 2020)"
-	revision: "7"
+	date: "2020-12-25 10:37:44 GMT (Friday 25th December 2020)"
+	revision: "8"
 
 deferred class
 	EL_STRING_VIEW
@@ -168,6 +168,8 @@ feature -- Removal
 			set_view (offset + count_to_remove, count - count_to_remove)
 		ensure
 			valid_from_index: offset <= full_count
+			valid_first_character: count_to_remove < old count implies old code (count_to_remove + 1) = code (1)
+			valid_empty: count_to_remove = old count implies count = 0
 		end
 
 feature -- Status query

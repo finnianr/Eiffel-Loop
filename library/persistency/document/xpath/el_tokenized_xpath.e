@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:39:20 GMT (Sunday 20th December 2020)"
-	revision: "4"
+	date: "2020-12-23 9:43:16 GMT (Wednesday 23rd December 2020)"
+	revision: "5"
 
 class
 	EL_TOKENIZED_XPATH
@@ -34,11 +34,6 @@ inherit
 		undefine
 			is_equal, copy, out
 		end
-
---	EL_MODULE_LOG
---		undefine
---			is_equal, copy, out
---		end
 
 create
 	make
@@ -70,13 +65,8 @@ feature -- Element change
 				is_path_to_element := false
 			else
 				inspect last.to_integer
-
-				when Comment_node_step_id then
-					is_path_to_element := false
-
-				when Text_node_step_id  then
-					is_path_to_element := false
-
+					when Comment_node_step_id, Text_node_step_id then
+						is_path_to_element := false
 				else
 					is_path_to_element := true
 				end
@@ -87,11 +77,9 @@ feature -- Element change
 			-- Convert an xpath to compressed form
 			-- eg. "/publisher/author/book" -> {1,2,3}
 			-- 1 = publisher, 2 = author, 3 = book
-
 		local
 			steps: LIST [STRING]
 		do
---			log.enter ("append_xpath")
 			steps := xpath.split ('/')
 			if steps.count >= 2 and then steps.i_th (1).is_empty and then steps.i_th (2).is_empty then
 				steps [2] := Descendant_or_self_node
@@ -102,7 +90,6 @@ feature -- Element change
 				end
 				steps.forth
 			end
---			log.exit
 		end
 
 feature -- Access
@@ -227,4 +214,4 @@ feature {NONE} -- Implementation
 			internal_hash_code := 0
 		end
 
-end -- class EL_COMPRESSED_XPATH_STRING
+end

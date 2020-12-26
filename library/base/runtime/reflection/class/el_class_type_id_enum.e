@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 13:04:56 GMT (Thursday 30th January 2020)"
-	revision: "2"
+	date: "2020-12-23 10:28:44 GMT (Wednesday 23rd December 2020)"
+	revision: "3"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
 
 inherit
 	EL_TYPE_ID_ENUMERATION
+		rename
+			String_8 as Mod_string_8
+		end
 
 create
 	make

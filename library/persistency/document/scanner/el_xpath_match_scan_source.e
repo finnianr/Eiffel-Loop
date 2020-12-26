@@ -1,13 +1,17 @@
 note
-	description: "Class for parsing XML documents and matching sets of xpaths"
+	description: "[
+		Class for scanning document nodes and checking if each node path matches against
+		a set of xpath expressions, each mapped to procedure. If a node matches, the procedure
+		is called.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:53:26 GMT (Sunday 20th December 2020)"
-	revision: "9"
+	date: "2020-12-23 9:38:00 GMT (Wednesday 23rd December 2020)"
+	revision: "10"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -149,8 +153,7 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Xpath matching operations
 
 	add_node_action_to_action_table (
-		node_action_table: like node_START_action_table;
-		wildcard_search_term_list: ARRAYED_LIST [EL_TOKENIZED_XPATH]
+		node_action_table: like node_START_action_table; wildcard_search_term_list: ARRAYED_LIST [EL_TOKENIZED_XPATH]
 		node_action: EL_XPATH_TO_AGENT_MAP
 	)
 			--
