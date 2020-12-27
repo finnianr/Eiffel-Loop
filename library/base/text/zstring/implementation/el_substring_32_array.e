@@ -1,6 +1,14 @@
 note
 	description: "[
-		Array of sequential substrings from an instance of `STRING_32'
+		Array of sequential substrings from an instance of `STRING_32' compacted into a single `SPECIAL' array:
+		
+			area: SPECIAL [NATURAL]
+			
+		`area [0]' contains the substring count: `count'
+		
+		`area [1] -> area [count * 2]' contains a series of `count' interval specifications `[lower, upper]'
+		
+		`area [count * 2 + 1] -> area [area.count - 1]' contains the combined substring character data
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 16:07:54 GMT (Sunday 27th December 2020)"
-	revision: "2"
+	date: "2020-12-27 18:31:15 GMT (Sunday 27th December 2020)"
+	revision: "3"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -18,13 +26,24 @@ inherit
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
 
 create
-	make_from_unencoded, make_empty, make_from_other
+	make_from_unencoded, make_empty, make_from_other, make_from_area
 
 feature {NONE} -- Initialization
 
 	make_empty
 		do
 			area := Empty_unencoded
+		end
+
+	make_from_area (a_area: like area)
+		require
+			area_has_count: a_area.count > 0
+		do
+			if a_area.item (0).to_boolean then
+				area := a_area
+			else
+				make_empty
+			end
 		end
 
 	make_from_other (other: EL_SUBSTRING_32_ARRAY)
@@ -207,6 +226,62 @@ feature -- Access
 			Result := area.item (count * 2).to_integer_32
 		end
 
+	sub_array (start_index, end_index: INTEGER): EL_SUBSTRING_32_ARRAY
+		local
+			i, j, lower, upper, offset, char_count, l_count, l_character_count, i_final: INTEGER
+			array_start_index, array_end_index, l_first_lower, l_last_upper: INTEGER
+			l_area, sub_area: like area
+		do
+			l_area := area; i_final := count * 2 + 1
+			offset := i_final
+			from i := 1 until array_end_index.to_boolean or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				char_count := upper - lower + 1
+				if array_start_index.to_boolean then
+					-- searching for end
+					if lower <= end_index and then end_index <= upper then
+						array_end_index := i
+						l_character_count := l_character_count + end_index - lower + 1
+						l_last_upper := end_index
+					elseif end_index < lower then
+						l_last_upper := upper_bound (l_area, i - 2)
+						array_end_index := i - 2
+					else
+						l_character_count := l_character_count + char_count
+						i := i + 2
+					end
+
+				else
+					-- searching for start
+					if lower <= start_index and then start_index <= upper then
+						-- partially contained
+						array_start_index := i
+						l_first_lower := start_index
+						l_character_count := upper - start_index + 1
+						offset := offset + start_index - lower
+					elseif start_index < lower then
+						-- fully contained
+						array_start_index := i
+						l_first_lower := lower
+						l_character_count := char_count
+						offset := offset + char_count
+					else
+						offset := offset + char_count
+						i := i + 2
+					end
+				end
+			end
+			l_count := (array_end_index - array_start_index) // 2 + 1
+			create sub_area.make_empty (1 + l_count * 2 + l_character_count)
+			sub_area.extend (l_count.to_natural_32)
+			sub_area.copy_data (l_area, array_start_index, 1, l_count * 2)
+			put_lower (sub_area, 1, l_first_lower)
+			put_upper (sub_area, l_count * 2 - 1, l_last_upper)
+
+			sub_area.copy_data (l_area, offset, l_count * 2 + 1, l_character_count)
+			create Result.make_from_area (sub_area)
+		end
+
 	z_code (index: INTEGER): NATURAL
 		do
 			Result := unicode_to_z_code (code (index))
@@ -361,7 +436,7 @@ feature -- Element change
 			other_not_empty: other.not_empty
 			already_shifted: other.first_lower > last_upper
 		local
-			i, i_final, o_final, j_final, delta: INTEGER
+			i_final, o_final, j_final, delta: INTEGER
 			l_area, o_area, joined_area: like area
 		do
 			if not_empty then

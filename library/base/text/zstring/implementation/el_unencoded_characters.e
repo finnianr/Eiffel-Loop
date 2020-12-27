@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 17:50:32 GMT (Saturday 26th December 2020)"
-	revision: "14"
+	date: "2020-12-27 16:15:42 GMT (Sunday 27th December 2020)"
+	revision: "15"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -327,19 +327,6 @@ feature -- Element change
 			end
 		ensure
 			valid_count: character_count = old character_count + other.character_count
-		end
-
-	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
-		local
-			old_count, count: INTEGER; l_area: like area
-		do
-			l_area := area; old_count := area.count; count := upper - lower + 1
-			l_area := resized (l_area, old_count + count + 2)
-			l_area.put (lower.to_natural_32, old_count)
-			l_area.put (upper.to_natural_32, old_count + 1)
-			l_area.copy_data (a_area, source_index, old_count + 2, count)
-		ensure
-			count_increased_by_count: character_count = old character_count + upper - lower + 1
 		end
 
 	insert (other: EL_UNENCODED_CHARACTERS)
@@ -706,6 +693,19 @@ feature {EL_ZCODE_CONVERSION} -- Contract Support
 		end
 
 feature {EL_ZCODE_CONVERSION} -- Implementation
+
+	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
+		local
+			old_count, count: INTEGER; l_area: like area
+		do
+			l_area := area; old_count := area.count; count := upper - lower + 1
+			l_area := resized (l_area, old_count + count + 2)
+			l_area.put (lower.to_natural_32, old_count)
+			l_area.put (upper.to_natural_32, old_count + 1)
+			l_area.copy_data (a_area, source_index, old_count + 2, count)
+		ensure
+			count_increased_by_count: character_count = old character_count + upper - lower + 1
+		end
 
 	lower_bound (a_area: like area; i: INTEGER): INTEGER
 		do

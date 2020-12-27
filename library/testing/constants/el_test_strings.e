@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:27:28 GMT (Tuesday 5th May 2020)"
-	revision: "9"
+	date: "2020-12-27 18:17:10 GMT (Sunday 27th December 2020)"
+	revision: "10"
 
 deferred class
 	EL_TEST_STRINGS
@@ -45,6 +45,11 @@ feature {NONE} -- Constants
 				table.put (c.item, c.item)
 			end
 			Result := table.current_keys
+		end
+
+	Text_russian: STRING_32
+		once
+			Result := Text_lines.first
 		end
 
 	Text_words: ARRAYED_LIST [STRING_32]

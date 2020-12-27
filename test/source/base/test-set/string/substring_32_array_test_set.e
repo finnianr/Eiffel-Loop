@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Test [$source EL_UNENCODED_CHARACTERS]"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 15:51:21 GMT (Sunday 27th December 2020)"
-	revision: "2"
+	date: "2020-12-27 18:18:31 GMT (Sunday 27th December 2020)"
+	revision: "3"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -23,7 +23,7 @@ feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
-			eval.call ("append", agent test_append)
+--			eval.call ("append", agent test_append)
 --			eval.call ("character_count", agent test_character_count)
 --			eval.call ("code", agent test_code)
 --			eval.call ("first_interval", agent test_first_interval)
@@ -31,6 +31,7 @@ feature -- Basic operations
 --			eval.call ("index_of", agent test_index_of)
 --			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("shift_from", agent test_shift_from)
+			eval.call ("sub_array", agent test_sub_array)
 --			eval.call ("write", agent test_write)
 		end
 
@@ -46,7 +47,7 @@ feature -- Test
 			create line.make_empty
 			create array.make_from_unencoded (line)
 			across 0 |..| 1 as n loop
-				across Text_lines.first.split (' ') as split loop
+				across Text_russian.split (' ') as split loop
 					word := split.item
 					create word_array.make_from_unencoded (word)
 					shifted_array := word_array.shifted (line.count)
@@ -111,7 +112,7 @@ feature -- Test
 			zstr: ZSTRING; count: INTEGER
 			unencoded: EL_UNENCODED_CHARACTERS; array: EL_SUBSTRING_32_ARRAY
 		do
-			zstr := Text_lines.first
+			zstr := Text_russian
 			count := zstr.count
 			across 1 |..| count as index loop
 				unencoded := zstr + create {ZSTRING}.make_filled (' ', count)
@@ -120,6 +121,21 @@ feature -- Test
 				array.shift_from (index.item, count)
 				assert ("same content", same_content (unencoded, array, count * 2))
 			end
+		end
+
+	test_sub_array
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.sub_array"
+		local
+			zstr, substring: ZSTRING
+			unencoded: EL_UNENCODED_CHARACTERS; array, sub_array: EL_SUBSTRING_32_ARRAY
+		do
+			zstr := Text_russian
+			substring := zstr.substring (6, 10) -- "ку съ" overlaps two substrings
+
+			create array.make_from_unencoded (zstr)
+			sub_array := array.sub_array (6, 10)
+			assert ("same content", same_content (substring, sub_array, 10))
 		end
 
 	test_write

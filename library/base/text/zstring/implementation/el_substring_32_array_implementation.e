@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 13:32:24 GMT (Sunday 27th December 2020)"
-	revision: "2"
+	date: "2020-12-27 16:59:54 GMT (Sunday 27th December 2020)"
+	revision: "3"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
