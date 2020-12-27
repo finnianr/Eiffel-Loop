@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 17:59:33 GMT (Saturday 26th December 2020)"
-	revision: "1"
+	date: "2020-12-27 16:07:54 GMT (Sunday 27th December 2020)"
+	revision: "2"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -215,15 +215,9 @@ feature -- Access
 feature -- Measurement
 
 	character_count: INTEGER
-		-- sum of each substring count
-		local
-			i, i_final: INTEGER; l_area: like area
+		-- sum of all substring counts
 		do
-			l_area := area; i_final := count * 2 + 1
-			from i := 1 until i = i_final loop
-				Result := Result + interval_count (l_area, i)
-				i := i + 2
-			end
+			Result := area.count - (count * 2 + 1)
 		end
 
 	count: INTEGER
@@ -347,12 +341,11 @@ feature -- Status change
 						put_interval (l_area, i, lower + n, upper + n)
 					elseif lower < index and then index <= upper then
 						-- Split the interval in two
+						l_area := new_area (l_area, i + 2, 2) -- insert new interval
 						put_upper (l_area, i, index - 1)
-						l_area := l_area.resized_area (l_area.count + 2)
-						-- insert new interval
-						l_area.insert_data (once_interval (index + n, upper + n), 0, i + 2, 2)
-						area := l_area
+						put_interval (l_area, i + 2, index + n, upper + n)
 						increment_count (l_area, 1)
+						area := l_area
 						i_final := i_final + 2
 						i := i + 2
 					end
@@ -368,40 +361,39 @@ feature -- Element change
 			other_not_empty: other.not_empty
 			already_shifted: other.first_lower > last_upper
 		local
-			i, offset, lower, upper, char_count, i_final, delta, extra_count: INTEGER
-			l_area, other_area: like area
+			i, i_final, o_final, j_final, delta: INTEGER
+			l_area, o_area, joined_area: like area
 		do
 			if not_empty then
-				other_area := other.area
 				l_area := area; i_final := count * 2 + 1
-				offset := i_final
-				from i := 1 until i = i_final loop
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					char_count := upper - lower + 1
-					offset := offset + char_count
-					i := i + 2
+				o_area := other.area; o_final := other.count * 2 + 1
+				if last_upper + 1 = other.first_lower then
+					-- merge two intervals by subtracting `delta' bytes
+					delta := 2
 				end
-				if upper + 1 = other.first_lower then
-					delta := 1
+				j_final := count * 2 + other.count * 2 - delta + 1
+				create joined_area.make_empty (l_area.count + o_area.count - delta - 1)
+				-- copy `count' + intervals
+				joined_area.copy_data (l_area, 0, 0, i_final)
+				increment_count (joined_area, other.count - (delta // 2))
+
+				-- copy other intervals without `count'
+				joined_area.copy_data (o_area, 1 + delta, i_final, o_final - delta - 1)
+				-- copy substrings
+				joined_area.copy_data (l_area, i_final, j_final, character_count)
+				-- copy other substrings
+				joined_area.copy_data (o_area, o_final, joined_area.count, other.character_count)
+				if delta = 2 then
+					put_upper (joined_area, i_final - 2, other.first_upper)
 				end
-				-- merge intervals
-				l_area := l_area.resized_area (l_area.count + other_area.count - delta * 2)
-				if delta.to_boolean then
-					l_area [i_final - 1] := other.first_upper.to_natural_32
-				end
-				-- insert remaining intervals
-				extra_count := other.count.to_integer_32 - delta
-				l_area.insert_data (other_area, delta * 2, i_final, extra_count * 2)
-				increment_count (l_area, extra_count)
-				-- append characters
-				offset := offset + extra_count * 2
-				l_area.copy_data (other_area, other.count * 2, offset, other.character_count)
-				area := l_area
+				area := joined_area
 			else
 				area := other.area.twin
 			end
 		ensure
-			valid_count: character_count = old character_count + other.character_count
+			valid_character_count: character_count = old character_count + other.character_count
+			valid_merge_count: old (not_empty and then last_upper + 1 = other.first_lower) implies count = old count + other.count - 1
+			valid_count: old (not_empty and then last_upper + 1 < other.first_lower) implies count = old count + other.count
 		end
 
 feature -- Basic operations

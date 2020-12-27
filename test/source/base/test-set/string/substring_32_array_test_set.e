@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 18:16:00 GMT (Saturday 26th December 2020)"
-	revision: "1"
+	date: "2020-12-27 15:51:21 GMT (Sunday 27th December 2020)"
+	revision: "2"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -41,17 +41,24 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.append", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
 			word, line: ZSTRING; count: INTEGER
-			unencoded: EL_UNENCODED_CHARACTERS; array, word_array: EL_SUBSTRING_32_ARRAY
+			unencoded: EL_UNENCODED_CHARACTERS; array, word_array, shifted_array: EL_SUBSTRING_32_ARRAY
 		do
 			create line.make_empty
 			create array.make_from_unencoded (line)
-			across Text_lines.first.split (' ') as split loop
-				word := split.item
-				create word_array.make_from_unencoded (word)
-				array.append (word_array.shifted (line.count))
-				line.append (word)
-				unencoded := line
-				assert ("same content", same_content (unencoded, array, count * 2))
+			across 0 |..| 1 as n loop
+				across Text_lines.first.split (' ') as split loop
+					word := split.item
+					create word_array.make_from_unencoded (word)
+					shifted_array := word_array.shifted (line.count)
+					if n.item = 1 and not line.is_empty then
+						line.append_character (' ')
+						shifted_array.shift (1)
+					end
+					array.append (shifted_array)
+					line.append (word)
+					unencoded := line
+					assert ("same content", same_content (unencoded, array, line.count))
+				end
 			end
 		end
 

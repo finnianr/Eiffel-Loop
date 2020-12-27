@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 17:43:48 GMT (Saturday 26th December 2020)"
-	revision: "1"
+	date: "2020-12-27 13:32:24 GMT (Sunday 27th December 2020)"
+	revision: "2"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -57,15 +57,23 @@ feature {NONE} -- Implementation
 			Result := (a_area [i + 1] - a_area [i]).to_integer_32 + 1
 		end
 
-	once_interval (lower, upper: INTEGER): like area
-		do
-			Result := Buffer; Result.wipe_out
-			Result.extend (lower.to_natural_32); Result.extend (upper.to_natural_32)
-		end
-
 	lower_bound (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area.item (i).to_integer_32
+		end
+
+	new_area (a_area: SPECIAL [NATURAL]; i, n: INTEGER): SPECIAL [NATURAL]
+		-- copy of `a_area' with `n' zeros inserted at `i'th position
+		local
+			j: INTEGER
+		do
+			create Result.make_empty (a_area.count + n)
+			Result.copy_data (a_area, 0, 0, i)
+			from j := 1 until j > n loop
+				Result.extend (0)
+				j := j + 1
+			end
+			Result.copy_data (a_area, i, i + n, a_area.count - i)
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)
@@ -102,11 +110,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty (1)
 			Result.extend (0)
-		end
-
-	Buffer: SPECIAL [NATURAL]
-		once
-			create Result.make_empty (3)
 		end
 
 end
