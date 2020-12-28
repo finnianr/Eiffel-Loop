@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 10:00:38 GMT (Monday 28th December 2020)"
-	revision: "4"
+	date: "2020-12-28 11:51:31 GMT (Monday 28th December 2020)"
+	revision: "5"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -30,8 +30,9 @@ feature -- Basic operations
 --			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
 --			eval.call ("occurrences", agent test_occurrences)
+			eval.call ("prepend", agent test_prepend)
 --			eval.call ("shift_from", agent test_shift_from)
-			eval.call ("sub_array", agent test_sub_array)
+--			eval.call ("sub_array", agent test_sub_array)
 --			eval.call ("write", agent test_write)
 		end
 
@@ -103,6 +104,31 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.occurrences"
 		do
 			for_each_line (agent compare_occurrences)
+		end
+
+	test_prepend
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.prepend", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
+		local
+			word, line: ZSTRING; count: INTEGER
+			word_array, line_array: EL_SUBSTRING_32_ARRAY
+		do
+			create line.make_empty
+			across 0 |..| 1 as n loop
+				across Text_russian.split (' ') as split loop
+					word := split.item
+					create word_array.make_from_unencoded (word)
+					create line_array.make_from_unencoded (line)
+					line_array.shift (word.count)
+					if n.item = 1 and not line.is_empty then
+						line.prepend_character (' ')
+						line_array.shift (1)
+					end
+					line_array.prepend (word_array)
+					line.prepend (word)
+					assert ("same content", same_content (line, line_array, line.count))
+				end
+			end
 		end
 
 	test_shift_from

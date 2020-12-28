@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 10:16:24 GMT (Monday 28th December 2020)"
-	revision: "4"
+	date: "2020-12-28 12:10:13 GMT (Monday 28th December 2020)"
+	revision: "5"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -171,22 +171,6 @@ feature -- Access
 				offset := offset + char_count
 				i := i + 2
 			end
-		end
-
-	interval_sequence: EL_SEQUENTIAL_INTERVALS
-		local
-			i, i_final: INTEGER; l_area: like area
-		do
-			create Result.make (count)
-			l_area := area; i_final := count * 2 + 1
-			from i := 1 until i = i_final loop
-				Result.extend (lower_bound (l_area, i), upper_bound (l_area, i))
-				i := i + 2
-			end
-		ensure
-			full: Result.full
-			same_first_lower: first_lower = Result.first_lower
-			same_last_upper: last_upper = Result.last_upper
 		end
 
 	item (index: INTEGER): CHARACTER_32
@@ -454,7 +438,7 @@ feature -- Element change
 				l_area := area; i_final := count * 2 + 1
 				o_area := other.area; o_final := other.count * 2 + 1
 				if last_upper + 1 = other.first_lower then
-					-- merge two intervals by subtracting `delta' bytes
+					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
 				end
 				j_final := count * 2 + other.count * 2 - delta + 1
@@ -480,6 +464,90 @@ feature -- Element change
 			valid_character_count: character_count = old character_count + other.character_count
 			valid_merge_count: old (not_empty and then last_upper + 1 = other.first_lower) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then last_upper + 1 < other.first_lower) implies count = old count + other.count
+		end
+
+	insert (other: EL_SUBSTRING_32_ARRAY)
+		require
+			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
+		local
+			i, previous_i, lower, upper, previous_upper, char_count: INTEGER
+			o_first_lower, o_last_upper, i_final, o_final: INTEGER
+			l_area, o_area: like area; other_inserted: BOOLEAN
+		do
+			l_area := area; i_final := count * 2 + 1
+			o_area := other.area; o_final := other.count * 2 + 1
+			o_first_lower := other.first_lower; o_last_upper := other.last_upper
+			from i := 0 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				char_count := upper - lower + 1
+				if not other_inserted and then previous_upper < o_first_lower and then o_last_upper < lower then
+					-- Insert other
+--					grow (i_final + o_final)
+					l_area := area
+					l_area.insert_data (o_area, 0, i, o_final)
+					i_final := i_final + o_final
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					char_count := upper - lower + 1
+					other_inserted := True
+				end
+				if other_inserted and then previous_upper > 0 and then previous_upper + 1 = lower then
+					-- Merge intervals that are continous with previous
+					l_area.overlapping_move (i + 2, i, l_area.count - i - 2)
+					l_area.remove_tail (2)
+					i := previous_i; upper := previous_upper + char_count
+					lower := lower_bound (l_area, i)
+					l_area.put (upper.to_natural_32, i + 1)
+					char_count := upper - lower + 1
+					i_final := i_final - 2
+				end
+				previous_upper := upper
+				previous_i := i
+				i := i + 2
+			end
+			if not other_inserted then
+				append (other)
+			end
+		end
+
+	prepend (other: EL_SUBSTRING_32_ARRAY)
+		require
+			already_shifted: (not_empty and other.not_empty) implies other.last_upper < first_lower
+		local
+			i_final, o_final, j_final, delta: INTEGER
+			l_area, o_area, joined_area: like area
+		do
+			if count = 0 then
+				area := other.area.twin
+
+			elseif other.not_empty then
+				l_area := area; i_final := count * 2 + 1
+				o_area := other.area; o_final := other.count * 2 + 1
+				if other.last_upper + 1 = first_lower then
+					-- merge adjoining intervals by subtracting `delta' bytes
+					delta := 2
+				end
+				j_final := count * 2 + other.count * 2 - delta + 1
+				create joined_area.make_empty (l_area.count + o_area.count - delta - 1)
+
+				-- copy other intervals with `other.count'
+				joined_area.copy_data (o_area, 0, 0, o_final)
+				increment_count (joined_area, count - (delta // 2))
+
+				-- copy intervals without `count'
+				joined_area.copy_data (l_area, 1 + delta, o_final, i_final - delta - 1)
+				-- copy other substrings
+				joined_area.copy_data (o_area, o_final, j_final, other.character_count)
+				-- copy substrings
+				joined_area.copy_data (l_area, i_final, joined_area.count, character_count)
+				if delta = 2 then
+					put_upper (joined_area, o_final - 2, first_upper)
+				end
+				area := joined_area
+			end
+		ensure
+			valid_character_count: character_count = old character_count + other.character_count
+			valid_merge_count: old (not_empty and then other.last_upper + 1 = first_lower) implies count = old count + other.count - 1
+			valid_count: old (not_empty and then other.last_upper + 1 < first_lower) implies count = old count + other.count
 		end
 
 feature -- Basic operations
@@ -513,11 +581,27 @@ feature -- Duplication
 			Result.shift (n)
 		end
 
-feature {EL_ZCODE_CONVERSION} -- Contract Support
+feature -- Contract Support
 
 	is_unencoded_valid: BOOLEAN
 		do
 			Result := True
+		end
+
+	interval_sequence: EL_SEQUENTIAL_INTERVALS
+		local
+			i, i_final: INTEGER; l_area: like area
+		do
+			create Result.make (count)
+			l_area := area; i_final := count * 2 + 1
+			from i := 1 until i = i_final loop
+				Result.extend (lower_bound (l_area, i), upper_bound (l_area, i))
+				i := i + 2
+			end
+		ensure
+			full: Result.full
+			same_first_lower: first_lower = Result.first_lower
+			same_last_upper: last_upper = Result.last_upper
 		end
 
 	overlaps (start_index, end_index: INTEGER): BOOLEAN
