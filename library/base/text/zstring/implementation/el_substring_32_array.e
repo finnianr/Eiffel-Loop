@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 12:10:13 GMT (Monday 28th December 2020)"
-	revision: "5"
+	date: "2020-12-28 13:22:05 GMT (Monday 28th December 2020)"
+	revision: "6"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -437,15 +437,14 @@ feature -- Element change
 			if not_empty then
 				l_area := area; i_final := count * 2 + 1
 				o_area := other.area; o_final := other.count * 2 + 1
-				if last_upper + 1 = other.first_lower then
+				if adjacent (last_upper, other.first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
 				end
 				j_final := count * 2 + other.count * 2 - delta + 1
-				create joined_area.make_empty (l_area.count + o_area.count - delta - 1)
+				joined_area := new_joined_area (l_area, o_area, delta)
 				-- copy `count' + intervals
-				joined_area.copy_data (l_area, 0, 0, i_final)
-				increment_count (joined_area, other.count - (delta // 2))
+				joined_area.copy_data (l_area, 1, 1, i_final - 1)
 
 				-- copy other intervals without `count'
 				joined_area.copy_data (o_area, 1 + delta, i_final, o_final - delta - 1)
@@ -462,7 +461,7 @@ feature -- Element change
 			end
 		ensure
 			valid_character_count: character_count = old character_count + other.character_count
-			valid_merge_count: old (not_empty and then last_upper + 1 = other.first_lower) implies count = old count + other.count - 1
+			valid_merge_count: old (not_empty and then adjacent (last_upper, other.first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then last_upper + 1 < other.first_lower) implies count = old count + other.count
 		end
 
@@ -470,42 +469,48 @@ feature -- Element change
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
-			i, previous_i, lower, upper, previous_upper, char_count: INTEGER
+			i, lower, upper, previous_upper, char_count, leading_char_count, delta_lower, delta_upper: INTEGER
 			o_first_lower, o_last_upper, i_final, o_final: INTEGER
-			l_area, o_area: like area; other_inserted: BOOLEAN
+			l_area, o_area, joined_area: like area; found: BOOLEAN
 		do
-			l_area := area; i_final := count * 2 + 1
-			o_area := other.area; o_final := other.count * 2 + 1
-			o_first_lower := other.first_lower; o_last_upper := other.last_upper
-			from i := 0 until i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				char_count := upper - lower + 1
-				if not other_inserted and then previous_upper < o_first_lower and then o_last_upper < lower then
-					-- Insert other
---					grow (i_final + o_final)
-					l_area := area
-					l_area.insert_data (o_area, 0, i, o_final)
-					i_final := i_final + o_final
+
+			if count = 0 or else last_upper < other.first_lower then
+				append (other)
+
+			elseif other.not_empty and then other.last_upper < first_lower then
+				prepend (other)
+
+			elseif count > 1 then
+				l_area := area; i_final := count * 2 + 1
+				o_area := other.area; o_final := other.count * 2 + 1
+				o_first_lower := other.first_lower; o_last_upper := other.last_upper
+				-- find interval to insert
+				from i := 0 until found or else i = i_final loop
+					if i > 0 then
+						previous_upper := upper_bound (l_area, i - 2)
+					end
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					char_count := upper - lower + 1
-					other_inserted := True
+					if previous_upper < o_first_lower and then o_last_upper < lower then
+						found := True
+					else
+						leading_char_count := leading_char_count + char_count
+						i := i + 2
+					end
 				end
-				if other_inserted and then previous_upper > 0 and then previous_upper + 1 = lower then
-					-- Merge intervals that are continous with previous
-					l_area.overlapping_move (i + 2, i, l_area.count - i - 2)
-					l_area.remove_tail (2)
-					i := previous_i; upper := previous_upper + char_count
-					lower := lower_bound (l_area, i)
-					l_area.put (upper.to_natural_32, i + 1)
-					char_count := upper - lower + 1
-					i_final := i_final - 2
+				if found then
+					if adjacent (previous_upper, o_first_lower) then
+						delta_lower := 2
+					end
+					if adjacent (o_last_upper, lower) then
+						delta_upper := 2
+					end
+					joined_area := new_joined_area (l_area, o_area, delta_lower + delta_upper)
+					-- copy start intervals
+					joined_area.copy_data (l_area, 1, 1, i * 2)
+					-- copy inserted intervals
+					joined_area.copy_data (o_area, 1, i * 2 + 1 + delta_lower, o_area.count * 2 - delta_lower - delta_upper)
 				end
-				previous_upper := upper
-				previous_i := i
-				i := i + 2
-			end
-			if not other_inserted then
-				append (other)
 			end
 		end
 
@@ -522,16 +527,15 @@ feature -- Element change
 			elseif other.not_empty then
 				l_area := area; i_final := count * 2 + 1
 				o_area := other.area; o_final := other.count * 2 + 1
-				if other.last_upper + 1 = first_lower then
+				if adjacent (other.last_upper, first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
 				end
 				j_final := count * 2 + other.count * 2 - delta + 1
-				create joined_area.make_empty (l_area.count + o_area.count - delta - 1)
+				joined_area := new_joined_area (l_area, o_area, delta)
 
 				-- copy other intervals with `other.count'
-				joined_area.copy_data (o_area, 0, 0, o_final)
-				increment_count (joined_area, count - (delta // 2))
+				joined_area.copy_data (o_area, 1, 1, o_final - 1)
 
 				-- copy intervals without `count'
 				joined_area.copy_data (l_area, 1 + delta, o_final, i_final - delta - 1)
@@ -546,7 +550,7 @@ feature -- Element change
 			end
 		ensure
 			valid_character_count: character_count = old character_count + other.character_count
-			valid_merge_count: old (not_empty and then other.last_upper + 1 = first_lower) implies count = old count + other.count - 1
+			valid_merge_count: old (not_empty and then adjacent (other.last_upper, first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then other.last_upper + 1 < first_lower) implies count = old count + other.count
 		end
 

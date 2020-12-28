@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 10:38:39 GMT (Monday 28th December 2020)"
-	revision: "4"
+	date: "2020-12-28 13:05:54 GMT (Monday 28th December 2020)"
+	revision: "5"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -52,6 +52,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	adjacent (i, j: INTEGER): BOOLEAN
+		do
+			Result := i + 1 = j
+		end
+
 	interval_count (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := (a_area [i + 1] - a_area [i]).to_integer_32 + 1
@@ -62,7 +67,7 @@ feature {NONE} -- Implementation
 			Result := a_area.item (i).to_integer_32
 		end
 
-	new_area (a_area: SPECIAL [NATURAL]; i, n: INTEGER): SPECIAL [NATURAL]
+	new_area (a_area: SPECIAL [NATURAL]; i, n: INTEGER): like area
 		-- copy of `a_area' with `n' zeros inserted at `i'th position
 		local
 			j: INTEGER
@@ -74,6 +79,16 @@ feature {NONE} -- Implementation
 				j := j + 1
 			end
 			Result.copy_data (a_area, i, i + n, a_area.count - i)
+		end
+
+	new_joined_area (area_1, area_2: like area; delta: INTEGER): like area
+		require
+			even_delta: delta \\ 2 = 0
+			valid_areas: area_1.count > 0 and area_2.count > 0
+		do
+			create Result.make_empty (area_1.count + area_2.count - delta - 1)
+			Result.extend (0)
+			increment_count (Result, (area_1 [0] + area_2 [0]).to_integer_32 - (delta // 2))
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)

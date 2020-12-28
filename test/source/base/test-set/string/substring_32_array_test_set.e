@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 11:51:31 GMT (Monday 28th December 2020)"
-	revision: "5"
+	date: "2020-12-28 17:29:24 GMT (Monday 28th December 2020)"
+	revision: "6"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -29,11 +29,12 @@ feature -- Basic operations
 --			eval.call ("first_interval", agent test_first_interval)
 --			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
+--			eval.call ("insert", agent test_insert)
 --			eval.call ("occurrences", agent test_occurrences)
-			eval.call ("prepend", agent test_prepend)
+--			eval.call ("prepend", agent test_prepend)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
---			eval.call ("write", agent test_write)
+			eval.call ("write", agent test_write)
 		end
 
 feature -- Test
@@ -97,6 +98,29 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.index_of", "covers/{EL_SUBSTRING_32_ARRAY}.last_index_of"
 		do
 			for_each_line (agent compare_index_of)
+		end
+
+	test_insert
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.insert"
+		local
+			insert, zstr: ZSTRING; index: INTEGER
+			insert_array, array: EL_SUBSTRING_32_ARRAY
+			l1: L1_ZSTRING
+		do
+			zstr := Text_russian
+			index := zstr.index_of (',', 1)
+			if index > 0 then
+				zstr.remove_substring (index, index + 1)
+			end
+			insert := {STRING_32} "не"
+			create insert_array.make_from_unencoded (insert)
+			insert_array.shift (index - 1)
+			create array.make_from_unencoded (zstr)
+			array.shift_from (index, insert.count)
+			array.insert (insert_array)
+			zstr.insert_string (insert, index)
+			assert ("same content", same_content (zstr, array, zstr.count))
 		end
 
 	test_occurrences
@@ -175,7 +199,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.make_from_unencoded", "covers/{EL_SUBSTRING_32_ARRAY}.write"
 		do
-			for_each_line (agent compare_write_output)
+			for_each_line_2 (agent compare_write_output)
 		end
 
 feature {NONE} -- Implementation
@@ -251,9 +275,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_write_output (zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY)
+	compare_write_output (zstr: ZSTRING; l1: L1_ZSTRING)
 		do
-			assert ("same content", same_content (zstr, array, zstr.count))
+			assert ("to_string_32 equal", zstr.to_string_32 ~ l1.to_string_32)
 		end
 
 	for_each_line (test: PROCEDURE [ZSTRING, EL_SUBSTRING_32_ARRAY])
@@ -264,6 +288,17 @@ feature {NONE} -- Implementation
 				zstr := line.item
 				create array.make_from_unencoded (zstr)
 				test (zstr, array)
+			end
+		end
+
+	for_each_line_2 (test: PROCEDURE [ZSTRING, L1_ZSTRING])
+		local
+			zstr: ZSTRING; l1: L1_ZSTRING
+		do
+			across Text_lines as line loop
+				zstr := line.item
+				l1 := line.item
+				test (zstr, L1)
 			end
 		end
 

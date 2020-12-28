@@ -1,6 +1,6 @@
 note
 	description: "[
-		An experimental string for testing class [$source SUBSTRING_32_ARRAY] and  [$source SUBSTRING_32_LIST]
+		An experimental string for testing class [$source SUBSTRING_32_ARRAY] and [$source SUBSTRING_32_LIST]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 16:19:31 GMT (Saturday 5th December 2020)"
-	revision: "3"
+	date: "2020-12-28 17:05:25 GMT (Monday 28th December 2020)"
+	revision: "4"
 
 class
 	L1_UC_STRING
