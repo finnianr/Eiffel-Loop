@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 18:18:31 GMT (Sunday 27th December 2020)"
-	revision: "3"
+	date: "2020-12-28 10:00:38 GMT (Monday 28th December 2020)"
+	revision: "4"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -127,15 +127,22 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.sub_array"
 		local
-			zstr, substring: ZSTRING
+			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
 			unencoded: EL_UNENCODED_CHARACTERS; array, sub_array: EL_SUBSTRING_32_ARRAY
 		do
 			zstr := Text_russian
-			substring := zstr.substring (6, 10) -- "ку съ" overlaps two substrings
-
-			create array.make_from_unencoded (zstr)
-			sub_array := array.sub_array (6, 10)
-			assert ("same content", same_content (substring, sub_array, 10))
+			across 1 |..| 5 as n loop
+				substring_count := n.item
+				i_last := zstr.count - substring_count
+				from i := 1 until i > i_last loop
+					substring := zstr.substring (i, i + substring_count - 1)
+					create array.make_from_unencoded (zstr)
+					sub_array := array.sub_array (i, i + substring_count - 1)
+					sub_array.shift ((i - 1).opposite)
+					assert ("same content", same_content (substring, sub_array, substring_count))
+					i := i + 1
+				end
+			end
 		end
 
 	test_write

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 18:31:15 GMT (Sunday 27th December 2020)"
-	revision: "3"
+	date: "2020-12-28 10:16:24 GMT (Monday 28th December 2020)"
+	revision: "4"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -248,38 +248,49 @@ feature -- Access
 						array_end_index := i - 2
 					else
 						l_character_count := l_character_count + char_count
-						i := i + 2
 					end
-
 				else
 					-- searching for start
-					if lower <= start_index and then start_index <= upper then
+					if end_index < lower then
+						-- is empty subarray
+						i := i_final - 2 -- exit the loop
+
+					elseif lower <= start_index and then start_index <= upper then
 						-- partially contained
 						array_start_index := i
 						l_first_lower := start_index
-						l_character_count := upper - start_index + 1
 						offset := offset + start_index - lower
+						l_character_count := upper - start_index + 1
 					elseif start_index < lower then
 						-- fully contained
 						array_start_index := i
 						l_first_lower := lower
 						l_character_count := char_count
-						offset := offset + char_count
 					else
 						offset := offset + char_count
-						i := i + 2
+					end
+					if array_start_index.to_boolean and then end_index <= upper then
+						-- contained in first
+						l_character_count := end_index - l_first_lower + 1
+						l_last_upper := end_index
+						array_end_index := i
 					end
 				end
+				i := i + 2
 			end
-			l_count := (array_end_index - array_start_index) // 2 + 1
-			create sub_area.make_empty (1 + l_count * 2 + l_character_count)
-			sub_area.extend (l_count.to_natural_32)
-			sub_area.copy_data (l_area, array_start_index, 1, l_count * 2)
-			put_lower (sub_area, 1, l_first_lower)
-			put_upper (sub_area, l_count * 2 - 1, l_last_upper)
+			if array_start_index.to_boolean then
+				l_count := (array_end_index - array_start_index) // 2 + 1
+				create sub_area.make_empty (1 + l_count * 2 + l_character_count)
+				sub_area.extend (l_count.to_natural_32)
+				sub_area.copy_data (l_area, array_start_index, 1, l_count * 2)
+				put_lower (sub_area, 1, l_first_lower)
+				put_upper (sub_area, l_count * 2 - 1, l_last_upper)
 
-			sub_area.copy_data (l_area, offset, l_count * 2 + 1, l_character_count)
-			create Result.make_from_area (sub_area)
+				sub_area.copy_data (l_area, offset, l_count * 2 + 1, l_character_count)
+				create Result.make_from_area (sub_area)
+			else
+				create Result.make_empty
+			end
 		end
 
 	z_code (index: INTEGER): NATURAL
