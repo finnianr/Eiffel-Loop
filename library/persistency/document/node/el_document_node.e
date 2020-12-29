@@ -1,13 +1,13 @@
 note
-	description: "XML node"
+	description: "Document node"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:11:46 GMT (Sunday 20th December 2020)"
-	revision: "13"
+	date: "2020-12-29 14:39:08 GMT (Tuesday 29th December 2020)"
+	revision: "14"
 
 class
 	EL_DOCUMENT_NODE
@@ -45,6 +45,8 @@ inherit
 			read_string_32 as put_string_32_into
 		end
 
+	EL_XPATH_CONSTANTS
+
 create
 	make
 
@@ -75,16 +77,16 @@ feature -- Access
 					Result := name
 
 				when Node_type_text then
-					Result := Xpath_name_text_node
+					Result := Node_text
 
 				when Node_type_comment then
-					Result := Xpath_name_comment_node
+					Result := Node_comment
 
 				when Node_type_processing_instruction then
-					create Result.make (Xpath_name_processing_instruction.count + name.count + Xpath_close_string_argument.count)
-					Result.append (Xpath_name_processing_instruction)
+					create Result.make (Node_processing_instruction.count + name.count + Node_processing_instruction_end.count)
+					Result.append (Node_processing_instruction)
 					Result.append (name)
-					Result.append (Xpath_close_string_argument)
+					Result.append (Node_processing_instruction_end)
 
 			else
 				Result := name
@@ -146,28 +148,10 @@ feature -- Element change
 			name.append_string_general (a_name)
 		end
 
-	set_type_as_comment
+	set_type (a_type: INTEGER)
 			--
 		do
-			type := Node_type_comment
-		end
-
-	set_type_as_text
-			--
-		do
-			type := Node_type_text
-		end
-
-	set_type_as_element
-			--
-		do
-			type := Node_type_element
-		end
-
-	set_type_as_processing_instruction
-			--
-		do
-			type := Node_type_processing_instruction
+			type := a_type
 		end
 
 	set_from_other (other: EL_DOCUMENT_NODE)
@@ -203,38 +187,4 @@ feature {EL_DOCUMENT_CLIENT, EL_DOCUMENT_NODE} -- Implementation
 		do
 		end
 
-feature -- Constant
-
-	Xpath_name_text_node: STRING_32
-			--
-		once
-			Result := "text()"
-		end
-
-	Xpath_name_comment_node: STRING_32
-			--
-		once
-			Result := "comment()"
-		end
-
-	Xpath_name_processing_instruction: STRING_32
-			--
-		once
-			Result := "processing-instruction('"
-		end
-
-	Xpath_close_string_argument: STRING_32
-			--
-		once
-			Result := "')"
-		end
-
-	Node_type_element: INTEGER = 1
-
-	Node_type_text: INTEGER = 2
-
-	Node_type_comment: INTEGER = 3
-
-	Node_type_processing_instruction: INTEGER = 4
-
-end -- class EL_XML_NODE
+end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:39:26 GMT (Sunday 20th December 2020)"
-	revision: "6"
+	date: "2020-12-29 13:49:07 GMT (Tuesday 29th December 2020)"
+	revision: "7"
 
 class
 	EL_XPATH_TOKEN_TABLE
@@ -18,15 +18,10 @@ inherit
 			default_create --, extend, put
 		end
 
-	EL_XPATH_TOKEN_CONSTANTS
+	EL_XPATH_CONSTANTS
 		undefine
 			default_create, is_equal, copy
 		end
-
---	EL_MODULE_LOG
---		undefine
---			default_create, is_equal, copy
---		end
 
 create
 	default_create
@@ -36,10 +31,10 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			make_equal (23)
-			extend (Child_element_step_id, Child_element)
-			extend (Descendant_or_self_node_step_id, Descendant_or_self_node)
-			extend (Comment_node_step_id.to_integer_16, Comment_node)
-			extend (Text_node_step_id.to_integer_16, Text_node)
+			extend (Child_element_step_id, Node_any)
+			extend (Descendant_or_self_node_step_id, Node_descendant_or_self)
+			extend (Comment_node_step_id.to_integer_16, Node_comment)
+			extend (Text_node_step_id.to_integer_16, Node_text)
 		end
 
 feature -- Element change

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 11:27:40 GMT (Monday 21st December 2020)"
-	revision: "11"
+	date: "2020-12-29 18:23:32 GMT (Tuesday 29th December 2020)"
+	revision: "12"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -66,6 +66,7 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			Precursor (a_scanner)
+			create last_node_2.make_empty
 			create attribute_list.make
 			make_parser
 			is_new_parser := True
@@ -272,7 +273,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 		do
 			exml_XML_SetUserData (self_ptr, fixed_address_ptr)
 			exml_XML_SetExternalEntityRefHandlerArg (self_ptr, fixed_address_ptr)
-			exml_XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, fixed_address_ptr)
+--			exml_XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, fixed_address_ptr)
 
 			exml_XML_setElementHandler (self_ptr, $on_start_tag_parsed, $on_end_tag_parsed)
 			exml_XML_setCommentHandler (self_ptr, $on_comment_parsed)
@@ -287,7 +288,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 		do
 			if last_state = State_content_call and then next_state /= last_state then
 				if last_node_text.count > 0 then
-					last_node.set_type_as_text
+					last_node.set_type (Node_type_text)
 					scanner.on_content
 				end
 			end
@@ -346,6 +347,8 @@ feature {NONE} -- Implementation: attributes
 
 	last_state: INTEGER
 
+	last_node_2: EL_DOCUMENT_NODE_STRING
+
 feature {NONE} -- Expat callbacks
 
 	frozen on_xml_tag_declaration_parsed (a_version, a_encoding: POINTER; standalone: INTEGER)
@@ -362,6 +365,7 @@ feature {NONE} -- Expat callbacks
 			if is_attached (a_encoding) then
 				c_decoder.set_from_utf8 (str, a_encoding)
 				set_encoding_from_name (str)
+				last_node_2.set_encoding_from_name (str)
 			end
 			scanner.on_meta_data (xml_version, Current)
 		end
@@ -370,7 +374,7 @@ feature {NONE} -- Expat callbacks
 		do
 			set_last_state (State_start_tag_call)
 			c_decoder.set_from_utf8 (last_node_name, tag_name_ptr)
-			last_node.set_type_as_element
+			last_node.set_type (Node_type_element)
 
 			attribute_list.set_from_c_attributes_array (attribute_array_ptr)
 			scanner.on_start_tag
@@ -384,14 +388,18 @@ feature {NONE} -- Expat callbacks
 			scanner.on_end_tag
 		end
 
- 	frozen on_content_parsed (content_ptr: POINTER; len: INTEGER)
+ 	frozen on_content_parsed (content_ptr: POINTER; a_count: INTEGER)
 			-- Out put Xpath text node name plus content
 		do
 			if last_state /= State_content_call then
 				set_last_state (State_content_call)
+				last_node_2.wipe_out
 				last_node_text.wipe_out
 			end
-			c_decoder.append_from_utf8_of_size (last_node_text, content_ptr, len)
+			last_node_2.append_count_from_c (content_ptr, a_count)
+			c_decoder.append_from_utf8_of_size (last_node_text, content_ptr, a_count)
+		ensure
+			same_content: last_node.to_string_32 ~ last_node_2.to_string_32
 		end
 
 	frozen on_comment_parsed (data_ptr: POINTER)
@@ -403,7 +411,7 @@ feature {NONE} -- Expat callbacks
 			last_node_text.right_adjust -- Wipe out whitespace
 			if last_node_text.count > 0 then
 				last_node_name.wipe_out
-				last_node.set_type_as_comment
+				last_node.set_type (Node_type_comment)
 				scanner.on_comment
 			end
 		end
@@ -413,7 +421,7 @@ feature {NONE} -- Expat callbacks
 		do
 			set_last_state (State_processing_instruction_call)
 			c_decoder.set_from_utf8 (last_node_name, name_ptr)
-			last_node.set_type_as_processing_instruction
+			last_node.set_type (Node_type_processing_instruction)
 
 			c_decoder.set_from_utf8 (last_node_text, string_data_ptr)
 			scanner.on_processing_instruction
@@ -423,6 +431,8 @@ feature {NONE} -- Expat callbacks
 		-- For some reason this function is not working correctly
 		-- A document encoded with ISO-8859-15 causes this function to be called
 		-- but the document parsing fails with this error: "unknown encoding ( ln: 1 cl: 31 byte: 31 -> )"
+		obsolete
+			"Using codecs in node"
 		local
 			name: STRING; encoding_info: MANAGED_POINTER; unicode_table: SPECIAL [CHARACTER_32]
 			codec: EL_ZCODEC; i: INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:03:02 GMT (Sunday 20th December 2020)"
-	revision: "10"
+	date: "2020-12-29 14:11:12 GMT (Tuesday 29th December 2020)"
+	revision: "11"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT

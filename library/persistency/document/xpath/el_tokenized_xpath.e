@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 9:43:16 GMT (Wednesday 23rd December 2020)"
-	revision: "5"
+	date: "2020-12-29 13:49:07 GMT (Tuesday 29th December 2020)"
+	revision: "6"
 
 class
 	EL_TOKENIZED_XPATH
@@ -25,7 +25,7 @@ inherit
 			out
 		end
 
-	EL_XPATH_TOKEN_CONSTANTS
+	EL_XPATH_CONSTANTS
 		undefine
 			is_equal, copy, out
 		end
@@ -82,7 +82,7 @@ feature -- Element change
 		do
 			steps := xpath.split ('/')
 			if steps.count >= 2 and then steps.i_th (1).is_empty and then steps.i_th (2).is_empty then
-				steps [2] := Descendant_or_self_node
+				steps [2] := Node_descendant_or_self
 			end
 			from steps.start until steps.after loop
 				if not steps.item.is_empty then

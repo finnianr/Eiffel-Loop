@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:59:28 GMT (Friday 25th December 2020)"
-	revision: "17"
+	date: "2020-12-29 14:01:24 GMT (Tuesday 29th December 2020)"
+	revision: "18"
 
 class
 	EL_PYXIS_PARSER
@@ -273,7 +273,7 @@ feature {NONE} -- Parse events
 	on_start_tag (tag_name: ZSTRING)
 			--
 		do
-			last_node.set_type_as_element
+			last_node.set_type (Node_type_element)
 			set_last_node_name (tag_name)
 			scanner.on_start_tag
 			attribute_list.reset
@@ -283,7 +283,7 @@ feature {NONE} -- Parse events
 	on_end_tag (tag_name: ZSTRING)
 		do
 			set_last_node_name (tag_name)
-			last_node.set_type_as_element
+			last_node.set_type (Node_type_element)
 			scanner.on_end_tag
 			element_stack.remove
 		end
@@ -292,7 +292,7 @@ feature {NONE} -- Parse events
 			--
 		do
 			set_last_node_text (comment_string)
-			last_node.set_type_as_comment
+			last_node.set_type (Node_type_comment)
 			scanner.on_comment
 			comment_string.wipe_out
 		end
@@ -301,7 +301,7 @@ feature {NONE} -- Parse events
 			--
 		do
 			set_last_node_text (text)
-			last_node.set_type_as_text
+			last_node.set_type (Node_type_text)
 			scanner.on_content
 		end
 
@@ -315,7 +315,7 @@ feature {NONE} -- Parse events
 				on_end_tag (element_stack.item)
 				on_start_tag (tag_name)
 			end
-			last_node.set_type_as_text
+			last_node.set_type (Node_type_text)
 			inspect content_type
 				when Content_double_quoted_string then
 					line.remove_quotes

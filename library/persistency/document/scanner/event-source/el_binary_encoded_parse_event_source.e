@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 17:37:35 GMT (Sunday 20th December 2020)"
-	revision: "14"
+	date: "2020-12-29 14:01:24 GMT (Tuesday 29th December 2020)"
+	revision: "15"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -102,7 +102,7 @@ feature {NONE} -- Parse action handlers
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
-			last_node.set_type_as_text
+			last_node.set_type (Node_type_text)
 			scanner.on_content
 		end
 
@@ -112,7 +112,7 @@ feature {NONE} -- Parse action handlers
 			check_for_last_start_tag
 
 			set_string_from_stream (last_node_text, count)
-			last_node.set_type_as_comment
+			last_node.set_type (Node_type_comment)
 			scanner.on_content
 		end
 
@@ -124,7 +124,7 @@ feature {NONE} -- Parse action handlers
 			set_name_from_stream (last_node_name, index_or_count, is_index)
 			input.read_natural_16
 			set_string_from_stream (last_node_text, input.last_natural_16)
-			last_node.set_type_as_processing_instruction
+			last_node.set_type (Node_type_processing_instruction)
 			scanner.on_processing_instruction
 		end
 
@@ -201,7 +201,7 @@ feature {NONE} -- Implementation
 		do
 			inspect last_parse_event_code
 				when PE_new_start_tag, PE_existing_start_tag, PE_attribute_text then
-					last_node.set_type_as_element
+					last_node.set_type (Node_type_element)
 					scanner.on_start_tag
 
 			else

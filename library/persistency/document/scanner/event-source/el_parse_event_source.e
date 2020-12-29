@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:14:18 GMT (Sunday 20th December 2020)"
-	revision: "8"
+	date: "2020-12-29 13:58:05 GMT (Tuesday 29th December 2020)"
+	revision: "9"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_DOCUMENT_CLIENT
+
+	EL_XPATH_CONSTANTS
 
 feature {EL_FACTORY_CLIENT} -- Initialisation
 
