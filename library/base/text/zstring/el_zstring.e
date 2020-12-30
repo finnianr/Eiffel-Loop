@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 11:12:06 GMT (Thursday 3rd December 2020)"
-	revision: "24"
+	date: "2020-12-30 11:20:27 GMT (Wednesday 30th December 2020)"
+	revision: "25"
 
 class
 	EL_ZSTRING
@@ -231,11 +231,9 @@ feature -- Element change
 			append_substring (adapted_argument (s, 1), start_index, end_index)
 		end
 
-	append_utf_8 (a_utf_8: READABLE_STRING_8)
+	append_utf_8 (utf_8: READABLE_STRING_8)
 		do
-			if attached {STRING} a_utf_8 as utf_8 then
-				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
-			end
+			append_string_general (Utf_8_codec.as_unicode (utf_8, False))
 		end
 
 	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])

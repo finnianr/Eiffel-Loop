@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 13:08:55 GMT (Saturday 5th December 2020)"
-	revision: "56"
+	date: "2020-12-30 11:20:59 GMT (Wednesday 30th December 2020)"
+	revision: "57"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -174,11 +174,9 @@ feature {NONE} -- Initialization
 			make_unencoded
 		end
 
-	make_from_utf_8 (a_utf_8: READABLE_STRING_8)
+	make_from_utf_8 (utf_8: READABLE_STRING_8)
 		do
-			if attached {STRING} a_utf_8 as utf_8 then
-				make_from_general (Utf_8_codec.as_unicode (utf_8, False))
-			end
+			make_from_general (Utf_8_codec.as_unicode (utf_8, False))
 		end
 
 	make_shared (other: like Current)

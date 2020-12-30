@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 13:27:51 GMT (Monday 1st June 2020)"
-	revision: "7"
+	date: "2020-12-30 11:19:03 GMT (Wednesday 30th December 2020)"
+	revision: "8"
 
 class
 	EL_UTF_8_ZCODEC
@@ -19,14 +19,6 @@ inherit
 			append_encoded_to_string_8 as append_general_to_utf_8
 		redefine
 			as_unicode, write_encoded, write_encoded_character, is_numeric, append_general_to_utf_8
-		end
-
-	EL_UTF_CONVERTER
-		rename
-			utf_32_string_into_utf_8_string_8 as write_string_general_to_utf_8
-		export
-			{NONE} all
-			{ANY} write_string_general_to_utf_8, is_valid_utf_8_string_8
 		end
 
 	EL_MODULE_CHAR_8
@@ -48,17 +40,16 @@ feature -- Basic operations
 
 	append_general_to_utf_8 (unicode_in: READABLE_STRING_GENERAL; utf_8_out: STRING)
 		local
-			str_32: STRING_32; l_unicode_in: READABLE_STRING_GENERAL
+			l_unicode_in: READABLE_STRING_GENERAL; c: EL_UTF_CONVERTER
 		do
-			if attached {EL_READABLE_ZSTRING} unicode_in as zstring_in then
-				str_32 := Unicode_buffer; str_32.wipe_out
-				zstring_in.append_to_string_32 (str_32)
-				l_unicode_in := str_32
+			if attached {EL_READABLE_ZSTRING} unicode_in as zstr then
+				Unicode_buffer.set_from_string (zstr)
+				l_unicode_in := Unicode_buffer
 			else
 				l_unicode_in := unicode_in
 			end
-			utf_8_out.grow (utf_8_out.count + utf_8_bytes_count (l_unicode_in, 1, l_unicode_in.count))
-			write_string_general_to_utf_8 (l_unicode_in, utf_8_out)
+			utf_8_out.grow (utf_8_out.count + c.utf_8_bytes_count (l_unicode_in, 1, l_unicode_in.count))
+			c.utf_32_string_into_utf_8_string_8 (l_unicode_in, utf_8_out)
 		end
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
@@ -78,19 +69,15 @@ feature -- Conversion
 			Result := code.to_character_32.as_lower.natural_32_code
 		end
 
-	as_unicode (a_utf_8: STRING; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
+	as_unicode (a_utf_8: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `utf_8' string as unicode
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
-		local
-			str_32: STRING_32
 		do
-			if is_single_byte_utf_8 (a_utf_8) then
+			if Utf_8_buffer.is_single_byte_sequence (a_utf_8) then
 				Result := a_utf_8
 			else
-				str_32 := Unicode_buffer
-				str_32.wipe_out
-				utf_8_string_8_into_string_32 (a_utf_8, str_32)
-				Result := str_32
+				Unicode_buffer.set_from_utf_8 (a_utf_8)
+				Result := Unicode_buffer
 			end
 			if keeping_ref then
 				Result := Result.twin
@@ -100,9 +87,11 @@ feature -- Conversion
 	as_utf_8 (str: READABLE_STRING_GENERAL; keeping_ref: BOOLEAN): STRING
 		-- returns general string `str' as UTF-8 encoded string
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
+		local
+			c: EL_UTF_CONVERTER
 		do
 			Result := Utf_8_buffer; Result.wipe_out
-			write_string_general_to_utf_8 (str, Result)
+			c.utf_32_string_into_utf_8_string_8 (str, Result)
 			if keeping_ref then
 				Result := Result.twin
 			end
@@ -144,24 +133,9 @@ feature -- Character query
 		do
 		end
 
-feature {NONE} -- Implementation
-
-	is_single_byte_utf_8 (a_utf_8: STRING): BOOLEAN
-		local
-			l_area: SPECIAL [CHARACTER_8]; i: INTEGER
-		do
-			l_area := a_utf_8.area; Result := True
-			from i := 0 until not Result or i = l_area.count loop
-				if l_area [i] > '%/127/' then
-					Result := False
-				end
-				i := i + 1
-			end
-		end
-
 feature -- Constants
 
-	Utf_8_buffer: STRING
+	Utf_8_buffer: EL_UTF_8_STRING
 		once
 			create Result.make (100)
 		end

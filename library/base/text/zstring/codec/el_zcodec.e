@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 10:46:16 GMT (Thursday 3rd December 2020)"
-	revision: "16"
+	date: "2020-12-30 11:18:19 GMT (Wednesday 30th December 2020)"
+	revision: "17"
 
 deferred class
 	EL_ZCODEC
@@ -184,20 +184,15 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	as_unicode (encoded: STRING; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
+	as_unicode (encoded: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
-		local
-			buffer: like Unicode_buffer
 		do
 			if encoded_as_latin (1) then
 				Result := encoded
 			else
-				buffer := Unicode_buffer
-				buffer.grow (encoded.count)
-				buffer.set_count (encoded.count)
-				decode (encoded.count, encoded.area, buffer.area, 0)
-				Result := buffer
+				Unicode_buffer.set_from_encoded (Current, encoded)
+				Result := Unicode_buffer
 			end
 			if keeping_ref then
 				Result := Result.twin
@@ -368,7 +363,7 @@ feature {NONE} -- Constants
 			Result := unencoded.Once_extendible_unencoded
 		end
 
-	Unicode_buffer: STRING_32
+	Unicode_buffer: EL_STRING_32
 		once
 			create Result.make_empty
 		end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 18:23:32 GMT (Tuesday 29th December 2020)"
-	revision: "12"
+	date: "2020-12-30 11:26:35 GMT (Wednesday 30th December 2020)"
+	revision: "13"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -66,7 +66,7 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			Precursor (a_scanner)
-			create last_node_2.make_empty
+--			create last_node_2.make_empty
 			create attribute_list.make
 			make_parser
 			is_new_parser := True
@@ -347,7 +347,7 @@ feature {NONE} -- Implementation: attributes
 
 	last_state: INTEGER
 
-	last_node_2: EL_DOCUMENT_NODE_STRING
+--	last_node_2: EL_DOCUMENT_NODE_STRING
 
 feature {NONE} -- Expat callbacks
 
@@ -365,7 +365,7 @@ feature {NONE} -- Expat callbacks
 			if is_attached (a_encoding) then
 				c_decoder.set_from_utf8 (str, a_encoding)
 				set_encoding_from_name (str)
-				last_node_2.set_encoding_from_name (str)
+--				last_node_2.set_encoding_from_name (str)
 			end
 			scanner.on_meta_data (xml_version, Current)
 		end
@@ -393,13 +393,13 @@ feature {NONE} -- Expat callbacks
 		do
 			if last_state /= State_content_call then
 				set_last_state (State_content_call)
-				last_node_2.wipe_out
+--				last_node_2.wipe_out
 				last_node_text.wipe_out
 			end
-			last_node_2.append_count_from_c (content_ptr, a_count)
+--			last_node_2.append_count_from_c (content_ptr, a_count)
 			c_decoder.append_from_utf8_of_size (last_node_text, content_ptr, a_count)
-		ensure
-			same_content: last_node.to_string_32 ~ last_node_2.to_string_32
+--		ensure
+--			same_content: last_node.to_string_32 ~ last_node_2.to_string_32
 		end
 
 	frozen on_comment_parsed (data_ptr: POINTER)
