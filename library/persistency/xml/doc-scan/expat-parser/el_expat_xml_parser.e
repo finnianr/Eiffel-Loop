@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 12:34:47 GMT (Friday 1st January 2021)"
-	revision: "14"
+	date: "2021-01-01 14:17:11 GMT (Friday 1st January 2021)"
+	revision: "15"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -67,7 +67,6 @@ feature {NONE}  -- Initialisation
 		do
 			Precursor (a_scanner)
 --			create last_node_2.make_empty
-			create attribute_list.make
 			create attribute_cursor.make
 			make_parser
 			is_new_parser := True
@@ -84,10 +83,6 @@ feature {NONE}  -- Initialisation
 			is_correct := true
 			last_error := xml_err_none
 		end
-
-feature -- Access
-
-	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
 feature -- Basic operations
 

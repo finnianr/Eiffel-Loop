@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 14:01:24 GMT (Tuesday 29th December 2020)"
-	revision: "18"
+	date: "2021-01-01 14:16:54 GMT (Friday 1st January 2021)"
+	revision: "19"
 
 class
 	EL_PYXIS_PARSER
@@ -44,7 +44,6 @@ feature {NONE} -- Initialization
 			create verbatim_string.make_empty
 			create comment_string.make_empty
 			create attribute_parser.make
-			create attribute_list.make
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
 		end
@@ -402,8 +401,6 @@ feature {NONE} -- Implementation: attributes
 	previous_state: like state
 
 	element_stack: ARRAYED_STACK [ZSTRING]
-
-	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
 	verbatim_string: ZSTRING
 

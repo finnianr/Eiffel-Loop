@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 14:01:24 GMT (Tuesday 29th December 2020)"
-	revision: "15"
+	date: "2021-01-01 14:16:24 GMT (Friday 1st January 2021)"
+	revision: "16"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -29,7 +29,6 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			Precursor (a_scanner)
-			create attribute_list.make
 			create name_index_array.make (Name_index_table_size)
 			set_encoding (scanner.encoding)
 		end
@@ -238,8 +237,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Implementation: attributes
 
 	input: IO_MEDIUM
-
-	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
 	is_utf_8_encoded: BOOLEAN
 

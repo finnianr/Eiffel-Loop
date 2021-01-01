@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:14:18 GMT (Sunday 20th December 2020)"
-	revision: "2"
+	date: "2021-01-01 14:17:25 GMT (Friday 1st January 2021)"
+	revision: "3"
 
 class
 	EL_DEFAULT_PARSE_EVENT_SOURCE
@@ -32,14 +32,6 @@ feature -- Basic operations
 	parse_from_string (a_string: STRING)
 			-- Parse XML document from `a_string'.
 		do
-		end
-
-feature {NONE} -- Implementation
-
-	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
-			--
-		do
-			create Result.make
 		end
 
 end

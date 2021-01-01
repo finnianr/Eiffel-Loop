@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:52:06 GMT (Sunday 20th December 2020)"
-	revision: "12"
+	date: "2021-01-01 15:15:52 GMT (Friday 1st January 2021)"
+	revision: "13"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -50,6 +50,7 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			create last_node.make
+			create attribute_list.make
 			event_source := default_event_source
 			last_node_name := last_node.name
 			last_node_text := last_node.raw_content
@@ -158,6 +159,8 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 
 feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
 
+	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
+
 	event_source: EL_PARSE_EVENT_SOURCE
 
 	last_node: EL_DOCUMENT_NODE
@@ -170,11 +173,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation: attributes
-
-	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
-		do
-			Result := event_source.attribute_list
-		end
 
 	last_node_name: STRING_32
 

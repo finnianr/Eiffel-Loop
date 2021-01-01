@@ -1,13 +1,21 @@
 note
-	description: "Cursor to iterate over Expat Element attributes"
+	description: "[
+		Cursor to iterate over array of Expat Element attributes	
+
+			struct {
+				char *name_s
+				char *value_s
+			}
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 12:37:11 GMT (Friday 1st January 2021)"
-	revision: "1"
+	date: "2021-01-01 15:21:21 GMT (Friday 1st January 2021)"
+	revision: "2"
 
 class
 	EL_EXPAT_ATTRIBUTE_CURSOR

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 13:56:13 GMT (Tuesday 29th December 2020)"
-	revision: "7"
+	date: "2021-01-01 14:44:47 GMT (Friday 1st January 2021)"
+	revision: "8"
 
 class
 	EL_XPATH_CONSTANTS
@@ -35,6 +35,8 @@ feature {NONE} -- Node type enumeration
 	Node_type_comment: INTEGER = 3
 
 	Node_type_processing_instruction: INTEGER = 4
+
+	Node_type_attribute: INTEGER = 5
 
 feature {NONE} -- Step ID enumeration
 
