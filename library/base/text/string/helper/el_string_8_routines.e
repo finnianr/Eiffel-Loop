@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-01 10:26:30 GMT (Tuesday 1st December 2020)"
-	revision: "10"
+	date: "2020-12-31 9:51:54 GMT (Thursday 31st December 2020)"
+	revision: "11"
 
 frozen class
 	EL_STRING_8_ROUTINES
@@ -40,7 +40,7 @@ feature -- Status query
 
 feature -- Conversion
 
-	to_code_array (s: STRING): ARRAY [NATURAL_8]
+	to_code_array (s: STRING_8): ARRAY [NATURAL_8]
 		local
 			i: INTEGER
 		do
@@ -51,7 +51,7 @@ feature -- Conversion
 			end
 		end
 
-	filtered (str: STRING; included: PREDICATE [CHARACTER]): STRING
+	filtered (str: STRING_8; included: PREDICATE [CHARACTER]): STRING
 		local
 			i: INTEGER; c: CHARACTER
 		do
@@ -67,10 +67,37 @@ feature -- Conversion
 
 feature -- Measurement
 
-	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
+	latin_1_count (s: STRING_8): INTEGER
 		-- count of latin-1 characters
 		do
 			Result := s.count
+		end
+
+	left_white_count (s: STRING_8): INTEGER
+		local
+			i, l_count: INTEGER; l_area: SPECIAL [CHARACTER_8]
+		do
+			l_count := s.count; l_area := s.area
+			from until i = l_count or else not l_area.item (i).is_space loop
+				i := i + 1
+			end
+			Result := i
+		end
+
+	right_white_count (s: STRING_8): INTEGER
+		local
+			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
+		do
+			from
+				nb := s.count - 1
+				i := nb
+				l_area := s.area
+			until
+				i < 0 or else not l_area.item (i).is_space
+			loop
+				Result := Result + 1
+				i := i - 1
+			end
 		end
 
 feature -- Transformation

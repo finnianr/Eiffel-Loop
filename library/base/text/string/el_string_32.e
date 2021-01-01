@@ -1,13 +1,13 @@
 note
-	description: "A `STRING_32' with decoding"
+	description: "Extended `STRING_32'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:10:10 GMT (Wednesday 30th December 2020)"
-	revision: "1"
+	date: "2020-12-30 11:28:22 GMT (Wednesday 30th December 2020)"
+	revision: "2"
 
 class
 	EL_STRING_32

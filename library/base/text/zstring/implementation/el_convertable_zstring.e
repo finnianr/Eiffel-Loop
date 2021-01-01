@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 11:12:08 GMT (Thursday 3rd December 2020)"
-	revision: "7"
+	date: "2020-12-31 10:13:19 GMT (Thursday 31st December 2020)"
+	revision: "8"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -232,6 +232,18 @@ feature -- To list
 		end
 
 feature -- To substring
+
+	adjusted: like Current
+		local
+			left_count: INTEGER
+		do
+			left_count := leading_white_space
+			if left_count = count then
+				Result := new_string (0)
+			else
+				Result := substring (left_count + 1, count - trailing_white_space)
+			end
+		end
 
 	substring_between (start_string, end_string: EL_READABLE_ZSTRING; start_index: INTEGER): like Current
 			-- Returns string between substrings start_string and end_string from start_index.

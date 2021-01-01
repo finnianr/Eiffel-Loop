@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:19:03 GMT (Wednesday 30th December 2020)"
-	revision: "8"
+	date: "2020-12-30 11:43:31 GMT (Wednesday 30th December 2020)"
+	revision: "9"
 
 class
 	EL_UTF_8_ZCODEC
@@ -84,14 +84,12 @@ feature -- Conversion
 			end
 		end
 
-	as_utf_8 (str: READABLE_STRING_GENERAL; keeping_ref: BOOLEAN): STRING
+	as_utf_8 (str: READABLE_STRING_GENERAL; keeping_ref: BOOLEAN): EL_UTF_8_STRING
 		-- returns general string `str' as UTF-8 encoded string
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
-		local
-			c: EL_UTF_CONVERTER
 		do
-			Result := Utf_8_buffer; Result.wipe_out
-			c.utf_32_string_into_utf_8_string_8 (str, Result)
+			Result := Utf_8_buffer
+			Result.set_from_general (str)
 			if keeping_ref then
 				Result := Result.twin
 			end

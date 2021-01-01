@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 9:39:41 GMT (Saturday 26th December 2020)"
-	revision: "98"
+	date: "2020-12-30 20:42:26 GMT (Wednesday 30th December 2020)"
+	revision: "99"
 
 class
 	BASE_AUTOTEST_APP
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
 
-		EL_XML_STRING_8_ESCAPER
+		EL_XML_STRING_8_ESCAPER, EL_DOCUMENT_NODE_STRING
 	]
 		-- classes compiled for maintenance
 		do

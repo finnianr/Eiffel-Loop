@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:23:11 GMT (Wednesday 30th December 2020)"
-	revision: "1"
+	date: "2020-12-30 11:46:31 GMT (Wednesday 30th December 2020)"
+	revision: "2"
 
 class
 	EL_UTF_8_STRING
@@ -79,6 +79,19 @@ feature -- Element change
 			c.managed_data.read_into_special_character_8 (area, 0, 0, a_count)
 			count := a_count
 			internal_hash_code := 0
+		end
+
+	set_from_general (str: READABLE_STRING_GENERAL)
+		local
+			c: EL_UTF_CONVERTER
+		do
+			wipe_out
+			grow (str.count)
+			if attached {ZSTRING} str as zstr then
+				zstr.append_to_utf_8 (Current)
+			else
+				c.utf_32_string_into_utf_8_string_8 (str, Current)
+			end
 		end
 
 feature -- Contract Support

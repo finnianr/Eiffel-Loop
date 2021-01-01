@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:26:35 GMT (Wednesday 30th December 2020)"
-	revision: "13"
+	date: "2021-01-01 12:34:47 GMT (Friday 1st January 2021)"
+	revision: "14"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -68,6 +68,7 @@ feature {NONE}  -- Initialisation
 			Precursor (a_scanner)
 --			create last_node_2.make_empty
 			create attribute_list.make
+			create attribute_cursor.make
 			make_parser
 			is_new_parser := True
 		end
@@ -86,7 +87,7 @@ feature {NONE}  -- Initialisation
 
 feature -- Access
 
-	attribute_list: EL_EXPAT_XML_ATTRIBUTE_LIST
+	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
 feature -- Basic operations
 
@@ -349,6 +350,8 @@ feature {NONE} -- Implementation: attributes
 
 --	last_node_2: EL_DOCUMENT_NODE_STRING
 
+	attribute_cursor: EL_EXPAT_ATTRIBUTE_CURSOR
+
 feature {NONE} -- Expat callbacks
 
 	frozen on_xml_tag_declaration_parsed (a_version, a_encoding: POINTER; standalone: INTEGER)
@@ -371,12 +374,20 @@ feature {NONE} -- Expat callbacks
 		end
 
 	frozen on_start_tag_parsed (tag_name_ptr, attribute_array_ptr: POINTER)
+		local
+			l_cursor: like attribute_cursor
 		do
 			set_last_state (State_start_tag_call)
 			c_decoder.set_from_utf8 (last_node_name, tag_name_ptr)
 			last_node.set_type (Node_type_element)
 
-			attribute_list.set_from_c_attributes_array (attribute_array_ptr)
+			l_cursor := attribute_cursor
+			attribute_list.reset
+			from l_cursor.start (attribute_array_ptr) until l_cursor.after loop
+				attribute_list.extend
+				l_cursor.set_node (attribute_list.last_node)
+				l_cursor.forth
+			end
 			scanner.on_start_tag
 		end
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 10:49:20 GMT (Wednesday 23rd December 2020)"
-	revision: "20"
+	date: "2020-12-31 10:15:51 GMT (Thursday 31st December 2020)"
+	revision: "21"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -58,12 +58,43 @@ feature -- Measurement
 		deferred
 		end
 
+	left_white_count (s: READABLE_STRING_GENERAL): INTEGER
+		deferred
+		end
+
 	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
 			--
 		do
 			across strings as str loop
 				if str.item.count > Result then
 					Result := str.item.count
+				end
+			end
+		end
+
+	occurrences (text, search_string: S): INTEGER
+			--
+		local
+			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
+		do
+			create l_occurrences.make (text, search_string)
+			from l_occurrences.start until l_occurrences.after loop
+				Result := Result + 1
+				l_occurrences.forth
+			end
+		end
+
+	right_white_count (s: READABLE_STRING_GENERAL): INTEGER
+		deferred
+		end
+
+	word_count (str: READABLE_STRING_GENERAL): INTEGER
+		do
+			across str.split ('%N') as line loop
+				across words (line.item) as word loop
+					if is_word (word.item) then
+						Result := Result + 1
+					end
 				end
 			end
 		end
@@ -148,6 +179,18 @@ feature -- Lists
 		end
 
 feature -- Transformation
+
+	adjusted (str: S): S
+		local
+			left_count: INTEGER
+		do
+			left_count := left_white_count (str)
+			if left_count = str.count then
+				create Result.make_empty
+			else
+				Result := str.substring (left_count + 1, str.count - right_white_count (str))
+			end
+		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): S
 			--
@@ -443,31 +486,6 @@ feature -- Status query
 	is_character_32 (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := str.count = 1
-		end
-
-feature -- Measurement
-
-	occurrences (text, search_string: S): INTEGER
-			--
-		local
-			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
-		do
-			create l_occurrences.make (text, search_string)
-			from l_occurrences.start until l_occurrences.after loop
-				Result := Result + 1
-				l_occurrences.forth
-			end
-		end
-
-	word_count (str: READABLE_STRING_GENERAL): INTEGER
-		do
-			across str.split ('%N') as line loop
-				across words (line.item) as word loop
-					if is_word (word.item) then
-						Result := Result + 1
-					end
-				end
-			end
 		end
 
 feature {NONE} -- Constants
