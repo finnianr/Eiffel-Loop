@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 9:27:08 GMT (Monday 6th April 2020)"
-	revision: "10"
+	date: "2021-01-02 12:40:40 GMT (Saturday 2nd January 2021)"
+	revision: "11"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -25,14 +25,14 @@ feature {NONE} -- Initialization
 			create area.make_filled ('%/000/', n + 1)
 		end
 
-	make_from_string (s: STRING)
-			-- initialize with string that has the same encoding as codec
+	make_from_string (s: READABLE_STRING_8)
+		-- initialize with string that has the same encoding as codec
+		local
+			l_str: EL_STRING_8
 		do
-			area := s.area; count := s.count
-			reset_hash
-			create area.make_empty (count + 1)
-			area.copy_data (s.area, 0, 0, count)
-			area.extend ('%U')
+			l_str := Once_string_8
+			l_str.make_from_string (s)
+			set_from_string_8 (l_str)
 		end
 
 feature -- Access
@@ -277,7 +277,7 @@ feature -- Conversion
 
 	string: EL_STRING_8
 		do
-			create Result.make (Current)
+			create Result.make_from_zstring (Current)
 		end
 
 	substring (start_index, end_index: INTEGER): like string
@@ -582,7 +582,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 
 	set_from_string_8 (str: EL_STRING_8)
 		do
-			area := str.area set_count (str.count)
+			area := str.area; set_count (str.count)
 		end
 
 	string_8_argument (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; index: INTEGER): EL_STRING_8

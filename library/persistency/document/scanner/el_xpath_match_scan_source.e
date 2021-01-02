@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 9:38:00 GMT (Wednesday 23rd December 2020)"
-	revision: "10"
+	date: "2021-01-02 13:37:32 GMT (Saturday 2nd January 2021)"
+	revision: "11"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -65,7 +65,7 @@ feature {NONE} -- Parsing events
 	on_content
 			--
 		do
-			last_node_xpath.append_step (last_node.xpath_name)
+			last_node_xpath.append_step (last_node.xpath_name (False))
 			call_any_matching_procedures (node_START_action_table, node_START_wildcard_xpath_search_term_list)
 			last_node_xpath.remove
 		end

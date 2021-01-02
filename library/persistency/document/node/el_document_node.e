@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 14:39:08 GMT (Tuesday 29th December 2020)"
-	revision: "14"
+	date: "2021-01-02 13:35:04 GMT (Saturday 2nd January 2021)"
+	revision: "15"
 
 class
 	EL_DOCUMENT_NODE
@@ -47,6 +47,8 @@ inherit
 
 	EL_XPATH_CONSTANTS
 
+	EL_SHARED_ONCE_ZSTRING
+
 create
 	make
 
@@ -69,27 +71,30 @@ feature -- Access
 
 	name: STRING_32
 
-	xpath_name: STRING_32
+	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
+			Result := empty_once_string
 			inspect type
 				when Node_type_element then
-					Result := name
+					Result.append_string_general (name)
 
 				when Node_type_text then
-					Result := Node_text
+					Result.append_raw_string_8 (Node_text)
 
 				when Node_type_comment then
-					Result := Node_comment
+					Result.append_raw_string_8 (Node_comment)
 
 				when Node_type_processing_instruction then
-					create Result.make (Node_processing_instruction.count + name.count + Node_processing_instruction_end.count)
-					Result.append (Node_processing_instruction)
-					Result.append (name)
-					Result.append (Node_processing_instruction_end)
+					Result.append_raw_string_8 (Node_processing_instruction)
+					Result.append_string_general (name)
+					Result.append_raw_string_8 (Node_processing_instruction_end)
 
 			else
-				Result := name
+				Result.append_string_general (name)
+			end
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 

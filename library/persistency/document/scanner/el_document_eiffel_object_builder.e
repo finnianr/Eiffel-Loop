@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 14:11:25 GMT (Tuesday 29th December 2020)"
-	revision: "10"
+	date: "2021-01-02 13:37:32 GMT (Saturday 2nd January 2021)"
+	revision: "11"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -84,7 +84,7 @@ feature {NONE} -- Parsing events
 			current_index: INTEGER
 		do
 			context_stack.item.set_node (last_node)
-			context_stack.item.add_xpath_step (last_node.xpath_name)
+			context_stack.item.add_xpath_step (last_node.xpath_name (False))
 			context_stack.item.do_with_xpath
 
 			if context_stack.item.has_next_context then
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			context_stack.item.set_node (node)
-			context_stack.item.add_xpath_step (node.xpath_name)
+			context_stack.item.add_xpath_step (node.xpath_name (False))
 			context_stack.item.do_with_xpath
 			context_stack.item.remove_xpath_step
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:52:09 GMT (Sunday 20th December 2020)"
-	revision: "8"
+	date: "2021-01-02 13:38:22 GMT (Saturday 2nd January 2021)"
+	revision: "9"
 
 class
 	EL_BINARY_ENCODED_DOCUMENT_SCANNER
@@ -71,7 +71,7 @@ feature {NONE} -- Parsing events
 			name_stack.extend (last_node_name.string)
 			if is_lio_enabled then
 				from attribute_list.start until attribute_list.after loop
-					lio.put_string_field (attribute_list.node.xpath_name, attribute_list.node.to_string)
+					lio.put_string_field (attribute_list.node.xpath_name (False), attribute_list.node.to_string)
 					lio.put_new_line
 					attribute_list.forth
 				end

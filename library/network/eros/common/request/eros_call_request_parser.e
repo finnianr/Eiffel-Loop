@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-01 12:02:51 GMT (Friday 1st May 2020)"
-	revision: "9"
+	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
+	revision: "10"
 
 class
 	EROS_CALL_REQUEST_PARSER
@@ -29,7 +29,7 @@ inherit
 			make, reset
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 		rename
 			class_name as class_name_pattern,
 			single_quote as single_quote_pattern

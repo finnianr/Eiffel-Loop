@@ -6,25 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 14:44:47 GMT (Friday 1st January 2021)"
-	revision: "8"
+	date: "2021-01-02 13:32:30 GMT (Saturday 2nd January 2021)"
+	revision: "9"
 
 class
 	EL_XPATH_CONSTANTS
 
 feature {NONE} -- Node expressions
 
-	Node_any: STRING_32 = "*"
+	Node_any: STRING = "*"
 
-	Node_comment: STRING_32 = "comment()"
+	Node_comment: STRING = "comment()"
 
-	Node_descendant_or_self: STRING_32 = "descendant-or-self::node()"
+	Node_descendant_or_self: STRING = "descendant-or-self::node()"
 
-	Node_text: STRING_32 = "text()"
+	Node_text: STRING = "text()"
 
-	Node_processing_instruction: STRING_32 = "processing-instruction('"
+	Node_processing_instruction: STRING = "processing-instruction('"
 
-	Node_processing_instruction_end: STRING_32 = "')"
+	Node_processing_instruction_end: STRING = "')"
 
 feature {NONE} -- Node type enumeration
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-18 16:18:49 GMT (Wednesday 18th November 2020)"
-	revision: "7"
+	date: "2021-01-02 11:26:52 GMT (Saturday 2nd January 2021)"
+	revision: "8"
 
 class
 	STRING_EXPERIMENTS
@@ -18,7 +18,7 @@ inherit
 	SYSTEM_ENCODINGS
 		rename
 			Utf32 as Unicode,
-			Utf8 as Utf_8
+			Utf8 as Utf_8_encoding
 		export
 			{NONE} all
 		end
@@ -26,6 +26,10 @@ inherit
 	EL_MODULE_HEXADECIMAL
 
 	EL_MODULE_EIFFEL
+
+	EL_SHARED_ZCODEC_FACTORY
+
+	EL_ENCODING_CONSTANTS
 
 feature -- Basic operations
 
@@ -66,7 +70,7 @@ feature -- Basic operations
 		local
 			str: STRING_32; str_2: STRING
 		do
-			across << System_encoding, Console_encoding, Utf_8, Iso_8859_1 >> as encoding loop
+			across << System_encoding, Console_encoding, Utf_8_encoding, Iso_8859_1 >> as encoding loop
 				lio.put_line (encoding.item.code_page)
 			end
 			str := {STRING_32} "Dún Búinne"
@@ -92,6 +96,26 @@ feature -- Basic operations
 			message := "Euro sign: "
 			message.append_code (0x20AC)
 			lio.put_line (message)
+		end
+
+	find_highest_common_character
+		-- Find highest character in commone with all Latin and Windows ZSTRING codecs
+		-- The answer is 127
+		local
+			i: INTEGER; c: CHARACTER; uc: CHARACTER_32
+			done: BOOLEAN
+		do
+			from i := 1 until done or else i > 255 loop
+				c := i.to_character_8; uc := i.to_character_32
+				if same_for_all_codecs (c, uc) then
+					lio.put_integer_field ("Same for all codecs", i)
+				else
+					lio.put_integer_field ("NOT the same", i)
+					done := True
+				end
+				lio.put_new_line
+				i := i + 1
+			end
 		end
 
 	fuzzy_match
@@ -261,6 +285,28 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			Result := i = 16 and then hex_digit = first
+		end
+
+	same_for_all_codecs (c: CHARACTER; uc: CHARACTER_32): BOOLEAN
+		local
+			lower, upper, i: NATURAL; codec: EL_ZCODEC
+		do
+			Result := True
+			across << 1 |..| 11, 13 |..| 14, 1250 |..| 1258 >> as interval until not Result loop
+				lower := interval.item.lower.to_natural_32
+				upper := interval.item.upper.to_natural_32
+				from i := lower until not Result or else i > upper loop
+					if i > 1000 then
+						codec := Codec_factory.codec_by (Windows | i)
+					else
+						codec := Codec_factory.codec_by (Latin | i)
+					end
+					if codec.as_unicode_character (c) /= uc then
+						Result := False
+					end
+					i := i + 1
+				end
+			end
 		end
 
 feature {NONE} -- Constants

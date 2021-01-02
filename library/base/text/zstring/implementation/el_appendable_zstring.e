@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 13:02:59 GMT (Saturday 5th December 2020)"
-	revision: "8"
+	date: "2021-01-02 18:34:14 GMT (Saturday 2nd January 2021)"
+	revision: "9"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -16,6 +16,16 @@ inherit
 	EL_ZSTRING_IMPLEMENTATION
 
 feature {EL_READABLE_ZSTRING} -- Append strings
+
+	append_string_8 (str: READABLE_STRING_8)
+		require else
+			must_not_have_reserved_substitute_character: not str.has ('%/026/')
+		local
+			l_current: EL_STRING_8
+		do
+			l_current := current_string_8; l_current.append (str)
+			set_from_string_8 (l_current)
+		end
 
 	append_string, append (s: EL_READABLE_ZSTRING)
 		local
@@ -33,17 +43,24 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			inserted: elks_checking implies same_string (old (current_readable + s))
 		end
 
-	append_string_general (str: READABLE_STRING_GENERAL)
+	append_string_general (general: READABLE_STRING_GENERAL)
 		local
 			old_count: INTEGER
 		do
-			if attached {EL_ZSTRING} str as str_z then
+			if attached {EL_ZSTRING} general as str_z then
 				append_string (str_z)
+
+			elseif attached {READABLE_STRING_8} general as str_8
+				and then attached current_string_8 as l_current
+				and then l_current.is_7_bit_string (str_8) then
+
+				l_current.append (str_8)
+				set_from_string_8 (l_current)
 			else
 				old_count := count
-				grow (old_count + str.count)
-				set_count (old_count + str.count)
-				encode (str, old_count)
+				grow (old_count + general.count)
+				set_count (old_count + general.count)
+				encode (general, old_count)
 				reset_hash
 			end
 		ensure then
@@ -130,130 +147,130 @@ feature {NONE} -- Append integers
 
 	append_integer, append_integer_32 (n: INTEGER)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_integer (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_integer (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_integer_16 (n: INTEGER_16)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_integer_16 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_integer_16 (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_integer_64 (n: INTEGER_64)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_integer_64 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_integer_64 (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_integer_8 (n: INTEGER_8)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_integer_8 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_integer_8 (n)
+			set_from_string_8 (l_current)
 		end
 
 feature {NONE} -- Append naturals
 
 	append_natural, append_natural_32 (n: NATURAL)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_natural_32 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_natural_32 (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_natural_16 (n: NATURAL_16)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_natural_16 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_natural_16 (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_natural_64 (n: NATURAL_64)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_natural_64 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_natural_64 (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_natural_8 (n: NATURAL_8)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_natural_8 (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_natural_8 (n)
+			set_from_string_8 (l_current)
 		end
 
 feature {NONE} -- Append general
 
 	append_boolean (b: BOOLEAN)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_boolean (b)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_boolean (b)
+			set_from_string_8 (l_current)
 		end
 
 feature {NONE} -- Append REAL
 
 	append_real_32, append_real (n: REAL_32)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_real (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_real (n)
+			set_from_string_8 (l_current)
 		end
 
 	append_real_64, append_double (n: REAL_64)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.append_double (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.append_double (n)
+			set_from_string_8 (l_current)
 		end
 
 feature {NONE} -- Prepend general
 
 	prepend_boolean (b: BOOLEAN)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.prepend_boolean (b)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.prepend_boolean (b)
+			set_from_string_8 (l_current)
 		end
 
 	prepend_integer, prepend_integer_32 (n: INTEGER)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.prepend_integer (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.prepend_integer (n)
+			set_from_string_8 (l_current)
 		end
 
 	prepend_real_32, prepend_real (n: REAL_32)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.prepend_real (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.prepend_real (n)
+			set_from_string_8 (l_current)
 		end
 
 	prepend_real_64, prepend_double (n: REAL_64)
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.prepend_double (n)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.prepend_double (n)
+			set_from_string_8 (l_current)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Prepending
@@ -305,11 +322,11 @@ feature {NONE} -- Implementation
 	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Append characters of `s' at end.
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8
-			str.append (string_8_argument (s, 1))
-			set_from_string_8 (str)
+			l_current := current_string_8
+			l_current.append (string_8_argument (s, 1))
+			set_from_string_8 (l_current)
 		ensure
 			new_count: count = old count + old s.count
 			appended: elks_checking implies internal_string.same_string (old (internal_string + s.string))
@@ -322,11 +339,11 @@ feature {NONE} -- Implementation
 			end_index_valid: end_index <= s.count
 			valid_bounds: start_index <= end_index + 1
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8
-			str.append_substring (string_8_argument (s, 1), start_index, end_index)
-			set_from_string_8 (str)
+			l_current := current_string_8
+			l_current.append_substring (string_8_argument (s, 1), start_index, end_index)
+			set_from_string_8 (l_current)
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies
@@ -387,10 +404,10 @@ feature {NONE} -- Implementation
 	internal_prepend_character (c: CHARACTER_8)
 			-- Add `c' at front.
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8; str.prepend_character (c)
-			set_from_string_8 (str)
+			l_current := current_string_8; l_current.prepend_character (c)
+			set_from_string_8 (l_current)
 		ensure
 			new_count: count = old count + 1
 		end
@@ -402,11 +419,11 @@ feature {NONE} -- Implementation
 			end_index_valid: end_index <= s.count
 			valid_bounds: start_index <= end_index + 1
 		local
-			str: like current_string_8
+			l_current: EL_STRING_8
 		do
-			str := current_string_8
-			str.prepend_substring (string_8_argument (s, 1), start_index, end_index)
-			set_from_string_8 (str)
+			l_current := current_string_8
+			l_current.prepend_substring (string_8_argument (s, 1), start_index, end_index)
+			set_from_string_8 (l_current)
 		ensure
 			new_count: count = old count + end_index - start_index + 1
 			prepended: elks_checking implies

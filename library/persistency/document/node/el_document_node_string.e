@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-31 15:24:21 GMT (Thursday 31st December 2020)"
-	revision: "3"
+	date: "2021-01-02 17:04:46 GMT (Saturday 2nd January 2021)"
+	revision: "4"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -18,7 +18,8 @@ inherit
 			{NONE} all
 			{ANY} append_count_from_c, wipe_out, is_valid_as_string_8
 		redefine
-			make, as_string_32, to_string_32, as_string_8, to_string_8
+			make, as_string_32, to_string_32, as_string_8, to_string_8,
+			once_decoded, once_decoded_32
 		end
 
 	EL_READABLE
@@ -51,9 +52,10 @@ inherit
 			copy, is_equal, out
 		end
 
-	EL_SHARED_ONCE_STRING_32
-
-	EL_SHARED_ONCE_ZSTRING
+	EL_XPATH_CONSTANTS
+		undefine
+			copy, is_equal, out
+		end
 
 	EL_MODULE_STRING_32
 
@@ -70,6 +72,48 @@ feature {NONE} -- Initialization
 			Precursor (n)
 		end
 
+feature -- Access
+
+	name: EL_UTF_8_STRING
+
+	type: INTEGER
+		-- Node type id
+
+	xpath_name (keep_ref: BOOLEAN): ZSTRING
+			--
+		do
+			Result := empty_once_string
+			inspect type
+				when Node_type_element then
+					if encoded_as_utf (8) then
+						Result.append_utf_8 (name)
+					else
+						Result.append_string_general (name)
+					end
+
+				when Node_type_text then
+					Result.append_raw_string_8 (Node_text)
+
+				when Node_type_comment then
+					Result.append_raw_string_8 (Node_comment)
+
+				when Node_type_processing_instruction then
+					Result.append_raw_string_8 (Node_processing_instruction)
+					if encoded_as_utf (8) then
+						Result.append_utf_8 (name)
+					else
+						Result.append_string_general (name)
+					end
+					Result.append_raw_string_8 (Node_processing_instruction_end)
+
+			else
+				Result.append_string_general (name)
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 feature -- To string type
 
 	raw_string: ZSTRING
@@ -83,8 +127,6 @@ feature -- To string type
 		end
 
 	raw_string_8: STRING_8
-		local
-			c: EL_UTF_CONVERTER
 		do
 			if encoded_as_utf (8) and then has_multi_byte_character then
 				Result := once_decoded_32
@@ -153,27 +195,31 @@ feature -- Conversion
 		do
 		end
 
+feature -- Element change
+
+	set_type (a_type: INTEGER)
+			--
+		do
+			type := a_type
+		end
+
 feature {NONE} -- Implementation
 
 	once_decoded: ZSTRING
 		do
-			Result := empty_once_string
-			if encoded_as_utf (8) and has_multi_byte_character then
-				Result.append_utf_8 (Current)
+			if encoded_as_utf (8) then
+				Result := Precursor
 			else
-				Result.append_string_general (Current)
+				Result := once_copy_general (Current)
 			end
 		end
 
 	once_decoded_32: STRING_32
-		local
-			c: EL_UTF_CONVERTER
 		do
-			Result := empty_once_string_32
-			if encoded_as_utf (8) and then has_multi_byte_character then
-				c.utf_8_string_8_into_string_32 (Current, Result)
+			if encoded_as_utf (8) then
+				Result := Precursor
 			else
-				Result.append_string_general (Current)
+				Result := once_copy_general_32 (Current)
 			end
 		end
 

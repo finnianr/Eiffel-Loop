@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 14:45:17 GMT (Friday 1st January 2021)"
-	revision: "9"
+	date: "2021-01-02 13:37:02 GMT (Saturday 2nd January 2021)"
+	revision: "10"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE
@@ -35,18 +35,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	xpath_name: STRING_32
+	xpath_name (keep_ref: BOOLEAN): ZSTRING
 		--
 		do
 			if cached_xpath_name.count = 1 then
-				cached_xpath_name.append (name)
+				cached_xpath_name.append_string_general (name)
 
 			elseif not cached_xpath_name.same_characters (name, 1, name.count, 2) then
-				cached_xpath_name.replace_substring (name, 2, cached_xpath_name.count)
+				cached_xpath_name.replace_substring_general (name, 2, cached_xpath_name.count)
 			end
 			Result := cached_xpath_name
 		ensure then
-			valid: Result.count = name.count  + 1 and then Result.ends_with (name)
+			valid: Result.count = name.count  + 1 and then Result.ends_with_general (name)
 		end
 
 feature {NONE} -- Implementation

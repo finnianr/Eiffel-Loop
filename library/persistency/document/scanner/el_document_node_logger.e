@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:52:12 GMT (Sunday 20th December 2020)"
-	revision: "5"
+	date: "2021-01-02 13:38:21 GMT (Saturday 2nd January 2021)"
+	revision: "6"
 
 class
 	EL_DOCUMENT_NODE_LOGGER
@@ -74,11 +74,11 @@ feature {NONE} -- Parsing events
 			i: INTEGER; attribute_node: EL_ELEMENT_ATTRIBUTE_NODE
 		do
 --			lio.put_line ("on_start_tag")
-			add_xpath_step (last_node.xpath_name)
+			add_xpath_step (last_node.xpath_name (False))
 --			lio.put_line (xpath)
 			from i := 1  until i > attribute_list.count loop
 				attribute_node := attribute_list [i]
-				add_xpath_step (attribute_node.xpath_name)
+				add_xpath_step (attribute_node.xpath_name (False))
 --				lio.put_string_field (xpath, attribute_node.to_string)
 --				lio.put_new_line
 				remove_xpath_step
@@ -100,7 +100,7 @@ feature {NONE} -- Parsing events
 			--
 		do
 --			lio.put_line ("on_content")
-			add_xpath_step (last_node.xpath_name)
+			add_xpath_step (last_node.xpath_name (False))
 --			lio.put_line (xpath)
 --			lio.put_string_field_to_max_length ("CONTENT", last_node_text, 120)
 			remove_xpath_step
@@ -111,7 +111,7 @@ feature {NONE} -- Parsing events
 			--
 		do
 --			lio.put_line ("on_comment")
-			add_xpath_step (last_node.xpath_name)
+			add_xpath_step (last_node.xpath_name (False))
 --			lio.put_line (xpath)
 --			lio.put_line ( last_node_text)
 			remove_xpath_step

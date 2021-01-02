@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:39:38 GMT (Friday 25th December 2020)"
-	revision: "9"
+	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
+	revision: "10"
 
 class
 	TEXT_PARSER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 		undefine
 			default_create
 		end

@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:20:27 GMT (Wednesday 30th December 2020)"
-	revision: "25"
+	date: "2021-01-02 18:38:41 GMT (Saturday 2nd January 2021)"
+	revision: "26"
 
 class
 	EL_ZSTRING
 
 inherit
 	EL_READABLE_ZSTRING
+		rename
+			append_string_8 as append_raw_string_8
 		export
 			{ANY}
 --			Element change
@@ -31,8 +33,8 @@ inherit
 			append_integer_8, append_integer_16, append_integer_32, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
-			append_unicode, append_string, append, append_string_general, append_substring,
-			append_tuple_item,
+			append_raw_string_8, append_string, append, append_string_general, append_substring,
+			append_unicode, append_tuple_item,
 			extend, enclose, fill_character, multiply,
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
@@ -213,19 +215,6 @@ feature -- Element change
 			append_unicode (uc.natural_32_code)
 		end
 
-	append_raw_string_8 (str: STRING_8)
-			-- append string with same encoding as `codec'
-		require else
-			must_not_have_reserved_substitute_character: not str.has ('%/026/')
-		local
-			old_count: INTEGER
-		do
-			old_count := count
-			grow (old_count + str.count)
-			set_count (old_count + str.count)
-			area.copy_data (str.area, 0, old_count, str.count)
-		end
-
 	append_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
 			append_substring (adapted_argument (s, 1), start_index, end_index)
@@ -233,7 +222,12 @@ feature -- Element change
 
 	append_utf_8 (utf_8: READABLE_STRING_8)
 		do
-			append_string_general (Utf_8_codec.as_unicode (utf_8, False))
+			if attached current_string_8 as l_current and then l_current.is_7_bit_string (utf_8) then
+				l_current.append (utf_8)
+				set_from_string_8 (l_current)
+			else
+				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])
@@ -336,9 +330,14 @@ feature -- Element change
 		local
 			latin: EL_STRING_8
 		do
-			latin := Latin_1_c_string
+			latin := Latin_1_string
 			latin.set_from_c (latin_1_ptr)
-			wipe_out; append_string_general (latin)
+			wipe_out
+			if latin.is_7_bit then
+				set_from_string_8 (latin)
+			else
+				append_string_general (latin)
+			end
 		end
 
 	substitute_tuple (inserts: TUPLE)

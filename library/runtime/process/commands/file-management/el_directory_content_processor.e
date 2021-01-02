@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:51:37 GMT (Monday 1st July 2019)"
-	revision: "8"
+	date: "2021-01-02 17:27:03 GMT (Saturday 2nd January 2021)"
+	revision: "9"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
 
 inherit
 	ANY
-	
+
 	EL_MODULE_OS
 
 	EL_MODULE_LIO
@@ -95,7 +95,7 @@ feature -- Basic operations
 				output_file_dir_path_steps.append (output_dir_path_steps)
 				output_file_dir_path_steps.append (input_file_relative_path_steps_list.item)
 
-				create output_file_unqualified_name.make_from_string (output_file_dir_path_steps.last)
+				create output_file_unqualified_name.make_from_other (output_file_dir_path_steps.last)
 				dot_pos := output_file_unqualified_name.last_index_of ('.', output_file_unqualified_name.count)
 				if dot_pos > 0 then
 					output_file_extension := output_file_unqualified_name.substring_end (dot_pos + 1)
@@ -122,8 +122,7 @@ feature {NONE} -- Implementation
 	find_files (wild_card: STRING)
 			--
 		local
-			file_path_list: EL_FILE_PATH_LIST
-			file_path_steps: EL_PATH_STEPS
+			file_path_list: EL_FILE_PATH_LIST; file_path_steps: EL_PATH_STEPS
 			i: INTEGER
 		do
 			create file_path_list.make (OS.file_list (input_dir, wild_card))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 10:45:10 GMT (Monday 13th April 2020)"
-	revision: "11"
+	date: "2021-01-02 13:41:18 GMT (Saturday 2nd January 2021)"
+	revision: "12"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -60,7 +60,7 @@ feature -- Element change
 			valid_xpath: is_xpath_attribute
 			xpath_has_at_least_one_element: xpath_has_at_least_one_element
 		local
-			separator_pos: INTEGER; attribute_name: STRING_32
+			separator_pos: INTEGER; attribute_name: ZSTRING
 		do
 			separator_pos := xpath.last_index_of (xpath_step_separator, xpath.count)
 			attribute_name := xpath.substring (separator_pos + 1, xpath.count)
@@ -68,7 +68,7 @@ feature -- Element change
 			xpath.append_character ('[')
 			xpath.append (attribute_name)
 			xpath.append_string_general ("='")
-			xpath.append (node.to_string_32)
+			xpath.append (node.to_string)
 			xpath.append_string_general ("']")
 
 			-- In case /AAA/BBB[@name='x'] has an action assigned to it
@@ -104,7 +104,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
-	building_actions: HASH_TABLE [PROCEDURE, STRING_32]
+	building_actions: HASH_TABLE [PROCEDURE, ZSTRING]
 
 feature {EL_XML_NODE_SCAN_SOURCE} -- Implementation
 
@@ -181,7 +181,7 @@ feature {EL_XML_NODE_SCAN_SOURCE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_EIF_OBJ_BUILDER_CONTEXT, HASH_TABLE [PROCEDURE, STRING_32]]
+	Building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_EIF_OBJ_BUILDER_CONTEXT, HASH_TABLE [PROCEDURE, ZSTRING]]
 			--
 		once
 			create Result.make (17, agent {EL_EIF_OBJ_BUILDER_CONTEXT}.new_building_actions)

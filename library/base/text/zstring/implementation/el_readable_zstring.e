@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:20:59 GMT (Wednesday 30th December 2020)"
-	revision: "57"
+	date: "2021-01-02 12:25:58 GMT (Saturday 2nd January 2021)"
+	revision: "58"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -109,9 +109,14 @@ feature {NONE} -- Initialization
 		local
 			latin: EL_STRING_8
 		do
-			latin := Latin_1_c_string
+			latin := Latin_1_string
 			latin.set_from_c (latin_1_ptr)
-			make_from_general (latin)
+			if latin.is_7_bit then
+				make_unencoded
+				set_from_string_8 (latin)
+			else
+				make_from_general (latin)
+			end
 		end
 
 	make_from_other (other: EL_READABLE_ZSTRING)
@@ -167,16 +172,27 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_string (s: STRING)
+	make_from_string (str: READABLE_STRING_8)
 			-- initialize with string that has the same encoding as codec
+		require else
+			must_not_have_reserved_substitute_character: not str.has ('%/026/')
 		do
-			Precursor (s)
 			make_unencoded
+			Precursor (str)
 		end
 
 	make_from_utf_8 (utf_8: READABLE_STRING_8)
+		local
+			latin: EL_STRING_8
 		do
-			make_from_general (Utf_8_codec.as_unicode (utf_8, False))
+			latin := Latin_1_string
+			latin.share (utf_8)
+			if latin.is_7_bit then
+				make_unencoded
+				set_from_string_8 (latin)
+			else
+				make_from_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 	make_shared (other: like Current)
@@ -811,7 +827,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Latin_1_c_string: EL_STRING_8
+	Latin_1_string: EL_STRING_8
 		once
 			create Result.make_empty
 		end

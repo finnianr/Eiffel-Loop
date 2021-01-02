@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 16:02:16 GMT (Sunday 20th December 2020)"
-	revision: "20"
+	date: "2021-01-02 13:41:30 GMT (Saturday 2nd January 2021)"
+	revision: "21"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -113,7 +113,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT, EL_DOCUMENT_NODE_SCAN_SOURCE} -- Internal a
 
 feature {NONE} -- Constants
 
-	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, HASH_TABLE [PROCEDURE, STRING_32]]
+	PI_building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_BUILDABLE_FROM_NODE_SCAN, HASH_TABLE [PROCEDURE, ZSTRING]]
 			--
 		once
 			create Result.make (11, agent {EL_BUILDABLE_FROM_NODE_SCAN}.new_pi_building_actions)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 14:11:12 GMT (Tuesday 29th December 2020)"
-	revision: "11"
+	date: "2021-01-02 13:39:56 GMT (Saturday 2nd January 2021)"
+	revision: "12"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -61,7 +61,7 @@ feature -- Element change
 			next_context.set_node (node)
 		end
 
-	add_xpath_step (tag_name: STRING_32)
+	add_xpath_step (tag_name: ZSTRING)
 			--
 		do
 			if not xpath.is_empty then
@@ -134,7 +134,7 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 
 	node: EL_DOCUMENT_NODE
 
-	xpath: STRING_32
+	xpath: ZSTRING
 
 feature {NONE} -- Constant
 

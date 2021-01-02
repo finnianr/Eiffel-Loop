@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-19 9:07:43 GMT (Thursday 19th September 2019)"
-	revision: "5"
+	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
+	revision: "6"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 		rename
 			identifier as evolicity_identifier,
 			quoted_string as quoted_string_patterh

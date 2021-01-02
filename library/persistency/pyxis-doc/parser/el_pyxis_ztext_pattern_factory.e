@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
+	revision: "6"
 
 class
 	EL_PYXIS_ZTEXT_PATTERN_FACTORY
 
 inherit
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 
 feature {NONE} -- Pattern definitions		
 

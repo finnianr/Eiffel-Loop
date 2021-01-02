@@ -1,13 +1,13 @@
 note
-	description: "Ztext pattern factory"
+	description: "A [$source EL_TEXT_PATTERN_FACTORY] factory for matching text of type [$source EL_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:44 GMT (Thursday 14th May 2020)"
-	revision: "7"
+	date: "2021-01-02 17:20:36 GMT (Saturday 2nd January 2021)"
+	revision: "8"
 
 class
 	EL_ZTEXT_PATTERN_FACTORY

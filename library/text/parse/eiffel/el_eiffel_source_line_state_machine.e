@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-15 15:23:15 GMT (Thursday 15th November 2018)"
-	revision: "4"
+	date: "2021-01-02 17:23:08 GMT (Saturday 2nd January 2021)"
+	revision: "5"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -20,7 +20,7 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_EIFFEL_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 		rename
 			comment_prefix as pattern_comment_prefix
 		end

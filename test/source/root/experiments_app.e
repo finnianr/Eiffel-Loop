@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-18 16:20:38 GMT (Wednesday 18th November 2020)"
-	revision: "62"
+	date: "2021-01-02 11:11:53 GMT (Saturday 2nd January 2021)"
+	revision: "63"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.substring_beyond_bounds")
-			string.substring_beyond_bounds
+			log.enter ("string.find_highest_common_character")
+			string.find_highest_common_character
 			log.exit
 		end
 

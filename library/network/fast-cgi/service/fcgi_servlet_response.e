@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:53:00 GMT (Sunday 22nd November 2020)"
-	revision: "20"
+	date: "2021-01-02 17:30:36 GMT (Saturday 2nd January 2021)"
+	revision: "21"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -88,8 +88,10 @@ feature -- Status query
 feature -- Contract Support
 
 	is_valid_utf_8_string_8 (s: READABLE_STRING_8): BOOLEAN
+		local
+			c: EL_UTF_CONVERTER
 		do
-			Result := Utf_8_codec.is_valid_utf_8_string_8 (s)
+			Result := c.is_valid_utf_8_string_8 (s)
 		end
 
 	is_string_8_content: BOOLEAN
