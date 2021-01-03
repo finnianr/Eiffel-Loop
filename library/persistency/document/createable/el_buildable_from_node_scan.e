@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:41:30 GMT (Saturday 2nd January 2021)"
-	revision: "21"
+	date: "2021-01-03 11:44:36 GMT (Sunday 3rd January 2021)"
+	revision: "22"
 
 deferred class
 	EL_BUILDABLE_FROM_NODE_SCAN
@@ -42,7 +42,7 @@ inherit
 			make_default, new_building_actions
 		end
 
-feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, EL_BUILDER_OBJECT_FACTORY} -- Initialization
+feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Initialization
 
 	make_default
 			--

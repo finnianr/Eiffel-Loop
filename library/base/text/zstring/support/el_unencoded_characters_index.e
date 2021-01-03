@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:09:57 GMT (Friday 25th December 2020)"
-	revision: "3"
+	date: "2021-01-03 13:08:40 GMT (Sunday 3rd January 2021)"
+	revision: "4"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -24,6 +24,8 @@ inherit
 		redefine
 			start, back, forth
 		end
+
+	EL_ZCODE_CONVERSION undefine copy, is_equal, out end
 
 create
 	make, make_default
@@ -82,12 +84,7 @@ feature -- Access
 
 	z_code (i: INTEGER): NATURAL
 		do
-			Result := code (i)
-			if Result <= 0xFF then
-				-- Shift into Unicode private use area 0xE000..0xF8FF
-				-- (See: See https://en.wikipedia.org/wiki/Private_Use_Areas)
-				Result := Result + 0xE000
-			end
+			Result := unicode_to_z_code (code (i))
 		end
 
 feature -- Measurement

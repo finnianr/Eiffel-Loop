@@ -8,18 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:45 GMT (Thursday 14th May 2020)"
-	revision: "8"
+	date: "2021-01-03 14:55:03 GMT (Sunday 3rd January 2021)"
+	revision: "9"
 
 class
 	EL_ZSTRING_UNESCAPER
 
 inherit
-	HASH_TABLE [NATURAL, NATURAL]
-		rename
-			make as make_table
-		export
-			{NONE} all
+	EL_STRING_GENERAL_UNESCAPER [EL_READABLE_ZSTRING]
+		redefine
+			character_to_code, i_th_code
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -27,59 +25,47 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (escape_character: CHARACTER_32; table: HASH_TABLE [CHARACTER_32, CHARACTER_32])
-		-- make from unicode tuples
-		local
-			l_codec: like codec; key_code, code: NATURAL
-		do
-			make_table (table.count + 1)
-			l_codec := Codec
-			from table.start until table.after loop
-				key_code := l_codec.as_z_code (table.key_for_iteration)
-				code := l_codec.as_z_code (table.item_for_iteration)
-				extend (code, key_code)
-				table.forth
-			end
-			escape_code := Codec.as_z_code (escape_character)
-		end
-
 feature -- Access
 
-	numeric_sequence_count (str: EL_READABLE_ZSTRING; index: INTEGER): INTEGER
+	unescaped (str: EL_READABLE_ZSTRING): EL_ZSTRING
 		do
+			create Result.make_from_zcode_area (unescaped_array (str))
 		end
 
-	sequence_count (str: EL_READABLE_ZSTRING; index: INTEGER): INTEGER
+	unescaped_array (str: EL_READABLE_ZSTRING): SPECIAL [NATURAL]
+		local
+			l_count, i, seq_count: INTEGER; z_code_i, esc_code: NATURAL
+			l_area: SPECIAL [CHARACTER_8]
 		do
-			if not is_empty and then index <= str.count then
-				if has_key (str.z_code (index)) then
-					-- `found_item' is referenced in `unescaped_z_code'
-					Result := 1
+			l_count := str.count; l_area := str.area
+			esc_code := escape_code
+
+			create Result.make_empty (l_count)
+			from i := 0 until i = l_count loop
+				z_code_i := str.area_i_th_z_code (l_area, i)
+				if z_code_i = esc_code then
+					seq_count := sequence_count (str, i + 2)
+					if seq_count.to_boolean then
+						z_code_i := unescaped_code (i + 2, seq_count)
+					end
 				else
-					Result := numeric_sequence_count (str, index)
+					seq_count := 0
 				end
+				Result.extend (z_code_i)
+				i := i + seq_count + 1
 			end
 		end
 
-	unescaped_z_code (str: EL_READABLE_ZSTRING; index, a_sequence_count: INTEGER): NATURAL
+feature {NONE} -- Implementation
+
+	character_to_code (character: CHARACTER_32): NATURAL
 		do
-			if a_sequence_count = 1 and then found then
-				Result := found_item
-			end
+			Result := Codec.as_z_code (character)
 		end
 
-feature -- Element change
-
-	set_escape_character (escape_character: CHARACTER_32)
+	i_th_code (str: EL_READABLE_ZSTRING; index: INTEGER): NATURAL
 		do
-			remove (escape_code)
-			escape_code := Codec.as_z_code (escape_character)
-			put (escape_code, escape_code)
+			Result := str.z_code (index)
 		end
 
-feature {STRING_HANDLER} -- Access
-
-	escape_code: NATURAL
 end

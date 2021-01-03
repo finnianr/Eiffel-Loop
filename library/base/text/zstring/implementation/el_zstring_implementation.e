@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-26 12:55:35 GMT (Saturday 26th December 2020)"
-	revision: "8"
+	date: "2021-01-03 14:11:30 GMT (Sunday 3rd January 2021)"
+	revision: "9"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -410,6 +410,10 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 	make_from_other (other: EL_CONVERTABLE_ZSTRING)
+		deferred
+		end
+
+	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		deferred
 		end
 

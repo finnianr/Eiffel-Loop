@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:48:42 GMT (Friday 25th December 2020)"
-	revision: "7"
+	date: "2021-01-03 11:35:33 GMT (Sunday 3rd January 2021)"
+	revision: "8"
 
 deferred class
 	EL_PARSER
@@ -20,16 +20,11 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			source_text := Empty_string_8
 			source_view := Default_source_view
 			unmatched_action := default_action
 			set_pattern_changed
 			reset
 		end
-
-feature -- Access
-
-	source_text: READABLE_STRING_GENERAL
 
 feature -- Element change
 
@@ -41,10 +36,9 @@ feature -- Element change
 			reassign_pattern_if_changed
 		end
 
-	set_source_text (a_source_text: like source_text)
+	set_source_text (a_source_text: READABLE_STRING_GENERAL)
 			--
 		do
-			source_text := a_source_text
 			source_view := pattern.new_text_view (a_source_text)
  			reset
 		end
@@ -76,7 +70,7 @@ feature -- Basic operations
 			reassign_pattern_if_changed
 			name_list := pattern.name_list
 			pattern.match (source_view)
-			if pattern.count = source_text.count then
+			if pattern.count = source_view.full_count then
 				fully_matched := true
 			else
 				fully_matched := false

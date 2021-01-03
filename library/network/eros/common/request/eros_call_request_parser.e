@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
-	revision: "10"
+	date: "2021-01-03 11:42:38 GMT (Sunday 3rd January 2021)"
+	revision: "11"
 
 class
 	EROS_CALL_REQUEST_PARSER
@@ -63,6 +63,8 @@ feature -- Access
 		do
 		end
 
+	call_text: STRING
+
 feature -- Status report
 
 	has_error: BOOLEAN
@@ -73,13 +75,14 @@ feature -- Status report
 
 feature -- Basic operations
 
-	try_parse (call_text: STRING)
+	try_parse (a_call_text: STRING)
 			--
 		do
-			if call_text.is_empty then
+			call_text := a_call_text
+			if a_call_text.is_empty then
 				has_error := True
 			else
-				set_source_text (call_text)
+				set_source_text (a_call_text)
 				parse
 				has_error := not fully_matched
 			end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-31 10:15:51 GMT (Thursday 31st December 2020)"
-	revision: "21"
+	date: "2021-01-03 18:05:39 GMT (Sunday 3rd January 2021)"
+	revision: "22"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -390,30 +390,6 @@ feature -- Transformation
 				from i := 1 until i > l_result.count loop
 					Result.append_code (l_result.code (i))
 					i := i + 1
-				end
-			end
-		end
-
-	unescape (
-		str: STRING_GENERAL; escape_character: CHARACTER_32;  escaped_characters: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-	)
-		require
-			double_escapes_are_literal_escapes: escaped_characters [escape_character] = escape_character
-		local
-			pos_escape, start_index: INTEGER
-		do
-			from pos_escape := str.index_of (escape_character, 1) until pos_escape = 0 loop
-				if pos_escape + 1 <= str.count then
-					if escaped_characters.has_key (str [pos_escape + 1]) then
-						str.put_code (escaped_characters.found_item.natural_32_code, pos_escape + 1)
-						str.remove (pos_escape)
-						start_index := pos_escape + 1
-					else
-						start_index := pos_escape + 2
-					end
-					pos_escape := str.index_of (escape_character, start_index)
-				else
-					pos_escape := 0
 				end
 			end
 		end

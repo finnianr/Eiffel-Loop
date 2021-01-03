@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 12:44:14 GMT (Monday 1st June 2020)"
-	revision: "8"
+	date: "2021-01-03 18:11:35 GMT (Sunday 3rd January 2021)"
+	revision: "9"
 
 class
 	ZSTRING_BENCHMARK
@@ -15,7 +15,7 @@ class
 inherit
 	STRING_BENCHMARK
 		redefine
-			make, set_escape_character, storage_bytes
+			make, storage_bytes
 		end
 
 	STRING_HANDLER
@@ -91,14 +91,6 @@ feature {NONE} -- Implementation
 			target.replace_substring_all (original, new)
 		end
 
-	set_escape_character (a_escape_character: like escape_character)
-		local
-			code: NATURAL
-		do
-			Precursor (a_escape_character)
-			Unescaper.set_escape_character (a_escape_character)
-		end
-
 	starts_with (target, beginning: like new_string): BOOLEAN
 		do
 			Result := target.starts_with (beginning)
@@ -120,11 +112,6 @@ feature {NONE} -- Implementation
 	translate (target, old_characters, new_characters: like new_string)
 		do
 			target.translate (old_characters, new_characters)
-		end
-
-	unescape (target: like new_string)
-		do
-			target.unescape (Unescaper)
 		end
 
 	xml_escaped (target: ZSTRING): ZSTRING

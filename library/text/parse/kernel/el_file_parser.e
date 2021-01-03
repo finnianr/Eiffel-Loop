@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:28:43 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2021-01-03 11:36:23 GMT (Sunday 3rd January 2021)"
+	revision: "8"
 
 deferred class
 	EL_FILE_PARSER
@@ -16,7 +16,7 @@ inherit
 	EL_PARSER
 		export
 			{NONE} all
-			{ANY}	source_text, match_full, call_actions, is_reset, fully_matched, set_source_text, set_pattern_changed
+			{ANY}	match_full, call_actions, is_reset, fully_matched, set_source_text, set_pattern_changed
 		redefine
 			make_default
 		end

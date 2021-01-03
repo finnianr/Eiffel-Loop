@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 20:42:26 GMT (Wednesday 30th December 2020)"
-	revision: "99"
+	date: "2021-01-03 17:06:01 GMT (Sunday 3rd January 2021)"
+	revision: "100"
 
 class
 	BASE_AUTOTEST_APP
@@ -18,12 +18,15 @@ inherit
 		ARRAYED_LIST_TEST_SET,
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
+		ESCAPED_TEXT_TEST_SET,
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
 		GENERAL_TEST_SET,
+		L1_UC_STRING_TEST,
 		MODULE_CRC_32_TEST_SET,
 
 		PATH_TEST_SET,
 		PATH_STEPS_TEST_SET,
+
 		REFLECTION_TEST_SET,
 
 		SE_ARRAY2_TEST_SET,
@@ -37,7 +40,6 @@ inherit
 
 		TEMPLATE_TEST_SET,
 
-		L1_UC_STRING_TEST,
 		URL_ENCODING_TEST_SET,
 		URI_PATH_TEST_SET,
 		UUID_TEST_SET,
@@ -55,6 +57,7 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
+		EL_STRING_8_UNESCAPER,
 		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
@@ -78,9 +81,11 @@ note
 
 		**Test Sets**
 
+			[$source ARRAYED_LIST_TEST_SET]
 			[$source CHAIN_TEST_SET]
 			[$source DATE_TEXT_TEST_SET]
 			[$source DIR_URI_PATH_TEST_SET]
+			[$source ESCAPED_TEXT_TEST_SET],
 			[$source FILE_AND_DIRECTORY_TEST_SET]
 			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
 			[$source GENERAL_TEST_SET]

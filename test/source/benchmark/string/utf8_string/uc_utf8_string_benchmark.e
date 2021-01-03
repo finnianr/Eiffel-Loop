@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 12:44:07 GMT (Monday 1st June 2020)"
-	revision: "7"
+	date: "2021-01-03 18:11:47 GMT (Sunday 3rd January 2021)"
+	revision: "8"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -117,10 +117,10 @@ feature {NONE} -- Implementation
 --			String_32.translate (target, old_characters, new_characters)
 		end
 
-	unescape (target: like new_string)
-		do
---			String_32.unescape (target, escape_character, C_escape_table)
-		end
+--	unescaped (target: like new_string): UC_UTF8_STRING
+--		do
+----			String_32.unescape (target, escape_character, C_escape_table)
+--		end
 
 	xml_escaped (target: UC_UTF8_STRING): UC_UTF8_STRING
 		do
@@ -143,4 +143,10 @@ feature {NONE} -- Internal attributes
 
 	xml_escaper: XML_UC_UTF8_STRING_ESCAPER
 
+feature {NONE} -- Constants
+
+	Unescaper: EL_STRING_8_UNESCAPER
+		once
+			create Result.make (Back_slash, C_escape_table)
+		end
 end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 13:22:05 GMT (Monday 28th December 2020)"
-	revision: "6"
+	date: "2021-01-03 11:49:22 GMT (Sunday 3rd January 2021)"
+	revision: "7"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -212,7 +212,7 @@ feature -- Access
 
 	sub_array (start_index, end_index: INTEGER): EL_SUBSTRING_32_ARRAY
 		local
-			i, j, lower, upper, offset, char_count, l_count, l_character_count, i_final: INTEGER
+			i, lower, upper, offset, char_count, l_count, l_character_count, i_final: INTEGER
 			array_start_index, array_end_index, l_first_lower, l_last_upper: INTEGER
 			l_area, sub_area: like area
 		do

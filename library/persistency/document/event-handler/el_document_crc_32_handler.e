@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:58:34 GMT (Sunday 20th December 2020)"
-	revision: "7"
+	date: "2021-01-03 11:45:55 GMT (Sunday 3rd January 2021)"
+	revision: "8"
 
 class
 	EL_DOCUMENT_CRC_32_HANDLER
@@ -20,7 +20,7 @@ inherit
 			copy, default_create, is_equal
 		end
 
-feature {EL_XML_NODE_EVENT_GENERATOR} -- Parsing events
+feature {NONE} -- Parsing events
 
 	on_start_document
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 11:46:42 GMT (Monday 23rd November 2020)"
-	revision: "11"
+	date: "2021-01-03 16:58:40 GMT (Sunday 3rd January 2021)"
+	revision: "12"
 
 deferred class
 	EL_STRING_32_CONSTANTS
@@ -40,6 +40,12 @@ feature {NONE} -- Constants
 		end
 
 	Empty_string_32: STRING_32
+		once
+			create Result.make_empty
+		end
+
+	Once_cursor_32: EL_STRING_32_ITERATION_CURSOR
+		-- provides access to `area_lower', `area_upper', `area' in `READABLE_STRING_32'
 		once
 			create Result.make_empty
 		end

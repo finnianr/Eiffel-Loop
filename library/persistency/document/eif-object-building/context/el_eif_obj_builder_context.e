@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:41:18 GMT (Saturday 2nd January 2021)"
-	revision: "12"
+	date: "2021-01-03 11:46:18 GMT (Sunday 3rd January 2021)"
+	revision: "13"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -22,7 +22,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 		export
-			{EL_XML_NODE_SCAN_SOURCE} Empty_string -- For precondition
+			{EL_DOCUMENT_NODE_SCAN_SOURCE} Empty_string -- For precondition
 		end
 
 feature {EL_SETTABLE_FROM_XML_NODE} -- Initialization

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 13:10:32 GMT (Saturday 5th December 2020)"
-	revision: "5"
+	date: "2021-01-03 14:12:24 GMT (Sunday 3rd January 2021)"
+	revision: "6"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -234,7 +234,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 
 	unescape (unescaper: EL_ZSTRING_UNESCAPER)
 		do
-			make_from_other (unescaped (unescaper))
+			make_from_zcode_area (unescaper.unescaped_array (current_readable))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Replacement

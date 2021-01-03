@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:01:01 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2021-01-03 14:50:41 GMT (Sunday 3rd January 2021)"
+	revision: "5"
 
 class
 	EL_JSON_UNESCAPER
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_unescaper
 		redefine
-			numeric_sequence_count, unescaped_z_code
+			numeric_sequence_count, unescaped_code
 		end
 
 	EL_MODULE_HEXADECIMAL
@@ -35,10 +35,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unescaped_z_code (str: EL_READABLE_ZSTRING; index, a_sequence_count: INTEGER): NATURAL
+	unescaped_code (index, a_sequence_count: INTEGER): NATURAL
 		do
 			if a_sequence_count = 1 and then found then
 				Result := found_item
+
 			elseif a_sequence_count >= 5 then
 				Result := Codec.as_z_code (Utf_16_sequence.character_32)
 			end

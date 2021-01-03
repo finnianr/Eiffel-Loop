@@ -1,13 +1,13 @@
 note
-	description: "Xml escaper test set"
+	description: "XML escaper test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:40:56 GMT (Sunday 28th June 2020)"
-	revision: "2"
+	date: "2021-01-03 13:00:38 GMT (Sunday 3rd January 2021)"
+	revision: "3"
 
 class
 	XML_ESCAPER_TEST_SET

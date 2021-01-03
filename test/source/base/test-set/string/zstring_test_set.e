@@ -9,17 +9,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:48:31 GMT (Wednesday 30th December 2020)"
-	revision: "32"
+	date: "2021-01-03 12:49:52 GMT (Sunday 3rd January 2021)"
+	revision: "33"
 
 class
 	ZSTRING_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-		redefine
-			on_prepare
-		end
 
 	EL_TEST_STRINGS
 
@@ -32,13 +29,6 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 	EL_SHARED_UTF_8_ZCODEC
-
-feature {NONE} -- Events
-
-	on_prepare
-		do
---			set_system_codec (create {EL_ISO_8859_1_ZCODEC}.make)
-		end
 
 feature -- Basic operations
 
@@ -90,9 +80,6 @@ feature -- Basic operations
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
 			eval.call ("to_general", agent test_to_general)
-			eval.call ("bash_escape", agent test_bash_escape)
-			eval.call ("substitution_marker_unescape", agent test_substitution_marker_unescape)
-			eval.call ("unescape", agent test_unescape)
 		end
 
 feature -- Conversion tests
@@ -174,6 +161,7 @@ feature -- Conversion tests
 				assert ("same string", str.to_general.same_string (str_32))
 			end
 		end
+
 feature -- Element change tests
 
 	test_append
@@ -896,64 +884,6 @@ feature -- Duplication tests
 			end
 		end
 
-feature -- Escape tests
-
-	test_bash_escape
-		local
-			bash_escaper: EL_BASH_PATH_ZSTRING_ESCAPER; bash_escaper_32: EL_BASH_PATH_STRING_32_ESCAPER
-		do
-			create bash_escaper.make; create bash_escaper_32.make
-			escape_test ("BASH", bash_escaper, bash_escaper_32)
-		end
-
-feature -- Unescape tests
-
-	test_substitution_marker_unescape
-		note
-			testing:	"covers/{ZSTRING}.unescape", "covers/{ZSTRING}.unescaped",
-			 	"covers/{ZSTRING}.make_unescaped"
-		local
-			str: ZSTRING
-		do
-			str := "1 %%S 3"
-			str.unescape (Substitution_mark_unescaper)
-			assert ("has substitution marker", str.same_string ("1 %S 3"))
-		end
-
-	test_unescape
-		note
-			testing:	"covers/{ZSTRING}.unescape"
-		local
-			str: ZSTRING; str_32: STRING_32
-			escape_table: EL_ZSTRING_UNESCAPER; escape_table_32: like new_escape_table
-			escape_character: CHARACTER_32
-		do
-			across << ('\').to_character_32, 'л' >> as l_escape_character loop
-				escape_character := l_escape_character.item
-				create str_32.make (Text_russian_and_english.count)
-				str_32.append_character (escape_character)
-				str_32.append_character (escape_character)
-
-				escape_table_32 := new_escape_table
-				escape_table_32 [escape_character] := escape_character
-
-				across Text_russian_and_english as character loop
-					escape_table_32.search (character.item)
-					if escape_table_32.found then
-						str_32.append_character (escape_character)
-					end
-					str_32.append_character (character.item)
-				end
-				str_32 [str_32.index_of (' ', 1)] := escape_character
-				str := str_32
-
-				create escape_table.make (escape_character, escape_table_32)
-				String_32.unescape (str_32, escape_character, escape_table_32)
-				str.unescape (escape_table)
-				assert ("unescape OK", str.same_string (str_32))
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	change_case (lower_32, upper_32: STRING_32)
@@ -994,28 +924,6 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
-
-	escape_test (name: STRING; escaper: EL_ZSTRING_ESCAPER; escaper_32: EL_STRING_32_ESCAPER)
-		local
-			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
-		do
-			across Text_lines as string loop
-				str_32 := string.item.twin
-				String_32.replace_character (str_32, '+', '&')
-				str := str_32
-				escaped := escaper.escaped (str, True)
-				escaped_32 := escaper_32.escaped (str_32, True)
-				assert (name + " escape OK", escaped.same_string (escaped_32))
-			end
-		end
-
-	new_escape_table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		do
-			create Result.make (7)
-			Result ['t'] := '%T'
-			Result ['ь'] := 'в'
-			Result ['и'] := 'N'
- 		end
 
 	test_concatenation (type: STRING)
 		local
@@ -1072,12 +980,4 @@ feature {NONE} -- Constants
 			same_number: Result.count = Text_russian_and_english.occurrences ('%N') + 1
 		end
 
-	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		local
-			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create table.make_equal (3)
-			table ['S'] := '%S'
-			create Result.make ('%%', table)
-		end
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 13:50:01 GMT (Monday 1st June 2020)"
-	revision: "10"
+	date: "2021-01-03 18:11:26 GMT (Sunday 3rd January 2021)"
+	revision: "11"
 
 deferred class
 	STRING_BENCHMARK
@@ -354,11 +354,10 @@ feature -- Benchmark tests
 
 	test_unescape
 		local
-			str: STRING_GENERAL
+			str: READABLE_STRING_GENERAL
 		do
 			across input_string_list as string loop
-				str := string.item.twin
-				unescape (str)
+				str := unescaped (string.item)
 			end
 		end
 
@@ -636,6 +635,11 @@ feature {NONE} -- Implementation
 			C_escape_table.remove (escape_character)
 			escape_character := a_escape_character
 			C_escape_table [a_escape_character] := a_escape_character
+			unescaper.set_escape_character (a_escape_character)
+		end
+
+	unescaper: EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_GENERAL]
+		deferred
 		end
 
 feature {NONE} -- Deferred implementation
@@ -696,8 +700,9 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	unescape (target: STRING_GENERAL)
-		deferred
+	unescaped (target: like new_string): like new_string
+		do
+			Result := Unescaper.unescaped (target)
 		end
 
 	xml_escaped (target: STRING_GENERAL): STRING_GENERAL

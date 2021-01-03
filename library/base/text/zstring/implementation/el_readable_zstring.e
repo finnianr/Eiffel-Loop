@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 12:25:58 GMT (Saturday 2nd January 2021)"
-	revision: "58"
+	date: "2021-01-03 14:01:23 GMT (Sunday 3rd January 2021)"
+	revision: "59"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -46,6 +46,8 @@ inherit
 		end
 
 	EL_CONVERTABLE_ZSTRING
+		export
+			{STRING_HANDLER} area_i_th_z_code
 		redefine
 			make_from_string
 		end
@@ -126,38 +128,27 @@ feature {NONE} -- Initialization
 			make_unencoded_from_other (other)
 		end
 
-	make_unescaped (unescaper: EL_ZSTRING_UNESCAPER; other: EL_READABLE_ZSTRING)
+	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
-			other_count, i, n, sequence_count: INTEGER; z_code_i, escape_code: NATURAL
-			l_area, other_area: like area; l_unencoded: like empty_once_unencoded
+			z_code_i: NATURAL; i, l_count: INTEGER
+			l_unencoded: like empty_once_unencoded; l_area: like area
 		do
-			other_count := other.count; other_area := other.area
-			l_unencoded := empty_once_unencoded; escape_code := unescaper.escape_code
+			l_count := zcode_area.count
+			make (l_count)
 
-			make (other_count)
-			l_area := area
-			from i := 0 until i = other_count loop
-				z_code_i := other.area_i_th_z_code (other_area, i)
-				if z_code_i = escape_code then
-					sequence_count := unescaper.sequence_count (other, i + 2)
-					if sequence_count.to_boolean then
-						z_code_i := unescaper.unescaped_z_code (other, i + 2, sequence_count)
-					end
-				else
-					sequence_count := 0
-				end
+			l_unencoded := empty_once_unencoded; l_area := area
+			from i := 0 until i = l_count loop
+				z_code_i := zcode_area [i]
 				if z_code_i > 0xFF then
-					l_area [n] := Unencoded_character
-					l_unencoded.extend_z_code (z_code_i, n + 1)
+					l_area [i] := Unencoded_character
+					l_unencoded.extend_z_code (z_code_i, i + 1)
 				else
-					l_area [n] := z_code_i.to_character_8
+					l_area [i] := z_code_i.to_character_8
 				end
-				i := i + sequence_count + 1
-				n := n + 1
+				i := i + 1
 			end
-			set_count (n)
 			set_from_extendible_unencoded (l_unencoded)
-			trim
+			set_count (l_count)
 		end
 
 feature {NONE} -- Initialization

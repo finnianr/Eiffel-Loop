@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2021-01-03 15:57:41 GMT (Sunday 3rd January 2021)"
+	revision: "6"
 
 class
 	EL_CACHED_STRING [STR -> READABLE_STRING_GENERAL create make_empty end]

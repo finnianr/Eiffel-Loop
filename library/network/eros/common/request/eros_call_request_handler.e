@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 16:51:07 GMT (Monday 27th January 2020)"
-	revision: "20"
+	date: "2021-01-03 11:42:51 GMT (Sunday 3rd January 2021)"
+	revision: "21"
 
 class
 	EROS_CALL_REQUEST_HANDLER
@@ -126,7 +126,7 @@ feature -- Basic operations
 				listener.received_bytes (read_listener.bytes_read_count)
 
 				if request_builder.has_error then
-					set_error (Error.syntax_error_in_routine_call, request_builder.source_text.as_string_8)
+					set_error (Error.syntax_error_in_routine_call, request_builder.call_text)
 				end
 				if not has_error then
 					call_class_routine
@@ -177,7 +177,7 @@ feature {NONE} -- Implementation
 			if not has_error then
 				target.set_arguments (request_builder)
 				if not target.has_error and then target.is_routine_set then
-					log.put_line (request_builder.source_text.as_string_8)
+					log.put_line (request_builder.call_text)
 					log.put_new_line
 					target.call_routine
 					listener.called_routine (target.function_requested)

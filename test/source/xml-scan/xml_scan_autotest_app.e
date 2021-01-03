@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 13:21:39 GMT (Monday 21st December 2020)"
-	revision: "16"
+	date: "2021-01-03 11:51:26 GMT (Sunday 3rd January 2021)"
+	revision: "17"
 
 class
 	XML_SCAN_AUTOTEST_APP
@@ -38,13 +38,14 @@ feature {NONE} -- Implementation
 	compiled: TUPLE [
 		EL_BINARY_ENCODED_DOCUMENT_SCANNER,
 		EL_BINARY_ENCODED_PARSE_EVENT_TYPE,
+		EL_DOCUMENT_NODE_LOGGER,
+		EL_DOCUMENT_CRC_32_HANDLER,
+		EL_EIF_OBJ_TEXT_TABLE_CONTEXT,
 		EL_FILE_MANIFEST_COMMAND,
 		EL_PYXIS_RESOURCE_SET,
 		EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS,
-		EL_DOCUMENT_NODE_LOGGER,
 		EL_XHTML_WORD_COUNTER,
-		EL_XML_NODE_EVENT_GENERATOR,
-		EL_DOCUMENT_CRC_32_HANDLER
+		EL_XML_NODE_EVENT_GENERATOR
 	]
 		do
 			create Result

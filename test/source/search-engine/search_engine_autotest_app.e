@@ -5,8 +5,8 @@ note
 		
 		**Test Sets**
 		
-			[$source SEARCH_ENGINE_TEST_SET]
 			[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
+			[$source SEARCH_ENGINE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,16 +14,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 10:39:28 GMT (Thursday 3rd December 2020)"
-	revision: "4"
+	date: "2021-01-03 12:02:10 GMT (Sunday 3rd January 2021)"
+	revision: "5"
 
 class
 	SEARCH_ENGINE_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [SEARCH_ENGINE_TEST_SET, ENCRYPTED_SEARCH_ENGINE_TEST_SET]
+	EL_AUTOTEST_SUB_APPLICATION [
+		ENCRYPTED_SEARCH_ENGINE_TEST_SET,
+		SEARCH_ENGINE_TEST_SET
+	]
 
 create
 	make
 
+feature {NONE} -- Implementation
+
+	compile: TUPLE [
+		EL_SEARCH_TERM_PARSER [EL_WORD_SEARCHABLE]
+	]
+		do
+			create Result
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 9:54:30 GMT (Tuesday 21st January 2020)"
-	revision: "10"
+	date: "2021-01-03 11:43:31 GMT (Sunday 3rd January 2021)"
+	revision: "11"
 
 class
 	EROS_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN
@@ -26,7 +26,7 @@ inherit
 			make as make_default
 		export
 			{NONE} all
-			{EROS_CALL_REQUEST_HANDLER} class_name, source_text, has_error
+			{EROS_CALL_REQUEST_HANDLER} class_name, has_error, call_text
 		undefine
 			call_argument, has_call_argument
 		redefine

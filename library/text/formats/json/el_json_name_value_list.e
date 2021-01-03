@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:19:43 GMT (Friday 24th January 2020)"
-	revision: "7"
+	date: "2021-01-03 14:02:31 GMT (Sunday 3rd January 2021)"
+	revision: "8"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -65,7 +65,7 @@ feature -- Iteration items
 	name_item: ZSTRING
 		do
 			split_list.go_i_th (list_index)
-			create Result.make_unescaped (Unescaper, split_list.item (False))
+			Result := Unescaper.unescaped (split_list.item (False))
 		end
 
 	name_item_8: STRING
@@ -78,7 +78,7 @@ feature -- Iteration items
 	value_item: ZSTRING
 		do
 			split_list.go_i_th (list_index + 2)
-			create Result.make_unescaped (Unescaper, split_list.item (False))
+			Result := Unescaper.unescaped (split_list.item (False))
 		end
 
 feature -- Cursor movement

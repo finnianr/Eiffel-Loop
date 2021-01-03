@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-31 10:13:19 GMT (Thursday 31st December 2020)"
-	revision: "8"
+	date: "2021-01-03 14:14:20 GMT (Sunday 3rd January 2021)"
+	revision: "9"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -409,7 +409,7 @@ feature -- Conversion
 
 	unescaped (unescaper: EL_ZSTRING_UNESCAPER): like Current
 		do
-			create {ZSTRING} Result.make_unescaped (unescaper, current_readable)
+			create {ZSTRING} Result.make_from_zcode_area (unescaper.unescaped_array (current_readable))
 		end
 
 feature -- Case changed

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:41:54 GMT (Sunday 28th June 2020)"
-	revision: "9"
+	date: "2021-01-03 18:12:22 GMT (Sunday 3rd January 2021)"
+	revision: "10"
 
 class
 	STRING_32_BENCHMARK
@@ -103,11 +103,6 @@ feature {NONE} -- Implementation
 			String_32.translate (target, old_characters, new_characters)
 		end
 
-	unescape (target: like new_string)
-		do
-			String_32.unescape (target, escape_character, C_escape_table)
-		end
-
 	xml_escaped (target: STRING_32): STRING_32
 		do
 			Result := xml_escaper.escaped (target, True)
@@ -128,4 +123,12 @@ feature {NONE} -- Factory
 feature {NONE} -- Internal attributes
 
 	xml_escaper: EL_XML_STRING_32_ESCAPER
+
+feature {NONE} -- Constants
+
+	Unescaper: EL_STRING_32_UNESCAPER
+		once
+			create Result.make (Back_slash, C_escape_table)
+		end
+
 end

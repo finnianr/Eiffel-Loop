@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:51:36 GMT (Friday 25th December 2020)"
-	revision: "6"
+	date: "2021-01-03 11:38:35 GMT (Sunday 3rd January 2021)"
+	revision: "7"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -15,7 +15,6 @@ deferred class
 inherit
 	EL_FILE_PARSER
 		rename
-			source_text as tokens_text,
 			source_view as tokens_view
 		redefine
 			make_default, set_source_text
@@ -39,7 +38,8 @@ feature -- Element change
 			lexer: L
 		do
 			create lexer.make (a_source_text)
-			Precursor (lexer.tokens_text)
+			tokens_text := lexer.tokens_text
+			Precursor (tokens_text)
 			source_view := lexer.source_view
 			token_text_array := lexer.token_text_array
 		end
@@ -58,5 +58,7 @@ feature {NONE} -- Implementation
 	token_text_array: ARRAYED_LIST [INTEGER_64]
 
 	source_view: EL_STRING_VIEW
+
+	tokens_text: STRING_32
 
 end

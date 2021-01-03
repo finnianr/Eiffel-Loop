@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-01-03 11:38:55 GMT (Sunday 3rd January 2021)"
+	revision: "5"
 
 deferred class
 	EL_FILE_LEXER
@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_source_text: like source_text)
+	make (a_source_text: READABLE_STRING_GENERAL)
 		do
 			make_default
 			set_source_text (a_source_text)
