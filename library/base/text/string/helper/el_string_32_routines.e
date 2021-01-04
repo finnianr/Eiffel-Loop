@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:29:35 GMT (Saturday 2nd January 2021)"
-	revision: "13"
+	date: "2021-01-04 10:29:05 GMT (Monday 4th January 2021)"
+	revision: "14"
 
 class
 	EL_STRING_32_ROUTINES
@@ -18,6 +18,17 @@ inherit
 	EL_SHARED_ONCE_STRING_32
 
 	EL_SHARED_ONCE_STRING_8
+
+feature -- Basic operations
+
+	append_to (str: STRING_32; extra: READABLE_STRING_GENERAL)
+		do
+			if attached {ZSTRING} extra as zstr then
+				zstr.append_to_string_32 (str)
+			else
+				str.append_string_general (extra)
+			end
+		end
 
 feature -- Conversion
 

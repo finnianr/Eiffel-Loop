@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 18:05:39 GMT (Sunday 3rd January 2021)"
-	revision: "22"
+	date: "2021-01-04 10:26:24 GMT (Monday 4th January 2021)"
+	revision: "23"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -20,12 +20,7 @@ inherit
 feature -- Basic operations
 
 	append_to (str: S; extra: READABLE_STRING_GENERAL)
-		do
-			if attached {STRING} extra as str_8 then
-				str.append (str_8)
-			else
-				str.append (extra.to_string_32) -- Might be ZSTRING
-			end
+		deferred
 		end
 
 	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL

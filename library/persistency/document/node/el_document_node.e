@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:35:04 GMT (Saturday 2nd January 2021)"
-	revision: "15"
+	date: "2021-01-04 10:30:25 GMT (Monday 4th January 2021)"
+	revision: "16"
 
 class
 	EL_DOCUMENT_NODE
@@ -49,6 +49,8 @@ inherit
 
 	EL_SHARED_ONCE_ZSTRING
 
+	EL_MODULE_STRING_32
+
 create
 	make
 
@@ -70,6 +72,9 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	name: STRING_32
+
+	type: INTEGER
+		-- Node type id
 
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
@@ -98,9 +103,6 @@ feature -- Access
 			end
 		end
 
-	type: INTEGER
-		-- Node type id
-
 feature -- Conversion
 
 	to_boolean: BOOLEAN
@@ -111,17 +113,17 @@ feature -- Conversion
 			Result := raw_content.to_boolean
 		end
 
-	to_character_8: CHARACTER
-		do
-			if not is_empty then
-				Result := raw_content.item (1).to_character_8
-			end
-		end
-
 	to_character_32: CHARACTER_32
 		do
 			if not is_empty then
 				Result := raw_content.item (1)
+			end
+		end
+
+	to_character_8: CHARACTER
+		do
+			if not is_empty then
+				Result := raw_content.item (1).to_character_8
 			end
 		end
 
@@ -139,32 +141,44 @@ feature -- Conversion
 
 feature -- Element change
 
-	set_raw_content (a_content: READABLE_STRING_GENERAL)
-			--
-		do
-			raw_content.wipe_out
-			raw_content.append_string_general (a_content)
-		end
-
-	set_name (a_name: READABLE_STRING_GENERAL)
-			--
-		do
-			name.wipe_out
-			name.append_string_general (a_name)
-		end
-
-	set_type (a_type: INTEGER)
-			--
-		do
-			type := a_type
-		end
-
 	set_from_other (other: EL_DOCUMENT_NODE)
 			--
 		do
 			raw_content := other.raw_content
 			name := other.name
 			type := other.type
+		end
+
+	set_name (a_name: READABLE_STRING_GENERAL)
+			--
+		do
+			name.wipe_out
+			String_32.append_to (name, a_name)
+		end
+
+	set_name_from_view (view: EL_STRING_VIEW)
+		do
+			name.wipe_out
+			view.append_to (name)
+		end
+
+	set_raw_content (a_content: READABLE_STRING_GENERAL)
+			--
+		do
+			raw_content.wipe_out
+			String_32.append_to (raw_content, a_content)
+		end
+
+	set_raw_content_from_view (view: EL_STRING_VIEW)
+		do
+			raw_content.wipe_out
+			view.append_to (raw_content)
+		end
+
+	set_type (a_type: INTEGER)
+			--
+		do
+			type := a_type
 		end
 
 feature -- Status query

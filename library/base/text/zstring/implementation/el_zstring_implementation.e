@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:11:30 GMT (Sunday 3rd January 2021)"
-	revision: "9"
+	date: "2021-01-04 11:24:12 GMT (Monday 4th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -121,7 +121,7 @@ feature -- Access
 			if c = Unencoded_character then
 				Result := unencoded_code (i)
 			else
-				Result := codec.as_unicode_character (c).natural_32_code
+				Result := Codec.as_unicode_character (c).natural_32_code
 			end
 		end
 

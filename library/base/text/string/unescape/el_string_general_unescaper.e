@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 17:42:57 GMT (Sunday 3rd January 2021)"
-	revision: "1"
+	date: "2021-01-04 10:18:54 GMT (Monday 4th January 2021)"
+	revision: "2"
 
 deferred class
-	EL_STRING_GENERAL_UNESCAPER [S -> READABLE_STRING_GENERAL]
+	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
 
 inherit
 	HASH_TABLE [NATURAL, NATURAL]
@@ -39,7 +39,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	unescaped (str: S): STRING_GENERAL
+	unescaped (str: R): G
+		deferred
+		end
+
+feature -- Basic operations
+
+	unescape (str: G)
 		deferred
 		end
 
@@ -59,16 +65,16 @@ feature {NONE} -- Implementation
 			Result := character.natural_32_code
 		end
 
-	i_th_code (str: S; index: INTEGER): NATURAL
+	i_th_code (str: R; index: INTEGER): NATURAL
 		do
 			Result := str.code (index)
 		end
 
-	numeric_sequence_count (str: S; index: INTEGER): INTEGER
+	numeric_sequence_count (str: R; index: INTEGER): INTEGER
 		do
 		end
 
-	sequence_count (str: S; index: INTEGER): INTEGER
+	sequence_count (str: R; index: INTEGER): INTEGER
 		do
 			if index <= str.count then
 				if has_key (i_th_code (str, index)) then

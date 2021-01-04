@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 15:00:09 GMT (Sunday 5th April 2020)"
-	revision: "4"
+	date: "2021-01-04 11:07:53 GMT (Monday 4th January 2021)"
+	revision: "5"
 
 class
 	EL_ZCODE_CONVERSION
@@ -23,7 +23,7 @@ class
 feature {EL_ZCODEC} -- Implementation
 
 	frozen unicode_to_z_code (unicode: NATURAL): NATURAL
-			-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
+		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		do
 			if unicode <= 0xFF then
 				Result := Sign_bit | unicode

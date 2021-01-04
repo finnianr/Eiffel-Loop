@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 14:16:54 GMT (Friday 1st January 2021)"
-	revision: "19"
+	date: "2021-01-04 11:54:22 GMT (Monday 4th January 2021)"
+	revision: "20"
 
 class
 	EL_PYXIS_PARSER
@@ -27,7 +27,7 @@ inherit
 			call
 		end
 
-	EL_PYTHON_UNESCAPE_CONSTANTS
+	EL_PYXIS_UNESCAPE_CONSTANTS
 
 	EL_MODULE_LIO
 
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			make_machine
 			create verbatim_string.make_empty
 			create comment_string.make_empty
-			create attribute_parser.make
+			create attribute_parser.make (attribute_list)
 			previous_state := agent find_pyxis_doc
 			create element_stack.make (10)
 		end
@@ -158,14 +158,7 @@ feature {NONE} -- Line states
 				parser.set_source_text (line)
 				parser.parse
 
-				if parser.fully_matched then
-					across parser.attribute_list as l_attribute loop
-						attribute_list.extend
-						attribute_list.last_node.set_name (l_attribute.item.name.to_unicode)
-						attribute_list.last_node.set_raw_content (l_attribute.item.value.to_unicode)
-					end
-
-				else -- Finished gathering attributes
+				if not parser.fully_matched then
 					if tag_name = Pyxis_doc then
 						on_declaration
 					else
@@ -307,7 +300,7 @@ feature {NONE} -- Parse events
 	on_content_line (line: ZSTRING; is_first: BOOLEAN; content_type: INTEGER)
 			--
 		local
-			tag_name: ZSTRING
+			tag_name: ZSTRING; is_double_quote: BOOLEAN
 		do
 			if not is_first then
 				tag_name := element_stack.item
@@ -316,29 +309,16 @@ feature {NONE} -- Parse events
 			end
 			last_node.set_type (Node_type_text)
 			inspect content_type
-				when Content_double_quoted_string then
+				when Content_double_quoted_string, Content_single_quoted_string then
 					line.remove_quotes
-					set_last_node_text (line.unescaped (Double_quote_unescaper))
-
-				when Content_single_quoted_string then
-					line.remove_quotes
-					set_last_node_text (line.unescaped (Single_quote_unescaper))
+					set_last_node_text (line)
+					is_double_quote := content_type = Content_double_quoted_string
+					Quote_unescaper.item (is_double_quote).unescape (last_node_text)
 
 			else
 				set_last_node_text (line)
 			end
 			scanner.on_content
-		end
-
-	on_assignment_list (a_list: like attribute_parser.attribute_list)
-			--
-		do
-			from a_list.start until a_list.after loop
-				attribute_list.extend
-				attribute_list.last_node.set_name (a_list.item.name.to_unicode)
-				attribute_list.last_node.set_raw_content (a_list.item.value.to_unicode)
-				a_list.forth
-			end
 		end
 
 feature {NONE} -- Implementation
@@ -387,13 +367,13 @@ feature {NONE} -- Implementation
 	set_last_node_name (name: ZSTRING)
 		do
 			last_node_name.wipe_out
-			last_node_name.append (name.to_string_32)
+			name.append_to_string_32 (last_node_name)
 		end
 
 	set_last_node_text (text: ZSTRING)
 		do
 			last_node_text.wipe_out
-			last_node_text.append (text.to_string_32)
+			text.append_to_string_32 (last_node_text)
 		end
 
 feature {NONE} -- Implementation: attributes

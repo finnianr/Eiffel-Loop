@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 17:45:05 GMT (Sunday 3rd January 2021)"
-	revision: "1"
+	date: "2021-01-04 10:37:27 GMT (Monday 4th January 2021)"
+	revision: "2"
 
 class
 	EL_STRING_8_UNESCAPER
 
 inherit
-	EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_8]
+	EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_8, STRING_8]
 
 	EL_STRING_8_CONSTANTS
 
@@ -30,6 +30,15 @@ feature -- Access
 			create Result.make (l_area.count)
 			Result.area.copy_data (l_area, 0, 0, l_area.count)
 			Result.set_count (l_area.count)
+		end
+
+feature -- Basic operations
+
+	unescape (str: STRING_8)
+		do
+			if str.has_code (escape_code) then
+				str.share (unescaped (str))
+			end
 		end
 
 feature {NONE} -- Implementation

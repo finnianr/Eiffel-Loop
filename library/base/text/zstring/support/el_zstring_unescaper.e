@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:55:03 GMT (Sunday 3rd January 2021)"
-	revision: "9"
+	date: "2021-01-04 10:42:34 GMT (Monday 4th January 2021)"
+	revision: "10"
 
 class
 	EL_ZSTRING_UNESCAPER
 
 inherit
-	EL_STRING_GENERAL_UNESCAPER [EL_READABLE_ZSTRING]
+	EL_STRING_GENERAL_UNESCAPER [EL_READABLE_ZSTRING, ZSTRING]
 		redefine
 			character_to_code, i_th_code
 		end
@@ -53,6 +53,15 @@ feature -- Access
 				end
 				Result.extend (z_code_i)
 				i := i + seq_count + 1
+			end
+		end
+
+feature -- Basic operations
+
+	unescape (str: ZSTRING)
+		do
+			if str.has_unicode (escape_code) then
+				str.share (unescaped (str))
 			end
 		end
 

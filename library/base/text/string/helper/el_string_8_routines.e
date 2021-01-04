@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-31 9:51:54 GMT (Thursday 31st December 2020)"
-	revision: "11"
+	date: "2021-01-04 10:28:07 GMT (Monday 4th January 2021)"
+	revision: "12"
 
 frozen class
 	EL_STRING_8_ROUTINES
@@ -18,6 +18,17 @@ inherit
 			replace_character as replace_character_32
 		redefine
 			is_eiffel_identifier, replace_character_32
+		end
+
+feature -- Basic operations
+
+	append_to (str: STRING_8; extra: READABLE_STRING_GENERAL)
+		do
+			if attached {ZSTRING} extra as zstr then
+				zstr.append_to_string_8 (str)
+			else
+				str.append_string_general (extra)
+			end
 		end
 
 feature -- Status query

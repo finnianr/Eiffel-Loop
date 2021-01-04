@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:01:23 GMT (Sunday 3rd January 2021)"
-	revision: "59"
+	date: "2021-01-04 10:43:07 GMT (Monday 4th January 2021)"
+	revision: "60"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -17,6 +17,7 @@ inherit
 	READABLE_STRING_GENERAL
 		rename
 			code as z_code,
+			has_code as has_unicode,
 			same_caseless_characters as same_caseless_characters_general,
 			substring_index as substring_index_general,
 			ends_with as ends_with_general,
@@ -38,7 +39,7 @@ inherit
 --			Access
 			hash_code,
 --			Status query
-			ends_with_general, starts_with_general,
+			ends_with_general, starts_with_general, has_unicode,
 --			Comparison
 			is_equal, same_characters,
 --			Duplication
@@ -356,6 +357,11 @@ feature -- Status query
 				end
 				i := i + 1
 			end
+		end
+
+	has_unicode (uc: like unicode): BOOLEAN
+		do
+			Result := has_z_code (unicode_to_z_code (uc))
 		end
 
 	has_first (uc: CHARACTER_32): BOOLEAN

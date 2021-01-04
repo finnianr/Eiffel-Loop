@@ -6,48 +6,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-01-04 11:54:22 GMT (Monday 4th January 2021)"
+	revision: "7"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
 
 inherit
 	EL_PARSER
-		redefine
-			parse
-		end
 
 	EL_PYXIS_ZTEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
 
-	EL_PYTHON_UNESCAPE_CONSTANTS
+	EL_PYXIS_UNESCAPE_CONSTANTS
+
+	EL_MODULE_STRING_32
+
+	EL_DOCUMENT_CLIENT
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make
-			--
+	make (a_attribute_list: like attribute_list)
 		do
+			attribute_list := a_attribute_list
 			make_default
-			create attribute_list.make (5)
-		end
-
-feature -- Access
-
-	attribute_list: ARRAYED_LIST [like last_attribute]
-
-feature -- Basic operations
-
-	parse
-			--
-		do
-			attribute_list.wipe_out
-			Precursor
 		end
 
 feature {NONE} -- Pattern definitions		
@@ -89,32 +76,33 @@ feature {NONE} -- Title parsing actions
 
 	on_name (matched_text: EL_STRING_VIEW)
 			--
+		local
+			last_node: EL_DOCUMENT_NODE
 		do
-			create last_attribute
-			last_attribute.name := matched_text
-			last_attribute.name.replace_character ('.', ':')
-			attribute_list.extend (last_attribute)
+			attribute_list.extend
+			last_node := attribute_list.last_node
+			last_node.set_name_from_view (matched_text)
+			String_32.replace_character (last_node.name, '.', ':')
 		end
 
 	on_quoted_value (matched_text: EL_STRING_VIEW; is_double_quote: BOOLEAN)
 			--
+		local
+			last_node: EL_DOCUMENT_NODE
 		do
-			last_attribute.value := matched_text.to_string
-			if is_double_quote then
-				last_attribute.value.unescape (Double_quote_unescaper)
-			else
-				last_attribute.value.unescape (Single_quote_unescaper)
-			end
+			last_node := attribute_list.last_node
+			last_node.set_raw_content_from_view (matched_text)
+			Quote_unescaper.item (is_double_quote).unescape (last_node.raw_content)
 		end
 
 	on_value (matched_text: EL_STRING_VIEW)
 			--
 		do
-			last_attribute.value := matched_text
+			attribute_list.last_node.set_raw_content_from_view (matched_text)
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Initialization
 
-	last_attribute: TUPLE [name, value: EL_ZSTRING]
+	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 
 end

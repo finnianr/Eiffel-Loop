@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 12:42:21 GMT (Friday 14th February 2020)"
-	revision: "2"
+	date: "2021-01-04 11:27:48 GMT (Monday 4th January 2021)"
+	revision: "3"
 
 class
 	PYXIS_PARSER_TEST_SET
@@ -58,23 +58,26 @@ feature -- Tests
 			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER
-			table: like Attribute_table; name, value: EL_ZSTRING
+			table: like Attribute_table; name: EL_ZSTRING
+			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
+			l_attribute: EL_ELEMENT_ATTRIBUTE_NODE
 		do
-			create parser.make
+			create attribute_list.make
+			create parser.make (attribute_list)
 			parser.set_source_text (Attributes_source_line)
 			parser.parse
-			parser.parse -- Ensure repeatability
 			create table.make_equal (5)
-			across parser.attribute_list as l_attribute loop
-				name := l_attribute.item.name; value := l_attribute.item.value
-				if value.is_integer then
-					table [name] := value.to_integer
-				elseif value.is_double then
-					table [name] := value.to_double
-				elseif value.is_boolean then
-					table [name] := value.to_boolean
+			across attribute_list as list loop
+				l_attribute := list.item
+				name := l_attribute.name
+				if l_attribute.is_integer then
+					table [name] := l_attribute.to_integer
+				elseif l_attribute.is_double then
+					table [name] := l_attribute.to_double
+				elseif l_attribute.is_boolean then
+					table [name] := l_attribute.to_boolean
 				else
-					table [name] := value.to_string_8
+					table [name] := l_attribute.to_string_8
 				end
 			end
 			assert ("pyxis_parser OK", table ~ Attribute_table)

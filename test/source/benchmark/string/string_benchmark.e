@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 18:11:26 GMT (Sunday 3rd January 2021)"
-	revision: "11"
+	date: "2021-01-04 10:20:41 GMT (Monday 4th January 2021)"
+	revision: "12"
 
 deferred class
 	STRING_BENCHMARK
@@ -638,7 +638,7 @@ feature {NONE} -- Implementation
 			unescaper.set_escape_character (a_escape_character)
 		end
 
-	unescaper: EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_GENERAL]
+	unescaper: EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_GENERAL, STRING_GENERAL]
 		deferred
 		end
 

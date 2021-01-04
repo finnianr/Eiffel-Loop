@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:01:07 GMT (Sunday 3rd January 2021)"
-	revision: "27"
+	date: "2021-01-04 10:42:01 GMT (Monday 4th January 2021)"
+	revision: "28"
 
 class
 	EL_ZSTRING
@@ -84,6 +84,7 @@ inherit
 			append_substring as append_substring_general,
 			code as z_code,
 			ends_with as ends_with_general,
+			has_code as has_unicode,
 			is_case_insensitive_equal as is_case_insensitive_equal_general,
 			prepend as prepend_string_general,
 			prepend_substring as prepend_substring_general,
@@ -94,7 +95,7 @@ inherit
 		undefine
 			copy, hash_code, out, index_of, last_index_of, occurrences,
 --			Status query
-			ends_with_general, has,
+			ends_with_general, has, has_unicode,
 			is_double, is_equal, is_integer, is_integer_32, is_real_64,
 			same_characters, starts_with_general,
 --			Conversion

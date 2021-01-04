@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-24 13:34:31 GMT (Thursday 24th December 2020)"
-	revision: "7"
+	date: "2021-01-04 11:24:32 GMT (Monday 4th January 2021)"
+	revision: "8"
 
 class
 	EL_MIXED_ENCODING_ZSTRING_VIEW
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_VIEW
 		redefine
-			make, is_mixed_encoding, occurrences, z_code
+			make, is_mixed_encoding, occurrences, z_code, unicode
 		end
 
 create
@@ -56,7 +56,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unencoded: EL_UNENCODED_CHARACTERS_INDEX
+	unicode (i: INTEGER): NATURAL_32
+			-- Character at position `i'
+		local
+			c: CHARACTER_8
+		do
+			c := area [offset + i - 1]
+			if c = Unencoded_character then
+				Result := unencoded.code (offset + i)
+			else
+				Result := Codec.as_unicode_character (c).natural_32_code
+			end
+		end
 
 	z_code (i: INTEGER): NATURAL_32
 			-- Character at position `i'
@@ -70,5 +81,9 @@ feature {NONE} -- Implementation
 				Result := c_i.natural_32_code
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	unencoded: EL_UNENCODED_CHARACTERS_INDEX
 
 end

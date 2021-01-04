@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-25 10:37:44 GMT (Friday 25th December 2020)"
-	revision: "8"
+	date: "2021-01-04 11:15:09 GMT (Monday 4th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_STRING_VIEW
@@ -147,6 +147,11 @@ feature -- Element Change
 		end
 
 feature -- Basic operations
+
+	append_to (str: STRING_GENERAL)
+		do
+			append_substring_to (str, 1, count)
+		end
 
 	append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
 		local

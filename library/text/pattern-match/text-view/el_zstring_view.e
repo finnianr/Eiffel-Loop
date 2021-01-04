@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 15:57:34 GMT (Sunday 5th April 2020)"
-	revision: "6"
+	date: "2021-01-04 11:25:20 GMT (Monday 4th January 2021)"
+	revision: "7"
 
 class
 	EL_ZSTRING_VIEW
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_ZCODE_CONVERSION
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make
@@ -89,6 +91,12 @@ feature -- Access
 			Result := to_string.to_unicode
 		end
 
+	unicode (i: INTEGER): NATURAL_32
+			-- Character at position `i'
+		do
+			Result := Codec.as_unicode_character (area [offset + i - 1]).natural_32_code
+		end
+
 feature -- Basic operations
 
 	append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
@@ -103,7 +111,7 @@ feature -- Basic operations
 				end
 			else
 				from i := start_index until i > end_index or else i > count loop
-					str.append_code (z_code_to_unicode (z_code (i)))
+					str.append_code (unicode (i))
 					i := i + 1
 				end
 			end
