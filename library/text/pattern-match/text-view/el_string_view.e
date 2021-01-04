@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:15:09 GMT (Monday 4th January 2021)"
-	revision: "9"
+	date: "2021-01-04 17:08:14 GMT (Monday 4th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_STRING_VIEW
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make (a_text: READABLE_STRING_GENERAL)
 			-- Copied from {STRING}.share
 		do
-			full_count :=  a_text.count
+			full_count := a_text.count
 			set_full_view
 		end
 

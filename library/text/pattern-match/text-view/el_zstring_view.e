@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:25:20 GMT (Monday 4th January 2021)"
-	revision: "7"
+	date: "2021-01-04 17:36:34 GMT (Monday 4th January 2021)"
+	revision: "8"
 
 class
 	EL_ZSTRING_VIEW
@@ -33,52 +33,97 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_text: like text)
-		require else
-			valid_encoding: not is_mixed_encoding implies not a_text.has_mixed_encoding
+	make (text: ZSTRING)
 		do
-			text := a_text; area := a_text.area
-			Precursor (a_text)
-		end
-
-feature -- Status query
-
-	is_mixed_encoding: BOOLEAN
-		do
-			Result := False
+			area := text.area
+			Precursor (text)
+			if text.has_mixed_encoding then
+				create unencoded_index.make (text.unencoded_area)
+			end
 		end
 
 feature -- Access
 
-	z_code (i: INTEGER): NATURAL_32
+	unicode (i: INTEGER): NATURAL_32
 			-- Character at position `i'
-		do
-			Result := area.item (offset + i - 1).natural_32_code
-		end
-
-	z_code_at_absolute (i: INTEGER): NATURAL_32
-			-- Character at position `i'
-		do
-			Result := area.item (i - 1).natural_32_code
-		end
-
-	occurrences (a_code: like z_code): INTEGER
 		local
-			l_area: like area; i, l_count: INTEGER; c: CHARACTER
+			c: CHARACTER_8
 		do
-			l_area := area; l_count := count
-			c := a_code.to_character_8
-			from i := 0 until i = l_count loop
-				if l_area.item (offset + i - 1) = c then
-					Result := Result + 1
-				end
-				i := i + 1
+			c := area [offset + i - 1]
+			if c = Unencoded_character and then attached unencoded_index as unencoded then
+				Result := unencoded.code (offset + i)
+			else
+				Result := Codec.as_unicode_character (c).natural_32_code
 			end
 		end
 
-	to_string: EL_ZSTRING
+	z_code (i: INTEGER): NATURAL_32
+			-- Character at position `i' relative to `offset'
 		do
-			Result := text.substring (offset + 1, offset + count)
+			Result := z_code_at_absolute (offset + i)
+		end
+
+	z_code_at_absolute (i: INTEGER): NATURAL_32
+			-- Character at absolute position `i'
+		local
+			c_i: CHARACTER
+		do
+			c_i := area [i - 1]
+			if c_i = Unencoded_character and then attached unencoded_index as unencoded then
+				Result := unencoded.z_code (i)
+			else
+				Result := c_i.natural_32_code
+			end
+		end
+
+feature -- Measurement
+
+	occurrences (a_code: like z_code): INTEGER
+		local
+			l_area: like area; i, l_count: INTEGER; c, c_i: CHARACTER
+		do
+			l_area := area; l_count := count
+			c := a_code.to_character_8
+			if attached unencoded_index as unencoded then
+				from i := 0 until i = l_count loop
+					c_i := l_area [offset + i - 1]
+					if c_i = Unencoded_character and then unencoded.z_code (i) = a_code then
+						Result := Result + 1
+					elseif c_i = c then
+						Result := Result + 1
+					end
+					i := i + 1
+				end
+			else
+				from i := 0 until i = l_count loop
+					if l_area.item (offset + i - 1) = c then
+						Result := Result + 1
+					end
+					i := i + 1
+				end
+			end
+		end
+
+feature -- Conversion
+
+	to_string: EL_ZSTRING
+		local
+			l_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+			i, i_final: INTEGER
+		do
+			create Result.make (count)
+			Result.area.copy_data (area, offset, 0, count)
+			Result.set_count (count)
+			if attached unencoded_index as unencoded then
+				l_unencoded := Result.empty_once_unencoded
+				i_final := offset + count
+				from i := offset until i = i_final loop
+					l_unencoded.extend (unencoded.code (i + 1), i + 1)
+					i := i + 1
+				end
+				l_unencoded.shift (offset.opposite)
+				Result.set_from_extendible_unencoded (l_unencoded)
+			end
 		end
 
 	to_string_8: STRING
@@ -89,12 +134,6 @@ feature -- Access
 	to_string_general: READABLE_STRING_GENERAL
 		do
 			Result := to_string.to_unicode
-		end
-
-	unicode (i: INTEGER): NATURAL_32
-			-- Character at position `i'
-		do
-			Result := Codec.as_unicode_character (area [offset + i - 1]).natural_32_code
 		end
 
 feature -- Basic operations
@@ -121,6 +160,6 @@ feature {NONE} -- Internal attributes
 
 	area: SPECIAL [CHARACTER_8]
 
-	text: EL_ZSTRING
+	unencoded_index: detachable EL_UNENCODED_CHARACTERS_INDEX
 
 end

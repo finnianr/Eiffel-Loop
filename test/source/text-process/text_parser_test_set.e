@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
-	revision: "10"
+	date: "2021-01-04 17:38:00 GMT (Monday 4th January 2021)"
+	revision: "11"
 
 class
 	TEXT_PARSER_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		undefine
 			default_create
 		end
+
+	EL_TEST_STRINGS
 
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
 		export
@@ -33,12 +35,13 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("back_reference_match", agent test_back_reference_match)
-			eval.call ("match_p1_while_not_p2", agent test_match_p1_while_not_p2)
 			eval.call ("integer_match", agent test_integer_match)
-			eval.call ("numeric_match", agent test_numeric_match)
+			eval.call ("match_p1_while_not_p2", agent test_match_p1_while_not_p2)
 			eval.call ("numbers_array_parsing", agent test_numbers_array_parsing)
+			eval.call ("numeric_match", agent test_numeric_match)
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
+			eval.call ("string_view", agent test_string_view)
 		end
 
 feature -- Test
@@ -144,8 +147,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_RECURSIVE_TEXT_PATTERN}.match"
 		local
-			eiffel_type: like type
-			type_string: ZSTRING
+			eiffel_type: like type; type_string: ZSTRING
 		do
 			eiffel_type := type
 			across Eiffel_types.split ('%N') as line loop
@@ -154,6 +156,17 @@ feature -- Test
 				type_string := type_string + " X"
 				assert ("not match OK", not type_string.matches (eiffel_type))
 			end
+		end
+
+	test_string_view
+		local
+			str, second_word: ZSTRING; view: EL_ZSTRING_VIEW
+		do
+			str := Text_russian; second_word := str.split (' ').i_th (2)
+			create view.make (str)
+			view.prune_leading (str.substring_index (second_word, 1) - 1)
+			view.set_count (second_word.count)
+			assert ("same as second word", view.to_string.same_string (second_word))
 		end
 
 feature {NONE} -- Patterns

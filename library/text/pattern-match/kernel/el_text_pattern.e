@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 14:24:51 GMT (Monday 17th December 2018)"
-	revision: "6"
+	date: "2021-01-04 17:17:12 GMT (Monday 4th January 2021)"
+	revision: "7"
 
 deferred class
 	EL_TEXT_PATTERN
 
 inherit
 	EL_TEXT_PATTERN_I
-	
+
 	EL_STRING_INTERVAL
 		rename
 			set_from_other as set_interval_from_other
@@ -55,11 +55,8 @@ feature -- Access
 	new_text_view (a_text: READABLE_STRING_GENERAL): EL_STRING_VIEW
 		do
 			if attached {EL_ZSTRING} a_text as str_z then
-				if str_z.has_mixed_encoding then
-					create {EL_MIXED_ENCODING_ZSTRING_VIEW} Result.make (str_z)
-				else
-					create {EL_ZSTRING_VIEW} Result.make (str_z)
-				end
+				create {EL_ZSTRING_VIEW} Result.make (str_z)
+
 			elseif attached {STRING_32} a_text as str_32 then
 				create {EL_STRING_32_VIEW} Result.make (str_32)
 

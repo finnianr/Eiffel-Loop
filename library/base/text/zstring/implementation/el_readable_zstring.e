@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:43:07 GMT (Monday 4th January 2021)"
-	revision: "60"
+	date: "2021-01-04 16:40:04 GMT (Monday 4th January 2021)"
+	revision: "61"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -48,7 +48,7 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 		export
-			{STRING_HANDLER} area_i_th_z_code
+			{STRING_HANDLER} area_i_th_z_code, empty_once_unencoded
 		redefine
 			make_from_string
 		end
