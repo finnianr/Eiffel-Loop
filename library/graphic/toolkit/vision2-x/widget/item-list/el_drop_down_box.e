@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 10:34:54 GMT (Monday 17th August 2020)"
-	revision: "8"
+	date: "2021-01-05 12:16:40 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	EL_DROP_DOWN_BOX [G]
@@ -41,8 +41,6 @@ inherit
 		undefine
 			is_equal, default_create, copy
 		end
-
-	EL_MODULE_ZSTRING
 
 create
 	default_create, make, make_unadjusted, make_sorted, make_unadjusted_sorted

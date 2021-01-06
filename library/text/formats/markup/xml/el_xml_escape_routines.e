@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 9:15:56 GMT (Sunday 3rd May 2020)"
-	revision: "1"
+	date: "2021-01-05 9:46:37 GMT (Tuesday 5th January 2021)"
+	revision: "2"
 
 deferred class
 	EL_XML_ESCAPE_ROUTINES
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 			digit_count, i: INTEGER
 			n, digit: NATURAL
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			Result.append (once "&#x")
 
 			digit_count := Hexadecimal.natural_digit_count (code)
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 	entity (c: CHARACTER; keep_ref: BOOLEAN): STRING
 		-- standard character entity
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			Result.append_character ('&')
 			inspect c
 				when '<' then

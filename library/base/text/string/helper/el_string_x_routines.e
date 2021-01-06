@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:26:24 GMT (Monday 4th January 2021)"
-	revision: "23"
+	date: "2021-01-05 11:49:19 GMT (Tuesday 5th January 2021)"
+	revision: "24"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
 
 inherit
 	STRING_HANDLER
-
-	EL_MODULE_CHAR_8
 
 feature -- Basic operations
 
@@ -37,11 +35,10 @@ feature -- Basic operations
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
 		local
-			i: INTEGER; routines: like Char_8
+			i: INTEGER; c: EL_CHARACTER_8_ROUTINES
 		do
-			routines := Char_8
 			from i := 1 until i > s.count loop
-				routines.write_utf_8 (s [i], writeable)
+				c.write_utf_8 (s [i], writeable)
 				i := i + 1
 			end
 		end

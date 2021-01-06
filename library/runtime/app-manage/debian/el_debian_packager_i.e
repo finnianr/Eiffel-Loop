@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-08 10:47:36 GMT (Thursday 8th October 2020)"
-	revision: "14"
+	date: "2021-01-06 10:20:45 GMT (Wednesday 6th January 2021)"
+	revision: "15"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -33,7 +33,6 @@ inherit
 	EL_DEBIAN_CONSTANTS
 
 	EL_MODULE_BUILD_INFO
-	EL_MODULE_COLON_FIELD
 	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_EXECUTABLE
@@ -166,17 +165,21 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 feature {NONE} -- Line states
 
 	find_architecture (line: ZSTRING)
+		local
+			f: EL_COLON_FIELD_ROUTINES
 		do
-			if Colon_field.name (line) ~ Field.architecture then
-				architecture := Colon_field.value (line)
+			if f.name (line) ~ Field.architecture then
+				architecture := f.value (line)
 				state := final
 			end
 		end
 
 	find_package (line: ZSTRING)
+		local
+			f: EL_COLON_FIELD_ROUTINES
 		do
-			if Colon_field.name (line) ~ Field.package then
-				package := Colon_field.value (line)
+			if f.name (line) ~ Field.package then
+				package := f.value (line)
 				state := agent find_architecture
 			end
 		end

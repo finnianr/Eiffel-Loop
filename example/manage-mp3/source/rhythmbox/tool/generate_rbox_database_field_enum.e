@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:30:50 GMT (Thursday 7th May 2020)"
-	revision: "3"
+	date: "2021-01-05 10:48:31 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -30,8 +30,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-
-	EL_MODULE_STRING_8
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

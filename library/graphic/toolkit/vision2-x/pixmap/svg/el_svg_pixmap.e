@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-09 10:51:26 GMT (Thursday 9th July 2020)"
-	revision: "11"
+	date: "2021-01-05 9:45:43 GMT (Tuesday 5th January 2021)"
+	revision: "12"
 
 class
 	EL_SVG_PIXMAP
@@ -286,7 +286,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 		local
 			hex_string, base: ZSTRING
 		do
-			base := empty_once_string
+			base := once_empty_string
 			across rendering_variables as modifier loop
 				if modifier.cursor_index > 1 then
 					base.append_character ('.')

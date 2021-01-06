@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-19 12:10:40 GMT (Thursday 19th March 2020)"
-	revision: "7"
+	date: "2021-01-05 9:45:59 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	TL_BYTE_VECTOR
@@ -113,7 +113,7 @@ feature -- Conversion
 		local
 			i, l_count: INTEGER
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			l_count := count
 			from i := 1 until i > l_count loop
 				Result.extend (i_th (i))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-05 11:47:46 GMT (Saturday 5th December 2020)"
-	revision: "3"
+	date: "2021-01-05 10:25:36 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	L1_UC_STRING_TEST
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_TEST_STRINGS
-
-	EL_MODULE_STRING_32
 
 	EL_ZCODE_CONVERSION undefine default_create end
 

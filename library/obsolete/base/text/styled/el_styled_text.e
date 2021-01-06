@@ -85,7 +85,7 @@ feature -- Measurement
 		local
 			i: INTEGER; spaces: like Once_string_32
 		do
-			spaces := empty_once_string_32
+			spaces := once_empty_string_32
 			from i := 1 until i > text.count or else text [i] /= ' ' loop
 				spaces.append_character (' ')
 				i := i + 1

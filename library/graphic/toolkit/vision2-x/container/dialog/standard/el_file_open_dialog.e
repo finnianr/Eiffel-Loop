@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:23:05 GMT (Sunday 23rd August 2020)"
-	revision: "4"
+	date: "2021-01-05 12:17:14 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -18,9 +18,12 @@ inherit
 			file_path as file_path_string
 		end
 
-	EL_ZSTRING_ROUTINES undefine default_create, copy end
-
-	EL_MODULE_ZSTRING
+	EL_ZSTRING_ROUTINES
+		export
+			{NONE} all
+		undefine
+			default_create, copy
+		end
 
 	EL_MODULE_GUI
 

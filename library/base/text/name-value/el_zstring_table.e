@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 14:43:32 GMT (Friday 11th December 2020)"
-	revision: "4"
+	date: "2021-01-05 12:20:58 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 class
 	EL_ZSTRING_TABLE
@@ -31,8 +31,6 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_ZSTRING
-
 create
 	make, make_with_count
 
@@ -40,10 +38,10 @@ feature {NONE} -- Initialization
 
 	make (general: READABLE_STRING_GENERAL)
 		local
-			text: ZSTRING
+			s: EL_ZSTRING_ROUTINES; text: ZSTRING
 		do
 			make_equal (general.occurrences (':'))
-			text := Zstring.to (general)
+			text := s.as_zstring (general)
 			text.do_with_splits (character_string ('%N'), agent add_line)
 		end
 

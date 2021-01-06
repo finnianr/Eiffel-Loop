@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:12:24 GMT (Sunday 3rd January 2021)"
-	revision: "6"
+	date: "2021-01-05 11:44:38 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -16,8 +16,6 @@ inherit
 	EL_ZSTRING_IMPLEMENTATION
 
 	EL_APPENDABLE_ZSTRING
-
-	EL_MODULE_CHAR_32
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
@@ -88,8 +86,8 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		-- adjust so that `is_canonically_spaced' becomes true
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN
-			z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
+			is_space, is_space_state: BOOLEAN; z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
+			c: EL_CHARACTER_32_ROUTINES
 		do
 			if not is_canonically_spaced then
 				l_area := area; l_count := count
@@ -97,7 +95,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
-						is_space := Char_32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+						is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 						l_z_code := unencoded_z_code (i + 1)
 					else
 						is_space := c_i.is_space

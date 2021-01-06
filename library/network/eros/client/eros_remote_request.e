@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:41:31 GMT (Tuesday 28th April 2020)"
-	revision: "15"
+	date: "2021-01-05 10:17:49 GMT (Tuesday 5th January 2021)"
+	revision: "16"
 
 class
 	EROS_REMOTE_REQUEST
@@ -40,8 +40,6 @@ inherit
 		end
 
 	EL_MODULE_NAMING
-
-	EL_MODULE_STRING_8
 
 	EL_MODULE_TUPLE
 
@@ -92,6 +90,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			i: INTEGER; argument: ANY; list: STRING
+			s: EL_STRING_8_ROUTINES
 		do
 			list := argument_list
 			list.wipe_out
@@ -105,12 +104,12 @@ feature {NONE} -- Implementation
 						if routines_table.has (string) then
 							list.append (string)
 						else
-							list.append (String_8.enclosed (string, '%'', '%''))
+							list.append (s.enclosed (string, '%'', '%''))
 						end
 
 					elseif attached {EVOLICITY_SERIALIZEABLE_AS_XML} argument as l_arg then
 						serializeable := l_arg
-						list.append (String_8.enclosed (l_arg.generator, '{', '}'))
+						list.append (s.enclosed (l_arg.generator, '{', '}'))
 					end
 				else
 					list.append (args.item (i).out)

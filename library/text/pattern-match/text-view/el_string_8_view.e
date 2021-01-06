@@ -1,13 +1,13 @@
 note
-	description: "String 8 view"
+	description: "A mutable substring view of characters in a `STRING_8'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 12:34:33 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2021-01-05 9:19:53 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	EL_STRING_8_VIEW

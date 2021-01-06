@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-22 11:12:19 GMT (Saturday 22nd February 2020)"
-	revision: "4"
+	date: "2021-01-05 11:54:20 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 class
 	CAD_MODEL_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_LIO
-
-	EL_MODULE_STRING_8
 
 feature -- Basic operations
 

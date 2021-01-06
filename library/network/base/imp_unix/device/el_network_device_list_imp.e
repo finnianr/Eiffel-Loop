@@ -47,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 10:18:21 GMT (Thursday 6th August 2020)"
-	revision: "10"
+	date: "2021-01-06 10:35:34 GMT (Wednesday 6th January 2021)"
+	revision: "11"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -69,8 +69,6 @@ inherit
 		redefine
 			do_with_lines, make, is_valid_platform
 		end
-
-	EL_MODULE_COLON_FIELD
 
 	EL_OS_COMMAND_IMP
 		rename
@@ -106,7 +104,7 @@ feature {NONE} -- Implementation
 	do_with_lines (lines: like adjusted_lines)
 			--
 		local
-			name: STRING
+			name: STRING; field: EL_COLON_FIELD_ROUTINES
 		do
 			from lines.start until lines.after loop
 				if lines.item.starts_with (General_dot) then
@@ -115,7 +113,7 @@ feature {NONE} -- Implementation
 						extend (create {EL_NETWORK_DEVICE_IMP}.make)
 					end
 					if attached {EL_NETWORK_DEVICE_IMP} last as device then
-						device.set_field (name, Colon_field.value (lines.item))
+						device.set_field (name, field.value (lines.item))
 					end
 				end
 				lines.forth
@@ -126,8 +124,10 @@ feature {NONE} -- Implementation
 	field_name (line: ZSTRING): STRING
 		require
 			starts_with_general: line.starts_with (General_dot)
+		local
+			field: EL_COLON_FIELD_ROUTINES
 		do
-			Result := Colon_field.name (line)
+			Result := field.name (line)
 			Result.remove_head (General_dot.count)
 		end
 

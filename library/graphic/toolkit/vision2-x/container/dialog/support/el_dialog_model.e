@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-03 10:50:53 GMT (Saturday 3rd October 2020)"
-	revision: "8"
+	date: "2021-01-05 12:21:08 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	EL_DIALOG_MODEL
@@ -20,8 +20,6 @@ inherit
 	EL_MODULE_PIXMAP
 
 	EL_MODULE_SCREEN
-
-	EL_MODULE_ZSTRING
 
 	EL_MODULE_ITERABLE
 
@@ -65,11 +63,13 @@ feature -- Text
 
 	paragraph_list: EL_ZSTRING_LIST
 		-- paragraphs explictly set with `set_paragraph_list' or else `text' split into paragraphs
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			if attached internal_paragraph_list as list then
 				Result := list
 			else
-				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (Zstring.to (text), Paragraph_separator))
+				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (s.as_zstring (text), Paragraph_separator))
 				internal_paragraph_list := Result
 			end
 		end
@@ -226,11 +226,11 @@ feature {NONE} -- Implementation
 
 	new_paragraph_list (list_general: ITERABLE [READABLE_STRING_GENERAL]): like paragraph_list
 		local
-			lines: EL_ZSTRING_LIST; l_text: ZSTRING
+			lines: EL_ZSTRING_LIST; l_text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			create Result.make (Iterable.count (list_general))
 			across list_general as paragraph loop
-				l_text := Zstring.to (paragraph.item)
+				l_text := s.as_zstring (paragraph.item)
 				if text.has ('%N') then
 					create lines.make_with_lines (l_text)
 					Result.extend (lines.joined_words)

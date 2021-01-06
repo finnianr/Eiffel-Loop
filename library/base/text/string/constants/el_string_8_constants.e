@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 17:07:06 GMT (Sunday 3rd January 2021)"
-	revision: "11"
+	date: "2021-01-06 11:35:15 GMT (Wednesday 6th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_STRING_8_CONSTANTS
@@ -44,12 +44,6 @@ feature {NONE} -- Constants
 	frozen String_8_pool: EL_STRING_POOL [STRING]
 		once
 			create Result.make
-		end
-
-	Once_cursor_8: EL_STRING_8_ITERATION_CURSOR
-		-- provides access to `area_lower', `area_upper', `area' in `READABLE_STRING_8'
-		once
-			create Result.make_empty
 		end
 
 invariant

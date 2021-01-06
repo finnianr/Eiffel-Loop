@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-02 8:47:03 GMT (Tuesday 2nd June 2020)"
-	revision: "20"
+	date: "2021-01-05 9:44:30 GMT (Tuesday 5th January 2021)"
+	revision: "21"
 
 class
 	EL_URI
@@ -380,7 +380,7 @@ feature {NONE} -- Implementation
 
 	substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			Result.append_substring (Current, start_index, end_index)
 			if keep_ref then
 				Result := Result.twin

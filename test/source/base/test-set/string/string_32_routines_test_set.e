@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:27:07 GMT (Tuesday 5th May 2020)"
-	revision: "10"
+	date: "2021-01-05 10:26:03 GMT (Tuesday 5th January 2021)"
+	revision: "11"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_TEST_STRINGS
-
-	EL_MODULE_STRING_32
 
 feature -- Basic operations
 
@@ -36,12 +34,13 @@ feature -- Conversion tests
 						"covers/{EL_OCCURRENCE_INTERVALS}.make"
 		local
 			str, delimiter, str_2, l_substring: STRING_32
+			s: EL_STRING_32_ROUTINES
 		do
 			across Text_lines as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
-					across String_32.delimited_list (str, delimiter) as substring loop
+					across s.delimited_list (str, delimiter) as substring loop
 						l_substring := substring.item
 						if substring.cursor_index > 1 then
 							str_2.append (delimiter)
@@ -53,7 +52,7 @@ feature -- Conversion tests
 				end
 			end
 			str := Text_russian_and_english; delimiter := "Latin"
-			across String_32.delimited_list (str, delimiter) as substring loop
+			across s.delimited_list (str, delimiter) as substring loop
 				l_substring := substring.item
 				if substring.cursor_index > 1 then
 					str_2.append (delimiter)

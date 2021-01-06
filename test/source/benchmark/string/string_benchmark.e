@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:20:41 GMT (Monday 4th January 2021)"
-	revision: "12"
+	date: "2021-01-05 10:26:42 GMT (Tuesday 5th January 2021)"
+	revision: "13"
 
 deferred class
 	STRING_BENCHMARK
@@ -16,8 +16,6 @@ inherit
 	EL_COMMAND
 
 	SHARED_HEXAGRAM_STRINGS
-
-	EL_MODULE_STRING_32
 
 	EL_MODULE_EIFFEL
 
@@ -494,13 +492,13 @@ feature {NONE} -- Implementation
 
 	escape_input_strings
 		local
-			i: INTEGER
+			i: INTEGER; s: EL_STRING_32_ROUTINES
 		do
 			across input_string_list as string loop
 				if attached {EL_ZSTRING} string.item  as str_z then
 					str_z.translate_general (" ", "\")
 				elseif attached {STRING_32} string.item  as str_32 then
-					String_32.translate (str_32, " ", "\")
+					s.translate (str_32, " ", "\")
 				end
 				from i := string.item.index_of (Pinyin_u, 1) until i = 0 loop
 					if attached {EL_ZSTRING} string.item  as str_z then

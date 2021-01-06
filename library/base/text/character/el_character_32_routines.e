@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 16:58:16 GMT (Saturday 1st February 2020)"
-	revision: "1"
+	date: "2021-01-05 11:42:12 GMT (Tuesday 5th January 2021)"
+	revision: "2"
 
-class
+expanded class
 	EL_CHARACTER_32_ROUTINES
 
 inherit
 	CHARACTER_PROPERTY
 
-create
-	make
 end

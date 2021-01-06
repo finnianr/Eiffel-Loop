@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 9:11:13 GMT (Thursday 6th August 2020)"
-	revision: "2"
+	date: "2021-01-05 9:46:14 GMT (Tuesday 5th January 2021)"
+	revision: "3"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -74,7 +74,7 @@ feature -- Access
 
 	description: ZSTRING
 		do
-			Result := empty_once_string
+			Result := once_empty_string
 			across << vendor, product, type >> as list loop
 				if not valid_hardware_address (list.item) then
 					Result.append_string_general (list.item); Result.prune_all_trailing ('-')

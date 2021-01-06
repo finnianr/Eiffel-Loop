@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2021-01-06 10:21:28 GMT (Wednesday 6th January 2021)"
+	revision: "8"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -25,8 +25,6 @@ inherit
 		end
 
 	EL_MODULE_EXCEPTION
-
-	EL_MODULE_COLON_FIELD
 
 create
 	make
@@ -63,11 +61,13 @@ feature {NONE} -- Line states
 feature {NONE} -- Implementation
 
 	error_message: ZSTRING
+		local
+			f: EL_COLON_FIELD_ROUTINES
 		do
 			if errors.is_empty then
 				Result := "Unknown error"
 			else
-				Result := Colon_field.value (errors.first)
+				Result := f.value (errors.first)
 			end
 		end
 

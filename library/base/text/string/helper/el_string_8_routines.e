@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:28:07 GMT (Monday 4th January 2021)"
-	revision: "12"
+	date: "2021-01-06 16:31:42 GMT (Wednesday 6th January 2021)"
+	revision: "13"
 
-frozen class
+expanded class
 	EL_STRING_8_ROUTINES
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_8]
 		rename
-			replace_character as replace_character_32
+			replace_character as replace_character_32,
+			left_white_count as leading_white_count,
+			right_white_count as trailing_white_count
 		redefine
 			is_eiffel_identifier, replace_character_32
 		end
@@ -51,6 +53,12 @@ feature -- Status query
 
 feature -- Conversion
 
+	cursor (s: READABLE_STRING_8): EL_STRING_8_ITERATION_CURSOR
+		do
+			Result := Once_cursor
+			Result.make (s)
+		end
+
 	to_code_array (s: STRING_8): ARRAY [NATURAL_8]
 		local
 			i: INTEGER
@@ -84,28 +92,31 @@ feature -- Measurement
 			Result := s.count
 		end
 
-	left_white_count (s: STRING_8): INTEGER
+	leading_white_count (s: READABLE_STRING_8): INTEGER
 		local
-			i, l_count: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			l_count := s.count; l_area := s.area
-			from until i = l_count or else not l_area.item (i).is_space loop
+			l_count := s.count
+			if attached cursor (s) as c then
+				l_area := c.area
+				offset := c.area_first_index
+			end
+			from until i = l_count or else not l_area.item (i + offset).is_space loop
 				i := i + 1
 			end
 			Result := i
 		end
 
-	right_white_count (s: STRING_8): INTEGER
+	trailing_white_count (s: READABLE_STRING_8): INTEGER
 		local
-			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, nb, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			from
-				nb := s.count - 1
-				i := nb
-				l_area := s.area
-			until
-				i < 0 or else not l_area.item (i).is_space
-			loop
+			nb := s.count - 1
+			if attached cursor (s) as c then
+				l_area := c.area
+				offset := c.area_first_index
+			end
+			from i := nb until i < 0 or else not l_area.item (i + offset).is_space loop
 				Result := Result + 1
 				i := i - 1
 			end
@@ -150,4 +161,10 @@ feature -- Transformation
 			str.right_adjust
 		end
 
+feature {NONE} -- Constants
+
+	Once_cursor: EL_STRING_8_ITERATION_CURSOR
+		once
+			create Result.make_empty
+		end
 end

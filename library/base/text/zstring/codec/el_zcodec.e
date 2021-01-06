@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-30 11:18:19 GMT (Wednesday 30th December 2020)"
-	revision: "17"
+	date: "2021-01-05 9:45:28 GMT (Tuesday 5th January 2021)"
+	revision: "18"
 
 deferred class
 	EL_ZCODEC
@@ -309,7 +309,7 @@ feature {EL_ZSTRING} -- Implementation
 			extendible_unencoded := Once_extendible_unencoded
 			extendible_unencoded.wipe_out
 
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			Result.grow (count)
 			Result.set_count (count)
 			encode (unicode_in, Result.area, 0, extendible_unencoded)

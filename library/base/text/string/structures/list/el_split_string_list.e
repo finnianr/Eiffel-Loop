@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 15:17:54 GMT (Sunday 17th May 2020)"
-	revision: "19"
+	date: "2021-01-05 11:43:35 GMT (Tuesday 5th January 2021)"
+	revision: "20"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -55,8 +55,6 @@ inherit
 		end
 
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
-
-	EL_MODULE_CHAR_32
 
 create
 	make, make_empty, make_from_sub_list
@@ -371,12 +369,13 @@ feature {NONE} -- Implementation
 	update_internal_item
 		local
 			start_index: INTEGER; internal: like internal_item
+			c: EL_CHARACTER_32_ROUTINES
 		do
 			internal := internal_item
 			internal.keep_head (0)
 			start_index := item_start_index
 			if left_adjusted then
-				from until start_index > item_end_index or else not Char_32.is_space (string [start_index]) loop
+				from until start_index > item_end_index or else not c.is_space (string [start_index]) loop
 					start_index := start_index + 1
 				end
 			end

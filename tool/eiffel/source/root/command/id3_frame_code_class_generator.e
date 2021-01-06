@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:13:52 GMT (Thursday 7th May 2020)"
-	revision: "4"
+	date: "2021-01-05 9:46:46 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -150,7 +150,7 @@ feature {NONE} -- Implementation
 
 	field_string (code_array: like field_table.item): STRING
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			across code_array as code loop
 				if not code.item.is_empty then
 					if not Result.is_empty then

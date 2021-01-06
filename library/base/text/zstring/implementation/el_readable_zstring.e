@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 16:40:04 GMT (Monday 4th January 2021)"
-	revision: "61"
+	date: "2021-01-05 11:45:47 GMT (Tuesday 5th January 2021)"
+	revision: "62"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -83,8 +83,6 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_MODULE_CHAR_32
 
 feature {NONE} -- Initialization
 
@@ -257,13 +255,13 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c: CHARACTER
+			c_i: CHARACTER; c: EL_CHARACTER_32_ROUTINES
 		do
-			c := area [i - 1]
-			if c = Unencoded_character then
-				Result := Char_32.is_digit (unencoded_item (i))
+			c_i := area [i - 1]
+			if c_i = Unencoded_character then
+				Result := c.is_digit (unencoded_item (i))
 			else
-				Result := codec.is_numeric (c.natural_32_code)
+				Result := codec.is_numeric (c_i.natural_32_code)
 			end
 		end
 
@@ -387,14 +385,14 @@ feature -- Status query
 		-- `True' if the longest substring of whitespace consists of one space character
 		local
 			c_i: CHARACTER; i, l_count, space_count: INTEGER; l_area: like area
-			is_space, is_space_state: BOOLEAN
+			is_space, is_space_state: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
 		do
 			l_area := area; l_count := count
 			Result := True
 			from i := 0 until not Result or else i = l_count loop
 				c_i := l_area [i]
 				if c_i = Unencoded_character then
-					is_space := Char_32.is_space (unencoded_item (i)) -- Work around for finalization bug
+					is_space := c.is_space (unencoded_item (i)) -- Work around for finalization bug
 				else
 					is_space := c_i.is_space
 				end
@@ -473,6 +471,7 @@ feature -- Status query
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		local
 			i: INTEGER; l_area: like area; c_i: CHARACTER
+			c: EL_CHARACTER_32_ROUTINES
 		do
 			l_area := area
 			if end_index = start_index - 1 then
@@ -482,7 +481,7 @@ feature -- Status query
 				from i := start_index - 1 until i = end_index or not Result loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
-						Result := Result and Char_32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+						Result := Result and c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 					else
 						Result := Result and c_i.is_space
 					end
@@ -698,7 +697,7 @@ feature -- Append to output
 		local
 			str_32: STRING_32
 		do
-			str_32 := empty_once_string_32
+			str_32 := once_empty_string_32
 			append_to_string_32 (str_32)
 			output.append_string_general (str_32)
 		end

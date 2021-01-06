@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 11:21:37 GMT (Tuesday 28th April 2020)"
-	revision: "7"
+	date: "2021-01-05 9:45:46 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 deferred class
 	EL_C_STRING
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 
 	filled_string_32: STRING_32
 		do
-			Result := empty_once_string_32
+			Result := once_empty_string_32
 			fill_string (Result)
 		end
 

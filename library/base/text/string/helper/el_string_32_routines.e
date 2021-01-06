@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:29:05 GMT (Monday 4th January 2021)"
-	revision: "14"
+	date: "2021-01-06 11:38:36 GMT (Wednesday 6th January 2021)"
+	revision: "15"
 
-class
+expanded class
 	EL_STRING_32_ROUTINES
 
 inherit
@@ -32,12 +32,18 @@ feature -- Basic operations
 
 feature -- Conversion
 
+	cursor (s: READABLE_STRING_32): EL_STRING_32_ITERATION_CURSOR
+		do
+			Result := Once_cursor
+			Result.make (s)
+		end
+
 	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING_32
 		do
 			if attached {STRING_32} str as str_32 then
 				Result := str_32
 			else
-				Result := empty_once_string_32
+				Result := once_empty_string_32
 				if attached {ZSTRING} str as z_str then
 					z_str.append_to_string_32 (Result)
 				else
@@ -64,7 +70,7 @@ feature -- Conversion
 		local
 			c: EL_UTF_CONVERTER
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			c.utf_32_string_into_utf_8_string_8 (str, Result)
 			if keep_ref then
 				Result := Result.twin
@@ -140,4 +146,10 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+feature {NONE} -- Constants
+
+	Once_cursor: EL_STRING_32_ITERATION_CURSOR
+		once
+			create Result.make_empty
+		end
 end

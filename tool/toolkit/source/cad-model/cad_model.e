@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-05 10:12:08 GMT (Thursday 5th March 2020)"
-	revision: "7"
+	date: "2021-01-05 9:46:48 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	CAD_MODEL
@@ -89,7 +89,7 @@ feature -- Access
 			vertice_index: like new_vertice_index_table
 		do
 			vertice_index := new_vertice_index_table
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 --			{
 			Result.append_character ('{')
 --				"q":
@@ -277,4 +277,3 @@ feature -- Constants
 	Tuple_delimiter: STRING = "], ["
 
 end
-

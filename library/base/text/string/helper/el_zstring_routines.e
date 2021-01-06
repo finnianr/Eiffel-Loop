@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 13:51:41 GMT (Sunday 16th August 2020)"
-	revision: "16"
+	date: "2021-01-05 12:20:17 GMT (Tuesday 5th January 2021)"
+	revision: "17"
 
-class
+expanded class
 	EL_ZSTRING_ROUTINES
 
-feature {EL_MODULE_ZSTRING} -- Conversion
+feature -- Conversion
 
 	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
@@ -23,7 +23,7 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 			end
 		end
 
-	as_zstring, to (general: READABLE_STRING_GENERAL): ZSTRING
+	as_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		do
 			if attached {ZSTRING} general as str then
 				Result := str
@@ -77,7 +77,7 @@ feature {EL_MODULE_ZSTRING} -- Conversion
 			create Result.make_from_general (general)
 		end
 
-feature {EL_MODULE_ZSTRING} -- Status query
+feature -- Status query
 
 	starts_with (a, b: ZSTRING): BOOLEAN
 		do

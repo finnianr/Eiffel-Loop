@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:53:38 GMT (Friday 24th January 2020)"
-	revision: "9"
+	date: "2021-01-05 9:46:43 GMT (Tuesday 5th January 2021)"
+	revision: "10"
 
 class
 	EL_RSA_ROUTINES
@@ -54,7 +54,7 @@ feature -- Conversion
 			parts: EL_SPLIT_STRING_LIST [STRING]; hex_string: STRING
 		do
 			create parts.make (sequence, once ":")
-			hex_string := empty_once_string_8
+			hex_string := once_empty_string_8
 			from parts.start until parts.after loop
 				if not (parts.index = 1 and then parts.same_item_as (Double_zero)) then
 					hex_string.append (parts.item (False))

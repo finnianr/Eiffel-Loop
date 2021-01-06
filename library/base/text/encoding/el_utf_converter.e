@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 9:53:30 GMT (Monday 3rd August 2020)"
-	revision: "6"
+	date: "2021-01-06 13:33:01 GMT (Wednesday 6th January 2021)"
+	revision: "7"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -15,8 +15,10 @@ expanded class
 inherit
 	UTF_CONVERTER
 		redefine
-			is_valid_utf_16
+			is_valid_utf_16, utf_8_string_8_into_string_32
 		end
+
+	STRING_HANDLER
 
 feature -- Status query
 
@@ -58,7 +60,7 @@ feature -- Status query
 			end
 		end
 
-feature -- Basic operations
+feature -- UTF-16 operations
 
 	utf_16_be_0_pointer_into_string_32 (p: MANAGED_POINTER; a_result: STRING_32)
 			-- Copy {STRING_32} object corresponding to UTF-16BE sequence `p' which is zero-terminated
@@ -109,4 +111,68 @@ feature -- Basic operations
 				end
 			end
 		end
+
+feature -- UTF-8 operations
+
+	utf_8_string_8_into_string_32 (s: READABLE_STRING_8; a_result: STRING_32)
+		do
+			utf_8_substring_8_into_string_32 (s, 1, s.count, a_result)
+		end
+
+	utf_8_substring_8_into_string_32 (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_32)
+			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
+		local
+			i, i_final, n, offset: INTEGER; c1, c2, c3, c4: NATURAL_32; r: EL_STRING_8_ROUTINES
+			area: SPECIAL [CHARACTER_8]
+		do
+			if attached r.cursor (s) as cursor then
+				area := cursor.area; offset := cursor.area_first_index
+			end
+			n := end_index - start_index + 1
+			i_final := offset + start_index + n - 1
+			a_result.grow (a_result.count + n)
+			from i := offset + start_index - 1 until i >= i_final loop
+				i := i + 1
+				c1 := area.item (i - 1).natural_32_code
+				if c1 <= 0x7F then
+						-- 0xxxxxxx
+					a_result.extend (c1.to_character_32)
+				elseif c1 <= 0xDF then
+						-- 110xxxxx 10xxxxxx
+					i := i + 1
+					if i <= i_final then
+						c2 := area.item (i - 1).natural_32_code
+						a_result.extend ((
+							((c1 & 0x1F) |<< 6) | (c2 & 0x3F)
+						).to_character_32)
+					end
+				elseif c1 <= 0xEF then
+						-- 1110xxxx 10xxxxxx 10xxxxxx
+					i := i + 2
+					if i <= i_final then
+						c2 := area.item (i - 2).natural_32_code
+						c3 := area.item (i - 1).natural_32_code
+						a_result.extend ((
+							((c1 & 0xF) |<< 12) | ((c2 & 0x3F) |<< 6) | (c3 & 0x3F)
+						).to_character_32)
+					end
+				elseif c1 <= 0xF7 then
+						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					i := i + 3
+					if i <= i_final then
+						c2 := area.item (i - 3).natural_32_code
+						c3 := area.item (i - 2).natural_32_code
+						c4 := area.item (i - 1).natural_32_code
+						a_result.extend ((
+							((c1 & 0x7) |<< 18) | ((c2 & 0x3F) |<< 12) | ((c3 & 0x3F) |<< 6) | (c4 & 0x3F)
+						).to_character_32)
+					end
+				end
+			end
+		ensure
+			roundtrip: attached s.substring (start_index, end_index) as str and then
+				is_valid_utf_8_string_8 (str) implies
+					utf_32_string_to_utf_8_string_8 (a_result.substring (old a_result.count + 1, a_result.count)).same_string (str)
+		end
+
 end

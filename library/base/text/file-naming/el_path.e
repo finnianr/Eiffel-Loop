@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-28 10:03:49 GMT (Wednesday 28th October 2020)"
-	revision: "45"
+	date: "2021-01-05 12:09:48 GMT (Tuesday 5th January 2021)"
+	revision: "46"
 
 deferred class
 	EL_PATH
@@ -363,11 +363,11 @@ feature -- Status Query
 
 	is_absolute: BOOLEAN
 		local
-			str: ZSTRING
+			str: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			str := parent_path
 			if {PLATFORM}.is_windows then
-				Result := Zstring.starts_with_drive (str)
+				Result := s.starts_with_drive (str)
 			else
 				Result := not str.is_empty and then str [1] = Separator
 			end
@@ -533,8 +533,10 @@ feature -- Element change
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			base := Zstring.as_zstring (a_base)
+			base := s.as_zstring (a_base)
 			internal_hash_code := 0
 		end
 

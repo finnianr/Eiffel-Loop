@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-28 9:54:26 GMT (Wednesday 28th October 2020)"
-	revision: "12"
+	date: "2021-01-05 12:09:20 GMT (Tuesday 5th January 2021)"
+	revision: "13"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -26,15 +26,11 @@ inherit
 
 	STRING_HANDLER
 
-	EL_MODULE_ZSTRING
-
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FORMAT
-
-	EL_MODULE_STRING_8
 
 	EL_SHARED_ONCE_STRING_8
 
@@ -99,7 +95,7 @@ feature -- Conversion
 			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
 			c: EL_UTF_CONVERTER
 		do
-			Result := empty_once_string_8
+			Result := once_empty_string_8
 			from i := 1 until i > part_count loop
 				i_th_part := part_string (i)
 				if attached {ZSTRING} i_th_part as zstr then
@@ -125,7 +121,7 @@ feature -- Conversion
 		local
 			str: STRING_32
 		do
-			str := empty_once_string_32
+			str := once_empty_string_32
 			append_to_32 (str)
 			create Result.make_from_string (str)
 		end

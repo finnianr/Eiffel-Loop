@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 17:37:54 GMT (Thursday 6th August 2020)"
-	revision: "7"
+	date: "2021-01-05 10:42:56 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -27,8 +27,6 @@ inherit
 		redefine
 			make_default
 		end
-
-	EL_MODULE_STRING_32
 
 create
 	make_with_name, make_open_read, make_open_write
@@ -51,8 +49,10 @@ feature -- Access
 feature -- Write string
 
 	put_string_general (str: READABLE_STRING_GENERAL)
+		local
+			s: EL_STRING_32_ROUTINES
 		do
-			put_raw_string_8 (String_32.to_utf_8 (String_32.from_general (str, False), False))
+			put_raw_string_8 (s.to_utf_8 (s.from_general (str, False), False))
 		end
 
 	put_string (str: ZSTRING)

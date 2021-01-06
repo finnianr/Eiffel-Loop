@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 16:04:44 GMT (Sunday 20th December 2020)"
-	revision: "13"
+	date: "2021-01-05 10:15:37 GMT (Tuesday 5th January 2021)"
+	revision: "14"
 
 class
 	EL_SMART_BUILDABLE_FROM_NODE_SCAN
@@ -28,8 +28,6 @@ inherit
 		redefine
 			new_node_source
 		end
-
-	EL_MODULE_STRING_8
 
 create
 	make

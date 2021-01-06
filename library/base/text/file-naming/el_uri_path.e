@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 12:08:58 GMT (Monday 3rd August 2020)"
-	revision: "24"
+	date: "2021-01-05 9:44:36 GMT (Tuesday 5th January 2021)"
+	revision: "25"
 
 deferred class
 	EL_URI_PATH
@@ -64,7 +64,7 @@ feature -- Initialization
 			l_path := temporary_copy (a_uri)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
-				l_scheme := empty_once_string
+				l_scheme := once_empty_string
 				l_scheme.append_substring_general (a_uri, 1, start_index - 1)
 				set_scheme (l_scheme)
 				l_path.remove_head (start_index + Colon_slash_x2.count - 1)

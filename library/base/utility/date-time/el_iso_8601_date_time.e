@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:38:16 GMT (Monday 30th September 2019)"
-	revision: "6"
+	date: "2021-01-05 9:45:41 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -33,7 +33,7 @@ feature {EL_DATE_TEXT} -- Initialization
 		local
 			modified: STRING
 		do
-			modified := empty_once_string_8
+			modified := once_empty_string_8
 			modified.append_substring (s, 1, T_index - 1)
 			append_space (modified)
 			modified.append_substring (s, T_index + 1, Input_string_count - 1)

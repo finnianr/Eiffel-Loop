@@ -1,16 +1,13 @@
 note
-	description: "[
-		Text view for pure latin encoded text of type [$source EL_ZSTRING]
-		Use [$source EL_MIXED_ENCODING_ZSTRING_VIEW] for text with mixed encodings of Latin and Unicode
-	]"
+	description: "A mutable substring view of characters in a [$source EL_ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 17:36:34 GMT (Monday 4th January 2021)"
-	revision: "8"
+	date: "2021-01-05 9:20:33 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	EL_ZSTRING_VIEW
@@ -108,21 +105,21 @@ feature -- Conversion
 
 	to_string: EL_ZSTRING
 		local
-			l_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
 			i, i_final: INTEGER
 		do
 			create Result.make (count)
 			Result.area.copy_data (area, offset, 0, count)
 			Result.set_count (count)
-			if attached unencoded_index as unencoded then
-				l_unencoded := Result.empty_once_unencoded
+			if attached unencoded_index as unencoded
+				and then attached Result.empty_once_unencoded as once_unencoded
+			then
 				i_final := offset + count
 				from i := offset until i = i_final loop
-					l_unencoded.extend (unencoded.code (i + 1), i + 1)
+					once_unencoded.extend (unencoded.code (i + 1), i + 1)
 					i := i + 1
 				end
-				l_unencoded.shift (offset.opposite)
-				Result.set_from_extendible_unencoded (l_unencoded)
+				once_unencoded.shift (offset.opposite)
+				Result.set_from_extendible_unencoded (once_unencoded)
 			end
 		end
 

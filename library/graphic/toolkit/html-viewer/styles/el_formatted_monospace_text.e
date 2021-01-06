@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-01-05 10:43:31 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	EL_FORMATTED_MONOSPACE_TEXT
@@ -18,8 +18,6 @@ inherit
 			set_format, append_text, append_new_line
 		end
 
-	EL_MODULE_STRING_32
-
 create
 	make
 
@@ -27,12 +25,11 @@ feature -- Element change
 
 	append_text (a_text: ZSTRING)
 		local
-			maximum_count: INTEGER
-			lines: EL_ZSTRING_LIST
-			blank_line, padding, text: ZSTRING
+			maximum_count: INTEGER; lines: EL_ZSTRING_LIST
+			blank_line, padding, text: ZSTRING; s: EL_STRING_32_ROUTINES
 		do
 			create lines.make_with_lines (a_text)
-			maximum_count := String_32.maximum_count (lines)
+			maximum_count := s.maximum_count (lines)
 			create padding.make_empty
 			from lines.start until lines.after loop
 				create padding.make_filled (' ', maximum_count - lines.item.count)

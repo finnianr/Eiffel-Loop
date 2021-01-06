@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 11:19:58 GMT (Wednesday 23rd December 2020)"
-	revision: "3"
+	date: "2021-01-05 10:38:14 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 	fill_match_events (object: EL_REFLECTIVE; xpath, field_name: STRING)
 		-- recursive procedure to fill `match_events_list'
 		local
-			xpath_element: STRING; xpath_map: EL_XPATH_TO_AGENT_MAP
+			xpath_element: STRING
 		do
 			match_events_list.extend ([On_open, xpath, agent push_item (field_name)])
 			match_events_list.extend ([On_close, xpath, agent pop_item])

@@ -12,16 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 12:36:11 GMT (Sunday 29th November 2020)"
-	revision: "18"
+	date: "2021-01-05 10:05:47 GMT (Tuesday 5th January 2021)"
+	revision: "19"
 
 class
 	EL_NAMING_ROUTINES
 
 inherit
 	ANY
-
-	EL_MODULE_STRING_8
 
 	EL_STRING_8_CONSTANTS
 
@@ -43,12 +41,12 @@ feature -- Class name derivations
 
 	class_as_camel (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		local
-			l_name: STRING
+			l_name: STRING; s: EL_STRING_8_ROUTINES
 		do
 			l_name := class_as_snake_lower (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
 			to_camel_case (l_name, Result)
-			String_8.first_to_upper (Result)
+			s.first_to_upper (Result)
 		end
 
 	class_as_kebab_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
@@ -182,10 +180,12 @@ feature -- Import names
 		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
+		local
+			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			name_out.to_lower
-			String_8.replace_character (name_out, separator, '_')
+			s.replace_character (name_out, separator, '_')
 		end
 
 	from_snake_case_lower (name_in, name_out: STRING)
@@ -258,9 +258,11 @@ feature -- Export names
 	to_kebab_case (name_in, name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
+		local
+			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
-			String_8.replace_character (name_out, '_', '-')
+			s.replace_character (name_out, '_', '-')
 		end
 
 	to_kebab_case_lower (name_in, name_out: STRING)

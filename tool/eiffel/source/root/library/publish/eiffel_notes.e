@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:13:02 GMT (Thursday 7th May 2020)"
-	revision: "16"
+	date: "2021-01-06 10:26:30 GMT (Wednesday 6th January 2021)"
+	revision: "17"
 
 class
 	EIFFEL_NOTES
@@ -20,15 +20,11 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_COLON_FIELD
-
 	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_XML
-
-	EL_MODULE_ZSTRING
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 
@@ -145,7 +141,7 @@ feature {NONE} -- Line states
 
 	find_field_text_start (line: ZSTRING)
 		local
-			pos_quote: INTEGER; text: ZSTRING
+			pos_quote: INTEGER; text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			pos_quote := line.index_of ('"', 1)
 			if pos_quote > 0 then
@@ -154,7 +150,7 @@ feature {NONE} -- Line states
 					when '"' then
 						text.remove_tail (1)
 						if last_field_name ~ Field_description
-							and then Standard_descriptions.there_exists (agent Zstring.starts_with (text, ?))
+							and then Standard_descriptions.there_exists (agent s.starts_with (text, ?))
 						then
 							text.wipe_out
 						end
@@ -195,6 +191,8 @@ feature {NONE} -- Line states
 		end
 
 	find_note_section_end (line: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES; field: EL_COLON_FIELD_ROUTINES
 		do
 			if not note_lines.is_empty then
 				if selected_fields.has (last_field_name) or else last_field_name ~ Field_description then
@@ -202,12 +200,12 @@ feature {NONE} -- Line states
 				end
 				note_lines.wipe_out
 			end
-			Note_end_keywords.find_first_true (agent Zstring.starts_with (line, ?))
+			Note_end_keywords.find_first_true (agent s.starts_with (line, ?))
 			if Note_end_keywords.found then
 				state := agent find_note_section
 
 			elseif line.has (':') then
-				last_field_name := Colon_field.name (line)
+				last_field_name := field.name (line)
 				state := agent find_field_text_start
 				find_field_text_start (line)
 			end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:57:02 GMT (Monday 30th September 2019)"
-	revision: "7"
+	date: "2021-01-05 9:46:22 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	PP_L_VARIABLE
@@ -91,7 +91,7 @@ feature -- Element change
 				i := i - 1
 			end
 
-			l_name := empty_once_string_8
+			l_name := once_empty_string_8
 			a_name.append_to_string_8 (l_name)
 
 			if i < a_name.count then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-11 15:22:55 GMT (Wednesday 11th March 2020)"
-	revision: "1"
+	date: "2021-01-05 9:46:02 GMT (Tuesday 5th January 2021)"
+	revision: "2"
 
 deferred class
 	TL_FILE_NAME_I
@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 		local
 			str: ZSTRING
 		do
-			str := empty_once_string; path.append_to (str)
+			str := once_empty_string; path.append_to (str)
 			make_from_string (str)
 		end
 

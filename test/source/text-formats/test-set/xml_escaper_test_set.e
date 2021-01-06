@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 13:00:38 GMT (Sunday 3rd January 2021)"
-	revision: "3"
+	date: "2021-01-05 10:27:49 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_REGRESSION_TEST_SET
 
 	EL_TEST_STRINGS
-
-	EL_MODULE_STRING_32
 
 feature -- Basic operations
 
@@ -43,15 +41,15 @@ feature {NONE} -- Implementation
 	escape (escaper: EL_XML_GENERAL_ESCAPER)
 		local
 			str_32, esc_str_32: STRING_32; str, esc_str, xml: ZSTRING
-			root: EL_XPATH_ROOT_NODE_CONTEXT
+			root: EL_XPATH_ROOT_NODE_CONTEXT; s: EL_STRING_32_ROUTINES
 		do
 			across Text_lines as string loop
 				str_32 := string.item.twin
 				inspect string.cursor_index
 					when 5 then
-						String_32.replace_character (str_32, '´', '%'')
+						s.replace_character (str_32, '´', '%'')
 					when 6 then
-						String_32.replace_character (str_32, ' ', '&')
+						s.replace_character (str_32, ' ', '&')
 				else
 				end
 				str := str_32

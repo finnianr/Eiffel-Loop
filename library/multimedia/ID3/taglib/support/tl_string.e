@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-23 9:40:20 GMT (Monday 23rd March 2020)"
-	revision: "11"
+	date: "2021-01-05 9:46:05 GMT (Tuesday 5th January 2021)"
+	revision: "12"
 
 class
 	TL_STRING
@@ -79,7 +79,7 @@ feature -- Conversion
 		local
 			i: INTEGER; code: NATURAL
 		do
-			Result := empty_once_string_32
+			Result := once_empty_string_32
 			from i := 1 until i > count loop
 				code := i_th_code (i)
 				i := i + 1
@@ -132,7 +132,7 @@ feature -- Element change
 		local
 			n_str: STRING
 		do
-			n_str := empty_once_string_8
+			n_str := once_empty_string_8
 			n_str.append_integer (n)
 			set_from_string (n_str)
 		end

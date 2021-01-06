@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 11:59:07 GMT (Tuesday 28th April 2020)"
-	revision: "3"
+	date: "2021-01-05 9:45:50 GMT (Tuesday 5th January 2021)"
+	revision: "4"
 
 class
 	LIBID3_STRING_LIST_FIELD
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 		local
 			data: like Unicode_buffer
 		do
-			Result := empty_once_string_32
+			Result := once_empty_string_32
 			data := Unicode_buffer
 			data.set_from_pointer (cpp_unicode_text_item (self_ptr, index - 1), i_th_character_count (index) * 2 + 2)
 			UTF.utf_16_be_0_pointer_into_string_32 (data, Result)

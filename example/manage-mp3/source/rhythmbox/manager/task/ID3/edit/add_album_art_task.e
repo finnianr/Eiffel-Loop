@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:54:51 GMT (Friday 20th November 2020)"
-	revision: "16"
+	date: "2021-01-05 10:48:20 GMT (Tuesday 5th January 2021)"
+	revision: "17"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -39,8 +39,6 @@ inherit
 	DATABASE_UPDATE_TASK
 
 	TL_SHARED_PICTURE_TYPE_ENUM
-
-	EL_MODULE_STRING_8
 
 	EL_MODULE_FILE_SYSTEM
 

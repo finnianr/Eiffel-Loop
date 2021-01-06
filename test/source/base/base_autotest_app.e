@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 17:06:01 GMT (Sunday 3rd January 2021)"
-	revision: "100"
+	date: "2021-01-06 12:07:42 GMT (Wednesday 6th January 2021)"
+	revision: "101"
 
 class
 	BASE_AUTOTEST_APP
@@ -42,6 +42,7 @@ inherit
 
 		URL_ENCODING_TEST_SET,
 		URI_PATH_TEST_SET,
+		UTF_CONVERTER_TEST_SET,
 		UUID_TEST_SET,
 
 		ZSTRING_TEST_SET,
@@ -84,11 +85,12 @@ note
 			[$source ARRAYED_LIST_TEST_SET]
 			[$source CHAIN_TEST_SET]
 			[$source DATE_TEXT_TEST_SET]
-			[$source DIR_URI_PATH_TEST_SET]
 			[$source ESCAPED_TEXT_TEST_SET],
 			[$source FILE_AND_DIRECTORY_TEST_SET]
 			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
 			[$source GENERAL_TEST_SET]
+			[$source L1_UC_STRING_TEST]
+			[$source MODULE_CRC_32_TEST_SET]
 			[$source PATH_TEST_SET]
 			[$source PATH_STEPS_TEST_SET]
 			[$source REFLECTION_TEST_SET]
@@ -103,7 +105,12 @@ note
 			[$source SUBSTRING_32_ARRAY_TEST_SET]
 
 			[$source TEMPLATE_TEST_SET]
+			
+			[$source URL_ENCODING_TEST_SET]
 			[$source URI_ENCODING_TEST_SET]
+			[$source URI_PATH_TEST_SET]
+			[$source UTF_CONVERTER_TEST_SET]
+			
 			[$source ZSTRING_TEST_SET]
 			[$source ZSTRING_TOKEN_TABLE_TEST_SET]
 	]"

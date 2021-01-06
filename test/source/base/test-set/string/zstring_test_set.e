@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 12:49:52 GMT (Sunday 3rd January 2021)"
-	revision: "33"
+	date: "2021-01-05 10:28:28 GMT (Tuesday 5th January 2021)"
+	revision: "34"
 
 class
 	ZSTRING_TEST_SET
@@ -23,8 +23,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_STRING_32_CONSTANTS
-
-	EL_MODULE_STRING_32
 
 	EL_SHARED_ZSTRING_CODEC
 
@@ -463,13 +461,14 @@ feature -- Element change tests
 			testing:	"covers/{ZSTRING}.replace_character"
 		local
 			str_32: STRING_32; str: ZSTRING; uc_new, uc_old: CHARACTER_32
+			s: EL_STRING_32_ROUTINES
 		do
 			across Text_words as word loop
 				uc_old := word.item [1]
 				uc_new := word.item [word.item.count]
 				across Text_lines as line loop
 					str_32 := line.item.twin; str := str_32
-					String_32.replace_character (str_32, uc_old, uc_new)
+					s.replace_character (str_32, uc_old, uc_new)
 					str.replace_character (uc_old, uc_new)
 					assert ("replace_character OK", str.same_string (str_32))
 				end
@@ -549,7 +548,7 @@ feature -- Element change tests
 		local
 			str, old_characters, new_characters: ZSTRING
 			str_32, old_characters_32, new_characters_32: STRING_32
-			i, j, count: INTEGER
+			i, j, count: INTEGER; s: EL_STRING_32_ROUTINES
 		do
 			create old_characters_32.make (3); create new_characters_32.make (3)
 			count := (Text_characters.count // 3 - 1)
@@ -566,7 +565,7 @@ feature -- Element change tests
 					end
 					old_characters := old_characters_32; new_characters := new_characters_32
 					str_32 := Text_russian_and_english.twin; str := str_32
-					String_32.translate_deleting_null_characters (str_32, old_characters_32, new_characters_32, j = 2)
+					s.translate_deleting_null_characters (str_32, old_characters_32, new_characters_32, j = 2)
 					str.translate_deleting_null_characters (old_characters, new_characters, j = 2)
 					assert ("translate OK", str.same_string (str_32))
 					j := j + 1

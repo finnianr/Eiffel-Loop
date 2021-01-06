@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 18:00:51 GMT (Friday 22nd November 2019)"
-	revision: "9"
+	date: "2021-01-05 12:13:59 GMT (Tuesday 5th January 2021)"
+	revision: "10"
 
 class
 	EL_BOOK_CHAPTER
@@ -22,8 +22,6 @@ inherit
 		end
 
 	EL_MODULE_XML
-
-	EL_MODULE_ZSTRING
 
 	EL_ZSTRING_CONSTANTS
 

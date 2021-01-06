@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 12:16:48 GMT (Thursday 6th August 2020)"
-	revision: "15"
+	date: "2021-01-05 12:08:40 GMT (Tuesday 5th January 2021)"
+	revision: "16"
 
 class
 	EL_FTP_PROTOCOL
@@ -38,8 +38,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
-
-	EL_MODULE_ZSTRING
 
 	EL_SHARED_PROGRESS_LISTENER
 

@@ -6,20 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:16:06 GMT (Friday 7th February 2020)"
-	revision: "8"
+	date: "2021-01-05 10:07:21 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	EL_BASE_64_ROUTINES
 
-inherit
-	ANY EL_MODULE_STRING_8
-
 feature -- Conversion
 
 	encoded (a_string: STRING): STRING
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := encoded_special (String_8.to_code_array (a_string))
+			Result := encoded_special (s.to_code_array (a_string))
 		end
 
 	encoded_special (array: SPECIAL [NATURAL_8]): STRING

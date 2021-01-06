@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 13:20:45 GMT (Friday 11th December 2020)"
-	revision: "10"
+	date: "2021-01-05 9:44:19 GMT (Tuesday 5th January 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -29,7 +29,7 @@ feature -- Access
 		local
 			str: STRING_32
 		do
-			str := empty_once_string_32
+			str := once_empty_string_32
 			str.extend (value (a_object))
 			Result := str.twin
 		end

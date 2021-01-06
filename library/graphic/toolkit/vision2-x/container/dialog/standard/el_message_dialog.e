@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:25:24 GMT (Sunday 23rd August 2020)"
-	revision: "7"
+	date: "2021-01-05 12:19:00 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_MESSAGE_DIALOG
@@ -25,13 +25,13 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_MODULE_ZSTRING
-
 feature {NONE} -- Initialization
 
 	make_with_template (template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			make_with_text (Zstring.as_zstring (template).substituted_tuple (inserts).to_unicode)
+			make_with_text (s.as_zstring (template).substituted_tuple (inserts).to_unicode)
 		end
 
 feature -- Element change
@@ -42,8 +42,10 @@ feature -- Element change
 		end
 
 	set_text (a_text: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Precursor (Zstring.to_unicode_general (a_text))
+			Precursor (s.to_unicode_general (a_text))
 		end
 
 feature {NONE} -- Implementation

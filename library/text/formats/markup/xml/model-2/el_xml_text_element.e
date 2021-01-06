@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 15:42:33 GMT (Friday 10th April 2020)"
-	revision: "6"
+	date: "2021-01-05 12:10:25 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	EL_XML_TEXT_ELEMENT
@@ -33,9 +33,11 @@ convert
 feature {NONE} -- Initialization
 
 	make (a_name, a_text: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			make_element (a_name)
-			text := Zstring.as_zstring (a_text)
+			text := s.as_zstring (a_text)
 		end
 
 	make_empty (a_name: READABLE_STRING_GENERAL)

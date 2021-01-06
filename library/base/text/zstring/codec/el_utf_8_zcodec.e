@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 12:40:59 GMT (Saturday 2nd January 2021)"
-	revision: "10"
+	date: "2021-01-05 11:49:51 GMT (Tuesday 5th January 2021)"
+	revision: "11"
 
 class
 	EL_UTF_8_ZCODEC
@@ -20,12 +20,6 @@ inherit
 		redefine
 			as_unicode, write_encoded, write_encoded_character, is_numeric, append_general_to_utf_8
 		end
-
-	EL_MODULE_CHAR_8
-
-	EL_MODULE_CHAR_32
-
-	EL_MODULE_STRING_32
 
 create
 	make
@@ -53,13 +47,17 @@ feature -- Basic operations
 		end
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
+		local
+			s: EL_STRING_32_ROUTINES
 		do
-			String_32.write_utf_8 (unicode_in, writeable)
+			s.write_utf_8 (unicode_in, writeable)
 		end
 
 	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITEABLE)
+		local
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			Char_8.write_utf_8 (uc, writeable)
+			c.write_utf_8 (uc, writeable)
 		end
 
 feature -- Conversion
@@ -118,8 +116,10 @@ feature -- Character query
 		end
 
 	is_numeric (code: NATURAL): BOOLEAN
+		local
+			c: EL_CHARACTER_32_ROUTINES
 		do
-			Result := Char_32.is_digit (code.to_character_32)
+			Result := c.is_digit (code.to_character_32)
 		end
 
 	is_upper (code: NATURAL): BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 4:32:46 GMT (Saturday 25th January 2020)"
-	revision: "17"
+	date: "2021-01-05 9:46:08 GMT (Tuesday 5th January 2021)"
+	revision: "18"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]
 		do
 			make
-			modified := empty_once_string_8
+			modified := once_empty_string_8
 			-- Tweak `str' to make it splittable as series of assignments
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))

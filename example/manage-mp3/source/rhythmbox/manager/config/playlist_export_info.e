@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:33:33 GMT (Tuesday 10th September 2019)"
-	revision: "4"
+	date: "2021-01-06 10:17:28 GMT (Wednesday 6th January 2021)"
+	revision: "5"
 
 class
 	PLAYLIST_EXPORT_INFO
@@ -23,8 +23,6 @@ inherit
 		end
 
 	M3U_PLAY_LIST_CONSTANTS
-
-	EL_MODULE_ZSTRING
 
 create
 	make
@@ -49,8 +47,10 @@ feature -- Access
 feature -- Status query
 
 	is_windows_path: BOOLEAN
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Zstring.starts_with_drive (root)
+			Result := s.starts_with_drive (root)
 		end
 
 feature -- Event handling

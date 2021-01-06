@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 10:29:47 GMT (Wednesday 23rd December 2020)"
-	revision: "34"
+	date: "2021-01-05 10:14:13 GMT (Tuesday 5th January 2021)"
+	revision: "35"
 
 deferred class
 	EL_REFLECTIVE
@@ -33,8 +33,6 @@ inherit
 		end
 
 	EL_MODULE_EIFFEL
-
-	EL_MODULE_STRING_8
 
 feature {NONE} -- Initialization
 
@@ -142,7 +140,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		do
 			Result := Default_enumerations
 		ensure
-			valid_names: valid_field_names (String_8.joined_with (Result.current_keys, ", "))
+			valid_enumerations: valid_enumerations (Result)
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
@@ -217,6 +215,13 @@ feature {NONE} -- Implementation
 		-- 	STRING_GENERAL, EL_DATE_TIME, EL_MAKEABLE_FROM_STRING_GENERAL, BOOLEAN_REF, EL_PATH
 		do
 			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
+		end
+
+	valid_enumerations (enumerations: like Default_enumerations): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := valid_field_names (s.joined_with (enumerations.current_keys, ", "))
 		end
 
 	valid_field_names (names: STRING): BOOLEAN

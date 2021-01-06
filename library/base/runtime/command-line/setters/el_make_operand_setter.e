@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 16:39:26 GMT (Tuesday 20th October 2020)"
-	revision: "11"
+	date: "2021-01-05 10:07:56 GMT (Tuesday 5th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -20,8 +20,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_ARGS
-
-	EL_MODULE_STRING_8
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -142,15 +140,15 @@ feature {NONE} -- Implementation
 
 	value_description: ZSTRING
 		local
-			type: TYPE [like value]
-			name: STRING
+			type: TYPE [like value]; name: STRING
+			s: EL_STRING_8_ROUTINES
 		do
 			type := {like value}
 			name := type.name.as_lower
 			if name.starts_with ("el_") then
 				name.remove_head (3)
 			end
-			String_8.replace_character (name, '_', ' ')
+			s.replace_character (name, '_', ' ')
 			Result := name
 		end
 

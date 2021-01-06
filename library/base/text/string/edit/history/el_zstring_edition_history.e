@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:05:35 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2021-01-05 12:10:53 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_ZSTRING_EDITION_HISTORY
@@ -15,21 +15,23 @@ class
 inherit
 	EL_STRING_EDITION_HISTORY [ZSTRING]
 
-	EL_MODULE_ZSTRING
-
 create
 	make
 
 feature -- Element change
 
 	set_string_from_general (general: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			set_string (Zstring.as_zstring (general))
+			set_string (s.as_zstring (general))
 		end
 
 	extend_from_general (general: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			extend (Zstring.as_zstring (general))
+			extend (s.as_zstring (general))
 		end
 
 feature {NONE} -- Edition operations

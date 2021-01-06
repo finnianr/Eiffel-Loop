@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-16 10:07:33 GMT (Monday 16th September 2019)"
-	revision: "7"
+	date: "2021-01-06 10:17:28 GMT (Wednesday 6th January 2021)"
+	revision: "8"
 
 deferred class
 	PLAYLIST
@@ -20,8 +20,6 @@ inherit
 
 	RHYTHMBOX_CONSTANTS
 
-	EL_MODULE_ZSTRING
-
 	SHARED_DATABASE
 
 feature -- Access
@@ -29,12 +27,14 @@ feature -- Access
 	cortina_tanda_type: ZSTRING
 		require
 			song_item_is_cortina: song.is_cortina
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			if islast then
 				Result := Tanda.the_end
 			else
 				if valid_index (index + 1) then
-					Tanda_types.find_first_true (agent ZString.starts_with (i_th (index + 1).genre, ?))
+					Tanda_types.find_first_true (agent s.starts_with (i_th (index + 1).genre, ?))
 					if Tanda_types.after then
 						Result := Tanda.other
 					else

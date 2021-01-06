@@ -1,13 +1,13 @@
 note
-	description: "String view"
+	description: "A mutable substring view of a string area"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 17:08:14 GMT (Monday 4th January 2021)"
-	revision: "10"
+	date: "2021-01-05 9:17:50 GMT (Tuesday 5th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_STRING_VIEW

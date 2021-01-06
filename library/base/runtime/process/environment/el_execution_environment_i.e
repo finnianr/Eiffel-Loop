@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:45:09 GMT (Sunday 13th September 2020)"
-	revision: "18"
+	date: "2021-01-05 12:08:05 GMT (Tuesday 5th January 2021)"
+	revision: "19"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -34,10 +34,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_STRING_32
-
-	EL_MODULE_ZSTRING
 
 	EL_MODULE_EXCEPTION
 
@@ -68,9 +64,11 @@ feature -- Access
 		deferred
 		end
 
-	item (s: READABLE_STRING_GENERAL): detachable STRING_32
+	item (key: READABLE_STRING_GENERAL): detachable STRING_32
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Precursor (ZSTRING.to_unicode_general (s))
+			Result := Precursor (s.to_unicode_general (key))
 		end
 
 	user_configuration_directory_name: ZSTRING
@@ -102,10 +100,12 @@ feature -- Basic operations
 			Exception.general.die (code)
 		end
 
-	launch (s: READABLE_STRING_GENERAL)
+	launch (cmd: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (ZSTRING.to_unicode_general (s))
+			Precursor (s.to_unicode_general (cmd))
 		end
 
 	sleep (millisecs: DOUBLE)
@@ -114,10 +114,12 @@ feature -- Basic operations
 			sleep_nanosecs ((millisecs * Nanosecs_per_millisec).truncated_to_integer_64)
 		end
 
-	system (s: READABLE_STRING_GENERAL)
+	system (cmd: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (ZSTRING.to_unicode_general (s))
+			Precursor (s.to_unicode_general (cmd))
 		end
 
 	pop_current_working
@@ -149,8 +151,10 @@ feature -- Status report
 feature -- Status setting
 
 	put (value, key: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Precursor (ZSTRING.to_unicode_general (value), ZSTRING.to_unicode_general (key))
+			Precursor (s.to_unicode_general (value), s.to_unicode_general (key))
 		end
 
 	restore_last_code_page

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 12:38:37 GMT (Tuesday 26th May 2020)"
-	revision: "10"
+	date: "2021-01-06 10:21:28 GMT (Wednesday 6th January 2021)"
+	revision: "11"
 
 class
 	EL_GVFS_MOUNT_TABLE
@@ -30,8 +30,6 @@ inherit
 			find_mount
 		end
 
-	EL_MODULE_COLON_FIELD
-
 create
 	make
 
@@ -48,11 +46,11 @@ feature {NONE} -- Line states
 
 	find_mount (line: ZSTRING)
 		local
-			split_list: EL_SPLIT_STRING_8_LIST
+			f: EL_COLON_FIELD_ROUTINES; split_list: EL_SPLIT_STRING_8_LIST
 		do
 			line.left_adjust
 			if line.starts_with (Text_mount) then
-				create split_list.make (Colon_field.value (line), Arrow_symbol)
+				create split_list.make (f.value (line), Arrow_symbol)
 				if split_list.count = 2 then
 					put (split_list.last_item (True), split_list.first_item (True))
 				end

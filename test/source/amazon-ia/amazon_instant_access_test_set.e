@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 15:33:55 GMT (Thursday 26th November 2020)"
-	revision: "24"
+	date: "2021-01-05 10:06:28 GMT (Tuesday 5th January 2021)"
+	revision: "25"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -19,8 +19,6 @@ inherit
 		redefine
 			on_prepare
 		end
-
-	EL_MODULE_STRING_8
 
 	EL_MODULE_EIFFEL
 
@@ -134,11 +132,12 @@ feature -- Authorization
 			http_table: HASH_TABLE [ZSTRING, STRING]
 			http_name: STRING; request: FCGI_REQUEST_PARAMETERS
 			headers: HASH_TABLE [ZSTRING, STRING]
+			s: EL_STRING_8_ROUTINES
 		do
          create http_table.make (5)
 			from Signed_headers.start until Signed_headers.after loop
 				http_name := "HTTP_" + Signed_headers.item (False).as_upper
-				String_8.replace_character (http_name, '-', '_')
+				s.replace_character (http_name, '-', '_')
 				http_table.extend (Signed_headers.index.out, http_name)
 				Signed_headers.forth
 			end

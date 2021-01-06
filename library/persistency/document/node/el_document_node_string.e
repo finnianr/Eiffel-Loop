@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:04:46 GMT (Saturday 2nd January 2021)"
-	revision: "4"
+	date: "2021-01-06 17:22:21 GMT (Wednesday 6th January 2021)"
+	revision: "5"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -16,10 +16,10 @@ inherit
 	EL_UTF_8_STRING
 		export
 			{NONE} all
-			{ANY} append_count_from_c, wipe_out, is_valid_as_string_8
+			{ANY} append_count_from_c, wipe_out, is_valid_as_string_8, set_from_general
 		redefine
 			make, as_string_32, to_string_32, as_string_8, to_string_8,
-			once_decoded, once_decoded_32
+			raw_string, raw_string_8, raw_string_32
 		end
 
 	EL_READABLE
@@ -45,9 +45,20 @@ inherit
 			copy, is_equal, out
 		end
 
+	EL_CACHED_FIELD_READER
+		rename
+			read_string as put_string_into,
+			read_string_8 as put_string_8_into,
+			read_string_32 as put_string_32_into
+		undefine
+			copy, is_equal, out
+		end
+
 	EL_ENCODEABLE_AS_TEXT
 		rename
 			make as make_encodeable
+		export
+			{NONE} all
 		undefine
 			copy, is_equal, out
 		end
@@ -56,10 +67,6 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
-
-	EL_MODULE_STRING_32
-
-	EL_MODULE_STRING_8
 
 create
 	make_empty
@@ -82,7 +89,7 @@ feature -- Access
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
-			Result := empty_once_string
+			Result := once_empty_string
 			inspect type
 				when Node_type_element then
 					if encoded_as_utf (8) then
@@ -116,39 +123,31 @@ feature -- Access
 
 feature -- To string type
 
-	raw_string: ZSTRING
+	raw_string_8 (keep_ref: BOOLEAN): STRING_8
 		do
-			Result := once_decoded.twin
-		end
-
-	raw_string_32: STRING_32
-		do
-			Result := once_decoded_32.twin
-		end
-
-	raw_string_8: STRING_8
-		do
-			if encoded_as_utf (8) and then has_multi_byte_character then
-				Result := once_decoded_32
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
 			else
-				Result := string
+				Result := once_copy_8 (Current)
+			end
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
 	to_string: ZSTRING
 		do
-			Result := once_decoded.adjusted
+			Result := adjusted (True)
 		end
 
 	to_string_32, as_string_32: STRING_32
 		do
-			Result := String_32.adjusted (once_decoded_32)
+			Result := adjusted_32 (True)
 		end
 
 	to_string_8, as_string_8: STRING_8
 		do
-			Result := raw_string_8
-			Result.adjust
+			Result := adjusted_8 (True)
 		end
 
 feature -- Conversion
@@ -157,7 +156,7 @@ feature -- Conversion
 		local
 			str_32: STRING_32; i, l_count: INTEGER; c: CHARACTER_32
 		do
-			str_32 := once_decoded_32
+			str_32 := raw_string_32 (False)
 			if str_32.count = 1 then
 				Result := str_32 [1]
 			else
@@ -203,21 +202,53 @@ feature -- Element change
 			type := a_type
 		end
 
+feature -- Basic operations
+
+	put_string_into (a_set: EL_HASH_SET [ZSTRING])
+		local
+			member: ZSTRING
+		do
+			member := adjusted (False)
+			if not a_set.has_key (member) then
+				a_set.extend (member.twin)
+			end
+		end
+
+	put_string_8_into (a_set: EL_HASH_SET [STRING_8])
+		local
+			member: STRING_8
+		do
+			member := adjusted_8 (False)
+			if not a_set.has_key (member) then
+				a_set.extend (member.twin)
+			end
+		end
+
+	put_string_32_into (a_set: EL_HASH_SET [STRING_32])
+		local
+			member: STRING_32
+		do
+			member := adjusted_32 (False)
+			if not a_set.has_key (member) then
+				a_set.extend (member.twin)
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	once_decoded: ZSTRING
+	raw_string (keep_ref: BOOLEAN): ZSTRING
 		do
 			if encoded_as_utf (8) then
-				Result := Precursor
+				Result := Precursor (keep_ref)
 			else
 				Result := once_copy_general (Current)
 			end
 		end
 
-	once_decoded_32: STRING_32
+	raw_string_32 (keep_ref: BOOLEAN): STRING_32
 		do
 			if encoded_as_utf (8) then
-				Result := Precursor
+				Result := Precursor (keep_ref)
 			else
 				Result := once_copy_general_32 (Current)
 			end

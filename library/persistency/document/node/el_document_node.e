@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:30:25 GMT (Monday 4th January 2021)"
-	revision: "16"
+	date: "2021-01-05 10:23:47 GMT (Tuesday 5th January 2021)"
+	revision: "17"
 
 class
 	EL_DOCUMENT_NODE
@@ -49,8 +49,6 @@ inherit
 
 	EL_SHARED_ONCE_ZSTRING
 
-	EL_MODULE_STRING_32
-
 create
 	make
 
@@ -79,7 +77,7 @@ feature -- Access
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
-			Result := empty_once_string
+			Result := once_empty_string
 			inspect type
 				when Node_type_element then
 					Result.append_string_general (name)
@@ -151,9 +149,11 @@ feature -- Element change
 
 	set_name (a_name: READABLE_STRING_GENERAL)
 			--
+		local
+			s: EL_STRING_32_ROUTINES
 		do
 			name.wipe_out
-			String_32.append_to (name, a_name)
+			s.append_to (name, a_name)
 		end
 
 	set_name_from_view (view: EL_STRING_VIEW)
@@ -164,9 +164,11 @@ feature -- Element change
 
 	set_raw_content (a_content: READABLE_STRING_GENERAL)
 			--
+		local
+			s: EL_STRING_32_ROUTINES
 		do
 			raw_content.wipe_out
-			String_32.append_to (raw_content, a_content)
+			s.append_to (raw_content, a_content)
 		end
 
 	set_raw_content_from_view (view: EL_STRING_VIEW)

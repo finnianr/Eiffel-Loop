@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 11:41:19 GMT (Monday 9th November 2020)"
-	revision: "19"
+	date: "2021-01-05 10:16:13 GMT (Tuesday 5th January 2021)"
+	revision: "20"
 
 class
 	EL_SUB_APPLICATION_LIST
@@ -28,8 +28,6 @@ inherit
 	EL_MODULE_ARGS
 
 	EL_MODULE_EIFFEL
-
-	EL_MODULE_STRING_8
 
 	EL_SHARED_BASE_OPTION
 

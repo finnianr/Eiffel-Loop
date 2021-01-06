@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:22:00 GMT (Saturday 1st February 2020)"
-	revision: "6"
+	date: "2021-01-05 11:47:19 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	EL_WHITE_SPACE_CHAR_TP
@@ -17,8 +17,6 @@ inherit
 		redefine
 			name, code_matches
 		end
-
-	EL_MODULE_CHAR_32
 
 create
 	make
@@ -33,8 +31,10 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	code_matches (code: NATURAL): BOOLEAN
+		local
+			c: EL_CHARACTER_32_ROUTINES
 		do
-			Result := Char_32.is_space (code.to_character_32) -- Work around for finalization bug
+			Result := c.is_space (code.to_character_32) -- Work around for finalization bug
 		end
 
 end

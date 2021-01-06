@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:54:22 GMT (Monday 4th January 2021)"
-	revision: "7"
+	date: "2021-01-05 10:22:53 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_PYXIS_UNESCAPE_CONSTANTS
-
-	EL_MODULE_STRING_32
 
 	EL_DOCUMENT_CLIENT
 
@@ -77,12 +75,12 @@ feature {NONE} -- Title parsing actions
 	on_name (matched_text: EL_STRING_VIEW)
 			--
 		local
-			last_node: EL_DOCUMENT_NODE
+			last_node: EL_DOCUMENT_NODE; s: EL_STRING_32_ROUTINES
 		do
 			attribute_list.extend
 			last_node := attribute_list.last_node
 			last_node.set_name_from_view (matched_text)
-			String_32.replace_character (last_node.name, '.', ':')
+			s.replace_character (last_node.name, '.', ':')
 		end
 
 	on_quoted_value (matched_text: EL_STRING_VIEW; is_double_quote: BOOLEAN)

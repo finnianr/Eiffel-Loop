@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-29 10:36:40 GMT (Sunday 29th March 2020)"
-	revision: "8"
+	date: "2021-01-05 12:08:50 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	EL_MARKUP_ROUTINES
 
 inherit
 	EL_MARKUP_TEMPLATES
-
-	EL_MODULE_ZSTRING
 
 feature -- Access
 

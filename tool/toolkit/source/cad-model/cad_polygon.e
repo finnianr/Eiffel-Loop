@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-02 10:42:04 GMT (Monday 2nd March 2020)"
-	revision: "8"
+	date: "2021-01-05 9:46:50 GMT (Tuesday 5th January 2021)"
+	revision: "9"
 
 class
 	CAD_POLYGON
@@ -111,7 +111,7 @@ feature -- Basic operations
 			lio.put_labeled_string ("Code", out)
 			lio.put_new_line
 			across Current as coord loop
-				str := empty_once_string_8
+				str := once_empty_string_8
 				coord.item.append_to_string (str)
 				lio.put_labeled_substitution ("Coord", "[%S] = [%S]", [coord.cursor_index, str])
 				lio.put_new_line

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:29:08 GMT (Sunday 28th June 2020)"
-	revision: "11"
+	date: "2021-01-05 10:22:22 GMT (Tuesday 5th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -34,8 +34,6 @@ inherit
 		end
 
 	EL_MODULE_HEXADECIMAL
-
-	EL_MODULE_STRING_32
 
 	EL_SHARED_ONCE_STRING_32
 
@@ -193,7 +191,7 @@ feature {NONE} -- Implementation
 			l_area: like area; i, step: INTEGER; c: CHARACTER
 			sequence: like Utf_8_sequence
 		do
-			Result := empty_once_string_32
+			Result := once_empty_string_32
 			sequence := Utf_8_sequence; sequence.wipe_out
 			l_area := area
 			from i := start_index until i > end_index loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:14:20 GMT (Sunday 3rd January 2021)"
-	revision: "9"
+	date: "2021-01-05 9:45:34 GMT (Tuesday 5th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -43,7 +43,7 @@ feature -- To Strings
 			str_32: STRING_32; l_count, i: INTEGER
 		do
 			if a_codec.encoded_as_utf (8) then
-				str_32 := empty_once_string_32; append_to_string_32 (str_32)
+				str_32 := once_empty_string_32; append_to_string_32 (str_32)
 				create Result.make (c.utf_8_bytes_count (str_32, 1, count))
 				c.utf_32_string_into_utf_8_string_8 (str_32, Result)
 
@@ -54,7 +54,7 @@ feature -- To Strings
 			elseif a_codec.encoded_as_latin (1) then
 				l_count := count
 				create Result.make_filled (Unencoded_character, l_count)
-				str_32 := empty_once_string_32
+				str_32 := once_empty_string_32
 				append_to_string_32 (str_32)
 				l_area := str_32.area; l_result_area := Result.area
 				from i := 0  until i = l_count loop
@@ -65,7 +65,7 @@ feature -- To Strings
 					i := i + 1
 				end
 			else
-				str_32 := empty_once_string_32
+				str_32 := once_empty_string_32
 				append_to_string_32 (str_32)
 				create Result.make_filled ('%U', count)
 				a_codec.encode (str_32, Result.area, 0, empty_once_unencoded)
@@ -109,7 +109,7 @@ feature -- To Strings
 		local
 			str_32: STRING_32
 		do
-			str_32 := empty_once_string_32
+			str_32 := once_empty_string_32
 			append_to_string_32 (str_32)
 			if str_32.is_valid_as_string_8 then
 				Result := str_32.as_string_8
@@ -131,7 +131,7 @@ feature -- To list
 			str_32: STRING_32
 		do
 			create char_32_array.make_filled (count)
-			str_32 := empty_once_string_32
+			str_32 := once_empty_string_32
 			append_to_string_32 (str_32)
 			char_32_array.area.copy_data (str_32.area, 0, 0, count)
 			Result := char_32_array

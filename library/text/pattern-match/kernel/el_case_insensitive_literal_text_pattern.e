@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 13:14:08 GMT (Monday 13th January 2020)"
-	revision: "1"
+	date: "2021-01-05 9:46:40 GMT (Tuesday 5th January 2021)"
+	revision: "2"
 
 class
 	EL_CASE_INSENSITIVE_LITERAL_TEXT_PATTERN
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 		local
 			l_text: STRING_32
 		do
-			l_text := empty_once_string_32
+			l_text := once_empty_string_32
 			a_text.append_substring_to (l_text, 1, text.count)
 			if l_text.same_caseless_characters_general (text, 1, text.count, 1) then
 				Result := text.count

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 15:47:31 GMT (Wednesday 19th August 2020)"
-	revision: "12"
+	date: "2021-01-05 10:16:49 GMT (Tuesday 5th January 2021)"
+	revision: "13"
 
 class
 	EL_TUPLE_ROUTINES
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
-
-	EL_MODULE_STRING_8
 
 	EL_STRING_8_CONSTANTS
 
@@ -39,7 +37,7 @@ feature -- Basic operations
 		local
 			tuple_type: TYPE [TUPLE]; item_type: TYPE [ANY]; type_id, csv_list_type_id: INTEGER
 			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]; str_8: STRING; ref_item: ANY
-			type_convertible: BOOLEAN; list_item: STRING_GENERAL
+			type_convertible: BOOLEAN; list_item: STRING_GENERAL; s: EL_STRING_8_ROUTINES
 		do
 			tuple_type := tuple.generating_type
 			csv_list_type_id := {ISE_RUNTIME}.dynamic_type (csv_list)
@@ -69,8 +67,8 @@ feature -- Basic operations
 					if list_item.is_valid_as_string_8 then
 						str_8 := list_item.to_string_8
 						-- Try converting to basic type
-						if String_8.is_convertible (str_8, item_type) then
-							tuple.put (String_8.to_type (str_8, item_type), list.index)
+						if s.is_convertible (str_8, item_type) then
+							tuple.put (s.to_type (str_8, item_type), list.index)
 						else
 							type_convertible := False
 						end

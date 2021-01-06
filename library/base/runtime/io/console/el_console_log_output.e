@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 11:47:00 GMT (Monday 23rd November 2020)"
-	revision: "17"
+	date: "2021-01-05 9:54:06 GMT (Tuesday 5th January 2021)"
+	revision: "18"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -231,12 +231,12 @@ feature {NONE} -- Implementation
 
 	flush_string_general (str: READABLE_STRING_GENERAL)
 		local
-			string_32: STRING_32
+			str_32: STRING_32
 		do
 			if attached {ZSTRING} str as str_z then
-				string_32 := empty_once_string_32
-				str_z.append_to_string_32 (string_32)
-				write_console (string_32)
+				str_32 := once_empty_string_32
+				str_z.append_to_string_32 (str_32)
+				write_console (str_32)
 
 			elseif attached {STRING_8} str as str_8 then
 				flush_string_8 (str_8)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:04:31 GMT (Tuesday 4th August 2020)"
-	revision: "12"
+	date: "2021-01-05 10:19:13 GMT (Tuesday 5th January 2021)"
+	revision: "13"
 
 class
 	TL_ID3_PICTURE
@@ -35,8 +35,6 @@ inherit
 		rename
 			checksum as Mod_checksum
 		end
-
-	EL_MODULE_STRING_8
 
 create
 	make, make_default, make_from_frame

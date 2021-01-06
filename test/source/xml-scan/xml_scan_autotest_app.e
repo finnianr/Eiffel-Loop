@@ -6,7 +6,9 @@ note
 		**Test Sets**
 		
 			[$source CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET]
+			[$soure DOCUMENT_NODE_STRING_TEST_SET]
 			[$source OBJECT_BUILDER_TEST_SET]
+			[$source REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:51:26 GMT (Sunday 3rd January 2021)"
-	revision: "17"
+	date: "2021-01-06 17:16:11 GMT (Wednesday 6th January 2021)"
+	revision: "18"
 
 class
 	XML_SCAN_AUTOTEST_APP
@@ -23,6 +25,7 @@ class
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET,
+		DOCUMENT_NODE_STRING_TEST_SET,
 		OBJECT_BUILDER_TEST_SET,
 		REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
 	]

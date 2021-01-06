@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-09 13:52:49 GMT (Friday 9th October 2020)"
-	revision: "14"
+	date: "2021-01-05 10:45:27 GMT (Tuesday 5th January 2021)"
+	revision: "15"
 
 class
 	EL_AES_CREDENTIAL
@@ -33,8 +33,6 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_LIO
-
-	EL_MODULE_STRING_8
 
 	EL_MODULE_BASE_64
 
@@ -164,13 +162,13 @@ feature {NONE} -- Implementation
 		local
 			md5: MD5; sha: SHA256
 			md5_hash, data, phrase_data: like salt
-			i, j: INTEGER
+			i, j: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			create sha.make
 			create Result.make_filled (1, 32)
 			create md5.make
 			create md5_hash.make_filled (1, 16)
-			phrase_data := String_8.to_code_array (phrase.to_utf_8)
+			phrase_data := s.to_code_array (phrase.to_utf_8)
 			from i := 0 until i > 50 loop
 				if i \\ 2 = 0 then
 					data := phrase_data

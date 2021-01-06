@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:35:03 GMT (Saturday 30th May 2020)"
-	revision: "17"
+	date: "2021-01-06 10:17:29 GMT (Wednesday 6th January 2021)"
+	revision: "18"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -31,8 +31,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_ZSTRING
 
 feature {NONE} -- Query conditions
 
@@ -168,8 +166,10 @@ feature {NONE} -- Query predicates
 		end
 
 	song_is_generally_tango (song: RBOX_SONG): BOOLEAN
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Tango_genre_list.there_exists (agent Zstring.starts_with (song.genre, ?))
+			Result := Tango_genre_list.there_exists (agent s.starts_with (song.genre, ?))
 		end
 
 note

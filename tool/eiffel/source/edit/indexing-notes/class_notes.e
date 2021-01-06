@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 12:28:27 GMT (Friday 1st November 2019)"
-	revision: "10"
+	date: "2021-01-06 10:25:33 GMT (Wednesday 6th January 2021)"
+	revision: "11"
 
 class
 	CLASS_NOTES
@@ -17,8 +17,6 @@ inherit
 		rename
 			make as make_machine
 		end
-
-	EL_MODULE_COLON_FIELD
 
 	EL_MODULE_DATE
 
@@ -143,15 +141,15 @@ feature {NONE} -- Line states
 
 	find_field (line: ZSTRING)
 		local
-			name: STRING; value: ZSTRING
-			verbatim_field: VERBATIM_NOTE_FIELD
+			name: STRING; value: ZSTRING; verbatim_field: VERBATIM_NOTE_FIELD
+			f: EL_COLON_FIELD_ROUTINES
 		do
 			if is_class_definition_start (line) then
 				state := final
 			else
 				original_lines.extend (line)
 				if is_field (line) then
-					name := Colon_field.name (line); value := Colon_field.value (line)
+					name := f.name (line); value := f.value (line)
 					if value.starts_with (Verbatim_string_start) then
 						create verbatim_field.make (name)
 						fields.extend (verbatim_field)

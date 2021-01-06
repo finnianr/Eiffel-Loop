@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 18:12:22 GMT (Sunday 3rd January 2021)"
-	revision: "10"
+	date: "2021-01-05 10:26:42 GMT (Tuesday 5th January 2021)"
+	revision: "11"
 
 class
 	STRING_32_BENCHMARK
@@ -99,8 +99,10 @@ feature {NONE} -- Implementation
 		end
 
 	translate (target, old_characters, new_characters: like new_string)
+		local
+			s: EL_STRING_32_ROUTINES
 		do
-			String_32.translate (target, old_characters, new_characters)
+			s.translate (target, old_characters, new_characters)
 		end
 
 	xml_escaped (target: STRING_32): STRING_32

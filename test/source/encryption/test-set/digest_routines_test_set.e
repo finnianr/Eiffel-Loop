@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:23:56 GMT (Friday 14th February 2020)"
-	revision: "6"
+	date: "2021-01-05 10:06:47 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_DIGEST
 
 	EL_MODULE_LIO
-
-	EL_MODULE_STRING_8
 
 feature -- Basic operations
 

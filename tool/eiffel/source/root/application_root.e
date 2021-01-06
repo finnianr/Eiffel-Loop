@@ -1,13 +1,18 @@
 note
 	description: "Application root class"
+	to_do: "[
+		Make a Perl grepper to open sources files in editor
+		
+			find . -name "*.e" | xargs grep -P EL_MODULE_STRING_[0-9]+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-28 9:35:09 GMT (Wednesday 28th October 2020)"
-	revision: "30"
+	date: "2021-01-06 10:13:22 GMT (Wednesday 6th January 2021)"
+	revision: "31"
 
 class
 	APPLICATION_ROOT

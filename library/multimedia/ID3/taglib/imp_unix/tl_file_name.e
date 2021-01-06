@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-11 15:23:04 GMT (Wednesday 11th March 2020)"
-	revision: "4"
+	date: "2021-01-05 9:45:57 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 class
 	TL_FILE_NAME
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 		local
 			utf_8: STRING; to_c: ANY
 		do
-			utf_8 := empty_once_string_8
+			utf_8 := once_empty_string_8
 			name.append_to_utf_8 (utf_8)
 			to_c := utf_8.to_c
 			make_from_pointer ($to_c, utf_8.count + 1)

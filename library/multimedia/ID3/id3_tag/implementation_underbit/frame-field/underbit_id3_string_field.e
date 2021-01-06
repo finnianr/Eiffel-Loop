@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-15 11:35:40 GMT (Tuesday 15th October 2019)"
-	revision: "1"
+	date: "2021-01-05 9:45:54 GMT (Tuesday 5th January 2021)"
+	revision: "2"
 
 class
 	UNDERBIT_ID3_STRING_FIELD
@@ -48,7 +48,7 @@ feature -- Element change
 		local
 			str_32: STRING_32; to_c: ANY
 		do
-			str_32 := empty_once_string_32
+			str_32 := once_empty_string_32
 			str.append_to_string_32 (str_32)
 			to_c := str_32.to_c
 			set_underbit_string ($to_c)

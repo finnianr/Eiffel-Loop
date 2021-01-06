@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-17 12:56:12 GMT (Tuesday 17th March 2020)"
-	revision: "2"
+	date: "2021-01-05 10:27:10 GMT (Tuesday 5th January 2021)"
+	revision: "3"
 
 deferred class
 	TL_STRING_SETTER_I [N -> NUMERIC]
@@ -19,8 +19,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_STRING_32
 
 feature {NONE} -- Initialization
 
@@ -35,11 +33,11 @@ feature -- Basic operations
 	set_text (target: TL_STRING; source: READABLE_STRING_GENERAL)
 		local
 			i, n: INTEGER; l_area: SPECIAL [CHARACTER_32]
-			utf_16: like utf_16_sequence
+			utf_16: like utf_16_sequence; s: EL_STRING_32_ROUTINES
 		do
 			wipe_out
 			utf_16 := utf_16_sequence
-			l_area := String_32.from_general (source, False).area; n := source.count
+			l_area := s.from_general (source, False).area; n := source.count
 			from until i = n loop
 				utf_16.set (l_area [i])
 				append_sequence (utf_16)

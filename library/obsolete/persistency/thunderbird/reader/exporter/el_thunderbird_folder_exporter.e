@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			part: EL_SPLIT_ZSTRING_LIST; buffer: ZSTRING
 		do
 			create part.make (html_doc, Html_break_tag)
-			buffer := empty_once_string
+			buffer := once_empty_string
 			from part.start until part.after loop
 				if part.index > 1 then
 					buffer.append (Break_tag)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:39:30 GMT (Sunday 28th June 2020)"
-	revision: "7"
+	date: "2021-01-05 9:46:12 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_HTTP_COOKIE
@@ -126,7 +126,7 @@ feature -- Conversion
 		local
 			string: STRING
 		do
-			string := empty_once_string_8
+			string := once_empty_string_8
 			-- optional secure, no value
 			across header_terms as term loop
 				if not string.is_empty then

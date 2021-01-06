@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-03 17:19:37 GMT (Thursday 3rd September 2020)"
-	revision: "11"
+	date: "2021-01-05 12:18:25 GMT (Tuesday 5th January 2021)"
+	revision: "12"
 
 class
 	EL_FONT
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_MODULE_SCREEN
-
-	EL_MODULE_ZSTRING
 
 create
 	default_create, make_regular, make_bold, make_with_values
@@ -51,8 +49,10 @@ feature {NONE} -- Initialization
 feature -- Measurement
 
 	string_width (a_string: READABLE_STRING_GENERAL): INTEGER
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := implementation.string_width (Zstring.to_unicode_general (a_string))
+			Result := implementation.string_width (s.to_unicode_general (a_string))
 		end
 
 	string_width_cms (str: ZSTRING): REAL

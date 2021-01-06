@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:58:36 GMT (Sunday 20th December 2020)"
-	revision: "6"
+	date: "2021-01-05 10:34:48 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	EL_XHTML_WORD_COUNTER
 
 inherit
 	EL_DOCUMENT_PARSE_EVENT_HANDLER
-
-	EL_MODULE_STRING_32
-		export
-			{NONE} all
-		end
 
 feature -- Access
 
@@ -34,7 +29,7 @@ feature {NONE} -- Event handlers
 	on_content (node: EL_DOCUMENT_NODE)
 			--
 		do
-			count := count + String_32.word_count (node.to_string_32)
+			count := count + word_count (node.to_string_32)
 		end
 
 	on_end_document
@@ -43,6 +38,11 @@ feature {NONE} -- Event handlers
 		end
 
 	on_end_tag (node: EL_DOCUMENT_NODE)
+			--
+		do
+		end
+
+	on_processing_instruction (node: EL_DOCUMENT_NODE)
 			--
 		do
 		end
@@ -60,14 +60,18 @@ feature {NONE} -- Event handlers
 			across attribute_list as l_attribute loop
 				name := l_attribute.item.name
 				if Text_attributes.has (name)  then
-					count := count + String_32.word_count (l_attribute.item.to_string_32)
+					count := count + word_count (l_attribute.item.to_string_32)
 				end
 			end
 		end
 
-	on_processing_instruction (node: EL_DOCUMENT_NODE)
-			--
+feature {NONE} -- Implementation
+
+	word_count (str: STRING_32): INTEGER
+		local
+			s: EL_STRING_32_ROUTINES
 		do
+			Result := s.word_count (str)
 		end
 
 feature {NONE} -- Constants

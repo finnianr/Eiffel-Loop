@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-15 14:30:58 GMT (Tuesday 15th December 2020)"
-	revision: "15"
+	date: "2021-01-05 9:44:09 GMT (Tuesday 5th January 2021)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -29,7 +29,7 @@ feature -- Access
 			elseif v = n.one then
 				Result := One
 			else
-				str := empty_once_string_8
+				str := once_empty_string_8
 				append (str, v)
 				Result := str.twin
 			end

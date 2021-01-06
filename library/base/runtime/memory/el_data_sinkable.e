@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 9:52:10 GMT (Sunday 9th February 2020)"
-	revision: "13"
+	date: "2021-01-05 11:48:40 GMT (Tuesday 5th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -41,10 +41,6 @@ inherit
 		end
 
 	EL_SHARED_ONCE_ZSTRING
-
-	EL_MODULE_STRING_32
-
-	EL_MODULE_CHAR_8
 
 feature -- Measurement
 
@@ -188,9 +184,11 @@ feature -- Array sinks
 feature -- Character sinks
 
 	sink_character_32 (in: CHARACTER_32)
+		local
+			c: EL_CHARACTER_8_ROUTINES
 		do
 			if utf_8_mode_enabled then
-				Char_8.write_utf_8 (in, Current)
+				c.write_utf_8 (in, Current)
 			else
 				sink_natural_32 (in.natural_32_code)
 			end
@@ -228,10 +226,10 @@ feature -- String sinks
 	sink_string (in: ZSTRING)
 		local
 			l_area: SPECIAL [NATURAL]; i, count: INTEGER
-			l_area_8: SPECIAL [CHARACTER]
+			l_area_8: SPECIAL [CHARACTER]; s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
-				String_32.write_utf_8 (in, Current)
+				s.write_utf_8 (in, Current)
 			else
 				l_area_8 := in.area; count := in.count
 				from i := 0 until i = count loop
@@ -259,9 +257,11 @@ feature -- String sinks
 		end
 
 	sink_string_8 (in: STRING)
+		local
+			s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
-				String_32.write_utf_8 (in, Current)
+				s.write_utf_8 (in, Current)
 			else
 				sink_raw_string_8 (in)
 			end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:57:10 GMT (Monday 30th September 2019)"
-	revision: "6"
+	date: "2021-01-05 9:46:17 GMT (Tuesday 5th January 2021)"
+	revision: "7"
 
 class
 	FCGI_PARAMETER_RECORD
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 			value_count := memory.parameter_length
 			read_name (memory, name_count)
 
-			utf_8_str := empty_once_string_8
+			utf_8_str := once_empty_string_8
 			memory.read_to_string_8 (utf_8_str, value_count)
 			value.wipe_out
 			value.append_utf_8 (utf_8_str)

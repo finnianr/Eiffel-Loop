@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:30:36 GMT (Saturday 2nd January 2021)"
-	revision: "21"
+	date: "2021-01-05 9:46:20 GMT (Tuesday 5th January 2021)"
+	revision: "22"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -117,7 +117,7 @@ feature -- Basic operations
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				buffer := empty_once_string_8
+				buffer := once_empty_string_8
 				list := header_list
 				list.sort (True)
 				from list.start until list.after loop

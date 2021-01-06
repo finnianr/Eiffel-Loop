@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:41:14 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2021-01-05 11:53:48 GMT (Tuesday 5th January 2021)"
+	revision: "8"
 
 class
 	EL_THUNDERBIRD_CONSTANTS
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_XML
 
 	EL_MODULE_TUPLE
-
-	EL_MODULE_STRING_8
 
 	EL_ZSTRING_CONSTANTS
 

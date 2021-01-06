@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 9:43:29 GMT (Monday 24th August 2020)"
-	revision: "19"
+	date: "2021-01-06 10:29:01 GMT (Wednesday 6th January 2021)"
+	revision: "20"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -38,8 +38,6 @@ inherit
 		undefine
 			default_create
 		end
-
-	EL_MODULE_COLON_FIELD
 
 	EL_MODULE_USER_INPUT
 
@@ -111,8 +109,10 @@ feature -- Tests
 feature {NONE} -- Line states
 
 	find_author (line: ZSTRING)
+		local
+			get_field: EL_COLON_FIELD_ROUTINES
 		do
-			if Colon_field.name (line) ~ Field.author then
+			if get_field.name (line) ~ Field.author then
 				file_out.put_new_line
 				file_out.put_string (Default_fields.joined_lines)
 				file_out.put_new_line
@@ -139,9 +139,11 @@ feature {NONE} -- Line states
 		end
 
 	get_revision (line: ZSTRING; revision: INTEGER_REF)
+		local
+			get_field: EL_COLON_FIELD_ROUTINES
 		do
-			if Colon_field.name (line) ~ Field.revision then
-				if attached {INTEGER_REF} Colon_field.integer (line) as l_revision then
+			if get_field.name (line) ~ Field.revision then
+				if attached {INTEGER_REF} get_field.integer (line) as l_revision then
 					revision.set_item (l_revision)
 				end
 				state := final
@@ -222,4 +224,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

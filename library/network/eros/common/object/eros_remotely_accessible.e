@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 9:54:16 GMT (Tuesday 21st January 2020)"
-	revision: "12"
+	date: "2021-01-05 10:17:20 GMT (Tuesday 5th January 2021)"
+	revision: "13"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_MODULE_LOG
-
-	EL_MODULE_STRING_8
 
 	EROS_REMOTE_CALL_CONSTANTS
 
@@ -123,15 +121,15 @@ feature {NONE} -- Implementation
 
 	set_request_arguments (call_argument: detachable EL_BUILDABLE_FROM_NODE_SCAN)
 		local
-			argument: STRING; i: INTEGER
+			argument: STRING; i: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			from i := 1 until i > argument_list.count or has_error loop
 				argument := argument_list [i]
-				if String_8.has_enclosing (argument, once "''") then
-					String_8.remove_single_quote (argument)
+				if s.has_enclosing (argument, once "''") then
+					s.remove_single_quote (argument)
 					set_string_argument (i, argument)
 
-				elseif String_8.has_enclosing (argument, Curly_braces)
+				elseif s.has_enclosing (argument, Curly_braces)
 					and then attached call_argument as deserialized_object
 				then
 					set_deserialized_object_argument (i, argument, deserialized_object)
@@ -139,9 +137,9 @@ feature {NONE} -- Implementation
 				elseif routine_table.has (argument) then
 					set_once_routine_argument (i, argument)
 
-				elseif String_8.is_convertible (argument, routine.argument_types [i]) then
+				elseif s.is_convertible (argument, routine.argument_types [i]) then
 					-- Convertible to one of 13 basic types
-					routine.arguments.put (String_8.to_type (argument, routine.argument_types [i]), i)
+					routine.arguments.put (s.to_type (argument, routine.argument_types [i]), i)
 
 				else
 					set_type_mismatch_error (i, argument)

@@ -1,15 +1,15 @@
 note
-	description: "Colon field routines accessible via [$source EL_MODULE_COLON_FIELD]"
+	description: "Colon field routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 11:02:40 GMT (Wednesday 25th September 2019)"
-	revision: "5"
+	date: "2021-01-06 10:18:40 GMT (Wednesday 6th January 2021)"
+	revision: "6"
 
-class
+expanded class
 	EL_COLON_FIELD_ROUTINES
 
 feature -- Access

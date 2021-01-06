@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 11:14:30 GMT (Tuesday 31st December 2019)"
-	revision: "4"
+	date: "2021-01-05 12:01:07 GMT (Tuesday 5th January 2021)"
+	revision: "5"
 
 deferred class
 	EL_ARGUMENT_TO_ATTRIBUTE_SETTING
@@ -19,8 +19,6 @@ obsolete
 	"Use EL_COMMAND_LINE_SUB_APPLICATION"
 
 inherit
-	EL_MODULE_ZSTRING
-
 	EL_MODULE_ARGS
 
 	EL_COMMAND_ARGUMENT_CONSTANTS
@@ -37,8 +35,8 @@ feature -- Element change
 	)
 			-- set class attribute from command line option
 		local
-			l_argument: ZSTRING
-			argument_error: like new_argument_error
+			l_argument: ZSTRING; argument_error: like new_argument_error
+			z: EL_ZSTRING_ROUTINES
 		do
 			argument_error := new_argument_error (a_word_option)
 			extend_help (a_word_option, a_description, a_attribute)
@@ -81,7 +79,7 @@ feature -- Element change
 					a_boolean_value.set_item (Args.word_option_exists (a_word_option))
 
 				elseif attached {EL_ZSTRING_HASH_TABLE [STRING]} a_attribute as hash_table then
-					hash_table [Zstring.new_zstring (a_word_option)] := l_argument
+					hash_table [z.new_zstring (a_word_option)] := l_argument
 				end
 			else
 				if is_required then

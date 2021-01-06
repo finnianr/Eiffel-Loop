@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:13:53 GMT (Monday 25th May 2020)"
-	revision: "42"
+	date: "2021-01-06 10:22:31 GMT (Wednesday 6th January 2021)"
+	revision: "43"
 
 class
 	RBOX_SONG
@@ -44,10 +44,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_OS
-
-	EL_MODULE_COLON_FIELD
-
-	EL_MODULE_ZSTRING
 
 create
 	make
@@ -121,7 +117,7 @@ feature -- Access
 		do
 			Result := location
 		end
-		
+
 	m3u_entry (tanda_index: INTEGER; is_windows_format, is_nokia_phone: BOOLEAN): ZSTRING
 			-- For example:
 
@@ -286,16 +282,17 @@ feature -- Element change
 	set_album_artists (text: ZSTRING)
 			--
 		local
-			list: EL_ZSTRING_LIST; l_type: ZSTRING
+			s: EL_ZSTRING_ROUTINES; list: EL_ZSTRING_LIST; l_type: ZSTRING
+			field: EL_COLON_FIELD_ROUTINES
 		do
 			if not (text.is_empty or text ~ Unknown_string) then
-				l_type := Colon_field.name (text)
+				l_type := field.name (text)
 				if l_type.is_empty then
 					create list.make_with_csv (text)
 					album_artists := [Unknown_string, list]
 				else
-					create list.make_with_csv (Colon_field.value (text))
-					Artist_type_list.find_first_true (agent ZString.starts_with (l_type, ?))
+					create list.make_with_csv (field.value (text))
+					Artist_type_list.find_first_true (agent s.starts_with (l_type, ?))
 					if Artist_type_list.after then
 						album_artists := [l_type, list]
 					else

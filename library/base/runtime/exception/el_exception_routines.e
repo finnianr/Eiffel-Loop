@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-06 15:20:05 GMT (Wednesday 6th May 2020)"
-	revision: "15"
+	date: "2021-01-05 12:06:00 GMT (Tuesday 5th January 2021)"
+	revision: "16"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -18,8 +18,6 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_UNIX_SIGNALS
-
-	EL_MODULE_ZSTRING
 
 create
 	make
@@ -108,12 +106,12 @@ feature -- Basic operations
 
 	raise (exception: EXCEPTION; a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		local
-			message: STRING_32; template: ZSTRING
+			message: STRING_32; template: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			if inserts.is_empty then
 				create message.make_from_string_general (a_template)
 			else
-				template := Zstring.as_zstring (a_template)
+				template := s.as_zstring (a_template)
 				message := template #$ inserts
 			end
 			exception.set_description (message)
@@ -122,17 +120,17 @@ feature -- Basic operations
 
 	raise_developer (a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		local
-			template: ZSTRING
+			template: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			template := Zstring.as_zstring (a_template)
+			template := s.as_zstring (a_template)
 			raise (create {DEVELOPER_EXCEPTION}, template, inserts)
 		end
 
 	raise_panic (a_template: READABLE_STRING_GENERAL; inserts: TUPLE)
 		local
-			template: ZSTRING
+			template: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			template := Zstring.as_zstring (a_template)
+			template := s.as_zstring (a_template)
 			raise (create {EIFFEL_RUNTIME_PANIC}, template, inserts)
 		end
 
