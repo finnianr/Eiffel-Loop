@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:49:19 GMT (Tuesday 5th January 2021)"
-	revision: "24"
+	date: "2021-01-07 18:08:22 GMT (Thursday 7th January 2021)"
+	revision: "25"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -50,7 +50,7 @@ feature -- Measurement
 		deferred
 		end
 
-	left_white_count (s: READABLE_STRING_GENERAL): INTEGER
+	leading_white_count (s: READABLE_STRING_GENERAL): INTEGER
 		deferred
 		end
 
@@ -76,7 +76,7 @@ feature -- Measurement
 			end
 		end
 
-	right_white_count (s: READABLE_STRING_GENERAL): INTEGER
+	trailing_white_count (s: READABLE_STRING_GENERAL): INTEGER
 		deferred
 		end
 
@@ -174,13 +174,18 @@ feature -- Transformation
 
 	adjusted (str: S): S
 		local
-			left_count: INTEGER
+			start_index, end_index: INTEGER
 		do
-			left_count := left_white_count (str)
-			if left_count = str.count then
-				create Result.make_empty
+			end_index := str.count - trailing_white_count (str)
+			if end_index.to_boolean then
+				start_index := leading_white_count (str) + 1
 			else
-				Result := str.substring (left_count + 1, str.count - right_white_count (str))
+				start_index := 1
+			end
+			if start_index = 1 and then end_index = str.count then
+				Result := str
+			else
+				Result := str.substring (start_index, end_index)
 			end
 		end
 

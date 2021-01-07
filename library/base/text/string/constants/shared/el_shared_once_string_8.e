@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 16:31:42 GMT (Wednesday 6th January 2021)"
-	revision: "5"
+	date: "2021-01-07 18:02:30 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_ONCE_STRING_8
@@ -19,10 +19,16 @@ feature {NONE} -- Implementation
 
 	once_adjusted_8 (str: STRING_8): STRING_8
 		local
-			s: EL_STRING_8_ROUTINES
+			start_index, end_index: INTEGER; s: EL_STRING_8_ROUTINES
 		do
+			end_index := str.count - s.trailing_white_count (str)
+			if end_index.to_boolean then
+				start_index := s.leading_white_count (str) + 1
+			else
+				start_index := 1
+			end
 			Result := once_empty_string_8
-			Result.append_substring (str, s.leading_white_count (str) + 1, str.count - s.trailing_white_count (str))
+			Result.append_substring (str, start_index, end_index)
 		end
 
 	once_copy_8 (str_8: STRING): STRING

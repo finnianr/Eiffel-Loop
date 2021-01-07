@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:50:48 GMT (Tuesday 5th January 2021)"
-	revision: "10"
+	date: "2021-01-07 18:00:46 GMT (Thursday 7th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_SHARED_ONCE_ZSTRING
@@ -18,9 +18,17 @@ inherit
 feature {NONE} -- Implementation
 
 	once_adjusted (str: ZSTRING): ZSTRING
+		local
+			start_index, end_index: INTEGER
 		do
+			end_index := str.count - str.trailing_white_space
+			if end_index.to_boolean then
+				start_index := str.leading_white_space + 1
+			else
+				start_index := 1
+			end
 			Result := once_empty_string
-			Result.append_substring (str, str.leading_white_space + 1, str.count - str.trailing_white_space)
+			Result.append_substring (str, start_index, end_index)
 		end
 
 	once_copy (str: ZSTRING): ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 11:38:36 GMT (Wednesday 6th January 2021)"
-	revision: "15"
+	date: "2021-01-07 18:03:38 GMT (Thursday 7th January 2021)"
+	revision: "16"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -93,7 +93,7 @@ feature -- Measurement
 			end
 		end
 
-	left_white_count (s: STRING_32): INTEGER
+	leading_white_count (s: STRING_32): INTEGER
 		local
 			i, l_count: INTEGER; l_area: SPECIAL [CHARACTER_32]
 			p: like Character_properties
@@ -105,7 +105,7 @@ feature -- Measurement
 			Result := i
 		end
 
-	right_white_count (s: STRING_32): INTEGER
+	trailing_white_count (s: STRING_32): INTEGER
 		local
 			i, nb: INTEGER; l_area: SPECIAL [CHARACTER_32]
 			p: like Character_properties

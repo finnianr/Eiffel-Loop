@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 16:31:42 GMT (Wednesday 6th January 2021)"
-	revision: "13"
+	date: "2021-01-07 18:04:38 GMT (Thursday 7th January 2021)"
+	revision: "14"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -15,9 +15,7 @@ expanded class
 inherit
 	EL_STRING_X_ROUTINES [STRING_8]
 		rename
-			replace_character as replace_character_32,
-			left_white_count as leading_white_count,
-			right_white_count as trailing_white_count
+			replace_character as replace_character_32
 		redefine
 			is_eiffel_identifier, replace_character_32
 		end

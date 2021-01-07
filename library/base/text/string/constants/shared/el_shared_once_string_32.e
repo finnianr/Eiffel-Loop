@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:23:14 GMT (Tuesday 5th January 2021)"
-	revision: "3"
+	date: "2021-01-07 18:03:07 GMT (Thursday 7th January 2021)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_ONCE_STRING_32
@@ -19,10 +19,15 @@ feature {NONE} -- Implementation
 
 	once_adjusted_32 (str: STRING_32): STRING_32
 		local
-			s: EL_STRING_32_ROUTINES
+			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
-			Result := once_empty_string_32
-			Result.append_substring (str, s.left_white_count (str) + 1, str.count - s.right_white_count (str))
+			end_index := str.count - s.trailing_white_count (str)
+			if end_index.to_boolean then
+				start_index := s.leading_white_count (str) + 1
+			else
+				start_index := 1
+			end
+			Result.append_substring (str, start_index, end_index)
 		end
 
 	once_empty_string_32: like Once_string_32
