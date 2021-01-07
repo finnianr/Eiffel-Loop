@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:54:45 GMT (Sunday 20th December 2020)"
-	revision: "7"
+	date: "2021-01-07 14:19:58 GMT (Thursday 7th January 2021)"
+	revision: "8"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
 
 inherit
-	ARRAYED_LIST [EL_ELEMENT_ATTRIBUTE_NODE]
+	ARRAYED_LIST [EL_ELEMENT_ATTRIBUTE_NODE_STRING]
 		rename
 			make as make_list,
 			item as node,
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			make_list (Default_size)
 			create node_cache.make (Default_size)
 			from until node_cache.full loop
-				node_cache.extend (create {like node}.make)
+				node_cache.extend (create {like node}.make_empty)
 			end
 			reset
 		end
@@ -56,7 +56,7 @@ feature -- Element change
 			--
 		do
 			if count = node_cache.upper then
-				node_cache.extend (create {like node}.make)
+				node_cache.extend (create {like node}.make_empty)
 			end
 			extend_list (node_cache [count + 1])
 			finish

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:06:13 GMT (Thursday 14th May 2020)"
-	revision: "12"
+	date: "2021-01-07 14:26:29 GMT (Thursday 7th January 2021)"
+	revision: "13"
 
 deferred class
 	EL_ENCODING_BASE
@@ -147,7 +147,7 @@ feature -- Element change
 				encoding := 0
 			end
 		ensure
-			reversible: encoding > 0 implies a_name.to_string_8.as_upper ~ name
+			reversible: encoding > 0 implies a_name.as_upper.same_string (name)
 		end
 
 	set_from_other (other: EL_ENCODING_BASE)

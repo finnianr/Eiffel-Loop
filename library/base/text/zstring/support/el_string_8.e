@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 12:52:41 GMT (Saturday 2nd January 2021)"
-	revision: "4"
+	date: "2021-01-07 16:12:03 GMT (Thursday 7th January 2021)"
+	revision: "5"
 
 class
 	EL_STRING_8
@@ -49,6 +49,22 @@ feature -- Staus query
 				end
 				i := i + 1
 			end
+		end
+
+feature -- Measurement
+
+	leading_white_count: INTEGER
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.leading_white_count (Current)
+		end
+
+	trailing_white_count: INTEGER
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.trailing_white_count (Current)
 		end
 
 feature -- Element change

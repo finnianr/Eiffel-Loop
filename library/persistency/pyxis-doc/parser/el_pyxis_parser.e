@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:54:22 GMT (Monday 4th January 2021)"
-	revision: "20"
+	date: "2021-01-07 12:44:02 GMT (Thursday 7th January 2021)"
+	revision: "21"
 
 class
 	EL_PYXIS_PARSER
@@ -237,12 +237,12 @@ feature {NONE} -- Parse events
 	on_declaration
 			--
 		local
-			attribute_node: EL_ELEMENT_ATTRIBUTE_NODE; attribute_name: STRING_32
+			attribute_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING; attribute_name: EL_UTF_8_STRING
 			i: INTEGER
 		do
 			from i := 1  until i > attribute_list.count loop
 				attribute_node := attribute_list [i]
-				attribute_name := attribute_node.name
+				attribute_name := attribute_node.raw_name
 				if attribute_name.same_string ("version") and then attribute_node.is_real then
 					xml_version := attribute_node.to_real
 
@@ -313,7 +313,7 @@ feature {NONE} -- Parse events
 					line.remove_quotes
 					set_last_node_text (line)
 					is_double_quote := content_type = Content_double_quoted_string
-					Quote_unescaper.item (is_double_quote).unescape (last_node_text)
+					Quote_unescaper.item (is_double_quote).unescape (last_node)
 
 			else
 				set_last_node_text (line)
@@ -367,13 +367,12 @@ feature {NONE} -- Implementation
 	set_last_node_name (name: ZSTRING)
 		do
 			last_node_name.wipe_out
-			name.append_to_string_32 (last_node_name)
+			last_node_name.set_from_general (name)
 		end
 
 	set_last_node_text (text: ZSTRING)
 		do
-			last_node_text.wipe_out
-			text.append_to_string_32 (last_node_text)
+			last_node.set_from_general (text)
 		end
 
 feature {NONE} -- Implementation: attributes

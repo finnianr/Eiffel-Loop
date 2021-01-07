@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:27:48 GMT (Monday 4th January 2021)"
-	revision: "3"
+	date: "2021-01-07 14:50:55 GMT (Thursday 7th January 2021)"
+	revision: "4"
 
 class
 	PYXIS_PARSER_TEST_SET
@@ -58,9 +58,9 @@ feature -- Tests
 			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER
-			table: like Attribute_table; name: EL_ZSTRING
+			table: like Attribute_table; name: ZSTRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
-			l_attribute: EL_ELEMENT_ATTRIBUTE_NODE
+			l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 		do
 			create attribute_list.make
 			create parser.make (attribute_list)

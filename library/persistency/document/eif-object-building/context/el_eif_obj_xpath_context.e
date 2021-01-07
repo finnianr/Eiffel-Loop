@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:39:56 GMT (Saturday 2nd January 2021)"
-	revision: "12"
+	date: "2021-01-07 11:21:34 GMT (Thursday 7th January 2021)"
+	revision: "13"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -48,7 +48,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_node (a_node: EL_DOCUMENT_NODE)
+	set_node (a_node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			node := a_node
@@ -132,7 +132,7 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 			create xpath.make_empty
 		end
 
-	node: EL_DOCUMENT_NODE
+	node: EL_DOCUMENT_NODE_STRING
 
 	xpath: ZSTRING
 
@@ -146,9 +146,9 @@ feature {NONE} -- Constant
 
 	Xpath_step_separator: CHARACTER_32 = '/'
 
-	Default_node: EL_DOCUMENT_NODE
+	Default_node: EL_DOCUMENT_NODE_STRING
 		once
-			create Result.make
+			create Result.make_empty
 		end
 
 end

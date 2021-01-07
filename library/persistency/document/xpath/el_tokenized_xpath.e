@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 13:49:07 GMT (Tuesday 29th December 2020)"
-	revision: "6"
+	date: "2021-01-07 11:50:21 GMT (Thursday 7th January 2021)"
+	revision: "7"
 
 class
 	EL_TOKENIZED_XPATH
@@ -57,7 +57,7 @@ feature -- Element change
 			is_path_to_element := true
 		end
 
-	append_step (step_name: STRING_32)
+	append_step (step_name: ZSTRING)
 			--
 		do
 			put (token (step_name))
@@ -199,7 +199,7 @@ feature {NONE} -- Implementation
 
 	internal_hash_code: INTEGER
 
-	token (xpath_step: STRING_32): INTEGER_16
+	token (xpath_step: ZSTRING): INTEGER_16
 			-- token value of xpath step
 		do
 			token_table.put ((token_table.count + 1).to_integer_16, xpath_step)

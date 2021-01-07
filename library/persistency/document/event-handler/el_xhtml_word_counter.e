@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:34:48 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-07 11:54:42 GMT (Thursday 7th January 2021)"
+	revision: "8"
 
 class
 	EL_XHTML_WORD_COUNTER
@@ -15,18 +15,19 @@ class
 inherit
 	EL_DOCUMENT_PARSE_EVENT_HANDLER
 
+
 feature -- Access
 
 	count: INTEGER
 
 feature {NONE} -- Event handlers
 
-	on_comment (node: EL_DOCUMENT_NODE)
+	on_comment (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 		end
 
-	on_content (node: EL_DOCUMENT_NODE)
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			count := count + word_count (node.to_string_32)
@@ -37,12 +38,12 @@ feature {NONE} -- Event handlers
 		do
 		end
 
-	on_end_tag (node: EL_DOCUMENT_NODE)
+	on_end_tag (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 		end
 
-	on_processing_instruction (node: EL_DOCUMENT_NODE)
+	on_processing_instruction (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 		end
@@ -52,15 +53,15 @@ feature {NONE} -- Event handlers
 		do
 		end
 
-	on_start_tag (node: EL_DOCUMENT_NODE; attribute_list: EL_ELEMENT_ATTRIBUTE_LIST)
+	on_start_tag (node: EL_DOCUMENT_NODE_STRING; attribute_list: EL_ELEMENT_ATTRIBUTE_LIST)
 			--
 		local
-			name: STRING_32
+			name: EL_UTF_8_STRING
 		do
 			across attribute_list as l_attribute loop
-				name := l_attribute.item.name
+				name := l_attribute.item.raw_name
 				if Text_attributes.has (name)  then
-					count := count + word_count (l_attribute.item.to_string_32)
+					count := count + word_count (l_attribute.item.adjusted_32 (False))
 				end
 			end
 		end
@@ -76,7 +77,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Text_attributes: ARRAY [STRING_32]
+	Text_attributes: ARRAY [EL_UTF_8_STRING]
 		once
 			Result := << "alt", "title" >>
 			Result.compare_objects

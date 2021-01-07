@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 15:15:52 GMT (Friday 1st January 2021)"
-	revision: "13"
+	date: "2021-01-07 16:29:46 GMT (Thursday 7th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -49,11 +49,10 @@ feature {NONE}  -- Initialisation
 	make_default
 			--
 		do
-			create last_node.make
+			create last_node.make_empty
 			create attribute_list.make
 			event_source := default_event_source
-			last_node_name := last_node.name
-			last_node_text := last_node.raw_content
+			last_node_name := last_node.raw_name
 		end
 
 feature -- Access
@@ -152,7 +151,7 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 		deferred
 		end
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; encodeable: EL_ENCODING_BASE)
 		-- on parsing of meta data on first line of document
 		deferred
 		end
@@ -163,7 +162,7 @@ feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
 
 	event_source: EL_PARSE_EVENT_SOURCE
 
-	last_node: EL_DOCUMENT_NODE
+	last_node: EL_DOCUMENT_NODE_STRING
 
 feature {NONE} -- Implementation
 
@@ -174,9 +173,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	last_node_name: STRING_32
-
-	last_node_text: STRING_32
+	last_node_name: EL_UTF_8_STRING
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:38:22 GMT (Saturday 2nd January 2021)"
-	revision: "9"
+	date: "2021-01-07 16:36:06 GMT (Thursday 7th January 2021)"
+	revision: "10"
 
 class
 	EL_BINARY_ENCODED_DOCUMENT_SCANNER
@@ -37,11 +37,11 @@ feature {NONE}  -- Initialisation
 
 feature {NONE} -- Parsing events
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
 			if is_lio_enabled then
-				lio.put_line ("on_xml_tag_declaration")
+				lio.put_substitution ("version = %S, encoding = %S", [version, a_encoding.name])
 			end
 		end
 
@@ -92,7 +92,7 @@ feature {NONE} -- Parsing events
 			--
 		do
 			if is_lio_enabled then
-				lio.put_labeled_string ("on_content", last_node_text)
+				lio.put_labeled_string ("on_content", last_node.adjusted (False))
 				lio.put_new_line
 			end
 		end

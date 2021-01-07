@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 14:16:24 GMT (Friday 1st January 2021)"
-	revision: "16"
+	date: "2021-01-07 17:45:05 GMT (Thursday 7th January 2021)"
+	revision: "17"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -86,13 +86,13 @@ feature {NONE} -- Parse action handlers
 			--
 		do
 			attribute_list.extend
-			set_name_from_stream (attribute_list.last_node.name, index_or_count, is_index)
+			set_name_from_stream (attribute_list.last_node.raw_name, index_or_count, is_index)
 		end
 
 	on_attribute_text_code (count: INTEGER)
 			--
 		do
-			set_string_from_stream (attribute_list.last_node.raw_content, count)
+			set_string_from_stream (attribute_list.last_node, count)
 		end
 
 	on_text_code (count: INTEGER)
@@ -100,7 +100,7 @@ feature {NONE} -- Parse action handlers
 		do
 			check_for_last_start_tag
 
-			set_string_from_stream (last_node_text, count)
+			set_string_from_stream (last_node, count)
 			last_node.set_type (Node_type_text)
 			scanner.on_content
 		end
@@ -110,7 +110,7 @@ feature {NONE} -- Parse action handlers
 		do
 			check_for_last_start_tag
 
-			set_string_from_stream (last_node_text, count)
+			set_string_from_stream (last_node, count)
 			last_node.set_type (Node_type_comment)
 			scanner.on_content
 		end
@@ -120,9 +120,9 @@ feature {NONE} -- Parse action handlers
 		do
 			check_for_last_start_tag
 
-			set_name_from_stream (last_node_name, index_or_count, is_index)
+			set_name_from_stream (last_node.raw_name, index_or_count, is_index)
 			input.read_natural_16
-			set_string_from_stream (last_node_text, input.last_natural_16)
+			set_string_from_stream (last_node, input.last_natural_16)
 			last_node.set_type (Node_type_processing_instruction)
 			scanner.on_processing_instruction
 		end
@@ -141,6 +141,11 @@ feature {NONE} -- Parse action handlers
 			scanner.on_end_document
 		end
 
+	on_meta_data (a_encoding: NATURAL)
+		do
+			scanner.on_meta_data (xml_version, create {EL_ENCODING}.make (a_encoding))
+		end
+
 feature {NONE} -- Implementation
 
 	read_parse_events
@@ -149,9 +154,6 @@ feature {NONE} -- Implementation
 			parse_event_code, index_or_count: INTEGER; is_index: BOOLEAN
 		do
 			last_parse_event_code := 0
-
-			input.read_natural_8
-			is_utf_8_encoded := input.last_natural_8.to_boolean
 
 			from until last_parse_event_code = PE_end_document loop
 				input.read_natural_16
@@ -186,6 +188,10 @@ feature {NONE} -- Implementation
 					when PE_start_document then
 						on_start_document_code
 
+						input.read_real; xml_version := input.last_real
+						input.read_natural
+						on_meta_data (input.last_natural)
+
 					when PE_end_document then
 						on_end_document_code
 
@@ -207,38 +213,30 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_name_from_stream (name: STRING_32; index_or_count: INTEGER; is_index: BOOLEAN)
+	set_name_from_stream (name: EL_UTF_8_STRING; index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
 			name.wipe_out
 			if is_index then
-				name.append_string_general (name_index_array [index_or_count])
+				name.append (name_index_array [index_or_count])
 			else
 				input.read_stream (index_or_count)
-				name.append_string_general (input.last_string)
-				name_index_array.extend (name.string)
+				name.append (input.last_string)
+				name_index_array.extend (input.last_string.twin)
 			end
 		end
 
-	set_string_from_stream (str: STRING_32; count: INTEGER)
-			--
-		local
-			c: EL_UTF_CONVERTER
+	set_string_from_stream (str: EL_UTF_8_STRING; count: INTEGER)
+		--
 		do
 			str.wipe_out
 			input.read_stream (count)
-			if is_utf_8_encoded then
-				c.utf_8_string_8_into_string_32 (input.last_string, str)
-			else
-				str.append_string_general (input.last_string)
-			end
+			str.append (input.last_string)
 		end
 
 feature {NONE} -- Implementation: attributes
 
 	input: IO_MEDIUM
-
-	is_utf_8_encoded: BOOLEAN
 
 	name_index_array: ARRAYED_LIST [STRING]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:03:02 GMT (Sunday 20th December 2020)"
-	revision: "5"
+	date: "2021-01-07 11:22:12 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 deferred class
 	EL_SMIL_VALUE_PARSING
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 			Result := Result_string.to_integer
 		end
 
-	node: EL_DOCUMENT_NODE
+	node: EL_DOCUMENT_NODE_STRING
 			--
 		deferred
 		end

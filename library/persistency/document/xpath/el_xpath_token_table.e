@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-29 13:49:07 GMT (Tuesday 29th December 2020)"
-	revision: "7"
+	date: "2021-01-07 11:47:56 GMT (Thursday 7th January 2021)"
+	revision: "8"
 
 class
 	EL_XPATH_TOKEN_TABLE
 
 inherit
-	HASH_TABLE [INTEGER_16, STRING_32]
+	HASH_TABLE [INTEGER_16, ZSTRING]
 		redefine
 			default_create --, extend, put
 		end

@@ -6,19 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 17:22:21 GMT (Wednesday 6th January 2021)"
-	revision: "5"
+	date: "2021-01-07 16:17:13 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 class
 	EL_DOCUMENT_NODE_STRING
 
 inherit
 	EL_UTF_8_STRING
+		rename
+			is_empty as is_raw_empty
 		export
 			{NONE} all
-			{ANY} append_count_from_c, wipe_out, is_valid_as_string_8, set_from_general
+			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
+
+			{ANY} append_count_from_c, count, wipe_out, share, set_from_general,
+					-- Status query
+					has, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine
-			make, as_string_32, to_string_32, as_string_8, to_string_8,
+			make, adjusted, adjusted_8, adjusted_32,
+			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
 			raw_string, raw_string_8, raw_string_32
 		end
 
@@ -71,17 +78,22 @@ inherit
 create
 	make_empty
 
+convert
+	to_boolean: {BOOLEAN},
+	to_integer: {INTEGER}, to_integer_64: {INTEGER_64},
+	to_natural: {NATURAL}, to_natural_64: {NATURAL_64},
+	to_string_32: {STRING_32}, to_string: {ZSTRING}
+
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		do
 			make_default
 			Precursor (n)
+			create raw_name.make (0)
 		end
 
 feature -- Access
-
-	name: EL_UTF_8_STRING
 
 	type: INTEGER
 		-- Node type id
@@ -93,9 +105,9 @@ feature -- Access
 			inspect type
 				when Node_type_element then
 					if encoded_as_utf (8) then
-						Result.append_utf_8 (name)
+						Result.append_utf_8 (raw_name)
 					else
-						Result.append_string_general (name)
+						Result.append_string_general (raw_name)
 					end
 
 				when Node_type_text then
@@ -107,23 +119,114 @@ feature -- Access
 				when Node_type_processing_instruction then
 					Result.append_raw_string_8 (Node_processing_instruction)
 					if encoded_as_utf (8) then
-						Result.append_utf_8 (name)
+						Result.append_utf_8 (raw_name)
 					else
-						Result.append_string_general (name)
+						Result.append_string_general (raw_name)
 					end
 					Result.append_raw_string_8 (Node_processing_instruction_end)
 
 			else
-				Result.append_string_general (name)
+				Result.append_string_general (raw_name)
 			end
 			if keep_ref then
 				Result := Result.twin
 			end
 		end
 
-feature -- To string type
+	name: ZSTRING
+		do
+			if encoded_as_utf (8) then
+				create Result.make_from_utf_8 (raw_name)
+			else
+				create Result.make_from_general (raw_name)
+			end
+		end
+
+	once_name: ZSTRING
+		do
+			Result := once_empty_string
+			if encoded_as_utf (8) then
+				Result.append_utf_8 (raw_name)
+			else
+				Result.append_string_general (raw_name)
+			end
+		end
+
+feature -- Status query
+
+	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := adjusted (False).same_string (a_string)
+		end
+
+	is_empty: BOOLEAN
+			--
+		do
+			Result := leading_white_count = count
+		end
+
+feature -- String conversion
+
+	adjusted (keep_ref: BOOLEAN): ZSTRING
+		-- string with adjusted whitespace
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
+			else
+				Result := once_adjusted (Current)
+				if keep_ref then
+					Result := Result.twin
+				end
+			end
+		end
+
+	adjusted_32 (keep_ref: BOOLEAN): STRING_32
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
+			else
+				Result := once_adjusted_32 (Current)
+				if keep_ref then
+					Result := Result.twin
+				end
+			end
+		end
+
+	adjusted_8 (keep_ref: BOOLEAN): STRING_8
+		-- string with adjusted whitespace
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
+			else
+				Result := once_adjusted_8 (Current)
+				if keep_ref then
+					Result := Result.twin
+				end
+			end
+		end
+
+	raw_string (keep_ref: BOOLEAN): ZSTRING
+		-- string with unadjusted whitespace
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
+			else
+				Result := once_copy_general (Current)
+			end
+		end
+
+	raw_string_32 (keep_ref: BOOLEAN): STRING_32
+		-- string with unadjusted whitespace
+		do
+			if encoded_as_utf (8) then
+				Result := Precursor (keep_ref)
+			else
+				Result := once_copy_general_32 (Current)
+			end
+		end
 
 	raw_string_8 (keep_ref: BOOLEAN): STRING_8
+		-- string with unadjusted whitespace
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
@@ -196,19 +299,24 @@ feature -- Conversion
 
 feature -- Element change
 
+	set_from_view (view: EL_STRING_VIEW)
+		do
+			wipe_out
+			view.append_to (Current)
+		end
+
 	set_type (a_type: INTEGER)
-			--
 		do
 			type := a_type
 		end
 
 feature -- Basic operations
 
-	put_string_into (a_set: EL_HASH_SET [ZSTRING])
+	put_string_32_into (a_set: EL_HASH_SET [STRING_32])
 		local
-			member: ZSTRING
+			member: STRING_32
 		do
-			member := adjusted (False)
+			member := adjusted_32 (False)
 			if not a_set.has_key (member) then
 				a_set.extend (member.twin)
 			end
@@ -224,34 +332,18 @@ feature -- Basic operations
 			end
 		end
 
-	put_string_32_into (a_set: EL_HASH_SET [STRING_32])
+	put_string_into (a_set: EL_HASH_SET [ZSTRING])
 		local
-			member: STRING_32
+			member: ZSTRING
 		do
-			member := adjusted_32 (False)
+			member := adjusted (False)
 			if not a_set.has_key (member) then
 				a_set.extend (member.twin)
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_DOCUMENT_CLIENT} -- Internal attributes
 
-	raw_string (keep_ref: BOOLEAN): ZSTRING
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := once_copy_general (Current)
-			end
-		end
-
-	raw_string_32 (keep_ref: BOOLEAN): STRING_32
-		do
-			if encoded_as_utf (8) then
-				Result := Precursor (keep_ref)
-			else
-				Result := once_copy_general_32 (Current)
-			end
-		end
+	raw_name: EL_UTF_8_STRING
 
 end

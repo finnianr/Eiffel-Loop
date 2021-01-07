@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:58:31 GMT (Sunday 20th December 2020)"
-	revision: "5"
+	date: "2021-01-07 11:54:16 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 deferred class
 	EL_DOCUMENT_PARSE_EVENT_HANDLER
+
+inherit
+	EL_DOCUMENT_CLIENT
 
 feature {EL_DOCUMENT_CLIENT} -- Parsing events
 
@@ -24,27 +27,27 @@ feature {EL_DOCUMENT_CLIENT} -- Parsing events
 		deferred
 		end
 
-	on_start_tag (node: EL_DOCUMENT_NODE; attribute_list: EL_ELEMENT_ATTRIBUTE_LIST)
+	on_start_tag (node: EL_DOCUMENT_NODE_STRING; attribute_list: EL_ELEMENT_ATTRIBUTE_LIST)
 			--
 		deferred
 		end
 
-	on_end_tag (node: EL_DOCUMENT_NODE)
+	on_end_tag (node: EL_DOCUMENT_NODE_STRING)
 			--
 		deferred
 		end
 
-	on_content (node: EL_DOCUMENT_NODE)
+	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		deferred
 		end
 
-	on_comment (node: EL_DOCUMENT_NODE)
+	on_comment (node: EL_DOCUMENT_NODE_STRING)
 			--
 		deferred
 		end
 
-	on_processing_instruction (node: EL_DOCUMENT_NODE)
+	on_processing_instruction (node: EL_DOCUMENT_NODE_STRING)
 			--
 		deferred
 		end

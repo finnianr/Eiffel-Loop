@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 16:37:10 GMT (Friday 1st January 2021)"
-	revision: "3"
+	date: "2021-01-07 12:52:29 GMT (Thursday 7th January 2021)"
+	revision: "4"
 
 class
 	EL_EXPAT_ATTRIBUTE_CURSOR
@@ -34,8 +34,6 @@ inherit
 		undefine
 			is_equal, copy
 		end
-
-	EL_MODULE_C_DECODER
 
 	EL_DOCUMENT_CLIENT
 		undefine
@@ -71,10 +69,10 @@ feature -- Status query
 
 feature -- Basic operations
 
-	set_node (node: EL_ELEMENT_ATTRIBUTE_NODE)
+	set_node (node: EL_ELEMENT_ATTRIBUTE_NODE_STRING)
 		do
-			C_decoder.set_from_utf8 (node.name, name_ptr)
-			C_decoder.set_from_utf8 (node.raw_content, content_ptr)
+			node.raw_name.set_from_c (name_ptr)
+			node.set_from_c (content_ptr)
 		end
 
 feature -- Status change

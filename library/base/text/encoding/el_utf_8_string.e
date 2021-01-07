@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 17:03:29 GMT (Wednesday 6th January 2021)"
-	revision: "4"
+	date: "2021-01-07 16:14:00 GMT (Thursday 7th January 2021)"
+	revision: "5"
 
 class
 	EL_UTF_8_STRING
 
 inherit
 	EL_STRING_8
+		rename
+			as_string_8 as as_latin_1,
+			to_string_8 as to_latin_1
+		end
 
 	EL_SHARED_ONCE_STRING_8
 
@@ -22,17 +26,24 @@ inherit
 	EL_SHARED_ONCE_ZSTRING
 
 create
-	make
+	make, make_filled, make_from_string
 
-feature -- Access
+convert
+	make_from_string ({STRING_8})
+
+feature -- String conversion
 
 	adjusted (keep_ref: BOOLEAN): ZSTRING
+		-- string with adjusted whitespace
 		local
-			c: EL_UTF_CONVERTER; s: EL_STRING_8_ROUTINES
-			n, start_index, end_index: INTEGER; str_32: STRING_32
+			c: EL_UTF_CONVERTER; n, start_index, end_index: INTEGER; str_32: STRING_32
 		do
-			start_index := s.leading_white_count (Current) + 1
-			end_index := count - s.trailing_white_count (Current)
+			end_index := count - trailing_white_count
+			if end_index.to_boolean then
+				start_index := leading_white_count + 1
+			else
+				start_index := 1
+			end
 			Result := once_empty_string
 			if has_multi_byte_character then
 				str_32 := once_empty_string_32
@@ -50,15 +61,16 @@ feature -- Access
 		end
 
 	adjusted_8 (keep_ref: BOOLEAN): STRING_8
+		-- string with adjusted whitespace
 		local
-			s: EL_STRING_8_ROUTINES; start_index, end_index: INTEGER
+			start_index, end_index: INTEGER
 		do
 			Result := once_empty_string_8
 			if has_multi_byte_character then
 				Result.append_string_general (adjusted_32 (False))
 			else
-				start_index := s.leading_white_count (Current) + 1
-				end_index := count - s.trailing_white_count (Current)
+				start_index := leading_white_count + 1
+				end_index := count - trailing_white_count
 				Result.append_substring (Current, start_index, end_index)
 			end
 			if keep_ref then
@@ -67,12 +79,16 @@ feature -- Access
 		end
 
 	adjusted_32 (keep_ref: BOOLEAN): STRING_32
+		-- string with adjusted whitespace
 		local
-			c: EL_UTF_CONVERTER; s: EL_STRING_8_ROUTINES
-			start_index, end_index: INTEGER
+			c: EL_UTF_CONVERTER; start_index, end_index: INTEGER
 		do
-			start_index := s.leading_white_count (Current) + 1
-			end_index := count - s.trailing_white_count (Current)
+			end_index := count - trailing_white_count
+			if end_index.to_boolean then
+				start_index := leading_white_count + 1
+			else
+				start_index := 1
+			end
 			Result := once_empty_string_32
 			if has_multi_byte_character then
 				c.utf_8_substring_8_into_string_32 (Current, start_index, end_index, Result)
@@ -85,12 +101,14 @@ feature -- Access
 		end
 
 	raw_string (keep_ref: BOOLEAN): ZSTRING
+		-- string with unadjusted whitespace
 		do
 			Result := once_empty_string
 			Result.append_utf_8 (Current)
 		end
 
 	raw_string_8 (keep_ref: BOOLEAN): STRING_8
+		-- string with unadjusted whitespace
 		do
 			Result := once_empty_string_8
 			if has_multi_byte_character then
@@ -104,6 +122,7 @@ feature -- Access
 		end
 
 	raw_string_32 (keep_ref: BOOLEAN): STRING_32
+		-- string with unadjusted whitespace
 		local
 			c: EL_UTF_CONVERTER
 		do
@@ -113,6 +132,16 @@ feature -- Access
 			else
 				Result.append_string_general (Current)
 			end
+		end
+
+	to_string: ZSTRING
+		do
+			Result := raw_string (True)
+		end
+
+	to_string_8, as_string_8: STRING_8
+		do
+			Result := raw_string_8 (True)
 		end
 
 feature -- Status query

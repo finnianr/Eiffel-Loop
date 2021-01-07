@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 16:03:42 GMT (Sunday 20th December 2020)"
-	revision: "11"
+	date: "2021-01-07 17:05:55 GMT (Thursday 7th January 2021)"
+	revision: "12"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -64,13 +64,13 @@ feature -- Basic operations
 
 feature {NONE} -- Parsing events
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
---			if encoding_type ~ Encoding_utf and then encoding = 8 then
---				put BOM
---			end
-			output.put_string (Declaration_template #$ [Decimal_formatter.formatted (version), encoding_name])
+			if a_encoding.encoded_as_utf (8) then
+				output.put_bom
+			end
+			output.put_string (Declaration_template #$ [Decimal_formatter.formatted (version), a_encoding.name])
 			output.put_new_line
 		end
 
@@ -141,13 +141,13 @@ feature {NONE} -- Parsing events
 			has_multiple_lines: BOOLEAN
 			line_list: like new_line_list
 		do
-			has_multiple_lines := last_node_text.has (New_line_character)
+			has_multiple_lines := last_node.has (New_line_character)
 			put_last_tag (True)
 			output.put_raw_string_8 (tab_indent (output_stack.count))
 			output.put_raw_string_8 ("<!--")
 			if has_multiple_lines then
 				output.put_new_line
-				line_list := new_line_list (last_node_text)
+				line_list := new_line_list (last_node.adjusted (False))
 				from line_list.start until line_list.after loop
 					output.put_raw_string_8 (tab_indent (output_stack.count + 1))
 					output.put_string (line_list.item.escaped (xml_escaper))
@@ -170,15 +170,12 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
-	attribute_pair_string (attribute_node: EL_ELEMENT_ATTRIBUTE_NODE): ZSTRING
+	attribute_pair_string (attribute_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING): ZSTRING
 			--
 		do
-			create Result.make (attribute_node.name.count + attribute_node.to_string_32.count + 6)
-			Result.append_character (' ')
-			Result.append_string_general (attribute_node.name)
-			Result.append_string_general (once " = %"")
-			Result.append_string_general (escaped_attribute (attribute_node.to_string_32))
-			Result.append_character ('"')
+			Result := Attribute_template #$ [
+				attribute_node.once_name, escaped_attribute (attribute_node.adjusted (False))
+			]
 		end
 
 	new_line_list (lines: STRING_32): EL_ZSTRING_LIST
@@ -221,8 +218,8 @@ feature {NONE} -- Implementation
 			line_list: like new_line_list
 			line: ZSTRING
 		do
-			if last_node_text.has (New_line_character) then
-				line_list := new_line_list (last_node_text)
+			if last_node.has (New_line_character) then
+				line_list := new_line_list (last_node.adjusted (False))
 				output.put_new_line
 				from line_list.start until line_list.after loop
 					output.put_string (line_list.item.escaped (xml_escaper))
@@ -235,7 +232,7 @@ feature {NONE} -- Implementation
 				output.put_new_line
 				last_state := State_multi_line_content
 			else
-				line := last_node_text
+				line := last_node.adjusted (False)
 				output.put_string (line.escaped (xml_escaper))
 				last_state := State_content
 			end
@@ -263,7 +260,26 @@ feature {NONE} -- Implementation
 
 	last_state: INTEGER
 
+feature {NONE} -- States
+
+	State_tag: INTEGER = 1
+
+	State_end_tag: INTEGER = 2
+
+	State_content: INTEGER = 3
+
+	State_comment: INTEGER = 4
+
+	State_multi_line_content: INTEGER = 5
+
 feature {NONE} -- Constants
+
+	Attribute_template: ZSTRING
+		once
+			Result := " %S = %"%S%""
+		ensure
+			starts_with_space: Result [1] = ' '
+		end
 
 	Declaration_template: ZSTRING
 			--
@@ -284,7 +300,7 @@ feature {NONE} -- Constants
 			Result := "%N"
 		end
 
-	New_line_character: CHARACTER_32 = '%N'
+	New_line_character: CHARACTER_8 = '%N'
 
 	Comment_end: ZSTRING
 		once
@@ -310,15 +326,5 @@ feature {NONE} -- Constants
 		once
 			Result := "</"
 		end
-
-	State_tag: INTEGER = unique
-
-	State_end_tag: INTEGER = unique
-
-	State_content: INTEGER = unique
-
-	State_comment: INTEGER = unique
-
-	State_multi_line_content: INTEGER = unique
 
 end

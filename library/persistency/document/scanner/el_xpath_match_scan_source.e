@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:37:32 GMT (Saturday 2nd January 2021)"
-	revision: "11"
+	date: "2021-01-07 16:30:22 GMT (Thursday 7th January 2021)"
+	revision: "12"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -98,10 +98,10 @@ feature {NONE} -- Parsing events
 		local
 			element_node: like last_node
 		do
-			last_node_xpath.append_step (last_node_name)
+			last_node_xpath.append_step (last_node.once_name)
 			call_any_matching_procedures (node_START_action_table, node_START_wildcard_xpath_search_term_list)
 
-			if not attribute_list.is_empty then
+			if attribute_list.count > 0 then
 				element_node := last_node
 				from attribute_list.start until attribute_list.after loop
 					last_node := attribute_list.node
@@ -115,7 +115,7 @@ feature {NONE} -- Parsing events
 			end
 		end
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; encodeable: EL_ENCODING_BASE)
 			--
 		do
 		end

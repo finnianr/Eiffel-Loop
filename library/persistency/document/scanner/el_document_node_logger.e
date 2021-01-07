@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:38:21 GMT (Saturday 2nd January 2021)"
-	revision: "6"
+	date: "2021-01-07 16:35:55 GMT (Thursday 7th January 2021)"
+	revision: "7"
 
 class
 	EL_DOCUMENT_NODE_LOGGER
@@ -46,7 +46,7 @@ feature -- Basic operations
 
 feature {NONE} -- Parsing events
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
 --			lio.put_line ("on_xml_tag_declaration")
@@ -71,7 +71,7 @@ feature {NONE} -- Parsing events
 	on_start_tag
 			--
 		local
-			i: INTEGER; attribute_node: EL_ELEMENT_ATTRIBUTE_NODE
+			i: INTEGER; attribute_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 		do
 --			lio.put_line ("on_start_tag")
 			add_xpath_step (last_node.xpath_name (False))

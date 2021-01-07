@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:03:18 GMT (Wednesday 8th January 2020)"
-	revision: "5"
+	date: "2021-01-07 12:00:27 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 class
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Attribute_table: HASH_TABLE [ANY, EL_ZSTRING]
+	Attribute_table: HASH_TABLE [ANY, ZSTRING]
 		once
 			create Result.make_equal (10)
 			Result ["double"] := 1.5
@@ -61,7 +61,7 @@ feature -- Constants
 			Result ["string_2"] := "one%"two"
 		end
 
-	Attributes_source_line: EL_ZSTRING
+	Attributes_source_line: ZSTRING
 		once
 			create Result.make (50)
 			across Attribute_table as table loop
@@ -74,7 +74,7 @@ feature -- Constants
 			end
 		end
 
-	Attributes_comma_separated_values: EL_ZSTRING
+	Attributes_comma_separated_values: ZSTRING
 		once
 			create Result.make (50)
 			across Attribute_table as table loop

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:43:35 GMT (Tuesday 5th January 2021)"
-	revision: "20"
+	date: "2021-01-07 14:24:24 GMT (Thursday 7th January 2021)"
+	revision: "21"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -209,7 +209,7 @@ feature -- Element change
 			string := a_string
 			Precursor (a_string, delimiter)
 		ensure then
-			reversible: as_list.joined_with_string (delimiter) ~ a_string
+			reversible: as_list.joined_with_string (delimiter).same_string (a_string)
 		end
 
 feature -- Status change

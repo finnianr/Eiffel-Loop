@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:22:53 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-07 11:58:28 GMT (Thursday 7th January 2021)"
+	revision: "9"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -75,28 +75,29 @@ feature {NONE} -- Title parsing actions
 	on_name (matched_text: EL_STRING_VIEW)
 			--
 		local
-			last_node: EL_DOCUMENT_NODE; s: EL_STRING_32_ROUTINES
+			name: EL_UTF_8_STRING; s: EL_STRING_8_ROUTINES
 		do
 			attribute_list.extend
-			last_node := attribute_list.last_node
-			last_node.set_name_from_view (matched_text)
-			s.replace_character (last_node.name, '.', ':')
+			name := attribute_list.last_node.raw_name
+			name.wipe_out
+			matched_text.append_to (name)
+			s.replace_character (name, '.', ':')
 		end
 
 	on_quoted_value (matched_text: EL_STRING_VIEW; is_double_quote: BOOLEAN)
 			--
 		local
-			last_node: EL_DOCUMENT_NODE
+			last_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 		do
 			last_node := attribute_list.last_node
-			last_node.set_raw_content_from_view (matched_text)
-			Quote_unescaper.item (is_double_quote).unescape (last_node.raw_content)
+			last_node.set_from_view (matched_text)
+			Quote_unescaper.item (is_double_quote).unescape (last_node)
 		end
 
 	on_value (matched_text: EL_STRING_VIEW)
 			--
 		do
-			attribute_list.last_node.set_raw_content_from_view (matched_text)
+			attribute_list.last_node.set_from_view (matched_text)
 		end
 
 feature {NONE} -- Initialization

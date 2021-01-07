@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 17:43:49 GMT (Wednesday 6th January 2021)"
-	revision: "1"
+	date: "2021-01-07 10:37:14 GMT (Thursday 7th January 2021)"
+	revision: "2"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -37,14 +37,19 @@ feature -- Conversion tests
 			across << Dollor_symbol, Euro_symbol >> as symbol loop
 				padded [2] := symbol.item
 				node.set_from_general (padded)
-				str := node.to_string
-				assert ("valid count", str.count = 1)
-				assert ("valid str", str [1] = symbol.item)
-
-				str_32 := node.to_string_32
-				assert ("valid count", str_32.count = 1)
-				assert ("valid str", str_32 [1] = symbol.item)
+				check_string (node.to_string, symbol.item, 1, 1)
+				check_string (node.to_string_32, symbol.item, 1, 1)
+				check_string (node.raw_string (True), symbol.item, 2, 3)
+				check_string (node.raw_string_32 (True), symbol.item, 2, 3)
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	check_string (str: READABLE_STRING_GENERAL; symbol: CHARACTER_32; index, count: INTEGER)
+		do
+			assert ("valid count", str.count = count)
+			assert ("valid str", str [index] = symbol)
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 17:42:23 GMT (Sunday 20th December 2020)"
-	revision: "10"
+	date: "2021-01-07 16:26:49 GMT (Thursday 7th January 2021)"
+	revision: "11"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
@@ -37,7 +37,6 @@ feature -- Basic operations
 			-- send `object' to `a_output' as binary encoded XML
 		do
 			output := a_output
-			is_utf_8_encoded := object.encoded_as_utf (8)
 			if is_lio_enabled then
 				lio.put_labeled_string ("send_object", object.generator)
 				lio.put_new_line

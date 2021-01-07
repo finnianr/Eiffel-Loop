@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:46:50 GMT (Sunday 3rd January 2021)"
-	revision: "5"
+	date: "2021-01-07 16:35:09 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 class
 	EL_XML_NODE_EVENT_GENERATOR
@@ -31,7 +31,7 @@ feature -- Element change
 
 feature {NONE} -- Parsing events
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 		do
 		end
 

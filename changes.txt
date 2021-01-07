@@ -340,3 +340,6 @@ Split of xdox-scanning.ecf into 3
 Tue 22nd Dec 2020, 11:55:18
 New routine {ECD_REFLECTIVE_RECOVERABLE_CHAIN}.import_pyxis and {EL_REFLECTIVE}.reordered_fields
 
+Wed 6th Jan 2021, 17:50:38
+Removed some EL_MODULE_* classes
+

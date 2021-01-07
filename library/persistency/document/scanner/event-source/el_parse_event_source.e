@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-01 15:15:52 GMT (Friday 1st January 2021)"
-	revision: "10"
+	date: "2021-01-07 12:41:02 GMT (Thursday 7th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -31,8 +31,7 @@ feature {EL_FACTORY_CLIENT} -- Initialisation
 			scanner := a_scanner
 			attribute_list := a_scanner.attribute_list
 			last_node := scanner.last_node
-			last_node_name := last_node.name
-			last_node_text := last_node.raw_content
+			last_node_name := last_node.raw_name
 		end
 
 feature -- Access
@@ -76,11 +75,9 @@ feature -- Basic operations
 
 feature {EL_DOCUMENT_NODE_SCANNER} -- Implementation: attributes
 
-	last_node: EL_DOCUMENT_NODE
+	last_node: EL_DOCUMENT_NODE_STRING
 
-	last_node_name: STRING_32
-
-	last_node_text: STRING_32
+	last_node_name: EL_UTF_8_STRING
 
 	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2021-01-07 10:48:24 GMT (Thursday 7th January 2021)"
+	revision: "6"
 
 class
 	EL_DATE_TIME_DURATION
@@ -48,7 +48,7 @@ feature -- Access
 feature -- Conversion
 
 	out: STRING
-			--
+		-- mins, secs, millisecs
 		do
 			create Result.make (20)
 			across part_list as part loop
@@ -62,7 +62,7 @@ feature -- Conversion
 		end
 
 	out_mins_and_secs: STRING
-			--
+		--
 		do
 			create Result.make_empty
 			Result.append_integer_64 (seconds_count // 60)

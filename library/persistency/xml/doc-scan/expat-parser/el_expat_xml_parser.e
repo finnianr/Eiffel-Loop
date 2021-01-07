@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 18:42:47 GMT (Saturday 2nd January 2021)"
-	revision: "17"
+	date: "2021-01-07 15:56:02 GMT (Thursday 7th January 2021)"
+	revision: "18"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -50,11 +50,6 @@ inherit
 
 	EL_SHARED_ZCODEC_FACTORY
 
-	EL_MODULE_C_DECODER
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_EXCEPTION
 
 create
@@ -66,7 +61,6 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			Precursor (a_scanner)
---			create last_node_2.make_empty
 			create attribute_cursor.make
 			make_parser
 			is_new_parser := True
@@ -283,7 +277,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 	set_last_state (next_state: like last_state)
 		do
 			if last_state = State_content_call and then next_state /= last_state then
-				if last_node_text.count > 0 then
+				if last_node.count > 0 then
 					last_node.set_type (Node_type_text)
 					scanner.on_content
 				end
@@ -343,8 +337,6 @@ feature {NONE} -- Implementation: attributes
 
 	last_state: INTEGER
 
---	last_node_2: EL_DOCUMENT_NODE_STRING
-
 	attribute_cursor: EL_EXPAT_ATTRIBUTE_CURSOR
 
 feature {NONE} -- Expat callbacks
@@ -352,18 +344,17 @@ feature {NONE} -- Expat callbacks
 	frozen on_xml_tag_declaration_parsed (a_version, a_encoding: POINTER; standalone: INTEGER)
 		-- const XML_Char *version, const XML_Char  *encoding, int standalone
       local
-      	str: STRING
+      	str: EL_STRING_8
 		do
 			set_last_state (State_xml_declaration_call)
 			create str.make_empty
 			if is_attached (a_version) then
-				c_decoder.set_from_utf8 (str, a_version)
+				str.set_from_c (a_version)
 				xml_version := str.to_real
 			end
 			if is_attached (a_encoding) then
-				c_decoder.set_from_utf8 (str, a_encoding)
+				str.set_from_c (a_encoding)
 				set_encoding_from_name (str)
---				last_node_2.set_encoding_from_name (str)
 			end
 			scanner.on_meta_data (xml_version, Current)
 		end
@@ -373,7 +364,7 @@ feature {NONE} -- Expat callbacks
 			l_cursor: like attribute_cursor
 		do
 			set_last_state (State_start_tag_call)
-			c_decoder.set_from_utf8 (last_node_name, tag_name_ptr)
+			last_node_name.set_from_c (tag_name_ptr)
 			last_node.set_type (Node_type_element)
 
 			l_cursor := attribute_cursor; attribute_list.reset
@@ -389,32 +380,27 @@ feature {NONE} -- Expat callbacks
 			--
 		do
 			set_last_state (State_end_tag_call)
-			c_decoder.set_from_utf8 (last_node_name, tag_name_ptr)
+			last_node_name.set_from_c (tag_name_ptr)
 			scanner.on_end_tag
 		end
 
  	frozen on_content_parsed (content_ptr: POINTER; a_count: INTEGER)
-			-- Out put Xpath text node name plus content
 		do
 			if last_state /= State_content_call then
 				set_last_state (State_content_call)
---				last_node_2.wipe_out
-				last_node_text.wipe_out
+				last_node.wipe_out
 			end
---			last_node_2.append_count_from_c (content_ptr, a_count)
-			c_decoder.append_from_utf8_of_size (last_node_text, content_ptr, a_count)
---		ensure
---			same_content: last_node.to_string_32 ~ last_node_2.to_string_32
+			last_node.append_count_from_c (content_ptr, a_count)
 		end
 
 	frozen on_comment_parsed (data_ptr: POINTER)
 			-- data is a 0 terminated c string.
 		do
 			set_last_state (State_comment_call)
-			c_decoder.set_from_utf8 (last_node_text, data_ptr)
+			last_node.set_from_c (data_ptr)
 
-			last_node_text.right_adjust -- Wipe out whitespace
-			if last_node_text.count > 0 then
+			last_node.right_adjust -- Wipe out whitespace
+			if last_node.count > 0 then
 				last_node_name.wipe_out
 				last_node.set_type (Node_type_comment)
 				scanner.on_comment
@@ -425,10 +411,10 @@ feature {NONE} -- Expat callbacks
 			--
 		do
 			set_last_state (State_processing_instruction_call)
-			c_decoder.set_from_utf8 (last_node_name, name_ptr)
+			last_node_name.set_from_c (name_ptr)
 			last_node.set_type (Node_type_processing_instruction)
 
-			c_decoder.set_from_utf8 (last_node_text, string_data_ptr)
+			last_node.set_from_c (string_data_ptr)
 			scanner.on_processing_instruction
 		end
 

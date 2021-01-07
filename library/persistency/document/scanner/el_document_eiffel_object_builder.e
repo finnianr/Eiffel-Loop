@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 13:37:32 GMT (Saturday 2nd January 2021)"
-	revision: "11"
+	date: "2021-01-07 16:35:19 GMT (Thursday 7th January 2021)"
+	revision: "12"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -109,7 +109,7 @@ feature {NONE} -- Parsing events
 			end
 		end
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
 		end
@@ -137,7 +137,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	apply_building_action_for_node (node: EL_DOCUMENT_NODE)
+	apply_building_action_for_node (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			context_stack.item.set_node (node)

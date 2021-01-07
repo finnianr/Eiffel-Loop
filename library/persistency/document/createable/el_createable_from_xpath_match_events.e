@@ -2,7 +2,7 @@ note
 	description: "[
 		Object that scans an XML node event source, matching visited nodes against a user defined set of xpaths.
 		Matching nodes trigger a call to an agent defined in the mapping function `xpath_match_events'. The agent can
-		process the visited node by accessing the `last_node' attribute. 
+		process the visited node by accessing the `last_node' attribute.
 	]"
 	notes: "See end of class"
 
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 9:51:25 GMT (Wednesday 23rd December 2020)"
-	revision: "8"
+	date: "2021-01-07 12:08:51 GMT (Thursday 7th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS
@@ -32,7 +32,7 @@ feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 			create Result.make (parse_event_source_type)
 		end
 
-	set_last_node (node: EL_DOCUMENT_NODE)
+	set_last_node (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
 			last_node := node
@@ -45,7 +45,7 @@ feature {EL_XPATH_MATCH_SCAN_SOURCE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	last_node: EL_DOCUMENT_NODE
+	last_node: EL_DOCUMENT_NODE_STRING
 
 feature {NONE} -- Constants
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:45:47 GMT (Tuesday 5th January 2021)"
-	revision: "62"
+	date: "2021-01-07 13:02:43 GMT (Thursday 7th January 2021)"
+	revision: "63"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -608,7 +608,7 @@ feature -- Comparison
 		local
 			i, other_i, l_count: INTEGER; l_area, other_area: like area
 		do
-			if attached {like Current} other as z_other then
+			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := internal_same_characters (z_other, start_pos, end_pos, index_pos)
 				if has_mixed_encoding or else z_other.has_mixed_encoding then
 					l_area := area; other_area := z_other.area

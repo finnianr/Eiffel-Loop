@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:52:43 GMT (Sunday 20th December 2020)"
-	revision: "3"
+	date: "2021-01-07 17:02:44 GMT (Thursday 7th January 2021)"
+	revision: "4"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -22,8 +22,6 @@ inherit
 		rename
 			Default_io_medium as Default_output
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 	EL_MODULE_XML
 
@@ -56,7 +54,6 @@ feature -- Basic operations
 		local
 			file_in: PLAIN_TEXT_FILE
 		do
-			is_utf_8_encoded := XML.encoding (file_path).encoded_as_utf (8)
 			create file_in.make_open_read (file_path)
 			send (file_in, a_output)
 			file_in.close
@@ -70,30 +67,20 @@ feature -- Basic operations
 			output := Default_output
 		end
 
-feature -- Status change
-
-	enable_utf_8
-		do
-			is_utf_8_encoded := False
-		end
-
 feature {NONE} -- Implementation
 
 	on_comment
 			--
 		do
-			put_parse_event (last_node_text.count, PE_comment_text)
-			output.put_string (last_node_text)
+			put_parse_event (last_node.count, PE_comment_text)
+			output.put_string (last_node)
 		end
 
 	on_content
 			--
-		local
-			content: STRING
 		do
-			content := new_content (last_node_text)
-			put_parse_event (content.count, PE_text)
-			output.put_string (content)
+			put_parse_event (last_node.count, PE_text)
+			output.put_string (last_node)
 		end
 
 	on_end_document
@@ -114,14 +101,13 @@ feature {NONE} -- Implementation
 			put_named_parse_event (
 				last_node_name, PE_existing_processing_instruction, PE_new_processing_instruction
 			)
-			output.put_natural_16 (last_node_text.count.to_natural_16)
-			output.put_string (last_node_text)
+			output.put_natural_16 (last_node.count.to_natural_16)
+			output.put_string (last_node)
 		end
 
 	on_start_document
 			--
 		do
-			output.put_boolean (is_utf_8_encoded)
 			name_index_table.wipe_out
 			put_parse_event (0, PE_start_document)
 		end
@@ -131,39 +117,25 @@ feature {NONE} -- Implementation
 		local
 			content: STRING
 		do
-			put_named_parse_event (
-				last_node_name,
-				PE_existing_start_tag, PE_new_start_tag
-			)
+			put_named_parse_event (last_node_name, PE_existing_start_tag, PE_new_start_tag)
 			from attribute_list.start until attribute_list.after loop
-				put_named_parse_event (
-					once_general_copy_8 (attribute_list.node.name),
-					PE_existing_attribute_name, PE_new_attribute_name
-				)
-				content := new_content (attribute_list.node.raw_content)
+				put_named_parse_event (attribute_list.node.raw_name, PE_existing_attribute_name, PE_new_attribute_name)
+				content := attribute_list.node
 				put_parse_event (content.count, PE_attribute_text)
 				output.put_string (content)
 				attribute_list.forth
 			end
 		end
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODEABLE_AS_TEXT)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
+			output.put_real (version); output.put_natural (a_encoding.encoding)
 		end
 
 feature {NONE} -- Implementation
 
-	new_content (content: STRING_32): STRING
-		do
-			if is_utf_8_encoded then
-				Result := once_utf_8_copy (content)
-			else
-				Result := once_copy_8 (content)
-			end
-		end
-
-	put_named_parse_event (name: STRING; existing_name_code, new_name_code: INTEGER)
+	put_named_parse_event (name: EL_UTF_8_STRING; existing_name_code, new_name_code: INTEGER)
 			--
 		local
 			name_index: INTEGER
@@ -173,7 +145,7 @@ feature {NONE} -- Implementation
 				put_parse_event (name_index, existing_name_code)
 			else
 				name_index := name_index_table.count + 1
-				name_index_table.extend (name_index, name)
+				name_index_table.extend (name_index, name.twin)
 				put_parse_event (name.count, new_name_code)
 				output.put_string (name)
 			end
@@ -190,9 +162,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	is_utf_8_encoded: BOOLEAN
-	
-	name_index_table: HASH_TABLE [INTEGER, STRING]
+	name_index_table: HASH_TABLE [INTEGER, EL_UTF_8_STRING]
 
 	output: IO_MEDIUM
 

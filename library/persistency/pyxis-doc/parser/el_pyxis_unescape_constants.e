@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:55:27 GMT (Monday 4th January 2021)"
-	revision: "8"
+	date: "2021-01-07 11:31:45 GMT (Thursday 7th January 2021)"
+	revision: "9"
 
 class
 	EL_PYXIS_UNESCAPE_CONSTANTS
@@ -27,11 +27,11 @@ feature {NONE} -- Constants
 
 	Escape_character: CHARACTER_32 = '\'
 
-	Quote_unescaper: EL_BOOLEAN_ARRAY [EL_STRING_32_UNESCAPER]
+	Quote_unescaper: EL_BOOLEAN_ARRAY [EL_STRING_8_UNESCAPER]
 		-- single quote is False
 		-- double quote is True
 		local
-			single, double: EL_STRING_32_UNESCAPER
+			single, double: EL_STRING_8_UNESCAPER
 		once
 			create single.make (Escape_character, new_escape_table ('%''))
 			create double.make (Escape_character, new_escape_table ('"'))

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 14:03:02 GMT (Sunday 20th December 2020)"
-	revision: "23"
+	date: "2021-01-07 11:23:04 GMT (Thursday 7th January 2021)"
+	revision: "24"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -294,7 +294,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	node: EL_DOCUMENT_NODE
+	node: EL_DOCUMENT_NODE_STRING
 		deferred
 		end
 
