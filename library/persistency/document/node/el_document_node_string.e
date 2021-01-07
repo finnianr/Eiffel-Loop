@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:17:13 GMT (Thursday 7th January 2021)"
-	revision: "6"
+	date: "2021-01-07 17:54:04 GMT (Thursday 7th January 2021)"
+	revision: "7"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -295,6 +295,18 @@ feature -- Conversion
 
 	to_pointer: POINTER
 		do
+		end
+
+	to_expanded_dir_path: EL_DIR_PATH
+		do
+			Result := adjusted (False)
+			Result.expand
+		end
+
+	to_expanded_file_path: EL_FILE_PATH
+		do
+			Result := adjusted (False)
+			Result.expand
 		end
 
 feature -- Element change
