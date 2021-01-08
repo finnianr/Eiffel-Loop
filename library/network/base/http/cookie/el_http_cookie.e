@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:12 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-08 16:05:14 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	EL_HTTP_COOKIE
 
 inherit
 	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_ONCE_STRING_8
 
 	EL_SHARED_UTF_8_ZCODEC
 
@@ -124,9 +122,9 @@ feature -- Conversion
 			-- version 0 of the cookie spec (RFC 2109).
 			-- See also http://www.netscape.com/newsref/std/cookie_spec.html
 		local
-			string: STRING
+			string: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			string := once_empty_string_8
+			string := buffer.empty
 			-- optional secure, no value
 			across header_terms as term loop
 				if not string.is_empty then

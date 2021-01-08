@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:57 GMT (Tuesday 5th January 2021)"
-	revision: "5"
+	date: "2021-01-08 15:56:47 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	TL_FILE_NAME
 
 inherit
-	TL_FILE_NAME_I
+	TL_FILE_NAME_I undefine copy, is_equal end
 
 	MANAGED_POINTER
 		rename
@@ -25,8 +25,6 @@ inherit
 			{NONE} all
 			{EL_C_OBJECT} item, count
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_from_string
@@ -38,10 +36,9 @@ feature {NONE} -- Initialization
 
 	make_from_string (name: ZSTRING)
 		local
-			utf_8: STRING; to_c: ANY
+			utf_8: STRING; to_c: ANY; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			utf_8 := once_empty_string_8
-			name.append_to_utf_8 (utf_8)
+			utf_8 := buffer.copied_general_as_utf_8 (name)
 			to_c := utf_8.to_c
 			make_from_pointer ($to_c, utf_8.count + 1)
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:37:51 GMT (Friday 8th May 2020)"
-	revision: "9"
+	date: "2021-01-08 18:01:49 GMT (Friday 8th January 2021)"
+	revision: "10"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -38,8 +38,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -85,10 +83,10 @@ feature {NONE} -- Line states
 
 	find_target_name (line: ZSTRING; a_ecf_path: EL_FILE_PATH)
 		local
-			l_target_name: ZSTRING
+			l_target_name: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			if line.begins_with (Element_target_name) then
-				l_target_name := line.substring_between (character_string ('"'), character_string ('"'), 1).as_lower
+				l_target_name := line.substring_between (s.character_string ('"'), s.character_string ('"'), 1).as_lower
 				if l_target_name ~ target_name then
 					ecf_path := a_ecf_path
 				end

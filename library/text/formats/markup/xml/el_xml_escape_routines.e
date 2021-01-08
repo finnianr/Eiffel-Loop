@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:37 GMT (Tuesday 5th January 2021)"
-	revision: "2"
+	date: "2021-01-08 15:59:48 GMT (Friday 8th January 2021)"
+	revision: "3"
 
 deferred class
 	EL_XML_ESCAPE_ROUTINES
 
 inherit
-	EL_SHARED_ONCE_STRING_8
+	EL_MODULE_BUFFER_8
 
 	EL_MODULE_HEXADECIMAL
 
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 			digit_count, i: INTEGER
 			n, digit: NATURAL
 		do
-			Result := once_empty_string_8
+			Result := buffer_8.empty
 			Result.append (once "&#x")
 
 			digit_count := Hexadecimal.natural_digit_count (code)
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 	entity (c: CHARACTER; keep_ref: BOOLEAN): STRING
 		-- standard character entity
 		do
-			Result := once_empty_string_8
+			Result := buffer_8.empty
 			Result.append_character ('&')
 			inspect c
 				when '<' then

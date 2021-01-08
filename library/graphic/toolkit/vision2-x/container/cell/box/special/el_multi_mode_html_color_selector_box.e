@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:51:40 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2021-01-08 18:24:10 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
@@ -17,8 +17,6 @@ inherit
 		rename
 			make as make_box
 		end
-
-	EL_STRING_32_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -37,7 +35,7 @@ feature {NONE} -- Initialization
 		RGB_color_code: INTEGER; set_color: PROCEDURE [EL_COLOR]
 	)
 		local
-			html_color_code, longest_html_color_code: STRING
+			html_color_code, longest_html_color_code: STRING; s: EL_STRING_32_ROUTINES
 		do
 			make_box (a_border_cms, a_padding_cms)
 			html_color_code := GUI.rgb_code_to_html_code (RGB_color_code)
@@ -50,7 +48,7 @@ feature {NONE} -- Initialization
 				code_field.set_tooltip (tooltip_text.to_string_32)
 			end
 			create color_button.make (
-				a_window, color_selection_text.to_string_32 + character_string_32 (' ') + label_text.to_string_32.as_lower,
+				a_window, color_selection_text.to_string_32 + s.character_string (' ') + label_text.to_string_32.as_lower,
 				code_field.height, RGB_color_code,
 				agent on_color_select (?, set_color)
 			)

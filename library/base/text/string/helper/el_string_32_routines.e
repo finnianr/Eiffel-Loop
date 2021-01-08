@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 18:03:38 GMT (Thursday 7th January 2021)"
-	revision: "16"
+	date: "2021-01-08 16:25:26 GMT (Friday 8th January 2021)"
+	revision: "17"
 
 expanded class
 	EL_STRING_32_ROUTINES
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32]
-
-	EL_SHARED_ONCE_STRING_32
-
-	EL_SHARED_ONCE_STRING_8
 
 feature -- Basic operations
 
@@ -39,16 +35,13 @@ feature -- Conversion
 		end
 
 	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING_32
+		local
+			buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
 			if attached {STRING_32} str as str_32 then
 				Result := str_32
 			else
-				Result := once_empty_string_32
-				if attached {ZSTRING} str as z_str then
-					z_str.append_to_string_32 (Result)
-				else
-					Result.append_string_general (str)
-				end
+				Result := buffer.copied_general (str)
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -68,9 +61,9 @@ feature -- Conversion
 
 	to_utf_8 (str: READABLE_STRING_32; keep_ref: BOOLEAN): STRING
 		local
-			c: EL_UTF_CONVERTER
+			c: EL_UTF_CONVERTER; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_8
+			Result := buffer.empty
 			c.utf_32_string_into_utf_8_string_8 (str, Result)
 			if keep_ref then
 				Result := Result.twin
@@ -121,6 +114,27 @@ feature -- Measurement
 			end
 		end
 
+feature -- Character strings
+
+	character_string (uc: CHARACTER_32): STRING_32
+		-- shared instance of string with `uc' character
+		do
+			Result := n_character_string (uc, 1)
+		end
+
+	n_character_string (uc: CHARACTER_32; n: INTEGER): STRING_32
+		-- shared instance of string with `n' times `uc' character
+		do
+			Result := Character_string_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
+		end
+
+feature {NONE} -- Implementation
+
+	new_filled_string (key: NATURAL_64): STRING_32
+		do
+			create Result.make_filled (key.to_character_32, (key |>> 32).to_integer_32)
+		end
+
 feature -- Transformation
 
 	left_adjust (str: STRING_32)
@@ -147,6 +161,11 @@ feature {NONE} -- Constants
 		end
 
 feature {NONE} -- Constants
+
+	Character_string_table: EL_CACHE_TABLE [STRING_32, NATURAL_64]
+		once
+			create Result.make_equal (7, agent new_filled_string)
+		end
 
 	Once_cursor: EL_STRING_32_ITERATION_CURSOR
 		once

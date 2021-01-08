@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 11:48:40 GMT (Tuesday 5th January 2021)"
-	revision: "14"
+	date: "2021-01-08 15:32:27 GMT (Friday 8th January 2021)"
+	revision: "15"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -39,8 +39,6 @@ inherit
 			write_boolean as sink_boolean,
 			write_pointer as sink_pointer
 		end
-
-	EL_SHARED_ONCE_ZSTRING
 
 feature -- Measurement
 

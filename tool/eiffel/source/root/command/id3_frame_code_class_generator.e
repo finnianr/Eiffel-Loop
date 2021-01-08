@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:46 GMT (Tuesday 5th January 2021)"
-	revision: "5"
+	date: "2021-01-08 16:07:14 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -30,8 +30,6 @@ inherit
 		rename
 			make as make_machine
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make
@@ -149,8 +147,10 @@ feature {NONE} -- Line states
 feature {NONE} -- Implementation
 
 	field_string (code_array: like field_table.item): STRING
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_8
+			Result := buffer.empty
 			across code_array as code loop
 				if not code.item.is_empty then
 					if not Result.is_empty then

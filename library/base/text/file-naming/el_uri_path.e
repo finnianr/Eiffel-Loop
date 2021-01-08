@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:44:36 GMT (Tuesday 5th January 2021)"
-	revision: "25"
+	date: "2021-01-08 15:36:28 GMT (Friday 8th January 2021)"
+	revision: "26"
 
 deferred class
 	EL_URI_PATH
@@ -38,7 +38,7 @@ inherit
 
 	EL_MODULE_URI
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 	EL_STRING_8_CONSTANTS
 
@@ -64,7 +64,7 @@ feature -- Initialization
 			l_path := temporary_copy (a_uri)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
-				l_scheme := once_empty_string
+				l_scheme := buffer.empty
 				l_scheme.append_substring_general (a_uri, 1, start_index - 1)
 				set_scheme (l_scheme)
 				l_path.remove_head (start_index + Colon_slash_x2.count - 1)
@@ -158,7 +158,7 @@ feature -- Element change
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			if Authority_set.has_key (once_copy_general (a_authority)) then
+			if Authority_set.has_key (buffer.copied_general (a_authority)) then
 				authority := Authority_set.found_item
 			else
 				create authority.make_from_general (a_authority)

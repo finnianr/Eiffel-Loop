@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:08 GMT (Tuesday 5th January 2021)"
-	revision: "18"
+	date: "2021-01-08 16:31:45 GMT (Friday 8th January 2021)"
+	revision: "19"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -30,8 +30,6 @@ inherit
 
 	EL_MODULE_DIGEST
 
-	EL_SHARED_ONCE_STRING_8
-
 create
 	make, make_from_string, make_signed
 
@@ -39,15 +37,16 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]
+			modified: STRING; fields: EL_SPLIT_STRING_LIST [STRING]; buffer: EL_STRING_8_BUFFER_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
 			make
-			modified := once_empty_string_8
+			modified := buffer.empty
 			-- Tweak `str' to make it splittable as series of assignments
 			modified.append (Algorithm_equals); modified.append (str)
 			modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 
-			create fields.make (modified, character_string_8 (','))
+			create fields.make (modified, s.character_string (','))
 			fields.enable_left_adjust
 			fields.do_all (agent set_field_from_nvp (?, '='))
 		end
@@ -100,8 +99,10 @@ feature -- Access
 	signed_headers: STRING
 
 	signed_headers_list: EL_SPLIT_STRING_LIST [STRING]
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			create Result.make (signed_headers, character_string_8 (Semicolon))
+			create Result.make (signed_headers, s.character_string (Semicolon))
 		end
 
 feature {NONE} -- Constants

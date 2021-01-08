@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:18:51 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2021-01-08 18:04:53 GMT (Friday 8th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -189,9 +189,9 @@ feature {NONE} -- Implementation
 
 		local
 			bracket_intervals: like intervals
-			right_bracket_pos: INTEGER
+			right_bracket_pos: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
-			bracket_intervals := intervals (line, character_string ('<'))
+			bracket_intervals := intervals (line, s.character_string ('<'))
 			if bracket_intervals.count = 2
 				and then line.is_substring_whitespace (1, bracket_intervals.first_lower - 1)
 				and then line.same_characters (Tag_close_start, 1, 2, bracket_intervals.last_lower)

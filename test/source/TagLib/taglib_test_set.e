@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:27:07 GMT (Tuesday 5th May 2020)"
-	revision: "31"
+	date: "2021-01-08 17:36:18 GMT (Friday 8th January 2021)"
+	revision: "32"
 
 class
 	TAGLIB_TEST_SET
@@ -30,8 +30,6 @@ inherit
 	EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_CONSOLE_COLORS
 
@@ -271,18 +269,18 @@ feature {NONE} -- Implementation
 
 	print_field (name: STRING; value: ZSTRING)
 		local
-			list: EL_SPLIT_ZSTRING_LIST
+			list: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
 		do
 			if value.has ('%N') then
 				if value.has_substring (CR_new_line) then
 					create list.make (value, CR_new_line)
 				else
-					create list.make (value, character_string ('%N'))
+					create list.make (value, s.character_string ('%N'))
 				end
 				log.put_labeled_string (name, "%"[")
 				log.tab_right
 				log.put_new_line
-				across << list.first_item (True), n_character_string ('.', 2), list.last_item (True) >> as line loop
+				across << list.first_item (True), s.n_character_string ('.', 2), list.last_item (True) >> as line loop
 					log.put_string (line.item)
 					if line.is_last then
 						log.tab_left

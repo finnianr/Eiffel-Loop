@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:05 GMT (Tuesday 5th January 2021)"
-	revision: "12"
+	date: "2021-01-08 15:48:37 GMT (Friday 8th January 2021)"
+	revision: "13"
 
 class
 	TL_STRING
@@ -24,10 +24,6 @@ inherit
 		end
 
 	TL_STRING_CPP_API
-
-	EL_SHARED_ONCE_STRING_32
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_empty
@@ -77,9 +73,9 @@ feature -- Conversion
 		-- unicode string
 		-- if `keep_ref' is `False', result is a shared instance
 		local
-			i: INTEGER; code: NATURAL
+			i: INTEGER; code: NATURAL; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_32
+			Result := buffer.empty
 			from i := 1 until i > count loop
 				code := i_th_code (i)
 				i := i + 1
@@ -130,9 +126,9 @@ feature -- Element change
 
 	set_from_integer (n: INTEGER)
 		local
-			n_str: STRING
+			n_str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			n_str := once_empty_string_8
+			n_str := buffer.empty
 			n_str.append_integer (n)
 			set_from_string (n_str)
 		end

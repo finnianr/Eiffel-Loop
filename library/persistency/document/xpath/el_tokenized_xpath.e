@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 11:50:21 GMT (Thursday 7th January 2021)"
-	revision: "7"
+	date: "2021-01-08 17:58:03 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_TOKENIZED_XPATH
@@ -19,6 +19,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} remove, out, first, last, occurrences, count, wipe_out, i_th, prunable, writable
+			{EL_TOKENIZED_XPATH} area
 		redefine
 			put,
 			remove,
@@ -60,15 +61,17 @@ feature -- Element change
 	append_step (step_name: ZSTRING)
 			--
 		do
-			put (token (step_name))
-			if step_name.item (1).is_equal ('@') then
-				is_path_to_element := false
-			else
-				inspect last.to_integer
-					when Comment_node_step_id, Text_node_step_id then
-						is_path_to_element := false
+			if step_name.count > 0 then
+				put (token (step_name))
+				if step_name [1] = '@' then
+					is_path_to_element := false
 				else
-					is_path_to_element := true
+					inspect last.to_integer
+						when Comment_node_step_id, Text_node_step_id then
+							is_path_to_element := false
+					else
+						is_path_to_element := true
+					end
 				end
 			end
 		end
@@ -156,11 +159,11 @@ feature -- Status report
 		end
 
 	matches_wildcard (wildcard_xpath: like Current): BOOLEAN
-			--
 		require
 			valid_wildcard: wildcard_xpath.has_wild_cards
 		local
-			pos, wildcard_pos, from_pos, wildcard_from_pos: INTEGER
+			i, j, from_pos, wildcard_from_pos, l_count: INTEGER
+			l_area, wildcard_area: like area; wildcard_token: INTEGER_16
 		do
 			Result := true
 			if wildcard_xpath.last = Child_element_step_id and not is_path_to_element then
@@ -175,19 +178,17 @@ feature -- Status report
 				if from_pos < 1 then
 					Result := false
 				else
+					l_count := count; l_area := area; wildcard_area := wildcard_xpath.area
 					from
-						pos := from_pos
-						wildcard_pos := wildcard_from_pos
+						i := from_pos - 1; j := wildcard_from_pos - 1
 					until
-						pos > count or Result = false
+						i = l_count or Result = false
 					loop
-						if wildcard_xpath.i_th (wildcard_pos) /= Child_element_step_id
-							and then i_th (pos) /= wildcard_xpath.i_th (wildcard_pos)
-						then
+						wildcard_token := wildcard_area [j]
+						if wildcard_token /= Child_element_step_id and then l_area [i] /= wildcard_token then
 							Result := false
 						end
-						pos := pos + 1
-						wildcard_pos := wildcard_pos + 1
+						i := i + 1; j := j + 1
 					end
 				end
 			end

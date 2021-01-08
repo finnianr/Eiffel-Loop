@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 14:56:47 GMT (Wednesday 11th November 2020)"
-	revision: "16"
+	date: "2021-01-08 17:36:35 GMT (Friday 8th January 2021)"
+	revision: "17"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -26,8 +26,6 @@ inherit
 		end
 
 	EL_SHARED_ZCODEC_FACTORY
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make_default, make, make_from_file, make_utf_8
@@ -111,13 +109,13 @@ feature -- Output
 	print_first (log: EL_LOGGABLE; n: INTEGER)
 		-- print first `n' lines to `log' output with leading tabs expanded to 3 spaces
 		local
-			line: ZSTRING; tab_count: INTEGER
+			line: ZSTRING; tab_count: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
 			across Current as ln until ln.cursor_index > n loop
 				line := ln.item
 				tab_count := line.leading_occurrences ('%T')
 				if tab_count > 0 then
-					line.replace_substring (n_character_string (' ', tab_count * 3), 1, tab_count)
+					line.replace_substring (s.n_character_string (' ', tab_count * 3), 1, tab_count)
 				end
 				log.put_line (line)
 			end

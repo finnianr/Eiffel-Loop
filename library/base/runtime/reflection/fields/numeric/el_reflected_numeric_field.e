@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:44:09 GMT (Tuesday 5th January 2021)"
-	revision: "16"
+	date: "2021-01-08 15:53:05 GMT (Friday 8th January 2021)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -15,13 +15,11 @@ deferred class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [N]
 
-	EL_SHARED_ONCE_STRING_8
-
 feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): STRING
 		local
-			n, v: like field_value; str: STRING
+			n, v: like field_value; str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			v := value (a_object)
 			if v = n.zero then
@@ -29,7 +27,7 @@ feature -- Access
 			elseif v = n.one then
 				Result := One
 			else
-				str := once_empty_string_8
+				str := buffer.empty
 				append (str, v)
 				Result := str.twin
 			end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:22:22 GMT (Tuesday 5th January 2021)"
-	revision: "12"
+	date: "2021-01-08 15:18:24 GMT (Friday 8th January 2021)"
+	revision: "13"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -34,8 +34,6 @@ inherit
 		end
 
 	EL_MODULE_HEXADECIMAL
-
-	EL_SHARED_ONCE_STRING_32
 
 feature {NONE} -- Initialization
 
@@ -189,9 +187,9 @@ feature {NONE} -- Implementation
 	decoded_32_substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING_32
 		local
 			l_area: like area; i, step: INTEGER; c: CHARACTER
-			sequence: like Utf_8_sequence
+			sequence: like Utf_8_sequence; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_32
+			Result := buffer.empty
 			sequence := Utf_8_sequence; sequence.wipe_out
 			l_area := area
 			from i := start_index until i > end_index loop

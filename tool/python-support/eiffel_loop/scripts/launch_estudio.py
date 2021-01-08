@@ -40,7 +40,7 @@ if parts [1] == '.pecf':
 	project_path = parts [0] + '.ecf'
 
 	if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (project_path)[stat.ST_MTIME]:
-		project.project.convert_pecf_to_xml (pecf_path)
+		project.convert_pecf_to_xml (pecf_path)
 		
 eifgen_path = path.join ('build', ise.platform)	
 if not path.exists (eifgen_path):

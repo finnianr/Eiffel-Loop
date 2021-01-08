@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-11 12:58:51 GMT (Friday 11th September 2020)"
-	revision: "14"
+	date: "2021-01-08 13:08:52 GMT (Friday 8th January 2021)"
+	revision: "15"
 
 class
 	EL_HTML_TEXT
@@ -275,7 +275,7 @@ feature {NONE} -- Xpath event handlers
 		do
 			if not last_node.is_empty then
 				if attached {EL_FORMATTED_MONOSPACE_TEXT} text_blocks.last as preformatted then
-					preformatted.append_text (last_node.to_raw_string)
+					preformatted.append_text (last_node.raw_string (False))
 				else
 					l_text := last_node.to_trim_lines.joined_words
 					if is_hyper_link_active then

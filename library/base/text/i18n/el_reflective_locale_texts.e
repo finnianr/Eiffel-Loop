@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 14:58:46 GMT (Thursday 26th November 2020)"
-	revision: "5"
+	date: "2021-01-08 16:32:45 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -58,8 +58,6 @@ inherit
 		end
 
 	EL_MODULE_TUPLE
-
-	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -126,8 +124,10 @@ feature {NONE} -- Implementation
 		end
 
 	joined (precursor_lines, lines: STRING): STRING
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := precursor_lines + character_string_8 ('%N') + lines
+			Result := precursor_lines + s.character_string ('%N') + lines
 		end
 
 	new_english_table: EL_ZSTRING_TABLE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:09:20 GMT (Tuesday 5th January 2021)"
-	revision: "13"
+	date: "2021-01-08 15:51:57 GMT (Friday 8th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -31,10 +31,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FORMAT
-
-	EL_SHARED_ONCE_STRING_8
-
-	EL_SHARED_ONCE_STRING_32
 
 feature -- Measurement
 
@@ -93,9 +89,9 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
-			c: EL_UTF_CONVERTER
+			c: EL_UTF_CONVERTER; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_8
+			Result := buffer.empty
 			from i := 1 until i > part_count loop
 				i_th_part := part_string (i)
 				if attached {ZSTRING} i_th_part as zstr then
@@ -119,9 +115,9 @@ feature -- Conversion
 
 	to_path: PATH
 		local
-			str: STRING_32
+			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str := once_empty_string_32
+			str := buffer.empty
 			append_to_32 (str)
 			create Result.make_from_string (str)
 		end

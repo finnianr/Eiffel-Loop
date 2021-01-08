@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:28 GMT (Tuesday 5th January 2021)"
-	revision: "18"
+	date: "2021-01-08 15:51:22 GMT (Friday 8th January 2021)"
+	revision: "19"
 
 deferred class
 	EL_ZCODEC
@@ -22,8 +22,6 @@ inherit
 		end
 
 	STRING_HANDLER
-
-	EL_SHARED_ONCE_STRING_8
 
 	EL_ZCODE_CONVERSION
 		rename
@@ -305,11 +303,12 @@ feature {EL_ZSTRING} -- Implementation
 	encoded_latin_out (unicode_in: READABLE_STRING_GENERAL; count: INTEGER): STRING
 		local
 			extendible_unencoded: like Once_extendible_unencoded
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			extendible_unencoded := Once_extendible_unencoded
 			extendible_unencoded.wipe_out
 
-			Result := once_empty_string_8
+			Result := buffer.empty
 			Result.grow (count)
 			Result.set_count (count)
 			encode (unicode_in, Result.area, 0, extendible_unencoded)

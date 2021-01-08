@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:59:18 GMT (Monday 30th September 2019)"
-	revision: "7"
+	date: "2021-01-08 15:41:46 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	UNCHECKED_TRANSLATIONS_LIST
@@ -26,7 +26,7 @@ inherit
 			make_default, building_action_table
 		end
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 	EL_MODULE_LIO
 

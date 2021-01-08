@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 15:39:58 GMT (Sunday 2nd August 2020)"
-	revision: "4"
+	date: "2021-01-08 18:02:17 GMT (Friday 8th January 2021)"
+	revision: "5"
 
 class
 	ECF_CLUSTER_INFO
@@ -20,8 +20,6 @@ inherit
 			cluster_xpath, description, description_xpath, type_qualifier, html_index_path
 		end
 
-	EL_ZSTRING_CONSTANTS
-
 create
 	make
 
@@ -32,12 +30,12 @@ feature {NONE} -- Initialization
 		require
 			valid_path: ecf.path.base.has ('#')
 		local
-			parts: LIST [ZSTRING]
+			parts: LIST [ZSTRING]; s: EL_ZSTRING_ROUTINES
 		do
 			make_default
 			parts := ecf.path.base.split ('#')
 			name := parts.last
-			if parts.count > 1 and then name.ends_with (character_string ('*')) then
+			if parts.count > 1 and then name.ends_with (s.character_string ('*')) then
 				has_wildcard := True
 				name.remove_tail (1)
 			end
@@ -74,8 +72,10 @@ feature -- Access
 
 	html_index_path: EL_FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := path.with_new_extension (name + character_string ('.') + Html)
+			Result := path.with_new_extension (name + s.character_string ('.') + Html)
 		end
 
 	name: ZSTRING

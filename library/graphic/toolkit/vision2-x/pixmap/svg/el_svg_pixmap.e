@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:43 GMT (Tuesday 5th January 2021)"
-	revision: "12"
+	date: "2021-01-08 16:16:09 GMT (Friday 8th January 2021)"
+	revision: "13"
 
 class
 	EL_SVG_PIXMAP
@@ -32,8 +32,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
-
-	EL_SHARED_ONCE_ZSTRING
 
 create
 	default_create, make_from_other,
@@ -284,9 +282,9 @@ feature {EL_SVG_PIXMAP} -- Implementation
 	unique_png_path: EL_FILE_PATH
 			-- name that is unique for combined rendering variables
 		local
-			hex_string, base: ZSTRING
+			hex_string, base: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			base := once_empty_string
+			base := buffer.empty
 			across rendering_variables as modifier loop
 				if modifier.cursor_index > 1 then
 					base.append_character ('.')

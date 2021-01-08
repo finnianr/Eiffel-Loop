@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-27 18:39:52 GMT (Tuesday 27th October 2020)"
-	revision: "5"
+	date: "2021-01-08 18:03:58 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -26,8 +26,6 @@ inherit
 	WINZIP_SOFTWARE_COMMON
 
 	EL_FILE_OPEN_ROUTINES
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -60,7 +58,7 @@ feature {NONE} -- Implementation
 	default_pecf: EL_FILE_PATH
 		-- derive 'pecf' project config file from project.py if it exists
 		local
-			line, base: ZSTRING
+			line, base: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			if Project_py.exists then
 				if attached open_lines (Project_py, Latin_1) as lines then
@@ -69,7 +67,7 @@ feature {NONE} -- Implementation
 						if line.starts_with ("ecf") then
 							across "%"'" as delimiter until attached base loop
 								if	line.occurrences (delimiter.item) = 2 and then (" =").has (line.item (4).to_character_8) then
-									base := line.substring_between (character_string (delimiter.item), character_string (delimiter.item), 1)
+									base := line.substring_between (s.character_string (delimiter.item), s.character_string (delimiter.item), 1)
 									base.insert_character ('p', base.last_index_of ('.', base.count) + 1)
 								end
 							end

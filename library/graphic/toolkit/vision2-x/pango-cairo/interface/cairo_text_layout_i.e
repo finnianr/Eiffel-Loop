@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:42:17 GMT (Tuesday 5th January 2021)"
-	revision: "3"
+	date: "2021-01-08 16:14:17 GMT (Friday 8th January 2021)"
+	revision: "4"
 
 deferred class
 	CAIRO_TEXT_LAYOUT_I
@@ -18,7 +18,7 @@ inherit
 			{CAIRO_DRAWABLE_CONTEXT_I} self_ptr
 		end
 
-	EL_SHARED_ONCE_STRING_32
+	EL_MODULE_BUFFER_32
 
 	CAIRO_SHARED_GOBJECT_API
 
@@ -65,7 +65,7 @@ feature -- Element change
 		local
 			text_utf_8: STRING; l_text: STRING_32; s: EL_STRING_32_ROUTINES
 		do
-			l_text := once_copy_general_32 (a_text)
+			l_text := buffer_32.copied_general (a_text)
 			text_utf_8 := s.to_utf_8 (l_text, False)
 			Pango.set_layout_text (self_ptr, text_utf_8.area.base_address, text_utf_8.count)
 			adjust_pango_font (font.string_width (l_text))

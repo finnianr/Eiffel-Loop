@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 18:04:38 GMT (Thursday 7th January 2021)"
-	revision: "14"
+	date: "2021-01-08 17:38:37 GMT (Friday 8th January 2021)"
+	revision: "15"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -81,6 +81,28 @@ feature -- Conversion
 				i := i + 1
 			end
 		end
+
+feature -- Character strings
+
+	character_string (c: CHARACTER): STRING
+		-- shared instance of string with `uc' character
+		do
+			Result := n_character_string (c, 1)
+		end
+
+	n_character_string (c: CHARACTER; n: INTEGER): STRING
+		-- shared instance of string with `n' times `uc' character
+		do
+			Result := Character_string_table.item (n.to_natural_32 |<< 8 | c.natural_32_code)
+		end
+
+feature {NONE} -- Implemenation
+
+	new_filled_string (key: NATURAL): STRING
+		do
+			create Result.make_filled (key.to_character_8, (key |>> 8).to_integer_32)
+		end
+
 
 feature -- Measurement
 
@@ -160,6 +182,11 @@ feature -- Transformation
 		end
 
 feature {NONE} -- Constants
+
+	Character_string_table: EL_CACHE_TABLE [STRING, NATURAL]
+		once
+			create Result.make_equal (7, agent new_filled_string)
+		end
 
 	Once_cursor: EL_STRING_8_ITERATION_CURSOR
 		once

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 15:01:29 GMT (Thursday 26th November 2020)"
-	revision: "19"
+	date: "2021-01-08 16:33:33 GMT (Friday 8th January 2021)"
+	revision: "20"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -45,8 +45,6 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_STRING_8_CONSTANTS
-
 feature {NONE} -- Initialization
 
 	make
@@ -71,8 +69,10 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	joined (precursor_lines, lines: STRING): STRING
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := precursor_lines + character_string_8 ('%N') + lines
+			Result := precursor_lines + s.character_string ('%N') + lines
 		end
 
 feature {NONE} -- Constants

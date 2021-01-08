@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 11:06:38 GMT (Wednesday 23rd December 2020)"
-	revision: "9"
+	date: "2021-01-08 17:35:29 GMT (Friday 8th January 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_TUPLE
@@ -71,16 +71,17 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		local
-			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]
+			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]; s_32: EL_STRING_32_ROUTINES
+			s_8: EL_STRING_8_ROUTINES; s: EL_ZSTRING_ROUTINES
 		do
 			if attached {ZSTRING} string as str_z then
-				create {EL_SPLIT_ZSTRING_LIST} list.make (str_z, character_string (','))
+				create {EL_SPLIT_ZSTRING_LIST} list.make (str_z, s.character_string (','))
 
 			elseif attached {STRING_8} string as str_8 then
-				create {EL_SPLIT_STRING_LIST [STRING_8]} list.make (str_8, character_string_8 (','))
+				create {EL_SPLIT_STRING_LIST [STRING_8]} list.make (str_8, s_8.character_string (','))
 
 			else
-				create {EL_SPLIT_STRING_LIST [STRING_32]} list.make (string.to_string_32, character_string_32 (','))
+				create {EL_SPLIT_STRING_LIST [STRING_32]} list.make (string.to_string_32, s_32.character_string (','))
 			end
 			list.enable_left_adjust
 			set_from_list (a_object, list)

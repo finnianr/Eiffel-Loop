@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:28:28 GMT (Tuesday 5th January 2021)"
-	revision: "34"
+	date: "2021-01-08 17:32:53 GMT (Friday 8th January 2021)"
+	revision: "35"
 
 class
 	ZSTRING_TEST_SET
@@ -351,12 +351,12 @@ feature -- Element change tests
 		local
 			str_32: STRING_32; str, line: ZSTRING
 			word_list: EL_OCCURRENCE_INTERVALS [STRING_32]
-			start_index, end_index: INTEGER
+			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
 			across Text_lines as line_32 loop
 				line := line_32.item
 				create str_32.make_empty; create str.make_empty
-				create word_list.make (line_32.item, character_string_32 (' '))
+				create word_list.make (line_32.item, s.character_string (' '))
 				start_index := 1
 				from word_list.start until word_list.after loop
 					end_index := word_list.item_lower - 1
@@ -601,12 +601,12 @@ feature -- Status query tests
 		note
 			testing: "covers/{ZSTRING}.for_all_split"
 		local
-			line: ZSTRING; word_list: EL_ZSTRING_LIST
+			line: ZSTRING; word_list: EL_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
 		do
 			across Text_lines as line_32 loop
 				line := line_32.item
 				create word_list.make_with_words (line)
-				assert ("word is in word_list", line.for_all_split (character_string (' '), agent word_list.has))
+				assert ("word is in word_list", line.for_all_split (s.character_string (' '), agent word_list.has))
 			end
 		end
 
@@ -713,6 +713,7 @@ feature -- Status query tests
 			testing: "covers/{ZSTRING}.there_exists_split"
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
+			s: EL_ZSTRING_ROUTINES
 		do
 			across Text_lines as line_32 loop
 				line := line_32.item
@@ -720,7 +721,7 @@ feature -- Status query tests
 				across word_list as word loop
 					assert (
 						"word is in word_list",
-						line.there_exists_split (character_string (' '), agent (word.item).is_equal)
+						line.there_exists_split (s.character_string (' '), agent (word.item).is_equal)
 					)
 				end
 			end

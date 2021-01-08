@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-26 15:34:38 GMT (Thursday 26th November 2020)"
-	revision: "20"
+	date: "2021-01-08 17:35:04 GMT (Friday 8th January 2021)"
+	revision: "21"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -35,8 +35,6 @@ inherit
 		redefine
 			set_table_field
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_IP_ADDRESS
 
@@ -120,10 +118,10 @@ feature -- Access
 
 	server_software_version: NATURAL
 		local
-			parts: EL_SPLIT_ZSTRING_LIST; scalar: NATURAL
+			parts: EL_SPLIT_ZSTRING_LIST; scalar: NATURAL; s: EL_ZSTRING_ROUTINES
 		do
 			scalar := 1_000_000
-			create parts.make (server_software.substring_between (Forward_slash, character_string (' '), 1), Dot)
+			create parts.make (server_software.substring_between (Forward_slash, s.character_string (' '), 1), Dot)
 			from parts.start until parts.after loop
 				Result := Result + scalar * parts.natural_item
 				scalar := scalar // 1000

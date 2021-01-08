@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 13:55:28 GMT (Monday 19th October 2020)"
-	revision: "17"
+	date: "2021-01-08 17:34:45 GMT (Friday 8th January 2021)"
+	revision: "18"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -43,8 +43,6 @@ inherit
 	EL_MODULE_ENVIRONMENT
 
 	EL_MODULE_BUILD_INFO
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Factory
 
@@ -66,9 +64,11 @@ feature -- Access
 			-- Returns '../' if `step_count' = 1
 			-- Returns '../../' if `step_count' = 2
 			-- and so forth
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			if step_count = 0 then
-				Result := character_string ('.')
+				Result := s.character_string ('.')
 			else
 				Result := Parent.twin
 				Result.multiply (step_count)

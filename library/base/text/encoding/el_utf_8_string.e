@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:14:00 GMT (Thursday 7th January 2021)"
-	revision: "5"
+	date: "2021-01-08 15:59:47 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	EL_UTF_8_STRING
@@ -19,11 +19,11 @@ inherit
 			to_string_8 as to_latin_1
 		end
 
-	EL_SHARED_ONCE_STRING_8
+	EL_MODULE_BUFFER_8
 
-	EL_SHARED_ONCE_STRING_32
+	EL_MODULE_BUFFER_32
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 create
 	make, make_filled, make_from_string
@@ -44,9 +44,9 @@ feature -- String conversion
 			else
 				start_index := 1
 			end
-			Result := once_empty_string
+			Result := buffer.empty
 			if has_multi_byte_character then
-				str_32 := once_empty_string_32
+				str_32 := buffer_32.empty
 				c.utf_8_substring_8_into_string_32 (Current, start_index, end_index, str_32)
 				Result.append_string_general (str_32)
 			else
@@ -65,7 +65,7 @@ feature -- String conversion
 		local
 			start_index, end_index: INTEGER
 		do
-			Result := once_empty_string_8
+			Result := buffer_8.empty
 			if has_multi_byte_character then
 				Result.append_string_general (adjusted_32 (False))
 			else
@@ -89,7 +89,7 @@ feature -- String conversion
 			else
 				start_index := 1
 			end
-			Result := once_empty_string_32
+			Result := buffer_32.empty
 			if has_multi_byte_character then
 				c.utf_8_substring_8_into_string_32 (Current, start_index, end_index, Result)
 			else
@@ -103,14 +103,14 @@ feature -- String conversion
 	raw_string (keep_ref: BOOLEAN): ZSTRING
 		-- string with unadjusted whitespace
 		do
-			Result := once_empty_string
+			Result := buffer.empty
 			Result.append_utf_8 (Current)
 		end
 
 	raw_string_8 (keep_ref: BOOLEAN): STRING_8
 		-- string with unadjusted whitespace
 		do
-			Result := once_empty_string_8
+			Result := buffer_8.empty
 			if has_multi_byte_character then
 				Result.append_string_general (raw_string_32 (False))
 			else
@@ -126,7 +126,7 @@ feature -- String conversion
 		local
 			c: EL_UTF_CONVERTER
 		do
-			Result := once_empty_string_32
+			Result := buffer_32.empty
 			if has_multi_byte_character then
 				c.utf_8_string_8_into_string_32 (Current, Result)
 			else

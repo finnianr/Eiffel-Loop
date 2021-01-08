@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 16:42:01 GMT (Thursday 21st May 2020)"
-	revision: "7"
+	date: "2021-01-08 18:07:35 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_YOUTUBE_STREAM
@@ -30,12 +30,12 @@ feature {NONE} -- Initialization
 
 	make (a_url, info_line: ZSTRING)
 		local
-			parts: EL_SPLIT_ZSTRING_LIST
+			parts: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
 		do
 			make_default
 			url := a_url
 			description := info_line
-			create parts.make (info_line.as_canonically_spaced, character_string (' '))
+			create parts.make (info_line.as_canonically_spaced, s.character_string (' '))
 			parts.start
 			if parts.item (False).is_integer then
 				from until parts.after loop

@@ -6,14 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 8:56:20 GMT (Wednesday 2nd September 2020)"
-	revision: "13"
+	date: "2021-01-08 16:30:33 GMT (Friday 8th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_WORD_SEARCHABLE
-
-inherit
-	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -145,8 +142,10 @@ feature {NONE} -- Constants
 
 	Ellipsis: STRING
 			--
+		local
+			s: EL_STRING_8_ROUTINES
 		once
-			Result := n_character_string_8 ('.', 2)
+			Result := s.n_character_string ('.', 2)
 		end
 
 end

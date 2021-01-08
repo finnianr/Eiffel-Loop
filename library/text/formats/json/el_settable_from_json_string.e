@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 10:59:33 GMT (Wednesday 8th April 2020)"
-	revision: "17"
+	date: "2021-01-08 15:36:40 GMT (Friday 8th January 2021)"
+	revision: "18"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -42,7 +42,7 @@ inherit
 
 	EL_MODULE_NAMING
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 feature {NONE} -- Initialization
 
@@ -61,7 +61,7 @@ feature -- Access
 		do
 			field := [create {STRING}.make (0), Empty_string]
 
-			Result := once_copy_general (once "{%N")
+			Result := buffer.copied_general (once "{%N")
 			table := field_table
 			from is_first := True; table.start until table.after loop
 				if is_first then

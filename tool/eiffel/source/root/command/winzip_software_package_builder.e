@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-30 9:56:59 GMT (Friday 30th October 2020)"
-	revision: "6"
+	date: "2021-01-08 16:36:46 GMT (Friday 8th January 2021)"
+	revision: "7"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -181,10 +181,10 @@ feature {NONE} -- Implementation
 	increment_pecf_build
 		local
 			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
-			found: BOOLEAN; i, line_start, line_end: INTEGER
+			found: BOOLEAN; i, line_start, line_end: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			source_text := File_system.plain_text (pecf_path)
-			create list.make (source_text, character_string_8 ('%N'))
+			create list.make (source_text, s.character_string ('%N'))
 			from list.start until list.after or found loop
 				line := list.item (False)
 				if line.has ('=') and then line.has_substring ("major")

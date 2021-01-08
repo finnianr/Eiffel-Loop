@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:14 GMT (Tuesday 5th January 2021)"
-	revision: "3"
+	date: "2021-01-08 16:00:24 GMT (Friday 8th January 2021)"
+	revision: "4"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -54,9 +54,9 @@ inherit
 
 	EL_MODULE_HEXADECIMAL
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
-	EL_SHARED_ONCE_STRING_8
+	EL_MODULE_BUFFER_8
 
 create
 	make
@@ -74,7 +74,7 @@ feature -- Access
 
 	description: ZSTRING
 		do
-			Result := once_empty_string
+			Result := buffer.empty
 			across << vendor, product, type >> as list loop
 				if not valid_hardware_address (list.item) then
 					Result.append_string_general (list.item); Result.prune_all_trailing ('-')
@@ -170,8 +170,10 @@ feature {NONE} -- Factory
 feature {NONE} -- Implementation
 
 	udi_plus_driver_lower (keep_ref: BOOLEAN): STRING
+		local
+			l_buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_copy_8 (udi)
+			Result := l_buffer.copied (udi)
 			Result.append (driver)
 			Result.to_lower
 			if keep_ref then

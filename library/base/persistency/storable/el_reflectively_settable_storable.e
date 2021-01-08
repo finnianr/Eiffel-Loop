@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:14:56 GMT (Tuesday 5th January 2021)"
-	revision: "30"
+	date: "2021-01-08 15:37:06 GMT (Friday 8th January 2021)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -39,7 +39,7 @@ inherit
 
 	EL_MODULE_EXECUTABLE
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 	EL_ZSTRING_CONSTANTS
 
@@ -63,7 +63,7 @@ feature -- Basic operations
 			name: STRING
 		do
 			create cursor_index_set.make (10)
-			value := once_empty_string
+			value := buffer.empty
 			write_pyxis_attributes (output, tab_count, cursor_index_set)
 
 			across meta_data.alphabetical_list as list loop
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 		local
 			attribute_lines: ARRAY [ZSTRING]; value: ZSTRING; attribute_index: INTEGER
 		do
-			value := once_empty_string
+			value := buffer.empty
 			attribute_lines := << String_pool.reuseable_item, String_pool.reuseable_item, String_pool.reuseable_item >>
 			across meta_data.alphabetical_list as list loop
 				-- output numeric as Pyxis element attributes

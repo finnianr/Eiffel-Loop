@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-03 9:05:16 GMT (Sunday 3rd May 2020)"
-	revision: "7"
+	date: "2021-01-08 18:06:31 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -27,11 +27,10 @@ inherit
 
 	EL_HTML_CONSTANTS
 
+	EL_MODULE_BUFFER
 	EL_MODULE_TIME
 	EL_MODULE_LIO
 	EL_MODULE_DIRECTORY
-
-	EL_SHARED_ONCE_ZSTRING
 
 
 feature {NONE} -- Initialization
@@ -53,6 +52,8 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	edit (html_doc: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			-- Remove surplus breaks
 			across Text_tags as l_tag loop
@@ -68,13 +69,13 @@ feature {NONE} -- Implementation
 
 			-- Change <br> to <br/>
 			across Unclosed_tags as l_tag loop
-				html_doc.edit (l_tag.item, character_string ('>'), agent close_empty_tag)
+				html_doc.edit (l_tag.item, s.character_string ('>'), agent close_empty_tag)
 			end
-			html_doc.edit (character_string ('&'), character_string (';'), agent substitute_html_entities)
-			html_doc.edit (Tag_start.image, character_string ('>'), agent edit_image_tag)
-			html_doc.edit (Tag_start.anchor, character_string ('>'), agent edit_anchor_tag)
+			html_doc.edit (s.character_string ('&'), s.character_string (';'), agent substitute_html_entities)
+			html_doc.edit (Tag_start.image, s.character_string ('>'), agent edit_image_tag)
+			html_doc.edit (Tag_start.anchor, s.character_string ('>'), agent edit_anchor_tag)
 			across << Attribute_start.alt, Attribute_start.title >> as start loop
-				html_doc.edit (start.item, character_string ('"'), agent normalize_attribute_text)
+				html_doc.edit (start.item, s.character_string ('"'), agent normalize_attribute_text)
 			end
 		end
 
@@ -142,28 +143,30 @@ feature {NONE} -- Editing
 		end
 
 	edit_anchor_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			if is_tag_start (start_index, end_index, substring) then
 				remove_attributes (Surplus_hyperlink_attributes, substring, start_index)
-				substring.edit (Attribute_start.href, character_string ('"'), agent remove_localhost_ref)
+				substring.edit (Attribute_start.href, s.character_string ('"'), agent remove_localhost_ref)
 			end
 		end
 
 	edit_image_tag (start_index, end_index: INTEGER; substring: ZSTRING)
 		-- remove surplus attributes: moz-do-not-send, height, width
 		local
-			pos_src: INTEGER
+			pos_src: INTEGER; s: EL_ZSTRING_ROUTINES
 		do
 			if is_tag_start (start_index, end_index, substring) then
 				remove_attributes (Surplus_image_attributes, substring, start_index)
 				-- make sure src attribute is indented
 				pos_src := substring.substring_index (Attribute_start.src, start_index)
 				if pos_src > 0 and then substring.item (pos_src - 1) = '%N' then
-					substring.insert_string (n_character_string (' ', 8), pos_src)
+					substring.insert_string (s.n_character_string (' ', 8), pos_src)
 				end
 				close_empty_tag (start_index, end_index, substring)
 
-				substring.edit (Attribute_start.src, character_string ('"'), agent remove_localhost_ref)
+				substring.edit (Attribute_start.src, s.character_string ('"'), agent remove_localhost_ref)
 			end
 		end
 
@@ -222,10 +225,10 @@ feature {NONE} -- Editing
 
  	remove_trailing_breaks (start_index, end_index: INTEGER; substring: ZSTRING)
  		local
- 			pos_trailing: INTEGER; trailing: ZSTRING
+ 			pos_trailing: INTEGER; trailing: ZSTRING; s: EL_ZSTRING_ROUTINES
  		do
  			if is_tag_start (start_index, end_index, substring) then
-	 			pos_trailing := substring.substring_index (character_string ('>'), start_index) + 1
+	 			pos_trailing := substring.substring_index (s.character_string ('>'), start_index) + 1
 	 			if substring.substring_index (Tag.break.open, pos_trailing) > 0 then
 		 			trailing := substring.substring (pos_trailing, end_index)
 		 			trailing.replace_substring_all (Tag.break.open, Empty_string)

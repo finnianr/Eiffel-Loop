@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:20:58 GMT (Tuesday 5th January 2021)"
-	revision: "5"
+	date: "2021-01-08 17:33:04 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	EL_ZSTRING_TABLE
@@ -28,8 +28,6 @@ inherit
 		rename
 			make as make_with_count
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_with_count
@@ -42,7 +40,7 @@ feature {NONE} -- Initialization
 		do
 			make_equal (general.occurrences (':'))
 			text := s.as_zstring (general)
-			text.do_with_splits (character_string ('%N'), agent add_line)
+			text.do_with_splits (s.character_string ('%N'), agent add_line)
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:38:14 GMT (Tuesday 5th January 2021)"
-	revision: "4"
+	date: "2021-01-08 14:55:24 GMT (Friday 8th January 2021)"
+	revision: "5"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -123,9 +123,9 @@ feature {NONE} -- Implementation
 	set_item_attribute (field: EL_REFLECTED_FIELD)
 		do
 			if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field then
-				field.set_from_string (item, last_node.to_raw_string_32)
+				field.set_from_string (item, last_node.raw_string_32 (True))
 			elseif attached {EL_REFLECTED_STORABLE_TUPLE} field as tuple_field then
-				tuple_field.set_from_string (item, last_node.to_raw_string_32)
+				tuple_field.set_from_string (item, last_node.raw_string_32 (True))
 			else
 				field.set_from_readable (item, last_node)
 			end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:10:25 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-08 15:39:40 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_XML_TEXT_ELEMENT
@@ -52,7 +52,7 @@ feature -- Access
 
 	to_string: ZSTRING
 		do
-			Result := once_copy (open)
+			Result := buffer.copied (open)
 			if internal_attribute_list.count > 0 then
 				Result.remove_tail (1)
 				across internal_attribute_list as list loop

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 10:12:23 GMT (Thursday 20th August 2020)"
-	revision: "10"
+	date: "2021-01-08 16:32:46 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 class
 	STRING_LIST_TEST_SET
@@ -150,9 +150,9 @@ feature -- Tests
 
 	test_split_string_8
 		local
-			list: EL_SPLIT_STRING_LIST [STRING]
+			list: EL_SPLIT_STRING_LIST [STRING]; s: EL_STRING_8_ROUTINES
 		do
-			create list.make (Api_string_list.joined_with_string (Comma_space), character_string_8 (','))
+			create list.make (Api_string_list.joined_with_string (Comma_space), s.character_string (','))
 			list.enable_left_adjust
 			from list.start until list.after loop
 				assert ("same item", list.same_item_as (Api_string_list.i_th (list.index)))

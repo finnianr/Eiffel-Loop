@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:10:14 GMT (Tuesday 5th January 2021)"
-	revision: "11"
+	date: "2021-01-08 15:39:40 GMT (Friday 8th January 2021)"
+	revision: "12"
 
 class
 	EL_XML_EMPTY_ELEMENT
@@ -128,11 +128,10 @@ feature {NONE} -- Implementation
 
 	write_open_element (medium: EL_OUTPUT_MEDIUM)
 		local
-			l_string: like once_substring
-			escaper: like Attribute_escaper
+			l_string: ZSTRING; escaper: like Attribute_escaper
 		do
 			if attribute_count > 0 then
-				l_string := once_substring (open, 1, name_end_index)
+				l_string := buffer.copied_substring (open, 1, name_end_index)
 				if medium.encoded_as_latin (1) then
 					escaper := Attribute_128_plus_escaper
 				else

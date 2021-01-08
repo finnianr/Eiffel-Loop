@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 15:53:04 GMT (Wednesday 23rd September 2020)"
-	revision: "30"
+	date: "2021-01-08 18:19:02 GMT (Friday 8th January 2021)"
+	revision: "31"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -31,11 +31,8 @@ inherit
 
 	EL_MODULE_COLOR EL_MODULE_HEXADECIMAL EL_MODULE_PIXMAP
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_ONCE_STRING_8
-	EL_SHARED_ONCE_STRING_32
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER_8
+	EL_MODULE_BUFFER_32
 
 create
 	make
@@ -63,11 +60,11 @@ feature -- Font
 		require
 			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
 		local
-			words: EL_SPLIT_ZSTRING_LIST; line: ZSTRING
+			words: EL_SPLIT_ZSTRING_LIST; line: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			create Result.make (10)
 			create line.make (60)
-			create words.make (a_text, character_string (' '))
+			create words.make (a_text, s.character_string (' '))
 			from words.start until words.after loop
 				if not line.is_empty then
 					line.append_character (' ')
@@ -154,10 +151,10 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		local
-			text: like Once_string
+			text: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES; s: EL_ZSTRING_ROUTINES
 		do
-			text := once_copy_general (a_text)
-			Result := text.for_all_split (character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
+			text := buffer.copied_general (a_text)
+			Result := text.for_all_split (s.character_string ('%N'),  agent all_words_fit_width (?, a_font, a_width))
 		end
 
 	same_fonts (a, b: EV_FONT): BOOLEAN
@@ -177,7 +174,7 @@ feature -- Measurement
 
 	string_width (string: READABLE_STRING_GENERAL; a_font: EV_FONT): INTEGER
 		do
-			Result := a_font.string_width (once_copy_general_32 (string))
+			Result := a_font.string_width (buffer_32.copied_general (string))
 		end
 
 	widest_width (strings: ITERABLE [READABLE_STRING_GENERAL]; font: EV_FONT): INTEGER
@@ -214,8 +211,10 @@ feature -- Color code
 feature {NONE} -- Implementation
 
 	all_words_fit_width (line: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := line.for_all_split (character_string (' '), agent word_fits_width (?, a_font, a_width))
+			Result := line.for_all_split (s.character_string (' '), agent word_fits_width (?, a_font, a_width))
 		end
 
 	do_once_action (timer: EV_TIMEOUT; action: PROCEDURE)

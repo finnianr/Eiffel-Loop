@@ -6,16 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-09 18:06:30 GMT (Thursday 9th April 2020)"
-	revision: "10"
+	date: "2021-01-08 17:33:57 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 class
 	EL_HTML_ROUTINES
 
 inherit
 	EL_MARKUP_ROUTINES
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_TUPLE
 
@@ -28,8 +26,10 @@ feature -- Access
 		end
 
 	anchor_name (name: ZSTRING): ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			Result := name.translated (character_string (' '), character_string ('_'))
+			Result := name.translated (s.character_string (' '), s.character_string ('_'))
 		end
 
 	book_mark_anchor_markup (id, text: ZSTRING): ZSTRING

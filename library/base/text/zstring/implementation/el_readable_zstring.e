@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 13:02:43 GMT (Thursday 7th January 2021)"
-	revision: "63"
+	date: "2021-01-08 15:21:17 GMT (Friday 8th January 2021)"
+	revision: "64"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -695,9 +695,9 @@ feature -- Append to output
 
 	append_to_string_8 (output: STRING_8)
 		local
-			str_32: STRING_32
+			str_32: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str_32 := once_empty_string_32
+			str_32 := buffer.empty
 			append_to_string_32 (str_32)
 			output.append_string_general (str_32)
 		end
@@ -717,7 +717,7 @@ feature {NONE} -- Implementation
 	fill_expanded (str: STRING_32)
 		local
 			i, l_count: INTEGER; c_i: CHARACTER
-			l_area: like area; l_area_32: like once_string_32.area
+			l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
 		do
 			l_count := count
 			str.grow (l_count); str.set_count (l_count)

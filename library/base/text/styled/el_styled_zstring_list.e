@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-02 10:41:37 GMT (Wednesday 2nd September 2020)"
-	revision: "1"
+	date: "2021-01-08 18:18:10 GMT (Friday 8th January 2021)"
+	revision: "2"
 
 class
 	EL_STYLED_ZSTRING_LIST
 
 inherit
 	EL_STYLED_TEXT_LIST [ZSTRING]
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_filled, make_from_list, make_empty, make_from_array, make_regular
@@ -26,9 +24,11 @@ convert
 feature -- Element change
 
 	indent_first
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			if count > 0 then
-				first.value := character_string (' ') + first_text
+				first.value := s.character_string (' ') + first_text
 			end
 		end
 
@@ -55,7 +55,9 @@ feature -- Element change
 feature -- Constants
 
 	Ellipsis: ZSTRING
+		local
+			s: EL_ZSTRING_ROUTINES
 		once
-			Result := n_character_string ('.', 2)
+			Result := s.n_character_string ('.', 2)
 		end
 end

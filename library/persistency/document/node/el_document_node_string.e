@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 17:54:04 GMT (Thursday 7th January 2021)"
-	revision: "7"
+	date: "2021-01-08 15:39:07 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -101,7 +101,7 @@ feature -- Access
 	xpath_name (keep_ref: BOOLEAN): ZSTRING
 			--
 		do
-			Result := once_empty_string
+			Result := buffer.empty
 			inspect type
 				when Node_type_element then
 					if encoded_as_utf (8) then
@@ -144,7 +144,7 @@ feature -- Access
 
 	once_name: ZSTRING
 		do
-			Result := once_empty_string
+			Result := buffer.empty
 			if encoded_as_utf (8) then
 				Result.append_utf_8 (raw_name)
 			else
@@ -173,7 +173,7 @@ feature -- String conversion
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_adjusted (Current)
+				Result := buffer.adjusted (Current)
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -181,11 +181,13 @@ feature -- String conversion
 		end
 
 	adjusted_32 (keep_ref: BOOLEAN): STRING_32
+		local
+			l_buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_adjusted_32 (Current)
+				Result := l_buffer.adjusted (Current)
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -194,11 +196,13 @@ feature -- String conversion
 
 	adjusted_8 (keep_ref: BOOLEAN): STRING_8
 		-- string with adjusted whitespace
+		local
+			l_buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_adjusted_8 (Current)
+				Result := l_buffer.adjusted (Current)
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -211,27 +215,31 @@ feature -- String conversion
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_copy_general (Current)
+				Result := buffer.copied_general (Current)
 			end
 		end
 
 	raw_string_32 (keep_ref: BOOLEAN): STRING_32
 		-- string with unadjusted whitespace
+		local
+			l_buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_copy_general_32 (Current)
+				Result := l_buffer.copied_general (Current)
 			end
 		end
 
 	raw_string_8 (keep_ref: BOOLEAN): STRING_8
 		-- string with unadjusted whitespace
+		local
+			l_buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := once_copy_8 (Current)
+				Result := l_buffer.copied (Current)
 			end
 			if keep_ref then
 				Result := Result.twin
@@ -307,6 +315,15 @@ feature -- Conversion
 		do
 			Result := adjusted (False)
 			Result.expand
+		end
+
+	to_trim_lines: EL_ZSTRING_LIST
+		-- left and right adjusted list of line strings
+		do
+			create Result.make_with_lines (adjusted (False))
+			across Result as line loop
+				line.item.adjust
+			end
 		end
 
 feature -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:54:06 GMT (Tuesday 5th January 2021)"
-	revision: "18"
+	date: "2021-01-08 15:19:38 GMT (Friday 8th January 2021)"
+	revision: "19"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -18,8 +18,6 @@ inherit
 	EL_CONSOLE_ENCODEABLE
 
 	EL_SHARED_UTF_8_ZCODEC
-
-	EL_SHARED_ONCE_STRING_32
 
 	EL_SHARED_CONSOLE_COLORS
 
@@ -231,10 +229,10 @@ feature {NONE} -- Implementation
 
 	flush_string_general (str: READABLE_STRING_GENERAL)
 		local
-			str_32: STRING_32
+			str_32: STRING_32; buffer_32: EL_STRING_32_BUFFER_ROUTINES
 		do
 			if attached {ZSTRING} str as str_z then
-				str_32 := once_empty_string_32
+				str_32 := buffer_32.empty
 				str_z.append_to_string_32 (str_32)
 				write_console (str_32)
 

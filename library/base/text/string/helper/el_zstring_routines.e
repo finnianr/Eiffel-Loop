@@ -6,11 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:20:17 GMT (Tuesday 5th January 2021)"
-	revision: "17"
+	date: "2021-01-08 17:38:54 GMT (Friday 8th January 2021)"
+	revision: "18"
 
 expanded class
 	EL_ZSTRING_ROUTINES
+
+feature -- Character string
+
+	character_string (uc: CHARACTER_32): ZSTRING
+		-- shared instance of string with `uc' character
+		do
+			Result := n_character_string (uc, 1)
+		end
+
+	n_character_string (uc: CHARACTER_32; n: INTEGER): ZSTRING
+		-- shared instance of string with `n' times `uc' character
+		do
+			Result := Character_string_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
+		ensure
+			valid_result: Result.occurrences (uc) = n.to_integer_32
+		end
 
 feature -- Conversion
 
@@ -120,6 +136,20 @@ feature -- Status query
 				end
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- Implemenation
+
+	new_filled_string (key: NATURAL_64): ZSTRING
+		do
+			create Result.make_filled (key.to_character_32, (key |>> 32).to_integer_32)
+		end
+
+feature {NONE} -- Constants
+
+	Character_string_table: EL_CACHE_TABLE [ZSTRING, NATURAL_64]
+		once
+			create Result.make_equal (7, agent new_filled_string)
 		end
 
 end

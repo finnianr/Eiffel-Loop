@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:43 GMT (Tuesday 5th January 2021)"
-	revision: "10"
+	date: "2021-01-08 16:04:47 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 class
 	EL_RSA_ROUTINES
 
 inherit
 	EL_BASE_64_ROUTINES
-
-	EL_SHARED_ONCE_STRING_8
 
 	EL_MODULE_HEXADECIMAL
 
@@ -52,9 +50,10 @@ feature -- Conversion
 			-- to type `INTEGER_X'
 		local
 			parts: EL_SPLIT_STRING_LIST [STRING]; hex_string: STRING
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			create parts.make (sequence, once ":")
-			hex_string := once_empty_string_8
+			hex_string := buffer.empty
 			from parts.start until parts.after loop
 				if not (parts.index = 1 and then parts.same_item_as (Double_zero)) then
 					hex_string.append (parts.item (False))

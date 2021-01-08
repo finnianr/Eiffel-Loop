@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 15:59:37 GMT (Monday 23rd November 2020)"
-	revision: "10"
+	date: "2021-01-08 17:33:30 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -53,6 +51,7 @@ feature -- Basic operations
 			--
 		local
 			lines: EL_SPLIT_ZSTRING_LIST; template_path: EL_FILE_PATH
+			s: EL_ZSTRING_ROUTINES
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if not template_name.is_empty then
@@ -72,7 +71,7 @@ feature -- Basic operations
 					if attached Medium_pool.reuseable_item as medium then
 						medium.open_write
 						Evolicity_templates.merge (template_path, new_context, medium)
-						create lines.make (medium.text, character_string ('%N'))
+						create lines.make (medium.text, s.character_string ('%N'))
 						medium.close
 						from lines.start until lines.after loop
 							if not tabs.is_empty then

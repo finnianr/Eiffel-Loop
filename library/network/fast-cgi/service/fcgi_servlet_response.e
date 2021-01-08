@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:20 GMT (Tuesday 5th January 2021)"
-	revision: "22"
+	date: "2021-01-08 16:06:26 GMT (Friday 8th January 2021)"
+	revision: "23"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -20,8 +20,6 @@ inherit
 	EL_SHARED_HTTP_STATUS
 
 	EL_SHARED_UTF_8_ZCODEC
-
-	EL_SHARED_ONCE_STRING_8
 
 	EL_STRING_8_CONSTANTS
 
@@ -105,6 +103,7 @@ feature -- Basic operations
 		-- send response headers and content
 		local
 			list: like header_list; buffer, content_buffer: STRING
+			string_8_buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if not is_sent then
 				content_buffer := encoded_content
@@ -117,7 +116,7 @@ feature -- Basic operations
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				buffer := once_empty_string_8
+				buffer := string_8_buffer.empty
 				list := header_list
 				list.sort (True)
 				from list.start until list.after loop

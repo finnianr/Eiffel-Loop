@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-09 10:23:11 GMT (Sunday 9th August 2020)"
-	revision: "10"
+	date: "2021-01-08 16:12:08 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_DRAWABLE_LABEL
@@ -17,7 +17,7 @@ inherit
 
 	EL_WORD_WRAPPABLE undefine copy, default_create end
 
-	EL_SHARED_ONCE_ZSTRING
+	EL_MODULE_BUFFER
 
 	EL_STRING_8_CONSTANTS
 

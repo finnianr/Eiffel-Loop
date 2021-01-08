@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-14 12:59:23 GMT (Saturday 14th March 2020)"
-	revision: "17"
+	date: "2021-01-08 18:03:32 GMT (Friday 8th January 2021)"
+	revision: "18"
 
 deferred class
 	CLASS_FEATURE
@@ -95,10 +95,10 @@ feature {NONE} -- Implementation
 
 	update_name
 		local
-			list: like Split_list
+			list: like Split_list; s: EL_ZSTRING_ROUTINES
 		do
 			list := Split_list
-			list.set_string (lines.first, character_string (' '))
+			list.set_string (lines.first, s.character_string (' '))
 			from list.start until list.after or else not list.item (False).is_equal (Keyword_frozen) loop
 				list.forth
 			end

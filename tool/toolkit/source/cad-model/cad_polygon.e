@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:50 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2021-01-08 16:08:27 GMT (Friday 8th January 2021)"
+	revision: "10"
 
 class
 	CAD_POLYGON
@@ -23,7 +23,7 @@ inherit
 
 	DEBUG_OUTPUT undefine copy, is_equal, out end
 
-	EL_SHARED_ONCE_STRING_8
+	EL_MODULE_BUFFER_8
 
 create
 	make, make_sized
@@ -106,12 +106,12 @@ feature -- Basic operations
 
 	print_to (lio: EL_LOGGABLE)
 		local
-			str: STRING
+			str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			lio.put_labeled_string ("Code", out)
 			lio.put_new_line
 			across Current as coord loop
-				str := once_empty_string_8
+				str := buffer.empty
 				coord.item.append_to_string (str)
 				lio.put_labeled_substitution ("Coord", "[%S] = [%S]", [coord.cursor_index, str])
 				lio.put_new_line

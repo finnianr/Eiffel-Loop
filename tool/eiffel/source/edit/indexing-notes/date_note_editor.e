@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 11:58:19 GMT (Sunday 22nd December 2019)"
-	revision: "2"
+	date: "2021-01-08 18:03:10 GMT (Friday 8th January 2021)"
+	revision: "3"
 
 class
 	DATE_NOTE_EDITOR
@@ -24,8 +24,6 @@ inherit
 		rename
 			edit as file_edit
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -64,8 +62,10 @@ feature {NONE} -- Implementation
 		end
 
 	correct (line: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
-			line.replace_substring_all (n_character_string (' ', 2), character_string (' '))
+			line.replace_substring_all (s.n_character_string (' ', 2), s.character_string (' '))
 		end
 
 feature {NONE} -- Constants

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:48:40 GMT (Friday 8th May 2020)"
-	revision: "8"
+	date: "2021-01-08 18:02:32 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -63,10 +63,10 @@ feature -- Basic operations
 
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
-			link: EL_OCCURRENCE_INTERVALS [ZSTRING]
+			link: EL_OCCURRENCE_INTERVALS [ZSTRING]; s: EL_ZSTRING_ROUTINES
 			pos_right_bracket, previous_pos: INTEGER
 		do
-			line.replace_substring_all (character_string ('%T'), Triple_space)
+			line.replace_substring_all (s.character_string ('%T'), Triple_space)
 			previous_pos := 1
 			create link.make (line, Wiki_source_link)
 			from link.start until link.after loop

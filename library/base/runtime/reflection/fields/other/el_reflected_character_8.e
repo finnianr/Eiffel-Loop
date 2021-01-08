@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:44:21 GMT (Tuesday 5th January 2021)"
-	revision: "11"
+	date: "2021-01-08 15:52:32 GMT (Friday 8th January 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -18,8 +18,6 @@ inherit
 			field_value as character_8_field
 		end
 
-	EL_SHARED_ONCE_STRING_8
-
 create
 	make
 
@@ -27,9 +25,9 @@ feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): STRING_8
 		local
-			str: STRING_8
+			str: STRING_8; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			str := once_empty_string_8
+			str := buffer.empty
 			str.extend (value (a_object))
 			Result := str.twin
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 4:38:15 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2021-01-08 15:59:47 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	EL_DATE_TIME
@@ -27,7 +27,7 @@ inherit
 			Time as Mod_time
 		end
 
-	EL_SHARED_ONCE_STRING_8
+	EL_MODULE_BUFFER_8
 
 create
 	make,
@@ -58,7 +58,7 @@ feature -- Initialization
 			pos_last: INTEGER
 		do
 			pos_last := s.substring_index (a_zone, 1) - 2
-			make_from_string_with_code (once_substring_8 (s, offset, pos_last), a_format)
+			make_from_string_with_code (buffer_8.copied_substring (s, offset, pos_last), a_format)
 			add_offset (parse_offset (s))
 		end
 
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 					if pos_space = 0 then
 						pos_space := s.count + 1
 					end
-					Result := once_substring_8 (s, pos_sign, pos_space - 1).to_integer
+					Result := buffer_8.copied_substring (s, pos_sign, pos_space - 1).to_integer
 				end
 				i := i + 1
 			end

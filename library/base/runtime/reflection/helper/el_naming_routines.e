@@ -12,16 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:05:47 GMT (Tuesday 5th January 2021)"
-	revision: "19"
+	date: "2021-01-08 16:33:33 GMT (Friday 8th January 2021)"
+	revision: "20"
 
 class
 	EL_NAMING_ROUTINES
-
-inherit
-	ANY
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -75,7 +70,7 @@ feature -- Class name derivations
 		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
 		-- with `head_count' words removed from head and `tail_count' words removed from tail
 		local
-			split_string: EL_SPLIT_STRING_LIST [STRING]
+			split_string: EL_SPLIT_STRING_LIST [STRING]; s: EL_STRING_8_ROUTINES
 		do
 			if attached {TYPE [ANY]} object_or_type as type then
 				Result := type.name
@@ -83,7 +78,7 @@ feature -- Class name derivations
 				Result := object_or_type.generator
 			end
 			if head_count + tail_count > 0 then
-				create split_string.make (Result, character_string_8 ('_'))
+				create split_string.make (Result, s.character_string ('_'))
 				if head_count > 0 then
 					split_string.remove_head (head_count)
 				end

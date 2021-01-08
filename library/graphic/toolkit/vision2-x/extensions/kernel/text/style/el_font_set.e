@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 9:23:28 GMT (Friday 4th September 2020)"
-	revision: "1"
+	date: "2021-01-08 18:20:44 GMT (Friday 8th January 2021)"
+	revision: "2"
 
 class
 	EL_FONT_SET
@@ -33,8 +33,6 @@ inherit
 		end
 
 	EL_MODULE_GUI
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make, make_monospace_default, make_from_array
@@ -89,14 +87,14 @@ feature -- Measurement
 	leading_spaces_width (text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]): INTEGER
 			-- width of leading spaces in `text_list.first_text'
 		local
-			i: INTEGER; string: READABLE_STRING_GENERAL
+			i: INTEGER; string: READABLE_STRING_GENERAL; s: EL_STRING_8_ROUTINES
 		do
 			if text_list.count > 0 then
 				string := text_list.first_text
 				from i := 1 until i > string.count or else string [i] /= ' ' loop
 					i := i + 1
 				end
-				Result := font (text_list.first_style).string_width (n_character_string_8 (' ', i - 1))
+				Result := font (text_list.first_style).string_width (s.n_character_string (' ', i - 1))
 			end
 		end
 
@@ -118,8 +116,10 @@ feature -- Measurement
 		end
 
 	regular_space_width: INTEGER
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := font (Regular).string_width (character_string_8 (' '))
+			Result := font (Regular).string_width (s.character_string (' '))
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:41 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-08 15:58:38 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make, Default_format_string, to_string
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make, make_now, make_from_other
@@ -31,10 +29,9 @@ feature {EL_DATE_TEXT} -- Initialization
 			has_time_delimiter: s [T_index] = 'T'
 			has_z_ending: s [Input_string_count] = 'Z'
 		local
-			modified: STRING
+			modified: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			modified := once_empty_string_8
-			modified.append_substring (s, 1, T_index - 1)
+			modified := buffer.copied_substring (s, 1, T_index - 1)
 			append_space (modified)
 			modified.append_substring (s, T_index + 1, Input_string_count - 1)
 			Precursor (modified)

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:32:14 GMT (Monday 16th November 2020)"
-	revision: "5"
+	date: "2021-01-08 14:57:36 GMT (Friday 8th January 2021)"
+	revision: "6"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -20,8 +20,6 @@ inherit
 		redefine
 			execute
 		end
-
-	EL_SHARED_ONCE_ZSTRING
 
 	EL_MODULE_DATE
 
@@ -90,9 +88,9 @@ feature {NONE} -- Implementation
 
 	is_bot (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		local
-			user_agent: ZSTRING
+			user_agent: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			user_agent := once_copy (entry.user_agent)
+			user_agent := buffer.copied (entry.user_agent)
 			user_agent.to_lower
 			Result := across config.crawler_substrings as substring some
 				user_agent.has_substring (substring.item)

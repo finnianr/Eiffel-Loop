@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:40:02 GMT (Sunday 28th June 2020)"
-	revision: "25"
+	date: "2021-01-08 15:42:52 GMT (Friday 8th January 2021)"
+	revision: "26"
 
 class
 	EIFFEL_CLASS
@@ -49,8 +49,6 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_XML
-
-	EL_SHARED_ONCE_ZSTRING
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 
@@ -268,9 +266,9 @@ feature {NONE} -- Implementation
 
 	sink_source_path (start_index, end_index: INTEGER; substring: ZSTRING; crc: like crc_generator)
 		local
-			l_name: ZSTRING
+			l_name: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			l_name := once_substring (substring, start_index, end_index)
+			l_name := buffer.copied_substring (substring, start_index, end_index)
 			l_name.left_adjust
 			if Class_source_table.has_key (l_name) then
 				crc.add_path (Class_source_table.found_item)

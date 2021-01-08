@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-02 9:21:45 GMT (Sunday 2nd June 2019)"
-	revision: "6"
+	date: "2021-01-08 18:07:07 GMT (Friday 8th January 2021)"
+	revision: "7"
 
 class
 	EL_THUNDERBIRD_XHTML_BODY_EXPORTER
@@ -103,11 +103,13 @@ feature {NONE} -- Implementation
 feature {NONE} -- Editing routines
 
 	check_h2_tag (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			s: EL_ZSTRING_ROUTINES
 		do
 			h2_list.extend (substring.substring (start_index, substring.count - 5))
 			if h2_list.last.has ('<') then
 --				Remove formatting markup from headers like: <h2>Introduction to <i>My Ching</i></h2>
-				h2_list.last.edit (character_string ('<'), character_string ('>'), agent remove_markup)
+				h2_list.last.edit (s.character_string ('<'), s.character_string ('>'), agent remove_markup)
 			end
 			substring.share (Anchor_template #$ [Html.anchor_name (h2_list.last), substring])
 		end

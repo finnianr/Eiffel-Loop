@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-07 9:58:55 GMT (Friday 7th August 2020)"
-	revision: "16"
+	date: "2021-01-08 18:04:27 GMT (Friday 8th January 2021)"
+	revision: "17"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -34,8 +34,6 @@ inherit
 
 	STRING_HANDLER
 
-	EL_ZSTRING_CONSTANTS
-
 create
 	make_shell
 
@@ -59,12 +57,12 @@ feature -- Basic operations
 			--
 		local
 			encrypter: like new_encrypter
-			text: ZSTRING
+			text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			lio.enter ("display_encrypted_text")
 			encrypter := new_encrypter (new_pass_phrase)
 			text := User_input.line ("Enter text")
-			text.replace_substring_all (Escaped_new_line, character_string ('%N'))
+			text.replace_substring_all (Escaped_new_line, s.character_string ('%N'))
 
 			lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
 			lio.put_new_line

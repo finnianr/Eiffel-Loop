@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:22 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-08 16:04:47 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	PP_L_VARIABLE
@@ -24,8 +24,6 @@ inherit
 		end
 
 	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_ONCE_STRING_8
 
 	PP_SHARED_L_VARIABLE_ENUM
 
@@ -85,14 +83,12 @@ feature -- Element change
 
 	set_from_string (a_name: ZSTRING)
 		local
-			i: INTEGER; l_name, l_index: STRING
+			i: INTEGER; l_name, l_index: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			from i := a_name.count until not a_name.item (i).is_digit loop
 				i := i - 1
 			end
-
-			l_name := once_empty_string_8
-			a_name.append_to_string_8 (l_name)
+			l_name := buffer.copied_general (a_name)
 
 			if i < a_name.count then
 				l_index := Once_index_string; l_index.wipe_out

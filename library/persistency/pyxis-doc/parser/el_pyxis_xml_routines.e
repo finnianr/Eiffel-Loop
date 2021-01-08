@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 13:53:53 GMT (Monday 30th November 2020)"
-	revision: "11"
+	date: "2021-01-08 17:36:51 GMT (Friday 8th January 2021)"
+	revision: "12"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_FILE_OPEN_ROUTINES
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Status query
 
@@ -58,7 +56,7 @@ feature -- Access
 
 	root_element (file_path: EL_FILE_PATH): ZSTRING
 		local
-			done: BOOLEAN
+			done: BOOLEAN; s: EL_ZSTRING_ROUTINES
 		do
 			create Result.make_empty
 			if attached open_lines (file_path, Latin_1) as lines then
@@ -68,7 +66,7 @@ feature -- Access
 						if not lines.item.starts_with (Pyxis_doc) then
 							done := True
 						end
-					elseif lines.item.ends_with (character_string (':')) then
+					elseif lines.item.ends_with (s.character_string (':')) then
 						Result := lines.item
 						Result.remove_tail (1)
 						done := True

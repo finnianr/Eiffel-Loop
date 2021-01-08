@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:59 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-08 15:49:54 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	TL_BYTE_VECTOR
@@ -19,8 +19,6 @@ inherit
 		end
 
 	TL_BYTE_VECTOR_CPP_API
-
-	EL_SHARED_ONCE_STRING_8
 
 	TL_SHARED_FRAME_ID_ENUM
 
@@ -111,9 +109,9 @@ feature -- Conversion
 
 	to_temporary_string (keep_ref: BOOLEAN): STRING
 		local
-			i, l_count: INTEGER
+			i, l_count: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_8
+			Result := buffer.empty
 			l_count := count
 			from i := 1 until i > l_count loop
 				Result.extend (i_th (i))

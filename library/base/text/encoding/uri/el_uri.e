@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:44:30 GMT (Tuesday 5th January 2021)"
-	revision: "21"
+	date: "2021-01-08 15:50:52 GMT (Friday 8th January 2021)"
+	revision: "22"
 
 class
 	EL_URI
@@ -36,8 +36,6 @@ inherit
 		redefine
 			make
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make_empty, make, make_from_general
@@ -379,8 +377,10 @@ feature {NONE} -- Implementation
 		end
 
 	substring (start_index, end_index: INTEGER; keep_ref: BOOLEAN): STRING
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_8
+			Result := buffer.empty
 			Result.append_substring (Current, start_index, end_index)
 			if keep_ref then
 				Result := Result.twin

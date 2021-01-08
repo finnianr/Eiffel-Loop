@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:17 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-08 16:06:50 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	FCGI_PARAMETER_RECORD
@@ -26,8 +26,6 @@ inherit
 		redefine
 			default_create, read_memory, write_memory, on_data_read, on_last_read
 		end
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	default_create
@@ -49,13 +47,13 @@ feature {NONE} -- Implementation
 	read_memory (memory: FCGI_MEMORY_READER_WRITER)
 		local
 			name_count, value_count: INTEGER
-			utf_8_str: STRING
+			utf_8_str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			name_count := memory.parameter_length
 			value_count := memory.parameter_length
 			read_name (memory, name_count)
 
-			utf_8_str := once_empty_string_8
+			utf_8_str := buffer.empty
 			memory.read_to_string_8 (utf_8_str, value_count)
 			value.wipe_out
 			value.append_utf_8 (utf_8_str)

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:55:18 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2021-01-08 16:36:27 GMT (Friday 8th January 2021)"
+	revision: "8"
 
 class
 	PP_DATE_TIME
@@ -40,51 +40,52 @@ create
 
 feature {EL_DATE_TEXT} -- Initialization
 
-	make (s: STRING)
+	make (str: STRING)
 		-- use either GMT format or PDT
 		local
 			spaces: EL_OCCURRENCE_INTERVALS [STRING]; l_zone: STRING
+			s: EL_STRING_8_ROUTINES
 		do
-			create spaces.make (s, character_string_8 (' '))
+			create spaces.make (str, s.character_string (' '))
 			inspect spaces.count
 				when 4 then
-					l_zone := s.substring (spaces.last_upper + 1, spaces.last_upper + 3)
+					l_zone := str.substring (spaces.last_upper + 1, spaces.last_upper + 3)
 				when 6 then
 					spaces.go_i_th (5)
-					l_zone := s.substring (spaces.item_upper + 1, spaces.item_upper + 3)
+					l_zone := str.substring (spaces.item_upper + 1, spaces.item_upper + 3)
 			else
 				l_zone := Empty_string_8
 			end
 			if UTC_adjust.has (l_zone) then
 				if l_zone ~ Zone_gmt then
-					make_from_gmt (s)
+					make_from_gmt (str)
 				else
-					make_from_zone (s, l_zone)
+					make_from_zone (str, l_zone)
 				end
 			else
 				make_now
 			end
 		end
 
-	make_from_gmt (s: STRING)
+	make_from_gmt (str: STRING)
 		-- make from example: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
 		require
-			has_6_spaces: s.occurrences (' ') = 6
-			gmt_zone: s.has_substring (Zone_gmt)
-			has_2_colons: s.occurrences (':') = 2
+			has_6_spaces: str.occurrences (' ') = 6
+			gmt_zone: str.has_substring (Zone_gmt)
+			has_2_colons: str.occurrences (':') = 2
 		do
-			make_from_zone_and_format (s, Zone_gmt, Format.date_time, 5)
+			make_from_zone_and_format (str, Zone_gmt, Format.date_time, 5)
 			-- 5 means ignore "Wed "
 		end
 
-	make_from_zone (s, a_zone: STRING)
+	make_from_zone (str, a_zone: STRING)
 		-- make from example "19:35:01 Apr 09, 2016 PST+1"
 		require
-			has_3_spaces: s.occurrences (' ') = 4
-			has_1_comma: s.occurrences (',') = 1
-			has_2_colons: s.occurrences (':') = 2
+			has_3_spaces: str.occurrences (' ') = 4
+			has_1_comma: str.occurrences (',') = 1
+			has_2_colons: str.occurrences (':') = 2
 		do
-			make_utc_from_zone_and_format (s, a_zone, Format.time_date, 1, UTC_adjust [a_zone])
+			make_utc_from_zone_and_format (str, a_zone, Format.time_date, 1, UTC_adjust [a_zone])
 		end
 
 feature -- Constants

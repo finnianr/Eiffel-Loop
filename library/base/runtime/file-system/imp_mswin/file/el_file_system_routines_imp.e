@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:15:11 GMT (Sunday 28th June 2020)"
-	revision: "10"
+	date: "2021-01-08 13:05:30 GMT (Friday 8th January 2021)"
+	revision: "11"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -20,11 +20,6 @@ inherit
 			copy as copy_object
 		end
 
-	EL_MODULE_ZSTRING
-		rename
-			copy as copy_object
-		end
-
 create
 	make
 
@@ -32,9 +27,9 @@ feature {NONE} -- Implementation
 
 	escaped_path (path: READABLE_STRING_GENERAL): ZSTRING
 		local
-			l_path: ZSTRING
+			l_path: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			l_path := Zstring.as_zstring (path)
+			l_path := s.as_zstring (path)
 			if l_path.has (' ') then
 				Result := l_path.quoted (2)
 			else

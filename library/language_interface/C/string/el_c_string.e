@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:45:46 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-08 15:17:55 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_C_STRING
@@ -32,8 +32,6 @@ inherit
 		undefine
 			default_create, is_equal, copy
 		end
-
-	EL_SHARED_ONCE_STRING_32
 
 feature -- Initialization
 
@@ -246,8 +244,10 @@ feature -- Conversion
 feature {NONE} -- Implementation
 
 	filled_string_32: STRING_32
+		local
+			buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			Result := once_empty_string_32
+			Result := buffer.empty
 			fill_string (Result)
 		end
 

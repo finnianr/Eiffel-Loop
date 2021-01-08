@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:46:48 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-01-08 16:08:27 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	CAD_MODEL
@@ -30,8 +30,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_TUPLE
-
-	EL_SHARED_ONCE_STRING_8
 
 create
 	make_from_file, make_from_json, make, make_partial
@@ -87,9 +85,10 @@ feature -- Access
 	as_json (keep_ref: BOOLEAN): STRING
 		local
 			vertice_index: like new_vertice_index_table
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			vertice_index := new_vertice_index_table
-			Result := once_empty_string_8
+			Result := buffer.empty
 --			{
 			Result.append_character ('{')
 --				"q":

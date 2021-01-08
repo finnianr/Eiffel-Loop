@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-25 9:13:31 GMT (Saturday 25th April 2020)"
-	revision: "8"
+	date: "2021-01-08 17:34:45 GMT (Friday 8th January 2021)"
+	revision: "9"
 
 class
 	SEQUENTIAL_INTERVALS_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Basic operations
 
@@ -30,10 +28,10 @@ feature -- Tests
 	test_item_count
 		local
 			str: ZSTRING; has_item_count_zero: BOOLEAN
-			list: EL_SEQUENTIAL_INTERVALS
+			list: EL_SEQUENTIAL_INTERVALS; s: EL_ZSTRING_ROUTINES
 		do
 			str := "A B C "
-			list := str.split_intervals (character_string (' '))
+			list := str.split_intervals (s.character_string (' '))
 			assert ("count is 4", list.count = 4)
 			list.finish
 			assert ("last item is empty", str.substring (list.item_lower, list.item_upper).is_empty)
