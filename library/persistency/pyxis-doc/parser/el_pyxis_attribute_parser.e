@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 11:58:28 GMT (Thursday 7th January 2021)"
-	revision: "9"
+	date: "2021-01-09 10:22:46 GMT (Saturday 9th January 2021)"
+	revision: "10"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PARSER
 
-	EL_PYXIS_ZTEXT_PATTERN_FACTORY
+	EL_PYXIS_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end

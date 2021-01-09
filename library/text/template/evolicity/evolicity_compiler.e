@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 8:51:20 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2021-01-09 10:15:07 GMT (Saturday 9th January 2021)"
+	revision: "11"
 
 class
 	EVOLICITY_COMPILER
@@ -635,7 +635,7 @@ feature {NONE} -- Implementation
 		require
 			start_position_is_left_bracket: tokens_matched.code (position) = Left_bracket
 		local
-			i: INTEGER; i_th_token: NATURAL_32; string_argument: ZSTRING
+			i: INTEGER; i_th_token: NATURAL_32; string_arg: ZSTRING
 			buffer: like Argument_buffer
 		do
 			buffer := Argument_buffer
@@ -643,9 +643,9 @@ feature {NONE} -- Implementation
 			from i := position + 1 until i > tokens_matched.count loop
 				i_th_token := tokens_matched.code (i)
 				if i_th_token = Quoted_string then
-					string_argument := source_text_for_token (i, tokens_matched)
-					string_argument.remove_quotes
-					buffer.extend (string_argument)
+					string_arg := source_text_for_token (i, tokens_matched)
+					string_arg.remove_quotes
+					buffer.extend (string_arg)
 
 				elseif i_th_token = Double_constant_token then
 					buffer.extend (source_text_for_token (i, tokens_matched).to_double)

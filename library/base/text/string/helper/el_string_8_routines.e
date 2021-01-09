@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:38:37 GMT (Friday 8th January 2021)"
-	revision: "15"
+	date: "2021-01-09 12:31:28 GMT (Saturday 9th January 2021)"
+	revision: "16"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -110,6 +110,21 @@ feature -- Measurement
 		-- count of latin-1 characters
 		do
 			Result := s.count
+		end
+
+	leading_occurences (s: READABLE_STRING_8; uc: CHARACTER_32): INTEGER
+		local
+			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
+		do
+			l_count := s.count
+			if attached cursor (s) as c then
+				l_area := c.area
+				offset := c.area_first_index
+			end
+			from until i = l_count or else l_area.item (i + offset).to_character_32 /= uc loop
+				i := i + 1
+			end
+			Result := i
 		end
 
 	leading_white_count (s: READABLE_STRING_8): INTEGER

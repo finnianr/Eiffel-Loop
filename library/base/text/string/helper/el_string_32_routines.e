@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:25:26 GMT (Friday 8th January 2021)"
-	revision: "17"
+	date: "2021-01-09 12:32:05 GMT (Saturday 9th January 2021)"
+	revision: "18"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -84,6 +84,21 @@ feature -- Measurement
 				end
 				i := i + 1
 			end
+		end
+
+	leading_occurences (s: READABLE_STRING_32; uc: CHARACTER_32): INTEGER
+		local
+			i, l_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_32]
+		do
+			l_count := s.count
+			if attached cursor (s) as c then
+				l_area := c.area
+				offset := c.area_first_index
+			end
+			from until i = l_count or else l_area.item (i + offset) /= uc loop
+				i := i + 1
+			end
+			Result := i
 		end
 
 	leading_white_count (s: STRING_32): INTEGER

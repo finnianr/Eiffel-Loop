@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-01-09 10:06:17 GMT (Saturday 9th January 2021)"
+	revision: "6"
 
 class
 	EL_LITERAL_CHAR_TP
@@ -16,7 +16,7 @@ inherit
 	EL_SINGLE_CHAR_TEXT_PATTERN
 
 create
-	make_from_character, make, make_with_action
+	make, make_with_action
 
 feature {NONE} -- Initialization
 
@@ -25,12 +25,6 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			code := a_code
-		end
-
-	make_from_character (character: CHARACTER_32)
-			--
-		do
-			make (character.code.to_natural_32)
 		end
 
 	make_with_action (a_code: like code; a_action: like actions.item)

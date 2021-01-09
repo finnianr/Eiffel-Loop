@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 18:08:22 GMT (Thursday 7th January 2021)"
-	revision: "25"
+	date: "2021-01-09 12:25:34 GMT (Saturday 9th January 2021)"
+	revision: "26"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -47,6 +47,10 @@ feature -- Measurement
 
 	latin_1_count (s: READABLE_STRING_GENERAL): INTEGER
 		-- count of latin-1 characters
+		deferred
+		end
+
+	leading_occurences (s: READABLE_STRING_GENERAL; c: CHARACTER_32): INTEGER
 		deferred
 		end
 
@@ -100,18 +104,12 @@ feature -- Conversion
 			Result := s.to_string_32
 		end
 
-	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): ANY
-		-- `str' converted to type `basic_type'
+	to_character_32 (str: READABLE_STRING_GENERAL): CHARACTER_32
 		require
-			convertible: is_convertible (str, basic_type)
-		local
-			to_basic_type: FUNCTION [READABLE_STRING_GENERAL, ANY]
+			is_character_32: is_character_32 (str)
 		do
-			if Conversion_table.has_key (basic_type) then
-				to_basic_type := Conversion_table.found_item.to_type
-				Result := to_basic_type (str)
-			else
-				create Result
+			if is_character_32 (str) then
+				Result := str.item (1)
 			end
 		end
 
@@ -124,12 +122,18 @@ feature -- Conversion
 			end
 		end
 
-	to_character_32 (str: READABLE_STRING_GENERAL): CHARACTER_32
+	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): ANY
+		-- `str' converted to type `basic_type'
 		require
-			is_character_32: is_character_32 (str)
+			convertible: is_convertible (str, basic_type)
+		local
+			to_basic_type: FUNCTION [READABLE_STRING_GENERAL, ANY]
 		do
-			if is_character_32 (str) then
-				Result := str.item (1)
+			if Conversion_table.has_key (basic_type) then
+				to_basic_type := Conversion_table.found_item.to_type
+				Result := to_basic_type (str)
+			else
+				create Result
 			end
 		end
 
@@ -170,7 +174,7 @@ feature -- Lists
 			Result := l_str.split (' ')
 		end
 
-feature -- Transformation
+feature -- Transformed
 
 	adjusted (str: S): S
 		local
@@ -196,13 +200,6 @@ feature -- Transformation
 			Result.append_code (left.natural_32_code)
 			append_to (Result, str)
 			Result.append_code (right.natural_32_code)
-		end
-
-	first_to_upper (str: STRING_GENERAL)
-		do
-			if not str.is_empty then
-				str.put_code (str.item (1).as_upper.natural_32_code, 1)
-			end
 		end
 
 	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): S
@@ -249,60 +246,18 @@ feature -- Transformation
 			end
 		end
 
-	left_adjust (str: S)
-		deferred
-		end
-
-	prune_all_leading (str: S; c: CHARACTER_32)
-		deferred
-		end
-
-	quoted (str: READABLE_STRING_GENERAL): S
-			--
-		do
-			Result := enclosed (str, '%"', '%"')
-		end
-
-	remove_bookends (str: S; ends: READABLE_STRING_GENERAL)
-			--
+	quoted (str: READABLE_STRING_GENERAL; quote_type: INTEGER): S
 		require
-			ends_has_2_characters: ends.count = 2
-		do
-			if str.item (1) = ends.item (1) then
-				str.keep_tail (str.count - 1)
-			end
-			if str.item (str.count) = ends.item (2) then
-				str.set_count (str.count - 1)
-			end
-		end
-
-	remove_double_quote (quoted_str: S)
-			--
-		do
-			remove_bookends (quoted_str, once "%"%"" )
-		end
-
-	remove_single_quote (quoted_str: S)
-			--
-		do
-			remove_bookends (quoted_str, once "''" )
-		end
-
-	replace_character (target: S; uc_old, uc_new: CHARACTER_32)
+			single_or_double: (1 |..| 2).has (quote_type)
 		local
-			i: INTEGER; code_old, code_new: NATURAL
+			c: CHARACTER
 		do
-			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
-			from i := 1 until i > target.count loop
-				if target.code (i) = code_old then
-					target.put_code (code_new, i)
-				end
-				i := i + 1
+			if quote_type = 1 then
+				c := '%''
+			else
+				c := '"'
 			end
-		end
-
-	right_adjust (str: S)
-		deferred
+			Result := enclosed (str, c, c)
 		end
 
 	spaces (width, count: INTEGER): S
@@ -314,39 +269,6 @@ feature -- Transformation
 			create Result.make (n)
 			from i := 1 until i > n loop
 				Result.append_code (32)
-				i := i + 1
-			end
-		end
-
-	translate (target, old_characters, new_characters: S)
-		do
-			translate_deleting_null_characters (target, old_characters, new_characters, False)
-		end
-
-	translate_and_delete (target, old_characters, new_characters: S)
-		do
-			translate_deleting_null_characters (target, old_characters, new_characters, True)
-		end
-
-	translate_deleting_null_characters (target, old_characters, new_characters: S; delete_null: BOOLEAN)
-		require
-			each_old_has_new: old_characters.count = new_characters.count
-		local
-			source: S; c, new_c: CHARACTER_32; i, index: INTEGER
-		do
-			source := target.twin
-			target.set_count (0)
-			from i := 1 until i > source.count loop
-				c := source [i]
-				index := old_characters.index_of (c, 1)
-				if index > 0 then
-					new_c := new_characters [index]
-					if delete_null implies new_c > '%U' then
-						target.append_code (new_c.natural_32_code)
-					end
-				else
-					target.append_code (c.natural_32_code)
-				end
 				i := i + 1
 			end
 		end
@@ -391,12 +313,104 @@ feature -- Transformation
 			end
 		end
 
+feature -- Transform
+
+	first_to_upper (str: STRING_GENERAL)
+		do
+			if not str.is_empty then
+				str.put_code (str.item (1).as_upper.natural_32_code, 1)
+			end
+		end
+
+	left_adjust (str: S)
+		deferred
+		end
+
+	prune_all_leading (str: S; c: CHARACTER_32)
+		deferred
+		end
+
+	remove_bookends (str: S; ends: READABLE_STRING_GENERAL)
+			--
+		require
+			ends_has_2_characters: ends.count = 2
+		do
+			if str.item (1) = ends.item (1) then
+				str.keep_tail (str.count - 1)
+			end
+			if str.item (str.count) = ends.item (2) then
+				str.set_count (str.count - 1)
+			end
+		end
+
+	remove_double_quote (quoted_str: S)
+			--
+		do
+			remove_bookends (quoted_str, once "%"%"" )
+		end
+
+	remove_single_quote (quoted_str: S)
+			--
+		do
+			remove_bookends (quoted_str, once "''" )
+		end
+
+	replace_character (target: S; uc_old, uc_new: CHARACTER_32)
+		local
+			i: INTEGER; code_old, code_new: NATURAL
+		do
+			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
+			from i := 1 until i > target.count loop
+				if target.code (i) = code_old then
+					target.put_code (code_new, i)
+				end
+				i := i + 1
+			end
+		end
+
+	right_adjust (str: S)
+		deferred
+		end
+
+	translate (target, old_characters, new_characters: S)
+		do
+			translate_deleting_null_characters (target, old_characters, new_characters, False)
+		end
+
+	translate_and_delete (target, old_characters, new_characters: S)
+		do
+			translate_deleting_null_characters (target, old_characters, new_characters, True)
+		end
+
+	translate_deleting_null_characters (target, old_characters, new_characters: S; delete_null: BOOLEAN)
+		require
+			each_old_has_new: old_characters.count = new_characters.count
+		local
+			source: S; c, new_c: CHARACTER_32; i, index: INTEGER
+		do
+			source := target.twin
+			target.set_count (0)
+			from i := 1 until i > source.count loop
+				c := source [i]
+				index := old_characters.index_of (c, 1)
+				if index > 0 then
+					new_c := new_characters [index]
+					if delete_null implies new_c > '%U' then
+						target.append_code (new_c.natural_32_code)
+					end
+				else
+					target.append_code (c.natural_32_code)
+				end
+				i := i + 1
+			end
+		end
+
 feature -- Status query
 
 	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := has_enclosing (s, once "%"%"")
+			Result := has_quotes (s, 2)
 		end
 
 	has_enclosing (s, ends: READABLE_STRING_GENERAL): BOOLEAN
@@ -408,10 +422,34 @@ feature -- Status query
 				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
 		end
 
+	has_quotes (s: READABLE_STRING_GENERAL; type: INTEGER): BOOLEAN
+		require
+			double_or_single: 1 <= type and type <= 2
+		local
+			quote_code: NATURAL
+		do
+			if type = 1 then
+				quote_code := ('%'').natural_32_code
+			else
+				quote_code := ('"').natural_32_code
+			end
+			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
+		end
+
 	has_single_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := has_enclosing (s, once "''")
+			Result := has_quotes (s, 1)
+		end
+
+	is_character_32 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := str.count = 1
+		end
+
+	is_character_8 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := str.count = 1 and then str.code (1) <= 0xFF
 		end
 
 	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
@@ -449,16 +487,6 @@ feature -- Status query
 	is_word (str: S): BOOLEAN
 		do
 			Result := not str.is_empty
-		end
-
-	is_character_8 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := str.count = 1 and then str.code (1) <= 0xFF
-		end
-
-	is_character_32 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := str.count = 1
 		end
 
 feature {NONE} -- Constants

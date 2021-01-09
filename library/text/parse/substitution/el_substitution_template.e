@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-23 16:23:56 GMT (Thursday 23rd January 2020)"
-	revision: "15"
+	date: "2021-01-09 10:18:25 GMT (Saturday 9th January 2021)"
+	revision: "16"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -20,7 +20,7 @@ inherit
 	EL_SUBST_VARIABLE_PARSER
 		rename
 			set_source_text as set_parser_text,
-			new_string as new_zstring
+			zstring_argument as new_zstring
 		export
 			{NONE} all
 		redefine

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:42:38 GMT (Sunday 3rd January 2021)"
-	revision: "11"
+	date: "2021-01-09 10:07:58 GMT (Saturday 9th January 2021)"
+	revision: "12"
 
 class
 	EROS_CALL_REQUEST_PARSER
@@ -156,7 +156,7 @@ feature {NONE} -- Syntax grammar
 	right_bracket: EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make_from_character (')')
+			create Result.make (character_to_z_code (')'))
 		end
 
 	single_quote: EL_LITERAL_CHAR_TP

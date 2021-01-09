@@ -6,21 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:42:49 GMT (Saturday 2nd January 2021)"
-	revision: "5"
+	date: "2021-01-09 10:18:25 GMT (Saturday 9th January 2021)"
+	revision: "6"
 
 class
 	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
 
 inherit
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
+		rename
+			unicode as z_code,
+			character_to_unicode as character_to_z_code,
+			string_argument as zstring_argument
 		undefine
 			alphanumeric,
-			character_code_literal, character_literal, character_in_range,
+			character_to_z_code,
 			digit, letter, lowercase_letter,
 			non_breaking_white_space_character,
-			one_character_from, string_literal, string_literal_caseless, uppercase_letter,
-			white_space_character
+			zstring_argument,
+			uppercase_letter,
+			white_space_character,
+			z_code
 		end
 
 	EL_ZTEXT_PATTERN_FACTORY

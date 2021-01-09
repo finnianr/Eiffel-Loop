@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:35:33 GMT (Sunday 3rd January 2021)"
-	revision: "8"
+	date: "2021-01-09 16:16:28 GMT (Saturday 9th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_PARSER
@@ -41,6 +41,14 @@ feature -- Element change
 		do
 			source_view := pattern.new_text_view (a_source_text)
  			reset
+		end
+
+	set_source_text_from_substring (a_source_text: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
+			--
+		do
+			set_source_text (a_source_text)
+			source_view.prune_leading (start_index - 1)
+			source_view.set_count (end_index - start_index + 1)
 		end
 
 	set_unmatched_action (a_unmatched_action: like default_action)

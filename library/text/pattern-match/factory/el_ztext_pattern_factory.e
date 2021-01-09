@@ -6,21 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:20:36 GMT (Saturday 2nd January 2021)"
-	revision: "8"
+	date: "2021-01-09 10:20:16 GMT (Saturday 9th January 2021)"
+	revision: "9"
 
 class
 	EL_ZTEXT_PATTERN_FACTORY
 
 inherit
 	EL_TEXT_PATTERN_FACTORY
+		rename
+			unicode as z_code,
+			character_to_unicode as character_to_z_code,
+			string_argument as zstring_argument
 		redefine
 			alphanumeric,
-			character_code_literal, character_literal, character_in_range,
+			character_to_z_code,
 			digit, letter, lowercase_letter,
 			non_breaking_white_space_character,
-			one_character_from, string_literal, string_literal_caseless, uppercase_letter,
-			white_space_character
+			zstring_argument,
+			uppercase_letter,
+			white_space_character, z_code
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -31,24 +36,6 @@ feature -- Basic patterns
 			--
 		do
 			create Result.make
-		end
-
-	character_code_literal (code: NATURAL): EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make (z_code (code))
-		end
-
-	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make (character_to_z_code (literal))
-		end
-
-	character_in_range (from_chr, to_chr: CHARACTER): EL_MATCH_CHAR_IN_ASCII_RANGE_TP
-			--
-		do
-			create Result.make (character_to_z_code (from_chr), character_to_z_code (to_chr))
 		end
 
 	digit: EL_NUMERIC_Z_CHAR_TP
@@ -75,24 +62,6 @@ feature -- Basic patterns
 			create Result.make
 		end
 
-	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_ANY_CHAR_IN_SET_TP
-			--
-		do
-			create Result.make (new_string (a_character_set))
-		end
-
-	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
-			--
-		do
-			create Result.make_from_string (new_string (a_text))
-		end
-
-	string_literal_caseless (a_text: READABLE_STRING_GENERAL): EL_CASE_INSENSITIVE_LITERAL_TEXT_PATTERN
-		-- case insensitive match of `a_text'
-		do
-			create Result.make_from_string (new_string (a_text))
-		end
-
 	uppercase_letter: EL_UPPERCASE_ALPHA_Z_CHAR_TP
 			--
 		do
@@ -107,13 +76,9 @@ feature -- Basic patterns
 
 feature {NONE} -- Implementation
 
-	new_string (str: READABLE_STRING_GENERAL): EL_ZSTRING
+	zstring_argument (str: READABLE_STRING_GENERAL): EL_ZSTRING
 		do
-			if attached {EL_ZSTRING} str as zstr then
-				Result := zstr
-			else
-				create Result.make_from_general (str)
-			end
+			create Result.make_from_general (str)
 		end
 
 	z_code (code: NATURAL): NATURAL
@@ -123,7 +88,7 @@ feature {NONE} -- Implementation
 
 	character_to_z_code (uc: CHARACTER_32): NATURAL
 		do
-			Result := z_code (uc.natural_32_code)
+			Result := Codec.as_z_code (uc)
 		end
 
 end

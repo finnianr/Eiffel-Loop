@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 12:00:27 GMT (Thursday 7th January 2021)"
-	revision: "6"
+	date: "2021-01-09 10:33:08 GMT (Saturday 9th January 2021)"
+	revision: "7"
 
 class
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
 
 feature {NONE} -- Implementation
 
-	attribute_value (object: ANY): EL_ZSTRING
+	attribute_value (object: ANY): STRING
 		local
 			quote_mark: CHARACTER; i: INTEGER
 		do
@@ -23,10 +23,9 @@ feature {NONE} -- Implementation
 
 			elseif attached {STRING} object as string then
 				Result := string
---				Result.replace_substring_all ("%N", "\n")
 				i := Result.index_of ('%N', 1)
 				if i > 0 then
-					Result.replace_substring_general ("\n", i, i)
+					Result.replace_substring ("\n", i, i)
 				end
 				if Result.has ('"') then
 					quote_mark := '%''
@@ -51,7 +50,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Attribute_table: HASH_TABLE [ANY, ZSTRING]
+	Attribute_table: HASH_TABLE [ANY, STRING]
 		once
 			create Result.make_equal (10)
 			Result ["double"] := 1.5
@@ -61,7 +60,7 @@ feature -- Constants
 			Result ["string_2"] := "one%"two"
 		end
 
-	Attributes_source_line: ZSTRING
+	Attributes_source_line: STRING
 		once
 			create Result.make (50)
 			across Attribute_table as table loop
@@ -74,7 +73,7 @@ feature -- Constants
 			end
 		end
 
-	Attributes_comma_separated_values: ZSTRING
+	Attributes_comma_separated_values: STRING
 		once
 			create Result.make (50)
 			across Attribute_table as table loop

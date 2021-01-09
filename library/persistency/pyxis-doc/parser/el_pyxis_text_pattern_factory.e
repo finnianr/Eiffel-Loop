@@ -1,19 +1,19 @@
 note
-	description: "Pyxis ztext pattern factory"
+	description: "Pyxis text pattern factory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
-	revision: "6"
+	date: "2021-01-09 10:23:14 GMT (Saturday 9th January 2021)"
+	revision: "7"
 
 class
-	EL_PYXIS_ZTEXT_PATTERN_FACTORY
+	EL_PYXIS_TEXT_PATTERN_FACTORY
 
 inherit
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 feature {NONE} -- Pattern definitions		
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 13:18:09 GMT (Monday 13th January 2020)"
-	revision: "6"
+	date: "2021-01-09 10:17:23 GMT (Saturday 9th January 2021)"
+	revision: "7"
 
 class
 	EL_TEXT_PATTERN_FACTORY
@@ -62,16 +62,16 @@ feature -- Recursive patterns
 
 feature -- Bounded occurrences
 
-	optional (optional_pattern: EL_TEXT_PATTERN): EL_MATCH_COUNT_WITHIN_BOUNDS_TP
-			--
-		do
-			Result := optional_pattern #occurs (0 |..| 1)
-		end
-
 	one_or_more (repeated_pattern: EL_TEXT_PATTERN): EL_MATCH_ONE_OR_MORE_TIMES_TP
 			--
 		do
 			create Result.make (repeated_pattern)
+		end
+
+	optional (optional_pattern: EL_TEXT_PATTERN): EL_MATCH_COUNT_WITHIN_BOUNDS_TP
+			--
+		do
+			Result := optional_pattern #occurs (0 |..| 1)
 		end
 
 	repeat_p1_until_p2 (p1, p2: EL_TEXT_PATTERN ): EL_MATCH_P1_UNTIL_P2_MATCH_TP
@@ -109,19 +109,19 @@ feature -- Basic patterns
 	character_code_literal (code: NATURAL_32): EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make (code)
+			create Result.make (unicode (code))
 		end
 
 	character_in_range (from_chr, to_chr: CHARACTER): EL_MATCH_CHAR_IN_ASCII_RANGE_TP
 			--
 		do
-			create Result.make (from_chr.code.to_natural_32, to_chr.code.to_natural_32)
+			create Result.make (character_to_unicode (from_chr), character_to_unicode (to_chr))
 		end
 
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make_from_character (literal)
+			create Result.make (character_to_unicode (literal))
 		end
 
 	digit: EL_NUMERIC_CHAR_TP
@@ -157,7 +157,7 @@ feature -- Basic patterns
 	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_ANY_CHAR_IN_SET_TP
 			--
 		do
-			create Result.make (a_character_set)
+			create Result.make (string_argument (a_character_set))
 		end
 
 	previously_matched (pattern: EL_TEXT_PATTERN): EL_BACK_REFERENCE_MATCH_TP
@@ -175,13 +175,13 @@ feature -- Basic patterns
 	string_literal (a_text: READABLE_STRING_GENERAL): EL_LITERAL_TEXT_PATTERN
 			--
 		do
-			create Result.make_from_string (a_text)
+			create Result.make_from_string (string_argument (a_text))
 		end
 
 	string_literal_caseless (a_text: READABLE_STRING_GENERAL): EL_CASE_INSENSITIVE_LITERAL_TEXT_PATTERN
 		-- case insensitive match of `a_text'
 		do
-			create Result.make_from_string (a_text)
+			create Result.make_from_string (string_argument (a_text))
 		end
 
 	token (a_token_id: NATURAL_32): EL_LITERAL_CHAR_TP
@@ -222,16 +222,16 @@ feature -- Derived character patterns
 			Result := one_or_more (digit)
 		end
 
-	maybe_white_space: like zero_or_more
-			-- Matches even if no white space found
-		do
-			Result := zero_or_more (white_space_character)
-		end
-
 	maybe_non_breaking_white_space: like zero_or_more
 			-- Matches even if no white space found
 		do
 			Result := zero_or_more (non_breaking_white_space_character)
+		end
+
+	maybe_white_space: like zero_or_more
+			-- Matches even if no white space found
+		do
+			Result := zero_or_more (white_space_character)
 		end
 
 	non_breaking_white_space: like one_or_more
@@ -266,30 +266,6 @@ feature -- Derived character patterns
 
 feature -- Quoted patterns
 
-	encased_with_characters (pattern: EL_TEXT_PATTERN; bookend_characters: STRING): like all_of
-			--
-		require
-			bookend_characters_has_count_of_two: bookend_characters.count = 2
-		do
-			Result := all_of (<<
-				character_code_literal (bookend_characters.code (1)),
-				pattern,
-				character_code_literal (bookend_characters.code (2))
-			>>)
-		end
-
-	quoted_string (escape_sequence: EL_TEXT_PATTERN; a_action: like Default_action): like all_of
-			--
-		do
-			Result := bookended_string (escape_sequence, "%"%"", a_action)
-		end
-
-	single_quoted_string (escape_sequence: EL_TEXT_PATTERN; a_action: like Default_action): like all_of
-			--
-		do
-			Result := bookended_string (escape_sequence, "''", a_action)
-		end
-
 	bookended_string (
 		escape_sequence: EL_TEXT_PATTERN; bookends: STRING; a_action: like Default_action
 	): like all_of
@@ -309,6 +285,18 @@ feature -- Quoted patterns
 			characters_plus_end_quote.set_action_combined_p2 (a_action)
 		end
 
+	encased_with_characters (pattern: EL_TEXT_PATTERN; bookend_characters: STRING): like all_of
+			--
+		require
+			bookend_characters_has_count_of_two: bookend_characters.count = 2
+		do
+			Result := all_of (<<
+				character_code_literal (bookend_characters.code (1)),
+				pattern,
+				character_code_literal (bookend_characters.code (2))
+			>>)
+		end
+
 	quoted_character (escape_sequence: EL_TEXT_PATTERN; a_action: like Default_action): like all_of
 			--
 		local
@@ -319,9 +307,38 @@ feature -- Quoted patterns
 			Result := all_of (<< single_quote, unquoted_character, single_quote >>)
 		end
 
+	quoted_string (escape_sequence: EL_TEXT_PATTERN; a_action: like Default_action): like all_of
+			--
+		do
+			Result := bookended_string (escape_sequence, "%"%"", a_action)
+		end
+
 	single_quote: like character_literal
 		do
 			Result := character_literal ('%'')
+		end
+
+	single_quoted_string (escape_sequence: EL_TEXT_PATTERN; a_action: like Default_action): like all_of
+			--
+		do
+			Result := bookended_string (escape_sequence, "''", a_action)
+		end
+
+feature {NONE} -- Implementation
+
+	unicode (code: NATURAL): NATURAL
+		do
+			Result := code
+		end
+
+	character_to_unicode (uc: CHARACTER_32): NATURAL
+		do
+			Result := uc.natural_32_code
+		end
+
+	string_argument (str: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			Result := str
 		end
 
 feature {NONE} -- Constants

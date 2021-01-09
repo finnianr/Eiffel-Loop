@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:39:07 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2021-01-09 13:20:44 GMT (Saturday 9th January 2021)"
+	revision: "9"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -20,7 +20,9 @@ inherit
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
 
-			{ANY} append_count_from_c, count, wipe_out, share, set_from_general,
+			{ANY} count, wipe_out, share, set_from_general,
+					-- Element change
+					append, append_character, append_count_from_c, append_substring, prepend,
 					-- Status query
 					has, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine

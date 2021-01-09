@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 14:50:55 GMT (Thursday 7th January 2021)"
-	revision: "4"
+	date: "2021-01-09 10:32:14 GMT (Saturday 9th January 2021)"
+	revision: "5"
 
 class
 	PYXIS_PARSER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_PYXIS_ZTEXT_PATTERN_FACTORY
+	EL_PYXIS_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		undefine
@@ -45,7 +45,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_TEXT_PATTERN}.find_all"
 		local
-			pattern: EL_TEXT_PATTERN; comma_separated_list: EL_ZSTRING
+			pattern: EL_TEXT_PATTERN; comma_separated_list: STRING
 		do
 			create comma_separated_list.make_empty
 			pattern := pyxis_assignment (comma_separated_list)
@@ -58,7 +58,7 @@ feature -- Tests
 			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER
-			table: like Attribute_table; name: ZSTRING
+			table: like Attribute_table; name: STRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 			l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 		do
@@ -111,7 +111,7 @@ feature -- Tests
 
 feature {NONE} -- Patterns
 
-	pyxis_assignment (comma_separated_list: EL_ZSTRING): like all_of
+	pyxis_assignment (comma_separated_list: STRING): like all_of
 			--
 		do
 			Result := all_of ( <<
@@ -128,9 +128,9 @@ feature {NONE} -- Patterns
 
 feature {NONE} -- Parse events handlers
 
-	on_quoted_value (matched: EL_STRING_VIEW; is_double_quote: BOOLEAN; comma_separated_list: EL_ZSTRING)
+	on_quoted_value (matched: EL_STRING_VIEW; is_double_quote: BOOLEAN; comma_separated_list: STRING)
 		local
-			quote_count: INTEGER
+			quote_count: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			if is_double_quote then
 				quote_count := 2
@@ -140,20 +140,20 @@ feature {NONE} -- Parse events handlers
 			if not comma_separated_list.is_empty then
 				comma_separated_list.append_character (',')
 			end
-			comma_separated_list.append_string (matched.to_string.quoted (quote_count))
+			comma_separated_list.append_string (s.quoted (matched.to_string_8, quote_count))
 		end
 
-	on_unmatched_text (matched: EL_STRING_VIEW; source: EL_ZSTRING)
+	on_unmatched_text (matched: EL_STRING_VIEW; source: STRING)
 		do
-			source.append_string (matched.to_string)
+			source.append_string (matched.to_string_8)
 		end
 
-	on_value (matched: EL_STRING_VIEW; comma_separated_list: EL_ZSTRING)
+	on_value (matched: EL_STRING_VIEW; comma_separated_list: STRING)
 		do
 			if not comma_separated_list.is_empty then
 				comma_separated_list.append_character (',')
 			end
-			comma_separated_list.append_string (matched.to_string)
+			comma_separated_list.append_string (matched.to_string_8)
 		end
 
 feature {NONE} -- Constants
