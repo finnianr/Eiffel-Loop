@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-01-10 13:23:50 GMT (Sunday 10th January 2021)"
+	revision: "5"
 
 class
 	JOB_DURATION_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_FILE_PARSER
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end

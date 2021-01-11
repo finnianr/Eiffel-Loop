@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 14:19:58 GMT (Thursday 7th January 2021)"
-	revision: "8"
+	date: "2021-01-10 14:57:40 GMT (Sunday 10th January 2021)"
+	revision: "9"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
@@ -17,13 +17,12 @@ inherit
 		rename
 			make as make_list,
 			item as node,
-			last as last_node,
 			extend as extend_list,
 			wipe_out as reset
 		export
 			{NONE} all
 			{ANY} default_pointer,
-				start, after, forth, count, node, is_empty, i_th, first, last_node, index, go_i_th, reset
+				start, after, forth, count, node, is_empty, i_th, first, last, index, go_i_th, reset
 
 		redefine
 			all_default

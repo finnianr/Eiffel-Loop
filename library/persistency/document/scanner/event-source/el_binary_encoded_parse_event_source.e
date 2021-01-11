@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 17:45:05 GMT (Thursday 7th January 2021)"
-	revision: "17"
+	date: "2021-01-10 14:58:07 GMT (Sunday 10th January 2021)"
+	revision: "18"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -86,13 +86,13 @@ feature {NONE} -- Parse action handlers
 			--
 		do
 			attribute_list.extend
-			set_name_from_stream (attribute_list.last_node.raw_name, index_or_count, is_index)
+			set_name_from_stream (attribute_list.last.raw_name, index_or_count, is_index)
 		end
 
 	on_attribute_text_code (count: INTEGER)
 			--
 		do
-			set_string_from_stream (attribute_list.last_node, count)
+			set_string_from_stream (attribute_list.last, count)
 		end
 
 	on_text_code (count: INTEGER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:40:49 GMT (Friday 14th June 2019)"
-	revision: "6"
+	date: "2021-01-10 13:04:07 GMT (Sunday 10th January 2021)"
+	revision: "7"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -20,7 +20,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
@@ -209,6 +209,8 @@ feature {NONE} -- Constants
 		echo FINISHED!
 		pause
 	]"
+
+	Is_zstring_source: BOOLEAN = True
 
 	Praat_source: ZSTRING
 		once

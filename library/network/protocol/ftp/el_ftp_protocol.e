@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:08:40 GMT (Tuesday 5th January 2021)"
-	revision: "16"
+	date: "2021-01-10 13:41:25 GMT (Sunday 10th January 2021)"
+	revision: "17"
 
 class
 	EL_FTP_PROTOCOL
@@ -26,11 +26,6 @@ inherit
 			close, open
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
-		undefine
-			is_equal
-		end
-
 	EL_MODULE_EXCEPTION
 
 	EL_MODULE_FTP_COMMAND
@@ -46,16 +41,6 @@ create
 
 feature {EL_FTP_SYNC} -- Initialization
 
-	make_write (a_address: like address)
-		do
-			make (a_address, Write_mode_id)
-		end
-
-	make_read (a_address: like address)
-		do
-			make (a_address, Read_mode_id)
-		end
-
 	make (a_address: like address; a_mode: INTEGER)
 			-- Create protocol.
 		do
@@ -69,8 +54,18 @@ feature {EL_FTP_SYNC} -- Initialization
 			create authenticator.make (Current)
 			create current_directory
 			set_binary_mode
-			create reply_parser.make_with_delimiter (ftp_reply_pattern)
+			create reply_parser.make
 			make_protocol (Default_url)
+		end
+
+	make_read (a_address: like address)
+		do
+			make (a_address, Read_mode_id)
+		end
+
+	make_write (a_address: like address)
+		do
+			make (a_address, Write_mode_id)
 		end
 
 feature -- Access
@@ -343,6 +338,14 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			end
 		end
 
+	authenticate
+			-- Log in to server.
+		require
+			opened: is_open
+		do
+			is_logged_in := send_username and then send_password
+		end
+
 	get_current_directory: EL_DIR_PATH
 		do
 			send (Ftp_command.Print_working_directory, << >>)
@@ -350,7 +353,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			Result.change_to_unix
 			reply_parser.set_source_text (last_reply)
 			reply_parser.do_all
-			Result := last_ftp_cmd_result
+			Result := reply_parser.last_ftp_cmd_result
 			Result.change_to_unix
 		end
 
@@ -393,66 +396,13 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			end
 		end
 
-	authenticate
-			-- Log in to server.
-		require
-			opened: is_open
-		do
-			is_logged_in := send_username and then send_password
-		end
-
 feature {NONE} -- Internal attributes
-
-	last_ftp_cmd_result: STRING
-
-	last_reply_code: INTEGER
 
 	authenticator: EL_FTP_AUTHENTICATOR
 
-feature {NONE} -- Implementation: parsing
+feature {NONE} -- Internal attributes
 
-	double_quote: EL_LITERAL_CHAR_TP
-			--
-		do
-			create Result.make ({ASCII}.Doublequote.to_natural_32)
-		end
-
-	ftp_reply_pattern: like all_of
-			--
-		do
-			Result := all_of (<<
-				start_of_line,
-				integer |to| agent on_reply_code,
-				optional (all_of (<< non_breaking_white_space, quoted_string_pattern >> ))
-			>> )
-		end
-
-	on_ftp_cmd_result (quoted_text: EL_STRING_VIEW)
-			--
-		do
-			last_ftp_cmd_result := quoted_text
-		end
-
-	on_reply_code (reply_code_str: EL_STRING_VIEW)
-			--
-		do
-			last_reply_code := reply_code_str.to_string_8.to_integer
-		end
-
-	quoted_string_pattern: like all_of
-			-- Quoted string with embedded double-quotes escaped by double-quotes
-		do
-			Result := all_of (<<
-				double_quote,
-				zero_or_more (
-					one_of ( << string_literal ("%"%""), not double_quote >> )
-				) |to| agent on_ftp_cmd_result,
-
-				double_quote
-			>> )
-		end
-
-	reply_parser: EL_SOURCE_TEXT_PROCESSOR
+	reply_parser: EL_FTP_REPLY_PARSER
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:38:26 GMT (Saturday 2nd January 2021)"
-	revision: "8"
+	date: "2021-01-10 12:58:40 GMT (Sunday 10th January 2021)"
+	revision: "9"
 
 class
 	CODE_HIGHLIGHTING_TRANSFORMER
@@ -23,7 +23,7 @@ inherit
 			make as make_machine
 		end
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 	EL_EIFFEL_CONSTANTS
 

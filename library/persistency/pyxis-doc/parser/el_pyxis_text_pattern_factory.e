@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:23:14 GMT (Saturday 9th January 2021)"
-	revision: "7"
+	date: "2021-01-10 12:27:45 GMT (Sunday 10th January 2021)"
+	revision: "8"
 
-class
+deferred class
 	EL_PYXIS_TEXT_PATTERN_FACTORY
 
 inherit

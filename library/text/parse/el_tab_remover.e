@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-01-10 13:30:54 GMT (Sunday 10th January 2021)"
+	revision: "4"
 
 class
 	EL_TAB_REMOVER
@@ -19,7 +19,7 @@ inherit
 			new_pattern as line_pattern
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 create
 	make

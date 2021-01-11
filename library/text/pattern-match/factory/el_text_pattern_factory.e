@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:17:23 GMT (Saturday 9th January 2021)"
-	revision: "7"
+	date: "2021-01-10 12:57:10 GMT (Sunday 10th January 2021)"
+	revision: "8"
 
-class
+deferred class
 	EL_TEXT_PATTERN_FACTORY
+
+inherit
+	ANY EL_SHARED_ZSTRING_CODEC
 
 feature -- Recursive patterns
 
@@ -97,7 +100,11 @@ feature -- Basic patterns
 	alphanumeric: EL_ALPHANUMERIC_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_ALPHANUMERIC_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	any_character: EL_MATCH_ANY_CHAR_TP
@@ -109,25 +116,29 @@ feature -- Basic patterns
 	character_code_literal (code: NATURAL_32): EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make (unicode (code))
+			create Result.make (code_argument (code))
 		end
 
 	character_in_range (from_chr, to_chr: CHARACTER): EL_MATCH_CHAR_IN_ASCII_RANGE_TP
 			--
 		do
-			create Result.make (character_to_unicode (from_chr), character_to_unicode (to_chr))
+			create Result.make (character_argument (from_chr), character_argument (to_chr))
 		end
 
 	character_literal (literal: CHARACTER_32): EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make (character_to_unicode (literal))
+			create Result.make (character_argument (literal))
 		end
 
 	digit: EL_NUMERIC_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_NUMERIC_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	end_of_line_character: EL_END_OF_LINE_CHAR_TP
@@ -139,19 +150,31 @@ feature -- Basic patterns
 	letter: EL_ALPHA_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_ALPHA_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	lowercase_letter: EL_LOWERCASE_ALPHA_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_LOWERCASE_ALPHA_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	non_breaking_white_space_character: EL_NON_BREAKING_WHITE_SPACE_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_NON_BREAKING_WHITE_SPACE_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	one_character_from (a_character_set: READABLE_STRING_GENERAL): EL_MATCH_ANY_CHAR_IN_SET_TP
@@ -193,13 +216,21 @@ feature -- Basic patterns
 	uppercase_letter: EL_UPPERCASE_ALPHA_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_UPPERCASE_ALPHA_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 	white_space_character: EL_WHITE_SPACE_CHAR_TP
 			--
 		do
-			create Result.make
+			if is_zstring_source then
+				create {EL_WHITE_SPACE_Z_CHAR_TP} Result.make
+			else
+				create Result.make
+			end
 		end
 
 feature -- Derived character patterns
@@ -326,19 +357,35 @@ feature -- Quoted patterns
 
 feature {NONE} -- Implementation
 
-	unicode (code: NATURAL): NATURAL
-		do
-			Result := code
+	is_zstring_source: BOOLEAN
+		deferred
 		end
 
-	character_to_unicode (uc: CHARACTER_32): NATURAL
+	code_argument (code: NATURAL): NATURAL
 		do
-			Result := uc.natural_32_code
+			if is_zstring_source then
+				Result := Codec.as_z_code (code.to_character_32)
+			else
+				Result := code
+			end
+		end
+
+	character_argument (uc: CHARACTER_32): NATURAL
+		do
+			if is_zstring_source then
+				Result := Codec.as_z_code (uc)
+			else
+				Result := uc.natural_32_code
+			end
 		end
 
 	string_argument (str: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
-			Result := str
+			if is_zstring_source then
+				create {EL_ZSTRING} Result.make_from_general (str)
+			else
+				Result := str
+			end
 		end
 
 feature {NONE} -- Constants

@@ -1,21 +1,21 @@
 note
-	description: "Text parser test set"
+	description: "First text parser test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 17:38:00 GMT (Monday 4th January 2021)"
-	revision: "11"
+	date: "2021-01-10 13:56:35 GMT (Sunday 10th January 2021)"
+	revision: "12"
 
 class
-	TEXT_PARSER_TEST_SET
+	TEXT_PARSER_TEST_SET_1
 
 inherit
 	EL_EQA_TEST_SET
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		undefine
 			default_create
 		end
@@ -267,6 +267,8 @@ feature {NONE} -- Constants
 				HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
 			]"
 		end
+
+	Is_zstring_source: BOOLEAN = True
 
 	Name_susan: ZSTRING
 		once

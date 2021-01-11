@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:33:08 GMT (Saturday 9th January 2021)"
-	revision: "7"
+	date: "2021-01-10 12:00:34 GMT (Sunday 10th January 2021)"
+	revision: "8"
 
 class
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 				Result := number_to_string (l_double)
 
 			elseif attached {STRING} object as string then
-				Result := string
+				Result := string.twin
 				i := Result.index_of ('%N', 1)
 				if i > 0 then
 					Result.replace_substring ("\n", i, i)

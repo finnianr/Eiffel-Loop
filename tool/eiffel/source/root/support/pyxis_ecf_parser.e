@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2021-01-10 13:22:25 GMT (Sunday 10th January 2021)"
+	revision: "4"
 
 class
 	PYXIS_ECF_PARSER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PYXIS_PARSER
 		redefine
-			do_with_lines
+			parse_from_file
 		end
 
 create
@@ -23,20 +23,21 @@ create
 
 feature {NONE} -- Implementation
 
-	do_with_lines (initial: like state; sequence: LINEAR [ZSTRING])
+	parse_from_file (file: PLAIN_TEXT_FILE)
 		-- expand namespace shorthand:
 		-- configuration_ns = "x-x-x"
 		local
-			lines, ns_lines: EL_ZSTRING_LIST; last_quote_pos, first_quote_pos, semi_colon_pos: INTEGER
-			str, eiffel_url, attributes: ZSTRING
+			ns_lines: EL_STRING_8_LIST; last_quote_pos, first_quote_pos, semi_colon_pos: INTEGER
+			str, eiffel_url, attributes: STRING; xml_ns: ZSTRING
 		do
-			create lines.make (50)
-			from sequence.start until sequence.after loop
-				str := sequence.item
+			reset
+			from until file.end_of_file loop
+				file.read_line
+				str := file.last_string
 				if str.starts_with (Configuration_ns) then
 					semi_colon_pos := str.index_of (';', 1)
 					if semi_colon_pos > 0 then
-						attributes := str.substring_end (semi_colon_pos + 1)
+						attributes := str.substring (semi_colon_pos + 1, str.count)
 						attributes.left_adjust
 						str := str.substring (1, semi_colon_pos - 1)
 					else
@@ -45,28 +46,28 @@ feature {NONE} -- Implementation
 					last_quote_pos := str.last_index_of ('"', str.count)
 					first_quote_pos := str.last_index_of ('"', last_quote_pos - 1)
 					eiffel_url := Eiffel_configuration + str.substring (first_quote_pos + 1, last_quote_pos - 1)
-					create ns_lines.make_with_lines (Xml_ns_template #$ [eiffel_url, eiffel_url, eiffel_url])
+					xml_ns := Xml_ns_template #$ [eiffel_url, eiffel_url, eiffel_url]
+					create ns_lines.make_with_lines (xml_ns.to_latin_1)
 					if not attributes.is_empty then
 						ns_lines.extend (attributes)
 					end
 					ns_lines.indent (1)
-					lines.append (ns_lines)
+					ns_lines.do_all (agent call_state_handler)
 				else
-					lines.extend (str)
+					call_state_handler (str)
 				end
-				sequence.forth
 			end
-			Precursor (initial, lines)
+			parse_final
 		end
 
 feature {NONE} -- Constants
 
-	Configuration_ns: ZSTRING
+	Configuration_ns: STRING
 		once
 			Result := "%Tconfiguration_ns"
 		end
 
-	Eiffel_configuration: ZSTRING
+	Eiffel_configuration: STRING
 		once
 			Result := "http://www.eiffel.com/developers/xml/configuration-"
 		end

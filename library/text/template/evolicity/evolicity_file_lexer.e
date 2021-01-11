@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:22:37 GMT (Saturday 2nd January 2021)"
-	revision: "6"
+	date: "2021-01-10 12:48:28 GMT (Sunday 10th January 2021)"
+	revision: "7"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		rename
 			identifier as evolicity_identifier,
 			quoted_string as quoted_string_patterh
@@ -112,7 +112,7 @@ feature {NONE} -- Patterns
 
 	dollar_literal: like string_literal
 			-- Example in Bash script
-			
+
 			-- RETVAL=$?
 			-- if [ $$RETVAL -eq 0 ]
 			-- then

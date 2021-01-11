@@ -1,19 +1,19 @@
 note
-	description: "Xml ztext pattern factory"
+	description: "XML text patterns"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:48 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2021-01-10 12:27:18 GMT (Sunday 10th January 2021)"
+	revision: "1"
 
-class
-	EL_XML_ZTEXT_PATTERN_FACTORY
+deferred class
+	EL_XML_TEXT_PATTERN_FACTORY
 
 inherit
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 feature -- Access
 

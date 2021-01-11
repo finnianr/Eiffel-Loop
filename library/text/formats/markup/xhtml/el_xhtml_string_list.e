@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-17 9:52:42 GMT (Friday 17th July 2020)"
-	revision: "12"
+	date: "2021-01-11 13:52:38 GMT (Monday 11th January 2021)"
+	revision: "13"
 
 class
 	EL_XHTML_STRING_LIST
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_XML
 
-	EL_XML_ESCAPING_CONSTANTS
+	EL_XML_ZSTRING_CONSTANTS
 
 create
 	make_from_file

@@ -1,13 +1,13 @@
 note
-	description: "Xml attribute value zstring escaper"
+	description: "Xml [$source EL_ZSTRING] attribute value escaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2021-01-11 13:55:17 GMT (Monday 11th January 2021)"
+	revision: "5"
 
 class
 	EL_XML_ATTRIBUTE_VALUE_ZSTRING_ESCAPER

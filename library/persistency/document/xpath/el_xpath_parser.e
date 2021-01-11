@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:39:32 GMT (Sunday 20th December 2020)"
-	revision: "4"
+	date: "2021-01-10 12:49:06 GMT (Sunday 10th January 2021)"
+	revision: "5"
 
 class
 	EL_XPATH_PARSER
@@ -40,7 +40,7 @@ inherit
 			parse, make
 		end
 
-	EL_XML_ZTEXT_PATTERN_FACTORY
+	EL_XML_TEXT_PATTERN_FACTORY
 
 create
 	make

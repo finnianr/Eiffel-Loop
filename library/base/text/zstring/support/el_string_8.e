@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:12:03 GMT (Thursday 7th January 2021)"
-	revision: "5"
+	date: "2021-01-11 18:11:22 GMT (Monday 11th January 2021)"
+	revision: "6"
 
 class
 	EL_STRING_8
@@ -65,6 +65,30 @@ feature -- Measurement
 			s: EL_STRING_8_ROUTINES
 		do
 			Result := s.trailing_white_count (Current)
+		end
+
+feature -- Basic operations
+
+	append_adjusted_to (str: STRING)
+		local
+			n, i, start_index, end_index, offset: INTEGER; str_32: STRING_32
+			l_area, o_area: like area
+		do
+			end_index := count - trailing_white_count
+			if end_index.to_boolean then
+				start_index := leading_white_count + 1
+			else
+				start_index := 1
+			end
+			n := end_index - start_index + 1
+			offset := str.count
+			str.grow (offset + n)
+			str.set_count (offset + n)
+			l_area := area; o_area := str.area
+			from i := 0 until i = n loop
+				o_area [i + offset] := l_area [i + start_index - 1]
+				i := i + 1
+			end
 		end
 
 feature -- Element change

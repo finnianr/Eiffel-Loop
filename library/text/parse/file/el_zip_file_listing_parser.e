@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-26 9:48:32 GMT (Wednesday 26th September 2018)"
-	revision: "4"
+	date: "2021-01-10 13:30:54 GMT (Sunday 10th January 2021)"
+	revision: "5"
 
 class
 	EL_ZIP_FILE_LISTING_PARSER
@@ -19,7 +19,7 @@ inherit
 			new_pattern as archived_file_listing_pattern
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 create
 	make

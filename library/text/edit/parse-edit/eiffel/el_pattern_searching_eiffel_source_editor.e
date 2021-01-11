@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:23:08 GMT (Saturday 2nd January 2021)"
-	revision: "5"
+	date: "2021-01-10 12:59:04 GMT (Sunday 10th January 2021)"
+	revision: "6"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -28,7 +28,7 @@ inherit
 			new_input_lines
 		end
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 feature {NONE} -- Factory
 

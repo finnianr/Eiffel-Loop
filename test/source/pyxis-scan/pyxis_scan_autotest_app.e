@@ -5,7 +5,6 @@ note
 		
 		**Test Sets**
 		
-			[$source PYXIS_PARSER_TEST_SET]
 			[$source PYXIS_TO_XML_TEST_SET]
 	]"
 
@@ -14,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 12:55:32 GMT (Monday 21st December 2020)"
-	revision: "16"
+	date: "2021-01-10 14:40:41 GMT (Sunday 10th January 2021)"
+	revision: "17"
 
 class
 	PYXIS_SCAN_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [PYXIS_PARSER_TEST_SET, PYXIS_TO_XML_TEST_SET]
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [PYXIS_TO_XML_TEST_SET]
 		redefine
 			log_filter_set
 		end
@@ -47,7 +46,7 @@ feature {NONE} -- Implementation
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [
-		like Current, PYXIS_TO_XML_TEST_SET, PYXIS_PARSER_TEST_SET
+		like Current, PYXIS_TO_XML_TEST_SET, TEXT_PARSER_TEST_SET_2
 	]
 		do
 			create Result.make

@@ -343,3 +343,6 @@ New routine {ECD_REFLECTIVE_RECOVERABLE_CHAIN}.import_pyxis and {EL_REFLECTIVE}.
 Wed 6th Jan 2021, 17:50:38
 Removed some EL_MODULE_* classes
 
+Sat 9th Jan 2021, 18:04:23
+EL_PYXIS_PARSER optimized for STRING_8 lines
+

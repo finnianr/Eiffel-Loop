@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 10:30:22 GMT (Tuesday 20th October 2020)"
-	revision: "7"
+	date: "2021-01-11 19:26:46 GMT (Monday 11th January 2021)"
+	revision: "8"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -50,25 +50,22 @@ feature -- Basic operations
 
 	execute
 			--
+		local
+			in_file, out_file: PLAIN_TEXT_FILE
 		do
 			if is_lio_enabled then
 				lio.put_path_field ("Converting " + source_encoding.name, source_path)
 				lio.put_new_line
 			end
 
-			if attached open (source_path, Read) as in_file then
-				if output_path.exists then
-					File_system.remove_file (output_path)
-				end
-				if attached open (output_path, Write) as out_file then
-					out_file.byte_order_mark.enable
-					out_file.set_encoding_from_other (source_encoding)
-
-					xml_generator.convert_stream (in_file, out_file)
-					out_file.close
-				end
-				in_file.close
+			if output_path.exists then
+				File_system.remove_file (output_path)
 			end
+			create out_file.make_open_write (output_path)
+			create in_file.make_open_read (source_path)
+
+			xml_generator.convert_stream (in_file, out_file)
+			out_file.close; in_file.close
 		end
 
 feature {NONE} -- Implementation

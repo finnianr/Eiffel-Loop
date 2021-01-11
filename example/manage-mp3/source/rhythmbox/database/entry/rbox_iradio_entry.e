@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:29:27 GMT (Friday 20th November 2020)"
-	revision: "43"
+	date: "2021-01-11 13:53:33 GMT (Monday 11th January 2021)"
+	revision: "44"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -34,7 +34,7 @@ inherit
 
 	HASHABLE undefine is_equal end
 
-	EL_XML_ESCAPING_CONSTANTS
+	EL_XML_ZSTRING_CONSTANTS
 
 	EL_MODULE_LOG
 

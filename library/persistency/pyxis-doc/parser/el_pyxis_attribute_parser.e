@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:22:46 GMT (Saturday 9th January 2021)"
-	revision: "10"
+	date: "2021-01-11 12:26:01 GMT (Monday 11th January 2021)"
+	revision: "11"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -78,7 +78,7 @@ feature {NONE} -- Title parsing actions
 			name: EL_UTF_8_STRING; s: EL_STRING_8_ROUTINES
 		do
 			attribute_list.extend
-			name := attribute_list.last_node.raw_name
+			name := attribute_list.last.raw_name
 			name.wipe_out
 			matched_text.append_to (name)
 			s.replace_character (name, '.', ':')
@@ -89,7 +89,7 @@ feature {NONE} -- Title parsing actions
 		local
 			last_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING
 		do
-			last_node := attribute_list.last_node
+			last_node := attribute_list.last
 			last_node.set_from_view (matched_text)
 			Quote_unescaper.item (is_double_quote).unescape (last_node)
 		end
@@ -97,7 +97,7 @@ feature {NONE} -- Title parsing actions
 	on_value (matched_text: EL_STRING_VIEW)
 			--
 		do
-			attribute_list.last_node.set_from_view (matched_text)
+			attribute_list.last.set_from_view (matched_text)
 		end
 
 feature {NONE} -- Initialization

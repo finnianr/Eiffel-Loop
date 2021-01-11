@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 13:20:44 GMT (Saturday 9th January 2021)"
-	revision: "9"
+	date: "2021-01-11 18:21:02 GMT (Monday 11th January 2021)"
+	revision: "10"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -20,7 +20,7 @@ inherit
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
 
-			{ANY} count, wipe_out, share, set_from_general,
+			{ANY} count, wipe_out, share, set_from_general, append_adjusted_to,
 					-- Element change
 					append, append_character, append_count_from_c, append_substring, prepend,
 					-- Status query
@@ -97,6 +97,25 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	name: ZSTRING
+		do
+			if encoded_as_utf (8) then
+				create Result.make_from_utf_8 (raw_name)
+			else
+				create Result.make_from_general (raw_name)
+			end
+		end
+
+	once_name: ZSTRING
+		do
+			Result := buffer.empty
+			if encoded_as_utf (8) then
+				Result.append_utf_8 (raw_name)
+			else
+				Result.append_string_general (raw_name)
+			end
+		end
+
 	type: INTEGER
 		-- Node type id
 
@@ -135,36 +154,17 @@ feature -- Access
 			end
 		end
 
-	name: ZSTRING
-		do
-			if encoded_as_utf (8) then
-				create Result.make_from_utf_8 (raw_name)
-			else
-				create Result.make_from_general (raw_name)
-			end
-		end
-
-	once_name: ZSTRING
-		do
-			Result := buffer.empty
-			if encoded_as_utf (8) then
-				Result.append_utf_8 (raw_name)
-			else
-				Result.append_string_general (raw_name)
-			end
-		end
-
 feature -- Status query
-
-	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := adjusted (False).same_string (a_string)
-		end
 
 	is_empty: BOOLEAN
 			--
 		do
 			Result := leading_white_count = count
+		end
+
+	same_as (a_string: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := adjusted (False).same_string (a_string)
 		end
 
 feature -- String conversion
@@ -303,10 +303,6 @@ feature -- Conversion
 			end
 		end
 
-	to_pointer: POINTER
-		do
-		end
-
 	to_expanded_dir_path: EL_DIR_PATH
 		do
 			Result := adjusted (False)
@@ -317,6 +313,10 @@ feature -- Conversion
 		do
 			Result := adjusted (False)
 			Result.expand
+		end
+
+	to_pointer: POINTER
+		do
 		end
 
 	to_trim_lines: EL_ZSTRING_LIST

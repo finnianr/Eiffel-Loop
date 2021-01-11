@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:07:58 GMT (Saturday 9th January 2021)"
-	revision: "12"
+	date: "2021-01-10 12:57:10 GMT (Sunday 10th January 2021)"
+	revision: "13"
 
 class
 	EROS_CALL_REQUEST_PARSER
@@ -29,7 +29,7 @@ inherit
 			make, reset
 		end
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		rename
 			class_name as class_name_pattern,
 			single_quote as single_quote_pattern
@@ -156,7 +156,7 @@ feature {NONE} -- Syntax grammar
 	right_bracket: EL_LITERAL_CHAR_TP
 			--
 		do
-			create Result.make (character_to_z_code (')'))
+			create Result.make (character_argument (')'))
 		end
 
 	single_quote: EL_LITERAL_CHAR_TP

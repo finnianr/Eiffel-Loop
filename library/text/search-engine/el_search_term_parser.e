@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 12:00:01 GMT (Sunday 3rd January 2021)"
-	revision: "11"
+	date: "2021-01-10 12:47:35 GMT (Sunday 10th January 2021)"
+	revision: "12"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -24,7 +24,7 @@ inherit
 			make, reset
 		end
 
-	EL_EIFFEL_ZTEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end

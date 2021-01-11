@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:39:36 GMT (Monday 5th November 2018)"
-	revision: "6"
+	date: "2021-01-10 12:59:55 GMT (Sunday 10th January 2021)"
+	revision: "7"
 
 class
 	CODEC_INFO
@@ -25,7 +25,7 @@ inherit
 			make_default
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 	EL_MODULE_LOG
 
@@ -125,8 +125,7 @@ feature -- Basic operations
 
 	set_case_change_offsets
 		local
-			i: INTEGER
-			unicode, unicode_changed: CHARACTER_32
+			i: INTEGER; unicode, unicode_changed: CHARACTER_32
 			table: EL_ARRAYED_LIST [LATIN_CHARACTER]
 			case_offsets: like lower_case_offsets
 			case_type: STRING

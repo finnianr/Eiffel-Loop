@@ -1,13 +1,13 @@
 note
-	description: "Xml routines"
+	description: "XML routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-17 9:47:28 GMT (Friday 17th July 2020)"
-	revision: "11"
+	date: "2021-01-11 13:52:37 GMT (Monday 11th January 2021)"
+	revision: "12"
 
 class
 	EL_XML_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	EL_XML_ESCAPING_CONSTANTS
+	EL_XML_ZSTRING_CONSTANTS
 		export
 			{NONE} all
 		end

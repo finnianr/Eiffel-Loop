@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:37:12 GMT (Monday 5th August 2019)"
-	revision: "7"
+	date: "2021-01-10 13:00:21 GMT (Sunday 10th January 2021)"
+	revision: "8"
 
 class
 	EL_PATTERN_SPLIT_STRING_LIST
@@ -22,7 +22,7 @@ inherit
 			make_with_delimiter
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		undefine
 			is_equal, copy
 		end

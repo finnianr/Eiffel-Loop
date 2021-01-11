@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 17:05:55 GMT (Thursday 7th January 2021)"
-	revision: "12"
+	date: "2021-01-11 19:19:53 GMT (Monday 11th January 2021)"
+	revision: "13"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -22,12 +22,9 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_XML_ROUTINES
-		rename
-			encoding as xml_encoding
-		export
-			{NONE} all
-		end
+	EL_XML_STRING_8_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -38,20 +35,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			create output_stack.make (10)
+			create reusable_stack.make (30)
 			Precursor
 		end
 
 feature -- Basic operations
-
-	convert_stream (a_input: IO_MEDIUM; a_output: like output)
-			--
-		require
-			valid_input: a_input.is_open_read and a_input.is_readable
-			valid_output: a_output.is_open_write and a_output.is_writable
-		do
-			output := a_output
-			scan_from_stream (a_input)
-		end
 
 	convert_lines (lines: ITERABLE [READABLE_STRING_GENERAL]; a_output: like output)
 			--
@@ -60,23 +48,49 @@ feature -- Basic operations
 		do
 			output := a_output
 			scan_from_lines (lines)
+		ensure
+			all_recycled: reusable_stack.is_empty
+			stack_empty: output_stack.is_empty
+		end
+
+	convert_stream (a_input, a_output: IO_MEDIUM)
+			--
+		require
+			valid_input: a_input.is_open_read and a_input.is_readable
+			valid_output: a_output.is_open_write and a_output.is_writable
+		do
+			output := a_output
+			scan_from_stream (a_input)
+		ensure
+			all_recycled: reusable_stack.is_empty
+			stack_empty: output_stack.is_empty
 		end
 
 feature {NONE} -- Parsing events
 
-	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
+	on_comment
 			--
 		do
-			if a_encoding.encoded_as_utf (8) then
-				output.put_bom
+			put_last_tag (True)
+			output.put_string (tabs (output_stack.count))
+			output.put_string (Comment_open)
+			if last_node.has (New_line_character) then
+				output.put_new_line
+				put_node_content_lines (True)
+				output.put_string (tabs (output_stack.count))
+			else
+				put_node_content_single
 			end
-			output.put_string (Declaration_template #$ [Decimal_formatter.formatted (version), a_encoding.name])
+			output.put_string (Comment_close)
 			output.put_new_line
+			last_state := State_comment
 		end
 
-	on_start_document
+	on_content
 			--
 		do
+			put_last_tag (False)
+			put_node_content
 		end
 
 	on_end_document
@@ -84,83 +98,46 @@ feature {NONE} -- Parsing events
 		do
 		end
 
-	on_start_tag
-			--
-		local
-			tag_output: EL_ZSTRING_LIST
-		do
-			put_last_tag (True)
-			create tag_output.make (attribute_list.count + 5)
-
-			tag_output.extend (tab_indent (output_stack.count))
-			tag_output.extend (Left_angle_bracket)
-			tag_output.extend (last_node_name.string)
-
-			from attribute_list.start until attribute_list.after loop
-				tag_output.extend (attribute_pair_string (attribute_list.node))
-				attribute_list.forth
-			end
-			tag_output.extend (Empty_element_end)
-
-			output_stack.put (tag_output)
-			last_state := State_tag
-		end
-
 	on_end_tag
 			--
 		local
-			last_tag_output, tag_output: EL_ZSTRING_LIST
+			last_tag_output, tag_output: EL_STRING_8_LIST
 		do
 			last_tag_output := output_stack.item
-			if last_tag_output.last = Empty_element_end then
+			if last_tag_output.last = Empty_tag_marker then
 				tag_output := last_tag_output
 			else
 				create tag_output.make (4)
 				if last_state /= State_content then
 					tag_output.extend (last_tag_output [1]) 		-- 1. Tabs
 				end
-				tag_output.extend (Close_element_start)			-- 2.
+				tag_output.extend (Close_tag_marker)				-- 2.
 				tag_output.extend (last_tag_output [3]) 			-- 3. Element name
 				tag_output.extend (Right_angle_bracket)			-- 4.
 			end
 			put_output (tag_output, True)
+
+			from last_tag_output.finish until last_tag_output.before or else reusable_stack.is_empty loop
+				if last_tag_output.item = reusable_stack.item then
+					String_8_pool.recycle (reusable_stack.item)
+					reusable_stack.remove
+				end
+				last_tag_output.back
+			end
 			output_stack.remove
 			last_state := State_end_tag
 		end
 
-	on_content
-			--
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
+		--
 		do
-			put_last_tag (False)
-			put_last_node_text
-		end
-
-	on_comment
-			--
-		local
-			has_multiple_lines: BOOLEAN
-			line_list: like new_line_list
-		do
-			has_multiple_lines := last_node.has (New_line_character)
-			put_last_tag (True)
-			output.put_raw_string_8 (tab_indent (output_stack.count))
-			output.put_raw_string_8 ("<!--")
-			if has_multiple_lines then
-				output.put_new_line
-				line_list := new_line_list (last_node.adjusted (False))
-				from line_list.start until line_list.after loop
-					output.put_raw_string_8 (tab_indent (output_stack.count + 1))
-					output.put_string (line_list.item.escaped (xml_escaper))
-					output.put_new_line
-					line_list.forth
-				end
-				output.put_raw_string_8 (tab_indent (output_stack.count))
-			else
-				put_last_node_text
+			if a_encoding.encoded_as_utf (8) then
+				output.put_string ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 			end
-			output.put_raw_string_8 ("-->")
+			Header_template.put (Var_version, Decimal_formatter.formatted (version))
+			Header_template.put (Var_encoding, a_encoding.name)
+			output.put_string (Header_template.substituted)
 			output.put_new_line
-			last_state := State_comment
 		end
 
 	on_processing_instruction
@@ -168,29 +145,89 @@ feature {NONE} -- Parsing events
 		do
 		end
 
-feature {NONE} -- Implementation
-
-	attribute_pair_string (attribute_node: EL_ELEMENT_ATTRIBUTE_NODE_STRING): ZSTRING
+	on_start_document
 			--
 		do
-			Result := Attribute_template #$ [
-				attribute_node.once_name, escaped_attribute (attribute_node.adjusted (False))
-			]
 		end
 
-	new_line_list (lines: STRING_32): EL_ZSTRING_LIST
+	on_start_tag
+			--
+		local
+			tag_output: EL_STRING_8_LIST
 		do
-			create Result.make_with_separator (lines, New_line_character, False)
+			put_last_tag (True)
+			create tag_output.make (attribute_list.count + 5)
+
+			tag_output.extend (tabs (output_stack.count))
+			tag_output.extend (Left_angle_bracket)
+
+			tag_output.extend (reuseable_item)
+			tag_output.last.append (last_node_name)
+
+			from attribute_list.start until attribute_list.after loop
+				tag_output.extend (new_reusable_name_value_pair (attribute_list.node))
+				attribute_list.forth
+			end
+			tag_output.extend (Empty_tag_marker)
+
+			output_stack.put (tag_output)
+			last_state := State_tag
+		end
+
+feature {NONE} -- Implementation
+
+	put_node_content
+			--
+		do
+			if last_node.has (New_line_character) then
+				output.put_new_line
+				put_node_content_lines (False)
+				last_state := State_multi_line_content
+			else
+				put_node_content_single
+				last_state := State_content
+			end
+		end
+
+	put_node_content_lines (tabbed: BOOLEAN)
+		local
+			list: like Line_list; text: STRING_8
+		do
+			text := String_8_pool.reuseable_item
+			last_node.append_adjusted_to (text)
+
+			list := Line_list
+			list.set_string (Xml_escaper.escaped (text, False), New_line)
+
+			from list.start until list.after loop
+				if tabbed then
+					output.put_string (tabs (output_stack.count + 1))
+				end
+				output.put_string (list.item (False))
+				output.put_new_line
+				list.forth
+			end
+			String_8_pool.recycle (text)
+		end
+
+	put_node_content_single
+		local
+			text: STRING_8
+		do
+			text := String_8_pool.reuseable_item
+			last_node.append_adjusted_to (text)
+			output.put_string (text)
+			String_8_pool.recycle (text)
 		end
 
 	put_last_tag (append_new_line: BOOLEAN)
 			--
 		local
-			last_tag_output: EL_ZSTRING_LIST
+			last_tag_output: EL_STRING_8_LIST
 		do
 			if not output_stack.is_empty then
 				last_tag_output := output_stack.item
-				if last_tag_output.last = Empty_element_end then
+				if last_tag_output.last = Empty_tag_marker then
 					last_tag_output.finish
 					last_tag_output.replace (Right_angle_bracket)
 					put_output (last_tag_output, append_new_line)
@@ -198,7 +235,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_output (tag_output: EL_ZSTRING_LIST; append_new_line: BOOLEAN)
+	put_output (tag_output: EL_STRING_8_LIST; append_new_line: BOOLEAN)
 			--
 		local
 			i: INTEGER
@@ -212,82 +249,56 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_last_node_text
-			--
-		local
-			line_list: like new_line_list
-			line: ZSTRING
+	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
 		do
-			if last_node.has (New_line_character) then
-				line_list := new_line_list (last_node.adjusted (False))
-				output.put_new_line
-				from line_list.start until line_list.after loop
-					output.put_string (line_list.item.escaped (xml_escaper))
-
-					line_list.forth
-					if not line_list.after then
-						output.put_new_line
-					end
-				end
-				output.put_new_line
-				last_state := State_multi_line_content
-			else
-				line := last_node.adjusted (False)
-				output.put_string (line.escaped (xml_escaper))
-				last_state := State_content
-			end
+			Result := reuseable_item
+			Result.append_character (' ')
+			Result.append (node.raw_name)
+			Result.append (Value_equals_separator)
+			Result.append (Attribute_escaper.escaped (node, False))
+			Result.append_character ('"')
 		end
 
-	tab_indent (tab_count: INTEGER): STRING
-			--
-		local
-			i: INTEGER
+	reuseable_item: STRING_8
 		do
-			create Result.make (tab_count)
-			from i := 1 until i > tab_count loop
-				Result.append_character ('%T')
-				i := i + 1
-			end
+			Result := String_8_pool.reuseable_item
+			reusable_stack.put (Result)
 		end
 
-	output_stack: ARRAYED_STACK [EL_ZSTRING_LIST]
+	tabs (tab_count: INTEGER): STRING_8
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.n_character_string ('%T', tab_count)
+		end
 
-	output: EL_OUTPUT_MEDIUM
-
-	last_queue_item_is_text: BOOLEAN
+feature {NONE} -- Internal attributes
 
 	last_queue_item_is_new_line: BOOLEAN
 
+	last_queue_item_is_text: BOOLEAN
+
 	last_state: INTEGER
+
+	output: IO_MEDIUM
+
+	output_stack: ARRAYED_STACK [EL_STRING_8_LIST]
+
+	reusable_stack: ARRAYED_STACK [STRING_8]
 
 feature {NONE} -- States
 
-	State_tag: INTEGER = 1
-
-	State_end_tag: INTEGER = 2
+	State_comment: INTEGER = 4
 
 	State_content: INTEGER = 3
 
-	State_comment: INTEGER = 4
+	State_end_tag: INTEGER = 2
 
 	State_multi_line_content: INTEGER = 5
 
+	State_tag: INTEGER = 1
+
 feature {NONE} -- Constants
-
-	Attribute_template: ZSTRING
-		once
-			Result := " %S = %"%S%""
-		ensure
-			starts_with_space: Result [1] = ' '
-		end
-
-	Declaration_template: ZSTRING
-			--
-		once
-			Result := "[
-				<?xml version = "#" encoding = "#"?>
-			]"
-		end
 
 	Decimal_formatter: FORMAT_DOUBLE
 			--
@@ -295,36 +306,15 @@ feature {NONE} -- Constants
 			create Result.make (3, 1)
 		end
 
-	New_line: ZSTRING
+	Line_list: EL_SPLIT_STRING_8_LIST
 		once
-			Result := "%N"
+			create Result.make_empty
 		end
+
+	New_line: STRING = "%N"
 
 	New_line_character: CHARACTER_8 = '%N'
 
-	Comment_end: ZSTRING
-		once
-			Result := "-->"
-		end
-
-	Empty_element_end: ZSTRING
-		once
-			Result := "/>"
-		end
-
-	Left_angle_bracket: ZSTRING
-		once
-			Result := "<"
-		end
-
-	Right_angle_bracket: ZSTRING
-		once
-			Result := ">"
-		end
-
-	Close_element_start: ZSTRING
-		once
-			Result := "</"
-		end
+	Value_equals_separator: STRING = " = %""
 
 end

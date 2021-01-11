@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:39:40 GMT (Friday 8th January 2021)"
-	revision: "12"
+	date: "2021-01-11 13:52:37 GMT (Monday 11th January 2021)"
+	revision: "13"
 
 class
 	EL_XML_EMPTY_ELEMENT
@@ -18,7 +18,7 @@ inherit
 			write, copy, is_equal
 		end
 
-	EL_XML_ESCAPING_CONSTANTS
+	EL_XML_ZSTRING_CONSTANTS
 
 	EL_MODULE_ITERABLE
 

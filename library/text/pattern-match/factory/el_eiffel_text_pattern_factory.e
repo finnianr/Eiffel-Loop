@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:43:21 GMT (Saturday 2nd January 2021)"
-	revision: "1"
+	date: "2021-01-10 12:27:25 GMT (Sunday 10th January 2021)"
+	revision: "2"
 
-class
+deferred class
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
 inherit

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:36:51 GMT (Friday 8th January 2021)"
-	revision: "12"
+	date: "2021-01-11 14:20:00 GMT (Monday 11th January 2021)"
+	revision: "13"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -28,7 +28,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	convert_to_xml (a_pyxis_file_path: EL_FILE_PATH; xml_out: EL_OUTPUT_MEDIUM)
+	convert_to_xml (a_pyxis_file_path: EL_FILE_PATH; xml_out: IO_MEDIUM)
 		require
 			is_pyxis_file: is_pyxis_file (a_pyxis_file_path)
 		local

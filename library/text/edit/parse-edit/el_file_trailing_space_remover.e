@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-01-10 13:30:54 GMT (Sunday 10th January 2021)"
+	revision: "5"
 
 class
 	EL_FILE_TRAILING_SPACE_REMOVER
@@ -20,7 +20,7 @@ inherit
 			{NONE} set_file_path
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 create
 	make

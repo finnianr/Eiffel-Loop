@@ -1,21 +1,21 @@
 note
-	description: "Pyxis parser test set"
+	description: "Second text parser test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 10:32:14 GMT (Saturday 9th January 2021)"
-	revision: "5"
+	date: "2021-01-10 13:57:05 GMT (Sunday 10th January 2021)"
+	revision: "6"
 
 class
-	PYXIS_PARSER_TEST_SET
+	TEXT_PARSER_TEST_SET_2
 
 inherit
 	EL_EQA_TEST_SET
 
-	EL_PYXIS_TEXT_PATTERN_FACTORY
+	EL_EIFFEL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		undefine
@@ -35,7 +35,6 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("find_all", agent test_find_all)
-			eval.call ("pyxis_parser", agent test_pyxis_parser)
 			eval.call ("xpath_parser", agent test_xpath_parser)
 		end
 
@@ -51,36 +50,6 @@ feature -- Tests
 			pattern := pyxis_assignment (comma_separated_list)
 			pattern.find_all (Attributes_source_line, agent on_unmatched_text (?, comma_separated_list))
 			assert ("find_all OK", Attributes_comma_separated_values ~ comma_separated_list)
-		end
-
-	test_pyxis_parser
-		note
-			testing: "covers/{EL_PYXIS_ATTRIBUTE_PARSER}.parse"
-		local
-			parser: EL_PYXIS_ATTRIBUTE_PARSER
-			table: like Attribute_table; name: STRING
-			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
-			l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
-		do
-			create attribute_list.make
-			create parser.make (attribute_list)
-			parser.set_source_text (Attributes_source_line)
-			parser.parse
-			create table.make_equal (5)
-			across attribute_list as list loop
-				l_attribute := list.item
-				name := l_attribute.name
-				if l_attribute.is_integer then
-					table [name] := l_attribute.to_integer
-				elseif l_attribute.is_double then
-					table [name] := l_attribute.to_double
-				elseif l_attribute.is_boolean then
-					table [name] := l_attribute.to_boolean
-				else
-					table [name] := l_attribute.to_string_8
-				end
-			end
-			assert ("pyxis_parser OK", table ~ Attribute_table)
 		end
 
 	test_xpath_parser
@@ -120,23 +89,45 @@ feature {NONE} -- Patterns
 				one_of (<<
 					xml_identifier |to| agent on_value (?, comma_separated_list),
 					numeric_constant |to| agent on_value (?, comma_separated_list),
-					quoted_string (double_quote_escape_sequence, agent on_quoted_value (?, True, comma_separated_list)),
-					single_quoted_string (single_quote_escape_sequence, agent on_quoted_value (?, False, comma_separated_list))
+					quoted_string (double_quote_escape_sequence, agent on_quoted_value (?, 2, comma_separated_list)),
+					single_quoted_string (single_quote_escape_sequence, agent on_quoted_value (?, 1, comma_separated_list))
 				>>)
 			>> )
 		end
 
+	double_quote_escape_sequence: EL_FIRST_MATCH_IN_LIST_TP
+			--
+		do
+			Result := one_of ( << string_literal ("\\"), string_literal ("\%"") >> )
+		end
+
+	single_quote_escape_sequence: EL_FIRST_MATCH_IN_LIST_TP
+			--
+		do
+			Result := one_of ( << string_literal ("\\"), string_literal ("\'") >> )
+		end
+
+	xml_identifier: EL_MATCH_ALL_IN_LIST_TP
+			--
+		do
+			Result := all_of ( <<
+				one_of (<< letter, character_literal ('_') >> ),
+				zero_or_more (xml_identifier_character)
+			>>)
+		end
+
+	xml_identifier_character: EL_FIRST_MATCHING_CHAR_IN_LIST_TP
+		do
+			Result := identifier_character
+			Result.extend (character_literal ('-'))
+		end
+
 feature {NONE} -- Parse events handlers
 
-	on_quoted_value (matched: EL_STRING_VIEW; is_double_quote: BOOLEAN; comma_separated_list: STRING)
+	on_quoted_value (matched: EL_STRING_VIEW; quote_count: INTEGER; comma_separated_list: STRING)
 		local
-			quote_count: INTEGER; s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
-			if is_double_quote then
-				quote_count := 2
-			else
-				quote_count := 1
-			end
 			if not comma_separated_list.is_empty then
 				comma_separated_list.append_character (',')
 			end
@@ -157,6 +148,8 @@ feature {NONE} -- Parse events handlers
 		end
 
 feature {NONE} -- Constants
+
+	Is_zstring_source: BOOLEAN = False
 
 	Xpaths: STRING = "[
 		head/meta[@name='title']/@content

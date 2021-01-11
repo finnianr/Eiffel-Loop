@@ -1,16 +1,16 @@
 note
-	description: "Xml escaping constants"
+	description: "XML [$source EL_ZSTRING] constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 8:57:15 GMT (Tuesday 19th May 2020)"
-	revision: "9"
+	date: "2021-01-11 13:52:38 GMT (Monday 11th January 2021)"
+	revision: "10"
 
 deferred class
-	EL_XML_ESCAPING_CONSTANTS
+	EL_XML_ZSTRING_CONSTANTS
 
 inherit
 	EL_ANY_SHARED

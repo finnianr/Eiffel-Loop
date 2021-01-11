@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "2"
+	date: "2021-01-10 13:00:03 GMT (Sunday 10th January 2021)"
+	revision: "3"
 
 deferred class
 	EL_PARSER_TEXT_EDITOR
@@ -29,7 +29,7 @@ inherit
 			make_default
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 feature {NONE} -- Initialization
 

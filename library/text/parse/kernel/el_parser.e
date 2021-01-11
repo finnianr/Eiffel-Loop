@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 16:16:28 GMT (Saturday 9th January 2021)"
-	revision: "9"
+	date: "2021-01-10 15:05:58 GMT (Sunday 10th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_PARSER
@@ -39,6 +39,7 @@ feature -- Element change
 	set_source_text (a_source_text: READABLE_STRING_GENERAL)
 			--
 		do
+			is_zstring_source := attached {ZSTRING} a_source_text
 			source_view := pattern.new_text_view (a_source_text)
  			reset
 		end
@@ -74,15 +75,13 @@ feature -- Basic operations
 			parser_initialized: is_reset
 		local
 			name_list: like pattern.name_list
+			old_count: INTEGER
 		do
 			reassign_pattern_if_changed
 			name_list := pattern.name_list
+			old_count := source_view.count
 			pattern.match (source_view)
-			if pattern.count = source_view.full_count then
-				fully_matched := true
-			else
-				fully_matched := false
-			end
+			fully_matched := pattern.count = old_count
 		end
 
 	parse
@@ -100,6 +99,8 @@ feature -- Status query
 	has_pattern_changed: BOOLEAN
 
 	is_reset: BOOLEAN
+
+	is_zstring_source: BOOLEAN
 
 feature -- Status setting
 

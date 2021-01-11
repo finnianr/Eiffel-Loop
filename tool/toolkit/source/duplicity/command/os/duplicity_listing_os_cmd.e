@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 12:55:30 GMT (Thursday 16th July 2020)"
-	revision: "7"
+	date: "2021-01-10 13:04:14 GMT (Sunday 10th January 2021)"
+	revision: "8"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 
 create
 	make
@@ -128,6 +128,8 @@ feature {NONE} -- Internal attributes
 		-- position of '.'
 
 feature {NONE} -- Constants
+
+	Is_zstring_source: BOOLEAN = True
 
 	Var_time: STRING = "time"
 

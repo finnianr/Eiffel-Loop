@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-26 9:48:21 GMT (Wednesday 26th September 2018)"
-	revision: "4"
+	date: "2021-01-10 12:49:46 GMT (Sunday 10th January 2021)"
+	revision: "5"
 
 class
 	EL_SOURCE_TEXT_PROCESSOR
@@ -25,7 +25,7 @@ inherit
 				delimiting_pattern
 		end
 
-	EL_ZTEXT_PATTERN_FACTORY
+	EL_TEXT_PATTERN_FACTORY
 		export
 			{NONE} all
 		end
