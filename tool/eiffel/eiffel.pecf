@@ -108,6 +108,9 @@ system:
 			name = EL_ftp; readonly = false; location = "$EIFFEL_LOOP/library/ftp.ecf"
 
 		library:
+			name = EL_encryption; readonly = false; location = "$EIFFEL_LOOP/library/encryption.ecf"
+
+		library:
 			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
 
 		library:

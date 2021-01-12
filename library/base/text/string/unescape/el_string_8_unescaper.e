@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 11:37:21 GMT (Wednesday 6th January 2021)"
-	revision: "3"
+	date: "2021-01-12 9:42:02 GMT (Tuesday 12th January 2021)"
+	revision: "4"
 
 class
 	EL_STRING_8_UNESCAPER
@@ -39,6 +39,17 @@ feature -- Basic operations
 			if str.has_code (escape_code) then
 				str.share (unescaped (str))
 			end
+		end
+
+	unescape_into (str: READABLE_STRING_8; output: STRING_8)
+		local
+			l_area: SPECIAL [CHARACTER_8]; old_count, new_count: INTEGER
+		do
+			l_area := unescaped_array (str)
+			old_count := output.count; new_count := old_count + l_area.count
+			output.grow (new_count)
+			output.area.copy_data (l_area, 0, old_count, l_area.count)
+			output.set_count (new_count)
 		end
 
 feature {NONE} -- Implementation

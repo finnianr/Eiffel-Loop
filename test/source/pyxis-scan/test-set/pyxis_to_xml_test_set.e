@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 15:06:38 GMT (Sunday 10th January 2021)"
-	revision: "27"
+	date: "2021-01-12 11:27:15 GMT (Tuesday 12th January 2021)"
+	revision: "28"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -41,7 +41,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("attribute_parser", agent test_attribute_parser)
+			eval.call ("attribute_parser", agent test_attribute_parser)
 			eval.call ("conversion_to_xml", agent test_conversion_to_xml)
 		end
 
@@ -91,7 +91,9 @@ feature -- Tests
 			-- 3 Feb 2020
 			across file_list as file_path loop
 				file_name := file_path.item.base
-				do_test (name, Checksum_table [file_name], agent convert_pyxis_to_xml, [file_path.item])
+				if Checksum_table.has_key (file_name) then
+					do_test (name, Checksum_table.found_item, agent convert_pyxis_to_xml, [file_path.item])
+				end
 			end
 		end
 
@@ -105,7 +107,7 @@ feature {NONE} -- Implementation
 			create converter.make (a_file_path, create {EL_FILE_PATH})
 			converter.execute
 			create source.make (converter.source_encoding.encoding, converter.output_path)
-			source.print_first (log, 20)
+			source.print_first (log, 50)
 			source.close
 		end
 
@@ -121,12 +123,12 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
 		once
 			create Result.make_equal (11)
-			Result ["build.eant.pyx"] := 2189551509
-			Result ["configuration.xsd.pyx"] := 3726265964
-			Result ["credits.pyx"] := 2407875608
-			Result ["phrases.pyx"] := 201032556
-			Result ["words.pyx"] := 3549002455
-			Result ["XML XSL Example.xsl.pyx"] := 789114879
+			Result ["build.eant.pyx"] := 2323137809
+			Result ["configuration.xsd.pyx"] := 1327672612
+			Result ["credits.pyx"] := 4160036727
+			Result ["phrases.pyx"] := 1148746218
+			Result ["words.pyx"] := 3995591377
+			Result ["XML XSL Example.xsl.pyx"] := 715121404
 		end
 
 end

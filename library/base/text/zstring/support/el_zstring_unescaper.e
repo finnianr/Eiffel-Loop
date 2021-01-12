@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:42:34 GMT (Monday 4th January 2021)"
-	revision: "10"
+	date: "2021-01-12 9:45:12 GMT (Tuesday 12th January 2021)"
+	revision: "11"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -63,6 +63,11 @@ feature -- Basic operations
 			if str.has_unicode (escape_code) then
 				str.share (unescaped (str))
 			end
+		end
+
+	unescape_into (str: EL_READABLE_ZSTRING; output: ZSTRING)
+		do
+			output.append (create {ZSTRING}.make_from_zcode_area (unescaped_array (str)))
 		end
 
 feature {NONE} -- Implementation

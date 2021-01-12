@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 18:21:02 GMT (Monday 11th January 2021)"
-	revision: "10"
+	date: "2021-01-12 17:53:52 GMT (Tuesday 12th January 2021)"
+	revision: "11"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -20,11 +20,12 @@ inherit
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
 
-			{ANY} count, wipe_out, share, set_from_general, append_adjusted_to,
+			{ANY} count, wipe_out, share, set_from_general, append_adjusted_to, unescape,
 					-- Element change
 					append, append_character, append_count_from_c, append_substring, prepend,
 					-- Status query
-					has, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
+					has, has_substring, starts_with,
+					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine
 			make, adjusted, adjusted_8, adjusted_32,
 			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
@@ -333,7 +334,11 @@ feature -- Element change
 	set_from_view (view: EL_STRING_VIEW)
 		do
 			wipe_out
-			view.append_to (Current)
+			if attached {EL_STRING_8_VIEW} view as string_8 then
+				string_8.append_to_string_8 (Current)
+			else
+				view.append_to (Current)
+			end
 		end
 
 	set_type (a_type: INTEGER)

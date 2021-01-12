@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 9:05:24 GMT (Saturday 16th May 2020)"
-	revision: "9"
+	date: "2021-01-12 9:22:28 GMT (Tuesday 12th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_STRING_GENERAL_ESCAPER
@@ -68,23 +68,35 @@ feature -- Conversion
 	escaped_substring (str: like READABLE; start_index, end_index: INTEGER; keeping_ref: BOOLEAN): like once_buffer
 		-- escaped `str' in once buffer
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
-		local
-			i, min_index: INTEGER; code: NATURAL
 		do
 			Result := once_buffer
 			wipe_out (Result)
+			escape_substring_into (str, start_index, end_index, Result)
+			if keeping_ref then
+				Result := Result.twin
+			end
+		end
+
+feature -- Basic operations
+
+	escape_into (str: like READABLE; output: like once_buffer)
+		do
+			escape_substring_into (str, 1, str.count, output)
+		end
+
+	escape_substring_into (str: like READABLE; start_index, end_index: INTEGER; output: like once_buffer)
+		local
+			i, min_index: INTEGER; code: NATURAL
+		do
 			min_index := str.count.min (end_index)
 			from i := start_index until i > min_index loop
 				code := str.code (i)
 				if is_escaped (code) then
-					append_escape_sequence (Result, code)
+					append_escape_sequence (output, code)
 				else
-					Result.append_code (code)
+					output.append_code (code)
 				end
 				i := i + 1
-			end
-			if keeping_ref then
-				Result := Result.twin
 			end
 		end
 

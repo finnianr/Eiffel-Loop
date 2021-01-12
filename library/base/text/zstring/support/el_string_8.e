@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 18:11:22 GMT (Monday 11th January 2021)"
-	revision: "6"
+	date: "2021-01-12 17:53:24 GMT (Tuesday 12th January 2021)"
+	revision: "7"
 
 class
 	EL_STRING_8
@@ -147,4 +147,17 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
+	unescape (unescaper: EL_STRING_8_UNESCAPER)
+		local
+			uc: CHARACTER_32; buffer: EL_STRING_8_BUFFER_ROUTINES
+			str: STRING
+		do
+			uc := unescaper.escape_code.to_character_32
+			if uc.is_character_8 and then has (uc.to_character_8) then
+				str := buffer.empty
+				unescaper.unescape_into (Current, str)
+				wipe_out
+				append (str)
+			end
+		end
 end

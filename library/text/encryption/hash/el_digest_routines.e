@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 19:00:20 GMT (Tuesday 1st October 2019)"
-	revision: "5"
+	date: "2021-01-12 16:23:24 GMT (Tuesday 12th January 2021)"
+	revision: "6"
 
 class
 	EL_DIGEST_ROUTINES
@@ -20,12 +20,20 @@ inherit
 			Sha_256 as Digest_sha_256
 		end
 
+	EL_MODULE_FILE_SYSTEM
+
 feature -- Digests
 
 	md5 (string: STRING): EL_DIGEST_ARRAY
 			--
 		do
 			create Result.make_sink (MD5_128, string)
+		end
+
+	md5_file (path: EL_FILE_PATH): EL_DIGEST_ARRAY
+			--
+		do
+			create Result.make_sink (MD5_128, File_system.plain_text (path))
 		end
 
 	hmac_sha_256 (string, secret_key: STRING): EL_DIGEST_ARRAY
@@ -38,6 +46,12 @@ feature -- Digests
 			--
 		do
 			create Result.make_sink (Digest_sha_256, string)
+		end
+
+	sha_256_file (path: EL_FILE_PATH): EL_DIGEST_ARRAY
+			--
+		do
+			create Result.make_sink (Digest_sha_256, File_system.plain_text (path))
 		end
 
 end

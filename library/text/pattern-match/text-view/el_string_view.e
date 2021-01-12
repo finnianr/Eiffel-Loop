@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:17:50 GMT (Tuesday 5th January 2021)"
-	revision: "11"
+	date: "2021-01-12 16:56:45 GMT (Tuesday 12th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_STRING_VIEW
@@ -178,6 +178,10 @@ feature -- Removal
 		end
 
 feature -- Status query
+
+	has (uc: CHARACTER_32): BOOLEAN
+		deferred
+		end
 
 	is_empty: BOOLEAN
 			--

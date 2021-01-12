@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 11:24:12 GMT (Monday 4th January 2021)"
-	revision: "10"
+	date: "2021-01-12 17:00:26 GMT (Tuesday 12th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -155,11 +155,11 @@ feature -- Element change
 feature -- Status query
 
 	has (uc: CHARACTER_32): BOOLEAN
-			-- Does string include `uc'?
+		-- `True' is string contains at least one `uc'?
 		local
 			c: CHARACTER
 		do
-			c := codec.encoded_character (uc.natural_32_code)
+			c := Codec.encoded_character (uc.natural_32_code)
 			if c = Unencoded_character then
 				Result := unencoded_has (uc.natural_32_code)
 			else

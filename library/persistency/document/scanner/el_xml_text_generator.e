@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 19:19:53 GMT (Monday 11th January 2021)"
-	revision: "13"
+	date: "2021-01-12 10:24:40 GMT (Tuesday 12th January 2021)"
+	revision: "14"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -215,7 +215,7 @@ feature {NONE} -- Implementation
 			text: STRING_8
 		do
 			text := String_8_pool.reuseable_item
-			last_node.append_adjusted_to (text)
+			Xml_escaper.escape_into (last_node, text)
 			output.put_string (text)
 			String_8_pool.recycle (text)
 		end
@@ -255,7 +255,7 @@ feature {NONE} -- Implementation
 			Result.append_character (' ')
 			Result.append (node.raw_name)
 			Result.append (Value_equals_separator)
-			Result.append (Attribute_escaper.escaped (node, False))
+			Attribute_escaper.escape_into (node, Result)
 			Result.append_character ('"')
 		end
 

@@ -51,6 +51,7 @@ See doc/eiffel-utility.txt for details.
 		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
 		<library name = "EL_doc_scan" readonly = "false" location = "$EIFFEL_LOOP/library/document-scan.ecf"/>
 		<library name = "EL_ftp" readonly = "false" location = "$EIFFEL_LOOP/library/ftp.ecf"/>
+		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_i18n" readonly = "false" location = "$EIFFEL_LOOP/library/i18n.ecf">

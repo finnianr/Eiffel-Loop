@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:22:25 GMT (Sunday 10th January 2021)"
-	revision: "4"
+	date: "2021-01-12 11:20:04 GMT (Tuesday 12th January 2021)"
+	revision: "5"
 
 class
 	PYXIS_ECF_PARSER
@@ -52,9 +52,9 @@ feature {NONE} -- Implementation
 						ns_lines.extend (attributes)
 					end
 					ns_lines.indent (1)
-					ns_lines.do_all (agent call_state_handler)
+					ns_lines.do_all (agent call_state_procedure)
 				else
-					call_state_handler (str)
+					call_state_procedure (str)
 				end
 			end
 			parse_final

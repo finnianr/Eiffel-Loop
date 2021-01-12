@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 12:22:20 GMT (Monday 11th January 2021)"
-	revision: "23"
+	date: "2021-01-12 18:23:27 GMT (Tuesday 12th January 2021)"
+	revision: "24"
 
 class
 	EL_PYXIS_PARSER
@@ -41,7 +41,29 @@ feature {NONE} -- Initialization
 			create element_name_cache.make (11, agent new_element_name)
 		end
 
+feature -- Element change
+
+	set_declaration_comment (comment: STRING)
+		-- set comment to be inserted between document declaration and root element
+		do
+			declaration_comment := comment
+		end
+
 feature -- Basic operations
+
+	parse_from_file (file: PLAIN_TEXT_FILE)
+		require
+			readable: file.readable
+		do
+			reset
+			scanner.on_start_document
+
+			from until file.end_of_file loop
+				file.read_line
+				call_state_procedure (file.last_string)
+			end
+			parse_final
+		end
 
 	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
 		local
@@ -92,20 +114,6 @@ feature -- Basic operations
 			parse_final
 		end
 
-	parse_from_file (file: PLAIN_TEXT_FILE)
-		require
-			readable: file.readable
-		do
-			reset
-			scanner.on_start_document
-
-			from until file.end_of_file loop
-				file.read_line
-				call_state_procedure (file.last_string)
-			end
-			parse_final
-		end
-
 feature {NONE} -- State procedures
 
 	frozen gather_comments (line: STRING; start_index, end_index: INTEGER)
@@ -150,15 +158,15 @@ feature {NONE} -- State procedures
 				do_nothing
 
 			elseif has_quotes (line, '"', start_index, end_index) then
-				on_repeat_element
+				push_repeat_element (line, start_index, end_index)
 				on_content_line (line, 2, start_index, end_index)
 
 			elseif has_quotes (line, '%'', start_index, end_index) then
-				on_repeat_element
+				push_repeat_element (line, start_index, end_index)
 				on_content_line (line, 1, start_index, end_index)
 
 			elseif buffer.copied_substring (line, start_index, end_index).is_double then
-				on_repeat_element
+				push_repeat_element (line, start_index, end_index)
 				on_content_line (line, 0, start_index, end_index)
 
 			else
@@ -232,12 +240,11 @@ feature {NONE} -- Parse events
 			inspect quote_count
 				when 1, 2 then
 					last_node.append_substring (line, start_index + 1, end_index - 1)
-					Quote_unescaper.item (quote_count = 2).unescape (last_node)
+					last_node.unescape (Quote_unescaper.item (quote_count = 2))
 
 			else
 				last_node.append_substring (line, start_index, end_index)
 			end
-			scanner.on_content
 		end
 
 	on_declaration
@@ -256,10 +263,12 @@ feature {NONE} -- Parse events
 			end
 			scanner.on_meta_data (xml_version, Current)
 			attribute_list.reset
-			if not comment_string.is_empty then
-				comment_string.prepend_string (s_8.n_character_string ('%N', 2))
+			if attached declaration_comment as comment then
+				if not comment_string.is_empty then
+					comment_string.prepend_string (s_8.n_character_string ('%N', 2))
+				end
+				comment_string.prepend (comment)
 			end
-			comment_string.prepend (English_auto_generated_notice)
 			on_comment
 		end
 
@@ -269,14 +278,6 @@ feature {NONE} -- Parse events
 			last_node.set_type (Node_type_element)
 			scanner.on_end_tag
 			element_stack.remove
-		end
-
-	on_repeat_element
-		local
-			name: STRING
-		do
-			name := element_stack.item
-			on_end_tag (name); on_start_tag (name)
 		end
 
 	on_start_tag (name: STRING)
@@ -292,9 +293,6 @@ feature {NONE} -- Parse events
 					last_node.set_type (Node_type_text)
 					scanner.on_content
 					last_node.wipe_out
-				end
-				if comment_string.count > 0 then
-					on_comment
 				end
 				attribute_list.reset
 				element_stack.put (element_name_cache.item (name))
@@ -386,12 +384,26 @@ feature {NONE} -- Implementation
 				from until element_stack.count = tab_count loop
 					on_end_tag (element_stack.item)
 				end
+				if comment_string.count > 0 then
+					on_comment
+				end
 			end
 			name.wipe_out
 			name.append_substring (line, start_index, end_index)
 			s_8.replace_character (name, '.', ':')
 			attribute_list.reset
 			state := State_parse_line
+		end
+
+	push_repeat_element (line: STRING; start_index, end_index: INTEGER)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES; l_line: STRING
+		do
+			l_line := buffer.copied (tag_name)
+			tab_count := tab_count - 1
+			push_element (l_line, 1, l_line.count)
+			tab_count := tab_count + 1
+			state := State_output_content_lines
 		end
 
 	pyxis_encoding (a_string: STRING): STRING
@@ -409,12 +421,6 @@ feature {NONE} -- Implementation
 			Result := a_string.substring (pos_quote_1 + 1, pos_quote_2 - 1).as_upper
 		end
 
-	restore_previous
-		-- restore previous state
-		do
-			state := previous_state
-		end
-
 	reset
 		do
 			state := State_parse_line
@@ -424,14 +430,20 @@ feature {NONE} -- Implementation
 			element_name_cache.wipe_out
 		end
 
-	set_last_node_name (name: STRING)
+	restore_previous
+		-- restore previous state
 		do
-			last_node_name.wipe_out
-			last_node_name.append (name)
+			state := previous_state
 		end
 
 	s_8: EL_STRING_8_ROUTINES
 		do
+		end
+
+	set_last_node_name (name: STRING)
+		do
+			last_node_name.wipe_out
+			last_node_name.append (name)
 		end
 
 feature {NONE} -- Implementation: attributes
@@ -440,9 +452,11 @@ feature {NONE} -- Implementation: attributes
 
 	comment_string: STRING
 
-	element_stack: ARRAYED_STACK [STRING]
+	declaration_comment: detachable STRING
 
 	element_name_cache: EL_CACHE_TABLE [STRING, STRING]
+
+	element_stack: ARRAYED_STACK [STRING]
 
 	previous_state: NATURAL_8
 

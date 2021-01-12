@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:19:53 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-12 17:18:20 GMT (Tuesday 12th January 2021)"
+	revision: "8"
 
 class
 	EL_STRING_8_VIEW
@@ -49,11 +49,11 @@ feature -- Access
 
 	occurrences (c: like code): INTEGER
 		local
-			l_area: like area; i: INTEGER
+			l_area: like area; i, i_final: INTEGER
 		do
-			l_area := area
-			from i := 1 until i > count loop
-				if l_area.item (offset + i - 1).natural_32_code = c then
+			l_area := area; i_final := offset + count
+			from i := offset until i = i_final loop
+				if l_area.item (i).natural_32_code = c then
 					Result := Result + 1
 				end
 				i := i + 1
@@ -64,6 +64,35 @@ feature -- Access
 		do
 			create Result.make_filled ('%U', count)
 			Result.area.copy_data (area, offset, 0, count)
+		end
+
+feature -- Basic operations
+
+	append_to_string_8 (output: STRING_8)
+		local
+			old_count, new_count: INTEGER
+		do
+			old_count := output.count; new_count := old_count + count
+			output.grow (new_count)
+			output.area.copy_data (area, offset, old_count, count)
+			output.set_count (new_count)
+		end
+
+feature -- Status query
+
+	has (uc: CHARACTER_32): BOOLEAN
+		local
+			l_area: like area; i, i_final: INTEGER
+			c: CHARACTER
+		do
+			c := uc.to_character_8
+			l_area := area; i_final := offset + count
+			from i := offset until Result or else i = i_final loop
+				if l_area [i] = c then
+					Result := True
+				end
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:18:54 GMT (Monday 4th January 2021)"
-	revision: "2"
+	date: "2021-01-12 17:38:42 GMT (Tuesday 12th January 2021)"
+	revision: "3"
 
 deferred class
 	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
@@ -39,6 +39,8 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	escape_code: NATURAL
+
 	unescaped (str: R): G
 		deferred
 		end
@@ -46,6 +48,10 @@ feature -- Access
 feature -- Basic operations
 
 	unescape (str: G)
+		deferred
+		end
+
+	unescape_into (str: R; output: G)
 		deferred
 		end
 
@@ -92,9 +98,5 @@ feature {NONE} -- Implementation
 				Result := found_item
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	escape_code: NATURAL
 
 end

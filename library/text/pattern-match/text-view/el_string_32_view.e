@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:20:00 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-12 17:18:20 GMT (Tuesday 12th January 2021)"
+	revision: "8"
 
 class
 	EL_STRING_32_VIEW
@@ -49,11 +49,11 @@ feature -- Access
 
 	occurrences (c: like code): INTEGER
 		local
-			l_area: like area; i: INTEGER
+			l_area: like area; i, i_final: INTEGER
 		do
-			l_area := area
-			from i := 1 until i > count loop
-				if l_area.item (offset + i - 1).natural_32_code = c then
+			l_area := area; i_final := offset + count
+			from i := offset until i = i_final loop
+				if l_area.item (i).natural_32_code = c then
 					Result := Result + 1
 				end
 				i := i + 1
@@ -64,6 +64,21 @@ feature -- Access
 		do
 			create Result.make_filled ('%U', count)
 			Result.area.copy_data (area, offset, 0, count)
+		end
+
+feature -- Status query
+
+	has (uc: CHARACTER_32): BOOLEAN
+		local
+			l_area: like area; i, i_final: INTEGER
+		do
+			l_area := area; i_final := offset + count
+			from i := offset until Result or else i = i_final loop
+				if l_area.item (i) = uc then
+					Result := True
+				end
+				i := i + 1
+			end
 		end
 
 feature {NONE} -- Internal attributes

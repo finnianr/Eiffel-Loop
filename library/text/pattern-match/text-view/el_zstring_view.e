@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 9:20:33 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2021-01-12 17:12:56 GMT (Tuesday 12th January 2021)"
+	revision: "10"
 
 class
 	EL_ZSTRING_VIEW
@@ -77,14 +77,14 @@ feature -- Measurement
 
 	occurrences (a_code: like z_code): INTEGER
 		local
-			l_area: like area; i, l_count: INTEGER; c, c_i: CHARACTER
+			l_area: like area; i, i_final: INTEGER; c, c_i: CHARACTER
 		do
-			l_area := area; l_count := count
+			l_area := area; i_final := offset + count
 			c := a_code.to_character_8
 			if attached unencoded_index as unencoded then
-				from i := 0 until i = l_count loop
-					c_i := l_area [offset + i - 1]
-					if c_i = Unencoded_character and then unencoded.z_code (i) = a_code then
+				from i := offset until i = i_final loop
+					c_i := l_area [i]
+					if c_i = Unencoded_character and then unencoded.z_code (i + 1) = a_code then
 						Result := Result + 1
 					elseif c_i = c then
 						Result := Result + 1
@@ -92,8 +92,8 @@ feature -- Measurement
 					i := i + 1
 				end
 			else
-				from i := 0 until i = l_count loop
-					if l_area.item (offset + i - 1) = c then
+				from i := offset until i = i_final loop
+					if l_area [i] = c then
 						Result := Result + 1
 					end
 					i := i + 1
@@ -148,6 +148,35 @@ feature -- Basic operations
 			else
 				from i := start_index until i > end_index or else i > count loop
 					str.append_code (unicode (i))
+					i := i + 1
+				end
+			end
+		end
+
+feature -- Status query
+
+	has (uc: CHARACTER_32): BOOLEAN
+		-- `True' is string contains at least one `uc'?
+		local
+			l_area: like area; i, i_final: INTEGER; c, c_i: CHARACTER
+			l_code: NATURAL
+		do
+			c := Codec.encoded_character (uc.natural_32_code)
+			l_area := area; i_final := offset + count
+			if c = Unencoded_character and then attached unencoded_index as unencoded then
+				l_code := Codec.as_z_code (uc)
+				from i := offset until Result or else i = i_final loop
+					c_i := l_area [i]
+					if c_i = Unencoded_character and then unencoded.z_code (i + 1) = l_code then
+						Result := True
+					end
+					i := i + 1
+				end
+			else
+				from i := offset until Result or else i = i_final loop
+					if l_area [i] = c then
+						Result := True
+					end
 					i := i + 1
 				end
 			end

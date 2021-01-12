@@ -44,9 +44,8 @@ project:
 	target:
 		name = clean
 		description:
-			"""
-				Remove intermediary generated files.
-			"""
+			"Remove intermediary generated files."
+			"to make it clean"
 
 	target:
 		name = clobber

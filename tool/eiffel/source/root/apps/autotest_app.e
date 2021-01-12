@@ -5,9 +5,13 @@ note
 		
 		**Test Sets**
 		
-			[$source UNDEFINE_PATTERN_COUNTER_TEST_SET]
+			[$source FEATURE_EDITOR_COMMAND_TEST_SET]
+			[$source PATH_TEST_SET]
+			[$source PYXIS_ECF_PARSER_TEST_SET]
 			[$source REPOSITORY_PUBLISHER_TEST_SET]
 			[$source REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET]
+			[$source TRANSLATION_TREE_COMPILER_TEST_SET]
+			[$source UNDEFINE_PATTERN_COUNTER_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:03:44 GMT (Tuesday 10th November 2020)"
-	revision: "40"
+	date: "2021-01-12 11:29:03 GMT (Tuesday 12th January 2021)"
+	revision: "41"
 
 class
 	AUTOTEST_APP
@@ -25,6 +29,7 @@ inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		FEATURE_EDITOR_COMMAND_TEST_SET,
 		PATH_TEST_SET,
+		PYXIS_ECF_PARSER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
 		REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET,
 		TRANSLATION_TREE_COMPILER_TEST_SET,
