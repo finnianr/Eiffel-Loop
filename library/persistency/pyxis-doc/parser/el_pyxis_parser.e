@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 18:23:27 GMT (Tuesday 12th January 2021)"
-	revision: "24"
+	date: "2021-01-13 16:26:23 GMT (Wednesday 13th January 2021)"
+	revision: "25"
 
 class
 	EL_PYXIS_PARSER
@@ -24,6 +24,8 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_MODULE_BUFFER_8
+
 create
 	make
 
@@ -35,10 +37,9 @@ feature {NONE} -- Initialization
 			Precursor (a_scanner)
 			create comment_string.make_empty
 			create attribute_parser.make (attribute_list)
-			create tag_name.make_empty
 			previous_state := State_parse_line
 			create element_stack.make (10)
-			create element_name_cache.make (11, agent new_element_name)
+			create element_set.make (11)
 		end
 
 feature -- Element change
@@ -151,7 +152,7 @@ feature {NONE} -- State procedures
 	frozen output_content_lines (line: STRING; start_index, end_index: INTEGER)
 		-- output line after first
 		local
-			count: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			count: INTEGER
 		do
 			count := end_index - start_index + 1
 			if count = 0 then
@@ -165,7 +166,7 @@ feature {NONE} -- State procedures
 				push_repeat_element (line, start_index, end_index)
 				on_content_line (line, 1, start_index, end_index)
 
-			elseif buffer.copied_substring (line, start_index, end_index).is_double then
+			elseif buffer_8.copied_substring (line, start_index, end_index).is_double then
 				push_repeat_element (line, start_index, end_index)
 				on_content_line (line, 0, start_index, end_index)
 
@@ -177,7 +178,7 @@ feature {NONE} -- State procedures
 
 	frozen parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
-			count: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			count: INTEGER
 		do
 			count := end_index - start_index + 1
 			if count = 0 then
@@ -210,7 +211,7 @@ feature {NONE} -- State procedures
 				parser.set_source_text_from_substring (line, start_index, end_index)
 				parser.parse
 
-			elseif buffer.copied_substring (line, start_index, end_index).is_double then
+			elseif buffer_8.copied_substring (line, start_index, end_index).is_double then
 				change_state (State_output_content_lines)
 				on_content_line (line, 0, start_index, end_index)
 
@@ -226,6 +227,7 @@ feature {NONE} -- Parse events
 			--
 		do
 			last_node.wipe_out
+			comment_string.right_adjust
 			last_node.append (comment_string)
 			last_node.set_type (Node_type_comment)
 			scanner.on_comment
@@ -277,26 +279,20 @@ feature {NONE} -- Parse events
 			set_last_node_name (name)
 			last_node.set_type (Node_type_element)
 			scanner.on_end_tag
-			element_stack.remove
 		end
 
 	on_start_tag (name: STRING)
 			--
 		do
-			if name ~ Pyxis_doc then
-				on_declaration
-			else
-				last_node.set_type (Node_type_element)
-				set_last_node_name (name)
-				scanner.on_start_tag
-				if last_node.count > 0 then
-					last_node.set_type (Node_type_text)
-					scanner.on_content
-					last_node.wipe_out
-				end
-				attribute_list.reset
-				element_stack.put (element_name_cache.item (name))
+			last_node.set_type (Node_type_element)
+			set_last_node_name (name)
+			scanner.on_start_tag
+			if last_node.count > 0 then
+				last_node.set_type (Node_type_text)
+				scanner.on_content
+				last_node.wipe_out
 			end
+			attribute_list.reset
 		end
 
 feature {NONE} -- Implementation
@@ -316,6 +312,12 @@ feature {NONE} -- Implementation
 				comment_string.append_character (New_line_character)
 			end
 			comment_string.append_substring (line, i, end_index)
+		end
+
+	buffer_name (line: STRING; start_index, end_index: INTEGER): STRING
+		do
+			Result := buffer_8.copied_substring (line, start_index, end_index)
+			s_8.replace_character (Result, '.', ':')
 		end
 
 	call_state_procedure (line: STRING)
@@ -361,11 +363,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_element_name (name: STRING): STRING
-		do
-			Result := name.twin
-		end
-
 	parse_final
 		do
 			call_state_procedure ("doc-end:")
@@ -373,35 +370,36 @@ feature {NONE} -- Implementation
 		end
 
 	push_element (line: STRING; start_index, end_index: INTEGER)
-		local
-			name: STRING
 		do
-			name := tag_name
-			if name.count > 0 then
-				on_start_tag (name)
-			end
-			if tab_count < element_stack.count then
-				from until element_stack.count = tab_count loop
-					on_end_tag (element_stack.item)
+			if attached tag_name as name then
+				-- do with previous tag_name
+				if name = Pyxis_doc then
+					on_declaration
+				else
+					on_start_tag (name)
+					element_stack.put (name)
+					if tab_count < element_stack.count then
+						from until element_stack.count = tab_count loop
+							on_end_tag (element_stack.item)
+							element_stack.remove
+						end
+					end
 				end
-				if comment_string.count > 0 then
-					on_comment
-				end
 			end
-			name.wipe_out
-			name.append_substring (line, start_index, end_index)
-			s_8.replace_character (name, '.', ':')
-			attribute_list.reset
+			-- set next tag_name
+			tag_name := unique_tag_name (line, start_index, end_index)
+			if tag_name /= Pyxis_doc and then comment_string.count > 0 then
+				on_comment
+			end
 			state := State_parse_line
 		end
 
 	push_repeat_element (line: STRING; start_index, end_index: INTEGER)
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES; l_line: STRING
 		do
-			l_line := buffer.copied (tag_name)
 			tab_count := tab_count - 1
-			push_element (l_line, 1, l_line.count)
+			if attached tag_name as name then
+				push_element (name, 1, name.count)
+			end
 			tab_count := tab_count + 1
 			state := State_output_content_lines
 		end
@@ -427,8 +425,9 @@ feature {NONE} -- Implementation
 			previous_state := State_parse_line
 			comment_string.wipe_out
 			element_stack.wipe_out
-			element_name_cache.wipe_out
-		end
+			element_set.wipe_out
+			element_set.put (Pyxis_doc)
+	end
 
 	restore_previous
 		-- restore previous state
@@ -446,6 +445,20 @@ feature {NONE} -- Implementation
 			last_node_name.append (name)
 		end
 
+	unique_tag_name (line: STRING; start_index, end_index: INTEGER): STRING
+		local
+			name: STRING
+		do
+			name := buffer_name (line, start_index, end_index)
+
+			if not element_set.has_key (name) then
+				element_set.put (name.twin)
+			end
+			Result := element_set.found_item
+		ensure
+			name_in_set: element_set.has (buffer_name (line, start_index, end_index))
+		end
+
 feature {NONE} -- Implementation: attributes
 
 	attribute_parser: EL_PYXIS_ATTRIBUTE_PARSER
@@ -454,7 +467,7 @@ feature {NONE} -- Implementation: attributes
 
 	declaration_comment: detachable STRING
 
-	element_name_cache: EL_CACHE_TABLE [STRING, STRING]
+	element_set: EL_HASH_SET [STRING]
 
 	element_stack: ARRAYED_STACK [STRING]
 
@@ -464,6 +477,6 @@ feature {NONE} -- Implementation: attributes
 
 	tab_count: INTEGER
 
-	tag_name: STRING
+	tag_name: detachable STRING
 
 end

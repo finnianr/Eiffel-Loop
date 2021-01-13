@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 18:24:36 GMT (Tuesday 12th January 2021)"
-	revision: "1"
+	date: "2021-01-13 9:35:59 GMT (Wednesday 13th January 2021)"
+	revision: "2"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -40,7 +40,7 @@ feature -- Tests
 	test_conversion_to_pecf
 			--
 		do
-			do_test ("convert_pecf_to_ecf", 2408860877, agent convert_pecf_to_ecf, [file_list.first_path])
+			do_test ("convert_pecf_to_ecf", 3818103888, agent convert_pecf_to_ecf, [file_list.first_path])
 		end
 
 feature {NONE} -- Implementation
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 			create source.make (converter.source_encoding.encoding, converter.output_path)
 			source.print_first (log, 50)
 			source.close
-			log.put_labeled_string ("MD5 sum", Digest.md5_file (a_file_path).to_hex_string)
+			log.put_labeled_string ("MD5 sum", Digest.md5_file (converter.output_path).to_hex_string)
 			log.put_new_line
 		end
 

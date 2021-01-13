@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 12:31:28 GMT (Saturday 9th January 2021)"
-	revision: "16"
+	date: "2021-01-13 10:53:05 GMT (Wednesday 13th January 2021)"
+	revision: "17"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -171,10 +171,10 @@ feature -- Transformation
 
 	replace_character (target: STRING_8; a_old, a_new: CHARACTER)
 		local
-			i, n: INTEGER; area: SPECIAL [CHARACTER]
+			i, i_final: INTEGER; area: SPECIAL [CHARACTER]
 		do
-			area := target.area; n := target.count
-			from i := 0 until i = n loop
+			area := target.area; i_final := target.count
+			from i := 0 until i = i_final loop
 				if area [i] = a_old then
 					area [i] := a_new
 				end
