@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 13:03:30 GMT (Wednesday 6th January 2021)"
-	revision: "1"
+	date: "2021-01-14 16:36:45 GMT (Thursday 14th January 2021)"
+	revision: "2"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -44,5 +44,7 @@ feature -- Test
 					assert ("same string", str_32 ~ substring_32)
 				end
 			end
+		ensure
+			line_2_starts_with_W: Text_lines.i_th (2).item (1) = 'W'
 		end
 end

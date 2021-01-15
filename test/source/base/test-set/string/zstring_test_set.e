@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:32:53 GMT (Friday 8th January 2021)"
-	revision: "35"
+	date: "2021-01-14 17:29:52 GMT (Thursday 14th January 2021)"
+	revision: "36"
 
 class
 	ZSTRING_TEST_SET
@@ -88,7 +88,7 @@ feature -- Conversion tests
 		local
 			str_32, mirror_32: STRING_32; str, mirror: ZSTRING
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item; str := str_32
 				mirror_32 := str_32.mirrored
 				mirror := str.mirrored
@@ -123,7 +123,7 @@ feature -- Conversion tests
 		local
 			str, delimiter, str_2, l_substring: ZSTRING
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
@@ -153,7 +153,7 @@ feature -- Conversion tests
 		local
 			str: ZSTRING; str_32: STRING_32
 		do
-			across Text_lines as line_32 loop
+			across text_lines as line_32 loop
 				str_32 := line_32.item
 				str := str_32
 				assert ("same string", str.to_general.same_string (str_32))
@@ -174,7 +174,7 @@ feature -- Element change tests
 			str_32, word_32: STRING_32; str, l_word: ZSTRING
 		do
 			create str_32.make_empty; create str.make_empty
-			across Text_words as word loop
+			across text_words as word loop
 				word_32 := word.item
 				if not str_32.is_empty then
 					str_32.append_character (' '); str.append_character (' ')
@@ -194,7 +194,7 @@ feature -- Element change tests
 			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
 			tuple: TUPLE; i, index: INTEGER
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str_32 := line.item
 				if line.cursor_index = 1 then
 					-- Test escaping the substitution marker
@@ -217,7 +217,7 @@ feature -- Element change tests
 						l_word := tuple.item (i).out
 					end
 					index := template_32.substring_index (l_word, 1)
-					template_32.replace_substring ("%S", index, index + l_word.count - 1)
+					template_32.replace_substring ({STRING_32} "%S", index, index + l_word.count - 1)
 					i := i + 1
 				end
 				str := template_32
@@ -234,7 +234,7 @@ feature -- Element change tests
 		local
 			str_32: STRING_32; word: ZSTRING
 		do
-			across Text_lines as line_32 loop
+			across text_lines as line_32 loop
 				create str_32.make (0)
 				across line_32.item.split (' ') as word_32 loop
 					word := word_32.item
@@ -271,7 +271,7 @@ feature -- Element change tests
 		local
 			str_32: STRING_32; str: ZSTRING
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item; str := str_32
 				str_32.prepend_character ('"'); str_32.append_character ('"')
 				str.quote (2)
@@ -286,11 +286,11 @@ feature -- Element change tests
 			str_32: STRING_32; str: ZSTRING; uc: CHARACTER_32
 			i: INTEGER
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				uc := word.item [1]
-				across Text_lines as line loop
+				across text_lines as line loop
 					from i := 1 until i > 5 loop
-						str_32 := line.item.twin; str := str_32
+						str_32 := line.item; str := str_32
 						str_32.insert_character (uc, i); str.insert_character (uc, i)
 						assert ("insert_character OK", str.same_string (str_32))
 						i := i + 1
@@ -301,21 +301,20 @@ feature -- Element change tests
 
 	test_insert_string
 		note
-			testing:	"covers/{ZSTRING}.insert_string"
+			testing:	"covers/{ZSTRING}.insert_string", "covers/{ZSTRING}.remove_substring"
 		local
-			str, insert: ZSTRING; str_32, insert_32: STRING_32
-			i: INTEGER
+			str, insert: ZSTRING; str_32: STRING_32
+			word_list: EL_SPLIT_ZSTRING_LIST
 		do
-			across Text_words as word loop
-				insert_32 := word.item; insert := insert_32
-				across Text_lines as line loop
-					from i := 1 until i > line.item.count + 1 loop
-						str_32 := line.item.twin; str := str_32
-						str_32.insert_string (insert_32, i)
-						str.insert_string (insert, i)
-						assert ("insert_string OK", str.same_string (str_32))
-						i := i + 1
-					end
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				create word_list.make (str_32, " ")
+				from word_list.start until word_list.after loop
+					insert := word_list.item (True)
+					str.remove_substring (word_list.item_start_index, word_list.item_end_index)
+					str.insert_string (insert, word_list.item_start_index)
+					assert ("insert_string OK", str.same_string (str_32))
+					word_list.forth
 				end
 			end
 		end
@@ -326,7 +325,7 @@ feature -- Element change tests
 		local
 			line, joined: ZSTRING; line_32: STRING_32
 		do
-			across Text_lines as list loop
+			across text_lines as list loop
 				line_32 := list.item.twin; line := line_32
 				line_32.append_string_general (" 100-abc")
 				joined := line.joined ([' ', 100, "-abc"])
@@ -353,7 +352,7 @@ feature -- Element change tests
 			word_list: EL_OCCURRENCE_INTERVALS [STRING_32]
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
-			across Text_lines as line_32 loop
+			across text_lines as line_32 loop
 				line := line_32.item
 				create str_32.make_empty; create str.make_empty
 				create word_list.make (line_32.item, s.character_string (' '))
@@ -377,13 +376,13 @@ feature -- Element change tests
 		do
 			across Text_characters as char loop
 				uc := char.item
-				across Text_lines as line loop
-					str_32 := line.item.twin; str := str_32
+				across text_lines as line loop
+					str_32 := line.item; str := str_32
 					str_32.prune_all (uc); str.prune_all (uc)
 					assert ("prune_all OK", str.same_string (str_32))
 				end
 			end
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item.twin; str := str_32
 				from until str_32.is_empty loop
 					uc := str_32 [1]
@@ -414,11 +413,11 @@ feature -- Element change tests
 			str_32: STRING_32; str: ZSTRING
 			uc: CHARACTER_32; i: INTEGER
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				uc := word.item [1]
-				across Text_lines as line loop
+				across text_lines as line loop
 					from i := line.item.index_of (uc, 1) until i = 0 loop
-						str_32 := line.item.twin; str := str_32
+						str_32 := line.item; str := str_32
 						str_32.put_code (uc.natural_32_code, i); str.put_unicode (uc.natural_32_code, i)
 						assert ("put_unicode OK", str.same_string (str_32))
 						i := line.item.index_of (uc, i + 1)
@@ -449,7 +448,7 @@ feature -- Element change tests
 					offset := offset + (interval.item.count // 2).max (1)
 				end
 			end
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item.twin; str := str_32
 				str.remove_substring (1, str.count)
 				str_32.remove_substring (1, str_32.count)
@@ -463,11 +462,11 @@ feature -- Element change tests
 			str_32: STRING_32; str: ZSTRING; uc_new, uc_old: CHARACTER_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				uc_old := word.item [1]
 				uc_new := word.item [word.item.count]
-				across Text_lines as line loop
-					str_32 := line.item.twin; str := str_32
+				across text_lines as line loop
+					str_32 := line.item; str := str_32
 					s.replace_character (str_32, uc_old, uc_new)
 					str.replace_character (uc_old, uc_new)
 					assert ("replace_character OK", str.same_string (str_32))
@@ -482,7 +481,7 @@ feature -- Element change tests
 			str, word: ZSTRING; str_32, substring: STRING_32
 			l_interval: INTEGER_INTERVAL; index: INTEGER
 		do
-			across Text_words as word_32 loop
+			across text_words as word_32 loop
 				-- Replace each word
 				word := word_32.item
 				index := word_32.cursor_index
@@ -504,11 +503,11 @@ feature -- Element change tests
 		local
 			str_32, word_32, previous_word_32: STRING_32; str, word, previous_word: ZSTRING
 		do
-			previous_word_32 := Text_words.last; previous_word := previous_word_32
-			across Text_words as w loop
+			previous_word_32 := text_words.last; previous_word := previous_word_32
+			across text_words as w loop
 				word_32 := w.item; word := word_32
-				across Text_lines as line loop
-					str_32 := line.item.twin
+				across text_lines as line loop
+					str_32 := line.item
 					str_32.append_character (' ')
 					str_32.append (line.item)
 					str := str_32
@@ -533,7 +532,7 @@ feature -- Element change tests
 		local
 			str, str_2: ZSTRING; str_utf_8: STRING; str_32: STRING_32
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item; str := str_32
 				str_utf_8 := str.to_utf_8
 				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (str_32, False)))
@@ -583,8 +582,8 @@ feature -- Status query tests
 			str_32, word_32: STRING_32; str, word: ZSTRING; i, count: INTEGER
 		do
 			str_32 := Text_russian_and_english.twin; str := str_32
-			from i := Text_words.count until i = 0 loop
-				word_32 := Text_words [i]; word := word_32
+			from i := text_words.count until i = 0 loop
+				word_32 := text_words [i]; word := word_32
 				if i = 1 then
 					count := word.count
 				else
@@ -603,7 +602,7 @@ feature -- Status query tests
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
 		do
-			across Text_lines as line_32 loop
+			across text_lines as line_32 loop
 				line := line_32.item
 				create word_list.make_with_words (line)
 				assert ("word is in word_list", line.for_all_split (s.character_string (' '), agent word_list.has))
@@ -616,9 +615,9 @@ feature -- Status query tests
 		local
 			english: ZSTRING; english_32: STRING_32
 		do
-			english_32 := Text_lines.last
+			english_32 := text_lines.last
 			english := english_32
-			across Text_lines as line loop
+			across text_lines as line loop
 				across line.item as uc loop
 					assert ("has OK", english.has (uc.item) ~ english_32.has (uc.item))
 				end
@@ -647,7 +646,7 @@ feature -- Status query tests
 			line, word: ZSTRING; i: INTEGER
 			word_list: EL_ZSTRING_LIST
 		do
-			across Text_lines as l loop
+			across text_lines as l loop
 				line := l.item
 				create word_list.make_with_words (l.item)
 				i := 1
@@ -668,7 +667,7 @@ feature -- Status query tests
 		do
 			create sorted.make (20); create sorted_32.make (20)
 			sorted.compare_objects; sorted_32.compare_objects
-			across Text_lines as line loop
+			across text_lines as line loop
 				sorted.wipe_out; sorted_32.wipe_out
 				across line.item.split (' ') as w loop
 					word := w.item
@@ -690,8 +689,8 @@ feature -- Status query tests
 			str_32, word_32: STRING_32; str, word: ZSTRING; pos_space: INTEGER
 			done: BOOLEAN
 		do
-			across Text_lines as line loop
-				str_32 := line.item.twin; str := str_32
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
 				from done := False until done loop
 					pos_space := str_32.index_of (' ', 1)
 					if pos_space > 0 then
@@ -715,7 +714,7 @@ feature -- Status query tests
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
 			s: EL_ZSTRING_ROUTINES
 		do
-			across Text_lines as line_32 loop
+			across text_lines as line_32 loop
 				line := line_32.item
 				create word_list.make_with_words (line)
 				across word_list as word loop
@@ -735,7 +734,7 @@ feature -- Removal tests
 		local
 			str_32: STRING_32; str: ZSTRING; i: INTEGER
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				from i := 1 until i > word.item.count loop
 					str_32 := word.item.twin; str := str_32
 					str.remove (i); str_32.remove (i)
@@ -790,7 +789,7 @@ feature -- Access tests
 			str: ZSTRING; str_32: STRING_32; uc: CHARACTER_32
 			index, index_32, i: INTEGER
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str_32 := line.item; str := str_32
 				across Text_characters as char loop
 					uc := char.item
@@ -809,7 +808,7 @@ feature -- Access tests
 			str: ZSTRING; str_32: STRING_32; uc: CHARACTER_32
 			index, index_32, i: INTEGER
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str_32 := line.item; str := str_32
 				across Text_characters as char loop
 					uc := char.item
@@ -827,7 +826,7 @@ feature -- Access tests
 		local
 			str: ZSTRING; str_32: STRING_32; uc: CHARACTER_32
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str_32 := line.item; str := str_32
 				across Text_characters as char loop
 					uc := char.item
@@ -842,9 +841,9 @@ feature -- Access tests
 		local
 			str, word, search_word: ZSTRING; str_32, word_32: STRING_32; pos, pos_32: INTEGER
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				str_32 := line.item; str := str_32
-				across Text_words as search_word_32 loop
+				across text_words as search_word_32 loop
 					search_word := search_word_32.item
 					pos := str.substring_index (search_word, 1)
 					pos_32 := str_32.substring_index (search_word_32.item, 1)
@@ -899,7 +898,7 @@ feature {NONE} -- Implementation
 		local
 			str: ZSTRING; str_32: STRING_32
 		do
-			across Text_words as word loop
+			across text_words as word loop
 				str_32 := word.item; str := str_32
 				across << Tab_character, Ogham_space_mark >> as c loop
 					across 1 |..| 2 as n loop

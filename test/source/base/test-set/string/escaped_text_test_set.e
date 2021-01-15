@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:25:27 GMT (Tuesday 5th January 2021)"
-	revision: "2"
+	date: "2021-01-14 16:49:14 GMT (Thursday 14th January 2021)"
+	revision: "3"
 
 class
 	ESCAPED_TEXT_TEST_SET
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text_lines as string loop
+			across text_lines as string loop
 				str_32 := string.item.twin
 				s.replace_character (str_32, '+', '&')
 				str := str_32

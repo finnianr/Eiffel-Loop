@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:26:03 GMT (Tuesday 5th January 2021)"
-	revision: "11"
+	date: "2021-01-14 16:35:46 GMT (Thursday 14th January 2021)"
+	revision: "12"
 
 class
 	STRING_32_ROUTINES_TEST_SET
@@ -60,5 +60,7 @@ feature -- Conversion tests
 				str_2.append (l_substring)
 			end
 			assert ("delimited_list OK", str ~ Text_russian_and_english)
+		ensure
+			line_2_starts_with_W: Text_lines.i_th (2).item (1) = 'W'
 		end
 end

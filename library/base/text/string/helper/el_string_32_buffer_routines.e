@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:11:02 GMT (Friday 8th January 2021)"
-	revision: "1"
+	date: "2021-01-14 10:14:12 GMT (Thursday 14th January 2021)"
+	revision: "2"
 
 expanded class
 	EL_STRING_32_BUFFER_ROUTINES
 
 feature -- Access
 
-	copied (str_32: STRING): STRING_32
+	copied (str_32: STRING_32): STRING_32
 		do
 			Result := empty
 			Result.append (str_32)

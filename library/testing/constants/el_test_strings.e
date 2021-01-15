@@ -6,14 +6,36 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-27 18:17:10 GMT (Sunday 27th December 2020)"
-	revision: "10"
+	date: "2021-01-14 16:45:06 GMT (Thursday 14th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_TEST_STRINGS
 
 inherit
 	EL_ANY_SHARED
+
+feature {NONE} -- Implementation
+
+	text_lines: EL_STRING_32_LIST
+		do
+			create Result.make_with_lines (Text_russian_and_english)
+		end
+
+	text_russian: STRING_32
+		do
+			Result := Text_russian.substring (1, Text_russian.index_of ('%N', 1) - 1)
+		end
+
+	text_words: ARRAYED_LIST [STRING_32]
+		do
+			create Result.make (50)
+			across text_lines as line loop
+				across line.item.split (' ') as word loop
+					Result.extend (word.item)
+				end
+			end
+		end
 
 feature {NONE} -- Characters
 
@@ -31,11 +53,6 @@ feature {NONE} -- Constants
 
 	Escaped_substitution_marker: STRING = "%%%S"
 
-	Text_lines: EL_STRING_32_LIST
-		once
-			create Result.make_with_lines (Text_russian_and_english)
-		end
-
 	Text_characters: ARRAY [CHARACTER_32]
 		local
 			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
@@ -45,21 +62,6 @@ feature {NONE} -- Constants
 				table.put (c.item, c.item)
 			end
 			Result := table.current_keys
-		end
-
-	Text_russian: STRING_32
-		once
-			Result := Text_lines.first
-		end
-
-	Text_words: ARRAYED_LIST [STRING_32]
-		once
-			create Result.make (50)
-			across Text_lines as line loop
-				across line.item.split (' ') as word loop
-					Result.extend (word.item)
-				end
-			end
 		end
 
 	Text_word_intervals: ARRAYED_LIST [INTEGER_INTERVAL]
@@ -79,6 +81,10 @@ feature {NONE} -- Constants
 
 feature {NONE} -- String_32 contants
 
+	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
+
+	Lower_case_mu: STRING_32 = "µ symbol"
+
 	Text_russian_and_english: STRING_32 = "[
 		и рыбку съесть, и в воду не лезть
 		Wanting to eat a fish without first catching it from the waters
@@ -87,10 +93,6 @@ feature {NONE} -- String_32 contants
 		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
 		Price € 100
 	]"
-
-	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
-
-	Lower_case_mu: STRING_32 = "µ symbol"
 
 	Upper_case_characters: STRING_32 = "™ŸAÀÖŽŠŒ"
 

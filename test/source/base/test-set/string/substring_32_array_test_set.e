@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:29:24 GMT (Monday 28th December 2020)"
-	revision: "6"
+	date: "2021-01-14 16:48:17 GMT (Thursday 14th January 2021)"
+	revision: "7"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -49,7 +49,7 @@ feature -- Test
 			create line.make_empty
 			create array.make_from_unencoded (line)
 			across 0 |..| 1 as n loop
-				across Text_russian.split (' ') as split loop
+				across text_russian.split (' ') as split loop
 					word := split.item
 					create word_array.make_from_unencoded (word)
 					shifted_array := word_array.shifted (line.count)
@@ -108,7 +108,7 @@ feature -- Test
 			insert_array, array: EL_SUBSTRING_32_ARRAY
 			l1: L1_ZSTRING
 		do
-			zstr := Text_russian
+			zstr := text_russian
 			index := zstr.index_of (',', 1)
 			if index > 0 then
 				zstr.remove_substring (index, index + 1)
@@ -139,7 +139,7 @@ feature -- Test
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
-				across Text_russian.split (' ') as split loop
+				across text_russian.split (' ') as split loop
 					word := split.item
 					create word_array.make_from_unencoded (word)
 					create line_array.make_from_unencoded (line)
@@ -162,7 +162,7 @@ feature -- Test
 			zstr: ZSTRING; count: INTEGER
 			unencoded: EL_UNENCODED_CHARACTERS; array: EL_SUBSTRING_32_ARRAY
 		do
-			zstr := Text_russian
+			zstr := text_russian
 			count := zstr.count
 			across 1 |..| count as index loop
 				unencoded := zstr + create {ZSTRING}.make_filled (' ', count)
@@ -180,7 +180,7 @@ feature -- Test
 			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
 			unencoded: EL_UNENCODED_CHARACTERS; array, sub_array: EL_SUBSTRING_32_ARRAY
 		do
-			zstr := Text_russian
+			zstr := text_russian
 			across 1 |..| 5 as n loop
 				substring_count := n.item
 				i_last := zstr.count - substring_count

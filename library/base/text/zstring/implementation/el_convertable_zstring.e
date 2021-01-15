@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:59:47 GMT (Friday 8th January 2021)"
-	revision: "11"
+	date: "2021-01-14 10:42:26 GMT (Thursday 14th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -36,36 +36,39 @@ feature -- To Strings
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
 		local
 			l_result_area: like to_latin_1.area; c: EL_UTF_CONVERTER
-			l_unicode: CHARACTER_32; l_area: SPECIAL [CHARACTER_32];
-			str_32: STRING_32; l_count, i: INTEGER; buffer: EL_STRING_32_BUFFER_ROUTINES
+			l_unicode: CHARACTER_32; l_area: SPECIAL [CHARACTER_32]
+			str_32: STRING_32; l_count, i: INTEGER
+			char_8: EL_CHARACTER_8_ROUTINES
 		do
 			if a_codec.encoded_as_utf (8) then
-				str_32 := buffer.copied (str_32)
+				str_32 := buffer_32.empty; append_to_string_32 (str_32)
 				create Result.make (c.utf_8_bytes_count (str_32, 1, count))
 				c.utf_32_string_into_utf_8_string_8 (str_32, Result)
 
-			elseif codec.same_as (a_codec) then
-				create Result.make_filled (Unencoded_character, count)
+			elseif codec.same_as (a_codec) or else char_8.is_7_bit_area (area, 0, count - 1) then
+				create Result.make (count)
 				Result.area.copy_data (area, 0, 0, count)
+				Result.set_count (count)
 
 			elseif a_codec.encoded_as_latin (1) then
 				l_count := count
-				create Result.make_filled (Unencoded_character, l_count)
+				create Result.make (l_count)
 				str_32 := buffer_32.empty
 				append_to_string_32 (str_32)
 				l_area := str_32.area; l_result_area := Result.area
-				from i := 0  until i = l_count loop
+				from i := 0 until i = l_count loop
 					l_unicode := l_area [i]
 					if l_unicode.natural_32_code <= 0xFF then
 						l_result_area [i] := l_unicode.to_character_8
 					end
 					i := i + 1
 				end
+				Result.set_count (count)
 			else
-				str_32 := buffer_32.empty
-				append_to_string_32 (str_32)
-				create Result.make_filled ('%U', count)
+				str_32 := buffer_32.empty; append_to_string_32 (str_32)
+				create Result.make (count)
 				a_codec.encode (str_32, Result.area, 0, empty_once_unencoded)
+				Result.set_count (count)
 			end
 		ensure
 			all_encoded: not Result.has (Unencoded_character)

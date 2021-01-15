@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 16:36:07 GMT (Tuesday 12th January 2021)"
-	revision: "25"
+	date: "2021-01-14 10:53:40 GMT (Thursday 14th January 2021)"
+	revision: "26"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_EXECUTABLE
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -51,7 +53,9 @@ feature -- Tests
 			create editor.make ("ht_extend", "table_extend")
 			editor.set_file_path (Hash_set_path)
 			editor.edit
-			line := User_input.line ("Enter to continue")
+			if Executable.Is_work_bench then
+				line := User_input.line ("Enter to continue")
+			end
 			publisher := new_publisher
 			publisher.execute
 

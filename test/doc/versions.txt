@@ -1,3 +1,6 @@
+1.2.18
+* Implemented EL_PARSE_EVENT_SOURCE with EL_EV EL_DOCUMENT_NODE_STRING
+
 1.2.17
 
 * Fixed {EL_ARRAYED_LIST}.shift_i_th with post-condition

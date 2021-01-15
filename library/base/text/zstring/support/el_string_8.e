@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:53:24 GMT (Tuesday 12th January 2021)"
-	revision: "7"
+	date: "2021-01-14 10:38:42 GMT (Thursday 14th January 2021)"
+	revision: "8"
 
 class
 	EL_STRING_8
@@ -32,23 +32,18 @@ feature -- Staus query
 
 	is_7_bit: BOOLEAN
 		-- `True' if all characters in `Current' are <= 0x7F
+		local
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			Result := is_7_bit_string (Current)
+			Result := c.is_7_bit_area (area, area_lower, area_upper)
 		end
 
 	is_7_bit_string (str: READABLE_STRING_8): BOOLEAN
 		-- `True' if all characters in `str' are <= 0x7F
 		local
-			l_area: like area; i, upper: INTEGER
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			l_area := str.area; upper := str.area_upper
-			Result := True
-			from i := str.area_lower until not Result or else i > upper loop
-				if l_area [i] > '%/0x7F/' then
-					Result := False
-				end
-				i := i + 1
-			end
+			Result := c.is_7_bit_area (str.area, str.area_lower, str.area_upper)
 		end
 
 feature -- Measurement
