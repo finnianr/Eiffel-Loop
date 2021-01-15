@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 16:36:45 GMT (Thursday 14th January 2021)"
-	revision: "2"
+	date: "2021-01-15 13:03:04 GMT (Friday 15th January 2021)"
+	revision: "3"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -29,22 +29,22 @@ feature -- Test
 	test_utf_8_substring_conversion
 		local
 			str_32, substring_32: STRING_32; utf_8: STRING_8
-			c: EL_UTF_CONVERTER
+			c: EL_UTF_CONVERTER; i, leading_count, trailing_count: INTEGER
 		do
-			across Text_lines as line loop
-				-- Skip Russian text
-				if line.cursor_index > 1 then
-					str_32 := line.item
-					utf_8 := c.string_32_to_utf_8_string_8 (str_32)
-					str_32.remove_head (2)
-					str_32.remove_tail (2)
-					create substring_32.make_empty
-					c.utf_8_substring_8_into_string_32 (utf_8, 3, utf_8.count - 2, substring_32)
---					c.utf_8_string_8_into_string_32 (utf_8.substring (3, utf_8.count - 2), substring_32)
-					assert ("same string", str_32 ~ substring_32)
+			across text_lines as line loop
+				str_32 := line.item
+				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F  loop
+					i := i + 1
 				end
+				leading_count := i - 1
+				from i := str_32.count until i = 0 or else str_32.code (i) > 0x7F loop
+					i := i - 1
+				end
+				trailing_count := str_32.count - i
+				utf_8 := c.string_32_to_utf_8_string_8 (str_32)
+				create substring_32.make_empty
+				c.utf_8_substring_8_into_string_32 (utf_8, leading_count + 1, utf_8.count - trailing_count, substring_32)
+				assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
 			end
-		ensure
-			line_2_starts_with_W: Text_lines.i_th (2).item (1) = 'W'
 		end
 end

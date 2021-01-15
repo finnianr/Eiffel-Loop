@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 12:25:34 GMT (Saturday 9th January 2021)"
-	revision: "26"
+	date: "2021-01-15 16:07:26 GMT (Friday 15th January 2021)"
+	revision: "27"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -104,37 +104,23 @@ feature -- Conversion
 			Result := s.to_string_32
 		end
 
-	to_character_32 (str: READABLE_STRING_GENERAL): CHARACTER_32
+	to_character_32 (str: S): CHARACTER_32
 		require
 			is_character_32: is_character_32 (str)
-		do
-			if is_character_32 (str) then
-				Result := str.item (1)
-			end
+		deferred
 		end
 
-	to_character_8 (str: READABLE_STRING_GENERAL): CHARACTER_8
+	to_character_8 (str: S): CHARACTER_8
 		require
 			is_character_8: is_character_8 (str)
-		do
-			if is_character_8 (str) then
-				Result := str.item (1).to_character_8
-			end
+		deferred
 		end
 
-	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): ANY
+	to_type (str: S; basic_type: TYPE [ANY]): ANY
 		-- `str' converted to type `basic_type'
 		require
 			convertible: is_convertible (str, basic_type)
-		local
-			to_basic_type: FUNCTION [READABLE_STRING_GENERAL, ANY]
-		do
-			if Conversion_table.has_key (basic_type) then
-				to_basic_type := Conversion_table.found_item.to_type
-				Result := to_basic_type (str)
-			else
-				create Result
-			end
+		deferred
 		end
 
 feature -- Lists
@@ -442,25 +428,17 @@ feature -- Status query
 			Result := has_quotes (s, 1)
 		end
 
-	is_character_32 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := str.count = 1
+	is_character_32 (str: S): BOOLEAN
+		deferred
 		end
 
-	is_character_8 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := str.count = 1 and then str.code (1) <= 0xFF
+	is_character_8 (str: S): BOOLEAN
+		deferred
 		end
 
-	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
+	is_convertible (s: S; basic_type: TYPE [ANY]): BOOLEAN
 		-- `True' if `str' is convertible to type `basic_type'
-		local
-			convertible: PREDICATE [READABLE_STRING_GENERAL]
-		do
-			if Conversion_table.has_key (basic_type) then
-				convertible := Conversion_table.found_item.is_convertible
-				Result := convertible (s)
-			end
+		deferred
 		end
 
 	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN
@@ -489,32 +467,4 @@ feature -- Status query
 			Result := not str.is_empty
 		end
 
-feature {NONE} -- Constants
-
-	Conversion_table: EL_HASH_TABLE [
-		TUPLE [is_convertible: PREDICATE [READABLE_STRING_GENERAL]; to_type: FUNCTION [READABLE_STRING_GENERAL, ANY]],
-		TYPE [ANY] -- basic type lookup key
-	]
-		-- string conversion predicates and conversion function
-		once
-			create Result.make (<<
-				[{BOOLEAN},			[agent {READABLE_STRING_GENERAL}.is_boolean, agent {READABLE_STRING_GENERAL}.to_boolean]],
-
-				[{CHARACTER_8},	[agent is_character_8, agent to_character_8]],
-				[{CHARACTER_32},	[agent is_character_32, agent to_character_32]],
-
-				[{INTEGER_8},		[agent {READABLE_STRING_GENERAL}.is_integer_8, agent {READABLE_STRING_GENERAL}.to_integer_8]],
-				[{INTEGER_16}, 	[agent {READABLE_STRING_GENERAL}.is_integer_16, agent {READABLE_STRING_GENERAL}.to_integer_16]],
-				[{INTEGER_32},		[agent {READABLE_STRING_GENERAL}.is_integer_32, agent {READABLE_STRING_GENERAL}.to_integer_32]],
-				[{INTEGER_64},		[agent {READABLE_STRING_GENERAL}.is_integer_64, agent {READABLE_STRING_GENERAL}.to_integer_64]],
-
-				[{NATURAL_8},		[agent {READABLE_STRING_GENERAL}.is_natural_8, agent {READABLE_STRING_GENERAL}.to_natural_8]],
-				[{NATURAL_16},		[agent {READABLE_STRING_GENERAL}.is_natural_16, agent {READABLE_STRING_GENERAL}.to_natural_16]],
-				[{NATURAL_32},		[agent {READABLE_STRING_GENERAL}.is_natural_32, agent {READABLE_STRING_GENERAL}.to_natural_32]],
-				[{NATURAL_64},		[agent {READABLE_STRING_GENERAL}.is_natural_64, agent {READABLE_STRING_GENERAL}.to_natural_64]],
-
-				[{DOUBLE},			[agent {READABLE_STRING_GENERAL}.is_double, agent {READABLE_STRING_GENERAL}.to_double]],
-				[{REAL},				[agent {READABLE_STRING_GENERAL}.is_real, agent {READABLE_STRING_GENERAL}.to_real]]
-			>>)
-		end
 end

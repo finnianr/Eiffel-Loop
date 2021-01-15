@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-13 10:53:05 GMT (Wednesday 13th January 2021)"
-	revision: "17"
+	date: "2021-01-15 16:08:27 GMT (Friday 15th January 2021)"
+	revision: "18"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -33,6 +33,17 @@ feature -- Basic operations
 
 feature -- Status query
 
+	is_convertible (s: STRING_8; basic_type: TYPE [ANY]): BOOLEAN
+		-- `True' if `str' is convertible to type `basic_type'
+		local
+			convertible: PREDICATE [STRING_8]
+		do
+			if Conversion_table.has_key (basic_type) then
+				convertible := Conversion_table.found_item.is_convertible
+				Result := convertible (s)
+			end
+		end
+
 	is_eiffel_identifier (s: STRING_8): BOOLEAN
 		local
 			i: INTEGER
@@ -49,12 +60,36 @@ feature -- Status query
 			end
 		end
 
+	is_character_32 (str: STRING_8): BOOLEAN
+		do
+			Result := str.count = 1
+		end
+
+	is_character_8 (str: STRING_8): BOOLEAN
+		do
+			Result := str.count = 1 and then str.item (1) <= '%/0xFF/'
+		end
+
 feature -- Conversion
 
 	cursor (s: READABLE_STRING_8): EL_STRING_8_ITERATION_CURSOR
 		do
 			Result := Once_cursor
 			Result.make (s)
+		end
+
+	to_character_32 (str: STRING_8): CHARACTER_32
+		do
+			if is_character_32 (str) then
+				Result := str.item (1)
+			end
+		end
+
+	to_character_8 (str: STRING_8): CHARACTER_8
+		do
+			if is_character_8 (str) then
+				Result := str.item (1).to_character_8
+			end
 		end
 
 	to_code_array (s: STRING_8): ARRAY [NATURAL_8]
@@ -65,6 +100,19 @@ feature -- Conversion
 			from i := 1 until i > s.count loop
 				Result [i] := s.code (i).to_natural_8
 				i := i + 1
+			end
+		end
+
+	to_type (str: STRING_8; basic_type: TYPE [ANY]): ANY
+		-- `str' converted to type `basic_type'
+		local
+			to_basic_type: FUNCTION [STRING_8, ANY]
+		do
+			if Conversion_table.has_key (basic_type) then
+				to_basic_type := Conversion_table.found_item.to_type
+				Result := to_basic_type (str)
+			else
+				create Result
 			end
 		end
 
@@ -207,4 +255,34 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+feature {NONE} -- Constants
+
+	Conversion_table: EL_HASH_TABLE [
+		TUPLE [is_convertible: PREDICATE [STRING_8]; to_type: FUNCTION [STRING_8, ANY]],
+		TYPE [ANY] -- basic type lookup key
+	]
+		-- string conversion predicates and conversion function
+		once
+			create Result.make (<<
+				[{BOOLEAN},			[agent {STRING_8}.is_boolean, agent {STRING_8}.to_boolean]],
+
+				[{CHARACTER_8},	[agent is_character_8, agent to_character_8]],
+				[{CHARACTER_32},	[agent is_character_32, agent to_character_32]],
+
+				[{INTEGER_8},		[agent {STRING_8}.is_integer_8, agent {STRING_8}.to_integer_8]],
+				[{INTEGER_16}, 	[agent {STRING_8}.is_integer_16, agent {STRING_8}.to_integer_16]],
+				[{INTEGER_32},		[agent {STRING_8}.is_integer_32, agent {STRING_8}.to_integer_32]],
+				[{INTEGER_64},		[agent {STRING_8}.is_integer_64, agent {STRING_8}.to_integer_64]],
+
+				[{NATURAL_8},		[agent {STRING_8}.is_natural_8, agent {STRING_8}.to_natural_8]],
+				[{NATURAL_16},		[agent {STRING_8}.is_natural_16, agent {STRING_8}.to_natural_16]],
+				[{NATURAL_32},		[agent {STRING_8}.is_natural_32, agent {STRING_8}.to_natural_32]],
+				[{NATURAL_64},		[agent {STRING_8}.is_natural_64, agent {STRING_8}.to_natural_64]],
+
+				[{DOUBLE},			[agent {STRING_8}.is_double, agent {STRING_8}.to_double]],
+				[{REAL},				[agent {STRING_8}.is_real, agent {STRING_8}.to_real]]
+			>>)
+		end
+
 end

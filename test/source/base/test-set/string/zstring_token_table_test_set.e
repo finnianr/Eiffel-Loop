@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 12:40:21 GMT (Saturday 7th March 2020)"
-	revision: "7"
+	date: "2021-01-15 13:40:03 GMT (Friday 15th January 2021)"
+	revision: "8"
 
 class
 	ZSTRING_TOKEN_TABLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_TEST_STRINGS
 
 feature -- Basic operations
 
@@ -28,12 +30,14 @@ feature -- Tests
 	test_tokens
 		local
 			table: EL_ZSTRING_TOKEN_TABLE
-			en_manual: ZSTRING; path_tokens: STRING_32
+			line: ZSTRING; path_tokens: STRING_32
 		do
-			en_manual := "en/Manual"
-			create table.make (3)
-			path_tokens := table.token_list (en_manual, '/')
-			assert ("same token list", path_tokens ~ table.iterable_to_token_list (<< "en", "Manual" >>))
+			across text_lines as list loop
+				line := list.item
+				create table.make (30)
+				path_tokens := table.token_list (line, ' ')
+				assert ("same token list", path_tokens ~ table.iterable_to_token_list (line.split (' ')))
+			end
 		end
 
 end

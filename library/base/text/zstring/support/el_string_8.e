@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 10:38:42 GMT (Thursday 14th January 2021)"
-	revision: "8"
+	date: "2021-01-15 16:02:50 GMT (Friday 15th January 2021)"
+	revision: "9"
 
 class
 	EL_STRING_8
@@ -66,7 +66,7 @@ feature -- Basic operations
 
 	append_adjusted_to (str: STRING)
 		local
-			n, i, start_index, end_index, offset: INTEGER; str_32: STRING_32
+			n, i, start_index, end_index, offset: INTEGER
 			l_area, o_area: like area
 		do
 			end_index := count - trailing_white_count

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 17:29:52 GMT (Thursday 14th January 2021)"
-	revision: "36"
+	date: "2021-01-15 13:24:15 GMT (Friday 15th January 2021)"
+	revision: "37"
 
 class
 	ZSTRING_TEST_SET
@@ -283,18 +283,17 @@ feature -- Element change tests
 		note
 			testing:	"covers/{ZSTRING}.insert_character"
 		local
-			str_32: STRING_32; str: ZSTRING; uc: CHARACTER_32
-			i: INTEGER
+			str_32, word_32: STRING_32; word: ZSTRING; uc_1, uc_2: CHARACTER_32
 		do
-			across text_words as word loop
-				uc := word.item [1]
-				across text_lines as line loop
-					from i := 1 until i > 5 loop
-						str_32 := line.item; str := str_32
-						str_32.insert_character (uc, i); str.insert_character (uc, i)
-						assert ("insert_character OK", str.same_string (str_32))
-						i := i + 1
-					end
+			across text_words as list loop
+				word_32 := list.item
+				if word_32.count > 1 then
+					word := word_32
+					uc_1 := word_32 [1]; uc_2 := word_32 [word_32.count]
+					word := word_32.substring (2, word_32.count - 1)
+					word.insert_character (uc_1, 1)
+					word.insert_character (uc_2, word.count + 1)
+					assert ("insert_character OK", word.same_string (word_32))
 				end
 			end
 		end

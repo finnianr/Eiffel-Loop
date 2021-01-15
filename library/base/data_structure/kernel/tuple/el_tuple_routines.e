@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:16:49 GMT (Tuesday 5th January 2021)"
-	revision: "13"
+	date: "2021-01-15 16:02:50 GMT (Friday 15th January 2021)"
+	revision: "14"
 
 class
 	EL_TUPLE_ROUTINES
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
-
-	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -36,51 +34,61 @@ feature -- Basic operations
 			valid_comma_count: csv_list.occurrences (',') = tuple.count - 1
 		local
 			tuple_type: TYPE [TUPLE]; item_type: TYPE [ANY]; type_id, csv_list_type_id: INTEGER
-			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]; str_8: STRING; ref_item: ANY
-			type_convertible: BOOLEAN; list_item: STRING_GENERAL; s: EL_STRING_8_ROUTINES
+			list: like new_split_list; item_str: STRING_GENERAL
 		do
 			tuple_type := tuple.generating_type
 			csv_list_type_id := {ISE_RUNTIME}.dynamic_type (csv_list)
-			if csv_list.is_string_8 then
-				create {EL_SPLIT_STRING_8_LIST} list.make (csv_list.as_string_8, Comma)
-			else
-				create {EL_SPLIT_STRING_32_LIST} list.make (csv_list.as_string_32, Comma)
-			end
+			list := new_split_list (csv_list)
 			if left_adjusted then
 				list.enable_left_adjust
 			end
 			from list.start until list.index > tuple.count or list.after loop
-				list_item := list.item (False)
+				item_str := list.item (False)
 				item_type := tuple_type.generic_parameter_type (list.index)
 				type_id := item_type.type_id
-				ref_item := Void; type_convertible := True
 				inspect tuple.item_code (list.index)
 					when {TUPLE}.Reference_code then
 						if csv_list_type_id = type_id then
-							ref_item := list_item.twin
-						elseif attached new_item (type_id, list_item) as new then
-							ref_item := new
+							tuple.put_reference (item_str.twin, list.index)
+						elseif attached new_item (type_id, item_str) as new then
+							tuple.put_reference (new, list.index)
 						else
-							type_convertible := False
+							check i_th_type_convertible: True end
 						end
+					when {TUPLE}.Boolean_code then
+						tuple.put_boolean (item_str.to_boolean, list.index)
+					when {TUPLE}.Character_8_code then
+						if item_str.count > 0 then
+							tuple.put_character (item_str.item (1).to_character_8, list.index)
+						end
+					when {TUPLE}.Character_32_code then
+						if item_str.count > 0 then
+							tuple.put_character_32 (item_str.item (1), list.index)
+						end
+					when {TUPLE}.Real_32_code then
+						tuple.put_real_32 (item_str.to_real_32, list.index)
+					when {TUPLE}.Real_64_code then
+						tuple.put_real_64 (item_str.to_real_64, list.index)
+
+					when {TUPLE}.Integer_8_code then
+						tuple.put_integer_8 (item_str.to_integer_8, list.index)
+					when {TUPLE}.Integer_16_code then
+						tuple.put_integer_16 (item_str.to_integer_16, list.index)
+					when {TUPLE}.Integer_32_code then
+						tuple.put_integer_32 (item_str.to_integer_32, list.index)
+					when {TUPLE}.Integer_64_code then
+						tuple.put_integer_64 (item_str.to_integer_64, list.index)
+
+					when {TUPLE}.Natural_8_code then
+						tuple.put_natural_8 (item_str.to_natural_8, list.index)
+					when {TUPLE}.Natural_16_code then
+						tuple.put_natural_16 (item_str.to_natural_16, list.index)
+					when {TUPLE}.Natural_32_code then
+						tuple.put_natural_32 (item_str.to_natural_32, list.index)
+					when {TUPLE}.Natural_64_code then
+						tuple.put_natural_64 (item_str.to_natural_64, list.index)
 				else
-					if list_item.is_valid_as_string_8 then
-						str_8 := list_item.to_string_8
-						-- Try converting to basic type
-						if s.is_convertible (str_8, item_type) then
-							tuple.put (s.to_type (str_8, item_type), list.index)
-						else
-							type_convertible := False
-						end
-					else
-						type_convertible := False
-					end
-				end
-				if attached ref_item as l_item  then
-					tuple.put_reference (l_item, list.index)
-				end
-				check
-					type_convertible: type_convertible
+					check i_th_type_convertible: True end
 				end
 				list.forth
 			end
@@ -158,6 +166,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	new_split_list (csv_list: STRING_GENERAL): EL_SPLIT_STRING_LIST [STRING_GENERAL]
+		do
+			if csv_list.is_string_8 then
+				create {EL_SPLIT_STRING_8_LIST} Result.make (csv_list.as_string_8, Comma)
+			else
+				create {EL_SPLIT_STRING_32_LIST} Result.make (csv_list.as_string_32, Comma)
+			end
+		end
+
 	new_item (type_id: INTEGER; string: STRING_GENERAL): detachable ANY
 		-- reference with dynamic type `type_id'
 		do
@@ -175,7 +192,18 @@ feature {NONE} -- Implementation
 
 			elseif type_id = Class_id.EL_DIR_PATH then
 				create {EL_DIR_PATH} Result.make (string)
+			else
+				check
+					invalid_type_id: True
+				end
 			end
+		ensure
+			not_void: attached Result
+		end
+
+	put_item (tuple: TUPLE; index: INTEGER)
+		do
+
 		end
 
 feature {NONE} -- Constants
