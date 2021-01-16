@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 10:24:40 GMT (Tuesday 12th January 2021)"
-	revision: "14"
+	date: "2021-01-16 12:48:47 GMT (Saturday 16th January 2021)"
+	revision: "15"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_default
+			make_default, on_meta_data
 		end
 
 	EL_MODULE_LIO
@@ -131,6 +131,7 @@ feature {NONE} -- Parsing events
 	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 		--
 		do
+			Precursor (version, a_encoding)
 			if a_encoding.encoded_as_utf (8) then
 				output.put_string ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:35:19 GMT (Thursday 7th January 2021)"
-	revision: "12"
+	date: "2021-01-16 12:45:05 GMT (Saturday 16th January 2021)"
+	revision: "13"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -107,11 +107,6 @@ feature {NONE} -- Parsing events
 				end
 				attribute_list.forth
 			end
-		end
-
-	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
-			--
-		do
 		end
 
 feature -- Element change

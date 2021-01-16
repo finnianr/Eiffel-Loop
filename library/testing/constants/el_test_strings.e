@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 16:45:06 GMT (Thursday 14th January 2021)"
-	revision: "11"
+	date: "2021-01-16 13:05:54 GMT (Saturday 16th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_TEST_STRINGS
@@ -24,7 +24,7 @@ feature {NONE} -- Implementation
 
 	text_russian: STRING_32
 		do
-			Result := Text_russian.substring (1, Text_russian.index_of ('%N', 1) - 1)
+			Result := Text_russian_and_english.substring (1, Text_russian_and_english.index_of ('%N', 1) - 1)
 		end
 
 	text_words: ARRAYED_LIST [STRING_32]

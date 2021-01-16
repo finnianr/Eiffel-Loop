@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:30:22 GMT (Thursday 7th January 2021)"
-	revision: "12"
+	date: "2021-01-16 12:46:26 GMT (Saturday 16th January 2021)"
+	revision: "13"
 
 class
 	EL_XPATH_MATCH_SCAN_SOURCE
@@ -113,11 +113,6 @@ feature {NONE} -- Parsing events
 				last_node := element_node
 				target_object.set_last_node (element_node)
 			end
-		end
-
-	on_meta_data (version: REAL; encodeable: EL_ENCODING_BASE)
-			--
-		do
 		end
 
 feature {NONE} -- Implementation

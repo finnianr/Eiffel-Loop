@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:53:52 GMT (Tuesday 12th January 2021)"
-	revision: "11"
+	date: "2021-01-16 13:11:52 GMT (Saturday 16th January 2021)"
+	revision: "12"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -69,6 +69,7 @@ inherit
 			make as make_encodeable
 		export
 			{NONE} all
+			{EL_DOCUMENT_CLIENT} set_encoding_from_other
 		undefine
 			copy, is_equal, out
 		end
@@ -77,6 +78,8 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make_empty
@@ -172,11 +175,21 @@ feature -- String conversion
 
 	adjusted (keep_ref: BOOLEAN): ZSTRING
 		-- string with adjusted whitespace
+		local
+			str: STRING_8
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := buffer.adjusted (Current)
+				Result := buffer.empty
+				str := buffer_8.adjusted (Current)
+				if encoding = Codec.encoding or else is_7_bit then
+					Result.grow (str.count)
+					Result.area.copy_data (str.area, 0, 0, str.count)
+					Result.set_count (str.count)
+				else
+					Codec.append_encoded_to (str, Result)
+				end
 				if keep_ref then
 					Result := Result.twin
 				end
@@ -184,13 +197,11 @@ feature -- String conversion
 		end
 
 	adjusted_32 (keep_ref: BOOLEAN): STRING_32
-		local
-			l_buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := l_buffer.adjusted (Current)
+				Result := buffer_32.adjusted (Current)
 				if keep_ref then
 					Result := Result.twin
 				end

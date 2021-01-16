@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 17:02:44 GMT (Thursday 7th January 2021)"
-	revision: "4"
+	date: "2021-01-16 12:46:14 GMT (Saturday 16th January 2021)"
+	revision: "5"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_DOCUMENT_NODE_SCANNER
 		redefine
-			make_default
+			make_default, on_meta_data
 		end
 
 	EL_PARSE_EVENT_CONSTANTS
@@ -130,6 +130,7 @@ feature {NONE} -- Implementation
 	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 			--
 		do
+			Precursor (version, a_encoding)
 			output.put_real (version); output.put_natural (a_encoding.encoding)
 		end
 

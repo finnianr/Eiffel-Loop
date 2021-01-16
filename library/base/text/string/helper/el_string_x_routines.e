@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 16:07:26 GMT (Friday 15th January 2021)"
+	date: "2021-01-16 11:10:41 GMT (Saturday 16th January 2021)"
 	revision: "27"
 
 deferred class
@@ -14,6 +14,8 @@ deferred class
 
 inherit
 	STRING_HANDLER
+
+	EL_MODULE_CONVERT_STRING
 
 feature -- Basic operations
 
@@ -104,23 +106,10 @@ feature -- Conversion
 			Result := s.to_string_32
 		end
 
-	to_character_32 (str: S): CHARACTER_32
-		require
-			is_character_32: is_character_32 (str)
-		deferred
-		end
-
-	to_character_8 (str: S): CHARACTER_8
-		require
-			is_character_8: is_character_8 (str)
-		deferred
-		end
-
-	to_type (str: S; basic_type: TYPE [ANY]): ANY
+	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
 		-- `str' converted to type `basic_type'
-		require
-			convertible: is_convertible (str, basic_type)
-		deferred
+		do
+			Result := Convert_string.to_type (str, basic_type)
 		end
 
 feature -- Lists
@@ -428,17 +417,10 @@ feature -- Status query
 			Result := has_quotes (s, 1)
 		end
 
-	is_character_32 (str: S): BOOLEAN
-		deferred
-		end
-
-	is_character_8 (str: S): BOOLEAN
-		deferred
-		end
-
-	is_convertible (s: S; basic_type: TYPE [ANY]): BOOLEAN
+	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
 		-- `True' if `str' is convertible to type `basic_type'
-		deferred
+		do
+			Result := Convert_string.is_convertible (s, basic_type)
 		end
 
 	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN

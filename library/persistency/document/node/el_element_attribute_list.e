@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 14:57:40 GMT (Sunday 10th January 2021)"
-	revision: "9"
+	date: "2021-01-16 12:57:31 GMT (Saturday 16th January 2021)"
+	revision: "10"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
@@ -28,6 +28,15 @@ inherit
 			all_default
 		end
 
+	EL_ENCODING_BASE
+		rename
+			make as make_encoding,
+			set_from_other as set_encoding_from_other
+		export
+			{NONE} all
+			{EL_DOCUMENT_CLIENT} set_encoding_from_other
+		end
+
 	EL_DOCUMENT_CLIENT
 		undefine
 			is_equal, copy
@@ -41,6 +50,7 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
+			make_default
 			make_list (Default_size)
 			create node_cache.make (Default_size)
 			from until node_cache.full loop
@@ -59,6 +69,7 @@ feature -- Element change
 			end
 			extend_list (node_cache [count + 1])
 			finish
+			last.set_encoding_from_other (Current)
 		end
 
 feature {NONE} -- Implementation

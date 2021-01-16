@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:29:46 GMT (Thursday 7th January 2021)"
-	revision: "14"
+	date: "2021-01-16 12:58:26 GMT (Saturday 16th January 2021)"
+	revision: "15"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -151,9 +151,11 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 		deferred
 		end
 
-	on_meta_data (version: REAL; encodeable: EL_ENCODING_BASE)
+	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 		-- on parsing of meta data on first line of document
-		deferred
+		do
+			last_node.set_encoding_from_other (a_encoding)
+			attribute_list.set_encoding_from_other (a_encoding)
 		end
 
 feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access

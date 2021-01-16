@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:51:22 GMT (Friday 8th January 2021)"
-	revision: "19"
+	date: "2021-01-16 13:10:26 GMT (Saturday 16th January 2021)"
+	revision: "20"
 
 deferred class
 	EL_ZCODEC
@@ -82,6 +82,17 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE} -- Access
 		-- map latin to unicode
 
 feature -- Basic operations
+
+	append_encoded_to (str: READABLE_STRING_8; output: ZSTRING)
+		-- append `str' encoded with `encoding' to `output'
+		do
+			if encoded_as_latin (1) then
+				output.append_string_general (str)
+			else
+				Unicode_buffer.set_from_encoded (Current, str)
+				output.append_string_general (Unicode_buffer)
+			end
+		end
 
 	append_encoded_to_string_8 (unicode_in: READABLE_STRING_GENERAL; output: STRING)
 		local
