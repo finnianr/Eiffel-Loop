@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 13:20:52 GMT (Monday 21st December 2020)"
-	revision: "1"
+	date: "2021-01-17 13:05:39 GMT (Sunday 17th January 2021)"
+	revision: "2"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -42,19 +42,21 @@ feature {NONE} -- Implementation
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
 		local
-			file: RAW_FILE; restored_object: EL_STORABLE
+			restored_object: EL_STORABLE
 		do
 			File_path.set_base ("stored.dat")
 
 			object.print_fields (lio)
 
-			create file.make_open_write (File_path)
-			reader_writer.write (object, file)
-			file.close
+			if attached open_raw (File_path, Write) as file then
+				reader_writer.write (object, file)
+				file.close
+			end
 
-			create file.make_open_read (File_path)
-			restored_object := reader_writer.read_item (file)
-			file.close
+			if attached open_raw (File_path, Read) as file then
+				restored_object := reader_writer.read_item (file)
+				file.close
+			end
 
 			assert ("restored OK", object ~ restored_object)
 		end

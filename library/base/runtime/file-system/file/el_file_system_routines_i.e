@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 12:15:32 GMT (Monday 3rd August 2020)"
-	revision: "27"
+	date: "2021-01-17 13:08:22 GMT (Sunday 17th January 2021)"
+	revision: "28"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -27,6 +27,11 @@ inherit
 		rename
 			copy as copy_object,
 			Directory as Stanard_directory
+		end
+
+	EL_FILE_OPEN_ROUTINES
+		rename
+			copy as copy_object
 		end
 
 feature {NONE} -- Initialization
@@ -61,13 +66,12 @@ feature -- Access
 	file_data (a_file_path: EL_FILE_PATH): MANAGED_POINTER
 		require
 			file_exists: a_file_path.exists
-		local
-			l_file: RAW_FILE
 		do
-			create l_file.make_open_read (a_file_path)
-			create Result.make (l_file.count)
-			l_file.read_to_managed_pointer (Result, 0, l_file.count)
-			l_file.close
+			if attached open_raw (a_file_path, Read) as l_file then
+				create Result.make (l_file.count)
+				l_file.read_to_managed_pointer (Result, 0, l_file.count)
+				l_file.close
+			end
 		end
 
 	line_one (a_file_path: EL_FILE_PATH): STRING
@@ -339,12 +343,11 @@ feature -- Status query
 
 	has_content (a_file_path: EL_FILE_PATH): BOOLEAN
 			-- True if file not empty
-		local
-			l_file: RAW_FILE
 		do
-			create l_file.make_open_read (a_file_path)
-			Result := not l_file.is_empty
-			l_file.close
+			if attached open_raw (a_file_path, Read) as l_file then
+				Result := not l_file.is_empty
+				l_file.close
+			end
 		end
 
 	is_file_newer (path_1, path_2: EL_FILE_PATH): BOOLEAN

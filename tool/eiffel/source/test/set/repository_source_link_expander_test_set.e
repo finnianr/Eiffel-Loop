@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 9:43:51 GMT (Monday 24th August 2020)"
-	revision: "6"
+	date: "2021-01-17 15:52:38 GMT (Sunday 17th January 2021)"
+	revision: "7"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -19,6 +19,10 @@ inherit
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
+
+	EL_FILE_OPEN_ROUTINES
+
+	EL_MODULE_EXECUTABLE
 
 feature -- Basic operations
 
@@ -38,22 +42,21 @@ feature -- Tests
 			publisher := new_publisher
 			publisher.execute
 			check_expanded_contents (publisher)
-			n := User_input.integer ("Return to finish")
+			if Executable.Is_work_bench then
+				n := User_input.integer ("Return to finish")
+			end
 			log.exit
 		end
 
 feature {NONE} -- Events
 
 	on_prepare
-		local
-			file: EL_PLAIN_TEXT_FILE
 		do
 			Precursor
-			create file.make_open_write (File_path)
-			file.put_string_8 ("[
-				Class [$source EL_REFLECTIVELY_SETTABLE] inherits from class [$source EL_REFLECTIVE]
-			]")
-			file.close
+			if attached open (File_path, Write) as file then
+				file.put_string (Inherits_template #$ [Type_descendant.name, Type_base.name])
+				file.close
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -65,8 +68,8 @@ feature {NONE} -- Implementation
 		do
 			web_url := publisher.web_address + "/"
 			blog_text := OS.File_system.plain_text (publisher.expanded_file_path)
-			across << "EL_REFLECTIVE", "EL_REFLECTIVELY_SETTABLE" >> as name loop
-				class_url := web_url + Class_source_table.item (name.item)
+			across << Type_base, Type_descendant >> as type loop
+				class_url := web_url + Class_source_table.item (type.item.name)
 				assert ("has uri path", blog_text.has_substring (class_url.to_string))
 			end
 		end
@@ -86,6 +89,21 @@ feature {NONE} -- Constants
 	File_path: EL_FILE_PATH
 		once
 			Result := Work_area_dir + "blog.txt"
+		end
+
+	Type_base: TYPE [ANY]
+		once
+			Result := {EL_FILE_PERSISTENT_I}
+		end
+
+	Type_descendant: TYPE [ANY]
+		once
+			Result := {EL_FILE_PERSISTENT}
+		end
+
+	Inherits_template: ZSTRING
+		once
+			Result := "Class [$source %S] inherits from class [$source %S]"
 		end
 
 end

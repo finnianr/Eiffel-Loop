@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-13 16:26:23 GMT (Wednesday 13th January 2021)"
-	revision: "25"
+	date: "2021-01-17 15:55:09 GMT (Sunday 17th January 2021)"
+	revision: "26"
 
 class
 	EL_PYXIS_PARSER
@@ -72,6 +72,7 @@ feature -- Basic operations
 		do
 			reset
 			scanner.on_start_document
+			create utf_8_line.make_empty
 
 			across a_lines as line loop
 				utf_8_line.wipe_out

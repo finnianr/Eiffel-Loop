@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 12:32:22 GMT (Wednesday 7th August 2019)"
-	revision: "1"
+	date: "2021-01-17 15:12:59 GMT (Sunday 17th January 2021)"
+	revision: "2"
 
 class
 	FAUX_FTP_PROTOCOL
@@ -51,6 +51,7 @@ feature -- Basic operations
 			destination := (home_directory + item.destination_file_path).parent
 			File_system.make_directory (destination)
 			OS.copy_file (item.source_path, destination)
+			last_succeeded := (destination + item.source_path.base).exists
 			uploaded_list.extend (item.source_path)
 		end
 

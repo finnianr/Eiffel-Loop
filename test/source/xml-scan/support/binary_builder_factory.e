@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 17:37:10 GMT (Sunday 20th December 2020)"
-	revision: "2"
+	date: "2021-01-17 13:14:08 GMT (Sunday 17th January 2021)"
+	revision: "3"
 
 class
 	BINARY_BUILDER_FACTORY
@@ -19,6 +19,8 @@ inherit
 		redefine
 			new_matrix, new_serializeable, new_smil_presentation, new_web_form
 		end
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -87,12 +89,11 @@ feature {NONE} -- Implementation
 
 	convert_file_to_bexml (file_path, output_file_path: EL_FILE_PATH)
 			--
-		local
-			bex_file: RAW_FILE
 		do
-			create bex_file.make_open_write (output_file_path)
-			parse_event_generator.send_file (file_path, bex_file)
-			bex_file.close
+			if attached open_raw (output_file_path, Write) as bex_file then
+				parse_event_generator.send_file (file_path, bex_file)
+				bex_file.close
+			end
 		end
 
 feature {NONE} -- Internal attributes

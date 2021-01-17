@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:10:34 GMT (Tuesday 10th November 2020)"
-	revision: "7"
+	date: "2021-01-17 16:48:54 GMT (Sunday 17th January 2021)"
+	revision: "8"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -74,6 +74,7 @@ feature -- Basic operations
 					across failed_list as failed loop
 						failed.item.print_failures
 					end
+					exit_code := 1
 				end
 			else
 				across test_type_list.non_conforming_list as type loop

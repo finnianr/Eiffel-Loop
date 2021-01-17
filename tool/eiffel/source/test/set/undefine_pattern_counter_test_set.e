@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 9:43:41 GMT (Monday 24th August 2020)"
-	revision: "6"
+	date: "2021-01-17 16:35:48 GMT (Sunday 17th January 2021)"
+	revision: "7"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -29,7 +29,7 @@ feature -- Tests
 
 	test_command
 		do
-			do_test ("count_pattern", 0, agent count_pattern, [])
+			do_test ("count_pattern", 138268884, agent count_pattern, [])
 		end
 
 feature {NONE} -- Implementation
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 		local
 			command: UNDEFINE_PATTERN_COUNTER_COMMAND
 		do
-			create command.make ("test-data/publisher-manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			create command.make ("test-data/base-manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
 
 			assert ("3 classes match", command.class_count = 3)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 11:43:41 GMT (Thursday 20th August 2020)"
-	revision: "9"
+	date: "2021-01-17 13:16:11 GMT (Sunday 17th January 2021)"
+	revision: "10"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -23,6 +23,11 @@ inherit
 				open_read, open_write, make_open_write, make_open_read
 		redefine
 			make_with_name, after, off
+		end
+
+	EL_FILE_OPEN_ROUTINES
+		rename
+			Append as Append_to
 		end
 
 	EL_MODULE_CHECKSUM
@@ -167,14 +172,12 @@ feature -- Basic operations
 
 	write_last_data (a_file_path: EL_FILE_PATH)
 		-- write content of `last_data' to file `a_file_path'
-		local
-			output_file: RAW_FILE
 		do
-			create output_file.make_open_write (a_file_path)
-
-			Data_pointer.set_from_pointer (last_data.base_address, last_data.count)
-			output_file.put_managed_pointer (Data_pointer, 0, last_data.count)
-			output_file.close
+			if attached open_raw (a_file_path, Write) as output_file then
+				Data_pointer.set_from_pointer (last_data.base_address, last_data.count)
+				output_file.put_managed_pointer (Data_pointer, 0, last_data.count)
+				output_file.close
+			end
 		end
 
 feature {NONE} -- Implementation

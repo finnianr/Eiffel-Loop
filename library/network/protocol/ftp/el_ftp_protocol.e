@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:41:25 GMT (Sunday 10th January 2021)"
-	revision: "17"
+	date: "2021-01-17 15:17:43 GMT (Sunday 17th January 2021)"
+	revision: "18"
 
 class
 	EL_FTP_PROTOCOL
@@ -24,6 +24,12 @@ inherit
 			{EL_FTP_AUTHENTICATOR} send_username, send_password
 		redefine
 			close, open
+		end
+
+	EL_FILE_OPEN_ROUTINES
+		rename
+			Open as File_open,
+			Read as Read_from
 		end
 
 	EL_MODULE_EXCEPTION
@@ -357,7 +363,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			Result.change_to_unix
 		end
 
-	send (str: ZSTRING; codes: ARRAY[INTEGER])
+	send (str: ZSTRING; codes: ARRAY [INTEGER])
 		do
 			send_to_socket (main_socket, str.to_utf_8)
 			last_reply_utf_8.right_adjust
@@ -368,24 +374,24 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 	transfer_file_data (a_file_path: EL_FILE_PATH)
 			--
 		local
-			transfer_file: RAW_FILE; packet: PACKET; bytes_read: INTEGER
+			packet: PACKET; bytes_read: INTEGER
 		do
 			create packet.make (Default_packet_size)
-			create transfer_file.make_open_read (a_file_path)
-
-			from until transfer_file.after loop
-				transfer_file.read_to_managed_pointer (packet.data, 0, packet.count)
-				bytes_read := transfer_file.bytes_read
-				if bytes_read > 0 then
-					if bytes_read /= packet.count then
-						packet.data.resize (bytes_read)
+			if attached open_raw (a_file_path, Read_from) as transfer_file then
+				from until transfer_file.after loop
+					transfer_file.read_to_managed_pointer (packet.data, 0, packet.count)
+					bytes_read := transfer_file.bytes_read
+					if bytes_read > 0 then
+						if bytes_read /= packet.count then
+							packet.data.resize (bytes_read)
+						end
+						data_socket.write (packet)
 					end
-					data_socket.write (packet)
 				end
+				data_socket.close
+				is_packet_pending := false
+				transfer_file.close
 			end
-			data_socket.close
-			is_packet_pending := false
-			transfer_file.close
 			receive (main_socket)
 			if error then
 				if is_lio_enabled then

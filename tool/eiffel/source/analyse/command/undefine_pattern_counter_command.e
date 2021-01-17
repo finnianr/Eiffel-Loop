@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:24:40 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2021-01-17 16:07:45 GMT (Sunday 17th January 2021)"
+	revision: "8"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -112,7 +112,7 @@ feature {NONE} -- Line state handlers
 		do
 			create feature_list.make (code_line, Comma_string)
 			feature_list.enable_left_adjust
-			if feature_list.for_all (agent Common_undefines.has) then
+			if across feature_list as list all Common_undefines.has (list.item) end then
 				pattern_count := pattern_count + 1
 			end
 			state := agent expect_end
@@ -160,16 +160,14 @@ feature {NONE} -- Constants
 			Result := ","
 		end
 
-	Common_undefines: ARRAY [ZSTRING]
+	Common_undefines: EL_ZSTRING_LIST
 		once
-			Result := << "default_create", "is_equal", "out", "copy" >>
-			Result.compare_objects
+			Result := "default_create, is_equal, out, copy"
 		end
 
-	Excluded_keywords: ARRAY [ZSTRING]
+	Excluded_keywords: EL_ZSTRING_LIST
 		once
-			Result := << "redefine", "export", "rename" >>
-			Result.compare_objects
+			Result := "redefine, export, rename"
 		end
 
 end

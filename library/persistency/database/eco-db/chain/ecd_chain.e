@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:36:39 GMT (Sunday 6th December 2020)"
-	revision: "21"
+	date: "2021-01-17 13:03:26 GMT (Sunday 17th January 2021)"
+	revision: "22"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -68,6 +68,11 @@ inherit
 	EL_STORABLE_HANDLER
 		undefine
 			copy, is_equal
+		end
+
+	EL_FILE_OPEN_ROUTINES
+		rename
+			Append as Append_to
 		end
 
 	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
@@ -123,15 +128,14 @@ feature -- Access
 	deleted_count: INTEGER
 
 	file_version: NATURAL
-		local
-			file: RAW_FILE
 		do
-			create file.make_open_read (file_path)
-			if file.count >= {PLATFORM}.Natural_32_bits then
-				file.read_natural
-				Result := file.last_natural
+			if attached open_raw (file_path, Read) as file then
+				if file.count >= {PLATFORM}.Natural_32_bits then
+					file.read_natural
+					Result := file.last_natural
+				end
+				file.close
 			end
-			file.close
 		end
 
 	stored_byte_count: INTEGER

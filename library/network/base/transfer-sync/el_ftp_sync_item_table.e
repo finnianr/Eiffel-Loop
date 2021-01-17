@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:28:43 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2021-01-17 14:06:36 GMT (Sunday 17th January 2021)"
+	revision: "10"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE
 
 inherit
-	EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
+	EL_HASH_TABLE [NATURAL_32, EL_FILE_PATH]
 		rename
 			make as make_from_array
 		end
@@ -37,7 +37,7 @@ feature -- Basic operations
 		require
 			file_path_set: not file_path.is_empty
 		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [EL_FILE_PATH, NATURAL]
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [EL_FILE_PATH, NATURAL_32]
 		do
 			create map_list.make_from_table (Current)
 			map_list.sort (True)

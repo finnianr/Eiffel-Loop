@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 10:42:01 GMT (Monday 4th January 2021)"
-	revision: "28"
+	date: "2021-01-17 15:46:38 GMT (Sunday 17th January 2021)"
+	revision: "29"
 
 class
 	EL_ZSTRING
@@ -129,7 +129,7 @@ create
 	make_from_other, make_filled, make_from_latin_1_c, make_from_zcode_area
 
 convert
-	make_from_general ({STRING_32, STRING}),
+	make_from_general ({STRING_8, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
 
 	to_string_32: {STRING_32}, to_latin_1: {STRING}
 
