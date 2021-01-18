@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:08:04 GMT (Tuesday 19th May 2020)"
-	revision: "3"
+	date: "2021-01-18 15:01:22 GMT (Monday 18th January 2021)"
+	revision: "4"
 
 class
 	PUBLISH_DJ_EVENTS_TASK_TEST_TASK
@@ -39,7 +39,7 @@ feature {NONE} -- Constants
 			Result := work_area_data_dir.joined_dir_path ("www")
 		end
 
-	Checksum: NATURAL = 1456435456
+	Checksum: NATURAL = 4130425499
 
 	Task_config: STRING = "[
 		publish_dj_events:

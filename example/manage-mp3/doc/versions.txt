@@ -1,3 +1,6 @@
+2.3.0
+Changed type of {EL_PARSE_EVENT_SOURCE}.last_node to EL_DOCUMENT_NODE_STRING
+
 2.2.9
 New routine {RBOX_DATABASE}.existing_songs_query
 

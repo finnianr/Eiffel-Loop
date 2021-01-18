@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 9:41:00 GMT (Monday 24th August 2020)"
-	revision: "13"
+	date: "2021-01-18 12:53:10 GMT (Monday 18th January 2021)"
+	revision: "14"
 
 deferred class
 	EIFFEL_LOOP_TEST_CONSTANTS
@@ -16,6 +16,22 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_DIRECTORY
+
+feature {NONE} -- Implementation
+
+	new_eiffel_loop_dir: EL_DIR_PATH
+		local
+			steps: EL_PATH_STEPS
+		do
+			from
+				steps := Directory.working
+			until
+				steps.is_empty or else steps.last ~ Eiffel_loop
+			loop
+				steps.remove_tail (1)
+			end
+			Result := steps
+		end
 
 feature {NONE} -- Constants
 
@@ -36,20 +52,13 @@ feature {NONE} -- Constants
 		end
 
 	Eiffel_loop_dir: EL_DIR_PATH
-		local
-			steps: EL_PATH_STEPS
 		once
-			Result := Execution.variable_dir_path ("EIFFEL_LOOP")
-			if Result.is_empty then
-				from
-					steps := Directory.current_working
-				until
-					steps.is_empty or else steps.last ~ Eiffel_loop
-				loop
-					steps.remove_tail (1)
-				end
-				Result := steps
+			if attached Execution.item (Var_EIFFEL_LOOP) as path then
+				Result := path
+			else
+				Result := new_eiffel_loop_dir
 			end
 		end
 
+	Var_EIFFEL_LOOP: STRING = "EIFFEL_LOOP"
 end

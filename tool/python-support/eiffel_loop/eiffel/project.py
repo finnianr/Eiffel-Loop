@@ -227,7 +227,19 @@ class EIFFEL_PROJECT (object):
 	def platform_name (self):
 		pass
 
+	def package_exe_path (self):
+		# path to exe in package
+		result =	exe_path = path.join ('build', ise.platform, 'package', 'bin', self.exe_name)
+		return result
+
 # Basic operation
+	def autotest (self):
+		# call -autotest option on finalized exe
+		# returns 0 if no error
+		exe_path = self.package_exe_path ()
+		result = call ([exe_path, '-autotest'])
+		return result
+
 	def build (self, cpu_target, options_extra = None):
 		options = ['cpu=' + cpu_target, 'action=finalize']
 		if options_extra:
@@ -264,7 +276,7 @@ class EIFFEL_PROJECT (object):
 		if f_code:
 			exe_path = path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
 		else:
-			exe_path = path.join ('build', ise.platform, 'package', 'bin', self.exe_name)
+			exe_path = self.package_exe_path ()
 
 		exe_dest_path = path.join (install_dir, self.versioned_exe_name ())
 

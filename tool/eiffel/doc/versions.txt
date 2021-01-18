@@ -1,3 +1,6 @@
+1.3.0
+* New type EL_DOCUMENT_NODE_STRING for {EL_PARSE_EVENT_SOURCE}.last_node
+
 1.2.6
 * Important fix to {EL_FILE_LINE_SOURCE}.forth
 

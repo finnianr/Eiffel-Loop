@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 16:07:45 GMT (Sunday 17th January 2021)"
-	revision: "8"
+	date: "2021-01-18 13:24:06 GMT (Monday 18th January 2021)"
+	revision: "9"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -85,7 +85,7 @@ feature -- Basic operations
 			total_class_count := total_class_count + 1
 			pattern_count := 0
 			do_once_with_file_lines (agent find_class_definition, open_lines (source_path, Latin_1))
-			if is_lio_enabled then
+			if is_lio_enabled and pattern_count > 0 then
 				lio.put_integer_field (source_path.base + " pattern count", pattern_count)
 				lio.put_new_line
 			end

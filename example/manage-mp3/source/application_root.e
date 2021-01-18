@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:56:56 GMT (Sunday 18th October 2020)"
-	revision: "20"
+	date: "2021-01-18 12:20:53 GMT (Monday 18th January 2021)"
+	revision: "21"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,7 @@ inherit
 		GENERATE_RBOX_DATABASE_FIELD_ENUM_APP,
 
 	--	Testing
-		RBOX_AUTOTEST_APP
+		AUTOTEST_APP
 	]
 
 create

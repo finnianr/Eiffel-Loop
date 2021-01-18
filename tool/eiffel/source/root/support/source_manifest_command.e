@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:43:08 GMT (Tuesday 18th February 2020)"
-	revision: "5"
+	date: "2021-01-18 13:32:36 GMT (Monday 18th January 2021)"
+	revision: "6"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -19,6 +19,8 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_LIO
+
+	EL_ITERATION_OUTPUT
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -49,13 +51,7 @@ feature -- Basic operations
 				file_list := manifest.file_list
 			end
 			across file_list as file_path loop
-				if (file_path.cursor_index - 1) \\ 50 = 0 then
-					lio.put_character ('.')
-					count_x_50 := count_x_50 + 1
-					if count_x_50 \\ 100 = 0 then
-						lio.put_new_line
-					end
-				end
+				print_progress ((file_path.cursor_index - 1).to_natural_32)
 				process_file (file_path.item)
 			end
 		end
@@ -73,5 +69,7 @@ feature -- Status query
 	is_ordered: BOOLEAN
 		do
 		end
+
+	Iterations_per_dot: NATURAL_32 = 50
 
 end

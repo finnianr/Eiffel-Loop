@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 14:12:02 GMT (Friday 14th February 2020)"
-	revision: "6"
+	date: "2021-01-18 12:41:29 GMT (Monday 18th January 2021)"
+	revision: "7"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -29,8 +29,7 @@ feature -- Tests
 
 	test_add_unchecked
 		local
-			shell: LOCALIZATION_COMMAND_SHELL
-			list: EL_ZSTRING_LIST
+			shell: LOCALIZATION_COMMAND_SHELL; list: EL_ZSTRING_LIST
 		do
 			log.enter ("test_add_unchecked")
 			create shell.make (work_dir)

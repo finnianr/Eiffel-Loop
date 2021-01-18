@@ -1,43 +1,33 @@
 note
-	description: "Regression testable command line interface to command [$source PYXIS_ECF_CONVERTER]"
+	description: "Command line interface to command [$source PYXIS_ECF_CONVERTER]"
+	notes: "[
+		Converts Pyxis format Eiffel project configuration with `.pecf' extension to `.ecf' XML file
+		
+		Usage:
+		
+			el_eiffel -pecf_to_xml -in <project.pecf> [-out <name>]
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:10 GMT (Tuesday 10th November 2020)"
-	revision: "3"
+	date: "2021-01-18 11:07:39 GMT (Monday 18th January 2021)"
+	revision: "4"
 
 class
 	PYXIS_ECF_CONVERTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_ECF_CONVERTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
-		undefine
-			test_data_dir
+	EL_COMMAND_LINE_SUB_APPLICATION [PYXIS_ECF_CONVERTER]
 		redefine
 			Option_name, visible_types
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
-		rename
-			EL_test_data_dir as test_data_dir
-		end
-
 create
 	make
-
-feature -- Testing
-
-	test_run
-			--
-		do
-
-			Test.do_file_test ("pyxis/eiffel-loop.pecf", agent convert_pecf, 1269595253)
-		end
 
 feature {NONE} -- Implementation
 
@@ -49,16 +39,9 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	convert_pecf (a_file_path: EL_FILE_PATH)
-			--
-		do
-			create {PYXIS_ECF_CONVERTER} command.make (a_file_path, create {EL_FILE_PATH})
-			normal_run
-		end
-
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "")
+			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_FILE_PATH})
 		end
 
 	visible_types: TUPLE [PYXIS_ECF_CONVERTER]
@@ -72,6 +55,6 @@ feature {NONE} -- Constants
 
 	Option_name: STRING = "pecf_to_xml"
 
-	Description: STRING = "Convert ECF file in Pyxis format to xml"
+	Description: STRING = "Convert Pyxis format Eiffel project configuration to `.ecf' XML file"
 
 end

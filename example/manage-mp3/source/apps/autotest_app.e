@@ -24,11 +24,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 11:34:17 GMT (Friday 20th November 2020)"
-	revision: "18"
+	date: "2021-01-18 12:20:53 GMT (Monday 18th January 2021)"
+	revision: "19"
 
 class
-	RBOX_AUTOTEST_APP
+	AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [

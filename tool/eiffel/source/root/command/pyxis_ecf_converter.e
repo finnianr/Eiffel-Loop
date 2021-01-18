@@ -1,13 +1,15 @@
 note
-	description: "Command to convert Pyxis format ECF file to XML"
+	description: "[
+		Converts Pyxis format Eiffel project configuration with `.pecf' extension to `.ecf' XML file
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-20 9:34:46 GMT (Tuesday 20th October 2020)"
-	revision: "1"
+	date: "2021-01-18 11:07:36 GMT (Monday 18th January 2021)"
+	revision: "2"
 
 class
 	PYXIS_ECF_CONVERTER
@@ -43,8 +45,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Pecf: ZSTRING
-		once
-			Result := "pecf"
-		end
+	Pecf: STRING = "pecf"
 end

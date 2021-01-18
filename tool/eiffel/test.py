@@ -40,5 +40,10 @@ parser.add_option (
 
 project = new_eiffel_project ()
 
-project.install (options.install_dir)
+passed_tests = True
 
+passed_tests = project.autotest () == 0
+
+# Install with version link
+if passed_tests and options.install_dir:
+	project.install (options.install_dir)
