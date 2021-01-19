@@ -1,13 +1,13 @@
 note
-	description: "Test set for class [$source EXPORT_MUSIC_TO_DEVICE]"
+	description: "Test set for class [$source EXPORT_MUSIC_TO_DEVICE_TASK]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:35:22 GMT (Saturday 30th May 2020)"
-	revision: "8"
+	date: "2021-01-18 15:22:25 GMT (Monday 18th January 2021)"
+	revision: "9"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET

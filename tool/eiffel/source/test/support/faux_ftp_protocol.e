@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:12:59 GMT (Sunday 17th January 2021)"
-	revision: "2"
+	date: "2021-01-19 8:50:26 GMT (Tuesday 19th January 2021)"
+	revision: "3"
 
 class
 	FAUX_FTP_PROTOCOL
@@ -51,6 +51,7 @@ feature -- Basic operations
 			destination := (home_directory + item.destination_file_path).parent
 			File_system.make_directory (destination)
 			OS.copy_file (item.source_path, destination)
+			progress_listener.notify_tick
 			last_succeeded := (destination + item.source_path.base).exists
 			uploaded_list.extend (item.source_path)
 		end
@@ -59,6 +60,12 @@ feature -- Remote operations
 
 	delete_file (file_path: EL_FILE_PATH)
 		do
+			if file_path.exists then
+				File_system.remove_file (file_path)
+				progress_listener.notify_tick
+			else
+				last_succeeded := True
+			end
 		end
 
 	remove_directory (dir_path: EL_DIR_PATH)

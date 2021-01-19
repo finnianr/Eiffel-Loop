@@ -34,10 +34,10 @@ parser.add_option (
 	"-n", "--no_build", action = "store_true", dest = "no_build", default = False, help = "Build without incrementing build number"
 )
 parser.add_option (
-	"-i", "--install", action = "store", dest = "install_dir", default = False, help = "Installation location"
+	"-i", "--install", action = "store", dest = "install_dir", type = "string", default = "", help = "Installation location"
 )
 parser.add_option (
-	"-a", "--autotest", action = "store", dest = "autotest", default = False, help = "Test before installing"
+	"-a", "--autotest", action = "store_true", dest = "autotest", default = False, help = "Test before installing"
 )
 (options, args) = parser.parse_args()
 
@@ -67,12 +67,12 @@ else:
 for cpu_target in target_architectures:
 	project.build (cpu_target)
 
-passed_tests = True
-
 if options.autotest:
 	passed_tests = project.autotest () == 0
+else:
+	passed_tests = True
 
 # Install with version link
-if options.install_dir and passed_tests:
+if passed_tests and options.install_dir:
 	project.install (options.install_dir)
 

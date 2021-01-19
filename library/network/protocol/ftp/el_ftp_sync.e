@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:11:27 GMT (Sunday 17th January 2021)"
-	revision: "18"
+	date: "2021-01-19 8:47:43 GMT (Tuesday 19th January 2021)"
+	revision: "19"
 
 class
 	EL_FTP_SYNC
@@ -29,7 +29,7 @@ inherit
 
 	EL_SHARED_DIRECTORY
 
-	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
+	EL_SHARED_PROGRESS_LISTENER
 
 create
 	make, make_default

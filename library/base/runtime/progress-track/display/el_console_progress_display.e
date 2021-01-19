@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-16 10:01:44 GMT (Sunday 16th June 2019)"
-	revision: "7"
+	date: "2021-01-19 8:56:53 GMT (Tuesday 19th January 2021)"
+	revision: "8"
 
 class
 	EL_CONSOLE_PROGRESS_DISPLAY
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_identified_text (id: INTEGER; a_text: ZSTRING)
+	set_identified_text (id: INTEGER; a_text: READABLE_STRING_GENERAL)
 		do
 			lio.put_line (a_text)
 		end

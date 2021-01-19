@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:17:43 GMT (Sunday 17th January 2021)"
-	revision: "18"
+	date: "2021-01-19 8:53:18 GMT (Tuesday 19th January 2021)"
+	revision: "19"
 
 class
 	EL_FTP_PROTOCOL
@@ -189,7 +189,9 @@ feature -- Basic operations
 			if transfer_initiated then
 				transfer_file_data (item.source_path)
 				transfer_initiated := false
-				progress_listener.notify_tick
+				if not is_retry then
+					progress_listener.notify_tick
+				end
 			else
 				Exception.raise_developer ("Failed to transfer: %S", [item.source_path.base])
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 16:25:09 GMT (Sunday 2nd August 2020)"
-	revision: "28"
+	date: "2021-01-19 9:05:57 GMT (Tuesday 19th January 2021)"
+	revision: "29"
 
 class
 	REPOSITORY_PUBLISHER
@@ -136,12 +136,8 @@ feature -- Basic operations
 			if ftp_sync.has_changes and not ftp_sync.ftp.is_default_state then
 				if ok_to_synchronize then
 					lio.put_new_line
-					if Log_manager.is_logging_active then
-						ftp_sync.login_and_upload
-					else
-						Track.progress (Console_display, ftp_sync.operation_count, agent ftp_sync.login_and_upload)
-						lio.put_line ("Synchronized")
-					end
+					Track.progress (Console_display, ftp_sync.operation_count, agent ftp_sync.login_and_upload)
+					lio.put_line ("Synchronized")
 				end
 			end
 		end

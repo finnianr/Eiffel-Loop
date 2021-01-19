@@ -1,13 +1,13 @@
 note
-	description: "Test set for class [$source UPDATE_DJ_PLAYLISTS]"
+	description: "Test set for class [$source UPDATE_DJ_PLAYLISTS_TASK]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 15:09:35 GMT (Monday 18th January 2021)"
-	revision: "4"
+	date: "2021-01-18 15:21:46 GMT (Monday 18th January 2021)"
+	revision: "5"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK_TEST_SET

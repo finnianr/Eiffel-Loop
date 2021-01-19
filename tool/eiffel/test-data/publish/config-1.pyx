@@ -27,7 +27,7 @@ publish-repository:
 	ecf-list:
 		# Library Base
 		ecf:
-			"library/base/base.ecf#data_structure"
+			"library/base/base.ecf#utility"
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
 

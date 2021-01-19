@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 11:29:03 GMT (Tuesday 12th January 2021)"
-	revision: "41"
+	date: "2021-01-19 8:39:53 GMT (Tuesday 19th January 2021)"
+	revision: "42"
 
 class
 	AUTOTEST_APP
@@ -52,7 +52,11 @@ feature {NONE} -- Implementation
 			Result.show_all ({EIFFEL_CONFIGURATION_INDEX_PAGE})
 		end
 
-	visible_types: TUPLE [UNDEFINE_PATTERN_COUNTER_COMMAND, PYXIS_TRANSLATION_TREE_COMPILER]
+	visible_types: TUPLE [
+		PYXIS_TRANSLATION_TREE_COMPILER,
+		REPOSITORY_TEST_PUBLISHER,
+		UNDEFINE_PATTERN_COUNTER_COMMAND
+	]
 		do
 			create Result
 		end
