@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:59:47 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2021-01-20 11:59:54 GMT (Wednesday 20th January 2021)"
+	revision: "7"
 
 class
 	EL_UTF_8_STRING
@@ -148,7 +148,7 @@ feature -- Status query
 
 	has_multi_byte_character: BOOLEAN
 		do
-			Result := not is_7_bit
+			Result := not is_ascii
 		end
 
 feature -- Element change

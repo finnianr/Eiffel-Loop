@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:00:26 GMT (Tuesday 12th January 2021)"
-	revision: "11"
+	date: "2021-01-20 11:57:19 GMT (Wednesday 20th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -174,6 +174,14 @@ feature -- Status query
 			else
 				Result := unencoded_has (z_code_to_unicode (a_z_code))
 			end
+		end
+
+	is_ascii: BOOLEAN
+		-- `True' if all characters in are in the range 0 to 127 and `has_mixed_encoding' is false
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := not has_mixed_encoding and then c.is_ascii_area (area, area_lower, area_upper)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Status query

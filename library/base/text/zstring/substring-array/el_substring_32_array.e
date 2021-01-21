@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:49:22 GMT (Sunday 3rd January 2021)"
-	revision: "7"
+	date: "2021-01-21 17:42:25 GMT (Thursday 21st January 2021)"
+	revision: "8"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -26,7 +26,7 @@ inherit
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
 
 create
-	make_from_unencoded, make_empty, make_from_other, make_from_area
+	make_from_unencoded, make_empty, make_from_area, make_from_other
 
 feature {NONE} -- Initialization
 
@@ -44,11 +44,13 @@ feature {NONE} -- Initialization
 			else
 				make_empty
 			end
+		ensure
+			none_contiguous: not has_contiguous
 		end
 
 	make_from_other (other: EL_SUBSTRING_32_ARRAY)
 		do
-			if other.not_empty then
+			if other.count.to_boolean then
 				area := other.area.twin
 			else
 				make_empty
@@ -79,6 +81,8 @@ feature {NONE} -- Initialization
 				offset := offset + char_count
 				i := i + char_count + 2
 			end
+		ensure
+			none_contiguous: not has_contiguous
 		end
 
 feature -- Access
@@ -354,6 +358,21 @@ feature -- Status query
 			Result := index_of (unicode, 1) > 0
 		end
 
+	has_contiguous: BOOLEAN
+		-- `True' if two substrings are contiguous
+		local
+			i, i_final, l_count: INTEGER; l_area: like area
+		do
+			l_area := area; l_count := value (l_area, 0)
+			if l_count >= 2 then
+				i_final := l_count * 2 + 1
+				from i := 3 until Result or else i = i_final loop
+					Result := upper_bound (l_area, i - 2) + 1 = lower_bound (l_area, i)
+					i := i + 2
+				end
+			end
+		end
+
 	not_empty: BOOLEAN
 		do
 			Result := count.to_boolean
@@ -400,28 +419,37 @@ feature -- Status change
 		-- Split if interval has `index' and `index' > `lower'
 		-- n < 0 shifts to the left.
 		local
-			i, lower, upper, char_count, i_final: INTEGER; l_area: like area
+			i, lower, upper, split_i, i_final: INTEGER; l_area: like area
 		do
 			if n /= 0 then
-				l_area := area; i_final := count * 2 + 1
+				l_area := area; i_final := value (l_area, 0) * 2 + 1
+				-- search for split
+				from i := 1 until split_i.to_boolean or else i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					if lower < index and then index <= upper then
+						split_i := i
+					end
+					i := i + 2
+				end
+				if split_i.to_boolean then
+					i := split_i
+					area := new_area (l_area, i + 2, 2)
+					l_area := area
+					put_upper (l_area, i, index - 1)
+					put_interval (l_area, i + 2, index, upper)
+					increment_count (l_area, 1)
+					i_final := i_final + 2
+				end
 				from i := 1 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					char_count := upper - lower + 1
 					if index <= lower then
 						put_interval (l_area, i, lower + n, upper + n)
-					elseif lower < index and then index <= upper then
-						-- Split the interval in two
-						l_area := new_area (l_area, i + 2, 2) -- insert new interval
-						put_upper (l_area, i, index - 1)
-						put_interval (l_area, i + 2, index + n, upper + n)
-						increment_count (l_area, 1)
-						area := l_area
-						i_final := i_final + 2
-						i := i + 2
 					end
 					i := i + 2
 				end
 			end
+		ensure
+			none_contiguous: not has_contiguous
 		end
 
 feature -- Element change
@@ -463,55 +491,49 @@ feature -- Element change
 			valid_character_count: character_count = old character_count + other.character_count
 			valid_merge_count: old (not_empty and then adjacent (last_upper, other.first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then last_upper + 1 < other.first_lower) implies count = old count + other.count
+			none_contiguous: not has_contiguous
 		end
 
 	insert (other: EL_SUBSTRING_32_ARRAY)
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
-			i, lower, upper, previous_upper, char_count, leading_char_count, delta_lower, delta_upper: INTEGER
-			o_first_lower, o_last_upper, i_final, o_final: INTEGER
-			l_area, o_area, joined_area: like area; found: BOOLEAN
+			it_lead, it_next, it_current, it_other: EL_SUBSTRING_32_ARRAY_ITERATOR
+			l_area: like area; l_count, offset: INTEGER
 		do
+			if other.count = 0 then
+				do_nothing
 
-			if count = 0 or else last_upper < other.first_lower then
-				append (other)
-
-			elseif other.not_empty and then other.last_upper < first_lower then
-				prepend (other)
-
-			elseif count > 1 then
-				l_area := area; i_final := count * 2 + 1
-				o_area := other.area; o_final := other.count * 2 + 1
-				o_first_lower := other.first_lower; o_last_upper := other.last_upper
-				-- find interval to insert
-				from i := 0 until found or else i = i_final loop
-					if i > 0 then
-						previous_upper := upper_bound (l_area, i - 2)
-					end
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					char_count := upper - lower + 1
-					if previous_upper < o_first_lower and then o_last_upper < lower then
-						found := True
-					else
-						leading_char_count := leading_char_count + char_count
-						i := i + 2
+			elseif count = 0 then
+				make_from_other (other)
+			else
+				create l_area.make_empty (area.count + other.area.count - 1)
+				l_area.extend (0)
+				it_current := start (Current); it_other := start (other)
+				if it_current < it_other then
+					it_lead := it_current; it_next := it_other
+				else
+					it_lead := it_other; it_next := it_current
+				end
+				from until it_lead.after or else it_next < it_lead loop
+					extend_interval (l_area, it_lead.lower, it_lead.upper)
+					it_lead.forth
+				end
+				from until it_next.after loop
+					extend_interval (l_area, it_next.lower, it_next.upper)
+					it_next.forth
+				end
+				if not it_lead.after then
+					from until it_lead.after loop
+						extend_interval (l_area, it_lead.lower, it_lead.upper)
+						it_lead.forth
 					end
 				end
-				if found then
-					if adjacent (previous_upper, o_first_lower) then
-						delta_lower := 2
-					end
-					if adjacent (o_last_upper, lower) then
-						delta_upper := 2
-					end
-					joined_area := new_joined_area (l_area, o_area, delta_lower + delta_upper)
-					-- copy start intervals
-					joined_area.copy_data (l_area, 1, 1, i * 2)
-					-- copy inserted intervals
-					joined_area.copy_data (o_area, 1, i * 2 + 1 + delta_lower, o_area.count * 2 - delta_lower - delta_upper)
-				end
+				l_count := value (l_area, 0)
+				offset := l_count * 2 + 1
 			end
+		ensure
+			none_contiguous: not has_contiguous
 		end
 
 	prepend (other: EL_SUBSTRING_32_ARRAY)
@@ -552,6 +574,7 @@ feature -- Element change
 			valid_character_count: character_count = old character_count + other.character_count
 			valid_merge_count: old (not_empty and then adjacent (other.last_upper, first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then other.last_upper + 1 < first_lower) implies count = old count + other.count
+			none_contiguous: not has_contiguous
 		end
 
 feature -- Basic operations

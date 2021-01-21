@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:21:17 GMT (Friday 8th January 2021)"
-	revision: "64"
+	date: "2021-01-20 13:15:43 GMT (Wednesday 20th January 2021)"
+	revision: "65"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -112,9 +112,9 @@ feature {NONE} -- Initialization
 		do
 			latin := Latin_1_string
 			latin.set_from_c (latin_1_ptr)
-			if latin.is_7_bit then
+			if latin.is_ascii then
 				make_unencoded
-				set_from_string_8 (latin)
+				set_from_ascii (latin)
 			else
 				make_from_general (latin)
 			end
@@ -173,13 +173,11 @@ feature {NONE} -- Initialization
 
 	make_from_utf_8 (utf_8: READABLE_STRING_8)
 		local
-			latin: EL_STRING_8
+			s: EL_STRING_8_ROUTINES
 		do
-			latin := Latin_1_string
-			latin.share (utf_8)
-			if latin.is_7_bit then
+			if s.is_ascii (utf_8) then
 				make_unencoded
-				set_from_string_8 (latin)
+				set_from_ascii (utf_8)
 			else
 				make_from_general (Utf_8_codec.as_unicode (utf_8, False))
 			end

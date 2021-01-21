@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 10:42:26 GMT (Thursday 14th January 2021)"
-	revision: "12"
+	date: "2021-01-20 13:16:51 GMT (Wednesday 20th January 2021)"
+	revision: "13"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,8 +22,6 @@ inherit
 	EL_MODULE_BUFFER_32
 
 	EL_MODULE_BUFFER_8
-
-	EL_SHARED_UTF_8_ZCODEC
 
 feature -- Measurement
 
@@ -45,7 +43,7 @@ feature -- To Strings
 				create Result.make (c.utf_8_bytes_count (str_32, 1, count))
 				c.utf_32_string_into_utf_8_string_8 (str_32, Result)
 
-			elseif codec.same_as (a_codec) or else char_8.is_7_bit_area (area, 0, count - 1) then
+			elseif codec.same_as (a_codec) or else char_8.is_ascii_area (area, 0, count - 1) then
 				create Result.make (count)
 				Result.area.copy_data (area, 0, 0, count)
 				Result.set_count (count)
@@ -109,12 +107,16 @@ feature -- To Strings
 		local
 			str_32: STRING_32
 		do
-			str_32 := buffer_32.empty
-			append_to_string_32 (str_32)
-			if str_32.is_valid_as_string_8 then
-				Result := str_32.as_string_8
+			if is_ascii then
+				Result := current_string_8.twin
 			else
-				Result := str_32.twin
+				str_32 := buffer_32.empty
+				append_to_string_32 (str_32)
+				if str_32.is_valid_as_string_8 then
+					Result := str_32.as_string_8
+				else
+					Result := str_32.twin
+				end
 			end
 		end
 

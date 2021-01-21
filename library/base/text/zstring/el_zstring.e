@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:46:38 GMT (Sunday 17th January 2021)"
-	revision: "29"
+	date: "2021-01-20 13:14:09 GMT (Wednesday 20th January 2021)"
+	revision: "30"
 
 class
 	EL_ZSTRING
@@ -34,7 +34,7 @@ inherit
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
 			append_raw_string_8, append_string, append, append_string_general, append_substring,
-			append_unicode, append_tuple_item,
+			append_unicode, append_tuple_item, append_utf_8,
 			extend, enclose, fill_character, multiply,
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
@@ -221,16 +221,6 @@ feature -- Element change
 			append_substring (adapted_argument (s, 1), start_index, end_index)
 		end
 
-	append_utf_8 (utf_8: READABLE_STRING_8)
-		do
-			if attached current_string_8 as l_current and then l_current.is_7_bit_string (utf_8) then
-				l_current.append (utf_8)
-				set_from_string_8 (l_current)
-			else
-				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
-			end
-		end
-
 	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])
 		local
 			editor: EL_ZSTRING_EDITOR
@@ -333,10 +323,10 @@ feature -- Element change
 		do
 			latin := Latin_1_string
 			latin.set_from_c (latin_1_ptr)
-			wipe_out
-			if latin.is_7_bit then
-				set_from_string_8 (latin)
+			if latin.is_ascii then
+				set_from_ascii (latin)
 			else
+				wipe_out
 				append_string_general (latin)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 13:11:52 GMT (Saturday 16th January 2021)"
-	revision: "12"
+	date: "2021-01-20 11:59:54 GMT (Wednesday 20th January 2021)"
+	revision: "13"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -183,7 +183,7 @@ feature -- String conversion
 			else
 				Result := buffer.empty
 				str := buffer_8.adjusted (Current)
-				if encoding = Codec.encoding or else is_7_bit then
+				if encoding = Codec.encoding or else is_ascii then
 					Result.grow (str.count)
 					Result.area.copy_data (str.area, 0, 0, str.count)
 					Result.set_count (str.count)

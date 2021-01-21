@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 17:38:30 GMT (Thursday 14th January 2021)"
-	revision: "13"
+	date: "2021-01-20 12:05:43 GMT (Wednesday 20th January 2021)"
+	revision: "14"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -77,14 +77,14 @@ feature -- Status query
 			end
 		end
 
-	is_7_bit_area (area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if all characters in `str' are in range: 0 .. 0x7F
+	is_ascii_area (area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if all characters in `area' are in the ASCII character set range: 0 .. 127
 		local
 			i: INTEGER
 		do
 			Result := True
 			from i := start_index until not Result or else i > end_index loop
-				if area [i] > '%/0x7F/' then
+				if area [i] > Max_ascii_character then
 					Result := False
 				else
 					i := i + 1
@@ -170,4 +170,5 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+	Max_ascii_character: CHARACTER_8 = '%/0x7F/'
 end

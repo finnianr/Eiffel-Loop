@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 12:40:40 GMT (Saturday 2nd January 2021)"
-	revision: "11"
+	date: "2021-01-20 13:11:55 GMT (Wednesday 20th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -580,6 +580,17 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		deferred
 		end
 
+	set_from_ascii (str: READABLE_STRING_8)
+		require
+			is_7_bit: string_8.is_ascii (str)
+		local
+			s: STRING_8
+		do
+			create s.make_from_string (str)
+			area := s.area
+			set_count (str.count)
+		end
+
 	set_from_string_8 (str: EL_STRING_8)
 		do
 			area := str.area; set_count (str.count)
@@ -591,6 +602,10 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION} -- Implementation
 		do
 			Result := String_8_args [index - 1]
 			Result.set_area_and_count (zstr.area, zstr.count)
+		end
+
+	string_8: EL_STRING_8_ROUTINES
+		do
 		end
 
 feature -- Constants

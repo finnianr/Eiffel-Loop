@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 16:48:17 GMT (Thursday 14th January 2021)"
-	revision: "7"
+	date: "2021-01-21 16:24:31 GMT (Thursday 21st January 2021)"
+	revision: "8"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -29,12 +29,12 @@ feature -- Basic operations
 --			eval.call ("first_interval", agent test_first_interval)
 --			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
---			eval.call ("insert", agent test_insert)
+			eval.call ("insert", agent test_insert)
 --			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("prepend", agent test_prepend)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
-			eval.call ("write", agent test_write)
+--			eval.call ("write", agent test_write)
 		end
 
 feature -- Test
@@ -106,20 +106,18 @@ feature -- Test
 		local
 			insert, zstr: ZSTRING; index: INTEGER
 			insert_array, array: EL_SUBSTRING_32_ARRAY
-			l1: L1_ZSTRING
+--			l1: L1_ZSTRING
 		do
 			zstr := text_russian
 			index := zstr.index_of (',', 1)
-			if index > 0 then
-				zstr.remove_substring (index, index + 1)
-			end
 			insert := {STRING_32} "не"
+
 			create insert_array.make_from_unencoded (insert)
 			insert_array.shift (index - 1)
 			create array.make_from_unencoded (zstr)
-			array.shift_from (index, insert.count)
 			array.insert (insert_array)
-			zstr.insert_string (insert, index)
+
+			zstr.replace_substring (insert, index, index + 1)
 			assert ("same content", same_content (zstr, array, zstr.count))
 		end
 
@@ -168,6 +166,7 @@ feature -- Test
 				unencoded := zstr + create {ZSTRING}.make_filled (' ', count)
 				create array.make_from_unencoded (unencoded)
 				unencoded.shift_from (index.item, count)
+				create array.make_from_other (array)
 				array.shift_from (index.item, count)
 				assert ("same content", same_content (unencoded, array, count * 2))
 			end

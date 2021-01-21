@@ -6,20 +6,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 18:34:14 GMT (Saturday 2nd January 2021)"
-	revision: "9"
+	date: "2021-01-20 13:17:26 GMT (Wednesday 20th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
+		export
+			{EL_READABLE_ZSTRING} Unencoded_character
+		end
+
+	EL_SHARED_UTF_8_ZCODEC
 
 feature {EL_READABLE_ZSTRING} -- Append strings
 
+	append_ascii (str: READABLE_STRING_8)
+		require
+			is_ascii: string_8.is_ascii (str)
+		do
+			append_string_8 (str)
+		end
+
 	append_string_8 (str: READABLE_STRING_8)
 		require else
-			must_not_have_reserved_substitute_character: not str.has ('%/026/')
+			not_has_reserved_substitute_character: not str.has (Unencoded_character)
 		local
 			l_current: EL_STRING_8
 		do
@@ -50,12 +62,8 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			if attached {EL_ZSTRING} general as str_z then
 				append_string (str_z)
 
-			elseif attached {READABLE_STRING_8} general as str_8
-				and then attached current_string_8 as l_current
-				and then l_current.is_7_bit_string (str_8) then
-
-				l_current.append (str_8)
-				set_from_string_8 (l_current)
+			elseif attached {READABLE_STRING_8} general as str_8 and then string_8.is_ascii (str_8) then
+				append_ascii (str_8)
 			else
 				old_count := count
 				grow (old_count + general.count)
@@ -114,6 +122,15 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies same_string (old (current_readable + s.substring (start_index, end_index)))
+		end
+
+	append_utf_8 (utf_8: READABLE_STRING_8)
+		do
+			if string_8.is_ascii (utf_8) then
+				append_ascii (utf_8)
+			else
+				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
+			end
 		end
 
 feature {NONE} -- Append character

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 11:10:41 GMT (Saturday 16th January 2021)"
-	revision: "27"
+	date: "2021-01-20 11:58:42 GMT (Wednesday 20th January 2021)"
+	revision: "28"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -16,6 +16,80 @@ inherit
 	STRING_HANDLER
 
 	EL_MODULE_CONVERT_STRING
+
+feature -- Status query
+
+	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
+			--
+		do
+			Result := has_quotes (s, 2)
+		end
+
+	has_enclosing (s, ends: READABLE_STRING_GENERAL): BOOLEAN
+			--
+		require
+			ends_has_2_characters: ends.count = 2
+		do
+			Result := s.count >= 2
+				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
+		end
+
+	has_quotes (s: READABLE_STRING_GENERAL; type: INTEGER): BOOLEAN
+		require
+			double_or_single: 1 <= type and type <= 2
+		local
+			quote_code: NATURAL
+		do
+			if type = 1 then
+				quote_code := ('%'').natural_32_code
+			else
+				quote_code := ('"').natural_32_code
+			end
+			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
+		end
+
+	has_single_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
+			--
+		do
+			Result := has_quotes (s, 1)
+		end
+
+	is_ascii (str: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		deferred
+		end
+
+	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
+		-- `True' if `str' is convertible to type `basic_type'
+		do
+			Result := Convert_string.is_convertible (s, basic_type)
+		end
+
+	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := 1 until i > s.count or not Result loop
+				inspect s [i]
+					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
+						Result := i = 1 implies s.item (1).is_alpha
+				else
+					Result := False
+				end
+				i := i + 1
+			end
+		end
+
+	is_punctuation (c: CHARACTER_32): BOOLEAN
+		do
+			Result := c.is_punctuation
+		end
+
+	is_word (str: S): BOOLEAN
+		do
+			Result := not str.is_empty
+		end
 
 feature -- Basic operations
 
@@ -380,73 +454,5 @@ feature -- Transform
 			end
 		end
 
-feature -- Status query
-
-	has_double_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 2)
-		end
-
-	has_enclosing (s, ends: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		require
-			ends_has_2_characters: ends.count = 2
-		do
-			Result := s.count >= 2
-				and then s.item (1) = ends.item (1) and then s.item (s.count) = ends.item (2)
-		end
-
-	has_quotes (s: READABLE_STRING_GENERAL; type: INTEGER): BOOLEAN
-		require
-			double_or_single: 1 <= type and type <= 2
-		local
-			quote_code: NATURAL
-		do
-			if type = 1 then
-				quote_code := ('%'').natural_32_code
-			else
-				quote_code := ('"').natural_32_code
-			end
-			Result := s.count >= 2 and then s.code (1) = quote_code and then s.code (s.count) = quote_code
-		end
-
-	has_single_quotes (s: READABLE_STRING_GENERAL): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 1)
-		end
-
-	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
-		-- `True' if `str' is convertible to type `basic_type'
-		do
-			Result := Convert_string.is_convertible (s, basic_type)
-		end
-
-	is_eiffel_identifier (s: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			i: INTEGER
-		do
-			Result := True
-			from i := 1 until i > s.count or not Result loop
-				inspect s [i]
-					when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_' then
-						Result := i = 1 implies s.item (1).is_alpha
-				else
-					Result := False
-				end
-				i := i + 1
-			end
-		end
-
-	is_punctuation (c: CHARACTER_32): BOOLEAN
-		do
-			Result := c.is_punctuation
-		end
-
-	is_word (str: S): BOOLEAN
-		do
-			Result := not str.is_empty
-		end
 
 end

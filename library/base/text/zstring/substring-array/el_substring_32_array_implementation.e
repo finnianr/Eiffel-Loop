@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 13:05:54 GMT (Monday 28th December 2020)"
-	revision: "5"
+	date: "2021-01-21 17:27:07 GMT (Thursday 21st January 2021)"
+	revision: "6"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -46,26 +46,7 @@ feature {EL_ZCODE_CONVERSION} -- Debug
 			Result := list.area_v2
 		end
 
-feature {NONE} -- Implementation
-
-	area: SPECIAL [NATURAL]
-		deferred
-		end
-
-	adjacent (i, j: INTEGER): BOOLEAN
-		do
-			Result := i + 1 = j
-		end
-
-	interval_count (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := (a_area [i + 1] - a_area [i]).to_integer_32 + 1
-		end
-
-	lower_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i).to_integer_32
-		end
+feature {NONE} -- Factory
 
 	new_area (a_area: SPECIAL [NATURAL]; i, n: INTEGER): like area
 		-- copy of `a_area' with `n' zeros inserted at `i'th position
@@ -91,9 +72,53 @@ feature {NONE} -- Implementation
 			increment_count (Result, (area_1 [0] + area_2 [0]).to_integer_32 - (delta // 2))
 		end
 
-	put_lower (a_area: like area; i, lower: INTEGER)
+feature {EL_SUBSTRING_32_ARRAY_IMPLEMENTATION} -- Access
+
+	area: SPECIAL [NATURAL]
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	adjacent (i, j: INTEGER): BOOLEAN
 		do
-			a_area.put (lower.to_natural_32, i)
+			Result := i + 1 = j
+		end
+
+	extend_interval (a_area: like area; lower, upper: INTEGER)
+		local
+			last_upper, index: INTEGER
+		do
+			if value (a_area, 0).to_boolean  then
+				index := a_area.count - 2
+				last_upper := upper_bound (a_area, index)
+			else
+				last_upper := (1).opposite
+			end
+			if last_upper + 1 = lower then
+				put_upper (a_area, index, upper)
+			else
+				a_area.extend (lower.to_natural_32)
+				a_area.extend (upper.to_natural_32)
+				increment_count (a_area, 1)
+			end
+		end
+
+	increment_count (a_area: like area; n: INTEGER)
+		require
+			not_empty: a_area.count > 0
+		do
+			a_area.put (a_area [0] + n.to_natural_32, 0)
+		end
+
+	interval_count (a_area: like area; i: INTEGER): INTEGER
+		do
+			Result := (a_area [i + 1] - a_area [i]).to_integer_32 + 1
+		end
+
+	lower_bound, value (a_area: like area; i: INTEGER): INTEGER
+		do
+			Result := a_area.item (i).to_integer_32
 		end
 
 	put_interval (a_area: like area; i, lower, upper: INTEGER)
@@ -102,16 +127,24 @@ feature {NONE} -- Implementation
 			a_area.put (upper.to_natural_32, i + 1)
 		end
 
+	put_lower (a_area: like area; i, lower: INTEGER)
+		do
+			a_area.put (lower.to_natural_32, i)
+		end
+
 	put_upper (a_area: like area; i, upper: INTEGER)
 		do
 			a_area.put (upper.to_natural_32, i + 1)
 		end
 
-	increment_count (a_area: like area; n: INTEGER)
-		require
-			not_empty: a_area.count > 0
+	start (array: EL_SUBSTRING_32_ARRAY_IMPLEMENTATION): EL_SUBSTRING_32_ARRAY_ITERATOR
 		do
-			a_area.put (a_area [0] + n.to_natural_32, 0)
+			if array = Current then
+				Result := Once_iterator [0]
+			else
+				Result := Once_iterator [1]
+			end
+			Result.start (array.area)
 		end
 
 	upper_bound (a_area: like area; i: INTEGER): INTEGER
@@ -125,6 +158,13 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty (1)
 			Result.extend (0)
+		end
+
+	Once_iterator: SPECIAL [EL_SUBSTRING_32_ARRAY_ITERATOR]
+		once
+			create Result.make_empty (2)
+			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
+			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
 		end
 
 end

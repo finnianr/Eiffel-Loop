@@ -346,3 +346,6 @@ Removed some EL_MODULE_* classes
 Sat 9th Jan 2021, 18:04:23
 EL_PYXIS_PARSER optimized for STRING_8 lines
 
+Wed 20th Jan 2021, 13:41:27
+New routine {EL_ZSTRING}.append_ascii and is_ascii
+

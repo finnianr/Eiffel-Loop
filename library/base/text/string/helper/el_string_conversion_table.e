@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 13:45:40 GMT (Saturday 16th January 2021)"
-	revision: "2"
+	date: "2021-01-20 10:10:47 GMT (Wednesday 20th January 2021)"
+	revision: "3"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -38,11 +38,6 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_table (<<
-				[({BOOLEAN}).type_id,			[agent {like string}.is_boolean, agent {like string}.to_boolean]],
-
-				[({CHARACTER_8}).type_id,		[agent is_character_8, agent to_character_8]],
-				[({CHARACTER_32}).type_id,		[agent is_character_32, agent to_character_32]],
-
 				[({INTEGER_8}).type_id,			[agent {like string}.is_integer_8, agent {like string}.to_integer_8]],
 				[({INTEGER_16}).type_id, 		[agent {like string}.is_integer_16, agent {like string}.to_integer_16]],
 				[({INTEGER_32}).type_id,		[agent {like string}.is_integer_32, agent {like string}.to_integer_32]],
@@ -55,6 +50,10 @@ feature {NONE} -- Initialization
 
 				[({DOUBLE}).type_id,				[agent {like string}.is_double, agent {like string}.to_double]],
 				[({REAL}).type_id,				[agent {like string}.is_real, agent {like string}.to_real]],
+
+				[({BOOLEAN}).type_id,			[agent {like string}.is_boolean, agent {like string}.to_boolean]],
+				[({CHARACTER_8}).type_id,		[agent is_character_8, agent to_character_8]],
+				[({CHARACTER_32}).type_id,		[agent is_character_32, agent to_character_32]],
 
 				[Class_id.STRING_8,				[agent {like string}.is_valid_as_string_8, agent {like string}.to_string_8]],
 				[Class_id.STRING_32,				[agent is_valid_as_string_32, agent {like string}.to_string_32]],

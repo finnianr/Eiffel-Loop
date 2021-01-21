@@ -6,14 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-09 12:32:05 GMT (Saturday 9th January 2021)"
-	revision: "18"
+	date: "2021-01-20 12:06:06 GMT (Wednesday 20th January 2021)"
+	revision: "19"
 
 expanded class
 	EL_STRING_32_ROUTINES
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32]
+
+feature -- Status query
+
+	is_ascii (str: READABLE_STRING_32): BOOLEAN
+		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		local
+			c_32: EL_CHARACTER_32_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := c_32.is_ascii_area (c.area, c.area_first_index, c.area_last_index)
+			end
+		end
 
 feature -- Basic operations
 

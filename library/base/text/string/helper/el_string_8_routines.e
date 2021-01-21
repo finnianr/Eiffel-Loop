@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-13 10:53:05 GMT (Wednesday 13th January 2021)"
-	revision: "17"
+	date: "2021-01-20 12:02:53 GMT (Wednesday 20th January 2021)"
+	revision: "18"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -46,6 +46,16 @@ feature -- Status query
 					Result := False
 				end
 				i := i + 1
+			end
+		end
+
+	is_ascii (str: READABLE_STRING_8): BOOLEAN
+		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		local
+			c_8: EL_CHARACTER_8_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := c_8.is_ascii_area (c.area, c.area_first_index, c.area_last_index)
 			end
 		end
 

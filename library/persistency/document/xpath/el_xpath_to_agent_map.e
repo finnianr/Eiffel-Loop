@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:39:28 GMT (Sunday 20th December 2020)"
-	revision: "5"
+	date: "2021-01-19 14:12:31 GMT (Tuesday 19th January 2021)"
+	revision: "6"
 
 class
 	EL_XPATH_TO_AGENT_MAP
@@ -46,4 +46,4 @@ feature -- Access
 
 	is_applied_to_open_element: BOOLEAN
 
-end -- class EL_XPATH_TO_AGENT_MAP
+end

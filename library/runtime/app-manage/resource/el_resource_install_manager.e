@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-10 9:37:18 GMT (Thursday 10th September 2020)"
-	revision: "7"
+	date: "2021-01-20 10:17:33 GMT (Wednesday 20th January 2021)"
+	revision: "8"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -266,7 +266,7 @@ feature {NONE} -- Deferred implementation
 
 feature {NONE} -- Internal attributes
 
-	download_complete_action: PROCEDURE [ZSTRING]
+	download_complete_action: PROCEDURE [READABLE_STRING_GENERAL]
 
 	manifest: EL_FILE_MANIFEST_LIST
 

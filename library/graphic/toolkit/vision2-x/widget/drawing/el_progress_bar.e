@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 13:40:39 GMT (Sunday 16th August 2020)"
-	revision: "1"
+	date: "2021-01-20 10:13:48 GMT (Wednesday 20th January 2021)"
+	revision: "2"
 
 class
 	EL_PROGRESS_BAR
@@ -94,7 +94,7 @@ feature {EL_PROGRESS_DISPLAY} -- Implementation
 			GUI.application.process_events
 		end
 
-	set_identified_text (id: INTEGER; a_text: ZSTRING)
+	set_identified_text (id: INTEGER; a_text: READABLE_STRING_GENERAL)
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 17:08:03 GMT (Wednesday 29th January 2020)"
-	revision: "3"
+	date: "2021-01-20 12:44:13 GMT (Wednesday 20th January 2021)"
+	revision: "4"
 
 class
 	EL_REFLECTED_COLLECTION_TYPE_TABLE [G]
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make (array: ARRAY [TYPE [G]])
 		local
-			type_name: ZSTRING
+			type_name: STRING
 		do
 			make_size (array.count)
 			across array as type loop

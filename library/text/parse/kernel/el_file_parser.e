@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:36:23 GMT (Sunday 3rd January 2021)"
-	revision: "8"
+	date: "2021-01-20 13:34:49 GMT (Wednesday 20th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_FILE_PARSER
@@ -26,11 +26,6 @@ inherit
 			make as make_encodeable
 		redefine
 			make_default
-		end
-
-	EL_MODULE_ASCII
-		export
-			{NONE} all
 		end
 
 feature {NONE} -- Initialization

@@ -1,3 +1,6 @@
+1.4.0
+New Pyxis parser based on {EL_PARSE_EVENT_SOURCE}.last_node changed to type EL_DOCUMENT_NODE_STRING
+
 1.3.6
 * Important fix to {EL_FILE_LINE_SOURCE}.forth
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:47:35 GMT (Sunday 10th January 2021)"
-	revision: "12"
+	date: "2021-01-20 13:34:05 GMT (Wednesday 20th January 2021)"
+	revision: "13"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -21,7 +21,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make, reset
+			make, reset, set_search_terms
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
@@ -81,6 +81,12 @@ feature -- Element Change
  			set_search_terms (a_search_terms.stripped)
 			compile_conditions
  		end
+
+	set_search_terms (a_source_text: ZSTRING)
+		do
+			source_text := a_source_text
+			Precursor (a_source_text)
+		end
 
 feature -- Status query
 

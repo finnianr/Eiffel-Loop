@@ -1,71 +1,30 @@
 note
 	description: "Command line interface to command [$source EL_PYXIS_TO_XML_CONVERTER]"
+	notes: "[
+		Usage:
+			
+			el_toolkit -pyxis_to_xml -in <input-file-path> [-out <output-file-path>]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 12:04:52 GMT (Monday 21st December 2020)"
-	revision: "25"
+	date: "2021-01-19 13:05:55 GMT (Tuesday 19th January 2021)"
+	revision: "26"
 
 class
 	PYXIS_TO_XML_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [EL_PYXIS_TO_XML_CONVERTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
-		undefine
-			test_data_dir
+	EL_COMMAND_LINE_SUB_APPLICATION [EL_PYXIS_TO_XML_CONVERTER]
 		redefine
 			Option_name, visible_types
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
-		rename
-			EL_test_data_dir as test_data_dir
-		end
-
 create
 	make
-
-feature -- Testing
-
---	normal_run
---		do
---		end
-
-	test_run
-			--
-		do
-
---			Test.do_all_files_test ("pyxis/localization", "*.pyx", agent test_pyxis_to_xml, 1611293559)
-			Test.do_all_files_test ("pyxis", "*", agent test_pyxis_to_xml, 1430741711)
-
---			Test.do_file_test ("pyxis/eiffel-loop.2.pecf", agent test_pyxis_parser, 1282092045)
-
-		end
-
-	test_pyxis_to_xml (a_file_path: EL_FILE_PATH)
-			--
-		do
-			create {EL_PYXIS_TO_XML_CONVERTER} command.make (a_file_path, create {EL_FILE_PATH})
-			normal_run
-		end
-
-	test_pyxis_parser (file_path: EL_FILE_PATH)
-			--
-		local
-			document_logger: EL_DOCUMENT_NODE_LOGGER; pyxis_file: PLAIN_TEXT_FILE
-		do
-			log.enter_with_args ("test_pyxis_parser", [file_path])
-			create pyxis_file.make_open_read (file_path)
-			create document_logger.make ({EL_PYXIS_PARSER})
-			document_logger.scan_from_stream (pyxis_file)
-			pyxis_file.close
-			log.exit
-		end
 
 feature {NONE} -- Implementation
 

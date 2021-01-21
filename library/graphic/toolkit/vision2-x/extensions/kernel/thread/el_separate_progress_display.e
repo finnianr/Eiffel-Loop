@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 11:21:29 GMT (Thursday 26th September 2019)"
-	revision: "4"
+	date: "2021-01-20 10:14:01 GMT (Wednesday 20th January 2021)"
+	revision: "5"
 
 class
 	EL_SEPARATE_PROGRESS_DISPLAY
@@ -43,7 +43,7 @@ feature {EL_NOTIFYING_FILE} -- Event handling
 
 feature -- Basic operations
 
-	set_identified_text (id: INTEGER; a_text: ZSTRING)
+	set_identified_text (id: INTEGER; a_text: READABLE_STRING_GENERAL)
 		do
 			call (agent display.set_identified_text (id, a_text))
 		end
