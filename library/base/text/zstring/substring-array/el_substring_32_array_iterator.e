@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-21 17:54:44 GMT (Thursday 21st January 2021)"
-	revision: "1"
+	date: "2021-01-22 10:02:29 GMT (Friday 22nd January 2021)"
+	revision: "2"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -32,31 +32,18 @@ feature {NONE} -- Initialization
 
 feature -- Comparison
 
-	is_less alias "<" (other: like Current): BOOLEAN
-		do
-			Result := upper < other.lower
-		end
-
-	touches (other: like Current): BOOLEAN
+	adjacent_to (other: like Current): BOOLEAN
 		-- `True' if `other' is contiguous with `Current'
 		do
 			Result := upper + 1 = other.lower
 		end
 
+	is_less alias "<" (other: like Current): BOOLEAN
+		do
+			Result := upper < other.lower
+		end
+
 feature -- Access
-
-	iterated_count: INTEGER
-		-- sum of characters iterated
-
-	item_count: INTEGER
-		do
-			Result := upper - lower + 1
-		end
-
-	count: INTEGER
-		do
-			Result := area.item (0).to_integer_32
-		end
 
 	debug_output: STRING_32
 		local
@@ -65,8 +52,8 @@ feature -- Access
 			if after then
 				create Result.make_empty
 			else
-				create Result.make (item_count + 20)
-				i_final := offset + item_count
+				create Result.make (character_count + 20)
+				i_final := offset + character_count
 				from i := offset until i = i_final loop
 					Result.append_code (area [i])
 					i := i + 1
@@ -77,6 +64,23 @@ feature -- Access
 				Result.append_integer (upper)
 			end
 		end
+
+feature -- Measurement
+
+	character_count: INTEGER
+		do
+			Result := upper - lower + 1
+		end
+
+	count: INTEGER
+		-- substring count
+		do
+			Result := area.item (0).to_integer_32
+		end
+
+	index: INTEGER
+
+	index_final: INTEGER
 
 	lower: INTEGER
 		do
@@ -106,30 +110,23 @@ feature -- Element change
 		do
 			area := a_area
 			index := 1; index_final := count * 2 + 1
-			iterated_count := 0
 		end
 
 feature -- Cursor movement
 
 	back
 		do
-			iterated_count := iterated_count - item_count
 			index := index - 1
 		end
 
 	forth
 		do
 			index := index + 2
-			iterated_count := iterated_count + item_count
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_SUBSTRING_32_ARRAY} -- Access
 
 	area: SPECIAL [NATURAL]
-
-	index: INTEGER
-
-	index_final: INTEGER
 
 feature {NONE} -- Constants
 

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-21 17:42:25 GMT (Thursday 21st January 2021)"
-	revision: "8"
+	date: "2021-01-23 15:45:55 GMT (Saturday 23rd January 2021)"
+	revision: "9"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -60,27 +60,28 @@ feature {NONE} -- Initialization
 	make_from_unencoded (unencoded: EL_UNENCODED_CHARACTERS)
 		local
 			i, lower, upper, l_count, char_count, i_final, offset: INTEGER
-			l_area: like area
+			unencoded_area, l_area: like area
 		do
 			l_count := unencoded.substring_count
-			create area.make_empty (l_count * 2 + unencoded.character_count + 1)
-			area.extend (l_count.to_natural_32)
+			create l_area.make_empty (1 + l_count * 2 + unencoded.character_count)
+			l_area.extend (0)
 
-			l_area := unencoded.area; i_final := l_area.count
+			unencoded_area := unencoded.area; i_final := unencoded_area.count
 			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
-				area.extend (lower.to_natural_32); area.extend (upper.to_natural_32);
+				lower := unencoded.lower_bound (unencoded_area, i); upper := unencoded.upper_bound (unencoded_area, i)
+				extend_interval (l_area, lower, upper)
 				char_count := upper - lower + 1
 				i := i + char_count + 2
 			end
-			offset := l_count * 2  + 1 -- substring offset
+			offset := value (l_area, 0) * 2  + 1 -- substring offset
 			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
+				lower := unencoded.lower_bound (unencoded_area, i); upper := unencoded.upper_bound (unencoded_area, i)
 				char_count := upper - lower + 1
-				area.copy_data (l_area, i + 2, offset, char_count)
+				l_area.copy_data (unencoded_area, i + 2, offset, char_count)
 				offset := offset + char_count
 				i := i + char_count + 2
 			end
+			area := l_area
 		ensure
 			none_contiguous: not has_contiguous
 		end
@@ -498,8 +499,8 @@ feature -- Element change
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
-			it_lead, it_next, it_current, it_other: EL_SUBSTRING_32_ARRAY_ITERATOR
-			l_area: like area; l_count, offset: INTEGER
+			it_lead, it_middle: EL_SUBSTRING_32_ARRAY_ITERATOR; l_area: like area;
+			offset, lead_count, middle_count, trailing_count, src_index, dest_index: INTEGER
 		do
 			if other.count = 0 then
 				do_nothing
@@ -509,28 +510,37 @@ feature -- Element change
 			else
 				create l_area.make_empty (area.count + other.area.count - 1)
 				l_area.extend (0)
-				it_current := start (Current); it_other := start (other)
-				if it_current < it_other then
-					it_lead := it_current; it_next := it_other
+				if first_upper < other.first_lower then
+					it_lead := start (Current); it_middle := start (other)
 				else
-					it_lead := it_other; it_next := it_current
+					it_lead := start (other); it_middle := start (Current)
 				end
-				from until it_lead.after or else it_next < it_lead loop
+				from until it_lead.after or else it_middle < it_lead loop
 					extend_interval (l_area, it_lead.lower, it_lead.upper)
+					lead_count := lead_count + it_lead.character_count
 					it_lead.forth
 				end
-				from until it_next.after loop
-					extend_interval (l_area, it_next.lower, it_next.upper)
-					it_next.forth
+				from until it_middle.after loop
+					extend_interval (l_area, it_middle.lower, it_middle.upper)
+					middle_count := middle_count + it_middle.character_count
+					it_middle.forth
 				end
 				if not it_lead.after then
 					from until it_lead.after loop
 						extend_interval (l_area, it_lead.lower, it_lead.upper)
+						trailing_count := trailing_count + it_lead.character_count
 						it_lead.forth
 					end
 				end
-				l_count := value (l_area, 0)
-				offset := l_count * 2 + 1
+				offset := value (l_area, 0) * 2 + 1
+				l_area.copy_data (it_lead.area, it_lead.offset, offset, lead_count)
+				l_area.copy_data (it_middle.area, it_middle.offset, offset + lead_count, middle_count)
+				if trailing_count.to_boolean then
+					src_index := it_lead.offset + lead_count
+					dest_index := offset + lead_count + middle_count
+					l_area.copy_data (it_lead.area, src_index, dest_index, trailing_count)
+				end
+				area := l_area
 			end
 		ensure
 			none_contiguous: not has_contiguous

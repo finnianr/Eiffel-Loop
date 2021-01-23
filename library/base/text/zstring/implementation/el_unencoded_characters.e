@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 16:39:00 GMT (Monday 4th January 2021)"
-	revision: "16"
+	date: "2021-01-23 15:58:59 GMT (Saturday 23rd January 2021)"
+	revision: "17"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -327,6 +327,13 @@ feature -- Element change
 			end
 		ensure
 			valid_count: character_count = old character_count + other.character_count
+		end
+
+	fill (uc: CHARACTER_32; n: INTEGER)
+		do
+			create area.make_filled (uc.natural_32_code, n + 2)
+			area [0] := 1
+			area [1] := n.to_natural_32
 		end
 
 	insert (other: EL_UNENCODED_CHARACTERS)

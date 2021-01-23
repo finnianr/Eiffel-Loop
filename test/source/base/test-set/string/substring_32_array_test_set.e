@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-21 16:24:31 GMT (Thursday 21st January 2021)"
-	revision: "8"
+	date: "2021-01-23 15:50:15 GMT (Saturday 23rd January 2021)"
+	revision: "9"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -106,19 +106,24 @@ feature -- Test
 		local
 			insert, zstr: ZSTRING; index: INTEGER
 			insert_array, array: EL_SUBSTRING_32_ARRAY
---			l1: L1_ZSTRING
 		do
-			zstr := text_russian
-			index := zstr.index_of (',', 1)
-			insert := {STRING_32} "не"
+			across 1 |..| 2 as count loop
+				create insert.make_filled ('д', count.item)
+				across 1 |..| (text_russian.count - 1) as n loop
+					zstr := text_russian
+					index := n.item
+					create insert_array.make_from_unencoded (insert)
+					insert_array.shift (index - 1)
+					zstr.remove_substring (index, index + insert.count - 1)
 
-			create insert_array.make_from_unencoded (insert)
-			insert_array.shift (index - 1)
-			create array.make_from_unencoded (zstr)
-			array.insert (insert_array)
+					create array.make_from_unencoded (zstr)
+					array.shift_from (index, insert.count)
+					array.insert (insert_array)
+					zstr.insert_string (insert, index)
 
-			zstr.replace_substring (insert, index, index + 1)
-			assert ("same content", same_content (zstr, array, zstr.count))
+					assert ("same content", same_content (zstr, array, zstr.count))
+				end
+			end
 		end
 
 	test_occurrences
