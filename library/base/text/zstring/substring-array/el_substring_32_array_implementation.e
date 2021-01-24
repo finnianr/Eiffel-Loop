@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-21 17:27:07 GMT (Thursday 21st January 2021)"
-	revision: "6"
+	date: "2021-01-24 16:46:36 GMT (Sunday 24th January 2021)"
+	revision: "7"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -48,18 +48,11 @@ feature {EL_ZCODE_CONVERSION} -- Debug
 
 feature {NONE} -- Factory
 
-	new_area (a_area: SPECIAL [NATURAL]; i, n: INTEGER): like area
-		-- copy of `a_area' with `n' zeros inserted at `i'th position
-		local
-			j: INTEGER
+	new_area (count, character_count: INTEGER): like area
+		-- new area with memory of `count' substrings and `character_count' characters
 		do
-			create Result.make_empty (a_area.count + n)
-			Result.copy_data (a_area, 0, 0, i)
-			from j := 1 until j > n loop
-				Result.extend (0)
-				j := j + 1
-			end
-			Result.copy_data (a_area, i, i + n, a_area.count - i)
+			create Result.make_empty (1 + count * 2 + character_count)
+			Result.extend (0)
 		end
 
 	new_joined_area (area_1, area_2: like area; delta: INTEGER): like area
@@ -102,6 +95,11 @@ feature {NONE} -- Implementation
 				a_area.extend (upper.to_natural_32)
 				increment_count (a_area, 1)
 			end
+		end
+
+	final_index (a_area: SPECIAL [NATURAL]): INTEGER
+		do
+			Result := value (a_area, 0) * 2 + 1
 		end
 
 	increment_count (a_area: like area; n: INTEGER)
@@ -154,7 +152,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Empty_unencoded: SPECIAL [NATURAL]
+	Empty_area: SPECIAL [NATURAL]
 		once
 			create Result.make_empty (1)
 			Result.extend (0)

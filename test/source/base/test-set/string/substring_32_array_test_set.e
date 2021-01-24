@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-23 15:50:15 GMT (Saturday 23rd January 2021)"
-	revision: "9"
+	date: "2021-01-24 14:42:27 GMT (Sunday 24th January 2021)"
+	revision: "10"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -29,9 +29,10 @@ feature -- Basic operations
 --			eval.call ("first_interval", agent test_first_interval)
 --			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
-			eval.call ("insert", agent test_insert)
+--			eval.call ("insert", agent test_insert)
 --			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("prepend", agent test_prepend)
+			eval.call ("remove_substring", agent test_remove_substring)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
 --			eval.call ("write", agent test_write)
@@ -154,6 +155,25 @@ feature -- Test
 					line_array.prepend (word_array)
 					line.prepend (word)
 					assert ("same content", same_content (line, line_array, line.count))
+				end
+			end
+		end
+
+	test_remove_substring
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.remove_substring"
+		local
+			zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY
+			lower, upper: INTEGER
+		do
+			across 1 |..| 5 as n loop
+				across 1 |..| (text_russian.count - n.item + 1) as index loop
+					zstr := text_russian
+					create array.make_from_unencoded (zstr)
+					lower := index.item; upper := index.item + n.item - 1
+					array.remove_substring (lower, upper)
+					zstr.remove_substring (lower, upper)
+					assert ("same content", same_content (zstr, array, zstr.count))
 				end
 			end
 		end
@@ -299,7 +319,7 @@ feature {NONE} -- Implementation
 		local
 			zstr: ZSTRING; l1: L1_ZSTRING
 		do
-			across Text_lines as line loop
+			across text_lines as line loop
 				zstr := line.item
 				l1 := line.item
 				test (zstr, L1)

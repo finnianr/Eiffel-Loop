@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:27:08 GMT (Monday 28th December 2020)"
-	revision: "1"
+	date: "2021-01-24 16:47:01 GMT (Sunday 24th January 2021)"
+	revision: "2"
 
 class
 	L1_ZSTRING
@@ -20,21 +20,24 @@ inherit
 
 	EL_SUBSTRING_32_ARRAY
 		rename
+			append as array_append,
+			area as array_area,
 			count as array_count,
+			code as array_code,
+			Empty_area as Empty_array_area,
 			has as array_has,
 			hash_code as array_hash_code,
-			make_empty as array_make_empty,
-			valid_index as array_valid_index,
-			index_of as array_index_of,
-			occurrences as array_occurrences,
-			item as array_item,
-			code as array_code,
-			area as array_area,
-			prepend as array_prepend,
-			append as array_append,
 			last_index_of as array_last_index_of,
+			index_of as array_index_of,
 			insert as array_insert,
-			same_string as array_same_string
+			item as array_item,
+			not_empty as array_not_empty,
+			make_empty as array_make_empty,
+			occurrences as array_occurrences,
+			prepend as array_prepend,
+			remove_substring as array_remove_substring,
+			same_string as array_same_string,
+			valid_index as array_valid_index
 		undefine
 			copy, is_equal, out
 		end

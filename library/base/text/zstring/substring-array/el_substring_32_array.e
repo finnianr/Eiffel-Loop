@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-23 15:45:55 GMT (Saturday 23rd January 2021)"
-	revision: "9"
+	date: "2021-01-24 16:47:10 GMT (Sunday 24th January 2021)"
+	revision: "10"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make_empty
 		do
-			area := Empty_unencoded
+			area := Empty_area
 		end
 
 	make_from_area (a_area: like area)
@@ -63,8 +63,7 @@ feature {NONE} -- Initialization
 			unencoded_area, l_area: like area
 		do
 			l_count := unencoded.substring_count
-			create l_area.make_empty (1 + l_count * 2 + unencoded.character_count)
-			l_area.extend (0)
+			l_area := new_area (l_count, unencoded.character_count)
 
 			unencoded_area := unencoded.area; i_final := unencoded_area.count
 			from i := 0 until i = i_final loop
@@ -97,7 +96,7 @@ feature -- Access
 			i, lower, upper, i_final, offset: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until found or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -139,7 +138,7 @@ feature -- Access
 			i, j, offset, i_final, char_count: INTEGER; l_area: like area
 		do
 			Result := seed
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				char_count := interval_count (l_area, i)
@@ -159,7 +158,7 @@ feature -- Access
 			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -188,7 +187,7 @@ feature -- Access
 			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final + character_count
 			from i := i_final - 2 until found or else i < 0 loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -207,6 +206,14 @@ feature -- Access
 			end
 		end
 
+	last_lower: INTEGER
+		-- index of first character in last substring
+		require
+			not_empty: not_empty
+		do
+			Result := area.item (count * 2 - 1).to_integer_32
+		end
+
 	last_upper: INTEGER
 		-- index of last character in last substring
 		require
@@ -221,7 +228,7 @@ feature -- Access
 			array_start_index, array_end_index, l_first_lower, l_last_upper: INTEGER
 			l_area, sub_area: like area
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until array_end_index.to_boolean or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -269,8 +276,8 @@ feature -- Access
 			end
 			if array_start_index.to_boolean then
 				l_count := (array_end_index - array_start_index) // 2 + 1
-				create sub_area.make_empty (1 + l_count * 2 + l_character_count)
-				sub_area.extend (l_count.to_natural_32)
+				sub_area := new_area (l_count, l_character_count)
+				sub_area [0] := l_count.to_natural_32
 				sub_area.copy_data (l_area, array_start_index, 1, l_count * 2)
 				put_lower (sub_area, 1, l_first_lower)
 				put_upper (sub_area, l_count * 2 - 1, l_last_upper)
@@ -305,7 +312,7 @@ feature -- Measurement
 		local
 			i, j, offset, i_final, char_count: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				char_count := interval_count (l_area, i)
@@ -325,7 +332,7 @@ feature -- Measurement
 			i, j, offset, i_final, char_count: INTEGER; l_area: like area
 			l_code: NATURAL
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				char_count := interval_count (l_area, i)
@@ -383,7 +390,7 @@ feature -- Status query
 		local
 			i, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			from i := 1 until Result or else i = i_final loop
 				Result := lower_bound (l_area, i) <= index and then index <= upper_bound (l_area, i)
 				i := i + 2
@@ -420,10 +427,10 @@ feature -- Status change
 		-- Split if interval has `index' and `index' > `lower'
 		-- n < 0 shifts to the left.
 		local
-			i, lower, upper, split_i, i_final: INTEGER; l_area: like area
+			i, lower, upper, split_i, i_final, next_i: INTEGER; l_area: like area
 		do
 			if n /= 0 then
-				l_area := area; i_final := value (l_area, 0) * 2 + 1
+				l_area := area; i_final := final_index (l_area)
 				-- search for split
 				from i := 1 until split_i.to_boolean or else i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -433,9 +440,14 @@ feature -- Status change
 					i := i + 2
 				end
 				if split_i.to_boolean then
-					i := split_i
-					area := new_area (l_area, i + 2, 2)
-					l_area := area
+					i := split_i; next_i := i + 2
+
+					create l_area.make_empty (l_area.count + 2)
+					l_area.copy_data (area, 0, 0, next_i)
+					l_area.fill_with (0, next_i, next_i + 1)
+					l_area.copy_data (area, next_i, next_i + 2, area.count - next_i)
+					area := l_area
+
 					put_upper (l_area, i, index - 1)
 					put_interval (l_area, i + 2, index, upper)
 					increment_count (l_area, 1)
@@ -464,8 +476,8 @@ feature -- Element change
 			l_area, o_area, joined_area: like area
 		do
 			if not_empty then
-				l_area := area; i_final := count * 2 + 1
-				o_area := other.area; o_final := other.count * 2 + 1
+				l_area := area; i_final := final_index (l_area)
+				o_area := other.area; o_final := final_index (o_area)
 				if adjacent (last_upper, other.first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
@@ -557,8 +569,8 @@ feature -- Element change
 				area := other.area.twin
 
 			elseif other.not_empty then
-				l_area := area; i_final := count * 2 + 1
-				o_area := other.area; o_final := other.count * 2 + 1
+				l_area := area; i_final := final_index (l_area)
+				o_area := other.area; o_final := final_index (o_area)
 				if adjacent (other.last_upper, first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
@@ -587,6 +599,100 @@ feature -- Element change
 			none_contiguous: not has_contiguous
 		end
 
+	remove_substring (start_index, end_index: INTEGER)
+		local
+			i, lower, upper, new_char_count, i_final, offset, new_offset, new_count: INTEGER
+			old_lower, old_upper, delta, shift_count, crop_count: INTEGER
+			l_area, l_new_area, index_area: like area
+		do
+			shift_count := end_index - start_index + 1
+			l_area := area; i_final := final_index (l_area)
+			offset := i_final
+			index_area := new_area (count, 0)
+			from i := 1 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				if upper < start_index then
+					-- Unchanged
+					extend_interval (index_area, lower, upper)
+
+				elseif start_index <= lower and upper <= end_index then
+					-- Remove entire section
+					upper := lower - 1
+
+				elseif lower <= start_index and end_index <= upper then
+					-- Remove middle section
+					upper := upper - shift_count
+					extend_interval (index_area, lower, upper)
+
+				elseif lower <= end_index and end_index <= upper then
+					-- Remove leading section
+					lower := end_index + 1
+					extend_interval (index_area, lower - shift_count, upper - shift_count)
+
+				elseif lower <= start_index and start_index <= upper then
+					-- Remove trailing section
+					upper := start_index - 1
+					extend_interval (index_area, lower, upper)
+
+				elseif end_index < lower then
+					-- Left shifted
+					extend_interval (index_area, lower - shift_count, upper - shift_count)
+				end
+				new_char_count := new_char_count + upper - lower + 1
+				i := i + 2
+			end
+			new_count := value (index_area, 0)
+
+			crop_count := character_count - new_char_count
+			if crop_count.to_boolean or count /= new_count then
+				l_new_area := new_area (new_count, new_char_count)
+				new_offset := index_area.count
+				l_new_area.copy_data (index_area, 0, 0, index_area.count)
+				-- copy character data
+				from i := 1 until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					old_lower := lower; old_upper := upper
+					if upper < start_index then
+						-- Unchanged
+						l_new_area.copy_data (l_area, offset, new_offset, upper - lower + 1)
+
+					elseif start_index <= lower and upper <= end_index then
+						-- Remove entire section
+						upper := lower - 1
+
+					elseif lower <= start_index and end_index <= upper then
+						-- Remove middle section
+						delta := end_index - lower + 1
+						l_new_area.copy_data (l_area, offset, new_offset, start_index - lower)
+						l_new_area.copy_data (l_area, offset + delta, new_offset + start_index - lower, upper - end_index)
+						upper := upper - shift_count
+
+					elseif lower <= end_index and end_index <= upper then
+						-- Remove leading section
+						lower := end_index + 1; delta := lower - old_lower
+						l_new_area.copy_data (l_area, offset + delta, new_offset, upper - lower + 1)
+
+					elseif lower <= start_index and start_index <= upper then
+						-- Remove trailing section
+						upper := start_index - 1
+						l_new_area.copy_data (l_area, offset, new_offset, upper - lower + 1)
+
+					elseif end_index < lower then
+						-- Left shifted
+						l_new_area.copy_data (l_area, offset, new_offset, upper - lower + 1)
+					end
+					new_offset := new_offset + upper - lower + 1
+					offset := offset + old_upper - old_lower + 1
+					i := i + 2
+				end
+				area := l_new_area
+			else
+				area.copy_data (index_area, 0, 0, index_area.count)
+			end
+		ensure
+			none_contiguous: not has_contiguous
+		end
+
 feature -- Basic operations
 
 	write (area_out: SPECIAL [CHARACTER_32]; a_offset: INTEGER)
@@ -596,7 +702,7 @@ feature -- Basic operations
 		local
 			i, j, lower, upper, char_count, i_final, offset: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -630,7 +736,7 @@ feature -- Contract Support
 			i, i_final: INTEGER; l_area: like area
 		do
 			create Result.make (count)
-			l_area := area; i_final := count * 2 + 1
+			l_area := area; i_final := final_index (l_area)
 			from i := 1 until i = i_final loop
 				Result.extend (lower_bound (l_area, i), upper_bound (l_area, i))
 				i := i + 2
