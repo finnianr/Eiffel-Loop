@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 13:24:15 GMT (Friday 15th January 2021)"
-	revision: "37"
+	date: "2021-01-24 17:34:46 GMT (Sunday 24th January 2021)"
+	revision: "38"
 
 class
 	ZSTRING_TEST_SET
@@ -43,6 +43,7 @@ feature -- Basic operations
 			eval.call ("append_unicode", agent test_append_unicode)
 			eval.call ("case_changing", agent test_case_changing)
 			eval.call ("enclose", agent test_enclose)
+			eval.call ("fill_character", agent test_fill_character)
 			eval.call ("insert_character", agent test_insert_character)
 			eval.call ("insert_string", agent test_insert_string)
 			eval.call ("left_adjust", agent test_left_adjust)
@@ -276,6 +277,19 @@ feature -- Element change tests
 				str_32.prepend_character ('"'); str_32.append_character ('"')
 				str.quote (2)
 				assert ("enclose OK", str.same_string (str_32))
+			end
+		end
+
+	test_fill_character
+		note
+			testing:	"covers/{ZSTRING}.fill_character"
+		local
+			str_32: STRING_32; str: ZSTRING
+		do
+			across 1 |..| 2 as index loop
+				create str_32.make_filled (text_russian [index.item], 3)
+				create str.make_filled (text_russian [index.item], 3)
+				assert ("same string", str.same_string (str_32))
 			end
 		end
 

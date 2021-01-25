@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-23 15:56:57 GMT (Saturday 23rd January 2021)"
-	revision: "13"
+	date: "2021-01-24 17:26:54 GMT (Sunday 24th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -22,7 +22,6 @@ inherit
 			area as unencoded_area,
 			code as unencoded_code,
 			count_greater_than_zero_flags as respective_encoding,
-			fill as unencoded_fill,
 			grow as unencoded_grow,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
@@ -34,6 +33,7 @@ inherit
 			last_upper as unencoded_last_upper,
 			make as make_unencoded,
 			make_from_other as make_unencoded_from_other,
+			make_filled as make_unencoded_filled,
 			not_empty as has_mixed_encoding,
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,

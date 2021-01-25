@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:14:09 GMT (Wednesday 20th January 2021)"
-	revision: "30"
+	date: "2021-01-24 16:55:11 GMT (Sunday 24th January 2021)"
+	revision: "31"
 
 class
 	EL_ZSTRING
@@ -404,7 +404,7 @@ feature -- Removal
 	remove (i: INTEGER)
 		do
 			internal_remove (i)
-			remove_unencoded (i, True)
+			remove_unencoded_substring (i, i)
 		ensure then
 			valid_unencoded: is_unencoded_valid
 		end

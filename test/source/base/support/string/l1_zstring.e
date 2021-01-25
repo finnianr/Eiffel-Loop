@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 16:47:01 GMT (Sunday 24th January 2021)"
-	revision: "2"
+	date: "2021-01-25 17:24:16 GMT (Monday 25th January 2021)"
+	revision: "3"
 
 class
 	L1_ZSTRING
@@ -37,6 +37,8 @@ inherit
 			prepend as array_prepend,
 			remove_substring as array_remove_substring,
 			same_string as array_same_string,
+			to_lower as array_to_lower,
+			to_upper as array_to_upper,
 			valid_index as array_valid_index
 		undefine
 			copy, is_equal, out

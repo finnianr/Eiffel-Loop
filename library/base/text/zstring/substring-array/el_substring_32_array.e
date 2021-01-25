@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 16:47:10 GMT (Sunday 24th January 2021)"
-	revision: "10"
+	date: "2021-01-25 17:42:30 GMT (Monday 25th January 2021)"
+	revision: "11"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -96,7 +96,7 @@ feature -- Access
 			i, lower, upper, i_final, offset: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final
 			from i := 1 until found or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -135,21 +135,15 @@ feature -- Access
 	hash_code (seed: INTEGER): INTEGER
 			-- Hash code value
 		local
-			i, j, offset, i_final, char_count: INTEGER; l_area: like area
+			i, i_final: INTEGER; l_area: like area
 		do
+			l_area := area; i_final := first_index (l_area) + character_count
 			Result := seed
-			l_area := area; i_final := final_index (l_area)
-			offset := i_final
-			from i := 1 until i = i_final loop
-				char_count := interval_count (l_area, i)
-				from j := 0 until j = char_count loop
-					-- The magic number `8388593' below is the greatest prime lower than
-					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-					Result := ((Result \\ 8388593) |<< 8) + l_area.item (offset + j).to_integer_32
-					j := j + 1
-				end
-				offset := offset + char_count
-				i := i + 2
+			from i := first_index (l_area) until i = i_final loop
+				-- The magic number `8388593' below is the greatest prime lower than
+				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+				Result := ((Result \\ 8388593) |<< 8) + l_area.item (i).to_integer_32
+				i := i + 1
 			end
 		end
 
@@ -158,7 +152,7 @@ feature -- Access
 			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -187,7 +181,7 @@ feature -- Access
 			i, j, lower, upper, offset, char_count, i_final: INTEGER; l_area: like area
 			found: BOOLEAN
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final + character_count
 			from i := i_final - 2 until found or else i < 0 loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -228,7 +222,7 @@ feature -- Access
 			array_start_index, array_end_index, l_first_lower, l_last_upper: INTEGER
 			l_area, sub_area: like area
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final
 			from i := 1 until array_end_index.to_boolean or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -310,52 +304,39 @@ feature -- Measurement
 
 	occurrences (unicode: NATURAL): INTEGER
 		local
-			i, j, offset, i_final, char_count: INTEGER; l_area: like area
+			i, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := final_index (l_area)
-			offset := i_final
-			from i := 1 until i = i_final loop
-				char_count := interval_count (l_area, i)
-				from j := 0 until j = char_count loop
-					if l_area [offset + j] = unicode then
-						Result := Result + 1
-					end
-					j := j + 1
+			l_area := area; i_final := first_index (l_area) + character_count
+			from i := first_index (l_area) until i = i_final loop
+				if l_area [i] = unicode then
+					Result := Result + 1
 				end
-				offset := offset + char_count
-				i := i + 2
+				i := i + 1
 			end
 		end
 
 	utf_8_byte_count: INTEGER
 		local
-			i, j, offset, i_final, char_count: INTEGER; l_area: like area
-			l_code: NATURAL
+			i, i_final: INTEGER; l_area: like area; l_code: NATURAL
 		do
-			l_area := area; i_final := final_index (l_area)
-			offset := i_final
-			from i := 1 until i = i_final loop
-				char_count := interval_count (l_area, i)
-				from j := 0 until j = char_count loop
-					l_code := l_area [offset + j]
-					if l_code <= 0x7F then
-							-- 0xxxxxxx.
-						Result := Result + 1
-					elseif l_code <= 0x7FF then
-							-- 110xxxxx 10xxxxxx
-						Result := Result + 2
-					elseif l_code <= 0xFFFF then
-							-- 1110xxxx 10xxxxxx 10xxxxxx
-						Result := Result + 3
-					else
-							-- l_code <= 1FFFFF - there are no higher code points
-							-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-						Result := Result + 4
-					end
-					j := j + 1
+			l_area := area; i_final := first_index (l_area) + character_count
+			from i := first_index (l_area) until i = i_final loop
+				l_code := l_area [i]
+				if l_code <= 0x7F then
+						-- 0xxxxxxx.
+					Result := Result + 1
+				elseif l_code <= 0x7FF then
+						-- 110xxxxx 10xxxxxx
+					Result := Result + 2
+				elseif l_code <= 0xFFFF then
+						-- 1110xxxx 10xxxxxx 10xxxxxx
+					Result := Result + 3
+				else
+						-- l_code <= 1FFFFF - there are no higher code points
+						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					Result := Result + 4
 				end
-				offset := offset + char_count
-				i := i + 2
+				i := i + 1
 			end
 		end
 
@@ -390,7 +371,7 @@ feature -- Status query
 		local
 			i, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			from i := 1 until Result or else i = i_final loop
 				Result := lower_bound (l_area, i) <= index and then index <= upper_bound (l_area, i)
 				i := i + 2
@@ -430,7 +411,7 @@ feature -- Status change
 			i, lower, upper, split_i, i_final, next_i: INTEGER; l_area: like area
 		do
 			if n /= 0 then
-				l_area := area; i_final := final_index (l_area)
+				l_area := area; i_final := first_index (l_area)
 				-- search for split
 				from i := 1 until split_i.to_boolean or else i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -465,6 +446,16 @@ feature -- Status change
 			none_contiguous: not has_contiguous
 		end
 
+	to_lower
+		do
+			change_case (True)
+		end
+
+	to_upper
+		do
+			change_case (False)
+		end
+
 feature -- Element change
 
 	append (other: EL_SUBSTRING_32_ARRAY)
@@ -476,8 +467,8 @@ feature -- Element change
 			l_area, o_area, joined_area: like area
 		do
 			if not_empty then
-				l_area := area; i_final := final_index (l_area)
-				o_area := other.area; o_final := final_index (o_area)
+				l_area := area; i_final := first_index (l_area)
+				o_area := other.area; o_final := first_index (o_area)
 				if adjacent (last_upper, other.first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
@@ -569,8 +560,8 @@ feature -- Element change
 				area := other.area.twin
 
 			elseif other.not_empty then
-				l_area := area; i_final := final_index (l_area)
-				o_area := other.area; o_final := final_index (o_area)
+				l_area := area; i_final := first_index (l_area)
+				o_area := other.area; o_final := first_index (o_area)
 				if adjacent (other.last_upper, first_lower) then
 					-- merge adjoining intervals by subtracting `delta' bytes
 					delta := 2
@@ -606,7 +597,7 @@ feature -- Element change
 			l_area, l_new_area, index_area: like area
 		do
 			shift_count := end_index - start_index + 1
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final
 			index_area := new_area (count, 0)
 			from i := 1 until i = i_final loop
@@ -702,7 +693,7 @@ feature -- Basic operations
 		local
 			i, j, lower, upper, char_count, i_final, offset: INTEGER; l_area: like area
 		do
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			offset := i_final
 			from i := 1 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -736,7 +727,7 @@ feature -- Contract Support
 			i, i_final: INTEGER; l_area: like area
 		do
 			create Result.make (count)
-			l_area := area; i_final := final_index (l_area)
+			l_area := area; i_final := first_index (l_area)
 			from i := 1 until i = i_final loop
 				Result.extend (lower_bound (l_area, i), upper_bound (l_area, i))
 				i := i + 2

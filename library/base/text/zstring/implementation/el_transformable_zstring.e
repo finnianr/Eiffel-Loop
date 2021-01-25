@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-23 16:00:13 GMT (Saturday 23rd January 2021)"
-	revision: "8"
+	date: "2021-01-24 17:27:50 GMT (Sunday 24th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -32,7 +32,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			c := encoded_character (uc)
 			internal_fill_character (c)
 			if c = Unencoded_character then
-				unencoded_fill (uc, count)
+				make_unencoded_filled (uc, count)
 			end
 		end
 
@@ -251,7 +251,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 					if c_new = Unencoded_character then
 						put_unencoded_code (code_new, i + 1)
 					elseif c_i = Unencoded_character then
-						remove_unencoded (i + 1, False)
+						remove_unencoded (i + 1)
 					end
 				end
 				i := i + 1

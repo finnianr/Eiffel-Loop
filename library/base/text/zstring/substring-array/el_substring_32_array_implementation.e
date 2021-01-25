@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 16:46:36 GMT (Sunday 24th January 2021)"
-	revision: "7"
+	date: "2021-01-25 17:43:16 GMT (Monday 25th January 2021)"
+	revision: "8"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -48,10 +48,10 @@ feature {EL_ZCODE_CONVERSION} -- Debug
 
 feature {NONE} -- Factory
 
-	new_area (count, character_count: INTEGER): like area
+	new_area (count, a_character_count: INTEGER): like area
 		-- new area with memory of `count' substrings and `character_count' characters
 		do
-			create Result.make_empty (1 + count * 2 + character_count)
+			create Result.make_empty (1 + count * 2 + a_character_count)
 			Result.extend (0)
 		end
 
@@ -97,7 +97,35 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	final_index (a_area: SPECIAL [NATURAL]): INTEGER
+feature {NONE} -- Implementation
+
+	change_case (as_lower_case: BOOLEAN)
+		local
+			i, i_final: INTEGER; l_area: like area
+			c, new_c: CHARACTER_32
+		do
+			l_area := area; i_final := first_index (l_area) + character_count
+			from i := first_index (l_area) until i = i_final loop
+				c := l_area.item (i).to_character_32
+				if as_lower_case then
+					new_c := c.as_lower
+				else
+					new_c := c.as_upper
+				end
+				if c /= new_c then
+					l_area [i] := new_c.natural_32_code
+				end
+				i := i + 1
+			end
+		end
+
+	character_count: INTEGER
+		-- sum of all substring counts
+		deferred
+		end
+
+	first_index (a_area: SPECIAL [NATURAL]): INTEGER
+		-- index of first character in first substring of `a_area'
 		do
 			Result := value (a_area, 0) * 2 + 1
 		end

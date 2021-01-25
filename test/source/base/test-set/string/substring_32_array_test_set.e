@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 14:42:27 GMT (Sunday 24th January 2021)"
-	revision: "10"
+	date: "2021-01-25 17:44:12 GMT (Monday 25th January 2021)"
+	revision: "11"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -24,17 +24,18 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
 --			eval.call ("append", agent test_append)
---			eval.call ("character_count", agent test_character_count)
+			eval.call ("character_count", agent test_character_count)
 --			eval.call ("code", agent test_code)
 --			eval.call ("first_interval", agent test_first_interval)
---			eval.call ("hash_code", agent test_hash_code)
+			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
 --			eval.call ("insert", agent test_insert)
---			eval.call ("occurrences", agent test_occurrences)
+			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("prepend", agent test_prepend)
-			eval.call ("remove_substring", agent test_remove_substring)
+--			eval.call ("remove_substring", agent test_remove_substring)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
+			eval.call ("to_upper", agent test_to_upper)
 --			eval.call ("write", agent test_write)
 		end
 
@@ -166,7 +167,7 @@ feature -- Test
 			zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY
 			lower, upper: INTEGER
 		do
-			across 1 |..| 5 as n loop
+			across 1 |..| 7 as n loop
 				across 1 |..| (text_russian.count - n.item + 1) as index loop
 					zstr := text_russian
 					create array.make_from_unencoded (zstr)
@@ -217,6 +218,18 @@ feature -- Test
 					i := i + 1
 				end
 			end
+		end
+
+	test_to_upper
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.change_case"
+		local
+			zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY
+		do
+			zstr := text_russian
+			create array.make_from_unencoded (zstr)
+			array.to_upper; zstr.to_upper
+			assert ("same content", same_content (zstr, array, zstr.count))
 		end
 
 	test_write

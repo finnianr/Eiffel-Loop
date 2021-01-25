@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-23 15:58:59 GMT (Saturday 23rd January 2021)"
-	revision: "17"
+	date: "2021-01-24 17:26:19 GMT (Sunday 24th January 2021)"
+	revision: "18"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -30,6 +30,13 @@ feature {NONE} -- Initialization
 	make
 		do
 			area := Empty_unencoded
+		end
+
+	make_filled (uc: CHARACTER_32; n: INTEGER)
+		do
+			create area.make_filled (uc.natural_32_code, n + 2)
+			area [0] := 1
+			area [1] := n.to_natural_32
 		end
 
 	make_from_other (other: EL_UNENCODED_CHARACTERS)
@@ -329,13 +336,6 @@ feature -- Element change
 			valid_count: character_count = old character_count + other.character_count
 		end
 
-	fill (uc: CHARACTER_32; n: INTEGER)
-		do
-			create area.make_filled (uc.natural_32_code, n + 2)
-			area [0] := 1
-			area [1] := n.to_natural_32
-		end
-
 	insert (other: EL_UNENCODED_CHARACTERS)
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
@@ -500,46 +500,42 @@ feature -- Element change
 
 feature -- Removal
 
-	remove (index: INTEGER; shift_left: BOOLEAN)
+	remove (index: INTEGER)
 		local
 			i, lower, upper, count, area_count, removed_count, source_index, destination_index: INTEGER
 			l_area: like area; found: BOOLEAN
 		do
-			if shift_left then
-				remove_substring (index, index)
-			else
-				l_area := area; area_count := l_area.count
-				from i := 0 until found or else i = area_count loop
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					count := upper - lower + 1
-					if lower = index or else index = upper then
-						if count = 1 then
-							removed_count := 3
-							destination_index := i; source_index := i + 3
-						else
-							destination_index := i + 2 + index - lower; source_index := destination_index + 1
-							removed_count := 1
-						end
-						l_area.overlapping_move (source_index, destination_index, l_area.count - source_index)
-						l_area.remove_tail (removed_count)
-						if removed_count = 1 then
-							if index = lower then
-								l_area.put ((lower + 1).to_natural_32, i)
-							else
-								l_area.put ((upper - 1).to_natural_32, i + 1)
-							end
-						end
-						found := True
-					elseif lower < index and index < upper then
-						-- Split interval in two
-						destination_index := i + 2 + index - lower
-						l_area := extended (destination_index, index + 1, 0, 0)
-						l_area.put (upper.to_natural_32, destination_index + 1)
-						l_area.put ((index - 1).to_natural_32, i + 1)
-						found := True
+			l_area := area; area_count := l_area.count
+			from i := 0 until found or else i = area_count loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				count := upper - lower + 1
+				if lower = index or else index = upper then
+					if count = 1 then
+						removed_count := 3
+						destination_index := i; source_index := i + 3
+					else
+						destination_index := i + 2 + index - lower; source_index := destination_index + 1
+						removed_count := 1
 					end
-					i := i + count + 2
+					l_area.overlapping_move (source_index, destination_index, l_area.count - source_index)
+					l_area.remove_tail (removed_count)
+					if removed_count = 1 then
+						if index = lower then
+							l_area.put ((lower + 1).to_natural_32, i)
+						else
+							l_area.put ((upper - 1).to_natural_32, i + 1)
+						end
+					end
+					found := True
+				elseif lower < index and index < upper then
+					-- Split interval in two
+					destination_index := i + 2 + index - lower
+					l_area := extended (destination_index, index + 1, 0, 0)
+					l_area.put (upper.to_natural_32, destination_index + 1)
+					l_area.put ((index - 1).to_natural_32, i + 1)
+					found := True
 				end
+				i := i + count + 2
 			end
 		end
 
