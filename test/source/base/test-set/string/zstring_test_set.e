@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 17:34:46 GMT (Sunday 24th January 2021)"
-	revision: "38"
+	date: "2021-01-26 16:56:12 GMT (Tuesday 26th January 2021)"
+	revision: "39"
 
 class
 	ZSTRING_TEST_SET
@@ -424,18 +424,17 @@ feature -- Element change tests
 			testing: "covers/{ZSTRING}.put_unicode"
 		local
 			str_32: STRING_32; str: ZSTRING
-			uc: CHARACTER_32; i: INTEGER
+			uc, old_uc: CHARACTER_32; i: INTEGER
 		do
-			across text_words as word loop
-				uc := word.item [1]
-				across text_lines as line loop
-					from i := line.item.index_of (uc, 1) until i = 0 loop
-						str_32 := line.item; str := str_32
-						str_32.put_code (uc.natural_32_code, i); str.put_unicode (uc.natural_32_code, i)
-						assert ("put_unicode OK", str.same_string (str_32))
-						i := line.item.index_of (uc, i + 1)
-					end
-				end
+			uc := 'д'
+			str_32 := text_russian; str := str_32
+			across text_russian as c loop
+				i := c.cursor_index; old_uc := c.item
+				str_32.put (uc, i); str.put (uc, i)
+				assert ("put_unicode OK", str.same_string (str_32))
+			--	Restore
+				str_32.put (old_uc, i); str.put (old_uc, i)
+				assert ("put_unicode OK", str.same_string (str_32))
 			end
 		end
 

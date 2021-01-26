@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 17:26:54 GMT (Sunday 24th January 2021)"
-	revision: "14"
+	date: "2021-01-26 16:44:22 GMT (Tuesday 26th January 2021)"
+	revision: "15"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -337,12 +337,15 @@ feature {NONE} -- Implementation
 		require else -- from STRING_GENERAL
 			valid_index: valid_index (i)
 		local
-			c: CHARACTER
+			c, old_c: CHARACTER
 		do
+			old_c := area [i - 1]
 			c := codec.encoded_character (a_code)
 			area [i - 1] := c
 			if c = Unencoded_character then
 				put_unencoded_code (a_code, i)
+			elseif old_c = Unencoded_character then
+				remove_unencoded (i)
 			end
 			reset_hash
 		ensure then

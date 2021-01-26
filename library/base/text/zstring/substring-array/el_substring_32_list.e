@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-28 17:32:14 GMT (Monday 28th December 2020)"
-	revision: "1"
+	date: "2021-01-26 12:37:09 GMT (Tuesday 26th January 2021)"
+	revision: "2"
 
 class
 	EL_SUBSTRING_32_LIST
@@ -32,16 +32,28 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			make_array (n * 2)
-			create character_list.make (n * 5)
+			create character_list.make_empty (n * 5)
 		end
 
 feature -- Element change
+
+	append_interval (a_area: SPECIAL [NATURAL]; a_lower, a_upper, offset: INTEGER)
+		local
+			l_count: INTEGER
+		do
+			l_count := a_upper - a_lower + 1
+			ensure_capacity (character_list, l_count)
+			character_list.copy_data (a_area, offset, character_list.count, l_count)
+			extend (a_lower.to_natural_32); extend (a_upper.to_natural_32)
+		end
 
 	put_character (uc: CHARACTER_32; a_index: INTEGER)
 		require
 			valid_index: is_empty or else a_index.to_natural_32 > last_upper
 		do
+			ensure_capacity (character_list, 1)
 			character_list.extend (uc.natural_32_code)
+
 			if is_empty or else a_index.to_natural_32 > last_upper + 1 then
 				extend (a_index.to_natural_32)
 				extend (a_index.to_natural_32)
@@ -60,7 +72,7 @@ feature -- Transformation
 			create Result.make_empty (count + character_list.count + 1)
 			Result.extend (count.to_natural_32 // 2)
 			Result.copy_data (area_v2, 0, 1, count)
-			Result.copy_data (character_list.area_v2, 0, Result.count, character_list.count)
+			Result.copy_data (character_list, 0, Result.count, character_list.count)
 		end
 
 feature -- Removal
@@ -71,8 +83,20 @@ feature -- Removal
 			character_list.wipe_out
 		end
 
+feature {NONE} -- Implementation
+
+	ensure_capacity (a_area: like character_list; additional_count: INTEGER)
+		local
+			minimal: INTEGER
+		do
+			if a_area.count + additional_count > a_area.capacity then
+				minimal := additional_count.max (Minimal_increase)
+				character_list := a_area.aliased_resized_area (a_area.count + (a_area.capacity // 2).max (minimal))
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
-	character_list: ARRAYED_LIST [NATURAL]
+	character_list: SPECIAL [NATURAL]
 
 end

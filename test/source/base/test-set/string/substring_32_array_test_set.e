@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-25 17:44:12 GMT (Monday 25th January 2021)"
-	revision: "11"
+	date: "2021-01-26 15:23:02 GMT (Tuesday 26th January 2021)"
+	revision: "12"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -24,18 +24,22 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
 --			eval.call ("append", agent test_append)
-			eval.call ("character_count", agent test_character_count)
+--			eval.call ("append_substrings_into", agent test_append_substrings_into)
+--			eval.call ("character_count", agent test_character_count)
 --			eval.call ("code", agent test_code)
 --			eval.call ("first_interval", agent test_first_interval)
-			eval.call ("hash_code", agent test_hash_code)
+--			eval.call ("hash_code", agent test_hash_code)
 --			eval.call ("index_of", agent test_index_of)
 --			eval.call ("insert", agent test_insert)
-			eval.call ("occurrences", agent test_occurrences)
+--			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("prepend", agent test_prepend)
+--			eval.call ("put_code", agent test_put_code)
+			eval.call ("remove", agent test_remove)
 --			eval.call ("remove_substring", agent test_remove_substring)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
-			eval.call ("to_upper", agent test_to_upper)
+--			eval.call ("substring_32_list", agent test_substring_32_list)
+--			eval.call ("to_upper", agent test_to_upper)
 --			eval.call ("write", agent test_write)
 		end
 
@@ -63,6 +67,29 @@ feature -- Test
 					line.append (word)
 					unencoded := line
 					assert ("same content", same_content (unencoded, array, line.count))
+				end
+			end
+		end
+
+	test_append_substrings_into
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.append_substrings_into", "covers/{EL_SUBSTRING_32_LIST}.append_interval"
+		local
+			zstr: ZSTRING; array, sub_array: EL_SUBSTRING_32_ARRAY; list: EL_SUBSTRING_32_LIST
+			lower, upper: INTEGER
+		do
+			create list.make (20)
+			across 1 |..| 7 as n loop
+				across 1 |..| (text_russian.count - n.item + 1) as index loop
+					list.wipe_out
+					zstr := text_russian
+					lower := index.item; upper := index.item + n.item - 1
+					create array.make_from_unencoded (zstr)
+					array.append_substrings_into (list, lower, upper)
+					create sub_array.make_from_area (list.to_substring_area)
+					sub_array.shift ((lower - 1).opposite)
+					zstr := zstr.substring (lower, upper)
+					assert ("same content", same_content (zstr, sub_array, zstr.count))
 				end
 			end
 		end
@@ -160,6 +187,45 @@ feature -- Test
 			end
 		end
 
+	test_put_code
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.put_code"
+		local
+			zstr: ZSTRING; index: INTEGER; array: EL_SUBSTRING_32_ARRAY
+			code: NATURAL
+		do
+			code := ('д').natural_32_code
+			across text_russian as n loop
+				zstr := text_russian
+				index := n.cursor_index
+
+				create array.make_from_unencoded (zstr)
+				array.put_code (code, index)
+				zstr.put_unicode (code, index)
+
+				assert ("same content", same_content (zstr, array, zstr.count))
+			end
+		end
+
+	test_remove
+		note
+			testing: "covers/{EL_SUBSTRING_32_ARRAY}.remove"
+		local
+			zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY
+			index: INTEGER
+		do
+			across text_russian as c loop
+				index := c.cursor_index
+				zstr := text_russian
+				if c.item.natural_32_code > 1000 then
+					create array.make_from_unencoded (zstr)
+					array.remove (index)
+					zstr.put (' ', index)
+					assert ("same content", same_content (zstr, array, zstr.count))
+				end
+			end
+		end
+
 	test_remove_substring
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.remove_substring"
@@ -220,6 +286,31 @@ feature -- Test
 			end
 		end
 
+	test_substring_32_list
+		note
+			testing: "covers/{EL_SUBSTRING_32_LIST}.put_character", "covers/{EL_SUBSTRING_32_LIST}.to_substring_area"
+		local
+			str_32: STRING_32; list: EL_SUBSTRING_32_LIST
+			array: EL_SUBSTRING_32_ARRAY
+		do
+			create str_32.make (50)
+			across text_lines as line loop
+				str_32.wipe_out
+				create list.make (line.item.count)
+				across line.item as uc loop
+					if uc.item.code > 127 then
+						list.put_character (uc.item, uc.cursor_index)
+						str_32.extend (' ')
+					else
+						str_32.extend (uc.item)
+					end
+				end
+				create array.make_from_area (list.to_substring_area)
+				array.write (str_32.area, 0)
+				assert ("same string", line.item ~ str_32)
+			end
+		end
+
 	test_to_upper
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.change_case"
@@ -236,7 +327,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.make_from_unencoded", "covers/{EL_SUBSTRING_32_ARRAY}.write"
 		do
-			for_each_line_2 (agent compare_write_output)
+			for_each_line (agent compare_write_output)
 		end
 
 feature {NONE} -- Implementation
@@ -312,9 +403,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_write_output (zstr: ZSTRING; l1: L1_ZSTRING)
+	compare_write_output (zstr: ZSTRING; array: EL_SUBSTRING_32_ARRAY)
 		do
-			assert ("to_string_32 equal", zstr.to_string_32 ~ l1.to_string_32)
+			assert ("same content", same_content (zstr, array, zstr.count))
 		end
 
 	for_each_line (test: PROCEDURE [ZSTRING, EL_SUBSTRING_32_ARRAY])
@@ -325,17 +416,6 @@ feature {NONE} -- Implementation
 				zstr := line.item
 				create array.make_from_unencoded (zstr)
 				test (zstr, array)
-			end
-		end
-
-	for_each_line_2 (test: PROCEDURE [ZSTRING, L1_ZSTRING])
-		local
-			zstr: ZSTRING; l1: L1_ZSTRING
-		do
-			across text_lines as line loop
-				zstr := line.item
-				l1 := line.item
-				test (zstr, L1)
 			end
 		end
 

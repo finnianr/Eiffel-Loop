@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-25 17:43:16 GMT (Monday 25th January 2021)"
-	revision: "8"
+	date: "2021-01-26 16:29:07 GMT (Tuesday 26th January 2021)"
+	revision: "9"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -119,6 +119,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	character_substring (code: NATURAL; index: INTEGER): EL_SUBSTRING_32_ARRAY
+		-- substring with single character of `code' at `index'
+		local
+			l_area: like area
+		do
+			Result := Character_buffer
+			l_area := Result.area
+			put_interval (l_area, 1, index, index)
+			l_area.put (code, first_index (l_area))
+		end
+
 	character_count: INTEGER
 		-- sum of all substring counts
 		deferred
@@ -179,6 +190,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Character_buffer: EL_SUBSTRING_32_ARRAY
+		local
+			l_area: like area
+		once
+			l_area := new_area (1, 1)
+			extend_interval (l_area, 1, 1)
+			l_area.extend (0)
+			create Result.make_from_area (l_area)
+		end
 
 	Empty_area: SPECIAL [NATURAL]
 		once

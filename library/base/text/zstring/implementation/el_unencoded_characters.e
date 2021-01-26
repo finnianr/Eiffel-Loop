@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 17:26:19 GMT (Sunday 24th January 2021)"
-	revision: "18"
+	date: "2021-01-26 10:09:34 GMT (Tuesday 26th January 2021)"
+	revision: "19"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -394,29 +394,30 @@ feature -- Element change
 			from i := 0 until found or i = area_count loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
+				found := True
 				if lower <= index and then index <= upper then
 					-- update interval
 					l_area.put (a_code, i + 2 + index - lower)
-					found := True
+					
 				elseif upper + 1 = index then
 					-- extend interval right
 					count := count + 1
 					l_area := extended (i + count + 1, 0, 0, a_code)
 					l_area.put (index.to_natural_32, i + 1)
-					found := True
+
 				elseif lower - 1 = index then
 					-- extend interval left
 					count := count + 1
 					lower := lower - 1
 					l_area := extended (i + 2, 0, 0, a_code)
 					l_area.put (index.to_natural_32, i)
-					found := True
 
 				elseif previous_upper < index and then index < lower then
 					-- insert a new interval
 					l_area := extended (previous_i, index, index, a_code)
 					i := i + 3
-					found := True
+				else
+					found := False
 				end
 				if previous_upper > 0 and then previous_upper + 1 = lower then
 					-- Merge interval with previous

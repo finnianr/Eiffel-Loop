@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-25 17:42:30 GMT (Monday 25th January 2021)"
-	revision: "11"
+	date: "2021-01-26 16:28:55 GMT (Tuesday 26th January 2021)"
+	revision: "12"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -323,17 +323,17 @@ feature -- Measurement
 			from i := first_index (l_area) until i = i_final loop
 				l_code := l_area [i]
 				if l_code <= 0x7F then
-						-- 0xxxxxxx.
+				-- 0xxxxxxx.
 					Result := Result + 1
 				elseif l_code <= 0x7FF then
-						-- 110xxxxx 10xxxxxx
+				-- 110xxxxx 10xxxxxx
 					Result := Result + 2
 				elseif l_code <= 0xFFFF then
-						-- 1110xxxx 10xxxxxx 10xxxxxx
+				-- 1110xxxx 10xxxxxx 10xxxxxx
 					Result := Result + 3
 				else
-						-- l_code <= 1FFFFF - there are no higher code points
-						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+				-- l_code <= 1FFFFF - there are no higher code points
+				-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 					Result := Result + 4
 				end
 				i := i + 1
@@ -549,6 +549,30 @@ feature -- Element change
 			none_contiguous: not has_contiguous
 		end
 
+	put_code (a_code: NATURAL; index: INTEGER)
+		local
+			i, lower, upper, i_final, offset: INTEGER
+			found: BOOLEAN; l_area: like area
+		do
+			l_area := area; i_final := first_index (l_area); offset := i_final
+			-- search for existing substring to update
+			from i := 1 until found or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				if lower <= index and then index <= upper then
+					-- update interval
+					l_area.put (a_code, offset + index - lower)
+					found := True
+				end
+				offset := offset + upper - lower + 1
+				i := i + 2
+			end
+			if not found then
+				insert (character_substring (a_code, index))
+			end
+		ensure
+			code_set: code (index) = a_code
+		end
+
 	prepend (other: EL_SUBSTRING_32_ARRAY)
 		require
 			already_shifted: (not_empty and other.not_empty) implies other.last_upper < first_lower
@@ -588,6 +612,83 @@ feature -- Element change
 			valid_merge_count: old (not_empty and then adjacent (other.last_upper, first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then other.last_upper + 1 < first_lower) implies count = old count + other.count
 			none_contiguous: not has_contiguous
+		end
+
+	remove (index: INTEGER)
+		local
+			i, lower, upper, char_count, item_count, i_final, i_th, offset, n: INTEGER
+			l_area, l_new_area: like area; found: BOOLEAN
+		do
+			l_area := area; i_final := first_index (l_area); offset := i_final
+			from i := 1 until found or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				if lower <= index and index <= upper then
+					if lower = upper then
+					-- remove entire substring
+						l_new_area := new_area (count - 1, character_count - 1)
+					elseif index = lower then
+					-- remove first character substring
+						l_new_area := new_area (count, character_count - 1)
+					elseif index = upper then
+					-- remove last character substring
+						l_new_area := new_area (count, character_count - 1)
+					else
+					-- Split substring into two
+						l_new_area := new_area (count + 1, character_count - 1)
+					end
+					found := True
+				end
+				i := i + 2
+			end
+			if found then
+				-- Copy indexing
+				from i := 1 until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					if lower <= index and index <= upper then
+						if lower = upper then
+						-- remove entire substring
+						elseif index = lower then
+						-- remove first character substring
+							extend_interval (l_new_area, lower + 1, upper)
+						elseif index = upper then
+						-- remove last character substring
+							extend_interval (l_new_area, lower, upper - 1)
+						else
+						-- Split substring into two
+							extend_interval (l_new_area, lower, index - 1)
+							extend_interval (l_new_area, index + 1, upper)
+						end
+					else
+						extend_interval (l_new_area, lower, upper)
+					end
+					i := i + 2
+				end
+				-- Copy sub strings
+				from i := 1 until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					char_count := upper - lower + 1
+					if lower <= index and index <= upper then
+						if lower = upper then
+						-- remove entire substring
+						elseif index = lower then
+						-- remove first character substring
+							l_new_area.copy_data (l_area, offset + 1, l_new_area.count, char_count - 1)
+						elseif index = upper then
+						-- remove last character substring
+							l_new_area.copy_data (l_area, offset, l_new_area.count, char_count - 1)
+						else
+						-- Split substring into two
+							l_new_area.copy_data (l_area, offset, l_new_area.count, index - lower)
+							l_new_area.copy_data (l_area, offset + index - lower + 1, l_new_area.count, upper - index)
+						end
+					else
+						l_new_area.copy_data (l_area, offset, l_new_area.count, char_count)
+					end
+					offset := offset + char_count
+					i := i + 2
+				end
+				area := l_new_area
+			end
 		end
 
 	remove_substring (start_index, end_index: INTEGER)
@@ -684,7 +785,51 @@ feature -- Element change
 			none_contiguous: not has_contiguous
 		end
 
+	set_area (a_area: like area)
+		do
+			area := a_area
+		ensure
+			none_contiguous: not has_contiguous
+		end
+
+	set_from_list (list: EL_SUBSTRING_32_LIST)
+		do
+			if list.is_empty then
+				area := Empty_area
+			else
+				set_area (list.to_substring_area)
+			end
+		end
+
 feature -- Basic operations
+
+	append_substrings_into (list: EL_SUBSTRING_32_LIST; start_index, end_index: INTEGER)
+		local
+			i, lower, upper, offset, i_final: INTEGER; l_area: like area
+		do
+			l_area := area; i_final := first_index (l_area); offset := i_final
+			from i := 1 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				if lower <= start_index and then end_index <= upper then
+				-- Append contained substring
+					list.append_interval (l_area, start_index, end_index, offset + (start_index - lower))
+
+				elseif start_index <= lower and then upper <= end_index then
+				-- Append full substring
+					list.append_interval (l_area, lower, upper, offset)
+
+				elseif lower <= end_index and then end_index <= upper then
+				-- Append left section
+					list.append_interval (l_area, lower, end_index, offset)
+
+				elseif lower <= start_index and then start_index <= upper then
+				-- Append right section
+					list.append_interval (l_area, start_index, upper, offset + (start_index - lower))
+				end
+				offset := offset + upper - lower + 1
+				i := i + 2
+			end
+		end
 
 	write (area_out: SPECIAL [CHARACTER_32]; a_offset: INTEGER)
 			-- write substrings into expanded string 'str'
