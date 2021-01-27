@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 10:49:31 GMT (Wednesday 27th January 2021)"
-	revision: "1"
+	date: "2021-01-27 13:13:24 GMT (Wednesday 27th January 2021)"
+	revision: "2"
 
 class
 	EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
@@ -23,6 +23,8 @@ inherit
 		redefine
 			offset, back, forth, start
 		end
+
+	EL_ZCODE_CONVERSION undefine default_create end
 
 create
 	default_create, make
@@ -54,6 +56,11 @@ feature -- Access
 			else
 				Result := l_area [offset + i - l_lower]
 			end
+		end
+
+	z_code (i: INTEGER): NATURAL
+		do
+			Result := unicode_to_z_code (code (i))
 		end
 
 feature -- Element change

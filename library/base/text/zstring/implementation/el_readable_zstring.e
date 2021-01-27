@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:15:43 GMT (Wednesday 20th January 2021)"
-	revision: "65"
+	date: "2021-01-27 17:06:31 GMT (Wednesday 27th January 2021)"
+	revision: "66"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -48,7 +48,7 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 		export
-			{STRING_HANDLER} area_i_th_z_code, empty_once_unencoded
+			{STRING_HANDLER} empty_once_unencoded, indexable_iterator
 		redefine
 			make_from_string
 		end
@@ -140,13 +140,13 @@ feature {NONE} -- Initialization
 				z_code_i := zcode_area [i]
 				if z_code_i > 0xFF then
 					l_area [i] := Unencoded_character
-					l_unencoded.extend_z_code (z_code_i, i + 1)
+					l_unencoded.put_z_code (z_code_i, i + 1)
 				else
 					l_area [i] := z_code_i.to_character_8
 				end
 				i := i + 1
 			end
-			set_from_extendible_unencoded (l_unencoded)
+			set_from_list (l_unencoded)
 			set_count (l_count)
 		end
 
@@ -190,10 +190,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	fuzzy_index (other: READABLE_STRING_GENERAL; start: INTEGER; fuzz: INTEGER): INTEGER
+	fuzzy_index (other: READABLE_STRING_GENERAL; start_index: INTEGER; fuzz: INTEGER): INTEGER
 			-- <Precursor>
 		do
-			Result := string_searcher.fuzzy_index (Current, other, start, count, fuzz)
+			Result := string_searcher.fuzzy_index (Current, other, start_index, count, fuzz)
 		end
 
 	hash_code: INTEGER
@@ -541,10 +541,10 @@ feature -- Conversion
 			if has_mixed_encoding and then overlaps_unencoded (start_index, end_index) then
 				l_unencoded := empty_once_unencoded
 				l_unencoded.append_substring (Current, start_index, end_index)
-				Result.set_from_extendible_unencoded (l_unencoded)
+				Result.set_from_list (l_unencoded)
 			end
 		ensure then
-			unencoded_valid: Result.is_unencoded_valid
+			unencoded_valid: Result.is_valid
 		end
 
 feature -- Comparison

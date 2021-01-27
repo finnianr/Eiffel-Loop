@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 16:55:11 GMT (Sunday 24th January 2021)"
-	revision: "31"
+	date: "2021-01-27 16:02:54 GMT (Wednesday 27th January 2021)"
+	revision: "32"
 
 class
 	EL_ZSTRING
@@ -269,7 +269,7 @@ feature -- Element change
 			else
 			end
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			inserted: elks_checking implies (Current ~ (old substring (1, i - 1) + old (s.twin) + old substring (i, count)))
 		end
 
@@ -309,7 +309,7 @@ feature -- Element change
 		do
 			prepend_string (adapted_argument (str, 1))
 		ensure then
-			unencoded_valid: is_unencoded_valid
+			unencoded_valid: is_valid
 		end
 
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)
@@ -356,19 +356,19 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 		local
 			i, j, l_count: INTEGER; c, c_i: CHARACTER; l_unicode, unicode_i: NATURAL; l_area: like area
-			l_new_unencoded: like empty_once_unencoded; l_unencoded: like unencoded_interval_index
+			l_new_unencoded: like empty_once_unencoded; iterator: like indexable_iterator
 		do
 			c := encoded_character (uc); l_unicode := uc.natural_32_code
 			if has_mixed_encoding then
 				l_area := area; l_count := count
-				l_new_unencoded := empty_once_unencoded; l_unencoded := unencoded_interval_index
+				l_new_unencoded := empty_once_unencoded; iterator := indexable_iterator
 				from  until i = l_count loop
 					c_i := l_area.item (i)
 					if c_i = Unencoded_character then
-						unicode_i := l_unencoded.code (i + 1)
+						unicode_i := iterator.code (i + 1)
 						if l_unicode /= unicode_i then
 							l_area.put (c_i, j)
-							l_new_unencoded.extend (unicode_i, j + 1)
+							l_new_unencoded.put_unicode (unicode_i, j + 1)
 							j := j + 1
 						end
 					elseif c_i /= c then
@@ -379,13 +379,13 @@ feature -- Removal
 				end
 				count := j
 				l_area [j] := '%U'
-				set_from_extendible_unencoded (l_new_unencoded)
+				set_from_list (l_new_unencoded)
 				reset_hash
 			elseif c /= Unencoded_character then
 				internal_prune_all (c)
 			end
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			changed_count: count = (old count) - (old occurrences (uc))
 		end
 
@@ -406,7 +406,7 @@ feature -- Removal
 			internal_remove (i)
 			remove_unencoded_substring (i, i)
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	remove_quotes
@@ -421,7 +421,7 @@ feature -- Removal
 			internal_remove_substring (start_index, end_index)
 			remove_unencoded_substring (start_index, end_index)
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			removed: elks_checking implies Current ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 13:10:26 GMT (Saturday 16th January 2021)"
-	revision: "20"
+	date: "2021-01-27 14:36:39 GMT (Wednesday 27th January 2021)"
+	revision: "21"
 
 deferred class
 	EL_ZCODEC
@@ -128,7 +128,7 @@ feature -- Basic operations
 
 	encode (
 		unicode_in: READABLE_STRING_GENERAL; latin_out: SPECIAL [CHARACTER]; out_offset: INTEGER;
-		unencoded_characters: EL_EXTENDABLE_UNENCODED_CHARACTERS
+		unencoded_characters: EL_SUBSTRING_32_LIST
 	)
 		-- encode unicode characters as latin
 		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
@@ -147,7 +147,7 @@ feature -- Basic operations
 					c := latin_character (uc, unicode)
 					if c.code = 0 then
 						latin_out [i + out_offset - 1] := Unencoded_character
-						unencoded_characters.extend (unicode.to_natural_32, i + out_offset)
+						unencoded_characters.put_unicode (unicode.to_natural_32, i + out_offset)
 					else
 						latin_out [i + out_offset - 1] := c
 					end
@@ -157,7 +157,7 @@ feature -- Basic operations
 		end
 
 	to_lower (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_UNENCODED_CHARACTERS
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_SUBSTRING_32_ARRAY
 	)
 			-- Replace all characters in `a' between `start_index' and `end_index'
 			-- with their lower version when available.
@@ -166,7 +166,7 @@ feature -- Basic operations
 		end
 
 	to_upper (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_UNENCODED_CHARACTERS
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_SUBSTRING_32_ARRAY
 	)
 			-- Replace all characters in `a' between `start_index' and `end_index'
 			-- with their lower version when available.
@@ -282,7 +282,7 @@ feature {EL_ZSTRING} -- Implementation
 
 	change_case (
 		latin_array: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
-		unencoded_characters: EL_UNENCODED_CHARACTERS
+		unencoded_characters: EL_SUBSTRING_32_ARRAY
 	)
 		local
 			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i: INTEGER
@@ -365,11 +365,11 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Once_extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+	Once_extendible_unencoded: EL_SUBSTRING_32_LIST
 		local
-			unencoded: EL_UNENCODED_CHARACTERS
+			unencoded: EL_SUBSTRING_32_ARRAY
 		once
-			create unencoded.make
+			create unencoded.make_empty
 			Result := unencoded.Once_extendible_unencoded
 		end
 

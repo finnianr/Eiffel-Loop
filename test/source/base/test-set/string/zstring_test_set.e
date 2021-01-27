@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 16:56:12 GMT (Tuesday 26th January 2021)"
-	revision: "39"
+	date: "2021-01-27 17:35:37 GMT (Wednesday 27th January 2021)"
+	revision: "40"
 
 class
 	ZSTRING_TEST_SET
@@ -79,6 +79,7 @@ feature -- Basic operations
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
 			eval.call ("to_general", agent test_to_general)
+			eval.call ("to_string_32", agent test_to_string_32)
 		end
 
 feature -- Conversion tests
@@ -151,6 +152,8 @@ feature -- Conversion tests
 		end
 
 	test_to_general
+		note
+			testing:	"covers/{ZSTRING}.to_general", "covers/{ZSTRING}.make_from_general"
 		local
 			str: ZSTRING; str_32: STRING_32
 		do
@@ -160,6 +163,21 @@ feature -- Conversion tests
 				assert ("same string", str.to_general.same_string (str_32))
 			end
 		end
+
+	test_to_string_32
+		note
+			testing:	"covers/{ZSTRING}.to_string_32", "covers/{ZSTRING}.make_from_general"
+			str: ZSTRING; str_32: STRING_32
+		local
+			str: ZSTRING; str_32: STRING_32
+		do
+			across text_lines as line_32 loop
+				str_32 := line_32.item
+				str := str_32
+				assert ("strings equal", str.to_string_32 ~ str_32)
+			end
+		end
+
 
 feature -- Element change tests
 

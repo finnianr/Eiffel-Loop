@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-24 17:27:50 GMT (Sunday 24th January 2021)"
-	revision: "9"
+	date: "2021-01-27 17:34:25 GMT (Wednesday 27th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -41,21 +41,21 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- "Hello world" -> "dlrow olleH".
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			l_unencoded: like empty_once_unencoded
+			l_unencoded: like empty_once_unencoded; iterator: like indexable_iterator
 		do
 			l_count := count
 			if l_count > 1 then
 				if has_mixed_encoding then
-					l_area := area; l_unencoded := empty_once_unencoded
+					l_area := area; l_unencoded := empty_once_unencoded; iterator := indexable_iterator
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Unencoded_character then
-							l_unencoded.extend (unencoded_code (i + 1), l_count - i)
+							l_unencoded.put_unicode (iterator.code (i + 1), l_count - i)
 						end
 						i := i - 1
 					end
 					internal_mirror
-					set_unencoded_area (l_unencoded.area_copy)
+					set_from_list (l_unencoded)
 				else
 					internal_mirror
 				end
@@ -183,21 +183,27 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		end
 
 	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
-			-- substitute characters occurring in `old_characters' with character
-			-- at same position in `new_characters'. If `delete_null' is true, remove any characters
-			-- corresponding to null value '%U'
+		-- substitute characters occurring in `old_characters' with character
+		-- at same position in `new_characters'. If `delete_null' is true, remove any characters
+		-- corresponding to null value '%U'
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
 			i, j, index, l_count: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS; l_unencoded: EL_UNENCODED_CHARACTERS_INDEX
+			l_new_unencoded: EL_SUBSTRING_32_LIST; iterator: like indexable_iterator
 			l_area, new_characters_area: like area; old_expanded, new_expanded: STRING_32
+			c_i: CHARACTER
 		do
 			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := empty_once_unencoded; l_unencoded := unencoded_interval_index
+			l_new_unencoded := empty_once_unencoded; iterator := indexable_iterator
 			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
 			from until i = l_count loop
-				old_z_code := area_i_th_z_code (l_area, i)
+				c_i := l_area [i]
+				if c_i = Unencoded_character then
+					old_z_code := iterator.z_code (i + 1)
+				else
+					old_z_code := c_i.natural_32_code
+				end
 				index := old_expanded.index_of (old_z_code.to_character_32, 1)
 				if index > 0 then
 					new_z_code := new_expanded.code (index)
@@ -206,7 +212,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				end
 				if delete_null implies new_z_code > 0 then
 					if new_z_code > 0xFF then
-						l_new_unencoded.extend_z_code (new_z_code, j + 1)
+						l_new_unencoded.put_z_code (new_z_code, j + 1)
 						l_area.put (Unencoded_character, j)
 					else
 						l_area.put (new_z_code.to_character_8, j)
@@ -217,10 +223,10 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			end
 			set_count (j)
 			l_area [j] := '%U'
-			set_from_extendible_unencoded (l_new_unencoded)
+			set_from_list (l_new_unencoded)
 			reset_hash
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			unchanged_count: not delete_null implies count = old count
 			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
 		end
@@ -309,7 +315,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			new_count: count = old count + old s.count - end_index + start_index - 1
 			replaced: elks_checking implies
 				(current_readable ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	replace_substring_all (original, new: EL_READABLE_ZSTRING)
@@ -380,11 +386,11 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				else
 					l_unencoded := empty_once_unencoded
 					l_unencoded.append_substring (Current, 1, n)
-					set_from_extendible_unencoded (l_unencoded)
+					set_from_list (l_unencoded)
 				end
 			end
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	keep_tail (n: INTEGER)
@@ -401,11 +407,11 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				else
 					l_unencoded := empty_once_unencoded
 					l_unencoded.append_substring (Current, old_count - n + 1, old_count)
-					set_from_extendible_unencoded (l_unencoded)
+					set_from_list (l_unencoded)
 				end
 			end
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	remove_head (n: INTEGER)

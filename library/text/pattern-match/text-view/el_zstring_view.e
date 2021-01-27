@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:12:56 GMT (Tuesday 12th January 2021)"
-	revision: "10"
+	date: "2021-01-27 14:56:44 GMT (Wednesday 27th January 2021)"
+	revision: "11"
 
 class
 	EL_ZSTRING_VIEW
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			area := text.area
 			Precursor (text)
 			if text.has_mixed_encoding then
-				create unencoded_index.make (text.unencoded_area)
+				create unencoded_iterator.make (text)
 			end
 		end
 
@@ -47,7 +47,7 @@ feature -- Access
 			c: CHARACTER_8
 		do
 			c := area [offset + i - 1]
-			if c = Unencoded_character and then attached unencoded_index as unencoded then
+			if c = Unencoded_character and then attached unencoded_iterator as unencoded then
 				Result := unencoded.code (offset + i)
 			else
 				Result := Codec.as_unicode_character (c).natural_32_code
@@ -66,7 +66,7 @@ feature -- Access
 			c_i: CHARACTER
 		do
 			c_i := area [i - 1]
-			if c_i = Unencoded_character and then attached unencoded_index as unencoded then
+			if c_i = Unencoded_character and then attached unencoded_iterator as unencoded then
 				Result := unencoded.z_code (i)
 			else
 				Result := c_i.natural_32_code
@@ -81,7 +81,7 @@ feature -- Measurement
 		do
 			l_area := area; i_final := offset + count
 			c := a_code.to_character_8
-			if attached unencoded_index as unencoded then
+			if attached unencoded_iterator as unencoded then
 				from i := offset until i = i_final loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character and then unencoded.z_code (i + 1) = a_code then
@@ -110,16 +110,16 @@ feature -- Conversion
 			create Result.make (count)
 			Result.area.copy_data (area, offset, 0, count)
 			Result.set_count (count)
-			if attached unencoded_index as unencoded
-				and then attached Result.empty_once_unencoded as once_unencoded
+			if attached unencoded_iterator as unencoded
+				and then attached Result.empty_once_unencoded as substring_list
 			then
 				i_final := offset + count
 				from i := offset until i = i_final loop
-					once_unencoded.extend (unencoded.code (i + 1), i + 1)
+					substring_list.put_unicode (unencoded.code (i + 1), i + 1)
 					i := i + 1
 				end
-				once_unencoded.shift (offset.opposite)
-				Result.set_from_extendible_unencoded (once_unencoded)
+				substring_list.shift (offset.opposite)
+				Result.set_from_list (substring_list)
 			end
 		end
 
@@ -163,7 +163,7 @@ feature -- Status query
 		do
 			c := Codec.encoded_character (uc.natural_32_code)
 			l_area := area; i_final := offset + count
-			if c = Unencoded_character and then attached unencoded_index as unencoded then
+			if c = Unencoded_character and then attached unencoded_iterator as unencoded then
 				l_code := Codec.as_z_code (uc)
 				from i := offset until Result or else i = i_final loop
 					c_i := l_area [i]
@@ -186,6 +186,6 @@ feature {NONE} -- Internal attributes
 
 	area: SPECIAL [CHARACTER_8]
 
-	unencoded_index: detachable EL_UNENCODED_CHARACTERS_INDEX
+	unencoded_iterator: detachable EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
 
 end

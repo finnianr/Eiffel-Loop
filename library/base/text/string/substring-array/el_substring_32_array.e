@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 9:52:09 GMT (Wednesday 27th January 2021)"
-	revision: "13"
+	date: "2021-01-27 17:31:38 GMT (Wednesday 27th January 2021)"
+	revision: "14"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -28,14 +28,26 @@ inherit
 			{ANY} valid_index
 		end
 
+	EL_SUBSTRING_32_CONTAINER
+
 create
-	make_from_unencoded, make_empty, make_from_area, make_from_other
+	make_empty, make_from_area, make_from_other
 
 feature {NONE} -- Initialization
 
 	make_empty
 		do
 			area := Empty_area
+		end
+
+	make_filled (uc: CHARACTER_32; n: INTEGER)
+		do
+			create area.make_filled (uc.natural_32_code, n + 3)
+			area [0] := 1
+			area [1] := 1
+			area [2] := n.to_natural_32
+		ensure
+			valid_array: is_valid
 		end
 
 	make_from_area (a_area: like area)
@@ -48,7 +60,7 @@ feature {NONE} -- Initialization
 				make_empty
 			end
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	make_from_other (other: EL_SUBSTRING_32_ARRAY)
@@ -58,34 +70,6 @@ feature {NONE} -- Initialization
 			else
 				make_empty
 			end
-		end
-
-	make_from_unencoded (unencoded: EL_UNENCODED_CHARACTERS)
-		local
-			i, lower, upper, l_count, char_count, i_final, offset: INTEGER
-			unencoded_area, l_area: like area
-		do
-			l_count := unencoded.substring_count
-			l_area := new_area (l_count, unencoded.character_count)
-
-			unencoded_area := unencoded.area; i_final := unencoded_area.count
-			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (unencoded_area, i); upper := unencoded.upper_bound (unencoded_area, i)
-				extend_interval (l_area, lower, upper)
-				char_count := upper - lower + 1
-				i := i + char_count + 2
-			end
-			offset := value (l_area, 0) * 2  + 1 -- substring offset
-			from i := 0 until i = i_final loop
-				lower := unencoded.lower_bound (unencoded_area, i); upper := unencoded.upper_bound (unencoded_area, i)
-				char_count := upper - lower + 1
-				l_area.copy_data (unencoded_area, i + 2, offset, char_count)
-				offset := offset + char_count
-				i := i + char_count + 2
-			end
-			area := l_area
-		ensure
-			none_contiguous: not has_contiguous
 		end
 
 feature -- Access
@@ -112,9 +96,9 @@ feature -- Access
 			end
 		end
 
-	count_greater_than_zero_flags (other: EL_SUBSTRING_32_ARRAY): INTEGER
+	count_greater_than_zero_flags (other: EL_SUBSTRING_32_CONTAINER): INTEGER
 		do
-			Result := (count.to_boolean.to_integer |<< 1) | count.to_boolean.to_integer
+			Result := (count.to_boolean.to_integer |<< 1) | other.count.to_boolean.to_integer
 		end
 
 	first_lower: INTEGER
@@ -350,26 +334,6 @@ feature -- Status query
 			Result := index_of (unicode, 1) > 0
 		end
 
-	has_contiguous: BOOLEAN
-		-- `True' if two substrings are contiguous
-		local
-			i, i_final, l_count: INTEGER; l_area: like area
-		do
-			l_area := area; l_count := value (l_area, 0)
-			if l_count >= 2 then
-				i_final := l_count * 2 + 1
-				from i := 3 until Result or else i = i_final loop
-					Result := upper_bound (l_area, i - 2) + 1 = lower_bound (l_area, i)
-					i := i + 2
-				end
-			end
-		end
-
-	not_empty: BOOLEAN
-		do
-			Result := count.to_boolean
-		end
-
 feature -- Comparison
 
 	same_string (other: EL_SUBSTRING_32_ARRAY): BOOLEAN
@@ -435,7 +399,7 @@ feature -- Status change
 				end
 			end
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	to_lower
@@ -449,6 +413,38 @@ feature -- Status change
 		end
 
 feature -- Element change
+
+	append_list (list: EL_SUBSTRING_32_LIST)
+		require
+			appendable: list.substring_count > 0 implies last_upper < list.first_lower
+		local
+			offset, new_count: INTEGER; l_area: like area; merge_first: BOOLEAN
+		do
+			if list.substring_count > 0 then
+				l_area := area; offset := first_index (l_area)
+				new_count := count + list.substring_count
+				if not_empty and then adjacent (last_upper, list.first_lower) then
+					merge_first := True
+					new_count := new_count - 1
+				end
+				l_area := new_area (new_count, character_count + list.character_area.count)
+				l_area [0] := new_count.to_natural_32
+				-- copy indices
+				l_area.copy_data (area, 1, 1, count * 2)
+				if merge_first then
+					l_area.copy_data (list.area, 2, offset, list.count - 2)
+					put_upper (l_area, offset - 2, list.first_upper)
+				else
+					l_area.copy_data (list.area, 0, offset, list.count)
+				end
+				-- copy characters
+				l_area.copy_data (area, offset, l_area.count, character_count)
+				l_area.copy_data (list.character_area, 0, l_area.count, list.character_area.count)
+				area := l_area
+			end
+		ensure
+			appended: same_string (old joined (Current, list.to_substring_array))
+		end
 
 	append (other: EL_SUBSTRING_32_ARRAY)
 		require
@@ -487,7 +483,7 @@ feature -- Element change
 			valid_character_count: character_count = old character_count + other.character_count
 			valid_merge_count: old (not_empty and then adjacent (last_upper, other.first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then last_upper + 1 < other.first_lower) implies count = old count + other.count
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	insert (other: EL_SUBSTRING_32_ARRAY)
@@ -538,7 +534,7 @@ feature -- Element change
 				area := l_area
 			end
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	put_code (a_code: NATURAL; index: INTEGER)
@@ -603,7 +599,7 @@ feature -- Element change
 			valid_character_count: character_count = old character_count + other.character_count
 			valid_merge_count: old (not_empty and then adjacent (other.last_upper, first_lower)) implies count = old count + other.count - 1
 			valid_count: old (not_empty and then other.last_upper + 1 < first_lower) implies count = old count + other.count
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	remove (index: INTEGER)
@@ -682,7 +678,7 @@ feature -- Element change
 				area := l_new_area
 			end
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	remove_substring (start_index, end_index: INTEGER)
@@ -776,14 +772,14 @@ feature -- Element change
 				area.copy_data (index_area, 0, 0, index_area.count)
 			end
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	set_area (a_area: like area)
 		do
 			area := a_area
 		ensure
-			none_contiguous: not has_contiguous
+			valid_array: is_valid
 		end
 
 	set_from_list (list: EL_SUBSTRING_32_LIST)
@@ -856,9 +852,19 @@ feature -- Duplication
 
 feature -- Contract Support
 
-	is_unencoded_valid: BOOLEAN
+	is_valid: BOOLEAN
+		-- `True' if all substrings are sequential and separated by at least one character
+		local
+			i, i_final: INTEGER; l_area: like area
 		do
 			Result := True
+			if count > 1 then
+				l_area := area; i_final := first_index (l_area)
+				from i := 3 until not Result or else i = i_final loop
+					Result := upper_bound (l_area, i - 2) + 1 < lower_bound (l_area, i)
+					i := i + 2
+				end
+			end
 		end
 
 	interval_sequence: EL_SEQUENTIAL_INTERVALS
@@ -875,6 +881,12 @@ feature -- Contract Support
 			full: Result.full
 			same_first_lower: first_lower = Result.first_lower
 			same_last_upper: last_upper = Result.last_upper
+		end
+
+	joined (a, b: EL_SUBSTRING_32_ARRAY): EL_SUBSTRING_32_ARRAY
+		do
+			create Result.make_from_other (a)
+			Result.append (b)
 		end
 
 	overlaps (start_index, end_index: INTEGER): BOOLEAN

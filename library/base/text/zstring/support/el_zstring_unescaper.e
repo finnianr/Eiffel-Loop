@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 9:45:12 GMT (Tuesday 12th January 2021)"
-	revision: "11"
+	date: "2021-01-27 17:05:04 GMT (Wednesday 27th January 2021)"
+	revision: "12"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_ZCODE_CONVERSION undefine copy, is_equal end
 
 create
 	make
@@ -34,15 +36,21 @@ feature -- Access
 
 	unescaped_array (str: EL_READABLE_ZSTRING): SPECIAL [NATURAL]
 		local
-			l_count, i, seq_count: INTEGER; z_code_i, esc_code: NATURAL
-			l_area: SPECIAL [CHARACTER_8]
+			l_count, i, seq_count: INTEGER; z_code_i, esc_code: NATURAL; c_i: CHARACTER
+			l_area: SPECIAL [CHARACTER_8]; iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
 		do
 			l_count := str.count; l_area := str.area
 			esc_code := escape_code
 
 			create Result.make_empty (l_count)
+			iterator := str.indexable_iterator
 			from i := 0 until i = l_count loop
-				z_code_i := str.area_i_th_z_code (l_area, i)
+				c_i := l_area [i]
+				if c_i = Unencoded_character then
+					z_code_i := iterator.z_code (i + 1)
+				else
+					z_code_i := c_i.natural_32_code
+				end
 				if z_code_i = esc_code then
 					seq_count := sequence_count (str, i + 2)
 					if seq_count.to_boolean then

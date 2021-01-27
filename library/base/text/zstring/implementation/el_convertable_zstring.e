@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:16:51 GMT (Wednesday 20th January 2021)"
-	revision: "13"
+	date: "2021-01-27 11:28:46 GMT (Wednesday 27th January 2021)"
+	revision: "14"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_TRANSFORMABLE_ZSTRING
 		export
-			{STRING_HANDLER} empty_once_unencoded
+			{STRING_HANDLER} Empty_area
 			{EL_CONVERTABLE_ZSTRING} all
 		end
 

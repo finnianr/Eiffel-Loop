@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 9:51:51 GMT (Wednesday 27th January 2021)"
-	revision: "10"
+	date: "2021-01-27 17:21:49 GMT (Wednesday 27th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -135,6 +135,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	empty_once_unencoded: EL_SUBSTRING_32_LIST
+		do
+			Result := Once_extendible_unencoded
+			Result.wipe_out
+		end
+
 	first_index (a_area: SPECIAL [NATURAL]): INTEGER
 		-- index of first character in first substring of `a_area'
 		do
@@ -145,7 +151,13 @@ feature {NONE} -- Implementation
 		require
 			not_empty: a_area.count > 0
 		do
-			a_area.put (a_area [0] + n.to_natural_32, 0)
+			a_area.force (a_area [0] + n.to_natural_32, 0)
+		end
+
+	indexable_iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
+		do
+			Result := Once_indexable_iterator
+			Result.start (area)
 		end
 
 	interval_count (a_area: like area; i: INTEGER): INTEGER
@@ -200,6 +212,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- `count_greater_than_zero_flags' values
+
+	Both_have_mixed_encoding: INTEGER = 3
+
+	Only_current: INTEGER = 2
+
+	Only_other: INTEGER = 1
+
+	Neither: INTEGER = 0
+
+feature {EL_ZCODEC} -- Constants
+
+	Once_extendible_unencoded: EL_SUBSTRING_32_LIST
+		once
+			create Result.make (20)
+		end
+
 feature {NONE} -- Constants
 
 	Character_buffer: EL_SUBSTRING_32_ARRAY
@@ -223,6 +252,11 @@ feature {NONE} -- Constants
 			create Result.make_empty (2)
 			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
 			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
+		end
+
+	Once_indexable_iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
+		once
+			create Result
 		end
 
 end

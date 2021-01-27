@@ -9,54 +9,55 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 16:44:22 GMT (Tuesday 26th January 2021)"
-	revision: "15"
+	date: "2021-01-27 17:05:59 GMT (Wednesday 27th January 2021)"
+	revision: "16"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
 
 inherit
-	EL_UNENCODED_CHARACTERS
+	EL_SUBSTRING_32_ARRAY
 		rename
 			append as append_unencoded,
+			append_list as append_unencoded_list,
 			area as unencoded_area,
+			character_count as unencoded_count,
 			code as unencoded_code,
+			count as substring_count,
 			count_greater_than_zero_flags as respective_encoding,
-			grow as unencoded_grow,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
 			index_of as unencoded_index_of,
-			interval_index as unencoded_interval_index,
 			insert as insert_unencoded,
+			is_valid as is_unencoded_valid,
 			item as unencoded_item,
+			joined as joined_substrings,
 			last_index_of as unencoded_last_index_of,
 			last_upper as unencoded_last_upper,
-			make as make_unencoded,
-			make_from_other as make_unencoded_from_other,
+			make_empty as make_unencoded,
 			make_filled as make_unencoded_filled,
+			make_from_other as make_unencoded_from_other,
 			not_empty as has_mixed_encoding,
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,
+			prepend as substrings_prepend,
 			put_code as put_unencoded_code,
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,
 			same_string as same_unencoded_string,
 			set_area as set_unencoded_area,
-			set_from_extendible as set_from_extendible_unencoded,
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,
 			shifted as shifted_unencoded,
 			substring_list as unencoded_substring_list,
-			character_count as unencoded_count,
 			to_lower as unencoded_to_lower,
 			to_upper as unencoded_to_upper,
 			utf_8_byte_count as unencoded_utf_8_byte_count,
+			valid_index as valid_substring_index,
 			write as write_unencoded,
 			z_code as unencoded_z_code
 		undefine
 			is_equal, copy, out
-		redefine
-			is_unencoded_valid
 		end
 
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -227,11 +228,11 @@ feature {EL_READABLE_ZSTRING} -- Status query
 			valid_start_index: start_index + other.count - 1 <= count
 		local
 			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded_other: like unencoded_interval_index
+			unencoded_other: like indexable_iterator
 		do
 			Result := True
 			l_area := area; l_count := other.count
-			unencoded_other := other.unencoded_interval_index
+			unencoded_other := other.indexable_iterator
 			from i := 0 until i = l_count or else not Result loop
 				c_i := l_area [i + start_index - 1]
 				check
@@ -246,29 +247,28 @@ feature {EL_READABLE_ZSTRING} -- Status query
 
 feature {EL_READABLE_ZSTRING} -- Contract Support
 
-	is_unencoded_valid: BOOLEAN
+	is_valid: BOOLEAN
 			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
 		local
-			i, j, l_lower, l_upper, l_count, l_sum_count, array_count: INTEGER
+			i, start_index, end_index, i_final: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
 			if is_empty then
 				Result := not has_mixed_encoding
 			else
-				l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
-				Result := unencoded_last_upper <= count
-				if array_count > 0 then
-					from i := 0 until not Result or else  i = array_count loop
-						l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
-						l_count := l_upper - l_lower + 1
-						from j := l_lower until not Result or else j > l_upper loop
-							Result := Result and l_area [j - 1] = Unencoded_character
-							j := j + 1
-						end
-						l_sum_count := l_sum_count + l_count
-						i := i + l_count + 2
+				if unencoded_last_upper <= count
+					and then internal_occurrences (Unencoded_character) = unencoded_count
+				then
+					Result := True
+				end
+				if Result and then substring_count > 0 then
+					l_area := area; l_unencoded := unencoded_area; i_final := first_index (l_unencoded)
+					from i := 1 until not Result or else i = i_final loop
+						start_index := lower_bound (l_unencoded, i) - 1
+						end_index := upper_bound (l_unencoded, i) - 1
+						Result := l_area.filled_with (Unencoded_character, start_index, end_index)
+						i := i + 2
 					end
-					Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
 				end
 			end
 		end
@@ -293,18 +293,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	area_i_th_z_code (a_area: like area; i: INTEGER): NATURAL
-		local
-			c_i: CHARACTER
-		do
-			c_i := a_area [i]
-			if c_i = Unencoded_character then
-				Result := unencoded_z_code (i + 1)
-			else
-				Result := c_i.natural_32_code
-			end
-		end
-
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		require
 			valid_area_offset: a_unicode.count > 0 implies area.valid_index (a_unicode.count + area_offset - 1)
@@ -316,9 +304,9 @@ feature {NONE} -- Implementation
 
 			inspect respective_encoding (l_unencoded)
 				when Both_have_mixed_encoding then
-					append_unencoded (l_unencoded)
+					append_unencoded_list (l_unencoded)
 				when Only_other then
-					unencoded_area := l_unencoded.area_copy
+					set_from_list (l_unencoded)
 			else
 			end
 		end

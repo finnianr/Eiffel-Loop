@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:17:26 GMT (Wednesday 20th January 2021)"
-	revision: "10"
+	date: "2021-01-27 16:02:56 GMT (Wednesday 27th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -72,7 +72,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				reset_hash
 			end
 		ensure then
-			unencoded_valid: is_unencoded_valid
+			unencoded_valid: is_valid
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
@@ -116,7 +116,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				s.append_substrings_into (l_unencoded, start_index, end_index)
 				if l_unencoded.not_empty then
 					l_unencoded.shift (old_count - start_index + 1)
-					append_unencoded (l_unencoded)
+					append_unencoded_list (l_unencoded)
 				end
 			end
 		ensure
@@ -317,7 +317,7 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 					l_unencoded.append_substring (s, start_index, end_index)
 					if l_unencoded.not_empty then
 						l_unencoded.append (Current)
-						unencoded_area := l_unencoded.area_copy
+						set_from_list (l_unencoded)
 					end
 				when Only_current then
 					shift_unencoded (end_index - start_index + 1)
@@ -325,7 +325,7 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 					l_unencoded := empty_once_unencoded
 					l_unencoded.append_substring (s, start_index, end_index)
 					if l_unencoded.not_empty then
-						unencoded_area := l_unencoded.area_copy
+						set_from_list (l_unencoded)
 					end
 			else
 			end
