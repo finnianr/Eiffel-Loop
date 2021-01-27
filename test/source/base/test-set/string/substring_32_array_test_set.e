@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 15:23:02 GMT (Tuesday 26th January 2021)"
-	revision: "12"
+	date: "2021-01-27 10:47:33 GMT (Wednesday 27th January 2021)"
+	revision: "13"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -34,13 +34,14 @@ feature -- Basic operations
 --			eval.call ("occurrences", agent test_occurrences)
 --			eval.call ("prepend", agent test_prepend)
 --			eval.call ("put_code", agent test_put_code)
-			eval.call ("remove", agent test_remove)
+--			eval.call ("remove", agent test_remove)
 --			eval.call ("remove_substring", agent test_remove_substring)
 --			eval.call ("shift_from", agent test_shift_from)
 --			eval.call ("sub_array", agent test_sub_array)
 --			eval.call ("substring_32_list", agent test_substring_32_list)
---			eval.call ("to_upper", agent test_to_upper)
---			eval.call ("write", agent test_write)
+			eval.call ("indexable_substring_32_array_iterator", agent test_indexable_substring_32_array_iterator)
+			eval.call ("to_upper", agent test_to_upper)
+			eval.call ("write", agent test_write)
 		end
 
 feature -- Test
@@ -127,6 +128,38 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.index_of", "covers/{EL_SUBSTRING_32_ARRAY}.last_index_of"
 		do
 			for_each_line (agent compare_index_of)
+		end
+
+	test_indexable_substring_32_array_iterator
+		local
+			iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
+			text: STRING_32; list: EL_SUBSTRING_32_LIST; array: EL_SUBSTRING_32_ARRAY
+			index: INTEGER; code: NATURAL
+		do
+			text := text_russian
+			create list.make (text.count)
+			across text as uc loop
+				if uc.item.code > 1000 then
+					list.put_character (uc.item, uc.cursor_index)
+				end
+			end
+			create array.make_from_area (list.to_substring_area)
+			create iterator.make (array)
+--			forwards
+			across text as uc loop
+				if uc.item.code > 1000 then
+					index := uc.cursor_index
+					assert ("same code", uc.item.natural_32_code = iterator.code (index))
+				end
+			end
+--			in reverse
+			across text.new_cursor.reversed as uc loop
+				code := uc.item.natural_32_code
+				if code > 1000 then
+					index := text.count - uc.cursor_index + 1
+					assert ("same code", code = iterator.code (index))
+				end
+			end
 		end
 
 	test_insert

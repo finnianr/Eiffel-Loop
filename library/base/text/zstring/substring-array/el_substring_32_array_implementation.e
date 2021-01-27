@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 16:29:07 GMT (Tuesday 26th January 2021)"
-	revision: "9"
+	date: "2021-01-27 9:51:51 GMT (Wednesday 27th January 2021)"
+	revision: "10"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -187,6 +187,17 @@ feature {NONE} -- Implementation
 	upper_bound (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area.item (i + 1).to_integer_32
+		end
+
+	valid_index (index: INTEGER): BOOLEAN
+		local
+			i, i_final: INTEGER; l_area: like area
+		do
+			l_area := area; i_final := first_index (l_area)
+			from i := 1 until Result or else i = i_final loop
+				Result := lower_bound (l_area, i) <= index and then index <= upper_bound (l_area, i)
+				i := i + 2
+			end
 		end
 
 feature {NONE} -- Constants

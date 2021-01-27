@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-22 10:02:29 GMT (Friday 22nd January 2021)"
-	revision: "2"
+	date: "2021-01-27 9:49:10 GMT (Wednesday 27th January 2021)"
+	revision: "3"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -19,6 +19,15 @@ inherit
 		end
 
 	DEBUG_OUTPUT undefine default_create end
+
+	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+		rename
+			start as array_iterator
+		export
+			{NONE} all
+		undefine
+			default_create
+		end
 
 create
 	default_create
@@ -75,7 +84,7 @@ feature -- Measurement
 	count: INTEGER
 		-- substring count
 		do
-			Result := area.item (0).to_integer_32
+			Result := value (area, 0)
 		end
 
 	index: INTEGER
@@ -84,7 +93,7 @@ feature -- Measurement
 
 	lower: INTEGER
 		do
-			Result := area.item (index).to_integer_32
+			Result := lower_bound (area, index)
 		end
 
 	offset: INTEGER
@@ -94,7 +103,7 @@ feature -- Measurement
 
 	upper: INTEGER
 		do
-			Result := area.item (index + 1).to_integer_32
+			Result := upper_bound (area, index)
 		end
 
 feature -- Status query
@@ -109,14 +118,14 @@ feature -- Element change
 	start (a_area: like area)
 		do
 			area := a_area
-			index := 1; index_final := count * 2 + 1
+			index := 1; index_final := first_index (area)
 		end
 
 feature -- Cursor movement
 
 	back
 		do
-			index := index - 1
+			index := index - 2
 		end
 
 	forth

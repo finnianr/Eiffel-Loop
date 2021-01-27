@@ -16,14 +16,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 16:28:55 GMT (Tuesday 26th January 2021)"
-	revision: "12"
+	date: "2021-01-27 9:52:09 GMT (Wednesday 27th January 2021)"
+	revision: "13"
 
 class
 	EL_SUBSTRING_32_ARRAY
 
 inherit
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+		export
+			{ANY} valid_index
+		end
 
 create
 	make_from_unencoded, make_empty, make_from_area, make_from_other
@@ -367,17 +370,6 @@ feature -- Status query
 			Result := count.to_boolean
 		end
 
-	valid_index (index: INTEGER): BOOLEAN
-		local
-			i, i_final: INTEGER; l_area: like area
-		do
-			l_area := area; i_final := first_index (l_area)
-			from i := 1 until Result or else i = i_final loop
-				Result := lower_bound (l_area, i) <= index and then index <= upper_bound (l_area, i)
-				i := i + 2
-			end
-		end
-
 feature -- Comparison
 
 	same_string (other: EL_SUBSTRING_32_ARRAY): BOOLEAN
@@ -616,7 +608,7 @@ feature -- Element change
 
 	remove (index: INTEGER)
 		local
-			i, lower, upper, char_count, item_count, i_final, i_th, offset, n: INTEGER
+			i, lower, upper, char_count, i_final, offset: INTEGER
 			l_area, l_new_area: like area; found: BOOLEAN
 		do
 			l_area := area; i_final := first_index (l_area); offset := i_final
@@ -641,7 +633,7 @@ feature -- Element change
 				i := i + 2
 			end
 			if found then
-				-- Copy indexing
+				-- Copy indexing data
 				from i := 1 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					if lower <= index and index <= upper then
@@ -663,7 +655,7 @@ feature -- Element change
 					end
 					i := i + 2
 				end
-				-- Copy sub strings
+				-- Copy character data
 				from i := 1 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					char_count := upper - lower + 1
@@ -689,6 +681,8 @@ feature -- Element change
 				end
 				area := l_new_area
 			end
+		ensure
+			none_contiguous: not has_contiguous
 		end
 
 	remove_substring (start_index, end_index: INTEGER)

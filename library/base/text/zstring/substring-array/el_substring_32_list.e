@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-26 12:37:09 GMT (Tuesday 26th January 2021)"
-	revision: "2"
+	date: "2021-01-27 9:25:51 GMT (Wednesday 27th January 2021)"
+	revision: "3"
 
 class
 	EL_SUBSTRING_32_LIST
@@ -23,6 +23,8 @@ inherit
 		redefine
 			wipe_out
 		end
+
+	EL_ZCODE_CONVERSION undefine copy, is_equal end
 
 create
 	make
@@ -47,12 +49,17 @@ feature -- Element change
 			extend (a_lower.to_natural_32); extend (a_upper.to_natural_32)
 		end
 
-	put_character (uc: CHARACTER_32; a_index: INTEGER)
+	put_character (c: CHARACTER_32; a_index: INTEGER)
+		do
+			put_unicode (c.natural_32_code, a_index)
+		end
+
+	put_unicode (uc: NATURAL; a_index: INTEGER)
 		require
 			valid_index: is_empty or else a_index.to_natural_32 > last_upper
 		do
 			ensure_capacity (character_list, 1)
-			character_list.extend (uc.natural_32_code)
+			character_list.extend (uc)
 
 			if is_empty or else a_index.to_natural_32 > last_upper + 1 then
 				extend (a_index.to_natural_32)
@@ -63,6 +70,12 @@ feature -- Element change
 		ensure
 			valid_last_upper: last_upper = a_index.to_natural_32
 			even_count: count \\ 2 = 0
+		end
+
+
+	put_z_code (a_z_code: NATURAL; a_index: INTEGER)
+		do
+			put_unicode (z_code_to_unicode (a_z_code), a_index)
 		end
 
 feature -- Transformation
