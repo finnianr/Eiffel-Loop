@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:06:31 GMT (Wednesday 27th January 2021)"
-	revision: "66"
+	date: "2021-01-28 13:59:00 GMT (Thursday 28th January 2021)"
+	revision: "67"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -48,7 +48,7 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 		export
-			{STRING_HANDLER} empty_once_unencoded, indexable_iterator
+			{STRING_HANDLER} empty_once_unencoded, unencoded_indexable
 		redefine
 			make_from_string
 		end
@@ -714,20 +714,15 @@ feature {NONE} -- Implementation
 
 	fill_expanded (str: STRING_32)
 		local
-			i, l_count: INTEGER; c_i: CHARACTER
-			l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
+			i, l_count: INTEGER; l_area: like area; l_area_32: SPECIAL [CHARACTER_32]
+			unencoded: like unencoded_indexable
 		do
 			l_count := count
 			str.grow (l_count); str.set_count (l_count)
 
-			l_area := area; l_area_32 := str.area
+			l_area := area; l_area_32 := str.area; unencoded := unencoded_indexable
 			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				if c_i = Unencoded_character then
-					l_area_32 [i] := unencoded_z_code (i + 1).to_character_32
-				else
-					l_area_32 [i] := c_i
-				end
+				l_area_32 [i] := area_z_code (l_area, unencoded, i).to_character_32
 				i := i + 1
 			end
 		end

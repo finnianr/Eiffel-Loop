@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-30 14:40:15 GMT (Monday 30th September 2019)"
-	revision: "8"
+	date: "2021-01-28 13:56:33 GMT (Thursday 28th January 2021)"
+	revision: "9"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -24,6 +24,8 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	EL_ZCODE_CONVERSION
+
 create
 	make
 
@@ -37,6 +39,7 @@ feature -- Search
 			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched: INTEGER
 			l_matched: BOOLEAN; l_deltas_array: like deltas_array
 			l_area: SPECIAL [CHARACTER]; l_char_code: NATURAL
+			unencoded: EL_ZSTRING_INDEXABLE
 		do
 			if fuzzy = a_pattern.count then
 					-- More mismatches than the pattern length.
@@ -49,6 +52,7 @@ feature -- Search
 					l_deltas_array := deltas_array
 					if l_deltas_array /= Void then
 						from
+							unencoded := a_string.unencoded_indexable
 							l_pattern_count := a_pattern.count
 							l_area := a_string.area
 							l_area_lower := a_string.area_lower
@@ -64,7 +68,7 @@ feature -- Search
 							until
 								j = l_pattern_count
 							loop
-								l_char_code := z_code (l_area, i + j - 1, a_string)
+								l_char_code := area_z_code (l_area, unencoded, i + j - 1)
 								if l_char_code /= a_pattern.code (j + 1) then
 									l_nb_mismatched := l_nb_mismatched + 1;
 									if l_nb_mismatched > fuzzy then
@@ -89,7 +93,7 @@ feature -- Search
 									until
 										j > fuzzy
 									loop
-										l_char_code := z_code (l_area, i + l_pattern_count - j - 1, a_string)
+										l_char_code := area_z_code (l_area, unencoded, i + l_pattern_count - j - 1)
 										if l_char_code > Max_code_point_value then
 												-- No optimization for a characters above
 												-- `Max_code_point_value'.
@@ -120,6 +124,7 @@ feature -- Search
 		local
 			i, j, l_end_pos, l_pattern_count, l_area_lower: INTEGER; l_char_code: NATURAL
 			l_matched: BOOLEAN; l_deltas: like deltas; l_area: SPECIAL [CHARACTER]
+			unencoded: EL_ZSTRING_INDEXABLE
 		do
 			if a_string = a_pattern then
 				if start_pos = 1 then
@@ -128,6 +133,7 @@ feature -- Search
 			else
 				l_pattern_count := a_pattern.count
 				check l_pattern_count_positive: l_pattern_count > 0 end
+				unencoded := a_string.unencoded_indexable
 				from
 					l_area := a_string.area
 					l_area_lower := a_string.area_lower
@@ -143,7 +149,7 @@ feature -- Search
 					until
 						j = l_pattern_count
 					loop
-						l_char_code := z_code (l_area, i + j - 1, a_string)
+						l_char_code := area_z_code (l_area, unencoded, i + j - 1)
 						if l_char_code /= a_pattern.code (j + 1) then
 								-- Mismatch, so we stop
 							j := l_pattern_count - 1	-- Jump out of loop
@@ -159,7 +165,7 @@ feature -- Search
 					else
 							-- Pattern was not found, shift to next location
 						if i + l_pattern_count <= end_pos then
-							l_char_code := z_code (l_area, i + l_pattern_count - 1, a_string)
+							l_char_code := area_z_code (l_area, unencoded, i + l_pattern_count - 1)
 							if l_char_code > Max_code_point_value then
 									-- Character is too big, we revert to a slow comparison
 								i := i + 1
@@ -202,19 +208,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	z_code (a_string_area: SPECIAL [CHARACTER]; i: INTEGER; a_string: like String_type): NATURAL
-			-- code which can be latin or unicode depending on presence of unencoded characters
-		local
-			c: CHARACTER
-		do
-			c := a_string_area [i]
-			if c = Unencoded_character then
-				Result := a_string.unencoded_z_code (i + 1)
-			else
-				Result := c.natural_32_code
-			end
-		end
-
 feature {NONE} -- Constants
 
 	String_type: EL_READABLE_ZSTRING
@@ -223,8 +216,6 @@ feature {NONE} -- Constants
 		once
 			Result := Empty_string
 		end
-
-	Unencoded_character: CHARACTER = '%/026/'
 
 	Max_code_point_value: NATURAL = 2_000
 		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).

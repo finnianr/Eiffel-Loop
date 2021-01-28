@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:21:49 GMT (Wednesday 27th January 2021)"
-	revision: "11"
+	date: "2021-01-28 10:04:53 GMT (Thursday 28th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
@@ -151,13 +151,7 @@ feature {NONE} -- Implementation
 		require
 			not_empty: a_area.count > 0
 		do
-			a_area.force (a_area [0] + n.to_natural_32, 0)
-		end
-
-	indexable_iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
-		do
-			Result := Once_indexable_iterator
-			Result.start (area)
+			a_area [0] := a_area [0] + n.to_natural_32
 		end
 
 	interval_count (a_area: like area; i: INTEGER): INTEGER
@@ -252,11 +246,6 @@ feature {NONE} -- Constants
 			create Result.make_empty (2)
 			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
 			Result.extend (create {EL_SUBSTRING_32_ARRAY_ITERATOR})
-		end
-
-	Once_indexable_iterator: EL_INDEXABLE_SUBSTRING_32_ARRAY_ITERATOR
-		once
-			create Result
 		end
 
 end

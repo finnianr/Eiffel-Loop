@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:06:47 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-01-28 14:49:12 GMT (Thursday 28th January 2021)"
+	revision: "8"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -44,14 +44,16 @@ feature -- Tests
 		note
 			testing:	"covers/{EL_HMAC_SHA_256}.sink_joined_strings"
 		local
-			l_digest: STRING
+			l_digest, hmac_sha_256: STRING
 			hmac: EL_HMAC_SHA_256; string_list: EL_STRING_8_LIST
 		do
 			l_digest := "485858AB7045C7D390FA7CEFE0F4854ECB46BA5D9A3866AE570DF70CB884285D" -- From Python run/hmac_test.py
 
-			lio.put_labeled_string ("Digest", Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string)
+			hmac_sha_256 := Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string
+
+			lio.put_labeled_string ("Digest", hmac_sha_256)
 			lio.put_new_line
-			assert ("correct hmac_sha_256", l_digest ~ Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string)
+			assert ("correct hmac_sha_256", l_digest ~ hmac_sha_256)
 
 			create string_list.make_with_lines ("[
 				one

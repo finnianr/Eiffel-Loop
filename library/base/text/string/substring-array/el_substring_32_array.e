@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:31:38 GMT (Wednesday 27th January 2021)"
-	revision: "14"
+	date: "2021-01-28 13:18:21 GMT (Thursday 28th January 2021)"
+	revision: "15"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -348,6 +348,69 @@ feature -- Comparison
 				if l_area.count = other.area.count then
 					Result := l_area.same_items (other.area, 0, 0, l_area.count)
 				end
+			end
+		end
+
+	same_substring (other: EL_SUBSTRING_32_ARRAY; a_start_index: INTEGER): BOOLEAN
+		-- True if characters in `other' are unencoded at the same
+		-- positions as `Current' starting at `start_index'
+		local
+			i, lower, upper, start_index, i_final, offset, trailing_count: INTEGER -- for `current'
+			o_i, o_final, o_lower, o_upper, o_offset, o_start_index: INTEGER -- for `other'
+			found: BOOLEAN; l_area, o_area: like area
+		do
+			if other.count = 0 then
+				Result := True
+				
+			elseif not_empty then
+				l_area := area; i_final := first_index (l_area); offset := i_final
+				-- find `start_index'
+				from i := 1 until found or else i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					if a_start_index <= lower then
+						start_index := lower
+						found := True
+
+					elseif lower < a_start_index and then a_start_index <= upper then
+						start_index := a_start_index
+						found := True
+					else
+						offset := offset + upper - lower + 1
+						i := i + 2
+					end
+				end
+				if found then
+					offset := offset + start_index - lower
+					trailing_count := character_count - (offset - i_final)
+					if other.count <= trailing_count then
+						o_final := first_index (other.area); o_offset := o_final
+						Result := area.same_items (other.area, o_offset, offset, other.count)
+					end
+				end
+			else
+				Result := start_index = 1 and other.count = 0
+			end
+			if Result then
+				-- check for same absolute intervals
+				o_start_index := other.first_lower; o_area := other.area
+				from o_i := 1 until not Result or else o_i = o_final or else i = i_final loop
+					o_lower := lower_bound (o_area, o_i) - o_start_index
+					o_upper := upper_bound (o_area, o_i) - o_start_index
+					if o_i = 1 then
+						lower := 0
+					else
+						lower := lower_bound (l_area, i) - start_index
+					end
+					if o_i + 2 = o_final then
+						-- is last interval of other
+						upper := (upper_bound (l_area, i) - start_index).min (o_upper)
+					else
+						upper := upper_bound (l_area, i) - start_index
+					end
+					Result := lower = o_lower and then upper = o_upper
+					i := i + 2; o_i := o_i + 2
+				end
+				Result := Result and o_i = o_final
 			end
 		end
 

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:35:37 GMT (Wednesday 27th January 2021)"
-	revision: "40"
+	date: "2021-01-28 15:10:16 GMT (Thursday 28th January 2021)"
+	revision: "41"
 
 class
 	ZSTRING_TEST_SET
@@ -33,6 +33,8 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("to_utf_8", agent test_to_utf_8)
+
 			eval.call ("mirror", agent test_mirror)
 			eval.call ("split", agent test_split)
 			eval.call ("substring_split", agent test_substring_split)
@@ -607,23 +609,10 @@ feature -- Status query tests
 
 	test_ends_with
 		note
-			testing: "covers/{ZSTRING}.ends_with", "covers/{ZSTRING}.remove_tail"
-		local
-			str_32, word_32: STRING_32; str, word: ZSTRING; i, count: INTEGER
+			testing: "covers/{ZSTRING}.ends_with", "covers/{ZSTRING}.remove_tail",
+						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
 		do
-			str_32 := Text_russian_and_english.twin; str := str_32
-			from i := text_words.count until i = 0 loop
-				word_32 := text_words [i]; word := word_32
-				if i = 1 then
-					count := word.count
-				else
-					count := word.count + 1
-				end
-				assert ("ends_with OK", str.ends_with (word) = str_32.ends_with (word_32))
-				str_32.remove_tail (count); str.remove_tail (count)
-				assert ("remove_tail OK", str.same_string (str_32))
-				i := i - 1
-			end
+			for_all_text_splits (agent compare_ends_with)
 		end
 
 	test_for_all_split
@@ -714,27 +703,10 @@ feature -- Status query tests
 
 	test_starts_with
 		note
-			testing: "covers/{ZSTRING}.starts_with", "covers/{ZSTRING}.remove_head"
-		local
-			str_32, word_32: STRING_32; str, word: ZSTRING; pos_space: INTEGER
-			done: BOOLEAN
+			testing: "covers/{ZSTRING}.starts_with", "covers/{ZSTRING}.remove_head",
+						"covers/{EL_SUBSTRING_32_ARRAY}.same_substring"
 		do
-			across text_lines as line loop
-				str_32 := line.item; str := str_32
-				from done := False until done loop
-					pos_space := str_32.index_of (' ', 1)
-					if pos_space > 0 then
-						word_32 := str_32.substring (1, pos_space)
-					else
-						word_32 := str_32
-						done := True
-					end
-					word := word_32
-					assert ("starts_with OK", str.starts_with (word) = str_32.starts_with (word_32))
-					str_32.remove_head (word_32.count); str.remove_head (word.count)
-					assert ("remove_head OK", str.same_string (str_32))
-				end
-			end
+			for_all_text_splits (agent compare_starts_with)
 		end
 
 	test_there_exists_split
@@ -924,6 +896,16 @@ feature {NONE} -- Implementation
 			assert ("to_lower OK", upper.as_lower.same_string (lower_32))
 		end
 
+	compare_ends_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
+		do
+			assert ("same result", str_32.ends_with (right_32) = str.ends_with (right))
+		end
+
+	compare_starts_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
+		do
+			assert ("same result", str_32.starts_with (left_32) = str.starts_with (left))
+		end
+
 	do_pruning_test (type: STRING)
 		local
 			str: ZSTRING; str_32: STRING_32
@@ -950,6 +932,28 @@ feature {NONE} -- Implementation
 						str.prune_all_trailing (c.item); str_32.prune_all_trailing (c.item)
 					end
 					assert (type + " OK", str.same_string (str_32))
+				end
+			end
+		end
+
+	for_all_text_splits (test: PROCEDURE [STRING_32, STRING_32, STRING_32, ZSTRING, ZSTRING, ZSTRING])
+		local
+			str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING; split_position: INTEGER
+		do
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				across 0 |..| 5 as n loop
+					if n.item = 5 then
+						split_position := str_32.count
+					elseif n.item = 0 then
+						split_position := 0
+					else
+						split_position := str_32.count * n.item // 5
+					end
+					left_32 := str_32.substring (1, split_position)
+					right_32 := str_32.substring (split_position.max (1), str_32.count)
+					left := left_32; right := right_32
+					test (str_32, left_32, right_32, str, left, right)
 				end
 			end
 		end

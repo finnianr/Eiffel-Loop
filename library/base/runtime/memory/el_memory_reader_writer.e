@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 11:47:06 GMT (Wednesday 27th January 2021)"
-	revision: "15"
+	date: "2021-01-28 10:14:39 GMT (Thursday 28th January 2021)"
+	revision: "16"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -269,16 +269,16 @@ feature -- Write operations
 	write_string (a_string: EL_READABLE_ZSTRING)
 		local
 			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
-			iterator: like read_string.indexable_iterator
+			unencoded: like read_string.unencoded_indexable
 		do
-			iterator := a_string.indexable_iterator
+			unencoded := a_string.unencoded_indexable
 			l_count := a_string.count; l_area := a_string.area
 			write_integer_32 (l_count)
 			from i := 0 until i = l_count loop
 				c := l_area [i]
 				write_character_8 (c)
 				if c = Unencoded_character then
-					write_natural_32 (iterator.code (i + 1))
+					write_natural_32 (unencoded.code (i + 1))
 				end
 				i := i + 1
 			end

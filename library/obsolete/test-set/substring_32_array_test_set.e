@@ -1,5 +1,7 @@
 ﻿note
-	description: "Test [$source EL_UNENCODED_CHARACTERS]"
+	description: "[
+		Test [$source EL_SUBSTRING_32_ARRAY] against [$source EL_ZSTRING] inheriting [$source EL_UNENCODED_CHARACTERS]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

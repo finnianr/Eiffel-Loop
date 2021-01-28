@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:34:25 GMT (Wednesday 27th January 2021)"
-	revision: "10"
+	date: "2021-01-28 14:00:52 GMT (Thursday 28th January 2021)"
+	revision: "11"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -41,16 +41,16 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- "Hello world" -> "dlrow olleH".
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			l_unencoded: like empty_once_unencoded; iterator: like indexable_iterator
+			l_unencoded: like empty_once_unencoded; unencoded: like unencoded_indexable
 		do
 			l_count := count
 			if l_count > 1 then
 				if has_mixed_encoding then
-					l_area := area; l_unencoded := empty_once_unencoded; iterator := indexable_iterator
+					l_area := area; l_unencoded := empty_once_unencoded; unencoded := unencoded_indexable
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Unencoded_character then
-							l_unencoded.put_unicode (iterator.code (i + 1), l_count - i)
+							l_unencoded.put_unicode (unencoded.code (i + 1), l_count - i)
 						end
 						i := i - 1
 					end
@@ -87,16 +87,16 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
 			is_space, is_space_state: BOOLEAN; z_code_array: ARRAYED_LIST [NATURAL]; l_z_code: NATURAL
-			c: EL_CHARACTER_32_ROUTINES
+			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
 		do
 			if not is_canonically_spaced then
-				l_area := area; l_count := count
+				l_area := area; l_count := count; unencoded := unencoded_indexable
 				create z_code_array.make (l_count)
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Unencoded_character then
 						is_space := c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
-						l_z_code := unencoded_z_code (i + 1)
+						l_z_code := unencoded.z_code (i + 1)
 					else
 						is_space := c_i.is_space
 						l_z_code := c_i.natural_32_code
@@ -190,20 +190,16 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			each_old_has_new: old_characters.count = new_characters.count
 		local
 			i, j, index, l_count: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: EL_SUBSTRING_32_LIST; iterator: like indexable_iterator
+			l_new_unencoded: EL_SUBSTRING_32_LIST; unencoded: like unencoded_indexable
 			l_area, new_characters_area: like area; old_expanded, new_expanded: STRING_32
-			c_i: CHARACTER
 		do
-			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := empty_once_unencoded; iterator := indexable_iterator
 			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
+
+			l_area := area; new_characters_area := new_characters.area; l_count := count
+			l_new_unencoded := empty_once_unencoded
+			unencoded := unencoded_indexable -- must be assigned only after calls to `as_expanded'
 			from until i = l_count loop
-				c_i := l_area [i]
-				if c_i = Unencoded_character then
-					old_z_code := iterator.z_code (i + 1)
-				else
-					old_z_code := c_i.natural_32_code
-				end
+				old_z_code := area_z_code (l_area, unencoded, i)
 				index := old_expanded.index_of (old_z_code.to_character_32, 1)
 				if index > 0 then
 					new_z_code := new_expanded.code (index)

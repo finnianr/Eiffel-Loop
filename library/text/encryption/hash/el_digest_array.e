@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-09 10:05:51 GMT (Sunday 9th February 2020)"
-	revision: "11"
+	date: "2021-01-28 15:04:11 GMT (Thursday 28th January 2021)"
+	revision: "12"
 
 class
 	EL_DIGEST_ARRAY
@@ -73,7 +73,7 @@ feature {NONE} -- Initialization
 	make_sink (digest: EL_DATA_SINKABLE; string: STRING)
 		do
 			digest.reset
-			digest.sink_string (string)
+			digest.sink_string_8 (string)
 			make_final (digest)
 		end
 

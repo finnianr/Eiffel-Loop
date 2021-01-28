@@ -1,6 +1,6 @@
 note
 	description: "[
-		Core implementation of [$source EL_ZSTRING] using an 8 bit array to sotre characters encodeable
+		Core implementation of [$source EL_ZSTRING] using an 8 bit array to store characters encodeable
 		by `codec', and a compacted array of 32-bit arrays to encode any character not defined by the 8-bit encoding.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 17:05:59 GMT (Wednesday 27th January 2021)"
-	revision: "16"
+	date: "2021-01-28 13:38:31 GMT (Thursday 28th January 2021)"
+	revision: "17"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -23,7 +23,7 @@ inherit
 			area as unencoded_area,
 			character_count as unencoded_count,
 			code as unencoded_code,
-			count as substring_count,
+			count as unencoded_substring_count,
 			count_greater_than_zero_flags as respective_encoding,
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
@@ -45,6 +45,7 @@ inherit
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,
 			same_string as same_unencoded_string,
+			same_substring as same_unencoded_substring,
 			set_area as set_unencoded_area,
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,
@@ -221,30 +222,6 @@ feature {EL_READABLE_ZSTRING} -- Status query
 		deferred
 		end
 
-	same_unencoded_substring (other: EL_READABLE_ZSTRING; start_index: INTEGER): BOOLEAN
-			-- True if characters in `other' are unencoded at the same
-			-- positions as `Current' starting at `start_index'
-		require
-			valid_start_index: start_index + other.count - 1 <= count
-		local
-			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded_other: like indexable_iterator
-		do
-			Result := True
-			l_area := area; l_count := other.count
-			unencoded_other := other.indexable_iterator
-			from i := 0 until i = l_count or else not Result loop
-				c_i := l_area [i + start_index - 1]
-				check
-					same_unencoded_positions: c_i = Unencoded_character implies c_i = other.area [i]
-				end
-				if c_i = Unencoded_character then
-					Result := Result and unencoded_code (start_index + i) = unencoded_other.code (i + 1)
-				end
-				i := i + 1
-			end
-		end
-
 feature {EL_READABLE_ZSTRING} -- Contract Support
 
 	is_valid: BOOLEAN
@@ -261,7 +238,7 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 				then
 					Result := True
 				end
-				if Result and then substring_count > 0 then
+				if Result and then unencoded_substring_count > 0 then
 					l_area := area; l_unencoded := unencoded_area; i_final := first_index (l_unencoded)
 					from i := 1 until not Result or else i = i_final loop
 						start_index := lower_bound (l_unencoded, i) - 1
@@ -318,6 +295,13 @@ feature {NONE} -- Implementation
 			else
 				Result := codec.encoded_character (uc.natural_32_code)
 			end
+		end
+
+	unencoded_indexable: EL_ZSTRING_INDEXABLE
+		-- shared instance of `EL_ZSTRING_INDEXABLE' set to current string
+		do
+			Result := Once_indexable
+			Result.start (unencoded_area)
 		end
 
 	put_unicode (a_code: NATURAL_32; i: INTEGER)
@@ -457,6 +441,11 @@ feature {NONE} -- Constants
 			create Result.make_filled (create {ZSTRING}.make_empty, 3)
 			Result [1] := create {ZSTRING}.make_empty
 			Result [2] := create {ZSTRING}.make_empty
+		end
+
+	Once_indexable: EL_ZSTRING_INDEXABLE
+		once
+			create Result
 		end
 
 	Tilde_code: NATURAL = 0x7E

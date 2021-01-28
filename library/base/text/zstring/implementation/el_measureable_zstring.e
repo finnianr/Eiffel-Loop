@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 12:45:42 GMT (Wednesday 27th January 2021)"
-	revision: "3"
+	date: "2021-01-28 10:11:56 GMT (Thursday 28th January 2021)"
+	revision: "4"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -115,15 +115,15 @@ feature -- Measurement
 			-- Returns count of continous occurrences of `uc' or white space starting from the end
 		local
 			i: INTEGER; l_area: like area; c, c_i: CHARACTER
-			iterator: like indexable_iterator; uc_code: NATURAL
+			unencoded: like unencoded_indexable; uc_code: NATURAL
 		do
 			c := encoded_character (uc); uc_code := uc.natural_32_code
-			l_area := area; iterator := indexable_iterator
+			l_area := area; unencoded := unencoded_indexable
 			if c = Unencoded_character then
 				if has_mixed_encoding then
 					from i := count - 1 until i < 0 loop
 						c_i := l_area [i]
-						if c_i = Unencoded_character and then iterator.code (i + 1) = uc_code then
+						if c_i = Unencoded_character and then unencoded.code (i + 1) = uc_code then
 							Result := Result + 1
 						else
 							i := 0 -- break out of loop
@@ -150,14 +150,14 @@ feature -- Measurement
 	trailing_white_space: INTEGER
 		local
 			i: INTEGER; l_area: like area; c_i: CHARACTER
-			iterator: like indexable_iterator; l_prop: like character_properties
+			unencoded: like unencoded_indexable; l_prop: like character_properties
 		do
-			l_area := area; l_prop := character_properties; iterator := indexable_iterator
+			l_area := area; l_prop := character_properties; unencoded := unencoded_indexable
 			from i := count - 1 until i < 0 loop
 				c_i := l_area [i]
 				-- `Unencoded_character' is space
 				if c_i = Unencoded_character then
-					if l_prop.is_space (iterator.code (i + 1).to_character_32) then
+					if l_prop.is_space (unencoded.code (i + 1).to_character_32) then
 						Result := Result + 1
 					else
 						i := 0 -- break out of loop

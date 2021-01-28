@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 10:39:16 GMT (Thursday 3rd December 2020)"
-	revision: "65"
+	date: "2021-01-28 15:56:45 GMT (Thursday 28th January 2021)"
+	revision: "66"
 
 class
 	THUNDERBIRD_AUTOTEST_APP
