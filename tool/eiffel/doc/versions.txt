@@ -1,3 +1,6 @@
+1.3.1
+ZSTRING inherits EL_SUBSTRING_32_ARRAY
+
 1.3.0
 * New type EL_DOCUMENT_NODE_STRING for {EL_PARSE_EVENT_SOURCE}.last_node
 

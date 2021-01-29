@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 9:49:10 GMT (Wednesday 27th January 2021)"
-	revision: "3"
+	date: "2021-01-29 9:59:12 GMT (Friday 29th January 2021)"
+	revision: "4"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -77,8 +77,11 @@ feature -- Access
 feature -- Measurement
 
 	character_count: INTEGER
+		local
+			l_area: like area; i: INTEGER
 		do
-			Result := upper - lower + 1
+			l_area := area; i := index
+			Result := (l_area [i + 1] - l_area [i]).to_integer_32 + 1
 		end
 
 	count: INTEGER

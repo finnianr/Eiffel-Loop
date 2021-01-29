@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 13:18:21 GMT (Thursday 28th January 2021)"
-	revision: "15"
+	date: "2021-01-29 10:34:11 GMT (Friday 29th January 2021)"
+	revision: "16"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -361,7 +361,7 @@ feature -- Comparison
 		do
 			if other.count = 0 then
 				Result := True
-				
+
 			elseif not_empty then
 				l_area := area; i_final := first_index (l_area); offset := i_final
 				-- find `start_index'

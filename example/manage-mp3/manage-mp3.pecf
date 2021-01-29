@@ -30,7 +30,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 2; minor = 3; release = 0; build = 64
+			major = 2; minor = 3; release = 0; build = 65
 			company = "Eiffel-Loop"; product = "manage-mp3"
 			copyright = "Finnian Reilly"
 

@@ -1,3 +1,6 @@
+1.4.1
+ZSTRING inherits EL_SUBSTRING_32_ARRAY
+
 1.4.0
 New Pyxis parser based on {EL_PARSE_EVENT_SOURCE}.last_node changed to type EL_DOCUMENT_NODE_STRING
 

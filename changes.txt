@@ -349,3 +349,6 @@ EL_PYXIS_PARSER optimized for STRING_8 lines
 Wed 20th Jan 2021, 13:41:27
 New routine {EL_ZSTRING}.append_ascii and is_ascii
 
+Thu 28th Jan 2021, 16:35:35
+Change to EL_ZSTRING implemented by EL_SUBSTRING_32_ARRAY complete
+

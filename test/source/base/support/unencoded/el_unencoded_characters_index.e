@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 13:08:40 GMT (Sunday 3rd January 2021)"
-	revision: "4"
+	date: "2021-01-29 11:35:58 GMT (Friday 29th January 2021)"
+	revision: "5"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
+
+obsolete
+	"Use EL_ZSTRING_INDEXABLE"
 
 inherit
 	EL_SEQUENTIAL_INTERVALS
