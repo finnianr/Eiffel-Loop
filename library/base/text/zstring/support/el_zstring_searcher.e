@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 13:56:33 GMT (Thursday 28th January 2021)"
-	revision: "9"
+	date: "2021-01-30 12:19:16 GMT (Saturday 30th January 2021)"
+	revision: "10"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -39,7 +39,7 @@ feature -- Search
 			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched: INTEGER
 			l_matched: BOOLEAN; l_deltas_array: like deltas_array
 			l_area: SPECIAL [CHARACTER]; l_char_code: NATURAL
-			unencoded: EL_ZSTRING_INDEXABLE
+			unencoded: EL_UNENCODED_CHARACTERS_INDEX
 		do
 			if fuzzy = a_pattern.count then
 					-- More mismatches than the pattern length.
@@ -124,7 +124,7 @@ feature -- Search
 		local
 			i, j, l_end_pos, l_pattern_count, l_area_lower: INTEGER; l_char_code: NATURAL
 			l_matched: BOOLEAN; l_deltas: like deltas; l_area: SPECIAL [CHARACTER]
-			unencoded: EL_ZSTRING_INDEXABLE
+			unencoded: EL_UNENCODED_CHARACTERS_INDEX
 		do
 			if a_string = a_pattern then
 				if start_pos = 1 then

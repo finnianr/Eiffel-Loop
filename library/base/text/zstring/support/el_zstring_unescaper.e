@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 14:01:43 GMT (Thursday 28th January 2021)"
-	revision: "13"
+	date: "2021-01-30 12:19:41 GMT (Saturday 30th January 2021)"
+	revision: "14"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -37,7 +37,7 @@ feature -- Access
 	unescaped_array (str: EL_READABLE_ZSTRING): SPECIAL [NATURAL]
 		local
 			l_count, i, seq_count: INTEGER; z_code_i, esc_code: NATURAL
-			l_area: SPECIAL [CHARACTER_8]; unencoded: EL_ZSTRING_INDEXABLE
+			l_area: SPECIAL [CHARACTER_8]; unencoded: EL_UNENCODED_CHARACTERS_INDEX
 		do
 			l_count := str.count; l_area := str.area
 			esc_code := escape_code

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 14:00:52 GMT (Thursday 28th January 2021)"
-	revision: "11"
+	date: "2021-01-30 18:16:59 GMT (Saturday 30th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -41,21 +41,21 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- "Hello world" -> "dlrow olleH".
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
-			l_unencoded: like empty_once_unencoded; unencoded: like unencoded_indexable
+			buffer: like empty_unencoded_buffer; unencoded: like unencoded_indexable
 		do
 			l_count := count
 			if l_count > 1 then
 				if has_mixed_encoding then
-					l_area := area; l_unencoded := empty_once_unencoded; unencoded := unencoded_indexable
+					l_area := area; buffer := empty_unencoded_buffer; unencoded := unencoded_indexable
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Unencoded_character then
-							l_unencoded.put_unicode (unencoded.code (i + 1), l_count - i)
+							buffer.extend (unencoded.code (i + 1), l_count - i)
 						end
 						i := i - 1
 					end
 					internal_mirror
-					set_from_list (l_unencoded)
+					set_from_unencoded_buffer (buffer)
 				else
 					internal_mirror
 				end
@@ -190,13 +190,13 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			each_old_has_new: old_characters.count = new_characters.count
 		local
 			i, j, index, l_count: INTEGER; old_z_code, new_z_code: NATURAL
-			l_new_unencoded: EL_SUBSTRING_32_LIST; unencoded: like unencoded_indexable
+			l_new_unencoded: like empty_unencoded_buffer; unencoded: like unencoded_indexable
 			l_area, new_characters_area: like area; old_expanded, new_expanded: STRING_32
 		do
 			old_expanded := old_characters.as_expanded (1); new_expanded := new_characters.as_expanded (2)
 
 			l_area := area; new_characters_area := new_characters.area; l_count := count
-			l_new_unencoded := empty_once_unencoded
+			l_new_unencoded := empty_unencoded_buffer
 			unencoded := unencoded_indexable -- must be assigned only after calls to `as_expanded'
 			from until i = l_count loop
 				old_z_code := area_z_code (l_area, unencoded, i)
@@ -208,7 +208,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				end
 				if delete_null implies new_z_code > 0 then
 					if new_z_code > 0xFF then
-						l_new_unencoded.put_z_code (new_z_code, j + 1)
+						l_new_unencoded.extend_z_code (new_z_code, j + 1)
 						l_area.put (Unencoded_character, j)
 					else
 						l_area.put (new_z_code.to_character_8, j)
@@ -219,10 +219,10 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			end
 			set_count (j)
 			l_area [j] := '%U'
-			set_from_list (l_new_unencoded)
+			set_from_unencoded_buffer (l_new_unencoded)
 			reset_hash
 		ensure
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 			unchanged_count: not delete_null implies count = old count
 			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
 		end
@@ -311,13 +311,14 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			new_count: count = old count + old s.count - end_index + start_index - 1
 			replaced: elks_checking implies
 				(current_readable ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 		end
 
 	replace_substring_all (original, new: EL_READABLE_ZSTRING)
 		local
 			replace_not_done: BOOLEAN; positions: ARRAYED_LIST [INTEGER]
-			size_difference, end_index, original_count, new_count: INTEGER
+			size_difference, end_index, original_count, new_count, previous_index: INTEGER
+			buffer: EL_ZSTRING_BUFFER_ROUTINES; replaced: ZSTRING
 		do
 			inspect respective_encoding (original)
 				when Both_have_mixed_encoding, Only_current then
@@ -334,23 +335,31 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			else
 				replace_not_done := True
 			end
-			if replace_not_done and then not is_empty and then original /~ new then
+			-- *************************************************************************
+			-- can be furter optimized by using `EL_UNENCODED_CHARACTERS_BUFFER'
+			-- *************************************************************************
+			if replace_not_done and then not is_empty and then not original.is_equal (new) then
 				original_count := original.count
 				positions := internal_substring_index_list (original)
 				if not positions.is_empty then
 					size_difference := new.count - original_count
 					new_count := count + (new.count - original_count) * positions.count
-					if new_count > count then
-						resize (new_count)
-					end
+					replaced := buffer.empty
+					replaced.grow (new_count)
+					previous_index := 1
 					from positions.start until positions.after loop
-						positions.replace (positions.item + size_difference * (positions.index - 1))
+						replaced.append_substring (current_readable, previous_index, positions.item - 1)
+						replaced.append (new)
+						previous_index := positions.item + original.count
 						positions.forth
 					end
-					from positions.start until positions.after loop
-						end_index := positions.item + original_count - 1
-						replace_substring (new, positions.item, end_index)
-						positions.forth
+					if previous_index <= count then
+						replaced.append_substring (current_readable, previous_index, count)
+					end
+					area := replaced.area.twin
+					count := replaced.count
+					if replaced.has_mixed_encoding then
+						unencoded_area := replaced.unencoded_area.twin
 					end
 				end
 			end
@@ -372,7 +381,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			-- Remove all characters except for the first `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER; l_unencoded: like empty_once_unencoded
+			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			old_count := count
 			internal_keep_head (n)
@@ -380,20 +389,20 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				if n = 0 then
 					make_unencoded
 				else
-					l_unencoded := empty_once_unencoded
-					l_unencoded.append_substring (Current, 1, n)
-					set_from_list (l_unencoded)
+					buffer := empty_unencoded_buffer
+					buffer.append_substring (Current, 1, n)
+					set_from_unencoded_buffer (buffer)
 				end
 			end
 		ensure then
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 		end
 
 	keep_tail (n: INTEGER)
 			-- Remove all characters except for the last `n';
 			-- do nothing if `n' >= `count'.
 		local
-			old_count: INTEGER; l_unencoded: like empty_once_unencoded
+			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			old_count := count
 			internal_keep_tail (n)
@@ -401,13 +410,13 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				if n = 0 then
 					make_unencoded
 				else
-					l_unencoded := empty_once_unencoded
-					l_unencoded.append_substring (Current, old_count - n + 1, old_count)
-					set_from_list (l_unencoded)
+					buffer := empty_unencoded_buffer
+					buffer.append_substring (Current, old_count - n + 1, old_count)
+					set_from_unencoded_buffer (buffer)
 				end
 			end
 		ensure then
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 		end
 
 	remove_head (n: INTEGER)

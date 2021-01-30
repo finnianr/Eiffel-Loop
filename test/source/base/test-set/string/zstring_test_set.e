@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 15:10:16 GMT (Thursday 28th January 2021)"
-	revision: "41"
+	date: "2021-01-30 17:56:51 GMT (Saturday 30th January 2021)"
+	revision: "42"
 
 class
 	ZSTRING_TEST_SET
@@ -33,8 +33,6 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("to_utf_8", agent test_to_utf_8)
-
 			eval.call ("mirror", agent test_mirror)
 			eval.call ("split", agent test_split)
 			eval.call ("substring_split", agent test_substring_split)
@@ -396,7 +394,7 @@ feature -- Element change tests
 					str_32.prepend_substring (line_32.item, word_list.item_lower, word_list.item_upper)
 					str.prepend_substring (line, start_index, end_index)
 					str.prepend_substring (line, word_list.item_lower, word_list.item_upper)
-					assert ("put_unicode OK", str.same_string (str_32))
+					assert ("same string", str.same_string (str_32))
 					start_index := word_list.item_upper + 1
 					word_list.forth
 				end

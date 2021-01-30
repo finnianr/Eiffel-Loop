@@ -13,27 +13,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 10:41:19 GMT (Friday 29th January 2021)"
-	revision: "20"
+	date: "2021-01-30 15:28:34 GMT (Saturday 30th January 2021)"
+	revision: "17"
 
 class
 	EL_UNENCODED_CHARACTERS
 
-obsolete
-	"Use EL_SUBSTRING_32_ARRAY"
-
 inherit
+	EL_EXTENDABLE_AREA [NATURAL]
+		export
+			{ANY} area
+		end
+
 	EL_ZCODE_CONVERSION
 
 create
-	make_empty, make_from_other, make_from_substrings
-
-convert
-	make_from_substrings ({ZSTRING})
+	make, make_from_other
 
 feature {NONE} -- Initialization
 
-	make_empty
+	make
 		do
 			area := Empty_unencoded
 		end
@@ -41,8 +40,8 @@ feature {NONE} -- Initialization
 	make_filled (uc: CHARACTER_32; n: INTEGER)
 		do
 			create area.make_filled (uc.natural_32_code, n + 2)
-			area [0] := 1
-			area [1] := n.to_natural_32
+			area.put (1, 0)
+			area.put (n.to_natural_32, 1)
 		end
 
 	make_from_other (other: EL_UNENCODED_CHARACTERS)
@@ -50,29 +49,7 @@ feature {NONE} -- Initialization
 			if other.not_empty then
 				area := other.area.twin
 			else
-				make_empty
-			end
-		end
-
-	make_from_substrings (array: EL_SUBSTRING_32_ARRAY)
-		local
-			i, lower, upper, i_final, offset, char_count: INTEGER; l_area_array, l_area: like area
-		do
-			if array.not_empty then
-				create l_area.make_empty (array.count * 2 + array.character_count)
-				l_area_array := array.area; i_final := (l_area_array [0]).to_integer_32 * 2 + 1
-				offset := i_final
-				from i := 1 until i = i_final loop
-					lower := lower_bound (l_area_array, i); upper := upper_bound (l_area_array, i)
-					char_count := upper - lower + 1
-					l_area.extend (lower.to_natural_32); l_area.extend (upper.to_natural_32)
-					l_area.copy_data (l_area_array, offset, l_area.count, char_count)
-					offset := offset + char_count
-					i := i + 2
-				end
-				area := l_area
-			else
-				make_empty
+				make
 			end
 		end
 
@@ -298,10 +275,6 @@ feature -- Measurement
 			end
 		end
 
-feature -- Access attributes
-
-	area: SPECIAL [NATURAL]
-
 feature -- Status query
 
 	has (unicode: NATURAL): BOOLEAN
@@ -350,11 +323,11 @@ feature -- Element change
 				end
 				if upper + 1 = other.first_lower then
 					-- merge intervals
-					l_area := resized (l_area, area_count + other_unencoded.count - 2)
+					l_area := big_enough_padded (l_area, other_unencoded.count - 2)
 					l_area.copy_data (other_unencoded, 2, i, other_unencoded.count - 2)
 					l_area.put (other_unencoded [1], i - count - 1)
 				else
-					l_area := resized (l_area, area_count + other_unencoded.count)
+					l_area := big_enough (l_area, other_unencoded.count)
 					l_area.copy_data (other_unencoded, 0, i, other_unencoded.count)
 				end
 			else
@@ -380,8 +353,7 @@ feature -- Element change
 				count := upper - lower + 1
 				if not other_inserted and then previous_upper < other_lower and then other_last_upper < lower then
 					-- Insert other
-					grow (area_count + other_array_count)
-					l_area := area
+					l_area := big_enough (area, other_array_count)
 					l_area.insert_data (other_unencoded, 0, i, other_array_count)
 					area_count := area_count + other_array_count
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
@@ -422,30 +394,29 @@ feature -- Element change
 			from i := 0 until found or i = area_count loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
-				found := True
 				if lower <= index and then index <= upper then
 					-- update interval
 					l_area.put (a_code, i + 2 + index - lower)
-
+					found := True
 				elseif upper + 1 = index then
 					-- extend interval right
 					count := count + 1
 					l_area := extended (i + count + 1, 0, 0, a_code)
 					l_area.put (index.to_natural_32, i + 1)
-
+					found := True
 				elseif lower - 1 = index then
 					-- extend interval left
 					count := count + 1
 					lower := lower - 1
 					l_area := extended (i + 2, 0, 0, a_code)
 					l_area.put (index.to_natural_32, i)
+					found := True
 
 				elseif previous_upper < index and then index < lower then
 					-- insert a new interval
 					l_area := extended (previous_i, index, index, a_code)
 					i := i + 3
-				else
-					found := False
+					found := True
 				end
 				if previous_upper > 0 and then previous_upper + 1 = lower then
 					-- Merge interval with previous
@@ -475,7 +446,7 @@ feature -- Element change
 			valid_unencoded: is_unencoded_valid
 		end
 
-	set_from_extendible (a_area: EL_EXTENDABLE_UNENCODED_CHARACTERS)
+	set_from_buffer (a_area: EL_UNENCODED_CHARACTERS_BUFFER)
 		do
 			if a_area.not_empty then
 				area := a_area.area_copy
@@ -684,13 +655,6 @@ feature -- Duplication
 			Result.shift (n)
 		end
 
---	substring (start_index, end_index: INTEGER): like empty_once_unencoded
---		do
---			Result := empty_once_unencoded
---			append_substrings_into (Result, start_index, end_index)
---			Result.shift ((start_index - 1).opposite)
---		end
-
 feature {EL_ZCODE_CONVERSION} -- Contract Support
 
 	is_unencoded_valid: BOOLEAN
@@ -731,7 +695,7 @@ feature {EL_ZCODE_CONVERSION} -- Implementation
 			old_count, count: INTEGER; l_area: like area
 		do
 			l_area := area; old_count := area.count; count := upper - lower + 1
-			l_area := resized (l_area, old_count + count + 2)
+			l_area := big_enough_padded (l_area, count + 2)
 			l_area.put (lower.to_natural_32, old_count)
 			l_area.put (upper.to_natural_32, old_count + 1)
 			l_area.copy_data (a_area, source_index, old_count + 2, count)
@@ -791,30 +755,14 @@ feature {NONE} -- Implementation
 			if a_code > 0 then
 				l_insert.extend (a_code)
 			end
-			if Result.count + l_insert.count > Result.capacity then
-				grow (area.count + l_insert.count)
-				Result := area
-			end
+			Result := big_enough (Result, l_insert.count)
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
 		end
 
-	empty_once_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
 		do
-			Result := Once_extendible_unencoded
+			Result := Buffer
 			Result.wipe_out
-		end
-
-	grow (new_count: INTEGER)
-		local
-			l_area: like area
-		do
-			l_area := area
-			if new_count > l_area.capacity then
-				create area.make_empty (new_count + l_area.capacity // 2)
-				area.insert_data (l_area, 0, 0, l_area.count)
-			end
-		ensure
-			big_enough: new_count <= area.capacity
 		end
 
 	index_list: ARRAYED_LIST [INTEGER]
@@ -857,20 +805,10 @@ feature {NONE} -- Implementation
 			Result := count_to_remove
 		end
 
-	resized (old_unencoded: like area; new_count: INTEGER): like area
-		local
-			i, delta: INTEGER
+	big_enough_padded (a_area: like area; additional_count: INTEGER): like area
 		do
-			Result := old_unencoded
-			if new_count > Result.capacity then
-				grow (new_count)
-				Result := area
-			end
-			delta := new_count - Result.count
-			from i := 1 until i > delta loop
-				Result.extend (0)
-				i := i + 1
-			end
+			Result := big_enough (a_area, additional_count)
+			Result.fill_with (0, Result.count, Result.count + additional_count - 1)
 		end
 
 feature {NONE} -- `count_greater_than_zero_flags' values
@@ -885,7 +823,7 @@ feature {NONE} -- `count_greater_than_zero_flags' values
 
 feature {EL_ZCODEC} -- Constants
 
-	Once_extendible_unencoded: EL_EXTENDABLE_UNENCODED_CHARACTERS
+	Buffer: EL_UNENCODED_CHARACTERS_BUFFER
 		once
 			create Result.make
 		end

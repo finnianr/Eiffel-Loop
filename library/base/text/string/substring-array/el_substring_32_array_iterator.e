@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 9:59:12 GMT (Friday 29th January 2021)"
-	revision: "4"
+	date: "2021-01-30 12:46:48 GMT (Saturday 30th January 2021)"
+	revision: "5"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR

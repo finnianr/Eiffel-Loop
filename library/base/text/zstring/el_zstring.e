@@ -1,6 +1,6 @@
 note
 	description: "[
-		Usually referenced with the alias 'ZSTRING', this string is a memory efficient alternative to using `STRING_32'.
+		Usually referenced with the alias `ZSTRING', this string is a memory efficient alternative to using `STRING_32'.
 		When an application mainly uses characters from the ISO-8859-15 character set, the memory saving can be as much as 70%,
 		while the execution efficiency is roughly the same as for `STRING_8'. For short strings the saving is much less:
 		about 50%. ISO-8859-15 covers most Western european languages.
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 10:13:33 GMT (Thursday 28th January 2021)"
-	revision: "33"
+	date: "2021-01-30 15:29:51 GMT (Saturday 30th January 2021)"
+	revision: "34"
 
 class
 	EL_ZSTRING
@@ -269,7 +269,7 @@ feature -- Element change
 			else
 			end
 		ensure
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 			inserted: elks_checking implies (Current ~ (old substring (1, i - 1) + old (s.twin) + old substring (i, count)))
 		end
 
@@ -309,7 +309,7 @@ feature -- Element change
 		do
 			prepend_string (adapted_argument (str, 1))
 		ensure then
-			unencoded_valid: is_valid
+			unencoded_valid: is_unencoded_valid
 		end
 
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)
@@ -356,19 +356,19 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 		local
 			i, j, l_count: INTEGER; c, c_i: CHARACTER; l_unicode, unicode_i: NATURAL; l_area: like area
-			l_new_unencoded: like empty_once_unencoded; unencoded: like unencoded_indexable
+			l_new_unencoded: like empty_unencoded_buffer; unencoded: like unencoded_indexable
 		do
 			c := encoded_character (uc); l_unicode := uc.natural_32_code
 			if has_mixed_encoding then
 				l_area := area; l_count := count
-				l_new_unencoded := empty_once_unencoded; unencoded := unencoded_indexable
+				l_new_unencoded := empty_unencoded_buffer; unencoded := unencoded_indexable
 				from  until i = l_count loop
 					c_i := l_area.item (i)
 					if c_i = Unencoded_character then
 						unicode_i := unencoded.code (i + 1)
 						if l_unicode /= unicode_i then
 							l_area.put (c_i, j)
-							l_new_unencoded.put_unicode (unicode_i, j + 1)
+							l_new_unencoded.extend (unicode_i, j + 1)
 							j := j + 1
 						end
 					elseif c_i /= c then
@@ -379,13 +379,13 @@ feature -- Removal
 				end
 				count := j
 				l_area [j] := '%U'
-				set_from_list (l_new_unencoded)
+				set_from_unencoded_buffer (l_new_unencoded)
 				reset_hash
 			elseif c /= Unencoded_character then
 				internal_prune_all (c)
 			end
 		ensure then
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 			changed_count: count = (old count) - (old occurrences (uc))
 		end
 
@@ -406,7 +406,7 @@ feature -- Removal
 			internal_remove (i)
 			remove_unencoded_substring (i, i)
 		ensure then
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 		end
 
 	remove_quotes
@@ -421,7 +421,7 @@ feature -- Removal
 			internal_remove_substring (start_index, end_index)
 			remove_unencoded_substring (start_index, end_index)
 		ensure
-			valid_unencoded: is_valid
+			valid_unencoded: is_unencoded_valid
 			removed: elks_checking implies Current ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end
 
@@ -488,7 +488,6 @@ feature {NONE} -- Constants
 		end
 
 note
-
 	notes: "[
 		**DEFAULT CODEC**
 		
@@ -511,18 +510,25 @@ note
 		
 		There is a detailed article about this class here: [https://www.eiffel.org/blog/finnianr/introducing_class_zstring]
 
+		**BENCHMARKS**
+
+		Comparison of `ZSTRING' against `STRING_32' for basic string operations
+
+		* [./benchmark/ZSTRING-benchmarks-latin-1.html Latin-1 base encoding]
+		* [./benchmark/ZSTRING-benchmarks-latin-15.html Latin-15 base encoding]
+
 		**CAVEAT**
 
 		There is a caveat attached to using `ZSTRING' which is that if your application uses very many characters outside of
 		the ISO-8859-15 character-set, the execution efficiency does down substantially.
-		See [./benchmarks/zstring.html these benchmarks]
 
 		This is something to consider if your application is going to be used in for example: Russia or Japan.
 		If the user locale is for a language that is supported by a ISO-8859-x what you can do is over-ride
-		`{[$source EL_SHARED_ZSTRING_CODEC]}.Default_codec', and initialize it immediately after application launch.
-		This will force `ZSTRING' to switch to a more optimal character-set for the user-locale.
-
-		The execution performance will be worst for Asian characters.
+		
+			{[$source EL_SHARED_ZSTRING_CODEC]}.Default_codec
+			
+		and initialize it immediately after application launch. This will force `ZSTRING' to switch to a more optimal
+		character-set for the user-locale. The execution performance will be worst for Asian characters.
 
 		A planned solution is to make a swappable alternative implementation that works equally well with Asian character sets
 		and non-Western European sets. The version used can be set by changing an ECF variable or perhaps the build target.

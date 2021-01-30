@@ -352,3 +352,6 @@ New routine {EL_ZSTRING}.append_ascii and is_ascii
 Thu 28th Jan 2021, 16:35:35
 Change to EL_ZSTRING implemented by EL_SUBSTRING_32_ARRAY complete
 
+Sat 30th Jan 2021, 10:40:36
+Fully tested implemenation of ZSTRING with EL_SUBSTRING_32_ARRAY and EL_SUBSTRING_32_BUFFER
+

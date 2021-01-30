@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 16:03:05 GMT (Thursday 28th January 2021)"
-	revision: "15"
+	date: "2021-01-30 15:27:42 GMT (Saturday 30th January 2021)"
+	revision: "16"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_TRANSFORMABLE_ZSTRING
 		export
-			{STRING_HANDLER} Empty_area
+			{STRING_HANDLER} empty_unencoded_buffer
 			{EL_CONVERTABLE_ZSTRING} all
 		end
 
@@ -65,7 +65,7 @@ feature -- To Strings
 				end
 			else
 				create Result.make (count)
-				a_codec.encode (buffer_32.copied_general (current_readable), Result.area, 0, empty_once_unencoded)
+				a_codec.encode (buffer_32.copied_general (current_readable), Result.area, 0, empty_unencoded_buffer)
 			end
 			if direct_copy then
 				create Result.make (count)

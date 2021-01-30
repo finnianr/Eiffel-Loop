@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 10:34:11 GMT (Friday 29th January 2021)"
-	revision: "16"
+	date: "2021-01-30 12:29:41 GMT (Saturday 30th January 2021)"
+	revision: "17"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -31,7 +31,10 @@ inherit
 	EL_SUBSTRING_32_CONTAINER
 
 create
-	make_empty, make_from_area, make_from_other
+	make_empty, make_from_area, make_from_other, make_from_unencoded
+
+convert
+	make_from_unencoded ({ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -61,6 +64,32 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			valid_array: is_valid
+		end
+
+	make_from_unencoded (unencoded: EL_UNENCODED_CHARACTERS)
+		local
+			i, lower, upper, l_count, char_count, i_final, offset: INTEGER
+			l_area: like area
+		do
+			l_count := unencoded.substring_count
+			create area.make_empty (l_count * 2 + unencoded.character_count + 1)
+			area.extend (l_count.to_natural_32)
+
+			l_area := unencoded.area; i_final := l_area.count
+			from i := 0 until i = i_final loop
+				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
+				area.extend (lower.to_natural_32); area.extend (upper.to_natural_32);
+				char_count := upper - lower + 1
+				i := i + char_count + 2
+			end
+			offset := l_count * 2  + 1 -- substring offset
+			from i := 0 until i = i_final loop
+				lower := unencoded.lower_bound (l_area, i); upper := unencoded.upper_bound (l_area, i)
+				char_count := upper - lower + 1
+				area.copy_data (l_area, i + 2, offset, char_count)
+				offset := offset + char_count
+				i := i + char_count + 2
+			end
 		end
 
 	make_from_other (other: EL_SUBSTRING_32_ARRAY)
@@ -429,7 +458,7 @@ feature -- Status change
 		local
 			i, lower, upper, split_i, i_final, next_i: INTEGER; l_area: like area
 		do
-			if n /= 0 then
+			if n.abs.to_boolean then
 				l_area := area; i_final := first_index (l_area)
 				-- search for split
 				from i := 1 until split_i.to_boolean or else i = i_final loop
@@ -477,6 +506,50 @@ feature -- Status change
 
 feature -- Element change
 
+	append_buffer (buffer: EL_SUBSTRING_32_BUFFER)
+		require
+			appendable: buffer.substring_count > 0 implies last_upper < buffer.first_lower
+		local
+			l_area, buffer_area: like area; merge_first: BOOLEAN
+			offset, new_count, i, i_final, char_count, lower, upper: INTEGER
+		do
+			if buffer.substring_count > 0 then
+				l_area := area; offset := first_index (l_area)
+				new_count := count + buffer.substring_count
+				if not_empty and then adjacent (last_upper, buffer.first_lower) then
+					merge_first := True
+					new_count := new_count - 1
+				end
+				l_area := new_area (new_count, character_count + buffer.character_count)
+				l_area [0] := new_count.to_natural_32
+				-- copy indices
+				l_area.copy_data (area, 1, 1, count * 2)
+				buffer_area := buffer.area; i_final := buffer_area.count
+				from i := 1 until i = i_final loop
+					lower := lower_bound (buffer_area, i); upper := upper_bound (buffer_area, i)
+					if merge_first implies i > 1 then
+						l_area.extend (lower.to_natural_32)
+						l_area.extend (upper.to_natural_32)
+					end
+					i := i + upper - lower + 3
+				end
+				if merge_first then
+					put_upper (l_area, offset - 2, buffer.first_upper)
+				end
+				-- copy characters
+				l_area.copy_data (area, offset, l_area.count, character_count)
+				from i := 1 until i = i_final loop
+					lower := lower_bound (buffer_area, i); upper := upper_bound (buffer_area, i)
+					char_count := upper - lower + 1
+					l_area.copy_data (buffer_area, i + 2, l_area.count, char_count)
+					i := i + char_count + 2
+				end
+				area := l_area
+			end
+		ensure
+			appended: same_string (old joined (Current, buffer.to_substring_array))
+		end
+
 	append_list (list: EL_SUBSTRING_32_LIST)
 		require
 			appendable: list.substring_count > 0 implies last_upper < list.first_lower
@@ -505,8 +578,6 @@ feature -- Element change
 				l_area.copy_data (list.character_area, 0, l_area.count, list.character_area.count)
 				area := l_area
 			end
-		ensure
-			appended: same_string (old joined (Current, list.to_substring_array))
 		end
 
 	append (other: EL_SUBSTRING_32_ARRAY)
@@ -845,18 +916,18 @@ feature -- Element change
 			valid_array: is_valid
 		end
 
-	set_from_list (list: EL_SUBSTRING_32_LIST)
+	set_from_buffer (buffer: EL_SUBSTRING_32_BUFFER)
 		do
-			if list.is_empty then
+			if buffer.is_empty then
 				area := Empty_area
 			else
-				set_area (list.to_substring_area)
+				set_area (buffer.to_substring_area)
 			end
 		end
 
 feature -- Basic operations
 
-	append_substrings_into (list: EL_SUBSTRING_32_LIST; start_index, end_index: INTEGER)
+	append_substrings_into (buffer: EL_SUBSTRING_32_BUFFER; start_index, end_index: INTEGER)
 		local
 			i, lower, upper, offset, i_final: INTEGER; l_area: like area
 		do
@@ -865,19 +936,19 @@ feature -- Basic operations
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				if lower <= start_index and then end_index <= upper then
 				-- Append contained substring
-					list.append_interval (l_area, start_index, end_index, offset + (start_index - lower))
+					buffer.append_interval (l_area, start_index, end_index, offset + (start_index - lower))
 
 				elseif start_index <= lower and then upper <= end_index then
 				-- Append full substring
-					list.append_interval (l_area, lower, upper, offset)
+					buffer.append_interval (l_area, lower, upper, offset)
 
 				elseif lower <= end_index and then end_index <= upper then
 				-- Append left section
-					list.append_interval (l_area, lower, end_index, offset)
+					buffer.append_interval (l_area, lower, end_index, offset)
 
 				elseif lower <= start_index and then start_index <= upper then
 				-- Append right section
-					list.append_interval (l_area, start_index, upper, offset + (start_index - lower))
+					buffer.append_interval (l_area, start_index, upper, offset + (start_index - lower))
 				end
 				offset := offset + upper - lower + 1
 				i := i + 2

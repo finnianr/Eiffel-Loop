@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 10:14:39 GMT (Thursday 28th January 2021)"
-	revision: "16"
+	date: "2021-01-30 15:24:23 GMT (Saturday 30th January 2021)"
+	revision: "15"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -147,24 +147,24 @@ feature -- Read operations
 	read_string: ZSTRING
 		local
 			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
-			substring_list: EL_SUBSTRING_32_LIST
+			extendible_unencoded: EL_UNENCODED_CHARACTERS_BUFFER
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
 			if l_count <= buffer.count - count then
 				l_area := Result.area
-				substring_list := Result.empty_once_unencoded
+				extendible_unencoded := Result.empty_unencoded_buffer
 				from i := 0 until i = l_count loop
 					c := read_character_8
 					l_area [i] := c
 					if c = Unencoded_character then
-						substring_list.put_unicode (read_natural_32, i + 1)
+						extendible_unencoded.extend (read_natural_32, i + 1)
 					end
 					i := i + 1
 				end
 				l_area [i] := c
 				Result.set_count (l_count)
-				Result.set_unencoded_area (substring_list.to_substring_area)
+				Result.set_unencoded_area (extendible_unencoded.area_copy)
 			end
 		end
 
@@ -268,17 +268,18 @@ feature -- Write operations
 
 	write_string (a_string: EL_READABLE_ZSTRING)
 		local
-			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
-			unencoded: like read_string.unencoded_indexable
+			i, l_count: INTEGER; l_area: like read_string.area
+			interval_index: like read_string.unencoded_indexable
+			c: CHARACTER
 		do
-			unencoded := a_string.unencoded_indexable
+			interval_index := a_string.unencoded_indexable
 			l_count := a_string.count; l_area := a_string.area
 			write_integer_32 (l_count)
 			from i := 0 until i = l_count loop
 				c := l_area [i]
 				write_character_8 (c)
 				if c = Unencoded_character then
-					write_natural_32 (unencoded.code (i + 1))
+					write_natural_32 (interval_index.code (i + 1))
 				end
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 16:46:25 GMT (Wednesday 27th January 2021)"
-	revision: "4"
+	date: "2021-01-29 16:13:05 GMT (Friday 29th January 2021)"
+	revision: "5"
 
 class
 	EL_SUBSTRING_32_LIST
@@ -34,7 +34,7 @@ inherit
 		export
 			{ANY} substring_count
 		undefine
-			copy, is_equal
+			copy, is_equal, is_empty
 		end
 
 create
@@ -101,12 +101,6 @@ feature -- Element change
 			ensure_capacity (character_area, l_count)
 			character_area.copy_data (a_area, offset, character_area.count, l_count)
 			extend (a_lower.to_natural_32); extend (a_upper.to_natural_32)
-		end
-
-	append_substring (str: EL_SUBSTRING_32_ARRAY; start_index, end_index: INTEGER)
-		do
-			str.append_substrings_into (Current, start_index, end_index)
-			shift ((start_index - 1).opposite)
 		end
 
 	put_character (c: CHARACTER_32; a_index: INTEGER)

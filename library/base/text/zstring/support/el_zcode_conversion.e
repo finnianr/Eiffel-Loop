@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 13:55:55 GMT (Thursday 28th January 2021)"
-	revision: "6"
+	date: "2021-01-30 12:19:16 GMT (Saturday 30th January 2021)"
+	revision: "7"
 
 class
 	EL_ZCODE_CONVERSION
@@ -40,7 +40,7 @@ feature {EL_ZCODEC} -- Implementation
 			Result := z_code & Sign_bit_mask
 		end
 
-	frozen area_z_code (a_string_area: SPECIAL [CHARACTER]; unencoded: EL_ZSTRING_INDEXABLE; i: INTEGER): NATURAL
+	frozen area_z_code (a_string_area: SPECIAL [CHARACTER]; unencoded: EL_UNENCODED_CHARACTERS_INDEX; i: INTEGER): NATURAL
 			-- code which can be latin or unicode depending on presence of unencoded characters
 		local
 			c: CHARACTER

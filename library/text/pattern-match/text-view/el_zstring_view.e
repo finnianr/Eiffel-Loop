@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 14:05:07 GMT (Thursday 28th January 2021)"
-	revision: "12"
+	date: "2021-01-30 15:29:29 GMT (Saturday 30th January 2021)"
+	revision: "13"
 
 class
 	EL_ZSTRING_VIEW
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			area := text.area
 			Precursor (text)
 			if text.has_mixed_encoding then
-				create unencoded_indexable.make (text)
+				create unencoded_indexable.make (text.unencoded_area)
 			end
 		end
 
@@ -111,15 +111,15 @@ feature -- Conversion
 			Result.area.copy_data (area, offset, 0, count)
 			Result.set_count (count)
 			if attached unencoded_indexable as unencoded
-				and then attached Result.empty_once_unencoded as substring_list
+				and then attached Result.empty_unencoded_buffer as buffer
 			then
 				i_final := offset + count
 				from i := offset until i = i_final loop
-					substring_list.put_unicode (unencoded.code (i + 1), i + 1)
+					buffer.extend (unencoded.code (i + 1), i + 1)
 					i := i + 1
 				end
-				substring_list.shift (offset.opposite)
-				Result.set_from_list (substring_list)
+				buffer.shift (offset.opposite)
+				Result.set_from_unencoded_buffer (buffer)
 			end
 		end
 
@@ -186,6 +186,6 @@ feature {NONE} -- Internal attributes
 
 	area: SPECIAL [CHARACTER_8]
 
-	unencoded_indexable: detachable EL_ZSTRING_INDEXABLE
+	unencoded_indexable: detachable EL_UNENCODED_CHARACTERS_INDEX
 
 end

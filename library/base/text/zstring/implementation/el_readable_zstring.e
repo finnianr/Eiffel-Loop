@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 13:59:00 GMT (Thursday 28th January 2021)"
-	revision: "67"
+	date: "2021-01-30 17:40:11 GMT (Saturday 30th January 2021)"
+	revision: "68"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -48,7 +48,7 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 		export
-			{STRING_HANDLER} empty_once_unencoded, unencoded_indexable
+			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable
 		redefine
 			make_from_string
 		end
@@ -130,23 +130,23 @@ feature {NONE} -- Initialization
 	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
 			z_code_i: NATURAL; i, l_count: INTEGER
-			l_unencoded: like empty_once_unencoded; l_area: like area
+			buffer: like empty_unencoded_buffer; l_area: like area
 		do
 			l_count := zcode_area.count
 			make (l_count)
 
-			l_unencoded := empty_once_unencoded; l_area := area
+			buffer := empty_unencoded_buffer; l_area := area
 			from i := 0 until i = l_count loop
 				z_code_i := zcode_area [i]
 				if z_code_i > 0xFF then
 					l_area [i] := Unencoded_character
-					l_unencoded.put_z_code (z_code_i, i + 1)
+					buffer.extend_z_code (z_code_i, i + 1)
 				else
 					l_area [i] := z_code_i.to_character_8
 				end
 				i := i + 1
 			end
-			set_from_list (l_unencoded)
+			set_from_unencoded_buffer (buffer)
 			set_count (l_count)
 		end
 
@@ -529,7 +529,7 @@ feature -- Conversion
 			-- Copy of substring containing all characters at indices
 			-- between `start_index' and `end_index'
 		local
-			l_unencoded: like empty_once_unencoded
+			buffer: like empty_unencoded_buffer
 		do
 			if (1 <= start_index) and (start_index <= end_index) and (end_index <= count) then
 				Result := new_string (end_index - start_index + 1)
@@ -539,12 +539,12 @@ feature -- Conversion
 				Result := new_string (0)
 			end
 			if has_mixed_encoding and then overlaps_unencoded (start_index, end_index) then
-				l_unencoded := empty_once_unencoded
-				l_unencoded.append_substring (Current, start_index, end_index)
-				Result.set_from_list (l_unencoded)
+				buffer := empty_unencoded_buffer
+				buffer.append_substring (Current, start_index, end_index)
+				Result.set_from_unencoded_buffer (buffer)
 			end
 		ensure then
-			unencoded_valid: Result.is_valid
+			unencoded_valid: Result.is_unencoded_valid
 		end
 
 feature -- Comparison
@@ -693,9 +693,9 @@ feature -- Append to output
 
 	append_to_string_8 (output: STRING_8)
 		local
-			str_32: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
+			str_32: STRING_32; l_buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str_32 := buffer.empty
+			str_32 := l_buffer.empty
 			append_to_string_32 (str_32)
 			output.append_string_general (str_32)
 		end
@@ -735,6 +735,7 @@ feature {NONE} -- Implementation
 		end
 
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+		-- shared list of indices of `str' occurring in `Current'
 		local
 			index, l_count, str_count: INTEGER
 		do

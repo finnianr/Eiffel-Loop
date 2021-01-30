@@ -1,24 +1,19 @@
 note
-	description: "Extendable unencoded characters"
+	description: "Extendable [$source EL_UNENCODED_CHARACTERS] temporary buffer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 11:33:28 GMT (Friday 29th January 2021)"
+	date: "2021-01-30 15:20:26 GMT (Saturday 30th January 2021)"
 	revision: "9"
 
 class
-	EL_EXTENDABLE_UNENCODED_CHARACTERS
-
-obsolete
-	"Use EL_SUBSTRING_32_LIST"
+	EL_UNENCODED_CHARACTERS_BUFFER
 
 inherit
 	EL_UNENCODED_CHARACTERS
-		rename
-			make_empty as make
 		export
 			 {NONE} area
 		redefine
@@ -67,14 +62,14 @@ feature -- Element change
 		do
 			l_area := area; area_count := l_area.count
 			if last_upper + 1 = index then
-				l_area := resized (l_area, area_count + 1)
+				l_area := big_enough (l_area, 1)
 				l_area.put (index.as_natural_32, last_upper_index)
-				l_area.put (a_code, area_count)
+				l_area.extend (a_code)
 			else
-				l_area := resized (l_area, area_count + 3)
-				l_area.put (index.as_natural_32, area_count)
-				l_area.put (index.as_natural_32, area_count + 1)
-				l_area.put (a_code, area_count + 2)
+				l_area := big_enough (l_area, 3)
+				l_area.extend (index.as_natural_32)
+				l_area.extend (index.as_natural_32)
+				l_area.extend (a_code)
 				last_upper_index := area_count + 1
 			end
 			last_upper := index

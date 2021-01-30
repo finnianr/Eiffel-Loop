@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-27 16:02:56 GMT (Wednesday 27th January 2021)"
-	revision: "11"
+	date: "2021-01-30 15:26:05 GMT (Saturday 30th January 2021)"
+	revision: "12"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -72,7 +72,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				reset_hash
 			end
 		ensure then
-			unencoded_valid: is_valid
+			unencoded_valid: is_unencoded_valid
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
@@ -107,16 +107,16 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; l_unencoded: like empty_once_unencoded
+			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			old_count := count
 			internal_append_substring (s, start_index, end_index)
 			if s.has_mixed_encoding then
-				l_unencoded := empty_once_unencoded
-				s.append_substrings_into (l_unencoded, start_index, end_index)
-				if l_unencoded.not_empty then
-					l_unencoded.shift (old_count - start_index + 1)
-					append_unencoded_list (l_unencoded)
+				buffer := empty_unencoded_buffer
+				s.append_substrings_into (buffer, start_index, end_index)
+				if buffer.not_empty then
+					buffer.shift (old_count - start_index + 1)
+					append_unencoded (buffer)
 				end
 			end
 		ensure
@@ -306,26 +306,26 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 
 	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; l_unencoded: like empty_once_unencoded
+			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
 			old_count := count
 			internal_prepend_substring (s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					shift_unencoded (end_index - start_index + 1)
-					l_unencoded := empty_once_unencoded
-					l_unencoded.append_substring (s, start_index, end_index)
-					if l_unencoded.not_empty then
-						l_unencoded.append (Current)
-						set_from_list (l_unencoded)
+					buffer := empty_unencoded_buffer
+					buffer.append_substring (s, start_index, end_index)
+					if buffer.not_empty then
+						buffer.append (Current)
+						unencoded_area := buffer.area_copy
 					end
 				when Only_current then
 					shift_unencoded (end_index - start_index + 1)
 				when Only_other then
-					l_unencoded := empty_once_unencoded
-					l_unencoded.append_substring (s, start_index, end_index)
-					if l_unencoded.not_empty then
-						set_from_list (l_unencoded)
+					buffer := empty_unencoded_buffer
+					buffer.append_substring (s, start_index, end_index)
+					if buffer.not_empty then
+						unencoded_area := buffer.area_copy
 					end
 			else
 			end

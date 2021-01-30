@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:44:04 GMT (Friday 8th January 2021)"
-	revision: "1"
+	date: "2021-01-30 17:45:11 GMT (Saturday 30th January 2021)"
+	revision: "2"
 
 expanded class
 	EL_ZSTRING_BUFFER_ROUTINES
@@ -26,7 +26,7 @@ feature -- Access
 			Result.append_string_general (str)
 		end
 
-	copied_substring (str: ZSTRING; start_index, end_index: INTEGER): ZSTRING
+	copied_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): ZSTRING
 		do
 			Result := empty
 			Result.append_substring (str, start_index, end_index)
