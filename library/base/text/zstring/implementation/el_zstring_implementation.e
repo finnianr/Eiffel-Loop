@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:29:02 GMT (Saturday 30th January 2021)"
-	revision: "18"
+	date: "2021-01-31 14:32:14 GMT (Sunday 31st January 2021)"
+	revision: "19"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -459,6 +459,11 @@ feature {NONE} -- Constants
 			create Result.make_filled (create {ZSTRING}.make_empty, 3)
 			Result [1] := create {ZSTRING}.make_empty
 			Result [2] := create {ZSTRING}.make_empty
+		end
+
+	Once_substring_indices: ARRAYED_LIST [INTEGER]
+		do
+			create Result.make (5)
 		end
 
 	Tilde_code: NATURAL = 0x7E

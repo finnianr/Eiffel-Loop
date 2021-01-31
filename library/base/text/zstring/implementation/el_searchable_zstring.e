@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-10 10:07:52 GMT (Friday 10th April 2020)"
-	revision: "4"
+	date: "2021-01-31 14:32:26 GMT (Sunday 31st January 2021)"
+	revision: "5"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -140,6 +140,28 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+		-- shared list of indices of `str' occurring in `Current'
+		local
+			index, l_count, str_count: INTEGER
+		do
+			l_count := count; str_count := str.count
+			Result := Once_substring_indices; Result.wipe_out
+			if not str.is_empty then
+				from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
+					if str_count = 1 then
+						index := index_of_z_code (str.z_code (1), index)
+					else
+						index := substring_index (str, index)
+					end
+					if index > 0 then
+						Result.extend (index)
+						index := index + str_count
+					end
+				end
+			end
+		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		deferred

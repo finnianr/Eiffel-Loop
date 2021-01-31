@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:20:26 GMT (Saturday 30th January 2021)"
-	revision: "9"
+	date: "2021-01-31 15:12:46 GMT (Sunday 31st January 2021)"
+	revision: "10"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -17,25 +17,13 @@ inherit
 		export
 			 {NONE} area
 		redefine
-			make, last_upper
+			append_interval
 		end
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make
-		do
-			Precursor
-			last_upper := - 1
-		end
-
 feature -- Access
-
-	last_upper: INTEGER
-
-	last_upper_index: INTEGER
 
 	area_copy: like area
 		do
@@ -43,12 +31,36 @@ feature -- Access
 			Result.insert_data (area, 0, 0, area.count)
 		end
 
+	last_index: INTEGER
+
 feature -- Element change
 
-	append_substring (str: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
+	append_substring (str: EL_UNENCODED_CHARACTERS; a_shift, end_index: INTEGER)
 		do
-			str.append_substrings_into (Current, start_index, end_index)
-			shift ((start_index - 1).opposite)
+			str.append_substrings_into (Current, a_shift, end_index)
+		end
+
+	extend (a_code: NATURAL; index: INTEGER)
+		local
+			area_count, l_last_upper: INTEGER; l_area: like area
+		do
+			l_area := area; area_count := l_area.count
+			if l_area.count > 0 then
+				l_last_upper := upper_bound (l_area, last_index)
+			else
+				l_last_upper := (1).opposite
+			end
+			if l_last_upper + 1 = index then
+				l_area := big_enough (l_area, 1)
+				l_area.put (index.as_natural_32, last_index + 1)
+				l_area.extend (a_code)
+			else
+				last_index := area_count
+				l_area := big_enough (l_area, 3)
+				l_area.extend (index.as_natural_32)
+				l_area.extend (index.as_natural_32)
+				l_area.extend (a_code)
+			end
 		end
 
 	extend_z_code (a_z_code: NATURAL; index: INTEGER)
@@ -56,31 +68,32 @@ feature -- Element change
 			extend (z_code_to_unicode (a_z_code), index)
 		end
 
-	extend (a_code: NATURAL; index: INTEGER)
-		local
-			area_count: INTEGER; l_area: like area
-		do
-			l_area := area; area_count := l_area.count
-			if last_upper + 1 = index then
-				l_area := big_enough (l_area, 1)
-				l_area.put (index.as_natural_32, last_upper_index)
-				l_area.extend (a_code)
-			else
-				l_area := big_enough (l_area, 3)
-				l_area.extend (index.as_natural_32)
-				l_area.extend (index.as_natural_32)
-				l_area.extend (a_code)
-				last_upper_index := area_count + 1
-			end
-			last_upper := index
-		end
-
 feature -- Removal
 
 	wipe_out
 		do
 			area.wipe_out
-			last_upper := -1
-			last_upper_index := 0
+			last_index := 0
 		end
+
+feature {NONE} -- Implementation
+
+	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
+		do
+			Precursor (a_area, source_index, lower, upper)
+			last_index := area.count - (upper - lower + 3)
+		end
+
+	valid_last_index: BOOLEAN
+		local
+			lower, upper: INTEGER
+		do
+			lower := lower_bound (area, last_index)
+			upper := upper_bound (area, last_index)
+			Result := area.count > 0 implies last_index + upper - lower + 3 = area.count
+		end
+
+invariant
+	valid_last_index: valid_last_index
+
 end

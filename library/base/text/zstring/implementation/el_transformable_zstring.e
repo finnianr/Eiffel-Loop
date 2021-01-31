@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 18:16:59 GMT (Saturday 30th January 2021)"
-	revision: "12"
+	date: "2021-01-31 14:47:06 GMT (Sunday 31st January 2021)"
+	revision: "13"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -314,53 +314,37 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			valid_unencoded: is_unencoded_valid
 		end
 
-	replace_substring_all (original, new: EL_READABLE_ZSTRING)
+	replace_substring_all (old_substring, new_substring: EL_READABLE_ZSTRING)
 		local
-			replace_not_done: BOOLEAN; positions: ARRAYED_LIST [INTEGER]
-			size_difference, end_index, original_count, new_count, previous_index: INTEGER
-			buffer: EL_ZSTRING_BUFFER_ROUTINES; replaced: ZSTRING
+			buffer: EL_ZSTRING_BUFFER_ROUTINES; replaced: ZSTRING; replace_not_done: BOOLEAN
 		do
-			inspect respective_encoding (original)
+			inspect respective_encoding (old_substring)
 				when Both_have_mixed_encoding, Only_current then
 					replace_not_done := True
 				when Only_other then
-					-- Do nothing since original cannot match anything
+					-- Do nothing since old_substring cannot match anything
 				when Neither then
-					if new.has_mixed_encoding then
+					if new_substring.has_mixed_encoding then
 						replace_not_done := True
 					else
 						-- Can use STRING_8 implemenation
-						internal_replace_substring_all (original, new)
+						internal_replace_substring_all (old_substring, new_substring)
 					end
 			else
 				replace_not_done := True
 			end
-			-- *************************************************************************
-			-- can be furter optimized by using `EL_UNENCODED_CHARACTERS_BUFFER'
-			-- *************************************************************************
-			if replace_not_done and then not is_empty and then not original.is_equal (new) then
-				original_count := original.count
-				positions := internal_substring_index_list (original)
-				if not positions.is_empty then
-					size_difference := new.count - original_count
-					new_count := count + (new.count - original_count) * positions.count
-					replaced := buffer.empty
-					replaced.grow (new_count)
-					previous_index := 1
-					from positions.start until positions.after loop
-						replaced.append_substring (current_readable, previous_index, positions.item - 1)
-						replaced.append (new)
-						previous_index := positions.item + original.count
-						positions.forth
-					end
-					if previous_index <= count then
-						replaced.append_substring (current_readable, previous_index, count)
-					end
-					area := replaced.area.twin
-					count := replaced.count
-					if replaced.has_mixed_encoding then
-						unencoded_area := replaced.unencoded_area.twin
-					end
+			if replace_not_done and then not is_empty
+				and then not old_substring.is_equal (new_substring)
+				and then substring_index (old_substring, 1) > 0
+			then
+				replaced := buffer.empty
+				replaced.append_replaced (current_readable, old_substring, new_substring)
+				area := replaced.area.twin
+				count := replaced.count
+				if replaced.has_mixed_encoding then
+					unencoded_area := replaced.unencoded_area.twin
+				else
+					unencoded_area := Empty_unencoded
 				end
 			end
 		end
@@ -370,9 +354,9 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			replace_substring (adapted_argument (s, 1), start_index, end_index)
 		end
 
-	replace_substring_general_all (original, new: READABLE_STRING_GENERAL)
+	replace_substring_general_all (old_substring, new_substring: READABLE_STRING_GENERAL)
 		do
-			replace_substring_all (adapted_argument (original, 1), adapted_argument (new, 2))
+			replace_substring_all (adapted_argument (old_substring, 1), adapted_argument (new_substring, 2))
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -493,10 +477,6 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
-
-	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
-		deferred
-		end
 
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		deferred

@@ -8,7 +8,7 @@
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "3" release = "2" build = "101" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "3" release = "2" build = "102" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
 		<variable name = "build_info_dir" value = "source/root"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
@@ -27,7 +27,7 @@
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
 			<option>
-				<assertions precondition = "true" postcondition = "true" check = "true"/>
+				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
 			</option>
 		</library>
 		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>

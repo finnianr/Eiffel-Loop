@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:08:05 GMT (Tuesday 5th January 2021)"
-	revision: "19"
+	date: "2021-01-31 15:48:13 GMT (Sunday 31st January 2021)"
+	revision: "20"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -68,7 +68,10 @@ feature -- Access
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
-			Result := Precursor (s.to_unicode_general (key))
+			if attached Precursor (s.to_unicode_general (key)) as value and then not value.is_empty then
+				Result := value
+			end
+			-- returns void if value is empty in order to satisfy postcondition on `put'
 		end
 
 	user_configuration_directory_name: ZSTRING

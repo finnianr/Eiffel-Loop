@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:57:41 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2021-01-31 15:47:23 GMT (Sunday 31st January 2021)"
+	revision: "5"
 
 class
 	GENERAL_TEST_SET
@@ -15,16 +15,29 @@ class
 inherit
 	EL_EQA_TEST_SET
 
+	EL_MODULE_EXECUTION_ENVIRONMENT
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("character_32_status_queries", 		agent test_character_32_status_queries)
-			eval.call ("any_array_numeric_type_dectection", agent test_any_array_numeric_type_detection)
+			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
+			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
+			eval.call ("environment_put", agent test_environment_put)
 		end
 
 feature -- Tests
+
+	test_any_array_numeric_type_detection
+		local
+			array: ARRAY [ANY]
+		do
+			array := << (1).to_reference, 1.0, (1).to_integer_64 >>
+			assert ("same types", array.item (1).generating_type ~ {INTEGER_32_REF})
+			assert ("same types", array.item (2).generating_type ~ {DOUBLE})
+			assert ("same types", array.item (3).generating_type ~ {INTEGER_64})
+		end
 
 	test_character_32_status_queries
 		do
@@ -37,13 +50,14 @@ feature -- Tests
 			assert ("not is_control", not ({CHARACTER_32}'€').is_control)
 		end
 
-	test_any_array_numeric_type_detection
+	test_environment_put
 		local
-			array: ARRAY [ANY]
+			name: STRING
 		do
-			array := << (1).to_reference, 1.0, (1).to_integer_64 >>
-			assert ("same types", array.item (1).generating_type ~ {INTEGER_32_REF})
-			assert ("same types", array.item (2).generating_type ~ {DOUBLE})
-			assert ("same types", array.item (3).generating_type ~ {INTEGER_64})
+			name := "EIFFEL_LOOP_DOC"
+			Execution_environment.put ("eiffel-loop", name)
+			Execution_environment.put ("", name)
+			assert ("not attached", not attached Execution_environment.item (name))
 		end
+
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 17:40:11 GMT (Saturday 30th January 2021)"
-	revision: "68"
+	date: "2021-01-31 14:35:20 GMT (Sunday 31st January 2021)"
+	revision: "69"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -59,6 +59,8 @@ inherit
 		end
 
 	EL_SEARCHABLE_ZSTRING
+		export
+			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
 		redefine
 			make_from_string
 		end
@@ -734,28 +736,6 @@ feature {NONE} -- Implementation
 			Result := Unicode_property.is_space (uc)
 		end
 
-	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
-		-- shared list of indices of `str' occurring in `Current'
-		local
-			index, l_count, str_count: INTEGER
-		do
-			l_count := count; str_count := str.count
-			Result := Once_substring_indices; Result.wipe_out
-			if not str.is_empty then
-				from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-					if str_count = 1 then
-						index := index_of_z_code (str.z_code (1), index)
-					else
-						index := substring_index (str, index)
-					end
-					if index > 0 then
-						Result.extend (index)
-						index := index + str_count
-					end
-				end
-			end
-		end
-
 	order_comparison (n: INTEGER; other: EL_READABLE_ZSTRING): INTEGER
 			-- Compare `n' characters from `area' starting at `area_lower' with
 			-- `n' characters from and `other' starting at `other.area_lower'.
@@ -832,11 +812,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_filled (create {STRING_32}.make_empty, 2)
 			Result [1] := create {STRING_32}.make_empty
-		end
-
-	Once_substring_indices: ARRAYED_LIST [INTEGER]
-		do
-			create Result.make (5)
 		end
 
 	Identifier_characters: ZSTRING

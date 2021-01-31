@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 14:54:09 GMT (Saturday 30th January 2021)"
-	revision: "1"
+	date: "2021-01-31 9:24:31 GMT (Sunday 31st January 2021)"
+	revision: "2"
 
 class
 	EL_EXTENDABLE_AREA [G]
+
+feature -- Status query
+
+	not_empty: BOOLEAN
+		do
+			Result := area.count > 0
+		end
 
 feature {NONE} -- Implementation
 

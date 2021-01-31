@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:29:51 GMT (Saturday 30th January 2021)"
-	revision: "34"
+	date: "2021-01-31 14:09:34 GMT (Sunday 31st January 2021)"
+	revision: "35"
 
 class
 	EL_ZSTRING
@@ -33,7 +33,7 @@ inherit
 			append_integer_8, append_integer_16, append_integer_32, append_integer_64,
 			append_natural_8, append_natural_16, append_natural_32, append_natural_64,
 
-			append_raw_string_8, append_string, append, append_string_general, append_substring,
+			append_replaced, append_raw_string_8, append_string, append, append_string_general, append_substring,
 			append_unicode, append_tuple_item, append_utf_8,
 			extend, enclose, fill_character, multiply,
 

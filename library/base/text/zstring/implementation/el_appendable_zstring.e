@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:26:05 GMT (Saturday 30th January 2021)"
-	revision: "12"
+	date: "2021-01-31 15:04:31 GMT (Sunday 31st January 2021)"
+	revision: "13"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -28,6 +28,32 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 		do
 			append_string_8 (str)
 		end
+
+	append_replaced (str, old_substring, new_substring: EL_READABLE_ZSTRING)
+		-- append `str' replacing any occurrences of `old_substring' with `new_substring'
+		local
+			original_count, previous_index, new_count, size_difference: INTEGER
+			positions: ARRAYED_LIST [INTEGER]
+		do
+			original_count := old_substring.count
+			positions := str.internal_substring_index_list (old_substring)
+			if not positions.is_empty then
+				size_difference := new_substring.count - original_count
+				new_count := str.count + (new_substring.count - original_count) * positions.count
+				grow (new_count)
+				previous_index := 1
+				from positions.start until positions.after loop
+					append_substring (str, previous_index, positions.item - 1)
+					append (new_substring)
+					previous_index := positions.item + old_substring.count
+					positions.forth
+				end
+				if previous_index <= str.count then
+					append_substring (str, previous_index, str.count)
+				end
+			end
+		end
+
 
 	append_string_8 (str: READABLE_STRING_8)
 		require else
@@ -115,7 +141,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				buffer := empty_unencoded_buffer
 				s.append_substrings_into (buffer, start_index, end_index)
 				if buffer.not_empty then
-					buffer.shift (old_count - start_index + 1)
+					buffer.shift (old_count)
 					append_unencoded (buffer)
 				end
 			end

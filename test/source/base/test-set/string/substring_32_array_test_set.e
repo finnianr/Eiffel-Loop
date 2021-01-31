@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:19:36 GMT (Saturday 30th January 2021)"
-	revision: "15"
+	date: "2021-01-31 13:56:29 GMT (Sunday 31st January 2021)"
+	revision: "16"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -90,7 +90,6 @@ feature -- Test
 					unencoded := zstr
 					unencoded.append_substrings_into (extendable, lower, upper)
 					create sub_unencoded.make_from_other (extendable)
-					sub_unencoded.shift ((lower - 1).opposite)
 					zstr := zstr.substring (lower, upper)
 					assert ("same content", same_content (zstr, sub_unencoded))
 				end

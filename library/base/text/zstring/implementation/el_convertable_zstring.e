@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:27:42 GMT (Saturday 30th January 2021)"
-	revision: "16"
+	date: "2021-01-31 14:33:52 GMT (Sunday 31st January 2021)"
+	revision: "17"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -449,6 +449,10 @@ feature {NONE} -- Deferred Implementation
 		end
 
 	append_to_utf_8 (utf_8_out: STRING_8)
+		deferred
+		end
+
+	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		deferred
 		end
 

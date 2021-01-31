@@ -355,3 +355,6 @@ Change to EL_ZSTRING implemented by EL_SUBSTRING_32_ARRAY complete
 Sat 30th Jan 2021, 10:40:36
 Fully tested implemenation of ZSTRING with EL_SUBSTRING_32_ARRAY and EL_SUBSTRING_32_BUFFER
 
+Sat 30th Jan 2021, 19:38:50
+Restoration of EL_UNENCODED_CHARACTERS implemenation of EL_ZSTRING with some optimizations
+

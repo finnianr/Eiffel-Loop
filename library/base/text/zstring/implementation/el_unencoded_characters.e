@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:28:34 GMT (Saturday 30th January 2021)"
-	revision: "17"
+	date: "2021-01-31 13:54:33 GMT (Sunday 31st January 2021)"
+	revision: "18"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -282,11 +282,6 @@ feature -- Status query
 			Result := index_of (unicode, 1) > 0
 		end
 
-	not_empty: BOOLEAN
-		do
-			Result := area.count > 0
-		end
-
 	overlaps (start_index, end_index: INTEGER): BOOLEAN
 		do
 			Result := not (end_index < first_lower) and then not (start_index > last_upper)
@@ -323,7 +318,7 @@ feature -- Element change
 				end
 				if upper + 1 = other.first_lower then
 					-- merge intervals
-					l_area := big_enough_padded (l_area, other_unencoded.count - 2)
+					l_area := big_enough (l_area, other_unencoded.count - 2)
 					l_area.copy_data (other_unencoded, 2, i, other_unencoded.count - 2)
 					l_area.put (other_unencoded [1], i - count - 1)
 				else
@@ -622,28 +617,28 @@ feature -- Duplication
 
 	append_substrings_into (other: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
 		local
-			i, lower, upper, count, area_count: INTEGER
+			i, lower, upper, count, area_count, offset: INTEGER
 			l_area: like area
 		do
-			l_area := area; area_count := l_area.count
+			l_area := area; area_count := l_area.count; offset := start_index - 1
 			from i := 0 until i = area_count loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if lower <= start_index and then end_index <= upper then
 					-- Append full interval
-					other.append_interval (l_area, i + 2 + (start_index - lower), start_index, end_index)
+					other.append_interval (l_area, i + 2 + (start_index - lower), start_index - offset, end_index - offset)
 
 				elseif start_index <= lower and then upper <= end_index then
 					-- Append full interval
-					other.append_interval (l_area, i + 2, lower, upper)
+					other.append_interval (l_area, i + 2, lower - offset, upper - offset)
 
 				elseif lower <= end_index and then end_index <= upper then
 					-- Append left section
-					other.append_interval (l_area, i + 2, lower, end_index)
+					other.append_interval (l_area, i + 2, lower - offset, end_index - offset)
 
 				elseif lower <= start_index and then start_index <= upper then
 					-- Append right section
-					other.append_interval (l_area, i + 2 + (start_index - lower), start_index, upper)
+					other.append_interval (l_area, i + 2 + (start_index - lower), start_index - offset, upper - offset)
 				end
 				i := i + count + 2
 			end
@@ -695,9 +690,8 @@ feature {EL_ZCODE_CONVERSION} -- Implementation
 			old_count, count: INTEGER; l_area: like area
 		do
 			l_area := area; old_count := area.count; count := upper - lower + 1
-			l_area := big_enough_padded (l_area, count + 2)
-			l_area.put (lower.to_natural_32, old_count)
-			l_area.put (upper.to_natural_32, old_count + 1)
+			l_area := big_enough (l_area, count + 2)
+			l_area.extend (lower.to_natural_32); l_area.extend (upper.to_natural_32)
 			l_area.copy_data (a_area, source_index, old_count + 2, count)
 		ensure
 			count_increased_by_count: character_count = old character_count + upper - lower + 1
@@ -803,12 +797,6 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := count_to_remove
-		end
-
-	big_enough_padded (a_area: like area; additional_count: INTEGER): like area
-		do
-			Result := big_enough (a_area, additional_count)
-			Result.fill_with (0, Result.count, Result.count + additional_count - 1)
 		end
 
 feature {NONE} -- `count_greater_than_zero_flags' values
