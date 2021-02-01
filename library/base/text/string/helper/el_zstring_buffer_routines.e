@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 17:45:11 GMT (Saturday 30th January 2021)"
-	revision: "2"
+	date: "2021-02-01 12:35:00 GMT (Monday 1st February 2021)"
+	revision: "3"
 
 expanded class
 	EL_ZSTRING_BUFFER_ROUTINES
@@ -15,18 +15,24 @@ expanded class
 feature -- Access
 
 	copied (str: ZSTRING): ZSTRING
+		require
+			not_buffer: not_buffer (str)
 		do
 			Result := empty
 			Result.append (str)
 		end
 
-	copied_general (str: READABLE_STRING_GENERAL): ZSTRING
+	copied_general (general: READABLE_STRING_GENERAL): ZSTRING
+		require
+			not_buffer: not_buffer (general)
 		do
 			Result := empty
-			Result.append_string_general (str)
+			Result.append_string_general (general)
 		end
 
 	copied_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): ZSTRING
+		require
+			not_buffer: not_buffer (str)
 		do
 			Result := empty
 			Result.append_substring (str, start_index, end_index)
@@ -41,6 +47,8 @@ feature -- Access
 feature -- Conversion
 
 	adjusted (str: ZSTRING): ZSTRING
+		require
+			not_buffer: not_buffer (str)
 		local
 			start_index, end_index: INTEGER
 		do
@@ -52,6 +60,13 @@ feature -- Conversion
 			end
 			Result := empty
 			Result.append_substring (str, start_index, end_index)
+		end
+
+feature -- Contract Support
+
+	not_buffer (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := general /= Buffer
 		end
 
 feature {NONE} -- Constants

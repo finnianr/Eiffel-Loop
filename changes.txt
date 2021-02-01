@@ -358,3 +358,6 @@ Fully tested implemenation of ZSTRING with EL_SUBSTRING_32_ARRAY and EL_SUBSTRIN
 Sat 30th Jan 2021, 19:38:50
 Restoration of EL_UNENCODED_CHARACTERS implemenation of EL_ZSTRING with some optimizations
 
+Sun 31st Jan 2021, 16:13:30
+Changed {EL_UNENCODED_CHARACTERS}.append_substrings_into to do a left shift
+

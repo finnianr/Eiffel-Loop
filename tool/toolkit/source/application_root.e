@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 11:25:07 GMT (Sunday 18th October 2020)"
-	revision: "30"
+	date: "2021-01-31 19:25:55 GMT (Sunday 31st January 2021)"
+	revision: "31"
 
 class
 	APPLICATION_ROOT
 
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
-		DEVELOPMENT_AUTOTEST_APP,
+		AUTOTEST_APP,
 
 		CAD_MODEL_SLICER_APP,
 		CAD_MODEL_AUTOTEST_APP,

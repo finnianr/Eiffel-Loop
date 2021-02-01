@@ -1,13 +1,13 @@
 note
-	description: "Test set using files in $EIFFEL_LOOP/projects.data"
+	description: "Test set using files in $EIFFEL_LOOP/test/data"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:10:07 GMT (Friday 14th February 2020)"
-	revision: "9"
+	date: "2021-02-01 10:59:32 GMT (Monday 1st February 2021)"
+	revision: "10"
 
 deferred class
 	EIFFEL_LOOP_TEST_SET

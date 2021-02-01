@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 13:56:29 GMT (Sunday 31st January 2021)"
-	revision: "16"
+	date: "2021-01-31 16:11:30 GMT (Sunday 31st January 2021)"
+	revision: "17"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET

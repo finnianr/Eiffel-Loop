@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 12:41:29 GMT (Monday 18th January 2021)"
-	revision: "7"
+	date: "2021-02-01 11:04:05 GMT (Monday 1st February 2021)"
+	revision: "8"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
 
 inherit
-	EL_TEST_DATA_TEST_SET
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_LOG
 
@@ -32,7 +34,7 @@ feature -- Tests
 			shell: LOCALIZATION_COMMAND_SHELL; list: EL_ZSTRING_LIST
 		do
 			log.enter ("test_add_unchecked")
-			create shell.make (work_dir)
+			create shell.make (work_area_data_dir)
 			shell.add_check_attribute
 
 			create list.make_empty
@@ -46,9 +48,9 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Relative_dir: EL_DIR_PATH
+	Source_dir: EL_DIR_PATH
 		once
-			Result := "pyxis/localization"
+			Result := EL_test_data_dir.joined_dir_path ("pyxis/localization")
 		end
 
 	Unchecked_de_list: EL_ZSTRING_LIST

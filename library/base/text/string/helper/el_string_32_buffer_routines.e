@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 10:14:12 GMT (Thursday 14th January 2021)"
-	revision: "2"
+	date: "2021-02-01 12:35:18 GMT (Monday 1st February 2021)"
+	revision: "3"
 
 expanded class
 	EL_STRING_32_BUFFER_ROUTINES
@@ -15,22 +15,28 @@ expanded class
 feature -- Access
 
 	copied (str_32: STRING_32): STRING_32
+		require
+			not_buffer: not_buffer (str_32)
 		do
 			Result := empty
 			Result.append (str_32)
 		end
 
-	copied_general (str: READABLE_STRING_GENERAL): STRING_32
+	copied_general (general: READABLE_STRING_GENERAL): STRING_32
+		require
+			not_buffer: not_buffer (general)
 		do
 			Result := empty
-			if attached {ZSTRING} str as zstr then
+			if attached {ZSTRING} general as zstr then
 				zstr.append_to_string_32 (Result)
 			else
-				Result.append_string_general (str)
+				Result.append_string_general (general)
 			end
 		end
 
 	copied_substring (str_32: STRING_32; start_index, end_index: INTEGER): STRING_32
+		require
+			not_buffer: not_buffer (str_32)
 		do
 			Result := empty
 			Result.append_substring (str_32, start_index, end_index)
@@ -45,6 +51,8 @@ feature -- Access
 feature -- Conversion
 
 	adjusted (str: STRING_32): STRING_32
+		require
+			not_buffer: not_buffer (str)
 		local
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
@@ -56,6 +64,13 @@ feature -- Conversion
 			end
 			Result := empty
 			Result.append_substring (str, start_index, end_index)
+		end
+
+feature -- Contract Support
+
+	not_buffer (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := general /= Buffer
 		end
 
 feature {NONE} -- Constants

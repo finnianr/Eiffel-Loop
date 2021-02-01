@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-02-01 11:38:51 GMT (Monday 1st February 2021)"
+	revision: "7"
 
 class
 	PYXIS_ENCRYPTER
@@ -22,7 +22,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_source_path: like source_path; a_output_path: like output_path; a_encrypter: like encrypter)
+	make (a_source_path, a_output_path: EL_FILE_PATH; a_encrypter: like encrypter)
 		do
 			source_path  := a_source_path; output_path := a_output_path; encrypter := a_encrypter
 			if output_path.is_empty then

@@ -7,7 +7,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 9:49:30 GMT (Friday 29th January 2021)"
+	date: "2021-01-31 19:24:23 GMT (Sunday 31st January 2021)"
 	revision: "1"
 
 class
@@ -20,7 +20,7 @@ feature -- Constants
 
 	Version_number: NATURAL = 02_03_00
 
-	Build_number: NATURAL = 65
+	Build_number: NATURAL = 66
 
 	Installation_sub_directory: EL_DIR_PATH
 		once

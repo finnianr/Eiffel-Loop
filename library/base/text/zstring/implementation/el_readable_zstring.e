@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 14:35:20 GMT (Sunday 31st January 2021)"
-	revision: "69"
+	date: "2021-01-31 16:11:30 GMT (Sunday 31st January 2021)"
+	revision: "70"
 
 deferred class
 	EL_READABLE_ZSTRING

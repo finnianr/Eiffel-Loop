@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:19:56 GMT (Monday 25th May 2020)"
-	revision: "33"
+	date: "2021-02-01 12:20:25 GMT (Monday 1st February 2021)"
+	revision: "34"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -53,7 +53,9 @@ feature {NONE} -- Reference types
 
 	frozen String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]
 		once
-			create Result.make (<< {EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_PATH}, {EL_REFLECTED_TUPLE} >>)
+			create Result.make (<<
+				{EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_DATE}, {EL_REFLECTED_PATH}, {EL_REFLECTED_TUPLE}
+			>>)
 		end
 
 	frozen String_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_STRING [STRING_GENERAL]]

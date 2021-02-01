@@ -10,14 +10,19 @@ note
 		
 		`area [count * 2 + 1] -> area [area.count - 1]' contains the combined substring character data
 	]"
+	notes: "[
+		Tried an experiment in Jan 2021 to implement [$source EL_ZSTRING] using [$source EL_SUBSTRING_32_ARRAY]
+		instead of [$source EL_UNENCODED_CHARACTERS]. It passed all the tests but the performance benchmarks indicated
+		that it was on average significantly slower the original [$source EL_UNENCODED_CHARACTERS] implementation.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 12:29:41 GMT (Saturday 30th January 2021)"
-	revision: "17"
+	date: "2021-01-31 16:20:51 GMT (Sunday 31st January 2021)"
+	revision: "18"
 
 class
 	EL_SUBSTRING_32_ARRAY

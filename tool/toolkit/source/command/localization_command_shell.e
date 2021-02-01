@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 17:23:31 GMT (Monday 25th May 2020)"
-	revision: "14"
+	date: "2021-02-01 11:20:55 GMT (Monday 1st February 2021)"
+	revision: "15"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -83,28 +83,27 @@ feature {EQA_TEST_SET} -- Implementation
 		-- `lang = de; check = false'
 
 		local
-			lines: EL_ZSTRING_LIST; encoding: NATURAL
+			line_list: EL_ZSTRING_LIST; encoding: NATURAL
+			line, adjusted: ZSTRING
 		do
 			lio.put_path_field ("add_check_attribute", file_path)
 			lio.put_new_line
 
 			encoding := Pyxis.encoding (file_path)
 
-			lines := open_lines (file_path, encoding).list
-
-			from lines.start until lines.after loop
-				lines.item.adjust
-				if lines.item.starts_with (Lang_equals)
-					and then not lines.item.has_substring ("check") and then not lines.item.ends_with (EN)
+			line_list := open_lines (file_path, encoding).list
+			across line_list as list loop
+				line := list.item; adjusted := line.adjusted
+				if adjusted.starts_with (Lang_equals)
+					and then not adjusted.has_substring ("check") and then not adjusted.ends_with (EN)
 				then
-					lines.replace (lines.item + "; check = false")
+					line.replace_substring (adjusted + "; check = false", line.leading_white_space + 1, line.count)
 				end
-				lines.forth
 			end
 
 			if attached open (file_path, Write) as file_out then
 				file_out.set_encoding (encoding)
-				file_out.put_lines (lines)
+				file_out.put_lines (line_list)
 				file_out.close
 			end
 		end
