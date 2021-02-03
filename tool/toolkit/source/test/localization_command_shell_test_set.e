@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 11:04:05 GMT (Monday 1st February 2021)"
-	revision: "8"
+	date: "2021-02-02 10:34:21 GMT (Tuesday 2nd February 2021)"
+	revision: "9"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
 	EIFFEL_LOOP_TEST_CONSTANTS
-
-	EL_MODULE_LOG
 
 feature -- Basic operations
 
@@ -33,7 +31,6 @@ feature -- Tests
 		local
 			shell: LOCALIZATION_COMMAND_SHELL; list: EL_ZSTRING_LIST
 		do
-			log.enter ("test_add_unchecked")
 			create shell.make (work_area_data_dir)
 			shell.add_check_attribute
 
@@ -43,7 +40,6 @@ feature -- Tests
 				list.append (unchecked.item)
 			end
 			assert ("Same set", list.count = Unchecked_de_list.count and then list.for_all (agent Unchecked_de_list.has))
-			log.exit
 		end
 
 feature {NONE} -- Constants

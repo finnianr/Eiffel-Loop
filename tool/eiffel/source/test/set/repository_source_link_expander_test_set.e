@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:52:38 GMT (Sunday 17th January 2021)"
-	revision: "7"
+	date: "2021-02-02 12:40:18 GMT (Tuesday 2nd February 2021)"
+	revision: "8"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -19,8 +19,6 @@ inherit
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
-
-	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_EXECUTABLE
 
@@ -38,14 +36,12 @@ feature -- Tests
 		local
 			n: INTEGER; publisher: like new_publisher
 		do
-			log.enter ("test_publisher")
 			publisher := new_publisher
 			publisher.execute
 			check_expanded_contents (publisher)
 			if Executable.Is_work_bench then
 				n := User_input.integer ("Return to finish")
 			end
-			log.exit
 		end
 
 feature {NONE} -- Events

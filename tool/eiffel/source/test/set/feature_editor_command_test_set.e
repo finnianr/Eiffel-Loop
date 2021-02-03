@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 16:43:14 GMT (Sunday 17th January 2021)"
-	revision: "9"
+	date: "2021-02-02 12:39:12 GMT (Tuesday 2nd February 2021)"
+	revision: "10"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		undefine
+			new_lio
+		end
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine

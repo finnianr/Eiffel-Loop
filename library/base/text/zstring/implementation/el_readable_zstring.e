@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:11:30 GMT (Sunday 31st January 2021)"
-	revision: "70"
+	date: "2021-02-03 10:23:26 GMT (Wednesday 3rd February 2021)"
+	revision: "71"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -573,30 +573,17 @@ feature -- Comparison
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is string lexicographically lower than `other'?
 		local
-			other_count, l_count: INTEGER
+			o_count, l_count: INTEGER
 		do
 			if other /= Current then
-				other_count := other.count
-				l_count := count
-				if has_mixed_encoding or else other.has_mixed_encoding then
-					if other_count = l_count then
-						Result := order_comparison (other_count, other) > 0
-					else
-						if l_count < other_count then
-							Result := order_comparison (l_count, other) >= 0
-						else
-							Result := order_comparison (other_count, other) > 0
-						end
-					end
+				o_count := other.count; l_count := count
+				if o_count = l_count then
+					Result := order_comparison (other, o_count) > 0
 				else
-					if other_count = l_count then
-						Result := internal_order_comparison (other.area, area, other.area_lower, area_lower, other_count) > 0
+					if l_count < o_count then
+						Result := order_comparison (other, l_count) >= 0
 					else
-						if l_count < other_count then
-							Result := internal_order_comparison (other.area, area, other.area_lower, area_lower, l_count) >= 0
-						else
-							Result := internal_order_comparison (other.area, area, other.area_lower, area_lower, other_count) > 0
-						end
+						Result := order_comparison (other, o_count) > 0
 					end
 				end
 			end
@@ -606,18 +593,21 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		local
-			i, other_i, l_count: INTEGER; l_area, other_area: like area
+			i, j, l_count, i_final: INTEGER; l_area, o_area: like area
+			unencoded, o_unencoded: like unencoded_indexable
 		do
 			if attached {EL_READABLE_ZSTRING} other as z_other then
 				Result := internal_same_characters (z_other, start_pos, end_pos, index_pos)
-				if has_mixed_encoding or else z_other.has_mixed_encoding then
-					l_area := area; other_area := z_other.area
+				if Result and then has_mixed_encoding then
+					unencoded := unencoded_indexable; o_unencoded := z_other.unencoded_indexable_other
+					l_area := area; o_area := z_other.area
 					l_count := end_pos - start_pos + 1
-					from i := index_pos - 1; other_i := start_pos - 1 until not Result or else i = index_pos + l_count - 1 loop
+					i_final := index_pos + l_count - 1
+					from i := index_pos - 1; j := start_pos - 1 until not Result or else i = i_final loop
 						if l_area [i] = Unencoded_character then
-							Result := unencoded_code (i + 1) = z_other.unencoded_code (other_i + 1)
+							Result := unencoded.code (i + 1) = o_unencoded.code (j + 1)
 						end
-						i := i + 1; other_i := other_i + 1
+						i := i + 1; j := j + 1
 					end
 				end
 			else
@@ -736,49 +726,45 @@ feature {NONE} -- Implementation
 			Result := Unicode_property.is_space (uc)
 		end
 
-	order_comparison (n: INTEGER; other: EL_READABLE_ZSTRING): INTEGER
+	order_comparison (other: EL_READABLE_ZSTRING; n: INTEGER): INTEGER
 			-- Compare `n' characters from `area' starting at `area_lower' with
 			-- `n' characters from and `other' starting at `other.area_lower'.
 			-- 0 if equal, < 0 if `Current' < `other', > 0 if `Current' > `other'
 		require
-			other_not_void: other /= Void
 			n_non_negative: n >= 0
 			n_valid: n <= (area.upper - other.area_lower + 1) and n <= (other.area.upper - area_lower + 1)
 		local
-			i, j, nb, index_other, index: INTEGER; l_code, other_code: NATURAL; c_i, other_c_i: CHARACTER
-			other_area, l_area: like area
+			i, j, i_final, l_code: INTEGER; found: BOOLEAN
+			l_z_code, o_z_code: NATURAL; o_area, l_area: like area
+			unencoded, o_unencoded: like unencoded_indexable
 		do
-			l_area := area; other_area := other.area; index := area_lower; index_other := other.area_lower
-			from i := index_other; nb := i + n; j := index until i = nb loop
-				c_i := l_area [i]; other_c_i := other_area [i]
-
-				if c_i = Unencoded_character then
-					-- Do Unicode comparison
-					l_code := unencoded_code (i + 1)
-					if other_c_i = Unencoded_character then
-						other_code := other.unencoded_code (i + 1)
+			l_area := area; o_area := other.area
+			if has_mixed_encoding or else other.has_mixed_encoding then
+				unencoded := unencoded_indexable; o_unencoded := other.unencoded_indexable_other
+				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
+					l_z_code := area_z_code (l_area, unencoded, i)
+					o_z_code := area_z_code (o_area, o_unencoded, j)
+					if l_z_code /= o_z_code then
+						found := True
 					else
-						other_code := codec.as_unicode_character (other_c_i).natural_32_code
-					end
-				else
-					if other_c_i = Unencoded_character then
-						-- Do Unicode comparison
-						l_code := codec.as_unicode_character (c_i).natural_32_code
-						other_code := other.unencoded_code (i + 1)
-					else
-						l_code := c_i.natural_32_code
-						other_code := other_c_i.natural_32_code
+						i := i + 1; j := j + 1
 					end
 				end
-				if l_code /= other_code then
-					if l_code < other_code then
-						Result := (other_code - l_code).to_integer_32
+			else
+				from i := area_lower; i_final := i + n; j := other.area_lower until found or else i = i_final loop
+					if l_area [i] /= o_area [j] then
+						found := True
 					else
-						Result := -(l_code - other_code).to_integer_32
+						i := i + 1; j := j + 1
 					end
-					i := nb - 1 -- Jump out of loop
 				end
-				i := i + 1; j := j + 1
+				l_z_code := l_area.item (i).natural_32_code
+				o_z_code := o_area.item (j).natural_32_code
+			end
+			if found then
+				-- Comparison must be done as unicode and never Latin-15
+				l_code := codec.z_code_as_unicode (l_z_code).to_integer_32
+				Result := codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
 			end
 		end
 

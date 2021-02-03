@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-19 10:41:34 GMT (Tuesday 19th January 2021)"
-	revision: "27"
+	date: "2021-02-02 12:39:38 GMT (Tuesday 2nd February 2021)"
+	revision: "28"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -67,7 +67,6 @@ feature -- Tests
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
 			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
 		do
-			log.enter ("test_publisher")
 			publisher := new_publisher
 			publisher.execute
 			check_html_exists (publisher)
@@ -90,7 +89,6 @@ feature -- Tests
 			publisher.execute
 
 			assert ("same list", base_name_list ~ sorted_base_names (publisher.ftp_sync.ftp.uploaded_list))
-			log.exit
 		end
 
 feature {NONE} -- Events

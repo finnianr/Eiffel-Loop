@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 15:04:48 GMT (Sunday 31st January 2021)"
-	revision: "43"
+	date: "2021-02-03 17:12:38 GMT (Wednesday 3rd February 2021)"
+	revision: "44"
 
 class
 	ZSTRING_TEST_SET
@@ -64,6 +64,7 @@ feature -- Basic operations
 			eval.call ("for_all_split", agent test_for_all_split)
 			eval.call ("has", agent test_has)
 			eval.call ("is_canonically_spaced", agent test_is_canonically_spaced)
+			eval.call ("order_comparison", agent test_order_comparison)
 			eval.call ("same_characters", agent test_same_characters)
 			eval.call ("sort", agent test_sort)
 			eval.call ("starts_with", agent test_starts_with)
@@ -492,15 +493,15 @@ feature -- Element change tests
 			str_32: STRING_32; str: ZSTRING; uc_new, uc_old: CHARACTER_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across text_words as word loop
-				uc_old := word.item [1]
-				uc_new := word.item [word.item.count]
-				across text_lines as line loop
-					str_32 := line.item; str := str_32
-					s.replace_character (str_32, uc_old, uc_new)
-					str.replace_character (uc_old, uc_new)
-					assert ("replace_character OK", str.same_string (str_32))
+			across text_russian as uc loop
+				str_32 := text_russian; str := str_32
+				if not uc.is_last then
+					uc_old := uc.item
+					uc_new := str_32 [uc.cursor_index + 1]
 				end
+				s.replace_character (str_32, uc_old, uc_new)
+				str.replace_character (uc_old, uc_new)
+				assert ("replace_character OK", str.same_string (str_32))
 			end
 		end
 
@@ -656,6 +657,21 @@ feature -- Status query tests
 			str.insert_character (' ', 5)
 			assert ("not is_canonically_spaced", not str.is_canonically_spaced)
 			assert ("is_canonically_spaced", str.as_canonically_spaced.is_canonically_spaced)
+		end
+
+	test_order_comparison
+		note
+			testing: "covers/{EL_READABLE_ZSTRING}.order_comparison"
+		local
+			list_32: EL_STRING_32_LIST; list: EL_ZSTRING_LIST
+			left_32, right_32: STRING_32; left, right: ZSTRING
+		do
+			list_32 := text_words
+			create list.make_from_general (text_words)
+			list_32.sort; list.sort
+			across list_32 as str_32 loop
+				assert ("same string", str_32.item ~ list.i_th (str_32.cursor_index).to_string_32)
+			end
 		end
 
 	test_same_characters
@@ -839,7 +855,7 @@ feature -- Access tests
 		note
 			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.substring_index"
 		local
-			str, word, search_word: ZSTRING; str_32, word_32: STRING_32; pos, pos_32: INTEGER
+			str, search_word: ZSTRING; str_32: STRING_32; pos, pos_32: INTEGER
 		do
 			across text_lines as line loop
 				str_32 := line.item; str := str_32
@@ -849,9 +865,9 @@ feature -- Access tests
 					pos_32 := str_32.substring_index (search_word_32.item, 1)
 					assert ("substring_index OK", pos = pos_32)
 					if pos_32 > 0 then
-						word := str.substring (pos, pos + search_word.count - 1)
-						word_32 := str_32.substring (pos_32, pos_32 + search_word_32.item.count - 1)
-						assert ("substring_index OK", word.same_string (word_32))
+						assert (
+							"substring_index OK", str.same_characters (str_32, pos_32, pos_32 + search_word_32.item.count - 1, pos)
+						)
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 18:43:32 GMT (Monday 1st June 2020)"
-	revision: "5"
+	date: "2021-02-03 8:12:17 GMT (Wednesday 3rd February 2021)"
+	revision: "6"
 
 deferred class
 	MIXED_ENCODING_STRING_BENCHMARK
@@ -50,6 +50,7 @@ feature -- Basic operations
 			do_performance_test ("prune_all", "$B $C", agent test_prune_all)
 
 			do_performance_test ("remove_substring", "$A $B $C", agent test_remove_substring)
+			do_performance_test ("replace_character", "$B $C", agent test_replace_character)
 			do_performance_test ("replace_substring", "$A $B $C", agent test_replace_substring)
 			do_performance_test ("replace_substring_all", "$A $B $C", agent test_replace_substring_all)
 			do_performance_test ("right_adjust", "padded (C)", agent test_right_adjust)

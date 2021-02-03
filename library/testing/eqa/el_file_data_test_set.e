@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 14:01:19 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2021-02-02 11:31:59 GMT (Tuesday 2nd February 2021)"
+	revision: "10"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -21,6 +21,12 @@ inherit
 		end
 
 	EL_MODULE_OS
+
+	EL_MODULE_DIGEST
+
+	EL_MODULE_LIO
+
+	EL_FILE_OPEN_ROUTINES
 
 feature {NONE} -- Events
 
@@ -51,6 +57,17 @@ feature {NONE} -- Implementation
 		do
 			create l_dir.make (Work_area_dir)
 			l_dir.delete_content
+		end
+
+	check_same_content (file_path: EL_FILE_PATH; md5_digest: STRING)
+		local
+			md5: STRING; label: ZSTRING
+		do
+			md5 := Digest.md5_file (file_path).to_hex_string
+			label := "MD5 SUM (%"%S%")"
+			lio.put_labeled_string (label #$ [file_path.base], md5)
+			lio.put_new_line
+			assert ("same content", md5 ~ md5_digest)
 		end
 
 	has_changed (file_path: EL_FILE_PATH): BOOLEAN

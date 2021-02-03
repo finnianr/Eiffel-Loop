@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 14:09:34 GMT (Sunday 31st January 2021)"
-	revision: "35"
+	date: "2021-02-03 11:29:36 GMT (Wednesday 3rd February 2021)"
+	revision: "36"
 
 class
 	EL_ZSTRING
@@ -355,34 +355,46 @@ feature -- Removal
 
 	prune_all (uc: CHARACTER_32)
 		local
-			i, j, l_count: INTEGER; c, c_i: CHARACTER; l_unicode, unicode_i: NATURAL; l_area: like area
-			l_new_unencoded: like empty_unencoded_buffer; unencoded: like unencoded_indexable
+			i, j, i_final, delta: INTEGER; c, c_i: CHARACTER; uc_code: NATURAL; l_area: like area
+			unencoded: like unencoded_indexable
 		do
-			c := encoded_character (uc); l_unicode := uc.natural_32_code
-			if has_mixed_encoding then
-				l_area := area; l_count := count
-				l_new_unencoded := empty_unencoded_buffer; unencoded := unencoded_indexable
-				from  until i = l_count loop
-					c_i := l_area.item (i)
-					if c_i = Unencoded_character then
-						unicode_i := unencoded.code (i + 1)
-						if l_unicode /= unicode_i then
+			c := encoded_character (uc); uc_code := uc.natural_32_code
+			l_area := area; i_final := count
+			if c = Unencoded_character then
+				if has_mixed_encoding then
+					unencoded := unencoded_indexable
+					from  until i = i_final loop
+						c_i := l_area.item (i)
+						if c_i = Unencoded_character and then unencoded.code (i + 1) = uc_code then
+							do_nothing
+						else
 							l_area.put (c_i, j)
-							l_new_unencoded.extend (unicode_i, j + 1)
 							j := j + 1
 						end
-					elseif c_i /= c then
-						l_area.put (c_i, j)
-						j := j + 1
+						i := i + 1
 					end
-					i := i + 1
+					l_area [j] := '%U'; count := j
+					replace_unencoded_character (uc_code, 0, True)
+					reset_hash
 				end
-				count := j
-				l_area [j] := '%U'
-				set_from_unencoded_buffer (l_new_unencoded)
-				reset_hash
-			elseif c /= Unencoded_character then
-				internal_prune_all (c)
+			else
+				if has_mixed_encoding then
+					from  until i = i_final loop
+						c_i := l_area.item (i)
+						if c_i = c then
+							shift_unencoded_from (i + 1 - delta, (1).opposite)
+							delta := delta + 1
+						else
+							l_area.put (c_i, j)
+							j := j + 1
+						end
+						i := i + 1
+					end
+					l_area [j] := '%U'; count := j
+					reset_hash
+				else
+					internal_prune_all (c)
+				end
 			end
 		ensure then
 			valid_unencoded: is_unencoded_valid

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:10:26 GMT (Sunday 31st January 2021)"
-	revision: "19"
+	date: "2021-02-03 17:10:43 GMT (Wednesday 3rd February 2021)"
+	revision: "20"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -23,6 +23,11 @@ inherit
 	EL_EXTENDABLE_AREA [NATURAL]
 		export
 			{ANY} area
+		end
+
+	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
+		export
+			{EL_ZCODE_CONVERSION} lower_bound, upper_bound, is_unencoded_valid, substring_list, Buffer
 		end
 
 	EL_ZCODE_CONVERSION
@@ -57,10 +62,10 @@ feature -- Access
 
 	code (index: INTEGER): NATURAL
 		local
-			i, lower, upper, area_count: INTEGER; l_area: like area
+			i, lower, upper, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until Result > 0 or else i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until Result > 0 or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				if lower <= index and then index <= upper then
 					Result := l_area [i + index - lower + 2]
@@ -97,11 +102,11 @@ feature -- Access
 	hash_code (seed: INTEGER): INTEGER
 			-- Hash code value
 		local
-			i, offset, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, offset, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
 			Result := seed
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from i := i + 2; offset := 0 until offset = count loop
@@ -116,10 +121,10 @@ feature -- Access
 
 	index_of (unicode: NATURAL; start_index: INTEGER): INTEGER
 		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until Result > 0 or else i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until Result > 0 or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if start_index <= lower or else start_index <= upper then
@@ -136,11 +141,11 @@ feature -- Access
 
 	interval_sequence: EL_SEQUENTIAL_INTERVALS
 		local
-			i, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
 			create Result.make (3)
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				Result.extend (lower, upper)
@@ -155,15 +160,29 @@ feature -- Access
 			Result := code (index).to_character_32
 		end
 
+	last_index: INTEGER
+			-- index into `area' of last interval
+		local
+			i, lower, upper, i_final: INTEGER; l_area: like area
+		do
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				i := i + upper - lower + 3
+			end
+			if lower.to_boolean then
+				Result := i - (upper - lower + 3)
+			end
+		end
+
 	last_index_of (unicode: NATURAL; start_index_from_end: INTEGER): INTEGER
 		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
-			l_index_list: like index_list
+			i, j, k, lower, upper, count: INTEGER; l_area: like area
+			list: like index_list; index_area: SPECIAL [INTEGER]
 		do
-			l_area := area; area_count := l_area.count
-			l_index_list := index_list
-			from l_index_list.finish until Result > 0 or else l_index_list.before loop
-				i := l_index_list.item
+			l_area := area; list := index_list; index_area := list.area
+			from k := list.count - 1 until Result > 0 or else k < 0 loop
+				i := index_area [k]
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if upper <= start_index_from_end or else lower <= start_index_from_end then
@@ -174,21 +193,19 @@ feature -- Access
 						j := j - 1
 					end
 				end
-				l_index_list.back
+				k := k - 1
 			end
 		end
 
 	last_upper: INTEGER
 			-- count when substrings are expanded to original source string
 		local
-			i, lower, upper, area_count: INTEGER; l_area: like area
+			l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				i := i + upper - lower + 3
+			l_area := area
+			if l_area.count >= 2 then
+				Result := upper_bound (l_area, last_index)
 			end
-			Result := upper
 		end
 
 	z_code (index: INTEGER): NATURAL
@@ -201,10 +218,10 @@ feature -- Measurement
 	substring_count: INTEGER
 		-- count of substrings
 		local
-			i, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				Result := Result + 1
@@ -214,10 +231,10 @@ feature -- Measurement
 
 	occurrences (unicode: NATURAL): INTEGER
 		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
@@ -233,10 +250,10 @@ feature -- Measurement
 	character_count: INTEGER
 		-- sum of each substring count
 		local
-			i, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				Result := Result + count
@@ -246,11 +263,11 @@ feature -- Measurement
 
 	utf_8_byte_count: INTEGER
 		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 			l_code: NATURAL_32
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
@@ -301,17 +318,56 @@ feature -- Comparison
 
 feature -- Element change
 
+	append_shifted (other: EL_UNENCODED_CHARACTERS; n: INTEGER)
+		local
+			i, lower, upper, i_final: INTEGER; l_area, o_area: like area
+		do
+			l_area := area; o_area := other.area
+			if l_area.count > 0 and o_area.count > 0 then
+				i := last_index
+				upper := upper_bound (l_area, i)
+				if upper + 1 = other.first_lower + n then
+					-- merge intervals
+					l_area := big_enough (l_area, o_area.count - 2)
+					l_area.copy_data (o_area, 2, l_area.count, o_area.count - 2)
+					upper := other.first_upper + n
+					put_upper (l_area, i, upper)
+					i := i + upper - lower_bound (l_area, i) + 3
+				else
+					i := l_area.count
+					l_area := big_enough (l_area, o_area.count)
+					l_area.copy_data (o_area, 0, l_area.count, o_area.count)
+				end
+
+			elseif o_area.count > 0 then
+				area := o_area.twin
+				l_area := area
+			end
+			if l_area.count > 0 then
+				-- Shift n places to right
+				i_final := l_area.count
+				from until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					put_lower (l_area, i, lower + n)
+					put_upper (l_area, i, upper + n)
+					i := i + upper - lower + 3
+				end
+			end
+		ensure
+			valid_count: character_count = old character_count + other.character_count
+		end
+
 	append (other: EL_UNENCODED_CHARACTERS)
 		require
 			other_not_empty: other.not_empty
 			already_shifted: other.first_lower > last_upper
 		local
-			i, lower, upper, count, area_count: INTEGER; l_area, other_unencoded: like area
+			i, lower, upper, count, i_final: INTEGER; l_area, other_unencoded: like area
 		do
 			if not_empty then
 				other_unencoded := other.area
-				l_area := area; area_count := l_area.count
-				from i := 0 until i = area_count loop
+				l_area := area; i_final := l_area.count
+				from i := 0 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					count := upper - lower + 1
 					i := i + count + 2
@@ -336,21 +392,21 @@ feature -- Element change
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
-			i, previous_i, lower, upper, previous_upper, count, area_count: INTEGER
+			i, previous_i, lower, upper, previous_upper, count, i_final: INTEGER
 			other_lower, other_last_upper, other_array_count: INTEGER
 			l_area, other_unencoded: like area; other_inserted: BOOLEAN
 		do
-			l_area := area; area_count := l_area.count
+			l_area := area; i_final := l_area.count
 			other_unencoded := other.area; other_array_count := other_unencoded.count
 			other_lower := other.first_lower; other_last_upper := other.last_upper
-			from i := 0 until i = area_count loop
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if not other_inserted and then previous_upper < other_lower and then other_last_upper < lower then
 					-- Insert other
 					l_area := big_enough (area, other_array_count)
 					l_area.insert_data (other_unencoded, 0, i, other_array_count)
-					area_count := area_count + other_array_count
+					i_final := i_final + other_array_count
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					count := upper - lower + 1
 					other_inserted := True
@@ -363,7 +419,7 @@ feature -- Element change
 					lower := lower_bound (l_area, i)
 					l_area.put (upper.to_natural_32, i + 1)
 					count := upper - lower + 1
-					area_count := area_count - 2
+					i_final := i_final - 2
 				end
 				previous_upper := upper
 				previous_i := i
@@ -374,19 +430,25 @@ feature -- Element change
 			end
 		end
 
-	interval_index: like Once_interval_index
+	interval_index: EL_UNENCODED_CHARACTERS_INDEX
 		do
-			Result := Once_interval_index
+			Result := Once_interval_index_1
+			Result.set_area (area)
+		end
+
+	interval_index_other: EL_UNENCODED_CHARACTERS_INDEX
+		do
+			Result := Once_interval_index_2
 			Result.set_area (area)
 		end
 
 	put_code (a_code: NATURAL; index: INTEGER)
 		local
-			i, previous_i, previous_upper, lower, upper, count, area_count: INTEGER; found: BOOLEAN
+			i, previous_i, previous_upper, lower, upper, count, i_final: INTEGER; found: BOOLEAN
 			l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until found or i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until found or i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if lower <= index and then index <= upper then
@@ -421,7 +483,7 @@ feature -- Element change
 					lower := lower_bound (l_area, i)
 					l_area.put (upper.to_natural_32, i + 1)
 					count := upper - lower + 1
-					area_count := area_count - 2
+					i_final := i_final - 2
 				end
 				previous_upper := upper; previous_i := i
 				i := i + count + 2
@@ -461,11 +523,11 @@ feature -- Element change
 		-- Split if interval has `index' and `index' > `lower'
 		-- n < 0 shifts to the left.
 		local
-			i, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
 			if n /= 0 then
-				l_area := area; area_count := l_area.count
-				from i := 0 until i = area_count loop
+				l_area := area; i_final := l_area.count
+				from i := 0 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					count := upper - lower + 1
 					if index <= lower then
@@ -475,7 +537,7 @@ feature -- Element change
 						-- Split the interval in two
 						l_area.put ((index - 1).to_natural_32, i + 1)
 						l_area := extended (i + 2 + index - lower, index + n, upper + n, 0)
-						area_count := area_count + 2
+						i_final := i_final + 2
 						i := i + 2
 					end
 					i := i + count + 2
@@ -495,13 +557,64 @@ feature -- Element change
 
 feature -- Removal
 
+	replace_character (uc_old, uc_new: NATURAL; shift_remaining: BOOLEAN)
+		-- replace all `uc_old' with `uc_new' and shifting to left if `shift_remaining = True'
+		-- if `uc_new = 0' then remove `uc_old'
+		local
+			i, j, lower, upper, count, i_final, previous_i, delta: INTEGER
+			l_area: like area; found: BOOLEAN; l_buffer: like empty_buffer
+			l_code: NATURAL
+		do
+			previous_i := (1).opposite
+			l_area := area; i_final := l_area.count
+			from i := 0 until found or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				count := upper - lower + 1
+				from j := 1 until found or else j > count loop
+					if l_area [i + 1 + j] = uc_old then
+						found := True
+					else
+						j := j + 1
+					end
+				end
+				if not found then
+					previous_i := i
+					i := i + count + 2
+				end
+			end
+			if found then
+				l_buffer := empty_buffer
+				if previous_i >= 0 then
+					l_buffer.append_from_area (l_area, previous_i)
+				end
+				from until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					from j := lower until j > upper loop
+						l_code := l_area [i + 2 + j - lower]
+						if l_code = uc_old then
+							if uc_new > 0 then
+								l_buffer.extend (uc_new, j)
+							elseif shift_remaining then
+								delta := delta + 1
+							end
+						else
+							l_buffer.extend (l_code, j - delta)
+						end
+						j := j + 1
+					end
+					i := i + upper - lower + 3
+				end
+				set_from_buffer (l_buffer)
+			end
+		end
+
 	remove (index: INTEGER)
 		local
-			i, lower, upper, count, area_count, removed_count, source_index, destination_index: INTEGER
+			i, lower, upper, count, i_final, removed_count, source_index, destination_index: INTEGER
 			l_area: like area; found: BOOLEAN
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until found or else i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until found or else i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				if lower = index or else index = upper then
@@ -536,12 +649,12 @@ feature -- Removal
 
 	remove_substring (start_index, end_index: INTEGER)
 		local
-			i, lower, upper, count, area_count, removed_count, deleted_count, previous_i, previous_upper: INTEGER
+			i, lower, upper, count, i_final, removed_count, deleted_count, previous_i, previous_upper: INTEGER
 			l_area: like area
 		do
-			l_area := area; area_count := l_area.count
+			l_area := area; i_final := l_area.count
 			deleted_count := end_index - start_index + 1
-			from i := 0 until i = area_count loop
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				removed_count := 0
@@ -566,8 +679,8 @@ feature -- Removal
 				if removed_count > 0 then
 					if removed_count = count + 2 then
 						-- Section removed
-						area_count := area_count - removed_count
-						if area_count = 0 then
+						i_final := i_final - removed_count
+						if i_final = 0 then
 							area := Empty_unencoded
 						end
 					else
@@ -580,10 +693,10 @@ feature -- Removal
 							lower := lower_bound (l_area, i)
 							l_area.put (upper.to_natural_32, i + 1)
 							count := upper - lower + 1
-							area_count := area_count - removed_count - 2
+							i_final := i_final - removed_count - 2
 							removed_count := 0
 						else
-							area_count := area_count - removed_count
+							i_final := i_final - removed_count
 						end
 					end
 				end
@@ -599,10 +712,10 @@ feature -- Basic operations
 		require
 			string_big_enough: last_upper + offset <= area_out.count
 		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
+			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				count := upper - lower + 1
 				from j := 1 until j > count loop
@@ -615,229 +728,10 @@ feature -- Basic operations
 
 feature -- Duplication
 
-	append_substrings_into (other: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
-		local
-			i, lower, upper, count, area_count, offset: INTEGER
-			l_area: like area
-		do
-			l_area := area; area_count := l_area.count; offset := start_index - 1
-			from i := 0 until i = area_count loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				count := upper - lower + 1
-				if lower <= start_index and then end_index <= upper then
-					-- Append full interval
-					other.append_interval (l_area, i + 2 + (start_index - lower), start_index - offset, end_index - offset)
-
-				elseif start_index <= lower and then upper <= end_index then
-					-- Append full interval
-					other.append_interval (l_area, i + 2, lower - offset, upper - offset)
-
-				elseif lower <= end_index and then end_index <= upper then
-					-- Append left section
-					other.append_interval (l_area, i + 2, lower - offset, end_index - offset)
-
-				elseif lower <= start_index and then start_index <= upper then
-					-- Append right section
-					other.append_interval (l_area, i + 2 + (start_index - lower), start_index - offset, upper - offset)
-				end
-				i := i + count + 2
-			end
-		end
-
 	shifted (n: INTEGER): EL_UNENCODED_CHARACTERS
 		do
 			create Result.make_from_other (Current)
 			Result.shift (n)
-		end
-
-feature {EL_ZCODE_CONVERSION} -- Contract Support
-
-	is_unencoded_valid: BOOLEAN
-		do
-			Result := True
-		end
-
-	substring_list: SPECIAL [STRING_32]
-			-- Debugging output
-		local
-			i, j, lower, upper, count, area_count: INTEGER; l_area: like area
-			list: ARRAYED_LIST [STRING_32]; string: STRING_32
-		do
-			create list.make (10)
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				count := upper - lower + 1
-				create string.make (count + 8)
-				string.append_integer (lower)
-				string.append_character ('-')
-				string.append_integer (upper)
-				string.append_string_general (": ")
-				from j := 1 until j > count loop
-					string.extend (l_area.item (i + 1 + j).to_character_32)
-					j := j + 1
-				end
-				list.extend (string)
-				i := i + count + 2
-			end
-			Result := list.area_v2
-		end
-
-feature {EL_ZCODE_CONVERSION} -- Implementation
-
-	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
-		local
-			old_count, count: INTEGER; l_area: like area
-		do
-			l_area := area; old_count := area.count; count := upper - lower + 1
-			l_area := big_enough (l_area, count + 2)
-			l_area.extend (lower.to_natural_32); l_area.extend (upper.to_natural_32)
-			l_area.copy_data (a_area, source_index, old_count + 2, count)
-		ensure
-			count_increased_by_count: character_count = old character_count + upper - lower + 1
-		end
-
-	lower_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i).to_integer_32
-		end
-
-	upper_bound (a_area: like area; i: INTEGER): INTEGER
-		do
-			Result := a_area.item (i + 1).to_integer_32
-		end
-
-feature {NONE} -- Implementation
-
-	change_case (as_lower_case: BOOLEAN)
-		local
-			i, j, index, lower, upper, count, area_count: INTEGER; l_area: like area
-			c, new_c: CHARACTER_32
-		do
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				count := upper - lower + 1
-				from j := 1 until j > count loop
-					index := i + 1 + j
-					c := l_area.item (index).to_character_32
-					if as_lower_case then
-						new_c := c.as_lower
-					else
-						new_c := c.as_upper
-					end
-					if c /= new_c then
-						l_area [index] := new_c.natural_32_code
-					end
-					j := j + 1
-				end
-				i := i + count + 2
-			end
-		end
-
-	extended (destination_index, lower, upper: INTEGER; a_code: NATURAL): like area
-		local
-			l_insert: like area
-		do
-			Result := area; l_insert := Unencoded_insert; l_insert.wipe_out
-			if lower > 0 then
-				l_insert.extend (lower.to_natural_32)
-			end
-			if upper > 0 then
-				l_insert.extend (upper.to_natural_32)
-			end
-			if a_code > 0 then
-				l_insert.extend (a_code)
-			end
-			Result := big_enough (Result, l_insert.count)
-			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
-		end
-
-	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
-		do
-			Result := Buffer
-			Result.wipe_out
-		end
-
-	index_list: ARRAYED_LIST [INTEGER]
-		local
-			i, lower, upper, area_count: INTEGER; l_area: like area
-		do
-			Result := Once_index_list
-			Result.wipe_out
-			l_area := area; area_count := l_area.count
-			from i := 0 until i = area_count loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				Result.extend (i)
-				i := i + upper - lower + 3
-			end
-		end
-
-	remove_section (a_area: like area; i, lower, upper, start_index, end_index, deleted_count: INTEGER): INTEGER
-		local
-			count_to_remove, source_index, destination_index: INTEGER
-		do
-			count_to_remove := end_index - start_index + 1
-			if lower = start_index and then upper = end_index then
-				destination_index := i
-				count_to_remove := count_to_remove + 2
-			else
-				destination_index := i + 2 + start_index - lower
-			end
-			source_index := destination_index + count_to_remove
-			a_area.overlapping_move (source_index, destination_index, a_area.count - source_index)
-			a_area.remove_tail (count_to_remove)
-			if destination_index > i then
-				if start_index = lower then
-					-- Remove from start
-					a_area [i] := (lower + count_to_remove - deleted_count).to_natural_32
-					a_area [i + 1] := (upper - deleted_count).to_natural_32
-				else
-					a_area [i + 1] := (upper - count_to_remove).to_natural_32
-				end
-			end
-			Result := count_to_remove
-		end
-
-feature {NONE} -- `count_greater_than_zero_flags' values
-
-	Both_have_mixed_encoding: INTEGER = 3
-
-	Only_current: INTEGER = 2
-
-	Only_other: INTEGER = 1
-
-	Neither: INTEGER = 0
-
-feature {EL_ZCODEC} -- Constants
-
-	Buffer: EL_UNENCODED_CHARACTERS_BUFFER
-		once
-			create Result.make
-		end
-
-feature {NONE} -- Constants
-
-	Empty_unencoded: SPECIAL [NATURAL]
-		once
-			create Result.make_empty (0)
-		end
-
-	Minimum_capacity: INTEGER = 3
-
-	Once_index_list: ARRAYED_LIST [INTEGER]
-		once
-			create Result.make (5)
-		end
-
-	Once_interval_index: EL_UNENCODED_CHARACTERS_INDEX
-		once
-			create Result.make_default
-		end
-
-	Unencoded_insert: SPECIAL [NATURAL]
-		once
-			create Result.make_empty (3)
 		end
 
 end

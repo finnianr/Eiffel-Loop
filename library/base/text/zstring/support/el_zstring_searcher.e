@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 12:19:16 GMT (Saturday 30th January 2021)"
-	revision: "10"
+	date: "2021-02-03 11:40:55 GMT (Wednesday 3rd February 2021)"
+	revision: "11"
 
 frozen class
 	EL_ZSTRING_SEARCHER

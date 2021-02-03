@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:26:42 GMT (Tuesday 5th January 2021)"
-	revision: "13"
+	date: "2021-02-03 8:15:27 GMT (Wednesday 3rd February 2021)"
+	revision: "14"
 
 deferred class
 	STRING_BENCHMARK
@@ -92,6 +92,7 @@ feature {NONE} -- Implementation
 			do_performance_test ("prune_all", "$A $D", agent test_prune_all)
 
 			do_performance_test ("remove_substring", "D", agent test_remove_substring)
+			do_performance_test ("replace_character", "$D", agent test_replace_character)
 			do_performance_test ("replace_substring", "D", agent test_replace_substring)
 			do_performance_test ("replace_substring_all", "D", agent test_replace_substring_all)
 			do_performance_test ("right_adjust", "padded (A)", agent test_right_adjust)
@@ -242,6 +243,24 @@ feature -- Benchmark tests
 				str := string.item.twin
 				prune_all (str, input_character_list.i_th (string.cursor_index).last_character)
 				prune_all (str, ' ')
+			end
+		end
+
+	test_replace_character
+		local
+			str: STRING_GENERAL; i, count: INTEGER
+			characters: STRING_32
+		do
+			create characters.make_empty
+			across input_string_list as string loop
+				characters.wipe_out
+				characters.append_string_general (string.item)
+				str := string.item.twin
+				count := characters.count
+				from i := 2 until i > count loop
+					replace_character (str, characters [1], characters [i])
+					i := i + 1
+				end
 			end
 		end
 
@@ -667,6 +686,10 @@ feature {NONE} -- Deferred implementation
 		end
 
 	remove_substring (target: STRING_GENERAL; start_index, end_index: INTEGER)
+		deferred
+		end
+
+	replace_character (target: STRING_GENERAL; old_character, new_character: CHARACTER_32)
 		deferred
 		end
 

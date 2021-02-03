@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:11:29 GMT (Sunday 31st January 2021)"
-	revision: "14"
+	date: "2021-02-03 16:03:32 GMT (Wednesday 3rd February 2021)"
+	revision: "15"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -32,28 +32,47 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 	append_replaced (str, old_substring, new_substring: EL_READABLE_ZSTRING)
 		-- append `str' replacing any occurrences of `old_substring' with `new_substring'
 		local
-			original_count, previous_index, new_count, size_difference: INTEGER
-			positions: ARRAYED_LIST [INTEGER]
+			original_count, previous_index, end_index, new_count, size_difference: INTEGER
+			positions: ARRAYED_LIST [INTEGER]; buffer: like empty_unencoded_buffer
 		do
 			original_count := old_substring.count
 			positions := str.internal_substring_index_list (old_substring)
 			if not positions.is_empty then
+				buffer := empty_unencoded_buffer
+				if has_mixed_encoding then
+					buffer.append (current_readable)
+				end
 				size_difference := new_substring.count - original_count
-				new_count := str.count + (new_substring.count - original_count) * positions.count
+				new_count := count + str.count + (new_substring.count - original_count) * positions.count
 				grow (new_count)
 				previous_index := 1
 				from positions.start until positions.after loop
-					append_substring (str, previous_index, positions.item - 1)
-					append (new_substring)
+					end_index := positions.item - 1
+					if end_index >= previous_index then
+						if str.has_mixed_encoding then
+							buffer.append_shifted_substring (str, previous_index, end_index, count)
+						end
+						internal_append_substring (str, previous_index, end_index)
+					end
+					if new_substring.has_mixed_encoding then
+						buffer.append_shifted (new_substring, count)
+					end
+					internal_append (new_substring)
 					previous_index := positions.item + old_substring.count
 					positions.forth
 				end
-				if previous_index <= str.count then
-					append_substring (str, previous_index, str.count)
+				end_index := str.count
+				if previous_index <= end_index then
+					if str.has_mixed_encoding then
+						buffer.append_shifted_substring (str, previous_index, end_index, count)
+					end
+					internal_append_substring (str, previous_index, end_index)
 				end
+				set_from_unencoded_buffer (buffer)
 			end
+		ensure
+			valid_unencoded: is_unencoded_valid
 		end
-
 
 	append_string_8 (str: READABLE_STRING_8)
 		require else
@@ -72,7 +91,8 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			if s.has_mixed_encoding then
 				old_count := count
 				internal_append (s)
-				append_unencoded (s.shifted_unencoded (old_count))
+				append_shifted (s, old_count)
+--				append_unencoded (s.shifted_unencoded (old_count))
 			else
 				internal_append (s)
 			end
@@ -139,9 +159,8 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			internal_append_substring (s, start_index, end_index)
 			if s.has_mixed_encoding then
 				buffer := empty_unencoded_buffer
-				s.append_substrings_into (buffer, start_index, end_index)
+				buffer.append_shifted_substring (s, start_index, end_index, old_count)
 				if buffer.not_empty then
-					buffer.shift (old_count)
 					append_unencoded (buffer)
 				end
 			end

@@ -361,3 +361,6 @@ Restoration of EL_UNENCODED_CHARACTERS implemenation of EL_ZSTRING with some opt
 Sun 31st Jan 2021, 16:13:30
 Changed {EL_UNENCODED_CHARACTERS}.append_substrings_into to do a left shift
 
+Wed 3rd Feb 2021, 8:06:59
+Fixed {EL_READABLE_ZSTRING}.order_comparison
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-13 9:35:59 GMT (Wednesday 13th January 2021)"
-	revision: "2"
+	date: "2021-02-02 12:38:54 GMT (Tuesday 2nd February 2021)"
+	revision: "3"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -16,9 +16,9 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
 			data_dir as EL_test_data_dir
+		undefine
+			new_lio
 		end
-
-	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
@@ -26,6 +26,9 @@ inherit
 		end
 
 	EL_MODULE_DIGEST
+
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature -- Basic operations
 

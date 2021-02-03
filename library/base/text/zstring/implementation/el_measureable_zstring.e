@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 10:11:56 GMT (Thursday 28th January 2021)"
-	revision: "4"
+	date: "2021-02-03 9:11:28 GMT (Wednesday 3rd February 2021)"
+	revision: "5"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -22,27 +22,25 @@ feature -- Measurement
 	leading_occurrences (uc: CHARACTER_32): INTEGER
 			-- Returns count of continous occurrences of `uc' or white space starting from the begining
 		local
-			i, l_count: INTEGER; l_area: like area; c, c_i: CHARACTER; uc_code: NATURAL
+			i, l_count: INTEGER; l_area: like area; c: CHARACTER; uc_code: NATURAL
+			unencoded: like unencoded_indexable
 		do
 			c := encoded_character (uc); uc_code := uc.natural_32_code
 			l_area := area; l_count := count
-			if c = Unencoded_character then
-				if has_mixed_encoding then
-					from i := 0 until i = l_count loop
-						c_i := l_area [i]
-						if c_i = Unencoded_character and then unencoded_code (i + 1) = uc_code then
-							Result := Result + 1
-						else
-							i := l_count - 1 -- break out of loop
-						end
-						i := i + 1
-					end
-				end
-			else
+			if c /= Unencoded_character then
 				from i := 0 until i = l_count loop
-					c_i := l_area [i]
 					-- `Unencoded_character' is space
-					if c_i = c then
+					if l_area [i] = c then
+						Result := Result + 1
+					else
+						i := l_count - 1 -- break out of loop
+					end
+					i := i + 1
+				end
+			elseif has_mixed_encoding then
+				unencoded := unencoded_indexable
+				from i := 0 until i = l_count loop
+					if l_area [i] = Unencoded_character and then unencoded.code (i + 1) = uc_code then
 						Result := Result + 1
 					else
 						i := l_count - 1 -- break out of loop

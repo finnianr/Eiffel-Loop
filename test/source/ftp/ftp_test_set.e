@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 16:30:10 GMT (Saturday 12th September 2020)"
-	revision: "12"
+	date: "2021-02-02 11:13:51 GMT (Tuesday 2nd February 2021)"
+	revision: "13"
 
 class
 	FTP_TEST_SET
@@ -42,8 +42,6 @@ feature {NONE} -- Implementation
 		local
 			dir: EL_DIR_PATH; file_path: EL_FILE_PATH
 		do
-			log.enter ("basic_tests")
-
 			dir := "Köln/Hauptbahnhof"
 			ftp.change_home_dir
 			ftp.make_directory (dir)
@@ -59,8 +57,6 @@ feature {NONE} -- Implementation
 			assert ("Remote file does not exist", not ftp.file_exists (file_path))
 			ftp.remove_directory (Help_pages_mint_dir)
 			ftp.remove_directory (Help_pages_mint_dir.parent)
-
-			log.exit
 		end
 
 	ftp_sync_test
@@ -68,7 +64,6 @@ feature {NONE} -- Implementation
 			sync: EL_FTP_SYNC; file_list: EL_FILE_PATH_LIST
 			sync_item: EL_FILE_SYNC_ITEM
 		do
-			log.enter ("ftp_sync_test")
 			ftp.change_home_dir
 			create sync.make (ftp, Ftp_sync_path, Work_area_dir)
 			create file_list.make_with_count (file_set.count)
@@ -86,7 +81,6 @@ feature {NONE} -- Implementation
 			file_list.wipe_out
 			sync.login_and_upload
 			assert ("Directory deleted", not ftp.directory_exists (Help_pages_mint_dir.parent))
-			log.exit
 		end
 
 feature {NONE} -- Events

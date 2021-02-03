@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 10:19:25 GMT (Thursday 28th May 2020)"
-	revision: "5"
+	date: "2021-02-02 11:11:01 GMT (Tuesday 2nd February 2021)"
+	revision: "6"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -24,6 +24,8 @@ inherit
 	EL_GENERATED_FILE_DATA_TEST_SET
 		rename
 			new_file_tree as new_empty_file_tree
+		undefine
+			new_lio
 		redefine
 			on_prepare
 		end

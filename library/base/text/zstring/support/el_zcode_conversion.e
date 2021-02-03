@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 12:19:16 GMT (Saturday 30th January 2021)"
-	revision: "7"
+	date: "2021-02-03 11:46:46 GMT (Wednesday 3rd February 2021)"
+	revision: "8"
 
 class
 	EL_ZCODE_CONVERSION
@@ -30,6 +30,8 @@ feature {EL_ZCODEC} -- Implementation
 			else
 				Result := unicode
 			end
+		ensure
+			reversbile: z_code_to_unicode (Result) = unicode
 		end
 
 	frozen z_code_to_unicode (z_code: NATURAL): NATURAL
@@ -43,13 +45,13 @@ feature {EL_ZCODEC} -- Implementation
 	frozen area_z_code (a_string_area: SPECIAL [CHARACTER]; unencoded: EL_UNENCODED_CHARACTERS_INDEX; i: INTEGER): NATURAL
 			-- code which can be latin or unicode depending on presence of unencoded characters
 		local
-			c: CHARACTER
+			c_i: CHARACTER
 		do
-			c := a_string_area [i]
-			if c = Unencoded_character then
+			c_i := a_string_area [i]
+			if c_i = Unencoded_character then
 				Result := unencoded.z_code (i + 1)
 			else
-				Result := c.natural_32_code
+				Result := c_i.natural_32_code
 			end
 		end
 

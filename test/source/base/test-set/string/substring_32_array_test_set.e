@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:11:30 GMT (Sunday 31st January 2021)"
-	revision: "17"
+	date: "2021-02-03 14:36:13 GMT (Wednesday 3rd February 2021)"
+	revision: "18"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -26,7 +26,7 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
 			eval.call ("append", agent test_append)
-			eval.call ("append_substrings_into", agent test_append_substrings_into)
+			eval.call ("append_substring", agent test_append_substring)
 			eval.call ("character_count", agent test_character_count)
 			eval.call ("code", agent test_code)
 			eval.call ("first_interval", agent test_first_interval)
@@ -74,9 +74,9 @@ feature -- Test
 			end
 		end
 
-	test_append_substrings_into
+	test_append_substring
 		note
-			testing: "covers/{EL_SUBSTRING_32_ARRAY}.append_substrings_into", "covers/{EL_SUBSTRING_32_LIST}.append_interval"
+			testing: "covers/{EL_UNENCODED_CHARACTERS_BUFFER}.append_substring"
 		local
 			zstr: ZSTRING; unencoded, sub_unencoded: EL_UNENCODED_CHARACTERS
 			extendable: EL_UNENCODED_CHARACTERS_BUFFER; lower, upper: INTEGER
@@ -88,7 +88,7 @@ feature -- Test
 					zstr := text_russian
 					lower := index.item; upper := index.item + n.item - 1
 					unencoded := zstr
-					unencoded.append_substrings_into (extendable, lower, upper)
+					extendable.append_substring (unencoded, lower, upper)
 					create sub_unencoded.make_from_other (extendable)
 					zstr := zstr.substring (lower, upper)
 					assert ("same content", same_content (zstr, sub_unencoded))

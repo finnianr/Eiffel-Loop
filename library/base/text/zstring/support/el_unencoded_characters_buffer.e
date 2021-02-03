@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:10:51 GMT (Sunday 31st January 2021)"
-	revision: "11"
+	date: "2021-02-03 16:52:59 GMT (Wednesday 3rd February 2021)"
+	revision: "12"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -17,7 +17,7 @@ inherit
 		export
 			 {NONE} area
 		redefine
-			append_interval
+			last_index
 		end
 
 create
@@ -35,9 +35,72 @@ feature -- Access
 
 feature -- Element change
 
-	append_substring (str: EL_UNENCODED_CHARACTERS; a_shift, end_index: INTEGER)
+	append_from_area (a_area: like area; index: INTEGER)
+		local
+			lower, upper: INTEGER
 		do
-			str.append_substrings_into (Current, a_shift, end_index)
+			last_index := index
+			lower := lower_bound (a_area, index); upper := upper_bound (a_area, index)
+			area := big_enough (area, index + upper - lower + 3)
+			area.copy_data (a_area, 0, 0, index + upper - lower + 3)
+		end
+
+	append_shifted_substring (other: EL_UNENCODED_CHARACTERS; start_index, end_index, n: INTEGER)
+		local
+			i, lower, upper, count, i_final, offset: INTEGER
+			o_area: like area
+		do
+			o_area := other.area; i_final := o_area.count; offset := start_index - 1
+			from i := 0 until i = i_final loop
+				lower := lower_bound (o_area, i); upper := upper_bound (o_area, i)
+				count := upper - lower + 1
+				if lower <= start_index and then end_index <= upper then
+					-- Append full interval
+					append_shifted_interval (o_area, i + 2 + (start_index - lower), start_index - offset, end_index - offset, n)
+
+				elseif start_index <= lower and then upper <= end_index then
+					-- Append full interval
+					append_shifted_interval (o_area, i + 2, lower - offset, upper - offset, n)
+
+				elseif lower <= end_index and then end_index <= upper then
+					-- Append left section
+					append_shifted_interval (o_area, i + 2, lower - offset, end_index - offset, n)
+
+				elseif lower <= start_index and then start_index <= upper then
+					-- Append right section
+					append_shifted_interval (o_area, i + 2 + (start_index - lower), start_index - offset, upper - offset, n)
+				end
+				i := i + count + 2
+			end
+		end
+
+	append_substring (other: EL_UNENCODED_CHARACTERS; start_index, end_index: INTEGER)
+		local
+			i, lower, upper, count, i_final, offset: INTEGER
+			o_area: like area
+		do
+			o_area := other.area; i_final := o_area.count; offset := start_index - 1
+			from i := 0 until i = i_final loop
+				lower := lower_bound (o_area, i); upper := upper_bound (o_area, i)
+				count := upper - lower + 1
+				if lower <= start_index and then end_index <= upper then
+					-- Append full interval
+					append_interval (o_area, i + 2 + (start_index - lower), start_index - offset, end_index - offset)
+
+				elseif start_index <= lower and then upper <= end_index then
+					-- Append full interval
+					append_interval (o_area, i + 2, lower - offset, upper - offset)
+
+				elseif lower <= end_index and then end_index <= upper then
+					-- Append left section
+					append_interval (o_area, i + 2, lower - offset, end_index - offset)
+
+				elseif lower <= start_index and then start_index <= upper then
+					-- Append right section
+					append_interval (o_area, i + 2 + (start_index - lower), start_index - offset, upper - offset)
+				end
+				i := i + count + 2
+			end
 		end
 
 	extend (a_code: NATURAL; index: INTEGER)
@@ -78,10 +141,38 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	append_interval (a_area: like area; source_index, lower, upper: INTEGER)
+	append_shifted_interval (o_area: like area; source_index, o_lower, o_upper, n: INTEGER)
+		-- shifted by `n'
+		local
+			count, i: INTEGER; l_area: like area
 		do
-			Precursor (a_area, source_index, lower, upper)
-			last_index := area.count - (upper - lower + 3)
+			l_area := area; i := last_index; count := o_upper - o_lower + 1
+			if l_area.count > 0 and then upper_bound (l_area, i) + 1 = o_lower + n then
+				-- merge intervals
+				l_area := big_enough (l_area, count)
+				l_area.copy_data (o_area, source_index, area.count, count)
+				put_upper (l_area, i, o_upper + n)
+			else
+				l_area := big_enough (l_area, count + 2)
+				extend_bounds (l_area, o_lower + n, o_upper + n)
+				l_area.copy_data (o_area, source_index, area.count, count)
+				last_index := area.count - (o_upper - o_lower + 3)
+			end
+		ensure
+			count_increased_by_count: character_count = old character_count + o_upper - o_lower + 1
+		end
+
+	append_interval (o_area: like area; source_index, o_lower, o_upper: INTEGER)
+		local
+			count: INTEGER; l_area: like area
+		do
+			l_area := area; count := o_upper - o_lower + 1
+			l_area := big_enough (l_area, count + 2)
+			extend_bounds (l_area, o_lower, o_upper)
+			l_area.copy_data (o_area, source_index, area.count, count)
+			last_index := area.count - (o_upper - o_lower + 3)
+		ensure
+			count_increased_by_count: character_count = old character_count + o_upper - o_lower + 1
 		end
 
 	valid_last_index: BOOLEAN

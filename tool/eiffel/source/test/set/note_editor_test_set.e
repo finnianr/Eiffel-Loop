@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:29:01 GMT (Wednesday 6th January 2021)"
-	revision: "20"
+	date: "2021-02-02 12:39:12 GMT (Tuesday 2nd February 2021)"
+	revision: "21"
 
 class
 	NOTE_EDITOR_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		undefine
+			new_lio
 		redefine
 			on_prepare
 		end

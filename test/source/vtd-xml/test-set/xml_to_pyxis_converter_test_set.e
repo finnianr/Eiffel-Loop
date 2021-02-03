@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-11 14:50:31 GMT (Wednesday 11th November 2020)"
-	revision: "7"
+	date: "2021-02-02 11:11:01 GMT (Tuesday 2nd February 2021)"
+	revision: "8"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -20,14 +20,16 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
 			data_dir as Eiffel_loop_dir
+		undefine
+			new_lio
 		end
-
-	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature -- Basic operations
 

@@ -7,19 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 17:21:47 GMT (Saturday 30th January 2021)"
-	revision: "5"
+	date: "2021-02-03 10:21:02 GMT (Wednesday 3rd February 2021)"
+	revision: "6"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
 
 inherit
-	EL_EXTENDABLE_AREA [INTEGER]
-		rename
-			area as index_stack
-		end
-
-	EL_ZCODE_CONVERSION undefine copy, is_equal, out end
+	EL_ZCODE_CONVERSION
 
 create
 	make, make_default
@@ -28,13 +23,11 @@ feature {NONE} -- Initialization
 
 	make (a_area: like area)
 		do
-			index_stack := Empty_area
 			set_area (a_area)
 		end
 
 	make_default
 		do
-			index_stack := Empty_area
 			create area.make_empty (0)
 		end
 
@@ -44,22 +37,19 @@ feature -- Access
 		require
 			valid_index: valid_index (index)
 		local
-			i, i_final, lower, upper, last_index: INTEGER; stack: like index_stack
+			i, i_final, lower, upper, last_index: INTEGER
 			l_area: like area
 		do
-			i := area_index
-			stack := index_stack; l_area := area; i_final := l_area.count
-			lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+			i := area_index ; l_area := area
+			lower := lower_bound (l_area, i)
 			if index < lower then
-				from until index >= lower or else stack.count = 0 loop
-					i := stack [stack.count - 1]
-					stack.remove_tail (1)
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				end
-			elseif index > upper then
+				i := 0
+				lower := lower_bound (l_area, i)
+			end
+			upper := upper_bound (l_area, i)
+			if index > upper then
+				i_final := l_area.count
 				from until index <= upper or else i = i_final loop
-					stack := big_enough (stack, 1)
-					stack.extend (i)
 					i := i + upper - lower + 3
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 				end
@@ -144,14 +134,8 @@ feature -- Element change
 
 	set_area (a_area: like area)
 		do
-			wipe_out
 			area_index := 0
 			area := a_area
-		end
-
-	wipe_out
-		do
-			index_stack.wipe_out
 		end
 
 feature {NONE} -- Implementation
@@ -166,17 +150,11 @@ feature {NONE} -- Implementation
 			Result := a_area.item (i + 1).to_integer_32
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_UNENCODED_CHARACTERS} -- Internal attributes
 
 	area: SPECIAL [NATURAL]
 		-- unencoded character area
 
 	area_index: INTEGER
 
-feature {NONE} -- Constants
-
-	Empty_area: SPECIAL [INTEGER]
-		once
-			create Result.make_empty (0)
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:26:42 GMT (Tuesday 5th January 2021)"
-	revision: "11"
+	date: "2021-02-03 7:25:18 GMT (Wednesday 3rd February 2021)"
+	revision: "12"
 
 class
 	STRING_32_BENCHMARK
@@ -59,6 +59,13 @@ feature {NONE} -- Implementation
 	prune_all (target: like new_string; uc: CHARACTER_32)
 		do
 			target.prune_all (uc)
+		end
+
+	replace_character (target: like new_string; uc_old, uc_new: CHARACTER_32)
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			s.replace_character (target, uc_old, uc_new)
 		end
 
 	remove_substring (target: like new_string; start_index, end_index: INTEGER)

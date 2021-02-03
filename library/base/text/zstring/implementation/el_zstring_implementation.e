@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 14:32:14 GMT (Sunday 31st January 2021)"
-	revision: "19"
+	date: "2021-02-03 16:45:46 GMT (Wednesday 3rd February 2021)"
+	revision: "20"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -27,6 +27,7 @@ inherit
 			hash_code as unencoded_hash_code,
 			has as unencoded_has,
 			index_of as unencoded_index_of,
+			interval_index_other as unencoded_indexable_other,
 			interval_index as unencoded_indexable,
 			insert as insert_unencoded,
 			item as unencoded_item,
@@ -42,6 +43,7 @@ inherit
 			put_code as put_unencoded_code,
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,
+			replace_character as replace_unencoded_character,
 			same_string as same_unencoded_string,
 			set_area as set_unencoded_area,
 			set_from_buffer as set_from_unencoded_buffer,
@@ -146,9 +148,15 @@ feature -- Element change
 		end
 
 	put_z_code (a_z_code: like z_code; i: INTEGER)
+		local
+			c_i: CHARACTER
 		do
 			if a_z_code <= 0xFF then
+				c_i := area [i - 1]
 				area [i - 1] := a_z_code.to_character_8
+				if c_i = Unencoded_character then
+					remove_unencoded (i + 1)
+				end
 			else
 				area [i - 1] := Unencoded_character
 				put_unencoded_code (z_code_to_unicode (a_z_code), i)
@@ -228,19 +236,19 @@ feature {EL_READABLE_ZSTRING} -- Status query
 		require
 			valid_start_index: start_index + other.count - 1 <= count
 		local
-			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded_other: like unencoded_indexable
+			i, i_final: INTEGER; l_area: like area; c_i: CHARACTER
+			unencoded, unencoded_other: like unencoded_indexable
 		do
 			Result := True
-			l_area := area; l_count := other.count
-			unencoded_other := other.unencoded_indexable
-			from i := 0 until i = l_count or else not Result loop
+			l_area := area; i_final := other.count
+			unencoded := unencoded_indexable; unencoded_other := other.unencoded_indexable_other
+			from i := 0 until i = i_final or else not Result loop
 				c_i := l_area [i + start_index - 1]
 				check
 					same_unencoded_positions: c_i = Unencoded_character implies c_i = other.area [i]
 				end
 				if c_i = Unencoded_character then
-					Result := Result and unencoded_code (start_index + i) = unencoded_other.code (i + 1)
+					Result := Result and unencoded.code (start_index + i) = unencoded_other.code (i + 1)
 				end
 				i := i + 1
 			end
@@ -251,19 +259,19 @@ feature {EL_READABLE_ZSTRING} -- Contract Support
 	is_unencoded_valid: BOOLEAN
 			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
 		local
-			i, j, l_lower, l_upper, l_count, l_sum_count, array_count: INTEGER
+			i, j, lower, upper, l_count, l_sum_count, i_final: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
 			if is_empty then
 				Result := not has_mixed_encoding
 			else
-				l_area := area; l_unencoded := unencoded_area; array_count := l_unencoded.count
+				l_area := area; l_unencoded := unencoded_area; i_final := l_unencoded.count
 				Result := unencoded_last_upper <= count
-				if array_count > 0 then
-					from i := 0 until not Result or else  i = array_count loop
-						l_lower := l_unencoded.item (i).to_integer_32; l_upper := l_unencoded.item (i + 1).to_integer_32
-						l_count := l_upper - l_lower + 1
-						from j := l_lower until not Result or else j > l_upper loop
+				if i_final > 0 then
+					from i := 0 until not Result or else i = i_final loop
+						lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
+						l_count := upper - lower + 1
+						from j := lower until not Result or else j > upper loop
 							Result := Result and l_area [j - 1] = Unencoded_character
 							j := j + 1
 						end
@@ -362,8 +370,8 @@ feature {NONE} -- Implementation
 	z_code (i: INTEGER): NATURAL_32
 			-- Returns hybrid code of latin and unicode
 			-- Single byte codes are reserved for latin encoding.
-			-- Unicode characters below 0xFF are shifted into the private use range 0xE000 .. 0xF8FF
-			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
+			-- Unicode characters below 0xFF have bit number 31 set to 1 using `Sign_bit' so
+			-- that any zcode <= 0xFF can be assumed to be an encoded character using some codec.
 
 			-- Implementation of {READABLE_STRING_GENERAL}.code
 			-- Client classes include `EL_ZSTRING_SEARCHER'

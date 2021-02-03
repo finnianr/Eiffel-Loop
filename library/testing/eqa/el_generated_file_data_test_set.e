@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-15 11:46:14 GMT (Friday 15th May 2020)"
-	revision: "11"
+	date: "2021-02-02 10:34:42 GMT (Tuesday 2nd February 2021)"
+	revision: "12"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -20,8 +20,6 @@ inherit
 		redefine
 			on_prepare
 		end
-
-	EL_MODULE_LOG
 
 	EL_MODULE_DIRECTORY
 

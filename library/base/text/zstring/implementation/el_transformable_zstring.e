@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:11:30 GMT (Sunday 31st January 2021)"
-	revision: "14"
+	date: "2021-02-03 11:40:55 GMT (Wednesday 3rd February 2021)"
+	revision: "15"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -241,23 +241,44 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			code_old, code_new: NATURAL; c_i, c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
+			code_old, code_new: NATURAL; c_old, c_new: CHARACTER; i, l_count: INTEGER; l_area: like area
+			unencoded: like unencoded_indexable
 		do
-			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
-			c_old := encoded_character (uc_old); c_new := encoded_character (uc_new)
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				if c_i = c_old and then (c_i = Unencoded_character implies code_old = unencoded_code (i + 1)) then
-					l_area [i] := c_new
-					if c_new = Unencoded_character then
-						put_unencoded_code (code_new, i + 1)
-					elseif c_i = Unencoded_character then
-						remove_unencoded (i + 1)
-					end
-				end
-				i := i + 1
+			c_old := codec.encoded_character (uc_old.natural_32_code)
+			if c_old = Unencoded_character then
+				code_old := uc_old.natural_32_code
 			end
+			c_new := codec.encoded_character (uc_new.natural_32_code)
+			if c_new = Unencoded_character then
+				code_new := uc_new.natural_32_code
+			end
+			l_area := area; l_count := count
+			if code_old.to_boolean then
+				if has_mixed_encoding then
+					unencoded := unencoded_indexable
+					from i := 0 until i = l_count loop
+						if l_area [i] = Unencoded_character and then code_old = unencoded.code (i + 1) then
+							l_area [i] := c_new
+						end
+						i := i + 1
+					end
+					replace_unencoded_character (code_old, code_new, False)
+				end
+			else
+				from i := 0 until i = l_count loop
+					if l_area [i] = c_old then
+						l_area [i] := c_new
+						if c_new = Unencoded_character then
+							put_unencoded_code (code_new, i + 1)
+						end
+					end
+					i := i + 1
+				end
+			end
+			reset_hash
+		ensure
+			valid_unencoded: is_unencoded_valid
+			replaced: uc_old /= uc_new implies occurrences (uc_new) = old (occurrences (uc_old) + occurrences (uc_new))
 		end
 
 	replace_delimited_substring (left, right, new: EL_READABLE_ZSTRING; include_delimiter: BOOLEAN; start_index: INTEGER)
@@ -477,6 +498,10 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	occurrences (uc: CHARACTER_32): INTEGER
+		deferred
+		end
 
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		deferred

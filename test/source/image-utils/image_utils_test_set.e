@@ -10,32 +10,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 14:40:03 GMT (Saturday 12th September 2020)"
-	revision: "8"
+	date: "2021-02-02 11:12:32 GMT (Tuesday 2nd February 2021)"
+	revision: "9"
 
 class
 	IMAGE_UTILS_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
+		undefine
+			new_lio
 		redefine
 			on_prepare
 		end
-
-	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine
 			on_prepare, on_clean
 		end
 
-	EL_FILE_OPEN_ROUTINES
-
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_SVG
 
 	EL_MODULE_EVOLICITY_TEMPLATES
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature {NONE} -- Initialization
 

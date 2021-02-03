@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:53:31 GMT (Sunday 18th October 2020)"
-	revision: "3"
+	date: "2021-02-02 12:39:12 GMT (Tuesday 2nd February 2021)"
+	revision: "4"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
+		undefine
+			new_lio
+		end
 
 	EL_EQA_REGRESSION_TEST_SET
 		undefine

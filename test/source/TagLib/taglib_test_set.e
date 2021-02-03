@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:36:18 GMT (Friday 8th January 2021)"
-	revision: "32"
+	date: "2021-02-02 11:11:28 GMT (Tuesday 2nd February 2021)"
+	revision: "33"
 
 class
 	TAGLIB_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		undefine
+			new_lio
 		redefine
 			on_clean
 		end
@@ -24,8 +26,6 @@ inherit
 		end
 
 	EIFFEL_LOOP_TEST_CONSTANTS
-
-	EL_MODULE_DIGEST
 
 	EL_MODULE_NAMING
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 18:11:47 GMT (Sunday 3rd January 2021)"
-	revision: "8"
+	date: "2021-02-03 7:23:28 GMT (Wednesday 3rd February 2021)"
+	revision: "9"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -69,6 +69,10 @@ feature {NONE} -- Implementation
 			str_32.prune_all (uc)
 			target.wipe_out
 			target.append_string_general (str_32)
+		end
+
+	replace_character (target: like new_string; old_character, new_character: CHARACTER_32)
+		do
 		end
 
 	remove_substring (target: like new_string; start_index, end_index: INTEGER)

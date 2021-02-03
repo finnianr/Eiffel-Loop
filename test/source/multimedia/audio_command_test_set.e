@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:35:12 GMT (Sunday 5th April 2020)"
-	revision: "8"
+	date: "2021-02-02 11:13:04 GMT (Tuesday 2nd February 2021)"
+	revision: "9"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -41,7 +41,6 @@ feature -- Tests
 			properties_cmd: like Audio_command.new_audio_properties
 			mp3: TL_MPEG_FILE
 		do
-			log.enter ("test_mp3_audio")
 			if {PLATFORM}.is_unix then
 				generation_cmd := Audio_command.new_wave_generation (Mp3_file_path.with_new_extension ("wav"))
 				generation_cmd.set_duration (20)
@@ -65,7 +64,6 @@ feature -- Tests
 				assert ("valid sampling frequency", properties_cmd.sampling_frequency = 22050)
 				assert ("valid duration", properties_cmd.duration.seconds_count = 20)
 			end
-			log.exit
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:06:28 GMT (Tuesday 5th January 2021)"
-	revision: "25"
+	date: "2021-02-02 11:13:50 GMT (Tuesday 2nd February 2021)"
+	revision: "26"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -323,7 +323,7 @@ feature {NONE} -- Implementation
 			response: AIA_RESPONSE
 		do
 			Request_manager.get_user_id.set_new_response (agent get_user_id_1234)
-			Request_manager.print_verification (log, request)
+			Request_manager.print_verification (lio, request)
 			response := Request_manager.response (request)
 			if attached {AIA_GET_USER_ID_RESPONSE} response as user_id_response then
 				assert ("no error", not Request_manager.has_error)
