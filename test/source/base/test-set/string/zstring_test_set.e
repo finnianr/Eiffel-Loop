@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 12:04:39 GMT (Thursday 4th February 2021)"
-	revision: "45"
+	date: "2021-02-04 18:02:29 GMT (Thursday 4th February 2021)"
+	revision: "46"
 
 class
 	ZSTRING_TEST_SET
@@ -103,18 +103,19 @@ feature -- Conversion tests
 		note
 			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.split, covers/{ZSTRING}.index_of"
 		local
-			proverb: ZSTRING; word_list: LIST [ZSTRING]; words_32: LIST [STRING_32]
+			list: LIST [ZSTRING]; list_32: LIST [STRING_32]
+			str: ZSTRING; str_32: STRING_32; i: INTEGER
 		do
-			proverb := Text_russian_and_english
-			across << 'ь', (' ').to_character_32 >> as c loop
-				word_list := proverb.split (c.item)
-				words_32 := Text_russian_and_english.split (c.item)
-				assert ("same word count", word_list.count = words_32.count)
-				if word_list.count = words_32.count then
-					from word_list.start; words_32.start until word_list.after loop
-						assert ("test_split OK", word_list.item.same_string (words_32.item))
-						word_list.forth; words_32.forth
+			across Text_lines as line loop
+				str_32 := line.item; str := str_32
+				from i := 1 until i > 3 loop
+					list := str.split (str_32 [i])
+					list_32 := str_32.split (str_32 [i])
+					assert ("same count", list.count = list_32.count)
+					if list.count = list_32.count then
+						assert ("same content", across list as ls all ls.item.same_string (list_32.i_th (ls.cursor_index)) end)
 					end
+					i := i + 1
 				end
 			end
 		end
@@ -509,20 +510,18 @@ feature -- Element change tests
 		note
 			testing:	"covers/{ZSTRING}.replace_substring"
 		local
-			str, word: ZSTRING; str_32, substring: STRING_32
-			l_interval: INTEGER_INTERVAL; index: INTEGER
+			str, word: ZSTRING; str_32, word_32: STRING_32
+			word_list_32: EL_STRING_32_LIST; index: INTEGER
 		do
-			across text_words as word_32 loop
-				-- Replace each word
-				word := word_32.item
-				index := word_32.cursor_index
-
-				across Text_word_intervals as interval loop
-					l_interval := interval.item
-					substring := Text_russian_and_english.substring (l_interval.lower, l_interval.upper)
-					str_32 := Text_russian_and_english.twin; str := str_32
-					str_32.replace_substring (word_32.item, l_interval.lower, l_interval.upper)
-					str.replace_substring (word, l_interval.lower, l_interval.upper)
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				create word_list_32.make_with_words (str_32)
+				across word_list_32 as list loop
+					word_32 := list.item; word := word_32
+					index := str_32.substring_index (word_32, 1)
+					word_32.remove_tail (1); word.remove_tail (1)
+					str_32.replace_substring (word_32, index, index + word_32.count)
+					str.replace_substring (word, index, index + word.count)
 					assert ("replace_substring OK", str.same_string (str_32))
 				end
 			end

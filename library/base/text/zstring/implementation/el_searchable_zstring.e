@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 14:32:26 GMT (Sunday 31st January 2021)"
-	revision: "5"
+	date: "2021-02-04 15:29:50 GMT (Thursday 4th February 2021)"
+	revision: "6"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -67,7 +67,10 @@ feature -- Access
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		do
 			inspect respective_encoding (other)
-				when Both_have_mixed_encoding, Only_current, Neither then
+				when Only_current, Neither then
+					Result := internal_substring_index (other, start_index)
+
+				when Both_have_mixed_encoding then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
 					Result := String_searcher.substring_index (current_readable, other.as_expanded (1), start_index, count)
 				when Only_other then

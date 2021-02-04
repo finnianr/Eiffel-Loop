@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 14:33:52 GMT (Sunday 31st January 2021)"
-	revision: "17"
+	date: "2021-02-04 17:27:25 GMT (Thursday 4th February 2021)"
+	revision: "18"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -155,6 +155,7 @@ feature -- To list
 		local
 			l_list: ARRAYED_LIST [like Current]; part: like Current; i, j, l_count, result_count: INTEGER
 			separator: CHARACTER; call_index_of_8: BOOLEAN; separator_code: NATURAL
+			l_unencoded: like unencoded_indexable
 		do
 			separator := encoded_character (a_separator)
 			l_count := count
@@ -182,8 +183,9 @@ feature -- To list
 						i := j + 1
 					end
 				else
+					l_unencoded := unencoded_indexable
 					from i := 1 until i > l_count loop
-						j := unencoded_index_of (separator_code, i)
+						j := l_unencoded.index_of (separator_code, i)
 						if j = 0 then
 							j := l_count + 1
 						end

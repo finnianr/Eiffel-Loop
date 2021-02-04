@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 12:13:53 GMT (Thursday 4th February 2021)"
-	revision: "21"
+	date: "2021-02-04 17:05:44 GMT (Thursday 4th February 2021)"
+	revision: "22"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -528,6 +528,8 @@ feature -- Element change
 			else
 				area := Empty_unencoded
 			end
+		ensure
+			is_unencoded_valid: is_unencoded_valid
 		end
 
 	shift (offset: INTEGER)

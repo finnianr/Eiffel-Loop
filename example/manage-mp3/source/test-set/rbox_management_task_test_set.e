@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-20 13:29:12 GMT (Friday 20th November 2020)"
-	revision: "8"
+	date: "2021-02-04 13:37:54 GMT (Thursday 4th February 2021)"
+	revision: "9"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
+		undefine
+			new_lio
 		redefine
 			on_prepare
 		end

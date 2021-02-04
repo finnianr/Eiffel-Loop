@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 12:01:53 GMT (Thursday 4th February 2021)"
-	revision: "21"
+	date: "2021-02-04 16:34:29 GMT (Thursday 4th February 2021)"
+	revision: "22"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -92,7 +92,9 @@ inherit
 			share as internal_share,
 			starts_with as internal_starts_with,
 			string as internal_string,
+			split as internal_split,
 			substring as internal_substring,
+			substring_index as internal_substring_index,
 			right_adjust as internal_right_adjust,
 			wipe_out as internal_wipe_out
 		export

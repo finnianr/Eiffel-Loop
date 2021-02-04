@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:11:55 GMT (Wednesday 20th January 2021)"
-	revision: "12"
+	date: "2021-02-04 16:35:23 GMT (Thursday 4th February 2021)"
+	revision: "13"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -119,6 +119,11 @@ feature -- Access
 			found_if_present: substring (1, start_index_from_end).has (c) implies item (Result) = c
 			none_after: substring (1, start_index_from_end).has (c) implies
 				not substring (Result + 1, start_index_from_end).has (c)
+		end
+
+	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+		do
+			Result := current_string_8.substring_index (string_8_argument (other, 1), start_index)
 		end
 
 feature -- Measurement
@@ -434,6 +439,11 @@ feature {NONE} -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	split (a_separator: CHARACTER): LIST [EL_STRING_8]
+		do
+			Result := current_string_8.split (a_separator)
+		end
 
 	mirror
 		local

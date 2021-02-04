@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 11:57:14 GMT (Thursday 4th February 2021)"
-	revision: "37"
+	date: "2021-02-04 17:21:33 GMT (Thursday 4th February 2021)"
+	revision: "38"
 
 class
 	EL_ZSTRING
@@ -254,18 +254,32 @@ feature -- Element change
 	insert_string (s: EL_READABLE_ZSTRING; i: INTEGER)
 		require
 			valid_insertion_index: 1 <= i and i <= count + 1
+		local
+			buffer: like empty_unencoded_buffer; l_count, old_count: INTEGER
 		do
+			old_count := count
 			internal_insert_string (s, i)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
-					shift_unencoded_from (i, s.count)
-					insert_unencoded (s.shifted_unencoded (i - 1))
+					buffer := empty_unencoded_buffer
+					l_count := i - 1
+					if l_count.to_boolean then
+						buffer.append_substring (Current, 1, i - 1, 0)
+					end
+					if s.count.to_boolean then
+						buffer.append (s, l_count)
+						l_count := l_count + s.count
+					end
+					if i <= old_count then
+						buffer.append_substring (Current, i, old_count, l_count)
+					end
+					set_unencoded_from_buffer (buffer)
 
 				when Only_current then
 					shift_unencoded_from (i, s.count)
 
 				when Only_other then
-					set_unencoded_area (s.shifted_unencoded (i - 1).area)
+					append_unencoded (s, i - 1)
 			else
 			end
 		ensure

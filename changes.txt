@@ -364,3 +364,6 @@ Changed {EL_UNENCODED_CHARACTERS}.append_substrings_into to do a left shift
 Wed 3rd Feb 2021, 8:06:59
 Fixed {EL_READABLE_ZSTRING}.order_comparison
 
+Thu 4th Feb 2021, 12:17:04
+New routine {EL_UNENCODED_CHARACTERS}.make_joined
+

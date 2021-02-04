@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 10:21:02 GMT (Wednesday 3rd February 2021)"
-	revision: "6"
+	date: "2021-02-04 18:23:05 GMT (Thursday 4th February 2021)"
+	revision: "7"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -37,7 +37,7 @@ feature -- Access
 		require
 			valid_index: valid_index (index)
 		local
-			i, i_final, lower, upper, last_index: INTEGER
+			i, i_final, lower, upper: INTEGER
 			l_area: like area
 		do
 			i := area_index ; l_area := area
@@ -59,33 +59,45 @@ feature -- Access
 		end
 
 	index_of (unicode: NATURAL; start_index: INTEGER): INTEGER
-		-- untested
+		-- index of `unicode' starting from `start_index'
 		local
 			lower, upper, i, i_final, j: INTEGER
 			l_area: like area; found: BOOLEAN
 		do
-			l_area := area; i_final := l_area.count
-			-- find `start_index'
-			from i := 0 until found or else i = i_final loop
-				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+			l_area := area; i_final := l_area.count; i := area_index
+			lower := lower_bound (l_area, i)
+			if start_index < lower then
+				i := 0
+			end
+			from until found or else i = i_final loop
+				lower := lower_bound (l_area, i)
 				if lower <= start_index then
 					found := True
 				else
-					i := i + upper - lower + 3
+					i := i + upper_bound (l_area, i) - lower + 3
 				end
 			end
 			if found then
 				from until Result > 0 or else i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					from j := lower until j > upper loop
+					from j := lower.max (start_index) until Result > 0 or else j > upper loop
 						if l_area [i + 2 + j - lower] = unicode then
 							Result := j
 						end
 						j := j + 1
 					end
-					i := i + upper - lower + 3
+					if Result = 0 then
+						i := i + upper - lower + 3
+					end
+				end
+				if i = i_final then
+					area_index := 0
+				else
+					area_index := i
 				end
 			end
+		ensure
+			valid_result: Result > 0 implies code (Result) = unicode
 		end
 
 	z_code (i: INTEGER): NATURAL
