@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:29:29 GMT (Saturday 30th January 2021)"
-	revision: "13"
+	date: "2021-02-04 9:52:51 GMT (Thursday 4th February 2021)"
+	revision: "14"
 
 class
 	EL_ZSTRING_VIEW
@@ -119,7 +119,7 @@ feature -- Conversion
 					i := i + 1
 				end
 				buffer.shift (offset.opposite)
-				Result.set_from_unencoded_buffer (buffer)
+				Result.set_unencoded_from_buffer (buffer)
 			end
 		end
 

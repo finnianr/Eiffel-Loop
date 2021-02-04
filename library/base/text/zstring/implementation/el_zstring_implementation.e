@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 16:45:46 GMT (Wednesday 3rd February 2021)"
-	revision: "20"
+	date: "2021-02-04 12:01:53 GMT (Thursday 4th February 2021)"
+	revision: "21"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -46,7 +46,7 @@ inherit
 			replace_character as replace_unencoded_character,
 			same_string as same_unencoded_string,
 			set_area as set_unencoded_area,
-			set_from_buffer as set_from_unencoded_buffer,
+			set_from_buffer as set_unencoded_from_buffer,
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,
 			shifted as shifted_unencoded,
@@ -314,7 +314,7 @@ feature {NONE} -- Implementation
 
 			inspect respective_encoding (buffer)
 				when Both_have_mixed_encoding then
-					append_unencoded (buffer)
+					append_unencoded (buffer, 0)
 				when Only_other then
 					unencoded_area := buffer.area_copy
 			else

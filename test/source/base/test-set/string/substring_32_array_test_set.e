@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 14:36:13 GMT (Wednesday 3rd February 2021)"
-	revision: "18"
+	date: "2021-02-04 9:57:58 GMT (Thursday 4th February 2021)"
+	revision: "19"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -88,7 +88,7 @@ feature -- Test
 					zstr := text_russian
 					lower := index.item; upper := index.item + n.item - 1
 					unencoded := zstr
-					extendable.append_substring (unencoded, lower, upper)
+					extendable.append_substring (unencoded, lower, upper, 0)
 					create sub_unencoded.make_from_other (extendable)
 					zstr := zstr.substring (lower, upper)
 					assert ("same content", same_content (zstr, sub_unencoded))
@@ -307,7 +307,7 @@ feature -- Test
 					substring := zstr.substring (i, i + substring_count - 1)
 					array := zstr
 					extendable.wipe_out
-					extendable.append_substring (array, i, i + substring_count - 1)
+					extendable.append_substring (array, i, i + substring_count - 1, 0)
 					create sub_array.make_from_other (extendable)
 					assert ("same content", same_content (substring, sub_array))
 					i := i + 1

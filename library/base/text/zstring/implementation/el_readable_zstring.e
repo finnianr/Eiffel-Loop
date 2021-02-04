@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 10:23:26 GMT (Wednesday 3rd February 2021)"
-	revision: "71"
+	date: "2021-02-04 9:57:44 GMT (Thursday 4th February 2021)"
+	revision: "72"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -148,7 +148,7 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
-			set_from_unencoded_buffer (buffer)
+			set_unencoded_from_buffer (buffer)
 			set_count (l_count)
 		end
 
@@ -542,8 +542,8 @@ feature -- Conversion
 			end
 			if has_mixed_encoding and then overlaps_unencoded (start_index, end_index) then
 				buffer := empty_unencoded_buffer
-				buffer.append_substring (Current, start_index, end_index)
-				Result.set_from_unencoded_buffer (buffer)
+				buffer.append_substring (Current, start_index, end_index, 0)
+				Result.set_unencoded_from_buffer (buffer)
 			end
 		ensure then
 			unencoded_valid: Result.is_unencoded_valid

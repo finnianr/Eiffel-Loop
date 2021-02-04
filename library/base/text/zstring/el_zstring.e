@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 11:29:36 GMT (Wednesday 3rd February 2021)"
-	revision: "36"
+	date: "2021-02-04 11:57:14 GMT (Thursday 4th February 2021)"
+	revision: "37"
 
 class
 	EL_ZSTRING
@@ -284,16 +284,11 @@ feature -- Element change
 		end
 
 	prepend, prepend_string (s: EL_READABLE_ZSTRING)
-		local
-			new_unencoded, old_unencoded: like shifted_unencoded
 		do
 			internal_prepend (s)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
-					old_unencoded := shifted_unencoded (s.count)
-					create new_unencoded.make_from_other (s)
-					new_unencoded.append (old_unencoded)
-					unencoded_area := new_unencoded.area
+					make_joined (s, Current, s.count)
 				when Only_current then
 					shift_unencoded (s.count)
 				when Only_other then
@@ -301,6 +296,7 @@ feature -- Element change
 			else
 			end
 		ensure
+			unencoded_valid: is_unencoded_valid
 			new_count: count = old (count + s.count)
 			inserted: elks_checking implies same_string (old (s + Current))
 		end

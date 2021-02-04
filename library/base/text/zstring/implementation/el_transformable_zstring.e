@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 11:40:55 GMT (Wednesday 3rd February 2021)"
-	revision: "15"
+	date: "2021-02-04 9:57:13 GMT (Thursday 4th February 2021)"
+	revision: "16"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -55,7 +55,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 						i := i - 1
 					end
 					internal_mirror
-					set_from_unencoded_buffer (buffer)
+					set_unencoded_from_buffer (buffer)
 				else
 					internal_mirror
 				end
@@ -219,7 +219,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			end
 			set_count (j)
 			l_area [j] := '%U'
-			set_from_unencoded_buffer (l_new_unencoded)
+			set_unencoded_from_buffer (l_new_unencoded)
 			reset_hash
 		ensure
 			valid_unencoded: is_unencoded_valid
@@ -395,8 +395,8 @@ feature {EL_READABLE_ZSTRING} -- Removal
 					make_unencoded
 				else
 					buffer := empty_unencoded_buffer
-					buffer.append_substring (Current, 1, n)
-					set_from_unencoded_buffer (buffer)
+					buffer.append_substring (Current, 1, n, 0)
+					set_unencoded_from_buffer (buffer)
 				end
 			end
 		ensure then
@@ -416,8 +416,8 @@ feature {EL_READABLE_ZSTRING} -- Removal
 					make_unencoded
 				else
 					buffer := empty_unencoded_buffer
-					buffer.append_substring (Current, old_count - n + 1, old_count)
-					set_from_unencoded_buffer (buffer)
+					buffer.append_substring (Current, old_count - n + 1, old_count, 0)
+					set_unencoded_from_buffer (buffer)
 				end
 			end
 		ensure then

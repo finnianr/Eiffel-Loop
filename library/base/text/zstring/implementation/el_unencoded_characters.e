@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 17:10:43 GMT (Wednesday 3rd February 2021)"
-	revision: "20"
+	date: "2021-02-04 12:13:53 GMT (Thursday 4th February 2021)"
+	revision: "21"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -33,7 +33,7 @@ inherit
 	EL_ZCODE_CONVERSION
 
 create
-	make, make_from_other
+	make, make_from_other, make_joined
 
 feature {NONE} -- Initialization
 
@@ -47,6 +47,55 @@ feature {NONE} -- Initialization
 			create area.make_filled (uc.natural_32_code, n + 2)
 			area.put (1, 0)
 			area.put (n.to_natural_32, 1)
+		end
+
+	make_joined (a, b: EL_UNENCODED_CHARACTERS; offset: INTEGER)
+		-- make `a' joined with `b' shifted `offset' places to right
+		local
+			i, lower, upper, i_final: INTEGER; area_a, area_b: like area
+		do
+			area_a := a.area; area_b := b.area
+			if area_a.count > 0 and area_b.count > 0 then
+				i := a.last_index
+				upper := upper_bound (area_a, i)
+				if upper + 1 = b.first_lower + offset then
+					-- merge intervals
+					area_a := area_a.aliased_resized_area (area_a.count + area_b.count - 2)
+					area_a.copy_data (area_b, 2, area_a.count, area_b.count - 2)
+					upper := b.first_upper + offset
+					put_upper (area_a, i, upper)
+					i := i + upper - lower_bound (area_a, i) + 3
+				else
+					i := area_a.count
+					area_a := area_a.aliased_resized_area (area_a.count + area_b.count)
+					area_a.copy_data (area_b, 0, area_a.count, area_b.count)
+				end
+				area := area_a
+
+			elseif area_a.count > 0 then
+				if area /= area_a then
+					area := area_a.twin
+				end
+				i := area.count
+
+			elseif area_b.count > 0 then
+				if area /= area_b then
+					area := area_b.twin
+				end
+				area_a := area
+			end
+			if offset.abs.to_boolean and then area_a.count > 0 then
+				-- Shift offset places to right
+				i_final := area_a.count
+				from until i = i_final loop
+					lower := lower_bound (area_a, i); upper := upper_bound (area_a, i)
+					put_lower (area_a, i, lower + offset)
+					put_upper (area_a, i, upper + offset)
+					i := i + upper - lower + 3
+				end
+			end
+		ensure
+			valid_count: character_count = old (a.character_count + b.character_count)
 		end
 
 	make_from_other (other: EL_UNENCODED_CHARACTERS)
@@ -318,7 +367,7 @@ feature -- Comparison
 
 feature -- Element change
 
-	append_shifted (other: EL_UNENCODED_CHARACTERS; n: INTEGER)
+	append (other: EL_UNENCODED_CHARACTERS; offset: INTEGER)
 		local
 			i, lower, upper, i_final: INTEGER; l_area, o_area: like area
 		do
@@ -326,11 +375,11 @@ feature -- Element change
 			if l_area.count > 0 and o_area.count > 0 then
 				i := last_index
 				upper := upper_bound (l_area, i)
-				if upper + 1 = other.first_lower + n then
+				if upper + 1 = other.first_lower + offset then
 					-- merge intervals
 					l_area := big_enough (l_area, o_area.count - 2)
 					l_area.copy_data (o_area, 2, l_area.count, o_area.count - 2)
-					upper := other.first_upper + n
+					upper := other.first_upper + offset
 					put_upper (l_area, i, upper)
 					i := i + upper - lower_bound (l_area, i) + 3
 				else
@@ -343,46 +392,15 @@ feature -- Element change
 				area := o_area.twin
 				l_area := area
 			end
-			if l_area.count > 0 then
-				-- Shift n places to right
+			if offset.abs.to_boolean and then l_area.count > 0 then
+				-- Shift offset places to right
 				i_final := l_area.count
 				from until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					put_lower (l_area, i, lower + n)
-					put_upper (l_area, i, upper + n)
+					put_lower (l_area, i, lower + offset)
+					put_upper (l_area, i, upper + offset)
 					i := i + upper - lower + 3
 				end
-			end
-		ensure
-			valid_count: character_count = old character_count + other.character_count
-		end
-
-	append (other: EL_UNENCODED_CHARACTERS)
-		require
-			other_not_empty: other.not_empty
-			already_shifted: other.first_lower > last_upper
-		local
-			i, lower, upper, count, i_final: INTEGER; l_area, other_unencoded: like area
-		do
-			if not_empty then
-				other_unencoded := other.area
-				l_area := area; i_final := l_area.count
-				from i := 0 until i = i_final loop
-					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-					count := upper - lower + 1
-					i := i + count + 2
-				end
-				if upper + 1 = other.first_lower then
-					-- merge intervals
-					l_area := big_enough (l_area, other_unencoded.count - 2)
-					l_area.copy_data (other_unencoded, 2, i, other_unencoded.count - 2)
-					l_area.put (other_unencoded [1], i - count - 1)
-				else
-					l_area := big_enough (l_area, other_unencoded.count)
-					l_area.copy_data (other_unencoded, 0, i, other_unencoded.count)
-				end
-			else
-				area := other.area.twin
 			end
 		ensure
 			valid_count: character_count = old character_count + other.character_count
@@ -426,7 +444,7 @@ feature -- Element change
 				i := i + count + 2
 			end
 			if not other_inserted then
-				append (other)
+				append (other, 0)
 			end
 		end
 
@@ -512,31 +530,31 @@ feature -- Element change
 			end
 		end
 
-	shift (n: INTEGER)
-		-- shift intervals right by n characters. n < 0 shifts to the left.
+	shift (offset: INTEGER)
+		-- shift intervals right by `offset' characters. `offset' < 0 shifts to the left.
 		do
-			shift_from (1, n)
+			shift_from (1, offset)
 		end
 
-	shift_from (index, n: INTEGER)
-		-- shift intervals right by `n' characters starting from `index'.
+	shift_from (index, offset: INTEGER)
+		-- shift intervals right by `offset' characters starting from `index'.
 		-- Split if interval has `index' and `index' > `lower'
-		-- n < 0 shifts to the left.
+		-- `offset < 0' shifts to the left.
 		local
 			i, lower, upper, count, i_final: INTEGER; l_area: like area
 		do
-			if n /= 0 then
+			if offset /= 0 then
 				l_area := area; i_final := l_area.count
 				from i := 0 until i = i_final loop
 					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
 					count := upper - lower + 1
 					if index <= lower then
-						l_area.put ((lower + n).to_natural_32, i)
-						l_area.put ((upper + n).to_natural_32, i + 1)
+						put_lower (l_area, i, lower + offset)
+						put_upper (l_area, i, upper + offset)
 					elseif lower < index and then index <= upper then
 						-- Split the interval in two
-						l_area.put ((index - 1).to_natural_32, i + 1)
-						l_area := extended (i + 2 + index - lower, index + n, upper + n, 0)
+						put_upper (l_area, i, index - 1)
+						l_area := extended (i + 2 + index - lower, index + offset, upper + offset, 0)
 						i_final := i_final + 2
 						i := i + 2
 					end
@@ -639,8 +657,8 @@ feature -- Removal
 					-- Split interval in two
 					destination_index := i + 2 + index - lower
 					l_area := extended (destination_index, index + 1, 0, 0)
-					l_area.put (upper.to_natural_32, destination_index + 1)
-					l_area.put ((index - 1).to_natural_32, i + 1)
+					put_upper (l_area, destination_index, upper)
+					put_upper (l_area, i, index - 1)
 					found := True
 				end
 				i := i + count + 2
@@ -728,10 +746,10 @@ feature -- Basic operations
 
 feature -- Duplication
 
-	shifted (n: INTEGER): EL_UNENCODED_CHARACTERS
+	shifted (offset: INTEGER): EL_UNENCODED_CHARACTERS
 		do
 			create Result.make_from_other (Current)
-			Result.shift (n)
+			Result.shift (offset)
 		end
 
 end

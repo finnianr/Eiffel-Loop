@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 16:03:32 GMT (Wednesday 3rd February 2021)"
-	revision: "15"
+	date: "2021-02-04 12:10:39 GMT (Thursday 4th February 2021)"
+	revision: "16"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -40,7 +40,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			if not positions.is_empty then
 				buffer := empty_unencoded_buffer
 				if has_mixed_encoding then
-					buffer.append (current_readable)
+					buffer.append (current_readable, 0)
 				end
 				size_difference := new_substring.count - original_count
 				new_count := count + str.count + (new_substring.count - original_count) * positions.count
@@ -50,12 +50,12 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 					end_index := positions.item - 1
 					if end_index >= previous_index then
 						if str.has_mixed_encoding then
-							buffer.append_shifted_substring (str, previous_index, end_index, count)
+							buffer.append_substring (str, previous_index, end_index, count)
 						end
 						internal_append_substring (str, previous_index, end_index)
 					end
 					if new_substring.has_mixed_encoding then
-						buffer.append_shifted (new_substring, count)
+						buffer.append (new_substring, count)
 					end
 					internal_append (new_substring)
 					previous_index := positions.item + old_substring.count
@@ -64,11 +64,11 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				end_index := str.count
 				if previous_index <= end_index then
 					if str.has_mixed_encoding then
-						buffer.append_shifted_substring (str, previous_index, end_index, count)
+						buffer.append_substring (str, previous_index, end_index, count)
 					end
 					internal_append_substring (str, previous_index, end_index)
 				end
-				set_from_unencoded_buffer (buffer)
+				set_unencoded_from_buffer (buffer)
 			end
 		ensure
 			valid_unencoded: is_unencoded_valid
@@ -91,8 +91,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			if s.has_mixed_encoding then
 				old_count := count
 				internal_append (s)
-				append_shifted (s, old_count)
---				append_unencoded (s.shifted_unencoded (old_count))
+				append_unencoded (s, old_count)
 			else
 				internal_append (s)
 			end
@@ -159,9 +158,9 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 			internal_append_substring (s, start_index, end_index)
 			if s.has_mixed_encoding then
 				buffer := empty_unencoded_buffer
-				buffer.append_shifted_substring (s, start_index, end_index, old_count)
+				buffer.append_substring (s, start_index, end_index, old_count)
 				if buffer.not_empty then
-					append_unencoded (buffer)
+					append_unencoded (buffer, 0)
 				end
 			end
 		ensure
@@ -351,24 +350,25 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 
 	prepend_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
-			old_count: INTEGER; buffer: like empty_unencoded_buffer
+			offset: INTEGER; buffer: like empty_unencoded_buffer
 		do
-			old_count := count
 			internal_prepend_substring (s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
-					shift_unencoded (end_index - start_index + 1)
+					offset := end_index - start_index + 1
 					buffer := empty_unencoded_buffer
-					buffer.append_substring (s, start_index, end_index)
+					buffer.append_substring (s, start_index, end_index, 0)
 					if buffer.not_empty then
-						buffer.append (Current)
+						buffer.append (Current, offset)
 						unencoded_area := buffer.area_copy
+					else
+						shift_unencoded (offset)
 					end
 				when Only_current then
 					shift_unencoded (end_index - start_index + 1)
 				when Only_other then
 					buffer := empty_unencoded_buffer
-					buffer.append_substring (s, start_index, end_index)
+					buffer.append_substring (s, start_index, end_index, 0)
 					if buffer.not_empty then
 						unencoded_area := buffer.area_copy
 					end

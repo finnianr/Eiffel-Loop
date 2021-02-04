@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 17:12:38 GMT (Wednesday 3rd February 2021)"
-	revision: "44"
+	date: "2021-02-04 12:04:39 GMT (Thursday 4th February 2021)"
+	revision: "45"
 
 class
 	ZSTRING_TEST_SET
