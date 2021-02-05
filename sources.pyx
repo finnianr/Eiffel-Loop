@@ -11,8 +11,9 @@ manifest:
 		"example/net/EROS/test-clients/source"
 		"test/source"
 
-	# testing
+	# testing and benchmarks
 	location:
+		"benchmark/source"
 		"test/source"
 		"test/ID3-tags/source"
 

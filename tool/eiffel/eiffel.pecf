@@ -189,5 +189,5 @@ system:
 					Test sets for Eiffel utitlities
 				"""
 		cluster:
-			name = test_common; location = "$EIFFEL_LOOP/test/source/root/common"
+			name = test_common; location = "$EIFFEL_LOOP/test/source/common"
 

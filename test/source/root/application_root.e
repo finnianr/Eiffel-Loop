@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 15:56:05 GMT (Thursday 28th January 2021)"
-	revision: "53"
+	date: "2021-02-05 12:48:12 GMT (Friday 5th February 2021)"
+	revision: "54"
 
 class
 	APPLICATION_ROOT
@@ -20,10 +20,6 @@ inherit
 		MEDIA_PLAYER_DUMMY_APP,
 
 		EXPERIMENTS_APP,
-
-	-- Benchmarks
-		BENCHMARK_APP,
-		ZSTRING_BENCHMARK_APP,
 
 	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
 		SIMPLE_CLIENT_SERVER_TEST_APP,

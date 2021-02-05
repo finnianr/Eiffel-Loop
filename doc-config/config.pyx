@@ -159,11 +159,15 @@ publish-repository:
 			ignore = test
 			"tool/toolkit/toolkit.ecf"
 
+		# Benchmark
+		ecf:
+			"benchmark/benchmark.ecf#project"
+
 		# Test
 		ecf:
 			"test/test.ecf#amazon_ia"
 			"test/test.ecf#base"
-			"test/test.ecf#benchmark"
+			"test/test.ecf#common"
 			"test/test.ecf#compression"
 			"test/test.ecf#eco_db"
 			"test/test.ecf#encryption"

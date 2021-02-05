@@ -1439,79 +1439,107 @@ Restores either an entire duplicity backup or a selected file or directory.  Res
 **Download**
 
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-## amazon-instant-access.ecf
-Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
-## base.ecf (Eiffel-Loop)
-Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
-## Benchmarking Tests
+## Performance Benchmarks
 **Sub-applications**
 
 
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/apps/zstring_benchmark_app.html) does performance testing of class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
-* [BENCHMARK_APP](http://www.eiffel-loop.com/test/source/benchmark/apps/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
+* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/benchmark/source/apps/zstring_benchmark_app.html) performance tests the class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
+* [BENCHMARK_APP](http://www.eiffel-loop.com/benchmark/source/apps/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
 
 **Descendants of EL_BENCHMARK_COMPARISON**
 
 
 ````
-[$source EL_BENCHMARK_COMPARISON]*
+EL_BENCHMARK_COMPARISON*
 	[$source LIST_ITERATION_COMPARISON]
+	[$source HASH_SET_VERSUS_LINEAR_COMPARISON]
+	[$source HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON]
 	[$source STRING_CONCATENATION_COMPARISON]
+	[$source ZSTRING_SPLIT_COMPARISON]
+	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
+	[$source FINDING_FILES_WITH_EXTENSION_COMPARISON]
+	[$source UNENCODED_CHARACTER_LIST_GENERATION]
+	[$source MAKE_GENERAL_COMPARISON]
+	[$source UNICODE_ITEM_COMPARISON]
 	[$source STRING_BENCHMARK_COMPARISON]*
 		[$source REPLACE_SUBSTRING_COMPARISON]
 		[$source SUBSTRING_INDEX_COMPARISON]
-	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
-## compression.ecf
-See class [$source COMPRESSION_TEST_APP]
-## Eco-DB.ecf
-Test [./library/Eco-DB.html Eco-DB (Eiffel CHAIN Orientated Database)] library.
+		[$source XML_PARSING_COMPARISON]
+````
 
-Test application: [$source ECO_DB_AUTOTEST_APP]
+## amazon-instant-access.ecf
+Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
+## base.ecf (Eiffel-Loop)
+Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
+## Common Classes
+**Project List**
+
+Experimental and classes containing test data used in the following projects:
+
+
+````
+benchmark/benchmark.ecf
+test/test.ecf
+tool/toolkit/toolkit.ecf
+tool/eiffel/eiffel.ecf
+````
+
+## compression.ecf
+See class [COMPRESSION_TEST_APP]($source)
+## Eco-DB.ecf
+Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
+
+Test application: [ECO_DB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/Eco-DB/eco_db_autotest_app.html)
 ## encryption.ecf
-See class [$source ENCRYPTION_AUTOTEST_APP]
+See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/app/encryption_autotest_app.html)
 ## eros.ecf
-Test [./library/eros.html Eiffel Remote Object Server (EROS)] protocol library.
+Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/eros.html) protocol library.
 
 **Test Apps**
 
 
-* [$source EROS_AUTOTEST_APP]
-* [$source BEXT_CLIENT_TEST_APP]
-* [$source BEXT_SERVER_TEST_APP]
-* [$source FOURIER_MATH_CLIENT_TEST_APP]
-* [$source FOURIER_MATH_SERVER_TEST_APP]
-## evolicity.ecf
-Test of Evolicity text substitution engine. See class [$source EVOLICITY_TEST_APP]
-## ftp.ecf
-See class [$source FTP_AUTOTEST_APP]
-## http-client.ecf
-See class [$source HTTP_CLIENT_AUTOTEST_APP]
-## i18n.ecf
-Test localization library. See class [$source I18N_AUTOTEST_APP]
-## ID3-tags.ecf
-See class [$source ID3_TAGS_AUTOTEST_APP]
+* [EROS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/eros_autotest_app.html)
+* [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+* [BEXT_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_server_test_app.html)
+* [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html)
+* [FOURIER_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html)
 
-Due to C name space clashes with `TagLib.ecf' these tests have been separated from `test.ecf'
+## evolicity.ecf
+Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
+## ftp.ecf
+See class [FTP_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ftp/ftp_autotest_app.html)
+## http-client.ecf
+See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
+## i18n.ecf
+Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
+## ID3-tags.ecf
+See class [ID3_TAGS_AUTOTEST_APP](http://www.eiffel-loop.com/test/ID3-tags/source/id3_tags_autotest_app.html)
+
+Due to C name space clashes with `TagLib.ecf` these tests have been separated from `test.ecf`
 ## image-utils.ecf
-See class [$source SVG_TO_PNG_CONVERSION_TEST_APP]
+See class [SVG_TO_PNG_CONVERSION_TEST_APP]($source)
 ## markup-docs.ecf
-* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
-* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
+* Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP]($source)
+* Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP]($source)
+
 ## multimedia.ecf
 * Test wav to mp3 conversion
+
 ## network.ecf
 Test network library classes
 
 
-* [$source TEST_SIMPLE_CLIENT]
-* [$source SIMPLE_SERVER_TEST_APP]
+* [TEST_SIMPLE_CLIENT]($source)
+* [SIMPLE_SERVER_TEST_APP]($source)
+
 ## os-command.ecf
-* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
-* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
+* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
+* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](http://www.eiffel-loop.com/test/source/os-command/test-set/file_and_directory_test_set.html)
+
 ## paypal-SBM.ecf
-Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]($source)
 ## pyxis-scan.ecf
-Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
+Test application class: [PYXIS_SCAN_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/pyxis-scan/pyxis_scan_autotest_app.html)
 ## Root class and Experiments
 Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
 

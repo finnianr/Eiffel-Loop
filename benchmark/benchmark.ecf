@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+	Pyxis is data format inspired by the Python programming language and designed to be a more
+	readable supplement/substitute for XML configuration files.
+-->
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "el_benchmark" uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C">
+	<description>
+Eiffel-Loop Performance Benchmarks
+
+See project cluster for details
+	</description>
+	<!--classic means C code as an intermediate language-->
+	<target name = "classic">
+		<root class = "APPLICATION_ROOT" feature = "make"/>
+		<version major = "1" minor = "0" release = "0" build = "2" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
+			<assertions precondition = "true" postcondition = "true" check = "true"/>
+		</option>
+		<setting name = "address_expression" value = "false"/>
+		<setting name = "array_optimization" value = "false"/>
+		<setting name = "check_vape" value = "true"/>
+		<setting name = "console_application" value = "true"/>
+		<setting name = "dead_code_removal" value = "true"/>
+		<setting name = "dynamic_runtime" value = "false"/>
+		<setting name = "exception_trace" value = "true"/>
+		<setting name = "line_generation" value = "false"/>
+		<setting name = "inlining" value = "true"/>
+		<setting name = "inlining_size" value = "2"/>
+		<setting name = "concurrency" value = "thread"/>
+		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
+		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
+			<option>
+				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+			</option>
+		</library>
+		<!--Other libraries-->
+		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
+		<!--Eiffel Loop libraries-->
+		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
+		<library name = "EL_base" location = "$EIFFEL_LOOP/library/base/base.ecf" readonly = "false">
+			<option>
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
+			</option>
+		</library>
+		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
+		<library name = "EL_fast_cgi" readonly = "false" location = "$EIFFEL_LOOP/library/fast-cgi.ecf"/>
+		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
+		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
+		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
+		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
+		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<!--Source-->
+		<cluster name = "project" location = "source" recursive = "true">
+			<description>
+Performance Benchmarks
+
+**Sub-applications**
+
+* [$source ZSTRING_BENCHMARK_APP] performance tests the class [$source EL_ZSTRING]
+* [$source BENCHMARK_APP] compares performance of related routines with [$source EL_BENCHMARK_COMPARISON].
+The benchmarks are run from a menu shell.
+
+See doc/benchmark.txt for details
+			</description>
+		</cluster>
+		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common"/>
+	</target>
+</system>

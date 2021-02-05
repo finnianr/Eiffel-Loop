@@ -176,6 +176,6 @@ system:
 			name = project; location = source; recursive = true
 
 		cluster:
-			name = test; location = "$EIFFEL_LOOP/test/source/root/common"
+			name = test_common; location = "$EIFFEL_LOOP/test/source/common"
 
 

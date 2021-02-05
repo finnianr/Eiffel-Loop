@@ -221,25 +221,7 @@ system:
 
 					See doc/test.root.txt for details
 				"""
-		# This works but no idea how to set it in Project settings		
-		#tests:
-		#	name = autotests; location = "source/autotests"; recursive = true
 	
-		# Source clusters
-		cluster:
-			name = benchmark; location = "source/benchmark"; recursive = true
-			description:
-				"""
-					Benchmarking Tests
-
-					**Sub-applications**
-					
-					* [$source ZSTRING_BENCHMARK_APP] does performance testing of class [$source EL_ZSTRING]
-					* [$source BENCHMARK_APP] compares performance of related routines with [$source EL_BENCHMARK_COMPARISON].
-					The benchmarks are run from a menu shell.
-
-					See doc/test.benchmark.txt for details
-				"""
 		cluster:
 			name = amazon_ia; location = "source/amazon-ia"; recursive = true
 			description:
@@ -258,6 +240,15 @@ system:
 					
 					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 				"""
+		cluster:
+			name = common; location = "source/common"
+			description:
+				"""
+					Common Classes
+
+					See doc/test.common.txt for details
+				"""
+
 		cluster:
 			name = compression; location = "source/compression"; recursive = true
 			description:

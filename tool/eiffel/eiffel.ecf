@@ -97,6 +97,6 @@ Eiffel Utility Tests
 Test sets for Eiffel utitlities
 			</description>
 		</cluster>
-		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/root/common"/>
+		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common"/>
 	</target>
 </system>
