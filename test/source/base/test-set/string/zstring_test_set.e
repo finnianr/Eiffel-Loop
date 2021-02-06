@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 18:02:29 GMT (Thursday 4th February 2021)"
-	revision: "46"
+	date: "2021-02-06 14:25:43 GMT (Saturday 6th February 2021)"
+	revision: "47"
 
 class
 	ZSTRING_TEST_SET
@@ -533,19 +533,16 @@ feature -- Element change tests
 		local
 			str_32, word_32, previous_word_32: STRING_32; str, word, previous_word: ZSTRING
 		do
-			previous_word_32 := text_words.last; previous_word := previous_word_32
-			across text_words as w loop
-				word_32 := w.item; word := word_32
-				across text_lines as line loop
-					str_32 := line.item
-					str_32.append_character (' ')
-					str_32.append (line.item)
-					str := str_32
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				create previous_word_32.make_empty; previous_word := previous_word_32
+				across text_words as list loop
+					word_32 := list.item; word := word_32
 					str_32.replace_substring_all (word_32, previous_word_32)
 					str.replace_substring_all (word, previous_word)
 					assert ("replace_substring_all OK", str.same_string (str_32))
+					previous_word_32 := word_32; previous_word := word
 				end
-				previous_word_32 := word_32; previous_word := word
 			end
 		end
 

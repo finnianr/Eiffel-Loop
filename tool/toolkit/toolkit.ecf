@@ -71,6 +71,6 @@ See doc/toolkit.txt for details.
 		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
 		<library name = "EL_xml_scan" readonly = "false" location = "$EIFFEL_LOOP/library/xml-scan.ecf"/>
 		<cluster name = "project" location = "source" recursive = "true"/>
-		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common"/>
+		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common" recursive = "true"/>
 	</target>
 </system>

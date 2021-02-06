@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 18:23:05 GMT (Thursday 4th February 2021)"
-	revision: "7"
+	date: "2021-02-06 14:09:52 GMT (Saturday 6th February 2021)"
+	revision: "8"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
@@ -70,11 +70,11 @@ feature -- Access
 				i := 0
 			end
 			from until found or else i = i_final loop
-				lower := lower_bound (l_area, i)
-				if lower <= start_index then
+				upper := upper_bound (l_area, i)
+				if start_index <= upper then
 					found := True
 				else
-					i := i + upper_bound (l_area, i) - lower + 3
+					i := i + upper - lower_bound (l_area, i) + 3
 				end
 			end
 			if found then
@@ -98,6 +98,11 @@ feature -- Access
 			end
 		ensure
 			valid_result: Result > 0 implies code (Result) = unicode
+		end
+
+	item (index: INTEGER): CHARACTER_32
+		do
+			Result := code (index).to_character_32
 		end
 
 	z_code (i: INTEGER): NATURAL

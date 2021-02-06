@@ -13,8 +13,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 15:39:51 GMT (Thursday 13th February 2020)"
-	revision: "7"
+	date: "2021-02-05 19:22:30 GMT (Friday 5th February 2021)"
+	revision: "8"
 
 class
 	HEXAGRAM_STRINGS

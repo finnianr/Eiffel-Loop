@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 15:22:29 GMT (Thursday 4th February 2021)"
-	revision: "17"
+	date: "2021-02-06 14:43:12 GMT (Saturday 6th February 2021)"
+	revision: "18"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -220,7 +220,6 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			set_count (j)
 			l_area [j] := '%U'
 			set_unencoded_from_buffer (l_new_unencoded)
-			reset_hash
 		ensure
 			valid_unencoded: is_unencoded_valid
 			unchanged_count: not delete_null implies count = old count
@@ -351,35 +350,124 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_substring_all (old_substring, new_substring: EL_READABLE_ZSTRING)
 		local
-			buffer: EL_ZSTRING_BUFFER_ROUTINES; replaced: ZSTRING; replace_not_done: BOOLEAN
+			old_count, l_count, new_substring_count, old_substring_count, previous_index, end_index, size_difference: INTEGER
+			buffer: like empty_unencoded_buffer; substring_index_list: detachable LIST [INTEGER]
+			replaced_8, current_8, new_substring_8: EL_STRING_8; internal_replace_done: BOOLEAN
 		do
-			inspect respective_encoding (old_substring)
-				when Both_have_mixed_encoding, Only_current then
-					replace_not_done := True
-				when Only_other then
-					-- Do nothing since old_substring cannot match anything
-				when Neither then
-					if new_substring.has_mixed_encoding then
-						replace_not_done := True
-					else
-						-- Can use STRING_8 implemenation
-						internal_replace_substring_all (old_substring, new_substring)
-					end
-			else
-				replace_not_done := True
-			end
-			if replace_not_done and then not is_empty
-				and then not old_substring.is_equal (new_substring)
-				and then substring_index (old_substring, 1) > 0
-			then
-				replaced := buffer.empty
-				replaced.append_replaced (current_readable, old_substring, new_substring)
-				area := replaced.area.twin
-				count := replaced.count
-				if replaced.has_mixed_encoding then
-					unencoded_area := replaced.unencoded_area.twin
+			if not old_substring.is_equal (new_substring) then
+				old_count := count; new_substring_count := new_substring.count; old_substring_count := old_substring.count
+				size_difference := new_substring_count - old_substring_count
+				previous_index := 1
+
+				inspect respective_encoding (old_substring)
+					when Both_have_mixed_encoding then
+						substring_index_list := internal_substring_index_list (old_substring)
+
+					when Only_current then
+						if new_substring.has_mixed_encoding then
+							if attached internal_substring_index_list (old_substring) as positions
+								and then positions.count > 0
+							then
+								internal_replace_substring_all (old_substring, new_substring)
+								internal_replace_done := True
+								substring_index_list := positions
+							end
+
+						elseif attached internal_substring_index_list (old_substring) as positions
+							and then positions.count > 0
+						then
+							internal_replace_substring_all (old_substring, new_substring)
+							buffer := empty_unencoded_buffer
+							from positions.start until positions.after loop
+								end_index := positions.item - 1
+								if end_index >= previous_index then
+									buffer.append_substring (Current, previous_index, end_index, l_count)
+									l_count := l_count + end_index - previous_index + 1
+								end
+								l_count := l_count + new_substring_count
+								previous_index := positions.item + old_substring_count
+								positions.forth
+							end
+							end_index := old_count
+							if previous_index <= end_index then
+								buffer.append_substring (Current, previous_index, end_index, l_count)
+							end
+							set_unencoded_from_buffer (buffer)
+						end
+
+					when Only_other then
+						-- since old_substring cannot match anything
+						do_nothing
+
+					when Neither then
+						if new_substring.has_mixed_encoding then
+							if attached internal_substring_index_list (old_substring) as positions
+								and then positions.count > 0
+							then
+								internal_replace_substring_all (old_substring, new_substring)
+								buffer := empty_unencoded_buffer
+								from positions.start until positions.after loop
+									end_index := positions.item - 1
+									if end_index >= previous_index then
+										l_count := l_count + end_index - previous_index + 1
+									end
+									buffer.append (new_substring, l_count)
+									l_count := l_count + new_substring_count
+									previous_index := positions.item + old_substring_count
+									positions.forth
+								end
+								set_unencoded_from_buffer (buffer)
+							end
+						else
+							-- Can use STRING_8 implemenation
+							internal_replace_substring_all (old_substring, new_substring)
+						end
 				else
-					unencoded_area := Empty_unencoded
+					substring_index_list := internal_substring_index_list (old_substring)
+				end
+				if attached substring_index_list as positions and then positions.count > 0 then
+					buffer := empty_unencoded_buffer
+
+					if not internal_replace_done then
+						current_8 := string_8_argument (Current, 1)
+						new_substring_8 := string_8_argument (new_substring, 2)
+						create area.make_filled ('%U', old_count + size_difference * positions.count + 1)
+						count := 0; replaced_8 := current_string_8
+					end
+					from positions.start until positions.after loop
+						end_index := positions.item - 1
+						if end_index >= previous_index then
+							if has_mixed_encoding then
+								buffer.append_substring (Current, previous_index, end_index, l_count)
+							end
+							if not internal_replace_done then
+								replaced_8.append_substring (current_8, previous_index, end_index)
+							end
+							l_count := l_count + end_index - previous_index + 1
+						end
+						if new_substring.has_mixed_encoding then
+							buffer.append (new_substring, l_count)
+						end
+						if not internal_replace_done then
+							replaced_8.append (new_substring_8)
+						end
+						l_count := l_count + new_substring_count
+						previous_index := positions.item + old_substring_count
+						positions.forth
+					end
+					end_index := old_count
+					if previous_index <= end_index then
+						if has_mixed_encoding then
+							buffer.append_substring (Current, previous_index, end_index, l_count)
+						end
+						if not internal_replace_done then
+							replaced_8.append_substring (current_8, previous_index, end_index)
+						end
+					end
+					if not internal_replace_done then
+						set_from_string_8 (replaced_8)
+					end
+					set_unencoded_from_buffer (buffer)
 				end
 			end
 		end
@@ -474,26 +562,24 @@ feature {EL_READABLE_ZSTRING} -- Removal
 		end
 
 	left_adjust
-			-- Remove leading whitespace.
+		-- Remove leading whitespace.
+		local
+			leading_count: INTEGER
 		do
-			if is_left_adjustable then
-				if has_mixed_encoding then
-					remove_head (leading_white_space)
-				else
-					internal_left_adjust
-				end
+			leading_count := leading_white_space
+			if leading_count.to_boolean then
+				remove_head (leading_white_space)
 			end
 		end
 
 	right_adjust
-			-- Remove trailing whitespace.
+		-- Remove trailing whitespace.
+		local
+			trailing_count: INTEGER
 		do
-			if is_right_adjustable then
-				if has_mixed_encoding then
-					remove_tail (trailing_white_space)
-				else
-					internal_right_adjust
-				end
+			trailing_count := trailing_white_space
+			if trailing_count.to_boolean then
+				remove_tail (trailing_count)
 			end
 		end
 
@@ -512,6 +598,10 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+		deferred
+		end
 
 	occurrences (uc: CHARACTER_32): INTEGER
 		deferred

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 16:34:29 GMT (Thursday 4th February 2021)"
-	revision: "22"
+	date: "2021-02-06 14:36:18 GMT (Saturday 6th February 2021)"
+	revision: "23"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -112,9 +112,9 @@ feature -- Access
 		local
 			c: CHARACTER
 		do
-			c := internal_item (i)
+			c := area [i - 1]
 			if c = Unencoded_character then
-				Result := unencoded_item (i)
+				Result := unencoded_code (i).to_character_32
 			else
 				Result := codec.as_unicode_character (c)
 			end

@@ -1,6 +1,6 @@
 **Project List**
 
-Experimental classes and classes containing test data used in the following projects:
+Experimental classes and classes containing test data that are used in the following projects:
 
 	benchmark/benchmark.ecf
 	test/test.ecf

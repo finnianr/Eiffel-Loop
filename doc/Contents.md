@@ -1474,7 +1474,7 @@ Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.co
 ## Common Classes
 **Project List**
 
-Experimental and classes containing test data used in the following projects:
+Experimental classes and classes containing test data that are used in the following projects:
 
 
 ````

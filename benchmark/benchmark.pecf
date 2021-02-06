@@ -19,7 +19,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 0; build = 2
+			major = 1; minor = 0; release = 0; build = 10
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -121,6 +121,6 @@ system:
 					See doc/benchmark.txt for details
 				"""
 		cluster:
-			name = test_common; location = "$EIFFEL_LOOP/test/source/common"
+			name = test_common; location = "$EIFFEL_LOOP/test/source/common"; recursive = true
 
 

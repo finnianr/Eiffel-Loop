@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 3; release = 2; build = 123
+			major = 1; minor = 3; release = 2; build = 125
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -241,7 +241,7 @@ system:
 					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 				"""
 		cluster:
-			name = common; location = "source/common"
+			name = common; location = "source/common"; recursive = true
 			description:
 				"""
 					Common Classes

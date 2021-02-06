@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 9:11:28 GMT (Wednesday 3rd February 2021)"
-	revision: "5"
+	date: "2021-02-05 21:57:13 GMT (Friday 5th February 2021)"
+	revision: "6"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -55,24 +55,36 @@ feature -- Measurement
 	leading_white_space: INTEGER
 		local
 			i, l_count: INTEGER; l_area: like area; c_i: CHARACTER
-			l_prop: like character_properties
+			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
 		do
-			l_area := area; l_count := count; l_prop := character_properties
-			from i := 0 until i = l_count loop
-				c_i := l_area [i]
-				-- `Unencoded_character' is space
-				if c_i = Unencoded_character then
-					if l_prop.is_space (unencoded_item (i + 1)) then
+			l_area := area; l_count := count
+			if has_mixed_encoding then
+				unencoded := unencoded_indexable
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					-- `Unencoded_character' is space
+					if c_i = Unencoded_character then
+						if c.is_space (unencoded.item (i + 1)) then
+							Result := Result + 1
+						else
+							i := l_count - 1 -- break out of loop
+						end
+					elseif c_i.is_space then
 						Result := Result + 1
 					else
 						i := l_count - 1 -- break out of loop
 					end
-				elseif c_i.is_space then
-					Result := Result + 1
-				else
-					i := l_count - 1 -- break out of loop
+					i := i + 1
 				end
-				i := i + 1
+			else
+				from i := 0 until i = l_count loop
+					if l_area.item (i).is_space then
+						Result := Result + 1
+					else
+						i := l_count - 1 -- break out of loop
+					end
+					i := i + 1
+				end
 			end
 		ensure then
 			substring_agrees: across substring (1, Result) as uc all character_properties.is_space (uc.item) end
@@ -148,24 +160,37 @@ feature -- Measurement
 	trailing_white_space: INTEGER
 		local
 			i: INTEGER; l_area: like area; c_i: CHARACTER
-			unencoded: like unencoded_indexable; l_prop: like character_properties
+			c: EL_CHARACTER_32_ROUTINES; unencoded: like unencoded_indexable
 		do
-			l_area := area; l_prop := character_properties; unencoded := unencoded_indexable
-			from i := count - 1 until i < 0 loop
-				c_i := l_area [i]
-				-- `Unencoded_character' is space
-				if c_i = Unencoded_character then
-					if l_prop.is_space (unencoded.code (i + 1).to_character_32) then
+			l_area := area
+			if has_mixed_encoding then
+				unencoded := unencoded_indexable
+				from i := count - 1 until i < 0 loop
+					c_i := l_area [i]
+					-- `Unencoded_character' is space
+					if c_i = Unencoded_character then
+						if c.is_space (unencoded.item (i + 1)) then
+							Result := Result + 1
+						else
+							i := 0 -- break out of loop
+						end
+					elseif c_i.is_space then
 						Result := Result + 1
 					else
 						i := 0 -- break out of loop
 					end
-				elseif c_i.is_space then
-					Result := Result + 1
-				else
-					i := 0 -- break out of loop
+					i := i - 1
 				end
-				i := i - 1
+			else
+				from i := count - 1 until i < 0 loop
+					-- `Unencoded_character' is space
+					if l_area.item (i).is_space then
+						Result := Result + 1
+					else
+						i := 0 -- break out of loop
+					end
+					i := i - 1
+				end
 			end
 		ensure then
 			substring_agrees: across substring (count - Result + 1, count) as uc all character_properties.is_space (uc.item) end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 15:29:50 GMT (Thursday 4th February 2021)"
-	revision: "6"
+	date: "2021-02-06 14:27:57 GMT (Saturday 6th February 2021)"
+	revision: "7"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -147,21 +147,52 @@ feature {NONE} -- Implementation
 	internal_substring_index_list (str: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
 		-- shared list of indices of `str' occurring in `Current'
 		local
-			index, l_count, str_count: INTEGER
+			index, l_count, str_count: INTEGER; unencoded: like unencoded_indexable
+			str_code, str_z_code: NATURAL; str_character: CHARACTER
 		do
 			l_count := count; str_count := str.count
 			Result := Once_substring_indices; Result.wipe_out
 			if not str.is_empty then
-				from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
-					if str_count = 1 then
-						index := index_of_z_code (str.z_code (1), index)
+				if str_count = 1 then
+					str_z_code := str.z_code (1)
+					if str_z_code > 0xFF then
+						str_code := z_code_to_unicode (str_z_code)
+						unencoded := unencoded_indexable
 					else
-						index := substring_index (str, index)
+						str_character := str.area [0]
 					end
-					if index > 0 then
-						Result.extend (index)
-						index := index + str_count
-					end
+				end
+				inspect respective_encoding (str)
+					when Both_have_mixed_encoding then
+						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
+							if str_z_code.to_boolean then
+								if str_character /= '%U' then
+									index := internal_index_of (str_character, index)
+								else
+									index := unencoded.index_of (str_code, index)
+								end
+							else
+								index := substring_index (str, index)
+							end
+							if index > 0 then
+								Result.extend (index)
+								index := index + str_count
+							end
+						end
+					when Only_other then
+						-- cannot find `str'
+						do_nothing
+
+					when Only_current, Neither then
+						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
+							index := internal_substring_index (str, index)
+							if index > 0 then
+								Result.extend (index)
+								index := index + str_count
+							end
+						end
+
+				else
 				end
 			end
 		end
