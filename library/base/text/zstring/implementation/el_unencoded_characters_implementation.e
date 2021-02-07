@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 16:52:23 GMT (Wednesday 3rd February 2021)"
-	revision: "1"
+	date: "2021-02-07 17:52:47 GMT (Sunday 7th February 2021)"
+	revision: "2"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -93,6 +93,12 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
+	empty_index_list: ARRAYED_LIST [INTEGER]
+		do
+			Result := Once_index_list
+			Result.wipe_out
+		end
+
 	extend_bounds (a_area: like area; lower, upper: INTEGER)
 		do
 			a_area.extend (lower.to_natural_32)
@@ -121,8 +127,7 @@ feature {NONE} -- Implementation
 		local
 			i, lower, upper, i_final: INTEGER; l_area: like area
 		do
-			Result := Once_index_list
-			Result.wipe_out
+			Result := empty_index_list
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)

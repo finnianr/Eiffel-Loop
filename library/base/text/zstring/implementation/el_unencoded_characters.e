@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 12:52:00 GMT (Sunday 7th February 2021)"
-	revision: "23"
+	date: "2021-02-07 18:21:59 GMT (Sunday 7th February 2021)"
+	revision: "24"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -684,6 +684,35 @@ feature -- Removal
 					found := True
 				end
 				i := i + count + 2
+			end
+		end
+
+	remove_indices (list: like index_list)
+		local
+			i, j, i_final, pruned_count, lower, upper: INTEGER
+			l_area: like area; l_buffer: like empty_buffer
+		do
+			l_area := area; i_final := area.count
+			if not list.is_empty and then i_final > 0 then
+				l_buffer := empty_buffer
+				from i := 0; list.start until i = i_final loop
+					lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+					from until list.after or else list.item >= lower loop
+						list.forth
+						pruned_count := pruned_count + 1
+					end
+					from j := lower until j > upper loop
+						if not list.after and then list.item = j then
+							pruned_count := pruned_count + 1
+							list.forth
+						else
+							l_buffer.extend (l_area [i + 2 + j - lower], j - pruned_count)
+						end
+						j := j + 1
+					end
+					i := i + upper - lower + 3
+				end
+				set_from_buffer (l_buffer)
 			end
 		end
 
