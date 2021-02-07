@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-06 14:25:43 GMT (Saturday 6th February 2021)"
-	revision: "47"
+	date: "2021-02-07 14:09:26 GMT (Sunday 7th February 2021)"
+	revision: "48"
 
 class
 	ZSTRING_TEST_SET
@@ -77,6 +77,7 @@ feature -- Basic operations
 			eval.call ("last_index_of", agent test_last_index_of)
 			eval.call ("occurrences", agent test_occurrences)
 			eval.call ("substring_index", agent test_substring_index)
+			eval.call ("substring_index_in_bounds", agent test_substring_index_in_bounds)
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
 			eval.call ("to_general", agent test_to_general)
@@ -849,7 +850,7 @@ feature -- Access tests
 
 	test_substring_index
 		note
-			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.substring_index"
+			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
 		local
 			str, search_word: ZSTRING; str_32: STRING_32; pos, pos_32: INTEGER
 		do
@@ -869,9 +870,40 @@ feature -- Access tests
 			end
 		end
 
+	test_substring_index_in_bounds
+		note
+			testing: "covers/{EL_SEARCHABLE_ZSTRING}.substring_index_in_bounds"
+		local
+			str_32, word_32: STRING_32; str, word: ZSTRING
+			i, count, index, start_pos, end_pos, substring_index, substring_index_32: INTEGER; word_list: EL_STRING_32_LIST
+		do
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				create word_list.make_with_words (str_32)
+				across word_list as list loop
+					word_32 := list.item; word := word_32
+					index := str_32.substring_index (word_32, 1)
+					if index = 1 then
+						start_pos := 1
+					else
+						start_pos := (index - 5).max (1)
+					end
+					end_pos := index + word_32.count - 1
+					across << end_pos, end_pos - 1 >> as n loop
+						end_pos := n.item
+						if end_pos > start_pos then
+							substring_index_32 := str_32.substring_index_in_bounds (word_32, start_pos, end_pos)
+							substring_index := str.substring_index_in_bounds (word, start_pos, end_pos)
+							assert ("same index", substring_index_32 = substring_index)
+						end
+					end
+				end
+			end
+		end
+
 	test_unicode_index_of
 		note
-			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.index_of"
+			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.index_of"
 		do
 			across << (' ').to_character_32, 'и' >> as c loop
 				unicode_index_of (Text_russian_and_english, c.item)

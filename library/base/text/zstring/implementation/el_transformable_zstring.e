@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-06 14:43:12 GMT (Saturday 6th February 2021)"
-	revision: "18"
+	date: "2021-02-07 13:18:11 GMT (Sunday 7th February 2021)"
+	revision: "19"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -318,19 +318,24 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			internal_replace_substring (s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
-					buffer := empty_unencoded_buffer
-					l_count := start_index - 1
-					if l_count.to_boolean then
-						buffer.append_substring (Current, 1, start_index - 1, 0)
+					if has_unencoded_between (start_index, end_index) then
+						buffer := empty_unencoded_buffer
+						l_count := start_index - 1
+						if l_count.to_boolean then
+							buffer.append_substring (Current, 1, start_index - 1, 0)
+						end
+						if s.count.to_boolean then
+							buffer.append (s, l_count)
+							l_count := l_count + s.count
+						end
+						if end_index < old_count then
+							buffer.append_substring (Current, end_index + 1, old_count, l_count)
+						end
+						set_unencoded_from_buffer (buffer)
+					else
+						unencoded_area := s.unencoded_area.twin
+						shift_unencoded (start_index - 1)
 					end
-					if s.count.to_boolean then
-						buffer.append (s, l_count)
-						l_count := l_count + s.count
-					end
-					if end_index < old_count then
-						buffer.append_substring (Current, end_index + 1, old_count, l_count)
-					end
-					set_unencoded_from_buffer (buffer)
 
 				when Only_current then
 					remove_unencoded_substring (start_index, end_index)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-06 14:36:18 GMT (Saturday 6th February 2021)"
-	revision: "23"
+	date: "2021-02-07 14:07:44 GMT (Sunday 7th February 2021)"
+	revision: "24"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -30,6 +30,7 @@ inherit
 			interval_index_other as unencoded_indexable_other,
 			interval_index as unencoded_indexable,
 			insert as insert_unencoded,
+			intersects as has_unencoded_between,
 			item as unencoded_item,
 			last_index_of as unencoded_last_index_of,
 			last_upper as unencoded_last_upper,
@@ -60,7 +61,7 @@ inherit
 		undefine
 			is_equal, copy, out
 		redefine
-			is_unencoded_valid
+			has_unencoded_between, is_unencoded_valid
 		end
 
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -95,6 +96,7 @@ inherit
 			split as internal_split,
 			substring as internal_substring,
 			substring_index as internal_substring_index,
+			substring_index_in_bounds as internal_substring_index_in_bounds,
 			right_adjust as internal_right_adjust,
 			wipe_out as internal_wipe_out
 		export
@@ -197,10 +199,27 @@ feature -- Status query
 			Result := not has_mixed_encoding and then c.is_ascii_area (area, area_lower, area_upper)
 		end
 
-feature {EL_READABLE_ZSTRING} -- Status query
+feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 
 	elks_checking: BOOLEAN
 		deferred
+		end
+
+	has_unencoded_between (start_index, end_index: INTEGER): BOOLEAN
+		local
+			i, i_final: INTEGER; l_area: like area
+		do
+			-- check which might be quicker: look for `Unencoded_character' or iterate `unencoded_area'
+			-- (assume average of 5 characters per interval, weighted in favor of `area' search)
+			if (end_index - start_index) < (unencoded_area.count // 7) * 3 then
+				l_area := area; i_final := end_index.min (count)
+				from i := start_index - 1 until Result or else i = i_final loop
+					Result := l_area [i] = Unencoded_character
+					i := i + 1
+				end
+			else
+				Result := Precursor (start_index, end_index)
+			end
 		end
 
 	is_area_alpha_item (a_area: like area; i: INTEGER): BOOLEAN

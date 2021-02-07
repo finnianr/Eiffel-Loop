@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 12:10:39 GMT (Thursday 4th February 2021)"
-	revision: "16"
+	date: "2021-02-07 13:11:10 GMT (Sunday 7th February 2021)"
+	revision: "17"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -156,7 +156,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 		do
 			old_count := count
 			internal_append_substring (s, start_index, end_index)
-			if s.has_mixed_encoding then
+			if s.has_unencoded_between (start_index, end_index) then
 				buffer := empty_unencoded_buffer
 				buffer.append_substring (s, start_index, end_index, old_count)
 				if buffer.not_empty then
@@ -356,11 +356,15 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
 					offset := end_index - start_index + 1
-					buffer := empty_unencoded_buffer
-					buffer.append_substring (s, start_index, end_index, 0)
-					if buffer.not_empty then
-						buffer.append (Current, offset)
-						unencoded_area := buffer.area_copy
+					if s.has_unencoded_between (start_index, end_index) then
+						buffer := empty_unencoded_buffer
+						buffer.append_substring (s, start_index, end_index, 0)
+						if buffer.not_empty then
+							buffer.append (Current, offset)
+							unencoded_area := buffer.area_copy
+						else
+							shift_unencoded (offset)
+						end
 					else
 						shift_unencoded (offset)
 					end

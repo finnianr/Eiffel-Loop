@@ -370,3 +370,6 @@ New routine {EL_UNENCODED_CHARACTERS}.make_joined
 Thu 4th Feb 2021, 18:36:21
 Tested {EL_UNENCODED_CHARACTERS_INDEX}.index_of for use with {EL_CONVERTABLE_ZSTRING}.split
 
+Sat 6th Feb 2021, 14:53:12
+Optimized EL_ZSTRING routines: replace_substring_all, internal_substring_index_list
+

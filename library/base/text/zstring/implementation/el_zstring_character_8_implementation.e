@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 16:35:23 GMT (Thursday 4th February 2021)"
-	revision: "13"
+	date: "2021-02-06 15:32:42 GMT (Saturday 6th February 2021)"
+	revision: "14"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -124,6 +124,11 @@ feature -- Access
 	substring_index (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
 		do
 			Result := current_string_8.substring_index (string_8_argument (other, 1), start_index)
+		end
+
+	substring_index_in_bounds (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
+		do
+			Result := current_string_8.substring_index_in_bounds (string_8_argument (other, 1), start_pos, end_pos)
 		end
 
 feature -- Measurement
