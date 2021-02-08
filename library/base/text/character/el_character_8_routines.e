@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 12:05:43 GMT (Wednesday 20th January 2021)"
-	revision: "14"
+	date: "2021-02-08 12:29:07 GMT (Monday 8th February 2021)"
+	revision: "15"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
 
 inherit
 	EL_LATIN_1
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Status query
 
@@ -164,11 +166,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Constants
-
-	Utf_8_sequence: EL_UTF_8_SEQUENCE
-		once
-			create Result.make
-		end
 
 	Max_ascii_character: CHARACTER_8 = '%/0x7F/'
 end

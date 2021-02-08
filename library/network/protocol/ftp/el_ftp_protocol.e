@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-19 8:53:18 GMT (Tuesday 19th January 2021)"
-	revision: "19"
+	date: "2021-02-08 18:04:02 GMT (Monday 8th February 2021)"
+	revision: "20"
 
 class
 	EL_FTP_PROTOCOL
@@ -183,7 +183,7 @@ feature -- Basic operations
 			end
 			make_directory (item.destination_dir)
 
-			address.path.share (item.destination_file_path.to_string.to_utf_8)
+			address.path.share (item.destination_file_path.to_utf_8)
 			set_passive_mode
 			initiate_transfer
 			if transfer_initiated then
@@ -367,7 +367,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 	send (str: ZSTRING; codes: ARRAY [INTEGER])
 		do
-			send_to_socket (main_socket, str.to_utf_8)
+			send_to_socket (main_socket, str.to_utf_8 (False))
 			last_reply_utf_8.right_adjust
 			last_reply_utf_8.to_lower
 			last_succeeded := reply_code_ok (last_reply_utf_8, codes)

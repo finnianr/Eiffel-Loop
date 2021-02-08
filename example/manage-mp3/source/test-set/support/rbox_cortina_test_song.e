@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 8:54:56 GMT (Tuesday 19th May 2020)"
-	revision: "4"
+	date: "2021-02-08 18:22:07 GMT (Monday 8th February 2021)"
+	revision: "5"
 
 class
 	RBOX_CORTINA_TEST_SONG
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 		-- workaround for the fact that the MP3 test data is not consistent between runs
 		-- bit of a mystery why
 		do
-			Result := Digest.sha_256 (title.to_utf_8).to_uuid
+			Result := Digest.sha_256 (title.to_utf_8 (False)).to_uuid
 		end
 
 end

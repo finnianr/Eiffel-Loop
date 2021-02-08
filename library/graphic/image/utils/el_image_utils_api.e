@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-02 12:11:35 GMT (Tuesday 2nd October 2018)"
-	revision: "9"
+	date: "2021-02-08 12:41:39 GMT (Monday 8th February 2021)"
+	revision: "10"
 
 class
 	EL_IMAGE_UTILS_API
@@ -61,7 +61,7 @@ feature -- Factory
 			svg_uri_utf_8: STRING
 		do
 			-- URL encoded strings do not work, so use UTF-8
-			svg_uri_utf_8 := svg_uri.to_string.to_utf_8
+			svg_uri_utf_8 := svg_uri.to_utf_8
 			create Result.make (c_sizeof_svg_image_t)
 			c_set_svg_base_uri (Result.item, svg_uri_utf_8.area.base_address)
 			c_set_svg_data (Result.item, svg_utf_8_xml.area.base_address)

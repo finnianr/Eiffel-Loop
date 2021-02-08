@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-06 14:09:52 GMT (Saturday 6th February 2021)"
-	revision: "8"
+	date: "2021-02-08 17:42:53 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 class
 	EL_UNENCODED_CHARACTERS_INDEX
 
 inherit
 	EL_ZCODE_CONVERSION
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 create
 	make, make_default
@@ -23,11 +25,13 @@ feature {NONE} -- Initialization
 
 	make (a_area: like area)
 		do
+			utf_8 := Utf_8_sequence
 			set_area (a_area)
 		end
 
 	make_default
 		do
+			utf_8 := Utf_8_sequence
 			create area.make_empty (0)
 		end
 
@@ -155,6 +159,14 @@ feature -- Element change
 			area := a_area
 		end
 
+feature -- Basic operations
+
+	write_to_utf_8 (index: INTEGER; utf_8_out: STRING)
+		do
+			utf_8.set_area (code (index))
+			utf_8.append_to_string (utf_8_out)
+		end
+
 feature {NONE} -- Implementation
 
 	lower_bound (a_area: like area; i: INTEGER): INTEGER
@@ -173,5 +185,7 @@ feature {EL_UNENCODED_CHARACTERS} -- Internal attributes
 		-- unencoded character area
 
 	area_index: INTEGER
+
+	utf_8: EL_UTF_8_SEQUENCE
 
 end

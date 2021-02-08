@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-17 9:54:38 GMT (Friday 17th July 2020)"
-	revision: "6"
+	date: "2021-02-08 18:05:14 GMT (Monday 8th February 2021)"
+	revision: "7"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -98,7 +98,7 @@ feature {NONE} -- Line states
 
 	extend (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE)
 		do
-			pyxis_out.put_string (line.to_utf_8)
+			pyxis_out.put_string (line.to_utf_8 (False))
 			pyxis_out.put_new_line
 		end
 

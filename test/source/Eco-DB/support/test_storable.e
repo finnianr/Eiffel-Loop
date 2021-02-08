@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 13:24:20 GMT (Monday 21st December 2020)"
-	revision: "10"
+	date: "2021-02-08 18:07:44 GMT (Monday 8th February 2021)"
+	revision: "11"
 
 class
 	TEST_STORABLE
@@ -47,7 +47,7 @@ feature -- Element change
 		do
 			string_32 := str
 			string := str
-			string_utf_8 := string.to_utf_8
+			string_utf_8 := string.to_utf_8 (True)
 		end
 
 feature {NONE} -- Constants

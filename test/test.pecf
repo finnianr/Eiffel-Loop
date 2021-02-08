@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 3; release = 2; build = 125
+			major = 1; minor = 3; release = 2; build = 126
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -176,6 +176,9 @@ system:
 
 		library:
 			name = EL_paypal_SBM; readonly = false; location = "$EIFFEL_LOOP/library/paypal-SBM.ecf"
+
+		library:
+			name = EL_public_key_encryption; readonly = false; location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"
 
 		library:
 			name = EL_pyxis_scan; readonly = false; location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"
@@ -379,6 +382,16 @@ system:
 					Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
 					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
 				"""
+		cluster:
+			name = public_key_encryption; location = "source/public-key-encryption"; recursive = true
+			description:
+				"""
+					public-key-encryption.ecf
+					
+					Tests for RSA public key encryption tools.
+					See class [$source PUBLIC_KEY_ENCRYPTION_TEST_APP]
+				"""
+
 		cluster:
 			name = pyxis_scan; location = "source/pyxis-scan"; recursive = true
 			description:

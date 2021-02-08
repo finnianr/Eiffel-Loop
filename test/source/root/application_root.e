@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-05 12:48:12 GMT (Friday 5th February 2021)"
-	revision: "54"
+	date: "2021-02-08 19:00:01 GMT (Monday 8th February 2021)"
+	revision: "55"
 
 class
 	APPLICATION_ROOT
@@ -78,6 +78,9 @@ inherit
 
 	-- Test pyxis-scan.ecf
 		PYXIS_SCAN_AUTOTEST_APP,
+
+	--	Test public-key-encryption.ecf
+		PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP,
 
 	-- Test search-engine.ecf
 		SEARCH_ENGINE_AUTOTEST_APP,

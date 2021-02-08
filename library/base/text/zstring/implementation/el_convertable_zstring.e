@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 17:27:25 GMT (Thursday 4th February 2021)"
-	revision: "18"
+	date: "2021-02-08 18:03:16 GMT (Monday 8th February 2021)"
+	revision: "19"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_BUFFER_32
 
 	EL_MODULE_BUFFER_8
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Measurement
 
@@ -126,9 +128,53 @@ feature -- To Strings
 			end
 		end
 
-	to_utf_8: STRING
+	to_utf_8 (keep_ref: BOOLEAN): STRING
+		local
+			sequence: like Utf_8_sequence; buffer: like buffer_8
+			c_8: EL_CHARACTER_8_ROUTINES; l_area: like area
+			i, i_upper: INTEGER; l_codec: like codec; c_i: CHARACTER
+			unencoded: like unencoded_indexable
 		do
-			Result := as_encoded_8 (Utf_8_codec)
+			sequence := Utf_8_sequence; buffer := buffer_8
+			l_area := area
+			Result := buffer.empty
+			if has_mixed_encoding then
+				i_upper := area_upper
+				l_codec := codec; unencoded := unencoded_indexable
+				from i := area_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Unencoded_character then
+						sequence.set (unencoded.item (i + 1))
+						sequence.append_to_string (Result)
+					elseif c_i <= '%/127/' then
+						Result.extend (c_i)
+					else
+						sequence.set (l_codec.as_unicode_character (c_i))
+						sequence.append_to_string (Result)
+					end
+					i := i + 1
+				end
+			elseif c_8.is_ascii_area (area, area_lower, area_upper) then
+				Result.grow (count)
+				Result.area.copy_data (l_area, area_lower, 0, count)
+				Result.area [count] := '%U'
+				Result.set_count (count)
+			else
+				i_upper := area_upper; l_codec := codec
+				from i := area_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i <= '%/127/' then
+						Result.extend (c_i)
+					else
+						sequence.set (l_codec.as_unicode_character (c_i))
+						sequence.append_to_string (Result)
+					end
+					i := i + 1
+				end
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
 feature -- To list
@@ -155,7 +201,7 @@ feature -- To list
 		local
 			l_list: ARRAYED_LIST [like Current]; part: like Current; i, j, l_count, result_count: INTEGER
 			separator: CHARACTER; call_index_of_8: BOOLEAN; separator_code: NATURAL
-			l_unencoded: like unencoded_indexable
+			unencoded: like unencoded_indexable
 		do
 			separator := encoded_character (a_separator)
 			l_count := count
@@ -183,9 +229,9 @@ feature -- To list
 						i := j + 1
 					end
 				else
-					l_unencoded := unencoded_indexable
+					unencoded := unencoded_indexable
 					from i := 1 until i > l_count loop
-						j := l_unencoded.index_of (separator_code, i)
+						j := unencoded.index_of (separator_code, i)
 						if j = 0 then
 							j := l_count + 1
 						end

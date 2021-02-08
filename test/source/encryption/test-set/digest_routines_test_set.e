@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 14:49:12 GMT (Thursday 28th January 2021)"
-	revision: "8"
+	date: "2021-02-08 18:06:33 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -37,7 +37,7 @@ feature -- Tests
 			l_digest: STRING
 		do
 			l_digest := "ECCA0DFB08ED1972A03B832A901BC550DCAC1944F910FDEE4F15199B0C688B6A" -- From PHP
-			assert ("correct sha_256", l_digest ~ Digest.sha_256 (Price_string.to_utf_8).to_hex_string)
+			assert ("correct sha_256", l_digest ~ Digest.sha_256 (Price_string.to_utf_8 (False)).to_hex_string)
 		end
 
 	test_hmac_sha_256_digest
@@ -49,7 +49,7 @@ feature -- Tests
 		do
 			l_digest := "485858AB7045C7D390FA7CEFE0F4854ECB46BA5D9A3866AE570DF70CB884285D" -- From Python run/hmac_test.py
 
-			hmac_sha_256 := Digest.hmac_sha_256 (Price_string.to_utf_8, Secret_key).to_hex_string
+			hmac_sha_256 := Digest.hmac_sha_256 (Price_string.to_utf_8 (True), Secret_key).to_hex_string
 
 			lio.put_labeled_string ("Digest", hmac_sha_256)
 			lio.put_new_line
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Price_string_utf_8: STRING
 		once
-			Result := Price_string.to_utf_8
+			Result := Price_string.to_utf_8 (True)
 		end
 
 	Price_string: ZSTRING

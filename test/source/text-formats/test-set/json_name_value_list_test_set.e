@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:40:55 GMT (Sunday 28th June 2020)"
-	revision: "8"
+	date: "2021-02-08 18:07:56 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 class
 	JSON_NAME_VALUE_LIST_TEST_SET
@@ -29,7 +29,7 @@ feature -- Tests
 		local
 			list: EL_JSON_NAME_VALUE_LIST
 		do
-			create list.make (Json_text.to_utf_8)
+			create list.make (Json_text.to_utf_8 (True))
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then

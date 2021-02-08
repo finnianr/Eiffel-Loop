@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 9:45:17 GMT (Thursday 22nd October 2020)"
-	revision: "2"
+	date: "2021-02-08 18:04:02 GMT (Monday 8th February 2021)"
+	revision: "3"
 
 class
 	PYXIS_ECF_SCANNER
@@ -43,7 +43,7 @@ feature -- Factory
 
 	new_config: PACKAGE_BUILDER_CONFIG
 		do
-			create Result.make (configuration_lines.joined_lines.to_utf_8)
+			create Result.make (configuration_lines.joined_lines.to_utf_8 (True))
 		ensure
 			package_name_template_valid: Result.valid_package_name_template
 		end

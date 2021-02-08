@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:27:49 GMT (Tuesday 5th January 2021)"
-	revision: "4"
+	date: "2021-02-08 18:07:56 GMT (Monday 8th February 2021)"
+	revision: "5"
 
 class
 	XML_ESCAPER_TEST_SET
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 					xml := XML_template #$ [esc_str_32]
 					log.put_line (esc_str_32)
 				end
-				create root.make_from_string (xml.to_utf_8)
+				create root.make_from_string (xml.to_utf_8 (True))
 				assert ("same string", str_32 ~ root.string_32_at_xpath ("/TEXT"))
 			end
 		end

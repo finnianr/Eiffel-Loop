@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-27 12:52:14 GMT (Thursday 27th August 2020)"
-	revision: "28"
+	date: "2021-02-08 18:05:14 GMT (Monday 8th February 2021)"
+	revision: "29"
 
 class
 	EL_HTTP_CONNECTION
@@ -705,7 +705,7 @@ feature {NONE} -- Implementation
 
 	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
 		do
-			Curl.setopt_string (self_ptr, a_option, string.to_utf_8)
+			Curl.setopt_string (self_ptr, a_option, string.to_utf_8 (False))
 		end
 
 feature {NONE} -- Implementation attributes

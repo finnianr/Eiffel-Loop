@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 18:24:15 GMT (Sunday 7th February 2021)"
-	revision: "39"
+	date: "2021-02-08 11:45:51 GMT (Monday 8th February 2021)"
+	revision: "40"
 
 class
 	EL_ZSTRING
@@ -365,68 +365,32 @@ feature -- Removal
 
 	prune_all (uc: CHARACTER_32)
 		local
-			i, j, i_final, pruned_count, l_lower, l_upper: INTEGER
-			c, c_i: CHARACTER; uc_code, j_code: NATURAL
-			l_area: like area; uc_area: like unencoded_area
-			buffer: like empty_unencoded_buffer; removed_indices: like empty_index_list
+			i, i_final, pruned_count: INTEGER; uc_code, i_code: NATURAL
+			c, c_i: CHARACTER; l_area: like area; unencoded: like unencoded_indexable
+			buffer: like empty_unencoded_buffer
 		do
+			buffer := empty_unencoded_buffer; unencoded := unencoded_indexable
 			c := encoded_character (uc); uc_code := uc.natural_32_code
 			l_area := area; i_final := count
-			if c = Unencoded_character then
-				uc_area := unencoded_area; i_final := uc_area.count
-				if i_final > 0 then
-					buffer := empty_unencoded_buffer
-					from i := 0 until i = i_final loop
-						l_lower := lower_bound (uc_area, i); l_upper := upper_bound (uc_area, i)
-						from j := l_lower until j > l_upper loop
-							j_code := uc_area [i + 2 + j - l_lower]
-							if j_code = uc_code then
-								l_area [j - 1] := '%U' -- mark for deletion
-								pruned_count := pruned_count + 1
-							else
-								buffer.extend (j_code, j - pruned_count)
-							end
-							j := j + 1
-						end
-						i := i + l_upper - l_lower + 3
-					end
-					if pruned_count.to_boolean then
-						i_final := count
-						from i := 0; j := 0 until i = i_final loop
-							c_i := l_area.item (i)
-							if c_i = '%U' then
-								do_nothing
-							else
-								l_area.put (c_i, j)
-								j := j + 1
-							end
-							i := i + 1
-						end
-						set_count (count - pruned_count)
-						l_area [count] := '%U'
-						set_unencoded_from_buffer (buffer)
-					end
-				end
-			elseif has_mixed_encoding then
-				removed_indices := empty_index_list
-				from i := 0 until i = i_final loop
-					c_i := l_area.item (i)
-					if c_i = c then
-						removed_indices.extend (i + 1)
+			from i := 0 until i = i_final loop
+				c_i := l_area.item (i)
+				if c_i = Unencoded_character then
+					i_code := unencoded.code (i + 1)
+					if i_code = uc_code then
+						pruned_count := pruned_count + 1
 					else
-						l_area.put (c_i, j)
-						j := j + 1
+						l_area [i - pruned_count] := Unencoded_character
+						buffer.extend (i_code, i + 1 - pruned_count)
 					end
-					i := i + 1
+				elseif c_i = c then
+					pruned_count := pruned_count + 1
+				else
+					l_area.put (c_i, i - pruned_count)
 				end
-				set_count (j); l_area [count] := '%U'
-				remove_indices (removed_indices)
-			else
-				internal_prune_all (c)
+				i := i + 1
 			end
-		ensure then
-			valid_unencoded: is_unencoded_valid
-			changed_count: count = (old count) - (old occurrences (uc))
+			set_count (i - pruned_count); l_area [count] := '%U'
+			set_unencoded_from_buffer (buffer)
 		end
 
 	prune_all_leading (uc: CHARACTER_32)

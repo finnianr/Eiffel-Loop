@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 13:16:11 GMT (Sunday 17th January 2021)"
-	revision: "10"
+	date: "2021-02-08 18:05:31 GMT (Monday 8th February 2021)"
+	revision: "11"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -195,7 +195,7 @@ feature {NONE} -- Implementation
 			end
 			compressed_data := Zlib.compress (file_data, expected_compression_ratio, level)
 
-			utf8_path := a_file_path.to_string.to_utf_8
+			utf8_path := a_file_path.to_string.to_utf_8 (True)
 			put_integer (utf8_path.count)
 			put_string (utf8_path)
 

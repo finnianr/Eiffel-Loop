@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 18:22:37 GMT (Sunday 7th February 2021)"
-	revision: "49"
+	date: "2021-02-08 18:05:13 GMT (Monday 8th February 2021)"
+	revision: "50"
 
 class
 	ZSTRING_TEST_SET
@@ -33,31 +33,31 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("mirror", agent test_mirror)
-			eval.call ("split", agent test_split)
-			eval.call ("substring_split", agent test_substring_split)
-			eval.call ("append", agent test_append)
-			eval.call ("append_string_general", agent test_append_string_general)
-			eval.call ("append_substring", agent test_append_substring)
-			eval.call ("append_to_string_32", agent test_append_to_string_32)
-			eval.call ("append_unicode", agent test_append_unicode)
-			eval.call ("case_changing", agent test_case_changing)
-			eval.call ("enclose", agent test_enclose)
-			eval.call ("fill_character", agent test_fill_character)
-			eval.call ("insert_character", agent test_insert_character)
-			eval.call ("insert_string", agent test_insert_string)
-			eval.call ("left_adjust", agent test_left_adjust)
-			eval.call ("prepend", agent test_prepend)
-			eval.call ("prepend_substring", agent test_prepend_substring)
-			eval.call ("prune_all", agent test_prune_all)
-			eval.call ("prune_leading", agent test_prune_leading)
-			eval.call ("prune_trailing", agent test_prune_trailing)
-			eval.call ("put_unicode", agent test_put_unicode)
-			eval.call ("remove_substring", agent test_remove_substring)
-			eval.call ("replace_character", agent test_replace_character)
-			eval.call ("replace_substring", agent test_replace_substring)
-			eval.call ("replace_substring_all", agent test_replace_substring_all)
-			eval.call ("right_adjust", agent test_right_adjust)
+--			eval.call ("mirror", agent test_mirror)
+--			eval.call ("split", agent test_split)
+--			eval.call ("substring_split", agent test_substring_split)
+--			eval.call ("append", agent test_append)
+--			eval.call ("append_string_general", agent test_append_string_general)
+--			eval.call ("append_substring", agent test_append_substring)
+--			eval.call ("append_to_string_32", agent test_append_to_string_32)
+--			eval.call ("append_unicode", agent test_append_unicode)
+--			eval.call ("case_changing", agent test_case_changing)
+--			eval.call ("enclose", agent test_enclose)
+--			eval.call ("fill_character", agent test_fill_character)
+--			eval.call ("insert_character", agent test_insert_character)
+--			eval.call ("insert_string", agent test_insert_string)
+--			eval.call ("left_adjust", agent test_left_adjust)
+--			eval.call ("prepend", agent test_prepend)
+--			eval.call ("prepend_substring", agent test_prepend_substring)
+--			eval.call ("prune_all", agent test_prune_all)
+--			eval.call ("prune_leading", agent test_prune_leading)
+--			eval.call ("prune_trailing", agent test_prune_trailing)
+--			eval.call ("put_unicode", agent test_put_unicode)
+--			eval.call ("remove_substring", agent test_remove_substring)
+--			eval.call ("replace_character", agent test_replace_character)
+--			eval.call ("replace_substring", agent test_replace_substring)
+--			eval.call ("replace_substring_all", agent test_replace_substring_all)
+--			eval.call ("right_adjust", agent test_right_adjust)
 			eval.call ("to_utf_8", agent test_to_utf_8)
 			eval.call ("translate", agent test_translate)
 			eval.call ("ends_with", agent test_ends_with)
@@ -562,7 +562,7 @@ feature -- Element change tests
 		do
 			across text_words as word loop
 				str_32 := word.item; str := str_32
-				str_utf_8 := str.to_utf_8
+				str_utf_8 := str.to_utf_8 (True)
 				assert ("to_utf_8 OK", str_utf_8.same_string (Utf_8_codec.as_utf_8 (str_32, False)))
 				create str_2.make_from_utf_8 (str_utf_8)
 				assert ("make_from_utf_8 OK", str_2.same_string (str_32))

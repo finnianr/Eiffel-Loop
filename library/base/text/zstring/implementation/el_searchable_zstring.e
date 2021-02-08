@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 13:53:15 GMT (Sunday 7th February 2021)"
-	revision: "8"
+	date: "2021-02-08 10:48:19 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -153,21 +153,29 @@ feature {NONE} -- Implementation
 		local
 			index, l_count, str_count: INTEGER; unencoded: like unencoded_indexable
 			str_code, str_z_code: NATURAL; str_character: CHARACTER
+			searcher: like String_searcher; pattern: READABLE_STRING_GENERAL
 		do
 			l_count := count; str_count := str.count
 			Result := Once_substring_indices; Result.wipe_out
-			if not str.is_empty then
-				if str_count = 1 then
-					str_z_code := str.z_code (1)
-					if str_z_code > 0xFF then
-						str_code := z_code_to_unicode (str_z_code)
-						unencoded := unencoded_indexable
-					else
-						str_character := str.area [0]
-					end
-				end
+			if str = Current or else str_count = 0 then
+				Result.extend (1)
+
+			elseif str_count <= l_count then
 				inspect respective_encoding (str)
 					when Both_have_mixed_encoding then
+						if str_count = 1 then
+							str_z_code := str.z_code (1)
+							if str_z_code > 0xFF then
+								str_code := z_code_to_unicode (str_z_code)
+								unencoded := unencoded_indexable
+							else
+								str_character := str.area [0]
+							end
+						else
+							searcher := String_searcher
+							pattern := str.as_expanded (1)
+							searcher.initialize_deltas (pattern)
+						end
 						from index := 1 until index = 0 or else index > l_count - str_count + 1 loop
 							if str_z_code.to_boolean then
 								if str_character /= '%U' then
@@ -176,7 +184,7 @@ feature {NONE} -- Implementation
 									index := unencoded.index_of (str_code, index)
 								end
 							else
-								index := substring_index (str, index)
+								index := searcher.substring_index_with_deltas (current_readable, pattern, index, l_count)
 							end
 							if index > 0 then
 								Result.extend (index)

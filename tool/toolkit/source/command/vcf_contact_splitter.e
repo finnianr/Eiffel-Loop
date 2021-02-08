@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:22:16 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2021-02-08 18:13:04 GMT (Monday 8th February 2021)"
+	revision: "10"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -72,7 +72,7 @@ feature {NONE} -- State handlers
 				lio.put_new_line
 				create file.make_open_write (output_path)
 				across record_lines as line loop
-					file.put_string (line.item.to_utf_8)
+					file.put_string (line.item.to_utf_8 (False))
 					file.put_character ('%R'); file.put_new_line -- Windows new line
 				end
 				file.close

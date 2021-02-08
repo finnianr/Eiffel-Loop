@@ -1,5 +1,5 @@
 note
-	description: "Svg image utils"
+	description: "SVG image utils"
 	notes: "[
 		The Windows C implementation hangs if you try to render a UTF-8 encoded `svg_path' so for this reason
 		using `{[$source EL_PNG_IMAGE_FILE]}.render_svg_of_width' is the recommended alternative.
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-12 14:03:34 GMT (Saturday 12th September 2020)"
-	revision: "8"
+	date: "2021-02-08 18:24:34 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 class
 	EL_SVG_IMAGE_UTILS
@@ -53,11 +53,8 @@ feature -- Contract Support
 
 	is_ansi_encoded (file_path: EL_FILE_PATH): BOOLEAN
 			-- The windows implementation of cairo cannot handle UTF-8 paths
-		local
-			l_path: ZSTRING
 		do
-			l_path := file_path
-			Result := l_path.count = l_path.to_utf_8.count
+			Result := file_path.to_string.is_ascii
 		end
 
 feature {NONE} -- Implementation
@@ -72,7 +69,7 @@ feature {NONE} -- Implementation
 			if {PLATFORM}.is_windows then
 				l_svg_path := svg_path.to_string; l_png_path := png_path.to_string
 			else
-				l_svg_path := svg_path.to_string.to_utf_8; l_png_path := png_path.to_string.to_utf_8
+				l_svg_path := svg_path.to_utf_8; l_png_path := png_path.to_utf_8
 			end
 			c_svg_path := l_svg_path.to_c; c_png_path := l_png_path.to_c
 			last_write_succeeded := Image_utils.convert_svg_to_png ($c_svg_path, $c_png_path, width, height, background_color)

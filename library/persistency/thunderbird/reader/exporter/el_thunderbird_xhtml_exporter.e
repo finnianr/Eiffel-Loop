@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:06:31 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2021-02-08 18:13:31 GMT (Monday 8th February 2021)"
+	revision: "9"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 		do
 			html_doc := html_lines.joined_lines
 			edit (html_doc)
-			File_system.write_plain_text (output_file_path, html_doc.to_utf_8)
+			File_system.write_plain_text (output_file_path, html_doc.to_utf_8 (False))
 		end
 
 	is_tag_start (start_index, end_index: INTEGER; substring: ZSTRING): BOOLEAN

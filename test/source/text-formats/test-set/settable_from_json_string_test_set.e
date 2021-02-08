@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 10:47:00 GMT (Tuesday 5th May 2020)"
-	revision: "5"
+	date: "2021-02-08 18:07:44 GMT (Monday 8th February 2021)"
+	revision: "6"
 
 class
 	SETTABLE_FROM_JSON_STRING_TEST_SET
@@ -30,7 +30,7 @@ feature -- Tests
 		local
 			person: PERSON
 		do
-			create person.make_from_json (JSON_person.to_utf_8)
+			create person.make_from_json (JSON_person.to_utf_8 (True))
 
 			assert ("Correct name", person.name.same_string ("John Smith"))
 			assert ("Correct city", person.city.same_string ("New York"))
@@ -45,7 +45,7 @@ feature -- Tests
 			currency, euro: JSON_CURRENCY
 		do
 			create euro.make ("Euro", {STRING_32}"€", "EUR")
-			create currency.make_from_json (euro.as_json.to_utf_8)
+			create currency.make_from_json (euro.as_json.to_utf_8 (True))
 			assert ("same value", euro ~ currency)
 		end
 

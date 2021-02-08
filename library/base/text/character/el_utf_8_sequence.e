@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-22 15:17:33 GMT (Monday 22nd June 2020)"
-	revision: "7"
+	date: "2021-02-08 17:42:40 GMT (Monday 8th February 2021)"
+	revision: "8"
 
 class
 	EL_UTF_8_SEQUENCE
 
 inherit
 	EL_UTF_SEQUENCE
+		rename
+			set_area as set_sequence_area
+		end
 
 	STRING_HANDLER
 
@@ -72,10 +75,12 @@ feature -- Status query
 feature -- Element change
 
 	set (uc: CHARACTER_32)
-		local
-			code: NATURAL
 		do
-			code := uc.natural_32_code
+			set_area (uc.natural_32_code)
+		end
+
+	set_area (code: NATURAL)
+		do
 			if code <= 0x7F then
 					-- 0xxxxxxx
 				area [0] := code
@@ -202,22 +207,27 @@ feature -- Conversion
 		end
 
 	to_utf_8: STRING
-		local
-			i, l_count: INTEGER; l_area: like area
-			buffer_area: like buffer.area
 		do
-			l_area := area; l_count := count
 			Result := buffer
-			Result.grow (l_count)
-			buffer_area := Result.area
-			from i := 0 until i = l_count loop
-				buffer_area [i] := l_area.item (i).to_character_8
-				i := i + 1
-			end
-			Result.set_count (l_count)
+			append_to_string (Result)
 		end
 
 feature -- Basic operations
+
+	append_to_string (str: STRING)
+		local
+			i, l_count, old_count: INTEGER; l_area: like area
+			buffer_area: like buffer.area
+		do
+			l_area := area; l_count := count; old_count := str.count
+			str.grow (old_count + l_count)
+			buffer_area := str.area
+			from i := 0 until i = l_count loop
+				buffer_area [old_count + i] := l_area.item (i).to_character_8
+				i := i + 1
+			end
+			str.set_count (old_count + l_count)
+		end
 
 	write (writeable: EL_WRITEABLE)
 		local
