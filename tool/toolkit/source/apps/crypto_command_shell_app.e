@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-02 11:57:32 GMT (Monday 2nd September 2019)"
-	revision: "11"
+	date: "2021-02-09 13:32:25 GMT (Tuesday 9th February 2021)"
+	revision: "12"
 
 class
 	CRYPTO_COMMAND_SHELL_APP
@@ -21,7 +21,16 @@ class
 inherit
 	EL_COMMAND_SHELL_SUB_APPLICATION [EL_CRYPTO_COMMAND_SHELL]
 		redefine
-			Option_name
+			Option_name, visible_types
+		end
+
+feature {NONE} -- Implementation
+
+	visible_types: TUPLE [EL_X509_ROUTINES]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants

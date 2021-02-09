@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 11:13:50 GMT (Tuesday 2nd February 2021)"
-	revision: "26"
+	date: "2021-02-09 12:54:40 GMT (Tuesday 9th February 2021)"
+	revision: "27"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -149,7 +149,7 @@ feature -- Authorization
 
 	test_parse_header_1
 		note
-			testing: "covers/{AIA_AUTHORIZATION_HEADER}.parse"
+			testing: "covers/{AIA_AUTHORIZATION_HEADER}.make_from_string"
 		local
 			header: AIA_AUTHORIZATION_HEADER
 		do

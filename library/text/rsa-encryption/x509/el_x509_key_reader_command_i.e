@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:28:18 GMT (Thursday 28th May 2020)"
-	revision: "4"
+	date: "2021-02-09 14:49:09 GMT (Tuesday 9th February 2021)"
+	revision: "5"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 			make as make_file_command
 		export
 			{NONE} all
-			{ANY} execute
+			{ANY} execute, has_error, key_file_path, errors
 		undefine
 			do_command, new_command_parts
 		redefine
@@ -38,6 +38,12 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make (a_key_file_path: like key_file_path; a_credential: EL_AES_CREDENTIAL)
+		do
+			make_file_command (a_key_file_path)
+			credential := a_credential
+		end
+
 	make_default
 			--
 		do
@@ -45,21 +51,17 @@ feature {NONE} -- Initialization
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 		end
 
-	make (a_key_file_path: like key_file_path; a_pass_phrase: like pass_phrase)
-		do
-			make_file_command (a_key_file_path)
-			pass_phrase := a_pass_phrase
-		end
-
 feature -- Access
 
-	lines: ARRAYED_LIST [ZSTRING]
+	lines: EL_ZSTRING_LIST
+
+	credential: EL_AES_CREDENTIAL
 
 feature {NONE} -- Implementation
 
 	do_command (a_system_command: like system_command)
 		do
-			Execution.put (pass_phrase.to_unicode, Var_pass_phrase)
+			Execution.put (credential.phrase.to_unicode, Var_pass_phrase)
 			Precursor {EL_CAPTURED_OS_COMMAND_I} (a_system_command)
 			Execution.put ("none", Var_pass_phrase)
 		end
@@ -74,7 +76,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Var_name_path: STRING = "key_file_path"
+
 	Var_pass_phrase: STRING = "OPENSSL_PP"
 
-	Var_name_path: STRING = "key_file_path"
 end

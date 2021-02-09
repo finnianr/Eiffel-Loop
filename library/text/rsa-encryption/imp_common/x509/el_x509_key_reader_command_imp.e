@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:28:51 GMT (Thursday 28th May 2020)"
-	revision: "5"
+	date: "2021-02-09 15:03:25 GMT (Tuesday 9th February 2021)"
+	revision: "6"
 
 class
 	EL_X509_KEY_READER_COMMAND_IMP

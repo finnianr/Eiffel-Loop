@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:03:16 GMT (Monday 8th February 2021)"
-	revision: "19"
+	date: "2021-02-09 13:11:37 GMT (Tuesday 9th February 2021)"
+	revision: "20"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -129,6 +129,8 @@ feature -- To Strings
 		end
 
 	to_utf_8 (keep_ref: BOOLEAN): STRING
+		-- converted to UTF-8 encoding
+		-- use `keep_ref = True' if keeping a reference to `Result'
 		local
 			sequence: like Utf_8_sequence; buffer: like buffer_8
 			c_8: EL_CHARACTER_8_ROUTINES; l_area: like area

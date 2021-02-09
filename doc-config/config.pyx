@@ -183,6 +183,7 @@ publish-repository:
 			"test/test.ecf#network"
 			"test/test.ecf#os_command"
 			"test/test.ecf#paypal_sbm"
+			"test/test.ecf#public_key_encryption"
 			"test/test.ecf#pyxis_scan"
 			"test/test.ecf#root"
 			"test/test.ecf#search_engine"

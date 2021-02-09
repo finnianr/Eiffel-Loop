@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-08 16:50:51 GMT (Saturday 8th August 2020)"
-	revision: "6"
+	date: "2021-02-09 13:02:01 GMT (Tuesday 9th February 2021)"
+	revision: "7"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -16,13 +16,20 @@ inherit
 	RSA_PUBLIC_KEY
 		rename
 			make as make_with_exponent
+		undefine
+			is_equal
+		end
+
+	EL_REFLECTIVE_RSA_KEY
+		rename
+			make_default as make_reflective
+		redefine
+			Use_default_values
 		end
 
 	EL_MODULE_BASE_64
 
 	EL_MODULE_RSA
-
-	EL_REFLECTIVE_RSA_KEY
 
 	EL_MODULE_X509_COMMAND
 
@@ -35,6 +42,7 @@ feature {NONE} -- Initialization
 	make (a_modulus: INTEGER_X)
 			--
 		do
+			make_reflective
 			make_with_exponent (a_modulus, Default_exponent)
 		end
 
@@ -119,4 +127,8 @@ feature -- Access
 				end
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Use_default_values: BOOLEAN = False
 end

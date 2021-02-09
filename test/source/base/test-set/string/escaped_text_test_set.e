@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-14 16:49:14 GMT (Thursday 14th January 2021)"
-	revision: "3"
+	date: "2021-02-09 12:12:03 GMT (Tuesday 9th February 2021)"
+	revision: "4"
 
 class
 	ESCAPED_TEXT_TEST_SET
@@ -40,8 +40,8 @@ feature -- Unescape tests
 
 	test_substitution_marker_unescape
 		note
-			testing:	"covers/{ZSTRING}.unescape", "covers/{ZSTRING}.unescaped",
-			 	"covers/{ZSTRING}.make_unescaped"
+			testing:	"covers/{ZSTRING}.unescape, covers/{ZSTRING}.unescaped",
+			 	"covers/{ZSTRING}.make_from_zcode_area, covers/{EL_ZSTRING_UNESCAPER}.unescaped"
 		local
 			str: ZSTRING
 		do

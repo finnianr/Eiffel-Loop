@@ -22,14 +22,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-05 13:45:46 GMT (Tuesday 5th March 2019)"
-	revision: "7"
+	date: "2021-02-09 14:51:43 GMT (Tuesday 9th February 2021)"
+	revision: "8"
 
 class
 	EL_RSA_PRIVATE_KEY
 
 inherit
 	EL_REFLECTIVE_RSA_KEY
+		rename
+			make_default as make_reflective
+		redefine
+			Use_default_values
+		end
 
 	EL_MODULE_X509_COMMAND
 
@@ -53,6 +58,8 @@ feature {NONE} -- Initialization
 		local
 			phi: INTEGER_X
 		do
+			make_reflective
+
 			prime_1 := a_prime_1
 			prime_2 := a_prime_2
 			modulus := a_modulus
@@ -61,6 +68,38 @@ feature {NONE} -- Initialization
 			private_exponent := public_exponent.inverse_value (phi)
 		ensure
 			is_valid:
+		end
+
+	make_default
+		do
+			make_from_primes (17, 19)
+		end
+
+	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; credential: EL_AES_CREDENTIAL)
+		local
+			reader: like X509_command.new_key_reader
+		do
+			reader := X509_command.new_key_reader (cert_file_path, credential)
+			reader.execute
+			if reader.has_error then
+				make_default
+			else
+				make_from_pkcs1 (reader.lines)
+			end
+		end
+
+	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+		local
+			line_source: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
+		do
+			create line_source.make (pkcs1_file_path, encrypter)
+			make_from_pkcs1 (line_source)
+			line_source.close
+		end
+
+	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
+		do
+			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
 		end
 
 feature -- Access
@@ -96,36 +135,6 @@ feature -- Basic operations
 			result := decrypt (message)
 		end
 
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			make_from_primes (17, 19)
-		end
-
-	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; pass_phrase: ZSTRING)
-		local
-			reader: like X509_command.new_key_reader
-		do
-			reader := X509_command.new_key_reader (cert_file_path, pass_phrase)
-			reader.execute
-			make_from_pkcs1 (reader.lines)
-		end
-
-	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
-		local
-			line_source: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
-		do
-			create line_source.make (pkcs1_file_path, encrypter)
-			make_from_pkcs1 (line_source)
-			line_source.close
-		end
-
-	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
-		do
-			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
-		end
-
 feature -- Access
 
 	prime_1_base_64: STRING
@@ -140,4 +149,7 @@ feature -- Access
 			Result := Base_64.encoded_special (prime_2.as_bytes)
 		end
 
+feature {NONE} -- Constants
+
+	Use_default_values: BOOLEAN = False
 end

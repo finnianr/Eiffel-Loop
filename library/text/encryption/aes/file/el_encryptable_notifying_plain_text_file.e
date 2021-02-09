@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:42:56 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-02-09 11:34:02 GMT (Tuesday 9th February 2021)"
+	revision: "9"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -16,11 +16,12 @@ inherit
 	EL_NOTIFYING_PLAIN_TEXT_FILE
 		export
 			{NONE} all
-			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_new_line, after, read_line, last_string,
-					extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file,
-					close, count
+			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_new_line,
+					read_line, last_string, close, count,
+					after, extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file
 		redefine
-			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line, open_append, open_write, open_read
+			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line,
+			open_append, open_write, open_read
 		end
 
 	EL_ENCRYPTABLE
@@ -57,7 +58,7 @@ feature -- Write string
 
 	put_string (str: ZSTRING)
 		do
-			put_string_general (str)
+			put_raw_string_8 (str.to_utf_8 (False))
 		end
 
 	put_string_8 (str: STRING)

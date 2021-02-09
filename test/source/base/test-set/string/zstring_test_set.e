@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:05:13 GMT (Monday 8th February 2021)"
-	revision: "50"
+	date: "2021-02-09 12:08:58 GMT (Tuesday 9th February 2021)"
+	revision: "51"
 
 class
 	ZSTRING_TEST_SET
@@ -102,7 +102,7 @@ feature -- Conversion tests
 
 	test_split
 		note
-			testing: "covers/{ZSTRING}.substring, covers/{ZSTRING}.split, covers/{ZSTRING}.index_of"
+			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.split", "covers/{ZSTRING}.index_of"
 		local
 			list: LIST [ZSTRING]; list_32: LIST [STRING_32]
 			str: ZSTRING; str_32: STRING_32; i: INTEGER
@@ -428,14 +428,14 @@ feature -- Element change tests
 
 	test_prune_leading
 		note
-			testing:	"covers/{ZSTRING}.prune_leading"
+			testing:	"covers/{ZSTRING}.prune_all_trailing"
 		do
 			do_pruning_test (Prune_leading)
 		end
 
 	test_prune_trailing
 		note
-			testing:	"covers/{ZSTRING}.prune_trailing"
+			testing:	"covers/{ZSTRING}.prune_all_trailing"
 		do
 			do_pruning_test (Prune_trailing)
 		end
@@ -690,7 +690,7 @@ feature -- Status query tests
 
 	test_sort
 		note
-			testing: "covers/{ZSTRING}.is_less, covers/{ZSTRING}.str_strict_compare"
+			testing: "covers/{ZSTRING}.is_less", "covers/{ZSTRING}.order_comparison"
 		local
 			sorted: EL_SORTABLE_ARRAYED_LIST [ZSTRING]; sorted_32: EL_SORTABLE_ARRAYED_LIST [STRING_32]
 			word: ZSTRING

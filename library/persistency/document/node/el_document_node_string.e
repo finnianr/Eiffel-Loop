@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 11:59:54 GMT (Wednesday 20th January 2021)"
-	revision: "13"
+	date: "2021-02-09 13:52:08 GMT (Tuesday 9th February 2021)"
+	revision: "14"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -201,7 +201,8 @@ feature -- String conversion
 			if encoded_as_utf (8) then
 				Result := Precursor (keep_ref)
 			else
-				Result := buffer_32.adjusted (Current)
+				Result := buffer_32.empty
+				Result.append_string_general (buffer_8.adjusted (Current))
 				if keep_ref then
 					Result := Result.twin
 				end

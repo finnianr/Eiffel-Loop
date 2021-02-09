@@ -1538,6 +1538,8 @@ Test network library classes
 
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]($source)
+## public-key-encryption.ecf
+Tests for RSA public key encryption tools. See class [PUBLIC_KEY_ENCRYPTION_TEST_APP]($source)
 ## pyxis-scan.ecf
 Test application class: [PYXIS_SCAN_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/pyxis-scan/pyxis_scan_autotest_app.html)
 ## Root class and Experiments

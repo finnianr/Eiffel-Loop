@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:12:49 GMT (Monday 8th February 2021)"
-	revision: "18"
+	date: "2021-02-09 14:50:06 GMT (Tuesday 9th February 2021)"
+	revision: "19"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -60,7 +60,7 @@ feature -- Basic operations
 			text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			lio.enter ("display_encrypted_text")
-			encrypter := new_encrypter (new_pass_phrase)
+			encrypter := new_encrypter (new_credential)
 			text := User_input.line ("Enter text")
 			text.replace_substring_all (Escaped_new_line, s.character_string ('%N'))
 
@@ -76,14 +76,14 @@ feature -- Basic operations
 	encrypt_file_with_aes
 		local
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
-			encrypter: like new_encrypter; pass_phrase: like new_pass_phrase
+			encrypter: like new_encrypter; credential: like new_credential
 			input_path, output_path: EL_FILE_PATH
 		do
 			lio.enter ("encrypt_file_with_aes")
 			input_path := new_file_path ("input")
-			pass_phrase := new_pass_phrase
-			log_pass_phrase_info (pass_phrase)
-			encrypter := new_encrypter (pass_phrase)
+			credential := new_credential
+			log_pass_phrase_info (credential)
+			encrypter := new_encrypter (credential)
 
 			output_path := input_path.twin
 			output_path.add_extension ("aes")
@@ -112,36 +112,35 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
+			x509: EL_X509_ROUTINES; key_file_path: EL_FILE_PATH
 			key_reader: like X509_command.new_key_reader
-			pass_phrase: like new_pass_phrase
-			key_file_path, export_file_path: EL_FILE_PATH
-			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+			credential: like new_credential; key_read, has_error: BOOLEAN
 		do
 			lio.enter ("export_x509_private_key_to_aes")
 			from create key_file_path until key_file_path.has_extension ("key") loop
 				key_file_path := new_file_path ("private X509")
 			end
-			pass_phrase := new_pass_phrase
-			key_reader := X509_command.new_key_reader (key_file_path, pass_phrase.phrase)
-			key_reader.execute
-
-			export_file_path := key_file_path.twin
-			export_file_path.add_extension ("text.aes")
-			create cipher_file.make_open_write (export_file_path)
-			cipher_file.set_encrypter (new_encrypter (pass_phrase))
-			across key_reader.lines as line loop
-				lio.put_line (line.item)
-				cipher_file.put_string (line.item.to_utf_8 (False))
-				cipher_file.put_new_line
+			from until key_read loop
+				key_reader := X509_command.new_key_reader (key_file_path, new_credential)
+				key_reader.execute
+				if key_reader.has_error then
+					across key_reader.errors as line loop
+						lio.put_line (line.item)
+					end
+				else
+					key_read := True
+				end
 			end
-			cipher_file.close
+			if key_read then
+				x509.write_key_file_to_aes (key_reader, create {EL_FILE_PATH}, new_bit_count)
+			end
 			lio.exit
 		end
 
 	generate_pass_phrase_salt
 		do
 			lio.enter ("generate_pass_phrase_salt")
-			log_pass_phrase_info (new_pass_phrase)
+			log_pass_phrase_info (new_credential)
 			lio.exit
 		end
 
@@ -201,7 +200,7 @@ feature {NONE} -- Implementation
 			input_path := new_file_path ("input")
 			lio.put_new_line
 			if input_path.has_extension ("aes") then
-				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_pass_phrase))])
+				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_credential))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
 			end
@@ -328,8 +327,13 @@ feature {NONE} -- Factory
 
 	new_encrypter (pass_phrase: EL_AES_CREDENTIAL): EL_AES_ENCRYPTER
 		do
-			Result := pass_phrase.new_aes_encrypter (User_input.integer_from_values ("AES encryption bit count", AES_types))
+			Result := pass_phrase.new_aes_encrypter (new_bit_count)
 			lio.put_new_line
+		end
+
+	new_bit_count: INTEGER
+		do
+			Result := User_input.integer_from_values ("AES encryption bit count", AES_types)
 		end
 
 	new_file_path (name: ZSTRING): EL_FILE_PATH
@@ -341,7 +345,7 @@ feature {NONE} -- Factory
 			lio.put_new_line
 		end
 
-	new_pass_phrase: EL_AES_CREDENTIAL
+	new_credential: EL_AES_CREDENTIAL
 		do
 			create Result.make_default
 			Result.ask_user

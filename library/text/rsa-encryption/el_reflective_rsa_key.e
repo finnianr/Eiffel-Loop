@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-02-09 14:59:44 GMT (Tuesday 9th February 2021)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
 
 inherit
-	EL_REFLECTIVE
+	EL_REFLECTIVELY_SETTABLE
 		rename
 			field_included as is_any_field,
 			export_name as export_default,
@@ -35,10 +35,6 @@ inherit
 	EL_MODULE_RSA
 
 feature {NONE} -- Initialization
-
-	make_default
-		deferred
-		end
 
 	make_from_map_list (map_list: like RSA.pkcs1_map_list)
 		-- make from RSA PKCS1 map list

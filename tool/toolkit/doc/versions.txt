@@ -1,3 +1,7 @@
+1.4.2
+Fixed {EL_CRYPTO_COMMAND_SHELL}.export_x509_private_key_to_aes 
+It was calling {EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE}.put_string (str: ZSTRING) with utf-8 string
+
 1.4.1
 ZSTRING inherits EL_SUBSTRING_32_ARRAY
 
