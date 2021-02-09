@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:12:08 GMT (Friday 8th January 2021)"
-	revision: "15"
+	date: "2021-02-09 15:18:29 GMT (Tuesday 9th February 2021)"
+	revision: "16"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -135,7 +135,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 		do
 			if line.has_substring (Xlink_uri_placeholder) then
 				dir_uri := a_svg_path.parent
-				set_variable (Var_file_dir_uri, dir_uri.to_string.to_utf_8)
+				set_variable (Var_file_dir_uri, dir_uri.to_utf_8)
 			end
 		end
 

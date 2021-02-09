@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 7:24:32 GMT (Wednesday 3rd February 2021)"
-	revision: "10"
+	date: "2021-02-09 15:26:37 GMT (Tuesday 9th February 2021)"
+	revision: "11"
 
 class
 	ZSTRING_BENCHMARK
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 
 	to_utf_8 (string: like new_string): STRING
 		do
-			Result := string.to_utf_8
+			Result := string.to_utf_8 (True)
 		end
 
 	translate (target, old_characters, new_characters: like new_string)

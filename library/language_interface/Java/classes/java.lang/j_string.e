@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-02-09 15:24:05 GMT (Tuesday 9th February 2021)"
+	revision: "5"
 
 class
 	J_STRING
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make_from_string (str: ZSTRING)
 			--
 		do
-			make_from_utf_8 (str.to_utf_8)
+			make_from_utf_8 (str.to_utf_8 (False))
 		end
 
 	make_from_utf_8 (utf_8: STRING)

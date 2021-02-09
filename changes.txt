@@ -373,3 +373,6 @@ Tested {EL_UNENCODED_CHARACTERS_INDEX}.index_of for use with {EL_CONVERTABLE_ZST
 Sat 6th Feb 2021, 14:53:12
 Optimized EL_ZSTRING routines: replace_substring_all, internal_substring_index_list
 
+Tue 9th Feb 2021, 15:09:58
+New test set RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET validated
+
