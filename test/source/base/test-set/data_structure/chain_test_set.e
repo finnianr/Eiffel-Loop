@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:08:41 GMT (Wednesday 27th May 2020)"
-	revision: "12"
+	date: "2021-02-10 10:30:35 GMT (Wednesday 10th February 2021)"
+	revision: "13"
 
 class
 	CHAIN_TEST_SET
@@ -178,10 +178,19 @@ feature -- Test
 	test_weight_summation_3
 		-- using method 2
 		note
-			testing: "covers/{EL_CHAIN}.query_is_equal", "covers/{EL_CHAIN}.agent_query", "covers/{EL_CHAIN}.query"
+			testing: "[
+				covers/{EL_CHAIN}.query_is_equal, covers/{EL_CHAIN}.query_if,
+				covers/{EL_CHAIN}.query, covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met
+			]"
 		do
-			assert ("sum red is 14", Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight) = 14)
-			assert ("sum blue is 8", Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight) = 8)
+			assert (
+				"sum red is 14",
+				Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight) = 14
+			)
+			assert (
+				"sum blue is 8",
+				Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight) = 8
+			)
 		end
 
 feature {NONE} -- Implementation

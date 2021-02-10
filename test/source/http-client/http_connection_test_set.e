@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-02 12:00:17 GMT (Tuesday 2nd June 2020)"
-	revision: "27"
+	date: "2021-02-10 10:40:41 GMT (Wednesday 10th February 2021)"
+	revision: "28"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -151,7 +151,7 @@ feature -- Test routines
 
 	test_http_hash_table
 		note
-			testing: "covers/{EL_URL_QUERY_STRING_8}.to_string","covers/{EL_URL_QUERY_HASH_TABLE}.make_from_url_query"
+			testing: "covers/{EL_URI_QUERY_TABLE}.make_url"
 		local
 			table_1, table_2: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			query_string: STRING
@@ -355,4 +355,3 @@ feature {NONE} -- Constants
 	Set_cookie_url: STRING = "http://httpbin.org/cookies/set?"
 
 end
-

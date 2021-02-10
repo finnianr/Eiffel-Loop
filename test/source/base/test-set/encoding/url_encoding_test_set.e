@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 18:22:03 GMT (Thursday 28th May 2020)"
-	revision: "11"
+	date: "2021-02-10 10:35:03 GMT (Wednesday 10th February 2021)"
+	revision: "12"
 
 class
 	URL_ENCODING_TEST_SET
@@ -57,7 +57,7 @@ feature -- Test
 		note
 			testing:	"covers/{EL_URI_QUERY_STRING_8}.append_general",
 						"covers/{EL_URI_QUERY_STRING_8}.to_utf_8",
-						"covers/{EL_URI_QUERY_HASH_TABLE}.make",
+						"covers/{EL_URI_QUERY_HASH_TABLE}.make_url",
 						"covers/{EL_URI_QUERY_HASH_TABLE}.url_query"
 		local
 			book: EL_URI_QUERY_ZSTRING_HASH_TABLE; book_query_string: STRING

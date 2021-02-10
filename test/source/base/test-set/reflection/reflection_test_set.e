@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-18 13:08:41 GMT (Friday 18th December 2020)"
-	revision: "10"
+	date: "2021-02-10 10:38:53 GMT (Wednesday 10th February 2021)"
+	revision: "11"
 
 class
 	REFLECTION_TEST_SET
@@ -46,7 +46,7 @@ feature -- Tests
 
 	test_object_initialization_from_camel_case_table
 		note
-			testing: "covers/{EL_REFLECTIVELY_SETTABLE}.make_from_zkey_table, {EL_REFLECTIVELY_SETTABLE}.from_camel_case"
+			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table, covers/{EL_WORD_SEPARATION_ADAPTER}.from_camel_case"
 		local
 			country: CAMEL_CASE_COUNTRY; table: like Value_table
 		do
@@ -59,7 +59,7 @@ feature -- Tests
 
 	test_object_initialization_from_table
 		note
-			testing: "covers/{EL_REFLECTIVELY_SETTABLE}.make_from_zkey_table"
+			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
 		local
 			country: COUNTRY
 		do

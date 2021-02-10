@@ -1,13 +1,16 @@
 note
 	description: "Application root"
+	notes: "[
+		Fix test sets: "covers/{XXX}.name"
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 19:00:01 GMT (Monday 8th February 2021)"
-	revision: "55"
+	date: "2021-02-09 15:30:33 GMT (Tuesday 9th February 2021)"
+	revision: "56"
 
 class
 	APPLICATION_ROOT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:25:36 GMT (Tuesday 5th January 2021)"
-	revision: "4"
+	date: "2021-02-10 10:47:27 GMT (Wednesday 10th February 2021)"
+	revision: "5"
 
 class
 	L1_UC_STRING_TEST
@@ -32,7 +32,7 @@ feature -- Tests
 
 	test_conversion
 		note
-			testing: "covers/{EL_SUBSTRING_32_ARRAY}.write", "covers/{EL_SUBSTRING_32_LIST}.append_code"
+			testing: "covers/{SUBSTRING_32_ARRAY}.write, covers/{SUBSTRING_32_LIST}.append_character"
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do
@@ -42,8 +42,7 @@ feature -- Tests
 
 	test_unicode_by_index
 		note
-			testing: "covers/{EL_SUBSTRING_32_ARRAY}.code_item",
-				"covers/{EL_SUBSTRING_32_LIST}.append_code"
+			testing: "covers/{SUBSTRING_32_ARRAY}.code_item, covers/{SUBSTRING_32_LIST}.append_character"
 		local
 			l1_uc: L1_UC_STRING; code: NATURAL
 		do
