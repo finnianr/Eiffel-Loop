@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 13:02:01 GMT (Tuesday 9th February 2021)"
-	revision: "7"
+	date: "2021-02-12 12:07:40 GMT (Friday 12th February 2021)"
+	revision: "8"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -23,8 +23,6 @@ inherit
 	EL_REFLECTIVE_RSA_KEY
 		rename
 			make_default as make_reflective
-		redefine
-			Use_default_values
 		end
 
 	EL_MODULE_BASE_64
@@ -130,5 +128,6 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Use_default_values: BOOLEAN = False
+	Field_hash: NATURAL = 0
+
 end

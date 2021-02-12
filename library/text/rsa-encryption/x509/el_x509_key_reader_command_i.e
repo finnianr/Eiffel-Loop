@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 14:49:09 GMT (Tuesday 9th February 2021)"
-	revision: "5"
+	date: "2021-02-12 12:03:56 GMT (Friday 12th February 2021)"
+	revision: "6"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -36,12 +36,14 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
+	EL_STRING_8_CONSTANTS
+
 feature {NONE} -- Initialization
 
-	make (a_key_file_path: like key_file_path; a_credential: EL_AES_CREDENTIAL)
+	make (a_key_file_path: like key_file_path; a_phrase: ZSTRING)
 		do
 			make_file_command (a_key_file_path)
-			credential := a_credential
+			phrase := a_phrase
 		end
 
 	make_default
@@ -55,15 +57,44 @@ feature -- Access
 
 	lines: EL_ZSTRING_LIST
 
-	credential: EL_AES_CREDENTIAL
+	phrase: ZSTRING
+
+feature -- Basic operations
+
+	write_to_aes (aes_bit_count: INTEGER; a_output_path: detachable EL_FILE_PATH)
+		-- exports key file at `key_file_path' to an AES encrypted file using `phrase' as credential
+		-- if `not attached a_output_path' then writes to `key_file_path' with added "text.aes" extension
+
+		require
+			key_read: not has_error
+		local
+			export_file_path: EL_FILE_PATH; cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+		do
+			if attached a_output_path as path then
+				export_file_path := path
+			else
+				export_file_path := key_file_path.twin
+				export_file_path.add_extension ("text.aes")
+			end
+			create cipher_file.make_open_write (export_file_path)
+			cipher_file.set_encrypter (create {EL_AES_ENCRYPTER}.make (phrase, aes_bit_count))
+			across lines as line loop
+				if is_lio_enabled then
+					lio.put_line (line.item)
+				end
+				cipher_file.put_string (line.item)
+				cipher_file.put_new_line
+			end
+			cipher_file.close
+		end
 
 feature {NONE} -- Implementation
 
 	do_command (a_system_command: like system_command)
 		do
-			Execution.put (credential.phrase.to_unicode, Var_pass_phrase)
+			Execution.put (phrase, Var_pass_phrase)
 			Precursor {EL_CAPTURED_OS_COMMAND_I} (a_system_command)
-			Execution.put ("none", Var_pass_phrase)
+			Execution.put (Empty_string, Var_pass_phrase)
 		end
 
 	do_with_lines (a_lines: like adjusted_lines)
@@ -71,8 +102,6 @@ feature {NONE} -- Implementation
 		do
 			a_lines.do_all (agent lines.extend)
 		end
-
-	pass_phrase: ZSTRING
 
 feature {NONE} -- Constants
 

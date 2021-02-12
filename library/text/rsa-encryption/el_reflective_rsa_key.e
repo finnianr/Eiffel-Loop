@@ -9,26 +9,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 14:59:44 GMT (Tuesday 9th February 2021)"
-	revision: "6"
+	date: "2021-02-12 13:02:54 GMT (Friday 12th February 2021)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
 
 inherit
-	EL_REFLECTIVELY_SETTABLE
+	EL_REFLECTIVELY_SETTABLE_STORABLE
 		rename
-			field_included as is_any_field,
-			export_name as export_default,
-			import_name as from_camel_case
+			read_version as read_default_version
 		redefine
-			print_fields
+			print_fields, is_storable_field, import_default, read_field, write_field, Use_default_values
 		end
 
 	EL_SETTABLE_FROM_STRING_8
 		rename
 			make_from_map_list as make_settable_from_map_list
 		end
+
+	INTEGER_X_FACILITIES undefine is_equal end
 
 	EL_MODULE_BASE_64
 
@@ -62,9 +62,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	Default_exponent: INTEGER_X
-		once
-			create Result.make_from_integer (65537)
+	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := from_camel_case (name_in, keeping_ref)
+		end
+
+	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
+		do
+			if basic_type = {REFLECTOR_CONSTANTS}.Reference_type then
+				Result := Eiffel.type_conforms_to (type_id, Integer_x_type)
+			end
 		end
 
 	put_number (a_lio: EL_LOGGABLE; label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)
@@ -95,5 +102,43 @@ feature {NONE} -- Implementation
 			a_lio.tab_left
 			a_lio.put_new_line
 		end
+
+	read_field (a_field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)
+			-- Read operations
+		do
+			if attached {EL_REFLECTED_REFERENCE [ANY]} a_field as field
+				and then attached {INTEGER_X} field.value (Current) as value
+			then
+				Storable_integer.read (a_reader)
+				field.set (Current, Storable_integer.item)
+			end
+		end
+
+	write_field (a_field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
+			-- Write operations
+		do
+			if attached {EL_REFLECTED_REFERENCE [ANY]} a_field as field
+				and then attached {INTEGER_X} field.value (Current) as value
+			then
+				Storable_integer.set_item (value)
+				Storable_integer.write (a_writer)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Default_exponent: INTEGER = 65537
+
+	Integer_x_type: INTEGER
+		once
+			Result := ({INTEGER_X}).type_id
+		end
+
+	Storable_integer: EL_STORABLE_INTEGER_X
+		once
+			create Result.make
+		end
+
+	Use_default_values: BOOLEAN = False
 
 end

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 14:51:43 GMT (Tuesday 9th February 2021)"
-	revision: "8"
+	date: "2021-02-12 14:38:02 GMT (Friday 12th February 2021)"
+	revision: "9"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -31,12 +31,15 @@ class
 inherit
 	EL_REFLECTIVE_RSA_KEY
 		rename
-			make_default as make_reflective
+			read as read_from,
+			write as write_to
 		redefine
-			Use_default_values
+			make_default
 		end
 
 	EL_MODULE_X509_COMMAND
+
+	EL_FILE_OPEN_ROUTINES
 
 -- Cannot inherit because of invariant: p * q ~ n
 --	RSA_PRIVATE_KEY
@@ -49,7 +52,7 @@ inherit
 --		end
 
 create
-	make, make_default, make_from_primes, make_from_map_list,
+	make, make_default, make_from_primes, make_from_map_list, make_from_stored,
 	make_from_pkcs1, make_from_pkcs1_file, make_from_pkcs1_cert
 
 feature {NONE} -- Initialization
@@ -58,8 +61,9 @@ feature {NONE} -- Initialization
 		local
 			phi: INTEGER_X
 		do
-			make_reflective
-
+			if not attached field_table then
+				field_table := Meta_data_by_type.item (Current).field_table
+			end
 			prime_1 := a_prime_1
 			prime_2 := a_prime_2
 			modulus := a_modulus
@@ -75,11 +79,11 @@ feature {NONE} -- Initialization
 			make_from_primes (17, 19)
 		end
 
-	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; credential: EL_AES_CREDENTIAL)
+	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; phrase: ZSTRING)
 		local
 			reader: like X509_command.new_key_reader
 		do
-			reader := X509_command.new_key_reader (cert_file_path, credential)
+			reader := X509_command.new_key_reader (cert_file_path, phrase)
 			reader.execute
 			if reader.has_error then
 				make_default
@@ -102,6 +106,16 @@ feature {NONE} -- Initialization
 			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
 		end
 
+	make_from_stored (file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+		-- make from binary file created with `store' routine
+		do
+			make_default
+			if attached open_raw (file_path, Read) as file then
+				copy (new_reader (encrypter).read_item (file))
+				file.close
+			end
+		end
+
 feature -- Access
 
 	modulus: INTEGER_X
@@ -114,7 +128,12 @@ feature -- Access
 
 	public_exponent: INTEGER_X
 
-feature -- Contract Support
+feature -- Status query
+
+	is_default: BOOLEAN
+		do
+			Result := Current ~ Default_key
+		end
 
 	is_valid: BOOLEAN
 		do
@@ -135,6 +154,15 @@ feature -- Basic operations
 			result := decrypt (message)
 		end
 
+	store (output_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+		-- store as binary encrypted file
+		do
+			if attached open_raw (output_path, Write) as file then
+				new_writer (encrypter).write (Current, file)
+				file.close
+			end
+		end
+
 feature -- Access
 
 	prime_1_base_64: STRING
@@ -149,7 +177,20 @@ feature -- Access
 			Result := Base_64.encoded_special (prime_2.as_bytes)
 		end
 
+feature {NONE} -- Factory
+
+	new_writer, new_reader (encrypter: EL_AES_ENCRYPTER): ECD_ENCRYPTABLE_READER_WRITER [like Current]
+		do
+			create Result.make (encrypter)
+		end
+
 feature {NONE} -- Constants
 
-	Use_default_values: BOOLEAN = False
+	Default_key: EL_RSA_PRIVATE_KEY
+		once
+			create Result.make_default
+		end
+
+	Field_hash: NATURAL = 266688151
+
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 14:50:06 GMT (Tuesday 9th February 2021)"
-	revision: "19"
+	date: "2021-02-12 14:33:24 GMT (Friday 12th February 2021)"
+	revision: "20"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -112,8 +112,7 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			x509: EL_X509_ROUTINES; key_file_path: EL_FILE_PATH
-			key_reader: like X509_command.new_key_reader
+			key_file_path: EL_FILE_PATH; key_reader: like X509_command.new_key_reader
 			credential: like new_credential; key_read, has_error: BOOLEAN
 		do
 			lio.enter ("export_x509_private_key_to_aes")
@@ -121,7 +120,7 @@ feature -- Basic operations
 				key_file_path := new_file_path ("private X509")
 			end
 			from until key_read loop
-				key_reader := X509_command.new_key_reader (key_file_path, new_credential)
+				key_reader := X509_command.new_key_reader (key_file_path, new_credential.phrase)
 				key_reader.execute
 				if key_reader.has_error then
 					across key_reader.errors as line loop
@@ -132,7 +131,7 @@ feature -- Basic operations
 				end
 			end
 			if key_read then
-				x509.write_key_file_to_aes (key_reader, create {EL_FILE_PATH}, new_bit_count)
+				key_reader.write_to_aes (new_bit_count, Void)
 			end
 			lio.exit
 		end
