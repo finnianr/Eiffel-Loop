@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:00:07 GMT (Monday 25th May 2020)"
-	revision: "1"
+	date: "2021-02-13 13:39:58 GMT (Saturday 13th February 2021)"
+	revision: "2"
 
 class
 	EL_REFLECTED_URI
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
-
-	STRING_HANDLER undefine is_equal end
 
 create
 	make
@@ -25,6 +23,13 @@ feature -- Basic operations
 	reset (a_object: EL_REFLECTIVE)
 		do
 			value (a_object).wipe_out
+		end
+
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as uri then
+				memory.read_into_string_8 (uri)
+			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

@@ -1,21 +1,21 @@
 note
-	description: "Reflected date time"
+	description: "Reflected `DATE_TIME' field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:28:48 GMT (Monday 1st February 2021)"
-	revision: "11"
+	date: "2021-02-13 13:45:41 GMT (Saturday 13th February 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_DATE_TIME
 
 inherit
-	EL_REFLECTED_READABLE [DATE_TIME]
+	EL_REFLECTED_REFERENCE [DATE_TIME]
 		redefine
-			write, reset, set_from_readable, set_from_string, to_string
+			write, reset, set_from_memory, set_from_readable, set_from_string, to_string
 		end
 
 create
@@ -37,20 +37,18 @@ feature -- Access
 
 feature -- Basic operations
 
-	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
-		local
-			dt, date_time: DATE_TIME
-		do
-			date_time := value (a_object)
-			dt := reader.read_date_time
-			date_time.set_date (dt.date)
-			date_time.set_time (dt.time)
-		end
-
 	reset (a_object: EL_REFLECTIVE)
 		do
 			if attached value (a_object) as date then
 				date.make_from_epoch (0)
+			end
+		end
+
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as dt then
+				dt.date.make_by_ordered_compact_date (memory.read_integer_32)
+				dt.time.make_by_compact_time (memory.read_integer_32)
 			end
 		end
 
@@ -70,7 +68,10 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_MEMORY_READER_WRITER)
 		do
-			writeable.write_date_time (value (a_object))
+			if attached value (a_object) as dt then
+				writeable.write_integer_32 (dt.date.ordered_compact_date)
+				writeable.write_integer_32 (dt.time.compact_time)
+			end
 		end
 
 end

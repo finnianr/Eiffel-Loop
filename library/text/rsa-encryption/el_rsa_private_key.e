@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 14:38:02 GMT (Friday 12th February 2021)"
-	revision: "9"
+	date: "2021-02-13 10:54:25 GMT (Saturday 13th February 2021)"
+	revision: "10"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -38,6 +38,8 @@ inherit
 		end
 
 	EL_MODULE_X509_COMMAND
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -80,6 +82,9 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; phrase: ZSTRING)
+		-- make from cert file (usually with extension .key)
+		require
+			valid_file: is_valid_pkcs1_cert (cert_file_path)
 		local
 			reader: like X509_command.new_key_reader
 		do
@@ -138,6 +143,13 @@ feature -- Status query
 	is_valid: BOOLEAN
 		do
 			Result := prime_1 * prime_2 ~ modulus
+		end
+
+	is_valid_pkcs1_cert (cert_file_path: EL_FILE_PATH): BOOLEAN
+		do
+			if cert_file_path.exists then
+				Result := File_system.line_one (cert_file_path).has_substring ("BEGIN ENCRYPTED PRIVATE KEY")
+			end
 		end
 
 feature -- Basic operations

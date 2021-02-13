@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:37:06 GMT (Friday 8th January 2021)"
-	revision: "31"
+	date: "2021-02-13 18:27:49 GMT (Saturday 13th February 2021)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -161,6 +161,54 @@ feature {EL_STORABLE_CLASS_META_DATA} -- Access
 
 feature {NONE} -- Implementation
 
+	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
+		do
+			Result := Eiffel.is_storable_type (basic_type, type_id)
+		end
+
+	new_meta_data: EL_STORABLE_CLASS_META_DATA
+		local
+			exception: POSTCONDITION_VIOLATION; field_structure_error: STRING
+		do
+			create Result.make (Current)
+			if not Result.same_data_structure (field_hash) then
+				field_structure_error := "ERROR: Field structure has changed"
+				lio.put_new_line
+				lio.put_labeled_string ("class " + generator, field_structure_error)
+				lio.put_new_line
+				lio.put_natural_field ("actual field_hash", Result.field_list.field_hash)
+				lio.put_new_line_x2
+				if not Executable.is_work_bench then
+					create exception
+					exception.set_description (field_structure_error)
+					exception.raise
+				end
+			end
+		ensure then
+			same_data_structure: Result.same_data_structure (field_hash)
+		end
+
+	read_field (field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)
+			-- Read operations
+		do
+			field.set_from_memory (Current, a_reader)
+		end
+
+	use_default_values: BOOLEAN
+		do
+			Result := True
+		end
+
+	write_field (field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
+			-- Write operations
+		do
+			if attached {EL_REFLECTED_STORABLE} field as storable_field then
+				storable_field.write (Current, a_writer)
+			else
+				field.write_to_memory (Current, a_writer)
+			end
+		end
+
 	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; cursor_index_set: LIST [INTEGER])
 		local
 			attribute_lines: ARRAY [ZSTRING]; value: ZSTRING; attribute_index: INTEGER
@@ -197,58 +245,6 @@ feature {NONE} -- Implementation
 				end
 			end
 			attribute_lines.do_all (agent String_pool.recycle)
-		end
-
-	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
-		do
-			Result := Eiffel.is_storable_type (basic_type, type_id)
-		end
-
-	new_meta_data: EL_STORABLE_CLASS_META_DATA
-		local
-			exception: POSTCONDITION_VIOLATION; field_structure_error: STRING
-		do
-			create Result.make (Current)
-			if not Result.same_data_structure (field_hash) then
-				field_structure_error := "ERROR: Field structure has changed"
-				lio.put_new_line
-				lio.put_labeled_string ("class " + generator, field_structure_error)
-				lio.put_new_line
-				lio.put_natural_field ("actual field_hash", Result.field_list.field_hash)
-				lio.put_new_line_x2
-				if not Executable.is_work_bench then
-					create exception
-					exception.set_description (field_structure_error)
-					exception.raise
-				end
-			end
-		ensure then
-			same_data_structure: Result.same_data_structure (field_hash)
-		end
-
-	read_field (field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)
-			-- Read operations
-		do
-			if attached {EL_REFLECTED_READABLE [ANY]} field as readable then
-				readable.read (Current, a_reader)
-			else
-				field.set_from_readable (Current, a_reader)
-			end
-		end
-
-	use_default_values: BOOLEAN
-		do
-			Result := True
-		end
-
-	write_field (field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
-			-- Write operations
-		do
-			if attached {EL_REFLECTED_STORABLE} field as storable_field then
-				storable_field.write (Current, a_writer)
-			else
-				field.write (Current, a_writer)
-			end
 		end
 
 	write_pyxis_field (output: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)

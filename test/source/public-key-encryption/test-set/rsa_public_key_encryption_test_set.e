@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 14:32:15 GMT (Friday 12th February 2021)"
-	revision: "3"
+	date: "2021-02-13 10:49:03 GMT (Saturday 13th February 2021)"
+	revision: "4"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -34,6 +34,11 @@ feature -- Basic operations
 feature -- Tests
 
 	test_write_x509_key_file_to_aes_binary
+		note
+			testing:
+				"covers/{EL_X509_KEY_READER_COMMAND_I}.make, covers/{EL_X509_KEY_READER_COMMAND_I}.execute",
+				"covers/{EL_RSA_PRIVATE_KEY}.make_from_stored, covers/{EL_RSA_PRIVATE_KEY}.store",
+				"covers/{EL_RSA_PRIVATE_KEY}.is_equal"
 		local
 			reader_writer: ECD_ENCRYPTABLE_READER_WRITER [EL_RSA_PRIVATE_KEY]
 			encrypter: EL_AES_ENCRYPTER; output_path: EL_FILE_PATH
@@ -65,7 +70,6 @@ feature -- Tests
 		note
 			testing:
 				"covers/{EL_X509_KEY_READER_COMMAND_I}.make, covers/{EL_X509_KEY_READER_COMMAND_I}.execute",
-				"covers/{EL_X509_ROUTINES}.write_key_file_to_aes",
 				"covers/{EL_RSA_PRIVATE_KEY}.make_from_pkcs1_cert, covers/{EL_RSA_PRIVATE_KEY}.make_from_pkcs1_file",
 				"covers/{EL_RSA_PRIVATE_KEY}.is_equal"
 		local

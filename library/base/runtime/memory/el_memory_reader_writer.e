@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:24:23 GMT (Saturday 30th January 2021)"
-	revision: "15"
+	date: "2021-02-13 13:22:22 GMT (Saturday 13th February 2021)"
+	revision: "16"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -131,63 +131,69 @@ feature -- Basic operations
 
 feature -- Read operations
 
-	read_date: DATE
+	read_into_string (str: ZSTRING)
+		require else
+			is_ready: is_ready_for_reading
+		local
+			l_count: INTEGER
 		do
-			create Result.make_by_ordered_compact_date (read_integer_32)
+			l_count := read_integer_32
+			str.grow (l_count)
+			fill_string (str, l_count)
 		end
 
-	read_date_time: DATE_TIME
+	read_into_string_32 (str: STRING_32)
+		require else
+			is_ready: is_ready_for_reading
 		local
-			l_date: DATE
+			l_count: INTEGER
 		do
-			l_date := read_date
-			create Result.make_by_date_time (l_date, read_time)
+			l_count := read_integer_32
+			str.grow (l_count)
+			fill_string_32 (str, l_count)
+		end
+
+	read_into_string_8 (str: STRING_8)
+		require else
+			is_ready: is_ready_for_reading
+		local
+			i, l_count: INTEGER; l_area: SPECIAL [CHARACTER_8]
+		do
+			l_count := read_compressed_natural_32.to_integer_32
+			str.grow (l_count)
+			l_area := str.area
+			from i := 0 until i = l_count loop
+				l_area.put (read_character_8, i)
+				i := i + 1
+			end
+			str.set_count (l_count)
 		end
 
 	read_string: ZSTRING
+		require else
+			is_ready: is_ready_for_reading
 		local
-			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
-			extendible_unencoded: EL_UNENCODED_CHARACTERS_BUFFER
+			l_count: INTEGER
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
-			if l_count <= buffer.count - count then
-				l_area := Result.area
-				extendible_unencoded := Result.empty_unencoded_buffer
-				from i := 0 until i = l_count loop
-					c := read_character_8
-					l_area [i] := c
-					if c = Unencoded_character then
-						extendible_unencoded.extend (read_natural_32, i + 1)
-					end
-					i := i + 1
-				end
-				l_area [i] := c
-				Result.set_count (l_count)
-				Result.set_unencoded_area (extendible_unencoded.area_copy)
-			end
+			fill_string (Result, l_count)
 		end
 
 	read_string_32: STRING_32
+		require else
+			is_ready: is_ready_for_reading
 		local
-			i, l_count: INTEGER
+			l_count: INTEGER
 		do
 			l_count := read_integer_32
 			create Result.make (l_count)
-			if l_count <= buffer.count - count then
-				from i := 1 until i > l_count loop
-					Result.append_code (read_compressed_natural_32)
-					i := i + 1
-				end
-			end
-		end
-
-	read_time: TIME
-		do
-			create Result.make_by_compact_time (read_integer_32)
+			fill_string_32 (Result, l_count)
 		end
 
 	read_to_natural_8_array (array: ARRAY [NATURAL_8])
+		require
+			is_ready: is_ready_for_reading
 		do
 			check_buffer (array.count)
 			buffer.read_into_special_natural_8 (array.area, count, 0, array.count)
@@ -196,6 +202,8 @@ feature -- Read operations
 
 	read_to_string_8 (str: STRING; n: INTEGER)
 		-- set the contents of `str' with `n' characters
+		require
+			is_ready: is_ready_for_reading
 		do
 			str.grow (n); str.set_count (n)
 			check_buffer (n)
@@ -204,17 +212,6 @@ feature -- Read operations
 		end
 
 feature -- Write operations
-
-	write_date (a_date: DATE)
-		do
-			write_integer_32 (a_date.ordered_compact_date)
-		end
-
-	write_date_time (date_time: DATE_TIME)
-		do
-			write_date (date_time.date)
-			write_time (date_time.time)
-		end
 
 	write_bytes (value: NATURAL_8; n: INTEGER)
 		local
@@ -309,11 +306,6 @@ feature -- Write operations
 			count := l_pos
 		end
 
-	write_time (time: TIME)
-		do
-			write_integer_32 (time.compact_time)
-		end
-
 feature {EL_STORABLE} -- Element change
 
 	set_count (a_count: like count)
@@ -340,6 +332,42 @@ feature {NONE} -- Implementation
 	new_item: EL_STORABLE
 		do
 			create {EL_STORABLE_IMPL} Result.make_default
+		end
+
+	fill_string (str: ZSTRING; a_count: INTEGER)
+		local
+			i: INTEGER; l_area: like read_string.area; c: CHARACTER
+			extendible_unencoded: EL_UNENCODED_CHARACTERS_BUFFER
+		do
+			if a_count <= buffer.count - count then
+				l_area := str.area
+				extendible_unencoded := str.empty_unencoded_buffer
+				from i := 0 until i = a_count loop
+					c := read_character_8
+					l_area [i] := c
+					if c = Unencoded_character then
+						extendible_unencoded.extend (read_natural_32, i + 1)
+					end
+					i := i + 1
+				end
+				l_area [i] := c
+				str.set_count (a_count)
+				str.set_unencoded_area (extendible_unencoded.area_copy)
+			end
+		end
+
+	fill_string_32 (str: STRING_32; a_count: INTEGER)
+		local
+			i: INTEGER; l_area: SPECIAL [CHARACTER_32]
+		do
+			if a_count <= buffer.count - count then
+				l_area := str.area
+				from i := 0 until i = a_count loop
+					l_area.put (read_compressed_natural_32.to_character_32, i)
+					i := i + 1
+				end
+				str.set_count (a_count)
+			end
 		end
 
 feature {NONE} -- Constants

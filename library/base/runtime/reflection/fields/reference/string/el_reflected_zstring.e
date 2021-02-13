@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 12:08:27 GMT (Thursday 2nd April 2020)"
-	revision: "3"
+	date: "2021-02-13 13:37:27 GMT (Saturday 13th February 2021)"
+	revision: "4"
 
 class
 	EL_REFLECTED_ZSTRING
@@ -29,6 +29,13 @@ feature -- Basic operations
 	reset (a_object: EL_REFLECTIVE)
 		do
 			value (a_object).wipe_out
+		end
+
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as str then
+				memory.read_into_string (str)
+			end
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

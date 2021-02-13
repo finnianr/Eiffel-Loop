@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 14:33:24 GMT (Friday 12th February 2021)"
-	revision: "20"
+	date: "2021-02-13 17:43:06 GMT (Saturday 13th February 2021)"
+	revision: "21"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -112,15 +112,17 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			key_file_path: EL_FILE_PATH; key_reader: like X509_command.new_key_reader
-			credential: like new_credential; key_read, has_error: BOOLEAN
+			key_file_path, export_path: EL_FILE_PATH; key_reader: like X509_command.new_key_reader
+			credential: like new_credential; key_read: BOOLEAN
+			key: EL_RSA_PRIVATE_KEY
 		do
 			lio.enter ("export_x509_private_key_to_aes")
 			from create key_file_path until key_file_path.has_extension ("key") loop
 				key_file_path := new_file_path ("private X509")
 			end
 			from until key_read loop
-				key_reader := X509_command.new_key_reader (key_file_path, new_credential.phrase)
+				credential := new_credential
+				key_reader := X509_command.new_key_reader (key_file_path, credential.phrase)
 				key_reader.execute
 				if key_reader.has_error then
 					across key_reader.errors as line loop
@@ -131,7 +133,10 @@ feature -- Basic operations
 				end
 			end
 			if key_read then
-				key_reader.write_to_aes (new_bit_count, Void)
+				create key.make_from_pkcs1 (key_reader.lines)
+				export_path := key_file_path.twin
+				export_path.add_extension ("dat")
+				key.store (export_path, create {EL_AES_ENCRYPTER}.make (credential.phrase, new_bit_count))
 			end
 			lio.exit
 		end
@@ -305,14 +310,14 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Display encrypted input text", 								agent display_encrypted_text],
-				["Display AES encrypted file", 									agent display_encrypted_file],
-				["Decrypt AES encrypted file", 									agent decrypt_file_with_aes],
-				["Encrypt file with AES encryption", 							agent encrypt_file_with_aes],
-				["Export private.key file to private.key.text.aes",		agent export_x509_private_key_to_aes],
-				["Generate pass phrase salt", 									agent generate_pass_phrase_salt],
-				["Write crt public key as Eiffel asssignment",				agent write_x509_public_key_code_assignment],
-				["Write RSA signed string as Eiffel assignment",			agent write_string_signed_with_x509_private_key]
+				["Display encrypted input text", 						agent display_encrypted_text],
+				["Display AES encrypted file", 							agent display_encrypted_file],
+				["Decrypt AES encrypted file", 							agent decrypt_file_with_aes],
+				["Encrypt file with AES encryption", 					agent encrypt_file_with_aes],
+				["Export private.key file to private.key.dat",		agent export_x509_private_key_to_aes],
+				["Generate pass phrase salt", 							agent generate_pass_phrase_salt],
+				["Write crt public key as Eiffel asssignment",		agent write_x509_public_key_code_assignment],
+				["Write RSA signed string as Eiffel assignment",	agent write_string_signed_with_x509_private_key]
 			>>)
 		end
 
@@ -355,11 +360,11 @@ feature {NONE} -- Factory
 			key_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER
 		do
 			from create key_file_path until key_file_path.has_extension ("aes") loop
-				key_file_path := new_file_path ("key.text.aes")
+				key_file_path := new_file_path ("key.dat")
 			end
 			-- Upgraded to 256 April 2015
 			create encrypter.make (User_input.line ("Private key password"), 256)
-			create Result.make_from_pkcs1_file (key_file_path, encrypter)
+			create Result.make_from_stored (key_file_path, encrypter)
 		end
 
 feature {NONE} -- Constants

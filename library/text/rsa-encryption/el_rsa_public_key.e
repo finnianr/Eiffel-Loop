@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 12:07:40 GMT (Friday 12th February 2021)"
-	revision: "8"
+	date: "2021-02-12 17:26:42 GMT (Friday 12th February 2021)"
+	revision: "9"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -128,6 +128,6 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL = 0
+	Field_hash: NATURAL = 1181435192
 
 end

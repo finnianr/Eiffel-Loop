@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 11:26:58 GMT (Tuesday 22nd December 2020)"
-	revision: "36"
+	date: "2021-02-13 17:47:09 GMT (Saturday 13th February 2021)"
+	revision: "37"
 
 class
 	EL_CLASS_META_DATA
@@ -38,11 +38,13 @@ inherit
 
 	EL_MODULE_NAMING
 
-	EL_SHARED_NEW_INSTANCE_TABLE
-
 	EL_REFLECTION_HANDLER
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_NEW_INSTANCE_TABLE
+
+	EL_SHARED_READER_WRITER_TABLE
 
 create
 	make
@@ -53,6 +55,9 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_enclosing_object)
 			New_instance_table.extend_from_list (a_enclosing_object.new_instance_functions)
+			across a_enclosing_object.new_reader_writer_interfaces as interface loop
+				Reader_writer_table.put (interface.item, interface.key.type_id)
+			end
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)

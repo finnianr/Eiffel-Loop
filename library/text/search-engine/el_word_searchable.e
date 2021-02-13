@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:30:33 GMT (Friday 8th January 2021)"
-	revision: "14"
+	date: "2021-02-13 12:57:39 GMT (Saturday 13th February 2021)"
+	revision: "15"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -48,7 +48,12 @@ feature {NONE} -- Element change
 	set_word_token_list (token_list: STRING_32)
 		do
 			word_token_list.share (token_list)
-			if token_list.is_empty
+			check_validity
+		end
+
+	check_validity
+		do
+			if word_token_list.is_empty
 				or else not word_table.is_restored
 				or else not word_table.valid_token_list (word_token_list, searchable_paragraphs)
 			then

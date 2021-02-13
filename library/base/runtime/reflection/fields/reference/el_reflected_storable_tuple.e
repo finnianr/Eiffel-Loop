@@ -6,26 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 16:22:45 GMT (Tuesday 10th September 2019)"
-	revision: "11"
+	date: "2021-02-13 13:50:14 GMT (Saturday 13th February 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_STORABLE_TUPLE
 
 inherit
 	EL_REFLECTED_TUPLE
-		undefine
-			set_from_readable
 		redefine
-			write
-		end
-
-	EL_REFLECTED_READABLE [TUPLE]
-		undefine
-			is_initializeable,
-			make, initialize, new_instance, reset, set_from_string, to_string
-		redefine
-			write
+			write, set_from_memory
 		end
 
 create
@@ -33,9 +23,9 @@ create
 
 feature -- Basic operations
 
-	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			read_tuple (value (a_object), reader)
+			read_tuple (value (a_object), memory)
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

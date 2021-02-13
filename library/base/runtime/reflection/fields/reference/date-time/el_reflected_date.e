@@ -1,21 +1,21 @@
 note
-	description: "Reflected date"
+	description: "Reflected `DATE' field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:27:35 GMT (Monday 1st February 2021)"
-	revision: "11"
+	date: "2021-02-13 13:44:25 GMT (Saturday 13th February 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_DATE
 
 inherit
-	EL_REFLECTED_READABLE [DATE]
+	EL_REFLECTED_REFERENCE [DATE]
 		redefine
-			write, reset, set_from_readable, set_from_string, to_string
+			write, reset, set_from_memory, set_from_readable, set_from_string, to_string
 		end
 
 create
@@ -32,15 +32,17 @@ feature -- Access
 
 feature -- Basic operations
 
-	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
-		do
-			set (a_object, reader.read_date)
-		end
-
 	reset (a_object: EL_REFLECTIVE)
 		do
 			if attached value (a_object) as date then
 				date.copy (date.origin)
+			end
+		end
+
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as date then
+				date.make_by_ordered_compact_date (memory.read_integer_32)
 			end
 		end
 
@@ -60,7 +62,9 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_MEMORY_READER_WRITER)
 		do
-			writeable.write_date (value (a_object))
+			if attached value (a_object) as date then
+				writeable.write_integer_32 (date.ordered_compact_date)
+			end
 		end
 
 end

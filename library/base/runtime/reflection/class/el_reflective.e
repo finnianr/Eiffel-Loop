@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:14:13 GMT (Tuesday 5th January 2021)"
-	revision: "35"
+	date: "2021-02-13 18:19:00 GMT (Saturday 13th February 2021)"
+	revision: "36"
 
 deferred class
 	EL_REFLECTIVE
@@ -141,6 +141,14 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			Result := Default_enumerations
 		ensure
 			valid_enumerations: valid_enumerations (Result)
+		end
+
+	new_reader_writer_interfaces: like Default_reader_writer_interfaces
+		-- redefine to map an adapter object for reading and writing a reference field type
+		-- to instance of `EL_MEMORY_READER_WRITER'
+		-- See routine `{EL_REFLECTED_REFERENCE}.set_from_memory' and `write'
+		do
+			Result := Default_reader_writer_interfaces
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
@@ -346,6 +354,11 @@ feature {EL_CLASS_META_DATA} -- Constants
 		-- array of functions returning a new value for result type
 		once
 			create Result.make_empty
+		end
+
+	frozen Default_reader_writer_interfaces: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], TYPE [ANY]]
+		once
+			create Result
 		end
 
 note

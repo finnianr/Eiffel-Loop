@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-02 12:13:15 GMT (Thursday 2nd April 2020)"
-	revision: "19"
+	date: "2021-02-13 18:27:23 GMT (Saturday 13th February 2021)"
+	revision: "20"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -18,15 +18,27 @@ inherit
 		rename
 			reference_value as value
 		redefine
-			initialize, value, is_initialized
+			initialize, make, value, is_initialized, set_from_memory, write_to_memory
 		end
 
 	EL_SHARED_NEW_INSTANCE_TABLE
+
+	EL_SHARED_READER_WRITER_TABLE
 
 	EL_SHARED_CLASS_ID
 
 create
 	make
+
+feature {EL_CLASS_META_DATA} -- Initialization
+
+	make (a_object: like enclosing_object; a_index: INTEGER; a_name: STRING)
+		do
+			Precursor (a_object, a_index, a_name)
+			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as interface then
+				reader_writer_interface := interface
+			end
+		end
 
 feature -- Access
 
@@ -100,6 +112,15 @@ feature -- Basic operations
 			set_from_string (a_object, a_value.out)
 		end
 
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached reader_writer_interface as interface and then attached value (a_object) as v then
+				interface.set (v, memory)
+			else
+				set_from_readable (a_object, memory)
+			end
+		end
+
 	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
 		do
 		end
@@ -110,6 +131,15 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writable: EL_WRITEABLE)
 		do
+		end
+
+	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached reader_writer_interface as interface and then attached value (a_object) as v then
+				interface.write (v, memory)
+			else
+				write (a_object, memory)
+			end
 		end
 
 feature -- Comparison
@@ -146,6 +176,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Internal attributes
+
+	reader_writer_interface: detachable EL_READER_WRITER_INTERFACE [G]
+
 feature {NONE} -- Constants
 
 	Makeable_factory: EL_MAKEABLE_OBJECT_FACTORY
@@ -180,4 +214,3 @@ note
 	]"
 
 end
-

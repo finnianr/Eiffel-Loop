@@ -1,3 +1,6 @@
+1.4.3
+Changed EL_CRYPTO_COMMAND_SHELL.export_x509_private_key_to_aes to use EL_RSA_PRIVATE_KEY.store
+
 1.4.2
 Fixed {EL_CRYPTO_COMMAND_SHELL}.export_x509_private_key_to_aes 
 It was calling {EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE}.put_string (str: ZSTRING) with utf-8 string

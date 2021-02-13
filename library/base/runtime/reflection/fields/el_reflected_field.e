@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-22 16:48:35 GMT (Tuesday 22nd December 2020)"
-	revision: "23"
+	date: "2021-02-13 18:27:14 GMT (Saturday 13th February 2021)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -132,12 +132,22 @@ feature -- Basic operations
 		deferred
 		end
 
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			set_from_readable (a_object, memory)
+		end
+
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		deferred
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		deferred
+		end
+
+	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			write (a_object, memory)
 		end
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)

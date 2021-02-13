@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 13:02:54 GMT (Friday 12th February 2021)"
-	revision: "7"
+	date: "2021-02-13 17:53:25 GMT (Saturday 13th February 2021)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -20,15 +20,13 @@ inherit
 		rename
 			read_version as read_default_version
 		redefine
-			print_fields, is_storable_field, import_default, read_field, write_field, Use_default_values
+			print_fields, is_storable_field, import_default, new_reader_writer_interfaces, Use_default_values
 		end
 
 	EL_SETTABLE_FROM_STRING_8
 		rename
 			make_from_map_list as make_settable_from_map_list
 		end
-
-	INTEGER_X_FACILITIES undefine is_equal end
 
 	EL_MODULE_BASE_64
 
@@ -74,6 +72,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_reader_writer_interfaces: like Default_reader_writer_interfaces
+		do
+			create Result.make (<<
+				[{INTEGER_X}, create {EL_INTEGER_X_READER_WRITER_INTERFACE}]
+			>>)
+		end
+
 	put_number (a_lio: EL_LOGGABLE; label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)
 			-- indefinite_length is a special case that indicates a form of encoding, known as "indefinite-length encoding,"
 			-- is being used, in which case the end of this ASN.1 value's data is marked by two consecutive zero-value octets.
@@ -103,28 +108,6 @@ feature {NONE} -- Implementation
 			a_lio.put_new_line
 		end
 
-	read_field (a_field: EL_REFLECTED_FIELD; a_reader: EL_MEMORY_READER_WRITER)
-			-- Read operations
-		do
-			if attached {EL_REFLECTED_REFERENCE [ANY]} a_field as field
-				and then attached {INTEGER_X} field.value (Current) as value
-			then
-				Storable_integer.read (a_reader)
-				field.set (Current, Storable_integer.item)
-			end
-		end
-
-	write_field (a_field: EL_REFLECTED_FIELD; a_writer: EL_MEMORY_READER_WRITER)
-			-- Write operations
-		do
-			if attached {EL_REFLECTED_REFERENCE [ANY]} a_field as field
-				and then attached {INTEGER_X} field.value (Current) as value
-			then
-				Storable_integer.set_item (value)
-				Storable_integer.write (a_writer)
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Default_exponent: INTEGER = 65537
@@ -132,11 +115,6 @@ feature {NONE} -- Constants
 	Integer_x_type: INTEGER
 		once
 			Result := ({INTEGER_X}).type_id
-		end
-
-	Storable_integer: EL_STORABLE_INTEGER_X
-		once
-			create Result.make
 		end
 
 	Use_default_values: BOOLEAN = False

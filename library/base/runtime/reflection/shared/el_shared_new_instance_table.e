@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 14:58:13 GMT (Thursday 28th May 2020)"
-	revision: "9"
+	date: "2021-02-13 11:46:45 GMT (Saturday 13th February 2021)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_NEW_INSTANCE_TABLE
@@ -26,11 +26,13 @@ feature {NONE} -- Constants
 	New_instance_table: EL_FUNCTIONS_BY_RESULT_TYPE
 		once
 			create Result.make (<<
-				-- Dates
+				-- Date/time
+				agent: DATE do create Result.make_now end,
 				agent: DATE_TIME do create Result.make_now end,
 				agent: EL_DATE_TIME do create Result.make_now end,
 				agent: EL_ISO_8601_DATE_TIME do create Result.make_now end,
 				agent: EL_SHORT_ISO_8601_DATE_TIME do create Result.make_now end,
+				agent: TIME do create Result.make_now end,
 
 				-- Strings
 				agent: ZSTRING do create Result.make_empty end,
@@ -58,4 +60,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

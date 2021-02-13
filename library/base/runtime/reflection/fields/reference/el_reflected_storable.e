@@ -8,16 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:35:14 GMT (Sunday 6th December 2020)"
-	revision: "9"
+	date: "2021-02-13 13:48:15 GMT (Saturday 13th February 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_STORABLE
 
 inherit
-	EL_REFLECTED_READABLE [EL_STORABLE]
+	EL_REFLECTED_REFERENCE [EL_STORABLE]
 		redefine
-			 write, to_string, set_from_string
+			 write, to_string, set_from_string, set_from_memory
 		end
 
 create
@@ -39,9 +39,9 @@ feature -- Access
 
 feature -- Basic operations
 
-	read (a_object: EL_REFLECTIVE; reader: EL_MEMORY_READER_WRITER)
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			value (a_object).read (reader)
+			value (a_object).read (memory)
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
