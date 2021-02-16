@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-06 15:32:42 GMT (Saturday 6th February 2021)"
-	revision: "14"
+	date: "2021-02-16 13:59:07 GMT (Tuesday 16th February 2021)"
+	revision: "15"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -352,11 +352,27 @@ feature {NONE} -- Element change
 		require
 			valid_insertion_index: 1 <= i and i <= count + 1
 		local
-			str: like current_string_8
+			pos, new_size, s_count: INTEGER; l_area: like area
 		do
-			str := current_string_8
-			str.insert_string (string_8_argument (s, 1), i)
-			set_from_string_8 (str)
+				-- Insert `s' if `s' is not empty, otherwise is useless.
+			s_count := s.count
+			if s_count /= 0 then
+					-- Resize Current if necessary.
+				new_size := s_count + count
+				if new_size > capacity then
+					resize (new_size + additional_space)
+				end
+					-- Perform all operations using a zero based arrays.
+				l_area := area; pos := i - 1
+
+					-- First shift from `s.count' position all characters starting at index `pos'.
+				l_area.overlapping_move (pos, pos + s_count, count - pos)
+
+					-- Copy string `s' at index `pos'.
+				l_area.copy_data (s.area, s.area_lower, pos, s_count)
+
+				set_count (new_size)
+			end
 		ensure
 			inserted: elks_checking implies (string ~ (old substring (1, i - 1) + old (s.string) + old substring (i, count)))
 		end

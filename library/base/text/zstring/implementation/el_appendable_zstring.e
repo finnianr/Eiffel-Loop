@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 13:11:10 GMT (Sunday 7th February 2021)"
-	revision: "17"
+	date: "2021-02-16 18:53:47 GMT (Tuesday 16th February 2021)"
+	revision: "18"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -77,23 +77,21 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 	append_string_8 (str: READABLE_STRING_8)
 		require else
 			not_has_reserved_substitute_character: not str.has (Unencoded_character)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append (str)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append (str)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_string, append (s: EL_READABLE_ZSTRING)
 		local
 			old_count: INTEGER
 		do
+			old_count := count
+			internal_append (s)
 			if s.has_mixed_encoding then
-				old_count := count
-				internal_append (s)
 				append_unencoded (s, old_count)
-			else
-				internal_append (s)
 			end
 		ensure
 			new_count: count = old count + s.count
@@ -114,7 +112,6 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				grow (old_count + general.count)
 				set_count (old_count + general.count)
 				encode (general, old_count)
-				reset_hash
 			end
 		ensure then
 			unencoded_valid: is_unencoded_valid
@@ -169,12 +166,10 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 		end
 
 	append_utf_8 (utf_8: READABLE_STRING_8)
+		local
+			conv: EL_UTF_CONVERTER
 		do
-			if string_8.is_ascii (utf_8) then
-				append_ascii (utf_8)
-			else
-				append_string_general (Utf_8_codec.as_unicode (utf_8, False))
-			end
+			internal_append_utf_8 (utf_8, conv.unicode_count (utf_8))
 		end
 
 feature {NONE} -- Append character
@@ -207,131 +202,158 @@ feature {NONE} -- Append character
 feature {NONE} -- Append integers
 
 	append_integer, append_integer_32 (n: INTEGER)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_integer (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_integer (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_integer_16 (n: INTEGER_16)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_integer_16 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_integer_16 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_integer_64 (n: INTEGER_64)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_integer_64 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_integer_64 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_integer_8 (n: INTEGER_8)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_integer_8 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_integer_8 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 feature {NONE} -- Append naturals
 
 	append_natural, append_natural_32 (n: NATURAL)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_natural_32 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_natural_32 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_natural_16 (n: NATURAL_16)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_natural_16 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_natural_16 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_natural_64 (n: NATURAL_64)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_natural_64 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_natural_64 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_natural_8 (n: NATURAL_8)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_natural_8 (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_natural_8 (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 feature {NONE} -- Append general
 
 	append_boolean (b: BOOLEAN)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_boolean (b)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_boolean (b)
+				set_from_string_8 (l_current)
+			end
 		end
 
 feature {NONE} -- Append REAL
 
 	append_real_32, append_real (n: REAL_32)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_real (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_real (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 	append_real_64, append_double (n: REAL_64)
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.append_double (n)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_double (n)
+				set_from_string_8 (l_current)
+			end
+		end
+
+feature {NONE} -- Prepend numeric
+
+	prepend_boolean (b: BOOLEAN)
+		do
+			if attached current_string_8 as l_current then
+				l_current.prepend_boolean (b)
+				set_from_string_8 (l_current)
+			end
+		end
+
+	prepend_integer, prepend_integer_32 (n: INTEGER)
+		do
+			if attached current_string_8 as l_current then
+				l_current.prepend_integer (n)
+				set_from_string_8 (l_current)
+			end
+		end
+
+	prepend_real_32, prepend_real (n: REAL_32)
+		do
+			if attached current_string_8 as l_current then
+				l_current.prepend_real (n)
+				set_from_string_8 (l_current)
+			end
+		end
+
+	prepend_real_64, prepend_double (n: REAL_64)
+		do
+			if attached current_string_8 as l_current then
+				l_current.prepend_double (n)
+				set_from_string_8 (l_current)
+			end
 		end
 
 feature {NONE} -- Prepend general
 
-	prepend_boolean (b: BOOLEAN)
-		local
-			l_current: EL_STRING_8
+	prepend, prepend_string (s: EL_READABLE_ZSTRING)
 		do
-			l_current := current_string_8; l_current.prepend_boolean (b)
-			set_from_string_8 (l_current)
+			internal_prepend (s)
+			inspect respective_encoding (s)
+				when Both_have_mixed_encoding then
+					make_joined (s, Current, s.count)
+				when Only_current then
+					shift_unencoded (s.count)
+				when Only_other then
+					unencoded_area := s.unencoded_area.twin
+			else
+			end
+		ensure
+			unencoded_valid: is_unencoded_valid
+			new_count: count = old (count + s.count)
+			inserted: elks_checking implies same_string (old (s + current_readable))
 		end
 
-	prepend_integer, prepend_integer_32 (n: INTEGER)
-		local
-			l_current: EL_STRING_8
+	prepend_string_general (str: READABLE_STRING_GENERAL)
 		do
-			l_current := current_string_8; l_current.prepend_integer (n)
-			set_from_string_8 (l_current)
-		end
-
-	prepend_real_32, prepend_real (n: REAL_32)
-		local
-			l_current: EL_STRING_8
-		do
-			l_current := current_string_8; l_current.prepend_real (n)
-			set_from_string_8 (l_current)
-		end
-
-	prepend_real_64, prepend_double (n: REAL_64)
-		local
-			l_current: EL_STRING_8
-		do
-			l_current := current_string_8; l_current.prepend_double (n)
-			set_from_string_8 (l_current)
+			prepend_string (adapted_argument (str, 1))
+		ensure then
+			unencoded_valid: is_unencoded_valid
 		end
 
 feature {EL_READABLE_ZSTRING} -- Prepending
@@ -388,11 +410,12 @@ feature {NONE} -- Implementation
 	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Append characters of `s' at end.
 		local
-			l_current: EL_STRING_8
+			new_count: INTEGER
 		do
-			l_current := current_string_8
-			l_current.append (string_8_argument (s, 1))
-			set_from_string_8 (l_current)
+			new_count := count + s.count
+			resize (new_count)
+			area.copy_data (s.area, 0, count, s.count)
+			set_count (new_count)
 		ensure
 			new_count: count = old count + old s.count
 			appended: elks_checking implies internal_string.same_string (old (internal_string + s.string))
@@ -404,12 +427,11 @@ feature {NONE} -- Implementation
 			start_index_valid: start_index >= 1
 			end_index_valid: end_index <= s.count
 			valid_bounds: start_index <= end_index + 1
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8
-			l_current.append_substring (string_8_argument (s, 1), start_index, end_index)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.append_substring (string_8_argument (s, 1), start_index, end_index)
+				set_from_string_8 (l_current)
+			end
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies
@@ -456,10 +478,26 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	internal_append_utf_8 (utf_8: READABLE_STRING_8; unicode_count: INTEGER)
+		local
+			old_count: INTEGER; buffer: like empty_unencoded_buffer
+		do
+			if unicode_count = utf_8.count then
+				append_ascii (utf_8)
+			else
+				old_count := count
+				grow (old_count + unicode_count)
+				buffer := empty_unencoded_buffer
+				codec.encode_utf_8 (utf_8, area, unicode_count, old_count, buffer)
+				set_count (old_count + unicode_count)
+				if buffer.not_empty then
+					append_unencoded (buffer, 0)
+				end
+			end
+		end
+		
 	internal_prepend (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Prepend characters of `s' at front.
-		require
-			argument_not_void: s /= Void
 		do
 			internal_insert_string (s, 1)
 		ensure
@@ -469,11 +507,11 @@ feature {NONE} -- Implementation
 
 	internal_prepend_character (c: CHARACTER_8)
 			-- Add `c' at front.
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8; l_current.prepend_character (c)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.prepend_character (c)
+				set_from_string_8 (l_current)
+			end
 		ensure
 			new_count: count = old count + 1
 		end
@@ -484,12 +522,11 @@ feature {NONE} -- Implementation
 			start_index_valid: start_index >= 1
 			end_index_valid: end_index <= s.count
 			valid_bounds: start_index <= end_index + 1
-		local
-			l_current: EL_STRING_8
 		do
-			l_current := current_string_8
-			l_current.prepend_substring (string_8_argument (s, 1), start_index, end_index)
-			set_from_string_8 (l_current)
+			if attached current_string_8 as l_current then
+				l_current.prepend_substring (string_8_argument (s, 1), start_index, end_index)
+				set_from_string_8 (l_current)
+			end
 		ensure
 			new_count: count = old count + end_index - start_index + 1
 			prepended: elks_checking implies

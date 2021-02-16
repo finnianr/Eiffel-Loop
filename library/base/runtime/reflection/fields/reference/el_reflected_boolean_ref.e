@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:28 GMT (Friday 4th October 2019)"
-	revision: "9"
+	date: "2021-02-14 10:54:51 GMT (Sunday 14th February 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_BOOLEAN_REF
@@ -40,10 +40,11 @@ feature -- Basic operations
 			l_value: BOOLEAN_REF
 		do
 			l_value := value (a_object)
-			if attached {EL_REFLECTIVE_BOOLEAN_REF} l_value as reflective_value then
-				reflective_value.set_from_string (string)
-			elseif string.is_boolean then
-				l_value.set_item (string.to_boolean)
+			if attached {EL_REFLECTIVE_BOOLEAN_REF} l_value as v then
+				v.set_from_string (string)
+
+			elseif attached l_value as v and then string.is_boolean then
+				v.set_item (string.to_boolean)
 			end
 		end
 

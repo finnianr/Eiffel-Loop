@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 11:45:51 GMT (Monday 8th February 2021)"
-	revision: "40"
+	date: "2021-02-16 14:04:40 GMT (Tuesday 16th February 2021)"
+	revision: "41"
 
 class
 	EL_ZSTRING
@@ -39,6 +39,7 @@ inherit
 
 			prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
 			prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
+			prepend, prepend_string, prepend_string_general,
 
 			precede, put_unicode, quote,
 			translate, translate_general,
@@ -102,10 +103,7 @@ inherit
 			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
 			as_string_32, to_string_32, as_string_8, to_string_8, split,
 --			Element change
-			append_string_general
-		redefine
---			Element change
-			append_substring_general, prepend_string_general
+			append_string_general, append_substring_general, prepend_string_general
 		end
 
 	INDEXABLE [CHARACTER_32, INTEGER]
@@ -295,31 +293,6 @@ feature -- Element change
 	left_pad (uc: CHARACTER_32; a_count: INTEGER)
 		do
 			prepend_string (once_padding (uc, a_count))
-		end
-
-	prepend, prepend_string (s: EL_READABLE_ZSTRING)
-		do
-			internal_prepend (s)
-			inspect respective_encoding (s)
-				when Both_have_mixed_encoding then
-					make_joined (s, Current, s.count)
-				when Only_current then
-					shift_unencoded (s.count)
-				when Only_other then
-					unencoded_area := s.unencoded_area.twin
-			else
-			end
-		ensure
-			unencoded_valid: is_unencoded_valid
-			new_count: count = old (count + s.count)
-			inserted: elks_checking implies same_string (old (s + Current))
-		end
-
-	prepend_string_general (str: READABLE_STRING_GENERAL)
-		do
-			prepend_string (adapted_argument (str, 1))
-		ensure then
-			unencoded_valid: is_unencoded_valid
 		end
 
 	right_pad (uc: CHARACTER_32; a_count: INTEGER)

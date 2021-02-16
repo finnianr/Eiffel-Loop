@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 17:53:25 GMT (Saturday 13th February 2021)"
-	revision: "8"
+	date: "2021-02-14 18:03:57 GMT (Sunday 14th February 2021)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -75,13 +75,13 @@ feature {NONE} -- Implementation
 	new_reader_writer_interfaces: like Default_reader_writer_interfaces
 		do
 			create Result.make (<<
-				[{INTEGER_X}, create {EL_INTEGER_X_READER_WRITER_INTERFACE}]
+				[{INTEGER_X}, create {EL_INTEGER_X_READER_WRITER}]
 			>>)
 		end
 
 	put_number (a_lio: EL_LOGGABLE; label: ZSTRING; number: INTEGER_X; indefinite_length: BOOLEAN)
-			-- indefinite_length is a special case that indicates a form of encoding, known as "indefinite-length encoding,"
-			-- is being used, in which case the end of this ASN.1 value's data is marked by two consecutive zero-value octets.
+		-- indefinite_length is a special case that indicates a form of encoding, known as "indefinite-length encoding,"
+		-- is being used, in which case the end of this ASN.1 value's data is marked by two consecutive zero-value octets.
 		local
 			bytes: SPECIAL [NATURAL_8]; line: STRING
 			i: INTEGER

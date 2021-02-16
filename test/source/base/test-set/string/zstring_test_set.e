@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 12:08:58 GMT (Tuesday 9th February 2021)"
-	revision: "51"
+	date: "2021-02-16 19:27:17 GMT (Tuesday 16th February 2021)"
+	revision: "52"
 
 class
 	ZSTRING_TEST_SET
@@ -33,31 +33,32 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("mirror", agent test_mirror)
---			eval.call ("split", agent test_split)
---			eval.call ("substring_split", agent test_substring_split)
---			eval.call ("append", agent test_append)
---			eval.call ("append_string_general", agent test_append_string_general)
---			eval.call ("append_substring", agent test_append_substring)
---			eval.call ("append_to_string_32", agent test_append_to_string_32)
---			eval.call ("append_unicode", agent test_append_unicode)
---			eval.call ("case_changing", agent test_case_changing)
---			eval.call ("enclose", agent test_enclose)
---			eval.call ("fill_character", agent test_fill_character)
---			eval.call ("insert_character", agent test_insert_character)
---			eval.call ("insert_string", agent test_insert_string)
---			eval.call ("left_adjust", agent test_left_adjust)
---			eval.call ("prepend", agent test_prepend)
---			eval.call ("prepend_substring", agent test_prepend_substring)
---			eval.call ("prune_all", agent test_prune_all)
---			eval.call ("prune_leading", agent test_prune_leading)
---			eval.call ("prune_trailing", agent test_prune_trailing)
---			eval.call ("put_unicode", agent test_put_unicode)
---			eval.call ("remove_substring", agent test_remove_substring)
---			eval.call ("replace_character", agent test_replace_character)
---			eval.call ("replace_substring", agent test_replace_substring)
---			eval.call ("replace_substring_all", agent test_replace_substring_all)
---			eval.call ("right_adjust", agent test_right_adjust)
+			eval.call ("mirror", agent test_mirror)
+			eval.call ("split", agent test_split)
+			eval.call ("substring_split", agent test_substring_split)
+			eval.call ("append", agent test_append)
+			eval.call ("append_string_general", agent test_append_string_general)
+			eval.call ("append_substring", agent test_append_substring)
+			eval.call ("append_to_string_32", agent test_append_to_string_32)
+			eval.call ("append_unicode", agent test_append_unicode)
+			eval.call ("append_utf_8", agent test_append_utf_8)
+			eval.call ("case_changing", agent test_case_changing)
+			eval.call ("enclose", agent test_enclose)
+			eval.call ("fill_character", agent test_fill_character)
+			eval.call ("insert_character", agent test_insert_character)
+			eval.call ("insert_string", agent test_insert_string)
+			eval.call ("left_adjust", agent test_left_adjust)
+			eval.call ("prepend", agent test_prepend)
+			eval.call ("prepend_substring", agent test_prepend_substring)
+			eval.call ("prune_all", agent test_prune_all)
+			eval.call ("prune_leading", agent test_prune_leading)
+			eval.call ("prune_trailing", agent test_prune_trailing)
+			eval.call ("put_unicode", agent test_put_unicode)
+			eval.call ("remove_substring", agent test_remove_substring)
+			eval.call ("replace_character", agent test_replace_character)
+			eval.call ("replace_substring", agent test_replace_substring)
+			eval.call ("replace_substring_all", agent test_replace_substring_all)
+			eval.call ("right_adjust", agent test_right_adjust)
 			eval.call ("to_utf_8", agent test_to_utf_8)
 			eval.call ("translate", agent test_translate)
 			eval.call ("ends_with", agent test_ends_with)
@@ -278,6 +279,26 @@ feature -- Element change tests
 				a.append_unicode (uc.item.natural_32_code)
 			end
 			assert ("append_unicode OK", a.same_string (Text_russian_and_english))
+		end
+
+	test_append_utf_8
+		local
+			str: ZSTRING; str_32: STRING_32
+			utf_8: STRING; conv: EL_UTF_CONVERTER
+		do
+			create str.make_empty; create str_32.make_empty
+			across text_lines as line loop
+				str.wipe_out; str_32.wipe_out
+				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
+					if str_32.count > 0 then
+						str.append_character (' ')
+						str_32.append_character (' ')
+					end
+					str.append_utf_8 (utf_word.item)
+					str_32.append (conv.utf_8_string_8_to_string_32 (utf_word.item))
+					assert ("same string", str.same_string (str_32))
+				end
+			end
 		end
 
 	test_case_changing

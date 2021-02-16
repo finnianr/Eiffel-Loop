@@ -376,3 +376,6 @@ Optimized EL_ZSTRING routines: replace_substring_all, internal_substring_index_l
 Tue 9th Feb 2021, 15:09:58
 New test set RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET validated
 
+Mon 15th Feb 2021, 19:14:10
+Changes to EL_MEMORY_READER_WRITER to initialize existing string objects
+

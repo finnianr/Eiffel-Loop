@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:40:08 GMT (Saturday 13th February 2021)"
-	revision: "12"
+	date: "2021-02-14 10:50:19 GMT (Sunday 14th February 2021)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTED_STRING [S -> STRING_GENERAL]
@@ -15,14 +15,14 @@ deferred class
 inherit
 	EL_REFLECTED_REFERENCE [S]
 		undefine
-			reset, set_from_readable, set_from_memory, set_from_string, write
+			reset, set_from_readable, set_from_memory, set_from_string, write, write_to_memory
 		redefine
 			to_string
 		end
 
 	EL_CACHEABLE_REFLECTED_REFERENCE [S]
 		undefine
-			reset, set_from_readable, set_from_memory, set_from_string, write
+			reset, set_from_readable, set_from_memory, set_from_string, write, write_to_memory
 		redefine
 			to_string
 		end

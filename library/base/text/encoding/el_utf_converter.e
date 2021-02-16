@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 12:36:24 GMT (Friday 15th January 2021)"
-	revision: "8"
+	date: "2021-02-16 19:26:48 GMT (Tuesday 16th February 2021)"
+	revision: "9"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -19,6 +19,37 @@ inherit
 		end
 
 	STRING_HANDLER
+
+feature -- Measurement
+
+	unicode_count (s: READABLE_STRING_8): INTEGER
+		local
+			s_8: EL_STRING_8_ROUTINES; i, end_index: INTEGER
+			area: SPECIAL [CHARACTER]
+		do
+			if attached s_8.cursor (s) as cursor then
+				area := cursor.area
+				end_index := cursor.area_last_index
+				from i := cursor.area_first_index until i > end_index loop
+					Result := Result + 1
+					i := i + sequence_count (area [i].code)
+				end
+			end
+		end
+
+	sequence_count (first_code: INTEGER): INTEGER
+		-- utf-8 byte count indicated by first code in sequence
+		do
+			if first_code <= 0x7F then -- 0xxxxxxx
+				Result := 1
+			elseif first_code <= 0xDF then -- 110xxxxx 10xxxxxx
+				Result := 2
+			elseif first_code <= 0xEF then -- 1110xxxx 10xxxxxx 10xxxxxx
+				Result := 3
+			elseif first_code <= 0xF7 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+				Result := 4
+			end
+		end
 
 feature -- Status query
 
@@ -122,52 +153,35 @@ feature -- UTF-8 operations
 	utf_8_substring_8_into_string_32 (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_32)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
-			i, i_final, n, offset: INTEGER; c1, c2, c3, c4: NATURAL_32; r: EL_STRING_8_ROUTINES
+			i, j, i_final, n, offset, byte_count: INTEGER; c1, unicode: NATURAL_32; s_8: EL_STRING_8_ROUTINES
 			area: SPECIAL [CHARACTER_8]
 		do
-			if attached r.cursor (s) as cursor then
+			if attached s_8.cursor (s) as cursor then
 				area := cursor.area; offset := cursor.area_first_index
 			end
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1
 			a_result.grow (a_result.count + n)
 			from i := offset + start_index - 1 until i >= i_final loop
-				i := i + 1
-				c1 := area.item (i - 1).natural_32_code
-				if c1 <= 0x7F then
-						-- 0xxxxxxx
-					a_result.extend (c1.to_character_32)
-				elseif c1 <= 0xDF then
-						-- 110xxxxx 10xxxxxx
-					i := i + 1
-					if i <= i_final then
-						c2 := area.item (i - 1).natural_32_code
-						a_result.extend ((
-							((c1 & 0x1F) |<< 6) | (c2 & 0x3F)
-						).to_character_32)
-					end
-				elseif c1 <= 0xEF then
-						-- 1110xxxx 10xxxxxx 10xxxxxx
-					i := i + 2
-					if i <= i_final then
-						c2 := area.item (i - 2).natural_32_code
-						c3 := area.item (i - 1).natural_32_code
-						a_result.extend ((
-							((c1 & 0xF) |<< 12) | ((c2 & 0x3F) |<< 6) | (c3 & 0x3F)
-						).to_character_32)
-					end
-				elseif c1 <= 0xF7 then
-						-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-					i := i + 3
-					if i <= i_final then
-						c2 := area.item (i - 3).natural_32_code
-						c3 := area.item (i - 2).natural_32_code
-						c4 := area.item (i - 1).natural_32_code
-						a_result.extend ((
-							((c1 & 0x7) |<< 18) | ((c2 & 0x3F) |<< 12) | ((c3 & 0x3F) |<< 6) | (c4 & 0x3F)
-						).to_character_32)
-					end
+				c1 := area [i].natural_32_code
+				byte_count := sequence_count (c1.to_integer_32)
+				inspect byte_count
+						when 1 then -- 0xxxxxxx
+							unicode := c1
+						when 2 then -- 110xxxxx 10xxxxxx
+							unicode := c1 & 0x1F
+						when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
+							unicode := c1 & 0xF
+						when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+							unicode := c1 & 0x7
+				else
 				end
+				from j := 1 until j = byte_count loop
+					unicode := (unicode |<< 6) | (area [i + j].natural_32_code & 0x3F)
+					j := j + 1
+				end
+				a_result.append_code (unicode)
+				i := i + byte_count
 			end
 		ensure
 			roundtrip: attached s.substring (start_index, end_index) as str and then

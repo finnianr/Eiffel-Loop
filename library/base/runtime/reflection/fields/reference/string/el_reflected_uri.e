@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:39:58 GMT (Saturday 13th February 2021)"
-	revision: "2"
+	date: "2021-02-14 10:51:00 GMT (Sunday 14th February 2021)"
+	revision: "3"
 
 class
 	EL_REFLECTED_URI
@@ -57,6 +57,11 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_string_8 (value (a_object))
+		end
+
+	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			memory.write_string_8 (value (a_object))
 		end
 
 feature {NONE} -- Unused
