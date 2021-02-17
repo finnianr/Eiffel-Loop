@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 19:26:48 GMT (Tuesday 16th February 2021)"
-	revision: "9"
+	date: "2021-02-17 10:58:23 GMT (Wednesday 17th February 2021)"
+	revision: "10"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -20,9 +20,9 @@ inherit
 
 	STRING_HANDLER
 
-feature -- Measurement
+feature -- Access
 
-	unicode_count (s: READABLE_STRING_8): INTEGER
+	frozen unicode_count (s: READABLE_STRING_8): INTEGER
 		local
 			s_8: EL_STRING_8_ROUTINES; i, end_index: INTEGER
 			area: SPECIAL [CHARACTER]
@@ -32,12 +32,34 @@ feature -- Measurement
 				end_index := cursor.area_last_index
 				from i := cursor.area_first_index until i > end_index loop
 					Result := Result + 1
-					i := i + sequence_count (area [i].code)
+					i := i + sequence_count (area [i].natural_32_code)
 				end
 			end
 		end
 
-	sequence_count (first_code: INTEGER): INTEGER
+	frozen unicode (area: SPECIAL [CHARACTER_8]; leading_byte: NATURAL_32; offset, byte_count: INTEGER): NATURAL
+		-- return unicode encoded as `byte_count' bytes from `offset' in `area'
+		local
+			i: INTEGER
+		do
+			inspect byte_count
+					when 1 then -- 0xxxxxxx
+						Result := leading_byte
+					when 2 then -- 110xxxxx 10xxxxxx
+						Result := leading_byte & 0x1F
+					when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
+						Result := leading_byte & 0xF
+					when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+						Result := leading_byte & 0x7
+			else
+			end
+			from i := 1 until i = byte_count loop
+				Result := (Result |<< 6) | (area [offset + i].natural_32_code & 0x3F)
+				i := i + 1
+			end
+		end
+
+	frozen sequence_count (first_code: NATURAL): INTEGER
 		-- utf-8 byte count indicated by first code in sequence
 		do
 			if first_code <= 0x7F then -- 0xxxxxxx
@@ -153,7 +175,7 @@ feature -- UTF-8 operations
 	utf_8_substring_8_into_string_32 (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_32)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
-			i, j, i_final, n, offset, byte_count: INTEGER; c1, unicode: NATURAL_32; s_8: EL_STRING_8_ROUTINES
+			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32; s_8: EL_STRING_8_ROUTINES
 			area: SPECIAL [CHARACTER_8]
 		do
 			if attached s_8.cursor (s) as cursor then
@@ -163,24 +185,9 @@ feature -- UTF-8 operations
 			i_final := offset + start_index + n - 1
 			a_result.grow (a_result.count + n)
 			from i := offset + start_index - 1 until i >= i_final loop
-				c1 := area [i].natural_32_code
-				byte_count := sequence_count (c1.to_integer_32)
-				inspect byte_count
-						when 1 then -- 0xxxxxxx
-							unicode := c1
-						when 2 then -- 110xxxxx 10xxxxxx
-							unicode := c1 & 0x1F
-						when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
-							unicode := c1 & 0xF
-						when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-							unicode := c1 & 0x7
-				else
-				end
-				from j := 1 until j = byte_count loop
-					unicode := (unicode |<< 6) | (area [i + j].natural_32_code & 0x3F)
-					j := j + 1
-				end
-				a_result.append_code (unicode)
+				code := area [i].natural_32_code
+				byte_count := sequence_count (code)
+				a_result.append_code (unicode (area, code, i, byte_count))
 				i := i + byte_count
 			end
 		ensure

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-21 9:50:12 GMT (Sunday 21st October 2018)"
-	revision: "5"
+	date: "2021-02-17 14:52:17 GMT (Wednesday 17th February 2021)"
+	revision: "6"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -103,6 +103,16 @@ feature -- Access
 	last_upper: INTEGER
 		do
 			Result := upper_integer (last)
+		end
+
+	i_th_lower (i: INTEGER): INTEGER
+		do
+			Result := lower_integer (i_th (i))
+		end
+
+	i_th_upper (i: INTEGER): INTEGER
+		do
+			Result := upper_integer (i_th (i))
 		end
 
 	item_lower: INTEGER

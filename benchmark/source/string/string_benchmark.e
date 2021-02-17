@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 8:15:27 GMT (Wednesday 3rd February 2021)"
-	revision: "14"
+	date: "2021-02-17 11:42:44 GMT (Wednesday 17th February 2021)"
+	revision: "15"
 
 deferred class
 	STRING_BENCHMARK
@@ -33,7 +33,9 @@ feature {NONE} -- Initialization
 			routine_filter := command.routine_filter
 			create {STRING} output_string.make (0)
 			create input_string_list.make (64)
+			create input_string_list_twin.make (64)
 			create input_substring_list.make (64)
+			create input_utf_8_string_list.make (64)
 			create input_character_list.make (64)
 			create performance_tests.make (23)
 			create memory_tests.make (23)
@@ -67,6 +69,7 @@ feature {NONE} -- Implementation
 		do
 			do_performance_test ("append_string", "D", agent test_append_string)
 			do_performance_test ("append_string_general", "A,D", agent test_append_string_general)
+			do_performance_test ("append_utf_8", "A,D", agent test_append_utf_8)
 
 			do_performance_test ("as_lower", "$A $D", agent test_as_lower)
 			do_performance_test ("as_string_8", "$A $D", agent test_as_string_8)
@@ -81,6 +84,7 @@ feature {NONE} -- Implementation
 			do_performance_test ("index_of", "D", agent test_index_of)
 			do_performance_test ("insert_string", "D", agent test_insert_string)
 			do_performance_test ("is_less (sort)", "D", agent test_sort)
+			do_performance_test ("is_equal", "D", agent test_is_equal)
 			do_performance_test ("item", "$A $D", agent test_item)
 
 			do_performance_test ("last_index_of", "D", agent test_last_index_of)
@@ -123,6 +127,13 @@ feature -- Benchmark tests
 	test_append_string_general
 		do
 			add_string_general (True)
+		end
+
+	test_append_utf_8
+		do
+			across input_utf_8_string_list as utf_8 loop
+				append_utf_8 (new_string_with_count (0), utf_8.item)
+			end
 		end
 
 	test_as_lower
@@ -204,6 +215,15 @@ feature -- Benchmark tests
 					call (item (str, i))
 					i := i + 1
 				end
+			end
+		end
+
+	test_is_equal
+		local
+			str: STRING_GENERAL
+		do
+			across input_string_list as string loop
+				is_a_equal_to_b (string.item, input_string_list_twin [string.cursor_index])
 			end
 		end
 
@@ -533,10 +553,12 @@ feature {NONE} -- Implementation
 	fill_input_strings (routines: STRING_32)
 		local
 			parts_32: ARRAYED_LIST [STRING_GENERAL]; words: LIST [STRING_GENERAL]
-			format_args: STRING; i, count: INTEGER
+			format_args: STRING; i, count: INTEGER; conv: EL_UTF_CONVERTER
 			str, first_word, last_word, first_character, last_character: STRING_GENERAL
 		do
-			input_string_list.wipe_out; input_substring_list.wipe_out; input_character_list.wipe_out
+			input_string_list.wipe_out; input_string_list_twin.wipe_out
+			input_substring_list.wipe_out; input_character_list.wipe_out
+			input_utf_8_string_list.wipe_out
 			format_args := input_arguments (input_format)
 			format_columns := input_columns (format_args)
 			if routines.has_substring ("pend_general") then
@@ -551,6 +573,11 @@ feature {NONE} -- Implementation
 						i := i + 1
 					end
 					input_string_list.extend (joined_string (parts_32))
+					if routines.starts_with_general (once "append_utf_8") then
+						input_utf_8_string_list.extend (conv.string_32_to_utf_8_string_8 (input_string_list.last.to_string_32))
+					elseif routines.starts_with_general (once "is_equal") then
+						input_string_list_twin.extend (input_string_list.last.twin)
+					end
 				end
 			end
 			if input_format.starts_with (Padded) then
@@ -665,6 +692,10 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+	append_utf_8 (target: STRING_GENERAL; utf_8: STRING)
+		deferred
+		end
+
 	ends_with (target, ending: STRING_GENERAL): BOOLEAN
 		deferred
 		end
@@ -674,6 +705,10 @@ feature {NONE} -- Deferred implementation
 		end
 
 	item (target: STRING_GENERAL; index: INTEGER): CHARACTER_32
+		deferred
+		end
+
+	is_a_equal_to_b (a, b: STRING_GENERAL)
 		deferred
 		end
 
@@ -742,6 +777,10 @@ feature {NONE} -- Internal attributes
 
 	input_string_list: ARRAYED_LIST [STRING_GENERAL]
 		-- first column of `input_string_list'
+
+	input_string_list_twin: ARRAYED_LIST [STRING_GENERAL]
+
+	input_utf_8_string_list: ARRAYED_LIST [STRING]
 
 	input_substring_list: ARRAYED_LIST [TUPLE [first_word, middle_word, last_word, first_character, last_character: STRING_GENERAL]]
 

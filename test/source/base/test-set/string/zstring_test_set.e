@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 19:27:17 GMT (Tuesday 16th February 2021)"
-	revision: "52"
+	date: "2021-02-17 15:28:00 GMT (Wednesday 17th February 2021)"
+	revision: "53"
 
 class
 	ZSTRING_TEST_SET
@@ -533,18 +533,30 @@ feature -- Element change tests
 			testing:	"covers/{ZSTRING}.replace_substring"
 		local
 			str, word: ZSTRING; str_32, word_32: STRING_32
-			word_list_32: EL_STRING_32_LIST; index: INTEGER
+			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
+			space_intervals: EL_OCCURRENCE_INTERVALS [STRING_32]
+			line_list: like text_lines
 		do
-			across text_lines as line loop
-				str_32 := line.item; str := str_32
-				create word_list_32.make_with_words (str_32)
-				across word_list_32 as list loop
-					word_32 := list.item; word := word_32
-					index := str_32.substring_index (word_32, 1)
-					word_32.remove_tail (1); word.remove_tail (1)
-					str_32.replace_substring (word_32, index, index + word_32.count)
-					str.replace_substring (word, index, index + word.count)
-					assert ("replace_substring OK", str.same_string (str_32))
+			create space_intervals.make_empty
+			create word_list_32.make (50)
+			line_list := text_lines
+			across line_list as line loop
+				if line.is_first or line.is_last then
+					across line.item.split (' ') as list loop
+						word_list_32.extend (list.item)
+					end
+				end
+			end
+			across word_list_32 as list loop
+				word_32 := list.item; word := word_32
+				across text_lines as line loop
+					str_32 := line.item; str := str_32
+					space_intervals.fill (str_32, " ")
+					start_index := space_intervals.first_lower + 1
+					end_index := space_intervals.i_th_lower (2) - 1
+					str_32.replace_substring (word_32, start_index, end_index)
+					str.replace_substring (word, start_index, end_index)
+					assert ("same characters", str.same_string (str_32))
 				end
 			end
 		end

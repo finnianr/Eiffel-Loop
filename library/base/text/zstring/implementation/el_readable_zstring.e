@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 18:54:40 GMT (Tuesday 16th February 2021)"
-	revision: "75"
+	date: "2021-02-17 15:34:29 GMT (Wednesday 17th February 2021)"
+	revision: "76"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -148,8 +148,8 @@ feature {NONE} -- Initialization
 				end
 				i := i + 1
 			end
-			set_unencoded_from_buffer (buffer)
 			set_count (l_count)
+			set_unencoded_from_buffer (buffer)
 		end
 
 feature {NONE} -- Initialization

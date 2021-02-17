@@ -40,25 +40,6 @@
 		<div id="content">
 		<h1>ZSTRING v STRING_32</h1>
 		<h2>Benchmark Source Code</h2>
-		<a target="_blank" href="../test/source/benchmark/apps/zstring_benchmark_app.html">ZSTRING_BENCHMARK_APP</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/comparison/string/string_benchmark_comparison.html">STRING_BENCHMARK_COMPARISON</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/html/zstring_benchmark_command.html">ZSTRING_BENCHMARK_COMMAND</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/mixed_encoding_string_benchmark.html">MIXED_ENCODING_STRING_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/string_32/mixed_encoding_string_32_benchmark.html">MIXED_ENCODING_STRING_32_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/string_32/string_32_benchmark.html">STRING_32_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/string_benchmark.html">STRING_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/utf8_string/uc_utf8_string_benchmark.html">UC_UTF8_STRING_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/zstring/mixed_encoding_zstring_benchmark.html">MIXED_ENCODING_ZSTRING_BENCHMARK</a>
-		<br>
-		<a target="_blank" href="../test/source/benchmark/string/zstring/zstring_benchmark.html">ZSTRING_BENCHMARK</a>
 		<h2>Input Test Data</h2>
 		<p>See <a href="#test_strings">table below</a></p>
 		<p>
@@ -80,7 +61,7 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>Lines 1 to 64</td><td>&quot;$A $D&quot;</td><td>-75%</td><td>22752 bytes</td>
+				<td>Lines 1 to 64</td><td>&quot;$A $D&quot;</td><td>-79%</td><td>22752 bytes</td>
 			</tr>
 			<tr>
 				<td>First line only</td><td>&quot;$A $D&quot;</td><td>-55%</td><td>352 bytes</td>
@@ -96,13 +77,13 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>Lines 1 to 64</td><td>&quot;$A $B $C $D&quot;</td><td>-68%</td><td>24960 bytes</td>
+				<td>Lines 1 to 64</td><td>&quot;$A $B $C $D&quot;</td><td>-72%</td><td>24960 bytes</td>
+			</tr>
+			<tr>
+				<td>Lines 1 to 64</td><td>&quot;$B&quot;</td><td>-47%</td><td>1472 bytes</td>
 			</tr>
 			<tr>
 				<td>First line only</td><td>&quot;$A $B $C $D&quot;</td><td>-46%</td><td>384 bytes</td>
-			</tr>
-			<tr>
-				<td>Lines 1 to 64</td><td>&quot;$B&quot;</td><td>-45%</td><td>1472 bytes</td>
 			</tr>
 			<tr>
 				<td>First line only</td><td>&quot;$B&quot;</td><td>-14%</td><td>112 bytes</td>
@@ -111,7 +92,7 @@
 				<td>First line only</td><td>&quot;$C&quot;</td><td>+33%</td><td>96 bytes</td>
 			</tr>
 			<tr>
-				<td>Lines 1 to 64</td><td>&quot;$C&quot;</td><td>+39%</td><td>832 bytes</td>
+				<td>Lines 1 to 64</td><td>&quot;$C&quot;</td><td>+37%</td><td>832 bytes</td>
 			</tr>
 		</table>
 		<h2>Runtime Performance</h2>
@@ -125,28 +106,34 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>to_utf_8</td><td>&quot;$A $D&quot;</td><td>-95%</td><td>184.000 ms</td>
+				<td>to_utf_8</td><td>&quot;$A $D&quot;</td><td>-94%</td><td>203.000 ms</td>
 			</tr>
 			<tr>
-				<td>as_string_8</td><td>&quot;$A $D&quot;</td><td>-92%</td><td>114.000 ms</td>
+				<td>as_string_8</td><td>&quot;$A $D&quot;</td><td>-92%</td><td>115.000 ms</td>
 			</tr>
 			<tr>
-				<td>replace_character</td><td>&quot;$D&quot;</td><td>-90%</td><td>3158.000 ms</td>
+				<td>append_utf_8</td><td>A,D</td><td>-90%</td><td>132.000 ms</td>
 			</tr>
 			<tr>
 				<td>code (z_code)</td><td>&quot;$A $D&quot;</td><td>-89%</td><td>53.000 ms</td>
 			</tr>
 			<tr>
-				<td>item</td><td>&quot;$A $D&quot;</td><td>-51%</td><td>71.000 ms</td>
+				<td>replace_character</td><td>&quot;$D&quot;</td><td>-87%</td><td>3194.000 ms</td>
+			</tr>
+			<tr>
+				<td>item</td><td>&quot;$A $D&quot;</td><td>-66%</td><td>56.000 ms</td>
+			</tr>
+			<tr>
+				<td>substring_index</td><td>&quot;$A $D&quot;</td><td>-55%</td><td>33.000 ms</td>
 			</tr>
 			<tr>
 				<td>replace_substring_all</td><td>D</td><td>-50%</td><td>38.000 ms</td>
 			</tr>
 			<tr>
-				<td>translate</td><td>D</td><td>-34%</td><td>295.000 ms</td>
+				<td>translate</td><td>D</td><td>-36%</td><td>299.000 ms</td>
 			</tr>
 			<tr>
-				<td>escaped (as XML)</td><td>put_amp (D)</td><td>-25%</td><td>322.000 ms</td>
+				<td>escaped (as XML)</td><td>put_amp (D)</td><td>-34%</td><td>338.000 ms</td>
 			</tr>
 			<tr>
 				<td>unescape (C lang string)</td><td>escaped (D)</td><td>-22%</td><td>23.000 ms</td>
@@ -155,7 +142,7 @@
 				<td>as_lower</td><td>&quot;$A $D&quot;</td><td>-19%</td><td>21.000 ms</td>
 			</tr>
 			<tr>
-				<td>split, substring</td><td>&quot;$A $D&quot;</td><td>-18%</td><td>105.000 ms</td>
+				<td>starts_with</td><td>D</td><td>-18%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
 				<td>as_upper</td><td>&quot;$A $D&quot;</td><td>-17%</td><td>23.000 ms</td>
@@ -164,52 +151,52 @@
 				<td>ends_with</td><td>D</td><td>-17%</td><td>12.000 ms</td>
 			</tr>
 			<tr>
-				<td>starts_with</td><td>D</td><td>-17%</td><td>12.000 ms</td>
+				<td>split, substring</td><td>&quot;$A $D&quot;</td><td>-11%</td><td>105.000 ms</td>
 			</tr>
 			<tr>
-				<td>prepend_string_general</td><td>A,D</td><td>-10%</td><td>10.000 ms</td>
+				<td>append_string_general</td><td>A,D</td><td>-10%</td><td>10.000 ms</td>
 			</tr>
 			<tr>
-				<td>substring_index</td><td>&quot;$A $D&quot;</td><td>-3%</td><td>33.000 ms</td>
+				<td>is_less (sort)</td><td>D</td><td>-9%</td><td>23.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string_general</td><td>A,D</td><td> 9.000 ms</td><td> 9.000 ms</td>
+				<td>insert_string</td><td>D</td><td>15.000 ms</td><td>15.000 ms</td>
 			</tr>
 			<tr>
-				<td>left_adjust</td><td>padded (A)</td><td> 5.000 ms</td><td> 5.000 ms</td>
+				<td>last_index_of</td><td>D</td><td>11.000 ms</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>right_adjust</td><td>padded (A)</td><td> 4.000 ms</td><td> 4.000 ms</td>
+				<td>prepend_string_general</td><td>A,D</td><td> 9.000 ms</td><td> 9.000 ms</td>
 			</tr>
 			<tr>
-				<td>last_index_of</td><td>D</td><td>+9%</td><td>10.000 ms</td>
+				<td>prune_all</td><td>&quot;$A $D&quot;</td><td>15.000 ms</td><td>15.000 ms</td>
 			</tr>
 			<tr>
-				<td>prepend_string</td><td>D</td><td>+11%</td><td>16.000 ms</td>
+				<td>index_of</td><td>D</td><td>+8%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>insert_string</td><td>D</td><td>+12%</td><td>15.000 ms</td>
+				<td>append_string</td><td>D</td><td>+13%</td><td>14.000 ms</td>
 			</tr>
 			<tr>
-				<td>remove_substring</td><td>D</td><td>+13%</td><td> 7.000 ms</td>
+				<td>remove_substring</td><td>D</td><td>+14%</td><td> 6.000 ms</td>
 			</tr>
 			<tr>
-				<td>index_of</td><td>D</td><td>+17%</td><td>10.000 ms</td>
+				<td>prepend_string</td><td>D</td><td>+20%</td><td>16.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string</td><td>D</td><td>+18%</td><td>14.000 ms</td>
+				<td>is_equal</td><td>D</td><td>+33%</td><td>12.000 ms</td>
 			</tr>
 			<tr>
-				<td>is_less (sort)</td><td>D</td><td>+24%</td><td>22.000 ms</td>
+				<td>replace_substring</td><td>D</td><td>+42%</td><td>14.000 ms</td>
 			</tr>
 			<tr>
-				<td>prune_all</td><td>&quot;$A $D&quot;</td><td>+29%</td><td>15.000 ms</td>
+				<td>right_adjust</td><td>padded (A)</td><td>+50%</td><td> 4.000 ms</td>
 			</tr>
 			<tr>
-				<td>replace_substring</td><td>D</td><td>+38%</td><td>15.000 ms</td>
+				<td>as_string_32</td><td>&quot;$A $D&quot;</td><td>+57%</td><td> 3.000 ms</td>
 			</tr>
 			<tr>
-				<td>as_string_32</td><td>&quot;$A $D&quot;</td><td>+71%</td><td> 2.000 ms</td>
+				<td>left_adjust</td><td>padded (A)</td><td>+58%</td><td> 5.000 ms</td>
 			</tr>
 		</table>
 		<h3>Mixed Latin-1 and Unicode Encoding</h3>
@@ -222,97 +209,103 @@
 				<th>STRING_32</th>
 			</tr>
 			<tr>
-				<td>code (z_code)</td><td>&quot;$A $B $C $D&quot;</td><td>-86%</td><td>59.000 ms</td>
+				<td>code (z_code)</td><td>&quot;$A $B $C $D&quot;</td><td>-88%</td><td>59.000 ms</td>
 			</tr>
 			<tr>
-				<td>item</td><td>&quot;$A $B $C $D&quot;</td><td>-49%</td><td>78.000 ms</td>
+				<td>code (z_code)</td><td>&quot;$B $C&quot;</td><td>-71%</td><td> 7.000 ms</td>
 			</tr>
 			<tr>
-				<td>code (z_code)</td><td>&quot;$B $C&quot;</td><td>-33%</td><td> 6.000 ms</td>
+				<td>item</td><td>&quot;$A $B $C $D&quot;</td><td>-64%</td><td>61.000 ms</td>
 			</tr>
 			<tr>
-				<td>item</td><td>&quot;$B $C&quot;</td><td>-25%</td><td> 8.000 ms</td>
+				<td>to_utf_8</td><td>&quot;$A $B $C $D&quot;</td><td>-51%</td><td>234.000 ms</td>
 			</tr>
 			<tr>
-				<td>replace_character</td><td>&quot;$B $C&quot;</td><td>-25%</td><td>44.000 ms</td>
+				<td>substring_index</td><td>&quot;$B $C $A&quot;</td><td>-44%</td><td>18.000 ms</td>
 			</tr>
 			<tr>
-				<td>escaped (as XML)</td><td>put_amp (&quot;$B $C&quot;)</td><td>-16%</td><td>101.000 ms</td>
+				<td>item</td><td>&quot;$B $C&quot;</td><td>-33%</td><td> 6.000 ms</td>
 			</tr>
 			<tr>
-				<td>starts_with</td><td>&quot;$B $C&quot;</td><td>-8%</td><td>12.000 ms</td>
+				<td>append_utf_8</td><td>&quot;$B $C&quot;</td><td>-27%</td><td>22.000 ms</td>
 			</tr>
 			<tr>
-				<td>last_index_of</td><td>&quot;$B $C&quot;</td><td> 7.000 ms</td><td> 7.000 ms</td>
+				<td>escaped (as XML)</td><td>put_amp (&quot;$B $C&quot;)</td><td>-23%</td><td>101.000 ms</td>
 			</tr>
 			<tr>
-				<td>prepend_string_general</td><td>A,B,C,D</td><td>16.000 ms</td><td>16.000 ms</td>
+				<td>starts_with</td><td>&quot;$B $C&quot;</td><td>-18%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>split, substring</td><td>&quot;$A $B $C $D&quot;</td><td>+9%</td><td>129.000 ms</td>
+				<td>replace_character</td><td>&quot;$B $C&quot;</td><td>-17%</td><td>42.000 ms</td>
 			</tr>
 			<tr>
-				<td>to_utf_8</td><td>&quot;$A $B $C $D&quot;</td><td>+16%</td><td>215.000 ms</td>
+				<td>ends_with</td><td>&quot;$B $C&quot;</td><td>-9%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string_general</td><td>A,B,C,D</td><td>+21%</td><td>15.000 ms</td>
+				<td>split, substring</td><td>&quot;$A $B $C $D&quot;</td><td>-8%</td><td>131.000 ms</td>
 			</tr>
 			<tr>
-				<td>substring_index</td><td>&quot;$B $C $A&quot;</td><td>+22%</td><td>18.000 ms</td>
+				<td>as_lower</td><td>&quot;$A $B $C $D&quot;</td><td>23.000 ms</td><td>23.000 ms</td>
 			</tr>
 			<tr>
-				<td>ends_with</td><td>&quot;$B $C&quot;</td><td>+31%</td><td>11.000 ms</td>
+				<td>is_less (sort)</td><td>B</td><td>24.000 ms</td><td>24.000 ms</td>
 			</tr>
 			<tr>
-				<td>as_upper</td><td>&quot;$A $B $C $D&quot;</td><td>+33%</td><td>24.000 ms</td>
+				<td>substring_index</td><td>&quot;$A $B $C&quot;</td><td>+5%</td><td>18.000 ms</td>
 			</tr>
 			<tr>
-				<td>substring_index</td><td>&quot;$A $B $C&quot;</td><td>+33%</td><td>18.000 ms</td>
+				<td>append_string_general</td><td>A,B,C,D</td><td>+6%</td><td>15.000 ms</td>
 			</tr>
 			<tr>
-				<td>translate</td><td>&quot;$B $C&quot;</td><td>+35%</td><td>37.000 ms</td>
+				<td>prepend_string_general</td><td>A,B,C,D</td><td>+6%</td><td>15.000 ms</td>
 			</tr>
 			<tr>
-				<td>as_lower</td><td>&quot;$A $B $C $D&quot;</td><td>+38%</td><td>23.000 ms</td>
+				<td>as_upper</td><td>&quot;$A $B $C $D&quot;</td><td>+8%</td><td>24.000 ms</td>
 			</tr>
 			<tr>
-				<td>is_less (sort)</td><td>B</td><td>+48%</td><td>23.000 ms</td>
+				<td>translate</td><td>&quot;$B $C&quot;</td><td>+10%</td><td>38.000 ms</td>
 			</tr>
 			<tr>
-				<td>append_string</td><td>&quot;$B $C&quot;</td><td>+56%</td><td>11.000 ms</td>
+				<td>last_index_of</td><td>&quot;$B $C&quot;</td><td>+13%</td><td> 7.000 ms</td>
 			</tr>
 			<tr>
-				<td>unescape (C lang string)</td><td>escaped (&quot;$B $C&quot;)</td><td>+56%</td><td> 7.000 ms</td>
+				<td>append_string</td><td>&quot;$B $C&quot;</td><td>+27%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>remove_substring</td><td>&quot;$A $B $C&quot;</td><td>+58%</td><td> 5.000 ms</td>
+				<td>unescape (C lang string)</td><td>escaped (&quot;$B $C&quot;)</td><td>+42%</td><td> 7.000 ms</td>
 			</tr>
 			<tr>
-				<td>prepend_string</td><td>&quot;$B $C&quot;</td><td>+59%</td><td>11.000 ms</td>
+				<td>index_of</td><td>&quot;$B $C&quot;</td><td>+43%</td><td> 8.000 ms</td>
 			</tr>
 			<tr>
-				<td>index_of</td><td>&quot;$B $C&quot;</td><td>+65%</td><td> 8.000 ms</td>
+				<td>remove_substring</td><td>&quot;$A $B $C&quot;</td><td>+43%</td><td> 4.000 ms</td>
 			</tr>
 			<tr>
-				<td>insert_string</td><td>&quot;$B $C&quot;</td><td>+65%</td><td>11.000 ms</td>
+				<td>right_adjust</td><td>padded (C)</td><td>+43%</td><td> 4.000 ms</td>
 			</tr>
 			<tr>
-				<td>as_string_32</td><td>&quot;$A $B $C $D&quot;</td><td>+67%</td><td> 3.000 ms</td>
+				<td>prune_all</td><td>&quot;$B $C&quot;</td><td>+44%</td><td> 9.000 ms</td>
 			</tr>
 			<tr>
-				<td>prune_all</td><td>&quot;$B $C&quot;</td><td>+73%</td><td> 8.000 ms</td>
+				<td>left_adjust</td><td>padded (C)</td><td>+50%</td><td> 4.000 ms</td>
 			</tr>
 			<tr>
-				<td>replace_substring</td><td>&quot;$A $B $C&quot;</td><td>+78%</td><td>10.000 ms</td>
+				<td>prepend_string</td><td>&quot;$B $C&quot;</td><td>+50%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>left_adjust</td><td>padded (C)</td><td>+79%</td><td> 4.000 ms</td>
+				<td>insert_string</td><td>&quot;$B $C&quot;</td><td>+54%</td><td>11.000 ms</td>
 			</tr>
 			<tr>
-				<td>right_adjust</td><td>padded (C)</td><td>+79%</td><td> 4.000 ms</td>
+				<td>is_equal</td><td>&quot;$A $B $C&quot;</td><td>+55%</td><td> 9.000 ms</td>
 			</tr>
 			<tr>
-				<td>replace_substring_all</td><td>&quot;$A $B $C&quot;</td><td>+85%</td><td>19.000 ms</td>
+				<td>as_string_32</td><td>&quot;$A $B $C $D&quot;</td><td>+63%</td><td> 3.000 ms</td>
+			</tr>
+			<tr>
+				<td>replace_substring</td><td>&quot;$A $B $C&quot;</td><td>+72%</td><td> 9.000 ms</td>
+			</tr>
+			<tr>
+				<td>replace_substring_all</td><td>&quot;$A $B $C&quot;</td><td>+72%</td><td>19.000 ms</td>
 			</tr>
 		</table>
 		<a name="test_strings"/>

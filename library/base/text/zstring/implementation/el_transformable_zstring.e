@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 13:18:11 GMT (Sunday 7th February 2021)"
-	revision: "19"
+	date: "2021-02-17 15:26:16 GMT (Wednesday 17th February 2021)"
+	revision: "20"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -318,23 +318,23 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			internal_replace_substring (s, start_index, end_index)
 			inspect respective_encoding (s)
 				when Both_have_mixed_encoding then
+					l_count := start_index - 1
+					buffer := empty_unencoded_buffer
 					if has_unencoded_between (start_index, end_index) then
-						buffer := empty_unencoded_buffer
-						l_count := start_index - 1
 						if l_count.to_boolean then
 							buffer.append_substring (Current, 1, start_index - 1, 0)
 						end
 						if s.count.to_boolean then
 							buffer.append (s, l_count)
-							l_count := l_count + s.count
 						end
 						if end_index < old_count then
-							buffer.append_substring (Current, end_index + 1, old_count, l_count)
+							buffer.append_substring (Current, end_index + 1, old_count, l_count + s.count)
 						end
 						set_unencoded_from_buffer (buffer)
 					else
-						unencoded_area := s.unencoded_area.twin
-						shift_unencoded (start_index - 1)
+						shift_unencoded_from (start_index, s.count - (end_index - start_index + 1))
+						buffer.append (s, l_count)
+						insert_unencoded (buffer)
 					end
 
 				when Only_current then
@@ -347,7 +347,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			else
 			end
 		ensure
-			new_count: count = old count + old s.count - end_index + start_index - 1
+			new_count: count = old count - (end_index - start_index + 1) + old s.count
 			replaced: elks_checking implies
 				(current_readable ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
 			valid_unencoded: is_unencoded_valid

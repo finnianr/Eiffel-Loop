@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 10:36:21 GMT (Monday 1st June 2020)"
-	revision: "3"
+	date: "2021-02-17 11:48:27 GMT (Wednesday 17th February 2021)"
+	revision: "4"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -50,7 +50,6 @@ feature -- Basic operations
 				create {MIXED_ENCODING_ZSTRING_BENCHMARK}.make (Current),
 				create {MIXED_ENCODING_STRING_32_BENCHMARK}.make (Current)
 			])
-
 			benchmark_html.serialize
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 7:23:28 GMT (Wednesday 3rd February 2021)"
-	revision: "9"
+	date: "2021-02-17 11:34:27 GMT (Wednesday 17th February 2021)"
+	revision: "10"
 
 class
 	UC_UTF8_STRING_BENCHMARK
@@ -40,6 +40,11 @@ feature {NONE} -- Implementation
 			target.append_string_general (s)
 		end
 
+	append_utf_8 (target: like new_string; utf_8: STRING)
+		do
+			target.append_utf8 (utf_8)
+		end
+
 	ends_with (target, ending: like new_string): BOOLEAN
 		do
 			Result := target.ends_with (ending)
@@ -53,6 +58,13 @@ feature {NONE} -- Implementation
 	item (target: like new_string; index: INTEGER): CHARACTER_32
 		do
 			Result := target.character_32_item (index)
+		end
+
+	is_a_equal_to_b (a, b: like new_string)
+		do
+			if a.is_equal (b) then
+				do_nothing
+			end
 		end
 
 	prepend (target: like new_string; s: STRING_GENERAL)

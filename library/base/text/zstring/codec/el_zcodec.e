@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 19:25:14 GMT (Tuesday 16th February 2021)"
-	revision: "21"
+	date: "2021-02-17 10:58:23 GMT (Wednesday 17th February 2021)"
+	revision: "22"
 
 deferred class
 	EL_ZCODEC
@@ -173,34 +173,17 @@ feature -- Basic operations
 		require
 			valid_offset_and_count: valid_offset_and_count (unicode_count, latin_out, out_offset)
 		local
-			i, j, k, count, offset, i_upper, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
+			i, j, count, offset, i_upper, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
 			l_unicodes: like unicode_table; s_8: EL_STRING_8_ROUTINES; area: SPECIAL [CHARACTER]
-			c1, unicode: NATURAL; u: EL_UTF_CONVERTER
+			leading_byte, unicode: NATURAL; u: EL_UTF_CONVERTER
 		do
 			l_unicodes := unicode_table
 			if attached s_8.cursor (utf_8_in) as cursor then
 				area := cursor.area; end_index := cursor.area_last_index
 				from i := cursor.area_first_index; j := out_offset until i > end_index loop
-					c1 := area [i].natural_32_code
-					byte_count := u.sequence_count (c1.to_integer_32)
-					inspect byte_count
-						when 1 then -- 0xxxxxxx
-							unicode := c1
-
-						when 2 then -- 110xxxxx 10xxxxxx
-							unicode := c1 & 0x1F
-
-						when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
-							unicode := c1 & 0xF
-
-						when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-							unicode := c1 & 0x7
-					else
-					end
-					from k := 1 until k = byte_count loop
-						unicode := (unicode |<< 6) | (area [i + k].natural_32_code & 0x3F)
-						k := k + 1
-					end
+					leading_byte := area [i].natural_32_code
+					byte_count := u.sequence_count (leading_byte)
+					unicode := u.unicode (area, leading_byte, i, byte_count)
 					uc := unicode.to_character_32
 					if unicode <= 255 and then l_unicodes [uc.code] = uc then
 						latin_out [j] := uc.to_character_8
