@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 14:04:40 GMT (Tuesday 16th February 2021)"
-	revision: "41"
+	date: "2021-02-18 10:59:56 GMT (Thursday 18th February 2021)"
+	revision: "42"
 
 class
 	EL_ZSTRING
@@ -281,7 +281,7 @@ feature -- Element change
 			else
 			end
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			inserted: elks_checking implies (Current ~ (old substring (1, i - 1) + old (s.twin) + old substring (i, count)))
 		end
 
@@ -383,7 +383,7 @@ feature -- Removal
 			internal_remove (i)
 			remove_unencoded_substring (i, i)
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	remove_quotes
@@ -398,7 +398,7 @@ feature -- Removal
 			internal_remove_substring (start_index, end_index)
 			remove_unencoded_substring (start_index, end_index)
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			removed: elks_checking implies Current ~ (old substring (1, start_index - 1) + old substring (end_index + 1, count))
 		end
 

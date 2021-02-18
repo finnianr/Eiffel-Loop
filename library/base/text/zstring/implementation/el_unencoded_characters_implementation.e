@@ -6,17 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 17:52:47 GMT (Sunday 7th February 2021)"
-	revision: "2"
+	date: "2021-02-18 11:26:15 GMT (Thursday 18th February 2021)"
+	revision: "3"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
 
 feature {NONE} -- Contract Support
 
-	is_unencoded_valid: BOOLEAN
+	is_valid: BOOLEAN
+		-- `True' if all intervals valid and in sequence and consistent with size of `area'
+		local
+			i, lower, upper, count, previous_upper, i_final: INTEGER; l_area: like area
 		do
+			l_area := area; i_final := l_area.count
 			Result := True
+			from i := 0 until not Result or else i = i_final loop
+				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
+				count := upper - lower + 1
+				Result := lower <= upper and then lower > previous_upper and then i + count + 2 <= i_final
+				previous_upper := upper
+				i := i + count + 2
+			end
 		end
 
 	substring_list: SPECIAL [STRING_32]

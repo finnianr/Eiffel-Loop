@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:04:31 GMT (Tuesday 5th January 2021)"
-	revision: "7"
+	date: "2021-02-18 14:22:55 GMT (Thursday 18th February 2021)"
+	revision: "8"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -75,7 +75,7 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := Precursor {EL_UNIQUE_CODE_TABLE}(other) and then word_list.is_equal (other.word_list)
+			Result := Precursor {EL_UNIQUE_CODE_TABLE} (other) and then word_list.is_equal (other.word_list)
 		end
 
 feature -- Access
@@ -95,13 +95,13 @@ feature -- Access
 	joined (a_tokens: STRING_32; separator: CHARACTER_32): ZSTRING
 		-- strings represented by `a_tokens' joined with `separator'
 		local
-			i: INTEGER; area: SPECIAL [CHARACTER_32]; word_area: SPECIAL [ZSTRING]
+			i, i_final: INTEGER; area: SPECIAL [CHARACTER_32]; word_area: SPECIAL [ZSTRING]
 			list: like Once_string_list
 		do
 			area := a_tokens.area; word_area := word_list.area
-			list := Once_string_list
-			list.wipe_out
-			from i := 0 until i = a_tokens.count loop
+			list := Once_string_list; list.wipe_out
+			i_final := a_tokens.count
+			from i := 0 until i = i_final loop
 				list.extend (word_area [area.item (i).code - 1])
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 15:26:16 GMT (Wednesday 17th February 2021)"
-	revision: "20"
+	date: "2021-02-18 11:55:12 GMT (Thursday 18th February 2021)"
+	revision: "21"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -38,7 +38,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 
 	mirror
 			-- Reverse the order of characters.
-			-- "Hello world" -> "dlrow olleH".
+			-- "Hello" -> "olleH".
 		local
 			c_i: CHARACTER; i, l_count: INTEGER; l_area: like area
 			buffer: like empty_unencoded_buffer; unencoded: like unencoded_indexable
@@ -59,11 +59,11 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				else
 					internal_mirror
 				end
-				reset_hash
 			end
 		ensure
 			same_count: count = old count
-			-- reversed: For every `i' in 1..`count', `item' (`i') = old `item' (`count'+1-`i')
+			valid_string: is_valid
+			reversed: across 1 |..| count as n all item (n.item) = (old twin) [count - n.item + 1] end
 		end
 
 	multiply (n: INTEGER)
@@ -221,7 +221,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			l_area [j] := '%U'
 			set_unencoded_from_buffer (l_new_unencoded)
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			unchanged_count: not delete_null implies count = old count
 			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
 		end
@@ -276,7 +276,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			end
 			reset_hash
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 			replaced: uc_old /= uc_new implies occurrences (uc_new) = old (occurrences (uc_old) + occurrences (uc_new))
 		end
 
@@ -350,7 +350,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			new_count: count = old count - (end_index - start_index + 1) + old s.count
 			replaced: elks_checking implies
 				(current_readable ~ (old (substring (1, start_index - 1) + s + substring (end_index + 1, count))))
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	replace_substring_all (old_substring, new_substring: EL_READABLE_ZSTRING)
@@ -507,7 +507,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				end
 			end
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	keep_tail (n: INTEGER)
@@ -528,7 +528,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 				end
 			end
 		ensure then
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	remove_head (n: INTEGER)

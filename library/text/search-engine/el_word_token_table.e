@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-06 13:33:26 GMT (Sunday 6th September 2020)"
-	revision: "12"
+	date: "2021-02-18 12:43:55 GMT (Thursday 18th February 2021)"
+	revision: "13"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -89,6 +89,8 @@ feature -- Element change
 					last_code := count
 				end
 			end
+		ensure then
+			valid_last_word: word_list.last.is_valid
 		end
 
 feature -- Conversion

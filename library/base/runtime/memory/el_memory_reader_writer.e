@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:22:22 GMT (Saturday 13th February 2021)"
-	revision: "16"
+	date: "2021-02-18 13:00:09 GMT (Thursday 18th February 2021)"
+	revision: "17"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -337,23 +337,25 @@ feature {NONE} -- Implementation
 	fill_string (str: ZSTRING; a_count: INTEGER)
 		local
 			i: INTEGER; l_area: like read_string.area; c: CHARACTER
-			extendible_unencoded: EL_UNENCODED_CHARACTERS_BUFFER
+			unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER
 		do
 			if a_count <= buffer.count - count then
 				l_area := str.area
-				extendible_unencoded := str.empty_unencoded_buffer
+				unencoded_buffer := str.empty_unencoded_buffer
 				from i := 0 until i = a_count loop
 					c := read_character_8
 					l_area [i] := c
 					if c = Unencoded_character then
-						extendible_unencoded.extend (read_natural_32, i + 1)
+						unencoded_buffer.extend (read_natural_32, i + 1)
 					end
 					i := i + 1
 				end
-				l_area [i] := c
+				l_area [i] := '%U'
 				str.set_count (a_count)
-				str.set_unencoded_area (extendible_unencoded.area_copy)
+				str.set_unencoded_from_buffer (unencoded_buffer)
 			end
+		ensure
+			valid_str: str.is_valid
 		end
 
 	fill_string_32 (str: STRING_32; a_count: INTEGER)

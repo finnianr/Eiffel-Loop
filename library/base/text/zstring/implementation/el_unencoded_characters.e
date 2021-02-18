@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 18:21:59 GMT (Sunday 7th February 2021)"
-	revision: "24"
+	date: "2021-02-18 16:42:01 GMT (Thursday 18th February 2021)"
+	revision: "25"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -27,7 +27,7 @@ inherit
 
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
 		export
-			{EL_ZCODE_CONVERSION} lower_bound, upper_bound, is_unencoded_valid, substring_list, Buffer
+			{EL_ZCODE_CONVERSION} lower_bound, upper_bound, is_valid, substring_list, Buffer
 		end
 
 	EL_ZCODE_CONVERSION
@@ -534,13 +534,6 @@ feature -- Element change
 			code_set: code (index) = a_code
 		end
 
-	set_area (a_area: like area)
-		do
-			area := a_area
-		ensure
-			valid_unencoded: is_unencoded_valid
-		end
-
 	set_from_buffer (a_area: EL_UNENCODED_CHARACTERS_BUFFER)
 		do
 			if a_area.not_empty then
@@ -549,7 +542,7 @@ feature -- Element change
 				area := Empty_unencoded
 			end
 		ensure
-			is_unencoded_valid: is_unencoded_valid
+			is_valid: is_valid
 		end
 
 	shift (offset: INTEGER)
@@ -781,17 +774,16 @@ feature -- Basic operations
 		require
 			string_big_enough: last_upper + offset <= area_out.count
 		local
-			i, j, lower, upper, count, i_final: INTEGER; l_area: like area
+			i, j, lower, upper, i_final: INTEGER; l_area: like area
 		do
 			l_area := area; i_final := l_area.count
 			from i := 0 until i = i_final loop
 				lower := lower_bound (l_area, i); upper := upper_bound (l_area, i)
-				count := upper - lower + 1
-				from j := 1 until j > count loop
-					area_out [lower + j - 2 + offset] := l_area.item (i + j + 1).to_character_32
+				from j := lower until j > upper loop
+					area_out [offset + j - 1] := l_area.item (i + 2 + j - lower).to_character_32
 					j := j + 1
 				end
-				i := i + count + 2
+				i := i + upper - lower + 3
 			end
 		end
 

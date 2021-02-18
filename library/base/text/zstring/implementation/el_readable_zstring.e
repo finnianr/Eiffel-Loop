@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 15:34:29 GMT (Wednesday 17th February 2021)"
-	revision: "76"
+	date: "2021-02-18 12:57:35 GMT (Thursday 18th February 2021)"
+	revision: "77"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -48,7 +48,7 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 		export
-			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable
+			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable, set_unencoded_from_buffer
 		redefine
 			make_from_string
 		end
@@ -543,7 +543,7 @@ feature -- Conversion
 				Result.set_unencoded_from_buffer (buffer)
 			end
 		ensure then
-			unencoded_valid: Result.is_unencoded_valid
+			unencoded_valid: Result.is_valid
 		end
 
 feature -- Comparison

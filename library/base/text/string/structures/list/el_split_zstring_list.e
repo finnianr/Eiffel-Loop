@@ -11,16 +11,41 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 13:07:36 GMT (Sunday 26th January 2020)"
-	revision: "6"
+	date: "2021-02-18 13:42:29 GMT (Thursday 18th February 2021)"
+	revision: "7"
 
 class
 	EL_SPLIT_ZSTRING_LIST
 
 inherit
 	EL_SPLIT_STRING_LIST [ZSTRING]
+		rename
+			append_code as append_z_code,
+			separator_code as separator_z_code
+		redefine
+			append_z_code, proper_cased, separator_z_code
+		end
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make, make_empty, make_from_sub_list
+
+feature {NONE} -- Implementation
+
+	append_z_code (str: ZSTRING; z_code: NATURAL)
+		do
+			str.append_z_code (z_code)
+		end
+
+	proper_cased (word: ZSTRING): ZSTRING
+		do
+			Result := word.as_proper_case
+		end
+
+	separator_z_code (a_separator: CHARACTER_32): NATURAL
+		do
+			Result := codec.as_z_code (a_separator)
+		end
 
 end

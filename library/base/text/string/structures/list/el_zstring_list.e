@@ -6,17 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:48:25 GMT (Tuesday 31st March 2020)"
-	revision: "10"
+	date: "2021-02-18 13:42:06 GMT (Thursday 18th February 2021)"
+	revision: "11"
 
 class
 	EL_ZSTRING_LIST
 
 inherit
 	EL_STRING_LIST [ZSTRING]
+		rename
+			append_code as append_z_code,
+			separator_code as separator_z_code
 		redefine
-			proper_cased, tab_string
+			append_z_code, proper_cased, tab_string, separator_z_code
 		end
+
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make, make_empty, make_with_separator, make_with_lines, make_from_list, make_with_words,
@@ -43,9 +48,19 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	proper_cased (word: like item): like item
+	append_z_code (str: ZSTRING; z_code: NATURAL)
+		do
+			str.append_z_code (z_code)
+		end
+
+	proper_cased (word: ZSTRING): ZSTRING
 		do
 			Result := word.as_proper_case
+		end
+
+	separator_z_code (a_separator: CHARACTER_32): NATURAL
+		do
+			Result := codec.as_z_code (a_separator)
 		end
 
 	tab_string (a_count: INTEGER): ZSTRING

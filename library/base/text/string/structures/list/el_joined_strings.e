@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 17:59:23 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2021-02-18 13:19:42 GMT (Thursday 18th February 2021)"
+	revision: "5"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]
@@ -82,12 +82,15 @@ feature -- Access
 
 	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
 			-- Null character joins without separation
+		local
+			code: NATURAL
 		do
 			push_cursor
 			create Result.make (character_count + (count - 1).max (0))
+			code := separator_code (a_separator)
 			from start until after loop
 				if index > 1 then
-					Result.append_code (a_separator.natural_32_code)
+					append_code (Result, code)
 				end
 				if proper_case_words then
 					Result.append (proper_cased (item))
@@ -149,6 +152,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	append_code (str: like item; code: NATURAL)
+		do
+			str.append_code (code)
+		end
+
 	count: INTEGER
 		deferred
 		end
@@ -185,6 +193,11 @@ feature {NONE} -- Implementation
 
 	push_cursor
 		deferred
+		end
+
+	separator_code (a_separator: CHARACTER_32): NATURAL
+		do
+			Result := a_separator.natural_32_code
 		end
 
 	start

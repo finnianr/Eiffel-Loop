@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 10:58:23 GMT (Wednesday 17th February 2021)"
-	revision: "10"
+	date: "2021-02-17 18:14:28 GMT (Wednesday 17th February 2021)"
+	revision: "11"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -43,14 +43,14 @@ feature -- Access
 			i: INTEGER
 		do
 			inspect byte_count
-					when 1 then -- 0xxxxxxx
-						Result := leading_byte
-					when 2 then -- 110xxxxx 10xxxxxx
-						Result := leading_byte & 0x1F
-					when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
-						Result := leading_byte & 0xF
-					when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-						Result := leading_byte & 0x7
+				when 1 then -- 0xxxxxxx
+					Result := leading_byte
+				when 2 then -- 110xxxxx 10xxxxxx
+					Result := leading_byte & 0x1F
+				when 3 then -- 1110xxxx 10xxxxxx 10xxxxxx
+					Result := leading_byte & 0xF
+				when 4 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+					Result := leading_byte & 0x7
 			else
 			end
 			from i := 1 until i = byte_count loop

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-07 14:07:44 GMT (Sunday 7th February 2021)"
-	revision: "24"
+	date: "2021-02-18 14:17:19 GMT (Thursday 18th February 2021)"
+	revision: "25"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -46,7 +46,6 @@ inherit
 			remove_substring as remove_unencoded_substring,
 			replace_character as replace_unencoded_character,
 			same_string as same_unencoded_string,
-			set_area as set_unencoded_area,
 			set_from_buffer as set_unencoded_from_buffer,
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,
@@ -57,11 +56,12 @@ inherit
 			to_upper as unencoded_to_upper,
 			utf_8_byte_count as unencoded_utf_8_byte_count,
 			write as write_unencoded,
-			z_code as unencoded_z_code
+			z_code as unencoded_z_code,
+			is_valid as is_unencoded_valid
 		undefine
 			is_equal, copy, out
 		redefine
-			has_unencoded_between, is_unencoded_valid
+			has_unencoded_between
 		end
 
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -275,32 +275,35 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-feature {EL_READABLE_ZSTRING} -- Contract Support
+feature -- Contract Support
 
-	is_unencoded_valid: BOOLEAN
-			-- True if `unencoded_area' characters consistent with position and number of `Unencoded_character' in `area'
+	is_valid: BOOLEAN
+			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
 		local
-			i, j, lower, upper, l_count, l_sum_count, i_final: INTEGER
+			i, j, lower, upper, l_count, interval_count, sum_count, i_final: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area
 		do
-			if is_empty then
-				Result := not has_mixed_encoding
-			else
+			if has_mixed_encoding then
+				l_count := count
 				l_area := area; l_unencoded := unencoded_area; i_final := l_unencoded.count
-				Result := unencoded_last_upper <= count
-				if i_final > 0 then
-					from i := 0 until not Result or else i = i_final loop
-						lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
-						l_count := upper - lower + 1
+				Result := True
+				from i := 0 until not Result or else i = i_final loop
+					lower := lower_bound (l_unencoded, i); upper := upper_bound (l_unencoded, i)
+					interval_count := upper - lower + 1
+					if upper <= l_count then
 						from j := lower until not Result or else j > upper loop
 							Result := Result and l_area [j - 1] = Unencoded_character
 							j := j + 1
 						end
-						l_sum_count := l_sum_count + l_count
-						i := i + l_count + 2
+					else
+						Result := False
 					end
-					Result := Result and internal_occurrences (Unencoded_character) = l_sum_count
+					sum_count := sum_count + interval_count
+					i := i + interval_count + 2
 				end
+				Result := Result and internal_occurrences (Unencoded_character) = sum_count
+			else
+				Result := internal_occurrences (Unencoded_character) = 0
 			end
 		end
 

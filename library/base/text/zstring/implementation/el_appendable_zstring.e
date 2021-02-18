@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-16 18:53:47 GMT (Tuesday 16th February 2021)"
-	revision: "18"
+	date: "2021-02-18 10:59:58 GMT (Thursday 18th February 2021)"
+	revision: "19"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -71,7 +71,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				set_unencoded_from_buffer (buffer)
 			end
 		ensure
-			valid_unencoded: is_unencoded_valid
+			valid_unencoded: is_valid
 		end
 
 	append_string_8 (str: READABLE_STRING_8)
@@ -114,7 +114,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				encode (general, old_count)
 			end
 		ensure then
-			unencoded_valid: is_unencoded_valid
+			unencoded_valid: is_valid
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
@@ -344,7 +344,7 @@ feature {NONE} -- Prepend general
 			else
 			end
 		ensure
-			unencoded_valid: is_unencoded_valid
+			unencoded_valid: is_valid
 			new_count: count = old (count + s.count)
 			inserted: elks_checking implies same_string (old (s + current_readable))
 		end
@@ -353,7 +353,7 @@ feature {NONE} -- Prepend general
 		do
 			prepend_string (adapted_argument (str, 1))
 		ensure then
-			unencoded_valid: is_unencoded_valid
+			unencoded_valid: is_valid
 		end
 
 feature {EL_READABLE_ZSTRING} -- Prepending
