@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 10:58:23 GMT (Wednesday 17th February 2021)"
-	revision: "22"
+	date: "2021-02-19 10:40:09 GMT (Friday 19th February 2021)"
+	revision: "23"
 
 deferred class
 	EL_ZCODEC
@@ -21,14 +21,16 @@ inherit
 			set_default_encoding
 		end
 
-	STRING_HANDLER
-
 	EL_ZCODE_CONVERSION
 		rename
 			z_code_to_unicode as multi_byte_z_code_to_unicode
 		end
 
 	EL_MODULE_NAMING
+
+	EL_ZSTRING_CONSTANTS
+
+	STRING_HANDLER
 
 feature {EL_ZCODEC_FACTORY} -- Initialization
 
@@ -87,6 +89,21 @@ feature -- Contract Support
 
 feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE} -- Access
 
+	encoded_string_8 (unicode_in: READABLE_STRING_GENERAL; count: INTEGER; keep_ref: BOOLEAN): STRING
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES; unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER
+		do
+			Result := buffer.empty
+			Result.grow (count)
+			Result.set_count (count)
+			unencoded_buffer := Empty_string.empty_unencoded_buffer
+			encode (unicode_in, Result.area, 0, unencoded_buffer)
+			unencoded_buffer.set_in_use (False)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 	unicode_table: like new_unicode_table
 		-- map latin to unicode
 
@@ -104,15 +121,8 @@ feature -- Basic operations
 		end
 
 	append_encoded_to_string_8 (unicode_in: READABLE_STRING_GENERAL; output: STRING)
-		local
-			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
 		do
-			count := unicode_in.count
-			l_area := encoded_latin_out (unicode_in, count).area
-			from i := 0 until i = count loop
-				output.extend (l_area [i])
-				i := i + 1
-			end
+			output.append (encoded_string_8 (unicode_in, unicode_in.count, False))
 		end
 
 	decode (a_count: INTEGER; latin_in: SPECIAL [CHARACTER]; unicode_out: SPECIAL [CHARACTER_32]; out_offset: INTEGER)
@@ -173,7 +183,7 @@ feature -- Basic operations
 		require
 			valid_offset_and_count: valid_offset_and_count (unicode_count, latin_out, out_offset)
 		local
-			i, j, count, offset, i_upper, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
+			i, j, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
 			l_unicodes: like unicode_table; s_8: EL_STRING_8_ROUTINES; area: SPECIAL [CHARACTER]
 			leading_byte, unicode: NATURAL; u: EL_UTF_CONVERTER
 		do
@@ -225,7 +235,7 @@ feature -- Basic operations
 			l_area: SPECIAL [CHARACTER]; i, count: INTEGER
 		do
 			count := unicode_in.count
-			l_area := encoded_latin_out (unicode_in, count).area
+			l_area := encoded_string_8 (unicode_in, count, False).area
 			from i := 0 until i = count loop
 				writeable.write_raw_character_8 (l_area [i])
 				i := i + 1
@@ -357,20 +367,6 @@ feature {EL_ZSTRING} -- Implementation
 			end
 		end
 
-	encoded_latin_out (unicode_in: READABLE_STRING_GENERAL; count: INTEGER): STRING
-		local
-			extendible_unencoded: like Unencoded_buffer
-			buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			extendible_unencoded := Unencoded_buffer
-			extendible_unencoded.wipe_out
-
-			Result := buffer.empty
-			Result.grow (count)
-			Result.set_count (count)
-			encode (unicode_in, Result.area, 0, extendible_unencoded)
-		end
-
 	initialize_latin_sets
 		deferred
 		end
@@ -410,14 +406,6 @@ feature {NONE} -- Internal attributes
 	latin_characters: SPECIAL [CHARACTER]
 
 feature {NONE} -- Constants
-
-	Unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER
-		local
-			unencoded: EL_UNENCODED_CHARACTERS
-		once
-			create unencoded.make
-			Result := unencoded.Buffer
-		end
 
 	Unicode_buffer: EL_STRING_32
 		once

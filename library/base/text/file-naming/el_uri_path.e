@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:36:28 GMT (Friday 8th January 2021)"
-	revision: "26"
+	date: "2021-02-18 17:31:15 GMT (Thursday 18th February 2021)"
+	revision: "27"
 
 deferred class
 	EL_URI_PATH
@@ -28,7 +28,7 @@ inherit
 			append_file_prefix, default_create, make, make_from_other,
 			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string,
-			Separator, Type_parent
+			Separator, Type_parent, Separator_z_code
 		end
 
 	EL_PROTOCOL_CONSTANTS
@@ -290,6 +290,11 @@ feature -- Constants
 	Separator: CHARACTER_32
 		once
 			Result := Unix_separator
+		end
+
+	Separator_z_code: NATURAL
+		once
+			Result := codec.as_z_code (Unix_separator)
 		end
 
 feature {NONE} -- Constants

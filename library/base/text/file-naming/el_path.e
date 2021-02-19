@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:09:48 GMT (Tuesday 5th January 2021)"
-	revision: "46"
+	date: "2021-02-18 17:12:32 GMT (Thursday 18th February 2021)"
+	revision: "47"
 
 deferred class
 	EL_PATH
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 			l_path := Temp_path; l_path.wipe_out
 			across a_steps as step loop
 				if not_first then
-					l_path.append_character (Separator)
+					l_path.append_z_code (Separator_z_code)
 				else
 					not_first := True
 				end
@@ -336,9 +336,9 @@ feature -- Status Query
 		do
 			l_count := parent_path.count
 			if is_absolute then
-				Result := not base.is_empty and then l_count >= 1 and then parent_path [l_count] = Separator
+				Result := not base.is_empty and then l_count >= 1 and then is_separator (parent_path, l_count)
 			else
-				Result := not parent_path.is_empty and then parent_path [l_count] = Separator
+				Result := not parent_path.is_empty and then is_separator (parent_path, l_count)
 			end
 		end
 
@@ -350,8 +350,8 @@ feature -- Status Query
 			pos_left_separator := parent_path.substring_index (step, 1) - 1
 			pos_right_separator := pos_left_separator + step.count + 1
 			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
-				if parent_path [pos_right_separator] = Separator then
-					Result := pos_left_separator > 0 implies parent_path [pos_left_separator] = Separator
+				if is_separator (parent_path, pos_right_separator) then
+					Result := pos_left_separator > 0 implies is_separator (parent_path, pos_left_separator)
 				end
 			end
 		end
@@ -369,7 +369,7 @@ feature -- Status Query
 			if {PLATFORM}.is_windows then
 				Result := s.starts_with_drive (str)
 			else
-				Result := not str.is_empty and then str [1] = Separator
+				Result := not str.is_empty and then is_separator (str, 1)
 			end
 		end
 
@@ -472,7 +472,7 @@ feature -- Element change
 			l_parent_path.append (parent_path)
 			if not base.is_empty then
 				l_parent_path.append (base)
-				l_parent_path.append_character (Separator)
+				l_parent_path.append_z_code (Separator_z_code)
 			end
 			set_parent_path (l_parent_path)
 			base.wipe_out
@@ -549,7 +549,7 @@ feature -- Element change
 			else
 				l_path := temporary_copy (a_parent)
 				if a_parent [a_parent.count] /= Separator then
-					l_path.append_character (Separator)
+					l_path.append_z_code (Separator_z_code)
 				end
 				set := Parent_set
 				if set.has_key (l_path) then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 10:59:58 GMT (Thursday 18th February 2021)"
-	revision: "19"
+	date: "2021-02-19 11:13:13 GMT (Friday 19th February 2021)"
+	revision: "20"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -159,6 +159,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
+				buffer.set_in_use (False)
 			end
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
@@ -383,9 +384,10 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 						buffer.append_substring (s, start_index, end_index, 0)
 						if buffer.not_empty then
 							buffer.append (Current, offset)
-							unencoded_area := buffer.area_copy
+							set_unencoded_from_buffer (buffer)
 						else
 							shift_unencoded (offset)
+							buffer.set_in_use (False)
 						end
 					else
 						shift_unencoded (offset)
@@ -395,9 +397,7 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 				when Only_other then
 					buffer := empty_unencoded_buffer
 					buffer.append_substring (s, start_index, end_index, 0)
-					if buffer.not_empty then
-						unencoded_area := buffer.area_copy
-					end
+					set_unencoded_from_buffer (buffer)
 			else
 			end
 		ensure
@@ -493,9 +493,10 @@ feature {NONE} -- Implementation
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
+				buffer.set_in_use (False)
 			end
 		end
-		
+
 	internal_prepend (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
 			-- Prepend characters of `s' at front.
 		do

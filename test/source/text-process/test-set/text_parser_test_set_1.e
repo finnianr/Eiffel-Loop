@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:56:35 GMT (Sunday 10th January 2021)"
-	revision: "12"
+	date: "2021-02-19 13:03:40 GMT (Friday 19th February 2021)"
+	revision: "13"
 
 class
 	TEXT_PARSER_TEST_SET_1
@@ -20,14 +20,14 @@ inherit
 			default_create
 		end
 
-	EL_TEST_STRINGS
-
 	PYXIS_ATTRIBUTE_PARSER_TEST_DATA
 		export
 			{NONE} all
 		undefine
 			default_create
 		end
+
+	EL_TEST_STRINGS
 
 feature -- Basic operations
 
@@ -42,6 +42,7 @@ feature -- Basic operations
 			eval.call ("quoted_string", agent test_quoted_string)
 			eval.call ("recursive_match", agent test_recursive_match)
 			eval.call ("string_view", agent test_string_view)
+			eval.call ("unencoded_as_latin", agent test_unencoded_as_latin)
 		end
 
 feature -- Test
@@ -53,12 +54,7 @@ feature -- Test
 			xml, name, output: ZSTRING; pattern: like all_of
 		do
 			create output.make_empty
-			pattern := xml_text_element (
-				agent (matched: EL_STRING_VIEW; a_output: ZSTRING)
-					do
-						a_output.append (matched.to_string)
-					end (?, output)
-			)
+			pattern := xml_text_element (agent append_matched_1 (?, output))
 			pattern.parse (XML_name_template #$ [Name_susan])
 			assert ("match_count OK", Name_susan ~ output)
 		end
@@ -169,6 +165,33 @@ feature -- Test
 			assert ("same as second word", view.to_string.same_string (second_word))
 		end
 
+	test_unencoded_as_latin
+		-- test with characters not encodeable as Latin-1
+		note
+			testing: "covers/{EL_MATCH_ONE_OR_MORE_TIMES_TP}.match_count",
+						"covers/{EL_MATCH_ANY_CHAR_IN_SET_TP}.match_count",
+						"covers/{EL_ZSTRING_VIEW}.to_string, covers/{EL_ZSTRING_VIEW}.append_substring_to",
+						"covers/{EL_PARSER}.find_all"
+		local
+			pattern: like repeated_character_in_set
+			source_text, character_set: ZSTRING; output: ZSTRING
+			matcher: EL_TEXT_MATCHER
+		do
+			create output.make_empty
+			source_text := text_russian
+			character_set := source_text.substring_end (source_text.count - 1) -- last two
+			create matcher.make
+			matcher.set_source_text (source_text)
+
+			across << agent append_matched_1 (?, output), agent append_matched_2 (?, output) >> as action loop
+				output.wipe_out
+				pattern := repeated_character_in_set (character_set, action.item)
+				matcher.set_pattern (pattern)
+				matcher.find_all
+				assert ("last two occur twice", output ~ character_set.multiplied (2))
+			end
+		end
+
 feature {NONE} -- Patterns
 
 	numeric_array_pattern (list: ARRAYED_LIST [DOUBLE]): like all_of
@@ -185,6 +208,11 @@ feature {NONE} -- Patterns
 				maybe_white_space,
 				string_literal (">>")
 			>>)
+		end
+
+	repeated_character_in_set (character_set: ZSTRING; on_match: PROCEDURE [EL_STRING_VIEW]): like one_or_more
+		do
+			Result := one_or_more (one_character_from (character_set)) |to| on_match
 		end
 
 	xml_text_element (a_action: like default_action): like all_of
@@ -229,6 +257,16 @@ feature {NONE} -- Parse events handlers
 		end
 
 feature {NONE} -- Implementation
+
+	append_matched_1 (matched: EL_STRING_VIEW; str: ZSTRING)
+		do
+			str.append (matched.to_string)
+		end
+
+	append_matched_2 (matched: EL_STRING_VIEW; str: ZSTRING)
+		do
+			matched.append_to (str)
+		end
 
 	Eiffel_string_assignment (list: ARRAYED_LIST [STRING]): like all_of
 		do

@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-02-19 12:04:16 GMT (Friday 19th February 2021)"
+	revision: "6"
 
 class
 	EL_TEXT_MATCHER
 
 inherit
 	EL_PARSER
-		export
-			{NONE} all
-		end
 
 	EL_TEXT_PATTERN_FACTORY
 		export

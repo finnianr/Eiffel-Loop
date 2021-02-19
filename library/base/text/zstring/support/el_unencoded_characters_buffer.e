@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 10:40:57 GMT (Thursday 4th February 2021)"
-	revision: "12"
+	date: "2021-02-19 10:14:50 GMT (Friday 19th February 2021)"
+	revision: "13"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -32,6 +32,17 @@ feature -- Access
 		end
 
 	last_index: INTEGER
+
+feature -- Status query
+
+	in_use: BOOLEAN
+
+feature -- Status change
+
+	set_in_use (state: BOOLEAN)
+		do
+			in_use := state
+		end
 
 feature -- Element change
 

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 16:42:01 GMT (Thursday 18th February 2021)"
-	revision: "25"
+	date: "2021-02-19 10:16:40 GMT (Friday 19th February 2021)"
+	revision: "26"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -535,12 +535,15 @@ feature -- Element change
 		end
 
 	set_from_buffer (a_area: EL_UNENCODED_CHARACTERS_BUFFER)
+		require
+			a_area.in_use
 		do
 			if a_area.not_empty then
 				area := a_area.area_copy
 			else
 				area := Empty_unencoded
 			end
+			a_area.set_in_use (False)
 		ensure
 			is_valid: is_valid
 		end

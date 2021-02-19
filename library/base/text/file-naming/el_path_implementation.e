@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:51:57 GMT (Friday 8th January 2021)"
-	revision: "14"
+	date: "2021-02-18 17:34:02 GMT (Thursday 18th February 2021)"
+	revision: "15"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -202,8 +202,8 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			if not a_path.is_empty then
 				l_path := temporary_path
 				i := l_path.count
-				if i > 0 and then l_path [i] /= Separator then
-					l_path.append_unicode (Separator.natural_32_code)
+				if i > 0 and then not is_separator (l_path, i) then
+					l_path.append_z_code (Separator_z_code)
 				end
 				l_path.append (a_path.parent_path)
 				l_path.append (a_path.base)
@@ -260,13 +260,19 @@ feature {EL_PATH} -- Implementation
 		deferred
 		end
 
+	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
+		-- `True' if `str [i] = Separator'
+		do
+			Result := str.z_code (i) = Separator_z_code
+		end
+
 	has_expansion_variable (a_path: ZSTRING): BOOLEAN
 		-- a step contains what might be an expandable variable
 		local
 			pos_dollor: INTEGER
 		do
 			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
+			Result := pos_dollor > 0 and then (pos_dollor = 1 or else is_separator (a_path, pos_dollor - 1))
 		end
 
 	relative_temporary_path (a_parent: EL_DIR_PATH): ZSTRING
@@ -275,7 +281,7 @@ feature {EL_PATH} -- Implementation
 		do
 			Result := temporary_path
 			remove_count := a_parent.count
-			if Result.count > remove_count and then Result [remove_count + 1] = Separator then
+			if Result.count > remove_count and then is_separator (Result, remove_count + 1) then
 				remove_count := remove_count + 1
 			end
 			Result.remove_head (remove_count)

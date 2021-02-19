@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 11:26:15 GMT (Thursday 18th February 2021)"
-	revision: "3"
+	date: "2021-02-19 10:22:38 GMT (Friday 19th February 2021)"
+	revision: "4"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -99,9 +99,12 @@ feature {NONE} -- Implementation
 		end
 
 	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
+		require
+			not_in_use: not Buffer.in_use
 		do
 			Result := Buffer
 			Result.wipe_out
+			Result.set_in_use (True)
 		end
 
 	empty_index_list: ARRAYED_LIST [INTEGER]

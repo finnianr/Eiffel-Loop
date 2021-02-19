@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 9:52:51 GMT (Thursday 4th February 2021)"
-	revision: "14"
+	date: "2021-02-19 13:12:22 GMT (Friday 19th February 2021)"
+	revision: "15"
 
 class
 	EL_ZSTRING_VIEW
@@ -24,6 +24,8 @@ inherit
 	EL_ZCODE_CONVERSION
 
 	EL_SHARED_ZSTRING_CODEC
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -105,17 +107,20 @@ feature -- Conversion
 
 	to_string: EL_ZSTRING
 		local
-			i, i_final: INTEGER
+			i, i_final: INTEGER; l_area: like area
 		do
+			l_area := area
 			create Result.make (count)
-			Result.area.copy_data (area, offset, 0, count)
+			Result.area.copy_data (l_area, offset, 0, count)
 			Result.set_count (count)
 			if attached unencoded_indexable as unencoded
 				and then attached Result.empty_unencoded_buffer as buffer
 			then
 				i_final := offset + count
 				from i := offset until i = i_final loop
-					buffer.extend (unencoded.code (i + 1), i + 1)
+					if l_area [i] = Unencoded_character then
+						buffer.extend (unencoded.code (i + 1), i + 1)
+					end
 					i := i + 1
 				end
 				buffer.shift (offset.opposite)
@@ -136,6 +141,40 @@ feature -- Conversion
 feature -- Basic operations
 
 	append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
+		local
+			i, old_count, new_count, area_lower, area_upper, index: INTEGER; l_area: like area
+		do
+			if attached {ZSTRING} str as zstr then
+				old_count := zstr.count; new_count := old_count + count
+				zstr.grow (new_count)
+				zstr.area.copy_data (area, offset, old_count, count)
+				zstr.set_count (new_count)
+
+				if attached unencoded_indexable as unencoded
+					and then attached Empty_string.empty_unencoded_buffer as buffer
+				then
+					l_area := area
+					area_lower := start_index + offset - 1
+					area_upper := end_index.min (count) + offset - 1
+					from i := area_lower until i > area_upper loop
+						if l_area [i] = Unencoded_character then
+							index := i - start_index + 2
+							buffer.extend (unencoded.code (index), index)
+						end
+						i := i + 1
+					end
+					zstr.append_unencoded (buffer, old_count - offset)
+					buffer.set_in_use (False)
+				end
+			else
+				from i := start_index until i > end_index or else i > count loop
+					str.append_code (unicode (i))
+					i := i + 1
+				end
+			end
+		end
+
+	obsolete_append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
 		local
 			i: INTEGER
 		do

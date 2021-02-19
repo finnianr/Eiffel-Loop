@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 13:11:37 GMT (Tuesday 9th February 2021)"
-	revision: "20"
+	date: "2021-02-19 10:40:09 GMT (Friday 19th February 2021)"
+	revision: "21"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -66,8 +66,7 @@ feature -- To Strings
 					i := i + 1
 				end
 			else
-				create Result.make (count)
-				a_codec.encode (buffer_32.copied_general (current_readable), Result.area, 0, empty_unencoded_buffer)
+				Result := a_codec.encoded_string_8 (buffer_32.copied_general (current_readable), count, True)
 			end
 			if direct_copy then
 				create Result.make (count)

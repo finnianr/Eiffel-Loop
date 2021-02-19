@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-31 11:37:07 GMT (Saturday 31st October 2020)"
-	revision: "26"
+	date: "2021-02-18 16:51:14 GMT (Thursday 18th February 2021)"
+	revision: "27"
 
 class
 	EL_PATH_STEPS
@@ -55,8 +55,6 @@ inherit
 	EL_PATH_CONSTANTS
 		export
 			{NONE} all
-		undefine
-			default_create, is_equal
 		end
 
 	DEBUG_OUTPUT
