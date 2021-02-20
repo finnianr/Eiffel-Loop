@@ -299,6 +299,7 @@ class EIFFEL_CONFIG_FILE (object):
 		self.uuid = system.uuid
 		self.name = system.name
 		self.platform = system.platform
+		self.keep_assertions = False
 
 		self.libraries_table = {self.uuid : self}
 
@@ -612,7 +613,10 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 		return result
 
 	def compilation_options (self):
-		return ['-finalize']
+		result = ['-finalize']
+		if ecf.keep_assertions:
+			result.append ('-keep')
+		return result
 
 # Status query
 

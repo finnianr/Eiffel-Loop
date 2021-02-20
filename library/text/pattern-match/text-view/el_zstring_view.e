@@ -174,24 +174,6 @@ feature -- Basic operations
 			end
 		end
 
-	obsolete_append_substring_to (str: STRING_GENERAL; start_index, end_index: INTEGER)
-		local
-			i: INTEGER
-		do
-			if attached {ZSTRING} str as zstr then
-				zstr.grow (end_index - start_index + 1 + zstr.count)
-				from i := start_index until i > end_index or else i > count loop
-					zstr.append_z_code (z_code (i))
-					i := i + 1
-				end
-			else
-				from i := start_index until i > end_index or else i > count loop
-					str.append_code (unicode (i))
-					i := i + 1
-				end
-			end
-		end
-
 feature -- Status query
 
 	has (uc: CHARACTER_32): BOOLEAN

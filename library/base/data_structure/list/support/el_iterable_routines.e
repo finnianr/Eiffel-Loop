@@ -10,7 +10,7 @@ note
 	date: "2020-01-25 12:45:12 GMT (Saturday 25th January 2020)"
 	revision: "1"
 
-class
+expanded class
 	EL_ITERABLE_ROUTINES
 
 feature -- Measurement

@@ -32,8 +32,6 @@ inherit
 
 	EL_WORD_SEPARATION_ADAPTER
 
-	EL_MODULE_ITERABLE
-
 create
 	make
 
@@ -87,9 +85,9 @@ feature -- Access
 	selected (name_list: ITERABLE [STRING]): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
-			l_name: STRING
+			l_name: STRING; iterable: EL_ITERABLE_ROUTINES
 		do
-			create Result.make (Iterable.count (name_list))
+			create Result.make (iterable.count (name_list))
 			across name_list as name loop
 				l_name := from_kebab_case (name.item, False)
 				if field_table.has_key (l_name) then

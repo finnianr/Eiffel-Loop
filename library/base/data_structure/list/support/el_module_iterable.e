@@ -15,11 +15,10 @@ deferred class
 inherit
 	EL_MODULE
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Iterable: EL_ITERABLE_ROUTINES
+	iterable: EL_ITERABLE_ROUTINES
 			--
-		once
-			create Result
+		do
 		end
 end

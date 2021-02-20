@@ -41,16 +41,16 @@ inherit
 			put, has, extend, prune, extendible
 		end
 
-	EL_MODULE_ITERABLE
-
 create
 	make, make_equal, make_from_list
 
 feature {NONE} -- Initialization
 
 	make_from_list (list: ITERABLE [G])
+		local
+			iterable: EL_ITERABLE_ROUTINES
 		do
-			make_equal (Iterable.count (list))
+			make_equal (iterable.count (list))
 			across list as l loop
 				extend (l.item)
 			end

@@ -32,6 +32,7 @@ arguments.Add (
 	)
 )
 arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
+arguments.Add (BoolVariable ('keep_assertions', 'Compile finalized exe keeping assertions', 'no'))
 arguments.Add (BoolVariable ('install', 'Set to \'yes\' to install finalized release', 'no'))
 
 #arguments.Add (
@@ -66,6 +67,7 @@ else:
 	
 	pecf_path = path.splitext (project_py.ecf)[0] + '.pecf'
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
+	config.keep_assertions = env.get ('keep_assertions')
 
 	if action == 'install_resources':
 		build = FREEZE_BUILD (config, project_py)

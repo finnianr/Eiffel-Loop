@@ -25,8 +25,6 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_ITERABLE
-
 create
 	make, make_empty, make_with_count, make_from_array, make_from_tuple
 

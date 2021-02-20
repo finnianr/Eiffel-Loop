@@ -20,8 +20,6 @@ inherit
 			make as make_with_count
 		end
 
-	EL_MODULE_ITERABLE
-
 create
 	make, make_with_count
 
@@ -30,10 +28,9 @@ feature {NONE} -- Initialization
 	make (key: FUNCTION [G, K]; a_list: ITERABLE [G])
 		-- Group items `list' into groups defined by `key' function
 		local
-			l_key: K
-			group: like item
+			l_key: K; group: like item; iterable: EL_ITERABLE_ROUTINES
 		do
-			make_equal ((Iterable.count (a_list) // 2).min (11))
+			make_equal ((iterable.count (a_list) // 2).min (11))
 			across a_list as l_list loop
 				l_key := key (l_list.item)
 				if has_key (l_key) then

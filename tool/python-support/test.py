@@ -1,12 +1,14 @@
 import os
 
-from eiffel_loop.eiffel import ise
 
-print 'ise.platform', ise.platform
+class EIFFEL_CONFIG_FILE (object):
 
-os.environ ['ISE_PLATFORM'] = 'win64'
+# Initialization
+	def __init__ (self):
+		self.keep_assertions = False
 
-ise.update ()
+config = EIFFEL_CONFIG_FILE ()
 
-print 'ise.platform', ise.platform
+config.keep_assertions = True
 
+print "config.keep_assertions", config.keep_assertions
