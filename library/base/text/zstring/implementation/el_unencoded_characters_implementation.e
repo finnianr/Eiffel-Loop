@@ -6,11 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 10:22:38 GMT (Friday 19th February 2021)"
-	revision: "4"
+	date: "2021-02-21 15:34:39 GMT (Sunday 21st February 2021)"
+	revision: "5"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
+
+inherit
+	EL_EXTENDABLE_AREA [NATURAL]
+		export
+			{ANY} area
+		end
 
 feature {NONE} -- Contract Support
 
@@ -58,14 +64,6 @@ feature {NONE} -- Contract Support
 
 feature {NONE} -- Deferred
 
-	area: SPECIAL [NATURAL]
-		deferred
-		end
-
-	big_enough (a_area: like area; additional_count: INTEGER): like area
-		deferred
-		end
-
 	character_count: INTEGER
 		deferred
 		end
@@ -99,12 +97,12 @@ feature {NONE} -- Implementation
 		end
 
 	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
-		require
-			not_in_use: not Buffer.in_use
+--		require
+--			not_in_use: not Buffer.in_use
 		do
 			Result := Buffer
 			Result.wipe_out
-			Result.set_in_use (True)
+--			Result.set_in_use (True)
 		end
 
 	empty_index_list: ARRAYED_LIST [INTEGER]
@@ -119,11 +117,11 @@ feature {NONE} -- Implementation
 			a_area.extend (upper.to_natural_32)
 		end
 
-	extended (destination_index, lower, upper: INTEGER; a_code: NATURAL): like area
+	extended_enough (a_area: like area; destination_index, lower, upper: INTEGER; a_code: NATURAL): like area
 		local
 			l_insert: like area
 		do
-			Result := area; l_insert := Unencoded_insert; l_insert.wipe_out
+			l_insert := Unencoded_insert; l_insert.wipe_out
 			if lower > 0 then
 				l_insert.extend (lower.to_natural_32)
 			end
@@ -133,7 +131,7 @@ feature {NONE} -- Implementation
 			if a_code > 0 then
 				l_insert.extend (a_code)
 			end
-			Result := big_enough (Result, l_insert.count)
+			Result := big_enough (a_area, l_insert.count)
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 13:00:09 GMT (Thursday 18th February 2021)"
-	revision: "17"
+	date: "2021-02-20 14:29:19 GMT (Saturday 20th February 2021)"
+	revision: "18"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -264,19 +264,21 @@ feature -- Write operations
 		end
 
 	write_string (a_string: EL_READABLE_ZSTRING)
+		require else
+			valid_string: a_string.is_valid
 		local
 			i, l_count: INTEGER; l_area: like read_string.area
-			interval_index: like read_string.unencoded_indexable
+			unencoded: like read_string.unencoded_indexable
 			c: CHARACTER
 		do
-			interval_index := a_string.unencoded_indexable
+			unencoded := a_string.unencoded_indexable
 			l_count := a_string.count; l_area := a_string.area
 			write_integer_32 (l_count)
 			from i := 0 until i = l_count loop
 				c := l_area [i]
 				write_character_8 (c)
 				if c = Unencoded_character then
-					write_natural_32 (interval_index.code (i + 1))
+					write_natural_32 (unencoded.code (i + 1))
 				end
 				i := i + 1
 			end
@@ -335,25 +337,26 @@ feature {NONE} -- Implementation
 		end
 
 	fill_string (str: ZSTRING; a_count: INTEGER)
+		require
+			valid_string: str.is_empty and then a_count <= str.capacity
 		local
-			i: INTEGER; l_area: like read_string.area; c: CHARACTER
+			i, l_count: INTEGER; l_area: like read_string.area; c: CHARACTER
 			unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER
 		do
-			if a_count <= buffer.count - count then
-				l_area := str.area
-				unencoded_buffer := str.empty_unencoded_buffer
-				from i := 0 until i = a_count loop
-					c := read_character_8
-					l_area [i] := c
-					if c = Unencoded_character then
-						unencoded_buffer.extend (read_natural_32, i + 1)
-					end
-					i := i + 1
+			l_count := a_count.min (buffer.count - count)
+			l_area := str.area
+			unencoded_buffer := str.empty_unencoded_buffer
+			from i := 0 until i = l_count loop
+				c := read_character_8
+				l_area [i] := c
+				if c = Unencoded_character then
+					unencoded_buffer.extend (read_natural_32, i + 1)
 				end
-				l_area [i] := '%U'
-				str.set_count (a_count)
-				str.set_unencoded_from_buffer (unencoded_buffer)
+				i := i + 1
 			end
+			l_area [i] := '%U'
+			str.set_count (l_count)
+			str.set_unencoded_from_buffer (unencoded_buffer)
 		ensure
 			valid_str: str.is_valid
 		end

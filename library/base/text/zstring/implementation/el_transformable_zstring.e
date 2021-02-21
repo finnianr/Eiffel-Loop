@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 10:45:34 GMT (Friday 19th February 2021)"
-	revision: "22"
+	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
+	revision: "23"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -336,7 +336,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 						shift_unencoded_from (start_index, s.count - (end_index - start_index + 1))
 						buffer.append (s, l_count)
 						insert_unencoded (buffer)
-						buffer.set_in_use (False)
+--						buffer.set_in_use (False)
 					end
 
 				when Only_current then

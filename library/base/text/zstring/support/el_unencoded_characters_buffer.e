@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 10:14:50 GMT (Friday 19th February 2021)"
-	revision: "13"
+	date: "2021-02-21 15:34:22 GMT (Sunday 21st February 2021)"
+	revision: "14"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -39,21 +39,23 @@ feature -- Status query
 
 feature -- Status change
 
-	set_in_use (state: BOOLEAN)
-		do
-			in_use := state
-		end
+--	set_in_use (state: BOOLEAN)
+--		do
+--			in_use := state
+--		end
 
 feature -- Element change
 
 	append_from_area (a_area: like area; index: INTEGER)
 		local
-			lower, upper: INTEGER
+			lower, upper: INTEGER; l_area, current_area: like area
 		do
 			last_index := index
 			lower := lower_bound (a_area, index); upper := upper_bound (a_area, index)
-			area := big_enough (area, index + upper - lower + 3)
-			area.copy_data (a_area, 0, 0, index + upper - lower + 3)
+			l_area := area; current_area := l_area
+			l_area := big_enough (l_area, index + upper - lower + 3)
+			l_area.copy_data (a_area, 0, 0, index + upper - lower + 3)
+			set_if_changed (current_area, l_area)
 		end
 
 	append_substring (other: EL_UNENCODED_CHARACTERS; start_index, end_index, offset: INTEGER)
@@ -87,9 +89,9 @@ feature -- Element change
 
 	extend (a_code: NATURAL; index: INTEGER)
 		local
-			area_count, l_last_upper: INTEGER; l_area: like area
+			area_count, l_last_upper: INTEGER; l_area, current_area: like area
 		do
-			l_area := area; area_count := l_area.count
+			l_area := area; current_area := l_area; area_count := l_area.count
 			if l_area.count > 0 then
 				l_last_upper := upper_bound (l_area, last_index)
 			else
@@ -106,6 +108,7 @@ feature -- Element change
 				l_area.extend (index.as_natural_32)
 				l_area.extend (a_code)
 			end
+			set_if_changed (current_area, l_area)
 		end
 
 	extend_z_code (a_z_code: NATURAL; index: INTEGER)
@@ -126,20 +129,21 @@ feature {NONE} -- Implementation
 	append_interval (a_area: like area; source_index, a_lower, a_upper, offset: INTEGER)
 		-- append interval from `a_lower' to `a_upper' shifted by `offset' to the right (left if negative)
 		local
-			count, i: INTEGER; l_area: like area
+			count, i: INTEGER; l_area, current_area: like area
 		do
-			l_area := area; i := last_index; count := a_upper - a_lower + 1
+			l_area := area; current_area := l_area; i := last_index; count := a_upper - a_lower + 1
 			if l_area.count > 0 and then upper_bound (l_area, i) + 1 = a_lower + offset then
 				-- merge intervals
 				l_area := big_enough (l_area, count)
-				l_area.copy_data (a_area, source_index, area.count, count)
+				l_area.copy_data (a_area, source_index, l_area.count, count)
 				put_upper (l_area, i, a_upper + offset)
 			else
 				l_area := big_enough (l_area, count + 2)
 				extend_bounds (l_area, a_lower + offset, a_upper + offset)
-				l_area.copy_data (a_area, source_index, area.count, count)
-				last_index := area.count - (a_upper - a_lower + 3)
+				l_area.copy_data (a_area, source_index, l_area.count, count)
+				last_index := l_area.count - (a_upper - a_lower + 3)
 			end
+			set_if_changed (current_area, l_area)
 		ensure
 			count_increased_by_count: character_count = old character_count + a_upper - a_lower + 1
 		end

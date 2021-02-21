@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 9:25:36 GMT (Sunday 31st January 2021)"
-	revision: "2"
+	date: "2021-02-21 14:24:57 GMT (Sunday 21st February 2021)"
+	revision: "3"
 
 class
 	EL_SUBSTRING_32_BUFFER
@@ -94,9 +94,10 @@ feature -- Element change
 
 	append (array: EL_SUBSTRING_32_ARRAY)
 		local
-			i, lower, upper, i_final, offset, char_count: INTEGER; l_area_array, l_area: like area
+			i, lower, upper, i_final, offset, char_count: INTEGER
+			l_area_array, l_area, current_area: like area
 		do
-			l_area := area
+			l_area := area; current_area := l_area
 			l_area := big_enough (l_area, array.count * 2 + array.character_count)
 			l_area_array := array.area; i_final := first_index (l_area_array)
 			offset := i_final
@@ -113,6 +114,7 @@ feature -- Element change
 				i := i + 2
 			end
 			increment_count (l_area, array.count)
+			set_if_changed (current_area, l_area)
 		ensure
 			count_incremented: old substring_count + array.count = substring_count
 		end
@@ -130,9 +132,9 @@ feature -- Element change
 
 	put_unicode (a_code: NATURAL; index: INTEGER)
 		local
-			area_count: INTEGER; l_area: like area
+			area_count: INTEGER; l_area, current_area: like area
 		do
-			l_area := area; area_count := l_area.count
+			l_area := area; current_area := l_area; area_count := l_area.count
 			if last_upper + 1 = index then
 				l_area := big_enough (l_area, area_count + 1)
 				l_area.put (index.as_natural_32, last_upper_index)
@@ -145,6 +147,7 @@ feature -- Element change
 				l_area.extend (a_code)
 				last_upper_index := area_count + 1
 			end
+			set_if_changed (current_area, l_area)
 		end
 
 	put_z_code (a_z_code: NATURAL; index: INTEGER)
@@ -208,15 +211,16 @@ feature {EL_SUBSTRING_32_CONTAINER} -- Implementation
 
 	append_interval (a_area: SPECIAL [NATURAL]; a_lower, a_upper, offset: INTEGER)
 		local
-			l_count: INTEGER; l_area: like area
+			l_count: INTEGER; l_area, current_area: like area
 		do
 			l_count := a_upper - a_lower + 1
-			l_area := area
+			l_area := area; current_area := l_area
 			l_area := big_enough (l_area, l_count + 2)
 			l_area.extend (a_lower.to_natural_32); l_area.extend (a_upper.to_natural_32)
 			increment_count (l_area, 1)
 			last_upper_index := l_area.count - 1
 			l_area.copy_data (a_area, offset, l_area.count, l_count)
+			set_if_changed (current_area, l_area)
 		ensure
 			count_incremented: old substring_count + 1 = substring_count
 		end

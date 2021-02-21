@@ -163,7 +163,11 @@ system:
 				"""
 					Class Reflection
 					
-					Classes for setting and getting data attributes using class reflection.
+					Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way
+					of exchanging data between Eiffel objects and any structured plaintext format, and also a binary
+					memory block conforming to [$source EL_MEMORY_READER_WRITER] (inherits SED_MEMORY_READER_WRITER)
+
+					See doc/base.reflection.txt for details
 				"""
 
 		cluster:

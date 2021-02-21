@@ -614,7 +614,7 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 
 	def compilation_options (self):
 		result = ['-finalize']
-		if ecf.keep_assertions:
+		if self.ecf.keep_assertions:
 			result.append ('-keep')
 		return result
 

@@ -25,7 +25,7 @@ if platform.system () == "Windows":
 usage = "usage: ec_write_set_environ [--x86]"
 parser = OptionParser(usage=usage)
 parser.add_option (
-	"-x", "--x86", action="store_true", dest="x86", default=False, help="Write set_environ.sh for 32 bit compilation"
+	"-x", "--x86", action="store_true", dest="x86", default = False, help="Write set_environ.sh for 32 bit compilation"
 )
 (options, args) = parser.parse_args()
 

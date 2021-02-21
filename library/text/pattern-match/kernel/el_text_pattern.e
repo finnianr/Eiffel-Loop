@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-04 17:17:12 GMT (Monday 4th January 2021)"
-	revision: "7"
+	date: "2021-02-20 13:50:35 GMT (Saturday 20th February 2021)"
+	revision: "8"
 
 deferred class
 	EL_TEXT_PATTERN
@@ -24,10 +24,10 @@ inherit
 			{EL_TEXT_PATTERN} interval
 		end
 
-	IDENTIFIED
-		undefine
-			is_equal, copy
-		end
+--	IDENTIFIED
+--		undefine
+--			is_equal, copy
+--		end
 
 feature {NONE} -- Initialization
 

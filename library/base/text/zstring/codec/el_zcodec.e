@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 10:40:09 GMT (Friday 19th February 2021)"
-	revision: "23"
+	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
+	revision: "24"
 
 deferred class
 	EL_ZCODEC
@@ -98,7 +98,7 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE} -- Access
 			Result.set_count (count)
 			unencoded_buffer := Empty_string.empty_unencoded_buffer
 			encode (unicode_in, Result.area, 0, unencoded_buffer)
-			unencoded_buffer.set_in_use (False)
+--			unencoded_buffer.set_in_use (False)
 			if keep_ref then
 				Result := Result.twin
 			end

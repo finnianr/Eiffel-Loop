@@ -379,3 +379,6 @@ New test set RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET validated
 Mon 15th Feb 2021, 19:14:10
 Changes to EL_MEMORY_READER_WRITER to initialize existing string objects
 
+Sat 20th Feb 2021, 20:55:11
+Optimized {EL_ZSTRING}.make_from_utf_8
+

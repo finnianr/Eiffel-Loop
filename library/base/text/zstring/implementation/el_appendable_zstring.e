@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 11:13:13 GMT (Friday 19th February 2021)"
-	revision: "20"
+	date: "2021-02-21 15:35:52 GMT (Sunday 21st February 2021)"
+	revision: "21"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -159,7 +159,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
-				buffer.set_in_use (False)
+--				buffer.set_in_use (False)
 			end
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
@@ -387,7 +387,7 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 							set_unencoded_from_buffer (buffer)
 						else
 							shift_unencoded (offset)
-							buffer.set_in_use (False)
+--							buffer.set_in_use (False)
 						end
 					else
 						shift_unencoded (offset)
@@ -493,7 +493,7 @@ feature {NONE} -- Implementation
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
-				buffer.set_in_use (False)
+--				buffer.set_in_use (False)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 11:11:53 GMT (Saturday 2nd January 2021)"
-	revision: "63"
+	date: "2021-02-21 15:20:51 GMT (Sunday 21st February 2021)"
+	revision: "64"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.find_highest_common_character")
-			string.find_highest_common_character
+			log.enter ("structure.special_twin")
+			structure.special_twin
 			log.exit
 		end
 

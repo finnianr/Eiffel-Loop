@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 13:12:22 GMT (Friday 19th February 2021)"
-	revision: "15"
+	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
+	revision: "16"
 
 class
 	EL_ZSTRING_VIEW
@@ -164,7 +164,7 @@ feature -- Basic operations
 						i := i + 1
 					end
 					zstr.append_unencoded (buffer, old_count - offset)
-					buffer.set_in_use (False)
+--					buffer.set_in_use (False)
 				end
 			else
 				from i := start_index until i > end_index or else i > count loop

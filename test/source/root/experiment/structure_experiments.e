@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 9:41:30 GMT (Monday 30th November 2020)"
-	revision: "3"
+	date: "2021-02-21 15:31:21 GMT (Sunday 21st February 2021)"
+	revision: "4"
 
 class
 	STRUCTURE_EXPERIMENTS
@@ -327,6 +327,24 @@ feature -- Basic operations
 			across my_list as m loop print (m.item.out + " ") end
 			print ('%N')
 
+		end
+
+	special_twin
+		-- find out what happens if you twin array that is not full
+		-- Answer: the capacity is reduced to count
+		local
+			area_1, area: SPECIAL [CHARACTER]
+		do
+			create area_1.make_empty (6)
+			area_1.extend ('a')
+			area_1.extend ('b')
+			area_1.extend ('c')
+			area := area_1.twin
+			lio.put_labeled_string ("same capacity", (area.capacity = area_1.capacity).out)
+			lio.put_new_line
+			area := area_1.resized_area (area_1.count)
+			lio.put_labeled_string ("same capacity", (area.capacity = area_1.capacity).out)
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation

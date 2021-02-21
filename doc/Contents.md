@@ -246,7 +246,89 @@ Classes providing the following facilities:
 * File line source and other abstractions
 
 ## Class Reflection
-Classes for setting and getting data attributes using class reflection.
+Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits SED_MEMORY_READER_WRITER)
+
+**Key Features**
+
+
+* Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
+* Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
+* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM](http://www.eiffel-loop.com/library/text/parse/passphrase/el_passphrase_attributes_enum.html).
+* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/runtime/command-line/options/el_command_line_options.html)
+* Support for reading and writing to strings conforming to `STRING_GENERAL`
+* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/data_structure/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/data_structure/kernel/el_writeable.html)
+* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits `SED_MEMORY_READER_WRITER`)
+* Support for recursively pretty-printing object data to console (with color highlighting in Linux)
+* Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
+* Flexible way to include and exclude fields stored in field table.
+* Support for extracting useful type information from agents in an easily accessible form.
+* Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html).
+
+
+````
+EL_REFLECTED_FIELD*
+	[$source EL_REFLECTED_EXPANDED_FIELD]*
+		[$source EL_REFLECTED_NUMERIC_FIELD]*
+			[$source EL_REFLECTED_ENUMERATION]*
+				[$source EL_REFLECTED_ENUM_NATURAL_16]
+				[$source EL_REFLECTED_ENUM_INTEGER_16]
+				[$source EL_REFLECTED_ENUM_INTEGER_32]
+				[$source EL_REFLECTED_ENUM_NATURAL_64]
+				[$source EL_REFLECTED_ENUM_INTEGER_8]
+				[$source EL_REFLECTED_ENUM_INTEGER_64]
+				[$source EL_REFLECTED_ENUM_NATURAL_8]
+				[$source EL_REFLECTED_ENUM_NATURAL_32]
+				[$source EL_REFLECTED_ENUM_REAL_32]
+				[$source EL_REFLECTED_ENUM_REAL_64]
+			[$source EL_REFLECTED_NATURAL_16]
+				[$source EL_REFLECTED_ENUM_NATURAL_16]
+			[$source EL_REFLECTED_INTEGER_16]
+				[$source EL_REFLECTED_ENUM_INTEGER_16]
+			[$source EL_REFLECTED_INTEGER_32]
+				[$source EL_REFLECTED_ENUM_INTEGER_32]
+			[$source EL_REFLECTED_NATURAL_64]
+				[$source EL_REFLECTED_ENUM_NATURAL_64]
+			[$source EL_REFLECTED_INTEGER_8]
+				[$source EL_REFLECTED_ENUM_INTEGER_8]
+			[$source EL_REFLECTED_INTEGER_64]
+				[$source EL_REFLECTED_ENUM_INTEGER_64]
+			[$source EL_REFLECTED_NATURAL_8]
+				[$source EL_REFLECTED_ENUM_NATURAL_8]
+			[$source EL_REFLECTED_NATURAL_32]
+				[$source EL_REFLECTED_ENUM_NATURAL_32]
+			[$source EL_REFLECTED_REAL_32]
+				[$source EL_REFLECTED_ENUM_REAL_32]
+			[$source EL_REFLECTED_REAL_64]
+				[$source EL_REFLECTED_ENUM_REAL_64]
+		[$source EL_REFLECTED_BOOLEAN]
+		[$source EL_REFLECTED_POINTER]
+		[$source EL_REFLECTED_CHARACTER_8]
+		[$source EL_REFLECTED_CHARACTER_32]
+	[$source EL_REFLECTED_REFERENCE]
+		[$source EL_REFLECTED_PATH]
+		[$source EL_REFLECTED_TUPLE]
+			[$source EL_REFLECTED_STORABLE_TUPLE]
+		[$source EL_REFLECTED_MAKEABLE_FROM_STRING]*
+			[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
+			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
+			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
+		[$source EL_CACHEABLE_REFLECTED_REFERENCE]*
+			[$source EL_REFLECTED_STRING]*
+				[$source EL_REFLECTED_URI]
+				[$source EL_REFLECTED_STRING_8]
+				[$source EL_REFLECTED_STRING_32]
+				[$source EL_REFLECTED_ZSTRING]
+		[$source EL_REFLECTED_COLLECTION]
+		[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
+		[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
+		[$source EL_REFLECTED_STORABLE]
+		[$source EL_REFLECTED_DATE_TIME]
+		[$source EL_REFLECTED_DATE]
+		[$source EL_REFLECTED_TIME]
+		[$source EL_REFLECTED_STRING]* [S -> STRING_GENERAL]
+		[$source EL_REFLECTED_BOOLEAN_REF]
+````
+
 ## Runtime Operations
 Classes for the following:
 

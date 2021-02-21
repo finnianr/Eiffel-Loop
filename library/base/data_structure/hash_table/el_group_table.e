@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-27 10:29:53 GMT (Friday 27th March 2020)"
-	revision: "4"
+	date: "2021-02-19 16:47:18 GMT (Friday 19th February 2021)"
+	revision: "5"
 
 class
 	EL_GROUP_TABLE [G, K -> HASHABLE]
