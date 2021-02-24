@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:22:31 GMT (Wednesday 6th January 2021)"
-	revision: "43"
+	date: "2021-02-21 16:54:06 GMT (Sunday 21st February 2021)"
+	revision: "44"
 
 class
 	RBOX_SONG
@@ -33,8 +33,6 @@ inherit
 			relative_path as mp3_relative_path,
 			checksum as last_checksum,
 			set_id_from_uuid as set_audio_id_from_uuid
-		undefine
-			is_equal
 		end
 
 	RBOX_SONG_FIELDS

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 9:19:59 GMT (Friday 4th September 2020)"
-	revision: "11"
+	date: "2021-02-24 11:21:47 GMT (Wednesday 24th February 2021)"
+	revision: "12"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -22,17 +22,6 @@ inherit
 			is_empty as is_box_empty
 		redefine
 			on_key_end, on_key_home
-		end
-
-	EL_DATE_FORMATS
-		rename
-			short_canonical as date_short_canonical,
-			canonical as date_canonical
-		export
-			{NONE} all
-			{ANY} Date_formats
-		undefine
-			is_equal, copy, default_create
 		end
 
 	PART_COMPARATOR [G]
@@ -71,9 +60,8 @@ feature {NONE} -- Initialization
 
 			create search_words.make (0)
 			comparator := Default_comparator
-			details_indent := Default_details_indent
 			disabled_page_link := Default_disabled_page_link
-			set_default_date_format
+
 		end
 
 feature -- Access
@@ -94,6 +82,9 @@ feature -- Measurement
 
 	details_indent: INTEGER
 		-- left margin for details
+		do
+
+		end
 
 	links_per_page: INTEGER
 
@@ -105,22 +96,6 @@ feature -- Element change
 			comparator := a_comparator
 		end
 
-	set_default_date_format
-		do
-			set_date_format (Dd_mmm_yyyy)
-		end
-
-	set_date_format (a_date_format: like date_format)
-		require
-			valid_format: not a_date_format.is_empty implies Date_formats.has (a_date_format)
-		do
-			date_format := a_date_format
-		end
-
-	set_details_indent (a_details_indent: like details_indent)
-		do
-			details_indent := a_details_indent
-		end
 
 	set_font_table (a_font_table: EL_FONT_SET)
 		do
@@ -179,17 +154,17 @@ feature -- Basic operations
 	goto_page (a_page: INTEGER)
 			--
 		local
-			l_page_results: like page_results
+			page_results: like new_page_results
 		do
 			page := a_page
 			disable_automatic_scrollbar
 			wipe_out
-			l_page_results := page_results
-			across l_page_results as result_link loop
+			page_results := new_page_results
+			across page_results as result_link loop
 				extend_unexpanded (result_link.item)
 			end
 			if has_page_links then
-				extend_unexpanded (new_navigation_links_box (l_page_results.count))
+				extend_unexpanded (new_navigation_links_box (page_results.count))
 			end
 			update_scroll_bar
 			scroll_bar.set_value (0)
@@ -266,11 +241,6 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Factory
 
-	new_formatted_date (date: DATE): STRING
-		do
-			Result := Locale.date_text.formatted (date, date_format)
-		end
-
 	new_navigation_links_box (current_page_link_count: INTEGER): EL_HORIZONTAL_BOX
 			--
 		local
@@ -314,51 +284,67 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_result_detail_labels (result_item: G): EL_MIXED_STYLE_FIXED_LABELS
-			--
+	new_page_results: ARRAYED_LIST [EL_BOX]
 		local
-			word_match_extracts: like result_set.item.word_match_extracts
-			date_line: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+			result_item: G; i, l_lower, l_upper: INTEGER
 		do
-			word_match_extracts := result_item.word_match_extracts (search_words)
-			if attached {EL_DATEABLE} result_item as l_item and then not date_format.is_empty then
-				if word_match_extracts.is_empty then
-					create date_line.make (1); date_line.extend ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
-					word_match_extracts.extend (date_line)
-				else
-					word_match_extracts.first.put_front ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
-				end
+			l_lower := (page - 1) * links_per_page + 1
+			l_upper := result_set.count.min (l_lower + links_per_page - 1)
+			create Result.make (l_upper - l_lower + 1)
+			from i := l_lower until i > l_upper loop
+				result_item := result_set.i_th (i)
+				Result.extend (new_result_link_box)
+				add_navigable_heading (Result.last, result_item, i)
+				add_match_extracts (Result.last, result_item, i)
+				add_supplementary (Result.last, result_item, i)
+				i := i + 1
 			end
-			create Result.make_with_styles (word_match_extracts, details_indent, font_table, background_color)
+		end
+
+	new_result_link_box: EL_BOX
+		do
+			create {EL_VERTICAL_BOX} Result
+			Result.set_background_color (background_color)
+		end
+
+	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
+		do
+			Result := result_item.word_match_extracts (search_words)
 		end
 
 feature {NONE} -- Implementation: Routines
 
-	less_than (u, v: G): BOOLEAN
-			-- do nothing comparator
+	add_match_extracts (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+		-- add word match extract quotes for `i' th `result_item' to `result_link_box'
+		local
+			style_labels: EL_MIXED_STYLE_FIXED_LABELS
+		do
+			create style_labels.make_with_styles (
+				new_word_match_extract_lines (result_item), details_indent, font_table, background_color
+			)
+			result_link_box.extend_unexpanded (style_labels)
+		end
+
+	add_navigable_heading (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+		-- add hyperlink for `i' th `result_item' to `result_link_box'
+		local
+			result_link: EL_HYPERLINK_AREA
+		do
+			create result_link.make_with_styles (
+				result_item.text, font_table, agent call_selected_action (result_set, i, result_item), background_color
+			)
+			result_link.set_link_text_color (link_text_color)
+			result_link_box.extend_unexpanded (result_link)
+		end
+
+	add_supplementary (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+		-- add supplementary information for `i' th `result_item' to `result_link_box'
 		do
 		end
 
-	page_results: ARRAY [EL_VERTICAL_BOX]
-		local
-			result_link: EL_HYPERLINK_AREA; result_link_box: EL_VERTICAL_BOX
-			result_item: G; i, l_lower: INTEGER
+	less_than (u, v: G): BOOLEAN
+			-- do nothing comparator
 		do
-			l_lower := (page - 1) * links_per_page + 1
-			create Result.make_filled (create {EL_VERTICAL_BOX}, l_lower, result_set.count.min (l_lower + links_per_page - 1))
-			from i := l_lower until i > Result.upper loop
-				result_item := result_set.i_th (i)
-				create result_link.make_with_styles (
-					result_item.text, font_table, agent call_selected_action (result_set, i, result_item), background_color
-				)
-				result_link.set_link_text_color (link_text_color)
-				create result_link_box
-				result_link_box.set_background_color (background_color)
-				result_link_box.extend_unexpanded (result_link)
-				result_link_box.extend_unexpanded (new_result_detail_labels (result_item))
-				Result [i] := result_link_box
-				i := i + 1
-			end
 		end
 
 	styled (a_text: READABLE_STRING_GENERAL): EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
@@ -390,8 +376,6 @@ feature {NONE} -- Implementation: attributes
 
 	comparator: PART_COMPARATOR [G]
 
-	date_format: STRING
-
 	disabled_page_link: EL_HYPERLINK_AREA
 
 	page_count: INTEGER
@@ -408,11 +392,6 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := 0.5
-		end
-
-	Default_details_indent: INTEGER
-		once
-			Result := 0
 		end
 
 	Default_disabled_page_link: EL_HYPERLINK_AREA

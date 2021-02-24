@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:22:07 GMT (Monday 8th February 2021)"
-	revision: "25"
+	date: "2021-02-21 16:53:40 GMT (Sunday 21st February 2021)"
+	revision: "26"
 
 class
 	RBOX_PLAYLIST
@@ -21,8 +21,6 @@ inherit
 	MEDIA_ITEM
 		rename
 			relative_path as relative_m3u_path
-		undefine
-			is_equal, copy
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
