@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 11:21:47 GMT (Wednesday 24th February 2021)"
-	revision: "12"
+	date: "2021-02-24 11:40:33 GMT (Wednesday 24th February 2021)"
+	revision: "13"
 
 class
-	EL_SCROLLABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
+	EL_SCROLLABLE_SEARCH_RESULTS [G -> EL_HYPERLINKABLE]
 
 inherit
 	EL_SCROLLABLE_VERTICAL_BOX
@@ -58,7 +58,6 @@ feature {NONE} -- Initialization
 			links_per_page := a_links_per_page
 			link_text_color := Color.Blue
 
-			create search_words.make (0)
 			comparator := Default_comparator
 			disabled_page_link := Default_disabled_page_link
 
@@ -79,12 +78,6 @@ feature -- Access
 		-- current page of results
 
 feature -- Measurement
-
-	details_indent: INTEGER
-		-- left margin for details
-		do
-
-		end
 
 	links_per_page: INTEGER
 
@@ -142,11 +135,6 @@ feature -- Element change
 			page_count := (result_set.count / links_per_page).ceiling
 			page := 0
 			goto_page (1)
-		end
-
-	set_search_words (a_search_words: like search_words)
-		do
-			search_words := a_search_words
 		end
 
 feature -- Basic operations
@@ -286,44 +274,26 @@ feature {NONE} -- Factory
 
 	new_page_results: ARRAYED_LIST [EL_BOX]
 		local
-			result_item: G; i, l_lower, l_upper: INTEGER
+			i, l_lower, l_upper: INTEGER
 		do
 			l_lower := (page - 1) * links_per_page + 1
 			l_upper := result_set.count.min (l_lower + links_per_page - 1)
 			create Result.make (l_upper - l_lower + 1)
 			from i := l_lower until i > l_upper loop
-				result_item := result_set.i_th (i)
-				Result.extend (new_result_link_box)
-				add_navigable_heading (Result.last, result_item, i)
-				add_match_extracts (Result.last, result_item, i)
-				add_supplementary (Result.last, result_item, i)
+				Result.extend (new_result_link_box (result_set.i_th (i), i))
 				i := i + 1
 			end
 		end
 
-	new_result_link_box: EL_BOX
+	new_result_link_box (result_item: G; i: INTEGER): EL_BOX
 		do
 			create {EL_VERTICAL_BOX} Result
 			Result.set_background_color (background_color)
+			add_navigable_heading (Result, result_item, i)
+			add_supplementary (Result, result_item, i)
 		end
 
-	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
-		do
-			Result := result_item.word_match_extracts (search_words)
-		end
-
-feature {NONE} -- Implementation: Routines
-
-	add_match_extracts (result_link_box: EL_BOX; result_item: G; i: INTEGER)
-		-- add word match extract quotes for `i' th `result_item' to `result_link_box'
-		local
-			style_labels: EL_MIXED_STYLE_FIXED_LABELS
-		do
-			create style_labels.make_with_styles (
-				new_word_match_extract_lines (result_item), details_indent, font_table, background_color
-			)
-			result_link_box.extend_unexpanded (style_labels)
-		end
+feature {NONE} -- Implementation
 
 	add_navigable_heading (result_link_box: EL_BOX; result_item: G; i: INTEGER)
 		-- add hyperlink for `i' th `result_item' to `result_link_box'
@@ -384,8 +354,6 @@ feature {NONE} -- Implementation: attributes
 
 	result_set: DYNAMIC_CHAIN [G]
 
-	search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]
-
 feature {NONE} -- Constants
 
 	Default_border_cms: REAL
@@ -403,6 +371,11 @@ feature {NONE} -- Constants
 			--
 		once
 			Result := 0.5
+		end
+
+	Details_indent: INTEGER
+		-- left margin for details
+		once
 		end
 
 	Link_text_next: ZSTRING

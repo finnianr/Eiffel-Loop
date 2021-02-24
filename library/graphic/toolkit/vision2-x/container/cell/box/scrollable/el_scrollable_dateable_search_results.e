@@ -1,8 +1,8 @@
 note
 	description: "[
-		The same as class [$source EL_SCROLLABLE_SEARCH_RESULTS] except result items `G' additionally conform to
-		[$source EL_DATEABLE] and a date is displayed in the search results by prepending to search match
-		extract quotes.
+		The same as class [$source EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS] except result items `G' 
+		additionally conform to [$source EL_DATEABLE] and a date is displayed in the search results
+		by prepending to search match extract quotes.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 11:05:38 GMT (Wednesday 24th February 2021)"
-	revision: "1"
+	date: "2021-02-24 11:35:58 GMT (Wednesday 24th February 2021)"
+	revision: "2"
 
 class
 	EL_SCROLLABLE_DATEABLE_SEARCH_RESULTS [G -> {EL_HYPERLINKABLE, EL_DATEABLE, EL_WORD_SEARCHABLE}]
 
 inherit
-	EL_SCROLLABLE_SEARCH_RESULTS [G]
+	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G]
 		redefine
 			make, new_word_match_extract_lines
 		end
