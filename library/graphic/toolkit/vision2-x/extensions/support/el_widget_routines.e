@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 11:40:07 GMT (Tuesday 8th September 2020)"
-	revision: "4"
+	date: "2021-02-24 18:30:49 GMT (Wednesday 24th February 2021)"
+	revision: "5"
 
 frozen class
 	EL_WIDGET_ROUTINES

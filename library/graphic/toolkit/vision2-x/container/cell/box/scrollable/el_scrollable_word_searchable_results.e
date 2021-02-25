@@ -1,6 +1,6 @@
 note
 	description: "[
-		The same as class [$source EL_SCROLLABLE_SEARCH_RESULTS]except result items `G' 
+		The same as class [$source EL_SCROLLABLE_SEARCH_RESULTS] except result items `G' 
 		additionally conform to [$source EL_WORD_SEARCHABLE] and search results
 		display search match extract quotes.
 	]"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 11:45:11 GMT (Wednesday 24th February 2021)"
-	revision: "1"
+	date: "2021-02-24 11:48:40 GMT (Wednesday 24th February 2021)"
+	revision: "2"
 
 class
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]

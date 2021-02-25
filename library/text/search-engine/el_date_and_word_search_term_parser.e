@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-08 20:25:49 GMT (Thursday 8th November 2018)"
-	revision: "6"
+	date: "2021-02-25 14:04:03 GMT (Thursday 25th February 2021)"
+	revision: "7"
 
 class
-	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]
+	EL_DATE_AND_WORD_SEARCH_TERM_PARSER  [G -> {EL_DATEABLE, EL_WORD_SEARCHABLE}]
 
 inherit
 	EL_SEARCH_TERM_PARSER [G]
