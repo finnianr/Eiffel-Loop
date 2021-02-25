@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 11:48:40 GMT (Wednesday 24th February 2021)"
-	revision: "2"
+	date: "2021-02-25 16:42:31 GMT (Thursday 25th February 2021)"
+	revision: "3"
 
 class
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
@@ -29,9 +29,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_result_selected_action: like result_selected_action; a_links_per_page: INTEGER; a_font_table: EL_FONT_SET)
+	make (a_result_selected_action: like result_selected_action; a_style: like style)
 		do
-			Precursor (a_result_selected_action, a_links_per_page, a_font_table)
+			Precursor (a_result_selected_action, a_style)
 			create search_words.make (0)
 		end
 
@@ -62,10 +62,12 @@ feature {NONE} -- Implementation
 		local
 			style_labels: EL_MIXED_STYLE_FIXED_LABELS
 		do
-			create style_labels.make_with_styles (
-				new_word_match_extract_lines (result_item), details_indent, font_table, background_color
-			)
-			result_link_box.extend_unexpanded (style_labels)
+			if attached new_word_match_extract_lines (result_item) as match_extract and then match_extract.count > 0 then
+				create style_labels.make_with_styles (
+					match_extract, style.details_indent, style.font_table, background_color
+				)
+				result_link_box.extend_unexpanded (style_labels)
+			end
 		end
 
 	add_supplementary (result_link_box: EL_BOX; result_item: G; i: INTEGER)

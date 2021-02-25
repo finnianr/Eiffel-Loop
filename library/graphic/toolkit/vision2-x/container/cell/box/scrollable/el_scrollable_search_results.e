@@ -3,14 +3,19 @@ note
 		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'.
 		The results are displayed in pages with `links_per_page' defining the number of result hyperlinks per page.
 	]"
+	descendants: "[
+			EL_SCROLLABLE_SEARCH_RESULTS
+				[$source EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS]
+					[$source EL_SCROLLABLE_DATEABLE_WORD_SEARCHABLE_RESULTS]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-24 11:40:33 GMT (Wednesday 24th February 2021)"
-	revision: "13"
+	date: "2021-02-25 16:52:36 GMT (Thursday 25th February 2021)"
+	revision: "14"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G -> EL_HYPERLINKABLE]
@@ -33,8 +38,6 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_MODULE_COLOR
-
 	EL_MODULE_GUI
 
 	EL_MODULE_LOG
@@ -48,19 +51,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_result_selected_action: like result_selected_action; a_links_per_page: INTEGER; a_font_table: EL_FONT_SET)
+	make (a_result_selected_action: like result_selected_action; a_style: like style)
 			--
 		do
-			make_scrollable (Default_border_cms, Default_border_cms)
-			font_table := a_font_table
-
+			make_scrollable (a_style.border_cms, a_style.border_cms)
+			style := a_style
+			if attached style.background_color as color then
+				set_background_color (color)
+			end
 			result_selected_action := a_result_selected_action
-			links_per_page := a_links_per_page
-			link_text_color := Color.Blue
-
 			comparator := Default_comparator
 			disabled_page_link := Default_disabled_page_link
-
 		end
 
 feature -- Access
@@ -70,16 +71,10 @@ feature -- Access
 			Result := Current
 		end
 
-	font_table: EL_FONT_SET
-
-	link_text_color: EV_COLOR
-
 	page: INTEGER
 		-- current page of results
 
-feature -- Measurement
-
-	links_per_page: INTEGER
+	style: EL_SEARCH_RESULTS_STYLE
 
 feature -- Element change
 
@@ -87,24 +82,6 @@ feature -- Element change
 			-- set sort order
 		do
 			comparator := a_comparator
-		end
-
-
-	set_font_table (a_font_table: EL_FONT_SET)
-		do
-			font_table := a_font_table
-		end
-
-	set_link_text_color (a_link_text_color: like link_text_color)
-			--
-		do
-			link_text_color := a_link_text_color
-		end
-
-	set_links_per_page (a_links_per_page: INTEGER)
-			--
-		do
-			links_per_page := a_links_per_page
 		end
 
 	set_result_set (a_result_set: like result_set)
@@ -132,7 +109,7 @@ feature -- Element change
 					quick.sort (result_set)
 				end
 			end
-			page_count := (result_set.count / links_per_page).ceiling
+			page_count := (result_set.count / style.links_per_page).ceiling
 			page := 0
 			goto_page (1)
 		end
@@ -178,7 +155,7 @@ feature -- Status query
 
 	has_page_links: BOOLEAN
 		do
-			Result := result_set.count > links_per_page
+			Result := result_set.count > style.links_per_page
 		end
 
 	is_empty: BOOLEAN
@@ -242,16 +219,16 @@ feature {NONE} -- Factory
 
 			if page > 1 then
 				create previous_page_link.make_with_styles (
-					styled (Link_text_previous), font_table, agent goto_previous_page, background_color
+					styled (Link_text_previous), style.font_table, agent goto_previous_page, background_color
 				)
-				previous_page_link.set_link_text_color (link_text_color)
+				previous_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (previous_page_link)
 			end
 
-			if result_set.count > links_per_page then
+			if result_set.count > style.links_per_page then
 				from i := l_lower until i > upper loop
-					create page_link.make_with_styles (styled (i.out), font_table, agent goto_page (i), background_color)
-					page_link.set_link_text_color (link_text_color)
+					create page_link.make_with_styles (styled (i.out), style.font_table, agent goto_page (i), background_color)
+					page_link.set_link_text_color (style.link_text_color)
 					Result.extend_unexpanded (page_link)
 					if i = page then
 						page_link.disable
@@ -265,9 +242,9 @@ feature {NONE} -- Factory
 
 			if page < page_count then
 				create next_page_link.make_with_styles (
-					styled (Link_text_next), font_table, agent goto_next_page, background_color
+					styled (Link_text_next), style.font_table, agent goto_next_page, background_color
 				)
-				next_page_link.set_link_text_color (link_text_color)
+				next_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (next_page_link)
 			end
 		end
@@ -276,8 +253,8 @@ feature {NONE} -- Factory
 		local
 			i, l_lower, l_upper: INTEGER
 		do
-			l_lower := (page - 1) * links_per_page + 1
-			l_upper := result_set.count.min (l_lower + links_per_page - 1)
+			l_lower := (page - 1) * style.links_per_page + 1
+			l_upper := result_set.count.min (l_lower + style.links_per_page - 1)
 			create Result.make (l_upper - l_lower + 1)
 			from i := l_lower until i > l_upper loop
 				Result.extend (new_result_link_box (result_set.i_th (i), i))
@@ -301,9 +278,9 @@ feature {NONE} -- Implementation
 			result_link: EL_HYPERLINK_AREA
 		do
 			create result_link.make_with_styles (
-				result_item.text, font_table, agent call_selected_action (result_set, i, result_item), background_color
+				result_item.text, style.font_table, agent call_selected_action (result_set, i, result_item), background_color
 			)
-			result_link.set_link_text_color (link_text_color)
+			result_link.set_link_text_color (style.link_text_color)
 			result_link_box.extend_unexpanded (result_link)
 		end
 
@@ -356,26 +333,9 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
-	Default_border_cms: REAL
-			--
-		once
-			Result := 0.5
-		end
-
 	Default_disabled_page_link: EL_HYPERLINK_AREA
 		once
 			create Result.make_default
-		end
-
-	Default_padding_cms: REAL
-			--
-		once
-			Result := 0.5
-		end
-
-	Details_indent: INTEGER
-		-- left margin for details
-		once
 		end
 
 	Link_text_next: ZSTRING
