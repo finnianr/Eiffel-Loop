@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 16:42:31 GMT (Thursday 25th February 2021)"
-	revision: "3"
+	date: "2021-02-26 13:24:47 GMT (Friday 26th February 2021)"
+	revision: "4"
 
 class
-	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
+	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
 
 inherit
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -50,7 +50,7 @@ feature {NONE} -- Factory
 			add_supplementary (Result, result_item, i)
 		end
 
-	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
+	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
 		do
 			Result := result_item.word_match_extracts (search_words)
 		end

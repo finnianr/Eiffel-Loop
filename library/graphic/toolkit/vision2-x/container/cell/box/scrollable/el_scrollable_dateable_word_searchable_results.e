@@ -9,7 +9,7 @@ note
 		
 		Defining this class using this construct
 			
-			EL_SCROLLABLE_DATEABLE_SEARCHABLE_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE, EL_DATEABLE}]
+			EL_SCROLLABLE_DATEABLE_SEARCHABLE_RESULTS [G -> {EL_WORD_SEARCHABLE, EL_DATEABLE}]
 			
 		causes the compiler to crash while generating the C code for this class. Used casting as a workaround.
 	]"
@@ -19,11 +19,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 16:56:45 GMT (Thursday 25th February 2021)"
-	revision: "4"
+	date: "2021-02-26 14:07:56 GMT (Friday 26th February 2021)"
+	revision: "5"
 
 class
-	EL_SCROLLABLE_DATEABLE_WORD_SEARCHABLE_RESULTS [G -> {EL_HYPERLINKABLE, EL_WORD_SEARCHABLE}]
+	EL_SCROLLABLE_DATEABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
 
 inherit
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G]
@@ -41,9 +41,9 @@ feature {NONE} -- Implementation
 			Result := Locale.date_text.formatted (date, style.date_format)
 		end
 
-	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
+	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
 		local
-			date_line: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+			date_line: EL_STYLED_STRING_8_LIST
 		do
 			Result := result_item.word_match_extracts (search_words)
 			if attached {EL_DATEABLE} result_item as l_item then

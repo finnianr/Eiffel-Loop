@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 12:57:39 GMT (Saturday 13th February 2021)"
-	revision: "15"
+	date: "2021-02-26 14:29:15 GMT (Friday 26th February 2021)"
+	revision: "16"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -85,13 +85,13 @@ feature -- Access
 
 feature {EL_WORD_SEARCHABLE} -- Implementation
 
-	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+	keywords_in_bold (keyword_tokens, searchable_tokens: EL_WORD_TOKEN_LIST): EL_STYLED_TEXT_LIST [STRING_GENERAL]
 			--
 		local
 			pos_match, start_index, end_index: INTEGER
 			token_list: EL_WORD_TOKEN_LIST
 		do
-			create Result.make (3)
+			create {EL_STYLED_ZSTRING_LIST} Result.make (3) -- Prevent catcall by leaving Result as general string
 			pos_match := searchable_tokens.substring_index (keyword_tokens, 1)
 			start_index := (pos_match - Keyword_quote_leeway).max (1)
 			end_index := (pos_match + keyword_tokens.count - 1 + Keyword_quote_leeway).min (searchable_tokens.count)
@@ -145,10 +145,10 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Ellipsis: STRING
+	Ellipsis: ZSTRING
 			--
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_ZSTRING_ROUTINES
 		once
 			Result := s.n_character_string ('.', 2)
 		end

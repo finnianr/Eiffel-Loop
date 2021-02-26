@@ -1,19 +1,19 @@
 note
-	description: "[$source ZSTRING] implementation of [$source EL_STYLED_TEXT_LIST]"
+	description: "`STRING_8' implementation of [$source EL_STYLED_TEXT_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:03:22 GMT (Friday 26th February 2021)"
-	revision: "3"
+	date: "2021-02-26 13:09:02 GMT (Friday 26th February 2021)"
+	revision: "1"
 
 class
-	EL_STYLED_ZSTRING_LIST
+	EL_STYLED_STRING_8_LIST
 
 inherit
-	EL_STYLED_TEXT_LIST [ZSTRING]
+	EL_STYLED_TEXT_LIST [STRING_8]
 		redefine
 			ellipsis
 		end
@@ -22,27 +22,25 @@ create
 	make, make_filled, make_from_list, make_empty, make_from_array, make_regular
 
 convert
-	make_regular ({ZSTRING, STRING_32, STRING_8})
+	make_regular ({STRING_8})
 
 feature {NONE} -- Implementation
 
-	n_character_string (c: CHARACTER; n: INTEGER): ZSTRING
+	n_character_string (c: CHARACTER; n: INTEGER): STRING_8
 		local
-			s: EL_ZSTRING_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
 			Result := s.n_character_string (c, 2)
 		end
 
-	new_text (text: READABLE_STRING_GENERAL): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
+	new_text (text: READABLE_STRING_GENERAL): STRING_8
 		do
-			Result := s.as_zstring (text)
+			Result := text.as_string_8
 		end
 
 feature -- Constants
 
-	Ellipsis: ZSTRING
+	Ellipsis: STRING_8
 		once
 			Result := n_character_string ('.', 2)
 		end

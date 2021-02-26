@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 10:08:46 GMT (Friday 29th January 2021)"
-	revision: "105"
+	date: "2021-02-26 13:06:22 GMT (Friday 26th February 2021)"
+	revision: "106"
 
 class
 	BASE_AUTOTEST_APP
@@ -60,6 +60,9 @@ feature {NONE} -- Implementation
 	compile: TUPLE [
 		EL_STRING_8_UNESCAPER,
 		EL_STRING_32_TEMPLATE, EL_LINKED_STRING_LIST [STRING_GENERAL],
+
+		EL_STYLED_STRING_8_LIST, EL_STYLED_STRING_32_LIST, EL_STYLED_ZSTRING_LIST,
+
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],

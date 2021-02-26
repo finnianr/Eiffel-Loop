@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 14:03:02 GMT (Friday 4th September 2020)"
-	revision: "5"
+	date: "2021-02-26 12:08:50 GMT (Friday 26th February 2021)"
+	revision: "6"
 
 class
 	EL_MIXED_STYLE_FIXED_LABELS
@@ -69,7 +69,7 @@ feature -- Access
 
 	left_margin: INTEGER
 
-	styled_text_lines: ITERABLE [EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]]
+	styled_text_lines: ITERABLE [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
 
 feature -- Element change
 

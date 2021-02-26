@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-04 14:04:11 GMT (Friday 4th September 2020)"
-	revision: "7"
+	date: "2021-02-26 12:08:09 GMT (Friday 26th February 2021)"
+	revision: "8"
 
 deferred class
 	EL_STYLED_TEXT_LIST_DRAWABLE
@@ -21,7 +21,7 @@ deferred class
 feature {NONE} -- Implementation
 
 	draw_styled_text_list_top_left (
-		x, y: INTEGER; font_set: EL_FONT_SET; text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+		x, y: INTEGER; font_set: EL_FONT_SET; text_list: EL_STYLED_TEXT_LIST [STRING_GENERAL]
 	)
 		local
 			l_x, l_space_width: INTEGER

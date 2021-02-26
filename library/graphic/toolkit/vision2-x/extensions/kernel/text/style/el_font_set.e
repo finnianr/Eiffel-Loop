@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:20:44 GMT (Friday 8th January 2021)"
-	revision: "2"
+	date: "2021-02-26 12:09:18 GMT (Friday 26th February 2021)"
+	revision: "3"
 
 class
 	EL_FONT_SET
@@ -77,14 +77,14 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	item_string_width (text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]): INTEGER
+	item_string_width (text_list: EL_STYLED_TEXT_LIST [STRING_GENERAL]): INTEGER
 		do
 			if not text_list.off then
 				Result := GUI.string_width (text_list.item_text, font (text_list.item_style))
 			end
 		end
 
-	leading_spaces_width (text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]): INTEGER
+	leading_spaces_width (text_list: EL_STYLED_TEXT_LIST [STRING_GENERAL]): INTEGER
 			-- width of leading spaces in `text_list.first_text'
 		local
 			i: INTEGER; string: READABLE_STRING_GENERAL; s: EL_STRING_8_ROUTINES
@@ -100,7 +100,7 @@ feature -- Measurement
 
 	line_height: INTEGER
 
-	mixed_style_width (text_list: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]): INTEGER
+	mixed_style_width (text_list: EL_STYLED_TEXT_LIST [STRING_GENERAL]): INTEGER
 		local
 			l_space_width: INTEGER
 		do

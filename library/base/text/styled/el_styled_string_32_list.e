@@ -1,19 +1,19 @@
 note
-	description: "[$source ZSTRING] implementation of [$source EL_STYLED_TEXT_LIST]"
+	description: "`STRING_32' implementation of [$source EL_STYLED_TEXT_LIST]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:03:22 GMT (Friday 26th February 2021)"
-	revision: "3"
+	date: "2021-02-26 13:08:58 GMT (Friday 26th February 2021)"
+	revision: "1"
 
 class
-	EL_STYLED_ZSTRING_LIST
+	EL_STYLED_STRING_32_LIST
 
 inherit
-	EL_STYLED_TEXT_LIST [ZSTRING]
+	EL_STYLED_TEXT_LIST [STRING_32]
 		redefine
 			ellipsis
 		end
@@ -26,23 +26,21 @@ convert
 
 feature {NONE} -- Implementation
 
-	n_character_string (c: CHARACTER; n: INTEGER): ZSTRING
+	n_character_string (c: CHARACTER; n: INTEGER): STRING_32
 		local
-			s: EL_ZSTRING_ROUTINES
+			s: EL_STRING_32_ROUTINES
 		do
 			Result := s.n_character_string (c, 2)
 		end
 
-	new_text (text: READABLE_STRING_GENERAL): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
+	new_text (text: READABLE_STRING_GENERAL): STRING_32
 		do
-			Result := s.as_zstring (text)
+			Result := text.as_string_32
 		end
 
 feature -- Constants
 
-	Ellipsis: ZSTRING
+	Ellipsis: STRING_32
 		once
 			Result := n_character_string ('.', 2)
 		end

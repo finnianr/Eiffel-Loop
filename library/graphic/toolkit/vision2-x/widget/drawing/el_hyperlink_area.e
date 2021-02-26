@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 10:18:34 GMT (Tuesday 8th September 2020)"
-	revision: "14"
+	date: "2021-02-26 12:47:16 GMT (Friday 26th February 2021)"
+	revision: "15"
 
 class
 	EL_HYPERLINK_AREA
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make (a_text: READABLE_STRING_GENERAL; a_action: PROCEDURE; a_font: EV_FONT; a_background_color: EV_COLOR)
 		do
-			create styled_text.make_regular (a_text)
+			create {EL_STYLED_ZSTRING_LIST} styled_text.make_regular (a_text)
 			make_with_styles (styled_text, Font_set_cache.font_set (a_font), a_action, a_background_color)
 		end
 
@@ -86,7 +86,7 @@ feature -- Access
 
 	link_text_color: EV_COLOR
 
-	styled_text: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+	styled_text: EL_STYLED_TEXT_LIST [STRING_GENERAL]
 
 feature -- Element change
 

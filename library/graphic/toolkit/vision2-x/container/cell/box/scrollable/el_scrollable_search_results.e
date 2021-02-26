@@ -1,7 +1,19 @@
 note
 	description: "[
-		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'.
-		The results are displayed in pages with `links_per_page' defining the number of result hyperlinks per page.
+		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'
+	]"
+	notes: "[
+		The function `new_styled_description' creates a hyperlink description for navigating to the `i_th'
+		element of the `result_set' by attempting to make the following casts of type `G' in the order given:
+		
+		1. Cast to type [$source EL_DESCRIBEABLE]
+		2. Cast to type [$source EL_STYLED_TEXT_LIST]
+		3. Cast to type `READABLE_STRING_GENERAL'
+		4. Cast to type `DEBUG_OUTPUT'
+		4. Default to using `{ANY}.out' as description
+		
+		The `style' attribute [$source EL_SEARCH_RESULTS_STYLE] defines both the visual appearance 
+		for fonts and colors, as well as the number of links per page. 
 	]"
 	descendants: "[
 			EL_SCROLLABLE_SEARCH_RESULTS
@@ -14,11 +26,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 16:52:36 GMT (Thursday 25th February 2021)"
-	revision: "14"
+	date: "2021-02-26 13:56:01 GMT (Friday 26th February 2021)"
+	revision: "15"
 
 class
-	EL_SCROLLABLE_SEARCH_RESULTS [G -> EL_HYPERLINKABLE]
+	EL_SCROLLABLE_SEARCH_RESULTS [G]
 
 inherit
 	EL_SCROLLABLE_VERTICAL_BOX
@@ -219,7 +231,7 @@ feature {NONE} -- Factory
 
 			if page > 1 then
 				create previous_page_link.make_with_styles (
-					styled (Link_text_previous), style.font_table, agent goto_previous_page, background_color
+					new_styled (Link_text_previous), style.font_table, agent goto_previous_page, background_color
 				)
 				previous_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (previous_page_link)
@@ -227,7 +239,7 @@ feature {NONE} -- Factory
 
 			if result_set.count > style.links_per_page then
 				from i := l_lower until i > upper loop
-					create page_link.make_with_styles (styled (i.out), style.font_table, agent goto_page (i), background_color)
+					create page_link.make_with_styles (new_styled (i.out), style.font_table, agent goto_page (i), background_color)
 					page_link.set_link_text_color (style.link_text_color)
 					Result.extend_unexpanded (page_link)
 					if i = page then
@@ -242,7 +254,7 @@ feature {NONE} -- Factory
 
 			if page < page_count then
 				create next_page_link.make_with_styles (
-					styled (Link_text_next), style.font_table, agent goto_next_page, background_color
+					new_styled (Link_text_next), style.font_table, agent goto_next_page, background_color
 				)
 				next_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (next_page_link)
@@ -270,6 +282,30 @@ feature {NONE} -- Factory
 			add_supplementary (Result, result_item, i)
 		end
 
+	new_styled (a_text: READABLE_STRING_GENERAL): EL_STYLED_ZSTRING_LIST
+		do
+			create Result.make_regular (a_text)
+		end
+
+	new_styled_description (result_item: G): EL_STYLED_TEXT_LIST [STRING_GENERAL]
+		do
+			if attached {EL_DESCRIBEABLE} result_item as l_item then
+				Result := l_item.text
+
+			elseif attached {EL_STYLED_TEXT_LIST [STRING_GENERAL]} result_item as styled then
+				Result := styled
+
+			elseif attached {READABLE_STRING_GENERAL} result_item as string then
+				Result := new_styled (string)
+
+			elseif attached {DEBUG_OUTPUT} result_item as l_item then
+				create {EL_STYLED_ZSTRING_LIST} Result.make_regular (l_item.debug_output)
+
+			else
+				create {EL_STYLED_STRING_8_LIST} Result.make_regular (result_item.out)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	add_navigable_heading (result_link_box: EL_BOX; result_item: G; i: INTEGER)
@@ -278,7 +314,8 @@ feature {NONE} -- Implementation
 			result_link: EL_HYPERLINK_AREA
 		do
 			create result_link.make_with_styles (
-				result_item.text, style.font_table, agent call_selected_action (result_set, i, result_item), background_color
+				new_styled_description (result_item), style.font_table,
+				agent call_selected_action (result_set, i, result_item), background_color
 			)
 			result_link.set_link_text_color (style.link_text_color)
 			result_link_box.extend_unexpanded (result_link)
@@ -292,11 +329,6 @@ feature {NONE} -- Implementation
 	less_than (u, v: G): BOOLEAN
 			-- do nothing comparator
 		do
-		end
-
-	styled (a_text: READABLE_STRING_GENERAL): EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
-		do
-			create Result.make_regular (a_text)
 		end
 
 feature {NONE} -- Hyperlink actions

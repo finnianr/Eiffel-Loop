@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-05 9:27:11 GMT (Saturday 5th September 2020)"
-	revision: "9"
+	date: "2021-02-26 12:09:32 GMT (Friday 26th February 2021)"
+	revision: "10"
 
 class
 	EL_MIXED_FONT_LABEL_AREA
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	styled_text: EL_STYLED_TEXT_LIST [READABLE_STRING_GENERAL]
+	styled_text: EL_STYLED_TEXT_LIST [STRING_GENERAL]
 
 feature {NONE} -- Implementation
 
