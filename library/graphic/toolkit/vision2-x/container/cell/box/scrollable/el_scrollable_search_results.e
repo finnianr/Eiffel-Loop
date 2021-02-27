@@ -2,32 +2,19 @@ note
 	description: "[
 		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'
 	]"
-	notes: "[
-		The function `new_styled_description' creates a hyperlink description for navigating to the `i_th'
-		element of the `result_set' by attempting to make the following casts of type `G' in the order given:
-		
-		1. Cast to type [$source EL_DESCRIBEABLE]
-		2. Cast to type [$source EL_STYLED_TEXT_LIST]
-		3. Cast to type `READABLE_STRING_GENERAL'
-		4. Cast to type `DEBUG_OUTPUT'
-		4. Default to using `{ANY}.out' as description
-		
-		The `style' attribute [$source EL_SEARCH_RESULTS_STYLE] defines both the visual appearance 
-		for fonts and colors, as well as the number of links per page. 
-	]"
 	descendants: "[
 			EL_SCROLLABLE_SEARCH_RESULTS
 				[$source EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS]
-					[$source EL_SCROLLABLE_DATEABLE_WORD_SEARCHABLE_RESULTS]
 	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:56:01 GMT (Friday 26th February 2021)"
-	revision: "15"
+	date: "2021-02-27 13:29:36 GMT (Saturday 27th February 2021)"
+	revision: "16"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -63,15 +50,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_result_selected_action: like result_selected_action; a_style: like style)
-			--
+	make (a_select_result: like select_result; a_style: like style)
+		-- make with style and action `a_select_result' when user clicks on hyperlink
 		do
 			make_scrollable (a_style.border_cms, a_style.border_cms)
 			style := a_style
 			if attached style.background_color as color then
 				set_background_color (color)
 			end
-			result_selected_action := a_result_selected_action
+			select_result := a_select_result
+			make_default
+		end
+
+	make_default
+		do
 			comparator := Default_comparator
 			disabled_page_link := Default_disabled_page_link
 		end
@@ -261,6 +253,23 @@ feature {NONE} -- Factory
 			end
 		end
 
+	new_detail_lines (result_item: G): ARRAYED_LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
+		local
+			date_line: EL_STYLED_ZSTRING_LIST
+		do
+			create Result.make (1)
+			if attached {EL_DATEABLE} result_item as l_item and then style.is_date_shown then
+				create date_line.make (1)
+				date_line.extend ({EL_TEXT_STYLE}.Regular, new_formatted_date (l_item.date))
+				Result.extend (date_line)
+			end
+		end
+
+	new_formatted_date (date: DATE): STRING
+		do
+			Result := Locale.date_text.formatted (date, style.date_format)
+		end
+
 	new_page_results: ARRAYED_LIST [EL_BOX]
 		local
 			i, l_lower, l_upper: INTEGER
@@ -279,6 +288,7 @@ feature {NONE} -- Factory
 			create {EL_VERTICAL_BOX} Result
 			Result.set_background_color (background_color)
 			add_navigable_heading (Result, result_item, i)
+			add_details (Result, result_item, i)
 			add_supplementary (Result, result_item, i)
 		end
 
@@ -299,7 +309,7 @@ feature {NONE} -- Factory
 				Result := new_styled (string)
 
 			elseif attached {DEBUG_OUTPUT} result_item as l_item then
-				create {EL_STYLED_ZSTRING_LIST} Result.make_regular (l_item.debug_output)
+				create {EL_STYLED_STRING_32_LIST} Result.make_regular (l_item.debug_output)
 
 			else
 				create {EL_STYLED_STRING_8_LIST} Result.make_regular (result_item.out)
@@ -308,6 +318,18 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
+	add_details (result_link_box: EL_BOX; result_item: G; i: INTEGER)
+		-- add details for `i' th `result_item' to `result_link_box'
+		local
+			style_labels: EL_MIXED_STYLE_FIXED_LABELS; detail_lines: like new_detail_lines
+		do
+			detail_lines := new_detail_lines (result_item)
+			if detail_lines.count > 0 then
+				create style_labels.make_with_styles (detail_lines, style.details_indent, style.font_table, background_color)
+				result_link_box.extend_unexpanded (style_labels)
+			end
+		end
+
 	add_navigable_heading (result_link_box: EL_BOX; result_item: G; i: INTEGER)
 		-- add hyperlink for `i' th `result_item' to `result_link_box'
 		local
@@ -315,14 +337,14 @@ feature {NONE} -- Implementation
 		do
 			create result_link.make_with_styles (
 				new_styled_description (result_item), style.font_table,
-				agent call_selected_action (result_set, i, result_item), background_color
+				agent call_select_result (result_set, i, result_item), background_color
 			)
 			result_link.set_link_text_color (style.link_text_color)
 			result_link_box.extend_unexpanded (result_link)
 		end
 
 	add_supplementary (result_link_box: EL_BOX; result_item: G; i: INTEGER)
-		-- add supplementary information for `i' th `result_item' to `result_link_box'
+		-- add supplementary details for `i' th `result_item' to `result_link_box'
 		do
 		end
 
@@ -333,10 +355,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Hyperlink actions
 
-	call_selected_action (a_result_set: DYNAMIC_CHAIN [G]; a_index: INTEGER; result_item: G)
+	call_select_result (a_result_set: DYNAMIC_CHAIN [G]; a_index: INTEGER; result_item: G)
 			--
 		do
-			result_selected_action.call ([a_result_set, a_index, result_item])
+			select_result (a_result_set, a_index, result_item)
 		end
 
 	goto_next_page
@@ -359,7 +381,7 @@ feature {NONE} -- Implementation: attributes
 
 	page_count: INTEGER
 
-	result_selected_action: PROCEDURE [CHAIN [G], INTEGER, G]
+	select_result: PROCEDURE [CHAIN [G], INTEGER, G]
 
 	result_set: DYNAMIC_CHAIN [G]
 
@@ -379,5 +401,26 @@ feature {NONE} -- Constants
 		once
 			Result := Locale * "Previous"
 		end
+
+note
+	notes: "[
+		The function `new_styled_description' creates a hyperlink description for navigating to the `i_th'
+		element of the `result_set' by attempting to make the following casts of type `G' in the order given:
+
+		1. Cast to type [$source EL_DESCRIBEABLE]
+		2. Cast to type [$source EL_STYLED_TEXT_LIST]
+		3. Cast to type `READABLE_STRING_GENERAL'
+		4. Cast to type `DEBUG_OUTPUT'
+		4. Default to using `{ANY}.out' as description
+
+		If `G' conforms to `EL_DATEABLE' then a date is displayed below the navigable heading in a "result details"
+		section. See routine `new_detail_lines'.
+
+		The `style' attribute [$source EL_SEARCH_RESULTS_STYLE] defines the following properties:
+
+		1. Visual appearance for fonts and colors
+		2. The number of links per page
+		3. Whether the date is displayed
+	]"
 
 end

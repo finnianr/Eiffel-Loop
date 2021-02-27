@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 16:51:12 GMT (Thursday 25th February 2021)"
-	revision: "1"
+	date: "2021-02-27 12:02:09 GMT (Saturday 27th February 2021)"
+	revision: "2"
 
 class
 	EL_SEARCH_RESULTS_STYLE
@@ -45,13 +45,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	background_color: detachable EV_COLOR
+
 	date_format: STRING
 
 	font_table: EL_FONT_SET
 
 	link_text_color: EV_COLOR
-
-	background_color: detachable EV_COLOR
 
 feature -- Measurement
 
@@ -61,6 +61,20 @@ feature -- Measurement
 		-- left margin for search result details
 
 	links_per_page: INTEGER
+
+feature -- Status query
+
+	is_date_shown: BOOLEAN
+		do
+			Result := not date_format.is_empty
+		end
+
+feature -- Status change
+
+	hide_date
+		do
+			create date_format.make_empty
+		end
 
 feature -- Element change
 
@@ -81,16 +95,16 @@ feature -- Element change
 			font_table := a_font_table
 		end
 
-	set_links_per_page (a_links_per_page: INTEGER)
-			--
-		do
-			links_per_page := a_links_per_page
-		end
-
 	set_link_text_color (a_link_text_color: like link_text_color)
 			--
 		do
 			link_text_color := a_link_text_color
+		end
+
+	set_links_per_page (a_links_per_page: INTEGER)
+			--
+		do
+			links_per_page := a_links_per_page
 		end
 
 end

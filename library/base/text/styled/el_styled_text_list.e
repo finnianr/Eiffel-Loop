@@ -13,7 +13,8 @@ note
 				Monospaced_bold: INTEGER = 4
 
 		When rendered the strings are usually joined together first separated by a space character.
-		It is up to the rendering class what font to use for the text style.
+		It is up to the rendering class what font to use for the text style. See
+		[$source EL_HYPERLINK_AREA] for example.
 	]"
 
 	author: "Finnian Reilly"
@@ -21,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:50:59 GMT (Friday 26th February 2021)"
-	revision: "3"
+	date: "2021-02-26 14:35:10 GMT (Friday 26th February 2021)"
+	revision: "4"
 
 deferred class
 	EL_STYLED_TEXT_LIST [S -> STRING_GENERAL]

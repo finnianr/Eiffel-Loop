@@ -10,18 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:24:47 GMT (Friday 26th February 2021)"
-	revision: "4"
+	date: "2021-02-27 13:26:52 GMT (Saturday 27th February 2021)"
+	revision: "5"
 
 class
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
 
 inherit
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
-		rename
-			add_supplementary as add_match_extracts
 		redefine
-			add_match_extracts, make, new_result_link_box
+			make_default, new_detail_lines
 		end
 
 create
@@ -29,9 +27,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_result_selected_action: like result_selected_action; a_style: like style)
+	make_default
 		do
-			Precursor (a_result_selected_action, a_style)
+			Precursor
 			create search_words.make (0)
 		end
 
@@ -44,35 +42,30 @@ feature -- Element change
 
 feature {NONE} -- Factory
 
-	new_result_link_box (result_item: G; i: INTEGER): EL_BOX
-		do
-			Result := Precursor (result_item, i)
-			add_supplementary (Result, result_item, i)
-		end
-
-	new_word_match_extract_lines (result_item: G): LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
-		do
-			Result := result_item.word_match_extracts (search_words)
-		end
-
-feature {NONE} -- Implementation
-
-	add_match_extracts (result_link_box: EL_BOX; result_item: G; i: INTEGER)
-		-- add word match extract quotes for `i' th `result_item' to `result_link_box'
+	new_detail_lines (result_item: G): ARRAYED_LIST [EL_STYLED_TEXT_LIST [STRING_GENERAL]]
 		local
-			style_labels: EL_MIXED_STYLE_FIXED_LABELS
+			date_line: EL_STYLED_TEXT_LIST [STRING_GENERAL]
 		do
-			if attached new_word_match_extract_lines (result_item) as match_extract and then match_extract.count > 0 then
-				create style_labels.make_with_styles (
-					match_extract, style.details_indent, style.font_table, background_color
-				)
-				result_link_box.extend_unexpanded (style_labels)
-			end
-		end
+			Result := Precursor (result_item)
+			if Result.is_empty then -- No date present
+				Result := result_item.word_match_extracts (search_words)
 
-	add_supplementary (result_link_box: EL_BOX; result_item: G; i: INTEGER)
-		-- add supplementary information for `i' th `result_item' to `result_link_box'
-		do
+			elseif Result.count = 1 then -- has date
+				across result_item.word_match_extracts (search_words) as line loop
+					if line.cursor_index = 1 then
+						-- append first line of match extracts to date
+						date_line := line.item
+						from date_line.start until date_line.after loop
+							Result.first.extend (date_line.item_style, date_line.item_text)
+							date_line.forth
+						end
+					else
+						Result.extend (line.item)
+					end
+				end
+			else
+				Result.append (result_item.word_match_extracts (search_words))
+			end
 		end
 
 feature {NONE} -- Implementation: attributes
