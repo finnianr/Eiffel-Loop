@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:38:02 GMT (Monday 5th August 2019)"
-	revision: "8"
+	date: "2021-02-27 18:41:02 GMT (Saturday 27th February 2021)"
+	revision: "9"
 
 class
 	MARKDOWN_RENDERER
 
 inherit
 	ANY
-	
+
 	EL_MODULE_XML
 
 	EL_ZSTRING_CONSTANTS
@@ -32,7 +32,7 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_expanded_link (path, text: ZSTRING): ZSTRING
+	new_expanded_link (path, text: ZSTRING; is_source_link: BOOLEAN): ZSTRING
 		do
 			Result := A_href_template #$ [path, text]
 		end
@@ -45,6 +45,11 @@ feature {NONE} -- Factory
 	new_hyperlink_substitution (delimiter_start: STRING): MARKUP_SUBSTITUTION
 		do
 			create Result.make_hyperlink (delimiter_start)
+		end
+
+	new_source_substitution: MARKUP_SUBSTITUTION
+		do
+			create Result.make_source_hyperlink
 		end
 
 feature {NONE} -- Constants

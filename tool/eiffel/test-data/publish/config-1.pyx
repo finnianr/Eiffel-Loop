@@ -31,9 +31,9 @@ publish-repository:
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
 
-		# Library (Text)
+		# Library (Persistence)
 		ecf:
-			"library/i18n.ecf"
+			"library/Eco-DB.ecf"
 		# Library Graphics
 		ecf:
 			"library/html-viewer.ecf"

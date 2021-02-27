@@ -3,7 +3,7 @@ note
 		Object for managing a list of event listeners. It can all be used to make a one-many event
 		listener, as the list itself conforms to [$source EL_EVENT_LISTENER].
 		
-		Due to limitations of Eiffel ARRAY manifest conformance checking, the automatic conversion
+		Due to limitations of Eiffel `ARRAY' manifest conformance checking, the automatic conversion
 		is not useable as intended with compiler version 16.05, but perhaps in a future version
 		it will be useable.
 	]"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 16:21:07 GMT (Saturday 11th January 2020)"
-	revision: "3"
+	date: "2021-02-27 16:23:02 GMT (Saturday 27th February 2021)"
+	revision: "4"
 
 class
 	EL_EVENT_LISTENER_LIST

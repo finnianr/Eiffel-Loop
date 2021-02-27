@@ -1,8 +1,10 @@
 note
 	description: "[
-		Provides the following features when used in conjunction with the classes [$source ECD_CHAIN] or
-		[$source ECD_RECOVERABLE_CHAIN] from the
-		[./library/Eco-DB.html Eco-DB library]:
+		Provides the features below when used in conjunction with either of these 2 classes from the
+		 [./library/Eco-DB.html Eco-DB library]:
+		
+			1. [$source ECD_CHAIN [EL_STORABLE]]
+			2. [$source ECD_RECOVERABLE_CHAIN [EL_STORABLE]] 
 		
 		* An Eiffel orientated data query language via the features of [$source EL_CHAIN] and [$source EL_QUERYABLE_CHAIN].
 		The class [$source EL_QUERYABLE_ARRAYED_LIST] has links to some examples in the
@@ -19,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-27 10:38:34 GMT (Monday 27th January 2020)"
-	revision: "8"
+	date: "2021-02-27 19:35:40 GMT (Saturday 27th February 2021)"
+	revision: "9"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

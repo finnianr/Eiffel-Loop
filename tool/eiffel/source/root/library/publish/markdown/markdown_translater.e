@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:01:15 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2021-02-27 18:26:00 GMT (Saturday 27th February 2021)"
+	revision: "7"
 
 class
 	MARKDOWN_TRANSLATER
@@ -152,7 +152,7 @@ feature {NONE} -- Implementation
 					when '.' then
 						link_address.replace_substring (repository_web_address, 1, 1)
 					when '$' then
-						if Class_source_table.has_key (class_name (link_text)) then
+						if Class_source_table.has_class (link_text) then
 							link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
 						end
 				else end

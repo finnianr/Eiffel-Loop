@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 13:29:36 GMT (Saturday 27th February 2021)"
-	revision: "16"
+	date: "2021-02-27 15:49:48 GMT (Saturday 27th February 2021)"
+	revision: "17"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -298,12 +298,16 @@ feature {NONE} -- Factory
 		end
 
 	new_styled_description (result_item: G): EL_STYLED_TEXT_LIST [STRING_GENERAL]
+		-- hyperlink description of result item
 		do
 			if attached {EL_DESCRIBEABLE} result_item as l_item then
 				Result := l_item.text
 
 			elseif attached {EL_STYLED_TEXT_LIST [STRING_GENERAL]} result_item as styled then
 				Result := styled
+
+			elseif attached {EL_NAMEABLE [READABLE_STRING_GENERAL]} result_item as l_item then
+				create {EL_STYLED_ZSTRING_LIST} Result.make_regular (l_item.name)
 
 			elseif attached {READABLE_STRING_GENERAL} result_item as string then
 				Result := new_styled (string)
@@ -409,6 +413,7 @@ note
 
 		1. Cast to type [$source EL_DESCRIBEABLE]
 		2. Cast to type [$source EL_STYLED_TEXT_LIST]
+		3. Cast to type [$source EL_NAMEABLE] `[READABLE_STRING_GENERAL]'
 		3. Cast to type `READABLE_STRING_GENERAL'
 		4. Cast to type `DEBUG_OUTPUT'
 		4. Default to using `{ANY}.out' as description

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 12:39:38 GMT (Tuesday 2nd February 2021)"
-	revision: "28"
+	date: "2021-02-27 17:28:42 GMT (Saturday 27th February 2021)"
+	revision: "29"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -96,6 +96,7 @@ feature {NONE} -- Events
 	on_prepare
 		local
 			lib_dir: EL_DIR_PATH; list: EL_STRING_8_LIST
+			steps: EL_PATH_STEPS
 		do
 			Precursor
 			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
@@ -104,17 +105,20 @@ feature {NONE} -- Events
 			across list as name loop
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
 			end
-			list := "library, library/base, library/text, library/graphic, library/graphic/toolkit"
-			across list as dir loop
-				OS.File_system.make_directory (Work_area_dir.joined_dir_path (dir.item))
-			end
-			list := "library/base/utility, library/base/math, library/base/persistency, library/text/i18n%
+			list := "library/base/utility, library/base/math, library/base/persistency, library/persistency/database/eco-db%
 								%, library/graphic/toolkit/html-viewer"
+			across list as dir loop
+				from steps := dir.item until steps.count = 0 loop
+					lib_dir := Work_area_dir.joined_dir_path (steps.as_directory_path)
+					OS.File_system.make_directory (lib_dir)
+					steps.remove_tail (1)
+				end
+			end
 			across list as dir loop
 				lib_dir := dir.item
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_path (lib_dir), Work_area_dir.joined_dir_path (lib_dir.parent))
 			end
-			list := "library/base/base.ecf, library/i18n.ecf, library/html-viewer.ecf"
+			list := "library/base/base.ecf, library/Eco-DB.ecf, library/html-viewer.ecf"
 			across list as path loop
 				OS.copy_file (Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
 			end

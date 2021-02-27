@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:26:30 GMT (Wednesday 6th January 2021)"
-	revision: "17"
+	date: "2021-02-27 18:24:46 GMT (Saturday 27th February 2021)"
+	revision: "18"
 
 class
 	EIFFEL_NOTES
@@ -237,16 +237,15 @@ feature {NONE} -- Implementation
 
 	check_link_candidate (str, base_name: ZSTRING)
 		local
-			pos_close: INTEGER; name: ZSTRING
+			pos_close: INTEGER
 		do
 			if str.starts_with (Source_variable) then
 				pos_close := str.index_of (']', Source_variable.count)
 				if pos_close > 0 then
-					name := class_name (str.substring (Source_variable.count + 1, pos_close - 1))
-					if not Class_source_table.has_key (name) then
+					if not Class_source_table.has_key (str.substring (Source_variable.count + 1, pos_close - 1)) then
 						lio.put_path_field ("Note source link in", relative_class_dir + base_name)
 						lio.put_new_line
-						lio.put_labeled_string ("Cannot find class", name)
+						lio.put_labeled_string ("Cannot find class", Class_source_table.last_name)
 						lio.put_new_line
 						lio.put_new_line
 					end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:34:45 GMT (Monday 5th August 2019)"
-	revision: "9"
+	date: "2021-02-27 18:41:13 GMT (Saturday 27th February 2021)"
+	revision: "10"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -39,21 +39,22 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_expanded_link (path, text: ZSTRING): ZSTRING
+	new_expanded_link (path, text: ZSTRING; is_source_link: BOOLEAN): ZSTRING
 		local
 			l_path, template: ZSTRING; html_path: EL_FILE_PATH
 		do
-			l_path := path; template := A_href_template
-			if path.starts_with (Current_dir_forward_slash) and then path.occurrences ('/') > 1 then
-				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
-				l_path := html_path.universal_relative_path (relative_page_dir)
-
-			elseif path ~ Source_variable and then not text.is_empty
-				and then Class_source_table.has_key (class_name (text))
-			then
+			if is_source_link and Class_source_table.has_class (text) then
 				html_path := Class_source_table.found_item
 				l_path := html_path.universal_relative_path (relative_page_dir)
 				template := Class_source_name_href_template
+
+			elseif path.starts_with (Current_dir_forward_slash) and then path.occurrences ('/') > 1 then
+				template := A_href_template
+				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
+				l_path := html_path.universal_relative_path (relative_page_dir)
+			else
+				template := A_href_template
+				l_path := path
 			end
 			Result := template #$ [l_path, text]
 		end
@@ -80,7 +81,7 @@ feature {NONE} -- Constants
 		once
 			Result := Precursor
 			Result.put_front (new_hyperlink_substitution ("[../"))
-			Result.put_front (new_hyperlink_substitution ("[$source"))
+			Result.put_front (new_source_substitution)
 		end
 
 	Source_variable: ZSTRING

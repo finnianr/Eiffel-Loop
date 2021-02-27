@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 13:26:52 GMT (Saturday 27th February 2021)"
-	revision: "5"
+	date: "2021-02-27 15:42:52 GMT (Saturday 27th February 2021)"
+	revision: "6"
 
 class
 	EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
@@ -52,7 +52,7 @@ feature {NONE} -- Factory
 
 			elseif Result.count = 1 then -- has date
 				across result_item.word_match_extracts (search_words) as line loop
-					if line.cursor_index = 1 then
+					if line.is_first then
 						-- append first line of match extracts to date
 						date_line := line.item
 						from date_line.start until date_line.after loop

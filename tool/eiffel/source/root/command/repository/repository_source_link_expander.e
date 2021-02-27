@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 15:30:32 GMT (Sunday 17th January 2021)"
-	revision: "10"
+	date: "2021-02-27 18:26:14 GMT (Saturday 27th February 2021)"
+	revision: "11"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -73,7 +73,7 @@ feature -- Basic operations
 				pos_right_bracket := line.index_of (']', link.item_upper)
 				file_out.put_string (line.substring (previous_pos, link.item_lower - 1))
 				if pos_right_bracket > 0 and then line.is_space_item (link.item_upper + 1)
-					and then Class_source_table.has_key (class_name (line.substring (link.item_upper + 2, pos_right_bracket - 1)))
+					and then Class_source_table.has_class (line.substring (link.item_upper + 2, pos_right_bracket - 1))
 				then
 					file_out.put_raw_character_8 ('[')
 					file_out.put_string (web_address)
