@@ -1,13 +1,13 @@
 note
-	description: "Field that conforms to type [$source EL_REFLECTED_REFERENCE] `[EL_MAKEABLE_FROM_STRING_GENERAL]'"
+	description: "Field that conforms to type [$source EL_REFLECTED_REFERENCE [EL_MAKEABLE_FROM_STRING_GENERAL]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-30 15:51:19 GMT (Thursday 30th January 2020)"
-	revision: "13"
+	date: "2021-02-28 19:12:56 GMT (Sunday 28th February 2021)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]

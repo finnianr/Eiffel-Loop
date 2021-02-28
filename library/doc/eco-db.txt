@@ -20,11 +20,15 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 **1. Field Indexing** 
 
-For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately ''Eco-DB'' offers an easy way to maintain field indices via the implementing class [$source ECD_ARRAYED_LIST] and it's reflective descendant: [$source ECD_REFLECTIVE_ARRAYED_LIST]. See the class documentation for more details.
+For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately ''Eco-DB'' offers an easy way to maintain field indices via the implementing class [$source ECD_ARRAYED_LIST [EL_STORABLE]]. To take advantage of reflective capabilities the list may also inherit:
+
+	[$source ECD_REFLECTIVE_RECOVERABLE_CHAIN [EL_REFLECTIVELY_SETTABLE_STORABLE]]
+
+See the class documentation for more details.
 
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [$source ECD_PRIMARY_KEY_INDEXABLE] when used in conjunction with either [$source ECD_ARRAYED_LIST] or it's reflective descendant: [$source ECD_REFLECTIVE_ARRAYED_LIST].
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [$source ECD_PRIMARY_KEY_INDEXABLE] when used in conjunction with [$source ECD_ARRAYED_LIST [EL_STORABLE]]. 
 
 **QUERY LANGUAGE**
 

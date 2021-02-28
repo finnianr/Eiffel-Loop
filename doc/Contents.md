@@ -726,11 +726,17 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 **1. Field Indexing** 
 
-For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately *Eco-DB* offers an easy way to maintain field indices via the implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) and it's reflective descendant: [ECD_REFLECTIVE_ARRAYED_LIST]($source). See the class documentation for more details.
+For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately *Eco-DB* offers an easy way to maintain field indices via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. To take advantage of reflective capabilities the list may also inherit:
+
+
+````
+[$source ECD_REFLECTIVE_RECOVERABLE_CHAIN [EL_REFLECTIVELY_SETTABLE_STORABLE]]
+````
+See the class documentation for more details.
 
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [ECD_PRIMARY_KEY_INDEXABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html) when used in conjunction with either [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) or it's reflective descendant: [ECD_REFLECTIVE_ARRAYED_LIST]($source).
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [ECD_PRIMARY_KEY_INDEXABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html) when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. 
 
 **QUERY LANGUAGE**
 

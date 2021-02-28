@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:05:01 GMT (Friday 3rd April 2020)"
-	revision: "1"
+	date: "2021-02-28 17:32:37 GMT (Sunday 28th February 2021)"
+	revision: "2"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -39,7 +39,13 @@ feature {NONE} -- Constants
 
 	Source_link: ZSTRING
 		once
-			Result := "[$source"
+			Result := "["
+			Result.append (Source_variable)
+		end
+
+	Source_variable: ZSTRING
+		once
+			Result := "$source"
 		end
 
 end

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Assigns values to storable items conforming to [$source EL_KEY_IDENTIFIABLE_STORABLE],
-		and augments classes [$source ECD_ARRAYED_LIST] and [$source ECD_REFLECTIVE_ARRAYED_LIST]
+		and augments classes [$source ECD_ARRAYED_LIST] and [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN]
 		with a primary key index.
 	]"
 	instructions: "[
@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-24 11:57:42 GMT (Thursday 24th May 2018)"
-	revision: "4"
+	date: "2021-02-28 19:18:50 GMT (Sunday 28th February 2021)"
+	revision: "5"
 
 deferred class
 	ECD_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]

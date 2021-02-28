@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 18:41:13 GMT (Saturday 27th February 2021)"
-	revision: "10"
+	date: "2021-02-28 17:37:18 GMT (Sunday 28th February 2021)"
+	revision: "11"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -19,6 +19,8 @@ inherit
 		end
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
+
+	PUBLISHER_CONSTANTS
 
 create
 	default_create
@@ -39,11 +41,11 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_expanded_link (path, text: ZSTRING; is_source_link: BOOLEAN): ZSTRING
+	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
 			l_path, template: ZSTRING; html_path: EL_FILE_PATH
 		do
-			if is_source_link and Class_source_table.has_class (text) then
+			if path = Source_variable and Class_source_table.has_class (text) then
 				html_path := Class_source_table.found_item
 				l_path := html_path.universal_relative_path (relative_page_dir)
 				template := Class_source_name_href_template
@@ -82,11 +84,6 @@ feature {NONE} -- Constants
 			Result := Precursor
 			Result.put_front (new_hyperlink_substitution ("[../"))
 			Result.put_front (new_source_substitution)
-		end
-
-	Source_variable: ZSTRING
-		once
-			Result := "$source"
 		end
 
 end

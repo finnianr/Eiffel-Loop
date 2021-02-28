@@ -4,7 +4,7 @@ note
 		features:
 		* Support for AES encryption
 		* Ability to mark items for deletion without actually having to remove them immediately. This allows
-		implementations like class [$source ECD_REFLECTIVE_ARRAYED_LIST] to support field indexing.
+		implementations like class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] to support field indexing.
 		* Ability to store software version information which is available to the item implementing
 		[$source EL_STORABLE].
 		* Ability to check that a
@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 13:03:26 GMT (Sunday 17th January 2021)"
-	revision: "22"
+	date: "2021-02-28 19:17:24 GMT (Sunday 28th February 2021)"
+	revision: "23"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-13 22:26:15 GMT (Saturday 13th October 2018)"
-	revision: "1"
+	date: "2021-02-28 18:00:36 GMT (Sunday 28th February 2021)"
+	revision: "2"
 
 class
 	EL_ZSTRING_EDITOR
@@ -21,11 +21,11 @@ inherit
 	EL_STRING_EDITOR [ZSTRING]
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Implementation
 
-	set_target (str: ZSTRING)
+	modify_target (str: ZSTRING)
 		do
 			target.share (str)
 		end

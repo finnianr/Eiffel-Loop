@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 8:23:57 GMT (Friday 4th October 2019)"
-	revision: "2"
+	date: "2021-02-28 19:13:48 GMT (Sunday 28th February 2021)"
+	revision: "3"
 
 deferred class
 	EL_SHARED_SINGLETONS
@@ -65,7 +65,7 @@ note
 					end
 			end
 			
-		See also class: [$source EL_SINGLETON] `[G]'
+		See also class: [$source EL_SINGLETON [G]]
 	]"
 
 end

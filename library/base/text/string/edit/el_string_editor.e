@@ -17,14 +17,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-21 10:50:45 GMT (Sunday 21st October 2018)"
-	revision: "7"
+	date: "2021-02-28 18:02:24 GMT (Sunday 28th February 2021)"
+	revision: "8"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
-
-inherit
-	STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -32,6 +29,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			target := a_target
+		end
+
+	make_empty
+		do
+			create target.make (0)
 		end
 
 feature -- Access
@@ -43,7 +45,8 @@ feature -- Basic operations
 
 	for_each (a_left_delimiter, a_right_delimiter: READABLE_STRING_GENERAL; edit: PROCEDURE [INTEGER, INTEGER, S])
 		-- for each occurrence of section delimited by `a_left_delimiter' and `a_right_delimiter'
-		-- apply an editing procedure `edit' on the delimited section (including delimiters)
+		-- apply an editing procedure `edit' on the delimited section (including delimiters) with
+		-- the interior substring defined by `start_index' and `end_index'
 		-- See `delete_interior' as an example
 		local
 			left_delimiter, right_delimiter, section, output, l_target: S
@@ -73,8 +76,87 @@ feature -- Basic operations
 			end
 			if end_index > 0 then
 				output.append_substring (l_target, end_index + 1, l_target.count)
-				set_target (output)
+				modify_target (output)
 			end
+		end
+
+	for_each_balanced (
+		left_bracket, right_bracket: CHARACTER_32; leading: READABLE_STRING_GENERAL
+		edit: PROCEDURE [INTEGER, INTEGER, S]
+	)
+		-- apply an editing procedure `edit' for each substring section that has
+		-- a balanced number of occurrences of `left_bracket' and `right_bracket'
+		-- and an occurrence of `leading' string immediately after the first `left_bracket'
+		require
+			valid_leading: not (leading.has (left_bracket) or leading.has (right_bracket))
+		local
+			section, output, l_target: S; left_string: detachable S
+			end_index, left_index, right_index, start_index, right_bracket_count: INTEGER
+			done: BOOLEAN
+		do
+			l_target := target
+			create section.make (80)
+			create output.make (l_target.count)
+			if leading.count > 0 then
+				create left_string.make (leading.count + 1)
+				left_string.append_code (left_bracket.natural_32_code)
+				left_string.append (leading)
+			end
+			from until done loop
+				if attached left_string as left then
+					left_index := l_target.substring_index (left, end_index + 1)
+					start_index := left_index + left_string.count
+				else
+					left_index := l_target.index_of (left_bracket, end_index + 1)
+					start_index := left_index + 1
+				end
+				if left_index > 0 then
+					right_index := l_target.index_of (right_bracket, start_index)
+					if right_index > 0 then
+						from
+							right_bracket_count := 1
+						until
+							-- number of left and right brackets balance
+							done or else occurrences (l_target, left_bracket, end_index + 1, right_index) = right_bracket_count
+						loop
+							start_index := right_index + 1
+							right_index := l_target.index_of (right_bracket, start_index)
+							if right_index > 0 then
+								right_bracket_count := right_bracket_count + 1
+							else
+								done := True
+							end
+						end
+						if not done then
+							output.append_substring (l_target, end_index + 1, left_index - 1)
+							end_index := right_index
+							wipe_out (section)
+							section.append_substring (l_target, left_index, end_index)
+							if attached left_string as left then
+								edit (left_string.count + 1, section.count - 1, section)
+							else
+								edit (2, section.count - 1, section)
+							end
+							output.append (section)
+						end
+					else
+						done := True
+					end
+				else
+					done := True
+				end
+			end
+			if end_index > 0 then
+				output.append_substring (l_target, end_index + 1, l_target.count)
+				modify_target (output)
+			end
+		end
+
+feature -- Element change
+
+	set_target (a_target: like target)
+		do
+			target := a_target
 		end
 
 feature {NONE} -- Edit example
@@ -87,13 +169,9 @@ feature {NONE} -- Edit example
 --			substring.remove_substring (start_index, end_index)
 		end
 
-feature {NONE} -- Implementation
+feature {STRING_HANDLER} -- Implementation
 
-	set_target (str: S)
-		deferred
-		end
-
-	wipe_out (str: S)
+	modify_target (str: S)
 		deferred
 		end
 
@@ -105,6 +183,22 @@ feature {NONE} -- Implementation
 				create Result.make (general.count)
 				Result.append (general)
 			end
+		end
+
+	occurrences (str: S; c: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index loop
+				if str [i] = c then
+					Result := Result + 1
+				end
+				i := i + 1
+			end
+		end
+
+	wipe_out (str: S)
+		deferred
 		end
 
 end

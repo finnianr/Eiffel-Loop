@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 18:41:02 GMT (Saturday 27th February 2021)"
-	revision: "9"
+	date: "2021-02-28 17:36:26 GMT (Sunday 28th February 2021)"
+	revision: "10"
 
 class
 	MARKDOWN_RENDERER
@@ -32,7 +32,7 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_expanded_link (path, text: ZSTRING; is_source_link: BOOLEAN): ZSTRING
+	new_expanded_link (path, text: ZSTRING): ZSTRING
 		do
 			Result := A_href_template #$ [path, text]
 		end
@@ -42,14 +42,14 @@ feature {NONE} -- Factory
 			create Result.make (delimiter_start, delimiter_end, markup_open, markup_close)
 		end
 
-	new_hyperlink_substitution (delimiter_start: STRING): MARKUP_SUBSTITUTION
+	new_hyperlink_substitution (delimiter_start: STRING): HYPERLINK_SUBSTITUTION
 		do
-			create Result.make_hyperlink (delimiter_start)
+			create Result.make (delimiter_start)
 		end
 
-	new_source_substitution: MARKUP_SUBSTITUTION
+	new_source_substitution: SOURCE_LINK_SUBSTITUTION
 		do
-			create Result.make_source_hyperlink
+			create Result.make
 		end
 
 feature {NONE} -- Constants

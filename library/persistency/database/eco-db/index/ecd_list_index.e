@@ -1,6 +1,6 @@
 note
 	description: "[
-		A field index for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST] `[EL_STORABLE]'
+		A field index for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
 	]"
 	notes: "[
 		The index is only maintend for field values that are unique. 
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-19 15:45:35 GMT (Saturday 19th January 2019)"
-	revision: "9"
+	date: "2021-02-28 18:20:17 GMT (Sunday 28th February 2021)"
+	revision: "10"
 
 class
 	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
