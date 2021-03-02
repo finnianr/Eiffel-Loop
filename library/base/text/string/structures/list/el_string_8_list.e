@@ -1,13 +1,13 @@
 note
-	description: "List of `STRING_8' strings"
+	description: "List of [$source STRING_8] strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:35:16 GMT (Tuesday 31st March 2020)"
-	revision: "10"
+	date: "2021-03-02 17:56:36 GMT (Tuesday 2nd March 2021)"
+	revision: "11"
 
 class
 	EL_STRING_8_LIST

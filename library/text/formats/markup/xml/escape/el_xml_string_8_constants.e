@@ -1,13 +1,13 @@
 note
-	description: "XML `STRING_8' constants"
+	description: "XML [$source STRING_8] constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 14:36:10 GMT (Monday 11th January 2021)"
-	revision: "1"
+	date: "2021-03-02 17:56:59 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 deferred class
 	EL_XML_STRING_8_CONSTANTS

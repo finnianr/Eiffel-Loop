@@ -3,7 +3,7 @@ note
 		Objects conforming to this class can be serialized as text files using an Evolicity
 		template. A template contains a mixture of literal text and Evolicity code that outputs data from Eiffel
 		objects. The template can be an either an external file or hard coded in the class by implementing the
-		function `template: READABLE_STRING_GENERAL'.
+		function `template: [$source READABLE_STRING_GENERAL]'.
 	]"
 	notes: "See end of page"
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 15:19:53 GMT (Tuesday 24th November 2020)"
-	revision: "25"
+	date: "2021-03-02 18:15:38 GMT (Tuesday 2nd March 2021)"
+	revision: "26"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -264,7 +264,8 @@ note
 
 		**1.** Basic Types
 
-		A basic type is one of: `READABLE_STRING_GENERAL, INTEGER_REF, NATURAL_REF, BOOLEAN_REF or DOUBLE_REF'
+		A basic type is one of: [$source READABLE_STRING_GENERAL], [$source INTEGER_REF], [$source NATURAL_REF],
+		[$source BOOLEAN_REF] or [$source DOUBLE_REF]
 
 		**2.** Evolicity Context
 
@@ -275,12 +276,12 @@ note
 		
 		**3.** An Iterable List
 		
-		An iterable list `ITERABLE [G]' where G conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
+		An iterable list [$source ITERABLE [G]] where `G' conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
 		definition.)
 
 		**4.** A Sequence List
 		
-		An iterable list `SEQUENCE [G]' where G conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
+		An iterable list [$source SEQUENCE [G]] where `G' conforms to one of the types 1, 2, 3, or 4. (Yes this is a recursive
 		definition.)
 		
 		These function agents can either be anonymous agents that reference a class attribute or a class function.
@@ -317,14 +318,15 @@ note
 		* Logical conjunction: `<expr> and <expr>' where <expr> is a numeric comparison or boolean reference variable.
 		* Logical negation: `not <expr>' where <expr> is a numeric comparison or boolean reference variable.
 		* Container status: `<sequence-name>.is_empty' where ''<sequence-name>'' is a reference to an Eiffel object conforming to
-		type `SEQUENCE'.
+		type [$source SEQUENCE [G]].
 
 		More complicated expressions can be implemented an Eiffel function returning a boolean and then
 		referenced as an Evolicity variable.
 
 		**''Foreach'' Loop Iteration**
 		
-		It is possible to iterate any object which conforms to the type `SEQUENCE [G]' where G is either an Evolicity context
+		It is possible to iterate any object which conforms to the type [$source SEQUENCE [G]] where `G' is either
+		an Evolicity context or a type that can be referenced by Evolicity.
 
 			#foreach $<variable-name> in $<sequence-name> loop
 				<directive block>
@@ -340,7 +342,7 @@ note
 				<directive block>
 			#end
 
-		The object referenced by `<iterable-name>' must conform to type `ITERABLE [G]'. Just like in Eiffel
+		The object referenced by `<iterable-name>' must conform to type [$source ITERABLE [G]]. Just like in Eiffel
 		you reference the item values in the directive block using the syntax `$<variable-name>.item', and you can reference the
 		cursor index as: `$cursor_index.item'.
 
@@ -376,7 +378,7 @@ note
 				#evaluate ($<variable-name>.item.template_name, $<variable-name>.item)
 			#end
 
-		Here the iterable container must conform to type `ITERABLE [EVOLICITY_SERIALIZEABLE]'. Note that even if the
+		Here the iterable container must conform to type [$source ITERABLE [EVOLICITY_SERIALIZEABLE]]. Note that even if the
 		the nested text spans multiple lines, as it most likely will do, it will be indented to same indent level as
 		the `#evaluate' directive.
 		

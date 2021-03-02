@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_FIELD_VALUE_TABLE] that escapes the value of `STRING_8'
+		Implementation of [$source EL_FIELD_VALUE_TABLE] that escapes the value of [$source STRING_8]
 		field attribute types.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-20 12:16:09 GMT (Sunday 20th May 2018)"
-	revision: "3"
+	date: "2021-03-02 17:56:14 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_ESCAPED_STRING_8_FIELD_VALUE_TABLE

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Table of [$source EL_ZSTRING] strings with keys of type `STRING_8' and createable from
+		Table of [$source EL_ZSTRING] strings with keys of type [$source STRING_8] and createable from
 		parsed general text with format
 		
 			key_1:
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:33:04 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2021-03-02 17:56:22 GMT (Tuesday 2nd March 2021)"
+	revision: "7"
 
 class
 	EL_ZSTRING_TABLE

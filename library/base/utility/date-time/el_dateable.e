@@ -1,13 +1,13 @@
 note
-	description: "Dateable"
+	description: "An object that as field `date' conforming to [$source DATE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-25 13:46:49 GMT (Thursday 25th February 2021)"
-	revision: "6"
+	date: "2021-03-02 12:56:31 GMT (Tuesday 2nd March 2021)"
+	revision: "7"
 
 deferred class
 	EL_DATEABLE

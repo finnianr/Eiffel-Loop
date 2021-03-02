@@ -1,9 +1,9 @@
 note
 	description: "[
-		Representation of consecutive substrings in a `STRING_32' string that could not be encoded using
+		Representation of consecutive substrings in a [$source STRING_32] string that could not be encoded using
 		a latin character set. The substring are held in the array 
 		
-			area: SPECIAL [NATURAL]
+			area: [$source SPECIAL [NATURAL]]
 			
 		Each substring is prececded by two 32 bit characters representing the lower and upper index.
 	]"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 16:36:29 GMT (Sunday 21st February 2021)"
-	revision: "27"
+	date: "2021-03-02 17:54:25 GMT (Tuesday 2nd March 2021)"
+	revision: "28"
 
 class
 	EL_UNENCODED_CHARACTERS

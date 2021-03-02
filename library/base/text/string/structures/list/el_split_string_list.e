@@ -1,6 +1,6 @@
 note
 	description: "[
-		List of split items of a string conforming to `STRING_GENERAL' delimited by `delimiter'
+		List of split items of a string conforming to [$source STRING_GENERAL] delimited by `delimiter'
 	]"
 	notes: "[
 		This is a more efficient way to process split strings as it doesn't create a new string
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 14:24:24 GMT (Thursday 7th January 2021)"
-	revision: "21"
+	date: "2021-03-02 18:08:12 GMT (Tuesday 2nd March 2021)"
+	revision: "22"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

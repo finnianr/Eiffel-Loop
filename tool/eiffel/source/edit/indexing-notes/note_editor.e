@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 15:11:22 GMT (Thursday 7th May 2020)"
-	revision: "11"
+	date: "2021-03-02 13:10:27 GMT (Tuesday 2nd March 2021)"
+	revision: "12"
 
 class
 	NOTE_EDITOR
@@ -59,7 +59,7 @@ feature -- Basic operations
 
 	edit
 		local
-			notes: CLASS_NOTES; revised_lines: EL_ZSTRING_LIST
+			notes: CLASS_NOTE_EDITOR; revised_lines: EL_ZSTRING_LIST
 		do
 			reset
 			if not is_override_class then

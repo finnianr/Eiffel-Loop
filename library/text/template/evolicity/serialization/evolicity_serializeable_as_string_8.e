@@ -1,13 +1,13 @@
 note
-	description: "Object that is serializeable to string of type `STRING_8'"
+	description: "Object that is serializeable to string of type [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 14:13:36 GMT (Monday 23rd November 2020)"
-	revision: "2"
+	date: "2021-03-02 17:57:12 GMT (Tuesday 2nd March 2021)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_STRING_8

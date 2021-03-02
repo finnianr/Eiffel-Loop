@@ -1,8 +1,8 @@
 note
 	description: "[
-		Array of sequential substrings from an instance of `STRING_32' compacted into a single `SPECIAL' array:
+		Array of sequential substrings from an instance of [$source STRING_32] compacted into a single [$source SPECIAL] array:
 		
-			area: SPECIAL [NATURAL]
+			area: [$source SPECIAL [NATURAL]]
 			
 		`area [0]' contains the substring count: `count'
 		
@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 16:20:51 GMT (Sunday 31st January 2021)"
-	revision: "18"
+	date: "2021-03-02 17:53:59 GMT (Tuesday 2nd March 2021)"
+	revision: "19"
 
 class
 	EL_SUBSTRING_32_ARRAY

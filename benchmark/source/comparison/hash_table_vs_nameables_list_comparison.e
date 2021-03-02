@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare key search speed of `HASH_TABLE' and [$source EL_NAMEABLES_LIST]
+		Compare key search speed of [$source HASH_TABLE] and [$source EL_NAMEABLES_LIST]
 	]"
 	notes: "[
 		Performance is more or less identical in finalized executable
@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 16:56:52 GMT (Saturday 28th November 2020)"
-	revision: "1"
+	date: "2021-03-02 18:22:52 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON

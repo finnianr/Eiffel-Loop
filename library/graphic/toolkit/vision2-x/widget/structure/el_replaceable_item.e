@@ -1,13 +1,13 @@
 note
-	description: "Replaceable attribute conforming to `EV_ITEM'"
+	description: "Replaceable attribute conforming to [$source EV_ITEM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-31 14:59:01 GMT (Monday 31st August 2020)"
-	revision: "1"
+	date: "2021-03-02 18:16:50 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 deferred class
 	EL_REPLACEABLE_ITEM

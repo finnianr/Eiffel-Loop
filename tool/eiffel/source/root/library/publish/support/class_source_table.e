@@ -6,28 +6,41 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 19:25:17 GMT (Saturday 27th February 2021)"
-	revision: "1"
+	date: "2021-03-02 17:00:42 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 class
 	CLASS_SOURCE_TABLE
 
 inherit
 	EL_ZSTRING_HASH_TABLE [EL_FILE_PATH]
-		redefine
-			make_equal
+		rename
+			make as table_make
 		end
+
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
+	EL_MODULE_COMMAND
 
 	PUBLISHER_CONSTANTS
 
 create
-	make_equal
+	make
 
 feature {NONE} -- Initialization
 
-	make_equal (n: INTEGER)
+	make (a_ise_chart_template: ZSTRING)
+		require
+			enough_holders: a_ise_chart_template.occurrences ('%S') = 2
 		do
-			Precursor (n)
+			make_solitary
+			ise_chart_template := a_ise_chart_template
+			ise_library_path := "$ISE_EIFFEL/library"
+			ise_library_path.expand
+			make_equal (1000)
 			create last_name.make_empty
 		end
 
@@ -46,7 +59,9 @@ feature -- Status query
 
 	has_class (text: ZSTRING): BOOLEAN
 		local
-			pos_bracket: INTEGER; leading: ZSTRING
+			pos_bracket: INTEGER; leading, file_name: ZSTRING
+			find_ise_class: EL_FIND_FILES_COMMAND_I
+			path_steps: EL_PATH_STEPS
 		do
 			pos_bracket := text.index_of ('[', 1)
 			if text.is_empty then
@@ -61,6 +76,16 @@ feature -- Status query
 			else
 				last_name := class_name (text)
 				Result := has_key (last_name)
+			end
+			if not Result and then not text.is_empty then
+				file_name := last_name.as_lower + Dot_e
+				find_ise_class := Command.new_find_files (ise_library_path, file_name)
+				find_ise_class.execute
+				if find_ise_class.path_list.count > 0 then
+					path_steps := find_ise_class.path_list.first.relative_path (ise_library_path)
+					found_item := ise_chart_template #$ [path_steps.first, last_name.as_lower]
+					Result := True
+				end
 			end
 		end
 
@@ -89,4 +114,18 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+feature {NONE} -- Initialization
+
+	ise_chart_template: ZSTRING
+
+	ise_library_path: EL_DIR_PATH
+
+feature {NONE} -- Constants
+
+	Dot_e: ZSTRING
+		once
+			Result := ".e"
+		end
+
 end

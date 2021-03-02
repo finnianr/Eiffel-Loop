@@ -1,6 +1,6 @@
 note
 	description: "[
-		Table of routines to convert strings conforming to `READABLE_STRING_GENERAL' to commonly used types
+		Table of routines to convert strings conforming to [$source READABLE_STRING_GENERAL] to commonly used types
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 10:10:47 GMT (Wednesday 20th January 2021)"
-	revision: "3"
+	date: "2021-03-02 18:03:37 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_STRING_CONVERSION_TABLE

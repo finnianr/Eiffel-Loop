@@ -11,6 +11,7 @@ pyxis-doc:
 publish-repository:
 	name = "Eiffel-Loop"; root-dir = "$EIFFEL_LOOP"; output-dir = "$EIFFEL_LOOP_DOC"
 	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
+	ise-chart = "https://www.eiffel.org/files/doc/static/18.01/libraries/%S/%S_chart.html"
 
 	ftp-site:
 		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"; sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"

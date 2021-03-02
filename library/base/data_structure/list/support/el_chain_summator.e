@@ -1,8 +1,7 @@
 note
 	description: "[
 		Functions to sum a numeric value function across each item in a chain of objects of type G.
-		The supplied function agent must return a value conforming to type
-		[https://www.eiffel.org/files/doc/static/18.01/libraries/base/numeric_links.html NUMERIC].
+		The supplied function agent must return a value conforming to type [$source NUMERIC].
 	]"
 	tests: "Class [$source CHAIN_TEST_SET]"
 
@@ -11,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:16:17 GMT (Friday 4th October 2019)"
-	revision: "7"
+	date: "2021-03-02 17:17:39 GMT (Tuesday 2nd March 2021)"
+	revision: "8"
 
 class
 	EL_CHAIN_SUMMATOR [G, N -> NUMERIC]

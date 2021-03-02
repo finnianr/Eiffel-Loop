@@ -1,8 +1,8 @@
 note
 	description: "[
-		Usually referenced with the alias `ZSTRING', this string is a memory efficient alternative to using `STRING_32'.
+		Usually referenced with the alias `ZSTRING', this string is a memory efficient alternative to using [$source STRING_32].
 		When an application mainly uses characters from the ISO-8859-15 character set, the memory saving can be as much as 70%,
-		while the execution efficiency is roughly the same as for `STRING_8'. For short strings the saving is much less:
+		while the execution efficiency is roughly the same as for [$source STRING_8]. For short strings the saving is much less:
 		about 50%. ISO-8859-15 covers most Western european languages.
 	]"
 	tests: "Class [$source ZSTRING_TEST_SET]"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 10:59:56 GMT (Thursday 18th February 2021)"
-	revision: "42"
+	date: "2021-03-02 17:48:33 GMT (Tuesday 2nd March 2021)"
+	revision: "44"
 
 class
 	EL_ZSTRING
@@ -479,7 +479,7 @@ note
 		
 		**FEATURES**
 		
-		`ZSTRING' has many useful routines not found in `STRING_32'. Probably the most useful is Python style templates 
+		`ZSTRING' has many useful routines not found in [$source STRING_32]. Probably the most useful is Python style templates 
 		using the `#$' as an alias for `substituted_tuple', and place holders indicated by `%S', which by coincidence is
 		both an Eiffel escape sequence and a Python one (Python is actually `%s').
 		
@@ -489,7 +489,7 @@ note
 
 		**BENCHMARKS**
 
-		Comparison of `ZSTRING' against `STRING_32' for basic string operations
+		Comparison of `ZSTRING' against [$source STRING_32] for basic string operations
 
 		* [./benchmark/ZSTRING-benchmarks-latin-1.html Latin-1 base encoding]
 		* [./benchmark/ZSTRING-benchmarks-latin-15.html Latin-15 base encoding]
@@ -512,10 +512,10 @@ note
 
 		There two ways to go about achieving an efficient implementation for Asian character sets:
 
-		1. Change the implementation to inherit from `STRING_32'. This will be the fastest and easiest to implement.
-		2. Change the area array to type: `SPECIAL [NATURAL_16]' and then the same basic algorithm can be applied to Asian characters.
-		The problem is `NATURAL_16' is not a character and there is no `CHARACTER_16', so it will entail a lot of changes. The upside is
-		that there will still be a substantial memory saving.
+		1. Change the implementation to inherit from [$source STRING_32]. This will be the fastest and easiest to implement.
+		2. Change the area array to type: [$source SPECIAL [NATURAL_16]] and then the same basic algorithm can be applied to Asian characters.
+		The problem is [$source NATURAL_16] is not a character and there is no `CHARACTER_16', so it will entail a lot of changes.
+		The upside is that there will still be a substantial memory saving.
 	]"
 
 end

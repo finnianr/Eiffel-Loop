@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-19 9:05:57 GMT (Tuesday 19th January 2021)"
-	revision: "29"
+	date: "2021-03-02 16:53:23 GMT (Tuesday 2nd March 2021)"
+	revision: "30"
 
 class
 	REPOSITORY_PUBLISHER
@@ -210,6 +210,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
+	build_source_table
+		local
+			table: CLASS_SOURCE_TABLE; template: ZSTRING
+		do
+			template := node.to_string
+			template.replace_substring_general_all ("%%S", "%S")
+			create table.make (template)
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
@@ -218,6 +227,7 @@ feature {NONE} -- Build from Pyxis
 				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
 				["@github-url", 					agent do github_url := node.to_string end],
 				["@web-address", 					agent do web_address := node.to_string end],
+				["@ise-chart",						agent build_source_table],
 
 				["templates",						agent set_template_context],
 				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],

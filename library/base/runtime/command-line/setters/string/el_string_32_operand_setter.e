@@ -1,13 +1,13 @@
 note
-	description: "Sets a `STRING_32' operand in `make' routine argument tuple"
+	description: "Sets a [$source STRING_32] operand in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "3"
+	date: "2021-03-02 17:52:47 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_STRING_32_OPERAND_SETTER

@@ -1,13 +1,13 @@
 note
-	description: "Temporary once buffer of type `STRING_32'"
+	description: "Temporary once buffer of type [$source STRING_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:35:18 GMT (Monday 1st February 2021)"
-	revision: "3"
+	date: "2021-03-02 17:53:15 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 expanded class
 	EL_STRING_32_BUFFER_ROUTINES

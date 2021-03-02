@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 11:06:04 GMT (Tuesday 2nd March 2021)"
-	revision: "2"
+	date: "2021-03-02 17:07:34 GMT (Tuesday 2nd March 2021)"
+	revision: "3"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -24,6 +24,8 @@ inherit
 	SHARED_HTML_CLASS_SOURCE_TABLE
 
 	PUBLISHER_CONSTANTS
+
+	EL_PROTOCOL_CONSTANTS
 
 create
 	make
@@ -64,7 +66,11 @@ feature {NONE} -- Implementation
 			l_path := path; link_text := text
 			if Class_source_table.has_class (text) then
 				html_path := Class_source_table.found_item
-				l_path := html_path.universal_relative_path (relative_page_dir)
+				if html_path.first_step.starts_with (Protocol.http) then
+					l_path := html_path
+				else
+					l_path := html_path.universal_relative_path (relative_page_dir)
+				end
 				if text.has (' ') then
 					create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
 					link_text.append_replaced (text, s.character_string (' '), None_breaking_space)

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
-		from name-value pairs, where value conforms to `READABLE_STRING_GENERAL'.
+		from name-value pairs, where value conforms to [$source READABLE_STRING_GENERAL].
 	]"
 	descendants: "[
 			EL_SETTABLE_FROM_STRING*
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 12:00:46 GMT (Monday 23rd November 2020)"
-	revision: "17"
+	date: "2021-03-02 18:03:26 GMT (Tuesday 2nd March 2021)"
+	revision: "18"
 
 deferred class
 	EL_SETTABLE_FROM_STRING

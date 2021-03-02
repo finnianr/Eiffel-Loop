@@ -1,6 +1,6 @@
 note
 	description: "[
-		List of all occurrence intervals of a `search_string' in a string conforming to `STRING_GENERAL'
+		List of all occurrence intervals of a `search_string' in a string conforming to [$source STRING_GENERAL]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 12:28:16 GMT (Sunday 26th January 2020)"
-	revision: "8"
+	date: "2021-03-02 18:08:20 GMT (Tuesday 2nd March 2021)"
+	revision: "9"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]

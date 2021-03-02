@@ -1,13 +1,13 @@
 note
-	description: "Abstraction for joining strings using `CHAIN' routines"
+	description: "Abstraction for joining strings using [$source CHAIN] routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 13:19:42 GMT (Thursday 18th February 2021)"
-	revision: "5"
+	date: "2021-03-02 18:02:31 GMT (Tuesday 2nd March 2021)"
+	revision: "6"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]

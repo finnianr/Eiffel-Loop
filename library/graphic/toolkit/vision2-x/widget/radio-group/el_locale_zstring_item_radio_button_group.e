@@ -1,6 +1,6 @@
 note
 	description: "[
-		Radio buttons mapped to `FINITE [ZSTRING]' list.
+		Radio buttons mapped to [$source FINITE [ZSTRING]] list.
 		The displayed strings can be optionally localized.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-20 12:06:06 GMT (Sunday 20th May 2018)"
-	revision: "3"
+	date: "2021-03-02 18:01:10 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_LOCALE_ZSTRING_ITEM_RADIO_BUTTON_GROUP

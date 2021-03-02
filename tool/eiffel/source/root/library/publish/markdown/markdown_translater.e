@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 18:26:00 GMT (Saturday 27th February 2021)"
-	revision: "7"
+	date: "2021-03-02 17:09:45 GMT (Tuesday 2nd March 2021)"
+	revision: "8"
 
 class
 	MARKDOWN_TRANSLATER
@@ -24,6 +24,7 @@ inherit
 
 	SHARED_HTML_CLASS_SOURCE_TABLE
 
+	EL_PROTOCOL_CONSTANTS
 create
 	make
 
@@ -153,7 +154,11 @@ feature {NONE} -- Implementation
 						link_address.replace_substring (repository_web_address, 1, 1)
 					when '$' then
 						if Class_source_table.has_class (link_text) then
-							link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
+							if Class_source_table.found_item.parent.first_step.starts_with (Protocol.http) then
+								link_address := Class_source_table.found_item
+							else
+								link_address := Join_path #$ [repository_web_address, Class_source_table.found_item]
+							end
 						end
 				else end
 			else

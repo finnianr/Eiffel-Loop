@@ -1,5 +1,5 @@
 note
-	description: "Process file lines using using either the `ITERABLE' or `LINEAR' interface"
+	description: "Process file lines using using either the [$source ITERABLE [G]] or [$source LINEAR [G]] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

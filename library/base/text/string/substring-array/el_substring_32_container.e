@@ -1,13 +1,13 @@
 note
-	description: "Abstraction to obtain count of `STRING_32' substrings"
+	description: "Abstraction to obtain count of [$source STRING_32] substrings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 15:35:37 GMT (Friday 29th January 2021)"
-	revision: "2"
+	date: "2021-03-02 17:54:05 GMT (Tuesday 2nd March 2021)"
+	revision: "3"
 
 deferred class
 	EL_SUBSTRING_32_CONTAINER

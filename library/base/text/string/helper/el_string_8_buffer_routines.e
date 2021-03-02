@@ -1,13 +1,13 @@
 note
-	description: "Routines to acccess shared buffer of type `STRING_8'"
+	description: "Routines to acccess shared buffer of type [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:31:47 GMT (Monday 1st February 2021)"
-	revision: "2"
+	date: "2021-03-02 17:57:16 GMT (Tuesday 2nd March 2021)"
+	revision: "3"
 
 expanded class
 	EL_STRING_8_BUFFER_ROUTINES

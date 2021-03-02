@@ -1,13 +1,13 @@
 note
-	description: "Xml `STRING_8' attribute value escaper"
+	description: "XML [$source STRING_8] attribute value escaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 13:55:52 GMT (Monday 11th January 2021)"
-	revision: "1"
+	date: "2021-03-02 17:56:55 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 class
 	EL_XML_ATTRIBUTE_VALUE_STRING_8_ESCAPER

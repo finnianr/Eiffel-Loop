@@ -1,6 +1,6 @@
 note
 	description: "[
-		List of scrollable search result hyperlinks for data list conforming to `DYNAMIC_CHAIN [G]'
+		List of scrollable search result hyperlinks for data list conforming to [$source DYNAMIC_CHAIN [G]]
 	]"
 	descendants: "[
 			EL_SCROLLABLE_SEARCH_RESULTS
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 15:49:48 GMT (Saturday 27th February 2021)"
-	revision: "17"
+	date: "2021-03-02 18:05:00 GMT (Tuesday 2nd March 2021)"
+	revision: "18"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -413,9 +413,9 @@ note
 
 		1. Cast to type [$source EL_DESCRIBEABLE]
 		2. Cast to type [$source EL_STYLED_TEXT_LIST]
-		3. Cast to type [$source EL_NAMEABLE] `[READABLE_STRING_GENERAL]'
-		3. Cast to type `READABLE_STRING_GENERAL'
-		4. Cast to type `DEBUG_OUTPUT'
+		3. Cast to type [$source EL_NAMEABLE [READABLE_STRING_GENERAL]]
+		3. Cast to type [$source READABLE_STRING_GENERAL]
+		4. Cast to type [$source DEBUG_OUTPUT]
 		4. Default to using `{ANY}.out' as description
 
 		If `G' conforms to `EL_DATEABLE' then a date is displayed below the navigable heading in a "result details"

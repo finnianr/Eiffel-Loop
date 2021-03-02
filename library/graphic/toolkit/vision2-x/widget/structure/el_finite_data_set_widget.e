@@ -1,6 +1,6 @@
 note
 	description: "[
-		Abstractions for mapping a data object conforming to `FINITE [G]' to a selectable widget,
+		Abstractions for mapping a data object conforming to [$source FINITE [G]] to a selectable widget,
 		a combo box for example. The default sort-order defined by `less_than' is alphabetical `display_value'.
 	]"
 	descendants: "See end of class"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 11:53:40 GMT (Thursday 20th August 2020)"
-	revision: "10"
+	date: "2021-03-02 18:01:33 GMT (Tuesday 2nd March 2021)"
+	revision: "11"
 
 deferred class
 	EL_FINITE_DATA_SET_WIDGET [G]

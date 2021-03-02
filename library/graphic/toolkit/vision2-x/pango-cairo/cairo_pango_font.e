@@ -1,6 +1,6 @@
 note
 	description: "[
-		Wrapper for PangoFontDescription convertable from class `EV_FONT'.
+		Wrapper for PangoFontDescription convertable from class [$source EV_FONT].
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:41:49 GMT (Tuesday 5th January 2021)"
-	revision: "12"
+	date: "2021-03-02 18:16:40 GMT (Tuesday 2nd March 2021)"
+	revision: "13"
 
 class
 	CAIRO_PANGO_FONT

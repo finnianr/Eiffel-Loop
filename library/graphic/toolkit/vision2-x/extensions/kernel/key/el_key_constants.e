@@ -1,8 +1,6 @@
 note
 	description: "[
-		Copy of `Key_strings' from class
-		[https://www.eiffel.org/files/doc/static/17.01/libraries/vision2/ev_key_constants_chart.html EV_KEY_CONSTANTS]
-		for use in sub-application: [$source CHECK_LOCALE_STRINGS_APP].
+		Copy of `Key_strings' from class [$source EV_KEY_CONSTANTS] for use in sub-application: [$source CHECK_LOCALE_STRINGS_APP].
 		These localized names are referenced in class [$source EL_MENU]
 	]"
 
@@ -11,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-29 8:29:05 GMT (Sunday 29th April 2018)"
-	revision: "4"
+	date: "2021-03-02 17:20:25 GMT (Tuesday 2nd March 2021)"
+	revision: "5"
 
 class
 	EL_KEY_CONSTANTS
@@ -86,4 +84,3 @@ feature -- Access
 		end
 
 end
-

@@ -1,13 +1,13 @@
 note
-	description: "List of strings conforming to `STRING_GENERAL'"
+	description: "List of strings conforming to [$source STRING_GENERAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 15:35:06 GMT (Sunday 17th May 2020)"
-	revision: "17"
+	date: "2021-03-02 18:08:02 GMT (Tuesday 2nd March 2021)"
+	revision: "18"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]

@@ -1,5 +1,5 @@
 note
-	description: "Routines for converting document node to types conforming to `STRING_GENERAL'"
+	description: "Routines for converting document node to types conforming to [$source STRING_GENERAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

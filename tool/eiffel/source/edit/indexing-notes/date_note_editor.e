@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:03:10 GMT (Friday 8th January 2021)"
-	revision: "3"
+	date: "2021-03-02 13:10:27 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	DATE_NOTE_EDITOR
@@ -32,7 +32,7 @@ feature -- Basic operations
 
 	edit
 		local
-			notes: CLASS_NOTES; is_revised: BOOLEAN
+			notes: CLASS_NOTE_EDITOR; is_revised: BOOLEAN
 		do
 			reset
 			create notes.make (input_lines, default_values)

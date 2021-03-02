@@ -11,19 +11,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 18:00:36 GMT (Sunday 28th February 2021)"
-	revision: "2"
+	date: "2021-03-02 16:25:43 GMT (Tuesday 2nd March 2021)"
+	revision: "3"
 
 class
 	EL_ZSTRING_EDITOR
 
 inherit
 	EL_STRING_EDITOR [ZSTRING]
+		redefine
+			append_character
+		end
 
 create
 	make, make_empty
 
 feature {NONE} -- Implementation
+
+	append_character (string: ZSTRING; c: CHARACTER_32)
+		do
+			string.extend (c)
+		end
 
 	modify_target (str: ZSTRING)
 		do

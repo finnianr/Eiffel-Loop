@@ -1,13 +1,13 @@
 note
-	description: "Hash table with keys conforming to `READABLE_STRING_GENERAL'"
+	description: "Hash table with keys conforming to [$source READABLE_STRING_GENERAL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:27:41 GMT (Friday 18th January 2019)"
-	revision: "3"
+	date: "2021-03-02 18:03:43 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]

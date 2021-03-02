@@ -3,9 +3,9 @@ note
 		Provides the features below when used in conjunction with either of these 2 classes:
 		
 			1. [$source ECD_CHAIN [EL_STORABLE]]
-			2. [$source ECD_RECOVERABLE_CHAIN [EL_STORABLE]] 
+			2. [$source ECD_RECOVERABLE_CHAIN [EL_STORABLE]]
 
-		from the [./library/Eco-DB.html Eco-DB library]:
+		from the [./library/Eco-DB.html Eco-DB library].
 		
 		* An Eiffel-orientated data query language via the features of [$source EL_CHAIN] and [$source EL_QUERYABLE_CHAIN].
 		The class [$source EL_QUERYABLE_ARRAYED_LIST] has links to some examples in the
@@ -13,7 +13,8 @@ note
 		
 		* Automatically maintained field indexes accessible via the tuple attribute `index_by'
 		
-		* Automatic maintenance of a primary key index when used in conjunction with class [$source ECD_PRIMARY_KEY_INDEXABLE]
+		* Automatic maintenance of a primary key index when used in conjunction with class
+		[$source ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]]
 	]"
 	instructions: "See end of class"
 
@@ -22,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 11:12:53 GMT (Tuesday 2nd March 2021)"
-	revision: "10"
+	date: "2021-03-02 11:56:52 GMT (Tuesday 2nd March 2021)"
+	revision: "11"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

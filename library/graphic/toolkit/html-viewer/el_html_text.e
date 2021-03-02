@@ -1,8 +1,6 @@
 note
 	description: "[
-		A basic XHTML text renderer based on the
-		[https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html EV_RICH_TEXT]
-		component with support for the following markup:
+		A basic XHTML text renderer based on the [$source EV_RICH_TEXT] component with support for the following markup:
 		
 		* Any text between elements
 		* Headings: `<h1>, <h2> ..' and so forth
@@ -37,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 13:08:52 GMT (Friday 8th January 2021)"
-	revision: "15"
+	date: "2021-03-02 17:20:05 GMT (Tuesday 2nd March 2021)"
+	revision: "16"
 
 class
 	EL_HTML_TEXT

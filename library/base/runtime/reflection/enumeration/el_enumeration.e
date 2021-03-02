@@ -1,8 +1,7 @@
 note
 	description: "[
-		Object for mapping names to code numbers with bi-directional lookups, i.e.
-		obtain the code from a name and the name from a code. The generic parameter 
-		can be any [https://www.eiffel.org/files/doc/static/18.01/libraries/base/numeric_chart.html NUMERIC] type.
+		Object for mapping names to code numbers with bi-directional lookups, i.e. obtain the code from
+		a name and the name from a code. The generic parameter can be any [$source NUMERIC] type.
 	]"
 	instructions: "[
 		Typically you would make a shared instance of an implementation class inheriting
@@ -29,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-18 11:35:33 GMT (Friday 18th December 2020)"
-	revision: "37"
+	date: "2021-03-02 17:18:13 GMT (Tuesday 2nd March 2021)"
+	revision: "38"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]

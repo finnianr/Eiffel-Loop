@@ -4,9 +4,9 @@ note
 		
 		**1. ** an initial value of type `G'
 		
-		**2. ** a container conforming to `FINITE [G]'
+		**2. ** a container conforming to [$source FINITE [G]]
 		
-		**3. ** a change agent of type `PROCEDURE [G]'
+		**3. ** a change agent of type [$source PROCEDURE [G]]
 
 		Optional initialization settings:
 		
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:16:40 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2021-03-02 17:55:08 GMT (Tuesday 2nd March 2021)"
+	revision: "10"
 
 class
 	EL_DROP_DOWN_BOX [G]

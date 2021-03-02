@@ -1,6 +1,7 @@
 note
 	description: "[
-		Convenience class for converting any string of type `READABLE_STRING_GENERAL' to type [$source EL_ZSTRING]
+		Convenience class for converting any string of type [$source READABLE_STRING_GENERAL]
+		to type [$source EL_ZSTRING]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 17:19:44 GMT (Saturday 4th January 2020)"
-	revision: "3"
+	date: "2021-03-02 18:03:56 GMT (Tuesday 2nd March 2021)"
+	revision: "4"
 
 class
 	EL_ZSTRING_CONVERTER

@@ -1,7 +1,7 @@
 note
 	description: "[
-		Iterates over lines of a plain text file lines using either the `ITERABLE' or `LINEAR' interface.
-		If a UTF-8 BOM is detected the encoding changes accordingly.
+		Iterates over lines of a plain text file lines using either the [$source ITERABLE [G]] or
+		[$source LINEAR [G]] interface. If a UTF-8 BOM is detected the encoding changes accordingly.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:36:35 GMT (Friday 8th January 2021)"
-	revision: "17"
+	date: "2021-03-02 18:11:13 GMT (Tuesday 2nd March 2021)"
+	revision: "18"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE

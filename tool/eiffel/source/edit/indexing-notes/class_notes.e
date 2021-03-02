@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:25:33 GMT (Wednesday 6th January 2021)"
-	revision: "11"
+	date: "2021-03-02 17:14:24 GMT (Tuesday 2nd March 2021)"
+	revision: "1"
 
 class
 	CLASS_NOTES
@@ -18,124 +18,39 @@ inherit
 			make as make_machine
 		end
 
-	EL_MODULE_DATE
-
-	EL_MODULE_TIME
-
 	NOTE_CONSTANTS
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_ZSTRING_CONSTANTS
-
 create
-	make
+	make_with_line_source, make_with_lines
 
 feature {NONE} -- Initialization
 
-	make (class_lines: EL_PLAIN_TEXT_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, STRING])
+	make_with_line_source (lines: EL_PLAIN_TEXT_LINE_SOURCE)
+		do
+			make_with_lines (lines.file_path, lines)
+		end
+
+	make_with_lines (a_file_path: EL_FILE_PATH; lines: LINEAR [ZSTRING])
 		do
 			make_machine
-			class_name := class_lines.file_path.base_sans_extension
-
-			create original_lines.make_empty
+			file_path := a_file_path
+			class_name := a_file_path.base_sans_extension
 			create fields.make (10)
-			create updated_fields.make (0)
- 			last_time_stamp := class_lines.date
-			do_with_lines (agent find_field, class_lines)
-
-			-- Add default values for missing fields
-			across default_values as value loop
-				fields.find (value.key)
-				if fields.found then
-					if fields.item.text /~ value.item then
-						fields.item.set_text (value.item)
-						updated_fields.extend (value.key)
-					end
-				else
-					fields.extend (create {NOTE_FIELD}.make (value.key, value.item))
-				end
-			end
+			create original_lines.make_empty
+			do_with_lines (agent find_field, lines)
 		end
 
 feature -- Access
 
-	field_date: DATE_TIME
- 		local
- 			l_date: STRING; pos_gmt: INTEGER; date_string: STRING
- 		do
-			create Result.make_from_epoch (0)
-			fields.find (Field.date)
-			if fields.found then
-				date_string := fields.item.text
-				if not date_string.is_empty then
-					pos_gmt := date_string.substring_index ("GMT", 1)
-					if pos_gmt > 0 then
-						l_date := date_string.substring (1, pos_gmt - 2)
-	 					if Date_time_code.is_date_time (l_date) then
-	 						Result := Date_time_code.create_date_time (l_date)
-	 					end
-					end
-				end
-			end
- 		end
+	class_name: ZSTRING
 
-	field_revision: INTEGER
-		local
-			value: ZSTRING
-		do
-			Result := -1
-			fields.find (Field.revision)
-			if fields.found then
-				value := fields.item.text
-				if value.is_integer then
-					Result := value.to_integer
-				end
-			end
-		end
+	fields: NOTE_FIELD_LIST
 
-	last_time_stamp: INTEGER
+	file_path: EL_FILE_PATH
 
 	original_lines: EL_ZSTRING_LIST
-
-	revised_lines: EL_ZSTRING_LIST
-		do
-			create Result.make (10)
-			Result.extend ("note")
-			across << initial_field_names.to_array, Author_fields, License_fields >> as group loop
-				extend_field_list (group.item, Result)
-			end
-			across Result as line loop
-				if line.cursor_index > 1 and then not line.item.is_empty then
-					line.item.prepend (Tab)
-				end
-			end
-		end
-
-	updated_fields: EL_STRING_8_LIST
-
-	time_stamp: INTEGER
-		do
-			Result := Time.unix_date_time (field_date)
-		end
-
-feature -- Status query
-
-	is_revision: BOOLEAN
-
-feature -- Element change
-
-	check_revision
-		local
-			last_revision: INTEGER
-		do
-			last_revision := field_revision
-			if last_revision = 0 or else (time_stamp - last_time_stamp).abs > 1 then
-				fields.set_field (Field.date, formatted_time_stamp)
-				fields.set_field (Field.revision, (last_revision + 1).max (1).out)
-				is_revision := true
-			end
-		end
 
 feature {NONE} -- Line states
 
@@ -182,6 +97,11 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
+	Quote: ZSTRING
+		once
+			Result := "%""
+		end
+
 	default_description: ZSTRING
 		local
 			words: EL_ZSTRING_LIST
@@ -198,37 +118,6 @@ feature {NONE} -- Implementation
 			Result := words.joined_words
 		end
 
-	extend_field_list (name_group: ARRAY [STRING]; list: EL_ZSTRING_LIST)
-		do
-			across name_group as name loop
-				fields.find (name.item)
-				if fields.found then
-					list.append (fields.item.lines)
-				end
-			end
-			list.extend (Empty_string)
-		end
-
-	formatted_time_stamp: ZSTRING
-		local
-			last_date_time: DATE_TIME
-		do
-			create last_date_time.make_from_epoch (last_time_stamp)
-			Result := Time_template #$ [
-				last_date_time.formatted_out (Date_time_format),
-				Date.formatted (last_date_time.date, {EL_DATE_FORMATS}.canonical)
-			]
-		end
-
-	initial_field_names: ARRAYED_LIST [STRING]
-		do
-			create Result.make (3)
-			from fields.start until fields.after or else fields.item.name ~ Field.author loop
-				Result.extend (fields.item.name)
-				fields.forth
-			end
-		end
-
 	is_class_definition_start (line: ZSTRING): BOOLEAN
 		do
 			Result := Class_declaration_keywords.there_exists (agent line.starts_with)
@@ -243,39 +132,23 @@ feature {NONE} -- Implementation
 			Result := name.count > 3 and then name [name.count] = ':'
 		end
 
-feature {NONE} -- Internal attributes
-
-	fields: NOTE_FIELD_LIST
-
-	class_name: ZSTRING
-
 feature {NONE} -- Constants
 
 	Description: STRING = "description"
-
-	EL: ZSTRING
-		once
-			Result := "el"
-		end
 
 	Description_defaults: ARRAY [ZSTRING]
 		once
 			Result := << "Summary description for", "Objects that" >>
 		end
 
-	Quote: ZSTRING
+	EL: ZSTRING
 		once
-			Result := "%""
+			Result := "el"
 		end
 
 	Tab: ZSTRING
 		once
 			Result := "%T"
-		end
-
-	Time_template: ZSTRING
-		once
-			Result := "%S GMT (%S)"
 		end
 
 end

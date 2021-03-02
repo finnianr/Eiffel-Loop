@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 19:22:04 GMT (Sunday 28th February 2021)"
-	revision: "9"
+	date: "2021-03-02 16:37:40 GMT (Tuesday 2nd March 2021)"
+	revision: "10"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
@@ -99,7 +99,7 @@ feature -- Basic operations
 			create output.make (l_target.count)
 			if leading.count > 0 then
 				create left_string.make (leading.count + 1)
-				left_string.append_code (left_bracket.natural_32_code)
+				append_character (left_string, left_bracket)
 				left_string.append (leading)
 			end
 			from until done loop
@@ -118,7 +118,7 @@ feature -- Basic operations
 						until
 							-- number of left and right brackets balance
 							done or else
-								occurrences (l_target, left_bracket, end_index + 1, right_index) = right_bracket_count
+								occurrences (l_target, left_bracket, left_index, right_index) = right_bracket_count
 						loop
 							start_index := right_index + 1
 							right_index := l_target.index_of (right_bracket, start_index)
@@ -171,6 +171,11 @@ feature {NONE} -- Edit example
 		end
 
 feature {STRING_HANDLER} -- Implementation
+
+	append_character (string: S; c: CHARACTER_32)
+		do
+			string.append_code (c.natural_32_code)
+		end
 
 	modify_target (str: S)
 		deferred
