@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 18:02:24 GMT (Sunday 28th February 2021)"
-	revision: "8"
+	date: "2021-02-28 19:22:04 GMT (Sunday 28th February 2021)"
+	revision: "9"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
@@ -117,7 +117,8 @@ feature -- Basic operations
 							right_bracket_count := 1
 						until
 							-- number of left and right brackets balance
-							done or else occurrences (l_target, left_bracket, end_index + 1, right_index) = right_bracket_count
+							done or else
+								occurrences (l_target, left_bracket, end_index + 1, right_index) = right_bracket_count
 						loop
 							start_index := right_index + 1
 							right_index := l_target.index_of (right_bracket, start_index)

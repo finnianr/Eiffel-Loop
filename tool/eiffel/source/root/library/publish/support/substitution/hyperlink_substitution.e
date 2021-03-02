@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:35:12 GMT (Sunday 28th February 2021)"
-	revision: "1"
+	date: "2021-03-02 11:04:33 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -32,10 +32,16 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	substitute_html (html: ZSTRING; new_link_agent: like new_expanded_link)
+	substitute_html (html_string: ZSTRING)
 		do
-			new_expanded_link := new_link_agent
-			html.edit (delimiter_start, delimiter_end, agent expand_hyperlink_markup)
+			html_string.edit (delimiter_start, delimiter_end, agent expand_hyperlink_markup)
+		end
+
+feature -- Status query
+
+	has_link (html_string: ZSTRING): BOOLEAN
+		do
+			Result := html_string.has_substring (delimiter_start)
 		end
 
 feature {NONE} -- Implementation
@@ -54,6 +60,26 @@ feature {NONE} -- Implementation
 				link_text := link_path
 			end
 			substring.share (new_expanded_link (link_path, link_text))
+		end
+
+	new_expanded_link (path, text: ZSTRING): ZSTRING
+		do
+			Result := A_href_template #$ [path, text]
+		end
+
+feature {NONE} -- Constants
+
+	A_href_template: ZSTRING
+			-- contains to '%S' markers
+		once
+			Result := "[
+				<a href="#" target="_blank">#</a>
+			]"
+		end
+
+	None_breaking_space: ZSTRING
+		once
+			Result := "&nbsp;"
 		end
 
 end

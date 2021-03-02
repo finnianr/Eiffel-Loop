@@ -6,18 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:36:26 GMT (Sunday 28th February 2021)"
-	revision: "10"
+	date: "2021-03-02 11:15:03 GMT (Tuesday 2nd March 2021)"
+	revision: "11"
 
 class
 	MARKDOWN_RENDERER
 
 inherit
 	ANY
+		redefine
+			default_create
+		end
 
 	EL_MODULE_XML
 
 	EL_ZSTRING_CONSTANTS
+
+	PUBLISHER_CONSTANTS
+
+create
+	default_create
+
+feature {NONE} -- Initialization
+
+	default_create
+		do
+			relative_page_dir := "."
+		end
 
 feature -- Access
 
@@ -27,15 +42,18 @@ feature -- Access
 			across Escaped_square_brackets as bracket loop
 				Result.replace_substring_all (bracket.key, bracket.item)
 			end
-			Markup_substitutions.do_all (agent {MARKUP_SUBSTITUTION}.substitute_html (Result, agent new_expanded_link))
+			across Markup_substitutions as list loop
+				list.item.substitute_html (Result)
+			end
+			across Link_substitutions as list loop
+				if list.item.has_link (Result) then
+					list.item.set_relative_page_dir (relative_page_dir)
+					list.item.substitute_html (Result)
+				end
+			end
 		end
 
 feature {NONE} -- Factory
-
-	new_expanded_link (path, text: ZSTRING): ZSTRING
-		do
-			Result := A_href_template #$ [path, text]
-		end
 
 	new_substitution (delimiter_start, delimiter_end, markup_open, markup_close: STRING): MARKUP_SUBSTITUTION
 		do
@@ -47,20 +65,21 @@ feature {NONE} -- Factory
 			create Result.make (delimiter_start)
 		end
 
-	new_source_substitution: SOURCE_LINK_SUBSTITUTION
+	new_link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		do
-			create Result.make
+			create Result.make_from_array (<<
+				new_hyperlink_substitution ("[http://"),
+				new_hyperlink_substitution ("[https://"),
+				new_hyperlink_substitution ("[./")
+			>>)
 		end
+
+feature {NONE} -- Internal attributes
+
+	relative_page_dir: EL_DIR_PATH
+		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants
-
-	A_href_template: ZSTRING
-			-- contains to '%S' markers
-		once
-			Result := "[
-				<a href="#" target="_blank">#</a>
-			]"
-		end
 
 	Escaped_square_brackets: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		once
@@ -69,13 +88,14 @@ feature {NONE} -- Constants
 			Result ["\]"] := "&rsqb;"
 		end
 
+	Link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
+		once
+			Result := new_link_substitutions
+		end
+
 	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]
 		once
 			create Result.make_from_array (<<
-				new_hyperlink_substitution ("[http://"),
-				new_hyperlink_substitution ("[https://"),
-				new_hyperlink_substitution ("[./"),
-
 				new_substitution ("[li]", "[/li]", "<li>", "</li>"),
 
 				-- Ordered list item with span to allow bold numbering using CSS

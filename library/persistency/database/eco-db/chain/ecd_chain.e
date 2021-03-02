@@ -2,20 +2,19 @@ note
 	description: "[
 		Chain of storable items which can be saved to and read from a file. The chain has the following
 		features:
+		
 		* Support for AES encryption
 		* Ability to mark items for deletion without actually having to remove them immediately. This allows
 		implementations like class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] to support field indexing.
-		* Ability to store software version information which is available to the item implementing
-		[$source EL_STORABLE].
-		* Ability to check that a
-
+		* Ability to store software version information which is available to the item
+		implementing [$source EL_STORABLE].
 	]"
 	notes: "[
 		Items must implement either the
 		class [$source EL_STORABLE] or [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
 
 		The descendant class [$source ECD_RECOVERABLE_CHAIN] can be used to implement a proper
-		indexed transactional database when used in conjunction with class [$source ECD_REFLECTIVE_ARRAYED_LIST].
+		indexed transactional database when used in conjunction with class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN].
 		
 		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
 		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
@@ -27,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 19:17:24 GMT (Sunday 28th February 2021)"
-	revision: "23"
+	date: "2021-02-28 19:27:43 GMT (Sunday 28th February 2021)"
+	revision: "24"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]

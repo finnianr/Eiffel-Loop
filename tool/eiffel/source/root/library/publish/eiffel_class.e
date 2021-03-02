@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 14:15:03 GMT (Sunday 17th January 2021)"
-	revision: "27"
+	date: "2021-03-01 10:42:52 GMT (Monday 1st March 2021)"
+	revision: "28"
 
 class
 	EIFFEL_CLASS
@@ -191,7 +191,8 @@ feature -- Basic operations
 		do
 			crc := crc_generator
 			crc.set_checksum (current_digest)
-			code_text.edit (Source_link, character_string (']'), agent sink_source_path (?, ?, ?, crc))
+			Editor.set_target (code_text)
+			Editor.for_each_balanced ('[', ']', Source_variable, agent sink_source_path (?, ?, ?, crc))
 			current_digest := crc.checksum
 		end
 
@@ -269,8 +270,8 @@ feature {NONE} -- Implementation
 			l_name: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
 			l_name := buffer.copied_substring (substring, start_index, end_index)
-			l_name.left_adjust
-			if Class_source_table.has_key (l_name) then
+			l_name.adjust
+			if Class_source_table.has_class (l_name) then
 				crc.add_path (Class_source_table.found_item)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:41:50 GMT (Sunday 28th February 2021)"
-	revision: "1"
+	date: "2021-03-02 11:06:04 GMT (Tuesday 2nd March 2021)"
+	revision: "2"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -18,8 +18,10 @@ inherit
 			make as make_hyperlink,
 			expand_hyperlink_markup as expand_as_source_link
 		redefine
-			substitute_html, expand_as_source_link
+			substitute_html, expand_as_source_link, new_expanded_link, A_href_template
 		end
+
+	SHARED_HTML_CLASS_SOURCE_TABLE
 
 	PUBLISHER_CONSTANTS
 
@@ -31,13 +33,14 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_hyperlink (Square_bracket.left)
+			create delimiter_start.make_filled ('[', 1)
+			delimiter_start.append (Source_variable)
 		end
 
 feature -- Basic operations
 
-	substitute_html (html_string: ZSTRING; new_link_agent: like new_expanded_link)
+	substitute_html (html_string: ZSTRING)
 		do
-			new_expanded_link := new_link_agent
 			Editor.set_target (html_string)
 			Editor.for_each_balanced ('[', ']', Source_variable, agent expand_as_source_link)
 		end
@@ -53,11 +56,31 @@ feature {NONE} -- Implementation
 			substring.share (new_expanded_link (Source_variable, link_text))
 		end
 
+	new_expanded_link (path, text: ZSTRING): ZSTRING
+		local
+			l_path, link_text: ZSTRING; html_path: EL_FILE_PATH
+			s: EL_ZSTRING_ROUTINES
+		do
+			l_path := path; link_text := text
+			if Class_source_table.has_class (text) then
+				html_path := Class_source_table.found_item
+				l_path := html_path.universal_relative_path (relative_page_dir)
+				if text.has (' ') then
+					create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
+					link_text.append_replaced (text, s.character_string (' '), None_breaking_space)
+				end
+			end
+			Result := A_href_template #$ [l_path, link_text]
+		end
+
 feature {NONE} -- Constants
 
-	Editor: EL_ZSTRING_EDITOR
+	A_href_template: ZSTRING
+			-- contains to '%S' markers
 		once
-			create Result.make_empty
+			Result := "[
+				<a href="#" id="source" target="_blank">#</a>
+			]"
 		end
 
 end

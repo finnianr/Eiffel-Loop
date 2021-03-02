@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 16:15:35 GMT (Sunday 28th February 2021)"
-	revision: "6"
+	date: "2021-03-01 10:23:44 GMT (Monday 1st March 2021)"
+	revision: "7"
 
 class
 	ZSTRING_EDITOR_TEST_SET
@@ -37,7 +37,7 @@ feature -- Tests
 			edited := "[[]]**"
 			across << Empty_string, Asterisks >> as trailing loop
 				across << Empty_string, Asterisks >> as leading loop
-					create editor.make (leading.item + Target.multiplied (2) + trailing.item)
+					create editor.make (leading.item + Target.item (1).multiplied (2) + trailing.item)
 					editor.for_each ("[[", "]]", agent delete_interior)
 					assert ("asterisks removed", editor.target ~ leading.item + edited.multiplied (2) + trailing.item)
 				end
@@ -48,14 +48,20 @@ feature -- Tests
 		local
 			editor: EL_ZSTRING_EDITOR; edited: ZSTRING
 		do
-			create editor.make (Target_2.multiplied (2))
+			create editor.make (Target.item (2).multiplied (2))
 			editor.for_each_balanced ('[', ']', "AA", agent swap_substrings)
 			edited := "[AA**[@@]]**"
 			assert ("@@ and ** swapped", editor.target ~ edited.multiplied (2))
 
-			create editor.make (Target_2.multiplied (2))
+			create editor.make (Target.item (2).multiplied (2))
 			editor.for_each_balanced ('[', ']', Empty_string, agent delete_interior)
-			edited := "[[]]**"
+			edited := "[]**"
+			assert ("same strings", editor.target ~ edited.multiplied (2))
+
+			create editor.make (Target.item (3).multiplied (2))
+			editor.for_each_balanced ('[', ']', "AA", agent delete_interior)
+			edited := "[AA]**"
+			assert ("same strings", editor.target ~ edited.multiplied (2))
 		end
 
 feature {NONE} -- Implementation
@@ -84,14 +90,9 @@ feature {NONE} -- Constants
 			Result := "**"
 		end
 
-	Target: ZSTRING
+	Target: ARRAY [ZSTRING]
 		once
-			Result := "[[**]]**"
-		end
-
-	Target_2: ZSTRING
-		once
-			Result := "[AA@@[**]]**"
+			Result := << "[[**]]**", "[AA@@[**]]**", "[AA**]**" >>
 		end
 
 end

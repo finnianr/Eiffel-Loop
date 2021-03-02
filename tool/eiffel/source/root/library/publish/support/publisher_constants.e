@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:32:37 GMT (Sunday 28th February 2021)"
-	revision: "2"
+	date: "2021-03-01 10:41:32 GMT (Monday 1st March 2021)"
+	revision: "3"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -16,6 +16,11 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	Editor: EL_ZSTRING_EDITOR
+		once
+			create Result.make_empty
+		end
 
 	Html: ZSTRING
 		once
@@ -35,12 +40,6 @@ feature {NONE} -- Constants
 	Relative_root: EL_DIR_PATH
 		once
 			create Result
-		end
-
-	Source_link: ZSTRING
-		once
-			Result := "["
-			Result.append (Source_variable)
 		end
 
 	Source_variable: ZSTRING

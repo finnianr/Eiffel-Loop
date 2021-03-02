@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:36:05 GMT (Sunday 28th February 2021)"
-	revision: "9"
+	date: "2021-03-02 10:28:58 GMT (Tuesday 2nd March 2021)"
+	revision: "10"
 
 class
 	MARKUP_SUBSTITUTION
@@ -28,14 +28,21 @@ feature {NONE} -- Initialization
 		do
 			delimiter_start := a_delimiter_start; delimiter_end := a_delimiter_end
 			markup_open := a_markup_open; markup_close := a_markup_close
-			new_expanded_link := agent empty_link
+			create relative_page_dir
 		end
 
 feature -- Basic operations
 
-	substitute_html (html: ZSTRING; new_link_agent: like new_expanded_link)
+	substitute_html (html_string: ZSTRING)
 		do
-			html.edit (delimiter_start, delimiter_end, agent expand_markup)
+			html_string.edit (delimiter_start, delimiter_end, agent expand_markup)
+		end
+
+feature -- Element change
+
+	set_relative_page_dir (a_relative_page_dir: EL_DIR_PATH)
+		do
+			relative_page_dir := a_relative_page_dir
 		end
 
 feature -- Access
@@ -63,7 +70,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	new_expanded_link: FUNCTION [ZSTRING, ZSTRING, ZSTRING]
+	relative_page_dir: EL_DIR_PATH
+		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants
 

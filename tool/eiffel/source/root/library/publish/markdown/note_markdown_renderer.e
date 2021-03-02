@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 17:37:18 GMT (Sunday 28th February 2021)"
-	revision: "11"
+	date: "2021-03-02 11:10:05 GMT (Tuesday 2nd March 2021)"
+	revision: "12"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -15,24 +15,13 @@ class
 inherit
 	MARKDOWN_RENDERER
 		redefine
-			Markup_substitutions, new_expanded_link, default_create
+			new_hyperlink_substitution, Link_substitutions
 		end
-
-	SHARED_HTML_CLASS_SOURCE_TABLE
-
-	PUBLISHER_CONSTANTS
 
 create
 	default_create
 
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			relative_page_dir := "."
-		end
-
-feature -- Access
+feature -- Element change
 
 	set_relative_page_dir (a_relative_page_dir: like relative_page_dir)
 		do
@@ -41,47 +30,21 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	new_expanded_link (path, text: ZSTRING): ZSTRING
-		local
-			l_path, template: ZSTRING; html_path: EL_FILE_PATH
+	new_hyperlink_substitution (delimiter_start: STRING): HYPERLINK_NOTE_SUBSTITUTION
 		do
-			if path = Source_variable and Class_source_table.has_class (text) then
-				html_path := Class_source_table.found_item
-				l_path := html_path.universal_relative_path (relative_page_dir)
-				template := Class_source_name_href_template
-
-			elseif path.starts_with (Current_dir_forward_slash) and then path.occurrences ('/') > 1 then
-				template := A_href_template
-				html_path := path.substring_end (Current_dir_forward_slash.count + 1)
-				l_path := html_path.universal_relative_path (relative_page_dir)
-			else
-				template := A_href_template
-				l_path := path
-			end
-			Result := template #$ [l_path, text]
+			create Result.make (delimiter_start)
 		end
 
-	relative_page_dir: EL_DIR_PATH
-		-- class page relative to index page directory tree
+	new_source_substitution: SOURCE_LINK_SUBSTITUTION
+		do
+			create Result.make
+		end
 
 feature {NONE} -- Constants
 
-	Class_source_name_href_template: ZSTRING
-			-- contains to '%S' markers
+	Link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		once
-			Result := "[
-				<a href="#" id="source" target="_blank">#</a>
-			]"
-		end
-
-	Current_dir_forward_slash: ZSTRING
-		once
-			Result := "./"
-		end
-
-	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]
-		once
-			Result := Precursor
+			Result := new_link_substitutions
 			Result.put_front (new_hyperlink_substitution ("[../"))
 			Result.put_front (new_source_substitution)
 		end
