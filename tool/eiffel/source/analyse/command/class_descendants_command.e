@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:01:49 GMT (Friday 8th January 2021)"
-	revision: "10"
+	date: "2021-03-03 15:45:03 GMT (Wednesday 3rd March 2021)"
+	revision: "11"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -102,7 +102,6 @@ feature {NONE} -- Implementation
 			line, text: ZSTRING
 		do
 			text := File_system.plain_text (output_path)
-			text.edit (" [", "]%N", agent remove_parameter_brackets)
 			create lines.make_with_lines (text)
 
 			if not output_dir.exists then
@@ -119,15 +118,10 @@ feature {NONE} -- Implementation
 					line := lines.item
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then
-						count := count + 1
 						line.prune_all_trailing ('.')
+						count := count + 1
 						if count > 1 then
-							line.insert_string_general ("[$source ", tab_count + 1)
-							if line [line.count] = '*' then
-								line.insert_character (']', line.count)
-							else
-								line.append_character (']')
-							end
+							expand_links (line, tab_count)
 						end
 						file_out.put_string_8 ("%T%T")
 						file_out.put_string (line)
@@ -140,10 +134,41 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	remove_parameter_brackets (start_index, end_index: INTEGER; substring: ZSTRING)
+	expand_links (line: ZSTRING; tab_count: INTEGER)
+		local
+			word_list: EL_ZSTRING_LIST; word: ZSTRING
+			last_character: CHARACTER_32; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			substring.wipe_out
-			substring.append_character ('%N')
+			create word_list.make_with_words (line.substring_end (tab_count + 1))
+			line.keep_head (tab_count)
+			across word_list as list loop
+				word := list.item
+				if word.count > 0 then
+					last_character := word [word.count]
+					inspect last_character
+						when '*', ']', ',' then
+							do_nothing
+					else
+						last_character := '%U'
+					end
+				else
+					last_character := '%U'
+				end
+				if last_character.code.to_boolean then
+					word.remove_tail (1)
+				end
+				if not list.is_first then
+					line.append_character (' ')
+				end
+				if word.count > 1 and then eif.is_class_name (word) then
+					line.append (Source_link_template #$ [word])
+				else
+					line.append (word)
+				end
+				if last_character.code.to_boolean then
+					line.append_character (last_character)
+				end
+			end
 		end
 
 	set_ecf_path_from_target
@@ -178,6 +203,11 @@ feature {NONE} -- Constants
 	Element_target_name: ZSTRING
 		once
 			Result := "<target name"
+		end
+
+	Source_link_template: ZSTRING
+		once
+			Result := "[$source %S]"
 		end
 
 	Descendants_command: EL_OS_COMMAND

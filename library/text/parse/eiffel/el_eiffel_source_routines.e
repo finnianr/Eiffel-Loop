@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 13:46:01 GMT (Wednesday 3rd March 2021)"
-	revision: "1"
+	date: "2021-03-03 15:40:14 GMT (Wednesday 3rd March 2021)"
+	revision: "2"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -30,7 +30,7 @@ feature -- Conversion
 				across text as c until done loop
 					if alpha_found then
 						inspect c.item
-							when '_', 'A' .. 'Z' then
+							when '_', 'A' .. 'Z', '0' .. '9' then
 								Result.append_character (c.item)
 						else
 							done := True
@@ -63,7 +63,16 @@ feature -- Status query
 
 	is_class_name (text: ZSTRING): BOOLEAN
 		do
-			across text as c loop
+			Result := True
+			across text as c until not Result loop
+				inspect c.item
+					when 'A' .. 'Z'  then
+						Result := True
+					when '_', '0' .. '9' then
+						Result := not c.is_first
+				else
+					Result := False
+				end
 			end
 		end
 
