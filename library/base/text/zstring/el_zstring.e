@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:48:33 GMT (Tuesday 2nd March 2021)"
-	revision: "44"
+	date: "2021-03-03 14:01:15 GMT (Wednesday 3rd March 2021)"
+	revision: "45"
 
 class
 	EL_ZSTRING
@@ -110,7 +110,7 @@ inherit
 		rename
 			upper as count
 		undefine
-			copy, is_equal, out
+			copy, is_equal, out, new_cursor
 		redefine
 			changeable_comparison_criterion, prune_all
 		end

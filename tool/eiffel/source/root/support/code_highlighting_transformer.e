@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:58:40 GMT (Sunday 10th January 2021)"
-	revision: "9"
+	date: "2021-03-03 13:44:49 GMT (Wednesday 3rd March 2021)"
+	revision: "10"
 
 class
 	CODE_HIGHLIGHTING_TRANSFORMER
@@ -25,8 +25,6 @@ inherit
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
-	EL_EIFFEL_CONSTANTS
-
 	EL_EIFFEL_KEYWORDS
 
 	EL_MODULE_XML
@@ -36,18 +34,18 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			make_machine
-			Precursor
-		end
-
 	make (a_output: like output)
 			--
 		do
 			make_default
 			output := a_output
 			set_encoding_from_other (output)
+		end
+
+	make_default
+		do
+			make_machine
+			Precursor
 		end
 
 	make_from_file (a_output: like output; a_file_path: EL_FILE_PATH; a_selected_features: like selected_features)
@@ -94,18 +92,11 @@ feature {NONE} -- Pattern definitions
 
 feature {NONE} -- Parsing actions
 
-	on_unmatched_text (text: EL_STRING_VIEW)
-			--
-		do
-			put_escaped (text)
-		end
-
 	on_identifier (text: EL_STRING_VIEW)
 			--
 		local
-			i: INTEGER
-			has_lower: BOOLEAN
-			word: STRING
+			i: INTEGER; has_lower: BOOLEAN
+			word: STRING; eiffel: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			word := text
 			from i := 1 until has_lower or i > word.count loop
@@ -113,7 +104,7 @@ feature {NONE} -- Parsing actions
 				i := i + 1
 			end
 			if has_lower then
-				if Reserved_word_set.has (word) then
+				if eiffel.is_reserved_word (word) then
 					put_emphasis (text, "keyword")
 				else
 					put_escaped (text)
@@ -127,16 +118,13 @@ feature {NONE} -- Parsing actions
 			end
 		end
 
-feature {NONE} -- Line procedure transitions for whole class
-
-	find_class_declaration (line: ZSTRING)
+	on_unmatched_text (text: EL_STRING_VIEW)
 			--
 		do
-			if line.starts_with (Keyword_class) or else line.starts_with (Keyword_deferred) then
-				append_to_selected_text (line)
-				state := agent append_to_selected_text
-			end
+			put_escaped (text)
 		end
+
+feature {NONE} -- Line procedure transitions for whole class
 
 	append_to_selected_text (line: ZSTRING)
 			--
@@ -149,6 +137,15 @@ feature {NONE} -- Line procedure transitions for whole class
 			selected_text.append (line)
 		end
 
+	find_class_declaration (line: ZSTRING)
+			--
+		do
+			if line.starts_with (Keyword_class) or else line.starts_with (Keyword_deferred) then
+				append_to_selected_text (line)
+				state := agent append_to_selected_text
+			end
+		end
+
 feature {NONE} -- Line procedure transitions for selected features
 
 	find_feature_block (line: ZSTRING)
@@ -157,6 +154,23 @@ feature {NONE} -- Line procedure transitions for selected features
 			if line.starts_with (Keyword_feature) then
 				last_feature_block_line := line
 				state := agent find_selected_feature
+			end
+		end
+
+	find_feature_end (line: ZSTRING)
+			--
+		local
+			trimmed_line: ZSTRING
+			tab_count: INTEGER
+		do
+			create trimmed_line.make_from_other (line)
+			trimmed_line.left_adjust
+			tab_count := line.count - trimmed_line.count
+			if tab_count = 1 then
+				state := agent find_selected_feature
+				find_selected_feature (line)
+			else
+				append_to_selected_text (line)
 			end
 		end
 
@@ -195,24 +209,13 @@ feature {NONE} -- Line procedure transitions for selected features
 			end
 		end
 
-	find_feature_end (line: ZSTRING)
-			--
-		local
-			trimmed_line: ZSTRING
-			tab_count: INTEGER
-		do
-			create trimmed_line.make_from_other (line)
-			trimmed_line.left_adjust
-			tab_count := line.count - trimmed_line.count
-			if tab_count = 1 then
-				state := agent find_selected_feature
-				find_selected_feature (line)
-			else
-				append_to_selected_text (line)
-			end
-		end
-
 feature {NONE} -- Implementation
+
+	new_output: EL_PLAIN_TEXT_FILE
+			-- Use the initialized output
+		do
+			Result := output
+		end
 
 	put_emphasis (text: EL_STRING_VIEW; name: STRING)
 			--
@@ -228,19 +231,15 @@ feature {NONE} -- Implementation
 			put_string (XML.escaped_128_plus (text.to_string_8))
 		end
 
-	new_output: EL_PLAIN_TEXT_FILE
-			-- Use the initialized output
-		do
-			Result := output
-		end
-
-	selected_text: ZSTRING
-
-	selected_features: LIST [ZSTRING]
+feature {NONE} -- Internal attributes
 
 	last_feature_block_line: ZSTRING
 
 	last_feature_block_line_appended: ZSTRING
+
+	selected_features: LIST [ZSTRING]
+
+	selected_text: ZSTRING
 
 feature {NONE} -- Constants
 
@@ -249,26 +248,15 @@ feature {NONE} -- Constants
 			Result := "</em>"
 		end
 
-	Tab_spaces: ZSTRING
-			--
-		once
-			create Result.make_filled (' ', 4)
-		end
-
 	Tab_character_string: ZSTRING
 		once
 			Result := "%T"
 		end
 
-	Reserved_word_set: EL_HASH_SET [ZSTRING]
+	Tab_spaces: ZSTRING
 			--
 		once
-			create Result.make (Reserved_word_list.count)
-			Result.compare_objects
-			from Reserved_word_list.start until Reserved_word_list.after loop
-				Result.put (Reserved_word_list.item)
-				Reserved_word_list.forth
-			end
+			create Result.make_filled (' ', 4)
 		end
 
 end

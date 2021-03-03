@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:07:34 GMT (Tuesday 2nd March 2021)"
-	revision: "3"
+	date: "2021-03-03 12:58:39 GMT (Wednesday 3rd March 2021)"
+	revision: "4"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -21,11 +21,11 @@ inherit
 			substitute_html, expand_as_source_link, new_expanded_link, A_href_template
 		end
 
-	SHARED_HTML_CLASS_SOURCE_TABLE
-
 	PUBLISHER_CONSTANTS
 
-	EL_PROTOCOL_CONSTANTS
+	SHARED_CLASS_PATH_TABLE
+
+	SHARED_ISE_CLASS_CHART_TABLE
 
 create
 	make
@@ -60,21 +60,20 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
-			l_path, link_text: ZSTRING; html_path: EL_FILE_PATH
-			s: EL_ZSTRING_ROUTINES
+			l_path, link_text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			l_path := path; link_text := text
-			if Class_source_table.has_class (text) then
-				html_path := Class_source_table.found_item
-				if html_path.first_step.starts_with (Protocol.http) then
-					l_path := html_path
-				else
-					l_path := html_path.universal_relative_path (relative_page_dir)
-				end
-				if text.has (' ') then
-					create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
-					link_text.append_replaced (text, s.character_string (' '), None_breaking_space)
-				end
+			if text.has (' ') then
+				create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
+				link_text.append_replaced (text, s.character_string (' '), None_breaking_space)
+			else
+				link_text := text
+			end
+			if Class_path_table.has_class (text) then
+				l_path := Class_path_table.found_item.universal_relative_path (relative_page_dir)
+			elseif ISE_class_chart_table.has_class (text) then
+				l_path := ISE_class_chart_table.found_item
+			else
+				l_path := path
 			end
 			Result := A_href_template #$ [l_path, link_text]
 		end

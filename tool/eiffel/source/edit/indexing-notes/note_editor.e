@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 13:10:27 GMT (Tuesday 2nd March 2021)"
-	revision: "12"
+	date: "2021-03-03 13:44:49 GMT (Wednesday 3rd March 2021)"
+	revision: "13"
 
 class
 	NOTE_EDITOR
@@ -24,8 +24,6 @@ inherit
 		end
 
 	NOTE_CONSTANTS
-
-	EL_EIFFEL_KEYWORDS
 
 	EL_MODULE_LIO
 
@@ -94,8 +92,10 @@ feature -- Status query
 feature {NONE} -- Line states
 
 	find_class_definition (line: ZSTRING)
+		local
+			eiffel: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			if is_class_definition_start (line) then
+			if eiffel.is_class_definition_start (line) then
 				output_lines.extend (line)
 				state := agent put_class_definition_lines
 			end
@@ -111,11 +111,6 @@ feature {NONE} -- Implementation
 	initial_state: PROCEDURE [ZSTRING]
 		do
 			Result := agent find_class_definition
-		end
-
-	is_class_definition_start (line: ZSTRING): BOOLEAN
-		do
-			Result := Class_declaration_keywords.there_exists (agent line.starts_with)
 		end
 
 	is_override_class: BOOLEAN

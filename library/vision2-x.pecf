@@ -274,7 +274,7 @@ system:
 				"""
 					Vision2-X UI Widget Extensions
 
-					Widgets extensions for the
+					Widget extensions for the
 					[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library
 
 					See doc/vision2-x.widget.txt for details

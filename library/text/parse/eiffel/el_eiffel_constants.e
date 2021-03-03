@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:38:11 GMT (Saturday 2nd January 2021)"
-	revision: "1"
+	date: "2021-03-03 13:44:12 GMT (Wednesday 3rd March 2021)"
+	revision: "2"
 
 class
 	EL_EIFFEL_CONSTANTS
@@ -30,6 +30,17 @@ feature {NONE} -- Constants
 				end
 			end
 			Result.append (case_variations)
+		end
+
+	Reserved_word_set: EL_HASH_SET [ZSTRING]
+			--
+		once
+			create Result.make (Reserved_word_list.count)
+			Result.compare_objects
+			from Reserved_word_list.start until Reserved_word_list.after loop
+				Result.put (Reserved_word_list.item)
+				Reserved_word_list.forth
+			end
 		end
 
 	Reserved_words: STRING =

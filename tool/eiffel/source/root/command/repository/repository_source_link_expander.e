@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 18:26:14 GMT (Saturday 27th February 2021)"
-	revision: "11"
+	date: "2021-03-03 12:49:21 GMT (Wednesday 3rd March 2021)"
+	revision: "12"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -27,7 +27,9 @@ inherit
 			execute
 		end
 
-	SHARED_HTML_CLASS_SOURCE_TABLE
+	SHARED_CLASS_PATH_TABLE
+
+	SHARED_ISE_CLASS_CHART_TABLE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -64,7 +66,7 @@ feature -- Basic operations
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
 			link: EL_OCCURRENCE_INTERVALS [ZSTRING]; s: EL_ZSTRING_ROUTINES
-			pos_right_bracket, previous_pos: INTEGER
+			pos_right_bracket, previous_pos: INTEGER; link_text, inside_text: ZSTRING
 		do
 			line.replace_substring_all (s.character_string ('%T'), Triple_space)
 			previous_pos := 1
@@ -72,14 +74,14 @@ feature -- Basic operations
 			from link.start until link.after loop
 				pos_right_bracket := line.index_of (']', link.item_upper)
 				file_out.put_string (line.substring (previous_pos, link.item_lower - 1))
-				if pos_right_bracket > 0 and then line.is_space_item (link.item_upper + 1)
-					and then Class_source_table.has_class (line.substring (link.item_upper + 2, pos_right_bracket - 1))
-				then
-					file_out.put_raw_character_8 ('[')
-					file_out.put_string (web_address)
-					file_out.put_raw_character_8 ('/')
-					file_out.put_string (Class_source_table.found_item)
-					file_out.put_string (line.substring (link.item_upper + 1, pos_right_bracket))
+				if pos_right_bracket > 0 and then line.is_space_item (link.item_upper + 1)then
+					link_text := line.substring (link.item_upper + 1, pos_right_bracket)
+					inside_text := link_text.substring (2, link_text.count - 1)
+					if Class_path_table.has_class (inside_text) then
+						put_source_link (file_out, Class_path_table.found_item, link_text)
+					elseif ISE_class_chart_table.has_class (inside_text) then
+						put_ise_source_link (file_out, ISE_class_chart_table.found_item, link_text)
+					end
 					previous_pos := pos_right_bracket + 1
 				else
 					file_out.put_string (Wiki_source_link)
@@ -91,18 +93,38 @@ feature -- Basic operations
 			file_out.put_new_line
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Implementation
 
-	Wiki_source_link: ZSTRING
-		once
-			Result := "[$source"
+	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: EL_FILE_PATH; link_text: ZSTRING)
+		do
+			file_out.put_raw_character_8 ('[')
+			file_out.put_string (web_address)
+			file_out.put_raw_character_8 ('/')
+			file_out.put_string (html_path)
+			file_out.put_string (link_text)
 		end
 
+	put_ise_source_link (file_out: EL_PLAIN_TEXT_FILE; url: ZSTRING; link_text: ZSTRING)
+		do
+			file_out.put_raw_character_8 ('[')
+			file_out.put_string (url)
+			file_out.put_string (link_text)
+		end
+
+feature {NONE} -- Internal attributes
+
 	file_path: EL_FILE_PATH
+
+feature {NONE} -- Constants
 
 	Triple_space: ZSTRING
 		once
 			create Result.make_filled (' ', 3)
+		end
+
+	Wiki_source_link: ZSTRING
+		once
+			Result := "[$source"
 		end
 
 end

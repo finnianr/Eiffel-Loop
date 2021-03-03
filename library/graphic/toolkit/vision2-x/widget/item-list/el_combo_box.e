@@ -1,13 +1,13 @@
 note
-	description: "Combo box"
+	description: "A text field with a list of selections to choose from"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 10:09:06 GMT (Monday 17th August 2020)"
-	revision: "7"
+	date: "2021-03-02 20:36:31 GMT (Tuesday 2nd March 2021)"
+	revision: "8"
 
 class
 	EL_COMBO_BOX

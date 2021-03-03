@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:14:24 GMT (Tuesday 2nd March 2021)"
-	revision: "1"
+	date: "2021-03-03 13:44:49 GMT (Wednesday 3rd March 2021)"
+	revision: "2"
 
 class
 	CLASS_NOTES
@@ -19,8 +19,6 @@ inherit
 		end
 
 	NOTE_CONSTANTS
-
-	EL_EIFFEL_KEYWORDS
 
 create
 	make_with_line_source, make_with_lines
@@ -57,9 +55,9 @@ feature {NONE} -- Line states
 	find_field (line: ZSTRING)
 		local
 			name: STRING; value: ZSTRING; verbatim_field: VERBATIM_NOTE_FIELD
-			f: EL_COLON_FIELD_ROUTINES
+			f: EL_COLON_FIELD_ROUTINES; eiffel: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			if is_class_definition_start (line) then
+			if eiffel.is_class_definition_start (line) then
 				state := final
 			else
 				original_lines.extend (line)
@@ -116,11 +114,6 @@ feature {NONE} -- Implementation
 				words.replace (words.item.as_proper_case)
 			end
 			Result := words.joined_words
-		end
-
-	is_class_definition_start (line: ZSTRING): BOOLEAN
-		do
-			Result := Class_declaration_keywords.there_exists (agent line.starts_with)
 		end
 
 	is_field (line: ZSTRING): BOOLEAN

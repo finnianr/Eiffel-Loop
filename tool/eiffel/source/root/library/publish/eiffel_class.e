@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 16:05:32 GMT (Tuesday 2nd March 2021)"
-	revision: "29"
+	date: "2021-03-03 11:28:52 GMT (Wednesday 3rd March 2021)"
+	revision: "30"
 
 class
 	EIFFEL_CLASS
@@ -50,7 +50,7 @@ inherit
 
 	EL_MODULE_XML
 
-	SHARED_HTML_CLASS_SOURCE_TABLE
+	SHARED_CLASS_PATH_TABLE
 
 create
 	make
@@ -271,8 +271,8 @@ feature {NONE} -- Implementation
 		do
 			l_name := buffer.copied_substring (substring, start_index, end_index)
 			l_name.adjust
-			if Class_source_table.has_class (l_name) then
-				crc.add_path (Class_source_table.found_item)
+			if Class_path_table.has_class (l_name) then
+				crc.add_path (Class_path_table.found_item)
 			end
 		end
 

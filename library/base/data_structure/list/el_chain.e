@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 12:39:01 GMT (Friday 11th December 2020)"
-	revision: "34"
+	date: "2021-03-03 10:35:23 GMT (Wednesday 3rd March 2021)"
+	revision: "35"
 
 deferred class EL_CHAIN [G]
 
@@ -475,7 +475,7 @@ feature {NONE} -- Constants
 
 note
 	descendants: "[
-			EL_CHAIN*
+			[$source EL_CHAIN]*
 				[$source EL_STRING_GENERAL_CHAIN]*
 					[$source EL_STRING_LIST]
 						[$source EL_ZSTRING_LIST]

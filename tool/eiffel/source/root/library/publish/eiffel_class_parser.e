@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 18:15:46 GMT (Saturday 27th February 2021)"
-	revision: "4"
+	date: "2021-03-03 11:28:52 GMT (Wednesday 3rd March 2021)"
+	revision: "5"
 
 class
 	EIFFEL_CLASS_PARSER
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	SHARED_HTML_CLASS_SOURCE_TABLE
+	SHARED_CLASS_PATH_TABLE
 
 	PUBLISHER_CONSTANTS
 
@@ -56,7 +56,7 @@ feature -- Basic operations
 			end
 			across result_list as l_result loop
 				e_class := l_result.item.e_class
-				Class_source_table.put_class (e_class)
+				Class_path_table.put_class (e_class)
 
 				l_result.item.directory.class_list.extend (e_class)
 				if e_class.is_example then

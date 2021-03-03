@@ -485,12 +485,12 @@ Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library] p
 ## Vision2-X Pixmap Extensions
 Classes for managing pixmaps
 ## Vision2-X UI Widget Extensions
-Widgets extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library
+Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library
 
 **Drop-down Combo Boxes**
 
 
-* Drop-downs linked to data containers conforming to `FINITE [G]` and initialized with a value of type *G*, and a selection change agent of type `PROCEDURE [G]`. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
+* Drop-downs linked to data containers conforming to [FINITE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/finite_chart.html)] and initialized with a value of type `G`, and a selection change agent of type `PROCEDURE [G]`. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
 * Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 
@@ -498,49 +498,49 @@ Widgets extensions for the [EiffelVision2](https://www.eiffel.org/resources/libr
 
 
 ````
-EV_PRIMITIVE*
-	EV_LIST_ITEM_LIST*
-		EV_COMBO_BOX
+[$source EV_PRIMITIVE]*
+	[$source EV_LIST_ITEM_LIST]*
+		[$source EV_COMBO_BOX]
 			[$source EL_COMBO_BOX]
 				[$source EL_DROP_DOWN_BOX]
 					[$source EL_ZSTRING_DROP_DOWN_BOX]
 						[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
 					[$source EL_MONTH_DROP_DOWN_BOX]
-	EV_LABEL
+	[$source EV_LABEL]
 		[$source EL_LABEL]
-	EV_GAUGE*
-		EV_RANGE*
-			EV_VERTICAL_RANGE
+	[$source EV_GAUGE]*
+		[$source EV_RANGE]*
+			[$source EV_VERTICAL_RANGE]
 				[$source EL_SCALE_SLIDER]
-	EV_PIXMAP
+	[$source EV_PIXMAP]
 		[$source EL_PIXMAP]
 			[$source EL_DRAWING_PIXMAP]*
 				[$source EL_LABEL_PIXMAP]
 			[$source EL_SVG_PIXMAP]
 				[$source EL_SVG_TEMPLATE_PIXMAP]
 					[$source EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP]
-	EV_BUTTON
-		EV_TOGGLE_BUTTON
-			EV_CHECK_BUTTON
+	[$source EV_BUTTON]
+		[$source EV_TOGGLE_BUTTON]
+			[$source EV_CHECK_BUTTON]
 				[$source EL_CHECK_BUTTON]
 			[$source EL_TOGGLE_BUTTON]
 		[$source EL_DECORATED_BUTTON]
 		[$source EL_COLOR_BUTTON]
-	EV_TEXT_COMPONENT*
-		EV_TEXT_FIELD
-			EV_SPIN_BUTTON
+	[$source EV_TEXT_COMPONENT]*
+		[$source EV_TEXT_FIELD]
+			[$source EV_SPIN_BUTTON]
 			[$source EL_TEXT_FIELD]
 				[$source EL_INPUT_FIELD]*
 					[$source EL_INTEGER_INPUT_FIELD]
-		EV_TEXT
-			EV_RICH_TEXT
+		[$source EV_TEXT]
+			[$source EV_RICH_TEXT]
 				[$source EL_RICH_TEXT]
 					[$source EL_HTML_TEXT]
 			[$source EL_TEXT]
 		[$source EL_UNDOABLE_TEXT_COMPONENT]*
 			[$source EL_TEXT_FIELD]
 			[$source EL_TEXT]
-	EV_DRAWING_AREA
+	[$source EV_DRAWING_AREA]
 		[$source EL_DRAWING_AREA_BASE]*
 			[$source EL_DRAWING_AREA]
 				[$source EL_DRAWING_AREA_LABEL]

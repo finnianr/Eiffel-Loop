@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 12:40:18 GMT (Tuesday 2nd February 2021)"
-	revision: "8"
+	date: "2021-03-03 11:28:52 GMT (Wednesday 3rd March 2021)"
+	revision: "9"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			do_all, new_publisher, on_prepare, generated_files
 		end
 
-	SHARED_HTML_CLASS_SOURCE_TABLE
+	SHARED_CLASS_PATH_TABLE
 
 	EL_MODULE_EXECUTABLE
 
@@ -65,7 +65,11 @@ feature {NONE} -- Implementation
 			web_url := publisher.web_address + "/"
 			blog_text := OS.File_system.plain_text (publisher.expanded_file_path)
 			across << Type_base, Type_descendant >> as type loop
-				class_url := web_url + Class_source_table.item (type.item.name)
+				if Class_path_table.has_class (type.item.name) then
+					class_url := web_url + Class_path_table.found_item
+				else
+					class_url := web_url + ""
+				end
 				assert ("has uri path", blog_text.has_substring (class_url.to_string))
 			end
 		end

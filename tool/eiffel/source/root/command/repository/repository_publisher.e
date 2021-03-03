@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 16:53:23 GMT (Tuesday 2nd March 2021)"
-	revision: "30"
+	date: "2021-03-03 12:02:07 GMT (Wednesday 3rd March 2021)"
+	revision: "31"
 
 class
 	REPOSITORY_PUBLISHER
@@ -212,7 +212,7 @@ feature {NONE} -- Build from Pyxis
 
 	build_source_table
 		local
-			table: CLASS_SOURCE_TABLE; template: ZSTRING
+			table: ISE_CLASS_CHART_TABLE; template: ZSTRING
 		do
 			template := node.to_string
 			template.replace_substring_general_all ("%%S", "%S")

@@ -1,24 +1,24 @@
 note
-	description: "Shared html class source table"
+	description: "Shared instance of [$source CLASS_HTML_PATH_TABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 12:35:50 GMT (Tuesday 2nd March 2021)"
-	revision: "7"
+	date: "2021-03-03 12:21:07 GMT (Wednesday 3rd March 2021)"
+	revision: "8"
 
 deferred class
-	SHARED_HTML_CLASS_SOURCE_TABLE
+	SHARED_CLASS_PATH_TABLE
 
 inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Class_source_table: CLASS_SOURCE_TABLE
+	Class_path_table: CLASS_HTML_PATH_TABLE
 		once ("PROCESS")
-			Result := create {EL_SINGLETON [CLASS_SOURCE_TABLE]}
+			create Result.make
 		end
 end

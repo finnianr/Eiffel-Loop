@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 16:37:24 GMT (Sunday 21st February 2021)"
-	revision: "54"
+	date: "2021-03-03 14:48:43 GMT (Wednesday 3rd March 2021)"
+	revision: "55"
 
 class
 	ZSTRING_TEST_SET
@@ -76,6 +76,7 @@ feature -- Basic operations
 			eval.call ("index_of", agent test_index_of)
 			eval.call ("joined", agent test_joined)
 			eval.call ("last_index_of", agent test_last_index_of)
+			eval.call ("new_cursor", agent test_new_cursor)
 			eval.call ("occurrences", agent test_occurrences)
 			eval.call ("substring_index", agent test_substring_index)
 			eval.call ("substring_index_in_bounds", agent test_substring_index_in_bounds)
@@ -862,6 +863,20 @@ feature -- Access tests
 						i := value.item
 						assert ("last_index_of OK", str.last_index_of (uc, i) = str_32.last_index_of (uc, i))
 					end
+				end
+			end
+		end
+
+	test_new_cursor
+		note
+			testing:	"covers/{EL_READABLE_ZSTRING}.new_cursor"
+		local
+			str: ZSTRING; str_32: STRING_32
+		do
+			across text_lines as line loop
+				str_32 := line.item; str := str_32
+				across str as c loop
+					assert ("same character", c.item = str_32 [c.cursor_index])
 				end
 			end
 		end

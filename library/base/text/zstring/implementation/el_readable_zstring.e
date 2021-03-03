@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 12:57:35 GMT (Thursday 18th February 2021)"
-	revision: "77"
+	date: "2021-03-03 14:14:04 GMT (Wednesday 3rd March 2021)"
+	revision: "78"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -49,6 +49,7 @@ inherit
 	EL_CONVERTABLE_ZSTRING
 		export
 			{STRING_HANDLER} empty_unencoded_buffer, unencoded_indexable, set_unencoded_from_buffer
+			{EL_ZSTRING_ITERATION_CURSOR} area_lower, area_upper, area, unencoded_area
 		redefine
 			make_from_string
 		end
@@ -70,6 +71,8 @@ inherit
 			upper as count
 		undefine
 			out, copy, is_equal
+		redefine
+			new_cursor
 		end
 
 	STRING_HANDLER
@@ -203,6 +206,12 @@ feature -- Access
 				Result := unencoded_hash_code (area_hash_code)
 				internal_hash_code := Result
 			end
+		end
+
+	new_cursor: EL_ZSTRING_ITERATION_CURSOR
+		do
+			create Result.make (Current)
+			Result.start
 		end
 
 	share (other: like Current)
