@@ -112,13 +112,20 @@ Classes for the following:
 				</condition>
 			</file_rule>
 		</cluster>
+		<cluster name = "kernel" location = "kernel" recursive = "true">
+			<description>
+Kernel
+
+Fundamental base classes
+			</description>
+		</cluster>
 		<cluster name = "reflection" location = "runtime/reflection" recursive = "true">
 			<description>
 Class Reflection
 
 Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way
 of exchanging data between Eiffel objects and any structured plaintext format, and also a binary
-memory block conforming to [$source EL_MEMORY_READER_WRITER] (inherits SED_MEMORY_READER_WRITER)
+memory block conforming to [$source EL_MEMORY_READER_WRITER] (inherits [$source SED_MEMORY_READER_WRITER])
 
 See doc/base.reflection.txt for details
 			</description>
@@ -160,9 +167,9 @@ Data Persistence
 
 Classes providing the following facilities:
 
-* Reading and writing arrays of floating-point type `DOUBLE&apos;.
+* Reading and writing arrays of floating-point type [$source REAL_64].
 * Files that notify a listener of byte-count written and read.
-* A file conforming to `PLAIN_TEXT_FILE&apos; that implements [$source EL_OUTPUT_MEDIUM]
+* A file conforming to [$source PLAIN_TEXT_FILE] that implements [$source EL_OUTPUT_MEDIUM]
 * File line source and other abstractions
 			</description>
 		</cluster>
@@ -185,9 +192,7 @@ Classes providing the following:
 Class ZSTRING
 
 An implementation of a memory compact string with the same unicode character range as the base
-class [https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html STRING_32]
-and conforming to
-[https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html STRING_GENERAL].
+class [$source STRING_32] and conforming to [$source STRING_GENERAL].
 ZSTRING is an alias for the actual class name [$source EL_ZSTRING]. [$source EL_ZSTRING] has many additional
 routines not found in STRING_32, as for example: Python like tuple substitution.
 

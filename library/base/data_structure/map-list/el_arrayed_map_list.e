@@ -1,19 +1,14 @@
 note
 	description: "Arrayed list of key-value pair tuples"
-	descendants: "[
-			EL_ARRAYED_MAP_LIST
-				[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
-					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
-					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST]
-	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-21 14:34:28 GMT (Saturday 21st November 2020)"
-	revision: "11"
+	date: "2021-03-03 16:04:05 GMT (Wednesday 3rd March 2021)"
+	revision: "12"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -195,5 +190,18 @@ feature {NONE} -- Implementation
 		do
 			list.extend (a_item.value)
 		end
+
+note
+	descendants: "[
+			EL_ARRAYED_MAP_LIST [K, G]
+				[$source EL_DECOMPRESSED_DATA_LIST]
+				[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
+					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST] [K -> [$source COMPARABLE], G]
+					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST] [K, G -> [$source COMPARABLE]]
+				[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
+					[$source EL_STYLED_ZSTRING_LIST]
+					[$source EL_STYLED_STRING_8_LIST]
+					[$source EL_STYLED_STRING_32_LIST]
+	]"
 
 end

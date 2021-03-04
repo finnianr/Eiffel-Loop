@@ -1,13 +1,13 @@
 note
-	description: "Routines for converting ip addresses from `STRING' to `NATURAL_32' and vice-versa"
+	description: "Routines for converting ip addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:08:07 GMT (Thursday 16th January 2020)"
-	revision: "3"
+	date: "2021-03-04 10:18:25 GMT (Thursday 4th March 2021)"
+	revision: "4"
 
 class
 	EL_IP_ADDRESS_ROUTINES

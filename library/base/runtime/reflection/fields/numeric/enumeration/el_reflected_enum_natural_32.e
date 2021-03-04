@@ -1,13 +1,15 @@
 note
-	description: "`NATURAL_32' field with enumerated values"
+	description: "[
+		[$source NATURAL_32] field with enumerated values
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:38:43 GMT (Monday 7th December 2020)"
-	revision: "2"
+	date: "2021-03-04 10:17:27 GMT (Thursday 4th March 2021)"
+	revision: "3"
 
 class
 	EL_REFLECTED_ENUM_NATURAL_32

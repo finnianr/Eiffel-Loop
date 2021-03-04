@@ -1,13 +1,15 @@
 note
-	description: "`INTEGER_32' field"
+	description: "[
+		[$source INTEGER_32] field
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-15 14:28:09 GMT (Tuesday 15th December 2020)"
-	revision: "10"
+	date: "2021-03-04 10:23:27 GMT (Thursday 4th March 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_INTEGER_32

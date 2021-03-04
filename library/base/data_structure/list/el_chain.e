@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 10:35:23 GMT (Wednesday 3rd March 2021)"
-	revision: "35"
+	date: "2021-03-03 16:02:02 GMT (Wednesday 3rd March 2021)"
+	revision: "36"
 
 deferred class EL_CHAIN [G]
 
@@ -475,47 +475,50 @@ feature {NONE} -- Constants
 
 note
 	descendants: "[
-			[$source EL_CHAIN]*
-				[$source EL_STRING_GENERAL_CHAIN]*
-					[$source EL_STRING_LIST]
-						[$source EL_ZSTRING_LIST]
-						[$source EL_STRING_8_LIST]
-							[$source EVOLICITY_VARIABLE_REFERENCE]
-								[$source EVOLICITY_FUNCTION_REFERENCE]
-						[$source EL_STRING_32_LIST]
-				[$source EL_QUERYABLE_CHAIN]*
-					[$source EL_QUERYABLE_ARRAYED_LIST]
-						[$source AIA_CREDENTIAL_LIST]
-							[$source AIA_STORABLE_CREDENTIAL_LIST]
-				[$source EL_ARRAYED_LIST]
-					[$source EL_TUPLE_TYPE_LIST]
-					[$source EL_SORTABLE_ARRAYED_LIST]
+			EL_CHAIN* [G]
+				[$source EL_ARRAYED_LIST] [G]
+					[$source EL_TUPLE_TYPE_LIST] [T]
+					[$source EL_SUB_APPLICATION_LIST]
+					[$source EL_DEFAULT_COMMAND_OPTION_LIST]
+					[$source EL_SORTABLE_ARRAYED_LIST] [G -> [$source COMPARABLE]]
 						[$source EL_FILE_MANIFEST_LIST]
 						[$source EL_FILE_PATH_LIST]
-						[$source EL_STRING_LIST]
+						[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+							[$source EL_STRING_32_LIST]
 							[$source EL_ZSTRING_LIST]
-								[$source UNCHECKED_TRANSLATIONS_LIST]
-								[$source EL_SUBJECT_LIST]
+								[$source EL_XHTML_STRING_LIST]
 							[$source EL_STRING_8_LIST]
 								[$source EVOLICITY_VARIABLE_REFERENCE]
 									[$source EVOLICITY_FUNCTION_REFERENCE]
-							[$source EL_STRING_32_LIST]
+								[$source AIA_CANONICAL_REQUEST]
+					[$source EL_COMMA_SEPARATED_WORDS_LIST]
+					[$source EL_IMPORTABLE_ARRAYED_LIST] [G -> [$source EL_REFLECTIVELY_SETTABLE] create make_default end]
+					[$source EL_ARRAYED_MAP_LIST] [K, G]
+						[$source EL_DECOMPRESSED_DATA_LIST]
+						[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
+							[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST] [K -> [$source COMPARABLE], G]
+							[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST] [K, G -> [$source COMPARABLE]]
+						[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
+							[$source EL_STYLED_ZSTRING_LIST]
+							[$source EL_STYLED_STRING_8_LIST]
+							[$source EL_STYLED_STRING_32_LIST]
+					[$source EL_REFLECTED_FIELD_LIST]
 					[$source EL_TRANSLATION_ITEMS_LIST]
-					[$source EL_QUERYABLE_ARRAYED_LIST]
-					[$source EL_ARRAYED_MAP_LIST]
-						[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
-							[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
-								[$source EL_BOOK_ASSEMBLY]
 					[$source EL_XDG_DESKTOP_ENTRY_STEPS]
+					[$source EL_QUERYABLE_ARRAYED_LIST] [G]
+						[$source AIA_CREDENTIAL_LIST]
+							[$source AIA_STORABLE_CREDENTIAL_LIST]
 					[$source EL_SEQUENTIAL_INTERVALS]
-						[$source EL_SPLIT_STRING_LIST]
-							[$source EL_SPLIT_ZSTRING_LIST]
-							[$source EL_IP_ADDRESS_ROUTINES]
-						[$source EL_OCCURRENCE_INTERVALS]
-						[$source EL_UNENCODED_CHARACTERS_INDEX]
-					[$source EL_OPF_MANIFEST_LIST]
-					[$source EL_SUB_APPLICATION_LIST]
-				[$source EL_STRING_GENERAL_CHAIN]*
-					[$source EL_STRING_LIST]
+						[$source EL_OCCURRENCE_INTERVALS] [S -> [$source STRING_GENERAL] create make end]
+							[$source EL_SPLIT_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+								[$source EL_IP_ADDRESS_ROUTINES]
+								[$source EL_SPLIT_ZSTRING_LIST]
+								[$source EL_SPLIT_STRING_32_LIST]
+								[$source EL_SPLIT_STRING_8_LIST]
+				[$source EL_STRING_GENERAL_CHAIN]* [S -> [$source STRING_GENERAL] create make, make_empty end]
+					[$source EL_LINKED_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+					[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+				[$source EL_QUERYABLE_CHAIN]* [G]
+					[$source EL_QUERYABLE_ARRAYED_LIST] [G]
 	]"
 end

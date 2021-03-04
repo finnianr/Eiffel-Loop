@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
-	revision: "24"
+	date: "2021-03-04 13:24:45 GMT (Thursday 4th March 2021)"
+	revision: "25"
 
 deferred class
 	EL_ZCODEC
@@ -252,8 +252,10 @@ feature -- Conversion
 	as_unicode (encoded: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			if encoded_as_latin (1) then
+			if encoded_as_latin (1) or else s.is_ascii (encoded) then
 				Result := encoded
 			else
 				Unicode_buffer.set_from_encoded (Current, encoded)

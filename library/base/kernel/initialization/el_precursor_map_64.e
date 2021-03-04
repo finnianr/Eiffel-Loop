@@ -2,7 +2,7 @@ note
 	description: "[
 		Tracks whether a routine has been called already or not during `make' precursor calls.
 		This is a variation of class [$source EL_PRECURSOR_MAP] but with the `done_bitmap' defined
-		as `NATURAL_64' instead of `NATURAL_32'.
+		as [$source NATURAL_64] instead of [$source NATURAL_32].
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 10:19:14 GMT (Wednesday 29th January 2020)"
-	revision: "2"
+	date: "2021-03-04 10:14:49 GMT (Thursday 4th March 2021)"
+	revision: "3"
 
 deferred class
 	EL_PRECURSOR_MAP_64

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 12:02:07 GMT (Wednesday 3rd March 2021)"
-	revision: "31"
+	date: "2021-03-04 10:48:15 GMT (Thursday 4th March 2021)"
+	revision: "32"
 
 class
 	REPOSITORY_PUBLISHER
@@ -70,6 +70,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create example_classes.make (500)
 			create ftp_sync.make
 			create web_address.make_empty
+			create ise_template
 			Precursor
 		end
 
@@ -210,15 +211,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
-	build_source_table
-		local
-			table: ISE_CLASS_CHART_TABLE; template: ZSTRING
-		do
-			template := node.to_string
-			template.replace_substring_general_all ("%%S", "%S")
-			create table.make (template)
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
@@ -227,7 +219,8 @@ feature {NONE} -- Build from Pyxis
 				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
 				["@github-url", 					agent do github_url := node.to_string end],
 				["@web-address", 					agent do web_address := node.to_string end],
-				["@ise-chart",						agent build_source_table],
+				["@ise-library",					agent do ise_template.library := node end],
+				["@ise-contrib",					agent do ise_template.contrib := node end],
 
 				["templates",						agent set_template_context],
 				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
@@ -275,7 +268,12 @@ feature {NONE} -- Build from Pyxis
 		end
 
 	set_template_context
+		local
+			table: ISE_CLASS_TABLE
 		do
+			ise_template.library.replace_substring_general_all ("%%S", "%S")
+			create table.make (ise_template.library, ise_template.contrib)
+
 			templates.set_config_dir (config_path.parent)
 			set_next_context (templates)
 		end
@@ -283,6 +281,8 @@ feature {NONE} -- Build from Pyxis
 feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 
 	parser: EIFFEL_CLASS_PARSER
+
+	ise_template: TUPLE [library, contrib: ZSTRING]
 
 feature {NONE} -- Constants
 

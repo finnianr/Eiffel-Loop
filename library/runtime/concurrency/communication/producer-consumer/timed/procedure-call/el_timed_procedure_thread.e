@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-03-04 15:45:08 GMT (Thursday 4th March 2021)"
+	revision: "6"
 
 class
-	EL_TIMED_PROCEDURE_THREAD  [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_TIMED_PROCEDURE_THREAD [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
 	EL_TIMED_PROCEDURE [BASE_TYPE, OPEN_ARGS]

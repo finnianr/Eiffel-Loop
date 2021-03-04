@@ -6,16 +6,15 @@ note
 			ecf-list:
 				# Library Base
 				ecf:
-					"library/base/base.ecf#utility"
+					"library/base/base.ecf#kernel"
 					"library/base/base.ecf#math"
 					"library/base/base.ecf#persistency"
-
-				# Library (Text)
+				# Library (Persistence)
 				ecf:
-					"library/i18n.ecf"
-				# Library Graphics
+					"library/Eco-DB.ecf"
+				# Library Text
 				ecf:
-					"library/html-viewer.ecf"
+					"library/public-key-encryption.ecf"
 	]"
 
 	author: "Finnian Reilly"
@@ -23,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-27 17:28:42 GMT (Saturday 27th February 2021)"
-	revision: "29"
+	date: "2021-03-04 11:43:51 GMT (Thursday 4th March 2021)"
+	revision: "30"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -71,16 +70,16 @@ feature -- Tests
 			publisher.execute
 			check_html_exists (publisher)
 
-			create editor.make ("make_shell", "make_command_shell")
+			create editor.make ("operations", "operation") -- feature -- Basic operations
 			editor.set_file_path (Modified_file_path)
 			editor.edit
 
-			base_name_list := "base.utility.html, index.html"
-			base_name_list.extend (Modified_file_path.base_sans_extension + ".html")
-			base_name_list.append (sorted_base_names (Shared_directory.named (Crc_32_dir).files))
+			base_name_list := "base.kernel.html, index.html"
+--			base_name_list.extend (Modified_file_path.base_sans_extension + ".html")
+			base_name_list.append (sorted_base_names (Shared_directory.named (Kernel_command_dir).files))
 			base_name_list.sort
 
-			Shared_directory.named (Crc_32_dir).delete_content
+			Shared_directory.named (Kernel_command_dir).delete_content
 
 			if Executable.Is_work_bench then
 				line := User_input.line ("Enter to continue")
@@ -105,8 +104,8 @@ feature {NONE} -- Events
 			across list as name loop
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
 			end
-			list := "library/base/utility, library/base/math, library/base/persistency, library/persistency/database/eco-db%
-								%, library/graphic/toolkit/html-viewer"
+			list := "library/base/kernel, library/base/math, library/base/persistency, library/persistency/database/eco-db%
+								%, library/text/rsa-encryption"
 			across list as dir loop
 				from steps := dir.item until steps.count = 0 loop
 					lib_dir := Work_area_dir.joined_dir_path (steps.as_directory_path)
@@ -118,7 +117,7 @@ feature {NONE} -- Events
 				lib_dir := dir.item
 				OS.copy_tree (Eiffel_loop_dir.joined_dir_path (lib_dir), Work_area_dir.joined_dir_path (lib_dir.parent))
 			end
-			list := "library/base/base.ecf, library/Eco-DB.ecf, library/html-viewer.ecf"
+			list := "library/base/base.ecf, library/Eco-DB.ecf, library/public-key-encryption.ecf"
 			across list as path loop
 				OS.copy_file (Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
 			end
@@ -194,9 +193,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Crc_32_dir: EL_DIR_PATH
+	Kernel_command_dir: EL_DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_path ("doc/library/base/utility/crc-32")
+			Result := Work_area_dir.joined_dir_path ("doc/library/base/kernel/command")
 		end
 
 	Doc_config_dir: EL_DIR_PATH
@@ -211,7 +210,7 @@ feature {NONE} -- Constants
 
 	Modified_file_path: EL_FILE_PATH
 		once
-			Result := Work_area_dir + "library/base/utility/benchmark/el_benchmark_command_shell.e"
+			Result := Work_area_dir + "library/base/kernel/command/el_default_command.e"
 		end
 
 end

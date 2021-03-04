@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 15:45:03 GMT (Wednesday 3rd March 2021)"
-	revision: "11"
+	date: "2021-03-04 16:45:21 GMT (Thursday 4th March 2021)"
+	revision: "12"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -160,7 +160,9 @@ feature {NONE} -- Implementation
 				if not list.is_first then
 					line.append_character (' ')
 				end
-				if word.count > 1 and then eif.is_class_name (word) then
+				if word.count > 1 and then eif.is_class_name (word)
+					and then (not list.is_last implies word_list.i_th (list.cursor_index + 1) /~ Constraint_symbol)
+				then
 					line.append (Source_link_template #$ [word])
 				else
 					line.append (word)
@@ -169,6 +171,29 @@ feature {NONE} -- Implementation
 					line.append_character (last_character)
 				end
 			end
+			if line.has ('{') then
+				-- for example: [$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {NUMERIC, HASHABLE}]
+				line.edit ("{", "}", agent expand_constraint_list)
+			end
+		end
+
+	expand_constraint_list (start_index, end_index: INTEGER; substring: ZSTRING)
+		local
+			constraint_list: EL_ZSTRING_LIST; expanded_string, word: ZSTRING
+			eif: EL_EIFFEL_SOURCE_ROUTINES
+		do
+			create expanded_string.make (end_index - start_index + 1)
+			create constraint_list.make_with_csv (substring.substring (start_index, end_index))
+			across constraint_list as c_list loop
+				word := c_list.item
+				if not c_list.is_first then
+					expanded_string.append_string_general (", ")
+				end
+				if eif.is_class_name (word) then
+					expanded_string.append (Source_link_template #$ [word])
+				end
+			end
+			substring.replace_substring (expanded_string, start_index, end_index)
 		end
 
 	set_ecf_path_from_target
@@ -199,6 +224,11 @@ feature {NONE} -- Internal attributes
 	target_name: ZSTRING
 
 feature {NONE} -- Constants
+
+	Constraint_symbol: ZSTRING
+		once
+			Result := "->"
+		end
 
 	Element_target_name: ZSTRING
 		once

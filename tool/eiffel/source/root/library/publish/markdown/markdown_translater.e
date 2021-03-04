@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 12:53:09 GMT (Wednesday 3rd March 2021)"
-	revision: "9"
+	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
+	revision: "10"
 
 class
 	MARKDOWN_TRANSLATER
@@ -24,7 +24,7 @@ inherit
 
 	SHARED_CLASS_PATH_TABLE
 
-	SHARED_ISE_CLASS_CHART_TABLE
+	SHARED_ISE_CLASS_TABLE
 
 create
 	make
@@ -157,8 +157,8 @@ feature {NONE} -- Implementation
 						if Class_path_table.has_class (link_text) then
 							link_address := Join_path #$ [repository_web_address, Class_path_table.found_item]
 
-						elseif ISE_class_chart_table.has_class (link_text) then
-							link_address := ISE_class_chart_table.found_item
+						elseif ISE_class_table.has_class (link_text) then
+							link_address := ISE_class_table.found_item
 						end
 				else
 				end

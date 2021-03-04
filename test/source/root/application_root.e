@@ -1,7 +1,7 @@
 note
 	description: "Application root"
 	notes: "[
-		Fix test sets: "covers/{XXX}.name"
+
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 15:30:33 GMT (Tuesday 9th February 2021)"
-	revision: "56"
+	date: "2021-03-04 16:05:27 GMT (Thursday 4th March 2021)"
+	revision: "57"
 
 class
 	APPLICATION_ROOT
@@ -117,6 +117,41 @@ create
 feature {NONE} -- Constants
 
 	Compile_also: TUPLE [MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1]
+		once
+			create Result
+		end
+
+	Compile_consumer_tree: TUPLE [
+		EL_COUNT_CONSUMER_THREAD,
+		EL_COUNT_CONSUMER_MAIN_THREAD,
+		EL_CONSUMER_MAIN_THREAD [ANY],
+		EL_CONSUMER_THREAD [ANY],
+		EL_DELEGATING_CONSUMER_THREAD [ANY, EL_MANY_TO_ONE_CONSUMER_THREAD [ANY]],
+		EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER,
+		EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD [TUPLE],
+		EL_PROCEDURE_CALL_CONSUMER_THREAD [TUPLE],
+		EL_PROCEDURE_CALL_QUEUE [TUPLE],
+		EL_REGULAR_INTERVAL_EVENT_CONSUMER,
+		EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER,
+		EL_TIMED_COUNT_PRODUCER,
+		EL_TIMED_PROCEDURE [ANY, TUPLE],
+		EL_TIMED_PROCEDURE_MAIN_THREAD [ANY, TUPLE],
+		EL_SEPARATE_PROCEDURE [TUPLE]
+	]
+		once
+			create Result
+		end
+
+	Compile_thread_tree: TUPLE [
+		EL_DORMANT_ACTION_LOOP_THREAD,
+		EL_EVENT_LISTENER_MAIN_THREAD_PROXY,
+		EL_INTERRUPTABLE_THREAD,
+		EL_RHYTHMIC_ACTION_THREAD,
+		EL_REGULAR_INTERVAL_EVENT_PRODUCER,
+		EL_TIMEOUT,
+		EL_TIMED_PROCEDURE_THREAD [ANY, TUPLE],
+		EL_WORKER_THREAD
+	]
 		once
 			create Result
 		end

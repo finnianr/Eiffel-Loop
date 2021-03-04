@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:15:38 GMT (Tuesday 2nd March 2021)"
-	revision: "26"
+	date: "2021-03-04 11:05:40 GMT (Thursday 4th March 2021)"
+	revision: "27"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -264,8 +264,8 @@ note
 
 		**1.** Basic Types
 
-		A basic type is one of: [$source READABLE_STRING_GENERAL], [$source INTEGER_REF], [$source NATURAL_REF],
-		[$source BOOLEAN_REF] or [$source DOUBLE_REF]
+		A basic type is one of: [$source READABLE_STRING_GENERAL], [$source INTEGER_32_REF], [$source NATURAL_32_REF],
+		[$source BOOLEAN_REF] or [$source REAL_64_REF]
 
 		**2.** Evolicity Context
 

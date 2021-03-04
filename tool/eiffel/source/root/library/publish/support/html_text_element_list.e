@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:32:55 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2021-03-03 18:23:18 GMT (Wednesday 3rd March 2021)"
+	revision: "13"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -32,6 +32,8 @@ inherit
 		undefine
 			is_equal, copy
 		end
+
+	PUBLISHER_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
 
@@ -183,23 +185,64 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	text_count (line: ZSTRING): INTEGER
+		-- count excluding [$source MY_CLASS] characters
+		local
+			variable_count: INTEGER
+		do
+			Result := line.count
+			if line.has_substring (Source_variable) then
+				-- substract all extra characters from [$source MY_CLASS]
+				variable_count := line.substring_index_list (Source_variable).count
+				Result := Result - variable_count * (Source_variable.count + 3)
+			end
+		end
+
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			line: ZSTRING; i: INTEGER
+			line, word, l_last: ZSTRING; i, l_count, removed_count, space_count: INTEGER; word_list: EL_ZSTRING_LIST
 		do
 			create Result.make (lines.count)
 			across lines as l loop
 				line := l.item
-				if line.count > Maximum_code_width then
-					from i := Maximum_code_width + 1 until i = 0 or else not line.is_alpha_numeric_item (i) loop
-						i := i - 1
+				if text_count (line) > Maximum_code_width then
+					Word_stack.wipe_out
+					space_count := line.leading_occurrences (' ')
+					line.remove_head (space_count)
+					create word_list.make_with_words (line)
+					Result.extend (create {ZSTRING}.make_filled (' ', space_count))
+					l_count := space_count
+					across word_list as list loop
+						word := list.item
+						if Result.last.count > 0 then
+							l_count := l_count + 1
+							Result.last.append_character (' ')
+						end
+						l_count := l_count + word.count
+						if word ~ Source_link then
+							l_count := l_count - (Source_variable.count + 3)
+						end
+						Result.last.append (word)
+						Word_stack.put (word)
+						if l_count > Maximum_code_width then
+							-- undo appending until small enough
+							removed_count := 0
+							from until Word_stack.item /~ Source_link and then l_count - removed_count <= Maximum_code_width loop
+								word := Word_stack.item; Word_stack.remove
+								removed_count := removed_count + word.count + 1
+								if word ~ Source_link then
+									removed_count := removed_count - (Source_variable.count + 3)
+								end
+							end
+							l_last := Result.last
+							Result.extend (l_last.substring_end (l_last.count - removed_count + 1))
+							l_last.remove_tail (removed_count)
+							Word_stack.wipe_out
+							l_count := 0
+						end
 					end
-					if i = 0 then
-						i := Maximum_code_width + 1
-					end
-					Result.extend (line.substring (1, i - 1))
-					line := line.substring_end (i)
-					Result.extend (new_filler (Maximum_code_width - line.count) + line)
+					-- Shift last line to right as much as possible
+					Result.last.prepend (new_filler (Maximum_code_width - Result.last.count))
 				else
 					Result.extend (line)
 				end
@@ -225,7 +268,18 @@ feature {NONE} -- Constants
 
 	Maximum_code_width: INTEGER
 		once
-			Result := 83
+			Result := 110
+		end
+
+	Source_link: ZSTRING
+		once
+			Result := "["
+			Result.append (Source_variable)
+		end
+
+	Word_stack: ARRAYED_STACK [ZSTRING]
+		once
+			create Result.make (0)
 		end
 
 end

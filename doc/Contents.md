@@ -176,33 +176,108 @@ Various hash-table, array, list, chain and linear types
 
 
 ````
-HASH_TABLE
-	[$source EL_HASH_TABLE]
-			[$source EL_PROCEDURE_TABLE]
-	[$source EL_HASH_SET]
-	[$source EL_FUNCTION_RESULT_TABLE]
-	[$source EL_CODE_TABLE]
-		[$source EL_UNIQUE_CODE_TABLE]
-	[$source EL_GROUP_TABLE]
-	[$source EL_TYPE_TABLE]
+HASH_TABLE [G, K -> HASHABLE]
+	[$source SED_OBJECTS_TABLE]
+	[$source CLASS_NAME_TRANSLATIONS]
+	[$source MISMATCH_INFORMATION]
+	[$source HASH_TABLE_EX] [G, K -> [$source HASHABLE]]
+	[$source EQUALITY_HASH_TABLE] [G -> [$source ANY], H -> [$source HASHABLE]]
+	[$source STRING_TABLE] [G]
+	[$source EL_LOG_FILTER_SET] [TYPE_LIST -> [$source TUPLE] create default_create end]
+	[$source EL_EIF_OBJ_TEXT_TABLE_CONTEXT]
+	[$source EL_FUNCTION_RESULT_TABLE] [TARGET, R]
+	[$source EL_ZSTRING_TABLE]
+	[$source EL_STRING_GENERAL_UNESCAPER]* [R -> [$source READABLE_STRING_GENERAL], G -> [$source STRING_GENERAL]]
+		[$source EL_STRING_8_UNESCAPER]
+		[$source EL_ZSTRING_UNESCAPER]
+			[$source EL_JSON_UNESCAPER]
+		[$source EL_STRING_32_UNESCAPER]
+	[$source EL_CACHE_TABLE] [G, K -> [$source HASHABLE]]
+	[$source EL_HASH_SET] [G -> [$source HASHABLE]]
+	[$source EL_HTTP_COOKIE_TABLE]
+	[$source EL_HASH_TABLE] [G, K -> [$source HASHABLE]]
+		[$source EL_STRING_HASH_TABLE] [G, K -> [$source STRING_GENERAL] create make end]
+			[$source EL_PROCEDURE_TABLE] [K -> [$source STRING_GENERAL] create make end]
+			[$source EVOLICITY_OBJECT_TABLE] [G]
+			[$source EL_ZSTRING_HASH_TABLE] [G]
+				[$source EL_TRANSLATION_TABLE]
+				[$source EL_GVFS_MOUNT_TABLE]
+		[$source EL_FTP_SYNC_ITEM_TABLE]
+		[$source EL_DATE_FUNCTION_TABLE]
+		[$source EL_REFLECTED_REFERENCE_TYPE_TABLE] [REFLECTED_TYPE -> [$source EL_REFLECTED_REFERENCE] [ANY]]
+			[$source EL_REFLECTED_COLLECTION_TYPE_TABLE] [G]
+			[$source EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE]
+		[$source EL_STRING_CONVERSION_TABLE]
+	[$source EL_REFLECTED_FIELD_TABLE]
+	[$source EL_URI_QUERY_HASH_TABLE]* [S -> [$source STRING_GENERAL] create make end]
+		[$source EL_URI_QUERY_ZSTRING_HASH_TABLE]
+	[$source EVOLICITY_TEMPLATE_STACK_TABLE]
+	[$source EL_GROUP_TABLE] [G, K -> [$source HASHABLE]]
+	[$source EL_FIELD_VALUE_TABLE]* [G]
+	[$source EL_SINGLETON_TABLE]
+	[$source EL_CODE_TABLE] [K -> [$source HASHABLE]]
+		[$source EL_UNIQUE_CODE_TABLE] [K -> [$source HASHABLE]]
+			[$source EL_ZSTRING_TOKEN_TABLE]
+				[$source EL_WORD_TOKEN_TABLE]
+	[$source EL_CURL_HEADER_TABLE]
+	[$source EL_HTTP_HEADERS]
+	[$source EL_FUNCTIONS_BY_RESULT_TYPE]
+	[$source EL_XPATH_TOKEN_TABLE]
 ````
 **Linear Chains**
 
 
 ````
-[$source EL_LINEAR]*
-	[$source EL_CHAIN]*
-		[$source EL_ARRAYED_LIST]
+EL_LINEAR* [G]
+	[$source EL_CHAIN]* [G]
+		[$source EL_ARRAYED_LIST] [G]
+			[$source EL_TUPLE_TYPE_LIST] [T]
 			[$source EL_SUB_APPLICATION_LIST]
-			[$source EL_ARRAYED_MAP_LIST]
-				[$source EL_SORTABLE_ARRAYED_MAP_LIST]*
-					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST]
-					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST]
-			[$source EL_IMPORTABLE_ARRAYED_LIST]
-			[$source EL_SORTABLE_ARRAYED_LIST]
-			[$source EL_QUERYABLE_ARRAYED_LIST]
-			[$source EL_UNIQUE_ARRAYED_LIST]
-			[$source EL_CALL_SEQUENCE]
+			[$source EL_DEFAULT_COMMAND_OPTION_LIST]
+			[$source EL_SEQUENTIAL_INTERVALS]
+				[$source EL_OCCURRENCE_INTERVALS] [S -> [$source STRING_GENERAL] create make end]
+					[$source EL_SPLIT_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+						[$source EL_SPLIT_ZSTRING_LIST]
+						[$source EL_SPLIT_STRING_32_LIST]
+						[$source EL_SPLIT_STRING_8_LIST]
+						[$source EL_IP_ADDRESS_ROUTINES]
+			[$source EL_SORTABLE_ARRAYED_LIST] [G -> [$source COMPARABLE]]
+				[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+					[$source EL_ZSTRING_LIST]
+						[$source EL_XHTML_STRING_LIST]
+					[$source EL_STRING_8_LIST]
+						[$source EVOLICITY_VARIABLE_REFERENCE]
+							[$source EVOLICITY_FUNCTION_REFERENCE]
+						[$source AIA_CANONICAL_REQUEST]
+					[$source EL_STRING_32_LIST]
+				[$source EL_FILE_PATH_LIST]
+				[$source EL_FILE_MANIFEST_LIST]
+			[$source EL_COMMA_SEPARATED_WORDS_LIST]
+			[$source EL_IMPORTABLE_ARRAYED_LIST] [G -> [$source EL_REFLECTIVELY_SETTABLE] create make_default end]
+			[$source EL_ARRAYED_MAP_LIST] [K, G]
+				[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
+					[$source EL_STYLED_STRING_8_LIST]
+					[$source EL_STYLED_STRING_32_LIST]
+					[$source EL_STYLED_ZSTRING_LIST]
+				[$source EL_DECOMPRESSED_DATA_LIST]
+				[$source EL_SORTABLE_ARRAYED_MAP_LIST]* [K, G]
+					[$source EL_KEY_SORTABLE_ARRAYED_MAP_LIST] [K -> [$source COMPARABLE], G]
+					[$source EL_VALUE_SORTABLE_ARRAYED_MAP_LIST] [K, G -> [$source COMPARABLE]]
+			[$source EL_REFLECTED_FIELD_LIST]
+			[$source EL_TRANSLATION_ITEMS_LIST]
+			[$source EL_XDG_DESKTOP_ENTRY_STEPS]
+			[$source EL_QUERYABLE_ARRAYED_LIST] [G]
+				[$source AIA_CREDENTIAL_LIST]
+					[$source AIA_STORABLE_CREDENTIAL_LIST]
+		[$source EL_STRING_GENERAL_CHAIN]* [S -> [$source STRING_GENERAL] create make, make_empty end]
+			[$source EL_LINKED_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+			[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+		[$source EL_QUERYABLE_CHAIN]* [G]
+			[$source EL_QUERYABLE_ARRAYED_LIST] [G]
+	[$source EL_FILE_LINE_SOURCE]*
+		[$source EL_PLAIN_TEXT_LINE_SOURCE]
+			[$source EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE]
+		[$source EL_ZSTRING_IO_MEDIUM_LINE_SOURCE]
 ````
 **Other Classes**
 
@@ -228,6 +303,8 @@ Classes for the following:
 * Writing to the console with color highlighting
 * Read user input data
 
+## Kernel
+Fundamental base classes
 ## Math
 Some basic math classes for the following:
 
@@ -240,13 +317,13 @@ Some basic math classes for the following:
 Classes providing the following facilities:
 
 
-* Reading and writing arrays of floating-point type `DOUBLE`.
+* Reading and writing arrays of floating-point type [REAL_64](https://www.eiffel.org/files/doc/static/18.01/libraries/base/real_64_chart.html).
 * Files that notify a listener of byte-count written and read.
-* A file conforming to `PLAIN_TEXT_FILE` that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
+* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
 * File line source and other abstractions
 
 ## Class Reflection
-Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits SED_MEMORY_READER_WRITER)
+Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/18.01/libraries/base/sed_memory_reader_writer_chart.html))
 
 **Key Features**
 
@@ -255,9 +332,9 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM](http://www.eiffel-loop.com/library/text/parse/passphrase/el_passphrase_attributes_enum.html).
 * Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/runtime/command-line/options/el_command_line_options.html)
-* Support for reading and writing to strings conforming to `STRING_GENERAL`
-* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/data_structure/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/data_structure/kernel/el_writeable.html)
-* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits `SED_MEMORY_READER_WRITER`)
+* Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/18.01/libraries/base/string_general_chart.html)
+* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](http://www.eiffel-loop.com/library/base/kernel/el_writeable.html)
+* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/18.01/libraries/base/sed_memory_reader_writer_chart.html))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
 * Flexible way to include and exclude fields stored in field table.
@@ -267,68 +344,66 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 
 ````
 EL_REFLECTED_FIELD*
-	[$source EL_REFLECTED_EXPANDED_FIELD]*
-		[$source EL_REFLECTED_NUMERIC_FIELD]*
-			[$source EL_REFLECTED_ENUMERATION]*
-				[$source EL_REFLECTED_ENUM_NATURAL_16]
+	[$source EL_REFLECTED_REFERENCE] [G]
+		[$source EL_REFLECTED_STORABLE]
+		[$source EL_REFLECTED_TUPLE]
+			[$source EL_REFLECTED_STORABLE_TUPLE]
+		[$source EL_REFLECTED_BOOLEAN_REF]
+		[$source EL_REFLECTED_MAKEABLE_FROM_STRING]* [MAKEABLE -> [$source EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]]
+			[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
+			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
+			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
+		[$source EL_REFLECTED_DATE_TIME]
+		[$source EL_REFLECTED_DATE]
+		[$source EL_REFLECTED_PATH]
+		[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
+			[$source EL_REFLECTED_URI]
+			[$source EL_REFLECTED_STRING_8]
+			[$source EL_REFLECTED_STRING_32]
+			[$source EL_REFLECTED_ZSTRING]
+		[$source EL_REFLECTED_COLLECTION] [G]
+		[$source EL_CACHEABLE_REFLECTED_REFERENCE]* [G -> [$source HASHABLE]]
+			[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
+		[$source EL_REFLECTED_TIME]
+		[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
+		[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
+	[$source EL_REFLECTED_EXPANDED_FIELD]* [G]
+		[$source EL_REFLECTED_BOOLEAN]
+		[$source EL_REFLECTED_NUMERIC_FIELD]* [N -> [$source NUMERIC]]
+			[$source EL_REFLECTED_ENUMERATION]* [N -> [$source NUMERIC]]
+				[$source EL_REFLECTED_ENUM_NATURAL_32]
+				[$source EL_REFLECTED_ENUM_REAL_64]
+				[$source EL_REFLECTED_ENUM_NATURAL_64]
+				[$source EL_REFLECTED_ENUM_REAL_32]
+				[$source EL_REFLECTED_ENUM_INTEGER_8]
 				[$source EL_REFLECTED_ENUM_INTEGER_16]
 				[$source EL_REFLECTED_ENUM_INTEGER_32]
-				[$source EL_REFLECTED_ENUM_NATURAL_64]
-				[$source EL_REFLECTED_ENUM_INTEGER_8]
 				[$source EL_REFLECTED_ENUM_INTEGER_64]
 				[$source EL_REFLECTED_ENUM_NATURAL_8]
-				[$source EL_REFLECTED_ENUM_NATURAL_32]
-				[$source EL_REFLECTED_ENUM_REAL_32]
-				[$source EL_REFLECTED_ENUM_REAL_64]
-			[$source EL_REFLECTED_NATURAL_16]
 				[$source EL_REFLECTED_ENUM_NATURAL_16]
+			[$source EL_REFLECTED_NATURAL_32]
+				[$source EL_REFLECTED_ENUM_NATURAL_32]
+			[$source EL_REFLECTED_REAL_64]
+				[$source EL_REFLECTED_ENUM_REAL_64]
+			[$source EL_REFLECTED_NATURAL_64]
+				[$source EL_REFLECTED_ENUM_NATURAL_64]
+			[$source EL_REFLECTED_REAL_32]
+				[$source EL_REFLECTED_ENUM_REAL_32]
+			[$source EL_REFLECTED_INTEGER_8]
+				[$source EL_REFLECTED_ENUM_INTEGER_8]
 			[$source EL_REFLECTED_INTEGER_16]
 				[$source EL_REFLECTED_ENUM_INTEGER_16]
 			[$source EL_REFLECTED_INTEGER_32]
 				[$source EL_REFLECTED_ENUM_INTEGER_32]
-			[$source EL_REFLECTED_NATURAL_64]
-				[$source EL_REFLECTED_ENUM_NATURAL_64]
-			[$source EL_REFLECTED_INTEGER_8]
-				[$source EL_REFLECTED_ENUM_INTEGER_8]
 			[$source EL_REFLECTED_INTEGER_64]
 				[$source EL_REFLECTED_ENUM_INTEGER_64]
 			[$source EL_REFLECTED_NATURAL_8]
 				[$source EL_REFLECTED_ENUM_NATURAL_8]
-			[$source EL_REFLECTED_NATURAL_32]
-				[$source EL_REFLECTED_ENUM_NATURAL_32]
-			[$source EL_REFLECTED_REAL_32]
-				[$source EL_REFLECTED_ENUM_REAL_32]
-			[$source EL_REFLECTED_REAL_64]
-				[$source EL_REFLECTED_ENUM_REAL_64]
-		[$source EL_REFLECTED_BOOLEAN]
+			[$source EL_REFLECTED_NATURAL_16]
+				[$source EL_REFLECTED_ENUM_NATURAL_16]
 		[$source EL_REFLECTED_POINTER]
 		[$source EL_REFLECTED_CHARACTER_8]
 		[$source EL_REFLECTED_CHARACTER_32]
-	[$source EL_REFLECTED_REFERENCE]
-		[$source EL_REFLECTED_PATH]
-		[$source EL_REFLECTED_TUPLE]
-			[$source EL_REFLECTED_STORABLE_TUPLE]
-		[$source EL_REFLECTED_MAKEABLE_FROM_STRING]*
-			[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
-			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
-			[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
-		[$source EL_CACHEABLE_REFLECTED_REFERENCE]*
-			[$source EL_REFLECTED_STRING]*
-				[$source EL_REFLECTED_URI]
-				[$source EL_REFLECTED_STRING_8]
-				[$source EL_REFLECTED_STRING_32]
-				[$source EL_REFLECTED_ZSTRING]
-		[$source EL_REFLECTED_COLLECTION]
-		[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
-		[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
-		[$source EL_REFLECTED_STORABLE]
-		[$source EL_REFLECTED_DATE_TIME]
-		[$source EL_REFLECTED_DATE]
-		[$source EL_REFLECTED_TIME]
-		[$source EL_REFLECTED_STRING]* [S -> STRING_GENERAL]
-		[$source EL_REFLECTED_BOOLEAN_REF]
-````
-
 ## Runtime Operations
 Classes for the following:
 
@@ -338,7 +413,6 @@ Classes for the following:
 * Accessing operating environment information
 * Tracking progress of time consuming operations
 * Managing shared resources for competing threads
-
 ## Utility
 Classes providing the following facilities:
 
@@ -349,7 +423,6 @@ Classes providing the following facilities:
 * Cyclic redundancy check
 * Command shells
 * Extensions to ES uuid.ecf
-
 ## Text Processing
 Classes providing the following:
 
@@ -363,7 +436,6 @@ Classes providing the following:
 * Associating formatting styles with strings
 * URI encoding/decoding
 * UTF encoding/decoding
-
 ## String Handling
 Classes providing the following:
 
@@ -374,36 +446,33 @@ Classes providing the following:
 * Recording and managing string edit histories
 * Abstractions for objects createable from strings
 * String occurrence interval lists
-
 ## Class ZSTRING
-An implementation of a memory compact string with the same unicode character range as the base class [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html) and conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html). ZSTRING is an alias for the actual class name [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html). [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html) has many additional routines not found in STRING_32, as for example: Python like tuple substitution.
+An implementation of a memory compact string with the same unicode character range as the base class [$source STRING_32] and conforming to [$source STRING_GENERAL]. ZSTRING is an alias for the actual class name [$source EL_ZSTRING]. [$source EL_ZSTRING] has many additional routines not found in STRING_32, as for example: Python like tuple substitution.
 
 **See Articles**
 
 
-* [ZSTRING released in Eiffel-Loop 1.3.1](https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131)
-* [Introducing class ZSTRING](https://www.eiffel.org/blog/finnianr/introducing_class_zstring)
-* [ISO-8859 is dead, long live ISO-8859](https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859)
+* [https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131 ZSTRING released in Eiffel-Loop 1.3.1]
+* [https://www.eiffel.org/blog/finnianr/introducing_class_zstring Introducing class ZSTRING]
+* [https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859 ISO-8859 is dead, long live ISO-8859]
 
 **Benchmarks ZSTRING vs STRING_32**
 
 
-* [Base character-set Latin-1](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html)
-* [Base character-set Latin-15](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-15.html)
-
+* [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
+* [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
 ## Image Utilities
 Image utilities providing:
 
 
-1. SVG to PNG conversion using C library [librsvg](http://librsvg.sourceforge.net/)
-2. Miscellaneous routines from the [Cairo graphics C library](https://cairographics.org/)
-
+1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
+2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
 ## XHTML Viewer
-A basic XHTML text renderer based on the [EV_RICH_TEXT](https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html) component found in the [EiffelVision2 library](https://www.eiffel.org/doc/solutions/EiffelVision_2).
+A basic XHTML text renderer based on the [https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html EV_RICH_TEXT] component found in the [https://www.eiffel.org/doc/solutions/EiffelVision_2 EiffelVision2 library].
 
-It was used to create the help system in the [My Ching software](http://myching.software) with page content authored in the Thunderbird email client and then exported as XHTML.
+It was used to create the help system in the [http://myching.software My Ching software] with page content authored in the Thunderbird email client and then exported as XHTML.
 
-See class [EL_HTML_TEXT](http://www.eiffel-loop.com/library/graphic/toolkit/html-viewer/el_html_text.html) below for supported XHTML tags. This component facilitates the creation of a hyperlinked contents side bar in a split window.
+See class [$source EL_HTML_TEXT] below for supported XHTML tags. This component facilitates the creation of a hyperlinked contents side bar in a split window.
 ## Vision2-X UI Container Extensions
 Window, dialogs and other widget-container extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
 
@@ -675,10 +744,10 @@ The abstraction [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persi
 ````
 EL_PARSE_EVENT_SOURCE*
 	[$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
-	[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
 	[$source EL_EXPAT_XML_PARSER]
-		[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
 		[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
+		[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
+	[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
 	[$source EL_PYXIS_PARSER]
 ````
 Class [EL_BINARY_ENCODED_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_binary_encoded_parse_event_source.html) is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.
@@ -750,16 +819,28 @@ Conditions can be combined using the logical operators: `and`, `or` and `not`. Q
 ````
 SONG_QUERY_CONDITIONS
 	[$source STORAGE_DEVICE]
-		[$source SAMSUNG_TABLET_DEVICE]
 		[$source NOKIA_PHONE_DEVICE]
+		[$source SAMSUNG_TABLET_DEVICE]
 		[$source TEST_STORAGE_DEVICE]
 	[$source RBOX_DATABASE]
-		[$source RBOX_TEST_DATABASE]
 	[$source RBOX_MANAGEMENT_TASK]*
+		[$source DEFAULT_TASK]
+		[$source ARCHIVE_SONGS_TASK]
 		[$source COLLATE_SONGS_TASK]
+		[$source IMPORT_NEW_MP3_TASK]
+		[$source IMPORT_VIDEOS_TASK]
+			[$source IMPORT_YOUTUBE_M4A_TASK]
+			[$source IMPORT_VIDEOS_TEST_TASK]
+		[$source IMPORT_M3U_PLAYLISTS_TASK]
+		[$source LIST_VOLUMES_TASK]
 		[$source PUBLISH_DJ_EVENTS_TASK]
+		[$source REPLACE_CORTINA_SET_TASK]
+			[$source REPLACE_CORTINA_SET_TEST_TASK]
+		[$source REPLACE_SONGS_TASK]
+			[$source REPLACE_SONGS_TEST_TASK]
+		[$source RESTORE_PLAYLISTS_TASK]
+		[$source UPDATE_DJ_PLAYLISTS_TASK]
 		[$source ID3_TASK]*
-			[$source ADD_ALBUM_ART_TASK]
 			[$source DELETE_COMMENTS_TASK]
 			[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
 			[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
@@ -768,39 +849,14 @@ SONG_QUERY_CONDITIONS
 			[$source REMOVE_ALL_UFIDS_TASK]
 			[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
 			[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
-		[$source UPDATE_DJ_PLAYLISTS_TASK]
-			[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
-		[$source IMPORT_NEW_MP3_TASK]
-			[$source IMPORT_NEW_MP3_TEST_TASK]
-		[$source DEFAULT_TASK]
-		[$source ARCHIVE_SONGS_TASK]
-		[$source IMPORT_VIDEOS_TASK]
-			[$source IMPORT_VIDEOS_TEST_TASK]
-		[$source REPLACE_CORTINA_SET_TASK]
-			[$source REPLACE_CORTINA_SET_TEST_TASK]
-		[$source REPLACE_SONGS_TASK]
-			[$source REPLACE_SONGS_TEST_TASK]
-		[$source RESTORE_PLAYLISTS_TASK]
+			[$source ADD_ALBUM_ART_TASK]
 		[$source EXPORT_TO_DEVICE_TASK]*
 			[$source EXPORT_MUSIC_TO_DEVICE_TASK]
 				[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
-					[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-				[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-			[$source EXPORT_TO_DEVICE_TEST_TASK]*
-				[$source EXPORT_MUSIC_TO_DEVICE_TEST_TASK]
-				[$source EXPORT_PLAYLISTS_TO_DEVICE_TEST_TASK]
-		[$source TEST_MANAGEMENT_TASK]*
-			[$source EXPORT_TO_DEVICE_TEST_TASK]*
-			[$source IMPORT_VIDEOS_TEST_TASK]
-			[$source UPDATE_DJ_PLAYLISTS_TEST_TASK]
-			[$source REPLACE_SONGS_TEST_TASK]
-			[$source REPLACE_CORTINA_SET_TEST_TASK]
-			[$source IMPORT_NEW_MP3_TEST_TASK]
-		[$source IMPORT_M3U_PLAYLISTS_TASK]
 ````
 **Foot Notes**
 
-** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from `CHAIN`.
+** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html).
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 ## Kindle Publishing
@@ -921,41 +977,42 @@ A generic producer-consumer thread communication framework where a producing thr
 
 
 ````
-EL_CONSUMER*
-	[$source EL_NONE_CONSUMER]
-	[$source EL_CONSUMER_MAIN_THREAD]*
-		[$source EL_TUPLE_CONSUMER_MAIN_THREAD]
-		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
-			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
-		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
-		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
-	[$source EL_COUNT_CONSUMER]*
-		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
-		[$source EL_TIMED_PROCEDURE]*
-			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
-			[$source EL_TIMED_PROCEDURE_THREAD]
-		[$source EL_COUNT_CONSUMER_THREAD]*
-			[$source EL_TIMED_PROCEDURE_THREAD]
-	[$source EL_PROCEDURE_CALL_CONSUMER]*
-		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
-		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
-	[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
-		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
-		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
-	[$source EL_CONSUMER_THREAD]*
-		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
-		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
-		[$source EL_COUNT_CONSUMER_THREAD]*
-		[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
-		[$source EL_DELEGATING_CONSUMER_THREAD]
+EL_CONSUMER* [P]
+	[$source EL_CONSUMER_MAIN_THREAD]* [P]
+		[$source EL_TUPLE_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+		EL_COUNT_CONSUMER_MAIN_THREAD*
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+	[$source EL_NONE_CONSUMER] [P]
+	[$source EL_CONSUMER_THREAD]* [P]
+		[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+		[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		EL_COUNT_CONSUMER_THREAD*
+			[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+		EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+	[$source EL_PROCEDURE_CALL_CONSUMER]* [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+	EL_COUNT_CONSUMER*
+		EL_COUNT_CONSUMER_THREAD*
+		EL_COUNT_CONSUMER_MAIN_THREAD*
+		[$source EL_TIMED_PROCEDURE]* [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+	EL_REGULAR_INTERVAL_EVENT_CONSUMER*
+		EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+		EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
 ````
 *Product Queue Descendants*
 
 
 ````
-EL_THREAD_PRODUCT_QUEUE
-	[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE]
-	[$source EL_PROCEDURE_CALL_QUEUE]
+EL_THREAD_PRODUCT_QUEUE [P]
+	[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+	[$source EL_PROCEDURE_CALL_QUEUE] [OPEN_ARGS -> [$source TUPLE] create default_create end]
 ````
 **Specialized Threads**
 
@@ -973,24 +1030,27 @@ The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I
 
 ````
 EL_IDENTIFIED_THREAD_I*
-	[$source EL_IDENTIFIED_MAIN_THREAD]
-	[$source EL_IDENTIFIED_THREAD]*
-		[$source EL_CONTINUOUS_ACTION_THREAD]*
-			[$source EL_WORK_DISTRIBUTION_THREAD]
-			[$source EL_RHYTHMIC_ACTION_THREAD]*
-				[$source EL_TIMED_COUNT_PRODUCER]
-				[$source EL_TIMEOUT]
-			[$source EL_CONSUMER_THREAD]*
-				[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
-				[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
-				[$source EL_COUNT_CONSUMER_THREAD]*
-					[$source EL_TIMED_PROCEDURE_THREAD]
-				[$source EL_MANY_TO_ONE_CONSUMER_THREAD]*
-				[$source EL_DELEGATING_CONSUMER_THREAD]
-				[$source EL_TUPLE_CONSUMER_THREAD]
-			[$source EL_DORMANT_ACTION_LOOP_THREAD]*
-				[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
-		[$source EL_WORKER_THREAD]
+	EL_IDENTIFIED_MAIN_THREAD
+	EL_IDENTIFIED_THREAD*
+		EL_LOGGED_IDENTIFIED_THREAD*
+			SIMPLE_SERVER_THREAD
+			EROS_SERVER_THREAD
+		EL_CONTINUOUS_ACTION_THREAD*
+			EL_WORK_DISTRIBUTION_THREAD
+			[$source EL_CONSUMER_THREAD]* [P]
+				[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+				[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
+				[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+				[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+				EL_COUNT_CONSUMER_THREAD*
+					[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
+				EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+			EL_DORMANT_ACTION_LOOP_THREAD*
+				EL_REGULAR_INTERVAL_EVENT_PRODUCER
+			EL_RHYTHMIC_ACTION_THREAD*
+				EL_TIMED_COUNT_PRODUCER
+				EL_TIMEOUT
+		EL_WORKER_THREAD
 ````
 **Other Features**
 
@@ -1023,36 +1083,43 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](http://www.eiffel-loop.com/library/vtd-xml.html). The test function executes an xpath query looking for http urls in an XML document.
 
 
-
-
 ````
-1>     VTD_XML_TEST_APP.test_bio_2 (
-1>         argument (1) = "//value[@type='url' and contains (text(), 'http://')]"
-1>     ) is
+1> JOBSERVE_SEARCH_APP.make
+1>   doing
+1>     
+1>     JOBSERVE_SEARCHER.execute
 1>       doing
+1>         XPATH: "/job-serve/row[type/@value='Contract']"
+1>         Position: PMO Analyst
+1>         Duration: [180, 270]
+1>         Position: Business Analyst (London Market)
+1>         Duration: [180, 180]
+1>         Position: SAP MM consultant- English
+1>         Duration: [371, 371]
+1>         Position: Oracle Hyperion Strategic Finance Management Consultant
+1>         Duration: [180, 270]
+1>         Saving to file: "/home/finnian/Desktop/jobserve.results.html"
 1>         
-1>         EL_XPATH_ROOT_NODE_CONTEXT.context_list is
-1>           doing
-1>             
-1>           end -- EL_XPATH_ROOT_NODE_CONTEXT
-1>         http://iubio.bio.indiana.edu/grid/runner/
-1>         http://iubio.bio.indiana.edu/grid/runner/docs/bix.dtd
-1>         http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/
-1>         http://geta.life.uiuc.edu/~gary/programs/fastDNAml.html
-1>         
-1>       end -- VTD_XML_TEST_APP
+1>       end -- JOBSERVE_SEARCHER
+1>     
+1>   end -- JOBSERVE_SEARCH_APP
+1> 
 ````
-The code which produced the above output is as follows:
+Part of the code which produced the above output is as follows:
 
 
 ````
 class
-	VTD_XML_TEST_APP
+	JOBSERVE_SEARCHER
 ````
 
 ````
 inherit
-	EL_SUB_APPLICATION
+	EL_COMMAND
+````
+
+````
+	EL_MODULE_LOG
 ````
 
 ````
@@ -1060,29 +1127,33 @@ feature -- Basic operations
 ````
 
 ````
-	test_bio_2 (xpath: STRING) is
-		-- list all url values
+	execute
 		local
-			node_list: EL_XPATH_NODE_CONTEXT_LIST
+			jobs_result_set: JOBS_RESULT_SET; xpath: STRING
+			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
-			log.enter_with_args ("test_bio_2", << xpath >>)
-			node_list := bio_info_root_node.context_list (xpath)
-			from node_list.start until node_list.after loop
-				log.put_line (node_list.context.string_value)
-				node_list.forth
+			log.enter ("execute")
+			create root_node.make_from_file (xml_path)
+			xpath := Xpath_template #$ [query_filter]
+			log.put_string_field ("XPATH", xpath)
+			log.put_new_line
+			create jobs_result_set.make (root_node, xpath)
+			across jobs_result_set as job loop
+				lio.put_labeled_string ("Position", job.item.position)
+				lio.put_new_line
+				lio.put_integer_interval_field ("Duration", job.item.duration_interval)
+				lio.put_new_line
 			end
+````
+
+````
+			log.put_path_field ("Saving to", results_path)
+			log.put_new_line
+			jobs_result_set.save_as_xml (results_path)
 			log.exit
 		end
 ````
-
-````
-feature {NONE} -- Implementation
-````
-
-````
-	bio_info_root_node: EL_XPATH_ROOT_NODE_CONTEXT
-````
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type `ARRAY [ANY]` and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY [ANY](https://www.eiffel.org/files/doc/static/18.01/libraries/base/array_chart.html)] and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 

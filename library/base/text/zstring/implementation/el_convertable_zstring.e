@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 10:40:09 GMT (Friday 19th February 2021)"
-	revision: "21"
+	date: "2021-03-03 17:20:25 GMT (Wednesday 3rd March 2021)"
+	revision: "22"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -268,7 +268,7 @@ feature -- To list
 			end
 		end
 
-	substring_index_list (delimiter: EL_READABLE_ZSTRING): like internal_substring_index_list
+	substring_index_list (delimiter: READABLE_STRING_GENERAL): like internal_substring_index_list
 		do
 			Result := internal_substring_index_list (adapted_argument (delimiter, 1)).twin
 		end

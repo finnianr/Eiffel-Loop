@@ -1,6 +1,6 @@
 note
 	description: "[
-		Adapter interface to read and write `INTEGER_X' from/to instance of [$source EL_MEMORY_READER_WRITER]
+		Adapter interface to read and write [$source INTEGER_X] from/to instance of [$source EL_MEMORY_READER_WRITER]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-14 10:47:34 GMT (Sunday 14th February 2021)"
-	revision: "2"
+	date: "2021-03-04 10:57:37 GMT (Thursday 4th March 2021)"
+	revision: "3"
 
 class
 	EL_INTEGER_X_READER_WRITER

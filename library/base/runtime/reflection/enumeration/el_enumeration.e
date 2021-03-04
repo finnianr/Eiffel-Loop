@@ -3,33 +3,26 @@ note
 		Object for mapping names to code numbers with bi-directional lookups, i.e. obtain the code from
 		a name and the name from a code. The generic parameter can be any [$source NUMERIC] type.
 	]"
-	instructions: "[
-		Typically you would make a shared instance of an implementation class inheriting
-		this class.
-
-		Overriding `import_name' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
-		a code using a foreign naming convention, camelCase, for example. Overriding
-		`export_name' allows the name returned by `code_name' to use a foreign convention.
-		Choose a convention from the `Naming' object.
-	]"
 	notes: "[
 		**TO DO**
-		
+
 		A problem that needs solving is how to guard against accidental changes in
 		auto-generated code values that are used persistently. One idea is to use a contract
 		comparing a CRC checksum based on an alphabetical ordering to a hard coded value.
-		
+
 		Also there needs to be a mechanism to allow "late-editions" that will not disturb
 		existing assignments.
 	]"
+	instructions: "See end of class"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:18:13 GMT (Tuesday 2nd March 2021)"
-	revision: "38"
+	date: "2021-03-04 16:49:03 GMT (Thursday 4th March 2021)"
+	revision: "39"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -203,15 +196,35 @@ feature {NONE} -- Internal attributes
 	name_by_value: HASH_TABLE [STRING_8, HASHABLE];
 
 note
+	instructions: "[
+		Typically you would make a shared instance of an implementation class inheriting
+		this class.
+
+		Overriding `import_name' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
+		a code using a foreign naming convention, camelCase, for example. Overriding
+		`export_name' allows the name returned by `code_name' to use a foreign convention.
+		Choose a convention from the `Naming' object.
+	]"
 	descendants: "[
-			EL_ENUMERATION*
-				[$source EL_CURRENCY_ENUM]
-				[$source FCGI_RECORD_TYPE_ENUM]
+			EL_ENUMERATION* [N -> NUMERIC]
+				[$source TL_PICTURE_TYPE_ENUM]
+				[$source AIA_RESPONSE_ENUM]
+				[$source AIA_REASON_ENUM]
+				[$source EL_BOOLEAN_ENUMERATION]*
+					[$source PP_ADDRESS_STATUS_ENUM]
 				[$source PP_PAYMENT_STATUS_ENUM]
-				[$source PP_TRANSACTION_TYPE_ENUM]
 				[$source PP_PAYMENT_PENDING_REASON_ENUM]
+				[$source PP_TRANSACTION_TYPE_ENUM]
+				[$source EL_CURRENCY_ENUM]
+				[$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {[$source NUMERIC], [$source HASHABLE]}]
+					[$source EROS_ERRORS_ENUM]
+					[$source EL_PASSPHRASE_ATTRIBUTES_ENUM]
+				[$source TL_FRAME_ID_ENUM]
+				[$source TL_STRING_ENCODING_ENUM]
+				[$source TL_MUSICBRAINZ_ENUM]
+				[$source EL_TYPE_ID_ENUMERATION]*
+					[$source EL_CLASS_TYPE_ID_ENUM]
 				[$source EL_HTTP_STATUS_ENUM]
-				[$source PP_L_VARIABLE_ENUM]
 	]"
 
 end -- class EL_ENUMERATION

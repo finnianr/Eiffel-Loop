@@ -1,13 +1,13 @@
 note
-	description: "Sets a `NATURAL' operand in `make' routine argument tuple"
+	description: "Sets a [$source NATURAL_32] operand in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:35:23 GMT (Friday 25th January 2019)"
-	revision: "5"
+	date: "2021-03-04 11:03:41 GMT (Thursday 4th March 2021)"
+	revision: "6"
 
 class
 	EL_NATURAL_OPERAND_SETTER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 12:29:38 GMT (Wednesday 3rd March 2021)"
-	revision: "19"
+	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
+	revision: "20"
 
 class
 	EIFFEL_NOTES
@@ -28,7 +28,7 @@ inherit
 
 	SHARED_CLASS_PATH_TABLE
 
-	SHARED_ISE_CLASS_CHART_TABLE
+	SHARED_ISE_CLASS_TABLE
 
 create
 	make
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 					text := str.substring (Source_variable.count + 1, pos_close - 1)
 					if Class_path_table.has_class (text) then
 						do_nothing
-					elseif ISE_class_chart_table.has_class (text) then
+					elseif ISE_class_table.has_class (text) then
 						do_nothing
 					else
 						lio.put_path_field ("Note source link in", relative_class_dir + base_name)

@@ -1,13 +1,14 @@
 note
 	description: "Abstraction for objects that have a function returning all the basic types and strings"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-19 12:07:34 GMT (Tuesday 19th December 2017)"
-	revision: "2"
+	date: "2021-03-03 16:59:15 GMT (Wednesday 3rd March 2021)"
+	revision: "3"
 
 deferred class
 	EL_READABLE
@@ -89,4 +90,16 @@ feature -- Access
 	read_character_32: CHARACTER_32
 		deferred
 		end
+note
+	descendants: "[
+			EL_READABLE*
+				[$source EL_DOCUMENT_NODE_STRING]
+					[$source EL_ELEMENT_ATTRIBUTE_NODE_STRING]
+				[$source EL_MEMORY_READER_WRITER]
+					[$source ECD_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+						[$source ECD_ENCRYPTABLE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+						[$source ECD_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+	]"
 end

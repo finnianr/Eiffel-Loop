@@ -6,120 +6,43 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:24 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2021-03-04 14:34:10 GMT (Thursday 4th March 2021)"
+	revision: "13"
 
 class
 	JOBSERVE_SEARCH_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_SUB_APPLICATION
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [JOBSERVE_SEARCHER]
 		redefine
-			option_name, read_command_options
+			option_name
 		end
-
-	EL_FILE_OPEN_ROUTINES
-
-	EL_COMMAND_ARGUMENT_CONSTANTS
-
-	EL_MODULE_ARGS
 
 create
 	make
 
-feature {NONE} -- Initialization
+feature {NONE} -- Implementation
 
-	normal_initialize
-			--
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			create duration_parser.make
+			Result := <<
+				valid_required_argument ("input", "Jobserve XML input data", << file_must_exist >>),
+				valid_optional_argument ("output", "Output directory for results file", << directory_must_exist >>),
+				optional_argument ("filter", "xpath filter condition")
+			>>
 		end
 
-	read_command_options
+	default_make: PROCEDURE [like command]
 		do
-			Args.set_string_from_word_option (Input_path_option_name, agent set_root_node, "jobserve.xml")
-			Args.set_string_from_word_option ("filter", agent set_query_filter, "")
+			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH}, "")
 		end
 
-feature -- Basic operations
-
-	normal_run
-			--
-		local
-			jobs_result_set: JOBS_RESULT_SET
-			xpath: STRING
+	log_filter_set: EL_LOG_FILTER_SET [
+		like Current, JOBSERVE_SEARCHER
+	]
 		do
-			log.enter ("run")
-			create xpath.make_from_string ("/job-serve/row[type/@value='Contract'$FILTER]")
-			xpath.replace_substring_all ("$FILTER", query_filter)
-			log.put_string_field ("XPATH", xpath)
-			log.put_new_line
-			create jobs_result_set.make (root_node, xpath)
-			jobs_result_set.save_as_xml ("Jobserve.results.html")
-
-			log.exit
+			create Result.make
 		end
-
-	test_run
-			--
-		do
-			log.enter ("test_run")
-			create duration_parser.make
-
-			Test.do_file_test ("XML/jobserve.xml", agent test_parser, 0)
-			log.exit
-		end
-
-feature -- Element change
-
-	set_query_filter (a_query_filter: ZSTRING)
-			--
-		do
-			query_filter := a_query_filter
-			if not query_filter.is_empty then
-				query_filter.prepend_string_general (" and (")
-				query_filter.append_character (')')
-			end
-		end
-
-	set_root_node (file_path: ZSTRING)
-			--
-		do
-			create root_node.make_from_file (file_path)
-		end
-
-feature {NONE} -- Tests
-
-	test_parser (file_path: EL_FILE_PATH)
-			--
-		local
-			end_index: INTEGER
-		do
-			log.enter ("test_parser")
-			if attached open_lines (file_path, Utf_8) as lines then
-				across lines as line loop
-					end_index := line.item.substring_index_general ("(occurrences:", 1) - 2
-					duration_parser.set_duration_interval (line.item.substring (1, end_index))
-
-					log.put_integer_interval_field ("Range", duration_parser.duration_interval)
-					log.put_string (" ")
-					log.put_string (line.item)
-					log.put_new_line
-				end
-				lines.close
-			end
-			log.exit
-		end
-
-feature {NONE} -- Implementation: attributes
-
-	duration_parser: JOB_DURATION_PARSER
-
-	query_filter: STRING
-
-	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 
 feature {NONE} -- Constants
 

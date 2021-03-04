@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:33:33 GMT (Friday 8th January 2021)"
-	revision: "20"
+	date: "2021-03-04 11:26:43 GMT (Thursday 4th March 2021)"
+	revision: "21"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -86,13 +86,6 @@ feature {NONE} -- Constants
 		end
 
 note
-	descendants: "[
-			EL_COMMAND_LINE_OPTIONS*
-				[$source EL_LOG_COMMAND_OPTIONS]
-				[$source EL_BASE_COMMAND_OPTIONS]
-				[$source EL_APPLICATION_COMMAND_OPTIONS]
-					[$source TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS]
-	]"
 	notes: "[
 		Each class attribute maps to a command line word option of the same name.
 		For `BOOLEAN' attributes, if the word-option exists, the attibute is set to `True'
@@ -119,4 +112,15 @@ note
 
 		Use the `joined' function to join `Help_text' with it's precursor.
 	]"
+	descendants: "[
+			EL_COMMAND_LINE_OPTIONS*
+				[$source EL_APPLICATION_COMMAND_OPTIONS]
+					[$source EROS_APPLICATION_COMMAND_OPTIONS]
+					[$source FTP_LOGIN_OPTIONS]
+					[$source TEST_WORK_DISTRIBUTER_COMMAND_OPTIONS]
+					[$source EL_AUTOTEST_COMMAND_OPTIONS]
+				[$source EL_BASE_COMMAND_OPTIONS]
+				[$source EL_LOG_COMMAND_OPTIONS]
+	]"
+
 end

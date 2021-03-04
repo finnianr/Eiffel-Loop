@@ -1,13 +1,13 @@
 note
-	description: "Integer item radio button group displayed in ascending order of `INTEGER' value"
+	description: "Integer item radio button group displayed in ascending order of [$source INTEGER_32] value"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-17 10:30:49 GMT (Monday 17th August 2020)"
-	revision: "5"
+	date: "2021-03-04 10:27:05 GMT (Thursday 4th March 2021)"
+	revision: "6"
 
 class
 	EL_INTEGER_ITEM_RADIO_BUTTON_GROUP

@@ -6,19 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-04 13:42:52 GMT (Thursday 4th March 2021)"
+	revision: "5"
 
 class
 	JOBS_RESULT_SET
 
 inherit
-	BINARY_SEARCH_TREE_SET [JOB_INFO]
+	EL_ARRAYED_LIST [JOB_INFO]
 		rename
 			make as make_set
 		end
 
 	EVOLICITY_SERIALIZEABLE_AS_XML
+		undefine
+			copy, is_equal
 		redefine
 			getter_function_table, Template
 		end
@@ -31,7 +33,7 @@ feature {NONE} -- Initialization
 	make (document_root_node: EL_XPATH_ROOT_NODE_CONTEXT; a_xpath_query: STRING)
 			--
 		do
-			make_set
+			make_set (20)
 			compare_objects
 			make_default
 			xpath_query := a_xpath_query
@@ -42,18 +44,11 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Evolicity fields
 
-	get_current: ARRAYED_LIST [JOB_INFO]
-			--
-		do
-			create Result.make (count)
-			Result.fill (Current)
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["current", 	 agent get_current],
+				["current", 	 agent: LIST [JOB_INFO] do Result := Current end],
 				["xpath_query", agent: STRING do Result := xpath_query end]
 			>>)
 		end

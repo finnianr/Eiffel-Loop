@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-05 21:57:13 GMT (Friday 5th February 2021)"
-	revision: "6"
+	date: "2021-03-03 17:21:14 GMT (Wednesday 3rd March 2021)"
+	revision: "7"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -216,7 +216,7 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	substring_index_list (delimiter: EL_READABLE_ZSTRING): LIST [INTEGER]
+	substring_index_list (delimiter: READABLE_STRING_GENERAL): LIST [INTEGER]
 		deferred
 		end
 

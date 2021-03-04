@@ -12,52 +12,65 @@
 
 The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [./library/vtd-xml.html Eiffel Loop VTD-XML API]. The test function executes an xpath query looking for http urls in an XML document.
 
-
-	1>     VTD_XML_TEST_APP.test_bio_2 (
-	1>         argument (1) = "//value[@type='url' and contains (text(), 'http://')]"
-	1>     ) is
+	1> JOBSERVE_SEARCH_APP.make
+	1>   doing
+	1>     
+	1>     JOBSERVE_SEARCHER.execute
 	1>       doing
+	1>         XPATH: "/job-serve/row[type/@value='Contract']"
+	1>         Position: PMO Analyst
+	1>         Duration: [180, 270]
+	1>         Position: Business Analyst (London Market)
+	1>         Duration: [180, 180]
+	1>         Position: SAP MM consultant- English
+	1>         Duration: [371, 371]
+	1>         Position: Oracle Hyperion Strategic Finance Management Consultant
+	1>         Duration: [180, 270]
+	1>         Saving to file: "/home/finnian/Desktop/jobserve.results.html"
 	1>         
-	1>         EL_XPATH_ROOT_NODE_CONTEXT.context_list is
-	1>           doing
-	1>             
-	1>           end -- EL_XPATH_ROOT_NODE_CONTEXT
-	1>         http://iubio.bio.indiana.edu/grid/runner/
-	1>         http://iubio.bio.indiana.edu/grid/runner/docs/bix.dtd
-	1>         http://www-igbmc.u-strasbg.fr/BioInfo/ClustalW/
-	1>         http://geta.life.uiuc.edu/~gary/programs/fastDNAml.html
-	1>         
-	1>       end -- VTD_XML_TEST_APP
+	1>       end -- JOBSERVE_SEARCHER
+	1>     
+	1>   end -- JOBSERVE_SEARCH_APP
+	1> 
 
-The code which produced the above output is as follows:
+
+Part of the code which produced the above output is as follows:
 
 	class
-		VTD_XML_TEST_APP
+		JOBSERVE_SEARCHER
 
 	inherit
-		EL_SUB_APPLICATION
+		EL_COMMAND
+
+		EL_MODULE_LOG
 
 	feature -- Basic operations
 
-		test_bio_2 (xpath: STRING) is
-			-- list all url values
+		execute
 			local
-				node_list: EL_XPATH_NODE_CONTEXT_LIST
+				jobs_result_set: JOBS_RESULT_SET; xpath: STRING
+				root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			do
-				log.enter_with_args ("test_bio_2", << xpath >>)
-				node_list := bio_info_root_node.context_list (xpath)
-				from node_list.start until node_list.after loop
-					log.put_line (node_list.context.string_value)
-					node_list.forth
+				log.enter ("execute")
+				create root_node.make_from_file (xml_path)
+				xpath := Xpath_template #$ [query_filter]
+				log.put_string_field ("XPATH", xpath)
+				log.put_new_line
+				create jobs_result_set.make (root_node, xpath)
+				across jobs_result_set as job loop
+					lio.put_labeled_string ("Position", job.item.position)
+					lio.put_new_line
+					lio.put_integer_interval_field ("Duration", job.item.duration_interval)
+					lio.put_new_line
 				end
+
+				log.put_path_field ("Saving to", results_path)
+				log.put_new_line
+				jobs_result_set.save_as_xml (results_path)
 				log.exit
 			end
 
-	feature {NONE} -- Implementation
-
-		bio_info_root_node: EL_XPATH_ROOT_NODE_CONTEXT
-
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type `ARRAY [ANY]' and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [$source ARRAY [ANY]] and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 

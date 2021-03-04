@@ -1,7 +1,7 @@
 note
 	description: "[
 		For creating objects with a default_create that require thread synchronization
-		E.g. `INTEGER', `REAL', `BOOLEAN' etc
+		E.g. [$source INTEGER_32], [$source REAL_32], [$source BOOLEAN] etc
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-03-04 10:26:55 GMT (Thursday 4th March 2021)"
+	revision: "4"
 
 class
 	EL_MUTEX_CREATEABLE_REFERENCE [G -> ANY create default_create end]
@@ -33,5 +33,4 @@ feature {NONE} -- Initialization
 		end
 
 end
-
 

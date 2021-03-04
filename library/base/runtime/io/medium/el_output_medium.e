@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-06 11:18:05 GMT (Sunday 6th December 2020)"
-	revision: "22"
+	date: "2021-03-04 11:27:55 GMT (Thursday 4th March 2021)"
+	revision: "23"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -243,12 +243,15 @@ feature {NONE} -- Internal attributes
 
 note
 	descendants: "[
-		**eiffel.ecf**
 			EL_OUTPUT_MEDIUM*
 				[$source EL_PLAIN_TEXT_FILE]
-					[$source SOURCE_FILE]
+					[$source EL_NOTIFYING_PLAIN_TEXT_FILE]
+						[$source EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE]
+				[$source EL_STREAM_SOCKET]*
+					[$source EL_NETWORK_STREAM_SOCKET]
+				[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
 				[$source EL_STRING_IO_MEDIUM]*
-					[$source EL_STRING_8_IO_MEDIUM]
 					[$source EL_ZSTRING_IO_MEDIUM]
+					[$source EL_STRING_8_IO_MEDIUM]
 	]"
 end

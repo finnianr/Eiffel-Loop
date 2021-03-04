@@ -4,10 +4,10 @@ The abstraction [$source EL_PARSE_EVENT_SOURCE] representing a parse-event sourc
 
 	EL_PARSE_EVENT_SOURCE*
 		[$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
-		[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
 		[$source EL_EXPAT_XML_PARSER]
-			[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
 			[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
+			[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
+		[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
 		[$source EL_PYXIS_PARSER]
 
 Class [$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE] is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.

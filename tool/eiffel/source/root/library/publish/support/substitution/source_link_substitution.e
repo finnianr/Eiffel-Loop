@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 12:58:39 GMT (Wednesday 3rd March 2021)"
-	revision: "4"
+	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
+	revision: "5"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -25,7 +25,7 @@ inherit
 
 	SHARED_CLASS_PATH_TABLE
 
-	SHARED_ISE_CLASS_CHART_TABLE
+	SHARED_ISE_CLASS_TABLE
 
 create
 	make
@@ -70,8 +70,8 @@ feature {NONE} -- Implementation
 			end
 			if Class_path_table.has_class (text) then
 				l_path := Class_path_table.found_item.universal_relative_path (relative_page_dir)
-			elseif ISE_class_chart_table.has_class (text) then
-				l_path := ISE_class_chart_table.found_item
+			elseif ISE_class_table.has_class (text) then
+				l_path := ISE_class_table.found_item
 			else
 				l_path := path
 			end

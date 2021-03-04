@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 12:49:21 GMT (Wednesday 3rd March 2021)"
-	revision: "12"
+	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
+	revision: "13"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -29,7 +29,7 @@ inherit
 
 	SHARED_CLASS_PATH_TABLE
 
-	SHARED_ISE_CLASS_CHART_TABLE
+	SHARED_ISE_CLASS_TABLE
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -79,8 +79,8 @@ feature -- Basic operations
 					inside_text := link_text.substring (2, link_text.count - 1)
 					if Class_path_table.has_class (inside_text) then
 						put_source_link (file_out, Class_path_table.found_item, link_text)
-					elseif ISE_class_chart_table.has_class (inside_text) then
-						put_ise_source_link (file_out, ISE_class_chart_table.found_item, link_text)
+					elseif ISE_class_table.has_class (inside_text) then
+						put_ise_source_link (file_out, ISE_class_table.found_item, link_text)
 					end
 					previous_pos := pos_right_bracket + 1
 				else
