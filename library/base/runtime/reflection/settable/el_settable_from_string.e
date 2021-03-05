@@ -3,12 +3,7 @@ note
 		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from name-value pairs, where value conforms to [$source READABLE_STRING_GENERAL].
 	]"
-	descendants: "[
-			EL_SETTABLE_FROM_STRING*
-				[$source EL_SETTABLE_FROM_ZSTRING]*
-				[$source EL_SETTABLE_FROM_STRING_8]*
-				[$source EL_SETTABLE_FROM_STRING_32]*
-	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -298,4 +293,36 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
+note
+	descendants: "[
+			EL_SETTABLE_FROM_STRING*
+				[$source EL_SETTABLE_FROM_STRING_32]*
+					[$source MY_DRY_CLASS]
+				[$source EL_SETTABLE_FROM_STRING_8]*
+					[$source AIA_CREDENTIAL_ID]
+					[$source AIA_AUTHORIZATION_HEADER]
+					[$source EL_REFLECTIVE_RSA_KEY]*
+						[$source EL_RSA_PRIVATE_KEY]
+				[$source EL_SETTABLE_FROM_ZSTRING]*
+					[$source FCGI_REQUEST_PARAMETERS]
+					[$source COUNTRY]
+						[$source CAMEL_CASE_COUNTRY]
+						[$source STORABLE_COUNTRY]
+					[$source PP_TRANSACTION]
+					[$source JOB]
+					[$source EL_SETTABLE_FROM_JSON_STRING]*
+						[$source AIA_RESPONSE]
+							[$source AIA_PURCHASE_RESPONSE]
+								[$source AIA_REVOKE_RESPONSE]
+							[$source AIA_GET_USER_ID_RESPONSE]
+							[$source AIA_FAIL_RESPONSE]
+						[$source JSON_CURRENCY]
+						[$source PERSON]
+						[$source AIA_REQUEST]*
+							[$source AIA_GET_USER_ID_REQUEST]
+							[$source AIA_PURCHASE_REQUEST]
+								[$source AIA_REVOKE_REQUEST]
+					[$source FCGI_HTTP_HEADERS]
+					[$source EL_COMMA_SEPARATED_WORDS]
+	]"
 end

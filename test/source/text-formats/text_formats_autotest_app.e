@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_XHTML_STRING_LIST, EL_XHTML_UTF_8_SOURCE]
+	compile: TUPLE [EL_XHTML_STRING_LIST, EL_XHTML_UTF_8_SOURCE, EL_XML_TAG_LIST, EL_XML_PARENT_TAG_LIST]
 		do
 			create Result
 		end

@@ -385,3 +385,6 @@ Optimized {EL_ZSTRING}.make_from_utf_8
 Wed 24th Feb 2021, 18:37:25
 New classes EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS and EL_SCROLLABLE_DATEABLE_SEARCH_RESULTS
 
+Thu 4th Mar 2021, 17:20:01
+Improved CLASS_DESCENDANTS_COMMAND and added linking to github EiffelStudio
+

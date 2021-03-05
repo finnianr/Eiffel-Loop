@@ -177,12 +177,6 @@ Various hash-table, array, list, chain and linear types
 
 ````
 HASH_TABLE [G, K -> HASHABLE]
-	[$source SED_OBJECTS_TABLE]
-	[$source CLASS_NAME_TRANSLATIONS]
-	[$source MISMATCH_INFORMATION]
-	[$source HASH_TABLE_EX] [G, K -> [$source HASHABLE]]
-	[$source EQUALITY_HASH_TABLE] [G -> [$source ANY], H -> [$source HASHABLE]]
-	[$source STRING_TABLE] [G]
 	[$source EL_LOG_FILTER_SET] [TYPE_LIST -> [$source TUPLE] create default_create end]
 	[$source EL_EIF_OBJ_TEXT_TABLE_CONTEXT]
 	[$source EL_FUNCTION_RESULT_TABLE] [TARGET, R]
@@ -481,76 +475,83 @@ Window, dialogs and other widget-container extensions for the [EiffelVision2](ht
 
 ````
 EV_CONTAINER*
-	EV_CELL
-		EV_VIEWPORT
-			EV_SCROLLABLE_AREA
-				[$source EL_SCROLLABLE_AREA]
+	[$source EV_CELL]
+		[$source EV_VIEWPORT]
+			[$source EV_SCROLLABLE_AREA]
+				[$source EV_TOP_LEFT_SCROLLABLE_AREA]
 			[$source EL_CENTERED_VIEWPORT]
-		EV_WINDOW
-			EV_TITLED_WINDOW
-				EV_DIALOG
-					EV_UNTITLED_DIALOG
+		[$source EV_WINDOW]
+			[$source EV_TITLED_WINDOW]
+				[$source EV_DIALOG]
+					[$source EV_UNTITLED_DIALOG]
 						[$source EL_PROGRESS_DIALOG]
-						[$source EL_VERTICAL_DIALOG]*
-							[$source EL_HORIZONTAL_DIALOG]*
-								[$source EL_HYPERLINK_MENU]*
-					EV_MESSAGE_DIALOG
-						EV_CONFIRMATION_DIALOG
+					[$source EV_MESSAGE_DIALOG]
+						[$source EV_CONFIRMATION_DIALOG]
 							[$source EL_CONFIRMATION_DIALOG]
 								[$source EL_SAVE_CHANGES_CONFIRMATION_DIALOG]
 								[$source EL_APPLY_CHANGES_CONFIRMATION_DIALOG]
-						EV_INFORMATION_DIALOG
+						[$source EV_INFORMATION_DIALOG]
 							[$source EL_INFORMATION_DIALOG]
-						EV_WARNING_DIALOG
+						[$source EV_WARNING_DIALOG]
 							[$source EL_LOCALE_WARNING_DIALOG]
-						EV_ERROR_DIALOG
+						[$source EV_ERROR_DIALOG]
 							[$source EL_ERROR_DIALOG]
 						[$source EL_MESSAGE_DIALOG]
+							[$source EL_CONFIRMATION_DIALOG]
 							[$source EL_ERROR_DIALOG]
 							[$source EL_INFORMATION_DIALOG]
-					[$source EL_DIALOG]*
 				[$source EL_TITLED_WINDOW]
-					[$source EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER]*
 					[$source EL_TITLED_TAB_BOOK_WINDOW]
-		EV_FRAME
-			[$source EL_FRAME]
+					[$source EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER]*
+		[$source EV_MODEL_WORLD_CELL]
+			[$source EL_MODEL_WORLD_CELL]
+		[$source EV_FRAME]
+			[$source EL_FRAME] [B -> [$source EL_BOX] create make end]
 		[$source EL_EXPANDED_CELL]
-	EV_WIDGET_LIST*
-		EV_BOX*
-			EV_HORIZONTAL_BOX
+	[$source EV_WIDGET_LIST]*
+		[$source EV_BOX]*
+			[$source EV_HORIZONTAL_BOX]
+				[$source EL_DIRECTORY_USER_SELECT]
 				[$source EL_HORIZONTAL_BOX]
-					[$source EL_SCROLLABLE_BOX]
-						[$source EL_SCROLLABLE_VERTICAL_BOX]
-							[$source EL_SCROLLABLE_SEARCH_RESULTS]
+					[$source EL_DATE_INPUT_BOX]
+					[$source EL_CONSOLE_MANAGER_TOOLBAR]
+					[$source EL_SCROLLABLE_BOX] [B -> [$source EL_BOX] create make end]
 						[$source EL_SCROLLABLE_PAGE]
+						[$source EL_SCROLLABLE_VERTICAL_BOX]
+							[$source EL_SCROLLABLE_SEARCH_RESULTS] [G]
+								[$source EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS] [G -> [$source EL_WORD_SEARCHABLE]]
 					[$source EL_AUTO_CELL_HIDING_HORIZONTAL_BOX]
 					[$source EL_CENTERED_VERTICAL_BOX]
+					[$source EL_PROGRESS_METER]
 					[$source EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX]
-					[$source EL_CONSOLE_MANAGER_TOOLBAR]
-				[$source EL_DIRECTORY_USER_SELECT]
-			EV_VERTICAL_BOX
-				[$source EL_VERTICAL_BOX]
-					[$source EL_AUTO_CELL_HIDING_VERTICAL_BOX]
+			[$source EV_VERTICAL_BOX]
+				[$source EL_TOOL_BAR_RADIO_BUTTON_GRID]
 				[$source EL_DOCKED_TAB_BOOK]
 					[$source EL_SPLIT_AREA_DOCKED_TAB_BOOK]
-				[$source EL_TOOL_BAR_RADIO_BUTTON_GRID]
+				[$source EL_VERTICAL_BOX]
+					[$source EL_AUTO_CELL_HIDING_VERTICAL_BOX]
+					[$source EL_WIDGET_PROGRESS_BOX] [W -> [$source EV_WIDGET] create default_create end]
+						[$source EL_BUTTON_PROGRESS_BOX] [B -> [$source EV_BUTTON] create default_create end]
+					[$source EL_PASSPHRASE_RATING_TABLE]
 			[$source EL_BOX]*
 				[$source EL_HORIZONTAL_BOX]
+				[$source EL_VERTICAL_BOX]
 				[$source EL_AUTO_CELL_HIDING_BOX]*
 					[$source EL_AUTO_CELL_HIDING_HORIZONTAL_BOX]
 					[$source EL_AUTO_CELL_HIDING_VERTICAL_BOX]
-				[$source EL_VERTICAL_BOX]
-		EV_NOTEBOOK
-			[$source EL_FIXED_TAB_BOOK]*
-			[$source EL_TAB_BOOK]
-		EV_FIXED
+		[$source EV_NOTEBOOK]
+			[$source EL_FIXED_TAB_BOOK]* [W -> [$source EV_POSITIONABLE]]
+			[$source EL_TAB_BOOK] [B -> [$source EL_BOX] create make end]
+		[$source EV_FIXED]
 			[$source EL_MIXED_STYLE_FIXED_LABELS]
+````
+
 ## Vision2-X UI Extensions
-Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
+Various extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
 ## Vision2-X 2D Graphics
 Classes for 2D geometry and graphical drawing
 ## Pango-Cairo 2D Graphics
-Eiffel interface to the [https://cairographics.org/ Cairo 2D graphics library] providing pixel buffer rendering with transparencies and anti-aliasing.
+Eiffel interface to the [Cairo 2D graphics library](https://cairographics.org/) providing pixel buffer rendering with transparencies and anti-aliasing.
 ## Vision2-X Pixmap Extensions
 Classes for managing pixmaps
 ## Vision2-X UI Widget Extensions

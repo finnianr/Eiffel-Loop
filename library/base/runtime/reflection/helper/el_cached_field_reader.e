@@ -1,9 +1,9 @@
 note
 	description: "Abstraction to set a string field from a cached value set"
 	descendants: "[
-			EL_FIELD_VALUE_SET_READER*
-					[$source EL_XML_NODE]
-						[$source EL_XML_ATTRIBUTE_NODE]
+			EL_CACHED_FIELD_READER*
+				[$source EL_DOCUMENT_NODE_STRING]
+					[$source EL_ELEMENT_ATTRIBUTE_NODE_STRING]
 	]"
 
 	author: "Finnian Reilly"

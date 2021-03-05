@@ -1,15 +1,14 @@
 note
 	description: "[
-		Interface for object that interates over the lines of an file object conforming to
-		`PLAIN_TEXT_FILE'. The lines are assumed to be UTF-8 encoded by default and are converted to
-		`ZSTRING' items.
+		Interface for object that interates over the lines of an file object conforming to [$source PLAIN_TEXT_FILE].
+		The lines are assumed to be UTF-8 encoded by default and are converted to [$source EL_ZSTRING] items.
 	]"
 	descendants: "[
 			EL_FILE_LINE_SOURCE*
-				[$source EL_ZSTRING_IO_MEDIUM_LINE_SOURCE]
 				[$source EL_PLAIN_TEXT_LINE_SOURCE]
 					[$source EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE]
 					[$source EL_STRING_8_IO_MEDIUM_LINE_SOURCE]
+				[$source EL_ZSTRING_IO_MEDIUM_LINE_SOURCE]
 	]"
 
 	author: "Finnian Reilly"

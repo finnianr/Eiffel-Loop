@@ -65,7 +65,7 @@ feature -- Conversion
 
 	to_xml: STRING
 		do
-			Result := to_string.to_utf_8
+			Result := to_string.to_utf_8 (True)
 		end
 
 feature {NONE} -- Implementation
