@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:37:21 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2021-03-06 12:49:07 GMT (Saturday 6th March 2021)"
+	revision: "7"
 
 deferred class
-	EL_TIMED_PROCEDURE [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_TIMED_PROCEDURE
 
 inherit
 	EL_COUNT_CONSUMER
@@ -26,8 +26,8 @@ feature {NONE} -- Initialization
 	make (a_procedure: like procedure; interval_millisecs: INTEGER)
 			--
 		do
-			make_default
 			procedure := a_procedure
+			make_default
 			create timer.make (Current, interval_millisecs)
 			thread_manager.extend (Current)
 		end
@@ -58,6 +58,6 @@ feature {NONE} -- Implementation
 
 	timer: EL_TIMED_COUNT_PRODUCER
 
-	procedure: PROCEDURE [OPEN_ARGS]
+	procedure: PROCEDURE
 
 end

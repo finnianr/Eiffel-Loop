@@ -4,12 +4,12 @@ pyxis-doc:
 manifest:
 	# examples
 	location:
+		"example/concurrency/source"
 		"example/eiffel2java/source"
 		"example/graphical/source"
 		"example/manage-mp3/source"
 		"example/net/EROS/server/source"
 		"example/net/EROS/test-clients/source"
-		"test/source"
 
 	# testing and benchmarks
 	location:

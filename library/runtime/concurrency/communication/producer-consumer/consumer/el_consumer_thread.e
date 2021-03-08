@@ -1,13 +1,13 @@
 note
-	description: "Consumes the products of a product queue fed by another thread"
+	description: "Consumes the products placed into product queue by another thread"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-03-06 18:05:49 GMT (Saturday 6th March 2021)"
+	revision: "4"
 
 deferred class
 	EL_CONSUMER_THREAD [P]
@@ -15,21 +15,12 @@ deferred class
 inherit
 	EL_CONSUMER [P]
 		undefine
-			make_default, is_equal, copy, stop, name
+			make_default, name, stop
 		end
 
 	EL_CONTINUOUS_ACTION_THREAD
 		redefine
 			execute, stop
-		end
-
-feature {NONE} -- Initialization
-
-	make
-			--
-		do
-			make_default
-			create product_count.make (0)
 		end
 
 feature -- Basic operations
@@ -96,5 +87,4 @@ feature {NONE} -- Implementation
 	product_count: SEMAPHORE
 
 end
-
 

@@ -1,13 +1,13 @@
 note
-	description: "Faux ftp protocol"
+	description: "Faux FTP protocol for testing"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-19 8:50:26 GMT (Tuesday 19th January 2021)"
-	revision: "3"
+	date: "2021-03-08 10:59:10 GMT (Monday 8th March 2021)"
+	revision: "4"
 
 class
 	FAUX_FTP_PROTOCOL

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-15 16:31:37 GMT (Saturday 15th December 2018)"
-	revision: "4"
+	date: "2021-03-08 11:12:41 GMT (Monday 8th March 2021)"
+	revision: "5"
 
 class
 	EL_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -15,17 +15,20 @@ class
 inherit
 	EL_CONSUMER_THREAD [P]
 		rename
+			make_default as make,
 			consume_product as delegate_consumption_of_next_product,
 			is_waiting as is_waiting_for_new_queue_item
 		redefine
-			make_default, product_queue, on_stopping, stop
+			make, product_queue, on_stopping, stop
 		end
 
 	EL_SUSPENDABLE
+		rename
+			make_default as make
 		undefine
 			is_equal, copy
 		redefine
-			make_default
+			make
 		end
 
 	EL_EVENT_LISTENER
@@ -40,7 +43,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
+	make
 		do
 			Precursor {EL_SUSPENDABLE}
 			Precursor {EL_CONSUMER_THREAD}

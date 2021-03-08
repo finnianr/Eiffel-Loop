@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 11:43:51 GMT (Thursday 4th March 2021)"
-	revision: "30"
+	date: "2021-03-08 14:02:34 GMT (Monday 8th March 2021)"
+	revision: "31"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -38,18 +38,17 @@ inherit
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
+	EL_MODULE_COMMAND
+
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_EXECUTABLE
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_MODULE_TUPLE
 
-	EL_SHARED_DIRECTORY
-		rename
-			Directory as Shared_directory
-		end
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature -- Basic operations
 
@@ -64,28 +63,43 @@ feature -- Tests
 	test_publisher
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
-			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
+			line: ZSTRING; base_name_list: EL_ZSTRING_LIST; finder: EL_FIND_FILES_COMMAND_I
+			broadcaster_path, checker_path: EL_FILE_PATH
 		do
 			publisher := new_publisher
 			publisher.execute
 			check_html_exists (publisher)
 
-			create editor.make ("operations", "operation") -- feature -- Basic operations
-			editor.set_file_path (Modified_file_path)
+			broadcaster_path := Kernel_event.class_dir + "el_event_broadcaster.e"
+			checker_path := Kernel_event.class_dir + "el_event_checker.e"
+
+			create editor.make ("make", "make_default") -- feature {NONE} -- Initialization
+			editor.set_file_path (broadcaster_path)
 			editor.edit
 
-			base_name_list := "base.kernel.html, index.html"
---			base_name_list.extend (Modified_file_path.base_sans_extension + ".html")
-			base_name_list.append (sorted_base_names (Shared_directory.named (Kernel_command_dir).files))
-			base_name_list.sort
+			File_system.remove_file (checker_path)
 
-			Shared_directory.named (Kernel_command_dir).delete_content
+			finder := Command.new_find_files (Kernel_event.html_dir, "*listener.html")
+			finder.execute
+			across finder.path_list as path loop
+				File_system.remove_file (path.item)
+			end
+
+			base_name_list := "base.kernel.html, index.html"
+			base_name_list.extend (broadcaster_path.base_sans_extension + ".html")
+			base_name_list.append (sorted_base_names (finder.path_list))
+			base_name_list.sort
 
 			if Executable.Is_work_bench then
 				line := User_input.line ("Enter to continue")
 			end
 			publisher := new_publisher
 			publisher.execute
+
+			across finder.path_list as path loop
+				assert ("removed regenerated", path.item.exists)
+			end
+			assert ("checker html gone", not html_path (checker_path).exists)
 
 			assert ("same list", base_name_list ~ sorted_base_names (publisher.ftp_sync.ftp.uploaded_list))
 		end
@@ -171,6 +185,12 @@ feature {NONE} -- Implementation
 			Result := crc.checksum
 		end
 
+	html_path (a_path: EL_FILE_PATH): EL_FILE_PATH
+		do
+			Result := Kernel_event.html_dir + a_path.base_sans_extension
+			Result.add_extension ("html")
+		end
+
 	generated_files: like OS.file_list
 		do
 			Result := OS.file_list (Doc_dir, "*.html")
@@ -193,9 +213,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Kernel_command_dir: EL_DIR_PATH
+	Kernel_event: TUPLE [class_dir, html_dir: EL_DIR_PATH]
+		local
+			l_dir: EL_DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_path ("doc/library/base/kernel/command")
+			l_dir := "library/base/kernel/event"
+			Result := [Work_area_dir.joined_dir_path (l_dir), Work_area_dir.joined_dir_path ("doc").joined_dir_path (l_dir)]
 		end
 
 	Doc_config_dir: EL_DIR_PATH
@@ -206,11 +229,6 @@ feature {NONE} -- Constants
 	Doc_dir: EL_DIR_PATH
 		once
 			Result := Work_area_dir.joined_dir_path ("doc")
-		end
-
-	Modified_file_path: EL_FILE_PATH
-		once
-			Result := Work_area_dir + "library/base/kernel/command/el_default_command.e"
 		end
 
 end

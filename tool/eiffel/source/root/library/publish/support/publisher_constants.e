@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-01 10:41:32 GMT (Monday 1st March 2021)"
-	revision: "3"
+	date: "2021-03-06 17:01:37 GMT (Saturday 6th March 2021)"
+	revision: "4"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -30,6 +30,11 @@ feature {NONE} -- Constants
 	Library: ZSTRING
 		once
 			Result := "library"
+		end
+
+	Maximum_code_width: INTEGER
+		once
+			Result := 104
 		end
 
 	Note_description: ZSTRING

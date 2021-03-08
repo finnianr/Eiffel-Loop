@@ -34,10 +34,11 @@ publish-repository:
 	ecf-list:
 		# Examples
 		ecf:
+			"example/99-bottles/ninety-nine-bottles.ecf"
+			"example/concurrency/concurrency-demo.ecf"
+			"example/manage-mp3/manage-mp3.ecf"
 			"example/net/EROS/signal-math/signal-math.ecf#project"
 			"example/net/EROS/server/signal-math-server.ecf#project"
-			"example/99-bottles/ninety-nine-bottles.ecf"
-			"example/manage-mp3/manage-mp3.ecf"
 			"example/graphical/graphical.ecf"
 		ecf:
 			ignore = test
@@ -193,7 +194,6 @@ publish-repository:
 			"test/test.ecf#taglib"
 			"test/test.ecf#text_formats"
 			"test/test.ecf#text_process"
-			"test/test.ecf#thread"
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"
 			"test/test.ecf#xml_scan"

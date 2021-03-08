@@ -18,39 +18,44 @@ A generic producer-consumer thread communication framework where a producing thr
 ''Consumer Descendants''
 
 	EL_CONSUMER* [P]
+		[$source EL_NONE_CONSUMER [P]]
+		[$source EL_COUNT_CONSUMER]*
+			[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+				[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+			[$source EL_TIMED_PROCEDURE]*
+				[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+				[$source EL_TIMED_PROCEDURE_THREAD]
+			[$source EL_COUNT_CONSUMER_THREAD]*
+				[$source EL_TIMED_PROCEDURE_THREAD]
+		[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 		[$source EL_CONSUMER_MAIN_THREAD]* [P]
-			[$source EL_TUPLE_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-			EL_COUNT_CONSUMER_MAIN_THREAD*
-				[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-		[$source EL_NONE_CONSUMER] [P]
+			[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+			[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+			[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_PROCEDURE_CALL_CONSUMER]*
+			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+		[$source EL_ACTION_ARGUMENTS_CONSUMER]* [ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+				[$source EL_BATCH_FILE_PROCESSING_THREAD]*
+					[$source EL_LOGGED_BATCH_FILE_PROCESSING_THREAD]*
 		[$source EL_CONSUMER_THREAD]* [P]
-			[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+			[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 			[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
-			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			EL_COUNT_CONSUMER_THREAD*
-				[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-			EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-		[$source EL_PROCEDURE_CALL_CONSUMER]* [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		EL_COUNT_CONSUMER*
-			EL_COUNT_CONSUMER_THREAD*
-			EL_COUNT_CONSUMER_MAIN_THREAD*
-			[$source EL_TIMED_PROCEDURE]* [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-				[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-				[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-		EL_REGULAR_INTERVAL_EVENT_CONSUMER*
-			EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-			EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+			[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_COUNT_CONSUMER_THREAD]*
+			[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+			[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
 
 ''Product Queue Descendants''
 
 	EL_THREAD_PRODUCT_QUEUE [P]
-		[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
-		[$source EL_PROCEDURE_CALL_QUEUE] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_PROCEDURE_CALL_QUEUE]
+		[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
 
 **Specialized Threads**
 
@@ -65,27 +70,32 @@ The library includes many thread classes inheriting from [$source EL_IDENTIFIED_
 ''Descendants''
 
 	EL_IDENTIFIED_THREAD_I*
-		EL_IDENTIFIED_MAIN_THREAD
-		EL_IDENTIFIED_THREAD*
-			EL_LOGGED_IDENTIFIED_THREAD*
-				SIMPLE_SERVER_THREAD
-				EROS_SERVER_THREAD
-			EL_CONTINUOUS_ACTION_THREAD*
-				EL_WORK_DISTRIBUTION_THREAD
+		[$source EL_IDENTIFIED_MAIN_THREAD]
+		[$source EL_IDENTIFIED_THREAD]*
+			[$source EL_LOGGED_IDENTIFIED_THREAD]*
+				[$source SIMPLE_SERVER_THREAD]
+				[$source EROS_SERVER_THREAD]
+			[$source EL_CONTINUOUS_ACTION_THREAD]*
+				[$source EL_WORK_DISTRIBUTION_THREAD]
+				[$source EL_DORMANT_ACTION_LOOP_THREAD]*
+					[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
+				[$source EL_RHYTHMIC_ACTION_THREAD]*
+					[$source EL_TIMED_COUNT_PRODUCER]
+					[$source EL_TIMEOUT]
 				[$source EL_CONSUMER_THREAD]* [P]
-					[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+					[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 					[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
-					[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-					[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-					EL_COUNT_CONSUMER_THREAD*
-						[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-					EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-				EL_DORMANT_ACTION_LOOP_THREAD*
-					EL_REGULAR_INTERVAL_EVENT_PRODUCER
-				EL_RHYTHMIC_ACTION_THREAD*
-					EL_TIMED_COUNT_PRODUCER
-					EL_TIMEOUT
-			EL_WORKER_THREAD
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+						[$source EL_BATCH_FILE_PROCESSING_THREAD]*
+							[$source EL_LOGGED_BATCH_FILE_PROCESSING_THREAD]*
+					[$source EL_COUNT_CONSUMER_THREAD]*
+						[$source EL_TIMED_PROCEDURE_THREAD]
+					[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+					[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+			[$source EL_WORKER_THREAD]
+			[$source EL_FILE_PROCESS_THREAD]
+				[$source EL_LOGGED_FILE_PROCESS_THREAD]
+
 
 **Other Features**
 

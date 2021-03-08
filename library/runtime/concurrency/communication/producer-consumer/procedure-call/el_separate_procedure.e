@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:40:24 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2021-03-06 11:50:16 GMT (Saturday 6th March 2021)"
+	revision: "7"
 
 class
 	EL_SEPARATE_PROCEDURE [OPEN_ARGS -> TUPLE create default_create end]
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			default_create
-			consumer.set_action (procedure)
+			consumer.extend (procedure)
 		end
 
 feature -- Element change
@@ -46,7 +46,7 @@ feature -- Element change
 	set_action (procedure: PROCEDURE [OPEN_ARGS])
 			--
 		do
-			consumer.set_action (procedure)
+			consumer.extend (procedure)
 		end
 
 feature -- Basic operations
@@ -65,7 +65,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	consumer: EL_TUPLE_CONSUMER_THREAD [OPEN_ARGS]
+	consumer: EL_ACTION_ARGUMENTS_CONSUMER_THREAD [OPEN_ARGS]
 
 	call_queue: EL_THREAD_PRODUCT_QUEUE [OPEN_ARGS]
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 14:52:17 GMT (Wednesday 17th February 2021)"
-	revision: "6"
+	date: "2021-03-04 17:43:52 GMT (Thursday 4th March 2021)"
+	revision: "7"
 
 class
 	EL_SEQUENTIAL_INTERVALS

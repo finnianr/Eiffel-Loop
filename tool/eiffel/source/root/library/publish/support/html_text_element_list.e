@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 18:23:18 GMT (Wednesday 3rd March 2021)"
-	revision: "13"
+	date: "2021-03-06 13:45:50 GMT (Saturday 6th March 2021)"
+	revision: "14"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -264,11 +264,6 @@ feature {NONE} -- Constants
 	Markdown: MARKDOWN_RENDERER
 		once
 			create Result
-		end
-
-	Maximum_code_width: INTEGER
-		once
-			Result := 110
 		end
 
 	Source_link: ZSTRING

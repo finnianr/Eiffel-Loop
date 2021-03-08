@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-11 16:26:42 GMT (Saturday 11th January 2020)"
-	revision: "3"
+	date: "2021-03-08 14:14:49 GMT (Monday 8th March 2021)"
+	revision: "4"
 
 deferred class
 	EL_EVENT_LISTENER
@@ -38,14 +38,16 @@ note
 					[$source EL_WRITTEN_BYTE_COUNTING_LISTENER]
 				[$source EL_AGENT_EVENT_LISTENER]
 				[$source EL_EVENT_LISTENER_PAIR]
+				[$source EL_EVENT_LISTENER_LIST]
 				[$source EL_CONSUMER_MAIN_THREAD]* [P]
-					[$source EL_TUPLE_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-					[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
 					[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 					[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
-						[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-				[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+						[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+					[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
 				[$source EL_EVENT_LISTENER_MAIN_THREAD_PROXY]
-				[$source EL_EVENT_LISTENER_LIST]
+				[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+					[$source EL_LOGGED_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+
 	]"
 end

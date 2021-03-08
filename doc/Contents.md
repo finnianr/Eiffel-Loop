@@ -1,49 +1,14 @@
 # Eiffel-Loop Contents
-## Signal Math Demo of the EROS Protocol
-A multi-mode application demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application calculates Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html). It has two client modes and two server modes, accessible via a command line option.
-
-**Client Modes**
-
-`-test_client` Sub-application [FFT_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_client_test_app.html)
-
-Test client to generate random wave forms and do fourier transforms for 25 seconds
-
-`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
-
-Client to test Binary Encoded XML Transfer (BEXT).
-
-**Server Modes**
-
-`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
-
-Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
-
-`-test_server` Sub-application [FFT_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_server_test_app.html)
-
-Single connection test server for fourier math. Ctrl-c shuts down the server.
-
-**Installer Mode**
-
-`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/standard/el_standard_installer_app.html)
-
-Installs application with desktop menu options for each mode.
-## Signal Math EROS Server with GUI
-A multi-threaded EROS server demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application performs signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html)
-
-**Features**
-
-
-* A graphical user interface (GUI) to control startup and shutdown.
-* GUI monitors 11 different performance characteristics.
-* GUI has controls allowing you to switch the console logging output to a different thread context.
-
-**Screenshot**
-
-[Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
 ## Submission for 99-bottles-of-beer.net
 Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
+## Concurrency Demonstration
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
+
+
+1. `el_concurrency -horse_race` An animated version of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -91,6 +56,47 @@ For details on how to use, read the source documentation notes in class [RHYTHMB
 Download the latest executable for *Ubuntu 14.04* or *Linux Mint 17.x* at the bottom of [this page](https://github.com/finnianr/Eiffel-Loop/releases/latest). You also need the following command line tools to be installed: `sox, swgen, avconv, lame, gvfs-mount`.
 
 Warning: **Use at your own risk.** It is recommended that you have a backup of your MP3 collection and rhythmbox configuration files (Usually in `$HOME/.local/share/rhythmbox`). The developer does not take any responsibility for any data loss that may occur as a result of using *el_rhythmbox*.
+## Signal Math Demo of the EROS Protocol
+A multi-mode application demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application calculates Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html). It has two client modes and two server modes, accessible via a command line option.
+
+**Client Modes**
+
+`-test_client` Sub-application [FFT_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_client_test_app.html)
+
+Test client to generate random wave forms and do fourier transforms for 25 seconds
+
+`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+
+Client to test Binary Encoded XML Transfer (BEXT).
+
+**Server Modes**
+
+`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+
+Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
+
+`-test_server` Sub-application [FFT_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_server_test_app.html)
+
+Single connection test server for fourier math. Ctrl-c shuts down the server.
+
+**Installer Mode**
+
+`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/sub-app/standard/el_standard_installer_app.html)
+
+Installs application with desktop menu options for each mode.
+## Signal Math EROS Server with GUI
+A multi-threaded EROS server demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application performs signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html)
+
+**Features**
+
+
+* A graphical user interface (GUI) to control startup and shutdown.
+* GUI monitors 11 different performance characteristics.
+* GUI has controls allowing you to switch the console logging output to a different thread context.
+
+**Screenshot**
+
+[Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
 ## Vision-2 Extensions Demo
 Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Eiffel to Java
@@ -979,41 +985,46 @@ A generic producer-consumer thread communication framework where a producing thr
 
 ````
 EL_CONSUMER* [P]
+	[$source EL_NONE_CONSUMER [P]]
+	[$source EL_COUNT_CONSUMER]*
+		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+		[$source EL_TIMED_PROCEDURE]*
+			[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+			[$source EL_TIMED_PROCEDURE_THREAD]
+		[$source EL_COUNT_CONSUMER_THREAD]*
+			[$source EL_TIMED_PROCEDURE_THREAD]
+	[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 	[$source EL_CONSUMER_MAIN_THREAD]* [P]
-		[$source EL_TUPLE_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-		EL_COUNT_CONSUMER_MAIN_THREAD*
-			[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-	[$source EL_NONE_CONSUMER] [P]
+		[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+		[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+		[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+	[$source EL_PROCEDURE_CALL_CONSUMER]*
+		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+	[$source EL_ACTION_ARGUMENTS_CONSUMER]* [ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+			[$source EL_BATCH_FILE_PROCESSING_THREAD]*
+				[$source EL_LOGGED_BATCH_FILE_PROCESSING_THREAD]*
 	[$source EL_CONSUMER_THREAD]* [P]
-		[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+		[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 		[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
-		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		EL_COUNT_CONSUMER_THREAD*
-			[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-		EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-	[$source EL_PROCEDURE_CALL_CONSUMER]* [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-	EL_COUNT_CONSUMER*
-		EL_COUNT_CONSUMER_THREAD*
-		EL_COUNT_CONSUMER_MAIN_THREAD*
-		[$source EL_TIMED_PROCEDURE]* [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_TIMED_PROCEDURE_MAIN_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-			[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-	EL_REGULAR_INTERVAL_EVENT_CONSUMER*
-		EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-		EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+		[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+		[$source EL_COUNT_CONSUMER_THREAD]*
+		[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+		[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
 ````
 *Product Queue Descendants*
 
 
 ````
 EL_THREAD_PRODUCT_QUEUE [P]
-	[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
-	[$source EL_PROCEDURE_CALL_QUEUE] [OPEN_ARGS -> [$source TUPLE] create default_create end]
+	[$source EL_PROCEDURE_CALL_QUEUE]
+	[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
 ````
 **Specialized Threads**
 
@@ -1031,27 +1042,31 @@ The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I
 
 ````
 EL_IDENTIFIED_THREAD_I*
-	EL_IDENTIFIED_MAIN_THREAD
-	EL_IDENTIFIED_THREAD*
-		EL_LOGGED_IDENTIFIED_THREAD*
-			SIMPLE_SERVER_THREAD
-			EROS_SERVER_THREAD
-		EL_CONTINUOUS_ACTION_THREAD*
-			EL_WORK_DISTRIBUTION_THREAD
+	[$source EL_IDENTIFIED_MAIN_THREAD]
+	[$source EL_IDENTIFIED_THREAD]*
+		[$source EL_LOGGED_IDENTIFIED_THREAD]*
+			[$source SIMPLE_SERVER_THREAD]
+			[$source EROS_SERVER_THREAD]
+		[$source EL_CONTINUOUS_ACTION_THREAD]*
+			[$source EL_WORK_DISTRIBUTION_THREAD]
+			[$source EL_DORMANT_ACTION_LOOP_THREAD]*
+				[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER]
+			[$source EL_RHYTHMIC_ACTION_THREAD]*
+				[$source EL_TIMED_COUNT_PRODUCER]
+				[$source EL_TIMEOUT]
 			[$source EL_CONSUMER_THREAD]* [P]
-				[$source EL_DELEGATING_CONSUMER_THREAD] [P, CONSUMER_TYPE -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD] [P] create make end]
+				[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
 				[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
-				[$source EL_PROCEDURE_CALL_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-				[$source EL_TUPLE_CONSUMER_THREAD] [OPEN_ARGS -> [$source TUPLE] create default_create end]
-				EL_COUNT_CONSUMER_THREAD*
-					[$source EL_TIMED_PROCEDURE_THREAD] [BASE_TYPE, OPEN_ARGS -> [$source TUPLE] create default_create end]
-				EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-			EL_DORMANT_ACTION_LOOP_THREAD*
-				EL_REGULAR_INTERVAL_EVENT_PRODUCER
-			EL_RHYTHMIC_ACTION_THREAD*
-				EL_TIMED_COUNT_PRODUCER
-				EL_TIMEOUT
-		EL_WORKER_THREAD
+				[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+					[$source EL_BATCH_FILE_PROCESSING_THREAD]*
+						[$source EL_LOGGED_BATCH_FILE_PROCESSING_THREAD]*
+				[$source EL_COUNT_CONSUMER_THREAD]*
+					[$source EL_TIMED_PROCEDURE_THREAD]
+				[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+				[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+		[$source EL_WORKER_THREAD]
+		[$source EL_FILE_PROCESS_THREAD]
+			[$source EL_LOGGED_FILE_PROCESS_THREAD]
 ````
 **Other Features**
 
@@ -1292,7 +1307,7 @@ The procedure form:
 ````
 put_<lowercase type name>
 ````
-is use to output the following types: `STRING, INTEGER, CHARACTER, REAL and DOUBLE`.
+is use to output the following types: [$source STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
 
 The procedure form:
 
@@ -1842,8 +1857,6 @@ See class [$source TAGLIB_AUTOTEST_APP]
 See class [$source TEXT_FORMATS_AUTOTEST_APP]
 ## text-process.ecf
 See class [$source TEXT_PROCESS_AUTOTEST_APP]
-## thread.ecf
-See class [$source TEST_WORK_DISTRIBUTER_APP]
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API
 

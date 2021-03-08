@@ -278,13 +278,6 @@ text-process.ecf
 See class [$source TEXT_PROCESS_AUTOTEST_APP]
 			</description>
 		</cluster>
-		<cluster name = "thread" location = "source/thread" recursive = "true">
-			<description>
-thread.ecf
-
-See class [$source TEST_WORK_DISTRIBUTER_APP]
-			</description>
-		</cluster>
 		<cluster name = "vtd_xml" location = "source/vtd-xml" recursive = "true">
 			<description>
 vtd-xml.ecf

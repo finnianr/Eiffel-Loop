@@ -1,0 +1,109 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Pyxis is data format inspired by the Python programming language and designed to be a more
+# readable supplement/substitute for XML configuration files.
+
+system:
+	configuration_ns = "1-16-0"
+	name = el_concurrency; uuid = "DD11287A-8001-11EB-881D-8FE5DD797125"
+	description:
+		"""
+			Concurrency Demonstration
+
+			Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
+
+			1. `el_concurrency -horse_race' An animated version of the classic concurrency horse-racing exercise.
+			2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions
+			distributed across a specified number of threads
+		"""
+	# classic means C code as an intermediate language
+	target: 
+		name = classic
+		root:
+			class = APPLICATION_ROOT; feature = make
+		version:
+			major = 1; minor = 0; release = 0; build = 0
+			company = "Eiffel-Loop"; product = "Concurrency Demonstration"
+			copyright = "Finnian Reilly"
+
+		option:
+			syntax = standard; full_class_checking = false; void_safety = none
+			assertions:
+				precondition = true; postcondition = true; check = true
+
+		setting:
+			name = address_expression; value = false
+
+		setting:
+			name = array_optimization; value = false
+
+		setting:
+			name = check_vape; value = true
+
+		setting:
+			name = console_application; value = true
+
+		setting:
+			name = dead_code_removal; value = true
+
+		setting:
+			name = dynamic_runtime; value = false
+
+		setting:
+			name = exception_trace; value = true
+
+		setting:
+			name = line_generation; value = false
+
+		setting:
+			name = inlining; value = true
+
+		setting:
+			name = inlining_size; value = 2
+
+		setting:
+			name = concurrency; value = thread
+
+		precompile:
+			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
+
+		library:
+			name = ise_base; location = "$ISE_LIBRARY/library/base/base.ecf"
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = true; invariant = true
+
+		library:
+			name = ise_base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
+
+		library:
+			name = ise_thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
+
+		library:
+			name = ise_time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = ise_net; location = "$ISE_LIBRARY/library/net/net.ecf"
+
+		# Eiffel Loop libraries
+		
+		library:
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+
+		library:
+			name = EL_base; location = "$EIFFEL_LOOP/library/base/base.ecf"; readonly = false
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = true
+			#; use_application_options = true
+
+		library:
+			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
+
+		library:
+			name = EL_thread; readonly = false; location = "$EIFFEL_LOOP/library/thread.ecf"
+
+		cluster:
+			name = project; location = "source"; recursive = true
+

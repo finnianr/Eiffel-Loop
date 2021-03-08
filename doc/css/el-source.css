@@ -9,7 +9,7 @@ div#notes {
 	padding: 5px;
 }
 div#notes_inner {
-	width: 900px;
+	width: 1000px;
 }
 p, li {
 	font-size: 18px;
@@ -32,7 +32,7 @@ div#notes_inner p, div#notes_inner h2 {
 }
 div#notes_inner pre {
 	font-family: "Bitstream Vera Sans Mono", monospace;
-	font-size: 0.9em;
+	font-size: 0.93em;
 	margin-left: 15px;
 	padding: 5px;
 	background-color: #F0F0F0;

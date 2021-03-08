@@ -1,13 +1,18 @@
 note
-	description: "Consumer"
+	description: "[
+		Consumer of products placed by a separate thread into the queue:
+		
+			product_queue: [$source EL_THREAD_PRODUCT_QUEUE [P]]
+	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-03-06 16:21:53 GMT (Saturday 6th March 2021)"
+	revision: "6"
 
 deferred class
 	EL_CONSUMER [P]
@@ -73,29 +78,19 @@ feature -- Query status
 			Result := state = State_consuming
 		end
 
-	is_waiting: BOOLEAN
-			--
-		do
-			Result := state = State_waiting
-		end
-
 	is_product_available: BOOLEAN
 			--
 		do
 			Result := not product_queue.is_empty
 		end
 
-feature {NONE} -- Implementation
-
-	execute
-			-- Continuous loop to do action that waits to be prompted
-		deferred
-		end
-
-	consume_product
+	is_waiting: BOOLEAN
 			--
-		deferred
+		do
+			Result := state = State_waiting
 		end
+
+feature {NONE} -- Implementation
 
 	consume_next_product
 			--
@@ -107,8 +102,57 @@ feature {NONE} -- Implementation
 			consume_product
 		end
 
+	consume_product
+			--
+		deferred
+		end
+
+	execute
+			-- Continuous loop to do action that waits to be prompted
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
 	product: P
 
-	product_queue: EL_THREAD_PRODUCT_QUEUE [P]
+	product_queue: EL_THREAD_PRODUCT_QUEUE [P];
+
+note
+	descendants: "[
+			EL_CONSUMER* [P]
+				[$source EL_NONE_CONSUMER [P]]
+				[$source EL_COUNT_CONSUMER]*
+					[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+						[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+					[$source EL_TIMED_PROCEDURE]*
+						[$source EL_TIMED_PROCEDURE_MAIN_THREAD]
+						[$source EL_TIMED_PROCEDURE_THREAD]
+					[$source EL_COUNT_CONSUMER_THREAD]*
+						[$source EL_TIMED_PROCEDURE_THREAD]
+				[$source EL_REGULAR_INTERVAL_EVENT_CONSUMER]*
+					[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+					[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+				[$source EL_CONSUMER_MAIN_THREAD]* [P]
+					[$source EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+					[$source EL_COUNT_CONSUMER_MAIN_THREAD]*
+					[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+				[$source EL_PROCEDURE_CALL_CONSUMER]*
+					[$source EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD]
+					[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+				[$source EL_ACTION_ARGUMENTS_CONSUMER]* [ARGS -> [$source TUPLE] create default_create end]
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+						[$source EL_BATCH_FILE_PROCESSING_THREAD]*
+							[$source EL_LOGGED_BATCH_FILE_PROCESSING_THREAD]*
+				[$source EL_CONSUMER_THREAD]* [P]
+					[$source EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER]*
+					[$source EL_MANY_TO_ONE_CONSUMER_THREAD]* [P]
+					[$source EL_ACTION_ARGUMENTS_CONSUMER_THREAD] [ARGS -> [$source TUPLE] create default_create end]
+					[$source EL_COUNT_CONSUMER_THREAD]*
+					[$source EL_PROCEDURE_CALL_CONSUMER_THREAD]
+					[$source EL_DELEGATING_CONSUMER_THREAD] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+	]"
 
 end

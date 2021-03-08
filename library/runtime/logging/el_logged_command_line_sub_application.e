@@ -1,13 +1,13 @@
 note
-	description: "Logged command line sub application"
+	description: "Logged version of [$source EL_COMMAND_LINE_SUB_APPLICATION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 18:49:49 GMT (Monday 13th January 2020)"
-	revision: "3"
+	date: "2021-03-06 11:34:11 GMT (Saturday 6th March 2021)"
+	revision: "4"
 
 deferred class
 	EL_LOGGED_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]

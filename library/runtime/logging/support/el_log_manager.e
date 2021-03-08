@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:20:41 GMT (Wednesday 20th May 2020)"
-	revision: "13"
+	date: "2021-03-06 11:13:39 GMT (Saturday 6th March 2021)"
+	revision: "14"
 
 class
 	EL_LOG_MANAGER
@@ -289,7 +289,7 @@ feature {EL_CONSOLE_MANAGER, EL_LOGGABLE, EL_MODULE_LOG_MANAGER} -- Access
 			end_restriction
 		end
 
-	thread_registration_consumer: EL_TUPLE_CONSUMER_MAIN_THREAD [TUPLE [EL_IDENTIFIED_THREAD_I]]
+	thread_registration_consumer: EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [TUPLE [EL_IDENTIFIED_THREAD_I]]
 
 feature {NONE} -- Factory
 

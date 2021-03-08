@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 11:03:06 GMT (Tuesday 2nd March 2021)"
-	revision: "4"
+	date: "2021-03-06 14:13:36 GMT (Saturday 6th March 2021)"
+	revision: "5"
 
 class
 	PREFORMATTED_NOTE_MARKDOWN_RENDERER
@@ -15,11 +15,18 @@ class
 inherit
 	NOTE_MARKDOWN_RENDERER
 		redefine
-			Link_substitutions, Markup_substitutions
+			new_source_substitution, Link_substitutions, Markup_substitutions
 		end
 
 create
 	default_create
+
+feature {NONE} -- Implementation
+
+	new_source_substitution: PREFORMATTED_SOURCE_LINK_SUBSTITUTION
+		do
+			create Result.make
+		end
 
 feature {NONE} -- Constants
 

@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 16:42:09 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2021-03-06 10:56:37 GMT (Saturday 6th March 2021)"
+	revision: "4"
 
 class
 	EL_AUDIO_SOURCE_PRODUCER_I [SAMPLE_TYPE -> EL_AUDIO_PCM_SAMPLE create make end]
 
 inherit
-	EL_THREAD_PROXY [EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE], TUPLE]
+	EL_THREAD_PROXY [EL_AUDIO_SOURCE_PRODUCER [SAMPLE_TYPE]]
 		rename
 			stop as exit
 		redefine
@@ -41,7 +41,7 @@ feature -- Basic operations
 	buffer_audio_from_source (event_listener: EL_AUDIO_PLAYER_EVENT_LISTENER; waiting_player_thread: EL_SUSPENDABLE)
 			--
 		do
-			queue_call_with_args (agent target.buffer_audio_from_source, [event_listener, waiting_player_thread])
+			queue_call (agent target.buffer_audio_from_source (event_listener, waiting_player_thread))
 		end
 
 	initialize (relative_start_position: REAL)

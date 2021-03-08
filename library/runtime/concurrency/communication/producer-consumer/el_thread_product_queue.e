@@ -1,13 +1,14 @@
 note
 	description: "Thread safe queue"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-06 15:26:03 GMT (Saturday 6th March 2021)"
+	revision: "5"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]
@@ -112,10 +113,15 @@ feature {EL_CONSUMER} -- Element change
 
 feature {NONE} -- Implementation
 
-	consumer: EL_CONSUMER [P]
+	consumer: EL_CONSUMER [P];
 
+note
+	descendants: "[
+			EL_THREAD_PRODUCT_QUEUE [P]
+				[$source EL_PROCEDURE_CALL_QUEUE]
+				[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+	]"
 end
-
 
 
 

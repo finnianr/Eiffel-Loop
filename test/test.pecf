@@ -433,14 +433,6 @@ system:
 					See class [$source TEXT_PROCESS_AUTOTEST_APP]
 				"""
 		cluster:
-			name = thread; location = "source/thread"; recursive = true
-			description:
-				"""
-					thread.ecf
-					
-					See class [$source TEST_WORK_DISTRIBUTER_APP]
-				"""
-		cluster:
 			name = vtd_xml; location = "source/vtd-xml"; recursive = true
 			description:
 				"""

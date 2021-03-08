@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:36:38 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2021-03-08 11:14:16 GMT (Monday 8th March 2021)"
+	revision: "6"
 
 class
 	EL_XML_NETWORK_MESSENGER
@@ -16,15 +16,10 @@ inherit
 	EL_CONSUMER_THREAD [STRING]
 		rename
 			consume_product as send_message,
-			make as make_consumer,
+			make_default as make_consumer,
 			product as xml_message
 		redefine
 			execute
-		end
-
-	ASCII
-		undefine
-			default_create, is_equal, copy
 		end
 
 	EL_MODULE_LIO
@@ -75,6 +70,5 @@ feature {NONE} -- Implementation
 	net_exception_occurred: BOOLEAN
 
 end
-
 
 

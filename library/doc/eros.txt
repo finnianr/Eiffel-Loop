@@ -15,9 +15,3 @@ Two demo applications are provided that do signal math including Fourier transfo
 
 1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
 2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
-
-**Build Notes**
-
-When including the `eros.ecf' in your project it is necessary to define a custom variable
-`eros_server_enabled'. To build a server application set the value to `true'. To build a client
-application set value to `false'.

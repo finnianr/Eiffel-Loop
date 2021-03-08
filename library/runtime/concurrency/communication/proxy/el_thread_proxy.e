@@ -1,6 +1,6 @@
 note
 	description: "[
-		Proxy object to (asynchronously) call procedures of BASE_TYPE from an another thread
+		Proxy object to (asynchronously) call procedures of target type `T' from an another thread
 	]"
 
 	author: "Finnian Reilly"
@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-07-01 14:23:09 GMT (Sunday 1st July 2018)"
-	revision: "3"
+	date: "2021-03-06 13:06:42 GMT (Saturday 6th March 2021)"
+	revision: "4"
 
 class
-	EL_THREAD_PROXY [BASE_TYPE, OPEN_ARGS -> TUPLE create default_create end]
+	EL_THREAD_PROXY [T]
 
 create
 	make
@@ -47,23 +47,16 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	queue_call, call (procedure: PROCEDURE [OPEN_ARGS])
+	queue_call, call (procedure: PROCEDURE)
 			-- Asynchronously call procedure
 		do
 			call_queue.put (procedure)
 		end
 
-	queue_call_with_args, call_with_args (procedure: PROCEDURE [OPEN_ARGS]; args: OPEN_ARGS)
-			-- Asynchronously call procedure
-		do
-			procedure.set_operands (args)
-			call_queue.put (procedure)
-		end
+	call_queue: EL_PROCEDURE_CALL_QUEUE
 
-	call_queue: EL_PROCEDURE_CALL_QUEUE [OPEN_ARGS]
+	call_consumer: EL_PROCEDURE_CALL_CONSUMER_THREAD
 
-	call_consumer: EL_PROCEDURE_CALL_CONSUMER_THREAD [OPEN_ARGS]
-
-	target: BASE_TYPE
+	target: T
 
 end

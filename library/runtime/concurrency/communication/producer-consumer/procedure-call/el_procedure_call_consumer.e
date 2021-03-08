@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2021-03-06 10:47:41 GMT (Saturday 6th March 2021)"
+	revision: "5"
 
 deferred class
-	EL_PROCEDURE_CALL_CONSUMER [OPEN_ARGS -> TUPLE create default_create end]
+	EL_PROCEDURE_CALL_CONSUMER
 
 inherit
-	EL_CONSUMER [PROCEDURE [OPEN_ARGS]]
+	EL_CONSUMER [PROCEDURE]
 		rename
 			consume_product as call_procedure,
 			product as procedure

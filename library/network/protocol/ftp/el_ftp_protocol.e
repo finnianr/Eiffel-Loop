@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:04:02 GMT (Monday 8th February 2021)"
-	revision: "20"
+	date: "2021-03-06 16:27:20 GMT (Saturday 6th March 2021)"
+	revision: "21"
 
 class
 	EL_FTP_PROTOCOL
@@ -198,7 +198,10 @@ feature -- Basic operations
 		ensure
 			data_socket_close: data_socket.is_closed
 		rescue
+			lio.put_new_line
 			lio.put_labeled_string ("Socket error", data_socket.error)
+			lio.put_new_line
+			lio.put_labeled_string ("Description", Exception.last_exception.description)
 			lio.put_new_line
 			data_socket.close
 			reset_error

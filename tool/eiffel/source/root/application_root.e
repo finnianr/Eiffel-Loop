@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 16:11:23 GMT (Thursday 4th March 2021)"
-	revision: "32"
+	date: "2021-03-06 12:22:46 GMT (Saturday 6th March 2021)"
+	revision: "33"
 
 class
 	APPLICATION_ROOT
@@ -65,22 +65,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	Compile_thread_tree: TUPLE [
-		EL_DORMANT_ACTION_LOOP_THREAD,
-		EL_EVENT_LISTENER_MAIN_THREAD_PROXY,
-		EL_INTERRUPTABLE_THREAD,
-		EL_RHYTHMIC_ACTION_THREAD,
-		EL_REGULAR_INTERVAL_EVENT_PRODUCER,
-		EL_TIMEOUT,
-		EL_TIMED_PROCEDURE_THREAD [ANY, TUPLE],
-		EL_WORKER_THREAD
-	]
-		once
-			create Result
-		end
 
 note
 	notes: "[
