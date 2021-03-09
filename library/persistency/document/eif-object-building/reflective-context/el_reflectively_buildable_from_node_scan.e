@@ -1,9 +1,9 @@
 note
 	description: "Reflective buildable from node scan"
 	notes: "[
-		Override `new_instance_functions' to add creation functions for any attributes
-		conforming to class `EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT'. For example:
-
+		Override `new_instance_functions' to add creation functions for any attributes conforming to
+		class [$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]. For example:
+		
 			new_instance_functions: ARRAY [FUNCTION [ANY]]
 				do
 					Result := << agent: FTP_BACKUP do create Result.make end >>
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 14:13:52 GMT (Tuesday 10th September 2019)"
-	revision: "5"
+	date: "2021-03-09 10:07:04 GMT (Tuesday 9th March 2021)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN

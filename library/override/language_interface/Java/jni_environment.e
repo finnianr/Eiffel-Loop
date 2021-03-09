@@ -18,28 +18,20 @@ note
 class
 	JNI_ENVIRONMENT
 
-inherit
-	ANY
-	 	redefine
-	 		default_create
-	 	end
-
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
 			create java_class_table.make (1)
 			create java_object_table.make (1)
 			create reference_counts.make (100)
-			debug ("jni")
-				create object_names.make (100)
-				object_names.compare_objects
-			end
-			create jvm
+			create object_names.make (100)
+			object_names.compare_objects
+			create jvm.make
 		end
 feature -- Element change
 
@@ -54,11 +46,10 @@ feature -- Access
 	object_count: INTEGER
 			--
 		do
-			from reference_counts.start until reference_counts.after loop
-				if reference_counts.key_for_iteration /= Default_pointer then
-					Result := Result + reference_counts.item_for_iteration.item
+			across reference_counts as ref_count loop
+				if ref_count.key /= Default_pointer then
+					Result := Result + ref_count.item
 				end
-				reference_counts.forth
 			end
 		end
 
@@ -66,13 +57,10 @@ feature -- Access
 			--
 		do
 			create Result.make (reference_counts.count)
-			from reference_counts.start until reference_counts.after loop
-				if reference_counts.key_for_iteration /= Default_pointer
-					and then  reference_counts.item_for_iteration.item > 0
-				then
-					Result.extend (reference_counts.key_for_iteration)
+			across reference_counts as ref_count loop
+				if ref_count.key /= Default_pointer and then ref_count.item.item > 0 then
+					Result.extend (ref_count.key)
 				end
-				reference_counts.forth
 			end
 		end
 
@@ -106,13 +94,11 @@ feature {JAVA_ENTITY} -- Java reference management
 		local
 			count: INTEGER_REF
 		do
-			reference_counts.search (java_object_id)
-			if reference_counts.found then
+			if reference_counts.has_key (java_object_id) then
 				count := reference_counts.found_item
 				count.set_item (count.item + delta)
 			else
-				create count
-				count.set_item (1)
+				count := 1
 				reference_counts.extend (count, java_object_id)
 			end
 			check
@@ -212,8 +198,7 @@ feature -- Reflection
 		require
 			name_valid: name /= Void
 		local
-			clsp: POINTER
-			l_name_to_c: C_STRING
+			clsp: POINTER; l_name_to_c: C_STRING
 		do
 			create l_name_to_c.make (name)
 			clsp := c_jni_find_class (jvm.envp, l_name_to_c.item);

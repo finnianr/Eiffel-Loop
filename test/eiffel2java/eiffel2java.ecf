@@ -14,9 +14,9 @@
 -->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "eiffel2java" uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4">
 	<description>
-Eiffel to Java
+eiffel2java.ecf (Eiffel-Loop)
 
-Demonstration program for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
+Test sets for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
 This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 	</description>
 	<!--classic means C code as an intermediate language-->
@@ -65,13 +65,25 @@ This library provides a useful layer of abstraction over the Eiffel Software JNI
 		<library name = "EL_eiffel2java" readonly = "false" location = "$EIFFEL_LOOP/library/eiffel2java.ecf">
 			<option>
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
+				<debug name = "jni" enabled = "true"/>
 			</option>
 		</library>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
-		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
+		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf">
+			<option>
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
+			</option>
+		</library>
 		<!--Clusters-->
-		<cluster name = "project" location = "source" recursive = "true"/>
+		<cluster name = "project" location = "source" recursive = "true">
+			<class_option class = "JAVA_TEST_SET">
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
+			</class_option>
+			<class_option class = "VELOCITY_TEST_SET">
+				<assertions precondition = "true" postcondition = "true" check = "true"/>
+			</class_option>
+		</cluster>
 		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common"/>
 	</target>
 </system>

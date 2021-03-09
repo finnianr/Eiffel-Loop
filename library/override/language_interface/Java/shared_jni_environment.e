@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "${date}"
 	revision: "${revision}"
@@ -17,13 +17,13 @@ feature {NONE} -- Constants
 	Jni: JNI_ENVIRONMENT
 			-- Java object request broker
 		once
-			Result := jorb
+			Result := Jorb
 		end
 
 	Jorb: JNI_ENVIRONMENT
 			-- Java object request broker
 		once
-			create Result
+			create Result.make
 		end
 
 end

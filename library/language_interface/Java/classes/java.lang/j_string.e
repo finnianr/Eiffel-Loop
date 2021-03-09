@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 15:24:05 GMT (Tuesday 9th February 2021)"
-	revision: "5"
+	date: "2021-03-09 17:14:05 GMT (Tuesday 9th March 2021)"
+	revision: "6"
 
 class
 	J_STRING
@@ -26,8 +26,7 @@ inherit
 		end
 
 create
-	default_create,
-	make,
+	make, make_from_other,
 	make_from_utf_8,
 	make_from_string,
 	make_from_java_method_result,
@@ -39,6 +38,11 @@ convert
 	make_from_utf_8 ({STRING}), make_from_string ({ZSTRING})
 
 feature {NONE} -- Initialization
+
+	make_from_other (other: J_STRING)
+		do
+			make_from_pointer (Jagent_make_from_other.java_object_id (Current, [other]))
+		end
 
 	make_from_string (str: ZSTRING)
 			--
@@ -65,6 +69,12 @@ feature -- Access
 		end
 
 feature {NONE} -- Constant
+
+	Jagent_make_from_other: JAVA_CONSTRUCTOR [J_STRING]
+			--
+		once
+			create Result.make (agent make_from_other)
+		end
 
 	Jclass: JAVA_CLASS_REFERENCE
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-09 14:28:48 GMT (Tuesday 9th March 2021)"
+	revision: "5"
 
 class
 	J_OBJECT
@@ -18,11 +18,8 @@ inherit
 	JAVA_OBJECT_REFERENCE
 
 create
-	default_create,
-	make,
-	make_from_pointer,
-	make_from_java_method_result,
-	make_from_java_attribute
+	default_create, make,
+	make_from_pointer, make_from_java_method_result, make_from_java_attribute
 
 feature -- Access
 
@@ -48,4 +45,4 @@ feature {NONE} -- Constant
 			create Result.make (Package_name, "Object")
 		end
 
-end -- class J_OBJECT
+end

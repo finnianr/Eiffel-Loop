@@ -12,16 +12,13 @@ class
 
 inherit
 	SHARED_DYNAMIC_API_LOADER
-		undefine
-			default_create
-		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	default_create
+	make
 			--
 		do
 			create default_vm_args.make
@@ -37,8 +34,8 @@ feature {JNI_ENVIRONMENT} -- Element change
 			jvm_options: ARRAY [JAVA_VM_OPTION]
 			l_option: JAVA_VM_OPTION
 		do
-
-			class_path := a_class_path
+			make
+			class_path.append (a_class_path)
 
 			create jvm_options.make (1, 1)
 			create l_option.make
@@ -118,7 +115,7 @@ feature -- Disposal
 					api_loader.unload_library (jvm_library_handle)
 				end
 			end
-			jvmp := Default_pointer
+			jvmp := Default_pointer; envp := Default_pointer
 		end
 
 feature -- Thread

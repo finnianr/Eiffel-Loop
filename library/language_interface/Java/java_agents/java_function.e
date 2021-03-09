@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-09 16:15:26 GMT (Tuesday 9th March 2021)"
+	revision: "5"
 
 class
 	JAVA_FUNCTION [
@@ -43,4 +43,4 @@ feature {NONE} -- Implementation
 			Result := sample_result.Jni_type_signature
 		end
 
-end -- class JAVA_FUNCTION
+end

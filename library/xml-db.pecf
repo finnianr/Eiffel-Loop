@@ -12,7 +12,7 @@ system:
 			**Status:** No longer maintained
 
 			A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption.
-			Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]' can be turned into a database.
+			Any list conforming to [$source LIST [EL_STORABLE_XML_ELEMENT]] can be turned into a database.
 			This library has now been superceded by [./library/Eco-DB.html Eco-DB.ecf] which is faster, more powerful
 			and uses a binary format.
 		"""

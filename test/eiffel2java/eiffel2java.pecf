@@ -18,9 +18,9 @@ system:
 	name = eiffel2java; uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4"
 	description:
 		"""
-			Eiffel to Java
+			eiffel2java.ecf (Eiffel-Loop)
 
-			Demonstration program for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
+			Test sets for the [./library/eiffel2java.html Eiffel-Loop Java interface library].
 			This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 		"""
 	
@@ -115,6 +115,8 @@ system:
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
+				debug:
+					name = jni; enabled = true
 
 		library:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
@@ -124,10 +126,21 @@ system:
 
 		library:
 			name = EL_testing; readonly = false; location = "$EIFFEL_LOOP/library/testing.ecf"
+			option:
+				assertions:
+					precondition = true; postcondition = true; check = true
 
 		# Clusters
 		cluster:
-			name = project; location = "source"; recursive = true
+			name = project; location = source; recursive = true
+			class_option:
+				class = JAVA_TEST_SET
+				assertions:
+					precondition = true; postcondition = true; check = true
+			class_option:
+				class = VELOCITY_TEST_SET
+				assertions:
+					precondition = true; postcondition = true; check = true
 
 		cluster:
 			name = test_common; location = "$EIFFEL_LOOP/test/source/common"

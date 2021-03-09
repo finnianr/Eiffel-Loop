@@ -9,7 +9,8 @@ Concurrency Demonstration
 
 Demonstration of classes that make the classic multi-threading ISE library `thread.ecf&apos; easier to use.
 
-1. `el_concurrency -horse_race&apos; An animated version of the classic concurrency horse-racing exercise.
+1. `el_concurrency -horse_race&apos; An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version]
+of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer&apos; demonstrates the calculation of integrals for arbitrary functions
 distributed across a specified number of threads
 	</description>

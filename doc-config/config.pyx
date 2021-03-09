@@ -3,9 +3,9 @@ pyxis-doc:
 
 # Configuration file for the Eiffel-View repository publisher
 
-# Ignore cluster names 'test' and 'other'
+# Ignore cluster names 'test_common' and 'other'
 #		ecf:
-#			ignore = "test;other"
+#			ignore = "test_common;other"
 
 
 publish-repository:
@@ -40,9 +40,6 @@ publish-repository:
 			"example/net/EROS/signal-math/signal-math.ecf#project"
 			"example/net/EROS/server/signal-math-server.ecf#project"
 			"example/graphical/graphical.ecf"
-		ecf:
-			ignore = test
-			"example/eiffel2java/eiffel2java.ecf"
 
 		# Library Multimedia
 		ecf:
@@ -160,12 +157,13 @@ publish-repository:
 			"tool/eiffel/eiffel.ecf#analyse"
 			"tool/eiffel/eiffel.ecf#test"
 		ecf:
-			ignore = test
+			ignore = test_common
 			"tool/toolkit/toolkit.ecf"
 
 		# Benchmark
 		ecf:
-			"benchmark/benchmark.ecf#project"
+			ignore = test_common
+			"benchmark/benchmark.ecf"
 
 		# Test
 		ecf:
@@ -197,6 +195,9 @@ publish-repository:
 			"test/test.ecf#vtd_xml"
 			"test/test.ecf#wel_x_audio"
 			"test/test.ecf#xml_scan"
+		ecf:
+			ignore = test_common
+			"test/eiffel2java/eiffel2java.ecf"
 
 
 

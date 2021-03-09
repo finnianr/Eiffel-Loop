@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets values in `EL_ZSTRING_HASH_TABLE [ZSTRING]' operand in `make' routine argument tuple
+		Sets values in [$source EL_ZSTRING_HASH_TABLE [ZSTRING]] operand in `make' routine argument tuple
 		Values are set for existing keys which match a command line argument.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 11:35:23 GMT (Friday 25th January 2019)"
-	revision: "4"
+	date: "2021-03-09 10:00:37 GMT (Tuesday 9th March 2021)"
+	revision: "5"
 
 class
 	EL_ZSTRING_TABLE_OPERAND_SETTER

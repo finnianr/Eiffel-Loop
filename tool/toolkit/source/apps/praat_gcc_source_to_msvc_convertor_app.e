@@ -1,6 +1,7 @@
 note
 	description: "[
-		Tool to convert Praat C source file directory and make file to compile with MS Visual C++
+		Command line interface to [$source PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR] which is a
+		tool to convert Praat C source file directory and make file to compile with MS Visual C++
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:17:00 GMT (Tuesday 10th November 2020)"
-	revision: "9"
+	date: "2021-03-09 10:28:37 GMT (Tuesday 9th March 2021)"
+	revision: "10"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP

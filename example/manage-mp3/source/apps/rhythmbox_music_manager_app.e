@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:44 GMT (Tuesday 10th November 2020)"
-	revision: "27"
+	date: "2021-03-09 9:59:25 GMT (Tuesday 9th March 2021)"
+	revision: "28"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -321,6 +321,7 @@ note
 		example.
 
 		A typical task configuration will look like this:
+
 			music-collection:
 				task = publish_dj_events; is_dry_run = False
 				DJ-events:

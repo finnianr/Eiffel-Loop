@@ -7,7 +7,7 @@ This website contains sample programs for over 1500 languages and variations, al
 Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
 
 
-1. `el_concurrency -horse_race` An animated version of the classic concurrency horse-racing exercise.
+1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
@@ -99,8 +99,6 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 [Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
 ## Vision-2 Extensions Demo
 Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
-## Eiffel to Java
-Demonstration program for the [Eiffel-Loop Java interface library](http://www.eiffel-loop.com/library/eiffel2java.html). This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
 ## Audio Processing
 Classes for processing audio files and sample data.
 ## Video Processing
@@ -566,7 +564,7 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 **Drop-down Combo Boxes**
 
 
-* Drop-downs linked to data containers conforming to [FINITE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/finite_chart.html)] and initialized with a value of type `G`, and a selection change agent of type `PROCEDURE [G]`. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
+* Drop-downs linked to data containers conforming to [FINITE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/finite_chart.html)] and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G](https://www.eiffel.org/files/doc/static/18.01/libraries/base/procedure_chart.html)]. See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
 * Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
 
@@ -574,57 +572,65 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 
 
 ````
-[$source EV_PRIMITIVE]*
-	[$source EV_LIST_ITEM_LIST]*
-		[$source EV_COMBO_BOX]
-			[$source EL_COMBO_BOX]
-				[$source EL_DROP_DOWN_BOX]
-					[$source EL_ZSTRING_DROP_DOWN_BOX]
-						[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
-					[$source EL_MONTH_DROP_DOWN_BOX]
+EV_PRIMITIVE*
+	[$source EV_TEXT_COMPONENT]*
+		[$source EV_TEXT_FIELD]
+			[$source EV_COMBO_BOX]
+				[$source EL_COMBO_BOX]
+					[$source EL_DROP_DOWN_BOX] [G]
+						[$source EL_MONTH_DROP_DOWN_BOX]
+						[$source EL_ZSTRING_DROP_DOWN_BOX]
+							[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
+			[$source EL_TEXT_FIELD]
+				[$source EL_INPUT_FIELD]* [G]
+					[$source EL_INTEGER_INPUT_FIELD]
+		[$source EV_TEXT]
+			[$source EV_RICH_TEXT]
+				[$source EL_RICH_TEXT]
+			[$source EL_TEXT]
+		[$source EL_TEXT_COMPONENT]*
+			[$source EL_UNDOABLE_TEXT_COMPONENT]*
+				[$source EL_TEXT]
+				[$source EL_TEXT_FIELD]
 	[$source EV_LABEL]
 		[$source EL_LABEL]
-	[$source EV_GAUGE]*
-		[$source EV_RANGE]*
-			[$source EV_VERTICAL_RANGE]
-				[$source EL_SCALE_SLIDER]
+			[$source EL_WRAPPED_LABEL]
+	[$source EV_TOOL_BAR]
+		[$source EL_SHARED_RADIO_GROUP_TOOL_BAR]
+	[$source EV_DRAWING_AREA]
+		[$source EL_BUSY_PROCESS_ANIMATION]
+		[$source EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA]
+		[$source EL_TIMED_PROGRESS_BAR]
+		[$source EL_DRAWING_AREA_BASE]*
+			[$source EL_DRAWING_AREA]
+				[$source EL_DRAWING_AREA_LABEL]
+			[$source EL_CHECK_AREA]
+			[$source EL_MIXED_FONT_LABEL_AREA]
+			[$source EL_HYPERLINK_AREA]
+		[$source EL_PROGRESS_BAR]
 	[$source EV_PIXMAP]
+		[$source EL_BUTTON_PIXMAP]
 		[$source EL_PIXMAP]
 			[$source EL_DRAWING_PIXMAP]*
 				[$source EL_LABEL_PIXMAP]
 			[$source EL_SVG_PIXMAP]
 				[$source EL_SVG_TEMPLATE_PIXMAP]
 					[$source EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP]
+	[$source EV_GAUGE]*
+		[$source EV_SCROLL_BAR]*
+		[$source EV_RANGE]*
+			[$source EV_VERTICAL_RANGE]
+				[$source EL_SCALE_SLIDER]
+		[$source EV_SPIN_BUTTON]
 	[$source EV_BUTTON]
 		[$source EV_TOGGLE_BUTTON]
 			[$source EV_CHECK_BUTTON]
 				[$source EL_CHECK_BUTTON]
 			[$source EL_TOGGLE_BUTTON]
-		[$source EL_DECORATED_BUTTON]
+		[$source EL_BUTTON]
+			[$source EL_PIXMAP_BUTTON]
+			[$source EL_DECORATED_BUTTON]
 		[$source EL_COLOR_BUTTON]
-	[$source EV_TEXT_COMPONENT]*
-		[$source EV_TEXT_FIELD]
-			[$source EV_SPIN_BUTTON]
-			[$source EL_TEXT_FIELD]
-				[$source EL_INPUT_FIELD]*
-					[$source EL_INTEGER_INPUT_FIELD]
-		[$source EV_TEXT]
-			[$source EV_RICH_TEXT]
-				[$source EL_RICH_TEXT]
-					[$source EL_HTML_TEXT]
-			[$source EL_TEXT]
-		[$source EL_UNDOABLE_TEXT_COMPONENT]*
-			[$source EL_TEXT_FIELD]
-			[$source EL_TEXT]
-	[$source EV_DRAWING_AREA]
-		[$source EL_DRAWING_AREA_BASE]*
-			[$source EL_DRAWING_AREA]
-				[$source EL_DRAWING_AREA_LABEL]
-			[$source EL_HYPERLINK_AREA]
-				[$source EL_HTML_TEXT_HYPERLINK_AREA]
-					[$source EL_SUPER_HTML_TEXT_HYPERLINK_AREA]
-		[$source EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA]
-		[$source EL_TIMED_PROGRESS_BAR]
 ## Windows Eiffel Library Extensions
 Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
 ## C/C++ and MS COM objects
@@ -663,6 +669,10 @@ Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code versi
 ## Eiffel Remote Object Server (EROS)
 EROS (for **E**iffel **R**emote **O**bject **S**erver), is an experimental an XML orientated remote procedure call application framework with an original protocol based purely on XML processing instructions rather that any special XML tags.
 
+**Custom Variables**
+
+When including `eros.ecf' in your project it is necessary to define a custom variable `eros_server_enabled'. To build a server application set the value to `true'. To build a client application set value to `false'.
+
 **Features**
 
 
@@ -682,10 +692,6 @@ Two demo applications are provided that do signal math including Fourier transfo
 
 1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
 2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
-
-**Build Notes**
-
-When including the `eros.ecf' in your project it is necessary to define a custom variable `eros_server_enabled'. To build a server application set the value to `true'. To build a client application set value to `false'.
 ## Basic Networking Classes
 * Extensions for ISE network sockets.
 * Class to obtain the MAC address of network devices on both Windows and Linux.
@@ -890,7 +896,7 @@ Class [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/pyxis-doc
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
-A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to `LIST [EL_STORABLE_XML_ELEMENT]` can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT](https://www.eiffel.org/files/doc/static/18.01/libraries/base/list_chart.html)] can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
 ## XML Document Node-scanning and Object Building
 Provides:
 
@@ -1268,7 +1274,7 @@ The logging object is available in the root class or by inheriting [EL_MODULE_LO
 
 **Logging threads**
 
-Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](http://www.eiffel-loop.com/library/runtime/logging/concurrency/thread-type/el_logged_identified_thread.html) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
+Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](http://www.eiffel-loop.com/library/runtime/logging/concurrency/thread/el_logged_identified_thread.html) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
 
 
 ````
@@ -1614,33 +1620,7 @@ Restores either an entire duplicity backup or a selected file or directory.  Res
 **Download**
 
 Download binary of [`el_toolkit`](https://github.com/finnianr/Eiffel-Loop/releases/latest) for *Ubuntu 14.04* or *Linux Mint 17.x*.
-## Performance Benchmarks
-**Sub-applications**
-
-
-* [ZSTRING_BENCHMARK_APP](http://www.eiffel-loop.com/benchmark/source/apps/zstring_benchmark_app.html) performance tests the class [EL_ZSTRING](http://www.eiffel-loop.com/library/base/text/zstring/el_zstring.html)
-* [BENCHMARK_APP](http://www.eiffel-loop.com/benchmark/source/apps/benchmark_app.html) compares performance of related routines with [EL_BENCHMARK_COMPARISON](http://www.eiffel-loop.com/library/base/utility/benchmark/el_benchmark_comparison.html). The benchmarks are run from a menu shell.
-
-**Descendants of EL_BENCHMARK_COMPARISON**
-
-
-````
-EL_BENCHMARK_COMPARISON*
-	[$source LIST_ITERATION_COMPARISON]
-	[$source HASH_SET_VERSUS_LINEAR_COMPARISON]
-	[$source HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON]
-	[$source STRING_CONCATENATION_COMPARISON]
-	[$source ZSTRING_SPLIT_COMPARISON]
-	[$source SET_ROUTINE_ARGUMENT_COMPARISON]
-	[$source FINDING_FILES_WITH_EXTENSION_COMPARISON]
-	[$source UNENCODED_CHARACTER_LIST_GENERATION]
-	[$source MAKE_GENERAL_COMPARISON]
-	[$source UNICODE_ITEM_COMPARISON]
-	[$source STRING_BENCHMARK_COMPARISON]*
-		[$source REPLACE_SUBSTRING_COMPARISON]
-		[$source SUBSTRING_INDEX_COMPARISON]
-		[$source XML_PARSING_COMPARISON]
-````
+## Eiffel-Loop Performance Benchmarks
 
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
@@ -1865,3 +1845,5 @@ See class [$source VTD_XML_AUTOTEST_APP]
 Maintenance of Windows audio classes See class [$source MEDIA_PLAYER_DUMMY_APP]
 ## xml-scan.ecf
 Test application class: [$source XML_SCAN_AUTOTEST_APP]
+## eiffel2java.ecf (Eiffel-Loop)
+Test sets for the [./library/eiffel2java.html Eiffel-Loop Java interface library]. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:36:06 GMT (Tuesday 21st January 2020)"
-	revision: "8"
+	date: "2021-03-08 15:47:13 GMT (Monday 8th March 2021)"
+	revision: "9"
 
 class
 	EROS_CALL_REQUEST_DELEGATING_CONSUMER_THREAD
@@ -17,7 +17,7 @@ inherit
 		rename
 			product_queue as client_request_queue
 		redefine
-			make_default, new_consumer_delegate, prompt
+			make, new_consumer_delegate, prompt
 		end
 
 create
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
+	make
 		do
 			Precursor
 			set_name ("Request delegator")

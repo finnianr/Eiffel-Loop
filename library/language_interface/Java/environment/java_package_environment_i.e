@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-25 12:23:00 GMT (Friday 25th January 2019)"
-	revision: "5"
+	date: "2021-03-09 16:47:33 GMT (Tuesday 9th March 2021)"
+	revision: "6"
 
 deferred class
 	JAVA_PACKAGE_ENVIRONMENT_I
@@ -87,6 +87,7 @@ feature -- Status change
 
 			if all_packages_found then
 				jorb.open (JVM_library_path.to_string.to_latin_1, class_path_list.joined (class_path_separator))
+				jorb.attach_current_thread
 				is_open := jorb.is_open
 			end
 		ensure
@@ -107,15 +108,16 @@ feature -- Clean up
 	close
 			--
 		local
-			object_references: INTEGER
+			object_references: INTEGER; object_name, str_value: STRING
 		do
 			if is_lio_enabled then
 				lio.put_line ("close")
 				lio.put_integer_field ("Object references", jorb.object_count)
 				lio.put_new_line
-				lio.put_line ("Full collect")
+				lio.put_line ("GC collect")
 			end
-			full_collect
+			-- full collect causes a segmentation fault
+			collect
 
 			object_references := jorb.object_count
 			if is_lio_enabled then
@@ -125,12 +127,14 @@ feature -- Clean up
 					if object_references > 0 then
 						lio.put_line ("Objects still referenced")
 						across jorb.referenced_objects as object_id loop
-							lio.put_line (jorb.object_names [object_id.item])
+							object_name := jorb.object_names [object_id.item]
+							lio.put_line (object_name)
 						end
 					end
 				end
 			end
 
+			jorb.detach_current_thread
 			jorb.close_jvm
 			is_open := False
 			if is_lio_enabled then

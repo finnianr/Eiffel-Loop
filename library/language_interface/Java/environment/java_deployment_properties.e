@@ -1,6 +1,7 @@
 note
 	description: "[
-		Collection of all deployment.javaws.jre.* properties divided up into versions
+		Collection of all deployment.javaws.jre.* properties divided up into versions:
+		
 			deployment.javaws.jre.<version no>.<key>=<value>
 	]"
 
@@ -9,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:35:42 GMT (Friday 8th May 2020)"
-	revision: "7"
+	date: "2021-03-09 14:29:45 GMT (Tuesday 9th March 2021)"
+	revision: "8"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES

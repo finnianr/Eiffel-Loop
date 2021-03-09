@@ -4,9 +4,9 @@ note
 		the editions can be reapplied restoring the state of the previous application session. 
 		
 		The benefits are twofold:
-			1. A large list need not be saved each time the application exits as the most recent editions are recorded to disk.
-			
-			2. If the application crashes unexpectedly, no data is lost.
+
+		1. A large list need not be saved each time the application exits as the most recent editions are recorded to disk.
+		2. If the application crashes unexpectedly, no data is lost.
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 13:26:56 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2021-03-08 15:04:06 GMT (Monday 8th March 2021)"
+	revision: "5"
 
 deferred class
 	EL_STORABLE_XML_EDITIONS_LIST [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]

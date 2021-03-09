@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-09 16:59:54 GMT (Tuesday 9th March 2021)"
+	revision: "5"
 
 deferred class
 	JAVA_OBJECT_REFERENCE
@@ -45,27 +45,17 @@ feature {NONE} -- Initialization
 			constructor_id, null_ptr: POINTER
 		do
 			constructor_id := method_id ("<init>", "()V")
-			make_from_pointer (
-				jorb.new_object (jclass.java_class_id, constructor_id, null_ptr)
-			)
+			make_from_pointer (jorb.new_object (jclass.java_class_id, constructor_id, null_ptr))
 		ensure then
 			is_attached_to_java_object: is_attached_to_java_object
 		end
 
-	make_from_java_method_result (
-		target: JAVA_OBJECT_OR_CLASS; a_method_id: POINTER; args: JAVA_ARGUMENTS
-	)
-			--
+	make_from_java_method_result (target: JAVA_OBJECT_OR_CLASS; a_method_id: POINTER; args: JAVA_ARGUMENTS)
 		do
-			make_from_pointer (
-				target.object_method (a_method_id, args)
-			)
+			make_from_pointer (target.object_method (a_method_id, args))
 		end
 
-	make_from_java_attribute (
-		target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER
-	)
-			--
+	make_from_java_attribute (target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER)
 		do
 			make_from_pointer (target.object_attribute (a_field_id))
 		end
@@ -130,10 +120,6 @@ feature {NONE} -- Disposal
 	dispose
 			--
 		do
-			if is_lio_enabled then
-				lio.put_labeled_string ("disposing", generator)
-				lio.put_new_line
-			end
 			if is_attached_to_java_object then
 				jorb.decrement_object_ref_count (java_object_id)
 			end

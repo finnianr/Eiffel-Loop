@@ -1,13 +1,13 @@
 note
-	description: "Radio button implementation of widget abstraction EL_INPUT_WIDGET [G]"
+	description: "Radio button implementation of widget abstraction [$source EL_FINITE_DATA_SET_WIDGET [G]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-05 17:20:23 GMT (Tuesday 5th February 2019)"
-	revision: "6"
+	date: "2021-03-09 10:56:41 GMT (Tuesday 9th March 2021)"
+	revision: "7"
 
 deferred class
 	EL_RADIO_BUTTON_GROUP [G]

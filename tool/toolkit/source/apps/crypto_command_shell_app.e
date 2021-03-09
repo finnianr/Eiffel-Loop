@@ -2,7 +2,7 @@ note
 	description: "[
 		Command line interface to [$source EL_CRYPTO_COMMAND_SHELL] class.
 		This is a menu driven shell of various cryptographic functions listed in function
-		`{[$source EL_CRYPTO_COMMAND_SHELL]}.new_command_table'
+		`{EL_CRYPTO_COMMAND_SHELL}.new_command_table'
 		
 		Usage: `el_toolkit -crypto'
 	]"
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 14:34:49 GMT (Friday 12th February 2021)"
-	revision: "13"
+	date: "2021-03-09 10:10:17 GMT (Tuesday 9th March 2021)"
+	revision: "14"
 
 class
 	CRYPTO_COMMAND_SHELL_APP

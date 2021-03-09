@@ -388,3 +388,6 @@ New classes EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS and EL_SCROLLABLE_DATEABLE_SEA
 Thu 4th Mar 2021, 17:20:01
 Improved CLASS_DESCENDANTS_COMMAND and added linking to github EiffelStudio
 
+Mon 8th Mar 2021, 15:59:36
+New example: concurrency-demo.ecf
+

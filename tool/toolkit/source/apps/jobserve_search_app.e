@@ -1,13 +1,13 @@
 note
-	description: "Jobserve search app"
+	description: "Command line interface to [$source JOBSERVE_SEARCHER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 14:34:10 GMT (Thursday 4th March 2021)"
-	revision: "13"
+	date: "2021-03-09 10:13:26 GMT (Tuesday 9th March 2021)"
+	revision: "14"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -37,9 +37,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH}, "")
 		end
 
-	log_filter_set: EL_LOG_FILTER_SET [
-		like Current, JOBSERVE_SEARCHER
-	]
+	log_filter_set: EL_LOG_FILTER_SET [like Current, JOBSERVE_SEARCHER]
 		do
 			create Result.make
 		end

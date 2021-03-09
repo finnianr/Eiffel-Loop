@@ -2,7 +2,7 @@ note
 	description: "Reflectively buildable from pyxis"
 	notes: "[
 		Override `new_instance_functions' to add creation functions for any attributes
-		conforming to class `EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT'. For example:
+		conforming to class [$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]. For example:
 
 			new_instance_functions: ARRAY [FUNCTION [ANY]]
 				do
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 12:07:03 GMT (Monday 21st December 2020)"
-	revision: "8"
+	date: "2021-03-09 10:07:27 GMT (Tuesday 9th March 2021)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
