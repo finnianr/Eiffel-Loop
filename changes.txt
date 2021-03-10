@@ -391,3 +391,6 @@ Improved CLASS_DESCENDANTS_COMMAND and added linking to github EiffelStudio
 Mon 8th Mar 2021, 15:59:36
 New example: concurrency-demo.ecf
 
+Wed 10th Mar 2021, 16:06:08
+Simplified JAVA_ROUTINE and descendants. Automated {JAVA_OBJECT_REFERENCE}.jclass
+

@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:49:54 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-10 16:15:26 GMT (Wednesday 10th March 2021)"
+	revision: "6"
 
 class
 	J_FILE_WRITER
 
 inherit
 	J_OUTPUT_STREAM_WRITER
-		undefine
-			Jclass
-		end
 
 create
 	default_create,
@@ -36,14 +33,6 @@ feature {NONE} -- Implementation
 			--
 		once
 			create Result.make (agent make_from_string)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "FileWriter")
 		end
 
 end

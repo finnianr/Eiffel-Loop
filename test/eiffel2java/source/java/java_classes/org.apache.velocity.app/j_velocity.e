@@ -15,7 +15,7 @@ class
 inherit
 	J_OBJECT
 		undefine
-			Package_name, Jclass
+			Package_name
 		end
 
 	ORG_APACHE_VELOCITY_APP_JPACKAGE
@@ -55,14 +55,6 @@ feature {NONE} -- Java agents
 			--
 		once
 			create Result.make ("init", agent init)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "Velocity")
 		end
 
 end

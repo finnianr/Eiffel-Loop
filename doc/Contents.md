@@ -1629,12 +1629,13 @@ Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.co
 ## Common Classes
 **Project List**
 
-Experimental classes and classes containing test data that are used in the following projects:
+Eiffel coding experiments and classes containing test data that are used in the following projects:
 
 
 ````
 benchmark/benchmark.ecf
 test/test.ecf
+test/eiffel2java/eiffel2java.ecf
 tool/toolkit/toolkit.ecf
 tool/eiffel/eiffel.ecf
 ````
