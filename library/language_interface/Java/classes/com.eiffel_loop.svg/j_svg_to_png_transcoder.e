@@ -1,24 +1,26 @@
 note
-	description: "J svg to png transcoder"
+	description: "Interface to Java class: `com.eiffel_loop.svg.SVG_TO_PNG_TRANSCODER'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 15:48:53 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
 	J_SVG_TO_PNG_TRANSCODER
 
 inherit
-	COM_EIFFEL_LOOP_SVG_JPACKAGE
-
 	J_OBJECT
 		undefine
-			Package_name, Jclass
+			Package_name
+		redefine
+			new_jclass_name
 		end
+
+	COM_EIFFEL_LOOP_SVG_JPACKAGE
 
 create
 	make
@@ -52,36 +54,33 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	jagent_transcode: JAVA_PROCEDURE [J_SVG_TO_PNG_TRANSCODER]
+	jagent_transcode: JAVA_PROCEDURE
 			-- public void transcode (String input_path, String output_path)
 		once
 			create Result.make ("transcode", agent transcode)
 		end
 
-	jagent_set_width: JAVA_PROCEDURE [J_SVG_TO_PNG_TRANSCODER]
+	jagent_set_width: JAVA_PROCEDURE
 			-- public void set_width (int width)
 		once
 			create Result.make ("set_width", agent set_width)
 		end
 
-	jagent_set_height: JAVA_PROCEDURE [J_SVG_TO_PNG_TRANSCODER]
+	jagent_set_height: JAVA_PROCEDURE
 			-- public void set_height (int height)
 		once
 			create Result.make ("set_height", agent set_height)
 		end
 
-	jagent_set_background_color_with_24_bit_rgb: JAVA_PROCEDURE [J_SVG_TO_PNG_TRANSCODER]
+	jagent_set_background_color_with_24_bit_rgb: JAVA_PROCEDURE
 			-- public void set_background_color_with_24_bit_rgb (int rgb_24_bit)
 		once
 			create Result.make ("set_background_color_with_24_bit_rgb", agent set_background_color_with_24_bit_rgb)
 		end
 
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "SVG_TO_PNG_TRANSCODER")
+	new_jclass_name: STRING
+		do
+			Result := Naming.class_as_snake_upper (Current, 1, 0)
 		end
 
 end

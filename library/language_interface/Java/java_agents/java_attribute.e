@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2021-03-10 15:46:39 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
-	JAVA_ATTRIBUTE [
-		BASE_TYPE -> JAVA_OBJECT_REFERENCE,
-		RESULT_TYPE -> JAVA_TYPE create default_create, make_from_java_attribute end
-	]
+	JAVA_ATTRIBUTE [RESULT_TYPE -> JAVA_TYPE create default_create, make_from_java_attribute end]
 
 inherit
-	JAVA_ROUTINE [BASE_TYPE]
+	JAVA_ROUTINE
 		rename
+			method_name as attribute_name,
 			method_id as field_id,
 			set_method_id as set_field_id
 		redefine
@@ -29,7 +27,7 @@ create
 
 feature -- Access
 
-	item (target: BASE_TYPE): RESULT_TYPE
+	item (target: JAVA_OBJECT_REFERENCE): RESULT_TYPE
 			--
 		do
 			create Result.make_from_java_attribute (target, field_id)
@@ -37,12 +35,10 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	set_field_id (attribute_name: STRING; mapped_routine: ROUTINE)
+	set_field_id (target: JAVA_OBJECT_REFERENCE; argument_types: EL_TUPLE_TYPE_ARRAY)
 			--
 		do
-			if attached {BASE_TYPE} mapped_routine.target as target then
-				field_id := target.field_id (attribute_name, return_type_signature)
-			end
+			field_id := target.field_id (attribute_name, return_type_signature)
 		end
 
 	return_type_signature: STRING
@@ -54,4 +50,4 @@ feature {NONE} -- Implementation
 			Result := sample_attribute.jni_type_signature
 		end
 
-end -- class JAVA_ATTRIBUTE
+end

@@ -1,5 +1,5 @@
 note
-	description: "J velocity"
+	description: "Interface to Java class: `org.apache.velocity.app.VelocityContext'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,9 +13,12 @@ class
 	J_VELOCITY
 
 inherit
-	ORG_APACHE_VELOCITY_APP_JPACKAGE
+	J_OBJECT
+		undefine
+			Package_name, Jclass
+		end
 
-	JAVA_OBJECT_REFERENCE
+	ORG_APACHE_VELOCITY_APP_JPACKAGE
 
 create
 	default_create,
@@ -40,7 +43,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	jagent_template: JAVA_STATIC_FUNCTION [J_VELOCITY, J_TEMPLATE]
+	jagent_template: JAVA_STATIC_FUNCTION [J_TEMPLATE]
 			--
 		once
 			create Result.make ("getTemplate", agent template)
@@ -48,7 +51,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Java agents
 
-	jagent_init: JAVA_STATIC_PROCEDURE [J_VELOCITY]
+	jagent_init: JAVA_STATIC_PROCEDURE
 			--
 		once
 			create Result.make ("init", agent init)

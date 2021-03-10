@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2021-03-10 15:50:41 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
-	JAVA_CONSTRUCTOR  [BASE_TYPE -> JAVA_OBJECT_REFERENCE]
+	JAVA_CONSTRUCTOR
 
 inherit
-	JAVA_ROUTINE [BASE_TYPE]
+	JAVA_ROUTINE
 		rename
 			method_id as constructor_id,
 			make as make_routine
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	java_object_id (target: BASE_TYPE; args: TUPLE): POINTER
+	java_object_id (target: JAVA_OBJECT_REFERENCE; args: TUPLE): POINTER
 			--
 		do
 			java_args.put_java_tuple (args)
@@ -47,8 +47,10 @@ feature {NONE} -- Implementation
 
 	return_type_signature: STRING
 			-- Routines return type void
+		local
+			c: EL_STRING_8_ROUTINES
 		do
-			Result := "V"
+			Result := c.character_string ('V')
 		end
 
-end -- class JAVA_CONSTRUCTOR
+end

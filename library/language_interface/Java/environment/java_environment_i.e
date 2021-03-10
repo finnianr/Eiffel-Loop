@@ -1,16 +1,16 @@
 note
-	description: "Java package environment i"
+	description: "Java environment configuration accessible from [$source EL_MODULE_JAVA]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 16:47:33 GMT (Tuesday 9th March 2021)"
+	date: "2021-03-10 10:34:41 GMT (Wednesday 10th March 2021)"
 	revision: "6"
 
 deferred class
-	JAVA_PACKAGE_ENVIRONMENT_I
+	JAVA_ENVIRONMENT_I
 
 inherit
 	JAVA_SHARED_ORB
@@ -84,10 +84,8 @@ feature -- Status change
 					lio.put_line (class_path.item)
 				end
 			end
-
 			if all_packages_found then
 				jorb.open (JVM_library_path.to_string.to_latin_1, class_path_list.joined (class_path_separator))
-				jorb.attach_current_thread
 				is_open := jorb.is_open
 			end
 		ensure
@@ -108,7 +106,7 @@ feature -- Clean up
 	close
 			--
 		local
-			object_references: INTEGER; object_name, str_value: STRING
+			object_references: INTEGER
 		do
 			if is_lio_enabled then
 				lio.put_line ("close")
@@ -116,7 +114,7 @@ feature -- Clean up
 				lio.put_new_line
 				lio.put_line ("GC collect")
 			end
-			-- full collect causes a segmentation fault
+			 -- A `full_collect' can cause a segmentation fault
 			collect
 
 			object_references := jorb.object_count
@@ -127,14 +125,11 @@ feature -- Clean up
 					if object_references > 0 then
 						lio.put_line ("Objects still referenced")
 						across jorb.referenced_objects as object_id loop
-							object_name := jorb.object_names [object_id.item]
-							lio.put_line (object_name)
+							lio.put_line (jorb.object_names [object_id.item])
 						end
 					end
 				end
 			end
-
-			jorb.detach_current_thread
 			jorb.close_jvm
 			is_open := False
 			if is_lio_enabled then

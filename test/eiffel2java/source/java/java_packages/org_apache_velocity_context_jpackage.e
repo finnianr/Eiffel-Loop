@@ -1,5 +1,5 @@
 note
-	description: "Org apache velocity context jpackage"
+	description: "Java package: `org.apache.velocity.context'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -16,9 +16,10 @@ inherit
 	JAVA_PACKAGE
 
 feature -- Constant
+
 	Package_name: STRING
 		once
 			Result := "org.apache.velocity.context"
 		end
 
-end -- class ORG_APACHE_VELOCITY_CONTEXT_JPACKAGE
+end

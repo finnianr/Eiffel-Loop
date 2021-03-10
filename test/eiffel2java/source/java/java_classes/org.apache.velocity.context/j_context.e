@@ -1,5 +1,5 @@
 note
-	description: "J context"
+	description: "Interface to Java interface: `org.apache.velocity.context.Context'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -20,13 +20,5 @@ inherit
 create
 	default_create, make, make_from_pointer,
 	make_from_java_method_result, make_from_java_attribute
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "Context")
-		end
 
 end

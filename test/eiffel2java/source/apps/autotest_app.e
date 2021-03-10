@@ -13,7 +13,7 @@ class
 	AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_SUB_APPLICATION [
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		VELOCITY_TEST_SET, JAVA_TEST_SET
 	]
 		redefine
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	visible_types: TUPLE [JAVA_PACKAGE_ENVIRONMENT_IMP]
+	visible_types: TUPLE [JAVA_ENVIRONMENT_IMP]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

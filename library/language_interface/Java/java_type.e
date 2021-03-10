@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:25:26 GMT (Monday 13th January 2020)"
-	revision: "5"
+	date: "2021-03-10 8:14:52 GMT (Wednesday 10th March 2021)"
+	revision: "6"
 
 deferred class
 	JAVA_TYPE
@@ -22,16 +22,12 @@ feature {NONE} -- Initialization
 		do
 		end
 
-	make_from_java_method_result (
-		target: JAVA_OBJECT_OR_CLASS; a_method_id: POINTER; args: JAVA_ARGUMENTS
-	)
+	make_from_java_method_result (target: JAVA_OBJECT_OR_CLASS; a_method_id: POINTER; args: JAVA_ARGUMENTS)
 			--
 		deferred
 		end
 
-	make_from_java_attribute (
-		target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER
-	)
+	make_from_java_attribute (target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER)
 			--
 		deferred
 		end
@@ -53,4 +49,4 @@ feature -- Constant
 		deferred
 		end
 
-end -- class JAVA_TYPE
+end

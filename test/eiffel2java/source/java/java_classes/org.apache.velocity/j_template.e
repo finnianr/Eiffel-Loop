@@ -1,5 +1,5 @@
 note
-	description: "J template"
+	description: "Interface to Java class: `org.apache.velocity.Template'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,9 +13,12 @@ class
 	J_TEMPLATE
 
 inherit
-	ORG_APACHE_VELOCITY_JPACKAGE
+	J_OBJECT
+		undefine
+			Package_name
+		end
 
-	JAVA_OBJECT_REFERENCE
+	ORG_APACHE_VELOCITY_JPACKAGE
 
 create
 	default_create,
@@ -34,18 +37,10 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	jagent_merge: JAVA_PROCEDURE [J_TEMPLATE]
+	jagent_merge: JAVA_PROCEDURE
 			--
 		once
 			create Result.make ("merge", agent merge)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "Template")
 		end
 
 end

@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 15:47:08 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
-	JAVA_PROCEDURE [BASE_TYPE -> JAVA_OBJECT_REFERENCE]
+	JAVA_PROCEDURE
 
 inherit
-	JAVA_ROUTINE [BASE_TYPE]
+	JAVA_ROUTINE
 
 create
 	make
 
 feature -- Basic operations
 
-	call (target: BASE_TYPE; args: TUPLE)
+	call (target: JAVA_OBJECT_REFERENCE; args: TUPLE)
 			--
 		require
 			valid_operands: valid_operands (args)
@@ -35,4 +35,4 @@ feature {NONE} -- Implementation
 	return_type_signature: STRING = "V"
 			-- Routines return type void
 
-end -- class JAVA_PROCEDURE
+end

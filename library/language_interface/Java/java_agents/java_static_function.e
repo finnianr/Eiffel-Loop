@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2021-03-10 15:51:39 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
-	JAVA_STATIC_FUNCTION [
-		BASE_TYPE -> JAVA_OBJECT_REFERENCE,
-		RESULT_TYPE -> JAVA_TYPE create  default_create, make_from_java_method_result end
-	]
+	JAVA_STATIC_FUNCTION [RESULT_TYPE -> JAVA_TYPE create  default_create, make_from_java_method_result end]
 
 inherit
-	JAVA_FUNCTION [BASE_TYPE, RESULT_TYPE]
+	JAVA_FUNCTION [RESULT_TYPE]
 		redefine
 			valid_target, item, set_method_id
 		end
@@ -26,7 +23,7 @@ create
 
 feature -- Access
 
-	item (target: BASE_TYPE; args: TUPLE): RESULT_TYPE
+	item (target: JAVA_OBJECT_REFERENCE; args: TUPLE): RESULT_TYPE
 			--
 		do
 			java_args.put_java_tuple (args)
@@ -35,20 +32,20 @@ feature -- Access
 
 feature -- Status Report
 
-	valid_target (target_class: BASE_TYPE): BOOLEAN
+	valid_target (target_class: JAVA_OBJECT_REFERENCE): BOOLEAN
 			--
 		do
-			Result := attached {JAVA_CLASS_REFERENCE} target_class as target and then is_attached (target.java_class_id)
+			if attached {JAVA_CLASS_REFERENCE} target_class as target then
+				Result := is_attached (target.java_class_id)
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	set_method_id (method_name: STRING; mapped_routine: ROUTINE)
+	set_method_id (target: JAVA_OBJECT_REFERENCE; argument_types: EL_TUPLE_TYPE_ARRAY)
 			--
 		do
-			if attached {BASE_TYPE} mapped_routine.target as target then
-				method_id := target.jclass.method_id (method_name, method_signature (mapped_routine.empty_operands))
-			end
+			method_id := target.jclass.method_id (method_name, method_signature (argument_types))
 		end
 
-end -- class JAVA_STATIC_FUNCTION
+end

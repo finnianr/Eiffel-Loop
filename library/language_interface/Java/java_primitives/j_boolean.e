@@ -1,13 +1,13 @@
 note
-	description: "J boolean"
+	description: "Interface to Java primitive: `boolean'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 10:45:11 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
 	J_BOOLEAN
@@ -33,20 +33,14 @@ feature {NONE} -- Initialization
 			value := bool
 		end
 
-	make_from_java_method_result (
-		target: JAVA_OBJECT_REFERENCE;
-		a_method_id: POINTER;
-		args: JAVA_ARGUMENTS
-	)
+	make_from_java_method_result (target: JAVA_OBJECT_REFERENCE; a_method_id: POINTER; args: JAVA_ARGUMENTS)
 			--
 		do
 			make
 			value := jni.call_boolean_method (target.java_object_id, a_method_id, args.to_c)
 		end
 
-	make_from_java_attribute (
-		target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER
-	)
+	make_from_java_attribute (target: JAVA_OBJECT_OR_CLASS; a_field_id: POINTER)
 			--
 		do
 			make
@@ -63,4 +57,4 @@ feature {NONE, JAVA_FUNCTION} -- Implementation
 
 	Jni_type_signature: STRING = "Z"
 
-end -- class J_BOOLEAN
+end

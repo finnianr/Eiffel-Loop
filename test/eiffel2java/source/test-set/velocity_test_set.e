@@ -9,13 +9,20 @@ class
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
-		redefine
-			on_clean, on_prepare
+		undefine
+			new_lio
+		end
+
+	EL_EQA_REGRESSION_TEST_SET
+		undefine
+			on_prepare, on_clean
 		end
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
-	EL_MODULE_JAVA_PACKAGES
+	EL_MODULE_JAVA
+
+	SHARED_JNI_ENVIRONMENT undefine default_create end
 
 feature -- Basic operations
 
@@ -30,20 +37,33 @@ feature -- Tests
 	test_velocity
 			--
 		local
-			directory_list: EL_DIRECTORY_PATH_LIST; output_path: EL_FILE_PATH
+			directory_list: EL_DIRECTORY_PATH_LIST
+		do
+			Java.append_jar_locations (<< Eiffel_loop_dir.joined_dir_path ("contrib/Java/velocity-1.7") >>)
+			Java.open (<< "velocity-1.7-dep" >>)
 
+			create directory_list.make (work_area_data_dir)
+			write_merged_template (
+				directory_list, work_area_data_dir + "Java-out.Eiffel-library-manifest.xml",
+				"test-data/manifest-xml.vel"
+			)
+
+			Java.close
+			assert ("all Java objects released", jorb.object_count = 0)
+		end
+
+feature {NONE} -- Implementation
+
+	write_merged_template (directory_list: LIST [EL_DIR_PATH]; output_path, template_path: EL_FILE_PATH)
+		local
 			string_writer: J_STRING_WRITER; file_writer: J_FILE_WRITER
 			velocity_app: J_VELOCITY; context: J_VELOCITY_CONTEXT
 
 			l_directory_list: J_LINKED_LIST; template: J_TEMPLATE
 			l_string_path, l_string_class_name_list: J_STRING
-			l_directory_name_scope: J_HASH_MAP; template_path: EL_FILE_PATH
+			l_directory_name_scope: J_HASH_MAP
 			output_text, element: ZSTRING
 		do
-			create directory_list.make (work_area_data_dir)
-			output_path := work_area_data_dir + "Java-out.Eiffel-library-manifest.xml"
-			template_path := work_area_data_dir + Manifest_template_path.base
-
 			l_string_path := "path"
 			l_string_class_name_list := "class_name_list"
 
@@ -86,27 +106,11 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Event handling
-
-	on_clean
-		do
-			Java_packages.close
-			Precursor
-		end
-
-	on_prepare
-		do
-			Precursor
-			OS.copy_file (Manifest_template_path, work_area_data_dir)
-			Java_packages.append_jar_locations (<< Eiffel_loop_dir.joined_dir_path ("contrib/Java/velocity-1.7") >>)
-			Java_packages.open (<< "velocity-1.7-dep" >>)
-		end
-
 feature {NONE} -- Implementation
 
-	source_file_list: EL_FILE_PATH_LIST
+	call (returned_value: J_OBJECT)
+			-- Do nothing procedure to throw away return value of Java call
 		do
-			Result := OS.file_list (work_area_data_dir, "*.e")
 		end
 
 	class_list (location: EL_DIR_PATH): J_LINKED_LIST
@@ -121,26 +125,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	call (returned_value: J_OBJECT)
-			-- Do nothing procedure to throw away return value of Java call
+	source_file_list: EL_FILE_PATH_LIST
 		do
+			Result := OS.file_list (work_area_data_dir, "*.e")
 		end
 
 feature {NONE} -- Constants
-
-	Directory_element: ZSTRING
-		once
-			Result := "<directory location=%"%S%">"
-		end
 
 	Class_element: ZSTRING
 		once
 			Result := "<class name=%"%S%"/>"
 		end
 
-	Manifest_template_path: EL_FILE_PATH
+	Directory_element: ZSTRING
 		once
-			Result := "test-data/manifest-xml.vel"
+			Result := "<directory location=%"%S%">"
 		end
 
 	Source_dir: EL_DIR_PATH

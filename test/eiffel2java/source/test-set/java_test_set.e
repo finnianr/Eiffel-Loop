@@ -1,5 +1,8 @@
 note
 	description: "Basic Java JNI test"
+	notes: "[
+		Because the JVM can only be loaded once we are limited to only one Java test routine
+	]"
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
@@ -8,12 +11,9 @@ class
 	JAVA_TEST_SET
 
 inherit
-	EL_COPIED_DIRECTORY_DATA_TEST_SET
-		redefine
-			on_clean, on_prepare
-		end
+	EL_EQA_REGRESSION_TEST_SET
 
-	EL_MODULE_JAVA_PACKAGES
+	EL_MODULE_JAVA
 
 	SHARED_JNI_ENVIRONMENT undefine default_create end
 
@@ -22,13 +22,49 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("basic_1", agent test_basic_1)
-			eval.call ("basic_2", agent test_basic_2)
+			eval.call ("java", agent test_java)
+			eval.call ("deployment_properties", agent test_deployment_properties)
 		end
 
 feature -- Tests
 
-	test_basic_1
+	test_deployment_properties
+		local
+			properties_path: EL_FILE_PATH
+		do
+			properties_path := "test-data/java_source/deployment.properties"
+			do_test ("print_properties", 1842240027, agent print_properties, [properties_path])
+		end
+
+	print_properties (file_path: EL_FILE_PATH)
+		local
+			properties: JAVA_DEPLOYMENT_PROPERTIES
+		do
+			create properties.make (file_path)
+			properties.print_to (lio)
+		end
+
+	test_java
+		-- test basic Java calls
+		do
+			Java.append_class_locations (<< "test-data/java_classes" >>)
+			Java.open (<< >>)
+
+			do_basic_1;
+			do_basic_2
+			reference_counting_test
+
+			Java.close
+			assert ("all Java objects released", jorb.object_count = 0)
+		end
+
+feature {NONE} -- Implementation
+
+	call (object: J_OBJECT)
+		do
+		end
+
+	do_basic_1
 		local
 			class_test: JAVA_CLASS; instance_of_class_test: JAVA_OBJECT
 			fid: POINTER; value: INTEGER
@@ -63,7 +99,7 @@ feature -- Tests
 			Jni.delete_local_ref (instance_of_class_test.java_object_id)
 		end
 
-	test_basic_2
+	do_basic_2
 			--
 		local
 			j2e_test: J_J2E_TEST_TARGET; num_1, num_2, num_8255: J_INT
@@ -79,9 +115,11 @@ feature -- Tests
 			assert ("same string", hello_msg.value.same_string (hello) )
 
 			jfloat_value := j2e_test.my_function (num_8255, hello_msg)
+			lio.put_new_line
 			assert ("value is 0.9", jfloat_value.value = 0.9)
 
 			j2e_test.my_method (num_8255, hello_msg)
+			lio.put_new_line
 			num_1 := j2e_test.my_integer
 			num_2 := j2e_test.my_static_integer
 			assert ("same value", num_1.value = Number)
@@ -92,29 +130,70 @@ feature -- Tests
 			assert ("same string", str.value.same_string (hello) )
 		end
 
-
-feature {NONE} -- Event handling
-
-	on_clean
+	reference_counting_test
+			-- Test that java objects are release with Eiffel garbage collection
+		local
+			j2e_test: J_J2E_TEST_TARGET; linked_list: J_LINKED_LIST
+			str: J_STRING
 		do
-			Java_packages.close
-			Precursor
-		end
+			lio.enter ("reference_counting_test")
 
-	on_prepare
-		do
-			Precursor
-			Java_packages.append_class_locations (<< work_area_data_dir >>)
-			Java_packages.open (<< >>)
+			create j2e_test.make
+			str := "Hello"
+
+--			This require some more thought
+--			create linked_list.make
+--			linked_list.add_last (j2e_test)
+--			linked_list.add_last (str)
+
+--			call (linked_list.remove_first)
+--			call (linked_list.remove_first)
+			lio.exit
 		end
 
 feature {NONE} -- Constants
 
-	Number: INTEGER = 8255370
+	Number: INTEGER = 8255370;
 
-	Source_dir: EL_DIR_PATH
-		once
-			Result := "test-data/java_classes"
-		end
+note
+	java_code: "[
+		Source for `J2ETestTarget' test class
+	
+			import java.util.LinkedList;
+
+			public class J2ETestTarget {
+				J2ETestTarget () {
+					my_integer  = 10;
+				}
+
+				J2ETestTarget (String s) {
+					my_string = s;
+				}
+
+				public int my_integer;
+
+				public String my_string;
+
+				public static int my_static_integer;
+
+				public void my_method (int n, String s) {
+					System.out.println ("int n=" + n + ", String s=\""+s + "\"");
+					my_static_integer = n;
+					my_integer = n;
+				}
+				public float my_function (int n, String s) {
+					System.out.println ("int n=" + n + ", String s=\"" + s + "\"");
+					return 0.9f;
+				}
+
+				public LinkedList stringList(){
+					LinkedList list = new LinkedList();
+					for (int i=0; i < 1000; i++){
+						list.addLast("String #"+i);
+					}
+					return list;
+				}
+			}
+	]"
 
 end

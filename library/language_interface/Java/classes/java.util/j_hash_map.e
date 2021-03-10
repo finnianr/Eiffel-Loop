@@ -1,13 +1,13 @@
 note
-	description: "Eiffel wrapper for class java.util.HashMap"
+	description: "Interface to Java class: `java.util.HashMap'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-03-10 15:47:34 GMT (Wednesday 10th March 2021)"
+	revision: "4"
 
 class
 	J_HASH_MAP
@@ -17,7 +17,7 @@ inherit
 
 	J_OBJECT
 		undefine
-			Jclass, Package_name
+			Package_name
 		end
 
 create
@@ -39,18 +39,10 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	jagent_put: JAVA_FUNCTION [J_HASH_MAP, J_OBJECT]
+	jagent_put: JAVA_FUNCTION [J_OBJECT]
 			--
 		once
 			create Result.make ("put", agent put)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "HashMap")
 		end
 
 end

@@ -1,5 +1,5 @@
 note
-	description: "J j2e test target"
+	description: "Interface to Java class: `J2ETestTarget'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -13,9 +13,14 @@ class
 	J_J2E_TEST_TARGET
 
 inherit
-	DEFAULT_JPACKAGE
+	J_OBJECT
+		undefine
+			Package_name
+		redefine
+			new_jclass_name
+		end
 
-	JAVA_OBJECT_REFERENCE
+	DEFAULT_JPACKAGE
 
 create
 	make, make_from_pointer,
@@ -75,60 +80,57 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	jagent_string_list: JAVA_FUNCTION [J_J2E_TEST_TARGET, J_LINKED_LIST]
+	jagent_string_list: JAVA_FUNCTION [J_LINKED_LIST]
 			--
 		once
 			create Result.make ("stringList", agent string_list)
 		end
 
-	jagent_my_function: JAVA_FUNCTION [J_J2E_TEST_TARGET, J_FLOAT]
+	jagent_my_function: JAVA_FUNCTION [J_FLOAT]
 			--
 		once
 			create Result.make ("my_function", agent my_function)
 		end
 
-	jagent_my_static_integer: JAVA_STATIC_ATTRIBUTE [J_J2E_TEST_TARGET, J_INT]
+	jagent_my_static_integer: JAVA_STATIC_ATTRIBUTE [J_INT]
 			--
 		once
 			create Result.make ("my_static_integer", agent my_static_integer)
 		end
 
-	jagent_my_integer: JAVA_ATTRIBUTE [J_J2E_TEST_TARGET, J_INT]
+	jagent_my_integer: JAVA_ATTRIBUTE [J_INT]
 			--
 		once
 			create Result.make ("my_integer", agent my_integer)
 		end
 
-	jagent_my_string: JAVA_ATTRIBUTE [J_J2E_TEST_TARGET, J_STRING]
+	jagent_my_string: JAVA_ATTRIBUTE [J_STRING]
 			--
 		once
 			create Result.make ("my_string", agent my_string)
 		end
 
-	jagent_name: JAVA_ATTRIBUTE [J_J2E_TEST_TARGET, J_STRING]
+	jagent_name: JAVA_ATTRIBUTE [J_STRING]
 			--
 		once
 			create Result.make ("name", agent name)
 		end
 
-	jagent_my_method: JAVA_PROCEDURE [J_J2E_TEST_TARGET]
+	jagent_my_method: JAVA_PROCEDURE
 			--
 		once
 			create Result.make ("my_method", agent my_method)
 		end
 
-	jagent_make_from_string: JAVA_CONSTRUCTOR [J_J2E_TEST_TARGET ]
+	jagent_make_from_string: JAVA_CONSTRUCTOR
 			--
 		once
 			create Result.make (agent make_from_string)
 		end
 
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "J2ETestTarget")
+	new_jclass_name: STRING
+		do
+			Result := "J2ETestTarget"
 		end
 
-end -- class JAVA_CLASS
+end

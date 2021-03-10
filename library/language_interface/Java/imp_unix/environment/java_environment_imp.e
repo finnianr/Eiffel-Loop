@@ -1,19 +1,19 @@
 note
-	description: "Unix implementation of `JAVA_PACKAGE_ENVIRONMENT_I' interface"
+	description: "Unix implementation of [$source JAVA_ENVIRONMENT_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-03-10 9:32:41 GMT (Wednesday 10th March 2021)"
+	revision: "4"
 
 class
-	JAVA_PACKAGE_ENVIRONMENT_IMP
+	JAVA_ENVIRONMENT_IMP
 
 inherit
-	JAVA_PACKAGE_ENVIRONMENT_I
+	JAVA_ENVIRONMENT_I
 		export
 			{NONE} all
 		end
@@ -27,7 +27,23 @@ inherit
 create
 	make
 
-feature -- Constants
+feature {NONE} -- Constants
+
+	Class_path_separator: CHARACTER = ':'
+
+	Default_java_jar_dir: EL_DIR_PATH
+		once
+			Result := "/usr/share/java"
+		end
+
+	Deployment_properties_path: STRING = ".java/deployment"
+
+	JVM_home_dir: EL_DIR_PATH
+		once
+			Result := "/usr/lib/jvm"
+		end
+
+	JVM_library_name: STRING = "libjvm.so"
 
 	JVM_library_path: EL_FILE_PATH
 		local
@@ -55,6 +71,11 @@ feature -- Constants
 			end
 		end
 
+	Java_links: ARRAYED_LIST [STRING]
+		once
+			create Result.make_from_array (<< "java", "default-java" >>)
+		end
+
 	Server: ZSTRING
 		once
 			Result := "server"
@@ -64,27 +85,6 @@ feature -- Constants
 			--
 		once
 			Result := Directory.home
-		end
-
-	Default_java_jar_dir: EL_DIR_PATH
-		once
-			Result := "/usr/share/java"
-		end
-
-	JVM_home_dir: EL_DIR_PATH
-		once
-			Result := "/usr/lib/jvm"
-		end
-
-	Class_path_separator: CHARACTER = ':'
-
-	Deployment_properties_path: STRING = ".java/deployment"
-
-	JVM_library_name: STRING = "libjvm.so"
-
-	Java_links: ARRAYED_LIST [STRING]
-		once
-			create Result.make_from_array (<< "java", "default-java" >>)
 		end
 
 end

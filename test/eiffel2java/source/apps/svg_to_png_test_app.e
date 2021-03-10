@@ -26,14 +26,14 @@ feature {NONE} -- Initiliazation
 	normal_initialize
 			--
 		do
-			Console.show ({JAVA_PACKAGE_ENVIRONMENT_IMP})
-			Java_packages.append_jar_locations (<<
+			Console.show ({JAVA_ENVIRONMENT_IMP})
+			Java.append_jar_locations (<<
 				eiffel_loop_dir.joined_dir_steps (<< "contrib", "Java", "batik-1.7" >>)
 			>>)
-			Java_packages.append_class_locations (<<
+			Java.append_class_locations (<<
 				eiffel_loop_dir.joined_dir_path ("Java_library")
 			>> )
-			Java_packages.open (<< "batik-rasterizer" >>) --, "xml-commons-external"
+			Java.open (<< "batik-rasterizer" >>) --, "xml-commons-external"
 		end
 
 feature -- Basic operations
@@ -48,7 +48,7 @@ feature -- Basic operations
 			normal_initialize
 			Test.set_binary_file_extensions (<< "png" >>)
 			Test.do_file_test ("svg/yang.svg", agent test_transcoding, 1664357)
-			Java_packages.close
+			Java.close
 		end
 
 feature -- Test

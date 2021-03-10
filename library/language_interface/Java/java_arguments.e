@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 11:36:53 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
 	JAVA_ARGUMENTS
@@ -80,4 +80,4 @@ feature -- Status report
 			end
 		end
 
-end -- class JAVA_ARGUMENTS
+end

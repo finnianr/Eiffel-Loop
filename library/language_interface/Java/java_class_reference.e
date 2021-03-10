@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-03-10 14:57:56 GMT (Wednesday 10th March 2021)"
+	revision: "6"
 
 class
 	JAVA_CLASS_REFERENCE
@@ -36,15 +36,17 @@ feature {NONE} -- Initialization
 
 	make (package_name, jclass_name: STRING)
 			--
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			create qualified_class_name.make_empty
+			qualified_class_name := buffer.empty
 			if package_name.count > 0 then
 				qualified_class_name.append_string (package_name)
 				qualified_class_name.append_character ('.')
 			end
 			qualified_class_name.append_string (jclass_name)
+			qualified_class_name := qualified_class_name.twin
 			java_class_id := jni.find_class_pointer (qualified_jni_class_name)
-
 		end
 
 feature -- calling static methods

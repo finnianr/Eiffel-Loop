@@ -1,6 +1,8 @@
 note
 	description: "[
-		Windows implementation of `JAVA_PACKAGE_ENVIRONMENT_I' interface
+		Windows implementation of [$source JAVA_ENVIRONMENT_I] interface
+	]"
+	notes: "[
 		`deployment.properties' file location
 
 		**Windows 7**
@@ -14,14 +16,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-03-10 9:33:15 GMT (Wednesday 10th March 2021)"
+	revision: "4"
 
 class
-	JAVA_PACKAGE_ENVIRONMENT_IMP
+	JAVA_ENVIRONMENT_IMP
 
 inherit
-	JAVA_PACKAGE_ENVIRONMENT_I
+	JAVA_ENVIRONMENT_I
 		export
 			{NONE} all
 		end
@@ -31,12 +33,9 @@ inherit
 create
 	make
 
-feature -- Constants
+feature {NONE} -- Constants
 
-	JVM_library_path: EL_FILE_PATH
-		once
-			Result := Runtime_environment_info.jvm_dll_path
-		end
+	Class_path_separator: CHARACTER = ';'
 
 	Default_java_jar_dir: EL_DIR_PATH
 		once
@@ -48,9 +47,10 @@ feature -- Constants
 			Result := Runtime_environment_info.java_home
 		end
 
-	Class_path_separator: CHARACTER = ';'
-
-feature {NONE} -- Implementation
+	JVM_library_path: EL_FILE_PATH
+		once
+			Result := Runtime_environment_info.jvm_dll_path
+		end
 
 	Runtime_environment_info: JAVA_RUNTIME_ENVIRONMENT_INFO
 		once

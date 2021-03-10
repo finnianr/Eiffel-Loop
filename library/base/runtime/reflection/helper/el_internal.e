@@ -1,19 +1,31 @@
 note
 	description: "Internal reflection routines accessible via [$source EL_MODULE_EIFFEL]"
+	notes: "[
+		The [$source INTERNAL] class has a problem with routines that use the once function
+		`reflected_object' because the call will retain a reference to the argument inside
+		the once object. Calling `dynamic_type' for example will retain a reference to the
+		object being queryed.
+		
+		This can be a problem in situations which require that the object be GC collected when
+		all references are removed. The object could be associated with a Java VM object for example.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 12:04:07 GMT (Thursday 14th May 2020)"
-	revision: "11"
+	date: "2021-03-10 15:35:49 GMT (Wednesday 10th March 2021)"
+	revision: "12"
 
 class
 	EL_INTERNAL
 
 inherit
 	INTERNAL
+		redefine
+			dynamic_type
+		end
 
 	SED_UTILITIES
 		export
@@ -25,6 +37,11 @@ inherit
 	EL_SHARED_CLASS_ID
 
 feature -- Type queries
+
+	dynamic_type (object: separate ANY): INTEGER
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (object)
+		end
 
 	field_conforms_to_collection (basic_type, type_id: INTEGER): BOOLEAN
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type

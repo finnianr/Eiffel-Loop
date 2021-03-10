@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:13:35 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2021-03-10 15:22:22 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
 	EL_FUNCTION_RESULT_TABLE [TARGET, R]
@@ -22,8 +22,6 @@ inherit
 			item as cached_item,
 			remove as remove_type
 		end
-
-	EL_MODULE_EIFFEL
 
 create
 	make
@@ -45,7 +43,7 @@ feature -- Access
 		local
 			type_id: INTEGER
 		do
-			type_id := Eiffel.dynamic_type (target)
+			type_id := {ISE_RUNTIME}.dynamic_type (target)
 			if has_key (type_id) then
 				Result := found_item
 			else
@@ -58,7 +56,7 @@ feature -- Removal
 
 	remove (object: TARGET)
 		do
-			remove_type (Eiffel.dynamic_type (object))
+			remove_type ({ISE_RUNTIME}.dynamic_type (object))
 		end
 
 feature {NONE} -- Initialization

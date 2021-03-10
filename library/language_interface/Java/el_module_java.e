@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:30:05 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2021-03-10 9:32:28 GMT (Wednesday 10th March 2021)"
+	revision: "8"
 
 deferred class
-	EL_MODULE_JAVA_PACKAGES
+	EL_MODULE_JAVA
 
 inherit
 	EL_MODULE
 
 feature {NONE} -- Constants
 
-	Java_packages: JAVA_PACKAGE_ENVIRONMENT_I
+	Java: JAVA_ENVIRONMENT_I
 			--
-		once
-			create {JAVA_PACKAGE_ENVIRONMENT_IMP} Result.make
+		once ("PROCESS")
+			create {JAVA_ENVIRONMENT_IMP} Result.make
 		end
 
 end

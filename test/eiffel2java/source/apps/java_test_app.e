@@ -26,7 +26,7 @@ feature {NONE} -- Initiliazation
 			--
 		do
 			Console.show_all (<<
-				{JAVA_PACKAGE_ENVIRONMENT_IMP},
+				{JAVA_ENVIRONMENT_IMP},
 				{J_INT}, {J_STRING}, {J_LINKED_LIST}, {J_OBJECT}, {J_VELOCITY},
 				{J_VELOCITY_CONTEXT}, {J_TEMPLATE}, {JAVA_DEPLOYMENT_PROPERTIES}
 			>>)
@@ -53,24 +53,13 @@ feature -- Test
 			--
 		do
 			log.enter_with_args ("call_java_classes", [source_path])
-			Java_packages.append_class_locations (<< source_path >>)
-			Java_packages.open (<< >>)
+			Java.append_class_locations (<< source_path >>)
+			Java.open (<< >>)
 
 			many_references_test
-			garbage_disposal_tests
 
-			Java_packages.close
+			Java.close
 
-			log.exit
-		end
-
-	read_deployment_file (file_path: EL_FILE_PATH)
-		local
-			properties: JAVA_DEPLOYMENT_PROPERTIES
-		do
-			log.enter_with_args ("read_deployment_file", [file_path])
-			create properties.make (file_path)
-			properties.dump
 			log.exit
 		end
 
@@ -114,28 +103,6 @@ feature {NONE} -- Implementation
 				i := i + 1
 				string_list.forth
 			end
-			log.exit
-		end
-
-	garbage_disposal_tests
-			-- Test that java objects are release with Eiffel garbage collection
-		local
-			j2e_test: J_J2E_TEST_TARGET
-			num_8255:J_INT; hello_msg: J_STRING; linked_list: J_LINKED_LIST
-			obj_ref_1, obj_ref_2: J_OBJECT
-		do
-			log.enter ("garbage_disposal_tests")
-
-			create j2e_test.make
-			create num_8255.make_from_integer (8255370)
-			create hello_msg.make_from_utf_8 ("Hello world!")
-
-			create linked_list.make
-			linked_list.add_last (j2e_test.to_java_lang_object)
-			linked_list.add_last (j2e_test.to_java_lang_object)
-
-			obj_ref_1 := linked_list.remove_first
-			obj_ref_2 := linked_list.remove_first
 			log.exit
 		end
 

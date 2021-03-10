@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 			object_names.compare_objects
 			create jvm.make
 		end
+		
 feature -- Element change
 
 	open (libjvm_path: READABLE_STRING_8; a_class_path: STRING)

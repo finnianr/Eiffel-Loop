@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:25:32 GMT (Monday 13th January 2020)"
-	revision: "4"
+	date: "2021-03-10 15:46:24 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 deferred class
-	JAVA_ROUTINE [BASE_TYPE -> JAVA_OBJECT_REFERENCE]
+	JAVA_ROUTINE
 
 inherit
 	JAVA_SHARED_ORB
@@ -21,38 +21,48 @@ inherit
 
 	EL_MODULE_EIFFEL
 
+	EL_ROUTINE_INFO_FACTORY
+
 feature {NONE} -- Initialization
 
-	make (method_name: STRING; mapped_routine: ROUTINE)
+	make (a_method_name: STRING; mapped_routine: ROUTINE)
 			--
+		require
+			target_closed: mapped_routine.is_target_closed
+			valid_target: attached {JAVA_OBJECT_REFERENCE} mapped_routine.target
+		local
+			routine_info: like new_routine_info
 		do
+			method_name := a_method_name
 			create java_args.make (mapped_routine.open_count)
-			set_method_id (method_name, mapped_routine)
+			if attached {JAVA_OBJECT_REFERENCE} mapped_routine.target as target then
+				routine_info := new_routine_info (method_name, mapped_routine)
+				set_method_id (target, routine_info.argument_types)
+			end
 		end
+
+feature -- Access
+
+	method_name: STRING
 
 feature -- Status report
 
 	valid_operands (args: TUPLE): BOOLEAN
 			-- All operands conform to JAVA_TYPE
 		local
-			expected_type, actual_type, i: INTEGER
-			type_checker: INTERNAL
+			actual_type, i: INTEGER
 		do
-			Result := true
-			create type_checker
-			from i := 1 until i > args.count or Result = false
-			loop
-				expected_type := type_checker.dynamic_type_from_string ("JAVA_TYPE")
-				actual_type := type_checker.dynamic_type (args.item (i))
-
-				if not type_checker.type_conforms_to (actual_type, expected_type) then
+			Result := True
+			from i := 1 until not Result or else i > args.count loop
+				actual_type := {ISE_RUNTIME}.dynamic_type (args.item (i))
+				if not {ISE_RUNTIME}.type_conforms_to (actual_type, Java_type_id) then
 					Result := false
 				end
 				i := i + 1
 			end
 		end
 
-	valid_target (target: BASE_TYPE): BOOLEAN
+	valid_target (target: JAVA_OBJECT_REFERENCE): BOOLEAN
 			--
 		do
 			Result := target.is_attached_to_java_object
@@ -60,44 +70,57 @@ feature -- Status report
 
 feature {NONE} -- Implementation
 
-	set_method_id (method_name: STRING; mapped_routine: ROUTINE)
+	set_method_id (target: JAVA_OBJECT_REFERENCE; argument_types: EL_TUPLE_TYPE_ARRAY)
 			--
 		do
-			if attached {BASE_TYPE} mapped_routine.target as target then
-				method_id := target.method_id (method_name, method_signature (mapped_routine.empty_operands))
-			end
+			method_id := target.method_id (method_name, method_signature (argument_types))
 		ensure
 			method_id_set: is_attached (method_id)
 		end
 
-	method_signature (empty_operands: TUPLE): STRING
-			--
+	method_signature (argument_types: EL_TUPLE_TYPE_ARRAY): STRING
+		 -- for some strange reason this causes a problem with Java object reclamation
+		 -- even though the results are identical to `method_signature'
+		 -- maybe something to do with somehow keeping a reference to the target
 		local
-			i: INTEGER
-			class_id: INTEGER
+			i: INTEGER; type_id: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			create Result.make_from_string ("(")
-			from i := 1 until i > empty_operands.count loop
-				class_id := Eiffel.generic_dynamic_type (empty_operands, i)
-				if attached {JAVA_TYPE} Eiffel.new_instance_of (class_id) as type then
-					if attached {J_OBJECT_ARRAY [JAVA_OBJECT_REFERENCE]} type as array_type then
+			Result := buffer.copied ("(")
+			from i := 1 until i > argument_types.count loop
+				type_id := argument_types.item (i).type_id
+				if attached Java_type_factory.new_item_from_type_id (type_id) as j_type then
+					if attached {J_OBJECT_ARRAY [JAVA_OBJECT_REFERENCE]} j_type as array_type then
 						array_type.default_create
 					end
-					Result.append_string (type.Jni_type_signature)
+					Result.append_string (j_type.Jni_type_signature)
 				end
 				i := i + 1
 			end
 			Result.append_character (')')
-			Result.append_string ( return_type_signature )
+			Result.append_string (return_type_signature)
+			Result := Result.twin
 		end
-
-	method_id: POINTER
 
 	return_type_signature: STRING
 			-- Routines return type void
 		deferred
 		end
 
+feature {NONE} -- Internal attributes
+
+	method_id: POINTER
+
 	java_args: JAVA_ARGUMENTS
 
-end -- class JAVA_ROUTINE
+feature {NONE} -- Constants
+
+	Java_type_factory: EL_OBJECT_FACTORY [JAVA_TYPE]
+		once
+			create Result
+		end
+
+	Java_type_id: INTEGER
+		once
+			Result := ({JAVA_TYPE}).type_id
+		end
+end

@@ -6,24 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 16:15:26 GMT (Tuesday 9th March 2021)"
-	revision: "5"
+	date: "2021-03-10 15:56:24 GMT (Wednesday 10th March 2021)"
+	revision: "6"
 
 class
-	JAVA_FUNCTION [
-		BASE_TYPE -> JAVA_OBJECT_REFERENCE,
-		RESULT_TYPE -> JAVA_TYPE create default_create, make_from_java_method_result end
-	]
+	JAVA_FUNCTION [RESULT_TYPE -> JAVA_TYPE create default_create, make_from_java_method_result end]
 
 inherit
-	JAVA_ROUTINE [BASE_TYPE]
+	JAVA_ROUTINE
+		redefine
+			make
+		end
 
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (a_method_name: STRING; mapped_function: FUNCTION [RESULT_TYPE])
+		do
+			Precursor (a_method_name, mapped_function)
+		end
+
 feature -- Access
 
-	item (target: BASE_TYPE; args: TUPLE): RESULT_TYPE
+	item (target: JAVA_OBJECT_REFERENCE; args: TUPLE): RESULT_TYPE
 			--
 		require
 			valid_operands: valid_operands (args)

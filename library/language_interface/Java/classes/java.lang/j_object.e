@@ -1,12 +1,12 @@
 note
-	description: "J object"
+	description: "Interface to Java class: `java.lang.Object'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 14:28:48 GMT (Tuesday 9th March 2021)"
+	date: "2021-03-10 15:51:48 GMT (Wednesday 10th March 2021)"
 	revision: "5"
 
 class
@@ -18,8 +18,11 @@ inherit
 	JAVA_OBJECT_REFERENCE
 
 create
-	default_create, make,
-	make_from_pointer, make_from_java_method_result, make_from_java_attribute
+	default_create,
+	make,
+	make_from_pointer,
+	make_from_java_method_result,
+	make_from_java_attribute
 
 feature -- Access
 
@@ -31,18 +34,10 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	jagent_to_string: JAVA_FUNCTION [J_OBJECT, J_STRING]
+	jagent_to_string: JAVA_FUNCTION [J_STRING]
 			--
 		once
 			create Result.make ("toString", agent to_string)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "Object")
 		end
 
 end

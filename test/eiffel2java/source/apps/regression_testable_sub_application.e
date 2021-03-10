@@ -18,7 +18,7 @@ inherit
 			option_name, test_data_dir
 		end
 
-	EL_MODULE_JAVA_PACKAGES
+	EL_MODULE_JAVA
 
 	EL_MODULE_OS
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-10 15:00:53 GMT (Wednesday 10th March 2021)"
+	revision: "5"
 
 class
 	J_OBJECT_ARRAY [G -> JAVA_OBJECT_REFERENCE create make, make_from_pointer end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_type
 		redefine
-			Jni_type_signature, default_create
+			Jclass, Jni_type_signature, default_create
 		end
 
 	DEFAULT_JPACKAGE

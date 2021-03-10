@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 17:22:18 GMT (Thursday 4th March 2021)"
-	revision: "9"
+	date: "2021-03-10 15:25:04 GMT (Wednesday 10th March 2021)"
+	revision: "10"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 
 	make_from_tuple (tuple: TUPLE)
 		do
-			make_from_static (Eiffel.dynamic_type (tuple))
+			make_from_static ({ISE_RUNTIME}.dynamic_type (tuple))
 		end
 
 feature -- Status query

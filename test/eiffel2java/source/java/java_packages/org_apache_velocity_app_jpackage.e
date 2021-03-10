@@ -1,5 +1,5 @@
 note
-	description: "Org apache velocity app jpackage"
+	description: "Java package: `org.apache.velocity.app'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

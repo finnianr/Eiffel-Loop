@@ -1,7 +1,6 @@
 note
 	description: "[
-		Collection of all deployment.javaws.jre.* properties divided up into versions:
-		
+		Collection of all deployment.javaws.jre.* properties divided up into versions
 			deployment.javaws.jre.<version no>.<key>=<value>
 	]"
 
@@ -10,7 +9,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 14:29:45 GMT (Tuesday 9th March 2021)"
+	date: "2021-03-10 10:24:44 GMT (Wednesday 10th March 2021)"
 	revision: "8"
 
 class
@@ -19,9 +18,9 @@ class
 inherit
 	ANY
 
-	EL_MODULE_LIO
-
 	EL_FILE_OPEN_ROUTINES
+
+	EL_MODULE_LIO
 
 create
 	make
@@ -60,28 +59,26 @@ feature -- Access
 	plugin_profiles: like webstart_profiles
 		-- JRE Java web start properties by version
 
-
 	profiles: EL_ZSTRING_HASH_TABLE [like webstart_profiles]
 
 feature -- Basic operations
 
-	dump
+	print_to (a_lio: EL_LOGGABLE)
 		do
-			lio.put_line ("dump")
 			across profiles as profile loop
 				if profile.key ~ Var_javaws then
-					lio.put_line ("Webstart Profiles")
+					a_lio.put_line ("Webstart Profiles")
 				else
-					lio.put_line ("Plugin Profiles")
+					a_lio.put_line ("Plugin Profiles")
 				end
-				lio.put_new_line
+				a_lio.put_new_line
 
 				across profile.item as l_properties loop
 					if not l_properties.item.is_empty then
-						lio.put_integer_field ("JRE profile", l_properties.cursor_index - 1)
-						lio.put_new_line
+						a_lio.put_integer_field ("JRE profile", l_properties.cursor_index - 1)
+						a_lio.put_new_line
 						across l_properties.item.current_keys as name loop
-							lio.put_string_field (name.item, l_properties.item [name.item])
+							a_lio.put_string_field (name.item, l_properties.item [name.item])
 							lio.put_new_line
 						end
 						lio.put_new_line

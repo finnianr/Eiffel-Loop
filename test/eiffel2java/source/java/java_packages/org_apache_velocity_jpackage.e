@@ -1,5 +1,5 @@
 note
-	description: "Org apache velocity jpackage"
+	description: "Java package: `org.apache.velocity'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -16,10 +16,11 @@ inherit
 	JAVA_PACKAGE
 
 feature -- Constant
-	Package_name: STRING 
+
+	Package_name: STRING
 			--
 		once
 			Result := "org.apache.velocity"
 		end
-	
-end -- class ORG_APACHE_VELOCITY_JPACKAGE
+
+end

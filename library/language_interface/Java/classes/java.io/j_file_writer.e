@@ -1,12 +1,12 @@
 note
-	description: "J file writer"
+	description: "Interface to Java class: `java.io.svg.FileWriter'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 17:13:06 GMT (Tuesday 9th March 2021)"
+	date: "2021-03-10 15:49:54 GMT (Wednesday 10th March 2021)"
 	revision: "5"
 
 class
@@ -27,16 +27,18 @@ feature {NONE} -- Initialization
 	make_from_string (s: J_STRING)
 			--
 		do
-			make_from_pointer (Jagent_make_from_string.java_object_id (Current, [s]))
+			make_from_pointer (jagent_make_from_string.java_object_id (Current, [s]))
 		end
 
-feature {NONE} -- Constant
+feature {NONE} -- Implementation
 
-	Jagent_make_from_string: JAVA_CONSTRUCTOR [J_FILE_WRITER]
+	jagent_make_from_string: JAVA_CONSTRUCTOR
 			--
 		once
 			create Result.make (agent make_from_string)
 		end
+
+feature {NONE} -- Constant
 
 	Jclass: JAVA_CLASS_REFERENCE
 			--

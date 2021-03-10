@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="latin-1"?>
 <library-manifest name="$library_name">
 #foreach( $directory in $directory_list )
 	<directory location="$directory.path">
