@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:00:15 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 10:02:12 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 deferred class
 	JAVA_OBJECT_REFERENCE
@@ -84,6 +84,17 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Access
+
+	jni_type_signature: STRING
+		-- a fully-qualified class name (that is, a package name, delimited by "/",
+		-- followed by the class name).
+		-- If the name begins with "[" (the array jni_type_name character),
+		-- it returns an array class.
+		do
+			Result := jclass.jni_type_signature
+		end
+
 feature -- Status report
 
 	Java_void: POINTER
@@ -112,9 +123,7 @@ feature -- Comparison
 			-- Can current java object be assigned from other java object
 			-- eg. String s = (String)list.removeLast();
 		do
-			Result := jorb.is_assignable_from (
-				jclass.java_class_id, other.jclass.java_class_id
-			)
+			Result := jorb.is_assignable_from (jclass.java_class_id, other.jclass.java_class_id)
 		end
 
 feature {NONE} -- Disposal
@@ -156,12 +165,6 @@ feature {JAVA_ROUTINE} -- Implementation
 
 feature {JAVA_OBJECT_REFERENCE} -- Implementation
 
-	set_argument (argument: JAVA_VALUE)
-			--
-		do
-			argument.set_object_value (java_object_id)
-		end
-
 	new_jclass: JAVA_CLASS_REFERENCE
 		do
 			create Result.make (package_name, new_jclass_name)
@@ -170,6 +173,12 @@ feature {JAVA_OBJECT_REFERENCE} -- Implementation
 	new_jclass_name: STRING
 		do
 			Result := Naming.class_as_camel (Current, 1, 0)
+		end
+
+	set_argument (argument: JAVA_VALUE)
+			--
+		do
+			argument.set_object_value (java_object_id)
 		end
 
 feature -- Access
@@ -190,19 +199,6 @@ feature -- Comparison
 			-- equal to current object?
 		do
 			Result := java_object_id = other.java_object_id
-		end
-
-feature -- Constant
-
-	Jni_type_signature: STRING
-				-- a fully-qualified class name (that is, a package name, delimited by "/",
-				-- followed by the class name).
-				-- If the name begins with "[" (the array jni_type_name character),
-				-- it returns an array class.
-		do
-			create Result.make_from_string (jclass.qualified_jni_class_name)
-			Result.prepend_character ('L')
-			Result.append_character (';')
 		end
 
 feature -- Attributes setting

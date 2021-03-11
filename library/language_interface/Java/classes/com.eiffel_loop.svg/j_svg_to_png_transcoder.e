@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:48:53 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 8:37:54 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 class
 	J_SVG_TO_PNG_TRANSCODER
@@ -79,6 +79,7 @@ feature {NONE} -- Implementation
 		end
 
 	new_jclass_name: STRING
+		-- use Eiffel class naming convention
 		do
 			Result := Naming.class_as_snake_upper (Current, 1, 0)
 		end

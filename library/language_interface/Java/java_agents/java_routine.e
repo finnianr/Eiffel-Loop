@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:46:24 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 9:36:33 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 deferred class
 	JAVA_ROUTINE
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_ROUTINE_INFO_FACTORY
+
+	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -88,10 +90,7 @@ feature {NONE} -- Implementation
 			Result := buffer.copied ("(")
 			from i := 1 until i > argument_types.count loop
 				type_id := argument_types.item (i).type_id
-				if attached Java_type_factory.new_item_from_type_id (type_id) as j_type then
-					if attached {J_OBJECT_ARRAY [JAVA_OBJECT_REFERENCE]} j_type as array_type then
-						array_type.default_create
-					end
+				if attached {JAVA_TYPE} Eiffel.new_instance_of (type_id) as j_type then
 					Result.append_string (j_type.Jni_type_signature)
 				end
 				i := i + 1
@@ -113,11 +112,6 @@ feature {NONE} -- Internal attributes
 	java_args: JAVA_ARGUMENTS
 
 feature {NONE} -- Constants
-
-	Java_type_factory: EL_OBJECT_FACTORY [JAVA_TYPE]
-		once
-			create Result
-		end
 
 	Java_type_id: INTEGER
 		once

@@ -32,12 +32,12 @@ feature -- Access
 	merge (context: J_CONTEXT; writer: J_WRITER)
 			--
 		do
-			jagent_merge.call (Current, [context, writer])
+			Jagent_merge.call (Current, [context, writer])
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	jagent_merge: JAVA_PROCEDURE
+	Jagent_merge: JAVA_PROCEDURE
 			--
 		once
 			create Result.make ("merge", agent merge)

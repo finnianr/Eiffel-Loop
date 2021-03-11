@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:48:27 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 10:48:39 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 class
 	J_LINKED_LIST
@@ -28,7 +28,7 @@ feature -- Element change
 	remove_first: J_OBJECT
 			--
 		do
-			Result := jagent_remove_first.item (Current, [])
+			Result := Jagent_remove_first.item (Current, [])
 		end
 
 	add_last_string (string: ZSTRING)
@@ -40,7 +40,7 @@ feature -- Element change
 	add_last (obj: J_OBJECT)
 			--
 		do
-			jagent_add_last.call (Current, [obj])
+			Jagent_add_last.call (Current, [obj])
 		end
 
 feature -- Status query
@@ -48,24 +48,24 @@ feature -- Status query
 	is_empty: J_BOOLEAN
 			--
 		do
-			Result := jagent_is_empty.item (Current, [])
+			Result := Jagent_is_empty.item (Current, [])
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	jagent_remove_first: JAVA_FUNCTION [J_OBJECT]
+	Jagent_remove_first: JAVA_FUNCTION [J_OBJECT]
 			--
 		once
 			create Result.make ("removeFirst", agent remove_first)
 		end
 
-	jagent_add_last: JAVA_PROCEDURE
+	Jagent_add_last: JAVA_PROCEDURE
 			--
 		once
 			create Result.make ("addLast", agent add_last)
 		end
 
-	jagent_is_empty: JAVA_FUNCTION [J_BOOLEAN]
+	Jagent_is_empty: JAVA_FUNCTION [J_BOOLEAN]
 			--
 		once
 			create Result.make ("isEmpty", agent is_empty)

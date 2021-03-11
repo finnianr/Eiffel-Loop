@@ -30,7 +30,7 @@ feature -- Commands
 	init
 			--
 		do
-			jagent_init.call (Current, [])
+			Jagent_init.call (Current, [])
 		end
 
 feature -- Access
@@ -38,20 +38,18 @@ feature -- Access
 	template (name: J_STRING): J_TEMPLATE
 			--
 		do
-			Result := jagent_template.item (Current, [name])
+			Result := Jagent_template.item (Current, [name])
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	jagent_template: JAVA_STATIC_FUNCTION [J_TEMPLATE]
+	Jagent_template: JAVA_STATIC_FUNCTION [J_TEMPLATE]
 			--
 		once
 			create Result.make ("getTemplate", agent template)
 		end
 
-feature {NONE} -- Java agents
-
-	jagent_init: JAVA_STATIC_PROCEDURE
+	Jagent_init: JAVA_STATIC_PROCEDURE
 			--
 		once
 			create Result.make ("init", agent init)

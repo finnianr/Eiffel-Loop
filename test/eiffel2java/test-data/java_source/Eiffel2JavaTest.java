@@ -1,11 +1,11 @@
 import java.util.LinkedList;
 
-public class J2ETestTarget {
-	J2ETestTarget () {
+public class Eiffel2JavaTest {
+	Eiffel2JavaTest () {
 		my_integer  = 10;
 	}
 
-	J2ETestTarget (String s) {
+	Eiffel2JavaTest (String s) {
 		my_string = s;
 	}
 
@@ -25,10 +25,10 @@ public class J2ETestTarget {
 		return 0.9f;
 	}
 
-	public LinkedList stringList(){
-		LinkedList list = new LinkedList();
-		for (int i=0; i < 1000; i++){
-			list.addLast("String #"+i);
+	public LinkedList stringList (String[] array){
+		LinkedList list = new LinkedList ();
+		for (int i = 0; i < array.length; i++){
+			list.addLast (array [i]);
 		}
 		return list;
 	}

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 14:57:56 GMT (Wednesday 10th March 2021)"
-	revision: "6"
+	date: "2021-03-11 10:10:21 GMT (Thursday 11th March 2021)"
+	revision: "7"
 
 class
 	JAVA_CLASS_REFERENCE
@@ -37,17 +37,31 @@ feature {NONE} -- Initialization
 	make (package_name, jclass_name: STRING)
 			--
 		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
-			qualified_class_name := buffer.empty
 			if package_name.count > 0 then
-				qualified_class_name.append_string (package_name)
-				qualified_class_name.append_character ('.')
+				qualified_class_name := s.joined_with (<< package_name, jclass_name >>, s.character_string ('.'))
+			else
+				qualified_class_name := jclass_name
 			end
-			qualified_class_name.append_string (jclass_name)
-			qualified_class_name := qualified_class_name.twin
-			java_class_id := jni.find_class_pointer (qualified_jni_class_name)
+			create jni_type_signature.make (qualified_class_name.count + 2)
+			jni_type_signature.append (qualified_class_name)
+			s.replace_character (jni_type_signature, '.', '/')
+			-- use in intermediate stage
+			java_class_id := jni.find_class_pointer (jni_type_signature)
+
+			-- finish off
+			jni_type_signature.prepend_character ('L')
+			jni_type_signature.append_character (';')
 		end
+
+feature -- Access
+
+	jni_type_signature: STRING
+		-- a fully-qualified class name (that is, a package name, delimited by "/",
+		-- followed by the class name).
+		-- If the name begins with "[" (the array jni_type_name character),
+		-- it returns an array class.
 
 feature -- calling static methods
 
@@ -68,13 +82,6 @@ feature -- Access to static attributes
 			-- get the value of OBJECT static field
 		do
 			Result := jni.get_static_object_field (java_class_id, fid)
-		end
-
-	qualified_jni_class_name: STRING
-			--
-		do
-			create Result.make_from_string (qualified_class_name)
-			Result.replace_substring_all (".", "/")
 		end
 
 end

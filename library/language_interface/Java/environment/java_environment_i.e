@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 10:34:41 GMT (Wednesday 10th March 2021)"
-	revision: "6"
+	date: "2021-03-11 13:35:22 GMT (Thursday 11th March 2021)"
+	revision: "7"
 
 deferred class
 	JAVA_ENVIRONMENT_I
@@ -73,8 +73,8 @@ feature -- Status change
 		do
 			required_java_packages := java_packages
 			all_packages_found := true
-			from i := 1 until not all_packages_found or i > required_java_packages.count loop
-				add_package_to_classpath (required_java_packages [i])
+			across required_java_packages as package until not all_packages_found loop
+				add_package_to_classpath (package.item)
 				all_packages_found := all_packages_found and last_package_found
 				i := i + 1
 			end

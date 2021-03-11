@@ -1,13 +1,13 @@
 note
-	description: "J object array"
+	description: "Java object array of types conforming to [$source JAVA_OBJECT_REFERENCE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:00:53 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 9:30:58 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 class
 	J_OBJECT_ARRAY [G -> JAVA_OBJECT_REFERENCE create make, make_from_pointer end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_type
 		redefine
-			Jclass, Jni_type_signature, default_create
+			Jclass, Jni_type_signature
 		end
 
 	DEFAULT_JPACKAGE
@@ -25,26 +25,20 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_EIFFEL
+
 create
 	make, default_create
-
-feature {JAVA_ROUTINE} -- Initialization
-
-	default_create
-			--
-		do
-			create default_item.make
-		end
 
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 			--
+		local
+			l_item: like new_item
 		do
-			default_create
-			make_from_pointer (
-				jorb.new_object_array (n, default_item.jclass.java_class_id, default_item.java_object_id)
-			)
+			l_item := new_item
+			make_from_pointer (jorb.new_object_array (n, l_item.jclass.java_class_id, l_item.java_object_id))
 		end
 
 feature -- Status report
@@ -83,21 +77,25 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	Jclass: JAVA_CLASS_REFERENCE
+	jclass: JAVA_CLASS_REFERENCE
 			--
 		do
-			Result := default_item.Jclass
+			Result := new_item.jclass
 		end
 
-	default_item: G
-
-feature -- Constant
-
-	Jni_type_signature: STRING
+	jni_type_signature: STRING
 			--
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := Precursor
-			Result.prepend_character ('[')
+			Result := s.character_string ('[') + new_item.jni_type_signature
+		end
+
+	new_item: G
+		do
+			if attached {G} Eiffel.new_object ({G}) as l_item then
+				Result := l_item
+			end
 		end
 
 end

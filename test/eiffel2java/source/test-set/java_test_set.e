@@ -1,5 +1,5 @@
 note
-	description: "Basic Java JNI test"
+	description: "Basic Java JNI tests"
 	notes: "[
 		Because the JVM can only be loaded once we are limited to only one Java test routine
 	]"
@@ -36,23 +36,20 @@ feature -- Tests
 			do_test ("print_properties", 1842240027, agent print_properties, [properties_path])
 		end
 
-	print_properties (file_path: EL_FILE_PATH)
-		local
-			properties: JAVA_DEPLOYMENT_PROPERTIES
-		do
-			create properties.make (file_path)
-			properties.print_to (lio)
-		end
-
 	test_java
 		-- test basic Java calls
+		note
+			testing: "covers/{J_OBJECT_ARRAY}.count, covers/{J_OBJECT_ARRAY}.make, covers/{J_OBJECT_ARRAY}.put",
+						"covers/{J_OBJECT_ARRAY}.item",
+						"covers/{J_OBJECT}.equals",
+						"covers/{J_LINKED_LIST}.add_last"
 		do
 			Java.append_class_locations (<< "test-data/java_classes" >>)
 			Java.open (<< >>)
 
 			do_basic_1;
 			do_basic_2
-			reference_counting_test
+			convert_array_to_linked_list
 
 			Java.close
 			assert ("all Java objects released", jorb.object_count = 0)
@@ -69,7 +66,7 @@ feature {NONE} -- Implementation
 			class_test: JAVA_CLASS; instance_of_class_test: JAVA_OBJECT
 			fid: POINTER; value: INTEGER
 		do
-			class_test := Jorb.find_class ("J2ETestTarget")
+			class_test := Jorb.find_class ("Eiffel2JavaTest")
 
 			lio.put_line ("Creating instance of `class_test'")
 			create instance_of_class_test.create_instance (class_test, "()V", Void)
@@ -102,7 +99,7 @@ feature {NONE} -- Implementation
 	do_basic_2
 			--
 		local
-			j2e_test: J_J2E_TEST_TARGET; num_1, num_2, num_8255: J_INT
+			j2e_test: J_EIFFEL2_JAVA_TEST; num_1, num_2, num_8255: J_INT
 			hello_msg, str: J_STRING; jfloat_value: J_FLOAT
 			hello: STRING
 		do
@@ -127,28 +124,43 @@ feature {NONE} -- Implementation
 
 			create j2e_test.make_from_string (hello_msg)
 			str := j2e_test.my_string
-			assert ("same string", str.value.same_string (hello) )
+			
+			assert ("same string with Eiffel comparison", str.value.same_string (hello) )
+			assert ("same string with Java comparison", str.equals (hello_msg) )
 		end
 
-	reference_counting_test
-			-- Test that java objects are release with Eiffel garbage collection
+	convert_array_to_linked_list
 		local
-			j2e_test: J_J2E_TEST_TARGET; linked_list: J_LINKED_LIST
-			str: J_STRING
+			j2e_test: J_EIFFEL2_JAVA_TEST; linked_list_1, linked_list_2: J_LINKED_LIST
+			array: J_OBJECT_ARRAY [J_STRING]; str: J_STRING
 		do
-			lio.enter ("reference_counting_test")
+			lio.enter ("convert_array_to_linked_list")
 
 			create j2e_test.make
-			str := "Hello"
+			create array.make (50)
+			create linked_list_1.make
 
---			This require some more thought
---			create linked_list.make
---			linked_list.add_last (j2e_test)
---			linked_list.add_last (str)
+			across 1 |..| array.count as n loop
+				create str.make_from_utf_8 ("String #" + n.item.out)
+				array.put (str, n.item)
+				assert ("same item", array.item (n.item).equals (str))
+				linked_list_1.add_last (str)
+			end
 
---			call (linked_list.remove_first)
---			call (linked_list.remove_first)
+			linked_list_2 := j2e_test.string_list (array)
+
+			-- Java comparison with implicit boolean conversion
+			assert ("same list items", linked_list_1.equals (linked_list_2))
+
 			lio.exit
+		end
+
+	print_properties (file_path: EL_FILE_PATH)
+		local
+			properties: JAVA_DEPLOYMENT_PROPERTIES
+		do
+			create properties.make (file_path)
+			properties.print_to (lio)
 		end
 
 feature {NONE} -- Constants
@@ -157,16 +169,16 @@ feature {NONE} -- Constants
 
 note
 	java_code: "[
-		Source for `J2ETestTarget' test class
+		Source for `Eiffel2JavaTest.java' test class
 	
 			import java.util.LinkedList;
 
-			public class J2ETestTarget {
-				J2ETestTarget () {
+			public class Eiffel2JavaTest {
+				Eiffel2JavaTest () {
 					my_integer  = 10;
 				}
 
-				J2ETestTarget (String s) {
+				Eiffel2JavaTest (String s) {
 					my_string = s;
 				}
 
@@ -185,11 +197,10 @@ note
 					System.out.println ("int n=" + n + ", String s=\"" + s + "\"");
 					return 0.9f;
 				}
-
-				public LinkedList stringList(){
-					LinkedList list = new LinkedList();
-					for (int i=0; i < 1000; i++){
-						list.addLast("String #"+i);
+				public LinkedList stringList (String[] array){
+					LinkedList list = new LinkedList ();
+					for (int i = 0; i < array.length; i++){
+						list.addLast (array [i]);
 					}
 					return list;
 				}

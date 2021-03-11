@@ -119,6 +119,9 @@ system:
 					name = jni; enabled = true
 
 		library:
+			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"
+
+		library:
 			name = EL_logging; readonly = false; location = "$EIFFEL_LOOP/library/logging.ecf"
 
 		library:
@@ -133,12 +136,17 @@ system:
 		# Clusters
 		cluster:
 			name = project; location = source; recursive = true
+			# stop invariant being triggured on creation of following
 			class_option:
 				class = JAVA_TEST_SET
 				assertions:
 					precondition = true; postcondition = true; check = true
 			class_option:
 				class = VELOCITY_TEST_SET
+				assertions:
+					precondition = true; postcondition = true; check = true
+			class_option:
+				class = SVG_TO_PNG_TEST_SET
 				assertions:
 					precondition = true; postcondition = true; check = true
 

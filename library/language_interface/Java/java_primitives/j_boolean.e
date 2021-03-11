@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 10:45:11 GMT (Wednesday 10th March 2021)"
-	revision: "5"
+	date: "2021-03-11 10:39:00 GMT (Thursday 11th March 2021)"
+	revision: "6"
 
 class
 	J_BOOLEAN
@@ -22,7 +22,7 @@ create
 	make_from_java_attribute
 
 convert
-	make_from_boolean ({BOOLEAN})
+	make_from_boolean ({BOOLEAN}), value: {BOOLEAN}
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:47:34 GMT (Wednesday 10th March 2021)"
-	revision: "4"
+	date: "2021-03-11 10:44:46 GMT (Thursday 11th March 2021)"
+	revision: "5"
 
 class
 	J_HASH_MAP
@@ -34,12 +34,12 @@ feature -- Element change
 	put (key, value: J_OBJECT): J_OBJECT
 			--
 		do
-			Result := jagent_put.item (Current, [key, value])
+			Result := Jagent_put.item (Current, [key, value])
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	jagent_put: JAVA_FUNCTION [J_OBJECT]
+	Jagent_put: JAVA_FUNCTION [J_OBJECT]
 			--
 		once
 			create Result.make ("put", agent put)

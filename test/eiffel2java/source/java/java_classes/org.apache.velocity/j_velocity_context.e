@@ -47,12 +47,12 @@ feature -- Element change
 	put (key: J_STRING; object: J_OBJECT): J_OBJECT
 			--
 		do
-			Result := jagent_put.item (Current, [key, object])
+			Result := Jagent_put.item (Current, [key, object])
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	jagent_put: JAVA_FUNCTION [J_OBJECT]
+	Jagent_put: JAVA_FUNCTION [J_OBJECT]
 			--
 		once
 			create Result.make ("put", agent put)
