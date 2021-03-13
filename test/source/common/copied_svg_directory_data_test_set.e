@@ -1,13 +1,13 @@
 note
-	description: "Test set using SVG button image found in: `test/data/svg'"
+	description: "Test set using SVG button image found in directory: `test/data/svg'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 18:02:08 GMT (Thursday 11th March 2021)"
-	revision: "1"
+	date: "2021-03-13 10:07:48 GMT (Saturday 13th March 2021)"
+	revision: "2"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -38,8 +38,7 @@ feature {NONE} -- Initialization
 			Precursor {EL_COPIED_DIRECTORY_DATA_TEST_SET}
 			svg_path := file_path (Edit_button_svg)
 			create context.make
-			context.put_string ("png_path", Directory.current_working + file_path (Edit_icon))
---			context.put_string ("png_path", Source_dir + Edit_icon)
+			context.put_string ("png_path", Directory.current_working + file_path (Edit_icon_png))
 			Evolicity_templates.put_file (file_path (Button_svg), Utf_8_encoding)
 			if attached open (svg_path, Write) as svg_file then
 				Evolicity_templates.merge_to_file (file_path (Button_svg), context, svg_file)
@@ -103,7 +102,7 @@ feature {NONE} -- Constants
 			Result := "edit-" + Button_svg
 		end
 
-	Edit_icon: STRING = "edit-icon.png"
+	Edit_icon_png: STRING = "edit-icon.png"
 
 	Png_name_template: ZSTRING
 		once

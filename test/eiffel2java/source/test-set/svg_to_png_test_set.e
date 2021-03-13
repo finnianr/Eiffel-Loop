@@ -1,11 +1,21 @@
 note
-	description: "Summary description for {SVG_TO_PNG_TEST_SET}."
+	description: "Test set for class [$source J_SVG_TO_PNG_TRANSCODER]. See ''java_code'' note for Java source."
+	notes: "[
+		[https://issues.apache.org/jira/browse/BATIK-1304 Reported Issue]
+
+		The test `workarea' directory could not be deleted after executing the test. This was traced to a file
+		opened by Batik to render an PNG image linked to within the SVG test file. Batik does not close the
+		PNG file after it has finished rendering it as part of the SVG image.
+	]"
+
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
 	SVG_TO_PNG_TEST_SET
+
+obsolete "Bug in Batik, see notes"
 
 inherit
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -28,15 +38,30 @@ feature -- Tests
 		do
 			Java.append_jar_locations (<< Eiffel_loop_dir.joined_dir_path ("contrib/Java/batik-1.6.1") >>)
 			Java.append_class_locations (<< "test-data/java_classes" >>)
-			Java.open (<< "batik-rasterizer", "batik-transcoder" >>) --, "xml-commons-external"
+			Java.open (<< "batik-rasterizer" >>)
 
-			do_svg_to_png_conversion (agent transcode_to_width_and_color)
+			do_svg_format_conversion
 
 			Java.close
 			assert ("all Java objects released", jorb.object_count = 0)
 		end
 
 feature {NONE} -- Implementation
+
+	do_svg_format_conversion
+		local
+			linked_file: J_FILE; linked_path: J_STRING
+		do
+			if attached (Directory.current_working + (work_area_data_dir + Edit_icon_png)) as edit_icon_abs_path then
+				-- Failed workaround attempt for bug in Batik where linked png file is not closed after rendering
+				-- preventing it's deletion
+				linked_path := edit_icon_abs_path.to_string
+				create linked_file.make_from_path (linked_path)
+				linked_file.delete_on_exit
+			end
+
+			do_svg_to_png_conversion (agent transcode_to_width_and_color)
+		end
 
 	transcode_to_width_and_color (width, a_color: INTEGER; output_path: EL_FILE_PATH)
 		local
@@ -88,8 +113,8 @@ note
 					transcode (input, output);
 
 					// Flush and close the stream.
-					ostream.flush();
-					ostream.close();
+					ostream.flush ();
+					ostream.close ();
 				 }
 
 			}

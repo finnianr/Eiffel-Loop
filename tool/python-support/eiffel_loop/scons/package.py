@@ -10,6 +10,8 @@ from os import path
 from string import Template
 
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
+from eiffel_loop.package import DEBIAN_SOFTWARE_PACKAGE
+from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
 from eiffel_loop.eiffel import ise
 
 if os.name == 'posix':
@@ -29,6 +31,8 @@ def get (target, source, env):
 			extension = path.splitext (url)[1]
 			if extension == ".zip":
 				package = ZIP_SOFTWARE_PACKAGE (url)
+			elif extension == ".gz":
+				package = TAR_GZ_SOFTWARE_PACKAGE (url)
 			elif extension == ".deb":
 				package = DEBIAN_SOFTWARE_PACKAGE (url)
 			else:

@@ -14,11 +14,18 @@ class
 
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
-		AUTOTEST_APP
+		EL_BATCH_TEST_APP, JAVA_AUTOTEST_APP, VELOCITY_AUTOTEST_APP
 	]
 
 create
 	make
+
+feature {NONE} -- Constants
+
+	Compile_also: TUPLE [J_COLOR, J_FILE, SVG_TO_PNG_TEST_SET]
+		do
+			create Result
+		end
 
 note
 	to_do: "[

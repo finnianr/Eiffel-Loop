@@ -15,7 +15,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"
-	name = eiffel2java; uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4"
+	name = el_eiffel2java; uuid = "20FD9834-3FC9-4349-AD78-73ABA2C735D4"
 	description:
 		"""
 			eiffel2java.ecf (Eiffel-Loop)
@@ -31,7 +31,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 0; release = 0; build = 41
+			major = 1; minor = 0; release = 0; build = 44
 			company = "Eiffel-Loop"; product = "eiffel2java"
 			copyright = "Finnian Reilly"
 
@@ -82,7 +82,7 @@ system:
 		
 		# Invokes scons script to download Java rasterizer jar files
 		external_object:
-			location = "$(EIFFEL_LOOP)/contrib/Java/batik-1.7/batik-rasterizer.jar"
+			location = "$(EIFFEL_LOOP)/contrib/Java/batik-1.6.1/batik-rasterizer.jar"
 			condition:
 				custom:
 					name = link_object; value = true

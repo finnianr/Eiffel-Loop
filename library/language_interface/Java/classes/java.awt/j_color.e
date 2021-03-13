@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-03-13 10:04:15 GMT (Saturday 13th March 2021)"
+	revision: "5"
 
 class
 	J_COLOR
 
 inherit
-	JAVA_AWT_JPACKAGE
-
 	J_OBJECT
 		undefine
-			Jclass, Package_name
+			Package_name
 		end
+
+	JAVA_AWT_JPACKAGE
 
 create
 	default_create,
@@ -53,24 +53,16 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	jagent_make_from_rgb: JAVA_CONSTRUCTOR [J_COLOR]
+	jagent_make_from_rgb: JAVA_CONSTRUCTOR
 			--
 		once
 			create Result.make (agent make_from_rgb)
 		end
 
-	jagent_make_from_rgb_floats: JAVA_CONSTRUCTOR [J_COLOR]
+	jagent_make_from_rgb_floats: JAVA_CONSTRUCTOR
 			--
 		once
 			create Result.make (agent make_from_rgb)
-		end
-
-feature {NONE} -- Constant
-
-	Jclass: JAVA_CLASS_REFERENCE
-			--
-		once
-			create Result.make (Package_name, "Color")
 		end
 
 end
