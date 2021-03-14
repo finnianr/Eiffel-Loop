@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 14:43:51 GMT (Monday 8th March 2021)"
-	revision: "59"
+	date: "2021-03-14 13:29:46 GMT (Sunday 14th March 2021)"
+	revision: "60"
 
 class
 	APPLICATION_ROOT
@@ -49,7 +49,7 @@ inherit
 		FOURIER_MATH_SERVER_TEST_APP,
 
 	-- Test evolicity.ecf
-		EVOLICITY_TEST_APP,
+		EVOLICITY_AUTOTEST_APP,
 
 	-- Test ftp.ecf
 		FTP_AUTOTEST_APP,

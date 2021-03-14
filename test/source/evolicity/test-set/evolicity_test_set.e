@@ -1,47 +1,63 @@
 note
-	description: "Evolicity test app"
+	description: "Test [$source EVOLICITY_TEMPLATES] and related classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 9:17:01 GMT (Tuesday 24th November 2020)"
-	revision: "15"
+	date: "2021-03-14 14:27:43 GMT (Sunday 14th March 2021)"
+	revision: "1"
 
 class
-	EVOLICITY_TEST_APP
+	EVOLICITY_TEST_SET
 
 inherit
-	TEST_SUB_APPLICATION
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
+		undefine
+			new_lio
 		end
+
+	EL_EQA_REGRESSION_TEST_SET
+		undefine
+			on_prepare, on_clean
+		end
+
+	EL_MODULE_LOG
+
+	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_EVOLICITY_TEMPLATES
 
-create
-	make
-
 feature -- Basic operations
 
-	test_run
-			--
+	do_all (eval: EL_EQA_TEST_EVALUATOR)
+		-- evaluate all tests
 		do
-			Test.set_excluded_file_extensions (<< "evc" >>)
-			Test.do_file_test ("evol/jobserve-results.evol", agent write_substituted_template, 2710416379)
-			Test.do_file_test ("evol/if_then.evol", agent test_if_then, 1766908322)
+			eval.call ("if_then", agent test_if_then)
+			eval.call ("merge_template", agent test_merge_template)
 		end
 
-feature -- Test
+feature -- Tests
 
-	test_if_then (template_path: EL_FILE_PATH)
+	test_if_then
+		do
+			do_test ("merge_if_then", 1602173828, agent merge_if_then, [work_area_data_dir + "if_then.evol"])
+		end
+
+	test_merge_template
+		do
+			do_test ("merge_template", 1339847166, agent merge_template, [work_area_data_dir + "jobserve-results.evol"])
+		end
+
+feature {NONE} -- Implementation
+
+	merge_if_then (template_path: EL_FILE_PATH)
 			--
 		local
 			vars: EVOLICITY_CONTEXT_IMP
 			var_x, var_y: STRING
 		do
-			log.enter ("test_if_then")
 			create vars.make
 			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			var_x := "x"; var_y := "y"
@@ -53,32 +69,25 @@ feature -- Test
 
 			vars.put_integer (var_x, 1)
 			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, vars), 120)
-			log.exit
+			log.put_new_line
 		end
 
-	write_substituted_template (template_path: EL_FILE_PATH)
+	merge_template (template_path: EL_FILE_PATH)
 			--
 		local
-			html_file: EL_PLAIN_TEXT_FILE
+			html_file: EL_PLAIN_TEXT_FILE; output_path: EL_FILE_PATH
 		do
-			log.enter ("write_substituted_template")
-			create root_context.make
 			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 
-			initialize_root_context
-			create html_file.make_open_write (template_path.with_new_extension ("html"))
-			Evolicity_templates.merge_to_file (template_path, root_context, html_file)
-			log.exit
+			output_path := template_path.with_new_extension ("html")
+
+			create html_file.make_open_write (output_path)
+			Evolicity_templates.merge_to_file (template_path, new_root_context, html_file)
+			log.put_labeled_string ("Digest", file_digest (output_path).to_hex_string)
+			log.put_new_line
 		end
 
-feature {NONE} -- Implementation
-
-	compile: TUPLE [EVOLICITY_TUPLE_CONTEXT]
-		do
-			create Result
-		end
-
-	initialize_root_context
+	new_root_context: EVOLICITY_CONTEXT_IMP
 			--
 		local
 			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMP
@@ -86,10 +95,11 @@ feature {NONE} -- Implementation
 			result_set: LINKED_LIST [EVOLICITY_CONTEXT]
 		do
 			-- #set ($page.title = "Jobserve results" )
-			log.enter ("initialize_root_context")
+			log.enter ("new_root_context")
+			create Result.make
 			create title_context.make
 			title_context.put_variable ("Jobserve results", "title")
-			root_context.put_variable (title_context, "page")
+			Result.put_variable (title_context, "page")
 
 			create result_set.make
 
@@ -116,21 +126,19 @@ feature {NONE} -- Implementation
 			job_search_context.put_variable (result_set ,"result_set")
 			create query_context.make
 			query_context.put_variable (job_search_context, "job_search")
-			root_context.put_variable (query_context, "query")
+			Result.put_variable (query_context, "query")
 			log.exit
 		end
 
-feature {NONE} -- Internal attributes
-
-	root_context: EVOLICITY_CONTEXT_IMP
-
 feature {NONE} -- Constants
 
-	Description: STRING = "Test Evolicity template substitution"
+	Source_dir: EL_DIR_PATH
+		once
+			Result := EL_test_data_dir.joined_dir_path ("evol")
+		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once
 			create Result.make_default -- UTF-8
 		end
-
 end

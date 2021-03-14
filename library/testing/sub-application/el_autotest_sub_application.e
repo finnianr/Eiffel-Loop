@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 16:48:54 GMT (Sunday 17th January 2021)"
-	revision: "8"
+	date: "2021-03-14 13:34:04 GMT (Sunday 14th March 2021)"
+	revision: "9"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -123,6 +123,9 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Description: STRING = "Call manual and automatic sets during development"
+	Description: STRING
+		once
+			Result := "Call manual and automatic sets during development"
+		end
 
 end
