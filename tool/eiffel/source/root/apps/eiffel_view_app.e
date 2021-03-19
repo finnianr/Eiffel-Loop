@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:14:28 GMT (Tuesday 10th November 2020)"
-	revision: "17"
+	date: "2021-03-19 8:31:22 GMT (Friday 19th March 2021)"
+	revision: "18"
 
 class
 	EIFFEL_VIEW_APP
@@ -39,6 +39,11 @@ feature {NONE} -- Implementation
 	]
 		do
 			create Result.make
+		end
+
+	compile: TUPLE [EL_FILE_SYNC_ITEM]
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants

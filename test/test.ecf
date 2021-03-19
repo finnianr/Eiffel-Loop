@@ -165,13 +165,6 @@ Test of Evolicity text substitution engine.
 See class [$source EVOLICITY_TEST_APP]
 			</description>
 		</cluster>
-		<cluster name = "ftp" location = "source/ftp" recursive = "true">
-			<description>
-ftp.ecf
-
-See class [$source FTP_AUTOTEST_APP]
-			</description>
-		</cluster>
 		<cluster name = "http_client" location = "source/http-client" recursive = "true">
 			<description>
 http-client.ecf

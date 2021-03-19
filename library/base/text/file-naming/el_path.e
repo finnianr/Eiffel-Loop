@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 17:12:32 GMT (Thursday 18th February 2021)"
-	revision: "47"
+	date: "2021-03-18 10:53:59 GMT (Thursday 18th March 2021)"
+	revision: "48"
 
 deferred class
 	EL_PATH
@@ -395,23 +395,6 @@ feature -- Status Query
 
 	is_uri: BOOLEAN
 		do
-		end
-
-	is_valid_on_ntfs: BOOLEAN
-			-- True if path is valid on Windows NT file system
-		local
-			i: INTEGER; l_characters: like Invalid_ntfs_characters_32
-			uc: CHARACTER_32; found: BOOLEAN
-		do
-			l_characters := Invalid_ntfs_characters_32
-			from i := 1 until found or i > l_characters.count loop
-				uc := l_characters [i]
-				if not ({PLATFORM}.is_unix and uc = '/') then
-					found := base.has (uc) or else parent_path.has (uc)
-				end
-				i := i + 1
-			end
-			Result := not found
 		end
 
 	out_abbreviated: BOOLEAN

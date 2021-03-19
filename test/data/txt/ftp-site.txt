@@ -1,2 +1,0 @@
-eiffel-loop.com
-/public/www

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-14 13:29:46 GMT (Sunday 14th March 2021)"
-	revision: "60"
+	date: "2021-03-19 9:36:50 GMT (Friday 19th March 2021)"
+	revision: "61"
 
 class
 	APPLICATION_ROOT
@@ -25,7 +25,7 @@ inherit
 		EXPERIMENTS_APP,
 
 	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
-		SIMPLE_CLIENT_SERVER_TEST_APP,
+		SIMPLE_CLIENT_SERVER_AUTOTEST_APP,
 
 	-- Test amazon-instant-access.ecf
 		AMAZON_INSTANT_ACCESS_AUTOTEST_APP,
@@ -51,9 +51,6 @@ inherit
 	-- Test evolicity.ecf
 		EVOLICITY_AUTOTEST_APP,
 
-	-- Test ftp.ecf
-		FTP_AUTOTEST_APP,
-
 	-- Test http-client.ecf
 		HTTP_CLIENT_AUTOTEST_APP,
 
@@ -69,9 +66,6 @@ inherit
 
 	-- multi-media.ecf
 		MULTIMEDIA_AUTOTEST_APP,
-
-	-- Test network.ecf
-		FTP_TEST_APP,
 
 	-- Test os-command.ecf
 		OS_COMMAND_AUTOTEST_APP,

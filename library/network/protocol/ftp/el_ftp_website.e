@@ -1,13 +1,13 @@
 note
-	description: "Ftp website"
+	description: "FTP uploader for website"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 10:18:04 GMT (Wednesday 5th August 2020)"
-	revision: "12"
+	date: "2021-03-15 11:32:27 GMT (Monday 15th March 2021)"
+	revision: "13"
 
 class
 	EL_FTP_WEBSITE

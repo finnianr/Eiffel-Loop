@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 16:27:20 GMT (Saturday 6th March 2021)"
-	revision: "21"
+	date: "2021-03-19 9:04:25 GMT (Friday 19th March 2021)"
+	revision: "22"
 
 class
 	EL_FTP_PROTOCOL
@@ -34,13 +34,13 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
-	EL_MODULE_FTP_COMMAND
-
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
 
 	EL_SHARED_PROGRESS_LISTENER
+
+	EL_FTP_CONSTANTS
 
 create
 	make_write, make_default
@@ -76,6 +76,8 @@ feature {EL_FTP_SYNC} -- Initialization
 
 feature -- Access
 
+	authenticator: EL_FTP_AUTHENTICATOR
+
 	current_directory: EL_DIR_PATH
 
 	home_directory: EL_DIR_PATH
@@ -90,7 +92,7 @@ feature -- Element change
 
 	set_current_directory (a_current_directory: EL_DIR_PATH)
 		do
-			send (Ftp_command.change_directory (absolute_dir (a_current_directory)), << 200, 250 >>)
+			send (Template.change_working_directory #$ [absolute_dir (a_current_directory)], << 200, 250 >>)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
 					current_directory := a_current_directory
@@ -102,7 +104,7 @@ feature -- Element change
 			changed: get_current_directory ~ current_directory
 		end
 
-	set_home_directory (a_home_directory: like home_directory)
+	set_home_directory (a_home_directory: EL_DIR_PATH)
 			-- Set `home_directory' to `a_home_directory'.
 		require
 			is_absolute: a_home_directory.is_absolute
@@ -127,7 +129,7 @@ feature -- Remote operations
 	delete_file (file_path: EL_FILE_PATH)
 		do
 			if file_exists (file_path) then
-				send (Ftp_command.delete_file (file_path), << 250 >>)
+				send (Template.delete (file_path), << 250 >>)
 				progress_listener.notify_tick
 			else
 				last_succeeded := True
@@ -151,7 +153,7 @@ feature -- Remote operations
 					parent_exists := last_succeeded
 				end
 				if parent_exists then
-					send (Ftp_command.make_directory (dir_path), << 257 >>)
+					make_sub_directory (dir_path)
 				end
 			end
 		ensure
@@ -161,7 +163,7 @@ feature -- Remote operations
 	remove_directory (dir_path: EL_DIR_PATH)
 		do
 			if directory_exists (dir_path) then
-				send (Ftp_command.remove_directory (absolute_dir (dir_path)), << 250 >>)
+				send (Template.remove_directory #$ [absolute_dir (dir_path)], << 250 >>)
 			else
 				last_succeeded := True
 			end
@@ -170,7 +172,7 @@ feature -- Remote operations
 feature -- Basic operations
 
 	upload (item: EL_FTP_UPLOAD_ITEM)
-			-- upload file to destination directory relative to home directory
+		-- upload file to destination directory relative to home directory
 		require
 			binary_mode_set: is_binary_mode
 			file_to_upload_exists: item.source_path.exists
@@ -203,9 +205,7 @@ feature -- Basic operations
 			lio.put_new_line
 			lio.put_labeled_string ("Description", Exception.last_exception.description)
 			lio.put_new_line
-			data_socket.close
-			reset_error
-			close
+			close; reset_error
 			is_retry := True
 			retry
 		end
@@ -218,7 +218,7 @@ feature -- Status report
 			if dir_path.is_empty then
 				Result := True
 			else
-				send (Ftp_command.size (absolute_dir (dir_path)), << 550 >>)
+				send (Template.size #$ [absolute_dir (dir_path)], << 550 >>)
 				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
@@ -229,7 +229,7 @@ feature -- Status report
 			if file_path.is_empty then
 				Result := True
 			else
-				send (Ftp_command.size (absolute_file_path (file_path)), << 213 >>)
+				send (Template.size #$ [absolute_file_path (file_path)], << 213 >>)
 				Result := last_succeeded
 			end
 		end
@@ -251,6 +251,10 @@ feature -- Status change
 	close
 			--
 		do
+			if transfer_initiated then
+				data_socket.close
+				transfer_initiated := False
+			end
 			if is_logged_in then
 				quit
 			end
@@ -311,7 +315,7 @@ feature -- Status change
 	quit
 			--
 		do
-			send (Ftp_command.Quit, << 221 >>)
+			send (Command.quit, << 221 >>)
 			if is_lio_enabled then
 				lio.put_new_line
 			end
@@ -359,13 +363,20 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 	get_current_directory: EL_DIR_PATH
 		do
-			send (Ftp_command.Print_working_directory, << >>)
+			send (Command.print_working_directory, << >>)
 			Result := last_reply
 			Result.change_to_unix
 			reply_parser.set_source_text (last_reply)
 			reply_parser.do_all
 			Result := reply_parser.last_ftp_cmd_result
 			Result.change_to_unix
+		end
+
+	make_sub_directory (dir_path: EL_DIR_PATH)
+		require
+			parent_exists: directory_exists (dir_path.parent)
+		do
+			send (Template.make_directory #$ [dir_path], << 257 >>)
 		end
 
 	send (str: ZSTRING; codes: ARRAY [INTEGER])
@@ -409,37 +420,6 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	authenticator: EL_FTP_AUTHENTICATOR
-
-feature {NONE} -- Internal attributes
-
 	reply_parser: EL_FTP_REPLY_PARSER
-
-feature {NONE} -- Constants
-
-	Default_packet_size: INTEGER
-			--
-		once
-			Result := 2048
-		end
-
-	Default_url: FTP_URL
-		once ("PROCESS")
-			create Result.make ("")
-		end
-
-	Directory_separator: CHARACTER = '/'
-
-	Invalid_login_error: READABLE_STRING_GENERAL
-		once
-			Result := "Invalid username or password"
-		end
-
-	Max_login_attempts: INTEGER
-		once
-			Result := 2
-		end
-
-	Not_regular_file: STRING = "not a regular file"
 
 end

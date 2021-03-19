@@ -304,14 +304,6 @@ system:
 					See class [$source EVOLICITY_TEST_APP]
 				"""
 		cluster:
-			name = ftp; location = "source/ftp"; recursive = true
-			description:
-				"""
-					ftp.ecf
-					
-					See class [$source FTP_AUTOTEST_APP]
-				"""
-		cluster:
 			name = http_client; location = "source/http-client"; recursive = true
 			description:
 				"""

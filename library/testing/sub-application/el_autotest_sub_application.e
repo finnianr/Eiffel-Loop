@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-14 13:34:04 GMT (Sunday 14th March 2021)"
-	revision: "9"
+	date: "2021-03-19 18:28:11 GMT (Friday 19th March 2021)"
+	revision: "10"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -56,7 +56,11 @@ feature -- Basic operations
 			failed_list: EL_ARRAYED_LIST [EL_EQA_TEST_EVALUATOR]
 			evaluator: EL_EQA_TEST_EVALUATOR
 		do
-			if test_type_list.all_conform then
+			if test_type_list.is_empty and then Application_option.test_set.count > 0 then
+				lio.put_labeled_string ("No such test set", Application_option.test_set)
+				lio.put_new_line
+
+			elseif test_type_list.all_conform then
 				create failed_list.make_empty
 				across test_type_list as type loop
 					create evaluator.make (type.item)

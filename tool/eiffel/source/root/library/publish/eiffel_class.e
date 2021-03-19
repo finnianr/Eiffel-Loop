@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 11:28:52 GMT (Wednesday 3rd March 2021)"
-	revision: "30"
+	date: "2021-03-18 17:57:36 GMT (Thursday 18th March 2021)"
+	revision: "31"
 
 class
 	EIFFEL_CLASS
@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
-				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension ("html")
+				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension (Html)
 			)
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_sans_extension.as_upper
@@ -117,7 +117,7 @@ feature -- Access
 	relative_html_path: EL_FILE_PATH
 		-- html path relative to `library_ecf.ecf_dir'
 		do
-			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension ("html")
+			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension (Html)
 		end
 
 	relative_source_path: EL_FILE_PATH

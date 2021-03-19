@@ -16,15 +16,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:55:18 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2021-03-18 17:44:09 GMT (Thursday 18th March 2021)"
+	revision: "6"
 
 deferred class
 	EL_CRC_32_SYNC_ITEM
 
 inherit
 	ANY
-	
+
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 feature {NONE} -- Initialization
@@ -56,6 +56,7 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
 
 	current_digest_ref: NATURAL_32_REF
 		do

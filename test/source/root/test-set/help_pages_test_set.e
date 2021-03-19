@@ -1,13 +1,13 @@
 ﻿note
-	description: "Help pages test set"
+	description: "Generate psuedo text files from file paths in `data/txt/help-files.txt'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:56:42 GMT (Thursday 6th February 2020)"
-	revision: "9"
+	date: "2021-03-19 18:33:07 GMT (Friday 19th March 2021)"
+	revision: "10"
 
 deferred class
 	HELP_PAGES_TEST_SET
@@ -25,26 +25,20 @@ feature {NONE} -- Implementation
 	new_file_tree: like new_empty_file_tree
 		do
 			create Result.make (0)
-			Result [{STRING_32} "Help-pages/Windows™/boot"] := <<
-				"BootRec.exe.text", "bootrec_error_msg.text", "Bootrec.exe-tool.text"
-			>>
-			Result [Help_pages_bcd_dir] := <<
-				{STRING_32} "bcd-setup.3.txt", {STRING_32} "bcd-setup.2.txt", {STRING_32} "bcdedit_import_error.txt",
-				{STRING_32} "bcd-setup-€.txt"
-			>>
-			Result [{STRING_32} "Help-pages/Windows™"] := <<
-				{STRING_32} "diskpart-2.txt", {STRING_32} "diskpart-€.txt",
-				{STRING_32} "required-device-is-inaccessible-0xc000000e.txt"
-			>>
-			Result ["Help-pages/Ubuntu"] := <<
-				"error.txt", "firmware-b43-installer.txt", "bcm-reinstall.txt"
-			>>
-			Result [Help_pages_mint_dir] := <<
-				Wireless_notes_path.base.to_latin_1, "Broadcom missing.txt"
-			>>
-			Result [Help_pages_mint_docs_dir] := <<
-				"Graphic.spec.txt", "grub.error.txt", "Intel HD-4000 framebuffer.txt"
-			>>
+			Result [{STRING_32} "Help-pages/Windows™/boot"] :=
+				"BootRec.exe.text, bootrec_error_msg.text, Bootrec.exe-tool.text"
+
+			Result [Help_pages_bcd_dir] :=
+				{STRING_32} "bcd-setup.3.txt, bcd-setup.2.txt, bcdedit_import_error.txt, bcd-setup-€.txt"
+
+			Result [{STRING_32} "Help-pages/Windows™"] :=
+				{STRING_32} "diskpart-2.txt, diskpart-€.txt, required-device-is-inaccessible.txt"
+
+			Result ["Help-pages/Ubuntu"] :=
+				"error.txt, firmware-b43-installer.txt, bcm-reinstall.txt"
+
+			Result [Help_pages_mint_dir] :=  Wireless_notes_path.base + ", Broadcom missing.txt"
+			Result [Help_pages_mint_docs_dir] :=  "Graphic.spec.txt, grub.error.txt, Intel HD-4000 framebuffer.txt"
 		end
 
 feature {NONE} -- Constants

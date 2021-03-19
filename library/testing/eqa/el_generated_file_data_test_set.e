@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 10:34:42 GMT (Tuesday 2nd February 2021)"
-	revision: "12"
+	date: "2021-03-19 18:13:56 GMT (Friday 19th March 2021)"
+	revision: "13"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -65,7 +65,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Factory
 
-	new_empty_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
+	new_empty_file_tree: HASH_TABLE [EL_ZSTRING_LIST, EL_DIR_PATH]
 		do
 			create Result.make (0)
 		end

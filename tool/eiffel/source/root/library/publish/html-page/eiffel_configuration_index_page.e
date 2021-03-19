@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 16:00:09 GMT (Sunday 2nd August 2020)"
-	revision: "17"
+	date: "2021-03-18 18:04:46 GMT (Thursday 18th March 2021)"
+	revision: "18"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -33,11 +33,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; a_source_tree: like eiffel_config)
+	make (a_repository: like repository; a_eiffel_config: like eiffel_config)
 		do
-			repository := a_repository; eiffel_config := a_source_tree
+			repository := a_repository; eiffel_config := a_eiffel_config
 			make_page (repository)
-			sort_category := eiffel_config.new_sort_category
+			sort_category := a_eiffel_config.new_sort_category
 			make_sync_item (output_path)
 		end
 

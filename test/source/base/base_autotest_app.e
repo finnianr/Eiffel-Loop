@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 14:10:43 GMT (Friday 5th March 2021)"
-	revision: "109"
+	date: "2021-03-19 9:39:00 GMT (Friday 19th March 2021)"
+	revision: "110"
 
 class
 	BASE_AUTOTEST_APP
@@ -19,7 +19,10 @@ inherit
 		CHAIN_TEST_SET,
 		DATE_TEXT_TEST_SET,
 		ESCAPED_TEXT_TEST_SET,
+		
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
+		FILE_SYNC_MANAGER_TEST_SET,
+
 		GENERAL_TEST_SET,
 		L1_UC_STRING_TEST,
 		MODULE_CRC_32_TEST_SET,

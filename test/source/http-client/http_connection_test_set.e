@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-10 10:40:41 GMT (Wednesday 10th February 2021)"
-	revision: "28"
+	date: "2021-03-19 18:14:30 GMT (Friday 19th March 2021)"
+	revision: "29"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -293,10 +293,10 @@ feature {NONE} -- Factory
 			Result.set_string ("district", "Köln-Altstadt-Süd")
 		end
 
-	new_file_tree: HASH_TABLE [ARRAY [READABLE_STRING_GENERAL], EL_DIR_PATH]
+	new_file_tree: HASH_TABLE [EL_ZSTRING_LIST, EL_DIR_PATH]
 		do
 			create Result.make (0)
-			Result [Folder_name] := << Cookie_path.base.to_latin_1 >>
+			Result [Folder_name] := Cookie_path.base
 		end
 
 	new_image_path (name: STRING): EL_FILE_PATH

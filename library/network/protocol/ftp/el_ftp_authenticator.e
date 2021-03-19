@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 12:29:30 GMT (Thursday 6th August 2020)"
-	revision: "1"
+	date: "2021-03-17 11:01:13 GMT (Wednesday 17th March 2021)"
+	revision: "2"
 
 class
 	EL_FTP_AUTHENTICATOR
@@ -34,6 +34,26 @@ feature {NONE} -- Initialization
 			input_prompts := Default_prompts
 		end
 
+feature -- Access
+
+	password: STRING
+			-- Optional password
+
+	username: STRING
+			-- Optional username
+
+feature -- Status query
+
+	authenticated: BOOLEAN
+
+feature -- Status change
+
+	force_authenticated
+		-- force authenticated status
+		do
+			authenticated := True
+		end
+
 feature -- Basic operations
 
 	try_login
@@ -48,7 +68,7 @@ feature -- Basic operations
 						-- Allow previous credential to be reused by entering empty line
 						if line.is_empty and credential.count > 0 then
 							done := True
-							
+
 						elseif line.count > 0 then
 							credential.share (line)
 							done := True
@@ -91,14 +111,6 @@ feature {NONE} -- Internal attributes
 	ftp: EL_FTP_PROTOCOL
 
 	input_prompts: READABLE_STRING_GENERAL
-
-	password: STRING
-			-- Optional password
-
-	username: STRING
-			-- Optional username
-
-	authenticated: BOOLEAN
 
 feature {NONE} -- Constants
 

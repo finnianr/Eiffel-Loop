@@ -1,0 +1,19 @@
+Help-pages/Mint/Broadcom missing.txt
+Help-pages/Mint/docs/Graphic.spec.txt
+Help-pages/Mint/docs/grub.error.txt
+Help-pages/Mint/docs/Intel HD-4000 framebuffer.txt
+Help-pages/Mint/wireless_notes.txt
+Help-pages/Ubuntu/bcm-reinstall.txt
+Help-pages/Ubuntu/error.txt
+Help-pages/Ubuntu/firmware-b43-installer.txt
+Help-pages/Windows™/bcd/bcd-setup-€.txt
+Help-pages/Windows™/bcd/bcd-setup.2.txt
+Help-pages/Windows™/bcd/bcd-setup.3.txt
+Help-pages/Windows™/bcd/bcdedit_import_error.txt
+Help-pages/Windows™/boot/Bootrec.exe-tool.text
+Help-pages/Windows™/boot/BootRec.exe.text
+Help-pages/Windows™/boot/bootrec_error_msg.text
+Help-pages/Windows™/diskpart-2.txt
+Help-pages/Windows™/diskpart-€.txt
+Help-pages/Windows™/required-device-is-inaccessible.txt
+

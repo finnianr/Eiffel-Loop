@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-06 14:11:55 GMT (Friday 6th March 2020)"
-	revision: "13"
+	date: "2021-03-18 13:48:43 GMT (Thursday 18th March 2021)"
+	revision: "14"
 
 class
 	PATH_TEST_SET
@@ -30,6 +30,7 @@ feature -- Basic operations
 		do
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
+			evaluator.call ("ntfs_translation", agent test_ntfs_translation)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
 			evaluator.call ("parent_of", agent test_parent_of)
 		end
@@ -75,6 +76,26 @@ feature -- Tests
 				is_parent := dir_string.starts_with (dir_string_home) and dir_string.count > dir_string_home.count
 				assert ("same result", is_parent ~ dir_home.is_parent_of (dir))
 			end
+		end
+
+	test_ntfs_translation
+		note
+			testing: "covers/{EL_NT_FILE_SYSTEM_ROUTINES}.is_valid",
+						"covers/{EL_NT_FILE_SYSTEM_ROUTINES}.translated"
+		local
+			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
+			path_name: ZSTRING; path: EL_FILE_PATH; index_dot: INTEGER
+		do
+			path_name := "C:/Boot/memtest.exe"
+			path := path_name
+			assert ("valid path", ntfs.is_valid (path))
+			index_dot := path_name.index_of ('.', 1)
+			path_name [index_dot] := ':'
+			path := path_name
+			assert ("invalid path", not ntfs.is_valid (path))
+
+			path_name [index_dot] := '-'
+			assert ("same path", ntfs.translated (path, '-').to_string ~ path_name)
 		end
 
 	test_universal_relative_path

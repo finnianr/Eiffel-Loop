@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 19:25:55 GMT (Sunday 31st January 2021)"
-	revision: "31"
+	date: "2021-03-15 11:38:29 GMT (Monday 15th March 2021)"
+	revision: "32"
 
 class
 	APPLICATION_ROOT
@@ -27,6 +27,7 @@ inherit
 		FILTER_INVALID_UTF_8_APP,
 		FILE_TREE_TRANSFORM_SCRIPT_APP,
 		FTP_BACKUP_APP, -- uses ftp (depends eposix)
+		FTP_TEST_APP,
 		FILE_MANIFEST_APP,
 
 		HTML_BODY_WORD_COUNTER_APP,

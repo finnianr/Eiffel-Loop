@@ -6,28 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:45 GMT (Tuesday 10th November 2020)"
-	revision: "4"
+	date: "2021-03-15 11:44:20 GMT (Monday 15th March 2021)"
+	revision: "5"
 
 class
 	FTP_TEST_APP
 
 inherit
-	TEST_SUB_APPLICATION
+	EL_REGRESSION_TESTABLE_SUB_APPLICATION
 		rename
 			extra_log_filter_set as empty_log_filter_set
+		undefine
+			test_data_dir
 		redefine
-			normal_initialize, Application_option
+			Is_test_mode, Is_logging_active, Application_option
+		end
+
+	EIFFEL_LOOP_TEST_CONSTANTS
+		rename
+			EL_test_data_dir as test_data_dir
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	normal_initialize
-		do
-		end
 
 feature -- Basic operations
 
@@ -55,6 +56,21 @@ feature {NONE} -- Tests
 			log.exit
 		end
 
+feature {NONE} -- Implementation
+
+	log_filter_set: EL_LOG_FILTER_SET [like Current]
+		do
+			create Result.make
+		end
+
+	normal_initialize
+		do
+		end
+
+	normal_run
+		do
+		end
+
 feature {NONE} -- Internal attributes
 
 	url: STRING
@@ -71,5 +87,9 @@ feature {NONE} -- Constants
 	Description: STRING = "Test for class EL_FTP_PROTOCOL"
 
 	Quit_cmd: STRING = "quit"
+
+	Is_test_mode: BOOLEAN = True
+
+	Is_logging_active: BOOLEAN = True
 
 end

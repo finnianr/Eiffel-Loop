@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 10:48:15 GMT (Thursday 4th March 2021)"
-	revision: "32"
+	date: "2021-03-15 11:09:18 GMT (Monday 15th March 2021)"
+	revision: "33"
 
 class
 	REPOSITORY_PUBLISHER
@@ -17,7 +17,7 @@ inherit
 
 	EL_BUILDABLE_FROM_PYXIS
 		redefine
-			make_default, building_action_table, on_context_return
+			make_default, on_context_return
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -84,7 +84,7 @@ feature -- Access
 	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
 
-	ftp_sync: EL_BUILDER_CONTEXT_FTP_SYNC
+	ftp_sync: EL_FTP_SYNC_BUILDER_CONTEXT
 
 	github_url: EL_DIR_URI_PATH
 

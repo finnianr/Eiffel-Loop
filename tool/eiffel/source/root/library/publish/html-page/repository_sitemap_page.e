@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 18:49:23 GMT (Sunday 5th April 2020)"
-	revision: "8"
+	date: "2021-03-18 18:03:07 GMT (Thursday 18th March 2021)"
+	revision: "9"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -121,10 +121,11 @@ feature -- Constants
 			create Result.make (0)
 		end
 
-	Step_count: INTEGER = 0
-
-	relative_file_path: EL_FILE_PATH
+	Relative_file_path: EL_FILE_PATH
 		once
 			Result := "index.html"
 		end
+
+	Step_count: INTEGER = 0
+
 end

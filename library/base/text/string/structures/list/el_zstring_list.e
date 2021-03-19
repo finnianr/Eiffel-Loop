@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 13:42:06 GMT (Thursday 18th February 2021)"
-	revision: "11"
+	date: "2021-03-19 18:13:29 GMT (Friday 19th March 2021)"
+	revision: "12"
 
 class
 	EL_ZSTRING_LIST
@@ -28,7 +28,7 @@ create
 	make_from_array, make_from_tuple, make_from_general, make_filled, make_with_csv
 
 convert
-	make_from_array ({ARRAY [ZSTRING]}), make_with_csv ({STRING}), make_from_tuple ({TUPLE})
+	make_from_array ({ARRAY [ZSTRING]}), make_with_csv ({STRING, STRING_32, ZSTRING}), make_from_tuple ({TUPLE})
 
 feature -- Element change
 

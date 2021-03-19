@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 13:08:22 GMT (Sunday 17th January 2021)"
-	revision: "28"
+	date: "2021-03-19 19:01:49 GMT (Friday 19th March 2021)"
+	revision: "29"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -19,6 +19,11 @@ inherit
 		end
 
 	EL_MODULE_CHECKSUM
+		rename
+			copy as copy_object
+		end
+
+	EL_MODULE_ITERABLE
 		rename
 			copy as copy_object
 		end
@@ -88,6 +93,25 @@ feature -- Access
 				Result := file.last_string
 			end
 			file.close
+		end
+
+	parent_set (path_list: ITERABLE [EL_FILE_PATH]; ascending_order: BOOLEAN): EL_ARRAYED_LIST [EL_DIR_PATH]
+		-- set of all parent directories of file paths in list `path_list'
+		-- if `ascending_order' is `True', results are sorted in ascending order of step count
+		-- or else in reverse order
+		local
+			dir_set: EL_HASH_SET [EL_DIR_PATH]; parent: EL_DIR_PATH
+		do
+			-- assume average of 20 files per directory
+			create dir_set.make_equal ((iterable.count (path_list) // 20).min (10))
+			across path_list as path loop
+				parent := path.item.parent
+				if not parent.is_empty then
+					dir_set.put (parent)
+				end
+			end
+			create Result.make_from_array (dir_set.linear_representation.to_array)
+			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
 		end
 
 	plain_text (a_file_path: EL_FILE_PATH): STRING

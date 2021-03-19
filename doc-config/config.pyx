@@ -175,7 +175,6 @@ publish-repository:
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"
-			"test/test.ecf#ftp"
 			"test/test.ecf#http_client"
 			"test/test.ecf#i18n"
 			"test/ID3-tags/id3-test.ecf"

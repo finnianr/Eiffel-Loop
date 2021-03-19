@@ -1,13 +1,16 @@
 note
 	description: "Test set using SVG button image found in directory: `test/data/svg'"
+	notes: "[
+		Common class for testing both Java Batik and librsvg
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-13 10:07:48 GMT (Saturday 13th March 2021)"
-	revision: "2"
+	date: "2021-03-15 10:34:30 GMT (Monday 15th March 2021)"
+	revision: "3"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -49,8 +52,7 @@ feature {NONE} -- Implementation
 
 	do_svg_to_png_conversion (write_png: PROCEDURE [INTEGER, INTEGER, EL_FILE_PATH])
 		local
-			name: STRING; checksum: NATURAL; size: INTEGER
-			output_path: EL_FILE_PATH
+			name: STRING; size: INTEGER; output_path: EL_FILE_PATH
 		do
 			-- 11 March 2021
 			name := "convert_to_width_and_color"

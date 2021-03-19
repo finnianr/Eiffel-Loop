@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:36:19 GMT (Friday 18th January 2019)"
-	revision: "2"
+	date: "2021-03-17 11:01:21 GMT (Wednesday 17th March 2021)"
+	revision: "3"
 
 class
-	EL_BUILDER_CONTEXT_FTP_SYNC
+	EL_FTP_SYNC_BUILDER_CONTEXT
 
 inherit
 	EL_FTP_SYNC
@@ -42,12 +42,20 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Build from XML
 
+	force_authentication
+		do
+			ftp.authenticator.password.share (node)
+			ftp.authenticator.force_authenticated
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@url", 		agent do ftp.make_write (create {FTP_URL}.make (node.to_string_8)) end],
+				["@url", 		agent do ftp.make_write (create {FTP_URL}.make (node)) end],
 				["@user-home", agent do ftp.set_home_directory (node.to_string) end],
-				["@sync-path", agent do sync_table.set_from_file (node.to_expanded_file_path) end]
+				["@sync-path", agent do sync_table.set_from_file (node.to_expanded_file_path) end],
+				["@user", 		agent do ftp.authenticator.username.share (node) end],
+				["@password", 	agent force_authentication]
 			>>)
 		end
 

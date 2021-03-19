@@ -1,19 +1,19 @@
 note
-	description: "Test builder context ftp sync"
+	description: "Test [$source EL_FTP_SYNC_BUILDER_CONTEXT] using faux ftp  [$source FAUX_FTP_PROTOCOL]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 11:27:00 GMT (Wednesday 7th August 2019)"
-	revision: "1"
+	date: "2021-03-17 9:54:10 GMT (Wednesday 17th March 2021)"
+	revision: "2"
 
 class
-	TEST_BUILDER_CONTEXT_FTP_SYNC
+	TEST_FTP_SYNC_BUILDER_CONTEXT
 
 inherit
-	EL_BUILDER_CONTEXT_FTP_SYNC
+	EL_FTP_SYNC_BUILDER_CONTEXT
 		redefine
 			ftp
 		end
@@ -24,5 +24,5 @@ create
 feature -- Access
 
 	ftp: FAUX_FTP_PROTOCOL
-	
+
 end

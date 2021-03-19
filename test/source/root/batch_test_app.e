@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-13 10:46:38 GMT (Saturday 13th March 2021)"
-	revision: "4"
+	date: "2021-03-19 9:37:19 GMT (Friday 19th March 2021)"
+	revision: "5"
 
 class
 	BATCH_TEST_APP
@@ -18,7 +18,7 @@ class
 inherit
 	EL_BATCH_TEST_APP
 		redefine
-			test, Omissions
+			test
 		end
 
 create
@@ -30,16 +30,8 @@ feature {NONE} -- Implementation
 		local
 			ecf_name: ZSTRING; cmd_list: EL_ZSTRING_LIST
 		do
-			if attached {TEST_SUB_APPLICATION} application as test_app then
-				ecf_name := Naming.class_as_kebab_upper (test_app, 0, 1) + Dot_ecf
-
-			elseif attached {EL_AUTOTEST_SUB_APPLICATION} application as test_app then
+			if attached {EL_AUTOTEST_SUB_APPLICATION} application as test_app then
 				ecf_name := Naming.class_as_kebab_upper (test_app, 0, 2) + Dot_ecf
-
-			else
-				ecf_name := Dot_ecf
-			end
-			if ecf_name /= Dot_ecf then
 				ecf_name.to_lower
 				lio.put_labeled_string ("Library", ecf_name)
 				lio.put_new_line
@@ -50,13 +42,6 @@ feature {NONE} -- Implementation
 					call_command (cmd_list)
 				end
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Omissions: TUPLE [FTP_TEST_APP, FTP_AUTOTEST_APP]
-		once
-			create Result
 		end
 
 end

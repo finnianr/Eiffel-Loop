@@ -1,13 +1,13 @@
 note
-	description: "Eif obj root builder context"
+	description: "Eiffel object root builder context"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-09 15:02:44 GMT (Thursday 9th January 2020)"
-	revision: "10"
+	date: "2021-03-15 10:48:58 GMT (Monday 15th March 2021)"
+	revision: "11"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
