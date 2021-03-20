@@ -9,14 +9,17 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:14:30 GMT (Friday 19th March 2021)"
-	revision: "29"
+	date: "2021-03-20 10:02:55 GMT (Saturday 20th March 2021)"
+	revision: "30"
 
 class
 	HTTP_CONNECTION_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
+	EL_FILE_DATA_TEST_SET
+		redefine
+			on_prepare
+		end
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
@@ -226,6 +229,14 @@ feature -- Test routines
 			assert ("correct title", web.content.has_substring (title))
 		end
 
+feature {NONE} -- Events
+
+	on_prepare
+		do
+			Precursor
+			File_system.make_directory (Cookie_path.parent)
+		end
+
 feature {NONE} -- Implementation
 
 	assert_valid_headers (headers: like web.last_headers)
@@ -293,15 +304,9 @@ feature {NONE} -- Factory
 			Result.set_string ("district", "Köln-Altstadt-Süd")
 		end
 
-	new_file_tree: HASH_TABLE [EL_ZSTRING_LIST, EL_DIR_PATH]
-		do
-			create Result.make (0)
-			Result [Folder_name] := Cookie_path.base
-		end
-
 	new_image_path (name: STRING): EL_FILE_PATH
 		do
-			Result := Current_work_area_dir + "image"
+			Result := Work_area_absolute_dir + "image"
 			Result.add_extension (name)
 		end
 
@@ -332,15 +337,10 @@ feature {NONE} -- Constants
 
 	Cookie_path: EL_FILE_PATH
 		once
-			Result := Current_work_area_dir + (Folder_name + "/cookie.txt")
+			Result := Work_area_absolute_dir + {STRING_32} "Gefäß/cookie.txt"
 		end
 
 	Cookies_url: STRING = "http://httpbin.org/cookies"
-
-	Folder_name: STRING_32
-		once
-			Result := "Gefäß" -- vessel
-		end
 
 	Html_post_url: STRING = "://httpbin.org/post"
 

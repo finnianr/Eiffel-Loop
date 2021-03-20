@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:51:57 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2021-03-20 14:06:57 GMT (Saturday 20th March 2021)"
+	revision: "4"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
@@ -31,7 +31,7 @@ feature -- Tests
 			copy_cmd: FILE_COPY_COMMAND; input_dir, output_dir: EL_DIR_PATH
 		do
 			create copy_cmd.make
-			input_dir := Work_area_dir.joined_dir_path (Help_pages)
+			input_dir := Work_area_dir.joined_dir_path (help_pages_dir)
 			output_dir := input_dir.twin
 			output_dir.base.append_string_general (" (copy)")
 

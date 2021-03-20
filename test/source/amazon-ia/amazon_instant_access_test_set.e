@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-10 10:27:50 GMT (Wednesday 10th February 2021)"
-	revision: "28"
+	date: "2021-03-20 9:47:54 GMT (Saturday 20th March 2021)"
+	revision: "29"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
+	EL_FILE_DATA_TEST_SET
 		redefine
 			on_prepare
 		end

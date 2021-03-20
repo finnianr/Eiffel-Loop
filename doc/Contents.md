@@ -1661,9 +1661,7 @@ Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/ero
 * [FOURIER_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html)
 
 ## evolicity.ecf
-Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](http://www.eiffel-loop.com/test/source/evolicity/evolicity_test_app.html)
-## ftp.ecf
-See class [FTP_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/ftp/ftp_autotest_app.html)
+Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP]($source)
 ## http-client.ecf
 See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
 ## i18n.ecf

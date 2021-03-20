@@ -6,17 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 13:05:39 GMT (Sunday 17th January 2021)"
-	revision: "2"
+	date: "2021-03-20 9:49:49 GMT (Saturday 20th March 2021)"
+	revision: "3"
 
 class
 	ECD_READER_WRITER_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
-		end
+	EL_FILE_DATA_TEST_SET
 
 feature -- Basic operations
 

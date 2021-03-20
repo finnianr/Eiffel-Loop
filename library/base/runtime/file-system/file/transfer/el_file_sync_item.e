@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 15:31:59 GMT (Friday 19th March 2021)"
-	revision: "3"
+	date: "2021-03-20 14:22:44 GMT (Saturday 20th March 2021)"
+	revision: "4"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -125,7 +125,9 @@ feature {NONE} -- Implementation
 
 	sink_content (crc: like crc_generator)
 		do
-			crc.add_file (source_path)
+			if attached source_path as path and then path.exists then
+				crc.add_file (path)
+			end
 		end
 
 end

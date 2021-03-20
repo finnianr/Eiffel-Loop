@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:32:23 GMT (Friday 14th February 2020)"
-	revision: "8"
+	date: "2021-03-20 9:51:08 GMT (Saturday 20th March 2021)"
+	revision: "9"
 
 class
 	SEARCH_ENGINE_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_empty_file_tree as new_file_tree
+	EL_FILE_DATA_TEST_SET
 		redefine
 			on_prepare
 		end

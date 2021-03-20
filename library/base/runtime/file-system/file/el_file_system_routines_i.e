@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 19:01:49 GMT (Friday 19th March 2021)"
-	revision: "29"
+	date: "2021-03-20 13:59:24 GMT (Saturday 20th March 2021)"
+	revision: "30"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -110,7 +110,7 @@ feature -- Access
 					dir_set.put (parent)
 				end
 			end
-			create Result.make_from_array (dir_set.linear_representation.to_array)
+			create Result.make_from_array (dir_set.to_array)
 			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
 		end
 
@@ -329,6 +329,14 @@ feature -- Basic operations
 				if dir_parent.exists_and_is_writeable then
 					Directory.named (a_dir_path).create_dir
 				end
+			end
+		end
+
+	make_parents (path_list: ITERABLE [EL_FILE_PATH])
+		-- create directory structure to create files in `path_list'
+		do
+			across parent_set (path_list, True) as set loop
+				make_directory (set.item)
 			end
 		end
 

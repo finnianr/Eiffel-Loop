@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 16:48:54 GMT (Friday 19th February 2021)"
-	revision: "9"
+	date: "2021-03-20 13:58:42 GMT (Saturday 20th March 2021)"
+	revision: "10"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -19,6 +19,7 @@ inherit
 			disjoint as ht_disjoint,
 			extend as ht_extend,
 			extendible as ht_extendible,
+			linear_representation as to_list,
 			item as table_item,
 			merge as ht_merge,
 			prune as ht_prune,
@@ -34,7 +35,8 @@ inherit
 
 	TRAVERSABLE_SUBSET [detachable G]
 		rename
-			item as item_for_iteration
+			item as item_for_iteration,
+			linear_representation as to_list
 		undefine
 			is_equal, copy
 		select

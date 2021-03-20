@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:58:30 GMT (Friday 19th March 2021)"
-	revision: "1"
+	date: "2021-03-20 14:29:30 GMT (Saturday 20th March 2021)"
+	revision: "2"
 
 class
 	EL_FILE_SYNC_ITEM_SET
@@ -20,7 +20,7 @@ inherit
 		rename
 			make as make_set
 		redefine
-			extend, put
+			put
 		end
 
 	EL_FILE_SYNC_CONSTANTS undefine copy, is_equal end
@@ -34,11 +34,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_local_home_dir: EL_DIR_PATH; a_extension: ZSTRING)
+	make (a_local_home_dir: EL_DIR_PATH; a_extension: READABLE_STRING_GENERAL)
 		local
 			file_path: EL_FILE_PATH; crc_path_list: LIST [EL_FILE_PATH]
 		do
-			local_home_dir := a_local_home_dir; extension := a_extension
+			local_home_dir := a_local_home_dir; create extension.make_from_general (a_extension)
 			crc_path_list := File_system.files_with_extension (local_home_dir, Crc_32)
 			create previous_set.make (crc_path_list.count)
 			across crc_path_list as path loop
@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 				file_path.base.remove_head (1)
 				previous_set.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, file_path))
 			end
+			make_equal (crc_path_list.count)
 		end
 
 feature -- Access
@@ -63,16 +64,16 @@ feature -- Element change
 			put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, file_path))
 		end
 
-	extend, put (new: EL_FILE_SYNC_ITEM)
+	put (new: EL_FILE_SYNC_ITEM)
 			--
 		require else
 			valid_home_dir: local_home_dir ~ new.home_dir
 			valid_extension: new.file_path.extension ~ extension
 		do
 			if {ISE_RUNTIME}.dynamic_type (new) = File_sync_item_type_id then
-				put (new)
+				Precursor (new)
 			else
-				put (new.bare_item)
+				Precursor (new.bare_item)
 			end
 		end
 
@@ -111,6 +112,7 @@ feature -- Basic operations
 			new_item_set.merge (subset_include (agent {EL_FILE_SYNC_ITEM}.is_modified))
 			across new_item_set as set loop
 				medium.copy_item (set.item)
+				set.item.store
 			end
 		end
 

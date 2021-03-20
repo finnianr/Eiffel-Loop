@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 11:31:59 GMT (Tuesday 2nd February 2021)"
-	revision: "10"
+	date: "2021-03-20 9:56:42 GMT (Saturday 20th March 2021)"
+	revision: "11"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -19,6 +19,8 @@ inherit
 		redefine
 			on_prepare, on_clean
 		end
+
+	EL_MODULE_DIRECTORY
 
 	EL_MODULE_OS
 
@@ -94,4 +96,8 @@ feature {NONE} -- Constants
 			Result := "workarea"
 		end
 
+	Work_area_absolute_dir: EL_DIR_PATH
+		once
+			Result := Directory.current_working.joined_dir_path (Work_area_dir)
+		end
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:13:56 GMT (Friday 19th March 2021)"
-	revision: "13"
+	date: "2021-03-20 13:48:27 GMT (Saturday 20th March 2021)"
+	revision: "14"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -21,22 +21,21 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_DIRECTORY
-
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_FILE_OPEN_ROUTINES
 
-feature {NONE} -- Initialization
+feature {NONE} -- Event handling
 
 	on_prepare
 		do
 			Precursor
-			file_set := new_file_set
+			file_set := new_file_set (False)
+			dir_set := new_dir_set (False)
+			File_system.make_parents (file_set)
 			across file_set as path loop
-				OS.File_system.make_directory (path.item.parent)
 				if attached open (path.item, Write) as file then
-					file.put_integer (path.cursor_index)
+					file.put_string (path.item.base)
 					file.close
 				end
 			end
@@ -44,11 +43,38 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	file_set_absolute: EL_HASH_SET [EL_FILE_PATH]
+	new_dir_set (is_absolute: BOOLEAN): EL_HASH_SET [EL_DIR_PATH]
+		local
+			dir_path, root_dir: EL_DIR_PATH
 		do
-			create Result.make_equal (file_set.count)
-			across file_set as path loop
-				Result.put (Directory.current_working + path.item)
+			if is_absolute then
+				root_dir := Work_area_absolute_dir
+			else
+				root_dir := Work_area_dir
+			end
+			create Result.make_equal ((file_set.count // 2).min (3))
+			Result.put (root_dir)
+			across new_file_set (is_absolute) as path loop
+				from dir_path := path.item.parent until Result.has (dir_path) loop
+					Result.put (dir_path)
+					dir_path := dir_path.parent
+				end
+			end
+			Result.prune (root_dir)
+		end
+
+	new_file_set (is_absolute: BOOLEAN): like file_set
+		local
+			path_list: EL_ZSTRING_LIST
+		do
+			create path_list.make_with_lines (file_path_list)
+			create Result.make_equal (path_list.count)
+			across path_list as list loop
+				if is_absolute then
+					Result.put (Work_area_absolute_dir + list.item)
+				else
+					Result.put (Work_area_dir + list.item)
+				end
 			end
 		end
 
@@ -61,40 +87,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	dir_set: EL_HASH_SET [EL_DIR_PATH]
+
 	file_set: EL_HASH_SET [EL_FILE_PATH]
 
 feature {NONE} -- Factory
 
-	new_empty_file_tree: HASH_TABLE [EL_ZSTRING_LIST, EL_DIR_PATH]
-		do
-			create Result.make (0)
-		end
-
-	new_file_set: EL_HASH_SET [EL_FILE_PATH]
-		local
-			file_tree: like new_file_tree; l_step: ZSTRING
-			data_dir: EL_DIR_PATH
-		do
-			file_tree := new_file_tree
-			create Result.make_equal (file_tree.count * 2)
-			across file_tree as last_steps loop
-				data_dir := Work_area_dir.joined_dir_path (last_steps.key)
-				across last_steps.item as step loop
-					create l_step.make_from_general (step.item)
-					Result.put (data_dir + l_step)
-				end
-			end
-		end
-
-	new_file_tree: like new_empty_file_tree
+	file_path_list: READABLE_STRING_GENERAL
+		-- Manifest of files to be created relative to `work_area_dir' separated by newline character
 		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Current_work_area_dir: EL_DIR_PATH
-		once
-			Result := Directory.current_working.joined_dir_path (Work_area_dir)
 		end
 
 end

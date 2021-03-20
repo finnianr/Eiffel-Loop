@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 11:12:51 GMT (Tuesday 2nd February 2021)"
-	revision: "12"
+	date: "2021-03-20 9:51:49 GMT (Saturday 20th March 2021)"
+	revision: "13"
 
 class
 	OS_COMMAND_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
-		end
+	EL_FILE_DATA_TEST_SET
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 

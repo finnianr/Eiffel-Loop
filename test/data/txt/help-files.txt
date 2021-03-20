@@ -10,10 +10,9 @@ Help-pages/Windows™/bcd/bcd-setup-€.txt
 Help-pages/Windows™/bcd/bcd-setup.2.txt
 Help-pages/Windows™/bcd/bcd-setup.3.txt
 Help-pages/Windows™/bcd/bcdedit_import_error.txt
-Help-pages/Windows™/boot/Bootrec.exe-tool.text
-Help-pages/Windows™/boot/BootRec.exe.text
-Help-pages/Windows™/boot/bootrec_error_msg.text
+Help-pages/Windows™/boot/Bootrec.exe-tool.txt
+Help-pages/Windows™/boot/BootRec.exe.txt
+Help-pages/Windows™/boot/bootrec_error_msg.txt
 Help-pages/Windows™/diskpart-2.txt
 Help-pages/Windows™/diskpart-€.txt
 Help-pages/Windows™/required-device-is-inaccessible.txt
-

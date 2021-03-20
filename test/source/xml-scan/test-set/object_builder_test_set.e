@@ -14,16 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 11:11:01 GMT (Tuesday 2nd February 2021)"
-	revision: "6"
+	date: "2021-03-20 9:52:36 GMT (Saturday 20th March 2021)"
+	revision: "7"
 
 class
 	OBJECT_BUILDER_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
+	EL_FILE_DATA_TEST_SET
 		undefine
 			new_lio
 		redefine
@@ -43,7 +41,7 @@ feature {NONE} -- Initialization
 
 	on_prepare
 		do
-			Precursor {EL_GENERATED_FILE_DATA_TEST_SET}
+			Precursor {EL_FILE_DATA_TEST_SET}
 			factory_types := <<
 				create {BUILDER_FACTORY}.make, create {BINARY_BUILDER_FACTORY}.make (Work_area_dir)
 			>>

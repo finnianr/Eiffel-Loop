@@ -6,17 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 13:19:57 GMT (Monday 21st December 2020)"
-	revision: "11"
+	date: "2021-03-20 9:51:21 GMT (Saturday 20th March 2021)"
+	revision: "12"
 
 class
 	REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
-		end
+	EL_FILE_DATA_TEST_SET
 
 feature -- Basic operations
 

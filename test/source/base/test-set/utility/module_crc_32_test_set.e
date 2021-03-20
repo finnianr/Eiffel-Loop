@@ -6,17 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:12:29 GMT (Friday 8th May 2020)"
-	revision: "16"
+	date: "2021-03-20 9:50:52 GMT (Saturday 20th March 2021)"
+	revision: "17"
 
 class
 	MODULE_CRC_32_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
-		end
+	EL_FILE_DATA_TEST_SET
 
 	EL_MODULE_CHECKSUM
 
