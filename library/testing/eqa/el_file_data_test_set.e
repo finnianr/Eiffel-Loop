@@ -1,13 +1,13 @@
 note
-	description: "File data test set"
+	description: "Test sets that read or write data to a temporary test directory `work_area_dir'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:56:42 GMT (Saturday 20th March 2021)"
-	revision: "11"
+	date: "2021-03-20 16:48:30 GMT (Saturday 20th March 2021)"
+	revision: "12"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -72,6 +72,11 @@ feature {NONE} -- Implementation
 			assert ("same content", md5 ~ md5_digest)
 		end
 
+	work_area_path (a_path: EL_DIR_PATH): EL_DIR_PATH
+		do
+			Result := Work_area_dir.joined_dir_path (a_path)
+		end
+
 	has_changed (file_path: EL_FILE_PATH): BOOLEAN
 		require
 			file_checksums.has (file_path)
@@ -98,6 +103,6 @@ feature {NONE} -- Constants
 
 	Work_area_absolute_dir: EL_DIR_PATH
 		once
-			Result := Directory.current_working.joined_dir_path (Work_area_dir)
+			Result := Directory.current_working #+ Work_area_dir
 		end
 end

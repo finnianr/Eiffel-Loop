@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 8:57:48 GMT (Monday 20th April 2020)"
-	revision: "8"
+	date: "2021-03-20 16:47:55 GMT (Saturday 20th March 2021)"
+	revision: "9"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -51,32 +51,32 @@ feature -- Constants
 
 	Icons_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step.icons)
+			Result := Directory.application_installation #+ Step.icons
 		end
 
 	Desktop_menu_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step.desktop_icons)
+			Result := Directory.application_installation #+ Step.desktop_icons
 		end
 
 	Images_path: EL_DIR_PATH
 		once
-			Result := Directory.application_installation.joined_dir_path (Step.images)
+			Result := Directory.application_installation #+ Step.images
 		end
 
 	User_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_cache.joined_dir_path (Step.icons)
+			Result := Directory.App_cache #+ Step.icons
 		end
 
 	User_desktop_menu_icons_path: EL_DIR_PATH
 		once
-			Result := Directory.App_cache.joined_dir_path (Step.desktop_icons)
+			Result := Directory.App_cache #+ Step.desktop_icons
 		end
 
 	User_images_path: EL_DIR_PATH
 		once
-			Result := Directory.App_cache.joined_dir_path (Step.images)
+			Result := Directory.App_cache #+ Step.images
 		end
 
 	Step: TUPLE [icons, desktop_icons, images: ZSTRING]

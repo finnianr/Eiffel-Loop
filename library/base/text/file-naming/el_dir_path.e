@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 16:54:35 GMT (Thursday 18th February 2021)"
-	revision: "17"
+	date: "2021-03-20 16:47:50 GMT (Saturday 20th March 2021)"
+	revision: "18"
 
 class
 	EL_DIR_PATH
@@ -41,7 +41,7 @@ feature -- Access
 
 feature -- Conversion
 
-	joined_dir_path (a_dir_path: EL_DIR_PATH): like Current
+	joined_dir_path alias "#+" (a_dir_path: EL_DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)

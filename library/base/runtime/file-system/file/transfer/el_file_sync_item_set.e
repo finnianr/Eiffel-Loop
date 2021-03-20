@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 14:29:30 GMT (Saturday 20th March 2021)"
-	revision: "2"
+	date: "2021-03-20 17:04:33 GMT (Saturday 20th March 2021)"
+	revision: "3"
 
 class
 	EL_FILE_SYNC_ITEM_SET
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			file_path: EL_FILE_PATH; crc_path_list: LIST [EL_FILE_PATH]
 		do
 			local_home_dir := a_local_home_dir; create extension.make_from_general (a_extension)
-			crc_path_list := File_system.files_with_extension (local_home_dir, Crc_32)
+			crc_path_list := File_system.files_with_extension (local_home_dir, Crc_32, True)
 			create previous_set.make (crc_path_list.count)
 			across crc_path_list as path loop
 				file_path := path.item.relative_path (a_local_home_dir)
@@ -82,17 +82,13 @@ feature -- Basic operations
 	update (medium: EL_FILE_SYNC_MEDIUM)
 		local
 			deleted_set, new_item_set: like previous_set
-			local_dir: EL_DIR_PATH local_path: EL_FILE_PATH
+			local_dir: EL_DIR_PATH
 		do
 			deleted_set := previous_set.subset_exclude (agent has)
-
 			-- remove files for deletion
 			across deleted_set as set loop
 				medium.remove_item (set.item)
-				local_path := local_dir + set.item.file_path
-				if local_path.exists then
-					File_system.remove_file (local_path)
-				end
+				set.item.remove
 			end
 			-- remove empty directories
 			across File_system.parent_set (new_file_list (deleted_set), False) as list loop

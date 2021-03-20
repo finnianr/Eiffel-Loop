@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:34:45 GMT (Friday 8th January 2021)"
-	revision: "18"
+	date: "2021-03-20 16:50:08 GMT (Saturday 20th March 2021)"
+	revision: "19"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -118,7 +118,7 @@ feature -- User
 		-- On Unix: $HOME/.cache
 		-- On Windows 7: $HOMEDRIVE$HOMEPATH\.cache (Usually C:\Users\$USERNAME\.cache)
 		once
-			Result := home.joined_dir_path (".cache")
+			Result := home #+ ".cache"
 		end
 
 	Configuration: EL_DIR_PATH
@@ -127,7 +127,7 @@ feature -- User
 		-- On Unix: /home/$USER/.config
 		-- On Windows 7: $HOMEDRIVE$HOMEPATH\.config (Usually C:\Users\$USERNAME\.config)
 		once
-			Result := home.joined_dir_path (".config")
+			Result := home #+ ".config"
 		end
 
 	desktop: EL_DIR_PATH
@@ -160,17 +160,17 @@ feature -- Application
 
 	App_cache: EL_DIR_PATH
 		once
-			Result := cache.joined_dir_path (App_install_sub)
+			Result := cache #+ App_install_sub
 		end
 
 	App_configuration: EL_DIR_PATH
 		once
-			Result := configuration.joined_dir_path (App_install_sub)
+			Result := configuration #+ App_install_sub
 		end
 
 	App_data: EL_DIR_PATH
 		once
-			Result := user_local.joined_dir_path (App_install_sub)
+			Result := user_local #+ App_install_sub
 		end
 
 feature -- Installed locations
@@ -178,12 +178,12 @@ feature -- Installed locations
 	Application_bin: EL_DIR_PATH
 			-- Installed application executable directory
 		once
-			Result := application_installation.joined_dir_path ("bin")
+			Result := application_installation #+ "bin"
 		end
 
 	Application_installation: EL_DIR_PATH
 		once
-			Result := applications.joined_dir_path (Build_info.installation_sub_directory)
+			Result := applications #+ Build_info.installation_sub_directory
 		end
 
 feature -- Constants

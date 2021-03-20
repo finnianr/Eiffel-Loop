@@ -10,15 +10,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:41:06 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2021-03-20 17:05:57 GMT (Saturday 20th March 2021)"
+	revision: "5"
 
 class
 	EL_FILE_TREE_TRANSFORMER
 
 inherit
 	ANY
-	
+
 	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
@@ -56,7 +56,7 @@ feature -- Basic operations
 			file_list: LIST [EL_FILE_PATH]; file_updated: BOOLEAN
 		do
 			across extension_list as extension loop
-				file_list := File_system.recursive_files_with_extension (input_dir, extension.item)
+				file_list := File_system.files_with_extension (input_dir, extension.item, True)
 				if file_list.is_empty then
 					if is_lio_enabled then
 						lio.put_path_field ("No files *." + extension.item + " in", input_dir)

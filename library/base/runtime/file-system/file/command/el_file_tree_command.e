@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:47 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2021-03-20 17:07:24 GMT (Saturday 20th March 2021)"
+	revision: "4"
 
 deferred class
 	EL_FILE_TREE_COMMAND
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (0)
 			across extension_list as extension loop
-				Result.append (File_system.recursive_files_with_extension (tree_dir, extension.item.to_string_32))
+				Result.append (File_system.files_with_extension (tree_dir, extension.item.to_string_32, True))
 			end
 		end
 

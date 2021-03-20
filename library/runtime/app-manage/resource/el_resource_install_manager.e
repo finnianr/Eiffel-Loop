@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 10:17:33 GMT (Wednesday 20th January 2021)"
-	revision: "8"
+	date: "2021-03-20 17:09:35 GMT (Saturday 20th March 2021)"
+	revision: "9"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -146,7 +146,7 @@ feature {NONE} -- Implementation
 			name_set: like manifest.name_set
 		do
 			name_set := manifest.name_set
-			across File_system.files_with_extension (target_dir, file_extension) as path loop
+			across File_system.files_with_extension (target_dir, file_extension, False) as path loop
 				if not name_set.has (path.item.base) then
 					File_system.remove_file (path.item)
 				end

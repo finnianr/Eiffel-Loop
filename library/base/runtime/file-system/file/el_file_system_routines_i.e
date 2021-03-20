@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 13:59:24 GMT (Saturday 20th March 2021)"
-	revision: "30"
+	date: "2021-03-20 17:04:04 GMT (Saturday 20th March 2021)"
+	revision: "31"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -163,28 +163,26 @@ feature -- Access
 
 feature -- File lists
 
-	files (a_dir_path: EL_DIR_PATH): like Directory.files
+	files (a_dir_path: EL_DIR_PATH; recursively: BOOLEAN): like Directory.files
 			--
 		do
-			Result := Directory.named (a_dir_path).recursive_files
+			if recursively then
+				Result := Directory.named (a_dir_path).recursive_files
+			else
+				Result := Directory.named (a_dir_path).files
+			end
 		end
 
-	files_with_extension (a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL): like Directory.files
+	files_with_extension (
+		a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
+	): like Directory.files
 			--
 		do
-			Result := Directory.named (a_dir_path).files_with_extension (extension)
-		end
-
-	recursive_files (a_dir_path: EL_DIR_PATH): like Directory.recursive_files
-			--
-		do
-			Result := Directory.named (a_dir_path).recursive_files
-		end
-
-	recursive_files_with_extension (a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL): like Directory.recursive_files
-			--
-		do
-			Result := Directory.named (a_dir_path).recursive_files_with_extension (extension)
+			if recursively then
+				Result := Directory.named (a_dir_path).recursive_files_with_extension (extension)
+			else
+				Result := Directory.named (a_dir_path).files_with_extension (extension)
+			end
 		end
 
 feature -- Measurement

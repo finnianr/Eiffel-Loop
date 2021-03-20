@@ -22,16 +22,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 14:02:34 GMT (Monday 8th March 2021)"
-	revision: "31"
+	date: "2021-03-20 17:06:26 GMT (Saturday 20th March 2021)"
+	revision: "32"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
 
 inherit
-	EL_GENERATED_FILE_DATA_TEST_SET
-		rename
-			new_file_tree as new_empty_file_tree
+	EL_FILE_DATA_TEST_SET
 		redefine
 			on_prepare, on_clean
 		end

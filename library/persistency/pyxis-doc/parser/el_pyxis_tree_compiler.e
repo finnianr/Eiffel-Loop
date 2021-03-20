@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 11:26:11 GMT (Monday 24th August 2020)"
-	revision: "7"
+	date: "2021-03-20 17:06:53 GMT (Saturday 20th March 2021)"
+	revision: "8"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -113,9 +113,9 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	pyxis_file_path_list: like File_system.recursive_files
+	pyxis_file_path_list: like File_system.files
 		do
-			Result := File_system.recursive_files_with_extension (source_tree_path, "pyx")
+			Result := File_system.files_with_extension (source_tree_path, "pyx", True)
 		end
 
 	source_changed: BOOLEAN

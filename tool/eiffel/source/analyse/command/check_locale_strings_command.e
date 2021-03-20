@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-18 12:26:06 GMT (Sunday 18th October 2020)"
-	revision: "10"
+	date: "2021-03-20 17:07:24 GMT (Saturday 20th March 2021)"
+	revision: "11"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -348,7 +348,7 @@ feature {NONE} -- Build from Pyxis
 		do
 			dir_path := node.to_expanded_dir_path
 			if dir_path.exists then
-				across File_system.recursive_files_with_extension (dir_path, Body_extension) as file_path loop
+				across File_system.files_with_extension (dir_path, Body_extension, True) as file_path loop
 					menu_name := file_path.item.parent.base
 					additional_keys_table.search (Web_menu)
 					if additional_keys_table.found then

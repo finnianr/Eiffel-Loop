@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 14:33:35 GMT (Saturday 20th March 2021)"
-	revision: "15"
+	date: "2021-03-20 17:17:35 GMT (Saturday 20th March 2021)"
+	revision: "16"
 
 class
 	FILE_SYNC_ITEM_SET_TEST_SET
@@ -46,13 +46,11 @@ feature -- Tests
 		do
 			create medium.make
 			medium.set_remote_home (Copied_dir)
-			create sync_set.make (Workarea_help_pages_dir, Text_extension)
-			across file_set as set loop
-				sync_set.put_file (set.item.relative_path (Workarea_help_pages_dir))
-			end
+			sync_set := new_sync_set
+
 			sync_set.update (medium)
-			source_list := File_system.files_with_extension (Workarea_help_pages_dir, Text_extension)
-			destination_list := File_system.files_with_extension (Copied_dir, Text_extension)
+			source_list := File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True)
+			destination_list := File_system.files_with_extension (Copied_dir, Text_extension, True)
 			assert ("synchronized", source_list ~ destination_list)
 		end
 
@@ -61,6 +59,16 @@ feature {NONE} -- Event handling
 	on_prepare
 		do
 			Precursor {HELP_PAGES_TEST_SET}
+		end
+
+feature {NONE} -- Implementation
+
+	new_sync_set: EL_FILE_SYNC_ITEM_SET
+		do
+			create Result.make (Workarea_help_pages_dir, Text_extension)
+			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
+				Result.put_file (path.item.relative_path (Workarea_help_pages_dir))
+			end
 		end
 
 feature {NONE} -- Constants

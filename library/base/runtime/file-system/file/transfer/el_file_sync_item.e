@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 14:22:44 GMT (Saturday 20th March 2021)"
-	revision: "4"
+	date: "2021-03-20 16:16:52 GMT (Saturday 20th March 2021)"
+	revision: "5"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -17,6 +17,8 @@ inherit
 		redefine
 			is_equal
 		end
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_FILE_SYNC_CONSTANTS undefine is_equal end
 
@@ -111,6 +113,15 @@ feature -- Basic operations
 			if attached digest_path as path and then attached open_raw (path, Write) as file then
 				file.put_natural_32 (current_digest)
 				file.close
+			end
+		end
+
+	remove
+		do
+			across << source_path, digest_path >> as path loop
+				if path.item.exists then
+					File_system.remove_file (path.item)
+				end
 			end
 		end
 

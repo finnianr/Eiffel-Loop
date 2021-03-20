@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-07 18:00:36 GMT (Monday 7th January 2019)"
-	revision: "2"
+	date: "2021-03-20 17:05:18 GMT (Saturday 20th March 2021)"
+	revision: "3"
 
 class
 	EL_FILE_MANIFEST_COMMAND
@@ -39,7 +39,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			else
 				target_dir := a_target_dir
 			end
-			sorted_path_list := File_system.files_with_extension (target_dir, extension)
+			sorted_path_list := File_system.files_with_extension (target_dir, extension, False)
 			sorted_path_list.sort
 			lio.put_integer_field ("File item count", sorted_path_list.count)
 			lio.put_new_line

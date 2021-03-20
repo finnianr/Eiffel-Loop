@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:05:14 GMT (Monday 8th February 2021)"
-	revision: "7"
+	date: "2021-03-20 17:05:18 GMT (Saturday 20th March 2021)"
+	revision: "8"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			directory_name := a_directory_name
-			pyxis_file_paths := File_system.recursive_files_with_extension (pyxis_source_dir, "pyx")
+			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			create xml_file_paths.make (pyxis_file_paths.count)
 			across pyxis_file_paths as pyxis_file_path loop
 				xml_file_path := xml_destination_dir.joined_file_path (pyxis_file_path.item.base).with_new_extension ("xml")
@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 			monolithic_pyxis_path.add_extension ("pyx")
 			create xml_file_paths.make_from_array (<< monolithic_pyxis_path.with_new_extension ("xml") >>)
 
-			pyxis_file_paths := File_system.recursive_files_with_extension (pyxis_source_dir, "pyx")
+			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			if pyxis_file_paths.first.modification_time  > monolithic_xml_file_path.modification_time then
 				create pyxis_out.make_open_write (monolithic_pyxis_path)
 				across pyxis_file_paths as pyxis_file_path loop

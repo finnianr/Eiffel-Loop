@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 10:50:00 GMT (Tuesday 24th November 2020)"
-	revision: "2"
+	date: "2021-03-20 17:02:43 GMT (Saturday 20th March 2021)"
+	revision: "3"
 
 class
 	COMPRESSION_TEST_SET
@@ -40,7 +40,7 @@ feature -- Tests
 			decompressed_data: MANAGED_POINTER
 		do
 			output_path := work_area_dir + "XML.archive"
-			file_list := File_system.recursive_files (work_area_data_dir)
+			file_list := File_system.files (work_area_data_dir, True)
 			create archive.make_open_write (output_path)
 
 			archive.append_file_list (file_list)
@@ -66,7 +66,7 @@ feature -- Tests
 
 	test_zlib_compress
 		do
-			across File_system.recursive_files (work_area_data_dir) as path loop
+			across File_system.files (work_area_data_dir, True) as path loop
 				test_zlib_with_file (path.item)
 			end
 		end
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 
 	Source_dir: EL_DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("XML")
+			Result := EL_test_data_dir #+ "XML"
 		end
 
 end

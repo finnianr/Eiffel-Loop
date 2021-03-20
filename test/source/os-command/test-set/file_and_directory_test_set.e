@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 14:18:57 GMT (Saturday 20th March 2021)"
-	revision: "17"
+	date: "2021-03-20 16:48:11 GMT (Saturday 20th March 2021)"
+	revision: "18"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -64,7 +64,7 @@ feature -- Tests
 			a_file_set := file_set.subset_exclude (agent path_contains (?, Help_pages_bcd_dir))
 			a_file_set := a_file_set.subset_exclude (agent path_contains (?, Help_pages_wireless_notes_path))
 			Command.new_delete_file (Work_area_dir + Help_pages_wireless_notes_path).execute
-			Command.new_delete_tree (Work_area_dir.joined_dir_path (Help_pages_bcd_dir)).execute
+			Command.new_delete_tree (work_area_path (Help_pages_bcd_dir)).execute
 
 			execute_and_assert (all_files_cmd (Work_area_dir), a_file_set)
 		end
@@ -86,7 +86,7 @@ feature -- Tests
 		local
 			help_dir: EL_DIR_PATH
 		do
-			help_dir := Work_area_dir.joined_dir_path (help_pages_dir)
+			help_dir := work_area_path (help_pages_dir)
 			OS.delete_tree (help_dir)
 			assert ("no longer exists", not help_dir.exists)
 		end
@@ -146,14 +146,14 @@ feature -- Tests
 			lio.put_labeled_string ("volume_name", volume_name)
 			lio.put_new_line
 			create volume.make (volume_name, False)
-			volume_workarea_copy_dir := volume_workarea_dir.joined_dir_path ("copy")
+			volume_workarea_copy_dir := volume_workarea_dir #+ "copy"
 			volume.make_directory (volume_workarea_copy_dir)
 			across file_set as path loop
 				relative_file_path := path.item.relative_path (Work_area_dir)
-				volume_destination_dir := volume_workarea_copy_dir.joined_dir_path (relative_file_path.parent)
+				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
 				volume.make_directory (volume_destination_dir)
 				volume.copy_file_from (
-					volume_workarea_dir + relative_file_path, volume_root_path.joined_dir_path (volume_destination_dir)
+					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
 				)
 				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end
@@ -165,7 +165,7 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_directories_cmd: like Command.new_find_directories
 			dir_path: EL_DIR_PATH
 		do
-			dir_path := Work_area_dir.joined_dir_path (Help_pages_windows_dir)
+			dir_path := work_area_path (Help_pages_windows_dir)
 			create l_dir.make (dir_path)
 			find_directories_cmd := Command.new_find_directories (dir_path)
 			find_directories_cmd.set_depth (1 |..| 1)
@@ -186,7 +186,7 @@ feature -- Tests
 			l_dir: EL_DIRECTORY; find_files_cmd: like Command.new_find_files
 			dir_path: EL_DIR_PATH
 		do
-			dir_path := Work_area_dir.joined_dir_path (Help_pages_windows_dir)
+			dir_path := work_area_path (Help_pages_windows_dir)
 
 			create l_dir.make (dir_path)
 			find_files_cmd := Command.new_find_files (dir_path, "*")
@@ -334,7 +334,7 @@ feature {NONE} -- Implementation
 			mint_copy_path: EL_FILE_PATH
 		do
 			a_file_set.put (dir_path + Wireless_notes_path_copy)
-			mint_copy_dir := Help_pages_mint_dir.joined_dir_path ("copy")
+			mint_copy_dir := Help_pages_mint_dir #+ "copy"
 			a_file_set.put (dir_path + mint_copy_dir.joined_file_path (Help_pages_wireless_notes_path.base))
 
 			a_file_set.prune (dir_path + Help_pages_wireless_notes_path)
@@ -343,20 +343,16 @@ feature {NONE} -- Implementation
 			across file_set as path loop
 				if path.item.parent.base ~ Docs then
 					steps := [Docs, path.item.base]
-					mint_copy_path := dir_path.joined_dir_path (mint_copy_dir).joined_file_tuple (steps)
+					mint_copy_path := (dir_path #+ mint_copy_dir).joined_file_tuple (steps)
 					a_file_set.put (mint_copy_path)
 				end
 			end
 			execute_all (<<
 				Command.new_copy_file (dir_path + Help_pages_wireless_notes_path, dir_path + Wireless_notes_path_copy),
-				Command.new_make_directory (dir_path.joined_dir_path (mint_copy_dir)),
-				Command.new_copy_file (dir_path + Help_pages_wireless_notes_path, dir_path.joined_dir_path (mint_copy_dir)),
-				Command.new_copy_tree (
-					dir_path.joined_dir_path (Help_pages_mint_docs_dir), dir_path.joined_dir_path (mint_copy_dir)
-				),
-				Command.new_move_file (
-					dir_path + Help_pages_wireless_notes_path, dir_path.joined_dir_path (Help_pages_mint_docs_dir)
-				)
+				Command.new_make_directory (dir_path #+ mint_copy_dir),
+				Command.new_copy_file (dir_path + Help_pages_wireless_notes_path, dir_path #+ mint_copy_dir),
+				Command.new_copy_tree (dir_path #+ Help_pages_mint_docs_dir, dir_path #+ mint_copy_dir),
+				Command.new_move_file (dir_path + Help_pages_wireless_notes_path, dir_path #+ Help_pages_mint_docs_dir)
 			>>)
 
 			execute_and_assert (all_files_cmd (dir_path), a_file_set)
