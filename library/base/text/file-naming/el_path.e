@@ -342,11 +342,13 @@ feature -- Status Query
 			end
 		end
 
-	has_step (step: ZSTRING): BOOLEAN
+	has_step (a_step: READABLE_STRING_GENERAL): BOOLEAN
 			-- true if path has directory step
 		local
 			pos_left_separator, pos_right_separator: INTEGER
+			step: ZSTRING
 		do
+			step := zstring.as_zstring (a_step)
 			pos_left_separator := parent_path.substring_index (step, 1) - 1
 			pos_right_separator := pos_left_separator + step.count + 1
 			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
@@ -363,11 +365,11 @@ feature -- Status Query
 
 	is_absolute: BOOLEAN
 		local
-			str: ZSTRING; s: EL_ZSTRING_ROUTINES
+			str: ZSTRING
 		do
 			str := parent_path
 			if {PLATFORM}.is_windows then
-				Result := s.starts_with_drive (str)
+				Result := zstring.starts_with_drive (str)
 			else
 				Result := not str.is_empty and then is_separator (str, 1)
 			end
@@ -516,10 +518,8 @@ feature -- Element change
 		end
 
 	set_base (a_base: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
-			base := s.as_zstring (a_base)
+			base := zstring.as_zstring (a_base)
 			internal_hash_code := 0
 		end
 

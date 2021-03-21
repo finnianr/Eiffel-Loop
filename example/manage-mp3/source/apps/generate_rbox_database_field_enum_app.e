@@ -3,7 +3,7 @@ note
 		Sub-application to generate class [$source RBOX_DATABASE_FIELD_ENUM] from C source file `rhythmdb.c'
 	]"
 	notes: "[
-		**Usage:*
+		**Usage:**
 		
 			el_rhythmbox -generate_rbox_database_field_enum -source <path>
 

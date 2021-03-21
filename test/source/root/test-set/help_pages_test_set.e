@@ -28,9 +28,9 @@ feature {NONE} -- Implementation
 			create Result.make_from_utf_8 (File_system.plain_text (EL_test_data_dir + "txt/help-files.txt"))
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Help directories
 
-	help_pages_dir: EL_DIR_PATH
+	Help_pages_dir: EL_DIR_PATH
 		once
 			Result := "Help-pages"
 		end
@@ -55,14 +55,26 @@ feature {NONE} -- Constants
 			Result := help_pages_dir #+ {STRING_32} "Windows™"
 		end
 
+	Workarea_help_pages_dir: EL_DIR_PATH
+		once
+			Result := work_area_path (help_pages_dir)
+		end
+
+feature {NONE} -- Constants
+
+	Docs: ZSTRING
+		once
+			Result := "docs"
+		end
+
 	Help_pages_wireless_notes_path: EL_FILE_PATH
 		once
 			Result := Help_pages_mint_dir + "wireless_notes.txt"
 		end
 
-	Workarea_help_pages_dir: EL_DIR_PATH
+	Help_pages_grub_error: EL_FILE_PATH
 		once
-			Result := work_area_path (help_pages_dir)
+			Result := Help_pages_mint_docs_dir + "grub.error.txt"
 		end
 
 end

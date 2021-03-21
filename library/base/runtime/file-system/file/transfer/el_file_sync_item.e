@@ -113,6 +113,7 @@ feature -- Basic operations
 			if attached digest_path as path and then attached open_raw (path, Write) as file then
 				file.put_natural_32 (current_digest)
 				file.close
+				previous_digest := current_digest
 			end
 		end
 

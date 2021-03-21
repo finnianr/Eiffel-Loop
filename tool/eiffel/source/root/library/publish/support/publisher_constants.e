@@ -34,7 +34,7 @@ feature {NONE} -- Constants
 
 	Maximum_code_width: INTEGER
 		once
-			Result := 104
+			Result := 110
 		end
 
 	Note_description: ZSTRING

@@ -2,7 +2,8 @@ note
 	description: "[
 		Fields mapping to Rhythmbox XML song data
 		
-		**Example**
+		**Example Entry**
+		
 			<entry type="song">
 				<title>L'Autre Valse d'Am&#xE9;lie</title>
 				<genre>Vals (Modern)</genre>

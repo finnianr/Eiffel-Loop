@@ -2,6 +2,7 @@ note
 	description: "[
 		Database of all Rhythmbox songs, playlists, radio entries and ignored entries.
 		It is read from these files:
+		
 			$HOME/.local/share/rhythmbox/rhythmdb.xml
 			$HOME/.local/share/rhythmbox/playlists.xml
 			$HOME/Music/Playlists/*.pyx

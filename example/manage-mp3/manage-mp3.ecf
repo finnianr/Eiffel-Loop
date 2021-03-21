@@ -46,9 +46,8 @@ See doc/manage-mp3.txt for details
 		<library name = "net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel Loop-->
-		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
+		<library name = "EL_app_manage" readonly = "false" location = "$EIFFEL_LOOP/library/app-manage.ecf"/>
 		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>
-		<!--use_application_options = true-->
 		<library name = "EL_doc_scan" readonly = "false" location = "$EIFFEL_LOOP/library/document-scan.ecf"/>
 		<library name = "EL_eco_db" readonly = "false" location = "$EIFFEL_LOOP/library/Eco-DB.ecf"/>
 		<library name = "EL_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/encryption.ecf"/>

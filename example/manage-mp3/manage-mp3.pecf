@@ -102,14 +102,10 @@ system:
 
 		# Eiffel Loop
 		library:
-			name = EL_app_manage; location = "$EIFFEL_LOOP/library/app-manage.ecf"
-			readonly = false
+			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
 
 		library:
-			name = EL_base; readonly = false
-			location = "$EIFFEL_LOOP/library/base/base.ecf"
-			
-			# use_application_options = true
+			name = EL_base; readonly = false; location = "$EIFFEL_LOOP/library/base/base.ecf"
 
 		library:
 			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"

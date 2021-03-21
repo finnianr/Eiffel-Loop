@@ -1,5 +1,5 @@
 note
-	description: "Dj event info"
+	description: "DJ event information"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

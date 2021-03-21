@@ -1456,48 +1456,47 @@ A "Swiss-army knife" of Eiffel development utilities invokeable by a command-lin
 
 **Sub-applications**
 
-`-class_descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
 
-Useful external tool for EiffelStudio to output class descendants for selected class as a text file.
+Command switch: `-class_descendants`
 
-`-eiffel_view`: [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html)
+[EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
 
-A sub-application to publish source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
+Command switch: `-eiffel_view`
 
-`-generate_codecs`: [CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html)
+[CODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/codec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
 
-Generate Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+Command switch: `-generate_codecs`
 
-`-ecf_to_pecf`: [ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html)
+[ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html) converts Eiffel configuration files to Pyxis format
 
-Convert Eiffel configuration files to Pyxis format
+Command switch: `-ecf_to_pecf`
 
-`-library_override`: [LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html)
+[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
 
-Generates override of standard libaries to work with Eiffel-Loop
+Command switch: `-library_override`: 
 
-`-expand_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
-
-Use a supplied repository publishing configuration to expand `$source` variable path in wiki-links  containined in a wiki-markup text file. Write the expanded output to file named as follows:
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishing configuration. Write the expanded output to file named as follows:
 
 
 ````
 <file name>.expanded.<file extension>
-
 ````
-An incidental function is to expand all tabs as 3 spaces.
+An incidental function is to expand all tabs in the markup as 3 spaces.
 
-`-normalize_class_file_name`: [SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html)
+Command switch: `-expand_links`
 
-Normalize class filenames as lowercase classnames within a source directory
+[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
 
-`normalize_imp_location` [IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html)
+Command switch: `-normalize_class_file_name` 
 
-Normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+[IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
 
-`-winzip_exe_builder`: [WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html)
+Command switch: `normalize_imp_location`
 
-Build a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+
+Command switch: `-winzip_exe_builder`
 
 **Download**
 
@@ -1539,29 +1538,29 @@ A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-
 
 **Sub-applications**
 
-`-check_locale_strings`: [CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html)
+[CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html) verifies localization translation identifiers against various kinds of source texts.
 
-Verify localization translation identifiers against various kinds of source texts.
+Command switch: `-check_locale_strings`
 
-`-descendants`: [CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html)
+[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
 
-Output a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+Command switch: `-descendants`
 
-`-codebase_stats`: [CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html)
+[CODEBASE_STATISTICS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/codebase_statistics_app.html) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
-Count classes, code words and combined source file size for Eiffel source trees specified in manifest
+Command switch: `-codebase_stats`
 
-`-check_encoding`: [ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html)
+[ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html) checks for UTF-8 files that could be encoded as Latin-1
 
-Checks for UTF-8 files that could be encoded as Latin-1
+Command switch: `-check_encoding`
 
-`-check_note_links`: [REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html)
+[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) checks for invalid class references in repository note links
 
-Checks for invalid class references in repository note links
+Command switch: `-check_note_links`
 
-`-undefine_counter`: [UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html)
+[UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
-Count the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+Command switch: `-undefine_counter`
 
 **Download**
 
@@ -1573,49 +1572,49 @@ A "Swiss-army knife" of command line utilities accessible via a command line opt
 
 The most useful ones are listed below with the option name:
 
-`-body_word_counts` [HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html)
+[HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html) counts the number of words in a HTML document.
 
-Counts the number of words in a HTML document.
+Command switch: `-body_word_counts`
 
-`-crypto`: [CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html)
+[CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html) is a menu driven shell of useful cryptographic operations.
 
-Menu driven shell of useful cryptographic operations.
+Command switch: `-crypto`
 
-`-export_book`: [THUNDERBIRD_BOOK_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/thunderbird_book_exporter_app.html)
+[THUNDERBIRD_BOOK_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/thunderbird_book_exporter_app.html) merges a localized folder of emails in the Thunderbird email client into a single HTML book with chapter numbers and titles derived from subject line. The output files are used to generate a Kindle book.
 
-Merges a localized folder of emails in the Thunderbird email client into a single HTML book with chapter numbers and titles derived from subject line. The output files are used to generate a Kindle book.
+Command switch: `-export_book`
 
-`-export_www`: [THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html)
+[THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html) exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
-Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+Command switch: `-export_www`
 
-`-compile_translations`: [PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html)
+[PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
 
-Compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](http://www.eiffel-loop.com/library/text/i18n/el_locale_i.html).
+Command switch: `-compile_translations`
 
-`-pyxis_to_xml`: [PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html)
+[PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html) converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
 
-Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
+Command switch: `-pyxis_to_xml`
 
-`-youtube_dl` [YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html)
+[YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html) downloads and merges selected audio and video streams from a Youtube video.
 
-Download and merge selected audio and video streams from a Youtube video.
+Command switch: `-youtube_dl`
 
-`-file_manifest` [FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html)
+[FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html) creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
 
-Creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
+Command switch: `-file_manifest`
 
-`-undated_photos` [UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html)
+[UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html) lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 
-Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
+Command switch: `-undated_photos`
 
-`-duplicity` [DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_backup_app.html)
+[DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_backup_app.html) creates incremental duplicity backups using a configuration file in Pyxis format.
 
-Create an duplicity backup using a configuration file in Pyxis format.
+Command switch: `-duplicity`
 
-`-duplicity_restore` [DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_restore_app.html)
+[DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/duplicity_restore_app.html) restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
 
-Restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
+Command switch: `-duplicity_restore`
 
 **Download**
 

@@ -36,7 +36,7 @@ feature -- Tests
 
 	test_command
 		do
-			do_test ("count_pattern", 3797839144, agent count_pattern, [])
+			do_test ("count_pattern", 725585005, agent count_pattern, [])
 		end
 
 feature {NONE} -- Event handling

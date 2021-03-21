@@ -200,7 +200,8 @@ feature {NONE} -- Implementation
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			line, word, l_last: ZSTRING; i, l_count, removed_count, space_count: INTEGER; word_list: EL_ZSTRING_LIST
+			line, word, l_last: ZSTRING; i, l_count, removed_count, space_count: INTEGER
+			word_list: EL_ZSTRING_LIST; separator: CHARACTER; done: BOOLEAN
 		do
 			create Result.make (lines.count)
 			across lines as l loop
@@ -209,14 +210,19 @@ feature {NONE} -- Implementation
 					Word_stack.wipe_out
 					space_count := line.leading_occurrences (' ')
 					line.remove_head (space_count)
-					create word_list.make_with_words (line)
+					done := False
+					across << ' ', '/' >> as c until done loop
+						separator := c.item
+						create word_list.make_with_separator (line, separator, False)
+						done := word_list.first.count <= Maximum_code_width
+					end
 					Result.extend (create {ZSTRING}.make_filled (' ', space_count))
 					l_count := space_count
 					across word_list as list loop
 						word := list.item
 						if Result.last.count > 0 then
 							l_count := l_count + 1
-							Result.last.append_character (' ')
+							Result.last.append_character (separator)
 						end
 						l_count := l_count + word.count
 						if word ~ Source_link then

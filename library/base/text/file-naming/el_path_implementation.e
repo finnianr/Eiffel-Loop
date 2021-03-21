@@ -254,6 +254,10 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			set_parent_path (l_path)
 		end
 
+	zstring: EL_ZSTRING_ROUTINES
+		do
+		end
+
 feature {EL_PATH} -- Implementation
 
 	is_absolute: BOOLEAN

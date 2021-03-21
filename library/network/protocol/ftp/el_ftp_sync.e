@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 			-- sort in reverse order of directory step count
 			create sorted_dir_list.make_sorted (deleted_dir_set, agent {EL_DIR_PATH}.step_count, False)
 			across sorted_dir_list.value_list as dir loop
-				if Directory.named (root_dir.joined_dir_path (dir.item)).is_empty then
+				if Directory.named (root_dir #+ dir.item).is_empty then
 					ftp.remove_directory (dir.item)
 				end
 			end

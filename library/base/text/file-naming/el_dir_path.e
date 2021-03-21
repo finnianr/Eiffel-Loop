@@ -1,5 +1,20 @@
 note
 	description: "Directory path name"
+	notes: "[
+		**Joining Paths**
+		
+		Note that the alias `#+' is used to join directories and using `+' results in a file path.
+		Implicit string conversions are employed to create a `EL_DIR_PATH' or `EL_FILE_PATH' argument.
+			
+			local
+				dir_path: EL_DIR_PATH
+				file_path: EL_FILE_PATH
+			do
+				dir_path := "/home/john"
+				dir_path := dir_path #+ "Desktop"
+				file_path := dir_path + "myfile.doc"
+			end
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
@@ -39,13 +54,20 @@ feature -- Access
 			create Result.make (relative_temporary_path (a_parent))
 		end
 
-feature -- Conversion
+feature -- Aliased joins
 
 	joined_dir_path alias "#+" (a_dir_path: EL_DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)
 		end
+
+	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
+		do
+			create Result.make_from_other (Current); Result.append (a_file_path)
+		end
+
+feature -- Path joining
 
 	joined_dir_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Current
 		do
@@ -55,11 +77,6 @@ feature -- Conversion
 	joined_dir_tuple (tuple: TUPLE): like Current
 		do
 			create Result.make (temporary_joined_tuple (tuple))
-		end
-
-	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
-		do
-			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
 
 	joined_file_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like joined_file_path

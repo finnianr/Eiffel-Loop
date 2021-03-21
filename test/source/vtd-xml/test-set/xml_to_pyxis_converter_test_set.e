@@ -95,6 +95,6 @@ feature {NONE} -- Constants
 
 	XML_dir: EL_DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("XML")
+			Result := EL_test_data_dir #+ "XML"
 		end
 end

@@ -1,3 +1,6 @@
+1.3.7
+Fixed word wrapping for note like in RBOX_SONG_FIELDS which does not contain spaces. <location>file://..
+
 1.3.6
 Improved CLASS_DESCENDANTS_COMMAND to output links for both ISE and EL classes
 

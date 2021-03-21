@@ -1,52 +1,51 @@
 The most useful ones are listed below with the option name:
 
-`-body_word_counts' [$source HTML_BODY_WORD_COUNTER_APP]
+[$source HTML_BODY_WORD_COUNTER_APP] counts the number of words in a HTML document.
 
-Counts the number of words in a HTML document.
+Command switch: `-body_word_counts'
 
-`-crypto': [$source CRYPTO_COMMAND_SHELL_APP]
+[$source CRYPTO_COMMAND_SHELL_APP] is a menu driven shell of useful cryptographic operations.
 
-Menu driven shell of useful cryptographic operations.
+Command switch: `-crypto'
 
-`-export_book': [$source THUNDERBIRD_BOOK_EXPORTER_APP]
-
-Merges a localized folder of emails in the Thunderbird email client into a
+[$source THUNDERBIRD_BOOK_EXPORTER_APP] merges a localized folder of emails in the Thunderbird email client into a
 single HTML book with chapter numbers and titles derived from subject line.
 The output files are used to generate a Kindle book.
 
-`-export_www': [$source THUNDERBIRD_WWW_EXPORTER_APP]
+Command switch: `-export_book'
 
-Exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+[$source THUNDERBIRD_WWW_EXPORTER_APP] exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
-`-compile_translations': [$source PYXIS_TRANSLATION_TREE_COMPILER_APP]
+Command switch: `-export_www'
 
-Compiles tree of Pyxis translation files into multiple locale files named `locale.x' where `x' is a 2 letter country code. Does nothing if source files are all older than locale files. See class [$source EL_LOCALE_I].
+[$source PYXIS_TRANSLATION_TREE_COMPILER_APP] compiles tree of Pyxis translation files into multiple locale files named `locale.x' where `x' is a 2 letter country code. Does nothing if source files are all older than locale files. See class [$source EL_LOCALE_I].
 
-`-pyxis_to_xml': [$source PYXIS_TO_XML_APP]
+Command switch: `-compile_translations'
 
-Converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
+[$source PYXIS_TO_XML_APP] converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
 
-`-youtube_dl' [$source YOUTUBE_VIDEO_DOWNLOADER_APP]
+Command switch: `-pyxis_to_xml'
 
-Download and merge selected audio and video streams from a Youtube video.
+[$source YOUTUBE_VIDEO_DOWNLOADER_APP] downloads and merges selected audio and video streams from a Youtube video.
 
-`-file_manifest' [$source FILE_MANIFEST_APP]
+Command switch: `-youtube_dl'
 
-Creates an XML file manifest of a target directory using either the default Evolicity template
-or an optional external Evolicity template. See class [$source EVOLICITY_SERIALIZEABLE]
+[$source FILE_MANIFEST_APP] creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [$source EVOLICITY_SERIALIZEABLE]
 
-`-undated_photos' [$source UNDATED_PHOTO_FINDER_APP]
+Command switch: `-file_manifest'
 
-Lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
+[$source UNDATED_PHOTO_FINDER_APP] lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 
-`-duplicity' [$source DUPLICITY_BACKUP_APP]
+Command switch: `-undated_photos'
 
-Create an duplicity backup using a configuration file in Pyxis format.
+[$source DUPLICITY_BACKUP_APP] creates incremental duplicity backups using a configuration file in Pyxis format.
 
-`-duplicity_restore' [$source DUPLICITY_RESTORE_APP]
+Command switch: `-duplicity'
 
-Restores either an entire duplicity backup or a selected file or directory. 
+[$source DUPLICITY_RESTORE_APP] restores either an entire duplicity backup or a selected file or directory. 
 Restoration output directory is defined in same configuration file as backup.
+
+Command switch: `-duplicity_restore'
 
 **Download**
 

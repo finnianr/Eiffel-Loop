@@ -412,11 +412,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Docs: ZSTRING
-		once
-			Result := "docs"
-		end
-
 	File_protocol: ZSTRING
 		once
 			Result := "file"

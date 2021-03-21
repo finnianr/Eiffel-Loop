@@ -34,10 +34,7 @@ feature {NONE} -- Event handling
 			dir_set := new_dir_set (False)
 			File_system.make_parents (file_set)
 			across file_set as path loop
-				if attached open (path.item, Write) as file then
-					file.put_string (path.item.base)
-					file.close
-				end
+				write_file (path.item)
 			end
 		end
 
@@ -81,7 +78,15 @@ feature {NONE} -- Implementation
 	total_file_size: INTEGER
 		do
 			across file_set as path loop
-				Result := Result + OS.File_system.file_byte_count (path.item)
+				Result := Result + File_system.file_byte_count (path.item)
+			end
+		end
+
+	write_file (path: EL_FILE_PATH)
+		do
+			if attached open (path, Write) as file then
+				file.put_string (path.base)
+				file.close
 			end
 		end
 

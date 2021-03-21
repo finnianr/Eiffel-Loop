@@ -1,49 +1,47 @@
 **Sub-applications**
 
-`-class_descendants': [$source CLASS_DESCENDANTS_APP]
+[$source CLASS_DESCENDANTS_APP] outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
 
-Useful external tool for EiffelStudio to output class descendants for selected class as a text file.
+Command switch: `-class_descendants'
 
-`-eiffel_view': [$source EIFFEL_VIEW_APP]
-
-A sub-application to publish source code and descriptions of Eiffel projects
+[$source EIFFEL_VIEW_APP] publishes source code and descriptions of Eiffel projects
 to a website as static html and generate a `Contents.md' file in Github markdown.
 See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18
  eiffel.org article]
 
-`-generate_codecs': [$source CODEC_GENERATOR_APP]
+Command switch: `-eiffel_view'
 
-Generate Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code
+[$source CODEC_GENERATOR_APP] generates Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code
 
-`-ecf_to_pecf': [$source ECF_TO_PECF_APP]
+Command switch: `-generate_codecs'
 
-Convert Eiffel configuration files to Pyxis format
+[$source ECF_TO_PECF_APP] converts Eiffel configuration files to Pyxis format
 
-`-library_override': [$source LIBRARY_OVERRIDE_APP]
+Command switch: `-ecf_to_pecf'
 
-Generates override of standard libaries to work with Eiffel-Loop
+[$source LIBRARY_OVERRIDE_APP] generates override of standard libaries to work with Eiffel-Loop
 
-`-expand_links': [$source REPOSITORY_NOTE_LINK_CHECKER_APP]
+Command switch: `-library_override': 
 
-Use a supplied repository publishing configuration to expand `$source' variable path in wiki-links 
-containined in a wiki-markup text file. Write the expanded output to file named as follows:
+[$source REPOSITORY_NOTE_LINK_CHECKER_APP] expands `$source' variable path in wiki-links contained in a wiki-markup text file. The app use a [$source EIFFEL_VIEW_APP] publishing configuration. Write the expanded output to file named as follows:
 
 	<file name>.expanded.<file extension>
-	
-An incidental function is to expand all tabs as 3 spaces.
 
-`-normalize_class_file_name': [$source SOURCE_FILE_NAME_NORMALIZER_APP]
+An incidental function is to expand all tabs in the markup as 3 spaces.
 
-Normalize class filenames as lowercase classnames within a source directory
+Command switch: `-expand_links'
 
-`normalize_imp_location' [$source IMP_CLASS_LOCATION_NORMALIZER_APP]
+[$source SOURCE_FILE_NAME_NORMALIZER_APP] normalize class filenames as lowercase classnames within a source directory
 
-Normalizes location of implementation classes in relation to respective interfaces
-for all projects listed in publisher configuration.
+Command switch: `-normalize_class_file_name' 
 
-`-winzip_exe_builder': [$source WINZIP_SOFTWARE_PACKAGE_BUILDER_APP]
+[$source IMP_CLASS_LOCATION_NORMALIZER_APP] normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
 
-Build a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+Command switch: `normalize_imp_location'
+
+[$source WINZIP_SOFTWARE_PACKAGE_BUILDER_APP] builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+
+Command switch: `-winzip_exe_builder'
 
 **Download**
 
