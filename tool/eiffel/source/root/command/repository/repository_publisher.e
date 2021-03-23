@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 11:09:18 GMT (Monday 15th March 2021)"
-	revision: "33"
+	date: "2021-03-22 19:01:23 GMT (Monday 22nd March 2021)"
+	revision: "34"
 
 class
 	REPOSITORY_PUBLISHER
@@ -68,7 +68,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create root_dir
 			create output_dir
 			create example_classes.make (500)
-			create ftp_sync.make
+			create ftp_sync.make_default
+			create ftp_configuration.make_default
 			create web_address.make_empty
 			create ise_template
 			Precursor
@@ -84,7 +85,7 @@ feature -- Access
 	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
 
-	ftp_sync: EL_FTP_SYNC_BUILDER_CONTEXT
+	ftp_sync: EL_FTP_SYNC
 
 	github_url: EL_DIR_URI_PATH
 
@@ -110,6 +111,7 @@ feature -- Basic operations
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
+			ftp_medium: EL_FTP_FILE_SYNC_MEDIUM
 		do
 			ftp_sync.set_root_dir (output_dir)
 
@@ -134,10 +136,10 @@ feature -- Basic operations
 			github_contents.serialize
 			write_version
 
-			if ftp_sync.has_changes and not ftp_sync.ftp.is_default_state then
-				if ok_to_synchronize then
+			if ftp_sync.has_changes and then attached new_ftp_protocol as ftp then
+				if not ftp.is_default_state and then ok_to_synchronize then
 					lio.put_new_line
-					Track.progress (Console_display, ftp_sync.operation_count, agent ftp_sync.login_and_upload)
+					Track.progress (Console_display, ftp_sync.operation_count, agent ftp_sync.login_and_upload (ftp))
 					lio.put_line ("Synchronized")
 				end
 			end
@@ -167,6 +169,11 @@ feature {NONE} -- Implementation
 		do
 			lio.put_integer_field ("Thread count", thread_count)
 			lio.put_new_line
+		end
+
+	new_ftp_protocol: EL_FTP_PROTOCOL
+		do
+			create Result.make_write (ftp_configuration)
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -221,10 +228,11 @@ feature {NONE} -- Build from Pyxis
 				["@web-address", 					agent do web_address := node.to_string end],
 				["@ise-library",					agent do ise_template.library := node end],
 				["@ise-contrib",					agent do ise_template.contrib := node end],
+				["@ftp-sync-path",				agent do ftp_sync.set_sync_table (node.to_expanded_file_path) end],
 
 				["templates",						agent set_template_context],
 				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],
-				["ftp-site", 						agent do set_next_context (ftp_sync) end],
+				["ftp-site", 						agent do set_next_context (ftp_configuration) end],
 				["include-notes/note/text()", agent do note_fields.extend (node.to_string) end]
 			>>)
 		end
@@ -283,6 +291,8 @@ feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 	parser: EIFFEL_CLASS_PARSER
 
 	ise_template: TUPLE [library, contrib: ZSTRING]
+
+	ftp_configuration: EL_FTP_CONFIGURATION
 
 feature {NONE} -- Constants
 

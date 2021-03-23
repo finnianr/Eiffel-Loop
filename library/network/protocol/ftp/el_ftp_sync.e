@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-19 8:47:43 GMT (Tuesday 19th January 2021)"
-	revision: "19"
+	date: "2021-03-22 19:06:31 GMT (Monday 22nd March 2021)"
+	revision: "20"
 
 class
 	EL_FTP_SYNC
@@ -36,10 +36,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_ftp: like ftp; sync_file_path: EL_FILE_PATH; a_root_dir: like root_dir)
+	make (sync_file_path: EL_FILE_PATH; a_root_dir: like root_dir)
 		do
 			make_default
-			ftp := a_ftp; root_dir := a_root_dir
+			root_dir := a_root_dir
 			sync_table.set_from_file (sync_file_path)
 		end
 
@@ -47,7 +47,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			create sync_table.make
-			create ftp.make_default
 			create root_dir
 			create file_item_table.make (100)
 			create removed_items.make (0)
@@ -57,8 +56,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	ftp: EL_FTP_PROTOCOL
-
 	removed_items: ARRAYED_LIST [EL_FILE_PATH]
 
 	root_dir: EL_DIR_PATH
@@ -66,6 +63,15 @@ feature -- Access
 	operation_count: INTEGER
 		do
 			Result := removed_items.count + upload_list.count
+		end
+
+	upload_path_list: ARRAYED_LIST [EL_FILE_PATH]
+		do
+			create Result.make (upload_list.count)
+			across upload_list as list loop
+				Result.extend (list.item.file_path)
+			end
+			Result.compare_objects
 		end
 
 feature -- Status query
@@ -98,16 +104,21 @@ feature -- Element change
 			root_dir := a_root_dir
 		end
 
+	set_sync_table (file_path: EL_FILE_PATH)
+		do
+			sync_table.set_from_file (file_path)
+		end
+
 feature -- Basic operations
 
-	login_and_upload
+	login_and_upload (ftp: EL_FTP_PROTOCOL)
 		do
 			ftp.open
 			if ftp.is_open then
 				ftp.login; ftp.change_home_dir
 				lio.put_new_line
-				progress_listener.display.set_text ("Synchronizing with " + ftp.address.host)
-				upload
+				progress_listener.display.set_text ("Synchronizing with " + ftp.config.host)
+				upload (ftp)
 				ftp.close
 				sync_table.save
 			end
@@ -148,7 +159,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	remove_remote
+	remove_remote (ftp: EL_FTP_PROTOCOL)
 		local
 			deleted_dir_set: EL_HASH_SET [EL_DIR_PATH]
 			sorted_dir_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_DIR_PATH]
@@ -158,6 +169,7 @@ feature {NONE} -- Implementation
 				ftp.delete_file (path.item)
 				if ftp.last_succeeded then
 					sync_table.remove (path.item)
+					progress_listener.notify_tick
 					deleted_dir_set.put (path.item.parent)
 				end
 			end
@@ -170,11 +182,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	upload
+	upload (ftp: EL_FTP_PROTOCOL)
 		local
 			item: EL_FTP_UPLOAD_ITEM
 		do
-			remove_remote
+			remove_remote (ftp)
 			create item.make_default
 			across upload_list as file loop
 				item.set_source_path (root_dir + file.item.file_path)
@@ -185,6 +197,7 @@ feature {NONE} -- Implementation
 						lio.put_new_line
 					end
 					ftp.upload (item)
+					progress_listener.notify_tick
 					if ftp.last_succeeded then
 						sync_table [file.item.file_path] := file.item.current_digest -- modified item
 					end

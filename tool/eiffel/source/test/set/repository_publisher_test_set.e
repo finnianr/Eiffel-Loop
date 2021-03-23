@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:06:26 GMT (Saturday 20th March 2021)"
-	revision: "32"
+	date: "2021-03-22 18:53:20 GMT (Monday 22nd March 2021)"
+	revision: "33"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -99,7 +99,7 @@ feature -- Tests
 			end
 			assert ("checker html gone", not html_path (checker_path).exists)
 
-			assert ("same list", base_name_list ~ sorted_base_names (publisher.ftp_sync.ftp.uploaded_list))
+			assert ("same list", base_name_list ~ sorted_base_names (publisher.ftp_sync.upload_path_list))
 		end
 
 feature {NONE} -- Events

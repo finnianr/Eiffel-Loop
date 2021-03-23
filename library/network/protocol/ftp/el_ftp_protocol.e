@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 9:04:25 GMT (Friday 19th March 2021)"
-	revision: "22"
+	date: "2021-03-23 11:50:10 GMT (Tuesday 23rd March 2021)"
+	revision: "23"
 
 class
 	EL_FTP_PROTOCOL
@@ -15,15 +15,15 @@ class
 inherit
 	FTP_PROTOCOL
 		rename
+			address as config,
 			exception as exception_code,
 			send as send_to_socket,
-			make as make_protocol,
 			login as ftp_login,
 			last_reply as last_reply_utf_8
 		export
 			{EL_FTP_AUTHENTICATOR} send_username, send_password
 		redefine
-			close, open
+			close, open, initialize, config
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -38,40 +38,32 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_SHARED_PROGRESS_LISTENER
-
 	EL_FTP_CONSTANTS
 
 create
-	make_write, make_default
+	make_write, make_read
 
 feature {EL_FTP_SYNC} -- Initialization
 
-	make (a_address: like address; a_mode: INTEGER)
-			-- Create protocol.
+	initialize
 		do
-			make_default
-			make_protocol (a_address)
-			mode := a_mode
-		end
-
-	make_default
-		do
+			Precursor
 			create authenticator.make (Current)
 			create current_directory
 			set_binary_mode
 			create reply_parser.make
-			make_protocol (Default_url)
 		end
 
-	make_read (a_address: like address)
+	make_read (a_config: EL_FTP_CONFIGURATION)
 		do
-			make (a_address, Read_mode_id)
+			make (a_config)
+			set_read_mode
 		end
 
-	make_write (a_address: like address)
+	make_write (a_config: EL_FTP_CONFIGURATION)
 		do
-			make (a_address, Write_mode_id)
+			make (a_config)
+			set_write_mode
 		end
 
 feature -- Access
@@ -80,7 +72,12 @@ feature -- Access
 
 	current_directory: EL_DIR_PATH
 
-	home_directory: EL_DIR_PATH
+	config: EL_FTP_CONFIGURATION
+
+	user_home_dir: EL_DIR_PATH
+		do
+			Result := config.user_home_dir
+		end
 
 	last_reply: ZSTRING
 		do
@@ -92,24 +89,16 @@ feature -- Element change
 
 	set_current_directory (a_current_directory: EL_DIR_PATH)
 		do
-			send (Template.change_working_directory #$ [absolute_dir (a_current_directory)], << 200, 250 >>)
+			send (Template.change_working_directory #$ [absolute_unix_dir (a_current_directory)], << 200, 250 >>)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
 					current_directory := a_current_directory
 				else
-					current_directory := current_directory.joined_dir_path (a_current_directory)
+					current_directory := current_directory #+ a_current_directory
 				end
 			end
 		ensure
 			changed: get_current_directory ~ current_directory
-		end
-
-	set_home_directory (a_home_directory: EL_DIR_PATH)
-			-- Set `home_directory' to `a_home_directory'.
-		require
-			is_absolute: a_home_directory.is_absolute
-		do
-			home_directory := a_home_directory
 		end
 
 	set_login_prompts (user_name_and_password: READABLE_STRING_GENERAL)
@@ -123,19 +112,12 @@ feature -- Remote operations
 
 	change_home_dir
 		do
-			set_current_directory (home_directory)
+			set_current_directory (user_home_dir)
 		end
 
 	delete_file (file_path: EL_FILE_PATH)
 		do
-			if file_exists (file_path) then
-				send (Template.delete (file_path), << 250 >>)
-				progress_listener.notify_tick
-			else
-				last_succeeded := True
-			end
-		ensure
-			succeeded: last_succeeded
+			send (Template.delete_file #$ [file_path.to_unix], << 250 >>)
 		end
 
 	make_directory (dir_path: EL_DIR_PATH)
@@ -162,11 +144,7 @@ feature -- Remote operations
 
 	remove_directory (dir_path: EL_DIR_PATH)
 		do
-			if directory_exists (dir_path) then
-				send (Template.remove_directory #$ [absolute_dir (dir_path)], << 250 >>)
-			else
-				last_succeeded := True
-			end
+			send (Template.remove_directory #$ [absolute_unix_dir (dir_path)], << 250 >>)
 		end
 
 feature -- Basic operations
@@ -184,21 +162,7 @@ feature -- Basic operations
 				login; change_home_dir
 			end
 			make_directory (item.destination_dir)
-
-			address.path.share (item.destination_file_path.to_utf_8)
-			set_passive_mode
-			initiate_transfer
-			if transfer_initiated then
-				transfer_file_data (item.source_path)
-				transfer_initiated := false
-				if not is_retry then
-					progress_listener.notify_tick
-				end
-			else
-				Exception.raise_developer ("Failed to transfer: %S", [item.source_path.base])
-			end
-		ensure
-			data_socket_close: data_socket.is_closed
+			transfer_file (item.source_path, item.destination_file_path)
 		rescue
 			lio.put_new_line
 			lio.put_labeled_string ("Socket error", data_socket.error)
@@ -218,7 +182,7 @@ feature -- Status report
 			if dir_path.is_empty then
 				Result := True
 			else
-				send (Template.size #$ [absolute_dir (dir_path)], << 550 >>)
+				send (Template.size #$ [absolute_unix_dir (dir_path)], << 550 >>)
 				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
@@ -229,7 +193,7 @@ feature -- Status report
 			if file_path.is_empty then
 				Result := True
 			else
-				send (Template.size #$ [absolute_file_path (file_path)], << 213 >>)
+				send (Template.size #$ [absolute_unix_file_path (file_path)], << 213 >>)
 				Result := last_succeeded
 			end
 		end
@@ -241,7 +205,7 @@ feature -- Status report
 
 	is_default_state: BOOLEAN
 		do
-			Result := address = Default_url
+			Result := config.address ~ Default_address
 		end
 
 	last_succeeded: BOOLEAN
@@ -330,26 +294,26 @@ feature -- Status change
 
 	set_default_state
 		do
-			make_default
+			initialize
 		end
 
 feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
-	absolute_dir (dir_path: EL_DIR_PATH): EL_DIR_PATH
+	absolute_unix_dir (dir_path: EL_DIR_PATH): ZSTRING
 		do
 			if dir_path.is_absolute then
-				Result := dir_path
+				Result := dir_path.to_unix
 			else
-				Result := current_directory.joined_dir_path (dir_path)
+				Result := (current_directory #+ dir_path).to_unix
 			end
 		end
 
-	absolute_file_path (file_path: EL_FILE_PATH): EL_FILE_PATH
+	absolute_unix_file_path (file_path: EL_FILE_PATH): ZSTRING
 		do
 			if file_path.is_absolute then
-				Result := file_path
+				Result := file_path.to_unix
 			else
-				Result := current_directory + file_path
+				Result := (current_directory + file_path).to_unix
 			end
 		end
 
@@ -365,18 +329,16 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 		do
 			send (Command.print_working_directory, << >>)
 			Result := last_reply
-			Result.change_to_unix
 			reply_parser.set_source_text (last_reply)
 			reply_parser.do_all
 			Result := reply_parser.last_ftp_cmd_result
-			Result.change_to_unix
 		end
 
 	make_sub_directory (dir_path: EL_DIR_PATH)
 		require
 			parent_exists: directory_exists (dir_path.parent)
 		do
-			send (Template.make_directory #$ [dir_path], << 257 >>)
+			send (Template.make_directory #$ [dir_path.to_unix], << 257 >>)
 		end
 
 	send (str: ZSTRING; codes: ARRAY [INTEGER])
@@ -387,16 +349,31 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			last_succeeded := reply_code_ok (last_reply_utf_8, codes)
 		end
 
+	transfer_file (source_path, destination_path: EL_FILE_PATH)
+		do
+			config.path.share (destination_path.to_unix.to_utf_8 (True))
+			set_passive_mode
+			initiate_transfer
+			if transfer_initiated then
+				transfer_file_data (source_path)
+				transfer_initiated := false
+			else
+				Exception.raise_developer ("Failed to initiate transfer: %S", [source_path.base])
+			end
+		ensure
+			data_socket_close: data_socket.is_closed
+		end
+
 	transfer_file_data (a_file_path: EL_FILE_PATH)
 			--
 		local
 			packet: PACKET; bytes_read: INTEGER
 		do
 			create packet.make (Default_packet_size)
-			if attached open_raw (a_file_path, Read_from) as transfer_file then
-				from until transfer_file.after loop
-					transfer_file.read_to_managed_pointer (packet.data, 0, packet.count)
-					bytes_read := transfer_file.bytes_read
+			if attached open_raw (a_file_path, Read_from) as file then
+				from until file.after loop
+					file.read_to_managed_pointer (packet.data, 0, packet.count)
+					bytes_read := file.bytes_read
 					if bytes_read > 0 then
 						if bytes_read /= packet.count then
 							packet.data.resize (bytes_read)
@@ -406,7 +383,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 				end
 				data_socket.close
 				is_packet_pending := false
-				transfer_file.close
+				file.close
 			end
 			receive (main_socket)
 			if error then

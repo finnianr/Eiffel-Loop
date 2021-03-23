@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 17:49:23 GMT (Thursday 7th January 2021)"
-	revision: "6"
+	date: "2021-03-21 11:35:40 GMT (Sunday 21st March 2021)"
+	revision: "7"
 
 deferred class
 	RBOX_SONG_FIELDS

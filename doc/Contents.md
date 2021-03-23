@@ -1506,29 +1506,27 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 **Sub-applications**
 
-`-remove_prefix`: [CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html)
+[CLASS_PREFIX_REMOVAL_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/class_prefix_removal_app.html) removes all classname prefixes over a source directory
 
-Removes all classname prefixes over a source directory
+Command switch: `-remove_prefix`
 
-`-edit_notes`: [NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html)
+[NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html) add default values to note fields using a source tree manifest.
 
-Add default values to note fields using a source tree manifest.
+Command switch: `-edit_notes`
 
-`-feature_edit`: [FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html)
+[FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
-Expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+Command switch: `-feature_edit`
 
-`-find_replace`: [FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html)
+[FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
 
-Finds and replaces text in Eiffel source files specified by a source tree manifest
+[SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html) comments out logging lines from Eiffel source code tree
 
-`-elog_remover`: [SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html)
+Command switch: `-elog_remover`
 
-Comment out logging lines from Eiffel source code tree
+[SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html) renames classes defined by a source manifest file
 
-`-class_rename`: [SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html)
-
-Rename classes defined by a source manifest file
+Command switch: `-class_rename`
 
 **Download**
 

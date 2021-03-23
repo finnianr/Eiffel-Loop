@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-17 9:52:46 GMT (Wednesday 17th March 2021)"
-	revision: "2"
+	date: "2021-03-22 18:41:24 GMT (Monday 22nd March 2021)"
+	revision: "3"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER
 
 inherit
 	REPOSITORY_SOURCE_LINK_EXPANDER
-		redefine
-			ftp_sync
+		undefine
+			new_ftp_protocol
 		end
 
 	REPOSITORY_TEST_PUBLISHER
@@ -23,15 +23,9 @@ inherit
 			make as make_publisher
 		undefine
 			execute, ok_to_synchronize
-		redefine
-			ftp_sync
 		end
 
 create
 	make
-
-feature -- Access
-
-	ftp_sync: TEST_FTP_SYNC_BUILDER_CONTEXT
 
 end

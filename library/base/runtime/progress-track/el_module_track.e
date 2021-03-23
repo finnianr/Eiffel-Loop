@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:25:31 GMT (Thursday 6th February 2020)"
-	revision: "2"
+	date: "2021-03-22 10:57:41 GMT (Monday 22nd March 2021)"
+	revision: "3"
 
 deferred class
 	EL_MODULE_TRACK
@@ -27,6 +27,11 @@ feature {NONE} -- Constants
 	Console_display: EL_CONSOLE_PROGRESS_DISPLAY
 		once
 			create Result.make
+		end
+
+	Default_display: EL_DEFAULT_PROGRESS_DISPLAY
+		once
+			create Result
 		end
 
 end

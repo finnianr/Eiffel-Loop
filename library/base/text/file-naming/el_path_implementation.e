@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 17:34:02 GMT (Thursday 18th February 2021)"
-	revision: "15"
+	date: "2021-03-23 10:24:05 GMT (Tuesday 23rd March 2021)"
+	revision: "16"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -120,6 +120,22 @@ feature -- Conversion
 			str := buffer.empty
 			append_to_32 (str)
 			create Result.make_from_string (str)
+		end
+
+	to_unix, as_unix: ZSTRING
+		do
+			Result := to_string
+			if {PLATFORM}.is_windows then
+				Result.replace_character (Windows_separator, Unix_separator)
+			end
+		end
+
+	to_windows, as_windows: ZSTRING
+		do
+			Result := to_string
+			if not {PLATFORM}.is_windows then
+				Result.replace_character (Unix_separator, Windows_separator)
+			end
 		end
 
 feature -- Basic operations

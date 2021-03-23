@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:46:09 GMT (Saturday 1st February 2020)"
-	revision: "2"
+	date: "2021-03-23 10:02:29 GMT (Tuesday 23rd March 2021)"
+	revision: "3"
 
 class
 	BACKUP_CONFIG
@@ -58,7 +58,7 @@ feature -- Access
 
 	ftp_home_dir: EL_DIR_PATH
 
-	ftp_url: ZSTRING
+	ftp_url: STRING
 
 feature -- Basic operations
 
@@ -89,7 +89,7 @@ feature -- Basic operations
 			if ask_user_to_upload then
 				lio.put_string ("Copy files offsite? (y/n) ")
 				if User_input.entered_letter ('y') then
-					create website.make (ftp_url, ftp_home_dir)
+					create website.make ([ftp_url, ftp_home_dir])
 					website.login
 					if website.is_logged_in then
 						website.do_ftp_upload (archive_upload_list)

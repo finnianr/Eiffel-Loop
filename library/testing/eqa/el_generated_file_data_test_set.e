@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 13:48:27 GMT (Saturday 20th March 2021)"
-	revision: "14"
+	date: "2021-03-21 11:25:16 GMT (Sunday 21st March 2021)"
+	revision: "15"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET

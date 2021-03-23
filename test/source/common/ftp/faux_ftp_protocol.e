@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 13:27:31 GMT (Monday 15th March 2021)"
-	revision: "5"
+	date: "2021-03-23 11:21:35 GMT (Tuesday 23rd March 2021)"
+	revision: "6"
 
 class
 	FAUX_FTP_PROTOCOL
@@ -15,35 +15,37 @@ class
 inherit
 	EL_FTP_PROTOCOL
 		redefine
-			close, delete_file, login, quit, upload,
+			close, delete_file, login, quit, upload, initialize,
 			is_open, open, file_exists, directory_exists,
-			get_current_directory, make_default,
-			remove_directory, set_current_directory, set_home_directory,
-			make_sub_directory
+			get_current_directory, remove_directory, set_current_directory,
+			make_sub_directory, user_home_dir
 		end
 
 	EL_MODULE_OS
 
 create
-	make_default
+	make_write
 
 feature {NONE} -- Initialization
 
-	make_default
+	initialize
 		do
 			Precursor
 			create data_socket.make_empty
-			create uploaded_list.make_empty
-			uploaded_list.compare_objects
 		end
 
 feature -- Access
 
-	uploaded_list: EL_FILE_PATH_LIST
+	user_home_dir: EL_DIR_PATH
+		local
+			l_path: ZSTRING
+		do
+			l_path := config.user_home_dir
+			l_path.prepend_string_general ("ftp")
+			Result := Work_area_dir #+ l_path
+		end
 
 feature -- Status report
-
-	is_open: BOOLEAN
 
 	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
 		-- Does remote directory exist
@@ -51,7 +53,7 @@ feature -- Status report
 			if dir_path.is_empty then
 				Result := True
 			else
-				Result := absolute_dir (dir_path).exists
+				Result := (current_directory #+ dir_path).exists
 			end
 		end
 
@@ -62,9 +64,11 @@ feature -- Status report
 				Result := True
 			else
 				last_succeeded := True
-				Result := absolute_file_path (file_path).exists
+				Result := (current_directory + file_path).exists
 			end
 		end
+
+	is_open: BOOLEAN
 
 feature -- Basic operations
 
@@ -72,12 +76,10 @@ feature -- Basic operations
 		local
 			destination: EL_DIR_PATH
 		do
-			destination := (home_directory + item.destination_file_path).parent
+			destination := (user_home_dir + item.destination_file_path).parent
 			File_system.make_directory (destination)
 			OS.copy_file (item.source_path, destination)
-			progress_listener.notify_tick
 			last_succeeded := (destination + item.source_path.base).exists
-			uploaded_list.extend (item.source_path)
 		end
 
 feature -- Remote operations
@@ -86,7 +88,6 @@ feature -- Remote operations
 		do
 			if file_path.exists then
 				File_system.remove_file (file_path)
-				progress_listener.notify_tick
 			else
 				last_succeeded := True
 			end
@@ -94,7 +95,7 @@ feature -- Remote operations
 
 	remove_directory (dir_path: EL_DIR_PATH)
 		do
-			File_system.remove_directory (absolute_dir (dir_path))
+			File_system.remove_directory (current_directory #+ dir_path)
 		end
 
 feature -- Status change
@@ -111,7 +112,7 @@ feature -- Status change
 
 	open
 		do
-			File_system.make_directory (home_directory)
+			File_system.make_directory (user_home_dir)
 			is_open := True
 		end
 
@@ -126,15 +127,6 @@ feature -- Element change
 			current_directory := a_current_directory
 		end
 
-	set_home_directory (a_home_directory: EL_DIR_PATH)
-		local
-			l_path: ZSTRING
-		do
-			l_path := a_home_directory
-			l_path.prepend_string_general ("ftp")
-			home_directory := Work_area_dir.joined_dir_path (l_path)
-		end
-
 feature {NONE} -- Implementation
 
 	get_current_directory: EL_DIR_PATH
@@ -144,8 +136,8 @@ feature {NONE} -- Implementation
 
 	make_sub_directory (dir_path: EL_DIR_PATH)
 		do
-			OS.File_system.make_directory (absolute_dir (dir_path))
-			last_succeeded := absolute_dir (dir_path).exists
+			OS.File_system.make_directory (current_directory #+ dir_path)
+			last_succeeded := (current_directory #+ dir_path).exists
 		end
 
 feature {NONE} -- Constants

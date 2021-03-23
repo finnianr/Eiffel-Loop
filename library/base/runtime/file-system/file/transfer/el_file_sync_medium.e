@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:01:48 GMT (Friday 19th March 2021)"
-	revision: "1"
+	date: "2021-03-22 13:10:24 GMT (Monday 22nd March 2021)"
+	revision: "2"
 
 deferred class
 	EL_FILE_SYNC_MEDIUM
@@ -18,10 +18,19 @@ feature -- Element change
 		deferred
 		end
 
+feature -- Status report
+
+	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+		-- `True' if directory exists on medium
+		deferred
+		end
+
 feature -- Basic operations
 
 	copy_item (item: EL_FILE_SYNC_ITEM)
 		-- copy item
+		require
+			destination_dir_exists: directory_exists (item.file_path.parent)
 		deferred
 		end
 
@@ -37,6 +46,11 @@ feature -- Basic operations
 
 	remove_item (item: EL_FILE_SYNC_ITEM)
 		-- remove old item
+		deferred
+		end
+
+	reset
+		-- reset medium after an error
 		deferred
 		end
 

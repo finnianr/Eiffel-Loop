@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 16:51:14 GMT (Thursday 18th February 2021)"
-	revision: "27"
+	date: "2021-03-22 10:11:16 GMT (Monday 22nd March 2021)"
+	revision: "28"
 
 class
 	EL_PATH_STEPS
@@ -121,10 +121,10 @@ feature {NONE} -- Initialization
 
 	make_from_path (a_path: EL_PATH)
 		do
-			if a_path.parent_path.is_empty then
+			if a_path.parent_string (False).is_empty then
 				create token_list.make_filled (Token_table.token (a_path.base), 1)
 			else
-				token_list := Token_table.token_list (a_path.parent_path, a_path.Separator)
+				token_list := Token_table.token_list (a_path.parent_string (False), a_path.Separator)
 				token_list [token_list.count] := Token_table.token (a_path.base)
 			end
 		ensure

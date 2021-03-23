@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 13:06:53 GMT (Saturday 30th May 2020)"
-	revision: "8"
+	date: "2021-03-23 10:19:58 GMT (Tuesday 23rd March 2021)"
+	revision: "9"
 
 class
 	FILE_EXPERIMENTS
@@ -79,7 +79,7 @@ feature -- Basic operations
 		do
 			dir := "E:/"
 			temp := dir + "temp"
-			lio.put_string_field ("Path", temp.as_windows.to_string)
+			lio.put_string_field ("Path", temp.as_windows)
 		end
 
 	position

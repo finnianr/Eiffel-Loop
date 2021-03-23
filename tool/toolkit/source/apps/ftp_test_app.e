@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 11:44:20 GMT (Monday 15th March 2021)"
-	revision: "5"
+	date: "2021-03-23 11:47:19 GMT (Tuesday 23rd March 2021)"
+	revision: "6"
 
 class
 	FTP_TEST_APP
@@ -36,7 +36,7 @@ feature -- Basic operations
 			--
 		do
 			log.enter ("run")
-			Test.do_file_test ("txt/file.txt", agent send_file, 942172748)
+			Test.do_file_test ("txt/file.txt", agent send_file, 4252695631)
 			log.exit
 		end
 
@@ -44,13 +44,40 @@ feature {NONE} -- Tests
 
 	send_file (file_path: EL_FILE_PATH)
 		local
-			ftp: EL_FTP_WEBSITE
+			ftp: EL_FTP_WEBSITE; item: EL_FTP_UPLOAD_ITEM
+			destination_dir: EL_DIR_PATH; remote_file_path: EL_FILE_PATH
 		do
 			log.enter ("send_file")
-			create ftp.make (Application_option.url, Application_option.user_home)
+			create ftp.make ([Application_option.url, Application_option.user_home])
 			ftp.login
+			ftp.change_home_dir
 			if ftp.is_logged_in then
 				log.put_line ("Logged in")
+				destination_dir := "txt"; remote_file_path := destination_dir + file_path.base
+				log.put_labeled_string ("directory exists", ftp.directory_exists (destination_dir).out)
+				log.put_new_line
+				log.put_line ("Creating directory")
+				ftp.make_directory (destination_dir)
+				log.put_labeled_string ("directory exists", ftp.directory_exists (destination_dir).out)
+				log.put_new_line
+				create item.make (file_path, destination_dir)
+				log.put_path_field ("Uploading", file_path)
+				log.put_new_line
+				ftp.upload (item)
+				log.put_labeled_string ("file exists", ftp.file_exists (remote_file_path).out)
+				log.put_new_line
+				log.put_path_field ("Deleting", remote_file_path)
+				ftp.delete_file (remote_file_path)
+				log.put_new_line
+				log.put_labeled_string ("file exists", ftp.file_exists (remote_file_path).out)
+				log.put_new_line
+				log.put_path_field ("Deleting", destination_dir)
+				log.put_new_line
+				ftp.remove_directory (destination_dir)
+				log.put_labeled_string ("directory exists", ftp.directory_exists (destination_dir).out)
+				log.put_new_line
+			else
+				log.put_line ("Login failed")
 			end
 			ftp.close
 			log.exit

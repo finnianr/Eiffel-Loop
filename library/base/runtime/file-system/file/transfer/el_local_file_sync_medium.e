@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 14:39:21 GMT (Saturday 20th March 2021)"
-	revision: "2"
+	date: "2021-03-22 13:09:36 GMT (Monday 22nd March 2021)"
+	revision: "3"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -32,6 +32,14 @@ feature -- Element change
 	set_remote_home (a_home_dir: EL_DIR_PATH)
 		do
 			home_dir := a_home_dir
+		end
+
+feature -- Status report
+
+	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+		-- `True' if directory exists on medium
+		do
+			Result := (home_dir #+ dir_path).exists
 		end
 
 feature -- Basic operations
@@ -61,6 +69,10 @@ feature -- Basic operations
 		-- remove old item
 		do
 			File_system.remove_file (home_dir + item.file_path)
+		end
+
+	reset
+		do
 		end
 
 feature {NONE} -- Internal attributes

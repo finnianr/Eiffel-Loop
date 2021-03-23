@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-13 15:43:09 GMT (Thursday 13th February 2020)"
-	revision: "8"
+	date: "2021-03-23 10:26:07 GMT (Tuesday 23rd March 2021)"
+	revision: "9"
 
 class
 	DJ_EVENTS_PUBLISHER
@@ -64,7 +64,7 @@ feature -- Basic operations
 			if config.upload then
 				lio.put_string ("Upload pages (y/n) ")
 				if user_input.entered_letter ('y') then
-					create website.make (config.ftp_url, config.ftp_user_home)
+					create website.make ([config.ftp_url, config.ftp_user_home])
 					website.login
 					if website.is_initialized and then website.is_logged_in then
 						website.do_ftp_upload (file_upload_list)

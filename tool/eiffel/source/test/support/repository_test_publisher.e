@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-17 9:52:46 GMT (Wednesday 17th March 2021)"
-	revision: "2"
+	date: "2021-03-22 18:40:34 GMT (Monday 22nd March 2021)"
+	revision: "3"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -15,15 +15,11 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			ftp_sync, ok_to_synchronize
+			new_ftp_protocol, ok_to_synchronize
 		end
 
 create
 	make
-
-feature -- Access
-
-	ftp_sync: TEST_FTP_SYNC_BUILDER_CONTEXT
 
 feature -- Status query
 
@@ -31,4 +27,12 @@ feature -- Status query
 		do
 			Result := True
 		end
+
+feature {NONE} -- Implementation
+
+	new_ftp_protocol: FAUX_FTP_PROTOCOL
+		do
+			create Result.make_write (ftp_configuration)
+		end
+
 end

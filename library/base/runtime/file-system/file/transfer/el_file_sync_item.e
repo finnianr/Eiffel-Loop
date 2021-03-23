@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 16:16:52 GMT (Saturday 20th March 2021)"
-	revision: "5"
+	date: "2021-03-22 11:11:16 GMT (Monday 22nd March 2021)"
+	revision: "6"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -87,9 +87,13 @@ feature -- Duplication
 
 	frozen bare_item: EL_FILE_SYNC_ITEM
 		do
-			create Result.make_from_other (Current)
+			if is_bare_item then
+				Result := Current
+			else
+				create Result.make_from_other (Current)
+			end
 		ensure
-			is_bare_type: {ISE_RUNTIME}.dynamic_type (Result) = File_sync_item_type_id
+			is_bare_type: Result.is_bare_item
 		end
 
 feature -- Comparison
@@ -104,6 +108,12 @@ feature -- Status query
 	is_modified: BOOLEAN
 		do
 			Result := previous_digest /= current_digest
+		end
+
+	is_bare_item: BOOLEAN
+		-- `True' if `generating_type = {EL_FILE_SYNC_ITEM}'
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (Current) = File_sync_item_type_id
 		end
 
 feature -- Basic operations

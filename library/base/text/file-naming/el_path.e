@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-18 10:53:59 GMT (Thursday 18th March 2021)"
-	revision: "48"
+	date: "2021-03-23 10:23:50 GMT (Tuesday 23rd March 2021)"
+	revision: "49"
 
 deferred class
 	EL_PATH
@@ -168,22 +168,18 @@ feature -- Access
 			end
 		end
 
+	parent_string (keep_ref: BOOLEAN): ZSTRING
+		do
+			Result := parent_path
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 	relative_path (a_parent: EL_DIR_PATH): EL_PATH
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
 		deferred
-		end
-
-	to_unix, as_unix: like Current
-		do
-			Result := twin
-			Result.change_to_unix
-		end
-
-	to_windows, as_windows: like Current
-		do
-			Result := twin
-			Result.change_to_windows
 		end
 
 	translated (originals, substitutions: ZSTRING): like Current
@@ -464,20 +460,6 @@ feature -- Element change
 			base.append_string_general (a_step)
 		end
 
-	change_to_unix
-		do
-			if {PLATFORM}.is_windows then
-				replace_separator (Windows_separator, Unix_separator)
-			end
-		end
-
-	change_to_windows
-		do
-			if not {PLATFORM}.is_windows then
-				replace_separator (Unix_separator, Windows_separator)
-			end
-		end
-
 	expand
 		-- expand environment variables in each step
 		local
@@ -642,7 +624,7 @@ feature -- Duplication
 			make_from_other (other)
 		end
 
-feature {EL_PATH_IMPLEMENTATION, STRING_HANDLER} -- Internal attributes
+feature {EL_PATH_IMPLEMENTATION} -- Internal attributes
 
 	internal_hash_code: INTEGER
 

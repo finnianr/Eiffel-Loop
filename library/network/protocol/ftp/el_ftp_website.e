@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 11:32:27 GMT (Monday 15th March 2021)"
-	revision: "13"
+	date: "2021-03-23 10:55:41 GMT (Tuesday 23rd March 2021)"
+	revision: "14"
 
 class
 	EL_FTP_WEBSITE
@@ -27,22 +27,14 @@ create
 
 feature -- Element change
 
-	make (url: STRING; user_home_directory: EL_DIR_PATH)
-		local
-			ftp_site: FTP_URL
+	make (a_config: EL_FTP_CONFIGURATION)
 		do
-			create ftp_site.make (url)
-			if url.is_empty then
-				make_default
-			else
-				if is_lio_enabled then
-					lio.put_string_field ("url", ftp_site.path)
-					lio.put_new_line
-					lio.put_path_field ("user-home", user_home_directory)
-					lio.put_new_line
-				end
-				make_write (ftp_site)
-				set_home_directory (user_home_directory)
+			make_write (a_config)
+			if is_lio_enabled then
+				lio.put_string_field ("url", a_config.path)
+				lio.put_new_line
+				lio.put_path_field ("user-home", a_config.user_home_dir)
+				lio.put_new_line
 			end
 		end
 
@@ -62,7 +54,7 @@ feature -- Status query
 
 	is_initialized: BOOLEAN
 		do
-			Result := address /= Default_url
+			Result := config.address /~ Default_address
 		end
 
 end

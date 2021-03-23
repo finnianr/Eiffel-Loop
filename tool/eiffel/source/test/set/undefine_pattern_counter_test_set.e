@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 13:35:26 GMT (Monday 18th January 2021)"
-	revision: "8"
+	date: "2021-03-21 11:19:56 GMT (Sunday 21st March 2021)"
+	revision: "9"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET

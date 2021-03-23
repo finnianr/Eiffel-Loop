@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 12:54:50 GMT (Wednesday 8th April 2020)"
-	revision: "2"
+	date: "2021-03-20 17:44:34 GMT (Saturday 20th March 2021)"
+	revision: "3"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM_APP
