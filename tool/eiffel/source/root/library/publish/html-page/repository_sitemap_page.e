@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_page
 		redefine
-			make_default, getter_function_table
+			make_default, getter_function_table, sink_content
 		end
 
 create
@@ -42,7 +42,9 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
-			make_sync_item (output_path)
+			make_sync_item (
+				repository.output_dir, repository.ftp_url, output_path.relative_path (repository.output_dir)
+			)
 		end
 
 	make_default

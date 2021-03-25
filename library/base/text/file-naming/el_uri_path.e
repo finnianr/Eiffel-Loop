@@ -301,12 +301,12 @@ feature {NONE} -- Constants
 
 	Authority_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (5)
+			create Result.make_equal (5)
 		end
 
 	Scheme_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (5)
+			create Result.make_equal (5)
 		end
 
 	Separator_string: ZSTRING

@@ -57,16 +57,12 @@ feature -- Access
 
 feature -- Basic operations
 
-	fill_ftp_sync
+	get_sync_items (sync_manager: EL_FILE_SYNC_MANAGER)
 		do
 			across Current as tree loop
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
-						if e_class.item.html_output_path.exists then
-							repository.ftp_sync.extend (e_class.item)
-						else
-							repository.ftp_sync.force (e_class.item)
-						end
+						sync_manager.put (e_class.item)
 					end
 				end
 			end

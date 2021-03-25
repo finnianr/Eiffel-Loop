@@ -35,7 +35,7 @@ feature {NONE} -- Constants
 	Reserved_word_set: EL_HASH_SET [ZSTRING]
 			--
 		once
-			create Result.make (Reserved_word_list.count)
+			create Result.make_equal (Reserved_word_list.count)
 			Result.compare_objects
 			from Reserved_word_list.start until Reserved_word_list.after loop
 				Result.put (Reserved_word_list.item)

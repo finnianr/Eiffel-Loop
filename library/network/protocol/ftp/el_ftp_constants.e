@@ -38,7 +38,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "PWD, QUIT")
 		end
 
-	Default_address: STRING = "default"
+	Default_url: STRING = "default"
 
 	Directory_separator: CHARACTER = '/'
 

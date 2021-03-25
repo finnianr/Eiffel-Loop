@@ -15,14 +15,14 @@ class
 	EIFFEL_CLASS
 
 inherit
-	EL_HTML_FILE_SYNC_ITEM
+	EL_FILE_SYNC_ITEM
 		rename
 			make as make_sync_item,
-			file_path as ftp_file_path
+			source_path as html_sourc_path
 		undefine
 			is_equal, copy
 		redefine
-			make_sync_item
+			sink_content
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -69,7 +69,9 @@ feature {NONE} -- Initialization
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_sans_extension.as_upper
 			code_text := new_code_text (File_system.plain_text (source_path))
-			make_sync_item (html_output_path)
+			make_sync_item (
+				repository.output_dir, repository.ftp_url, html_output_path.relative_path (repository.output_dir)
+			)
 			create notes.make (relative_source_path.parent, a_repository.note_fields)
 
 			if is_modified or else word_count = 0 then
@@ -83,17 +85,6 @@ feature {NONE} -- Initialization
 			create source_path
 			create name.make_empty
 			Precursor
-		end
-
-	make_sync_item (html_path: EL_FILE_PATH)
-		local
-			reader: EL_HTML_META_VALUE_READER [EL_EIFFEL_CLASS_META_DATA]
-		do
-			create reader.make (html_path)
-			meta_crc_digest := reader.meta_value.digest
-			file_size := reader.meta_value.file_size
-			word_count := reader.meta_value.word_count
-			make_sync
 		end
 
 feature -- Access
@@ -229,11 +220,6 @@ feature {NONE} -- Implementation
 			notes := other.notes.twin
 		end
 
-	ftp_file_path: EL_FILE_PATH
-		do
-			Result := html_output_path.relative_path (repository.output_dir)
-		end
-
 	further_information: ZSTRING
 			-- other information besides the description
 		local
@@ -310,7 +296,7 @@ feature {NONE} -- Evolicity fields
 				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
 				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
 
-				["crc_digest", 				agent current_digest_ref],
+				["crc_digest", 				agent: INTEGER_REF do create Result end],
 				["word_count", 				agent: INTEGER_REF do Result := word_count end ],
 				["file_size", 					agent: INTEGER_REF do Result := file_size end ],
 

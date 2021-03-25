@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [
-		like Current, PYXIS_TO_XML_TEST_SET, TEXT_PARSER_TEST_SET_2
+		like Current, PYXIS_TO_XML_TEST_SET
 	]
 		do
 			create Result.make

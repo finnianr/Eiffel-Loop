@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_size
 		redefine
-			default_create
+			default_create, new_cursor
 		end
 
 create
@@ -49,6 +49,15 @@ feature {NONE} -- Initialization
 				put (map.item_value, map.item_key)
 				map.forth
 			end
+		end
+
+feature -- Access
+
+	new_cursor: EL_HASH_TABLE_ITERATION_CURSOR [G, K]
+			-- <Precursor>
+		do
+			create Result.make (Current)
+			Result.start
 		end
 
 feature -- Element change

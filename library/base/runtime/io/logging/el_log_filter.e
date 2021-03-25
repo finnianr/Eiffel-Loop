@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Empty_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (0)
+			create Result.make_equal (0)
 		end
 
 end

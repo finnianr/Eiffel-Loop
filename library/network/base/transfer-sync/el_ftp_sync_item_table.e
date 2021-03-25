@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 14:06:36 GMT (Sunday 17th January 2021)"
-	revision: "10"
+	date: "2021-03-23 12:38:25 GMT (Tuesday 23rd March 2021)"
+	revision: "11"
 
 class
 	EL_FTP_SYNC_ITEM_TABLE
@@ -21,7 +21,7 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 create
-	make
+	make, make_from_file
 
 feature {NONE} -- Initialization
 
@@ -30,6 +30,15 @@ feature {NONE} -- Initialization
 			create file_path
 			make_equal (100)
 		end
+
+	make_from_file (a_file_path: EL_FILE_PATH)
+		do
+			make; set_from_file (a_file_path)
+		end
+
+feature -- Access
+
+	file_path: EL_FILE_PATH
 
 feature -- Basic operations
 
@@ -74,7 +83,4 @@ feature -- Element change
 			end
 		end
 
-feature -- Access
-
-	file_path: EL_FILE_PATH
 end

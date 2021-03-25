@@ -205,7 +205,7 @@ feature -- Status report
 
 	is_default_state: BOOLEAN
 		do
-			Result := config.address ~ Default_address
+			Result := config.url ~ Default_url
 		end
 
 	last_succeeded: BOOLEAN

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 19:06:31 GMT (Monday 22nd March 2021)"
-	revision: "20"
+	date: "2021-03-23 12:36:19 GMT (Tuesday 23rd March 2021)"
+	revision: "21"
 
 class
 	EL_FTP_SYNC
@@ -104,9 +104,9 @@ feature -- Element change
 			root_dir := a_root_dir
 		end
 
-	set_sync_table (file_path: EL_FILE_PATH)
+	set_sync_table (a_sync_table: like sync_table)
 		do
-			sync_table.set_from_file (file_path)
+			sync_table := a_sync_table
 		end
 
 feature -- Basic operations

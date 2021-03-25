@@ -16,7 +16,7 @@ publish-repository:
 	ftp-sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
 
 	ftp-site:
-		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"
+		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"; sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
 
 	templates:
 		main = "main-template.html.evol"; eiffel-source = "eiffel-source-code.html.evol"

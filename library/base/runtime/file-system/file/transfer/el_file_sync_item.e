@@ -13,14 +13,14 @@ class
 	EL_FILE_SYNC_ITEM
 
 inherit
-	HASHABLE
+	EL_SET_MEMBER [EL_FILE_SYNC_ITEM]
 		redefine
 			is_equal
 		end
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_FILE_SYNC_CONSTANTS undefine is_equal end
+	EL_FILE_SYNC_ROUTINES undefine is_equal end
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -31,21 +31,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_home_dir: EL_DIR_PATH; a_file_path: EL_FILE_PATH)
+	make (a_home_dir: EL_DIR_PATH; a_destination_name: READABLE_STRING_GENERAL; a_file_path: EL_FILE_PATH)
 		require
 			valid_file_path: a_file_path.is_absolute implies a_home_dir.is_parent_of (a_file_path)
-		local
-			l_crc: like crc_generator
 		do
-			home_dir := a_home_dir
+			home_dir := a_home_dir; destination_name := a_destination_name
 			if a_file_path.is_absolute then
 				file_path := a_file_path.relative_path (a_home_dir)
 			else
 				file_path := a_file_path
 			end
-			l_crc := crc_generator
-			sink_content (l_crc)
-			current_digest := l_crc.checksum
+			if attached crc_generator as crc then
+				sink_content (crc)
+				current_digest := crc.checksum
+			end
 			if attached digest_path as path and then path.exists and then attached open_raw (path, Read) as file then
 				file.read_natural_32
 				previous_digest := file.last_natural_32
@@ -65,6 +64,8 @@ feature -- Access
 
 	current_digest: NATURAL
 
+	destination_name: READABLE_STRING_GENERAL
+
 	file_path: EL_FILE_PATH
 		-- relative path
 
@@ -74,31 +75,25 @@ feature -- Access
 			Result := file_path.hash_code
 		end
 
-	previous_digest: NATURAL
-
 	home_dir: EL_DIR_PATH
+
+	previous_digest: NATURAL
 
 	source_path: EL_FILE_PATH
 		do
 			Result := home_dir + file_path
 		end
 
-feature -- Duplication
-
-	frozen bare_item: EL_FILE_SYNC_ITEM
-		do
-			if is_bare_item then
-				Result := Current
-			else
-				create Result.make_from_other (Current)
-			end
-		ensure
-			is_bare_type: Result.is_bare_item
-		end
-
 feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
+		do
+			if current_digest = other.current_digest then
+				Result := is_same_as (other) and then home_dir ~ other.home_dir
+			end
+		end
+
+	is_same_as (other: EL_FILE_SYNC_ITEM): BOOLEAN
 		do
 			Result := file_path ~ other.file_path
 		end
@@ -110,22 +105,7 @@ feature -- Status query
 			Result := previous_digest /= current_digest
 		end
 
-	is_bare_item: BOOLEAN
-		-- `True' if `generating_type = {EL_FILE_SYNC_ITEM}'
-		do
-			Result := {ISE_RUNTIME}.dynamic_type (Current) = File_sync_item_type_id
-		end
-
 feature -- Basic operations
-
-	store
-		do
-			if attached digest_path as path and then attached open_raw (path, Write) as file then
-				file.put_natural_32 (current_digest)
-				file.close
-				previous_digest := current_digest
-			end
-		end
 
 	remove
 		do
@@ -136,13 +116,36 @@ feature -- Basic operations
 			end
 		end
 
+	store
+		do
+			if attached digest_path as path then
+				File_system.make_directory (path.parent)
+				if attached open_raw (path, Write) as file then
+					file.put_natural_32 (current_digest)
+					file.close
+				end
+				previous_digest := current_digest
+			end
+		end
+
+feature -- Element change
+
+	set_current_digest (a_current_digest: NATURAL)
+		do
+			current_digest := a_current_digest
+		end
+
 feature {NONE} -- Implementation
 
 	digest_path: EL_FILE_PATH
 		do
-			Result := source_path
-			Result.base.prepend_character ('.')
-			Result.replace_extension (Crc_32)
+			Result := Checksum_dir_table.item (home_dir.to_string + destination_name) + file_path
+			Result.replace_extension (Crc_extension)
+		end
+
+	new_checksum_dir (key: ZSTRING): EL_DIR_PATH
+		do
+			Result := new_crc_name_dir (home_dir, destination_name)
 		end
 
 	sink_content (crc: like crc_generator)
@@ -152,4 +155,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Checksum_dir_table: EL_CACHE_TABLE [EL_DIR_PATH, ZSTRING]
+		once
+			create Result.make_equal (3, agent new_checksum_dir)
+		end
 end

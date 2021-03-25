@@ -42,7 +42,14 @@ feature -- Status report
 			Result := (home_dir #+ dir_path).exists
 		end
 
+	is_open: BOOLEAN
+
 feature -- Basic operations
+
+	close
+		do
+			is_open := False
+		end
 
 	copy_item (item: EL_FILE_SYNC_ITEM)
 		-- copy item
@@ -57,6 +64,11 @@ feature -- Basic operations
 		-- make directory `dir_path' relative to home directory
 		do
 			File_system.make_directory (home_dir.joined_dir_path (dir_path))
+		end
+
+	open
+		do
+			is_open := True
 		end
 
 	remove_directory (dir_path: EL_DIR_PATH)

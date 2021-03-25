@@ -34,6 +34,8 @@ inherit
 			on_prepare, on_clean
 		end
 
+	EL_FILE_SYNC_ROUTINES undefine default_create end
+
 	EIFFEL_LOOP_TEST_CONSTANTS
 
 	EL_MODULE_COMMAND
@@ -62,7 +64,7 @@ feature -- Tests
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
 			line: ZSTRING; base_name_list: EL_ZSTRING_LIST; finder: EL_FIND_FILES_COMMAND_I
-			broadcaster_path, checker_path: EL_FILE_PATH
+			broadcaster_path, checker_path, relative_path, crc_path: EL_FILE_PATH
 		do
 			publisher := new_publisher
 			publisher.execute
@@ -77,10 +79,14 @@ feature -- Tests
 
 			File_system.remove_file (checker_path)
 
+			-- Remove some CRC files to force regeneration
 			finder := Command.new_find_files (Kernel_event.html_dir, "*listener.html")
 			finder.execute
 			across finder.path_list as path loop
-				File_system.remove_file (path.item)
+				relative_path := path.item.relative_path (publisher.output_dir)
+				crc_path := new_crc_name_dir (publisher.output_dir, publisher.ftp_url) + relative_path
+				crc_path.replace_extension (Crc_extension)
+				File_system.remove_file (crc_path)
 			end
 
 			base_name_list := "base.kernel.html, index.html"
@@ -99,29 +105,30 @@ feature -- Tests
 			end
 			assert ("checker html gone", not html_path (checker_path).exists)
 
-			assert ("same list", base_name_list ~ sorted_base_names (publisher.ftp_sync.upload_path_list))
+			assert ("same list", base_name_list ~ sorted_base_names (publisher.uploaded_path_list))
 		end
 
 feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir: EL_DIR_PATH; list: EL_STRING_8_LIST
-			steps: EL_PATH_STEPS
+			lib_dir: EL_DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
 			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
 			OS.copy_file ("test-data/publish/config-1.pyx", Doc_config_dir)
 			list := "dummy, images, css, js"
-			across list as name loop
-				OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), Doc_dir)
+			across << Doc_dir, Ftp_dir >> as destination_dir loop
+				across list as name loop
+					OS.copy_tree (Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), destination_dir.item)
+				end
 			end
 			list := "library/base/kernel, library/base/math, library/base/persistency, library/persistency/database/eco-db%
 								%, library/text/rsa-encryption"
 			across list as dir loop
 				from steps := dir.item until steps.count = 0 loop
 					lib_dir := Work_area_dir.joined_dir_path (steps.as_directory_path)
-					OS.File_system.make_directory (lib_dir)
+					File_system.make_directory (lib_dir)
 					steps.remove_tail (1)
 				end
 			end
@@ -216,17 +223,22 @@ feature {NONE} -- Constants
 			l_dir: EL_DIR_PATH
 		once
 			l_dir := "library/base/kernel/event"
-			Result := [Work_area_dir.joined_dir_path (l_dir), Work_area_dir.joined_dir_path ("doc").joined_dir_path (l_dir)]
+			Result := [Work_area_dir #+ l_dir, Work_area_dir.joined_dir_path ("doc") #+ l_dir]
 		end
 
 	Doc_config_dir: EL_DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_path ("doc-config")
+			Result := Work_area_dir #+ "doc-config"
 		end
 
 	Doc_dir: EL_DIR_PATH
 		once
-			Result := Work_area_dir.joined_dir_path ("doc")
+			Result := Work_area_dir #+ "doc"
+		end
+
+	Ftp_dir: EL_DIR_PATH
+		once
+			Result := Work_area_dir #+ "ftp.doc"
 		end
 
 end

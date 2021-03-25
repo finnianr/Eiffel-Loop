@@ -47,10 +47,14 @@ feature -- Tests
 			create destination_list.make_filled (create {EL_FILE_PATH_LIST}.make_empty, 1, 4)
 			create medium.make
 			medium.set_remote_home (Copied_dir)
-			manager := new_manager
 
 			lio.put_labeled_string ("Test", "adding new files")
 			lio.put_new_line
+			create manager.make (Workarea_help_pages_dir, "ftp", Text_extension)
+			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
+				manager.put_file (path.item.relative_path (Workarea_help_pages_dir))
+			end
+			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [1] := directory_contents (Copied_dir)
 			assert ("synchronized", source_contents_list ~ destination_list [1])
@@ -62,6 +66,7 @@ feature -- Tests
 					manager.remove (list.item)
 				end
 			end
+			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [2] := directory_contents (Copied_dir)
 			assert ("3 fewer items", destination_list [2].count + 3 = destination_list [1].count)
@@ -73,6 +78,8 @@ feature -- Tests
 			manager.put_file (Help_pages_grub_error.relative_path (Help_pages_dir))
 			File_system.make_directory (Work_area_dir #+ Help_pages_mint_docs_dir)
 			write_file (work_area_dir + Help_pages_grub_error)
+
+			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [3] := directory_contents (Copied_dir)
 			assert ("1 item extra", destination_list [3].count - 1 = destination_list [2].count)
@@ -80,6 +87,7 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "no changes made")
 			lio.put_new_line
+			assert ("not manager.has_changes", not manager.has_changes)
 			manager.update (medium)
 			destination_list [4] := directory_contents (Copied_dir)
 			assert ("unchanged", destination_list [4].count = destination_list [3].count)
@@ -106,14 +114,6 @@ feature {NONE} -- Implementation
 			from Result.start until Result.after loop
 				Result.replace (Result.item.relative_path (a_dir_path))
 				Result.forth
-			end
-		end
-
-	new_manager: EL_FILE_SYNC_MANAGER
-		do
-			create Result.make (Workarea_help_pages_dir, Text_extension)
-			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
-				Result.put_file (path.item.relative_path (Workarea_help_pages_dir))
 			end
 		end
 

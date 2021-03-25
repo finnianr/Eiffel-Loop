@@ -19,7 +19,7 @@ inherit
 		undefine
 			is_equal
 		redefine
-			getter_function_table, serialize, is_modified
+			getter_function_table, serialize, is_modified, sink_content
 		end
 
 	COMPARABLE
@@ -38,7 +38,9 @@ feature {NONE} -- Initialization
 			repository := a_repository; eiffel_config := a_eiffel_config
 			make_page (repository)
 			sort_category := a_eiffel_config.new_sort_category
-			make_sync_item (output_path)
+			make_sync_item (
+				repository.output_dir, repository.ftp_url, output_path.relative_path (repository.output_dir)
+			)
 		end
 
 feature -- Access

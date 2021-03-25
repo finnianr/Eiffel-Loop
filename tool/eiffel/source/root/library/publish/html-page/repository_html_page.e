@@ -13,10 +13,9 @@ deferred class
 	REPOSITORY_HTML_PAGE
 
 inherit
-	EL_HTML_FILE_SYNC_ITEM
+	EL_FILE_SYNC_ITEM
 		rename
-			make as make_sync_item,
-			file_path as ftp_file_path
+			make as make_sync_item
 		undefine
 			is_equal
 		end
@@ -71,7 +70,7 @@ feature {NONE} -- Evolicity fields
 				["top_dir", 				agent: ZSTRING do Result := Directory.relative_parent (step_count) end],
 				["title", 					agent: like title do Result := XML.escaped (title) end],
 				["name", 					agent: like name do Result := XML.escaped (name) end],
-				["crc_digest",				agent current_digest_ref],
+				["crc_digest",				agent: INTEGER_REF do create Result end],
 
 				["is_site_map_page",		agent: BOOLEAN_REF do Result := is_site_map_page.to_reference end],
 
@@ -86,11 +85,6 @@ feature {NONE} -- Implementation
 
 	content_template: EL_FILE_PATH
 		deferred
-		end
-
-	ftp_file_path: EL_FILE_PATH
-		do
-			Result := output_path.relative_path (repository.output_dir)
 		end
 
 	step_count: INTEGER

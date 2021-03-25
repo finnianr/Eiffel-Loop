@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 19:01:23 GMT (Monday 22nd March 2021)"
-	revision: "34"
+	date: "2021-03-23 12:43:57 GMT (Tuesday 23rd March 2021)"
+	revision: "35"
 
 class
 	REPOSITORY_PUBLISHER
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make_default, on_context_return
 		end
+
+	PUBLISHER_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -68,7 +70,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create root_dir
 			create output_dir
 			create example_classes.make (500)
-			create ftp_sync.make_default
 			create ftp_configuration.make_default
 			create web_address.make_empty
 			create ise_template
@@ -80,12 +81,15 @@ feature -- Access
 	config_path: EL_FILE_PATH
 		-- config file path
 
+	ftp_url: STRING
+		do
+			Result := ftp_configuration.url
+		end
+
 	ecf_list: EIFFEL_CONFIGURATION_LIST [EIFFEL_CONFIGURATION_FILE]
 
 	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		-- Client examples list
-
-	ftp_sync: EL_FTP_SYNC
 
 	github_url: EL_DIR_URI_PATH
 
@@ -111,37 +115,32 @@ feature -- Basic operations
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
-			ftp_medium: EL_FTP_FILE_SYNC_MEDIUM
+			sync_manager: EL_FILE_SYNC_MANAGER
 		do
-			ftp_sync.set_root_dir (output_dir)
-
+			create sync_manager.make (output_dir, ftp_url, Html)
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
 			end
 
 			ecf_list.sink_source_subsitutions
-			ecf_list.fill_ftp_sync
+			ecf_list.get_sync_items (sync_manager)
 
 			lio.put_new_line
 			across ecf_list.to_html_page_list as page loop
 				if page.item.is_modified then
 					page.item.serialize
 				end
-				ftp_sync.extend (page.item)
+				sync_manager.put (page.item)
 			end
-			ftp_sync.update
-			ftp_sync.remove_local (output_dir)
 
 			create github_contents.make (Current, output_dir + "Contents.md")
 			github_contents.serialize
 			write_version
 
-			if ftp_sync.has_changes and then attached new_ftp_protocol as ftp then
-				if not ftp.is_default_state and then ok_to_synchronize then
-					lio.put_new_line
-					Track.progress (Console_display, ftp_sync.operation_count, agent ftp_sync.login_and_upload (ftp))
-					lio.put_line ("Synchronized")
-				end
+			if sync_manager.has_changes and then attached new_medium as medium then
+				login (medium)
+				sync_manager.track_update (medium, Console_display)
+				lio.put_line ("Synchronized")
 			end
 		end
 
@@ -165,15 +164,21 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	login (medium: EL_FILE_SYNC_MEDIUM)
+		do
+			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
+				ftp.login
+			end
+		end
+
 	log_thread_count
 		do
 			lio.put_integer_field ("Thread count", thread_count)
 			lio.put_new_line
 		end
 
-	new_ftp_protocol: EL_FTP_PROTOCOL
+	new_medium: EL_FILE_SYNC_MEDIUM
 		do
-			create Result.make_write (ftp_configuration)
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -218,17 +223,40 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
+	build_output_dir
+		do
+			output_dir := node.to_expanded_dir_path
+		end
+
+	build_ftp_sync_path
+		local
+			sync_table: EL_FTP_SYNC_ITEM_TABLE; item: EL_FILE_SYNC_ITEM
+		do
+			create sync_table.make_from_file (node.to_expanded_file_path)
+			lio.put_path_field ("Exporting", sync_table.file_path)
+			lio.put_new_line
+			across sync_table as table loop
+				if (output_dir + table.key).exists then
+					create item.make (output_dir, ftp_url, table.key)
+					item.set_current_digest (table.item)
+					item.store
+				end
+			end
+			User_input.press_enter
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
+				["@output-dir",		 			agent build_output_dir],
+--				["@ftp-sync-path",				agent build_ftp_sync_path],
+
 				["@name", 							agent do name := node.to_string end],
-				["@output-dir",		 			agent do output_dir := node.to_expanded_dir_path end],
 				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
 				["@github-url", 					agent do github_url := node.to_string end],
 				["@web-address", 					agent do web_address := node.to_string end],
 				["@ise-library",					agent do ise_template.library := node end],
 				["@ise-contrib",					agent do ise_template.contrib := node end],
-				["@ftp-sync-path",				agent do ftp_sync.set_sync_table (node.to_expanded_file_path) end],
 
 				["templates",						agent set_template_context],
 				["ecf-list/ecf", 					agent do set_next_context (create {ECF_INFO}.make) end],

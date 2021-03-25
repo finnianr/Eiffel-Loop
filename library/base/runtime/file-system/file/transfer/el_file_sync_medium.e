@@ -25,6 +25,10 @@ feature -- Status report
 		deferred
 		end
 
+	is_open: BOOLEAN
+		deferred
+		end
+
 feature -- Basic operations
 
 	copy_item (item: EL_FILE_SYNC_ITEM)
@@ -34,8 +38,16 @@ feature -- Basic operations
 		deferred
 		end
 
+	close
+		deferred
+		end
+
 	make_directory (dir_path: EL_DIR_PATH)
 		-- make directory `dir_path' relative to home directory
+		deferred
+		end
+
+	open
 		deferred
 		end
 

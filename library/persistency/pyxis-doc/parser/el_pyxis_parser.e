@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			create attribute_parser.make (attribute_list)
 			previous_state := State_parse_line
 			create element_stack.make (10)
-			create element_set.make (11)
+			create element_set.make_equal (11)
 		end
 
 feature -- Element change

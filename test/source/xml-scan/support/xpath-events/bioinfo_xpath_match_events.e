@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			create label_count
 			create par_id_count
-			create data_value_field_set.make (21)
+			create data_value_field_set.make_equal (21)
 		end
 
 feature {NONE} -- XPath match event handlers

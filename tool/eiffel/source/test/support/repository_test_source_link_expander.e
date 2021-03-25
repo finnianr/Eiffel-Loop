@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_SOURCE_LINK_EXPANDER
 		undefine
-			new_ftp_protocol
+			make_default, new_medium
 		end
 
 	REPOSITORY_TEST_PUBLISHER

@@ -15,11 +15,23 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			new_ftp_protocol, ok_to_synchronize
+			make_default, new_medium, ok_to_synchronize
 		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			create uploaded_path_list.make (10)
+		end
+
+feature -- Access
+
+	uploaded_path_list: ARRAYED_LIST [EL_FILE_PATH]
 
 feature -- Status query
 
@@ -30,9 +42,15 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_ftp_protocol: FAUX_FTP_PROTOCOL
+	new_medium: TEST_FILE_SYNC_MEDIUM
 		do
-			create Result.make_write (ftp_configuration)
+			create Result.make (uploaded_path_list)
+			Result.set_remote_home (ftp_output_dir)
+		end
+
+	ftp_output_dir: EL_DIR_PATH
+		do
+			Result := output_dir.parent #+ "ftp.doc"
 		end
 
 end

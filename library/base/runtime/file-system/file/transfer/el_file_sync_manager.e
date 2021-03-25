@@ -4,11 +4,9 @@ note
 		conforming to [$source EL_FILE_SYNC_MEDIUM]
 	]"
 	notes: "[
-		Each synchronizeable file as a small CRC-32 checksum file associated with it. The name of this
+		Each synchronizeable file has a 4-byte CRC-32 checksum file associated with it. The name of this
 		file is derived from the main file by prepending a dot and replacing the extension with `crc32'.
-		This file has a digest used to determine if the sync file has been modified.
-		
-		The limitation of this scheme is you can only sync with one medium.
+		This checksum determines if the sync-file has been modified.
 	]"
 
 	author: "Finnian Reilly"
@@ -23,7 +21,7 @@ class
 	EL_FILE_SYNC_MANAGER
 
 inherit
-	EL_FILE_SYNC_CONSTANTS
+	EL_FILE_SYNC_ROUTINES
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -42,20 +40,28 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_local_home_dir: EL_DIR_PATH; a_extension: READABLE_STRING_GENERAL)
+	make (a_local_home_dir: EL_DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
 		local
-			file_path: EL_FILE_PATH; crc_path_list: LIST [EL_FILE_PATH]
+			file_path: EL_FILE_PATH
 		do
-			local_home_dir := a_local_home_dir; create extension.make_from_general (a_extension)
-			crc_path_list := File_system.files_with_extension (local_home_dir, Crc_32, True)
-			create previous_set.make_equal (crc_path_list.count)
-			across crc_path_list as path loop
-				file_path := path.item.relative_path (a_local_home_dir)
-				file_path.replace_extension (extension)
-				file_path.base.remove_head (1)
-				previous_set.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, file_path))
+			local_home_dir := a_local_home_dir; destination_name := a_destination_name
+			create extension.make_from_general (a_extension)
+			if attached new_crc_name_dir (a_local_home_dir, a_destination_name) as checksum_dir then
+				if checksum_dir.exists
+					and then attached File_system.files_with_extension (checksum_dir, Crc_extension, True) as crc_path_list
+				then
+					create previous_set.make (crc_path_list.count)
+					across crc_path_list as path loop
+						file_path := path.item.relative_path (checksum_dir)
+						file_path.replace_extension (extension)
+						previous_set.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, a_destination_name, file_path))
+					end
+				else
+					File_system.make_directory (checksum_dir)
+					create previous_set.make (17)
+				end
 			end
-			create current_set.make_equal (crc_path_list.count)
+			create current_set.make (previous_set.count)
 			maximum_retry_count := Default_maximum_retry_count
 		end
 
@@ -66,10 +72,27 @@ feature -- Access
 			Result := current_set.to_list
 		end
 
+	destination_name: READABLE_STRING_GENERAL
+		-- name for destination medium
+
 	extension: ZSTRING
 		-- file extension
 
 	local_home_dir: EL_DIR_PATH
+
+feature -- Status query
+
+	has_changes: BOOLEAN
+		-- `True' if their are changes to be synchronized with medium
+		do
+			if not current_set.is_superset (previous_set) then
+				Result := True
+			else
+				Result := across current_set as set some
+					set.item.is_modified or else not previous_set.has (set.item)
+				end
+			end
+		end
 
 feature -- Element change
 
@@ -79,12 +102,12 @@ feature -- Element change
 			valid_home_dir: local_home_dir ~ new.home_dir
 			valid_extension: new.file_path.extension ~ extension
 		do
-			current_set.put (new.bare_item)
+			current_set.put (new)
 		end
 
 	put_file (file_path: EL_FILE_PATH)
 		do
-			put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, file_path))
+			put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, destination_name, file_path))
 		end
 
 	remove (item: EL_FILE_SYNC_ITEM)
@@ -101,6 +124,8 @@ feature -- Basic operations
 
 	track_update (medium: EL_FILE_SYNC_MEDIUM; display: EL_PROGRESS_DISPLAY)
 		-- update with progress tracking
+		require
+			medium_closed: not medium.is_open
 		local
 			deleted_set, new_item_set: like current_set
 			make_directory_list: LIST [EL_DIR_PATH]; update_action: PROCEDURE
@@ -110,12 +135,14 @@ feature -- Basic operations
 			make_directory_list := File_system.parent_set (new_file_list (new_item_set), True)
 			new_item_set.merge (current_set.subset_include (agent {EL_FILE_SYNC_ITEM}.is_modified))
 
+			medium.open
 			if display = Default_display then
 				do_update (medium, deleted_set, new_item_set, make_directory_list)
 			else
 				update_action := agent do_update (medium, deleted_set, new_item_set, make_directory_list)
 				Track.progress (display, 1 + new_item_set.count, update_action)
 			end
+			medium.close
 			previous_set.wipe_out
 			previous_set.merge (current_set)
 		end
@@ -154,7 +181,7 @@ feature {NONE} -- Implementation
 		medium: EL_FILE_SYNC_MEDIUM; deleted_set, copy_item_set: like current_set; make_directory_list: LIST [EL_DIR_PATH]
 	)
 		local
-			local_dir: EL_DIR_PATH
+			local_dir, checksum_dir: EL_DIR_PATH
 		do
 			-- remove files for deletion
 			across deleted_set as set loop
@@ -162,11 +189,17 @@ feature {NONE} -- Implementation
 				set.item.remove
 			end
 			-- remove empty directories
+			checksum_dir := new_crc_name_dir (local_home_dir, destination_name)
 			across File_system.parent_set (new_file_list (deleted_set), False) as list loop
 				-- order of descending step count
-				local_dir := local_home_dir.joined_dir_path (list.item)
+				local_dir := local_home_dir #+ list.item
 				if Directory.named (local_dir).is_empty then
 					apply (medium, agent medium.remove_directory (list.item))
+					File_system.remove_directory (local_dir)
+				end
+				-- Remove empty checksums directory
+				local_dir := checksum_dir #+ list.item
+				if Directory.named (local_dir).is_empty then
 					File_system.remove_directory (local_dir)
 				end
 			end
@@ -184,7 +217,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_file_list (item_set: EL_HASH_SET [EL_FILE_SYNC_ITEM]): EL_ARRAYED_LIST [EL_FILE_PATH]
+	new_file_list (item_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]): EL_ARRAYED_LIST [EL_FILE_PATH]
 		do
 			create Result.make (item_set.count)
 			across item_set as set loop
@@ -194,9 +227,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	current_set: EL_HASH_SET [EL_FILE_SYNC_ITEM]
+	current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 
-	previous_set: EL_HASH_SET [EL_FILE_SYNC_ITEM]
+	previous_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 
 	maximum_retry_count: INTEGER
 

@@ -16,8 +16,6 @@ inherit
 	FTP_URL
 		rename
 			make as make_url
-		export
-			{FTP_PROTOCOL} address
 		end
 
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -53,12 +51,17 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			make (Default_address, "/")
+			make (Default_url, "/")
 		end
 
 feature -- Access
 
 	user_home_dir: EL_DIR_PATH
+
+	url: STRING
+		do
+			Result := address
+		end
 
 feature -- Element change
 
