@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:07:24 GMT (Saturday 20th March 2021)"
-	revision: "11"
+	date: "2021-03-27 9:55:56 GMT (Saturday 27th March 2021)"
+	revision: "12"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -47,7 +47,7 @@ feature {EL_SUB_APPLICATION} -- Initialization
 			make_from_file (config_path)
 			translations := Locale.new_translation_table (language)
 			translations.print_duplicates
-			create referenced_keys.make_equal (translations.count)
+			create referenced_keys.make (translations.count)
 		end
 
 	make_default

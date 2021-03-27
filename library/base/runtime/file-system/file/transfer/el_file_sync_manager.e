@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 17:37:15 GMT (Thursday 25th March 2021)"
-	revision: "5"
+	date: "2021-03-27 11:34:38 GMT (Saturday 27th March 2021)"
+	revision: "7"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 		do
 			local_home_dir := a_local_home_dir; destination_name := a_destination_name
 			create extension.make_from_general (a_extension)
-			if attached new_crc_name_dir (a_local_home_dir, a_destination_name) as checksum_dir then
+			if attached new_crc_sync_dir (a_local_home_dir, a_destination_name) as checksum_dir then
 				if checksum_dir.exists
 					and then attached File_system.files_with_extension (checksum_dir, Crc_extension, True) as crc_path_list
 				then
@@ -124,8 +124,6 @@ feature -- Basic operations
 
 	track_update (medium: EL_FILE_SYNC_MEDIUM; display: EL_PROGRESS_DISPLAY)
 		-- update with progress tracking
-		require
-			medium_closed: not medium.is_open
 		local
 			deleted_set, new_item_set: like current_set
 			make_directory_list: LIST [EL_DIR_PATH]; update_action: PROCEDURE
@@ -135,7 +133,9 @@ feature -- Basic operations
 			make_directory_list := File_system.parent_set (new_file_list (new_item_set), True)
 			new_item_set.merge (current_set.subset_include (agent {EL_FILE_SYNC_ITEM}.is_modified))
 
-			medium.open
+			if not medium.is_open then
+				medium.open
+			end
 			if display = Default_display then
 				do_update (medium, deleted_set, new_item_set, make_directory_list)
 			else
@@ -189,7 +189,7 @@ feature {NONE} -- Implementation
 				set.item.remove
 			end
 			-- remove empty directories
-			checksum_dir := new_crc_name_dir (local_home_dir, destination_name)
+			checksum_dir := new_crc_sync_dir (local_home_dir, destination_name)
 			across File_system.parent_set (new_file_list (deleted_set), False) as list loop
 				-- order of descending step count
 				local_dir := local_home_dir #+ list.item

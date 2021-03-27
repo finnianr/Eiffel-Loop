@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 7:06:51 GMT (Saturday 27th March 2021)"
-	revision: "36"
+	date: "2021-03-27 11:38:32 GMT (Saturday 27th March 2021)"
+	revision: "38"
 
 class
 	REPOSITORY_PUBLISHER
@@ -117,6 +117,7 @@ feature -- Basic operations
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			sync_manager: EL_FILE_SYNC_MANAGER
 		do
+			lio.put_line ("Reading previous checksums")
 			create sync_manager.make (output_dir, ftp_url, Html)
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
@@ -137,10 +138,18 @@ feature -- Basic operations
 			github_contents.serialize
 			write_version
 
-			if sync_manager.has_changes and then attached new_medium as medium then
-				login (medium)
-				sync_manager.track_update (medium, Console_display)
-				lio.put_line ("Synchronized")
+			if sync_manager.has_changes then
+				if attached new_medium as medium then
+					login (medium)
+					if is_logged_in then
+						sync_manager.track_update (medium, Console_display)
+						lio.put_line ("Synchronized")
+					else
+						lio.put_line ("Login failed")
+					end
+				end
+			else
+				lio.put_line ("No changes")
 			end
 		end
 
@@ -162,12 +171,17 @@ feature -- Status query
 			Result := User_input.entered_letter ('y')
 		end
 
+	is_logged_in: BOOLEAN
+
 feature {NONE} -- Implementation
 
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
 				ftp.login
+				is_logged_in := ftp.is_logged_in
+			else
+				is_logged_in := True
 			end
 		end
 
@@ -188,7 +202,7 @@ feature {NONE} -- Implementation
 			relative_path: EL_DIR_PATH
 		do
 			create Result.make (10)
-			create set.make_equal (10)
+			create set.make (10)
 			across ecf_list as tree loop
 				relative_path := tree.item.relative_dir_path
 				first_step := relative_path.first_step
@@ -224,36 +238,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Build from Pyxis
 
-	build_output_dir
-		do
-			output_dir := node.to_expanded_dir_path
-		end
-
-	build_ftp_sync_path
-		local
-			sync_table: EL_FTP_SYNC_ITEM_TABLE; item: EL_FILE_SYNC_ITEM
-		do
-			if attached node.to_expanded_file_path as path and then path.exists then
-				create sync_table.make_from_file (path)
-				lio.put_path_field ("Exporting", sync_table.file_path)
-				lio.put_new_line
-				across sync_table as table loop
-					if (output_dir + table.key).exists then
-						create item.make (output_dir, ftp_url, table.key)
-						item.set_current_digest (table.item)
-						item.store
-					end
-				end
-				User_input.press_enter
-			end
-		end
-
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@output-dir",		 			agent build_output_dir],
-				["@ftp-sync-path",				agent build_ftp_sync_path],
-
+				["@output-dir",		 			agent do output_dir := node.to_expanded_dir_path end],
 				["@name", 							agent do name := node.to_string end],
 				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],
 				["@github-url", 					agent do github_url := node.to_string end],

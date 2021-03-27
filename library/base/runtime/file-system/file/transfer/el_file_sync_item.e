@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 16:45:06 GMT (Thursday 25th March 2021)"
-	revision: "7"
+	date: "2021-03-27 7:27:48 GMT (Saturday 27th March 2021)"
+	revision: "8"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -139,13 +139,8 @@ feature {NONE} -- Implementation
 
 	digest_path: EL_FILE_PATH
 		do
-			Result := Checksum_dir_table.item (home_dir.to_string + destination_name) + file_path
+			Result := new_crc_sync_dir (home_dir, destination_name) + file_path
 			Result.replace_extension (Crc_extension)
-		end
-
-	new_checksum_dir (key: ZSTRING): EL_DIR_PATH
-		do
-			Result := new_crc_name_dir (home_dir, destination_name)
 		end
 
 	sink_content (crc: like crc_generator)
@@ -155,10 +150,4 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Checksum_dir_table: EL_CACHE_TABLE [EL_DIR_PATH, ZSTRING]
-		once
-			create Result.make_equal (3, agent new_checksum_dir)
-		end
 end

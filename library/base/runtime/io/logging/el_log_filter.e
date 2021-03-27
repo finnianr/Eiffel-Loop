@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 14:06:18 GMT (Thursday 25th March 2021)"
-	revision: "13"
+	date: "2021-03-27 8:21:30 GMT (Saturday 27th March 2021)"
+	revision: "14"
 
 class
 	EL_LOG_FILTER
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Empty_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_equal (0)
+			create Result.make (0)
 		end
 
 end

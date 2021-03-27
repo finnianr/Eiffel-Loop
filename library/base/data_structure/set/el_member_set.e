@@ -6,23 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 11:51:07 GMT (Thursday 25th March 2021)"
-	revision: "1"
+	date: "2021-03-27 9:52:36 GMT (Saturday 27th March 2021)"
+	revision: "2"
 
 class
 	EL_MEMBER_SET [G -> EL_SET_MEMBER [G]]
 
 inherit
 	EL_HASH_SET [G]
-		rename
-			make_equal as make,
-			make as make_set
 		redefine
 			same_keys
 		end
 
 create
-	make
+	make, make_size
 
 feature -- Comparison
 

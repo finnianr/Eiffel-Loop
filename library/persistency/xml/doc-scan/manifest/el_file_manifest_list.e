@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:44:09 GMT (Thursday 7th May 2020)"
-	revision: "10"
+	date: "2021-03-27 8:28:10 GMT (Saturday 27th March 2021)"
+	revision: "11"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -73,7 +73,7 @@ feature -- Access
 
 	name_set: EL_HASH_SET [ZSTRING]
 		do
-			create Result.make_equal (count)
+			create Result.make (count)
 			across Current as file loop
 				Result.put (file.item.name)
 			end

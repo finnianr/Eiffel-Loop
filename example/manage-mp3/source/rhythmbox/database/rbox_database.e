@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 11:36:35 GMT (Sunday 21st March 2021)"
-	revision: "36"
+	date: "2021-03-27 9:58:14 GMT (Saturday 27th March 2021)"
+	revision: "37"
 
 class
 	RBOX_DATABASE
@@ -159,7 +159,7 @@ feature -- Access
 			path_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
 			name_set: EL_HASH_SET [EL_FILE_PATH]; last_dir: EL_DIR_PATH
 		do
-			create name_set.make_equal (11); create last_dir
+			create name_set.make (11); create last_dir
 			create path_list.make (songs.count)
 			create Result.make
 			across songs as song loop
@@ -360,7 +360,7 @@ feature -- Element change
 			directory_set: EL_HASH_SET [EL_DIR_PATH]
 			query_result: like songs.query
 		do
-			create directory_set.make_equal (2)
+			create directory_set.make (2)
 
 			query_result := existing_songs_query (song_is_genre (Extra_genre.cortina))
 			across query_result as song loop

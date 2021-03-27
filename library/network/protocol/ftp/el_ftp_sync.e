@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 12:36:19 GMT (Tuesday 23rd March 2021)"
-	revision: "21"
+	date: "2021-03-27 9:56:08 GMT (Saturday 27th March 2021)"
+	revision: "22"
 
 class
 	EL_FTP_SYNC
@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 			deleted_dir_set: EL_HASH_SET [EL_DIR_PATH]
 			sorted_dir_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_DIR_PATH]
 		do
-			create deleted_dir_set.make_equal (10)
+			create deleted_dir_set.make (10)
 			across removed_items as path loop
 				ftp.delete_file (path.item)
 				if ftp.last_succeeded then

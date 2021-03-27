@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-27 14:07:23 GMT (Thursday 27th September 2018)"
-	revision: "5"
+	date: "2021-03-27 9:56:51 GMT (Saturday 27th March 2021)"
+	revision: "6"
 
 class
 	EL_SUBJECT_LIST
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			create line_set.make_equal (n)
+			create line_set.make (n)
 			create decoder.make
 		end
 

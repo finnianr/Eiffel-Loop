@@ -1,13 +1,16 @@
 note
 	description: "Hash set"
+	notes: "[
+		Tried implementing this with class [$source SEARCH_TABLE] but there seems to be some problems 
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 11:29:50 GMT (Thursday 25th March 2021)"
-	revision: "11"
+	date: "2021-03-27 9:54:45 GMT (Saturday 27th March 2021)"
+	revision: "12"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -22,8 +25,8 @@ inherit
 			linear_representation as to_list,
 			item as table_item,
 			merge as ht_merge,
+			make_equal as make,
 			make as make_from_array,
-			make_size as make,
 			prune as ht_prune,
 			remove as prune,
 			put as ht_put
@@ -50,7 +53,7 @@ inherit
 		end
 
 create
-	make, make_equal, make_from_list
+	make, make_size, make_from_list
 
 feature {NONE} -- Initialization
 
@@ -58,7 +61,7 @@ feature {NONE} -- Initialization
 		local
 			iterable: EL_ITERABLE_ROUTINES
 		do
-			make_equal (iterable.count (list))
+			make (iterable.count (list))
 			across list as l loop
 				extend (l.item)
 			end
@@ -86,9 +89,9 @@ feature -- Access
 			pos: INTEGER; l_keys: like keys
 		do
 			if object_comparison then
-				create Result.make_equal (count // 2)
-			else
 				create Result.make (count // 2)
+			else
+				create Result.make_size (count // 2)
 			end
 			l_keys := keys
 			from pos := next_iteration_position (-1) until is_off_position (pos) loop
@@ -167,9 +170,9 @@ feature -- Duplication
 	duplicate (n: INTEGER): EL_HASH_SET [G]
 		do
 			if object_comparison then
-				create Result.make_equal (n)
-			else
 				create Result.make (n)
+			else
+				create Result.make_size (n)
 			end
 			Result.copy (Current)
 		end

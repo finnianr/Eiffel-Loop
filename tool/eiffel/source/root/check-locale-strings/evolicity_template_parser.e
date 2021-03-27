@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:59:24 GMT (Sunday 10th January 2021)"
-	revision: "4"
+	date: "2021-03-27 9:55:41 GMT (Saturday 27th March 2021)"
+	revision: "5"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create locale_keys.make_empty
-			create ignored_keys.make_equal (13)
+			create ignored_keys.make (13)
 			Precursor
 		end
 

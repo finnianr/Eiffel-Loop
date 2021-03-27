@@ -13,10 +13,9 @@ publish-repository:
 	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
 	ise-library = "https://www.eiffel.org/files/doc/static/18.01/libraries/%S/%S_chart.html"
 	ise-contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
-	ftp-sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
 
 	ftp-site:
-		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"; sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
+		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"
 
 	templates:
 		main = "main-template.html.evol"; eiffel-source = "eiffel-source-code.html.evol"

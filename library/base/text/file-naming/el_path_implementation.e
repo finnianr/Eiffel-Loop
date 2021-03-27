@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:24:05 GMT (Tuesday 23rd March 2021)"
-	revision: "16"
+	date: "2021-03-27 8:20:34 GMT (Saturday 27th March 2021)"
+	revision: "17"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -348,7 +348,7 @@ feature {NONE} -- Constants
 	Parent_set: EL_HASH_SET [ZSTRING]
 			--
 		once
-			create Result.make_equal (100)
+			create Result.make (100)
 		end
 
 	Single_dot: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:49:08 GMT (Monday 7th October 2019)"
-	revision: "5"
+	date: "2021-03-27 9:56:08 GMT (Saturday 27th March 2021)"
+	revision: "6"
 
 class
 	CLASS_PREFIX_REMOVER
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			make_editor
 			prefix_characters := a_prefix_letters + "_"
 			create class_name.make_empty
-			create class_set.make_equal (file_path_list.count)
+			create class_set.make (file_path_list.count)
 			across file_path_list as path loop
 				class_set.put (path.item.base_sans_extension.as_upper)
 			end

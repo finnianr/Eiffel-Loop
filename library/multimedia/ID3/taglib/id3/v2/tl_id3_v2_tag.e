@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 13:43:00 GMT (Monday 30th March 2020)"
-	revision: "18"
+	date: "2021-03-27 8:15:45 GMT (Saturday 27th March 2021)"
+	revision: "19"
 
 class
 	TL_ID3_V2_TAG
@@ -343,7 +343,7 @@ feature {NONE} -- Constants
 
 	Language_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_equal (5)
+			create Result.make (5)
 			Result.put (Default_language)
 		end
 

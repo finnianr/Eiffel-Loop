@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 17:54:24 GMT (Thursday 25th March 2021)"
-	revision: "34"
+	date: "2021-03-27 7:26:12 GMT (Saturday 27th March 2021)"
+	revision: "35"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 			finder.execute
 			across finder.path_list as path loop
 				relative_path := path.item.relative_path (publisher.output_dir)
-				crc_path := new_crc_name_dir (publisher.output_dir, publisher.ftp_url) + relative_path
+				crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_url) + relative_path
 				crc_path.replace_extension (Crc_extension)
 				File_system.remove_file (crc_path)
 			end
