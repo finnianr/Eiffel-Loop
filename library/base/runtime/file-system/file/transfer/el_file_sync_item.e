@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 11:11:16 GMT (Monday 22nd March 2021)"
-	revision: "6"
+	date: "2021-03-25 16:45:06 GMT (Thursday 25th March 2021)"
+	revision: "7"
 
 class
 	EL_FILE_SYNC_ITEM

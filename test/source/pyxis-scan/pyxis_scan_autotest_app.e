@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 14:40:41 GMT (Sunday 10th January 2021)"
-	revision: "17"
+	date: "2021-03-25 14:04:46 GMT (Thursday 25th March 2021)"
+	revision: "18"
 
 class
 	PYXIS_SCAN_AUTOTEST_APP

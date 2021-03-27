@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 14:51:04 GMT (Thursday 7th January 2021)"
-	revision: "8"
+	date: "2021-03-25 14:05:45 GMT (Thursday 25th March 2021)"
+	revision: "9"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS

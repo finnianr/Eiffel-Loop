@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 12:43:57 GMT (Tuesday 23rd March 2021)"
-	revision: "35"
+	date: "2021-03-27 7:06:51 GMT (Saturday 27th March 2021)"
+	revision: "36"
 
 class
 	REPOSITORY_PUBLISHER
@@ -179,6 +179,7 @@ feature {NONE} -- Implementation
 
 	new_medium: EL_FILE_SYNC_MEDIUM
 		do
+			create {EL_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_configuration)
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -232,24 +233,26 @@ feature {NONE} -- Build from Pyxis
 		local
 			sync_table: EL_FTP_SYNC_ITEM_TABLE; item: EL_FILE_SYNC_ITEM
 		do
-			create sync_table.make_from_file (node.to_expanded_file_path)
-			lio.put_path_field ("Exporting", sync_table.file_path)
-			lio.put_new_line
-			across sync_table as table loop
-				if (output_dir + table.key).exists then
-					create item.make (output_dir, ftp_url, table.key)
-					item.set_current_digest (table.item)
-					item.store
+			if attached node.to_expanded_file_path as path and then path.exists then
+				create sync_table.make_from_file (path)
+				lio.put_path_field ("Exporting", sync_table.file_path)
+				lio.put_new_line
+				across sync_table as table loop
+					if (output_dir + table.key).exists then
+						create item.make (output_dir, ftp_url, table.key)
+						item.set_current_digest (table.item)
+						item.store
+					end
 				end
+				User_input.press_enter
 			end
-			User_input.press_enter
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
 				["@output-dir",		 			agent build_output_dir],
---				["@ftp-sync-path",				agent build_ftp_sync_path],
+				["@ftp-sync-path",				agent build_ftp_sync_path],
 
 				["@name", 							agent do name := node.to_string end],
 				["@root-dir",	 					agent do root_dir := node.to_expanded_dir_path end],

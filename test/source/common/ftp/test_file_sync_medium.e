@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {TEST_FILE_SYNC_MEDIUM}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Test file sync medium"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2021-03-25 14:17:13 GMT (Thursday 25th March 2021)"
+	revision: "1"
 
 class
 	TEST_FILE_SYNC_MEDIUM

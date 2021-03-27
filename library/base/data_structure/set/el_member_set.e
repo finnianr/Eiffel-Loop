@@ -1,8 +1,13 @@
 note
 	description: "Set of objects conforming to [$source EL_SET_MEMBER [HASHABLE]]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2021-03-25 11:51:07 GMT (Thursday 25th March 2021)"
+	revision: "1"
 
 class
 	EL_MEMBER_SET [G -> EL_SET_MEMBER [G]]

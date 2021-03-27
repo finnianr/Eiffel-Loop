@@ -2,9 +2,14 @@ note
 	description: "[
 		Iteration cursor for {HASH_TABLE} to fix problem with `cursor_index' when items have been deleted
 	]"
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2021-03-24 18:08:58 GMT (Wednesday 24th March 2021)"
+	revision: "1"
 
 class
 	EL_HASH_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]

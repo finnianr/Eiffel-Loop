@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 12:05:55 GMT (Monday 22nd March 2021)"
-	revision: "4"
+	date: "2021-03-25 17:37:15 GMT (Thursday 25th March 2021)"
+	revision: "5"
 
 class
 	EL_FILE_SYNC_MANAGER
