@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 13:39:05 GMT (Thursday 25th March 2021)"
-	revision: "5"
+	date: "2021-03-27 17:52:06 GMT (Saturday 27th March 2021)"
+	revision: "6"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -57,12 +57,12 @@ feature -- Access
 
 feature -- Basic operations
 
-	get_sync_items (sync_manager: EL_FILE_SYNC_MANAGER)
+	get_sync_items (current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM])
 		do
 			across Current as tree loop
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
-						sync_manager.put (e_class.item)
+						current_set.put (e_class.item)
 					end
 				end
 			end

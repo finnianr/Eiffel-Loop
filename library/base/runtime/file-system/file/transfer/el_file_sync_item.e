@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 7:27:48 GMT (Saturday 27th March 2021)"
-	revision: "8"
+	date: "2021-03-27 18:22:29 GMT (Saturday 27th March 2021)"
+	revision: "9"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -36,11 +36,14 @@ feature {NONE} -- Initialization
 			valid_file_path: a_file_path.is_absolute implies a_home_dir.is_parent_of (a_file_path)
 		do
 			home_dir := a_home_dir; destination_name := a_destination_name
-			if a_file_path.is_absolute then
+			if a_home_dir.is_parent_of (a_file_path) then
 				file_path := a_file_path.relative_path (a_home_dir)
 			else
 				file_path := a_file_path
 			end
+			digest_path := new_crc_sync_dir (home_dir, destination_name) + file_path
+			digest_path.replace_extension (Crc_extension)
+
 			if attached crc_generator as crc then
 				sink_content (crc)
 				current_digest := crc.checksum
@@ -50,6 +53,9 @@ feature {NONE} -- Initialization
 				previous_digest := file.last_natural_32
 				file.close
 			end
+
+		ensure
+			file_path_is_relative: not file_path.is_absolute
 		end
 
 	make_from_other (other: EL_FILE_SYNC_ITEM)
@@ -63,6 +69,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	current_digest: NATURAL
+
+	digest_path: EL_FILE_PATH
 
 	destination_name: READABLE_STRING_GENERAL
 
@@ -88,14 +96,20 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			if current_digest = other.current_digest then
+			if Current = other then
+				Result := True
+			elseif current_digest = other.current_digest then
 				Result := is_same_as (other) and then home_dir ~ other.home_dir
 			end
 		end
 
 	is_same_as (other: EL_FILE_SYNC_ITEM): BOOLEAN
 		do
-			Result := file_path ~ other.file_path
+			if Current = other then
+				Result := True
+			else
+				Result := file_path ~ other.file_path
+			end
 		end
 
 feature -- Status query
@@ -136,12 +150,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	digest_path: EL_FILE_PATH
-		do
-			Result := new_crc_sync_dir (home_dir, destination_name) + file_path
-			Result.replace_extension (Crc_extension)
-		end
 
 	sink_content (crc: like crc_generator)
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 11:38:32 GMT (Saturday 27th March 2021)"
-	revision: "38"
+	date: "2021-03-27 18:35:51 GMT (Saturday 27th March 2021)"
+	revision: "39"
 
 class
 	REPOSITORY_PUBLISHER
@@ -115,29 +115,32 @@ feature -- Basic operations
 	execute
 		local
 			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
-			sync_manager: EL_FILE_SYNC_MANAGER
+			sync_manager: EL_FILE_SYNC_MANAGER; current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 		do
-			lio.put_line ("Reading previous checksums")
-			create sync_manager.make (output_dir, ftp_url, Html)
+			create current_set.make (3000)
 			if version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
 			end
-
 			ecf_list.sink_source_subsitutions
-			ecf_list.get_sync_items (sync_manager)
+			ecf_list.get_sync_items (current_set)
 
 			lio.put_new_line
 			across ecf_list.to_html_page_list as page loop
 				if page.item.is_modified then
 					page.item.serialize
 				end
-				sync_manager.put (page.item)
+				current_set.put (page.item)
 			end
-
 			create github_contents.make (Current, output_dir + "Contents.md")
 			github_contents.serialize
 			write_version
 
+			lio.put_line ("Creating sync manager")
+			if current_set.is_empty then
+				create sync_manager.make_empty (output_dir, ftp_url, Html)
+			else
+				create sync_manager.make (current_set)
+			end
 			if sync_manager.has_changes then
 				if attached new_medium as medium then
 					login (medium)

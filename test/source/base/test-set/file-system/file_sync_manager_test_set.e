@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 15:34:42 GMT (Thursday 25th March 2021)"
-	revision: "18"
+	date: "2021-03-27 18:27:25 GMT (Saturday 27th March 2021)"
+	revision: "19"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -43,6 +43,8 @@ feature -- Tests
 		local
 			manager: EL_FILE_SYNC_MANAGER; medium: EL_LOCAL_FILE_SYNC_MEDIUM
 			destination_list: ARRAY [LIST [EL_FILE_PATH]]
+			current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
+			sync_item: EL_FILE_SYNC_ITEM
 		do
 			create destination_list.make_filled (create {EL_FILE_PATH_LIST}.make_empty, 1, 4)
 			create medium.make
@@ -50,10 +52,12 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "adding new files")
 			lio.put_new_line
-			create manager.make (Workarea_help_pages_dir, "ftp", Text_extension)
+			create current_set.make (7)
 			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
-				manager.put_file (path.item.relative_path (Workarea_help_pages_dir))
+				create sync_item.make (Workarea_help_pages_dir, Ftp_name, path.item)
+				current_set.put (sync_item)
 			end
+			create manager.make (current_set)
 			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [1] := directory_contents (Copied_dir)
@@ -63,9 +67,11 @@ feature -- Tests
 			lio.put_new_line
 			across manager.current_list as list loop
 				if list.item.file_path.has_step (Docs) then
-					manager.remove (list.item)
+					current_set.prune (list.item)
 				end
 			end
+
+			create manager.make (current_set)
 			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [2] := directory_contents (Copied_dir)
@@ -75,10 +81,13 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "add back 1 file to docs directory")
 			lio.put_new_line
-			manager.put_file (Help_pages_grub_error.relative_path (Help_pages_dir))
+			create sync_item.make (Workarea_help_pages_dir, Ftp_name, Help_pages_grub_error.relative_path (Help_pages_dir))
+			current_set.put (sync_item)
+
 			File_system.make_directory (Work_area_dir #+ Help_pages_mint_docs_dir)
 			write_file (work_area_dir + Help_pages_grub_error)
 
+			create manager.make (current_set)
 			assert ("manager.has_changes", manager.has_changes)
 			manager.update (medium)
 			destination_list [3] := directory_contents (Copied_dir)
@@ -87,6 +96,7 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "no changes made")
 			lio.put_new_line
+			create manager.make (current_set)
 			assert ("not manager.has_changes", not manager.has_changes)
 			manager.update (medium)
 			destination_list [4] := directory_contents (Copied_dir)
@@ -124,6 +134,10 @@ feature {NONE} -- Constants
 			Result := Work_area_dir.joined_dir_path ("copied")
 		end
 
+	Ftp_name: STRING = "ftp"
+
 	Text_extension: STRING = "txt"
+
+
 
 end

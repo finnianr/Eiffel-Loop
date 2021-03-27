@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 11:34:38 GMT (Saturday 27th March 2021)"
-	revision: "7"
+	date: "2021-03-27 18:20:15 GMT (Saturday 27th March 2021)"
+	revision: "8"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -36,32 +36,31 @@ inherit
 	EL_MODULE_USER_INPUT
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Initialization
 
-	make (a_local_home_dir: EL_DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
+	make (a_current_set: like current_set)
+		require
+			at_least_one_item: a_current_set.count > 0
 		local
-			file_path: EL_FILE_PATH
+			first_item: EL_FILE_SYNC_ITEM
+		do
+			current_set := a_current_set
+			a_current_set.start; first_item := a_current_set.item_for_iteration
+			local_home_dir := first_item.home_dir ; destination_name := first_item.destination_name
+			extension := first_item.file_path.extension
+
+			previous_set := new_previous_set
+			maximum_retry_count := Default_maximum_retry_count
+		end
+
+	make_empty (a_local_home_dir: EL_DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
 		do
 			local_home_dir := a_local_home_dir; destination_name := a_destination_name
 			create extension.make_from_general (a_extension)
-			if attached new_crc_sync_dir (a_local_home_dir, a_destination_name) as checksum_dir then
-				if checksum_dir.exists
-					and then attached File_system.files_with_extension (checksum_dir, Crc_extension, True) as crc_path_list
-				then
-					create previous_set.make (crc_path_list.count)
-					across crc_path_list as path loop
-						file_path := path.item.relative_path (checksum_dir)
-						file_path.replace_extension (extension)
-						previous_set.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, a_destination_name, file_path))
-					end
-				else
-					File_system.make_directory (checksum_dir)
-					create previous_set.make (17)
-				end
-			end
-			create current_set.make (previous_set.count)
+			create current_set.make (0)
+			previous_set := new_previous_set
 			maximum_retry_count := Default_maximum_retry_count
 		end
 
@@ -95,25 +94,6 @@ feature -- Status query
 		end
 
 feature -- Element change
-
-	put (new: EL_FILE_SYNC_ITEM)
-			--
-		require else
-			valid_home_dir: local_home_dir ~ new.home_dir
-			valid_extension: new.file_path.extension ~ extension
-		do
-			current_set.put (new)
-		end
-
-	put_file (file_path: EL_FILE_PATH)
-		do
-			put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, destination_name, file_path))
-		end
-
-	remove (item: EL_FILE_SYNC_ITEM)
-		do
-			current_set.prune (item)
-		end
 
 	set_maximum_retry_count (a_maximum_retry_count: INTEGER)
 		do
@@ -217,6 +197,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Factory
+
 	new_file_list (item_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]): EL_ARRAYED_LIST [EL_FILE_PATH]
 		do
 			create Result.make (item_set.count)
@@ -225,13 +207,43 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_previous_set: like current_set
+		local
+			file_path: EL_FILE_PATH; current_table: HASH_TABLE [EL_FILE_SYNC_ITEM, EL_FILE_PATH]
+		do
+			create current_table.make_equal (current_set.count)
+			across current_set as set loop
+				current_table.extend (set.item, set.item.digest_path)
+			end
+
+			if attached new_crc_sync_dir (local_home_dir, destination_name) as checksum_dir then
+				if checksum_dir.exists
+					and then attached File_system.files_with_extension (checksum_dir, Crc_extension, True) as crc_path_list
+				then
+					create Result.make (crc_path_list.count)
+					across crc_path_list as path loop
+						if current_table.has_key (path.item) then
+							Result.put (current_table.found_item)
+						else
+							file_path := path.item.relative_path (checksum_dir)
+							file_path.replace_extension (extension)
+							Result.put (create {EL_FILE_SYNC_ITEM}.make (local_home_dir, destination_name, file_path))
+						end
+					end
+				else
+					File_system.make_directory (checksum_dir)
+					create Result.make (17)
+				end
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 
-	previous_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
-
 	maximum_retry_count: INTEGER
+
+	previous_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 
 feature {NONE} -- Constants
 
