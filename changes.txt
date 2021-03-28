@@ -394,3 +394,6 @@ New example: concurrency-demo.ecf
 Wed 10th Mar 2021, 16:06:08
 Simplified JAVA_ROUTINE and descendants. Automated {JAVA_OBJECT_REFERENCE}.jclass
 
+Sun 28th Mar 2021, 15:11:36
+Changed Eiffel-Viewer to use EL_FILE_SYNC_MANAGER
+

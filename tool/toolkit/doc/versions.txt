@@ -1,3 +1,7 @@
+1.4.4
+Include DUPLICITY_LISTING_OS_CMD in visible classes
+Fixed canonical spacing in `str': DUPLICITY_COLLECTION_STATUS_OS_CMD.new_date_time (str: STRING)
+
 1.4.3
 Changed EL_CRYPTO_COMMAND_SHELL.export_x509_private_key_to_aes to use EL_RSA_PRIVATE_KEY.store
 

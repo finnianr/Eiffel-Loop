@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 12:55:08 GMT (Thursday 16th July 2020)"
-	revision: "3"
+	date: "2021-03-28 15:54:38 GMT (Sunday 28th March 2021)"
+	revision: "4"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -27,6 +27,8 @@ inherit
 		rename
 			make as make_machine
 		end
+
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -74,21 +76,27 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	new_date_time (str: STRING): DATE_TIME
+	new_date_time (str: ZSTRING): DATE_TIME
 		-- DATE_TIME formatting is broken so we need to do time and date separately
 		local
-			parts: EL_STRING_8_LIST; time: TIME; date: DATE
+			parts: EL_ZSTRING_LIST; time: TIME; date: DATE
 		do
-			create parts.make_with_words (str)
-			create time.make_from_string (parts.i_th (3), once "[0]hh24:[0]mi:[0]ss")
+			create parts.make_with_words (str.as_canonically_spaced)
+			create time.make_from_string (parts.i_th (3), Format.time)
 			parts [3] := parts [4]
 			parts.finish
 			parts.remove
-			create date.make_from_string (parts.joined ('-'), once "mmm-[0]dd-yyyy")
+			create date.make_from_string (parts.joined ('-'), Format.date)
 			create Result.make_by_date_time (date, time)
 		end
 
 feature {NONE} -- Constants
+
+	Format: TUPLE [date, time: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "mmm-[0]dd-yyyy, [0]hh24:[0]mi:[0]ss")
+		end
 
 	Dashed_line: ZSTRING
 		once
