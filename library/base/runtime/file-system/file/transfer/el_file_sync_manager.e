@@ -4,9 +4,12 @@ note
 		conforming to [$source EL_FILE_SYNC_MEDIUM]
 	]"
 	notes: "[
-		Each synchronizeable file has a 4-byte CRC-32 checksum file associated with it. The name of this
-		file is derived from the main file by prepending a dot and replacing the extension with `crc32'.
-		This checksum determines if the sync-file has been modified.
+		Each synchronizeable file has a [$source NATURAL_32] CRC-32 checksum file associated with it. The
+		checksums are stored a separate tree mirroring the file item locations.
+				
+			{[$source EL_FILE_SYNC_ITEM]}.digest_path
+		
+		This checksum determines if the sync-item has been modified.
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 18:20:15 GMT (Saturday 27th March 2021)"
-	revision: "8"
+	date: "2021-03-28 15:07:04 GMT (Sunday 28th March 2021)"
+	revision: "9"
 
 class
 	EL_FILE_SYNC_MANAGER

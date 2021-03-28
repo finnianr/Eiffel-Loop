@@ -18,6 +18,9 @@ note
 class
 	EL_FTP_SYNC
 
+obsolete
+	"Use EL_FILE_SYNC_MANAGER"
+
 inherit
 	ANY
 

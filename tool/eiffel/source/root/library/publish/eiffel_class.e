@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 16:36:17 GMT (Thursday 25th March 2021)"
-	revision: "32"
+	date: "2021-03-28 9:22:40 GMT (Sunday 28th March 2021)"
+	revision: "33"
 
 class
 	EIFFEL_CLASS
@@ -296,7 +296,6 @@ feature {NONE} -- Evolicity fields
 				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
 				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
 
-				["crc_digest", 				agent: INTEGER_REF do create Result end],
 				["word_count", 				agent: INTEGER_REF do Result := word_count end ],
 				["file_size", 					agent: INTEGER_REF do Result := file_size end ],
 

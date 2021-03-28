@@ -9,7 +9,6 @@
 		<meta name="Description" content="Collection of more than 2200 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
 		<meta name="Description" content="Source code for Eiffel $category_title: $name"/>
-		<meta name="digest" content="$crc_digest"/>
 	#end
 		<meta name="Distribution" content="Global"/>
 		<meta name="Generator" content="Eiffel-View repository publisher"/>

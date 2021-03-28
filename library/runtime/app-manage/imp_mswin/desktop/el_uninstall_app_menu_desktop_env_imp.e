@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "8"
+	date: "2021-03-28 9:36:59 GMT (Sunday 28th March 2021)"
+	revision: "9"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -110,9 +110,9 @@ feature {NONE} -- Implementation
 	estimated_size: INTEGER
 			-- estimated size of install in KiB
 		local
-			list: like File_system.recursive_files; byte_count: INTEGER
+			list: like File_system.files; byte_count: INTEGER
 		do
-			list := File_system.recursive_files (Directory.Application_installation)
+			list := File_system.files (Directory.Application_installation, True)
 			from list.start until list.after loop
 				byte_count := byte_count + File_system.file_byte_count (list.item)
 				list.forth

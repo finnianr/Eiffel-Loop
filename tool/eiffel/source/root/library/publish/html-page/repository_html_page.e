@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 13:43:25 GMT (Thursday 25th March 2021)"
-	revision: "7"
+	date: "2021-03-28 9:23:27 GMT (Sunday 28th March 2021)"
+	revision: "8"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -67,13 +67,11 @@ feature {NONE} -- Evolicity fields
 		do
 			create Result.make (<<
 				["content_template",		agent content_template],
-				["top_dir", 				agent: ZSTRING do Result := Directory.relative_parent (step_count) end],
 				["title", 					agent: like title do Result := XML.escaped (title) end],
 				["name", 					agent: like name do Result := XML.escaped (name) end],
-				["crc_digest",				agent: INTEGER_REF do create Result end],
-
 				["is_site_map_page",		agent: BOOLEAN_REF do Result := is_site_map_page.to_reference end],
 
+				["top_dir", 				agent: ZSTRING do Result := Directory.relative_parent (step_count) end],
 				["relative_file_path", 	agent: ZSTRING do Result := relative_file_path end],
 				["github_url", 			agent: ZSTRING do Result := repository.github_url.to_string end],
 				["favicon_markup_path", agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
