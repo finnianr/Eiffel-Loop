@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-06-12 17:54:42 GMT (Monday 12th June 2017)"
-	revision: "4"
+	date: "2021-03-29 17:03:35 GMT (Monday 29th March 2021)"
+	revision: "5"
 
 class EL_EXECUTION_TIMER
 
@@ -77,7 +77,7 @@ feature --Element change
 		end
 
 	stop, update
-			-- Update stop time to now
+		-- Update stop time to now
 		require
 			is_timing: is_timing
 		do
@@ -108,4 +108,3 @@ feature {NONE} -- Internal attributes
 	duration_list: ARRAYED_LIST [EL_DATE_TIME_DURATION]
 
 end
-
