@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-30 13:01:22 GMT (Tuesday 30th March 2021)"
-	revision: "1"
+	date: "2021-03-31 12:33:03 GMT (Wednesday 31st March 2021)"
+	revision: "2"
 
 deferred class
 	PRIME_NUMBER_COMMAND
@@ -46,7 +46,7 @@ feature -- Basic operations
 				Results_template, [pass_count, Double.formatted (duration), Double.formatted (duration / pass_count),
 				sieve_size, prime_count, is_valid]
 			)
-			lio.put_new_line
+			lio.put_new_line_x2
 		end
 
 feature {NONE} -- Implementation

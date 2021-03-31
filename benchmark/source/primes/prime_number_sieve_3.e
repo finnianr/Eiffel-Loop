@@ -1,26 +1,19 @@
 note
-	description: "[$source TO_SPECIAL [BOOLEAN]] implementation of [$source PRIME_NUMBER_COMMAND]"
+	description: "[$source EL_CPP_BOOLEAN_ARRAY] implementation of [$source PRIME_NUMBER_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-30 15:34:47 GMT (Tuesday 30th March 2021)"
-	revision: "3"
+	date: "2021-03-31 12:37:59 GMT (Wednesday 31st March 2021)"
+	revision: "1"
 
 class
-	PRIME_NUMBER_SIEVE
+	PRIME_NUMBER_SIEVE_3
 
 inherit
 	PRIME_NUMBER_COMMAND
-
-	TO_SPECIAL [BOOLEAN]
-		rename
-			area as bits_area
-		export
-			{NONE} all
-		end
 
 create
 	make
@@ -29,16 +22,16 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		do
-			make_filled_area (True, n)
+			create bits_array.make_filled (n, True)
 		end
 
 feature -- Access
 
 	prime_count: INTEGER
 		local
-			i, size: INTEGER; bits: like bits_area
+			i, size: INTEGER; bits: like bits_array
 		do
-			size := sieve_size; bits := bits_area
+			size := sieve_size; bits := bits_array
 			Result := 1
 			from i := 3 until i >= size loop
 				if bits [i] then
@@ -50,17 +43,12 @@ feature -- Access
 
 feature -- Basic operations
 
-	reset
-		do
-			bits_area.fill_with (True, 0, sieve_size - 1)
-		end
-
 	execute
 		local
 			factor, q, i, size: INTEGER; done: BOOLEAN
-			bits: like bits_area
+			bits: like bits_array
 		do
-			size := sieve_size; bits := bits_area
+			size := sieve_size; bits := bits_array
 
 			q := sqrt (sieve_size.to_real).rounded
 			from factor := 3 until factor > q loop
@@ -83,7 +71,11 @@ feature {NONE} -- Implementation
 
 	sieve_size: INTEGER
 		do
-			Result := bits_area.count
+			Result := bits_array.count
 		end
+
+feature {NONE} -- Internal attributes
+
+	bits_array: EL_CPP_BOOLEAN_VECTOR
 
 end

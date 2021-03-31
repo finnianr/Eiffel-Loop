@@ -25,7 +25,7 @@ See project cluster for details
 		<setting name = "exception_trace" value = "true"/>
 		<setting name = "line_generation" value = "false"/>
 		<setting name = "inlining" value = "true"/>
-		<setting name = "inlining_size" value = "2"/>
+		<setting name = "inlining_size" value = "3"/>
 		<setting name = "concurrency" value = "thread"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
@@ -43,6 +43,7 @@ See project cluster for details
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
+		<library name = "EL_c_api" readonly = "false" location = "$EIFFEL_LOOP/library/C-language-interface.ecf"/>
 		<library name = "EL_evolicity" readonly = "false" location = "$EIFFEL_LOOP/library/evolicity.ecf"/>
 		<library name = "EL_fast_cgi" readonly = "false" location = "$EIFFEL_LOOP/library/fast-cgi.ecf"/>
 		<library name = "EL_logging" readonly = "false" location = "$EIFFEL_LOOP/library/logging.ecf"/>

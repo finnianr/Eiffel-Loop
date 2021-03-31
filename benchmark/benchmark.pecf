@@ -56,7 +56,7 @@ system:
 			name = inlining; value = true
 
 		setting:
-			name = inlining_size; value = 2
+			name = inlining_size; value = 3
 
 		setting:
 			name = concurrency; value = thread
@@ -86,6 +86,9 @@ system:
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
+
+		library:
+			name = EL_c_api; readonly = false; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
 
 		library:
 			name = EL_evolicity; readonly = false; location = "$EIFFEL_LOOP/library/evolicity.ecf"

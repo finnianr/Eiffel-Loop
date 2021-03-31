@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 11:31:45 GMT (Thursday 7th January 2021)"
-	revision: "9"
+	date: "2021-03-31 9:37:13 GMT (Wednesday 31st March 2021)"
+	revision: "10"
 
 class
 	EL_PYXIS_UNESCAPE_CONSTANTS
@@ -27,7 +27,7 @@ feature {NONE} -- Constants
 
 	Escape_character: CHARACTER_32 = '\'
 
-	Quote_unescaper: EL_BOOLEAN_ARRAY [EL_STRING_8_UNESCAPER]
+	Quote_unescaper: EL_BOOLEAN_INDEXABLE [EL_STRING_8_UNESCAPER]
 		-- single quote is False
 		-- double quote is True
 		local

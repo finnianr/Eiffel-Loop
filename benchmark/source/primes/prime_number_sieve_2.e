@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-30 13:15:09 GMT (Tuesday 30th March 2021)"
-	revision: "1"
+	date: "2021-03-31 10:51:28 GMT (Wednesday 31st March 2021)"
+	revision: "2"
 
 class
 	PRIME_NUMBER_SIEVE_2
