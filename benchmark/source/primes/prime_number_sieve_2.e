@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 10:51:28 GMT (Wednesday 31st March 2021)"
-	revision: "2"
+	date: "2021-04-01 11:09:53 GMT (Thursday 1st April 2021)"
+	revision: "4"
 
 class
 	PRIME_NUMBER_SIEVE_2
@@ -91,5 +91,9 @@ feature -- Basic operations
 				factor := factor + 2
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Name: STRING = "MANAGED_POINTER"
 
 end

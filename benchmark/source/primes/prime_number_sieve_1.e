@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 10:51:25 GMT (Wednesday 31st March 2021)"
-	revision: "4"
+	date: "2021-04-01 11:09:43 GMT (Thursday 1st April 2021)"
+	revision: "6"
 
 class
-	PRIME_NUMBER_SIEVE
+	PRIME_NUMBER_SIEVE_1
 
 inherit
 	PRIME_NUMBER_COMMAND
@@ -50,11 +50,6 @@ feature -- Access
 
 feature -- Basic operations
 
-	reset
-		do
-			bits_area.fill_with (True, 0, sieve_size - 1)
-		end
-
 	execute
 		local
 			factor, q, i, size: INTEGER; done: BOOLEAN
@@ -79,11 +74,20 @@ feature -- Basic operations
 			end
 		end
 
+	reset
+		do
+			bits_area.fill_with (True, 0, sieve_size - 1)
+		end
+
 feature {NONE} -- Implementation
 
 	sieve_size: INTEGER
 		do
 			Result := bits_area.count
 		end
+
+feature {NONE} -- Constants
+
+	Name: STRING = "TO_SPECIAL [BOOLEAN]"
 
 end

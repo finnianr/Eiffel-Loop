@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 12:37:59 GMT (Wednesday 31st March 2021)"
-	revision: "1"
+	date: "2021-04-01 11:10:02 GMT (Thursday 1st April 2021)"
+	revision: "3"
 
 class
 	PRIME_NUMBER_SIEVE_3
@@ -77,5 +77,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	bits_array: EL_CPP_BOOLEAN_VECTOR
+
+feature {NONE} -- Constants
+
+	Name: STRING = "EL_CPP_BOOLEAN_VECTOR"
 
 end

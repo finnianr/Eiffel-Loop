@@ -1,5 +1,6 @@
 note
 	description: "File name abstraction"
+	author: "Someone else"
 	library: "Free implementation of ELKS library"
 	status: "See notice at end of class."
 	legal: "See notice at end of class."

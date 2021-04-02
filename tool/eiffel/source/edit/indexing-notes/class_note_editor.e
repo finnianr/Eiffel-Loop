@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 15:54:45 GMT (Tuesday 2nd March 2021)"
-	revision: "12"
+	date: "2021-04-01 14:00:05 GMT (Thursday 1st April 2021)"
+	revision: "14"
 
 class
 	CLASS_NOTE_EDITOR
@@ -37,15 +37,17 @@ feature {NONE} -- Initialization
  			last_time_stamp := class_lines.date
 
 			-- Add default values for missing fields
-			across default_values as value loop
-				fields.find (value.key)
-				if fields.found then
-					if fields.item.text /~ value.item then
-						fields.item.set_text (value.item)
-						updated_fields.extend (value.key)
+			if default_values.has_key (Author) and then is_owned (default_values.found_item) then
+				across default_values as value loop
+					fields.find (value.key)
+					if fields.found then
+						if fields.item.text /~ value.item then
+							fields.item.set_text (value.item)
+							updated_fields.extend (value.key)
+						end
+					else
+						fields.extend (create {NOTE_FIELD}.make (value.key, value.item))
 					end
-				else
-					fields.extend (create {NOTE_FIELD}.make (value.key, value.item))
 				end
 			end
 		end
@@ -113,6 +115,17 @@ feature -- Status query
 
 	is_revision: BOOLEAN
 
+	is_owned (author_name: ZSTRING): BOOLEAN
+		-- `True' if class not authored by another person
+		do
+			fields.find (Author)
+			if fields.found and then fields.item.text.count > 0 then
+				Result := author_name ~ fields.item.text
+			else
+				Result := True
+			end
+		end
+
 feature -- Element change
 
 	check_revision
@@ -161,6 +174,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Author: STRING = "author"
 
 	Time_template: ZSTRING
 		once

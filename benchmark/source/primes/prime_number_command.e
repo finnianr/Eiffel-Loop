@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 12:33:03 GMT (Wednesday 31st March 2021)"
-	revision: "2"
+	date: "2021-04-01 10:15:56 GMT (Thursday 1st April 2021)"
+	revision: "3"
 
 deferred class
 	PRIME_NUMBER_COMMAND
@@ -28,6 +28,10 @@ feature -- Access
 		deferred
 		end
 
+	name: STRING
+		deferred
+		end
+
 feature -- Status query
 
 	is_valid: BOOLEAN
@@ -38,17 +42,6 @@ feature -- Status query
 			end
 		end
 
-feature -- Basic operations
-
-	print_results (duration: DOUBLE; pass_count: INTEGER)
-		do
-			lio.put_substitution (
-				Results_template, [pass_count, Double.formatted (duration), Double.formatted (duration / pass_count),
-				sieve_size, prime_count, is_valid]
-			)
-			lio.put_new_line_x2
-		end
-
 feature {NONE} -- Implementation
 
 	sieve_size: INTEGER
@@ -56,12 +49,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Double: FORMAT_DOUBLE
-		once
-			create Result.make (5, 3)
-			Result.no_justify
-		end
 
 	Prime_count_table: HASH_TABLE [INTEGER, INTEGER]
 		-- Historical data for validating results - the number of primes
@@ -75,11 +62,6 @@ feature {NONE} -- Constants
 				Result [key] := n.item
 				key := key * 10
 			end
-		end
-
-	Results_template: ZSTRING
-		once
-			Result := "Passes: %S, Time: %S, Avg: %S, Limit: %S, Count: %S, Valid: %S"
 		end
 
 end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 13:44:49 GMT (Wednesday 3rd March 2021)"
-	revision: "13"
+	date: "2021-04-01 14:00:36 GMT (Thursday 1st April 2021)"
+	revision: "15"
 
 class
 	NOTE_EDITOR
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 	make (license_notes: LICENSE_NOTES)
 			--
 		do
+			author_name	:= license_notes.author
 			create default_values.make (<<
 				[Field.author, license_notes.author],
 				[Field.copyright, license_notes.copyright],
@@ -121,6 +122,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	default_values: EL_HASH_TABLE [ZSTRING, STRING]
+
+	author_name: ZSTRING
 
 feature {NONE} -- Fields
 

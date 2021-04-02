@@ -38,6 +38,9 @@ system:
 			name = check_vape; value = true
 
 		setting:
+			name = check_for_void_target; value = false
+
+		setting:
 			name = console_application; value = true
 
 		setting:
@@ -56,7 +59,7 @@ system:
 			name = inlining; value = true
 
 		setting:
-			name = inlining_size; value = 3
+			name = inlining_size; value = 16
 
 		setting:
 			name = concurrency; value = thread

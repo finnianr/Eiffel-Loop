@@ -184,6 +184,7 @@
 			<keyword>array_optimization</keyword>
 			<keyword>automatic_backup</keyword>
 			<keyword>check_generic_creation_constraint</keyword>
+			<keyword>check_for_void_target</keyword>
 			<keyword>check_vape</keyword>
 			<keyword>classic</keyword>
 			<keyword>cls_compliant</keyword>
