@@ -116,7 +116,7 @@ system:
 			readonly = false
 		# Source
 		cluster:
-			name = project; location = "source"; recursive = true
+			name = project; location = source; recursive = true
 			description:
 				"""
 					Performance Benchmarks

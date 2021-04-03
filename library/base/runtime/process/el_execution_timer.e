@@ -6,15 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-29 17:03:35 GMT (Monday 29th March 2021)"
-	revision: "5"
+	date: "2021-04-03 13:24:20 GMT (Saturday 3rd April 2021)"
+	revision: "6"
 
 class EL_EXECUTION_TIMER
 
 inherit
+	C_DATE
+		rename
+			update as update_time
+		export
+			{NONE} all
+		end
+
 	TIME_CONSTANTS
 		export
 			{NONE} all
+		undefine
+			default_create
 		end
 
 create
@@ -25,39 +34,32 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			create time_list.make (1)
+			default_create
+			create time_area.make_empty (1)
 			create duration_list.make (2)
 		end
 
 feature -- Access
 
-	elapsed_millisecs: INTEGER
+	elapsed_millisecs: DOUBLE
 			--
-		do
-			Result := (elapsed_time.fine_seconds_count * 1000.0).rounded
-		end
-
-	elapsed_time: EL_DATE_TIME_DURATION
 		local
 			was_timing: BOOLEAN
 		do
 			if is_timing then
 				stop; was_timing := True
 			end
-			if duration_list.is_empty then
-				create Result.make_zero
-			else
-				across duration_list as duration loop
-					if duration.cursor_index = 1 then
-						Result := duration.item
-					else
-						Result := Result + duration.item
-					end
-				end
+			across duration_list as duration loop
+				Result := Result + duration.item
 			end
 			if was_timing then
 				resume
 			end
+		end
+
+	elapsed_time: EL_TIME_DURATION
+		do
+			create Result.make_zero
 		end
 
 feature --Element change
@@ -66,7 +68,7 @@ feature --Element change
 		require
 			not_is_timing: not is_timing
 		do
-			time_list.extend (new_time_now)
+			time_area.extend (new_time_now)
 		end
 
 	start
@@ -82,8 +84,8 @@ feature --Element change
 			is_timing: is_timing
 		do
 			if is_timing then
-				duration_list.extend (new_time_now.relative_duration (time_list.last))
-				time_list.wipe_out
+				duration_list.extend (new_time_now - time_area [0])
+				time_area.wipe_out
 			end
 		end
 
@@ -91,20 +93,24 @@ feature -- Status query
 
 	is_timing: BOOLEAN
 		do
-			Result := not time_list.is_empty
+			Result := time_area.count > 0
 		end
 
 feature {NONE} -- Implementation
 
-	new_time_now: DATE_TIME
+	new_time_now: DOUBLE
 		do
-			create Result.make_now
+			update_time
+			Result := day_now * Hours_in_day + hour_now
+			Result := Result * Minutes_in_hour + minute_now
+			Result := Result * Seconds_in_minute + second_now
+			Result := Result * 1000 + millisecond_now
 		end
 
 feature {NONE} -- Internal attributes
 
-	time_list: ARRAYED_LIST [DATE_TIME]
+	time_area: SPECIAL [DOUBLE]
 
-	duration_list: ARRAYED_LIST [EL_DATE_TIME_DURATION]
+	duration_list: ARRAYED_LIST [DOUBLE]
 
 end

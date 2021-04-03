@@ -1,13 +1,13 @@
 note
-	description: "Implementation using bit shifting"
+	description: "Implementation using bits compacted into an array of type [$source SPECIAL [NATURAL_32]]"
 
 	author: "Alexander Kogtenkov"
 	copyright: "Copyright (c) 2001-2021 Alexander Kogtenkov"
 	contact: "kwaxer at eiffel dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 13:47:26 GMT (Thursday 1st April 2021)"
-	revision: "4"
+	date: "2021-04-02 11:10:59 GMT (Friday 2nd April 2021)"
+	revision: "5"
 
 class
 	PRIME_NUMBER_SIEVE_4

@@ -6,43 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 10:48:24 GMT (Thursday 7th January 2021)"
-	revision: "6"
+	date: "2021-04-03 13:10:46 GMT (Saturday 3rd April 2021)"
+	revision: "7"
 
 class
-	EL_DATE_TIME_DURATION
+	EL_TIME_DURATION
 
 inherit
-	DATE_TIME_DURATION
+	TIME_DURATION
 		redefine
 			out
 		end
 
 create
-	make_zero, make, make_definite, make_fine, make_by_date_time, make_by_date, make_from_other
+	make, make_fine, make_by_seconds, make_by_fine_seconds, make_zero, make_from_other
 
 convert
-	make_from_other ({DATE_TIME_DURATION})
+	make_from_other ({TIME_DURATION})
 
 feature {NONE} -- Initialization
 
-	make_from_other (other: DATE_TIME_DURATION)
+	make_from_other (other: TIME_DURATION)
 		do
-			make_by_date_time (other.date, other.time)
-			origin_date_time := other.origin_date_time
+			make_by_fine_seconds (other.fine_second)
 		end
 
 	make_zero
 		do
-			make_definite (0, 0, 0, 0)
-			date.set_origin_date (create {DATE}.make (1600, 1, 1))
-		end
-
-feature -- Access
-
-	days_count: INTEGER
-		do
-			Result := day
+			make (0, 0, 0)
 		end
 
 feature -- Conversion
@@ -76,11 +67,11 @@ feature {NONE} -- Implementation
 	part_list: ARRAYED_LIST [TUPLE [units: STRING; n: INTEGER]]
 		do
 			create Result.make_from_array (<<
-				["days", days_count],
+				["days", to_days],
 				["hrs", hour],
 				["mins", minute],
 				["secs", second],
-				["ms", (time.fractional_second * 1000.0).rounded]
+				["ms", (fine_second * 1000.0).rounded]
 			>>)
 			from Result.start until Result.count = 2 or else Result.item.n > 0 loop
 				Result.remove

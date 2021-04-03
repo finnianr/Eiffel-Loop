@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 11:08:23 GMT (Thursday 1st April 2021)"
-	revision: "7"
+	date: "2021-04-03 13:40:54 GMT (Saturday 3rd April 2021)"
+	revision: "8"
 
 class
 	PRIMES_BENCHMARK_APP
@@ -39,72 +39,68 @@ feature -- Basic operations
 
 	run
 		local
-			millisecs_elapsed, pass_count: INTEGER_REF
+			elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF
 			method: like new_method_list.item; command: PRIME_NUMBER_COMMAND
 		do
 			across new_method_list as list loop
 				method := list.item
-				create millisecs_elapsed; create pass_count
-				command := method (millisecs_elapsed, pass_count)
-				print_results (command, millisecs_elapsed.item / 1000, pass_count.item)
+				create elapsed_millisecs; create pass_count
+				command := method (elapsed_millisecs, pass_count)
+				print_results (command, elapsed_millisecs.item / 1000, pass_count.item)
 			end
 		end
 
 feature {NONE} -- Methods
 
-	benchmark_bit_shifting (millisecs_elapsed, pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_4
+	benchmark_bit_shifting (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_4
 		local
-			time: C_DATE; millisecs_start: INTEGER
+			timer: EL_EXECUTION_TIMER
 		do
-			create time
-			from millisecs_start := millisecs (time) until millisecs_elapsed > Time_limit loop
+			create timer.make
+			from timer.start until elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
-				time.update
-				millisecs_elapsed.set_item (millisecs (time) - millisecs_start)
 				pass_count.set_item (pass_count.item + 1)
+				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_cpp_vector (millisecs_elapsed, pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_3
+	benchmark_cpp_vector (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_3
 		local
-			time: C_DATE; millisecs_start: INTEGER
+			timer: EL_EXECUTION_TIMER
 		do
-			create time
-			from millisecs_start := millisecs (time) until millisecs_elapsed > Time_limit loop
+			create timer.make
+			from timer.start until elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
-				time.update
-				millisecs_elapsed.set_item (millisecs (time) - millisecs_start)
 				pass_count.set_item (pass_count.item + 1)
+				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_to_special (millisecs_elapsed, pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_1
+	benchmark_to_special (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_1
 		local
-			time: C_DATE; millisecs_start: INTEGER
+			timer: EL_EXECUTION_TIMER
 		do
-			create time
-			from millisecs_start := millisecs (time) until millisecs_elapsed > Time_limit loop
+			create timer.make
+			from timer.start until elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
-				time.update
-				millisecs_elapsed.set_item (millisecs (time) - millisecs_start)
 				pass_count.set_item (pass_count.item + 1)
+				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_managed_pointer (millisecs_elapsed, pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_2
+	benchmark_managed_pointer (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_2
 		local
-			time: C_DATE; millisecs_start: INTEGER
+			timer: EL_EXECUTION_TIMER
 		do
-			create time
-			from millisecs_start := millisecs (time) until millisecs_elapsed > Time_limit loop
+			create timer.make
+			from timer.start until elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
-				time.update
-				millisecs_elapsed.set_item (millisecs (time) - millisecs_start)
 				pass_count.set_item (pass_count.item + 1)
+				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
@@ -121,12 +117,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line_x2
 		end
 
-	millisecs (time: C_DATE): INTEGER
-		do
-			Result := time.minute_now * 60_000 + time.second_now * 1000 + time.millisecond_now
-		end
-
-	new_method_list: ARRAY [FUNCTION [INTEGER_REF, INTEGER_REF, PRIME_NUMBER_COMMAND]]
+	new_method_list: ARRAY [FUNCTION [DOUBLE_REF, INTEGER_REF, PRIME_NUMBER_COMMAND]]
 		do
 			Result := <<
 				agent benchmark_managed_pointer, agent benchmark_to_special,
@@ -144,7 +135,7 @@ feature {NONE} -- Constants
 			Result.no_justify
 		end
 
-	Time_limit: INTEGER = 5000
+	Time_limit: DOUBLE = 5000.0
 
 	Sieve_size: INTEGER = 1_000_000
 
