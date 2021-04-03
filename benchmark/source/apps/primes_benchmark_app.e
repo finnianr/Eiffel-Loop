@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-03 13:40:54 GMT (Saturday 3rd April 2021)"
-	revision: "8"
+	date: "2021-04-03 14:18:56 GMT (Saturday 3rd April 2021)"
+	revision: "9"
 
 class
 	PRIMES_BENCHMARK_APP
@@ -39,68 +39,55 @@ feature -- Basic operations
 
 	run
 		local
-			elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF
+			timer: EL_EXECUTION_TIMER; pass_count: INTEGER_REF
 			method: like new_method_list.item; command: PRIME_NUMBER_COMMAND
 		do
+			create timer.make
 			across new_method_list as list loop
 				method := list.item
-				create elapsed_millisecs; create pass_count
-				command := method (elapsed_millisecs, pass_count)
-				print_results (command, elapsed_millisecs.item / 1000, pass_count.item)
+				create pass_count
+				timer.start
+				command := method (timer, pass_count)
+				timer.stop
+				print_results (command, timer.elapsed_millisecs / 1000, pass_count.item)
 			end
 		end
 
 feature {NONE} -- Methods
 
-	benchmark_bit_shifting (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_4
-		local
-			timer: EL_EXECUTION_TIMER
+	benchmark_bit_shifting (timer: EL_EXECUTION_TIMER; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_4
 		do
-			create timer.make
-			from timer.start until elapsed_millisecs > Time_limit loop
+			from timer.start until timer.elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
 				pass_count.set_item (pass_count.item + 1)
-				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_cpp_vector (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_3
-		local
-			timer: EL_EXECUTION_TIMER
+	benchmark_cpp_vector (timer: EL_EXECUTION_TIMER; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_3
 		do
-			create timer.make
-			from timer.start until elapsed_millisecs > Time_limit loop
+			from timer.start until timer.elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
 				pass_count.set_item (pass_count.item + 1)
-				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_to_special (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_1
-		local
-			timer: EL_EXECUTION_TIMER
+	benchmark_to_special (timer: EL_EXECUTION_TIMER; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_1
 		do
-			create timer.make
-			from timer.start until elapsed_millisecs > Time_limit loop
+			from timer.start until timer.elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
 				pass_count.set_item (pass_count.item + 1)
-				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
-	benchmark_managed_pointer (elapsed_millisecs: DOUBLE_REF; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_2
-		local
-			timer: EL_EXECUTION_TIMER
+	benchmark_managed_pointer (timer: EL_EXECUTION_TIMER; pass_count: INTEGER_REF): PRIME_NUMBER_SIEVE_2
 		do
-			create timer.make
-			from timer.start until elapsed_millisecs > Time_limit loop
+			from timer.start until timer.elapsed_millisecs > Time_limit loop
 				create Result.make (Sieve_size)
 				Result.execute
 				pass_count.set_item (pass_count.item + 1)
-				elapsed_millisecs.set_item (timer.elapsed_millisecs)
 			end
 		end
 
@@ -117,7 +104,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line_x2
 		end
 
-	new_method_list: ARRAY [FUNCTION [DOUBLE_REF, INTEGER_REF, PRIME_NUMBER_COMMAND]]
+	new_method_list: ARRAY [FUNCTION [EL_EXECUTION_TIMER, INTEGER_REF, PRIME_NUMBER_COMMAND]]
 		do
 			Result := <<
 				agent benchmark_managed_pointer, agent benchmark_to_special,

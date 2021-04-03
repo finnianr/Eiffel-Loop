@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-04-03 14:05:13 GMT (Saturday 3rd April 2021)"
+	revision: "6"
 
 class
 	EL_LOGGED_TIMEOUT
@@ -35,7 +35,7 @@ feature {NONE} -- Implemenation
 
 	elapsed_millisecs: INTEGER
 		do
-			Result := timer.elapsed_millisecs
+			Result := timer.elapsed_millisecs.rounded
 		end
 
 	on_start

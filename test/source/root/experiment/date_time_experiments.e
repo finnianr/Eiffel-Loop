@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-30 12:29:54 GMT (Friday 30th November 2018)"
-	revision: "2"
+	date: "2021-04-03 14:05:27 GMT (Saturday 3rd April 2021)"
+	revision: "3"
 
 class
 	DATE_TIME_EXPERIMENTS
@@ -19,7 +19,7 @@ feature -- Basic operations
 
 	duration
 		local
-			this_year, last_year, now: DATE_TIME; elapsed: EL_DATE_TIME_DURATION
+			this_year, last_year, now: DATE_TIME; elapsed: EL_TIME_DURATION
 			timer: EL_EXECUTION_TIMER
 		do
 			create this_year.make (2017, 6, 11, 23, 10, 10)
@@ -29,7 +29,7 @@ feature -- Basic operations
 			lio.put_new_line
 
 			create now.make_now
-			elapsed := now.relative_duration (this_year)
+			create elapsed.make_by_fine_seconds (now.relative_duration (this_year).fine_seconds_count)
 			lio.put_labeled_string ("TIME", elapsed.out)
 			lio.put_new_line
 
@@ -47,8 +47,7 @@ feature -- Basic operations
 
 	format
 		local
-			now: DATE_TIME; const: DATE_CONSTANTS
-			day_text: ZSTRING
+			now: DATE_TIME; const: DATE_CONSTANTS; day_text: ZSTRING
 		do
 			create const
 			create now.make_now

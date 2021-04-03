@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 18:35:51 GMT (Saturday 27th March 2021)"
-	revision: "39"
+	date: "2021-04-03 13:59:54 GMT (Saturday 3rd April 2021)"
+	revision: "40"
 
 class
 	REPOSITORY_PUBLISHER
@@ -141,7 +141,7 @@ feature -- Basic operations
 			else
 				create sync_manager.make (current_set)
 			end
-			if sync_manager.has_changes then
+			if sync_manager.has_changes and then ok_to_synchronize then
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then

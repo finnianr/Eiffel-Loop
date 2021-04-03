@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:28:11 GMT (Friday 14th February 2020)"
-	revision: "1"
+	date: "2021-04-03 14:02:12 GMT (Saturday 3rd April 2021)"
+	revision: "2"
 
 class
 	EL_EQA_TEST_EVALUATOR
@@ -75,13 +75,13 @@ feature -- Basic operations
 
 	call (name: STRING; a_test: PROCEDURE)
 		local
-			test_result: EQA_PARTIAL_RESULT; duration: EL_DATE_TIME_DURATION
+			test_result: EQA_PARTIAL_RESULT; duration: EL_TIME_DURATION
 		do
 			lio.put_labeled_string ("Executing test", name)
 			lio.put_new_line
 			test_result := evaluator.execute (agent apply (?, a_test))
 			if test_result.is_pass then
-				create duration.make_from_other (test_result.duration)
+				create duration.make_by_fine_seconds (test_result.duration.fine_seconds_count)
 				lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
 				lio.put_new_line
 				lio.put_line ("TEST OK")
