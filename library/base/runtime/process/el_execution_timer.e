@@ -59,7 +59,7 @@ feature -- Access
 
 	elapsed_time: EL_TIME_DURATION
 		do
-			create Result.make_zero
+			create Result.make_by_fine_seconds (elapsed_millisecs)
 		end
 
 feature --Element change
