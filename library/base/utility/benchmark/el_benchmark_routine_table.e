@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:36:45 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2021-04-04 15:32:05 GMT (Sunday 4th April 2021)"
+	revision: "5"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -20,6 +20,11 @@ inherit
 			is_equal, copy, default_create
 		end
 
+	SINGLE_MATH
+		undefine
+			is_equal, copy, default_create
+		end
+
 	EL_MODULE_LIO
 
 create
@@ -27,22 +32,23 @@ create
 
 feature -- Access
 
-	execution_times (apply_count: INTEGER): EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [STRING, DOUBLE]
-		-- average execution times in ascending order
+	application_count_list (trial_duration: INTEGER): EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [STRING, INTEGER]
+		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
+		-- in descending order
 		local
-			execution_time: DOUBLE
+			timer: EL_EXECUTION_TIMER
 		do
 			create Result.make (count)
-			from start until after loop
+			create timer.make
+			across Current as routine loop
 				if is_lio_enabled then
-					lio.put_labeled_substitution ("Getting average time", "%S (of %S runs)" , [key_for_iteration, apply_count])
+					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
 					lio.put_new_line
 				end
-				execution_time := average_execution (item_for_iteration, apply_count) * 1000
-				Result.extend (key_for_iteration, execution_time)
-				forth
+				Result.extend (routine.key, application_count (timer, routine.item, trial_duration))
+				Memory.collect
 			end
-			Result.sort (True)
+			Result.sort (False)
 		end
 
 	max_key_width: INTEGER
@@ -58,32 +64,29 @@ feature -- Access
 
 feature -- Basic operations
 
-	put_comparison (apply_count: INTEGER)
+	print_comparison (trial_duration: INTEGER)
 		local
-			times: like execution_times
-			fastest_time: DOUBLE; description_width: INTEGER; l_padding: STRING
+			count_list: like application_count_list; s: EL_STRING_8_ROUTINES
+			highest_count, description_width: INTEGER
+			format: FORMAT_INTEGER
 		do
-			times := execution_times (apply_count)
+			count_list := application_count_list (trial_duration)
 			description_width := max_key_width
-			fastest_time := times.first_value
+			highest_count := count_list.first_value
+			create format.make (log (highest_count).rounded)
 
 			if is_lio_enabled then
 				lio.put_new_line
-				lio.put_line ("Average execution times (in ascending order)")
+				lio.put_line ("Routine application counts for trial duration (in descending order)")
 			end
-			from times.start until times.after loop
-				create l_padding.make_filled (' ', description_width - times.item_key.count + 1)
-				lio.put_labeled_string (times.item_key + l_padding, comparative_string (times.item_value, fastest_time, "millisecs"))
+			from count_list.start until count_list.after loop
+				lio.put_labeled_string (
+					count_list.item_key + s.n_character_string (' ', description_width - count_list.item_key.count + 1),
+					integer_comparison_string (count_list.item_value, highest_count, "times", format)
+				)
 				lio.put_new_line
-				times.forth
+				count_list.forth
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Averaging_template: ZSTRING
-		once
-			Result := "Averaging over %S runs"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 10:53:44 GMT (Sunday 13th September 2020)"
-	revision: "2"
+	date: "2021-04-04 15:10:20 GMT (Sunday 4th April 2021)"
+	revision: "3"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -21,9 +21,9 @@ inherit
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
-	make (a_number_of_runs: INTEGER_REF)
+	make (a_trial_duration: INTEGER_REF)
 		do
-			number_of_runs := a_number_of_runs
+			trial_duration := a_trial_duration
 		end
 
 feature -- Basic operations
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 			lio.put_labeled_string ("Benchmark", label)
 			lio.put_new_line
 			create table.make (routines)
-			table.put_comparison (number_of_runs)
+			table.print_comparison (trial_duration)
 			lio.put_new_line
 		end
 
@@ -57,5 +57,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	number_of_runs: INTEGER_REF
+	trial_duration: INTEGER_REF
 end

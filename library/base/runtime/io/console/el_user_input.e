@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-07 9:59:05 GMT (Friday 7th August 2020)"
-	revision: "9"
+	date: "2021-04-04 14:51:35 GMT (Sunday 4th April 2021)"
+	revision: "10"
 
 class
 	EL_USER_INPUT
@@ -53,6 +53,20 @@ feature -- Input
 			--
 		do
 			Result := path (prompt)
+		end
+
+	double (prompt: READABLE_STRING_GENERAL): DOUBLE
+		local
+			l_line: like line; done: BOOLEAN
+		do
+			from until done loop
+				l_line := line (prompt)
+				if l_line.is_empty then
+					done := True
+				elseif l_line.is_double then
+					Result := l_line.to_double; done := True
+				end
+			end
 		end
 
 	file_path (prompt: READABLE_STRING_GENERAL): EL_FILE_PATH

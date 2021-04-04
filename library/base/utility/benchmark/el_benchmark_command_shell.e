@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-29 14:34:15 GMT (Friday 29th January 2021)"
-	revision: "13"
+	date: "2021-04-04 15:11:04 GMT (Sunday 4th April 2021)"
+	revision: "14"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -24,9 +24,9 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_number_of_runs: INTEGER)
+	make (a_trial_duration: INTEGER)
 		do
-			number_of_runs := a_number_of_runs.to_reference
+			trial_duration := a_trial_duration
 			make_shell ("BENCHMARK", 10)
 		end
 
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 	do_comparison (name: ZSTRING)
 		do
 			if attached factory.new_item_from_alias (name) as comparison then
-				comparison.make (number_of_runs)
+				comparison.make (trial_duration)
 				comparison.execute
 			end
 		end
@@ -52,20 +52,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_number_of_runs
-		do
-			number_of_runs.set_item (User_input.integer ("Enter number of runs"))
-			lio.put_new_line
-		end
-
 	set_standard_options (table: like new_command_table)
 		do
 			Precursor (table)
-			table ["Set number of runs to average"] := agent set_number_of_runs
+			table ["Set " + Duration_prompt] := agent set_trial_duration
+		end
+
+	set_trial_duration
+		do
+			trial_duration.set_item (User_input.integer ("Enter " + Duration_prompt))
+			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
 
-	number_of_runs: INTEGER_REF
+	trial_duration: INTEGER_REF
+
+feature {NONE} -- Constants
+
+	Duration_prompt: STRING = "trial duration in millisecs"
 
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 17:27:38 GMT (Saturday 1st February 2020)"
-	revision: "2"
+	date: "2021-04-04 15:54:17 GMT (Sunday 4th April 2021)"
+	revision: "3"
 
 class
 	HASH_SET_VERSUS_LINEAR_COMPARISON
@@ -28,40 +28,35 @@ feature -- Basic operations
 
 	execute
 		local
-			list: ARRAYED_SET [INTEGER]; i, size, capacity: INTEGER
-			hash_set: EL_HASH_SET [INTEGER]
+			list: ARRAYED_SET [INTEGER]; hash_set: EL_HASH_SET [INTEGER]
+			comparison_list: EL_ARRAYED_MAP_LIST [READABLE_STRING_GENERAL, ROUTINE]
+			i, size: INTEGER
 		do
-			from capacity := 10 until capacity > 20 loop
-				size := capacity
+			create comparison_list.make (10)
+			from size := 10 until size > 100 loop
 				create list.make (size)
 				create hash_set.make (size)
-				lio.put_integer_field ("Initializing for size", size)
-				lio.put_new_line
 				from i := 1 until i > size loop
 					list.extend (i); hash_set.put (i)
 					i := i + 1
 				end
-				lio.put_line ("Running benchmarks..")
-				compare ("compare search with " + size.out + " numbers", <<
-					["Hashset",	agent do_search (hash_set)],
-					["Linear",	agent do_search (list)]
-				>>)
-				capacity := capacity + 1
+				comparison_list.extend ("EL_HASH_SET [INTEGER] size=" + size.out, agent do_search (hash_set))
+				comparison_list.extend ("ARRAYED_SET [INTEGER] size=" + size.out, agent do_search (list))
+				size := size * 10
 			end
+			compare ("compare INTEGER set searchs", comparison_list.to_array)
 		end
 
 feature {NONE} -- Implementation
 
 	do_search (set: SET [INTEGER])
 		local
-			random: RANDOM; target: INTEGER
+			i: INTEGER
 		do
-			create random.make
-			from until random.index > Iteration_count loop
-				target := random.item \\ set.count
-				if set.has (target) then
+			from i := 0 until i > 1000 loop
+				if set.has (i \\ set.count + 1) then
 				end
-				random.forth
+				i := i + 1
 			end
 		end
 

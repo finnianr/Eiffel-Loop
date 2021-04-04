@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-30 15:19:36 GMT (Saturday 30th January 2021)"
-	revision: "1"
+	date: "2021-04-04 15:10:34 GMT (Sunday 4th April 2021)"
+	revision: "2"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -25,9 +25,9 @@ create
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
-	make (a_number_of_runs: INTEGER_REF)
+	make (a_trial_duration: INTEGER_REF)
 		do
-			number_of_runs := a_number_of_runs
+			trial_duration := a_trial_duration
 			create extendable.make
 			create substring_list.make (0)
 			create substring_buffer.make (0)

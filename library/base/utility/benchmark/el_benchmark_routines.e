@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-04-04 15:30:36 GMT (Sunday 4th April 2021)"
+	revision: "6"
 
 class
 	EL_BENCHMARK_ROUTINES
+
+inherit
+	ANY
+
+	EL_MODULE_MEMORY
+
+	EL_MODULE_TUPLE
 
 feature {NONE} -- Implementation
 
@@ -28,6 +35,15 @@ feature {NONE} -- Implementation
 				Result.append (units)
 			else
 				Result := relative_percentage_string (a, b)
+			end
+		end
+
+	integer_comparison_string (a, b: INTEGER; units: STRING; format: FORMAT_INTEGER): ZSTRING
+		do
+			if a = b then
+				Result := Template_for_same #$ [a, units]
+			else
+				Result := Template_for_different #$ [a, units, relative_percentage_string (a, b)]
 			end
 		end
 
@@ -51,19 +67,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	average_execution (action: ROUTINE; apply_count: INTEGER): DOUBLE
-		local
-			timer: EL_EXECUTION_TIMER; i: INTEGER
+	application_count (timer: EL_EXECUTION_TIMER; action: ROUTINE; trial_duration: DOUBLE): INTEGER
+		-- number of times that `action' can be applied within the `trial_duration' in milliseconds
 		do
-			create timer.make
-			timer.start
-			from i := 1 until i > apply_count loop
+			from timer.start until timer.elapsed_millisecs > trial_duration loop
 				action.apply
-				Memory.full_collect
-				i := i + 1
+				Result := Result + 1
 			end
 			timer.stop
-			Result := timer.elapsed_time.fine_seconds_count / apply_count
 		end
 
 feature {NONE} -- Constants
@@ -73,9 +84,13 @@ feature {NONE} -- Constants
 			create Result.make (6, 3)
 		end
 
-	Memory: MEMORY
+	Template_for_same: ZSTRING
 		once
-			create Result
+			Result := "%S %S"
 		end
 
+	Template_for_different: ZSTRING
+		once
+			Result := "%S %S (%S)"
+		end
 end

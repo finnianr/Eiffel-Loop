@@ -3,14 +3,17 @@ note
 		Command line interface to class [$source EL_BENCHMARK_COMMAND_SHELL] which
 		contains a menu of benchmarks for various classes.
 	]"
+	notes: "[
+		Command switch: -benchmark
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:30:20 GMT (Tuesday 9th March 2021)"
-	revision: "16"
+	date: "2021-04-04 15:34:00 GMT (Sunday 4th April 2021)"
+	revision: "17"
 
 class
 	BENCHMARK_APP
@@ -25,7 +28,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (10)
+			Result := agent {like command}.make (3000)
 		end
 
 	initialize
@@ -37,7 +40,7 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				optional_argument ("runs", "Number of runs to average over")
+				optional_argument ("trial_duration", "Routine trial duration in milliseconds")
 			>>
 		end
 
