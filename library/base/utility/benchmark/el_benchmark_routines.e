@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-04 15:30:36 GMT (Sunday 4th April 2021)"
-	revision: "6"
+	date: "2021-04-05 16:18:29 GMT (Monday 5th April 2021)"
+	revision: "7"
 
 class
 	EL_BENCHMARK_ROUTINES
@@ -67,11 +67,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	application_count (timer: EL_EXECUTION_TIMER; action: ROUTINE; trial_duration: DOUBLE): INTEGER
+	application_count (timer: EL_EXECUTION_TIMER; action: ROUTINE; trial_duration: DOUBLE; iteration_count: INTEGER): INTEGER
 		-- number of times that `action' can be applied within the `trial_duration' in milliseconds
+		local
+			i: INTEGER
 		do
 			from timer.start until timer.elapsed_millisecs > trial_duration loop
-				action.apply
+				from i := 1 until i > iteration_count loop
+					action.apply
+					i := i + 1
+				end
 				Result := Result + 1
 			end
 			timer.stop

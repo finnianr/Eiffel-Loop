@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-25 11:19:13 GMT (Tuesday 25th February 2020)"
-	revision: "1"
+	date: "2021-04-06 9:36:35 GMT (Tuesday 6th April 2021)"
+	revision: "2"
 
 class
 	FINDING_FILES_WITH_EXTENSION_COMPARISON
@@ -30,9 +30,9 @@ feature -- Basic operations
 		do
 			create file_list.make_with_count (6000) -- 4225 for project test.ecf
 
-			compare ("list_w_code_c_files", <<
-				["el_directory", 		agent el_directory (file_list)],
-				["el_os_routines_i",	agent el_os_routines_i (file_list)]
+			compare ("list_w_code_c_files", 1, <<
+				["With EL_DIRECTORY", 				agent el_directory (file_list)],
+				["With EL_FIND_FILES_COMMAND_I",	agent el_find_files_command (file_list)]
 			>>)
 		end
 
@@ -44,7 +44,7 @@ feature {NONE} -- el_os_routines_i
 			file_list.append (Directory.named (W_code_dir).recursive_files_with_extension ("c"))
 		end
 
-	el_os_routines_i (file_list: EL_FILE_PATH_LIST)
+	el_find_files_command (file_list: EL_FILE_PATH_LIST)
 		do
 			file_list.wipe_out
 			file_list.append (OS.file_list (W_code_dir, "*.c"))

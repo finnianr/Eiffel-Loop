@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:15:57 GMT (Saturday 1st February 2020)"
-	revision: "1"
+	date: "2021-04-06 9:33:36 GMT (Tuesday 6th April 2021)"
+	revision: "2"
 
 class
 	XML_PARSING_COMPARISON
@@ -26,7 +26,7 @@ feature -- Basic operations
 		do
 			create xml.make (Work_area_dir)
 			xml.generate
-			compare ("compare_xml_parsing", <<
+			compare ("compare_xml_parsing", 1, <<
 				["parse_with_vtd_xml", 	agent parse_with_vtd_xml (xml.path_list)]
 			>>)
 			xml.cleanup
@@ -40,17 +40,12 @@ feature {NONE} -- Implementation
 			numerator, divisor: INTEGER; pi: DOUBLE
 		do
 			across xml_path_list as path loop
-				lio.put_path_field ("Parsing", path.item)
-				lio.put_new_line
 				create root_node.make_from_file (path.item)
 				across root_node.context_list (Xpath_pi_series_term) as doc_term loop
 					numerator := doc_term.node.integer_at_xpath (Xpath_numerator)
 					divisor := doc_term.node.integer_at_xpath (Xpath_divisor)
 					pi := pi + numerator / divisor
 				end
-				lio.put_double_field ("value of Pi", pi)
-				lio.put_new_line
-				lio.put_new_line
 			end
 		end
 
@@ -61,9 +56,9 @@ feature {NONE} -- Constants
 			Result := "workarea"
 		end
 
-	Xpath_pi_series_term: STRING_32 = "/pi-series/term"
+	Xpath_pi_series_term: STRING = "/pi-series/term"
 
-	Xpath_numerator: STRING_32 = "numerator"
+	Xpath_numerator: STRING = "numerator"
 
-	Xpath_divisor: STRING_32 = "divisor"
+	Xpath_divisor: STRING = "divisor"
 end

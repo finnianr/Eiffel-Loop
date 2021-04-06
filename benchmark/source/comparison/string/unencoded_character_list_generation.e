@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-04 15:10:34 GMT (Sunday 4th April 2021)"
-	revision: "2"
+	date: "2021-04-06 9:38:09 GMT (Tuesday 6th April 2021)"
+	revision: "3"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -37,7 +37,7 @@ feature -- Basic operations
 
 	execute
 		do
-			compare ("compare_character_extend", <<
+			compare ("compare_character_extend", 1000, <<
 				["{EL_SUBSTRING_32_BUFFER}.put_unicode", agent buffer_put_unicode],
 				["{EL_SUBSTRING_32_LIST}.put_unicode", agent list_put_unicode],
 				["{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend",	agent extendable_extend]

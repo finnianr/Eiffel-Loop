@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 13:32:03 GMT (Friday 4th December 2020)"
-	revision: "4"
+	date: "2021-04-06 10:24:14 GMT (Tuesday 6th April 2021)"
+	revision: "5"
 
-class	
+class
 	ZSTRING_SPLIT_COMPARISON
 
 inherit
@@ -34,7 +34,7 @@ feature -- Basic operations
 --			Average execution times over 5000 runs in finalized mode (in ascending order)
 --			EL_SPLIT_STRING_LIST [ZSTRING] :  1.133 millisecs
 --			{ZSTRING}.split_intervals      : +11%
-			compare ("compare_string_splitting", <<
+			compare ("compare_string_splitting", 100, <<
 				["{ZSTRING}.split_intervals", 		agent zstring_split_intervals (csv_string)],
 				["EL_SPLIT_STRING_LIST [ZSTRING]",	agent create_split_zstring_list (csv_string)]
 			>>)

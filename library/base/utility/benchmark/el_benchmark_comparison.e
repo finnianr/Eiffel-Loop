@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-04 15:10:20 GMT (Sunday 4th April 2021)"
-	revision: "3"
+	date: "2021-04-05 16:32:43 GMT (Monday 5th April 2021)"
+	revision: "4"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -34,25 +34,15 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	compare (label: STRING; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
+	compare (label: STRING; a_iteration_count: INTEGER; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
 		local
 			table: EL_BENCHMARK_ROUTINE_TABLE
 		do
 			lio.put_labeled_string ("Benchmark", label)
 			lio.put_new_line
-			create table.make (routines)
-			table.print_comparison (trial_duration)
+			create table.make (routines, trial_duration, a_iteration_count)
+			table.print_comparison
 			lio.put_new_line
-		end
-
-	new_iteration_count (finalized_count: INTEGER): INTEGER
-		-- iteration count with adjustment for work bench mode
-		do
-			if Executable.is_work_bench then
-				Result := finalized_count // 100
-			else
-				Result := finalized_count
-			end
 		end
 
 feature {NONE} -- Internal attributes

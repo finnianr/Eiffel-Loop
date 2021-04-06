@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-04 13:01:35 GMT (Friday 4th December 2020)"
-	revision: "3"
+	date: "2021-04-05 16:30:48 GMT (Monday 5th April 2021)"
+	revision: "4"
 
 class
 	LIST_ITERATION_COMPARISON
@@ -26,13 +26,13 @@ feature -- Basic operations
 		local
 			array: ARRAYED_LIST [INTEGER]; i: INTEGER; sum: INTEGER_REF
 		do
-			create array.make_filled (Iteration_count)
+			create array.make_filled (1000)
 			from i := 1 until i > array.count loop
 				array [i] := i
 				i := i + 1
 			end
 			create sum
-			compare ("compare_list_iteration_methods", <<
+			compare ("compare_list_iteration_methods", 1000, <<
 				["SPECIAL from i := 0 until i = count loop",			agent iterate_special_from_i_until_i_eq_count (array.area, True, sum)],
 				["SPECIAL from i := 0 until i = array.count loop", agent iterate_special_from_i_until_i_eq_count (array.area, False, sum)],
 				["from i := 1 until i > count loop",					agent iterate_from_i_until_i_gt_count (array, True, sum)],
@@ -111,13 +111,6 @@ feature {NONE} -- Implementation
 	increment (a_sum: INTEGER_REF; n: INTEGER)
 		do
 			a_sum.set_item (a_sum.item + n)
-		end
-
-feature {NONE} -- Constants
-
-	Iteration_count: INTEGER
-		once
-			Result := new_iteration_count (1000_000)
 		end
 
 end

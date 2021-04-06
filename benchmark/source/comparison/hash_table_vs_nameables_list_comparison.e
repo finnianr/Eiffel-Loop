@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:22:52 GMT (Tuesday 2nd March 2021)"
-	revision: "2"
+	date: "2021-04-06 10:21:04 GMT (Tuesday 6th April 2021)"
+	revision: "3"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON
@@ -49,7 +49,7 @@ feature -- Basic operations
 			field_table := parameters.field_table
 			create nameables_list.make (field_table.linear_representation.to_array)
 
-			compare ("compare search with " + field_table.count.out + " items", <<
+			compare ("compare search with " + field_table.count.out + " items", 1000, <<
 				["Hash",	agent do_hash_search (field_table.current_keys, field_table)],
 				["Binary",	agent do_binary_search (field_table.current_keys, nameables_list)]
 			>>)
@@ -59,26 +59,20 @@ feature {NONE} -- Implementation
 
 	do_binary_search (field_names: ARRAY [STRING]; list: EL_NAMEABLES_LIST [EL_REFLECTED_FIELD])
 		local
-			i, j: INTEGER
+			i: INTEGER
 		do
-			from i := 1 until i > 10 loop
-				from j := 1 until j > field_names.count loop
-					list.search (field_names [j])
-					j := j + 1
-				end
+			from i := 1 until i > field_names.count loop
+				list.search (field_names [i])
 				i := i + 1
 			end
 		end
 
 	do_hash_search (field_names: ARRAY [STRING]; field_table: EL_REFLECTED_FIELD_TABLE)
 		local
-			i, j: INTEGER
+			i: INTEGER
 		do
-			from i := 1 until i > 10 loop
-				from j := 1 until j > field_names.count loop
-					field_table.search (field_names [j])
-					j := j + 1
-				end
+			from i := 1 until i > field_names.count loop
+				field_table.search (field_names [i])
 				i := i + 1
 			end
 		end
