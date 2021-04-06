@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 8:29:11 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2021-04-06 12:29:03 GMT (Tuesday 6th April 2021)"
+	revision: "8"
 
 class
 	EROS_SERVER_ACTIVITY_METERS
@@ -147,23 +147,23 @@ feature -- Basic operations
 				log.exit_no_trailer
 			end
 
-			set_count_meter (function_count_meter, service_stats.function_count.value, Format_count)
+			set_count_meter (function_count_meter, service_stats.function_count.item, Format_count)
 			set_routine_rate_meter (function_rate_meter, service_stats.function_rate)
 
-			set_count_meter (procedure_count_meter, service_stats.procedure_count.value, Format_count)
+			set_count_meter (procedure_count_meter, service_stats.procedure_count.item, Format_count)
 			set_routine_rate_meter (procedure_rate_meter, service_stats.procedure_rate)
 
-			set_count_meter (failure_meter, service_stats.failure_count.value, Format_failed_connection_count)
+			set_count_meter (failure_meter, service_stats.failure_count.item, Format_failed_connection_count)
 
-			set_data_meter (data_received_meter, service_stats.bytes_received_count.value)
+			set_data_meter (data_received_meter, service_stats.bytes_received_count.item)
 			set_data_rate_meter (data_received_rate_meter, service_stats.bytes_received_rate)
 
-			set_data_meter (data_sent_meter, service_stats.bytes_sent_count.value)
+			set_data_meter (data_sent_meter, service_stats.bytes_sent_count.item)
 			set_data_rate_meter (data_sent_rate_meter, service_stats.bytes_sent_rate)
 
-			set_thread_count_meter (service_stats.thread_count.value)
+			set_thread_count_meter (service_stats.thread_count.item)
 			set_count_meter (
-				queued_connection_count_meter, service_stats.queued_connection_count.value,
+				queued_connection_count_meter, service_stats.queued_connection_count.item,
 				Format_queued_connection_count
 			)
 		end

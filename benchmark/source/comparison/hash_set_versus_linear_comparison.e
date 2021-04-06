@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-05 16:39:41 GMT (Monday 5th April 2021)"
-	revision: "4"
+	date: "2021-04-06 10:59:55 GMT (Tuesday 6th April 2021)"
+	revision: "5"
 
 class
 	HASH_SET_VERSUS_LINEAR_COMPARISON
@@ -44,7 +44,7 @@ feature -- Basic operations
 				comparison_list.extend ("ARRAYED_SET [INTEGER] size=" + size.out, agent do_search (list))
 				size := size * 50
 			end
-			compare ("compare INTEGER set searchs", 1000_000, comparison_list.to_array)
+			compare ("compare INTEGER set searchs", 10000, comparison_list.to_array)
 		end
 
 feature {NONE} -- Implementation

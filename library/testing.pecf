@@ -43,10 +43,13 @@ system:
 			name = EL_encryption; location = "encryption.ecf"
 
 		library:
+			name = EL_logging; location = "logging.ecf"
+
+		library:
 			name = EL_os_command; location = "os-command.ecf"
 
 		library:
-			name = EL_logging; location = "logging.ecf"
+			name = EL_thread; location = "thread.ecf"
 
 		# Source code
 		cluster:

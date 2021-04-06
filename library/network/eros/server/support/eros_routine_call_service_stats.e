@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:26:40 GMT (Monday 20th January 2020)"
-	revision: "7"
+	date: "2021-04-06 12:28:52 GMT (Tuesday 6th April 2021)"
+	revision: "8"
 
 class
 	EROS_ROUTINE_CALL_SERVICE_STATS
@@ -33,20 +33,20 @@ feature {NONE} -- Initialization
 		do
 			max_threads := a_max_threads
 
-			create thread_count
-			create queued_connection_count
+			create thread_count.make
+			create queued_connection_count.make
 
-			create function_count
+			create function_count.make
 			create function_rate_calculator
 
-			create procedure_count
+			create procedure_count.make
 			create procedure_rate_calculator
 
-			create failure_count
-			create bytes_received_count
+			create failure_count.make
+			create bytes_received_count.make
 			create bytes_received_rate_calculator
 
-			create bytes_sent_count
+			create bytes_sent_count.make
 			create bytes_sent_rate_calculator
 		end
 
@@ -63,28 +63,28 @@ feature -- Access
 	procedure_rate: INTEGER
 			-- procedures executed per second
 		do
-			procedure_rate_calculator.update (procedure_count.value)
+			procedure_rate_calculator.update (procedure_count.item)
 			Result := procedure_rate_calculator.item.rounded
 		end
 
 	function_rate: INTEGER
 			-- functions executed per second
 		do
-			function_rate_calculator.update (function_count.value)
+			function_rate_calculator.update (function_count.item)
 			Result := function_rate_calculator.item.rounded
 		end
 
 	bytes_received_rate: DOUBLE
 			--
 		do
-			bytes_received_rate_calculator.update (bytes_received_count.value)
+			bytes_received_rate_calculator.update (bytes_received_count.item)
 			Result := bytes_received_rate_calculator.item
 		end
 
 	bytes_sent_rate: DOUBLE
 			--
 		do
-			bytes_sent_rate_calculator.update (bytes_sent_count.value)
+			bytes_sent_rate_calculator.update (bytes_sent_count.item)
 			Result := bytes_sent_rate_calculator.item
 		end
 
@@ -114,13 +114,13 @@ feature -- Basic operations
 			bytes_received_rate_calculator.reset
 			bytes_sent_rate_calculator.reset
 
-			thread_count.set_value (0)
-			queued_connection_count.set_value (0)
-			function_count.set_value (0)
-			procedure_count.set_value (0)
-			failure_count.set_value (0)
-			bytes_received_count.set_value (0)
-			bytes_sent_count.set_value (0)
+			thread_count.set_item (0)
+			queued_connection_count.set_item (0)
+			function_count.set_item (0)
+			procedure_count.set_item (0)
+			failure_count.set_item (0)
+			bytes_received_count.set_item (0)
+			bytes_sent_count.set_item (0)
 		end
 
 feature {NONE} -- Routine call activity events
@@ -156,12 +156,12 @@ feature {NONE} -- Routine call activity events
 	add_connection
 			--
 		do
-			if thread_count.value < max_threads then
+			if thread_count.item < max_threads then
 				thread_count.increment
 			else
 				queued_connection_count.increment
 			end
-			if thread_count.value = 1 then
+			if thread_count.item = 1 then
 				display_refresh_timer.start
 			end
 		end
@@ -169,12 +169,12 @@ feature {NONE} -- Routine call activity events
 	remove_connection
 			--
 		do
-			if queued_connection_count.value > 0 then
+			if queued_connection_count.item > 0 then
 				queued_connection_count.decrement
 			else
 				thread_count.decrement
 			end
-			if thread_count.value = 0 then
+			if thread_count.item = 0 then
 				display_refresh_timer.stop
 			end
 		end

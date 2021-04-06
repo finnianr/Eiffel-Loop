@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-18 17:27:36 GMT (Wednesday 18th November 2020)"
-	revision: "5"
+	date: "2021-04-06 12:23:39 GMT (Tuesday 6th April 2021)"
+	revision: "6"
 
 class
 	EVOLICITY_TOKENS
@@ -173,7 +173,7 @@ feature {NONE} -- Implementation
 	unique_id: NATURAL_32
 		do
 			Next_unique_id.increment
-			Result := Next_unique_id.value
+			Result := Next_unique_id.item
 		end
 
 feature {NONE} -- Constants
@@ -181,7 +181,7 @@ feature {NONE} -- Constants
 	Next_unique_id: EL_MUTEX_NUMERIC [NATURAL_32]
 
 		once ("PROCESS")
-			create Result
+			create Result.make
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-29 13:33:41 GMT (Monday 29th March 2021)"
-	revision: "55"
+	date: "2021-04-06 11:39:26 GMT (Tuesday 6th April 2021)"
+	revision: "56"
 
 class
 	APPLICATION_ROOT
@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Constants
 
-	Compile: TUPLE
+	Compile: TUPLE [EL_MUTEX_VALUE [BOOLEAN]]
 		once
 			create Result
 		end

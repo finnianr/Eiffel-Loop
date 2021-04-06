@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-05 16:19:21 GMT (Monday 5th April 2021)"
-	revision: "6"
+	date: "2021-04-06 12:25:33 GMT (Tuesday 6th April 2021)"
+	revision: "7"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -48,17 +48,14 @@ feature -- Access
 	application_count_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [STRING, INTEGER]
 		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
 		-- in descending order
-		local
-			timer: EL_EXECUTION_TIMER
 		do
 			create Result.make (count)
-			create timer.make
 			across Current as routine loop
 				if is_lio_enabled then
 					lio.put_labeled_string ("Repeating for " + trial_duration.out + " millisecs", routine.key)
 					lio.put_new_line
 				end
-				Result.extend (routine.key, application_count (timer, routine.item, trial_duration, workbench_count))
+				Result.extend (routine.key, application_count (routine.item, trial_duration, workbench_count))
 				Memory.collect
 			end
 			Result.sort (False)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 14:08:07 GMT (Tuesday 8th September 2020)"
-	revision: "6"
+	date: "2021-04-06 12:26:32 GMT (Tuesday 6th April 2021)"
+	revision: "7"
 
 class
 	CAIRO_DRAWING_AREA
@@ -115,7 +115,7 @@ feature -- Access
 			Result := internal_id
 			if Result = Result.zero then
 				Last_id.increment
-				internal_id := Last_id.value
+				internal_id := Last_id.item
 				Result := internal_id
 			end
 		end
@@ -371,7 +371,7 @@ feature {NONE} -- Constants
 
 	Last_id: EL_MUTEX_NUMERIC [NATURAL_16]
 		once
-			create Result
+			create Result.make
 		end
 
 	Tag_template: ZSTRING
