@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 9:39:13 GMT (Tuesday 6th April 2021)"
-	revision: "2"
+	date: "2021-04-08 9:05:58 GMT (Thursday 8th April 2021)"
+	revision: "3"
 
 class
 	UNICODE_ITEM_COMPARISON
@@ -29,7 +29,7 @@ feature -- Basic operations
 			create l1.make_from_general (Text_russian_and_english)
 			create zstr.make_from_general (Text_russian_and_english)
 
-			compare ("compare unicode", 1000, <<
+			compare ("compare unicode", <<
 				["{L1_UC_STRING}.unicode", 	agent l1_uc_string_unicode (l1)],
 				["{ZSTRING}.unicode", 			agent zstring_unicode (zstr)]
 			>>)

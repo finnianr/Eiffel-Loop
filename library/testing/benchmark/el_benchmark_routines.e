@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 12:25:10 GMT (Tuesday 6th April 2021)"
-	revision: "8"
+	date: "2021-04-08 10:19:34 GMT (Thursday 8th April 2021)"
+	revision: "9"
 
-class
+expanded class
 	EL_BENCHMARK_ROUTINES
 
-inherit
-	ANY
-
-	EL_MODULE_MEMORY
-
-	EL_MODULE_TUPLE
-
-feature {NONE} -- Implementation
+feature -- Access
 
 	comparative_millisecs_string (a, b: DOUBLE): STRING
 		do
@@ -35,15 +28,6 @@ feature {NONE} -- Implementation
 				Result.append (units)
 			else
 				Result := relative_percentage_string (a, b)
-			end
-		end
-
-	integer_comparison_string (a, b: INTEGER; units: STRING; format: FORMAT_INTEGER): ZSTRING
-		do
-			if a = b then
-				Result := Template_for_same #$ [a, units]
-			else
-				Result := Template_for_different #$ [a, units, relative_percentage_string (a, b)]
 			end
 		end
 
@@ -67,18 +51,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	application_count (action: ROUTINE; trial_duration: INTEGER; iteration_count: INTEGER): INTEGER
+	application_count (action: ROUTINE; trial_duration: INTEGER): INTEGER
 		-- number of times that `action' can be applied within the `trial_duration' in milliseconds
 		local
-			i: INTEGER; timeout: EL_TIMEOUT_THREAD
+			timeout: EL_TIMEOUT_THREAD
 		do
 			create timeout.make (trial_duration)
 			timeout.launch
 			from until timeout.is_finished loop
-				from i := 1 until i > iteration_count loop
-					action.apply
-					i := i + 1
-				end
+				action.apply
 				Result := Result + 1
 			end
 		end
@@ -90,13 +71,4 @@ feature {NONE} -- Constants
 			create Result.make (6, 3)
 		end
 
-	Template_for_same: ZSTRING
-		once
-			Result := "%S %S"
-		end
-
-	Template_for_different: ZSTRING
-		once
-			Result := "%S %S (%S)"
-		end
 end

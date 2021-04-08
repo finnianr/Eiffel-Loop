@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 10:23:40 GMT (Tuesday 6th April 2021)"
-	revision: "5"
+	date: "2021-04-08 9:06:00 GMT (Thursday 8th April 2021)"
+	revision: "6"
 
 class
 	SUBSTRING_INDEX_COMPARISON
@@ -22,7 +22,7 @@ feature -- Basic operations
 
 	execute
 		do
-			compare ("compare_substring_index", 1000, <<
+			compare ("compare_substring_index", <<
 				["substring_index", 						agent substring_index],
 				["substring_index_general",			agent substring_index_general]
 			>>)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 10:22:39 GMT (Tuesday 6th April 2021)"
-	revision: "5"
+	date: "2021-04-08 9:06:01 GMT (Thursday 8th April 2021)"
+	revision: "6"
 
 class
 	REPLACE_SUBSTRING_COMPARISON
@@ -22,7 +22,7 @@ feature -- Basic operations
 
 	execute
 		do
-			compare ("compare_replace_substring", 1000, <<
+			compare ("compare_replace_substring", <<
 				["replace_substring_general_all", 	agent replace_substring_general_all],
 				["replace_substring_all",				agent replace_substring_all]
 			>>)

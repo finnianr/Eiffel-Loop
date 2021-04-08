@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 9:33:36 GMT (Tuesday 6th April 2021)"
-	revision: "2"
+	date: "2021-04-08 9:06:00 GMT (Thursday 8th April 2021)"
+	revision: "3"
 
 class
 	XML_PARSING_COMPARISON
@@ -26,7 +26,7 @@ feature -- Basic operations
 		do
 			create xml.make (Work_area_dir)
 			xml.generate
-			compare ("compare_xml_parsing", 1, <<
+			compare ("compare_xml_parsing", <<
 				["parse_with_vtd_xml", 	agent parse_with_vtd_xml (xml.path_list)]
 			>>)
 			xml.cleanup

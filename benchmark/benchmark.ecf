@@ -12,7 +12,7 @@ See project cluster for details
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "0" release = "0" build = "30" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "0" release = "0" build = "36" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
 		</option>
@@ -26,7 +26,7 @@ See project cluster for details
 		<setting name = "exception_trace" value = "true"/>
 		<setting name = "line_generation" value = "false"/>
 		<setting name = "inlining" value = "true"/>
-		<setting name = "inlining_size" value = "16"/>
+		<setting name = "inlining_size" value = "15"/>
 		<setting name = "concurrency" value = "thread"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
 		<library name = "ise_base" location = "$ISE_LIBRARY/library/base/base.ecf">
@@ -51,7 +51,7 @@ See project cluster for details
 		<library name = "EL_os_command" readonly = "false" location = "$EIFFEL_LOOP/library/os-command.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
-		<library name = "EL_vtd_xml" location = "$EIFFEL_LOOP/library/vtd-xml.ecf" readonly = "false"/>
+		<library name = "EL_vtd_xml" readonly = "false" location = "$EIFFEL_LOOP/library/vtd-xml.ecf"/>
 		<!--Source-->
 		<cluster name = "project" location = "source" recursive = "true">
 			<description>

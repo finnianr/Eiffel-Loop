@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 9:38:47 GMT (Tuesday 6th April 2021)"
-	revision: "3"
+	date: "2021-04-08 9:05:58 GMT (Thursday 8th April 2021)"
+	revision: "4"
 
 class
 	MAKE_GENERAL_COMPARISON
@@ -24,7 +24,7 @@ feature -- Basic operations
 
 	execute
 		do
-			compare ("compare make_general", 1000, <<
+			compare ("compare make_general", <<
 				["{L1_UC_STRING}.make_general", 		agent l1_uc_string_make],
 				["{ZSTRING}.make_general", 			agent zstring_make]
 			>>)

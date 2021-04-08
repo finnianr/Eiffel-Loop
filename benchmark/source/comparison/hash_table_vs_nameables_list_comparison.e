@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 10:21:04 GMT (Tuesday 6th April 2021)"
-	revision: "3"
+	date: "2021-04-08 9:05:59 GMT (Thursday 8th April 2021)"
+	revision: "4"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON
@@ -49,7 +49,7 @@ feature -- Basic operations
 			field_table := parameters.field_table
 			create nameables_list.make (field_table.linear_representation.to_array)
 
-			compare ("compare search with " + field_table.count.out + " items", 1000, <<
+			compare ("compare search with " + field_table.count.out + " items", <<
 				["Hash",	agent do_hash_search (field_table.current_keys, field_table)],
 				["Binary",	agent do_binary_search (field_table.current_keys, nameables_list)]
 			>>)

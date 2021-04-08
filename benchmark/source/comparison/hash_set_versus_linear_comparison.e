@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 10:59:55 GMT (Tuesday 6th April 2021)"
-	revision: "5"
+	date: "2021-04-08 10:26:43 GMT (Thursday 8th April 2021)"
+	revision: "6"
 
 class
 	HASH_SET_VERSUS_LINEAR_COMPARISON
@@ -29,10 +29,8 @@ feature -- Basic operations
 	execute
 		local
 			list: ARRAYED_SET [INTEGER]; hash_set: EL_HASH_SET [INTEGER]
-			comparison_list: EL_ARRAYED_MAP_LIST [READABLE_STRING_GENERAL, ROUTINE]
 			i, size: INTEGER
 		do
-			create comparison_list.make (10)
 			from size := 10 until size > 500 loop
 				create list.make (size)
 				create hash_set.make (size)
@@ -40,11 +38,12 @@ feature -- Basic operations
 					list.extend (i); hash_set.put (i)
 					i := i + 1
 				end
-				comparison_list.extend ("EL_HASH_SET [INTEGER] size=" + size.out, agent do_search (hash_set))
-				comparison_list.extend ("ARRAYED_SET [INTEGER] size=" + size.out, agent do_search (list))
+				compare ("compare INTEGER set searchs for size=" + size.out, <<
+					["EL_HASH_SET [INTEGER]",	agent do_search (hash_set)],
+					["ARRAYED_SET [INTEGER]",	agent do_search (list)]
+				>>)
 				size := size * 50
 			end
-			compare ("compare INTEGER set searchs", 10000, comparison_list.to_array)
 		end
 
 feature {NONE} -- Implementation

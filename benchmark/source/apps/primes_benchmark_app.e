@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-03 14:18:56 GMT (Saturday 3rd April 2021)"
-	revision: "9"
+	date: "2021-04-07 9:48:35 GMT (Wednesday 7th April 2021)"
+	revision: "10"
 
 class
 	PRIMES_BENCHMARK_APP
@@ -122,7 +122,7 @@ feature {NONE} -- Constants
 			Result.no_justify
 		end
 
-	Time_limit: DOUBLE = 5000.0
+	Time_limit: INTEGER = 5000
 
 	Sieve_size: INTEGER = 1_000_000
 

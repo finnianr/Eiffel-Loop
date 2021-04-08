@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 10:21:34 GMT (Tuesday 6th April 2021)"
-	revision: "4"
+	date: "2021-04-08 9:05:59 GMT (Thursday 8th April 2021)"
+	revision: "5"
 
 class
 	STRING_CONCATENATION_COMPARISON
@@ -28,7 +28,7 @@ feature -- Basic operations
 			from until array.full loop
 				array.extend (create {STRING}.make_filled (('A').plus (array.count), 100))
 			end
-			compare ("compare_list_iteration_methods", 1000, <<
+			compare ("compare_list_iteration_methods", <<
 				["append strings to Result", 							agent string_append (array)],
 				["append strings to once string", 					agent string_append_once_string (array)],
 				["append strings to once string with local",		agent string_append_once_string_with_local (array)]
