@@ -59,7 +59,7 @@ def msvc_compiler_environ (MSC_options, use_vc14_0):
 	set_compiler_env_bat = 'set_msvc_compiler_environment.bat'
 
 	# Set setenv.cmd as default environment setting command
-	set_env_cmd = microsoft_sdk_path () + r'\Bin\setenv.cmd '
+	set_env_cmd = microsoft_sdk_path () + 'Bin\\setenv.cmd '
 	args = MSC_options
 
 	if use_vc14_0 or not path.exists (set_env_cmd):

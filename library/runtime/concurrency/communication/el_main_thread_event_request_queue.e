@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-24 10:40:51 GMT (Thursday 24th September 2020)"
-	revision: "8"
+	date: "2021-04-11 8:09:05 GMT (Sunday 11th April 2021)"
+	revision: "9"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
@@ -72,7 +72,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	create_event_listener_pool: EL_ARRAYED_LIST [EL_EVENT_LISTENER]
+	new_event_listener_pool: EL_ARRAYED_LIST [EL_EVENT_LISTENER]
 		do
 			create Result.make_filled (20, agent the_default)
 		end
@@ -98,7 +98,7 @@ feature {NONE} -- Constants
 	Listener_pool: EL_MUTEX_REFERENCE [ARRAYED_LIST [EL_EVENT_LISTENER]]
 			-- Can't assume OS will return them in the same order
 		once ("PROCESS")
-			create Result.make (create_event_listener_pool)
+			create Result.make (new_event_listener_pool)
 		end
 
 end

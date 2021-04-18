@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 12:39:12 GMT (Tuesday 2nd February 2021)"
-	revision: "4"
+	date: "2021-04-16 8:56:03 GMT (Friday 16th April 2021)"
+	revision: "5"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 
 	test_compile
 		do
-			do_test ("compile_tree", 1258919698, agent compile_tree, [])
+			do_test ("compile_tree", os_checksum (1258919698, 3322703127), agent compile_tree, [])
 		end
 
 feature {NONE} -- Implementation

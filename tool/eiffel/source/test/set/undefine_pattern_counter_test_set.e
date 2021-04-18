@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 11:19:56 GMT (Sunday 21st March 2021)"
-	revision: "9"
+	date: "2021-04-16 8:20:28 GMT (Friday 16th April 2021)"
+	revision: "10"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -36,7 +36,7 @@ feature -- Tests
 
 	test_command
 		do
-			do_test ("count_pattern", 725585005, agent count_pattern, [])
+			do_test ("count_pattern", os_checksum (725585005, 2936545554), agent count_pattern, [])
 		end
 
 feature {NONE} -- Event handling

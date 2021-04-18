@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 12:48:47 GMT (Saturday 16th January 2021)"
-	revision: "15"
+	date: "2021-04-18 9:18:24 GMT (Sunday 18th April 2021)"
+	revision: "16"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -61,6 +61,18 @@ feature -- Basic operations
 		do
 			output := a_output
 			scan_from_stream (a_input)
+		ensure
+			all_recycled: reusable_stack.is_empty
+			stack_empty: output_stack.is_empty
+		end
+
+	convert_text (text: STRING; a_output: like output)
+			--
+		require
+			valid_output: a_output.is_open_write and a_output.is_writable
+		do
+			output := a_output
+			scan (text)
 		ensure
 			all_recycled: reusable_stack.is_empty
 			stack_empty: output_stack.is_empty

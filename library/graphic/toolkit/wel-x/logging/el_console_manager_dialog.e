@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-04-11 8:17:41 GMT (Sunday 11th April 2021)"
+	revision: "6"
 
 deferred class
 	EL_CONSOLE_MANAGER_DIALOG
@@ -70,13 +70,13 @@ feature -- Event handlers
 				go_history_start
 
 			elseif control_id = ID_console_thread_left_button then
-				go_history_left
+				go_history_previous
 
 			elseif control_id = ID_console_thread_right_button then
-				go_history_right
+				go_history_next
 
 			elseif control_id = ID_console_thread_finish_button then
-				go_history_finish
+				go_history_last
 
 			elseif control_id = ID_console_thread_refresh_button then
 				log_manager.console_thread_log_file.refresh_console
@@ -87,13 +87,13 @@ feature -- Event handlers
 	on_alt_left_arrow_key_down
 			--
 		do
-			go_history_left
+			go_history_previous
 		end
 
 	on_alt_right_arrow_key_down
 			--
 		do
-			go_history_right
+			go_history_next
 		end
 
 feature {NONE} -- Component layout

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-04-11 8:22:01 GMT (Sunday 11th April 2021)"
+	revision: "5"
 
 class
 	EL_WEL_MAIN_DIALOG
@@ -19,8 +19,10 @@ inherit
 		redefine
 			internal_dialog_make
 		end
-		
+
 	EL_WEL_COMPOSITE_WINDOW
+
+	EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 feature {NONE} -- Implementation
 
@@ -28,8 +30,7 @@ feature {NONE} -- Implementation
 			-- Create the dialog
 		do
 			Precursor (a_parent, an_id, a_name)
-			register_main_thread_implementation
+			set_main_thread_event_request_queue (Current)
 		end
-
 
 end

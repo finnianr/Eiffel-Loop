@@ -1,13 +1,13 @@
 note
-	description: "Pyxis ecf parser"
+	description: "Pyxis ECF parser"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 11:20:04 GMT (Tuesday 12th January 2021)"
-	revision: "5"
+	date: "2021-04-18 14:20:11 GMT (Sunday 18th April 2021)"
+	revision: "6"
 
 class
 	PYXIS_ECF_PARSER
@@ -15,69 +15,48 @@ class
 inherit
 	EL_PYXIS_PARSER
 		redefine
-			parse_from_file
+			parse_line
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature {NONE} -- State procedures
 
-	parse_from_file (file: PLAIN_TEXT_FILE)
-		-- expand namespace shorthand:
-		-- configuration_ns = "x-x-x"
+	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
-			ns_lines: EL_STRING_8_LIST; last_quote_pos, first_quote_pos, semi_colon_pos: INTEGER
-			str, eiffel_url, attributes: STRING; xml_ns: ZSTRING
+			expanded_line: STRING; last_quote_pos, first_quote_pos, semi_colon_pos: INTEGER
+			eiffel_url, attributes, xml_ns: STRING
 		do
-			reset
-			from until file.end_of_file loop
-				file.read_line
-				str := file.last_string
-				if str.starts_with (Configuration_ns) then
-					semi_colon_pos := str.index_of (';', 1)
-					if semi_colon_pos > 0 then
-						attributes := str.substring (semi_colon_pos + 1, str.count)
-						attributes.left_adjust
-						str := str.substring (1, semi_colon_pos - 1)
-					else
-						create attributes.make_empty
-					end
-					last_quote_pos := str.last_index_of ('"', str.count)
-					first_quote_pos := str.last_index_of ('"', last_quote_pos - 1)
-					eiffel_url := Eiffel_configuration + str.substring (first_quote_pos + 1, last_quote_pos - 1)
-					xml_ns := Xml_ns_template #$ [eiffel_url, eiffel_url, eiffel_url]
-					create ns_lines.make_with_lines (xml_ns.to_latin_1)
-					if not attributes.is_empty then
-						ns_lines.extend (attributes)
-					end
-					ns_lines.indent (1)
-					ns_lines.do_all (agent call_state_procedure)
+			if line.starts_with (Configuration_ns) then
+				last_quote_pos := line.last_index_of ('"', line.count)
+				first_quote_pos := line.last_index_of ('"', last_quote_pos - 1)
+				eiffel_url := Eiffel_configuration + line.substring (first_quote_pos + 1, last_quote_pos - 1)
+				xml_ns := XMS_NS_template #$ [eiffel_url, eiffel_url, eiffel_url]
+				xml_ns.prepend_character ('%T')
+
+				semi_colon_pos := line.index_of (';', start_index)
+				if semi_colon_pos > 0 then
+					expanded_line := xml_ns + line.substring (semi_colon_pos, end_index)
 				else
-					call_state_procedure (str)
+					expanded_line := xml_ns
 				end
+				Precursor (expanded_line, start_index, expanded_line.count)
+			else
+				Precursor (line, start_index, end_index)
 			end
-			parse_final
 		end
 
 feature {NONE} -- Constants
 
-	Configuration_ns: STRING
-		once
-			Result := "%Tconfiguration_ns"
-		end
+	Configuration_ns: STRING = "%Tconfiguration_ns"
 
-	Eiffel_configuration: STRING
-		once
-			Result := "http://www.eiffel.com/developers/xml/configuration-"
-		end
+	Eiffel_configuration: STRING = "http://www.eiffel.com/developers/xml/configuration-"
 
-	Xml_ns_template: ZSTRING
+	XMS_NS_template: ZSTRING
 		once
 			Result := "[
-				xmlns = "#"
-				xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance" 
-				xsi.schemaLocation = "# #.xsd"
+				xmlns = "#"; xmlns.xsi = "http://www.w3.org/2001/XMLSchema-instance"; xsi.schemaLocation = "# #.xsd"
 			]"
 		end
 

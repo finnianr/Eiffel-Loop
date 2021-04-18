@@ -1,13 +1,18 @@
 note
-	description: "A table for doing comparitve performance benchmarking of routines"
+	description: "A table for doing comparitive performance benchmarking of routines"
+	notes: "[
+		An array of routines are repeatedly applied for a fixed duration of time in millisecs.
+		The number of routine applications (passes) are averaged over the time and a proportion
+		number of passes is calculated. Results are listed in descending order of application count (passes)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 10:41:16 GMT (Thursday 8th April 2021)"
-	revision: "8"
+	date: "2021-04-08 10:52:12 GMT (Thursday 8th April 2021)"
+	revision: "9"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 11:46:18 GMT (Sunday 3rd January 2021)"
-	revision: "13"
+	date: "2021-04-11 8:19:03 GMT (Sunday 11th April 2021)"
+	revision: "14"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -106,7 +106,7 @@ feature {EL_EIF_OBJ_ROOT_BUILDER_CONTEXT} -- Implementation attributes
 
 	building_actions: HASH_TABLE [PROCEDURE, ZSTRING]
 
-feature {EL_XML_NODE_SCAN_SOURCE} -- Implementation
+feature {NODE} -- Implementation
 
 	add_builder_actions_for_xpaths_containing_attribute_value_predicates (a_building_actions: EL_PROCEDURE_TABLE [STRING])
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:28:10 GMT (Saturday 27th March 2021)"
-	revision: "28"
+	date: "2021-04-18 13:57:14 GMT (Sunday 18th April 2021)"
+	revision: "29"
 
 class
 	EL_PYXIS_PARSER
@@ -89,8 +89,8 @@ feature -- Basic operations
 	parse_from_stream (a_stream: IO_MEDIUM)
 			-- Parse XML document from input stream.
 		do
-			if attached {EL_STRING_8_IO_MEDIUM} a_stream as string_8 then
-				parse_from_string (string_8.text)
+			if attached {EL_STRING_8_IO_MEDIUM} a_stream as medium then
+				parse_from_string (medium.text)
 
 			elseif attached {EL_ZSTRING_IO_MEDIUM} a_stream as zstring then
 				parse_from_lines (create {EL_ZSTRING_IO_MEDIUM_LINE_SOURCE}.make (zstring))
@@ -118,7 +118,7 @@ feature -- Basic operations
 
 feature {NONE} -- State procedures
 
-	frozen gather_comments (line: STRING; start_index, end_index: INTEGER)
+	gather_comments (line: STRING; start_index, end_index: INTEGER)
 		local
 			count: INTEGER
 		do
@@ -135,7 +135,7 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	frozen gather_verbatim_lines (line: STRING; start_index, end_index: INTEGER)
+	gather_verbatim_lines (line: STRING; start_index, end_index: INTEGER)
 		local
 			count: INTEGER
 		do
@@ -150,7 +150,7 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	frozen output_content_lines (line: STRING; start_index, end_index: INTEGER)
+	output_content_lines (line: STRING; start_index, end_index: INTEGER)
 		-- output line after first
 		local
 			count: INTEGER
@@ -177,7 +177,7 @@ feature {NONE} -- State procedures
 			end
 		end
 
-	frozen parse_line (line: STRING; start_index, end_index: INTEGER)
+	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
 			count: INTEGER
 		do

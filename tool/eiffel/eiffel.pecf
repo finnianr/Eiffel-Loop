@@ -24,7 +24,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 3; release = 10; build = 311
+			major = 1; minor = 3; release = 11; build = 321
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -75,7 +75,6 @@ system:
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 			
 		# LIBRARIES
-
 		library:
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 

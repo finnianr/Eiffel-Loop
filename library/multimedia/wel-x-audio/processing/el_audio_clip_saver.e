@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 16:44:03 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2021-04-11 8:01:28 GMT (Sunday 11th April 2021)"
+	revision: "4"
 
 class
 	EL_AUDIO_CLIP_SAVER
@@ -20,7 +20,6 @@ class
 inherit
 	EL_CONSUMER_THREAD [EL_WAVE_AUDIO_16_BIT_CLIP]
 		rename
-			make as make_consumer,
 			consume_product as save_clip,
 			product as audio_clip
 		redefine
@@ -48,7 +47,7 @@ feature {NONE} -- Initialization
 	make (rms_energy: REAL)
 			--
 		do
-			make_consumer
+			make_default
 			noise_threshold := rms_energy
 			create audio_file_processing_queue.make (0)
 			log.put_new_line
@@ -58,7 +57,7 @@ feature {NONE} -- Initialization
 					File_system.remove_file (wav_path.item)
 				end
 			end
-			create sample_count
+			create sample_count.make
 		end
 
 feature -- Access
@@ -68,7 +67,7 @@ feature -- Access
 	samples_recorded_count: INTEGER
 			--
 		do
-			Result := sample_count.value
+			Result := sample_count.item
 		end
 
 feature -- Element change
@@ -84,7 +83,7 @@ feature -- Element change
 	reset_sample_count
 			--
 		do
-			sample_count.set_value (0)
+			sample_count.set_item (0)
 		end
 
 	set_signal_threshold (rms_energy: REAL)
@@ -163,6 +162,5 @@ feature -- Constants
 		end
 
 end
-
 
 

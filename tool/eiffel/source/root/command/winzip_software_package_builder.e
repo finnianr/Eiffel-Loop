@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:36:46 GMT (Friday 8th January 2021)"
-	revision: "7"
+	date: "2021-04-18 14:02:09 GMT (Sunday 18th April 2021)"
+	revision: "8"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -61,8 +61,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			else
 				output_dir := Directory.current_working.joined_dir_path (a_output_dir)
 			end
-			lio.put_path_field ("Output", output_dir)
-			lio.put_new_line
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
 			create architecture_list.make (2)
@@ -70,6 +68,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				bit_count.item.left_adjust
 				architecture_list.extend (bit_count.item.to_integer)
 			end
+			architecture_list.reverse_sort
 			create target_list.make_with_csv (targets)
 			create language_list.make_with_csv (languages)
 		end
@@ -82,16 +81,20 @@ feature -- Basic operations
 
 	execute
 		do
+			lio.put_path_field ("Output", output_dir)
+			lio.put_new_line
 			if output_dir.exists then
+				lio.put_path_field ("Project", pecf_path)
+				lio.put_new_line
+				if architecture_list.has (64) then
+					increment_pecf_build
+				end
+				if architecture_list.count > 0 then
+					config.pass_phrase.share (User_input.line ("Signing pass phrase"))
+					lio.put_new_line
+				end
 				across architecture_list as bit_count until has_build_error loop
-					if config.pass_phrase.is_empty then
-						config.pass_phrase.share (User_input.line ("Signing pass phrase"))
-						lio.put_new_line
-					end
 					if target_list.has (Target.exe) then
-						if bit_count.item = 64 then
-							increment_pecf_build
-						end
 						build_exe (bit_count.item)
 						if not has_build_error then
 							sha_256_sign (target_exe_path (bit_count.item))
@@ -124,8 +127,8 @@ feature {NONE} -- Implementation
 			end
 			create build_command.make ("python $scons_py cpu=$cpu_target action=finalize compile_eiffel=$compile_eiffel")
 			build_command.put_path ("scons_py", Scons_py_path)
-			build_command.put_string ("cpu_target", cpu_architecture (bit_count))
-			build_command.put_string ("compile_eiffel", yes_no (compile_eiffel))
+			build_command.put_string ("cpu_target", CPU_architecture [bit_count])
+			build_command.put_string ("compile_eiffel", Yes_or_no.item (compile_eiffel))
 
 			build_command.execute
 
@@ -160,22 +163,9 @@ feature {NONE} -- Implementation
 		do
 			create zip_cmd.make ("wzzip -a -rP $zip_path package\*")
 			zip_cmd.put_path ("zip_path", zip_archive_path (language, bit_count))
-			zip_cmd.set_working_directory ("build/" + ise_platform (bit_count))
+			zip_cmd.set_working_directory ("build/" + ISE_platform [bit_count])
 			zip_cmd.execute
 			has_build_error := zip_cmd.has_error
-		end
-
-	cpu_architecture (bit_count: INTEGER): STRING
-		do
-			inspect bit_count
-				when 32 then
-					Result := "x86"
-
-				when 64 then
-					Result := "x64"
-			else
-				create Result.make_empty
-			end
 		end
 
 	increment_pecf_build
@@ -222,19 +212,6 @@ feature {NONE} -- Implementation
 			Result := output_dir + (config.package_name_template #$ inserts)
 		end
 
-	ise_platform (bit_count: INTEGER): STRING
-		do
-			inspect bit_count
-				when 32 then
-					Result := "windows"
-
-				when 64 then
-					Result := "win64"
-			else
-				create Result.make_empty
-			end
-		end
-
 	sha_256_sign (exe_path: EL_FILE_PATH)
 		local
 			sign_cmd: EL_OS_COMMAND
@@ -267,29 +244,18 @@ feature {NONE} -- Implementation
 
 	target_exe_path (bit_count: INTEGER): EL_FILE_PATH
 		do
-			Result := Exe_path_template #$ [ise_platform (bit_count), config.exe_name]
+			Result := Exe_path_template #$ [ISE_platform [bit_count], config.exe_name]
 			Result := Directory.current_working + Result
 		end
 
 	write_ecf (source_text: STRING)
 		local
-			ecf_generator: ECF_XML_GENERATOR; pecf_in: EL_STRING_8_IO_MEDIUM
+			ecf_generator: ECF_XML_GENERATOR
 		do
 			if attached open (pecf_path.with_new_extension ("ecf"), Write) as ecf_out then
-				create pecf_in.make_open_read_from_text (source_text)
-				pecf_in.set_latin_encoding (1)
 				create ecf_generator.make
-				ecf_generator.convert_stream (pecf_in, ecf_out)
+				ecf_generator.convert_text (source_text, ecf_out)
 				ecf_out.close
-			end
-		end
-
-	yes_no (flag: BOOLEAN): STRING
-		do
-			if flag then
-				Result := "yes"
-			else
-				Result := "no"
 			end
 		end
 
@@ -300,7 +266,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	architecture_list: ARRAYED_LIST [INTEGER]
+	architecture_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]
 
 	config: PACKAGE_BUILDER_CONFIG
 
@@ -314,9 +280,24 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- Constants
 
+	CPU_architecture: EL_HASH_TABLE [STRING, INTEGER]
+		once
+			create Result.make (<< [32, "x86"], [64, "x64"] >>)
+		end
+
 	Exe_path_template: ZSTRING
 		once
 			Result := "build/%S/package/bin/%S"
+		end
+
+	ISE_platform: EL_HASH_TABLE [STRING, INTEGER]
+		do
+			create Result.make (<< [32, "windows"], [64, "win64"] >>)
+		end
+
+	Yes_or_no: EL_BOOLEAN_INDEXABLE [STRING]
+		once
+			create Result.make ("no", "yes")
 		end
 
 	Scons_py_path: EL_FILE_PATH
