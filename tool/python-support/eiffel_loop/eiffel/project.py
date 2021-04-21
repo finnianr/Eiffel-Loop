@@ -52,7 +52,6 @@ def read_project_py ():
 
 def x86_environ (environ):
 	result = {}
-	x86_ise_platform = 'windows'
 
 	# Change any /Program Files/ to /Program Files (x86)/
 	for name in environ:
@@ -67,14 +66,15 @@ def x86_environ (environ):
 	path_list = []
 	for line in (os.environ [name]).split (';'):
 		if line.startswith (ise.library):
-			path_list.append (x86_path (line).replace ('win64', x86_ise_platform, 1))
+			path_list.append (x86_path (line).replace (ise.platform_win_x64, ise.platform_win_x86, 1))
 		else:
 			path_list.append (line)
 	result [name] = (';').join (path_list)
 
-	result ['ISE_LIBRARY'] = x86_path (ise.library)
-	result ['ISE_EIFFEL'] = x86_path (ise.eiffel)
-	result ['ISE_PLATFORM'] = x86_ise_platform
+	result [ise.key_library] = x86_path (ise.library)
+	result [ise.key_eiffel] = x86_path (ise.eiffel)
+	result [ise.key_platform] = ise.platform_win_x86
+	result [ise.key_precomp] = ise.precompile_path (ise.platform_win_x86)
 
 	return result
 
@@ -120,26 +120,6 @@ def convert_pecf_to_xml (pecf_path):
 	if result > 0:
 		print "Error converting %s to XML" % (pecf_path)
 	return result
-
-class TESTS (object):
-
-# Initialization
-	def __init__ (self, working_directory):
-		self.working_directory = path.normpath (working_directory)
-		self.test_sequence = []
-		
-# Element change
-
-	def append (self, test_args):
-		self.test_args_sequence.append (test_args)
-
-# Basic operations
-
-	def do_all (self, exe_path):
-		os.chdir (path.expandvars (self.working_directory))
-		for test_args in test_args_sequence:
-			call ([exe_path] + test_args)
-#end class
 
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):
@@ -206,6 +186,10 @@ class PYXIS_FORMAT_PROJECT_FILE (ECF_PROJECT_FILE):
 
 class EIFFEL_PROJECT (object):
 
+	Project_py = "project.py"
+
+	Project_py_template = "project-%d.py"
+
 # Initialization
 	def __init__ (self, ecf_name = None):
 		if ecf_name:
@@ -241,11 +225,21 @@ class EIFFEL_PROJECT (object):
 		return result
 
 	def build (self, cpu_target, options_extra = None):
-		options = ['cpu=' + cpu_target, 'action=finalize']
+		if cpu_target == 'x86':
+			if path.exists (self.Project_py_template % 32):
+				os.rename (self.Project_py, self.Project_py_template % 64)
+				os.rename (self.Project_py_template % 32, self.Project_py)
+			else:
+				raise Exception ("Missing file: " + self.Project_py_template % 32)
+
+		options = ['action=finalize']
 		if options_extra:
 			options.extend (options_extra)
 			
 		call (scons_command (options))
+		if cpu_target == 'x86':
+			os.rename (self.Project_py, self.Project_py_template % 32)
+			os.rename (self.Project_py_template % 64, self.Project_py)
 
 	def clean_build (self):
 		l_dir = self.eifgens_dir ()

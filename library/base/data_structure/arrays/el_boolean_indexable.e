@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 9:38:26 GMT (Wednesday 31st March 2021)"
-	revision: "2"
+	date: "2021-04-19 8:33:48 GMT (Monday 19th April 2021)"
+	revision: "3"
 
 class
 	EL_BOOLEAN_INDEXABLE [G]
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (boolean: BOOLEAN): G
+	item alias "[]" (boolean: BOOLEAN): G
 		do
 			Result := area [boolean.to_integer]
 		end

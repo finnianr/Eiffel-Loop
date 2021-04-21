@@ -47,31 +47,20 @@ def set_environ_from_directory (a_dir):
 		if path.isdir (file_path):
 			environ [library_environ_name (name)] = file_path
 
-def set_build_environment (target_cpu):
-	# set C build environment for `target_cpu'
-	cpu_options = ['x86', 'x64']
-	if not target_cpu in cpu_options:
-		raise Exception ('Invalid argument: set_build_environment (target_cpu)', target_cpu)
-		exit (1)
+def set_build_environment ():
 
-	print "Setting %s build environment" % target_cpu
 	if sys.platform == 'win32':
-		# Adjust setenv.cmd arguments `MSC_options'
-		for opt in cpu_options:
-			setenv_option = '/' + opt
-			if setenv_option in MSC_options:
-				MSC_options.remove (setenv_option)
-				break
+		sdk = C_dev.MICROSOFT_SDK (ise.c_compiler, MSC_options)
+		print 'Configuring environment for MSC_options =', MSC_options
 
-		MSC_options.insert (0, '/' + target_cpu)
+		os.environ.update (sdk.compiler_environ ())
 
-		os.environ.update (C_dev.msvc_compiler_environ (MSC_options, os.environ ['ISE_C_COMPILER'] == 'msc_vc140'))
-		if target_cpu == 'x86':
+		if sdk.is_x86_cpu ():
 			os.environ.update (project.x86_environ (environ))
 		else:
 			os.environ.update (environ)
 
-		ise.update ()
+		ise.update () # update value of ISE_PLATFORM
 
 	else:
 		os.environ.update (environ)
@@ -87,7 +76,6 @@ def eiffel_environ ():
 				result [key] = os.environ [key]
 
 	return result
-	
 
 # SCRIPT BEGIN
 

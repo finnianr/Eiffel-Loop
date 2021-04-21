@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-18 14:02:09 GMT (Sunday 18th April 2021)"
-	revision: "8"
+	date: "2021-04-20 17:11:14 GMT (Tuesday 20th April 2021)"
+	revision: "9"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -95,9 +95,15 @@ feature -- Basic operations
 				end
 				across architecture_list as bit_count until has_build_error loop
 					if target_list.has (Target.exe) then
-						build_exe (bit_count.item)
-						if not has_build_error then
-							sha_256_sign (target_exe_path (bit_count.item))
+						if bit_count = 32 implies project_py_path (32).exists then
+							build_exe (bit_count.item, bit_count.item = 64)
+							if not has_build_error then
+								sha_256_sign (target_exe_path (bit_count.item))
+							end
+						else
+							lio.put_labeled_string (project_py_path (32), " is missing")
+							lio.put_new_line
+							has_build_error := True
 						end
 					end
 					if target_list.has (Target.installer) and then not has_build_error then
@@ -116,27 +122,30 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	build_exe (bit_count: INTEGER)
+	build_exe (bit_count: INTEGER; compile_eiffel: BOOLEAN)
+		require
+			has_32_bit_project: bit_count = 32 implies project_py_path (32).exists
 		local
-			compile_eiffel: BOOLEAN; build_command: EL_OS_COMMAND
+			build_command: EL_OS_COMMAND
 		do
-			compile_eiffel := bit_count = 64
+			if bit_count = 32 then
+				swap_project_py (64, 32)
+			end
 			if compile_eiffel then
 				-- Excluded unwanted sub applications for windows
 				swap_application_root ("dev", "windows")
 			end
-			create build_command.make ("python $scons_py cpu=$cpu_target action=finalize compile_eiffel=$compile_eiffel")
+			create build_command.make ("python $scons_py action=finalize compile_eiffel=" + Yes_or_no [compile_eiffel])
 			build_command.put_path ("scons_py", Scons_py_path)
-			build_command.put_string ("cpu_target", CPU_architecture [bit_count])
-			build_command.put_string ("compile_eiffel", Yes_or_no.item (compile_eiffel))
-
 			build_command.execute
 
 			has_build_error := build_command.has_error
-
 			if compile_eiffel then
 				-- Excluded unwanted sub applications for windows
 				swap_application_root ("windows", "dev")
+			end
+			if bit_count = 32 then
+				swap_project_py (32, 64)
 			end
 		end
 
@@ -194,6 +203,8 @@ feature {NONE} -- Implementation
 				config.increment_build
 				line.replace_substring (config.build.out, i + 1, line.count)
 				source_text.replace_substring (line, line_start, line_end)
+				lio.put_natural_field (pecf_path.base + " build", config.build)
+				lio.put_new_line
 				File_system.write_plain_text (pecf_path, source_text)
 				write_ecf (source_text)
 			end
@@ -210,6 +221,11 @@ feature {NONE} -- Implementation
 				inserts := [language, bit_count, config.version.string]
 			end
 			Result := output_dir + (config.package_name_template #$ inserts)
+		end
+
+	project_py_path (bit_count: INTEGER): EL_FILE_PATH
+		do
+			Result := Project_py_template #$ [bit_count]
 		end
 
 	sha_256_sign (exe_path: EL_FILE_PATH)
@@ -240,6 +256,12 @@ feature {NONE} -- Implementation
 				File_system.rename_file (Application_root_path, template #$ [temp_extension])
 				File_system.rename_file (template #$ [extension], Application_root_path)
 			end
+		end
+
+	swap_project_py (n1, n2: INTEGER)
+		do
+			File_system.rename_file (Project_py, project_py_path (n1))
+			File_system.rename_file (project_py_path (n2), Project_py)
 		end
 
 	target_exe_path (bit_count: INTEGER): EL_FILE_PATH
@@ -295,14 +317,24 @@ feature {NONE} -- Constants
 			create Result.make (<< [32, "windows"], [64, "win64"] >>)
 		end
 
-	Yes_or_no: EL_BOOLEAN_INDEXABLE [STRING]
+	Project_py: EL_FILE_PATH
 		once
-			create Result.make ("no", "yes")
+			Result := "project.py"
+		end
+
+	Project_py_template: ZSTRING
+		once
+			Result := "project-%S.py"
 		end
 
 	Scons_py_path: EL_FILE_PATH
 		once
 			Result := Executable.absolute_path ("python").parent + "scons.py"
+		end
+
+	Yes_or_no: EL_BOOLEAN_INDEXABLE [STRING]
+		once
+			create Result.make ("no", "yes")
 		end
 
 end

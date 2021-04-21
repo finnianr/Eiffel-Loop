@@ -17,21 +17,13 @@ from eiffel_loop.eiffel import project
 
 project_py = project.read_project_py ()
 
-target_cpu = 'x64'
-project_path = None
-
-for arg in sys.argv [1:]:
-	if arg.startswith ('cpu='):
-		target_cpu = arg.split ('=')[-1]
-	else:
-		project_path = arg
-
-if not project_path:
-	print "USAGE: launch_estudio [cpu=(x86|x64)] <project name>.(pecf|ecf)"
-	print "\tby default: cpu=x64"
+if len (sys.argv) == 2:
+	project_path = sys.argv [1]
+else:
+	print "USAGE: launch_estudio <project name>.(pecf|ecf)"
 	sys.exit (1)
 
-project_py.set_build_environment (target_cpu)
+project_py.set_build_environment ()
 
 pecf_path = None
 parts = path.splitext (project_path)

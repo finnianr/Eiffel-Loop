@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-04-20 16:22:42 GMT (Tuesday 20th April 2021)"
+	revision: "5"
 
 class
 	EL_BOYER_MOORE_SEARCHER_32
@@ -33,10 +33,10 @@ feature {NONE} -- Initialization
 			pattern_count := pattern.count
 			max_shift := pattern_count
 			from i := 1 until i > pattern_count loop
-				char_shifts.put (create {like other_char_shifts}.make (1, pattern_count), pattern [i])
+				char_shifts.put (create {like other_char_shifts}.make_filled (0, 1, pattern_count), pattern [i])
 				i := i + 1
 			end
-			create other_char_shifts.make (1, pattern_count)
+			create other_char_shifts.make_filled (0, 1, pattern_count)
 			from char_shifts.start until char_shifts.after loop
 				char_shifts.item_for_iteration [pattern_count] := max_shift
 				char_shifts.forth

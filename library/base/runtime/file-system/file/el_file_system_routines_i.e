@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:15:45 GMT (Saturday 27th March 2021)"
-	revision: "32"
+	date: "2021-04-20 13:16:38 GMT (Tuesday 20th April 2021)"
+	revision: "33"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -366,7 +366,17 @@ feature -- Basic operations
 
 feature -- Status query
 
-	directory_exists, file_exists, path_exists (a_path: EL_PATH): BOOLEAN
+	path_exists (a_path: EL_PATH): BOOLEAN
+		do
+			Result := info_file (a_path).exists
+		end
+
+	directory_exists (a_path: EL_DIR_PATH): BOOLEAN
+		do
+			Result := info_file (a_path).exists
+		end
+
+	file_exists (a_path: EL_FILE_PATH): BOOLEAN
 		do
 			Result := info_file (a_path).exists
 		end

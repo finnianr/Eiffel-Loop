@@ -694,33 +694,6 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 
 # end FINALIZED_BUILD
 
-class FINALIZE_AND_TEST_BUILD (FREEZE_BUILD): # Obsolete July 2012
-
-# Initialization
-	def __init__ (self, ecf, project_py):
-		FREEZE_BUILD.__init__ (self, ecf, project_py)
-		self.tests = project_py.tests
-
-# Access
-	def compilation_options (self):
-		return ['-finalize', '-keep']
-
-# Status query
-
-# Basic operations
-
-	def post_compilation (self):
-		bin_test_path = path.normpath ('package/test')
-		self.install_executables (bin_test_path)
-		if self.tests:
-			self.do_tests ()
-	
-	def do_tests (self):
-		bin_test_path = path.normpath ('package/test')
-		self.tests.do_all (path.join (bin_test_path, self.exe_name))
-
-# end FINALIZE_AND_TEST_BUILD
-
 Build_info_class_template = Template (
 '''note
 	description: "Build specification"

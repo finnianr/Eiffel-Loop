@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-18 13:57:14 GMT (Sunday 18th April 2021)"
-	revision: "29"
+	date: "2021-04-19 8:35:26 GMT (Monday 19th April 2021)"
+	revision: "30"
 
 class
 	EL_PYXIS_PARSER
@@ -243,7 +243,7 @@ feature {NONE} -- Parse events
 			inspect quote_count
 				when 1, 2 then
 					last_node.append_substring (line, start_index + 1, end_index - 1)
-					last_node.unescape (Quote_unescaper.item (quote_count = 2))
+					last_node.unescape (Quote_unescaper [quote_count = 2])
 
 			else
 				last_node.append_substring (line, start_index, end_index)

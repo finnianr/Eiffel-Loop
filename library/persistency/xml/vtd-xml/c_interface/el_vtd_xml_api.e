@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:27:33 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2021-04-21 11:11:00 GMT (Wednesday 21st April 2021)"
+	revision: "7"
 
 deferred class
 	EL_VTD_XML_API
@@ -151,7 +151,7 @@ feature {NONE} -- Implementation
 			Result := Exception_callbacks_struct.target.pointer_to_c_callbacks_struct
 		end
 
-	Exception_callbacks_struct: EL_C_TO_EIFFEL_CALLBACK_STRUCT [EL_VTD_EXCEPTIONS]
+	Exception_callbacks_struct: EL_C_TO_EIFFEL_CALLBACK_STRUCT [EL_VTD_CALLABLE_EXCEPTIONS]
 			--
 		once
 			create Result.make

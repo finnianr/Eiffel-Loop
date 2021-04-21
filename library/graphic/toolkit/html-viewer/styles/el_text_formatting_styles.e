@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 11:41:02 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2021-04-20 16:13:59 GMT (Tuesday 20th April 2021)"
+	revision: "8"
 
 class
 	EL_TEXT_FORMATTING_STYLES
 
 inherit
 	ANY
-	
+
 	EL_MODULE_COLOR EL_MODULE_GUI
 
 	EL_MODULE_SCREEN
@@ -30,9 +30,9 @@ feature {NONE} -- Initialization
 		do
 			font := a_font; background_color := a_background_color
 
-			create heading_formats.make (1, Relative_header_sizes.count)
+			create heading_formats.make (Relative_header_sizes.count)
 
-			create heading_fonts.make (1, heading_levels.count)
+			create heading_fonts.make (heading_levels.count)
 			across heading_levels as level loop
 				l_font := regular_font
 				l_font.set_height (heading_size (level.item))
@@ -42,15 +42,12 @@ feature {NONE} -- Initialization
 				if level.item = 6 then
 					l_font.set_shape (GUI.Shape_italic)
 				end
-				heading_fonts [level.item] := l_font
+				heading_fonts.extend (l_font)
 			end
-
 			across heading_fonts as h_font loop
-				heading_formats [h_font.cursor_index] := [
-					heading_paragraph_format (h_font.item), new_character_format (h_font.item)
-				]
+				heading_formats.extend ([heading_paragraph_format (h_font.item), new_character_format (h_font.item)])
 			end
-			heading_formats.item (1).paragraph.enable_center_alignment
+			heading_formats [1].paragraph.enable_center_alignment
 
 			normal_format := [Default_paragraph_format, new_character_format (regular_font)]
 
@@ -64,9 +61,9 @@ feature -- Access
 
 	preformatted_format: like normal_format
 
-	heading_formats: ARRAY [like normal_format]
+	heading_formats: ARRAYED_LIST [like normal_format]
 
-	heading_fonts: ARRAY [EL_FONT]
+	heading_fonts: ARRAYED_LIST [EL_FONT]
 
 feature -- Colors
 

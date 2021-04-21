@@ -205,21 +205,16 @@ class WINDOWS_INSTALLER (INSTALLER):
 			('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, pyx_extension_cmds)
 		]
 		for extension_name, pyxis_key_name, description, icon_path, extension_cmds in mime_types:
-			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, extension_name, 0, _winreg.KEY_ALL_ACCESS)
-			_winreg.SetValue (key, '', _winreg.REG_SZ, pyxis_key_name)
+			self.set_registry_value (extension_name, pyxis_key_name)
 
 			pyxis_shell_path = path.join (pyxis_key_name, 'shell')
 			for command_name, command in extension_cmds.iteritems():
 				command_path = path.join (pyxis_shell_path, command_name, 'command')
 				print 'Setting:', command_path, 'to', command
-				key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, command_path, 0, _winreg.KEY_ALL_ACCESS)
-				_winreg.SetValue (key, '', _winreg.REG_SZ, command)
+				self.set_registry_value (command_path, command)
 
-			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, pyxis_key_name, 0, _winreg.KEY_ALL_ACCESS)
-			_winreg.SetValue (key, '', _winreg.REG_SZ, description)
-
-			key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, path.join (pyxis_key_name, 'DefaultIcon'), 0, _winreg.KEY_ALL_ACCESS)
-			_winreg.SetValue (key, '', _winreg.REG_SZ, icon_path)
+			self.set_registry_value (pyxis_key_name, description)
+			self.set_registry_value (path.join (pyxis_key_name, 'DefaultIcon'), icon_path)
 
 	def install_precompiles (self, ise_platform):
 		super (WINDOWS_INSTALLER, self).install_precompiles (ise_platform)
@@ -227,6 +222,13 @@ class WINDOWS_INSTALLER (INSTALLER):
 			if path.exists (project.x86_path (ise.eiffel)):
 				super (WINDOWS_INSTALLER, self).install_precompiles ('windows')
 
+	def set_registry_value (self, key_path, key_name):
+		key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, key_path, 0, _winreg.KEY_ALL_ACCESS)
+		if key:
+			_winreg.SetValue (key, '', _winreg.REG_SZ, key_name)
+			_winreg.CloseKey (key)
+		else:
+			raise Exception ("Registry path not found: " + key_path)
 
 class UNIX_INSTALLER (INSTALLER):
 

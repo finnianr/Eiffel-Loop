@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:45:53 GMT (Monday 23rd November 2020)"
-	revision: "9"
+	date: "2021-04-21 10:10:51 GMT (Wednesday 21st April 2021)"
+	revision: "10"
 
 class
 	EL_XPATH_ROOT_NODE_CONTEXT
@@ -151,10 +151,10 @@ feature -- Basic operations
 			found_instruction.wipe_out
 			from i := 1 until i > upper or instruction_found loop
 				type := token_type (i)
-				if type = Token_PI_name and then node_text_at_index (i) ~ a_name then
+				if type = Token.PI_name and then node_text_at_index (i) ~ a_name then
 					pi_name_index := i
 
-				elseif type = Token_PI_value and then pi_name_index = (i - 1) then
+				elseif type = Token.PI_value and then pi_name_index = (i - 1) then
 					found_instruction.append (node_text_at_index (i))
 					instruction_found := true
 

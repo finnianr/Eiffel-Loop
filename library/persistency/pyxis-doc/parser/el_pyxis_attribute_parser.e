@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-12 17:56:06 GMT (Tuesday 12th January 2021)"
-	revision: "12"
+	date: "2021-04-19 8:35:08 GMT (Monday 19th April 2021)"
+	revision: "13"
 
 class
 	EL_PYXIS_ATTRIBUTE_PARSER
@@ -91,7 +91,7 @@ feature {NONE} -- Title parsing actions
 		do
 			last_node := attribute_list.last
 			last_node.set_from_view (matched_text)
-			last_node.unescape (Quote_unescaper.item (is_double_quote))
+			last_node.unescape (Quote_unescaper [is_double_quote])
 		end
 
 	on_value (matched_text: EL_STRING_VIEW)

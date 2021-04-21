@@ -22,7 +22,6 @@ from SCons.Script import *
 
 # SCRIPT START
 arguments = Variables()
-arguments.Add (EnumVariable('cpu', 'Set target cpu for compiler', 'x64', allowed_values=('x64', 'x86')))
 
 arguments.Add (
 	EnumVariable('action', 'Set build action', 'finalize',
@@ -33,7 +32,6 @@ arguments.Add (
 )
 arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
 arguments.Add (BoolVariable ('keep_assertions', 'Compile finalized exe keeping assertions', 'no'))
-arguments.Add (BoolVariable ('install', 'Set to \'yes\' to install finalized release', 'no'))
 
 #arguments.Add (
 #	ListVariable (
@@ -61,7 +59,7 @@ else:
 	compile_eiffel = env.get ('compile_eiffel')
 	print 'compile_eiffel', compile_eiffel
 
-	project_py.set_build_environment (env.get ('cpu'))
+	project_py.set_build_environment ()
 
 	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 	
