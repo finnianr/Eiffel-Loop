@@ -1,13 +1,13 @@
 note
-	description: "Xml to pyxis converter"
+	description: "XML to pyxis converter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-21 11:12:24 GMT (Wednesday 21st April 2021)"
-	revision: "13"
+	date: "2021-04-21 19:59:28 GMT (Wednesday 21st April 2021)"
+	revision: "14"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -120,7 +120,7 @@ feature -- Status query
 
 	is_last_node_an_attribute_value: BOOLEAN
 		do
-			Result := last_node_type = Token_attr_val or last_node_type = Token_dec_attr_val
+			Result := last_node_type = Token.attr_val or last_node_type = Token.dec_attr_val
 		end
 
 feature {NONE} -- Parser state actions
@@ -233,8 +233,8 @@ feature {NONE} -- Node events
 			if is_last_node_an_attribute_value then
 				out_file.put_new_line
 			end
-			if not (a_name ~ last_starting_tag and last_node_type = Token_character_data)
-				or else next_node_type = Token_attribute_name
+			if not (a_name ~ last_starting_tag and last_node_type = Token.character_data)
+				or else next_node_type = Token.attribute_name
 			then
 				put_indent (node_depth)
 				python_name := a_name.twin
@@ -279,9 +279,9 @@ feature {NONE} -- Implementation
 	node_actions_table: EL_HASH_TABLE [PROCEDURE [ZSTRING], INTEGER]
 		do
 			create Result.make (<<
-				[Token_starting_tag, agent on_starting_tag],
-				[Token_character_data, agent on_character_data],
-				[Token_comment, agent on_comment_text]
+				[Token.starting_tag, agent on_starting_tag],
+				[Token.character_data, agent on_character_data],
+				[Token.comment, agent on_comment_text]
 			>>)
 		end
 
@@ -393,12 +393,12 @@ feature {NONE} -- Constants
 
 	Attribute_name_types: ARRAY [INTEGER]
 		once
-			Result := << Token_attribute_name, Token_dec_attr_name, Token_attr_ns >>
+			Result := << Token.attribute_name, Token.dec_attr_name, Token.attr_ns >>
 		end
 
 	Attribute_value_types: ARRAY [INTEGER]
 		once
-			Result := << Token_attr_val, Token_dec_attr_val >>
+			Result := << Token.attr_val, Token.dec_attr_val >>
 		end
 
 	Back_slash_quote: ZSTRING
