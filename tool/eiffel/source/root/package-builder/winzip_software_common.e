@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-24 12:23:43 GMT (Saturday 24th October 2020)"
-	revision: "4"
+	date: "2021-04-23 13:44:10 GMT (Friday 23rd April 2021)"
+	revision: "5"
 
 deferred class
 	WINZIP_SOFTWARE_COMMON
@@ -52,19 +52,15 @@ feature -- Contract Support
 
 	root_class_exists (a_pecf_path: EL_FILE_PATH): BOOLEAN
 		do
-			Result := (a_pecf_path.parent + Application_root_path).exists
+			Result := (a_pecf_path.parent + Root_class_path).exists
 		end
 
 feature {NONE} -- Constants
 
-	Application_root: ZSTRING
+	Root_class_path: ZSTRING
+		-- path to root class relative to project directory
 		once
-			Result := "source/application_root.%S"
-		end
-
-	Application_root_path: EL_FILE_PATH
-		once
-			Result := Application_root #$ ['e']
+			Result := "source/application_root.e"
 		end
 
 	Target_set: EL_STRING_8_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-20 13:16:38 GMT (Tuesday 20th April 2021)"
-	revision: "33"
+	date: "2021-04-22 12:38:17 GMT (Thursday 22nd April 2021)"
+	revision: "34"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -120,19 +120,22 @@ feature -- Access
 			file_exists: a_file_path.exists
 		local
 			file: PLAIN_TEXT_FILE; count: INTEGER; line: STRING
+			not_first: BOOLEAN
 		do
 			create file.make_open_read (a_file_path)
 			create Result.make (file.count)
 			if not file.is_empty then
 				from until file.end_of_file loop
+					if not_first then
+						Result.append_character ('%N')
+					else
+						not_first := True
+					end
 					file.read_line
 					line := file.last_string
 					count := count + line.count + 1
 					line.prune_all_trailing ('%R')
 					Result.append (line)
-					if count < file.count then
-						Result.append_character ('%N')
-					end
 				end
 			end
 			file.close
