@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-23 15:34:46 GMT (Friday 23rd April 2021)"
-	revision: "10"
+	date: "2021-04-24 16:50:45 GMT (Saturday 24th April 2021)"
+	revision: "11"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -63,6 +63,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			end
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
+
 			create architecture_list.make (2)
 			across architectures.split (',') as bit_count loop
 				bit_count.item.left_adjust

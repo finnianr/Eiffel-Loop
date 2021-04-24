@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-21 9:36:49 GMT (Wednesday 21st October 2020)"
-	revision: "11"
+	date: "2021-04-24 16:49:55 GMT (Saturday 24th April 2021)"
+	revision: "12"
 
 class
 	EL_SOFTWARE_VERSION
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 	make_parts (a_major, a_minor, a_release, a_build: NATURAL)
 		do
-			make (a_major * shift (4) + a_minor * shift (2) + a_release, a_build)
+			make (left_shift (a_major, 4) + left_shift (a_minor, 2) + a_release, a_build)
 		end
 
 feature -- Element change
@@ -99,11 +99,12 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	shift (n: INTEGER): NATURAL
+	left_shift (value: NATURAL; n: INTEGER): NATURAL
+		-- left shifted `value' by n decimal places
 		local
 			i: INTEGER
 		do
-			Result := 10
+			Result := value
 			from i := 1 until i > n loop
 				Result := Result * 10
 				i := i + 1
