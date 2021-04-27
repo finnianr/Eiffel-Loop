@@ -1,13 +1,24 @@
 note
 	description: "Winzip self-extracting package build configuration"
+	notes: "[
+		**Example**
+
+			pyxis-doc:
+				version = 1.0; encoding = "UTF-8"
+
+			winzip_software_package:
+				output_dir = "$EIFFEL/myching-server/www/download"
+				build_exe = false; build_installers = true
+				architectures = "32, 64"; languages = "en, de"
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 10:48:22 GMT (Tuesday 27th April 2021)"
-	revision: "1"
+	date: "2021-04-27 15:50:46 GMT (Tuesday 27th April 2021)"
+	revision: "2"
 
 class
 	WINZIP_SOFTWARE_PACKAGE

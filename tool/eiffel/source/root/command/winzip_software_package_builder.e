@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 10:53:13 GMT (Tuesday 27th April 2021)"
-	revision: "12"
+	date: "2021-04-27 13:54:23 GMT (Tuesday 27th April 2021)"
+	revision: "13"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -52,13 +52,11 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		local
 			scanner: PYXIS_ECF_SCANNER
 		do
-			create package.make (a_config_path)
-
 			pecf_path := a_pecf_path
+			create project_py_swapper.make (Project_py, "py32")
+			create package.make (a_config_path)
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
-
-			create project_py_swapper.make (Project_py, "py32")
 		end
 
 feature -- Status query
@@ -236,7 +234,9 @@ feature {NONE} -- Implementation
 					/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path
 			]")
 			config.set_exe_path (exe_path)
-			sign_cmd.set_working_directory (config.signtool_dir)
+			if not config.signtool_dir.is_empty then
+				sign_cmd.set_working_directory (config.signtool_dir)
+			end
 			sign_cmd.put_object (config)
 			sign_cmd.execute
 			if sign_cmd.has_error then
