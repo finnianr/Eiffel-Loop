@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-24 16:50:45 GMT (Saturday 24th April 2021)"
-	revision: "11"
+	date: "2021-04-27 10:53:13 GMT (Tuesday 27th April 2021)"
+	revision: "12"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -45,34 +45,20 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_pecf_path: EL_FILE_PATH; architectures, targets, languages: STRING; a_output_dir: EL_DIR_PATH)
+	make (a_config_path, a_pecf_path: EL_FILE_PATH)
 		require
 			path_exits: a_pecf_path.exists
 			root_class_exists: root_class_exists (a_pecf_path)
-			valid_architectures: valid_architecture_list (architectures)
-			valid_targets: valid_target_list (targets)
-			valid_languages: valid_language_list (languages)
 		local
 			scanner: PYXIS_ECF_SCANNER
 		do
+			create package.make (a_config_path)
+
 			pecf_path := a_pecf_path
-			if a_output_dir.is_absolute then
-				output_dir := a_output_dir
-			else
-				output_dir := Directory.current_working.joined_dir_path (a_output_dir)
-			end
 			create scanner.make (a_pecf_path)
 			config := scanner.new_config
 
-			create architecture_list.make (2)
-			across architectures.split (',') as bit_count loop
-				bit_count.item.left_adjust
-				architecture_list.extend (bit_count.item.to_integer)
-			end
-			architecture_list.reverse_sort
-			create target_list.make_with_csv (targets)
-			create language_list.make_with_csv (languages)
-			create project_py_swapper.make ("project.py", "py32")
+			create project_py_swapper.make (Project_py, "py32")
 		end
 
 feature -- Status query
@@ -82,10 +68,27 @@ feature -- Status query
 feature -- Basic operations
 
 	execute
+		local
+			architecture_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]
 		do
-			lio.put_path_field ("Output", output_dir)
-			lio.put_new_line
-			if output_dir.exists then
+			create architecture_list.make_from_list (package.architecture_list)
+			architecture_list.reverse_sort
+
+			if not package.valid_architectures then
+				lio.put_labeled_string ("Invalid architecture in list", package.architectures)
+				lio.put_new_line
+				lio.put_line ("Must be one of: 32 | 64")
+
+			elseif not package.valid_languages then
+				lio.put_labeled_string ("Invalid language in list", package.languages)
+				lio.put_new_line
+
+			elseif not package.output_dir.exists then
+				lio.put_labeled_string ("Directory does not exist", package.output_dir.to_string)
+				lio.put_new_line
+			else
+				lio.put_path_field ("Output", package.output_dir)
+				lio.put_new_line
 				lio.put_path_field ("Project", pecf_path)
 				lio.put_new_line
 				if architecture_list.has (64) then
@@ -96,7 +99,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 				across architecture_list as bit_count until has_build_error loop
-					if target_list.has (Target.exe) then
+					if package.build_exe then
 						if bit_count.item = 32 implies project_py_swapper.replacement_path.exists then
 							build_exe (bit_count.item, bit_count.item = 64)
 							if not has_build_error then
@@ -108,17 +111,15 @@ feature -- Basic operations
 							has_build_error := True
 						end
 					end
-					if target_list.has (Target.installer) and then not has_build_error then
-						if not output_dir.exists then
-							File_system.make_directory (output_dir)
+					if package.build_installers and then not has_build_error then
+						if not package.output_dir.exists then
+							File_system.make_directory (package.output_dir)
 						end
-						across language_list as lang loop
+						across package.language_list as lang loop
 							build_installer (Locale.in (lang.item), bit_count.item)
 						end
 					end
 				end
-			else
-				lio.put_line ("Path not found")
 			end
 		end
 
@@ -222,7 +223,7 @@ feature {NONE} -- Implementation
 			else
 				inserts := [language, bit_count, config.version.string]
 			end
-			Result := output_dir + (config.package_name_template #$ inserts)
+			Result := package.output_dir + (config.package_name_template #$ inserts)
 		end
 
 	sha_256_sign (exe_path: EL_FILE_PATH)
@@ -271,19 +272,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	architecture_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]
-
 	config: PACKAGE_BUILDER_CONFIG
-
-	language_list: EL_STRING_8_LIST
-
-	output_dir: EL_DIR_PATH
 
 	pecf_path: EL_FILE_PATH
 
 	project_py_swapper: EL_FILE_SWAPPER
 
-	target_list: EL_STRING_8_LIST
+	package: WINZIP_SOFTWARE_PACKAGE
 
 feature {NONE} -- Constants
 

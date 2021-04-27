@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-25 15:23:21 GMT (Sunday 25th October 2020)"
-	revision: "3"
+	date: "2021-04-27 9:22:49 GMT (Tuesday 27th April 2021)"
+	revision: "4"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND

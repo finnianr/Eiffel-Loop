@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:04:02 GMT (Monday 8th February 2021)"
-	revision: "3"
+	date: "2021-04-27 9:22:49 GMT (Tuesday 27th April 2021)"
+	revision: "4"
 
 class
 	PYXIS_ECF_SCANNER
