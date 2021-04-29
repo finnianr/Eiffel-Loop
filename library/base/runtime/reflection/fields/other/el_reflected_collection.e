@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 16:59:47 GMT (Saturday 25th January 2020)"
-	revision: "5"
+	date: "2021-04-29 12:49:59 GMT (Thursday 29th April 2021)"
+	revision: "6"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -20,34 +20,41 @@ inherit
 			make
 		end
 
+	EL_MODULE_CONVERT_STRING
+
 create
 	make
-
 
 feature {NONE} -- Initialization
 
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: STRING_8)
 		require else
-			has_read_function_for_type: Read_functions_table.has ({G})
+			is_string_convertible: Convert_string.has (({G}).type_id)
 		do
 			Precursor (a_object, a_index, a_name)
-			if attached {like new_item} Read_functions_table [{G}] as l_new_item then
-				new_item := l_new_item
+			if attached {like new_item} Read_functions_table [{G}] as function then
+				new_item := function
 			end
+			item_type := {G}
 		end
 
 feature -- Status query
 
-	is_string_item: BOOLEAN
+	has_character_data: BOOLEAN
 		do
-			Result := String_collection_type_table.type_array.has (type_id)
+			Result := Collection_type_table.is_character_data (item_type.type_id)
 		end
 
 feature -- Basic operations
 
 	extend_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
-			collection (a_object).extend (new_item (readable))
+			if attached new_item as l_new_item then
+				collection (a_object).extend (l_new_item (readable))
+
+			elseif attached {G} Convert_string.to_type (readable.read_string, item_type) as new then
+				collection (a_object).extend (new)
+			end
 		end
 
 feature -- Conversion
@@ -62,9 +69,12 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	read_functions: ARRAY [FUNCTION [EL_READABLE, ANY]]
+	new_read_functions: ARRAY [FUNCTION [EL_READABLE, ANY]]
 		do
 			Result := <<
+--				commented out `read_boolean' as it appears as PREDICATE [TUPLE [EL_READABLE]]
+--				agent {EL_READABLE}.read_boolean,
+
 				agent {EL_READABLE}.read_character_8,
 				agent {EL_READABLE}.read_character_32,
 
@@ -91,6 +101,9 @@ feature {NONE} -- Implementation
 		do
 			if attached {READABLE_STRING_GENERAL} item as str then
 				Result := str
+
+			elseif attached {EL_PATH} item as path then
+				Result := path.to_string
 			else
 				Result := item.out
 			end
@@ -98,19 +111,21 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	new_item: FUNCTION [EL_READABLE, G]
+	new_item: detachable FUNCTION [EL_READABLE, G]
+
+	item_type: TYPE [ANY]
 
 feature {NONE} -- Constants
 
 	Read_functions_table: EL_HASH_TABLE [FUNCTION [EL_READABLE, ANY], TYPE [ANY]]
 		local
-			l_read_functions: like read_functions
+			read_functions: like new_read_functions
 		once
-			l_read_functions := read_functions
-			create Result.make_size (l_read_functions.count)
-
+			read_functions := new_read_functions
+			create Result.make_size (read_functions.count)
+			-- add `read_boolean' manually otherwise the type is `PREDICATE [TUPLE [EL_READABLE]]'
 			Result [{BOOLEAN}] := agent {EL_READABLE}.read_boolean
-			across l_read_functions as function loop
+			across read_functions as function loop
 				Result.extend (function.item, function.item.generating_type.generic_parameter_type (2))
 			end
 		end

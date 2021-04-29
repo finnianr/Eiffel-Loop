@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-08 10:57:42 GMT (Wednesday 8th April 2020)"
-	revision: "13"
+	date: "2021-04-29 13:04:23 GMT (Thursday 29th April 2021)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -74,7 +74,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", next_context, xpath"
+			Result := Precursor + ", next_context, node, xpath"
 		end
 
 note

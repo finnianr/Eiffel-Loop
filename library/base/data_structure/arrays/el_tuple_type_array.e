@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:25:04 GMT (Wednesday 10th March 2021)"
-	revision: "10"
+	date: "2021-04-29 10:46:58 GMT (Thursday 29th April 2021)"
+	revision: "11"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -68,8 +68,8 @@ feature {NONE} -- Implementation
 
 	type_is_latin_1_representable (type: TYPE [ANY]): BOOLEAN
 		do
-			if String_collection_type_table.has_conforming (type.type_id) then
-				Result := type.type_id = Class_id.STRING_8
+			if Collection_type_table.has_conforming (type.type_id) then
+				Result := Collection_type_table.is_latin_1_representable (type.type_id)
 			else
 				Result := True
 			end

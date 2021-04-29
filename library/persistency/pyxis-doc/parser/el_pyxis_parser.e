@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-19 8:35:26 GMT (Monday 19th April 2021)"
-	revision: "30"
+	date: "2021-04-29 12:21:56 GMT (Thursday 29th April 2021)"
+	revision: "31"
 
 class
 	EL_PYXIS_PARSER
@@ -208,13 +208,13 @@ feature {NONE} -- State procedures
 				change_state (State_output_content_lines)
 				on_content_line (line, 1, start_index, end_index)
 
-			elseif attached attribute_parser as parser then
-				parser.set_source_text_from_substring (line, start_index, end_index)
-				parser.parse
-
 			elseif buffer_8.copied_substring (line, start_index, end_index).is_double then
 				change_state (State_output_content_lines)
 				on_content_line (line, 0, start_index, end_index)
+
+			elseif attached attribute_parser as parser then
+				parser.set_source_text_from_substring (line, start_index, end_index)
+				parser.parse
 
 			else
 				lio.put_string_field ("Invalid Pyxis line", line)

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 15:35:49 GMT (Wednesday 10th March 2021)"
-	revision: "12"
+	date: "2021-04-29 10:32:28 GMT (Thursday 29th April 2021)"
+	revision: "13"
 
 class
 	EL_INTERNAL
@@ -47,9 +47,7 @@ feature -- Type queries
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
 		do
 			if is_reference (basic_type) then
-				Result := String_collection_type_table.has_conforming (type_id)
-								or else Numeric_collection_type_table.has_conforming (type_id)
-								or else Other_collection_type_table.has_conforming (type_id)
+				Result := Collection_type_table.has_conforming (type_id)
 			end
 		end
 

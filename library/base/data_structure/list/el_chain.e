@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 16:02:02 GMT (Wednesday 3rd March 2021)"
-	revision: "36"
+	date: "2021-04-29 13:19:42 GMT (Thursday 29th April 2021)"
+	revision: "37"
 
 deferred class EL_CHAIN [G]
 
@@ -209,6 +209,31 @@ feature -- Circular indexing
 		end
 
 feature -- Conversion
+
+	comma_separated_string: ZSTRING
+		local
+			buffer: EL_ZSTRING_BUFFER_ROUTINES; value: READABLE_STRING_GENERAL
+		do
+			push_cursor
+			Result := buffer.empty
+			from start until after loop
+				if not isfirst then
+					Result.append_character (',')
+					Result.append_character (' ')
+				end
+				if attached {READABLE_STRING_GENERAL} item as str then
+					value := str
+				elseif attached {EL_PATH} item as path then
+					value := path.to_string
+				else
+					value := item.out
+				end
+				Result.append_string_general (value)
+				forth
+			end
+			Result := Result.twin
+			pop_cursor
+		end
 
 	double_map_list (to_key: FUNCTION [G, DOUBLE]): EL_ARRAYED_MAP_LIST [DOUBLE, G]
 		require

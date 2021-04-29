@@ -6,38 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 12:20:25 GMT (Monday 1st February 2021)"
-	revision: "34"
+	date: "2021-04-29 10:43:31 GMT (Thursday 29th April 2021)"
+	revision: "35"
 
 class
 	EL_REFLECTION_CONSTANTS
-
-feature {NONE} -- Collection types
-
-	frozen Numeric_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [NUMERIC]
-		once
-			create Result.make (<<
-				{INTEGER_8}, {INTEGER_16}, {INTEGER_32}, {INTEGER_64},
-				{NATURAL_8}, {NATURAL_16}, {NATURAL_32}, {NATURAL_64},
-				{REAL_32}, {REAL_64}
-			>>)
-		end
-
-	frozen Other_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [ANY]
-		once
-			create Result.make (<< {BOOLEAN}, {CHARACTER_8}, {CHARACTER_32} >>)
-		end
-
-	frozen String_collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE [STRING_GENERAL]
-		once
-			create Result.make (<< {STRING_8}, {STRING_32}, {ZSTRING} >>)
-		end
 
 feature {NONE} -- Reference types
 
 	frozen Boolean_ref_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_BOOLEAN_REF]
 		once
 			create Result.make (<< {EL_REFLECTED_BOOLEAN_REF} >>)
+		end
+
+	frozen Collection_type_table: EL_REFLECTED_COLLECTION_TYPE_TABLE
+		once
+			create Result.make
 		end
 
 	frozen Makeable_from_string_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [

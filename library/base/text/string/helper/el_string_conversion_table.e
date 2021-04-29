@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:03:37 GMT (Tuesday 2nd March 2021)"
-	revision: "4"
+	date: "2021-04-29 11:38:38 GMT (Thursday 29th April 2021)"
+	revision: "5"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -21,6 +21,9 @@ inherit
 	]
 		rename
 			make as make_table
+		export
+			{NONE} all
+			{ANY} has
 		end
 
 	EL_SHARED_CLASS_ID

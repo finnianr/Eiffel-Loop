@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 17:47:09 GMT (Saturday 13th February 2021)"
-	revision: "37"
+	date: "2021-04-29 10:34:32 GMT (Thursday 29th April 2021)"
+	revision: "38"
 
 class
 	EL_CLASS_META_DATA
@@ -288,9 +288,7 @@ feature {NONE} -- Constants
 				Boolean_ref_type_table,
 				Makeable_from_string_type_table,
 				String_convertable_type_table,
-				String_collection_type_table,
-				Numeric_collection_type_table,
-				Other_collection_type_table
+				Collection_type_table
 			>>
 		end
 

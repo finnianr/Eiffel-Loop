@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-10 10:38:53 GMT (Wednesday 10th February 2021)"
-	revision: "11"
+	date: "2021-04-29 12:39:18 GMT (Thursday 29th April 2021)"
+	revision: "12"
 
 class
 	REFLECTION_TEST_SET
@@ -23,12 +23,23 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
+--			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
 		end
 
 feature -- Tests
+
+	test_arrayed_list_initialization
+		local
+			any_list: ARRAYED_LIST [ANY]
+			integer_list: EL_ARRAYED_LIST [INTEGER]
+		do
+			create integer_list.make (0)
+			any_list := integer_list
+			assert ("zero count", any_list.count = 0)
+		end
 
 	test_default_tuple_initialization
 		local

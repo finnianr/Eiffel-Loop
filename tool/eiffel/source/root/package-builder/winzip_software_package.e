@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 15:50:46 GMT (Tuesday 27th April 2021)"
-	revision: "2"
+	date: "2021-04-29 13:22:19 GMT (Thursday 29th April 2021)"
+	revision: "3"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -28,7 +28,7 @@ inherit
 		rename
 			make_from_file as make
 		redefine
-			make
+			make, make_default
 		end
 
 	EL_MODULE_DIRECTORY
@@ -49,27 +49,30 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_default
+		do
+			Precursor
+			create architecture_list.make (2)
+			create language_list.make (2)
+		end
+
 feature -- Access
 
-	architectures: STRING
-
 	architecture_list: EL_ARRAYED_LIST [INTEGER]
+
+	architectures: ZSTRING
 		do
-			create Result.make (2)
-			across architectures.split (',') as bit_count loop
-				bit_count.item.left_adjust
-				Result.extend (bit_count.item.to_integer)
-			end
+			Result := architecture_list.comma_separated_string
 		end
 
 	output_dir: EL_DIR_PATH
 
 	languages: STRING
+		do
+			Result := language_list.comma_separated_string
+		end
 
 	language_list: EL_STRING_8_LIST
-		do
-			Result := languages
-		end
 
 feature -- Status query
 

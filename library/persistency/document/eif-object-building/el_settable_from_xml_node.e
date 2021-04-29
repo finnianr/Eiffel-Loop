@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 13:52:38 GMT (Monday 11th January 2021)"
-	revision: "25"
+	date: "2021-04-29 10:41:35 GMT (Thursday 29th April 2021)"
+	revision: "26"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -97,7 +97,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 						context.put_xml_element (xml_out, field.item.name, tab_count + 1)
 					end
 				elseif attached {EL_REFLECTED_COLLECTION [ANY]} field.item as collection_field then
-					needs_escaping := collection_field.is_string_item
+					needs_escaping := collection_field.has_character_data
 					put_xml_tag_open (xml_out, collection_field.name, tab_count + 1, New_line)
 					across collection_field.to_string_list (current_reflective) as general loop
 						put_xml_tag_open (xml_out, Item_name, tab_count + 2, Null)
