@@ -1,19 +1,24 @@
 note
-	description: "Pp button option"
+	description: "Paypal button option"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:22 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2021-04-30 15:06:03 GMT (Friday 30th April 2021)"
+	revision: "4"
 
 class
 	PP_BUTTON_OPTION
 
 inherit
 	PP_SETTABLE_FROM_UPPER_CAMEL_CASE
+		undefine
+			new_enumerations
+		end
+
+	PP_MONETARY
 
 create
 	make, make_default
@@ -27,8 +32,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Paypal
-
-	currency_code: NATURAL_8
 
 	l_option_0_price: REAL
 
@@ -44,13 +47,6 @@ feature -- Access
 	price_x100: INTEGER
 		do
 			Result := (l_option_0_price * 100).rounded
-		end
-
-feature -- Element change
-
-	set_currency (a_currency_code: like currency_code)
-		do
-			currency_code := a_currency_code
 		end
 
 end

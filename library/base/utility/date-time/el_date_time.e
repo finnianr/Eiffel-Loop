@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:59:47 GMT (Friday 8th January 2021)"
-	revision: "9"
+	date: "2021-04-30 12:13:23 GMT (Friday 30th April 2021)"
+	revision: "10"
 
 class
 	EL_DATE_TIME
@@ -26,8 +26,6 @@ inherit
 		rename
 			Time as Mod_time
 		end
-
-	EL_MODULE_BUFFER_8
 
 create
 	make,
@@ -138,6 +136,11 @@ feature {NONE} -- Constants
 	Arithmetic_signs: ARRAY [CHARACTER]
 		once
 			Result := << '+', '-' >>
+		end
+
+	Buffer_8: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 
 end

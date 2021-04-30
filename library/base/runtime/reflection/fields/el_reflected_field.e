@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 13:41:12 GMT (Friday 5th March 2021)"
-	revision: "26"
+	date: "2021-04-30 12:08:14 GMT (Friday 30th April 2021)"
+	revision: "27"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -163,18 +163,6 @@ feature -- Element change
 			index := a_index
 		end
 
-feature {NONE} -- Implementation
-
-	new_numbered_label (i: INTEGER): STRING
-		do
-			Result := Once_label
-			Result.wipe_out
-			if i < 10 then
-				Result.append_character (' ')
-			end
-			Result.append_integer (i); Result.append (once ". ")
-		end
-
 feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	enclosing_object: separate EL_REFLECTIVE
@@ -182,9 +170,9 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Once_label: STRING
+	Buffer_8: EL_STRING_8_BUFFER
 		once
-			create Result.make_empty
+			create Result
 		end
 
 note

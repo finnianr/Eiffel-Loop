@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 12:08:49 GMT (Thursday 29th April 2021)"
-	revision: "5"
+	date: "2021-04-29 15:21:44 GMT (Thursday 29th April 2021)"
+	revision: "6"
 
 class
 	EL_REFLECTED_COLLECTION_TYPE_TABLE
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 					if not Unicode_item_types.has (collection.item_type_id) then
 						latin_1_data_types.extend (collection.type_id)
 					end
-					extend (collection.reflected_field_type, collection.type_id)
+					extend (collection.reflected_type, collection.type_id)
 				end
 			end
 			initialize

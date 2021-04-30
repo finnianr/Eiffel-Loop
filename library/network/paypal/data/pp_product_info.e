@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:08:32 GMT (Sunday 29th November 2020)"
-	revision: "4"
+	date: "2021-04-30 15:02:33 GMT (Friday 30th April 2021)"
+	revision: "5"
 
 class
 	PP_PRODUCT_INFO
@@ -21,16 +21,16 @@ inherit
 			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
+		undefine
+			new_enumerations
 		end
 
-	EL_SHARED_CURRENCY_ENUM
+	PP_MONETARY
 
 create
 	make
 
 feature -- Access
-
-	currency_code: NATURAL_8
 
 	item_name: ZSTRING
 
@@ -44,11 +44,6 @@ feature -- Conversion
 		end
 
 feature -- Element change
-
-	set_currency_code (a_currency_code: like currency_code)
-		do
-			currency_code := a_currency_code
-		end
 
 	set_item_name (a_item_name: ZSTRING)
 		do

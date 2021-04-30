@@ -1,16 +1,16 @@
 note
-	description: "Routines to acccess shared buffer of type [$source STRING_8]"
+	description: "Interface for buffer of type [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:57:16 GMT (Tuesday 2nd March 2021)"
-	revision: "3"
+	date: "2021-04-30 11:59:38 GMT (Friday 30th April 2021)"
+	revision: "1"
 
-expanded class
-	EL_STRING_8_BUFFER_ROUTINES
+deferred class
+	EL_STRING_8_BUFFER_I
 
 feature -- Access
 
@@ -58,7 +58,7 @@ feature -- Access
 
 	empty: STRING_8
 		do
-			Result := Buffer
+			Result := buffer
 			Result.wipe_out
 		end
 
@@ -82,13 +82,12 @@ feature -- Contract Support
 
 	not_buffer (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := general /= Buffer
+			Result := general /= buffer
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Buffer: STRING
-		once
-			create Result.make_empty
+	buffer: STRING_8
+		deferred
 		end
 end

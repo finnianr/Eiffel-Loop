@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:52:32 GMT (Friday 8th January 2021)"
-	revision: "12"
+	date: "2021-04-30 11:38:08 GMT (Friday 30th April 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -24,12 +24,8 @@ create
 feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): STRING_8
-		local
-			str: STRING_8; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			str := buffer.empty
-			str.extend (value (a_object))
-			Result := str.twin
+			create Result.make_filled (value (a_object), 1)
 		end
 
 	reference_value (a_object: EL_REFLECTIVE): like value.to_reference

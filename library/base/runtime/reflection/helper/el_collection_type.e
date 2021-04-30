@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 12:12:43 GMT (Thursday 29th April 2021)"
-	revision: "4"
+	date: "2021-04-29 15:21:44 GMT (Thursday 29th April 2021)"
+	revision: "5"
 
 class
 	EL_COLLECTION_TYPE [G]
@@ -24,14 +24,14 @@ feature {EL_REFLECTED_COLLECTION_TYPE_TABLE} -- Initialization
 		do
 			item_type_id := ({G}).type_id
 			type_id := ({COLLECTION [G]}).type_id
-			reflected_field_type := {EL_REFLECTED_COLLECTION [G]}
+			reflected_type := {EL_REFLECTED_COLLECTION [G]}
 		end
 
 feature -- Access
 
 	item_type_id: INTEGER
 
-	reflected_field_type: TYPE [EL_REFLECTED_COLLECTION [G]]
+	reflected_type: TYPE [EL_REFLECTED_COLLECTION [G]]
 
 	type_id: INTEGER
 

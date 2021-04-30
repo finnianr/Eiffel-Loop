@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:58:38 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2021-04-30 10:35:26 GMT (Friday 30th April 2021)"
+	revision: "9"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -29,9 +29,9 @@ feature {EL_DATE_TEXT} -- Initialization
 			has_time_delimiter: s [T_index] = 'T'
 			has_z_ending: s [Input_string_count] = 'Z'
 		local
-			modified: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
+			modified: STRING
 		do
-			modified := buffer.copied_substring (s, 1, T_index - 1)
+			modified := buffer_8.copied_substring (s, 1, T_index - 1)
 			append_space (modified)
 			modified.append_substring (s, T_index + 1, Input_string_count - 1)
 			Precursor (modified)

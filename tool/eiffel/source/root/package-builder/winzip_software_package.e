@@ -8,8 +8,20 @@ note
 
 			winzip_software_package:
 				output_dir = "$EIFFEL/myching-server/www/download"
-				build_exe = false; build_installers = true
-				architectures = "32, 64"; languages = "en, de"
+				build_exe = true; build_installers = true
+
+				architecture_list:
+					item:
+						32
+					item:
+						64
+
+				language_list:
+					item:
+						"en"
+					item:
+						"de"
+
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 13:22:19 GMT (Thursday 29th April 2021)"
-	revision: "3"
+	date: "2021-04-30 8:37:53 GMT (Friday 30th April 2021)"
+	revision: "4"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -56,21 +68,23 @@ feature {NONE} -- Initialization
 			create language_list.make (2)
 		end
 
-feature -- Access
-
-	architecture_list: EL_ARRAYED_LIST [INTEGER]
+feature -- Conversion
 
 	architectures: ZSTRING
 		do
 			Result := architecture_list.comma_separated_string
 		end
 
-	output_dir: EL_DIR_PATH
-
 	languages: STRING
 		do
 			Result := language_list.comma_separated_string
 		end
+
+feature -- Access
+
+	architecture_list: EL_ARRAYED_LIST [INTEGER]
+
+	output_dir: EL_DIR_PATH
 
 	language_list: EL_STRING_8_LIST
 

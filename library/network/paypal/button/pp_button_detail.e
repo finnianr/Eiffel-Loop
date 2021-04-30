@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:08:32 GMT (Sunday 29th November 2020)"
-	revision: "8"
+	date: "2021-04-30 15:02:33 GMT (Friday 30th April 2021)"
+	revision: "9"
 
 class
 	PP_BUTTON_DETAIL
@@ -22,12 +22,16 @@ inherit
 			field_included as is_any_field,
 			export_name as export_default,
 			import_name as import_default
+		undefine
+			new_enumerations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		end
+
+	PP_MONETARY
 
 create
 	make
@@ -37,8 +41,6 @@ feature -- Access
 	bn: STRING
 
 	business: STRING
-
-	currency_code: NATURAL_8
 
 	item_name: ZSTRING
 

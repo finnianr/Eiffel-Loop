@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:53:36 GMT (Friday 8th January 2021)"
-	revision: "5"
+	date: "2021-04-30 12:04:25 GMT (Friday 30th April 2021)"
+	revision: "6"
 
 deferred class
 	EL_REFLECTED_ENUMERATION [N -> NUMERIC]
@@ -40,8 +40,6 @@ feature -- Access
 feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if is_numeric (string) then
 				set (a_object, string_value (string))
@@ -49,7 +47,7 @@ feature -- Basic operations
 			elseif attached {STRING} string as str_8 then
 				set (a_object, enumeration.value (str_8))
 			else
-				set (a_object, enumeration.value (buffer.copied_general (string)))
+				set (a_object, enumeration.value (Buffer_8.copied_general (string)))
 			end
 		end
 
