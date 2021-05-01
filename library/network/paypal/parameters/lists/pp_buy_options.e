@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 14:56:25 GMT (Friday 30th April 2021)"
-	revision: "16"
+	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
+	revision: "17"
 
 class
 	PP_BUY_OPTIONS
@@ -19,9 +19,9 @@ inherit
 			extend as extend_list
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_CURRENCY_PROPERTY
 
-	EL_SHARED_CURRENCY_ENUM
+	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_default
@@ -45,8 +45,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
-
-	currency_code: NATURAL_8
 
 	id: INTEGER
 

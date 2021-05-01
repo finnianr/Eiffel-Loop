@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 11:29:22 GMT (Thursday 4th March 2021)"
-	revision: "37"
+	date: "2021-05-01 11:17:08 GMT (Saturday 1st May 2021)"
+	revision: "38"
 
 deferred class
 	EL_REFLECTIVE
@@ -118,6 +118,15 @@ feature -- Element change
 
 feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 
+	new_enumerations: like Default_enumerations
+		-- redefine to associate natural/integer fields with an enumeration constant
+		-- These fields then becomes settable by an enumeration string alias
+		do
+			Result := Default_enumerations
+		ensure
+			valid_enumerations: valid_enumerations (Result)
+		end
+
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		do
 			create Result.make (current_object, field_names)
@@ -134,15 +143,6 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			create Result.make (Current)
 		end
 
-	new_enumerations: like Default_enumerations
-		-- redefine to associate natural/integer fields with an enumeration constant
-		-- These fields then becomes settable by an enumeration string alias
-		do
-			Result := Default_enumerations
-		ensure
-			valid_enumerations: valid_enumerations (Result)
-		end
-
 	new_reader_writer_interfaces: like Default_reader_writer_interfaces
 		-- redefine to map an adapter object for reading and writing a reference field type
 		-- to instance of `EL_MEMORY_READER_WRITER'
@@ -151,7 +151,27 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			Result := Default_reader_writer_interfaces
 		end
 
+feature -- Contract Support
+
+	valid_field_names (names: STRING): BOOLEAN
+		-- `True' if comma separated list of `names' are all valid field names
+		local
+			field_set: EL_FIELD_INDICES_SET
+		do
+			if names.is_empty then
+				Result := True
+			else
+				create field_set.make_from_reflective (Current, names)
+				Result := field_set.is_valid
+			end
+		end
+
 feature {EL_REFLECTION_HANDLER} -- Implementation
+
+	export_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+		do
+			Result := to_snake_case_lower (name_in, keeping_ref)
+		end
 
 	export_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		-- rename in descendant to procedure exporting identifiers to a foreign word separation convention.
@@ -159,20 +179,15 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 		deferred
 		end
 
-	export_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
+	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		do
-			Result := to_snake_case_lower (name_in, keeping_ref)
+			Result := from_snake_case_lower (name_in, keeping_ref)
 		end
 
 	import_name (name_in: STRING; keeping_ref: BOOLEAN): STRING
 		-- rename in descendant to procedure importing identifiers using a foreign word separation convention.
 		--  `import_default' means the external name already follows the Eiffel convention
 		deferred
-		end
-
-	import_default (name_in: STRING; keeping_ref: BOOLEAN): STRING
-		do
-			Result := from_snake_case_lower (name_in, keeping_ref)
 		end
 
 feature {NONE} -- Implementation
@@ -203,19 +218,14 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
-	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
-		end
-
-	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
-		do
-			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
-		end
-
 	is_collection_field (basic_type, type_id: INTEGER): BOOLEAN
 		do
 			Result := Eiffel.field_conforms_to_collection (basic_type, type_id)
+		end
+
+	is_date_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			Result := Eiffel.field_conforms_to_date_time (basic_type, type_id)
 		end
 
 	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
@@ -225,24 +235,16 @@ feature {NONE} -- Implementation
 			Result := Eiffel.is_type_convertable_from_string (basic_type, type_id)
 		end
 
+	is_string_or_expanded_field (basic_type, type_id: INTEGER): BOOLEAN
+		do
+			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
+		end
+
 	valid_enumerations (enumerations: like Default_enumerations): BOOLEAN
 		local
 			s: EL_STRING_8_ROUTINES
 		do
 			Result := valid_field_names (s.joined_with (enumerations.current_keys, ", "))
-		end
-
-	valid_field_names (names: STRING): BOOLEAN
-		-- `True' if comma separated list of `names' are all valid field names
-		local
-			field_set: EL_FIELD_INDICES_SET
-		do
-			if names.is_empty then
-				Result := True
-			else
-				create field_set.make_from_reflective (Current, names)
-				Result := field_set.is_valid
-			end
 		end
 
 feature {EL_CLASS_META_DATA} -- Implementation
@@ -318,6 +320,17 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		end
 
+	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
+		-- array of functions returning a new value for result type
+		once
+			create Result.make_empty
+		end
+
+	frozen Default_reader_writer_interfaces: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], TYPE [ANY]]
+		once
+			create Result
+		end
+
 	Default_reordered_fields: STRING
 		once ("PROCESS")
 			create Result.make_empty
@@ -348,17 +361,6 @@ feature {EL_CLASS_META_DATA} -- Constants
 	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT
 		once
 			create Result.make (Current)
-		end
-
-	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
-		-- array of functions returning a new value for result type
-		once
-			create Result.make_empty
-		end
-
-	frozen Default_reader_writer_interfaces: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], TYPE [ANY]]
-		once
-			create Result
 		end
 
 note

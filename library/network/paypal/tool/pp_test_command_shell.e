@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:09:13 GMT (Sunday 29th November 2020)"
-	revision: "16"
+	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
+	revision: "17"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_SHARED_CURRENCY_ENUM
+	EL_CURRENCY_PROPERTY
 
 create
 	make
@@ -146,12 +146,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_hosted_button: PP_HOSTED_BUTTON
-		do
-			create Result.make (User_input.line ("Enter button code"))
-			lio.put_new_line
-		end
-
 	new_buy_options (price_factor: REAL): PP_BUY_OPTIONS
 		do
 			create Result.make (0, "Duration", currency_code)
@@ -172,17 +166,23 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
+	new_hosted_button: PP_HOSTED_BUTTON
+		do
+			create Result.make (User_input.line ("Enter button code"))
+			lio.put_new_line
+		end
+
 	new_single_license: PP_PRODUCT_INFO
 		do
 			create Result.make
 			Result.set_currency_code (currency_code)
 			Result.set_item_name ("Single PC subscription pack")
-			Result.set_item_number ("1.en." + Currency_enum.name (currency_code))
+			Result.set_item_number ("1.en." + currency_code_name)
 		end
 
-	paypal: PP_NVP_API_CONNECTION
+feature {NONE} -- Internal attributes
 
-	currency_code: NATURAL_8
+	paypal: PP_NVP_API_CONNECTION
 
 feature {NONE} -- Constants
 

@@ -1,16 +1,19 @@
 note
-	description: "Paypal class with reflective `currency_code' field"
+	description: "[
+		Object with `currency_code' enumeration field and support for reflective translation
+		to code name, USD, EUR etc.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 15:04:59 GMT (Friday 30th April 2021)"
-	revision: "1"
+	date: "2021-05-01 13:41:41 GMT (Saturday 1st May 2021)"
+	revision: "2"
 
 deferred class
-	PP_MONETARY
+	EL_CURRENCY_PROPERTY
 
 inherit
 	EL_SHARED_CURRENCY_ENUM
@@ -18,6 +21,11 @@ inherit
 feature -- Access
 
 	currency_code: NATURAL_8
+
+	currency_code_name: STRING
+		do
+			Result := Currency_enum.name (currency_code)
+		end
 
 feature -- Element change
 
@@ -28,7 +36,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_enumerations: EL_HASH_TABLE [EL_CURRENCY_ENUM, STRING]
+	new_enumerations: EL_HASH_TABLE [EL_ENUMERATION [NUMERIC], STRING]
 		do
 			create Result.make (<<
 				["currency_code", Currency_enum]

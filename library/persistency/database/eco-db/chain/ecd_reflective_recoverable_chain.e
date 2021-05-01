@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-23 10:52:17 GMT (Wednesday 23rd December 2020)"
-	revision: "5"
+	date: "2021-05-01 13:55:02 GMT (Saturday 1st May 2021)"
+	revision: "6"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -28,17 +28,17 @@ feature -- Access
 
 	csv_file_path: EL_FILE_PATH
 		do
-			Result := file_path.with_new_extension ("csv")
+			Result := exported_file_path ("csv", "csv")
 		end
 
 	meta_data_file_path: EL_FILE_PATH
 		do
-			Result := file_path.parent.joined_file_tuple (["meta_data", file_path.base_sans_extension + ".e"])
+			Result := exported_file_path ("meta_data", "e")
 		end
 
 	pyxis_file_path: EL_FILE_PATH
 		do
-			Result := file_path.parent.joined_file_tuple (["pyxis", file_path.base_sans_extension + ".pyx"])
+			Result := exported_file_path ("pyxis", "pyx")
 		end
 
 feature -- Basic operations
@@ -128,6 +128,14 @@ feature -- Basic operations
 			create importer.make (Current, pyxis_file_path)
 			importer.execute
 			safe_store
+		end
+
+feature {NONE} -- Implementation
+
+	exported_file_path (dir_name, extension: STRING): EL_FILE_PATH
+		do
+			Result := file_path.parent.joined_file_tuple ([dir_name, file_path.base])
+			Result.replace_extension (extension)
 		end
 
 feature {NONE} -- Constants

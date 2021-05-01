@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 9:24:52 GMT (Monday 30th November 2020)"
-	revision: "25"
+	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
+	revision: "26"
 
 class
 	PP_TRANSACTION
@@ -36,7 +36,14 @@ inherit
 
 	EL_SETTABLE_FROM_ZSTRING
 
-	EL_SHARED_CURRENCY_ENUM
+	EL_CURRENCY_PROPERTY
+		rename
+			currency_code as mc_currency,
+			currency_code_name as mc_currency_name,
+			set_currency_code as set_mc_currency
+		undefine
+			new_enumerations
+		end
 
 	PP_SHARED_TRANSACTION_TYPE_ENUM
 
@@ -129,8 +136,6 @@ feature -- Money
 		do
 			Result := (mc_fee * 100).rounded
 		end
-
-	mc_currency: NATURAL_8
 
 	mc_fee: REAL
 

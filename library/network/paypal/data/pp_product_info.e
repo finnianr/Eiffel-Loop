@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 15:02:33 GMT (Friday 30th April 2021)"
-	revision: "5"
+	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
+	revision: "6"
 
 class
 	PP_PRODUCT_INFO
@@ -25,7 +25,7 @@ inherit
 			new_enumerations
 		end
 
-	PP_MONETARY
+	EL_CURRENCY_PROPERTY
 
 create
 	make
