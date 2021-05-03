@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 11:38:38 GMT (Thursday 29th April 2021)"
-	revision: "5"
+	date: "2021-05-03 10:38:17 GMT (Monday 3rd May 2021)"
+	revision: "6"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -84,13 +84,13 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_tuple (tuple: TUPLE; csv_list: STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
+	is_convertible_tuple (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
 		local
-			tuple_type: TYPE [TUPLE]; item_type: TYPE [ANY]; type_id: INTEGER
+			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]; type_id: INTEGER
 			list: like new_split_list; item_str: STRING_GENERAL
 		do
 			if csv_list.occurrences (',') + 1 >= tuple.count then
-				tuple_type := tuple.generating_type
+				type_array := Mod_tuple.type_array (tuple)
 				list := new_split_list (csv_list)
 				if left_adjusted then
 					list.enable_left_adjust
@@ -98,7 +98,7 @@ feature -- Status query
 				Result := True
 				from list.start until not Result or else (list.index > tuple.count or list.after) loop
 					item_str := list.item (False)
-					item_type := tuple_type.generic_parameter_type (list.index)
+					item_type := type_array [list.index]
 					type_id := item_type.type_id
 					Result := is_convertible_to_type (item_str, type_id)
 					list.forth
@@ -108,24 +108,24 @@ feature -- Status query
 
 feature -- Basic operations
 
-	fill_tuple (tuple: TUPLE; csv_list: STRING_GENERAL; left_adjusted: BOOLEAN)
+	fill_tuple (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN)
 		-- fill tuple with STRING items from comma-separated list `csv_list' of strings
 		-- TUPLE may contain any of types in `current_keys'
 		-- items are left adjusted if `left_adjusted' is True
 		require
 			tuple_convertible: is_convertible_tuple (tuple, csv_list, left_adjusted)
 		local
-			tuple_type: TYPE [TUPLE]; item_type: TYPE [ANY]; type_id: INTEGER
+			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]; type_id: INTEGER
 			list: like new_split_list; item_str: STRING_GENERAL
 		do
-			tuple_type := tuple.generating_type
+			type_array := Mod_tuple.type_array (tuple)
 			list := new_split_list (csv_list)
 			if left_adjusted then
 				list.enable_left_adjust
 			end
 			from list.start until list.index > tuple.count or list.after loop
 				item_str := list.item (False)
-				item_type := tuple_type.generic_parameter_type (list.index)
+				item_type := type_array [list.index]
 				type_id := item_type.type_id
 				if is_convertible_to_type (item_str, type_id) then
 					if tuple.is_reference_item (list.index) then
@@ -180,10 +180,14 @@ feature {NONE} -- Implementation
 			Result := True
 		end
 
-	new_split_list (csv_list: STRING_GENERAL): EL_SPLIT_STRING_LIST [STRING_GENERAL]
+	new_split_list (csv_list: READABLE_STRING_GENERAL): EL_SPLIT_STRING_LIST [STRING_GENERAL]
 		do
-			if csv_list.is_string_8 then
+			if attached {ZSTRING} csv_list as zstring_list then
+				create {EL_SPLIT_ZSTRING_LIST} Result.make (zstring_list, Comma)
+
+			elseif csv_list.is_string_8 then
 				create {EL_SPLIT_STRING_8_LIST} Result.make (csv_list.as_string_8, Comma)
+
 			else
 				create {EL_SPLIT_STRING_32_LIST} Result.make (csv_list.as_string_32, Comma)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-18 14:20:11 GMT (Sunday 18th April 2021)"
-	revision: "6"
+	date: "2021-05-02 12:20:50 GMT (Sunday 2nd May 2021)"
+	revision: "7"
 
 class
 	PYXIS_ECF_PARSER
@@ -26,7 +26,7 @@ feature {NONE} -- State procedures
 	parse_line (line: STRING; start_index, end_index: INTEGER)
 		local
 			expanded_line: STRING; last_quote_pos, first_quote_pos, semi_colon_pos: INTEGER
-			eiffel_url, attributes, xml_ns: STRING
+			eiffel_url, xml_ns: STRING
 		do
 			if line.starts_with (Configuration_ns) then
 				last_quote_pos := line.last_index_of ('"', line.count)

@@ -397,3 +397,6 @@ Simplified JAVA_ROUTINE and descendants. Automated {JAVA_OBJECT_REFERENCE}.jclas
 Sun 28th Mar 2021, 15:11:36
 Changed Eiffel-Viewer to use EL_FILE_SYNC_MANAGER
 
+Sat 1st May 2021, 18:46:56
+Many
+

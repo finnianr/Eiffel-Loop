@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 11:06:15 GMT (Sunday 21st March 2021)"
-	revision: "15"
+	date: "2021-05-02 12:20:26 GMT (Sunday 2nd May 2021)"
+	revision: "16"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -200,7 +200,7 @@ feature {NONE} -- Implementation
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			line, word, l_last: ZSTRING; i, l_count, removed_count, space_count: INTEGER
+			line, word, l_last: ZSTRING; l_count, removed_count, space_count: INTEGER
 			word_list: EL_ZSTRING_LIST; separator: CHARACTER; done: BOOLEAN
 		do
 			create Result.make (lines.count)

@@ -2,12 +2,9 @@ note
 	description: "Build specification"
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Finnian Reilly"
-	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
-	contact: "finnian at eiffel hyphen loop dot com"
+	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 15:57:34 GMT (Sunday 28th March 2021)"
+	date: "2021-05-02 11:55:39 GMT (Sunday 2nd May 2021)"
 	revision: "1"
 
 class

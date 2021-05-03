@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 13:33:09 GMT (Saturday 16th January 2021)"
-	revision: "16"
+	date: "2021-05-03 10:42:54 GMT (Monday 3rd May 2021)"
+	revision: "17"
 
 class
 	EL_TUPLE_ROUTINES
@@ -21,14 +21,48 @@ inherit
 
 	EL_MODULE_CONVERT_STRING
 
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			create types_table.make (17, agent new_type_array)
+		end
+
+feature -- Access
+
+	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
+		do
+			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
+		end
+
+feature -- Conversion
+
+	to_string_32_list (tuple: TUPLE): EL_STRING_32_LIST
+		do
+			Result := tuple
+		end
+
+	to_string_8_list (tuple: TUPLE): EL_STRING_8_LIST
+		do
+			Result := tuple
+		end
+
+	to_zstring_list (tuple: TUPLE): EL_ZSTRING_LIST
+		do
+			Result := tuple
+		end
+
 feature -- Basic operations
 
-	fill (tuple: TUPLE; csv_list: STRING_GENERAL)
+	fill (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL)
 		do
 			fill_adjusted (tuple, csv_list, True)
 		end
 
-	fill_adjusted (tuple: TUPLE; csv_list: STRING_GENERAL; left_adjusted: BOOLEAN)
+	fill_adjusted (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN)
 		-- fill tuple with STRING items from comma-separated list `csv_list' of strings
 		-- TUPLE may contain any of types STRING_8, STRING_32, ZSTRING
 		-- items are left adjusted if `left_adjusted' is True
@@ -39,13 +73,13 @@ feature -- Basic operations
 	fill_default (tuple: TUPLE; default_value: ANY)
 		local
 			i: INTEGER; type_id: INTEGER
-			tuple_type: TYPE [TUPLE]
+			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
 			type_id := {ISE_RUNTIME}.dynamic_type (default_value)
-			tuple_type := tuple.generating_type
+			tuple_types := type_array (tuple)
 			from i := 1 until i > tuple.count loop
 				if tuple.item_code (i) = {TUPLE}.Reference_code and then
-					Eiffel.field_conforms_to (type_id, tuple_type.generic_parameter_type (i).type_id)
+					Eiffel.field_conforms_to (type_id, tuple_types [i].type_id)
 				then
 					tuple.put_reference (default_value, i)
 				end
@@ -63,18 +97,18 @@ feature -- Basic operations
 			valid_list: csv_field_list.count > 0 and then start_index + csv_field_list.occurrences (',') <= tuple.count
 			not_filled:	not is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		local
-			result_type_id: INTEGER; list: EL_SPLIT_STRING_8_LIST
-			tuple_type: TYPE [TUPLE]; index: INTEGER
+			result_type_id: INTEGER; list: EL_SPLIT_STRING_8_LIST; tuple_types: EL_TUPLE_TYPE_ARRAY
+			index: INTEGER
 		do
 			result_type_id := a_new_item.generating_type.generic_parameter_type (2).type_id
-			tuple_type := tuple.generating_type
+			tuple_types := type_array (tuple)
 			create list.make (csv_field_list, Comma)
 			list.enable_left_adjust
 
 			from list.start until (start_index + list.index - 1) > tuple.count or list.after loop
 				index := start_index + list.index - 1
 				if tuple.item_code (index) = {TUPLE}.Reference_code and then
-					Eiffel.field_conforms_to (result_type_id, tuple_type.generic_parameter_type (index).type_id)
+					Eiffel.field_conforms_to (result_type_id, tuple_types [index].type_id)
 					and then attached a_new_item (list.item (False)) as new
 				then
 					tuple.put_reference (new, index)
@@ -85,20 +119,136 @@ feature -- Basic operations
 			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		end
 
-	to_string_32_list (tuple: TUPLE): EL_STRING_32_LIST
+	read (tuple: TUPLE; reader: EL_MEMORY_READER_WRITER)
+		local
+			i: INTEGER
 		do
-			Result := tuple
+			from i := 1 until i > tuple.count loop
+				inspect tuple.item_code (i)
+					when {TUPLE}.Character_8_code then
+						tuple.put_character (reader.read_character_8, i)
+
+					when {TUPLE}.Character_32_code then
+						tuple.put_character_32 (reader.read_character_32, i)
+
+					when {TUPLE}.Boolean_code then
+						tuple.put_boolean (reader.read_boolean, i)
+
+					when {TUPLE}.Integer_8_code then
+						tuple.put_integer_8 (reader.read_integer_8, i)
+
+					when {TUPLE}.Integer_16_code then
+						tuple.put_integer_16 (reader.read_integer_16, i)
+
+					when {TUPLE}.Integer_32_code then
+						tuple.put_integer (reader.read_integer_32, i)
+
+					when {TUPLE}.Integer_64_code then
+						tuple.put_integer_64 (reader.read_integer_64, i)
+
+					when {TUPLE}.Natural_8_code then
+						tuple.put_natural_8 (reader.read_natural_8, i)
+
+					when {TUPLE}.Natural_16_code then
+						tuple.put_natural_16 (reader.read_natural_16, i)
+
+					when {TUPLE}.Natural_32_code then
+						tuple.put_natural_32 (reader.read_natural_32, i)
+
+					when {TUPLE}.Natural_64_code then
+						tuple.put_natural_64 (reader.read_natural_64, i)
+
+					when {TUPLE}.Real_32_code then
+						tuple.put_real_32 (reader.read_real_32, i)
+
+					when {TUPLE}.Real_64_code then
+						tuple.put_real_64 (reader.read_real_64, i)
+
+					when {TUPLE}.Reference_code then
+						if attached {STRING_GENERAL} tuple.reference_item (i) as str then
+							if attached {ZSTRING} str then
+								tuple.put_reference (reader.read_string, i)
+							elseif attached {STRING} str then
+								tuple.put_reference (reader.read_string_8, i)
+							elseif attached {STRING_32} str then
+								tuple.put_reference (reader.read_string_32, i)
+							end
+						end
+				else
+				end
+				i := i + 1
+			end
 		end
 
-	to_string_8_list (tuple: TUPLE): EL_STRING_8_LIST
+	write (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: STRING)
+		local
+			i: INTEGER; has_delimiter: BOOLEAN
 		do
-			Result := tuple
+			has_delimiter := delimiter.count > 0
+			from i := 1 until i > tuple.count loop
+				if i > 1 and then has_delimiter then
+					writeable.write_string_8 (delimiter)
+				end
+				inspect tuple.item_code (i)
+					when {TUPLE}.Character_8_code then
+						writeable.write_character_8 (tuple.character_8_item (i))
+
+					when {TUPLE}.Character_32_code then
+						writeable.write_character_32 (tuple.character_32_item (i))
+
+					when {TUPLE}.Boolean_code then
+						writeable.write_boolean (tuple.boolean_item (i))
+
+					when {TUPLE}.Integer_8_code then
+						writeable.write_integer_8 (tuple.integer_8_item (i))
+
+					when {TUPLE}.Integer_16_code then
+						writeable.write_integer_16 (tuple.integer_16_item (i))
+
+					when {TUPLE}.Integer_32_code then
+						writeable.write_integer_32 (tuple.integer_32_item (i))
+
+					when {TUPLE}.Integer_64_code then
+						writeable.write_integer_64 (tuple.integer_64_item (i))
+
+					when {TUPLE}.Natural_8_code then
+						writeable.write_natural_8 (tuple.natural_8_item (i))
+
+					when {TUPLE}.Natural_16_code then
+						writeable.write_natural_16 (tuple.natural_16_item (i))
+
+					when {TUPLE}.Natural_32_code then
+						writeable.write_natural_32 (tuple.natural_32_item (i))
+
+					when {TUPLE}.Natural_64_code then
+						writeable.write_natural_64 (tuple.natural_64_item (i))
+
+					when {TUPLE}.Real_32_code then
+						writeable.write_real_32 (tuple.real_32_item (i))
+
+					when {TUPLE}.Real_64_code then
+						writeable.write_real_64 (tuple.real_64_item (i))
+
+					when {TUPLE}.Reference_code then
+						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
+							writeable.write_string_general (str)
+						end
+				else
+				end
+				i := i + 1
+			end
 		end
 
-	to_zstring_list (tuple: TUPLE): EL_ZSTRING_LIST
+feature {NONE} -- Implementation
+
+	new_type_array (static_type: INTEGER): EL_TUPLE_TYPE_ARRAY
 		do
-			Result := tuple
+			create Result.make_from_static (static_type)
 		end
+
+feature {NONE} -- Internal attributes
+
+	types_table: EL_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 
 feature -- Contract Support
 

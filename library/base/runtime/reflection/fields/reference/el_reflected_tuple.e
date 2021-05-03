@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:35:29 GMT (Friday 8th January 2021)"
-	revision: "10"
+	date: "2021-05-03 10:26:09 GMT (Monday 3rd May 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_TUPLE
@@ -22,9 +22,11 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_STRING_32_CONSTANTS
-
 	EL_STRING_8_CONSTANTS
+
+	EL_MODULE_TUPLE
+
+	EL_MODULE_CONVERT_STRING
 
 create
 	make
@@ -69,37 +71,30 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			list: EL_SPLIT_STRING_LIST [STRING_GENERAL]; s_32: EL_STRING_32_ROUTINES
-			s_8: EL_STRING_8_ROUTINES; s: EL_ZSTRING_ROUTINES
+	set_from_string (a_object: EL_REFLECTIVE; csv_list: READABLE_STRING_GENERAL)
+		require else
+			valid_comma_count: (csv_list.occurrences (',') + 1) = member_types.count
 		do
-			if attached {ZSTRING} string as str_z then
-				create {EL_SPLIT_ZSTRING_LIST} list.make (str_z, s.character_string (','))
-
-			elseif attached {STRING_8} string as str_8 then
-				create {EL_SPLIT_STRING_LIST [STRING_8]} list.make (str_8, s_8.character_string (','))
-
-			else
-				create {EL_SPLIT_STRING_LIST [STRING_32]} list.make (string.to_string_32, s_32.character_string (','))
+			if attached value (a_object) as l_tuple then
+				Convert_string.fill_tuple (l_tuple, csv_list, True)
 			end
-			list.enable_left_adjust
-			set_from_list (a_object, list)
 		ensure then
-			set: string.same_string (to_string (a_object))
+			set: csv_list.same_string (to_string (a_object))
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
-			write_tuple (value (a_object), writeable, Comma_space)
+			if attached value (a_object) as l_tuple then
+				Tuple.write (l_tuple, writeable, Comma_space)
+			end
 		end
 
 feature -- Conversion
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
-			if attached String_pool.reuseable_item as str then
-				write_tuple (value (a_object), str, Comma_space)
+			if attached value (a_object) as l_tuple and then attached String_pool.reuseable_item as str then
+				Tuple.write (l_tuple, str, Comma_space)
 				if member_types.is_latin_1_representable then
 					Result := str.to_latin_1
 				else
@@ -138,151 +133,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_from_list (a_object: EL_REFLECTIVE; list: EL_SPLIT_STRING_LIST [STRING_GENERAL])
-		local
-			tuple: TUPLE; item: STRING_GENERAL
-			i, l_count: INTEGER
-		do
-			tuple := value (a_object)
-			l_count := tuple.count.min (list.count)
-			from i := 1 until i > l_count loop
-				list.go_i_th (i)
-				item := list.item (False)
-				inspect tuple.item_code (i)
-					when {TUPLE}.Character_8_code then
-						if not item.is_empty then
-							tuple.put_character (item.item (1).to_character_8, i)
-						end
-
-					when {TUPLE}.Character_32_code then
-						if not item.is_empty then
-							tuple.put_character_32 (item.item (1), i)
-						end
-
-					when {TUPLE}.Boolean_code then
-						if item.is_boolean then
-							tuple.put_boolean (item.to_boolean, i)
-						end
-
-					when {TUPLE}.Integer_8_code then
-						if item.is_integer_8 then
-							tuple.put_integer_8 (item.to_integer_8, i)
-						end
-
-					when {TUPLE}.Integer_16_code then
-						if item.is_integer_16 then
-							tuple.put_integer_16 (item.to_integer_16, i)
-						end
-
-					when {TUPLE}.Integer_32_code then
-						if item.is_integer_32 then
-							tuple.put_integer (item.to_integer_32, i)
-						end
-
-					when {TUPLE}.Integer_64_code then
-						if item.is_integer_64 then
-							tuple.put_integer_64 (item.to_integer_64, i)
-						end
-
-					when {TUPLE}.Natural_8_code then
-						if item.is_natural_8 then
-							tuple.put_natural_8 (item.to_natural_8, i)
-						end
-
-					when {TUPLE}.Natural_16_code then
-						if item.is_natural_16 then
-							tuple.put_natural_16 (item.to_natural_16, i)
-						end
-
-					when {TUPLE}.Natural_32_code then
-						if item.is_natural_32 then
-							tuple.put_natural_32 (item.to_natural_32, i)
-						end
-
-					when {TUPLE}.Natural_64_code then
-						if item.is_natural_64 then
-							tuple.put_natural_64 (item.to_natural_64, i)
-						end
-
-					when {TUPLE}.Real_32_code then
-						if item.is_real_32 then
-							tuple.put_real_32 (item.to_real_32, i)
-						end
-
-					when {TUPLE}.Real_64_code then
-						if item.is_real_64 then
-							tuple.put_real_64 (item.to_real_64, i)
-						end
-
-					when {TUPLE}.Reference_code then
-						if attached {STRING_GENERAL} tuple.reference_item (i) as str then
-							str.keep_head (0); str.append (item)
-						end
-				else
-				end
-				i := i + 1
-			end
-		end
-
-	write_tuple (tuple: TUPLE; writeable: EL_WRITEABLE; delimiter: STRING)
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > tuple.count loop
-				if i > 1 and then not delimiter.is_empty then
-					writeable.write_string_8 (delimiter)
-				end
-				inspect tuple.item_code (i)
-					when {TUPLE}.Character_8_code then
-						writeable.write_character_8 (tuple.character_8_item (i))
-
-					when {TUPLE}.Character_32_code then
-						writeable.write_character_32 (tuple.character_32_item (i))
-
-					when {TUPLE}.Boolean_code then
-						writeable.write_boolean (tuple.boolean_item (i))
-
-					when {TUPLE}.Integer_8_code then
-						writeable.write_integer_8 (tuple.integer_8_item (i))
-
-					when {TUPLE}.Integer_16_code then
-						writeable.write_integer_16 (tuple.integer_16_item (i))
-
-					when {TUPLE}.Integer_32_code then
-						writeable.write_integer_32 (tuple.integer_32_item (i))
-
-					when {TUPLE}.Integer_64_code then
-						writeable.write_integer_64 (tuple.integer_64_item (i))
-
-					when {TUPLE}.Natural_8_code then
-						writeable.write_natural_8 (tuple.natural_8_item (i))
-
-					when {TUPLE}.Natural_16_code then
-						writeable.write_natural_16 (tuple.natural_16_item (i))
-
-					when {TUPLE}.Natural_32_code then
-						writeable.write_natural_32 (tuple.natural_32_item (i))
-
-					when {TUPLE}.Natural_64_code then
-						writeable.write_natural_64 (tuple.natural_64_item (i))
-
-					when {TUPLE}.Real_32_code then
-						writeable.write_real_32 (tuple.real_32_item (i))
-
-					when {TUPLE}.Real_64_code then
-						writeable.write_real_64 (tuple.real_64_item (i))
-
-					when {TUPLE}.Reference_code then
-						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
-							writeable.write_string_general (str)
-						end
-				else
-				end
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Comma_space: STRING = ", "
+
+	Comma_string: STRING = ","
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:25:58 GMT (Thursday 6th February 2020)"
-	revision: "3"
+	date: "2021-05-03 10:36:53 GMT (Monday 3rd May 2021)"
+	revision: "4"
 
 deferred class
 	EL_MODULE_TUPLE
@@ -19,6 +19,6 @@ feature {NONE} -- Constants
 
 	Tuple: EL_TUPLE_ROUTINES
 		once
-			create Result
+			create Result.make
 		end
 end
