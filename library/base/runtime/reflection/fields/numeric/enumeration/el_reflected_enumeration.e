@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 12:04:25 GMT (Friday 30th April 2021)"
-	revision: "6"
+	date: "2021-05-03 13:21:16 GMT (Monday 3rd May 2021)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTED_ENUMERATION [N -> NUMERIC]
@@ -38,6 +38,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_string_general (enumeration.name (v))
+			end
+		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do

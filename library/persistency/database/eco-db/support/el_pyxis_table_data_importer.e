@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 14:55:24 GMT (Friday 8th January 2021)"
-	revision: "5"
+	date: "2021-05-03 16:50:54 GMT (Monday 3rd May 2021)"
+	revision: "6"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -23,6 +23,8 @@ inherit
 	EL_COMMAND
 
 	EL_REFLECTION_HANDLER
+
+	EL_MODULE_CONVERT_STRING
 
 create
 	make
@@ -64,7 +66,7 @@ feature {NONE} -- Implementation
 	fill_match_events (object: EL_REFLECTIVE; xpath, field_name: STRING)
 		-- recursive procedure to fill `match_events_list'
 		local
-			xpath_element: STRING
+			xpath_element: STRING; i: INTEGER; i_name: STRING
 		do
 			match_events_list.extend ([On_open, xpath, agent push_item (field_name)])
 			match_events_list.extend ([On_close, xpath, agent pop_item])
@@ -78,6 +80,16 @@ feature {NONE} -- Implementation
 				then
 					xpath_element := xpath + Slash + field.key
 					fill_match_events (storable, xpath_element, field.key)
+				elseif attached {EL_REFLECTED_TUPLE} field.item as tuple_field
+					and then attached tuple_field.member_types as tuple_types
+				then
+					i_name := once "i_"
+					from i := 1 until i > tuple_types.count loop
+						i_name.keep_head (2); i_name.append_integer (i)
+						xpath_element := xpath + Slash + field.key + Slash_at + i_name
+						append_map (xpath_element, agent set_item_tuple_i_th (tuple_field, i, tuple_types [i].type_id))
+						i := i + 1
+					end
 				else
 					append_map (xpath + Slash + field.key + Slash_text, agent set_item_attribute (field.item))
 				end
@@ -128,6 +140,13 @@ feature {NONE} -- Implementation
 				tuple_field.set_from_string (item, last_node.raw_string_32 (True))
 			else
 				field.set_from_readable (item, last_node)
+			end
+		end
+
+	set_item_tuple_i_th (field: EL_REFLECTED_TUPLE; i: INTEGER; i_th_type_id: INTEGER)
+		do
+			if attached field.value (item) as tuple_item then
+				tuple_item.put (Convert_string.to_type_of_type (last_node.to_string, i_th_type_id), i)
 			end
 		end
 

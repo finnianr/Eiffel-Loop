@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 15:21:44 GMT (Thursday 29th April 2021)"
-	revision: "6"
+	date: "2021-05-03 11:09:38 GMT (Monday 3rd May 2021)"
+	revision: "7"
 
 class
 	EL_REFLECTED_COLLECTION_TYPE_TABLE
@@ -43,10 +43,10 @@ feature {NONE} -- Initialization
 		do
 			create type_list.make_from_tuple (new_type_tuple)
 			make_size (type_list.count)
-			create latin_1_data_types.make (type_list.count - Unicode_item_types.count)
+			create latin_1_data_types.make (type_list.count - Class_id.Unicode_types.count)
 			across type_list as type loop
 				if attached {EL_COLLECTION_TYPE [ANY]} Factory.new_item_from_type (type.item) as collection then
-					if not Unicode_item_types.has (collection.item_type_id) then
+					if not Class_id.Unicode_types.has (collection.item_type_id) then
 						latin_1_data_types.extend (collection.type_id)
 					end
 					extend (collection.reflected_type, collection.type_id)
@@ -59,7 +59,7 @@ feature -- Status query
 
 	is_character_data (item_type_id: INTEGER): BOOLEAN
 		do
-			Result := Character_data_item_types.has (item_type_id)
+			Result := Class_id.Character_data_types.has (item_type_id)
 		end
 
 	is_latin_1_representable (collection_type_id: INTEGER): BOOLEAN
@@ -115,18 +115,6 @@ feature {NONE} -- Constants
 	Factory: EL_MAKEABLE_OBJECT_FACTORY
 		once
 			create Result
-		end
-
-	Unicode_item_types: ARRAY [INTEGER]
-		once
-			Result := << Class_id.STRING_32, Class_id.EL_ZSTRING, Class_id.EL_FILE_PATH, Class_id.EL_DIR_PATH >>
-		end
-
-	Character_data_item_types: ARRAY [INTEGER]
-		once
-			Result := <<
-				Class_id.STRING_8, Class_id.STRING_32, Class_id.EL_ZSTRING, Class_id.EL_FILE_PATH, Class_id.EL_DIR_PATH
-			>>
 		end
 
 end

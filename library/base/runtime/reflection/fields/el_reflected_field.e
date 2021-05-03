@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 12:08:14 GMT (Friday 30th April 2021)"
-	revision: "27"
+	date: "2021-05-03 13:59:39 GMT (Monday 3rd May 2021)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -104,6 +104,10 @@ feature -- Comparison
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		deferred
+		end
 
 	initialize (a_object: EL_REFLECTIVE)
 		do

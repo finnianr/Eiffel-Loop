@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-11 13:20:41 GMT (Friday 11th December 2020)"
-	revision: "10"
+	date: "2021-05-03 13:18:40 GMT (Monday 3rd May 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -41,6 +41,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_boolean (v)
+			end
+		end
 
 	set (a_object: EL_REFLECTIVE; a_value: BOOLEAN)
 		do

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 18:27:49 GMT (Saturday 13th February 2021)"
-	revision: "32"
+	date: "2021-05-03 16:14:53 GMT (Monday 3rd May 2021)"
+	revision: "33"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -41,7 +41,13 @@ inherit
 
 	EL_MODULE_BUFFER
 
+	EL_MODULE_TUPLE
+
 	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_CLASS_ID
 
 feature -- Basic operations
 
@@ -74,10 +80,14 @@ feature -- Basic operations
 					then
 						write_pyxis_field (output, name, tab_count)
 						storable.write_as_pyxis (output, tab_count + 1)
-
+					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
+						and then attached {TUPLE} tuple_field.value (Current) as l_tuple
+					then
+						write_pyxis_field (output, name, tab_count)
+						write_pyxis_tuple (output, tab_count + 1, l_tuple, tuple_field.member_types)
 					else
 						value.wipe_out
-						value.append_string_general (list.item.to_string (Current))
+						list.item.append_to_string (Current, value)
 						if value.has ('%N') then
 							write_pyxis_field (output, name, tab_count)
 							write_pyxis_manifest (output, value, tab_count + 1)
@@ -229,7 +239,7 @@ feature {NONE} -- Implementation
 				if attribute_index > 0 then
 					cursor_index_set.extend (list.cursor_index)
 					value.wipe_out
-					value.append_string_general (list.item.to_string (Current))
+					list.item.append_to_string (Current, value)
 					if value.count > 0 then
 						if attribute_index = 3 and then not value.is_code_identifier then
 							value.enclose ('"', '"')
@@ -268,34 +278,32 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; tuple: TUPLE)
+	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; a_tuple: TUPLE; tuple_types: EL_TUPLE_TYPE_ARRAY)
 		local
-			name: STRING; value, pair: ZSTRING; i: INTEGER
+			pair: ZSTRING; i: INTEGER
 		do
-			value := String_pool.reuseable_item
-			output.put_indent (tab_count)
-			from i := 1 until i > tuple.count loop
-				create name.make_from_string (once "item_")
-				name.append_integer (i)
-				value.wipe_out
-				if attached {NUMERIC} tuple.item (i) as numeric then
-					value.append_string_general (numeric.out)
-
-				elseif attached {READABLE_STRING_GENERAL} tuple.item (i) as general then
-					value.append_string_general (general)
-					if not value.is_code_identifier then
+			if attached String_pool.reuseable_item as value and attached String_8_pool.reuseable_item as name then
+				name.append (once "i_")
+				output.put_indent (tab_count)
+				from i := 1 until i > a_tuple.count loop
+					name.keep_head (2); name.append_integer (i)
+					value.wipe_out
+					Tuple.append_i_th (a_tuple, i, value)
+					if Class_id.Character_data_types.has (tuple_types [i].type_id)
+						and then not value.is_code_identifier
+					then
 						value.enclose ('"', '"')
 					end
+					pair := Pyxis_attribute #$ [name, value]
+					if i = 1 then
+						pair.remove_head (2)
+					end
+					output.put_string (pair)
+					i := i + 1
 				end
-				pair := Pyxis_attribute #$ [name, value]
-				if i = 1 then
-					pair.remove_head (2)
-				end
-				output.put_string (pair)
-				i := i + 1
+				output.put_new_line
+				String_pool.recycle (value); String_8_pool.recycle (name)
 			end
-			output.put_new_line
-			String_pool.recycle (value)
 		end
 
 feature {NONE} -- Constants

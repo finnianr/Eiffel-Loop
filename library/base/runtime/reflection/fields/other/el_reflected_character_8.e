@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 11:38:08 GMT (Friday 30th April 2021)"
-	revision: "13"
+	date: "2021-05-03 14:00:42 GMT (Monday 3rd May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -35,6 +35,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_character_8 (v)
+			end
+		end
 
 	set (a_object: EL_REFLECTIVE; a_value: CHARACTER_8)
 		do

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 10:23:27 GMT (Thursday 4th March 2021)"
-	revision: "11"
+	date: "2021-05-03 13:24:59 GMT (Monday 3rd May 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_INTEGER_32
@@ -41,6 +41,13 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_integer_32 (v)
+			end
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do

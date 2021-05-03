@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:55:02 GMT (Saturday 1st May 2021)"
-	revision: "6"
+	date: "2021-05-03 14:30:35 GMT (Monday 3rd May 2021)"
+	revision: "7"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -47,18 +47,20 @@ feature -- Basic operations
 		require
 			valid_encoding: valid_encoding (encoding)
 		local
-			file: EL_PLAIN_TEXT_FILE
+			file: EL_PLAIN_TEXT_FILE; line: ZSTRING
 		do
 			create file.make_open_write (a_file_path)
 			file.set_encoding (encoding)
+			create line.make (100)
 			from start until after loop
 				if not item.is_deleted then
 					if file.position = 0 then
 						file.put_string_8 (item.field_name_list.joined (','))
 						file.put_new_line
 					end
-					file.put_string (item.comma_separated_values)
-					file.put_new_line
+					line.wipe_out
+					item.put_comma_separated_values (line)
+					file.put_line (line)
 				end
 				forth
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 10:26:09 GMT (Monday 3rd May 2021)"
-	revision: "11"
+	date: "2021-05-03 15:52:53 GMT (Monday 3rd May 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_TUPLE
@@ -15,18 +15,18 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [TUPLE]
 		redefine
-			is_initializeable,
+			append_to_string, is_initializeable,
 			make, write, new_instance, reset,
 			set_from_readable, set_from_string, to_string
 		end
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_STRING_8_CONSTANTS
-
 	EL_MODULE_TUPLE
 
 	EL_MODULE_CONVERT_STRING
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -56,6 +56,11 @@ feature -- Status query
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			write (a_object, str)
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-07 12:39:15 GMT (Monday 7th December 2020)"
-	revision: "2"
+	date: "2021-05-03 13:54:18 GMT (Monday 3rd May 2021)"
+	revision: "3"
 
 class
 	EL_REFLECTED_ENUM_REAL_64
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_field
 		undefine
-			to_string, set_from_string, write_crc
+			append_to_string, to_string, set_from_string, write_crc
 		end
 
 create

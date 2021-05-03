@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:08:28 GMT (Tuesday 5th January 2021)"
-	revision: "4"
+	date: "2021-05-03 14:50:54 GMT (Monday 3rd May 2021)"
+	revision: "5"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -17,6 +17,38 @@ inherit
 
 create
 	make
+
+feature -- CHARACTER types
+
+	CHARACTER_8: INTEGER
+
+	CHARACTER_32: INTEGER
+
+feature -- INTEGER types
+
+	INTEGER_8: INTEGER
+
+	INTEGER_16: INTEGER
+
+	INTEGER_32: INTEGER
+
+	INTEGER_64: INTEGER
+
+feature -- NATURAL types
+
+	NATURAL_8: INTEGER
+
+	NATURAL_16: INTEGER
+
+	NATURAL_32: INTEGER
+
+	NATURAL_64: INTEGER
+
+feature -- REAL types
+
+	REAL_32: INTEGER
+
+	REAL_64: INTEGER
 
 feature -- String types
 
@@ -41,10 +73,27 @@ feature -- Path types
 
 feature -- Other types
 
+	BOOLEAN: INTEGER
+
 	DATE_TIME: INTEGER
 
 	EL_MAKEABLE: INTEGER
 
 	TUPLE: INTEGER
 
+feature -- Constants
+
+	Unicode_types: ARRAY [INTEGER]
+		-- types containing character data from the Unicode character set
+		once
+			Result := << CHARACTER_32, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH >>
+		end
+
+	Character_data_types: ARRAY [INTEGER]
+		-- types containing character data
+		once
+			Result := <<
+				CHARACTER_8, CHARACTER_32, STRING_8, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH
+			>>
+		end
 end

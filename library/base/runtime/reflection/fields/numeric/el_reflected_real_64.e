@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-15 14:30:47 GMT (Tuesday 15th December 2020)"
-	revision: "9"
+	date: "2021-05-03 13:54:07 GMT (Monday 3rd May 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_REAL_64
@@ -37,6 +37,13 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_real_64 (v)
+			end
+		end
 
 	set (a_object: EL_REFLECTIVE; a_value: REAL_64)
 		do

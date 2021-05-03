@@ -1,13 +1,16 @@
 note
-	description: "Routines for populating tuple fields. Accessible via shared instance [$source EL_MODULE_TUPLE]"
+	description: "[
+		Routines for populating tuple fields and converting to and from string types.
+		Accessible via shared instance [$source EL_MODULE_TUPLE]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 10:42:54 GMT (Monday 3rd May 2021)"
-	revision: "17"
+	date: "2021-05-03 16:11:11 GMT (Monday 3rd May 2021)"
+	revision: "18"
 
 class
 	EL_TUPLE_ROUTINES
@@ -16,8 +19,6 @@ inherit
 	ANY
 
 	EL_MODULE_EIFFEL
-
-	EL_SHARED_CLASS_ID
 
 	EL_MODULE_CONVERT_STRING
 
@@ -56,6 +57,64 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	append_i_th (tuple: TUPLE; i: INTEGER; string: ZSTRING)
+		-- append i'th item of `tuple' to `string'
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Boolean_code then
+					string.append_boolean (tuple.boolean_item (i))
+
+				when {TUPLE}.Character_8_code then
+					string.append_character_8 (tuple.character_8_item (i))
+
+				when {TUPLE}.Character_32_code then
+					string.append_character (tuple.character_32_item (i))
+
+				when {TUPLE}.Integer_8_code then
+					string.append_integer_8 (tuple.integer_8_item (i))
+
+				when {TUPLE}.Integer_16_code then
+					string.append_integer_16 (tuple.integer_16_item (i))
+
+				when {TUPLE}.Integer_32_code then
+					string.append_integer_32 (tuple.integer_32_item (i))
+
+				when {TUPLE}.Integer_64_code then
+					string.append_integer_64 (tuple.integer_64_item (i))
+
+				when {TUPLE}.Natural_8_code then
+					string.append_natural_8 (tuple.natural_8_item (i))
+
+				when {TUPLE}.Natural_16_code then
+					string.append_natural_16 (tuple.natural_16_item (i))
+
+				when {TUPLE}.Natural_32_code then
+					string.append_natural_32 (tuple.natural_32_item (i))
+
+				when {TUPLE}.Natural_64_code then
+					string.append_natural_64 (tuple.natural_64_item (i))
+
+				when {TUPLE}.Real_32_code then
+					string.append_real (tuple.real_32_item (i))
+
+				when {TUPLE}.Real_64_code then
+					string.append_double (tuple.real_64_item (i))
+
+				when {TUPLE}.Reference_code then
+					if attached tuple.reference_item (i) as ref_item then
+						if attached {STRING_GENERAL} ref_item as general then
+							if attached {ZSTRING} general as zstr then
+								string.append (zstr)
+							else
+								string.append_string_general (general)
+							end
+						elseif attached {EL_PATH} ref_item as path then
+							path.append_to (string)
+						end
+					end
+				end
+		end
 
 	fill (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL)
 		do
@@ -232,6 +291,9 @@ feature -- Basic operations
 					when {TUPLE}.Reference_code then
 						if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
 							writeable.write_string_general (str)
+
+						elseif attached {EL_PATH} tuple.reference_item (i) as path then
+							writeable.write_string (path.to_string)
 						end
 				else
 				end

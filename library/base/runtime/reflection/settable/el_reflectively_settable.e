@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 13:47:48 GMT (Friday 5th March 2021)"
-	revision: "20"
+	date: "2021-05-03 14:06:26 GMT (Monday 3rd May 2021)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -48,6 +48,23 @@ feature -- Access
 			Result := field_name_list.joined (',')
 		end
 
+feature -- Basic operations
+
+	put_comma_separated_values (line: ZSTRING)
+		local
+			table: like field_table csv: like CSV_escaper
+			value: ZSTRING
+		do
+			table := field_table; csv := CSV_escaper
+			create value.make_empty
+			from table.start until table.after loop
+				value.wipe_out
+				table.item_for_iteration.append_to_string (Current, value)
+				line.append (csv.escaped (value, False))
+				table.forth
+			end
+		end
+
 	comma_separated_values: ZSTRING
 		--
 		local
@@ -59,7 +76,7 @@ feature -- Access
 			create value.make_empty
 			from table.start until table.after loop
 				value.wipe_out
-				value.append_string_general (table.item_for_iteration.to_string (Current))
+				table.item_for_iteration.append_to_string (Current, value)
 				list.extend (csv.escaped (value, True))
 				table.forth
 			end
@@ -86,15 +103,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
+		once
+			create Result.make
+		end
+
 	Except_fields: STRING
 			-- list of comma-separated fields to be excluded
 		once
 			Result := "field_table"
-		end
-
-	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
-		once
-			create Result.make
 		end
 
 note

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:38:54 GMT (Friday 8th January 2021)"
-	revision: "18"
+	date: "2021-05-03 15:25:28 GMT (Monday 3rd May 2021)"
+	revision: "19"
 
 expanded class
 	EL_ZSTRING_ROUTINES
@@ -29,15 +29,6 @@ feature -- Character string
 		end
 
 feature -- Conversion
-
-	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
-		do
-			if attached {ZSTRING} general as zstr then
-				Result := zstr.to_unicode
-			else
-				Result := general
-			end
-		end
 
 	as_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		do
@@ -93,21 +84,16 @@ feature -- Conversion
 			create Result.make_from_general (general)
 		end
 
-feature -- Status query
-
-	starts_with (a, b: ZSTRING): BOOLEAN
+	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
-			Result := a.starts_with (b)
-		end
-
-	starts_with_drive (str: ZSTRING): BOOLEAN
-		do
-			inspect str.count
-				when 0, 1 then
+			if attached {ZSTRING} general as zstr then
+				Result := zstr.to_unicode
 			else
-				Result := str [2] = ':' and then str.is_alpha_item (1)
+				Result := general
 			end
 		end
+
+feature -- Status query
 
 	has_alpha_numeric (str: ZSTRING): BOOLEAN
 		-- `True' if `str' has an alpha numeric character
@@ -135,6 +121,20 @@ feature -- Status query
 					Result := str.is_alpha_numeric_item (i) or else str [i] = '_'
 				end
 				i := i + 1
+			end
+		end
+
+	starts_with (a, b: ZSTRING): BOOLEAN
+		do
+			Result := a.starts_with (b)
+		end
+
+	starts_with_drive (str: ZSTRING): BOOLEAN
+		do
+			inspect str.count
+				when 0, 1 then
+			else
+				Result := str [2] = ':' and then str.is_alpha_item (1)
 			end
 		end
 

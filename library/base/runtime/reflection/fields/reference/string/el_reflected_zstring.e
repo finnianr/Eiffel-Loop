@@ -6,19 +6,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-14 10:51:16 GMT (Sunday 14th February 2021)"
-	revision: "5"
+	date: "2021-05-03 13:56:11 GMT (Monday 3rd May 2021)"
+	revision: "6"
 
 class
 	EL_REFLECTED_ZSTRING
 
 inherit
 	EL_REFLECTED_STRING [ZSTRING]
+		redefine
+			append_to_string
+		end
 
 create
 	make
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append (v)
+			end
+		end
 
 	read_from_set (a_object: EL_REFLECTIVE; reader: EL_CACHED_FIELD_READER; a_set: EL_HASH_SET [ZSTRING])
 		do

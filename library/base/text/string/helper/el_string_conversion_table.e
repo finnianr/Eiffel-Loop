@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 10:38:17 GMT (Monday 3rd May 2021)"
-	revision: "6"
+	date: "2021-05-03 14:49:39 GMT (Monday 3rd May 2021)"
+	revision: "7"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -41,22 +41,22 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_table (<<
-				[({INTEGER_8}).type_id,			[agent {like string}.is_integer_8, agent {like string}.to_integer_8]],
-				[({INTEGER_16}).type_id, 		[agent {like string}.is_integer_16, agent {like string}.to_integer_16]],
-				[({INTEGER_32}).type_id,		[agent {like string}.is_integer_32, agent {like string}.to_integer_32]],
-				[({INTEGER_64}).type_id,		[agent {like string}.is_integer_64, agent {like string}.to_integer_64]],
+				[Class_id.INTEGER_8,			[agent {like string}.is_integer_8, agent {like string}.to_integer_8]],
+				[Class_id.INTEGER_16, 		[agent {like string}.is_integer_16, agent {like string}.to_integer_16]],
+				[Class_id.INTEGER_32,		[agent {like string}.is_integer_32, agent {like string}.to_integer_32]],
+				[Class_id.INTEGER_64,		[agent {like string}.is_integer_64, agent {like string}.to_integer_64]],
 
-				[({NATURAL_8}).type_id,			[agent {like string}.is_natural_8, agent {like string}.to_natural_8]],
-				[({NATURAL_16}).type_id,		[agent {like string}.is_natural_16, agent {like string}.to_natural_16]],
-				[({NATURAL_32}).type_id,		[agent {like string}.is_natural_32, agent {like string}.to_natural_32]],
-				[({NATURAL_64}).type_id,		[agent {like string}.is_natural_64, agent {like string}.to_natural_64]],
+				[Class_id.NATURAL_8,			[agent {like string}.is_natural_8, agent {like string}.to_natural_8]],
+				[Class_id.NATURAL_16,		[agent {like string}.is_natural_16, agent {like string}.to_natural_16]],
+				[Class_id.NATURAL_32,		[agent {like string}.is_natural_32, agent {like string}.to_natural_32]],
+				[Class_id.NATURAL_64,		[agent {like string}.is_natural_64, agent {like string}.to_natural_64]],
 
-				[({DOUBLE}).type_id,				[agent {like string}.is_double, agent {like string}.to_double]],
-				[({REAL}).type_id,				[agent {like string}.is_real, agent {like string}.to_real]],
+				[Class_id.REAL_64,			[agent {like string}.is_real, agent {like string}.to_real]],
+				[Class_id.REAL_32,			[agent {like string}.is_double, agent {like string}.to_double]],
 
-				[({BOOLEAN}).type_id,			[agent {like string}.is_boolean, agent {like string}.to_boolean]],
-				[({CHARACTER_8}).type_id,		[agent is_character_8, agent to_character_8]],
-				[({CHARACTER_32}).type_id,		[agent is_character_32, agent to_character_32]],
+				[Class_id.BOOLEAN,			[agent {like string}.is_boolean, agent {like string}.to_boolean]],
+				[Class_id.CHARACTER_8,		[agent is_character_8, agent to_character_8]],
+				[Class_id.CHARACTER_32,		[agent is_character_32, agent to_character_32]],
 
 				[Class_id.STRING_8,				[agent {like string}.is_valid_as_string_8, agent {like string}.to_string_8]],
 				[Class_id.STRING_32,				[agent is_valid_as_string_32, agent {like string}.to_string_32]],
