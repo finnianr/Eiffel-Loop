@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 15:47:23 GMT (Sunday 31st January 2021)"
-	revision: "5"
+	date: "2021-05-09 14:50:17 GMT (Sunday 9th May 2021)"
+	revision: "6"
 
 class
 	GENERAL_TEST_SET
@@ -17,13 +17,16 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
+	EL_DOUBLE_MATH undefine default_create end
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
+			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
+			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 		end
 
@@ -58,6 +61,14 @@ feature -- Tests
 			Execution_environment.put ("eiffel-loop", name)
 			Execution_environment.put ("", name)
 			assert ("not attached", not attached Execution_environment.item (name))
+		end
+
+	test_math_precision
+		local
+			math: EL_DOUBLE_MATH_ROUTINES
+		do
+			assert ("equal within 1 percent", math.approximately_equal (169, 170, 0.01))
+			assert ("not equal within 1 percent", not math.approximately_equal (168, 170, 0.01))
 		end
 
 end

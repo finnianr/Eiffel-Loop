@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 8:39:56 GMT (Sunday 9th May 2021)"
-	revision: "1"
+	date: "2021-05-09 14:01:30 GMT (Sunday 9th May 2021)"
+	revision: "2"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
+
+feature -- Access
+
+	type_id: INTEGER
+		do
+			Result := ({G}).type_id
+		end
 
 feature -- Contract Support
 

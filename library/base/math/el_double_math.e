@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-01 12:35:24 GMT (Sunday 1st March 2020)"
-	revision: "7"
+	date: "2021-05-09 16:36:48 GMT (Sunday 9th May 2021)"
+	revision: "8"
 
 class
 	EL_DOUBLE_MATH
@@ -45,7 +45,7 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status query
+feature -- Comparison
 
 	approximately_equal (u, v, precision: DOUBLE): BOOLEAN
 		local

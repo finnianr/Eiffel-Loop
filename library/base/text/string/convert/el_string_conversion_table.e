@@ -1,6 +1,34 @@
 note
 	description: "[
-		Table of routines to convert strings conforming to [$source READABLE_STRING_GENERAL] to commonly used types
+		Table of converters conforming to [$source EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]]
+		for converting strings conforming to [$source READABLE_STRING_GENERAL] to common data types
+	]"
+	notes: "[
+		Converters:
+		
+			EL_STRING_TO_INTEGER_8,
+			EL_STRING_TO_INTEGER_16,
+			EL_STRING_TO_INTEGER_32,
+			EL_STRING_TO_INTEGER_64,
+
+			EL_STRING_TO_NATURAL_8,
+			EL_STRING_TO_NATURAL_16,
+			EL_STRING_TO_NATURAL_32,
+			EL_STRING_TO_NATURAL_64,
+
+			EL_STRING_TO_REAL_32,
+			EL_STRING_TO_REAL_64,
+
+			EL_STRING_TO_BOOLEAN,
+			EL_STRING_TO_CHARACTER_8,
+			EL_STRING_TO_CHARACTER_32,
+
+			EL_STRING_TO_STRING_8,
+			EL_STRING_TO_STRING_32,
+			EL_STRING_TO_ZSTRING,
+			EL_STRING_TO_DIR_PATH,
+			EL_STRING_TO_FILE_PATH
+
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +36,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 8:58:44 GMT (Sunday 9th May 2021)"
-	revision: "8"
+	date: "2021-05-09 14:18:29 GMT (Sunday 9th May 2021)"
+	revision: "9"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -23,7 +51,7 @@ inherit
 			{ANY} has
 		end
 
-	EL_SHARED_CLASS_ID
+	EL_MODULE_EIFFEL
 
 	EL_MODULE_TUPLE
 		rename
@@ -36,31 +64,16 @@ create
 feature {NONE} -- Initialization
 
 	make
+		local
+			type_array: EL_TUPLE_TYPE_ARRAY
 		do
-			make_table (<<
-				[Class_id.INTEGER_8,		create {EL_STRING_TO_INTEGER_8}],
-				[Class_id.INTEGER_16, 	create {EL_STRING_TO_INTEGER_16}],
-				[Class_id.INTEGER_32,	create {EL_STRING_TO_INTEGER_32}],
-				[Class_id.INTEGER_64,	create {EL_STRING_TO_INTEGER_64}],
-
-				[Class_id.NATURAL_8,		create {EL_STRING_TO_NATURAL_8}],
-				[Class_id.NATURAL_16,	create {EL_STRING_TO_NATURAL_16}],
-				[Class_id.NATURAL_32,	create {EL_STRING_TO_NATURAL_32}],
-				[Class_id.NATURAL_64,	create {EL_STRING_TO_NATURAL_64}],
-
-				[Class_id.REAL_32,		create {EL_STRING_TO_REAL_32}],
-				[Class_id.REAL_64,		create {EL_STRING_TO_REAL_64}],
-
-				[Class_id.BOOLEAN,		create {EL_STRING_TO_BOOLEAN}],
-				[Class_id.CHARACTER_8,	create {EL_STRING_TO_CHARACTER_8}],
-				[Class_id.CHARACTER_32,	create {EL_STRING_TO_CHARACTER_32}],
-
-				[Class_id.STRING_8,		create {EL_STRING_TO_STRING_8}],
-				[Class_id.STRING_32,		create {EL_STRING_TO_STRING_32}],
-				[Class_id.ZSTRING,		create {EL_STRING_TO_ZSTRING}],
-				[Class_id.EL_DIR_PATH,	create {EL_STRING_TO_DIR_PATH}],
-				[Class_id.EL_FILE_PATH,	create {EL_STRING_TO_FILE_PATH}]
-			>>)
+			create type_array.make_from_tuple (new_type_tuple)
+			make_size (type_array.count)
+			across type_array as type loop
+				if attached {like item} Eiffel.new_object (type.item) as converter then
+					extend (converter, converter.type_id)
+				end
+			end
 		end
 
 feature -- Status query
@@ -155,6 +168,34 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	new_type_tuple: TUPLE [
+			EL_STRING_TO_INTEGER_8,
+			EL_STRING_TO_INTEGER_16,
+			EL_STRING_TO_INTEGER_32,
+			EL_STRING_TO_INTEGER_64,
+
+			EL_STRING_TO_NATURAL_8,
+			EL_STRING_TO_NATURAL_16,
+			EL_STRING_TO_NATURAL_32,
+			EL_STRING_TO_NATURAL_64,
+
+			EL_STRING_TO_REAL_32,
+			EL_STRING_TO_REAL_64,
+
+			EL_STRING_TO_BOOLEAN,
+			EL_STRING_TO_CHARACTER_8,
+			EL_STRING_TO_CHARACTER_32,
+
+			EL_STRING_TO_STRING_8,
+			EL_STRING_TO_STRING_32,
+			EL_STRING_TO_ZSTRING,
+			EL_STRING_TO_DIR_PATH,
+			EL_STRING_TO_FILE_PATH
+	]
+		do
+			create Result
+		end
 
 	new_split_list (csv_list: READABLE_STRING_GENERAL): EL_SPLIT_STRING_LIST [STRING_GENERAL]
 		do

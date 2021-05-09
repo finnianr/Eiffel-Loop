@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 8:54:00 GMT (Sunday 9th May 2021)"
-	revision: "1"
+	date: "2021-05-09 9:51:12 GMT (Sunday 9th May 2021)"
+	revision: "2"
 
 class
 	EL_STRING_TO_ZSTRING
@@ -20,7 +20,7 @@ feature -- Contract Support
 	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `str' is convertible to type `ZSTRING'
 		do
-			Result := str.is_string_32
+			Result := True
 		end
 
 feature -- Conversion
