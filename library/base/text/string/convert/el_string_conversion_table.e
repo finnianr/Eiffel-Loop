@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 14:49:39 GMT (Monday 3rd May 2021)"
-	revision: "7"
+	date: "2021-05-09 8:58:44 GMT (Sunday 9th May 2021)"
+	revision: "8"
 
 class
 	EL_STRING_CONVERSION_TABLE
 
 inherit
-	EL_HASH_TABLE [
-		TUPLE [is_convertible: PREDICATE [READABLE_STRING_GENERAL]; to_type: FUNCTION [READABLE_STRING_GENERAL, ANY]],
-		INTEGER -- type_id
-	]
+	EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], INTEGER]
 		rename
 			make as make_table
 		export
@@ -41,28 +38,28 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_table (<<
-				[Class_id.INTEGER_8,			[agent {like string}.is_integer_8, agent {like string}.to_integer_8]],
-				[Class_id.INTEGER_16, 		[agent {like string}.is_integer_16, agent {like string}.to_integer_16]],
-				[Class_id.INTEGER_32,		[agent {like string}.is_integer_32, agent {like string}.to_integer_32]],
-				[Class_id.INTEGER_64,		[agent {like string}.is_integer_64, agent {like string}.to_integer_64]],
+				[Class_id.INTEGER_8,		create {EL_STRING_TO_INTEGER_8}],
+				[Class_id.INTEGER_16, 	create {EL_STRING_TO_INTEGER_16}],
+				[Class_id.INTEGER_32,	create {EL_STRING_TO_INTEGER_32}],
+				[Class_id.INTEGER_64,	create {EL_STRING_TO_INTEGER_64}],
 
-				[Class_id.NATURAL_8,			[agent {like string}.is_natural_8, agent {like string}.to_natural_8]],
-				[Class_id.NATURAL_16,		[agent {like string}.is_natural_16, agent {like string}.to_natural_16]],
-				[Class_id.NATURAL_32,		[agent {like string}.is_natural_32, agent {like string}.to_natural_32]],
-				[Class_id.NATURAL_64,		[agent {like string}.is_natural_64, agent {like string}.to_natural_64]],
+				[Class_id.NATURAL_8,		create {EL_STRING_TO_NATURAL_8}],
+				[Class_id.NATURAL_16,	create {EL_STRING_TO_NATURAL_16}],
+				[Class_id.NATURAL_32,	create {EL_STRING_TO_NATURAL_32}],
+				[Class_id.NATURAL_64,	create {EL_STRING_TO_NATURAL_64}],
 
-				[Class_id.REAL_64,			[agent {like string}.is_real, agent {like string}.to_real]],
-				[Class_id.REAL_32,			[agent {like string}.is_double, agent {like string}.to_double]],
+				[Class_id.REAL_32,		create {EL_STRING_TO_REAL_32}],
+				[Class_id.REAL_64,		create {EL_STRING_TO_REAL_64}],
 
-				[Class_id.BOOLEAN,			[agent {like string}.is_boolean, agent {like string}.to_boolean]],
-				[Class_id.CHARACTER_8,		[agent is_character_8, agent to_character_8]],
-				[Class_id.CHARACTER_32,		[agent is_character_32, agent to_character_32]],
+				[Class_id.BOOLEAN,		create {EL_STRING_TO_BOOLEAN}],
+				[Class_id.CHARACTER_8,	create {EL_STRING_TO_CHARACTER_8}],
+				[Class_id.CHARACTER_32,	create {EL_STRING_TO_CHARACTER_32}],
 
-				[Class_id.STRING_8,				[agent {like string}.is_valid_as_string_8, agent {like string}.to_string_8]],
-				[Class_id.STRING_32,				[agent is_valid_as_string_32, agent {like string}.to_string_32]],
-				[Class_id.ZSTRING,				[agent is_valid_as_zstring, agent to_zstring]],
-				[Class_id.EL_DIR_PATH,			[agent is_valid_as_dir_path, agent to_dir_path]],
-				[Class_id.EL_FILE_PATH,			[agent is_valid_as_file_path, agent to_file_path]]
+				[Class_id.STRING_8,		create {EL_STRING_TO_STRING_8}],
+				[Class_id.STRING_32,		create {EL_STRING_TO_STRING_32}],
+				[Class_id.ZSTRING,		create {EL_STRING_TO_ZSTRING}],
+				[Class_id.EL_DIR_PATH,	create {EL_STRING_TO_DIR_PATH}],
+				[Class_id.EL_FILE_PATH,	create {EL_STRING_TO_FILE_PATH}]
 			>>)
 		end
 
@@ -75,12 +72,9 @@ feature -- Status query
 
 	is_convertible_to_type (s: like string; type_id: INTEGER): BOOLEAN
 		-- `True' if `str' is convertible to type with `type_id'
-		local
-			convertible: PREDICATE [like string]
 		do
 			if has_key (type_id) then
-				convertible := found_item.is_convertible
-				Result := convertible (s)
+				Result := found_item.is_convertible (s)
 			end
 		end
 
@@ -154,31 +148,13 @@ feature -- Basic operations
 		-- `str' converted to type with `type_id'
 		require
 			convertible: is_convertible_to_type (str, type_id)
-		local
-			string_to_type: FUNCTION [like string, ANY]
 		do
 			if has_key (type_id) then
-				string_to_type := found_item.to_type
-				Result := string_to_type (str)
+				Result := found_item.as_type (str)
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	is_character_32 (str: like string): BOOLEAN
-		do
-			Result := str.count = 1
-		end
-
-	is_character_8 (str: like string): BOOLEAN
-		do
-			Result := str.count = 1 and then str.code (1) <= 0xFF
-		end
-
-	is_valid_as_string_32, is_valid_as_zstring, is_valid_as_file_path, is_valid_as_dir_path (str: like string): BOOLEAN
-		do
-			Result := True
-		end
 
 	new_split_list (csv_list: READABLE_STRING_GENERAL): EL_SPLIT_STRING_LIST [STRING_GENERAL]
 		do
@@ -191,41 +167,6 @@ feature {NONE} -- Implementation
 			else
 				create {EL_SPLIT_STRING_32_LIST} Result.make (csv_list.as_string_32, Comma)
 			end
-		end
-
-	to_character_32 (str: like string): CHARACTER_32
-		require
-			is_character_32: is_character_32 (str)
-		do
-			if is_character_32 (str) then
-				Result := str.item (1)
-			end
-		end
-
-	to_character_8 (str: like string): CHARACTER_8
-		require
-			is_character_8: is_character_8 (str)
-		do
-			if is_character_8 (str) then
-				Result := str.item (1).to_character_8
-			end
-		end
-
-	to_dir_path (str: like string): EL_DIR_PATH
-		do
-			create Result.make (str)
-		end
-
-	to_file_path (str: like string): EL_FILE_PATH
-		do
-			create Result.make (str)
-		end
-
-	to_zstring (str: like string): ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		do
-			Result := s.as_zstring (str)
 		end
 
 	string: READABLE_STRING_GENERAL

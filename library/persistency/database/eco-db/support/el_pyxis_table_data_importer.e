@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 16:50:54 GMT (Monday 3rd May 2021)"
-	revision: "6"
+	date: "2021-05-03 19:11:12 GMT (Monday 3rd May 2021)"
+	revision: "7"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -75,20 +75,20 @@ feature {NONE} -- Implementation
 				if is_attribute (field.item) then
 					append_map (xpath + Slash_at + field.key, agent set_item_attribute (field.item))
 
-				elseif attached {EL_REFLECTED_STORABLE} field.item as storable_field
-					and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (object) as storable
-				then
-					xpath_element := xpath + Slash + field.key
-					fill_match_events (storable, xpath_element, field.key)
-				elseif attached {EL_REFLECTED_TUPLE} field.item as tuple_field
-					and then attached tuple_field.member_types as tuple_types
-				then
-					i_name := once "i_"
-					from i := 1 until i > tuple_types.count loop
-						i_name.keep_head (2); i_name.append_integer (i)
-						xpath_element := xpath + Slash + field.key + Slash_at + i_name
-						append_map (xpath_element, agent set_item_tuple_i_th (tuple_field, i, tuple_types [i].type_id))
-						i := i + 1
+				elseif attached {EL_REFLECTED_STORABLE} field.item as storable_field then
+					if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (object) as storable then
+						xpath_element := xpath + Slash + field.key
+						fill_match_events (storable, xpath_element, field.key)
+					end
+				elseif attached {EL_REFLECTED_TUPLE} field.item as tuple_field then
+					if attached tuple_field.member_types as tuple_types then
+						i_name := once "i_"
+						from i := 1 until i > tuple_types.count loop
+							i_name.keep_head (2); i_name.append_integer (i)
+							xpath_element := xpath + Slash + field.key + Slash_at + i_name
+							append_map (xpath_element, agent set_item_tuple_i_th (tuple_field, i, tuple_types [i].type_id))
+							i := i + 1
+						end
 					end
 				else
 					append_map (xpath + Slash + field.key + Slash_text, agent set_item_attribute (field.item))

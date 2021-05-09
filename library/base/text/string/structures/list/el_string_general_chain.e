@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-17 15:16:00 GMT (Sunday 17th May 2020)"
-	revision: "17"
+	date: "2021-05-09 7:57:18 GMT (Sunday 9th May 2021)"
+	revision: "18"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -134,23 +134,18 @@ feature -- Element change
 
 	append_tuple (tuple: TUPLE)
 		local
-			i: INTEGER; string: S; str_8: STRING
+			i: INTEGER; string: S
 		do
 			grow (count + tuple.count)
 			from i := 1 until i > tuple.count loop
-				if tuple.is_reference_item (i)
-					and then attached {STRING_GENERAL} tuple.reference_item (i) as general
-				then
-					if attached {S} general as str then
-						string := str
-					else
-						create string.make (general.count)
-						string.append (general)
+				if tuple.is_reference_item (i) and then attached tuple.reference_item (i) as any_ref then
+					if attached {READABLE_STRING_GENERAL} any_ref as general then
+						string := new_string (general)
+					elseif attached {EL_PATH} any_ref as path then
+						string := new_string (path.to_string)
 					end
 				else
-					str_8 := tuple.item (i).out
-					create string.make (str_8.count)
-					string.append (str_8)
+					string := new_string (tuple.item (i).out)
 				end
 				extend (string)
 				i := i + 1
@@ -265,6 +260,16 @@ feature -- Resizing
 		end
 
 feature {NONE} -- Implementation
+
+	new_string (general: READABLE_STRING_GENERAL): S
+		do
+			if attached {S} general as str then
+				Result := str
+			else
+				create Result.make (general.count)
+				Result.append (general)
+			end
+		end
 
 	tab_string (a_count: INTEGER): READABLE_STRING_GENERAL
 		do
