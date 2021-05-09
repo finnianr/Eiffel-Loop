@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:19:14 GMT (Sunday 9th May 2021)"
-	revision: "22"
+	date: "2021-05-09 9:38:49 GMT (Sunday 9th May 2021)"
+	revision: "23"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -15,16 +15,16 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 		export
-			{EL_READABLE_ZSTRING} Unencoded_character
+			{EL_READABLE_ZSTRING, STRING_HANDLER} Unencoded_character
 		end
 
 	EL_SHARED_UTF_8_ZCODEC
 
-feature {EL_READABLE_ZSTRING} -- Append strings
+feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_ascii (str: READABLE_STRING_8)
 		require
-			is_ascii: string_8.is_ascii (str)
+			is_ascii: is_ascii_string (str)
 		do
 			append_string_8 (str)
 		end
@@ -169,7 +169,7 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 						if attached {READABLE_STRING_GENERAL} ref_any as string then
 							append_string_general (string)
 						elseif attached {EL_PATH} ref_any as l_path then
-							append_string (l_path.to_string)
+							l_path.append_to (Current)
 						elseif attached {PATH} ref_any as path then
 							append_string_general (path.name)
 						else
@@ -437,6 +437,13 @@ feature {EL_READABLE_ZSTRING} -- Prepending
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + current_readable))
+		end
+
+feature {STRING_HANDLER} -- Contract support
+
+	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
+		do
+			Result := string_8.is_ascii (str)
 		end
 
 feature {NONE} -- Implementation

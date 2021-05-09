@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:20:34 GMT (Saturday 27th March 2021)"
-	revision: "17"
+	date: "2021-05-09 9:32:38 GMT (Sunday 9th May 2021)"
+	revision: "18"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -140,7 +140,7 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	append_to (str: ZSTRING)
+	append_to (str: EL_APPENDABLE_ZSTRING)
 		-- append path to string `str'
 		local
 			i: INTEGER
