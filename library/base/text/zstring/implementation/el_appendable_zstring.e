@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:35:52 GMT (Sunday 21st February 2021)"
-	revision: "21"
+	date: "2021-05-09 9:19:14 GMT (Sunday 9th May 2021)"
+	revision: "22"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -118,29 +118,63 @@ feature {EL_READABLE_ZSTRING} -- Append strings
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
-		local
-			l_reference: ANY
+		require
+			valid_index: tuple.valid_index (i)
 		do
 			inspect tuple.item_code (i)
+				when {TUPLE}.Boolean_code then
+					append_boolean (tuple.boolean_item (i))
+
 				when {TUPLE}.Character_8_code then
 					append_character (tuple.character_8_item (i))
 
 				when {TUPLE}.Character_32_code then
 					append_character (tuple.character_32_item (i))
 
+				when {TUPLE}.Integer_8_code then
+					append_integer_8 (tuple.integer_8_item (i))
+
+				when {TUPLE}.Integer_16_code then
+					append_integer_16 (tuple.integer_16_item (i))
+
+				when {TUPLE}.Integer_32_code then
+					append_integer_32 (tuple.integer_32_item (i))
+
+				when {TUPLE}.Integer_64_code then
+					append_integer_64 (tuple.integer_64_item (i))
+
+				when {TUPLE}.Natural_8_code then
+					append_natural_8 (tuple.natural_8_item (i))
+
+				when {TUPLE}.Natural_16_code then
+					append_natural_16 (tuple.natural_16_item (i))
+
+				when {TUPLE}.Natural_32_code then
+					append_natural_32 (tuple.natural_32_item (i))
+
+				when {TUPLE}.Natural_64_code then
+					append_natural_64 (tuple.natural_64_item (i))
+
+				when {TUPLE}.Real_32_code then
+					append_real (tuple.real_32_item (i))
+
+				when {TUPLE}.Real_64_code then
+					append_double (tuple.real_64_item (i))
+
 				when {TUPLE}.Pointer_code then
 					append_string_general (tuple.pointer_item (i).out)
 
 				when {TUPLE}.Reference_code then
-					l_reference := tuple.reference_item (i)
-					if attached {READABLE_STRING_GENERAL} l_reference as string then
-						append_string_general (string)
-					elseif attached {EL_PATH} l_reference as l_path then
-						append_string (l_path.to_string)
-					elseif attached {PATH} l_reference as path then
-						append_string_general (path.name)
-					else
-						append_string_general (l_reference.out)
+					if attached tuple.reference_item (i) as ref_any then
+						if attached {READABLE_STRING_GENERAL} ref_any as string then
+							append_string_general (string)
+						elseif attached {EL_PATH} ref_any as l_path then
+							append_string (l_path.to_string)
+						elseif attached {PATH} ref_any as path then
+							append_string_general (path.name)
+						else
+							append_string_general (ref_any.out)
+						end
 					end
 			else
 				internal_append_tuple_item (tuple, i)

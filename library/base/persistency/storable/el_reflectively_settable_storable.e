@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 16:14:53 GMT (Monday 3rd May 2021)"
-	revision: "33"
+	date: "2021-05-09 9:16:08 GMT (Sunday 9th May 2021)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -40,8 +40,6 @@ inherit
 	EL_MODULE_EXECUTABLE
 
 	EL_MODULE_BUFFER
-
-	EL_MODULE_TUPLE
 
 	EL_ZSTRING_CONSTANTS
 
@@ -278,17 +276,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; a_tuple: TUPLE; tuple_types: EL_TUPLE_TYPE_ARRAY)
+	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; tuple: TUPLE; tuple_types: EL_TUPLE_TYPE_ARRAY)
 		local
 			pair: ZSTRING; i: INTEGER
 		do
 			if attached String_pool.reuseable_item as value and attached String_8_pool.reuseable_item as name then
 				name.append (once "i_")
 				output.put_indent (tab_count)
-				from i := 1 until i > a_tuple.count loop
+				from i := 1 until i > tuple.count loop
 					name.keep_head (2); name.append_integer (i)
 					value.wipe_out
-					Tuple.append_i_th (a_tuple, i, value)
+					value.append_tuple_item (tuple, i)
 					if Class_id.Character_data_types.has (tuple_types [i].type_id)
 						and then not value.is_code_identifier
 					then

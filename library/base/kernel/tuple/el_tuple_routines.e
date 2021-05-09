@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 16:11:11 GMT (Monday 3rd May 2021)"
-	revision: "18"
+	date: "2021-05-09 9:22:40 GMT (Sunday 9th May 2021)"
+	revision: "19"
 
 class
 	EL_TUPLE_ROUTINES
@@ -58,19 +58,12 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	append_i_th (tuple: TUPLE; i: INTEGER; string: ZSTRING)
+	append_i_th (tuple: TUPLE; i: INTEGER; string: STRING_32)
 		-- append i'th item of `tuple' to `string'
+		require
+			valid_index: tuple.valid_index (i)
 		do
 			inspect tuple.item_code (i)
-				when {TUPLE}.Boolean_code then
-					string.append_boolean (tuple.boolean_item (i))
-
-				when {TUPLE}.Character_8_code then
-					string.append_character_8 (tuple.character_8_item (i))
-
-				when {TUPLE}.Character_32_code then
-					string.append_character (tuple.character_32_item (i))
-
 				when {TUPLE}.Integer_8_code then
 					string.append_integer_8 (tuple.integer_8_item (i))
 
@@ -78,7 +71,7 @@ feature -- Basic operations
 					string.append_integer_16 (tuple.integer_16_item (i))
 
 				when {TUPLE}.Integer_32_code then
-					string.append_integer_32 (tuple.integer_32_item (i))
+					string.append_integer (tuple.integer_32_item (i))
 
 				when {TUPLE}.Integer_64_code then
 					string.append_integer_64 (tuple.integer_64_item (i))
@@ -103,14 +96,14 @@ feature -- Basic operations
 
 				when {TUPLE}.Reference_code then
 					if attached tuple.reference_item (i) as ref_item then
-						if attached {STRING_GENERAL} ref_item as general then
+						if attached {READABLE_STRING_GENERAL} ref_item as general then
 							if attached {ZSTRING} general as zstr then
-								string.append (zstr)
+								zstr.append_to_string_32 (string)
 							else
 								string.append_string_general (general)
 							end
 						elseif attached {EL_PATH} ref_item as path then
-							path.append_to (string)
+							path.append_to_32 (string)
 						end
 					end
 				end
