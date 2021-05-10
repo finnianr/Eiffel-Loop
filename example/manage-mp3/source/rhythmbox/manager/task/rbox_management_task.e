@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 9:37:09 GMT (Sunday 21st March 2021)"
-	revision: "13"
+	date: "2021-05-10 11:12:59 GMT (Monday 10th May 2021)"
+	revision: "14"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -126,7 +126,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", file_path"
+			Result := "file_path"
 		end
 
 note

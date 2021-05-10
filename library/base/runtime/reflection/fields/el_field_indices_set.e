@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:30:01 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2021-05-10 10:32:48 GMT (Monday 10th May 2021)"
+	revision: "9"
 
 class
 	EL_FIELD_INDICES_SET
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make (reflected: REFLECTED_REFERENCE_OBJECT; field_names: STRING)
 		local
-			field_list: EL_SPLIT_STRING_LIST [STRING]; i, j: INTEGER
+			field_list: EL_SPLIT_STRING_8_LIST; i, j, field_count: INTEGER
 			s: EL_STRING_8_ROUTINES
 		do
 			if field_names.is_empty then
@@ -42,7 +42,8 @@ feature {NONE} -- Initialization
 				field_list.enable_left_adjust
 
 				make_filled (0, 1, field_list.count)
-				from i := 1 until i > reflected.field_count loop
+				field_count := reflected.field_count
+				from i := 1 until i > field_count loop
 					if field_list.has (reflected.field_name (i)) then
 						j := j + 1
 						put (i, j)

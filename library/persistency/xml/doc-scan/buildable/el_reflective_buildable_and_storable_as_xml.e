@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 13:05:06 GMT (Thursday 29th April 2021)"
-	revision: "18"
+	date: "2021-05-10 10:49:30 GMT (Monday 10th May 2021)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -107,7 +107,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", file_path, last_store_ok"
+			Result := "file_path, last_store_ok"
 		end
 
 end

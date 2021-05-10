@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:41:18 GMT (Tuesday 28th April 2020)"
-	revision: "11"
+	date: "2021-05-10 10:39:32 GMT (Monday 10th May 2021)"
+	revision: "12"
 
 deferred class
 	AIA_REQUEST
@@ -83,6 +83,6 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", new_response"
+			Result := "new_response"
 		end
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 16:54:06 GMT (Sunday 21st February 2021)"
-	revision: "44"
+	date: "2021-05-10 11:12:32 GMT (Monday 10th May 2021)"
+	revision: "45"
 
 class
 	RBOX_SONG
@@ -23,7 +23,7 @@ inherit
 			set_location as set_mp3_uri
 		redefine
 			make, getter_function_table, on_context_exit,
-			Except_fields, Field_sets, Type
+			Field_sets, Type
 		end
 
 	MEDIA_ITEM
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 
 feature -- Artist
 
-	album_artists: like Default_album_artists
+	album_artists: like Default_album_artists note option: transient attribute end
 
 	artists_list: EL_ZSTRING_LIST
 			-- All artists including album
@@ -470,12 +470,6 @@ feature {NONE} -- Evolicity reflection
 		end
 
 feature -- Constants
-
-	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox Database
-		once
-			Result := Precursor + ", album_artists"
-		end
 
 	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
 		once

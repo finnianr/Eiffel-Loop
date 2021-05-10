@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 16:46:43 GMT (Friday 19th February 2021)"
-	revision: "17"
+	date: "2021-05-10 11:01:31 GMT (Monday 10th May 2021)"
+	revision: "18"
 
 class
 	FCGI_HTTP_HEADERS
@@ -20,7 +20,7 @@ inherit
 			export_name as export_default,
 			import_name as from_snake_case_upper
 		redefine
-			make, Except_fields
+			make
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -245,14 +245,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	custom_table: HASH_TABLE [ZSTRING, STRING]
+	custom_table: HASH_TABLE [ZSTRING, STRING] note option: transient attribute end
 		-- custom_table fields prefixed with x_
-
-feature {NONE} -- Constants
-
-	Except_fields: STRING
-		once
-			Result := Precursor + ", custom_table"
-		end
 
 end

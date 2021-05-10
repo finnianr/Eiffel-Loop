@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 13:53:33 GMT (Monday 11th January 2021)"
-	revision: "44"
+	date: "2021-05-10 11:10:34 GMT (Monday 10th May 2021)"
+	revision: "45"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -252,7 +252,7 @@ feature {NONE} -- Constants
 	Except_fields: STRING
 			-- Object attributes that are not stored in Rhythmbox database
 		once
-			Result := Precursor + ", encoding"
+			Result := "encoding"
 		end
 
 	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]

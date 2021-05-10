@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:32:45 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2021-05-10 11:02:34 GMT (Monday 10th May 2021)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -49,7 +49,7 @@ inherit
 			{NONE} all
 			{ANY} print_fields
 		redefine
-			initialize_fields, Except_fields
+			initialize_fields
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
@@ -143,7 +143,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	locale: EL_DEFERRED_LOCALE_I
+	locale: EL_DEFERRED_LOCALE_I note option: transient attribute end
 
 feature {NONE} -- Constants
 
@@ -157,12 +157,6 @@ feature {NONE} -- Constants
 	Case_upper: INTEGER = 2
 
 	Empty_table: STRING = ""
-
-	Except_fields: STRING
-		-- list of comma-separated fields to be excluded
-		once
-			Result := Precursor + ", locale"
-		end
 
 	Substitution: TUPLE [string, character: ZSTRING]
 		once

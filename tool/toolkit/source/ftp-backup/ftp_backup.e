@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-19 19:09:13 GMT (Tuesday 19th November 2019)"
-	revision: "2"
+	date: "2021-05-10 11:16:21 GMT (Monday 10th May 2021)"
+	revision: "3"
 
 class
 	FTP_BACKUP
@@ -111,7 +111,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", total_byte_count, config"
+			Result := "total_byte_count, config"
 		end
 
 	Tar_gz: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 11:21:34 GMT (Thursday 7th January 2021)"
-	revision: "13"
+	date: "2021-05-10 10:46:34 GMT (Monday 10th May 2021)"
+	revision: "14"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -36,7 +36,7 @@ feature {EL_DOCUMENT_CLIENT} -- Event handler
 
 feature -- Access
 
-	next_context: EL_EIF_OBJ_XPATH_CONTEXT
+	next_context: EL_EIF_OBJ_XPATH_CONTEXT note option: transient attribute end
 		-- Next object context
 
 feature -- Basic operations
@@ -132,9 +132,9 @@ feature {EL_EIF_OBJ_XPATH_CONTEXT} -- Implementation
 			create xpath.make_empty
 		end
 
-	node: EL_DOCUMENT_NODE_STRING
+	node: EL_DOCUMENT_NODE_STRING note option: transient attribute end
 
-	xpath: ZSTRING
+	xpath: ZSTRING note option: transient attribute end
 
 feature {NONE} -- Constant
 

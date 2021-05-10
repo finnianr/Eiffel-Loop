@@ -1,6 +1,11 @@
 note
 	description: "Stateless class with reflective routines"
 	notes: "[
+		Any fields that are marked as being transient are not included in `field_table'. For example in
+		[$source EL_REFLECTIVELY_SETTABLE], the field `field_table' is marked as transient.
+		
+			field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
+
 		When inheriting this class, rename `field_included' as either `is_any_field' or `is_string_or_expanded_field'.
 
 		It is permitted to have a trailing underscore to prevent clashes with Eiffel keywords.
@@ -18,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 11:17:08 GMT (Saturday 1st May 2021)"
-	revision: "38"
+	date: "2021-05-10 11:07:47 GMT (Monday 10th May 2021)"
+	revision: "39"
 
 deferred class
 	EL_REFLECTIVE

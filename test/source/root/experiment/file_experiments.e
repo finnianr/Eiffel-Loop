@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:19:58 GMT (Tuesday 23rd March 2021)"
-	revision: "9"
+	date: "2021-05-10 7:47:44 GMT (Monday 10th May 2021)"
+	revision: "10"
 
 class
 	FILE_EXPERIMENTS
@@ -147,6 +147,5 @@ feature -- Basic operations
 			file.set_date (1418308263)
 			file.delete
 		end
-
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:35:04 GMT (Friday 8th January 2021)"
-	revision: "21"
+	date: "2021-05-10 10:37:52 GMT (Monday 10th May 2021)"
+	revision: "22"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -227,7 +227,7 @@ feature {NONE} -- Constants
 
 	Except_fields: STRING
 		once
-			Result := Precursor + ", content, headers"
+			Result := "content, headers"
 		end
 
 	Forward_slash: ZSTRING

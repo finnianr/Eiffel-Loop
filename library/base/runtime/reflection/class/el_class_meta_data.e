@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 10:34:32 GMT (Thursday 29th April 2021)"
-	revision: "38"
+	date: "2021-05-10 10:41:50 GMT (Monday 10th May 2021)"
+	revision: "39"
 
 class
 	EL_CLASS_META_DATA
@@ -60,6 +60,7 @@ feature {NONE} -- Initialization
 			end
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
+
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			enumerations := enclosing_object.new_enumerations
 			field_list := new_field_list
@@ -164,16 +165,18 @@ feature {NONE} -- Factory
 
 	new_field_list: EL_REFLECTED_FIELD_LIST
 		local
-			i, offset: INTEGER; name: STRING; excluded: like excluded_fields
+			i, offset, count: INTEGER; name: STRING; excluded: like excluded_fields
 			field_order: like enclosing_object.field_order
 			field_shifts: like enclosing_object.field_shifts
 			reordered_fields: like enclosing_object.reordered_fields
 			indices_set: EL_FIELD_INDICES_SET
 		do
-			excluded := excluded_fields
-			create Result.make (field_count - excluded.count)
-			from i := 1 until i > field_count loop
-				if not excluded.has (i) and then enclosing_object.field_included (field_type (i), field_static_type (i)) then
+			excluded := excluded_fields; count := field_count
+			create Result.make (count - excluded.count)
+			from i := 1 until i > count loop
+				if not (is_field_transient (i) or else excluded.has (i))
+					and then enclosing_object.field_included (field_type (i), field_static_type (i))
+				then
 					name := field_name (i)
 					-- if not a once ("OBJECT") field
 					if name [1] /= '_' then

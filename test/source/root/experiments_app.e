@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:20:51 GMT (Sunday 21st February 2021)"
-	revision: "64"
+	date: "2021-05-10 10:10:57 GMT (Monday 10th May 2021)"
+	revision: "65"
 
 class
 	EXPERIMENTS_APP
@@ -21,15 +21,23 @@ create
 feature {NONE} -- Initialization
 
 	initialize
+		local
+			p: POINTER; f: FUNCTION [ANY]
 		do
+			p := $exit_code
+			f := agent exit_code
 		end
 
 feature -- Basic operations
 
 	run
+		local
+			e_1, e_2: like general
 		do
 			log.enter ("structure.special_twin")
-			structure.special_twin
+			e_1 := general; e_2 := general
+			e_1.print_field_pointers
+			e_2.print_field_pointers
 			log.exit
 		end
 

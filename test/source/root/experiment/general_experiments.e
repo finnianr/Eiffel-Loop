@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:14:20 GMT (Tuesday 23rd March 2021)"
-	revision: "13"
+	date: "2021-05-10 9:04:43 GMT (Monday 10th May 2021)"
+	revision: "14"
 
 class
 	GENERAL_EXPERIMENTS
@@ -15,14 +15,15 @@ class
 inherit
 	EXPERIMENTAL
 
-feature -- Equal to comparison
+	EL_MODULE_HEXADECIMAL
 
-	is_a_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
-		do
-			if a = b then
-				Result := True
-			end
-		end
+feature -- Access
+
+	i_1: INTEGER
+
+	b_1: BOOLEAN
+
+feature -- Equal to comparison
 
 	is_a_equal_to_b (a, b: INTEGER): BOOLEAN
 		do
@@ -31,14 +32,14 @@ feature -- Equal to comparison
 			end
 		end
 
-feature -- Less than or equal to comparison
-
-	is_a_less_than_or_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
+	is_a_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
 		do
-			if a <= b then
+			if a = b then
 				Result := True
 			end
 		end
+
+feature -- Less than or equal to comparison
 
 	is_a_less_than_or_equal_to_b (a, b: INTEGER): BOOLEAN
 		do
@@ -47,6 +48,13 @@ feature -- Less than or equal to comparison
 			end
 		end
 
+
+	is_a_less_than_or_equal_to_b_ref (a, b: INTEGER_REF): BOOLEAN
+		do
+			if a <= b then
+				Result := True
+			end
+		end
 
 feature -- Basic operations
 
@@ -66,6 +74,15 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
+	boolean_option
+		local
+			option: EL_BOOLEAN_OPTION
+		do
+			option := True
+			lio.put_labeled_string ("option", option.is_enabled.out)
+			lio.put_new_line
+		end
+
 	boolean_ref
 		local
 			b1: BOOLEAN
@@ -75,15 +92,6 @@ feature -- Basic operations
 			b2_ref := not b1_ref
 			lio.put_string ("b2_ref.item: ")
 			lio.put_boolean (b2_ref.item)
-		end
-
-	boolean_option
-		local
-			option: EL_BOOLEAN_OPTION
-		do
-			option := True
-			lio.put_labeled_string ("option", option.is_enabled.out)
-			lio.put_new_line
 		end
 
 	char_compression
@@ -172,6 +180,34 @@ feature -- Basic operations
 		do
 			ptr := $pointer_width
 			lio.put_integer_field (ptr.out, ptr.out.count)
+		end
+
+	print_field_pointers
+		local
+			p_i_1, p_b_1, object_ptr: POINTER; i, field_count, offset: INTEGER
+			reflected: REFLECTED_REFERENCE_OBJECT
+		do
+			p_i_1 := $i_1
+			p_b_1 := $b_1
+			create reflected.make (Current)
+			object_ptr := reflected.object_address
+			lio.put_labeled_string ("Pointer object", object_ptr.out)
+			lio.put_new_line
+			lio.put_labeled_string ("Pointer object + 4", (object_ptr + 4).out)
+			lio.put_new_line_x2
+
+			field_count := reflected.field_count
+			from i := 1 until i > field_count loop
+				lio.put_integer_field ("Offset " + reflected.field_name (i), reflected.field_offset (i))
+				lio.put_new_line
+				i := i + 1
+			end
+			lio.put_new_line
+
+			lio.put_labeled_string ("Offset b_1", p_b_1.out)
+			lio.put_new_line
+			lio.put_labeled_string ("Offset i_1", p_i_1.out)
+			lio.put_new_line_x2
 		end
 
 	problem_with_function_returning_real_with_assignment

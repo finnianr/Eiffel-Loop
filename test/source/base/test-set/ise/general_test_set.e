@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 14:50:17 GMT (Sunday 9th May 2021)"
-	revision: "6"
+	date: "2021-05-09 16:38:42 GMT (Sunday 9th May 2021)"
+	revision: "7"
 
 class
 	GENERAL_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_DOUBLE_MATH undefine default_create end
 
 feature -- Basic operations
 

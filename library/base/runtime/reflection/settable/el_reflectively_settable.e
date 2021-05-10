@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 14:06:26 GMT (Monday 3rd May 2021)"
-	revision: "21"
+	date: "2021-05-10 10:26:30 GMT (Monday 10th May 2021)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -25,7 +25,7 @@ deferred class
 inherit
 	EL_REFLECTIVE
 		redefine
-			Except_fields, is_equal, field_table
+			is_equal, field_table
 		end
 
 feature {NONE} -- Initialization
@@ -85,7 +85,7 @@ feature -- Basic operations
 
 feature {EL_REFLECTION_HANDLER} -- Access
 
-	field_table: EL_REFLECTED_FIELD_TABLE
+	field_table: EL_REFLECTED_FIELD_TABLE note option: transient attribute end
 
 feature -- Comparison
 
@@ -106,12 +106,6 @@ feature {NONE} -- Constants
 	CSV_escaper: EL_COMMA_SEPARATED_VALUE_ESCAPER
 		once
 			create Result.make
-		end
-
-	Except_fields: STRING
-			-- list of comma-separated fields to be excluded
-		once
-			Result := "field_table"
 		end
 
 note

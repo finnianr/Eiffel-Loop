@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 13:04:23 GMT (Thursday 29th April 2021)"
-	revision: "14"
+	date: "2021-05-10 10:48:41 GMT (Monday 10th May 2021)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -31,7 +31,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			Except_fields, make_default, new_meta_data
+			make_default, new_meta_data
 		end
 
 	EL_SETTABLE_FROM_XML_NODE
@@ -68,13 +68,6 @@ feature {NONE} -- Build from XML
 		deferred
 		ensure
 			valid_node_type: Node_types.has (Result)
-		end
-
-feature {NONE} -- Constants
-
-	Except_fields: STRING
-		once
-			Result := Precursor + ", next_context, node, xpath"
 		end
 
 note

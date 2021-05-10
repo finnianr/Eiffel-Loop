@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:16:08 GMT (Sunday 9th May 2021)"
-	revision: "34"
+	date: "2021-05-10 10:59:18 GMT (Monday 10th May 2021)"
+	revision: "35"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -30,7 +30,7 @@ inherit
 		export
 			{EL_MEMORY_READER_WRITER} make_default, generating_type
 		redefine
-			is_equal, new_meta_data, use_default_values, Except_fields
+			is_equal, new_meta_data, use_default_values
 		end
 
 	EL_REFLECTION_HANDLER undefine is_equal end
@@ -305,12 +305,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Except_fields: STRING_8
-			-- list of comma-separated fields to be excluded
-		once
-			Result := Precursor + ", is_deleted"
-		end
 
 	Pyxis_attribute: ZSTRING
 		once
