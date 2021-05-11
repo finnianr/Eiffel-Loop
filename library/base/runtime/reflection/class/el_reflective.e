@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:07:47 GMT (Monday 10th May 2021)"
-	revision: "39"
+	date: "2021-05-11 12:59:42 GMT (Tuesday 11th May 2021)"
+	revision: "40"
 
 deferred class
 	EL_REFLECTIVE
@@ -341,8 +341,9 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		end
 
-	Except_fields: STRING
-			-- list of comma-separated fields to be excluded
+	Transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
 		once
 			create Result.make_empty
 		ensure
@@ -350,8 +351,7 @@ feature {EL_CLASS_META_DATA} -- Constants
 		end
 
 	Hidden_fields: STRING
-			-- Fields that will not be output by `print_fields'
-			-- Must be comma-separated names
+		-- comma-separated list of fields that will not be output by `print_fields'
 		once
 			create Result.make_empty
 		ensure

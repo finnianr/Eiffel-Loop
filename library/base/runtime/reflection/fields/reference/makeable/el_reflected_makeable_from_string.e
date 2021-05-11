@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 19:12:56 GMT (Sunday 28th February 2021)"
-	revision: "14"
+	date: "2021-05-11 12:53:11 GMT (Tuesday 11th May 2021)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -57,7 +57,7 @@ feature -- Status query
 	is_initializeable: BOOLEAN
 		-- `True' when possible to create an initialized instance of the field
 		do
-			Result := Precursor or else field_conforms_to (type_id, makeable_from_string_type_id)
+			Result := Precursor or else conforms_to_type (makeable_from_string_type_id)
 		end
 
 feature {NONE} -- Implementation

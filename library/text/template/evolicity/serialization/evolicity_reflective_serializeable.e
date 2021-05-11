@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:08:47 GMT (Monday 10th May 2021)"
-	revision: "5"
+	date: "2021-05-11 11:13:09 GMT (Tuesday 11th May 2021)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_REFLECTIVE_SERIALIZEABLE
@@ -29,7 +29,7 @@ inherit
 		rename
 			import_name as import_default
 		redefine
-			make_default, Except_fields
+			make_default, Transient_fields
 		end
 
 feature {NONE} -- Initialization
@@ -42,8 +42,8 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Constants
 
-	Except_fields: STRING
-			-- list of comma-separated fields to be excluded
+	Transient_fields: STRING
+		-- comma-separated list of fields to be excluded from `field_table'
 		once
 			Result := "encoding, output_path, template_path"
 		end

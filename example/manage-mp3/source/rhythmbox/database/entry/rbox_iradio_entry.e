@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:10:34 GMT (Monday 10th May 2021)"
-	revision: "45"
+	date: "2021-05-11 11:14:44 GMT (Tuesday 11th May 2021)"
+	revision: "46"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -20,7 +20,7 @@ inherit
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make, building_action_table, Except_fields, Field_sets
+			make, building_action_table, Transient_fields, Field_sets
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -249,8 +249,8 @@ feature {NONE} -- Constants
 			create Result.make (0)
 		end
 
-	Except_fields: STRING
-			-- Object attributes that are not stored in Rhythmbox database
+	Transient_fields: STRING
+		-- fields that are treated as transient and not stored in Rhythmbox database
 		once
 			Result := "encoding"
 		end

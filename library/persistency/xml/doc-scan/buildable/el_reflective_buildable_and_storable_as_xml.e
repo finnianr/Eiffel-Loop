@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:49:30 GMT (Monday 10th May 2021)"
-	revision: "19"
+	date: "2021-05-11 10:57:23 GMT (Tuesday 11th May 2021)"
+	revision: "20"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -40,7 +40,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_from_file, make_default, Except_fields
+			make_from_file, make_default, Transient_fields
 		end
 
 	EL_MODULE_XML
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Except_fields: STRING
+	Transient_fields: STRING
 		once
 			Result := "file_path, last_store_ok"
 		end

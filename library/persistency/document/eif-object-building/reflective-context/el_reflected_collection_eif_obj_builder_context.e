@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 14:19:17 GMT (Tuesday 10th September 2019)"
-	revision: "3"
+	date: "2021-05-11 12:27:55 GMT (Tuesday 11th May 2021)"
+	revision: "4"
 
 class
 	EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT
@@ -26,7 +26,7 @@ feature -- Access
 	item_type_id: INTEGER
 		-- `type_id' of `COLLECTION' item
 		do
-			Result := Eiffel.type_of_type (type_id).generic_parameter_type (1).type_id
+			Result := type.generic_parameter_type (1).type_id
 		end
 
 feature -- Status query

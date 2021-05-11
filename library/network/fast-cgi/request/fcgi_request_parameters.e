@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:37:52 GMT (Monday 10th May 2021)"
-	revision: "22"
+	date: "2021-05-11 10:57:23 GMT (Tuesday 11th May 2021)"
+	revision: "23"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -26,7 +26,7 @@ inherit
 			export_name as export_default,
 			import_name as from_snake_case_upper
 		redefine
-			make, Except_fields
+			make, Transient_fields
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -225,7 +225,7 @@ feature {NONE} -- Constants
 
 	Dot: STRING = "."
 
-	Except_fields: STRING
+	Transient_fields: STRING
 		once
 			Result := "content, headers"
 		end

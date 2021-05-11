@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:39:32 GMT (Monday 10th May 2021)"
-	revision: "12"
+	date: "2021-05-11 10:57:22 GMT (Tuesday 11th May 2021)"
+	revision: "13"
 
 deferred class
 	AIA_REQUEST
@@ -29,7 +29,7 @@ inherit
 			{NONE} all
 			{AIA_REQUEST_MANAGER} wipe_out
 		redefine
-			Except_fields
+			Transient_fields
 		end
 
 	EL_SETTABLE_FROM_JSON_STRING
@@ -81,7 +81,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Except_fields: STRING
+	Transient_fields: STRING
 		once
 			Result := "new_response"
 		end

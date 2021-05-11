@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 10:11:08 GMT (Monday 22nd March 2021)"
-	revision: "16"
+	date: "2021-05-11 12:44:22 GMT (Tuesday 11th May 2021)"
+	revision: "17"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -257,16 +257,24 @@ feature -- Add strings
 			end
 		end
 
-	add_string_32 (str: STRING_32)
+	add_string_32 (str: READABLE_STRING_32)
 			--
+		local
+			s: EL_STRING_32_ROUTINES
 		do
-			add_memory (str.area.base_address, str.count, character_32_bytes)
+			if attached s.cursor (str) as cursor then
+				add_memory (cursor.area.base_address + cursor.area_first_index, str.count, character_32_bytes)
+			end
 		end
 
-	add_string_8 (str: STRING)
+	add_string_8 (str: READABLE_STRING_8)
 			--
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			add_memory (str.area.base_address, str.count, character_8_bytes)
+			if attached s.cursor (str) as cursor then
+				add_memory (cursor.area.base_address + cursor.area_first_index, str.count, character_8_bytes)
+			end
 		end
 
 	add_string_general (general: READABLE_STRING_GENERAL)

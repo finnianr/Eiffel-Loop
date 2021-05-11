@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:59:39 GMT (Monday 3rd May 2021)"
-	revision: "28"
+	date: "2021-05-11 12:51:17 GMT (Tuesday 11th May 2021)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -40,16 +40,21 @@ feature {EL_CLASS_META_DATA} -- Initialization
 			make_reflected (a_object)
 			index := a_index; name := a_name
 			export_name := a_object.export_name (a_name, True)
-
-			type := field_type (index)
 			type_id := field_static_type (index)
+			type := Eiffel.type_of_type (type_id)
 		end
 
 feature -- Access
 
-	class_name: STRING
+	abstract_type_id: INTEGER
+		-- abstract type of field corresponding to `{TUPLE}.XX_code'
 		do
-			Result := Eiffel.type_of_type (type_id).name
+			Result := field_type (index)
+		end
+
+	class_name: IMMUTABLE_STRING_8
+		do
+			Result := type.name
 		end
 
 	export_name: STRING
@@ -66,8 +71,7 @@ feature -- Access
 		deferred
 		end
 
-	type: INTEGER
-		-- abstract type
+	type: TYPE [ANY]
 
 	type_id: INTEGER
 		-- generating type
@@ -77,6 +81,11 @@ feature -- Access
 		end
 
 feature -- Status query
+
+	conforms_to_type (base_type_id: INTEGER): BOOLEAN
+		do
+			Result := field_conforms_to (type_id, base_type_id)
+		end
 
 	is_expanded: BOOLEAN
 		deferred
@@ -157,7 +166,7 @@ feature -- Basic operations
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
 			crc.add_string_8 (name)
-			crc.add_string_8 (Eiffel.type_of_type (type_id).name)
+			crc.add_string_8 (class_name)
 		end
 
 feature -- Element change

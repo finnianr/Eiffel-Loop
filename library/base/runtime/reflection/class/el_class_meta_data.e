@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:41:50 GMT (Monday 10th May 2021)"
-	revision: "39"
+	date: "2021-05-11 10:57:22 GMT (Tuesday 11th May 2021)"
+	revision: "40"
 
 class
 	EL_CLASS_META_DATA
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 				Reader_writer_table.put (interface.item, interface.key.type_id)
 			end
 			create cached_field_indices_set.make_equal (3, agent new_field_indices_set)
-			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Except_fields)
+			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Transient_fields)
 
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
 			enumerations := enclosing_object.new_enumerations

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:12:59 GMT (Monday 10th May 2021)"
-	revision: "14"
+	date: "2021-05-11 11:13:52 GMT (Tuesday 11th May 2021)"
+	revision: "15"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -20,7 +20,7 @@ inherit
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
-			make, make_default, new_instance_functions, Except_fields, root_node_name
+			make, make_default, new_instance_functions, Transient_fields, root_node_name
 		end
 
 	SONG_QUERY_CONDITIONS undefine is_equal end
@@ -124,7 +124,7 @@ feature {NONE} -- Constants
 			Result := "Drag and drop %S here"
 		end
 
-	Except_fields: STRING
+	Transient_fields: STRING
 		once
 			Result := "file_path"
 		end

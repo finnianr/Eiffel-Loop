@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 16:32:40 GMT (Saturday 28th November 2020)"
-	revision: "20"
+	date: "2021-05-11 12:29:03 GMT (Tuesday 11th May 2021)"
+	revision: "21"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -55,11 +55,9 @@ feature -- Access
 
 	type_table: HASH_TABLE [TYPE [ANY], INTEGER]
 		do
-			create Result.make_equal (0)
-			across linear_representation as field loop
-				if not Result.has (field.item.type_id) then
-					Result.extend (Eiffel.type_of_type (field.item.type_id), field.item.type_id)
-				end
+			create Result.make_equal (count)
+			across Current as field loop
+				Result.put (field.item.type, field.item.type_id)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 13:24:39 GMT (Monday 21st December 2020)"
-	revision: "8"
+	date: "2021-05-11 10:57:22 GMT (Tuesday 11th May 2021)"
+	revision: "9"
 
 class
 	STORABLE_COUNTRY
@@ -17,7 +17,7 @@ inherit
 		rename
 			is_any_field as is_storable_field
 		undefine
-			is_storable_field, new_meta_data, Except_fields, is_equal, use_default_values
+			is_storable_field, new_meta_data, Transient_fields, is_equal, use_default_values
 		end
 
 	EL_REFLECTIVELY_SETTABLE_STORABLE
