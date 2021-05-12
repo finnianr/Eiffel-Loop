@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 12:03:50 GMT (Friday 30th April 2021)"
-	revision: "13"
+	date: "2021-05-12 10:33:36 GMT (Wednesday 12th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -24,14 +24,10 @@ create
 feature -- Access
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
-		local
-			date_time: like value
 		do
-			date_time := value (a_object)
-			if attached {EL_DATE_TIME} date_time as dt then
-				Result := dt.to_string
-			else
-				Result := date_time.out
+			if attached value (a_object) as date_time then
+				ISO_8601_date_time.set_from_other (date_time)
+				Result := ISO_8601_date_time.to_string
 			end
 		end
 
@@ -57,10 +53,14 @@ feature -- Basic operations
 			set_from_string (a_object, readable.read_string_8)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
+		local
+			str: STRING
 		do
-			if attached value (a_object) as date_time then
-				date_time.make_from_string_default (Buffer_8.copied_general (string))
+			str := Buffer_8.copied_general (general)
+			if attached value (a_object) as date_time and then ISO_8601_date_time.is_valid_format (str) then
+				ISO_8601_date_time.make (str)
+				date_time.make_by_date_time (ISO_8601_date_time.date, ISO_8601_date_time.time)
 			end
 		end
 
@@ -70,6 +70,13 @@ feature -- Basic operations
 				writeable.write_integer_32 (dt.date.ordered_compact_date)
 				writeable.write_integer_32 (dt.time.compact_time)
 			end
+		end
+
+feature {NONE} -- Constants
+
+	ISO_8601_date_time: EL_ISO_8601_DATE_TIME
+		once
+			create Result.make_now
 		end
 
 end

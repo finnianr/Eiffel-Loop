@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 12:48:26 GMT (Tuesday 1st October 2019)"
-	revision: "14"
+	date: "2021-05-12 10:13:03 GMT (Wednesday 12th May 2021)"
+	revision: "15"
 
 deferred class
 	EL_DATE_TEXT
@@ -230,9 +230,9 @@ feature -- Contract Support
 
 feature {NONE} -- Internal attributes
 
-	template_table: EL_CACHE_TABLE [like template, STRING]
-
 	function_table: like new_function_table
+
+	template_table: EL_CACHE_TABLE [like template, STRING]
 
 feature {NONE} -- Constants
 

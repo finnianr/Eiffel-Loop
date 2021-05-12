@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:59:18 GMT (Monday 10th May 2021)"
-	revision: "35"
+	date: "2021-05-12 11:03:33 GMT (Wednesday 12th May 2021)"
+	revision: "36"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -63,16 +63,16 @@ feature -- Basic operations
 
 	write_as_pyxis (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
-			value: ZSTRING; cursor_index_set: ARRAYED_LIST [INTEGER]
+			value: ZSTRING; is_pyxis_attribute: SPECIAL [BOOLEAN]
 			name: STRING
 		do
-			create cursor_index_set.make (10)
+			create is_pyxis_attribute.make_filled (False, field_table.count)
 			value := buffer.empty
-			write_pyxis_attributes (output, tab_count, cursor_index_set)
+			write_pyxis_attributes (output, tab_count, is_pyxis_attribute)
 
 			across meta_data.alphabetical_list as list loop
 				name := list.item.name
-				if not cursor_index_set.has (list.cursor_index) then
+				if not is_pyxis_attribute [list.cursor_index - 1] then
 					if attached {EL_REFLECTED_STORABLE} list.item as storable_field
 						and then attached {EL_REFLECTIVELY_SETTABLE_STORABLE} storable_field.value (Current) as storable
 					then
@@ -169,6 +169,31 @@ feature {EL_STORABLE_CLASS_META_DATA} -- Access
 
 feature {NONE} -- Implementation
 
+	attribute_line_index (field: EL_REFLECTED_FIELD): INTEGER
+		do
+			if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field as numeric then
+				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} numeric then
+					Result := 3
+				else
+					Result := 1
+				end
+
+			elseif attached {EL_REFLECTED_BOOLEAN} field then
+				Result := 2
+			elseif attached {EL_REFLECTED_BOOLEAN_REF} field then
+				Result := 2
+
+			elseif attached {EL_REFLECTED_DATE} field then
+				Result := 4
+			elseif attached {EL_REFLECTED_TIME} field then
+				Result := 4
+			elseif attached {EL_REFLECTED_DATE_TIME} field then
+				Result := 4
+			end
+		ensure
+			small_enough: Result <= Once_attribute_lines.count
+		end
+
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN
 		do
 			Result := Eiffel.is_storable_type (basic_type, type_id)
@@ -217,32 +242,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; cursor_index_set: LIST [INTEGER])
+	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_pyxis_attribute: SPECIAL [BOOLEAN])
 		local
-			attribute_lines: ARRAY [ZSTRING]; value: ZSTRING; attribute_index: INTEGER
+			attribute_lines: EL_ZSTRING_LIST; value: ZSTRING; line_index: INTEGER
 		do
-			value := buffer.empty
-			attribute_lines := << String_pool.reuseable_item, String_pool.reuseable_item, String_pool.reuseable_item >>
+			value := buffer.empty; attribute_lines := Once_attribute_lines
+
+			from attribute_lines.wipe_out until attribute_lines.full loop
+				attribute_lines.extend (String_pool.reuseable_item)
+			end
 			across meta_data.alphabetical_list as list loop
 				-- output numeric as Pyxis element attributes
-				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} list.item then
-					attribute_index := 3
-				elseif attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} list.item then
-					attribute_index := 1
-				elseif attached {EL_REFLECTED_BOOLEAN} list.item then
-					attribute_index := 2
-				else
-					attribute_index := 0
-				end
-				if attribute_index > 0 then
-					cursor_index_set.extend (list.cursor_index)
+				line_index := attribute_line_index (list.item)
+				if line_index > 0 then
+					is_pyxis_attribute [list.cursor_index - 1] := True
 					value.wipe_out
 					list.item.append_to_string (Current, value)
 					if value.count > 0 then
-						if attribute_index = 3 and then not value.is_code_identifier then
+						if line_index = 3 and then not value.is_code_identifier then
 							value.enclose ('"', '"')
 						end
-						attribute_lines.item (attribute_index).append (Pyxis_attribute #$ [list.item.name, value])
+						attribute_lines [line_index].append (Pyxis_attribute #$ [list.item.name, value])
 					end
 				end
 			end
@@ -251,8 +271,8 @@ feature {NONE} -- Implementation
 					line.item.remove_head (2)
 					output.put_indented_line (tab_count, line.item)
 				end
+				String_pool.recycle (line.item)
 			end
-			attribute_lines.do_all (agent String_pool.recycle)
 		end
 
 	write_pyxis_field (output: EL_OUTPUT_MEDIUM; name: STRING; tab_count: INTEGER)
@@ -305,6 +325,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Once_attribute_lines: EL_ZSTRING_LIST
+		once
+			create Result.make (4)
+		end
 
 	Pyxis_attribute: ZSTRING
 		once

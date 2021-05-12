@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 10:35:26 GMT (Friday 30th April 2021)"
-	revision: "9"
+	date: "2021-05-12 10:17:54 GMT (Wednesday 12th May 2021)"
+	revision: "10"
 
 class
 	EL_ISO_8601_DATE_TIME
@@ -21,13 +21,11 @@ inherit
 create
 	make, make_now, make_from_other
 
-feature {EL_DATE_TEXT} -- Initialization
+feature -- Initialization
 
 	make (s: STRING)
 		require else
-			correct_length: s.count = Input_string_count
-			has_time_delimiter: s [T_index] = 'T'
-			has_z_ending: s [Input_string_count] = 'Z'
+			valid_format: is_valid_format (s)
 		local
 			modified: STRING
 		do
@@ -53,6 +51,15 @@ feature -- Conversion
 			reversible: relative_duration (create {like Current}.make (Result)).seconds_count = 0
 		end
 
+feature -- Contract Support
+
+	is_valid_format (s: STRING): BOOLEAN
+		do
+			if s.count = Input_string_count then
+				Result := s [T_index] = 'T' and s [Input_string_count] = 'Z'
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	append_space (modified: STRING)
@@ -65,13 +72,15 @@ feature {NONE} -- Implementation
 			string [T_index] := 'T'
 		end
 
-feature {EL_DATE_TEXT} -- Constant
+feature -- Constant
 
 	Default_format_string: STRING
 			-- Default output format string
 		once
 			Result := "yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss"
 		end
+
+feature {NONE} -- Constant
 
 	Input_string_count: INTEGER
 		once

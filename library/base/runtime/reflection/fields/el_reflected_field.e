@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 12:51:17 GMT (Tuesday 11th May 2021)"
-	revision: "29"
+	date: "2021-05-11 13:14:48 GMT (Tuesday 11th May 2021)"
+	revision: "30"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -46,15 +46,16 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 feature -- Access
 
-	abstract_type_id: INTEGER
-		-- abstract type of field corresponding to `{TUPLE}.XX_code'
-		do
-			Result := field_type (index)
-		end
-
 	class_name: IMMUTABLE_STRING_8
 		do
 			Result := type.name
+		end
+
+	category_id: INTEGER
+		-- abstract type of field corresponding to `{TUPLE}.XX_code'
+		-- eg. `{TUPLE}.reference_code'
+		do
+			Result := field_type (index)
 		end
 
 	export_name: STRING

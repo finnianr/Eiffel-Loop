@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 12:44:22 GMT (Tuesday 11th May 2021)"
-	revision: "17"
+	date: "2021-05-12 9:13:05 GMT (Wednesday 12th May 2021)"
+	revision: "18"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -281,10 +281,12 @@ feature -- Add strings
 		do
 			if attached {ZSTRING} general as str then
 				add_string (str)
-			elseif attached {STRING_8} general as str_8 then
+			elseif attached {READABLE_STRING_8} general as str_8 then
 				add_string_8 (str_8)
-			elseif attached {STRING_32} general as str_32 then
+			elseif attached {READABLE_STRING_32} general as str_32 then
 				add_string_32 (str_32)
+			else
+				add_string_32 (general.to_string_32)
 			end
 		end
 
