@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-12 11:03:33 GMT (Wednesday 12th May 2021)"
-	revision: "36"
+	date: "2021-05-12 18:45:17 GMT (Wednesday 12th May 2021)"
+	revision: "37"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -63,8 +63,7 @@ feature -- Basic operations
 
 	write_as_pyxis (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
-			value: ZSTRING; is_pyxis_attribute: SPECIAL [BOOLEAN]
-			name: STRING
+			name: STRING; value: ZSTRING; is_pyxis_attribute: SPECIAL [BOOLEAN]
 		do
 			create is_pyxis_attribute.make_filled (False, field_table.count)
 			value := buffer.empty
@@ -191,7 +190,7 @@ feature {NONE} -- Implementation
 				Result := 4
 			end
 		ensure
-			small_enough: Result <= Once_attribute_lines.count
+			valid_index: Result <= Once_attribute_lines.count
 		end
 
 	is_storable_field (basic_type, type_id: INTEGER_32): BOOLEAN

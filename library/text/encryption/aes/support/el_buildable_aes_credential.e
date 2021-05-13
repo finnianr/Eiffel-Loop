@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:30:02 GMT (Friday 18th January 2019)"
-	revision: "6"
+	date: "2021-05-13 8:51:59 GMT (Thursday 13th May 2021)"
+	revision: "7"
 
 class
 	EL_BUILDABLE_AES_CREDENTIAL
@@ -40,8 +40,8 @@ feature {NONE} -- Implementation
 			--
 		do
 			create Result.make (<<
-				["salt/text()", agent do set_salt (node.to_string_32) end],
-				["digest/text()", agent do set_digest (node.to_string_32) end]
+				["salt/text()", agent do set_salt (node) end],
+				["digest/text()", agent do set_digest (node) end]
 			>>)
 		end
 

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 10:16:33 GMT (Friday 8th May 2020)"
-	revision: "13"
+	date: "2021-05-13 8:57:04 GMT (Thursday 13th May 2021)"
+	revision: "14"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -148,8 +148,8 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["@account",				agent do account := node end],
-				["@language",				agent do language := node end],
+				["@account",				agent do account := node.to_string_8 end],
+				["@language",				agent do language := node.to_string_8 end],
 				["@home_dir",				agent do home_dir := node.to_expanded_dir_path end],
 				["@export_dir",			agent do export_dir := node.to_expanded_dir_path end],
 				["@language_code_last", agent do language_code_last := node end],

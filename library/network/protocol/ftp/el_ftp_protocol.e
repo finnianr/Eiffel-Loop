@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 16:35:05 GMT (Thursday 25th March 2021)"
-	revision: "24"
+	date: "2021-05-13 14:17:41 GMT (Thursday 13th May 2021)"
+	revision: "25"
 
 class
 	EL_FTP_PROTOCOL
@@ -43,7 +43,7 @@ inherit
 create
 	make_write, make_read
 
-feature {EL_FTP_SYNC} -- Initialization
+feature {NONE} -- Initialization
 
 	initialize
 		do

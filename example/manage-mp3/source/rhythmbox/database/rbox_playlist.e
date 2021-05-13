@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 16:53:40 GMT (Sunday 21st February 2021)"
-	revision: "26"
+	date: "2021-05-13 9:24:24 GMT (Thursday 13th May 2021)"
+	revision: "27"
 
 class
 	RBOX_PLAYLIST
@@ -188,7 +188,7 @@ feature {NONE} -- Build from XML
 
 	add_song_from_location_node
 		do
-			add_song_from_path (Database.expanded_file_uri (node.to_string_8))
+			add_song_from_path (Database.expanded_file_uri (create {EL_URI}.make (node)))
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
@@ -196,7 +196,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["location/text()", agent add_song_from_location_node],
-				["audio-id/text()", agent do add_song_from_audio_id (node) end],
+				["audio-id/text()", agent do add_song_from_audio_id (node.to_string_8) end],
 				["@name", agent do set_name (node) end]
 			>>)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 12:06:17 GMT (Friday 30th April 2021)"
-	revision: "13"
+	date: "2021-02-13 13:46:33 GMT (Saturday 13th February 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_TIME
@@ -52,9 +52,11 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if attached value (a_object) as time then
-				time.make_from_string_default (Buffer_8.copied_general (string))
+				time.make_from_string_default (buffer.copied_general (string))
 			end
 		end
 

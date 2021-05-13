@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:53:15 GMT (Tuesday 2nd March 2021)"
-	revision: "4"
+	date: "2021-05-13 12:52:28 GMT (Thursday 13th May 2021)"
+	revision: "5"
 
 expanded class
 	EL_STRING_32_BUFFER_ROUTINES
@@ -16,7 +16,7 @@ feature -- Access
 
 	copied (str_32: STRING_32): STRING_32
 		require
-			not_buffer: not_buffer (str_32)
+			not_buffer: not is_same (str_32)
 		do
 			Result := empty
 			Result.append (str_32)
@@ -24,7 +24,7 @@ feature -- Access
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING_32
 		require
-			not_buffer: not_buffer (general)
+			not_buffer: not is_same (general)
 		do
 			Result := empty
 			if attached {ZSTRING} general as zstr then
@@ -36,7 +36,7 @@ feature -- Access
 
 	copied_substring (str_32: STRING_32; start_index, end_index: INTEGER): STRING_32
 		require
-			not_buffer: not_buffer (str_32)
+			not_buffer: not is_same (str_32)
 		do
 			Result := empty
 			Result.append_substring (str_32, start_index, end_index)
@@ -52,7 +52,7 @@ feature -- Conversion
 
 	adjusted (str: STRING_32): STRING_32
 		require
-			not_buffer: not_buffer (str)
+			not_buffer: not is_same (str)
 		local
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
@@ -68,9 +68,9 @@ feature -- Conversion
 
 feature -- Contract Support
 
-	not_buffer (general: READABLE_STRING_GENERAL): BOOLEAN
+	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := general /= Buffer
+			Result := general = Buffer
 		end
 
 feature {NONE} -- Constants

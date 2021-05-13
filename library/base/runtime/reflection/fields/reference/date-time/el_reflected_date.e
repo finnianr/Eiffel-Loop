@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-12 10:40:47 GMT (Wednesday 12th May 2021)"
-	revision: "14"
+	date: "2021-02-13 13:44:25 GMT (Saturday 13th February 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_DATE
@@ -26,7 +26,7 @@ feature -- Access
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
 			if attached value (a_object) as date then
-				Result := date.formatted_out (Format_yyyy_mm_dd)
+				Result := date.out
 			end
 		end
 
@@ -52,9 +52,11 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if attached value (a_object) as date then
-				date.make_from_string (Buffer_8.copied_general (string), Format_yyyy_mm_dd)
+				date.make_from_string_default (buffer.copied_general (string))
 			end
 		end
 
@@ -64,9 +66,5 @@ feature -- Basic operations
 				writeable.write_integer_32 (date.ordered_compact_date)
 			end
 		end
-
-feature {NONE} -- Constants
-
-	Format_yyyy_mm_dd: STRING = "yyyy[0]mm[0]dd"
 
 end

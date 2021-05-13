@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:35:49 GMT (Tuesday 31st March 2020)"
-	revision: "16"
+	date: "2021-05-13 9:15:27 GMT (Thursday 13th May 2021)"
+	revision: "17"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -261,22 +261,16 @@ feature {NONE} -- Building from XML
 		end
 
 	set_date_from_node
-		local
-			str: STRING
 		do
-			str := node.to_string_8
-			if Date_checker.date_valid (str, Date_format) then
-				create date.make_from_string (str, Date_format)
+			if Date_checker.date_valid (node, Date_format) then
+				create date.make_from_string (node, Date_format)
 			end
 		end
 
 	set_start_time_from_node
-		local
-			str: STRING
 		do
-			str := node.to_string_8
-			if Time.is_valid (str) then
-				create start_time.make_from_string (str, "hh:mi")
+			if Time.is_valid (node) then
+				create start_time.make_from_string (node, "hh:mi")
 			end
 		end
 

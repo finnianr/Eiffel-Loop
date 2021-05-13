@@ -8,7 +8,7 @@
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "1" minor = "3" release = "3" build = "144" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
+		<version major = "1" minor = "3" release = "3" build = "145" company = "Eiffel-Loop" product = "test" copyright = "Finnian Reilly"/>
 		<variable name = "build_info_dir" value = "source/root"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none">
 			<assertions precondition = "true" postcondition = "true" check = "true"/>
@@ -33,7 +33,11 @@
 		<library name = "ise_base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "ise_encoding" location = "$ISE_EIFFEL/library/encoding/encoding.ecf"/>
 		<library name = "ise_thread" location = "$ISE_LIBRARY/library/thread/thread.ecf"/>
-		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name = "ise_time" location = "$ISE_LIBRARY/library/time/time.ecf">
+			<option>
+				<assertions precondition = "true" postcondition = "true"/>
+			</option>
+		</library>
 		<library name = "ise_net" location = "$ISE_LIBRARY/library/net/net.ecf"/>
 		<library name = "ise_testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Encryption-->
@@ -51,7 +55,6 @@
 				<assertions precondition = "true" postcondition = "true" check = "true"/>
 			</option>
 		</library>
-		<!--; use_application_options = true-->
 		<library name = "EL_c_api" readonly = "false" location = "$EIFFEL_LOOP/library/C-language-interface.ecf"/>
 		<library name = "EL_compression" readonly = "false" location = "$EIFFEL_LOOP/library/compression.ecf"/>
 		<library name = "EL_currency" readonly = "false" location = "$EIFFEL_LOOP/library/currency.ecf"/>

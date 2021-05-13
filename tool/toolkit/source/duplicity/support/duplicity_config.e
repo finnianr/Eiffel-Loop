@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 14:25:45 GMT (Friday 21st August 2020)"
-	revision: "7"
+	date: "2021-05-13 9:30:45 GMT (Thursday 13th May 2021)"
+	revision: "8"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -86,12 +86,8 @@ feature -- Access
 feature {NONE} -- Build from XML
 
 	append_destination_dir
-		local
-			steps: EL_PATH_STEPS
 		do
-			steps := node.to_string
-			steps.expand_variables
-			destination_dir_list.extend (steps.to_string)
+			destination_dir_list.extend (node.to_expanded_dir_path)
 		end
 
 	append_exclude_any

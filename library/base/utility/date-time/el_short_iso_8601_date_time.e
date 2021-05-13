@@ -12,47 +12,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-12-16 12:27:53 GMT (Saturday 16th December 2017)"
-	revision: "1"
+	date: "2021-05-13 15:11:45 GMT (Thursday 13th May 2021)"
+	revision: "2"
 
 class
 	EL_SHORT_ISO_8601_DATE_TIME
 
 inherit
-	EL_ISO_8601_DATE_TIME
+	EL_DATE_TIME
 		redefine
-			append_space, Default_format_string, Input_string_count, place_time_delimiter, T_index
+			Default_format_string
 		end
 
 create
-	make, make_now
+	make, make_now, make_from_other
 
-feature {NONE} -- Implementation
-
-	append_space (modified: STRING)
-		do
-		end
-
-	place_time_delimiter (string: STRING)
-		do
-			string.insert_character ('T', T_index)
-		end
-
-feature {EL_DATE_TEXT} -- Constant
+feature -- Constant
 
 	Default_format_string: STRING
 			-- Default output format string
 		once
-			Result := "yyyy[0]mm[0]dd[0]hh[0]mi[0]ss"
+			Result := DT.Format_iso_8601_short
 		end
 
-	T_index: INTEGER
-		once
-			Result := 9
-		end
-
-	Input_string_count: INTEGER
-		once
-			Result := 16
-		end
 end

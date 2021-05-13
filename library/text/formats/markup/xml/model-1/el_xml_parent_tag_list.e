@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2021-05-13 14:18:43 GMT (Thursday 13th May 2021)"
+	revision: "4"
 
 class
 	EL_XML_PARENT_TAG_LIST
@@ -20,35 +20,36 @@ inherit
 			append_child_tags, new_line_after_open_tag
 		end
 
+	EL_STRING_8_CONSTANTS
+
 create
 	make, make_from_other
-	
+
 feature -- Element change
-	
+
 	append_child_tags (child_tags: EL_XML_TAG_LIST)
 			--
 		do
 			finish
 			child_tags.do_all (agent put_left)
 		end
-		
-	append_real_value_array (names: ARRAY [STRING]; values: ARRAY [REAL])	
+
+	append_real_value_array (names: ARRAY [STRING]; values: ARRAY [REAL])
 			--
 		require
 			same_size_arrays: names.count = values.count
 		local
-			i: INTEGER
-			string_values: ARRAY [STRING]
+			i: INTEGER; string_values: ARRAY [STRING]
 		do
-			create string_values.make (1, values.count)
+			create string_values.make_filled (Empty_string_8, 1, values.count)
 			from i := 1 until i > names.count loop
 				string_values [i] := values.item (i).out
 				i := i + 1
 			end
 			append_string_value_array (names, string_values)
-		end		
-		
-	append_string_value_array (names: ARRAY [STRING]; values: ARRAY [STRING])	
+		end
+
+	append_string_value_array (names: ARRAY [STRING]; values: ARRAY [STRING])
 			--
 		require
 			same_size_arrays: names.count = values.count
@@ -68,16 +69,16 @@ feature -- Element change
 				append_child_tags (xml_value_tag)
 				i := i + 1
 			end
-		end		
+		end
 
 feature -- Status query
 
 	has_children: BOOLEAN
-			-- 
+			--
 		do
 			Result := count > 2
 		end
-		
+
 feature -- Removal
 
 	remove_children
@@ -97,11 +98,11 @@ feature -- Removal
 feature {NONE} -- Implementation
 
 	new_line_after_open_tag: BOOLEAN = true
-		
+
 	XML_value_tag_lookup: HASH_TABLE [EL_XML_VALUE_TAG_PAIR, STRING]
 			--
 		once
 			create Result.make (17)
 		end
-		
+
 end

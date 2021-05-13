@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 11:30:56 GMT (Saturday 27th March 2021)"
-	revision: "3"
+	date: "2021-05-13 9:17:31 GMT (Thursday 13th May 2021)"
+	revision: "4"
 
 class
 	EL_FTP_CONFIGURATION
@@ -79,7 +79,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@url", 		agent do address := node.to_string_8 end],
-				["@user-home", agent do user_home_dir.set_path (node.to_string) end],
+				["@user-home", agent do set_user_home_dir (node.to_expanded_dir_path) end],
 				["@user", 		agent do username := node.to_string_8 end]
 			>>)
 		end

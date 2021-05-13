@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 11:59:38 GMT (Friday 30th April 2021)"
-	revision: "1"
+	date: "2021-05-13 12:51:22 GMT (Thursday 13th May 2021)"
+	revision: "2"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -16,7 +16,7 @@ feature -- Access
 
 	copied (str_8: STRING): STRING
 		require
-			not_buffer: not_buffer (str_8)
+			not_buffer: not is_same (str_8)
 		do
 			Result := empty
 			Result.append (str_8)
@@ -24,7 +24,7 @@ feature -- Access
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING
 		require
-			not_buffer: not_buffer (general)
+			not_buffer: not is_same (general)
 		do
 			Result := empty
 			if attached {ZSTRING} general as zstr then
@@ -36,7 +36,7 @@ feature -- Access
 
 	copied_general_as_utf_8 (general: READABLE_STRING_GENERAL): STRING
 		require
-			not_buffer: not_buffer (general)
+			not_buffer: not is_same (general)
 		local
 			c: EL_UTF_CONVERTER
 		do
@@ -50,7 +50,7 @@ feature -- Access
 
 	copied_substring (str_8: STRING; start_index, end_index: INTEGER): STRING
 		require
-			not_buffer: not_buffer (str_8)
+			not_buffer: not is_same (str_8)
 		do
 			Result := empty
 			Result.append_substring (str_8, start_index, end_index)
@@ -80,9 +80,9 @@ feature -- Conversion
 
 feature -- Contract Support
 
-	not_buffer (general: READABLE_STRING_GENERAL): BOOLEAN
+	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := general /= buffer
+			Result := general = buffer
 		end
 
 feature {NONE} -- Implementation

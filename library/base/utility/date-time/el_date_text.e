@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-12 10:13:03 GMT (Wednesday 12th May 2021)"
-	revision: "15"
+	date: "2021-05-13 15:20:37 GMT (Thursday 13th May 2021)"
+	revision: "16"
 
 deferred class
 	EL_DATE_TEXT
 
 inherit
-	DATE_TIME_TOOLS
+	EL_DATE_TIME_TOOLS
 		export
 			{NONE} all
 		end
@@ -37,21 +37,25 @@ feature -- Access
 
 	from_ISO_8601_formatted (iso8601_string: STRING): DATE_TIME
 		local
-			iso_date: like iso_date_time
+			iso_date: like Once_date_time
 		do
-			iso_date := iso_date_time (iso8601_string.has ('-'))
-			iso_date.make (iso8601_string)
+			iso_date := Once_date_time
+			if iso8601_string.has ('-') then
+				iso_date.make_iso_8601 (iso8601_string)
+			else
+				iso_date.make_iso_8601_short (iso8601_string)
+			end
 			Result := iso_date.to_date_time
 		end
 
 	iso_8601_formatted (time: DATE_TIME; canonical: BOOLEAN): STRING
 		-- format as "yyyy[0]mm[0]Tdd[0]hh[0]mi[0]ssZ"
-		local
-			iso_date: like iso_date_time
 		do
-			iso_date := iso_date_time (canonical)
-			iso_date.set_from_other (time)
-			Result := iso_date.to_string
+			if canonical then
+				Result := Once_date_time.formatted_out (Format_iso_8601)
+			else
+				Result := Once_date_time.formatted_out (Format_iso_8601_short)
+			end
 		end
 
 	short_year (date: DATE): ZSTRING
@@ -150,12 +154,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	iso_date_time (canonical: BOOLEAN): EL_ISO_8601_DATE_TIME
+	new_iso_date_time (canonical: BOOLEAN): EL_DATE_TIME
 		do
 			if canonical then
-				Result := Canonical_iso_8601_date_time
+--				create Result := Canonical_iso_8601_date_time
 			else
-				Result := Short_iso_8601_date_time
+--				Result := Short_iso_8601_date_time
 			end
 		end
 
@@ -236,12 +240,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Canonical_iso_8601_date_time: EL_ISO_8601_DATE_TIME
-		once
-			create Result.make_now
-		end
-
-	Short_iso_8601_date_time: EL_SHORT_ISO_8601_DATE_TIME
+	Once_date_time: EL_DATE_TIME
 		once
 			create Result.make_now
 		end

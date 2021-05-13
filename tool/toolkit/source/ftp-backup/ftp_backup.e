@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:16:21 GMT (Monday 10th May 2021)"
-	revision: "3"
+	date: "2021-05-13 9:28:22 GMT (Thursday 13th May 2021)"
+	revision: "4"
 
 class
 	FTP_BACKUP
@@ -18,7 +18,7 @@ inherit
 			xml_names as export_default,
 			element_node_type as	Attribute_node
 		redefine
-			on_context_exit, Except_fields
+			on_context_exit, Transient_fields
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -109,7 +109,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Except_fields: STRING
+	Transient_fields: STRING
 		once
 			Result := "total_byte_count, config"
 		end

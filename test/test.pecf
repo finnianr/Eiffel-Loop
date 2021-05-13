@@ -17,7 +17,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 3; release = 3; build = 144
+			major = 1; minor = 3; release = 3; build = 145
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
@@ -81,6 +81,9 @@ system:
 
 		library:
 			name = ise_time; location = "$ISE_LIBRARY/library/time/time.ecf"
+			option:
+				assertions:
+					precondition = true; postcondition = true
 
 		library:
 			name = ise_net; location = "$ISE_LIBRARY/library/net/net.ecf"
@@ -115,7 +118,6 @@ system:
 			option:
 				assertions:
 					precondition = true; postcondition = true; check = true
-			#; use_application_options = true
 
 		library:
 			name = EL_c_api; readonly = false; location = "$EIFFEL_LOOP/library/C-language-interface.ecf"
