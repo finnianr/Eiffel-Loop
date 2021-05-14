@@ -1,13 +1,13 @@
 note
-	description: "El ISO 8601 FORMAT"
+	description: "ISO 8601 format details"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 14:49:59 GMT (Thursday 13th May 2021)"
-	revision: "1"
+	date: "2021-05-13 15:30:51 GMT (Thursday 13th May 2021)"
+	revision: "2"
 
 class
 	EL_ISO_8601_FORMAT

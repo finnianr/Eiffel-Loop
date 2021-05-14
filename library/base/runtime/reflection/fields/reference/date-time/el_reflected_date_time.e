@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:45:41 GMT (Saturday 13th February 2021)"
-	revision: "12"
+	date: "2021-05-13 19:44:38 GMT (Thursday 13th May 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -23,15 +23,12 @@ create
 
 feature -- Access
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
-		local
-			date_time: like value
+	to_string (a_object: EL_REFLECTIVE): STRING_8
 		do
-			date_time := value (a_object)
-			if attached {EL_DATE_TIME} date_time as dt then
-				Result := dt.to_string
-			else
+			if attached value (a_object) as date_time then
 				Result := date_time.out
+			else
+				create Result.make_empty
 			end
 		end
 

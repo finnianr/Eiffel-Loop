@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:44:25 GMT (Saturday 13th February 2021)"
-	revision: "12"
+	date: "2021-05-13 15:44:05 GMT (Thursday 13th May 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_DATE
@@ -52,6 +52,8 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		require else
+			valid_format: valid_format (a_object, string.to_string_8)
 		local
 			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
@@ -67,4 +69,12 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Contract Support
+
+	valid_format (a_object: EL_REFLECTIVE; string: STRING): BOOLEAN
+		do
+			if attached value (a_object) as date then
+				Result := date.date_valid (string, date.default_format_string)
+			end
+		end
 end

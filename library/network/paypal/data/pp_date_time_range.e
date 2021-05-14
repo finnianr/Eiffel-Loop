@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 15:08:55 GMT (Saturday 28th April 2018)"
-	revision: "1"
+	date: "2021-05-14 6:39:18 GMT (Friday 14th May 2021)"
+	revision: "2"
 
 class
 	PP_DATE_TIME_RANGE
@@ -24,14 +24,13 @@ feature {NONE} -- Initialization
 			-- examples: en_US, de_DE
 		do
 			make_default
-			create start_date.make_from_other (a_start_date)
-			create end_date.make_from_other (a_end_date)
+			start_date := a_start_date; end_date := a_end_date
 		end
 
 	make_to_now (a_start_date: DATE_TIME)
 		do
 			make_default
-			create start_date.make_from_other (a_start_date)
+			start_date := a_start_date
 			create end_date.make_now
 		end
 

@@ -1,13 +1,13 @@
 note
-	description: "El DATE TIME TOOLS"
+	description: "Extension to [$source DATE_TIME_TOOLS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 13:52:02 GMT (Thursday 13th May 2021)"
-	revision: "1"
+	date: "2021-05-14 8:18:52 GMT (Friday 14th May 2021)"
+	revision: "2"
 
 class
 	EL_DATE_TIME_TOOLS

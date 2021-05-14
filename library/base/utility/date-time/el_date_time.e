@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 15:27:50 GMT (Thursday 13th May 2021)"
-	revision: "11"
+	date: "2021-05-14 16:11:02 GMT (Friday 14th May 2021)"
+	revision: "12"
 
 class
 	EL_DATE_TIME
@@ -15,12 +15,12 @@ class
 inherit
 	DATE_TIME
 		rename
-			date_time_tools as DT,
+			date_time_tools as Date_time,
 			make as make_from_parts,
 			make_from_string as make_with_format,
 			make_from_string_default as make
 		undefine
-			DT
+			Date_time
 		redefine
 			formatted_out, make_with_format, date_time_valid
 		end
@@ -30,7 +30,9 @@ inherit
 			Time as Mod_time
 		end
 
-	EL_SHARED_DT
+	EL_SHARED_DATE_TIME
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make,
@@ -52,10 +54,19 @@ create
 
 feature -- Initialization
 
-	make_utc_from_zone_and_format (s, a_zone, format: STRING; offset, hour_adjust: INTEGER)
+	make_ISO_8601 (s: STRING)
 		do
-			make_from_zone_and_format (s, a_zone, format, offset)
-			hour_add (hour_adjust)
+			make_with_format (s, Date_time.Format_iso_8601)
+		end
+
+	make_ISO_8601_short (s: STRING)
+		do
+			make_with_format (s, Date_time.format_iso_8601_short)
+		end
+
+	make_from_other (other: DATE_TIME)
+		do
+			set_from_other (other)
 		end
 
 	make_from_zone_and_format (s, a_zone, format: STRING; offset: INTEGER)
@@ -67,55 +78,78 @@ feature -- Initialization
 			add_offset (parse_offset (s))
 		end
 
-	make_from_other (other: DATE_TIME)
+	make_utc_from_zone_and_format (s, a_zone, format: STRING; offset, hour_adjust: INTEGER)
 		do
-			set_from_other (other)
-		end
-
-	make_ISO_8601 (s: STRING)
-		do
-			make_with_format (s, DT.Format_iso_8601)
-		end
-
-	make_ISO_8601_short (s: STRING)
-		do
-			make_with_format (s, DT.format_iso_8601_short)
+			make_from_zone_and_format (s, a_zone, format, offset)
+			hour_add (hour_adjust)
 		end
 
 	make_with_format (s: STRING; format: STRING)
 		local
-			modified: STRING
+			parser: DATE_TIME_PARSER; hour_offset, minute_offset: INTEGER
+			str: STRING
 		do
-			if attached ISO_8601_info_table [format] as l then
-				modified := Buffer_8.copied_substring (s, 1, l.index_of_T - 1)
-				if format ~ DT.Format_iso_8601 then
-					modified.append_character (' ')
-				end
-				modified.append_substring (s, l.index_of_T + 1, l.input_string_count - 1)
-				Precursor (modified, l.format)
+			str := Buffer_8.copied_upper (s)
+			if attached Conversion_table [format] as conversion then
+				parser := Parser_table.item (conversion.format)
+				parser.set_source_string (conversion.modified_string (str))
+				zone_offset := conversion.zone_offset
 			else
-				Precursor (s, format)
+				parser := Parser_table.item (format)
+				parser.set_source_string (str)
+				zone_offset := 0
 			end
+			parser.parse
+			make_fine (parser.year, parser.month, parser.day, parser.hour, parser.minute, parser.fine_second)
+
+			if zone_offset.abs.to_boolean then
+				hour_offset := (zone_offset * 15) // 60
+				minute_offset := (zone_offset * 15) \\ 60
+				if hour_offset.abs.to_boolean then
+					hour_add (hour_offset)
+				end
+				if minute_offset.abs.to_boolean then
+					hour_add (minute_offset)
+				end
+			end
+		ensure then
+			valid_day_text: valid_day_text (Parser_table.found_item)
 		end
 
 feature -- Access
+
+	formatted_out (format: STRING): STRING
+		local
+			index, i: INTEGER
+		do
+			if attached Conversion_table [format] as conversion then
+				Result := conversion.formatted_out (Current)
+
+			elseif attached Code_string_table.item (format) as code then
+				Result := code.new_string (Current)
+			end
+			-- Turn Upper case month and day names into propercase if the
+			-- format code is propercase
+			across Propercase_table as table loop
+				if format.has_substring (table.key) then
+					across table.item as values_list until index > 0 loop
+						index := Result.substring_index (values_list.item, 1)
+						if index > 0 then
+							Result [index + 1] := Result [index + 1].as_lower
+							Result [index + 2] := Result [index + 2].as_lower
+						end
+					end
+				end
+			end
+		end
 
 	to_string: STRING
 		do
 			Result := out
 		end
 
-	formatted_out (format: STRING): STRING
-		do
-			if attached ISO_8601_info_table [format] as l then
-				create Result.make (l.input_string_count)
-				Result.append (Precursor (l.format))
-				Result [l.index_of_T] := 'T'
-				Result.append_character ('Z')
-			else
-				Result := Precursor (format)
-			end
-		end
+	zone_offset: INTEGER_8
+		-- zone offset as multiples of 15 mins
 
 feature -- Element change
 
@@ -152,17 +186,34 @@ feature -- Conversion
 feature -- Contract support
 
 	date_time_valid (s: STRING; format: STRING): BOOLEAN
+		local
+			modified, str: STRING
 		do
-			if attached ISO_8601_info_table [format] as l then
-				if s.count = l.input_string_count then
-					Result := s [l.index_of_T] = 'T' and s [l.input_string_count] = 'Z'
+			str := Buffer_8.copied_upper (s)
+			if attached Conversion_table [format] as conversion then
+				if conversion.is_valid_string (str)
+					and then attached Code_string_table.item (conversion.format) as code
+					and then code.precise
+				then
+					modified := conversion.modified_string (str)
+					Result := code.correspond (modified) and then code.is_date_time (modified)
 				end
-			else
-				Result := Precursor (s, format)
+			elseif attached Code_string_table.item (format) as code then
+				Result := code.precise and code.correspond (str) and then code.is_date_time (str)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	new_code_string (format: STRING): EL_DATE_TIME_CODE_STRING
+		do
+			create Result.make (format)
+		end
+
+	new_parser (format: STRING): DATE_TIME_PARSER
+		do
+			Result := Code_string_table.item (format).new_parser
+		end
 
 	parse_offset (s: STRING): INTEGER
 		local
@@ -182,14 +233,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	ISO_8601_info_table: HASH_TABLE [EL_ISO_8601_FORMAT, STRING]
-		once
-			create Result.make_equal (3)
-			Result [DT.Format_iso_8601] := ["yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss", 20, 11]
-			Result [DT.format_iso_8601_short] := ["yyyy[0]mm[0]dd[0]hh[0]mi[0]ss", 16, 9]
+	valid_day_text (parser: DATE_TIME_PARSER): BOOLEAN
+		local
+			zero: INTEGER_8
+		do
+			if attached parser.day_text as text and then zone_offset = zero then
+				Result := text.same_string (Date_time.Days_text [date.day_of_the_week])
+			else
+				Result := True
+			end
 		end
+
+feature {EL_DATE_TIME_CONVERSION} -- Constants
+
+	Code_string_table: EL_CACHE_TABLE [EL_DATE_TIME_CODE_STRING, STRING]
+		once
+			create Result.make (11, agent new_code_string)
+		end
+
+feature {NONE} -- Constants
 
 	Arithmetic_signs: ARRAY [CHARACTER]
 		once
@@ -199,6 +261,30 @@ feature {NONE} -- Constants
 	Buffer_8: EL_STRING_8_BUFFER
 		once
 			create Result
+		end
+
+	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
+		once
+			create Result.make_equal (3)
+			Result [Date_time.Format_iso_8601] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make (
+				"yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss", 11, 20
+			)
+			Result [Date_time.format_iso_8601_short] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make (
+				"yyyy[0]mm[0]dd[0]hh[0]mi[0]ss", 9, 16
+			)
+		end
+
+	Parser_table: EL_CACHE_TABLE [DATE_TIME_PARSER, STRING]
+		once
+			create Result.make (11, agent new_parser)
+		end
+
+	Propercase_table: EL_HASH_TABLE [ARRAY [STRING], STRING]
+		once
+			create Result.make (<<
+				["Mmm", Date_time.Months_text],
+				["Ddd", Date_time.Days_text]
+			>>)
 		end
 
 end

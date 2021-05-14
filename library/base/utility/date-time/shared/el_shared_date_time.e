@@ -1,26 +1,24 @@
 note
-	description: "Shared access to routines of class [$source EL_TIME_ROUTINES]"
+	description: "Shared access to instance of [$source EL_DATE_TIME_TOOLS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:24:38 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2021-05-14 8:58:59 GMT (Friday 14th May 2021)"
+	revision: "2"
 
 deferred class
-	EL_MODULE_TIME
+	EL_SHARED_DATE_TIME
 
 inherit
-	EL_MODULE
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
-	Time: EL_TIME_ROUTINES
-			--
+	Date_time: EL_DATE_TIME_TOOLS
 		once
-			create Result.make
+			create Result
 		end
-
 end

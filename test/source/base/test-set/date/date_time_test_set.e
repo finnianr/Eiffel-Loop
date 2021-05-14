@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 15:22:20 GMT (Thursday 13th May 2021)"
-	revision: "11"
+	date: "2021-05-14 16:14:42 GMT (Friday 14th May 2021)"
+	revision: "12"
 
 class
-	DATE_TEXT_TEST_SET
+	DATE_TIME_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -24,20 +24,42 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
-			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
-			eval.call ("formatted_date", agent test_formatted_date)
-			eval.call ("date_time", agent test_date_time)
+--			eval.call ("date_time", agent test_date_time)
+			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
+--			eval.call ("date_time_subtract", agent test_date_time_subtract)
+--			eval.call ("formatted_date", agent test_formatted_date)
+--			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
+--			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
 		end
 
 feature -- Tests
 
 	test_date_time
 		local
-			dt: DATE_TIME
+			dt: EL_DATE_TIME
 		do
-			create dt.make_from_string (Date_time.formatted_out (Format_date_time), Format_date_time)
+			create dt.make_with_format (Date_time.formatted_out (Format_date_time), Format_date_time)
 			assert ("same date", dt ~ Date_time)
+		end
+
+	test_date_time_proper_case
+		local
+			dt: EL_DATE_TIME
+		do
+			create dt.make_with_format ("15:51:01 Nov 23, 2017", "[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy")
+			assert ("same date", dt ~ Date_time)
+			assert ("same propercase month", "15:51:01 Nov 23, 2017" ~ dt.formatted_out ("[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy"))
+			assert ("same string", "15:51:01 NOV 23, 2017" ~ dt.formatted_out ("[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy"))
+		end
+
+	test_date_time_subtract
+		local
+			dt, dt_2: EL_DATE_TIME
+		do
+			create dt.make_from_parts (2000, 1, 3, 1, 0, 0)
+			create dt_2.make_from_parts (2000, 1, 2, 23, 0, 0)
+			dt.hour_add (-2)
+			assert ("substracting 2 hours is 11 PM previous day", dt ~ dt_2)
 		end
 
 	test_formatted_date
@@ -75,10 +97,10 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "2017-11-23T15:51:01Z, 20171123T155101Z, Thursday 23rd November 2017")
 		end
 
-	Date_time: DATE_TIME
+	Date_time: EL_DATE_TIME
 		-- Thursday 23rd Nov 2017
 		once
-			create Result.make (2017, 11, 23, 15, 51, 01)
+			create Result.make_from_parts (2017, 11, 23, 15, 51, 01)
 		end
 
 	Format_date_time: STRING =	"yyyy/[0]mm/[0]dd [0]hh:[0]mi:[0]ss"

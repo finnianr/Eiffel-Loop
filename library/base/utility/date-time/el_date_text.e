@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 15:20:37 GMT (Thursday 13th May 2021)"
-	revision: "16"
+	date: "2021-05-14 15:13:58 GMT (Friday 14th May 2021)"
+	revision: "17"
 
 deferred class
 	EL_DATE_TEXT
@@ -35,7 +35,7 @@ feature -- Access
 			Result := template (format).substituted (date)
 		end
 
-	from_ISO_8601_formatted (iso8601_string: STRING): DATE_TIME
+	from_ISO_8601_formatted (iso8601_string: STRING): EL_DATE_TIME
 		local
 			iso_date: like Once_date_time
 		do
@@ -45,7 +45,7 @@ feature -- Access
 			else
 				iso_date.make_iso_8601_short (iso8601_string)
 			end
-			Result := iso_date.to_date_time
+			Result := iso_date.twin
 		end
 
 	iso_8601_formatted (time: DATE_TIME; canonical: BOOLEAN): STRING

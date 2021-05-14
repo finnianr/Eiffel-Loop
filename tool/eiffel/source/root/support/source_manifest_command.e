@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 13:32:36 GMT (Monday 18th January 2021)"
-	revision: "6"
+	date: "2021-05-14 6:34:52 GMT (Friday 14th May 2021)"
+	revision: "7"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -39,7 +39,6 @@ feature -- Basic operations
 	execute
 		local
 			file_list: like manifest.file_list
-			count_x_50: INTEGER
 		do
 			across manifest.locations as location loop
 				lio.put_line (location.item.dir_path)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 11:02:10 GMT (Thursday 13th May 2021)"
-	revision: "2"
+	date: "2021-05-14 6:32:42 GMT (Friday 14th May 2021)"
+	revision: "3"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -21,8 +21,6 @@ inherit
 	TIME_UTILITY
 
 	EL_FILE_OPEN_ROUTINES
-
-	EL_REFLECTED_DATE_TIME_FORMATS
 
 create
 	make
@@ -57,9 +55,7 @@ feature -- Basic operations
 		do
 			create import_list.make (50)
 
-			Format_date.put ({DATE_TIME_TOOLS}.Date_default_format_string)
 			import_list.import_csv_latin_1 (input_path)
-			Format_date.remove
 
 			import_list.order_by (agent {STOCK_ORDER}.date, True)
 			create monthly_use_list.make ((import_list.last.date.days - import_list.first.date.days + 1) // 30)
