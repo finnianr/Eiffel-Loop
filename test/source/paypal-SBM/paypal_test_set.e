@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 12:39:41 GMT (Saturday 15th May 2021)"
-	revision: "9"
+	date: "2021-05-15 16:09:17 GMT (Saturday 15th May 2021)"
+	revision: "10"
 
 class
 	PAYPAL_TEST_SET
@@ -37,15 +37,18 @@ feature -- Test
 	test_pp_date_format
 		local
 			date_time: EL_DATE_TIME; pp_date: PP_DATE_TIME
-			format: STRING
+			date_string: STRING
 		do
 			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
-			format := "Tue Apr 10 2018 09:22:41 GMT-0100 (GMT)"
-			create pp_date.make (format)
+			date_string := "Tue Apr 10 2018 09:22:41 GMT-0100 (GMT)"
+			create pp_date.make (date_string)
 			assert ("same date", pp_date.to_unix = date_time.to_unix)
 
-			format.remove_head (4)
-			create pp_date.make (format)
+			date_string.remove_head (4)
+			create pp_date.make (date_string)
+			assert ("same date", pp_date.to_unix = date_time.to_unix)
+
+			create pp_date.make (pp_date.out)
 			assert ("same date", pp_date.to_unix = date_time.to_unix)
 		end
 

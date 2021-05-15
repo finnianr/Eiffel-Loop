@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 11:55:06 GMT (Saturday 15th May 2021)"
-	revision: "13"
+	date: "2021-05-15 16:05:27 GMT (Saturday 15th May 2021)"
+	revision: "14"
 
 class
 	DATE_TIME_TEST_SET
@@ -24,13 +24,13 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
---			eval.call ("date_time", agent test_date_time)
---			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
---			eval.call ("date_time_subtract", agent test_date_time_subtract)
---			eval.call ("formatted_date", agent test_formatted_date)
---			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
---			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
-			eval.call ("time_zone_dezignator", agent test_time_zone_dezignator)
+			eval.call ("date_time", agent test_date_time)
+			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
+			eval.call ("date_time_subtract", agent test_date_time_subtract)
+			eval.call ("formatted_date", agent test_formatted_date)
+			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
+			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
+			eval.call ("time_zone_designator", agent test_time_zone_designator)
 		end
 
 feature -- Tests
@@ -90,7 +90,7 @@ feature -- Tests
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601_short))
 		end
 
-	test_time_zone_dezignator
+	test_time_zone_designator
 		local
 			dt, dt_2: EL_DATE_TIME
 		do

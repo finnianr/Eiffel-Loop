@@ -14,7 +14,7 @@ note
 		accommodated as well. 
 			
 			Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)
-			
+
 	]"
 
 	author: "Finnian Reilly"
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 12:42:48 GMT (Saturday 15th May 2021)"
-	revision: "10"
+	date: "2021-05-15 15:56:34 GMT (Saturday 15th May 2021)"
+	revision: "11"
 
 class
 	PP_DATE_TIME
@@ -46,62 +46,42 @@ feature {EL_DATE_TEXT} -- Initialization
 		-- 	Long: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
 		-- 	Short "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd"
 		do
-			format_i := format_index (str)
-			Precursor (str)
-		end
-
-feature -- Access
-
-	default_format_string: STRING
-			-- Default output format string
-		do
-			if format_i.to_boolean then
-				Result := Format_options [format_i]
-			else
-				create Result.make_empty
-			end
+			make_with_format (str, selected_format (str))
 		end
 
 feature -- Contract support
 
 	date_time_valid (s: STRING; format: STRING): BOOLEAN
 		do
-			Result := Precursor (s, Format_options [format_index (s)])
+			Result := Precursor (s, selected_format (s))
 		end
 
 feature {NONE} -- Implementation
 
-	format_index (s: STRING): INTEGER
-		local
-			week_day: STRING
+	selected_format (s: STRING): STRING
 		do
-			if s.has ('(') and then s.has (')') then
-				week_day := s.substring (1, 3)
+			if s.has ('(') and then s.has (')') and then attached Buffer_8.copied_substring (s, 1, 3) as week_day then
 				week_day.to_upper
 				if Date_time.Days_text.has (week_day) then
-					Result := 3
+					Result := Format_day_long
 				else
-					Result := 2
+					Result := Format_long
 				end
 			else
-				Result := 1
+				Result := Default_format_string
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature -- Constants
 
-	format_i: INTEGER
+	Default_format_string: STRING = "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd"
+		-- Default output format string
 
-feature {NONE} -- Constants
+	Format_long: STRING = "Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)"
 
-	Format_options: ARRAY [STRING]
-		local
-			format: STRING
+	Format_day_long: STRING
 		once
-			format := "Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)"
-			Result := <<
-				"[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd", format, "Ddd " + format
-			>>
+			Result := "Ddd " + Format_long
 		end
 
 end
