@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 16:11:02 GMT (Friday 14th May 2021)"
-	revision: "12"
+	date: "2021-05-15 10:47:09 GMT (Saturday 15th May 2021)"
+	revision: "13"
 
 class
 	EL_DATE_TIME
@@ -47,8 +47,6 @@ create
 	make_with_format,
 	make_from_string_with_base,
 	make_from_string_default_with_base,
-	make_from_zone_and_format,
-	make_utc_from_zone_and_format,
 	make_ISO_8601,
 	make_ISO_8601_short
 
@@ -69,48 +67,24 @@ feature -- Initialization
 			set_from_other (other)
 		end
 
-	make_from_zone_and_format (s, a_zone, format: STRING; offset: INTEGER)
-		local
-			pos_last: INTEGER
-		do
-			pos_last := s.substring_index (a_zone, 1) - 2
-			make_with_format (buffer_8.copied_substring (s, offset, pos_last), format)
-			add_offset (parse_offset (s))
-		end
-
-	make_utc_from_zone_and_format (s, a_zone, format: STRING; offset, hour_adjust: INTEGER)
-		do
-			make_from_zone_and_format (s, a_zone, format, offset)
-			hour_add (hour_adjust)
-		end
-
 	make_with_format (s: STRING; format: STRING)
 		local
-			parser: DATE_TIME_PARSER; hour_offset, minute_offset: INTEGER
-			str: STRING
+			parser: EL_DATE_TIME_PARSER; str: STRING
 		do
 			str := Buffer_8.copied_upper (s)
 			if attached Conversion_table [format] as conversion then
 				parser := Parser_table.item (conversion.format)
 				parser.set_source_string (conversion.modified_string (str))
-				zone_offset := conversion.zone_offset
 			else
 				parser := Parser_table.item (format)
 				parser.set_source_string (str)
-				zone_offset := 0
 			end
 			parser.parse
 			make_fine (parser.year, parser.month, parser.day, parser.hour, parser.minute, parser.fine_second)
 
+			zone_offset := parser.zone_offset
 			if zone_offset.abs.to_boolean then
-				hour_offset := (zone_offset * 15) // 60
-				minute_offset := (zone_offset * 15) \\ 60
-				if hour_offset.abs.to_boolean then
-					hour_add (hour_offset)
-				end
-				if minute_offset.abs.to_boolean then
-					hour_add (minute_offset)
-				end
+				add_minutes (zone_offset.to_integer * 15)
 			end
 		ensure then
 			valid_day_text: valid_day_text (Parser_table.found_item)
@@ -205,32 +179,28 @@ feature -- Contract support
 
 feature {NONE} -- Implementation
 
+	add_minutes (mins: INTEGER)
+		local
+			hour_offset, minute_offset: INTEGER
+		do
+			hour_offset := mins // 60
+			minute_offset := mins \\ 60
+			if hour_offset.abs.to_boolean then
+				hour_add (hour_offset)
+			end
+			if minute_offset.abs.to_boolean then
+				minute_add (minute_offset)
+			end
+		end
+
 	new_code_string (format: STRING): EL_DATE_TIME_CODE_STRING
 		do
 			create Result.make (format)
 		end
 
-	new_parser (format: STRING): DATE_TIME_PARSER
+	new_parser (format: STRING): EL_DATE_TIME_PARSER
 		do
 			Result := Code_string_table.item (format).new_parser
-		end
-
-	parse_offset (s: STRING): INTEGER
-		local
-			i, pos_sign, pos_space: INTEGER; sign: CHARACTER
-		do
-			from i := 1 until pos_sign > 0 or i > Arithmetic_signs.count loop
-				sign := Arithmetic_signs [i]
-				pos_sign := s.index_of (sign, 1)
-				if pos_sign > 0 then
-					pos_space := s.index_of (' ', pos_sign)
-					if pos_space = 0 then
-						pos_space := s.count + 1
-					end
-					Result := buffer_8.copied_substring (s, pos_sign, pos_space - 1).to_integer
-				end
-				i := i + 1
-			end
 		end
 
 	valid_day_text (parser: DATE_TIME_PARSER): BOOLEAN
@@ -253,11 +223,6 @@ feature {EL_DATE_TIME_CONVERSION} -- Constants
 
 feature {NONE} -- Constants
 
-	Arithmetic_signs: ARRAY [CHARACTER]
-		once
-			Result := << '+', '-' >>
-		end
-
 	Buffer_8: EL_STRING_8_BUFFER
 		once
 			create Result
@@ -274,7 +239,7 @@ feature {NONE} -- Constants
 			)
 		end
 
-	Parser_table: EL_CACHE_TABLE [DATE_TIME_PARSER, STRING]
+	Parser_table: EL_CACHE_TABLE [EL_DATE_TIME_PARSER, STRING]
 		once
 			create Result.make (11, agent new_parser)
 		end

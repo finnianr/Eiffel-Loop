@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 11:54:02 GMT (Monday 30th November 2020)"
-	revision: "8"
+	date: "2021-05-15 12:39:41 GMT (Saturday 15th May 2021)"
+	revision: "9"
 
 class
 	PAYPAL_TEST_SET
@@ -28,10 +28,26 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("pp_transaction",	agent test_pp_transaction)
+			eval.call ("pp_transaction", agent test_pp_transaction)
+			eval.call ("pp_date_format", agent test_pp_date_format)
 		end
 
 feature -- Test
+
+	test_pp_date_format
+		local
+			date_time: EL_DATE_TIME; pp_date: PP_DATE_TIME
+			format: STRING
+		do
+			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
+			format := "Tue Apr 10 2018 09:22:41 GMT-0100 (GMT)"
+			create pp_date.make (format)
+			assert ("same date", pp_date.to_unix = date_time.to_unix)
+
+			format.remove_head (4)
+			create pp_date.make (format)
+			assert ("same date", pp_date.to_unix = date_time.to_unix)
+		end
 
 	test_pp_transaction
 		note
@@ -70,6 +86,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Address_status_enum: PP_ADDRESS_STATUS_ENUM
+		once
+			create Result.make
+		end
 
 	IPN_message: STRING = "[
 		mc_gross=4.85
@@ -117,10 +138,5 @@ feature {NONE} -- Constants
 		payment_gross=
 		ipn_track_id=30fe7b14ef9cb
 	]"
-
-	Address_status_enum: PP_ADDRESS_STATUS_ENUM
-		once
-			create Result.make
-		end
 
 end

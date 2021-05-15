@@ -3,9 +3,14 @@ note
 		Implementation of [$source EL_DATE_TIME_CONVERSION] for the
 		[https://en.wikipedia.org/wiki/ISO_8601 ISO-8601 date-time format]
 	]" 
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+
+	author: "Finnian Reilly"
+	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
+	contact: "finnian at eiffel hyphen loop dot com"
+
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2021-05-14 11:01:12 GMT (Friday 14th May 2021)"
+	revision: "1"
 
 	class
 	EL_ISO_8601_DATE_TIME_CONVERSION
@@ -72,7 +77,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 11:01:12 GMT (Friday 14th May 2021)"
+	date: "2021-05-15 7:34:21 GMT (Saturday 15th May 2021)"
 	revision: "1"
 
 class

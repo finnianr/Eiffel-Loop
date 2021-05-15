@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 16:14:42 GMT (Friday 14th May 2021)"
-	revision: "12"
+	date: "2021-05-15 11:55:06 GMT (Saturday 15th May 2021)"
+	revision: "13"
 
 class
 	DATE_TIME_TEST_SET
@@ -25,11 +25,12 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 --			eval.call ("date_time", agent test_date_time)
-			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
+--			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
 --			eval.call ("date_time_subtract", agent test_date_time_subtract)
 --			eval.call ("formatted_date", agent test_formatted_date)
 --			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
 --			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
+			eval.call ("time_zone_dezignator", agent test_time_zone_dezignator)
 		end
 
 feature -- Tests
@@ -87,6 +88,18 @@ feature -- Tests
 			assert ("same time", date_time.out ~ dt.out)
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601))
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601_short))
+		end
+
+	test_time_zone_dezignator
+		local
+			dt, dt_2: EL_DATE_TIME
+		do
+			create dt_2.make_from_parts (2016, 4, 10, 2, 35, 1)
+			create dt.make_with_format ("19:35:01 Apr 09, 2016 PST+1", "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd")
+			assert ("same date", dt ~ dt_2)
+
+			create dt.make_with_format ("Sun Apr 9 2016 19:35:01 GMT-0700 (GMT)", "Ddd Mmm dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)")
+			assert ("same GMT date", dt ~ dt_2)
 		end
 
 feature {NONE} -- Constants

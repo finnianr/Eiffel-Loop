@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 14:37:23 GMT (Friday 14th May 2021)"
-	revision: "1"
+	date: "2021-05-15 9:36:54 GMT (Saturday 15th May 2021)"
+	revision: "2"
 
 deferred class
 	EL_DATE_TIME_CONVERSION
@@ -27,11 +27,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	format: STRING
-
-	zone_offset: INTEGER_8
-		-- zone offset as multiples of 15 mins
-		do
-		end
 
 	formatted_out (dt: EL_DATE_TIME): STRING
 		deferred

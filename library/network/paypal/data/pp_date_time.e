@@ -13,7 +13,8 @@ note
 		Because the online IPN listener test uses a different format in a prepopulated field, this is
 		accommodated as well. 
 			
-			Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss
+			Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)
+			
 	]"
 
 	author: "Finnian Reilly"
@@ -21,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 20:08:38 GMT (Thursday 13th May 2021)"
-	revision: "9"
+	date: "2021-05-15 12:42:48 GMT (Saturday 15th May 2021)"
+	revision: "10"
 
 class
 	PP_DATE_TIME
@@ -33,7 +34,7 @@ inherit
 			make, date_time_valid, default_format_string
 		end
 
-	EL_STRING_8_CONSTANTS
+	EL_SHARED_DATE_TIME
 
 create
 	make, make_now
@@ -41,41 +42,12 @@ create
 feature {EL_DATE_TEXT} -- Initialization
 
 	make (str: STRING)
-		-- use either GMT format or PDT
-		local
-			l_zone: STRING
+		-- formats
+		-- 	Long: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
+		-- 	Short "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd"
 		do
-			l_zone := time_zone (str)
-			if UTC_adjust.has (l_zone) then
-				if l_zone ~ Zone_gmt then
-					make_from_gmt (str)
-				else
-					make_from_zone (str, l_zone)
-				end
-			else
-				make_now
-			end
-		end
-
-	make_from_gmt (str: STRING)
-		-- make from example: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
-		require
-			has_6_spaces: str.occurrences (' ') = 6
-			gmt_zone: str.has_substring (Zone_gmt)
-			has_2_colons: str.occurrences (':') = 2
-		do
-			make_from_zone_and_format (str, Zone_gmt, Format_date_time, 5)
-			-- 5 means ignore "Wed "
-		end
-
-	make_from_zone (str, a_zone: STRING)
-		-- make from example "19:35:01 Apr 09, 2016 PST+1"
-		require
-			has_3_spaces: str.occurrences (' ') = 4
-			has_1_comma: str.occurrences (',') = 1
-			has_2_colons: str.occurrences (':') = 2
-		do
-			make_utc_from_zone_and_format (str, a_zone, Format_time_date, 1, UTC_adjust [a_zone])
+			format_i := format_index (str)
+			Precursor (str)
 		end
 
 feature -- Access
@@ -83,56 +55,53 @@ feature -- Access
 	default_format_string: STRING
 			-- Default output format string
 		do
-			Result := Format_time_date
+			if format_i.to_boolean then
+				Result := Format_options [format_i]
+			else
+				create Result.make_empty
+			end
 		end
 
 feature -- Contract support
 
-	date_time_valid (s: STRING; a_format: STRING): BOOLEAN
+	date_time_valid (s: STRING; format: STRING): BOOLEAN
 		do
-			-- 03:22:41 Apr 10, 2018 PDT
-			Result := True
---			if a_format = Format_time_date then
---				if s [3] = ':' then
---					Result := Precursor (s.substring (1, 21), Format_time_date)
---				end
---			end
+			Result := Precursor (s, Format_options [format_index (s)])
 		end
 
 feature {NONE} -- Implementation
 
-	time_zone (str: STRING): STRING
+	format_index (s: STRING): INTEGER
 		local
-			spaces: EL_OCCURRENCE_INTERVALS [STRING]; s: EL_STRING_8_ROUTINES
+			week_day: STRING
 		do
-			create spaces.make (str, s.character_string (' '))
-			inspect spaces.count
-				when 4 then
-					Result := str.substring (spaces.last_upper + 1, spaces.last_upper + 3)
-				when 6 then
-					spaces.go_i_th (5)
-					Result := str.substring (spaces.item_upper + 1, spaces.item_upper + 3)
+			if s.has ('(') and then s.has (')') then
+				week_day := s.substring (1, 3)
+				week_day.to_upper
+				if Date_time.Days_text.has (week_day) then
+					Result := 3
+				else
+					Result := 2
+				end
 			else
-				Result := Empty_string_8
+				Result := 1
 			end
 		end
 
-feature -- Constants
+feature {NONE} -- Internal attributes
 
-	UTC_adjust: EL_HASH_TABLE [INTEGER, STRING]
-		-- Zone adjustments to UTC
-		once
-			create Result.make (<<
-				[Zone_gmt, 0], ["PDT", 7], ["PST", 8]
-			>>)
-		end
-
-	Zone_gmt: STRING = "GMT"
+	format_i: INTEGER
 
 feature {NONE} -- Constants
 
-	Format_date_time: STRING = "mmm [0]dd yyyy [0]hh:[0]mi:[0]ss"
-
-	Format_time_date: STRING = "[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy"
+	Format_options: ARRAY [STRING]
+		local
+			format: STRING
+		once
+			format := "Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)"
+			Result := <<
+				"[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd", format, "Ddd " + format
+			>>
+		end
 
 end
