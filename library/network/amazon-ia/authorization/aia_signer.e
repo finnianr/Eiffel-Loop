@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 4:13:01 GMT (Saturday 25th January 2020)"
-	revision: "6"
+	date: "2021-05-16 10:08:38 GMT (Sunday 16th May 2021)"
+	revision: "7"
 
 class
 	AIA_SIGNER
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_MODULE_DATE
+
+	EL_SHARED_DATE_TIME
 
 create
 	make
@@ -31,7 +33,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create time_now.make_now_utc
-			short_date := time_now.formatted_out (Date_format_short)
+			short_date := time_now.formatted_out (Date_time.ISO_8601.date)
 			iso8601_time := Date.ISO_8601_formatted (time_now, False)
 		end
 
@@ -73,8 +75,6 @@ feature {NONE} -- Internal attributes
 	time_now: DATE_TIME
 
 feature {NONE} -- Constants
-
-	Date_format_short: STRING = "yyyy[0]mm[0]dd"
 
 	Empty_header_list: EL_SPLIT_STRING_LIST [STRING]
 		once

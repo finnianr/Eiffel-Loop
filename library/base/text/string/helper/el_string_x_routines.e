@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 11:58:42 GMT (Wednesday 20th January 2021)"
-	revision: "28"
+	date: "2021-05-16 9:27:31 GMT (Sunday 16th May 2021)"
+	revision: "29"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -293,6 +293,10 @@ feature -- Transformed
 					Result := text.substring (1, l_occurrences.item_lower - 1)
 				end
 			end
+		end
+
+	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): S
+		deferred
 		end
 
 	quoted (str: READABLE_STRING_GENERAL; quote_type: INTEGER): S

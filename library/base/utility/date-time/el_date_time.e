@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 16:51:57 GMT (Saturday 15th May 2021)"
-	revision: "14"
+	date: "2021-05-16 10:28:33 GMT (Sunday 16th May 2021)"
+	revision: "15"
 
 class
 	EL_DATE_TIME
@@ -47,19 +47,19 @@ create
 	make_with_format,
 	make_from_string_with_base,
 	make_from_string_default_with_base,
-	make_ISO_8601,
-	make_ISO_8601_short
+	make_ISO_8601_extended,
+	make_ISO_8601
 
 feature -- Initialization
 
-	make_ISO_8601 (s: STRING)
+	make_ISO_8601_extended (s: STRING)
 		do
-			make_with_format (s, Date_time.Format_iso_8601)
+			make_with_format (s, Date_time.ISO_8601.format_extended)
 		end
 
-	make_ISO_8601_short (s: STRING)
+	make_ISO_8601 (s: STRING)
 		do
-			make_with_format (s, Date_time.format_iso_8601_short)
+			make_with_format (s, Date_time.ISO_8601.format)
 		end
 
 	make_from_other (other: DATE_TIME)
@@ -94,7 +94,7 @@ feature -- Access
 
 	formatted_out (format: STRING): STRING
 		local
-			index, i: INTEGER
+			index: INTEGER
 		do
 			if attached Conversion_table [format] as conversion then
 				Result := conversion.formatted_out (Current)
@@ -231,12 +231,8 @@ feature {NONE} -- Constants
 	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
 		once
 			create Result.make_equal (3)
-			Result [Date_time.Format_iso_8601] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make (
-				"yyyy-[0]mm-[0]dd [0]hh:[0]mi:[0]ss", 11, 20
-			)
-			Result [Date_time.format_iso_8601_short] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make (
-				"yyyy[0]mm[0]dd[0]hh[0]mi[0]ss", 9, 16
-			)
+			Result [Date_time.ISO_8601.format] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make
+			Result [Date_time.ISO_8601.format_extended] := create {EL_ISO_8601_EXTENDED_DATE_TIME_CONVERSION}.make
 		end
 
 	Parser_table: EL_CACHE_TABLE [EL_DATE_TIME_PARSER, STRING]

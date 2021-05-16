@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 6:38:24 GMT (Friday 14th May 2021)"
-	revision: "3"
+	date: "2021-05-16 9:40:43 GMT (Sunday 16th May 2021)"
+	revision: "4"
 
 class
 	EL_SHORT_ISO_8601_DATE_TIME
@@ -35,7 +35,7 @@ feature -- Constant
 	Default_format_string: STRING
 			-- Default output format string
 		once
-			Result := Date_time.Format_iso_8601_short
+			Result := Date_time.ISO_8601.format
 		end
 
 end

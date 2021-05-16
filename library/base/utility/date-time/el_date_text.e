@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 15:13:58 GMT (Friday 14th May 2021)"
-	revision: "17"
+	date: "2021-05-16 10:04:07 GMT (Sunday 16th May 2021)"
+	revision: "18"
 
 deferred class
 	EL_DATE_TEXT
@@ -36,25 +36,22 @@ feature -- Access
 		end
 
 	from_ISO_8601_formatted (iso8601_string: STRING): EL_DATE_TIME
-		local
-			iso_date: like Once_date_time
 		do
-			iso_date := Once_date_time
 			if iso8601_string.has ('-') then
-				iso_date.make_iso_8601 (iso8601_string)
+				create Result.make_iso_8601_extended (iso8601_string)
 			else
-				iso_date.make_iso_8601_short (iso8601_string)
+				create Result.make_iso_8601 (iso8601_string)
 			end
-			Result := iso_date.twin
 		end
 
-	iso_8601_formatted (time: DATE_TIME; canonical: BOOLEAN): STRING
+	iso_8601_formatted (dt: DATE_TIME; extended: BOOLEAN): STRING
 		-- format as "yyyy[0]mm[0]Tdd[0]hh[0]mi[0]ssZ"
 		do
-			if canonical then
-				Result := Once_date_time.formatted_out (Format_iso_8601)
+			Once_date_time.make_from_other (dt)
+			if extended then
+				Result := Once_date_time.formatted_out (ISO_8601.format_extended)
 			else
-				Result := Once_date_time.formatted_out (Format_iso_8601_short)
+				Result := Once_date_time.formatted_out (ISO_8601.format)
 			end
 		end
 
@@ -152,15 +149,6 @@ feature {NONE} -- Implementation
 	default_ordinal_indicator: ZSTRING
 			--	
 		deferred
-		end
-
-	new_iso_date_time (canonical: BOOLEAN): EL_DATE_TIME
-		do
-			if canonical then
---				create Result := Canonical_iso_8601_date_time
-			else
---				Result := Short_iso_8601_date_time
-			end
 		end
 
 	month_name (month_of_year: INTEGER; short: BOOLEAN): ZSTRING

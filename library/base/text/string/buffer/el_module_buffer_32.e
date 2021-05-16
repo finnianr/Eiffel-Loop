@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 12:14:38 GMT (Friday 30th April 2021)"
-	revision: "6"
+	date: "2021-05-16 18:50:19 GMT (Sunday 16th May 2021)"
+	revision: "7"
 
 deferred class
 	EL_MODULE_BUFFER_32
@@ -17,7 +17,8 @@ inherit
 
 feature {NONE} -- Implementation
 
-	buffer_32: EL_STRING_32_BUFFER_ROUTINES
-		do
+	Buffer_32: EL_STRING_32_BUFFER
+		once
+			create Result
 		end
 end

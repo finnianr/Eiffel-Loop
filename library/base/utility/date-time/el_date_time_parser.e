@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 12:08:58 GMT (Saturday 15th May 2021)"
-	revision: "1"
+	date: "2021-05-16 9:15:08 GMT (Sunday 16th May 2021)"
+	revision: "2"
 
 class
 	EL_DATE_TIME_PARSER
@@ -112,7 +112,7 @@ feature {NONE} -- Implementation
 			if offset_string.count < 8 then
 				offset_string.prepend_character ('0')
 			end
-			create Result.make_from_string (offset_string, Date_time.Format_hh_mi_ss)
+			create Result.make_from_string (offset_string, Date_time.ISO_8601.time_extended)
 		end
 
 feature {NONE} -- Internal attributes

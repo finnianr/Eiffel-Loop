@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 16:05:27 GMT (Saturday 15th May 2021)"
-	revision: "14"
+	date: "2021-05-16 10:01:26 GMT (Sunday 16th May 2021)"
+	revision: "15"
 
 class
 	DATE_TIME_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 		local
 			dt: EL_DATE_TIME
 		do
-			create dt.make_iso_8601 (Date_2017.ISO_8601)
+			create dt.make_iso_8601_extended (Date_2017.ISO_8601)
 			assert ("same time", date_time.out ~ dt.out)
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601))
 			assert ("same time", date_time ~ Date.from_ISO_8601_formatted (Date_2017.ISO_8601_short))

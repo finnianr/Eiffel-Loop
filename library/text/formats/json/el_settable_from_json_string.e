@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:36:40 GMT (Friday 8th January 2021)"
-	revision: "18"
+	date: "2021-05-16 17:54:59 GMT (Sunday 16th May 2021)"
+	revision: "19"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -41,8 +41,6 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_NAMING
-
-	EL_MODULE_BUFFER
 
 feature {NONE} -- Initialization
 
@@ -61,21 +59,24 @@ feature -- Access
 		do
 			field := [create {STRING}.make (0), Empty_string]
 
-			Result := buffer.copied_general (once "{%N")
-			table := field_table
-			from is_first := True; table.start until table.after loop
-				if is_first then
-					is_first := False
-				else
-					Result.append_string_general (once ",%N")
+			if attached String_pool.reuseable_item as str then
+				str.append_string_general (once "{%N")
+				table := field_table
+				from is_first := True; table.start until table.after loop
+					if is_first then
+						is_first := False
+					else
+						str.append_string_general (once ",%N")
+					end
+					field.name := current_reflective.export_name (table.key_for_iteration, False)
+					field.value := Escaper.escaped (field_string (table.item_for_iteration), False)
+					str.append (Field_template #$ field)
+					table.forth
 				end
-				field.name := current_reflective.export_name (table.key_for_iteration, False)
-				field.value := Escaper.escaped (field_string (table.item_for_iteration), False)
-				Result.append (Field_template #$ field)
-				table.forth
+				str.append_string_general (once "%N}")
+				create Result.make_from_other (str)
+				String_pool.recycle (str)
 			end
-			Result.append_string_general (once "%N}")
-			Result := Result.twin
 		end
 
 feature -- Element change

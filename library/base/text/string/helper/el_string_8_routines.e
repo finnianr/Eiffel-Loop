@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 12:02:53 GMT (Wednesday 20th January 2021)"
-	revision: "18"
+	date: "2021-05-16 9:30:14 GMT (Sunday 16th May 2021)"
+	revision: "19"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -113,7 +113,6 @@ feature {NONE} -- Implemenation
 			create Result.make_filled (key.to_character_8, (key |>> 8).to_integer_32)
 		end
 
-
 feature -- Measurement
 
 	latin_1_count (s: STRING_8): INTEGER
@@ -177,6 +176,14 @@ feature -- Transformation
 	prune_all_leading (str: STRING_8; c: CHARACTER_32)
 		do
 			str.prune_all_leading (c.to_character_8)
+		end
+
+	pruned (str: STRING_8; c: CHARACTER_32): STRING_8
+		do
+			create Result.make_from_string (str)
+			if c.is_character_8 then
+				Result.prune_all (c.to_character_8)
+			end
 		end
 
 	replace_character (target: STRING_8; a_old, a_new: CHARACTER)

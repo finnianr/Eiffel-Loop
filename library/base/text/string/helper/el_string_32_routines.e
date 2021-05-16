@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 12:06:06 GMT (Wednesday 20th January 2021)"
-	revision: "19"
+	date: "2021-05-16 9:29:42 GMT (Sunday 16th May 2021)"
+	revision: "20"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -167,6 +167,12 @@ feature -- Transformation
 	left_adjust (str: STRING_32)
 		do
 			str.left_adjust
+		end
+
+	pruned (str: STRING_32; c: CHARACTER_32): STRING_32
+		do
+			create Result.make_from_string (str)
+			Result.prune_all (c)
 		end
 
 	prune_all_leading (str: STRING_32; c: CHARACTER_32)

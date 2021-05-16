@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 10:42:53 GMT (Saturday 15th May 2021)"
-	revision: "3"
+	date: "2021-05-16 18:52:24 GMT (Sunday 16th May 2021)"
+	revision: "4"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -15,12 +15,14 @@ class
 inherit
 	DATE_TIME_TOOLS
 
+	EL_MODULE_TUPLE
+
 feature -- Access
 
 	leading_string_count (s: STRING; space_count: INTEGER): INTEGER
 		-- count of leading characters up to `space_count' number of spaces counting from end
 		local
-			i, count: INTEGER; c: CHARACTER
+			i, count: INTEGER
 		do
 			from i := s.count until count = space_count or else i = 0 loop
 				if s [i].is_space then
@@ -33,18 +35,26 @@ feature -- Access
 
 feature -- Constants
 
-	Format_hh_mi_ss: STRING = "[0]hh:[0]mi:[0]ss"
+	ISO_8601: TUPLE [time, time_extended, date, date_extended, format, format_extended: STRING]
+		local
+			s: EL_STRING_8_ROUTINES
+		once
+			create Result
+			Result.time_extended := "[0]hh:[0]mi:[0]ss"
+			Result.time := s.pruned (Result.time_extended, ':')
+			Result.date_extended := "yyyy-[0]mm-[0]dd"
+			Result.date := s.pruned (Result.date_extended, '-')
 
-	Format_iso_8601: STRING = "yyyy-[0]mm-[0]ddT[0]hh:[0]mi:[0]ssZ"
-
-	Format_iso_8601_short: STRING = "yyyy[0]mm[0]ddT[0]hh[0]mi[0]ssZ"
+			Result.format := Result.date + "T" + Result.time + "Z"
+			Result.format_extended := Result.date_extended + "T" + Result.time_extended + "Z"
+		end
 
 	Zone_gmt: STRING = "GMT"
 
 feature -- Constants
 
 	Zone_table: EL_HASH_TABLE [INTEGER, STRING]
-		-- Zone relative to UTC
+		-- Zones relative to UTC formated as hours and mins
 		once
 			create Result.make (<<
 				["PST", -8_00],
