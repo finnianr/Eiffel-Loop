@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_default
-			create modification_time.make (0, 0, 0, 0, 0, 0)
+			create modification_time.make_from_epoch (0)
 			reset_directives
 			encoding := 0 -- indicates a text source by default
 		end

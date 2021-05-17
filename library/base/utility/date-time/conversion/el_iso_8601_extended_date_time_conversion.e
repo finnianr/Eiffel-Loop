@@ -1,5 +1,8 @@
 note
-	description: "El ISO 8601 EXTENDED DATE TIME CONVERSION"
+	description: "[
+		Implementation of [$source EL_DATE_TIME_CONVERSION] for the extended form of the
+		[https://en.wikipedia.org/wiki/ISO_8601 ISO-8601 date-time format]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

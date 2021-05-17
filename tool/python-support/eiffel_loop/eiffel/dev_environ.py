@@ -94,6 +94,9 @@ eiffel_basename = 'Eiffel'
 library_basename = 'library'
 cur_dir = path.curdir ()
 
+# keep assertions in finalized build
+keep_assertions = False
+
 if not ise.key_library in os.environ:
 	os.environ [ise.key_library] = ise.eiffel
 

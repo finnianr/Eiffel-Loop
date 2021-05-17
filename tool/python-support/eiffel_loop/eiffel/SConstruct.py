@@ -31,7 +31,6 @@ arguments.Add (
 	)
 )
 arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
-arguments.Add (BoolVariable ('keep_assertions', 'Compile finalized exe keeping assertions', 'no'))
 
 #arguments.Add (
 #	ListVariable (
@@ -49,6 +48,7 @@ if env.GetOption ('help'):
 else:
 	is_windows_platform = sys.platform == 'win32'
 	project_py = project.read_project_py ()
+	print "project_py.keep_assertions", project_py.keep_assertions
 
 #	MSC_options = env.get ('MSC_options').data
 #	if MSC_options:
@@ -65,7 +65,7 @@ else:
 	
 	pecf_path = path.splitext (project_py.ecf)[0] + '.pecf'
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
-	config.keep_assertions = env.get ('keep_assertions')
+	config.keep_assertions = project_py.keep_assertions
 
 	if action == 'install_resources':
 		build = FREEZE_BUILD (config, project_py)
