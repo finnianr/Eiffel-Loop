@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 6:58:25 GMT (Monday 25th May 2020)"
-	revision: "19"
+	date: "2021-05-17 13:22:38 GMT (Monday 17th May 2021)"
+	revision: "20"
 
 class
 	EL_FILE_PATH
 
 inherit
 	EL_PATH
+
+	EL_SHARED_DATE_TIME
 
 create
 	default_create, make, make_from_path, make_from_other, make_from_steps
@@ -31,7 +33,7 @@ feature -- Access
 			if exists then
 				create Result.make_from_epoch (modification_time)
 			else
-				create Result.make (0, 0, 0, 0, 0, 0)
+				Result := Date_time.Origin
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 18:52:24 GMT (Sunday 16th May 2021)"
-	revision: "4"
+	date: "2021-05-17 13:21:58 GMT (Monday 17th May 2021)"
+	revision: "5"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -47,6 +47,14 @@ feature -- Constants
 
 			Result.format := Result.date + "T" + Result.time + "Z"
 			Result.format_extended := Result.date_extended + "T" + Result.time_extended + "Z"
+		end
+
+	Origin: DATE_TIME
+		local
+			dt: DATE_TIME
+		once
+			create dt.make_from_epoch (0)
+			Result := dt.Origin
 		end
 
 	Zone_gmt: STRING = "GMT"

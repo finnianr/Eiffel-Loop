@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 12:27:18 GMT (Monday 17th May 2021)"
-	revision: "38"
+	date: "2021-05-17 13:38:59 GMT (Monday 17th May 2021)"
+	revision: "39"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -111,10 +111,16 @@ feature -- Basic operations
 
 				field_definition := list.item.name + ": " + list.item.class_name
 				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} list.item as expanded_field
-					and then attached {EL_ENUMERATION [NUMERIC]} expanded_field.representation as enumeration
+					and then expanded_field.has_representation
 				then
-					enumeration_list.extend (enumeration)
-					field_definition.append (" -- Enumeration: " + enumeration.generator)
+					if attached {EL_ENUMERATION [NUMERIC]} expanded_field.representation as enumeration then
+						enumeration_list.extend (enumeration)
+						field_definition.append (" -- Enumeration: " + enumeration.generator)
+
+					elseif attached {DATE_TIME} expanded_field.representation as date_time then
+						field_definition.append (" -- " + date_time.generator + ": " + date_time.date_default_format_string)
+
+					end
 				end
 				output.put_indented_line (tab_count + 1, field_definition)
 				if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item.value (Current) as storable then
