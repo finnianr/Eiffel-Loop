@@ -6,4 +6,4 @@ ecf = 'test.ecf'
 
 set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM")
 
-keep_assertions = True
+#keep_assertions = True

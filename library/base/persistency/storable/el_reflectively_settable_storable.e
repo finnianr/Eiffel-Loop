@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-12 18:45:17 GMT (Wednesday 12th May 2021)"
-	revision: "37"
+	date: "2021-05-17 12:27:18 GMT (Monday 17th May 2021)"
+	revision: "38"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -110,9 +110,11 @@ feature -- Basic operations
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
 
 				field_definition := list.item.name + ": " + list.item.class_name
-				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} list.item as numeric then
-					enumeration_list.extend (numeric.enumeration)
-					field_definition.append (" -- Enumeration: " + numeric.enumeration.generator)
+				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} list.item as expanded_field
+					and then attached {EL_ENUMERATION [NUMERIC]} expanded_field.representation as enumeration
+				then
+					enumeration_list.extend (enumeration)
+					field_definition.append (" -- Enumeration: " + enumeration.generator)
 				end
 				output.put_indented_line (tab_count + 1, field_definition)
 				if attached {EL_REFLECTIVELY_SETTABLE_STORABLE} list.item.value (Current) as storable then
@@ -170,17 +172,17 @@ feature {NONE} -- Implementation
 
 	attribute_line_index (field: EL_REFLECTED_FIELD): INTEGER
 		do
-			if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field as numeric then
-				if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} numeric then
+			if attached {EL_REFLECTED_BOOLEAN} field then
+				Result := 2
+			elseif attached {EL_REFLECTED_BOOLEAN_REF} field then
+				Result := 2
+
+			elseif attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field then
+				if expanded_field.has_representation then
 					Result := 3
 				else
 					Result := 1
 				end
-
-			elseif attached {EL_REFLECTED_BOOLEAN} field then
-				Result := 2
-			elseif attached {EL_REFLECTED_BOOLEAN_REF} field then
-				Result := 2
 
 			elseif attached {EL_REFLECTED_DATE} field then
 				Result := 4

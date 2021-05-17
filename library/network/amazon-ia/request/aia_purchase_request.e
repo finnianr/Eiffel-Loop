@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 15:59:27 GMT (Sunday 29th November 2020)"
-	revision: "4"
+	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
+	revision: "5"
 
 class
 	AIA_PURCHASE_REQUEST
@@ -17,7 +17,7 @@ class
 inherit
 	AIA_REQUEST
 		redefine
-			new_enumerations
+			new_representations
 		end
 
 create
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 			create Result.make (response_enum.ok)
 		end
 
-	new_enumerations: like Default_enumerations
+	new_representations: like Default_representations
 		do
 			create Result.make (<<
 				["reason", Reason_enum]

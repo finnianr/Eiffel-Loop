@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:52:10 GMT (Monday 3rd May 2021)"
-	revision: "10"
+	date: "2021-05-17 12:18:42 GMT (Monday 17th May 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_POINTER
@@ -23,11 +23,6 @@ create
 
 feature -- Access
 
-	to_string (a_object: EL_REFLECTIVE): STRING
-		do
-			Result := value (a_object).out
-		end
-
 	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
 		do
 			create Result
@@ -35,13 +30,6 @@ feature -- Access
 		end
 
 feature -- Basic operations
-
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
-		do
-			if attached value (a_object) as v then
-				str.append_string_general (v.out)
-			end
-		end
 
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
@@ -59,7 +47,27 @@ feature -- Basic operations
 			writeable.write_pointer (value (a_object))
 		end
 
-feature {NONE} -- Unimplemented
+feature {NONE} -- Implementation
+
+	append (string: STRING; a_value: POINTER)
+		do
+			string.append (a_value.out)
+		end
+
+	append_directly (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_string_general (v.out)
+			end
+		end
+
+	append_indirectly (a_object: EL_REFLECTIVE; str: ZSTRING; any_ref: ANY)
+		do
+		end
+
+	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		do
+		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
 		do
@@ -68,7 +76,16 @@ feature {NONE} -- Unimplemented
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_indirectly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL; a_representation: ANY)
+		do
+		end
+
+	to_string_directly (a_object: EL_REFLECTIVE): STRING
+		do
+			Result := value (a_object).out
+		end
+
+	to_string_indirectly (a_object: EL_REFLECTIVE; a_representation: ANY): STRING
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
-	revision: "5"
+	date: "2021-05-17 10:51:38 GMT (Monday 17th May 2021)"
+	revision: "6"
 
 class
 	PP_BUTTON_OPTION
@@ -15,7 +15,7 @@ class
 inherit
 	PP_SETTABLE_FROM_UPPER_CAMEL_CASE
 		undefine
-			new_enumerations
+			new_representations
 		end
 
 	EL_CURRENCY_PROPERTY

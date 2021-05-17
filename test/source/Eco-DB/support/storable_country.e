@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 10:57:22 GMT (Tuesday 11th May 2021)"
-	revision: "9"
+	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
+	revision: "10"
 
 class
 	STORABLE_COUNTRY
@@ -24,7 +24,7 @@ inherit
 		rename
 			read_version as read_default_version
 		undefine
-			new_enumerations
+			new_representations
 		select
 			is_storable_field
 		end

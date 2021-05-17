@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:31:45 GMT (Monday 3rd May 2021)"
-	revision: "11"
+	date: "2021-05-17 12:14:26 GMT (Monday 17th May 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_INTEGER_64
@@ -31,21 +31,7 @@ feature -- Access
 			Result.set_item (value (a_object))
 		end
 
-feature -- Conversion
-
-	to_enumeration (a_enumeration: EL_ENUMERATION [INTEGER_64]): EL_REFLECTED_ENUM_INTEGER_64
-		do
-			create Result.make (Current, a_enumeration)
-		end
-
 feature -- Basic operations
-
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
-		do
-			if attached value (a_object) as v then
-				str.append_integer_64 (v)
-			end
-		end
 
 	set (a_object: EL_REFLECTIVE; a_value: INTEGER_64)
 		do
@@ -73,11 +59,23 @@ feature -- Basic operations
 			writeable.write_integer_64 (value (a_object))
 		end
 
+	write_crc_value (crc: EL_CYCLIC_REDUNDANCY_CHECK_32; enum_value: INTEGER_64)
+		do
+			crc.add_integer_64 (enum_value)
+		end
+
 feature {NONE} -- Implementation
 
 	append (string: STRING; a_value: INTEGER_64)
 		do
 			string.append_integer_64 (a_value)
+		end
+
+	append_directly (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_integer_64 (v)
+			end
 		end
 
 end

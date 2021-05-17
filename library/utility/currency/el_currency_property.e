@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:41:41 GMT (Saturday 1st May 2021)"
-	revision: "2"
+	date: "2021-05-17 10:49:23 GMT (Monday 17th May 2021)"
+	revision: "3"
 
 deferred class
 	EL_CURRENCY_PROPERTY
@@ -36,7 +36,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_enumerations: EL_HASH_TABLE [EL_ENUMERATION [NUMERIC], STRING]
+	new_representations: EL_HASH_TABLE [ANY, STRING]
 		do
 			create Result.make (<<
 				["currency_code", Currency_enum]

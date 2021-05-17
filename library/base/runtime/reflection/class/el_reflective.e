@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 12:59:42 GMT (Tuesday 11th May 2021)"
-	revision: "40"
+	date: "2021-05-17 11:58:21 GMT (Monday 17th May 2021)"
+	revision: "41"
 
 deferred class
 	EL_REFLECTIVE
@@ -123,15 +123,6 @@ feature -- Element change
 
 feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 
-	new_enumerations: like Default_enumerations
-		-- redefine to associate natural/integer fields with an enumeration constant
-		-- These fields then becomes settable by an enumeration string alias
-		do
-			Result := Default_enumerations
-		ensure
-			valid_enumerations: valid_enumerations (Result)
-		end
-
 	new_field_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
 		do
 			create Result.make (current_object, field_names)
@@ -154,6 +145,15 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		-- See routine `{EL_REFLECTED_REFERENCE}.set_from_memory' and `write'
 		do
 			Result := Default_reader_writer_interfaces
+		end
+
+	new_representations: like Default_representations
+		-- redefine to associate expanded fields with an object that can be used to
+		-- get or set from a string. An object conforming to `EL_ENUMERATION [NUMERIC]' for example
+		do
+			Result := Default_representations
+		ensure
+			valid_enumerations: valid_enumerations (Result)
 		end
 
 feature -- Contract Support
@@ -245,7 +245,7 @@ feature {NONE} -- Implementation
 			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
 		end
 
-	valid_enumerations (enumerations: like Default_enumerations): BOOLEAN
+	valid_enumerations (enumerations: like Default_representations): BOOLEAN
 		local
 			s: EL_STRING_8_ROUTINES
 		do
@@ -309,11 +309,6 @@ feature {EL_CLASS_META_DATA} -- Implementation
 
 feature {EL_CLASS_META_DATA} -- Constants
 
-	Default_enumerations: EL_HASH_TABLE [EL_ENUMERATION [NUMERIC], STRING]
-		once
-			create Result.make_size (0)
-		end
-
 	Default_field_order: FUNCTION [EL_REFLECTED_FIELD, STRING]
 		-- natural unsorted order
 		once ("PROCESS")
@@ -339,6 +334,11 @@ feature {EL_CLASS_META_DATA} -- Constants
 	Default_reordered_fields: STRING
 		once ("PROCESS")
 			create Result.make_empty
+		end
+
+	Default_representations: EL_HASH_TABLE [ANY, STRING]
+		once
+			create Result.make_size (0)
 		end
 
 	Transient_fields: STRING

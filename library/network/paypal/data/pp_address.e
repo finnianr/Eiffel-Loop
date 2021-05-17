@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-30 11:14:31 GMT (Monday 30th November 2020)"
-	revision: "7"
+	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
+	revision: "8"
 
 class
 	PP_ADDRESS
@@ -19,7 +19,7 @@ inherit
 			export_name as export_default,
 			import_name as import_default
 		redefine
-			new_enumerations
+			new_representations
 		end
 
 create
@@ -64,7 +64,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_enumerations: like Default_enumerations
+	new_representations: like Default_representations
 		do
 			create Result.make (<<
 				["status", Status_enum]

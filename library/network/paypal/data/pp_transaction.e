@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
-	revision: "26"
+	date: "2021-05-17 10:50:18 GMT (Monday 17th May 2021)"
+	revision: "27"
 
 class
 	PP_TRANSACTION
@@ -31,7 +31,7 @@ inherit
 			export_name as export_default,
 			import_name as import_default
 		redefine
-			make_default, new_instance_functions, new_enumerations
+			make_default, new_instance_functions, new_representations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
@@ -42,7 +42,7 @@ inherit
 			currency_code_name as mc_currency_name,
 			set_currency_code as set_mc_currency
 		undefine
-			new_enumerations
+			new_representations
 		end
 
 	PP_SHARED_TRANSACTION_TYPE_ENUM
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	new_enumerations: like Default_enumerations
+	new_representations: like Default_representations
 		do
 			create Result.make (<<
 				["txn_type", Transaction_type_enum],

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
-	revision: "10"
+	date: "2021-05-17 10:51:38 GMT (Monday 17th May 2021)"
+	revision: "11"
 
 class
 	PP_BUTTON_DETAIL
@@ -23,7 +23,7 @@ inherit
 			export_name as export_default,
 			import_name as import_default
 		undefine
-			new_enumerations
+			new_representations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING

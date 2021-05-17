@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 10:57:22 GMT (Tuesday 11th May 2021)"
-	revision: "40"
+	date: "2021-05-17 10:50:53 GMT (Monday 17th May 2021)"
+	revision: "41"
 
 class
 	EL_CLASS_META_DATA
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 			excluded_fields := cached_field_indices_set.item (a_enclosing_object.Transient_fields)
 
 			hidden_fields := cached_field_indices_set.item (a_enclosing_object.Hidden_fields)
-			enumerations := enclosing_object.new_enumerations
+			representations := enclosing_object.new_representations
 			field_list := new_field_list
 			field_table := field_list.to_table (a_enclosing_object)
 		ensure then
@@ -246,16 +246,16 @@ feature {NONE} -- Factory
 		do
 			if attached new_field_factory (type) as factory then
 				Result := factory.new_item (enclosing_object, index, name)
-				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} Result as numeric
-					and then enumerations.has_key (name)
+				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} Result as l_expanded
+					and then representations.has_key (name)
 				then
-					Result := numeric.to_enumeration (enumerations.found_item)
+					l_expanded.set_representation (representations.found_item)
 				end
 			else
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
 			end
 		ensure
-			same_type: not enumerations.has (name) implies Result.generating_type ~ type
+			same_type: not representations.has (name) implies Result.generating_type ~ type
 		end
 
 	new_sink_except_fields: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
@@ -270,7 +270,7 @@ feature {NONE} -- Internal attributes
 
 	enclosing_object: EL_REFLECTIVE
 
-	enumerations: like enclosing_object.new_enumerations
+	representations: like enclosing_object.new_representations
 
 feature {NONE} -- Constants
 

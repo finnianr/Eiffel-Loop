@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 19:11:12 GMT (Monday 3rd May 2021)"
-	revision: "7"
+	date: "2021-05-17 10:45:28 GMT (Monday 17th May 2021)"
+	revision: "8"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -99,7 +99,6 @@ feature {NONE} -- Implementation
 	is_attribute (field: EL_REFLECTED_FIELD): BOOLEAN
 		do
 			if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} field
-				or else attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field
 				or else attached {EL_REFLECTED_BOOLEAN} field
 			then
 				Result := True
@@ -134,8 +133,8 @@ feature {NONE} -- Implementation
 
 	set_item_attribute (field: EL_REFLECTED_FIELD)
 		do
-			if attached {EL_REFLECTED_ENUMERATION [NUMERIC]} field then
-				field.set_from_string (item, last_node.raw_string_32 (True))
+			if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field and then expanded_field.has_representation then
+				expanded_field.set_from_string (item, last_node.raw_string_32 (True))
 			elseif attached {EL_REFLECTED_STORABLE_TUPLE} field as tuple_field then
 				tuple_field.set_from_string (item, last_node.raw_string_32 (True))
 			else

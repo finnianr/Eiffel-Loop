@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:18:40 GMT (Monday 3rd May 2021)"
-	revision: "11"
+	date: "2021-05-17 12:19:15 GMT (Monday 17th May 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -25,15 +25,6 @@ create
 
 feature -- Access
 
-	to_string (a_object: EL_REFLECTIVE): STRING
-		do
-			if value (a_object) then
-				Result := True_string
-			else
-				Result := False_string
-			end
-		end
-
 	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
 		do
 			create Result
@@ -41,13 +32,6 @@ feature -- Access
 		end
 
 feature -- Basic operations
-
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
-		do
-			if attached value (a_object) as v then
-				str.append_boolean (v)
-			end
-		end
 
 	set (a_object: EL_REFLECTIVE; a_value: BOOLEAN)
 		do
@@ -70,14 +54,49 @@ feature -- Basic operations
 			set (a_object, readable.read_boolean)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+		do
+			writeable.write_boolean (value (a_object))
+		end
+
+feature {NONE} -- Implementation
+
+	append (string: STRING; a_value: BOOLEAN)
+		do
+			string.append_boolean (a_value)
+		end
+
+	append_directly (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as v then
+				str.append_boolean (v)
+			end
+		end
+
+	append_indirectly (a_object: EL_REFLECTIVE; str: ZSTRING; any_ref: ANY)
+		do
+		end
+
+	set_indirectly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL; a_representation: ANY)
+		do
+		end
+
+	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			set (a_object, string.to_boolean)
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
+	to_string_directly (a_object: EL_REFLECTIVE): STRING
 		do
-			writeable.write_boolean (value (a_object))
+			if value (a_object) then
+				Result := True_string
+			else
+				Result := False_string
+			end
+		end
+
+	to_string_indirectly (a_object: EL_REFLECTIVE; a_representation: ANY): STRING
+		do
 		end
 
 feature {NONE} -- Constants
