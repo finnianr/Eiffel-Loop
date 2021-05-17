@@ -1,15 +1,13 @@
 note
-	description: "[
-		[$source NATURAL_32] field
-	]"
+	description: "Reflected [$source NATURAL_32] field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 12:13:48 GMT (Monday 17th May 2021)"
-	revision: "13"
+	date: "2021-05-17 13:42:19 GMT (Monday 17th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_NATURAL_32

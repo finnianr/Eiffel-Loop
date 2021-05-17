@@ -1,15 +1,13 @@
 note
-	description: "[
-		[$source INTEGER_8] field
-	]"
+	description: "Reflected [$source INTEGER_8] field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 12:14:14 GMT (Monday 17th May 2021)"
-	revision: "13"
+	date: "2021-05-17 13:41:45 GMT (Monday 17th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_INTEGER_8

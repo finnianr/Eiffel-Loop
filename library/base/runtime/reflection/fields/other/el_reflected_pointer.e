@@ -1,13 +1,13 @@
 note
-	description: "Reflected pointer"
+	description: "Reflected [$source POINTER] field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 12:18:42 GMT (Monday 17th May 2021)"
-	revision: "11"
+	date: "2021-05-17 13:44:05 GMT (Monday 17th May 2021)"
+	revision: "12"
 
 class
 	EL_REFLECTED_POINTER
