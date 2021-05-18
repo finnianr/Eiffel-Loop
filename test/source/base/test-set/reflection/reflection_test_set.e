@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 11:35:13 GMT (Tuesday 18th May 2021)"
-	revision: "13"
+	date: "2021-05-18 15:22:59 GMT (Tuesday 18th May 2021)"
+	revision: "14"
 
 class
 	REFLECTION_TEST_SET
@@ -17,16 +17,19 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_SHARED_CURRENCY_ENUM
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
 			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
+			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
+			eval.call ("field_representation", agent test_field_representation)
 		end
 
 feature -- Tests
@@ -53,6 +56,14 @@ feature -- Tests
 			assert ("country is equal to country_2", country ~ country_2)
 			country_2.temperature_range.unit_name := "Celcius"
 			assert ("country not equal to country_2", country /~ country_2)
+		end
+
+	test_field_representation
+		local
+			representation: EL_ENUMERATION_REPRESENTATION [NATURAL_8]
+		do
+			representation := Currency_enum.to_representation
+			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
 		end
 
 	test_object_initialization_from_camel_case_table

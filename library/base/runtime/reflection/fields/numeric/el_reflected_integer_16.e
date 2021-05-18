@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:13:56 GMT (Tuesday 18th May 2021)"
-	revision: "15"
+	date: "2021-05-18 14:57:55 GMT (Tuesday 18th May 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_INTEGER_16
@@ -47,11 +47,6 @@ feature -- Basic operations
 			set (a_object, a_value.to_integer_16)
 		end
 
-	string_value (string: READABLE_STRING_GENERAL): INTEGER_16
-		do
-			Result := string.to_integer_16
-		end
-
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_integer_16 (value (a_object))
@@ -69,6 +64,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_integer_16 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): INTEGER_16
+		do
+			Result := string.to_integer_16
 		end
 
 end

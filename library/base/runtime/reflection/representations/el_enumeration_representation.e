@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:55:14 GMT (Tuesday 18th May 2021)"
-	revision: "1"
+	date: "2021-05-18 15:12:59 GMT (Tuesday 18th May 2021)"
+	revision: "2"
 
 class
 	EL_ENUMERATION_REPRESENTATION [N -> NUMERIC]
@@ -56,7 +56,11 @@ feature -- Basic operations
 
 	to_value (str: READABLE_STRING_GENERAL): N
 		do
-			Result := enumeration.value (Buffer_8.copied_general (str))
+			if attached {STRING} str as string_8 then
+				Result := enumeration.value (string_8.to_string_8)
+			else
+				Result := enumeration.value (Buffer_8.copied_general (str))
+			end
 		end
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)

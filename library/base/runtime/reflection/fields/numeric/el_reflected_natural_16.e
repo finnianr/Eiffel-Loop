@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:13:25 GMT (Tuesday 18th May 2021)"
-	revision: "15"
+	date: "2021-05-18 14:57:12 GMT (Tuesday 18th May 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_NATURAL_16
@@ -42,11 +42,6 @@ feature -- Basic operations
 			set (a_object, a_value.to_natural_16)
 		end
 
-	string_value (string: READABLE_STRING_GENERAL): NATURAL_16
-		do
-			Result := string.to_natural_16
-		end
-
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_natural_16)
@@ -69,6 +64,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_natural_16 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): NATURAL_16
+		do
+			Result := string.to_natural_16
 		end
 
 end

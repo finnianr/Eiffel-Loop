@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:14:34 GMT (Tuesday 18th May 2021)"
-	revision: "20"
+	date: "2021-05-18 17:31:35 GMT (Tuesday 18th May 2021)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
 
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [N]
+		redefine
+			set_from_string
+		end
 
 feature -- Status query
 
@@ -24,19 +27,27 @@ feature -- Status query
 			Result := value (a_object) = l_zero
 		end
 
+feature -- Basic operations
+
+	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		do
+			-- This redefinition is a workaround for a segmentation fault in finalized exe
+			if attached {EL_DATA_REPRESENTATION [N, ANY]} representation as l_representation then
+				set (a_object, l_representation.to_value (string))
+			else
+				Precursor (a_object, string)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			set (a_object, string_value (string))
+			set (a_object, to_value (string))
 		end
 
 	set (a_object: EL_REFLECTIVE; a_value: N)
 		-- `a_value: like value' causes a segmentation fault in `{EL_REFLECTED_ENUMERATION}.set_from_string'
-		deferred
-		end
-
-	string_value (string: READABLE_STRING_GENERAL): N
 		deferred
 		end
 
@@ -54,6 +65,10 @@ feature {NONE} -- Implementation
 				append (str, v)
 				Result := str.twin
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): N
+		deferred
 		end
 
 feature {NONE} -- Constants

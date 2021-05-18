@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 14:03:45 GMT (Tuesday 18th May 2021)"
-	revision: "1"
+	date: "2021-05-18 15:13:06 GMT (Tuesday 18th May 2021)"
+	revision: "2"
 
 deferred class
 	EL_DATA_REPRESENTATION [G, H]

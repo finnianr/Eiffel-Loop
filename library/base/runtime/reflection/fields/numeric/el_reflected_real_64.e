@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:11:55 GMT (Tuesday 18th May 2021)"
-	revision: "13"
+	date: "2021-05-18 14:56:00 GMT (Tuesday 18th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_REAL_64
@@ -47,11 +47,6 @@ feature -- Basic operations
 			set (a_object, readable.read_real_64)
 		end
 
-	string_value (string: READABLE_STRING_GENERAL): REAL_64
-		do
-			Result := string.to_real_64
-		end
-
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_real_64 (value (a_object))
@@ -69,6 +64,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_real_64 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): REAL_64
+		do
+			Result := string.to_real_64
 		end
 
 end

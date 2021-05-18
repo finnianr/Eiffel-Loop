@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:12:07 GMT (Tuesday 18th May 2021)"
-	revision: "13"
+	date: "2021-05-18 14:56:24 GMT (Tuesday 18th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_REAL_32
@@ -43,11 +43,6 @@ feature -- Basic operations
 			set (a_object, a_value)
 		end
 
-	string_value (string: READABLE_STRING_GENERAL): REAL_32
-		do
-			Result := string.to_real_32
-		end
-
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_real_32)
@@ -70,6 +65,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_real_32 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): REAL_32
+		do
+			Result := string.to_real_32
 		end
 
 end
