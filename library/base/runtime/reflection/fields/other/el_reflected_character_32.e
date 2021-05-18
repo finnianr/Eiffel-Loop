@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:43:46 GMT (Monday 17th May 2021)"
-	revision: "15"
+	date: "2021-05-18 13:09:34 GMT (Tuesday 18th May 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -66,14 +66,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	append_indirectly (a_object: EL_REFLECTIVE; str: ZSTRING; any_ref: ANY)
-		do
-		end
-
-	set_indirectly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL; a_representation: ANY)
-		do
-		end
-
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if string.is_empty then
@@ -90,10 +82,6 @@ feature {NONE} -- Implementation
 			str := buffer.empty
 			str.extend (value (a_object))
 			Result := str.twin
-		end
-
-	to_string_indirectly (a_object: EL_REFLECTIVE; a_representation: ANY): STRING_32
-		do
 		end
 
 end

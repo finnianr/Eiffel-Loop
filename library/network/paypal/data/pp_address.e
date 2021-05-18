@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
-	revision: "8"
+	date: "2021-05-18 12:28:39 GMT (Tuesday 18th May 2021)"
+	revision: "9"
 
 class
 	PP_ADDRESS
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["status", Status_enum]
+				["status", Status_enum.to_representation]
 			>>)
 		end
 

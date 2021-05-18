@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
-	revision: "17"
+	date: "2021-05-18 12:29:11 GMT (Tuesday 18th May 2021)"
+	revision: "18"
 
 class
 	COUNTRY
@@ -42,6 +42,8 @@ feature -- Access
 		do
 			Result := Currency_enum.name (currency)
 		end
+
+	date_founded: INTEGER
 
 	literacy_rate: REAL
 
@@ -89,7 +91,8 @@ feature {NONE} -- Reflection
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["currency", Currency_enum]
+				["currency", Currency_enum.to_representation],
+				["date_founded", create {EL_DATE_REPRESENTATION}]
 			>>)
 		end
 

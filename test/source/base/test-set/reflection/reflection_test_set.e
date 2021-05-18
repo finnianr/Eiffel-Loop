@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 12:39:18 GMT (Thursday 29th April 2021)"
-	revision: "12"
+	date: "2021-05-18 11:35:13 GMT (Tuesday 18th May 2021)"
+	revision: "13"
 
 class
 	REFLECTION_TEST_SET
@@ -23,7 +23,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
---			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
+			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 
 	check_values (country: COUNTRY)
 		local
-			name: ZSTRING
+			name: ZSTRING; date_founded: DATE
 		do
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
@@ -108,14 +108,16 @@ feature {NONE} -- Implementation
 			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
 			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
 			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)
+			create date_founded.make_from_string_default (Value_table.item (Field.date_founded))
+			assert ("same date_founded", country.date_founded = date_founded.ordered_compact_date)
 		end
 
 feature {NONE} -- Constants
 
-	Field: TUPLE [code, currency, literacy_rate, name, population: STRING]
+	Field: TUPLE [code, currency, date_founded, literacy_rate, name, population: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "code, currency, literacy_rate, name, population")
+			Tuple.fill (Result, "code, currency, date_founded, literacy_rate, name, population")
 		end
 
 	Value_table: EL_ZSTRING_TABLE
@@ -125,6 +127,8 @@ feature {NONE} -- Constants
 					IE
 				currency:
 					EUR
+				date_founded:
+					12/29/1937
 				literacy_rate:
 					0.9
 				name:

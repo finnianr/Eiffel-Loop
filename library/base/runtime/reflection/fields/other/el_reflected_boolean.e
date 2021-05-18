@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:43:32 GMT (Monday 17th May 2021)"
-	revision: "13"
+	date: "2021-05-18 13:09:46 GMT (Tuesday 18th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -73,14 +73,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	append_indirectly (a_object: EL_REFLECTIVE; str: ZSTRING; any_ref: ANY)
-		do
-		end
-
-	set_indirectly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL; a_representation: ANY)
-		do
-		end
-
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			set (a_object, string.to_boolean)
@@ -93,10 +85,6 @@ feature {NONE} -- Implementation
 			else
 				Result := False_string
 			end
-		end
-
-	to_string_indirectly (a_object: EL_REFLECTIVE; a_representation: ANY): STRING
-		do
 		end
 
 feature {NONE} -- Constants

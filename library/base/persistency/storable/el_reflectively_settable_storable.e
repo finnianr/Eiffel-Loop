@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:38:59 GMT (Monday 17th May 2021)"
-	revision: "39"
+	date: "2021-05-18 13:26:20 GMT (Tuesday 18th May 2021)"
+	revision: "40"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -113,13 +113,12 @@ feature -- Basic operations
 				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} list.item as expanded_field
 					and then expanded_field.has_representation
 				then
-					if attached {EL_ENUMERATION [NUMERIC]} expanded_field.representation as enumeration then
-						enumeration_list.extend (enumeration)
-						field_definition.append (" -- Enumeration: " + enumeration.generator)
+					if attached {EL_DATA_REPRESENTATION [ANY, ANY]} expanded_field.representation as representation then
+						representation.append_comment (field_definition)
 
-					elseif attached {DATE_TIME} expanded_field.representation as date_time then
-						field_definition.append (" -- " + date_time.generator + ": " + date_time.date_default_format_string)
-
+						if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
+							enumeration_list.extend (enumeration)
+						end
 					end
 				end
 				output.put_indented_line (tab_count + 1, field_definition)

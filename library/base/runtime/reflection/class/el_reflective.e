@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 11:58:21 GMT (Monday 17th May 2021)"
-	revision: "41"
+	date: "2021-05-18 13:42:11 GMT (Tuesday 18th May 2021)"
+	revision: "42"
 
 deferred class
 	EL_REFLECTIVE
@@ -153,7 +153,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		do
 			Result := Default_representations
 		ensure
-			valid_enumerations: valid_enumerations (Result)
+			valid_representations: valid_representations (Result)
 		end
 
 feature -- Contract Support
@@ -245,11 +245,11 @@ feature {NONE} -- Implementation
 			Result := Eiffel.is_string_or_expanded_type (basic_type, type_id)
 		end
 
-	valid_enumerations (enumerations: like Default_representations): BOOLEAN
+	valid_representations (representations: like Default_representations): BOOLEAN
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := valid_field_names (s.joined_with (enumerations.current_keys, ", "))
+			Result := valid_field_names (s.joined_with (representations.current_keys, ", "))
 		end
 
 feature {EL_CLASS_META_DATA} -- Implementation
@@ -336,7 +336,7 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		end
 
-	Default_representations: EL_HASH_TABLE [ANY, STRING]
+	Default_representations: EL_HASH_TABLE [EL_DATA_REPRESENTATION [ANY, ANY], STRING]
 		once
 			create Result.make_size (0)
 		end

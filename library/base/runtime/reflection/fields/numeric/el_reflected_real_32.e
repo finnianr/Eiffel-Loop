@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:43:02 GMT (Monday 17th May 2021)"
-	revision: "12"
+	date: "2021-05-18 13:12:07 GMT (Tuesday 18th May 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_REAL_32
@@ -56,11 +56,6 @@ feature -- Basic operations
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_real_32 (value (a_object))
-		end
-
-	write_crc_value (crc: EL_CYCLIC_REDUNDANCY_CHECK_32; enum_value: REAL_32)
-		do
-			crc.add_real_32 (enum_value)
 		end
 
 feature {NONE} -- Implementation

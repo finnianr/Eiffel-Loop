@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 10:48:14 GMT (Monday 17th May 2021)"
-	revision: "5"
+	date: "2021-05-18 12:28:47 GMT (Tuesday 18th May 2021)"
+	revision: "6"
 
 class
 	AIA_PURCHASE_REQUEST
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["reason", Reason_enum]
+				["reason", Reason_enum.to_representation]
 			>>)
 		end
 

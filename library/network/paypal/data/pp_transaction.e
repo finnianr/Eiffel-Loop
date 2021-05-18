@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 10:50:18 GMT (Monday 17th May 2021)"
-	revision: "27"
+	date: "2021-05-18 12:28:39 GMT (Tuesday 18th May 2021)"
+	revision: "28"
 
 class
 	PP_TRANSACTION
@@ -181,10 +181,10 @@ feature {NONE} -- Implementation
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["txn_type", Transaction_type_enum],
-				["payment_status", Payment_status_enum],
-				["pending_reason", Pending_reason_enum],
-				["mc_currency", Currency_enum]
+				["txn_type", Transaction_type_enum.to_representation],
+				["payment_status", Payment_status_enum.to_representation],
+				["pending_reason", Pending_reason_enum.to_representation],
+				["mc_currency", Currency_enum.to_representation]
 			>>)
 		end
 

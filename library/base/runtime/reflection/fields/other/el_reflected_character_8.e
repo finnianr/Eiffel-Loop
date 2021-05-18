@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:43:58 GMT (Monday 17th May 2021)"
-	revision: "16"
+	date: "2021-05-18 13:09:27 GMT (Tuesday 18th May 2021)"
+	revision: "17"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -66,14 +66,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	append_indirectly (a_object: EL_REFLECTIVE; str: ZSTRING; any_ref: ANY)
-		do
-		end
-
-	set_indirectly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL; a_representation: ANY)
-		do
-		end
-
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if string.is_empty then
@@ -86,10 +78,6 @@ feature {NONE} -- Implementation
 	to_string_directly (a_object: EL_REFLECTIVE): STRING_8
 		do
 			create Result.make_filled (value (a_object), 1)
-		end
-
-	to_string_indirectly (a_object: EL_REFLECTIVE; a_representation: ANY): STRING
-		do
 		end
 
 end

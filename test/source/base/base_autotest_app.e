@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 6:19:09 GMT (Friday 14th May 2021)"
-	revision: "115"
+	date: "2021-05-18 12:34:55 GMT (Tuesday 18th May 2021)"
+	revision: "116"
 
 class
 	BASE_AUTOTEST_APP
@@ -62,6 +62,8 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
+		EL_DATE_TIME_REPRESENTATION,
+
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MUTEX_NUMERIC [INTEGER],
 		EL_MUTEX_VALUE [BOOLEAN],
