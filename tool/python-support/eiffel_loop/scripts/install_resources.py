@@ -11,7 +11,6 @@ from SCons.Variables import Variables
 from glob import glob
 
 var = Variables ()
-var.Add ('cpu', '', 'x64')
 var.Add ('project', '', glob ('*.ecf')[0])
 
 os.environ ['ISE_LIBRARY'] = ise.eiffel
@@ -24,7 +23,7 @@ env.Append (ENV = os.environ)
 env.Append (ISE_PLATFORM = ise.platform)
 
 project_py = project.read_project_py ()
-project_py.set_build_environment (env.get ('cpu'))
+project_py.set_build_environment ()
 
 ecf_path = env.get ('project')
 config = EIFFEL_CONFIG_FILE (ecf_path)
