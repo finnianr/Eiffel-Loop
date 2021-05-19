@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 15:12:59 GMT (Tuesday 18th May 2021)"
-	revision: "2"
+	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
+	revision: "3"
 
 class
 	EL_ENUMERATION_REPRESENTATION [N -> NUMERIC]
 
 inherit
-	EL_DATA_REPRESENTATION [N, EL_ENUMERATION [N]]
+	EL_STRING_REPRESENTATION [N, EL_ENUMERATION [N]]
 		rename
 			item as enumeration
 		redefine

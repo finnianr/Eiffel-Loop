@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 15:22:59 GMT (Tuesday 18th May 2021)"
-	revision: "14"
+	date: "2021-05-19 8:04:50 GMT (Wednesday 19th May 2021)"
+	revision: "15"
 
 class
 	REFLECTION_TEST_SET
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 
 	check_values (country: COUNTRY)
 		local
-			name: ZSTRING; date_founded: DATE
+			name: ZSTRING; date_founded: DATE; euro_zone_member: BOOLEAN
 		do
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
@@ -121,14 +121,16 @@ feature {NONE} -- Implementation
 			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)
 			create date_founded.make_from_string_default (Value_table.item (Field.date_founded))
 			assert ("same date_founded", country.date_founded = date_founded.ordered_compact_date)
+			euro_zone_member := Value_table.item (Field.euro_zone_member) ~ "YES"
+			assert ("same euro_zone_member", country.euro_zone_member = euro_zone_member)
 		end
 
 feature {NONE} -- Constants
 
-	Field: TUPLE [code, currency, date_founded, literacy_rate, name, population: STRING]
+	Field: TUPLE [code, currency, date_founded, euro_zone_member, literacy_rate, name, population: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "code, currency, date_founded, literacy_rate, name, population")
+			Tuple.fill (Result, "code, currency, date_founded, euro_zone_member, literacy_rate, name, population")
 		end
 
 	Value_table: EL_ZSTRING_TABLE
@@ -146,6 +148,8 @@ feature {NONE} -- Constants
 					Ireland
 				population:
 					6500000
+				euro_zone_member:
+					YES
 			]")
 		end
 

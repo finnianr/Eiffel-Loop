@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 17:01:53 GMT (Tuesday 18th May 2021)"
-	revision: "13"
+	date: "2021-05-19 8:48:19 GMT (Wednesday 19th May 2021)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -27,7 +27,7 @@ feature -- Basic operations
 
 feature -- Access
 
-	representation: EL_DATA_REPRESENTATION [G, ANY]
+	representation: EL_STRING_REPRESENTATION [G, ANY]
 		-- object allowing text representation and conversion of field
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
@@ -86,12 +86,8 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		do
-			if attached {EL_DATA_REPRESENTATION [G, ANY]} representation as l_representation then
-				set (a_object, l_representation.to_value (string))
-			else
-				set_directly (a_object, string)
-			end
+		-- forced to implement in descendants because of a segmentation fault in finalized exe
+		deferred
 		end
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)

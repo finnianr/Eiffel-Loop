@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 12:29:11 GMT (Tuesday 18th May 2021)"
-	revision: "18"
+	date: "2021-05-19 8:01:53 GMT (Wednesday 19th May 2021)"
+	revision: "19"
 
 class
 	COUNTRY
@@ -29,6 +29,8 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
+	EL_SHARED_DATE_TIME
+
 create
 	make, make_default
 
@@ -44,6 +46,8 @@ feature -- Access
 		end
 
 	date_founded: INTEGER
+
+	euro_zone_member: BOOLEAN
 
 	literacy_rate: REAL
 
@@ -92,7 +96,8 @@ feature {NONE} -- Reflection
 		do
 			create Result.make (<<
 				["currency", Currency_enum.to_representation],
-				["date_founded", create {EL_DATE_REPRESENTATION}]
+				["date_founded", Date_time.Date_representation],
+				["euro_zone_member", create {EL_BOOLEAN_REPRESENTATION}.make ("no", "yes")]
 			>>)
 		end
 

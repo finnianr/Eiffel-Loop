@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:08:57 GMT (Tuesday 18th May 2021)"
-	revision: "13"
+	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_POINTER
@@ -40,6 +40,16 @@ feature -- Basic operations
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_pointer)
+		end
+
+	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		do
+			-- This redefinition is a workaround for a segmentation fault in finalized exe
+			if attached {EL_STRING_REPRESENTATION [POINTER, ANY]} representation as l_representation then
+				set (a_object, l_representation.to_value (string))
+			else
+				set_directly (a_object, string)
+			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

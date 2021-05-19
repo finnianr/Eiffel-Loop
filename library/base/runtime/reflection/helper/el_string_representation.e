@@ -1,8 +1,8 @@
 note
 	description: "[
-		An expanded field value `G' that represents an item of type `H'.
-		See `representation' attribute in class [$source EL_REFLECTED_EXPANDED_FIELD [G]] and
-		`new_representations' function in class [$source EL_REFLECTIVE]
+		An expanded field value `G' that represents an item of type `H' capable of conversion to and from
+		a string conforming to [$source READABLE_STRING_GENERAL]. See `representation' attribute in class
+		[$source EL_REFLECTED_EXPANDED_FIELD [G]] and `new_representations' function in class [$source EL_REFLECTIVE]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +10,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 15:13:06 GMT (Tuesday 18th May 2021)"
-	revision: "2"
+	date: "2021-05-19 8:51:12 GMT (Wednesday 19th May 2021)"
+	revision: "3"
 
 deferred class
-	EL_DATA_REPRESENTATION [G, H]
+	EL_STRING_REPRESENTATION [G, H]
 
 feature -- Access
 

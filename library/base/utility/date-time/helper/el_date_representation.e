@@ -6,18 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:42:19 GMT (Tuesday 18th May 2021)"
-	revision: "1"
+	date: "2021-05-19 8:53:47 GMT (Wednesday 19th May 2021)"
+	revision: "2"
 
 class
 	EL_DATE_REPRESENTATION
 
 inherit
-	EL_DATA_REPRESENTATION [INTEGER, DATE]
+	EL_STRING_REPRESENTATION [INTEGER, DATE]
 		rename
 			item as date
-		redefine
-			default_create
+		end
+
+create
+	make
+
+feature {NONE} -- Initialization
+
+	make (a_format: STRING)
+		do
+			format := a_format
+			create date.make_now
 		end
 
 feature -- Access
@@ -25,27 +34,22 @@ feature -- Access
 	to_string (a_value: like to_value): STRING
 		do
 			date.make_by_ordered_compact_date (a_value)
-			Result := date.out
+			Result := date.formatted_out (format)
 		end
 
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			create date.make_now
-		end
+	format: STRING
 
 feature -- Basic operations
 
 	append_comment (field_definition: STRING)
 		-- append comment to meta data `field_definition'
 		do
-			field_definition.append (" -- " + date.generator + ": " + date.date_default_format_string)
+			field_definition.append (" -- " + date.generator + ": " + format)
 		end
 
 	to_value (str: READABLE_STRING_GENERAL): INTEGER
 		do
-			date.make_from_string_default (Buffer_8.copied_general (str))
+			date.make_from_string (Buffer_8.copied_general (str), format)
 			Result := date.ordered_compact_date
 		end
 

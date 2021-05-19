@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 17:31:35 GMT (Tuesday 18th May 2021)"
-	revision: "21"
+	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -32,10 +32,10 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			-- This redefinition is a workaround for a segmentation fault in finalized exe
-			if attached {EL_DATA_REPRESENTATION [N, ANY]} representation as l_representation then
+			if attached {EL_STRING_REPRESENTATION [N, ANY]} representation as l_representation then
 				set (a_object, l_representation.to_value (string))
 			else
-				Precursor (a_object, string)
+				set_directly (a_object, string)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:21:58 GMT (Monday 17th May 2021)"
-	revision: "5"
+	date: "2021-05-19 8:30:57 GMT (Wednesday 19th May 2021)"
+	revision: "6"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -31,6 +31,26 @@ feature -- Access
 				i := i - 1
 			end
 			Result := i
+		end
+
+feature -- Integer field representations
+
+	Date_representation: EL_DATE_REPRESENTATION
+		-- maps reflected `INTEGER' field to `DATE'
+		once
+			create Result.make (date_default_format_string)
+		end
+
+	Representation: EL_DATE_TIME_REPRESENTATION
+		-- maps reflected `INTEGER' field to `EL_DATE_TIME'
+		once
+			create Result.make (Default_format_string)
+		end
+
+	Time_representation: EL_TIME_REPRESENTATION
+		-- maps reflected `INTEGER' field to `TIME'
+		once
+			create Result.make (ISO_8601.time_extended)
 		end
 
 feature -- Constants
@@ -57,7 +77,11 @@ feature -- Constants
 			Result := dt.Origin
 		end
 
-	Zone_gmt: STRING = "GMT"
+	Zone: TUPLE [gmt, pdt, pst, utc: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "GMT, PDT, PST, UTC")
+		end
 
 feature -- Constants
 
@@ -65,10 +89,10 @@ feature -- Constants
 		-- Zones relative to UTC formated as hours and mins
 		once
 			create Result.make (<<
-				["PST", -8_00],
-				["PDT", -7_00],
-				[Zone_gmt, 0],
-				["UTC", 0]
+				[Zone.PST, -8_00],
+				[Zone.PDT, -7_00],
+				[Zone.GMT, 0],
+				[Zone.UTC, 0]
 			>>)
 		end
 

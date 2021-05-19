@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:26:20 GMT (Tuesday 18th May 2021)"
-	revision: "40"
+	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
+	revision: "41"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -113,7 +113,7 @@ feature -- Basic operations
 				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} list.item as expanded_field
 					and then expanded_field.has_representation
 				then
-					if attached {EL_DATA_REPRESENTATION [ANY, ANY]} expanded_field.representation as representation then
+					if attached {EL_STRING_REPRESENTATION [ANY, ANY]} expanded_field.representation as representation then
 						representation.append_comment (field_definition)
 
 						if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then

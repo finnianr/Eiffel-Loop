@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 9:16:11 GMT (Wednesday 25th September 2019)"
-	revision: "6"
+	date: "2021-05-19 7:34:40 GMT (Wednesday 19th May 2021)"
+	revision: "7"
 
 class
 	EL_ENGLISH_DATE_TEXT

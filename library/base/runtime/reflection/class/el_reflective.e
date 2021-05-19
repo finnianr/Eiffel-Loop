@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:42:11 GMT (Tuesday 18th May 2021)"
-	revision: "42"
+	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
+	revision: "43"
 
 deferred class
 	EL_REFLECTIVE
@@ -336,7 +336,7 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_empty
 		end
 
-	Default_representations: EL_HASH_TABLE [EL_DATA_REPRESENTATION [ANY, ANY], STRING]
+	Default_representations: EL_HASH_TABLE [EL_STRING_REPRESENTATION [ANY, ANY], STRING]
 		once
 			create Result.make_size (0)
 		end
