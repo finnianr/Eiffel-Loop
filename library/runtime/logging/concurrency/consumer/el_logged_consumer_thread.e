@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-05-20 7:51:46 GMT (Thursday 20th May 2021)"
+	revision: "7"
 
 deferred class
 	EL_LOGGED_CONSUMER_THREAD [P]
@@ -22,7 +22,7 @@ inherit
 
 	EL_LOGGED_IDENTIFIED_THREAD
 		undefine
-			stop
+			make_default, stop
 		end
 
 feature {NONE} -- Event handling

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 13:09:26 GMT (Saturday 6th March 2021)"
-	revision: "5"
+	date: "2021-05-20 8:21:50 GMT (Thursday 20th May 2021)"
+	revision: "6"
 
 class
 	EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -22,12 +22,14 @@ inherit
 			delegator
 		end
 
+	EL_SHARED_THREAD_MANAGER
+
 create
 	make
 
 feature -- Initialization
 
-	make (consumer_count_max: INTEGER; thread_manager: EL_THREAD_MANAGER)
+	make (consumer_count_max: INTEGER)
 			--
 		do
 			make_product_queue (10)

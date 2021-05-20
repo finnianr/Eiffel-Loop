@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 14:00:33 GMT (Tuesday 18th May 2021)"
-	revision: "40"
+	date: "2021-05-19 10:34:02 GMT (Wednesday 19th May 2021)"
+	revision: "41"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -136,7 +136,7 @@ feature -- Access
 feature -- Conversion
 
 	to_representation: EL_ENUMERATION_REPRESENTATION [N]
-		-- to reflected expanded field representation
+		-- to reflected expanded field of type `N' representing a `value' of `Current'
 		do
 			create Result.make (Current)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 12:43:59 GMT (Tuesday 24th December 2019)"
-	revision: "6"
+	date: "2021-05-20 8:06:13 GMT (Thursday 20th May 2021)"
+	revision: "7"
 
 class
 	EL_WORKER_THREAD
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			work_action := a_work_action
-			set_name (new_name (a_work_action.target.generator))
+			set_name (new_english_name (a_work_action.target.generator))
 		end
 
 feature {NONE} -- Implementation

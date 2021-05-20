@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 18:05:49 GMT (Saturday 6th March 2021)"
-	revision: "4"
+	date: "2021-05-20 7:52:26 GMT (Thursday 20th May 2021)"
+	revision: "5"
 
 deferred class
 	EL_CONSUMER_THREAD [P]
@@ -20,7 +20,15 @@ inherit
 
 	EL_CONTINUOUS_ACTION_THREAD
 		redefine
-			execute, stop
+			execute, make_default, stop
+		end
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor {EL_CONTINUOUS_ACTION_THREAD}
+			create product_count.make (0)
 		end
 
 feature -- Basic operations
@@ -87,4 +95,3 @@ feature {NONE} -- Implementation
 	product_count: SEMAPHORE
 
 end
-

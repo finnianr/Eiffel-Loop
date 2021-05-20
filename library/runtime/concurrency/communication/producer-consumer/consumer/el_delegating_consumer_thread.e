@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 11:12:41 GMT (Monday 8th March 2021)"
-	revision: "5"
+	date: "2021-05-20 8:32:44 GMT (Thursday 20th May 2021)"
+	revision: "6"
 
 class
 	EL_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -37,6 +37,8 @@ inherit
 		undefine
 			is_equal, copy
 		end
+
+	EL_SHARED_THREAD_MANAGER
 
 create
 	make

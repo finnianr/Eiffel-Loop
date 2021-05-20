@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:10:57 GMT (Monday 10th May 2021)"
-	revision: "65"
+	date: "2021-05-20 8:31:39 GMT (Thursday 20th May 2021)"
+	revision: "66"
 
 class
 	EXPERIMENTS_APP
@@ -21,11 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	initialize
-		local
-			p: POINTER; f: FUNCTION [ANY]
 		do
-			p := $exit_code
-			f := agent exit_code
 		end
 
 feature -- Basic operations

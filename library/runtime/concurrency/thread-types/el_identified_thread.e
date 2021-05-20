@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 13:03:25 GMT (Tuesday 24th December 2019)"
-	revision: "8"
+	date: "2021-05-20 8:01:05 GMT (Thursday 20th May 2021)"
+	revision: "9"
 
 deferred class
 	EL_IDENTIFIED_THREAD
@@ -15,14 +15,12 @@ deferred class
 inherit
 	EL_STOPPABLE_THREAD
 		redefine
-			make_default, name
+			make_default
 		end
 
 	EL_IDENTIFIED_THREAD_I
 		undefine
 			is_equal, copy
-		redefine
-			name
 		end
 
 	EL_THREAD_CONSTANTS
@@ -48,15 +46,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	name: ZSTRING
-		do
-			if attached internal_name as l_name then
-				Result := l_name
-			else
-				Result := Precursor
-			end
-		end
-
 	thread_id: POINTER
 			--
 		do
@@ -68,13 +57,6 @@ feature -- Status query
 	is_terminated: BOOLEAN
 		do
 			Result := internal_thread.terminated
-		end
-
-feature -- Element change
-
-	set_name (a_name: like name)
-		do
-			internal_name := a_name
 		end
 
 feature -- Basic operations
@@ -143,8 +125,6 @@ feature {EL_INTERNAL_THREAD} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	internal_name: detachable like name
 
 	internal_thread: EL_INTERNAL_THREAD
 

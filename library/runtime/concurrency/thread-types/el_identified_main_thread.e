@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-24 12:55:48 GMT (Tuesday 24th December 2019)"
-	revision: "6"
+	date: "2021-05-20 8:11:47 GMT (Thursday 20th May 2021)"
+	revision: "7"
 
 class
 	EL_IDENTIFIED_MAIN_THREAD
 
 inherit
 	EL_IDENTIFIED_THREAD_I
-		redefine
-			name
-		end
 
 create
 	make
@@ -25,7 +22,7 @@ feature {NONE} -- Initialization
 
 	make (a_name: like name)
 		do
-			name := a_name
+			actual_name := a_name
 		end
 
 feature -- Access
@@ -35,6 +32,4 @@ feature -- Access
 		do
 			Result := {THREAD_ENVIRONMENT}.current_thread_id
 		end
-
-	name: ZSTRING
 end
