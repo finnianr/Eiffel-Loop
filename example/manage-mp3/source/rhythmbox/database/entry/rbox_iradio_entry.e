@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 11:14:44 GMT (Tuesday 11th May 2021)"
-	revision: "46"
+	date: "2021-05-21 19:07:09 GMT (Friday 21st May 2021)"
+	revision: "47"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -20,7 +20,7 @@ inherit
 			element_node_type as	Text_element_node,
 			New_line as New_line_character
 		redefine
-			make, building_action_table, Transient_fields, Field_sets
+			make, building_action_table, Transient_fields, new_representations
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -132,6 +132,15 @@ feature {NONE} -- Implementation
 		do
 			Encoded_location.set_from_string (uri)
 			create Result.make_from_string (Encoded_location)
+		end
+
+	new_representations: like Default_representations
+		do
+			create Result.make (<<
+				["genre",		Genre_set.to_representation],
+				["media_type", Media_type_set.to_representation],
+				["title",		Title_set.to_representation]
+			>>)
 		end
 
 feature {NONE} -- Build from XML
@@ -253,15 +262,6 @@ feature {NONE} -- Constants
 		-- fields that are treated as transient and not stored in Rhythmbox database
 		once
 			Result := "encoding"
-		end
-
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
-		once
-			create Result.make (<<
-				["genre", Genre_set],
-				["media_type", Media_type_set],
-				["title", Title_set]
-			>>)
 		end
 
 	Type: STRING

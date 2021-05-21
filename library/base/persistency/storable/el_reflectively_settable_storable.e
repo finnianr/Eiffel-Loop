@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 10:50:52 GMT (Friday 21st May 2021)"
-	revision: "42"
+	date: "2021-05-21 18:04:44 GMT (Friday 21st May 2021)"
+	revision: "43"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -110,15 +110,12 @@ feature -- Basic operations
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
 
 				field_definition := list.item.name + ": " + list.item.class_name
-				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} list.item as expanded_field
-					and then expanded_field.has_representation
+				if attached {EL_STRING_REPRESENTABLE_FIELD [ANY]} list.item as l_field
+					and then attached {EL_STRING_REPRESENTATION [ANY, ANY]} l_field.representation as representation
 				then
-					if attached {EL_STRING_REPRESENTATION [ANY, ANY]} expanded_field.representation as representation then
-						representation.append_comment (field_definition)
-
-						if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
-							enumeration_list.extend (enumeration)
-						end
+					representation.append_comment (field_definition)
+					if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
+						enumeration_list.extend (enumeration)
 					end
 				end
 				output.put_indented_line (tab_count + 1, field_definition)

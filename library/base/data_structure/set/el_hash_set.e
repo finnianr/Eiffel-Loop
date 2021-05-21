@@ -1,7 +1,7 @@
 note
 	description: "Hash set"
 	notes: "[
-		Tried implementing this with class [$source SEARCH_TABLE] but there seems to be some problems 
+		Tried implementing this with class [$source SEARCH_TABLE] but there seems to be some problems
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:54:45 GMT (Saturday 27th March 2021)"
-	revision: "12"
+	date: "2021-05-21 19:17:42 GMT (Friday 21st May 2021)"
+	revision: "13"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -116,6 +116,12 @@ feature -- Access
 	subset_include (is_member: PREDICATE [G]): like Current
 		do
 			Result := subset (is_member, False)
+		end
+
+	to_representation: EL_HASH_SET_REPRESENTATION [G]
+		-- to representation applied to reflected field of type `G'
+		do
+			create Result.make (Current)
 		end
 
 feature -- Comparison

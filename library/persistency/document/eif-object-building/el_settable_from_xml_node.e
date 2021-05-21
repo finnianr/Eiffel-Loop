@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 10:41:35 GMT (Thursday 29th April 2021)"
-	revision: "26"
+	date: "2021-05-21 19:11:22 GMT (Friday 21st May 2021)"
+	revision: "27"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -210,12 +210,13 @@ feature {NONE} -- Implementation
 				elseif attached {EL_REFLECTED_PATH} field_list.item as path_field then
 					Result [new_xpath (field_list.item, node_type)] := agent set_path_field_from_node (path_field)
 
-				elseif Field_sets.has_key (field_list.item.name)
-					and then attached {EL_CACHEABLE_REFLECTED_REFERENCE [HASHABLE]} field_list.item as field
+				elseif attached {EL_SET_MEMBER_REPRESENTABLE_FIELD [HASHABLE]} field_list.item as field
+					and then attached field.representation as representation
+					and then attached representation.hash_set as hash_set
 				then
 					-- Field value caching
 					xpath := new_xpath (field_list.item, node_type)
-					Result [xpath] := agent set_cached_field_from_node (Field_sets.found_item, field)
+					Result [xpath] := agent set_cached_field_from_node (hash_set, field)
 				else
 					Result [new_xpath (field_list.item, node_type)] := agent set_field_from_node (field_list.item)
 				end
@@ -280,7 +281,7 @@ feature {NONE} -- Implementation
 			field.set_from_readable (current_reflective, node)
 		end
 
-	set_cached_field_from_node (set: EL_HASH_SET [HASHABLE]; field: EL_CACHEABLE_REFLECTED_REFERENCE [HASHABLE])
+	set_cached_field_from_node (set: EL_HASH_SET [HASHABLE]; field: EL_SET_MEMBER_REPRESENTABLE_FIELD [HASHABLE])
 		-- set string `field' with a cached value from `set'
 		do
 			field.read_from_set (current_reflective, node, set)
@@ -316,13 +317,6 @@ feature {NONE} -- Node types
 	Text_element_node: INTEGER = 3
 
 feature {NONE} -- Constants
-
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
-		-- mapping of field name to set of values
-		-- redefine in data class to provide field value caching
-		once
-			create Result
-		end
 
 	Item_name: STRING
 		-- list item name

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 13:26:11 GMT (Tuesday 18th May 2021)"
-	revision: "42"
+	date: "2021-05-21 17:59:19 GMT (Friday 21st May 2021)"
+	revision: "43"
 
 class
 	EL_CLASS_META_DATA
@@ -246,10 +246,10 @@ feature {NONE} -- Factory
 		do
 			if attached new_field_factory (type) as factory then
 				Result := factory.new_item (enclosing_object, index, name)
-				if attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} Result as l_expanded
+				if attached {EL_STRING_REPRESENTABLE_FIELD [ANY]} Result as l_field
 					and then representations.has_key (name)
 				then
-					l_expanded.set_representation (representations.found_item)
+					l_field.set_representation (representations.found_item)
 				end
 			else
 				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:12:32 GMT (Monday 10th May 2021)"
-	revision: "45"
+	date: "2021-05-21 19:16:33 GMT (Friday 21st May 2021)"
+	revision: "46"
 
 class
 	RBOX_SONG
@@ -23,7 +23,7 @@ inherit
 			set_location as set_mp3_uri
 		redefine
 			make, getter_function_table, on_context_exit,
-			Field_sets, Type
+			new_representations, Type
 		end
 
 	MEDIA_ITEM
@@ -426,6 +426,15 @@ feature {NONE} -- Implementation
 			Result := mp3.audio_id
 		end
 
+	new_representations: like Default_representations
+		do
+			create Result.make (<<
+				["album",	Album_set.to_representation],
+				["artist",	Artist_set.to_representation]
+			>>)
+			Result.merge (Precursor)
+		end
+
 	normalized_mp3_base_path: EL_FILE_PATH
 			-- normalized path <mp3_root_location>/<genre>/<artist>/<title>[<- vocalists>]
 		do
@@ -470,15 +479,6 @@ feature {NONE} -- Evolicity reflection
 		end
 
 feature -- Constants
-
-	Field_sets: EL_HASH_TABLE [EL_HASH_SET [STRING_GENERAL], STRING]
-		once
-			create Result.make (<<
-				["album", Album_set],
-				["artist", Artist_set]
-			>>)
-			Result.merge (Precursor)
-		end
 
 	Problem_file_name_characters: ZSTRING
 		once

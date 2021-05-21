@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:51:12 GMT (Wednesday 19th May 2021)"
-	revision: "3"
+	date: "2021-05-21 18:22:46 GMT (Friday 21st May 2021)"
+	revision: "4"
 
 deferred class
 	EL_STRING_REPRESENTATION [G, H]
@@ -25,7 +25,7 @@ feature -- Access
 		deferred
 		end
 
-	expanded_type: TYPE [ANY]
+	value_type: TYPE [ANY]
 		do
 			Result := {G}
 		end
