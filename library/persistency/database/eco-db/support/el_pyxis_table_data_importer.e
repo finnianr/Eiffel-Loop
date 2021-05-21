@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 11:20:28 GMT (Tuesday 18th May 2021)"
-	revision: "9"
+	date: "2021-05-21 15:03:06 GMT (Friday 21st May 2021)"
+	revision: "10"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -137,7 +137,7 @@ feature {NONE} -- Implementation
 				and then expanded_field.has_representation
 			then
 				expanded_field.set_from_string (item, last_node.raw_string_32 (True))
-			elseif attached {EL_REFLECTED_STORABLE_TUPLE} field as tuple_field then
+			elseif attached {EL_REFLECTED_TUPLE} field as tuple_field then
 				tuple_field.set_from_string (item, last_node.raw_string_32 (True))
 			else
 				field.set_from_readable (item, last_node)

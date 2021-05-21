@@ -1,13 +1,13 @@
 note
-	description: "Field conforming to [$source EL_PATH]"
+	description: "Reflected field conforming to type [$source EL_PATH]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:04:03 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2021-05-21 14:58:34 GMT (Friday 21st May 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_PATH

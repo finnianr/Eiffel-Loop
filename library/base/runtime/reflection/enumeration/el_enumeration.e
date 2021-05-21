@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 10:34:02 GMT (Wednesday 19th May 2021)"
-	revision: "41"
+	date: "2021-05-21 10:50:22 GMT (Friday 21st May 2021)"
+	revision: "42"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -168,6 +168,15 @@ feature -- Basic operations
 			across field_table as field loop
 				crc.add_string_8 (field.item.name)
 			end
+		end
+
+	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
+		do
+			output.put_indented_line (tab_count, "class " + generator)
+			across field_table as table loop
+				output.put_indented_line (tab_count + 1, table.item.name + " = " + table.item.to_string (Current))
+			end
+			output.put_indented_line (tab_count, "end")
 		end
 
 feature {NONE} -- Implementation

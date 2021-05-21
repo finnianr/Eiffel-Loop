@@ -1,13 +1,17 @@
 note
-	description: "Common expanded fields including `BOOLEAN', `POINTER' and fields conforming to `NUMERIC'"
+	description: "[
+		Base class for reflected fields of common expanded types including: [$source BOOLEAN], [$source CHARACTER_8],
+		[$source CHARACTER_32] and fields conforming to [$source NUMERIC]
+	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:48:19 GMT (Wednesday 19th May 2021)"
-	revision: "14"
+	date: "2021-05-21 15:33:21 GMT (Friday 21st May 2021)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -120,4 +124,23 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+note
+	descendants: "[
+			EL_REFLECTED_EXPANDED_FIELD* [G]
+				[$source EL_REFLECTED_NUMERIC_FIELD]* [N -> [$source NUMERIC]]
+					[$source EL_REFLECTED_INTEGER_8]
+					[$source EL_REFLECTED_INTEGER_16]
+					[$source EL_REFLECTED_INTEGER_32]
+					[$source EL_REFLECTED_INTEGER_64]
+					[$source EL_REFLECTED_NATURAL_8]
+					[$source EL_REFLECTED_NATURAL_32]
+					[$source EL_REFLECTED_NATURAL_16]
+					[$source EL_REFLECTED_REAL_32]
+					[$source EL_REFLECTED_REAL_64]
+					[$source EL_REFLECTED_NATURAL_64]
+				[$source EL_REFLECTED_CHARACTER_8]
+				[$source EL_REFLECTED_CHARACTER_32]
+				[$source EL_REFLECTED_BOOLEAN]
+				[$source EL_REFLECTED_POINTER]
+	]"
 end

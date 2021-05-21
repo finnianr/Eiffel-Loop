@@ -1,13 +1,13 @@
 note
-	description: "Reflected TUPLE that can be read from a string"
+	description: "Reflected field conforming to type [$source TUPLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 15:52:53 GMT (Monday 3rd May 2021)"
-	revision: "12"
+	date: "2021-05-21 15:23:11 GMT (Friday 21st May 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_TUPLE
@@ -17,7 +17,8 @@ inherit
 		redefine
 			append_to_string, is_initializeable,
 			make, write, new_instance, reset,
-			set_from_readable, set_from_string, to_string
+			set_from_memory, set_from_readable, set_from_string, to_string,
+			write_to_memory
 		end
 
 	EL_MODULE_TUPLE
@@ -67,6 +68,11 @@ feature -- Basic operations
 			initialize (a_object)
 		end
 
+	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			Tuple.read (value (a_object), memory)
+		end
+
 	set_from_readable (a_object: EL_REFLECTIVE; reader: EL_READABLE)
 		do
 			if member_types.is_latin_1_representable then
@@ -91,6 +97,13 @@ feature -- Basic operations
 		do
 			if attached value (a_object) as l_tuple then
 				Tuple.write (l_tuple, writeable, Comma_space)
+			end
+		end
+
+	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		do
+			if attached value (a_object) as l_tuple then
+				Tuple.write (l_tuple, memory, Empty_string_8)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 12:30:36 GMT (Tuesday 11th May 2021)"
-	revision: "8"
+	date: "2021-05-21 15:21:08 GMT (Friday 21st May 2021)"
+	revision: "9"
 
 class
 	EL_REFLECTED_STORABLE_REFERENCE_TYPE_TABLE
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 	make
 		do
  			make_table (<<
-				{EL_REFLECTED_STORABLE}, {EL_REFLECTED_BOOLEAN_REF}, {EL_REFLECTED_STORABLE_TUPLE},
+				{EL_REFLECTED_STORABLE}, {EL_REFLECTED_BOOLEAN_REF},
 				{EL_REFLECTED_DATE}, {EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_TIME}
 			>>)
 		end

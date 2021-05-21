@@ -1,15 +1,13 @@
 note
-	description: "[
-		Storable object that use object reflection to read and write fields and compare objects.
-	]"
+	description: "Reflected field conforming to type [$source EL_STORABLE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 13:48:15 GMT (Saturday 13th February 2021)"
-	revision: "10"
+	date: "2021-05-21 14:59:18 GMT (Friday 21st May 2021)"
+	revision: "11"
 
 class
 	EL_REFLECTED_STORABLE

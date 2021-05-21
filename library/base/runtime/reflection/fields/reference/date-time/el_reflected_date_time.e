@@ -1,13 +1,13 @@
 note
-	description: "Reflected `DATE_TIME' field"
+	description: "Reflected field conforming to [$source DATE_TIME]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 19:44:38 GMT (Thursday 13th May 2021)"
-	revision: "13"
+	date: "2021-05-21 14:57:42 GMT (Friday 21st May 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_DATE_TIME

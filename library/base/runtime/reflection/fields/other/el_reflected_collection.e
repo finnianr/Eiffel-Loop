@@ -1,13 +1,13 @@
 note
-	description: "Reflected collection"
+	description: "Reflected field conforming to [$source COLLECTION]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:57:36 GMT (Monday 3rd May 2021)"
-	revision: "7"
+	date: "2021-05-21 14:56:04 GMT (Friday 21st May 2021)"
+	revision: "8"
 
 class
 	EL_REFLECTED_COLLECTION [G]

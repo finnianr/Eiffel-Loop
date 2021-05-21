@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
-	revision: "41"
+	date: "2021-05-21 10:50:52 GMT (Friday 21st May 2021)"
+	revision: "42"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -134,11 +134,7 @@ feature -- Basic operations
 
 			across enumeration_list as enum loop
 				output.put_new_line
-				output.put_indented_line (tab_count, "class " + enum.item.generator)
-				across enum.item.field_table as table loop
-					output.put_indented_line (tab_count + 1, table.item.name + " = " + table.item.value (enum.item).out)
-				end
-				output.put_indented_line (tab_count, "end")
+				enum.item.write_meta_data (output, tab_count)
 			end
 		end
 
@@ -355,11 +351,12 @@ note
 
 		**2.** All references conforming to [$source EL_STORABLE]
 
-		**3.** TUPLE with type members that are either basic types or string references
+		**3.** [$source TUPLE] with type members that are either basic types or string references
 
-		Override the once string Except_fields to list any fields which should not be stored.
+		Fields which have a note option marking them as ''transient'' are excluded from the `field_table'
+		Also any fields listed in the `Transient_fields' string will be treated the same.
 
-			Except_fields: STRING
+			Transient_fields: STRING
 				once
 					Result := Precursor + ", foo_bar"
 				end

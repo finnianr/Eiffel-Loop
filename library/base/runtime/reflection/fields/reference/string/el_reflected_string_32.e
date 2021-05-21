@@ -1,13 +1,13 @@
 note
-	description: "Reflected string 32"
+	description: "Reflected field of type [$source STRING_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 13:55:31 GMT (Monday 3rd May 2021)"
-	revision: "6"
+	date: "2021-05-21 14:56:50 GMT (Friday 21st May 2021)"
+	revision: "7"
 
 class
 	EL_REFLECTED_STRING_32
