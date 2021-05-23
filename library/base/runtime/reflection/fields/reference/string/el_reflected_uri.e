@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-14 10:51:00 GMT (Sunday 14th February 2021)"
-	revision: "3"
+	date: "2021-05-23 11:49:26 GMT (Sunday 23rd May 2021)"
+	revision: "4"
 
 class
 	EL_REFLECTED_URI
@@ -37,23 +37,6 @@ feature -- Basic operations
 			set (a_object, create {EL_URI}.make (readable.read_string_8))
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			l_value: like value
-		do
-			l_value := value (a_object)
-			if attached {EL_URI} string as uri then
-				set (a_object, uri)
-			else
-				l_value.wipe_out
-				if attached {ZSTRING} string as zstr then
-					zstr.append_to_string_8 (l_value)
-				else
-					l_value.append_string_general (string)
-				end
-			end
-		end
-
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)
 		do
 			writeable.write_string_8 (value (a_object))
@@ -62,14 +45,6 @@ feature -- Basic operations
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			memory.write_string_8 (value (a_object))
-		end
-
-feature {NONE} -- Unused
-
-	read_from_set (a_object: EL_REFLECTIVE; reader: EL_CACHED_FIELD_READER; a_set: EL_HASH_SET [EL_URI])
-		require else
-			never_called: False
-		do
 		end
 
 end

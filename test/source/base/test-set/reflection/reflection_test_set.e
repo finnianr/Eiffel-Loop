@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:04:50 GMT (Wednesday 19th May 2021)"
-	revision: "15"
+	date: "2021-05-23 12:14:54 GMT (Sunday 23rd May 2021)"
+	revision: "16"
 
 class
 	REFLECTION_TEST_SET
@@ -119,6 +119,11 @@ feature {NONE} -- Implementation
 			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
 			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
 			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)
+
+			-- Test field cached in associated set
+			assert ("same continent", country.continent ~ Value_table.item (Field.continent).to_string_8)
+			assert ("in continent set", across country.Continent_set as list some list.item = country.continent end)
+
 			create date_founded.make_from_string_default (Value_table.item (Field.date_founded))
 			assert ("same date_founded", country.date_founded = date_founded.ordered_compact_date)
 			euro_zone_member := Value_table.item (Field.euro_zone_member) ~ "YES"
@@ -127,10 +132,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field: TUPLE [code, currency, date_founded, euro_zone_member, literacy_rate, name, population: STRING]
+	Field: TUPLE [code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, population: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "code, currency, date_founded, euro_zone_member, literacy_rate, name, population")
+			Tuple.fill (
+				Result, "code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, population"
+			)
 		end
 
 	Value_table: EL_ZSTRING_TABLE
@@ -138,6 +145,8 @@ feature {NONE} -- Constants
 			create Result.make ("[
 				code:
 					IE
+				continent:
+					Europe
 				currency:
 					EUR
 				date_founded:

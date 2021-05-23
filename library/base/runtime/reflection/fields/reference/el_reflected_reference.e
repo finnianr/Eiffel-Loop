@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 16:30:52 GMT (Friday 21st May 2021)"
-	revision: "25"
+	date: "2021-05-23 9:11:28 GMT (Sunday 23rd May 2021)"
+	revision: "26"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -104,7 +104,7 @@ feature -- Basic operations
 			end
 		end
 
-	set (a_object: EL_REFLECTIVE; a_value: ANY)
+	set (a_object: EL_REFLECTIVE; a_value: G)
 		do
 			enclosing_object := a_object
 			set_reference_field (index, a_value)

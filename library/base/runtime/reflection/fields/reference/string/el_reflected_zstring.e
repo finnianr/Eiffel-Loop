@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 14:56:23 GMT (Friday 21st May 2021)"
-	revision: "7"
+	date: "2021-05-23 11:45:56 GMT (Sunday 23rd May 2021)"
+	revision: "8"
 
 class
 	EL_REFLECTED_ZSTRING
@@ -30,12 +30,6 @@ feature -- Basic operations
 			end
 		end
 
-	read_from_set (a_object: EL_REFLECTIVE; reader: EL_CACHED_FIELD_READER; a_set: EL_HASH_SET [ZSTRING])
-		do
-			reader.read_string (a_set)
-			set (a_object, a_set.found_item)
-		end
-
 	reset (a_object: EL_REFLECTIVE)
 		do
 			value (a_object).wipe_out
@@ -51,19 +45,6 @@ feature -- Basic operations
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_string)
-		end
-
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			l_value: like value
-		do
-			l_value := value (a_object)
-			if attached {ZSTRING} string as zstring then
-				set (a_object, zstring)
-			else
-				l_value.wipe_out
-				l_value.append_string_general (string)
-			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITEABLE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:01:53 GMT (Wednesday 19th May 2021)"
-	revision: "19"
+	date: "2021-05-23 12:13:41 GMT (Sunday 23rd May 2021)"
+	revision: "20"
 
 class
 	COUNTRY
@@ -38,6 +38,8 @@ feature -- Access
 
 	code: STRING
 
+	continent: STRING
+
 	currency: NATURAL_8
 
 	currency_name: STRING
@@ -62,6 +64,12 @@ feature -- Element change
 	set_code (a_code: like code)
 		do
 			code := a_code
+		end
+
+	set_continent (a_continent: STRING)
+		do
+			Continent_set.put (a_continent)
+			continent := Continent_set.found_item
 		end
 
 	set_currency (a_currency: NATURAL_8)
@@ -90,11 +98,19 @@ feature -- Element change
 			temperature_range.compare_objects
 		end
 
+feature -- Constant
+
+	Continent_set: EL_HASH_SET [STRING]
+		once
+			Result := << "Europe", "Asia" , "Africa", "North America", "South America", "Antarctica" >>
+		end
+
 feature {NONE} -- Reflection
 
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
+				["continent", Continent_set.to_representation],
 				["currency", Currency_enum.to_representation],
 				["date_founded", Date_time.Date_representation],
 				["euro_zone_member", create {EL_BOOLEAN_REPRESENTATION}.make ("no", "yes")]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 13:52:08 GMT (Tuesday 9th February 2021)"
-	revision: "14"
+	date: "2021-05-23 10:40:42 GMT (Sunday 23rd May 2021)"
+	revision: "15"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -55,11 +55,11 @@ inherit
 			copy, is_equal, out
 		end
 
-	EL_CACHED_FIELD_READER
+	EL_STRING_NODE
 		rename
-			read_string as put_string_into,
-			read_string_8 as put_string_8_into,
-			read_string_32 as put_string_32_into
+			as_string as adjusted,
+			as_string_8 as adjusted_8,
+			as_string_32 as adjusted_32
 		undefine
 			copy, is_equal, out
 		end
@@ -356,38 +356,6 @@ feature -- Element change
 	set_type (a_type: INTEGER)
 		do
 			type := a_type
-		end
-
-feature -- Basic operations
-
-	put_string_32_into (a_set: EL_HASH_SET [STRING_32])
-		local
-			member: STRING_32
-		do
-			member := adjusted_32 (False)
-			if not a_set.has_key (member) then
-				a_set.extend (member.twin)
-			end
-		end
-
-	put_string_8_into (a_set: EL_HASH_SET [STRING_8])
-		local
-			member: STRING_8
-		do
-			member := adjusted_8 (False)
-			if not a_set.has_key (member) then
-				a_set.extend (member.twin)
-			end
-		end
-
-	put_string_into (a_set: EL_HASH_SET [ZSTRING])
-		local
-			member: ZSTRING
-		do
-			member := adjusted (False)
-			if not a_set.has_key (member) then
-				a_set.extend (member.twin)
-			end
 		end
 
 feature {EL_DOCUMENT_CLIENT} -- Internal attributes

@@ -1,7 +1,7 @@
 note
-	description: "Abstraction to set a string field from a cached value set"
+	description: "Abstraction to convert a node representing a string to a various string types"
 	descendants: "[
-			EL_CACHED_FIELD_READER*
+			EL_STRING_NODE*
 				[$source EL_DOCUMENT_NODE_STRING]
 					[$source EL_ELEMENT_ATTRIBUTE_NODE_STRING]
 	]"
@@ -11,23 +11,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 13:45:50 GMT (Friday 5th March 2021)"
-	revision: "2"
+	date: "2021-05-23 10:40:08 GMT (Sunday 23rd May 2021)"
+	revision: "3"
 
 deferred class
-	EL_CACHED_FIELD_READER
+	EL_STRING_NODE
 
 feature -- Basic operations
 
-	read_string (set: EL_HASH_SET [ZSTRING])
+	as_string (keep_ref: BOOLEAN): ZSTRING
 		deferred
 		end
 
-	read_string_8 (set: EL_HASH_SET [STRING_8])
+	as_string_8 (keep_ref: BOOLEAN): STRING_8
 		deferred
 		end
 
-	read_string_32 (set: EL_HASH_SET [STRING_32])
+	as_string_32 (keep_ref: BOOLEAN): STRING_32
 		deferred
 		end
 

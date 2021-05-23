@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 19:17:42 GMT (Friday 21st May 2021)"
-	revision: "13"
+	date: "2021-05-23 12:04:47 GMT (Sunday 23rd May 2021)"
+	revision: "14"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -26,7 +26,7 @@ inherit
 			item as table_item,
 			merge as ht_merge,
 			make_equal as make,
-			make as make_from_array,
+			make as make_from_tuple_array,
 			prune as ht_prune,
 			remove as prune,
 			put as ht_put
@@ -53,7 +53,10 @@ inherit
 		end
 
 create
-	make, make_size, make_from_list
+	make, make_size, make_from_list, make_from_array
+
+convert
+	make_from_array ({ARRAY [G]})
 
 feature {NONE} -- Initialization
 
@@ -65,6 +68,11 @@ feature {NONE} -- Initialization
 			across list as l loop
 				extend (l.item)
 			end
+		end
+
+	make_from_array (array: ARRAY [G])
+		do
+			make_from_list (array)
 		end
 
 feature -- Element change
