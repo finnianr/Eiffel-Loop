@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 12:14:54 GMT (Sunday 23rd May 2021)"
-	revision: "16"
+	date: "2021-05-23 17:13:28 GMT (Sunday 23rd May 2021)"
+	revision: "17"
 
 class
 	REFLECTION_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_MODULE_TUPLE
+
+	EL_MODULE_LIO
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -116,6 +118,8 @@ feature {NONE} -- Implementation
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
 			assert ("same code", country.code  ~ Value_table.item (Field.code).to_string_8)
+			lio.put_labeled_string ("country.currency_name", country.currency_name)
+			lio.put_new_line
 			assert ("same currency", country.currency_name  ~ Value_table.item (Field.currency).to_string_8)
 			assert ("same literacy_rate", country.literacy_rate ~ Value_table.item (Field.literacy_rate).to_real)
 			assert ("same population", country.population ~ Value_table.item (Field.population).to_integer)

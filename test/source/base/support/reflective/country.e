@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 12:13:41 GMT (Sunday 23rd May 2021)"
-	revision: "20"
+	date: "2021-05-23 16:53:49 GMT (Sunday 23rd May 2021)"
+	revision: "21"
 
 class
 	COUNTRY
@@ -105,6 +105,11 @@ feature -- Constant
 			Result := << "Europe", "Asia" , "Africa", "North America", "South America", "Antarctica" >>
 		end
 
+	Yes_no_states: EL_BOOLEAN_REPRESENTATION [STRING]
+		once
+			create Result.make ("no", "yes")
+		end
+
 feature {NONE} -- Reflection
 
 	new_representations: like Default_representations
@@ -113,7 +118,7 @@ feature {NONE} -- Reflection
 				["continent", Continent_set.to_representation],
 				["currency", Currency_enum.to_representation],
 				["date_founded", Date_time.Date_representation],
-				["euro_zone_member", create {EL_BOOLEAN_REPRESENTATION}.make ("no", "yes")]
+				["euro_zone_member", Yes_no_states]
 			>>)
 		end
 
