@@ -1,3 +1,6 @@
+1.3.14
+REPOSITORY_PUBLISHER now checks for modification to pecf config
+
 1.3.13
 Fixed string buffering problem with reflective date fields
 

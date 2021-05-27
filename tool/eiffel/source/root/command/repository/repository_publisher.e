@@ -1,13 +1,13 @@
 note
-	description: "Publishes an Eiffel repository as a website"
+	description: "Publishes an Eiffel repository as a website based on a set of Evolicity templates"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-03 13:59:54 GMT (Saturday 3rd April 2021)"
-	revision: "40"
+	date: "2021-05-27 14:17:55 GMT (Thursday 27th May 2021)"
+	revision: "41"
 
 class
 	REPOSITORY_PUBLISHER
@@ -178,6 +178,18 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	check_pecf_source (ecf_path: EL_FILE_PATH)
+		-- check if pecf format source has been modified
+		local
+			pecf_path: EL_FILE_PATH; converter: EL_PYXIS_TO_XML_CONVERTER
+		do
+			pecf_path := ecf_path.with_new_extension (Extension_pecf)
+			if pecf_path.exists and then pecf_path.modification_time > ecf_path.modification_time then
+				create converter.make (pecf_path, ecf_path)
+				converter.execute
+			end
+		end
+
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
 			if attached {EL_FTP_FILE_SYNC_MEDIUM} medium as ftp then
@@ -269,6 +281,7 @@ feature {NONE} -- Build from Pyxis
 				ecf := info.normalized
 				ecf_path := root_dir + ecf.path
 				if ecf_path.exists then
+					check_pecf_source (ecf_path)
 					create root_node.make_from_file (ecf_path)
 					if root_node.parse_failed then
 						lio.put_path_field ("Configuration parse failed", ecf_path)
@@ -319,6 +332,11 @@ feature {EIFFEL_CONFIGURATION_FILE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Root_node_name: STRING = "publish-repository"
+
+	Extension_pecf: ZSTRING
+		once
+			Result := "pecf"
+		end
 
 	Xpath_all_classes: STRING = "/system/target/root/@all_classes"
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:48:06 GMT (Monday 17th May 2021)"
-	revision: "31"
+	date: "2021-05-24 12:51:28 GMT (Monday 24th May 2021)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -46,16 +46,16 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 feature -- Access
 
-	class_name: IMMUTABLE_STRING_8
-		do
-			Result := type.name
-		end
-
 	category_id: INTEGER
 		-- abstract type of field corresponding to `{TUPLE}.XX_code'
 		-- eg. `{TUPLE}.reference_code'
 		do
 			Result := field_type (index)
+		end
+
+	class_name: IMMUTABLE_STRING_8
+		do
+			Result := type.name
 		end
 
 	export_name: STRING
@@ -67,6 +67,8 @@ feature -- Access
 	reference_value (a_object: EL_REFLECTIVE): ANY
 		deferred
 		end
+
+	representation: detachable EL_FIELD_REPRESENTATION [like value, ANY]
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		deferred
@@ -142,13 +144,13 @@ feature -- Basic operations
 		deferred
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
-		deferred
-		end
-
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			set_from_readable (a_object, memory)
+		end
+
+	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+		deferred
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
@@ -159,15 +161,17 @@ feature -- Basic operations
 		deferred
 		end
 
+	write_field_hash (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			write_crc (crc)
+			if attached representation as r then
+				r.write_crc (crc)
+			end
+		end
+
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			write (a_object, memory)
-		end
-
-	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
-		do
-			crc.add_string_8 (name)
-			crc.add_string_8 (class_name)
 		end
 
 feature -- Element change
@@ -175,6 +179,23 @@ feature -- Element change
 	set_index (a_index: like index)
 		do
 			index := a_index
+		end
+
+feature -- Element change
+
+	set_representation (a_representation: like representation)
+		require
+			correct_type: a_representation.value_type ~ type
+		do
+			representation := a_representation
+		end
+
+feature {NONE} -- Implementation
+
+	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			crc.add_string_8 (name)
+			crc.add_string_8 (class_name)
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Internal attributes

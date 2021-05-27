@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 11:13:38 GMT (Thursday 10th December 2020)"
-	revision: "12"
+	date: "2021-05-24 12:51:28 GMT (Monday 24th May 2021)"
+	revision: "13"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -26,10 +26,11 @@ feature -- Access
 		-- CRC checksum for field names and field types
 		local
 			crc: like crc_generator; i: INTEGER
+			field: EL_REFLECTED_FIELD
 		do
 			crc := crc_generator
 			from i := 1 until i > count loop
-				i_th (i).write_crc (crc)
+				i_th (i).write_field_hash (crc)
 				i := i + 1
 			end
 			Result := crc.checksum

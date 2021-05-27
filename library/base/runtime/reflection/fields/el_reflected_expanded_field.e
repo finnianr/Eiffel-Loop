@@ -7,23 +7,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 18:43:02 GMT (Friday 21st May 2021)"
-	revision: "16"
+	date: "2021-05-24 12:41:26 GMT (Monday 24th May 2021)"
+	revision: "17"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
 
 inherit
 	EL_REFLECTED_FIELD
-		redefine
-			write_crc
-		end
 
 	EL_STRING_REPRESENTABLE_FIELD [G]
 		undefine
 			is_equal
-		redefine
-			write_crc
 		end
 
 feature -- Basic operations
@@ -48,19 +43,16 @@ feature -- Status query
 			Result := True
 		end
 
+	has_string_representation: BOOLEAN
+		do
+			Result := attached {EL_STRING_REPRESENTATION [ANY, ANY]} representation
+		end
+
 feature -- Comparison
 
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
 		do
 			Result := value (a_current) = value (other)
-		end
-
-feature -- Basic operations
-
-	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
-		do
-			Precursor {EL_REFLECTED_FIELD} (crc)
-			Precursor {EL_STRING_REPRESENTABLE_FIELD} (crc)
 		end
 
 feature {NONE} -- Implementation

@@ -1,9 +1,9 @@
 note
 	description: "[
-		A field index for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
+		A field index table for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
 	]"
 	notes: "[
-		The index is only maintend for field values that are unique. 
+		The index is only maintained for field values that are unique. 
 		If the field value is an empty string then the data item of type `G' is excluded
 		from being deleted, extended or replaced.
 	]"
@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 18:20:17 GMT (Sunday 28th February 2021)"
-	revision: "10"
+	date: "2021-05-24 13:30:35 GMT (Monday 24th May 2021)"
+	revision: "1"
 
-class
-	ECD_LIST_INDEX [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
+deferred class
+	ECD_INDEX_TABLE [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
 
 inherit
 	HASH_TABLE [INTEGER, K]
@@ -28,19 +28,16 @@ inherit
 		export
 			{NONE} all
 			{ECD_ARRAYED_LIST} wipe_out
-			{ANY} found, found_index, has_key
+			{ANY} found, found_index, has_key, generator
 		redefine
 			search
 		end
 
-create
-	make
-
 feature {NONE} -- Initialization
 
-	make (a_list: like list; a_storable_key: like storable_key; n: INTEGER)
+	make (a_list: like list; n: INTEGER)
 		do
-			list := a_list; storable_key := a_storable_key
+			list := a_list
 			make_equal (n)
 			create default_found_item.make_default
 			found_item := default_found_item
@@ -132,14 +129,10 @@ feature {NONE} -- Implementation
 		end
 
 	item_key (v: G): K
-		-- allows possibility to call `a_item.key' directly in `ECD_KEY_INDEX' descendant
-		do
-			Result := storable_key (v)
+		deferred
 		end
 
 feature {NONE} -- Internal attributes
-
-	storable_key: FUNCTION [G, K]
 
 	default_found_item: G
 

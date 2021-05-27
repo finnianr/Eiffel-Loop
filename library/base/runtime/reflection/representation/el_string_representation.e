@@ -1,6 +1,6 @@
 note
 	description: "[
-		An expanded field value `G' that represents an item of type `H' capable of conversion to and from
+		A field value `G' that represents an item of type `H' capable of conversion to and from
 		a string conforming to [$source READABLE_STRING_GENERAL]. See `representation' attribute in class
 		[$source EL_REFLECTED_EXPANDED_FIELD [G]] and `new_representations' function in class [$source EL_REFLECTIVE]
 	]"
@@ -10,32 +10,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 18:22:46 GMT (Friday 21st May 2021)"
-	revision: "4"
+	date: "2021-05-24 12:23:49 GMT (Monday 24th May 2021)"
+	revision: "5"
 
 deferred class
 	EL_STRING_REPRESENTATION [G, H]
 
-feature -- Access
+inherit
+	EL_FIELD_REPRESENTATION [G, H]
 
-	item: H
-		-- instance of type `H' that `value' represents
+feature -- Access
 
 	to_string (a_value: like to_value): READABLE_STRING_GENERAL
 		deferred
 		end
 
-	value_type: TYPE [ANY]
-		do
-			Result := {G}
-		end
-
 feature -- Basic operations
-
-	append_comment (field_definition: STRING)
-		-- append comment to meta data `field_definition'
-		deferred
-		end
 
 	append_to_string (a_value: like to_value; str: ZSTRING)
 		do
@@ -44,11 +34,6 @@ feature -- Basic operations
 
 	to_value (str: READABLE_STRING_GENERAL): G
 		deferred
-		end
-
-	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
-		do
-			crc.add_string_8 (item.generator)
 		end
 
 feature {NONE} -- Constants

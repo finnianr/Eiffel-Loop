@@ -9,9 +9,23 @@ system:
 		"""
 			Eco-DB (Eiffel CHAIN Orientated Database)
 
-			''Eco-DB'' is an acronym for ''Eiffel CHAIN Orientated Database''. This library allows the extension (by inheritance)
-			of a container object inheriting the base class [https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html CHAIN]
-			so that it assumes many of the charateristics of a database table.
+			**DEPENDS**
+
+			* Eiffel-Loop base.ecf
+			* [./library/document-scan.html document-scan.ecf]
+			* [./library/encryption.html Eiffel-Loop encryption.ecf]
+			* [./library/pyxis-scan.html pyxis-scan.ecf]
+			* [./library/text-formats.html text-formats.ecf]
+
+			**INTRODUCTION**
+
+			''Eco-DB'' is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the
+			extension by inheritance of a container conforming to [$source CHAIN] to assume many of the characteristics of 
+			a relational database table. ''Eco-DB'' leverages many of the facilities of the
+			[./library/base/base.reflection.html reflection cluster]
+			from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
+
+			Some of the main features of this database system are as follows:
 
 			See doc/eco-db.txt for details
 		"""

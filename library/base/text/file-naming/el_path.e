@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:23:50 GMT (Tuesday 23rd March 2021)"
-	revision: "49"
+	date: "2021-05-26 9:05:29 GMT (Wednesday 26th May 2021)"
+	revision: "50"
 
 deferred class
 	EL_PATH
@@ -525,6 +525,13 @@ feature -- Element change
 				end
 			end
 			internal_hash_code := 0
+		end
+
+	set_parent (dir_path: EL_DIR_PATH)
+		local
+			l_path: like Temp_path
+		do
+			set_parent_path (dir_path.temporary_path)
 		end
 
 	set_version_number (number: like version_number)

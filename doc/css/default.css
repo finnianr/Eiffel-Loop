@@ -13,7 +13,7 @@ div#centered {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 150px;
-	width: 900px;
+	width: 1000px;
 	background-color: rgba(210, 210, 210, 0.6);
 }
 div#centered img {
@@ -35,6 +35,10 @@ div#download p:first-child {
 }
 div#text p {
 	padding-left: 10px;
+}
+div#text form {
+	padding-top: 20px;
+	padding-left: 30px;
 }
 div#text ol {
 	font-weight: bold;

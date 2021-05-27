@@ -1,3 +1,30 @@
+**1.** Perform the normal database [https://en.wikipedia.org/wiki/Create,_read,_update_and_delete CRUD] operations.
+
+**2.** Table joins, meaning a field in one [$source CHAIN] table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
+
+**3.** Option to store data securely using [https://en.wikipedia.org/wiki/Advanced_Encryption_Standard AES encryption].
+
+**4.** Database fields are defined as class attributes and are managed reflectively, but there is also a manual method for writing and reading.
+
+**5.** A simple centralised method to specify which fields should maintain a hash index for fast row look-ups by field value. A caveat is it only useful for unique id fields, like email addresses for examples.
+
+**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [$source PREDICATE] agents.
+
+**7.** Leverages a feature of the [./library/base/base.reflection.html reflection cluster] to link selected fields of an expanded type to a textual representation, as defined for example by a [$source DATE] or [$source EL_ENUMERATION [N -> NUMERIC]] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+
+**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [$source CHAIN] table. This guards against accidental changes of field type, field order, field name or textual representation.
+
+**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [./download/myching.software-meta-data.tar.gz myching.software-meta-data.tar.gz]
+
+**10.** Fully automated import/export of [$source CHAIN] tables in either CSV or [https://www.eiffel.org/node/143 Pyxis format] (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [https://www.eiffel.org/node/143 Pyxis format] is very compact and readable allowing easy manual inspection of data. The [https://en.wikipedia.org/wiki/Gedit gedit] text editor has syntax highlighting for this format. See for example: [./download/payment.pyx payment.pyx] recording Paypal transactions.
+
+**11.** Unlike a relational database, the data rows of a [$source CHAIN] table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [$source EL_UUID] (inheriting [$source UUID]) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+
+**12.**
+Application version awareness allows data to be migrated from a data table created by an earlier software version.
+
+**13.** Has been used in production for an [http://myching.software/ online shop] to store details of software subscription sales via Paypal. It is also used very reliably in the [http://myching.software My Ching software] application to manage a journal of I Ching readings and store localization information. In fact ''My Ching'' was one of the main drivers for development of this library.
+
 **PERSISTENCE**
 
 Of course this is the fundamental property of any database. ''Eco-DB'' offers 2 kinds of persistence:
@@ -14,66 +41,148 @@ Item level, or "incremental persistence" is where the effects of any of the basi
 
 See class [$source ECD_RECOVERABLE_CHAIN] for more details.
 
-**JOINING TABLES**
+**TABLE JOINS**
 
 Being able to join*** tables via a common field is the essence of a relational database. ''Eco-DB'' offers a number of features that support the joining of chains.
 
 **1. Field Indexing** 
 
-For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately ''Eco-DB'' offers an easy way to maintain field indices via the implementing class [$source ECD_ARRAYED_LIST [EL_STORABLE]]. To take advantage of reflective capabilities the list may also inherit:
+For a large number of chain items, performing joins can be slow without the use of field indices. ''Eco-DB'' offers an easy way to maintain field indices with very little code via the implementing class [$source ECD_ARRAYED_LIST [EL_STORABLE]] which does all the work of maintaining the index. To index selected fields you just need to redefine the function ''new_index_by'' found in [$source ECD_ARRAYED_LIST] as in this example:
 
-	[$source ECD_REFLECTIVE_RECOVERABLE_CHAIN [EL_REFLECTIVELY_SETTABLE_STORABLE]]
+	class
+		SUBSCRIPTION_LIST
 
-See the class documentation for more details.
+	inherit
+		ECD_ARRAYED_LIST [SUBSCRIPTION]
+			rename
+				item as subscription_item
+			redefine
+				new_index_by
+			end
+
+	feature {NONE} -- Factory
+
+		new_index_by: TUPLE [machine_id: like new_index_by_string_8; activation_code: like new_index_by_uuid]
+			do
+				create Result
+				Result.machine_id := new_index_by_string_8 (agent machine_id_index)
+				Result.activation_code := new_index_by_uuid (agent {SUBSCRIPTION}.activation_code)
+			end
+
+	feature {NONE} -- Implementation
+
+		machine_id_index (subsription: SUBSCRIPTION): STRING
+			do
+				if subsription.is_expired then
+					create Result.make_empty
+				else
+					Result := subsription.machine_id
+				end
+			end
+
+And here is an example showing how to use the created index:
+
+	class SUBSCRIPTION_LIST
+
+	feature -- Status query
+
+		is_subscription_current (activation_code: EL_UUID): BOOLEAN
+			do
+				if attached index_by.activation_code as table then
+					table.search (activation_code)
+					if table.found then
+						Result := table.found_item.is_current
+					end
+				end
+			end
 
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [$source ECD_PRIMARY_KEY_INDEXABLE] when used in conjunction with [$source ECD_ARRAYED_LIST [EL_STORABLE]]. 
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [$source ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]] when used in conjunction with [$source ECD_ARRAYED_LIST [EL_STORABLE]]. The class parameter implies that the storable item must conform to [$source EL_KEY_IDENTIFIABLE_STORABLE]. Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
 Of course the Eiffel language itself can be used to query any [$source CHAIN] list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [$source EL_QUERYABLE_CHAIN] and it's helper [$source EL_QUERY_CONDITION_FACTORY]. The implementing class [$source ECD_ARRAYED_LIST] inherits [$source EL_QUERYABLE_CHAIN].
 
-Conditions can be combined using the logical operators: `and', `or' and `not'. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following hierarchy of classes descended from [$source SONG_QUERY_CONDITIONS]. See project [./example/manage-mp3/manage-mp3.html Eiffel-Loop/example/manage-mp3].
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [$source COLLATE_SONGS_TASK] found in project [./example/manage-mp3/manage-mp3.html Eiffel-Loop/example/manage-mp3].
 
-(Search source code pages for routine `query')
+	apply
+		-- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
+		-- Playlist locations will be updated to match new locations.
+		local
+			new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
+		do
+			query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
+			if query_result.is_empty then
+				lio.put_line ("All songs are normalized")
+			else
+				across query_result as query loop
+					song := query.item
+					..
+				end
+			end
+		end
 
-	SONG_QUERY_CONDITIONS
-		[$source STORAGE_DEVICE]
-			[$source NOKIA_PHONE_DEVICE]
-			[$source SAMSUNG_TABLET_DEVICE]
-			[$source TEST_STORAGE_DEVICE]
-		[$source RBOX_DATABASE]
-		[$source RBOX_MANAGEMENT_TASK]*
-			[$source DEFAULT_TASK]
-			[$source ARCHIVE_SONGS_TASK]
-			[$source COLLATE_SONGS_TASK]
-			[$source IMPORT_NEW_MP3_TASK]
-			[$source IMPORT_VIDEOS_TASK]
-				[$source IMPORT_YOUTUBE_M4A_TASK]
-				[$source IMPORT_VIDEOS_TEST_TASK]
-			[$source IMPORT_M3U_PLAYLISTS_TASK]
-			[$source LIST_VOLUMES_TASK]
-			[$source PUBLISH_DJ_EVENTS_TASK]
-			[$source REPLACE_CORTINA_SET_TASK]
-				[$source REPLACE_CORTINA_SET_TEST_TASK]
-			[$source REPLACE_SONGS_TASK]
-				[$source REPLACE_SONGS_TEST_TASK]
-			[$source RESTORE_PLAYLISTS_TASK]
-			[$source UPDATE_DJ_PLAYLISTS_TASK]
-			[$source ID3_TASK]*
-				[$source DELETE_COMMENTS_TASK]
-				[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
-				[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
-				[$source NORMALIZE_COMMENTS_TASK]
-				[$source PRINT_COMMENTS_TASK]
-				[$source REMOVE_ALL_UFIDS_TASK]
-				[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
-				[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
-				[$source ADD_ALBUM_ART_TASK]
-			[$source EXPORT_TO_DEVICE_TASK]*
-				[$source EXPORT_MUSIC_TO_DEVICE_TASK]
-					[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+The routine ''existing_songs_query'' passes a modified form of the query to ''songs'' list.
+
+	existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
+		do
+			Result := songs.query (not song_is_hidden and condition)
+		end
+
+	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
+
+The query atoms ''song_is_cortina'' and ''song_has_normalized_mp3_path'' are defined in class [$source SONG_QUERY_CONDITIONS] which is defined as follows
+
+	class
+		[$source SONG_QUERY_CONDITIONS]
+
+	inherit
+		[$source EL_QUERY_CONDITION_FACTORY] [RBOX_SONG]
+			rename
+				any as any_song
+			export
+				{NONE} all
+			end
+
+**META-DATA EXPORT**
+
+The routine ''export_meta_data'' in class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
+
+See for example: [./download/myching.software-meta-data.tar.gz myching.software-meta-data.tar.gz] (missing the version directory)
+
+**IMPORT/EXPORT**
+
+It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. ''Eco-DB'' supports two export formats:
+
+1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [$source EL_STORABLE] or  [$source TUPLE].
+
+2. [https://www.eiffel.org/node/143 Pyxis format] which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [./download/payment.pyx payment.pyx] which is a record of Paypal transactions.
+
+The relevant class for importing or exporting is [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN]
+
+**VERSION MANAGEMENT**
+
+A record of the software version is stored in each table. By defining procedure ''read_version'' from class [$source EL_STORABLE]
+
+	read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
+		deferred
+		end
+
+it is possible to migrate data written by an earlier version of the software. If this is not required, this routine can be renamed to ''read_default_version'' in the inheritance section.
+
+**A DATABASE ABSTRACTION**
+
+There is work in progress to create an abstraction representing the concept of a database i.e. a collection of related tables. Currently this exists only in the form of an application library for the [http://myching.software myching.software] shop server. More work is needed to create useful abstractions that can be added to the ''Eco-DB'' library.
+
+A preview of classes which will form the basis of reusable abstractions are as follows:
+
+* [./download/database.e DATABASE] contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
+* [./download/database_config.e DATABASE_CONFIG] for storing/reading the database credentials etc.
+* [./download/data_table.e DATA_TABLE] is an abstraction allowing thread safe table operations in a concurrent environment.
+* [./download/database_manager_shell.e DATABASE_MANAGER_SHELL] is a menu driven shell for managing the database and performing operations like import, export, backup etc.
+* [./download/database_credential.e DATABASE_CREDENTIAL] is an authenticated credential for opening an encrypted database.
+
 **Foot Notes**
 
 ** `delete' is a routine from [$source ECD_CHAIN] and not from [$source CHAIN].

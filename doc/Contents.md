@@ -763,7 +763,46 @@ The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](http://www.eiffel-loop.com/lib
 
 The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](http://www.eiffel-loop.com/library/persistency/document/createable/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
-*Eco-DB* is an acronym for *Eiffel CHAIN Orientated Database*. This library allows the extension (by inheritance) of a container object inheriting the base class [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) so that it assumes many of the charateristics of a database table.
+**DEPENDS**
+
+
+* Eiffel-Loop base.ecf
+* [document-scan.ecf](http://www.eiffel-loop.com/library/document-scan.html)
+* [Eiffel-Loop encryption.ecf](http://www.eiffel-loop.com/library/encryption.html)
+* [pyxis-scan.ecf](http://www.eiffel-loop.com/library/pyxis-scan.html)
+* [text-formats.ecf](http://www.eiffel-loop.com/library/text-formats.html)
+
+**INTRODUCTION**
+
+*Eco-DB* is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the extension by inheritance of a container conforming to [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) to assume many of the characteristics of a relational database table. *Eco-DB* leverages many of the facilities of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
+
+Some of the main features of this database system are as follows:
+
+**1.** Perform the normal database [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations.
+
+**2.** Table joins, meaning a field in one [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
+
+**3.** Option to store data securely using [AES encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
+
+**4.** Database fields are defined as class attributes and are managed reflectively, but there is also a manual method for writing and reading.
+
+**5.** A simple centralised method to specify which fields should maintain a hash index for fast row look-ups by field value. A caveat is it only useful for unique id fields, like email addresses for examples.
+
+**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/predicate_chart.html) agents.
+
+**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/18.01/libraries/time/date_chart.html) or [EL_ENUMERATION [N -> NUMERIC](http://www.eiffel-loop.com/library/base/runtime/reflection/enumeration/el_enumeration.html)] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+
+**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
+
+**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz)
+
+**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
+
+**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/base/kernel/identify/uuid/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/18.01/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+
+**12.** Application version awareness allows data to be migrated from a data table created by an earlier software version.
+
+**13.** Has been used in production for an [online shop](http://myching.software/) to store details of software subscription sales via Paypal. It is also used very reliably in the [My Ching software](http://myching.software) application to manage a journal of I Ching readings and store localization information. In fact *My Ching* was one of the main drivers for development of this library.
 
 **PERSISTENCE**
 
@@ -781,71 +820,181 @@ Item level, or "incremental persistence" is where the effects of any of the basi
 
 See class [ECD_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_recoverable_chain.html) for more details.
 
-**JOINING TABLES**
+**TABLE JOINS**
 
 Being able to join*** tables via a common field is the essence of a relational database. *Eco-DB* offers a number of features that support the joining of chains.
 
 **1. Field Indexing** 
 
-For large number of chain items, performing joins can be slow without the use of field indices. Writing code to create and maintain fields manually is very time consuming, but fortunately *Eco-DB* offers an easy way to maintain field indices via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. To take advantage of reflective capabilities the list may also inherit:
+For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)] which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) as in this example:
 
 
 ````
-[$source ECD_REFLECTIVE_RECOVERABLE_CHAIN [EL_REFLECTIVELY_SETTABLE_STORABLE]]
+class
+	SUBSCRIPTION_LIST
 ````
-See the class documentation for more details.
 
+````
+inherit
+	ECD_ARRAYED_LIST [SUBSCRIPTION]
+		rename
+			item as subscription_item
+		redefine
+			new_index_by
+		end
+````
+
+````
+feature {NONE} -- Factory
+````
+
+````
+	new_index_by: TUPLE [machine_id: like new_index_by_string_8; activation_code: like new_index_by_uuid]
+		do
+			create Result
+			Result.machine_id := new_index_by_string_8 (agent machine_id_index)
+			Result.activation_code := new_index_by_uuid (agent {SUBSCRIPTION}.activation_code)
+		end
+````
+
+````
+feature {NONE} -- Implementation
+````
+
+````
+	machine_id_index (subsription: SUBSCRIPTION): STRING
+		do
+			if subsription.is_expired then
+				create Result.make_empty
+			else
+				Result := subsription.machine_id
+			end
+		end
+````
+And here is an example showing how to use the created index:
+
+
+````
+class SUBSCRIPTION_LIST
+````
+
+````
+feature -- Status query
+````
+
+````
+	is_subscription_current (activation_code: EL_UUID): BOOLEAN
+		do
+			if attached index_by.activation_code as table then
+				table.search (activation_code)
+				if table.found then
+					Result := table.found_item.is_current
+				end
+			end
+		end
+````
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxilary class [ECD_PRIMARY_KEY_INDEXABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html) when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. 
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html)] when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html)]. The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_key_identifiable_storable.html). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
 Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
 
-Conditions can be combined using the logical operators: `and`, `or` and `not`. Queries are not parsed strings but actual Eiffel expressions. Some example of the expressiveness of this query language can be found in the following hierarchy of classes descended from [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html). See project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
-
-(Search source code pages for routine `query`)
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.html) found in project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
 
 
 ````
-SONG_QUERY_CONDITIONS
-	[$source STORAGE_DEVICE]
-		[$source NOKIA_PHONE_DEVICE]
-		[$source SAMSUNG_TABLET_DEVICE]
-		[$source TEST_STORAGE_DEVICE]
-	[$source RBOX_DATABASE]
-	[$source RBOX_MANAGEMENT_TASK]*
-		[$source DEFAULT_TASK]
-		[$source ARCHIVE_SONGS_TASK]
-		[$source COLLATE_SONGS_TASK]
-		[$source IMPORT_NEW_MP3_TASK]
-		[$source IMPORT_VIDEOS_TASK]
-			[$source IMPORT_YOUTUBE_M4A_TASK]
-			[$source IMPORT_VIDEOS_TEST_TASK]
-		[$source IMPORT_M3U_PLAYLISTS_TASK]
-		[$source LIST_VOLUMES_TASK]
-		[$source PUBLISH_DJ_EVENTS_TASK]
-		[$source REPLACE_CORTINA_SET_TASK]
-			[$source REPLACE_CORTINA_SET_TEST_TASK]
-		[$source REPLACE_SONGS_TASK]
-			[$source REPLACE_SONGS_TEST_TASK]
-		[$source RESTORE_PLAYLISTS_TASK]
-		[$source UPDATE_DJ_PLAYLISTS_TASK]
-		[$source ID3_TASK]*
-			[$source DELETE_COMMENTS_TASK]
-			[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
-			[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
-			[$source NORMALIZE_COMMENTS_TASK]
-			[$source PRINT_COMMENTS_TASK]
-			[$source REMOVE_ALL_UFIDS_TASK]
-			[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
-			[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
-			[$source ADD_ALBUM_ART_TASK]
-		[$source EXPORT_TO_DEVICE_TASK]*
-			[$source EXPORT_MUSIC_TO_DEVICE_TASK]
-				[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+apply
+	-- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
+	-- Playlist locations will be updated to match new locations.
+	local
+		new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
+	do
+		query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
+		if query_result.is_empty then
+			lio.put_line ("All songs are normalized")
+		else
+			across query_result as query loop
+				song := query.item
+				..
+			end
+		end
+	end
 ````
+The routine *existing_songs_query* passes a modified form of the query to *songs* list.
+
+
+````
+existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
+	do
+		Result := songs.query (not song_is_hidden and condition)
+	end
+````
+
+````
+songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
+````
+The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html) which is defined as follows
+
+
+````
+class
+	[$source SONG_QUERY_CONDITIONS]
+````
+
+````
+inherit
+	[$source EL_QUERY_CONDITION_FACTORY] [RBOX_SONG]
+		rename
+			any as any_song
+		export
+			{NONE} all
+		end
+````
+**META-DATA EXPORT**
+
+The routine *export_meta_data* in class [ECD_REFLECTIVE_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.html) stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
+
+See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz) (missing the version directory)
+
+**IMPORT/EXPORT**
+
+It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. *Eco-DB* supports two export formats:
+
+
+1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html) or  [TUPLE](https://www.eiffel.org/files/doc/static/18.01/libraries/base/tuple_chart.html).
+
+
+2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) which is a record of Paypal transactions.
+
+The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.html)
+
+**VERSION MANAGEMENT**
+
+A record of the software version is stored in each table. By defining procedure *read_version* from class [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html)
+
+
+````
+read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
+	deferred
+	end
+````
+it is possible to migrate data written by an earlier version of the software. If this is not required, this routine can be renamed to *read_default_version* in the inheritance section.
+
+**A DATABASE ABSTRACTION**
+
+There is work in progress to create an abstraction representing the concept of a database i.e. a collection of related tables. Currently this exists only in the form of an application library for the [myching.software](http://myching.software) shop server. More work is needed to create useful abstractions that can be added to the *Eco-DB* library.
+
+A preview of classes which will form the basis of reusable abstractions are as follows:
+
+
+* [DATABASE](http://www.eiffel-loop.com/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
+* [DATABASE_CONFIG](http://www.eiffel-loop.com/download/database_config.e) for storing/reading the database credentials etc.
+* [DATA_TABLE](http://www.eiffel-loop.com/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
+* [DATABASE_MANAGER_SHELL](http://www.eiffel-loop.com/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
+* [DATABASE_CREDENTIAL](http://www.eiffel-loop.com/download/database_credential.e) is an authenticated credential for opening an encrypted database.
+
 **Foot Notes**
 
 ** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/18.01/libraries/base/chain_chart.html).

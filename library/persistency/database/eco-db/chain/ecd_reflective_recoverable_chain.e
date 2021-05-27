@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 14:30:35 GMT (Monday 3rd May 2021)"
-	revision: "7"
+	date: "2021-05-26 8:56:46 GMT (Wednesday 26th May 2021)"
+	revision: "8"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -32,8 +32,12 @@ feature -- Access
 		end
 
 	meta_data_file_path: EL_FILE_PATH
+		local
+			version: EL_SOFTWARE_VERSION
 		do
 			Result := exported_file_path ("meta_data", "e")
+			create version.make (software_version, 0)
+			Result.set_parent (Result.parent #+ version.string)
 		end
 
 	pyxis_file_path: EL_FILE_PATH

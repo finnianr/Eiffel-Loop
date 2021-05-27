@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 11:56:52 GMT (Tuesday 2nd March 2021)"
-	revision: "11"
+	date: "2021-05-26 8:54:43 GMT (Wednesday 26th May 2021)"
+	revision: "13"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -64,7 +64,7 @@ feature -- Access
 
 	index_by: like new_index_by
 
-	index_tables: LINEAR [ECD_LIST_INDEX [G, HASHABLE]]
+	index_tables: LINEAR [ECD_INDEX_TABLE [G, HASHABLE]]
 
 feature -- Element change
 
@@ -106,28 +106,28 @@ feature {NONE} -- Factory
 			create Result
 		end
 
-	new_index_by_byte_array (field_function: FUNCTION [G, EL_BYTE_ARRAY]): ECD_LIST_INDEX [G, EL_BYTE_ARRAY]
+	new_index_by_byte_array (field_function: FUNCTION [G, EL_BYTE_ARRAY]): ECD_AGENT_INDEX_TABLE [G, EL_BYTE_ARRAY]
 		-- for use with class `EL_DIGEST_ARRAY' in encryption library
 		do
 			create Result.make (Current, field_function, capacity)
 		end
 
-	new_index_by_string (field_function: FUNCTION [G, ZSTRING]): ECD_LIST_INDEX [G, ZSTRING]
+	new_index_by_string (field_function: FUNCTION [G, ZSTRING]): ECD_AGENT_INDEX_TABLE [G, ZSTRING]
 		do
 			create Result.make (Current, field_function, capacity)
 		end
 
-	new_index_by_string_8 (field_function: FUNCTION [G, STRING_8]): ECD_LIST_INDEX [G, STRING_8]
+	new_index_by_string_32 (field_function: FUNCTION [G, STRING_32]): ECD_AGENT_INDEX_TABLE [G, STRING_32]
 		do
 			create Result.make (Current, field_function, capacity)
 		end
 
-	new_index_by_string_32 (field_function: FUNCTION [G, STRING_32]): ECD_LIST_INDEX [G, STRING_32]
+	new_index_by_string_8 (field_function: FUNCTION [G, STRING_8]): ECD_AGENT_INDEX_TABLE [G, STRING_8]
 		do
 			create Result.make (Current, field_function, capacity)
 		end
 
-	new_index_by_uuid (field_function: FUNCTION [G, EL_UUID]): ECD_LIST_INDEX [G, EL_UUID]
+	new_index_by_uuid (field_function: FUNCTION [G, EL_UUID]): ECD_AGENT_INDEX_TABLE [G, EL_UUID]
 		do
 			create Result.make (Current, field_function, capacity)
 		end
@@ -137,14 +137,8 @@ feature {NONE} -- Event handler
 	on_delete
 		require
 			item_deleted: item.is_deleted
-		local
-			table: like index_tables
 		do
-			table := index_tables
-			from table.start until table.after loop
-				table.item.on_delete (item)
-				table.forth
-			end
+			index_tables.do_all (agent {like index_tables.item}.on_delete (item))
 		end
 
 feature {NONE} -- Implementation
@@ -170,7 +164,7 @@ note
 				CUSTOMER_LIST
 
 			inherit
-				ECD_REFLECTIVE_ARRAYED_LIST [CUSTOMER]
+				ECD_ARRAYED_LIST [CUSTOMER]
 					undefine
 						assign_key, make_index_by_key
 					redefine
