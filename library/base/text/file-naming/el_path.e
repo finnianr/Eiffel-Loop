@@ -528,8 +528,6 @@ feature -- Element change
 		end
 
 	set_parent (dir_path: EL_DIR_PATH)
-		local
-			l_path: like Temp_path
 		do
 			set_parent_path (dir_path.temporary_path)
 		end

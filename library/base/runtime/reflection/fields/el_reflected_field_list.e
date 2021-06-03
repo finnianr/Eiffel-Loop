@@ -26,7 +26,6 @@ feature -- Access
 		-- CRC checksum for field names and field types
 		local
 			crc: like crc_generator; i: INTEGER
-			field: EL_REFLECTED_FIELD
 		do
 			crc := crc_generator
 			from i := 1 until i > count loop

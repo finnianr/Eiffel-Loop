@@ -83,6 +83,7 @@ feature -- Conversion
 feature {NONE} -- Internal attributes
 
 	decoder: EL_BASE_64_DECODER
+	
 	encoder: EL_BASE_64_ENCODER
 
 end

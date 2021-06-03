@@ -630,7 +630,7 @@ The framework is based on the concept of a Java agent that is similar to an Eiff
 
 See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it's use.
 ## Python
-Some extensions to Daniel Rodríguez's [https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel]. This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [$source EL_EYED3_TAG].
+Some extensions to Daniel RodrÃ­guez's [https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel]. This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [$source EL_EYED3_TAG].
 ## Matlab
 **Status:** No longer maintained
 
@@ -1565,6 +1565,8 @@ See [myching.software](http://myching.software/en/home/my-ching.html) for an exa
 Classes for handling various human-readable text formats. Supported formats are: XML, XHTML, HTML, JSON, CSV. (Note: Eiffel-Loop has other libraries for parsing XML)
 ## Text Editing
 Classes for editing file and other text.
+## Text Encoding
+Classes for encoding data as text.
 ## Parsing
 Classes for parsing text data.
 ## Pattern-matching

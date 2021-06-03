@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make (a_consumer_count_max: INTEGER; a_routine_call_event_listener: EROS_ROUTINE_CALL_SERVICE_EVENT_LISTENER)
 			--
 		do
-			make_connection_queue (a_consumer_count_max, create {EL_THREAD_MANAGER}.make)
+			make_connection_queue (a_consumer_count_max)
 			delegator.set_routine_call_event_listener (a_routine_call_event_listener)
 		end
 
