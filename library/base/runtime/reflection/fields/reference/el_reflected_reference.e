@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 9:11:28 GMT (Sunday 23rd May 2021)"
-	revision: "26"
+	date: "2021-05-29 9:11:06 GMT (Saturday 29th May 2021)"
+	revision: "27"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -193,28 +193,33 @@ feature {NONE} -- Constants
 
 note
 	descendants: "[
-			EL_REFLECTED_REFERENCE [G]
+			[$source EL_REFLECTED_REFERENCE] [G]
 				[$source EL_REFLECTED_STORABLE]
 				[$source EL_REFLECTED_TUPLE]
 				[$source EL_REFLECTED_BOOLEAN_REF]
+				[$source EL_REFLECTED_DATE]
+				[$source EL_REFLECTED_TIME]
+				[$source EL_REFLECTED_DATE_TIME]
+				[$source EL_REFLECTED_PATH]
 				[$source EL_REFLECTED_MAKEABLE_FROM_STRING]* [MAKEABLE -> [$source EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]]
 					[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
 					[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
-				[$source EL_REFLECTED_DATE_TIME]
-				[$source EL_REFLECTED_DATE]
-				[$source EL_REFLECTED_PATH]
-				[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
-					[$source EL_REFLECTED_URI]
-					[$source EL_REFLECTED_STRING_8]
-					[$source EL_REFLECTED_STRING_32]
-					[$source EL_REFLECTED_ZSTRING]
-				[$source EL_REFLECTED_COLLECTION] [G]
-				[$source EL_CACHEABLE_REFLECTED_REFERENCE]* [G -> [$source HASHABLE]]
-					[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
-				[$source EL_REFLECTED_TIME]
 				[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
 				[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
+				[$source EL_REFLECTED_COLLECTION] [G]
+				[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
+					[$source EL_REFLECTED_ZSTRING]
+						[$source EL_REFLECTED_MEMBER_ZSTRING]
+					[$source EL_REFLECTED_STRING_8]
+						[$source EL_REFLECTED_MEMBER_STRING_8]
+					[$source EL_REFLECTED_STRING_32]
+						[$source EL_REFLECTED_MEMBER_STRING_32]
+					[$source EL_REFLECTED_URI]
+					[$source EL_REFLECTED_MEMBER_STRING]* [S -> [$source STRING_GENERAL]]
+						[$source EL_REFLECTED_MEMBER_ZSTRING]
+						[$source EL_REFLECTED_MEMBER_STRING_8]
+						[$source EL_REFLECTED_MEMBER_STRING_32]
 	]"
 
 end

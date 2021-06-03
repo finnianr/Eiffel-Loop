@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-06-03 16:12:45 GMT (Thursday 3rd June 2021)"
+	revision: "6"
 
 class
 	EL_PYTHON_INTERPRETER
@@ -20,7 +20,7 @@ inherit
 
 	EL_PYTHON_INTERFACE
 
-	KL_IMPORTED_STRING_ROUTINES
+	EL_MODULE_HEXADECIMAL
 
 create
 	initialize
@@ -107,7 +107,7 @@ feature -- Nested attribute values
 			sequence_expression: STRING
 		do
 			sequence_expression := routine_call_code
-			sequence_expression.clear_all
+			sequence_expression.wipe_out
 			sequence_expression.append_character ('[')
 			sequence_expression.append (lambda_expression)
 			sequence_expression.append (" for ")
@@ -130,7 +130,7 @@ feature -- Nested attribute values
 	nested_object_attribute (attribute_specifier: STRING): PYTHON_OBJECT
 			--
 		do
-			routine_call_code.clear_all
+			routine_call_code.wipe_out
 			routine_call_code.append (attribute_specifier)
 			Result := evaluate_expression (routine_call_code)
 		end
@@ -150,7 +150,7 @@ feature -- Function call items
 	item (function_specifier: STRING; args: TUPLE): PYTHON_OBJECT
 			--
 		do
-			routine_call_code.clear_all
+			routine_call_code.wipe_out
 			routine_call_code.append (function_specifier)
 			append_args_to_routine_call_code (args.count)
 
@@ -179,7 +179,7 @@ feature -- Function call items
 			backslash_index, start_index, hex_code: INTEGER
 		do
 			create Result.make_empty
-			routine_call_code.clear_all
+			routine_call_code.wipe_out
 			routine_call_code.append (function_specifier)
 			append_args_to_routine_call_code (args.count)
 			routine_call_code.append (".encode('utf-8')")
@@ -206,9 +206,7 @@ feature -- Function call items
 
 					-- if hexadecimal escape sequence found (\x??)
 					elseif backslash_index + 3 <= Result.count and then Result @ (backslash_index + 1) = 'x' then
-						hex_code := STRING_.hexadecimal_to_integer (
-							Result.substring (backslash_index + 2, backslash_index + 3)
-						)
+						hex_code := Hexadecimal.substring_to_integer (Result, backslash_index + 2, backslash_index + 3)
 						Result.replace_substring (hex_code.to_character_8.out, backslash_index, backslash_index + 3)
 						start_index := backslash_index + 1
 
@@ -235,7 +233,7 @@ feature -- Function call items
 			--
 			-- 		[<lambda_expression> for <assignment_list> in <generator_function>(<args>) if <filter_expression>]
 		do
-			routine_call_code.clear_all
+			routine_call_code.wipe_out
 			routine_call_code.append_character ('[')
 			routine_call_code.append (lambda_expression)
 			routine_call_code.append (" for ")
@@ -294,7 +292,7 @@ feature -- Basic operations
 		local
 			status: INTEGER
 		do
-			routine_call_code.clear_all
+			routine_call_code.wipe_out
 			routine_call_code.append (procedure_specifier)
 			append_args_to_routine_call_code (args.count)
 
@@ -331,7 +329,7 @@ feature -- Status setting
 		do
 			create arg_i_name.make_empty
 			from i := 1 until i > args.count loop
-				arg_i_name.clear_all
+				arg_i_name.wipe_out
 				arg_i_name.append (Argument_symbol_name_root)
 				arg_i_name.append_integer (i)
 
@@ -352,7 +350,7 @@ feature -- Element change
 			create arg_i_name.make_empty
 
 			from i := 1 until i > args.count loop
-				arg_i_name.clear_all
+				arg_i_name.wipe_out
 				arg_i_name.append (Argument_symbol_name_root)
 				arg_i_name.append_integer (i)
 
@@ -424,9 +422,6 @@ feature {NONE} -- Implementation
 
 				elseif attached {STRING} args [i] as str then
 					python_argument_format.append_character ('s')
-
-				elseif attached {UC_STRING} args [i] as ustr then
-					python_argument_format.append_character ('u')
 
 				elseif attached {INTEGER} args [i] as int then
 					python_argument_format.append_character ('i')

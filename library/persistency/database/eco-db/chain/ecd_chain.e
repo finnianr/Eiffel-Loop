@@ -20,14 +20,18 @@ note
 		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
 		for the previously stored file.
 	]"
+	to_do: "[
+		Change `delete' routine to replace item with a shared default deleted item. This will allow deleted item to
+		be garbage collected
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-28 19:27:43 GMT (Sunday 28th February 2021)"
-	revision: "24"
+	date: "2021-05-31 15:26:10 GMT (Monday 31st May 2021)"
+	revision: "25"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]

@@ -54,9 +54,6 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
-		library:
-			name = gobo_base; location = "gobo-base.ecf"
-
 		# Contribution
 		library:
 			name = pepe; location = "$EL_CONTRIB/Eiffel/pepe.ecf"

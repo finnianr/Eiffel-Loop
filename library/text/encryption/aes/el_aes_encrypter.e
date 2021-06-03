@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-10 15:31:14 GMT (Thursday 10th September 2020)"
-	revision: "15"
+	date: "2021-06-03 15:24:51 GMT (Thursday 3rd June 2021)"
+	revision: "16"
 
 class
 	EL_AES_ENCRYPTER
@@ -168,7 +168,7 @@ feature -- File operations
 
 feature -- Encryption
 
-	base64_encrypted (plain_text: STRING): STRING
+	base_64_encrypted (plain_text: STRING): STRING
 			--
 		local
 			padded_plain_data: EL_PADDED_BYTE_ARRAY
@@ -207,16 +207,15 @@ feature -- Encryption
 
 feature -- Decryption
 
-	decrypted_base64 (base64_cipher_text: STRING): STRING
+	decrypted_base_64 (base64_cipher_text: STRING): STRING
 			-- decrypt base 64 encoded string
 		local
-			cipher_text: STRING; cipher_data: EL_BYTE_ARRAY
+			cipher_data: EL_BYTE_ARRAY
 		do
 			if base64_cipher_text.is_empty then
 				create Result.make_empty
 			else
-				cipher_text := Base_64.decoded (base64_cipher_text)
-				create cipher_data.make_from_string (cipher_text)
+				cipher_data := Base_64.decoded_special (base64_cipher_text)
 				Result := padded_decrypted (cipher_data).to_unpadded_string
 			end
 		end

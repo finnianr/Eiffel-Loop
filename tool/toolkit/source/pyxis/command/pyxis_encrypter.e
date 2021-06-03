@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 11:38:51 GMT (Monday 1st February 2021)"
-	revision: "7"
+	date: "2021-06-03 15:58:17 GMT (Thursday 3rd June 2021)"
+	revision: "8"
 
 class
 	PYXIS_ENCRYPTER
@@ -55,7 +55,7 @@ feature -- Basic operations
 				if line_count <= 2 then
 					out_file.put_string (line)
 				elseif not line.is_empty then
-					out_file.put_string (encrypter.base64_encrypted (line))
+					out_file.put_string (encrypter.base_64_encrypted (line))
 				end
 				out_file.put_new_line
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:09:48 GMT (Monday 8th February 2021)"
-	revision: "16"
+	date: "2021-06-03 15:36:32 GMT (Thursday 3rd June 2021)"
+	revision: "17"
 
 class
 	EL_AES_CREDENTIAL
@@ -110,12 +110,12 @@ feature -- Element change
 
 	set_salt (a_salt_base_64: STRING)
 		do
-			salt := Base_64.decoded_array (a_salt_base_64)
+			salt := Base_64.decoded_special (a_salt_base_64)
 		end
 
 	set_digest (a_digest_base_64: STRING)
 		do
-			digest := Base_64.decoded_array (a_digest_base_64)
+			digest := Base_64.decoded_special (a_digest_base_64)
 		end
 
 	validate

@@ -1,13 +1,16 @@
 note
-	description: "Publishes an Eiffel repository as a website based on a set of Evolicity templates"
+	description: "[
+		Publishes an Eiffel repository as a website based on a set of [./library/evolicity.html Evolicity templates]
+		and a configuration file listing the libraries and clusters to include.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-27 14:17:55 GMT (Thursday 27th May 2021)"
-	revision: "41"
+	date: "2021-05-27 14:32:25 GMT (Thursday 27th May 2021)"
+	revision: "42"
 
 class
 	REPOSITORY_PUBLISHER

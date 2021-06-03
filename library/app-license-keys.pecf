@@ -38,12 +38,7 @@ system:
 		library:
 			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
-		# Overrides
-		library:
-			name = gobo_base; location = "gobo-base.ecf"
-
 		# Eiffel-Loop libraries
-
 		library:
 			name = EL_base; location = "base/base.ecf"
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-06-03 16:09:58 GMT (Thursday 3rd June 2021)"
+	revision: "6"
 
 class
 	EL_PYTHON_OBJECT
@@ -172,7 +172,7 @@ feature -- Element change
 	set_routine_specifier, set_attribute_specifier (routine_name: STRING)
 			--
 		do
-			routine_specifier.clear_all
+			routine_specifier.wipe_out
 			routine_specifier.append (py_symbol_name)
 			routine_specifier.append_character ('.')
 			routine_specifier.append (routine_name)

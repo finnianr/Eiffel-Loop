@@ -88,9 +88,6 @@ system:
 			name = arbitrary_precision_math; location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"
 
 		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
-
-		library:
 			name = testing; location = "$ISE_LIBRARY/library/testing/testing.ecf"
 
 		# Eiffel-Loop

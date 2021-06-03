@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 11:34:02 GMT (Tuesday 9th February 2021)"
-	revision: "9"
+	date: "2021-06-03 15:11:21 GMT (Thursday 3rd June 2021)"
+	revision: "10"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -112,9 +112,9 @@ feature -- Input
 			Precursor
 			line_index := line_index + 1
 			if line_index >= line_start and then not last_string.is_empty then
-				last_string := encrypter.decrypted_base64 (last_string)
+				last_string := encrypter.decrypted_base_64 (last_string)
 				if is_prepared_for_append then
-					call (encrypter.base64_encrypted (last_string))
+					call (encrypter.base_64_encrypted (last_string))
 				end
 			end
 		end
@@ -123,7 +123,7 @@ feature {NONE} -- Implementation
 
 	put_raw_string_8 (s: STRING)
 		do
-			Precursor (encrypter.base64_encrypted (s))
+			Precursor (encrypter.base_64_encrypted (s))
 		end
 
 	call (object: ANY)

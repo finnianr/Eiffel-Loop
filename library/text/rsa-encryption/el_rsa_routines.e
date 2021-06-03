@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:04:47 GMT (Friday 8th January 2021)"
-	revision: "11"
+	date: "2021-06-03 15:37:09 GMT (Thursday 3rd June 2021)"
+	revision: "12"
 
 class
 	EL_RSA_ROUTINES
@@ -33,7 +33,7 @@ feature -- Conversion
 	integer_x_from_base_64 (base64: STRING): INTEGER_X
 			--
 		do
-			Result := integer_x_from_array (decoded_array (base64))
+			Result := integer_x_from_array (decoded_special (base64))
 		end
 
 	integer_x_from_array (byte_array: SPECIAL [NATURAL_8]): INTEGER_X

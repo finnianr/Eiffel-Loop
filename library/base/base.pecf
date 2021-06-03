@@ -71,10 +71,6 @@ system:
 		library:
 			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
 		
-		# GOBO
-		library:
-			name = gobo_base; location = "../gobo-base.ecf"
-			
 		# CLUSTERS
 		cluster:
 			name = data_structure; location = data_structure; recursive = true

@@ -38,7 +38,10 @@ See doc/eiffel-utility.txt for details.
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<library name = "arbitrary_precision_math" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
-		<library name = "gobo_base" location = "$EIFFEL_LOOP/library/gobo-base.ecf"/>
+		<!--
+			library:
+			name = gobo_base; location = &quot;$EIFFEL_LOOP/library/gobo-base.ecf&quot;
+		-->
 		<library name = "testing" location = "$ISE_LIBRARY/library/testing/testing.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" readonly = "false" location = "$EIFFEL_LOOP/library/base/base.ecf"/>

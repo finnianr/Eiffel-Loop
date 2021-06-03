@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-07 9:09:33 GMT (Friday 7th August 2020)"
-	revision: "8"
+	date: "2021-06-03 15:11:59 GMT (Thursday 3rd June 2021)"
+	revision: "9"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -20,6 +20,8 @@ inherit
 	EL_AES_CONSTANTS
 		export
 			{ANY} valid_key_bit_count
+		undefine
+			default_create
 		end
 
 feature -- Conversion
@@ -30,7 +32,7 @@ feature -- Conversion
 			encrypter: EL_AES_ENCRYPTER
 		do
 			create encrypter.make_from_key (decoded_array (key))
-			Result := encrypter.decrypted_base64 (cipher)
+			Result := encrypter.decrypted_base_64 (cipher)
 		end
 
 	plain_pyxis (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING

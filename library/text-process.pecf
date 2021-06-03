@@ -32,9 +32,6 @@ system:
 		library: 
 			name = base; location = "$ISE_LIBRARY/library/base/base.ecf"
 
-		#library:
-		#	name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
-
 		# Eiffel Loop
 		library:
 			name = EL_base; location = "base/base.ecf"
@@ -47,6 +44,14 @@ system:
 					Text Editing
 
 					Classes for editing file and other text.
+				"""
+		cluster:
+			name = encode; location = "text/encode"; recursive = true
+			description:
+				"""
+					Text Encoding
+
+					Classes for encoding data as text.
 				"""
 		cluster:
 			name = parse; location = "text/parse"; recursive = true

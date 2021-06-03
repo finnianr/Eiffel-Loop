@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 10:24:08 GMT (Friday 14th February 2020)"
-	revision: "13"
+	date: "2021-06-03 15:11:21 GMT (Thursday 3rd June 2021)"
+	revision: "14"
 
 class
 	ENCRYPTION_TEST_SET
@@ -61,9 +61,9 @@ feature {NONE} -- Implementation
 				create lines.make_open_read (file_path)
 				from i := 1; lines.read_line until lines.after loop
 					if n.item = 1 then
-						encrypted_lines.extend (encrypter.base64_encrypted (lines.last_string))
+						encrypted_lines.extend (encrypter.base_64_encrypted (lines.last_string))
 					else
-						assert ("same text", lines.last_string ~ encrypter.decrypted_base64 (encrypted_lines [i]))
+						assert ("same text", lines.last_string ~ encrypter.decrypted_base_64 (encrypted_lines [i]))
 					end
 					lines.read_line
 					i := i + 1

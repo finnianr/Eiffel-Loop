@@ -83,9 +83,6 @@ system:
 			name = base_ext; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
-
-		library:
 			name = encryption_base; location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"
 
 		library:

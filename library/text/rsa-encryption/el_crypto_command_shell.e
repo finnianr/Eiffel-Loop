@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 17:43:06 GMT (Saturday 13th February 2021)"
-	revision: "21"
+	date: "2021-06-03 15:12:07 GMT (Thursday 3rd June 2021)"
+	revision: "22"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -68,7 +68,7 @@ feature -- Basic operations
 			lio.put_new_line
 			lio.put_labeled_string ("Key array", encrypter.out)
 			lio.put_new_line
-			lio.put_labeled_string ("Cipher text", encrypter.base64_encrypted (text.to_utf_8 (False)))
+			lio.put_labeled_string ("Cipher text", encrypter.base_64_encrypted (text.to_utf_8 (False)))
 			lio.put_new_line
 			lio.exit
 		end
