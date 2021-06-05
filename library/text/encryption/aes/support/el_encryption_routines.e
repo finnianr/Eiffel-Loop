@@ -8,30 +8,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:11:59 GMT (Thursday 3rd June 2021)"
-	revision: "9"
+	date: "2021-06-04 7:32:15 GMT (Friday 4th June 2021)"
+	revision: "10"
 
 class
 	EL_ENCRYPTION_ROUTINES
 
 inherit
-	EL_BASE_64_ROUTINES
-
 	EL_AES_CONSTANTS
 		export
 			{ANY} valid_key_bit_count
-		undefine
-			default_create
 		end
+
+	EL_MODULE_BASE_64
 
 feature -- Conversion
 
-	base64_decrypt (key, cipher: STRING): STRING
+	base_64_decrypt (key, cipher: STRING): STRING
 			-- decrypt base64 encoded cipher with base64 encoded key array
 		local
 			encrypter: EL_AES_ENCRYPTER
 		do
-			create encrypter.make_from_key (decoded_array (key))
+			create encrypter.make_from_key (Base_64.decoded_special (key))
 			Result := encrypter.decrypted_base_64 (cipher)
 		end
 

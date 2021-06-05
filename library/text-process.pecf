@@ -46,14 +46,6 @@ system:
 					Classes for editing file and other text.
 				"""
 		cluster:
-			name = encode; location = "text/encode"; recursive = true
-			description:
-				"""
-					Text Encoding
-
-					Classes for encoding data as text.
-				"""
-		cluster:
 			name = parse; location = "text/parse"; recursive = true
 			description:
 				"""

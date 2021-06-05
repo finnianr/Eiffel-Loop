@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 11:47:24 GMT (Monday 24th May 2021)"
-	revision: "3"
+	date: "2021-06-04 8:48:40 GMT (Friday 4th June 2021)"
+	revision: "4"
 
 class
 	EL_DATE_REPRESENTATION
@@ -33,8 +33,12 @@ feature -- Access
 
 	to_string (a_value: like to_value): STRING
 		do
-			date.make_by_ordered_compact_date (a_value)
-			Result := date.formatted_out (format)
+			if date.ordered_compact_date_valid (a_value) then
+				date.make_by_ordered_compact_date (a_value)
+				Result := date.formatted_out (format)
+			else
+				create Result.make_empty
+			end
 		end
 
 	format: STRING

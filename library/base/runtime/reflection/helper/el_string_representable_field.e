@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 12:14:57 GMT (Monday 24th May 2021)"
-	revision: "2"
+	date: "2021-06-04 8:18:33 GMT (Friday 4th June 2021)"
+	revision: "3"
 
 deferred class
 	EL_STRING_REPRESENTABLE_FIELD [G]

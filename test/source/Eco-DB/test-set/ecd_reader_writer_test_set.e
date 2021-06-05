@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:49:49 GMT (Saturday 20th March 2021)"
-	revision: "3"
+	date: "2021-06-05 15:19:13 GMT (Saturday 5th June 2021)"
+	revision: "4"
 
 class
 	ECD_READER_WRITER_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET
+
+	EL_SHARED_CURRENCY_ENUM
 
 feature -- Basic operations
 
@@ -29,17 +31,26 @@ feature -- Tests
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
 		do
-			write_and_read (Trademark_symbol, Storable_reader_writer)
+			across << {STRING_32} "Xiǎo Chù 小畜", {STRING_32} "Trademark (™)" >> as str loop
+				write_and_read (new_test_storable (str.item), Storable_reader_writer)
+			end
 			write_and_read (Ireland, Country_reader_writer)
 		end
 
 feature {NONE} -- Implementation
+
+	new_test_storable (str: STRING_32): TEST_STORABLE
+		do
+			create Result.make_default
+			Result.set_string_values  (str)
+		end
 
 	write_and_read (object: EL_REFLECTIVELY_SETTABLE_STORABLE; reader_writer: ECD_READER_WRITER [EL_STORABLE])
 		note
 			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string", "covers/{EL_MEMORY_READER_WRITER}.write_string"
 		local
 			restored_object: EL_STORABLE
+			zstr: ZSTRING
 		do
 			File_path.set_base ("stored.dat")
 
@@ -56,6 +67,13 @@ feature {NONE} -- Implementation
 			end
 
 			assert ("restored OK", object ~ restored_object)
+			if attached {TEST_STORABLE} object as l_object
+				and then attached {TEST_STORABLE} restored_object as l_restored_object
+			then
+				create zstr.make_from_utf_8 (l_restored_object.string_utf_8)
+				assert ("same as original", l_object.string ~ zstr)
+				assert ("same as original", l_object.string_32 ~ zstr.to_string_32)
+			end
 		end
 
 feature {NONE} -- Constants
@@ -74,6 +92,9 @@ feature {NONE} -- Constants
 		once
 			create Result.make_default
 			Result.set_code ("IE")
+			Result.set_continent ("Europe")
+			Result.set_currency (Currency_enum.EUR)
+			Result.set_date_founded (create {DATE}.make (1937, 12, 29))
 			Result.set_literacy_rate (91.7)
 			Result.set_population (4_845_000)
 			Result.set_name ("Ireland")
@@ -83,12 +104,6 @@ feature {NONE} -- Constants
 	Storable_reader_writer: ECD_READER_WRITER [TEST_STORABLE]
 		once
 			create Result.make
-		end
-
-	Trademark_symbol: TEST_STORABLE
-		once
-			create Result.make_default
-			Result.set_string_values  ({STRING_32} "Trademark symbol (™)")
 		end
 
 end

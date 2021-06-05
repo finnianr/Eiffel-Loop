@@ -8,14 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:27:01 GMT (Thursday 3rd June 2021)"
-	revision: "1"
+	date: "2021-06-04 8:12:51 GMT (Friday 4th June 2021)"
+	revision: "2"
 
 class
 	EL_BASE_64_ENCODER
-
-inherit
-	EL_BASE_64_CONSTANTS
 
 create
 	make
@@ -246,5 +243,11 @@ feature {NONE} -- Constants
 
 	padding: INTEGER = 64
 			-- Pad character ('=')
+
+	shift_2_bits: INTEGER = 4
+
+	shift_4_bits: INTEGER = 16
+
+	shift_6_bits: INTEGER = 64
 
 end

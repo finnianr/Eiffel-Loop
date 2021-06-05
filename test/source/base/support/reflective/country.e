@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 16:53:49 GMT (Sunday 23rd May 2021)"
-	revision: "21"
+	date: "2021-06-04 8:50:01 GMT (Friday 4th June 2021)"
+	revision: "22"
 
 class
 	COUNTRY
@@ -75,6 +75,11 @@ feature -- Element change
 	set_currency (a_currency: NATURAL_8)
 		do
 			currency := a_currency
+		end
+
+	set_date_founded (a_date: DATE)
+		do
+			date_founded := a_date.ordered_compact_date
 		end
 
 	set_literacy_rate (a_literacy_rate: REAL)

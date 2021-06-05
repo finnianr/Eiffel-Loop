@@ -8,14 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:34:16 GMT (Thursday 3rd June 2021)"
-	revision: "1"
+	date: "2021-06-04 8:09:15 GMT (Friday 4th June 2021)"
+	revision: "2"
 
 class
 	EL_BASE_64_DECODER
-
-inherit
-	EL_BASE_64_CONSTANTS
 
 create
 	make
@@ -30,15 +27,22 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	data (base_64: STRING): SPECIAL [NATURAL_8]
-		require
-			valid_count: base_64.count \\ 4 = 0
 		local
-			i, i_final: INTEGER; area: SPECIAL [CHARACTER]
+			i, j, i_final: INTEGER; area: SPECIAL [CHARACTER]
 		do
-			create Result.make_empty (base_64.count // 4 * 3)
+			create Result.make_empty ((base_64.count // 4 + 1) * 3)
 			area := base_64.area; i_final := base_64.count
-			from i := 0 until i >= i_final loop
-				append (area, i, Result)
+			from i := 0 until i = i_final loop
+				if i + 4 > i_final then
+					-- no '=' padding at the end
+					create area.make_filled ('=', 4)
+					area.copy_data (base_64.area, i, 0, i_final - i)
+					append (area, 0, Result)
+
+					i_final := i + 4 -- exit loop
+				else
+					append (area, i, Result)
+				end
 				i := i + 4
 			end
 		end
@@ -47,7 +51,7 @@ feature {NONE} -- Implementation
 
 	append (area: SPECIAL [CHARACTER]; offset: INTEGER; output: SPECIAL [NATURAL_8])
 		local
-			i, code: INTEGER; c: CHARACTER; invalid_base_64: BOOLEAN
+			i, code: INTEGER; c: CHARACTER; invalid_padding: BOOLEAN
 			codes: like code_buffer
 		do
 			codes := code_buffer; codes.wipe_out
@@ -59,21 +63,12 @@ feature {NONE} -- Implementation
 					-- may be taken as evidence that the end of the data has
 					-- been reached (without truncation in transit)."
 					inspect i
-						when 0 then
-							-- Invalid base64 stream: =***.
-							invalid_base_64 := True
-							i := 4 -- Jump out of the loop.
-						when 1 then
-							-- Invalid base64 stream: *=**
-							invalid_base_64 := True
-							i := 4 -- Jump out of the loop.
-						when 2 then
-							-- Valid base64 stream: **==
-							i := 4 -- Jump out of the loop.
-						when 3 then
-							-- Valid base64 stream: ***=
-							i := 4 -- Jump out of the loop.
+						when 0, 1 then
+							-- Invalid base64 stream: =*** OR *=**
+							invalid_padding := True
+					else
 					end
+					i := 4 -- exit loop
 				else
 					code := decoded (c)
 					inspect code
@@ -84,19 +79,19 @@ feature {NONE} -- Implementation
 					else
 						codes.extend (code)
 					end
-			end
+				end
 				i := i + 1
 			end
-			if not invalid_base_64 then
+			if not invalid_padding then
 				-- Bit-shift `codes' into 3 characters.
-				code := (codes [0] * shift_2_bits) + (codes [1] // shift_4_bits)
+				code := (codes [0] |<< 2) + (codes [1] |>> 4)
 				output.extend (code.to_natural_8)
 				if codes.count > 2 then
-					code := (codes [1] * shift_4_bits) + (codes [2] // shift_2_bits)
+					code := (codes [1] |<< 4) + (codes [2] |>> 2)
 					code := code \\ 256
 					output.extend (code.to_natural_8)
 					if codes.count > 3 then
-						code := (codes [2] * shift_6_bits) + (codes [3])
+						code := (codes [2] |<< 6) + (codes [3])
 						code := code \\ 256
 						output.extend (code.to_natural_8)
 					end

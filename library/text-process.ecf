@@ -28,13 +28,6 @@ Text Editing
 Classes for editing file and other text.
 			</description>
 		</cluster>
-		<cluster name = "encode" location = "text/encode" recursive = "true">
-			<description>
-Text Encoding
-
-Classes for encoding data as text.
-			</description>
-		</cluster>
 		<cluster name = "parse" location = "text/parse" recursive = "true">
 			<description>
 Parsing

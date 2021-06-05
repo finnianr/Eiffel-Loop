@@ -6,16 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:37:09 GMT (Thursday 3rd June 2021)"
-	revision: "12"
+	date: "2021-06-04 7:46:23 GMT (Friday 4th June 2021)"
+	revision: "13"
 
 class
 	EL_RSA_ROUTINES
 
 inherit
-	EL_BASE_64_ROUTINES
+	ANY
+
+	EL_MODULE_BASE_64
 
 	EL_MODULE_HEXADECIMAL
+
+	EL_MODULE_BUFFER_8
 
 feature -- Conversion
 
@@ -23,17 +27,17 @@ feature -- Conversion
 			-- Use for code constants split across lines with "[
 			-- ]"
 		local
-			base64: STRING
+			base_64_string: STRING
 		do
-			base64 := base64_lines.twin
-			base64.prune_all ('%N')
-			Result := integer_x_from_base_64 (base64)
+			base_64_string := Buffer_8.copied (base64_lines)
+			base_64_string.prune_all ('%N')
+			Result := integer_x_from_base_64 (base_64_string)
 		end
 
-	integer_x_from_base_64 (base64: STRING): INTEGER_X
+	integer_x_from_base_64 (base_64_string: STRING): INTEGER_X
 			--
 		do
-			Result := integer_x_from_array (decoded_special (base64))
+			Result := integer_x_from_array (Base_64.decoded_special (base_64_string))
 		end
 
 	integer_x_from_array (byte_array: SPECIAL [NATURAL_8]): INTEGER_X
