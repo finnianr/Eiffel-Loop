@@ -141,7 +141,20 @@ Classes for the following:
 * Managing shared resources for competing threads
 			</description>
 			<cluster name = "exception" location = "$|exception" recursive = "true"/>
-			<cluster name = "memory" location = "$|memory" recursive = "true"/>
+			<cluster name = "memory" location = "$|memory" recursive = "true">
+				<file_rule>
+					<exclude>imp_mswin$</exclude>
+					<condition>
+						<platform value = "unix"/>
+					</condition>
+				</file_rule>
+				<file_rule>
+					<exclude>imp_unix$</exclude>
+					<condition>
+						<platform value = "windows"/>
+					</condition>
+				</file_rule>
+			</cluster>
 			<cluster name = "process" location = "$|process" recursive = "true">
 				<file_rule>
 					<exclude>imp_mswin$</exclude>

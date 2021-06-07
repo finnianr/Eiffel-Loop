@@ -193,6 +193,19 @@ system:
 				name = exception; location = "$|exception"; recursive = true
 			cluster:
 				name = memory; location = "$|memory"; recursive = true
+				file_rule:
+					exclude:
+						"imp_mswin$"
+					condition:
+						platform:
+							value = unix
+
+				file_rule:
+					exclude:
+						"imp_unix$"
+					condition:
+						platform:
+							value = windows
 			cluster:
 				name = process; location = "$|process"; recursive = true
 				file_rule:

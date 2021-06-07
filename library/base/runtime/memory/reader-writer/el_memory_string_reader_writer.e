@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-05 17:45:29 GMT (Saturday 5th June 2021)"
-	revision: "1"
+	date: "2021-06-07 11:21:41 GMT (Monday 7th June 2021)"
+	revision: "2"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -77,12 +77,11 @@ feature -- Read operations
 		require else
 			is_ready: is_ready_for_reading
 		local
-			i, char_count, read_count, pos: INTEGER; little_endian: BOOLEAN
-			l_area: SPECIAL [CHARACTER_8]
+			i, char_count, read_count, pos: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
 			if attached buffer as l_buffer then
-				little_endian := is_little_endian_storable; pos := count
-				char_count := compressed_natural_32 (l_buffer, pos, little_endian, $read_count).to_integer_32
+				pos := count
+				char_count := compressed_natural_32 (l_buffer, pos, $read_count).to_integer_32
 				if read_count.to_boolean then
 					pos := pos + read_count
 					if pos + char_count < l_buffer.count then
@@ -136,10 +135,9 @@ feature {NONE} -- Implementation
 			valid_string: str.is_empty and then char_count <= str.capacity
 		local
 			i, buffer_count, pos: INTEGER; l_area: SPECIAL [CHARACTER]; c: CHARACTER
-			unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER; little_endian, done: BOOLEAN
+			unencoded_buffer: EL_UNENCODED_CHARACTERS_BUFFER; done: BOOLEAN
 			code: NATURAL
 		do
-			little_endian := is_little_endian_storable
 			l_area := str.area
 			unencoded_buffer := str.empty_unencoded_buffer
 			if attached buffer as l_buffer then
@@ -153,11 +151,7 @@ feature {NONE} -- Implementation
 						l_area [i] := c
 						if c = Unencoded_character then
 							if pos + Natural_32_bytes < buffer_count then
-								if little_endian then
-									code := l_buffer.read_natural_32_le (pos)
-								else
-									code := l_buffer.read_natural_32_be (pos)
-								end
+								code := l_buffer.read_natural_32 (pos)
 								pos := pos + Natural_32_bytes
 								unencoded_buffer.extend (code, i + 1)
 							else
@@ -181,13 +175,12 @@ feature {NONE} -- Implementation
 	fill_string_32 (str: STRING_32; a_count: INTEGER)
 		local
 			i, read_count, pos: INTEGER; l_area: SPECIAL [CHARACTER_32]; code: NATURAL
-			done, little_endian: BOOLEAN
+			done: BOOLEAN
 		do
 			if attached buffer as l_buffer then
-				little_endian := is_little_endian_storable
 				l_area := str.area; pos := count
 				from i := 0 until done or else i = a_count loop
-					code := compressed_natural_32 (l_buffer, pos, little_endian, $read_count)
+					code := compressed_natural_32 (l_buffer, pos, $read_count)
 					if read_count.to_boolean then
 						l_area [i] := code.to_character_32
 						pos := pos + read_count
@@ -209,21 +202,17 @@ feature -- Write operations
 		local
 			i, l_count, pos: INTEGER; l_area: SPECIAL [CHARACTER]
 			unencoded: like read_string.unencoded_indexable
-			c: CHARACTER; little_endian: BOOLEAN
+			c: CHARACTER
 		do
 			check_buffer (size_of_string (a_string))
 
 			unencoded := a_string.unencoded_indexable
-			pos := count; little_endian := is_little_endian_storable
+			pos := count
 
 			l_count := a_string.count; l_area := a_string.area
 
 			if attached buffer as buf then
-				if little_endian then
-					buf.put_natural_32_le (l_count.to_natural_32, pos)
-				else
-					buf.put_natural_32_be (l_count.to_natural_32, pos)
-				end
+				buf.put_natural_32 (l_count.to_natural_32, pos)
 				pos := pos + Natural_32_bytes
 
 				from i := 0 until i = l_count loop
@@ -232,11 +221,7 @@ feature -- Write operations
 					pos := pos + Character_8_bytes
 
 					if c = Unencoded_character then
-						if little_endian then
-							buf.put_natural_32_le (unencoded.code (i + 1), pos)
-						else
-							buf.put_natural_32_be (unencoded.code (i + 1), pos)
-						end
+						buf.put_natural_32 (unencoded.code (i + 1), pos)
 						pos := pos + Natural_32_bytes
 					end
 					i := i + 1
@@ -247,21 +232,16 @@ feature -- Write operations
 
 	write_string_32 (str: STRING_32)
 		local
-			i, char_count, pos: INTEGER; little_endian: BOOLEAN
-			compressed_32: like new_compressed_natural_32
+			i, char_count, pos: INTEGER; compressed_32: like new_compressed_natural_32
 		do
 			char_count := str.count
 			check_buffer (size_of_string_32 (str))
-			pos := count; little_endian := is_little_endian_storable
+			pos := count
 			if attached buffer as l_buffer then
-				if little_endian then
-					l_buffer.put_integer_32_le (char_count, pos)
-				else
-					l_buffer.put_integer_32_be (char_count, pos)
-				end
+				l_buffer.put_integer_32 (char_count, pos)
 				pos := pos + Integer_32_bytes
 				from i := 1 until i > char_count loop
-					compressed_32 := new_compressed_natural_32 (str.code (i), little_endian)
+					compressed_32 := new_compressed_natural_32 (str.code (i))
 					l_buffer.put_special_natural_8 (compressed_32, 0, pos, compressed_32.count)
 					pos := pos + compressed_32.count
 					i := i + 1

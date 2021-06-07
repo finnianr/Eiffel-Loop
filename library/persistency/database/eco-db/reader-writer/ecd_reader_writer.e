@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-06-07 10:25:37 GMT (Monday 7th June 2021)"
+	revision: "7"
 
 class
 	ECD_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -22,7 +22,6 @@ class
 inherit
 	EL_MEMORY_READER_WRITER
 		rename
-			make as make_reader_writer,
 			read_header as memory_read_header,
 			write_header as memory_write_header
 		export
@@ -41,13 +40,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make
-		do
-			make_with_buffer (create {MANAGED_POINTER}.make (512))
-		end
 
 feature -- Basic operations
 

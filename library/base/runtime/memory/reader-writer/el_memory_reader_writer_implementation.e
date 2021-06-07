@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-05 17:29:36 GMT (Saturday 5th June 2021)"
-	revision: "1"
+	date: "2021-06-07 17:13:41 GMT (Monday 7th June 2021)"
+	revision: "2"
 
 class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
 
 inherit
 	SED_MEMORY_READER_WRITER
+		rename
+			Default_buffer_size as Default_40000_size
 		redefine
-			make_with_buffer, check_buffer
+			make, check_buffer, read_natural_16, read_natural_32, read_natural_64, read_real_32, read_real_64,
+			write_natural_16, write_natural_32, write_natural_64, write_real_32, write_real_64
 		end
 
 	PLATFORM
@@ -25,13 +28,138 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_with_buffer (a_buffer: like buffer)
+	make
 			-- Initialize current to read or write from `a_medium' using a buffer of size `a_buffer_size'.
 			-- `buffer_size' will be overriden during read operation by the value of `buffer_size' used
 			-- when writing.
 		do
-			Precursor (a_buffer)
 			is_little_endian_storable := True
+			if is_little_endian_storable = Is_little_endian then
+				is_native := True
+				create buffer.make (Default_buffer_size) -- native
+			else
+				create {EL_REVERSE_MANAGED_POINTER} buffer.make (Default_buffer_size) -- reverse native
+			end
+			buffer_size := Default_buffer_size
+		end
+
+feature -- Read operations
+
+	read_natural_16: NATURAL_16
+			-- Read next natural_16
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_16_bytes < b.count then
+				Result := b.read_natural_16 (pos)
+				count := pos + Natural_16_bytes
+			end
+		end
+
+	read_natural_32: NATURAL_32
+			-- Read next natural_32
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_32_bytes < b.count then
+				Result := b.read_natural_32 (pos)
+				count := pos + Natural_32_bytes
+			end
+		end
+
+	read_natural_64: NATURAL_64
+			-- Read next natural_64
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_64_bytes < b.count then
+				Result := b.read_natural_64 (pos)
+				count := pos + Natural_64_bytes
+			end
+		end
+
+	read_real_32: REAL_32
+			-- Read next real_32
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Real_32_bytes < b.count then
+				Result := b.read_real_32 (pos)
+				count := pos + Real_32_bytes
+			end
+		end
+
+	read_real_64: REAL_64
+			-- Read next real_64
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Real_64_bytes < b.count then
+				Result := b.read_real_64 (pos)
+				count := pos + Real_64_bytes
+			end
+		end
+
+feature -- Write operations
+
+	write_natural_16 (v: NATURAL_16)
+			-- Write `v'.
+		local
+			pos: INTEGER
+		do
+			check_buffer (Natural_16_bytes)
+			pos := count
+			buffer.put_natural_16 (v, pos)
+			count := pos + Natural_16_bytes
+		end
+
+	write_natural_32 (v: NATURAL_32)
+			-- Write `v'.
+		local
+			pos: INTEGER
+		do
+			check_buffer (Natural_32_bytes)
+			pos := count
+			buffer.put_natural_32 (v, pos)
+			count := pos + Natural_32_bytes
+		end
+
+	write_natural_64 (v: NATURAL_64)
+			-- Write `v'.
+		local
+			pos: INTEGER
+		do
+			check_buffer (Natural_64_bytes)
+			pos := count
+			buffer.put_natural_64 (v, pos)
+			count := pos + Natural_64_bytes
+		end
+
+	write_real_32 (v: REAL_32)
+			-- Write `v'.
+		local
+			pos: INTEGER
+		do
+			check_buffer (Real_32_bytes)
+			pos := count
+			buffer.put_real_32 (v, pos)
+			count := pos + Real_32_bytes
+		end
+
+	write_real_64 (v: REAL_64)
+			-- Write `v'.
+		local
+			pos: INTEGER
+		do
+			check_buffer (Real_64_bytes)
+			pos := count
+			buffer.put_real_64 (v, pos)
+			count := pos + Real_64_bytes
 		end
 
 feature -- Measurement
@@ -71,6 +199,11 @@ feature -- Measurement
 			end
 		end
 
+feature -- Status query
+
+	is_native: BOOLEAN
+		-- `True' if using native endian order i.e. `is_little_endian_storable = Is_little_endian'
+
 feature {NONE} -- Implementation
 
 	check_buffer (n: INTEGER)
@@ -85,9 +218,7 @@ feature {NONE} -- Implementation
 			buffer_big_enough: n + count <= buffer.count
 		end
 
-	compressed_natural_32 (
-		a_buffer: MANAGED_POINTER; a_pos: INTEGER; little_endian: BOOLEAN; read_count_out: POINTER
-	): NATURAL_32
+	compressed_natural_32 (a_buffer: MANAGED_POINTER; a_pos: INTEGER; read_count_out: POINTER): NATURAL_32
 			-- Read next compressed natural_32 outputting the count of bytes read into
 			-- `INTEGER' pointer `read_count_out'
 
@@ -136,11 +267,7 @@ feature {NONE} -- Implementation
 				else
 						-- Values between 268435455 and 4294967295
 					if pos + 3 < a_buffer.count then
-						if little_endian then
-							Result := a_buffer.read_natural_32_le (pos)
-						else
-							Result := a_buffer.read_natural_32_be (pos)
-						end
+						Result := a_buffer.read_natural_32 (pos)
 						pos := pos + 4
 					end
 				end
@@ -149,7 +276,7 @@ feature {NONE} -- Implementation
 			read_count_out.memory_copy ($read_count, Integer_32_bytes)
 		end
 
-	new_compressed_natural_32 (v: NATURAL_32; little_endian: BOOLEAN): SPECIAL [NATURAL_8]
+	new_compressed_natural_32 (v: NATURAL_32): SPECIAL [NATURAL_8]
 			-- Write `v' as a compressed natural_32.
 			-- Depending on value of `v', it will tell how many natural_8 will
 			-- be written. Below here is the actual encoding where `x' represents
@@ -190,7 +317,7 @@ feature {NONE} -- Implementation
 			else
 					-- Values between 268435455 and 4294967295
 				Result.extend (0xF0)
-				if Is_little_endian = little_endian then
+				if is_native then
 					Result.extend (((v & 0xFF000000) |>> 24).as_natural_8)
 					Result.extend (((v & 0x00FF0000) |>> 16).as_natural_8)
 					Result.extend (((v & 0x0000FF00) |>> 8).as_natural_8)
@@ -210,4 +337,13 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty (5)
 		end
+
+	Default_buffer_size: INTEGER
+		once
+			Result := 500
+		end
+
+invariant
+	native_byte_ordering: is_native implies is_little_endian_storable = Is_little_endian
+
 end
