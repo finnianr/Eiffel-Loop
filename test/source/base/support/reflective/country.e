@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-04 8:50:01 GMT (Friday 4th June 2021)"
-	revision: "22"
+	date: "2021-06-08 11:25:31 GMT (Tuesday 8th June 2021)"
+	revision: "23"
 
 class
 	COUNTRY
@@ -57,6 +57,8 @@ feature -- Access
 
 	population: INTEGER
 
+	photo_jpeg: MANAGED_POINTER
+
 	temperature_range: TUPLE [winter, summer: INTEGER; unit_name: STRING]
 
 feature -- Element change
@@ -90,6 +92,12 @@ feature -- Element change
 	set_name (a_name: like name)
 		do
 			name := a_name
+		end
+
+	set_photo_jpeg (jpeg: SPECIAL [NATURAL_8])
+		do
+			photo_jpeg.resize (jpeg.count)
+			photo_jpeg.put_special_natural_8 (jpeg, 0, 0, jpeg.count)
 		end
 
 	set_population (a_population: INTEGER)

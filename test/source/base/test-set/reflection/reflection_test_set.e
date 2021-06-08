@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 17:13:28 GMT (Sunday 23rd May 2021)"
-	revision: "17"
+	date: "2021-06-08 11:35:07 GMT (Tuesday 8th June 2021)"
+	revision: "18"
 
 class
 	REFLECTION_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	EL_MODULE_LIO
 
 	EL_SHARED_CURRENCY_ENUM
+
+	EL_MODULE_BASE_64
 
 feature -- Basic operations
 
@@ -114,6 +116,7 @@ feature {NONE} -- Implementation
 	check_values (country: COUNTRY)
 		local
 			name: ZSTRING; date_founded: DATE; euro_zone_member: BOOLEAN
+			photo_jpeg: MANAGED_POINTER
 		do
 			name := Value_table.item (Field.name)
 			assert ("same name", country.name ~ name)
@@ -132,15 +135,20 @@ feature {NONE} -- Implementation
 			assert ("same date_founded", country.date_founded = date_founded.ordered_compact_date)
 			euro_zone_member := Value_table.item (Field.euro_zone_member) ~ "YES"
 			assert ("same euro_zone_member", country.euro_zone_member = euro_zone_member)
+
+			create photo_jpeg.make_from_array (Base_64.decoded_array (Value_table.item (Field.photo_jpeg)))
+			assert ("same photo", country.photo_jpeg ~ photo_jpeg)
 		end
 
 feature {NONE} -- Constants
 
-	Field: TUPLE [code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, population: STRING]
+	Field: TUPLE [
+		code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, photo_jpeg, population: STRING
+	]
 		once
 			create Result
-			Tuple.fill (
-				Result, "code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, population"
+			Tuple.fill (Result,
+				"code, continent, currency, date_founded, euro_zone_member, literacy_rate, name, photo_jpeg, population"
 			)
 		end
 
@@ -161,6 +169,8 @@ feature {NONE} -- Constants
 					Ireland
 				population:
 					6500000
+				photo_jpeg:
+					VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg=
 				euro_zone_member:
 					YES
 			]")

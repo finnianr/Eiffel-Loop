@@ -29,7 +29,7 @@ else:
 	is_windows_platform = False
 
 usage = "Usage: build_c_library.py [--x86]"
-parser = OptionParser(usage=usage)
+parser = OptionParser (usage=usage)
 parser.add_option (
 	"-x", "--x86", action="store_true", dest = "build_x86", default = False, help = "Build Windows 32 bit library"
 )

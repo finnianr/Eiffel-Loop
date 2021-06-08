@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-27 14:32:25 GMT (Thursday 27th May 2021)"
-	revision: "42"
+	date: "2021-06-08 16:29:21 GMT (Tuesday 8th June 2021)"
+	revision: "43"
 
 class
 	REPOSITORY_PUBLISHER
@@ -184,7 +184,7 @@ feature {NONE} -- Implementation
 	check_pecf_source (ecf_path: EL_FILE_PATH)
 		-- check if pecf format source has been modified
 		local
-			pecf_path: EL_FILE_PATH; converter: EL_PYXIS_TO_XML_CONVERTER
+			pecf_path: EL_FILE_PATH; converter: PYXIS_ECF_CONVERTER
 		do
 			pecf_path := ecf_path.with_new_extension (Extension_pecf)
 			if pecf_path.exists and then pecf_path.modification_time > ecf_path.modification_time then

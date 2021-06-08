@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-04 8:09:15 GMT (Friday 4th June 2021)"
-	revision: "2"
+	date: "2021-06-08 9:40:51 GMT (Tuesday 8th June 2021)"
+	revision: "3"
 
 class
 	EL_BASE_64_DECODER
@@ -28,7 +28,7 @@ feature -- Access
 
 	data (base_64: STRING): SPECIAL [NATURAL_8]
 		local
-			i, j, i_final: INTEGER; area: SPECIAL [CHARACTER]
+			i, i_final: INTEGER; area: SPECIAL [CHARACTER]
 		do
 			create Result.make_empty ((base_64.count // 4 + 1) * 3)
 			area := base_64.area; i_final := base_64.count

@@ -293,7 +293,12 @@ class EIFFEL_CONFIG_FILE (object):
 # Initialization
 	def __init__ (self, ecf_path, ecf_table = dict ()):
 		self.location = ecf_path
-		ecf_ctx = XPATH_ROOT_CONTEXT (ecf_path, 'ec')
+		try:
+			ecf_ctx = XPATH_ROOT_CONTEXT (ecf_path, 'ec')
+
+		except KeyError:
+			raise KeyError ("Problem namespace prefix: " + ecf_path)
+
 		system = SYSTEM_INFO (ecf_ctx)
 		
 		self.uuid = system.uuid

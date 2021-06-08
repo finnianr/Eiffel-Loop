@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-05 15:19:13 GMT (Saturday 5th June 2021)"
-	revision: "4"
+	date: "2021-06-08 13:53:40 GMT (Tuesday 8th June 2021)"
+	revision: "5"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_FILE_DATA_TEST_SET
 
 	EL_SHARED_CURRENCY_ENUM
+
+	EL_MODULE_BASE_64
 
 feature -- Basic operations
 
@@ -97,8 +99,14 @@ feature {NONE} -- Constants
 			Result.set_date_founded (create {DATE}.make (1937, 12, 29))
 			Result.set_literacy_rate (91.7)
 			Result.set_population (4_845_000)
+			Result.set_photo_jpeg (Base_64.decoded_special (Photo_data))
 			Result.set_name ("Ireland")
 			Result.set_temperature_range ([5, 17, "degrees"])
+		end
+
+	Photo_data: STRING
+		once
+			Result := "VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg="
 		end
 
 	Storable_reader_writer: ECD_READER_WRITER [TEST_STORABLE]

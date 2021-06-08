@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 17:35:56 GMT (Sunday 23rd May 2021)"
-	revision: "15"
+	date: "2021-06-08 14:25:59 GMT (Tuesday 8th June 2021)"
+	revision: "16"
 
 class
 	STORABLE_COUNTRY
@@ -34,6 +34,6 @@ create
 
 feature {NONE} -- Constants
 
-	Field_hash: NATURAL_32 = 3967308499
+	Field_hash: NATURAL_32 = 322950036
 
 end

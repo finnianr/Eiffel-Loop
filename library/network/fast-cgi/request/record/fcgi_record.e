@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-03-03 9:12:07 GMT (Saturday 3rd March 2018)"
-	revision: "3"
+	date: "2021-06-08 9:42:50 GMT (Tuesday 8th June 2021)"
+	revision: "4"
 
 deferred class
 	FCGI_RECORD
@@ -34,7 +34,7 @@ feature -- Basic operations
 					memory.set_for_reading
 					memory.reset_count
 					read_memory (memory)
-					memory.skip (reserved_count)
+					memory.read_skip (reserved_count)
 					check
 						valid_count: Memory_reader_writer.count = byte_count
 					end

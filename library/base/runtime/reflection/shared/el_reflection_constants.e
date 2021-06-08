@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 10:43:31 GMT (Thursday 29th April 2021)"
-	revision: "35"
+	date: "2021-06-08 10:09:00 GMT (Tuesday 8th June 2021)"
+	revision: "36"
 
 class
 	EL_REFLECTION_CONSTANTS
@@ -38,7 +38,8 @@ feature {NONE} -- Reference types
 	frozen String_convertable_type_table: EL_REFLECTED_REFERENCE_TYPE_TABLE [EL_REFLECTED_REFERENCE [ANY]]
 		once
 			create Result.make (<<
-				{EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_DATE}, {EL_REFLECTED_PATH}, {EL_REFLECTED_TUPLE}
+				{EL_REFLECTED_DATE_TIME}, {EL_REFLECTED_DATE}, {EL_REFLECTED_PATH}, {EL_REFLECTED_TUPLE},
+				{EL_REFLECTED_MANAGED_POINTER}
 			>>)
 		end
 
