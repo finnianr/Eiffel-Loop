@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 16:26:09 GMT (Tuesday 8th June 2021)"
-	revision: "20"
+	date: "2021-06-09 9:20:15 GMT (Wednesday 9th June 2021)"
+	revision: "21"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -15,118 +15,15 @@ class
 inherit
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
 		export
-			{ANY} buffer, count
+			{EL_STORABLE} set_count, buffer, count
 		end
 
 	EL_MEMORY_STRING_READER_WRITER
 
-	EL_READABLE
-		export
-			{NONE} all
-		end
-
-	EL_WRITEABLE
-		rename
-			write_raw_character_8 as write_character_8,
-			write_raw_string_8 as write_string_8
-		export
-			{NONE} all
-		end
-
 create
 	make, make_with_buffer
 
-feature -- Access
-
-	checksum: NATURAL
-		local
-			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
-		do
-			create crc.make
-			crc.add_data (buffer)
-			Result := crc.checksum
-		end
-
-	data: MANAGED_POINTER
-			-- Copy of `buffer' containing ONLY the serialized/deserialized data.
-		do
-			create Result.make_from_pointer (buffer.item, count)
-		ensure
-			valid_data_size: Result.count = count
-		end
-
-	data_version: NATURAL
-		-- Version number of data if different from the default ({REAL}.zero)
-
-	debug_out: STRING
-		-- internal buffer as string
-		do
-			create Result.make_filled (' ', count)
-			Result.area.base_address.memory_copy (buffer.item, count)
-		end
-
-feature -- Status query
-
-	is_default_data_version: BOOLEAN
-		do
-			Result := data_version = 0
-		end
-
-feature -- Element change
-
-	reset_count
-		do
-			count := 0
-		end
-
-	set_data_version (a_data_version: like data_version)
-		do
-			data_version := a_data_version
-		end
-
-	set_default_data_version
-		do
-			data_version := 0
-		end
-
-feature -- Basic operations
-
-	write_to_medium (output: IO_MEDIUM)
-		-- Write `buffer' to `output'
-		do
-			output.put_managed_pointer (buffer, 0, count)
-		end
-
-	write_to_sink (sink: EL_MEMORY_SINK)
-		do
-			sink.put_managed_pointer (buffer, 0, count)
-		end
-
-feature -- Read operations
-
-	read_boolean: BOOLEAN
-			-- Read next boolean
-		require else
-			is_ready: is_ready_for_reading
-		do
-			Result := read_natural_8.to_boolean
-		end
-
-	read_character_32: CHARACTER_32
-			-- Read next 32-bits character
-		require else
-			is_ready: is_ready_for_reading
-		do
-			Result := read_natural_32.to_character_32
-		end
-
-	read_character_8: CHARACTER
-			-- Read next 8-bits character
-		require else
-			is_ready: is_ready_for_reading
-		do
-			Result := read_natural_8.to_character_8
-		end
+feature -- Read sequences
 
 	read_into_memory_block (block: MANAGED_POINTER)
 
@@ -150,35 +47,7 @@ feature -- Read operations
 			end
 		end
 
-	read_memory_block: MANAGED_POINTER
-		do
-			create Result.make (0)
-			read_into_memory_block (Result)
-		end
-
-	read_pointer: POINTER
-			-- Read next pointer
-		require else
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as buf and then pos + Pointer_bytes < buf.count then
-				Result := buf.read_pointer (pos)
-				count := pos + Pointer_bytes
-			end
-		end
-
-	read_skip (n: INTEGER)
-		-- skip `n' bytes
-		require
-			is_ready: is_ready_for_reading
-		do
-			count := count + n
-		end
-
-	read_to_natural_8_array (array: ARRAY [NATURAL_8])
+	read_into_natural_8_array (array: ARRAY [NATURAL_8])
 		require
 			is_ready: is_ready_for_reading
 		local
@@ -191,19 +60,13 @@ feature -- Read operations
 			end
 		end
 
-feature -- Write operations
-
-	write_boolean (v: BOOLEAN)
-			-- Write `v'.
-		require else
-			is_ready: is_ready_for_writing
+	read_memory_block: MANAGED_POINTER
 		do
-			if v then
-				write_natural_8 (1)
-			else
-				write_natural_8 (0)
-			end
+			create Result.make (0)
+			read_into_memory_block (Result)
 		end
+
+feature -- Write sequences
 
 	write_bytes (value: NATURAL_8; n: INTEGER)
 		require
@@ -248,22 +111,6 @@ feature -- Write operations
 			end
 		end
 
-	write_character_32 (v: CHARACTER_32)
-			-- Write `v'.
-		require else
-			is_ready: is_ready_for_writing
-		do
-			write_natural_32 (v.natural_32_code)
-		end
-
-	write_character_8 (v: CHARACTER_8)
-			-- Write `v'.
-		require else
-			is_ready: is_ready_for_writing
-		do
-			write_natural_8 (v.code.to_natural_8)
-		end
-
 	write_memory_block (block: MANAGED_POINTER)
 		require
 			is_ready: is_ready_for_writing
@@ -291,20 +138,6 @@ feature -- Write operations
 			end
 		end
 
-	write_pointer (v: POINTER)
-			-- Write `v'.
-		require else
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Pointer_bytes) as b then
-				pos := count
-				b.put_pointer (v, pos)
-				count := pos + Pointer_bytes
-			end
-		end
-
 	write_sequence (a_sequence: SEQUENCE [EL_STORABLE])
 		require
 			is_ready: is_ready_for_writing
@@ -329,18 +162,359 @@ feature -- Write operations
 			end
 		end
 
-feature {EL_STORABLE} -- Element change
-
-	set_count (a_count: INTEGER)
+	write_to_medium (output: IO_MEDIUM)
+		-- Write `buffer' to `output'
 		do
-			count := a_count
+			output.put_managed_pointer (buffer, 0, count)
 		end
 
-feature {NONE} -- Implementation
-
-	new_item: EL_STORABLE
+	write_to_sink (sink: EL_MEMORY_SINK)
 		do
-			create {EL_STORABLE_IMPL} Result.make_default
+			sink.put_managed_pointer (buffer, 0, count)
+		end
+
+feature -- Read other
+
+	read_boolean: BOOLEAN
+			-- Read next boolean
+		require else
+			is_ready: is_ready_for_reading
+		do
+			Result := read_natural_8.to_boolean
+		end
+
+	read_character_32: CHARACTER_32
+			-- Read next 32-bits character
+		require else
+			is_ready: is_ready_for_reading
+		do
+			Result := read_natural_32.to_character_32
+		end
+
+	read_character_8: CHARACTER
+			-- Read next 8-bits character
+		require else
+			is_ready: is_ready_for_reading
+		do
+			Result := read_natural_8.to_character_8
+		end
+
+	read_pointer: POINTER
+			-- Read next pointer
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as buf and then pos + Pointer_bytes < buf.count then
+				Result := buf.read_pointer (pos)
+				count := pos + Pointer_bytes
+			end
+		end
+
+feature -- Read numerics
+
+	read_integer_8: INTEGER_8
+			-- Read next integer_8
+		require else
+			is_ready: is_ready_for_reading
+		do
+			check
+				correct_size: natural_8_bytes = integer_8_bytes
+			end
+			Result := read_natural_8.as_integer_8
+		end
+
+	read_integer_16: INTEGER_16
+			-- Read next integer_16
+		require else
+			is_ready: is_ready_for_reading
+		do
+			check
+				correct_size: natural_16_bytes = integer_16_bytes
+			end
+			Result := read_natural_16.as_integer_16
+		end
+
+	read_integer_32: INTEGER
+			-- Read next integer_32
+		require else
+			is_ready: is_ready_for_reading
+		do
+			check
+				correct_size: natural_32_bytes = integer_32_bytes
+			end
+			Result := read_natural_32.as_integer_32
+		end
+
+	read_integer_64: INTEGER_64
+			-- Read next integer_64
+		require else
+			is_ready: is_ready_for_reading
+		do
+			check
+				correct_size: natural_64_bytes = integer_64_bytes
+			end
+			Result := read_natural_64.as_integer_64
+		end
+
+	read_natural_8: NATURAL_8
+			-- Read next natural_8
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as buf and then pos + Natural_8_bytes < buf.count then
+				Result := buf.read_natural_8 (pos)
+				count := pos + natural_8_bytes
+			end
+		end
+
+	read_natural_16: NATURAL_16
+			-- Read next natural_16
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_16_bytes < b.count then
+				Result := b.read_natural_16 (pos)
+				count := pos + Natural_16_bytes
+			end
+		end
+
+	read_natural_32: NATURAL_32
+			-- Read next natural_32
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_32_bytes < b.count then
+				Result := b.read_natural_32 (pos)
+				count := pos + Natural_32_bytes
+			end
+		end
+
+	read_natural_64: NATURAL_64
+			-- Read next natural_64
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Natural_64_bytes < b.count then
+				Result := b.read_natural_64 (pos)
+				count := pos + Natural_64_bytes
+			end
+		end
+
+	read_real_32: REAL_32
+			-- Read next real_32
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Real_32_bytes < b.count then
+				Result := b.read_real_32 (pos)
+				count := pos + Real_32_bytes
+			end
+		end
+
+	read_real_64: REAL_64
+			-- Read next real_64
+		require else
+			is_ready: is_ready_for_reading
+		local
+			pos: INTEGER
+		do
+			pos := count
+			if attached buffer as b and then pos + Real_64_bytes < b.count then
+				Result := b.read_real_64 (pos)
+				count := pos + Real_64_bytes
+			end
+		end
+
+feature -- Write other
+
+	write_boolean (v: BOOLEAN)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			if v then
+				write_natural_8 (1)
+			else
+				write_natural_8 (0)
+			end
+		end
+
+	write_character_32 (v: CHARACTER_32)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			write_natural_32 (v.natural_32_code)
+		end
+
+	write_character_8 (v: CHARACTER_8)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			write_natural_8 (v.code.to_natural_8)
+		end
+
+	write_pointer (v: POINTER)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Pointer_bytes) as b then
+				pos := count
+				b.put_pointer (v, pos)
+				count := pos + Pointer_bytes
+			end
+		end
+
+feature -- Write numerics
+
+	write_integer_8 (v: INTEGER_8)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			check
+				correct_size: Natural_8_bytes = Integer_8_bytes
+			end
+			write_natural_8 (v.as_natural_8)
+		end
+
+	write_integer_16 (v: INTEGER_16)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			check
+				correct_size: Natural_16_bytes = Integer_16_bytes
+			end
+			write_natural_16 (v.as_natural_16)
+		end
+
+	write_integer_32 (v: INTEGER)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			check
+				correct_size: Natural_32_bytes = Integer_32_bytes
+			end
+			write_natural_32 (v.as_natural_32)
+		end
+
+	write_integer_64 (v: INTEGER_64)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		do
+			check
+				correct_size: Natural_64_bytes = Integer_64_bytes
+			end
+			write_natural_64 (v.as_natural_64)
+		end
+
+	write_natural_8 (v: NATURAL_8)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Natural_8_bytes) as b then
+				pos := count
+				b.put_natural_8 (v, pos)
+				count := pos + Natural_8_bytes
+			end
+		end
+
+	write_natural_16 (v: NATURAL_16)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Natural_16_bytes) as b then
+				pos := count
+				b.put_natural_16 (v, pos)
+				count := pos + Natural_16_bytes
+			end
+		end
+
+	write_natural_32 (v: NATURAL_32)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Natural_32_bytes) as b then
+				pos := count
+				b.put_natural_32 (v, pos)
+				count := pos + Natural_32_bytes
+			end
+		end
+
+	write_natural_64 (v: NATURAL_64)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Natural_64_bytes) as b then
+				pos := count
+				b.put_natural_64 (v, pos)
+				count := pos + Natural_64_bytes
+			end
+		end
+
+	write_real_32 (v: REAL_32)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Real_32_bytes) as b then
+				pos := count
+				b.put_real_32 (v, pos)
+				count := pos + Real_32_bytes
+			end
+		end
+
+	write_real_64 (v: REAL_64)
+			-- Write `v'.
+		require else
+			is_ready: is_ready_for_writing
+		local
+			pos: INTEGER
+		do
+			if attached big_enough_buffer (Real_64_bytes) as b then
+				pos := count
+				b.put_real_64 (v, pos)
+				count := pos + Real_64_bytes
+			end
 		end
 
 end

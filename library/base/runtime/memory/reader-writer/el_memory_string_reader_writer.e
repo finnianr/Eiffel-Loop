@@ -1,13 +1,13 @@
 note
-	description: "Memory reader/writer encoded as little-endian"
+	description: "Read/write strings from/to a memory buffer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 13:39:33 GMT (Tuesday 8th June 2021)"
-	revision: "3"
+	date: "2021-06-09 9:37:10 GMT (Wednesday 9th June 2021)"
+	revision: "4"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -105,7 +105,7 @@ feature -- Read operations
 
 	read_string_8: STRING
 			-- Read next 8-bits sequence of character
-		require
+		require else
 			is_ready: is_ready_for_reading
 		do
 			create Result.make (0)

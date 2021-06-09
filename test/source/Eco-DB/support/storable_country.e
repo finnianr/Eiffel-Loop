@@ -1,13 +1,13 @@
 note
-	description: "Storable country"
+	description: "Reflectively storable version of [$source COUNTRY]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 14:25:59 GMT (Tuesday 8th June 2021)"
-	revision: "16"
+	date: "2021-06-08 18:58:04 GMT (Tuesday 8th June 2021)"
+	revision: "17"
 
 class
 	STORABLE_COUNTRY

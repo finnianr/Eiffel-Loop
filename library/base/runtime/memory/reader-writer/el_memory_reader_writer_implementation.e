@@ -1,18 +1,31 @@
 note
-	description: "Implemenation routines for class [$source EL_MEMORY_STRING_READER_WRITER]"
+	description: "Implementation routines for class [$source EL_MEMORY_STRING_READER_WRITER]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 13:45:18 GMT (Tuesday 8th June 2021)"
-	revision: "3"
+	date: "2021-06-09 9:21:12 GMT (Wednesday 9th June 2021)"
+	revision: "4"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
 
 inherit
+	EL_READABLE
+		export
+			{NONE} all
+		end
+
+	EL_WRITEABLE
+		rename
+			write_raw_character_8 as write_character_8,
+			write_raw_string_8 as write_string_8
+		export
+			{NONE} all
+		end
+
 	PLATFORM
 		rename
 			Is_little_endian as Is_little_endian_platform
@@ -51,7 +64,44 @@ feature {NONE} -- Initialization
 			buffer_size_set: buffer_size = a_buffer.count
 		end
 
+feature -- Access
+
+	checksum: NATURAL
+		local
+			crc: EL_CYCLIC_REDUNDANCY_CHECK_32
+		do
+			create crc.make
+			crc.add_data (buffer)
+			Result := crc.checksum
+		end
+
+	count: INTEGER
+		-- Position in `buffer' for next read/write operation
+
+	data: MANAGED_POINTER
+			-- Copy of `buffer' containing ONLY the serialized/deserialized data.
+		do
+			create Result.make_from_pointer (buffer.item, count)
+		ensure
+			valid_data_size: Result.count = count
+		end
+
+	data_version: NATURAL
+		-- Version number of data if different from the default ({REAL}.zero)
+
+	debug_out: STRING
+		-- internal buffer as string
+		do
+			create Result.make_filled (' ', count)
+			Result.area.base_address.memory_copy (buffer.item, count)
+		end
+
 feature -- Status report
+
+	is_default_data_version: BOOLEAN
+		do
+			Result := data_version = 0
+		end
 
 	is_ready_for_reading: BOOLEAN
 			-- Is Current ready for future read operations?
@@ -91,266 +141,6 @@ feature -- Settings
 			is_for_writing: not is_for_reading
 		end
 
-feature -- Read numerics
-
-	read_integer_8: INTEGER_8
-			-- Read next integer_8
-		require
-			is_ready: is_ready_for_reading
-		do
-			check
-				correct_size: natural_8_bytes = integer_8_bytes
-			end
-			Result := read_natural_8.as_integer_8
-		end
-
-	read_integer_16: INTEGER_16
-			-- Read next integer_16
-		require
-			is_ready: is_ready_for_reading
-		do
-			check
-				correct_size: natural_16_bytes = integer_16_bytes
-			end
-			Result := read_natural_16.as_integer_16
-		end
-
-	read_integer_32: INTEGER
-			-- Read next integer_32
-		require
-			is_ready: is_ready_for_reading
-		do
-			check
-				correct_size: natural_32_bytes = integer_32_bytes
-			end
-			Result := read_natural_32.as_integer_32
-		end
-
-	read_integer_64: INTEGER_64
-			-- Read next integer_64
-		require
-			is_ready: is_ready_for_reading
-		do
-			check
-				correct_size: natural_64_bytes = integer_64_bytes
-			end
-			Result := read_natural_64.as_integer_64
-		end
-
-	read_natural_8: NATURAL_8
-			-- Read next natural_8
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as buf and then pos + Natural_8_bytes < buf.count then
-				Result := buf.read_natural_8 (pos)
-				count := pos + natural_8_bytes
-			end
-		end
-
-	read_natural_16: NATURAL_16
-			-- Read next natural_16
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as b and then pos + Natural_16_bytes < b.count then
-				Result := b.read_natural_16 (pos)
-				count := pos + Natural_16_bytes
-			end
-		end
-
-	read_natural_32: NATURAL_32
-			-- Read next natural_32
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as b and then pos + Natural_32_bytes < b.count then
-				Result := b.read_natural_32 (pos)
-				count := pos + Natural_32_bytes
-			end
-		end
-
-	read_natural_64: NATURAL_64
-			-- Read next natural_64
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as b and then pos + Natural_64_bytes < b.count then
-				Result := b.read_natural_64 (pos)
-				count := pos + Natural_64_bytes
-			end
-		end
-
-	read_real_32: REAL_32
-			-- Read next real_32
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as b and then pos + Real_32_bytes < b.count then
-				Result := b.read_real_32 (pos)
-				count := pos + Real_32_bytes
-			end
-		end
-
-	read_real_64: REAL_64
-			-- Read next real_64
-		require
-			is_ready: is_ready_for_reading
-		local
-			pos: INTEGER
-		do
-			pos := count
-			if attached buffer as b and then pos + Real_64_bytes < b.count then
-				Result := b.read_real_64 (pos)
-				count := pos + Real_64_bytes
-			end
-		end
-
-feature -- Write numerics
-
-	write_integer_8 (v: INTEGER_8)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		do
-			check
-				correct_size: Natural_8_bytes = Integer_8_bytes
-			end
-			write_natural_8 (v.as_natural_8)
-		end
-
-	write_integer_16 (v: INTEGER_16)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		do
-			check
-				correct_size: Natural_16_bytes = Integer_16_bytes
-			end
-			write_natural_16 (v.as_natural_16)
-		end
-
-	write_integer_32 (v: INTEGER)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		do
-			check
-				correct_size: Natural_32_bytes = Integer_32_bytes
-			end
-			write_natural_32 (v.as_natural_32)
-		end
-
-	write_integer_64 (v: INTEGER_64)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		do
-			check
-				correct_size: Natural_64_bytes = Integer_64_bytes
-			end
-			write_natural_64 (v.as_natural_64)
-		end
-
-	write_natural_8 (v: NATURAL_8)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Natural_8_bytes) as b then
-				pos := count
-				b.put_natural_8 (v, pos)
-				count := pos + Natural_8_bytes
-			end
-		end
-
-	write_natural_16 (v: NATURAL_16)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Natural_16_bytes) as b then
-				pos := count
-				b.put_natural_16 (v, pos)
-				count := pos + Natural_16_bytes
-			end
-		end
-
-	write_natural_32 (v: NATURAL_32)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Natural_32_bytes) as b then
-				pos := count
-				b.put_natural_32 (v, pos)
-				count := pos + Natural_32_bytes
-			end
-		end
-
-	write_natural_64 (v: NATURAL_64)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Natural_64_bytes) as b then
-				pos := count
-				b.put_natural_64 (v, pos)
-				count := pos + Natural_64_bytes
-			end
-		end
-
-	write_real_32 (v: REAL_32)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Real_32_bytes) as b then
-				pos := count
-				b.put_real_32 (v, pos)
-				count := pos + Real_32_bytes
-			end
-		end
-
-	write_real_64 (v: REAL_64)
-			-- Write `v'.
-		require
-			is_ready: is_ready_for_writing
-		local
-			pos: INTEGER
-		do
-			if attached big_enough_buffer (Real_64_bytes) as b then
-				pos := count
-				b.put_real_64 (v, pos)
-				count := pos + Real_64_bytes
-			end
-		end
-
 feature -- Measurement
 
 	size_of_compressed_natural_32 (v: NATURAL_32): INTEGER
@@ -386,6 +176,46 @@ feature -- Measurement
 					-- Values between 268435455 and 4294967295
 				Result := 5
 			end
+		end
+
+feature -- Element change
+
+	reset_count
+		do
+			count := 0
+		end
+
+	set_data_version (a_data_version: like data_version)
+		do
+			data_version := a_data_version
+		end
+
+	set_default_data_version
+		do
+			data_version := 0
+		end
+
+feature -- Read operations
+
+	read_compressed_natural_32: NATURAL_32
+		require
+			is_ready: is_ready_for_reading
+		local
+			read_count, pos: INTEGER
+		do
+			if attached buffer as buf then
+				pos := count
+				Result := compressed_natural_32 (buf, pos, $read_count)
+				count := pos + read_count
+			end
+		end
+
+	read_skip (n: INTEGER)
+		-- skip `n' bytes
+		require
+			is_ready: is_ready_for_reading
+		do
+			count := count + n
 		end
 
 feature {NONE} -- Implementation
@@ -516,6 +346,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_item: EL_STORABLE
+		do
+			create {EL_STORABLE_IMPL} Result.make_default
+		end
+
+	set_count (a_count: INTEGER)
+		do
+			count := a_count
+		end
+
 	write_compressed_natural_32 (v: NATURAL_32)
 			-- Write `v' as a compressed natural_32.
 			-- Depending on value of `v', it will tell how many natural_8 will
@@ -546,9 +386,6 @@ feature {NONE} -- Internal attributes
 			-- Buffer to store/fetch data from `medium'
 
 	buffer_size: INTEGER
-
-	count: INTEGER
-		-- Position in `buffer' for next read/write operation
 
 feature {NONE} -- Constants
 
