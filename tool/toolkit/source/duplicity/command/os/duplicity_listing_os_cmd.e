@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:04:14 GMT (Sunday 10th January 2021)"
-	revision: "8"
+	date: "2021-06-09 14:00:24 GMT (Wednesday 9th June 2021)"
+	revision: "9"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -40,10 +40,18 @@ create
 feature {NONE} -- Initialization
 
 	make (a_time: DATE_TIME; a_target_dir: EL_DIR_URI_PATH; a_search_string: ZSTRING)
+		local
+			l_count: INTEGER
 		do
 			make_machine
 			make_command ("duplicity list-current-files --time $time $target_dir")
-			search_string := a_search_string
+			l_count := a_search_string.count
+			if l_count > 0 and then a_search_string [l_count] = '/' then
+				search_string := a_search_string.substring (1, l_count - 1)
+				exact_match := True
+			else
+				search_string := a_search_string
+			end
 			create path_list.make (50)
 			set_target_dir (a_target_dir)
 			put_string (Var_time, formatted (a_time))
@@ -73,7 +81,7 @@ feature {NONE} -- Line states
 		do
 			if line.count >= start_index then
 				index := line.substring_index (search_string, start_index)
-				if index > 0 then
+				if index > 0 and then (exact_match implies start_index = index and line.ends_with (search_string)) then
 					path_list.extend (line.substring_end (start_index))
 				end
 			end
@@ -123,6 +131,8 @@ feature {NONE} -- Pattern
 feature {NONE} -- Internal attributes
 
 	search_string: ZSTRING
+
+	exact_match: BOOLEAN
 
 	start_index: INTEGER
 		-- position of '.'

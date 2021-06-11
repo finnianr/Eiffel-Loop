@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 11:46:09 GMT (Sunday 23rd May 2021)"
-	revision: "7"
+	date: "2021-06-11 15:36:11 GMT (Friday 11th June 2021)"
+	revision: "8"
 
 class
 	EL_REFLECTED_STRING_8
@@ -45,6 +45,18 @@ feature -- Basic operations
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			memory.write_string_8 (value (a_object))
+		end
+
+feature {NONE} -- Implementation
+
+	set_string (string: STRING_8; general: READABLE_STRING_GENERAL)
+		do
+			string.wipe_out
+			if attached {ZSTRING} general as zstr then
+				zstr.append_to_string_8 (string)
+			else
+				string.append_string_general (general)
+			end
 		end
 
 end

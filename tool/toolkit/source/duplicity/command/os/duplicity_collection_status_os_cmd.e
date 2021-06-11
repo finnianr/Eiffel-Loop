@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 15:54:38 GMT (Sunday 28th March 2021)"
-	revision: "4"
+	date: "2021-06-09 14:09:45 GMT (Wednesday 9th June 2021)"
+	revision: "5"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	backup_list: EL_ARRAYED_MAP_LIST [ZSTRING, DATE_TIME]
+	backup_list: EL_ARRAYED_LIST [ZSTRING]
 
 feature {NONE} -- Line states
 
@@ -70,33 +70,11 @@ feature {NONE} -- Line states
 				line.left_adjust
 				line.remove_head (4) -- Remove day of week
 
-				backup_list.extend (line, new_date_time (line))
+				backup_list.extend (line)
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	new_date_time (str: ZSTRING): DATE_TIME
-		-- DATE_TIME formatting is broken so we need to do time and date separately
-		local
-			parts: EL_ZSTRING_LIST; time: TIME; date: DATE
-		do
-			create parts.make_with_words (str.as_canonically_spaced)
-			create time.make_from_string (parts.i_th (3), Format.time)
-			parts [3] := parts [4]
-			parts.finish
-			parts.remove
-			create date.make_from_string (parts.joined ('-'), Format.date)
-			create Result.make_by_date_time (date, time)
-		end
-
 feature {NONE} -- Constants
-
-	Format: TUPLE [date, time: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "mmm-[0]dd-yyyy, [0]hh24:[0]mi:[0]ss")
-		end
 
 	Dashed_line: ZSTRING
 		once

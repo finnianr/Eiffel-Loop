@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 8:25:20 GMT (Sunday 23rd May 2021)"
-	revision: "23"
+	date: "2021-06-11 16:08:19 GMT (Friday 11th June 2021)"
+	revision: "24"
 
 class
 	EL_URI
@@ -32,7 +32,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring
-			{STRING_HANDLER} append_string_general, wipe_out, share, prune_all_trailing
+			{STRING_HANDLER} append, append_string_general, wipe_out, share, prune_all_trailing
 		redefine
 			make
 		end
@@ -43,7 +43,7 @@ create
 convert
 	make ({STRING_8})
 
-feature {NONE} -- Initialization
+feature {STRING_HANDLER} -- Initialization
 
 	make (uri: READABLE_STRING_8)
 		require else
@@ -387,9 +387,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
+feature {STRING_HANDLER} -- Constants
 
 	Colon_slash_x2: STRING = "://"
+
+feature {NONE} -- Constants
 
 	Qmark_and_hash: STRING = "?#"
 

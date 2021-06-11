@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 14:14:04 GMT (Wednesday 3rd March 2021)"
-	revision: "78"
+	date: "2021-06-11 16:06:51 GMT (Friday 11th June 2021)"
+	revision: "79"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -498,7 +498,13 @@ feature -- Status query
 
 	is_valid_as_string_8: BOOLEAN
 		do
-			Result := not has_mixed_encoding
+			if is_ascii then
+				Result := True
+			elseif Codec.id = 1 and not has_mixed_encoding then
+				Result := True
+			else
+				Result := not as_encoded_8 (Latin_1_codec).has (Unencoded_character)
+			end
 		end
 
 	matches (a_pattern: EL_TEXT_PATTERN_I): BOOLEAN

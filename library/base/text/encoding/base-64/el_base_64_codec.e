@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-04 7:28:15 GMT (Friday 4th June 2021)"
-	revision: "11"
+	date: "2021-06-10 7:08:45 GMT (Thursday 10th June 2021)"
+	revision: "12"
 
 class
 	EL_BASE_64_CODEC
@@ -50,6 +50,12 @@ feature -- Conversion
 			Result := encoder.output (True)
 		end
 
+	encoded_array (array: ARRAY [NATURAL_8]): STRING
+		do
+			encoder.put_natural_8_array (array)
+			Result := encoder.output (True)
+		end
+
 	encoded_special (array: SPECIAL [NATURAL_8]): STRING
 		do
 			encoder.put_natural_8_array (array)
@@ -62,7 +68,7 @@ feature -- Conversion
 			-- ]"
 		do
 			Result := base64_lines.twin
-			base64_lines.prune_all ('%N')
+			Result.prune_all ('%N')
 		end
 
 feature {NONE} -- Internal attributes

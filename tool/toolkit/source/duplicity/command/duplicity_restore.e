@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 13:49:49 GMT (Monday 3rd August 2020)"
-	revision: "15"
+	date: "2021-06-09 14:21:29 GMT (Wednesday 9th June 2021)"
+	revision: "16"
 
 class
 	DUPLICITY_RESTORE
@@ -24,6 +24,9 @@ inherit
 	EL_COMMAND
 
 	EL_MODULE_FORMAT
+		rename
+			Format as Number_format
+		end
 
 	DUPLICITY_CONSTANTS
 
@@ -69,20 +72,22 @@ feature {NONE} -- Implementation
 	new_command_table: EL_PROCEDURE_TABLE [ZSTRING]
 		local
 			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
-			list: EL_ARRAYED_MAP_LIST [ZSTRING, DATE_TIME]
+--			year_group_table: EL_GROUP_TABLE [ZSTRING, ZSTRING]
 		do
 			create collection.make (backup_dir)
 			create Result.make_equal (collection.backup_list.count)
 
-			list := collection.backup_list
-			from list.start until list.after loop
-				if list.islast then
-					Result [list.item_key] := agent restore_date (Time_now)
+			across collection.backup_list as list loop
+				if list.is_last then
+					Result [list.item] := agent restore_date (Time_now)
 				else
-					Result [list.item_key] := agent restore_date (list.item_value)
+					Result [list.item] := agent restore_date (new_date_time (list.item))
 				end
-				list.forth
 			end
+		end
+
+	year_string (date_string: ZSTRING): ZSTRING
+		do
 		end
 
 	restore_date (a_time: DATE_TIME)
@@ -90,6 +95,7 @@ feature {NONE} -- Implementation
 			cmd: DUPLICITY_LISTING_OS_CMD; restore_cmd: DUPLICITY_RESTORE_ALL_OS_CMD
 			path_list: EL_FILE_PATH_LIST; file_path: EL_FILE_PATH; i: INTEGER
 		do
+			lio.put_line ("(%"library/%" to search for directory library)")
 			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))
 			lio.put_new_line
 			lio.put_labeled_string (" 0.", "Quit")
@@ -100,7 +106,7 @@ feature {NONE} -- Implementation
 				path_list.extend (path.item)
 			end
 			across path_list as path loop
-				lio.put_labeled_string (Format.integer (path.cursor_index, 2), path.item)
+				lio.put_labeled_string (Number_format.integer (path.cursor_index, 2), path.item)
 				lio.put_new_line
 			end
 			lio.put_new_line
@@ -121,6 +127,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	new_date_time (str: ZSTRING): DATE_TIME
+		-- DATE_TIME formatting is broken so we need to do time and date separately
+		local
+			parts: EL_ZSTRING_LIST; time: TIME; l_date: DATE
+		do
+			create parts.make_with_words (str.as_canonically_spaced)
+			create time.make_from_string (parts.i_th (3), Format.time)
+			parts [3] := parts [4]
+			parts.finish
+			parts.remove
+			create l_date.make_from_string (parts.joined ('-'), Format.date)
+			create Result.make_by_date_time (l_date, time)
+		end
+
 feature {DUPLICITY_RESTORE_ALL_OS_CMD} -- Internal attributes
 
 	backup_dir: EL_DIR_URI_PATH
@@ -128,6 +150,12 @@ feature {DUPLICITY_RESTORE_ALL_OS_CMD} -- Internal attributes
 	pass_phrase: ZSTRING
 
 feature {NONE} -- Constants
+
+	Format: TUPLE [date, time: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "mmm-[0]dd-yyyy, [0]hh24:[0]mi:[0]ss")
+		end
 
 	Var_passphrase: STRING_32
 		once

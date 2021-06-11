@@ -1,13 +1,15 @@
 note
-	description: "Implementation routines for class [$source EL_MEMORY_STRING_READER_WRITER]"
+	description: "[
+		Implementation routines for memory buffer reader/writer class [$source EL_MEMORY_READER_WRITER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 9:21:12 GMT (Wednesday 9th June 2021)"
-	revision: "4"
+	date: "2021-06-09 16:35:04 GMT (Wednesday 9th June 2021)"
+	revision: "5"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION

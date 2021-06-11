@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-28 15:04:11 GMT (Thursday 28th January 2021)"
-	revision: "12"
+	date: "2021-06-09 17:15:27 GMT (Wednesday 9th June 2021)"
+	revision: "13"
 
 class
 	EL_DIGEST_ARRAY
@@ -50,12 +50,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_base64 (base64_string: STRING)
-		local
-			plain: STRING
 		do
-			plain := Base_64.decoded (base64_string)
-			make (plain.count)
-			area.base_address.memory_copy (plain.area.base_address, plain.count)
+			area := Base_64.decoded_special (base64_string)
 		end
 
 	make_from_integer_x (integer: INTEGER_X)

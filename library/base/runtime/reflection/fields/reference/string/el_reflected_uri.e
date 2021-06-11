@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 11:49:26 GMT (Sunday 23rd May 2021)"
-	revision: "4"
+	date: "2021-06-11 16:09:11 GMT (Friday 11th June 2021)"
+	revision: "5"
 
 class
 	EL_REFLECTED_URI
 
 inherit
 	EL_REFLECTED_STRING [EL_URI]
+		rename
+			set_string as set_uri
+		end
 
 create
 	make
@@ -45,6 +48,22 @@ feature -- Basic operations
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
 			memory.write_string_8 (value (a_object))
+		end
+
+feature {NONE} -- Implementation
+
+	set_uri (uri: EL_URI; general: READABLE_STRING_GENERAL)
+		do
+			if general.is_valid_as_string_8 then
+				uri.wipe_out
+				if attached {READABLE_STRING_8} general as str_8 then
+					uri.append (str_8)
+				else
+					uri.append (general.to_string_8)
+				end
+			else
+				uri.make_from_general (general)
+			end
 		end
 
 end

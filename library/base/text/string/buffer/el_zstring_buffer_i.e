@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 12:08:34 GMT (Sunday 16th May 2021)"
-	revision: "1"
+	date: "2021-06-09 10:19:42 GMT (Wednesday 9th June 2021)"
+	revision: "2"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
@@ -66,7 +66,7 @@ feature -- Contract Support
 
 	is_same (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := general /= Buffer
+			Result := general = Buffer
 		end
 
 feature {NONE} -- Implementation

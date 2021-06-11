@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-03 12:35:24 GMT (Thursday 3rd October 2019)"
-	revision: "5"
+	date: "2021-06-10 7:28:21 GMT (Thursday 10th June 2021)"
+	revision: "6"
 
 class
 	EL_PADDED_BYTE_ARRAY
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 				area := other
 			else
 				make (other.count, a_block_size)
-				area.base_address.memory_copy (other.base_address, other.count)
+				area.copy_data (other, 0, 0, other.count)
 			end
 		end
 

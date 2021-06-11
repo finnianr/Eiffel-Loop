@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 12:30:34 GMT (Monday 24th May 2021)"
-	revision: "18"
+	date: "2021-06-11 15:34:33 GMT (Friday 11th June 2021)"
+	revision: "19"
 
 deferred class
 	EL_REFLECTED_STRING [S -> STRING_GENERAL create make end]
@@ -40,25 +40,27 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string_general (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string_general (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
+		local
+			new: S
 		do
-			if attached {S} string as str then
+			if attached {S} general as str then
 				set (a_object, str)
 			else
 				if attached value (a_object) as str then
-					str.append (string)
+					set_string (str, general)
 				else
-					set (a_object, new_string (string))
+					create new.make (general.count)
+					set_string (new, general)
+					set (a_object, new)
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_string (general: READABLE_STRING_GENERAL): S
-		do
-			create Result.make (general.count)
-			Result.append (general)
+	set_string (string: S; general: READABLE_STRING_GENERAL)
+		deferred
 		end
 
 end

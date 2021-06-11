@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 17:26:42 GMT (Friday 12th February 2021)"
-	revision: "9"
+	date: "2021-06-11 16:19:20 GMT (Friday 11th June 2021)"
+	revision: "10"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -49,16 +49,16 @@ feature {NONE} -- Initialization
 			make (2)
 		end
 
-	make_from_array (a_modulus: ARRAY [NATURAL_8])
+	make_from_array (a_modulus: SPECIAL [NATURAL_8])
 			--
 		do
-			make (Rsa.integer_x_from_array (a_modulus.area))
+			make (Rsa.integer_x_from_array (a_modulus))
 		end
 
-	make_from_base_64 (base_64_string: STRING)
+	make_from_base_64 (base_64_modulus: STRING)
 			--
 		do
-			make_from_array (Base_64.decoded_array (base_64_string))
+			make_from_array (Base_64.decoded_special (base_64_modulus))
 		end
 
 	make_from_hex_byte_sequence (sequence: STRING)

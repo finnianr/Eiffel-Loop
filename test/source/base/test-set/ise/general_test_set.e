@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-07 12:22:41 GMT (Monday 7th June 2021)"
-	revision: "8"
+	date: "2021-06-10 7:14:43 GMT (Thursday 10th June 2021)"
+	revision: "9"
 
 class
 	GENERAL_TEST_SET
@@ -17,12 +17,15 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
+	EL_MODULE_BASE_64
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("any_array_numeric_type_detection", agent test_any_array_numeric_type_detection)
+			eval.call ("base_64_codec", agent test_base_64_codec)
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
@@ -39,6 +42,30 @@ feature -- Tests
 			assert ("same types", array.item (1).generating_type ~ {INTEGER_32_REF})
 			assert ("same types", array.item (2).generating_type ~ {DOUBLE})
 			assert ("same types", array.item (3).generating_type ~ {INTEGER_64})
+		end
+
+	test_base_64_codec
+		note
+			testing: "covers/{EL_BASE_64_CODEC}.joined, covers/{EL_BASE_64_CODEC}.decoded_special",
+						"covers/{EL_BASE_64_CODEC}.encoded_special"
+		local
+			list: ARRAYED_LIST [NATURAL_8]; decoded, gobo_decoded: SPECIAL [NATURAL_8]
+			encoded, gobo_encoded: STRING; r: RANDOM
+		do
+			gobo_decoded := Gobo_base_64.decoded_special (Base_64_data)
+			decoded := Base_64.decoded_special (Base_64_data)
+			assert ("same data", decoded ~ gobo_decoded)
+
+			create r.make
+			create list.make (100)
+			from until list.full loop
+				list.extend ((r.item \\ 100).to_natural_8)
+				r.forth
+				encoded := Base_64.encoded_special (list.area)
+				gobo_encoded := Gobo_base_64.encoded_special (list.area)
+				assert ("same encoding", encoded ~ gobo_encoded)
+				assert ("same list", Base_64.decoded_special (encoded) ~ list.area)
+			end
 		end
 
 	test_character_32_status_queries
@@ -91,4 +118,20 @@ feature -- Tests
 			assert ("reversed", n_64 = 0x88_77_66_55_44_33_22_11)
 		end
 
+feature {NONE} -- Constants
+
+	Gobo_base_64: GOBO_BASE_64_ROUTINES
+		once
+			create Result
+		end
+
+	Base_64_data: STRING
+		once
+			Result := Base_64.joined ("[
+				SAFweR4G0xAxjN11FNtzojS0rrJitfeQh9KUa9kuuk1/6Wk7wDBmDpTXx3hZ4e48ovkIs50w3YSFSsH1EyseOe
+				/OsvGW5ncCl3V08u0whToDEXDCQc3LAT4U6ULIYgw4+Kmx9Xoi9lINa4iS8ze/p2NPIvL61TDuYhocxX1ux7xu
+				OGXlvDw4mNhnNWMqT1671/XW+I+WMMO5JyA0Sw20LWGGAPbKm/gZj+X5qAuLAQKz7hoUYX0SCep8mrKgprDbdd
+				jxw4uSuCTvZtxyORmhrB4u6nwMPDx8Rq7ECzpMAGxsVFZh959BvwmtXhR7vs3tTYRZ7YBTwLopkCuhlGQXMQ==
+			]")
+		end
 end

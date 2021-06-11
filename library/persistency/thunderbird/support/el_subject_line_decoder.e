@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-10 10:20:51 GMT (Thursday 10th September 2020)"
-	revision: "8"
+	date: "2021-06-10 7:30:36 GMT (Thursday 10th June 2021)"
+	revision: "9"
 
 class
 	EL_SUBJECT_LINE_DECODER

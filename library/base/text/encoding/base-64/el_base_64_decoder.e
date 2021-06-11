@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 9:40:51 GMT (Tuesday 8th June 2021)"
-	revision: "3"
+	date: "2021-06-10 7:03:43 GMT (Thursday 10th June 2021)"
+	revision: "4"
 
 class
 	EL_BASE_64_DECODER
@@ -33,7 +33,7 @@ feature -- Access
 			create Result.make_empty ((base_64.count // 4 + 1) * 3)
 			area := base_64.area; i_final := base_64.count
 			from i := 0 until i = i_final loop
-				if i + 4 > i_final then
+				if i + 4 >= i_final then
 					-- no '=' padding at the end
 					create area.make_filled ('=', 4)
 					area.copy_data (base_64.area, i, 0, i_final - i)

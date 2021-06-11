@@ -70,7 +70,7 @@ system:
 
 		library:
 			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
-		
+
 		# CLUSTERS
 		cluster:
 			name = data_structure; location = data_structure; recursive = true

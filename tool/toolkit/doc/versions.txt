@@ -1,3 +1,6 @@
+1.4.5
+DUPLICITY_RESTORE can now be used to select a particular directory
+
 1.4.4
 Include DUPLICITY_LISTING_OS_CMD in visible classes
 Fixed canonical spacing in `str': DUPLICITY_COLLECTION_STATUS_OS_CMD.new_date_time (str: STRING)
