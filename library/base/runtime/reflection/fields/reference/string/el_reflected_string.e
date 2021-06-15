@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 15:34:33 GMT (Friday 11th June 2021)"
-	revision: "19"
+	date: "2021-06-11 16:32:07 GMT (Friday 11th June 2021)"
+	revision: "20"
 
 deferred class
 	EL_REFLECTED_STRING [S -> STRING_GENERAL create make end]
@@ -55,6 +55,8 @@ feature -- Basic operations
 					set (a_object, new)
 				end
 			end
+		ensure then
+			same_string: value (a_object).same_string (general)
 		end
 
 feature {NONE} -- Implementation

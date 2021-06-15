@@ -1,3 +1,6 @@
+1.4.6
+DUPLICITY_RESTORE groups by year
+
 1.4.5
 DUPLICITY_RESTORE can now be used to select a particular directory
 

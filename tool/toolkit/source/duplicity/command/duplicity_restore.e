@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 14:21:29 GMT (Wednesday 9th June 2021)"
-	revision: "16"
+	date: "2021-06-15 8:50:55 GMT (Tuesday 15th June 2021)"
+	revision: "17"
 
 class
 	DUPLICITY_RESTORE
@@ -44,8 +44,6 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	 execute
-	 	local
-	 		shell: EL_COMMAND_SHELL
 		do
 			if restore_dir.is_empty then
 				lio.put_labeled_string ("ERROR", "No restore directory specified in configuration")
@@ -56,8 +54,7 @@ feature -- Basic operations
 					lio.put_labeled_string ("Restore", target_dir.base)
 					lio.put_new_line_x2
 					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir_base >>)
-					create shell.make ("BACKUPS", new_command_table, 30)
-					shell.run_command_loop
+					new_shell.run_command_loop
 				end
 			end
 		end
@@ -69,25 +66,16 @@ feature {NONE} -- Implementation
 			Result := uri.scheme ~ Protocol.file
 		end
 
-	new_command_table: EL_PROCEDURE_TABLE [ZSTRING]
-		local
-			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
---			year_group_table: EL_GROUP_TABLE [ZSTRING, ZSTRING]
-		do
-			create collection.make (backup_dir)
-			create Result.make_equal (collection.backup_list.count)
-
-			across collection.backup_list as list loop
-				if list.is_last then
-					Result [list.item] := agent restore_date (Time_now)
-				else
-					Result [list.item] := agent restore_date (new_date_time (list.item))
-				end
-			end
-		end
-
 	year_string (date_string: ZSTRING): ZSTRING
+		local
+			index: INTEGER
 		do
+			index := date_string.last_index_of (' ', date_string.count)
+			if index > 0 then
+				Result := date_string.substring_end (index + 1)
+			else
+				create Result.make_filled ('0', 4)
+			end
 		end
 
 	restore_date (a_time: DATE_TIME)
@@ -127,7 +115,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
 	new_date_time (str: ZSTRING): DATE_TIME
 		-- DATE_TIME formatting is broken so we need to do time and date separately
@@ -141,6 +129,49 @@ feature {NONE} -- Implementation
 			parts.remove
 			create l_date.make_from_string (parts.joined ('-'), Format.date)
 			create Result.make_by_date_time (l_date, time)
+		end
+
+	new_shell: EL_COMMAND_SHELL
+		local
+			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
+			year_group_table: EL_GROUP_TABLE [ZSTRING, ZSTRING]
+			item_table: EL_PROCEDURE_TABLE [ZSTRING]
+			backup_shell: like new_backup_shell
+		do
+			create collection.make (backup_dir)
+			create year_group_table.make (agent year_string, collection.backup_list)
+			inspect year_group_table.count
+				when 0, 1 then
+					Result := new_backup_shell (collection.backup_list)
+			else
+				create item_table.make_equal (year_group_table.count)
+				across year_group_table as table loop
+					backup_shell := new_backup_shell (table.item)
+					item_table [table.key] := agent backup_shell.run_command_loop
+				end
+				create Result.make ("BACKUPS BY YEAR", item_table, 10)
+			end
+		end
+
+	new_backup_shell (date_list: LIST [ZSTRING]): EL_COMMAND_SHELL
+		local
+			item_table: EL_PROCEDURE_TABLE [ZSTRING]
+			year: ZSTRING
+		do
+			create item_table.make_equal (date_list.count)
+			if date_list.is_empty then
+				year := "0000"
+			else
+				year := year_string (date_list.first)
+			end
+			across date_list as list loop
+				if list.is_last then
+					item_table [list.item] := agent restore_date (Time_now)
+				else
+					item_table [list.item] := agent restore_date (new_date_time (list.item))
+				end
+			end
+			create Result.make ("BACKUPS for " + year, item_table, 30)
 		end
 
 feature {DUPLICITY_RESTORE_ALL_OS_CMD} -- Internal attributes

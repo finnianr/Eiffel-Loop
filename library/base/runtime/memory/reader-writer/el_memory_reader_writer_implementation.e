@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 16:35:04 GMT (Wednesday 9th June 2021)"
-	revision: "5"
+	date: "2021-06-15 9:18:20 GMT (Tuesday 15th June 2021)"
+	revision: "6"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
@@ -30,7 +30,7 @@ inherit
 
 	PLATFORM
 		rename
-			Is_little_endian as Is_little_endian_platform
+			Is_little_endian as Is_platform_little_endian
 		export
 			{NONE} all
 		end
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			-- when writing.
 		do
 			buffer_size := Default_buffer_size
-			if Is_little_endian_platform then
+			if Is_platform_little_endian = Stored_as_little_endian then
 				create buffer.make (buffer_size) -- native
 			else
 				-- reverse byte order for Big-endian platforms to little-endian
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			-- `buffer_size' will be overriden during read operation by the value of `buffer_size' used
 			-- when writing.
 		require
-			valid_buffer_type: not Is_little_endian_platform implies attached {EL_REVERSE_MANAGED_POINTER} a_buffer
+			valid_buffer_type: not Is_platform_little_endian implies attached {EL_REVERSE_MANAGED_POINTER} a_buffer
 		do
 			buffer := a_buffer; buffer_size := a_buffer.count
 		ensure
@@ -122,7 +122,7 @@ feature -- Status report
 
 	is_native_endian: BOOLEAN
 		do
-			Result := Is_little_endian_platform
+			Result := Is_platform_little_endian
 		end
 
 feature -- Settings
@@ -399,6 +399,11 @@ feature {NONE} -- Constants
 	Default_buffer_size: INTEGER
 		once
 			Result := 500
+		end
+
+	Stored_as_little_endian: BOOLEAN
+		once
+			Result := True
 		end
 
 end
