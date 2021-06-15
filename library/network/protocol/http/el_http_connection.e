@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:05:14 GMT (Monday 8th February 2021)"
-	revision: "29"
+	date: "2021-06-15 12:42:14 GMT (Tuesday 15th June 2021)"
+	revision: "30"
 
 class
 	EL_HTTP_CONNECTION
@@ -75,7 +75,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			disable_cookies
 			create last_string.make_empty
 			create http_response.make_empty
 			create headers.make_equal (0)
@@ -91,9 +90,9 @@ feature -- Access
 			create Result.make_from_utf_8 (last_string)
 		end
 
-	cookie_load_path: EL_FILE_PATH
+	cookie_load_path: detachable EL_FILE_PATH
 
-	cookie_store_path: EL_FILE_PATH
+	cookie_store_path: detachable EL_FILE_PATH
 
 	error_code: INTEGER
 		-- curl error code
@@ -259,12 +258,12 @@ feature -- Status setting
 
 	disable_cookie_load
 		do
-			create cookie_load_path
+			cookie_load_path := Void
 		end
 
 	disable_cookie_store
 		do
-			create cookie_store_path
+			cookie_store_path := Void
 		end
 
 	disable_cookies
@@ -586,11 +585,11 @@ feature {EL_HTTP_COMMAND} -- Implementation
 
 	set_cookies
 		do
-			if not cookie_store_path.is_empty then
-				set_curl_string_option (CURLOPT_cookiejar, cookie_store_path)
+			if attached cookie_store_path as store_path then
+				set_curl_string_option (CURLOPT_cookiejar, store_path)
 			end
-			if not cookie_load_path.is_empty then
-				set_curl_string_option (CURLOPT_cookiefile, cookie_load_path)
+			if attached cookie_load_path as load_path then
+				set_curl_string_option (CURLOPT_cookiefile, load_path)
 			end
 		end
 
