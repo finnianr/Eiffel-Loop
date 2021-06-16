@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-15 12:42:14 GMT (Tuesday 15th June 2021)"
-	revision: "30"
+	date: "2021-06-16 7:43:22 GMT (Wednesday 16th June 2021)"
+	revision: "31"
 
 class
 	EL_HTTP_CONNECTION
@@ -310,7 +310,7 @@ feature -- Element change
 			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end
 
-	set_cookie_load_path (a_cookie_load_path: like cookie_load_path)
+	set_cookie_load_path (a_cookie_load_path: EL_FILE_PATH)
 		-- Enables the cookie engine, making the connection parse and send cookies on subsequent requests.
 		-- The cookie data can be in either the old Netscape / Mozilla cookie data format or just
 		-- regular HTTP headers (Set-Cookie style) dumped to a file.
@@ -327,14 +327,14 @@ feature -- Element change
 			cookie_load_path := a_cookie_load_path
 		end
 
-	set_cookie_paths (a_cookie_path: like cookie_store_path)
+	set_cookie_paths (a_cookie_path: EL_FILE_PATH)
 			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
 		do
 			cookie_load_path := a_cookie_path
 			cookie_store_path := a_cookie_path
 		end
 
-	set_cookie_store_path (a_cookie_store_path: like cookie_store_path)
+	set_cookie_store_path (a_cookie_store_path: EL_FILE_PATH)
 			-- This will make the connection write all internally known cookies to the
 			-- specified file when close is called.
 
@@ -583,7 +583,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-	set_cookies
+	set_cookie_options
 		do
 			if attached cookie_store_path as store_path then
 				set_curl_string_option (CURLOPT_cookiejar, store_path)

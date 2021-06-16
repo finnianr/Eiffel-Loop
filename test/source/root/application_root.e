@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 9:36:50 GMT (Friday 19th March 2021)"
-	revision: "61"
+	date: "2021-06-16 8:28:40 GMT (Wednesday 16th June 2021)"
+	revision: "62"
 
 class
 	APPLICATION_ROOT
@@ -25,7 +25,7 @@ inherit
 		EXPERIMENTS_APP,
 
 	-- Test network.ecf (Do first to give time for socket address to be released for EROS_AUTOTEST_APP)
-		SIMPLE_CLIENT_SERVER_AUTOTEST_APP,
+		NETWORK_AUTOTEST_APP,
 
 	-- Test amazon-instant-access.ecf
 		AMAZON_INSTANT_ACCESS_AUTOTEST_APP,

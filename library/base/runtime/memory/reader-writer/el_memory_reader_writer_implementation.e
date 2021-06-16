@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-15 9:18:20 GMT (Tuesday 15th June 2021)"
-	revision: "6"
+	date: "2021-06-16 8:59:33 GMT (Wednesday 16th June 2021)"
+	revision: "7"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
@@ -37,13 +37,26 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
-			-- Initialize current to read or write from `a_medium' using a buffer of size `a_buffer_size'.
-			-- `buffer_size' will be overriden during read operation by the value of `buffer_size' used
-			-- when writing.
+	make_little_endian
+		do
+			make_endian (True)
+		ensure
+			stored_as_little: stored_as_little_endian
+		end
+
+	make_big_endian
+		do
+			make_endian (False)
+		ensure
+			stored_as_big_endian: not stored_as_little_endian
+		end
+
+	make_endian (as_little: BOOLEAN)
+			-- Initialize current to read or write from `a_medium' using a buffer of size `Default_buffer_size'
+			-- and with endianness as Little if `as_little = True'
 		do
 			buffer_size := Default_buffer_size
-			if Is_platform_little_endian = Stored_as_little_endian then
+			if Is_platform_little_endian = as_little then
 				create buffer.make (buffer_size) -- native
 			else
 				-- reverse byte order for Big-endian platforms to little-endian
@@ -51,6 +64,7 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			correct_size: buffer.count = Default_buffer_size
+			same_endian: stored_as_little_endian = as_little
 		end
 
 	make_with_buffer (a_buffer: like buffer)
@@ -122,7 +136,16 @@ feature -- Status report
 
 	is_native_endian: BOOLEAN
 		do
-			Result := Is_platform_little_endian
+			Result := Is_platform_little_endian = stored_as_little_endian
+		end
+
+	stored_as_little_endian: BOOLEAN
+		do
+			if Is_platform_little_endian then
+				Result := not attached {EL_REVERSE_MANAGED_POINTER} buffer
+			else
+				Result := attached {EL_REVERSE_MANAGED_POINTER} buffer
+			end
 		end
 
 feature -- Settings
@@ -399,11 +422,6 @@ feature {NONE} -- Constants
 	Default_buffer_size: INTEGER
 		once
 			Result := 500
-		end
-
-	Stored_as_little_endian: BOOLEAN
-		once
-			Result := True
 		end
 
 end

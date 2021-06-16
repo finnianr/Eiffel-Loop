@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 11:49:36 GMT (Monday 15th March 2021)"
-	revision: "16"
+	date: "2021-06-16 8:50:56 GMT (Wednesday 16th June 2021)"
+	revision: "17"
 
 class
-	SIMPLE_CLIENT_SERVER_AUTOTEST_APP
+	NETWORK_AUTOTEST_APP
 
 inherit
-	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [SIMPLE_CLIENT_SERVER_TEST_SET]
+	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [SIMPLE_CLIENT_SERVER_TEST_SET, NETWORK_TEST_SET]
 		redefine
 			description, visible_types, log_filter_set
 		end
@@ -44,6 +44,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Description: STRING = "Test for class EL_SIMPLE_SERVER"
+	Description: STRING = "Tests for library network.ecf"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 9:29:42 GMT (Sunday 16th May 2021)"
-	revision: "20"
+	date: "2021-06-16 10:37:35 GMT (Wednesday 16th June 2021)"
+	revision: "21"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -36,6 +36,11 @@ feature -- Basic operations
 			else
 				str.append_string_general (extra)
 			end
+		end
+
+	set_upper (str: STRING_32; i: INTEGER)
+		do
+			str.put (str [i].upper, i)
 		end
 
 feature -- Conversion

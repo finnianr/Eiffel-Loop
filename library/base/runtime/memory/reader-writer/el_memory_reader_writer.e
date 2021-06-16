@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 16:33:03 GMT (Wednesday 9th June 2021)"
-	revision: "22"
+	date: "2021-06-16 8:15:51 GMT (Wednesday 16th June 2021)"
+	revision: "23"
 
 class
 	EL_MEMORY_READER_WRITER
@@ -21,7 +21,7 @@ inherit
 	EL_MEMORY_STRING_READER_WRITER
 
 create
-	make, make_with_buffer
+	make_endian, make_little_endian, make_big_endian, make_with_buffer
 
 feature -- Read sequences
 

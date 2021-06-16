@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 12:39:34 GMT (Tuesday 8th June 2021)"
-	revision: "8"
+	date: "2021-06-16 8:17:17 GMT (Wednesday 16th June 2021)"
+	revision: "9"
 
 class
 	ECD_READER_WRITER [G -> EL_STORABLE create make_default end]
 
 inherit
 	EL_MEMORY_READER_WRITER
+		rename
+			make_little_endian as make
 		export
 			{NONE} all
 			{ANY} buffer, count, data,

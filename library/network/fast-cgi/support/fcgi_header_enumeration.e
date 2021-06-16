@@ -1,13 +1,13 @@
 note
-	description: "Fcgi header enumeration"
+	description: "Fast-CGI header enumeration"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-21 14:48:12 GMT (Saturday 21st November 2020)"
-	revision: "2"
+	date: "2021-06-16 9:33:16 GMT (Wednesday 16th June 2021)"
+	revision: "3"
 
 class
 	FCGI_HEADER_ENUMERATION

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:33:33 GMT (Friday 8th January 2021)"
-	revision: "20"
+	date: "2021-06-16 10:43:07 GMT (Wednesday 16th June 2021)"
+	revision: "21"
 
 class
 	EL_NAMING_ROUTINES
@@ -291,16 +291,22 @@ feature -- Export names
 		require
 			empty_title_out: title_out.is_empty
 		local
-			words: EL_SPLIT_STRING_LIST [STRING]; index: INTEGER
+			index: INTEGER; list: like Underscore_intervals
+			s: EL_STRING_8_ROUTINES
 		do
-			create words.make (name_in, Underscore)
+			list := Underscore_intervals
+			list.fill (name_in, Underscore)
 			title_out.append (name_in)
-			from words.start until words.after loop
-				if words.item_count > 0 then
-					index := words.item_start_index
-					title_out.put (title_out.item (index).as_upper, index)
+			list.put_front (0)
+			from list.start until list.after loop
+				index := list.item_lower
+				if title_out.valid_index (index) then
+					title_out [index] := separator_out
 				end
-				words.forth
+				if title_out.valid_index (index + 1) then
+					s.set_upper (title_out, index + 1)
+				end
+				list.forth
 			end
 		end
 
@@ -330,5 +336,10 @@ feature {NONE} -- Constants
 	State_upper: INTEGER = 1
 
 	Underscore: STRING = "_"
+
+	Underscore_intervals: EL_OCCURRENCE_INTERVALS [STRING]
+		once
+			create Result.make_empty
+		end
 
 end

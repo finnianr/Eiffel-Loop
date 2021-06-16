@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 9:27:31 GMT (Sunday 16th May 2021)"
-	revision: "29"
+	date: "2021-06-16 10:36:01 GMT (Wednesday 16th June 2021)"
+	revision: "30"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -94,6 +94,12 @@ feature -- Status query
 feature -- Basic operations
 
 	append_to (str: S; extra: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	set_upper (str: S; i: INTEGER)
+		require
+			valid_index: 0 < i and i <= str.count
 		deferred
 		end
 

@@ -11,16 +11,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-15 9:24:18 GMT (Tuesday 15th June 2021)"
-	revision: "3"
+	date: "2021-06-16 8:16:57 GMT (Wednesday 16th June 2021)"
+	revision: "4"
 
 class
 	FCGI_MEMORY_READER_WRITER
 
 inherit
 	EL_MEMORY_READER_WRITER
-		redefine
-			Stored_as_little_endian
+		rename
+			make_big_endian as make
 		end
 
 create
@@ -49,14 +49,6 @@ feature -- Access
 				end
 				count := pos
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Stored_as_little_endian: BOOLEAN
-		-- Big endian read/write
-		once
-			Result := False
 		end
 
 end

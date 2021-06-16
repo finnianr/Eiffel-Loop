@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-20 8:08:23 GMT (Thursday 20th May 2021)"
-	revision: "7"
+	date: "2021-06-16 10:47:02 GMT (Wednesday 16th June 2021)"
+	revision: "8"
 
 class
 	EL_NAMED_THREAD
@@ -35,9 +35,8 @@ feature {NONE} -- Factory
 			if Result.index_of ('_', 1) = 3 then
 				Result.remove_head (3)
 			end
- 			Result.to_lower
-  			Result.put (Result [1].upper, 1)
 			Result.replace_character ('_', ' ')
+ 			Result.to_proper_case
 		end
 
 	new_name: ZSTRING

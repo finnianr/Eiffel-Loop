@@ -1,13 +1,13 @@
 note
-	description: "Routines for converting ip addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa"
+	description: "Routines for converting IP addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 10:18:25 GMT (Thursday 4th March 2021)"
-	revision: "4"
+	date: "2021-06-16 8:47:47 GMT (Wednesday 16th June 2021)"
+	revision: "5"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -19,6 +19,13 @@ inherit
 			make_empty as make
 		export
 			{NONE} all
+		end
+
+	PLATFORM
+		export
+			{NONE} all
+		undefine
+			copy, default_create, is_equal, out
 		end
 
 create
@@ -48,24 +55,23 @@ feature -- Conversion
 			i: INTEGER
 		do
 			mem := Memory
-			mem.set_for_writing
-			mem.reset_count
-			mem.write_natural_32 (ip_number)
-
-			mem.reset_count
-			mem.set_for_reading
+			mem.put_natural_32 (ip_number, 0)
 
 			create Result.make (15)
 			from i := 1 until i > 4 loop
 				if i > 1 then
 					Result.append_character ('.')
 				end
-				Result.append_natural_8 (mem.read_natural_8)
+				Result.append_natural_8 (mem.read_natural_8 (i - 1))
 				i := i + 1
 			end
 		ensure
 			reversible: ip_number = to_number (Result)
 		end
+
+feature -- Constants
+
+	Loop_back_address: NATURAL = 0x7F_00_00_01
 
 feature {NONE} -- Implementation
 
@@ -82,13 +88,15 @@ feature {NONE} -- Constants
 
 	Dot: STRING = "."
 
-	Loop_back_address: NATURAL = 0x7F_00_00_01
-
 	Loop_back_one: STRING =  "::1"
 
-	Memory: EL_MEMORY_READER_WRITER
+	Memory: MANAGED_POINTER
 		once
-			create Result.make
+			if is_little_endian then
+				create {EL_REVERSE_MANAGED_POINTER} Result.make (4)
+			else
+				create Result.make (4)
+			end
 		end
 
 end
