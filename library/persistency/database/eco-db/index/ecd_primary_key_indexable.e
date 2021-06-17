@@ -30,15 +30,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 13:07:34 GMT (Monday 24th May 2021)"
-	revision: "6"
+	date: "2021-06-17 14:02:21 GMT (Thursday 17th June 2021)"
+	revision: "7"
 
 deferred class
 	ECD_PRIMARY_KEY_INDEXABLE [G -> EL_KEY_IDENTIFIABLE_STORABLE create make_default end]
 
 feature {NONE} -- Initialization
 
-	make_index_by_key (index_list: BAG [ECD_INDEX_TABLE [G, HASHABLE]])
+	make_index_by_key (index_list: SPECIAL [ECD_INDEX_TABLE [G, HASHABLE]])
 		do
 			create index_by_key.make (current_list, capacity)
 			index_list.extend (index_by_key)

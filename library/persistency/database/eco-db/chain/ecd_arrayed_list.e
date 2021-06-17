@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-26 8:54:43 GMT (Wednesday 26th May 2021)"
-	revision: "13"
+	date: "2021-06-17 15:09:34 GMT (Thursday 17th June 2021)"
+	revision: "14"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -39,24 +39,36 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		local
-			i: INTEGER; table_list: ARRAYED_LIST [like index_tables.item]
+			i: INTEGER; index_list: like index_tables; group_list: like group_tables
 		do
 			Precursor (n)
 			index_by := new_index_by
-			create table_list.make (index_by.count)
+			create index_list.make_empty (index_by.count + 1) -- Allow enough room for primary key index
 			from i := 1 until i > index_by.count loop
 				if attached {like index_tables.item} index_by.reference_item (i) as table then
-					table_list.extend (table)
+					index_list.extend (table)
 				end
 				i := i + 1
 			end
-			make_index_by_key (table_list)
-			index_tables := table_list
+			make_index_by_key (index_list)
+			index_tables := index_list
+
+			group_by := new_group_by
+			create group_list.make_empty (group_by.count)
+			from i := 1 until i > group_by.count loop
+				if attached {like group_tables.item} group_by.reference_item (i) as table then
+					group_list.extend (table)
+				end
+				i := i + 1
+			end
+			group_tables := group_list
 		end
 
-	make_index_by_key (table_list: BAG [like index_tables.item])
+	make_index_by_key (index_list: like index_tables)
 			-- Implement this by inheriting class `ECD_PRIMARY_KEY_INDEXABLE' and undefining
 			-- this routine
+		require
+			big_enough: index_list.count < index_list.capacity
 		do
 		end
 
@@ -64,7 +76,7 @@ feature -- Access
 
 	index_by: like new_index_by
 
-	index_tables: LINEAR [ECD_INDEX_TABLE [G, HASHABLE]]
+	group_by: like new_group_by
 
 feature -- Element change
 
@@ -74,13 +86,17 @@ feature -- Element change
 		do
 			assign_key (a_item)
 			Precursor (a_item)
-			index_tables.do_all (agent {like index_tables.item}.on_extend (a_item))
+			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_extend (a_item), 0, index_tables.count - 1)
+			group_tables.do_all_in_bounds (agent {like group_tables.item}.on_extend (a_item), 0, group_tables.count - 1)
 		end
 
 	replace (a_item: like item)
 		do
 			assign_key (a_item)
-			index_tables.do_all (agent {like index_tables.item}.on_replace (a_item))
+			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_replace (a_item), 0, index_tables.count - 1)
+			group_tables.do_all_in_bounds (
+				agent {like group_tables.item}.on_replace (item, a_item), 0, group_tables.count - 1
+			)
 			Precursor (a_item)
 		end
 
@@ -89,21 +105,34 @@ feature -- Removal
 	wipe_out
 		do
 			Precursor
-			index_tables.do_all (agent {like index_tables.item}.wipe_out)
+			index_tables.do_all_in_bounds (agent {like index_tables.item}.wipe_out, 0, index_tables.count - 1)
+			group_tables.do_all_in_bounds (agent {like group_tables.item}.wipe_out, 0, group_tables.count - 1)
 		end
 
 feature -- Contract Support
 
 	not_some_index_has (a_item: like item): BOOLEAN
 		do
-			Result := not index_tables.there_exists (agent {like index_tables.item}.has)
+			Result := not index_tables.there_exists_in_bounds (
+				agent {like index_tables.item}.has, 0, index_tables.count - 1
+			)
 		end
 
 feature {NONE} -- Factory
 
+	new_group_by: TUPLE
+		do
+			create Result
+		end
+
 	new_index_by: TUPLE
 		do
 			create Result
+		end
+
+	new_group_by_natural (field_function: FUNCTION [G, NATURAL]): ECD_GROUP_TABLE [G, NATURAL]
+		do
+			create Result.make (field_function, capacity)
 		end
 
 	new_index_by_byte_array (field_function: FUNCTION [G, EL_BYTE_ARRAY]): ECD_AGENT_INDEX_TABLE [G, EL_BYTE_ARRAY]
@@ -138,7 +167,8 @@ feature {NONE} -- Event handler
 		require
 			item_deleted: item.is_deleted
 		do
-			index_tables.do_all (agent {like index_tables.item}.on_delete (item))
+			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_delete (item), 0, index_tables.count - 1)
+			group_tables.do_all_in_bounds (agent {like group_tables.item}.on_delete (item), 0, group_tables.count - 1)
 		end
 
 feature {NONE} -- Implementation
@@ -153,6 +183,12 @@ feature {NONE} -- Implementation
 		do
 			Result := Current
 		end
+
+feature {NONE} -- Internal attributes
+
+	group_tables: SPECIAL [ECD_GROUP_TABLE [G, HASHABLE]]
+
+	index_tables: SPECIAL [ECD_INDEX_TABLE [G, HASHABLE]];
 
 note
 	instructions: "[

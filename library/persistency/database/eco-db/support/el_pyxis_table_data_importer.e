@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 12:41:48 GMT (Monday 24th May 2021)"
-	revision: "11"
+	date: "2021-06-17 16:59:29 GMT (Thursday 17th June 2021)"
+	revision: "12"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -112,6 +112,10 @@ feature {NONE} -- Implementation
 
 	pop_item
 		do
+			if attached {G} stack.item as new_item then
+				-- needs to be extended during pop so that indexing works
+				chain.extend (new_item)
+			end
 			stack.remove
 		end
 
@@ -122,7 +126,6 @@ feature {NONE} -- Implementation
 			if field_name.is_empty then
 				create new_item.make_default
 				stack.put (new_item)
-				chain.extend (new_item)
 
 			elseif item.field_table.has_key (field_name)
 				and then attached {EL_REFLECTIVE} item.field_table.found_item.value (item) as field_item

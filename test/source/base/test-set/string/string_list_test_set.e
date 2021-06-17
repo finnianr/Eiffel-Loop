@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 15:43:29 GMT (Friday 15th January 2021)"
-	revision: "12"
+	date: "2021-06-16 11:44:37 GMT (Wednesday 16th June 2021)"
+	revision: "13"
 
 class
 	STRING_LIST_TEST_SET
@@ -165,7 +165,7 @@ feature -- Tests
 			t: EL_NAMED_THREAD
 		do
 			create t
-			assert ("same string", t.name.same_string ("Named thread"))
+			assert ("same string", t.name.same_string ("Named Thread"))
 		end
 
 feature {NONE} -- Constants
