@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 13:30:35 GMT (Monday 24th May 2021)"
-	revision: "1"
+	date: "2021-06-19 11:23:08 GMT (Saturday 19th June 2021)"
+	revision: "2"
 
 deferred class
 	ECD_INDEX_TABLE [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
@@ -33,12 +33,17 @@ inherit
 			search
 		end
 
+	ECD_INDEX [G]
+		undefine
+			copy, is_equal
+		end
+
 feature {NONE} -- Initialization
 
-	make (a_list: like list; n: INTEGER)
+	make (a_list: like list)
 		do
 			list := a_list
-			make_equal (n)
+			make_equal (a_list.capacity)
 			create default_found_item.make_default
 			found_item := default_found_item
 		end
@@ -99,17 +104,17 @@ feature {ECD_ARRAYED_LIST} -- Event handlers
 			if not key_is_empty (key)then
 				put (list.count, key)
 			end
-		ensure
+		ensure then
 			no_conflict: not conflict
 		end
 
-	on_replace (new_item: G)
-		require
+	on_replace (old_item, new_item: G)
+		require else
 			cursor_on_item: not list.off
 		local
 			old_key, new_key: K
 		do
-			old_key := item_key (list.item)
+			old_key := item_key (old_item)
 			if not key_is_empty (old_key) then
 				remove (old_key)
 			end

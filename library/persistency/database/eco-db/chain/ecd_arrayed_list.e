@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 8:24:31 GMT (Saturday 19th June 2021)"
-	revision: "15"
+	date: "2021-06-19 12:09:03 GMT (Saturday 19th June 2021)"
+	revision: "16"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -39,44 +39,24 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		local
-			i: INTEGER; index_list: like index_tables; group_list: like group_tables
+			i: INTEGER; index_list: ARRAYED_LIST [like index_tables.item]
+			reflected: REFLECTED_REFERENCE_OBJECT
 		do
 			Precursor (n)
-			index_by := new_index_by
-			create index_list.make_empty (index_by.count + 1) -- Allow enough room for primary key index
-			from i := 1 until i > index_by.count loop
-				if attached {like index_tables.item} index_by.reference_item (i) as table then
-					index_list.extend (table)
+			create_index_tables
+
+			create reflected.make (Current)
+			create index_list.make (5)
+			from i := 1 until i > reflected.field_count loop
+				if reflected.field_type (i) = reflected.Reference_type
+					and then attached {like index_tables.item} reflected.reference_field (i) as index_field
+				then
+					index_list.extend (index_field)
 				end
 				i := i + 1
 			end
-			make_index_by_key (index_list)
-			index_tables := index_list
-
-			group_by := new_group_by
-			create group_list.make_empty (group_by.count)
-			from i := 1 until i > group_by.count loop
-				if attached {like group_tables.item} group_by.reference_item (i) as table then
-					group_list.extend (table)
-				end
-				i := i + 1
-			end
-			group_tables := group_list
+			index_tables := index_list.area.resized_area (index_list.count)
 		end
-
-	make_index_by_key (index_list: like index_tables)
-			-- Implement this by inheriting class `ECD_PRIMARY_KEY_INDEXABLE' and undefining
-			-- this routine
-		require
-			big_enough: index_list.count < index_list.capacity
-		do
-		end
-
-feature -- Access
-
-	index_by: like new_index_by
-
-	group_by: like new_group_by
 
 feature -- Element change
 
@@ -87,15 +67,13 @@ feature -- Element change
 			assign_key (a_item)
 			Precursor (a_item)
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_extend (a_item), 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (agent {like group_tables.item}.list_extend (a_item), 0, group_tables.count - 1)
 		end
 
 	replace (a_item: like item)
 		do
 			assign_key (a_item)
-			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_replace (a_item), 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (
-				agent {like group_tables.item}.list_replace (item, a_item), 0, group_tables.count - 1
+			index_tables.do_all_in_bounds (
+				agent {like index_tables.item}.on_replace (item, a_item), 0, index_tables.count - 1
 			)
 			Precursor (a_item)
 		end
@@ -106,7 +84,6 @@ feature -- Removal
 		do
 			Precursor
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.wipe_out, 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (agent {like group_tables.item}.wipe_out, 0, group_tables.count - 1)
 		end
 
 feature -- Contract Support
@@ -118,49 +95,6 @@ feature -- Contract Support
 			)
 		end
 
-feature {NONE} -- Factory
-
-	new_group_by: TUPLE
-		do
-			create Result
-		end
-
-	new_index_by: TUPLE
-		do
-			create Result
-		end
-
-	new_group_by_natural (field_function: FUNCTION [G, NATURAL]): EL_GROUP_TABLE [G, NATURAL]
-		do
-			create Result.make (field_function, capacity)
-		end
-
-	new_index_by_byte_array (field_function: FUNCTION [G, EL_BYTE_ARRAY]): ECD_AGENT_INDEX_TABLE [G, EL_BYTE_ARRAY]
-		-- for use with class `EL_DIGEST_ARRAY' in encryption library
-		do
-			create Result.make (Current, field_function, capacity)
-		end
-
-	new_index_by_string (field_function: FUNCTION [G, ZSTRING]): ECD_AGENT_INDEX_TABLE [G, ZSTRING]
-		do
-			create Result.make (Current, field_function, capacity)
-		end
-
-	new_index_by_string_32 (field_function: FUNCTION [G, STRING_32]): ECD_AGENT_INDEX_TABLE [G, STRING_32]
-		do
-			create Result.make (Current, field_function, capacity)
-		end
-
-	new_index_by_string_8 (field_function: FUNCTION [G, STRING_8]): ECD_AGENT_INDEX_TABLE [G, STRING_8]
-		do
-			create Result.make (Current, field_function, capacity)
-		end
-
-	new_index_by_uuid (field_function: FUNCTION [G, EL_UUID]): ECD_AGENT_INDEX_TABLE [G, EL_UUID]
-		do
-			create Result.make (Current, field_function, capacity)
-		end
-
 feature {NONE} -- Event handler
 
 	on_delete
@@ -168,7 +102,6 @@ feature {NONE} -- Event handler
 			item_deleted: item.is_deleted
 		do
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_delete (item), 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (agent {like group_tables.item}.list_delete (item), 0, group_tables.count - 1)
 		end
 
 feature {NONE} -- Implementation
@@ -179,6 +112,10 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	create_index_tables
+		do
+		end
+
 	current_list: ECD_ARRAYED_LIST [G]
 		do
 			Result := Current
@@ -186,9 +123,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	group_tables: SPECIAL [EL_GROUP_TABLE [G, HASHABLE]]
-
-	index_tables: SPECIAL [ECD_INDEX_TABLE [G, HASHABLE]];
+	index_tables: SPECIAL [ECD_INDEX [G]];
+		-- array of index and group table
 
 note
 	instructions: "[
