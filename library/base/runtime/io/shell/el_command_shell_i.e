@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 11:28:54 GMT (Saturday 11th April 2020)"
-	revision: "10"
+	date: "2021-06-19 9:00:50 GMT (Saturday 19th June 2021)"
+	revision: "11"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -64,6 +64,12 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 			end
+		end
+
+	refresh
+		-- refresh `command_table'
+		do
+			make_shell (menu.name, menu.row_count)
 		end
 
 feature {NONE} -- Implementation

@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 12:14:29 GMT (Saturday 11th April 2020)"
-	revision: "8"
+	date: "2021-06-19 8:59:47 GMT (Saturday 19th June 2021)"
+	revision: "9"
 
 class
 	EL_COMMAND_MENU
@@ -57,6 +57,8 @@ feature -- Access
 		do
 			Result := options [n + 1]
 		end
+
+	row_count: INTEGER
 
 feature -- Status query
 
@@ -127,8 +129,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	max_column_widths: like new_max_column_widths
-
-	row_count: INTEGER
 
 	option_number: FORMAT_INTEGER
 

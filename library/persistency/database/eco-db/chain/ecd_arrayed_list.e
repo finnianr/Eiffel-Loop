@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-17 15:09:34 GMT (Thursday 17th June 2021)"
-	revision: "14"
+	date: "2021-06-19 8:24:31 GMT (Saturday 19th June 2021)"
+	revision: "15"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
@@ -87,7 +87,7 @@ feature -- Element change
 			assign_key (a_item)
 			Precursor (a_item)
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_extend (a_item), 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (agent {like group_tables.item}.on_extend (a_item), 0, group_tables.count - 1)
+			group_tables.do_all_in_bounds (agent {like group_tables.item}.list_extend (a_item), 0, group_tables.count - 1)
 		end
 
 	replace (a_item: like item)
@@ -95,7 +95,7 @@ feature -- Element change
 			assign_key (a_item)
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_replace (a_item), 0, index_tables.count - 1)
 			group_tables.do_all_in_bounds (
-				agent {like group_tables.item}.on_replace (item, a_item), 0, group_tables.count - 1
+				agent {like group_tables.item}.list_replace (item, a_item), 0, group_tables.count - 1
 			)
 			Precursor (a_item)
 		end
@@ -130,7 +130,7 @@ feature {NONE} -- Factory
 			create Result
 		end
 
-	new_group_by_natural (field_function: FUNCTION [G, NATURAL]): ECD_GROUP_TABLE [G, NATURAL]
+	new_group_by_natural (field_function: FUNCTION [G, NATURAL]): EL_GROUP_TABLE [G, NATURAL]
 		do
 			create Result.make (field_function, capacity)
 		end
@@ -168,7 +168,7 @@ feature {NONE} -- Event handler
 			item_deleted: item.is_deleted
 		do
 			index_tables.do_all_in_bounds (agent {like index_tables.item}.on_delete (item), 0, index_tables.count - 1)
-			group_tables.do_all_in_bounds (agent {like group_tables.item}.on_delete (item), 0, group_tables.count - 1)
+			group_tables.do_all_in_bounds (agent {like group_tables.item}.list_delete (item), 0, group_tables.count - 1)
 		end
 
 feature {NONE} -- Implementation
@@ -186,7 +186,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	group_tables: SPECIAL [ECD_GROUP_TABLE [G, HASHABLE]]
+	group_tables: SPECIAL [EL_GROUP_TABLE [G, HASHABLE]]
 
 	index_tables: SPECIAL [ECD_INDEX_TABLE [G, HASHABLE]];
 

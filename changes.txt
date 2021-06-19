@@ -406,3 +406,6 @@ Helper routines for export and importing ECO-DB data as CSV or Pyxis
 Tue 25th May 2021, 12:25:12
 Updating ECO-db documentation for selling to community
 
+Thu 17th Jun 2021, 17:33:19
+Attribute group indexing for ECD_ARRAYED_LIST
+

@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-31 15:26:10 GMT (Monday 31st May 2021)"
-	revision: "25"
+	date: "2021-06-19 9:40:57 GMT (Saturday 19th June 2021)"
+	revision: "26"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -156,6 +156,16 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	for_all_undeleted (do_with_item: PROCEDURE [G])
+		do
+			from start until after loop
+				if not item.is_deleted then
+					do_with_item (item)
+				end
+				forth
+			end
+		end
 
 	retrieve
 		local
