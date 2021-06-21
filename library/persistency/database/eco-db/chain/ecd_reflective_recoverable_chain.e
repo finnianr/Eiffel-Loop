@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-26 8:56:46 GMT (Wednesday 26th May 2021)"
-	revision: "8"
+	date: "2021-06-21 14:58:37 GMT (Monday 21st June 2021)"
+	revision: "9"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -96,12 +96,7 @@ feature -- Basic operations
 			File_system.make_directory (a_file_path.parent)
 			create file.make_open_write (a_file_path)
 			file.set_encoding (encoding)
-			file.put_string (Pyxis_header #$ [file.encoding_name])
-			file.put_new_line
-			file.put_new_line
-			file.put_string (file_path.base_sans_extension)
-			file.put_character_8 (':')
-			file.put_new_line
+			file.put_line (Pyxis_header #$ [file.encoding_name, file_path.base_sans_extension, software_version])
 			from start until after loop
 				if not item.is_deleted then
 					file.put_indent (1)
@@ -151,6 +146,9 @@ feature {NONE} -- Constants
 			Result := "[
 				pyxis-doc:
 					version = 1.0; encoding = "#"
+				
+				#:
+					software_version = #
 			]"
 		end
 end

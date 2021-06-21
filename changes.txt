@@ -409,3 +409,6 @@ Updating ECO-db documentation for selling to community
 Thu 17th Jun 2021, 17:33:19
 Attribute group indexing for ECD_ARRAYED_LIST
 
+Mon 21st Jun 2021, 15:05:46
+Changed index_by: TUPLE to use reflection in Eco-DB
+
