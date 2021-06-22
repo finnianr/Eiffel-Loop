@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-28 16:31:21 GMT (Saturday 28th April 2018)"
-	revision: "1"
+	date: "2021-06-22 10:59:15 GMT (Tuesday 22nd June 2021)"
+	revision: "2"
 
 class
 	PP_API_VERSION
@@ -20,10 +20,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_version: REAL)
+	make (a_version: STRING)
 		do
 			make_default
-			version := a_version.out
+			version := a_version
 			if not version.has ('.') then
 				version.append_string_general (".0")
 			end

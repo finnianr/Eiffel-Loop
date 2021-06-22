@@ -6,22 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 12:02:47 GMT (Tuesday 27th August 2019)"
-	revision: "5"
+	date: "2021-06-22 11:09:38 GMT (Tuesday 22nd June 2021)"
+	revision: "6"
 
 class
 	PP_HTTP_CONNECTION
 
 inherit
 	EL_HTTP_CONNECTION
+		rename
+			make as make_connection
 		redefine
 			open
 		end
 
-	PP_SHARED_CONFIGURATION
-
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make (a_configuration: PP_CONFIGURATION)
+		do
+			make_connection
+			configuration := a_configuration
+		end
+
+feature -- Access
+
+	configuration: PP_CONFIGURATION
 
 feature -- Basic operations
 

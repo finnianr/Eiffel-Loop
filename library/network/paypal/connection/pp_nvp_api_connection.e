@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-07 16:12:02 GMT (Sunday 7th June 2020)"
-	revision: "13"
+	date: "2021-06-22 11:16:07 GMT (Tuesday 22nd June 2021)"
+	revision: "14"
 
 class
 	PP_NVP_API_CONNECTION
@@ -15,11 +15,12 @@ class
 inherit
 	PP_HTTP_CONNECTION
 		rename
-			make as make_http_connection,
 			open as open_connection
 		export
 			{NONE} open_url
 			{PP_BUTTON_METHOD} last_string, set_post_parameters, read_string_post, has_error, reset
+		redefine
+			make
 		end
 
 	EL_REFLECTIVE
@@ -29,16 +30,22 @@ inherit
 			import_name as import_default
 		end
 
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_api_version: REAL)
+	make (a_configuration: PP_CONFIGURATION)
 		do
-			credentials := Configuration.new_credentials
-			create version.make (a_api_version)
-			make_http_connection
+			make_solitary
+			Precursor (a_configuration)
+			credentials := a_configuration.new_credentials
+			create version.make (configuration.api_version)
 			create button_search.make (Current)
 			create create_button.make (Current)
 			create get_button_details_method.make (Current)
@@ -54,19 +61,19 @@ feature -- Access
 
 	api_url: ZSTRING
 		do
-			Result := Configuration.api_url
+			Result := configuration.api_url
 		end
 
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,
 		-- in the form of Instant Payment Notification messages.
 		do
-			Result := Configuration.notify_url
+			Result := configuration.notify_url
 		end
 
 	domain_name: STRING
 		do
-			Result := Configuration.domain_name
+			Result := configuration.domain_name
 		end
 
 feature -- Button management

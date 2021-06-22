@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
-	revision: "17"
+	date: "2021-06-22 11:12:00 GMT (Tuesday 22nd June 2021)"
+	revision: "18"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -33,13 +33,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (config_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
 		local
-			pp_config: PP_CONFIGURATION
+			config: PP_CONFIGURATION
 		do
 			make_shell ("Paypal Buttons", 10)
 
-			create pp_config.make (config_path, encrypter)
+			create config.make (config_path, encrypter)
 
-			create paypal.make (95.0)
+			create paypal.make (config)
 			paypal.open
 			currency_code := Currency_enum.HUF
 		end
