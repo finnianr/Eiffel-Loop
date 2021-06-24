@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 10:37:19 GMT (Wednesday 16th June 2021)"
-	revision: "20"
+	date: "2021-06-24 11:00:52 GMT (Thursday 24th June 2021)"
+	revision: "21"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -65,6 +65,21 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	bitmap (n, digit_count: INTEGER): STRING
+		-- right most `digit_count' binary digits of `n'
+		local
+			i, mask: INTEGER
+		do
+			create Result.make_filled ('0', digit_count)
+			from i := 1 until i > digit_count loop
+				mask := 1 |<< (digit_count - i)
+				if (n & mask).to_boolean then
+					Result [i] := '1'
+				end
+				i := i + 1
+			end
+		end
 
 	cursor (s: READABLE_STRING_8): EL_STRING_8_ITERATION_CURSOR
 		do

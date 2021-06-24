@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 17:44:51 GMT (Sunday 2nd August 2020)"
-	revision: "31"
+	date: "2021-06-24 11:37:10 GMT (Thursday 24th June 2021)"
+	revision: "32"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -279,7 +279,7 @@ feature {NONE} -- Implementation
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
-			create group_table.make (agent {EL_FILE_PATH}.parent, sorted_path_list)
+			create group_table.make_from_list (agent {EL_FILE_PATH}.parent, sorted_path_list)
 			create directory_list.make (group_table.count)
 
 			across group_table as group loop

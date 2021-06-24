@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 13:42:37 GMT (Monday 30th March 2020)"
-	revision: "14"
+	date: "2021-06-24 11:35:29 GMT (Thursday 24th June 2021)"
+	revision: "15"
 
 deferred class
 	TL_ID3_TAG
@@ -94,7 +94,7 @@ feature -- Access
 	unique_id_group_table: EL_GROUP_TABLE [TL_UNIQUE_FILE_IDENTIFIER, ZSTRING]
 		-- table of UFID's grouped by owner
 		do
-			create Result.make (agent {TL_UNIQUE_FILE_IDENTIFIER}.owner, unique_id_list)
+			create Result.make_from_list (agent {TL_UNIQUE_FILE_IDENTIFIER}.owner, unique_id_list)
 		end
 
 	user_text (a_description: READABLE_STRING_GENERAL): ZSTRING
