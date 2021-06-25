@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 10:09:12 GMT (Monday 24th August 2020)"
-	revision: "13"
+	date: "2021-06-25 8:05:22 GMT (Friday 25th June 2021)"
+	revision: "14"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -34,14 +34,15 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
+				valid_optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
+				valid_optional_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output directory path")
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "")
+			Result := agent {like command}.make ("", "", "")
 		end
 
 	visible_types: TUPLE [PYXIS_TRANSLATION_TREE_COMPILER]

@@ -1,11 +1,23 @@
 note
 	description: "[
-		Compile tree of Pyxis locale translation files into a directory `locales' binary data files.
+		Compile a manifest list of Pyxis locale translation files into a directory `locales' binary data files.
 		For example:
 		
 			locales/en
 			locales/de
 			locales/fr
+	]"
+	notes: "[
+		The file manifest list is compiled in two ways:
+		
+		1. If the `a_source_tree_dir' argument exists then all `*.pyx' files under that directory are
+		added to manifest list.
+		
+		2. If the `a_manifest_path' argument exists then the lines are iterated ignoring empty lines and lines
+		starting with the # symbol.
+		
+		Lines expanded as paths with extension ''pyx'' are added to manifest, but if the path ends with a '/'
+		character, the path is treated like a `a_source_tree_dir' argument.
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 12:18:33 GMT (Monday 24th August 2020)"
-	revision: "9"
+	date: "2021-06-25 8:21:29 GMT (Friday 25th June 2021)"
+	revision: "10"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -41,9 +53,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_source_tree_dir, a_output_dir: EL_DIR_PATH)
+	make (a_manifest_path: EL_FILE_PATH; a_source_tree_dir, a_output_dir: EL_DIR_PATH)
 		do
-			make_compiler (a_source_tree_dir)
+			make_compiler (a_manifest_path, a_source_tree_dir)
 			File_system.make_directory (a_output_dir)
 			create locales.make (a_output_dir)
 			create translations_table.make (<< [English_id, new_translations_list (English_id)] >>)

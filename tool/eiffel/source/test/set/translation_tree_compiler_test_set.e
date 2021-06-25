@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-16 8:56:03 GMT (Friday 16th April 2021)"
-	revision: "5"
+	date: "2021-06-25 7:39:35 GMT (Friday 25th June 2021)"
+	revision: "6"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 			across 1 |..| 2 as n loop
 				lio.put_integer_field ("Run", n.item)
 				lio.put_new_line
-				create command.make (work_area_data_dir, Locales_dir)
+				create command.make ("", work_area_data_dir, Locales_dir)
 				command.execute
 				if n.item = 1 then
 					translations_table := command.translations_table

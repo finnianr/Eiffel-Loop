@@ -1,7 +1,19 @@
 note
 	description: "[
-		Command to compile tree of UTF-8 encoded Pyxis source files into something else
+		Command to compile a manifest list of UTF-8 encoded Pyxis source files into something else.
 		Performs file date time checking to decide if compilation target is up to date.
+	]"
+	notes: "[
+		The file manifest list is compiled in two ways:
+
+		1. If the `a_source_tree_dir' argument exists then all `*.pyx' files under that directory are
+		added to manifest list.
+
+		2. If the `a_manifest_path' argument exists then the lines are iterated ignoring empty lines and lines
+		starting with the # symbol.
+
+		Lines expanded as paths with extension ''pyx'' are added to manifest, but if the path ends with a '/'
+		character, the path is treated like a `a_source_tree_dir' argument.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:06:53 GMT (Saturday 20th March 2021)"
-	revision: "8"
+	date: "2021-06-25 9:46:40 GMT (Friday 25th June 2021)"
+	revision: "9"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -37,11 +49,14 @@ inherit
 
 	EL_MODULE_PYXIS
 
+	EL_FILE_OPEN_ROUTINES
+
 feature {NONE} -- Initialization
 
-	make (a_source_tree_path: EL_DIR_PATH)
+	make (a_manifest_path: EL_FILE_PATH; a_source_tree_path: EL_DIR_PATH)
 		do
 			make_default
+			manifest_path := a_manifest_path
 			source_tree_path := a_source_tree_path
 		end
 
@@ -89,6 +104,43 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	manifest_list: ARRAYED_LIST [EL_PATH]
+		local
+			line: ZSTRING; file_path: EL_FILE_PATH; path: EL_PATH
+		do
+			if source_tree_path.exists then
+				create Result.make_from_array (<< source_tree_path >>)
+			else
+				create Result.make (0)
+			end
+			if manifest_path.exists then
+				across open_lines (manifest_path, Utf_8) as list loop
+					line := list.item
+					if line.count > 0 and then line [1] /= '#' then
+						if line.ends_with_character ('/') then
+							line.remove_tail (1)
+							create {EL_DIR_PATH} path.make (line)
+						else
+							file_path := line
+							if file_path.has_extension ("pyx") then
+								path := file_path
+							else
+								create {EL_DIR_PATH} path.make (line)
+							end
+						end
+						path.expand
+						if path.exists then
+							Result.extend (path)
+							lio.put_path_field ("Found", path)
+						else
+							lio.put_path_field ("Cannot find", path)
+						end
+						lio.put_new_line
+					end
+				end
+			end
+		end
+
 	merged_lines: EL_ZSTRING_LIST
 		local
 			path_list: like pyxis_file_path_list
@@ -102,7 +154,7 @@ feature {NONE} -- Implementation
 			file_count := 0
 			across path_list as source_path loop
 				markup := Pyxis.encoding (source_path.item)
-				lio.put_path_field ("Merging " + markup.name, source_path.item)
+				lio.put_labeled_string ("Merging " + markup.name + " file", source_path.item.base)
 				lio.put_new_line
 				file_count := file_count + 1
 				do_once_with_file_lines (agent find_root_element (?, Result), open_lines (source_path.item, markup.encoding))
@@ -113,9 +165,17 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	pyxis_file_path_list: like File_system.files
+	pyxis_file_path_list: ARRAYED_LIST [EL_FILE_PATH]
 		do
-			Result := File_system.files_with_extension (source_tree_path, "pyx", True)
+			create Result.make (0)
+			across manifest_list as path loop
+				if attached {EL_FILE_PATH} path.item as file_path then
+					Result.extend (file_path)
+
+				elseif attached {EL_DIR_PATH} path.item as dir_path then
+					Result.append (File_system.files_with_extension (dir_path, "pyx", True))
+				end
+			end
 		end
 
 	source_changed: BOOLEAN
@@ -126,6 +186,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	manifest_path: EL_FILE_PATH
 
 	source_tree_path: EL_DIR_PATH
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-15 8:50:55 GMT (Tuesday 15th June 2021)"
-	revision: "17"
+	date: "2021-06-25 7:31:27 GMT (Friday 25th June 2021)"
+	revision: "18"
 
 class
 	DUPLICITY_RESTORE
@@ -139,7 +139,7 @@ feature {NONE} -- Factory
 			backup_shell: like new_backup_shell
 		do
 			create collection.make (backup_dir)
-			create year_group_table.make (agent year_string, collection.backup_list)
+			create year_group_table.make_from_list (agent year_string, collection.backup_list)
 			inspect year_group_table.count
 				when 0, 1 then
 					Result := new_backup_shell (collection.backup_list)
