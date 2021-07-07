@@ -412,3 +412,6 @@ Attribute group indexing for ECD_ARRAYED_LIST
 Mon 21st Jun 2021, 15:05:46
 Changed index_by: TUPLE to use reflection in Eco-DB
 
+Mon 28th Jun 2021, 9:44:52
+New ftp and ssh mirror for DUPLICITY_BACKUP
+

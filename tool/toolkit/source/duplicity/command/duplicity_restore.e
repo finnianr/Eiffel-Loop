@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 7:31:27 GMT (Friday 25th June 2021)"
-	revision: "18"
+	date: "2021-06-26 15:18:51 GMT (Saturday 26th June 2021)"
+	revision: "19"
 
 class
 	DUPLICITY_RESTORE
 
 inherit
 	DUPLICITY_CONFIG
+		rename
+			backup_dir as backup_root_dir
 		redefine
 			make_default
 		end
@@ -49,22 +51,14 @@ feature -- Basic operations
 				lio.put_labeled_string ("ERROR", "No restore directory specified in configuration")
 				lio.put_new_line
 			else
-				destination_dir_list.find_first_true (agent is_file)
-				if not destination_dir_list.after then
-					lio.put_labeled_string ("Restore", target_dir.base)
-					lio.put_new_line_x2
-					backup_dir := destination_dir_list.item.joined_dir_steps (<< target_dir_base >>)
-					new_shell.run_command_loop
-				end
+				lio.put_labeled_string ("Restore", target_dir.base)
+				lio.put_new_line_x2
+				create backup_dir.make_from_dir_path (backup_root_dir #+ target_dir_base)
+				new_shell.run_command_loop
 			end
 		end
 
 feature {NONE} -- Implementation
-
-	is_file (uri: EL_DIR_URI_PATH): BOOLEAN
-		do
-			Result := uri.scheme ~ Protocol.file
-		end
 
 	year_string (date_string: ZSTRING): ZSTRING
 		local

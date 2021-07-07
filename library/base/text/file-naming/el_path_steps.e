@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 10:11:16 GMT (Monday 22nd March 2021)"
-	revision: "28"
+	date: "2021-07-07 10:15:13 GMT (Wednesday 7th July 2021)"
+	revision: "29"
 
 class
 	EL_PATH_STEPS
@@ -37,19 +37,19 @@ class
 inherit
 	READABLE_INDEXABLE [ZSTRING]
 		redefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		end
 
 	FINITE [ZSTRING]
 		undefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		redefine
 			is_empty
 		end
 
 	HASHABLE
 		undefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_PATH_CONSTANTS
@@ -61,7 +61,7 @@ inherit
 		rename
 			debug_output as to_string_32
 		undefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_ZSTRING_ROUTINES
@@ -71,12 +71,12 @@ inherit
 		export
 			{NONE} all
 		undefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		end
 
 	STRING_HANDLER
 		undefine
-			default_create, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -186,14 +186,9 @@ feature -- Access
 			end
 		end
 
-	linear_representation: EL_ZSTRING_LIST
+	linear_representation, to_list: EL_ZSTRING_LIST
 		do
 			Result := Token_table.string_list (token_list)
-		end
-
-	to_array: ARRAY [ZSTRING]
-		do
-			Result := linear_representation.to_array
 		end
 
 feature -- Measurement
@@ -249,6 +244,12 @@ feature -- Element change
 			-- Create list from array `steps'.
 		do
 			token_list.append (Token_table.iterable_to_token_list (a_steps))
+		end
+
+	copy (other: like Current)
+		do
+			object_comparison := other.object_comparison
+			create token_list.make_from_string (other.token_list)
 		end
 
 	expand_variables

@@ -1,6 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
+# class EL_CURRENCY
+
 # Currencies accepted internationally by Paypal, except Taiwanese New Dollars
 # https://developer.paypal.com/docs/classic/api/currency_codes/#id09A6G0U0GYK
 

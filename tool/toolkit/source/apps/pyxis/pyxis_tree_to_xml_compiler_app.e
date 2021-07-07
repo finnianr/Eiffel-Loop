@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:32 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2021-06-26 14:21:12 GMT (Saturday 26th June 2021)"
+	revision: "13"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -35,7 +35,7 @@ feature -- Testing
 			--
 		do
 			log.put_new_line
-			create {PYXIS_TREE_TO_XML_COMPILER} command.make (source_tree_path, source_tree_path.parent + "localization.xml")
+			create {PYXIS_TREE_TO_XML_COMPILER} command.make ("", source_tree_path, source_tree_path.parent + "localization.xml")
 			normal_run
 		end
 
@@ -44,14 +44,15 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("source", "Source tree directory", << directory_must_exist >>),
+				valid_optional_argument ("manifest", "Path to manifest of directories and files", << file_must_exist >>),
+				valid_optional_argument ("source", "Source tree directory", << directory_must_exist >>),
 				required_argument ("output", "Output file path")
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "")
+			Result := agent {like command}.make ("", "", "")
 		end
 
 	normal_initialize

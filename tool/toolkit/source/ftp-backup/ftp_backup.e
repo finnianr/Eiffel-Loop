@@ -1,13 +1,13 @@
 note
-	description: "Ftp backup"
+	description: "FTP backup"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 9:28:22 GMT (Thursday 13th May 2021)"
-	revision: "4"
+	date: "2021-06-26 14:24:44 GMT (Saturday 26th June 2021)"
+	revision: "5"
 
 class
 	FTP_BACKUP

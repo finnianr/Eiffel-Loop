@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-02 12:16:58 GMT (Tuesday 2nd June 2020)"
-	revision: "11"
+	date: "2021-06-27 9:06:09 GMT (Sunday 27th June 2021)"
+	revision: "12"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -23,11 +23,11 @@ feature {NONE} -- Constants
 			Result.compare_objects
 		end
 
-	Protocol: TUPLE [file, ftp, http, https: STRING]
+	Protocol: TUPLE [file, ftp, http, https, ssh: STRING]
 			-- common protocols
 		once
 			create Result
-			Tuple.fill (Result, "file, ftp, http, https")
+			Tuple.fill (Result, "file, ftp, http, https, ssh")
 		end
 
 	Colon_slash_x2: STRING = "://"

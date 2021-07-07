@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 13:41:47 GMT (Tuesday 24th November 2020)"
-	revision: "10"
+	date: "2021-06-27 11:20:42 GMT (Sunday 27th June 2021)"
+	revision: "11"
 
 class
 	EL_OS_COMMAND
@@ -94,6 +94,35 @@ feature -- Element change
 				put_path (variable_name, path)
 			else
 				template.set_variable (variable_name, object)
+			end
+		end
+
+feature -- Contract Support
+
+	valid_tuple (var_names: TUPLE): BOOLEAN
+		local
+			tuple_types: EL_TUPLE_TYPE_ARRAY
+		do
+			if template.variables.count = var_names.count and then var_names.is_uniform_reference then
+				if template.variables.for_all (agent {ZSTRING}.is_valid_as_string_8) then
+					create tuple_types.make_from_tuple (var_names)
+					Result := across tuple_types as type all type.item ~ {STRING} end
+				end
+			end
+		end
+
+feature -- Basic operations
+
+	fill_variables (var_names: TUPLE)
+		-- fill a tuple `TUPLE [x, y, z: ZSTRING]' with variable names in the order
+		-- in which they occurr in template
+		require
+			valid_variable_tuple: valid_tuple (var_names)
+		do
+			across template.variables as name loop
+				if var_names.valid_index (name.cursor_index) then
+					var_names.put_reference (name.item.to_latin_1, name.cursor_index)
+				end
 			end
 		end
 

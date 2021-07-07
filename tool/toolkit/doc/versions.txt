@@ -1,3 +1,6 @@
+1.5.0
+New backup mirroring for duplicity backup
+
 1.4.6
 DUPLICITY_RESTORE groups by year
 

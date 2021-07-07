@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 12:53:55 GMT (Wednesday 9th June 2021)"
-	revision: "9"
+	date: "2021-06-27 11:23:10 GMT (Sunday 27th June 2021)"
+	revision: "10"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -47,8 +47,9 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create encryption_key.make_empty
+			create backup_dir
 			create name.make_empty
-			create destination_dir_list.make (5)
+			create mirror_list.make (5)
 			create restore_dir
 			create target_dir
 			create exclude_any_list.make_empty
@@ -58,7 +59,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	destination_dir_list: EL_ARRAYED_LIST [EL_DIR_URI_PATH]
+	mirror_list: EL_ARRAYED_LIST [BACKUP_MIRROR]
+
+	backup_dir: EL_DIR_PATH
 
 	encryption_key: ZSTRING
 
@@ -85,13 +88,13 @@ feature -- Access
 
 feature {NONE} -- Build from XML
 
-	append_destination_dir
+	append_mirror
 		local
-			steps: EL_PATH_STEPS
+			mirror: BACKUP_MIRROR
 		do
-			steps := node.to_string
-			steps.expand_variables
-			destination_dir_list.extend (steps.to_string)
+			create mirror.make
+			set_next_context (mirror)
+			mirror_list.extend (mirror)
 		end
 
 	append_exclude_any
@@ -118,8 +121,9 @@ feature {NONE} -- Build from XML
 				["@name",						agent do name := node end],
 				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
 				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
+				["@backup_dir",				agent do backup_dir := node.to_expanded_dir_path end],
 
-				["destination/text()",		agent append_destination_dir],
+				["mirror",						agent append_mirror],
 				["exclude-any/text()",		agent append_exclude_any],
 				["exclude-files/text()",	agent append_exclude_files]
 			>>)
@@ -140,12 +144,16 @@ note
 
 			duplicity:
 				name = "My Ching server"; encryption_key = VAL
-				target_dir = "$HOME/dev/Eiffel/myching-server"
-				destination:
-					"file://$HOME/Backups/duplicity"
-					"file:///media/finnian/Seagate-1/Backups/duplicity"
-					"ftp://username@ftp.eiffel-loop.com/public/www/Backups/duplicity"
-					"sftp://finnian@18.14.67.44/$HOME/Backups/duplicity"
+				restore_dir = "$HOME/Backups-restored"; backup_dir = "$HOME/Backups/duplicity"
+				
+				mirror:
+					protocol = file; backup_dir = "/media/finnian/Seagate-1/Backups/duplicity"
+				mirror:
+					protocol = ftp; user = "eiffel-loop.com"; host_name = "ftp.eiffel-loop.com"
+					backup_dir = "/htdocs/Backups/duplicity"
+				mirror:
+					protocol = ssh; user = "finnian"; host_name = "myching.software"
+					backup_dir = "$HOME/Backups/duplicity"
 
 				exclude-files:
 					"""

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 16:50:08 GMT (Saturday 20th March 2021)"
-	revision: "19"
+	date: "2021-06-25 14:47:12 GMT (Friday 25th June 2021)"
+	revision: "20"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I

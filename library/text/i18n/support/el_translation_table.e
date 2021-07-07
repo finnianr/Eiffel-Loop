@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 12:30:48 GMT (Monday 24th August 2020)"
-	revision: "16"
+	date: "2021-06-25 15:26:38 GMT (Friday 25th June 2021)"
+	revision: "17"
 
 class
 	EL_TRANSLATION_TABLE
@@ -150,7 +150,7 @@ feature {NONE} -- Implementation
 
 	put (a_translation, translation_id: ZSTRING)
 		local
-			translation: ZSTRING
+			translation: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			if a_translation ~ id_variable then
 				translation := translation_id
@@ -158,9 +158,7 @@ feature {NONE} -- Implementation
 				translation := a_translation
 				translation.prune_all_leading ('%N')
 				translation.right_adjust
-				if translation.has ('%%') then
-					translation.unescape (Substitution_mark_unescaper)
-				end
+				s.unescape_substitution_marks (translation)
 			end
 			put_table (translation, translation_id)
 			if conflict then
@@ -209,15 +207,6 @@ feature {NONE} -- Constants
 	ID_variable: ZSTRING
 		once
 			Result := "$id"
-		end
-
-	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		local
-			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
-		once
-			create table.make_equal (3)
-			table ['S'] := '%S'
-			create Result.make ('%%', table)
 		end
 
 	Xpath_language_available: ZSTRING

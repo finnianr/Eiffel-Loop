@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 15:25:28 GMT (Monday 3rd May 2021)"
-	revision: "19"
+	date: "2021-06-25 15:26:38 GMT (Friday 25th June 2021)"
+	revision: "20"
 
 expanded class
 	EL_ZSTRING_ROUTINES
@@ -138,6 +138,16 @@ feature -- Status query
 			end
 		end
 
+feature -- Basic operations
+
+	unescape_substitution_marks (target: ZSTRING)
+		-- replace "%S" substrings with '%S'
+		do
+			if target.has ('%%') then
+				target.unescape (Substitution_mark_unescaper)
+			end
+		end
+
 feature {NONE} -- Implemenation
 
 	new_filled_string (key: NATURAL_64): ZSTRING
@@ -150,6 +160,15 @@ feature {NONE} -- Constants
 	Character_string_table: EL_CACHE_TABLE [ZSTRING, NATURAL_64]
 		once
 			create Result.make_equal (7, agent new_filled_string)
+		end
+
+	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
+		local
+			table: HASH_TABLE [CHARACTER_32, CHARACTER_32]
+		once
+			create table.make_equal (3)
+			table ['S'] := '%S'
+			create Result.make ('%%', table)
 		end
 
 end

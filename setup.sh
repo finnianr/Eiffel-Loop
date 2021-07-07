@@ -7,7 +7,7 @@
 
 # cmake required to make taglib.ecf
 
-for name in automake autoconf cmake libtool libxrandr-dev librsvg2-dev patch python2.7-dev python-lxml scons; do
+for name in automake autoconf cmake lftp libtool libxrandr-dev librsvg2-dev patch python2.7-dev python-lxml scons; do
 	install_status="$(dpkg -s $name 2>/dev/null | grep -c "install ok")"
 	if [[ $install_status -eq "0" ]]; then
 		sudo apt-get install $name

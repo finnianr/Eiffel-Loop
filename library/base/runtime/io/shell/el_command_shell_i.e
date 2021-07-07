@@ -9,13 +9,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 9:00:50 GMT (Saturday 19th June 2021)"
-	revision: "11"
+	date: "2021-06-25 15:03:41 GMT (Friday 25th June 2021)"
+	revision: "12"
 
 deferred class
 	EL_COMMAND_SHELL_I
 
 inherit
+	ANY
+	
 	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT

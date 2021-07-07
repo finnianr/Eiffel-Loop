@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 11:00:56 GMT (Monday 27th July 2020)"
-	revision: "11"
+	date: "2021-06-30 13:45:31 GMT (Wednesday 30th June 2021)"
+	revision: "12"
 
 class
 	DUPLICITY_BACKUP
@@ -45,44 +45,60 @@ feature -- Basic operations
 
 	 execute
 		local
-			destination_dir: EL_DIR_URI_PATH; continue: BOOLEAN
-			backup_command: DUPLICITY_BACKUP_OS_CMD
+			destination_uri: EL_DIR_URI_PATH; backup_command: DUPLICITY_BACKUP_OS_CMD
 			arguments: DUPLICITY_ARGUMENTS
 		do
 			lio.put_labeled_string ("Backup", target_dir_base)
 			lio.put_new_line
-			continue := True
-			across destination_dir_list.query_if (agent is_file_protocol) as file_uri until not continue loop
-				if not file_uri.item.to_dir_path.exists then
-					lio.put_labeled_string ("Backup directory does not exist", file_uri.item.to_dir_path)
+			if backup_dir.exists and then mirror_list.for_all (agent {BACKUP_MIRROR}.is_mounted) then
+				create destination_uri.make_from_dir_path (backup_dir #+ target_dir_base)
+				lio.put_path_field ("Backup", target_dir)
+				lio.put_new_line
+				get_backup_type
+				if user_accepts_dry_run (destination_uri) then
 					lio.put_new_line
-					continue := False
-				end
-			end
-			if continue and then destination_dir_list.query_if (agent is_ftp_protocol).count > 0 then
-				set_ftp_password
-			end
-			across destination_dir_list as dir until not continue loop
-				destination_dir := dir.item.joined_dir_path (target_dir_base)
-				if dir.cursor_index = 1 then
-					lio.put_path_field ("Backup", target_dir)
-					lio.put_new_line
-					get_backup_type
-					continue := user_accepts_dry_run (destination_dir)
-					lio.put_new_line
-					if continue then
-						write_change_comment
-					end
-				end
-				if continue then
-					lio.put_path_field ("Creating", destination_dir)
+					write_change_comment
+					mirror_list.do_all (agent {BACKUP_MIRROR}.set_passphrase)
+
+					lio.put_path_field ("Creating", destination_uri)
 					lio.put_new_line
 					verbosity_level := Verbosity.notice
-					create arguments.make (Current, destination_dir, False)
+					create arguments.make (Current, destination_uri, False)
 					create backup_command.make (arguments, target_dir)
 					backup_command.execute
+					if backup_command.has_error then
+						lio.put_line ("BACKUP FAILED")
+					else
+						mirror_backup
+					end
+				end
+			else
+				if not backup_dir.exists then
+					lio.put_labeled_string ("Backup directory does not exist", backup_dir)
+					lio.put_new_line
+				end
+				across mirror_list as mirror loop
+					if mirror.item.is_file and then not mirror.item.is_mounted then
+						lio.put_labeled_string ("Not mounted", mirror.item.backup_dir)
+						lio.put_new_line
+					end
 				end
 			end
+		end
+
+	mirror_backup
+		do
+			across mirror_list as mirror loop
+				mirror.item.transfer (backup_dir #+ target_dir_base)
+			end
+			across mirror_list as mirror loop
+				if mirror.item.has_error then
+					lio.put_labeled_string ("MIRROR ERROR", mirror.item.to_string)
+					lio.put_new_line
+				end
+			end
+			lio.put_labeled_string ("Mirroring", "DONE!")
+			lio.put_new_line
 		end
 
 	get_backup_type
@@ -94,11 +110,11 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	user_accepts_dry_run (destination_dir: EL_DIR_URI_PATH): BOOLEAN
+	user_accepts_dry_run (destination_uri: EL_DIR_URI_PATH): BOOLEAN
 		local
 			target_info: DUPLICITY_TARGET_INFO_OS_CMD; arguments: DUPLICITY_ARGUMENTS
 		do
-			create arguments.make (Current, destination_dir, True)
+			create arguments.make (Current, destination_uri, True)
 			create target_info.make (arguments, target_dir)
 			target_info.display_size
 
@@ -111,25 +127,6 @@ feature {NONE} -- Implementation
 	is_file_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
 		do
 			Result := dir.scheme ~ Protocol.file
-		end
-
-	is_ftp_protocol (dir: EL_DIR_URI_PATH): BOOLEAN
-		do
-			Result := dir.scheme ~ Protocol.ftp
-		end
-
-	set_ftp_password
-		local
-			ftp_pw, prompt_template, site_name: ZSTRING
-		do
-			destination_dir_list.find_first_true (agent is_ftp_protocol)
-			if not destination_dir_list.exhausted then
-				prompt_template := "Enter %S ftp password"
-				site_name := destination_dir_list.item.to_string.substring_between_general ("@", "/", 1)
-				ftp_pw := User_input.line (prompt_template #$ [site_name])
-				lio.put_new_line
-				Execution_environment.put (ftp_pw, "FTP_PASSWORD")
-			end
 		end
 
 	write_change_comment

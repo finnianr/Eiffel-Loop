@@ -6,20 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-24 16:49:55 GMT (Saturday 24th April 2021)"
-	revision: "12"
+	date: "2021-06-25 16:06:52 GMT (Friday 25th June 2021)"
+	revision: "13"
 
 class
 	EL_SOFTWARE_VERSION
 
 inherit
-	ANY
+	COMPARABLE
 		redefine
-			out
+			out, is_equal
 		end
 
 create
-	make, make_parts, default_create
+	default_create, make, make_parts, make_from_string
+
+convert
+	make_from_string ({STRING})
 
 feature {NONE} -- Initialization
 
@@ -32,6 +35,11 @@ feature {NONE} -- Initialization
 	make_parts (a_major, a_minor, a_release, a_build: NATURAL)
 		do
 			make (left_shift (a_major, 4) + left_shift (a_minor, 2) + a_release, a_build)
+		end
+
+	make_from_string (a_version: STRING)
+		do
+			set_from_string (a_version)
 		end
 
 feature -- Element change
@@ -95,6 +103,19 @@ feature -- Access
 			--
 		do
 			Result := compact_version  // 100 \\ 100
+		end
+
+feature -- Comparison
+
+	is_less alias "<" (other: like Current): BOOLEAN
+			-- Is current object less than `other'?
+		do
+			Result := compact_version < other.compact_version
+		end
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := compact_version = other.compact_version
 		end
 
 feature {NONE} -- Implementation

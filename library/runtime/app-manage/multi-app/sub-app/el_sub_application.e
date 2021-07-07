@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-22 8:33:21 GMT (Thursday 22nd October 2020)"
-	revision: "46"
+	date: "2021-06-25 14:51:30 GMT (Friday 25th June 2021)"
+	revision: "47"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -111,6 +111,13 @@ feature -- Access
 		do
 			create Result.make_from_general (description)
 			Result.replace_character ('%N', ' ')
+		end
+
+	user_config_dir: EL_DIR_PATH
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			Result := Directory.App_configuration #+ s.as_zstring (option_name)
 		end
 
 feature -- Basic operations
@@ -219,7 +226,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 					lio.put_labeled_string ("This option is not designed to run on", OS_release.description)
 					lio.put_new_line
-					
+
 				elseif Application_option.help then
 					options_help.print_to_lio
 
