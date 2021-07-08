@@ -60,9 +60,9 @@ feature -- Basic operations
 				create Result.make_default
 			else
 				create Result.make (connection.last_string)
+				Result.set_http_read_ok (True)
 			end
-			Result.set_http_read_ok (connection.last_call_succeeded)
-			parameter_list.remove_tail (parameter_list.count- old_count)
+			parameter_list.remove_tail (parameter_list.count - old_count)
 		ensure
 			same_parameter_list_count: old parameter_list.count = parameter_list.count
 		end

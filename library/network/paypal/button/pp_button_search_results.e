@@ -1,5 +1,7 @@
 note
-	description: "Paypal button search results"
+	description: "[
+		[https://developer.paypal.com/docs/nvp-soap-api/button-search-nvp/ Paypal button search results]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"

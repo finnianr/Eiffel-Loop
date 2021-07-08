@@ -18,7 +18,8 @@ inherit
 			open as open_connection
 		export
 			{NONE} open_url
-			{PP_BUTTON_METHOD} last_string, set_post_parameters, read_string_post, has_error, reset
+			{PP_BUTTON_METHOD} set_post_parameters, read_string_post, has_error, reset
+			{PP_SHARED_API_CONNECTION, PP_BUTTON_METHOD} last_string
 		redefine
 			make
 		end
