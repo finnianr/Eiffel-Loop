@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-24 14:33:28 GMT (Thursday 24th January 2019)"
-	revision: "9"
+	date: "2021-07-09 12:49:59 GMT (Friday 9th July 2021)"
+	revision: "10"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -61,16 +61,12 @@ feature {NONE} -- Initialization
 		do
 			if a_file_path.exists then
 				Precursor (a_file_path)
-				if not server_socket_path.is_empty and then not server_socket_path.parent.exists then
-					error_messages.extend ("Invalid socket path: " + server_socket_path.to_string)
-				end
 			else
 				error_messages.extend ("Invalid path: ")
 				error_messages.last.append (a_file_path.to_string)
 			end
 		ensure then
-			valid_socket_parameter:
-				server_port = 0 implies (not server_socket_path.is_empty and then server_socket_path.parent.exists)
+			valid_socket_parameter: server_port = 0 implies (not server_socket_path.is_empty)
 		end
 
 feature -- Access
@@ -85,11 +81,25 @@ feature -- Access
 	server_socket_path: EL_FILE_PATH
 		-- Unix socket path to listen on
 
+feature -- Element change
+
+	check_validity
+		do
+			if not unix_socket_exists then
+				error_messages.extend ("Invalid socket path: " + server_socket_path.to_string)
+			end
+		end
+
 feature -- Status query
 
 	is_valid: BOOLEAN
 		do
 			Result := error_messages.is_empty
+		end
+
+	unix_socket_exists: BOOLEAN
+		do
+			Result := not server_socket_path.is_empty implies server_socket_path.parent.exists
 		end
 
 feature {NONE} -- Build from XML

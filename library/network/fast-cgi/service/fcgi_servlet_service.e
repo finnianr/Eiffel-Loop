@@ -11,13 +11,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:41:41 GMT (Sunday 22nd November 2020)"
-	revision: "17"
+	date: "2021-07-09 12:53:11 GMT (Friday 9th July 2021)"
+	revision: "18"
 
 deferred class
 	FCGI_SERVLET_SERVICE
 
 inherit
+	EL_COMMAND
+
 	EL_SHARED_HTTP_STATUS
 
 	EL_MODULE_FILE_SYSTEM
@@ -32,11 +34,11 @@ inherit
 
 	EL_MODULE_UNIX_SIGNALS
 
-	EL_COMMAND
-
 	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_DOCUMENT_TYPES
+
+	EL_SHARED_OPERATING_ENVIRON
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -54,13 +56,16 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_default
 			config := a_config
+			if config.unix_socket_exists then
+				create_server_socket_dir
+			end
 		end
 
 	make_default
 		do
 			create broker.make
 			create {EL_NETWORK_STREAM_SOCKET} socket.make
-			create servlets
+			create servlet_table
 			state := agent do_nothing
 			server_backlog := 10
 		end
@@ -97,8 +102,7 @@ feature {NONE}
 
 	initialize_servlets
 		-- initialize servlets
-		do
-			servlets := servlet_table
+		deferred
 		end
 
 feature -- Basic operations
@@ -106,10 +110,14 @@ feature -- Basic operations
 	execute
 		do
 			log.enter ("execute")
+			config.check_validity
 			if config.is_valid then
 				-- Call initialize here rather than in `make' so that a background thread will have it's
 				-- own template copies stored in once per thread instance of EVOLICITY_TEMPLATES
-				initialize_servlets; initialize_listening
+				log.enter ("initialize_servlets")
+					initialize_servlets
+				log.exit
+				initialize_listening
 
 				if unable_to_listen then
 					log_error (Empty_string_8, "Application unable to listen")
@@ -117,7 +125,7 @@ feature -- Basic operations
 					do_transitions
 
 					broker.close
-					across servlets as servlet loop
+					across servlet_table as servlet loop
 						servlet.item.on_shutdown
 					end
 					on_shutdown
@@ -164,7 +172,7 @@ feature {NONE} -- States
 			state := agent accepting_connection
 		end
 
-	processing_request (table: like servlets)
+	processing_request (table: like servlet_table)
 			-- Redefined process request to have type of response and request object defined in servlet
 		do
 			table.search (broker.relative_path_info)
@@ -194,7 +202,7 @@ feature {NONE} -- States
 				if broker.is_end_service then
 					state := Final
 				else
-					state := agent processing_request (servlets)
+					state := agent processing_request (servlet_table)
 				end
 			else
 				a_socket.close
@@ -219,6 +227,24 @@ feature {NONE} -- Implementation
 
 	call (object: ANY)
 		do
+		end
+
+	create_server_socket_dir
+		local
+			make_dir_cmd: EL_OS_COMMAND; var: TUPLE [socket_dir, user: STRING]
+			socket_dir: EL_DIR_PATH
+		do
+			socket_dir := config.server_socket_path.parent
+			create var
+			create make_dir_cmd.make ("sudo mkdir $SOCKET_DIR; sudo chown $USER:www-data $SOCKET_DIR")
+			make_dir_cmd.fill_variables (var)
+			make_dir_cmd.put_path (Var.socket_dir, socket_dir)
+			make_dir_cmd.put_string (Var.user, Operating_environ.user_name)
+
+			log.put_path_field ("Creating Unix socket", socket_dir)
+			log.put_new_line
+			make_dir_cmd.execute
+			log.put_new_line
 		end
 
 	do_transitions
@@ -278,10 +304,6 @@ feature {NONE} -- Implementation
 			create Result.make_from_file (file_path)
 		end
 
-	servlet_table: like servlets
-		deferred
-		end
-
 feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 
 	broker: FCGI_REQUEST_BROKER
@@ -295,7 +317,7 @@ feature {NONE} -- Implementation: attributes
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.
 
-	servlets: EL_ZSTRING_HASH_TABLE [FCGI_HTTP_SERVLET]
+	servlet_table: EL_ZSTRING_HASH_TABLE [FCGI_HTTP_SERVLET]
 
 	socket: EL_STREAM_SOCKET
 		-- server socket

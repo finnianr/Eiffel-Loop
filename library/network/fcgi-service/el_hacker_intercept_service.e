@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 16:56:49 GMT (Sunday 22nd November 2020)"
-	revision: "5"
+	date: "2021-07-09 11:03:44 GMT (Friday 9th July 2021)"
+	revision: "6"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -40,11 +40,9 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	servlet_table: like servlets
+	initialize_servlets
 		do
-			create Result.make (<<
-				[Default_servlet_key, create {EL_HACKER_INTERCEPT_SERVLET}.make (Current)]
-			>>)
+			servlet_table [Default_servlet_key] := create {EL_HACKER_INTERCEPT_SERVLET}.make (Current)
 		end
 
 end

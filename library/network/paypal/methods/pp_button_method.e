@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:10:16 GMT (Sunday 24th May 2020)"
-	revision: "9"
+	date: "2021-07-08 9:25:28 GMT (Thursday 8th July 2021)"
+	revision: "10"
 
 class
 	PP_BUTTON_METHOD [R -> PP_HTTP_RESPONSE create make_default, make end]

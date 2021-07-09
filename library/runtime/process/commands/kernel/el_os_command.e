@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-27 11:20:42 GMT (Sunday 27th June 2021)"
-	revision: "11"
+	date: "2021-07-09 12:24:24 GMT (Friday 9th July 2021)"
+	revision: "12"
 
 class
 	EL_OS_COMMAND
@@ -100,15 +100,18 @@ feature -- Element change
 feature -- Contract Support
 
 	valid_tuple (var_names: TUPLE): BOOLEAN
+		do
+			if template.variables.count = var_names.count and then all_string_8_types (var_names) then
+				Result := template.variables.for_all (agent {ZSTRING}.is_valid_as_string_8)
+			end
+		end
+
+	all_string_8_types (var_names: TUPLE): BOOLEAN
 		local
 			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
-			if template.variables.count = var_names.count and then var_names.is_uniform_reference then
-				if template.variables.for_all (agent {ZSTRING}.is_valid_as_string_8) then
-					create tuple_types.make_from_tuple (var_names)
-					Result := across tuple_types as type all type.item ~ {STRING} end
-				end
-			end
+			create tuple_types.make_from_tuple (var_names)
+			Result := across tuple_types as type all type.item ~ {STRING} end
 		end
 
 feature -- Basic operations
