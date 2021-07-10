@@ -418,3 +418,6 @@ New ftp and ssh mirror for DUPLICITY_BACKUP
 Wed 7th Jul 2021, 16:20:22
 Fixed EL_PATH_STEPS copy
 
+Sat 10th Jul 2021, 16:08:24
+Made EL_SINGLE_PATH_OPERAND reflective for naming path field
+

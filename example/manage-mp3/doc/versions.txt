@@ -1,4 +1,7 @@
 2.3.1
+Started using reflection in EL_SINGLE_PATH_OPERAND_COMMAND_I to determine path field names
+
+2.3.1
 Test changes to EL_STRING_CONVERSION_TABLE inherit EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], INTEGER]
 
 2.3.0

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:14:05 GMT (Saturday 10th July 2021)"
-	revision: "7"
+	date: "2021-07-10 14:24:17 GMT (Saturday 10th July 2021)"
+	revision: "8"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
@@ -18,6 +18,7 @@ inherit
 			make_default
 		end
 
+	-- Use reflection to determine names of path argument fields
 	EL_REFLECTIVE
 		rename
 			export_name as export_default,

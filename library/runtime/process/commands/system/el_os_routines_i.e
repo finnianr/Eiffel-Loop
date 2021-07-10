@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 13:19:44 GMT (Saturday 10th July 2021)"
-	revision: "8"
+	date: "2021-07-10 14:30:52 GMT (Saturday 10th July 2021)"
+	revision: "9"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -115,6 +115,15 @@ feature -- Directory operations
 		do
 			Delete_tree_cmd.set_target_path (directory_path)
 			Delete_tree_cmd.execute
+		end
+
+	link (target_path, link_path: EL_PATH)
+		do
+			if attached Create_link_cmd as cmd then
+				cmd.set_target_path (target_path)
+				cmd.set_link_path (link_path)
+				cmd.execute
+			end
 		end
 
 feature -- File query
