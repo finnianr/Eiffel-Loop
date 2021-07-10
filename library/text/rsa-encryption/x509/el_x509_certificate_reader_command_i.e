@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:28:18 GMT (Thursday 28th May 2020)"
-	revision: "6"
+	date: "2021-07-10 14:09:24 GMT (Saturday 10th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -52,7 +52,7 @@ inherit
 		undefine
 			do_command, new_command_parts
 		redefine
-			make_default, Var_name_path
+			make_default
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -122,7 +122,5 @@ feature {NONE} -- Constants
 		once
 			Result := "Exponent:"
 		end
-
-	Var_name_path: STRING = "crt_file_path"
 
 end

@@ -1,13 +1,21 @@
 note
 	description: "OS operations based on command line utilities"
+	notes: "[
+		If you are creating an application on Windows with a graphical UI then these commands are not suitable
+		as they cause a command console to momentarily appear. This might be off-putting to some users.
+		For Windows GUI apps use instead the routines accessible via [$source EL_MODULE_FILE_SYSTEM]
+		
+		But maybe something can be done about this by appending `>null' to the command strings or
+		something.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 12:38:45 GMT (Saturday 16th May 2020)"
-	revision: "7"
+	date: "2021-07-10 13:19:44 GMT (Saturday 10th July 2021)"
+	revision: "8"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -23,6 +31,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_STRING_8_CONSTANTS
+
 feature -- Access
 
 	user_list: EL_ZSTRING_LIST
@@ -32,30 +42,72 @@ feature -- Access
 
 feature -- OS commands
 
-	-- These commands are not suited to Windows apps that have a GUI because they cause a command console to
-	-- momentarily flash up. This might upset some users.
+	find_files_command (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): like Find_files_cmd
+		do
+			Result := Find_files_cmd
+			Result.set_defaults
+			Result.set_dir_path (a_dir_path)
+			Result.set_file_pattern (a_file_pattern)
+		end
+
+	find_directories_command (a_dir_path: EL_DIR_PATH): like Find_directories_cmd
+		do
+			Result := Find_directories_cmd
+			Result.set_defaults
+			Result.set_dir_path (a_dir_path)
+		end
+
+feature -- File operations
 
 	copy_file (source_path: EL_FILE_PATH; destination_path: EL_PATH)
 			--
 		do
-			Copy_file_cmd.set_source_path (source_path)
-			Copy_file_cmd.set_destination_path (destination_path)
-			Copy_file_cmd.execute
-		end
-
-	copy_tree (source_path: EL_DIR_PATH; destination_path: EL_DIR_PATH)
-			--
-		do
-			Copy_tree_cmd.set_source_path (source_path)
-			Copy_tree_cmd.set_destination_path (destination_path)
-			Copy_tree_cmd.execute
+			if attached Copy_file_cmd as cmd then
+				cmd.set_source_path (source_path)
+				cmd.set_destination_path (destination_path)
+				cmd.execute
+			end
 		end
 
 	delete_file (file_path: EL_FILE_PATH)
 			--
 		do
-			Delete_file_cmd.set_target_path (file_path)
-			Delete_file_cmd.execute
+			if attached Delete_file_cmd as cmd then
+				cmd.set_target_path (file_path)
+				cmd.execute
+			end
+		end
+
+	move_file (file_path: EL_FILE_PATH; destination_path: EL_PATH)
+			--
+		do
+			if attached Move_file_cmd as cmd then
+				cmd.set_source_path (file_path)
+				cmd.set_destination_path (destination_path)
+				cmd.execute
+			end
+		end
+
+	move_to_directory (a_path: EL_PATH; destination_path: EL_DIR_PATH)
+			--
+		do
+			if attached Move_to_directory_cmd as cmd then
+				cmd.set_source_path (a_path)
+				cmd.set_destination_path (destination_path)
+				cmd.execute
+			end
+		end
+
+feature -- Directory operations
+
+	copy_tree (source_path: EL_DIR_PATH; destination_path: EL_DIR_PATH)
+			--
+		do
+			if attached Copy_tree_cmd as cmd then
+				cmd.set_source_path (source_path)
+				cmd.set_destination_path (destination_path)
+				cmd.execute
+			end
 		end
 
 	delete_tree (directory_path: EL_DIR_PATH)
@@ -65,47 +117,36 @@ feature -- OS commands
 			Delete_tree_cmd.execute
 		end
 
-	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
-		do
-			Find_directories_cmd.set_dir_path (a_dir_path)
-			Find_directories_cmd.execute
-			Result := Find_directories_cmd.path_list.twin
-		end
+feature -- File query
 
-	query_file_list (
-		a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; filter: EL_QUERY_CONDITION [ZSTRING]
+	filtered_file_list (
+		a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; condition: EL_QUERY_CONDITION [ZSTRING]
 	): EL_FILE_PATH_LIST
-			-- list of path that meet `filter' condition
-			-- Use Filter.* in class `EL_SHARED_FIND_FILE_FILTER_FACTORY'
+			-- list of paths that meet filter `condition'
+			-- Use `Filter.*' routines in class `EL_SHARED_FIND_FILE_FILTER_FACTORY'
 		do
-			Find_files_cmd.set_filter (filter)
-			Result := file_list (a_dir_path, a_file_pattern)
-			Find_files_cmd.set_default_filter
+			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
+				cmd.set_filter (condition)
+				cmd.execute
+				Result := cmd.path_list
+			end
 		end
 
 	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
 			--
 		do
-			Find_files_cmd.set_dir_path (a_dir_path)
-			Find_files_cmd.set_file_pattern (a_file_pattern)
-			Find_files_cmd.execute
-			create Result.make (Find_files_cmd.path_list)
+			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
+				cmd.execute
+				Result := cmd.path_list
+			end
 		end
 
-	move_file (file_path: EL_FILE_PATH; destination_path: EL_PATH)
-			--
+	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
 		do
-			Move_file_cmd.set_source_path (file_path)
-			Move_file_cmd.set_destination_path (destination_path)
-			Move_file_cmd.execute
-		end
-
-	move_to_directory (a_path: EL_PATH; destination_path: EL_DIR_PATH)
-			--
-		do
-			Move_to_directory_cmd.set_source_path (a_path)
-			Move_to_directory_cmd.set_destination_path (destination_path)
-			Move_to_directory_cmd.execute
+			if attached find_directories_command (a_dir_path) as cmd then
+				cmd.execute
+				Result := cmd.path_list
+			end
 		end
 
 feature -- Constants
@@ -114,7 +155,7 @@ feature -- Constants
 			--
 		once
 			Result := new_cpu_model_name
-			Result.replace_substring_all ("(R)", "")
+			Result.replace_substring_all (once "(R)", Empty_string_8)
 		end
 
 feature {NONE} -- Factory
@@ -137,6 +178,11 @@ feature {NONE} -- Constants
 		once
 			create {EL_COPY_TREE_COMMAND_IMP} Result.make_default
 			Result.enable_timestamp_preserved
+		end
+
+	Create_link_cmd: EL_CREATE_LINK_COMMAND_I
+		once
+			create {EL_CREATE_LINK_COMMAND_IMP} Result.make_default
 		end
 
 	Delete_file_cmd: EL_DELETE_FILE_COMMAND_I

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-09 12:53:11 GMT (Friday 9th July 2021)"
-	revision: "18"
+	date: "2021-07-09 15:41:24 GMT (Friday 9th July 2021)"
+	revision: "19"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -56,7 +56,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_default
 			config := a_config
-			if config.unix_socket_exists then
+			if not config.unix_socket_exists then
 				create_server_socket_dir
 			end
 		end

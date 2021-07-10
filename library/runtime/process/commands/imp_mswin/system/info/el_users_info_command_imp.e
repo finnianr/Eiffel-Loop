@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:13:15 GMT (Sunday 28th June 2020)"
-	revision: "8"
+	date: "2021-07-10 14:06:43 GMT (Saturday 10th July 2021)"
+	revision: "9"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "dir /B /AD-S-H $path"
+	Template: STRING = "dir /B /AD-S-H $dir_path"
 		-- Directories that do not have the hidden or system attribute set
 
 	Net_user_cmd: EL_CAPTURED_OS_COMMAND

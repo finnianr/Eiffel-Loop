@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 12:39:12 GMT (Tuesday 2nd February 2021)"
-	revision: "21"
+	date: "2021-07-10 8:12:47 GMT (Saturday 10th July 2021)"
+	revision: "22"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -194,7 +194,7 @@ feature {NONE} -- Implementation
 		-- 	Id3_title: STRING = "La Copla Porteña"
 		do
 			-- UTF-8 + Latin-1
-			Result := OS.query_file_list (
+			Result := OS.filtered_file_list (
 				Data_dir.joined_dir_path ("source"), "*.e",
 				Filter.base_name_in (<< "hexagram_strings.e", "audio_command_test_set.e" >>)
 			)

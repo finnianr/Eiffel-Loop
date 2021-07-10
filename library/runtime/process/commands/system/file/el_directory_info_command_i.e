@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "4"
+	date: "2021-07-10 14:03:38 GMT (Saturday 10th July 2021)"
+	revision: "5"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 		undefine
 			do_command, new_command_parts
 		redefine
-			make, var_name_path, reset
+			make, reset
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -44,10 +44,6 @@ feature -- Access
 	file_count: INTEGER
 
 	size: INTEGER
-
-feature {NONE} -- Evolicity reflection
-
-	Var_name_path: STRING = "target_path"
 
 feature {NONE} -- Implementation
 

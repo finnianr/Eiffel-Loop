@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:36:13 GMT (Sunday 13th September 2020)"
-	revision: "14"
+	date: "2021-07-10 8:42:13 GMT (Saturday 10th July 2021)"
+	revision: "15"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -28,8 +28,6 @@ inherit
 	EL_SHARED_APPLICATION_LIST
 
 	EL_INSTALLER_CONSTANTS
-
-	EL_MODULE_COMMAND
 
 	EL_MODULE_OS
 
@@ -114,8 +112,8 @@ feature {NONE} -- Implementation
 
 			File_system.make_directory (destination_dir)
 
-			Command.new_find_directories (Package_dir).copy_sub_directories (destination_dir)
-			Command.new_find_files (Package_dir, "*").copy_directory_files (destination_dir)
+			OS.find_directories_command (Package_dir).copy_sub_directories (destination_dir)
+			OS.find_files_command (Package_dir, "*").copy_directory_files (destination_dir)
 
 			Application_list.install_menus
 			lio.put_line ("DONE")

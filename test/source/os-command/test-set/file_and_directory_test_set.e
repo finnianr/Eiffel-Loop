@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 10:09:37 GMT (Sunday 21st March 2021)"
-	revision: "19"
+	date: "2021-07-10 9:44:53 GMT (Saturday 10th July 2021)"
+	revision: "20"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
 
 inherit
 	HELP_PAGES_TEST_SET
+
+	EL_MODULE_OS
 
 	EL_MODULE_COMMAND
 
@@ -157,52 +159,58 @@ feature -- Tests
 				)
 				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end
-			execute_and_assert (Command.new_find_files (Work_area_absolute_dir, "*"), a_file_set)
+			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
 		end
 
 	test_read_directories
 		local
-			l_dir: EL_DIRECTORY; find_directories_cmd: like Command.new_find_directories
-			dir_path: EL_DIR_PATH
+			l_dir: EL_DIRECTORY;  dir_path: EL_DIR_PATH
 		do
 			dir_path := work_area_path (Help_pages_windows_dir)
 			create l_dir.make (dir_path)
-			find_directories_cmd := Command.new_find_directories (dir_path)
-			find_directories_cmd.set_depth (1 |..| 1)
-			find_directories_cmd.execute
-			assert_same_entries (l_dir.directories, find_directories_cmd.path_list)
+			if attached OS.find_directories_command (dir_path) as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.execute
+				cmd.set_default_depths
+				assert_same_entries (l_dir.directories, cmd.path_list)
+			end
 
 			-- Recursively
 			dir_path := Work_area_dir
 			l_dir.make (dir_path)
-			find_directories_cmd := Command.new_find_directories (dir_path)
-			find_directories_cmd.set_min_depth (1)
-			find_directories_cmd.execute
-			assert_same_entries (l_dir.recursive_directories, find_directories_cmd.path_list)
+			if attached OS.find_directories_command (dir_path) as cmd then
+				cmd.set_min_depth (1)
+				cmd.execute
+				cmd.set_default_depths
+				assert_same_entries (l_dir.recursive_directories, cmd.path_list)
+			end
 		end
 
 	test_read_directory_files
 		local
-			l_dir: EL_DIRECTORY; find_files_cmd: like Command.new_find_files
-			dir_path: EL_DIR_PATH
+			l_dir: EL_DIRECTORY; dir_path: EL_DIR_PATH
 		do
 			dir_path := work_area_path (Help_pages_windows_dir)
 
 			create l_dir.make (dir_path)
-			find_files_cmd := Command.new_find_files (dir_path, "*")
-			find_files_cmd.set_depth (1 |..| 1)
-			find_files_cmd.execute
-			assert_same_entries (l_dir.files, find_files_cmd.path_list)
+			if attached OS.find_files_command (dir_path, "*") as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.execute
+				cmd.set_default_depths
+				assert_same_entries (l_dir.files, cmd.path_list)
+			end
 
 			dir_path := Work_area_dir
 			l_dir.make (dir_path)
-			find_files_cmd := Command.new_find_files (dir_path, "*")
-			find_files_cmd.execute
-			assert_same_entries (l_dir.recursive_files, find_files_cmd.path_list)
+			if attached OS.find_files_command (dir_path, "*") as cmd then
+				cmd.execute
+				assert_same_entries (l_dir.recursive_files, cmd.path_list)
+			end
 
-			find_files_cmd := Command.new_find_files (dir_path, "*.text")
-			find_files_cmd.execute
-			assert_same_entries (l_dir.recursive_files_with_extension ("text"), find_files_cmd.path_list)
+			if attached OS.find_files_command (dir_path, "*.text") as cmd then
+				cmd.execute
+				assert_same_entries (l_dir.recursive_files_with_extension ("text"), cmd.path_list)
+			end
 		end
 
 	test_file_move_and_copy
@@ -260,9 +268,9 @@ feature {NONE} -- Filters
 
 feature {NONE} -- Implementation
 
-	all_files_cmd (dir_path: EL_DIR_PATH): like Command.new_find_files
+	all_files_cmd (dir_path: EL_DIR_PATH): like OS.find_files_command
 		do
-			Result := Command.new_find_files (dir_path, "*")
+			Result := OS.find_files_command (dir_path, "*")
 		end
 
 	assert_same_entries (entries_1, entries_2: LIST [EL_PATH])
@@ -360,53 +368,56 @@ feature {NONE} -- Implementation
 
 	find_directories (a_dir_set: like dir_set; root_dir: EL_DIR_PATH)
 		local
-			find_directories_cmd: like Command.new_find_directories
 			lower, upper: INTEGER; has_substring: EL_PREDICATE_FIND_CONDITION
 		do
 			a_dir_set.put (root_dir)
-			find_directories_cmd := Command.new_find_directories (root_dir)
-			execute_and_assert (find_directories_cmd, a_dir_set)
+			if attached OS.find_directories_command (root_dir) as cmd then
 
-			has_substring := agent path_has_substring (?, "bcd")
-			find_directories_cmd.set_filter (not has_substring)
-			execute_and_assert (find_directories_cmd, a_dir_set.subset_exclude (agent directory_path_contains (?, "bcd")))
-			find_directories_cmd.set_default_filter
+				execute_and_assert (cmd, a_dir_set)
 
---			Test with restricted depth
-			from upper := 1 until upper > 3 loop
-				from lower := 0 until lower > upper loop
-					find_directories_cmd.set_depth (lower |..| upper)
-					execute_and_assert (
-						find_directories_cmd, a_dir_set.subset_include (agent directory_within_depth (root_dir, ?, lower |..| upper))
-					)
-					lower := lower + 1
+				has_substring := agent path_has_substring (?, "bcd")
+				cmd.set_filter (not has_substring)
+				execute_and_assert (cmd, a_dir_set.subset_exclude (agent directory_path_contains (?, "bcd")))
+				cmd.set_default_filter
+
+	--			Test with restricted depth
+				from upper := 1 until upper > 3 loop
+					from lower := 0 until lower > upper loop
+						cmd.set_depth (lower |..| upper)
+						execute_and_assert (
+							cmd, a_dir_set.subset_include (agent directory_within_depth (root_dir, ?, lower |..| upper))
+						)
+						cmd.set_default_depths
+						lower := lower + 1
+					end
+					upper := upper + 1
 				end
-				upper := upper + 1
 			end
 		end
 
 	find_files (a_file_set: like new_file_set; root_dir: EL_DIR_PATH)
 		local
-			find_files_cmd: like Command.new_find_files
 			lower, upper: INTEGER
 		do
-			find_files_cmd := Command.new_find_files (root_dir, "*")
-			execute_and_assert (find_files_cmd, a_file_set)
+			if attached OS.find_files_command (root_dir, "*") as cmd then
+				execute_and_assert (cmd, a_file_set)
 
-			find_files_cmd.set_predicate_filter (agent path_has_substring (?, "bcd"))
-			execute_and_assert (find_files_cmd, a_file_set.subset_include (agent path_contains (?, "bcd")))
-			find_files_cmd.set_default_filter
+				cmd.set_predicate_filter (agent path_has_substring (?, "bcd"))
+				execute_and_assert (cmd, a_file_set.subset_include (agent path_contains (?, "bcd")))
+				cmd.set_default_filter
 
---			Test depth
-			from upper := 3 until upper > 4 loop
-				from lower := 1 until lower > upper loop
-					find_files_cmd.set_depth (lower |..| upper)
-					execute_and_assert (
-						find_files_cmd, a_file_set.subset_include (agent file_within_depth (root_dir, ?, lower |..| upper))
-					)
-					lower := lower + 1
+	--			Test depth
+				from upper := 3 until upper > 4 loop
+					from lower := 1 until lower > upper loop
+						cmd.set_depth (lower |..| upper)
+						execute_and_assert (
+							cmd, a_file_set.subset_include (agent file_within_depth (root_dir, ?, lower |..| upper))
+						)
+						cmd.set_default_depths
+						lower := lower + 1
+					end
+					upper := upper + 1
 				end
-				upper := upper + 1
 			end
 		end
 

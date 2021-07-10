@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:20:45 GMT (Wednesday 6th January 2021)"
-	revision: "15"
+	date: "2021-07-10 8:32:04 GMT (Saturday 10th July 2021)"
+	revision: "16"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -33,7 +33,6 @@ inherit
 	EL_DEBIAN_CONSTANTS
 
 	EL_MODULE_BUILD_INFO
-	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_EXECUTABLE
 	EL_MODULE_LIO
@@ -95,7 +94,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 
 	installed_size: NATURAL
 		do
-			Result := Command.new_find_files (package_dir, All_files).sum_file_byte_count
+			Result := OS.find_files_command (package_dir, All_files).sum_file_byte_count
 		end
 
 	is_executable (path: EL_FILE_PATH): BOOLEAN
@@ -152,8 +151,8 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			destination_dir := package_sub_dir (Directory.Application_installation)
 
 			OS.File_system.make_directory (destination_dir)
-			Command.new_find_directories (package_dir).copy_sub_directories (destination_dir)
-			Command.new_find_files (package_dir, All_files).copy_directory_files (destination_dir)
+			OS.find_directories_command (package_dir).copy_sub_directories (destination_dir)
+			OS.find_files_command (package_dir, All_files).copy_directory_files (destination_dir)
 		end
 
 	put_xdg_entries

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:31:06 GMT (Sunday 29th November 2020)"
-	revision: "6"
+	date: "2021-07-10 8:39:15 GMT (Saturday 10th July 2021)"
+	revision: "7"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -289,7 +289,7 @@ feature -- Access
 	type_group_table: EL_GROUP_TABLE [NATURAL_16, NATURAL_16]
 		-- fields grouped by `type'
 		do
-			create Result.make (agent type, sorted)
+			create Result.make_from_list (agent type, sorted)
 		end
 
 	xml_element (field_code: NATURAL_16): EL_XML_TEXT_ELEMENT

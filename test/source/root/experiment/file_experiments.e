@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 7:47:44 GMT (Monday 10th May 2021)"
-	revision: "10"
+	date: "2021-07-10 8:58:04 GMT (Saturday 10th July 2021)"
+	revision: "11"
 
 class
 	FILE_EXPERIMENTS
@@ -35,30 +35,27 @@ feature -- Basic operations
 		end
 
 	find_directories
-		local
-			find_cmd: like Command.new_find_directories
 		do
-			find_cmd := Command.new_find_directories ("source")
-			find_cmd.set_depth (1 |..| 1)
-			find_cmd.execute
-			across find_cmd.path_list as dir loop
-				lio.put_path_field ("", dir.item)
-				lio.put_new_line
+			if attached OS.find_directories_command ("source") as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.execute
+				across cmd.path_list as dir loop
+					lio.put_path_field ("", dir.item)
+					lio.put_new_line
+				end
 			end
 		end
 
 	find_files_command_on_root
 			--
-		local
-			find_files_cmd: like Command.new_find_files
 		do
-			find_files_cmd := Command.new_find_files ("/", "*.rc")
-			find_files_cmd.set_depth (1 |..| 1)
-			find_files_cmd.execute
-			lio.put_new_line
-			from find_files_cmd.path_list.start until find_files_cmd.path_list.after loop
-				lio.put_line (find_files_cmd.path_list.item.to_string)
-				find_files_cmd.path_list.forth
+			if attached OS.find_files_command ("/", "*.rc") as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.execute
+				lio.put_new_line
+				across cmd.path_list as list loop
+					lio.put_line (list.item.to_string)
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:01:54 GMT (Wednesday 31st October 2018)"
-	revision: "8"
+	date: "2021-07-10 14:19:13 GMT (Saturday 10th July 2021)"
+	revision: "9"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -19,7 +19,7 @@ inherit
 			set_path as set_source_path,
 			make as make_source
 		redefine
-			getter_function_table, var_name_path
+			getter_function_table
 		end
 
 feature {NONE} -- Initialization
@@ -53,21 +53,14 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
-	var_name_path: STRING
-		do
-			Result := once "source_path"
-		end
-
-	var_name_path_2: STRING
-		do
-			Result := once "destination_path"
-		end
-
 	getter_function_table: like getter_functions
 			--
+		local
+			field_name: STRING
 		do
+			field_name := meta_data.field_list [2].name
 			Result := Precursor +
-				[var_name_path_2, 		agent: ZSTRING do Result := destination_path.escaped end] +
+				[field_name,				agent: ZSTRING do Result := destination_path.escaped end] +
 				["is_file_destination", agent: BOOLEAN_REF do Result := is_file_destination.to_reference end]
 		end
 

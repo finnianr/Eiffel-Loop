@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 16:45:21 GMT (Thursday 4th March 2021)"
-	revision: "12"
+	date: "2021-07-10 8:24:24 GMT (Saturday 10th July 2021)"
+	revision: "13"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -33,7 +33,7 @@ inherit
 
 	EL_MODULE_LOG
 
-	EL_MODULE_COMMAND
+	EL_MODULE_OS
 
 	EL_MODULE_DIRECTORY
 
@@ -197,15 +197,14 @@ feature {NONE} -- Implementation
 		end
 
 	set_ecf_path_from_target
-		local
-			find_files: EL_FIND_FILES_COMMAND_I
 		do
-			find_files := Command.new_find_files (Directory.current_working, "*.ecf")
-			find_files.set_max_depth (1)
-			find_files.execute
+			if attached OS.find_files_command (Directory.current_working, "*.ecf") as cmd then
+				cmd.set_max_depth (1)
+				cmd.execute
 
-			across find_files.path_list as path until not ecf_path.is_empty loop
-				do_once_with_file_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
+				across cmd.path_list as path until not ecf_path.is_empty loop
+					do_once_with_file_lines (agent find_target_name (?, path.item), open_lines (path.item, Latin_1))
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 14:11:42 GMT (Saturday 16th May 2020)"
-	revision: "8"
+	date: "2021-07-10 9:01:44 GMT (Saturday 10th July 2021)"
+	revision: "9"
 
 class
 	BENCHMARK_HTML
@@ -67,12 +67,11 @@ feature {NONE} -- Implemenation
 
 	source_links_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		local
-			name: ZSTRING
-			has_string_or_benchmark: like Filter.predicate
+			name: ZSTRING; has_string_or_benchmark: like Filter.predicate
 		do
 			create Result.make_equal (11)
 			has_string_or_benchmark := Filter.predicate (agent base_name_has_words (?, << "string", "benchmark" >>))
-			across OS.query_file_list ("source/benchmark", "*.e", has_string_or_benchmark) as path loop
+			across OS.filtered_file_list ("source/benchmark", "*.e", has_string_or_benchmark) as path loop
 				name := path.item.base.as_upper
 				name.remove_tail (2)
 				Result [name] := path.item.with_new_extension ("html")

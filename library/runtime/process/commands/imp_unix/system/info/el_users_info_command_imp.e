@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "7"
+	date: "2021-07-10 14:05:37 GMT (Saturday 10th July 2021)"
+	revision: "8"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -28,6 +28,6 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "ls $path"
+	Template: STRING = "ls $dir_path"
 
 end

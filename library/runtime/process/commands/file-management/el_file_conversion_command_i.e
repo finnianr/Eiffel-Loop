@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:00:39 GMT (Wednesday 31st October 2018)"
-	revision: "4"
+	date: "2021-07-10 14:18:28 GMT (Saturday 10th July 2021)"
+	revision: "5"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I
@@ -21,7 +21,7 @@ inherit
 			set_source_path as set_input_file_path,
 			set_destination_path as set_output_file_path
 		redefine
-			var_name_path, var_name_path_2, input_file_path, output_file_path,
+			input_file_path, output_file_path,
 			set_input_file_path, set_output_file_path
 		end
 
@@ -58,18 +58,6 @@ feature -- Contract Support
 	valid_output_extension (extension: ZSTRING): BOOLEAN
 		do
 			Result := True
-		end
-
-feature {NONE} -- Evolicity reflection
-
-	var_name_path: STRING
-		do
-			Result := once "input_file_path"
-		end
-
-	var_name_path_2: STRING
-		do
-			Result := once "output_file_path"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-12 12:03:56 GMT (Friday 12th February 2021)"
-	revision: "6"
+	date: "2021-07-10 14:08:34 GMT (Saturday 10th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -24,7 +24,7 @@ inherit
 		undefine
 			do_command, new_command_parts
 		redefine
-			make_default, Var_name_path
+			make_default
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -104,8 +104,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Var_name_path: STRING = "key_file_path"
 
 	Var_pass_phrase: STRING = "OPENSSL_PP"
 

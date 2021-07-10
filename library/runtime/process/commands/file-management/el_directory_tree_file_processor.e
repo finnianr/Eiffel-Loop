@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 11:14:09 GMT (Monday 7th October 2019)"
-	revision: "6"
+	date: "2021-07-10 8:26:38 GMT (Saturday 10th July 2021)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_MODULE_COMMAND
+	EL_MODULE_OS
 
 create
 	make, default_create
@@ -29,14 +29,13 @@ feature -- Initialization
 
 	make (a_source_dir: EL_DIR_PATH; file_pattern: READABLE_STRING_GENERAL; a_file_processor: EL_FILE_PROCESSING_COMMAND)
 			--
-		local
-			find_cmd: like Command.new_find_files
 		do
 			source_dir := a_source_dir; file_processor := a_file_processor
-			find_cmd := Command.new_find_files (a_source_dir, file_pattern)
-			find_cmd.set_follow_symbolic_links (True)
-			find_cmd.execute
-			file_path_list := find_cmd.path_list
+			if attached OS.find_files_command (a_source_dir, file_pattern) as find_cmd then
+				find_cmd.set_follow_symbolic_links (True)
+				find_cmd.execute
+				file_path_list := find_cmd.path_list.twin
+			end
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 12:13:08 GMT (Thursday 4th March 2021)"
-	revision: "2"
+	date: "2021-07-10 8:12:28 GMT (Saturday 10th July 2021)"
+	revision: "3"
 
 class
 	ISE_CLASS_TABLE
@@ -78,7 +78,7 @@ feature -- Status query
 						finder.set_file_pattern (file_name)
 						finder.execute
 						if finder.path_list.count > 0 then
-							relative_source_path := finder.path_list.first.relative_path (dir_path.item)
+							relative_source_path := finder.path_list.first_path.relative_path (dir_path.item)
 							if dir_path.item = ise_library_path then
 								put (ise_chart_template #$ [relative_source_path.first_step, last_name.as_lower], last_name)
 							else

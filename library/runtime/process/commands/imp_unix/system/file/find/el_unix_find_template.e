@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-07-10 14:05:01 GMT (Saturday 10th July 2021)"
+	revision: "6"
 
 class
 	EL_UNIX_FIND_TEMPLATE
@@ -19,7 +19,7 @@ feature {NONE} -- Constants
 		#if $follow_symbolic_links then
 			-L
 		#end
-		$path
+		$dir_path
 		-mindepth $min_depth
 		#if not $limitless_max_depth then
 			-maxdepth $max_depth

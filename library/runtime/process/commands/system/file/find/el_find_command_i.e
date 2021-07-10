@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "10"
+	date: "2021-07-10 10:31:53 GMT (Saturday 10th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -33,11 +33,9 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			filter := Default_filter
 			create path_list.make (20)
-			follow_symbolic_links := True
-			set_limitless_max_depth
 			create name_pattern.make_empty
+			set_defaults
 			Precursor {EL_DIR_PATH_OPERAND_COMMAND_I}
 		end
 
@@ -56,13 +54,13 @@ feature -- Access
 
 	name_pattern: ZSTRING
 
-	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path]
-
 	sorted_path_list: like path_list
 		do
 			Result := path_list
 			Result.sort
 		end
+
+	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path]
 
 	type: STRING
 			-- Unix find type
@@ -104,13 +102,22 @@ feature -- Status change
 
 feature -- Element change
 
+	set_defaults
+		-- set default settings
+		do
+			filter := Default_filter
+			follow_symbolic_links := True
+			set_default_depths
+		end
+
 	set_depth (interval: INTEGER_INTERVAL)
 		do
 			min_depth := interval.lower; max_depth := interval.upper
 		end
 
-	set_limitless_max_depth
+	set_default_depths
 		do
+			min_depth := 0
 			max_depth := max_depth.Max_value
 		end
 

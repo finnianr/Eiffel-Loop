@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-05 14:22:19 GMT (Wednesday 5th August 2020)"
-	revision: "11"
+	date: "2021-07-10 8:40:51 GMT (Saturday 10th July 2021)"
+	revision: "12"
 
 class
 	EL_COMMAND_FACTORY
@@ -45,16 +45,6 @@ feature -- Informational
 		end
 
 feature -- File management
-
-	new_find_files (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FIND_FILES_COMMAND_I
-		do
-			create {EL_FIND_FILES_COMMAND_IMP} Result.make (a_dir_path, a_file_pattern)
-		end
-
-	new_find_directories (a_dir_path: EL_DIR_PATH): EL_FIND_DIRECTORIES_COMMAND_I
-		do
-			create {EL_FIND_DIRECTORIES_COMMAND_IMP} Result.make (a_dir_path)
-		end
 
 	new_delete_file (a_file_path: EL_FILE_PATH): EL_DELETE_FILE_COMMAND_I
 		do

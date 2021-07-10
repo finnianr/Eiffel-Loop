@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 11:59:06 GMT (Wednesday 31st October 2018)"
-	revision: "5"
+	date: "2021-07-10 14:10:12 GMT (Saturday 10th July 2021)"
+	revision: "6"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I
@@ -24,7 +24,7 @@ inherit
 			path as output_file_path,
 			set_path as set_output_file_path
 		redefine
-			make_default, getter_function_table, output_file_path, var_name_path
+			make_default, getter_function_table, output_file_path
 		end
 
 feature {NONE} -- Initialization
@@ -89,10 +89,7 @@ feature -- Access
 
 	output_file_path: EL_FILE_PATH
 
-
 feature {NONE} -- Evolicity reflection
-
-	var_name_path: STRING = "output_file_path"
 
 	getter_function_table: like getter_functions
 			--

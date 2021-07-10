@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-22 12:38:17 GMT (Thursday 22nd April 2021)"
-	revision: "34"
+	date: "2021-07-10 10:31:01 GMT (Saturday 10th July 2021)"
+	revision: "35"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -137,6 +137,9 @@ feature -- Access
 					line.prune_all_trailing ('%R')
 					Result.append (line)
 				end
+			end
+			if line.is_empty and not_first then
+				Result.remove_tail (1)
 			end
 			file.close
 		end

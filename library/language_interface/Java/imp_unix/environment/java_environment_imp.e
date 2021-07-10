@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 9:32:41 GMT (Wednesday 10th March 2021)"
-	revision: "4"
+	date: "2021-07-10 9:04:06 GMT (Saturday 10th July 2021)"
+	revision: "5"
 
 class
 	JAVA_ENVIRONMENT_IMP
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_MODULE_COMMAND
+	EL_MODULE_OS
 
 create
 	make
@@ -47,20 +47,18 @@ feature {NONE} -- Constants
 
 	JVM_library_path: EL_FILE_PATH
 		local
-			find_command: like Command.new_find_files
 			java_dir: EL_DIR_PATH; found: BOOLEAN
-			libjvm_path_list: ARRAYED_LIST [EL_FILE_PATH]
+			libjvm_path_list: EL_FILE_PATH_LIST
 		once
 			create Result
 			across Java_links as link until found loop
 				java_dir := JVM_home_dir.joined_dir_path (link.item)
 				found := java_dir.exists
 			end
-			if found then
-				find_command := Command.new_find_files (java_dir, JVM_library_name)
-				find_command.set_follow_symbolic_links (True)
-				find_command.execute
-				libjvm_path_list := find_command.path_list
+			if found and then attached OS.find_files_command (java_dir, JVM_library_name) as cmd then
+				cmd.set_follow_symbolic_links (True)
+				cmd.execute
+				libjvm_path_list := cmd.path_list
 				found := False
 				across libjvm_path_list as path until found loop
 					if path.item.has_step (Server) then

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-16 11:31:11 GMT (Saturday 16th May 2020)"
-	revision: "10"
+	date: "2021-07-10 8:35:45 GMT (Saturday 10th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_ML_THUNDERBIRD_ACCOUNT_READER
@@ -38,7 +38,6 @@ inherit
 
 	EL_COMMAND
 
-	EL_MODULE_COMMAND
 	EL_MODULE_DIRECTORY
 	EL_MODULE_FILE_SYSTEM
 	EL_MODULE_OS
@@ -71,14 +70,13 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	mail_folder_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
-		local
-			find_cmd: like Command.new_find_directories
 		do
-			find_cmd := Command.new_find_directories (mail_dir)
-			find_cmd.set_depth (1 |..| 1)
-			find_cmd.set_predicate_filter (agent is_folder_included)
-			find_cmd.execute
-			Result := find_cmd.path_list
+			if attached OS.find_directories_command (mail_dir) as cmd then
+				cmd.set_depth (1 |..| 1)
+				cmd.set_predicate_filter (agent is_folder_included)
+				cmd.execute
+				Result := cmd.path_list
+			end
 		end
 
 	new_reader: EL_THUNDERBIRD_FOLDER_READER

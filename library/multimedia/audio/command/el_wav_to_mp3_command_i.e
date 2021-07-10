@@ -1,13 +1,13 @@
 note
-	description: "Wav to mp3 command i"
+	description: "Wav to mp3 command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:21:05 GMT (Sunday 5th April 2020)"
-	revision: "6"
+	date: "2021-07-10 14:17:25 GMT (Saturday 10th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_WAV_TO_MP3_COMMAND_I

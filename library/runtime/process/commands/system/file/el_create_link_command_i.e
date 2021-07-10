@@ -1,18 +1,18 @@
 note
-	description: "Deletion command"
+	description: "Command to create a symbolic link to a file or directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 12:02:22 GMT (Wednesday 31st October 2018)"
-	revision: "6"
+	date: "2021-07-10 13:22:16 GMT (Saturday 10th July 2021)"
+	revision: "1"
 
 deferred class
-	EL_DELETION_COMMAND
+	EL_CREATE_LINK_COMMAND_I
 
-feature {NONE} -- Constants
+inherit
+	EL_DOUBLE_PATH_OPERAND_COMMAND_I
 
-	Var_name_path: STRING = "target_path"
 end

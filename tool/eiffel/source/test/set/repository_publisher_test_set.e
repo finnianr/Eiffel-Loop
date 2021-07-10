@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 7:26:12 GMT (Saturday 27th March 2021)"
-	revision: "35"
+	date: "2021-07-10 8:28:51 GMT (Saturday 10th July 2021)"
+	revision: "36"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -38,7 +38,7 @@ inherit
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
-	EL_MODULE_COMMAND
+	EL_MODULE_OS
 
 	EL_MODULE_USER_INPUT
 
@@ -80,13 +80,14 @@ feature -- Tests
 			File_system.remove_file (checker_path)
 
 			-- Remove some CRC files to force regeneration
-			finder := Command.new_find_files (Kernel_event.html_dir, "*listener.html")
-			finder.execute
-			across finder.path_list as path loop
-				relative_path := path.item.relative_path (publisher.output_dir)
-				crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_url) + relative_path
-				crc_path.replace_extension (Crc_extension)
-				File_system.remove_file (crc_path)
+			if attached OS.find_files_command (Kernel_event.html_dir, "*listener.html") as cmd then
+				cmd.execute
+				across cmd.path_list as path loop
+					relative_path := path.item.relative_path (publisher.output_dir)
+					crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_url) + relative_path
+					crc_path.replace_extension (Crc_extension)
+					File_system.remove_file (crc_path)
+				end
 			end
 
 			base_name_list := "base.kernel.html, index.html"

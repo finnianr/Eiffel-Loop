@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 9:59:25 GMT (Tuesday 9th March 2021)"
-	revision: "28"
+	date: "2021-07-10 8:38:38 GMT (Saturday 10th July 2021)"
+	revision: "29"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -45,6 +45,9 @@ inherit
 		end
 
 	RHYTHMBOX_CONSTANTS
+		rename
+			User_config_dir as Rhythmbox_user_config_dir
+		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
 		redefine

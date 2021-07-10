@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 9:58:59 GMT (Sunday 5th April 2020)"
-	revision: "7"
+	date: "2021-07-10 14:10:42 GMT (Saturday 10th July 2021)"
+	revision: "8"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -19,7 +19,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make, make_default, file_path, getter_function_table, on_error, var_name_path
+			make, make_default, file_path, getter_function_table, on_error
 		end
 
 	EL_AVCONV_OS_COMMAND_I
@@ -122,8 +122,6 @@ feature {NONE} -- Line states
 		end
 
 feature {NONE} -- Constants
-
-	Var_name_path: STRING = "file_path"
 
 	Audio_tag: ZSTRING
 		once
