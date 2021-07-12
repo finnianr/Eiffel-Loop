@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 10:48:40 GMT (Sunday 23rd May 2021)"
-	revision: "28"
+	date: "2021-07-12 7:25:47 GMT (Monday 12th July 2021)"
+	revision: "29"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -37,6 +37,8 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	EL_XML_ZSTRING_CONSTANTS
+
+	EL_SHARED_CLASS_ID
 
 feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 
@@ -288,6 +290,13 @@ feature {NONE} -- Implementation
 		do
 			field.set_from_readable (current_reflective, node)
 			field.expand (current_reflective)
+			if field.type_id = Class_id.EL_FILE_PATH
+				and then attached {EL_FILE_PATH} field.value (current_reflective) as file_path
+				and then not file_path.is_absolute
+				and then not node.document_dir.is_empty
+			then
+				field.set (current_reflective, node.document_dir.joined_file_path (file_path))
+			end
 		end
 
 feature {NONE} -- Implementation

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:07:04 GMT (Tuesday 9th March 2021)"
-	revision: "6"
+	date: "2021-07-12 7:51:06 GMT (Monday 12th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN

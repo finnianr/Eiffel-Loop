@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 10:40:42 GMT (Sunday 23rd May 2021)"
-	revision: "15"
+	date: "2021-07-12 7:17:04 GMT (Monday 12th July 2021)"
+	revision: "16"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -97,9 +97,12 @@ feature {NONE} -- Initialization
 			make_default
 			Precursor (n)
 			create raw_name.make (0)
+			create document_dir
 		end
 
 feature -- Access
+
+	document_dir: EL_DIR_PATH
 
 	name: ZSTRING
 		do
@@ -326,6 +329,9 @@ feature -- Conversion
 		do
 			Result := adjusted (False)
 			Result.expand
+			if not Result.is_absolute and then not document_dir.is_empty then
+				Result := document_dir.joined_file_path (Result)
+			end
 		end
 
 	to_pointer: POINTER
@@ -342,6 +348,11 @@ feature -- Conversion
 		end
 
 feature -- Element change
+
+	set_document_dir (a_document_dir: EL_DIR_PATH)
+		do
+			document_dir := a_document_dir
+		end
 
 	set_from_view (view: EL_STRING_VIEW)
 		do

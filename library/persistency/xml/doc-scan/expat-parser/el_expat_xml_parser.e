@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 14:58:08 GMT (Sunday 10th January 2021)"
-	revision: "19"
+	date: "2021-07-12 8:19:24 GMT (Monday 12th July 2021)"
+	revision: "20"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -368,7 +368,7 @@ feature {NONE} -- Expat callbacks
 
 			l_cursor := attribute_cursor; attribute_list.reset
 			from l_cursor.start (attribute_array_ptr) until l_cursor.after loop
-				attribute_list.extend
+				attribute_list.extend (last_node.document_dir)
 				l_cursor.set_node (attribute_list.last)
 				l_cursor.forth
 			end

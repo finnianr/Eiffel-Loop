@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-22 11:01:25 GMT (Tuesday 22nd June 2021)"
-	revision: "6"
+	date: "2021-07-12 8:27:47 GMT (Monday 12th July 2021)"
+	revision: "7"
 
 class
 	PP_CONFIGURATION
@@ -31,6 +31,9 @@ feature {NONE} -- Initialization
 			make_solitary
 			decrypter := a_decrypter
 			make_from_file (path)
+		ensure
+			cert_authority_info_path_exists: cert_authority_info_path.exists
+			credentials_path_exists: credentials_path.exists
 		end
 
 feature -- Access

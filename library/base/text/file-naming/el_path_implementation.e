@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:32:38 GMT (Sunday 9th May 2021)"
-	revision: "18"
+	date: "2021-07-12 6:54:35 GMT (Monday 12th July 2021)"
+	revision: "19"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -213,7 +213,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		require
 			relative_path: not a_path.is_absolute
 		local
-			l_path: ZSTRING; i: INTEGER
+			l_path: ZSTRING; i, back_step_count: INTEGER
 		do
 			if not a_path.is_empty then
 				l_path := temporary_path
@@ -221,7 +221,16 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 				if i > 0 and then not is_separator (l_path, i) then
 					l_path.append_z_code (Separator_z_code)
 				end
-				l_path.append (a_path.parent_path)
+				back_step_count := leading_back_step_count (a_path.parent_path)
+				if back_step_count > 0 then
+					from i := 1 until i > back_step_count or else l_path.is_empty loop
+						remove_step_right (l_path)
+						i := i + 1
+					end
+					l_path.append_substring (a_path.parent_path, back_step_count * 3 + 1, a_path.parent_path.count)
+				else
+					l_path.append (a_path.parent_path)
+				end
 				l_path.append (a_path.base)
 				set_path (l_path)
 			end
@@ -276,6 +285,19 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 feature {EL_PATH} -- Implementation
 
+	leading_back_step_count (a_path: ZSTRING): INTEGER
+		local
+			i: INTEGER; occurs: BOOLEAN
+		do
+			from i := 1; occurs := True until not occurs or else i + 2 > a_path.count loop
+				occurs := a_path.same_characters (Back_dir_step, 1, 3, i)
+				if occurs then
+					Result := Result + 1
+				end
+				i := i + 3
+			end
+		end
+
 	is_absolute: BOOLEAN
 		deferred
 		end
@@ -305,6 +327,24 @@ feature {EL_PATH} -- Implementation
 				remove_count := remove_count + 1
 			end
 			Result.remove_head (remove_count)
+		end
+
+	remove_step_right (a_path: ZSTRING)
+		require
+			has_step:  a_path.count > 0 and then a_path [a_path.count] = Separator
+		local
+			previous_pos: INTEGER
+		do
+			if a_path.count >= 2 then
+				previous_pos := a_path.last_index_of (Separator, a_path.count - 1)
+				if previous_pos > 0 then
+					a_path.keep_head (previous_pos)
+				else
+					a_path.wipe_out
+				end
+			else
+				a_path.wipe_out
+			end
 		end
 
 	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING

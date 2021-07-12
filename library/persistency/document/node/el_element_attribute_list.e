@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 12:57:31 GMT (Saturday 16th January 2021)"
-	revision: "10"
+	date: "2021-07-12 8:17:42 GMT (Monday 12th July 2021)"
+	revision: "11"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
@@ -61,14 +61,14 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	extend
-			--
+	extend (document_dir: EL_DIR_PATH)
 		do
 			if count = node_cache.upper then
 				node_cache.extend (create {like node}.make_empty)
 			end
 			extend_list (node_cache [count + 1])
 			finish
+			node.set_document_dir (document_dir)
 			last.set_encoding_from_other (Current)
 		end
 
