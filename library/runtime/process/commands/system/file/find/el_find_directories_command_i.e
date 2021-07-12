@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-26 10:42:30 GMT (Thursday 26th September 2019)"
-	revision: "6"
+	date: "2021-07-12 12:05:20 GMT (Monday 12th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_FIND_DIRECTORIES_COMMAND_I
@@ -29,10 +29,5 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (a_path)
 		end
-
-feature {NONE} -- Constants
-
-	Type: STRING = "d"
-			-- Unix find type
 
 end

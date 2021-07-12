@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:24:17 GMT (Saturday 10th July 2021)"
-	revision: "8"
+	date: "2021-07-12 11:53:51 GMT (Monday 12th July 2021)"
+	revision: "9"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
@@ -25,7 +25,7 @@ inherit
 			import_name as import_default,
 			field_included as is_path_field
 		export
-			{NONE}
+			{NONE} all
 		redefine
 			Transient_fields
 		end
@@ -61,15 +61,18 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
+	get_escaped_path: ZSTRING
+		do
+			Result := path.escaped
+		end
+
 	getter_function_table: like getter_functions
 			--
 		local
 			field_name: STRING
 		do
 			field_name := meta_data.field_list.first.name
-			create Result.make (<<
-				[field_name, agent: ZSTRING do Result := path.escaped end]
-			>>)
+			create Result.make (<< [field_name, agent get_escaped_path] >>)
 		end
 
 feature {NONE} -- Implementation

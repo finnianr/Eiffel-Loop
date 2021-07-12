@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 10:31:53 GMT (Saturday 10th July 2021)"
-	revision: "11"
+	date: "2021-07-12 12:58:47 GMT (Monday 12th July 2021)"
+	revision: "12"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -63,7 +63,7 @@ feature -- Access
 	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path]
 
 	type: STRING
-			-- Unix find type
+			-- Unix find type or Windows attribute /A
 		deferred
 		end
 
@@ -108,6 +108,7 @@ feature -- Element change
 			filter := Default_filter
 			follow_symbolic_links := True
 			set_default_depths
+			name_pattern.wipe_out
 		end
 
 	set_depth (interval: INTEGER_INTERVAL)
@@ -129,6 +130,13 @@ feature -- Element change
 	set_min_depth (a_min_depth: like min_depth)
 		do
 			min_depth := a_min_depth
+		end
+
+	set_name_pattern (a_name_pattern: READABLE_STRING_GENERAL)
+			--
+		do
+			name_pattern.wipe_out
+			name_pattern.append_string_general (a_name_pattern)
 		end
 
 feature -- Basic operations

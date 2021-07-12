@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "5"
+	date: "2021-07-12 12:05:41 GMT (Monday 12th July 2021)"
+	revision: "6"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -27,5 +27,10 @@ inherit
 
 create
 	make, make_default
+
+feature {NONE} -- Constants
+
+	Type: STRING = "d"
+			-- Unix find type
 
 end

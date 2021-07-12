@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:13:56 GMT (Sunday 28th June 2020)"
-	revision: "6"
+	date: "2021-07-12 12:08:21 GMT (Monday 12th July 2021)"
+	revision: "7"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			adjusted_lines, new_command_parts
+			adjusted_lines, new_command_parts, get_escaped_path
 		end
 
 	EL_FIND_COMMAND_IMP
@@ -57,13 +57,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
-		dir /B
-		
-		#if $max_depth > 1 then
-		/S
-		#end
-		
-		/AD $path
-	]"
+	Type: STRING = "D"
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 9:17:31 GMT (Thursday 13th May 2021)"
-	revision: "4"
+	date: "2021-07-12 12:28:29 GMT (Monday 12th July 2021)"
+	revision: "5"
 
 class
 	EL_FTP_CONFIGURATION
@@ -68,7 +68,7 @@ feature -- Element change
 
 	set_user_home_dir (a_user_home_dir: EL_DIR_PATH)
 		require
-			is_absolute: a_user_home_dir.is_absolute
+			is_absolute: a_user_home_dir.to_unix.starts_with ("/")
 		do
 			user_home_dir := a_user_home_dir
 		end

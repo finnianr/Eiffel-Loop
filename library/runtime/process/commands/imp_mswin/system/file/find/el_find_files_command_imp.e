@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:13:57 GMT (Sunday 28th June 2020)"
-	revision: "7"
+	date: "2021-07-12 12:08:22 GMT (Monday 12th July 2021)"
+	revision: "8"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -17,41 +17,28 @@ inherit
 		export
 			{NONE} all
 		undefine
-			make_default,
-			adjusted_lines, new_command_parts, getter_function_table
+			make_default, adjusted_lines, get_escaped_path,  new_command_parts
 		redefine
-			getter_function_table
+			path_list
 		end
 
 	EL_FIND_COMMAND_IMP
 		rename
 			make as make_path,
 			copy_directory_items as copy_directory_files
-		undefine
-			getter_function_table
+		redefine
+			path_list
 		end
 
 create
 	make, make_default
 
-feature {NONE} -- Evolicity reflection
+feature -- Access
 
-	getter_function_table: like getter_functions
-			--
-		do
-			Result := Precursor {EL_FIND_FILES_COMMAND_I}
-				+ ["file_pattern_path", agent: ZSTRING do Result := (dir_path + name_pattern).escaped end]
-		end
+	path_list: EL_FILE_PATH_LIST
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
-		dir /B
-		
-		#if $max_depth > 1 then
-			/S
-		#end
-		
-		/A-D $file_pattern_path
-	]"
+	Type: STRING = "-D"
+		-- /A-D (exclude directories)
 end

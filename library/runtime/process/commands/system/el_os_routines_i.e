@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:30:52 GMT (Saturday 10th July 2021)"
-	revision: "9"
+	date: "2021-07-12 13:51:50 GMT (Monday 12th July 2021)"
+	revision: "10"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -47,7 +47,7 @@ feature -- OS commands
 			Result := Find_files_cmd
 			Result.set_defaults
 			Result.set_dir_path (a_dir_path)
-			Result.set_file_pattern (a_file_pattern)
+			Result.set_name_pattern (a_file_pattern)
 		end
 
 	find_directories_command (a_dir_path: EL_DIR_PATH): like Find_directories_cmd
@@ -118,6 +118,7 @@ feature -- Directory operations
 		end
 
 	link (target_path, link_path: EL_PATH)
+		-- create symbolic link
 		do
 			if attached Create_link_cmd as cmd then
 				cmd.set_target_path (target_path)

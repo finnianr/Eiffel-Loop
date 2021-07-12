@@ -1,13 +1,13 @@
 note
-	description: "Find command imp"
+	description: "Windows implementation of [$source EL_FIND_COMMAND_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:13:15 GMT (Sunday 28th June 2020)"
-	revision: "6"
+	date: "2021-07-12 12:09:19 GMT (Monday 12th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			adjusted_lines
+			adjusted_lines, get_escaped_path
 		end
 
 	EL_OS_COMMAND_IMP
@@ -62,5 +62,26 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
+
+	get_escaped_path: ZSTRING
+		do
+			if name_pattern.is_empty then
+				Result := dir_path.escaped
+			else
+				Result := dir_path.joined_dir_path (name_pattern).escaped
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Template: STRING = "[
+		dir /B
+		
+		#if $max_depth > 1 then
+			/S
+		#end
+		
+		/A$type $dir_path
+	]"
 
 end
