@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 8:00:26 GMT (Monday 12th July 2021)"
-	revision: "6"
+	date: "2021-07-14 9:47:13 GMT (Wednesday 14th July 2021)"
+	revision: "7"
 
 deferred class
 	EL_DOCUMENT_NODE_SCAN_SOURCE
@@ -21,13 +21,7 @@ feature -- Basic operations
 
 	apply_from_stream (a_object: like seed_object; a_stream: IO_MEDIUM)
 			--
-		local
-			file_path: EL_FILE_PATH
 		do
-			if attached {PLAIN_TEXT_FILE} a_stream as file then
-				create file_path.make (file.name)
-				last_node.set_document_dir (file_path.parent)
-			end
 			set_seed_object (a_object)
 			scan_from_stream (a_stream)
 		end

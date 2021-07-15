@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 7:17:04 GMT (Monday 12th July 2021)"
-	revision: "16"
+	date: "2021-07-14 9:50:55 GMT (Wednesday 14th July 2021)"
+	revision: "17"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -15,7 +15,8 @@ class
 inherit
 	EL_UTF_8_STRING
 		rename
-			is_empty as is_raw_empty
+			is_empty as is_raw_empty,
+			make as make_with_capacity
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_from_c, set_from_c_with_count, right_adjust
@@ -27,7 +28,7 @@ inherit
 					has, has_substring, starts_with,
 					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty
 		redefine
-			make, adjusted, adjusted_8, adjusted_32,
+			adjusted, adjusted_8, adjusted_32,
 			as_string_32, to_string_32, as_string_8, to_string_8, to_string,
 			raw_string, raw_string_8, raw_string_32
 		end
@@ -66,7 +67,8 @@ inherit
 
 	EL_ENCODEABLE_AS_TEXT
 		rename
-			make as make_encodeable
+			make as make_with_encoding,
+			make_default as make_encodeable
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_encoding_from_other
@@ -82,7 +84,7 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 create
-	make_empty
+	make, make_default
 
 convert
 	to_boolean: {BOOLEAN},
@@ -92,12 +94,16 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make (a_document_dir: EL_DIR_PATH)
 		do
-			make_default
-			Precursor (n)
+			document_dir := a_document_dir
+			make_empty; make_encodeable
 			create raw_name.make (0)
-			create document_dir
+		end
+
+	make_default
+		do
+			make (create {EL_DIR_PATH})
 		end
 
 feature -- Access
@@ -348,11 +354,6 @@ feature -- Conversion
 		end
 
 feature -- Element change
-
-	set_document_dir (a_document_dir: EL_DIR_PATH)
-		do
-			document_dir := a_document_dir
-		end
 
 	set_from_view (view: EL_STRING_VIEW)
 		do

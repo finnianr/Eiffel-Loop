@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 12:58:26 GMT (Saturday 16th January 2021)"
-	revision: "15"
+	date: "2021-07-14 9:56:44 GMT (Wednesday 14th July 2021)"
+	revision: "16"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -49,8 +49,9 @@ feature {NONE}  -- Initialisation
 	make_default
 			--
 		do
-			create last_node.make_empty
-			create attribute_list.make
+			create document_dir
+			create last_node.make (document_dir)
+			create attribute_list.make (document_dir)
 			event_source := default_event_source
 			last_node_name := last_node.raw_name
 		end
@@ -88,6 +89,14 @@ feature -- Element change
 			end
 		end
 
+	set_document_dir (file: PLAIN_TEXT_FILE)
+		local
+			file_path: EL_FILE_PATH
+		do
+			create file_path.make (file.name)
+			document_dir.copy (file_path.parent)
+		end
+
 feature -- Basic operations
 
 	scan (a_string: STRING)
@@ -99,6 +108,9 @@ feature -- Basic operations
 	scan_from_stream (a_stream: IO_MEDIUM)
 			--
 		do
+			if attached {PLAIN_TEXT_FILE} a_stream as file then
+				set_document_dir (file)
+			end
 			event_source.parse_from_stream (a_stream)
 			if event_source.has_error then
 				event_source.log_error (lio)
@@ -159,6 +171,8 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 		end
 
 feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
+
+	document_dir: EL_DIR_PATH
 
 	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 

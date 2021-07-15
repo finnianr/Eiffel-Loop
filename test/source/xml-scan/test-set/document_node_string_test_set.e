@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 10:37:14 GMT (Thursday 7th January 2021)"
-	revision: "2"
+	date: "2021-07-14 9:46:24 GMT (Wednesday 14th July 2021)"
+	revision: "3"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -33,7 +33,7 @@ feature -- Conversion tests
 			str: ZSTRING
 		do
 			create padded.make_filled (' ', 3)
-			create node.make_empty
+			create node.make_default
 			across << Dollor_symbol, Euro_symbol >> as symbol loop
 				padded [2] := symbol.item
 				node.set_from_general (padded)

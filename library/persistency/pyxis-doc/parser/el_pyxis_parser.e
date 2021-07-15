@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 8:25:14 GMT (Monday 12th July 2021)"
-	revision: "32"
+	date: "2021-07-14 9:57:11 GMT (Wednesday 14th July 2021)"
+	revision: "33"
 
 class
 	EL_PYXIS_PARSER
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_scanner)
 			create comment_string.make_empty
-			create attribute_parser.make (attribute_list, last_node)
+			create attribute_parser.make (attribute_list)
 			previous_state := State_parse_line
 			create element_stack.make (10)
 			create element_set.make (11)
@@ -57,6 +57,7 @@ feature -- Basic operations
 			readable: file.readable
 		do
 			reset
+			scanner.set_document_dir (file)
 			scanner.on_start_document
 
 			from until file.end_of_file loop

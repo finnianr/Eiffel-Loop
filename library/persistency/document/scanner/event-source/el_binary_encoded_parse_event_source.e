@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 9:05:06 GMT (Monday 12th July 2021)"
-	revision: "19"
+	date: "2021-07-14 9:50:55 GMT (Wednesday 14th July 2021)"
+	revision: "20"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -85,7 +85,7 @@ feature {NONE} -- Parse action handlers
 	on_attribute_name_code (index_or_count: INTEGER; is_index: BOOLEAN)
 			--
 		do
-			attribute_list.extend (last_node.document_dir)
+			attribute_list.extend
 			set_name_from_stream (attribute_list.last.raw_name, index_or_count, is_index)
 		end
 

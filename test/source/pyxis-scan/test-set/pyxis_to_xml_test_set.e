@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 9:04:46 GMT (Monday 12th July 2021)"
-	revision: "31"
+	date: "2021-07-14 9:52:01 GMT (Wednesday 14th July 2021)"
+	revision: "32"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -55,9 +55,11 @@ feature -- Tests
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER; table: like Attribute_table; name: STRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST; l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
+			document_dir: EL_DIR_PATH
 		do
-			create attribute_list.make
-			create parser.make (attribute_list, create {EL_DOCUMENT_NODE_STRING}.make_empty)
+			create document_dir
+			create attribute_list.make (document_dir)
+			create parser.make (attribute_list)
 			parser.set_source_text (Attributes_source_line)
 			parser.parse
 			create table.make_equal (5)

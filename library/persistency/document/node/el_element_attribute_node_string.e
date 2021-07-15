@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:39:20 GMT (Friday 8th January 2021)"
-	revision: "2"
+	date: "2021-07-14 9:59:34 GMT (Wednesday 14th July 2021)"
+	revision: "3"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -21,14 +21,14 @@ inherit
 		end
 
 create
-	make_empty
+	make
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make (a_document_dir: EL_DIR_PATH)
 			--
 		do
-			Precursor (n)
+			Precursor (a_document_dir)
 			create cached_xpath_name.make_filled ('@', 1)
 			type := Node_type_attribute
 		end

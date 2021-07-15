@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:46:34 GMT (Monday 10th May 2021)"
-	revision: "14"
+	date: "2021-07-14 9:46:05 GMT (Wednesday 14th July 2021)"
+	revision: "15"
 
 deferred class
 	EL_EIF_OBJ_XPATH_CONTEXT
@@ -148,7 +148,7 @@ feature {NONE} -- Constant
 
 	Default_node: EL_DOCUMENT_NODE_STRING
 		once
-			create Result.make_empty
+			create Result.make_default
 		end
 
 end
