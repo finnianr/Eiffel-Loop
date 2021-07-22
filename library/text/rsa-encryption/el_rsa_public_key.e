@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:19:20 GMT (Friday 11th June 2021)"
-	revision: "10"
+	date: "2021-07-22 10:10:56 GMT (Thursday 22nd July 2021)"
+	revision: "11"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -29,11 +29,11 @@ inherit
 
 	EL_MODULE_RSA
 
-	EL_MODULE_X509_COMMAND
+	EL_MODULE_X509
 
 create
 	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest,
-	make_from_map_list, make_from_pkcs1, make_from_x509_cert
+	make_from_map_list, make_from_pkcs1
 
 feature {NONE} -- Initialization
 
@@ -78,15 +78,6 @@ feature {NONE} -- Initialization
 				l_area [n.cursor_index - 1] := n.item.to_natural_8
 			end
 			make (Rsa.integer_x_from_array (l_area))
-		end
-
-	make_from_x509_cert (crt_file_path: EL_FILE_PATH)
-		local
-			reader_cmd: like X509_command.new_certificate_reader
-		do
-			reader_cmd := X509_command.new_certificate_reader (crt_file_path)
-			reader_cmd.execute
-			make_from_pkcs1 (reader_cmd.lines)
 		end
 
 feature -- Basic operations

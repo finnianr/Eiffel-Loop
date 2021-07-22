@@ -6,13 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:18:40 GMT (Wednesday 6th January 2021)"
-	revision: "6"
+	date: "2021-07-22 9:19:26 GMT (Thursday 22nd July 2021)"
+	revision: "7"
 
 expanded class
 	EL_COLON_FIELD_ROUTINES
 
 feature -- Access
+
+	has (line, a_name: ZSTRING): BOOLEAN
+		-- `True' if `line' has `a_name' as "<name>:"
+		local
+			pos_colon: INTEGER
+		do
+			pos_colon := line.index_of (':', 1)
+			if pos_colon > a_name.count then
+				Result := line.same_characters (a_name, 1, a_name.count, pos_colon - a_name.count)
+			end
+		end
 
 	name (line: ZSTRING): ZSTRING
 		local

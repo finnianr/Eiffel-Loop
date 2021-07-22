@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:08:34 GMT (Saturday 10th July 2021)"
-	revision: "7"
+	date: "2021-07-22 10:26:09 GMT (Thursday 22nd July 2021)"
+	revision: "8"
 
 deferred class
 	EL_X509_KEY_READER_COMMAND_I
@@ -58,6 +58,17 @@ feature -- Access
 	lines: EL_ZSTRING_LIST
 
 	phrase: ZSTRING
+
+	private_key: EL_RSA_PRIVATE_KEY
+		require
+			has_lines: not lines.is_empty
+		do
+			if has_error then
+				create Result.make_default
+			else
+				create Result.make_from_pkcs1 (lines)
+			end
+		end
 
 feature -- Basic operations
 

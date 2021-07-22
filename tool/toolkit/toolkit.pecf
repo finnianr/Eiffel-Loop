@@ -27,7 +27,7 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 5; release = 0; build = 554
+			major = 1; minor = 5; release = 1; build = 558
 			company = "Eiffel-Loop"; product = "toolkit"
 			copyright = "Finnian Reilly"
 
@@ -113,6 +113,9 @@ system:
 
 		library:
 			name = EL_app_manage; readonly = false; location = "$EIFFEL_LOOP/library/app-manage.ecf"
+
+		library:
+			name = EL_compression; readonly = false; location = "$EIFFEL_LOOP/library/compression.ecf"
 
 		library:
 			name = EL_doc_scan; readonly = false; location = "$EIFFEL_LOOP/library/document-scan.ecf"

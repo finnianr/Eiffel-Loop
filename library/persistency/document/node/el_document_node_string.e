@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:50:55 GMT (Wednesday 14th July 2021)"
-	revision: "17"
+	date: "2021-07-21 9:09:05 GMT (Wednesday 21st July 2021)"
+	revision: "18"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -329,6 +329,9 @@ feature -- Conversion
 		do
 			Result := adjusted (False)
 			Result.expand
+			if not Result.is_absolute and then not document_dir.is_empty then
+				Result := document_dir.joined_dir_path (Result)
+			end
 		end
 
 	to_expanded_file_path: EL_FILE_PATH

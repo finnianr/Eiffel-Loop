@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:05:31 GMT (Monday 8th February 2021)"
-	revision: "11"
+	date: "2021-07-22 6:57:58 GMT (Thursday 22nd July 2021)"
+	revision: "12"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 			if is_checksum_enabled then
 				l_checksum := Checksum.data (file_data)
 			end
-			compressed_data := Zlib.compress (file_data, expected_compression_ratio, level)
+			compressed_data := Zlib.compressed (file_data, level, expected_compression_ratio)
 
 			utf8_path := a_file_path.to_string.to_utf_8 (True)
 			put_integer (utf8_path.count)
@@ -231,7 +231,7 @@ feature {NONE} -- Implementation
 				lio.put_integer_field (" compressed_data.count", compressed_data.count)
 			end
 			read_to_managed_pointer (compressed_data, 0, compressed_data.count)
-			last_data := Zlib.uncompress (compressed_data, last_uncompressed_count)
+			last_data := Zlib.decompressed (compressed_data, last_uncompressed_count)
 			if is_checksum_enabled then
 				Data_pointer.set_from_pointer (last_data.base_address, last_data.count)
 				actual_checksum := Checksum.data (Data_pointer)

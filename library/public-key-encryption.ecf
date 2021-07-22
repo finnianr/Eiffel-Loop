@@ -25,9 +25,11 @@ See class [$source CRYPTO_APP] for details.
 		<library name = "encryption_base" location = "$ISE_LIBRARY/contrib/library/text/encryption/eel/eel.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_compression" location = "compression.ecf"/>
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<!--Source code-->
 		<cluster name = "RSA_public_key" location = "text/rsa-encryption" recursive = "true">

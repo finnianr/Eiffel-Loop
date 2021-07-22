@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-24 11:00:52 GMT (Thursday 24th June 2021)"
-	revision: "21"
+	date: "2021-07-22 8:25:00 GMT (Thursday 22nd July 2021)"
+	revision: "22"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -87,13 +87,26 @@ feature -- Conversion
 			Result.make (s)
 		end
 
-	to_code_array (s: STRING_8): ARRAY [NATURAL_8]
+	from_code_array (array: SPECIAL [NATURAL_8]): STRING_8
 		local
-			i: INTEGER
+			i: INTEGER; area: SPECIAL [CHARACTER]
 		do
-			create Result.make_filled (0, 1, s.count)
-			from i := 1 until i > s.count loop
-				Result [i] := s.code (i).to_natural_8
+			create Result.make_filled ('%U', array.count)
+			area := Result.area
+			from i := 0 until i = array.count loop
+				area [i] := array [i].to_character_8
+				i := i + 1
+			end
+		end
+
+	to_code_array (s: STRING_8): SPECIAL [NATURAL_8]
+		local
+			i, i_final: INTEGER; area: SPECIAL [CHARACTER]
+		do
+			area := s.area; i_final := s.count
+			create Result.make_empty (i_final)
+			from i := 0 until i = i_final loop
+				Result.extend (area [i].natural_32_code.to_natural_8)
 				i := i + 1
 			end
 		end

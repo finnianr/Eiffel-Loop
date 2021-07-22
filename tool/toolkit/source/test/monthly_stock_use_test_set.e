@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 11:08:35 GMT (Thursday 13th May 2021)"
-	revision: "4"
+	date: "2021-07-21 10:53:23 GMT (Wednesday 21st July 2021)"
+	revision: "5"
 
 class
 	MONTHLY_STOCK_USE_TEST_SET
@@ -32,7 +32,7 @@ feature -- Tests
 			if not file_list.is_empty then
 				create stock_use.make (file_list.first_path, create {EL_FILE_PATH})
 				stock_use.execute
-				check_same_content (stock_use.output_path, "A2756A9DDF757352124E9CDBB15D8EAA")
+				check_same_content (stock_use.output_path, "3115D5E490EC8851ECE8E63464296949")
 			end
 		end
 

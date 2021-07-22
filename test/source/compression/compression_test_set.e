@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:02:43 GMT (Saturday 20th March 2021)"
-	revision: "3"
+	date: "2021-07-22 7:52:13 GMT (Thursday 22nd July 2021)"
+	revision: "4"
 
 class
 	COMPRESSION_TEST_SET
@@ -76,20 +76,19 @@ feature {NONE} -- Implementation
 	test_zlib_with_file (a_file_path: EL_FILE_PATH)
 			--
 		local
-			array: SPECIAL [NATURAL_8]
-			file_data, compressed_data, uncompressed_data: MANAGED_POINTER
+			compressed_data, decompressed_data: SPECIAL [NATURAL_8]
+			file_text: STRING; s: EL_STRING_8_ROUTINES
 		do
 			lio.put_path_field ("XML", a_file_path)
-			lio.put_new_line
-			file_data := File_system.file_data (a_file_path)
+			file_text := File_system.plain_text (a_file_path)
 
-			array := Zlib.compress (file_data, 0.3, 9)
-			create compressed_data.make_from_pointer (array.base_address, array.count)
+			compressed_data := Zlib.compressed_string (file_text, 9, 0.3)
+			lio.put_integer_field (" compressed by", (Zlib.last_compression_ratio * 100).rounded)
+			lio.put_line ("%%")
 
-			array := Zlib.uncompress (compressed_data, file_data.count)
-			create uncompressed_data.share_from_pointer (array.base_address, array.count)
+			decompressed_data := Zlib.decompressed_bytes (compressed_data, file_text.count)
 
-			assert ("Decompressed ok", file_data ~ uncompressed_data)
+			assert ("Decompressed ok", file_text ~ s.from_code_array (decompressed_data))
 		end
 
 	Source_dir: EL_DIR_PATH

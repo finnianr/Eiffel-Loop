@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:09:24 GMT (Saturday 10th July 2021)"
-	revision: "7"
+	date: "2021-07-22 10:26:33 GMT (Thursday 22nd July 2021)"
+	revision: "8"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -73,6 +73,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create lines.make (20)
+			create serial_number.make_empty
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 		end
 
@@ -80,11 +81,20 @@ feature -- Access
 
 	lines: EL_ZSTRING_LIST
 
+	public_key: EL_RSA_PUBLIC_KEY
+		require
+			has_lines: not lines.is_empty
+		do
+			create Result.make_from_pkcs1 (lines)
+		end
+
+	serial_number: STRING
+
 feature {NONE} -- State handlers
 
 	find_public_key (line: ZSTRING)
 		do
-			if line.has_substring (Field_public_key) then
+			if field.has (line, Name.public_key) then
 				extend_lines (line)
 				state := agent find_exponent
 			end
@@ -93,8 +103,18 @@ feature {NONE} -- State handlers
 	find_exponent (line: ZSTRING)
 		do
 			extend_lines (line)
-			if line.has_substring (Field_exponent) then
+			if field.has (line, Name.exponent) then
 				state := final
+			end
+		end
+
+	find_serial_number (line: ZSTRING)
+		do
+			if field.has (line, Name.serial_number) then
+				serial_number := field.value (line)
+				serial_number.keep_head (serial_number.index_of ('(', 1) - 2)
+				extend_lines (line)
+				state := agent find_public_key
 			end
 		end
 
@@ -105,22 +125,22 @@ feature {NONE} -- Implementation
 			lines.extend (line.substring_end (17))
 		end
 
+	field: EL_COLON_FIELD_ROUTINES
+		do
+		end
+
 	do_with_lines (a_lines: like adjusted_lines)
 			--
 		do
-			parse_lines (agent find_public_key, a_lines)
+			parse_lines (agent find_serial_number, a_lines)
 		end
 
 feature {NONE} -- Constants
 
-	Field_public_key: ZSTRING
+	Name: TUPLE [exponent, public_key, serial_number: ZSTRING]
 		once
-			Result := "Public-Key:"
-		end
-
-	Field_exponent: ZSTRING
-		once
-			Result := "Exponent:"
+			create Result
+			Tuple.fill (Result, "Exponent, Public-Key, Serial Number")
 		end
 
 end

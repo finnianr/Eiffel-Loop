@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:12:07 GMT (Thursday 3rd June 2021)"
-	revision: "22"
+	date: "2021-07-22 13:03:06 GMT (Thursday 22nd July 2021)"
+	revision: "23"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -28,7 +28,11 @@ inherit
 
 	EL_MODULE_RSA
 
-	EL_MODULE_X509_COMMAND
+	EL_MODULE_TUPLE
+
+	EL_MODULE_ZLIB
+
+	EL_MODULE_X509
 
 	SINGLE_MATH
 
@@ -86,7 +90,7 @@ feature -- Basic operations
 			encrypter := new_encrypter (credential)
 
 			output_path := input_path.twin
-			output_path.add_extension ("aes")
+			output_path.add_extension (Extension.aes)
 
 			lio.put_string ("Encrypt file (y/n): ")
 			if User_input.entered_letter ('y') then
@@ -112,17 +116,17 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			key_file_path, export_path: EL_FILE_PATH; key_reader: like X509_command.new_key_reader
+			key_file_path, export_path: EL_FILE_PATH; key_reader: like x509_certificate.key_reader_command
 			credential: like new_credential; key_read: BOOLEAN
 			key: EL_RSA_PRIVATE_KEY
 		do
 			lio.enter ("export_x509_private_key_to_aes")
-			from create key_file_path until key_file_path.has_extension ("key") loop
+			from create key_file_path until key_file_path.has_extension (Extension.key) loop
 				key_file_path := new_file_path ("private X509")
 			end
 			from until key_read loop
 				credential := new_credential
-				key_reader := X509_command.new_key_reader (key_file_path, credential.phrase)
+				key_reader := x509_certificate.key_reader_command (key_file_path, credential.phrase)
 				key_reader.execute
 				if key_reader.has_error then
 					across key_reader.errors as line loop
@@ -135,7 +139,7 @@ feature -- Basic operations
 			if key_read then
 				create key.make_from_pkcs1 (key_reader.lines)
 				export_path := key_file_path.twin
-				export_path.add_extension ("dat")
+				export_path.add_extension (Extension.dat)
 				key.store (export_path, create {EL_AES_ENCRYPTER}.make (credential.phrase, new_bit_count))
 			end
 			lio.exit
@@ -148,43 +152,67 @@ feature -- Basic operations
 			lio.exit
 		end
 
-	write_string_signed_with_x509_private_key
+	write_signed_CSV_list_with_x509_private_key
 		local
-			private_key: like new_private_key; string: ZSTRING; source_code: PLAIN_TEXT_FILE
-			signed_string: SPECIAL [NATURAL_8]; variable_name: STRING
+			private_key: like new_private_key; string: ZSTRING
+			signed_string: SPECIAL [NATURAL_8]; serial_number: STRING
+			string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
+			eiffel_class: EL_SIGNED_EIFFEL_CLASS
+			key_file_path, crt_file_path: EL_FILE_PATH
 		do
-			lio.enter ("write_string_signed_with_x509_private_key")
-			private_key := new_private_key
-			string := User_input.line ("Enter string to sign")
-			create signed_string.make_filled (0, 16)
-			signed_string.base_address.memory_copy (string.area.base_address, string.count.max (16))
+			lio.enter ("write_signed_CSV_list_with_x509_private_key")
+			key_file_path := new_key_file_path
+			private_key := new_private_key (key_file_path)
+			crt_file_path := key_file_path.without_extension -- remove .dat
+			crt_file_path.replace_extension (Extension.crt)
+			string := User_input.line ("Enter comma-separated list of strings to sign")
+			if string.is_valid_as_string_8 then
+				string_list := string.to_latin_1
+				if across string_list as list all list.item.count <= 16 end then
+					if attached X509_certificate.reader_command (crt_file_path) as cmd then
+						cmd.execute
+						serial_number := cmd.serial_number
+					end
+					create eiffel_class.make (new_eiffel_source_name, serial_number)
+					across string_list as list loop
+						create signed_string.make_filled (0, 16)
+						signed_string.copy_data (s.to_code_array (list.item), 0, 0, list.item.count)
 
-			variable_name := User_input.line ("Variable name").to_string_8
-			create source_code.make_open_write (new_eiffel_source_name)
-
-			write_signed_array_eiffel_code_assignment (private_key, source_code, variable_name, signed_string)
-			source_code.close
+						lio.put_labeled_string ("Signing", list.item)
+						lio.put_new_line
+						eiffel_class.field_list.extend (new_signed_field (private_key, list.item, signed_string))
+					end
+					eiffel_class.serialize
+				else
+					lio.put_labeled_string ("ERROR", "Each string count must be <= 16 characters")
+					lio.put_new_line
+				end
+			else
+				lio.put_labeled_string ("ERROR", "cannot be encoded with Latin-1 character set")
+				lio.put_new_line
+			end
 			lio.exit
 		end
 
 	write_x509_public_key_code_assignment
 		local
-			variable_name: STRING; public_key: EL_RSA_PUBLIC_KEY
+			variable_name: STRING
 			crt_file_path: EL_FILE_PATH; eiffel_source_name: like new_eiffel_source_name
 			source_code: PLAIN_TEXT_FILE
 		do
 			lio.enter ("write_x509_public_key_code_assignment")
-			from create crt_file_path until crt_file_path.has_extension ("crt") loop
+			from create crt_file_path until crt_file_path.has_extension (Extension.crt) loop
 				crt_file_path := new_file_path ("public x509")
 			end
 			eiffel_source_name := new_eiffel_source_name
 			variable_name := User_input.line ("Variable name").to_string_8
 
 			create source_code.make_open_write (eiffel_source_name)
-			create public_key.make_from_x509_cert (crt_file_path)
-			write_public_key_eiffel_code_assignment (source_code, variable_name, public_key.modulus.as_bytes)
-			source_code.close
-			lio.put_labeled_string ("Created", eiffel_source_name)
+			if attached x509_certificate.public (crt_file_path) as public_key then
+				write_public_key_eiffel_code_assignment (source_code, variable_name, public_key.modulus.as_bytes)
+				source_code.close
+				lio.put_labeled_string ("Created", eiffel_source_name)
+			end
 			lio.exit
 		end
 
@@ -203,7 +231,7 @@ feature {NONE} -- Implementation
 		do
 			input_path := new_file_path ("input")
 			lio.put_new_line
-			if input_path.has_extension ("aes") then
+			if input_path.has_extension (Extension.aes) then
 				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_credential))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
@@ -235,26 +263,6 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 			lio.put_labeled_string ("Is valid", pass_phrase.is_valid.out)
 			lio.put_new_line
-		end
-
-	write_base64_eiffel_code_assignment (source_code: PLAIN_TEXT_FILE; name: STRING; array: SPECIAL [NATURAL_8])
-		local
-			base64_string: STRING
-			count_per_line, i, start_index, end_index: INTEGER
-		do
-			base64_string := Base_64.encoded_special (array)
-			count_per_line := base64_string.count // 4
-			source_code.put_string (name); source_code.put_string (" := Base_64.joined (%"[")
-			source_code.put_new_line
-			from i := 0 until i > 3 loop
-				start_index := i * count_per_line + 1
-				end_index := i * count_per_line + count_per_line
-				source_code.put_character ('%T'); source_code.put_string (base64_string.substring (start_index, end_index))
-				source_code.put_new_line
-				i := i + 1
-			end
-			source_code.put_string ("]%")")
-			source_code.put_new_line
 		end
 
 	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
@@ -293,39 +301,27 @@ feature {NONE} -- Implementation
 			source_code.put_new_line
 		end
 
-	write_signed_array_eiffel_code_assignment (
-		private_key: EL_RSA_PRIVATE_KEY; a_file: PLAIN_TEXT_FILE; name: STRING; bytes: SPECIAL [NATURAL_8]
-	)
-		require
-			correct_size: bytes.count = 16
-		local
-			signed_key: INTEGER_X
-		do
-			signed_key := private_key.sign (Rsa.integer_x_from_array (bytes))
-			write_base64_eiffel_code_assignment (a_file, name, signed_key.as_bytes)
-		end
-
 feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Display encrypted input text", 						agent display_encrypted_text],
-				["Display AES encrypted file", 							agent display_encrypted_file],
-				["Decrypt AES encrypted file", 							agent decrypt_file_with_aes],
-				["Encrypt file with AES encryption", 					agent encrypt_file_with_aes],
-				["Export private.key file to private.key.dat",		agent export_x509_private_key_to_aes],
-				["Generate pass phrase salt", 							agent generate_pass_phrase_salt],
-				["Write crt public key as Eiffel asssignment",		agent write_x509_public_key_code_assignment],
-				["Write RSA signed string as Eiffel assignment",	agent write_string_signed_with_x509_private_key]
+				["Display encrypted input text", 							agent display_encrypted_text],
+				["Display AES encrypted file", 								agent display_encrypted_file],
+				["Decrypt AES encrypted file", 								agent decrypt_file_with_aes],
+				["Encrypt file with AES encryption", 						agent encrypt_file_with_aes],
+				["Export private.key file to private.key.dat",			agent export_x509_private_key_to_aes],
+				["Generate pass phrase salt", 								agent generate_pass_phrase_salt],
+				["Write crt public key as Eiffel asssignment",			agent write_x509_public_key_code_assignment],
+				["Write CSV list as RSA signed Eiffel assignments",	agent write_signed_CSV_list_with_x509_private_key]
 			>>)
 		end
 
 	new_eiffel_source_name: EL_FILE_PATH
 		do
 			Result := User_input.line ("Eiffel source name")
-			if not Result.has_extension ("e") then
-				Result.add_extension ("e")
+			if not Result.has_extension (Extension.e) then
+				Result.add_extension (Extension.e)
 			end
 		end
 
@@ -355,16 +351,30 @@ feature {NONE} -- Factory
 			Result.ask_user
 		end
 
-	new_private_key: EL_RSA_PRIVATE_KEY
-		local
-			key_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER
+	new_key_file_path: EL_FILE_PATH
 		do
-			from create key_file_path until key_file_path.has_extension ("aes") loop
-				key_file_path := new_file_path ("key.dat")
+			from create Result until Result.has_extension (Extension.dat) loop
+				Result := new_file_path (Extension.key + "." + Extension.dat)
 			end
+		end
+
+	new_private_key (key_file_path: EL_FILE_PATH): EL_RSA_PRIVATE_KEY
+		local
+			encrypter: EL_AES_ENCRYPTER
+		do
 			-- Upgraded to 256 April 2015
 			create encrypter.make (User_input.line ("Private key password"), 256)
 			create Result.make_from_stored (key_file_path, encrypter)
+		end
+
+	new_signed_field (private_key: EL_RSA_PRIVATE_KEY; name: STRING; bytes: SPECIAL [NATURAL_8]): EL_SIGNED_EIFFEL_FIELD
+		require
+			correct_size: bytes.count = 16
+		local
+			signed_key: INTEGER_X
+		do
+			signed_key := private_key.sign (Rsa.integer_x_from_array (bytes))
+			create Result.make (name, signed_key)
 		end
 
 feature {NONE} -- Constants
@@ -372,6 +382,12 @@ feature {NONE} -- Constants
 	AES_types: ARRAY [INTEGER]
 		once
 			Result := << 128, 256 >>
+		end
+
+	Extension: TUPLE [aes, crt, dat, e, key: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "aes, crt, dat, e, key")
 		end
 
 	Escaped_new_line: ZSTRING

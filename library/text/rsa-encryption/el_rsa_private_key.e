@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-13 10:54:25 GMT (Saturday 13th February 2021)"
-	revision: "10"
+	date: "2021-07-22 10:20:40 GMT (Thursday 22nd July 2021)"
+	revision: "11"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -37,7 +37,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_X509_COMMAND
+	EL_MODULE_X509
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -55,7 +55,7 @@ inherit
 
 create
 	make, make_default, make_from_primes, make_from_map_list, make_from_stored,
-	make_from_pkcs1, make_from_pkcs1_file, make_from_pkcs1_cert
+	make_from_pkcs1, make_from_pkcs1_file
 
 feature {NONE} -- Initialization
 
@@ -79,22 +79,6 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			make_from_primes (17, 19)
-		end
-
-	make_from_pkcs1_cert (cert_file_path: EL_FILE_PATH; phrase: ZSTRING)
-		-- make from cert file (usually with extension .key)
-		require
-			valid_file: is_valid_pkcs1_cert (cert_file_path)
-		local
-			reader: like X509_command.new_key_reader
-		do
-			reader := X509_command.new_key_reader (cert_file_path, phrase)
-			reader.execute
-			if reader.has_error then
-				make_default
-			else
-				make_from_pkcs1 (reader.lines)
-			end
 		end
 
 	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
@@ -143,13 +127,6 @@ feature -- Status query
 	is_valid: BOOLEAN
 		do
 			Result := prime_1 * prime_2 ~ modulus
-		end
-
-	is_valid_pkcs1_cert (cert_file_path: EL_FILE_PATH): BOOLEAN
-		do
-			if cert_file_path.exists then
-				Result := File_system.line_one (cert_file_path).has_substring ("BEGIN ENCRYPTED PRIVATE KEY")
-			end
 		end
 
 feature -- Basic operations

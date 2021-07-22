@@ -1,3 +1,6 @@
+1.5.1
+Fixed extensions in EL_CRYPTO_COMMAND_SHELL
+
 1.5.0
 New backup mirroring for duplicity backup
 
