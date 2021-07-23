@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 15:58:01 GMT (Tuesday 10th September 2019)"
-	revision: "10"
+	date: "2021-07-23 8:20:55 GMT (Friday 23rd July 2021)"
+	revision: "11"
 
 class
 	SOURCE_TREE
@@ -77,7 +77,7 @@ feature {NONE} -- Implementation
 
 	new_path_list: EL_FILE_PATH_LIST
 		do
-			Result := Os.file_list (dir_path, "*.e")
+			Result := OS.file_list (dir_path, "*.e")
 		end
 
 feature {NONE} -- Evolicity fields

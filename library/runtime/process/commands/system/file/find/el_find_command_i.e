@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:58:47 GMT (Monday 12th July 2021)"
-	revision: "12"
+	date: "2021-07-23 9:09:53 GMT (Friday 23rd July 2021)"
+	revision: "13"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -191,6 +191,9 @@ feature {NONE} -- Implementation
 		local
 			line: ZSTRING
 		do
+			if attached {FINITE [ZSTRING]} lines as finite then
+				path_list.grow (finite.count + 1) -- allow one extra for Windows
+			end
 			from lines.start until lines.after loop
 				line := lines.item
 				if line.count > 0 and then filter.met (line) then
@@ -208,7 +211,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			Precursor {EL_CAPTURED_OS_COMMAND_I}
-			path_list.wipe_out
+			create path_list.make (0)
 		end
 
 feature {NONE} -- Internal attributes

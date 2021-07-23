@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-18 12:48:26 GMT (Tuesday 18th February 2020)"
-	revision: "10"
+	date: "2021-07-23 8:17:32 GMT (Friday 23rd July 2021)"
+	revision: "11"
 
 class
 	SOURCE_MANIFEST
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create locations.make (10)
+			create source_tree_list.make (10)
 			create last_name.make_empty
 			Precursor
 		end
@@ -45,23 +45,18 @@ feature -- Access
 
 	file_list: EL_FILE_PATH_LIST
 		local
-			file_count: INTEGER
-			l_file_list: EL_FILE_PATH_LIST
+			path_list: EL_FILE_PATH_LIST; file_count: INTEGER
 		do
-			across locations as location loop
-				file_count := file_count + location.item.path_list.count
+			across source_tree_list as list loop
+				file_count := file_count + list.item.path_list.count
 			end
 			create Result.make_with_count (file_count)
-			across locations as location loop
-				l_file_list := location.item.path_list
-				from l_file_list.start until l_file_list.after loop
-					Result.extend (l_file_list.path)
-					l_file_list.forth
-				end
+			across source_tree_list as location loop
+				Result.append_sequence (location.item.path_list)
 			end
 		end
 
-	locations: EL_ARRAYED_LIST [SOURCE_TREE]
+	source_tree_list: EL_ARRAYED_LIST [SOURCE_TREE]
 
 	sorted_file_list: like file_list
 		do
@@ -71,7 +66,7 @@ feature -- Access
 
 	sorted_locations: EL_SORTABLE_ARRAYED_LIST [SOURCE_TREE]
 		do
-			create Result.make_sorted (locations)
+			create Result.make_sorted (source_tree_list)
 		end
 
 feature {NONE} -- Build from Pyxis
@@ -97,7 +92,7 @@ feature {NONE} -- Build from Pyxis
 				create tree.make (parent_dir.joined_dir_path (l_path))
 			end
 			tree.set_name (last_name)
-			locations.extend (tree)
+			source_tree_list.extend (tree)
 		end
 
 feature {NONE} -- Internal attributes

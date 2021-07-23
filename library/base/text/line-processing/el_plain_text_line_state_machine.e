@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:03:43 GMT (Sunday 10th January 2021)"
-	revision: "16"
+	date: "2021-07-23 16:50:21 GMT (Friday 23rd July 2021)"
+	revision: "17"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -27,6 +27,8 @@ inherit
 			traverse as do_with_lines,
 			traverse_iterable as do_with_iterable_lines,
 			item_number as line_number
+		redefine
+			call
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -51,4 +53,19 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Status query
+
+	left_adjusted: BOOLEAN
+		-- when `True' left adjusts line before calling `state'
+
+feature {NONE} -- Implementation
+
+	call (item: ZSTRING)
+		-- call state procedure with item
+		do
+			if left_adjusted then
+				item.left_adjust
+			end
+			state (item)
+		end
 end

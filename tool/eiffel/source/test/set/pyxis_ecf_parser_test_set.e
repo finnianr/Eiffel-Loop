@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:18:35 GMT (Monday 12th July 2021)"
-	revision: "8"
+	date: "2021-07-23 8:56:25 GMT (Friday 23rd July 2021)"
+	revision: "9"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 	test_conversion_to_pecf
 			--
 		do
-			do_test ("convert_pecf_to_ecf", os_checksum (1944519556, 1102335056), agent convert_pecf_to_ecf, [file_list.first_path])
+			do_test ("convert_pecf_to_ecf", os_checksum (2117146356, 2117146356), agent convert_pecf_to_ecf, [file_list.first_path])
 		end
 
 feature {NONE} -- Implementation

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Parse public key from crt output text
+		Parse RSA key certificate from output text
 		
 		SAMPLE CERTIFICATE
 
@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 10:26:33 GMT (Thursday 22nd July 2021)"
-	revision: "8"
+	date: "2021-07-23 19:01:30 GMT (Friday 23rd July 2021)"
+	revision: "9"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -72,75 +72,95 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_machine
-			create lines.make (20)
-			create serial_number.make_empty
+			create data_table.make (7)
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
+			left_adjusted := True
 		end
 
 feature -- Access
 
-	lines: EL_ZSTRING_LIST
+	data_table: HASH_TABLE [STRING, STRING]
 
-	public_key: EL_RSA_PUBLIC_KEY
+	rsa_key: EL_REFLECTIVE_RSA_KEY
 		require
-			has_lines: not lines.is_empty
-		do
-			create Result.make_from_pkcs1 (lines)
+			enough_fields: data_table.count = data_field_count
+		deferred
+		ensure
+			matches_key_size: key_size = Result.modulus.bits
 		end
 
-	serial_number: STRING
+feature -- Measurement
+
+	data_field_count: INTEGER
+		do
+			Result := Data_fields.count - 1
+		end
+
+	key_size: INTEGER
+		-- key size in bits
 
 feature {NONE} -- State handlers
 
-	find_public_key (line: ZSTRING)
+	find_data_field (line: ZSTRING; index: INTEGER)
+		local
+			value: ZSTRING
 		do
-			if field.has (line, Name.public_key) then
-				extend_lines (line)
-				state := agent find_exponent
-			end
-		end
-
-	find_exponent (line: ZSTRING)
-		do
-			extend_lines (line)
-			if field.has (line, Name.exponent) then
+			if line.starts_with (Data_fields.last) then
 				state := final
+			elseif line.starts_with (Data_fields [index]) then
+				state := agent find_data_field (?, index + 1)
+				if Data_fields [index] ~ Name.exponent then
+					value := line.substring_between (Bracket.left, Bracket.right, 1)
+					value.remove_head (2)
+					data_table.put (value, Data_fields [index])
+				else
+					data_table.put (create {STRING}.make_empty, Data_fields [index])
+				end
+			else
+				line.append_to_string_8 (data_table.found_item)
 			end
 		end
 
-	find_serial_number (line: ZSTRING)
+	find_public_key (line: ZSTRING)
+		local
+			value: ZSTRING
 		do
-			if field.has (line, Name.serial_number) then
-				serial_number := field.value (line)
-				serial_number.keep_head (serial_number.index_of ('(', 1) - 2)
-				extend_lines (line)
-				state := agent find_public_key
+			if line.starts_with (Name.key_size) then
+				value := line.substring_between (Bracket.left, Bracket.right, 1)
+				value.remove_tail (4)
+				key_size := value.to_integer
+				state := agent find_data_field (?, 1)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	extend_lines (line: ZSTRING)
-		do
-			lines.extend (line.substring_end (17))
-		end
-
 	field: EL_COLON_FIELD_ROUTINES
 		do
 		end
 
-	do_with_lines (a_lines: like adjusted_lines)
-			--
-		do
-			parse_lines (agent find_serial_number, a_lines)
-		end
-
 feature {NONE} -- Constants
 
-	Name: TUPLE [exponent, public_key, serial_number: ZSTRING]
+	Bracket: TUPLE [left, right: ZSTRING]
 		once
 			create Result
-			Tuple.fill (Result, "Exponent, Public-Key, Serial Number")
+			Tuple.fill (Result, "(, )")
+		end
+
+	Data_fields: EL_ZSTRING_LIST
+		once
+			Result := "Modulus, Exponent, X509v3"
+		end
+
+	Field_names: STRING
+		once
+			Result := "Exponent, Public-Key, Serial Number"
+		end
+
+	Name: TUPLE [exponent, key_size, serial_number: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, Field_names)
 		end
 
 end

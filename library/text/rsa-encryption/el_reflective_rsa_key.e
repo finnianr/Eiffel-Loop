@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-14 18:03:57 GMT (Sunday 14th February 2021)"
-	revision: "9"
+	date: "2021-07-23 18:46:43 GMT (Friday 23rd July 2021)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -34,15 +34,18 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_map_list (map_list: like RSA.pkcs1_map_list)
-		-- make from RSA PKCS1 map list
+	make_from_pkcs1_table (table: HASH_TABLE [STRING, STRING])
 		do
-			make_from_converted_map_list (map_list, agent RSA.integer_x_from_hex_sequence)
+			make_default
+			across table as pkcs1 loop
+				set_table_field (field_table, pkcs1.key, RSA.integer_x_from_hex_sequence (pkcs1.item))
+			end
 		end
 
-	make_from_pkcs1 (lines: LINEAR [ZSTRING])
-		do
-			make_from_map_list (RSA.pkcs1_map_list (lines))
+feature -- Access
+
+	modulus: INTEGER_X
+		deferred
 		end
 
 feature -- Basic operations

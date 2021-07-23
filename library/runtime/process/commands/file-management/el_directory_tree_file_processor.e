@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:26:38 GMT (Saturday 10th July 2021)"
-	revision: "7"
+	date: "2021-07-23 8:27:55 GMT (Friday 23rd July 2021)"
+	revision: "8"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -34,7 +34,7 @@ feature -- Initialization
 			if attached OS.find_files_command (a_source_dir, file_pattern) as find_cmd then
 				find_cmd.set_follow_symbolic_links (True)
 				find_cmd.execute
-				file_path_list := find_cmd.path_list.twin
+				file_path_list := find_cmd.path_list
 			end
 		end
 

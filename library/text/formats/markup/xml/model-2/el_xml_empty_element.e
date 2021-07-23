@@ -1,13 +1,13 @@
 note
-	description: "Xml empty element"
+	description: "XML empty element"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 13:52:37 GMT (Monday 11th January 2021)"
-	revision: "13"
+	date: "2021-07-23 8:42:13 GMT (Friday 23rd July 2021)"
+	revision: "14"
 
 class
 	EL_XML_EMPTY_ELEMENT

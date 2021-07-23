@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 10:10:56 GMT (Thursday 22nd July 2021)"
-	revision: "11"
+	date: "2021-07-23 18:47:18 GMT (Friday 23rd July 2021)"
+	revision: "12"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -33,7 +33,7 @@ inherit
 
 create
 	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest,
-	make_from_map_list, make_from_pkcs1
+	make_from_pkcs1_table
 
 feature {NONE} -- Initialization
 

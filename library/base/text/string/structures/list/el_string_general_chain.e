@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 7:57:18 GMT (Sunday 9th May 2021)"
-	revision: "18"
+	date: "2021-07-23 16:49:37 GMT (Friday 23rd July 2021)"
+	revision: "19"
 
 deferred class
 	EL_STRING_GENERAL_CHAIN [S -> STRING_GENERAL create make, make_empty end]
@@ -200,6 +200,7 @@ feature -- Element change
 		end
 
 	left_adjust
+		-- left adjust all lines
 		do
 			push_cursor
 			from start until after loop

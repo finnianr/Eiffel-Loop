@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:12:28 GMT (Saturday 10th July 2021)"
-	revision: "3"
+	date: "2021-07-22 14:02:55 GMT (Thursday 22nd July 2021)"
+	revision: "4"
 
 class
 	ISE_CLASS_TABLE
@@ -75,7 +75,7 @@ feature -- Status query
 					file_name := last_name.as_lower + Dot_e
 					across ise_directories as dir_path until Result loop
 						finder.set_dir_path (dir_path.item)
-						finder.set_file_pattern (file_name)
+						finder.set_name_pattern (file_name)
 						finder.execute
 						if finder.path_list.count > 0 then
 							relative_source_path := finder.path_list.first_path.relative_path (dir_path.item)

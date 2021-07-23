@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 13:41:11 GMT (Thursday 1st April 2021)"
-	revision: "3"
+	date: "2021-07-22 14:09:58 GMT (Thursday 22nd July 2021)"
+	revision: "4"
 
 class
 	CLASS_NOTES
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 		local
 			words: EL_ZSTRING_LIST
 		do
-			create words.make_with_separator (class_name, '_', False)
+			create words.make_with_separator (class_name.as_lower, '_', False)
 			words.start
 			if words.item ~ EL then
 				words.remove

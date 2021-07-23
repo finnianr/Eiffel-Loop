@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:28:51 GMT (Saturday 10th July 2021)"
-	revision: "36"
+	date: "2021-07-23 7:55:07 GMT (Friday 23rd July 2021)"
+	revision: "37"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -63,7 +63,7 @@ feature -- Tests
 	test_publisher
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
-			line: ZSTRING; base_name_list: EL_ZSTRING_LIST; finder: EL_FIND_FILES_COMMAND_I
+			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
 			broadcaster_path, checker_path, relative_path, crc_path: EL_FILE_PATH
 		do
 			publisher := new_publisher
@@ -88,22 +88,22 @@ feature -- Tests
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end
+				base_name_list := "base.kernel.html, index.html"
+				base_name_list.extend (broadcaster_path.base_sans_extension + ".html")
+				base_name_list.append (sorted_base_names (cmd.path_list))
+				base_name_list.sort
+
+				if Executable.Is_work_bench then
+					line := User_input.line ("Enter to continue")
+				end
+				publisher := new_publisher
+				publisher.execute
+
+				across cmd.path_list as path loop
+					assert ("removed regenerated", path.item.exists)
+				end
 			end
 
-			base_name_list := "base.kernel.html, index.html"
-			base_name_list.extend (broadcaster_path.base_sans_extension + ".html")
-			base_name_list.append (sorted_base_names (finder.path_list))
-			base_name_list.sort
-
-			if Executable.Is_work_bench then
-				line := User_input.line ("Enter to continue")
-			end
-			publisher := new_publisher
-			publisher.execute
-
-			across finder.path_list as path loop
-				assert ("removed regenerated", path.item.exists)
-			end
 			assert ("checker html gone", not html_path (checker_path).exists)
 
 			assert ("same list", base_name_list ~ sorted_base_names (publisher.uploaded_path_list))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 13:00:56 GMT (Thursday 22nd July 2021)"
-	revision: "1"
+	date: "2021-07-23 10:55:00 GMT (Friday 23rd July 2021)"
+	revision: "2"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -73,24 +73,27 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
-		class
-			$name
-			
-		feature {NONE} -- Implementation
-		
-		#across $field_list as $list loop
-			signed_${list.item.name}_base64: STRING
-				-- Signed "$list.item.name" for public key serial Number: $serial_number
-				do
-					Result := Base_64.joined ($manifest_open
-					#across $list.item.base_64_lines as $line loop
-						$line.item
-					#end
-					$manifest_close)
+	Template: STRING
+		once
+			Result := "[
+				class
+					$name
+
+				feature {NONE} -- Implementation
+
+				#across $field_list as $list loop
+					signed_${list.item.name}_base64: STRING
+						-- Signed "$list.item.name" for public key serial Number: $serial_number
+						do
+							Result := $manifest_open
+							#across $list.item.data_lines as $line loop
+								$line.item
+							#end
+							$manifest_close
+						end
+
+				#end
 				end
-		
-		#end
+			]"
 		end
-	]"
 end

@@ -1,13 +1,13 @@
 note
-	description: "El SIGNED EIFFEL FIELD"
+	description: "Signed Eiffel field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 13:13:34 GMT (Thursday 22nd July 2021)"
-	revision: "1"
+	date: "2021-07-22 13:58:34 GMT (Thursday 22nd July 2021)"
+	revision: "2"
 
 class
 	EL_SIGNED_EIFFEL_FIELD
@@ -23,29 +23,35 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: STRING; a_value: INTEGER_X)
-		local
-			count_per_line, i, start_index, end_index: INTEGER
-			base64_string: STRING
 		do
-			name := a_name
-			create base_64_lines.make (4)
-			base64_string := Base_64.encoded_special (a_value.as_bytes)
-			count_per_line := base64_string.count // 4
-			from until base_64_lines.full loop
-				i := base_64_lines.count
-				start_index := i * count_per_line + 1
-				end_index := i * count_per_line + count_per_line
-				base_64_lines.extend (base64_string.substring (start_index, end_index))
-			end
-
+			name := a_name; data_lines := new_data_lines (a_value)
 			make_default
 		end
 
 feature -- Access
 
+	data_lines: EL_STRING_8_LIST
+
 	name: STRING
 
-	base_64_lines: EL_STRING_8_LIST
+feature {NONE} -- Implementation
+
+	new_data_lines (a_value: INTEGER_X): EL_STRING_8_LIST
+		local
+			count_per_line, i, start_index, end_index: INTEGER
+			base64_string: STRING
+		do
+			create Result.make (4)
+			base64_string := Base_64.encoded_special (a_value.as_bytes)
+			count_per_line := base64_string.count // 4
+			from until Result.full loop
+				i := Result.count
+				start_index := i * count_per_line + 1
+				end_index := i * count_per_line + count_per_line
+				Result.extend (base64_string.substring (start_index, end_index))
+			end
+
+		end
 
 feature {NONE} -- Evolicity fields
 
@@ -53,8 +59,8 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["base_64_lines",	agent: ITERABLE [STRING] do Result := base_64_lines end],
-				["name",				agent: STRING do Result := name end]
+				["data_lines",	agent: ITERABLE [STRING] do Result := data_lines end],
+				["name",			agent: STRING do Result := name end]
 			>>)
 		end
 

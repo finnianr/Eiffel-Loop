@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 10:20:40 GMT (Thursday 22nd July 2021)"
-	revision: "11"
+	date: "2021-07-23 18:47:08 GMT (Friday 23rd July 2021)"
+	revision: "12"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -54,8 +54,7 @@ inherit
 --		end
 
 create
-	make, make_default, make_from_primes, make_from_map_list, make_from_stored,
-	make_from_pkcs1, make_from_pkcs1_file
+	make, make_default, make_from_primes, make_from_stored, make_from_pkcs1_table
 
 feature {NONE} -- Initialization
 
@@ -79,15 +78,6 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			make_from_primes (17, 19)
-		end
-
-	make_from_pkcs1_file (pkcs1_file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
-		local
-			line_source: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
-		do
-			create line_source.make (pkcs1_file_path, encrypter)
-			make_from_pkcs1 (line_source)
-			line_source.close
 		end
 
 	make_from_primes (a_prime_1, a_prime_2: INTEGER_X)
@@ -180,6 +170,6 @@ feature {NONE} -- Constants
 			create Result.make_default
 		end
 
-	Field_hash: NATURAL = 266688151
+	Field_hash: NATURAL = 1031955297
 
 end

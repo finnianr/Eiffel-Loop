@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 13:03:06 GMT (Thursday 22nd July 2021)"
-	revision: "23"
+	date: "2021-07-23 18:32:26 GMT (Friday 23rd July 2021)"
+	revision: "24"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -33,8 +33,6 @@ inherit
 	EL_MODULE_ZLIB
 
 	EL_MODULE_X509
-
-	SINGLE_MATH
 
 	STRING_HANDLER
 
@@ -116,7 +114,7 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			key_file_path, export_path: EL_FILE_PATH; key_reader: like x509_certificate.key_reader_command
+			key_file_path, export_path: EL_FILE_PATH; key_reader: like x509_certificate.private_reader
 			credential: like new_credential; key_read: BOOLEAN
 			key: EL_RSA_PRIVATE_KEY
 		do
@@ -126,7 +124,7 @@ feature -- Basic operations
 			end
 			from until key_read loop
 				credential := new_credential
-				key_reader := x509_certificate.key_reader_command (key_file_path, credential.phrase)
+				key_reader := X509_certificate.private_reader (key_file_path, credential.phrase)
 				key_reader.execute
 				if key_reader.has_error then
 					across key_reader.errors as line loop
@@ -137,7 +135,7 @@ feature -- Basic operations
 				end
 			end
 			if key_read then
-				create key.make_from_pkcs1 (key_reader.lines)
+				key := key_reader.private_key
 				export_path := key_file_path.twin
 				export_path.add_extension (Extension.dat)
 				key.store (export_path, create {EL_AES_ENCRYPTER}.make (credential.phrase, new_bit_count))
@@ -158,18 +156,16 @@ feature -- Basic operations
 			signed_string: SPECIAL [NATURAL_8]; serial_number: STRING
 			string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
 			eiffel_class: EL_SIGNED_EIFFEL_CLASS
-			key_file_path, crt_file_path: EL_FILE_PATH
+			key_file_path: EL_FILE_PATH
 		do
 			lio.enter ("write_signed_CSV_list_with_x509_private_key")
 			key_file_path := new_key_file_path
 			private_key := new_private_key (key_file_path)
-			crt_file_path := key_file_path.without_extension -- remove .dat
-			crt_file_path.replace_extension (Extension.crt)
 			string := User_input.line ("Enter comma-separated list of strings to sign")
 			if string.is_valid_as_string_8 then
 				string_list := string.to_latin_1
 				if across string_list as list all list.item.count <= 16 end then
-					if attached X509_certificate.reader_command (crt_file_path) as cmd then
+					if attached X509_certificate.public_reader (to_crt_path (key_file_path)) as cmd then
 						cmd.execute
 						serial_number := cmd.serial_number
 					end
@@ -196,27 +192,38 @@ feature -- Basic operations
 
 	write_x509_public_key_code_assignment
 		local
-			variable_name: STRING
-			crt_file_path: EL_FILE_PATH; eiffel_source_name: like new_eiffel_source_name
-			source_code: PLAIN_TEXT_FILE
+			crt_file_path: EL_FILE_PATH; eiffel_source_name: EL_FILE_PATH; variable_name: ZSTRING
+			eif_class: EL_PUBLIC_KEY_MANIFEST_CLASS
 		do
 			lio.enter ("write_x509_public_key_code_assignment")
 			from create crt_file_path until crt_file_path.has_extension (Extension.crt) loop
-				crt_file_path := new_file_path ("public x509")
+				crt_file_path := new_file_path ("public X509 crt")
 			end
 			eiffel_source_name := new_eiffel_source_name
-			variable_name := User_input.line ("Variable name").to_string_8
+			variable_name := User_input.line ("Variable name")
 
-			create source_code.make_open_write (eiffel_source_name)
-			if attached x509_certificate.public (crt_file_path) as public_key then
-				write_public_key_eiffel_code_assignment (source_code, variable_name, public_key.modulus.as_bytes)
-				source_code.close
-				lio.put_labeled_string ("Created", eiffel_source_name)
+			if variable_name.Is_valid_as_string_8 then
+				if attached X509_certificate.public_reader (crt_file_path) as cmd then
+					cmd.execute
+					create eif_class.make (eiffel_source_name, cmd.serial_number)
+					eif_class.field_list.extend (create {EL_PUBLIC_KEY_FIELD}.make (variable_name, cmd.public_key.modulus))
+					eif_class.serialize
+					lio.put_labeled_string ("Created", eiffel_source_name)
+					lio.put_new_line
+				end
+			else
+				lio.put_line ("Name may only contain Latin-1 characters")
 			end
 			lio.exit
 		end
 
 feature {NONE} -- Implementation
+
+	to_crt_path (key_file_path: EL_FILE_PATH): EL_FILE_PATH
+		do
+			Result := key_file_path.without_extension -- remove .dat
+			Result.replace_extension (Extension.crt)
+		end
 
 	display_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		do
@@ -235,23 +242,6 @@ feature {NONE} -- Implementation
 				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_credential))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
-			end
-		end
-
-	factorized (n: INTEGER): STRING
-		local
-			factor: INTEGER
-		do
-			create Result.make (10)
-			from factor := 2 until n \\ factor = 0 or factor > sqrt (n).rounded loop
-				factor := factor + 1
-			end
-			if n \\ factor = 0 then
-				Result.append_integer (factor)
-				Result.append_character ('*')
-				Result.append_integer (n // factor)
-			else
-				Result.append_integer (n)
 			end
 		end
 
@@ -275,30 +265,6 @@ feature {NONE} -- Implementation
 				out_file.put_new_line
 			end
 			out_file.close
-		end
-
-	write_public_key_eiffel_code_assignment (source_code: PLAIN_TEXT_FILE; name: STRING; array: SPECIAL [NATURAL_8])
-			-- Intended to create a manifest format that is more difficult to tamper with at machine code level
-			-- Anti-piracy measure
-		local
-			count_per_line, i: INTEGER
-		do
-			count_per_line := 18
-			source_code.put_string (name); source_code.put_string (" := <<")
-			from i := 0 until i > array.upper loop
-				if i \\ count_per_line = 0 then
-					source_code.put_new_line
-					source_code.put_character ('%T')
-				end
-				source_code.put_string (factorized (array [i]))
-				i := i + 1
-				if i >= 1 and i <= array.upper then
-					source_code.put_string (", ")
-				end
-			end
-			source_code.put_new_line
-			source_code.put_string (">>")
-			source_code.put_new_line
 		end
 
 feature {NONE} -- Factory

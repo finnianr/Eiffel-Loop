@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 10:33:34 GMT (Thursday 22nd July 2021)"
-	revision: "8"
+	date: "2021-07-23 18:00:28 GMT (Friday 23rd July 2021)"
+	revision: "9"
 
 class
 	EL_X509_ROUTINES
@@ -21,7 +21,7 @@ feature -- Access
 
 	public (crt_file_path: EL_FILE_PATH): EL_RSA_PUBLIC_KEY
 		do
-			if attached reader_command (crt_file_path) as cmd then
+			if attached public_reader (crt_file_path) as cmd then
 				cmd.execute
 				Result := cmd.public_key
 			end
@@ -31,7 +31,7 @@ feature -- Access
 		require
 			valid_file: is_valid_pkcs1_file (key_file_path)
 		do
-			if attached key_reader_command (key_file_path, phrase) as cmd then
+			if attached private_reader (key_file_path, phrase) as cmd then
 				cmd.execute
 				Result := cmd.private_key
 			end
@@ -48,13 +48,13 @@ feature -- Status query
 
 feature -- Commands
 
-	reader_command (crt_file_path: EL_FILE_PATH): EL_X509_CERTIFICATE_READER_COMMAND_I
+	public_reader (crt_file_path: EL_FILE_PATH): EL_X509_PUBLIC_READER_COMMAND_I
 		do
-			create {EL_X509_CERTIFICATE_READER_COMMAND_IMP} Result.make (crt_file_path)
+			create {EL_X509_PUBLIC_READER_COMMAND_IMP} Result.make (crt_file_path)
 		end
 
-	key_reader_command (key_file_path: EL_FILE_PATH; phrase: ZSTRING): EL_X509_KEY_READER_COMMAND_I
+	private_reader (key_file_path: EL_FILE_PATH; phrase: ZSTRING): EL_X509_PRIVATE_READER_COMMAND_I
 		do
-			create {EL_X509_KEY_READER_COMMAND_IMP} Result.make (key_file_path, phrase)
+			create {EL_X509_PRIVATE_READER_COMMAND_IMP} Result.make (key_file_path, phrase)
 		end
 end

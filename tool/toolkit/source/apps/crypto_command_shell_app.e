@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:10:17 GMT (Tuesday 9th March 2021)"
-	revision: "14"
+	date: "2021-07-23 17:56:25 GMT (Friday 23rd July 2021)"
+	revision: "15"
 
 class
 	CRYPTO_COMMAND_SHELL_APP
@@ -26,7 +26,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	visible_types: TUPLE [EL_X509_KEY_READER_COMMAND_IMP]
+	visible_types: TUPLE [EL_X509_PRIVATE_READER_COMMAND_IMP]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

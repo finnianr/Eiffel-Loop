@@ -1,19 +1,19 @@
 note
-	description: "Implementation of [$source EL_X509_KEY_READER_COMMAND_I] interface"
+	description: "Implementation of [$source EL_X509_PUBLIC_READER_COMMAND_I] interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 15:03:25 GMT (Tuesday 9th February 2021)"
+	date: "2021-07-23 17:53:37 GMT (Friday 23rd July 2021)"
 	revision: "6"
 
 class
-	EL_X509_KEY_READER_COMMAND_IMP
+	EL_X509_PUBLIC_READER_COMMAND_IMP
 
 inherit
-	EL_X509_KEY_READER_COMMAND_I
+	EL_X509_PUBLIC_READER_COMMAND_I
 		export
 			{NONE} all
 		end
@@ -28,6 +28,6 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "openssl rsa -noout -modulus -in $key_file_path -passin env:OPENSSL_PP -text"
+	Template: STRING = "openssl x509 -in $crt_file_path -noout -text"
 
 end

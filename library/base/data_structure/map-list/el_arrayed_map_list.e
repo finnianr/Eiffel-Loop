@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 16:04:05 GMT (Wednesday 3rd March 2021)"
-	revision: "12"
+	date: "2021-07-23 15:29:51 GMT (Friday 23rd July 2021)"
+	revision: "13"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -123,11 +123,21 @@ feature -- Element change
 	extend (key: K; value: G)
 		do
 			map_extend ([key, value])
+			if object_comparison then
+				last.compare_objects
+			else
+				last.compare_references
+			end
 		end
 
 	put_front (key: K; value: G)
 		do
 			map_put_front ([key, value])
+			if object_comparison then
+				first.compare_objects
+			else
+				first.compare_references
+			end
 		end
 
 	set_key_item (key: like item_key; value: like item_value)
