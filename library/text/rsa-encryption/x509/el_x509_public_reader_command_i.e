@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 19:00:18 GMT (Friday 23rd July 2021)"
-	revision: "1"
+	date: "2021-07-24 9:18:22 GMT (Saturday 24th July 2021)"
+	revision: "2"
 
 deferred class
 	EL_X509_PUBLIC_READER_COMMAND_I
@@ -40,6 +40,12 @@ feature -- Access
 
 feature {NONE} -- State handlers
 
+	do_with_lines (a_lines: like adjusted_lines)
+			--
+		do
+			parse_lines (agent find_serial_number, a_lines)
+		end
+
 	find_serial_number (line: ZSTRING)
 		do
 			if line.starts_with (Name.serial_number) then
@@ -49,10 +55,16 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	do_with_lines (a_lines: like adjusted_lines)
-			--
-		do
-			parse_lines (agent find_serial_number, a_lines)
+feature {NONE} -- Constants
+
+	Data_fields: EL_ZSTRING_LIST
+		once
+			Result := "Modulus, Exponent, X509v3"
+		end
+
+	Name_list: STRING
+		once
+			Result := "Exponent, Public-Key, Serial Number"
 		end
 
 end

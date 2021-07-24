@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:23:36 GMT (Friday 23rd July 2021)"
-	revision: "9"
+	date: "2021-07-24 9:18:11 GMT (Saturday 24th July 2021)"
+	revision: "10"
 
 deferred class
 	EL_X509_PRIVATE_READER_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 			make as make_file_command,
 			find_public_key as find_private_key
 		redefine
-			do_command, do_with_lines, make_default, Data_fields, Field_names
+			do_command, do_with_lines, make_default
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -77,9 +77,9 @@ feature {NONE} -- Constants
 			Result := "modulus, publicExponent, privateExponent, prime1, prime2, exponent1"
 		end
 
-	Field_names: STRING
+	Name_list: STRING
 		once
-			Result := "publicExponent, Private-Key, Serial Number"
+			Result := "publicExponent, Private-Key, XXX"
 		end
 
 	Var_pass_phrase: STRING = "OPENSSL_PP"

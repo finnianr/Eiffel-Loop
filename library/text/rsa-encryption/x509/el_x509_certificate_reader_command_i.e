@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 19:01:30 GMT (Friday 23rd July 2021)"
-	revision: "9"
+	date: "2021-07-24 9:20:33 GMT (Saturday 24th July 2021)"
+	revision: "10"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -75,6 +75,8 @@ feature {NONE} -- Initialization
 			create data_table.make (7)
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 			left_adjusted := True
+			create name
+			Tuple.fill (name, name_list)
 		end
 
 feature -- Access
@@ -93,7 +95,7 @@ feature -- Measurement
 
 	data_field_count: INTEGER
 		do
-			Result := Data_fields.count - 1
+			Result := data_fields.count - 1
 		end
 
 	key_size: INTEGER
@@ -101,20 +103,20 @@ feature -- Measurement
 
 feature {NONE} -- State handlers
 
-	find_data_field (line: ZSTRING; index: INTEGER)
+	append_field_data (line: ZSTRING; index: INTEGER)
 		local
 			value: ZSTRING
 		do
-			if line.starts_with (Data_fields.last) then
+			if line.starts_with (data_fields.last) then
 				state := final
-			elseif line.starts_with (Data_fields [index]) then
-				state := agent find_data_field (?, index + 1)
-				if Data_fields [index] ~ Name.exponent then
+			elseif line.starts_with (data_fields [index]) then
+				state := agent append_field_data (?, index + 1)
+				if data_fields [index] ~ Name.exponent then
 					value := line.substring_between (Bracket.left, Bracket.right, 1)
 					value.remove_head (2)
-					data_table.put (value, Data_fields [index])
+					data_table.put (value, data_fields [index])
 				else
-					data_table.put (create {STRING}.make_empty, Data_fields [index])
+					data_table.put (create {STRING}.make_empty, data_fields [index])
 				end
 			else
 				line.append_to_string_8 (data_table.found_item)
@@ -129,15 +131,27 @@ feature {NONE} -- State handlers
 				value := line.substring_between (Bracket.left, Bracket.right, 1)
 				value.remove_tail (4)
 				key_size := value.to_integer
-				state := agent find_data_field (?, 1)
+				state := agent append_field_data (?, 1)
 			end
 		end
 
 feature {NONE} -- Implementation
 
+	data_fields: EL_ZSTRING_LIST
+		deferred
+		end
+
 	field: EL_COLON_FIELD_ROUTINES
 		do
 		end
+
+	name_list: STRING
+		deferred
+		end
+
+feature {NONE} -- Internal attributes
+
+	name: TUPLE [exponent, key_size, serial_number: ZSTRING]
 
 feature {NONE} -- Constants
 
@@ -145,22 +159,6 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "(, )")
-		end
-
-	Data_fields: EL_ZSTRING_LIST
-		once
-			Result := "Modulus, Exponent, X509v3"
-		end
-
-	Field_names: STRING
-		once
-			Result := "Exponent, Public-Key, Serial Number"
-		end
-
-	Name: TUPLE [exponent, key_size, serial_number: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, Field_names)
 		end
 
 end
