@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:46:29 GMT (Friday 23rd July 2021)"
-	revision: "15"
+	date: "2021-07-26 11:29:27 GMT (Monday 26th July 2021)"
+	revision: "16"
 
 class
 	EL_RSA_ROUTINES
@@ -39,27 +39,6 @@ feature -- Conversion
 			--
 		do
 			create Result.make_from_bytes (byte_array, byte_array.lower, byte_array.upper)
-		end
-
-	integer_x_from_hex_sequence (sequence: STRING): INTEGER_X
-			-- Convert `sequence' of form:
-
-			-- 	00:d9:61:6e:a7:03:21:2f:70:d2:22:38:d7:99:d4:..
-
-			-- to type `INTEGER_X'
-		local
-			parts: EL_SPLIT_STRING_LIST [STRING]; hex_string: STRING
-			buffer: EL_STRING_8_BUFFER_ROUTINES; s: EL_STRING_8_ROUTINES
-		do
-			create parts.make (sequence, s.character_string (':'))
-			hex_string := buffer.empty
-			from parts.start until parts.after loop
-				if not (parts.index = 1 and then parts.same_item_as (Double_zero)) then
-					hex_string.append (parts.item (False))
-				end
-				parts.forth
-			end
-			create Result.make_from_hex_string (hex_string)
 		end
 
 feature {NONE} -- Constants

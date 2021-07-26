@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-24 9:18:22 GMT (Saturday 24th July 2021)"
-	revision: "2"
+	date: "2021-07-24 10:25:41 GMT (Saturday 24th July 2021)"
+	revision: "3"
 
 deferred class
 	EL_X509_PUBLIC_READER_COMMAND_I
@@ -62,9 +62,6 @@ feature {NONE} -- Constants
 			Result := "Modulus, Exponent, X509v3"
 		end
 
-	Name_list: STRING
-		once
-			Result := "Exponent, Public-Key, Serial Number"
-		end
+	Name_list: STRING = "Exponent, Public-Key, Serial Number"
 
 end

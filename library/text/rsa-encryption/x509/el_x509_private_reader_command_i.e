@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-24 9:18:11 GMT (Saturday 24th July 2021)"
-	revision: "10"
+	date: "2021-07-24 10:25:54 GMT (Saturday 24th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_X509_PRIVATE_READER_COMMAND_I
@@ -77,10 +77,7 @@ feature {NONE} -- Constants
 			Result := "modulus, publicExponent, privateExponent, prime1, prime2, exponent1"
 		end
 
-	Name_list: STRING
-		once
-			Result := "publicExponent, Private-Key, XXX"
-		end
+	Name_list: STRING = "publicExponent, Private-Key, XXX"
 
 	Var_pass_phrase: STRING = "OPENSSL_PP"
 

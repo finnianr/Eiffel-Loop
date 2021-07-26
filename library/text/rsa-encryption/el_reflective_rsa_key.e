@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:46:43 GMT (Friday 23rd July 2021)"
-	revision: "10"
+	date: "2021-07-26 11:23:16 GMT (Monday 26th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVE_RSA_KEY
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			across table as pkcs1 loop
-				set_table_field (field_table, pkcs1.key, RSA.integer_x_from_hex_sequence (pkcs1.item))
+				set_table_field (field_table, pkcs1.key, create {INTEGER_X}.make_from_hex_string (pkcs1.item))
 			end
 		end
 

@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-24 9:20:33 GMT (Saturday 24th July 2021)"
-	revision: "10"
+	date: "2021-07-26 11:41:36 GMT (Monday 26th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -73,15 +73,15 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create data_table.make (7)
+			create name; Tuple.fill (name, name_list)
 			Precursor {EL_FILE_PATH_OPERAND_COMMAND_I}
 			left_adjusted := True
-			create name
-			Tuple.fill (name, name_list)
 		end
 
 feature -- Access
 
 	data_table: HASH_TABLE [STRING, STRING]
+		-- table of hex-strings by field
 
 	rsa_key: EL_REFLECTIVE_RSA_KEY
 		require
@@ -105,9 +105,17 @@ feature {NONE} -- State handlers
 
 	append_field_data (line: ZSTRING; index: INTEGER)
 		local
-			value: ZSTRING
+			value: ZSTRING; hex_string: STRING
 		do
 			if line.starts_with (data_fields.last) then
+				-- Remove colons from hex strings
+				across data_table as table loop
+					hex_string := table.item
+					if hex_string.starts_with (once "00:") then
+						hex_string.remove_head (3)
+					end
+					hex_string.prune_all (':')
+				end
 				state := final
 			elseif line.starts_with (data_fields [index]) then
 				state := agent append_field_data (?, index + 1)

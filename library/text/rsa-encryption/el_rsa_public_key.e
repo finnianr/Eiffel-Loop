@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:47:18 GMT (Friday 23rd July 2021)"
-	revision: "12"
+	date: "2021-07-26 11:29:49 GMT (Monday 26th July 2021)"
+	revision: "13"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -32,8 +32,7 @@ inherit
 	EL_MODULE_X509
 
 create
-	make, make_from_array, make_from_base_64, make_from_hex_byte_sequence, make_from_manifest,
-	make_from_pkcs1_table
+	make, make_from_array, make_from_base_64, make_from_manifest, make_from_pkcs1_table
 
 feature {NONE} -- Initialization
 
@@ -59,12 +58,6 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_from_array (Base_64.decoded_special (base_64_modulus))
-		end
-
-	make_from_hex_byte_sequence (sequence: STRING)
-			-- used to intialize from X509 cert
-		do
-			make (RSA.integer_x_from_hex_sequence (sequence))
 		end
 
 	make_from_manifest (a_modulus: ARRAY [INTEGER])
