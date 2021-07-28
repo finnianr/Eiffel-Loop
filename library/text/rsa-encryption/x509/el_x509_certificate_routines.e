@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:00:28 GMT (Friday 23rd July 2021)"
-	revision: "9"
+	date: "2021-07-26 11:45:16 GMT (Monday 26th July 2021)"
+	revision: "10"
 
 class
-	EL_X509_ROUTINES
+	EL_X509_CERTIFICATE_ROUTINES
 
 inherit
 	ANY
@@ -46,7 +46,7 @@ feature -- Status query
 			end
 		end
 
-feature -- Commands
+feature -- Command factory
 
 	public_reader (crt_file_path: EL_FILE_PATH): EL_X509_PUBLIC_READER_COMMAND_I
 		do

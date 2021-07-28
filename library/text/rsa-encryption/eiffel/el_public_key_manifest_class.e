@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 16:25:56 GMT (Thursday 22nd July 2021)"
-	revision: "1"
+	date: "2021-07-28 17:23:52 GMT (Wednesday 28th July 2021)"
+	revision: "2"
 
 class
 	EL_PUBLIC_KEY_MANIFEST_CLASS
@@ -44,7 +44,7 @@ feature {NONE} -- Constants
 		feature {NONE} -- Constants
 
 			$key_field.name: EL_RSA_PUBLIC_KEY
-				-- public key serial Number: $serial_number
+				-- X509 public key serial number: $serial_number
 				once ("PROCESS")
 					create Result.make_from_manifest (<<
 					#across $key_field.data_lines as $line loop

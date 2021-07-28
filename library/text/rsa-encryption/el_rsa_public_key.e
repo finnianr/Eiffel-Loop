@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-26 11:29:49 GMT (Monday 26th July 2021)"
-	revision: "13"
+	date: "2021-07-27 10:38:01 GMT (Tuesday 27th July 2021)"
+	revision: "14"
 
 class
 	EL_RSA_PUBLIC_KEY
@@ -75,6 +75,23 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
+	append_encrypted (cipher_message: INTEGER_X; output: STRING; count: INTEGER)
+		-- convert signed `cipher_message' to string with `count' character
+		local
+			plain_message: INTEGER_X; plain_data: ARRAY [NATURAL_8]
+		do
+			-- counterintutive but correct, `encrypt' reverses signing with private key
+			plain_message := encrypt (cipher_message)
+
+			-- check precondition for `to_fixed_width_byte_array'
+			if count - plain_message.bytes >= 0 then
+				create plain_data.make_from_special (plain_message.as_fixed_width_byte_array (count))
+				across plain_data as byte until byte.item = 0 loop
+					output.append_character (byte.item.to_character_8)
+				end
+			end
+		end
+
 	encrypt_base_64 (base64_message: STRING): INTEGER_X
 			--
 		local
@@ -90,24 +107,14 @@ feature -- Basic operations
 			Result := verify (message, Rsa.integer_x_from_base_64 (base64_signature))
 		end
 
-feature -- Access
+feature -- Conversion
 
-	decrypted_string (cipher_message: INTEGER_X; count: INTEGER): STRING
+	to_encrypted_string (cipher_message: INTEGER_X; count: INTEGER): STRING
 		-- convert signed `cipher_message' to string with `count' character
-		local
-			plain_message: INTEGER_X; plain_data: ARRAY [NATURAL_8]
+		-- (counterintutive but correct, `encrypt' reverses signing with private key)
 		do
-			-- counterintutive but correct, `encrypt' reverses signing with private key
-			plain_message := encrypt (cipher_message)
 			create Result.make (count)
-
-			-- check precondition for `to_fixed_width_byte_array'
-			if count - plain_message.bytes >= 0 then
-				create plain_data.make_from_special (plain_message.as_fixed_width_byte_array (count))
-				across plain_data as byte until byte.item = 0 loop
-					Result.append_character (byte.item.to_character_8)
-				end
-			end
+			append_encrypted (cipher_message, Result, count)
 		end
 
 feature {NONE} -- Constants

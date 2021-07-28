@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 10:55:00 GMT (Friday 23rd July 2021)"
-	revision: "2"
+	date: "2021-07-28 17:23:23 GMT (Wednesday 28th July 2021)"
+	revision: "3"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -83,7 +83,7 @@ feature {NONE} -- Constants
 
 				#across $field_list as $list loop
 					signed_${list.item.name}_base64: STRING
-						-- Signed "$list.item.name" for public key serial Number: $serial_number
+						-- Signed "$list.item.name" with X509 key serial number: $serial_number
 						do
 							Result := $manifest_open
 							#across $list.item.data_lines as $line loop

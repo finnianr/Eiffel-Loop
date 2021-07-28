@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:32:26 GMT (Friday 23rd July 2021)"
-	revision: "24"
+	date: "2021-07-27 9:15:15 GMT (Tuesday 27th July 2021)"
+	revision: "25"
 
 class
 	EL_CRYPTO_COMMAND_SHELL

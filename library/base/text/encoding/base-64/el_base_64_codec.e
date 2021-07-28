@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-12 8:00:26 GMT (Saturday 12th June 2021)"
-	revision: "13"
+	date: "2021-07-27 9:33:52 GMT (Tuesday 27th July 2021)"
+	revision: "14"
 
 class
 	EL_BASE_64_CODEC
@@ -39,9 +39,17 @@ feature -- Conversion
 			create Result.make_from_special (decoded_special (base64_string))
 		end
 
-	decoded_special (base64_string: STRING): SPECIAL [NATURAL_8]
+	decoded_special (base_64_string: STRING): SPECIAL [NATURAL_8]
+		local
+			str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := decoder.data (base64_string)
+			if base_64_string.has ('%N') then
+				str := buffer.copied (base_64_string)
+				str.prune_all ('%N')
+			else
+				str := base_64_string
+			end
+			Result := decoder.data (str)
 		end
 
 	encoded (a_string: STRING): STRING
