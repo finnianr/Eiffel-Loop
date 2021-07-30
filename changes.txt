@@ -421,3 +421,6 @@ Fixed EL_PATH_STEPS copy
 Sat 10th Jul 2021, 16:08:24
 Made EL_SINGLE_PATH_OPERAND reflective for naming path field
 
+Wed 28th Jul 2021, 17:52:12
+Changes to X509 tools
+
