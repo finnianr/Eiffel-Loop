@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 14:13:51 GMT (Friday 30th July 2021)"
-	revision: "1"
+	date: "2021-07-30 15:03:12 GMT (Friday 30th July 2021)"
+	revision: "2"
 
 class
 	GITHUB_MANAGER_APP
@@ -27,13 +27,14 @@ feature {NONE} -- Implementation
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
 			Result := <<
-				valid_required_argument ("config", "Configuration file path", << file_must_exist >>)
+				valid_required_argument ("config", "Configuration file path", << file_must_exist >>),
+				optional_argument ("define", "Define an environment variable: name=<value>")
 			>>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH})
+			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end
 
 	visible_types: TUPLE [GITHUB_MANAGER_SHELL_COMMAND, EL_BUILDABLE_AES_CREDENTIAL]

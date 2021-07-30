@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 14:19:26 GMT (Friday 30th July 2021)"
-	revision: "1"
+	date: "2021-07-30 15:12:18 GMT (Friday 30th July 2021)"
+	revision: "2"
 
 class
 	GITHUB_CONFIGURATION
@@ -56,9 +56,15 @@ feature -- Access
 
 	github_dir: EL_DIR_PATH
 
+	license_path: ZSTRING
+		-- relative to `source_dir'
+
 	rsync_template: STRING
 
 	source_dir: EL_DIR_PATH
+
+	source_manifest_path: ZSTRING
+		-- relative to `source_dir'
 
 feature {NONE} -- Factory
 

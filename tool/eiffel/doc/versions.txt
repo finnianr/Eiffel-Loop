@@ -1,3 +1,6 @@
+1.4.0
+New GITHUB_MANAGER_APP class
+
 1.3.16
 Modified PYXIS_TRANSLATION_TREE_COMPILER_APP to use manifest argument
 
