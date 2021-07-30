@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 9:22:49 GMT (Tuesday 27th April 2021)"
-	revision: "5"
+	date: "2021-07-30 14:02:04 GMT (Friday 30th July 2021)"
+	revision: "6"
 
 class
 	PACKAGE_BUILDER_CONFIG
@@ -15,7 +15,8 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			make_from_string as make
+			make_from_string as make,
+			element_node_type as	Attribute_node
 		export
 			{WINZIP_CREATE_SELF_EXTRACT_COMMAND} field_table
 		end
@@ -104,7 +105,7 @@ feature -- Basic operations
 			text_dialog_message := template.installer_dialog_box #$ [product]
 			text_install := template.unzip_installation #$ [product]
 			title := template.installer_title #$ [product]
-			
+
 			if locale.language ~ "de" then
 				language_option := "-lg" -- German
 			else

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 12:22:46 GMT (Saturday 6th March 2021)"
-	revision: "33"
+	date: "2021-07-30 12:03:26 GMT (Friday 30th July 2021)"
+	revision: "34"
 
 class
 	APPLICATION_ROOT
@@ -30,6 +30,8 @@ inherit
 		CODEC_GENERATOR_APP,
 		CODE_HIGHLIGHTING_TEST_APP,
 		CODEBASE_STATISTICS_APP,
+
+		GITHUB_MANAGER_APP,
 
 		NOTE_DATE_FIXER_APP,
 

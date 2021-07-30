@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:02:29 GMT (Tuesday 23rd March 2021)"
-	revision: "3"
+	date: "2021-07-30 14:03:44 GMT (Friday 30th July 2021)"
+	revision: "4"
 
 class
 	BACKUP_CONFIG
@@ -15,7 +15,8 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			make_from_file as make
+			make_from_file as make,
+			element_node_type as	Attribute_node
 		redefine
 			make, make_default, new_instance_functions
 		end

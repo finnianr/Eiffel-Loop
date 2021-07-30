@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-30 8:37:53 GMT (Friday 30th April 2021)"
-	revision: "4"
+	date: "2021-07-30 14:02:16 GMT (Friday 30th July 2021)"
+	revision: "5"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -38,7 +38,8 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			make_from_file as make
+			make_from_file as make,
+			element_node_type as	Attribute_node
 		redefine
 			make, make_default
 		end

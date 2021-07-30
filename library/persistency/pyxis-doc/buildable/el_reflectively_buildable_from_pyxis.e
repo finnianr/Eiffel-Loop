@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 7:52:53 GMT (Monday 12th July 2021)"
-	revision: "10"
+	date: "2021-07-30 14:01:39 GMT (Friday 30th July 2021)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
@@ -32,7 +32,6 @@ inherit
 
 	EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN
 		rename
-			element_node_type as	Attribute_node,
 			xml_names as export_default,
 			xml_name_space as xmlns
 		export

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:13:36 GMT (Friday 11th June 2021)"
-	revision: "18"
+	date: "2021-07-30 12:44:17 GMT (Friday 30th July 2021)"
+	revision: "19"
 
 class
 	EL_AES_CREDENTIAL
@@ -80,7 +80,7 @@ feature -- Element change
 		local
 			done: BOOLEAN
 		do
-			from  until done loop
+			from until done loop
 				phrase := User_input.line (User_prompt)
 				lio.put_new_line
 				if is_salt_set then

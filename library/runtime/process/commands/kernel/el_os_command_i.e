@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:30:42 GMT (Monday 23rd November 2020)"
-	revision: "20"
+	date: "2021-07-30 11:45:13 GMT (Friday 30th July 2021)"
+	revision: "21"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -66,6 +66,9 @@ feature -- Status query
 			Result := not {PLATFORM}.is_windows
 		end
 
+	dry_run_enabled: BOOLEAN
+		-- when `true' command will just print to screen without executing
+
 	has_error: BOOLEAN
 		-- True if the command returned an error code on exit
 
@@ -85,6 +88,11 @@ feature -- Status change
 			is_forked := forked
 		end
 
+	set_dry_run (enabled: BOOLEAN)
+		do
+			dry_run_enabled := enabled
+		end
+
 feature -- Basic operations
 
 	execute
@@ -100,11 +108,13 @@ feature -- Basic operations
 				lio.put_string_field ("Error in command template", generator)
 				lio.put_new_line
 			else
-				if is_lio_enabled then
+				if dry_run_enabled or else is_lio_enabled then
 					display (l_command.lines)
 				end
-				l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
-				do_command (l_command)
+				if not dry_run_enabled then
+					l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
+					do_command (l_command)
+				end
 			end
 		end
 

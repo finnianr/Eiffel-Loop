@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 11:13:52 GMT (Tuesday 11th May 2021)"
-	revision: "15"
+	date: "2021-07-30 14:04:16 GMT (Friday 30th July 2021)"
+	revision: "16"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -16,7 +16,8 @@ deferred class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			make_from_file as make
+			make_from_file as make,
+			element_node_type as	Attribute_node
 		export
 			{RBOX_MUSIC_MANAGER} make
 		redefine
