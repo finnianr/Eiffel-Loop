@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 15:36:50 GMT (Thursday 6th August 2020)"
-	revision: "3"
+	date: "2021-07-31 17:20:57 GMT (Saturday 31st July 2021)"
+	revision: "4"
 
 class
 	NUMERIC_EXPERIMENTS
 
 inherit
 	EXPERIMENTAL
+
+	DOUBLE_MATH
+		rename
+			pi as pi_double
+		end
 
 feature -- Basic operations
 
@@ -43,6 +48,18 @@ feature -- Basic operations
 				lio.put_labeled_string ("capacity", capacity.out)
 				lio.put_new_line
 				capacity := capacity * 10
+			end
+		end
+
+	log_sequence
+		local
+			n, i: INTEGER
+		do
+			from n := 1; i := 1 until i > 29 loop
+				lio.put_integer_field ("log " + n.out, log10 (n).ceiling.max (1))
+				lio.put_new_line
+				i := i + 1
+				n := n * 2
 			end
 		end
 

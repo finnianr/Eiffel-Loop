@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-17 11:09:57 GMT (Saturday 17th October 2020)"
-	revision: "9"
+	date: "2021-08-01 14:22:23 GMT (Sunday 1st August 2021)"
+	revision: "10"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -21,11 +21,6 @@ inherit
 			make as make_with_language
 		redefine
 			in
-		end
-
-	EL_SOLITARY
-		rename
-			make as make_solitary
 		end
 
 feature {NONE} -- Initialization
@@ -45,7 +40,6 @@ feature {NONE} -- Initialization
  		local
  			table: EL_LOCALE_TABLE
  		do
- 			make_solitary
  			create table.make (locales_parent_dir.joined_dir_path (Locales))
 
  			make_with_language (key_language, key_language)

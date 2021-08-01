@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 15:20:21 GMT (Friday 30th July 2021)"
-	revision: "3"
+	date: "2021-07-30 17:18:11 GMT (Friday 30th July 2021)"
+	revision: "4"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			push_cmd.execute
 		end
 
-	rsync_to_github
+	rsync_to_github_dir
 		local
 			rsync_cmd: EL_OS_COMMAND
 			var: TUPLE [source_dir, destination_dir: STRING]
@@ -94,7 +94,7 @@ feature {NONE} -- Factory
 		do
 			create Result.make (<<
 				["update source notes", 				agent update_source_notes],
-				["rsync to github directory", 		agent rsync_to_github],
+				["rsync to github directory", 		agent rsync_to_github_dir],
 				["git add + commit",						agent git_commit],
 				["git push -u origin master", 		agent git_push_origin_master]
 			>>)

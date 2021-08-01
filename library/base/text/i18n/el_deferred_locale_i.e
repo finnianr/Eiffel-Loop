@@ -16,14 +16,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-24 12:22:12 GMT (Saturday 24th October 2020)"
-	revision: "9"
+	date: "2021-08-01 14:37:54 GMT (Sunday 1st August 2021)"
+	revision: "10"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
 
 inherit
-	ANY
+	EL_SOLITARY
+		rename
+			make as make_solitary
+		end
 
 	EL_ZSTRING_CONSTANTS
 
@@ -43,6 +46,35 @@ feature -- Access
 
 	language: STRING
 		deferred
+		end
+
+	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
+			-- translation with adjustments according to value of quanity
+			-- keys have
+		require
+			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
+		do
+			Result := quantity_translation_extra (partial_key, quantity, Empty_substitutions)
+		end
+
+	quantity_translation_extra (
+		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER; substitutions: like Empty_substitutions
+	): ZSTRING
+			-- translation with adjustments according to value of `quantity'
+		require
+			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
+		local
+			template: like translation_template; s: EL_ZSTRING_ROUTINES
+		do
+			template := translation_template (partial_key, quantity)
+
+			across substitutions as list loop
+				template.put (list.item.name, s.as_zstring (list.item.value))
+			end
+			if template.has (Var_quantity) then
+				template.put (Var_quantity, s.as_zstring (quantity.out))
+			end
+			Result := template.substituted
 		end
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
@@ -65,6 +97,12 @@ feature -- Access
 		deferred
 		end
 
+feature -- Status query
+
+	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
+		deferred
+		end
+
 feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
@@ -78,8 +116,21 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
+		deferred
+		end
+
 	translations: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		deferred
 		end
+
+feature {NONE} -- Constants
+
+	Empty_substitutions: ARRAY [TUPLE [name: STRING; value: READABLE_STRING_GENERAL]]
+		once
+			create Result.make_empty
+		end
+
+	Var_quantity: STRING = "QUANTITY"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-20 8:31:39 GMT (Thursday 20th May 2021)"
-	revision: "66"
+	date: "2021-07-31 17:17:56 GMT (Saturday 31st July 2021)"
+	revision: "67"
 
 class
 	EXPERIMENTS_APP
@@ -27,13 +27,9 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	run
-		local
-			e_1, e_2: like general
 		do
-			log.enter ("structure.special_twin")
-			e_1 := general; e_2 := general
-			e_1.print_field_pointers
-			e_2.print_field_pointers
+			log.enter ("numeric.log_sequence")
+			numeric.log_sequence
 			log.exit
 		end
 

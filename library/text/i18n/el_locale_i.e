@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-24 12:22:50 GMT (Saturday 24th October 2020)"
-	revision: "17"
+	date: "2021-08-01 14:35:28 GMT (Sunday 1st August 2021)"
+	revision: "18"
 
 deferred class
 	EL_LOCALE_I
@@ -48,7 +48,8 @@ feature {NONE} -- Initialization
  		require
  			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE}, False)
 		do
-			make_access
+ 			make_solitary; make_access
+
 			restrict_access
 				default_language := a_default_language
 				if Locale_table.has (a_language) then
@@ -104,36 +105,6 @@ feature -- Access
 			end
 		end
 
-	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
-			-- translation with adjustments according to value of quanity
-			-- keys have
-		require
-			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
-		do
-			Result := quantity_translation_extra (partial_key, quantity, Empty_substitutions)
-		end
-
-	quantity_translation_extra (
-		partial_key: READABLE_STRING_GENERAL; quantity: INTEGER; substitutions: like Empty_substitutions
-	): ZSTRING
-			-- translation with adjustments according to value of `quantity'
-		require
-			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
-		local
-			template: like translation_template
-		do
-			restrict_access
-				template := translation_template (translations, partial_key, quantity)
-			end_restriction
-
-			template.disable_strict
-			template.set_variables_from_array (substitutions)
-			if template.has_variable (Variable_quantity) then
-				template.set_variable (Variable_quantity, quantity)
-			end
-			Result := template.substituted
-		end
-
   	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
   		do
   			Result := translation (template_key).substituted_tuple (inserts)
@@ -167,7 +138,7 @@ feature -- Access
 		deferred
 		end
 
-feature -- Status report
+feature -- Status query
 
 	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- translation for source code string in current user language
@@ -224,16 +195,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_template (
-		table: like translations; partial_key: READABLE_STRING_GENERAL; quantity: INTEGER
-	): EL_ZSTRING_TEMPLATE
+	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
 		do
-			table.search_quantity_general (partial_key, quantity)
-			if table.found then
-				create Result.make (table.found_item)
-			else
-				create Result.make (Unknown_quantity_key_template #$ [partial_key, quantity])
-			end
+			restrict_access
+				if attached translations as table then
+					table.search_quantity_general (partial_key, quantity)
+					if table.found then
+						create Result.make (table.found_item)
+					else
+						create Result.make (Unknown_quantity_key_template #$ [partial_key, quantity])
+					end
+				end
+			end_restriction
 		end
 
 feature {NONE} -- Internal attributes
@@ -241,11 +214,6 @@ feature {NONE} -- Internal attributes
 	translations: EL_TRANSLATION_TABLE
 
 feature {EL_LOCALE_CONSTANTS} -- Constants
-
-	Empty_substitutions: ARRAY [TUPLE [READABLE_STRING_GENERAL, ANY]]
-		once
-			create Result.make_empty
-		end
 
 	Locale_table: EL_LOCALE_TABLE
 	 	-- Table of all locale data file paths

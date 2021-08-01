@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:11:21 GMT (Thursday 3rd June 2021)"
-	revision: "10"
+	date: "2021-08-01 11:35:29 GMT (Sunday 1st August 2021)"
+	revision: "11"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -16,7 +16,7 @@ inherit
 	EL_NOTIFYING_PLAIN_TEXT_FILE
 		export
 			{NONE} all
-			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_new_line,
+			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_raw_string_8, put_new_line,
 					read_line, last_string, close, count,
 					after, extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file
 		redefine
@@ -64,6 +64,11 @@ feature -- Write string
 	put_string_8 (str: STRING)
 		do
 			put_string_general (str)
+		end
+
+	put_raw_string_8 (s: STRING)
+		do
+			Precursor (encrypter.base_64_encrypted (s))
 		end
 
 feature -- Element change
@@ -117,13 +122,6 @@ feature -- Input
 					call (encrypter.base_64_encrypted (last_string))
 				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	put_raw_string_8 (s: STRING)
-		do
-			Precursor (encrypter.base_64_encrypted (s))
 		end
 
 	call (object: ANY)

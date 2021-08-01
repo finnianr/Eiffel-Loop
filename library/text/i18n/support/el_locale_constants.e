@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-24 11:38:18 GMT (Monday 24th August 2020)"
-	revision: "3"
+	date: "2021-08-01 14:37:20 GMT (Sunday 1st August 2021)"
+	revision: "4"
 
 class
 	EL_LOCALE_CONSTANTS
 
 feature {NONE} -- Constants
-
-	Variable_quantity: STRING = "QUANTITY"
 
 	Number_suffix: SPECIAL [ZSTRING]
 		once

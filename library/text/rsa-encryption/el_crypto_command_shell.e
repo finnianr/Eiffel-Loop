@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-27 9:15:15 GMT (Tuesday 27th July 2021)"
-	revision: "25"
+	date: "2021-08-01 11:48:53 GMT (Sunday 1st August 2021)"
+	revision: "26"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -43,73 +43,38 @@ feature -- Basic operations
 
 	decrypt_file_with_aes
 		do
-			lio.enter ("decrypt_file_with_aes")
 			do_with_encrypted_file (agent write_plain_text)
-			lio.exit
 		end
 
 	display_encrypted_file
 		do
-			lio.enter ("display_encrypted_file")
 			do_with_encrypted_file (agent display_plain_text)
-			lio.exit
 		end
 
 	display_encrypted_text
 			--
-		local
-			encrypter: like new_encrypter
-			text: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
-			lio.enter ("display_encrypted_text")
-			encrypter := new_encrypter (new_credential)
-			text := User_input.line ("Enter text")
-			text.replace_substring_all (Escaped_new_line, s.character_string ('%N'))
-
-			lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
-			lio.put_new_line
-			lio.put_labeled_string ("Key array", encrypter.out)
-			lio.put_new_line
-			lio.put_labeled_string ("Cipher text", encrypter.base_64_encrypted (text.to_utf_8 (False)))
-			lio.put_new_line
-			lio.exit
+			display_cipher_text (new_encrypter (new_credential), User_input.line ("Enter text"), False)
 		end
 
 	encrypt_file_with_aes
 		local
-			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 			encrypter: like new_encrypter; credential: like new_credential
-			input_path, output_path: EL_FILE_PATH
+			input_path: EL_FILE_PATH
 		do
-			lio.enter ("encrypt_file_with_aes")
 			input_path := new_file_path ("input")
 			credential := new_credential
 			log_pass_phrase_info (credential)
 			encrypter := new_encrypter (credential)
-
-			output_path := input_path.twin
-			output_path.add_extension (Extension.aes)
 
 			lio.put_string ("Encrypt file (y/n): ")
 			if User_input.entered_letter ('y') then
 
 				lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
 				lio.put_new_line
-				lio.put_line ("Key: " + encrypter.out)
 
-				if attached open (input_path, Read) as plain_text then
-					create cipher_file.make_open_write (output_path)
-					cipher_file.set_encrypter (encrypter)
-
-					from plain_text.read_line until plain_text.after loop
-						cipher_file.put_string (plain_text.last_string)
-						cipher_file.put_new_line
-						plain_text.read_line
-					end
-					cipher_file.close; plain_text.close
-				end
+				encrypt_file (encrypter, input_path, aes_path (input_path))
 			end
-			lio.exit
 		end
 
 	export_x509_private_key_to_aes
@@ -118,7 +83,6 @@ feature -- Basic operations
 			credential: like new_credential; key_read: BOOLEAN
 			key: EL_RSA_PRIVATE_KEY
 		do
-			lio.enter ("export_x509_private_key_to_aes")
 			from create key_file_path until key_file_path.has_extension (Extension.key) loop
 				key_file_path := new_file_path ("private X509")
 			end
@@ -140,14 +104,11 @@ feature -- Basic operations
 				export_path.add_extension (Extension.dat)
 				key.store (export_path, create {EL_AES_ENCRYPTER}.make (credential.phrase, new_bit_count))
 			end
-			lio.exit
 		end
 
 	generate_pass_phrase_salt
 		do
-			lio.enter ("generate_pass_phrase_salt")
 			log_pass_phrase_info (new_credential)
-			lio.exit
 		end
 
 	write_signed_CSV_list_with_x509_private_key
@@ -158,7 +119,6 @@ feature -- Basic operations
 			eiffel_class: EL_SIGNED_EIFFEL_CLASS
 			key_file_path: EL_FILE_PATH
 		do
-			lio.enter ("write_signed_CSV_list_with_x509_private_key")
 			key_file_path := new_key_file_path
 			private_key := new_private_key (key_file_path)
 			string := User_input.line ("Enter comma-separated list of strings to sign")
@@ -187,7 +147,6 @@ feature -- Basic operations
 				lio.put_labeled_string ("ERROR", "cannot be encoded with Latin-1 character set")
 				lio.put_new_line
 			end
-			lio.exit
 		end
 
 	write_x509_public_key_code_assignment
@@ -195,7 +154,6 @@ feature -- Basic operations
 			crt_file_path: EL_FILE_PATH; eiffel_source_name: EL_FILE_PATH; variable_name: ZSTRING
 			eif_class: EL_PUBLIC_KEY_MANIFEST_CLASS
 		do
-			lio.enter ("write_x509_public_key_code_assignment")
 			from create crt_file_path until crt_file_path.has_extension (Extension.crt) loop
 				crt_file_path := new_file_path ("public X509 crt")
 			end
@@ -214,15 +172,36 @@ feature -- Basic operations
 			else
 				lio.put_line ("Name may only contain Latin-1 characters")
 			end
-			lio.exit
 		end
 
 feature {NONE} -- Implementation
+
+	aes_path (input_path: EL_FILE_PATH): EL_FILE_PATH
+		do
+			Result := input_path.twin
+			Result.add_extension (Extension.aes)
+		end
 
 	to_crt_path (key_file_path: EL_FILE_PATH): EL_FILE_PATH
 		do
 			Result := key_file_path.without_extension -- remove .dat
 			Result.replace_extension (Extension.crt)
+		end
+
+	display_cipher_text (encrypter: like new_encrypter; text: ZSTRING; print_base_64: BOOLEAN)
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			text.replace_substring_all (Escaped_new_line, s.character_string ('%N'))
+
+			if print_base_64 then
+				lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
+			else
+				lio.put_labeled_string ("Key array", encrypter.out)
+			end
+			lio.put_new_line
+			lio.put_labeled_string ("Cipher text", encrypter.base_64_encrypted (text.to_utf_8 (False)))
+			lio.put_new_line
 		end
 
 	display_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
@@ -242,6 +221,28 @@ feature {NONE} -- Implementation
 				action.call ([create {EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}.make (input_path, new_encrypter (new_credential))])
 			else
 				lio.put_line ("Invalid file extension (.aes expected)")
+			end
+		end
+
+	encrypt_file (encrypter: like new_encrypter; input_path, output_path: EL_FILE_PATH)
+		local
+			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
+			c: EL_UTF_CONVERTER
+		do
+			lio.put_labeled_string ("Key", encrypter.out)
+			lio.put_new_line
+			lio.put_path_field ("Writing", output_path)
+			lio.put_new_line
+			if attached open (input_path, Read) as plain_text then
+				create cipher_file.make_open_write (output_path)
+				cipher_file.set_encrypter (encrypter)
+
+				from plain_text.read_line until plain_text.after loop
+					cipher_file.put_raw_string_8 (plain_text.last_string)
+					cipher_file.put_new_line
+					plain_text.read_line
+				end
+				cipher_file.close; plain_text.close
 			end
 		end
 

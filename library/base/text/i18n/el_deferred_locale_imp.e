@@ -6,26 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-24 12:22:41 GMT (Saturday 24th October 2020)"
-	revision: "10"
+	date: "2021-08-01 14:34:23 GMT (Sunday 1st August 2021)"
+	revision: "11"
 
 class
 	EL_DEFERRED_LOCALE_IMP
 
 inherit
-	EL_DEFERRED_LOCALE_I
+	ANY
 
-	EL_SOLITARY
+	EL_DEFERRED_LOCALE_I
+		rename
+			make_solitary as make
+		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature -- Status query
 
-	language: STRING
+	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
-			Result := "en"
+			Result := True
 		end
+
+feature {NONE} -- Implementation
 
 	in (a_language: STRING): EL_DEFERRED_LOCALE_I
 		do
@@ -35,6 +40,11 @@ feature {NONE} -- Implementation
 	is_curly_brace_enclosed (key: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := key.count > 2 and then key [1] = '{' and then key [key.count] = '}'
+		end
+
+	language: STRING
+		do
+			Result := "en"
 		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
@@ -56,6 +66,10 @@ feature {NONE} -- Implementation
 	translation_keys: ARRAY [ZSTRING]
 		do
 			create Result.make_empty
+		end
+
+	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
+		do
 		end
 
 feature {NONE} -- Constants
