@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 13:53:24 GMT (Wednesday 19th February 2020)"
-	revision: "6"
+	date: "2021-08-02 11:28:07 GMT (Monday 2nd August 2021)"
+	revision: "7"
 
 class
 	EL_SINGLE_THREAD_ACCESS
@@ -21,6 +21,13 @@ feature {NONE} -- Initialization
 			--
 		do
 			create mutex.make
+		end
+
+feature -- Status query
+
+	is_restricted: BOOLEAN
+		do
+			Result := mutex.owner /= default_pointer
 		end
 
 feature -- Status change

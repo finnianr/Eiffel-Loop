@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 10:51:31 GMT (Sunday 23rd August 2020)"
-	revision: "9"
+	date: "2021-08-02 11:48:39 GMT (Monday 2nd August 2021)"
+	revision: "10"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_INFORMATION_VIEW_DIALOG create make_info end]
@@ -111,7 +111,9 @@ feature {NONE} -- Constants
 
 	Default_message: ZSTRING
 		once
-			Locale.set_next_translation ("Something bad happened that prevented this operation!")
+			if Locale.english_only then
+				Locale.set_next_translation ("Something bad happened that prevented this operation!")
+			end
 			Result := Locale * "{something bad happened}"
 		end
 

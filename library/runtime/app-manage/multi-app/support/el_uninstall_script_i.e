@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 13:03:09 GMT (Wednesday 30th September 2020)"
-	revision: "11"
+	date: "2021-08-02 11:50:25 GMT (Monday 2nd August 2021)"
+	revision: "12"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -91,7 +91,9 @@ feature {NONE} -- Implementation
 		local
 			l_template: ZSTRING
 		do
-			Locale.set_next_translation ("%"%S%" removed.")
+			if Locale.english_only then
+				Locale.set_next_translation ("%"%S%" removed.")
+			end
 			l_template := Locale * "{APP_NAME-removed}"
 			Result := l_template #$ [menu_name]
 		end

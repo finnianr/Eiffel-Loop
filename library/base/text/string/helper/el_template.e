@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:45:37 GMT (Friday 24th January 2020)"
-	revision: "3"
+	date: "2021-08-02 10:01:38 GMT (Monday 2nd August 2021)"
+	revision: "4"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -80,6 +80,15 @@ feature -- Element change
 					bag.wipe_out
 				end
 				variable_values.found_item.append (value)
+			end
+		end
+
+	put_general (name: STRING; value: READABLE_STRING_GENERAL)
+		do
+			if attached {S} value as str then
+				put (name, str)
+			else
+				put (name, new_string (value))
 			end
 		end
 

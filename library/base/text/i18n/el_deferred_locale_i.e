@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-01 14:37:54 GMT (Sunday 1st August 2021)"
-	revision: "10"
+	date: "2021-08-02 11:51:37 GMT (Monday 2nd August 2021)"
+	revision: "11"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -64,33 +64,20 @@ feature -- Access
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
 		local
-			template: like translation_template; s: EL_ZSTRING_ROUTINES
+			template: like translation_template
 		do
 			template := translation_template (partial_key, quantity)
-
 			across substitutions as list loop
-				template.put (list.item.name, s.as_zstring (list.item.value))
+				template.put_general (list.item.name, list.item.value)
 			end
-			if template.has (Var_quantity) then
-				template.put (Var_quantity, s.as_zstring (quantity.out))
-			end
+			template.put_general (Var_quantity, quantity.out)
 			Result := template.substituted
 		end
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
 			-- application level
-		do
-			Result := translated_string (translations, key)
-		end
-
-	translation_array (keys: ITERABLE [READABLE_STRING_GENERAL]): ARRAY [ZSTRING]
-			--
-		local
-			list: EL_ZSTRING_LIST
-		do
-			create list.make_from_general (keys)
-			Result := list.to_array
+		deferred
 		end
 
 	translation_keys: ARRAY [ZSTRING]
@@ -103,24 +90,29 @@ feature -- Status query
 		deferred
 		end
 
+	english_only: BOOLEAN
+		-- `True' if application is not localized
+		do
+			Result := True
+		end
+
 feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
-		-- set text to return on next call to `translation' with key enclosed with curly braces "{}"
+		-- set text for next call to `translation' with key enclosed with curly braces "{}"
+		deferred
+		end
+
+	set_next_quantity_translation (quantity: INTEGER; text: READABLE_STRING_GENERAL)
+		-- set text for next call to `quantity_translation_extra' with key enclosed with curly braces "{}"
+		require
+			valid_quantity: 0 <= quantity and quantity <= 2
 		deferred
 		end
 
 feature {NONE} -- Implementation
 
-	translated_string (table: like translations; key: READABLE_STRING_GENERAL): ZSTRING
-		deferred
-		end
-
 	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
-		deferred
-		end
-
-	translations: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		deferred
 		end
 

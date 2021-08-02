@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-01 14:34:23 GMT (Sunday 1st August 2021)"
-	revision: "11"
+	date: "2021-08-02 11:57:51 GMT (Monday 2nd August 2021)"
+	revision: "12"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -16,12 +16,20 @@ inherit
 	ANY
 
 	EL_DEFERRED_LOCALE_I
-		rename
-			make_solitary as make
-		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			make_solitary
+			create next_translations.make_empty (3)
+			from until next_translations.count = 3 loop
+				next_translations.extend (create {ZSTRING}.make_empty)
+			end
+		end
 
 feature -- Status query
 
@@ -47,17 +55,28 @@ feature {NONE} -- Implementation
 			Result := "en"
 		end
 
+	set_next_quantity_translation (quantity: INTEGER; text: READABLE_STRING_GENERAL)
+		-- set text for next call to `quantity_translation_extra' with key enclosed with curly braces "{}"
+		local
+			index: INTEGER
+		do
+			index := quantity.abs.min (2)
+			next_translations [index].wipe_out
+			next_translations [index].append_string_general (text)
+		end
+
 	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- set text to return on next call to `translation' with key enclosed with curly braces "{}"
 		do
-			Next_translation.wipe_out
-			Next_translation.append_string_general (text)
+			set_next_quantity_translation (0, text)
 		end
 
-	translated_string (table: like translations; key: READABLE_STRING_GENERAL): ZSTRING
+	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
+			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
+			-- application level
 		do
 			if is_curly_brace_enclosed (key) then
-				Result := next_translation.twin
+				Result := next_translations [0].twin
 			else
 				create Result.make_from_general (key)
 			end
@@ -70,7 +89,12 @@ feature {NONE} -- Implementation
 
 	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
 		do
+			create Result.make (next_translations [quantity.abs.min (2)])
 		end
+
+feature {NONE} -- Internal attributes
+
+	next_translations: SPECIAL [ZSTRING]
 
 feature {NONE} -- Constants
 
@@ -82,16 +106,6 @@ feature {NONE} -- Constants
 	Date_text: EL_ENGLISH_DATE_TEXT
 		once
 			create Result.make
-		end
-
-	Next_translation: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	Translations: EL_ZSTRING_HASH_TABLE [ZSTRING]
-		once
-			create Result.make_equal (0)
 		end
 
 end

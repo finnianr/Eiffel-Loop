@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 11:02:34 GMT (Monday 10th May 2021)"
-	revision: "7"
+	date: "2021-08-02 11:49:59 GMT (Monday 2nd August 2021)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -76,7 +76,9 @@ feature {NONE} -- Initialization
 					key.prune_all_trailing ('_') -- in case of keyword differentiation
 					key.append_character ('}')
 					key.replace_character ('_', '-')
-					locale.set_next_translation (l_table.found_item)
+					if Locale.english_only then
+						locale.set_next_translation (l_table.found_item)
+					end
 				else
 					key.append_string_general (field.key)
 					key.prune_all_trailing ('_')

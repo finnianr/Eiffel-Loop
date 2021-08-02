@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-31 12:07:55 GMT (Tuesday 31st December 2019)"
-	revision: "4"
+	date: "2021-08-02 11:50:15 GMT (Monday 2nd August 2021)"
+	revision: "5"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -85,7 +85,9 @@ feature {EL_UNINSTALL_SCRIPT_I} -- String constants
 		local
 			template: ZSTRING
 		once
-			Locale.set_next_translation ("Delete data and configuration files for all %S users (y/n)")
+			if Locale.english_only then
+				Locale.set_next_translation ("Delete data and configuration files for all %S users (y/n)")
+			end
 			template := Locale * "{remove-all-data-prompt}"
 			Result := template #$ [Application_list.Main_launcher.name]
 		end

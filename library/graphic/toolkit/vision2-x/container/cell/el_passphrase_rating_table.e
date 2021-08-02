@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-09 10:15:47 GMT (Wednesday 9th September 2020)"
-	revision: "2"
+	date: "2021-08-02 11:49:29 GMT (Monday 2nd August 2021)"
+	revision: "3"
 
 class
 	EL_PASSPHRASE_RATING_TABLE
@@ -138,13 +138,17 @@ feature {NONE} -- Constants
 
 	Minimum_score_template: ZSTRING
 		once
-			Locale.set_next_translation ("(Minimum is %S)")
+			if Locale.english_only then
+				Locale.set_next_translation ("(Minimum is %S)")
+			end
 			Result := Locale * "{minimum-score}"
 		end
 
 	Score_template: ZSTRING
 		once
-			Locale.set_next_translation ("Passphrase strength (%S / 6)")
+			if Locale.english_only then
+				Locale.set_next_translation ("Passphrase strength (%S / 6)")
+			end
 			Result := Locale * "{passphrase-strength}"
 		end
 

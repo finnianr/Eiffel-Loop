@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 15:26:38 GMT (Friday 25th June 2021)"
-	revision: "17"
+	date: "2021-08-02 11:36:59 GMT (Monday 2nd August 2021)"
+	revision: "18"
 
 class
 	EL_TRANSLATION_TABLE
@@ -24,11 +24,6 @@ inherit
 			is_equal, copy, default_create
 		redefine
 			make_default, building_action_table
-		end
-
-	EL_LOCALE_CONSTANTS
-		undefine
-			is_equal, copy, default_create
 		end
 
 	EL_MODULE_LIO
@@ -48,7 +43,6 @@ feature {NONE} -- Initialization
 		do
 			create last_id.make_empty
 			create duplicates.make_empty
-			create general.make
 			make_equal (60)
 			Precursor
 		end
@@ -99,32 +93,6 @@ feature -- Access
 
 	language: STRING
 
-feature -- Status query
-
-	has_general (key: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := has (general.to_zstring (key))
-		end
-
-	has_general_quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
-		-- True if key to match `quantity' is present
-		do
-			Result := has (quantity_key (partial_key, quantity))
-		end
-
-feature -- Cursor movement
-
-	search_general (key: READABLE_STRING_GENERAL)
-		do
-			search (general.to_zstring (key))
-		end
-
-	search_quantity_general (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER)
-		-- search for key to match `quantity' is present
-		do
-			search (quantity_key (partial_key, quantity))
-		end
-
 feature -- Basic operations
 
 	print_duplicates
@@ -166,20 +134,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	quantity_key (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
-			-- complete partial_key by appending ":0", ":1" or ":>1"
-		do
-			Result := general.joined (partial_key, Number_suffix [quantity.min (2)])
-			if not has (Result) then
-				Result := general.joined (partial_key, Number_suffix [2])
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	duplicates: EL_ZSTRING_LIST
-
-	general: EL_ZSTRING_CONVERTER
 
 feature {NONE} -- Build from XML
 

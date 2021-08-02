@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:34:34 GMT (Wednesday 19th May 2021)"
-	revision: "4"
+	date: "2021-08-02 11:45:04 GMT (Monday 2nd August 2021)"
+	revision: "5"
 
 class
 	EL_LOCALE_DATE_TEXT
@@ -55,7 +55,9 @@ feature {NONE} -- Implementation
 	ordinal_indicator (i: INTEGER): ZSTRING
 			--	
 		do
-			locale.set_next_translation (Precursor (i))
+			if locale.english_only then
+				locale.set_next_translation (Precursor (i))
+			end
 			Result := locale * Ordinal_indicator_template #$ [i]
 		end
 

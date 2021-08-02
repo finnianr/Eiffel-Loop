@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-10 11:09:36 GMT (Thursday 10th December 2020)"
-	revision: "4"
+	date: "2021-08-02 11:49:02 GMT (Monday 2nd August 2021)"
+	revision: "5"
 
 class
 	EL_PASSPHRASE_ATTRIBUTE_MAP
@@ -43,7 +43,9 @@ feature {NONE} -- Initialization
 			across Passphrase_attribute.list as value loop
 				key := Passphrase_attribute.field_name (value.item)
 				key.enclose ('{', '}')
-				Locale.set_next_translation (Passphrase_attribute.description (value.item))
+				if Locale.english_only then
+					Locale.set_next_translation (Passphrase_attribute.description (value.item))
+				end
 				extend (Locale * key, False)
 			end
 		end

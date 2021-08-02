@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-01 14:35:28 GMT (Sunday 1st August 2021)"
-	revision: "18"
+	date: "2021-08-02 11:41:06 GMT (Monday 2nd August 2021)"
+	revision: "19"
 
 deferred class
 	EL_LOCALE_I
@@ -26,7 +26,7 @@ deferred class
 inherit
 	EL_DEFERRED_LOCALE_I
 		redefine
-			translation, translation_array
+			english_only
 		end
 
 	EL_SINGLE_THREAD_ACCESS
@@ -37,8 +37,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
-
-	EL_LOCALE_CONSTANTS
 
 	EL_SHARED_SINGLETONS
 
@@ -51,6 +49,8 @@ feature {NONE} -- Initialization
  			make_solitary; make_access
 
 			restrict_access
+				create converter.make
+
 				default_language := a_default_language
 				if Locale_table.has (a_language) then
 					language := a_language
@@ -114,15 +114,13 @@ feature -- Access
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				Result := Precursor (key)
-			end_restriction
-		end
-
-	translation_array (keys: ITERABLE [READABLE_STRING_GENERAL]): ARRAY [ZSTRING]
-			--
-		do
-			restrict_access -- synchronized
-				Result := Precursor (keys)
+				if attached translations as table then
+					if table.has_key (z_key (key)) then
+						Result := table.found_item
+					else
+						Result := Unknown_key_template #$ [key]
+					end
+				end
 			end_restriction
 		end
 
@@ -144,7 +142,7 @@ feature -- Status query
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				Result := translations.has_general (key)
+				Result := translations.has (z_key (key))
 			end_restriction
 		end
 
@@ -158,8 +156,13 @@ feature -- Status query
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
-				Result := translations.has_general_quantity_key (key, quantity)
+				Result := translations.has (z_key_for (key, quantity)) or else translations.has (z_key_plural (key))
 			end_restriction
+		end
+
+	english_only: BOOLEAN
+		do
+			Result := False
 		end
 
 feature {EL_LOCALE_CONSTANTS} -- Factory
@@ -181,27 +184,25 @@ feature {NONE} -- Implementation
 		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)
-		-- not used
+		-- used only in `EL_DEFERRED_LOCALE_IMP'
 		do
 		end
 
-	translated_string (table: like translations; a_key: READABLE_STRING_GENERAL): ZSTRING
+	set_next_quantity_translation (quantity: INTEGER; text: READABLE_STRING_GENERAL)
+		-- used only in `EL_DEFERRED_LOCALE_IMP'
 		do
-			table.search_general (a_key)
-			if table.found then
-				Result := table.found_item
-			else
-				Result := Unknown_key_template #$ [a_key]
-			end
 		end
 
 	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
 		do
 			restrict_access
 				if attached translations as table then
-					table.search_quantity_general (partial_key, quantity)
-					if table.found then
+					if table.has_key (z_key_for (partial_key, quantity)) then
 						create Result.make (table.found_item)
+
+					elseif table.has_key (z_key_plural (partial_key)) then
+						create Result.make (table.found_item)
+
 					else
 						create Result.make (Unknown_quantity_key_template #$ [partial_key, quantity])
 					end
@@ -209,9 +210,34 @@ feature {NONE} -- Implementation
 			end_restriction
 		end
 
+	z_key (key: READABLE_STRING_GENERAL): ZSTRING
+		require
+			thread_restricted: is_restricted
+		do
+			Result := converter.to_zstring (key)
+		end
+
+	z_key_plural (partial_key: READABLE_STRING_GENERAL): ZSTRING
+		-- plural ZSTRING key
+		require
+			thread_restricted: is_restricted
+		do
+			Result := converter.joined (partial_key, Number_suffix [2])
+		end
+
+	z_key_for (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
+			-- complete partial_key by appending ":0", ":1" or ":>1"
+		require
+			thread_restricted: is_restricted
+		do
+			Result := converter.joined (partial_key, Number_suffix [quantity.min (2)])
+		end
+
 feature {NONE} -- Internal attributes
 
 	translations: EL_TRANSLATION_TABLE
+
+	converter: EL_ZSTRING_CONVERTER
 
 feature {EL_LOCALE_CONSTANTS} -- Constants
 
@@ -221,4 +247,21 @@ feature {EL_LOCALE_CONSTANTS} -- Constants
 			Result := create {EL_SINGLETON [EL_LOCALE_TABLE]}
 	 	end
 
+	Number_suffix: SPECIAL [ZSTRING]
+		once
+			create Result.make_empty (3)
+			Result.extend (":0") -- zero
+			Result.extend (":1") -- singular
+			Result.extend (":>1") -- plural
+		end
+
+	Unknown_key_template: ZSTRING
+		once
+			Result := "+%S+"
+		end
+
+	Unknown_quantity_key_template: ZSTRING
+		once
+			Result := "+%S: %S+"
+		end
 end
