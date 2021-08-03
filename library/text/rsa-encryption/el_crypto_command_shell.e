@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-01 11:48:53 GMT (Sunday 1st August 2021)"
-	revision: "26"
+	date: "2021-08-03 10:54:35 GMT (Tuesday 3rd August 2021)"
+	revision: "27"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -114,10 +114,8 @@ feature -- Basic operations
 	write_signed_CSV_list_with_x509_private_key
 		local
 			private_key: like new_private_key; string: ZSTRING
-			signed_string: SPECIAL [NATURAL_8]; serial_number: STRING
-			string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
-			eiffel_class: EL_SIGNED_EIFFEL_CLASS
-			key_file_path: EL_FILE_PATH
+			signed_string: SPECIAL [NATURAL_8];  string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
+			eiffel_class: EL_SIGNED_EIFFEL_CLASS; key_file_path: EL_FILE_PATH
 		do
 			key_file_path := new_key_file_path
 			private_key := new_private_key (key_file_path)
@@ -125,11 +123,7 @@ feature -- Basic operations
 			if string.is_valid_as_string_8 then
 				string_list := string.to_latin_1
 				if across string_list as list all list.item.count <= 16 end then
-					if attached X509_certificate.public_reader (to_crt_path (key_file_path)) as cmd then
-						cmd.execute
-						serial_number := cmd.serial_number
-					end
-					create eiffel_class.make (new_eiffel_source_name, serial_number)
+					create eiffel_class.make (new_eiffel_source_name, serial_number (key_file_path))
 					across string_list as list loop
 						create signed_string.make_filled (0, 16)
 						signed_string.copy_data (s.to_code_array (list.item), 0, 0, list.item.count)
@@ -227,7 +221,6 @@ feature {NONE} -- Implementation
 	encrypt_file (encrypter: like new_encrypter; input_path, output_path: EL_FILE_PATH)
 		local
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
-			c: EL_UTF_CONVERTER
 		do
 			lio.put_labeled_string ("Key", encrypter.out)
 			lio.put_new_line
@@ -254,6 +247,14 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 			lio.put_labeled_string ("Is valid", pass_phrase.is_valid.out)
 			lio.put_new_line
+		end
+
+	serial_number (key_file_path: EL_FILE_PATH): STRING
+		do
+			if attached X509_certificate.public_reader (to_crt_path (key_file_path)) as cmd then
+				cmd.execute
+				Result := cmd.serial_number
+			end
 		end
 
 	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
