@@ -713,6 +713,9 @@ class
 inherit
 	EL_BUILD_INFO
 
+create
+	make
+
 feature -- Constants
 
 	Version_number: NATURAL = ${version}

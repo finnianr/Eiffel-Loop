@@ -9,22 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-20 10:17:34 GMT (Wednesday 20th May 2020)"
-	revision: "10"
+	date: "2021-08-04 15:51:02 GMT (Wednesday 4th August 2021)"
+	revision: "11"
 
 deferred class
 	EL_BUILD_INFO
 
 inherit
 	ANY
-		undefine
-			default_create
-		end
 
 	EL_SOLITARY
-		rename
-			make as default_create
-		end
 
 feature -- Access
 

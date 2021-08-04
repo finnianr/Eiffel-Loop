@@ -7,14 +7,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-15 14:08:52 GMT (Saturday 15th December 2018)"
-	revision: "1"
+	date: "2021-08-04 16:14:54 GMT (Wednesday 4th August 2021)"
+	revision: "2"
 
 class
 	BUILD_INFO
 
 inherit
 	EL_BUILD_INFO
+
+create
+	make
 
 feature -- Constants
 

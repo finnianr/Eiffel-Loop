@@ -11,6 +11,9 @@ class
 inherit
 	EL_BUILD_INFO
 
+create
+	make
+
 feature -- Constants
 
 	Version_number: NATURAL = 01_00_00

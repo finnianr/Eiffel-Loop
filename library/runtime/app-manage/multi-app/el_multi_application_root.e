@@ -2,7 +2,7 @@ note
 	description: "[
 		Selects a sub-application to launch from a shared list of uninitialized instances conforming to [$source EL_SUB_APPLICATION].
 		The list is created using types defined by the `APPLICATION_TYPES' tuple parameter. A command line option matching the string
-		value `{EL_SUB_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application. 
+		value `{EL_SUB_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application.
 	]"
 	notes: "[
 		The [$source EL_VERSION_APP] application is automatically added to list of instances defined by `APPLICATION_TYPES' tuple.
@@ -19,11 +19,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-10 11:47:17 GMT (Saturday 10th October 2020)"
-	revision: "20"
+	date: "2021-08-04 15:51:26 GMT (Wednesday 4th August 2021)"
+	revision: "21"
 
 deferred class
-	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create default_create end, APPLICATION_TYPES -> TUPLE create default_create end]
+	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
 
 inherit
 	EL_FACTORY_CLIENT
@@ -96,6 +96,6 @@ feature {NONE} -- Implementation
 		local
 			shared_build_info: B
 		do
-			create shared_build_info
+			create shared_build_info.make
 		end
 end

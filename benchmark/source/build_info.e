@@ -4,14 +4,17 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2021-04-08 10:41:31 GMT (Thursday 8th April 2021)"
-	revision: "1"
+	date: "2021-08-04 16:14:41 GMT (Wednesday 4th August 2021)"
+	revision: "2"
 
 class
 	BUILD_INFO
 
 inherit
 	EL_BUILD_INFO
+
+create
+	make
 
 feature -- Constants
 

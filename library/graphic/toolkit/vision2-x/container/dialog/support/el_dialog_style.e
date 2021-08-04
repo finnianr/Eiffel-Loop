@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-16 11:03:39 GMT (Sunday 16th August 2020)"
-	revision: "2"
+	date: "2021-08-04 13:28:10 GMT (Wednesday 4th August 2021)"
+	revision: "3"
 
 class
 	EL_DIALOG_STYLE
@@ -42,14 +42,12 @@ feature {NONE} -- Initialization
 
 			create color
 			color.button_box := Default_color
-			color.content_area := Default_color
+			color.content_area := Mod_color.default_background
 			color.default_border := Mod_color.gray
 			color.progress_bar := Mod_color.Blue
 
 			new_button_pixmap_set := Default_new_button_pixmap_set
 		end
-
-
 
 feature -- Colors
 
