@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:41:06 GMT (Monday 2nd August 2021)"
-	revision: "19"
+	date: "2021-08-05 7:22:53 GMT (Thursday 5th August 2021)"
+	revision: "20"
 
 deferred class
 	EL_LOCALE_I
@@ -39,6 +39,8 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_SHARED_SINGLETONS
+
+	EL_LOCALE_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -247,21 +249,4 @@ feature {EL_LOCALE_CONSTANTS} -- Constants
 			Result := create {EL_SINGLETON [EL_LOCALE_TABLE]}
 	 	end
 
-	Number_suffix: SPECIAL [ZSTRING]
-		once
-			create Result.make_empty (3)
-			Result.extend (":0") -- zero
-			Result.extend (":1") -- singular
-			Result.extend (":>1") -- plural
-		end
-
-	Unknown_key_template: ZSTRING
-		once
-			Result := "+%S+"
-		end
-
-	Unknown_quantity_key_template: ZSTRING
-		once
-			Result := "+%S: %S+"
-		end
 end

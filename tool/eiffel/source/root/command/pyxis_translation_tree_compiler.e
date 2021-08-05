@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 8:21:29 GMT (Friday 25th June 2021)"
-	revision: "10"
+	date: "2021-08-05 7:16:37 GMT (Thursday 5th August 2021)"
+	revision: "11"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER

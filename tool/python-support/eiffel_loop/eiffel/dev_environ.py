@@ -97,6 +97,8 @@ cur_dir = path.curdir ()
 # keep assertions in finalized build
 keep_assertions = False
 
+build_info_path = 'source/build_info.e'
+
 if not ise.key_library in os.environ:
 	os.environ [ise.key_library] = ise.eiffel
 

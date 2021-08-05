@@ -21,8 +21,6 @@ system:
 			company = "Eiffel-Loop"; product = "test"
 			copyright = "Finnian Reilly"
 
-		variable:
-			name = build_info_dir; value = "source/root"
 		option:
 			syntax = standard; full_class_checking = false; void_safety = none
 			assertions:

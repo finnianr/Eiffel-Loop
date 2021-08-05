@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:50:15 GMT (Monday 2nd August 2021)"
-	revision: "5"
+	date: "2021-08-05 7:52:03 GMT (Thursday 5th August 2021)"
+	revision: "6"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 		do
 			OS.delete_tree (path); parent := path.parent
 			parent_base := parent.base.twin; parent_base.prune_all_leading ('.')
-			if parent_base ~ Build_info.company_name and then OS_directory.named (parent).is_empty then
+			if parent_base ~ Build_info.company and then OS_directory.named (parent).is_empty then
 				OS.delete_tree (parent)
 			end
 		end

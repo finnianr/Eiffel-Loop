@@ -217,16 +217,9 @@ class SYSTEM_INFO (object):
 		self.platform = platform_name ()
 
 # Access
-	def build_info_path (self):
-		# attempt to get location of 'build_info.e' file from ECF, defaulting to 'source' if not found
 
-		result = self.ctx.attribute ("target[1]/variable[@name='build_info_dir']/@value")
-		if result:
-			result = path.normpath (result)
-		else:
-			result = 'source'
-		result = path.join (result, 'build_info.e')
-		return result	
+	def cluster_list (self):
+		return self.__new_cluster_list ()
 
 	def exe_name (self):
 		if is_platform_windows ():
@@ -246,6 +239,17 @@ class SYSTEM_INFO (object):
 		result = self.ctx.attribute ('target[1]/precompile/@location')
 		if result:
 			result = expanded_path (result)
+		return result
+
+	def root_class_name (self):
+		return self.ctx.attribute ('target[1]/root[1]/@class')
+
+	def root_class_path (self):
+		base_name = self.root_class_name ().swapcase () + '.e'
+		for name, location in self.cluster_list ().items ():
+			result = path.join (location, base_name)
+			if path.exists (result):
+				break
 		return result
 
 	def installation_sub_directory (self):
@@ -268,25 +272,21 @@ class SYSTEM_INFO (object):
 		return result
 
 # Basic operations
-	def write_build_info (self):
-		# Write the Eiffel source file `BUILD_INFO' containing version information
-		version = self.version ()
-		f = open (self.build_info_path (), 'w')
-		f.write (
-			Build_info_class_template.substitute (
-				version = version.compact (),
-				build_number = version.build,
-				# Assumes unix separator
-				installation_sub_directory = self.installation_sub_directory ()
-			)
-		)
-		f.close ()
 
 	def write_version_text (self):
 		# Write build/version.txt
 		f = open (path.join ('build', 'version.txt'), 'w')
 		f.write ("%s.%s.%s" % self.version ().tuple_3 ())
 		f.close ()
+
+# Implementation
+	def __new_cluster_list (self):
+		# list of non ISE libraries
+		result = {}
+		for ctx in self.ctx.context_list ('target[1]/cluster'):
+			location = path.normpath (ctx.attribute ("@location"))
+			result [ctx.attribute ("@name")] = path.expandvars (location)
+		return result
 
 class EIFFEL_CONFIG_FILE (object):
 
@@ -391,6 +391,7 @@ class FREEZE_BUILD (object):
 		self.system = ecf.system
 		self.ecf_path = ecf.location
 		self.pecf_path = None
+		self.build_info_path = project_py.build_info_path
 
 		ecf_path_parts = path.splitext (self.ecf_path)
 		if ecf_path_parts [1] == '.pecf':
@@ -490,15 +491,18 @@ class FREEZE_BUILD (object):
 		return ['-freeze', '-c_compile']
 
 	def resources_destination (self):
-		self.write_io ('resources_destination freeze\n')
 		return self.system.installation_dir ()
 
 # Status query
 	
 
 # Basic operations	
+
+	def install_resources (self):
+		self.__install_resources_to (self.system.installation_dir ())
+
 	def pre_compilation (self):
-		self.system.write_build_info ()
+		self.__write_build_info ()
 		self.system.write_version_text ()
 
 		# Make build/win64, etc
@@ -514,33 +518,20 @@ class FREEZE_BUILD (object):
 		ret_code = call (cmd)
 
 	def post_compilation (self):
-		self.install_resources (self.resources_destination ())
+		self.__install_resources_to (self.resources_destination ())
 
-	def install_resources (self, destination_dir):
-		print 'Installing resources in:', destination_dir
-		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
+	def write_io (self, str):
+		sys.stdout.write (str)
 
-		if not path.exists (destination_dir):
-			mkpath (destination_dir)
-		resource_root_dir = "resources"
-		if path.exists (resource_root_dir):
-			excluded_dirs = ["workarea"]
-			resource_list = [
-				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
-			]
-			for resource_path in resource_list:
-				basename = path.basename (resource_path)
-				self.write_io ('Installing %s\n' % basename)
-				if path.isdir (resource_path):
-					resource_dest_dir = path.join (destination_dir, basename)
-					if path.exists (resource_dest_dir):
-						remove_tree (resource_dest_dir)	
-					copy_tree (resource_path, resource_dest_dir)	
-				else:
-					copy_file (resource_path, destination_dir)
+# Implementation
+	def _file_command_set (self, destination_dir):
+		self.write_io ("using root copy permissions\n")
+		result = (dir_util.sudo_copy_tree, file_util.sudo_copy_file, dir_util.sudo_remove_tree, dir_util.sudo_mkpath)
+	
+		return result
 
-	def install_executables (self, destination_dir):
-		print 'Installing executables in:', destination_dir
+	def __install_executables (self, destination_dir):
+		self.write_io ('Installing executables in: %s\n' % destination_dir)
 		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
 		bin_dir = path.join (destination_dir, 'bin')
@@ -563,16 +554,28 @@ class FREEZE_BUILD (object):
 			f.write (launch_script_template % (install_bin_dir, self.exe_name))
 			f.close ()
 
-	def write_io (self, str):
-		sys.stdout.write (str)
+	def __install_resources_to (self, destination_dir):
+		self.write_io ('Installing resources in: %s\n' % destination_dir)
+		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
-# Implementation
-
-	def _file_command_set (self, destination_dir):
-		self.write_io ("using root copy permissions\n")
-		result = (dir_util.sudo_copy_tree, file_util.sudo_copy_file, dir_util.sudo_remove_tree, dir_util.sudo_mkpath)
-	
-		return result
+		if not path.exists (destination_dir):
+			mkpath (destination_dir)
+		resource_root_dir = "resources"
+		if path.exists (resource_root_dir):
+			excluded_dirs = ["workarea"]
+			resource_list = [
+				path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir ) if not name in excluded_dirs
+			]
+			for resource_path in resource_list:
+				basename = path.basename (resource_path)
+				self.write_io ('Installing %s\n' % basename)
+				if path.isdir (resource_path):
+					resource_dest_dir = path.join (destination_dir, basename)
+					if path.exists (resource_dest_dir):
+						remove_tree (resource_dest_dir)	
+					copy_tree (resource_path, resource_dest_dir)	
+				else:
+					copy_file (resource_path, destination_dir)
 
 	def __shared_object_libraries (self):
 		result = []
@@ -585,6 +588,24 @@ class FREEZE_BUILD (object):
 					result.append (object_path)
 
 		return result
+
+	def __write_build_info (self):
+		# Write the Eiffel source file `BUILD_INFO' containing version information
+		class_name = path.basename (self.build_info_path)
+		class_name = (class_name [0: class_name.rfind ('.e')]).swapcase ()
+
+		version = self.system.version ()
+		f = open (self.build_info_path, 'w')
+		f.write (
+			Build_info_class_template.substitute (
+				class_name = class_name,
+				version = version.compact (),
+				build_number = version.build,
+				# Assumes unix separator
+				installation_sub_directory = self.system.installation_sub_directory ()
+			)
+		)
+		f.close ()
 
 	def __SConscript_path (self, lib):
 		#print "__SConscript_path (%s)" % lib
@@ -683,8 +704,8 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 
 	def post_compilation (self):
 		destination = self.resources_destination ()
-		self.install_resources (destination)
-		self.install_executables (destination)
+		self.__install_resources_to (destination)
+		self.__install_executables (destination)
 
 		code_dir = self.code_dir ()
 		dir_util.remove_tree (code_dir)
@@ -708,7 +729,7 @@ Build_info_class_template = Template (
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
 class
-	BUILD_INFO
+	${class_name}
 
 inherit
 	EL_BUILD_INFO

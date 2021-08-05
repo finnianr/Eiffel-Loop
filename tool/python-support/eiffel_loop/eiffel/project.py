@@ -200,7 +200,8 @@ class EIFFEL_PROJECT (object):
 		self.pecf_name = self.name + '.pecf'
 		
 		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
-
+		self.root_class_path = system.root_class_path ()
+		self.alternative_root = None
 		self.exe_name = system.exe_name ()
 		self.version = system.version ().short_string ()
 # Access
@@ -256,6 +257,15 @@ class EIFFEL_PROJECT (object):
 		# Build Workbench code
 		call (scons_command (['action=freeze']))
 
+	def link_alternative_root (self):
+		tmp_path = path.splitext (self.root_class_path) [0] + '.tmp'
+		dir_path = path.abspath (path.dirname (self.root_class_path))
+		if path.islink (self.root_class_path):
+			os.remove (self.root_class_path)
+		else:
+			os.rename (self.root_class_path, tmp_path)
+		self.link (path.join (dir_path, self.alternative_root), path.abspath (self.root_class_path))
+
 	def copy (self, exe_path, exe_dest_path):
 		pass
 
@@ -277,7 +287,7 @@ class EIFFEL_PROJECT (object):
 		self.copy (exe_path, exe_dest_path)
 		print "Copied " + exe_path + " to", install_dir
 
-		if self.link (exe_dest_path, path.join (install_dir, self.exe_name)) == 0:
+		if self.link (exe_dest_path, path.join (install_dir, self.exe_name), 'sudo') == 0:
 			print 'Linked', self.exe_name, '->', exe_dest_path
 		else:
 			print "Link error"
@@ -315,8 +325,11 @@ class UNIX_EIFFEL_PROJECT (EIFFEL_PROJECT):
 	def shared_object_list (self, dir_path):
 		return glob (path.join (dir_path, '*.so'))
 
-	def link (self, target, link_name):
-		return call (['sudo', 'ln', '-f', '-s', target, link_name])
+	def link (self, target, link_name, sudo = None):
+		cmd = ['ln', '-f', '-s', target, link_name]
+		if sudo:
+			cmd.insert (0, sudo)
+		return call (cmd)
 
 # Implementation
 	def versioned_exe_name (self):

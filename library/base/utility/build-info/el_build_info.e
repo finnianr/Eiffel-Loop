@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 15:51:02 GMT (Wednesday 4th August 2021)"
-	revision: "11"
+	date: "2021-08-05 7:51:25 GMT (Thursday 5th August 2021)"
+	revision: "12"
 
 deferred class
 	EL_BUILD_INFO
@@ -22,7 +22,8 @@ inherit
 
 feature -- Access
 
-	company_name: ZSTRING
+	company: ZSTRING
+		-- company name
 		do
 			Result := installation_sub_directory.first_step
 		end
@@ -34,7 +35,8 @@ feature -- Access
 			has_two_parts: Result.step_count = 2
 		end
 
-	product_name: ZSTRING
+	product: ZSTRING
+		-- product name
 		do
 			Result := installation_sub_directory.base
 		end

@@ -24,12 +24,9 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			major = 1; minor = 4; release = 0; build = 359
+			major = 1; minor = 4; release = 0; build = 361
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
-
-		variable:
-			name = build_info_dir; value = "source/root"
 
 		option: 
 			syntax = standard; full_class_checking = false; void_safety = none
