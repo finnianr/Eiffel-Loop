@@ -31,12 +31,7 @@ arguments.Add (
 	)
 )
 arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
-
-#arguments.Add (
-#	ListVariable (
-#		'MSC_options', 'Visual Studio setenv.cmd options', '', Split ("/Debug /Release /x86 /x64 /ia64 /vista /xp /2003 /2008 /win7")
-#	)
-#)
+arguments.Add (PathVariable ('root_class', 'Path to alternative root class', None, PathVariable.PathExists))
 
 env = Environment (variables = arguments)
 
@@ -47,17 +42,16 @@ if env.GetOption ('help'):
 	
 else:
 	is_windows_platform = sys.platform == 'win32'
+	root_class_path = env.get ('root_class')
+	
 	project_py = project.read_project_py ()
 	print "project_py.keep_assertions", project_py.keep_assertions
 
-#	MSC_options = env.get ('MSC_options').data
-#	if MSC_options:
-#		project_py.MSC_options = MSC_options
-#		print 'MSC_options:', project_py.MSC_options
-	
 	action = env.get ('action')
 	compile_eiffel = env.get ('compile_eiffel')
+	root_class_path = env.get ('root_class')
 	print 'compile_eiffel', compile_eiffel
+	print "Alternative root class: '%s'" % root_class_path
 
 	project_py.set_build_environment ()
 
@@ -76,6 +70,8 @@ else:
 			build = FINALIZED_BUILD (config, project_py)
 	
 			if compile_eiffel:
+				if root_class_path:
+					tar_build.root_class_path = root_class_path
 				env.Append (EIFFEL_BUILD = tar_build)
 				env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
 				f_code = env.eiffel_compile (tar_build.target (), project_py.ecf)

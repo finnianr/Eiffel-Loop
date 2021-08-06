@@ -1,7 +1,7 @@
 note
 	description: "Wrapper for [https://www.winzip.com/win/en/prodpagese.html wzipse32 command]"
 	notes: "[
-		Template arguments match fields in  [$source PACKAGE_BUILDER_CONFIG]
+		Template arguments match wzipse32 arguments fields in [$source WINZIP_SOFTWARE_PACKAGE]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 9:22:49 GMT (Tuesday 27th April 2021)"
-	revision: "4"
+	date: "2021-08-06 14:53:22 GMT (Friday 6th August 2021)"
+	revision: "5"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -31,9 +31,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_config: like config)
+	make (a_package: like package)
 		do
-			config := a_config
+			package := a_package
 			-- language option appears twice in Python script. Why is this?
 			make_command (
 				"wzipse32 $zip_archive_path -Setup $language_option -auto -runasadmin -myesno $text_install_path%
@@ -47,17 +47,17 @@ feature -- Basic operations
 		local
 			path_list: EL_FILE_PATH_LIST
 		do
-			put_object (config)
+			put_object (package)
 
 			create path_list.make_with_count (2)
 			-- write two fields as temporary text files
-			across config.field_table as table loop
+			across package.field_table as table loop
 				if attached {EL_REFLECTED_ZSTRING} table.item as field
 					and then field.name.starts_with ("text_")
 				then
 					path_list.extend (Directory.temporary + File_name #$ [field.name])
 					put_path (field.name + "_path", path_list.last_path)
-					File_system.write_plain_text (path_list.last_path, field.value (config))
+					File_system.write_plain_text (path_list.last_path, field.value (package))
 				end
 			end
 			Precursor -- execute
@@ -68,7 +68,7 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	config: PACKAGE_BUILDER_CONFIG
+	package: WINZIP_SOFTWARE_PACKAGE
 
 feature {NONE} -- Constants
 

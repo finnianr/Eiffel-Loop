@@ -9,9 +9,7 @@ from eiffel_loop.eiffel.ecf import FREEZE_BUILD
 from SCons.Environment import Base
 from SCons.Variables import Variables
 
-var = Variables ()
-
-env = Base ()
+var = Variables (); env = Base ()
 
 var.Update (env)
 

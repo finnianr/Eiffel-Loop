@@ -496,10 +496,10 @@ class FREEZE_BUILD (object):
 # Status query
 	
 
-# Basic operations	
+# Basic operations
 
 	def install_resources (self):
-		self.__install_resources_to (self.system.installation_dir ())
+		self.install_resources_to (self.system.installation_dir ())
 
 	def pre_compilation (self):
 		self.__write_build_info ()
@@ -518,7 +518,7 @@ class FREEZE_BUILD (object):
 		ret_code = call (cmd)
 
 	def post_compilation (self):
-		self.__install_resources_to (self.resources_destination ())
+		self.install_resources_to (self.resources_destination ())
 
 	def write_io (self, str):
 		sys.stdout.write (str)
@@ -530,7 +530,7 @@ class FREEZE_BUILD (object):
 	
 		return result
 
-	def __install_executables (self, destination_dir):
+	def install_executables (self, destination_dir):
 		self.write_io ('Installing executables in: %s\n' % destination_dir)
 		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
@@ -554,7 +554,7 @@ class FREEZE_BUILD (object):
 			f.write (launch_script_template % (install_bin_dir, self.exe_name))
 			f.close ()
 
-	def __install_resources_to (self, destination_dir):
+	def install_resources_to (self, destination_dir):
 		self.write_io ('Installing resources in: %s\n' % destination_dir)
 		copy_tree, copy_file, remove_tree, mkpath = self._file_command_set (destination_dir)
 
@@ -630,6 +630,14 @@ class FREEZE_BUILD (object):
 class C_CODE_TAR_BUILD (FREEZE_BUILD):
 # Generates cross-platform Finalized_code.tar
 
+	Reverse = 'reverse'
+
+# Initialization
+	def __init__ (self, ecf, project_py):
+		FREEZE_BUILD.__init__ (self, ecf, project_py)
+		self.system_root_class_path = self.system.root_class_path ()
+		self.root_class_path = self.system_root_class_path
+
 # Access
 	def build_type (self):
 		return 'F_code'
@@ -648,7 +656,16 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 
 # Basic operations
 	def compile (self):
+		swapped = False
+		if not self.root_class_path is self.system_root_class_path:
+			self.__swap_root_class ()
+			swapped = True
+
 		super (C_CODE_TAR_BUILD, self).compile ()
+
+		if swapped:
+			self.__swap_root_class (self.Reverse)
+
 		tar_path = self.f_code_tar_path ()
 		if path.exists (tar_path):
 			os.remove (tar_path)
@@ -661,12 +678,35 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 		code_dir = self.code_dir ()
 		dir_util.remove_tree (code_dir)
 		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
+
+# Implementation
+
+	def __swap_root_class (self, reverse_swap = None):
+		# temporarily swap `self.system_root_class_path' with `self.root_class_path'
+		# reverse swap if not reverse_swap = None
+
+		root_class_path = self.system_root_class_path
+		tmp_path = path.splitext (root_class_path) [0] + '.tmp'
+		target_path = self.root_class_path
+		if path.dirname (root_class_path) != path.dirname (target_path):
+			raise Exception ("Alternative root class must be in same directory as system root class")
+		if reverse_swap:
+			os.rename (root_class_path, target_path)
+			os.rename (tmp_path, root_class_path)
+		else:
+			# Fix effect of failed compilation
+			if path.exists (tmp_path):
+				self.__swap_root_class (self.Reverse)
+
+			os.rename (root_class_path, tmp_path)
+			os.rename (target_path, root_class_path)
+			
 		
 # end C_CODE_TAR_BUILD
 
 class FINALIZED_BUILD (FREEZE_BUILD):
 # extracts Finalized_code.tar and compiles to executable, and then deletes `F_code'
-
+	
 # Access
 	def build_type (self):
 		return 'F_code'
@@ -704,12 +744,13 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 
 	def post_compilation (self):
 		destination = self.resources_destination ()
-		self.__install_resources_to (destination)
-		self.__install_executables (destination)
+		self.install_resources_to (destination)
+		self.install_executables (destination)
 
 		code_dir = self.code_dir ()
 		dir_util.remove_tree (code_dir)
 		dir_util.mkpath (code_dir)
+			
 
 # Implementation
 

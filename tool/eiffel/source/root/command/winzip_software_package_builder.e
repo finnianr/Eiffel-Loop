@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 13:54:23 GMT (Tuesday 27th April 2021)"
-	revision: "13"
+	date: "2021-08-06 16:43:00 GMT (Friday 6th August 2021)"
+	revision: "14"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER
@@ -38,8 +38,6 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_FILE_OPEN_ROUTINES
-
 create
 	make
 
@@ -54,9 +52,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			pecf_path := a_pecf_path
 			create project_py_swapper.make (Project_py, "py32")
-			create package.make (a_config_path)
 			create scanner.make (a_pecf_path)
-			config := scanner.new_config
+			create package.make (a_config_path, scanner.new_software_info)
 		end
 
 feature -- Status query
@@ -71,29 +68,17 @@ feature -- Basic operations
 		do
 			create architecture_list.make_from_list (package.architecture_list)
 			architecture_list.reverse_sort
-
-			if not package.valid_architectures then
-				lio.put_labeled_string ("Invalid architecture in list", package.architectures)
-				lio.put_new_line
-				lio.put_line ("Must be one of: 32 | 64")
-
-			elseif not package.valid_languages then
-				lio.put_labeled_string ("Invalid language in list", package.languages)
-				lio.put_new_line
-
-			elseif not package.output_dir.exists then
-				lio.put_labeled_string ("Directory does not exist", package.output_dir.to_string)
-				lio.put_new_line
-			else
+			package.check_validity
+			if package.is_valid then
 				lio.put_path_field ("Output", package.output_dir)
 				lio.put_new_line
 				lio.put_path_field ("Project", pecf_path)
 				lio.put_new_line
-				if architecture_list.has (64) then
-					increment_pecf_build
-				end
 				if architecture_list.count > 0 then
-					config.pass_phrase.share (User_input.line ("Signing pass phrase"))
+					if architecture_list.has (64) then
+						package.software.increment_pecf_build (pecf_path)
+					end
+					package.pass_phrase.share (User_input.line ("Signing pass phrase"))
 					lio.put_new_line
 				end
 				across architecture_list as bit_count until has_build_error loop
@@ -101,7 +86,7 @@ feature -- Basic operations
 						if bit_count.item = 32 implies project_py_swapper.replacement_path.exists then
 							build_exe (bit_count.item, bit_count.item = 64)
 							if not has_build_error then
-								sha_256_sign (target_exe_path (bit_count.item))
+								package.sha_256_sign_software_exe (bit_count.item)
 							end
 						else
 							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
@@ -113,8 +98,9 @@ feature -- Basic operations
 						if not package.output_dir.exists then
 							File_system.make_directory (package.output_dir)
 						end
-						across package.language_list as lang loop
-							build_installer (Locale.in (lang.item), bit_count.item)
+						across package.language_list as lang until has_build_error loop
+							package.build_installer (Locale.in (lang.item), bit_count.item)
+							has_build_error := package.has_build_error
 						end
 					end
 				end
@@ -127,152 +113,25 @@ feature {NONE} -- Implementation
 		require
 			has_32_bit_project: bit_count = 32 implies project_py_swapper.replacement_path.exists
 		local
-			build_command: EL_OS_COMMAND; root_swapper: EL_FILE_SWAPPER
+			build_command: EL_OS_COMMAND; scons_cmd: STRING
 		do
-			create root_swapper.make (Root_class_path, "windows")
 			if bit_count = 32 then
 				project_py_swapper.swap
 			end
-			if compile_eiffel then
-				-- Swap root with another root containing limited set of sub-applications
-				root_swapper.swap
+			scons_cmd := "scons action=finalize compile_eiffel=" + Yes_or_no [compile_eiffel]
+			if compile_eiffel and then package.has_alternative_root_class then
+				scons_cmd.append (" root_class=" + package.root_class_path.escaped)
 			end
-			create build_command.make ("scons action=finalize compile_eiffel=" + Yes_or_no [compile_eiffel])
+			create build_command.make (scons_cmd)
 			build_command.execute
 
 			has_build_error := build_command.has_error
-			if compile_eiffel then
-				-- swap files back
-				root_swapper.undo
-			end
 			if bit_count = 32 then
 				project_py_swapper.undo
 			end
 		end
 
-	build_installer (a_locale: EL_DEFERRED_LOCALE_I; bit_count: INTEGER)
-		local
-			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND; zip_path: EL_FILE_PATH
-		do
-			build_zip_archive (a_locale.language, bit_count)
-
-			if not has_build_error then
-				zip_path := zip_archive_path (a_locale.language, bit_count)
-				config.set_zip_archive_path (zip_path)
-				config.update (a_locale)
-				create command.make (config)
-				command.execute
-				File_system.remove_file (zip_path)
-				sha_256_sign (installer_exe_path (a_locale.language, bit_count))
-			end
-		end
-
-	build_zip_archive (language: STRING; bit_count: INTEGER)
-		local
-			zip_cmd: EL_OS_COMMAND
-		do
-			create zip_cmd.make ("wzzip -a -rP $zip_path package\*")
-			zip_cmd.put_path ("zip_path", zip_archive_path (language, bit_count))
-			zip_cmd.set_working_directory ("build/" + ISE_platform [bit_count])
-			zip_cmd.execute
-			has_build_error := zip_cmd.has_error
-		end
-
-	increment_pecf_build
-		local
-			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
-			found: BOOLEAN; i, line_start, line_end: INTEGER; s: EL_STRING_8_ROUTINES
-		do
-			source_text := File_system.plain_text (pecf_path)
-			create list.make (source_text, s.character_string ('%N'))
-			from list.start until list.after or found loop
-				line := list.item (False)
-				if line.has ('=') and then line.has_substring ("major")
-					and then line.has_substring ("build")
-				then
-					line := line.twin
-					line_start := list.item_start_index
-					line_end := list.item_end_index
-					found := True
-				end
-				list.forth
-			end
-			if found then
-				from i := line.count until i = 1 or not line.item (i).is_digit loop
-					i := i - 1
-				end
-				config.increment_build
-				line.replace_substring (config.build.out, i + 1, line.count)
-				source_text.replace_substring (line, line_start, line_end)
-				lio.put_natural_field (pecf_path.base + " build", config.build)
-				lio.put_new_line
-				File_system.write_plain_text (pecf_path, source_text)
-				write_ecf (source_text)
-			end
-		end
-
-	installer_exe_path (language: STRING; bit_count: INTEGER): EL_FILE_PATH
-		local
-			inserts: TUPLE
-		do
-			inspect config.package_name_template.occurrences ('%S')
-				when 2 then
-					inserts := [bit_count, config.version.string]
-			else
-				inserts := [language, bit_count, config.version.string]
-			end
-			Result := package.output_dir + (config.package_name_template #$ inserts)
-		end
-
-	sha_256_sign (exe_path: EL_FILE_PATH)
-		local
-			sign_cmd: EL_OS_COMMAND
-		do
-			create sign_cmd.make ("[
-				signtool sign
-					/f $signing_certificate_path /p "$pass_phrase"
-					/fd sha256 /tr $time_stamp_url/?td=sha256 /td sha256 /as /v $exe_path
-			]")
-			config.set_exe_path (exe_path)
-			if not config.signtool_dir.is_empty then
-				sign_cmd.set_working_directory (config.signtool_dir)
-			end
-			sign_cmd.put_object (config)
-			sign_cmd.execute
-			if sign_cmd.has_error then
-				has_build_error := True
-				lio.put_line ("ERROR: signing")
-				across sign_cmd.errors as line loop
-					lio.put_line (line.item)
-				end
-			end
-		end
-
-	target_exe_path (bit_count: INTEGER): EL_FILE_PATH
-		do
-			Result := Exe_path_template #$ [ISE_platform [bit_count], config.exe_name]
-			Result := Directory.current_working + Result
-		end
-
-	write_ecf (source_text: STRING)
-		local
-			ecf_generator: ECF_XML_GENERATOR
-		do
-			if attached open (pecf_path.with_new_extension ("ecf"), Write) as ecf_out then
-				create ecf_generator.make
-				ecf_generator.convert_text (source_text, ecf_out)
-				ecf_out.close
-			end
-		end
-
-	zip_archive_path (language: STRING; bit_count: INTEGER): EL_FILE_PATH
-		do
-			Result := installer_exe_path (language, bit_count).with_new_extension ("zip")
-		end
-
 feature {NONE} -- Implementation: attributes
-
-	config: PACKAGE_BUILDER_CONFIG
 
 	pecf_path: EL_FILE_PATH
 
@@ -285,16 +144,6 @@ feature {NONE} -- Constants
 	CPU_architecture: EL_HASH_TABLE [STRING, INTEGER]
 		once
 			create Result.make (<< [32, "x86"], [64, "x64"] >>)
-		end
-
-	Exe_path_template: ZSTRING
-		once
-			Result := "build/%S/package/bin/%S"
-		end
-
-	ISE_platform: EL_HASH_TABLE [STRING, INTEGER]
-		do
-			create Result.make (<< [32, "windows"], [64, "win64"] >>)
 		end
 
 	Yes_or_no: EL_BOOLEAN_INDEXABLE [STRING]

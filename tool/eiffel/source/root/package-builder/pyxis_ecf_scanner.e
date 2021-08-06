@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 9:22:49 GMT (Tuesday 27th April 2021)"
-	revision: "4"
+	date: "2021-08-06 14:56:45 GMT (Friday 6th August 2021)"
+	revision: "5"
 
 class
 	PYXIS_ECF_SCANNER
@@ -41,11 +41,9 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	new_config: PACKAGE_BUILDER_CONFIG
+	new_software_info: SOFTWARE_INFO
 		do
 			create Result.make (configuration_lines.joined_lines.to_utf_8 (True))
-		ensure
-			package_name_template_valid: Result.valid_package_name_template
 		end
 
 feature {NONE} -- Line states
@@ -77,33 +75,7 @@ feature {NONE} -- Line states
 				line.insert_character ('"', index)
 				line.append (Exe.suffix)
 				configuration_lines.extend (line)
-				state := agent find_description
-			end
-		end
-
-	find_description (line: ZSTRING)
-		do
-			if line.has_substring (Tag.description) then
-				state := agent find_description_start
-			end
-		end
-
-	find_description_start (line: ZSTRING)
-		do
-			if line ~ Tag.triple_quote then
-				state := agent find_description_end
-			end
-		end
-
-	find_description_end (line: ZSTRING)
-		do
-			if line ~ Tag.triple_quote then
 				state := agent find_version
-
-			elseif line.has ('=') then
-				line.prepend_character ('%T')
-				line.replace_substring_all (Substitution.string, Substitution.character)
-				configuration_lines.extend (line)
 			end
 		end
 
@@ -148,7 +120,7 @@ feature {NONE} -- Constants
 		pyxis-doc:
 			version = 1.0; encoding = "UTF-8"
 		
-		package_builder_config:
+		software_info:
 	]"
 
 	Substitution: TUPLE [string, character: ZSTRING]

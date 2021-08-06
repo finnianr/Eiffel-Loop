@@ -1,3 +1,6 @@
+1.4.1
+Refactored WINZIP_SOFTWARE_PACKAGE_BUILDER so that fields in pecf description are moved into WINZIP_SOFTWARE_PACKAGE
+
 1.4.0
 New GITHUB_MANAGER_APP class
 
