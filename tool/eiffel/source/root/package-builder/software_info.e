@@ -1,13 +1,16 @@
 note
-	description: "Build configuration for self-extracting installer"
+	description: "[
+		Software application information obtained from Eiffel configuration file in Pyxis format
+		(File extension: ''pecf'')
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 15:41:40 GMT (Friday 6th August 2021)"
-	revision: "7"
+	date: "2021-08-06 20:20:00 GMT (Friday 6th August 2021)"
+	revision: "8"
 
 class
 	SOFTWARE_INFO
@@ -15,7 +18,6 @@ class
 inherit
 	EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS
 		rename
-			make_from_string as make,
 			element_node_type as	Attribute_node
 		end
 
@@ -30,6 +32,17 @@ inherit
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (a_pecf_path: EL_FILE_PATH)
+		local
+			scanner: PYXIS_ECF_SCANNER
+		do
+			pecf_path := a_pecf_path
+			create scanner.make (a_pecf_path)
+			make_from_string (scanner.pyxis_source.joined_lines.to_utf_8 (True))
+		end
+
 feature -- Access
 
 	company: ZSTRING
@@ -39,10 +52,7 @@ feature -- Access
 	product: ZSTRING
 		-- product name
 
-	target_exe_path (ise_platform: STRING): EL_FILE_PATH
-		do
-			Result := Directory.current_working + Exe_path_template #$ [ise_platform, exe_name]
-		end
+	pecf_path: EL_FILE_PATH
 
 feature -- Version
 
@@ -61,7 +71,7 @@ feature -- Version
 
 feature -- Basic operations
 
-	increment_pecf_build (pecf_path: EL_FILE_PATH)
+	increment_pecf_build
 		local
 			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
 			found: BOOLEAN; i, line_start, line_end: INTEGER; s: EL_STRING_8_ROUTINES
@@ -90,13 +100,13 @@ feature -- Basic operations
 				lio.put_natural_field (pecf_path.base + " build", build)
 				lio.put_new_line
 				File_system.write_plain_text (pecf_path, source_text)
-				write_ecf (pecf_path, source_text)
+				write_ecf (source_text)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	write_ecf (pecf_path: EL_FILE_PATH; source_text: STRING)
+	write_ecf (source_text: STRING)
 		local
 			ecf_generator: ECF_XML_GENERATOR
 		do
@@ -105,13 +115,6 @@ feature {NONE} -- Implementation
 				ecf_generator.convert_text (source_text, ecf_out)
 				ecf_out.close
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Exe_path_template: ZSTRING
-		once
-			Result := "build/%S/package/bin/%S"
 		end
 
 end

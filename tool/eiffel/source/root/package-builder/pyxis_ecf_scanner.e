@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 14:56:45 GMT (Friday 6th August 2021)"
-	revision: "5"
+	date: "2021-08-06 20:17:36 GMT (Friday 6th August 2021)"
+	revision: "6"
 
 class
 	PYXIS_ECF_SCANNER
@@ -33,27 +33,18 @@ feature {NONE} -- Initialization
 	make (file_path: EL_FILE_PATH)
 		do
 			make_machine
-			create configuration_lines.make_with_lines (Pyxis_header)
+			create pyxis_source.make_with_lines (Pyxis_header)
 			if attached open_lines (file_path, Latin_1) as lines then
 				do_once_with_file_lines (agent find_system, lines)
 			end
 		end
 
-feature -- Factory
+feature -- Access
 
-	new_software_info: SOFTWARE_INFO
-		do
-			create Result.make (configuration_lines.joined_lines.to_utf_8 (True))
-		end
+	pyxis_source: EL_ZSTRING_LIST
+		-- source to create instance of `SOFTWARE_INFO'
 
 feature {NONE} -- Line states
-
-	find_system (line: ZSTRING)
-		do
-			if line.has_substring (Tag.system) then
-				state := agent find_name
-			end
-		end
 
 	find_name (line: ZSTRING)
 		local
@@ -74,8 +65,15 @@ feature {NONE} -- Line states
 				end
 				line.insert_character ('"', index)
 				line.append (Exe.suffix)
-				configuration_lines.extend (line)
+				pyxis_source.extend (line)
 				state := agent find_version
+			end
+		end
+
+	find_system (line: ZSTRING)
+		do
+			if line.has_substring (Tag.system) then
+				state := agent find_name
 			end
 		end
 
@@ -90,7 +88,7 @@ feature {NONE} -- Line states
 		do
 			if line.has ('=') then
 				line.prepend_character ('%T')
-				configuration_lines.extend (line)
+				pyxis_source.extend (line)
 			else
 				state := final
 			end
@@ -103,10 +101,6 @@ feature {NONE} -- Implementation
 			line.left_adjust
 			Precursor (line)
 		end
-
-feature {NONE} -- Internal attributes
-
-	configuration_lines: EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
 

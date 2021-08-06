@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 18:13:01 GMT (Friday 6th August 2021)"
-	revision: "7"
+	date: "2021-08-06 20:15:53 GMT (Friday 6th August 2021)"
+	revision: "8"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -79,15 +79,11 @@ feature {NONE} -- Initialization
 
 	make (a_file_path: EL_FILE_PATH; a_pecf_path: EL_FILE_PATH)
 			--
-		local
-			scanner: PYXIS_ECF_SCANNER
 		do
-			pecf_path := a_pecf_path
 			make_from_file (a_file_path)
 			name_template.replace_substring_general_all ("%%S", "%S")
 
-			create scanner.make (a_pecf_path)
-			software := scanner.new_software_info
+			create software.make (a_pecf_path)
 			bit_count := 64
 			if not output_dir.is_absolute then
 				output_dir := Directory.current_working.joined_dir_path (output_dir)
@@ -100,18 +96,6 @@ feature {NONE} -- Initialization
 			create architecture_list.make (2)
 			create language_list.make (2)
 			create project_py_swapper.make (Project_py, "py32")
-		end
-
-feature -- Conversion
-
-	architectures: ZSTRING
-		do
-			Result := architecture_list.comma_separated_string
-		end
-
-	languages: STRING
-		do
-			Result := language_list.comma_separated_string
 		end
 
 feature -- Access
@@ -131,6 +115,11 @@ feature -- Access
 				inserts := [language, bit_count, software.version.string]
 			end
 			Result := output_dir + (name_template #$ inserts)
+		end
+
+	ise_platform: STRING
+		do
+			Result := ISE_platform_table [bit_count]
 		end
 
 	language_list: EL_STRING_8_LIST
@@ -191,11 +180,11 @@ feature -- Basic operations
 			if is_valid then
 				lio.put_path_field ("Output", output_dir)
 				lio.put_new_line
-				lio.put_path_field ("Project", pecf_path)
+				lio.put_path_field ("Project", software.pecf_path)
 				lio.put_new_line
 				if reverse_list.count > 0 then
 					if reverse_list.has (64) then
-						software.increment_pecf_build (pecf_path)
+						software.increment_pecf_build
 					end
 					pass_phrase.share (User_input.line ("Signing pass phrase"))
 					lio.put_new_line
@@ -319,9 +308,19 @@ feature {NONE} -- Implementation
 		do
 			create zip_cmd.make ("wzzip -a -rP $zip_archive_path package\*")
 			zip_cmd.put_object (Current)
-			zip_cmd.set_working_directory ("build/" + ISE_platform [bit_count])
+			zip_cmd.set_working_directory ("build/" + ise_platform)
 			zip_cmd.execute
 			has_build_error := zip_cmd.has_error
+		end
+
+	architectures: ZSTRING
+		do
+			Result := architecture_list.comma_separated_string
+		end
+
+	languages: STRING
+		do
+			Result := language_list.comma_separated_string
 		end
 
 	sha_256_sign
@@ -350,14 +349,12 @@ feature {NONE} -- Implementation
 
 	sha_256_sign_software_exe
 		do
-			exe_path := software.target_exe_path (ISE_platform [bit_count])
+			exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
 			sha_256_sign
 		end
 
 feature {NONE} -- Implementation: attributes
 
 	project_py_swapper: EL_FILE_SWAPPER
-
-	pecf_path: EL_FILE_PATH
 
 end
