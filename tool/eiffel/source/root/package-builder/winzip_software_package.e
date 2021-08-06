@@ -1,15 +1,25 @@
 note
-	description: "Winzip self-extracting package build configuration"
+	description: "Winzip self-extracting package builder"
 	notes: "[
-		**Example**
+		**Configured by Pyxis file**
 
 			pyxis-doc:
 				version = 1.0; encoding = "UTF-8"
 
 			winzip_software_package:
-				output_dir = "$EIFFEL/myching-server/www/download"
-				build_exe = true; build_installers = true
+				# wzipse32 arguments
+				install_command = "package\\bin\\myching.exe -install -silent"
+				package_ico = "resources/desktop-icons/package.ico"
+
+				# signtool arguments
+				signing_certificate_path = "$USERPROFILE/Documents/My-signing-cert.pfx"
+				signtool_dir = "$MSDK/v8.1/signtool"
+				time_stamp_url = "http://timestamp.comodoca.com"
+
+				# build parameters
+				output_dir = build; 	name_template = "MyChing-%S-win%S-%S.exe"
 				root_class_path = "source/application_root.windows"
+				build_exe = true; build_installers = true
 
 				architecture_list:
 					item:
@@ -30,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 16:47:55 GMT (Friday 6th August 2021)"
-	revision: "6"
+	date: "2021-08-06 18:13:01 GMT (Friday 6th August 2021)"
+	revision: "7"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -46,6 +56,12 @@ inherit
 			make_default
 		end
 
+	SIGN_TOOL_ARGUMENTS undefine is_equal end
+
+	WZIPSE32_ARGUMENTS undefine is_equal end
+
+	PACKAGE_BUILD_CONSTANTS
+
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_DEFERRED_LOCALE
@@ -54,17 +70,25 @@ inherit
 
 	EL_MODULE_LIO
 
+	EL_MODULE_USER_INPUT
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH; a_software: SOFTWARE_INFO)
+	make (a_file_path: EL_FILE_PATH; a_pecf_path: EL_FILE_PATH)
 			--
+		local
+			scanner: PYXIS_ECF_SCANNER
 		do
-			software := a_software
+			pecf_path := a_pecf_path
 			make_from_file (a_file_path)
 			name_template.replace_substring_general_all ("%%S", "%S")
+
+			create scanner.make (a_pecf_path)
+			software := scanner.new_software_info
+			bit_count := 64
 			if not output_dir.is_absolute then
 				output_dir := Directory.current_working.joined_dir_path (output_dir)
 			end
@@ -75,6 +99,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create architecture_list.make (2)
 			create language_list.make (2)
+			create project_py_swapper.make (Project_py, "py32")
 		end
 
 feature -- Conversion
@@ -93,7 +118,9 @@ feature -- Access
 
 	architecture_list: EL_ARRAYED_LIST [INTEGER]
 
-	installer_exe_path (language: STRING; bit_count: INTEGER): EL_FILE_PATH
+	bit_count: INTEGER
+
+	installer_exe_path (language: STRING): EL_FILE_PATH
 		local
 			inserts: TUPLE
 		do
@@ -113,37 +140,9 @@ feature -- Access
 	output_dir: EL_DIR_PATH
 
 	root_class_path: EL_FILE_PATH
+		-- optional root class to be used instead of system default specified in ecf
 
 	software: SOFTWARE_INFO
-
-feature -- wzipse32 arguments
-
-	install_command: ZSTRING
-
-	language_option: STRING
-		-- '-lg' or '-le'
-
-	package_ico: EL_FILE_PATH
-
-	text_dialog_message: ZSTRING
-
-	text_install: ZSTRING
-
-	title: ZSTRING
-
-	zip_archive_path: EL_FILE_PATH
-
-feature -- sign tool arguments
-
-	exe_path: EL_FILE_PATH
-
-	pass_phrase: STRING
-
-	signing_certificate_path: EL_FILE_PATH
-
-	signtool_dir: EL_DIR_PATH
-
-	time_stamp_url: STRING
 
 feature -- Status query
 
@@ -160,6 +159,11 @@ feature -- Status query
 
 	is_valid: BOOLEAN
 
+	project_py_32_exists: BOOLEAN
+		do
+			Result := project_py_swapper.replacement_path.exists
+		end
+
 	valid_architectures: BOOLEAN
 		do
 			Result := across architecture_list as n all (32 |..| 64).has (n.item) end
@@ -175,7 +179,51 @@ feature -- Status query
 			Result := name_template.ends_with_general (".exe") and then (2 |..| 3).has (name_template.occurrences ('%S'))
 		end
 
-feature -- Status change
+feature -- Basic operations
+
+	build
+		local
+			reverse_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]
+		do
+			create reverse_list.make_from_list (architecture_list)
+			reverse_list.reverse_sort
+			check_validity
+			if is_valid then
+				lio.put_path_field ("Output", output_dir)
+				lio.put_new_line
+				lio.put_path_field ("Project", pecf_path)
+				lio.put_new_line
+				if reverse_list.count > 0 then
+					if reverse_list.has (64) then
+						software.increment_pecf_build (pecf_path)
+					end
+					pass_phrase.share (User_input.line ("Signing pass phrase"))
+					lio.put_new_line
+				end
+				across reverse_list as count until has_build_error loop
+					bit_count := count.item
+					if build_exe then
+						if bit_count = 32 implies project_py_32_exists then
+							build_executable
+							if not has_build_error then
+								sha_256_sign_software_exe
+							end
+						else
+							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
+							lio.put_new_line
+							has_build_error := True
+						end
+					end
+					if build_installers and then not has_build_error then
+						across language_list as lang until has_build_error loop
+							build_installer (Locale.in (lang.item))
+						end
+					end
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
 
 	check_validity
 		do
@@ -208,15 +256,42 @@ feature -- Status change
 			end
 		end
 
-feature -- Basic operations
+	build_executable
+		require
+			has_32_bit_project: bit_count = 32 implies project_py_32_exists
+		local
+			build_command: EL_OS_COMMAND; scons_cmd: STRING; compile_eiffel: BOOLEAN
+		do
+			inspect bit_count
+				when 32 then
+					project_py_swapper.swap
+				when 64 then
+					compile_eiffel := True
+			else
+			end
+			scons_cmd := "scons action=finalize compile_eiffel=" + Yes_or_no [compile_eiffel]
+			if compile_eiffel and then has_alternative_root_class then
+				scons_cmd.append (" root_class=" + root_class_path.escaped)
+			end
+			create build_command.make (scons_cmd)
+			build_command.execute
 
-	build_installer (a_locale: EL_DEFERRED_LOCALE_I; bit_count: INTEGER)
+			has_build_error := build_command.has_error
+			if bit_count = 32 then
+				project_py_swapper.undo
+			end
+		end
+
+	build_installer (a_locale: EL_DEFERRED_LOCALE_I)
 		local
 			command: WINZIP_CREATE_SELF_EXTRACT_COMMAND; template: WINZIP_TEMPLATE_TEXTS
 		do
-			exe_path := installer_exe_path (a_locale.language, bit_count)
+			if not output_dir.exists then
+				File_system.make_directory (output_dir)
+			end
+			exe_path := installer_exe_path (a_locale.language)
 			zip_archive_path := exe_path.with_new_extension ("zip")
-			build_zip_archive (a_locale, bit_count)
+			build_zip_archive (a_locale)
 
 			if not has_build_error then
 				create template.make_with_locale (a_locale)
@@ -233,26 +308,11 @@ feature -- Basic operations
 				create command.make (Current)
 				command.execute
 				File_system.remove_file (zip_archive_path)
-				sha_256_sign (bit_count)
+				sha_256_sign
 			end
 		end
 
-	sha_256_sign_software_exe (bit_count: INTEGER)
-		do
-			exe_path := software.target_exe_path (ISE_platform [bit_count.item])
-			sha_256_sign (bit_count)
-		end
-
-feature -- Element change
-
-	set_pass_phrase (a_pass_phrase: STRING)
-		do
-			pass_phrase := a_pass_phrase
-		end
-
-feature {NONE} -- Implementation
-
-	build_zip_archive (a_locale: EL_DEFERRED_LOCALE_I; bit_count: INTEGER)
+	build_zip_archive (a_locale: EL_DEFERRED_LOCALE_I)
 		-- build archive with path `zip_archive_path'
 		local
 			zip_cmd: EL_OS_COMMAND
@@ -264,7 +324,7 @@ feature {NONE} -- Implementation
 			has_build_error := zip_cmd.has_error
 		end
 
-	sha_256_sign (bit_count: INTEGER)
+	sha_256_sign
 		-- sign the file `exe_path'
 		local
 			sign_cmd: EL_OS_COMMAND
@@ -288,11 +348,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	ISE_platform: EL_HASH_TABLE [STRING, INTEGER]
+	sha_256_sign_software_exe
 		do
-			create Result.make (<< [32, "windows"], [64, "win64"] >>)
+			exe_path := software.target_exe_path (ISE_platform [bit_count])
+			sha_256_sign
 		end
+
+feature {NONE} -- Implementation: attributes
+
+	project_py_swapper: EL_FILE_SWAPPER
+
+	pecf_path: EL_FILE_PATH
 
 end

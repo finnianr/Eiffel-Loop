@@ -3,7 +3,7 @@ note
 	notes: "[
 		**Usage**
 
-			el_eiffel -winzip_exe_builder -config <pecf-path> -arch <cpu-bits-list> -targets <installer | exe> -output <dir-path>
+			el_eiffel -winzip_exe_builder -config <package-config-path> -pecf <pecf-path>
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-27 10:41:08 GMT (Tuesday 27th April 2021)"
-	revision: "7"
+	date: "2021-08-06 18:16:12 GMT (Friday 6th August 2021)"
+	revision: "8"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
@@ -23,7 +23,7 @@ inherit
 			is_valid_platform, new_locale, Option_name, visible_types
 		end
 
-	WINZIP_SOFTWARE_COMMON
+	PACKAGE_BUILD_CONSTANTS
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 		do
 			Result := <<
 				valid_required_argument ("config", "Path to build configuration file", << file_must_exist >>),
-				valid_optional_argument ("pecf", "Path to Pyxis configuration file", << file_must_exist, root_class_must_exist >>)
+				valid_optional_argument ("pecf", "Path to Pyxis configuration file", << file_must_exist >>)
 			>>
 		end
 
@@ -88,11 +88,6 @@ feature {NONE} -- Implementation
 			else
 				Result := Precursor
 			end
-		end
-
-	root_class_must_exist: like always_valid
-		do
-			Result := ["Root class %"source/application_root.e%" must exist", agent root_class_exists]
 		end
 
 	visible_types: TUPLE [WINZIP_CREATE_SELF_EXTRACT_COMMAND, EL_OS_COMMAND]
