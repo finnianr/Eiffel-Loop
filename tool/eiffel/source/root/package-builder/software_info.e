@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 20:20:00 GMT (Friday 6th August 2021)"
-	revision: "8"
+	date: "2021-08-06 20:22:33 GMT (Friday 6th August 2021)"
+	revision: "9"
 
 class
 	SOFTWARE_INFO
@@ -57,6 +57,7 @@ feature -- Access
 feature -- Version
 
 	build: NATURAL
+		-- build number
 
 	major: NATURAL
 
@@ -71,7 +72,8 @@ feature -- Version
 
 feature -- Basic operations
 
-	increment_pecf_build
+	increment_build
+		-- increment build in pecf source and rewrite ecf file
 		local
 			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
 			found: BOOLEAN; i, line_start, line_end: INTEGER; s: EL_STRING_8_ROUTINES

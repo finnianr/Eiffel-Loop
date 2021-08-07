@@ -1,5 +1,5 @@
 note
-	description: "Winzip self-extracting package builder"
+	description: "Winzip self-extracting package builder implementing [$source EL_COMMAND]"
 	notes: "[
 		**Configured by Pyxis file**
 
@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 20:15:53 GMT (Friday 6th August 2021)"
-	revision: "8"
+	date: "2021-08-07 8:05:18 GMT (Saturday 7th August 2021)"
+	revision: "9"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -54,6 +54,13 @@ inherit
 			{WINZIP_CREATE_SELF_EXTRACT_COMMAND} field_table
 		redefine
 			make_default
+		end
+
+	EL_COMMAND
+		rename
+			execute as build
+		undefine
+			is_equal
 		end
 
 	SIGN_TOOL_ARGUMENTS undefine is_equal end
@@ -75,12 +82,15 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH; a_pecf_path: EL_FILE_PATH)
+	make (a_config_path: EL_FILE_PATH; a_pecf_path: EL_FILE_PATH)
 			--
+		require
+			config_exists: a_config_path.exists
+			pecf_exists: a_pecf_path.exists
 		do
-			make_from_file (a_file_path)
+			make_from_file (a_config_path)
 			name_template.replace_substring_general_all ("%%S", "%S")
 
 			create software.make (a_pecf_path)
@@ -98,46 +108,54 @@ feature {NONE} -- Initialization
 			create project_py_swapper.make (Project_py, "py32")
 		end
 
-feature -- Access
+feature -- Basic operations
 
-	architecture_list: EL_ARRAYED_LIST [INTEGER]
-
-	bit_count: INTEGER
-
-	installer_exe_path (language: STRING): EL_FILE_PATH
+	build
 		local
-			inserts: TUPLE
+			reverse_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]; is_valid: BOOLEAN_REF
 		do
-			inspect name_template.occurrences ('%S')
-				when 2 then
-					inserts := [bit_count, software.version.string]
-			else
-				inserts := [language, bit_count, software.version.string]
+			create is_valid
+			check_validity (is_valid)
+			if is_valid.item then
+				lio.put_path_field ("Output", output_dir)
+				lio.put_new_line
+				lio.put_path_field ("Project", software.pecf_path)
+				lio.put_new_line
+				if architecture_list.count > 0 then
+					if build_exe and architecture_list.has (64) then
+						software.increment_build
+					end
+					pass_phrase.share (User_input.line ("Signing pass phrase"))
+					lio.put_new_line
+				end
+				has_build_error := False
+				create reverse_list.make_from_array (architecture_list.to_array)
+				reverse_list.reverse_sort
+				across reverse_list as count until has_build_error loop
+					bit_count := count.item
+					if build_exe then
+						if bit_count = 32 implies project_py_32_exists then
+							build_executable
+							if not has_build_error then
+								exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
+								sha_256_sign
+							end
+						else
+							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
+							lio.put_new_line
+							has_build_error := True
+						end
+					end
+					if build_installers and then not has_build_error then
+						across language_list as lang until has_build_error loop
+							build_installer (Locale.in (lang.item))
+						end
+					end
+				end
 			end
-			Result := output_dir + (name_template #$ inserts)
 		end
-
-	ise_platform: STRING
-		do
-			Result := ISE_platform_table [bit_count]
-		end
-
-	language_list: EL_STRING_8_LIST
-
-	name_template: ZSTRING
-
-	output_dir: EL_DIR_PATH
-
-	root_class_path: EL_FILE_PATH
-		-- optional root class to be used instead of system default specified in ecf
-
-	software: SOFTWARE_INFO
 
 feature -- Status query
-
-	build_exe: BOOLEAN
-
-	build_installers: BOOLEAN
 
 	has_alternative_root_class: BOOLEAN
 		do
@@ -145,8 +163,6 @@ feature -- Status query
 		end
 
 	has_build_error: BOOLEAN
-
-	is_valid: BOOLEAN
 
 	project_py_32_exists: BOOLEAN
 		do
@@ -168,80 +184,32 @@ feature -- Status query
 			Result := name_template.ends_with_general (".exe") and then (2 |..| 3).has (name_template.occurrences ('%S'))
 		end
 
-feature -- Basic operations
-
-	build
-		local
-			reverse_list: EL_SORTABLE_ARRAYED_LIST [INTEGER]
-		do
-			create reverse_list.make_from_list (architecture_list)
-			reverse_list.reverse_sort
-			check_validity
-			if is_valid then
-				lio.put_path_field ("Output", output_dir)
-				lio.put_new_line
-				lio.put_path_field ("Project", software.pecf_path)
-				lio.put_new_line
-				if reverse_list.count > 0 then
-					if reverse_list.has (64) then
-						software.increment_pecf_build
-					end
-					pass_phrase.share (User_input.line ("Signing pass phrase"))
-					lio.put_new_line
-				end
-				across reverse_list as count until has_build_error loop
-					bit_count := count.item
-					if build_exe then
-						if bit_count = 32 implies project_py_32_exists then
-							build_executable
-							if not has_build_error then
-								sha_256_sign_software_exe
-							end
-						else
-							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
-							lio.put_new_line
-							has_build_error := True
-						end
-					end
-					if build_installers and then not has_build_error then
-						across language_list as lang until has_build_error loop
-							build_installer (Locale.in (lang.item))
-						end
-					end
-				end
-			end
-		end
-
 feature {NONE} -- Implementation
 
-	check_validity
+	check_validity (is_valid: BOOLEAN_REF)
 		do
 			if not valid_architectures then
-				lio.put_labeled_string ("Invalid architecture in list", architectures)
+				lio.put_labeled_string ("Invalid architecture in list", architecture_list.comma_separated_string)
 				lio.put_new_line
 				lio.put_line ("Must be one of: 32 | 64")
-				is_valid := False
 
 			elseif not valid_languages then
 				lio.put_labeled_string ("Invalid language in list", languages)
 				lio.put_new_line
-				is_valid := False
 
 			elseif not output_dir.exists then
 				lio.put_labeled_string ("Directory does not exist", output_dir.to_string)
 				lio.put_new_line
-				is_valid := False
 
 			elseif has_alternative_root_class and then not root_class_path.exists then
 				lio.put_labeled_string ("Root class does not exist", root_class_path.to_string)
 				lio.put_new_line
-				is_valid := False
+
 			elseif not valid_name_template then
 				lio.put_labeled_string ("Invalid name template", name_template)
 				lio.put_new_line
-				is_valid := False
 			else
-				is_valid := True
+				is_valid.set_item (True)
 			end
 		end
 
@@ -313,14 +281,27 @@ feature {NONE} -- Implementation
 			has_build_error := zip_cmd.has_error
 		end
 
-	architectures: ZSTRING
-		do
-			Result := architecture_list.comma_separated_string
-		end
-
 	languages: STRING
 		do
 			Result := language_list.comma_separated_string
+		end
+
+	installer_exe_path (language: STRING): EL_FILE_PATH
+		local
+			inserts: TUPLE
+		do
+			inspect name_template.occurrences ('%S')
+				when 2 then
+					inserts := [bit_count, software.version.string]
+			else
+				inserts := [language, bit_count, software.version.string]
+			end
+			Result := output_dir + (name_template #$ inserts)
+		end
+
+	ise_platform: STRING
+		do
+			Result := ISE_platform_table [bit_count]
 		end
 
 	sha_256_sign
@@ -347,14 +328,29 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	sha_256_sign_software_exe
-		do
-			exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
-			sha_256_sign
-		end
+feature {NONE} -- Configuration parameters
+
+	architecture_list: EL_ARRAYED_LIST [INTEGER]
+
+	build_exe: BOOLEAN
+
+	build_installers: BOOLEAN
+
+	language_list: EL_STRING_8_LIST
+
+	name_template: ZSTRING
+
+	output_dir: EL_DIR_PATH
+
+	root_class_path: EL_FILE_PATH
+		-- optional root class to be used instead of system default specified in ecf
 
 feature {NONE} -- Implementation: attributes
 
+	bit_count: INTEGER
+
 	project_py_swapper: EL_FILE_SWAPPER
+
+	software: SOFTWARE_INFO
 
 end

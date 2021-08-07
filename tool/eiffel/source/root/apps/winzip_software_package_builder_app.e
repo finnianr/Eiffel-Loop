@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source WINZIP_SOFTWARE_PACKAGE_BUILDER] command"
+	description: "Command line interface to [$source WINZIP_SOFTWARE_PACKAGE] command"
 	notes: "[
 		**Usage**
 
@@ -11,21 +11,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 18:16:12 GMT (Friday 6th August 2021)"
-	revision: "8"
+	date: "2021-08-07 8:55:21 GMT (Saturday 7th August 2021)"
+	revision: "9"
 
 class
 	WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
 
 inherit
-	EL_COMMAND_LINE_SUB_APPLICATION [WINZIP_SOFTWARE_PACKAGE_BUILDER]
+	EL_COMMAND_LINE_SUB_APPLICATION [WINZIP_SOFTWARE_PACKAGE]
 		redefine
 			is_valid_platform, new_locale, Option_name, visible_types
 		end
-
-	PACKAGE_BUILD_CONSTANTS
-
-	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -48,37 +44,11 @@ feature {NONE} -- Implementation
 		end
 
 	default_make: PROCEDURE [like command]
-		do
-			Result := agent {like command}.make ("", default_pecf)
-		end
-
-	default_pecf: EL_FILE_PATH
-		-- derive 'pecf' project config file from project.py if it exists
 		local
-			line, base: ZSTRING; s: EL_ZSTRING_ROUTINES
+			project: SCONS_PROJECT_PY_CONFIG
 		do
-			if Project_py.exists then
-				if attached open_lines (Project_py, Latin_1) as lines then
-					across lines as list until attached Result loop
-						line := list.item
-						if line.starts_with ("ecf") then
-							across "%"'" as delimiter until attached base loop
-								if	line.occurrences (delimiter.item) = 2 and then (" =").has (line.item (4).to_character_8) then
-									base := line.substring_between (s.character_string (delimiter.item), s.character_string (delimiter.item), 1)
-									base.insert_character ('p', base.last_index_of ('.', base.count) + 1)
-								end
-							end
-							Result := base
-							if not Result.exists then
-								create Result
-							end
-						end
-					end
-					lines.close
-				end
-			else
-				create Result
-			end
+			create project.make
+			Result := agent {like command}.make ("", project.pecf_path)
 		end
 
 	new_locale: EL_DEFERRED_LOCALE_I

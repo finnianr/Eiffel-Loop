@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 20:17:36 GMT (Friday 6th August 2021)"
-	revision: "6"
+	date: "2021-08-07 8:30:34 GMT (Saturday 7th August 2021)"
+	revision: "7"
 
 class
 	PYXIS_ECF_SCANNER
@@ -19,8 +19,6 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
-		redefine
-			call
 		end
 
 	EL_MODULE_TUPLE
@@ -33,6 +31,7 @@ feature {NONE} -- Initialization
 	make (file_path: EL_FILE_PATH)
 		do
 			make_machine
+			left_adjusted := True
 			create pyxis_source.make_with_lines (Pyxis_header)
 			if attached open_lines (file_path, Latin_1) as lines then
 				do_once_with_file_lines (agent find_system, lines)
@@ -92,14 +91,6 @@ feature {NONE} -- Line states
 			else
 				state := final
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	call (line: ZSTRING)
-		do
-			line.left_adjust
-			Precursor (line)
 		end
 
 feature {NONE} -- Constants
