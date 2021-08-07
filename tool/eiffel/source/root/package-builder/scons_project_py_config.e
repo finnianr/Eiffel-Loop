@@ -1,13 +1,13 @@
 note
-	description: "File named `project.py' used to configure Eiffel-Loop scons build system"
+	description: "Parser for file `project.py' used to configure Eiffel-Loop scons build system"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-07 8:55:55 GMT (Saturday 7th August 2021)"
-	revision: "1"
+	date: "2021-08-07 9:47:22 GMT (Saturday 7th August 2021)"
+	revision: "2"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -69,6 +69,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			make_machine
+			build_info_path := "source/build_info.e"
 		end
 
 feature -- Access
