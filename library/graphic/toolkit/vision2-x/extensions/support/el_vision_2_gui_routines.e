@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:19:02 GMT (Friday 8th January 2021)"
-	revision: "31"
+	date: "2021-08-07 10:32:31 GMT (Saturday 7th August 2021)"
+	revision: "32"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -54,6 +54,11 @@ feature -- Access
 feature -- Font
 
 	text_field_font: EV_FONT
+
+	scale_font (font: EV_FONT; proportion: REAL)
+		do
+			font.set_height ((font.height * proportion).rounded.max (5))
+		end
 
 	word_wrapped (a_text: ZSTRING; a_font: EV_FONT; a_width: INTEGER): EL_ZSTRING_LIST
 		-- string word wrapped with `a_font' across `a_width'

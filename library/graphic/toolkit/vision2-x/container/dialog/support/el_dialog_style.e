@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 13:28:10 GMT (Wednesday 4th August 2021)"
-	revision: "3"
+	date: "2021-08-07 10:31:50 GMT (Saturday 7th August 2021)"
+	revision: "4"
 
 class
 	EL_DIALOG_STYLE
@@ -111,6 +111,11 @@ feature -- Set fonts
 	set_title_font (a_title_font: EV_FONT)
 		do
 			title_font := a_title_font
+		end
+
+	scale_label_font (proportion: REAL)
+		do
+			GUI.scale_font (label_font, proportion)
 		end
 
 feature -- Factory
