@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 17:54:59 GMT (Sunday 16th May 2021)"
-	revision: "19"
+	date: "2021-08-12 13:48:59 GMT (Thursday 12th August 2021)"
+	revision: "20"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -59,7 +59,7 @@ feature -- Access
 		do
 			field := [create {STRING}.make (0), Empty_string]
 
-			if attached String_pool.reuseable_item as str then
+			if attached String_pool.new_scope as pool and then attached pool.reuse_item as str then
 				str.append_string_general (once "{%N")
 				table := field_table
 				from is_first := True; table.start until table.after loop
@@ -75,7 +75,7 @@ feature -- Access
 				end
 				str.append_string_general (once "%N}")
 				create Result.make_from_other (str)
-				String_pool.recycle (str)
+				pool.recycle_end (str)
 			end
 		end
 

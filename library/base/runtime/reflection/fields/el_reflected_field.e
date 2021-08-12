@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-29 9:08:22 GMT (Saturday 29th May 2021)"
-	revision: "33"
+	date: "2021-08-12 9:37:20 GMT (Thursday 12th August 2021)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -210,6 +210,10 @@ feature {NONE} -- Constants
 			create Result
 		end
 
+	Buffer_32: EL_STRING_32_BUFFER
+		once
+			create Result
+		end
 note
 	descendants: "[
 			EL_REFLECTED_FIELD*

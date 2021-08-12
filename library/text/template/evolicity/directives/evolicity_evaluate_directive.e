@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 17:33:30 GMT (Friday 8th January 2021)"
-	revision: "11"
+	date: "2021-08-12 13:20:55 GMT (Thursday 12th August 2021)"
+	revision: "12"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -68,7 +68,7 @@ feature -- Basic operations
 					Evolicity_templates.put_file (template_path, output)
 				end
 				if Evolicity_templates.is_nested_output_indented then
-					if attached Medium_pool.reuseable_item as medium then
+					if attached Medium_pool.new_scope as pool and then attached pool.reuse_item as medium then
 						medium.open_write
 						Evolicity_templates.merge (template_path, new_context, medium)
 						create lines.make (medium.text, s.character_string ('%N'))
@@ -81,7 +81,7 @@ feature -- Basic operations
 							output.put_new_line
 							lines.forth
 						end
-						Medium_pool.recycle (medium)
+						pool.recycle_end (medium)
 					end
 				else
 					Evolicity_templates.merge (template_path, new_context, output)

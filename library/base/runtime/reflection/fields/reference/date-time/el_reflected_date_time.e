@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 14:57:42 GMT (Friday 21st May 2021)"
-	revision: "14"
+	date: "2021-08-12 14:45:16 GMT (Thursday 12th August 2021)"
+	revision: "15"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -15,7 +15,12 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [DATE_TIME]
 		redefine
-			write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+		end
+
+	TIME_UTILITY
+		undefine
+			is_equal
 		end
 
 create
@@ -34,10 +39,17 @@ feature -- Access
 
 feature -- Basic operations
 
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as dt and then attached converted (dt) as date_time then
+				date_time.append_to (str, default_format_string)
+			end
+		end
+
 	reset (a_object: EL_REFLECTIVE)
 		do
-			if attached value (a_object) as date then
-				date.make_from_epoch (0)
+			if attached value (a_object) as date_time then
+				date_time.make_from_epoch (0)
 			end
 		end
 
@@ -55,11 +67,9 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if attached value (a_object) as date_time then
-				date_time.make_from_string_default (buffer.copied_general (string))
+				date_time.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
@@ -71,4 +81,22 @@ feature -- Basic operations
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	converted (date_time: DATE_TIME): like EL_date_time
+		do
+			if attached {EL_DATE_TIME} date_time as dt then
+				Result := dt
+			else
+				Result := EL_date_time
+				Result.set_from_other (date_time)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	EL_date_time: EL_DATE_TIME
+		once
+			create Result.make_from_epoch (0)
+		end
 end

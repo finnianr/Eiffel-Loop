@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 18:56:44 GMT (Sunday 16th May 2021)"
-	revision: "2"
+	date: "2021-08-12 11:02:35 GMT (Thursday 12th August 2021)"
+	revision: "3"
 
 class
 	EL_ISO_8601_EXTENDED_DATE_TIME_CONVERSION
@@ -33,9 +33,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	put_T (out_string: STRING)
+	put_T (out_string: STRING; old_count: INTEGER)
 		do
-			out_string [Index_of_T] := 'T'
+			out_string [old_count + Index_of_T] := 'T'
 		end
 
 	put_separator (out_string: STRING)

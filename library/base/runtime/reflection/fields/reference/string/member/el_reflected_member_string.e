@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 11:58:15 GMT (Sunday 23rd May 2021)"
-	revision: "1"
+	date: "2021-08-12 13:22:47 GMT (Thursday 12th August 2021)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTED_MEMBER_STRING [S -> STRING_GENERAL create make end]
@@ -57,11 +57,11 @@ feature -- Basic operations
 		do
 			if attached {S} string as str then
 				set (a_object, str)
-				
-			elseif attached pool.reuseable_item as buffer then
+
+			elseif attached pool.new_scope as p and then attached p.reuse_item as buffer then
 				buffer.append (string)
 				set (a_object, buffer)
-				pool.recycle (buffer)
+				p.recycle_end (buffer)
 			end
 		end
 

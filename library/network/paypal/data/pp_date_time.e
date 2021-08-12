@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 15:56:34 GMT (Saturday 15th May 2021)"
-	revision: "11"
+	date: "2021-08-12 14:01:26 GMT (Thursday 12th August 2021)"
+	revision: "12"
 
 class
 	PP_DATE_TIME
@@ -60,12 +60,16 @@ feature {NONE} -- Implementation
 
 	selected_format (s: STRING): STRING
 		do
-			if s.has ('(') and then s.has (')') and then attached Buffer_8.copied_substring (s, 1, 3) as week_day then
-				week_day.to_upper
-				if Date_time.Days_text.has (week_day) then
-					Result := Format_day_long
-				else
-					Result := Format_long
+			if s.has ('(') and then s.has (')') then
+				if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as week_day then
+					week_day.append_substring (s, 1, 3)
+					week_day.to_upper
+					if Date_time.Days_text.has (week_day) then
+						Result := Format_day_long
+					else
+						Result := Format_long
+					end
+					pool.recycle_end (week_day)
 				end
 			else
 				Result := Default_format_string

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 18:56:39 GMT (Sunday 16th May 2021)"
-	revision: "4"
+	date: "2021-08-12 11:06:14 GMT (Thursday 12th August 2021)"
+	revision: "5"
 
 class
 	EL_ISO_8601_DATE_TIME_CONVERSION
@@ -31,17 +31,26 @@ feature {NONE} -- Initialization
 			make_format (Date_time.ISO_8601.date + Date_time.ISO_8601.time)
 		end
 
+feature -- Basic operations
+
+	append_to (str: STRING; dt: EL_DATE_TIME)
+		local
+			old_count: INTEGER
+		do
+			old_count := str.count
+			if attached dt.Code_string_table.item (format) as code then
+				code.append_to (str, dt)
+				put_T (str, old_count)
+				str.append_character ('Z')
+			end
+		end
+
 feature -- Access
 
 	formatted_out (dt: EL_DATE_TIME): STRING
 		do
-			if attached dt.Code_string_table.item (format) as code then
-				Result := code.new_string (dt)
-				put_T (Result)
-				Result.append_character ('Z')
-			else
-				create Result.make_empty
-			end
+			create Result.make (Input_string_count)
+			append_to (Result, dt)
 		end
 
 	modified_string (s: STRING): STRING
@@ -62,9 +71,9 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	put_T (out_string: STRING)
+	put_T (out_string: STRING; old_count: INTEGER)
 		do
-			out_string.insert_character ('T', Index_of_T)
+			out_string.insert_character ('T', old_count + Index_of_T)
 		end
 
 	put_separator (out_string: STRING)

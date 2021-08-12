@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-15 16:09:17 GMT (Saturday 15th May 2021)"
-	revision: "10"
+	date: "2021-08-11 12:00:19 GMT (Wednesday 11th August 2021)"
+	revision: "11"
 
 class
 	PAYPAL_TEST_SET
@@ -60,7 +60,8 @@ feature -- Test
 			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
 		do
 			create transaction.make (ipn_url_query)
-			assert ("address_country=Ireland", transaction.address.country ~ "Ireland")
+			assert ("address_country=Ireland", transaction.address.country.same_string ("Ireland"))
+			assert ("address_city=Dún Búinne", transaction.address.city.same_string ("Dún Búinne"))
 			assert ("address_country_code=IE", transaction.address.country_code ~ "IE")
 
 			assert ("charset=UTF-8", transaction.charset.name ~ "UTF-8")

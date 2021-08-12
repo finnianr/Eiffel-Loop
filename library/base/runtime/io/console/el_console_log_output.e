@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:19:38 GMT (Friday 8th January 2021)"
-	revision: "19"
+	date: "2021-08-12 13:49:53 GMT (Thursday 12th August 2021)"
+	revision: "20"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -29,7 +29,8 @@ feature -- Initialization
 	make
 		do
 			create buffer.make (30)
-			create string_pool.make
+			create {EL_STRING_POOL [STRING]} string_pool.make
+			string_pool.start_scope
 			create recycle_buffer.make (30)
 			create new_line_prompt.make_from_string ("%N")
 			std_output := io.Output
@@ -209,15 +210,16 @@ feature -- Basic operations
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
-			recycle_buffer.do_all (agent string_pool.recycle)
-			recycle_buffer.wipe_out
+			string_pool.reclaim (recycle_buffer)
+			string_pool.end_scope
+			string_pool.start_scope
 		end
 
 feature {NONE} -- Implementation
 
 	extended_buffer_last: like string_pool.item
 		do
-			Result := string_pool.reuseable_item
+			Result := string_pool.reuse_item
 			recycle_buffer.extend (Result)
 			buffer.extend (Result)
 		end
@@ -260,7 +262,7 @@ feature {NONE} -- Internal attributes
 
 	std_output: PLAIN_TEXT_FILE
 
-	string_pool: EL_STRING_POOL [STRING]
+	string_pool: EL_POOL_SCOPE [STRING]
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

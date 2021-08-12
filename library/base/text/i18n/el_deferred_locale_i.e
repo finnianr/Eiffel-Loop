@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:51:37 GMT (Monday 2nd August 2021)"
-	revision: "11"
+	date: "2021-08-10 9:40:12 GMT (Tuesday 10th August 2021)"
+	revision: "12"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -64,13 +64,18 @@ feature -- Access
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
 		local
-			template: like translation_template
+			template: like translation_template; name: STRING
 		do
 			template := translation_template (partial_key, quantity)
 			across substitutions as list loop
-				template.put_general (list.item.name, list.item.value)
+				name := list.item.name
+				if template.has (name) then
+					template.put_general (name, list.item.value)
+				end
 			end
-			template.put_general (Var_quantity, quantity.out)
+			if template.has (Var_quantity) then
+				template.put_general (Var_quantity, quantity.out)
+			end
 			Result := template.substituted
 		end
 

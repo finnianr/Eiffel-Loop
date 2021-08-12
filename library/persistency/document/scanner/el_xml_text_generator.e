@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-18 9:18:24 GMT (Sunday 18th April 2021)"
-	revision: "16"
+	date: "2021-08-12 14:13:21 GMT (Thursday 12th August 2021)"
+	revision: "17"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -35,7 +35,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			create output_stack.make (10)
-			create reusable_stack.make (30)
+			create recycle_list.make (30)
+			pool := String_8_pool
 			Precursor
 		end
 
@@ -47,9 +48,9 @@ feature -- Basic operations
 			valid_output: a_output.is_open_write and a_output.is_writable
 		do
 			output := a_output
-			scan_from_lines (lines)
+			do_scan (agent	scan_from_lines (lines))
 		ensure
-			all_recycled: reusable_stack.is_empty
+			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -60,9 +61,9 @@ feature -- Basic operations
 			valid_output: a_output.is_open_write and a_output.is_writable
 		do
 			output := a_output
-			scan_from_stream (a_input)
+			do_scan (agent	scan_from_stream (a_input))
 		ensure
-			all_recycled: reusable_stack.is_empty
+			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -72,9 +73,9 @@ feature -- Basic operations
 			valid_output: a_output.is_open_write and a_output.is_writable
 		do
 			output := a_output
-			scan (text)
+			do_scan (agent	scan (text))
 		ensure
-			all_recycled: reusable_stack.is_empty
+			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -128,14 +129,6 @@ feature {NONE} -- Parsing events
 				tag_output.extend (Right_angle_bracket)			-- 4.
 			end
 			put_output (tag_output, True)
-
-			from last_tag_output.finish until last_tag_output.before or else reusable_stack.is_empty loop
-				if last_tag_output.item = reusable_stack.item then
-					String_8_pool.recycle (reusable_stack.item)
-					reusable_stack.remove
-				end
-				last_tag_output.back
-			end
 			output_stack.remove
 			last_state := State_end_tag
 		end
@@ -189,6 +182,14 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
+	do_scan (action: PROCEDURE)
+		do
+			pool.start_scope
+			action.apply
+			pool.reclaim (recycle_list)
+			pool.end_scope
+		end
+
 	put_node_content
 			--
 		do
@@ -204,33 +205,33 @@ feature {NONE} -- Implementation
 
 	put_node_content_lines (tabbed: BOOLEAN)
 		local
-			list: like Line_list; text: STRING_8
+			list: like Line_list
 		do
-			text := String_8_pool.reuseable_item
-			last_node.append_adjusted_to (text)
+			if attached String_8_pool.new_scope as l_pool and then attached l_pool.reuse_item as text then
+				last_node.append_adjusted_to (text)
 
-			list := Line_list
-			list.set_string (Xml_escaper.escaped (text, False), New_line)
+				list := Line_list
+				list.set_string (Xml_escaper.escaped (text, False), New_line)
 
-			from list.start until list.after loop
-				if tabbed then
-					output.put_string (tabs (output_stack.count + 1))
+				from list.start until list.after loop
+					if tabbed then
+						output.put_string (tabs (output_stack.count + 1))
+					end
+					output.put_string (list.item (False))
+					output.put_new_line
+					list.forth
 				end
-				output.put_string (list.item (False))
-				output.put_new_line
-				list.forth
+				l_pool.recycle_end (text)
 			end
-			String_8_pool.recycle (text)
 		end
 
 	put_node_content_single
-		local
-			text: STRING_8
 		do
-			text := String_8_pool.reuseable_item
-			Xml_escaper.escape_into (last_node, text)
-			output.put_string (text)
-			String_8_pool.recycle (text)
+			if attached String_8_pool.new_scope as l_pool and then attached pool.reuse_item as text then
+				Xml_escaper.escape_into (last_node, text)
+				output.put_string (text)
+				l_pool.recycle_end (text)
+			end
 		end
 
 	put_last_tag (append_new_line: BOOLEAN)
@@ -274,8 +275,8 @@ feature {NONE} -- Implementation
 
 	reuseable_item: STRING_8
 		do
-			Result := String_8_pool.reuseable_item
-			reusable_stack.put (Result)
+			Result := pool.reuse_item
+			recycle_list.extend (Result)
 		end
 
 	tabs (tab_count: INTEGER): STRING_8
@@ -297,7 +298,9 @@ feature {NONE} -- Internal attributes
 
 	output_stack: ARRAYED_STACK [EL_STRING_8_LIST]
 
-	reusable_stack: ARRAYED_STACK [STRING_8]
+	pool: EL_POOL_SCOPE [STRING]
+
+	recycle_list: ARRAYED_LIST [STRING]
 
 feature {NONE} -- States
 

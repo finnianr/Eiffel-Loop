@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
-	revision: "17"
+	date: "2021-08-12 9:38:03 GMT (Thursday 12th August 2021)"
+	revision: "18"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -86,12 +86,11 @@ feature {NONE} -- Implementation
 		end
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING_32
-		local
-			str: STRING_32; buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str := buffer.empty
-			str.extend (value (a_object))
-			Result := str.twin
+			if attached Buffer_32.empty as str then
+				str.extend (value (a_object))
+				Result := str.twin
+			end
 		end
 
 end

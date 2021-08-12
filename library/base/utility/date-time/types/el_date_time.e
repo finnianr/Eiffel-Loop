@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:37:44 GMT (Wednesday 19th May 2021)"
-	revision: "16"
+	date: "2021-08-12 14:40:52 GMT (Thursday 12th August 2021)"
+	revision: "17"
 
 class
 	EL_DATE_TIME
@@ -30,9 +30,9 @@ inherit
 			Time as Mod_time
 		end
 
-	EL_SHARED_DATE_TIME
-
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_DATE_TIME
 
 create
 	make,
@@ -52,14 +52,14 @@ create
 
 feature -- Initialization
 
-	make_ISO_8601_extended (s: STRING)
-		do
-			make_with_format (s, Date_time.ISO_8601.format_extended)
-		end
-
 	make_ISO_8601 (s: STRING)
 		do
 			make_with_format (s, Date_time.ISO_8601.format)
+		end
+
+	make_ISO_8601_extended (s: STRING)
+		do
+			make_with_format (s, Date_time.ISO_8601.format_extended)
 		end
 
 	make_from_other (other: DATE_TIME)
@@ -69,15 +69,18 @@ feature -- Initialization
 
 	make_with_format (s: STRING; format: STRING)
 		local
-			parser: EL_DATE_TIME_PARSER; str: STRING
+			parser: EL_DATE_TIME_PARSER
 		do
-			str := Buffer_8.copied_upper (s)
-			if attached Conversion_table [format] as conversion then
-				parser := Parser_table.item (conversion.format)
-				parser.set_source_string (conversion.modified_string (str))
-			else
-				parser := Parser_table.item (format)
-				parser.set_source_string (str)
+			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
+				str.append (s)
+				if attached Conversion_table [format] as conversion then
+					parser := Parser_table.item (conversion.format)
+					parser.set_source_string (conversion.modified_string (str))
+				else
+					parser := Parser_table.item (format)
+					parser.set_source_string (str)
+				end
+				pool.recycle_end (str)
 			end
 			parser.parse
 			make_fine (parser.year, parser.month, parser.day, parser.hour, parser.minute, parser.fine_second)
@@ -90,30 +93,53 @@ feature -- Initialization
 			valid_day_text: valid_day_text (Parser_table.found_item)
 		end
 
-feature -- Access
+feature -- Basic operations
 
-	formatted_out (format: STRING): STRING
+	append_to (general: STRING_GENERAL; format: STRING)
 		local
-			index: INTEGER
+			index, old_count: INTEGER; str: STRING
+			pool: like String_8_pool.new_scope
 		do
+			if attached {STRING_8} general as str_8 then
+				str := str_8
+			else
+				pool := String_8_pool.new_scope
+				str := pool.reuse_item
+			end
+			old_count := str.count
 			if attached Conversion_table [format] as conversion then
-				Result := conversion.formatted_out (Current)
+				conversion.append_to (str, Current)
 
 			elseif attached Code_string_table.item (format) as code then
-				Result := code.new_string (Current)
+				code.append_to (str, Current)
 			end
 			-- Turn Upper case month and day names into propercase if the
 			-- format code is propercase
 			across Propercase_table as table loop
 				if format.has_substring (table.key) then
 					across table.item as values_list until index > 0 loop
-						index := Result.substring_index (values_list.item, 1)
+						index := str.substring_index (values_list.item, old_count + 1)
 						if index > 0 then
-							Result [index + 1] := Result [index + 1].as_lower
-							Result [index + 2] := Result [index + 2].as_lower
+							str [index + 1] := str [index + 1].as_lower
+							str [index + 2] := str [index + 2].as_lower
 						end
 					end
 				end
+			end
+			if general /= str then
+				general.append (str)
+				pool.recycle_end (str)
+			end
+		end
+
+feature -- Access
+
+	formatted_out (format: STRING): STRING
+		do
+			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
+				append_to (str, format)
+				Result := str.twin
+				pool.recycle_end (str)
 			end
 		end
 
@@ -142,7 +168,8 @@ feature -- Element change
 
 	set_from_other (other: DATE_TIME)
 		do
-			set_time (other.time); set_date (other.date)
+			time.make_by_compact_time (other.time.compact_time)
+			date.make_by_ordered_compact_date (other.date.ordered_compact_date)
 		end
 
 feature -- Conversion
@@ -161,19 +188,22 @@ feature -- Contract support
 
 	date_time_valid (s: STRING; format: STRING): BOOLEAN
 		local
-			modified, str: STRING
+			modified: STRING
 		do
-			str := Buffer_8.copied_upper (s)
-			if attached Conversion_table [format] as conversion then
-				if conversion.is_valid_string (str)
-					and then attached Code_string_table.item (conversion.format) as code
-					and then code.precise
-				then
-					modified := conversion.modified_string (str)
-					Result := code.correspond (modified) and then code.is_date_time (modified)
+			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
+				str.append (s); str.to_upper
+				if attached Conversion_table [format] as conversion then
+					if conversion.is_valid_string (str)
+						and then attached Code_string_table.item (conversion.format) as code
+						and then code.precise
+					then
+						modified := conversion.modified_string (str)
+						Result := code.correspond (modified) and then code.is_date_time (modified)
+					end
+				elseif attached Code_string_table.item (format) as code then
+					Result := code.precise and code.correspond (str) and then code.is_date_time (str)
 				end
-			elseif attached Code_string_table.item (format) as code then
-				Result := code.precise and code.correspond (str) and then code.is_date_time (str)
+				pool.recycle_end (str)
 			end
 		end
 
@@ -222,11 +252,6 @@ feature {EL_DATE_TIME_CONVERSION} -- Constants
 		end
 
 feature {NONE} -- Constants
-
-	Buffer_8: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
 
 	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
 		once

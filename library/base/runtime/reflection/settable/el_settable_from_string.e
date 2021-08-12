@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-05 13:50:29 GMT (Friday 5th March 2021)"
-	revision: "19"
+	date: "2021-08-12 13:48:17 GMT (Thursday 12th August 2021)"
+	revision: "20"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -250,7 +250,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				if attached Name_part_pool.reuseable_item as name_part then
+				if attached Name_part_pool.new_scope as pool and then attached pool.reuse_item as name_part then
 					name_part.append_substring_general (name, 1, pos_dot - 1)
 					if table.has_imported (name_part, object)
 						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
@@ -260,7 +260,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 						-- Recurse until no more dots in name
 						set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
 					end
-					Name_part_pool.recycle (name_part)
+					pool.recycle_end (name_part)
 				end
 
 			elseif table.has_imported (name, object) then

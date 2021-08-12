@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 7:25:47 GMT (Monday 12th July 2021)"
-	revision: "29"
+	date: "2021-08-12 13:50:40 GMT (Thursday 12th August 2021)"
+	revision: "30"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -49,7 +49,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 			attribute_count: INTEGER; l_name: STRING
 		do
 			table := field_table
-			if attached String_pool.reuseable_item as value then
+			if attached String_pool.new_scope as pool and then attached pool.reuse_item as value then
 				xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
 				xml_out.put_string_8 (name)
 				across table as field loop
@@ -83,7 +83,7 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 					xml_out.put_indent (tab_count)
 					xml_out.put_string_8 (once "/>%N")
 				end
-				String_pool.recycle (value)
+				pool.recycle_end (value)
 			end
 		end
 

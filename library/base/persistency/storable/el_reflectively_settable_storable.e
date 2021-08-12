@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 12:42:30 GMT (Monday 24th May 2021)"
-	revision: "44"
+	date: "2021-08-12 13:51:57 GMT (Thursday 12th August 2021)"
+	revision: "45"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -242,33 +242,38 @@ feature {NONE} -- Implementation
 	write_pyxis_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_pyxis_attribute: SPECIAL [BOOLEAN])
 		local
 			attribute_lines: EL_ZSTRING_LIST; value: ZSTRING; line_index: INTEGER
+			name: STRING
 		do
 			value := buffer.empty; attribute_lines := Once_attribute_lines
 
-			from attribute_lines.wipe_out until attribute_lines.full loop
-				attribute_lines.extend (String_pool.reuseable_item)
-			end
-			across meta_data.alphabetical_list as list loop
-				-- output numeric as Pyxis element attributes
-				line_index := attribute_line_index (list.item)
-				if line_index > 0 then
-					is_pyxis_attribute [list.cursor_index - 1] := True
-					value.wipe_out
-					list.item.append_to_string (Current, value)
-					if value.count > 0 then
-						if line_index = 3 and then not value.is_code_identifier then
-							value.enclose ('"', '"')
+			if attached String_pool.new_scope as pool then
+				from attribute_lines.wipe_out until attribute_lines.full loop
+					attribute_lines.extend (pool.reuse_item)
+				end
+				across meta_data.alphabetical_list as list loop
+					-- output numeric as Pyxis element attributes
+					name := list.item.name
+					line_index := attribute_line_index (list.item)
+					if line_index > 0 then
+						is_pyxis_attribute [list.cursor_index - 1] := True
+						value.wipe_out
+						list.item.append_to_string (Current, value)
+						if value.count > 0 then
+							if line_index = 3 and then not value.is_code_identifier then
+								value.enclose ('"', '"')
+							end
+							attribute_lines [line_index].append (Pyxis_attribute #$ [name, value])
 						end
-						attribute_lines [line_index].append (Pyxis_attribute #$ [list.item.name, value])
 					end
 				end
-			end
-			across attribute_lines as line loop
-				if line.item.count > 0 then
-					line.item.remove_head (2)
-					output.put_indented_line (tab_count, line.item)
+				across attribute_lines as line loop
+					if line.item.count > 0 then
+						line.item.remove_head (2)
+						output.put_indented_line (tab_count, line.item)
+					end
+					pool.recycle (line.item)
 				end
-				String_pool.recycle (line.item)
+				pool.end_scope
 			end
 		end
 
@@ -297,7 +302,9 @@ feature {NONE} -- Implementation
 		local
 			pair: ZSTRING; i: INTEGER
 		do
-			if attached String_pool.reuseable_item as value and attached String_8_pool.reuseable_item as name then
+			if attached String_pool.new_scope as pool and then attached String_8_pool.new_scope as pool_8
+				and then attached pool.reuse_item as value and then attached pool_8.reuse_item as name
+			then
 				name.append (once "i_")
 				output.put_indent (tab_count)
 				from i := 1 until i > tuple.count loop
@@ -317,7 +324,7 @@ feature {NONE} -- Implementation
 					i := i + 1
 				end
 				output.put_new_line
-				String_pool.recycle (value); String_8_pool.recycle (name)
+				pool.recycle_end (value); pool_8.recycle_end (name)
 			end
 		end
 

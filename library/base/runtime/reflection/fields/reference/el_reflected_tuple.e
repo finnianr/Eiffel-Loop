@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 15:23:11 GMT (Friday 21st May 2021)"
-	revision: "13"
+	date: "2021-08-12 13:25:05 GMT (Thursday 12th August 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_TUPLE
@@ -111,14 +111,16 @@ feature -- Conversion
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
-			if attached value (a_object) as l_tuple and then attached String_pool.reuseable_item as str then
-				Tuple.write (l_tuple, str, Comma_space)
-				if member_types.is_latin_1_representable then
-					Result := str.to_latin_1
-				else
-					Result := str.twin
+			if attached value (a_object) as l_tuple then
+				if attached String_pool.new_scope as pool and then attached pool.reuse_item as str then
+					Tuple.write (l_tuple, str, Comma_space)
+					if member_types.is_latin_1_representable then
+						Result := str.to_latin_1
+					else
+						Result := str.twin
+					end
+					pool.recycle_end (str)
 				end
-				String_pool.recycle (str)
 			end
 		end
 

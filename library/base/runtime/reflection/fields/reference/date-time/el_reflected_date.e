@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 15:37:10 GMT (Friday 21st May 2021)"
-	revision: "15"
+	date: "2021-08-12 9:33:25 GMT (Thursday 12th August 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_DATE
@@ -54,11 +54,9 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		require else
 			valid_format: valid_format (a_object, string.to_string_8)
-		local
-			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			if attached value (a_object) as date then
-				date.make_from_string_default (buffer.copied_general (string))
+				date.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
