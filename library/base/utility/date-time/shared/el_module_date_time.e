@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 8:58:59 GMT (Friday 14th May 2021)"
-	revision: "2"
+	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
+	revision: "3"
 
 deferred class
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 inherit
 	EL_ANY_SHARED

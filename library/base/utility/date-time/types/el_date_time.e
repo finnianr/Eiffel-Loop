@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 14:40:52 GMT (Thursday 12th August 2021)"
-	revision: "17"
+	date: "2021-08-13 9:10:39 GMT (Friday 13th August 2021)"
+	revision: "18"
 
 class
 	EL_DATE_TIME
@@ -32,7 +32,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	make,

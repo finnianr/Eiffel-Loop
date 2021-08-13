@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 15:44:46 GMT (Thursday 12th August 2021)"
-	revision: "5"
+	date: "2021-08-13 9:58:59 GMT (Friday 13th August 2021)"
+	revision: "6"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -20,42 +20,34 @@ inherit
 			create_date_time as new_date_time,
 			create_time_string as new_time_string
 		redefine
-			make
+			correspond, make
 		end
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 	EL_STRING_8_CONSTANTS
+
+	STRING_HANDLER
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (s: STRING)
-		local
-			str: STRING; i, zone_index: INTEGER
+	make (format: STRING)
 		do
-			str := s.as_upper
-			zone_index := str.substring_index (Time_zone_designator, 1)
-			if zone_index.to_boolean then
-				if str.substring_index (Time_zone_designator, zone_index + 3).to_boolean then
-					zone_designator_count := 2
-				else
-					zone_designator_count := 1
-				end
-				from i := zone_index - 1 until s [i].is_space or else i = 0 loop
-					i := i - 1
-				end
-				Precursor (s.substring (1, i - 1))
-			else
-				Precursor (s)
-			end
+			set_zone_designator_count (format)
+			Precursor (cropped_format (format))
 		ensure then
-			valid_zone_designator_count: s.as_upper.has_substring (Time_zone_designator) implies zone_designator_count > 0
+			format_count_unchange: old format.count = format.count
 		end
 
 feature -- Access
+
+	correspond (format: STRING): BOOLEAN
+		do
+			Result := Precursor (cropped_format (format))
+		end
 
 	new_parser: EL_DATE_TIME_PARSER
 		do
@@ -67,6 +59,22 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_date_to (str: STRING; date: DATE)
+		do
+			if attached Jan_1st_year_zero as dt then
+				dt.date.make_by_ordered_compact_date (date.ordered_compact_date)
+				append_to (str, dt)
+			end
+		end
+
+	append_time_to (str: STRING; time: TIME)
+		do
+			if attached Jan_1st_year_zero as dt then
+				dt.time.make_by_fine_seconds (time.fine_seconds)
+				append_to (str, dt)
+			end
+		end
 
 	append_to (str: STRING; dt: DATE_TIME)
 			-- Create the output of `dt' according to the code string.
@@ -178,25 +186,9 @@ feature -- Basic operations
 				i := i + 1
 				l_item := value.item (i)
 			end
-				str.append (Zone_designator [zone_designator_count])
+			str.append (Zone_designator [zone_designator_count])
 		ensure
-			string_correspond: correspond (str.substring (old str.count + 1, str.count - Zone_designator [zone_designator_count].count))
-		end
-
-	append_date_to (str: STRING; date: DATE)
-		do
-			if attached Jan_1st_year_zero as dt then
-				dt.date.make_by_ordered_compact_date (date.ordered_compact_date)
-				append_to (str, dt)
-			end
-		end
-
-	append_time_to (str: STRING; time: TIME)
-		do
-			if attached Jan_1st_year_zero as dt then
-				dt.time.make_by_fine_seconds (time.fine_seconds)
-				append_to (str, dt)
-			end
+			corresponds_to_format: correspond (str)
 		end
 
 feature -- Measurement
@@ -232,19 +224,37 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Jan_1st_year_zero: DATE_TIME
-		once
-			create Result.make (1, 1, 1, 1, 1, 1)
+	cropped_format (format: STRING): STRING
+		-- `format' with time zone designators removed
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			inspect zone_designator_count
+				when 1, 2 then
+					Result := Buffer.copied_substring (format, 1, s.leading_string_count (format, zone_designator_count))
+			else
+				Result := format
+			end
 		end
+
+feature -- Element change
+
+	set_zone_designator_count (format: STRING)
+		do
+			zone_designator_count := Date_time.zone_designator_count (format)
+		end
+
+feature {NONE} -- Constants
 
 	Buffer: EL_STRING_8_BUFFER
 		once
 			create Result
 		end
 
-	Time_zone_designator: STRING = "TZD"
+	Jan_1st_year_zero: DATE_TIME
+		once
+			create Result.make (1, 1, 1, 1, 1, 1)
+		end
 
 	Zone_designator: SPECIAL [STRING]
 		once

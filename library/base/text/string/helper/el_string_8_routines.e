@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 8:25:00 GMT (Thursday 22nd July 2021)"
-	revision: "22"
+	date: "2021-08-13 9:55:50 GMT (Friday 13th August 2021)"
+	revision: "23"
 
 expanded class
 	EL_STRING_8_ROUTINES
@@ -180,6 +180,20 @@ feature -- Measurement
 			end
 			from until i = l_count or else not l_area.item (i + offset).is_space loop
 				i := i + 1
+			end
+			Result := i
+		end
+
+	leading_string_count (s: STRING; space_count: INTEGER): INTEGER
+		-- count of leading characters up to `space_count' number of spaces counting from end
+		local
+			i, count: INTEGER
+		do
+			from i := s.count until count = space_count or else i = 0 loop
+				if s [i].is_space then
+					count := count + 1
+				end
+				i := i - 1
 			end
 			Result := i
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 11:25:31 GMT (Tuesday 8th June 2021)"
-	revision: "23"
+	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
+	revision: "24"
 
 class
 	COUNTRY
@@ -29,7 +29,7 @@ inherit
 
 	EL_SHARED_CURRENCY_ENUM
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	make, make_default

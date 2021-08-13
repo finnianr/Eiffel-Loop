@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:38:41 GMT (Wednesday 19th May 2021)"
-	revision: "3"
+	date: "2021-08-13 9:58:32 GMT (Friday 13th August 2021)"
+	revision: "4"
 
 class
 	EL_DATE_TIME_PARSER
@@ -18,7 +18,7 @@ inherit
 			parse
 		end
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	make
@@ -40,10 +40,10 @@ feature -- Basic operations
 	parse
 		local
 			i, offset_hh_mm, sign_index, sign_one, leading_count: INTEGER; zone_string, zone_dezignator: STRING
-			c: CHARACTER
+			c: CHARACTER; s: EL_STRING_8_ROUTINES
 		do
 			if zone_designator_count.to_boolean then
-				leading_count := Date_time.leading_string_count (source_string, zone_designator_count)
+				leading_count := s.leading_string_count (source_string, zone_designator_count)
 				zone_string := source_string.substring (leading_count + 1, source_string.count)
 				source_string.keep_head (leading_count)
 				Precursor

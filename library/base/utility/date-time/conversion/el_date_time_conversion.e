@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 10:59:31 GMT (Thursday 12th August 2021)"
-	revision: "3"
+	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
+	revision: "4"
 
 deferred class
 	EL_DATE_TIME_CONVERSION
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 feature {NONE} -- Initialization
 

@@ -13,7 +13,11 @@ note
 		Because the online IPN listener test uses a different format in a prepopulated field, this is
 		accommodated as well. 
 			
-			Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)
+			Long form: "Mmm [0]dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)"
+			Example: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
+			
+			Short form: "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd"
+			Example: "Wed Dec 20 2017 09:10:46 UTC"
 
 	]"
 
@@ -22,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 14:01:26 GMT (Thursday 12th August 2021)"
-	revision: "12"
+	date: "2021-08-13 9:10:39 GMT (Friday 13th August 2021)"
+	revision: "13"
 
 class
 	PP_DATE_TIME
@@ -34,7 +38,7 @@ inherit
 			make, date_time_valid, default_format_string
 		end
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	make, make_now
@@ -42,9 +46,7 @@ create
 feature {EL_DATE_TEXT} -- Initialization
 
 	make (str: STRING)
-		-- formats
-		-- 	Long: "Wed Dec 20 2017 09:10:46 GMT+0000 (GMT)"
-		-- 	Short "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd"
+		-- formats long or short time zone descriptor. See notes
 		do
 			make_with_format (str, selected_format (str))
 		end

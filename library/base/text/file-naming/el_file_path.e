@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 13:22:38 GMT (Monday 17th May 2021)"
-	revision: "20"
+	date: "2021-08-13 9:10:39 GMT (Friday 13th August 2021)"
+	revision: "21"
 
 class
 	EL_FILE_PATH
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PATH
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	default_create, make, make_from_path, make_from_other, make_from_steps

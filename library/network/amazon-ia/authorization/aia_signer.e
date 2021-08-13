@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 10:08:38 GMT (Sunday 16th May 2021)"
-	revision: "7"
+	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
+	revision: "8"
 
 class
 	AIA_SIGNER
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_DATE
 
-	EL_SHARED_DATE_TIME
+	EL_MODULE_DATE_TIME
 
 create
 	make

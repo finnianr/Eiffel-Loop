@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:30:57 GMT (Wednesday 19th May 2021)"
-	revision: "6"
+	date: "2021-08-13 10:01:23 GMT (Friday 13th August 2021)"
+	revision: "7"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -17,20 +17,31 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_STRING_8_CONSTANTS
+
 feature -- Access
 
-	leading_string_count (s: STRING; space_count: INTEGER): INTEGER
-		-- count of leading characters up to `space_count' number of spaces counting from end
+	zone_designator_count (format: STRING): INTEGER
+		-- 0 if format does not contain "tzd"
+		-- 1 if format ends with "tzd"
+		-- 2 if format ends with "tzd (tzd)"
 		local
-			i, count: INTEGER
+			zone_index: INTEGER
 		do
-			from i := s.count until count = space_count or else i = 0 loop
-				if s [i].is_space then
-					count := count + 1
+			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as format_upper then
+				format_upper.append (format); format_upper.to_upper
+				zone_index := format_upper.substring_index (Time_zone_designator, 1)
+				if zone_index.to_boolean then
+					if format_upper.substring_index (Time_zone_designator, zone_index + 3).to_boolean then
+						Result := 2
+					else
+						Result := 1
+					end
 				end
-				i := i - 1
+				pool.recycle_end (format_upper)
 			end
-			Result := i
+		ensure
+			valid_count: format.as_upper.has_substring (Time_zone_designator) implies Result > 0
 		end
 
 feature -- Integer field representations
@@ -76,6 +87,8 @@ feature -- Constants
 			create dt.make_from_epoch (0)
 			Result := dt.Origin
 		end
+
+	Time_zone_designator: STRING = "TZD"
 
 	Zone: TUPLE [gmt, pdt, pst, utc: STRING]
 		once
