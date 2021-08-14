@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 		local
 			push_cmd: EL_OS_COMMAND
 		do
-			Execution_environment.put (config.access_token, "GITHUB_PAT")
+--			Execution_environment.put (config.access_token, "GITHUB_PAT")
 			create push_cmd.make ("git push -u origin master")
 			push_cmd.set_working_directory (config.github_dir)
 			push_cmd.execute
