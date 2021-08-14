@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 9:37:20 GMT (Thursday 12th August 2021)"
-	revision: "34"
+	date: "2021-08-14 13:59:51 GMT (Saturday 14th August 2021)"
+	revision: "35"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -104,6 +104,14 @@ feature -- Status query
 			Result := not is_initialized (a_object)
 		end
 
+feature -- Contract Support
+
+	valid_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `string' is valid argument for `set_from_string'
+		do
+			Result := True
+		end
+
 feature -- Comparison
 
 	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
@@ -154,6 +162,8 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		require
+			valid_string: valid_string (a_object, string)
 		deferred
 		end
 
@@ -180,8 +190,6 @@ feature -- Element change
 		do
 			index := a_index
 		end
-
-feature -- Element change
 
 	set_representation (a_representation: like representation)
 		require

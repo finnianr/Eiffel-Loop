@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:42:24 GMT (Saturday 14th August 2021)"
-	revision: "16"
+	date: "2021-08-14 14:01:39 GMT (Saturday 14th August 2021)"
+	revision: "17"
 
 class
 	EL_REFLECTED_DATE_TIME
 
 inherit
 	EL_REFLECTED_REFERENCE [DATE_TIME]
+		rename
+			valid_string as valid_format
 		redefine
-			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string,
+			valid_format
 		end
 
 create
@@ -63,11 +66,9 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as date_time then
-				if attached EL_date_time as dt then
-					dt.make_from_string (Buffer_8.copied_general (string))
-					date_time.make_by_date_time (dt.date.twin, dt.time.twin)
-				end
+			if attached value (a_object) as date_time and then attached EL_date_time as dt then
+				dt.make_from_string (Buffer_8.copied_general (string))
+				date_time.make_by_date_time (dt.date.twin, dt.time.twin)
 			end
 		end
 
@@ -77,6 +78,13 @@ feature -- Basic operations
 				writeable.write_integer_32 (dt.date.ordered_compact_date)
 				writeable.write_integer_32 (dt.time.compact_time)
 			end
+		end
+
+feature -- Contract Support
+
+	valid_format (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := EL_date_time.date_time_valid (Buffer_8.copied_general (string), EL_date_time.default_format_string)
 		end
 
 feature {NONE} -- Implementation

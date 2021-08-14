@@ -6,16 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:46:47 GMT (Saturday 14th August 2021)"
-	revision: "16"
+	date: "2021-08-14 14:08:28 GMT (Saturday 14th August 2021)"
+	revision: "17"
 
 class
 	EL_REFLECTED_TIME
 
 inherit
 	EL_REFLECTED_REFERENCE [TIME]
+		rename
+			valid_string as valid_format
 		redefine
-			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string,
+			valid_format
 		end
 
 create
@@ -59,11 +62,10 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		require else
-			valid_format: valid_format (a_object, string.to_string_8)
 		do
-			if attached value (a_object) as time then
-				time.make_from_string_default (Buffer_8.copied_general (string))
+			if attached value (a_object) as time and then attached EL_time as l_time then
+				l_time.make_from_string (Buffer_8.copied_general (string))
+				time.make_by_fine_seconds (l_time.fine_seconds)
 			end
 		end
 
@@ -76,11 +78,9 @@ feature -- Basic operations
 
 feature -- Contract Support
 
-	valid_format (a_object: EL_REFLECTIVE; string: STRING): BOOLEAN
+	valid_format (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if attached value (a_object) as time then
-				Result := time.time_valid (string, time.default_format_string)
-			end
+			Result := EL_time.time_valid (Buffer_8.copied_general (string), EL_time.default_format_string)
 		end
 
 feature {NONE} -- Implementation

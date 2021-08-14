@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 9:33:25 GMT (Thursday 12th August 2021)"
-	revision: "16"
+	date: "2021-08-14 14:10:56 GMT (Saturday 14th August 2021)"
+	revision: "17"
 
 class
 	EL_REFLECTED_DATE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [DATE]
 		redefine
-			write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+			append_to_string, reset, set_from_memory, set_from_readable, set_from_string, to_string, write
 		end
 
 create
@@ -31,6 +31,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as date and then attached converted (date) as l_date then
+				l_date.append_to (str, l_date.default_format_string)
+			end
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do
@@ -52,11 +59,10 @@ feature -- Basic operations
 		end
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		require else
-			valid_format: valid_format (a_object, string.to_string_8)
 		do
-			if attached value (a_object) as date then
-				date.make_from_string_default (Buffer_8.copied_general (string))
+			if attached value (a_object) as date and then attached EL_date as l_date then
+				l_date.make_from_string (Buffer_8.copied_general (string))
+				date.make_by_ordered_compact_date (l_date.ordered_compact_date)
 			end
 		end
 
@@ -75,4 +81,24 @@ feature -- Contract Support
 				Result := date.date_valid (string, date.default_format_string)
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	converted (date: DATE): like EL_date
+		do
+			if attached {EL_DATE} date as l_date then
+				Result := l_date
+			else
+				Result := EL_date
+				Result.make_by_ordered_compact_date (date.ordered_compact_date)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	EL_date: EL_DATE
+		once
+			create Result.make (1, 1, 1)
+		end
+
 end
