@@ -424,3 +424,6 @@ Made EL_SINGLE_PATH_OPERAND reflective for naming path field
 Wed 28th Jul 2021, 17:52:12
 Changes to X509 tools
 
+Fri 13th Aug 2021, 10:16:39
+Optimizing date time formatting
+

@@ -12,14 +12,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:36:33 GMT (Wednesday 19th May 2021)"
-	revision: "5"
+	date: "2021-08-14 9:38:15 GMT (Saturday 14th August 2021)"
+	revision: "6"
 
 class
 	EL_SHORT_ISO_8601_DATE_TIME
 
 inherit
 	EL_DATE_TIME
+		rename
+			make as make_from_parts,
+			make_from_string as make
 		redefine
 			Default_format_string
 		end

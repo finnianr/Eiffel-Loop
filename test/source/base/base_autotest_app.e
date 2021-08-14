@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-25 9:23:09 GMT (Tuesday 25th May 2021)"
-	revision: "120"
+	date: "2021-08-14 9:14:07 GMT (Saturday 14th August 2021)"
+	revision: "121"
 
 class
 	BASE_AUTOTEST_APP
@@ -62,7 +62,8 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EL_DATE_TIME_REPRESENTATION,
+		EL_DATE_TIME_REPRESENTATION, EL_DATE,
+		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
 
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MUTEX_NUMERIC [INTEGER],
@@ -75,9 +76,8 @@ feature {NONE} -- Implementation
 		EL_STRING_8_EDITOR, EL_STRING_32_EDITOR,
 
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
-		EL_EXTERNAL_LIBRARY [EL_INITIALIZEABLE],
 
-		EL_TIMEOUT_THREAD,
+		EL_TIMEOUT_THREAD, EL_TIME,
 
 		EL_XML_STRING_8_ESCAPER, EL_DOCUMENT_NODE_STRING
 	]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-16 10:01:26 GMT (Sunday 16th May 2021)"
-	revision: "15"
+	date: "2021-08-14 10:58:22 GMT (Saturday 14th August 2021)"
+	revision: "16"
 
 class
 	DATE_TIME_TEST_SET
@@ -37,10 +37,15 @@ feature -- Tests
 
 	test_date_time
 		local
-			dt: EL_DATE_TIME
+			dt: EL_DATE_TIME; l_date: EL_DATE; l_time: EL_TIME
 		do
 			create dt.make_with_format (Date_time.formatted_out (Format_date_time), Format_date_time)
-			assert ("same date", dt ~ Date_time)
+			create l_date.make_from_string (dt.date.out)
+			create l_time.make_from_string (dt.time.out)
+
+			assert ("same date time", dt ~ Date_time)
+			assert ("same date", l_date.same_as (dt.date))
+			assert ("same time", l_time.same_as (dt.time))
 		end
 
 	test_date_time_proper_case
@@ -57,8 +62,8 @@ feature -- Tests
 		local
 			dt, dt_2: EL_DATE_TIME
 		do
-			create dt.make_from_parts (2000, 1, 3, 1, 0, 0)
-			create dt_2.make_from_parts (2000, 1, 2, 23, 0, 0)
+			create dt.make (2000, 1, 3, 1, 0, 0)
+			create dt_2.make (2000, 1, 2, 23, 0, 0)
 			dt.hour_add (-2)
 			assert ("substracting 2 hours is 11 PM previous day", dt ~ dt_2)
 		end
@@ -94,7 +99,7 @@ feature -- Tests
 		local
 			dt, dt_2: EL_DATE_TIME
 		do
-			create dt_2.make_from_parts (2016, 4, 10, 2, 35, 1)
+			create dt_2.make (2016, 4, 10, 2, 35, 1)
 			create dt.make_with_format ("19:35:01 Apr 09, 2016 PST+1", "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd")
 			assert ("same date", dt ~ dt_2)
 
@@ -113,7 +118,7 @@ feature {NONE} -- Constants
 	Date_time: EL_DATE_TIME
 		-- Thursday 23rd Nov 2017
 		once
-			create Result.make_from_parts (2017, 11, 23, 15, 51, 01)
+			create Result.make (2017, 11, 23, 15, 51, 01)
 		end
 
 	Format_date_time: STRING =	"yyyy/[0]mm/[0]dd [0]hh:[0]mi:[0]ss"

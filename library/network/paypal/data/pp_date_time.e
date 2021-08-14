@@ -26,14 +26,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:10:39 GMT (Friday 13th August 2021)"
-	revision: "13"
+	date: "2021-08-14 9:35:55 GMT (Saturday 14th August 2021)"
+	revision: "14"
 
 class
 	PP_DATE_TIME
 
 inherit
 	EL_DATE_TIME
+		rename
+			make as make_from_parts,
+			make_from_string as make
 		redefine
 			make, date_time_valid, default_format_string
 		end

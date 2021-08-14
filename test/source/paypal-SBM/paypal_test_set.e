@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-11 12:00:19 GMT (Wednesday 11th August 2021)"
-	revision: "11"
+	date: "2021-08-14 9:36:18 GMT (Saturday 14th August 2021)"
+	revision: "12"
 
 class
 	PAYPAL_TEST_SET
@@ -39,7 +39,7 @@ feature -- Test
 			date_time: EL_DATE_TIME; pp_date: PP_DATE_TIME
 			date_string: STRING
 		do
-			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
+			create date_time.make (2018, 4, 10, 10, 22, 41)
 			date_string := "Tue Apr 10 2018 09:22:41 GMT-0100 (GMT)"
 			create pp_date.make (date_string)
 			assert ("same date", pp_date.to_unix = date_time.to_unix)
@@ -75,7 +75,7 @@ feature -- Test
 			assert ("expected pending_reason", transaction.pending_reason = Pending_reason_enum.delayed_disbursement)
 			assert ("expected txn_type", transaction.txn_type = Transaction_type_enum.web_accept)
 
-			create date_time.make_from_parts (2018, 4, 10, 10, 22, 41)
+			create date_time.make (2018, 4, 10, 10, 22, 41)
 			assert ("payment_date=2018/4/10 10:22:41", transaction.payment_date.to_unix = date_time.to_unix)
 		end
 
