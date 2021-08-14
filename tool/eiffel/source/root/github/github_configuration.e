@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 15:12:18 GMT (Friday 30th July 2021)"
-	revision: "2"
+	date: "2021-08-14 12:19:30 GMT (Saturday 14th August 2021)"
+	revision: "3"
 
 class
 	GITHUB_CONFIGURATION
@@ -42,16 +42,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	access_token: STRING
+	new_credential_decrypter: EL_AES_ENCRYPTER
 		do
 			if not credential.is_phrase_set then
 				credential.ask_user
 			end
-			if attached credential.new_aes_encrypter (256) as aes then
-				Result := aes.decrypted_base_64 (encrypted_access_token)
-			else
-				create Result.make_empty
-			end
+			Result := credential.new_aes_encrypter (256)
 		end
 
 	github_dir: EL_DIR_PATH

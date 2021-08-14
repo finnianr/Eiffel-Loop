@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 17:18:11 GMT (Friday 30th July 2021)"
-	revision: "4"
+	date: "2021-08-14 12:26:42 GMT (Saturday 14th August 2021)"
+	revision: "5"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -15,7 +15,9 @@ class
 inherit
 	EL_COMMAND_SHELL_COMMAND
 
-	EL_MODULE_ENVIRONMENT
+	EL_MODULE_DIRECTORY
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO
 
@@ -53,12 +55,30 @@ feature {NONE} -- Implementation
 
 	git_push_origin_master
 		local
-			push_cmd: EL_OS_COMMAND
+			push_cmd: EL_OS_COMMAND; decrypter: EL_AES_ENCRYPTER
+			plain_text, cipher_text: STRING
 		do
---			Execution_environment.put (config.access_token, "GITHUB_PAT")
-			create push_cmd.make ("git push -u origin master")
-			push_cmd.set_working_directory (config.github_dir)
-			push_cmd.execute
+			if Credentials_path.exists then
+				decrypter := config.new_credential_decrypter
+				cipher_text := File_system.plain_text (Credentials_path)
+				plain_text := decrypter.decrypted_base_64 (cipher_text)
+				File_system.write_plain_text (Credentials_path, plain_text)
+
+				create push_cmd.make ("git push -u origin master")
+				push_cmd.set_working_directory (config.github_dir)
+				push_cmd.execute
+				if push_cmd.has_error then
+					lio.put_labeled_lines ("ERROR", push_cmd.errors)
+				else
+					lio.put_labeled_string ("push", "DONE")
+					lio.put_new_line
+				end
+
+				File_system.write_plain_text (Credentials_path, cipher_text)
+			else
+				lio.put_path_field ("Cannot find", Credentials_path)
+				lio.put_new_line
+			end
 		end
 
 	rsync_to_github_dir
@@ -105,6 +125,11 @@ feature {NONE} -- Internal attributes
 	config: GITHUB_CONFIGURATION
 
 feature {NONE} -- Constants
+
+	Credentials_path: EL_FILE_PATH
+		once
+			Result := Directory.home + ".git-credentials"
+		end
 
 	Git_commit_template: ZSTRING
 		once
