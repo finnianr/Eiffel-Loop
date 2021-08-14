@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:58:59 GMT (Friday 13th August 2021)"
-	revision: "6"
+	date: "2021-08-14 15:35:46 GMT (Saturday 14th August 2021)"
+	revision: "7"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 	make (format: STRING)
 		do
 			set_zone_designator_count (format)
-			Precursor (cropped_format (format))
+			Precursor (cropped_format (format, False))
 		ensure then
 			format_count_unchange: old format.count = format.count
 		end
@@ -46,7 +46,7 @@ feature -- Access
 
 	correspond (format: STRING): BOOLEAN
 		do
-			Result := Precursor (cropped_format (format))
+			Result := Precursor (cropped_format (format, True))
 		end
 
 	new_parser: EL_DATE_TIME_PARSER
@@ -224,7 +224,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	cropped_format (format: STRING): STRING
+	cropped_format (format: STRING; as_upper: BOOLEAN): STRING
 		-- `format' with time zone designators removed
 		local
 			s: EL_STRING_8_ROUTINES
@@ -233,7 +233,10 @@ feature {NONE} -- Implementation
 				when 1, 2 then
 					Result := Buffer.copied_substring (format, 1, s.leading_string_count (format, zone_designator_count))
 			else
-				Result := format
+				Result := Buffer.copied (format)
+			end
+			if as_upper then
+				Result.to_upper
 			end
 		end
 

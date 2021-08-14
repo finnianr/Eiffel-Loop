@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-05 11:55:10 GMT (Monday 5th August 2019)"
-	revision: "9"
+	date: "2021-08-14 15:10:27 GMT (Saturday 14th August 2021)"
+	revision: "10"
 
 class
 	EL_HTTP_HEADERS
@@ -99,12 +99,10 @@ feature -- Element change
 		end
 
 	set_date_stamp (value: STRING)
-		local
-			date_str: STRING
 		do
-			date_str := nvp.value.substring (nvp.value.index_of (',', 1) + 2, nvp.value.count - 4)
-			if Date_time_format.is_date_time (date_str) then
-				date_stamp := Date_time_format.create_date_time (date_str)
+			if Date_time_format.is_date_time (value) then
+				-- "Sat, 14 Aug 2021 14:57:04 GMT"
+				date_stamp := Date_time_format.new_date_time (value)
 			end
 		end
 
@@ -161,9 +159,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Date_time_format: DATE_TIME_CODE_STRING
+	Date_time_format: EL_DATE_TIME_CODE_STRING
+		-- -- "Sat, 14 Aug 2021 14:57:04 GMT"
 		once
-			create Result.make ("dd mmm yyyy hh:[0]mi:[0]ss")
+			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd")
 		end
 
 	HTTP: STRING = "HTTP"

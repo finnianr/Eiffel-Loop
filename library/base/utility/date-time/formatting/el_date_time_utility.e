@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 11:14:25 GMT (Saturday 14th August 2021)"
-	revision: "1"
+	date: "2021-08-14 15:29:44 GMT (Saturday 14th August 2021)"
+	revision: "2"
 
 deferred class
 	EL_DATE_TIME_UTILITY
@@ -65,8 +65,7 @@ feature -- Basic operations
 
 	append_to (general: STRING_GENERAL; format: STRING)
 		local
-			index: INTEGER; str: STRING
-			pool: like String_8_pool.new_scope
+			str: STRING; pool: like String_8_pool.new_scope
 		do
 			if attached {STRING_8} general as str_8 then
 				str := str_8

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:51:57 GMT (Thursday 12th August 2021)"
-	revision: "45"
+	date: "2021-08-14 14:33:21 GMT (Saturday 14th August 2021)"
+	revision: "46"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -179,13 +179,6 @@ feature {NONE} -- Implementation
 				else
 					Result := 1
 				end
-
-			elseif attached {EL_REFLECTED_DATE} field then
-				Result := 4
-			elseif attached {EL_REFLECTED_TIME} field then
-				Result := 4
-			elseif attached {EL_REFLECTED_DATE_TIME} field then
-				Result := 4
 			end
 		ensure
 			valid_index: Result <= Once_attribute_lines.count
@@ -332,7 +325,7 @@ feature {NONE} -- Constants
 
 	Once_attribute_lines: EL_ZSTRING_LIST
 		once
-			create Result.make (4)
+			create Result.make (3)
 		end
 
 	Pyxis_attribute: ZSTRING
