@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 15:03:12 GMT (Friday 30th July 2021)"
-	revision: "2"
+	date: "2021-08-14 12:31:30 GMT (Saturday 14th August 2021)"
+	revision: "3"
 
 class
 	GITHUB_MANAGER_APP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end
 
-	visible_types: TUPLE [GITHUB_MANAGER_SHELL_COMMAND, EL_BUILDABLE_AES_CREDENTIAL]
+	visible_types: TUPLE [GITHUB_MANAGER_SHELL_COMMAND, EL_BUILDABLE_AES_CREDENTIAL, EL_OS_COMMAND]
 		-- types with lio output visible in console
 		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do

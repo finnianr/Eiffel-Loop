@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 9:30:15 GMT (Thursday 12th August 2021)"
-	revision: "15"
+	date: "2021-08-14 12:46:47 GMT (Saturday 14th August 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_TIME
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [TIME]
 		redefine
-			write, reset, set_from_memory, set_from_readable, set_from_string, to_string
+			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string
 		end
 
 create
@@ -31,6 +31,13 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+		do
+			if attached value (a_object) as time and then attached converted (time) as l_time then
+				l_time.append_to (str, l_time.default_format_string)
+			end
+		end
 
 	reset (a_object: EL_REFLECTIVE)
 		do
@@ -75,4 +82,24 @@ feature -- Contract Support
 				Result := time.time_valid (string, time.default_format_string)
 			end
 		end
+
+feature {NONE} -- Implementation
+
+	converted (time: TIME): like EL_time
+		do
+			if attached {EL_TIME} time as l_time then
+				Result := l_time
+			else
+				Result := EL_time
+				Result.make_by_fine_seconds (time.fine_seconds)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	EL_time: EL_TIME
+		once
+			create Result.make (0, 0, 0)
+		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:26:42 GMT (Saturday 14th August 2021)"
-	revision: "5"
+	date: "2021-08-14 12:32:18 GMT (Saturday 14th August 2021)"
+	revision: "6"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 					lio.put_labeled_string ("push", "DONE")
 					lio.put_new_line
 				end
-
+				-- re-encrypt
 				File_system.write_plain_text (Credentials_path, cipher_text)
 			else
 				lio.put_path_field ("Cannot find", Credentials_path)

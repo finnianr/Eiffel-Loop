@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 14:45:16 GMT (Thursday 12th August 2021)"
-	revision: "15"
+	date: "2021-08-14 12:42:24 GMT (Saturday 14th August 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -16,11 +16,6 @@ inherit
 	EL_REFLECTED_REFERENCE [DATE_TIME]
 		redefine
 			append_to_string, write, reset, set_from_memory, set_from_readable, set_from_string, to_string
-		end
-
-	TIME_UTILITY
-		undefine
-			is_equal
 		end
 
 create
@@ -42,7 +37,7 @@ feature -- Basic operations
 	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
 		do
 			if attached value (a_object) as dt and then attached converted (dt) as date_time then
-				date_time.append_to (str, default_format_string)
+				date_time.append_to (str, date_time.default_format_string)
 			end
 		end
 
@@ -69,7 +64,10 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			if attached value (a_object) as date_time then
-				date_time.make_from_string_default (Buffer_8.copied_general (string))
+				if attached EL_date_time as dt then
+					dt.make_from_string (Buffer_8.copied_general (string))
+					date_time.make_by_date_time (dt.date.twin, dt.time.twin)
+				end
 			end
 		end
 
