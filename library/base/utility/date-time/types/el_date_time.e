@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 11:11:31 GMT (Saturday 14th August 2021)"
-	revision: "19"
+	date: "2021-08-15 14:24:20 GMT (Sunday 15th August 2021)"
+	revision: "20"
 
 class
 	EL_DATE_TIME
@@ -19,9 +19,7 @@ inherit
 			make_from_string as make_with_format,
 			make_from_string_default as make_from_string
 		undefine
-			Date_time, formatted_out, date_time_valid
-		redefine
-			make_with_format
+			Date_time, formatted_out, date_time_valid, make_with_format
 		end
 
 	EL_DATE_TIME_UTILITY
@@ -30,7 +28,7 @@ inherit
 		export
 			{EL_DATE_TIME_CONVERSION} Code_string_table
 		redefine
-			make_with_format, upper_input_valid
+			new_code_string
 		end
 
 	EL_MODULE_TIME
@@ -39,19 +37,9 @@ inherit
 		end
 
 create
-	make,
-	make_fine,
-	make_by_date_time,
-	make_by_date,
-	make_now,
-	make_now_utc,
-	make_from_epoch,
-	make_from_other,
-	make_with_format,
-	make_from_string_with_base,
-	make_from_string_default_with_base,
-	make_ISO_8601_extended,
-	make_ISO_8601
+	make, make_fine, make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,
+	make_from_other, make_with_format, make_from_string_with_base, make_from_string_default_with_base,
+	make_ISO_8601_extended, make_ISO_8601
 
 feature -- Initialization
 
@@ -70,50 +58,17 @@ feature -- Initialization
 			set_from_other (other)
 		end
 
-	make_with_format (s: STRING; format: STRING)
-		local
-			parser: EL_DATE_TIME_PARSER
-		do
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
-				str.append (s)
-				if attached Conversion_table [format] as conversion then
-					parser := Parser_table.item (conversion.format)
-					parser.set_source_string (conversion.modified_string (str))
-				else
-					parser := Parser_table.item (format)
-					parser.set_source_string (str)
-				end
-				pool.recycle_end (str)
-			end
-			parser.parse
-			make_with_parser (parser)
-		ensure then
-			valid_day_text: valid_day_text (Parser_table.found_item)
-		end
-
 	make_with_parser (parser: EL_DATE_TIME_PARSER)
 		do
 			make_fine (parser.year, parser.month, parser.day, parser.hour, parser.minute, parser.fine_second)
-			zone_offset := parser.zone_offset
-			if zone_offset.abs.to_boolean then
-				add_minutes (zone_offset.to_integer * 15)
+			if attached {EL_ZONED_DATE_TIME_PARSER} parser as zoned then
+				zone_offset := zoned.zone_offset
+				if zone_offset.abs.to_boolean then
+					add_minutes (zone_offset.to_integer * 15)
+				end
 			end
-		end
-
-feature -- Basic operations
-
-	append_to_string_8 (str, format: STRING)
-		local
-			old_count: INTEGER
-		do
-			old_count := str.count
-			if attached Conversion_table [format] as conversion then
-				conversion.append_to (str, Current)
-
-			elseif attached Code_string_table.item (format) as code then
-				code.append_to (str, Current)
-			end
-			check_case (format, str, old_count + 1)
+		ensure then
+			valid_day_text: valid_day_text (parser)
 		end
 
 feature -- Access
@@ -179,21 +134,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	upper_input_valid (str_upper: STRING; format: STRING): BOOLEAN
+	new_code_string (format: STRING): EL_DATE_TIME_CODE_STRING
 		local
-			modified: STRING
+			zone_designator_count: INTEGER
 		do
-			if attached Conversion_table [format] as conversion then
-				if conversion.is_valid_string (str_upper)
-					and then attached Code_string_table.item (conversion.format) as code
-					and then code.precise
-				then
-					modified := conversion.modified_string (str_upper)
-					Result := code.correspond (modified) and then code.is_date_time (modified)
+			if attached Conversion_table [format] as converter then
+				create {EL_ISO_8601_DATE_TIME_CODE_STRING} Result.make (format, converter)
+			else
+				zone_designator_count := Date_time.zone_designator_count (format)
+				if zone_designator_count > 0 then
+					create {EL_ZONED_DATE_TIME_CODE_STRING} Result.make (format, zone_designator_count)
+				else
+					create Result.make (format)
 				end
-			elseif attached Code_string_table.item (format) as code then
-				Result := valid_string_for_code (str_upper, code)
 			end
+		end
+
+	to_shared_date_time: DATE_TIME
+		do
+			Result := Current
 		end
 
 	valid_day_text (parser: DATE_TIME_PARSER): BOOLEAN

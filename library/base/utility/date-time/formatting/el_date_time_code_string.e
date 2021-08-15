@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 15:35:46 GMT (Saturday 14th August 2021)"
-	revision: "7"
+	date: "2021-08-15 14:05:42 GMT (Sunday 15th August 2021)"
+	revision: "8"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -19,6 +19,8 @@ inherit
 			create_date as new_date,
 			create_date_time as new_date_time,
 			create_time_string as new_time_string
+		export
+			{EL_DATE_TIME_PARSER} days, months, base_century
 		redefine
 			correspond, make
 		end
@@ -36,45 +38,28 @@ feature {NONE} -- Initialization
 
 	make (format: STRING)
 		do
-			set_zone_designator_count (format)
-			Precursor (cropped_format (format, False))
+			Precursor (adjusted_format (format))
 		ensure then
 			format_count_unchange: old format.count = format.count
 		end
 
 feature -- Access
 
-	correspond (format: STRING): BOOLEAN
-		do
-			Result := Precursor (cropped_format (format, True))
-		end
-
 	new_parser: EL_DATE_TIME_PARSER
 		do
-			create Result.make (value)
-			Result.set_day_array (days)
-			Result.set_month_array (months)
-			Result.set_base_century (base_century)
-			Result.set_zone_dezignator_count (zone_designator_count)
+			create Result.make (Current)
+		end
+
+feature -- Status query
+
+	correspond (str: STRING): BOOLEAN
+		do
+			if attached Buffer.copied_upper (adjusted_format (str)) as adjusted then
+				Result := Precursor (adjusted)
+			end
 		end
 
 feature -- Basic operations
-
-	append_date_to (str: STRING; date: DATE)
-		do
-			if attached Jan_1st_year_zero as dt then
-				dt.date.make_by_ordered_compact_date (date.ordered_compact_date)
-				append_to (str, dt)
-			end
-		end
-
-	append_time_to (str: STRING; time: TIME)
-		do
-			if attached Jan_1st_year_zero as dt then
-				dt.time.make_by_fine_seconds (time.fine_seconds)
-				append_to (str, dt)
-			end
-		end
 
 	append_to (str: STRING; dt: DATE_TIME)
 			-- Create the output of `dt' according to the code string.
@@ -103,11 +88,11 @@ feature -- Basic operations
 
 				when {DATE_TIME_CODE}.year_on_4_digits_type_code then
 					-- Test if the year has four digits, if not put 0 to fill it
-					if attached Buffer.empty as tmp then
-						from tmp.append_integer (date.year) until tmp.count = 4 loop
-							append_zeros (tmp, 1)
+					if attached Buffer.empty as padded_4 then
+						from padded_4.append_integer (date.year) until padded_4.count = 4 loop
+							append_zeros (padded_4, 1)
 						end
-						str.append (tmp)
+						str.append (padded_4)
 					end
 				when {DATE_TIME_CODE}.year_on_2_digits_type_code then
 						-- Two digit year, we only keep the last two digits
@@ -166,12 +151,12 @@ feature -- Basic operations
 
 				when {DATE_TIME_CODE}.fractional_second_numeric_type_code then
 					double := time.fractional_second * 10 ^ (l_item.count_max)
-					if attached Buffer.empty as tmp then
-						tmp.append_integer (double.rounded)
-						if tmp.count < l_item.count_max then
-							append_zeros (str, l_item.count_max - tmp.count)
+					if attached Buffer.empty as padded then
+						padded.append_integer (double.rounded)
+						if padded.count < l_item.count_max then
+							append_zeros (str, l_item.count_max - padded.count)
 						end
-						str.append (tmp)
+						str.append (padded)
 					end
 				when {DATE_TIME_CODE}.meridiem_type_code then
 					int := time.hour
@@ -186,14 +171,7 @@ feature -- Basic operations
 				i := i + 1
 				l_item := value.item (i)
 			end
-			str.append (Zone_designator [zone_designator_count])
-		ensure
-			corresponds_to_format: correspond (str)
 		end
-
-feature -- Measurement
-
-	zone_designator_count: INTEGER
 
 feature {NONE} -- Implementation
 
@@ -224,27 +202,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	cropped_format (format: STRING; as_upper: BOOLEAN): STRING
+	adjusted_format (str: STRING): STRING
 		-- `format' with time zone designators removed
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			inspect zone_designator_count
-				when 1, 2 then
-					Result := Buffer.copied_substring (format, 1, s.leading_string_count (format, zone_designator_count))
-			else
-				Result := Buffer.copied (format)
-			end
-			if as_upper then
-				Result.to_upper
-			end
-		end
-
-feature -- Element change
-
-	set_zone_designator_count (format: STRING)
-		do
-			zone_designator_count := Date_time.zone_designator_count (format)
+			Result := str
 		end
 
 feature {NONE} -- Constants
@@ -252,18 +213,6 @@ feature {NONE} -- Constants
 	Buffer: EL_STRING_8_BUFFER
 		once
 			create Result
-		end
-
-	Jan_1st_year_zero: DATE_TIME
-		once
-			create Result.make (1, 1, 1, 1, 1, 1)
-		end
-
-	Zone_designator: SPECIAL [STRING]
-		once
-			create Result.make_filled (Empty_string_8, 3)
-			Result [1] := " UTC"
-			Result [2] := " GMT+0000 (GMT)"
 		end
 
 end

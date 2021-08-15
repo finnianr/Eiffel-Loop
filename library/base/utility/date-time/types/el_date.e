@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 11:05:19 GMT (Saturday 14th August 2021)"
-	revision: "1"
+	date: "2021-08-15 10:46:05 GMT (Sunday 15th August 2021)"
+	revision: "2"
 
 class
 	EL_DATE
@@ -58,20 +58,13 @@ feature -- Status query
 			Result := ordered_compact_date = other.ordered_compact_date
 		end
 
-feature -- Basic operations
-
-	append_to_string_8 (str, format: STRING)
-		local
-			old_count: INTEGER
-		do
-			old_count := str.count
-			if attached Code_string_table.item (format) as code then
-				code.append_date_to (str, Current)
-			end
-			check_case (format, str, old_count + 1)
-		end
-
 feature {NONE} -- Implementation
+
+	to_shared_date_time: DATE_TIME
+		do
+			Result := Once_date_time
+			Result.date.make_by_ordered_compact_date (ordered_compact_date)
+		end
 
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
 		do

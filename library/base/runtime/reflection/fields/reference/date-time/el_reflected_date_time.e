@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 14:01:39 GMT (Saturday 14th August 2021)"
-	revision: "17"
+	date: "2021-08-14 18:54:40 GMT (Saturday 14th August 2021)"
+	revision: "18"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -66,9 +66,8 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as date_time and then attached EL_date_time as dt then
-				dt.make_from_string (Buffer_8.copied_general (string))
-				date_time.make_by_date_time (dt.date.twin, dt.time.twin)
+			if attached value (a_object) as date_time then
+				date_time.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
@@ -84,7 +83,9 @@ feature -- Contract Support
 
 	valid_format (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := EL_date_time.date_time_valid (Buffer_8.copied_general (string), EL_date_time.default_format_string)
+			if attached value (a_object) as date_time then
+				Result := date_time.date_time_valid (Buffer_8.copied_general (string), date_time.default_format_string)
+			end
 		end
 
 feature {NONE} -- Implementation

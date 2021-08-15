@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 14:08:28 GMT (Saturday 14th August 2021)"
-	revision: "17"
+	date: "2021-08-14 18:56:44 GMT (Saturday 14th August 2021)"
+	revision: "18"
 
 class
 	EL_REFLECTED_TIME
@@ -63,9 +63,8 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as time and then attached EL_time as l_time then
-				l_time.make_from_string (Buffer_8.copied_general (string))
-				time.make_by_fine_seconds (l_time.fine_seconds)
+			if attached value (a_object) as time then
+				time.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
@@ -80,7 +79,9 @@ feature -- Contract Support
 
 	valid_format (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := EL_time.time_valid (Buffer_8.copied_general (string), EL_time.default_format_string)
+			if attached value (a_object) as time then
+				Result := time.time_valid (Buffer_8.copied_general (string), time.default_format_string)
+			end
 		end
 
 feature {NONE} -- Implementation

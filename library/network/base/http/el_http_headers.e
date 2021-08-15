@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 15:10:27 GMT (Saturday 14th August 2021)"
-	revision: "10"
+	date: "2021-08-15 13:58:40 GMT (Sunday 15th August 2021)"
+	revision: "11"
 
 class
 	EL_HTTP_HEADERS
@@ -159,10 +159,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Date_time_format: EL_DATE_TIME_CODE_STRING
+	Date_time_format: EL_ZONED_DATE_TIME_CODE_STRING
 		-- -- "Sat, 14 Aug 2021 14:57:04 GMT"
 		once
-			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd")
+			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
 		end
 
 	HTTP: STRING = "HTTP"

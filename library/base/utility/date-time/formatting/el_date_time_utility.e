@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 15:29:44 GMT (Saturday 14th August 2021)"
-	revision: "2"
+	date: "2021-08-15 13:55:43 GMT (Sunday 15th August 2021)"
+	revision: "3"
 
 deferred class
 	EL_DATE_TIME_UTILITY
@@ -33,8 +33,7 @@ feature {NONE} -- Initialization
 			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
 				str.append (s)
 				if attached Parser_table.item (format) as parser then
-					parser.set_source_string (str)
-					parser.parse
+					parser.parse_source (str)
 					make_with_parser (parser)
 				end
 				pool.recycle_end (str)
@@ -81,7 +80,17 @@ feature -- Basic operations
 		end
 
 	append_to_string_8 (str, format: STRING)
-		deferred
+		local
+			old_count: INTEGER
+		do
+			old_count := str.count
+			if attached Code_string_table.item (format) as code then
+				code.append_to (str, to_shared_date_time)
+			end
+			check_case (format, str, old_count + 1)
+		ensure
+			corresponds_to_format: attached Code_string_table.item (format) as code
+											implies code.correspond (str.substring (old str.count + 1, str.count))
 		end
 
 feature -- Contract support
@@ -126,6 +135,10 @@ feature {NONE} -- Implementation
 			Result := Code_string_table.item (format).new_parser
 		end
 
+	to_shared_date_time: DATE_TIME
+		deferred
+		end
+
 	upper_input_valid (upper_str: STRING; format: STRING): BOOLEAN
 		do
 			if attached Code_string_table.item (format) as code then
@@ -142,6 +155,11 @@ feature {NONE} -- Constants
 	Code_string_table: EL_CACHE_TABLE [EL_DATE_TIME_CODE_STRING, STRING]
 		once
 			create Result.make (11, agent new_code_string)
+		end
+
+	Once_date_time: DATE_TIME
+		once
+			create Result.make (1, 1, 1, 1, 1, 1)
 		end
 
 	Parser_table: EL_CACHE_TABLE [EL_DATE_TIME_PARSER, STRING]

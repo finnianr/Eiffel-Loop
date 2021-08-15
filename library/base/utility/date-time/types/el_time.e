@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 11:06:40 GMT (Saturday 14th August 2021)"
-	revision: "1"
+	date: "2021-08-15 10:44:43 GMT (Sunday 15th August 2021)"
+	revision: "2"
 
 class
 	EL_TIME
@@ -25,7 +25,10 @@ inherit
 
 	EL_DATE_TIME_UTILITY
 		rename
-			input_valid as time_valid
+			input_valid as time_valid,
+			check_case as do_nothing_1
+		redefine
+			do_nothing_1
 		end
 
 create
@@ -54,16 +57,17 @@ feature -- Status query
 			Result := compact_time = other.compact_time
 		end
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
-	append_to_string_8 (str, format: STRING)
+	do_nothing_1 (format, str: STRING; start_index: INTEGER)
 		do
-			if attached Code_string_table.item (format) as code then
-				code.append_time_to (str, Current)
-			end
 		end
 
-feature {NONE} -- Implementation
+	to_shared_date_time: DATE_TIME
+		do
+			Result := Once_date_time
+			Result.time.make_by_fine_seconds (fine_seconds)
+		end
 
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
 		do
