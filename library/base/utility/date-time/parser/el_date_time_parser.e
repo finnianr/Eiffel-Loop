@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 13:29:05 GMT (Sunday 15th August 2021)"
-	revision: "5"
+	date: "2021-08-15 15:31:10 GMT (Sunday 15th August 2021)"
+	revision: "6"
 
 class
 	EL_DATE_TIME_PARSER
@@ -19,8 +19,6 @@ inherit
 		export
 			{NONE} parse, set_source_string
 		end
-
-	EL_MODULE_DATE_TIME
 
 create
 	make

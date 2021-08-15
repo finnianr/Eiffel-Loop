@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 14:24:20 GMT (Sunday 15th August 2021)"
-	revision: "20"
+	date: "2021-08-15 19:02:16 GMT (Sunday 15th August 2021)"
+	revision: "21"
 
 class
 	EL_DATE_TIME
@@ -55,6 +55,7 @@ feature -- Initialization
 
 	make_from_other (other: DATE_TIME)
 		do
+			make_from_epoch (0)
 			set_from_other (other)
 		end
 

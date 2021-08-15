@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 11:51:02 GMT (Monday 24th May 2021)"
-	revision: "44"
+	date: "2021-08-15 17:13:28 GMT (Sunday 15th August 2021)"
+	revision: "45"
 
 deferred class
 	EL_REFLECTIVE
@@ -44,10 +44,14 @@ feature {NONE} -- Initialization
 	initialize_fields
 		-- set fields that have not already been initialized with a value
 		do
-			meta_data.field_list.do_if (
-				agent {EL_REFLECTED_FIELD}.initialize (Current),
-				agent {EL_REFLECTED_FIELD}.is_uninitialized (Current)
-			)
+			if attached meta_data.field_list as list then
+				from list.start until list.after loop
+					if attached list.item as field and then field.is_uninitialized (Current) then
+						field.initialize (Current)
+					end
+					list.forth
+				end
+			end
 		end
 
 feature -- Access
@@ -341,15 +345,6 @@ feature {EL_CLASS_META_DATA} -- Constants
 			create Result.make_size (0)
 		end
 
-	Transient_fields: STRING
-		-- comma-separated list of fields that will be treated as if they are transient attributes and
-		-- excluded from `field_table'
-		once
-			create Result.make_empty
-		ensure
-			valid_field_names: valid_field_names (Result)
-		end
-
 	Hidden_fields: STRING
 		-- comma-separated list of fields that will not be output by `print_fields'
 		once
@@ -366,6 +361,15 @@ feature {EL_CLASS_META_DATA} -- Constants
 	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT
 		once
 			create Result.make (Current)
+		end
+
+	Transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		once
+			create Result.make_empty
+		ensure
+			valid_field_names: valid_field_names (Result)
 		end
 
 note
