@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-24 17:41:25 GMT (Wednesday 24th March 2021)"
-	revision: "10"
+	date: "2021-08-16 10:12:28 GMT (Monday 16th August 2021)"
+	revision: "11"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -76,6 +76,12 @@ feature -- Element change
 				force (map.value, map.key)
 				i := i + 1
 			end
+		end
+
+	plus alias "+" (tuple: like as_map_list.item): like Current
+		do
+			force (tuple.value, tuple.key)
+			Result := Current
 		end
 
 feature -- Constants

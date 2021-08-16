@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-31 15:02:23 GMT (Wednesday 31st March 2021)"
-	revision: "1"
+	date: "2021-08-16 10:51:48 GMT (Monday 16th August 2021)"
+	revision: "2"
 
 class
 	HASH_TABLE_TEST_SET
@@ -23,6 +23,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("iteration_cursor", agent test_iteration_cursor)
+			eval.call ("string_table", agent test_string_table)
 		end
 
 feature -- Test
@@ -49,5 +50,21 @@ feature -- Test
 					end
 				end
 			end
+		end
+
+	test_string_table
+		local
+			table: EL_STRING_HASH_TABLE [INTEGER, ZSTRING]
+			key_1: ZSTRING; key_2: STRING_32; key_3: STRING
+		do
+			key_1 := "1"; key_2 := "2"; key_3 := "3"
+			create table.make (<<
+				[key_1, key_1.to_integer],
+				[key_2, key_2.to_integer],
+				[key_3, key_3.to_integer]
+			>>)
+			assert ("same value", table [key_1] = 1)
+			assert ("same value", table [key_2] = 2)
+			assert ("same value", table [key_3] = 3)
 		end
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 12:04:47 GMT (Sunday 23rd May 2021)"
-	revision: "14"
+	date: "2021-08-16 10:48:49 GMT (Monday 16th August 2021)"
+	revision: "15"
 
 class
 	EL_HASH_SET [G -> HASHABLE]

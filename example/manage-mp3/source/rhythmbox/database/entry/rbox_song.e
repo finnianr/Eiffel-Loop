@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 19:16:33 GMT (Friday 21st May 2021)"
-	revision: "46"
+	date: "2021-08-16 10:53:50 GMT (Monday 16th August 2021)"
+	revision: "47"
 
 class
 	RBOX_SONG
@@ -428,11 +428,7 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
-				["album",	Album_set.to_representation],
-				["artist",	Artist_set.to_representation]
-			>>)
-			Result.merge (Precursor)
+			Result := Precursor + ["composer", Composer_set.to_representation]
 		end
 
 	normalized_mp3_base_path: EL_FILE_PATH

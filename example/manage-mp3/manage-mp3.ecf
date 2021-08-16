@@ -21,7 +21,7 @@ See doc/manage-mp3.txt for details
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "2" minor = "3" release = "2" build = "78" company = "Eiffel-Loop" product = "manage-mp3" copyright = "Finnian Reilly"/>
+		<version major = "2" minor = "3" release = "1" build = "79" company = "Eiffel-Loop" product = "manage-mp3" copyright = "Finnian Reilly"/>
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<debug name = "pyxis" enabled = "false"/>
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>

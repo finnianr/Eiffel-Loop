@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 19:07:09 GMT (Friday 21st May 2021)"
-	revision: "47"
+	date: "2021-08-16 10:07:24 GMT (Monday 16th August 2021)"
+	revision: "48"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -137,6 +137,8 @@ feature {NONE} -- Implementation
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
+				["album",		Album_set.to_representation],
+				["artist",		Artist_set.to_representation],
 				["genre",		Genre_set.to_representation],
 				["media_type", Media_type_set.to_representation],
 				["title",		Title_set.to_representation]
