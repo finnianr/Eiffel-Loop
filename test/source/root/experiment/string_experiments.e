@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 11:26:52 GMT (Saturday 2nd January 2021)"
-	revision: "8"
+	date: "2021-08-16 12:22:45 GMT (Monday 16th August 2021)"
+	revision: "9"
 
 class
 	STRING_EXPERIMENTS
@@ -135,6 +135,18 @@ feature -- Basic operations
 	hexadecimal_to_natural_64
 		do
 			lio.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
+			lio.put_new_line
+		end
+
+	input_unicode_character
+		local
+			str: ZSTRING
+		do
+			lio.put_line ("Enter a EURO symbol")
+			io.read_line
+			lio.put_new_line
+			create str.make_from_utf_8 (io.last_string)
+			lio.put_labeled_string ("Euro", str)
 			lio.put_new_line
 		end
 

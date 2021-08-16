@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-31 17:17:56 GMT (Saturday 31st July 2021)"
-	revision: "67"
+	date: "2021-08-16 12:23:54 GMT (Monday 16th August 2021)"
+	revision: "68"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("numeric.log_sequence")
-			numeric.log_sequence
+			log.enter ("string.find_console_encoding")
+			string.find_console_encoding
 			log.exit
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-03 10:54:35 GMT (Tuesday 3rd August 2021)"
-	revision: "27"
+	date: "2021-08-16 13:07:02 GMT (Monday 16th August 2021)"
+	revision: "28"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -67,9 +67,7 @@ feature -- Basic operations
 			log_pass_phrase_info (credential)
 			encrypter := new_encrypter (credential)
 
-			lio.put_string ("Encrypt file (y/n): ")
-			if User_input.entered_letter ('y') then
-
+			if User_input.approved_action_y_n ("Encrypt file") then
 				lio.put_string_field ("Key as base64", Base_64.encoded_special (encrypter.key_data))
 				lio.put_new_line
 

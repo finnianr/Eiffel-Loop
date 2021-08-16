@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-04 14:51:35 GMT (Sunday 4th April 2021)"
-	revision: "10"
+	date: "2021-08-16 13:00:00 GMT (Monday 16th August 2021)"
+	revision: "11"
 
 class
 	EL_USER_INPUT
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	set_real_from_line (prompt: STRING; value_setter: PROCEDURE [REAL])
+	set_real_from_line (prompt: READABLE_STRING_GENERAL; value_setter: PROCEDURE [REAL])
 			--
 		local
 			real_string: ZSTRING
@@ -29,6 +29,18 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	approved_action_y_n (prompt: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := approved_action (prompt + Yes_no_choices, 'y')
+		end
+
+	approved_action (prompt: READABLE_STRING_GENERAL; confirm_letter: CHARACTER): BOOLEAN
+		do
+			lio.put_line (prompt)
+			Result := entered_letter (confirm_letter)
+			lio.put_new_line
+		end
 
 	entered_letter (a_letter: CHARACTER): BOOLEAN
 			-- True if user line input started with letter (case insensitive)
@@ -184,5 +196,9 @@ feature {NONE} -- Constants
 			Result := "_"
 		end
 
+	Yes_no_choices: STRING
+		once
+			Result := " (y/n) "
+		end
 
 end
