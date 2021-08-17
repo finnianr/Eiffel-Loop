@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:00:00 GMT (Monday 16th August 2021)"
-	revision: "11"
+	date: "2021-08-16 13:41:50 GMT (Monday 16th August 2021)"
+	revision: "12"
 
 class
 	EL_USER_INPUT
@@ -37,7 +37,7 @@ feature -- Status query
 
 	approved_action (prompt: READABLE_STRING_GENERAL; confirm_letter: CHARACTER): BOOLEAN
 		do
-			lio.put_line (prompt)
+			lio.put_string (prompt)
 			Result := entered_letter (confirm_letter)
 			lio.put_new_line
 		end

@@ -11,6 +11,8 @@
 
 # First sets up build environment before invoking scons
 
+# Dir: Scripts
+
 import codecs, os, subprocess, sys
 
 from os import path

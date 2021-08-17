@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 9:03:56 GMT (Tuesday 4th August 2020)"
-	revision: "8"
+	date: "2021-08-17 17:39:05 GMT (Tuesday 17th August 2021)"
+	revision: "9"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -113,7 +113,7 @@ feature -- Basic operations
 			bitmap.unlock_bits (image_data)
 		end
 
-feature {EV_PIXMAP_I, EL_PIXEL_BUFFER_I} -- Internal attributes
+feature {NONE} -- Internal attributes
 
 	bitmap: WEL_GDIP_BITMAP
 

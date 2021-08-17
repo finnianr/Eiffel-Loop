@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:56:44 GMT (Wednesday 14th July 2021)"
-	revision: "16"
+	date: "2021-08-17 9:46:23 GMT (Tuesday 17th August 2021)"
+	revision: "17"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -93,7 +93,7 @@ feature -- Element change
 		local
 			file_path: EL_FILE_PATH
 		do
-			create file_path.make (file.name)
+			file_path := file.path
 			document_dir.copy (file_path.parent)
 		end
 

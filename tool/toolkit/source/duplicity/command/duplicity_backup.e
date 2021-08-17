@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-30 13:45:31 GMT (Wednesday 30th June 2021)"
-	revision: "12"
+	date: "2021-08-16 13:40:10 GMT (Monday 16th August 2021)"
+	revision: "13"
 
 class
 	DUPLICITY_BACKUP
@@ -118,8 +118,7 @@ feature -- Basic operations
 			create target_info.make (arguments, target_dir)
 			target_info.display_size
 
-			lio.put_string ("Do you wish to continue backup (y/n)")
-			Result := User_input.entered_letter ('y')
+			Result := User_input.approved_action_y_n ("Do you wish to continue backup?")
 		end
 
 feature {NONE} -- Implementation

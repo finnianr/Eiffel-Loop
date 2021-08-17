@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 14:03:44 GMT (Friday 30th July 2021)"
-	revision: "4"
+	date: "2021-08-16 13:39:34 GMT (Monday 16th August 2021)"
+	revision: "5"
 
 class
 	BACKUP_CONFIG
@@ -88,8 +88,7 @@ feature -- Basic operations
 			end
 
 			if ask_user_to_upload then
-				lio.put_string ("Copy files offsite? (y/n) ")
-				if User_input.entered_letter ('y') then
+				if User_input.approved_action_y_n ("Copy files offsite?") then
 					create website.make ([ftp_url, ftp_home_dir])
 					website.login
 					if website.is_logged_in then

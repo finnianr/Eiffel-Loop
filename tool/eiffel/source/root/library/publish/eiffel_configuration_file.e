@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-24 11:37:10 GMT (Thursday 24th June 2021)"
-	revision: "32"
+	date: "2021-08-17 10:08:14 GMT (Tuesday 17th August 2021)"
+	revision: "33"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -15,7 +15,8 @@ class
 inherit
 	SOURCE_TREE
 		rename
-			make as make_tree
+			make as make_tree,
+			file_count as source_file_count
 		redefine
 			getter_function_table, make_default, new_path_list
 		end

@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+# Obsolete from: Scripts
+
 #	author: "Finnian Reilly"
 #	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"

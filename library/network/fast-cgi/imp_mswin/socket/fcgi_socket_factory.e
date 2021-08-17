@@ -6,11 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-19 13:54:09 GMT (Monday 19th February 2018)"
-	revision: "1"
+	date: "2021-08-17 9:45:23 GMT (Tuesday 17th August 2021)"
+	revision: "2"
 
 deferred class
 	FCGI_SOCKET_FACTORY
+
+feature -- Access
+
+	server_port: INTEGER
+		-- Port server is listening on
+		deferred
+		end
 
 feature -- Factory
 
@@ -29,11 +36,6 @@ feature -- Factory
 		end
 
 feature {NONE} -- Implementation
-
-	server_port: INTEGER
-		-- Port server is listening on
-		deferred
-		end
 
 	server_socket_path: EL_FILE_PATH
 		-- Unix socket path to listen on

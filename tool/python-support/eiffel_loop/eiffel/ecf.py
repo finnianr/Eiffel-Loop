@@ -205,6 +205,9 @@ class EXTERNAL_OBJECT (LIBRARY):
 
 
 class SYSTEM_INFO (object):
+
+	Build_dir = 'build'
+
 # Initialization
 	def __init__ (self, root_ctx):
 		if not isinstance (root_ctx, XPATH_ROOT_CONTEXT):
@@ -275,7 +278,7 @@ class SYSTEM_INFO (object):
 
 	def write_version_text (self):
 		# Write build/version.txt
-		f = open (path.join ('build', 'version.txt'), 'w')
+		f = open (path.join (self.Build_dir, 'version.txt'), 'w')
 		f.write ("%s.%s.%s" % self.version ().tuple_3 ())
 		f.close ()
 
@@ -384,6 +387,11 @@ class EIFFEL_CONFIG_FILE (object):
 		return result
 
 class FREEZE_BUILD (object):
+	
+	Build_dir = 'build'
+	C_compile = '-c_compile'
+	Freeze = '-freeze'
+	Keep = '-keep'
 
 # Initialization
 	def __init__ (self, ecf, project_py):
@@ -455,7 +463,7 @@ class FREEZE_BUILD (object):
 		return result
 
 	def code_dir_steps (self):
-		result = ['build', ise.platform, 'EIFGENs', self.system_type, self.build_type ()]
+		result = [self.Build_dir, ise.platform, 'EIFGENs', self.system_type, self.build_type ()]
 		return result
 
 	def target (self):
@@ -473,7 +481,7 @@ class FREEZE_BUILD (object):
 		return self.target ()
 
 	def f_code_tar_steps (self):
-		result = ['build', 'F_code-%s.tar' % self.ecf.platform]
+		result = [self.Build_dir, 'F_code-%s.tar' % self.ecf.platform]
 		return result
 
 	def f_code_tar_unix_path (self):
@@ -485,10 +493,10 @@ class FREEZE_BUILD (object):
 		return result
 	
 	def project_path (self):
-		return path.join ('build', ise.platform)
+		return path.join (self.Build_dir, ise.platform)
 
 	def compilation_options (self):
-		return ['-freeze', '-c_compile']
+		return [self.Freeze, self.C_compile]
 
 	def resources_destination (self):
 		return self.system.installation_dir ()
@@ -513,8 +521,7 @@ class FREEZE_BUILD (object):
 	def compile (self):
 		# Will automatically do precompile if needed
 		cmd = ['ec', '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
-		self.write_io ('cmd = %s\n' % cmd)
-			
+		self.write_io (' '.join (cmd) + '\n')
 		ret_code = call (cmd)
 
 	def post_compilation (self):
@@ -627,8 +634,7 @@ class FREEZE_BUILD (object):
 
 # end FREEZE_BUILD
 
-class C_CODE_TAR_BUILD (FREEZE_BUILD):
-# Generates cross-platform Finalized_code.tar
+class FINALIZED_BUILD (FREEZE_BUILD):
 
 	Reverse = 'reverse'
 
@@ -642,17 +648,25 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 	def build_type (self):
 		return 'F_code'
 
+	def resources_destination (self):
+		return path.join (self.Build_dir, ise.platform, 'package')
+
 	def target_steps (self):
-		result = self.f_code_tar_steps ()
+		result = self.resources_destination ().split (os.sep) + ['bin', self.exe_name]
 		return result
 
 	def compilation_options (self):
 		result = ['-finalize']
+		if self.compile_C_code ():
+			result.append (self.C_compile)
 		if self.ecf.keep_assertions:
-			result.append ('-keep')
+			result.append (self.Keep_assertions)
 		return result
 
 # Status query
+	def compile_C_code (self):
+		# generate and compile C code
+		return True;
 
 # Basic operations
 	def compile (self):
@@ -661,25 +675,22 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 			self.__swap_root_class ()
 			swapped = True
 
-		super (C_CODE_TAR_BUILD, self).compile ()
+		super (FINALIZED_BUILD, self).compile ()
 
 		if swapped:
 			self.__swap_root_class (self.Reverse)
 
-		tar_path = self.f_code_tar_path ()
-		if path.exists (tar_path):
-			os.remove (tar_path)
-		self.write_io ('Archiving to: %s\n' % tar_path)
-
-		tar = ARCHIVE (self.f_code_tar_unix_path ())
-		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
-		tar.append ('F_code')
-
-		code_dir = self.code_dir ()
-		dir_util.remove_tree (code_dir)
-		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
+	def post_compilation (self):
+		destination = self.resources_destination ()
+		self.install_resources_to (destination)
+		self.install_executables (destination)
 
 # Implementation
+
+	def _file_command_set (self, destination_dir):
+		self.write_io ("using normal copy permissions\n")
+		result = (dir_util.copy_tree, file_util.copy_file, dir_util.remove_tree, dir_util.mkpath)
+		return result
 
 	def __swap_root_class (self, reverse_swap = None):
 		# temporarily swap `self.system_root_class_path' with `self.root_class_path'
@@ -700,24 +711,44 @@ class C_CODE_TAR_BUILD (FREEZE_BUILD):
 
 			os.rename (root_class_path, tmp_path)
 			os.rename (target_path, root_class_path)
-			
+
+# end FINALIZED_BUILD
+
+class C_CODE_TAR_BUILD (FINALIZED_BUILD):
+# Generates cross-platform Finalized_code.tar
+
+# Access
+	def target_steps (self):
+		result = self.f_code_tar_steps ()
+		return result
+
+# Status query
+	def compile_C_code (self):
+		# generate but do not compile C code
+		return False;
+
+# Basic operations
+	def compile (self):
+		super (C_CODE_TAR_BUILD, self).compile ()
+
+		tar_path = self.f_code_tar_path ()
+		if path.exists (tar_path):
+			os.remove (tar_path)
+		self.write_io ('Archiving to: %s\n' % tar_path)
+
+		tar = ARCHIVE (self.f_code_tar_unix_path ())
+		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
+		tar.append ('F_code')
+
+		code_dir = self.code_dir ()
+		dir_util.remove_tree (code_dir)
+		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
 		
 # end C_CODE_TAR_BUILD
 
-class FINALIZED_BUILD (FREEZE_BUILD):
-# extracts Finalized_code.tar and compiles to executable, and then deletes `F_code'
+class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
+# extracts F_code-<platform>.tar and compiles to executable, and then deletes `F_code'
 	
-# Access
-	def build_type (self):
-		return 'F_code'
-
-	def resources_destination (self):
-		return path.join ('build', ise.platform, 'package')
-
-	def target_steps (self):
-		result = self.resources_destination ().split (os.sep) + ['bin', self.exe_name]
-		return result
-
 # Basic operations
 	def pre_compilation (self):
 		pass
@@ -742,24 +773,7 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 		ret_code = osprocess.call (['finish_freezing'])
 		os.chdir (curdir)
 
-	def post_compilation (self):
-		destination = self.resources_destination ()
-		self.install_resources_to (destination)
-		self.install_executables (destination)
-
-		code_dir = self.code_dir ()
-		dir_util.remove_tree (code_dir)
-		dir_util.mkpath (code_dir)
-			
-
-# Implementation
-
-	def _file_command_set (self, destination_dir):
-		self.write_io ("using normal copy permissions\n")
-		result = (dir_util.copy_tree, file_util.copy_file, dir_util.remove_tree, dir_util.mkpath)
-		return result
-
-# end FINALIZED_BUILD
+# end FINALIZED_BUILD_FROM_TAR
 
 Build_info_class_template = Template (
 '''note

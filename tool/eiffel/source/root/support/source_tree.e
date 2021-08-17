@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:20:55 GMT (Friday 23rd July 2021)"
-	revision: "11"
+	date: "2021-08-17 10:06:31 GMT (Tuesday 17th August 2021)"
+	revision: "12"
 
 class
 	SOURCE_TREE
@@ -47,6 +47,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	dir_path: EL_DIR_PATH
+
+	file_count: INTEGER
+		do
+			Result := path_list.count
+		end
 
 	name: ZSTRING
 

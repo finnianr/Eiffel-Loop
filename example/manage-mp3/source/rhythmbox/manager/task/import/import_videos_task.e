@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-06 19:07:04 GMT (Monday 6th April 2020)"
-	revision: "9"
+	date: "2021-08-16 13:45:20 GMT (Monday 16th August 2021)"
+	revision: "10"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -164,9 +164,7 @@ feature {NONE} -- Implementation
 
 	video_contains_another_song: BOOLEAN
 		do
-			lio.put_string ("Extract another song from this video (y/n): ")
-			Result := User_input.entered_letter ('y')
-			lio.put_new_line
+			Result := User_input.approved_action_y_n ("Extract another song from this video?")
 		end
 
 feature {NONE} -- Internal attributes

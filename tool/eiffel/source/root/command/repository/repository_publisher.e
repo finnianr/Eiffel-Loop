@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 16:29:21 GMT (Tuesday 8th June 2021)"
-	revision: "43"
+	date: "2021-08-16 13:37:49 GMT (Monday 16th August 2021)"
+	revision: "44"
 
 class
 	REPOSITORY_PUBLISHER
@@ -173,8 +173,7 @@ feature -- Status query
 
 	ok_to_synchronize: BOOLEAN
 		do
-			lio.put_string ("Synchronize with website (y/n) ")
-			Result := User_input.entered_letter ('y')
+			Result := User_input.approved_action_y_n ("Synchronize with website?")
 		end
 
 	is_logged_in: BOOLEAN

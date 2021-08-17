@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-07 8:05:18 GMT (Saturday 7th August 2021)"
-	revision: "9"
+	date: "2021-08-17 13:19:33 GMT (Tuesday 17th August 2021)"
+	revision: "10"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -217,18 +217,10 @@ feature {NONE} -- Implementation
 		require
 			has_32_bit_project: bit_count = 32 implies project_py_32_exists
 		local
-			build_command: EL_OS_COMMAND; scons_cmd: STRING; compile_eiffel: BOOLEAN
+			build_command: EL_OS_COMMAND
 		do
-			inspect bit_count
-				when 32 then
-					project_py_swapper.swap
-				when 64 then
-					compile_eiffel := True
-			else
-			end
-			scons_cmd := "scons action=finalize compile_eiffel=" + Yes_or_no [compile_eiffel]
-			if compile_eiffel and then has_alternative_root_class then
-				scons_cmd.append (" root_class=" + root_class_path.escaped)
+			if bit_count = 32 then
+				project_py_swapper.swap
 			end
 			create build_command.make (scons_cmd)
 			build_command.execute
@@ -302,6 +294,14 @@ feature {NONE} -- Implementation
 	ise_platform: STRING
 		do
 			Result := ISE_platform_table [bit_count]
+		end
+
+	scons_cmd: STRING
+		do
+			Result := "scons action=finalize"
+			if bit_count = 64 and then has_alternative_root_class then
+				Result.append (" root_class=" + root_class_path.escaped)
+			end
 		end
 
 	sha_256_sign

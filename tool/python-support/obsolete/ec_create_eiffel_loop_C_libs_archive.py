@@ -1,3 +1,6 @@
+# Obsolete
+# From: Scripts
+
 import os, subprocess
 
 from distutils import dir_util

@@ -9,13 +9,10 @@
 
 from os import path
 
-from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
+class OPTIONS (object):
+	Action = 'action'
+	
 
-config = EIFFEL_CONFIG_FILE ("eiffel.ecf")
+option = OPTIONS ()
 
-print config.system.root_class_name ()
-print config.system.root_class_path ()
-print config.system.cluster_list ()
-
-
-
+print option.Action

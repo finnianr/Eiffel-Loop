@@ -35,5 +35,5 @@ set batch_path=%~p0
 %batch_drive%
 cd %batch_path%
 
-python -m eiffel_loop.scripts.ec_build_finalized --install "%ProgramFiles%\Eiffel-Loop\bin"
+ec_build_finalized --install "%ProgramFiles%\Eiffel-Loop\bin"
 pause

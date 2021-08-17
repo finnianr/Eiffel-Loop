@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 17:57:42 GMT (Thursday 21st May 2020)"
-	revision: "11"
+	date: "2021-08-16 13:41:06 GMT (Monday 16th August 2021)"
+	revision: "12"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -70,14 +70,10 @@ feature -- Basic operations
 						lio.put_line ("DONE")
 						done := True
 					else
-						lio.put_string ("Merging of streams failed. Retry? (y/n)")
-						done := not User_input.entered_letter ('y')
-						lio.put_new_line
+						done := not User_input.approved_action_y_n ("Merging of streams failed. Retry?")
 					end
 				else
-					lio.put_string ("Download of streams failed. Retry? (y/n)")
-					done := not User_input.entered_letter ('y')
-					lio.put_new_line
+					done := not User_input.approved_action_y_n ("Download of streams failed. Retry?")
 				end
 			end
 		end
@@ -87,4 +83,3 @@ feature {NONE} -- Internal attributes
 	video: EL_YOUTUBE_VIDEO
 
 end
-

@@ -17,100 +17,135 @@ from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
 from eiffel_loop.eiffel.ecf import FREEZE_BUILD
 from eiffel_loop.eiffel.ecf import C_CODE_TAR_BUILD
 from eiffel_loop.eiffel.ecf import FINALIZED_BUILD
+from eiffel_loop.eiffel.ecf import FINALIZED_BUILD_FROM_TAR
 
 from SCons.Script import *
 
-# SCRIPT START
-arguments = Variables()
+class OPTIONS (object):
+	# command line options
+	
+	Action = 'action'
 
-arguments.Add (
-	EnumVariable('action', 'Set build action', 'finalize',
-		allowed_values=(
-			Split ("freeze finalize finalize_and_test finalize_and_install install_resources make_installers")
-		)
-	)
-)
-arguments.Add (BoolVariable ('compile_eiffel', 'Compile Eiffel source (no implies C compile only)', 'yes'))
-arguments.Add (PathVariable ('root_class', 'Path to alternative root class', None, PathVariable.PathExists))
+	# Command options
+	Root_class = 'root_class'
+	Help = 'help'
+	Clean = 'clean'
 
-env = Environment (variables = arguments)
+	# Action values
+	Freeze = 'freeze'
+	Finalize = 'finalize'
+	Finalize_and_test = 'finalize_and_test'
+	Finalize_and_install = 'finalize_and_install'
 
-Help (arguments.GenerateHelpText (env) + '\nproject: Set to name of Eiffel project configuration file (*.ecf)\n')
+# Access
+	def action (self):
+		# Eiffel compile action
+		return self.env.get (self.Action)
 
-if env.GetOption ('help'):
+	def root_class (self):
+		# Alternative root class or None
+		return self.env.get (self.Root_class)
+
+# Element change
+	def set_env_and_help (self):
+		args = Variables()
+		action_list = [self.Freeze, self.Finalize, self.Finalize_and_test, self.Finalize_and_install]
+
+		args.Add (EnumVariable (self.Action, 'Set build action', self.Finalize, allowed_values = (action_list)))
+		args.Add (PathVariable (self.Root_class, 'Path to alternative root class', None, PathVariable.PathExists))
+
+		self.env = Environment (variables = args)
+		Help (args.GenerateHelpText (self.env))
+
+# Status query
+	def clean (self):
+		return self.env.GetOption (self.Clean)
+
+	def finalize (self):
+		return self.action () == self.Finalize
+
+	def help (self):
+		return self.env.GetOption (self.Help)
+
+# end class OPTIONS
+
+option = OPTIONS ()
+option.set_env_and_help ()
+
+env = option.env
+
+if option.help ():
 	None
 	
 else:
 	is_windows_platform = sys.platform == 'win32'
-	root_class_path = env.get ('root_class')
+	root_class_path = option.root_class ()
+	print "Alternative root class: '%s'" % root_class_path
 	
 	project_py = project.read_project_py ()
 	print "project_py.keep_assertions", project_py.keep_assertions
 
-	action = env.get ('action')
-	compile_eiffel = env.get ('compile_eiffel')
-	root_class_path = env.get ('root_class')
-	print 'compile_eiffel', compile_eiffel
-	print "Alternative root class: '%s'" % root_class_path
+	print 'compile_eiffel', project_py.compile_eiffel
 
 	project_py.set_build_environment ()
 
 	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 	
-	pecf_path = path.splitext (project_py.ecf)[0] + '.pecf'
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
 	config.keep_assertions = project_py.keep_assertions
+	f_code = None; tar_build = None
 
-	if action == 'install_resources':
-		build = FREEZE_BUILD (config, project_py)
-		build.post_compilation ()
-	else:
-		if action in ['finalize', 'make_installers']:
+	if option.finalize ():
+		if project_py.build_f_code_tar:
 			tar_build = C_CODE_TAR_BUILD (config, project_py)
+			if root_class_path:
+				tar_build.root_class_path = root_class_path
+			env.Append (EIFFEL_BUILD = tar_build)
+
+			env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
+			f_code = env.eiffel_compile (tar_build.target (), project_py.ecf)
+			build = FINALIZED_BUILD_FROM_TAR (config, project_py)
+
+		elif project_py.compile_eiffel:
 			build = FINALIZED_BUILD (config, project_py)
-	
-			if compile_eiffel:
-				if root_class_path:
-					tar_build.root_class_path = root_class_path
-				env.Append (EIFFEL_BUILD = tar_build)
-				env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
-				f_code = env.eiffel_compile (tar_build.target (), project_py.ecf)
-			else:
-				f_code = None
-				
+			if root_class_path:
+				build.root_class_path = root_class_path
 		else:
-			build = FREEZE_BUILD (config, project_py)
-			f_code = None
+			# Building 32-bit project.py
+			build = FINALIZED_BUILD_FROM_TAR (config, project_py)
+			
+	else:
+		build = FREEZE_BUILD (config, project_py)
 
-		env.Append (C_BUILD = build)
-		env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
+	env.Append (C_BUILD = build) # Compile Eiffel
+	env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
 
-		if f_code:
-			executable = env.c_compile (build.target (), tar_build.target ())
-		else:
-			executable = env.c_compile (build.target (), project_py.ecf)
+	if f_code:
+		executable = env.c_compile (build.target (), tar_build.target ())
+	else:
+		executable = env.c_compile (build.target (), project_py.ecf)
 
-		eiffel.check_C_libraries (env, build)
-		if len (build.SConscripts) > 0:
-			print "\nDepends on External libraries:"
-			for script in build.SConscripts:
-				print "\t" + script
+	eiffel.check_C_libraries (env, build)
+	if len (build.SConscripts) > 0:
+		print "\nDepends on External libraries:"
+		for script in build.SConscripts:
+			print "\t" + script
 
-		SConscript (build.SConscripts, exports='env')
+	SConscript (build.SConscripts, exports='env')
 
-		# only make library a dependency if it doesn't exist or object files are being cleaned out
-		lib_dependencies = []
-		for lib in build.scons_buildable_libs:
-			if env.GetOption ('clean') or not path.exists (lib):
-				if not lib in lib_dependencies:
-					lib_dependencies.append (lib)
+	# only make library a dependency if it doesn't exist or object files are being cleaned out
+	lib_dependencies = []
+	for lib in build.scons_buildable_libs:
+		if option.clean () or not path.exists (lib):
+			if not lib in lib_dependencies:
+				lib_dependencies.append (lib)
 
-		if f_code:
-			Depends (tar_build.target (), lib_dependencies)
-			productions = [executable, tar_build.target ()]
-		else:
-			Depends (executable, lib_dependencies)
-			productions = [executable]
+	if f_code:
+		Depends (tar_build.target (), lib_dependencies)
+		productions = [executable, tar_build.target ()]
+	else:
+		Depends (executable, lib_dependencies)
+		productions = [executable]
 
-		env.NoClean (productions)
+	env.NoClean (productions)
 

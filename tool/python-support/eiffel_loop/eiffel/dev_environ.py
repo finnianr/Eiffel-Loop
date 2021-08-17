@@ -99,6 +99,10 @@ keep_assertions = False
 
 build_info_path = 'source/build_info.e'
 
+# Build intermediate F_code-<platform>.tar for 32-bit build without Eiffel compilation
+build_f_code_tar = False
+compile_eiffel = True
+
 if not ise.key_library in os.environ:
 	os.environ [ise.key_library] = ise.eiffel
 

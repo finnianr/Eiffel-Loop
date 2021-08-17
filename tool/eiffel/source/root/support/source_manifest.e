@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:17:32 GMT (Friday 23rd July 2021)"
-	revision: "11"
+	date: "2021-08-17 10:06:31 GMT (Tuesday 17th August 2021)"
+	revision: "12"
 
 class
 	SOURCE_MANIFEST
@@ -44,15 +44,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	file_list: EL_FILE_PATH_LIST
-		local
-			path_list: EL_FILE_PATH_LIST; file_count: INTEGER
 		do
+			create Result.make_with_count (source_tree_list.sum_integer (agent {SOURCE_TREE}.file_count))
 			across source_tree_list as list loop
-				file_count := file_count + list.item.path_list.count
-			end
-			create Result.make_with_count (file_count)
-			across source_tree_list as location loop
-				Result.append_sequence (location.item.path_list)
+				Result.append_sequence (list.item.path_list)
 			end
 		end
 

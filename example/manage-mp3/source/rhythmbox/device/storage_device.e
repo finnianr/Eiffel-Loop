@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:44:11 GMT (Saturday 30th May 2020)"
-	revision: "21"
+	date: "2021-08-16 13:46:16 GMT (Monday 16th August 2021)"
+	revision: "22"
 
 class
 	STORAGE_DEVICE
@@ -196,9 +196,7 @@ feature {NONE} -- Volume file operations
 			message := last_exception.description
 			from until volume_is_valid loop
 				lio.put_line (message)
-				lio.put_string ("Retry (y/n)?")
-				if User_input.entered_letter ('y') then
-					lio.put_new_line
+				if User_input.approved_action_y_n ("Retry?") then
 					-- User reconnect device if disconnected
 					-- Might have different usb port number in url
 					volume.reset_uri_root
