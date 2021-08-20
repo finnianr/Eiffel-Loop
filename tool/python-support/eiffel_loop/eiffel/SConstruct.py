@@ -78,9 +78,7 @@ if option.help ():
 	None
 	
 else:
-	is_windows_platform = sys.platform == 'win32'
-	root_class_path = option.root_class ()
-	print "Alternative root class: '%s'" % root_class_path
+	print "Alternative root class: '%s'" % option.root_class ()
 	
 	project_py = project.read_project_py ()
 	print "project_py.keep_assertions", project_py.keep_assertions
@@ -93,34 +91,39 @@ else:
 	
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
 	config.keep_assertions = project_py.keep_assertions
-	f_code = None; tar_build = None
+	config.root_class_path = option.root_class ()
+	f_code_tar = None; tar_build = None
 
 	if option.finalize ():
 		if project_py.build_f_code_tar:
+			# Two stage build
+			# 1. Compile Eiffel, generate C and archive it in F_code-<platform>.tar
+			# 2. Extract the code and compile the C
 			tar_build = C_CODE_TAR_BUILD (config, project_py)
-			if root_class_path:
-				tar_build.root_class_path = root_class_path
 			env.Append (EIFFEL_BUILD = tar_build)
 
 			env.Append (BUILDERS = {'eiffel_compile' : Builder (action = eiffel.compile_eiffel)})
-			f_code = env.eiffel_compile (tar_build.target (), project_py.ecf)
+			f_code_tar = env.eiffel_compile (tar_build.target (), project_py.ecf)
 			build = FINALIZED_BUILD_FROM_TAR (config, project_py)
 
 		elif project_py.compile_eiffel:
+			# Normal Eiffel compile with C build
 			build = FINALIZED_BUILD (config, project_py)
-			if root_class_path:
-				build.root_class_path = root_class_path
 		else:
-			# Building 32-bit project.py
+			# Building 32-bit version from F_code TAR archive
 			build = FINALIZED_BUILD_FROM_TAR (config, project_py)
-			
+
+			if not path.exists (build.f_code_tar_path ()):
+				print "Cannot find:", build.f_code_tar_path ()
+				build = FINALIZED_BUILD (config, project_py)
+
 	else:
 		build = FREEZE_BUILD (config, project_py)
 
-	env.Append (C_BUILD = build) # Compile Eiffel
+	env.Append (C_BUILD = build)
 	env.Append (BUILDERS = {'c_compile' : Builder (action = eiffel.compile_C_code)})
 
-	if f_code:
+	if f_code_tar:
 		executable = env.c_compile (build.target (), tar_build.target ())
 	else:
 		executable = env.c_compile (build.target (), project_py.ecf)
@@ -140,7 +143,7 @@ else:
 			if not lib in lib_dependencies:
 				lib_dependencies.append (lib)
 
-	if f_code:
+	if f_code_tar:
 		Depends (tar_build.target (), lib_dependencies)
 		productions = [executable, tar_build.target ()]
 	else:

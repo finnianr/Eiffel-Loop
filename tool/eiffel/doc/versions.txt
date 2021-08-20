@@ -1,3 +1,6 @@
+1.4.2
+WINZIP_SOFTWARE_PACKAGE move signing of exe to section for creating installers
+
 1.4.1
 Refactored WINZIP_SOFTWARE_PACKAGE_BUILDER so that fields in pecf description are moved into WINZIP_SOFTWARE_PACKAGE
 

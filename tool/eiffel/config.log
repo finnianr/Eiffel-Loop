@@ -1,4 +1,4 @@
-file C:\Program Files\Python27\Lib\site-packages\eiffel_loop\scons\eiffel.py,line 54:
+file C:\Program Files\Python27\Lib\site-packages\eiffel_loop\scons\eiffel.py,line 45:
 	Configure(confdir = .sconf_temp)
 scons: Configure: Checking for C library IPHlpApi... 
 scons: Configure: ".sconf_temp\conftest_0.c" is up to date.

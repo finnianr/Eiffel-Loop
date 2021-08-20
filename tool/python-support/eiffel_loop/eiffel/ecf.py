@@ -308,6 +308,7 @@ class EIFFEL_CONFIG_FILE (object):
 		self.name = system.name
 		self.platform = system.platform
 		self.keep_assertions = False
+		self.root_class_path = None
 
 		self.libraries_table = {self.uuid : self}
 
@@ -642,7 +643,10 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 	def __init__ (self, ecf, project_py):
 		FREEZE_BUILD.__init__ (self, ecf, project_py)
 		self.system_root_class_path = self.system.root_class_path ()
-		self.root_class_path = self.system_root_class_path
+		if ecf.root_class_path:
+			self.root_class_path = ecf.root_class_path
+		else:
+			self.root_class_path = self.system_root_class_path
 
 # Access
 	def build_type (self):
@@ -686,6 +690,12 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 		self.install_executables (destination)
 
 # Implementation
+
+	def _wipe_out_f_code (self):
+		code_dir = self.code_dir ()
+		dir_util.remove_tree (code_dir)
+		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
+		
 
 	def _file_command_set (self, destination_dir):
 		self.write_io ("using normal copy permissions\n")
@@ -739,11 +749,8 @@ class C_CODE_TAR_BUILD (FINALIZED_BUILD):
 		tar = ARCHIVE (self.f_code_tar_unix_path ())
 		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
 		tar.append ('F_code')
+		self._wipe_out_f_code ()
 
-		code_dir = self.code_dir ()
-		dir_util.remove_tree (code_dir)
-		dir_util.mkpath (code_dir) # Leave an empty F_code directory otherwise EiffelStudio complains
-		
 # end C_CODE_TAR_BUILD
 
 class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
@@ -761,7 +768,9 @@ class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 				dir_util.remove_tree (code_dir)
 		else:
 			dir_util.mkpath (classic_dir)
-
+		
+		# only extract if F_code is empty
+		#if not os.listdir (self.code_dir ()):
 		tar_path = self.f_code_tar_unix_path ()
 		tar = ARCHIVE (tar_path)
 		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
@@ -772,6 +781,10 @@ class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 		os.chdir (self.code_dir ())
 		ret_code = osprocess.call (['finish_freezing'])
 		os.chdir (curdir)
+
+	def post_compilation (self):
+		super (FINALIZED_BUILD_FROM_TAR, self).post_compilation ()
+		self._wipe_out_f_code ()
 
 # end FINALIZED_BUILD_FROM_TAR
 

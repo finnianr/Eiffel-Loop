@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 13:19:33 GMT (Tuesday 17th August 2021)"
-	revision: "10"
+	date: "2021-08-18 9:05:41 GMT (Wednesday 18th August 2021)"
+	revision: "11"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -136,10 +136,6 @@ feature -- Basic operations
 					if build_exe then
 						if bit_count = 32 implies project_py_32_exists then
 							build_executable
-							if not has_build_error then
-								exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
-								sha_256_sign
-							end
 						else
 							lio.put_labeled_string (project_py_swapper.replacement_path, " is missing")
 							lio.put_new_line
@@ -147,6 +143,8 @@ feature -- Basic operations
 						end
 					end
 					if build_installers and then not has_build_error then
+						exe_path := Directory.current_working + Exe_path_template #$ [ise_platform, software.exe_name]
+						sha_256_sign
 						across language_list as lang until has_build_error loop
 							build_installer (Locale.in (lang.item))
 						end

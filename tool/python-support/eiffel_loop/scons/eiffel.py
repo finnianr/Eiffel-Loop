@@ -26,20 +26,11 @@ def compile_eiffel (target, source, env):
 	build.compile ()
 
 def compile_C_code (target, source, env):
-	install = env.get ('install') and env.get ('action') == 'finalize'
-
 	build = env ['C_BUILD']
-	package_exe_path = path.join ('package', 'bin', build.exe_name)		
-
-	if install and path.exists (package_exe_path):
-		osprocess.sudo_call ([package_exe_path, '-uninstall'])
 
 	build.pre_compilation ()
 	build.compile ()
 	build.post_compilation ()
-
-	if install and path.exists (package_exe_path):
-		osprocess.sudo_call ([package_exe_path, '-install'])
 
 def write_ecf_from_pecf (target, source, env):
 	# Converts Pyxis format PECF to XML

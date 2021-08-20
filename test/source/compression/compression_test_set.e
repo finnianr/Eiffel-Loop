@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 7:52:13 GMT (Thursday 22nd July 2021)"
-	revision: "4"
+	date: "2021-08-20 11:08:47 GMT (Friday 20th August 2021)"
+	revision: "5"
 
 class
 	COMPRESSION_TEST_SET
@@ -26,8 +26,8 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("zlib_compress", agent test_zlib_compress)
 			eval.call ("archive_file", agent test_archive_file)
+			eval.call ("zlib_compress", agent test_zlib_compress)
 		end
 
 feature -- Tests
@@ -90,6 +90,8 @@ feature {NONE} -- Implementation
 
 			assert ("Decompressed ok", file_text ~ s.from_code_array (decompressed_data))
 		end
+
+feature {NONE} -- Constants
 
 	Source_dir: EL_DIR_PATH
 		once

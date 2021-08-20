@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:51:49 GMT (Saturday 20th March 2021)"
-	revision: "13"
+	date: "2021-08-20 11:29:07 GMT (Friday 20th August 2021)"
+	revision: "14"
 
 class
 	OS_COMMAND_TEST_SET
 
 inherit
-	EL_FILE_DATA_TEST_SET
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
@@ -25,6 +25,7 @@ feature -- Basic operations
 		-- evaluate all tests
 		do
 			eval.call ("cpu_info", agent test_cpu_info)
+			eval.call ("create_tar_command", agent test_create_tar_command)
 		end
 
 feature -- Tests
@@ -40,6 +41,28 @@ feature -- Tests
 				info_cmd.execute
 				assert ("begins with model name", info_cmd.lines.first.starts_with_general ("model name"))
 			end
+		end
+
+	test_create_tar_command
+		note
+			testing: "covers/{EL_PARSED_OS_COMMAND}.make, covers/{EL_PARSED_OS_COMMAND}.valid_variable_names"
+		local
+			cmd: EL_CREATE_TAR_COMMAND
+			tar_path: EL_FILE_PATH
+		do
+			create cmd.make
+			tar_path := Work_area_dir + "archive.tar"
+			cmd.set_archive_path (tar_path)
+			cmd.set_target_dir (work_area_data_dir)
+			cmd.execute
+			assert ("created", tar_path.exists)
+		end
+
+feature {NONE} -- Constants
+
+	Source_dir: EL_DIR_PATH
+		once
+			Result := EL_test_data_dir #+ "txt"
 		end
 
 end
