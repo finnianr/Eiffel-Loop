@@ -1,13 +1,13 @@
 note
-	description: "Apply patch command"
+	description: "Apply patch command ''bspatch'' to binary patch"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 16:32:05 GMT (Friday 20th August 2021)"
-	revision: "1"
+	date: "2021-08-21 11:49:44 GMT (Saturday 21st August 2021)"
+	revision: "2"
 
 class
 	EL_APPLY_PATCH_COMMAND

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 16:06:52 GMT (Friday 25th June 2021)"
-	revision: "13"
+	date: "2021-08-21 13:33:36 GMT (Saturday 21st August 2021)"
+	revision: "14"
 
 class
 	EL_SOFTWARE_VERSION
@@ -16,6 +16,15 @@ inherit
 	COMPARABLE
 		redefine
 			out, is_equal
+		end
+
+	DEBUG_OUTPUT
+		rename
+			debug_output as out
+		undefine
+			is_equal
+		redefine
+			out
 		end
 
 create

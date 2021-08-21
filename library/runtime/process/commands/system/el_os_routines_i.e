@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:19:05 GMT (Friday 23rd July 2021)"
-	revision: "11"
+	date: "2021-08-21 9:11:30 GMT (Saturday 21st August 2021)"
+	revision: "12"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -31,6 +31,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_EXECUTABLE
+
 	EL_STRING_8_CONSTANTS
 
 feature -- Access
@@ -42,19 +44,19 @@ feature -- Access
 
 feature -- OS commands
 
+	find_directories_command (a_dir_path: EL_DIR_PATH): like Find_directories_cmd
+		do
+			Result := Find_directories_cmd
+			Result.set_defaults
+			Result.set_dir_path (a_dir_path)
+		end
+
 	find_files_command (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): like Find_files_cmd
 		do
 			Result := Find_files_cmd
 			Result.set_defaults
 			Result.set_dir_path (a_dir_path)
 			Result.set_name_pattern (a_file_pattern)
-		end
-
-	find_directories_command (a_dir_path: EL_DIR_PATH): like Find_directories_cmd
-		do
-			Result := Find_directories_cmd
-			Result.set_defaults
-			Result.set_dir_path (a_dir_path)
 		end
 
 feature -- File operations
@@ -129,6 +131,39 @@ feature -- Directory operations
 
 feature -- File query
 
+	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
+		do
+			if attached find_directories_command (a_dir_path) as cmd then
+				cmd.execute
+				Result := cmd.path_list
+			end
+		end
+
+	file_md5_digest (path: EL_FILE_PATH): STRING
+		require
+			md5sum_available: md5sum_available
+		do
+			if path.exists then
+				if attached MD5_sum_cmd as cmd then
+					cmd.sum.wipe_out
+					cmd.set_target_path (path)
+					cmd.execute
+					Result := cmd.sum.twin
+				end
+			else
+				create Result.make_empty
+			end
+		end
+
+	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+			--
+		do
+			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
+				cmd.execute
+				Result := cmd.path_list
+			end
+		end
+
 	filtered_file_list (
 		a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; condition: EL_QUERY_CONDITION [ZSTRING]
 	): EL_FILE_PATH_LIST
@@ -142,21 +177,12 @@ feature -- File query
 			end
 		end
 
-	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
-			--
-		do
-			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
-				cmd.execute
-				Result := cmd.path_list
-			end
-		end
+feature -- Contract Support
 
-	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
+	md5sum_available: BOOLEAN
+		-- `True' if md5sum command is in search path
 		do
-			if attached find_directories_command (a_dir_path) as cmd then
-				cmd.execute
-				Result := cmd.path_list
-			end
+			Result := Executable.search_path_has ("md5sum")
 		end
 
 feature -- Constants
@@ -223,6 +249,11 @@ feature {NONE} -- Constants
 			--
 		once
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make_default
+		end
+
+	MD5_sum_cmd: EL_MD5_SUM_COMMAND
+		once
+			create Result.make
 		end
 
 	Move_file_cmd: EL_MOVE_FILE_COMMAND_I
