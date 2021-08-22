@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	api_loader: DYNAMIC_MODULE
 			-- API dynamic loader
 		local
-			find_files_cmd, lib_paths: EL_FILE_PATH_LIST
+			lib_paths: EL_FILE_PATH_LIST
 		once
 			create lib_paths.make_with_count (5)
 			across << "/usr/lib", "/usr/lib/x86_64-linux-gnu" >> as dir loop
@@ -40,8 +40,10 @@ feature {NONE} -- Implementation
 				end
 			end
 
-			if not lib_paths.is_empty then
+			if lib_paths.count > 0 then
 				create Result.make (lib_paths.first_path.without_extension.to_string.to_latin_1)
+			else
+				Result := Precursor
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 9:44:53 GMT (Saturday 10th July 2021)"
-	revision: "20"
+	date: "2021-08-22 15:04:08 GMT (Sunday 22nd August 2021)"
+	revision: "21"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -123,43 +123,10 @@ feature -- Tests
 		end
 
 	test_gnome_virtual_file_system
-		local
-			mount_table: EL_GVFS_MOUNT_TABLE; volume: EL_GVFS_VOLUME
-			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
-			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: EL_DIR_PATH
-			relative_file_path: EL_FILE_PATH
 		do
-			a_file_set := new_file_set (True); a_file_set.start
-			create mount_table.make
-			across mount_table as root until found_volume loop
-				lio.put_labeled_string (root.key, root.item)
-				lio.put_new_line
-				if root.item.scheme ~ File_protocol then
-					create file_path_string.make_from_general (root.item)
-					file_path_string.remove_head (File_protocol.count + 3)
-					if a_file_set.item_for_iteration.to_string.starts_with (file_path_string) then
-						volume_name := root.key
-						volume_root_path := file_path_string
-						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)
-						found_volume := True
-					end
-				end
+			if {PLATFORM}.is_unix then
+				do_test_gnome_virtual_file_system
 			end
-			lio.put_labeled_string ("volume_name", volume_name)
-			lio.put_new_line
-			create volume.make (volume_name, False)
-			volume_workarea_copy_dir := volume_workarea_dir #+ "copy"
-			volume.make_directory (volume_workarea_copy_dir)
-			across file_set as path loop
-				relative_file_path := path.item.relative_path (Work_area_dir)
-				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
-				volume.make_directory (volume_destination_dir)
-				volume.copy_file_from (
-					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
-				)
-				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
-			end
-			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
 		end
 
 	test_read_directories
@@ -290,6 +257,46 @@ feature {NONE} -- Implementation
 			assert ("same count", entries_1.count = entries_2.count)
 			assert ("all 1st in 2nd", across entries_1 as entry all entries_2.has (entry.item) end)
 			assert ("all 2nd in 1st", across entries_2 as entry all entries_1.has (entry.item) end)
+		end
+
+	do_test_gnome_virtual_file_system
+		local
+			mount_table: EL_GVFS_MOUNT_TABLE; volume: EL_GVFS_VOLUME
+			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
+			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: EL_DIR_PATH
+			relative_file_path: EL_FILE_PATH
+		do
+			a_file_set := new_file_set (True); a_file_set.start
+			create mount_table.make
+			across mount_table as root until found_volume loop
+				lio.put_labeled_string (root.key, root.item)
+				lio.put_new_line
+				if root.item.scheme ~ File_protocol then
+					create file_path_string.make_from_general (root.item)
+					file_path_string.remove_head (File_protocol.count + 3)
+					if a_file_set.item_for_iteration.to_string.starts_with (file_path_string) then
+						volume_name := root.key
+						volume_root_path := file_path_string
+						volume_workarea_dir := Work_area_absolute_dir.relative_path (volume_root_path)
+						found_volume := True
+					end
+				end
+			end
+			lio.put_labeled_string ("volume_name", volume_name)
+			lio.put_new_line
+			create volume.make (volume_name, False)
+			volume_workarea_copy_dir := volume_workarea_dir #+ "copy"
+			volume.make_directory (volume_workarea_copy_dir)
+			across file_set as path loop
+				relative_file_path := path.item.relative_path (Work_area_dir)
+				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
+				volume.make_directory (volume_destination_dir)
+				volume.copy_file_from (
+					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
+				)
+				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
+			end
+			execute_and_assert (OS.find_files_command (Work_area_absolute_dir, "*"), a_file_set)
 		end
 
 	execute_all (commands: ARRAY [EL_COMMAND])

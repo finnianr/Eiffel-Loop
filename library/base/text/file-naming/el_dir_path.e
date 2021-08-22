@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 11:17:49 GMT (Sunday 21st March 2021)"
-	revision: "19"
+	date: "2021-08-22 13:38:16 GMT (Sunday 22nd August 2021)"
+	revision: "20"
 
 class
 	EL_DIR_PATH
@@ -103,10 +103,10 @@ feature -- Status report
 			Result := dir.exists and then dir.is_writable
 		end
 
-	has_step (step: ZSTRING): BOOLEAN
+	has_step (step: READABLE_STRING_GENERAL): BOOLEAN
 			-- true if path has directory step
 		do
-			Result := base ~ step or else Precursor (step)
+			Result := base.same_string (step) or else Precursor (step)
 		end
 
 	is_createable: BOOLEAN

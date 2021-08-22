@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:09:19 GMT (Monday 12th July 2021)"
-	revision: "7"
+	date: "2021-08-22 14:07:48 GMT (Sunday 22nd August 2021)"
+	revision: "8"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -34,30 +34,40 @@ feature {NONE} -- Implementation
 	 adjusted_lines (lines: like new_output_lines): EL_ZSTRING_LIST
 			-- Adjust results of Windows 'dir' to match Unix 'find' command with -mindepth and -maxdepth arguments
 		local
-			line_position, dir_path_occurrences, depth: INTEGER; line: ZSTRING
+			start_index, dir_path_occurrences, depth: INTEGER; line, line_substring, dir_path_string: ZSTRING
 		do
 			create Result.make (20)
+			create line_substring.make_empty
 			dir_path_occurrences := dir_path.step_count - 1
 			if not dir_path.is_absolute then
-				line_position := Directory.working.to_string.count + 2
+				start_index := Directory.working.count + 2
 			end
 			if max_depth > 1 then
 				from lines.start until lines.after loop
-					if line_position > 0 then
+					line := lines.item
+					if start_index.to_boolean then
 --						Change absolute paths to be relative to current working directory for Linux compatibility
-						line := lines.item.substring (line_position, lines.item.count)
-					else
-						line := lines.item
+						line_substring.wipe_out
+						line_substring.append_substring (line, start_index, line.count)
+						line := line_substring
 					end
 					depth := line.occurrences ('\') - dir_path_occurrences
 					if min_depth <= depth and then depth <= max_depth then
-						Result.extend (line)
+						if line = line_substring then
+							Result.extend (line_substring.twin)
+						else
+							Result.extend (line)
+						end
 					end
 					lines.forth
 				end
 			else
+				dir_path_string := dir_path
+				dir_path_string.append_character ('\')
 				from lines.start until lines.after loop
-					Result.extend (dir_path + lines.item)
+					line := dir_path_string + lines.item
+					line.prune_all_trailing ('\')
+					Result.extend (line)
 					lines.forth
 				end
 			end

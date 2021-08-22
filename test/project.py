@@ -3,8 +3,16 @@
 from eiffel_loop.eiffel.dev_environ import *
 
 ecf = 'test.ecf'
+
 build_info_path = "source/root/build_info.e"
 
-set_environ ('LD_LIBRARY_PATH', "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM")
+image_utils_path = "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM"
+
+if platform.system () == "Windows":
+	# 'PATH' label must be UPPERCASE
+	set_environ ('PATH', "$PATH;" + image_utils_path)
+
+else:
+	set_environ ('LD_LIBRARY_PATH', image_utils_path)
 
 #keep_assertions = True

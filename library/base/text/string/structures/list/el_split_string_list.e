@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:08:12 GMT (Tuesday 2nd March 2021)"
-	revision: "22"
+	date: "2021-08-22 14:59:40 GMT (Sunday 22nd August 2021)"
+	revision: "23"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -57,7 +57,7 @@ inherit
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
 
 create
-	make, make_empty, make_from_sub_list
+	make, make_empty, make_from_sub_list, make_with_character
 
 feature {NONE} -- Initialization
 

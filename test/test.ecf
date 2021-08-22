@@ -77,7 +77,11 @@
 		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>
 		<library name = "EL_pyxis_scan" readonly = "false" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"/>
 		<library name = "EL_search_engine" readonly = "false" location = "$EIFFEL_LOOP/library/search-engine.ecf"/>
-		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false"/>
+		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false">
+			<condition>
+				<platform value = "unix"/>
+			</condition>
+		</library>
 		<library name = "EL_text_formats" readonly = "false" location = "$EIFFEL_LOOP/library/text-formats.ecf"/>
 		<library name = "EL_testing" readonly = "false" location = "$EIFFEL_LOOP/library/testing.ecf"/>
 		<library name = "EL_text_process" readonly = "false" location = "$EIFFEL_LOOP/library/text-process.ecf"/>
@@ -98,6 +102,18 @@ to verify understanding of ISE base classes.
 
 See doc/test.root.txt for details
 			</description>
+			<file_rule>
+				<exclude>imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
 		</cluster>
 		<cluster name = "amazon_ia" location = "source/amazon-ia" recursive = "true">
 			<description>
@@ -203,6 +219,9 @@ multimedia.ecf
 
 * Test wav to mp3 conversion
 			</description>
+			<condition>
+				<platform value = "unix"/>
+			</condition>
 		</cluster>
 		<cluster name = "network" location = "source/network" recursive = "true">
 			<description>
@@ -258,6 +277,9 @@ TagLib.ecf
 
 See class [$source TAGLIB_AUTOTEST_APP]
 			</description>
+			<condition>
+				<platform value = "unix"/>
+			</condition>
 		</cluster>
 		<cluster name = "text_formats" location = "source/text-formats" recursive = "true">
 			<description>

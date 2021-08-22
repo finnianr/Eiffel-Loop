@@ -430,3 +430,6 @@ Optimizing date time formatting
 Sun 15th Aug 2021, 19:40:45
 Refactor of date time classes using append_to routine
 
+Sat 21st Aug 2021, 16:10:01
+Patch and shell commands, refactored SConstruct
+

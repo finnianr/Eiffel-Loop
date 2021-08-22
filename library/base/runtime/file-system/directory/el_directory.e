@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 11:49:04 GMT (Thursday 20th August 2020)"
-	revision: "18"
+	date: "2021-08-22 13:38:36 GMT (Sunday 22nd August 2021)"
+	revision: "19"
 
 class
 	EL_DIRECTORY
@@ -208,12 +208,12 @@ feature -- Status query
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has_entry_of_type (a_name, Type_executable_file)
+			Result := has_entry_of_type (string_32.from_general (a_name, False), Type_executable_file)
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has_entry_of_type (a_name, Type_file)
+			Result := has_entry_of_type (string_32.from_general (a_name, False), Type_file)
 		end
 
 	is_following_symlinks: BOOLEAN
@@ -299,10 +299,10 @@ feature {EL_SHARED_DIRECTORY} -- Access
 
 feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
-	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
+	has_entry_of_type (a_name: STRING_32; a_type: INTEGER): BOOLEAN
 		do
 			across Current as entry until Result loop
-				if a_name.same_string (entry.item) and then entry.exists then
+				if a_name ~ entry.item and then entry.exists then
 					inspect a_type
 						when Type_any then
 							Result := True
@@ -429,6 +429,10 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		do
 			internal_path := a_name
 			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
+		end
+
+	string_32: EL_STRING_32_ROUTINES
+		do
 		end
 
 feature {EL_DIRECTORY_ITERATION_CURSOR} -- Internal attributes

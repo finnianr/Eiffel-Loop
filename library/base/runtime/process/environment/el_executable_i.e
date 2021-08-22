@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 16:04:57 GMT (Wednesday 4th August 2021)"
-	revision: "3"
+	date: "2021-08-22 15:03:48 GMT (Sunday 22nd August 2021)"
+	revision: "4"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -20,6 +20,8 @@ inherit
 	EL_SHARED_OPERATING_ENVIRON
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_MODULE_CHECKSUM
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -89,18 +91,39 @@ feature -- Access
 
 	search_path: ZSTRING
 		do
-			Result := Execution_environment.item ("PATH")
+			Result := search_path_32
+		end
+
+	search_path_32: STRING_32
+		do
+			if attached Execution_environment.item ("PATH") as str then
+				Result := str
+			else
+				create Result.make_empty
+			end
 		end
 
 	search_path_list: ARRAYED_LIST [EL_DIR_PATH]
 			--
 		local
-			list: EL_ZSTRING_LIST
+			split_list: EL_SPLIT_STRING_32_LIST; l_search_path: STRING_32
 		do
-			create list.make_with_separator (search_path, search_path_separator, False)
-			create Result.make (list.count)
-			across list as l_path loop
-				Result.extend (l_path.item)
+			Result := Once_search_path_list
+
+			l_search_path := search_path_32
+			if attached Checksum.crc_generator as crc then
+				crc.add_string_32 (l_search_path)
+				-- Check if PATH has changed since last call
+				if path_check_sum /= crc.checksum then
+					path_check_sum := crc.checksum
+					create split_list.make_with_character (l_search_path, search_path_separator)
+					Result.wipe_out
+					Result.grow (split_list.count)
+					from split_list.start until split_list.after loop
+						Result.extend (split_list.item (False))
+						split_list.forth
+					end
+				end
 			end
 		end
 
@@ -150,13 +173,19 @@ feature -- Status report
 
 	search_path_has (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if executable `name' is in the environment search path `PATH'
-		do
-			across search_path_list as l_path until Result loop
-				Result := Shared_directory.named (l_path.item).has_executable (a_name)
-			end
+		deferred
 		end
 
+feature {NONE} -- Internal attributes
+
+	path_check_sum: NATURAL
+
 feature -- Constants
+
+	Once_search_path_list: ARRAYED_LIST [EL_DIR_PATH]
+		once
+			create Result.make (0)
+		end
 
 	User_qualified_name: ZSTRING
 		-- executable name qualified with username

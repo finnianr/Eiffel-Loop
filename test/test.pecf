@@ -186,9 +186,14 @@ system:
 		library:
 			name = EL_search_engine; readonly = false; location = "$EIFFEL_LOOP/library/search-engine.ecf"
 
+		# Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
+		# Solve this problem in future version
 		library:
 			name = EL_taglib; location = "$EIFFEL_LOOP/library/TagLib.ecf"; readonly = false
-
+			condition:
+				platform:
+					value = unix
+	
 		library:
 			name = EL_text_formats; readonly = false; location = "$EIFFEL_LOOP/library/text-formats.ecf"
 
@@ -224,6 +229,19 @@ system:
 
 					See doc/test.root.txt for details
 				"""
+			file_rule:
+				exclude:
+					"imp_unix$"
+				condition:
+					platform:
+						value = windows
+
+			file_rule:
+				exclude:
+					"imp_mswin$"
+				condition:
+					platform:
+						value = unix
 	
 		cluster:
 			name = amazon_ia; location = "source/amazon-ia"; recursive = true
@@ -337,6 +355,7 @@ system:
 					* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
 					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 				"""
+		# Excluded on Windows because TagLib.ecf is not yet available for Windows
 		cluster:
 			name = multimedia; location = "source/multimedia"; recursive = true
 			description:
@@ -345,6 +364,9 @@ system:
 					
 					* Test wav to mp3 conversion
 				"""
+			condition:
+				platform:
+					value = unix
 		cluster:
 			name = network; location = "source/network"; recursive = true
 			description:
@@ -408,6 +430,9 @@ system:
 					
 					See class [$source TAGLIB_AUTOTEST_APP]
 				"""
+			condition:
+				platform:
+					value = unix
 		cluster:
 			name = text_formats; location = "source/text-formats"; recursive = true
 			description:

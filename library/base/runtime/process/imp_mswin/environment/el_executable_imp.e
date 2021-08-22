@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-22 9:25:23 GMT (Tuesday 22nd September 2020)"
-	revision: "2"
+	date: "2021-08-22 13:48:51 GMT (Sunday 22nd August 2021)"
+	revision: "3"
 
 class
 	EL_EXECUTABLE_IMP
@@ -30,15 +30,44 @@ create
 
 feature {NONE} -- Implementation
 
-	file_extensions: EL_ZSTRING_LIST
+	search_path_has (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if executable `name' is in the environment search path `PATH'
+		local
+			name_path: EL_FILE_PATH
 		do
-			-- C:\Users\finnian>echo %PATHEXT%
-			-- .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC	
-			create Result.make_from_list (Executable_extensions_spec.as_lower.split_intervals (";."))
-			Result.first.remove_head (1)
+			create name_path.make (a_name)
+			if name_path.has_dot_extension and then File_extensions.has (name_path.extension) then
+				across search_path_list as l_path until Result loop
+					name_path.set_parent (l_path.item)
+					Result := name_path.exists
+				end
+			else
+				name_path.add_extension (File_extensions.first)
+				across search_path_list as l_path until Result loop
+					name_path.set_parent (l_path.item)
+					-- Test existence for all extensions
+					across File_extensions as extension until Result loop
+						name_path.replace_extension (extension.item)
+						Result := name_path.exists
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Constants
+
+	File_extensions: EL_ZSTRING_LIST
+		local
+			csv_values: ZSTRING
+		once
+			-- C:\Users\finnian>echo %PATHEXT%
+			-- .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+			csv_values := Executable_extensions_spec
+			csv_values.remove_head (1)
+			csv_values.to_lower
+			csv_values.replace_substring_general_all (";.", ",")
+			Result := csv_values
+		end
 
 	Search_path_separator: CHARACTER_32 = ';'
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:08:20 GMT (Tuesday 2nd March 2021)"
-	revision: "9"
+	date: "2021-08-22 15:01:58 GMT (Sunday 22nd August 2021)"
+	revision: "10"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
@@ -26,9 +26,16 @@ inherit
 		end
 
 create
-	make, make_empty
+	make, make_empty, make_with_character
 
 feature {NONE} -- Initialization
+
+	make_with_character (a_string: S; search_character: CHARACTER_32)
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			make (a_string, s.character_string (search_character))
+		end
 
 	make (a_string: S; search_string: READABLE_STRING_GENERAL)
 			-- Move to first position if any.

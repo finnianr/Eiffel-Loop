@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-22 9:46:50 GMT (Tuesday 22nd September 2020)"
-	revision: "2"
+	date: "2021-08-22 14:20:23 GMT (Sunday 22nd August 2021)"
+	revision: "3"
 
 class
 	EL_EXECUTABLE_IMP
@@ -28,6 +28,18 @@ feature {NONE} -- Implementation
 	file_extensions: EL_ZSTRING_LIST
 		do
 			create Result.make_empty
+		end
+
+	search_path_has (a_name: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if executable `name' is in the environment search path `PATH'
+		local
+			name_path: EL_FILE_PATH
+		do
+			create name_path.make (a_name)
+			across search_path_list as l_path until Result loop
+				name_path.set_parent (l_path.item)
+				Result := name_path.exists
+			end
 		end
 
 	Search_path_separator: CHARACTER_32 = ':'
