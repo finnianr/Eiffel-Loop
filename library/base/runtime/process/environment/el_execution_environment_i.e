@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 15:48:13 GMT (Sunday 31st January 2021)"
-	revision: "20"
+	date: "2021-08-23 11:04:48 GMT (Monday 23rd August 2021)"
+	revision: "21"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -179,26 +179,6 @@ feature -- Status setting
 			-- Python scripts for example, might give a "LookupError: unknown encoding: cp65001".
 
 		do
-		end
-
-feature -- Transformation
-
-	application_dynamic_module_path (module_name: STRING): EL_FILE_PATH
-		do
-			Result := Directory.Application_bin + dynamic_module_name (module_name)
-		end
-
-	dynamic_module_name (module_name: READABLE_STRING_GENERAL): ZSTRING
-			-- normalized name for platform
-			-- name = "svg"
-			-- 	Linux: Result = "libsvg.so"
-			-- 	Windows: Result = "svg.dll"
-		do
-			create Result.make (module_name.count + 7)
-			Result.append_string_general (Operating_environ.C_library_prefix)
-			Result.append_string_general (module_name)
-			Result.append_character ('.')
-			Result.append_string_general (Operating_environ.Dynamic_module_extension)
 		end
 
 feature {NONE} -- Implementation

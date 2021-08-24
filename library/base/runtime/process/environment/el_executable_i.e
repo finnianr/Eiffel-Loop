@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 15:03:48 GMT (Sunday 22nd August 2021)"
-	revision: "4"
+	date: "2021-08-23 11:06:50 GMT (Monday 23rd August 2021)"
+	revision: "5"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -40,6 +40,26 @@ feature {NONE} -- Initialization
 				-- Is installed
 				path := Directory.Application_bin + name
 			end
+		end
+
+feature -- Compiled modules
+
+	application_dynamic_module_path (module_name: STRING): EL_FILE_PATH
+		do
+			Result := Directory.Application_bin + dynamic_module_name (module_name)
+		end
+
+	dynamic_module_name (module_name: READABLE_STRING_GENERAL): ZSTRING
+			-- normalized name for platform
+			-- name = "svg"
+			-- 	Linux: Result = "libsvg.so"
+			-- 	Windows: Result = "svg.dll"
+		do
+			create Result.make (module_name.count + 7)
+			Result.append_string_general (Operating_environ.C_library_prefix)
+			Result.append_string_general (module_name)
+			Result.append_character ('.')
+			Result.append_string_general (Operating_environ.dynamic_module_extension)
 		end
 
 feature -- Access

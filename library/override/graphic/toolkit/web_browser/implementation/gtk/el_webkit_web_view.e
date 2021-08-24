@@ -39,7 +39,6 @@ feature {NONE} -- Implementation
 					lib_paths.append (cmd.path_list)
 				end
 			end
-
 			if lib_paths.count > 0 then
 				create Result.make (lib_paths.first_path.without_extension.to_string.to_latin_1)
 			else

@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-18 9:05:41 GMT (Wednesday 18th August 2021)"
-	revision: "11"
+	date: "2021-08-23 11:36:08 GMT (Monday 23rd August 2021)"
+	revision: "12"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -278,7 +278,7 @@ feature {NONE} -- Implementation
 
 	installer_exe_path (language: STRING): EL_FILE_PATH
 		local
-			inserts: TUPLE
+			inserts: TUPLE; platform_dir: ZSTRING
 		do
 			inspect name_template.occurrences ('%S')
 				when 2 then
@@ -286,7 +286,8 @@ feature {NONE} -- Implementation
 			else
 				inserts := [language, bit_count, software.version.string]
 			end
-			Result := output_dir + (name_template #$ inserts)
+			platform_dir := ISE_platform_table [bit_count]
+			Result := output_dir.joined_file_steps (<< platform_dir, name_template #$ inserts >>)
 		end
 
 	ise_platform: STRING
