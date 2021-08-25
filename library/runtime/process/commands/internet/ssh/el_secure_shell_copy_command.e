@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 14:36:55 GMT (Friday 20th August 2021)"
-	revision: "1"
+	date: "2021-08-25 14:12:17 GMT (Wednesday 25th August 2021)"
+	revision: "2"
 
 class
 	EL_SECURE_SHELL_COPY_COMMAND
@@ -18,6 +18,11 @@ inherit
 			make_default
 		end
 
+	EL_SECURE_SHELL_COMMAND
+		redefine
+			make_default, set_user_domain
+		end
+
 create
 	make
 
@@ -26,16 +31,14 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create user_domain.make_empty
 			create destination_dir
-			Precursor
+			Precursor {EL_SECURE_SHELL_COMMAND}
+			Precursor {EL_PARSED_OS_COMMAND}
 		end
 
 feature -- Access
 
 	destination_dir: EL_DIR_PATH
-
-	user_domain: ZSTRING
 
 feature -- Element change
 
@@ -57,7 +60,7 @@ feature -- Element change
 
 	set_user_domain (a_user_domain: ZSTRING)
 		do
-			user_domain := a_user_domain
+			Precursor (a_user_domain)
 			put_string (var.user_domain, a_user_domain)
 		end
 
