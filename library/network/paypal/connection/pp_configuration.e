@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 14:03:07 GMT (Friday 30th July 2021)"
-	revision: "8"
+	date: "2021-08-26 11:54:16 GMT (Thursday 26th August 2021)"
+	revision: "9"
 
 class
 	PP_CONFIGURATION
@@ -59,7 +59,7 @@ feature -- Access
 
 	notify_url: STRING
 
-	receiver_email: STRING
+	receiver_email: ZSTRING
 
 	validation_url: STRING
 

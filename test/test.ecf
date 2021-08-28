@@ -77,6 +77,10 @@
 		<library name = "EL_public_key_encryption" readonly = "false" location = "$EIFFEL_LOOP/library/public-key-encryption.ecf"/>
 		<library name = "EL_pyxis_scan" readonly = "false" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf"/>
 		<library name = "EL_search_engine" readonly = "false" location = "$EIFFEL_LOOP/library/search-engine.ecf"/>
+		<!--
+			Excluded on Windows because symbolic link Eiffel-Loop\contrib\C++\taglib\include is linked to Linux library
+			Solve this problem in future version
+		-->
 		<library name = "EL_taglib" location = "$EIFFEL_LOOP/library/TagLib.ecf" readonly = "false">
 			<condition>
 				<platform value = "unix"/>
@@ -213,6 +217,7 @@ markup-docs.ecf
 * Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
 			</description>
 		</cluster>
+		<!--Excluded on Windows because TagLib.ecf is not yet available for Windows-->
 		<cluster name = "multimedia" location = "source/multimedia" recursive = "true">
 			<description>
 multimedia.ecf

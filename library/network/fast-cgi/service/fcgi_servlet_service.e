@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-09 15:41:24 GMT (Friday 9th July 2021)"
-	revision: "19"
+	date: "2021-08-28 16:27:17 GMT (Saturday 28th August 2021)"
+	revision: "20"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -21,6 +21,8 @@ inherit
 	EL_COMMAND
 
 	EL_SHARED_HTTP_STATUS
+
+	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
 
@@ -42,9 +44,20 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_dir: EL_DIR_PATH; config_name: ZSTRING)
+	make (config_path: EL_FILE_PATH)
+		require
+			configuration_exists: config_path.exists
 		do
-			make_with_config (new_config (config_dir + (config_name + ".pyx")))
+			make_with_config (new_config (config_path))
+		end
+
+	make_default
+		do
+			create broker.make
+			create {EL_NETWORK_STREAM_SOCKET} socket.make
+			create servlet_table
+			state := agent do_nothing
+			server_backlog := 10
 		end
 
 	make_port (a_port: INTEGER)
@@ -61,16 +74,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			end
 		end
 
-	make_default
-		do
-			create broker.make
-			create {EL_NETWORK_STREAM_SOCKET} socket.make
-			create servlet_table
-			state := agent do_nothing
-			server_backlog := 10
-		end
-
-feature {NONE}
+feature {NONE} -- Initialization
 
 	initialize_listening
 			-- Set up port to listen for requests from the web server
@@ -104,6 +108,11 @@ feature {NONE}
 		-- initialize servlets
 		deferred
 		end
+
+feature -- Access
+
+	config: FCGI_SERVICE_CONFIG
+			-- Configuration for servlets
 
 feature -- Basic operations
 
@@ -309,9 +318,6 @@ feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
 
-	config: FCGI_SERVICE_CONFIG
-			-- Configuration for servlets
-
 feature {NONE} -- Implementation: attributes
 
 	server_backlog: INTEGER
@@ -325,6 +331,11 @@ feature {NONE} -- Implementation: attributes
 	state: PROCEDURE
 
 feature {NONE} -- String constants
+
+	frozen Default_servlet_key: ZSTRING
+		once
+			Result := "<DEFAULT>"
+		end
 
 	Fcgi_web_server_addrs: STRING = "FCGI_WEB_SERVER_ADDRS"
 
@@ -341,11 +352,6 @@ feature {NONE} -- String constants
 		end
 
 	Servlet_app_log_category: STRING = "servlet.app"
-
-	frozen Default_servlet_key: ZSTRING
-		once
-			Result := "<DEFAULT>"
-		end
 
 feature {NONE} -- Constants
 
