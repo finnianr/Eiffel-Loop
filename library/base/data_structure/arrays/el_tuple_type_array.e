@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 14:15:06 GMT (Sunday 9th May 2021)"
-	revision: "13"
+	date: "2021-08-29 8:45:18 GMT (Sunday 29th August 2021)"
+	revision: "14"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				put (type.generic_parameter_type (i), i)
 				i := i + 1
 			end
+			compare_objects
 		end
 
 	make_from_static (static_type: INTEGER)
@@ -50,6 +51,7 @@ feature {NONE} -- Initialization
 			else
 				make_filled ({INTEGER}, 0, 0)
 			end
+			compare_objects
 		end
 
 	make_from_tuple (tuple: TUPLE)
@@ -62,6 +64,11 @@ feature -- Status query
 	is_latin_1_representable: BOOLEAN
 		do
 			Result := for_all (agent type_is_latin_1_representable)
+		end
+
+	is_uniformly (type: TYPE [ANY]): BOOLEAN
+		do
+			Result := occurrences (type) = count
 		end
 
 feature {NONE} -- Implementation

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:22:40 GMT (Sunday 9th May 2021)"
-	revision: "19"
+	date: "2021-08-29 9:28:38 GMT (Sunday 29th August 2021)"
+	revision: "20"
 
 class
 	EL_TUPLE_ROUTINES
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_MODULE_CONVERT_STRING
+
+	EL_SHARED_CLASS_ID
 
 create
 	make
@@ -35,6 +37,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
+		-- Caches results in `types_table'
 		do
 			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
 		end
@@ -136,6 +139,37 @@ feature -- Basic operations
 					tuple.put_reference (default_value, i)
 				end
 				i := i + 1
+			end
+		ensure
+			filled: is_filled (tuple, 1, tuple.count)
+		end
+
+	fill_immutable (tuple: TUPLE; csv_list: STRING)
+		-- fill tuple with `IMMUTABLE_STRING_8' items from comma-separated list `csv_list' of strings
+		-- created items are left adjusted and share the same SPECIAL array
+		require
+			all_immutable_string_8: type_array (tuple).is_uniformly ({IMMUTABLE_STRING_8})
+		local
+			list: EL_SPLIT_STRING_8_LIST; tuple_types: EL_TUPLE_TYPE_ARRAY
+			immutable_csv: IMMUTABLE_STRING_8; start_index, end_index: INTEGER
+		do
+			tuple_types := type_array (tuple)
+			create list.make_with_character (csv_list, ',')
+			create immutable_csv.make_from_string (csv_list)
+			from list.start until list.index > tuple.count or else list.after loop
+				if tuple_types [list.index].type_id = Class_id.IMMUTABLE_STRING_8 then
+					end_index := list.item_end_index
+					-- left adjust
+					from
+						start_index := list.item_start_index
+					until
+						not csv_list [start_index].is_space or else start_index > end_index
+					loop
+						start_index := start_index + 1
+					end
+					tuple.put_reference (immutable_csv.shared_substring (start_index, end_index), list.index)
+				end
+				list.forth
 			end
 		ensure
 			filled: is_filled (tuple, 1, tuple.count)

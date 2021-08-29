@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-20 9:08:22 GMT (Monday 20th January 2020)"
-	revision: "5"
+	date: "2021-08-29 9:34:57 GMT (Sunday 29th August 2021)"
+	revision: "6"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -38,11 +38,11 @@ feature -- Access
 
 feature -- Constants
 
-	sub_app: TUPLE [install, remove_data, uninstall: STRING]
+	Sub_app: TUPLE [install, remove_data, uninstall: IMMUTABLE_STRING_8]
 		-- Installer sub-application constants
 		once
 			create Result
-			Tuple.fill (Result, "install, remove_data, uninstall")
+			Tuple.fill_immutable (Result, "install, remove_data, uninstall")
 		end
 
 feature {NONE} -- Constants

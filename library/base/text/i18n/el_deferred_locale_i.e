@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-10 9:40:12 GMT (Tuesday 10th August 2021)"
-	revision: "12"
+	date: "2021-08-29 9:41:48 GMT (Sunday 29th August 2021)"
+	revision: "13"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -64,7 +64,7 @@ feature -- Access
 		require
 			valid_key_for_quanity: is_valid_quantity_key (partial_key, quantity)
 		local
-			template: like translation_template; name: STRING
+			template: like translation_template; name: READABLE_STRING_8
 		do
 			template := translation_template (partial_key, quantity)
 			across substitutions as list loop
@@ -123,7 +123,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Empty_substitutions: ARRAY [TUPLE [name: STRING; value: READABLE_STRING_GENERAL]]
+	Empty_substitutions: ARRAY [TUPLE [name: READABLE_STRING_8; value: READABLE_STRING_GENERAL]]
 		once
 			create Result.make_empty
 		end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 8:42:33 GMT (Wednesday 30th September 2020)"
-	revision: "21"
+	date: "2021-08-29 9:34:19 GMT (Sunday 29th August 2021)"
+	revision: "22"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -82,7 +82,7 @@ feature -- Access
 			Result := Text.uninstall_x #$ [Application_list.Main_launcher.name]
 		end
 
-	Option_name: STRING
+	Option_name: IMMUTABLE_STRING_8
 		once
 			Result := Application_option.sub_app.uninstall
 		end

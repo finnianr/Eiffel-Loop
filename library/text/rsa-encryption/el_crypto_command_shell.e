@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:07:02 GMT (Monday 16th August 2021)"
-	revision: "28"
+	date: "2021-08-29 9:30:51 GMT (Sunday 29th August 2021)"
+	revision: "29"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -350,10 +350,10 @@ feature {NONE} -- Constants
 			Result := << 128, 256 >>
 		end
 
-	Extension: TUPLE [aes, crt, dat, e, key: STRING]
+	Extension: TUPLE [aes, crt, dat, e, key: IMMUTABLE_STRING_8]
 		once
 			create Result
-			Tuple.fill (Result, "aes, crt, dat, e, key")
+			Tuple.fill_immutable (Result, "aes, crt, dat, e, key")
 		end
 
 	Escaped_new_line: ZSTRING

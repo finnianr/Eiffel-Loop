@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 10:01:38 GMT (Monday 2nd August 2021)"
-	revision: "4"
+	date: "2021-08-29 10:09:52 GMT (Sunday 29th August 2021)"
+	revision: "5"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 			i, length, start_index, end_index: INTEGER; has_braces: BOOLEAN
 		do
 			create list.make (new_string (a_template), Dollor_sign)
-			create variable_values.make (list.count)
+			create variable_values.make_size (list.count)
 			create part_list.make (list.count * 2)
 			from list.start until list.after loop
 				item := list.item (False)
@@ -71,7 +71,7 @@ feature -- Access
 
 feature -- Element change
 
-	put (name: STRING; value: S)
+	put (name: READABLE_STRING_8; value: S)
 		require
 			has_name: has (name)
 		do
@@ -83,7 +83,7 @@ feature -- Element change
 			end
 		end
 
-	put_general (name: STRING; value: READABLE_STRING_GENERAL)
+	put_general (name: READABLE_STRING_8; value: READABLE_STRING_GENERAL)
 		do
 			if attached {S} value as str then
 				put (name, str)
@@ -94,7 +94,7 @@ feature -- Element change
 
 feature -- Status query
 
-	has (name: STRING): BOOLEAN
+	has (name: READABLE_STRING_8): BOOLEAN
 		do
 			Result := variable_values.has (name)
 		end
@@ -111,7 +111,7 @@ feature {NONE} -- Internal attributes
 
 	part_list: EL_STRING_LIST [S]
 
-	variable_values: HASH_TABLE [S, STRING]
+	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
 
 feature {NONE} -- Constants
