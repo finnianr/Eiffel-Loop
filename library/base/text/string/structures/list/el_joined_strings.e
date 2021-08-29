@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:02:31 GMT (Tuesday 2nd March 2021)"
-	revision: "6"
+	date: "2021-08-29 12:13:14 GMT (Sunday 29th August 2021)"
+	revision: "7"
 
 deferred class
 	EL_JOINED_STRINGS [S -> STRING_GENERAL create make end]
@@ -71,60 +71,87 @@ feature -- Access
 	joined_strings: like item
 			-- join strings with no separator
 		do
-			push_cursor
 			create Result.make (character_count)
-			from start until after loop
-				Result.append (item)
-				forth
-			end
-			pop_cursor
+			append_to (Result)
 		end
 
 	joined_with (a_separator: CHARACTER_32; proper_case_words: BOOLEAN): like item
 			-- Null character joins without separation
 		local
-			code: NATURAL
+			l_count: INTEGER
 		do
-			push_cursor
-			create Result.make (character_count + (count - 1).max (0))
-			code := separator_code (a_separator)
-			from start until after loop
-				if index > 1 then
-					append_code (Result, code)
-				end
-				if proper_case_words then
-					Result.append (proper_cased (item))
-				else
-					Result.append (item)
-				end
-				forth
+			if a_separator.natural_32_code.to_boolean then
+				l_count := character_count + (count - 1).max (0)
+			else
+				l_count := character_count
 			end
-			pop_cursor
+			create Result.make (l_count)
+			append_to_with (Result, a_separator, proper_case_words)
 		end
 
 	joined_with_string (a_separator: READABLE_STRING_GENERAL): like item
-			-- Null character joins without separation
-		local
-			l_separator: like item
 		do
-			create l_separator.make (a_separator.count)
-			l_separator.append (a_separator)
-			push_cursor
-			create Result.make (character_count + (count - 1) * l_separator.count)
-			from start until after loop
-				if index > 1 then
-					Result.append (l_separator)
-				end
-				Result.append (item)
-				forth
-			end
-			pop_cursor
+			create Result.make (character_count + (count - 1) * a_separator.count)
+			append_separated_to (Result, a_separator)
 		end
 
 	joined_words: like item
 			-- joined with space character
 		do
 			Result := joined_with (' ', False)
+		end
+
+feature -- Basic operations
+
+	append_to (str: like item)
+		-- append parts to `str' with no separator
+		do
+			push_cursor
+			from start until after loop
+				str.append (item)
+				forth
+			end
+			pop_cursor
+		end
+
+	append_to_with (str: like item; a_separator: CHARACTER_32; proper_case_words: BOOLEAN)
+			-- append parts to `str' with `a_separator'
+			-- if `a_separator = '%U'' then separator is not appended
+		local
+			code: NATURAL
+		do
+			push_cursor
+			code := separator_code (a_separator)
+			from start until after loop
+				if index > 1 and code.to_boolean then
+					append_code (str, code)
+				end
+				if proper_case_words then
+					str.append (proper_cased (item))
+				else
+					str.append (item)
+				end
+				forth
+			end
+			pop_cursor
+		end
+
+	append_separated_to (str: like item; separator_general: READABLE_STRING_GENERAL)
+		-- append parts to `str' using separator string `separator_general'
+		local
+			separator: like item
+		do
+			push_cursor
+			create separator.make (separator_general.count)
+			separator.append (separator_general)
+			from start until after loop
+				if index > 1 then
+					str.append (separator)
+				end
+				str.append (item)
+				forth
+			end
+			pop_cursor
 		end
 
 feature -- Measurement

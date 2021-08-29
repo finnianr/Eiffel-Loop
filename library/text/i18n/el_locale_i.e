@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-05 7:22:53 GMT (Thursday 5th August 2021)"
-	revision: "20"
+	date: "2021-08-29 14:22:17 GMT (Sunday 29th August 2021)"
+	revision: "21"
 
 deferred class
 	EL_LOCALE_I
@@ -37,6 +37,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_TUPLE
 
 	EL_SHARED_SINGLETONS
 
@@ -140,11 +142,39 @@ feature -- Access
 
 feature -- Status query
 
+	english_only: BOOLEAN
+		do
+			Result := False
+		end
+
+	has_all_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]): BOOLEAN
+		do
+			restrict_access
+				Result := across key_list as key all translations.has (z_key (key.item)) end
+			end_restriction
+		end
+
 	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- translation for source code string in current user language
 		do
 			restrict_access
 				Result := translations.has (z_key (key))
+			end_restriction
+		end
+
+	has_quantity_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]; quantity_lower, quantity_upper: INTEGER): BOOLEAN
+		-- `True' if there is a quanity translation for all keys in `key_list' and for all quantity types
+		require
+			less_than_or_equal_to: quantity_lower <= quantity_upper
+			valid_quantities: 0 <= quantity_lower and then quantity_upper <= 2
+		local
+			quantity_range: INTEGER_INTERVAL
+		do
+			restrict_access
+				quantity_range := quantity_lower |..| quantity_upper
+				Result := across key_list as key all
+					across quantity_range as n all translations.has (z_key_for (key.item, n.item)) end
+				end
 			end_restriction
 		end
 
@@ -155,6 +185,13 @@ feature -- Status query
 			end_restriction
 		end
 
+feature -- Contract Support
+
+	all_immutable_strings (a_tuple: TUPLE): BOOLEAN
+		do
+			Result := Tuple.type_array (a_tuple).is_uniformly ({IMMUTABLE_STRING_8})
+		end
+
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
@@ -162,9 +199,24 @@ feature -- Status query
 			end_restriction
 		end
 
-	english_only: BOOLEAN
+	valid_key_tuple (a_tuple: TUPLE): BOOLEAN
+		require
+			all_immutable_strings: all_immutable_strings (a_tuple)
+		local
+			key_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
-			Result := False
+			create key_list.make_from_tuple (a_tuple)
+			Result := has_all_keys (key_list)
+		end
+
+	valid_quantity_key_tuple (a_tuple: TUPLE; quantity_lower, quantity_upper: INTEGER): BOOLEAN
+		require
+			all_immutable_strings: all_immutable_strings (a_tuple)
+		local
+			key_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+		do
+			create key_list.make_from_tuple (a_tuple)
+			Result := has_quantity_keys (key_list, quantity_lower, quantity_upper)
 		end
 
 feature {EL_LOCALE_CONSTANTS} -- Factory
@@ -185,12 +237,12 @@ feature {NONE} -- Implementation
 			Result := Current
 		end
 
-	set_next_translation (text: READABLE_STRING_GENERAL)
+	set_next_quantity_translation (quantity: INTEGER; text: READABLE_STRING_GENERAL)
 		-- used only in `EL_DEFERRED_LOCALE_IMP'
 		do
 		end
 
-	set_next_quantity_translation (quantity: INTEGER; text: READABLE_STRING_GENERAL)
+	set_next_translation (text: READABLE_STRING_GENERAL)
 		-- used only in `EL_DEFERRED_LOCALE_IMP'
 		do
 		end
@@ -219,14 +271,6 @@ feature {NONE} -- Implementation
 			Result := converter.to_zstring (key)
 		end
 
-	z_key_plural (partial_key: READABLE_STRING_GENERAL): ZSTRING
-		-- plural ZSTRING key
-		require
-			thread_restricted: is_restricted
-		do
-			Result := converter.joined (partial_key, Number_suffix [2])
-		end
-
 	z_key_for (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
 			-- complete partial_key by appending ":0", ":1" or ":>1"
 		require
@@ -235,11 +279,19 @@ feature {NONE} -- Implementation
 			Result := converter.joined (partial_key, Number_suffix [quantity.min (2)])
 		end
 
+	z_key_plural (partial_key: READABLE_STRING_GENERAL): ZSTRING
+		-- plural ZSTRING key
+		require
+			thread_restricted: is_restricted
+		do
+			Result := converter.joined (partial_key, Number_suffix [2])
+		end
+
 feature {NONE} -- Internal attributes
 
-	translations: EL_TRANSLATION_TABLE
-
 	converter: EL_ZSTRING_CONVERTER
+
+	translations: EL_TRANSLATION_TABLE
 
 feature {EL_LOCALE_CONSTANTS} -- Constants
 

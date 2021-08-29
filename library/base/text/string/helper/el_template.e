@@ -1,13 +1,24 @@
 note
-	description: "Basic string template to substitute variables names starting with $"
+	description: "[
+		Basic string template to substitute variables names with possible forms:
+		
+			$a_1 OR ${a_1}
+			
+		and composed of characters in ranges
+			
+			'a' .. 'z'
+			'A' .. 'Z'
+			'0' .. '9'
+			'_'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 10:09:52 GMT (Sunday 29th August 2021)"
-	revision: "5"
+	date: "2021-08-29 12:00:32 GMT (Sunday 29th August 2021)"
+	revision: "6"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -67,6 +78,13 @@ feature -- Access
 			--
 		do
 			Result := part_list.joined_strings
+		end
+
+feature -- Basic operations
+
+	append_to (str: S)
+		do
+			part_list.append_to (str)
 		end
 
 feature -- Element change

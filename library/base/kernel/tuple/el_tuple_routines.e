@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:28:38 GMT (Sunday 29th August 2021)"
-	revision: "20"
+	date: "2021-08-29 14:31:21 GMT (Sunday 29th August 2021)"
+	revision: "21"
 
 class
 	EL_TUPLE_ROUTINES
@@ -146,7 +146,7 @@ feature -- Basic operations
 
 	fill_immutable (tuple: TUPLE; csv_list: STRING)
 		-- fill tuple with `IMMUTABLE_STRING_8' items from comma-separated list `csv_list' of strings
-		-- created items are left adjusted and share the same SPECIAL array
+		-- created items are left adjusted and share the same `SPECIAL [CHARACTER]' area
 		require
 			all_immutable_string_8: type_array (tuple).is_uniformly ({IMMUTABLE_STRING_8})
 		local

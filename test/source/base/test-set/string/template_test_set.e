@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:00:19 GMT (Friday 14th February 2020)"
-	revision: "3"
+	date: "2021-08-29 11:16:48 GMT (Sunday 29th August 2021)"
+	revision: "4"
 
 class
 	TEMPLATE_TEST_SET
@@ -20,13 +20,16 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("basic",	agent test_basic)
-			eval.call ("date",	agent test_date)
+			eval.call ("basic", agent test_basic)
+			eval.call ("date", agent test_date)
+			eval.call ("name_separation", agent test_name_separation)
 		end
 
 feature -- Tests
 
 	test_basic
+		note
+			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
 		local
 			template: EL_TEMPLATE [ZSTRING]
 			template_string, prefix_string: STRING
@@ -61,6 +64,18 @@ feature -- Tests
 			template.put ("long_month_name", "November")
 			template.put ("year", "2017")
 			assert ("same date", Date_string ~ template.substituted)
+		end
+
+	test_name_separation
+		note
+			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+		local
+			template: EL_TEMPLATE [STRING]
+		do
+			create template.make ("$s, $s_2")
+			template.put ("s", "one")
+			template.put ("s_2", "two")
+			assert ("same string", template.substituted ~ "one, two")
 		end
 
 feature {NONE} -- Constants
