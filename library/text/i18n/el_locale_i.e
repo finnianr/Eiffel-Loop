@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 14:22:17 GMT (Sunday 29th August 2021)"
-	revision: "21"
+	date: "2021-08-30 14:47:25 GMT (Monday 30th August 2021)"
+	revision: "22"
 
 deferred class
 	EL_LOCALE_I
@@ -187,9 +187,9 @@ feature -- Status query
 
 feature -- Contract Support
 
-	all_immutable_strings (a_tuple: TUPLE): BOOLEAN
+	all_readable_strings (a_tuple: TUPLE): BOOLEAN
 		do
-			Result := Tuple.type_array (a_tuple).is_uniformly ({IMMUTABLE_STRING_8})
+			Result := Tuple.type_array (a_tuple).all_conform_to ({READABLE_STRING_GENERAL})
 		end
 
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
@@ -201,9 +201,9 @@ feature -- Contract Support
 
 	valid_key_tuple (a_tuple: TUPLE): BOOLEAN
 		require
-			all_immutable_strings: all_immutable_strings (a_tuple)
+			all_readable_strings: all_readable_strings (a_tuple)
 		local
-			key_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+			key_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create key_list.make_from_tuple (a_tuple)
 			Result := has_all_keys (key_list)
@@ -211,9 +211,9 @@ feature -- Contract Support
 
 	valid_quantity_key_tuple (a_tuple: TUPLE; quantity_lower, quantity_upper: INTEGER): BOOLEAN
 		require
-			all_immutable_strings: all_immutable_strings (a_tuple)
+			all_readable_strings: all_readable_strings (a_tuple)
 		local
-			key_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+			key_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create key_list.make_from_tuple (a_tuple)
 			Result := has_quantity_keys (key_list, quantity_lower, quantity_upper)

@@ -6,43 +6,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 13:28:12 GMT (Wednesday 30th September 2020)"
-	revision: "2"
+	date: "2021-08-30 11:25:46 GMT (Monday 30th August 2021)"
+	revision: "3"
 
 class
 	EL_UNINSTALL_TEXTS
 
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
-		rename
-			case as Case_first_upper
-		end
 
 create
 	make
 
-feature -- Access
-
-	uninstalling: ZSTRING
-
-	uninstall_confirmation: ZSTRING
-
-	first_letter_yes: CHARACTER_32
-		do
-			if yes.count > 0 then
-				Result := yes [1]
-			end
-		end
-
-	uninstall_x: ZSTRING
+feature -- Texts
 
 	uninstall: ZSTRING
 
 	uninstall_application: ZSTRING
 
+	uninstall_confirmation: ZSTRING
+
 	uninstall_warning: ZSTRING
 
-	yes: ZSTRING
+	uninstall_x: ZSTRING
+
+	uninstalling: ZSTRING
 
 feature {NONE} -- Constants
 
@@ -57,8 +45,6 @@ feature {NONE} -- Constants
 			Uninstall %S application
 		uninstall_x:	
 			Uninstall %S
-		yes:
-			yes
 	]"
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:34:19 GMT (Sunday 29th August 2021)"
-	revision: "22"
+	date: "2021-08-30 10:32:51 GMT (Monday 30th August 2021)"
+	revision: "23"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -44,6 +44,8 @@ inherit
 
 	EL_SHARED_APPLICATION_OPTION
 
+	EL_SHARED_WORD
+
 feature {NONE} -- Initialization
 
 	initialize
@@ -64,7 +66,7 @@ feature -- Basic operations
 			lio.put_new_line_x2
 			lio.put_string (Text.uninstall_confirmation)
 
-			if User_input.entered_letter (Text.first_letter_yes.to_character_8) then
+			if User_input.entered_letter (Word.first_letter_yes.to_character_8) then
 				lio.put_new_line
 				lio.put_line (Text.uninstalling)
 

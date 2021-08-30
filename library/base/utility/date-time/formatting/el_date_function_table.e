@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:33:42 GMT (Wednesday 19th May 2021)"
-	revision: "3"
+	date: "2021-08-30 14:35:35 GMT (Monday 30th August 2021)"
+	revision: "4"
 
 class
 	EL_DATE_FUNCTION_TABLE
 
 inherit
-	EL_HASH_TABLE [FUNCTION [DATE, ZSTRING], STRING]
+	EL_STRING_8_TABLE [FUNCTION [DATE, ZSTRING]]
 
 create
 	make

@@ -60,6 +60,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Confirmation"
+		translation:
+			lang = de; check = true
+			"Bestätigung"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Continue"
 		translation:
 			lang = de; check = true
@@ -78,10 +87,28 @@ translations:
 			"$id"
 
 	item:
+		id = "Error"
+		translation:
+			lang = de; check = true
+			"Fehler"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Ignore"
 		translation:
 			lang = de; check = false
 			"Ignoriere "
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Information"
+		translation:
+			lang = de; check = false
+			"$id"
 		translation:
 			lang = en
 			"$id"
@@ -96,13 +123,13 @@ translations:
 			"$id"
 
 	item:
-		id = "{ok}"
+		id = "OK"
 		translation:
 			lang = de; check = true
-			"OK"
+			"$id"
 		translation:
 			lang = en
-			"OK"
+			"$id"
 
 	item:
 		id = "Open"
@@ -118,6 +145,24 @@ translations:
 		translation:
 			lang = de; check = false
 			"Drucken"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Progress"
+		translation:
+			lang = de; check = false
+			"Fortschritt"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Question"
+		translation:
+			lang = de; check = true
+			"Frage"
 		translation:
 			lang = en
 			"$id"
@@ -159,6 +204,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Warning"
+		translation:
+			lang = de; check = false
+			"Warnung"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "Yes"
 		translation:
 			lang = de; check = true
@@ -167,61 +221,4 @@ translations:
 			lang = en
 			"$id"
 
-# feature labels
-
-	item:
-		id = "Progress"
-		translation:
-			lang = de; check = false
-			"Fortschritt"
-		translation:
-			lang = en
-			"$id"
-
-# feature titles
-
-	item:
-		id = "Confirmation"
-		translation:
-			lang = de; check = true
-			"Bestätigung"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Error"
-		translation:
-			lang = de; check = true
-			"Fehler"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Information"
-		translation:
-			lang = de; check = false
-			"$id"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Question"
-		translation:
-			lang = de; check = true
-			"Frage"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Warning"
-		translation:
-			lang = de; check = false
-			"Warnung"
-		translation:
-			lang = en
-			"$id"
 

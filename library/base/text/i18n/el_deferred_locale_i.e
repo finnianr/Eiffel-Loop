@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:41:48 GMT (Sunday 29th August 2021)"
-	revision: "13"
+	date: "2021-08-30 9:44:26 GMT (Monday 30th August 2021)"
+	revision: "14"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -92,6 +92,11 @@ feature -- Access
 feature -- Status query
 
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
+		deferred
+		end
+
+	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
+			-- translation for source code string in current user language
 		deferred
 		end
 

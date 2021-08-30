@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:57:51 GMT (Monday 2nd August 2021)"
-	revision: "12"
+	date: "2021-08-30 9:44:26 GMT (Monday 30th August 2021)"
+	revision: "13"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -32,6 +32,12 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Status query
+
+	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
+			-- translation for source code string in current user language
+		do
+			Result := True
+		end
 
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 8:45:18 GMT (Sunday 29th August 2021)"
-	revision: "14"
+	date: "2021-08-30 14:47:15 GMT (Monday 30th August 2021)"
+	revision: "15"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -60,6 +60,14 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Status query
+
+	all_conform_to (a_type: TYPE [ANY]): BOOLEAN
+		local
+			type_id: INTEGER
+		do
+			type_id := a_type.type_id
+			Result := across Current as type all Eiffel.type_conforms_to (type.item.type_id, type_id) end
+		end
 
 	is_latin_1_representable: BOOLEAN
 		do
