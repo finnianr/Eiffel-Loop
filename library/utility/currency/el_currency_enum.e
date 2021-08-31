@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 13:08:34 GMT (Tuesday 31st August 2021)"
-	revision: "8"
+	date: "2021-08-31 14:22:59 GMT (Tuesday 31st August 2021)"
+	revision: "9"
 
 class
 	EL_CURRENCY_ENUM
@@ -22,10 +22,20 @@ inherit
 		rename
 			export_name as to_snake_case_upper,
 			import_name as from_snake_case_upper
+		redefine
+			initialize_fields
 		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	initialize_fields
+		do
+			Precursor
+			unit := << HUF, JPY, KRW, TWD >>
+		end
 
 feature -- Access
 
@@ -121,11 +131,8 @@ feature -- Codes
 
 	ZAR: NATURAL_8
 
-	unit: ARRAY [NATURAL_8]
+	unit: ARRAY [NATURAL_8] note option: transient attribute end
 		-- currencies that do not have decimal fractions (according to Paypal at least)
-		do
-			Result := << HUF, JPY, TWD >>
-		end
 
 feature {NONE} -- Constants
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 10:26:36 GMT (Tuesday 31st August 2021)"
-	revision: "6"
+	date: "2021-08-31 14:48:51 GMT (Tuesday 31st August 2021)"
+	revision: "7"
 
 class
 	EL_PASSPHRASE_ATTRIBUTE_MAP
@@ -47,7 +47,6 @@ feature -- Measurement
 		do
 			across Current as list loop
 				Result := Result + list.item.to_integer
-				forth
 			end
 		end
 
