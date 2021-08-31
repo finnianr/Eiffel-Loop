@@ -5,7 +5,7 @@ pyxis-doc:
 
 translations:
 	item:
-		id = "{has_upper_case}"
+		id = "{has-upper-case}"
 		translation:
 			lang = de; check = false
 			"Enthält ein Großbuchstaben"
@@ -14,7 +14,7 @@ translations:
 			"Contains an upper-case character"
 
 	item:
-		id = "{has_lower_case}"
+		id = "{has-lower-case}"
 		translation:
 			lang = de; check = false
 			"Enthält Kleinbuchstaben"
@@ -23,7 +23,7 @@ translations:
 			"Contains a lower-case character"
 
 	item:
-		id = "{has_numeric}"
+		id = "{has-numeric}"
 		translation:
 			lang = de; check = false
 			"Enthält ein numerisches Zeichen"
@@ -32,7 +32,7 @@ translations:
 			"Contains a numeric character"
 
 	item:
-		id = "{has_symbolic}"
+		id = "{has-symbolic}"
 		translation:
 			lang = de; check = false
 			"Enthält ein symbolisches Zeichen (^ % # usw.)"
@@ -40,7 +40,7 @@ translations:
 			lang = en
 			"Contains a symbolic character (^ % # etc)"
 	item:
-		id = "{has_at_least_8}"
+		id = "{has-at-least-8}"
 		translation:
 			lang = de; check = false
 			"Enthält mindestens 8 Zeichen"
@@ -48,7 +48,7 @@ translations:
 			lang = en
 			"Contains at least 8 characters"
 	item:
-		id = "{has_at_least_12}"
+		id = "{has-at-least-12}"
 		translation:
 			lang = de; check = false
 			"Enthält mindestens 12 Zeichen"

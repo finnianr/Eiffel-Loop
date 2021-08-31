@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 14:47:25 GMT (Monday 30th August 2021)"
-	revision: "22"
+	date: "2021-08-31 12:05:07 GMT (Tuesday 31st August 2021)"
+	revision: "23"
 
 deferred class
 	EL_LOCALE_I
@@ -187,9 +187,9 @@ feature -- Status query
 
 feature -- Contract Support
 
-	all_readable_strings (a_tuple: TUPLE): BOOLEAN
+	all_readable_strings (key_tuple: TUPLE): BOOLEAN
 		do
-			Result := Tuple.type_array (a_tuple).all_conform_to ({READABLE_STRING_GENERAL})
+			Result := Tuple.all_readable_strings (key_tuple)
 		end
 
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN

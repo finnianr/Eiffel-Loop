@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 12:44:17 GMT (Friday 30th July 2021)"
-	revision: "19"
+	date: "2021-08-31 10:47:27 GMT (Tuesday 31st August 2021)"
+	revision: "20"
 
 class
 	EL_AES_CREDENTIAL
@@ -28,8 +28,6 @@ inherit
 			{ANY} valid_key_bit_count
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
-
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_LIO
@@ -37,6 +35,8 @@ inherit
 	EL_MODULE_BASE_64
 
 	EL_SHARED_PASSPHRASE_ATTRIBUTE
+
+	EL_SHARED_PASSPHRASE_TEXTS
 
 create
 	make, make_default
@@ -81,13 +81,13 @@ feature -- Element change
 			done: BOOLEAN
 		do
 			from until done loop
-				phrase := User_input.line (User_prompt)
+				phrase := User_input.line (Text.enter_passphrase)
 				lio.put_new_line
 				if is_salt_set then
 					if is_valid then
 						done := True
 					else
-						lio.put_line (Invalid_pass_phrase)
+						lio.put_line (Text.passphrase_is_invalid)
 					end
 				else
 					validate
@@ -225,15 +225,5 @@ feature {NONE} -- Evolicity fields
 feature {NONE} -- Constants
 
 	Salt_count: INTEGER = 24
-
-	Invalid_pass_phrase: ZSTRING
-		once
-			Result := Locale * "Pass phrase is invalid"
-		end
-
-	User_prompt: ZSTRING
-		once
-			Result := Locale * "Enter pass phrase"
-		end
 
 end

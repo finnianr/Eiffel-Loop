@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 14:31:21 GMT (Sunday 29th August 2021)"
-	revision: "21"
+	date: "2021-08-31 12:15:02 GMT (Tuesday 31st August 2021)"
+	revision: "22"
 
 class
 	EL_TUPLE_ROUTINES
@@ -40,6 +40,12 @@ feature -- Access
 		-- Caches results in `types_table'
 		do
 			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
+		end
+
+	all_readable_strings (tuple: TUPLE): BOOLEAN
+		-- True if all `tuple' items conform to `READABLE_STRING_GENERAL'
+		do
+			Result := type_array (tuple).all_conform_to ({READABLE_STRING_GENERAL})
 		end
 
 feature -- Conversion
@@ -195,7 +201,7 @@ feature -- Basic operations
 				index := start_index + list.index - 1
 				if tuple.item_code (index) = {TUPLE}.Reference_code and then
 					Eiffel.field_conforms_to (result_type_id, tuple_types [index].type_id)
-					and then attached a_new_item (list.item (False)) as new
+					and then attached a_new_item (list.item (True)) as new
 				then
 					tuple.put_reference (new, index)
 				end

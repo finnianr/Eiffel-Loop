@@ -1,6 +1,7 @@
 note
 	description: "[
-		Reflective initialization of localized string fields based on deferred `Locale' conforming to [$source EL_DEFERRED_LOCALE_I]
+		Reflective initialization of localized string fields based on deferred `Locale'
+		conforming to [$source EL_DEFERRED_LOCALE_I]
 	]"
 	notes: "See end of class"
 
@@ -9,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 11:34:26 GMT (Monday 30th August 2021)"
-	revision: "9"
+	date: "2021-08-31 10:08:51 GMT (Tuesday 31st August 2021)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -35,45 +36,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-feature {NONE} -- Initialization
-
-	initialize_fields
-		local
-			eng_table: like new_english_table
-			key, text_field: ZSTRING; text_differs: BOOLEAN
-			lower_case, upper_case, title_case: like None
-			text_case: INTEGER
-		do
-			Precursor
-			lower_case := lower_case_texts; title_case := title_case_texts; upper_case := upper_case_texts
-			eng_table := new_english_table
-			across field_table as field loop
-				if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
-					text_field := l_field.value (current_reflective)
-					if lower_case.has (text_field) then
-						text_case := Case_lower
-					elseif upper_case.has (text_field) then
-						text_case := Case_upper
-					elseif title_case.has (text_field) then
-						text_case := Case_proper
-					else
-						text_case := Case_first_upper -- The default is first letter capitalized
-					end
-				end
-				text_differs := eng_table.has_key (field.key)
-				key := translation_key (field.key, text_case, text_differs)
-				if text_differs and then Locale.english_only then
-					locale.set_next_translation (eng_table.found_item)
-				end
-				if locale.has_key (key) then
-					text_field.share (locale * key)
-				elseif attached keys_not_found as list then
-					list.extend (key.twin)
-				else
-					create keys_not_found.make_from_array (<< key.twin >>)
-				end
-			end
-		end
+feature {EL_MODULE_EIFFEL} -- Initialization
 
 	make
 		do
@@ -86,9 +49,72 @@ feature {NONE} -- Initialization
 			make_default
 		end
 
+feature {NONE} -- Initialization
+
+	initialize_fields
+		require else
+			valid_english_table: valid_english_table
+		local
+			key, text_field: ZSTRING; text_differs: BOOLEAN
+			lower_case, upper_case, title_case: like None
+			text_case: INTEGER
+		do
+			Precursor
+			lower_case := lower_case_texts; title_case := title_case_texts; upper_case := upper_case_texts
+			if attached new_english_table as eng_table then
+				across field_table as field loop
+					if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
+						text_field := l_field.value (current_reflective)
+						if lower_case.has (text_field) then
+							text_case := Case_lower
+						elseif upper_case.has (text_field) then
+							text_case := Case_upper
+						elseif title_case.has (text_field) then
+							text_case := Case_proper
+						else
+							text_case := Case_first_upper -- The default is first letter capitalized
+						end
+					end
+					text_differs := eng_table.has_key (field.key)
+					key := translation_key (field.key, text_case, text_differs)
+					if text_differs and then Locale.english_only then
+						locale.set_next_translation (eng_table.found_item)
+					end
+					if locale.has_key (key) then
+						text_field.share (locale * key)
+					elseif attached missing_keys_list as list then
+						list.extend (key.twin)
+					else
+						create missing_keys_list.make_from_array (<< key.twin >>)
+					end
+			end
+			end
+		ensure then
+			no_missing_keys: not attached missing_keys_list
+		end
+
 feature -- Access
 
-	keys_not_found: detachable ARRAYED_LIST [ZSTRING] note option: transient attribute end
+	missing_keys_list: detachable ARRAYED_LIST [ZSTRING] note option: transient attribute end
+		-- list of keys not found
+
+	text_list: EL_ZSTRING_LIST
+		-- list of all texts
+		do
+			create Result.make (field_table.count)
+			across field_table as field loop
+				if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
+					Result.extend (l_field.value (current_reflective))
+				end
+			end
+		end
+
+feature -- Contract Support
+
+	valid_english_table: BOOLEAN
+		do
+			Result := across new_english_table as table all field_table.has (table.key) end
+		end
 
 feature {NONE} -- Deferred
 
@@ -122,16 +148,8 @@ feature {NONE} -- Case group sets
 feature {NONE} -- Implementation
 
 	all_texts: like None
-		local
-			list: ARRAYED_LIST [ZSTRING]
 		do
-			create list.make (field_table.count)
-			across field_table as field loop
-				if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
-					list.extend (l_field.value (current_reflective))
-				end
-			end
-			Result := list.to_array
+			Result := text_list.to_array
 		end
 
 	joined (precursor_lines, lines: STRING): STRING
@@ -150,8 +168,6 @@ feature {NONE} -- Implementation
 				text.replace_substring_all (Substitution.string, Substitution.character)
 			end
 			create Result.make (text)
-		ensure
-			valid_table: across Result as table all field_table.has (table.key) end
 		end
 
 	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING

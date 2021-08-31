@@ -9,26 +9,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:49:02 GMT (Monday 2nd August 2021)"
-	revision: "5"
+	date: "2021-08-31 10:26:36 GMT (Tuesday 31st August 2021)"
+	revision: "6"
 
 class
 	EL_PASSPHRASE_ATTRIBUTE_MAP
 
 inherit
-	EL_ARRAYED_MAP_LIST [ZSTRING, BOOLEAN]
+	HASH_TABLE [BOOLEAN, ZSTRING]
 		rename
-			make as make_with_count,
-			item_key as item_attribute,
-			item_value as item_has_attribute
+			make as make_with_count
 		export
 			{NONE} all
-			{ANY} start, forth, after, index, item, item_attribute, item_has_attribute
+			{ANY} new_cursor
 		end
 
 	EL_SHARED_PASSPHRASE_ATTRIBUTE
-
-	EL_MODULE_DEFERRED_LOCALE
 
 create
 	make
@@ -36,17 +32,22 @@ create
 feature {NONE} -- Initialization
 
 	make
-		local
-			key: ZSTRING
 		do
-			make_with_count (Passphrase_attribute.count)
-			across Passphrase_attribute.list as value loop
-				key := Passphrase_attribute.field_name (value.item)
-				key.enclose ('{', '}')
-				if Locale.english_only then
-					Locale.set_next_translation (Passphrase_attribute.description (value.item))
+			if attached Passphrase_attribute.text_list as text_list then
+				make_with_count (text_list.count)
+				across text_list as list loop
+					extend (False, list.item)
 				end
-				extend (Locale * key, False)
+			end
+		end
+
+feature -- Measurement
+
+	score: INTEGER
+		do
+			across Current as list loop
+				Result := Result + list.item.to_integer
+				forth
 			end
 		end
 
@@ -56,36 +57,35 @@ feature -- Element change
 		local
 			i: INTEGER; c: CHARACTER_32
 		do
+			reset
 			from i := 1 until i > passphrase.count loop
 				c := passphrase [i]
 				if c.is_digit then
-					i_th (Passphrase_attribute.has_numeric).value := True
+					force (True, Passphrase_attribute.has_numeric)
 				elseif c.is_alpha then
 					if c.is_upper then
-						i_th (Passphrase_attribute.has_upper_case).value := True
+						force (True, Passphrase_attribute.has_upper_case)
 					else
-						i_th (Passphrase_attribute.has_lower_case).value := True
+						force (True, Passphrase_attribute.has_lower_case)
 					end
 				else
-					i_th (Passphrase_attribute.has_symbolic).value := True
+					force (True, Passphrase_attribute.has_symbolic)
 				end
 				i := i + 1
 			end
 			if passphrase.count >= 8 then
-				i_th (Passphrase_attribute.has_at_least_8).value := True
+				force (True, Passphrase_attribute.has_at_least_8)
 			end
 			if passphrase.count >= 12 then
-				i_th (Passphrase_attribute.has_at_least_12).value := True
+				force (True, Passphrase_attribute.has_at_least_12)
 			end
 		end
 
-feature -- Measurement
-
-	score: INTEGER
+	reset
 		do
-			from start until after loop
-				Result := Result + item_has_attribute.to_integer
-				forth
+			across current_keys as key loop
+				force (False, key.item)
 			end
 		end
+
 end

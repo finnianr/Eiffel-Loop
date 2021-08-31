@@ -6,6 +6,10 @@ pyxis-doc:
 # Currencies accepted internationally by Paypal, except Taiwanese New Dollars
 # https://developer.paypal.com/docs/classic/api/currency_codes/#id09A6G0U0GYK
 
+# Formats
+# https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+# https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
+
 translations:
 	# Formats
 	item:
@@ -16,6 +20,24 @@ translations:
 		translation:
 			lang = en
 			"$ # ###.##"
+
+	item:
+		id = "{BGN-format}"
+		translation:
+			lang = de; check = true
+			"#.###,## Лв"
+		translation:
+			lang = en
+			"#.###,## Лв"
+
+	item:
+		id = "{BRL-format}"
+		translation:
+			lang = de; check = true
+			"R$ #.###,##"
+		translation:
+			lang = en
+			"R$ #.###,##"
 
 	item:
 		id = "{CAD-format}"
@@ -34,6 +56,15 @@ translations:
 		translation:
 			lang = en
 			"#'###.## CHF"
+
+	item:
+		id = "{CNY-format}"
+		translation:
+			lang = de; check = true
+			"¥ #.###,##"
+		translation:
+			lang = en
+			"¥ #,###.##"
 
 	item:
 		id = "{CZK-format}"
@@ -81,6 +112,15 @@ translations:
 			"HK$ #,###.##"
 
 	item:
+		id = "{HRK-format}"
+		translation:
+			lang = de; check = true
+			"#.###,## Kn"
+		translation:
+			lang = en
+			"#.###,## Kn"
+
+	item:
 		id = "{HUF-format}"
 		translation:
 			lang = de; check = true
@@ -90,6 +130,15 @@ translations:
 			"#.### Ft"
 
 	item:
+		id = "{IDR-format}"
+		translation:
+			lang = de; check = true
+			"Rp #.###,##"
+		translation:
+			lang = en
+			"Rp #.###,##"
+
+	item:
 		id = "{ILS-format}"
 		translation:
 			lang = de; check = true
@@ -97,6 +146,24 @@ translations:
 		translation:
 			lang = en
 			"#,###.## ₪"
+
+	item:
+		id = "{INR-format}"
+		translation:
+			lang = de; check = true
+			"#,##,###.## ₹"
+		translation:
+			lang = en
+			"₹ #,##,###.##"
+
+	item:
+		id = "{KRW-format}"
+		translation:
+			lang = de; check = true
+			"#,### ₩"
+		translation:
+			lang = en
+			"₩ #,###"
 
 	item:
 		id = "{JPY-format}"
@@ -115,6 +182,15 @@ translations:
 		translation:
 			lang = en
 			"$ #,###.##"
+
+	item:
+		id = "{MYR-format}"
+		translation:
+			lang = de; check = true
+			"#,###.## RM"
+		translation:
+			lang = en
+			"RM #,###.##"
 
 	item:
 		id = "{NOK-format}"
@@ -153,6 +229,15 @@ translations:
 			"# ###,## zł"
 
 	item:
+		id = "{RON-format}"
+		translation:
+			lang = de; check = true
+			"#.###,## leu"
+		translation:
+			lang = en
+			"leu #.###,##"
+
+	item:
 		id = "{RUB-format}"
 		translation:
 			lang = de; check = true
@@ -189,6 +274,15 @@ translations:
 			"฿ #,###.##"
 
 	item:
+		id = "{TRY-format}"
+		translation:
+			lang = de; check = true
+			"#,###.## YTL"
+		translation:
+			lang = en
+			"YTL #,###.##"
+
+	item:
 		id = "{TWD-format}"
 		translation:
 			lang = de; check = true
@@ -205,6 +299,15 @@ translations:
 		translation:
 			lang = en
 			"$ #,###.##"
+
+	item:
+		id = "{ZAR-format}"
+		translation:
+			lang = de; check = true
+			"# ###.## R"
+		translation:
+			lang = en
+			"R # ###.##"
 	
 	# Names
 	item:
@@ -215,6 +318,33 @@ translations:
 		translation:
 			lang = en
 			"Australian Dollars"
+
+	item:
+		id = "{BGN}"
+		translation:
+			lang = de; check = true
+			"Bulgarischer Lev"
+		translation:
+			lang = en
+			"Bulgarian Lev"
+
+	item:
+		id = "{BRL}"
+		translation:
+			lang = de; check = true
+			"Brasilianischer Real"
+		translation:
+			lang = en
+			"Brazilian Real"
+
+	item:
+		id = "{CNY}"
+		translation:
+			lang = de; check = true
+			"Yuan Renminbi"
+		translation:
+			lang = en
+			"Yuan Renminbi"
 
 	item:
 		id = "{GBP}"
@@ -233,6 +363,15 @@ translations:
 		translation:
 			lang = en
 			"Canadian Dollars"
+
+	item:
+		id = "{CHF}"
+		translation:
+			lang = de; check = true
+			"Schweizer Franken"
+		translation:
+			lang = en
+			"Swiss Francs"
 
 	item:
 		id = "{CZK}"
@@ -270,6 +409,15 @@ translations:
 			"Hong Kong Dollars"
 
 	item:
+		id = "{HRK}"
+		translation:
+			lang = de; check = true
+			"Kroatische Kuna"
+		translation:
+			lang = en
+			"Croatian kuna"
+
+	item:
 		id = "{HUF}"
 		translation:
 			lang = de; check = true
@@ -277,6 +425,15 @@ translations:
 		translation:
 			lang = en
 			"Hungarian Forints"
+
+	item:
+		id = "{IDR}"
+		translation:
+			lang = de; check = true
+			"Indonesien Rupiah"
+		translation:
+			lang = en
+			"Indonesian Rupiah"
 
 	item:
 		id = "{ILS}"
@@ -288,6 +445,15 @@ translations:
 			"Israeli New Sheqels"
 
 	item:
+		id = "{INR}"
+		translation:
+			lang = de; check = true
+			"Indische Rupie"
+		translation:
+			lang = en
+			"Indian Rupee"
+
+	item:
 		id = "{JPY}"
 		translation:
 			lang = de; check = true
@@ -295,6 +461,14 @@ translations:
 		translation:
 			lang = en
 			"Japanese Yen"
+	item:
+		id = "{KRW}"
+		translation:
+			lang = de; check = true
+			"Südkorea hat gewonnen"
+		translation:
+			lang = en
+			"South Korea Won"
 	item:
 		id = "{MXN}"
 		translation:
@@ -304,6 +478,14 @@ translations:
 			lang = en
 			"Mexican Pesos"
 
+	item:
+		id = "{MYR}"
+		translation:
+			lang = de; check = true
+			"Malaysische Ringgit"
+		translation:
+			lang = en
+			"Malaysian Ringgit"
 	item:
 		id = "{NOK}"
 		translation:
@@ -341,6 +523,15 @@ translations:
 			"Polish Zlotys"
 
 	item:
+		id = "{RON}"
+		translation:
+			lang = de; check = true
+			"Rumänischer Neuer Leu"
+		translation:
+			lang = en
+			"Romanian New Leu"
+
+	item:
 		id = "{RUB}"
 		translation:
 			lang = de; check = true
@@ -348,7 +539,6 @@ translations:
 		translation:
 			lang = en
 			"Russian Rubles"
-
 	item:
 		id = "{SGD}"
 		translation:
@@ -368,15 +558,6 @@ translations:
 			"Swedish Kronas"
 
 	item:
-		id = "{CHF}"
-		translation:
-			lang = de; check = true
-			"Schweizer Franken"
-		translation:
-			lang = en
-			"Swiss Francs"
-
-	item:
 		id = "{THB}"
 		translation:
 			lang = de; check = true
@@ -384,6 +565,15 @@ translations:
 		translation:
 			lang = en
 			"Thai Bahts"
+
+	item:
+		id = "{TRY}"
+		translation:
+			lang = de; check = true
+			"Neue türkische Lira"
+		translation:
+			lang = en
+			"New Turkish Lira"
 
 	item:
 		id = "{TWD}"
@@ -402,4 +592,13 @@ translations:
 		translation:
 			lang = en
 			"US Dollars"
+
+	item:
+		id = "{ZAR}"
+		translation:
+			lang = de; check = true
+			"Südafrikanischer Rand"
+		translation:
+			lang = en
+			"South African Rand"
 

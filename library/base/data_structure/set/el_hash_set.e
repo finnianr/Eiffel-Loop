@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 10:48:49 GMT (Monday 16th August 2021)"
-	revision: "15"
+	date: "2021-08-30 21:02:11 GMT (Monday 30th August 2021)"
+	revision: "16"
 
 class
 	EL_HASH_SET [G -> HASHABLE]
@@ -61,10 +61,8 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_list (list: ITERABLE [G])
-		local
-			iterable: EL_ITERABLE_ROUTINES
 		do
-			make (iterable.count (list))
+			make (Iterable.count (list))
 			across list as l loop
 				extend (l.item)
 			end

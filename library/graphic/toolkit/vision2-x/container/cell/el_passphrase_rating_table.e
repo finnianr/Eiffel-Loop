@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:49:29 GMT (Monday 2nd August 2021)"
-	revision: "3"
+	date: "2021-08-31 10:35:39 GMT (Tuesday 31st August 2021)"
+	revision: "4"
 
 class
 	EL_PASSPHRASE_RATING_TABLE
@@ -26,6 +26,8 @@ inherit
 
 	EL_MODULE_VISION_2
 
+	EL_SHARED_PASSPHRASE_TEXTS
+
 create
 	make
 
@@ -38,9 +40,8 @@ feature {NONE} -- Initialization
 			make_box (0, 0.2)
 
 			create phrase_attributes.make
-			from phrase_attributes.start until phrase_attributes.after loop
-				add_row (new_label (phrase_attributes.item_attribute), check_list [phrase_attributes.index])
-				phrase_attributes.forth
+			across phrase_attributes as table loop
+				add_row (new_label (table.key), check_list [table.cursor_index])
 			end
 			add_row (score_label, secure_enough_check)
 			add_row (minimum_score_label, create {EV_CELL})
@@ -62,9 +63,8 @@ feature -- Status change
 			score_label.set_text (Score_template #$ [phrase_attributes.score])
 			secure_enough_check.set_checked (minimum_score_met)
 
-			from phrase_attributes.start until phrase_attributes.after loop
-				check_list.i_th (phrase_attributes.index).set_checked (phrase_attributes.item_has_attribute)
-				phrase_attributes.forth
+			across phrase_attributes as table loop
+				check_list.i_th (table.cursor_index).set_checked (table.item)
 			end
 		end
 
@@ -138,18 +138,12 @@ feature {NONE} -- Constants
 
 	Minimum_score_template: ZSTRING
 		once
-			if Locale.english_only then
-				Locale.set_next_translation ("(Minimum is %S)")
-			end
-			Result := Locale * "{minimum-score}"
+			Result := Text.minimum_score
 		end
 
 	Score_template: ZSTRING
 		once
-			if Locale.english_only then
-				Locale.set_next_translation ("Passphrase strength (%S / 6)")
-			end
-			Result := Locale * "{passphrase-strength}"
+			Result := Text.passphrase_strength
 		end
 
 end

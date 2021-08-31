@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 10:07:49 GMT (Saturday 28th November 2020)"
-	revision: "7"
+	date: "2021-08-31 13:08:34 GMT (Tuesday 31st August 2021)"
+	revision: "8"
 
 class
 	EL_CURRENCY_ENUM
@@ -28,6 +28,32 @@ create
 	make
 
 feature -- Access
+
+	format_for (locale: EL_DEFERRED_LOCALE_I; code: NATURAL_8): ZSTRING
+		do
+			Result := locale * Format_key #$ [name (code)]
+		end
+
+	name_for (locale: EL_DEFERRED_LOCALE_I; code: NATURAL_8): ZSTRING
+		do
+			Result := locale * Name_key #$ [name (code)]
+		end
+
+feature -- Status query
+
+	translations_available (locale: EL_DEFERRED_LOCALE_I): BOOLEAN
+		do
+			Result := across list as code all
+				locale.has_key (Format_key #$ [name (code.item)])
+			end
+			if Result then
+				Result := across list as code all
+					locale.has_key (Name_key #$ [name (code.item)])
+				end
+			end
+		end
+
+feature -- Codes
 
 	AUD: NATURAL_8
 
@@ -65,9 +91,9 @@ feature -- Access
 
 	KRW: NATURAL_8
 
-	MYR: NATURAL_8
-
 	MXN: NATURAL_8
+
+	MYR: NATURAL_8
 
 	NOK: NATURAL_8
 
@@ -99,6 +125,18 @@ feature -- Access
 		-- currencies that do not have decimal fractions (according to Paypal at least)
 		do
 			Result := << HUF, JPY, TWD >>
+		end
+
+feature {NONE} -- Constants
+
+	Format_key: ZSTRING
+		once
+			Result := "{%S-format}"
+		end
+
+	Name_key: ZSTRING
+		once
+			Result := "{%S}"
 		end
 
 end

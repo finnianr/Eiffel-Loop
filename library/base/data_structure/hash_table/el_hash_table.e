@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 10:12:28 GMT (Monday 16th August 2021)"
-	revision: "11"
+	date: "2021-08-30 21:00:58 GMT (Monday 30th August 2021)"
+	revision: "12"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -20,8 +20,10 @@ inherit
 			default_create, new_cursor
 		end
 
+	EL_MODULE_ITERABLE
+
 create
-	 default_create, make, make_size, make_equal, make_from_map_list
+	 default_create, make, make_size, make_equal, make_from_map_list, make_from_values
 
 feature {NONE} -- Initialization
 
@@ -48,6 +50,18 @@ feature {NONE} -- Initialization
 			from map.start until map.after loop
 				put (map.item_value, map.item_key)
 				map.forth
+			end
+		end
+
+	make_from_values (list: ITERABLE [G]; to_key: FUNCTION [G, K]; compare_equal: BOOLEAN)
+		do
+			if compare_equal then
+				make_equal (Iterable.count (list))
+			else
+				make_size (Iterable.count (list))
+			end
+			across list as value loop
+				extend (value.item, to_key (value.item))
 			end
 		end
 

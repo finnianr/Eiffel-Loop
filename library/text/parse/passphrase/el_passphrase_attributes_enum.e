@@ -6,39 +6,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 11:53:54 GMT (Monday 7th September 2020)"
-	revision: "1"
+	date: "2021-08-31 10:10:21 GMT (Tuesday 31st August 2021)"
+	revision: "2"
 
 class
 	EL_PASSPHRASE_ATTRIBUTES_ENUM
 
 inherit
-	EL_DESCRIPTIVE_ENUMERATION [NATURAL_8]
-		rename
-			export_name as export_default,
-			import_name as import_default
-		end
+	EL_REFLECTIVE_LOCALE_TEXTS
 
 create
 	make
 
-feature -- Access
+feature -- Values
 
-	has_upper_case: NATURAL_8
+	has_at_least_12: ZSTRING
 
-	has_lower_case: NATURAL_8
+	has_at_least_8: ZSTRING
 
-	has_numeric: NATURAL_8
+	has_lower_case: ZSTRING
 
-	has_symbolic: NATURAL_8
+	has_numeric: ZSTRING
 
-	has_at_least_8: NATURAL_8
+	has_symbolic: ZSTRING
 
-	has_at_least_12: NATURAL_8
+	has_upper_case: ZSTRING
 
 feature {NONE} -- Constants
 
-	Descriptions: STRING = "[
+	English_table: STRING = "[
 		has_upper_case:
 			Contains an upper-case character
 		has_lower_case:

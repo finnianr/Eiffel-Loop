@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
-	revision: "14"
+	date: "2021-08-31 11:17:45 GMT (Tuesday 31st August 2021)"
+	revision: "15"
 
 class
 	EL_CURRENCY
@@ -35,7 +35,7 @@ feature {EL_CURRENCY_LOCALE} -- Initialization
 		do
 			language := a_language; code := a_code; has_decimal := a_has_decimal
 			separator := [',', '.']
-			set_format_and_symbol (Locale.in (a_language) * Format_key #$ [code_name])
+			set_format_and_symbol (Currency_enum.format_for (Locale.in (a_language), a_code))
 			make_default
 		end
 
@@ -88,7 +88,7 @@ feature -- Access
 
 	name: ZSTRING
 		do
-			Result := Locale.in (language) * (Name_key_template #$ [code_name])
+			Result := Currency_enum.name_for (Locale.in (language), code)
 		end
 
 	separator: TUPLE [threes, decimal: CHARACTER]
@@ -140,18 +140,6 @@ feature {NONE} -- Evolicity
 				["name", agent: ZSTRING do Result := name end],
 				["symbol", agent: ZSTRING do Result := symbol end]
 			>>)
-		end
-
-feature {NONE} -- Constants
-
-	Name_key_template: ZSTRING
-		once
-			Result := "{%S}"
-		end
-
-	Format_key: ZSTRING
-		once
-			Result := "{%S-format}"
 		end
 
 end
