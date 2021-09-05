@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:08:19 GMT (Friday 11th June 2021)"
-	revision: "24"
+	date: "2021-09-05 11:51:03 GMT (Sunday 5th September 2021)"
+	revision: "25"
 
 class
 	EL_URI
@@ -34,7 +34,7 @@ inherit
 			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring
 			{STRING_HANDLER} append, append_string_general, wipe_out, share, prune_all_trailing
 		redefine
-			make
+			make, to_string_32
 		end
 
 create
@@ -138,12 +138,22 @@ feature -- Conversion
 		end
 
 	to_string: ZSTRING
-		local
-			l_path: like Uri_path
+		-- decoded string
 		do
-			l_path := Uri_path; l_path.wipe_out
-			l_path.append_substring (Current, 1, path_end_index (path_start_index))
-			Result := l_path.decoded
+			Result := to_uri_path.decoded
+		end
+
+	to_string_32: STRING_32
+		-- decoded unicode string
+		do
+			Result := to_uri_path.decoded_32 (True)
+		end
+
+feature -- Basic operations
+
+	append_to (general: STRING_GENERAL)
+		do
+			general.append (to_uri_path.decoded_32 (False))
 		end
 
 feature -- Element change
@@ -180,6 +190,25 @@ feature -- Element change
 			replace_substring (a_authority.to_string_8, start_index, authority_end_index (start_index))
 		end
 
+	set_encoded_query (encoded: READABLE_STRING_8)
+		local
+			start_index: INTEGER
+		do
+			start_index := query_start_index
+			if start_index > 0 then
+				replace_substring (encoded, start_index, query_end_index (start_index))
+			else
+				start_index := fragment_start_index
+				if start_index > 0 then
+					insert_character ('?', start_index - 1)
+					insert_string (encoded, start_index)
+				else
+					append_character ('?')
+					append (encoded)
+				end
+			end
+		end
+
 	set_fragment (str: READABLE_STRING_GENERAL)
 		local
 			start_index: INTEGER
@@ -211,25 +240,6 @@ feature -- Element change
 			set_encoded_query (once_encoded (Uri_query, str))
 		end
 
-	set_encoded_query (encoded: READABLE_STRING_8)
-		local
-			start_index: INTEGER
-		do
-			start_index := query_start_index
-			if start_index > 0 then
-				replace_substring (encoded, start_index, query_end_index (start_index))
-			else
-				start_index := fragment_start_index
-				if start_index > 0 then
-					insert_character ('?', start_index - 1)
-					insert_string (encoded, start_index)
-				else
-					append_character ('?')
-					append (encoded)
-				end
-			end
-		end
-
 	set_scheme (a_scheme: READABLE_STRING_GENERAL)
 		do
 			replace_substring (a_scheme.to_string_8, 1, scheme_end_index)
@@ -249,16 +259,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	authority_start_index: INTEGER
-		local
-			index: INTEGER
-		do
-			index := substring_index (Colon_slash_x2, 1)
-			if index > 0 then
-				Result := index + Colon_slash_x2.count
-			end
-		end
-
 	authority_end_index (start_index: INTEGER): INTEGER
 		local
 			index: INTEGER
@@ -268,6 +268,16 @@ feature {NONE} -- Implementation
 				if index > 0 then
 					Result := index - 1
 				end
+			end
+		end
+
+	authority_start_index: INTEGER
+		local
+			index: INTEGER
+		do
+			index := substring_index (Colon_slash_x2, 1)
+			if index > 0 then
+				Result := index + Colon_slash_x2.count
 			end
 		end
 
@@ -385,6 +395,12 @@ feature {NONE} -- Implementation
 			if keep_ref then
 				Result := Result.twin
 			end
+		end
+
+	to_uri_path: like Uri_path
+		do
+			Result := Uri_path; Result.wipe_out
+			Result.append_substring (Current, 1, path_end_index (path_start_index))
 		end
 
 feature {STRING_HANDLER} -- Constants

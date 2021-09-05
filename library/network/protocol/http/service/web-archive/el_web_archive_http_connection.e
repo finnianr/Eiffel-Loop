@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:21:39 GMT (Monday 16th November 2020)"
-	revision: "6"
+	date: "2021-09-05 11:06:11 GMT (Sunday 5th September 2021)"
+	revision: "7"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -23,7 +23,7 @@ create
 
 feature -- Access
 
-	wayback (a_url: like url): EL_WAYBACK_CLOSEST
+	wayback (a_url: STRING): EL_WAYBACK_CLOSEST
 		local
 			pos_closest, pos_left, pos_right: INTEGER; json: STRING
 		do
@@ -90,14 +90,11 @@ feature {NONE} -- Constants
 		"closest":
 	]"
 
-	Parameter_table: HASH_TABLE [ZSTRING, STRING]
+	Parameter_table: HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (1)
 		end
 
-	Wayback_available_url: ZSTRING
-		once
-			Result := "http://archive.org/wayback/available"
-		end
+	Wayback_available_url: STRING = "http://archive.org/wayback/available"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 13:10:16 GMT (Tuesday 9th February 2021)"
-	revision: "24"
+	date: "2021-09-05 10:20:59 GMT (Sunday 5th September 2021)"
+	revision: "25"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -108,10 +108,10 @@ feature -- Basic operations
 			if not is_sent then
 				content_buffer := encoded_content
 
-				set_header (Header.server, once "Eiffel-Loop FCGI servlet")
 				set_header (Header.status, status_message)
 				set_header (Header.content_length, content_buffer.count.out)
 				set_header (Header.content_type, content_type.specification)
+				set_header (Header.x_powered_by, Powered_by)
 
 				if status = Http_status.ok then
 					set_cookie_headers
@@ -321,5 +321,7 @@ feature {NONE} -- Constants
 		end
 
 	Expired_date: STRING = "Tue, 01-Jan-1970 00:00:00 GMT"
+
+	Powered_by: STRING = "Eiffel-Loop Fast-CGI servlets"
 
 end

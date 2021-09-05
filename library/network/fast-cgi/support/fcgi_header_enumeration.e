@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 9:33:16 GMT (Wednesday 16th June 2021)"
-	revision: "3"
+	date: "2021-09-05 10:18:30 GMT (Sunday 5th September 2021)"
+	revision: "4"
 
 class
 	FCGI_HEADER_ENUMERATION
@@ -22,7 +22,7 @@ inherit
 create
 	make
 
-feature -- Access
+feature -- Standard Headers
 
 	cache_control: NATURAL_8
 
@@ -41,6 +41,10 @@ feature -- Access
 	server: NATURAL_8
 
 	status: NATURAL_8
+
+feature -- Common non-standard
+
+	x_powered_by: NATURAL_8
 
 feature {NONE} -- Implementation
 

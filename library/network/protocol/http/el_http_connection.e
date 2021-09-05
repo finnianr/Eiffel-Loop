@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 7:43:22 GMT (Wednesday 16th June 2021)"
-	revision: "31"
+	date: "2021-09-05 11:00:42 GMT (Sunday 5th September 2021)"
+	revision: "32"
 
 class
 	EL_HTTP_CONNECTION
@@ -173,6 +173,15 @@ feature -- Status query
 			Result := has_http_error (503)
 		end
 
+	is_url_encoded (a_url: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if a_url.is_string_8 and then attached a_url.as_string_8 as str_8 then
+				Result := s.is_ascii (str_8)
+			end
+		end
+
 feature -- Basic operations
 
 	close
@@ -200,6 +209,8 @@ feature -- Basic operations
 		end
 
 	open (a_url: READABLE_STRING_GENERAL)
+		require
+			not_already_url_encoded: not is_url_encoded (a_url)
 		do
 			open_with_parameters (a_url, Default_parameter_table)
 		end
@@ -222,8 +233,9 @@ feature -- Basic operations
 
 	open_url (a_url: EL_URL)
 		do
+			url.wipe_out; a_url.append_to (url)
 			if is_lio_enabled then
-				lio.put_labeled_string ("open", a_url.to_string); lio.put_new_line
+				lio.put_labeled_string ("open_url", url); lio.put_new_line
 			end
 			reset
 			make_from_pointer (Curl.new_pointer)

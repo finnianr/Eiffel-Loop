@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 9:24:41 GMT (Sunday 5th September 2021)"
-	revision: "32"
+	date: "2021-09-05 10:11:14 GMT (Sunday 5th September 2021)"
+	revision: "33"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -245,12 +245,19 @@ feature -- Tests
 
 	test_url_encoded
 		local
-			url: EL_URL; title: ZSTRING
+			url: STRING; s: EL_STRING_8_ROUTINES
 		do
-			web.open_url ("https://www.ichingmeditations.com/ching-hexagrams/hexagram-ten-%%e2%%80%%93-lu-treading/")
-			web.read_string_head
-			assert ("Response 200", web.last_headers.response_code = 200)
-			web.close
+			across << "über-my-ching.html", "%%C3%%BCber-my-ching.html" >> as name loop
+				url := "http://myching.software/de/about/" + name.item
+				if s.is_ascii (name.item) then
+					web.open_url (url)
+				else
+					web.open (url)
+				end
+				web.read_string_head
+				assert ("Response 200", web.last_headers.response_code = 200)
+				web.close
+			end
 		end
 
 feature {NONE} -- Events
