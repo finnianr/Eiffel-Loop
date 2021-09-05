@@ -47,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:35:34 GMT (Wednesday 6th January 2021)"
-	revision: "11"
+	date: "2021-09-01 9:53:30 GMT (Wednesday 1st September 2021)"
+	revision: "12"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -74,7 +74,7 @@ inherit
 		rename
 			make_default as make
 		undefine
-			new_command_parts, do_command, make, is_equal, copy
+			new_command_parts, do_command, is_equal, copy
 		redefine
 			is_valid_platform
 		end
@@ -129,12 +129,6 @@ feature {NONE} -- Implementation
 		do
 			Result := field.name (line)
 			Result.remove_head (General_dot.count)
-		end
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result
 		end
 
 feature {NONE} -- Constants

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:35:45 GMT (Saturday 10th July 2021)"
-	revision: "11"
+	date: "2021-09-02 8:39:38 GMT (Thursday 2nd September 2021)"
+	revision: "12"
 
 deferred class
 	EL_ML_THUNDERBIRD_ACCOUNT_READER
@@ -53,23 +53,39 @@ feature -- Basic operations
 
 	execute
 		local
-			mails_path: EL_FILE_PATH
+			mails_path: EL_FILE_PATH; found_count: INTEGER
 		do
-			across mail_folder_dir_list as subdir_path loop
-				across OS.file_list (subdir_path.item, "*.msf") as path loop
-					mails_path := path.item.without_extension
-					if not language.is_empty implies mails_path.base.same_string (language) then
-						lio.put_path_field ("Reading", mails_path)
+			if attached new_mail_folder_dir_list as dir_list then
+				across folder_list as folder loop
+					dir_list.find_first_equal (folder.item + Dot_sbd_extension, agent {EL_DIR_PATH}.base)
+					if dir_list.found then
+						found_count := found_count + 1
+					else
+						lio.put_labeled_string (folder.item, "not found")
 						lio.put_new_line
-						new_reader.read_mails (mails_path)
 					end
+				end
+				if found_count = folder_list.count then
+					across dir_list as subdir_path loop
+						across OS.file_list (subdir_path.item, "*.msf") as path loop
+							mails_path := path.item.without_extension
+							if not language.is_empty implies mails_path.base.same_string (language) then
+								lio.put_path_field ("Reading", mails_path)
+								lio.put_new_line
+								new_reader.read_mails (mails_path)
+							end
+						end
+					end
+				else
+					lio.put_new_line
+					lio.put_line ("CONFIGURATION ERROR: not all folders found")
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	mail_folder_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	new_mail_folder_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
 		do
 			if attached OS.find_directories_command (mail_dir) as cmd then
 				cmd.set_depth (1 |..| 1)

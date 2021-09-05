@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 10:02:55 GMT (Saturday 20th March 2021)"
-	revision: "30"
+	date: "2021-09-05 9:24:41 GMT (Sunday 5th September 2021)"
+	revision: "32"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -32,16 +32,19 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("cookies",								agent test_cookies)
-			eval.call ("documents_download",					agent test_documents_download)
-			eval.call ("download_image_and_headers",		agent test_download_image_and_headers)
-			eval.call ("download_document_and_headers",	agent test_download_document_and_headers)
-			eval.call ("http_hash_table",						agent test_http_hash_table)
-			eval.call ("http_post",								agent test_http_post)
-			eval.call ("image_headers",						agent test_image_headers)
+			eval.call ("cookies", agent test_cookies)
+			eval.call ("documents_download", agent test_documents_download)
+			eval.call ("download_document_and_headers", agent test_download_document_and_headers)
+			eval.call ("download_image_and_headers", agent test_download_image_and_headers)
+			eval.call ("headers", agent test_headers)
+			eval.call ("http_hash_table", agent test_http_hash_table)
+			eval.call ("http_post", agent test_http_post)
+			eval.call ("image_headers", agent test_image_headers)
+			eval.call ("open_url", agent test_open_url)
+			eval.call ("url_encoded", agent test_url_encoded)
 		end
 
-feature -- Test routines
+feature -- Tests
 
 	test_cookies
 		local
@@ -112,9 +115,9 @@ feature -- Test routines
 					print_lines (web)
 					assert_valid_headers (headers)
 					if is_retrieved.key ~ "xml" then
-						assert ("valid content_type", headers.content_type ~ "application/xml")
+						assert ("valid content_type", headers.mime_type ~ "application/xml")
 					else
-						assert ("valid content_type", headers.content_type ~ "text/html")
+						assert ("valid content_type", headers.mime_type ~ "text/html")
 						assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
 					end
 					web.read_string_get
@@ -144,12 +147,23 @@ feature -- Test routines
 
 				headers := web.last_headers
 				assert_valid_headers (headers)
-				assert ("valid content_type", headers.content_type.starts_with ("image/" + image.item))
+				assert ("valid content_type", headers.mime_type.starts_with ("image/" + image.item))
 				assert ("valid content_length", headers.content_length = OS.File_system.file_byte_count (image_path))
 				assert ("valid encoding_name", headers.encoding_name.is_empty)
 
 				web.close
 			end
+		end
+
+	test_headers
+		local
+			headers: EL_HTTP_HEADERS
+		do
+			create headers.make (Headers_text)
+			assert ("same code", headers.response_code = 200)
+			assert ("same string", headers.mime_type ~ "text/html")
+			assert ("same string", headers.encoding_name ~ "UTF-8")
+			assert ("", headers.x_field ("powered_by") ~ "PHP/7.2.34")
 		end
 
 	test_http_hash_table
@@ -211,7 +225,7 @@ feature -- Test routines
 
 				headers := web.last_headers
 				assert_valid_headers (headers)
-				assert ("valid content_type", headers.content_type.starts_with ("image/" + image.item))
+				assert ("valid content_type", headers.mime_type.starts_with ("image/" + image.item))
 
 				web.close
 			end
@@ -227,6 +241,16 @@ feature -- Test routines
 			web.read_string_get
 			web.close
 			assert ("correct title", web.content.has_substring (title))
+		end
+
+	test_url_encoded
+		local
+			url: EL_URL; title: ZSTRING
+		do
+			web.open_url ("https://www.ichingmeditations.com/ching-hexagrams/hexagram-ten-%%e2%%80%%93-lu-treading/")
+			web.read_string_head
+			assert ("Response 200", web.last_headers.response_code = 200)
+			web.close
 		end
 
 feature {NONE} -- Events
@@ -332,6 +356,40 @@ feature {NONE} -- Factory
 				pair_list.forth
 			end
 		end
+
+feature {NONE} -- Text manifest
+
+	Headers_text: STRING = "[
+		HTTP/1.1 200 OK
+		Accept-Ranges: bytes
+		access-control-allow-origin: *
+		age: 0
+		alt-svc: h3=":443"; ma=2592000, h3-29=":443"; ma=2592000, h3-Q050=":443"
+		cache-control: no-cache, no-store, must-revalidate, max-age=0
+		Connection: Keep-Alive
+		Content-Length: 62128
+		content-type: text/html; charset=UTF-8
+		Date: Thu, 02 Sep 2021 10:48:51 GMT
+		etag: "234ea00d6e2defa13d5ca7844fdd1821-ssl"
+		host-header: c2hhcmVkLmJsdWVob3N0LmNvbQ==
+		Keep-Alive: timeout=5, max=100
+		Last-Modified: Fri, 25 Sep 2020 01:40:31 GMT
+		Link: <https://www.ichingmeditations.com/rb>; rel=shorturl, <https://www.ichingmeditations.com/wp-json/>
+		memento-datetime: Mon, 14 Jan 2013 21:39:36 GMT
+		location: http://www.laetusinpraesens.org
+		Referrer-Policy: no-referrer-when-downgrade
+		Permissions-Policy: interest-cohort=()
+		Server: Apache
+		Set-Cookie: PHPSESSID=0208ad1dda50c9c00f6d9ea60285266e; path=/; secure; HttpOnly
+		strict-transport-security: max-age=31536000; includeSubDomains; preload
+		Upgrade: h2,h2c
+		vary: User-Agent
+		x-content-type-options: nosniff
+		x-frame-options: SAMEORIGIN
+		x-nf-request-id: 01FEK1KJWRMEY7HVCHM7B3V8FY
+		X-Pingback: https://www.ichingmeditations.com/xmlrpc.php
+		x-powered-by: PHP/7.2.34
+	]"
 
 feature {NONE} -- Constants
 

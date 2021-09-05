@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "5"
+	date: "2021-09-01 10:22:46 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
+		undefine
+			getter_function_table, Transient_fields
 		redefine
 			make_default, do_with_lines
 		end

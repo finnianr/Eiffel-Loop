@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 14:22:59 GMT (Tuesday 31st August 2021)"
-	revision: "9"
+	date: "2021-09-01 7:43:20 GMT (Wednesday 1st September 2021)"
+	revision: "10"
 
 class
 	EL_CURRENCY_ENUM
@@ -25,6 +25,8 @@ inherit
 		redefine
 			initialize_fields
 		end
+
+	EL_MODULE_DEFERRED_LOCALE
 
 create
 	make
@@ -39,26 +41,26 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	format_for (locale: EL_DEFERRED_LOCALE_I; code: NATURAL_8): ZSTRING
+	format_for (language: STRING; code: NATURAL_8): ZSTRING
 		do
-			Result := locale * Format_key #$ [name (code)]
+			Result := Locale.in (language) * Format_key #$ [name (code)]
 		end
 
-	name_for (locale: EL_DEFERRED_LOCALE_I; code: NATURAL_8): ZSTRING
+	name_for (language: STRING; code: NATURAL_8): ZSTRING
 		do
-			Result := locale * Name_key #$ [name (code)]
+			Result := Locale.in (language) * Name_key #$ [name (code)]
 		end
 
 feature -- Status query
 
-	translations_available (locale: EL_DEFERRED_LOCALE_I): BOOLEAN
+	translations_available: BOOLEAN
 		do
 			Result := across list as code all
-				locale.has_key (Format_key #$ [name (code.item)])
+				Locale.has_key (Format_key #$ [name (code.item)])
 			end
 			if Result then
 				Result := across list as code all
-					locale.has_key (Name_key #$ [name (code.item)])
+					Locale.has_key (Name_key #$ [name (code.item)])
 				end
 			end
 		end

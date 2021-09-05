@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 10:37:35 GMT (Wednesday 16th June 2021)"
-	revision: "21"
+	date: "2021-09-02 12:35:01 GMT (Thursday 2nd September 2021)"
+	revision: "22"
 
 expanded class
 	EL_STRING_32_ROUTINES
@@ -188,6 +188,13 @@ feature -- Transformation
 	right_adjust (str: STRING_32)
 		do
 			str.right_adjust
+		end
+
+feature {NONE} -- Implementation
+
+	last_index_of (str: STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		do
+			Result := str.last_index_of (c, start_index_from_end)
 		end
 
 feature {NONE} -- Constants

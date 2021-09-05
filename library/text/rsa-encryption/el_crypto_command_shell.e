@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:30:51 GMT (Sunday 29th August 2021)"
-	revision: "29"
+	date: "2021-09-01 8:24:07 GMT (Wednesday 1st September 2021)"
+	revision: "30"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -17,7 +17,7 @@ class
 inherit
 	EL_COMMAND_SHELL_COMMAND
 		export
-			{ANY} make_shell
+			{ANY} make
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -37,7 +37,7 @@ inherit
 	STRING_HANDLER
 
 create
-	make_shell
+	make
 
 feature -- Basic operations
 

@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-01 11:20:55 GMT (Monday 1st February 2021)"
-	revision: "15"
+	date: "2021-09-01 8:33:50 GMT (Wednesday 1st September 2021)"
+	revision: "16"
 
 class
 	LOCALIZATION_COMMAND_SHELL
 
 inherit
 	EL_COMMAND_SHELL_COMMAND
+		rename
+			make as make_shell
 		undefine
 			new_lio
 		end

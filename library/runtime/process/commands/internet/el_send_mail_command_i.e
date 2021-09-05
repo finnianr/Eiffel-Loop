@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "7"
+	date: "2021-09-01 9:53:14 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_CAPTURED_OS_COMMAND_I
 		redefine
-			do_with_lines, execute
+			do_with_lines, getter_function_table, execute
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -87,11 +87,10 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["email_path", 	agent: ZSTRING do Result := email.email_path.escaped end],
-				["from_address", 	agent: ZSTRING do Result := email.from_address end],
+			Result := Precursor +
+				["email_path", 	agent: ZSTRING do Result := email.email_path.escaped end] +
+				["from_address", 	agent: ZSTRING do Result := email.from_address end] +
 				["to_address",		agent: ZSTRING do Result := email.to_address end]
-			>>)
 		end
 
 feature {NONE} -- Constants

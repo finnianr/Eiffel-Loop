@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 14:42:06 GMT (Tuesday 31st August 2021)"
-	revision: "5"
+	date: "2021-09-01 7:47:48 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 class
 	EL_PASSPHRASE_RATING_TABLE
@@ -19,8 +19,6 @@ inherit
 		redefine
 			create_interface_objects
 		end
-
-	EL_MODULE_DEFERRED_LOCALE
 
 	EL_MODULE_GUI
 
@@ -73,7 +71,7 @@ feature -- Element change
 	set_minimum_score (a_minimum_score: INTEGER)
 		do
 			minimum_score := a_minimum_score
-			minimum_score_label.set_text (Minimum_score_template #$ [a_minimum_score])
+			minimum_score_label.set_text (minimum_score_template #$ [a_minimum_score])
 		end
 
 feature {NONE} -- Implementation
@@ -95,7 +93,7 @@ feature {NONE} -- Implementation
 			score_label := new_label (Score_template #$ [0])
 			score_label.set_bold
 
-			minimum_score_label := new_label (Minimum_score_template #$ [Default_minimum_score])
+			minimum_score_label := new_label (minimum_score_template #$ [Default_minimum_score])
 			minimum_score_label.set_italic
 
 			check_width := (score_label.height * 1.7).rounded
@@ -106,9 +104,19 @@ feature {NONE} -- Implementation
 			secure_enough_check := new_check_area (check_width)
 		end
 
+	minimum_score_template: ZSTRING
+		do
+			Result := Text.minimum_score
+		end
+
 	new_check_area (a_width: INTEGER): EL_CHECK_AREA
 		do
 			create Result.make (checked_image_path, a_width)
+		end
+
+	score_template: ZSTRING
+		do
+			Result := Text.passphrase_strength
 		end
 
 feature {NONE} -- Internal attributes
@@ -123,7 +131,7 @@ feature {NONE} -- Internal attributes
 
 	new_label: FUNCTION [READABLE_STRING_GENERAL, EL_LABEL]
 
-	phrase_attributes: EL_PASSPHRASE_ATTRIBUTE_MAP
+	phrase_attributes: EL_PASSPHRASE_EVALUATOR
 
 	score_label: EL_LABEL
 
@@ -134,16 +142,6 @@ feature {NONE} -- Constants
 	Default_minimum_score: INTEGER
 		once
 			Result := 3
-		end
-
-	Minimum_score_template: ZSTRING
-		once
-			Result := Text.minimum_score
-		end
-
-	Score_template: ZSTRING
-		once
-			Result := Text.passphrase_strength
 		end
 
 end

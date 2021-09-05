@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 10:49:40 GMT (Sunday 22nd August 2021)"
-	revision: "63"
+	date: "2021-09-01 11:54:20 GMT (Wednesday 1st September 2021)"
+	revision: "64"
 
 class
 	APPLICATION_ROOT
@@ -108,9 +108,12 @@ feature {NONE} -- Constants
 
 	Compile_various: TUPLE [
 		MY_WET_CLASS, MY_DRY_CLASS, EL_TEST_SET_BRIDGE, LIBGCC1,
+		ECD_REFLECTIVE_INDEX_TABLE [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
+		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
 		EL_LOGGED_FUNCTION_DISTRIBUTER [ANY],
 		EL_LOGGED_PROCEDURE_DISTRIBUTER [ANY],
-		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE]
+		EL_LOGGED_WORK_DISTRIBUTER [ROUTINE],
+		EL_VIDEO_TO_MP3_COMMAND_I
 	]
 		once
 			create Result

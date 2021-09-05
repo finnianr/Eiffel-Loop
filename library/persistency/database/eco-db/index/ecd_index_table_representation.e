@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 14:02:33 GMT (Monday 24th May 2021)"
-	revision: "1"
+	date: "2021-09-01 11:47:14 GMT (Wednesday 1st September 2021)"
+	revision: "2"
 
 class
 	ECD_INDEX_TABLE_REPRESENTATION [
@@ -26,9 +26,9 @@ inherit
 
 feature -- Factory
 
-	new_index (list: ECD_ARRAYED_LIST [G]; field: EL_REFLECTED_FIELD; n: INTEGER): like index_table
+	new_index (list: ECD_ARRAYED_LIST [G]; field: EL_REFLECTED_FIELD): like index_table
 		do
-			create Result.make (list, field, n)
+			create Result.make (list, field)
 		end
 
 feature -- Basic operations

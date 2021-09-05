@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 10:47:27 GMT (Tuesday 31st August 2021)"
-	revision: "20"
+	date: "2021-08-31 18:46:56 GMT (Tuesday 31st August 2021)"
+	revision: "21"
 
 class
 	EL_AES_CREDENTIAL
@@ -33,8 +33,6 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_BASE_64
-
-	EL_SHARED_PASSPHRASE_ATTRIBUTE
 
 	EL_SHARED_PASSPHRASE_TEXTS
 

@@ -10,14 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-22 11:12:00 GMT (Tuesday 22nd June 2021)"
-	revision: "18"
+	date: "2021-09-01 8:21:29 GMT (Wednesday 1st September 2021)"
+	revision: "19"
 
 class
 	PP_TEST_COMMAND_SHELL
 
 inherit
 	EL_COMMAND_SHELL_COMMAND
+		rename
+			make as make_shell
 		redefine
 			run_command_loop
 		end

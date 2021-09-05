@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "5"
+	date: "2021-09-01 10:25:00 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 deferred class
 	EL_WAV_FADER_I
@@ -63,9 +63,9 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			Result := Precursor +
-				["fade_in",				 agent: REAL_REF do Result := fade_in.to_reference end] +
-				["duration", 			 agent: REAL_REF do Result := duration.to_reference end] +
-				["fade_out", 			 agent: REAL_REF do Result := fade_out.to_reference end]
+				["fade_in",		agent: REAL_REF do Result := fade_in.to_reference end] +
+				["duration", 	agent: REAL_REF do Result := duration.to_reference end] +
+				["fade_out", 	agent: REAL_REF do Result := fade_out.to_reference end]
 		end
 
 end

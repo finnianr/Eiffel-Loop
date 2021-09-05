@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 14:07:48 GMT (Sunday 22nd August 2021)"
-	revision: "8"
+	date: "2021-09-01 11:30:11 GMT (Wednesday 1st September 2021)"
+	revision: "9"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -24,7 +24,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			make_default, do_command, new_command_parts, reset
+			do_command, new_command_parts, reset
 		end
 
 	EL_MODULE_DIRECTORY

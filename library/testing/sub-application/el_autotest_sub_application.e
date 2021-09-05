@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:28:11 GMT (Friday 19th March 2021)"
-	revision: "10"
+	date: "2021-09-05 9:35:02 GMT (Sunday 5th September 2021)"
+	revision: "11"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -41,7 +41,14 @@ feature {NONE} -- Initialization
 		end
 
 	init_console_and_logging
+		local
+			s: EL_STRING_8_ROUTINES
 		do
+			create test_name.make_empty
+			test_set_name := s.substring_to (Application_option.test_set, '.', test_name)
+			if test_name.starts_with (Test_prefix) then
+				test_name.remove_head (Test_prefix.count)
+			end
 			create test_type_list.make_from_tuple (create {EQA_TYPES})
 			if Application_option.test_set.count > 0 then
 				create test_type_list.make_from_array (test_type_list.query_if (agent test_set_matches).to_array)
@@ -63,7 +70,7 @@ feature -- Basic operations
 			elseif test_type_list.all_conform then
 				create failed_list.make_empty
 				across test_type_list as type loop
-					create evaluator.make (type.item)
+					create evaluator.make (type.item, test_name)
 					evaluator.execute
 					if evaluator.has_failure then
 						failed_list.extend (evaluator)
@@ -91,7 +98,7 @@ feature {NONE} -- Implementation
 
 	test_set_matches (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
 		do
-			Result := type.name.same_string (Application_option.test_set)
+			Result := type.name.same_string (test_set_name)
 		end
 
 	is_logging_active: BOOLEAN
@@ -118,6 +125,8 @@ feature {NONE} -- Internal attributes
 
 	test_set_name: STRING
 
+	test_name: STRING
+
 	test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]
 
 feature {NONE} -- Constants
@@ -131,5 +140,7 @@ feature {NONE} -- Constants
 		once
 			Result := "Call manual and automatic sets during development"
 		end
+
+	Test_prefix: STRING = "test_"
 
 end

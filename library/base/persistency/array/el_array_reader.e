@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 12:08:20 GMT (Monday 17th December 2018)"
-	revision: "5"
+	date: "2021-09-01 11:46:42 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 class
 	EL_ARRAY_READER
@@ -69,7 +69,7 @@ feature {NONE} -- File input
 				lower := file_in.last_integer_32
 				file_in.read_integer_32
 				upper := file_in.last_integer_32
-				create array_doubles.make (lower, upper)
+				create array_doubles.make_filled (0, lower, upper)
 				from i := lower until i > upper loop
 					file_in.read_double
 					array_doubles [i] := file_in.last_double

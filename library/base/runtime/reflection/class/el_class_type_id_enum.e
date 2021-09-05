@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 9:03:51 GMT (Sunday 29th August 2021)"
-	revision: "6"
+	date: "2021-09-01 9:47:11 GMT (Wednesday 1st September 2021)"
+	revision: "7"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -76,6 +76,8 @@ feature -- Path types
 feature -- Other types
 
 	BOOLEAN: INTEGER
+
+	EL_BOOLEAN_OPTION: INTEGER
 
 	DATE_TIME: INTEGER
 

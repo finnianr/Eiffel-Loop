@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-11 11:29:37 GMT (Saturday 11th April 2020)"
-	revision: "8"
+	date: "2021-09-01 8:22:20 GMT (Wednesday 1st September 2021)"
+	revision: "9"
 
 class
 	EL_COMMAND_SHELL
@@ -17,6 +17,7 @@ inherit
 
 	EL_COMMAND_SHELL_I
 		rename
+			make as make_shell,
 			new_command_table as command_table
 		end
 

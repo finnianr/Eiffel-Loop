@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 10:10:21 GMT (Tuesday 31st August 2021)"
-	revision: "2"
+	date: "2021-08-31 18:34:46 GMT (Tuesday 31st August 2021)"
+	revision: "3"
 
 class
-	EL_PASSPHRASE_ATTRIBUTES_ENUM
+	EL_PASSPHRASE_ATTRIBUTES
 
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS

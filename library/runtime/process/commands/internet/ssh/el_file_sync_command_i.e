@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-25 14:37:34 GMT (Wednesday 25th August 2021)"
-	revision: "1"
+	date: "2021-09-01 16:33:13 GMT (Wednesday 1st September 2021)"
+	revision: "2"
 
 deferred class
-	EL_SECURE_SHELL_FILE_SYNC_COMMAND_I
+	EL_FILE_SYNC_COMMAND_I
 
 inherit
 	EL_COPY_TREE_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 
 	EL_SECURE_SHELL_COMMAND
 		redefine
-			make_default
+			make_default, escaped_remote
 		end
 
 feature {NONE} -- Initialization
@@ -50,7 +50,18 @@ feature {NONE} -- Evolicity reflection
 			Result := Precursor +
 				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end] +
 				["exclude_list",		agent: ITERABLE [ZSTRING] do Result := exclude_list end] +
-				["progress_enabled",	agent: BOOLEAN_REF do Result := progress end] +
 				["user_domain",		agent: ZSTRING do Result := user_domain end]
+		end
+
+feature {NONE} -- Implementation
+
+	escaped_remote (a_path: EL_PATH): ZSTRING
+		-- double escape backslash
+		do
+			if user_domain.count > 0 then
+				Result := Precursor (a_path)
+			else
+				Result := a_path.escaped
+			end
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 9:09:53 GMT (Friday 23rd July 2021)"
-	revision: "13"
+	date: "2021-09-01 10:19:41 GMT (Wednesday 1st September 2021)"
+	revision: "14"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -21,9 +21,10 @@ inherit
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
+		undefine
+			getter_function_table, Transient_fields
 		redefine
-			make_default,
-			do_with_lines, getter_function_table, reset
+			make_default, do_with_lines, reset
 		end
 
 	EL_MODULE_OS
@@ -171,10 +172,8 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
+			Result := Precursor {EL_DIR_PATH_OPERAND_COMMAND_I} +
 				["name_pattern", 				agent: ZSTRING do Result := name_pattern end] +
-				["follow_symbolic_links", 	agent: BOOLEAN_REF do Result := follow_symbolic_links.to_reference end] +
-				["limitless_max_depth",		agent: BOOLEAN_REF do Result := limitless_max_depth.to_reference end] +
 				["max_depth", 					agent: INTEGER_REF do Result := max_depth.to_reference end] +
 				["min_depth", 					agent: INTEGER_REF do Result := min_depth.to_reference end] +
 				["type",							agent: STRING do Result := type end]

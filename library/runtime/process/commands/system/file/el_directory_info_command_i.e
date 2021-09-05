@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:03:38 GMT (Saturday 10th July 2021)"
-	revision: "5"
+	date: "2021-09-01 9:56:19 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 deferred class
 	EL_DIRECTORY_INFO_COMMAND_I
@@ -25,7 +25,7 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			make_default
+			getter_function_table, make_default, Transient_fields
 		redefine
 			reset
 		end

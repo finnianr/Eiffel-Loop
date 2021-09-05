@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:43:10 GMT (Friday 3rd April 2020)"
-	revision: "5"
+	date: "2021-09-01 9:34:19 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 class
 	EL_VIDEO_TO_MP3_COMMAND_IMP
@@ -30,9 +30,6 @@ inherit
 		end
 
 	EL_OS_COMMAND_IMP
-		undefine
-			make_default
-		end
 
 create
 	make

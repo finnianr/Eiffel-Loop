@@ -6,28 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 13:58:40 GMT (Sunday 15th August 2021)"
-	revision: "11"
+	date: "2021-09-04 16:48:10 GMT (Saturday 4th September 2021)"
+	revision: "13"
 
 class
 	EL_HTTP_HEADERS
 
 inherit
-	HASH_TABLE [STRING, STRING]
+	EL_REFLECTIVELY_SETTABLE
 		rename
-			make as make_table
-		export
-			{NONE} all
-			{ANY} item
+			field_included as is_any_field,
+			export_name as export_default,
+			import_name as from_kebab_case_upper
+		redefine
+			make_default
 		end
 
-	EL_STATE_MACHINE [STRING]
-		rename
-			make as make_machine,
-			traverse as do_with_lines,
-			item_number as line_number
-		undefine
-			is_equal, copy
+	EL_SETTABLE_FROM_STRING_8
+		redefine
+			set_table_field
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -37,125 +34,155 @@ create
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			make_machine
-			make_table (0)
-			create nvp.make_empty
-			setter_table := new_setter_table
-			server := Empty_string_8
-			encoding_name := Empty_string_8
-			content_type := Empty_string_8
-			create date_stamp.make_from_epoch (0)
-		end
-
 	make (string: STRING)
 		local
-			lines: LIST [STRING]
+			lines, parts: EL_SPLIT_STRING_8_LIST
+			other: STRING
 		do
-			lines := string.split ('%N')
 			make_default
-			make_equal (lines.count)
-			do_with_lines (agent find_response, lines)
+			create lines.make_with_character (string, '%N')
+			from lines.start until lines.after loop
+				if lines.item (False).starts_with (Http) then
+					create parts.make_with_character (lines.item (False), ' ')
+					if parts.valid_index (2) then
+						parts.go_i_th (2)
+						response_code := parts.integer_item
+					end
+				elseif lines.item (False).has (':') then
+					set_field_from_nvp (lines.item (False), ':')
+				else
+					other := lines.item (False)
+				end
+				lines.forth
+			end
 		end
 
-feature -- Access
+	make_default
+		do
+			Precursor
+			create non_standard_table.make_equal (0)
+			create name_value.make_empty
+		end
 
-	content_type: STRING
+feature -- Header fields
+
+	access_control_allow_origin: STRING
+
+	accept_ranges: STRING
+
+	age: INTEGER
+
+	alt_svc: STRING
+
+	cache_control: STRING
+
+	connection: STRING
 
 	content_length: INTEGER
 
-	date_stamp: DATE_TIME
+	content_type: STRING
 
-	encoding_name: STRING
+	date: STRING
 
-	response_code: INTEGER
+	etag: STRING
+
+	host_header: STRING
+
+	keep_alive: STRING
+
+	last_modified: STRING
+
+	link: STRING
+
+	location: STRING
+
+	memento_datetime: STRING
+
+	permissions_policy: STRING
+
+	referrer_policy: STRING
 
 	server: STRING
 
-feature -- Element change
+	set_cookie: STRING
 
-	set_content_type (value: STRING)
-		local
-			parts: EL_STRING_LIST [STRING]
-		do
-			if value.has (';') then
-				create parts.make_with_separator (value, ';', True)
-				if parts.count = 2 then
-					content_type := parts [1]
-					nvp.set_from_string (parts [2], '=')
-					encoding_name := nvp.value
-				end
-			else
-				content_type := value
-			end
-		end
+	strict_transport_security: STRING
 
-	set_content_length (value: STRING)
-		do
-			if value.is_integer then
-				content_length := value.to_integer
-			end
-		end
+	upgrade: STRING
 
-	set_date_stamp (value: STRING)
+	vary: STRING
+
+feature -- Access
+
+	date_stamp: DATE_TIME
 		do
-			if Date_time_format.is_date_time (value) then
+			if date.count > 0 and then Date_time_format.is_date_time (date) then
 				-- "Sat, 14 Aug 2021 14:57:04 GMT"
-				date_stamp := Date_time_format.new_date_time (value)
+				Result := Date_time_format.new_date_time (date)
 			end
 		end
 
-	set_server (value: STRING)
-		do
-			server := value
-		end
-
-feature {NONE} -- Line states
-
-	find_response (line: STRING)
+	encoding_name: STRING
 		local
-			parts: LIST [STRING]
+			part: STRING
 		do
-			if line.starts_with (HTTP) then
-				parts := line.split (' ')
-				if parts.count = 3 and then parts.i_th (2).is_integer then
-					response_code := parts.i_th (2).to_integer
+			if content_type.has (';') then
+				part := string_8.substring_to_reversed (content_type, ';', Void)
+				if part.has ('=') then
+					name_value.set_from_string (part, '=')
+					Result := name_value.value
+				else
+					create Result.make_empty
 				end
-				state := agent read_name_value_pair
+			else
+				create Result.make_empty
 			end
 		end
 
-	read_name_value_pair (line: STRING)
+	mime_type: STRING
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			nvp.set_from_string (line, ':')
-			if setter_table.has_key (nvp.name) then
-				setter_table.found_item (nvp.value)
+			Result := s.substring_to (content_type, ';', Void)
+		end
+
+	response_code: INTEGER
+
+	x_field (name: STRING): STRING
+		do
+			if non_standard_table.has (name) then
+				Result := non_standard_table.found_item
 			else
-				put (nvp.value, nvp.name)
-				if not inserted then
-					item (nvp.name).append_string ("; " + nvp.value)
-				end
+				create Result.make_empty
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_setter_table: EL_HASH_TABLE [PROCEDURE [STRING], STRING]
+	set_table_field (table: like field_table; name: STRING; value: STRING)
+		-- set field with name
 		do
-			create Result.make (<<
-				["Server",			agent set_server],
-				["Date",				agent set_date_stamp],
-				["Content-Type",	agent set_content_type],
-				["Content-Length", agent set_content_length]
-			>>)
+			Precursor (table, name, value)
+			if not table.found and then attached from_kebab_case_upper (name, True) as l_name then
+				if l_name.starts_with (once "x_") then
+					non_standard_table.put (value, l_name.substring (3, name.count))
+				else
+					non_standard_table.put (value, l_name)
+				end
+			end
+		end
+
+	string_8: EL_STRING_8_ROUTINES
+		do
+			-- Expanded type
 		end
 
 feature {NONE} -- Internal attributes
 
-	nvp: EL_NAME_VALUE_PAIR [STRING]
+	name_value: EL_NAME_VALUE_PAIR [STRING]
 
-	setter_table: like new_setter_table
+	non_standard_table: HASH_TABLE [STRING, STRING]
+		-- fields starting with "x-"
 
 feature {NONE} -- Constants
 

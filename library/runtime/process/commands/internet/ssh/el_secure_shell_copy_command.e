@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-25 14:12:17 GMT (Wednesday 25th August 2021)"
-	revision: "2"
+	date: "2021-09-02 9:33:04 GMT (Thursday 2nd September 2021)"
+	revision: "3"
 
 class
 	EL_SECURE_SHELL_COPY_COMMAND
@@ -43,14 +43,9 @@ feature -- Access
 feature -- Element change
 
 	set_destination_dir (a_destination_dir: EL_DIR_PATH)
-		local
-			l_path: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
 			destination_dir := a_destination_dir
-			l_path := a_destination_dir.escaped
-			-- double escape backslash
-			l_path.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
-			command_template.set_variable (var.destination_dir, l_path)
+			command_template.set_variable (var.destination_dir, escaped_remote (a_destination_dir))
 		end
 
 	set_source_path (source_path: EL_FILE_PATH)

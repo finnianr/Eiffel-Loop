@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 11:17:45 GMT (Tuesday 31st August 2021)"
-	revision: "15"
+	date: "2021-09-01 7:42:50 GMT (Wednesday 1st September 2021)"
+	revision: "16"
 
 class
 	EL_CURRENCY
@@ -35,7 +35,7 @@ feature {EL_CURRENCY_LOCALE} -- Initialization
 		do
 			language := a_language; code := a_code; has_decimal := a_has_decimal
 			separator := [',', '.']
-			set_format_and_symbol (Currency_enum.format_for (Locale.in (a_language), a_code))
+			set_format_and_symbol (Currency_enum.format_for (a_language, a_code))
 			make_default
 		end
 
@@ -88,7 +88,7 @@ feature -- Access
 
 	name: ZSTRING
 		do
-			Result := Currency_enum.name_for (Locale.in (language), code)
+			Result := Currency_enum.name_for (language, code)
 		end
 
 	separator: TUPLE [threes, decimal: CHARACTER]

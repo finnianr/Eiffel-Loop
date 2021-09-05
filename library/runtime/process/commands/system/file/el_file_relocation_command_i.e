@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:50 GMT (Saturday 19th May 2018)"
-	revision: "6"
+	date: "2021-09-01 10:58:50 GMT (Wednesday 1st September 2021)"
+	revision: "7"
 
 deferred class
 	EL_FILE_RELOCATION_COMMAND_I
@@ -15,38 +15,24 @@ deferred class
 inherit
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
 		redefine
-			make_default, getter_function_table
+			getter_function_table, make_default
 		end
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			is_timestamp_preserved := true
+			timestamp_preserved := True
 			Precursor
 		end
 
 feature -- Status query
 
-	is_timestamp_preserved: BOOLEAN
+	timestamp_preserved: EL_BOOLEAN_OPTION
 
 	is_recursive: BOOLEAN
 		-- True if recursive copy
 		deferred
-		end
-
-feature -- Status change
-
-	enable_timestamp_preserved
-			--
-		do
-			is_timestamp_preserved := True
-		end
-
-	disable_timestamp_preserved
-			--
-		do
-			is_timestamp_preserved := False
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -54,9 +40,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
-				["is_timestamp_preserved", agent: BOOLEAN_REF do Result := is_timestamp_preserved.to_reference end] +
-				["is_recursive", agent: BOOLEAN_REF do Result := is_recursive.to_reference end]
+			Result := Precursor + ["is_recursive", agent: BOOLEAN_REF do Result := is_recursive.to_reference end]
 		end
 
 end

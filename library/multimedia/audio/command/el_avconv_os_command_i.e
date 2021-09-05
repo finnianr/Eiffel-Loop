@@ -6,23 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:23:08 GMT (Sunday 13th September 2020)"
-	revision: "7"
+	date: "2021-09-01 10:30:50 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 deferred class
 	EL_AVCONV_OS_COMMAND_I
 
 inherit
 	EL_OS_COMMAND_I
+		undefine
+			getter_function_table, make_default, Transient_fields
+		end
 
 feature {NONE} -- Evolicity reflection
 
-	getter_function_table: like getter_functions
-			--
+	command_name_assignment: TUPLE [STRING, FUNCTION [ANY]]
 		do
-			create Result.make (<<
-				["command_name", agent: ZSTRING do Result := command_name end]
-			>>)
+			Result := ["command_name", agent: ZSTRING do Result := command_name end]
 		end
 
 feature {NONE} -- Implementation

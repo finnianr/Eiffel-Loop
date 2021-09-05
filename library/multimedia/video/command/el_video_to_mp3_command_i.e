@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:42:56 GMT (Friday 3rd April 2020)"
-	revision: "7"
+	date: "2021-09-01 10:36:04 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 deferred class
 	EL_VIDEO_TO_MP3_COMMAND_I
@@ -19,11 +19,6 @@ inherit
 		end
 
 	EL_AVCONV_OS_COMMAND_I
-		undefine
-			make_default
-		redefine
-			getter_function_table
-		end
 
 	EL_MULTIMEDIA_CONSTANTS
 
@@ -99,14 +94,12 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_FILE_CONVERSION_COMMAND_I} +
+			Result := Precursor + command_name_assignment +
 				["bit_rate", 				agent bit_rate] +
 				["duration", 				agent formatted_duration] +
 				["has_duration",			agent: BOOLEAN_REF do Result := has_duration.to_reference end] +
 				["has_offset_time",		agent: BOOLEAN_REF do Result := has_offset_time.to_reference end] +
 				["offset_time", 			agent: STRING do Result := offset_time.formatted_out (Duration_format) end]
-
-			Result.merge (Precursor {EL_AVCONV_OS_COMMAND_I})
 		end
 
 feature -- Constants

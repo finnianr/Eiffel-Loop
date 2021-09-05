@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 10:36:01 GMT (Wednesday 16th June 2021)"
-	revision: "30"
+	date: "2021-09-02 12:37:36 GMT (Thursday 2nd September 2021)"
+	revision: "31"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -97,12 +97,6 @@ feature -- Basic operations
 		deferred
 		end
 
-	set_upper (str: S; i: INTEGER)
-		require
-			valid_index: 0 < i and i <= str.count
-		deferred
-		end
-
 	search_interval_at_nth (text, search_string: S; n: INTEGER): INTEGER_INTERVAL
 			--
 		local
@@ -113,6 +107,12 @@ feature -- Basic operations
 				l_occurrences.forth
 			end
 			Result := l_occurrences.item_interval
+		end
+
+	set_upper (str: S; i: INTEGER)
+		require
+			valid_index: 0 < i and i <= str.count
+		deferred
 		end
 
 	write_utf_8 (s: READABLE_STRING_GENERAL; writeable: EL_WRITEABLE)
@@ -178,13 +178,6 @@ feature -- Measurement
 		end
 
 feature -- Conversion
-
-	general_to_unicode (s: READABLE_STRING_GENERAL): STRING_32
-		obsolete
-			"Just call `to_string_32'. It works with ZSTRING's too"
-		do
-			Result := s.to_string_32
-		end
 
 	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
 		-- `str' converted to type `basic_type'
@@ -332,6 +325,48 @@ feature -- Transformed
 			end
 		end
 
+	substring_to (str: S; marker: CHARACTER_32; remainder_out: detachable S): S
+		-- substring of `str' up to but not including `marker' character
+		-- or else `str' if `marker' not found
+		-- if `remainder_out' is attached then any text after marker is written
+		local
+			pos_marker: INTEGER
+		do
+			pos_marker := str.index_of (marker, 1)
+			if pos_marker > 0 then
+				Result := str.substring (1, pos_marker - 1)
+			else
+				Result := str
+			end
+			if attached remainder_out as remainder then
+				remainder.keep_head (0)
+				if pos_marker > 0 then
+					remainder.append_substring (str, pos_marker + 1, str.count)
+				end
+			end
+		end
+
+	substring_to_reversed (str: S; marker: CHARACTER_32; remainder_out: detachable S): S
+		-- substring of `str' up to but not including `marker' character starting from the end
+		-- or else `str' if `marker' not found
+		-- if `remainder_out' is attached then any text before marker is written
+		local
+			pos_marker: INTEGER
+		do
+			pos_marker := last_index_of (str, marker, str.count)
+			if pos_marker > 0 then
+				Result := str.substring (pos_marker + 1, str.count)
+			else
+				Result := str
+			end
+			if attached remainder_out as remainder then
+				remainder.keep_head (0)
+				if pos_marker > 0 then
+					remainder.append_substring (str, 1, pos_marker - 1)
+				end
+			end
+		end
+
 	truncated (str: S; max_count: INTEGER): S
 		-- return `str' truncated to `max_count' characters, adding ellipsis where necessary
 		do
@@ -464,5 +499,10 @@ feature -- Transform
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	last_index_of (str: S; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		deferred
+		end
 
 end

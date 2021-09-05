@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-05 14:27:13 GMT (Monday 5th November 2018)"
-	revision: "4"
+	date: "2021-09-01 9:52:08 GMT (Wednesday 1st September 2021)"
+	revision: "5"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -51,12 +51,6 @@ feature {NONE} -- Implementation
 			end
 		ensure then
 			model_name_not_empty: not model_name.is_empty
-		end
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result
 		end
 
 feature {NONE} -- Constants

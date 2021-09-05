@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:43:00 GMT (Wednesday 27th May 2020)"
-	revision: "7"
+	date: "2021-09-01 11:11:39 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -22,7 +22,8 @@ inherit
 		rename
 			template as Empty_string
 		undefine
-			has_variable, system_command, template_name, new_temporary_name, temporary_error_file_path, put_variable
+			getter_function_table, has_variable, system_command, template_name, new_temporary_name,
+			temporary_error_file_path, put_variable
 		redefine
 			make_default, do_command
 		end

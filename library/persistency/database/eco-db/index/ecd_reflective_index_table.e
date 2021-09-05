@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 13:50:58 GMT (Monday 24th May 2021)"
-	revision: "1"
+	date: "2021-09-01 11:40:49 GMT (Wednesday 1st September 2021)"
+	revision: "2"
 
 class
 	ECD_REFLECTIVE_INDEX_TABLE [
@@ -28,12 +28,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_list: like list; a_field: like field; n: INTEGER)
+	make (a_list: like list; a_field: like field)
 		require
 			matching_type: a_field.type ~ {K}
 		do
 			field := a_field
-			make_index (a_list, n)
+			make_index (a_list)
 		end
 
 feature {NONE} -- Implementation

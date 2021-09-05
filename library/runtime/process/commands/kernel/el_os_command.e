@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-09 12:24:24 GMT (Friday 9th July 2021)"
-	revision: "12"
+	date: "2021-09-01 11:18:44 GMT (Wednesday 1st September 2021)"
+	revision: "13"
 
 class
 	EL_OS_COMMAND
@@ -17,14 +17,16 @@ inherit
 		rename
 			template as Empty_string
 		redefine
-			has_variable, system_command, template_name, new_temporary_name, temporary_error_file_path, put_variable
+			getter_function_table, has_variable, system_command, template_name,
+			new_temporary_name, temporary_error_file_path, put_variable
 		end
 
 	EL_OS_COMMAND_IMP
 		rename
 			template as Empty_string
 		redefine
-			has_variable, system_command, template_name, new_temporary_name, temporary_error_file_path, put_variable
+			has_variable, system_command, template_name, new_temporary_name,
+			temporary_error_file_path, put_variable
 		end
 
 	EL_REFLECTION_HANDLER
@@ -107,11 +109,8 @@ feature -- Contract Support
 		end
 
 	all_string_8_types (var_names: TUPLE): BOOLEAN
-		local
-			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
-			create tuple_types.make_from_tuple (var_names)
-			Result := across tuple_types as type all type.item ~ {STRING} end
+			Result := Tuple.type_array (var_names).is_uniformly ({STRING})
 		end
 
 feature -- Basic operations
@@ -146,12 +145,6 @@ feature {NONE} -- Implementation
 			Result := new_temporary_file_path ("err")
 		end
 
-feature {NONE} -- Internal attributes
-
-	template: EL_ZSTRING_TEMPLATE
-
-	template_name: EL_FILE_PATH
-
 feature {NONE} -- Evolicity reflection
 
 	getter_function_table: like getter_functions
@@ -159,6 +152,12 @@ feature {NONE} -- Evolicity reflection
 		do
 			create Result
 		end
+
+feature {NONE} -- Internal attributes
+
+	template: EL_ZSTRING_TEMPLATE
+
+	template_name: EL_FILE_PATH
 
 feature {NONE} -- Constants
 

@@ -1,13 +1,14 @@
 note
 	description: "Operating System command interface"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 11:45:13 GMT (Friday 30th July 2021)"
-	revision: "21"
+	date: "2021-09-01 11:08:02 GMT (Wednesday 1st September 2021)"
+	revision: "22"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -21,6 +22,21 @@ inherit
 		redefine
 			make_default, system_command
 		end
+
+	EL_REFLECTIVE
+		rename
+			export_name as export_default,
+			import_name as import_default,
+			field_included as is_path_or_boolean_field
+		export
+			{NONE} all
+		redefine
+			Transient_fields
+		end
+
+	EL_OS_COMMAND_CONSTANTS
+
+	EL_SHARED_CLASS_ID
 
 	EL_MODULE_DIRECTORY
 
@@ -118,6 +134,34 @@ feature -- Basic operations
 			end
 		end
 
+feature {NONE} -- Evolicity reflection
+
+	get_boolean_ref (field: EL_REFLECTED_BOOLEAN_REF): BOOLEAN_REF
+		do
+			Result := field.value (Current)
+		end
+
+	to_boolean_ref (field: EL_REFLECTED_BOOLEAN): BOOLEAN_REF
+		do
+			Result := field.value (Current).to_reference
+		end
+
+	getter_function_table: like getter_functions
+			--
+		do
+			create Result.make_size (11)
+			across meta_data.field_list as list loop
+				if attached {EL_REFLECTED_BOOLEAN} list.item as field then
+					Result [field.name] := agent to_boolean_ref (field)
+
+				elseif attached {EL_REFLECTED_BOOLEAN_REF} list.item as field
+					and then field.type_id = Class_id.EL_BOOLEAN_OPTION
+				then
+					Result [field.name + Enabled_suffix] := agent get_boolean_ref (field)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	display (lines: LIST [ZSTRING])
@@ -205,6 +249,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_path_or_boolean_field (basic_type, type_id: INTEGER): BOOLEAN
+		-- when True, include field of this type in `field_table' and `meta_data'
+		-- except when the name is one of those listed in `Except_fields'.
+		do
+			inspect basic_type
+				when {REFLECTOR_CONSTANTS}.Boolean_type then
+					Result := True
+				when {REFLECTOR_CONSTANTS}.Reference_type then
+					Result := Eiffel.type_conforms_to (type_id, Class_id.EL_PATH)
+						or else Eiffel.type_conforms_to (type_id, Class_id.EL_BOOLEAN_OPTION)
+			else
+			end
+		end
+
 	on_error
 		do
 		end
@@ -281,66 +339,25 @@ feature {NONE} -- Deferred implementation
 
 feature {NONE} -- Constants
 
-	Command_suffix: ZSTRING
-		once
-			Result := "_COMMAND"
-		end
-
-	EL_prefix: ZSTRING
-		once
-			Result := "EL_"
-		end
-
-	Error_redirection_operator: ZSTRING
-		once
-			Result := "2>"
-		end
-
-	Extension_err: ZSTRING
-		once
-			Result := "err"
-		end
-
-	Extension_txt: ZSTRING
-		once
-			Result := "txt"
-		end
-
-	Null_and_space: ZSTRING
-		once
-			Result := "%U "
-		end
-
-	Tab_and_new_line: ZSTRING
-		once
-			Result := "%T%N"
-		end
-
-	Temporary_path_format: ZSTRING
-		once
-			Result := "%S/%S/%S.00.%S"
-		end
-
-	Variable_cwd: ZSTRING
-		once
-			Result := "$CWD"
-		end
-
-feature {NONE} -- Constants
-
-	Empty_list: EL_ZSTRING_LIST
-		once ("PROCESS")
-			create Result.make_empty
-		end
-
-	File_system_mutex: MUTEX
-		once ("PROCESS")
-			create Result.make
-		end
-
 	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
 		once
 			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
 		end
+
+	Transient_fields: STRING
+		once
+			Result := "dry_run_enabled, is_forked, has_error"
+		end
+
+note
+	notes: "[
+		**Routine getter_function_table**
+		
+		This routine automatically adds the following field types to the table
+		
+		1. [$source EL_BOOLEAN_OPTION] will be added with the modified name: `<field-name>_enabled'
+
+		2. [$source BOOLEAN] fields will be added with the field name as is.
+	]"
 
 end

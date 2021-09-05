@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-19 12:14:22 GMT (Monday 19th October 2020)"
-	revision: "1"
+	date: "2021-08-31 16:33:47 GMT (Tuesday 31st August 2021)"
+	revision: "2"
 
 class
 	WINZIP_TEMPLATE_TEXTS
 
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
-		rename
-			case as Case_lower
-		end
 
 create
 	make, make_with_locale

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-09-01 9:23:29 GMT (Wednesday 1st September 2021)"
+	revision: "5"
 
 class
 	EL_MOVE_FILE_COMMAND_IMP
@@ -16,10 +16,7 @@ inherit
 	EL_MOVE_FILE_COMMAND_I
 
 	EL_OS_COMMAND_IMP
-		undefine
-			make_default
-		end
-
+	
 create
 	make, make_default
 
@@ -32,5 +29,5 @@ feature {NONE} -- Constants
 		#end
 	 	$source_path $destination_path
 	]"
-	
+
 end

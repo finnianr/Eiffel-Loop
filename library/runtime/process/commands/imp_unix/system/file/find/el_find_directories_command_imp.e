@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 16:19:35 GMT (Monday 12th July 2021)"
-	revision: "7"
+	date: "2021-09-01 9:26:16 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_OS_COMMAND_IMP
 		undefine
-			make_default, do_command, new_command_parts, reset
+			do_command, new_command_parts, reset
 		end
 
 	EL_UNIX_FIND_TEMPLATE

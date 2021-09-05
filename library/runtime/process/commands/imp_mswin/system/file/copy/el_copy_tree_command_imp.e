@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-09-01 11:29:48 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 class
 	EL_COPY_TREE_COMMAND_IMP
@@ -21,11 +21,6 @@ inherit
 		end
 
 	EL_OS_COMMAND_IMP
-		undefine
-			make_default
-		redefine
-			getter_function_table
-		end
 
 create
 	make, make_default
@@ -35,7 +30,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_COPY_TREE_COMMAND_I} + ["xcopy_destination_path", agent xcopy_destination_path]
+			Result := Precursor  + ["xcopy_destination_path", agent xcopy_destination_path]
 		end
 
 feature {NONE} -- Implementation

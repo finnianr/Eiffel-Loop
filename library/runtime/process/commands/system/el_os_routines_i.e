@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-21 9:11:30 GMT (Saturday 21st August 2021)"
-	revision: "12"
+	date: "2021-09-01 10:59:50 GMT (Wednesday 1st September 2021)"
+	revision: "13"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -206,14 +206,14 @@ feature {NONE} -- Constants
 			--
 		once
 			create {EL_COPY_FILE_COMMAND_IMP} Result.make_default
-			Result.enable_timestamp_preserved
+			Result.timestamp_preserved.enable
 		end
 
 	Copy_tree_cmd: EL_COPY_TREE_COMMAND_I
 			--
 		once
 			create {EL_COPY_TREE_COMMAND_IMP} Result.make_default
-			Result.enable_timestamp_preserved
+			Result.timestamp_preserved.enable
 		end
 
 	Create_link_cmd: EL_CREATE_LINK_COMMAND_I

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-26 17:47:28 GMT (Tuesday 26th May 2020)"
-	revision: "5"
+	date: "2021-09-01 9:55:50 GMT (Wednesday 1st September 2021)"
+	revision: "6"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -24,7 +24,7 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND_I
 		undefine
-			make_default, set_has_error
+			getter_function_table, make_default, set_has_error, Transient_fields
 		end
 
 feature {NONE} -- Initialization

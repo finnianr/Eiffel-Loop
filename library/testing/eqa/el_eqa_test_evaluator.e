@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-03 14:02:12 GMT (Saturday 3rd April 2021)"
-	revision: "2"
+	date: "2021-09-05 9:30:52 GMT (Sunday 5th September 2021)"
+	revision: "3"
 
 class
 	EL_EQA_TEST_EVALUATOR
@@ -34,9 +34,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (test_set_type: like item_type)
+	make (test_set_type: like item_type; a_test_name: STRING)
+		require
+			valid_test_name: a_test_name.count >= 0
 		do
-			item_type := test_set_type
+			item_type := test_set_type; test_name := a_test_name
 			-- create a new instance of `item' without calling `default_create'
 			if attached {like item} Eiffel.new_instance_of (test_set_type.type_id) as new then
 				item := new
@@ -68,32 +70,16 @@ feature -- Status query
 
 feature -- Basic operations
 
+	call (a_test_name: STRING; a_test: PROCEDURE)
+		do
+			if test_name.count > 0 implies test_name ~ a_test_name then
+				do_call (a_test_name, a_test)
+			end
+		end
+
 	execute
 		do
 			print_name; item.do_all (Current)
-		end
-
-	call (name: STRING; a_test: PROCEDURE)
-		local
-			test_result: EQA_PARTIAL_RESULT; duration: EL_TIME_DURATION
-		do
-			lio.put_labeled_string ("Executing test", name)
-			lio.put_new_line
-			test_result := evaluator.execute (agent apply (?, a_test))
-			if test_result.is_pass then
-				create duration.make_by_fine_seconds (test_result.duration.fine_seconds_count)
-				lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
-				lio.put_new_line
-				lio.put_line ("TEST OK")
-			else
-				lio.put_line ("TEST FAILED")
-				if attached {EQA_RESULT} test_result as l_result
-					and then attached {EQA_TEST_INVOCATION_EXCEPTION} l_result.test_response.exception as test_exception
-				then
-					failure_table [name] := test_exception
-				end
-			end
-			lio.put_new_line
 		end
 
 	print_failures
@@ -119,6 +105,29 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	do_call (name: STRING; a_test: PROCEDURE)
+		local
+			test_result: EQA_PARTIAL_RESULT; duration: EL_TIME_DURATION
+		do
+			lio.put_labeled_string ("Executing test", name)
+			lio.put_new_line
+			test_result := evaluator.execute (agent apply (?, a_test))
+			if test_result.is_pass then
+				create duration.make_by_fine_seconds (test_result.duration.fine_seconds_count)
+				lio.put_labeled_string ("Executed in", duration.out_mins_and_secs)
+				lio.put_new_line
+				lio.put_line ("TEST OK")
+			else
+				lio.put_line ("TEST FAILED")
+				if attached {EQA_RESULT} test_result as l_result
+					and then attached {EQA_TEST_INVOCATION_EXCEPTION} l_result.test_response.exception as test_exception
+				then
+					failure_table [name] := test_exception
+				end
+			end
+			lio.put_new_line
+		end
+
 	apply (test_set: EQA_TEST_SET; a_test: PROCEDURE)
 		do
 			a_test.set_target (test_set)
@@ -129,8 +138,10 @@ feature {NONE} -- Internal attributes
 
 	evaluator: EQA_TEST_EVALUATOR [EQA_TEST_SET]
 
+	item: EL_EQA_TEST_SET
+
 	item_type: TYPE [EL_EQA_TEST_SET]
 
-	item: EL_EQA_TEST_SET
+	test_name: STRING
 
 end

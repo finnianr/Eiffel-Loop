@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:10:42 GMT (Saturday 10th July 2021)"
-	revision: "8"
+	date: "2021-09-01 11:16:18 GMT (Wednesday 1st September 2021)"
+	revision: "9"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -23,10 +23,8 @@ inherit
 		end
 
 	EL_AVCONV_OS_COMMAND_I
-		undefine
-			make_default
 		redefine
-			getter_function_table, on_error
+			on_error
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -81,8 +79,7 @@ feature {NONE} -- Implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_SINGLE_PATH_OPERAND_COMMAND_I}
-			Result.merge (Precursor {EL_AVCONV_OS_COMMAND_I})
+			Result := Precursor + command_name_assignment
 		end
 
 feature {NONE} -- Line states
@@ -92,7 +89,7 @@ feature {NONE} -- Line states
 			start_index: INTEGER
 			time: TIME; time_string: ZSTRING
 		do
-			start_index := line.substring_right_index (Duration_tag, 1)
+			start_index := line.substring_right_index (Tag.duration, 1)
 			if start_index > 0 then
 				time_string := line.substring_between (character_string (' '), character_string (','), start_index)
 				create time.make_from_string (time_string, "hh24:[0]mi:[0]ss.ff2")
@@ -105,7 +102,7 @@ feature {NONE} -- Line states
 		local
 			fields: EL_ZSTRING_LIST; words: LIST [STRING]
 		do
-			if line.has_substring (Audio_tag) then
+			if line.has_substring (Tag.audio) then
 				create fields.make_with_csv (line)
 				across fields as field loop
 					words := field.item.to_string_8.split (' ')
@@ -123,14 +120,10 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Constants
 
-	Audio_tag: ZSTRING
+	Tag: TUPLE [audio, duration: ZSTRING]
 		once
-			Result := "Audio:"
-		end
-
-	Duration_tag: ZSTRING
-		once
-			Result := "Duration:"
+			create Result
+			Tuple.fill (Result, "Audio:, Duration:")
 		end
 
 end

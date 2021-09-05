@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:29:46 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2021-09-01 9:57:01 GMT (Wednesday 1st September 2021)"
+	revision: "8"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -16,6 +16,8 @@ inherit
 	EL_OS_COMMAND_I
 		export
 			{NONE} all
+		undefine
+			getter_function_table, make_default, Transient_fields
 		end
 
 	EL_OS_IMPLEMENTATION

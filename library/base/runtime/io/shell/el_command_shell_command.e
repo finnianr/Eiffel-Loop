@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-03-11 10:24:45 GMT (Monday 11th March 2019)"
-	revision: "6"
+	date: "2021-09-01 8:21:16 GMT (Wednesday 1st September 2021)"
+	revision: "7"
 
 deferred class
 	EL_COMMAND_SHELL_COMMAND
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_COMMAND_SHELL_I
 		export
-			{EL_COMMAND_CLIENT} make_shell
+			{EL_COMMAND_CLIENT} make
 		end
 
 	EL_COMMAND

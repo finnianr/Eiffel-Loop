@@ -11,16 +11,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 10:39:53 GMT (Tuesday 24th November 2020)"
-	revision: "3"
+	date: "2021-09-01 10:50:47 GMT (Wednesday 1st September 2021)"
+	revision: "4"
 
 class
 	COMPRESSION_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_SUB_APPLICATION [COMPRESSION_TEST_SET]
+		redefine
+			visible_types
+		end
 
 create
 	make
+
+feature {NONE} -- Implementation
+
+	visible_types: TUPLE [EL_COPY_TREE_COMMAND_IMP]
+		do
+			create Result
+		end
 
 end

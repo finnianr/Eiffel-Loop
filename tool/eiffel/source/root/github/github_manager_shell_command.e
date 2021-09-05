@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:32:18 GMT (Saturday 14th August 2021)"
-	revision: "6"
+	date: "2021-09-01 8:28:07 GMT (Wednesday 1st September 2021)"
+	revision: "7"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
 
 inherit
 	EL_COMMAND_SHELL_COMMAND
+		rename
+			make as make_shell
+		end
 
 	EL_MODULE_DIRECTORY
 

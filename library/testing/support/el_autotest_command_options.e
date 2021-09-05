@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-15 9:59:35 GMT (Tuesday 15th September 2020)"
-	revision: "4"
+	date: "2021-09-05 9:32:06 GMT (Sunday 5th September 2021)"
+	revision: "5"
 
 class
 	EL_AUTOTEST_COMMAND_OPTIONS
@@ -31,7 +31,8 @@ feature {NONE} -- Constants
 		once
 			Result := joined (Precursor, "[
 				test_set:
-					Name of EQA test set to evaluate
+					Name of EQA test set to evaluate. Optionally execute a single test by appending
+					'.' and name of test: Eg. MY_TESTS.test_something. The "test_" prefix is optional.
 			]")
 		end
 

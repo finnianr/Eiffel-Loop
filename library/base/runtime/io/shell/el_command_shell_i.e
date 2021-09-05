@@ -9,32 +9,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 15:03:41 GMT (Friday 25th June 2021)"
-	revision: "12"
+	date: "2021-09-01 8:24:24 GMT (Wednesday 1st September 2021)"
+	revision: "13"
 
 deferred class
 	EL_COMMAND_SHELL_I
 
 inherit
 	ANY
-	
+
 	EL_MODULE_LIO
 
 	EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 
-	make_shell (name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
-		local
-			table: like new_command_table
+	make (name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
 		do
-			table := new_command_table
-			create command_table.make_equal (table.count + 1)
-			set_standard_options (command_table)
-			across table as command loop
-				command_table [command.key] := command.item
-			end
+			make_table
 			create menu.make (name, command_table.current_keys, a_row_count)
+		end
+
+	make_table
+		do
+			if attached new_command_table as table then
+				create command_table.make_equal (table.count + 1)
+				set_standard_options (command_table)
+				across table as command loop
+					command_table [command.key] := command.item
+				end
+			end
 		end
 
 feature -- Basic operations
@@ -71,7 +75,7 @@ feature -- Basic operations
 	refresh
 		-- refresh `command_table'
 		do
-			make_shell (menu.name, menu.row_count)
+			make (menu.name, menu.row_count)
 		end
 
 feature {NONE} -- Implementation
