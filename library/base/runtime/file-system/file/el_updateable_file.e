@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-04 13:15:54 GMT (Saturday 4th January 2020)"
-	revision: "5"
+	date: "2021-09-07 10:09:39 GMT (Tuesday 7th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_UPDATEABLE_FILE
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	modification_time: DATE_TIME
+	modification_time: EL_DATE_TIME
 		do
 			if path.exists then
 				Result := path.modification_date_time

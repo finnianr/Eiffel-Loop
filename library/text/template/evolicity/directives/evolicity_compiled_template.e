@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-09-07 10:15:42 GMT (Tuesday 7th September 2021)"
+	revision: "7"
 
 class
 	EVOLICITY_COMPILED_TEMPLATE
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	modification_time: DATE_TIME
+	modification_time: EL_DATE_TIME
 
 	encoding: EL_ENCODEABLE_AS_TEXT
 

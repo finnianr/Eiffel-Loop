@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 16:31:20 GMT (Wednesday 1st September 2021)"
-	revision: "2"
+	date: "2021-09-06 14:48:16 GMT (Monday 6th September 2021)"
+	revision: "3"
 
 class
 	EL_FILE_SYNC_COMMAND_IMP
@@ -23,9 +23,21 @@ create
 feature -- Access
 
 	Template: STRING = "[
-		rsync -avz --delete 
+		rsync
+		#if $archive_enabled then
+			--archive
+		#end
+		#if $compress_enabled then
+			--compress
+		#end
+		#if $delete_enabled then
+			--delete
+		#end
 		#if $progress_enabled then
 			--progress
+		#end
+		#if $verbose_enabled then
+			--verbose
 		#end
 		#across $exclude_list as $list loop
 			--exclude '$list.item'

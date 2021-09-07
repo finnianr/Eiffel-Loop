@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 10:58:22 GMT (Saturday 14th August 2021)"
-	revision: "16"
+	date: "2021-09-07 14:39:01 GMT (Tuesday 7th September 2021)"
+	revision: "17"
 
 class
 	DATE_TIME_TEST_SET
@@ -27,6 +27,7 @@ feature -- Basic operations
 			eval.call ("date_time", agent test_date_time)
 			eval.call ("date_time_proper_case", agent test_date_time_proper_case)
 			eval.call ("date_time_subtract", agent test_date_time_subtract)
+			eval.call ("epoch_date_time", agent test_epoch_date_time)
 			eval.call ("formatted_date", agent test_formatted_date)
 			eval.call ("from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted)
 			eval.call ("from_iso_8601_formatted", agent test_from_iso_8601_formatted)
@@ -66,6 +67,19 @@ feature -- Tests
 			create dt_2.make (2000, 1, 2, 23, 0, 0)
 			dt.hour_add (-2)
 			assert ("substracting 2 hours is 11 PM previous day", dt ~ dt_2)
+		end
+
+	test_epoch_date_time
+		local
+			dt, dt_2: EL_DATE_TIME
+		do
+			create dt.make (2000, 1, 3, 1, 0, 0)
+			create dt_2.make_from_epoch (dt.epoch_seconds)
+			assert ("same date", dt.is_almost_equal (dt_2))
+
+			create dt.make_from_string ("09/07/2021 3:08:01.947 PM")
+			create dt_2.make_from_epoch (dt.epoch_seconds)
+			assert ("same date", dt.is_almost_equal (dt_2))
 		end
 
 	test_formatted_date

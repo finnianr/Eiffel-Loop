@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 12:23:54 GMT (Monday 16th August 2021)"
-	revision: "68"
+	date: "2021-09-07 13:39:47 GMT (Tuesday 7th September 2021)"
+	revision: "69"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.find_console_encoding")
-			string.find_console_encoding
+			log.enter ("date_time.epoch_duration")
+--			date_time.epoch_duration
 			log.exit
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:10:39 GMT (Friday 13th August 2021)"
-	revision: "21"
+	date: "2021-09-07 10:12:43 GMT (Tuesday 7th September 2021)"
+	revision: "22"
 
 class
 	EL_FILE_PATH
@@ -28,12 +28,12 @@ convert
 
 feature -- Access
 
-	modification_date_time: DATE_TIME
+	modification_date_time: EL_DATE_TIME
 		do
 			if exists then
 				create Result.make_from_epoch (modification_time)
 			else
-				Result := Date_time.Origin
+				create Result.make_from_other (Date_time.Origin)
 			end
 		end
 

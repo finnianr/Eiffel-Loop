@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 16:33:13 GMT (Wednesday 1st September 2021)"
-	revision: "2"
+	date: "2021-09-06 14:47:42 GMT (Monday 6th September 2021)"
+	revision: "3"
 
 deferred class
 	EL_FILE_SYNC_COMMAND_I
@@ -40,7 +40,19 @@ feature -- Access
 
 feature -- Status query
 
+	archive: EL_BOOLEAN_OPTION
+		-- This is equivalent to -rlptgoD.
+		-- It is a quick way of saying you want recursion and want  to  preserve  almost  everything
+
+	compress: EL_BOOLEAN_OPTION
+		-- compress files during transfer
+
+	delete: EL_BOOLEAN_OPTION
+		-- when enabled delete extraneous files from destination dirs
+
 	progress: EL_BOOLEAN_OPTION
+
+	verbose: EL_BOOLEAN_OPTION
 
 feature {NONE} -- Evolicity reflection
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 19:02:16 GMT (Sunday 15th August 2021)"
-	revision: "21"
+	date: "2021-09-07 14:38:19 GMT (Tuesday 7th September 2021)"
+	revision: "22"
 
 class
 	EL_DATE_TIME
@@ -18,6 +18,9 @@ inherit
 			date_time_tools as Date_time,
 			make_from_string as make_with_format,
 			make_from_string_default as make_from_string
+		export
+			{ANY} ordered_compact_date
+			{NONE} duration -- buggy as hell
 		undefine
 			Date_time, formatted_out, date_time_valid, make_with_format
 		end
@@ -38,7 +41,8 @@ inherit
 
 create
 	make, make_fine, make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,
-	make_from_other, make_with_format, make_from_string_with_base, make_from_string_default_with_base,
+	make_from_other, make_with_format, make_from_string,
+	make_from_string_with_base, make_from_string_default_with_base,
 	make_ISO_8601_extended, make_ISO_8601
 
 feature -- Initialization
@@ -72,7 +76,17 @@ feature -- Initialization
 			valid_day_text: valid_day_text (parser)
 		end
 
-feature -- Access
+feature -- Measurement
+
+	epoch_seconds: INTEGER
+		-- seconds since epoch (1 Jan 1970 at 00:00:00)
+		local
+			l_duration: DATE_TIME_DURATION
+		do
+			Result := relative_duration (Epochal_origin).fine_seconds_count.rounded
+		ensure
+			almost_reversible: new_date (Result).is_almost_equal (Current)
+		end
 
 	zone_offset: INTEGER_8
 		-- zone offset as multiples of 15 mins
@@ -84,6 +98,14 @@ feature -- Status query
 			if date.ordered_compact_date = other.date.ordered_compact_date then
 				Result := time.compact_time = other.time.compact_time
 			end
+		end
+
+feature -- Comparison
+
+	is_almost_equal (other: like Current): BOOLEAN
+		-- Is the current object within one second of `other'?
+		do
+			Result := (ordered_compact_date - other.ordered_compact_date).abs <= 1
 		end
 
 feature -- Element change
@@ -151,6 +173,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_date (epoch: INTEGER): like Current
+		do
+			create Result.make_from_epoch (epoch)
+		end
+
 	to_shared_date_time: DATE_TIME
 		do
 			Result := Current
@@ -175,6 +202,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Epochal_origin: EL_DATE_TIME
+		once
+			create Result.make_from_epoch (0)
+		end
 
 	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
 		once

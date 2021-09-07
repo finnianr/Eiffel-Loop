@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-17 9:29:30 GMT (Monday 17th May 2021)"
-	revision: "13"
+	date: "2021-09-07 10:13:38 GMT (Tuesday 7th September 2021)"
+	revision: "14"
 
 class
 	EVOLICITY_COMPILER
@@ -61,7 +61,7 @@ feature -- Access
 			Result.set_minimum_buffer_length ((source_view.full_count * 1.5).floor)
 		end
 
-	modification_time: DATE_TIME
+	modification_time: EL_DATE_TIME
 
 feature -- Element change
 

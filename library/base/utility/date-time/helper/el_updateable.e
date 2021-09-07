@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:38:11 GMT (Wednesday 19th May 2021)"
-	revision: "4"
+	date: "2021-09-07 10:09:39 GMT (Tuesday 7th September 2021)"
+	revision: "5"
 
 deferred class
 	EL_UPDATEABLE
 
 feature -- Access
 
-	modification_time: DATE_TIME
+	modification_time: EL_DATE_TIME
 		deferred
 		end
 
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	last_modification_time: DATE_TIME
+	last_modification_time: EL_DATE_TIME
 		-- time of last modification
 
 end
