@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:27:59 GMT (Tuesday 24th September 2019)"
-	revision: "6"
+	date: "2021-09-09 11:10:57 GMT (Thursday 9th September 2021)"
+	revision: "7"
 
 class
 	EL_DEFAULT_DATA_TRANSFER_PROGRESS_LISTENER
@@ -36,10 +36,6 @@ feature {NONE} -- Implementation
 		end
 
 	set_identified_text (id: INTEGER; a_text: ZSTRING)
-		do
-		end
-
-	set_progress (proportion: DOUBLE)
 		do
 		end
 

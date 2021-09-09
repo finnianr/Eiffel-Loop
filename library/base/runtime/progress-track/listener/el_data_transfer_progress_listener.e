@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-12 18:58:59 GMT (Sunday 12th January 2020)"
-	revision: "11"
+	date: "2021-09-09 11:15:41 GMT (Thursday 9th September 2021)"
+	revision: "12"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -45,6 +45,16 @@ feature -- Access
 
 	estimated_byte_count: INTEGER
 
+	proportion: DOUBLE
+		-- progress proportion
+		do
+			Result := byte_count / estimated_byte_count
+		end
+
+feature -- Status query
+
+	is_started: BOOLEAN
+
 feature -- Element change
 
 	increase_data_estimate (a_count: INTEGER)
@@ -66,18 +76,22 @@ feature -- Element change
 
 feature {EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER} -- Event handling
 
-	on_notify (a_byte_count: INTEGER)
+	on_notify (increment_count: INTEGER)
+		local
+			new_tick_count: INTEGER
 		do
-			if bytes_per_tick = 0 then
-				bytes_per_tick := estimated_byte_count // final_tick_count
-				display.on_start (bytes_per_tick)
-				next_byte_count := bytes_per_tick
+			if not is_started then
+				display.on_start ((estimated_byte_count / final_tick_count).rounded)
+				is_started := True
 			end
-			byte_count := byte_count + a_byte_count
-			if byte_count > next_byte_count then
-				tick_count := tick_count + 1
-				next_byte_count := next_byte_count + bytes_per_tick
-				display.set_progress (tick_count / final_tick_count)
+			if estimated_byte_count.to_boolean then
+				byte_count := byte_count + increment_count
+				new_tick_count := (final_tick_count * proportion).rounded
+
+				if new_tick_count > tick_count then
+					tick_count := new_tick_count
+					display.set_progress (proportion)
+				end
 			end
 		end
 
@@ -105,18 +119,10 @@ feature {NONE} -- Implementation
 		do
 			tick_count := 0
 			byte_count := 0
-			bytes_per_tick := 0
+			is_started := False
 			estimated_byte_count := 0
-			next_byte_count := 0
 			final_tick_count := Default_final_tick_count
 		end
-
-feature {NONE} -- Internal attributes
-
-	bytes_per_tick: INTEGER
-
-	next_byte_count: INTEGER
-		-- next value of `byte_count' to increment the `tick_count'
 
 feature {NONE} -- Constants
 

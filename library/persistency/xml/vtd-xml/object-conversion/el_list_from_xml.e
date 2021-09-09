@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-09-09 9:54:50 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_LIST_FROM_XML [G -> EL_XML_CREATEABLE_OBJECT create make end]
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 			create Result.make (node)
 		end
 
-	Node_list_xpath: STRING_32
+	Node_list_xpath: READABLE_STRING_GENERAL
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-23 15:26:39 GMT (Wednesday 23rd September 2020)"
-	revision: "4"
+	date: "2021-09-09 11:06:27 GMT (Thursday 9th September 2021)"
+	revision: "5"
 
 class
 	EL_PROGRESS_METER
@@ -93,9 +93,9 @@ feature {EL_PROGRESS_DISPLAY} -- Event handling
 			label_right.set_text (final_text)
 		end
 
-	on_start (bytes_per_tick: INTEGER)
+	on_start (tick_byte_count: INTEGER)
 		do
-			bar.on_start (bytes_per_tick)
+			bar.on_start (tick_byte_count)
 		end
 
 feature {NONE} -- Implementation

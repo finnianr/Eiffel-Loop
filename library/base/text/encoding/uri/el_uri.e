@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 11:51:03 GMT (Sunday 5th September 2021)"
-	revision: "25"
+	date: "2021-09-08 10:18:05 GMT (Wednesday 8th September 2021)"
+	revision: "26"
 
 class
 	EL_URI
@@ -335,14 +335,19 @@ feature {NONE} -- Implementation
 		local
 			i: INTEGER
 		do
-			from i := 1; until i > 2 or Result > 0 loop
-				Result := index_of (Qmark_and_hash [i], start_index)
-				i := i + 1
-			end
-			if Result > 0 then
-				Result := Result - 1
-			else
+			if occurrences ('/') = 2 then
+				-- Eg. http://myching.software
 				Result := count
+			else
+				from i := 1; until i > 2 or Result > 0 loop
+					Result := index_of (Qmark_and_hash [i], start_index)
+					i := i + 1
+				end
+				if Result > 0 then
+					Result := Result - 1
+				else
+					Result := count
+				end
 			end
 		end
 

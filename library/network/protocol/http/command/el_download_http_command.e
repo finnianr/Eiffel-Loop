@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 7:43:22 GMT (Wednesday 16th June 2021)"
-	revision: "5"
+	date: "2021-09-09 9:20:48 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_DOWNLOAD_HTTP_COMMAND
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 			string.from_c_substring (c_string, 1, a_size * a_nmemb)
 			Result := string.count
 			on_string_transfer (string)
-			listener.on_notify (string.count)  -- progress notification
+			listener.on_notify (string.count) -- progress notification
 		end
 
 	on_string_transfer (a_string: STRING)

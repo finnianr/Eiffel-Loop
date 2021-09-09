@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 9:31:35 GMT (Tuesday 18th August 2020)"
-	revision: "8"
+	date: "2021-09-09 11:06:46 GMT (Thursday 9th September 2021)"
+	revision: "9"
 
 deferred class
 	EL_PROGRESS_DISPLAY
@@ -34,7 +34,7 @@ feature {EL_PROGRESS_LISTENER, EL_PROGRESS_DISPLAY}
 		deferred
 		end
 
-	on_start (bytes_per_tick: INTEGER)
+	on_start (tick_byte_count: INTEGER)
 		deferred
 		end
 

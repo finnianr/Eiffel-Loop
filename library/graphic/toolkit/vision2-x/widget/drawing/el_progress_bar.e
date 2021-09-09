@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 10:13:48 GMT (Wednesday 20th January 2021)"
-	revision: "2"
+	date: "2021-09-09 11:06:35 GMT (Thursday 9th September 2021)"
+	revision: "3"
 
 class
 	EL_PROGRESS_BAR
@@ -71,7 +71,7 @@ feature {EL_PROGRESS_DISPLAY} -- Event handling
 			end
 		end
 
-	on_start (bytes_per_tick: INTEGER)
+	on_start (tick_byte_count: INTEGER)
 		do
 			proportion_filled := zero
 		end
