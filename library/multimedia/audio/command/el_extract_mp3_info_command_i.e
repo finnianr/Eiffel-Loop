@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 10:22:46 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2021-09-09 16:06:38 GMT (Thursday 9th September 2021)"
+	revision: "7"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -33,8 +33,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create fields.make_equal (11)
-			create path
-			Precursor {EL_CAPTURED_OS_COMMAND_I}
+			Precursor
 		end
 
 feature -- Access

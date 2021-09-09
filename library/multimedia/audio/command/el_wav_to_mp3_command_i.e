@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:17:25 GMT (Saturday 10th July 2021)"
-	revision: "7"
+	date: "2021-09-09 16:05:56 GMT (Thursday 9th September 2021)"
+	revision: "8"
 
 deferred class
 	EL_WAV_TO_MP3_COMMAND_I
@@ -120,7 +120,7 @@ feature -- Contract Support
 
 	valid_input_extension (extension: ZSTRING): BOOLEAN
 		do
-			Result := extension ~ File_extension_wav
+			Result := extension ~ Media_extension.wav
 		end
 
 	valid_number_channels (a_num_channels: like num_channels): BOOLEAN
@@ -130,7 +130,7 @@ feature -- Contract Support
 
 	valid_output_extension (extension: ZSTRING): BOOLEAN
 		do
-			Result := extension ~ File_extension_mp3
+			Result := extension ~ Media_extension.mp3
 		end
 
 feature {NONE} -- Constants

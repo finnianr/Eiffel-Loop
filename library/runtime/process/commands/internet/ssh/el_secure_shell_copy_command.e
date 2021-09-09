@@ -6,35 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-02 9:33:04 GMT (Thursday 2nd September 2021)"
-	revision: "3"
+	date: "2021-09-09 15:49:12 GMT (Thursday 9th September 2021)"
+	revision: "4"
 
 class
 	EL_SECURE_SHELL_COPY_COMMAND
 
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [source_path, user_domain, destination_dir: STRING]]
-		redefine
-			make_default
-		end
 
 	EL_SECURE_SHELL_COMMAND
 		redefine
-			make_default, set_user_domain
+			set_user_domain
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			create destination_dir
-			Precursor {EL_SECURE_SHELL_COMMAND}
-			Precursor {EL_PARSED_OS_COMMAND}
-		end
 
 feature -- Access
 

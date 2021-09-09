@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-31 11:45:15 GMT (Wednesday 31st October 2018)"
-	revision: "5"
+	date: "2021-09-09 16:10:01 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
-class
+deferred class
 	EL_GNOME_SETTING_COMMAND_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

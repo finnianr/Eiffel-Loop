@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-24 10:25:54 GMT (Saturday 24th July 2021)"
-	revision: "11"
+	date: "2021-09-09 15:35:45 GMT (Thursday 9th September 2021)"
+	revision: "12"
 
 deferred class
 	EL_X509_PRIVATE_READER_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 			make as make_file_command,
 			find_public_key as find_private_key
 		redefine
-			do_command, do_with_lines, make_default
+			do_command, do_with_lines
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -33,13 +33,6 @@ feature {NONE} -- Initialization
 		do
 			make_file_command (a_key_file_path)
 			phrase := a_phrase
-		end
-
-	make_default
-			--
-		do
-			create phrase.make_empty
-			Precursor
 		end
 
 feature -- Access

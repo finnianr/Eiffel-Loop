@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 12:51:32 GMT (Friday 20th August 2021)"
-	revision: "1"
+	date: "2021-09-09 16:33:28 GMT (Thursday 9th September 2021)"
+	revision: "2"
 
 deferred class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]

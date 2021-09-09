@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:19:13 GMT (Saturday 10th July 2021)"
-	revision: "9"
+	date: "2021-09-09 18:12:14 GMT (Thursday 9th September 2021)"
+	revision: "10"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -53,15 +53,16 @@ feature -- Element change
 
 feature {NONE} -- Evolicity reflection
 
+	get_is_file_destination: BOOLEAN_REF
+		-- is destination path a file
+		do
+			Result := is_file_destination.to_reference
+		end
+
 	getter_function_table: like getter_functions
 			--
-		local
-			field_name: STRING
 		do
-			field_name := meta_data.field_list [2].name
-			Result := Precursor +
-				[field_name,				agent: ZSTRING do Result := destination_path.escaped end] +
-				["is_file_destination", agent: BOOLEAN_REF do Result := is_file_destination.to_reference end]
+			Result := Precursor + ["is_file_destination", agent get_is_file_destination]
 		end
 
 end

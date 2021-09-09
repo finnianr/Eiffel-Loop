@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-06 14:47:42 GMT (Monday 6th September 2021)"
-	revision: "3"
+	date: "2021-09-09 15:48:29 GMT (Thursday 9th September 2021)"
+	revision: "4"
 
 deferred class
 	EL_FILE_SYNC_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 
 	EL_SECURE_SHELL_COMMAND
 		redefine
-			make_default, escaped_remote
+			escaped_remote
 		end
 
 feature {NONE} -- Initialization
@@ -29,9 +29,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create exclude_list.make (0)
-			create progress
-			Precursor {EL_SECURE_SHELL_COMMAND}
-			Precursor {EL_COPY_TREE_COMMAND_I}
+			Precursor
 		end
 
 feature -- Access

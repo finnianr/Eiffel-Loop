@@ -47,8 +47,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:53:30 GMT (Wednesday 1st September 2021)"
-	revision: "12"
+	date: "2021-09-09 15:50:09 GMT (Thursday 9th September 2021)"
+	revision: "13"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -74,7 +74,7 @@ inherit
 		rename
 			make_default as make
 		undefine
-			new_command_parts, do_command, is_equal, copy
+			new_command_parts, do_command, copy
 		redefine
 			is_valid_platform
 		end
@@ -87,7 +87,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_list (10)
-			Precursor {EL_CAPTURED_OS_COMMAND_I}
+			Precursor
 			execute
 		end
 

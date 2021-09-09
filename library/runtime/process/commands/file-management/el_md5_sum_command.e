@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 12:18:37 GMT (Friday 20th August 2021)"
-	revision: "1"
+	date: "2021-09-09 15:37:09 GMT (Thursday 9th September 2021)"
+	revision: "2"
 
 class
 	EL_MD5_SUM_COMMAND
@@ -15,19 +15,11 @@ class
 inherit
 	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [target_path: STRING]]
 		redefine
-			execute, make_default
+			execute
 		end
 
 create
 	execute, make
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			Precursor
-			create sum.make_empty
-		end
 
 feature -- Access
 

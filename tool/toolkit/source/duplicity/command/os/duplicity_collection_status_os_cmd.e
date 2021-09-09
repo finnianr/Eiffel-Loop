@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 14:09:45 GMT (Wednesday 9th June 2021)"
-	revision: "5"
+	date: "2021-09-09 16:19:41 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -26,6 +26,8 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
+		undefine
+			is_equal
 		end
 
 	EL_MODULE_TUPLE

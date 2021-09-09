@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-25 14:09:52 GMT (Wednesday 25th August 2021)"
-	revision: "2"
+	date: "2021-09-09 15:48:42 GMT (Thursday 9th September 2021)"
+	revision: "3"
 
 class
 	EL_SECURE_SHELL_MAKE_DIRECTORY_COMMAND
@@ -20,7 +20,7 @@ inherit
 
 	EL_SECURE_SHELL_COMMAND
 		redefine
-			make_default, set_user_domain
+			set_user_domain
 		end
 
 create
@@ -30,8 +30,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor {EL_SECURE_SHELL_COMMAND}
-			Precursor {EL_PARSED_OS_COMMAND}
+			Precursor
 		end
 
 feature -- Element change

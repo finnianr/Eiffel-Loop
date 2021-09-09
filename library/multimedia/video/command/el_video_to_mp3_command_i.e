@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 10:36:04 GMT (Wednesday 1st September 2021)"
-	revision: "8"
+	date: "2021-09-09 16:05:11 GMT (Thursday 9th September 2021)"
+	revision: "9"
 
 deferred class
 	EL_VIDEO_TO_MP3_COMMAND_I
@@ -86,7 +86,7 @@ feature -- Contract Support
 
 	valid_output_extension (extension: ZSTRING): BOOLEAN
 		do
-			Result := extension ~ File_extension_mp3
+			Result := extension ~ Media_extension.mp3
 		end
 
 feature {NONE} -- Evolicity reflection

@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:37:27 GMT (Friday 18th January 2019)"
-	revision: "5"
+	date: "2021-09-09 16:36:48 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -89,7 +89,7 @@ feature -- Basic operations
 				end
 			end
 			if has_parameters then
-				create command.make (command_template)
+				create command.make_command (command_template)
 				if input_dir.exists then
 					apply (command)
 				else
@@ -121,9 +121,9 @@ feature {NONE} -- Constants
 
 	Root_node_name: STRING = "transform-tree"
 
-	Template_parameters: ARRAY [STRING]
+	Template_parameters: EL_STRING_8_LIST
 		once
-			Result := << "$input_path", "$output_path" >>
+			Result := "$input_path, $output_path"
 		end
 
 end

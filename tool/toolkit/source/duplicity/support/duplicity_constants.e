@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 13:02:47 GMT (Thursday 16th July 2020)"
-	revision: "3"
+	date: "2021-09-09 16:17:28 GMT (Thursday 9th September 2021)"
+	revision: "4"
 
-class
+deferred class
 	DUPLICITY_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 
@@ -18,7 +21,7 @@ feature {NONE} -- Constants
 		duplicity $type $options $exclusions $target "$destination"
 	]"
 
-	Time_now: DATE_TIME
+	Time_now: EL_DATE_TIME
 		once
 			create Result.make_now
 		end

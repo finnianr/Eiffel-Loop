@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:16:18 GMT (Wednesday 1st September 2021)"
-	revision: "9"
+	date: "2021-09-09 15:59:58 GMT (Thursday 9th September 2021)"
+	revision: "10"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -30,6 +30,8 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
+		undefine
+			is_equal
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -40,7 +42,7 @@ feature {NONE} -- Initialization
 		do
 			make_machine
 			create duration.make_by_seconds (0)
-			Precursor {EL_SINGLE_PATH_OPERAND_COMMAND_I}
+			Precursor
 		end
 
 	make (a_file_path: like file_path)

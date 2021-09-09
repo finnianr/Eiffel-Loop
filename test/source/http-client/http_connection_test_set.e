@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 10:11:14 GMT (Sunday 5th September 2021)"
-	revision: "33"
+	date: "2021-09-09 19:48:36 GMT (Thursday 9th September 2021)"
+	revision: "34"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -233,14 +233,13 @@ feature -- Tests
 
 	test_open_url
 		local
-			url: EL_URL; title: ZSTRING
+			url: EL_URL
 		do
-			title := {STRING_32} "<title>Категория:Телесериалы США — Википедия</title>"
-			create url.make_from_general ({STRING_32} "http://www.académie-française.fr/")
+			create url.make ("http://www.académie-française.fr/")
 			web.open_url (url)
-			web.read_string_get
+			web.read_string_head
+			assert ("correct title", web.last_headers.location ~ "https://www.academie-francaise.fr/")
 			web.close
-			assert ("correct title", web.content.has_substring (title))
 		end
 
 	test_url_encoded

@@ -6,28 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:41:44 GMT (Friday 3rd April 2020)"
-	revision: "6"
+	date: "2021-09-09 16:04:54 GMT (Thursday 9th September 2021)"
+	revision: "7"
 
-class
+deferred class
 	EL_MULTIMEDIA_CONSTANTS
+
+inherit
+	EL_ANY_SHARED
+
+	EL_MODULE_TUPLE
 
 feature -- Constants
 
-	File_extension_wav: ZSTRING
+	Media_extension: TUPLE [mp3, wav: ZSTRING]
 		once
-			Result := "wav"
+			create Result
+			Tuple.fill (Result, "mp3, wav")
 		end
 
-	File_extension_mp3: ZSTRING
+	Video_extensions: EL_ZSTRING_LIST
 		once
-			Result := "mp3"
-		end
-
-	Video_extensions: ARRAY [ZSTRING]
-		once
-			Result := << "flv", "mp4", "mov" >>
-			Result.compare_objects
+			Result := "flv, mp4, mov"
 		end
 
 end

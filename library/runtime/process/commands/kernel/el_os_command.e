@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:18:44 GMT (Wednesday 1st September 2021)"
-	revision: "13"
+	date: "2021-09-09 15:33:32 GMT (Thursday 9th September 2021)"
+	revision: "14"
 
 class
 	EL_OS_COMMAND
@@ -29,7 +29,7 @@ inherit
 			temporary_error_file_path, put_variable
 		end
 
-	EL_REFLECTION_HANDLER
+	EL_REFLECTION_HANDLER undefine is_equal end
 
 create
 	make, make_with_name

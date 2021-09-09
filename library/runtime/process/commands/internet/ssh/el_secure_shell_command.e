@@ -6,17 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-25 14:21:38 GMT (Wednesday 25th August 2021)"
-	revision: "1"
+	date: "2021-09-09 15:48:12 GMT (Thursday 9th September 2021)"
+	revision: "2"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
 
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			create user_domain.make_empty
+inherit
+	ANY
+		undefine
+			is_equal
 		end
 
 feature -- Access

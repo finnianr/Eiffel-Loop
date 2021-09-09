@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:25:27 GMT (Wednesday 1st September 2021)"
-	revision: "7"
+	date: "2021-09-09 15:32:18 GMT (Thursday 9th September 2021)"
+	revision: "8"
 
 class
 	EL_FIND_FILES_COMMAND_IMP
@@ -23,7 +23,7 @@ inherit
 			do_command, new_command_parts, reset
 		end
 
-	EL_UNIX_FIND_TEMPLATE
+	EL_UNIX_FIND_TEMPLATE undefine is_equal end
 
 create
 	make, make_default

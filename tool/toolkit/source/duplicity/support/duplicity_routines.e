@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 12:59:43 GMT (Sunday 12th April 2020)"
-	revision: "2"
+	date: "2021-09-09 16:18:45 GMT (Thursday 9th September 2021)"
+	revision: "3"
 
-class
+deferred class
 	DUPLICITY_ROUTINES
 
 inherit

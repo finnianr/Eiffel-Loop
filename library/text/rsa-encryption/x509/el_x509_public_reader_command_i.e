@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-24 10:25:41 GMT (Saturday 24th July 2021)"
-	revision: "3"
+	date: "2021-09-09 15:35:13 GMT (Thursday 9th September 2021)"
+	revision: "4"
 
 deferred class
 	EL_X509_PUBLIC_READER_COMMAND_I
@@ -16,17 +16,6 @@ inherit
 	EL_X509_CERTIFICATE_READER_COMMAND_I
 		rename
 			rsa_key as public_key
-		redefine
-			make_default
-		end
-
-feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			Precursor
-			create serial_number.make_empty
 		end
 
 feature -- Access

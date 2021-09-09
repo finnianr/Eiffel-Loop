@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:52:08 GMT (Wednesday 1st September 2021)"
-	revision: "5"
+	date: "2021-09-09 15:40:28 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -17,7 +17,7 @@ inherit
 		export
 			{NONE} all
 		redefine
-			make_default, do_with_lines
+			do_with_lines
 		end
 
 feature {NONE} -- Initialization
@@ -27,12 +27,6 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			execute
-		end
-
-	make_default
-		do
-			create model_name.make_empty
-			Precursor
 		end
 
 feature -- Access

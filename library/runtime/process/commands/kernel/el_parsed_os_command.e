@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 17:23:47 GMT (Friday 20th August 2021)"
-	revision: "2"
+	date: "2021-09-09 16:34:30 GMT (Thursday 9th September 2021)"
+	revision: "3"
 
 deferred class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -42,14 +42,12 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_command (template)
-			create var; fill_variables (var)
-		ensure
-			valid_variable_names: valid_variable_names
 		end
 
 	make_command (a_template: READABLE_STRING_GENERAL)
 		do
 			Precursor (a_template)
+			create var; fill_variables (var)
 		ensure then
 			valid_types: valid_tuple (create {VARIABLES})
 		end

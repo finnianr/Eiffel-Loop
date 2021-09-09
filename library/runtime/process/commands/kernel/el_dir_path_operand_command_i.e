@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-31 10:41:37 GMT (Thursday 31st January 2019)"
-	revision: "4"
+	date: "2021-09-09 15:46:40 GMT (Thursday 9th September 2021)"
+	revision: "5"
 
 deferred class
 	EL_DIR_PATH_OPERAND_COMMAND_I
@@ -15,17 +15,13 @@ deferred class
 inherit
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
 		rename
-			Default_path as Default_dir_path,
 			path as dir_path,
 			set_path as set_dir_path
 		redefine
-			Default_dir_path
+			dir_path
 		end
 
-feature {NONE} -- Constants
+feature -- Access
 
-	Default_dir_path: EL_DIR_PATH
-		once
-			create Result
-		end
+	dir_path: EL_DIR_PATH
 end

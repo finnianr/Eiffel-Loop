@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-07 14:38:19 GMT (Tuesday 7th September 2021)"
-	revision: "22"
+	date: "2021-09-09 16:09:15 GMT (Thursday 9th September 2021)"
+	revision: "23"
 
 class
 	EL_DATE_TIME
@@ -80,8 +80,6 @@ feature -- Measurement
 
 	epoch_seconds: INTEGER
 		-- seconds since epoch (1 Jan 1970 at 00:00:00)
-		local
-			l_duration: DATE_TIME_DURATION
 		do
 			Result := relative_duration (Epochal_origin).fine_seconds_count.rounded
 		ensure

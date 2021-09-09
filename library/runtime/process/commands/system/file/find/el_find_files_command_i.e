@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:57:50 GMT (Monday 12th July 2021)"
-	revision: "10"
+	date: "2021-09-09 15:39:13 GMT (Thursday 9th September 2021)"
+	revision: "11"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I
@@ -18,7 +18,7 @@ inherit
 			make as make_path,
 			copy_directory_items as copy_directory_files
 		redefine
-			make_default, path_list
+			path_list
 		end
 
 feature {NONE} -- Initialization
@@ -28,13 +28,6 @@ feature {NONE} -- Initialization
 		do
 			make_path (a_dir_path)
 			name_pattern.append_string_general (a_name_pattern)
-		end
-
-	make_default
-			--
-		do
-			Precursor
-			create name_pattern.make_empty
 		end
 
 feature -- Access

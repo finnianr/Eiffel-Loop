@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-21 12:11:12 GMT (Saturday 21st August 2021)"
-	revision: "2"
+	date: "2021-09-09 15:37:56 GMT (Thursday 9th September 2021)"
+	revision: "3"
 
 class
 	EL_GENERATE_PATCH_COMMAND
@@ -17,21 +17,11 @@ class
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [from_path, to_path, patch_path: STRING]]
 		redefine
-			execute, make_default
+			execute
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make_default
-			--
-		do
-			Precursor
-			create patch_path
-			create to_path
-		end
 
 feature -- Access
 

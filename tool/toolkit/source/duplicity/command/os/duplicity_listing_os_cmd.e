@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 14:00:24 GMT (Wednesday 9th June 2021)"
-	revision: "9"
+	date: "2021-09-09 16:20:40 GMT (Thursday 9th September 2021)"
+	revision: "10"
 
 class
 	DUPLICITY_LISTING_OS_CMD
@@ -26,13 +26,18 @@ inherit
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
 			make as make_machine
+		undefine
+			is_equal
 		end
 
 	DUPLICITY_ROUTINES
 
-	EL_MODULE_TUPLE
-
 	EL_TEXT_PATTERN_FACTORY
+		undefine
+			is_equal
+		end
+
+	EL_MODULE_TUPLE
 
 create
 	make

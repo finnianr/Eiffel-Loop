@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-26 14:20:06 GMT (Saturday 26th June 2021)"
-	revision: "11"
+	date: "2021-09-09 16:12:41 GMT (Thursday 9th September 2021)"
+	revision: "12"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_output_modification_time: DATE_TIME
+	new_output_modification_time: EL_DATE_TIME
 		do
 			if output_file_path.exists then
 				Result := output_file_path.modification_date_time

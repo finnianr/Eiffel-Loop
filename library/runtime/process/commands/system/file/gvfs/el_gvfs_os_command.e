@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-06 10:21:28 GMT (Wednesday 6th January 2021)"
-	revision: "8"
+	date: "2021-09-09 16:01:30 GMT (Thursday 9th September 2021)"
+	revision: "9"
 
 class
 	EL_GVFS_OS_COMMAND
@@ -22,6 +22,8 @@ inherit
 		rename
 			make as make_machine,
 			do_with_lines as parse_lines
+		undefine
+			is_equal
 		end
 
 	EL_MODULE_EXCEPTION

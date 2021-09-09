@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 10:59:11 GMT (Wednesday 1st September 2021)"
-	revision: "4"
+	date: "2021-09-09 15:32:59 GMT (Thursday 9th September 2021)"
+	revision: "5"
 
 deferred class
 	EL_UNIX_CP_TEMPLATE
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

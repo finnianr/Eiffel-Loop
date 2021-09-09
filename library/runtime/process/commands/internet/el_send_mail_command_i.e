@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:53:14 GMT (Wednesday 1st September 2021)"
-	revision: "8"
+	date: "2021-09-09 15:29:19 GMT (Thursday 9th September 2021)"
+	revision: "9"
 
 deferred class
 	EL_SEND_MAIL_COMMAND_I
@@ -22,6 +22,8 @@ inherit
 		rename
 			make as make_machine,
 			do_with_lines as do_with_machine_lines
+		undefine
+			is_equal
 		end
 
 feature {NONE} -- Initialization

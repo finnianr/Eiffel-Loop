@@ -7,34 +7,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:08:02 GMT (Wednesday 1st September 2021)"
-	revision: "22"
+	date: "2021-09-09 18:08:30 GMT (Thursday 9th September 2021)"
+	revision: "23"
 
 deferred class
 	EL_OS_COMMAND_I
 
 inherit
-	EL_COMMAND
+	EL_COMMAND undefine is_equal end
 
 	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as system_command
+		undefine
+			is_equal
 		redefine
 			make_default, system_command
 		end
 
-	EL_REFLECTIVE
+	EL_REFLECTIVELY_SETTABLE
 		rename
 			export_name as export_default,
 			import_name as import_default,
-			field_included as is_path_or_boolean_field
+			field_included as is_any_field
 		export
 			{NONE} all
 		redefine
-			Transient_fields
+			make_default, Transient_fields
 		end
 
-	EL_OS_COMMAND_CONSTANTS
+	EL_OS_COMMAND_CONSTANTS undefine is_equal end
 
 	EL_SHARED_CLASS_ID
 
@@ -53,9 +55,9 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create working_directory
 			errors := Empty_list
-			Precursor
+			Precursor {EL_REFLECTIVELY_SETTABLE}
+			Precursor {EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
 		end
 
 feature -- Access
@@ -136,6 +138,11 @@ feature -- Basic operations
 
 feature {NONE} -- Evolicity reflection
 
+	get_escaped_path (field: EL_REFLECTED_PATH): ZSTRING
+		do
+			Result := field.value (Current).escaped
+		end
+
 	get_boolean_ref (field: EL_REFLECTED_BOOLEAN_REF): BOOLEAN_REF
 		do
 			Result := field.value (Current)
@@ -153,6 +160,9 @@ feature {NONE} -- Evolicity reflection
 			across meta_data.field_list as list loop
 				if attached {EL_REFLECTED_BOOLEAN} list.item as field then
 					Result [field.name] := agent to_boolean_ref (field)
+
+				elseif attached {EL_REFLECTED_PATH} list.item as field then
+					Result [field.name] := agent get_escaped_path (field)
 
 				elseif attached {EL_REFLECTED_BOOLEAN_REF} list.item as field
 					and then field.type_id = Class_id.EL_BOOLEAN_OPTION
@@ -246,20 +256,6 @@ feature {NONE} -- Implementation
 						File_system.remove_file (error_path)
 					end
 				File_system_mutex.unlock
-			end
-		end
-
-	is_path_or_boolean_field (basic_type, type_id: INTEGER): BOOLEAN
-		-- when True, include field of this type in `field_table' and `meta_data'
-		-- except when the name is one of those listed in `Except_fields'.
-		do
-			inspect basic_type
-				when {REFLECTOR_CONSTANTS}.Boolean_type then
-					Result := True
-				when {REFLECTOR_CONSTANTS}.Reference_type then
-					Result := Eiffel.type_conforms_to (type_id, Class_id.EL_PATH)
-						or else Eiffel.type_conforms_to (type_id, Class_id.EL_BOOLEAN_OPTION)
-			else
 			end
 		end
 

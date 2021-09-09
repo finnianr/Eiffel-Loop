@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:05:57 GMT (Saturday 20th March 2021)"
-	revision: "5"
+	date: "2021-09-09 17:53:19 GMT (Thursday 9th September 2021)"
+	revision: "6"
 
 class
 	EL_FILE_TREE_TRANSFORMER
@@ -98,7 +98,7 @@ feature -- Element change
 
 feature {NONE} -- Internal attributes
 
-	extension_list: ARRAYED_LIST [STRING]
+	extension_list: EL_STRING_8_LIST
 
 	input_dir: EL_DIR_PATH
 

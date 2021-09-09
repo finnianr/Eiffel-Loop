@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 10:19:41 GMT (Wednesday 1st September 2021)"
-	revision: "14"
+	date: "2021-09-09 18:10:10 GMT (Thursday 9th September 2021)"
+	revision: "15"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -35,9 +35,8 @@ feature {NONE} -- Initialization
 			--
 		do
 			create path_list.make (20)
-			create name_pattern.make_empty
+			Precursor
 			set_defaults
-			Precursor {EL_DIR_PATH_OPERAND_COMMAND_I}
 		end
 
 feature -- Access
@@ -61,7 +60,7 @@ feature -- Access
 			Result.sort
 		end
 
-	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path]
+	path_list: EL_SORTABLE_ARRAYED_LIST [like new_path] note option: transient attribute end
 
 	type: STRING
 			-- Unix find type or Windows attribute /A
@@ -172,11 +171,11 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_DIR_PATH_OPERAND_COMMAND_I} +
-				["name_pattern", 				agent: ZSTRING do Result := name_pattern end] +
-				["max_depth", 					agent: INTEGER_REF do Result := max_depth.to_reference end] +
-				["min_depth", 					agent: INTEGER_REF do Result := min_depth.to_reference end] +
-				["type",							agent: STRING do Result := type end]
+			Result := Precursor +
+				["name_pattern", 	agent: ZSTRING do Result := name_pattern end] +
+				["max_depth", 		agent: INTEGER_REF do Result := max_depth.to_reference end] +
+				["min_depth", 		agent: INTEGER_REF do Result := min_depth.to_reference end] +
+				["type",				agent: STRING do Result := type end]
 		end
 
 feature {NONE} -- Implementation
@@ -215,7 +214,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	filter: EL_QUERY_CONDITION [ZSTRING]
+	filter: EL_QUERY_CONDITION [ZSTRING] note option: transient attribute end
 
 feature {NONE} -- Constants
 
