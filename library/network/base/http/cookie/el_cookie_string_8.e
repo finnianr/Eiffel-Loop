@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-24 11:23:01 GMT (Sunday 24th May 2020)"
-	revision: "5"
+	date: "2021-09-11 9:44:14 GMT (Saturday 11th September 2021)"
+	revision: "6"
 
 class
 	EL_COOKIE_STRING_8
@@ -24,8 +24,6 @@ inherit
 		end
 
 	EL_MODULE_OCTAL
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make_encoded, make_empty, make
@@ -55,9 +53,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_reserved_character_set
+	is_reserved (c: CHARACTER_32): BOOLEAN
 		do
-			reserved_character_set := Empty_string_8
 		end
 
 	is_octal_digit (c: CHARACTER): BOOLEAN

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 8:36:10 GMT (Thursday 28th May 2020)"
-	revision: "1"
+	date: "2021-09-11 9:43:50 GMT (Saturday 11th September 2021)"
+	revision: "2"
 
 class
 	EL_URL_QUERY_STRING_8
@@ -27,10 +27,8 @@ class
 inherit
 	EL_URI_QUERY_STRING_8
 		redefine
-			adjusted_character, append_unencoded, is_unreserved, set_reserved_character_set
+			adjusted_character, append_unencoded, is_unreserved, is_reserved
 		end
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make_encoded, make_empty, make
@@ -64,22 +62,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_reserved_character_set
+	is_reserved (c: CHARACTER_32): BOOLEAN
 		do
-			reserved_character_set := Empty_string_8
 		end
-
-feature {NONE} -- Contract Support
-
---	is_append_reversible (s: READABLE_STRING_GENERAL; old_count: INTEGER): BOOLEAN
---		local
---			l_decoded: STRING_32
---		do
---			l_decoded := decoded_32_substring (old_count + 1, count, False)
---			if s.has ('+') then
---				String_32.replace_character (l_decoded, ' ', '+')
---			end
---			Result := same_string (l_decoded)
---		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:18:24 GMT (Friday 8th January 2021)"
-	revision: "13"
+	date: "2021-09-11 9:41:50 GMT (Saturday 11th September 2021)"
+	revision: "14"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -28,26 +28,9 @@ inherit
 					capacity, same_string, to_c, to_string_8, Is_string_8
 
 			{STRING_HANDLER} set_count, append_raw_8, item, put
-
-		redefine
-			make_encoded, make
 		end
 
 	EL_MODULE_HEXADECIMAL
-
-feature {NONE} -- Initialization
-
-	make (n: INTEGER)
-		do
-			set_reserved_character_set
-			Precursor (n)
-		end
-
-	make_encoded (s: READABLE_STRING_8)
-		do
-			set_reserved_character_set
-			Precursor (s)
-		end
 
 feature -- Conversion
 
@@ -100,15 +83,15 @@ feature -- Element change
 			valid_bounds: start_index <= end_index + 1
 		local
 			uc: CHARACTER_32; i, utf_count, s_count: INTEGER
-			utf_8: like Utf_8_sequence; reserved_set: STRING_32
+			utf_8: like Utf_8_sequence
 		do
-			utf_8 := Utf_8_sequence; reserved_set := reserved_character_set
+			utf_8 := Utf_8_sequence
 			s_count := end_index - start_index + 1
 			utf_count := utf_8.substring_byte_count (s, start_index, end_index)
 			grow (count + utf_count + (utf_count - s_count) // 2)
 			from i := start_index until i > end_index loop
 				uc := s [i]
-				if is_unreserved (uc) or else reserved_set.has (uc) then
+				if is_unreserved (uc) or else is_reserved (uc) then
 					append_unencoded (uc.to_character_8)
 				else
 					append_encoded	(utf_8, uc)
@@ -241,6 +224,10 @@ feature {NONE} -- Implementation
 			else end
 		end
 
+	is_reserved (c: CHARACTER_32): BOOLEAN
+		deferred
+		end
+
 	sequence_code (a_area: like area; offset: INTEGER): NATURAL
 		local
 			hi_c, low_c: NATURAL
@@ -248,10 +235,6 @@ feature {NONE} -- Implementation
 			hi_c := a_area.item (offset).natural_32_code
 			low_c := a_area.item (offset + 1).natural_32_code
 			Result := (Hexadecimal.to_decimal (hi_c) |<< 4) | Hexadecimal.to_decimal (low_c)
-		end
-
-	set_reserved_character_set
-		deferred
 		end
 
 	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING
@@ -272,10 +255,6 @@ feature {NONE} -- Deferred implementation
 		-- count of escape sequence digits
 		deferred
 		end
-
-feature {NONE} -- Internal attributes
-
-	reserved_character_set: STRING_32
 
 feature {NONE} -- Constants
 

@@ -7,20 +7,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 18:08:30 GMT (Thursday 9th September 2021)"
-	revision: "23"
+	date: "2021-09-10 9:07:58 GMT (Friday 10th September 2021)"
+	revision: "24"
 
 deferred class
 	EL_OS_COMMAND_I
 
 inherit
-	EL_COMMAND undefine is_equal end
+	EL_COMMAND
 
 	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as system_command
-		undefine
-			is_equal
 		redefine
 			make_default, system_command
 		end
@@ -32,11 +30,13 @@ inherit
 			field_included as is_any_field
 		export
 			{NONE} all
+		undefine
+			is_equal
 		redefine
 			make_default, Transient_fields
 		end
 
-	EL_OS_COMMAND_CONSTANTS undefine is_equal end
+	EL_OS_COMMAND_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 

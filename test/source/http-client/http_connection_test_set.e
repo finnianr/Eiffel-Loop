@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 19:48:36 GMT (Thursday 9th September 2021)"
-	revision: "34"
+	date: "2021-09-11 8:15:10 GMT (Saturday 11th September 2021)"
+	revision: "35"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -40,7 +40,6 @@ feature -- Basic operations
 			eval.call ("http_hash_table", agent test_http_hash_table)
 			eval.call ("http_post", agent test_http_post)
 			eval.call ("image_headers", agent test_image_headers)
-			eval.call ("open_url", agent test_open_url)
 			eval.call ("url_encoded", agent test_url_encoded)
 		end
 
@@ -231,17 +230,6 @@ feature -- Tests
 			end
 		end
 
-	test_open_url
-		local
-			url: EL_URL
-		do
-			create url.make ("http://www.académie-française.fr/")
-			web.open_url (url)
-			web.read_string_head
-			assert ("correct title", web.last_headers.location ~ "https://www.academie-francaise.fr/")
-			web.close
-		end
-
 	test_url_encoded
 		local
 			url: STRING; s: EL_STRING_8_ROUTINES
@@ -257,6 +245,25 @@ feature -- Tests
 				assert ("Response 200", web.last_headers.response_code = 200)
 				web.close
 			end
+		end
+
+feature -- Problematic
+
+	test_open_url
+		local
+			url: EL_URL
+		do
+			-- This works on command line: curl -I http://www.académie-française.fr/
+
+			-- If libcurl is built with IDN support, the server name part of the URL can use an
+			-- "international name" by using the current encoding (according to locale) or UTF-8
+			-- (when winidn is used; or a Windows Unicode build using libidn2)
+
+			create url.make ("http://www.académie-française.fr/")
+			web.open_url (url)
+			web.read_string_head
+			assert ("correct title", web.last_headers.location ~ "https://www.academie-francaise.fr/")
+			web.close
 		end
 
 feature {NONE} -- Events

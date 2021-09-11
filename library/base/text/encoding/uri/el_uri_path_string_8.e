@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-23 12:59:58 GMT (Saturday 23rd May 2020)"
-	revision: "2"
+	date: "2021-09-11 9:42:31 GMT (Saturday 11th September 2021)"
+	revision: "3"
 
 class
 	EL_URI_PATH_STRING_8
@@ -15,7 +15,7 @@ class
 inherit
 	EL_URI_STRING_8
 		redefine
-			set_reserved_character_set
+			is_reserved
 		end
 
 create
@@ -26,8 +26,9 @@ convert
 
 feature {NONE} -- Implementation
 
-	set_reserved_character_set
+	is_reserved (c: CHARACTER_32): BOOLEAN
 		do
-			reserved_character_set := Uri_reserved_chars.allowed_in_path
+			Result := is_allowed_in_path (c)
 		end
+
 end

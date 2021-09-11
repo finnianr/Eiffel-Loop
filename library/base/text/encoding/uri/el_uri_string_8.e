@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 17:38:44 GMT (Friday 29th May 2020)"
-	revision: "6"
+	date: "2021-09-11 9:43:30 GMT (Saturday 11th September 2021)"
+	revision: "7"
 
 class
 	EL_URI_STRING_8
@@ -21,7 +21,10 @@ inherit
 			new_string
 		end
 
-	EL_SHARED_URI_RESERVED_CHARS
+	EL_URI_CHARACTER_QUERY_ROUTINES
+		undefine
+			copy, is_equal, out
+		end
 
 create
 	make_encoded, make_empty, make
@@ -29,24 +32,17 @@ create
 convert
 	make_encoded ({STRING})
 
-feature -- Element change
-
-	set_reserved_characters (character_set: STRING)
-		do
-			reserved_character_set := character_set
-		end
-
 feature {NONE} -- Implementation
+
+	is_reserved (c: CHARACTER_32): BOOLEAN
+		do
+			Result := is_generic_delimiter (c)
+		end
 
 	new_string (n: INTEGER): like Current
 			-- New instance of current with space for at least `n' characters.
 		do
 			create Result.make (n)
-		end
-
-	set_reserved_character_set
-		do
-			reserved_character_set := Uri_reserved_chars.generic_delimiters
 		end
 
 feature {NONE} -- Constants

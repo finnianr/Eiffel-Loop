@@ -1,54 +1,14 @@
 note
 	description: "Unix implementation of [$source EL_NETWORK_DEVICE_LIST_I]"
-	notes: "[
-		Parses terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
-		to get list of network adapter devices [$source EL_NETWORK_DEVICE_I].
-		
-			nmcli --terse --fields GENERAL dev list
-		
-		**Sample Output**
-
-			GENERAL.DEVICE:84:8E:DF:AD:7F:3C
-			GENERAL.TYPE:bluetooth
-			GENERAL.VENDOR:--
-			GENERAL.PRODUCT:--
-			GENERAL.DRIVER:bluez
-			GENERAL.DRIVER-VERSION:
-			GENERAL.FIRMWARE-VERSION:
-			GENERAL.HWADDR:(unknown)
-			GENERAL.STATE:30 (disconnected)
-			GENERAL.REASON:0 (No reason given)
-			GENERAL.UDI:/org/bluez/948/hci0/dev_84_8E_DF_AD_7F_3C
-			GENERAL.IP-IFACE:
-			GENERAL.NM-MANAGED:yes
-			GENERAL.AUTOCONNECT:yes
-			GENERAL.FIRMWARE-MISSING:no
-			GENERAL.CONNECTION:not connected
-			GENERAL.DEVICE:wlan0
-			GENERAL.TYPE:802-11-wireless
-			GENERAL.VENDOR:Broadcom Corporation
-			GENERAL.PRODUCT:AirPort Extreme
-			GENERAL.DRIVER:wl
-			GENERAL.DRIVER-VERSION:6.30.223.248 (r487574)
-			GENERAL.FIRMWARE-VERSION:
-			GENERAL.HWADDR:88:53:95:2E:74:99
-			GENERAL.STATE:100 (connected)
-			GENERAL.REASON:0 (No reason given)
-			GENERAL.UDI:/sys/devices/pci0000:00/0000:00:1c.1/0000:02:00.0/net/wlan0
-			GENERAL.IP-IFACE:wlan0
-			GENERAL.NM-MANAGED:yes
-			GENERAL.AUTOCONNECT:yes
-			GENERAL.FIRMWARE-MISSING:no
-			GENERAL.CONNECTION:/org/freedesktop/NetworkManager/ActiveConnection/0
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:50:09 GMT (Thursday 9th September 2021)"
-	revision: "13"
+	date: "2021-09-11 9:07:31 GMT (Saturday 11th September 2021)"
+	revision: "14"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -74,7 +34,7 @@ inherit
 		rename
 			make_default as make
 		undefine
-			new_command_parts, do_command, copy
+			new_command_parts, do_command, copy, is_equal
 		redefine
 			is_valid_platform
 		end
@@ -140,5 +100,50 @@ feature {NONE} -- Constants
 feature {NONE} -- Constants
 
 	Template: STRING = "nmcli --terse --fields GENERAL dev list"
+
+note
+
+	notes: "[
+		Parses terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
+		to get list of network adapter devices [$source EL_NETWORK_DEVICE_I].
+
+			nmcli --terse --fields GENERAL dev list
+
+		**Sample Output**
+
+			GENERAL.DEVICE:84:8E:DF:AD:7F:3C
+			GENERAL.TYPE:bluetooth
+			GENERAL.VENDOR:--
+			GENERAL.PRODUCT:--
+			GENERAL.DRIVER:bluez
+			GENERAL.DRIVER-VERSION:
+			GENERAL.FIRMWARE-VERSION:
+			GENERAL.HWADDR:(unknown)
+			GENERAL.STATE:30 (disconnected)
+			GENERAL.REASON:0 (No reason given)
+			GENERAL.UDI:/org/bluez/948/hci0/dev_84_8E_DF_AD_7F_3C
+			GENERAL.IP-IFACE:
+			GENERAL.NM-MANAGED:yes
+			GENERAL.AUTOCONNECT:yes
+			GENERAL.FIRMWARE-MISSING:no
+			GENERAL.CONNECTION:not connected
+			GENERAL.DEVICE:wlan0
+			GENERAL.TYPE:802-11-wireless
+			GENERAL.VENDOR:Broadcom Corporation
+			GENERAL.PRODUCT:AirPort Extreme
+			GENERAL.DRIVER:wl
+			GENERAL.DRIVER-VERSION:6.30.223.248 (r487574)
+			GENERAL.FIRMWARE-VERSION:
+			GENERAL.HWADDR:88:53:95:2E:74:99
+			GENERAL.STATE:100 (connected)
+			GENERAL.REASON:0 (No reason given)
+			GENERAL.UDI:/sys/devices/pci0000:00/0000:00:1c.1/0000:02:00.0/net/wlan0
+			GENERAL.IP-IFACE:wlan0
+			GENERAL.NM-MANAGED:yes
+			GENERAL.AUTOCONNECT:yes
+			GENERAL.FIRMWARE-MISSING:no
+			GENERAL.CONNECTION:/org/freedesktop/NetworkManager/ActiveConnection/0
+	]"
+
 
 end
