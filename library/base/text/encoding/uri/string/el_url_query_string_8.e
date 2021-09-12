@@ -1,8 +1,6 @@
 note
-	description: "Uniform Resource Locator"
+	description: "URL query string"
 	notes: "[
-		**For the Query part**
-
 		* SPACE is encoded as '+' or '%20'
 		* Letters (A-Z and a-z), numbers (0-9) and the characters '~', '-', '.' and '_' are left as-is + is encoded by %2B
 		* All other characters are encoded as %HH hex representation with any non-ASCII characters
@@ -20,51 +18,52 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 19:50:40 GMT (Thursday 9th September 2021)"
+	date: "2021-09-12 10:17:45 GMT (Sunday 12th September 2021)"
 	revision: "3"
 
 class
-	EL_URL
+	EL_URL_QUERY_STRING_8
 
 inherit
-	EL_URI
-		rename
-			Uri_query as Url_query
+	EL_URI_QUERY_STRING_8
 		redefine
-			Url_query
+			adjusted_character, append_unencoded, is_unreserved, is_reserved
 		end
 
 create
-	make_empty, make, make_from_general
+	make_encoded, make_empty, make
 
-convert
-	make ({STRING_8})
+feature {NONE} -- Implementation
 
-feature -- Access
-
-	query_table: EL_URI_QUERY_ZSTRING_HASH_TABLE
+	adjusted_character (c: CHARACTER): CHARACTER
 		do
-			create Result.make_url (query)
-		end
-
-feature -- Element change
-
-	set_query_from_table (a_table: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL])
-		local
-			table: EL_URI_QUERY_ZSTRING_HASH_TABLE
-		do
-			create table.make_equal (a_table.count)
-			across a_table as t loop
-				table.set_string_general (t.key, t.item)
+			if c = '+' then
+				Result := ' '
+			else
+				Result := c
 			end
-			set_encoded_query (table.url_query)
 		end
 
-feature {NONE} -- Constants
-
-	Url_query: EL_URL_QUERY_STRING_8
-		once
-			create Result.make_empty
+	append_unencoded (c: CHARACTER_8)
+		do
+			if c = ' ' then
+				append_character ('+')
+			else
+				append_character (c)
+			end
 		end
 
+	is_unreserved (c: CHARACTER_32): BOOLEAN
+		do
+			if c = ' ' then
+				Result := True
+			else
+				Result := Precursor (c)
+			end
+		end
+
+	is_reserved (c: CHARACTER_32): BOOLEAN
+		do
+			Result := False
+		end
 end

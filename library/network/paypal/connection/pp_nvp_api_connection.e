@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-08 9:33:24 GMT (Thursday 8th July 2021)"
-	revision: "15"
+	date: "2021-09-12 11:30:15 GMT (Sunday 12th September 2021)"
+	revision: "16"
 
 class
 	PP_NVP_API_CONNECTION
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	api_url: ZSTRING
+	api_url: STRING
 		do
 			Result := configuration.api_url
 		end

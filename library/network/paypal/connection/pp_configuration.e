@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-26 11:54:16 GMT (Thursday 26th August 2021)"
-	revision: "9"
+	date: "2021-09-12 11:29:52 GMT (Sunday 12th September 2021)"
+	revision: "10"
 
 class
 	PP_CONFIGURATION
@@ -44,7 +44,7 @@ feature -- Access
 	account_id: STRING
 		-- Paypal API account id
 
-	api_url: ZSTRING
+	api_url: STRING
 
 	api_version: STRING
 

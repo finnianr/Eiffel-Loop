@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 9:14:07 GMT (Saturday 14th August 2021)"
-	revision: "121"
+	date: "2021-09-12 9:39:11 GMT (Sunday 12th September 2021)"
+	revision: "122"
 
 class
 	BASE_AUTOTEST_APP
@@ -43,8 +43,7 @@ inherit
 
 		TEMPLATE_TEST_SET,
 
-		URL_ENCODING_TEST_SET,
-		URI_PATH_TEST_SET,
+		URI_TEST_SET,
 		UTF_CONVERTER_TEST_SET,
 		UUID_TEST_SET,
 
@@ -78,6 +77,8 @@ feature {NONE} -- Implementation
 		EL_SHARED_INITIALIZER [EL_INITIALIZEABLE],
 
 		EL_TIMEOUT_THREAD, EL_TIME,
+
+		EL_URI_QUERY_STRING_8_HASH_TABLE, EL_URI_QUERY_STRING_32_HASH_TABLE,
 
 		EL_XML_STRING_8_ESCAPER, EL_DOCUMENT_NODE_STRING
 	]

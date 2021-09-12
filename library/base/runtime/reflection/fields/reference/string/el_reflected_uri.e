@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:09:11 GMT (Friday 11th June 2021)"
-	revision: "5"
+	date: "2021-09-12 11:05:37 GMT (Sunday 12th September 2021)"
+	revision: "6"
 
 class
 	EL_REFLECTED_URI
@@ -53,16 +53,16 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	set_uri (uri: EL_URI; general: READABLE_STRING_GENERAL)
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			if general.is_valid_as_string_8 then
-				uri.wipe_out
-				if attached {READABLE_STRING_8} general as str_8 then
+			uri.wipe_out
+			if general.has_substring (uri.Colon_slash_x2) then
+				if attached {READABLE_STRING_8} general as str_8 and then s.is_ascii (str_8) then
 					uri.append (str_8)
 				else
-					uri.append (general.to_string_8)
+					uri.append_general (general)
 				end
-			else
-				uri.make_from_general (general)
 			end
 		end
 

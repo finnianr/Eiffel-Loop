@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 9:43:30 GMT (Saturday 11th September 2021)"
-	revision: "7"
+	date: "2021-09-12 9:37:20 GMT (Sunday 12th September 2021)"
+	revision: "8"
 
 class
 	EL_URI_STRING_8

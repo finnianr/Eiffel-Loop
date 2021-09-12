@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-08 10:18:05 GMT (Wednesday 8th September 2021)"
-	revision: "26"
+	date: "2021-09-12 11:52:13 GMT (Sunday 12th September 2021)"
+	revision: "27"
 
 class
 	EL_URI
@@ -32,9 +32,14 @@ inherit
 		export
 			{NONE} all
 			{ANY} hash_code, to_string_8, is_empty, starts_with, has_substring
-			{STRING_HANDLER} append, append_string_general, wipe_out, share, prune_all_trailing
+			{STRING_HANDLER} append, wipe_out, share, prune_all_trailing
 		redefine
 			make, to_string_32
+		end
+
+	EL_URI_IMPLEMENTATION
+		export
+			{STRING_HANDLER} Colon_slash_x2
 		end
 
 create
@@ -43,7 +48,7 @@ create
 convert
 	make ({STRING_8})
 
-feature {STRING_HANDLER} -- Initialization
+feature {NONE} -- Initialization
 
 	make (uri: READABLE_STRING_8)
 		require else
@@ -52,13 +57,12 @@ feature {STRING_HANDLER} -- Initialization
 			Precursor (uri)
 		end
 
-	make_from_general (unencoded_string: READABLE_STRING_GENERAL)
-		local
-			l_path: like Uri_path
+	make_from_general (unencoded: READABLE_STRING_GENERAL)
 		do
-			l_path := Uri_path; l_path.wipe_out
-			l_path.append_general (unencoded_string)
-			make (l_path)
+			if attached new_encoded_parts (unencoded) as encoded then
+				make_with_size (parts_count (encoded))
+				append_parts (encoded)
+			end
 		end
 
 feature -- Access
@@ -120,6 +124,11 @@ feature -- Access
 			end
 		end
 
+	query_table: EL_URI_QUERY_ZSTRING_HASH_TABLE
+		do
+			create Result.make_url (query)
+		end
+
 	scheme: STRING
 		do
 			Result := substring (1, scheme_end_index, True)
@@ -157,6 +166,21 @@ feature -- Basic operations
 		end
 
 feature -- Element change
+
+	append_general (unencoded: READABLE_STRING_GENERAL)
+		-- append `unencoded' string
+		do
+			if attached new_encoded_parts (unencoded) as encoded then
+				grow (parts_count (encoded))
+				append_parts (encoded)
+			end
+		end
+
+	append_query_from_table (value_table: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL])
+		-- append `value_table' to `query' part of URI
+		do
+			replace_query_from_table (value_table, True)
+		end
 
 	join (a_path: EL_PATH)
 		require
@@ -240,6 +264,11 @@ feature -- Element change
 			set_encoded_query (once_encoded (Uri_query, str))
 		end
 
+	set_query_from_table (value_table: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL])
+		do
+			replace_query_from_table (value_table, false)
+		end
+
 	set_scheme (a_scheme: READABLE_STRING_GENERAL)
 		do
 			replace_substring (a_scheme.to_string_8, 1, scheme_end_index)
@@ -254,40 +283,28 @@ feature -- Status query
 
 	is_file: BOOLEAN
 		do
-			Result := scheme ~ once "file"
+			Result := scheme ~ Protocol.file
+		end
+
+	is_http: BOOLEAN
+		do
+			Result := scheme ~ Protocol.http
+		end
+
+	is_https: BOOLEAN
+		do
+			Result := scheme ~ Protocol.https
 		end
 
 feature {NONE} -- Implementation
 
-	authority_end_index (start_index: INTEGER): INTEGER
+	append_parts (parts: like new_encoded_parts)
 		local
-			index: INTEGER
+			i: INTEGER
 		do
-			if start_index > 0 then
-				index := index_of (Separator, start_index)
-				if index > 0 then
-					Result := index - 1
-				end
-			end
-		end
-
-	authority_start_index: INTEGER
-		local
-			index: INTEGER
-		do
-			index := substring_index (Colon_slash_x2, 1)
-			if index > 0 then
-				Result := index + Colon_slash_x2.count
-			end
-		end
-
-	fragment_start_index: INTEGER
-		local
-			index: INTEGER
-		do
-			index := index_of ('#', 1)
-			if index > 0 then
-				Result := index + 1
+			from i := 0 until i = 3 loop
+				append (parts [i])
+				i := i + 1
 			end
 		end
 
@@ -306,88 +323,40 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	last_separator_index: INTEGER
-		local
-			start_index: INTEGER
-		do
-			start_index := path_start_index
-			if start_index > 0 then
-				Result := last_index_of (Separator, path_end_index (start_index))
-				if Result < start_index then
-					Result := 0
-				end
-			end
-		end
-
-	once_encoded (target: EL_URI_STRING_8; str: READABLE_STRING_GENERAL): EL_URI_STRING_8
-		do
-			Result := target; Result.wipe_out
-			Result.append_general (str)
-		end
-
 	once_path_copy: EL_URI_STRING_8
 		do
 			Result := Uri_path; Result.wipe_out
 			Result.append_raw_8 (internal_path (False))
 		end
 
-	path_end_index (start_index: INTEGER): INTEGER
+	parts_count (parts: like new_encoded_parts): INTEGER
 		local
 			i: INTEGER
 		do
-			if occurrences ('/') = 2 then
-				-- Eg. http://myching.software
-				Result := count
-			else
-				from i := 1; until i > 2 or Result > 0 loop
-					Result := index_of (Qmark_and_hash [i], start_index)
-					i := i + 1
+			from i := 0 until i = 3 loop
+				Result := Result + parts [i].count
+				i := i + 1
+			end
+		end
+
+	replace_query_from_table (
+		value_table: HASH_TABLE [READABLE_STRING_GENERAL, READABLE_STRING_GENERAL]; appending: BOOLEAN
+	)
+		do
+			if attached Uri_query as l_query then
+				l_query.wipe_out
+				if appending and then query_start_index.to_boolean then
+					l_query.append_raw_8 (query)
 				end
-				if Result > 0 then
-					Result := Result - 1
-				else
-					Result := count
+				across value_table as table loop
+					if l_query.count > 0 then
+						l_query.append_character ('&')
+					end
+					l_query.append_general (table.key)
+					l_query.append_character ('=')
+					l_query.append_general (table.item)
 				end
-			end
-		end
-
-	path_start_index: INTEGER
-		do
-			Result := authority_start_index
-			if Result > 0 then
-				Result := index_of (Separator, Result)
-			end
-		end
-
-	query_end_index (start_index: INTEGER): INTEGER
-		local
-			index: INTEGER
-		do
-			index := index_of ('#', start_index)
-			if index > 0 then
-				Result := index - 1
-			else
-				Result := count
-			end
-		end
-
-	query_start_index: INTEGER
-		local
-			index: INTEGER
-		do
-			index := index_of ('?', 1)
-			if index > 0 then
-				Result := index + 1
-			end
-		end
-
-	scheme_end_index: INTEGER
-		local
-			index: INTEGER
-		do
-			index := index_of (':', 1)
-			if index > 0 then
-				Result := index - 1
+				set_encoded_query (l_query)
 			end
 		end
 
@@ -406,31 +375,6 @@ feature {NONE} -- Implementation
 		do
 			Result := Uri_path; Result.wipe_out
 			Result.append_substring (Current, 1, path_end_index (path_start_index))
-		end
-
-feature {STRING_HANDLER} -- Constants
-
-	Colon_slash_x2: STRING = "://"
-
-feature {NONE} -- Constants
-
-	Qmark_and_hash: STRING = "?#"
-
-	Separator: CHARACTER = '/'
-
-	Uri_fragment: EL_URI_QUERY_STRING_8
-		once
-			create Result.make_empty
-		end
-
-	Uri_path: EL_URI_PATH_STRING_8
-		once
-			create Result.make_empty
-		end
-
-	Uri_query: EL_URI_QUERY_STRING_8
-		once
-			create Result.make_empty
 		end
 
 end

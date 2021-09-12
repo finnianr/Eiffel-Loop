@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:52:19 GMT (Thursday 28th May 2020)"
-	revision: "4"
+	date: "2021-09-11 13:13:50 GMT (Saturday 11th September 2021)"
+	revision: "5"
 
 deferred class
 	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
@@ -89,14 +89,13 @@ feature -- Conversion
 			uri: like Once_uri_string
 		do
 			uri := empty_query_string (is_url)
-			from start until after loop
-				if not uri.is_empty then
+			across Current as table loop
+				if not table.is_first then
 					uri.append_character ('&')
 				end
-				uri.append_general (key_for_iteration)
+				uri.append_general (table.key)
 				uri.append_character ('=')
-				uri.append_general (item_for_iteration)
-				forth
+				uri.append_general (table.item)
 			end
 			if keep_ref then
 				create Result.make_from_string (uri)

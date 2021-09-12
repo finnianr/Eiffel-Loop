@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 8:15:10 GMT (Saturday 11th September 2021)"
-	revision: "35"
+	date: "2021-09-12 10:58:03 GMT (Sunday 12th September 2021)"
+	revision: "36"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -236,11 +236,7 @@ feature -- Tests
 		do
 			across << "über-my-ching.html", "%%C3%%BCber-my-ching.html" >> as name loop
 				url := "http://myching.software/de/about/" + name.item
-				if s.is_ascii (name.item) then
-					web.open_url (url)
-				else
-					web.open (url)
-				end
+				web.open (url)
 				web.read_string_head
 				assert ("Response 200", web.last_headers.response_code = 200)
 				web.close

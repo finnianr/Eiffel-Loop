@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-22 11:09:38 GMT (Tuesday 22nd June 2021)"
-	revision: "6"
+	date: "2021-09-12 11:27:04 GMT (Sunday 12th September 2021)"
+	revision: "7"
 
 class
 	PP_HTTP_CONNECTION
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_connection
 		redefine
-			open
+			open_url
 		end
 
 create
@@ -37,7 +37,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	open (a_url: like url)
+	open_url (a_url: like url)
 		do
 			Precursor (a_url)
 

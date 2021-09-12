@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-10 10:12:38 GMT (Friday 10th September 2021)"
-	revision: "33"
+	date: "2021-09-12 12:24:02 GMT (Sunday 12th September 2021)"
+	revision: "34"
 
 class
 	EL_HTTP_CONNECTION
@@ -22,51 +22,13 @@ inherit
 			{NONE} all
 		end
 
-	EL_CURL_OPTION_CONSTANTS
+	EL_HTTP_CONNECTION_IMPLEMENTATION
 		rename
 			is_valid as is_valid_option_constant
 		export
-			{NONE} all
-			{ANY} is_valid_http_command
+			{ANY} content, is_valid_http_command, http_error_code, http_error_name, last_headers,
+				set_certificate_authority_info
 		end
-
-	EL_CURL_SSL_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	EL_CURL_INFO_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	CURL_FORM_CONSTANTS
-		rename
-			is_valid as is_valid_form_constant
-		export
-			{NONE} all
-		end
-
-	EL_MODULE_BASE_64
-
-	EL_MODULE_LIO
-
-	EL_MODULE_URI
-
-	EL_SHARED_HTTP_STATUS
-
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_CURL_API
-
-	EL_SHARED_UTF_8_ZCODEC
-
-	EL_PROTOCOL_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	STRING_HANDLER
 
 create
 	make
@@ -85,11 +47,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	content: ZSTRING
-		do
-			create Result.make_from_utf_8 (last_string)
-		end
-
 	cookie_load_path: detachable EL_FILE_PATH
 
 	cookie_store_path: detachable EL_FILE_PATH
@@ -97,43 +54,11 @@ feature -- Access
 	error_code: INTEGER
 		-- curl error code
 
-	headers: EL_CURL_HEADER_TABLE
-		-- request headers to send
-
-	http_error_code: NATURAL_16
-		local
-			pos_title, pos_space: INTEGER
-			code_string: STRING
-		do
-			if last_string.starts_with (Doctype_declaration) then
-				pos_title := last_string.substring_index (Title_tag, 1)
-				if pos_title > 0 then
-					pos_space := last_string.index_of (' ', pos_title)
-					if pos_space > 0 then
-						code_string := last_string.substring (pos_title + Title_tag.count, pos_space - 1)
-						if code_string.is_natural_16 then
-							Result := code_string.to_natural_16
-						end
-					end
-				end
-			end
-		end
-
-	http_error_name: STRING
-		do
-			Result := Http_status.name (http_error_code)
-		end
-
 	http_version: DOUBLE
-
-	last_headers: EL_HTTP_HEADERS
-		do
-			create Result.make (last_string)
-		end
 
 	last_string: STRING
 
-	url: ZSTRING
+	url: EL_URL
 
 	user_agent: STRING
 
@@ -173,15 +98,6 @@ feature -- Status query
 			Result := has_http_error (503)
 		end
 
-	is_url_encoded (a_url: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			if a_url.is_string_8 and then attached a_url.as_string_8 as str_8 then
-				Result := s.is_ascii (str_8)
-			end
-		end
-
 feature -- Basic operations
 
 	close
@@ -209,21 +125,19 @@ feature -- Basic operations
 		end
 
 	open (a_url: READABLE_STRING_GENERAL)
-		require
-			not_already_url_encoded: not is_url_encoded (a_url)
 		do
-			open_with_parameters (a_url, Default_parameter_table)
+			open_url (URI.new_url (a_url))
 		end
 
-	open_with_parameters (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table)
+	open_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
 		do
-			if is_lio_enabled then
-				lio.put_labeled_string ("open", a_url); lio.put_new_line
-			end
 			reset
 			make_from_pointer (Curl.new_pointer)
 			set_url_with_parameters (a_url, parameter_table)
 			set_curl_boolean_option (CURLOPT_verbose, False)
+			if is_lio_enabled then
+				lio.put_labeled_string ("open", url); lio.put_new_line
+			end
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
 			end
@@ -233,17 +147,7 @@ feature -- Basic operations
 
 	open_url (a_url: EL_URL)
 		do
-			url.wipe_out; a_url.append_to (url)
-			if is_lio_enabled then
-				lio.put_labeled_string ("open_url", url); lio.put_new_line
-			end
-			reset
-			make_from_pointer (Curl.new_pointer)
-			set_curl_string_8_option (CURLOPT_url, a_url)
-			set_curl_boolean_option (CURLOPT_verbose, False)
-			if not user_agent.is_empty then
-				set_curl_string_8_option (CURLOPT_useragent, user_agent)
-			end
+			open_with_parameters (a_url, Void)
 		ensure
 			opened: is_open
 		end
@@ -315,11 +219,6 @@ feature -- Element change
 			url.wipe_out
 			post_data_count := 0
 			error_code := 0
-		end
-
-	set_certificate_authority_info (cacert_path: EL_FILE_PATH)
-		do
-			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end
 
 	set_cookie_load_path (a_cookie_load_path: EL_FILE_PATH)
@@ -468,25 +367,24 @@ feature -- Element change
 			set_curl_integer_option (CURLOPT_timeout, seconds)
 		end
 
-	set_url (a_url: READABLE_STRING_GENERAL)
+	set_url (a_url: EL_URL)
 		do
-			set_url_with_parameters (a_url, Default_parameter_table)
+			set_url_with_parameters (a_url, Void)
 		end
 
-	set_url_with_parameters (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table)
-		local
-			l_encoded: like encoded
+	set_url_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
 		do
-			url.wipe_out
-			url.append_string_general (a_url)
-			l_encoded := encoded (a_url, parameter_table)
-			if is_lio_enabled then
-				lio.put_line (l_encoded)
+			if attached parameter_table as table then
+				url.wipe_out
+				url.append (a_url)
+				url.append_query_from_table (table)
+			else
+				url := a_url
 			end
 --			Curl already does url encoding
-			set_curl_string_8_option (CURLOPT_url, l_encoded)
+			set_curl_string_8_option (CURLOPT_url, url)
 			-- Essential calls for using https
-			if URI.is_https (a_url) then
+			if url.is_https then
 				set_ssl_certificate_verification (is_certificate_verified)
 				set_ssl_hostname_verification (is_host_verified)
 			end
@@ -579,22 +477,6 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-	enable_get_method
-		do
-			set_curl_boolean_option (CURLOPT_httpget, True)
-			set_curl_boolean_option (CURLOPT_post, False)
-		end
-
-	enable_post_method
-		do
-			set_curl_boolean_option (CURLOPT_httpget, False)
-			set_curl_boolean_option (CURLOPT_post, True)
-			if post_data.count > 0 then
-				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
-				set_curl_integer_option (CURLOPT_postfieldsize, post_data_count)
-			end
-		end
-
 	set_cookie_options
 		do
 			if attached cookie_store_path as store_path then
@@ -603,28 +485,6 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			if attached cookie_load_path as load_path then
 				set_curl_string_option (CURLOPT_cookiefile, load_path)
 			end
-		end
-
-	set_curl_boolean_option (a_option: INTEGER; flag: BOOLEAN)
-		do
-			Curl.setopt_integer (self_ptr, a_option, flag.to_integer)
-		end
-
-	set_header_function (callback, user_data: POINTER)
-		do
-			set_curl_option_with_data (CURLOPT_headerfunction, callback)
-			set_curl_option_with_data (CURLOPT_headerdata, user_data)
-		end
-
-	set_nobody (flag: BOOLEAN)
-		do
-			set_curl_boolean_option (CURLOPT_nobody, flag)
-		end
-
-	set_write_function (callback, user_data: POINTER)
-		do
-			set_curl_option_with_data (CURLOPT_writefunction, callback)
-			set_curl_option_with_data (CURLOPT_writedata, user_data)
 		end
 
 feature {NONE} -- Implementation
@@ -641,108 +501,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	encoded (a_url: READABLE_STRING_GENERAL; parameter_table: like Default_parameter_table): like Once_uri_path
-		local
-			start_index, end_index, path_index, qmark_index, equal_index: INTEGER
-			parameter_list: EL_SPLIT_STRING_LIST [STRING_32]
-			parameter_string: STRING_32
-		do
-			Result := Once_uri_path
-			Result.wipe_out
-			start_index := a_url.substring_index (Colon_slash_x2, 1)
-			qmark_index := a_url.index_of ('?', 1)
-			if qmark_index > 0 then
-				end_index := qmark_index - 1
-			else
-				end_index := a_url.count
-			end
-			if start_index > 0 then
-				path_index := a_url.index_of ('/', start_index + 3)
-				if path_index > 0 then
-					Result.append_unencoded_substring_general (a_url, 1, path_index - 1)
-					Result.append_substring_general (a_url, path_index, end_index)
-				else
-					Result.append_unencoded_substring_general (a_url, 1, end_index)
-				end
-			end
-			if qmark_index > 0 then
-				Result.append_character ('?')
-				parameter_string := a_url.substring (qmark_index + 1, a_url.count).to_string_32
-				create parameter_list.make (parameter_string, "&")
-				from parameter_list.start until parameter_list.after loop
-					if parameter_list.index > 1 then
-						Result.append_character ('&')
-					end
-					start_index := parameter_list.item_start_index
-					end_index := parameter_list.item_end_index
-					equal_index := parameter_list.item (False).index_of ('=', start_index)
-					if start_index < equal_index  and equal_index < parameter_list.item_end_index then
-						Result.append_substring_general (parameter_string, start_index, equal_index - 1)
-						Result.append_character ('=')
-						Result.append_substring_general (parameter_string, equal_index + 1, end_index)
-					end
-					parameter_list.forth
-				end
-			end
-			across parameter_table as table loop
-				if table.is_first and qmark_index = 0 then
-					Result.append_character ('?')
-				end
-				Result.append_general (table.key)
-				Result.append_character ('=')
-				Result.append_general (table.item)
-			end
-		end
-
-	set_curl_integer_option (a_option: INTEGER; option: INTEGER)
-		do
-			Curl.setopt_integer (self_ptr, a_option, option)
-		end
-
-	set_curl_option_with_data (a_option: INTEGER; a_data_ptr: POINTER)
-		do
-			Curl.setopt_void_star (self_ptr, a_option, a_data_ptr)
-		end
-
-	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
-		do
-			Curl.setopt_string (self_ptr, a_option, Utf_8_codec.as_utf_8 (string, False))
-		end
-
-	set_curl_string_8_option (a_option: INTEGER; string: STRING)
-		do
-			Curl.setopt_string (self_ptr, a_option, string)
-		end
-
-	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
-		do
-			Curl.setopt_string (self_ptr, a_option, string.to_utf_8 (False))
-		end
-
 feature {NONE} -- Implementation attributes
 
+	headers: EL_CURL_HEADER_TABLE
+		-- request headers to send
+
 	http_response: CURL_STRING
-
-	post_data: MANAGED_POINTER
-
-	post_data_count: INTEGER
-
-feature {NONE} -- Constants
-
-	Default_parameter_table: HASH_TABLE [READABLE_STRING_GENERAL, STRING]
-		once
-			create {HASH_TABLE [STRING, STRING]} Result.make (0)
-		end
-
-	Doctype_declaration: STRING = "<!DOCTYPE"
-
-	Once_uri_path: EL_URI_PATH_STRING_8
-		once
-			create Result.make_empty
-		end
-
-	Max_post_data_count: INTEGER = 1024
-
-	Title_tag: STRING = "<title>"
 
 end

@@ -1,6 +1,8 @@
 note
-	description: "URL query string"
+	description: "Uniform Resource Locator"
 	notes: "[
+		**For the Query part**
+
 		* SPACE is encoded as '+' or '%20'
 		* Letters (A-Z and a-z), numbers (0-9) and the characters '~', '-', '.' and '_' are left as-is + is encoded by %2B
 		* All other characters are encoded as %HH hex representation with any non-ASCII characters
@@ -18,52 +20,31 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 9:43:50 GMT (Saturday 11th September 2021)"
-	revision: "2"
+	date: "2021-09-12 9:37:41 GMT (Sunday 12th September 2021)"
+	revision: "4"
 
 class
-	EL_URL_QUERY_STRING_8
+	EL_URL
 
 inherit
-	EL_URI_QUERY_STRING_8
+	EL_URI
+		rename
+			Uri_query as Url_query
 		redefine
-			adjusted_character, append_unencoded, is_unreserved, is_reserved
+			Url_query
 		end
 
 create
-	make_encoded, make_empty, make
+	make_empty, make, make_from_general
 
-feature {NONE} -- Implementation
+convert
+	make ({STRING_8})
 
-	adjusted_character (c: CHARACTER): CHARACTER
-		do
-			if c = '+' then
-				Result := ' '
-			else
-				Result := c
-			end
-		end
+feature {NONE} -- Constants
 
-	append_unencoded (c: CHARACTER_8)
-		do
-			if c = ' ' then
-				append_character ('+')
-			else
-				append_character (c)
-			end
-		end
-
-	is_unreserved (c: CHARACTER_32): BOOLEAN
-		do
-			if c = ' ' then
-				Result := True
-			else
-				Result := Precursor (c)
-			end
-		end
-
-	is_reserved (c: CHARACTER_32): BOOLEAN
-		do
+	Url_query: EL_URL_QUERY_STRING_8
+		once
+			create Result.make_empty
 		end
 
 end
