@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 10:17:45 GMT (Sunday 12th September 2021)"
-	revision: "3"
+	date: "2021-09-12 12:58:40 GMT (Sunday 12th September 2021)"
+	revision: "4"
 
 class
 	EL_URL_QUERY_STRING_8
@@ -64,6 +64,11 @@ feature {NONE} -- Implementation
 
 	is_reserved (c: CHARACTER_32): BOOLEAN
 		do
-			Result := False
+			inspect c
+				when '+' then
+					Result := False
+			else
+				Result := is_allowed_in_query (c)
+			end
 		end
 end

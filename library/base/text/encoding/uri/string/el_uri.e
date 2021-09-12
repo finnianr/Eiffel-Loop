@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 11:52:13 GMT (Sunday 12th September 2021)"
-	revision: "27"
+	date: "2021-09-12 13:16:21 GMT (Sunday 12th September 2021)"
+	revision: "28"
 
 class
 	EL_URI
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 
 	make (uri: READABLE_STRING_8)
 		require else
-			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 0
+			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 1 and then is_unencoded (uri)
 		do
 			Precursor (uri)
 		end
@@ -294,6 +294,15 @@ feature -- Status query
 	is_https: BOOLEAN
 		do
 			Result := scheme ~ Protocol.https
+		end
+
+feature -- Contract Support
+
+	is_unencoded (str: READABLE_STRING_8): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.is_ascii (str)
 		end
 
 feature {NONE} -- Implementation
