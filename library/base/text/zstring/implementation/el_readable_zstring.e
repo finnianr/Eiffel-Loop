@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:06:51 GMT (Friday 11th June 2021)"
-	revision: "79"
+	date: "2021-09-15 12:36:12 GMT (Wednesday 15th September 2021)"
+	revision: "81"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -561,6 +561,57 @@ feature -- Conversion
 			unencoded_valid: Result.is_valid
 		end
 
+	substring_to (uc: CHARACTER_32; start_index_ptr: POINTER): like Current
+		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
+		-- or else `substring_end (start_index)' if `uc' not found
+		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
+		-- write new start_index back to `start_index_ptr'
+		-- if `uc' not found then new `start_index' is `count + 1'
+		local
+			start_index, index: INTEGER
+		do
+			if start_index_ptr = Default_pointer then
+				start_index := 1
+			else
+				start_index := pointer.integer_value (start_index_ptr)
+			end
+			index := index_of (uc, start_index)
+			if index > 0 then
+				Result := substring (start_index, index - 1)
+				start_index := index + 1
+			else
+				Result := substring_end (start_index)
+				start_index := count + 1
+			end
+			if start_index_ptr /= Default_pointer then
+				pointer.write_integer (start_index, start_index_ptr)
+			end
+		end
+
+	substring_to_reversed (uc: CHARACTER_32; start_index_from_end_ptr: POINTER): like Current
+		-- the same as `substring_to' except going from right to left
+		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
+		local
+			start_index_from_end, index: INTEGER
+		do
+			if start_index_from_end_ptr = Default_pointer then
+				start_index_from_end := count
+			else
+				start_index_from_end := pointer.integer_value (start_index_from_end_ptr)
+			end
+			index := last_index_of (uc, start_index_from_end)
+			if index > 0 then
+				Result := substring (index + 1, start_index_from_end)
+				start_index_from_end := index - 1
+			else
+				Result := substring (1, start_index_from_end)
+				start_index_from_end := 0
+			end
+			if start_index_from_end_ptr /= Default_pointer then
+				pointer.write_integer (start_index_from_end, start_index_from_end_ptr)
+			end
+		end
+
 feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
@@ -778,6 +829,11 @@ feature {NONE} -- Implementation
 				l_code := codec.z_code_as_unicode (l_z_code).to_integer_32
 				Result := codec.z_code_as_unicode (o_z_code).to_integer_32 - l_code
 			end
+		end
+
+	pointer: EL_POINTER_ROUTINES
+		-- expanded instance
+		do
 		end
 
 	reset_hash

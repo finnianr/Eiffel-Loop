@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-05 9:35:02 GMT (Sunday 5th September 2021)"
-	revision: "11"
+	date: "2021-09-15 10:37:42 GMT (Wednesday 15th September 2021)"
+	revision: "12"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -42,12 +42,17 @@ feature {NONE} -- Initialization
 
 	init_console_and_logging
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES; start_index, count: INTEGER
 		do
-			create test_name.make_empty
-			test_set_name := s.substring_to (Application_option.test_set, '.', test_name)
-			if test_name.starts_with (Test_prefix) then
-				test_name.remove_head (Test_prefix.count)
+			start_index := 1; count := Application_option.test_set.count
+			test_set_name := s.substring_to (Application_option.test_set, '.', $start_index)
+			if start_index < count then
+				test_name := Application_option.test_set.substring (start_index, count)
+				if test_name.starts_with (Test_prefix) then
+					test_name.remove_head (Test_prefix.count)
+				end
+			else
+				create test_name.make_empty
 			end
 			create test_type_list.make_from_tuple (create {EQA_TYPES})
 			if Application_option.test_set.count > 0 then

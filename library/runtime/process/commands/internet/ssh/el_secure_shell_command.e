@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:48:12 GMT (Thursday 9th September 2021)"
-	revision: "2"
+	date: "2021-09-15 9:38:54 GMT (Wednesday 15th September 2021)"
+	revision: "3"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
@@ -21,6 +21,11 @@ inherit
 feature -- Access
 
 	user_domain: ZSTRING
+
+	user: ZSTRING
+		do
+			
+		end
 
 feature -- Element change
 
@@ -45,7 +50,9 @@ feature {NONE} -- Implementation
 			s: EL_ZSTRING_ROUTINES
 		do
 			Result := a_path.escaped
-			Result.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
+			if Result.has ('\') then
+				Result.replace_substring_all (s.character_string ('\'), s.n_character_string ('\', 2))
+			end
 		end
 
 end

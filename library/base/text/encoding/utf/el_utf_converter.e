@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 18:14:28 GMT (Wednesday 17th February 2021)"
-	revision: "11"
+	date: "2021-09-14 14:49:58 GMT (Tuesday 14th September 2021)"
+	revision: "12"
 
 expanded class
 	EL_UTF_CONVERTER
@@ -18,16 +18,17 @@ inherit
 			is_valid_utf_16, utf_8_string_8_into_string_32
 		end
 
+	EL_MODULE_STRING_8
+
 	STRING_HANDLER
 
 feature -- Access
 
 	frozen unicode_count (s: READABLE_STRING_8): INTEGER
 		local
-			s_8: EL_STRING_8_ROUTINES; i, end_index: INTEGER
-			area: SPECIAL [CHARACTER]
+			i, end_index: INTEGER; area: SPECIAL [CHARACTER]
 		do
-			if attached s_8.cursor (s) as cursor then
+			if attached string_8.cursor (s) as cursor then
 				area := cursor.area
 				end_index := cursor.area_last_index
 				from i := cursor.area_first_index until i > end_index loop
@@ -175,10 +176,10 @@ feature -- UTF-8 operations
 	utf_8_substring_8_into_string_32 (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_32)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
-			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32; s_8: EL_STRING_8_ROUTINES
+			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]
 		do
-			if attached s_8.cursor (s) as cursor then
+			if attached string_8.cursor (s) as cursor then
 				area := cursor.area; offset := cursor.area_first_index
 			end
 			n := end_index - start_index + 1

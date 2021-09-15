@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-09-15 12:30:40 GMT (Wednesday 15th September 2021)"
+	revision: "5"
 
-class
+expanded class
 	EL_POINTER_ROUTINES
 
 feature -- Status query
@@ -19,4 +19,17 @@ feature -- Status query
 			Result := not a_pointer.is_default_pointer
 		end
 
+feature -- Basic operations
+
+	write_integer (value: INTEGER; integer_ptr: POINTER)
+		do
+			integer_ptr.memory_copy ($value, {PLATFORM}.Integer_32_bytes)
+		end
+
+feature -- Conversion
+
+	integer_value (integer_ptr: POINTER): INTEGER
+		do
+			($Result).memory_copy (integer_ptr, {PLATFORM}.Integer_32_bytes)
+		end
 end

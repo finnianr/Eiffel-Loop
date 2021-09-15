@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:23:14 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2021-09-14 12:43:22 GMT (Tuesday 14th September 2021)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_STRING_32
@@ -15,11 +15,11 @@ deferred class
 inherit
 	EL_MODULE
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
 	String_32: EL_STRING_32_ROUTINES
-			--
-		once
-			create Result
+		-- expanded instance
+		do
 		end
+
 end

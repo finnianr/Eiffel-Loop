@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-11 15:43:15 GMT (Saturday 11th September 2021)"
-	revision: "9"
+	date: "2021-09-15 10:31:36 GMT (Wednesday 15th September 2021)"
+	revision: "10"
 
 class
 	URI_TEST_SET
@@ -75,7 +75,7 @@ feature -- Tests
 			url_string.append_string (book_info.author_title)
 			create url.make_from_general (url_string)
 
-			encoded_author_title := s.substring_to (Encoded_gunter_grass, '&', Void)
+			encoded_author_title := s.substring_to (Encoded_gunter_grass, '&', Default_pointer)
 			assert ("same string", (Amazon_query + "?" + encoded_author_title).same_string (url))
 
 			title_fragment := "#title"

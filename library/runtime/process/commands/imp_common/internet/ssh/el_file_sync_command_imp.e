@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-06 14:48:16 GMT (Monday 6th September 2021)"
-	revision: "3"
+	date: "2021-09-14 14:58:12 GMT (Tuesday 14th September 2021)"
+	revision: "4"
 
 class
 	EL_FILE_SYNC_COMMAND_IMP
@@ -43,7 +43,7 @@ feature -- Access
 			--exclude '$list.item'
 		#end
 		#if $user_domain.count > 0 then
-			-e ssh $source_path $user_domain:$destination_path
+			-e ssh $source_path "$user_domain:$destination_path"
 		#else
 			$source_path $destination_path
 		#end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-02 12:37:36 GMT (Thursday 2nd September 2021)"
-	revision: "31"
+	date: "2021-09-15 12:34:14 GMT (Wednesday 15th September 2021)"
+	revision: "33"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -325,45 +325,54 @@ feature -- Transformed
 			end
 		end
 
-	substring_to (str: S; marker: CHARACTER_32; remainder_out: detachable S): S
-		-- substring of `str' up to but not including `marker' character
-		-- or else `str' if `marker' not found
-		-- if `remainder_out' is attached then any text after marker is written
+	substring_to (str: S; uc: CHARACTER_32; start_index_ptr: POINTER): S
+		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
+		-- or else `substring_end (start_index)' if `uc' not found
+		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
+		-- write new start_index back to `start_index_ptr'
+		-- if `uc' not found then new `start_index' is `count + 1'
 		local
-			pos_marker: INTEGER
+			start_index, index: INTEGER
 		do
-			pos_marker := str.index_of (marker, 1)
-			if pos_marker > 0 then
-				Result := str.substring (1, pos_marker - 1)
+			if start_index_ptr = Default_pointer then
+				start_index := 1
 			else
-				Result := str
+				start_index := pointer.integer_value (start_index_ptr)
 			end
-			if attached remainder_out as remainder then
-				remainder.keep_head (0)
-				if pos_marker > 0 then
-					remainder.append_substring (str, pos_marker + 1, str.count)
-				end
+			index := str.index_of (uc, start_index)
+			if index > 0 then
+				Result := str.substring (start_index, index - 1)
+				start_index := index + 1
+			else
+				Result := str.substring (start_index, str.count)
+				start_index := str.count + 1
+			end
+			if start_index_ptr /= Default_pointer then
+				start_index_ptr.memory_copy ($start_index, {PLATFORM}.Integer_32_bytes)
 			end
 		end
 
-	substring_to_reversed (str: S; marker: CHARACTER_32; remainder_out: detachable S): S
-		-- substring of `str' up to but not including `marker' character starting from the end
-		-- or else `str' if `marker' not found
-		-- if `remainder_out' is attached then any text before marker is written
+	substring_to_reversed (str: S; uc: CHARACTER_32; start_index_from_end_ptr: POINTER): S
+		-- the same as `substring_to' except going from right to left
+		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
-			pos_marker: INTEGER
+			start_index_from_end, index: INTEGER
 		do
-			pos_marker := last_index_of (str, marker, str.count)
-			if pos_marker > 0 then
-				Result := str.substring (pos_marker + 1, str.count)
+			if start_index_from_end_ptr = Default_pointer then
+				start_index_from_end := str.count
 			else
-				Result := str
+				start_index_from_end := pointer.integer_value (start_index_from_end_ptr)
 			end
-			if attached remainder_out as remainder then
-				remainder.keep_head (0)
-				if pos_marker > 0 then
-					remainder.append_substring (str, 1, pos_marker - 1)
-				end
+			index := last_index_of (str, uc, start_index_from_end)
+			if index > 0 then
+				Result := str.substring (index + 1, start_index_from_end)
+				start_index_from_end := index - 1
+			else
+				Result := str.substring (1, start_index_from_end)
+				start_index_from_end := 0
+			end
+			if start_index_from_end_ptr /= Default_pointer then
+				pointer.write_integer (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 
@@ -503,6 +512,11 @@ feature {NONE} -- Implementation
 
 	last_index_of (str: S; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		deferred
+		end
+
+	pointer: EL_POINTER_ROUTINES
+		-- expanded instance
+		do
 		end
 
 end

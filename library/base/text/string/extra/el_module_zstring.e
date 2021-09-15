@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:28:11 GMT (Thursday 6th February 2020)"
-	revision: "8"
+	date: "2021-09-14 12:43:15 GMT (Tuesday 14th September 2021)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_ZSTRING
@@ -15,11 +15,11 @@ deferred class
 inherit
 	EL_MODULE
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	ZString: EL_ZSTRING_ROUTINES
-			--
-		once
-			create Result
+	zstring: EL_ZSTRING_ROUTINES
+		-- expanded instance
+		do
 		end
+
 end

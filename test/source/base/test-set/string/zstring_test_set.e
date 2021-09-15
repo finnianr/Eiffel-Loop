@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 14:48:43 GMT (Wednesday 3rd March 2021)"
-	revision: "55"
+	date: "2021-09-15 11:02:36 GMT (Wednesday 15th September 2021)"
+	revision: "56"
 
 class
 	ZSTRING_TEST_SET
@@ -82,6 +82,8 @@ feature -- Basic operations
 			eval.call ("substring_index_in_bounds", agent test_substring_index_in_bounds)
 			eval.call ("unicode_index_of", agent test_unicode_index_of)
 			eval.call ("substring", agent test_substring)
+			eval.call ("substring_to", agent test_substring_to)
+			eval.call ("substring_to_reversed", agent test_substring_to_reversed)
 			eval.call ("to_general", agent test_to_general)
 			eval.call ("to_string_32", agent test_to_string_32)
 		end
@@ -973,6 +975,38 @@ feature -- Duplication tests
 				assert ("substring OK",  str.substring (i, i + 4).same_string (str_32.substring (i, i + 4)))
 				i := i + 1
 			end
+		end
+
+	test_substring_to
+		note
+			testing: "covers/{ZSTRING}.substring_to"
+		local
+			line, full_text: ZSTRING
+			start_index: INTEGER
+		do
+			full_text := Text_russian_and_english
+			start_index := 1
+			across text_lines as list loop
+				line := list.item
+				assert ("same string", full_text.substring_to ('%N', $start_index) ~ line)
+			end
+			assert ("valid start_index", start_index = full_text.count + 1)
+		end
+
+	test_substring_to_reversed
+		note
+			testing: "covers/{ZSTRING}.substring_to_reversed"
+		local
+			line, full_text: ZSTRING
+			start_end_index: INTEGER
+		do
+			full_text := Text_russian_and_english
+			start_end_index := full_text.count
+			across text_lines.new_cursor.reversed as list loop
+				line := list.item
+				assert ("same string", full_text.substring_to_reversed ('%N', $start_end_index) ~ line)
+			end
+			assert ("valid start_end_index", start_end_index = 0)
 		end
 
 feature {NONE} -- Implementation

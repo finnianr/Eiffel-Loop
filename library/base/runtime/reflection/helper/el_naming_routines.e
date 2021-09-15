@@ -12,11 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 10:43:07 GMT (Wednesday 16th June 2021)"
-	revision: "21"
+	date: "2021-09-14 14:42:19 GMT (Tuesday 14th September 2021)"
+	revision: "22"
 
 class
 	EL_NAMING_ROUTINES
+
+inherit
+	ANY
+
+	EL_MODULE_STRING_8
 
 create
 	make
@@ -36,12 +41,12 @@ feature -- Class name derivations
 
 	class_as_camel (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		local
-			l_name: STRING; s: EL_STRING_8_ROUTINES
+			l_name: STRING
 		do
 			l_name := class_as_snake_lower (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
 			to_camel_case (l_name, Result)
-			s.first_to_upper (Result)
+			string_8.first_to_upper (Result)
 		end
 
 	class_as_kebab_lower (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
@@ -70,7 +75,7 @@ feature -- Class name derivations
 		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
 		-- with `head_count' words removed from head and `tail_count' words removed from tail
 		local
-			split_string: EL_SPLIT_STRING_LIST [STRING]; s: EL_STRING_8_ROUTINES
+			split_string: EL_SPLIT_STRING_LIST [STRING]
 		do
 			if attached {TYPE [ANY]} object_or_type as type then
 				Result := type.name
@@ -78,7 +83,7 @@ feature -- Class name derivations
 				Result := object_or_type.generator
 			end
 			if head_count + tail_count > 0 then
-				create split_string.make (Result, s.character_string ('_'))
+				create split_string.make (Result, string_8.character_string ('_'))
 				if head_count > 0 then
 					split_string.remove_head (head_count)
 				end
@@ -175,12 +180,10 @@ feature -- Import names
 		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			name_out.to_lower
-			s.replace_character (name_out, separator, '_')
+			string_8.replace_character (name_out, separator, '_')
 		end
 
 	from_snake_case_lower (name_in, name_out: STRING)
@@ -253,11 +256,9 @@ feature -- Export names
 	to_kebab_case (name_in, name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
-			s.replace_character (name_out, '_', '-')
+			string_8.replace_character (name_out, '_', '-')
 		end
 
 	to_kebab_case_lower (name_in, name_out: STRING)
@@ -292,7 +293,6 @@ feature -- Export names
 			empty_title_out: title_out.is_empty
 		local
 			index: INTEGER; list: like Underscore_intervals
-			s: EL_STRING_8_ROUTINES
 		do
 			list := Underscore_intervals
 			list.fill (name_in, Underscore)
@@ -304,7 +304,7 @@ feature -- Export names
 					title_out [index] := separator_out
 				end
 				if title_out.valid_index (index + 1) then
-					s.set_upper (title_out, index + 1)
+					string_8.set_upper (title_out, index + 1)
 				end
 				list.forth
 			end
