@@ -1,19 +1,19 @@
 note
-	description: "Curl c api"
+	description: "Curl C API"
 
-	author: "Finnian Reilly"
+	author: "Finnian ReilLy"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 class
 	EL_CURL_C_API
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 	EL_CURL_OPTION_CONSTANTS
 		rename

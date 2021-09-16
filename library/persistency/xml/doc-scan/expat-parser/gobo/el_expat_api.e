@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-21 11:29:49 GMT (Monday 21st December 2020)"
-	revision: "6"
+	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 class EL_EXPAT_API
 
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature {NONE} -- Creating and destroying parsers
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 9:51:56 GMT (Thursday 6th August 2020)"
-	revision: "9"
+	date: "2021-09-15 20:43:19 GMT (Wednesday 15th September 2021)"
+	revision: "10"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 		export
 			{NONE} all
 		undefine

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-25 14:47:12 GMT (Friday 25th June 2021)"
-	revision: "20"
+	date: "2021-09-16 8:49:05 GMT (Thursday 16th September 2021)"
+	revision: "21"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -59,11 +59,11 @@ feature -- Access
 		end
 
 	relative_parent (step_count: INTEGER): ZSTRING
-			-- parent relative to current using '../'
-			-- Returns '.' if `step_count' = 0
-			-- Returns '../' if `step_count' = 1
-			-- Returns '../../' if `step_count' = 2
-			-- and so forth
+		-- parent relative to current using '../'
+		-- Returns '.' if `step_count' = 0
+		-- Returns '../' if `step_count' = 1
+		-- Returns '../../' if `step_count' = 2
+		-- and so forth
 		local
 			s: EL_ZSTRING_ROUTINES
 		do

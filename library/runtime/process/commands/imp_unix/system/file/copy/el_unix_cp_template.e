@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:32:59 GMT (Thursday 9th September 2021)"
-	revision: "5"
+	date: "2021-09-16 15:41:27 GMT (Thursday 16th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_UNIX_CP_TEMPLATE
@@ -19,6 +19,9 @@ feature {NONE} -- Constants
 
 	Template: STRING = "[
 		cp
+		#if $update_enabled then
+			--update
+		#end
 		#if $is_recursive then
 			--recursive
 		#end

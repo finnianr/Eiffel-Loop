@@ -1,13 +1,17 @@
 note
-	description: "Remote file synchronization using rsync over ssh"
+	description: "[
+		Remote file synchronization using [https://linux.die.net/man/1/rsync rsync]
+		
+		if `user_domain' is set then transfers over ssh connection
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:48:29 GMT (Thursday 9th September 2021)"
-	revision: "4"
+	date: "2021-09-16 11:38:44 GMT (Thursday 16th September 2021)"
+	revision: "5"
 
 deferred class
 	EL_FILE_SYNC_COMMAND_I
@@ -35,6 +39,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	exclude_list: EL_ZSTRING_LIST
+		-- file patterns for exclusion from transfer
+		-- see --exclude option in rsync man
 
 feature -- Status query
 
@@ -46,11 +52,13 @@ feature -- Status query
 		-- compress files during transfer
 
 	delete: EL_BOOLEAN_OPTION
-		-- when enabled delete extraneous files from destination dirs
+		-- when enabled deletes extraneous files from destination dirs
 
 	progress: EL_BOOLEAN_OPTION
+		-- show progress during transfer
 
 	verbose: EL_BOOLEAN_OPTION
+		-- This option increases the amount of information you are given during the transfer.
 
 feature {NONE} -- Evolicity reflection
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 12:41:30 GMT (Saturday 1st August 2020)"
-	revision: "2"
+	date: "2021-09-15 20:41:36 GMT (Wednesday 15th September 2021)"
+	revision: "3"
 
 class
 	EL_IMAGE_ACCESS_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 create
 	make

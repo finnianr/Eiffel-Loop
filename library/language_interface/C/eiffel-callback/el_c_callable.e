@@ -27,14 +27,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-20 15:37:00 GMT (Tuesday 20th February 2018)"
-	revision: "6"
+	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 deferred class
 	EL_C_CALLABLE
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature {NONE} -- Initialization
 

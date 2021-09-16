@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-09-15 20:43:27 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 class
 	EL_WINDOWS_MUTEX_API
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature {NONE} -- C Externals
 

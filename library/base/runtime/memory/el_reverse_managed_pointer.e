@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 14:55:38 GMT (Tuesday 8th June 2021)"
-	revision: "2"
+	date: "2021-09-15 20:57:38 GMT (Wednesday 15th September 2021)"
+	revision: "3"
 
 class
 	EL_REVERSE_MANAGED_POINTER
@@ -35,21 +35,21 @@ feature -- Read operations
 	read_natural_16 (pos: INTEGER): NATURAL_16
 			-- Read NATURAL_16 at position `pos'.
 		do
-			($Result).memory_copy (item + pos, natural_16_bytes)
+			($Result).memory_copy (item + pos, Natural_16_bytes)
 			Result := reversed_16 (Result)
 		end
 
 	read_natural_32 (pos: INTEGER): NATURAL_32
 			-- Read NATURAL_32 at position `pos'.
 		do
-			($Result).memory_copy (item + pos, natural_32_bytes)
+			($Result).memory_copy (item + pos, Natural_32_bytes)
 			Result := reversed_32 (Result)
 		end
 
 	read_natural_64 (pos: INTEGER): NATURAL_64
 		-- Read NATURAL_64 at position `pos'.
 		do
-			($Result).memory_copy (item + pos, natural_64_bytes)
+			($Result).memory_copy (item + pos, Natural_64_bytes)
 			Result := reversed_64 (Result)
 		end
 
@@ -100,7 +100,7 @@ feature -- Put operations
 			reversed: NATURAL_16
 		do
 			reversed := reversed_16 (v)
-			(item + pos).memory_copy ($reversed, natural_16_bytes)
+			(item + pos).memory_copy ($reversed, Natural_16_bytes)
 		end
 
 	put_natural_32 (v: NATURAL_32; pos: INTEGER)
@@ -109,7 +109,7 @@ feature -- Put operations
 			reversed: NATURAL_32
 		do
 			reversed := reversed_32 (v)
-			(item + pos).memory_copy ($reversed, natural_32_bytes)
+			(item + pos).memory_copy ($reversed, Natural_32_bytes)
 		end
 
 	put_natural_64 (v: NATURAL_64; pos: INTEGER)
@@ -118,7 +118,7 @@ feature -- Put operations
 			reversed: NATURAL_64
 		do
 			reversed := reversed_64 (v)
-			(item + pos).memory_copy ($reversed, natural_64_bytes)
+			(item + pos).memory_copy ($reversed, Natural_64_bytes)
 		end
 
 	put_pointer (p: POINTER; pos: INTEGER)

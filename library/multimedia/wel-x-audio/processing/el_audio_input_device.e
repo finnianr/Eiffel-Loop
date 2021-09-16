@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 13:01:46 GMT (Friday 3rd April 2020)"
-	revision: "3"
+	date: "2021-09-15 20:44:18 GMT (Wednesday 15th September 2021)"
+	revision: "4"
 
 class
 	EL_AUDIO_INPUT_DEVICE
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_MODULE_LIO
-
-	EL_POINTER_ROUTINES
 
 create
 	make
@@ -281,4 +279,3 @@ invariant
 	valid_audio_buffer_structure_size: audio_buffers.first.structure_size /= 0
 
 end
-

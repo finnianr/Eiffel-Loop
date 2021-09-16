@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 12:34:14 GMT (Wednesday 15th September 2021)"
-	revision: "33"
+	date: "2021-09-15 20:52:59 GMT (Wednesday 15th September 2021)"
+	revision: "34"
 
 deferred class
 	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
@@ -337,7 +337,7 @@ feature -- Transformed
 			if start_index_ptr = Default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.integer_value (start_index_ptr)
+				start_index := pointer.read_integer (start_index_ptr)
 			end
 			index := str.index_of (uc, start_index)
 			if index > 0 then
@@ -361,7 +361,7 @@ feature -- Transformed
 			if start_index_from_end_ptr = Default_pointer then
 				start_index_from_end := str.count
 			else
-				start_index_from_end := pointer.integer_value (start_index_from_end_ptr)
+				start_index_from_end := pointer.read_integer (start_index_from_end_ptr)
 			end
 			index := last_index_of (str, uc, start_index_from_end)
 			if index > 0 then
@@ -372,7 +372,7 @@ feature -- Transformed
 				start_index_from_end := 0
 			end
 			if start_index_from_end_ptr /= Default_pointer then
-				pointer.write_integer (start_index_from_end, start_index_from_end_ptr)
+				pointer.put_integer (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

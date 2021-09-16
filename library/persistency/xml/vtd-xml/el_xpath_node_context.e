@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 12:25:34 GMT (Wednesday 15th September 2021)"
-	revision: "18"
+	date: "2021-09-15 20:13:12 GMT (Wednesday 15th September 2021)"
+	revision: "19"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -15,8 +15,7 @@ class
 inherit
 	EL_OWNED_C_OBJECT -- VTDNav
 		rename
-			c_free as c_evx_free_node_context,
-			integer_value as pointer_integer_value
+			c_free as c_evx_free_node_context
 		export
 			{EL_XPATH_NODE_CONTEXT, EL_VTD_XPATH_QUERY, EL_VTD_XML_ATTRIBUTE_API} self_ptr
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 12:36:12 GMT (Wednesday 15th September 2021)"
-	revision: "81"
+	date: "2021-09-15 20:52:59 GMT (Wednesday 15th September 2021)"
+	revision: "82"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -573,7 +573,7 @@ feature -- Conversion
 			if start_index_ptr = Default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.integer_value (start_index_ptr)
+				start_index := pointer.read_integer (start_index_ptr)
 			end
 			index := index_of (uc, start_index)
 			if index > 0 then
@@ -584,7 +584,7 @@ feature -- Conversion
 				start_index := count + 1
 			end
 			if start_index_ptr /= Default_pointer then
-				pointer.write_integer (start_index, start_index_ptr)
+				pointer.put_integer (start_index, start_index_ptr)
 			end
 		end
 
@@ -597,7 +597,7 @@ feature -- Conversion
 			if start_index_from_end_ptr = Default_pointer then
 				start_index_from_end := count
 			else
-				start_index_from_end := pointer.integer_value (start_index_from_end_ptr)
+				start_index_from_end := pointer.read_integer (start_index_from_end_ptr)
 			end
 			index := last_index_of (uc, start_index_from_end)
 			if index > 0 then
@@ -608,7 +608,7 @@ feature -- Conversion
 				start_index_from_end := 0
 			end
 			if start_index_from_end_ptr /= Default_pointer then
-				pointer.write_integer (start_index_from_end, start_index_from_end_ptr)
+				pointer.put_integer (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

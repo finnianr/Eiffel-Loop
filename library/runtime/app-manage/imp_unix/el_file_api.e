@@ -1,19 +1,19 @@
 note
-	description: "File api"
+	description: "File C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "6"
+	date: "2021-09-15 20:19:18 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 class
 	EL_FILE_API
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature {NONE} -- C Externals
 
@@ -52,37 +52,37 @@ feature {NONE} -- C Externals
 			"sizeof(struct flock)"
 		end
 
-    c_set_flock_type (p: POINTER; type: INTEGER)
-            --
-        external
-            "C [struct <fcntl.h>] (struct flock, int)"
-        alias
-            "l_type"
-        end
+	frozen c_set_flock_type (p: POINTER; type: INTEGER)
+			--
+		external
+			"C [struct <fcntl.h>] (struct flock, int)"
+		alias
+			"l_type"
+		end
 
-    c_set_flock_whence (p: POINTER; v: INTEGER)
-            --
-        external
-            "C [struct <fcntl.h>] (struct flock, int)"
-        alias
-            "l_whence"
-        end
+	frozen c_set_flock_whence (p: POINTER; v: INTEGER)
+			--
+		external
+			"C [struct <fcntl.h>] (struct flock, int)"
+		alias
+			"l_whence"
+		end
 
-    c_set_flock_start (p: POINTER; v: INTEGER)
-            --
-        external
-            "C [struct <fcntl.h>] (struct flock, int)"
-        alias
-            "l_start"
-        end
+	frozen c_set_flock_start (p: POINTER; v: INTEGER)
+			--
+		external
+			"C [struct <fcntl.h>] (struct flock, int)"
+		alias
+			"l_start"
+		end
 
-    c_set_flock_length (p: POINTER; v: INTEGER)
-            --
-        external
-            "C [struct <fcntl.h>] (struct flock, int)"
-        alias
-            "l_len"
-        end
+	frozen c_set_flock_length (p: POINTER; v: INTEGER)
+			--
+		external
+			"C [struct <fcntl.h>] (struct flock, int)"
+		alias
+			"l_len"
+		end
 
 	frozen c_file_write_lock: INTEGER
 		external

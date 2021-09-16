@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
-	revision: "5"
+	date: "2021-01-07 12:52:29 GMT (Thursday 7th January 2021)"
+	revision: "4"
 
 class
 	EL_EXPAT_ATTRIBUTE_CURSOR
@@ -28,7 +28,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_C_API_ROUTINES
+	EL_POINTER_ROUTINES
 		export
 			{ANY} is_attached
 		undefine

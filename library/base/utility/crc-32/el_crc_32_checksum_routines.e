@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 12:20:22 GMT (Sunday 13th September 2020)"
-	revision: "6"
+	date: "2021-09-16 10:06:31 GMT (Thursday 16th September 2021)"
+	revision: "7"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
 
 inherit
 	ANY
+
+	EL_MODULE_FILE_SYSTEM
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -29,6 +31,15 @@ feature -- Status query
 	same_as_utf_8_file (list: ITERABLE [ZSTRING]; file_path: EL_FILE_PATH): BOOLEAN
 		do
 			Result := string_list (list) = utf_8_file_content (file_path)
+		end
+
+	has_changed (crc_path: EL_FILE_PATH; checksum: NATURAL): BOOLEAN
+		do
+			if crc_path.exists then
+				Result := File_system.plain_text (crc_path).to_natural /= checksum
+			else
+				Result := True
+			end
 		end
 
 feature -- Measurement

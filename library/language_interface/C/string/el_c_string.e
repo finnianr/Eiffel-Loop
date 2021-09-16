@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:17:55 GMT (Friday 8th January 2021)"
-	revision: "9"
+	date: "2021-09-15 20:07:16 GMT (Wednesday 15th September 2021)"
+	revision: "10"
 
 deferred class
 	EL_C_STRING
@@ -26,7 +26,7 @@ inherit
 			default_create
 		end
 
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 		export
 			{NONE} all
 		undefine

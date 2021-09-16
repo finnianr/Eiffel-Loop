@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-10 9:07:58 GMT (Friday 10th September 2021)"
-	revision: "24"
+	date: "2021-09-16 15:21:47 GMT (Thursday 16th September 2021)"
+	revision: "25"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -97,6 +97,9 @@ feature -- Status query
 		do
 			Result := True
 		end
+
+	sudo: EL_BOOLEAN_OPTION
+		-- if sudo option is enabled allows a permitted user to execute a command as the superuser
 
 feature -- Status change
 
@@ -233,6 +236,9 @@ feature {NONE} -- Implementation
 					Execution_environment.push_current_working (working_directory)
 				end
 				create command_parts.make_from_array (new_command_parts (a_system_command))
+				if {PLATFORM}.is_unix and then sudo.is_enabled then
+					command_parts.put_front (Sudo_command)
+				end
 				command_parts.prune_all_empty -- `command_prefix' is empty on Unix
 
 				error_path := temporary_error_file_path
@@ -334,6 +340,11 @@ feature {NONE} -- Deferred implementation
 		end
 
 feature {NONE} -- Constants
+
+	Sudo_command: ZSTRING
+		once
+			Result := "sudo"
+		end
 
 	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
 		once

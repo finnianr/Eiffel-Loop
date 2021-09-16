@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 13:51:13 GMT (Monday 12th October 2020)"
-	revision: "6"
+	date: "2021-09-15 20:38:40 GMT (Wednesday 15th September 2021)"
+	revision: "7"
 
 class
 	EL_X11_API
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature {NONE} -- C Externals
 

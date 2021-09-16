@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:40:51 GMT (Saturday 10th July 2021)"
-	revision: "12"
+	date: "2021-09-16 16:43:29 GMT (Thursday 16th September 2021)"
+	revision: "13"
 
 class
 	EL_COMMAND_FACTORY
@@ -64,6 +64,14 @@ feature -- File management
 	new_copy_tree (a_source_path, a_destination_path: EL_DIR_PATH): EL_COPY_TREE_COMMAND_I
 		do
 			create {EL_COPY_TREE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
+		end
+
+	new_link_file (target_path, link_path: EL_PATH): EL_CREATE_LINK_COMMAND_I
+		-- create symbolic link
+		do
+			create {EL_CREATE_LINK_COMMAND_IMP} Result.make_default
+			Result.set_target_path (target_path)
+			Result.set_link_path (link_path)
 		end
 
 	new_move_file (a_source_path: EL_FILE_PATH; a_destination_path: EL_PATH): EL_MOVE_FILE_COMMAND_I

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 8:53:04 GMT (Sunday 2nd August 2020)"
-	revision: "7"
+	date: "2021-09-15 20:41:59 GMT (Wednesday 15th September 2021)"
+	revision: "8"
 
 deferred class
 	CAIRO_PANGO_LAYOUT_I
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 feature -- Factory
 

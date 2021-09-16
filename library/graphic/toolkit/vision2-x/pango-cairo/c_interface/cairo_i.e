@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 12:29:38 GMT (Thursday 30th July 2020)"
-	revision: "10"
+	date: "2021-09-15 20:41:50 GMT (Wednesday 15th September 2021)"
+	revision: "11"
 
 deferred class
 	CAIRO_I
 
 inherit
-	EL_POINTER_ROUTINES
+	EL_C_API_ROUTINES
 
 	CAIRO_CONSTANTS
 
