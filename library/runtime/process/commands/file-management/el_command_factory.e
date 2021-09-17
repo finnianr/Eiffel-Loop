@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 16:43:29 GMT (Thursday 16th September 2021)"
-	revision: "13"
+	date: "2021-09-17 9:08:34 GMT (Friday 17th September 2021)"
+	revision: "14"
 
 class
 	EL_COMMAND_FACTORY
@@ -42,6 +42,18 @@ feature -- Informational
 		do
 			create {EL_DIRECTORY_INFO_COMMAND_IMP} Result.make (a_dir_path)
 			-- make calls execute
+		end
+
+feature -- Linux only commands
+
+	new_set_executable_mode_cmd (script_path: EL_FILE_PATH): EL_OS_COMMAND
+		local
+			var: TUPLE [path: STRING]
+		do
+			create var
+			create Result.make ("chmod 0755 $PATH")
+			Result.fill_variables (var)
+			Result.put_path (var.path, script_path)
 		end
 
 feature -- File management

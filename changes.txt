@@ -433,3 +433,6 @@ Refactor of date time classes using append_to routine
 Sat 21st Aug 2021, 16:10:01
 Patch and shell commands, refactored SConstruct
 
+Thu 16th Sep 2021, 17:12:26
+Renamed EL_POINTER_ROUTINES to EL_C_API_ROUTINES for is_attached
+
