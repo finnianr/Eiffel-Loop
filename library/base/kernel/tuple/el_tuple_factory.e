@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-17 10:32:11 GMT (Friday 17th September 2021)"
-	revision: "1"
+	date: "2021-09-17 16:56:30 GMT (Friday 17th September 2021)"
+	revision: "2"
 
 class
 	EL_TUPLE_FACTORY [G, TUPLE_TYPE, T -> TUPLE create default_create end]
@@ -27,8 +27,10 @@ feature -- Contract Support
 feature -- Factory
 
 	new_tuple (array: ARRAY [G]; new_item: FUNCTION [G, TUPLE_TYPE]): T
+		-- Create a new tupe of type `T' and initializes it with
 		require
-			tuple_conforms_to_function_resut: tuple_type_array.all_conform_to (new_item_info.result_type)
+			same_number: array.count = (create {T}).count
+			tuple_uniformly_conforms_to_function_result: tuple_type_array.all_conform_to (new_item_info.result_type)
 		local
 			type_is_reference: BOOLEAN
 		do
