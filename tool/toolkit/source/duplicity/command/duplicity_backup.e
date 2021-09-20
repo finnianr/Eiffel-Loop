@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:40:10 GMT (Monday 16th August 2021)"
-	revision: "13"
+	date: "2021-09-19 12:57:41 GMT (Sunday 19th September 2021)"
+	revision: "14"
 
 class
 	DUPLICITY_BACKUP
@@ -57,7 +57,9 @@ feature -- Basic operations
 				get_backup_type
 				if user_accepts_dry_run (destination_uri) then
 					lio.put_new_line
-					write_change_comment
+					if change_text.is_enabled then
+						write_change_comment
+					end
 					mirror_list.do_all (agent {BACKUP_MIRROR}.set_passphrase)
 
 					lio.put_path_field ("Creating", destination_uri)

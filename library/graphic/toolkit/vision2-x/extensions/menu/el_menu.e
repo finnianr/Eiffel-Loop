@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 12:17:47 GMT (Sunday 11th October 2020)"
-	revision: "9"
+	date: "2021-09-20 12:51:30 GMT (Monday 20th September 2021)"
+	revision: "10"
 
 deferred class
 	EL_MENU
@@ -39,6 +39,8 @@ inherit
 		export
 			{ANY} menu
 		end
+
+	EL_SHARED_KEY_ENUM
 
 feature {NONE} -- Initialization
 
@@ -205,6 +207,26 @@ feature {NONE} -- Factory
 			create Result.make_with_text_and_action (a_name.to_string_32, action)
 		end
 
+	new_key_string (key_code: INTEGER): ZSTRING
+		do
+			inspect key_code
+				when Key_0 .. Key_9 then
+					create Result.make (1)
+					Result.append_integer (key_code - Key_0)
+
+				when Key_a .. Key_z then
+					create Result.make_filled ('A' + (key_code - Key_a), 1)
+
+				when Key_f1 .. Key_f12 then
+					create Result.make (3)
+					Result.append_character_8 ('F')
+					Result.append_integer (1 + key_code - Key_f1)
+
+			else
+				Result := Key_enum.locale_name (key_code)
+			end
+		end
+
 	new_menu: EV_MENU
 		do
 			create Result.make_with_text (name.to_unicode)
@@ -213,8 +235,6 @@ feature {NONE} -- Factory
 
 	new_shortcut_description (key_code: INTEGER; combined_modifiers: NATURAL): ZSTRING
 			-- Eg. Ctrl+Shift+Delete
-		local
-			key_string: STRING_32
 		do
 			create Result.make (8)
 			across Modifier_list as modifer loop
@@ -228,12 +248,7 @@ feature {NONE} -- Factory
 			if not Result.is_empty then
 				Result.append_character ('+')
 			end
-			key_string := Key_strings [key_code]
-			if key_string.count = 1 then
-				Result.append_string_general (key_string.as_upper)
-			else
-				Result.append (Locale * Key_template #$ [key_string])
-			end
+			Result.append (new_key_string (key_code))
 		end
 
 feature {NONE} -- Event handler
@@ -336,15 +351,10 @@ feature {NONE} -- Type definitions
 	Modifier_list: ARRAY [TUPLE [code: NATURAL; name: ZSTRING]]
 		once
 			Result := <<
-				[Modifier_ctrl, Locale * "Ctrl"], [Modifier_alt, Locale * "Alt"], [Modifier_shift, Locale * "Shift"]
+				[Modifier_ctrl, Key_enum.locale_name (Key_ctrl)],
+				[Modifier_alt, Key_enum.locale_name (Key_alt)],
+				[Modifier_shift, Key_enum.locale_name (Key_shift)]
 			>>
-		end
-
-feature {NONE} -- Constants
-
-	Key_template: ZSTRING
-		once
-			Result := "{key-%S}"
 		end
 
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-27 11:23:10 GMT (Sunday 27th June 2021)"
-	revision: "10"
+	date: "2021-09-19 12:55:51 GMT (Sunday 19th September 2021)"
+	revision: "11"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 		do
 			create encryption_key.make_empty
 			create backup_dir
+			change_text := True
 			create name.make_empty
 			create mirror_list.make (5)
 			create restore_dir
@@ -59,8 +60,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	mirror_list: EL_ARRAYED_LIST [BACKUP_MIRROR]
-
 	backup_dir: EL_DIR_PATH
 
 	encryption_key: ZSTRING
@@ -68,6 +67,8 @@ feature -- Access
 	exclude_any_list: EL_ZSTRING_LIST
 
 	exclude_files_list: EL_ZSTRING_LIST
+
+	mirror_list: EL_ARRAYED_LIST [BACKUP_MIRROR]
 
 	name: ZSTRING
 		-- possible alias for `target_dir.base' used as backup destination
@@ -86,16 +87,11 @@ feature -- Access
 			end
 		end
 
-feature {NONE} -- Build from XML
+feature -- Status query
 
-	append_mirror
-		local
-			mirror: BACKUP_MIRROR
-		do
-			create mirror.make
-			set_next_context (mirror)
-			mirror_list.extend (mirror)
-		end
+	change_text: EL_BOOLEAN_OPTION
+
+feature {NONE} -- Build from XML
 
 	append_exclude_any
 		do
@@ -114,6 +110,15 @@ feature {NONE} -- Build from XML
 			end
 		end
 
+	append_mirror
+		local
+			mirror: BACKUP_MIRROR
+		do
+			create mirror.make
+			set_next_context (mirror)
+			mirror_list.extend (mirror)
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
@@ -122,6 +127,7 @@ feature {NONE} -- Build from XML
 				["@target_dir",				agent do target_dir := node.to_expanded_dir_path end],
 				["@restore_dir",				agent do restore_dir := node.to_expanded_dir_path end],
 				["@backup_dir",				agent do backup_dir := node.to_expanded_dir_path end],
+				["@change_text_enabled",	agent do change_text := node.adjusted_8 (False).as_lower ~ "true" end],
 
 				["mirror",						agent append_mirror],
 				["exclude-any/text()",		agent append_exclude_any],

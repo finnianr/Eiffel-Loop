@@ -1,3 +1,6 @@
+1.5.2
+Option to disable change.txt in duplicity backup
+
 1.5.1
 Fixed extensions in EL_CRYPTO_COMMAND_SHELL
 

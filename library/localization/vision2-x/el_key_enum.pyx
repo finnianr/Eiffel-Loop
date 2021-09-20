@@ -1,9 +1,12 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
+# class EL_KEY_ENUM
+
 translations:
+# Numberic pad
 	item:
-		id = "{key-NumPad 0}"
+		id = "{key-numpad-0}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 0"
@@ -11,7 +14,7 @@ translations:
 			lang = en
 			"Numeric Pad 0"
 	item:
-		id = "{key-NumPad 1}"
+		id = "{key-numpad-1}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 1"
@@ -19,7 +22,7 @@ translations:
 			lang = en
 			"Numeric Pad"
 	item:
-		id = "{key-NumPad 2}"
+		id = "{key-numpad-2}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 2"
@@ -27,7 +30,7 @@ translations:
 			lang = en
 			"Numeric Pad 2"
 	item:
-		id = "{key-NumPad 3}"
+		id = "{key-numpad-3}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 3"
@@ -35,7 +38,7 @@ translations:
 			lang = en
 			"Numeric Pad 3"
 	item:
-		id = "{key-NumPad 4}"
+		id = "{key-numpad-4}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 4"
@@ -43,7 +46,7 @@ translations:
 			lang = en
 			"Numeric Pad 4"
 	item:
-		id = "{key-NumPad 5}"
+		id = "{key-numpad-5}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 5"
@@ -51,7 +54,7 @@ translations:
 			lang = en
 			"Numeric Pad 5"
 	item:
-		id = "{key-NumPad 6}"
+		id = "{key-numpad-6}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 6"
@@ -59,7 +62,7 @@ translations:
 			lang = en
 			"Numeric Pad 6"
 	item:
-		id = "{key-NumPad 7}"
+		id = "{key-numpad-7}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 7"
@@ -67,7 +70,7 @@ translations:
 			lang = en
 			"Numeric Pad 7"
 	item:
-		id = "{key-NumPad 8}"
+		id = "{key-numpad-8}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad 8"
@@ -75,7 +78,7 @@ translations:
 			lang = en
 			"Numeric Pad 8"
 	item:
-		id = "{key-NumPad 9}"
+		id = "{key-numpad-9}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad "
@@ -83,7 +86,7 @@ translations:
 			lang = en
 			"Numeric Pad 9"
 	item:
-		id = "{key-NumPad +}"
+		id = "{key-numpad-add}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad +"
@@ -91,7 +94,7 @@ translations:
 			lang = en
 			"Numeric Pad +"
 	item:
-		id = "{key-NumPad /}"
+		id = "{key-numpad-divide}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad /"
@@ -99,7 +102,7 @@ translations:
 			lang = en
 			"Numeric Pad /"
 	item:
-		id = "{key-NumPad *}"
+		id = "{key-numpad-multiply}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad *"
@@ -107,7 +110,7 @@ translations:
 			lang = en
 			"Numeric Pad *"
 	item:
-		id = "{key-NumPad -}"
+		id = "{key-numpad-subtract}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad -"
@@ -115,7 +118,7 @@ translations:
 			lang = en
 			"Numeric Pad -"
 	item:
-		id = "{key-NumPad .}"
+		id = "{key-numpad-decimal}"
 		translation:
 			lang = de; check = false
 			"Numerisches Pad ."
@@ -123,119 +126,41 @@ translations:
 			lang = en
 			"Numeric Pad ."
 	item:
-		id = "{key-NumLock}"
+		id = "{key-numlock}"
 		translation:
 			lang = de; check = false
 			"Numerische Sperrtaste"
 		translation:
 			lang = en
 			"Numeric Lock"
+
+# Other keys
 	item:
-		id = "{key-F1}"
+		id = "{key-alt}"
 		translation:
 			lang = de; check = false
-			"F1"
+			"Alt"
 		translation:
 			lang = en
-			"F1"
+			"Alt"
 	item:
-		id = "{key-F2}"
+		id = "{key-backquote}"
 		translation:
 			lang = de; check = false
-			"F2"
+			"Rückquote"
 		translation:
 			lang = en
-			"F2"
+			"Backquote"
 	item:
-		id = "{key-F3}"
+		id = "{key-backslash}"
 		translation:
 			lang = de; check = false
-			"F3"
+			"Backslash"
 		translation:
 			lang = en
-			"F3"
+			"Backslash"
 	item:
-		id = "{key-F4}"
-		translation:
-			lang = de; check = false
-			"F4"
-		translation:
-			lang = en
-			"F4"
-	item:
-		id = "{key-F5}"
-		translation:
-			lang = de; check = false
-			"F5"
-		translation:
-			lang = en
-			"F5"
-	item:
-		id = "{key-F6}"
-		translation:
-			lang = de; check = false
-			"F6"
-		translation:
-			lang = en
-			"F6"
-	item:
-		id = "{key-F7}"
-		translation:
-			lang = de; check = false
-			"F7"
-		translation:
-			lang = en
-			"F7"
-	item:
-		id = "{key-F8}"
-		translation:
-			lang = de; check = false
-			"F8"
-		translation:
-			lang = en
-			"F8"
-	item:
-		id = "{key-F9}"
-		translation:
-			lang = de; check = false
-			"F9"
-		translation:
-			lang = en
-			"F9"
-	item:
-		id = "{key-F10}"
-		translation:
-			lang = de; check = false
-			"F10"
-		translation:
-			lang = en
-			"F10"
-	item:
-		id = "{key-F11}"
-		translation:
-			lang = de; check = false
-			"F11"
-		translation:
-			lang = en
-			"F11"
-	item:
-		id = "{key-F12}"
-		translation:
-			lang = de; check = false
-			"F12"
-		translation:
-			lang = en
-			"F12"
-	item:
-		id = "{key-Space}"
-		translation:
-			lang = de; check = false
-			"Leertaste"
-		translation:
-			lang = en
-			"Space"
-	item:
-		id = "{key-BackSpace}"
+		id = "{key-back-space}"
 		translation:
 			lang = de; check = false
 			"Rücktaste"
@@ -243,39 +168,7 @@ translations:
 			lang = en
 			"Backspace"
 	item:
-		id = "{key-Enter}"
-		translation:
-			lang = de; check = false
-			"Enter-Taste"
-		translation:
-			lang = en
-			"Enter"
-	item:
-		id = "{key-Esc}"
-		translation:
-			lang = de; check = false
-			"Esc-Taste"
-		translation:
-			lang = en
-			"Escape"
-	item:
-		id = "{key-Tab}"
-		translation:
-			lang = de; check = false
-			"Tabulatortaste"
-		translation:
-			lang = en
-			"Tab"
-	item:
-		id = "{key-Pause}"
-		translation:
-			lang = de; check = false
-			"Pause-Taste"
-		translation:
-			lang = en
-			"Pause"
-	item:
-		id = "{key-CapsLock}"
+		id = "{key-caps-lock}"
 		translation:
 			lang = de; check = false
 			"Capitals Lock"
@@ -283,105 +176,23 @@ translations:
 			lang = en
 			"Capitals Lock"
 	item:
-		id = "{key-ScrollLock}"
+		id = "{key-comma}"
 		translation:
 			lang = de; check = false
-			"Scroll Lock"
+			"Komma"
 		translation:
 			lang = en
-			"Scroll Lock"
+			"Comma"
 	item:
-		id = "{key-Up}"
+		id = "{key-close-bracket}"
 		translation:
 			lang = de; check = false
-			"Pfeiltaste nach oben"
+			"Klammer-schließen"
 		translation:
 			lang = en
-			"Up Arrow"
+			"Close bracket"
 	item:
-		id = "{key-Down}"
-		translation:
-			lang = de; check = false
-			"Abwärtspfeiltaste"
-		translation:
-			lang = en
-			"Down-arrow"
-	item:
-		id = "{key-Left}"
-		translation:
-			lang = de; check = true
-			"Linke Pfeiltaste"
-		translation:
-			lang = en
-			"Left Arrow"
-
-	item:
-		id = "{key-Right}"
-		translation:
-			lang = de; check = true
-			"Rechte Pfeiltaste"
-		translation:
-			lang = en
-			"Right Arrow"
-
-	item:
-		id = "{key-Del}"
-		translation:
-			lang = de; check = true
-			"Löschen"
-		translation:
-			lang = en
-			"Delete"
-	item:
-		id = "{key-PageUp}"
-		translation:
-			lang = de; check = false
-			"Aufwärts"
-		translation:
-			lang = en
-			"Page Up"
-	item:
-		id = "{key-PageDown}"
-		translation:
-			lang = de; check = false
-			"Page Down"
-		translation:
-			lang = en
-			"Page Down"
-	item:
-		id = "{key-Home}"
-		translation:
-			lang = de; check = false
-			"Home-Taste"
-		translation:
-			lang = en
-			"Home"
-	item:
-		id = "{key-End}"
-		translation:
-			lang = de; check = false
-			"Endtaste"
-		translation:
-			lang = en
-			"End"
-	item:
-		id = "{key-Insert}"
-		translation:
-			lang = de; check = false
-			"Eingabetaste"
-		translation:
-			lang = en
-			"Insert"
-	item:
-		id = "{key-Shift}"
-		translation:
-			lang = de; check = false
-			"Umschalttaste"
-		translation:
-			lang = en
-			"Shift"
-	item:
-		id = "{key-Ctrl}"
+		id = "{key-ctrl}"
 		translation:
 			lang = de; check = true
 			"Strg"
@@ -389,15 +200,95 @@ translations:
 			lang = en
 			"$id"
 	item:
-		id = "{key-Alt}"
+		id = "{key-dash}"
 		translation:
 			lang = de; check = false
-			"Alt"
+			"Strichtaste"
 		translation:
 			lang = en
-			"Alt"
+			"Dash"
 	item:
-		id = "{key-Left Meta}"
+		id = "{key-delete}"
+		translation:
+			lang = de; check = true
+			"Löschen"
+		translation:
+			lang = en
+			"Delete"
+	item:
+		id = "{key-down}"
+		translation:
+			lang = de; check = false
+			"Abwärtspfeiltaste"
+		translation:
+			lang = en
+			"Down-arrow"
+	item:
+		id = "{key-enter}"
+		translation:
+			lang = de; check = false
+			"Enter-Taste"
+		translation:
+			lang = en
+			"Enter"
+	item:
+		id = "{key-end}"
+		translation:
+			lang = de; check = false
+			"Endtaste"
+		translation:
+			lang = en
+			"End"
+	item:
+		id = "{key-equal}"
+		translation:
+			lang = de; check = false
+			"Gleich-Taste"
+		translation:
+			lang = en
+			"Equal"
+	item:
+		id = "{key-escape}"
+		translation:
+			lang = de; check = false
+			"Esc-Taste"
+		translation:
+			lang = en
+			"Escape"
+	item:
+		id = "{key-home}"
+		translation:
+			lang = de; check = false
+			"Home-Taste"
+		translation:
+			lang = en
+			"Home"
+	item:
+		id = "{key-insert}"
+		translation:
+			lang = de; check = false
+			"Eingabetaste"
+		translation:
+			lang = en
+			"Insert"
+	item:
+		id = "{key-left}"
+		translation:
+			lang = de; check = true
+			"Linke Pfeiltaste"
+		translation:
+			lang = en
+			"Left Arrow"
+	item:
+		id = "{key-menu}"
+		translation:
+			lang = de; check = false
+			"Menütaste"
+		translation:
+			lang = en
+			"Menu"
+	item:
+		id = "{key-left-meta}"
 		translation:
 			lang = de; check = false
 			"Linke-Meta-Taste"
@@ -405,7 +296,63 @@ translations:
 			lang = en
 			"Left Meta"
 	item:
-		id = "{key-Right Meta}"
+		id = "{key-num-lock}"
+		translation:
+			lang = de; check = false
+			"Num-Lock-Taste"
+		translation:
+			lang = en
+			"Num Lock"
+	item:
+		id = "{key-open-bracket}"
+		translation:
+			lang = de; check = false
+			"Klammer-öffnen"
+		translation:
+			lang = en
+			"Open bracket"
+	item:
+		id = "{key-page-up}"
+		translation:
+			lang = de; check = false
+			"Aufwärts"
+		translation:
+			lang = en
+			"Page Up"
+	item:
+		id = "{key-page-down}"
+		translation:
+			lang = de; check = false
+			"Page Down"
+		translation:
+			lang = en
+			"Page Down"
+	item:
+		id = "{key-pause}"
+		translation:
+			lang = de; check = false
+			"Pause-Taste"
+		translation:
+			lang = en
+			"Pause"
+	item:
+		id = "{key-period}"
+		translation:
+			lang = de; check = false
+			"Perioden-Taste"
+		translation:
+			lang = en
+			"Period"
+	item:
+		id = "{key-quote}"
+		translation:
+			lang = de; check = false
+			"Zitat-Taste"
+		translation:
+			lang = en
+			"Quote"
+	item:
+		id = "{key-right-meta}"
 		translation:
 			lang = de; check = false
 			"Rechts-Meta-Taste"
@@ -413,10 +360,67 @@ translations:
 			lang = en
 			"Right Meta"
 	item:
-		id = "{key-Menu}"
+		id = "{key-right}"
 		translation:
-			lang = de; check = false
-			"Menütaste"
+			lang = de; check = true
+			"Rechte Pfeiltaste"
 		translation:
 			lang = en
-			"Menu"
+			"Right Arrow"
+	item:
+		id = "{key-semicolon}"
+		translation:
+			lang = de; check = false
+			"Semikolon-Taste"
+		translation:
+			lang = en
+			"Semicolon"
+	item:
+		id = "{key-shift}"
+		translation:
+			lang = de; check = false
+			"Umschalttaste"
+		translation:
+			lang = en
+			"Shift"
+	item:
+		id = "{key-slash}"
+		translation:
+			lang = de; check = false
+			"Schrägstrich-Taste"
+		translation:
+			lang = en
+			"Slash"
+	item:
+		id = "{key-space}"
+		translation:
+			lang = de; check = false
+			"Leertaste"
+		translation:
+			lang = en
+			"Space"
+	item:
+		id = "{key-scroll-lock}"
+		translation:
+			lang = de; check = false
+			"Scroll Lock"
+		translation:
+			lang = en
+			"Scroll Lock"
+	item:
+		id = "{key-tab}"
+		translation:
+			lang = de; check = false
+			"Tabulatortaste"
+		translation:
+			lang = en
+			"Tab"
+	item:
+		id = "{key-up}"
+		translation:
+			lang = de; check = false
+			"Pfeiltaste nach oben"
+		translation:
+			lang = en
+			"Up Arrow"
+

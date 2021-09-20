@@ -114,6 +114,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Next"
+		translation:
+			lang = de; check = true
+			"Nächste"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "No"
 		translation:
 			lang = de; check = true
@@ -136,6 +145,15 @@ translations:
 		translation:
 			lang = de; check = true
 			"Öffnen"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Previous"
+		translation:
+			lang = de; check = true
+			"Vorherige"
 		translation:
 			lang = en
 			"$id"

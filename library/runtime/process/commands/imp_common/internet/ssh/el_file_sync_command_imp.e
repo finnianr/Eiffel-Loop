@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 14:58:12 GMT (Tuesday 14th September 2021)"
-	revision: "4"
+	date: "2021-09-19 12:42:26 GMT (Sunday 19th September 2021)"
+	revision: "5"
 
 class
 	EL_FILE_SYNC_COMMAND_IMP
@@ -32,6 +32,9 @@ feature -- Access
 		#end
 		#if $delete_enabled then
 			--delete
+		#end
+		#if $no_links_enabled then
+			--no-links
 		#end
 		#if $progress_enabled then
 			--progress

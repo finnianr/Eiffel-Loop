@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 11:38:44 GMT (Thursday 16th September 2021)"
-	revision: "5"
+	date: "2021-09-19 12:43:20 GMT (Sunday 19th September 2021)"
+	revision: "6"
 
 deferred class
 	EL_FILE_SYNC_COMMAND_I
@@ -42,7 +42,7 @@ feature -- Access
 		-- file patterns for exclusion from transfer
 		-- see --exclude option in rsync man
 
-feature -- Status query
+feature -- Options
 
 	archive: EL_BOOLEAN_OPTION
 		-- This is equivalent to -rlptgoD.
@@ -53,6 +53,9 @@ feature -- Status query
 
 	delete: EL_BOOLEAN_OPTION
 		-- when enabled deletes extraneous files from destination dirs
+
+	no_links: EL_BOOLEAN_OPTION
+		-- when enabled, ignore symbolic links
 
 	progress: EL_BOOLEAN_OPTION
 		-- show progress during transfer

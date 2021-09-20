@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:01:38 GMT (Tuesday 9th March 2021)"
-	revision: "19"
+	date: "2021-09-20 10:34:23 GMT (Monday 20th September 2021)"
+	revision: "20"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -44,6 +44,8 @@ inherit
 	EL_MODULE_PIXMAP
 
 	EL_MODULE_SCREEN
+
+	EL_SHARED_WORD
 
 create
 	make, default_create
@@ -223,7 +225,7 @@ feature {NONE} -- Factory
 
 			if page > 1 then
 				create previous_page_link.make_with_styles (
-					new_styled (Link_text_previous), style.font_table, agent goto_previous_page, background_color
+					new_styled (Word.previous), style.font_table, agent goto_previous_page, background_color
 				)
 				previous_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (previous_page_link)
@@ -246,7 +248,7 @@ feature {NONE} -- Factory
 
 			if page < page_count then
 				create next_page_link.make_with_styles (
-					new_styled (Link_text_next), style.font_table, agent goto_next_page, background_color
+					new_styled (Word.next), style.font_table, agent goto_next_page, background_color
 				)
 				next_page_link.set_link_text_color (style.link_text_color)
 				Result.extend_unexpanded (next_page_link)
@@ -394,16 +396,6 @@ feature {NONE} -- Constants
 	Default_disabled_page_link: EL_HYPERLINK_AREA
 		once
 			create Result.make_default
-		end
-
-	Link_text_next: ZSTRING
-		once
-			Result := Locale * "Next"
-		end
-
-	Link_text_previous: ZSTRING
-		once
-			Result := Locale * "Previous"
 		end
 
 note
