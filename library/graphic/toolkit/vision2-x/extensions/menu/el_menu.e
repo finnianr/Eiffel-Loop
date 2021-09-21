@@ -8,15 +8,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 12:22:25 GMT (Tuesday 21st September 2021)"
-	revision: "11"
+	date: "2021-09-21 15:02:14 GMT (Tuesday 21st September 2021)"
+	revision: "12"
 
 deferred class
 	EL_MENU
 
 inherit
-	EL_MODULE_DEFERRED_LOCALE
-
 	EL_MODULE_LOG
 
 	EL_MODULE_SCREEN

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 9:23:53 GMT (Tuesday 21st September 2021)"
-	revision: "15"
+	date: "2021-09-21 14:53:11 GMT (Tuesday 21st September 2021)"
+	revision: "16"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -95,6 +95,7 @@ feature -- Access
 feature -- Basic operations
 
 	fill_tuple (a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
+		-- fill ZSTRING tuple with translations corresponding to keys in `key_list'
 		require
 			zstring_tuple: is_zstring_tuple (a_tuple)
 			enough_keys: a_tuple.count = key_list.occurrences (',') + 1
