@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 9:44:26 GMT (Monday 30th August 2021)"
-	revision: "14"
+	date: "2021-09-21 9:23:53 GMT (Tuesday 21st September 2021)"
+	revision: "15"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -29,6 +29,8 @@ inherit
 		end
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_MODULE_TUPLE
 
 feature -- Access
 
@@ -82,11 +84,30 @@ feature -- Access
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- by default returns `key' as a `ZSTRING' unless localization is enabled at an
 			-- application level
-		deferred
+		do
+			Result := translation_item (key)
 		end
 
 	translation_keys: ARRAY [ZSTRING]
 		deferred
+		end
+
+feature -- Basic operations
+
+	fill_tuple (a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
+		require
+			zstring_tuple: is_zstring_tuple (a_tuple)
+			enough_keys: a_tuple.count = key_list.occurrences (',') + 1
+			has_keys: has_keys (key_list)
+		local
+			list: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+		do
+			create list.make_with_character (s.as_zstring (key_list), ',')
+			list.enable_left_adjust
+			from list.start until list.after or list.index > a_tuple.count loop
+				a_tuple.put_reference (translation_item (list.item (False)), list.index)
+				list.forth
+			end
 		end
 
 feature -- Status query
@@ -95,15 +116,37 @@ feature -- Status query
 		deferred
 		end
 
+	is_zstring_tuple (a_tuple: TUPLE): BOOLEAN
+		do
+			Result := Tuple.type_array (a_tuple).is_uniformly ({ZSTRING})
+		end
+
 	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
-			-- translation for source code string in current user language
-		deferred
+		-- `True' if `key' is present
+		do
+			Result := has_item_key (key)
+		end
+
+	has_keys (key_list: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if all keys in comma separated list `key_list' are present
+		local
+			split_list: EL_ZSTRING_LIST
+		do
+			create split_list.make_with_csv (key_list)
+			Result := across split_list as list all has_item_key (list.item) end
 		end
 
 	english_only: BOOLEAN
 		-- `True' if application is not localized
 		do
 			Result := True
+		end
+
+	valid_tuple (a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if is_zstring_tuple (a_tuple) then
+				Result := a_tuple.count = key_list.occurrences (',') + 1 and then has_keys (key_list)
+			end
 		end
 
 feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change
@@ -122,7 +165,17 @@ feature {EL_MODULE_DEFERRED_LOCALE, EL_DATE_TEXT} -- Element change
 
 feature {NONE} -- Implementation
 
+	has_item_key (key: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `key' is present
+		deferred
+		end
+
 	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
+		deferred
+		end
+
+	translation_item (key: READABLE_STRING_GENERAL): ZSTRING
+		-- translation for `key'
 		deferred
 		end
 

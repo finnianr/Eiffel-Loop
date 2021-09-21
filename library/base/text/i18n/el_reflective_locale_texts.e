@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 10:08:51 GMT (Tuesday 31st August 2021)"
-	revision: "10"
+	date: "2021-09-21 8:14:02 GMT (Tuesday 21st September 2021)"
+	revision: "11"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -183,7 +183,7 @@ feature {NONE} -- Implementation
 				Result.replace_character ('_', ' ')
 				inspect text_case
 					when Case_first_upper then
-						Result.put (Result.unicode_item (1).as_upper, 1)
+						Result.put (Result.item (1).as_upper, 1)
 					when Case_upper then
 						Result.to_upper
 					when Case_proper then

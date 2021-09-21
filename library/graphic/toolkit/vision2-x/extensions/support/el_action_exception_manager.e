@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:48:39 GMT (Monday 2nd August 2021)"
-	revision: "10"
+	date: "2021-09-20 14:49:33 GMT (Monday 20th September 2021)"
+	revision: "11"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_INFORMATION_VIEW_DIALOG create make_info end]
@@ -15,9 +15,11 @@ class
 inherit
 	EXCEPTION_MANAGER
 
-	EL_MODULE_DEFERRED_LOCALE
-
 	EL_MODULE_SCREEN
+
+	EL_SHARED_VISION_2_TEXTS
+
+	EL_SHARED_WORD
 
 create
 	make
@@ -111,15 +113,12 @@ feature {NONE} -- Constants
 
 	Default_message: ZSTRING
 		once
-			if Locale.english_only then
-				Locale.set_next_translation ("Something bad happened that prevented this operation!")
-			end
-			Result := Locale * "{something bad happened}"
+			Result := Text.something_bad_happened
 		end
 
 	Default_title: ZSTRING
 		once
-			Result := Locale * "Error"
+			Result := Word.error
 		end
 
 end

@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 12:05:07 GMT (Tuesday 31st August 2021)"
-	revision: "23"
+	date: "2021-09-21 9:27:20 GMT (Tuesday 21st September 2021)"
+	revision: "24"
 
 deferred class
 	EL_LOCALE_I
@@ -26,7 +26,7 @@ deferred class
 inherit
 	EL_DEFERRED_LOCALE_I
 		redefine
-			english_only
+			english_only, has_key, has_keys, fill_tuple, translation
 		end
 
 	EL_SINGLE_THREAD_ACCESS
@@ -37,8 +37,6 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_TUPLE
 
 	EL_SHARED_SINGLETONS
 
@@ -61,7 +59,7 @@ feature {NONE} -- Initialization
 				else
 					language := default_language
 				end
-				translations := new_translation_table (language)
+				translation_table := new_translation_table (language)
 				if language ~ "en" then
 					create {EL_ENGLISH_DATE_TEXT} date_text.make
 				else
@@ -118,20 +116,14 @@ feature -- Access
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				if attached translations as table then
-					if table.has_key (z_key (key)) then
-						Result := table.found_item
-					else
-						Result := Unknown_key_template #$ [key]
-					end
-				end
+				Result := translation_item (key)
 			end_restriction
 		end
 
 	translation_keys: ARRAY [ZSTRING]
 		do
 			restrict_access -- synchronized
-				Result := translations.current_keys
+				Result := translation_table.current_keys
 			end_restriction
 		end
 
@@ -150,7 +142,7 @@ feature -- Status query
 	has_all_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]): BOOLEAN
 		do
 			restrict_access
-				Result := across key_list as key all translations.has (z_key (key.item)) end
+				Result := across key_list as key all translation_table.has (z_key (key.item)) end
 			end_restriction
 		end
 
@@ -158,8 +150,20 @@ feature -- Status query
 			-- translation for source code string in current user language
 		do
 			restrict_access
-				Result := translations.has (z_key (key))
+				Result := has_item_key (key)
 			end_restriction
+		end
+
+	has_keys (key_list: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if all keys in comma separated list `key_list' are present
+		do
+			if is_restricted then
+				Result := Precursor (key_list)
+			else
+				restrict_access
+					Result := Precursor (key_list)
+				end_restriction
+			end
 		end
 
 	has_quantity_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]; quantity_lower, quantity_upper: INTEGER): BOOLEAN
@@ -173,7 +177,7 @@ feature -- Status query
 			restrict_access
 				quantity_range := quantity_lower |..| quantity_upper
 				Result := across key_list as key all
-					across quantity_range as n all translations.has (z_key_for (key.item, n.item)) end
+					across quantity_range as n all translation_table.has (z_key_for (key.item, n.item)) end
 				end
 			end_restriction
 		end
@@ -182,6 +186,15 @@ feature -- Status query
 		do
 			restrict_access -- synchronized
 				Result := Locale_table.has (a_language)
+			end_restriction
+		end
+
+feature -- Basic operations
+
+	fill_tuple (a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
+		do
+			restrict_access
+				Precursor (a_tuple, key_list)
 			end_restriction
 		end
 
@@ -195,7 +208,7 @@ feature -- Contract Support
 	is_valid_quantity_key (key: READABLE_STRING_GENERAL; quantity: INTEGER): BOOLEAN
 		do
 			restrict_access
-				Result := translations.has (z_key_for (key, quantity)) or else translations.has (z_key_plural (key))
+				Result := translation_table.has (z_key_for (key, quantity)) or else translation_table.has (z_key_plural (key))
 			end_restriction
 		end
 
@@ -232,6 +245,12 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 
 feature {NONE} -- Implementation
 
+	has_item_key (key: READABLE_STRING_GENERAL): BOOLEAN
+			-- translation for source code string in current user language
+		do
+			Result := translation_table.has (z_key (key))
+		end
+
 	in (a_language: STRING): EL_LOCALE_I
 		do
 			Result := Current
@@ -250,7 +269,7 @@ feature {NONE} -- Implementation
 	translation_template (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): EL_TEMPLATE [ZSTRING]
 		do
 			restrict_access
-				if attached translations as table then
+				if attached translation_table as table then
 					if table.has_key (z_key_for (partial_key, quantity)) then
 						create Result.make (table.found_item)
 
@@ -262,6 +281,18 @@ feature {NONE} -- Implementation
 					end
 				end
 			end_restriction
+		end
+
+	translation_item (key: READABLE_STRING_GENERAL): ZSTRING
+		-- translation for `key'
+		do
+			if attached translation_table as table then
+				if table.has_key (z_key (key)) then
+					Result := table.found_item
+				else
+					Result := Unknown_key_template #$ [key]
+				end
+			end
 		end
 
 	z_key (key: READABLE_STRING_GENERAL): ZSTRING
@@ -291,7 +322,7 @@ feature {NONE} -- Internal attributes
 
 	converter: EL_ZSTRING_CONVERTER
 
-	translations: EL_TRANSLATION_TABLE
+	translation_table: EL_TRANSLATION_TABLE
 
 feature {EL_LOCALE_CONSTANTS} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-20 12:15:58 GMT (Monday 20th September 2021)"
-	revision: "1"
+	date: "2021-09-21 12:41:37 GMT (Tuesday 21st September 2021)"
+	revision: "2"
 
 class
 	EL_KEY_ENUM
@@ -55,23 +55,6 @@ feature {NONE} -- Initialization
 			key_left_meta := ev.Key_left_meta.to_natural_8
 			key_menu := ev.Key_menu.to_natural_8
 			key_num_lock := ev.Key_num_lock.to_natural_8
-
-			key_numpad_0 := ev.Key_numpad_0.to_natural_8
-			key_numpad_1 := ev.Key_numpad_1.to_natural_8
-			key_numpad_2 := ev.Key_numpad_2.to_natural_8
-			key_numpad_3 := ev.Key_numpad_3.to_natural_8
-			key_numpad_4 := ev.Key_numpad_4.to_natural_8
-			key_numpad_5 := ev.Key_numpad_5.to_natural_8
-			key_numpad_6 := ev.Key_numpad_6.to_natural_8
-			key_numpad_7 := ev.Key_numpad_7.to_natural_8
-			key_numpad_8 := ev.Key_numpad_8.to_natural_8
-			key_numpad_9 := ev.Key_numpad_9.to_natural_8
-
-			key_numpad_add := ev.Key_numpad_add.to_natural_8
-			key_numpad_decimal := ev.Key_numpad_decimal.to_natural_8
-			key_numpad_divide := ev.Key_numpad_divide.to_natural_8
-			key_numpad_multiply := ev.Key_numpad_multiply.to_natural_8
-			key_numpad_subtract := ev.Key_numpad_subtract.to_natural_8
 
 			key_open_bracket := ev.Key_open_bracket.to_natural_8
 			key_page_down := ev.Key_page_down.to_natural_8
@@ -161,36 +144,6 @@ feature -- Values
 	key_menu: NATURAL_8
 
 	key_num_lock: NATURAL_8
-
-	key_numpad_0: NATURAL_8
-
-	key_numpad_1: NATURAL_8
-
-	key_numpad_2: NATURAL_8
-
-	key_numpad_3: NATURAL_8
-
-	key_numpad_4: NATURAL_8
-
-	key_numpad_5: NATURAL_8
-
-	key_numpad_6: NATURAL_8
-
-	key_numpad_7: NATURAL_8
-
-	key_numpad_8: NATURAL_8
-
-	key_numpad_9: NATURAL_8
-
-	key_numpad_add: NATURAL_8
-
-	key_numpad_decimal: NATURAL_8
-
-	key_numpad_divide: NATURAL_8
-
-	key_numpad_multiply: NATURAL_8
-
-	key_numpad_subtract: NATURAL_8
 
 	key_open_bracket: NATURAL_8
 

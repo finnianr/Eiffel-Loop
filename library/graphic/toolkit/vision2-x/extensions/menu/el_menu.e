@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-20 12:51:30 GMT (Monday 20th September 2021)"
-	revision: "10"
+	date: "2021-09-21 12:22:25 GMT (Tuesday 21st September 2021)"
+	revision: "11"
 
 deferred class
 	EL_MENU
@@ -39,8 +39,6 @@ inherit
 		export
 			{ANY} menu
 		end
-
-	EL_SHARED_KEY_ENUM
 
 feature {NONE} -- Initialization
 
@@ -72,8 +70,7 @@ feature -- Access
 		end
 
 	name: ZSTRING
-		do
-			Result := Locale * eng_name
+		deferred
 		end
 
 feature -- Basic operations
@@ -202,53 +199,20 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
+	new_key (key_code: INTEGER): EL_KEY
+		do
+			Result := key_code
+		end
+
 	new_item (a_name: READABLE_STRING_GENERAL; action: PROCEDURE): EV_MENU_ITEM
 		do
 			create Result.make_with_text_and_action (a_name.to_string_32, action)
-		end
-
-	new_key_string (key_code: INTEGER): ZSTRING
-		do
-			inspect key_code
-				when Key_0 .. Key_9 then
-					create Result.make (1)
-					Result.append_integer (key_code - Key_0)
-
-				when Key_a .. Key_z then
-					create Result.make_filled ('A' + (key_code - Key_a), 1)
-
-				when Key_f1 .. Key_f12 then
-					create Result.make (3)
-					Result.append_character_8 ('F')
-					Result.append_integer (1 + key_code - Key_f1)
-
-			else
-				Result := Key_enum.locale_name (key_code)
-			end
 		end
 
 	new_menu: EV_MENU
 		do
 			create Result.make_with_text (name.to_unicode)
 			Result.select_actions.extend (agent adjust_items_sensitivity)
-		end
-
-	new_shortcut_description (key_code: INTEGER; combined_modifiers: NATURAL): ZSTRING
-			-- Eg. Ctrl+Shift+Delete
-		do
-			create Result.make (8)
-			across Modifier_list as modifer loop
-				if (combined_modifiers & modifer.item.code).to_boolean then
-					if not Result.is_empty then
-						Result.append_character ('+')
-					end
-					Result.append (modifer.item.name)
-				end
-			end
-			if not Result.is_empty then
-				Result.append_character ('+')
-			end
-			Result.append (new_key_string (key_code))
 		end
 
 feature {NONE} -- Event handler
@@ -277,7 +241,7 @@ feature {NONE} -- Implementation
 			keyboard_shortcuts.add_key_action (
 				key_code, agent on_keyboard_shortcut (item (id).select_actions), combined_key_modifiers
 			)
-			shortcut_descriptions [id] :=  new_shortcut_description (key_code, combined_key_modifiers)
+			shortcut_descriptions [id] := new_key (key_code).description (combined_key_modifiers)
 		end
 
 	adjust_menu_item_text (menu_item: EV_MENU_ITEM)
@@ -311,10 +275,6 @@ feature {NONE} -- Implementation
 			Result := window.menu_bar
 		end
 
-	eng_name: READABLE_STRING_GENERAL
-		deferred
-		end
-
 	fill
 		deferred
 		end
@@ -345,16 +305,5 @@ feature {NONE} -- Internal attributes
 		-- keyboard shortcuts info indexed by menu item id
 
 	window: EV_WINDOW
-
-feature {NONE} -- Type definitions
-
-	Modifier_list: ARRAY [TUPLE [code: NATURAL; name: ZSTRING]]
-		once
-			Result := <<
-				[Modifier_ctrl, Key_enum.locale_name (Key_ctrl)],
-				[Modifier_alt, Key_enum.locale_name (Key_alt)],
-				[Modifier_shift, Key_enum.locale_name (Key_shift)]
-			>>
-		end
 
 end

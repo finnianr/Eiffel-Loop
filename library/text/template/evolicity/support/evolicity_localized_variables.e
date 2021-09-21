@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-11-04 11:21:46 GMT (Saturday 4th November 2017)"
-	revision: "2"
+	date: "2021-09-21 8:14:02 GMT (Tuesday 21st September 2021)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -66,7 +66,7 @@ feature {NONE} -- Constants
 			create Result.make (20)
 			across Locale.translation_keys as key loop
 				l_key := key.item
-				if l_key.starts_with (Variable_signature) and then l_key.unicode_item (l_key.count) = '}' then
+				if l_key.starts_with (Variable_signature) and then l_key [l_key.count] = '}' then
 					name := l_key.twin; name.remove_head (2); name.remove_tail (1)
 					if Pattern.is_match (name, Pattern.c_identifier) then
 						Result.extend ([name, l_key])

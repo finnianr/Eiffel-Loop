@@ -4,137 +4,6 @@ pyxis-doc:
 # class EL_KEY_ENUM
 
 translations:
-# Numberic pad
-	item:
-		id = "{key-numpad-0}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 0"
-		translation:
-			lang = en
-			"Numeric Pad 0"
-	item:
-		id = "{key-numpad-1}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 1"
-		translation:
-			lang = en
-			"Numeric Pad"
-	item:
-		id = "{key-numpad-2}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 2"
-		translation:
-			lang = en
-			"Numeric Pad 2"
-	item:
-		id = "{key-numpad-3}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 3"
-		translation:
-			lang = en
-			"Numeric Pad 3"
-	item:
-		id = "{key-numpad-4}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 4"
-		translation:
-			lang = en
-			"Numeric Pad 4"
-	item:
-		id = "{key-numpad-5}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 5"
-		translation:
-			lang = en
-			"Numeric Pad 5"
-	item:
-		id = "{key-numpad-6}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 6"
-		translation:
-			lang = en
-			"Numeric Pad 6"
-	item:
-		id = "{key-numpad-7}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 7"
-		translation:
-			lang = en
-			"Numeric Pad 7"
-	item:
-		id = "{key-numpad-8}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad 8"
-		translation:
-			lang = en
-			"Numeric Pad 8"
-	item:
-		id = "{key-numpad-9}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad "
-		translation:
-			lang = en
-			"Numeric Pad 9"
-	item:
-		id = "{key-numpad-add}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad +"
-		translation:
-			lang = en
-			"Numeric Pad +"
-	item:
-		id = "{key-numpad-divide}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad /"
-		translation:
-			lang = en
-			"Numeric Pad /"
-	item:
-		id = "{key-numpad-multiply}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad *"
-		translation:
-			lang = en
-			"Numeric Pad *"
-	item:
-		id = "{key-numpad-subtract}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad -"
-		translation:
-			lang = en
-			"Numeric Pad -"
-	item:
-		id = "{key-numpad-decimal}"
-		translation:
-			lang = de; check = false
-			"Numerisches Pad ."
-		translation:
-			lang = en
-			"Numeric Pad ."
-	item:
-		id = "{key-numlock}"
-		translation:
-			lang = de; check = false
-			"Numerische Sperrtaste"
-		translation:
-			lang = en
-			"Numeric Lock"
-
-# Other keys
 	item:
 		id = "{key-alt}"
 		translation:
@@ -198,7 +67,7 @@ translations:
 			"Strg"
 		translation:
 			lang = en
-			"$id"
+			"Ctrl"
 	item:
 		id = "{key-dash}"
 		translation:
@@ -280,14 +149,6 @@ translations:
 			lang = en
 			"Left Arrow"
 	item:
-		id = "{key-menu}"
-		translation:
-			lang = de; check = false
-			"Menütaste"
-		translation:
-			lang = en
-			"Menu"
-	item:
 		id = "{key-left-meta}"
 		translation:
 			lang = de; check = false
@@ -296,13 +157,21 @@ translations:
 			lang = en
 			"Left Meta"
 	item:
+		id = "{key-menu}"
+		translation:
+			lang = de; check = false
+			"Menütaste"
+		translation:
+			lang = en
+			"Menu"
+	item:
 		id = "{key-num-lock}"
 		translation:
 			lang = de; check = false
-			"Num-Lock-Taste"
+			"Numerische Sperrtaste"
 		translation:
 			lang = en
-			"Num Lock"
+			"Numeric Lock"
 	item:
 		id = "{key-open-bracket}"
 		translation:

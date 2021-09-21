@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:35:12 GMT (Sunday 21st February 2021)"
-	revision: "27"
+	date: "2021-09-21 8:13:16 GMT (Tuesday 21st September 2021)"
+	revision: "28"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -110,7 +110,7 @@ inherit
 feature -- Access
 
 	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32 assign put
-			-- Unicode character at position `i'
+		-- Unicode character at position `i'
 		local
 			c: CHARACTER
 		do
@@ -118,7 +118,7 @@ feature -- Access
 			if c = Unencoded_character then
 				Result := unencoded_code (i).to_character_32
 			else
-				Result := codec.as_unicode_character (c)
+				Result := Codec.as_unicode_character (c)
 			end
 		end
 
@@ -132,11 +132,6 @@ feature -- Access
 			else
 				Result := Codec.as_unicode_character (c).natural_32_code
 			end
-		end
-
-	unicode_item (i: INTEGER): CHARACTER_32
-		do
-			Result := unicode (i).to_character_32
 		end
 
 feature -- Element change
