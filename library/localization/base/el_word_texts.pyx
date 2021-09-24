@@ -3,10 +3,9 @@ pyxis-doc:
 
 # class EL_WORD_TEXTS
 
+# common words for buttons etc
+
 translations:
-
-# feature -- Button Texts
-
 	item:
 		id = "Abort"
 		translation:

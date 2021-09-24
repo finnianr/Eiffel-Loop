@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:58:52 GMT (Sunday 10th January 2021)"
-	revision: "6"
+	date: "2021-09-23 14:11:51 GMT (Thursday 23rd September 2021)"
+	revision: "7"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 			if tab_count = indent_count then
 				cl := code_line
 				if cl.starts_with (keyword) then
-					Result := cl.count > keyword.count implies cl.unicode_item (keyword.count + 1).is_space
+					Result := cl.count > keyword.count implies cl [keyword.count + 1].is_space
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-04 12:26:37 GMT (Saturday 4th April 2020)"
-	revision: "11"
+	date: "2021-09-23 14:12:29 GMT (Thursday 23rd September 2021)"
+	revision: "12"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -107,6 +107,5 @@ feature {NONE} -- Constants
 			create Result.make (6, 1)
 			Result.no_justify
 		end
-
 
 end
