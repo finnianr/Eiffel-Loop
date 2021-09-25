@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 14:53:11 GMT (Tuesday 21st September 2021)"
-	revision: "16"
+	date: "2021-09-25 8:48:08 GMT (Saturday 25th September 2021)"
+	revision: "17"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -32,6 +32,8 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_LOCALE_CONSTANTS
+
 feature -- Access
 
 	all_languages: EL_STRING_8_LIST
@@ -39,6 +41,10 @@ feature -- Access
 		end
 
 	date_text: EL_DATE_TEXT
+		deferred
+		end
+
+	default_language: STRING
 		deferred
 		end
 
@@ -179,14 +185,5 @@ feature {NONE} -- Implementation
 		-- translation for `key'
 		deferred
 		end
-
-feature {NONE} -- Constants
-
-	Empty_substitutions: ARRAY [TUPLE [name: READABLE_STRING_8; value: READABLE_STRING_GENERAL]]
-		once
-			create Result.make_empty
-		end
-
-	Var_quantity: STRING = "QUANTITY"
 
 end

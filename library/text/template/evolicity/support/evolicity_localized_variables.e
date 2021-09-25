@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 8:14:02 GMT (Tuesday 21st September 2021)"
-	revision: "3"
+	date: "2021-09-25 11:55:10 GMT (Saturday 25th September 2021)"
+	revision: "4"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -44,9 +44,10 @@ feature {NONE} -- Implementation
 		end
 
 	language_locale: EL_DEFERRED_LOCALE_I
-		deferred
+		do
+			Result := Locale.in (language)
 		end
-
+		
 	language: STRING
 		deferred
 		end

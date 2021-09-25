@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:11:31 GMT (Thursday 9th September 2021)"
-	revision: "10"
+	date: "2021-09-24 18:32:00 GMT (Friday 24th September 2021)"
+	revision: "11"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -197,7 +197,7 @@ feature {NONE} -- Constants
 
 	Zero_time: EL_DATE_TIME
 		once
-			create Result.make (0, 0, 0, 0, 0, 0)
+			create Result.make_from_epoch (0)
 		end
 
 	Pyxis_doc: ZSTRING

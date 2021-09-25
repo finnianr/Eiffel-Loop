@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 9:27:20 GMT (Tuesday 21st September 2021)"
-	revision: "24"
+	date: "2021-09-25 8:48:39 GMT (Saturday 25th September 2021)"
+	revision: "25"
 
 deferred class
 	EL_LOCALE_I
@@ -39,8 +39,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	EL_SHARED_SINGLETONS
-
-	EL_LOCALE_CONSTANTS
 
 feature {NONE} -- Initialization
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 8:14:02 GMT (Tuesday 21st September 2021)"
-	revision: "11"
+	date: "2021-09-25 8:51:07 GMT (Saturday 25th September 2021)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -35,6 +35,10 @@ inherit
 		end
 
 	EL_MODULE_TUPLE
+
+	EL_SHARED_CLASS_ID
+
+	EL_LOCALE_CONSTANTS
 
 feature {EL_MODULE_EIFFEL} -- Initialization
 
@@ -74,20 +78,23 @@ feature {NONE} -- Initialization
 						else
 							text_case := Case_first_upper -- The default is first letter capitalized
 						end
+						text_differs := eng_table.has_key (field.key)
+						key := translation_key (field.key, text_case, text_differs)
+						if text_differs and then Locale.english_only then
+							locale.set_next_translation (eng_table.found_item)
+						end
+						if locale.has_key (key) then
+							text_field.share (locale * key)
+						else
+							extend_missing_keys (key.twin)
+						end
+					elseif attached {EL_REFLECTED_REFERENCE [ANY]} field.item as l_field
+						and then l_field.type_id = Class_id.EL_QUANTITY_TEMPLATE
+						and then attached {EL_QUANTITY_TEMPLATE} l_field.value (current_reflective) as template
+					then
+						fill_quantity_template (field.key, template, eng_table)
 					end
-					text_differs := eng_table.has_key (field.key)
-					key := translation_key (field.key, text_case, text_differs)
-					if text_differs and then Locale.english_only then
-						locale.set_next_translation (eng_table.found_item)
-					end
-					if locale.has_key (key) then
-						text_field.share (locale * key)
-					elseif attached missing_keys_list as list then
-						list.extend (key.twin)
-					else
-						create missing_keys_list.make_from_array (<< key.twin >>)
-					end
-			end
+				end
 			end
 		ensure then
 			no_missing_keys: not attached missing_keys_list
@@ -145,19 +152,7 @@ feature {NONE} -- Case group sets
 			Result := None
 		end
 
-feature {NONE} -- Implementation
-
-	all_texts: like None
-		do
-			Result := text_list.to_array
-		end
-
-	joined (precursor_lines, lines: STRING): STRING
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := precursor_lines + s.character_string ('%N') + lines
-		end
+feature {NONE} -- Factory
 
 	new_english_table: EL_ZSTRING_TABLE
 		local
@@ -168,6 +163,64 @@ feature {NONE} -- Implementation
 				text.replace_substring_all (Substitution.string, Substitution.character)
 			end
 			create Result.make (text)
+		end
+
+	new_quantity_table (text: STRING): EL_ZSTRING_TABLE
+		do
+			create Result.make (text)
+		ensure
+			valid_keys: across Result as name all Quantifier_names.has (name.key) end
+		end
+
+feature {NONE} -- Implementation
+
+	all_texts: like None
+		do
+			Result := text_list.to_array
+		end
+
+	extend_missing_keys (key: STRING)
+		do
+			if attached missing_keys_list as list then
+				list.extend (key)
+			else
+				create missing_keys_list.make_from_array (<< key >>)
+			end
+		end
+
+	fill_quantity_template (field_name: STRING; template: EL_QUANTITY_TEMPLATE; eng_table: like new_english_table)
+		local
+			partial_key, key: STRING; quantity_table: like new_quantity_table
+			quantity: INTEGER
+		do
+			if eng_table.has_key (field_name) then
+				quantity_table := new_quantity_table (eng_table.found_item)
+				partial_key := translation_key (field_name, Case_lower, True)
+				across Quantifier_names as name loop
+					if quantity_table.has_key (name.item) then
+						quantity := name.cursor_index - 1
+						if locale.english_only then
+							template.put_template (quantity_table.found_item, quantity)
+						else
+							key := partial_key + Number_suffix [quantity]
+							if locale.has_key (key) then
+								template.put_template (locale * key, quantity)
+							else
+								extend_missing_keys (key)
+							end
+						end
+					end
+				end
+			else
+				extend_missing_keys (field_name)
+			end
+		end
+
+	joined (precursor_lines, lines: STRING): STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := precursor_lines + s.character_string ('%N') + lines
 		end
 
 	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
@@ -229,11 +282,13 @@ feature {NONE} -- Constants
 
 note
 	notes: "[
-		Inherit this class and then string fields will be initialized with a localized value. See library [./library/i18n.html i18n.ecf]
-		By using the library, it over-rides the deferred Locale found in the [./library/base/base.text.html base.ecf#text cluster].
+		Inherit this class and then string fields will be initialized with a localized value. 
+		See library [./library/i18n.html i18n.ecf] By using the library, it over-rides the deferred Locale
+		found in the [./library/base/base.text.html base.ecf#text cluster].
 
-		By default field values are set to the name of the field with underscores changed to spaces and the first letter capitalized.
-		Any trailing underscore character to differentiate from an Eiffel keyword is removed.
+		By default field values are set to the name of the field with underscores changed to spaces and the
+		first letter capitalized. Any trailing underscore character to differentiate from an Eiffel keyword
+		is removed.
 
 			install_application -> "Install application"
 
@@ -252,9 +307,11 @@ note
 			uninstall_application:
 				Uninstall %S application
 
-		Note the use of `%S' as a [$source EL_ZSTRING] template placeholder. This will be translated to the `#' character.
+		Note the use of `%S' as a [$source EL_ZSTRING] template placeholder. This will be translated to
+		the `#' character.
 
-		The lookup keys for the localization files will be hypenated and enclosed with curly braces as in this example:
+		The lookup keys for the localization files will be hypenated and enclosed with curly braces as in
+		this example:
 
 			{install-application}
 			{uninstall-application}

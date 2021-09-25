@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 9:47:11 GMT (Wednesday 1st September 2021)"
-	revision: "7"
+	date: "2021-09-24 16:42:29 GMT (Friday 24th September 2021)"
+	revision: "8"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -84,6 +84,8 @@ feature -- Other types
 	EL_MAKEABLE: INTEGER
 
 	TUPLE: INTEGER
+
+	EL_QUANTITY_TEMPLATE: INTEGER
 
 feature -- Constants
 

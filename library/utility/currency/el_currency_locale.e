@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
-	revision: "9"
+	date: "2021-09-25 10:40:06 GMT (Saturday 25th September 2021)"
+	revision: "10"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -42,7 +42,7 @@ feature -- Access
 			if currency_list_table.found then
 				Result := currency_list_table.found_item
 			else
-				Result := currency_list_table [once "en"]
+				Result := currency_list_table [Locale.default_language]
 			end
 		end
 

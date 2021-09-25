@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:11:41 GMT (Thursday 9th September 2021)"
-	revision: "12"
+	date: "2021-09-24 18:30:17 GMT (Friday 24th September 2021)"
+	revision: "13"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -117,15 +117,18 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
+		local
+			text_xpath: STRING
 		do
 			create Result.make (<<
 				["item/@id", 									agent do item_id := node.to_string end],
 				["item/translation/@lang", 				agent set_translation_list_from_node],
-				["item/translation/text()",		 		agent extend_text_normal],
-				["item/translation/zero/text()", 		agent extend_text_quantity (0)],
-				["item/translation/singular/text()",	agent extend_text_quantity (1)],
-				["item/translation/plural/text()", 		agent extend_text_quantity (2)]
+				["item/translation/text()",		 		agent extend_text_normal]
 			>>)
+			across Quantifier_names as name loop
+				text_xpath := "item/translation/" + name.item + "/text()"
+				Result [text_xpath] := agent extend_text_quantity (name.cursor_index - 1)
+			end
 		end
 
 	extend_text_normal

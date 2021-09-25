@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 9:10:25 GMT (Tuesday 21st September 2021)"
-	revision: "14"
+	date: "2021-09-24 15:10:41 GMT (Friday 24th September 2021)"
+	revision: "15"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -108,6 +108,8 @@ feature {NONE} -- Constants
 		once
 			create Result.make_with_csv ("en")
 		end
+
+	Default_language: STRING = "en"
 
 	Date_text: EL_ENGLISH_DATE_TEXT
 		once

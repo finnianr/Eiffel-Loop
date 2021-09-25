@@ -6,13 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-05 7:23:18 GMT (Thursday 5th August 2021)"
-	revision: "4"
+	date: "2021-09-25 8:50:24 GMT (Saturday 25th September 2021)"
+	revision: "5"
 
-class
+deferred class
 	EL_LOCALE_CONSTANTS
 
+inherit
+	EL_ANY_SHARED
+
 feature {NONE} -- Constants
+
+	Empty_substitutions: ARRAY [TUPLE [name: READABLE_STRING_8; value: READABLE_STRING_GENERAL]]
+		once
+			create Result.make_empty
+		end
 
 	Number_suffix: SPECIAL [ZSTRING]
 		once
@@ -20,6 +28,12 @@ feature {NONE} -- Constants
 			Result.extend (":0") -- zero
 			Result.extend (":1") -- singular
 			Result.extend (":>1") -- plural
+		end
+
+	Quantifier_names: ARRAY [STRING]
+		once
+			Result := << "zero", "singular", "plural" >>
+			Result.compare_objects
 		end
 
 	Unknown_key_template: ZSTRING
@@ -31,5 +45,7 @@ feature {NONE} -- Constants
 		once
 			Result := "+%S: %S+"
 		end
+
+	Var_quantity: STRING = "QUANTITY"
 
 end
