@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 8:51:07 GMT (Saturday 25th September 2021)"
-	revision: "12"
+	date: "2021-09-25 16:11:48 GMT (Saturday 25th September 2021)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -130,6 +130,7 @@ feature {NONE} -- Deferred
 		deferred
 		ensure
 			renamed_as_empty_table: Result.is_empty implies Result = Empty_table
+			names_aligned_with_start_of_line: Result.count > 0 implies (Result.has ('%N') and then valid_first_name (Result))
 		end
 
 feature {NONE} -- Case group sets
@@ -155,14 +156,15 @@ feature {NONE} -- Case group sets
 feature {NONE} -- Factory
 
 	new_english_table: EL_ZSTRING_TABLE
-		local
-			text: ZSTRING
 		do
-			create text.make_from_general (english_table)
-			if text.has ('%%') then
-				text.replace_substring_all (Substitution.string, Substitution.character)
+			create Result.make (english_table)
+			across Result as table loop
+				if table.item.has ('%%') then
+					table.item.replace_substring_all (Substitution.string, Substitution.character)
+				end
 			end
-			create Result.make (text)
+		ensure
+			all_keys_match_a_field_name: across Result as table all field_table.has (table.key) end
 		end
 
 	new_quantity_table (text: STRING): EL_ZSTRING_TABLE
@@ -244,6 +246,20 @@ feature {NONE} -- Implementation
 				else
 					-- all lower case
 				end
+			end
+		end
+
+	valid_first_name (lines: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if first line ends with ':' and does not start with white space
+		require
+			has_new_line: lines.has ('%N')
+		local
+			first_line: ZSTRING
+		do
+			create first_line.make_empty
+			first_line.append_substring_general (lines, 1, lines.index_of ('%N', 1) - 1)
+			if first_line.count > 1 and then first_line [first_line.count] = ':' then
+				Result := not first_line.is_space_item (1)
 			end
 		end
 
