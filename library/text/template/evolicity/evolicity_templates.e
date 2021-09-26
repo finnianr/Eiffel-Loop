@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-24 15:14:59 GMT (Tuesday 24th November 2020)"
-	revision: "18"
+	date: "2021-09-26 14:23:15 GMT (Sunday 26th September 2021)"
+	revision: "19"
 
 class
 	EVOLICITY_TEMPLATES
@@ -29,6 +29,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_MODULE_DEFERRED_LOCALE
 
 create
 	make
@@ -193,11 +195,29 @@ feature -- Removal
  			end
 		end
 
+feature -- Factory
+
+	new_translation_key_table: EL_ZSTRING_TABLE
+		-- table of translation keys of the form "{evol.<variable-name>}" by Evolicity variable name
+		local
+			l_key: ZSTRING -- translation key
+			var_name: STRING
+		do
+			create Result.make_with_count (20)
+			across Locale.translation_keys as key loop
+				l_key := key.item
+				if l_key.enclosed_with (Braces) and then l_key.starts_with (Translation_key_prefix) then
+					var_name := l_key.substring (Translation_key_prefix.count + 1, l_key.count - 1)
+					Result.extend (l_key, var_name)
+				end
+			end
+		end
+
 feature -- Contract Support
 
 	is_type_template (key_path: EL_FILE_PATH): BOOLEAN
 		do
-			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with ("{}")
+			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with (Braces)
 		end
 
 feature {NONE} -- Implementation
@@ -263,6 +283,18 @@ feature {NONE} -- Global attributes
 			-- Global template compilers table
 		once ("PROCESS")
 			create Result.make (create {like Compiler_table.item}.make (11))
+		end
+
+feature {NONE} -- Constants
+
+	Braces: ZSTRING
+		once
+			Result := "{}"
+		end
+
+	Translation_key_prefix: ZSTRING
+		once
+			Result := "{evol."
 		end
 
 end

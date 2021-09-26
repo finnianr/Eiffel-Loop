@@ -1,7 +1,7 @@
 note
 	description: "[
 		Helper class to translate variable text-values which have a localization translation id of the form
-		"{$<variable-name>}" where `$<variable-name>' corresponds to a template substitution variable.
+		"{evol.<variable-name>}" where `$<variable-name>' corresponds to a template substitution variable.
 		
 		`Variable_translation_keys' returns all localization identifiers which match that pattern.
 		
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 11:55:10 GMT (Saturday 25th September 2021)"
-	revision: "4"
+	date: "2021-09-26 14:12:42 GMT (Sunday 26th September 2021)"
+	revision: "5"
 
 deferred class
 	EVOLICITY_LOCALIZED_VARIABLES
@@ -23,16 +23,19 @@ deferred class
 inherit
 	EL_MODULE_DEFERRED_LOCALE
 
-	EL_MODULE_PATTERN
+	EL_MODULE_EVOLICITY_TEMPLATES
 
 feature {NONE} -- Evolicity fields
 
 	translated_variables_table: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 		-- table of variables which have a localization translation of the form "{$<variable-name>}"
+		local
+			translation_key_table: EL_ZSTRING_TABLE
 		do
-			create Result.make_equal (Variable_translation_keys.count)
-			across Variable_translation_keys as variable loop
-				Result [variable.item.name] := agent translation (variable.item.translation_key)
+			translation_key_table := Evolicity_templates.new_translation_key_table
+			create Result.make_equal (translation_key_table.count)
+			across translation_key_table as variable loop
+				Result [variable.key] := agent translation (variable.item)
 			end
 		end
 
@@ -47,33 +50,9 @@ feature {NONE} -- Implementation
 		do
 			Result := Locale.in (language)
 		end
-		
+
 	language: STRING
 		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Variable_signature: ZSTRING
-		once
-			Result := "{$"
-		end
-
-	Variable_translation_keys: ARRAYED_LIST [TUPLE [name, translation_key: ZSTRING]]
-		-- list of variable names corresponding to a localization ID of the form "{$<variable-name>}"
-		local
-			l_key, name: ZSTRING
-		once
-			create Result.make (20)
-			across Locale.translation_keys as key loop
-				l_key := key.item
-				if l_key.starts_with (Variable_signature) and then l_key [l_key.count] = '}' then
-					name := l_key.twin; name.remove_head (2); name.remove_tail (1)
-					if Pattern.is_match (name, Pattern.c_identifier) then
-						Result.extend ([name, l_key])
-					end
-				end
-			end
 		end
 
 end
