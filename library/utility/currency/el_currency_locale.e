@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 10:40:06 GMT (Saturday 25th September 2021)"
-	revision: "10"
+	date: "2021-09-26 14:31:44 GMT (Sunday 26th September 2021)"
+	revision: "11"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -81,9 +81,9 @@ feature {NONE} -- Constants
 			list: like Locale_currency_list_table.item
 			code_list: like Currency_code.list
 		once
-			create Result.make_equal (Supported_languages.count)
+			create Result.make_equal (Locale.all_languages.count)
 			code_list := Currency_code.list
-			across Supported_languages as lang loop
+			across Locale.all_languages as lang loop
 				create list.make (code_list.count)
 				across code_list as code loop
 					if not Except_currency_codes.has (code.item) then
@@ -93,11 +93,6 @@ feature {NONE} -- Constants
 				list.order_by (agent {EL_CURRENCY}.name, True)
 				Result [lang.item] := list
 			end
-		end
-
-	Supported_languages: ARRAY [STRING]
-		once
-			Result := << "en", "de" >>
 		end
 
 end

@@ -11,594 +11,267 @@ pyxis-doc:
 # https://www.thefinancials.com/Default.aspx?SubSectionID=curformat
 
 translations:
-	# Formats
 	item:
-		id = "{AUD-format}"
+		id = "{currency-AUD}"
 		translation:
 			lang = de; check = true
-			"# ###,## $"
+			"Australische Dollar (# ###,## $)"
 		translation:
 			lang = en
-			"$ # ###.##"
-
+			"Australian Dollars ($ # ###.##)"
 	item:
-		id = "{BGN-format}"
+		id = "{currency-BGN}"
 		translation:
 			lang = de; check = true
-			"#.###,## Лв"
+			"Bulgarischer Lev (#.###,## Лв)"
 		translation:
 			lang = en
-			"#.###,## Лв"
-
+			"Bulgarian Lev (#.###,## Лв)"
 	item:
-		id = "{BRL-format}"
+		id = "{currency-BRL}"
 		translation:
 			lang = de; check = true
-			"R$ #.###,##"
+			"Brasilianischer Real (R$ #.###,##)"
 		translation:
 			lang = en
-			"R$ #.###,##"
-
+			"Brazilian Real (R$ #.###,##)"
 	item:
-		id = "{CAD-format}"
+		id = "{currency-CAD}"
 		translation:
 			lang = de; check = true
-			"#.###,## $"
+			"Kanadische Dollar (#.###,## $)"
 		translation:
 			lang = en
-			"$ #,###.##"
-
+			"Canadian Dollars ($ #,###.##)"
 	item:
-		id = "{CHF-format}"
+		id = "{currency-CHF}"
 		translation:
 			lang = de; check = true
-			"#.###,## CHF"
+			"Schweizer Franken (#.###,## CHF)"
 		translation:
 			lang = en
-			"#'###.## CHF"
-
+			"Swiss Francs (#'###.## CHF)"
 	item:
-		id = "{CNY-format}"
+		id = "{currency-CNY}"
 		translation:
 			lang = de; check = true
-			"¥ #.###,##"
+			"Yuan Renminbi (¥ #.###,##)"
 		translation:
 			lang = en
-			"¥ #,###.##"
-
+			"Yuan Renminbi (¥ #,###.##)"
 	item:
-		id = "{CZK-format}"
+		id = "{currency-CZK}"
 		translation:
 			lang = de; check = true
-			"#.###,## Kč"
+			"Tschechische Krone (#.###,## Kč)"
 		translation:
 			lang = en
-			"#.###,## Kč"
-
+			"Czech Koruna (#.###,## Kč)"
 	item:
-		id = "{DKK-format}"
+		id = "{currency-DKK}"
 		translation:
 			lang = de; check = true
-			"#.###,## kr"
+			"Danish Krones (#.###,## kr)"
 		translation:
 			lang = en
-			"kr #.###,##"
-
+			"Danish Krones (kr #.###,##)"
 	item:
-		id = "{EUR-format}"
+		id = "{currency-EUR}"
 		translation:
 			lang = de; check = true
-			"#.###,## €"
+			"Euro (#.###,## €)"
 		translation:
 			lang = en
-			"€ #,###.##"
-
+			"Euros (€ #,###.##)"
 	item:
-		id = "{GBP-format}"
+		id = "{currency-GBP}"
 		translation:
 			lang = de; check = true
-			"#.###,## £"
+			"Britisches Pfund (#.###,## £)"
 		translation:
 			lang = en
-			"£ #,###.##"
-
+			"British Pounds (£ #,###.##)"
 	item:
-		id = "{HKD-format}"
+		id = "{currency-HKD}"
 		translation:
 			lang = de; check = true
-			"#.###,## HK$"
+			"Hongkong-Dollar (#.###,## HK$)"
 		translation:
 			lang = en
-			"HK$ #,###.##"
-
+			"Hong Kong Dollars (HK$ #,###.##)"
 	item:
-		id = "{HRK-format}"
+		id = "{currency-HRK}"
 		translation:
 			lang = de; check = true
-			"#.###,## Kn"
+			"Kroatische Kuna (#.###,## Kn)"
 		translation:
 			lang = en
-			"#.###,## Kn"
-
+			"Croatian kuna (#.###,## Kn)"
 	item:
-		id = "{HUF-format}"
+		id = "{currency-HUF}"
 		translation:
 			lang = de; check = true
-			"#.### Ft"
+			"Ungarische Forints (#.### Ft)"
 		translation:
 			lang = en
-			"#.### Ft"
-
+			"Hungarian Forints (#.### Ft)"
 	item:
-		id = "{IDR-format}"
+		id = "{currency-IDR}"
 		translation:
 			lang = de; check = true
-			"Rp #.###,##"
+			"Indonesien Rupiah (Rp #.###,##)"
 		translation:
 			lang = en
-			"Rp #.###,##"
-
+			"Indonesian Rupiah (Rp #.###,##)"
 	item:
-		id = "{ILS-format}"
+		id = "{currency-ILS}"
 		translation:
 			lang = de; check = true
-			"#.###,## ₪"
+			"Israelischer Sheqels (#.###,## ₪)"
 		translation:
 			lang = en
-			"#,###.## ₪"
-
+			"Israeli New Sheqels (#,###.## ₪)"
 	item:
-		id = "{INR-format}"
+		id = "{currency-INR}"
 		translation:
 			lang = de; check = true
-			"#,##,###.## ₹"
+			"Indische Rupie (#,##,###.## ₹)"
 		translation:
 			lang = en
-			"₹ #,##,###.##"
-
+			"Indian Rupee (₹ #,##,###.##)"
 	item:
-		id = "{KRW-format}"
+		id = "{currency-JPY}"
 		translation:
 			lang = de; check = true
-			"#,### ₩"
+			"Japanischer Yen (#.### ¥)"
 		translation:
 			lang = en
-			"₩ #,###"
-
+			"Japanese Yen (¥ #,###)"
 	item:
-		id = "{JPY-format}"
+		id = "{currency-KRW}"
 		translation:
 			lang = de; check = true
-			"#.### ¥"
+			"Südkorea hat gewonnen (#,### ₩)"
 		translation:
 			lang = en
-			"¥ #,###"
-
+			"South Korea Won (₩ #,###)"
 	item:
-		id = "{MXN-format}"
+		id = "{currency-MXN}"
 		translation:
 			lang = de; check = true
-			"#.###,## $"
+			"Mexikanischer Peso (#.###,## $)"
 		translation:
 			lang = en
-			"$ #,###.##"
-
+			"Mexican Pesos ($ #,###.##)"
 	item:
-		id = "{MYR-format}"
+		id = "{currency-MYR}"
 		translation:
 			lang = de; check = true
-			"#,###.## RM"
+			"Malaysische Ringgit (#,###.## RM)"
 		translation:
 			lang = en
-			"RM #,###.##"
-
+			"Malaysian Ringgit (RM #,###.##)"
 	item:
-		id = "{NOK-format}"
+		id = "{currency-NOK}"
 		translation:
 			lang = de; check = true
-			"#.###,## kr"
+			"Norwegische Kronen (#.###,## kr)"
 		translation:
 			lang = en
-			"kr #.###,##"
-
+			"Norwegian Krones (kr #.###,##)"
 	item:
-		id = "{NZD-format}"
+		id = "{currency-NZD}"
 		translation:
 			lang = de; check = true
-			"#.###,## $"
+			"Neuseeland-Dollar (#.###,## $)"
 		translation:
 			lang = en
-			"$ #,###.##"
-
+			"New Zealand Dollars ($ #,###.##)"
 	item:
-		id = "{PHP-format}"
+		id = "{currency-PHP}"
 		translation:
 			lang = de; check = true
-			"#.###,## ₱"
+			"Philippinische Peso (#.###,## ₱)"
 		translation:
 			lang = en
-			"₱ #,###.##"
-
+			"Philippine Pesos (₱ #,###.##)"
 	item:
-		id = "{PLN-format}"
+		id = "{currency-PLN}"
 		translation:
 			lang = de; check = true
-			"#.###,## zł"
+			"Polnischen Zloty (#.###,## zł)"
 		translation:
 			lang = en
-			"# ###,## zł"
-
+			"Polish Zlotys (# ###,## zł)"
 	item:
-		id = "{RON-format}"
+		id = "{currency-RON}"
 		translation:
 			lang = de; check = true
-			"#.###,## leu"
+			"Rumänischer Neuer Leu (#.###,## leu)"
 		translation:
 			lang = en
-			"leu #.###,##"
-
+			"Romanian New Leu (leu #.###,##)"
 	item:
-		id = "{RUB-format}"
+		id = "{currency-RUB}"
 		translation:
 			lang = de; check = true
-			"#.###,## руб"
+			"Russische Rubel (#.###,## руб)"
 		translation:
 			lang = en
-			"#.###,## руб"
-
+			"Russian Rubles (#.###,## руб)"
 	item:
-		id = "{SGD-format}"
+		id = "{currency-SEK}"
 		translation:
 			lang = de; check = true
-			"#.###,## $"
+			"Schwedische Kronen (#.###,## kr)"
 		translation:
 			lang = en
-			"$ #,###.##"
-
+			"Swedish Kronas (# ###,## kr)"
 	item:
-		id = "{SEK-format}"
+		id = "{currency-SGD}"
 		translation:
 			lang = de; check = true
-			"#.###,## kr"
+			"Singapur-Dollar (#.###,## $)"
 		translation:
 			lang = en
-			"# ###,## kr"
-
+			"Singapore Dollar ($ #,###.##)"
 	item:
-		id = "{THB-format}"
+		id = "{currency-THB}"
 		translation:
 			lang = de; check = true
-			"#.###,## ฿"
+			"Thai Baht (#.###,## ฿)"
 		translation:
 			lang = en
-			"฿ #,###.##"
-
+			"Thai Bahts (฿ #,###.##)"
 	item:
-		id = "{TRY-format}"
+		id = "{currency-TRY}"
 		translation:
 			lang = de; check = true
-			"#,###.## YTL"
+			"Neue türkische Lira (#,###.## YTL)"
 		translation:
 			lang = en
-			"YTL #,###.##"
-
+			"New Turkish Lira (YTL #,###.##)"
 	item:
-		id = "{TWD-format}"
+		id = "{currency-TWD}"
 		translation:
 			lang = de; check = true
-			"#.### NT$"
+			"Taiwan neuer Dollar (#.### NT$)"
 		translation:
 			lang = en
-			"NT$ #,###"
-
+			"Taiwan New Dollar (NT$ #,###)"
 	item:
-		id = "{USD-format}"
+		id = "{currency-USD}"
 		translation:
 			lang = de; check = true
-			"#.###,## $"
+			"US Dollar (#.###,## $)"
 		translation:
 			lang = en
-			"$ #,###.##"
-
+			"US Dollars ($ #,###.##)"
 	item:
-		id = "{ZAR-format}"
+		id = "{currency-ZAR}"
 		translation:
 			lang = de; check = true
-			"# ###.## R"
+			"Südafrikanischer Rand (# ###.## R)"
 		translation:
 			lang = en
-			"R # ###.##"
-	
-	# Names
-	item:
-		id = "{AUD}"
-		translation:
-			lang = de; check = true
-			"Australische Dollar"
-		translation:
-			lang = en
-			"Australian Dollars"
-
-	item:
-		id = "{BGN}"
-		translation:
-			lang = de; check = true
-			"Bulgarischer Lev"
-		translation:
-			lang = en
-			"Bulgarian Lev"
-
-	item:
-		id = "{BRL}"
-		translation:
-			lang = de; check = true
-			"Brasilianischer Real"
-		translation:
-			lang = en
-			"Brazilian Real"
-
-	item:
-		id = "{CNY}"
-		translation:
-			lang = de; check = true
-			"Yuan Renminbi"
-		translation:
-			lang = en
-			"Yuan Renminbi"
-
-	item:
-		id = "{GBP}"
-		translation:
-			lang = de; check = true
-			"Britisches Pfund"
-		translation:
-			lang = en
-			"British Pounds"
-
-	item:
-		id = "{CAD}"
-		translation:
-			lang = de; check = true
-			"Kanadische Dollar"
-		translation:
-			lang = en
-			"Canadian Dollars"
-
-	item:
-		id = "{CHF}"
-		translation:
-			lang = de; check = true
-			"Schweizer Franken"
-		translation:
-			lang = en
-			"Swiss Francs"
-
-	item:
-		id = "{CZK}"
-		translation:
-			lang = de; check = true
-			"Tschechische Krone"
-		translation:
-			lang = en
-			"Czech Koruna"
-
-	item:
-		id = "{DKK}"
-		translation:
-			lang = de; check = true
-			"Danish Krones"
-		translation:
-			lang = en
-			"Danish Krones"
-
-	item:
-		id = "{EUR}"
-		translation:
-			lang = de; check = true
-			"Euro"
-		translation:
-			lang = en
-			"Euros"
-	item:
-		id = "{HKD}"
-		translation:
-			lang = de; check = true
-			"Hongkong-Dollar"
-		translation:
-			lang = en
-			"Hong Kong Dollars"
-
-	item:
-		id = "{HRK}"
-		translation:
-			lang = de; check = true
-			"Kroatische Kuna"
-		translation:
-			lang = en
-			"Croatian kuna"
-
-	item:
-		id = "{HUF}"
-		translation:
-			lang = de; check = true
-			"Ungarische Forints"
-		translation:
-			lang = en
-			"Hungarian Forints"
-
-	item:
-		id = "{IDR}"
-		translation:
-			lang = de; check = true
-			"Indonesien Rupiah"
-		translation:
-			lang = en
-			"Indonesian Rupiah"
-
-	item:
-		id = "{ILS}"
-		translation:
-			lang = de; check = true
-			"Israelischer Sheqels"
-		translation:
-			lang = en
-			"Israeli New Sheqels"
-
-	item:
-		id = "{INR}"
-		translation:
-			lang = de; check = true
-			"Indische Rupie"
-		translation:
-			lang = en
-			"Indian Rupee"
-
-	item:
-		id = "{JPY}"
-		translation:
-			lang = de; check = true
-			"Japanischer Yen"
-		translation:
-			lang = en
-			"Japanese Yen"
-	item:
-		id = "{KRW}"
-		translation:
-			lang = de; check = true
-			"Südkorea hat gewonnen"
-		translation:
-			lang = en
-			"South Korea Won"
-	item:
-		id = "{MXN}"
-		translation:
-			lang = de; check = true
-			"Mexikanischer Peso"
-		translation:
-			lang = en
-			"Mexican Pesos"
-
-	item:
-		id = "{MYR}"
-		translation:
-			lang = de; check = true
-			"Malaysische Ringgit"
-		translation:
-			lang = en
-			"Malaysian Ringgit"
-	item:
-		id = "{NOK}"
-		translation:
-			lang = de; check = true
-			"Norwegische Kronen"
-		translation:
-			lang = en
-			"Norwegian Krones"
-
-	item:
-		id = "{NZD}"
-		translation:
-			lang = de; check = true
-			"Neuseeland-Dollar"
-		translation:
-			lang = en
-			"New Zealand Dollars"
-
-	item:
-		id = "{PHP}"
-		translation:
-			lang = de; check = true
-			"Philippinische Peso"
-		translation:
-			lang = en
-			"Philippine Pesos"
-
-	item:
-		id = "{PLN}"
-		translation:
-			lang = de; check = true
-			"Polnischen Zloty"
-		translation:
-			lang = en
-			"Polish Zlotys"
-
-	item:
-		id = "{RON}"
-		translation:
-			lang = de; check = true
-			"Rumänischer Neuer Leu"
-		translation:
-			lang = en
-			"Romanian New Leu"
-
-	item:
-		id = "{RUB}"
-		translation:
-			lang = de; check = true
-			"Russische Rubel"
-		translation:
-			lang = en
-			"Russian Rubles"
-	item:
-		id = "{SGD}"
-		translation:
-			lang = de; check = true
-			"Singapur-Dollar"
-		translation:
-			lang = en
-			"Singapore Dollar"
-
-	item:
-		id = "{SEK}"
-		translation:
-			lang = de; check = true
-			"Schwedische Kronen"
-		translation:
-			lang = en
-			"Swedish Kronas"
-
-	item:
-		id = "{THB}"
-		translation:
-			lang = de; check = true
-			"Thai Baht"
-		translation:
-			lang = en
-			"Thai Bahts"
-
-	item:
-		id = "{TRY}"
-		translation:
-			lang = de; check = true
-			"Neue türkische Lira"
-		translation:
-			lang = en
-			"New Turkish Lira"
-
-	item:
-		id = "{TWD}"
-		translation:
-			lang = de; check = true
-			"Taiwan neuer Dollar"
-		translation:
-			lang = en
-			"Taiwan New Dollar"
-
-	item:
-		id = "{USD}"
-		translation:
-			lang = de; check = true
-			"US Dollar"
-		translation:
-			lang = en
-			"US Dollars"
-
-	item:
-		id = "{ZAR}"
-		translation:
-			lang = de; check = true
-			"Südafrikanischer Rand"
-		translation:
-			lang = en
-			"South African Rand"
-
+			"South African Rand (R # ###.##)"

@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 8:48:39 GMT (Saturday 25th September 2021)"
-	revision: "25"
+	date: "2021-09-26 17:24:25 GMT (Sunday 26th September 2021)"
+	revision: "26"
 
 deferred class
 	EL_LOCALE_I
@@ -162,6 +162,13 @@ feature -- Status query
 					Result := Precursor (key_list)
 				end_restriction
 			end
+		end
+
+	has_language (a_language: STRING): BOOLEAN
+		do
+			restrict_access -- synchronized
+				Result := Locale_table.has (a_language)
+			end_restriction
 		end
 
 	has_quantity_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]; quantity_lower, quantity_upper: INTEGER): BOOLEAN

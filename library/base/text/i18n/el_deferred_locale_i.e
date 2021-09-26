@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 8:48:08 GMT (Saturday 25th September 2021)"
-	revision: "17"
+	date: "2021-09-26 17:21:30 GMT (Sunday 26th September 2021)"
+	revision: "18"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -126,6 +126,10 @@ feature -- Status query
 	is_zstring_tuple (a_tuple: TUPLE): BOOLEAN
 		do
 			Result := Tuple.type_array (a_tuple).is_uniformly ({ZSTRING})
+		end
+
+	has_language (a_language: STRING): BOOLEAN
+		deferred
 		end
 
 	has_key (key: READABLE_STRING_GENERAL): BOOLEAN

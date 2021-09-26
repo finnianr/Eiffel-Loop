@@ -9,18 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-25 16:17:12 GMT (Saturday 25th September 2021)"
-	revision: "2"
+	date: "2021-09-26 17:24:49 GMT (Sunday 26th September 2021)"
+	revision: "3"
 
 class
 	EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]
 
 inherit
-	HASH_TABLE [TEXTS, STRING]
+	EL_CACHE_TABLE [TEXTS, STRING]
 		rename
-			make as make_with_count
+			make as make_cached,
+			item as item_text
 		export
 			{NONE} all
+			{ANY} item_text
 		end
 
 	EL_MODULE_DEFERRED_LOCALE
@@ -32,28 +34,17 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_with_count (Locale.all_languages.count)
-			create default_text.make
-			across Locale.all_languages as language loop
-				if language.item ~ Locale.default_language then
-					put (default_text, language.item)
-				else
-					put (create {TEXTS}.make_with_locale (Locale.in (language.item)), language.item)
-				end
-			end
+			make_cached (Locale.all_languages.count, agent new_texts)
 		end
 
-feature -- Access
+feature {NONE} -- Implementation
 
-	default_text: TEXTS
-
-	item_text (language: STRING): TEXTS
+	new_texts (language: STRING): TEXTS
 		do
-			if has_key (language) then
-				Result := found_item
+			if Locale.has_language (language) then
+				create Result.make_with_locale (Locale.in (language))
 			else
-				Result := default_text
+				create Result.make
 			end
 		end
-
 end

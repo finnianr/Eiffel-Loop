@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Currency code names"
 	notes: "[
 		**Problem to Solve**
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 7:43:20 GMT (Wednesday 1st September 2021)"
-	revision: "10"
+	date: "2021-09-26 16:46:01 GMT (Sunday 26th September 2021)"
+	revision: "11"
 
 class
 	EL_CURRENCY_ENUM
@@ -26,8 +26,6 @@ inherit
 			initialize_fields
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
-
 create
 	make
 
@@ -37,32 +35,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			unit := << HUF, JPY, KRW, TWD >>
-		end
-
-feature -- Access
-
-	format_for (language: STRING; code: NATURAL_8): ZSTRING
-		do
-			Result := Locale.in (language) * Format_key #$ [name (code)]
-		end
-
-	name_for (language: STRING; code: NATURAL_8): ZSTRING
-		do
-			Result := Locale.in (language) * Name_key #$ [name (code)]
-		end
-
-feature -- Status query
-
-	translations_available: BOOLEAN
-		do
-			Result := across list as code all
-				Locale.has_key (Format_key #$ [name (code.item)])
-			end
-			if Result then
-				Result := across list as code all
-					Locale.has_key (Name_key #$ [name (code.item)])
-				end
-			end
 		end
 
 feature -- Codes
@@ -135,17 +107,5 @@ feature -- Codes
 
 	unit: ARRAY [NATURAL_8] note option: transient attribute end
 		-- currencies that do not have decimal fractions (according to Paypal at least)
-
-feature {NONE} -- Constants
-
-	Format_key: ZSTRING
-		once
-			Result := "{%S-format}"
-		end
-
-	Name_key: ZSTRING
-		once
-			Result := "{%S}"
-		end
 
 end

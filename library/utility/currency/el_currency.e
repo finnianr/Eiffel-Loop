@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 7:42:50 GMT (Wednesday 1st September 2021)"
-	revision: "16"
+	date: "2021-09-26 17:07:31 GMT (Sunday 26th September 2021)"
+	revision: "17"
 
 class
 	EL_CURRENCY
@@ -31,11 +31,12 @@ create
 
 feature {EL_CURRENCY_LOCALE} -- Initialization
 
-	make (a_language: like language; a_code: like code; a_has_decimal: like has_decimal)
+	make (language: STRING; a_code: like code; a_has_decimal: like has_decimal)
 		do
-			language := a_language; code := a_code; has_decimal := a_has_decimal
+			code := a_code; has_decimal := a_has_decimal
+			text := Texts_table.item_text (language)
 			separator := [',', '.']
-			set_format_and_symbol (Currency_enum.format_for (a_language, a_code))
+			set_format_and_symbol (text.format (a_code))
 			make_default
 		end
 
@@ -84,11 +85,9 @@ feature -- Access
 			end
 		end
 
-	language: STRING
-
 	name: ZSTRING
 		do
-			Result := Currency_enum.name_for (language, code)
+			Result := text.name (code)
 		end
 
 	separator: TUPLE [threes, decimal: CHARACTER]
@@ -117,11 +116,6 @@ feature -- Element change
 			end
 		end
 
-	set_language (a_language: like language)
-		do
-			language := a_language
-		end
-
 feature -- Status query
 
 	has_decimal: BOOLEAN
@@ -142,4 +136,14 @@ feature {NONE} -- Evolicity
 			>>)
 		end
 
+feature {NONE} -- Internal attributes
+
+	text: EL_CURRENCY_TEXTS
+
+feature {NONE} -- Constants
+
+	Texts_table: EL_LOCALE_TEXTS_TABLE [EL_CURRENCY_TEXTS]
+		once
+			create Result.make
+		end
 end
