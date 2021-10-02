@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 17:07:31 GMT (Sunday 26th September 2021)"
-	revision: "17"
+	date: "2021-10-02 12:34:27 GMT (Saturday 2nd October 2021)"
+	revision: "18"
 
 class
 	EL_CURRENCY
@@ -31,9 +31,9 @@ create
 
 feature {EL_CURRENCY_LOCALE} -- Initialization
 
-	make (language: STRING; a_code: like code; a_has_decimal: like has_decimal)
+	make (language: STRING; a_code: like code)
 		do
-			code := a_code; has_decimal := a_has_decimal
+			code := a_code
 			text := Texts_table.item_text (language)
 			separator := [',', '.']
 			set_format_and_symbol (text.format (a_code))
@@ -119,6 +119,9 @@ feature -- Element change
 feature -- Status query
 
 	has_decimal: BOOLEAN
+		do
+			Result := Currency_enum.has_decimal (code)
+		end
 
 	is_symbol_first: BOOLEAN
 

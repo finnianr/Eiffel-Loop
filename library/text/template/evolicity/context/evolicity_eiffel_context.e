@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-27 9:43:03 GMT (Sunday 27th June 2021)"
-	revision: "16"
+	date: "2021-09-28 13:02:55 GMT (Tuesday 28th September 2021)"
+	revision: "17"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -69,7 +69,10 @@ feature {NONE} -- Implementation
 		local
 			template: ZSTRING; getter_action: FUNCTION [ANY]
 		do
-			if getter_functions.has_key (key) then
+			if key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
+				Result := Current
+
+			elseif getter_functions.has_key (key) then
 				getter_action := getter_functions.found_item
 				getter_action.set_target (Current)
 				if getter_action.open_count = 0 then
@@ -98,6 +101,8 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Internal attributes
 	getter_functions: EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]
 
 feature {NONE} -- Constants
+
+	Var_current: STRING = "Current"
 
 	Getter_functions_by_type: EL_FUNCTION_RESULT_TABLE [
 		EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_OBJECT_TABLE [FUNCTION [ANY]]

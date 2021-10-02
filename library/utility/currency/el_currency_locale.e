@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 14:31:44 GMT (Sunday 26th September 2021)"
-	revision: "11"
+	date: "2021-10-02 15:15:08 GMT (Saturday 2nd October 2021)"
+	revision: "12"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -15,84 +15,44 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_DEFERRED_LOCALE
-
 	EL_SHARED_CURRENCY_ENUM
-		rename
-			Currency_enum as Currency_code
+		export
+			{ANY} Currency_enum
 		end
+
+	EL_SHARED_LOCALIZED_CURRENCY_TABLE
 
 feature {NONE} -- Initialization
 
 	make_default
 		do
-			set_currency (Default_currency_code)
+			set_currency (default_currency_code)
 		end
 
 feature -- Access
 
 	currency: EL_CURRENCY
-
-	currency_list: like Locale_currency_list_table.item
-		local
-			currency_list_table: like Locale_currency_list_table
 		do
-			currency_list_table := Locale_currency_list_table
-			currency_list_table.search (language)
-			if currency_list_table.found then
-				Result := currency_list_table.found_item
-			else
-				Result := currency_list_table [Locale.default_language]
-			end
-		end
-
-	language: STRING
-		deferred
+			Result := Currency_table.item (language, currency_code)
 		end
 
 	default_currency_code: NATURAL_8
 		deferred
 		end
 
+	language: STRING
+		deferred
+		end
+
+	currency_code: NATURAL_8
+
 feature -- Element change
 
 	set_currency (code: NATURAL_8)
-		local
-			list: like currency_list
+		require
+			valid_code: Currency_enum.is_valid_value (code)
 		do
-			list := currency_list
-			list.find_first_equal (code, agent {EL_CURRENCY}.code)
-			if list.exhausted then
-				set_currency (default_currency_code)
-			else
-				currency := list.item
-			end
-		end
-
-feature {NONE} -- Constants
-
-	Except_currency_codes: ARRAY [NATURAL_8]
-		once
-			create Result.make_empty
-		end
-
-	Locale_currency_list_table: HASH_TABLE [EL_ARRAYED_LIST [EL_CURRENCY], STRING]
-		local
-			list: like Locale_currency_list_table.item
-			code_list: like Currency_code.list
-		once
-			create Result.make_equal (Locale.all_languages.count)
-			code_list := Currency_code.list
-			across Locale.all_languages as lang loop
-				create list.make (code_list.count)
-				across code_list as code loop
-					if not Except_currency_codes.has (code.item) then
-						list.extend (create {EL_CURRENCY}.make (lang.item, code.item, not Currency_code.unit.has (code.item)))
-					end
-				end
-				list.order_by (agent {EL_CURRENCY}.name, True)
-				Result [lang.item] := list
-			end
+			currency_code := code
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 14:57:45 GMT (Tuesday 18th May 2021)"
-	revision: "17"
+	date: "2021-09-28 11:53:00 GMT (Tuesday 28th September 2021)"
+	revision: "18"
 
 class
 	EL_REFLECTED_INTEGER_32
@@ -29,6 +29,13 @@ feature -- Access
 		do
 			create Result
 			Result.set_item (value (a_object))
+		end
+
+feature -- Conversion
+
+	as_reference (a_object: EL_REFLECTIVE): INTEGER_32_REF
+		do
+			Result := value (a_object).to_reference
 		end
 
 feature -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-01 13:38:28 GMT (Saturday 1st May 2021)"
-	revision: "17"
+	date: "2021-10-02 12:33:20 GMT (Saturday 2nd October 2021)"
+	revision: "18"
 
 class
 	PP_BUY_OPTIONS
@@ -70,13 +70,13 @@ feature {NONE} -- Implementation
 			l_price_x100: INTEGER
 		do
 			create Result.make (5)
-			if Currency_enum.unit.has (currency_code) then
-				l_price_x100 := (price_x100 / 100).rounded
-			else
+			if Currency_enum.has_decimal (currency_code) then
 				l_price_x100 := price_x100
+			else
+				l_price_x100 := (price_x100 / 100).rounded
 			end
 			Result.append_integer (l_price_x100)
-			if Result.count >= 3 and not Currency_enum.unit.has (currency_code) then
+			if Result.count >= 3 and Currency_enum.has_decimal (currency_code) then
 				Result.insert_character ('.', Result.count - 1)
 			end
 		end

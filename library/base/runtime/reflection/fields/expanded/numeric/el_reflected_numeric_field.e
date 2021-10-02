@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-17 8:45:30 GMT (Thursday 17th June 2021)"
-	revision: "24"
+	date: "2021-09-28 11:51:29 GMT (Tuesday 28th September 2021)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -39,16 +39,22 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature -- Conversion
 
-	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
-		do
-			set (a_object, to_value (string))
+	as_reference (a_object: EL_REFLECTIVE): NUMERIC
+		deferred
 		end
+
+feature {NONE} -- Implementation
 
 	set (a_object: EL_REFLECTIVE; a_value: N)
 		-- `a_value: like value' causes a segmentation fault in `{EL_REFLECTED_ENUMERATION}.set_from_string'
 		deferred
+		end
+
+	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+		do
+			set (a_object, to_value (string))
 		end
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING

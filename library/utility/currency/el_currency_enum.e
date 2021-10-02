@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 16:46:01 GMT (Sunday 26th September 2021)"
-	revision: "11"
+	date: "2021-10-02 12:31:32 GMT (Saturday 2nd October 2021)"
+	revision: "12"
 
 class
 	EL_CURRENCY_ENUM
@@ -35,6 +35,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			unit := << HUF, JPY, KRW, TWD >>
+		end
+
+feature -- Status query
+
+	has_decimal (code: NATURAL_8): BOOLEAN
+		do
+			Result := not unit.has (code)
 		end
 
 feature -- Codes
@@ -104,6 +111,8 @@ feature -- Codes
 	USD: NATURAL_8
 
 	ZAR: NATURAL_8
+
+feature {NONE} -- Internal attributes
 
 	unit: ARRAY [NATURAL_8] note option: transient attribute end
 		-- currencies that do not have decimal fractions (according to Paypal at least)
