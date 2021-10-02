@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-02 12:34:27 GMT (Saturday 2nd October 2021)"
-	revision: "18"
+	date: "2021-10-02 15:48:18 GMT (Saturday 2nd October 2021)"
+	revision: "19"
 
 class
 	EL_CURRENCY
@@ -98,7 +98,7 @@ feature -- Element change
 
 	set_format_and_symbol (format: ZSTRING)
 		require
-			valid_decimal_format: has_decimal implies format.occurrences ('#') = 6
+			valid_decimal_format: has_decimal implies (6 |..| 8).has (format.occurrences ('#'))
 			valid_nondecimal_format: not has_decimal implies format.occurrences ('#') = 4
 		local
 			pos_hash: INTEGER
