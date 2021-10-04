@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 12:39:41 GMT (Tuesday 14th September 2021)"
-	revision: "21"
+	date: "2021-10-04 12:42:44 GMT (Monday 4th October 2021)"
+	revision: "22"
 
 expanded class
 	EL_ZSTRING_ROUTINES
@@ -23,7 +23,7 @@ feature -- Character string
 	n_character_string (uc: CHARACTER_32; n: INTEGER): ZSTRING
 		-- shared instance of string with `n' times `uc' character
 		do
-			Result := Character_string_table.item (n.to_natural_64 |<< 32 | uc.natural_32_code)
+			Result := Character_string_table.item (uc, n)
 		ensure
 			valid_result: Result.occurrences (uc) = n.to_integer_32
 		end
@@ -148,18 +148,11 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implemenation
-
-	new_filled_string (key: NATURAL_64): ZSTRING
-		do
-			create Result.make_filled (key.to_character_32, (key |>> 32).to_integer_32)
-		end
-
 feature {NONE} -- Constants
 
-	Character_string_table: EL_CACHE_TABLE [ZSTRING, NATURAL_64]
+	Character_string_table: EL_FILLED_ZSTRING_TABLE
 		once
-			create Result.make_equal (7, agent new_filled_string)
+			create Result.make
 		end
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER

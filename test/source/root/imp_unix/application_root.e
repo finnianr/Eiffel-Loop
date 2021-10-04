@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:54:20 GMT (Wednesday 1st September 2021)"
-	revision: "64"
+	date: "2021-10-04 11:34:18 GMT (Monday 4th October 2021)"
+	revision: "65"
 
 class
 	APPLICATION_ROOT
@@ -35,6 +35,9 @@ inherit
 
 	-- Test compression.ecf
 		COMPRESSION_AUTOTEST_APP,
+
+	-- Test currency.ecf	
+		CURRENCY_AUTOTEST_APP,
 
 	-- Test Eco-DB.ecf
 		ECO_DB_AUTOTEST_APP,

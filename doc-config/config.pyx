@@ -171,6 +171,7 @@ publish-repository:
 			"test/test.ecf#base"
 			"test/test.ecf#common"
 			"test/test.ecf#compression"
+			"test/test.ecf#currency"
 			"test/test.ecf#eco_db"
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"

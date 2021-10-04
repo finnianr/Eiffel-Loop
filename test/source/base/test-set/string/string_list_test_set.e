@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 11:44:37 GMT (Wednesday 16th June 2021)"
-	revision: "13"
+	date: "2021-10-04 12:01:35 GMT (Monday 4th October 2021)"
+	revision: "14"
 
 class
 	STRING_LIST_TEST_SET
@@ -149,6 +149,8 @@ feature -- Tests
 		end
 
 	test_split_string_8
+		note
+			testing: "covers/{EL_SPLIT_STRING_LIST}.make", "covers/{EL_FILLED_STRING_8_TABLE}.item"
 		local
 			list: EL_SPLIT_STRING_LIST [STRING]; s: EL_STRING_8_ROUTINES
 		do
