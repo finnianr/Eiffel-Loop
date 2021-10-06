@@ -74,7 +74,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["current", agent get_current],
+				[Var_current, agent get_current],
 				["name", agent get_name]
 			>>)
 		end
@@ -90,7 +90,7 @@ feature {NONE} -- Constants
 
 	"[
 		<group name="$name">
-		#foreach $item in $current loop
+		#foreach $item in $Current loop
 			#evaluate ($item.template_name, $item)
 		#end
 		</group>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 16:03:39 GMT (Thursday 7th January 2021)"
-	revision: "8"
+	date: "2021-10-06 10:02:00 GMT (Wednesday 6th October 2021)"
+	revision: "9"
 
 class
 	WEB_FORM
@@ -130,7 +130,5 @@ feature {NONE} -- Constants
 			</body>
 		</html>
 	]"
-
-	Root_node_name: STRING = "html"
 
 end

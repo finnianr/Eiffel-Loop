@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-01 12:34:27 GMT (Sunday 1st March 2020)"
-	revision: "5"
+	date: "2021-10-06 10:30:40 GMT (Wednesday 6th October 2021)"
+	revision: "6"
 
 class
 	EL_CACHE_TABLE [G, K -> HASHABLE]
@@ -34,8 +34,8 @@ feature {NONE} -- Initialization
 
 	make_equal (n: INTEGER; a_new_item: like new_item)
 		do
-			make_equal_table (n)
-			new_item := a_new_item
+			make (n, a_new_item)
+			compare_objects
 		end
 
 feature -- Access

@@ -57,17 +57,11 @@ feature {NONE} -- Evolicity reflection
 			Result := default_translation
 		end
 
-	get_current: ITERABLE [EL_TEXT_ITEM_TRANSLATIONS_TABLE]
-			--
-		do
-			Result := Current
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["current", agent get_current],
+				[Var_current, agent: ITERABLE [EL_TEXT_ITEM_TRANSLATIONS_TABLE] do Result := Current end],
 				["default_translation", agent get_default_translation]
 			>>)
 		end
@@ -119,7 +113,7 @@ feature {NONE} -- Constants
 		<?xml version="1.0" encoding="iso-8859-1"?>
 		<translation-tables>
 			<default-translation lang="$default_translation"/>
-		#foreach $item in $current loop
+		#foreach $item in $Current loop
 			#evaluate ($item.template_name, $item)
 		#end
 		</translation-tables>

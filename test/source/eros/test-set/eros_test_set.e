@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 11:08:18 GMT (Friday 14th February 2020)"
-	revision: "5"
+	date: "2021-10-05 16:02:35 GMT (Tuesday 5th October 2021)"
+	revision: "6"
 
 class
 	EROS_TEST_SET
@@ -39,7 +39,7 @@ feature {NONE} -- Initiliazation
 		do
 			create server.make (Port_number)
 			server.launch
-			Execution_environment.sleep (100)
+			Execution_environment.sleep (150) -- Try increasing if connection error occcurs
 			create connection.make (Port_number, "localhost")
 			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
 			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
@@ -67,7 +67,7 @@ feature -- Tests
 			i_freq := 4; log2_length := 7; phase_fraction := 0.5
 			create wave_form.make (2)
 			across signal_array as signal loop
-				wave_form.extend ( signal.item.cosine_waveform (i_freq, log2_length, phase_fraction))
+				wave_form.extend (signal.item.cosine_waveform (i_freq, log2_length, phase_fraction))
 			end
 			assert ("wave forms approximately equal", wave_form.first.is_approximately_equal (wave_form.last, Precision))
 			create output.make (2)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:28:10 GMT (Saturday 27th March 2021)"
-	revision: "11"
+	date: "2021-10-06 10:02:42 GMT (Wednesday 6th October 2021)"
+	revision: "12"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -122,7 +122,7 @@ feature {NONE} -- Evolicity
 		do
 			create Result.make (<<
 				["digest", agent: NATURAL_32_REF do Result := digest.to_reference end],
-				["current", agent: ITERABLE [EL_FILE_MANIFEST_ITEM] do Result := Current end]
+				[Var_current, agent: ITERABLE [EL_FILE_MANIFEST_ITEM] do Result := Current end]
 			>>)
 		end
 
@@ -150,12 +150,10 @@ feature {NONE} -- Constants
 			Result := "digest=%""
 		end
 
-	Root_node_name: STRING = "file-list"
-
 	Template: STRING = "[
 		<?xml version = "1.0" encoding = "$encoding_name"?>
 		<file-list digest="$digest">
-		#foreach $file in $current loop
+		#foreach $file in $Current loop
 			<file>
 				<name>$file.name</name>
 				<byte-count>$file.byte_count</byte-count>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 13:42:52 GMT (Thursday 4th March 2021)"
-	revision: "5"
+	date: "2021-10-06 9:22:24 GMT (Wednesday 6th October 2021)"
+	revision: "6"
 
 class
 	JOBS_RESULT_SET
@@ -48,7 +48,7 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["current", 	 agent: LIST [JOB_INFO] do Result := Current end],
+				[Var_current, 	 agent: LIST [JOB_INFO] do Result := Current end],
 				["xpath_query", agent: STRING do Result := xpath_query end]
 			>>)
 		end
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 			#if $current.count = 0 then
 				<h3>Zero results found</h3>
 			#else
-				#foreach $result in $current loop
+				#foreach $result in $Current loop
 			    	<h3><a href="$result.job_url">$result.position</a></h3>
 			    	<h4>Duration: $result.duration_interval_lower days</h4>
 					<h4>$result.location ($result.duration_text)</h4>

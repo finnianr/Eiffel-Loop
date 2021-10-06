@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 12:49:43 GMT (Monday 4th October 2021)"
-	revision: "1"
+	date: "2021-10-06 10:48:55 GMT (Wednesday 6th October 2021)"
+	revision: "2"
 
 class
 	EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
@@ -18,7 +18,7 @@ inherit
 		rename
 			make as make_table,
 			make_equal as make_equal_table,
-			item as table_item,
+			item as cached_item,
 			remove as remove_type
 		end
 
@@ -30,20 +30,19 @@ feature {NONE} -- Initialization
 	make (n: INTEGER; a_new_item: like new_item)
 		do
 			make_table (n)
-			create argument_key
 			new_item := a_new_item
+			create argument_key
 		end
 
 	make_equal (n: INTEGER; a_new_item: like new_item)
 		do
-			make_equal_table (n)
-			create argument_key
-			new_item := a_new_item
+			make (n, a_new_item)
+			compare_objects
 		end
 
 feature -- Access
 
-	item (arguments: OPEN_ARGS): like table_item
+	item (arguments: OPEN_ARGS): like cached_item
 			-- Returns the cached value of `new_item.item (arguments)' if available, or else
 			-- the newly calculated value
 		require
@@ -63,16 +62,11 @@ feature -- Access
 feature -- Contract Support
 
 	valid_arguments (arguments: OPEN_ARGS): BOOLEAN
-		-- `True' if all arguments are hashable and attached
-		local
-			i: INTEGER
+		-- `True' if all arguments conform to `HASHABLE' and are attached
 		do
-			Result := True
-			from i := 1 until not Result or else i > arguments.count loop
-				if arguments.item_code (i) = {TUPLE}.Reference_code then
-					Result := attached {HASHABLE} arguments.reference_item (i)
-				end
-				i := i + 1
+			Result := across arguments as list all
+				arguments.is_reference_item (list.cursor_index)
+					implies attached {HASHABLE} arguments.reference_item (list.cursor_index)
 			end
 		end
 

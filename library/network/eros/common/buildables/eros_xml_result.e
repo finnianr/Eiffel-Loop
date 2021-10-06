@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:41:18 GMT (Tuesday 28th April 2020)"
-	revision: "4"
+	date: "2021-10-06 10:02:59 GMT (Wednesday 6th October 2021)"
+	revision: "5"
 
 class
 	EROS_XML_RESULT
@@ -17,7 +17,7 @@ inherit
 		rename
 			make_default as make
 		redefine
-			building_action_table
+			building_action_table, root_node_name
 		end
 
 	EL_MODULE_NAMING

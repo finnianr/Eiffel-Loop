@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 11:57:47 GMT (Monday 4th October 2021)"
-	revision: "1"
+	date: "2021-10-06 10:36:56 GMT (Wednesday 6th October 2021)"
+	revision: "2"
 
 class
 	EL_FILLED_STRING_8_TABLE
@@ -16,7 +16,7 @@ inherit
 	EL_FUNCTION_CACHE_TABLE [STRING, TUPLE [c: CHARACTER; n: INTEGER]]
 		rename
 			make as make_cache,
-			item as cached_item
+			item as result_item
 		export
 			{NONE} all
 		end
@@ -36,9 +36,8 @@ feature -- Access
 	item (c: CHARACTER; n: INTEGER): STRING
 		do
 			if attached argument_key as key then
-				key.c := c
-				key.n := n
-				Result := cached_item (key)
+				key.c := c; key.n := n
+				Result := result_item (key)
 			end
 		end
 

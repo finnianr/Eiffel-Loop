@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 12:29:07 GMT (Monday 8th February 2021)"
-	revision: "15"
+	date: "2021-10-06 9:52:56 GMT (Wednesday 6th October 2021)"
+	revision: "16"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -24,6 +24,20 @@ feature -- Status query
 			inspect c
 				when 'a' .. 'z', 'A' .. 'Z' then
 					Result := True
+			else
+			end
+		end
+
+	is_c_identifier (c: CHARACTER; is_first: BOOLEAN): BOOLEAN
+		-- `True' if `c' is valid character in C language identifier
+		-- where `is_first' indicates if `c' is first character in identifer
+		do
+			inspect c
+				when 'a' .. 'z', 'A' .. 'Z' then
+					Result := True
+
+				when '0' .. '9', '_' then
+					Result := not is_first
 			else
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 19:36:51 GMT (Saturday 1st February 2020)"
-	revision: "2"
+	date: "2021-10-06 9:11:39 GMT (Wednesday 6th October 2021)"
+	revision: "3"
 
 class
 	TAYLOR_SERIES_AS_XML
@@ -78,7 +78,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make (<<
-				["Current", agent: ITERABLE [TAYLOR_TERM] do Result := term_list end]
+				[Var_current, agent: ITERABLE [TAYLOR_TERM] do Result := term_list end]
 			>>)
 		end
 

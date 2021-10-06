@@ -1771,6 +1771,8 @@ tool/eiffel/eiffel.ecf
 
 ## compression.ecf
 See class [COMPRESSION_TEST_APP]($source)
+## currency.ecf
+See class [CURRENCY_TEST_APP]($source)
 ## Eco-DB.ecf
 Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
 

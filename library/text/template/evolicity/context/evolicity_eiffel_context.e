@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-28 13:02:55 GMT (Tuesday 28th September 2021)"
-	revision: "17"
+	date: "2021-10-06 9:08:27 GMT (Wednesday 6th October 2021)"
+	revision: "18"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -69,10 +69,7 @@ feature {NONE} -- Implementation
 		local
 			template: ZSTRING; getter_action: FUNCTION [ANY]
 		do
-			if key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
-				Result := Current
-
-			elseif getter_functions.has_key (key) then
+			if getter_functions.has_key (key) then
 				getter_action := getter_functions.found_item
 				getter_action.set_target (Current)
 				if getter_action.open_count = 0 then
@@ -85,6 +82,10 @@ feature {NONE} -- Implementation
 					template := "Cannot set %S operands for: {%S}.%S"
 					Result := template #$ [getter_action.open_count, generator, key]
 				end
+				
+			elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
+				Result := Current
+
 			else
 				template := "($%S undefined)"
 				Result := template #$ [key]

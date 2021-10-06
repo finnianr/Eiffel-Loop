@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:35:43 GMT (Monday 23rd November 2020)"
-	revision: "6"
+	date: "2021-10-06 10:23:13 GMT (Wednesday 6th October 2021)"
+	revision: "7"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_XML
@@ -27,15 +27,25 @@ inherit
 
 feature -- Access
 
-	Root_element_name: STRING
+	root_element_name, root_node_name: STRING
 			--
-		require
-			xml_template_ends_with_tag: Template.item (Template.count) = '>'
 		local
-			pos_last_left_bracket: INTEGER
+			left_bracket_index, i: INTEGER
 		do
-			pos_last_left_bracket := Template.last_index_of ('<', Template.count)
-			Result := Template.substring (pos_last_left_bracket + 2, Template.count - 1).to_string_8
+			left_bracket_index := template.last_index_of ('<', template.count)
+			if left_bracket_index > 0 then
+				create Result.make (template.count - left_bracket_index - 3)
+				i := left_bracket_index + 1
+				if template [i] = '/' then
+					i := i + 1
+				end
+				from until i > template.count or else not is_identifier (template [i]) loop
+					Result.append_character (template [i].to_character_8)
+					i := i + 1
+				end
+			else
+				create Result.make_empty
+			end
 		end
 
 feature -- Status query
@@ -47,16 +57,13 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	stored_successfully (a_file: like new_file): BOOLEAN
-		require else
-			xml_template_ends_with_tag: Template.item (Template.count) = '>'
-		local
-			closing_tag: STRING
+	is_identifier (uc: CHARACTER_32): BOOLEAN
 		do
-			closing_tag := "</" + Root_element_name + ">"
-			a_file.go (a_file.count - closing_tag.count)
-			a_file.read_line
-			Result := closing_tag ~ a_file.last_string
+			inspect uc
+				when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-' then
+					Result := True
+			else
+			end
 		end
 
 	new_getter_functions: like getter_functions
@@ -64,6 +71,18 @@ feature {NONE} -- Implementation
 		do
 			Result := Precursor
 			Result [Variable_to_xml] :=  agent to_xml
+		end
+
+	stored_successfully (a_file: like new_file): BOOLEAN
+		require else
+			xml_template_ends_with_tag: Template.item (Template.count) = '>'
+		local
+			closing_tag: STRING
+		do
+			closing_tag := "</" + root_element_name + ">"
+			a_file.go (a_file.count - closing_tag.count)
+			a_file.read_line
+			Result := closing_tag ~ a_file.last_string
 		end
 
 feature {NONE} -- Constants

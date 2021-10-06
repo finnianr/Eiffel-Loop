@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 17:37:10 GMT (Sunday 20th December 2020)"
-	revision: "10"
+	date: "2021-10-06 9:09:10 GMT (Wednesday 6th October 2021)"
+	revision: "11"
 
 deferred class
 	VECTOR_COMPLEX_64
@@ -111,7 +111,7 @@ feature {NONE} -- Evolicity reflection
 			Result := Precursor +
 				["count", agent: INTEGER_REF do Result := count.to_reference end] +
 				["element_name", agent: STRING do Result := element_name end] +
-				["Current", agent: ITERABLE_COMPLEX_64_VECTOR do create Result.make (Current) end]
+				[Var_current, agent: ITERABLE_COMPLEX_64_VECTOR do create Result.make (Current) end]
 		end
 
 feature {NONE} -- Implementation

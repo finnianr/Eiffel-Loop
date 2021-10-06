@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 12:34:15 GMT (Thursday 28th May 2020)"
-	revision: "9"
+	date: "2021-10-06 10:02:29 GMT (Wednesday 6th October 2021)"
+	revision: "10"
 
 class
 	SMIL_PRESENTATION
@@ -114,8 +114,6 @@ feature {NONE} -- Build from XML
 				["create", agent on_create]
 			>>)
 		end
-
-	Root_node_name: STRING = "smil"
 
 feature {NONE} -- Constants
 
