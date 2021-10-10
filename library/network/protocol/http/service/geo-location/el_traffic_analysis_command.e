@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 8:09:41 GMT (Saturday 19th June 2021)"
-	revision: "7"
+	date: "2021-10-10 12:14:16 GMT (Sunday 10th October 2021)"
+	revision: "8"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_DATE
 
-	EL_MODULE_GEOGRAPHIC
+	EL_SHARED_GEOGRAPHIC_INFO_TABLE
 
 create
 	make
@@ -49,12 +49,13 @@ feature -- Basic operations
 			Precursor
 			-- Cache locations
 			lio.put_line ("Getting IP address locations:")
+			Geographic.set_log (Lio)
 			across human_entry_list as entry loop
 				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					Geographic.cache_region (entry.item.ip_address, Lio)
-					Geographic.cache_country (entry.item.ip_address, Lio)
+					call (Geographic.location (entry.item.ip_address))
 				end
 			end
+			Geographic.set_log (Void)
 			lio.put_new_line_x2
 
 			lio.put_line ("WEB CRAWLERS")
@@ -71,6 +72,10 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	call (obj: ANY)
+		do
+		end
 
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do

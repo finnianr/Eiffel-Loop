@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:03:54 GMT (Sunday 22nd November 2020)"
-	revision: "8"
+	date: "2021-10-10 12:14:16 GMT (Sunday 10th October 2021)"
+	revision: "9"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	EL_MODULE_GEOGRAPHIC
+	EL_SHARED_GEOGRAPHIC_INFO_TABLE
 
 create
 	make

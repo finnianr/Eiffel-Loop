@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 13:52:37 GMT (Monday 11th January 2021)"
-	revision: "12"
+	date: "2021-10-09 13:02:22 GMT (Saturday 9th October 2021)"
+	revision: "13"
 
 class
 	EL_XML_ROUTINES
@@ -67,6 +67,27 @@ feature -- Access
 			Result.left_adjust
 		end
 
+	root_element_name (xml: READABLE_STRING_GENERAL): STRING
+			--
+		local
+			left_bracket_index, i: INTEGER
+		do
+			left_bracket_index := xml.last_index_of ('<', xml.count)
+			if left_bracket_index > 0 then
+				create Result.make (xml.count - left_bracket_index - 3)
+				i := left_bracket_index + 1
+				if xml [i] = '/' then
+					i := i + 1
+				end
+				from until i > xml.count or else not is_identifier (xml [i]) loop
+					Result.append_character (xml [i].to_character_8)
+					i := i + 1
+				end
+			else
+				create Result.make_empty
+			end
+		end
+
 feature -- Conversion
 
 	escaped (a_string: ZSTRING): ZSTRING
@@ -100,4 +121,12 @@ feature {NONE} -- Implementation
 			Result := char.natural_32_code
 		end
 
+	is_identifier (uc: CHARACTER_32): BOOLEAN
+		do
+			inspect uc
+				when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-' then
+					Result := True
+			else
+			end
+		end
 end
