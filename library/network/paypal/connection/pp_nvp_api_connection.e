@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 11:30:15 GMT (Sunday 12th September 2021)"
-	revision: "16"
+	date: "2021-10-11 9:27:50 GMT (Monday 11th October 2021)"
+	revision: "17"
 
 class
 	PP_NVP_API_CONNECTION
@@ -125,6 +125,11 @@ feature -- Status query
 	last_call_succeeded: BOOLEAN
 		do
 			Result := not has_error
+		end
+
+	has_notify_url: BOOLEAN
+		do
+			Result := not notify_url.is_empty
 		end
 
 feature {NONE} -- Implementation

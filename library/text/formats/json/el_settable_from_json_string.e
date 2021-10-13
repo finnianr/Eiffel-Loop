@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:48:59 GMT (Thursday 12th August 2021)"
-	revision: "20"
+	date: "2021-10-13 11:00:01 GMT (Wednesday 13th October 2021)"
+	revision: "21"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -87,23 +87,30 @@ feature -- Element change
 		do
 			table := field_table
 			from json_list.start until json_list.after loop
-				if table.has_imported (json_list.name_item_8, current_reflective) then
-					table.found_item.set_from_string (current_reflective, json_list.value_item)
+				if table.has_imported (json_list.name_item_8 (False), current_reflective) then
+					set_json_field (table.found_item, json_list.value_item)
 				end
 				json_list.forth
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Export_tuple: TUPLE [name_in, name_out: STRING]
-		once
-			Result := ["", ""]
+	set_json_field (field: EL_REFLECTED_FIELD; json_value: ZSTRING)
+		do
+			field.set_from_string (current_reflective, json_value)
 		end
+
+feature {NONE} -- Constants
 
 	Escaper: EL_JSON_VALUE_ESCAPER
 		once
 			create Result.make
+		end
+
+	Export_tuple: TUPLE [name_in, name_out: STRING]
+		once
+			Result := ["", ""]
 		end
 
 	Field_separator: ZSTRING

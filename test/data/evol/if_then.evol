@@ -14,3 +14,15 @@ Condition is true
 Condition is false
 #end
 
+#if $str.is_empty then
+str is empty
+#else
+str is not empty
+#end
+
+#if $str.count > 0 then
+str.count > 0
+#else
+str.count = 0
+#end
+

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-03 14:02:31 GMT (Sunday 3rd January 2021)"
-	revision: "8"
+	date: "2021-10-13 10:47:29 GMT (Wednesday 13th October 2021)"
+	revision: "9"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -28,25 +28,20 @@ feature {NONE} -- Initialization
 
 	make (utf_8: STRING)
 		local
-			string: ZSTRING; i: INTEGER
+			pos_colon: INTEGER
 		do
-			create name_8.make (20)
-			create string.make_from_utf_8 (utf_8)
-			string.replace_substring_all (Escaped_quotation_mark, Utf_16_quotation_mark)
-
-			create split_list.make (string, Quotation_mark)
-			if not all_values_quoted (string) then
-				from i := string.count until i = 0 or not (string.is_space_item (i) or string [i] = '}') loop
-					i := i - 1
+			create split_list.make_with_character (create {ZSTRING}.make_from_utf_8 (utf_8), '%N')
+			from split_list.start until split_list.after loop
+				if attached split_list.item (False) as line then
+					pos_colon := line.index_of (':', 1)
+					if pos_colon > 0 and then line.last_index_of ('"', pos_colon) > 0 then
+						split_list.forth
+					else
+						split_list.remove
+					end
 				end
-				string.insert_character (',', i + 1)
-				string.edit (Quote_colon, Comma, agent insert_value_quotes)
-				string.remove (string.last_index_of (',', string.count))
-				create split_list.make (string, Quotation_mark)
 			end
-			count := (split_list.count - 1) // 4
-		ensure
-			exactly_divisable: (split_list.count - 1) \\ 4 = 0
+			count := split_list.count
 		end
 
 feature -- Access
@@ -59,26 +54,61 @@ feature -- Iteration items
 
 	item: like item_for_iteration
 		do
-			Result := [name_item, value_item]
+			Result := [name_item (False), value_item]
 		end
 
-	name_item: ZSTRING
+	name_item (keep_ref: BOOLEAN): ZSTRING
+		local
+			line: ZSTRING; pos_colon, pos_quote_end, pos_quote_start: INTEGER
 		do
-			split_list.go_i_th (list_index)
-			Result := Unescaper.unescaped (split_list.item (False))
+			Result := Buffer.empty
+			split_list.go_i_th (index)
+			line := split_list.item (False)
+			pos_colon := line.index_of (':', 1)
+			if pos_colon > 0 then
+				pos_quote_end := line.last_index_of ('"', pos_colon)
+				pos_quote_start := line.index_of ('"', 1)
+				if pos_quote_start > 0 and then pos_quote_start < pos_quote_end then
+					Result.append_substring (line, pos_quote_start + 1, pos_quote_end - 1)
+					Result.unescape (Unescaper)
+				end
+			end
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
-	name_item_8: STRING
+	name_item_8 (keep_ref: BOOLEAN): STRING
 		do
-			Result := name_8
-			name_8.wipe_out
-			name_item.append_to_string_8 (name_8)
+			Result := Buffer_latin_1.copied_general (name_item (False))
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
 
 	value_item: ZSTRING
+		local
+			line: ZSTRING; pos_colon, pos_quote: INTEGER
 		do
-			split_list.go_i_th (list_index + 2)
-			Result := Unescaper.unescaped (split_list.item (False))
+			split_list.go_i_th (index)
+			line := split_list.item (False)
+			pos_colon := line.index_of (':', 1)
+			if pos_colon > 0 then
+				pos_quote := line.index_of ('"', pos_colon + 1)
+				if pos_quote > 0 then
+					Result := line.substring (pos_quote + 1, line.last_index_of ('"', line.count) - 1)
+
+				elseif line.valid_index (pos_colon + 1) and then line.is_space_item (pos_colon + 1) then
+					Result := line.substring_end (pos_colon + 2)
+					Result.prune_all_trailing (',')
+				else
+					Result := line.substring_end (pos_colon + 1)
+					Result.prune_all_trailing (',')
+				end
+				Result.unescape (Unescaper)
+			else
+				create Result.make_empty
+			end
 		end
 
 feature -- Cursor movement
@@ -116,99 +146,25 @@ feature -- Status query
 			Result := (index = 0) or (index = count + 1)
 		end
 
-feature {NONE} -- Implementation
-
-	all_values_quoted (string: ZSTRING): BOOLEAN
-		local
-			i, end_index: INTEGER
-		do
-			Result := True
-			from split_list.start until not Result or split_list.after loop
-				i := split_list.item_start_index; end_index := split_list.item_end_index
-				if string [i] = ':' then
-					from i := i + 1 until not Result or i > end_index loop
-						Result := string.is_space_item (i)
-						i := i + 1
-					end
-				end
-				split_list.forth
-			end
-		end
-
-	insert_value_quotes (start_index, end_index: INTEGER; str: ZSTRING)
-		local
-			i, quote_count: INTEGER; quote_inserted: BOOLEAN
-		do
-			from i := start_index until i > end_index loop
-				if str [i] = '"' then
-					quote_count := quote_count + 1
-				end
-				i := i + 1
-			end
-			if quote_count /= 2 then
-				-- insert quote at start
-				from i := start_index until quote_inserted or i > end_index loop
-					if not quote_inserted and then not str.is_space_item (i) then
-						str.insert_character ('"', i)
-						quote_inserted := True
-					else
-						i := i + 1
-					end
-				end
-				-- insert quote at end
-				quote_inserted := False
-				from i := end_index + 1 until quote_inserted or i = 0 loop
-					if not quote_inserted and then not str.is_space_item (i) then
-						str.insert_character ('"', i + 1)
-						quote_inserted := True
-					else
-						i := i - 1
-					end
-				end
-			end
-		end
-
-	list_index: INTEGER
-		do
-			Result := 2 + (index - 1) * 4
-		end
-
 feature {NONE} -- Internal attributes
-
-	name_8: STRING
 
 	split_list: EL_SPLIT_ZSTRING_LIST
 
 feature {NONE} -- Constants
 
-	Comma: ZSTRING
+	Buffer: EL_ZSTRING_BUFFER
 		once
-			Result := ","
+			create Result
 		end
 
-	Escaped_quotation_mark: ZSTRING
+	Buffer_latin_1: EL_STRING_8_BUFFER
 		once
-			Result := "\%""
-		end
-
-	Quotation_mark: ZSTRING
-		once
-			Result := "%""
-		end
-
-	Quote_colon: ZSTRING
-		once
-			Result := "%":"
+			create Result
 		end
 
 	Unescaper: EL_JSON_UNESCAPER
 		once
 			create Result.make
-		end
-
-	Utf_16_quotation_mark: ZSTRING
-		once
-			Result := "\u0022"
 		end
 
 end

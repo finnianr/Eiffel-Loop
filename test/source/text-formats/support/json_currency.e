@@ -1,13 +1,13 @@
 note
-	description: "Json currency"
+	description: "JSON currency"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-08 13:06:17 GMT (Wednesday 8th January 2020)"
-	revision: "5"
+	date: "2021-10-12 15:47:44 GMT (Tuesday 12th October 2021)"
+	revision: "6"
 
 class
 	JSON_CURRENCY

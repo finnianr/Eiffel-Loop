@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-14 14:27:43 GMT (Sunday 14th March 2021)"
-	revision: "1"
+	date: "2021-10-10 17:34:19 GMT (Sunday 10th October 2021)"
+	revision: "2"
 
 class
 	EVOLICITY_TEST_SET
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_MODULE_LOG
+
+	EL_MODULE_TUPLE
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
@@ -42,7 +44,7 @@ feature -- Tests
 
 	test_if_then
 		do
-			do_test ("merge_if_then", 1602173828, agent merge_if_then, [work_area_data_dir + "if_then.evol"])
+			do_test ("merge_if_then", 3965351676, agent merge_if_then, [work_area_data_dir + "if_then.evol"])
 		end
 
 	test_merge_template
@@ -55,21 +57,26 @@ feature {NONE} -- Implementation
 	merge_if_then (template_path: EL_FILE_PATH)
 			--
 		local
-			vars: EVOLICITY_CONTEXT_IMP
-			var_x, var_y: STRING
+			context: EVOLICITY_CONTEXT_IMP
+			var: TUPLE [x, y, str: STRING]
 		do
-			create vars.make
+			create context.make; create var
+			Tuple.fill (var, "x, y, str")
+
 			Evolicity_templates.put_file (template_path, Utf_8_encoding)
-			var_x := "x"; var_y := "y"
 
-			vars.put_integer (var_x, 2)
-			vars.put_integer (var_y, 2)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, vars), 120)
-			log.put_new_line
+			context.put_integer (var.x, 2)
+			context.put_integer (var.y, 2)
+			context.put_string (var.str, "")
 
-			vars.put_integer (var_x, 1)
-			log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, vars), 120)
-			log.put_new_line
+			across 1 |..| 2 as n loop
+				if n.item = 2 then
+					context.put_integer (var.x, 1)
+					context.put_string (var.str, "abc")
+				end
+				log.put_string_field_to_max_length ("RESULT", Evolicity_templates.merged_to_string (template_path, context), 160)
+				log.put_new_line
+			end
 		end
 
 	merge_template (template_path: EL_FILE_PATH)

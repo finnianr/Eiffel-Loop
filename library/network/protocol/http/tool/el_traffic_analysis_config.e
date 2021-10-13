@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:14:50 GMT (Monday 16th November 2020)"
-	revision: "1"
+	date: "2021-10-12 15:54:33 GMT (Tuesday 12th October 2021)"
+	revision: "2"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG

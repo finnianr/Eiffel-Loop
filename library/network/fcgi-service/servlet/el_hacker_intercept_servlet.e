@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-10 12:14:16 GMT (Sunday 10th October 2021)"
-	revision: "9"
+	date: "2021-10-12 18:37:11 GMT (Tuesday 12th October 2021)"
+	revision: "10"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	EL_SHARED_GEOGRAPHIC_INFO_TABLE
+	EL_SHARED_IP_ADDRESS_INFO_TABLE
 
 create
 	make
@@ -47,7 +47,7 @@ feature {NONE} -- Basic operations
 			if IP_info_table.has_key (ip_number) then
 				ip_info := IP_info_table.found_item
 			else
-				ip_info := [Geographic.location (ip_number), False]
+				ip_info := [Internet_address.item (ip_number).location, False]
 				IP_info_table.extend (ip_info, ip_number)
 			end
 			log.put_labeled_string (IP_address.to_string (ip_number), ip_info.location)

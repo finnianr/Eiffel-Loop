@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:07:56 GMT (Monday 8th February 2021)"
-	revision: "9"
+	date: "2021-10-12 17:27:44 GMT (Tuesday 12th October 2021)"
+	revision: "10"
 
 class
 	JSON_NAME_VALUE_LIST_TEST_SET
@@ -33,10 +33,10 @@ feature -- Tests
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then
-						assert ("valid name", list.name_item_8 ~ "name" and list.value_item ~ My_ching.literal)
+						assert ("valid name", list.name_item_8 (False) ~ "name" and list.value_item ~ My_ching.literal)
 						assert ("valid escaped", Escaper.escaped (list.value_item, True) ~ My_ching.escaped)
 					when 2 then
-						assert ("valid price", list.name_item_8 ~ "price" and list.value_item ~ Price.literal)
+						assert ("valid price", list.name_item_8 (False) ~ "price" and list.value_item ~ Price.literal)
 						assert ("valid escaped", Escaper.escaped (list.value_item, True) ~ Price.escaped)
 
 				else end

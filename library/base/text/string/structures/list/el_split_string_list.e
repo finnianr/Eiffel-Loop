@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 14:59:40 GMT (Sunday 22nd August 2021)"
-	revision: "23"
+	date: "2021-10-12 18:46:17 GMT (Tuesday 12th October 2021)"
+	revision: "24"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -34,8 +34,7 @@ inherit
 			new_cursor as new_interval_cursor,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_empty, make_from_sub_list,
-			extend_buffer, set_string
+			is_equal, make_empty, make_from_sub_list, extend_buffer, set_string
 		end
 
 	EL_JOINED_STRINGS [S]
@@ -373,15 +372,17 @@ feature {NONE} -- Implementation
 		do
 			internal := internal_item
 			internal.keep_head (0)
-			start_index := item_start_index
-			if left_adjusted then
-				from until start_index > item_end_index or else not c.is_space (string [start_index]) loop
-					start_index := start_index + 1
+			if not off then
+				start_index := item_start_index
+				if left_adjusted then
+					from until start_index > item_end_index or else not c.is_space (string [start_index]) loop
+						start_index := start_index + 1
+					end
 				end
-			end
-			internal.append_substring (string, start_index, item_end_index)
-			if right_adjusted then
-				internal.right_adjust
+				internal.append_substring (string, start_index, item_end_index)
+				if right_adjusted then
+					internal.right_adjust
+				end
 			end
 		end
 

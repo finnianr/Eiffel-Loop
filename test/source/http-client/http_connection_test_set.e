@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 10:58:03 GMT (Sunday 12th September 2021)"
-	revision: "36"
+	date: "2021-10-13 11:15:56 GMT (Wednesday 13th October 2021)"
+	revision: "37"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -27,6 +27,8 @@ inherit
 
 	EL_MODULE_HTML
 
+	EL_MODULE_IP_ADDRESS
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
@@ -36,6 +38,7 @@ feature -- Basic operations
 			eval.call ("documents_download", agent test_documents_download)
 			eval.call ("download_document_and_headers", agent test_download_document_and_headers)
 			eval.call ("download_image_and_headers", agent test_download_image_and_headers)
+			eval.call ("ip_address_info", agent test_ip_address_info)
 			eval.call ("headers", agent test_headers)
 			eval.call ("http_hash_table", agent test_http_hash_table)
 			eval.call ("http_post", agent test_http_post)
@@ -230,6 +233,21 @@ feature -- Tests
 			end
 		end
 
+	test_ip_address_info
+		note
+			testing: "covers/{EL_JSON_NAME_VALUE_LIST}.name_item, covers/{EL_JSON_NAME_VALUE_LIST}.name_item",
+				"covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string",
+				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info"
+		local
+			table: EL_IP_ADDRESS_INFO_TABLE; info: EL_IP_ADDRESS_INFO
+		do
+			create table.make
+			info := table.item (IP_address.to_number (www_eiffel_loop_com))
+			assert ("same string", info.location.same_string ("United Kingdom, England"))
+			assert ("same ip", info.ip ~ Www_eiffel_loop_com)
+			assert ("same area", info.country_area.to_integer_32 = 244820)
+		end
+
 	test_url_encoded
 		local
 			url: STRING; s: EL_STRING_8_ROUTINES
@@ -345,23 +363,14 @@ feature {NONE} -- Factory
 
 	new_json_fields (json_data: STRING): EL_URI_QUERY_ZSTRING_HASH_TABLE
 		local
-			lines: EL_STRING_8_LIST
-			pair_list: EL_JSON_NAME_VALUE_LIST
+			pair_list: EL_JSON_NAME_VALUE_LIST; s: EL_ZSTRING_ROUTINES
 		do
-			create lines.make_with_lines (json_data)
-			from lines.start until lines.after loop
-				if lines.index > 1 and then lines.index < lines.count and then not lines.item.has_substring ("%": %"") then
-					lines.remove
-				else
-					lio.put_line (lines.item)
-					lines.forth
-				end
-			end
-
-			create pair_list.make (lines.joined_lines)
+			create pair_list.make (json_data)
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
-				Result.set_string (pair_list.name_item, pair_list.value_item)
+				if attached pair_list.value_item as value and then value /~ s.character_string ('{') then
+					Result.set_string (pair_list.name_item (True), value)
+				end
 				pair_list.forth
 			end
 		end
@@ -408,6 +417,8 @@ feature {NONE} -- Constants
 		end
 
 	Cookies_url: STRING = "http://httpbin.org/cookies"
+
+	www_eiffel_loop_com: STRING = "77.68.64.12"
 
 	Html_post_url: STRING = "://httpbin.org/post"
 
