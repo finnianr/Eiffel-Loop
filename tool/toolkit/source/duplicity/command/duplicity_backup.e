@@ -50,7 +50,7 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("Backup", target_dir_base)
 			lio.put_new_line
-			if backup_dir.exists and then mirror_list.for_all (agent {BACKUP_MIRROR}.is_mounted) then
+			if backup_dir.exists and then mirror_list.for_all (agent {EL_MIRROR_BACKUP}.is_mounted) then
 				create destination_uri.make_from_dir_path (backup_dir #+ target_dir_base)
 				lio.put_path_field ("Backup", target_dir)
 				lio.put_new_line
@@ -60,7 +60,7 @@ feature -- Basic operations
 					if change_text.is_enabled then
 						write_change_comment
 					end
-					mirror_list.do_all (agent {BACKUP_MIRROR}.set_passphrase)
+					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.set_passphrase)
 
 					lio.put_path_field ("Creating", destination_uri)
 					lio.put_new_line

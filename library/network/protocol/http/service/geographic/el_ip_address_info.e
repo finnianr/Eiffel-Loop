@@ -122,9 +122,9 @@ feature -- API string fields
 feature {NONE} -- Implementation
 
 	set_json_field (field: EL_REFLECTED_FIELD; json_value: ZSTRING)
-		-- Convert
+		-- Trim decimal point for `country_area' and `country_population'
 		do
-			if Natural_fields.has (field.name) then
+			if Natural_fields.has (field.index) then
 				Precursor (field, json_value.substring_to ('.', Default_pointer))
 			else
 				Precursor (field, json_value)
@@ -133,10 +133,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Natural_fields: ARRAY [STRING]
+	Natural_fields: EL_FIELD_INDICES_SET
 		once
-			Result := << "country_area", "country_population" >>
-			Result.compare_objects
+			Result := new_field_indices_set ("country_area, country_population")
 		end
 
 	Separator: ZSTRING

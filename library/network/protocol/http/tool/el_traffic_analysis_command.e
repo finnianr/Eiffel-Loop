@@ -52,7 +52,7 @@ feature -- Basic operations
 			Internet_address.set_log (Lio)
 			across human_entry_list as entry loop
 				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					call (Internet_address.item (entry.item.ip_address).location)
+					call (Internet_address.item (entry.item.ip_address).country_name)
 				end
 			end
 			Internet_address.set_log (Void)

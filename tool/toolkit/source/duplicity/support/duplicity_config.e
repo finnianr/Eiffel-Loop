@@ -68,7 +68,7 @@ feature -- Access
 
 	exclude_files_list: EL_ZSTRING_LIST
 
-	mirror_list: EL_ARRAYED_LIST [BACKUP_MIRROR]
+	mirror_list: EL_ARRAYED_LIST [EL_MIRROR_BACKUP]
 
 	name: ZSTRING
 		-- possible alias for `target_dir.base' used as backup destination
@@ -112,7 +112,7 @@ feature {NONE} -- Build from XML
 
 	append_mirror
 		local
-			mirror: BACKUP_MIRROR
+			mirror: EL_MIRROR_BACKUP
 		do
 			create mirror.make
 			set_next_context (mirror)

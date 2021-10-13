@@ -697,7 +697,7 @@ Classes providing
 * managing server directory structure.
 * file synchronization using the [$source EL_CRC_32_SYNC_ITEM] abstraction
 ## PayPal Payments Standard Button Manager API
-An Eiffel interface to the [https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API].
+An Eiffel interface to the [http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. (Now deprecated by Paypal)
 ## HTTP Client Services
 Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
 ## Fast CGI Protocol
