@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 14:20:00 GMT (Monday 11th January 2021)"
-	revision: "13"
+	date: "2021-10-14 11:35:25 GMT (Thursday 14th October 2021)"
+	revision: "14"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -74,6 +74,27 @@ feature -- Access
 					lines.forth
 				end
 				lines.close
+			end
+		end
+
+	root_element_name (xml: READABLE_STRING_GENERAL): STRING_8
+		local
+			found: BOOLEAN; i, pos_new_line, pos_colon: INTEGER; line: READABLE_STRING_GENERAL
+		do
+			from until found loop
+				pos_new_line := xml.index_of ('%N', i + 1)
+				if pos_new_line > 0 then
+					line := xml.substring (i + 1, pos_new_line - 1)
+					pos_colon := line.index_of (':', 1)
+					if i > 0 and then pos_colon > 0 and then not (line [1] = '#' or line [1] = '%T') then
+						Result := line.substring (1, pos_colon - 1).to_string_8
+						found := True
+					end
+					i := pos_new_line
+				else
+					found := True
+					create Result.make_empty
+				end
 			end
 		end
 

@@ -1,16 +1,18 @@
-note
+﻿note
 	description: "[
-		Parses a non-recursive JSON list into name value pairs. Iterate using `from start until after loop'.
+		Parses a non-recursive JSON list into name value pairs assuming each field ends with a new line character. 
+		Iterate using `from start until after loop'.
 		Decoded name-value pairs accessible as: `item', `name_item' or  `value_item'.
 	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 10:47:29 GMT (Wednesday 13th October 2021)"
-	revision: "9"
+	date: "2021-10-16 10:44:46 GMT (Saturday 16th October 2021)"
+	revision: "10"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -27,6 +29,8 @@ create
 feature {NONE} -- Initialization
 
 	make (utf_8: STRING)
+		require
+			new_line_delimited: utf_8.has ('%N')
 		local
 			pos_colon: INTEGER
 		do
@@ -166,5 +170,18 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
+
+note
+	notes: "[
+		This parser assumes that JSON fields are delimited by the newline character as for example:
+
+			{
+				"name": "John Smith",
+				"city": "New York",
+				"gender": "♂",
+				"age": 45
+			}
+
+	]"
 
 end

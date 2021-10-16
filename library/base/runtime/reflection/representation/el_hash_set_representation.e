@@ -1,13 +1,13 @@
 note
-	description: "Reflected field representation that "
+	description: "Reflected field representation that links a field to a set of values"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 12:24:18 GMT (Monday 24th May 2021)"
-	revision: "2"
+	date: "2021-10-14 10:47:56 GMT (Thursday 14th October 2021)"
+	revision: "3"
 
 class
 	EL_HASH_SET_REPRESENTATION [G -> HASHABLE]

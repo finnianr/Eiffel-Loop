@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 11:15:56 GMT (Wednesday 13th October 2021)"
-	revision: "37"
+	date: "2021-10-16 17:23:22 GMT (Saturday 16th October 2021)"
+	revision: "39"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -28,6 +28,10 @@ inherit
 	EL_MODULE_HTML
 
 	EL_MODULE_IP_ADDRESS
+
+	EL_SHARED_IP_ADDRESS_INFO_TABLE
+
+	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
 feature -- Basic operations
 
@@ -239,13 +243,24 @@ feature -- Tests
 				"covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string",
 				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info"
 		local
-			table: EL_IP_ADDRESS_INFO_TABLE; info: EL_IP_ADDRESS_INFO
+			info: EL_IP_ADDRESS_INFO; ip_number: NATURAL
 		do
-			create table.make
-			info := table.item (IP_address.to_number (www_eiffel_loop_com))
-			assert ("same string", info.location.same_string ("United Kingdom, England"))
+			ip_number := IP_address.to_number (www_eiffel_loop_com)
+			info := Internet_address.item (ip_number)
+			assert ("same asn code", info.asn.same_as ("AS8560"))
+			assert ("same location", info.location.same_string ("United Kingdom, England"))
 			assert ("same ip", info.ip ~ Www_eiffel_loop_com)
 			assert ("same area", info.country_area.to_integer_32 = 244820)
+			assert ("same country", info.country.same_as ("GB"))
+			assert ("same country code", info.country_code.same_as ("GB"))
+			assert ("same 3 letter country code", info.country_code_iso3.same_as ("GBR"))
+			assert ("same top level domain", info.country_tld.same_as (".uk"))
+			assert ("same continent", info.continent_code.same_as ("EU"))
+			assert ("same currency", info.currency.same_as ("GBP"))
+			assert ("same location", info.location ~ IP_location.item (ip_number))
+			assert ("same region code", info.region_code.same_as ("ENG"))
+			assert ("same UTC offset", info.utc_offset.same_as ("+0100"))
+			assert ("same version", info.version.same_as ("IPv4"))
 		end
 
 	test_url_encoded

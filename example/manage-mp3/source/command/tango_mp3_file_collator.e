@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 8:47:34 GMT (Sunday 19th April 2020)"
-	revision: "12"
+	date: "2021-10-14 11:03:43 GMT (Thursday 14th October 2021)"
+	revision: "13"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 				Result := mp3_path.base_sans_extension
 			end
 			-- Remove numbers and other rubbish from start
-			from until Result.is_empty or else Result.unicode_item (1).is_alpha loop
+			from until Result.is_empty or else Result.item (1).is_alpha loop
 				Result.remove_head (1)
 			end
 			Result.replace_character ('_', ' ')

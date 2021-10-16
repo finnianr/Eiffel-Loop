@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 9:15:27 GMT (Thursday 13th May 2021)"
-	revision: "17"
+	date: "2021-10-14 10:41:35 GMT (Thursday 14th October 2021)"
+	revision: "18"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -221,8 +221,6 @@ feature {NONE} -- Evolicity fields
 		end
 
 feature {NONE} -- Building from XML
-
-	Root_node_name: STRING = "DJ-event"
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do

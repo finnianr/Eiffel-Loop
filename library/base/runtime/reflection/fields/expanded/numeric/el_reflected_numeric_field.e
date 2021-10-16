@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-28 11:51:29 GMT (Tuesday 28th September 2021)"
-	revision: "25"
+	date: "2021-10-16 11:11:49 GMT (Saturday 16th October 2021)"
+	revision: "26"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -37,12 +37,6 @@ feature -- Basic operations
 			else
 				set_directly (a_object, string)
 			end
-		end
-
-feature -- Conversion
-
-	as_reference (a_object: EL_REFLECTIVE): NUMERIC
-		deferred
 		end
 
 feature {NONE} -- Implementation

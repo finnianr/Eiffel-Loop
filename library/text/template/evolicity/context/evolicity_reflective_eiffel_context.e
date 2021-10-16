@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-28 11:55:10 GMT (Tuesday 28th September 2021)"
-	revision: "5"
+	date: "2021-10-16 11:12:08 GMT (Saturday 16th October 2021)"
+	revision: "6"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			table := field_table
 			if table.has_key (key) then
 				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.found_item as field then
-					Result := field.as_reference (current_reflective)
+					Result := field.reference_value (current_reflective)
 				else
 					Result := table.found_item.reference_value (current_reflective)
 					if attached {READABLE_STRING_GENERAL} Result as general then

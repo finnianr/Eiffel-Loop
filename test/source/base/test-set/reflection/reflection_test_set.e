@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-08 11:35:07 GMT (Tuesday 8th June 2021)"
-	revision: "18"
+	date: "2021-10-16 17:21:43 GMT (Saturday 16th October 2021)"
+	revision: "19"
 
 class
 	REFLECTION_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_EIFFEL
 
 	EL_MODULE_TUPLE
 
@@ -30,10 +32,11 @@ feature -- Basic operations
 		do
 			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
 			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
+			eval.call ("field_representation", agent test_field_representation)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
+			eval.call ("size_reporting", agent test_size_reporting)
 			eval.call ("reflection", agent test_reflection)
-			eval.call ("field_representation", agent test_field_representation)
 		end
 
 feature -- Tests
@@ -109,6 +112,21 @@ feature -- Tests
 			end
 			create object.make (table)
 			assert ("table ~ object.data_export", table ~ object.data_export)
+		end
+
+	test_size_reporting
+		local
+			ip_info: EL_IP_ADDRESS_INFO
+			c_64: EL_CODE_64; n_64: INTEGER_64; l_info: INFO
+		do
+			lio.put_integer_field ("size of INTEGER_64", Eiffel.physical_size (n_64))
+			lio.put_new_line
+			lio.put_integer_field ("size of EL_CODE_64", Eiffel.physical_size (c_64))
+			lio.put_new_line
+
+			create l_info
+			lio.put_integer_field ("size of INFO", Eiffel.physical_size (l_info))
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation

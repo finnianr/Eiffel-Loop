@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 17:13:28 GMT (Sunday 15th August 2021)"
-	revision: "45"
+	date: "2021-10-16 14:58:12 GMT (Saturday 16th October 2021)"
+	revision: "47"
 
 deferred class
 	EL_REFLECTIVE
@@ -59,6 +59,18 @@ feature -- Access
 	field_name_list: EL_STRING_LIST [STRING]
 		do
 			Result := meta_data.field_list.name_list
+		end
+
+	deep_physical_size: INTEGER
+		-- deep physical size excluding the `field_table' which is shared across objects of
+		-- the same type
+		do
+			Result := Eiffel.physical_size (Current)
+			across field_table as table loop
+				if attached table.item as field then
+					Result := Result + field.deep_physical_size (Current)
+				end
+			end
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Access

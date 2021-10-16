@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-10 7:14:43 GMT (Thursday 10th June 2021)"
-	revision: "9"
+	date: "2021-10-14 14:09:09 GMT (Thursday 14th October 2021)"
+	revision: "10"
 
 class
 	GENERAL_TEST_SET
@@ -29,6 +29,7 @@ feature -- Basic operations
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
+			eval.call ("numeric_code", agent test_numeric_code)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
 		end
 
@@ -97,6 +98,24 @@ feature -- Tests
 			assert ("not equal within 1 percent", not math.approximately_equal (168, 170, 0.01))
 		end
 
+	test_numeric_code
+		local
+			code_16: EL_CODE_16; code_32: EL_CODE_32; code_64: EL_CODE_64
+			code_str: STRING
+		do
+			code_str := "ab"
+			code_16.set (code_str)
+			assert ("same string", code_16.out ~ code_str)
+
+			code_str.multiply (2)
+			code_32.set (code_str)
+			assert ("same string", code_32.out ~ code_str)
+
+			code_str.multiply (2)
+			code_64.set (code_str)
+			assert ("same string", code_64.out ~ code_str)
+		end
+
 	test_reverse_managed_pointer
 		local
 			ptr: MANAGED_POINTER; reverse_ptr: EL_REVERSE_MANAGED_POINTER
@@ -120,11 +139,6 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Gobo_base_64: GOBO_BASE_64_ROUTINES
-		once
-			create Result
-		end
-
 	Base_64_data: STRING
 		once
 			Result := Base_64.joined ("[
@@ -134,4 +148,10 @@ feature {NONE} -- Constants
 				jxw4uSuCTvZtxyORmhrB4u6nwMPDx8Rq7ECzpMAGxsVFZh959BvwmtXhR7vs3tTYRZ7YBTwLopkCuhlGQXMQ==
 			]")
 		end
+
+	Gobo_base_64: GOBO_BASE_64_ROUTINES
+		once
+			create Result
+		end
+
 end

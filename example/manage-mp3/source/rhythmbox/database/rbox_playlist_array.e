@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:22:07 GMT (Monday 8th February 2021)"
-	revision: "13"
+	date: "2021-10-14 10:37:50 GMT (Thursday 14th October 2021)"
+	revision: "14"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -95,8 +95,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Build from XML
-
-	Root_node_name: STRING = "rhythmdb-playlists"
 
 	build_playlist
 			--

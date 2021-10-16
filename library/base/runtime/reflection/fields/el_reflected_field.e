@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 13:59:51 GMT (Saturday 14th August 2021)"
-	revision: "35"
+	date: "2021-10-16 15:06:54 GMT (Saturday 16th October 2021)"
+	revision: "36"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -18,7 +18,9 @@ inherit
 		rename
 			make as make_reflected,
 			is_expanded as is_current_expanded,
-			class_name as object_class_name
+			class_name as object_class_name,
+			physical_size as object_physical_size,
+			deep_physical_size as deep_object_physical_size
 		export
 			{NONE} all
 		redefine
@@ -78,6 +80,11 @@ feature -- Access
 
 	type_id: INTEGER
 		-- generating type
+
+	deep_physical_size (a_object: EL_REFLECTIVE): INTEGER
+		do
+			Result := Eiffel.deep_physical_size (value (a_object))
+		end
 
 	value (a_object: EL_REFLECTIVE): ANY
 		deferred

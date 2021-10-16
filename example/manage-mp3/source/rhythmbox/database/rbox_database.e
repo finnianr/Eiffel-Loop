@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:58:14 GMT (Saturday 27th March 2021)"
-	revision: "37"
+	date: "2021-10-14 11:05:12 GMT (Thursday 14th October 2021)"
+	revision: "38"
 
 class
 	RBOX_DATABASE
@@ -73,7 +73,7 @@ feature {NONE} -- Initialization
 	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
 			--
 		local
-			playlist: DJ_EVENT_PLAYLIST; xml: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
+			playlist: DJ_EVENT_PLAYLIST; xml_text: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
 			song_count: INTEGER
 		do
 			make_solitary
@@ -87,13 +87,13 @@ feature {NONE} -- Initialization
 			lio.put_new_line
 
 			if a_xml_database_path.exists then
-				xml := File_system.raw_plain_text (a_xml_database_path)
+				xml_text := File_system.raw_plain_text (a_xml_database_path)
 			else
-				xml := Default_xml
+				xml_text := Default_xml
 			end
-			create entry_occurences.make (xml, "<entry type=")
+			create entry_occurences.make (xml_text, "<entry type=")
 			from entry_occurences.start until entry_occurences.after loop
-				if xml [entry_occurences.item_upper + 2] = 's' then
+				if xml_text [entry_occurences.item_upper + 2] = 's' then
 					song_count := song_count + 1
 				end
 				entry_occurences.forth
@@ -109,7 +109,7 @@ feature {NONE} -- Initialization
 			File_system.make_directory (dj_playlist_dir)
 
 			make_from_file (a_xml_database_path)
-			build_from_string (xml)
+			build_from_string (xml_text)
 			set_encoding_from_name (node_source.encoding_name)
 			lio.put_new_line
 
@@ -590,8 +590,6 @@ feature {NONE} -- Build from XML
 				end
 			end
 		end
-
-	Root_node_name: STRING = "rhythmdb"
 
 feature {NONE} -- Constants
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-28 11:00:35 GMT (Monday 28th June 2021)"
-	revision: "1"
+	date: "2021-10-13 15:15:08 GMT (Wednesday 13th October 2021)"
+	revision: "2"
 
 class
 	EL_MIRROR_BACKUP

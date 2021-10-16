@@ -6,35 +6,20 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 11:18:23 GMT (Wednesday 13th October 2021)"
-	revision: "1"
+	date: "2021-10-16 14:36:12 GMT (Saturday 16th October 2021)"
+	revision: "3"
 
 class
 	EL_IP_ADDRESS_INFO
 
 inherit
-	EL_REFLECTIVELY_SETTABLE
-		rename
-			field_included as is_any_field,
-			export_name as export_default,
-			import_name as import_default
-		end
-
-	EL_SETTABLE_FROM_JSON_STRING
+	EL_IP_ADDRESS_GEOLOCATION
 		redefine
 			set_json_field
 		end
 
 create
 	make_default, make_from_json
-
-feature -- Access
-
-	location: ZSTRING
-		-- country and region
-		do
-			Result := country_name + Separator + region
-		end
 
 feature -- API numeric fields
 
@@ -57,16 +42,16 @@ feature -- API boolean fields
 
 feature -- API string fields
 
-	asn: STRING
+	asn: EL_CODE_64
 		-- autonomous system number
 
 	city: ZSTRING
 		-- city name
 
-	continent_code: STRING
+	continent_code: EL_CODE_16
 		-- continent code
 
-	country: STRING
+	country: EL_CODE_16
 		-- country code (2 letter, ISO 3166-1 alpha-2)
 
 	country_calling_code: STRING
@@ -75,19 +60,16 @@ feature -- API string fields
 	country_capital: ZSTRING
 		-- capital of the country
 
-	country_code: STRING
+	country_code: EL_CODE_16
 		-- country code (2 letter, ISO 3166-1 alpha-2)
 
-	country_code_iso3: STRING
+	country_code_iso3: EL_CODE_32
 		-- country code (3 letter, ISO 3166-1 alpha-3)
 
-	country_name: ZSTRING
-		-- short country name
-
-	country_tld: STRING
+	country_tld: EL_CODE_32
 		-- country specific TLD (top-level domain)
 
-	currency: STRING
+	currency: EL_CODE_32
 		-- currency code (ISO 4217)
 
 	currency_name: ZSTRING
@@ -105,19 +87,16 @@ feature -- API string fields
 	postal: STRING
 		-- postal code / zip code
 
-	region: ZSTRING
-		-- region name (administrative division)
-
-	region_code: STRING
+	region_code: EL_CODE_32
 		-- region code
 
 	timezone: ZSTRING
 		-- timezone (IANA format i.e. “Area/Location”)
 
-	utc_offset: STRING
+	utc_offset: EL_CODE_64
 		-- UTC offset as +HHMM or -HHMM (HH is hours, MM is minutes)
 
-	version: STRING
+	version: EL_CODE_64
 
 feature {NONE} -- Implementation
 
@@ -136,11 +115,6 @@ feature {NONE} -- Constants
 	Natural_fields: EL_FIELD_INDICES_SET
 		once
 			Result := new_field_indices_set ("country_area, country_population")
-		end
-
-	Separator: ZSTRING
-		once
-			Result := ", "
 		end
 
 end

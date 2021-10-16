@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-19 12:55:51 GMT (Sunday 19th September 2021)"
-	revision: "11"
+	date: "2021-10-13 13:03:12 GMT (Wednesday 13th October 2021)"
+	revision: "12"
 
 deferred class
 	DUPLICITY_CONFIG

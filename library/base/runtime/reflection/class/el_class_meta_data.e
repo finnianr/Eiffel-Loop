@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 13:47:16 GMT (Monday 24th May 2021)"
-	revision: "45"
+	date: "2021-10-16 14:02:12 GMT (Saturday 16th October 2021)"
+	revision: "46"
 
 class
 	EL_CLASS_META_DATA
@@ -45,6 +45,8 @@ inherit
 	EL_SHARED_NEW_INSTANCE_TABLE
 
 	EL_SHARED_READER_WRITER_TABLE
+
+	EL_SHARED_CLASS_ID
 
 create
 	make
@@ -147,6 +149,25 @@ feature {NONE} -- Factory
 			Result := field_list.ordered_by (agent {EL_REFLECTED_FIELD}.name, True)
 		end
 
+	new_expanded_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
+		local
+			type_id: INTEGER
+		do
+			type_id := field_static_type (index)
+			if type_id = Class_id.EL_CODE_16 then
+				create {EL_REFLECTED_CODE_16} Result.make (enclosing_object, index, name)
+
+			elseif type_id = Class_id.EL_CODE_32 then
+				create {EL_REFLECTED_CODE_32} Result.make (enclosing_object, index, name)
+
+			elseif type_id = Class_id.EL_CODE_64 then
+				create {EL_REFLECTED_CODE_64} Result.make (enclosing_object, index, name)
+
+			else
+				create {EL_REFLECTED_REFERENCE [ANY]} Result.make (enclosing_object, index, name)
+			end
+		end
+
 	new_field_factory (type: TYPE [EL_REFLECTED_FIELD]): EL_REFLECTED_FIELD_FACTORY [EL_REFLECTED_FIELD]
 		do
 			if attached {like new_field_factory} Eiffel.new_factory_instance ({like new_field_factory}, type) as new then
@@ -235,10 +256,14 @@ feature {NONE} -- Factory
 			type: INTEGER
 		do
 			type := field_type (index)
-			if type = Reference_type then
-				Result := new_reference_field (index, name)
+			inspect type
+				when Reference_type then
+					Result := new_reference_field (index, name)
+
+				when Expanded_type then
+					Result := new_expanded_field (index, name)
 			else
-				Result := new_reflected_field_for_type (Expanded_field_types [type], index, name)
+				Result := new_reflected_field_for_type (Standard_field_types [type], index, name)
 			end
 		end
 
@@ -304,7 +329,8 @@ feature {NONE} -- Constants
 			>>
 		end
 
-	frozen Expanded_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
+	frozen Standard_field_types: ARRAY [TYPE [EL_REFLECTED_FIELD]]
+		-- standard expanded types
 		once
 			create Result.make_filled ({EL_REFLECTED_CHARACTER_8}, 0, 16)
 				-- Characters

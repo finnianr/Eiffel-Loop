@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-28 11:53:01 GMT (Tuesday 28th September 2021)"
-	revision: "17"
+	date: "2021-10-16 11:14:03 GMT (Saturday 16th October 2021)"
+	revision: "18"
 
 class
 	EL_REFLECTED_NATURAL_16
@@ -21,17 +21,9 @@ inherit
 create
 	make
 
-feature -- Access
-
-	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
-		do
-			create Result
-			Result.set_item (value (a_object))
-		end
-
 feature -- Conversion
 
-	as_reference (a_object: EL_REFLECTIVE): NATURAL_16_REF
+	reference_value (a_object: EL_REFLECTIVE): NATURAL_16_REF
 		do
 			Result := value (a_object).to_reference
 		end
