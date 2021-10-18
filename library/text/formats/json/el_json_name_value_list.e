@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 10:44:46 GMT (Saturday 16th October 2021)"
-	revision: "10"
+	date: "2021-10-18 13:20:34 GMT (Monday 18th October 2021)"
+	revision: "11"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -58,7 +58,7 @@ feature -- Iteration items
 
 	item: like item_for_iteration
 		do
-			Result := [name_item (False), value_item]
+			Result := [name_item (True), value_item (True)]
 		end
 
 	name_item (keep_ref: BOOLEAN): ZSTRING
@@ -90,28 +90,31 @@ feature -- Iteration items
 			end
 		end
 
-	value_item: ZSTRING
+	value_item (keep_ref: BOOLEAN): ZSTRING
+		-- append item value to `str'
 		local
 			line: ZSTRING; pos_colon, pos_quote: INTEGER
 		do
+			Result := Buffer.empty
 			split_list.go_i_th (index)
 			line := split_list.item (False)
 			pos_colon := line.index_of (':', 1)
 			if pos_colon > 0 then
 				pos_quote := line.index_of ('"', pos_colon + 1)
 				if pos_quote > 0 then
-					Result := line.substring (pos_quote + 1, line.last_index_of ('"', line.count) - 1)
+					Result.append_substring (line, pos_quote + 1, line.last_index_of ('"', line.count) - 1)
 
 				elseif line.valid_index (pos_colon + 1) and then line.is_space_item (pos_colon + 1) then
-					Result := line.substring_end (pos_colon + 2)
+					Result.append_substring (line, pos_colon + 2, line.count)
 					Result.prune_all_trailing (',')
 				else
-					Result := line.substring_end (pos_colon + 1)
+					Result.append_substring (line, pos_colon + 1, line.count)
 					Result.prune_all_trailing (',')
 				end
 				Result.unescape (Unescaper)
-			else
-				create Result.make_empty
+			end
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 

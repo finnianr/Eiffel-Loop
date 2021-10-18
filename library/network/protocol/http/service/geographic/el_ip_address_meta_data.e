@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 11:37:42 GMT (Monday 18th October 2021)"
-	revision: "1"
+	date: "2021-10-18 13:37:25 GMT (Monday 18th October 2021)"
+	revision: "2"
 
 class
 	EL_IP_ADDRESS_META_DATA
@@ -34,6 +34,11 @@ feature -- Codes
 
 feature -- Measurement
 
+	country_area: REAL
+		do
+			Result := real_value (Field.country_area)
+		end
+
 	country_population: NATURAL
 		do
 			Result := natural_value (Field.country_population)
@@ -47,6 +52,14 @@ feature -- Measurement
 	longitude: REAL
 		do
 			Result := real_value (Field.longitude)
+		end
+
+feature -- Status query
+
+	in_eu: BOOLEAN
+		-- whether IP address belongs to a country that is a member of the European Union (EU)
+		do
+			Result := boolean_value (Field.in_eu)
 		end
 
 feature -- String

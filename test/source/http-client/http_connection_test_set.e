@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 10:33:04 GMT (Monday 18th October 2021)"
-	revision: "40"
+	date: "2021-10-18 13:21:31 GMT (Monday 18th October 2021)"
+	revision: "41"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -386,7 +386,7 @@ feature {NONE} -- Factory
 			create pair_list.make (json_data)
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
-				if attached pair_list.value_item as value and then value /~ s.character_string ('{') then
+				if attached pair_list.value_item (True) as value and then value /~ s.character_string ('{') then
 					Result.set_string (pair_list.name_item (True), value)
 				end
 				pair_list.forth

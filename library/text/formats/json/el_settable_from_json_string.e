@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 11:00:01 GMT (Wednesday 13th October 2021)"
-	revision: "21"
+	date: "2021-10-18 13:21:31 GMT (Monday 18th October 2021)"
+	revision: "22"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -88,7 +88,7 @@ feature -- Element change
 			table := field_table
 			from json_list.start until json_list.after loop
 				if table.has_imported (json_list.name_item_8 (False), current_reflective) then
-					set_json_field (table.found_item, json_list.value_item)
+					set_json_field (table.found_item, json_list.value_item (False))
 				end
 				json_list.forth
 			end

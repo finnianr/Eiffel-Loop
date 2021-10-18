@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 11:49:26 GMT (Monday 18th October 2021)"
-	revision: "1"
+	date: "2021-10-18 13:35:07 GMT (Monday 18th October 2021)"
+	revision: "2"
 
 class
 	EL_JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 					if field.is_valid_name (name) then
 						text_count := text.count
 						field_index := field.value (name)
-						text.append (field_list.value_item)
+						text.append (field_list.value_item (False))
 						put_i_th (text_count + 1, text.count, field_index)
 					end
 					field_list.forth
@@ -87,6 +87,13 @@ feature {NONE} -- Implementation
 
 	buffer_8: EL_STRING_8_BUFFER_ROUTINES
 		do
+		end
+
+	boolean_value (i: NATURAL_16): BOOLEAN
+		require
+			valid_index: valid_index (i)
+		do
+			Result := buffer_string_value (i).to_boolean
 		end
 
 	real_32_value, real_value (i: NATURAL_16): REAL

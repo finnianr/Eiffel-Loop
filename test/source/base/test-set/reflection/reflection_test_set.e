@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 11:34:32 GMT (Monday 18th October 2021)"
-	revision: "21"
+	date: "2021-10-18 13:31:11 GMT (Monday 18th October 2021)"
+	revision: "22"
 
 class
 	REFLECTION_TEST_SET
@@ -33,7 +33,6 @@ feature -- Basic operations
 			eval.call ("arrayed_list_initialization", agent test_arrayed_list_initialization)
 			eval.call ("default_tuple_initialization", agent test_default_tuple_initialization)
 			eval.call ("field_representation", agent test_field_representation)
-			eval.call ("ip_address_meta_data", agent test_ip_address_meta_data)
 			eval.call ("object_initialization_from_camel_case_table", agent test_object_initialization_from_camel_case_table)
 			eval.call ("object_initialization_from_table", agent test_object_initialization_from_table)
 			eval.call ("reflection", agent test_reflection)
@@ -72,26 +71,6 @@ feature -- Tests
 		do
 			representation := Currency_enum.to_representation
 			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
-		end
-
-	test_ip_address_meta_data
-		local
-			meta_data: EL_IP_ADDRESS_META_DATA
-		do
-			create meta_data.make (Eiffel_loop_ip_json)
-			assert ("same asn", meta_data.asn ~ "AS8560")
-			assert ("same country", meta_data.country ~ "GB")
-
-			assert ("same city", meta_data.city.same_string ("Kensington"))
-			assert ("same country_name", meta_data.country_name.same_string ("United Kingdom"))
-			assert ("same region", meta_data.region.same_string ("England"))
-
-			assert ("same country_population", meta_data.country_population = 66488991)
-			assert ("same latitude", meta_data.latitude = 51.4957)
-			assert ("same longitude", meta_data.longitude = -0.1772)
-
-			lio.put_integer_field ("meta_data size in RAM", meta_data.physical_size)
-			lio.put_new_line
 		end
 
 	test_object_initialization_from_camel_case_table
@@ -214,36 +193,5 @@ feature {NONE} -- Constants
 					YES
 			]")
 		end
-
-	Eiffel_loop_ip_JSON: STRING = "[
-		{
-		    "ip": "77.68.64.12",
-		    "version": "IPv4",
-		    "city": "Kensington",
-		    "region": "England",
-		    "region_code": "ENG",
-		    "country": "GB",
-		    "country_name": "United Kingdom",
-		    "country_code": "GB",
-		    "country_code_iso3": "GBR",
-		    "country_capital": "London",
-		    "country_tld": ".uk",
-		    "continent_code": "EU",
-		    "in_eu": false,
-		    "postal": "SW7",
-		    "latitude": 51.4957,
-		    "longitude": -0.1772,
-		    "timezone": "Europe/London",
-		    "utc_offset": "+0100",
-		    "country_calling_code": "+44",
-		    "currency": "GBP",
-		    "currency_name": "Pound",
-		    "languages": "en-GB,cy-GB,gd",
-		    "country_area": 244820.0,
-		    "country_population": 66488991,
-		    "asn": "AS8560",
-		    "org": "IONOS SE"
-		}
-	]"
 
 end

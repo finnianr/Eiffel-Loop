@@ -9,15 +9,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 10:42:52 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2021-10-18 13:28:30 GMT (Monday 18th October 2021)"
+	revision: "6"
 
 class
 	AIA_OPERATION
 
 inherit
 	ANY
-	
+
 	EL_MODULE_NAMING
 
 create
@@ -26,11 +26,14 @@ create
 feature {NONE} -- Initialization
 
 	make (string: STRING)
+		local
+			name_value: ZSTRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			create json_list.make (string)
 			json_list.start
-			create name.make (json_list.value_item.count)
-			Naming.from_camel_case (json_list.value_item, name)
+			name_value := json_list.value_item (False)
+			create name.make (name_value.count)
+			Naming.from_camel_case (buffer.copied (name_value), name)
 			json_list.forth
 		end
 
