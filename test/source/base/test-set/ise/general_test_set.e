@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 14:09:09 GMT (Thursday 14th October 2021)"
-	revision: "10"
+	date: "2021-10-17 13:06:15 GMT (Sunday 17th October 2021)"
+	revision: "11"
 
 class
 	GENERAL_TEST_SET
@@ -100,20 +100,19 @@ feature -- Tests
 
 	test_numeric_code
 		local
-			code_16: EL_CODE_16; code_32: EL_CODE_32; code_64: EL_CODE_64
-			code_str: STRING
+			code_string: EL_CODE_STRING; string: STRING
 		do
-			code_str := "ab"
-			code_16.set (code_str)
-			assert ("same string", code_16.out ~ code_str)
+			string := "ab"
+			code_string.set (string)
+			assert ("same string", code_string.out ~ string)
 
-			code_str.multiply (2)
-			code_32.set (code_str)
-			assert ("same string", code_32.out ~ code_str)
+			string.multiply (2)
+			code_string.set (string)
+			assert ("same string", code_string.out ~ string)
 
-			code_str.multiply (2)
-			code_64.set (code_str)
-			assert ("same string", code_64.out ~ code_str)
+			string.multiply (2)
+			code_string.set (string)
+			assert ("same string", code_string.out ~ string)
 		end
 
 	test_reverse_managed_pointer

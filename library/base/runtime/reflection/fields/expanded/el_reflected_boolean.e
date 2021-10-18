@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
-	revision: "15"
+	date: "2021-10-17 13:00:24 GMT (Sunday 17th October 2021)"
+	revision: "16"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -29,6 +29,12 @@ feature -- Access
 		do
 			create Result
 			Result.set_item (value (a_object))
+		end
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
+		do
+			Result := {PLATFORM}.boolean_bytes
 		end
 
 feature -- Basic operations

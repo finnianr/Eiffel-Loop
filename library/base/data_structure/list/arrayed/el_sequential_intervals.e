@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 17:43:52 GMT (Thursday 4th March 2021)"
-	revision: "7"
+	date: "2021-10-18 10:50:06 GMT (Monday 18th October 2021)"
+	revision: "8"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -22,7 +22,8 @@ inherit
 	EL_ARRAYED_LIST [INTEGER_64]
 		rename
 			extend as item_extend,
-			replace as item_replace
+			replace as item_replace,
+			put_i_th as put_i_th_interval
 		redefine
 			out
 		end
@@ -245,6 +246,13 @@ feature -- Element change
 					extend (a_upper, a_upper)
 				end
 			end
+		end
+
+	put_i_th (a_lower, a_upper, i: INTEGER)
+		require
+			valid_index: valid_index (i)
+		do
+			put_i_th_interval (a_lower.to_integer_64 |<< 32 | a_upper, i)
 		end
 
 	replace (a_lower, a_upper: INTEGER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 11:14:44 GMT (Saturday 16th October 2021)"
-	revision: "18"
+	date: "2021-10-17 12:57:59 GMT (Sunday 17th October 2021)"
+	revision: "19"
 
 class
 	EL_REFLECTED_NATURAL_8
@@ -26,6 +26,12 @@ feature -- Conversion
 	reference_value (a_object: EL_REFLECTIVE): NATURAL_8_REF
 		do
 			Result := value (a_object).to_reference
+		end
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
+		do
+			Result := {PLATFORM}.Natural_8_bytes
 		end
 
 feature -- Basic operations

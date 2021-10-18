@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 14:58:12 GMT (Saturday 16th October 2021)"
-	revision: "47"
+	date: "2021-10-17 12:53:36 GMT (Sunday 17th October 2021)"
+	revision: "48"
 
 deferred class
 	EL_REFLECTIVE
@@ -68,7 +68,7 @@ feature -- Access
 			Result := Eiffel.physical_size (Current)
 			across field_table as table loop
 				if attached table.item as field then
-					Result := Result + field.deep_physical_size (Current)
+					Result := Result + field.size_of (Current)
 				end
 			end
 		end

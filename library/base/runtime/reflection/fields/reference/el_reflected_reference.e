@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 9:29:57 GMT (Thursday 12th August 2021)"
-	revision: "28"
+	date: "2021-10-17 13:00:07 GMT (Sunday 17th October 2021)"
+	revision: "29"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -45,6 +45,12 @@ feature -- Access
 	generic_type: TYPE [ANY]
 		do
 			Result := {G}
+		end
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
+		do
+			Result := Eiffel.deep_physical_size (value (a_object))
 		end
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL

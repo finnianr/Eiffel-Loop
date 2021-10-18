@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:48:02 GMT (Thursday 14th October 2021)"
-	revision: "1"
+	date: "2021-10-18 10:56:20 GMT (Monday 18th October 2021)"
+	revision: "2"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION
@@ -40,7 +40,7 @@ feature -- Access
 feature -- API string fields
 
 	country_name: ZSTRING
-		-- short country name
+		-- country name
 
 	region: ZSTRING
 		-- region name (administrative division)

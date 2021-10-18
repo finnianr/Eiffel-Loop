@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 17:23:22 GMT (Saturday 16th October 2021)"
-	revision: "39"
+	date: "2021-10-18 10:33:04 GMT (Monday 18th October 2021)"
+	revision: "40"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -247,20 +247,23 @@ feature -- Tests
 		do
 			ip_number := IP_address.to_number (www_eiffel_loop_com)
 			info := Internet_address.item (ip_number)
-			assert ("same asn code", info.asn.same_as ("AS8560"))
+			assert ("same asn code", info.asn.same_string ("AS8560"))
 			assert ("same location", info.location.same_string ("United Kingdom, England"))
 			assert ("same ip", info.ip ~ Www_eiffel_loop_com)
 			assert ("same area", info.country_area.to_integer_32 = 244820)
-			assert ("same country", info.country.same_as ("GB"))
-			assert ("same country code", info.country_code.same_as ("GB"))
-			assert ("same 3 letter country code", info.country_code_iso3.same_as ("GBR"))
-			assert ("same top level domain", info.country_tld.same_as (".uk"))
-			assert ("same continent", info.continent_code.same_as ("EU"))
-			assert ("same currency", info.currency.same_as ("GBP"))
+			assert ("same country", info.country.same_string ("GB"))
+			assert ("same country code", info.country_code.same_string ("GB"))
+			assert ("same 3 letter country code", info.country_code_iso3.same_string ("GBR"))
+			assert ("same top level domain", info.country_tld.same_string (".uk"))
+			assert ("same continent", info.continent_code.same_string ("EU"))
+			assert ("same currency", info.currency.same_string ("GBP"))
 			assert ("same location", info.location ~ IP_location.item (ip_number))
-			assert ("same region code", info.region_code.same_as ("ENG"))
-			assert ("same UTC offset", info.utc_offset.same_as ("+0100"))
-			assert ("same version", info.version.same_as ("IPv4"))
+			assert ("same region code", info.region_code.same_string ("ENG"))
+			assert ("same UTC offset", info.utc_offset.same_string ("+0100"))
+			assert ("same version", info.version.same_string ("IPv4"))
+
+			lio.put_integer_field ("size of info", info.deep_physical_size)
+			lio.put_new_line
 		end
 
 	test_url_encoded

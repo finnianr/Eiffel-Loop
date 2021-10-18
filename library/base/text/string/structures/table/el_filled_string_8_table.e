@@ -1,25 +1,28 @@
 note
-	description: "Table of filled strings of type conforming to [$source READABLE_STRING_GENERAL]"
+	description: "Table of filled strings of type [$source STRING_8]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 10:37:22 GMT (Wednesday 6th October 2021)"
-	revision: "2"
+	date: "2021-10-17 12:23:37 GMT (Sunday 17th October 2021)"
+	revision: "3"
 
-deferred class
-	EL_FILLED_STRING_TABLE [STR -> READABLE_STRING_GENERAL]
+class
+	EL_FILLED_STRING_8_TABLE
 
 inherit
-	EL_FUNCTION_CACHE_TABLE [STR, TUPLE [uc: CHARACTER_32; n: INTEGER]]
+	EL_FUNCTION_CACHE_TABLE [STRING, TUPLE [c: CHARACTER; n: INTEGER]]
 		rename
 			make as make_cache,
 			item as result_item
 		export
 			{NONE} all
 		end
+
+create
+	make
 
 feature {NONE} -- Initialization
 
@@ -30,18 +33,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item (uc: CHARACTER_32; n: INTEGER): STR
+	item (c: CHARACTER; n: INTEGER): STRING
 		do
 			if attached argument_key as key then
-				key.uc := uc; key.n := n
+				key.c := c; key.n := n
 				Result := result_item (key)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_filled (uc: CHARACTER_32; n: INTEGER): STR
-		deferred
+	new_filled (c: CHARACTER; n: INTEGER): STRING
+		do
+			create Result.make_filled (c, n)
 		end
-
 end

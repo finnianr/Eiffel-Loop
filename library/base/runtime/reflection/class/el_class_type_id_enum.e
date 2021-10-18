@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-15 13:30:45 GMT (Friday 15th October 2021)"
-	revision: "9"
+	date: "2021-10-17 12:46:05 GMT (Sunday 17th October 2021)"
+	revision: "10"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -50,15 +50,9 @@ feature -- REAL types
 
 	REAL_64: INTEGER
 
-feature -- Code types
-
-	EL_CODE_16: INTEGER
-
-	EL_CODE_32: INTEGER
-
-	EL_CODE_64: INTEGER
-
 feature -- String types
+
+	EL_CODE_STRING: INTEGER
 
 	IMMUTABLE_STRING_8: INTEGER
 

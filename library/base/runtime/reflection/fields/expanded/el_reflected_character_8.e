@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 8:43:01 GMT (Wednesday 19th May 2021)"
-	revision: "18"
+	date: "2021-10-17 12:55:18 GMT (Sunday 17th October 2021)"
+	revision: "19"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -27,6 +27,12 @@ feature -- Access
 		do
 			create Result
 			Result.set_item (value (a_object))
+		end
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
+		do
+			Result := {PLATFORM}.Character_8_bytes
 		end
 
 feature -- Basic operations
