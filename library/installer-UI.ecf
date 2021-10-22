@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!---->
+<system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_installer_UI" uuid = "903AB180-331E-11EC-B0C1-6FAD2E2C9640" library_target = "EL_installer_UI">
+	<description>
+Installer Graphical User Interface
+
+A graphical user-interface for installing and uninstalling applications using
+Vision-2 and Vision-2-x components
+	</description>
+	<target name = "EL_installer_UI">
+		<root all_classes = "true"/>
+		<option namespace = "Eiffel-Loop.Library.Installer.UI" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
+			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+		</option>
+		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
+		<!--Eiffel Loop overrides-->
+		<library name = "vision2" location = "override/ES-vision2.ecf">
+			<option>
+				<assertions precondition = "false" postcondition = "false" check = "false" invariant = "false"/>
+			</option>
+		</library>
+		<!--Eiffel Loop-->
+		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_app_manage" location = "app-manage.ecf"/>
+		<library name = "EL_vision2_x" location = "vision2-x.ecf">
+			<option>
+				<assertions precondition = "true" postcondition = "true" check = "true" invariant = "false"/>
+			</option>
+		</library>
+		<!--Source code-->
+		<cluster name = "installer_ui" location = "graphic/toolkit/installer" recursive = "true"/>
+	</target>
+</system>

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:54:22 GMT (Sunday 17th October 2021)"
-	revision: "37"
+	date: "2021-10-19 12:15:45 GMT (Tuesday 19th October 2021)"
+	revision: "38"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -49,8 +49,7 @@ feature {EL_CLASS_META_DATA} -- Initialization
 feature -- Access
 
 	category_id: INTEGER
-		-- abstract type of field corresponding to `{TUPLE}.XX_code'
-		-- eg. `{TUPLE}.reference_code'
+		-- abstract type of field corresponding to `REFLECTOR_CONSTANTS' type constants
 		do
 			Result := field_type (index)
 		end

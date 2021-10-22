@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:28:30 GMT (Monday 18th October 2021)"
-	revision: "6"
+	date: "2021-10-18 13:43:32 GMT (Monday 18th October 2021)"
+	revision: "7"
 
 class
 	AIA_OPERATION

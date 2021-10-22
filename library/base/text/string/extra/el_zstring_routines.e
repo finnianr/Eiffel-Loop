@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 12:42:44 GMT (Monday 4th October 2021)"
-	revision: "22"
+	date: "2021-10-22 13:00:28 GMT (Friday 22nd October 2021)"
+	revision: "23"
 
 expanded class
 	EL_ZSTRING_ROUTINES
@@ -77,6 +77,27 @@ feature -- Conversion
 				i := i - 1
 			end
 			Result.mirror
+		end
+
+	new_paragraph_list (text: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		-- `text' lines joined together as paragraphs with
+		-- an empty line interpreted as a paragraph delimiter
+		local
+			lines, sub_list: EL_ZSTRING_LIST
+		do
+			create lines.make_with_lines (text)
+
+			create Result.make (lines.count_of (agent {ZSTRING}.is_empty) + 1)
+			create sub_list.make (lines.count // Result.capacity + 1)
+			across lines as l loop
+				if not l.item.is_empty then
+					sub_list.extend (l.item)
+				end
+				if l.item.is_empty or l.is_last then
+					Result.extend (sub_list.joined (' '))
+					sub_list.wipe_out
+				end
+			end
 		end
 
 	new_zstring (general: READABLE_STRING_GENERAL): ZSTRING

@@ -10,14 +10,15 @@ note
 		
 		Logging is active by default
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 10:37:42 GMT (Wednesday 15th September 2021)"
-	revision: "12"
+	date: "2021-10-18 16:48:34 GMT (Monday 18th October 2021)"
+	revision: "13"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -148,4 +149,34 @@ feature {NONE} -- Constants
 
 	Test_prefix: STRING = "test_"
 
+note
+	descendants: "[
+			EL_AUTOTEST_SUB_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
+				[$source AMAZON_INSTANT_ACCESS_AUTOTEST_APP]
+				[$source BASE_AUTOTEST_APP]
+				[$source COMPRESSION_AUTOTEST_APP]
+				[$source CURRENCY_AUTOTEST_APP]
+				[$source ENCRYPTION_AUTOTEST_APP]
+				[$source HTTP_CLIENT_AUTOTEST_APP]
+				[$source THUNDERBIRD_AUTOTEST_APP]
+				[$source MULTIMEDIA_AUTOTEST_APP]
+				[$source OS_COMMAND_AUTOTEST_APP]
+				[$source PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP]
+				[$source PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP]
+				[$source SEARCH_ENGINE_AUTOTEST_APP]
+				[$source TEXT_PROCESS_AUTOTEST_APP]
+				[$source EROS_AUTOTEST_APP]
+				[$source EL_REGRESSION_AUTOTEST_SUB_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
+					[$source NETWORK_AUTOTEST_APP]
+					[$source ECO_DB_AUTOTEST_APP]
+					[$source EVOLICITY_AUTOTEST_APP]
+					[$source I18N_AUTOTEST_APP]
+					[$source IMAGE_UTILS_AUTOTEST_APP]
+					[$source OPEN_OFFICE_AUTOTEST_APP]
+					[$source PYXIS_SCAN_AUTOTEST_APP]
+					[$source TAGLIB_AUTOTEST_APP]
+					[$source VTD_XML_AUTOTEST_APP]
+					[$source XML_SCAN_AUTOTEST_APP]
+					[$source TEXT_FORMATS_AUTOTEST_APP]
+	]"
 end

@@ -3,7 +3,7 @@ note
 		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
-	tests: "Class [$source REFLECTIVE_TEST_SET]"
+	tests: "Class [$source JSON_PARSING_TEST_SET]"
 	descendants: "[
 		The following example implementations are from the Amazon Instant Access API for Eiffel.
 
@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:21:31 GMT (Monday 18th October 2021)"
-	revision: "22"
+	date: "2021-10-19 12:17:39 GMT (Tuesday 19th October 2021)"
+	revision: "23"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -42,6 +42,8 @@ inherit
 
 	EL_MODULE_NAMING
 
+	EL_MODULE_TUPLE
+
 feature {NONE} -- Initialization
 
 	make_from_json (utf_8: STRING)
@@ -53,27 +55,25 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	as_json: ZSTRING
-		local
-			table: like field_table; is_first: BOOLEAN
-			field: TUPLE [name: STRING; value: ZSTRING]
 		do
-			field := [create {STRING}.make (0), Empty_string]
-
 			if attached String_pool.new_scope as pool and then attached pool.reuse_item as str then
-				str.append_string_general (once "{%N")
-				table := field_table
-				from is_first := True; table.start until table.after loop
-					if is_first then
-						is_first := False
-					else
-						str.append_string_general (once ",%N")
+				str.append (JSON.open_bracket)
+				across field_table as table loop
+					if not table.is_first then
+						str.append (JSON.comma_new_line)
 					end
-					field.name := current_reflective.export_name (table.key_for_iteration, False)
-					field.value := Escaper.escaped (field_string (table.item_for_iteration), False)
-					str.append (Field_template #$ field)
-					table.forth
+					str.append (JSON.before_name)
+					str.append_string_general (current_reflective.export_name (table.key, False))
+					str.append (JSON.after_name)
+					if is_field_text (table.item) then
+						str.append_character ('"')
+						str.append (Escaper.escaped (field_string (table.item), False))
+						str.append_character ('"')
+					else
+						table.item.append_to_string (current_reflective, str)
+					end
 				end
-				str.append_string_general (once "%N}")
+				str.append (JSON.close_bracket)
 				create Result.make_from_other (str)
 				pool.recycle_end (str)
 			end
@@ -88,7 +88,7 @@ feature -- Element change
 			table := field_table
 			from json_list.start until json_list.after loop
 				if table.has_imported (json_list.name_item_8 (False), current_reflective) then
-					set_json_field (table.found_item, json_list.value_item (False))
+					set_json_field (table.found_item, json_list.value_item (True))
 				end
 				json_list.forth
 			end
@@ -101,6 +101,16 @@ feature {NONE} -- Implementation
 			field.set_from_string (current_reflective, json_value)
 		end
 
+	is_field_text (field: EL_REFLECTED_FIELD): BOOLEAN
+		do
+			inspect field.category_id
+				when {REFLECTOR_CONSTANTS}.Character_8_type, {REFLECTOR_CONSTANTS}.Character_32_type then
+					Result := True
+			else
+				Result := attached {EL_REFLECTED_REFERENCE [ANY]} field
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Escaper: EL_JSON_VALUE_ESCAPER
@@ -108,22 +118,11 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Export_tuple: TUPLE [name_in, name_out: STRING]
+	JSON: TUPLE [open_bracket, close_bracket, before_name, after_name, comma_new_line: ZSTRING]
 		once
-			Result := ["", ""]
-		end
-
-	Field_separator: ZSTRING
-		once
-			Result := ",%N"
-		end
-
-	Field_template: ZSTRING
-		once
-			Result := "[
-				"#": "#"
-			]"
-			Result.prepend_character ('%T')
+			create Result
+			Tuple.fill_adjusted (Result, "{%N,%N},%T%",%": ,%N", False)
+			Result.comma_new_line.insert_character (',', 1)
 		end
 
 end

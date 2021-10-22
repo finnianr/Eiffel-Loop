@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:37:25 GMT (Monday 18th October 2021)"
-	revision: "2"
+	date: "2021-10-19 21:11:51 GMT (Tuesday 19th October 2021)"
+	revision: "3"
 
 class
 	EL_IP_ADDRESS_META_DATA
@@ -17,6 +17,18 @@ inherit
 
 create
 	make
+
+feature -- Review
+
+	print_memory (lio: EL_LOGGABLE)
+		do
+			lio.put_integer_field ("Current size", Eiffel.physical_size (Current))
+			lio.put_new_line
+			lio.put_integer_field ("text_values size", Eiffel.deep_physical_size (text_values))
+			lio.put_new_line
+			lio.put_integer_field ("area_v2 size", Eiffel.deep_physical_size (area_v2))
+			lio.put_new_line
+		end
 
 feature -- Codes
 

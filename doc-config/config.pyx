@@ -73,6 +73,7 @@ publish-repository:
 		# Library Graphics
 		ecf:
 			"library/image-utils.ecf"
+			"library/installer-UI.ecf"
 			"library/html-viewer.ecf"
 			"library/vision2-x.ecf#container"
 			"library/vision2-x.ecf#extensions"

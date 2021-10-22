@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:42:13 GMT (Saturday 10th July 2021)"
-	revision: "15"
+	date: "2021-10-22 14:28:24 GMT (Friday 22nd October 2021)"
+	revision: "16"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Description: STRING
+	Description: ZSTRING
 		once
 			Result := "Installs the application"
 		end

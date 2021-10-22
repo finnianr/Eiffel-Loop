@@ -1,6 +1,7 @@
 note
 	description: "[
-		List of JSON parsed string value substring intervals indexed by shared field: [$source EL_ENUMERATION [NATURAL_16]]
+		List of JSON parsed string value substring intervals indexed by cached field:
+		[$source EL_ENUMERATION [NATURAL_16]]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:35:07 GMT (Monday 18th October 2021)"
-	revision: "2"
+	date: "2021-10-19 21:13:30 GMT (Tuesday 19th October 2021)"
+	revision: "3"
 
 class
 	EL_JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -58,8 +59,7 @@ feature {NONE} -- Initialization
 					field_list.forth
 				end
 				text_values := text.twin
-				pool.recycle (text)
-				pool.end_scope
+				pool.recycle_end (text)
 			end
 		end
 

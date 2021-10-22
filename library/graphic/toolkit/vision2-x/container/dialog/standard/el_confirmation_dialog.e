@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-23 11:26:08 GMT (Sunday 23rd August 2020)"
-	revision: "7"
+	date: "2021-10-22 11:12:01 GMT (Friday 22nd October 2021)"
+	revision: "8"
 
 class
 	EL_CONFIRMATION_DIALOG
@@ -20,7 +20,7 @@ inherit
 		export
 			{ANY} label
 		undefine
-			add_locale_button, locale_button, set_text
+			add_locale_button, locale_button, set_text, set_title
 		redefine
 			initialize, add_locale_button, locale_button
 		end
@@ -42,7 +42,6 @@ feature {NONE} -- Initialization
 			-- Initialize `Current'.
 		do
 			Precursor {EV_CONFIRMATION_DIALOG}
-			set_title (Locale * ev_confirmation_dialog_title)
 			default_push_button.select_actions.extend (agent do ok_selected := True end)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 12:29:30 GMT (Tuesday 21st September 2021)"
-	revision: "1"
+	date: "2021-10-22 13:15:02 GMT (Friday 22nd October 2021)"
+	revision: "2"
 
 class
 	EL_VISION_2_TEXTS
@@ -25,10 +25,10 @@ feature -- Phrases
 	numeric_pad_template: ZSTRING
 		-- template for numeric pad key name
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING
-		once
+	english_table: STRING
+		do
 			Result := "[
 				numeric_pad_template:
 					Numeric Pad %S

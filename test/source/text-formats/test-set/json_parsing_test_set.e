@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:39:44 GMT (Monday 18th October 2021)"
-	revision: "12"
+	date: "2021-10-19 12:36:50 GMT (Tuesday 19th October 2021)"
+	revision: "13"
 
 class
 	JSON_PARSING_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 			assert ("Correct age", person.age = 45)
 			assert ("Correct gender", person.gender = '♂')
 
-			assert ("same JSON", JSON_person ~ person.as_json.as_canonically_spaced)
+			assert ("same JSON", JSON_person ~ person.as_json)
 		end
 
 	test_json_intervals_object
@@ -65,6 +65,8 @@ feature -- Tests
 
 			lio.put_integer_field ("meta_data size in RAM", meta_data.physical_size)
 			lio.put_new_line
+
+			meta_data.print_memory (lio)
 		end
 
 	test_json_reflection

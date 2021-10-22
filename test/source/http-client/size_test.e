@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:17:15 GMT (Sunday 17th October 2021)"
-	revision: "2"
+	date: "2021-10-20 13:03:13 GMT (Wednesday 20th October 2021)"
+	revision: "3"
 
 class
 	SIZE_TEST
 
 feature -- Access
 
---	number_1: INTEGER_64
+	number_1: INTEGER_64
 
---	number_2: INTEGER_64
+	number_2: INTEGER_64
 
---	number_3: INTEGER_64
+	number_3: INTEGER_64
 
---	number_4: INTEGER_64
+	number_4: INTEGER_64
 
 --	number_5: INTEGER_64
 
@@ -32,6 +32,6 @@ feature -- Access
 
 --	code_4: EL_CODE_64
 
-	str_1: EL_CODE_STRING
+--	str_1: EL_CODE_STRING
 
 end

@@ -1,13 +1,13 @@
 note
-	description: "Message dialog"
+	description: "Message dialog with deferred localization text from [$source EL_WORD_TEXTS]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:19:00 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2021-10-22 11:26:01 GMT (Friday 22nd October 2021)"
+	revision: "9"
 
 class
 	EL_MESSAGE_DIALOG
@@ -20,10 +20,10 @@ inherit
 		export
 			{ANY} label
 		redefine
-			add_locale_button, locale_button, set_text
+			add_locale_button, locale_button, set_text, set_title
 		end
 
-	EL_MODULE_DEFERRED_LOCALE
+	EL_SHARED_WORD
 
 feature {NONE} -- Initialization
 
@@ -48,16 +48,62 @@ feature -- Element change
 			Precursor (s.to_unicode_general (a_text))
 		end
 
+	set_title (a_title: separate READABLE_STRING_GENERAL)
+		do
+			if attached {STRING} a_title as key and then Title_text_table.has_key (key) then
+				Precursor (Title_text_table.found_item.to_unicode)
+			else
+				Precursor (a_title)
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	add_locale_button (english_text: READABLE_STRING_GENERAL)
+	add_locale_button (a_text: READABLE_STRING_GENERAL)
 		do
-			Precursor (Locale.translation (english_text).to_unicode)
+			Precursor (new_button_text (a_text))
 		end
 
-	locale_button (english_text: READABLE_STRING_GENERAL): EV_BUTTON
+	locale_button (a_text: READABLE_STRING_GENERAL): EV_BUTTON
 		do
-			Result := Precursor (Locale * english_text)
+			Result := Precursor (new_button_text (a_text))
 		end
 
+	new_button_text (a_text: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			if attached {STRING} a_text as key and then Button_text_table.has_key (key) then
+				Result := Button_text_table.found_item.to_unicode
+			else
+				Result := a_text
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Button_text_table: EL_HASH_TABLE [ZSTRING, STRING]
+		once
+			create Result.make (<<
+				[ev_abort, Word.abort],
+				[ev_cancel, Word.cancel],
+				[ev_ignore, Word.ignore],
+				[ev_no, Word.no],
+				[ev_ok, Word.OK],
+				[ev_open, Word.open],
+				[ev_print, Word.print],
+				[ev_retry, Word.retry_],
+				[ev_save, Word.save],
+				[ev_yes, Word.yes]
+			>>)
+		end
+
+	Title_text_table: EL_HASH_TABLE [ZSTRING, STRING]
+		once
+			create Result.make (<<
+				[ev_confirmation_dialog_title, Word.confirmation],
+				[ev_error_dialog_title, Word.error],
+				[ev_information_dialog_title, Word.information],
+				[ev_question_dialog_title, Word.question],
+				[ev_warning_dialog_title, Word.warning]
+			>>)
+		end
 end

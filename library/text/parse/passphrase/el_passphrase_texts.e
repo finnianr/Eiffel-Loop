@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-24 14:02:25 GMT (Friday 24th September 2021)"
-	revision: "2"
+	date: "2021-10-22 13:15:32 GMT (Friday 22nd October 2021)"
+	revision: "3"
 
 class
 	EL_PASSPHRASE_TEXTS
@@ -40,10 +40,10 @@ feature -- Phrases
 
 	passphrases_match: ZSTRING
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING
-		once
+	english_table: STRING
+		do
 			Result := "[
 				minimum_score:
 					(Minimum is %S)

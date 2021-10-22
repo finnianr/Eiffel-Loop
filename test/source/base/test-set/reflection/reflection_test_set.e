@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:31:11 GMT (Monday 18th October 2021)"
-	revision: "22"
+	date: "2021-10-20 12:54:47 GMT (Wednesday 20th October 2021)"
+	revision: "23"
 
 class
 	REFLECTION_TEST_SET
@@ -125,7 +125,7 @@ feature -- Tests
 			lio.put_new_line
 
 			create l_info
-			lio.put_integer_field ("size of INFO", Eiffel.physical_size (l_info))
+			lio.put_integer_field ("size of instance SIZE_TEST", Eiffel.physical_size (l_info))
 			lio.put_new_line
 		end
 
