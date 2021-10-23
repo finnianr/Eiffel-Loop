@@ -7,10 +7,13 @@ system:
 	library_target = EL_installer_UI
 	description:
 		"""
-			Installer Graphical User Interface
+			Installer Vision-2 GUI
 
 			A graphical user-interface for installing and uninstalling applications using
 			Vision-2 and Vision-2-x components
+
+			Includes a special user interface to provide an accurate determination of the display size for
+			Windows users. The user is asked to resize a window to the size of an A5 piece of paper.
 		"""
 	
 	target:

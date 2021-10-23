@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-07 10:15:13 GMT (Wednesday 7th July 2021)"
-	revision: "29"
+	date: "2021-10-23 13:41:15 GMT (Saturday 23rd October 2021)"
+	revision: "30"
 
 class
 	EL_PATH_STEPS
@@ -94,7 +94,7 @@ create
 convert
 	make_from_strings ({ARRAY [ZSTRING], ARRAY [STRING], ARRAY [STRING_32]}),
 
-	make ({STRING_32, STRING, ZSTRING}), make_from_tuple ({TUPLE}),
+	make ({STRING_32, STRING, ZSTRING, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}), make_from_tuple ({TUPLE}),
 
 	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, to_string_32: {READABLE_STRING_GENERAL}
 

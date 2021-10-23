@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-22 13:57:57 GMT (Friday 22nd October 2021)"
-	revision: "1"
+	date: "2021-10-23 10:51:06 GMT (Saturday 23rd October 2021)"
+	revision: "2"
 
 class
 	EL_INSTALL_TEXTS
@@ -31,7 +31,7 @@ feature -- Access
 		do
 			Result := s.New_paragraph_list (A5_instructions_template #$ [Build_info.product])
 		end
-		
+
 	newer_version (version: EL_SOFTWARE_VERSION): ZSTRING
 		do
 			Result := newer_version_template #$ [Build_info.product, version.string]
@@ -76,6 +76,10 @@ feature -- Phrases
 	uninstall_proceed: ZSTRING
 
 	web_connection_error: ZSTRING
+
+feature -- Words
+
+	finish: ZSTRING
 
 feature {NONE} -- Implementation
 

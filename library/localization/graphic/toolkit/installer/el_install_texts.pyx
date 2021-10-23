@@ -150,4 +150,14 @@ translations:
 			lang = en
 			"Close to complete uninstall"
 
+	# Words
+	item:
+		id = "Finish"
+		translation:
+			lang = de; check = true
+			"Fertig"
+		translation:
+			lang = en
+			"$id"
+
 

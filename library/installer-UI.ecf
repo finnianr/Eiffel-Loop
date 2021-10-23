@@ -2,10 +2,13 @@
 <!---->
 <system xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name = "EL_installer_UI" uuid = "903AB180-331E-11EC-B0C1-6FAD2E2C9640" library_target = "EL_installer_UI">
 	<description>
-Installer Graphical User Interface
+Installer Vision-2 GUI
 
 A graphical user-interface for installing and uninstalling applications using
 Vision-2 and Vision-2-x components
+
+Includes a special user interface to provide an accurate determination of the display size for
+Windows users. The user is asked to resize a window to the size of an A5 piece of paper.
 	</description>
 	<target name = "EL_installer_UI">
 		<root all_classes = "true"/>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-07 10:12:43 GMT (Tuesday 7th September 2021)"
-	revision: "22"
+	date: "2021-10-23 13:32:54 GMT (Saturday 23rd October 2021)"
+	revision: "23"
 
 class
 	EL_FILE_PATH
@@ -21,7 +21,8 @@ create
 	default_create, make, make_from_path, make_from_other, make_from_steps
 
 convert
-	make ({ZSTRING, STRING, STRING_32}), make_from_path ({PATH}),
+	make ({ZSTRING, STRING, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
+	make_from_path ({PATH}),
 
  	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
  	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
