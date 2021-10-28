@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 17:22:51 GMT (Sunday 26th September 2021)"
-	revision: "16"
+	date: "2021-10-28 12:17:30 GMT (Thursday 28th October 2021)"
+	revision: "17"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -29,7 +29,12 @@ feature {NONE} -- Initialization
 			from until next_translations.count = 3 loop
 				next_translations.extend (create {ZSTRING}.make_empty)
 			end
+			create date_text.make (Current)
 		end
+
+feature -- Access
+
+	date_text: EL_DATE_TEXT
 
 feature -- Status query
 
@@ -115,10 +120,5 @@ feature {NONE} -- Constants
 		end
 
 	Default_language: STRING = "en"
-
-	Date_text: EL_ENGLISH_DATE_TEXT
-		once
-			create Result.make
-		end
 
 end

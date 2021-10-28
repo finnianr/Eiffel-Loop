@@ -14,6 +14,15 @@ translations:
 			"$id"
 
 	item:
+		id = "Hit return to finish"
+		translation:
+			lang = de; check = false
+			"Drücken Sie zurück, um zu beenden"
+		translation:
+			lang = en
+			"$id"
+
+	item:
 		id = "File already exists"
 		translation:
 			lang = de; check = true
@@ -49,7 +58,7 @@ translations:
 			lang = en
 			"$id"
 
-# Extended texts with ID: {id}
+	# Extended texts with ID: {id}
 	item:
 		id = "{are-you-sure}"
 		translation:
@@ -76,5 +85,4 @@ translations:
 		translation:
 			lang = en
 			"There was a problem to put this file in the directory specified."
-	
 

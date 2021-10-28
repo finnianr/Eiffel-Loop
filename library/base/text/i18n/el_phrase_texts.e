@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 12:31:19 GMT (Monday 30th August 2021)"
-	revision: "1"
+	date: "2021-10-26 13:15:40 GMT (Tuesday 26th October 2021)"
+	revision: "2"
 
 class
 	EL_PHRASE_TEXTS
@@ -28,15 +28,17 @@ feature -- Texts
 	confirmation_required: ZSTRING
 
 	file_already_exists: ZSTRING
-	
+
 	file_open_permission_denied: ZSTRING
-	
+
 	file_creation_error: ZSTRING
-	
+
 	folder_creation_error: ZSTRING
-	
+
+	hit_return_to_finish: ZSTRING
+
 	mkdir_permission_denied: ZSTRING
-	
+
 	there_is_a_problem: ZSTRING
 
 feature {NONE} -- Implementation

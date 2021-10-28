@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 11:25:46 GMT (Monday 30th August 2021)"
-	revision: "3"
+	date: "2021-10-26 13:26:41 GMT (Tuesday 26th October 2021)"
+	revision: "4"
 
 class
 	EL_UNINSTALL_TEXTS
@@ -32,9 +32,21 @@ feature -- Texts
 
 	uninstalling: ZSTRING
 
+	remove_all_data_prompt: ZSTRING
+
+feature -- Uninstall script
+
+	app_removed_template: ZSTRING
+
+	removing_program_files: ZSTRING
+
 feature {NONE} -- Constants
 
 	English_table: STRING = "[
+		app_removed_template:
+			"%S" removed.
+		remove_all_data_prompt:
+			Delete data and configuration files for all %S users (y/n)
 		uninstall_confirmation:
 			If you are sure press 'y' and <return>:
 		uninstall_warning:

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-05 7:52:03 GMT (Thursday 5th August 2021)"
-	revision: "6"
+	date: "2021-10-26 13:28:45 GMT (Tuesday 26th October 2021)"
+	revision: "7"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -22,7 +22,6 @@ inherit
 		end
 
 	EL_MODULE_COMMAND
-	EL_MODULE_DEFERRED_LOCALE
 	EL_MODULE_OS
 	EL_MODULE_USER_INPUT
 
@@ -35,6 +34,10 @@ inherit
 		rename
 			Directory as OS_directory
 		end
+
+	EL_SHARED_WORD
+
+	EL_SHARED_UNINSTALL_TEXTS
 
 create
 	make
@@ -56,7 +59,7 @@ feature -- Basic operations
 			user_agreed: BOOLEAN
 		do
 			lio.put_string (Confirmation_prompt + ": ")
-			user_agreed := User_input.entered_letter (yes.to_latin_1 [1])
+			user_agreed := User_input.entered_letter (Word.first_letter_yes)
 			lio.put_new_line
 			if user_agreed then
 				command.new_user_info.do_for_existing_directories (agent remove_directory)
@@ -82,33 +85,16 @@ feature {NONE} -- Implementation
 feature {EL_UNINSTALL_SCRIPT_I} -- String constants
 
 	Confirmation_prompt: ZSTRING
-		local
-			template: ZSTRING
 		once
-			if Locale.english_only then
-				Locale.set_next_translation ("Delete data and configuration files for all %S users (y/n)")
-			end
-			template := Locale * "{remove-all-data-prompt}"
-			Result := template #$ [Application_list.Main_launcher.name]
-		end
-
-	Yes: ZSTRING
-		once
-			Result := Locale * "yes"
+			Result := Text.remove_all_data_prompt #$ [Application_list.Main_launcher.name]
 		end
 
 feature {NONE} -- Application constants
 
 	Description: ZSTRING
-		local
-			pos_bracket: INTEGER
 		once
-			pos_bracket := Confirmation_prompt.last_index_of ('(', Confirmation_prompt.count)
-			if pos_bracket > 0 then
-				Result := Confirmation_prompt.substring (1, pos_bracket - 1)
-			else
-				Result := Confirmation_prompt
-			end
+			Result := Text.remove_all_data_prompt.substring_to ('(', Default_pointer)
+			Result.right_adjust
 		end
 
 	Option_name: STRING

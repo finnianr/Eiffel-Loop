@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:30:11 GMT (Wednesday 1st September 2021)"
-	revision: "9"
+	date: "2021-10-28 8:54:25 GMT (Thursday 28th October 2021)"
+	revision: "10"
 
 deferred class
 	EL_FIND_COMMAND_IMP
@@ -24,7 +24,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			do_command, new_command_parts, reset
+			do_command, get_escaped_path, new_command_parts, reset
 		end
 
 	EL_MODULE_DIRECTORY
@@ -73,12 +73,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	get_escaped_path: ZSTRING
+	get_escaped_path (field: EL_REFLECTED_PATH): ZSTRING
 		do
 			if name_pattern.is_empty then
-				Result := dir_path.escaped
+				Result := Precursor (field)
+
+			elseif attached {EL_DIR_PATH} field.value (Current) as l_path and then l_path = dir_path then
+				Result := l_path.joined_dir_path (name_pattern).escaped
 			else
-				Result := dir_path.joined_dir_path (name_pattern).escaped
+				Result := Precursor (field)
 			end
 		end
 

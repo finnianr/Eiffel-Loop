@@ -1,13 +1,15 @@
 note
-	description: "Common words accessible via [$source EL_SHARED_WORD] as `Word'"
+	description: "[
+		Deferred i18n of common words accessible via [$source EL_SHARED_WORD] as `Word'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-20 10:32:43 GMT (Monday 20th September 2021)"
-	revision: "4"
+	date: "2021-10-28 11:00:58 GMT (Thursday 28th October 2021)"
+	revision: "5"
 
 class
 	EL_WORD_TEXTS

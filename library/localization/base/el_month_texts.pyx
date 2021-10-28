@@ -1,11 +1,12 @@
 pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
-translations:
+# class EL_MONTH_TEXTS
 
+translations:
 	# Day of month ordinal indicators
 	item:
-		id = "{ordinal-indicator.0}"
+		id = "{ordinal-default}"
 		translation:
 			lang = de; check = true
 			"."
@@ -14,7 +15,7 @@ translations:
 			"th"
 
 	item:
-		id = "{ordinal-indicator.1}"
+		id = "{ordinal-first}"
 		translation:
 			lang = de; check = true
 			"."
@@ -23,7 +24,7 @@ translations:
 			"st"
 
 	item:
-		id = "{ordinal-indicator.2}"
+		id = "{ordinal-second}"
 		translation:
 			lang = de; check = true
 			"."
@@ -32,141 +33,13 @@ translations:
 			"nd"
 
 	item:
-		id = "{ordinal-indicator.3}"
+		id = "{ordinal-third}"
 		translation:
 			lang = de; check = true
 			"."
 		translation:
 			lang = en
 			"rd"
-
-	# Long spelling days of week
-	item:
-		id = "Monday"
-		translation:
-			lang = de; check = true
-			"Montag"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Tuesday"
-		translation:
-			lang = de; check = true
-			"Dienstag"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Wednesday"
-		translation:
-			lang = de; check = true
-			"Mittwoch"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Thursday"
-		translation:
-			lang = de; check = true
-			"Donnerstag"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Friday"
-		translation:
-			lang = de; check = true
-			"Freitag"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Saturday"
-		translation:
-			lang = de; check = true
-			"Samstag"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Sunday"
-		translation:
-			lang = de; check = true
-			"Sonntag"
-		translation:
-			lang = en
-			"$id"
-
-	# Short spelling days of week
-	item:
-		id = "Mon"
-		translation:
-			lang = de; check = true
-			"Mo"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Tue"
-		translation:
-			lang = de; check = true
-			"Di"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Wed"
-		translation:
-			lang = de; check = true
-			"Mi"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Thu"
-		translation:
-			lang = de; check = true
-			"Do"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Fri"
-		translation:
-			lang = de; check = true
-			"Fr"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Sat"
-		translation:
-			lang = de; check = true
-			"Sa"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Sun"
-		translation:
-			lang = de; check = true
-			"So"
-		translation:
-			lang = en
-			"$id"
 
 	# Short spelling months of year
 	item:
@@ -206,13 +79,13 @@ translations:
 			"$id"
 
 	item:
-		id = "May"
+		id = "{may-short}"
 		translation:
 			lang = de; check = true
 			"Mai"
 		translation:
 			lang = en
-			"$id"
+			"May"
 
 	item:
 		id = "Jun"
@@ -315,13 +188,13 @@ translations:
 			"$id"
 
 	item:
-		id = "{May}"
+		id = "May"
 		translation:
 			lang = de; check = true
 			"Mai"
 		translation:
 			lang = en
-			"May"
+			"$id"
 
 	item:
 		id = "June"

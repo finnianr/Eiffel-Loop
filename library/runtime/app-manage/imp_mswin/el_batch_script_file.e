@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 8:49:45 GMT (Sunday 28th June 2020)"
-	revision: "5"
+	date: "2021-10-28 8:46:29 GMT (Thursday 28th October 2021)"
+	revision: "6"
 
 class
 	EL_BATCH_SCRIPT_FILE
@@ -20,10 +20,7 @@ inherit
 			put_bom, put_string, put_string_32, put_string_8, put_latin_1
 		end
 
-	EL_CONSOLE_ENCODEABLE
-		rename
-			Utf_8 as Utf_8_encoding
-		end
+	EL_MODULE_CONSOLE
 
 create
 	make, make_with_name, make_with_path,
@@ -57,7 +54,7 @@ feature {NONE} -- Implementation
 
 	put_console_encoded (str: READABLE_STRING_GENERAL)
 		do
-			put_raw_string_8 (console_encoded (str))
+			put_raw_string_8 (Console.encoded (str))
 		end
 
 end

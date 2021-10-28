@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 11:48:27 GMT (Monday 17th December 2018)"
-	revision: "4"
+	date: "2021-10-26 9:47:31 GMT (Tuesday 26th October 2021)"
+	revision: "5"
 
 class
 	EL_CONSOLE
@@ -19,8 +19,6 @@ inherit
 			put_character as put_raw_character_8,
 			make as obsolete_make
 		end
-
-	EL_CONSOLE_ENCODEABLE
 
 create
 	make

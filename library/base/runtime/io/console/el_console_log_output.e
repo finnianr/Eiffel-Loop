@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:49:53 GMT (Thursday 12th August 2021)"
-	revision: "20"
+	date: "2021-10-26 9:43:08 GMT (Tuesday 26th October 2021)"
+	revision: "21"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
 
 inherit
-	EL_MODULE_ENVIRONMENT
+	ANY
 
-	EL_CONSOLE_ENCODEABLE
+	EL_MODULE_CONSOLE
+
+	EL_MODULE_ENVIRONMENT
 
 	EL_SHARED_UTF_8_ZCODEC
 
@@ -248,7 +250,7 @@ feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
 		do
-			std_output.put_string (console_encoded (str))
+			std_output.put_string (Console.encoded (str))
 		end
 
 feature {NONE} -- Internal attributes

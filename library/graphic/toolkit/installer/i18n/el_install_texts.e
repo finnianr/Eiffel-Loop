@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 10:51:06 GMT (Saturday 23rd October 2021)"
-	revision: "2"
+	date: "2021-10-25 15:18:16 GMT (Monday 25th October 2021)"
+	revision: "3"
 
 class
 	EL_INSTALL_TEXTS
@@ -44,6 +44,7 @@ feature -- Access
 
 	unable_to_connect (domain_name, email: ZSTRING): ZSTRING
 		do
+			Result := unable_to_connect_template #$ [domain_name, email]
 		end
 
 	version_title (version: EL_SOFTWARE_VERSION): ZSTRING
@@ -109,11 +110,11 @@ feature {NONE} -- Implementation
 				setup_title_template:
 					%S Setup
 				unable_to_connect_template:
-					Unable to connect to http://myching.software
+					Unable to connect to %S
 					The site may be down. Please try again later.
 					
 					If you think we have failed to notice, please
-					send an email to finnian@eiffel-loop.com
+					send an email to %S
 				uninstall_proceed:
 					Are you sure you wish to proceed with uninstall?
 				version_template:

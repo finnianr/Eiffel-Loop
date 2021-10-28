@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 14:37:43 GMT (Saturday 23rd October 2021)"
-	revision: "13"
+	date: "2021-10-25 16:04:44 GMT (Monday 25th October 2021)"
+	revision: "14"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -123,7 +123,7 @@ feature {NONE} -- Factory
 		do
 			create Result.make_with_text_and_font (Text.setup_title, new_font (Size.medium))
 			Result.align_text_center
-			Result.set_tile_pixmap (Title_pixmap)
+			Result.set_tile_pixmap (Image.of_height_cms (Main.png_title_background, 1.5))
 		end
 
 feature {NONE} -- Event handling
@@ -223,10 +223,5 @@ feature {NONE} -- Constants
 		end
 
 	Stage_copy_files: INTEGER = 1
-
-	Title_pixmap: EL_PIXMAP
-		once
-			Result := Image.of_height_cms (Main.png_title_background, 1.5)
-		end
 
 end

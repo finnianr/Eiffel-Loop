@@ -70,21 +70,21 @@ translations:
 		translation:
 			lang = de; check = true
 			"""
-				Verbindung zu http://myching.software kann nicht hergestellt
+				Verbindung zu http://%S kann nicht hergestellt
 				werden Die Website kann heruntergefahren werden. Bitte versuchen
 				Sie es später erneut.
 
 				Wenn Sie glauben, dass wir es nicht bemerkt haben, senden Sie
-				bitte eine E-Mail an finnian@eiffel-loop.com
+				bitte eine E-Mail an %S
 			"""
 		translation:
 			lang = en
 			"""
-				Unable to connect to http://myching.software
+				Unable to connect to http://%S
 				The site may be down. Please try again later.
 				
 				If you think we have failed to notice, please
-				send an email to finnian@eiffel-loop.com
+				send an email to %S
 			"""	
 	item:
 		id = "{version-template}"

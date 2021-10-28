@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2021-10-26 9:40:36 GMT (Tuesday 26th October 2021)"
+	revision: "6"
 
 class
 	EL_CONSOLE_MANAGER_IMP
@@ -24,5 +24,10 @@ feature -- Status query
 
 	Is_highlighting_enabled: BOOLEAN = False
 			-- Can terminal color highlighting sequences be output to console
+
+	is_utf_8_encoded: BOOLEAN
+		do
+			Result := code_page ~ Utf_8.code_page
+		end
 
 end

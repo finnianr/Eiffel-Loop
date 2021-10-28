@@ -1,13 +1,13 @@
 note
-	description: "Shared access to routines of class [$source EL_ENGLISH_DATE_TEXT]"
+	description: "Shared access to routines of class [$source EL_DATE_TEXT]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 8:18:19 GMT (Friday 14th May 2021)"
-	revision: "9"
+	date: "2021-10-28 13:12:23 GMT (Thursday 28th October 2021)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_DATE
@@ -17,10 +17,10 @@ inherit
 
 feature {NONE} -- Constants
 
-	Date: EL_ENGLISH_DATE_TEXT
+	Date: EL_DATE_TEXT
 			--
 		once
-			create Result.make
+			create Result.make_default
 		end
 
 end

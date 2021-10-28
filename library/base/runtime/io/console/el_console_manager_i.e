@@ -6,20 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-05 10:10:49 GMT (Sunday 5th April 2020)"
-	revision: "11"
+	date: "2021-10-28 9:27:24 GMT (Thursday 28th October 2021)"
+	revision: "12"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
 
 inherit
-	EL_MODULE_ARGS
-
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_SHARED_BASE_OPTION
 
-	EL_MODULE_ENCODINGS
+	EL_SYSTEM_ENCODINGS
+		export
+			{NONE} all
+		end
 
 feature {NONE} -- Initialization
 
@@ -27,13 +28,50 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create visible_types.make (20)
+			code_page := Console.code_page
 		end
 
 feature -- Access
 
 	code_page: STRING
+
+	decoded (input: STRING_8): ZSTRING
+		-- console `input' to `ZSTRING'
 		do
-			Result := Encodings.Console_encoding.code_page
+			if is_utf_8_encoded then
+				create Result.make_from_utf_8 (input)
+			else
+				Console.convert_to (Unicode, input)
+				Result := Console.last_converted_string_32
+			end
+		end
+
+	encoded (a_str: READABLE_STRING_GENERAL): STRING_8
+		-- string encoded for console
+		local
+			l_encoding: ENCODING; done: BOOLEAN; buffer: EL_STRING_32_BUFFER_ROUTINES
+			l_str: READABLE_STRING_GENERAL
+		do
+			if attached {ZSTRING} a_str then
+				l_str := buffer.copied_general (a_str)
+			else
+				l_str := a_str
+			end
+			if is_utf_8_encoded then
+				l_encoding := Utf_8
+			else
+				l_encoding := Console
+			end
+			-- Fix for bug where LANG=C in Nautilus F10 terminal caused a crash
+			from until done loop
+				Unicode.convert_to (l_encoding, l_str)
+				if Unicode.last_conversion_successful then
+					done := True
+				else
+					l_encoding := Utf_8
+				end
+			end
+			Result := Unicode.last_converted_string_8
 		end
 
 feature -- Status change
@@ -86,6 +124,10 @@ feature -- Status query
 			restrict_access
 				Result := visible_types.has (type)
 			end_restriction
+		end
+
+	is_utf_8_encoded: BOOLEAN
+		deferred
 		end
 
 feature {NONE} -- Internal attributes

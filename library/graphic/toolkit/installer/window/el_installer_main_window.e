@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 16:05:09 GMT (Saturday 23rd October 2021)"
-	revision: "1"
+	date: "2021-10-25 16:04:35 GMT (Monday 25th October 2021)"
+	revision: "2"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -43,13 +43,13 @@ feature {NONE} -- Initialization
 			make_solitary
 			Image_path.set_installation_dir (Package_dir)
 			Precursor
-			set_icon_pixmap (Desktop_menu_icon.pixmap (png_package_icon))
+			set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
 			updates_info := new_updates_info
 		end
 
 feature -- Access
 
-	png_package_icon: EL_PATH_STEPS
+	png_logo_icon: EL_PATH_STEPS
 		-- Icon relative to `Package_dir' directory
 		deferred
 		end

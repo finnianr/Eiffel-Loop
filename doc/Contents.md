@@ -448,8 +448,10 @@ Image utilities providing:
 
 1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
 2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
-## Installer Graphical User Interface
+## Installer Vision-2 GUI
 A graphical user-interface for installing and uninstalling applications using Vision-2 and Vision-2-x components
+
+Includes a special user interface to provide an accurate determination of the display size for Windows users. The user is asked to resize a window to the size of an A5 piece of paper.
 ## XHTML Viewer
 A basic XHTML text renderer based on the [https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html EV_RICH_TEXT] component found in the [https://www.eiffel.org/doc/solutions/EiffelVision_2 EiffelVision2 library].
 

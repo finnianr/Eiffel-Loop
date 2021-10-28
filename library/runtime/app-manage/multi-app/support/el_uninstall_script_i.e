@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:50:25 GMT (Monday 2nd August 2021)"
-	revision: "12"
+	date: "2021-10-26 13:27:41 GMT (Tuesday 26th October 2021)"
+	revision: "13"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -38,11 +38,13 @@ inherit
 
 	EL_MODULE_EXECUTABLE
 
-	EL_MODULE_DEFERRED_LOCALE
-
 	EL_INSTALLER_DEBUG
 
 	EL_SHARED_APPLICATION_LIST
+
+	EL_SHARED_PHRASE
+
+	EL_SHARED_UNINSTALL_TEXTS
 
 feature {NONE} -- Initialization
 
@@ -88,19 +90,13 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	completion_message: ZSTRING
-		local
-			l_template: ZSTRING
 		do
-			if Locale.english_only then
-				Locale.set_next_translation ("%"%S%" removed.")
-			end
-			l_template := Locale * "{APP_NAME-removed}"
-			Result := l_template #$ [menu_name]
+			Result := Text.app_removed_template #$ [menu_name]
 		end
 
 	description: ZSTRING
 		do
-			Result := Locale * "Removing program files"
+			Result := Text.removing_program_files
 		end
 
 	dot_extension: STRING
@@ -171,7 +167,7 @@ feature {NONE} -- Evolicity fields
 				["completion_message",			agent completion_message],
 				["description",					agent description],
 				["title",							agent: ZSTRING do Result := uninstall_app.Name end],
-				["return_prompt",					agent: ZSTRING do Result := return_prompt end]
+				["return_prompt",					agent: ZSTRING do Result := Phrase.hit_return_to_finish.as_upper end]
 			>>)
 		end
 
@@ -180,11 +176,6 @@ feature {NONE} -- Constants
 	Application_path: EL_FILE_PATH
 		once
 			Result := Directory.Application_bin + Executable.name
-		end
-
-	Return_prompt: ZSTRING
-		once
-			Result := Locale * "RETURN TO FINISH"
 		end
 
 end

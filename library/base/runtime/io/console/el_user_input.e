@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:41:50 GMT (Monday 16th August 2021)"
-	revision: "12"
+	date: "2021-10-26 10:57:13 GMT (Tuesday 26th October 2021)"
+	revision: "13"
 
 class
 	EL_USER_INPUT
 
 inherit
-	ANY EL_MODULE_LIO
+	ANY
+	EL_MODULE_CONSOLE
+	EL_MODULE_LIO
 
 feature -- Basic operations
 
@@ -35,18 +37,23 @@ feature -- Status query
 			Result := approved_action (prompt + Yes_no_choices, 'y')
 		end
 
-	approved_action (prompt: READABLE_STRING_GENERAL; confirm_letter: CHARACTER): BOOLEAN
+	approved_action (prompt: READABLE_STRING_GENERAL; confirm_letter: CHARACTER_32): BOOLEAN
 		do
 			lio.put_string (prompt)
 			Result := entered_letter (confirm_letter)
 			lio.put_new_line
 		end
 
-	entered_letter (a_letter: CHARACTER): BOOLEAN
+	entered_letter (a_letter: CHARACTER_32): BOOLEAN
 			-- True if user line input started with letter (case insensitive)
+		local
+			first: CHARACTER_32
 		do
 			io.read_line
-			Result := io.last_string.as_lower @ 1 = a_letter.as_lower
+			if io.last_string.count > 0 then
+				first := Console.decoded (io.last_string) [1]
+			end
+			Result := first.as_lower = a_letter.as_lower
 		end
 
 feature -- Basic operations
@@ -116,7 +123,7 @@ feature -- Input
 		do
 			lio.put_labeled_string (prompt, "")
 			io.read_line
-			create Result.make_from_utf_8 (io.last_string)
+			Result := Console.decoded (io.last_string)
 		end
 
 	natural (prompt: READABLE_STRING_GENERAL): NATURAL

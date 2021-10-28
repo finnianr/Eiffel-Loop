@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-19 7:37:35 GMT (Wednesday 19th May 2021)"
-	revision: "19"
+	date: "2021-10-28 12:21:25 GMT (Thursday 28th October 2021)"
+	revision: "20"
 
-deferred class
+class
 	EL_DATE_TEXT
 
 inherit
@@ -18,12 +18,24 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_DEFERRED_LOCALE
+
+create
+	make, make_default
+
 feature {NONE} -- Initialization
 
-	make
+	make (a_locale: EL_DEFERRED_LOCALE_I)
 		do
 			create template_table.make_equal (3, agent new_template)
 			function_table := new_function_table
+			create day.make_with_locale (a_locale)
+			create month.make_with_locale (a_locale)
+		end
+
+	make_default
+		do
+			make (Locale)
 		end
 
 feature -- Access
@@ -105,7 +117,7 @@ feature -- Day of month
 					Result.append (ordinal_indicator (3))
 
 			else
-				Result.append (default_ordinal_indicator)
+				Result.append (ordinal_indicator (0))
 
 			end
 		end
@@ -146,14 +158,14 @@ feature -- Month of year
 
 feature {NONE} -- Implementation
 
-	default_ordinal_indicator: ZSTRING
-			--	
-		deferred
-		end
-
 	month_name (month_of_year: INTEGER; short: BOOLEAN): ZSTRING
 			--
-		deferred
+		do
+			if short then
+				Result := Month.short_names [month_of_year]
+			else
+				Result := Month.full_names [month_of_year]
+			end
 		end
 
 	month_names_list (short: BOOLEAN): EL_ZSTRING_LIST
@@ -188,10 +200,15 @@ feature {NONE} -- Implementation
 		end
 
 	ordinal_indicator (i: INTEGER): ZSTRING
-			--	
 		require
 			valid_number: i >= 0 and i <= 3
-		deferred
+		do
+			inspect i
+				when 1 .. 3 then
+					Result := Month.ordinal_indicator [i]
+			else
+				Result := Month.ordinal_indicator [0]
+			end
 		end
 
 	template (format: STRING): EL_DATE_TEXT_TEMPLATE
@@ -201,15 +218,20 @@ feature {NONE} -- Implementation
 
 	week_day_name (day_of_week: INTEGER; short: BOOLEAN): ZSTRING
 			--
-		deferred
+		do
+			if short then
+				Result := Day.short_names [day_of_week]
+			else
+				Result := Day.full_names [day_of_week]
+			end
 		end
 
 	week_day_names_list (short: BOOLEAN): EL_ZSTRING_LIST
 			-- Day of week names
 		do
 			create Result.make (7)
-			across 1 |..| 7 as day loop
-				Result.extend (week_day_name (day.item, short))
+			across 1 |..| 7 as n loop
+				Result.extend (week_day_name (n.item, short))
 			end
 		end
 
@@ -225,6 +247,10 @@ feature {NONE} -- Internal attributes
 	function_table: like new_function_table
 
 	template_table: EL_CACHE_TABLE [like template, STRING]
+
+	month: EL_MONTH_TEXTS
+
+	day: EL_DAY_OF_WEEK_TEXTS
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 12:25:54 GMT (Friday 29th May 2020)"
-	revision: "11"
+	date: "2021-10-26 9:43:17 GMT (Tuesday 26th October 2021)"
+	revision: "12"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 			put_file_string (l_utf_8)
 
 			if is_directed_to_console then
-				if Is_console_utf_8_encoded then
+				if Console.is_utf_8_encoded then
 					std_output.put_string (l_utf_8)
 				else
 					Precursor (str)

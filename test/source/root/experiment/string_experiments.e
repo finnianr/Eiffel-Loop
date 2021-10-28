@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 11:31:33 GMT (Wednesday 15th September 2021)"
-	revision: "10"
+	date: "2021-10-28 9:33:16 GMT (Thursday 28th October 2021)"
+	revision: "11"
 
 class
 	STRING_EXPERIMENTS
@@ -15,17 +15,15 @@ class
 inherit
 	EXPERIMENTAL
 
-	SYSTEM_ENCODINGS
-		rename
-			Utf32 as Unicode,
-			Utf8 as Utf_8_encoding
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_HEXADECIMAL
 
+	EL_MODULE_ENCODINGS
+
 	EL_MODULE_EIFFEL
+
+	EL_MODULE_USER_INPUT
+
+	EL_MODULE_CONSOLE
 
 	EL_SHARED_ZCODEC_FACTORY
 
@@ -67,18 +65,13 @@ feature -- Basic operations
 		end
 
 	encode_string_for_console
-		local
-			str: STRING_32; str_2: STRING
 		do
-			across << System_encoding, Console_encoding, Utf_8_encoding, Iso_8859_1 >> as encoding loop
+			across <<
+				Encodings.System, Encodings.Console, Encodings.Utf_8, Encodings.Iso_8859_1
+			>> as encoding loop
 				lio.put_line (encoding.item.code_page)
 			end
-			str := {STRING_32} "Dún Búinne"
-			Unicode.convert_to (Console_encoding, str)
-			if Unicode.last_conversion_successful then
-				str_2 := Unicode.last_converted_string_8
-				io.put_string (str_2)
-			end
+			io.put_string (Console.encoded ({STRING_32} "Dún Búinne"))
 		end
 
 	escaping_text
@@ -138,9 +131,18 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
+	input_capital_a_umlaut
+		local
+			line: ZSTRING
+		do
+			line := User_input.line ("Enter a Ä character (ALT 0196)")
+			lio.put_new_line
+			assert ("is Ä", line [1] = 'Ä')
+		end
+
 	input_unicode_character
 		local
-			str: ZSTRING
+			str: ZSTRING; euro: ZSTRING
 		do
 			lio.put_line ("Enter a EURO symbol")
 			io.read_line
@@ -148,6 +150,9 @@ feature -- Basic operations
 			create str.make_from_utf_8 (io.last_string)
 			lio.put_labeled_string ("Euro", str)
 			lio.put_new_line
+			create euro.make_filled ((0x20AC).to_character_32, 1)
+			assert ("Console.encoded (euro) ~ io.last_string", Console.encoded (euro) ~ io.last_string)
+			assert ("Console.decoded (io.last_string) ~ euro", Console.decoded (io.last_string) ~ euro)
 		end
 
 	reading_character_32_as_natural_8

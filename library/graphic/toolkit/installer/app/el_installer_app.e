@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 16:25:16 GMT (Saturday 23rd October 2021)"
-	revision: "1"
+	date: "2021-10-26 15:53:37 GMT (Tuesday 26th October 2021)"
+	revision: "2"
 
 class
 	EL_INSTALLER_APP [W -> EL_INSTALLER_MAIN_WINDOW create make end]
@@ -19,6 +19,9 @@ inherit
 		end
 
 	EL_INSTALLER_CONSTANTS
+
+create
+	make
 
 feature {NONE} -- Initialization
 

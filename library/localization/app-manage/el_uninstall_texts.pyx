@@ -42,15 +42,6 @@ translations:
 			"$id"
 
 	item:
-		id = "{yes}"
-		translation:
-			lang = de; check = true
-			"ja"
-		translation:
-			lang = en
-			"yes"
-	
-	item:
 		id = "{uninstall-confirmation}"
 		translation:
 			lang = de; check = true
@@ -60,15 +51,47 @@ translations:
 			lang = en
 			"If you are sure press 'y' and <return>:"
 
-	# Specific to My Ching
+	item:
+		id = "{remove-all-data-prompt}"
+		translation:
+			lang = de; check = false
+			"Lösche Daten und Konfigurationsdateien für alle %S Benutzer (j/n)"
+		translation:
+			lang = en
+			"Delete data and configuration files for all %S users (y/n)"
+
 	item:
 		id = "{uninstall-warning}"
 		translation:
 			lang = de; check = true
-			"DIESE AKTION WIRD PERMANENT ALLE IHRE TAGEBÜCHER LÖSCHEN."
+			"DIESE AKTION WIRD PERMANENT ALLE IHRE DATEN LÖSCHEN."
 		translation:
 			lang = en
-			"THIS ACTION WILL PERMANENTLY DELETE ALL YOUR JOURNALS."
+			"THIS ACTION WILL PERMANENTLY DELETE ALL YOUR DATA."
+
+	# Uninstall script
+	item:
+		id = "Removing program files"
+		translation:
+			lang = de; check = false
+			"Entfernen von Programmdateien"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "{app-removed-template}"
+		translation:
+			lang = de; check = false
+			"""
+				"%S" entfernt.
+			"""
+		translation:
+			lang = en
+			"""
+				"%S" removed.
+			"""
+
 
 
 
