@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 12:10:09 GMT (Thursday 28th October 2021)"
-	revision: "1"
+	date: "2021-10-29 12:52:42 GMT (Friday 29th October 2021)"
+	revision: "2"
 
 class
 	EL_MONTH_TEXTS
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTIVE_LOCALE_TEXTS
 		redefine
-			initialize_fields
+			initialize_fields, Transient_fields
 		end
 
 create
@@ -35,11 +35,8 @@ feature {NONE} -- Initialization
 			>>
 			full_names.compare_objects
 			short_names.compare_objects
-
-			create ordinal_indicator.make_empty (4)
-			across << ordinal_default, ordinal_first, ordinal_second, ordinal_third >> as suffix loop
-				ordinal_indicator.extend (suffix.item)
-			end
+		ensure then
+			valid_ordinal_indicators: ordinal_indicators.count = 4
 		end
 
 feature -- Access
@@ -48,7 +45,9 @@ feature -- Access
 
 	short_names: ARRAY [ZSTRING]
 
-	ordinal_indicator: SPECIAL [ZSTRING] note option: transient attribute end
+	ordinal_indicators: EL_ZSTRING_LIST
+		-- list of suffixes for month number "st, nd, rd, th"
+		-- 21st March
 
 feature -- Months of year
 
@@ -102,16 +101,6 @@ feature -- Short months of year
 
 	dec: ZSTRING
 
-feature -- Ordinal indicators
-
-	ordinal_default: ZSTRING
-
-	ordinal_first: ZSTRING
-
-	ordinal_second: ZSTRING
-
-	ordinal_third: ZSTRING
-
 feature {NONE} -- Implementation
 
 	english_table: STRING_8
@@ -120,14 +109,16 @@ feature {NONE} -- Implementation
 			Result := "[
 				may_short:
 					May
-				ordinal_default:
-					th
-				ordinal_first:
-					st
-				ordinal_second:
-					nd
-				ordinal_third:
-					rd
+				ordinal_indicators:
+					st, nd, rd, th
 			]"
 		end
+
+	Transient_fields: STRING
+		-- comma-separated list of fields that will be treated as if they are transient attributes and
+		-- excluded from `field_table'
+		once
+			Result := "full_names, short_names"
+		end
+
 end

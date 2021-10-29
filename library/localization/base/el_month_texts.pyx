@@ -6,40 +6,13 @@ pyxis-doc:
 translations:
 	# Day of month ordinal indicators
 	item:
-		id = "{ordinal-default}"
+		id = "{ordinal-indicators}"
 		translation:
 			lang = de; check = true
-			"."
+			".,.,.,."
 		translation:
 			lang = en
-			"th"
-
-	item:
-		id = "{ordinal-first}"
-		translation:
-			lang = de; check = true
-			"."
-		translation:
-			lang = en
-			"st"
-
-	item:
-		id = "{ordinal-second}"
-		translation:
-			lang = de; check = true
-			"."
-		translation:
-			lang = en
-			"nd"
-
-	item:
-		id = "{ordinal-third}"
-		translation:
-			lang = de; check = true
-			"."
-		translation:
-			lang = en
-			"rd"
+			"st, nd, rd, th"
 
 	# Short spelling months of year
 	item:

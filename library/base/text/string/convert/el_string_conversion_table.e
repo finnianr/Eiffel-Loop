@@ -36,8 +36,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 14:18:29 GMT (Sunday 9th May 2021)"
-	revision: "9"
+	date: "2021-10-29 12:40:46 GMT (Friday 29th October 2021)"
+	revision: "10"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -113,7 +113,47 @@ feature -- Status query
 			end
 		end
 
+	is_convertible_list (item_type_id: INTEGER; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
+		local
+			list: like new_split_list
+		do
+			list := new_split_list (csv_list)
+			if left_adjusted then
+				list.enable_left_adjust
+			end
+			Result := True
+			from list.start until not Result or else list.after loop
+				Result := is_convertible_to_type (list.item (False), item_type_id)
+				list.forth
+			end
+		end
+
 feature -- Basic operations
+
+	append_to_chain (
+		item_type_id: INTEGER; chain: CHAIN [ANY]; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN
+	)
+		require
+			convertable: is_convertible_list (item_type_id, csv_list, left_adjusted)
+		local
+			list: like new_split_list; item_str: STRING_GENERAL
+		do
+			list := new_split_list (csv_list)
+			if left_adjusted then
+				list.enable_left_adjust
+			end
+			from list.start until list.after loop
+				item_str := list.item (False)
+				if is_convertible_to_type (item_str, item_type_id) then
+					chain.extend (to_type_of_type (item_str.twin, item_type_id))
+				else
+					check i_th_type_convertible: True end
+				end
+				list.forth
+			end
+		ensure
+			filled: csv_list.count > 0 implies chain.count - old chain.count = csv_list.occurrences (',') + 1
+		end
 
 	fill_tuple (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN)
 		-- fill tuple with STRING items from comma-separated list `csv_list' of strings

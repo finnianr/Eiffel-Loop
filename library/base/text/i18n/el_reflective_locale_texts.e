@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-27 15:01:21 GMT (Monday 27th September 2021)"
-	revision: "14"
+	date: "2021-10-29 13:04:39 GMT (Friday 29th October 2021)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -59,40 +59,31 @@ feature {NONE} -- Initialization
 		require else
 			valid_english_table: valid_english_table
 		local
-			key, text_field: ZSTRING; text_differs: BOOLEAN
-			lower_case, upper_case, title_case: like None
+			value: ANY; lower_case, upper_case, title_case: like None
 			text_case: INTEGER
 		do
 			Precursor
 			lower_case := lower_case_texts; title_case := title_case_texts; upper_case := upper_case_texts
 			if attached new_english_table as eng_table then
 				across field_table as field loop
-					if attached {EL_REFLECTED_ZSTRING} field.item as l_field then
-						text_field := l_field.value (current_reflective)
-						if lower_case.has (text_field) then
+					if attached {EL_REFLECTED_REFERENCE [ANY]} field.item as ref_field then
+						value := ref_field.value (current_reflective)
+						if array_has_value (lower_case, value) then
 							text_case := Case_lower
-						elseif upper_case.has (text_field) then
+						elseif array_has_value (upper_case, value) then
 							text_case := Case_upper
-						elseif title_case.has (text_field) then
+						elseif array_has_value (title_case, value) then
 							text_case := Case_proper
 						else
 							text_case := Case_first_upper -- The default is first letter capitalized
 						end
-						text_differs := eng_table.has_key (field.key)
-						key := translation_key (field.key, text_case, text_differs)
-						if text_differs and then Locale.english_only then
-							locale.set_next_translation (eng_table.found_item)
-						end
-						if locale.has_key (key) then
-							text_field.share (locale * key)
+						if ref_field.type_id = Class_id.EL_QUANTITY_TEMPLATE then
+							fill_quantity_template (ref_field, eng_table)
 						else
-							extend_missing_keys (key.twin)
+							set_field (ref_field, text_case, eng_table)
 						end
-					elseif attached {EL_REFLECTED_REFERENCE [ANY]} field.item as l_field
-						and then l_field.type_id = Class_id.EL_QUANTITY_TEMPLATE
-						and then attached {EL_QUANTITY_TEMPLATE} l_field.value (current_reflective) as template
-					then
-						fill_quantity_template (field.key, template, eng_table)
+					else
+						set_field (field.item, Case_lower, eng_table)
 					end
 				end
 			end
@@ -172,7 +163,7 @@ feature {NONE} -- Factory
 			all_keys_match_a_field_name: across Result as table all field_table.has (table.key) end
 		end
 
-	new_quantity_table (text: STRING): EL_ZSTRING_TABLE
+	new_quantity_table (text: ZSTRING): EL_ZSTRING_TABLE
 		do
 			create Result.make (text)
 		ensure
@@ -186,6 +177,15 @@ feature {NONE} -- Implementation
 			Result := text_list.to_array
 		end
 
+	array_has_value (array: like none; value: ANY): BOOLEAN
+		require
+			comparing_references: not array.object_comparison
+		do
+			if array.count > 0 and then array [1].same_type (value) then
+				Result := array.has (value)
+			end
+		end
+
 	extend_missing_keys (key: STRING)
 		do
 			if attached missing_keys_list as list then
@@ -195,14 +195,18 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	fill_quantity_template (field_name: STRING; template: EL_QUANTITY_TEMPLATE; eng_table: like new_english_table)
+	fill_quantity_template (field: EL_REFLECTED_FIELD; eng_table: like new_english_table)
+		require
+			valid_field: field.type_id = Class_id.EL_QUANTITY_TEMPLATE
 		local
-			partial_key, key: STRING; quantity_table: like new_quantity_table
+			key, partial_key: ZSTRING; quantity_table: like new_quantity_table
 			quantity: INTEGER
 		do
-			if eng_table.has_key (field_name) then
+			if attached {EL_QUANTITY_TEMPLATE} field.value (current_reflective) as template
+				and then eng_table.has_key (field.name)
+			then
 				quantity_table := new_quantity_table (eng_table.found_item)
-				partial_key := translation_key (field_name, Case_lower, True)
+				partial_key := translation_key (field.name, Case_lower, True)
 				across Quantifier_names as name loop
 					if quantity_table.has_key (name.item) then
 						quantity := name.cursor_index - 1
@@ -219,7 +223,7 @@ feature {NONE} -- Implementation
 					end
 				end
 			else
-				extend_missing_keys (field_name)
+				extend_missing_keys (field.name)
 			end
 		end
 
@@ -228,6 +232,22 @@ feature {NONE} -- Implementation
 			s: EL_STRING_8_ROUTINES
 		do
 			Result := precursor_lines + s.character_string ('%N') + lines
+		end
+
+	set_field (field: EL_REFLECTED_FIELD; text_case: INTEGER; eng_table: like new_english_table)
+		local
+			key: ZSTRING; text_differs: BOOLEAN
+		do
+			text_differs := eng_table.has_key (field.name)
+			key := translation_key (field.name, text_case, text_differs)
+			if text_differs and then Locale.english_only then
+				locale.set_next_translation (eng_table.found_item)
+			end
+			if locale.has_key (key) then
+				field.set_from_string (Current, locale * key)
+			else
+				extend_missing_keys (key.twin)
+			end
 		end
 
 	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
@@ -290,7 +310,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	None: ARRAY [ZSTRING]
+	None: ARRAY [ANY]
 		once
 			create Result.make_empty
 		end

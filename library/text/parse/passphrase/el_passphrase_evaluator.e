@@ -1,7 +1,8 @@
 note
 	description: "[
-		Evaluates security level of passphrase based on a number of attributes defined in [$source EL_PASSWORD_ATTRIBUTES]
-		The passphrase has 1 point for each attribute which are added together to give a score.
+		Evaluates security level of passphrase based on a number of attributes defined in
+		[$source EL_PASSWORD_ATTRIBUTES]. The passphrase has 1 point for each attribute which
+		are added together to give a score.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 7:49:21 GMT (Wednesday 1st September 2021)"
-	revision: "8"
+	date: "2021-10-28 18:15:56 GMT (Thursday 28th October 2021)"
+	revision: "9"
 
 class
 	EL_PASSPHRASE_EVALUATOR

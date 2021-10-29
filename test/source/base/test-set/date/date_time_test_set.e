@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-07 15:29:02 GMT (Tuesday 7th September 2021)"
-	revision: "18"
+	date: "2021-10-29 13:16:16 GMT (Friday 29th October 2021)"
+	revision: "19"
 
 class
 	DATE_TIME_TEST_SET
@@ -86,9 +86,9 @@ feature -- Tests
 		note
 			testing: "covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted"
 		local
-			date_text: EL_ENGLISH_DATE_TEXT; canonical_format: ZSTRING
+			date_text: EL_DATE_TEXT; canonical_format: ZSTRING
 		do
-			create date_text.make
+			create date_text.make_default
 			canonical_format := date_text.formatted (Date_time.date, {EL_DATE_FORMATS}.canonical)
 			assert ("Same date string", canonical_format.same_string (Date_2017.spelled))
 		end

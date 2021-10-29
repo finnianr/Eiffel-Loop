@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-04 8:17:26 GMT (Friday 4th June 2021)"
-	revision: "9"
+	date: "2021-10-29 13:13:31 GMT (Friday 29th October 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			value as collection
 		redefine
-			make
+			make, set_from_string
 		end
 
 	EL_MODULE_CONVERT_STRING
@@ -35,14 +35,14 @@ feature {NONE} -- Initialization
 			if attached {like new_item} Read_functions_table [{G}] as function then
 				new_item := function
 			end
-			item_type := {G}
+			item_type_id := ({G}).type_id
 		end
 
 feature -- Status query
 
 	has_character_data: BOOLEAN
 		do
-			Result := Collection_type_table.is_character_data (item_type.type_id)
+			Result := Collection_type_table.is_character_data (item_type_id)
 		end
 
 feature -- Basic operations
@@ -52,8 +52,24 @@ feature -- Basic operations
 			if attached new_item as l_new_item then
 				collection (a_object).extend (l_new_item (readable))
 
-			elseif attached {G} Convert_string.to_type (readable.read_string, item_type) as new then
+			elseif attached {G} Convert_string.to_type_of_type (readable.read_string, item_type_id) as new then
 				collection (a_object).extend (new)
+			end
+		end
+
+	set_from_string (a_object: EL_REFLECTIVE; csv_string: READABLE_STRING_GENERAL)
+		-- if collection conforms to type `CHAIN [G]' when {G} is character data type
+		-- then fill with data from comma separated `csv_string' using left adjusted values
+		do
+			if attached {CHAIN [ANY]} collection (a_object) as chain then
+				if Class_id.Character_data_types.has (item_type_id) then
+					chain.wipe_out
+					Convert_string.append_to_chain (item_type_id, chain, csv_string, True)
+				else
+					check
+						convertable_string: False
+					end
+				end
 			end
 		end
 
@@ -113,7 +129,7 @@ feature {NONE} -- Internal attributes
 
 	new_item: detachable FUNCTION [EL_READABLE, G]
 
-	item_type: TYPE [ANY]
+	item_type_id: INTEGER
 
 feature {NONE} -- Constants
 

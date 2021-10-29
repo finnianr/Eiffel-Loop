@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 12:21:25 GMT (Thursday 28th October 2021)"
-	revision: "20"
+	date: "2021-10-29 12:47:00 GMT (Friday 29th October 2021)"
+	revision: "21"
 
 class
 	EL_DATE_TEXT
@@ -205,9 +205,9 @@ feature {NONE} -- Implementation
 		do
 			inspect i
 				when 1 .. 3 then
-					Result := Month.ordinal_indicator [i]
+					Result := Month.ordinal_indicators [i]
 			else
-				Result := Month.ordinal_indicator [0]
+				Result := Month.ordinal_indicators.last
 			end
 		end
 
