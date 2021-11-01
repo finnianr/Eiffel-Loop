@@ -6,17 +6,39 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:46:05 GMT (Sunday 17th October 2021)"
-	revision: "10"
+	date: "2021-11-01 9:12:46 GMT (Monday 1st November 2021)"
+	revision: "11"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
 
 inherit
 	EL_TYPE_ID_ENUMERATION
+		redefine
+			make
+		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			Precursor
+			unicode_types := << CHARACTER_32, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH >>
+			character_data_types := <<
+				CHARACTER_8, CHARACTER_32, STRING_8, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH
+			>>
+		end
+
+feature -- Type sets
+
+	unicode_types: ARRAY [INTEGER]
+		-- set of types containing character data from the Unicode character set
+
+	character_data_types: ARRAY [INTEGER]
+		-- set of types containing character data
 
 feature -- CHARACTER types
 
@@ -63,6 +85,7 @@ feature -- String types
 	EL_ZSTRING: INTEGER
 
 	ZSTRING: INTEGER
+		-- alias
 		do
 			Result := EL_ZSTRING
 		end
@@ -77,6 +100,8 @@ feature -- Path types
 
 feature -- Other types
 
+	ANY: INTEGER
+
 	BOOLEAN: INTEGER
 
 	EL_BOOLEAN_OPTION: INTEGER
@@ -89,19 +114,4 @@ feature -- Other types
 
 	EL_QUANTITY_TEMPLATE: INTEGER
 
-feature -- Constants
-
-	Unicode_types: ARRAY [INTEGER]
-		-- types containing character data from the Unicode character set
-		once
-			Result := << CHARACTER_32, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH >>
-		end
-
-	Character_data_types: ARRAY [INTEGER]
-		-- types containing character data
-		once
-			Result := <<
-				CHARACTER_8, CHARACTER_32, STRING_8, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH
-			>>
-		end
 end

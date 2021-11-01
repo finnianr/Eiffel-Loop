@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:21:31 GMT (Monday 18th October 2021)"
-	revision: "41"
+	date: "2021-10-31 17:15:39 GMT (Sunday 31st October 2021)"
+	revision: "42"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -259,8 +259,10 @@ feature -- Tests
 			assert ("same currency", info.currency.same_string ("GBP"))
 			assert ("same location", info.location ~ IP_location.item (ip_number))
 			assert ("same region code", info.region_code.same_string ("ENG"))
-			assert ("same UTC offset", info.utc_offset.same_string ("+0100"))
 			assert ("same version", info.version.same_string ("IPv4"))
+
+			-- `utc_offset' can vary depending if daylight saving is in effect
+			assert ("same UTC offset", ("+0000, +0100").has_substring (info.utc_offset.out))
 
 			lio.put_integer_field ("size of info", info.deep_physical_size)
 			lio.put_new_line

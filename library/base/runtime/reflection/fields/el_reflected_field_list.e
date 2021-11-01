@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 16:30:05 GMT (Thursday 3rd June 2021)"
-	revision: "14"
+	date: "2021-11-01 21:14:32 GMT (Monday 1st November 2021)"
+	revision: "15"
 
 class
 	EL_REFLECTED_FIELD_LIST
@@ -55,6 +55,38 @@ feature -- Conversion
 		end
 
 feature -- Basic operations
+
+	set_order (meta_data: EL_CLASS_META_DATA)
+		-- reorder fields according to class `meta_data'
+		local
+			i, offset: INTEGER; indices_set: EL_FIELD_INDICES_SET
+			enclosing_object: EL_REFLECTIVE_FIELD_ORDER
+		do
+			enclosing_object := meta_data.enclosing_object
+			-- apply `field_order' sort if not default
+			if not enclosing_object.has_default_field_order then
+				order_by (enclosing_object.field_order, True)
+			end
+			-- apply field order shifts if not default
+			if not enclosing_object.has_default_field_shifts then
+				across enclosing_object.field_shifts as list loop
+					i := list.item.index; offset := list.item.offset
+					if valid_shift (i, offset) then
+						shift_i_th (i, offset)
+					end
+				end
+			end
+			-- move any explicitly ordered fields to the end of list
+			if not enclosing_object.has_default_reordered_fields then
+				create indices_set.make (meta_data, enclosing_object.reordered_fields)
+				across indices_set as set loop
+					find_first_equal (set.item, agent {EL_REFLECTED_FIELD}.index)
+					if found then
+						shift (count - index)
+					end
+				end
+			end
+		end
 
 	sink_except (enclosing_object: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE; excluded: EL_FIELD_INDICES_SET)
 		local

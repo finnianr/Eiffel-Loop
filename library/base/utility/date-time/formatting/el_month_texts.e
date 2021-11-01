@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-29 12:52:42 GMT (Friday 29th October 2021)"
-	revision: "2"
+	date: "2021-10-29 13:37:51 GMT (Friday 29th October 2021)"
+	revision: "3"
 
 class
 	EL_MONTH_TEXTS
@@ -33,8 +33,7 @@ feature {NONE} -- Initialization
 			short_names := <<
 				jan, feb, mar, apr, may_short, jun, jul, aug, sep, oct, nov, dec
 			>>
-			full_names.compare_objects
-			short_names.compare_objects
+			full_names.compare_objects; short_names.compare_objects
 		ensure then
 			valid_ordinal_indicators: ordinal_indicators.count = 4
 		end

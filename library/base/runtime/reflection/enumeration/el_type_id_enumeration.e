@@ -9,49 +9,61 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:27:53 GMT (Tuesday 28th April 2020)"
-	revision: "7"
+	date: "2021-10-31 15:08:59 GMT (Sunday 31st October 2021)"
+	revision: "8"
 
-deferred class
+class
 	EL_TYPE_ID_ENUMERATION
 
 inherit
-	EL_ENUMERATION [INTEGER]
-		rename
-			export_name as to_snake_case_upper,
-			import_name as from_snake_case_upper
-		redefine
-			initialize_fields
+	REFLECTOR_CONSTANTS
+		export
+			{NONE} all
 		end
 
 	EL_MODULE_EIFFEL
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	make
 		local
-			type_id: INTEGER
+			type_id: INTEGER; this: REFLECTED_REFERENCE_OBJECT
+			i, count: INTEGER
 		do
-			across field_table as field loop
-				if attached {EL_REFLECTED_INTEGER_32} field.item as integer then
-					type_id := Eiffel.dynamic_type_from_string (integer.export_name)
+			create this.make (Current)
+			count := this.field_count
+			from i := 1 until i > count loop
+				if this.field_type (i) = Integer_32_type then
+					type_id := Eiffel.dynamic_type_from_string (this.field_name (i).as_upper)
 					if type_id > 0 then
-						integer.set (Current, type_id)
-						type_id_count := type_id_count.next
+						this.set_integer_32_field (i, type_id)
 					else
 						check
 							valid_type_name: False
 						end
 					end
 				end
+				i := i + 1
 			end
-		ensure then
-			all_initialized: type_id_count = field_table.count.to_character_32
+		ensure
+			all_types_set: all_types_set
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Contract Support
 
-	type_id_count: CHARACTER_32
-		-- using CHARACTER_32 as counter so it won't be included as part of enumeration
-
+	all_types_set: BOOLEAN
+		local
+			this: REFLECTED_REFERENCE_OBJECT
+			i, count: INTEGER
+		do
+			create this.make (Current)
+			count := this.field_count
+			Result := True
+			from i := 1 until not Result or else i > count loop
+				if this.field_type (i) = Integer_32_type then
+					Result := this.integer_32_field (i) > 0
+				end
+				i := i + 1
+			end
+		end
 end

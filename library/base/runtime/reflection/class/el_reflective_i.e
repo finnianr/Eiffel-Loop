@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-10 9:45:23 GMT (Monday 10th June 2019)"
-	revision: "4"
+	date: "2021-10-31 12:25:54 GMT (Sunday 31st October 2021)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -28,6 +28,24 @@ feature {NONE} -- Implementation
 
 	is_field_convertable_from_string (basic_type, type_id: INTEGER): BOOLEAN
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
+		-- array of functions returning a new value for result type
+		once
+			create Result.make_empty
+		end
+
+	frozen Default_reader_writer_interfaces: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], TYPE [ANY]]
+		once
+			create Result
+		end
+
+	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT
+		once
+			create Result.make (Current)
 		end
 
 end

@@ -4,7 +4,7 @@ pyxis-doc:
 # class EL_MONTH_TEXTS
 
 translations:
-	# Day of month ordinal indicators
+	# Day of month ordinal indicators (default is last)
 	item:
 		id = "{ordinal-indicators}"
 		translation:
@@ -12,117 +12,8 @@ translations:
 			".,.,.,."
 		translation:
 			lang = en
-			"st, nd, rd, th"
+			"st,nd,rd,th"
 
-	# Short spelling months of year
-	item:
-		id = "Jan"
-		translation:
-			lang = de; check = true
-			"Jan"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Feb"
-		translation:
-			lang = de; check = true
-			"Feb"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Mar"
-		translation:
-			lang = de; check = true
-			"Mrz"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Apr"
-		translation:
-			lang = de; check = true
-			"Apr"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "{may-short}"
-		translation:
-			lang = de; check = true
-			"Mai"
-		translation:
-			lang = en
-			"May"
-
-	item:
-		id = "Jun"
-		translation:
-			lang = de; check = true
-			"Jun"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Jul"
-		translation:
-			lang = de; check = true
-			"Jul"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Aug"
-		translation:
-			lang = de; check = true
-			"Aug"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Sep"
-		translation:
-			lang = de; check = true
-			"Sep"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Oct"
-		translation:
-			lang = de; check = true
-			"Okt"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Nov"
-		translation:
-			lang = de; check = true
-			"Nov"
-		translation:
-			lang = en
-			"$id"
-
-	item:
-		id = "Dec"
-		translation:
-			lang = de; check = true
-			"Dez"
-		translation:
-			lang = en
-			"$id"
-	
 	# Long spelling months of year
 	item:
 		id = "January"
@@ -232,4 +123,112 @@ translations:
 			lang = en
 			"$id"
 	
+	# Short spelling months of year
+	item:
+		id = "Jan"
+		translation:
+			lang = de; check = true
+			"Jan"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Feb"
+		translation:
+			lang = de; check = true
+			"Feb"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Mar"
+		translation:
+			lang = de; check = true
+			"Mrz"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Apr"
+		translation:
+			lang = de; check = true
+			"Apr"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "{may-short}"
+		translation:
+			lang = de; check = true
+			"Mai"
+		translation:
+			lang = en
+			"May"
+
+	item:
+		id = "Jun"
+		translation:
+			lang = de; check = true
+			"Jun"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Jul"
+		translation:
+			lang = de; check = true
+			"Jul"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Aug"
+		translation:
+			lang = de; check = true
+			"Aug"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Sep"
+		translation:
+			lang = de; check = true
+			"Sep"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Oct"
+		translation:
+			lang = de; check = true
+			"Okt"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Nov"
+		translation:
+			lang = de; check = true
+			"Nov"
+		translation:
+			lang = en
+			"$id"
+
+	item:
+		id = "Dec"
+		translation:
+			lang = de; check = true
+			"Dez"
+		translation:
+			lang = en
+			"$id"
 

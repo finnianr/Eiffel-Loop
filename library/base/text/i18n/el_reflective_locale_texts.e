@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-29 13:04:39 GMT (Friday 29th October 2021)"
-	revision: "15"
+	date: "2021-10-31 15:45:56 GMT (Sunday 31st October 2021)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -68,11 +68,11 @@ feature {NONE} -- Initialization
 				across field_table as field loop
 					if attached {EL_REFLECTED_REFERENCE [ANY]} field.item as ref_field then
 						value := ref_field.value (current_reflective)
-						if array_has_value (lower_case, value) then
+						if value_in_set (value, lower_case) then
 							text_case := Case_lower
-						elseif array_has_value (upper_case, value) then
+						elseif value_in_set (value, upper_case) then
 							text_case := Case_upper
-						elseif array_has_value (title_case, value) then
+						elseif value_in_set (value, title_case) then
 							text_case := Case_proper
 						else
 							text_case := Case_first_upper -- The default is first letter capitalized
@@ -177,15 +177,6 @@ feature {NONE} -- Implementation
 			Result := text_list.to_array
 		end
 
-	array_has_value (array: like none; value: ANY): BOOLEAN
-		require
-			comparing_references: not array.object_comparison
-		do
-			if array.count > 0 and then array [1].same_type (value) then
-				Result := array.has (value)
-			end
-		end
-
 	extend_missing_keys (key: STRING)
 		do
 			if attached missing_keys_list as list then
@@ -250,7 +241,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
+	translation_key (name: IMMUTABLE_STRING_8; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
 		do
 			Result := Key_buffer.copied_general (name)
 			Result.prune_all_trailing ('_') -- in case of keyword differentiation
@@ -285,6 +276,15 @@ feature {NONE} -- Implementation
 			first_line.append_substring_general (lines, 1, lines.index_of ('%N', 1) - 1)
 			if first_line.count > 1 and then first_line [first_line.count] = ':' then
 				Result := not first_line.is_space_item (1)
+			end
+		end
+
+	value_in_set (value: ANY; set: like none): BOOLEAN
+		require
+			comparing_references: not set.object_comparison
+		do
+			if set.count > 0 and then set [1].same_type (value) then
+				Result := set.has (value)
 			end
 		end
 

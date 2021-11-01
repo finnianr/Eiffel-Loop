@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 12:29:03 GMT (Tuesday 11th May 2021)"
-	revision: "21"
+	date: "2021-11-01 9:18:41 GMT (Monday 1st November 2021)"
+	revision: "22"
 
 class
 	EL_REFLECTED_FIELD_TABLE
@@ -27,9 +27,9 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_EIFFEL
-
 	EL_MODULE_NAMING
+
+	EL_SHARED_CLASS_ID
 
 create
 	make
@@ -72,7 +72,7 @@ feature -- Basic operations
 		do
 			last_query.wipe_out
 			from start until after loop
-				if type_id = Any_type_id or else type_id = item_for_iteration.type_id then
+				if type_id = Class_id.ANY or else type_id = item_for_iteration.type_id then
 					last_query.extend (item_for_iteration)
 				end
 				forth
@@ -90,26 +90,16 @@ feature -- Status query
 			if attached {STRING} a_name as name_8 then
 				name := name_8
 			else
-				name := Name_in; name.wipe_out
-				if attached {ZSTRING} a_name as z_name then
-					z_name.append_to_string_8 (name)
-				else
-					name.append_string_general (a_name)
-				end
+				name := Name_buffer.copied_general (a_name)
 			end
 			Result := has_key (object.import_name (name, False))
 		end
 
 feature {NONE} -- Internal attributes
 
-	Name_in: STRING
+	Name_buffer: EL_STRING_8_BUFFER
 		once
-			create Result.make (20)
-		end
-
-	Any_type_id: INTEGER
-		once
-			Result := ({ANY}).type_id
+			create Result
 		end
 
 end

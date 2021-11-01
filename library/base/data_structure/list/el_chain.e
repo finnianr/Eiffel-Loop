@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-29 13:19:42 GMT (Thursday 29th April 2021)"
-	revision: "37"
+	date: "2021-11-01 21:14:11 GMT (Monday 1st November 2021)"
+	revision: "38"
 
 deferred class EL_CHAIN [G]
 
@@ -295,6 +295,8 @@ feature -- Conversion
 
 	string_8_list (value: FUNCTION [G, STRING]): EL_STRING_LIST [STRING]
 			-- list of `value (item)' strings of type STRING_8
+		note
+			EIS: "name=Unnamed", "protocol=URI", "src=http://www.yourwebsite.com"
 		require
 			valid_open_count: value.open_count = 1
 			valid_value_function: value.valid_operands ([proto_item])

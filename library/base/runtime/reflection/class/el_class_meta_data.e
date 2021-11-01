@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:46:45 GMT (Sunday 17th October 2021)"
-	revision: "47"
+	date: "2021-11-01 9:00:04 GMT (Monday 1st November 2021)"
+	revision: "48"
 
 class
 	EL_CLASS_META_DATA
@@ -75,9 +75,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	enclosing_object: EL_REFLECTIVE
+
 	excluded_fields: EL_FIELD_INDICES_SET
 
-	field_list: like new_field_list
+	field_list: EL_REFLECTED_FIELD_LIST
 
 	field_table: EL_REFLECTED_FIELD_TABLE
 
@@ -179,12 +181,9 @@ feature {NONE} -- Factory
 		end
 
 	new_field_list: EL_REFLECTED_FIELD_LIST
+		-- list of field names with empty strings in place of excluded fields
 		local
-			i, offset, count: INTEGER; name: STRING; excluded: like excluded_fields
-			field_order: like enclosing_object.field_order
-			field_shifts: like enclosing_object.field_shifts
-			reordered_fields: like enclosing_object.reordered_fields
-			indices_set: EL_FIELD_INDICES_SET
+			i, count: INTEGER; excluded: like excluded_fields
 		do
 			excluded := excluded_fields; count := field_count
 			create Result.make (count - excluded.count)
@@ -192,41 +191,15 @@ feature {NONE} -- Factory
 				if not (is_field_transient (i) or else excluded.has (i))
 					and then enclosing_object.field_included (field_type (i), field_static_type (i))
 				then
-					name := field_name (i)
-					-- if not a once ("OBJECT") field
-					if name [1] /= '_' then
+					if attached field_name (i) as name and then not is_once_object (name) then
+						-- remove underscore used to distinguish field name from keyword
 						name.prune_all_trailing ('_')
 						Result.extend (new_reflected_field (i, name))
 					end
 				end
 				i := i + 1
 			end
-			-- apply `field_order' sort if not default
-			field_order := enclosing_object.field_order
-			if field_order /= enclosing_object.Default_field_order then
-				Result.order_by (field_order, True)
-			end
-			-- apply field order shifts if not default
-			field_shifts := enclosing_object.field_shifts
-			if field_shifts /= enclosing_object.Default_field_shifts then
-				across field_shifts as shift loop
-					i := shift.item.index; offset := shift.item.offset
-					if Result.valid_shift (i, offset) then
-						Result.shift_i_th (i, offset)
-					end
-				end
-			end
-			-- move any explicitly ordered fields to the end of list
-			reordered_fields := enclosing_object.reordered_fields
-			if reordered_fields /= enclosing_object.Default_reordered_fields then
-				create indices_set.make (Current, reordered_fields)
-				across indices_set as index loop
-					Result.find_first_equal (index.item, agent {EL_REFLECTED_FIELD}.index)
-					if Result.found then
-						Result.shift (Result.count - Result.index)
-					end
-				end
-			end
+			Result.set_order (Current)
 		end
 
 	new_reference_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
@@ -292,11 +265,17 @@ feature {NONE} -- Factory
 			create Result.make_equal (11, agent new_field_indices_set)
 		end
 
+feature {NONE} -- Implementation
+
+	is_once_object (name: STRING): BOOLEAN
+		-- `True' if `name' is a once ("OBJECT") field name
+		do
+			Result := name.count > 0 and then name [1] = '_'
+		end
+
 feature {NONE} -- Internal attributes
 
 	cached_field_indices_set: EL_CACHE_TABLE [EL_FIELD_INDICES_SET, STRING]
-
-	enclosing_object: EL_REFLECTIVE
 
 	representations: like enclosing_object.new_representations
 

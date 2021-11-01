@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-24 11:52:33 GMT (Monday 24th May 2021)"
-	revision: "29"
+	date: "2021-10-31 16:01:22 GMT (Sunday 31st October 2021)"
+	revision: "30"
 
 class
 	PP_TRANSACTION

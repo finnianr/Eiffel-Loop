@@ -23,14 +23,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 12:53:36 GMT (Sunday 17th October 2021)"
-	revision: "48"
+	date: "2021-10-31 12:54:18 GMT (Sunday 31st October 2021)"
+	revision: "49"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
 	EL_REFLECTIVE_I
+
+	EL_REFLECTIVE_FIELD_ORDER
 
 	EL_WORD_SEPARATION_ADAPTER
 		export
@@ -172,7 +174,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_representations: valid_representations (Result)
 		end
 
-feature -- Contract Support
+feature {NONE} -- Contract Support
 
 	valid_field_names (names: STRING): BOOLEAN
 		-- `True' if comma separated list of `names' are all valid field names
@@ -281,28 +283,6 @@ feature {EL_CLASS_META_DATA} -- Implementation
 		deferred
 		end
 
-	field_order: like Default_field_order
-		-- sorting function to be applied to result of `{EL_CLASS_META_DATA}.new_field_list'
-		do
-			Result := Default_field_order
-		end
-
-	field_shifts: like Default_field_shifts
-		-- arguments to be applied to `Result.shift_i_th' in `{EL_CLASS_META_DATA}.new_field_list'
-		-- after applying `field_order'
-		do
-			Result := Default_field_shifts
-		end
-
-	reordered_fields: STRING
-		-- comma separated list of explicitly ordered fields to be shifted to the end of `Meta_data.field_list'
-		-- after the `field_order' function has been applied
-		do
-			Result := Default_reordered_fields
-		ensure
-			valid_field_names: valid_field_names (Result)
-		end
-
 	set_reference_fields (type: TYPE [ANY]; new_object: FUNCTION [STRING, ANY])
 		-- set reference fields of `type' with `new_object' taking a exported name
 		require
@@ -325,33 +305,6 @@ feature {EL_CLASS_META_DATA} -- Implementation
 
 feature {EL_CLASS_META_DATA} -- Constants
 
-	Default_field_order: FUNCTION [EL_REFLECTED_FIELD, STRING]
-		-- natural unsorted order
-		once ("PROCESS")
-			Result := agent {EL_REFLECTED_FIELD}.name
-		end
-
-	Default_field_shifts: ARRAY [TUPLE [index: INTEGER_32; offset: INTEGER_32]]
-		once ("PROCESS")
-			create Result.make_empty
-		end
-
-	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
-		-- array of functions returning a new value for result type
-		once
-			create Result.make_empty
-		end
-
-	frozen Default_reader_writer_interfaces: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], TYPE [ANY]]
-		once
-			create Result
-		end
-
-	Default_reordered_fields: STRING
-		once ("PROCESS")
-			create Result.make_empty
-		end
-
 	Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
 		once
 			create Result.make_size (0)
@@ -368,11 +321,6 @@ feature {EL_CLASS_META_DATA} -- Constants
 	Meta_data_by_type: EL_FUNCTION_RESULT_TABLE [EL_REFLECTIVE, EL_CLASS_META_DATA]
 		once
 			create Result.make (11, agent {EL_REFLECTIVE}.new_meta_data)
-		end
-
-	frozen Once_current_object: REFLECTED_REFERENCE_OBJECT
-		once
-			create Result.make (Current)
 		end
 
 	Transient_fields: STRING

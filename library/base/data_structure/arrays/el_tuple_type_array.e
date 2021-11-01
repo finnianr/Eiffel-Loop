@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 14:47:15 GMT (Monday 30th August 2021)"
-	revision: "15"
+	date: "2021-10-31 14:50:42 GMT (Sunday 31st October 2021)"
+	revision: "16"
 
 class
 	EL_TUPLE_TYPE_ARRAY

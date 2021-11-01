@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 16:56:21 GMT (Sunday 26th September 2021)"
-	revision: "1"
+	date: "2021-10-31 15:46:18 GMT (Sunday 31st October 2021)"
+	revision: "2"
 
 class
 	EL_CURRENCY_TEXTS
@@ -118,7 +118,7 @@ feature -- Specifications
 
 feature {NONE} -- Implementation
 
-	translation_key (a_name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
+	translation_key (a_name: IMMUTABLE_STRING_8; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
 		do
 			Result := Key_template #$ [a_name.as_upper]
 		end
