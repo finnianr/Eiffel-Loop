@@ -10,7 +10,10 @@
 import os, platform
 from os import path
 from eiffel_loop.os import path as el_path
-from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise_environ
+
+global ise
+ise = ise_environ.shared
 
 if platform.system () == "Windows":
 	compiler_flags = ['-nologo', '-W1', '-c', '-MT', '-Ox', '-DCOMPILED_FROM_DSP', '-DNDEBUG', '-D_LIB', '-DXML_STATIC'	]
@@ -19,7 +22,7 @@ else:
 
 env = Environment (CCFLAGS = compiler_flags, CPPPATH = ['include'], ENV = os.environ)
 
-build_dir = project.platform_spec_build_dir ()
+build_dir =  ise.spec_build_dir ()
 
 VariantDir (build_dir, 'source', duplicate=0)
 

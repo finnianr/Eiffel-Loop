@@ -8,13 +8,13 @@
 import ctypes, os, string, sys, imp, platform
 
 from string import Template
-from os import path
+from eiffel_loop.os import path
 from glob import glob
 from distutils import dir_util
 
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
 
-from eiffel_loop.eiffel import ise
+from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
 from eiffel_loop.xml.xpath import XPATH_FRAGMENT_CONTEXT
 from eiffel_loop.distutils import file_util
@@ -22,16 +22,8 @@ from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
 from subprocess import call
 
-global program_files
-
-program_files = 'Program Files'
-
-def platform_spec_build_dir ():
-	return path.join ('spec', ise.platform)
-
-def x86_path (a_path):
-	result = a_path.replace (program_files, 'Program Files (x86)', 1)
-	return result
+global ise
+ise = ise_environ.shared
 
 def read_project_py ():
 	py_file, file_path, description = imp.find_module ('project', [path.abspath (os.curdir)])
@@ -47,34 +39,6 @@ def read_project_py ():
 	else:
 		print 'ERROR: find_module'
 		result = None
-
-	return result
-
-def x86_environ (environ):
-	result = {}
-
-	# Change any /Program Files/ to /Program Files (x86)/
-	for name in environ:
-		l_dir = environ [name]
-		if (l_dir).find (program_files) > 0:
-			result [name] = x86_path (l_dir)
-		else:
-			result [name] = l_dir
-
-	# Add a modified PATH for 32 bit EiffelStudio
-	name = 'PATH'
-	path_list = []
-	for line in (os.environ [name]).split (';'):
-		if line.startswith (ise.library):
-			path_list.append (x86_path (line).replace (ise.platform_win_x64, ise.platform_win_x86, 1))
-		else:
-			path_list.append (line)
-	result [name] = (';').join (path_list)
-
-	result [ise.key_library] = x86_path (ise.library)
-	result [ise.key_eiffel] = x86_path (ise.eiffel)
-	result [ise.key_platform] = ise.platform_win_x86
-	result [ise.key_precomp] = ise.precompile_path (ise.platform_win_x86)
 
 	return result
 
@@ -120,6 +84,7 @@ def convert_pecf_to_xml (pecf_path):
 	if result > 0:
 		print "Error converting %s to XML" % (pecf_path)
 	return result
+
 
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):
@@ -353,3 +318,4 @@ class MSWIN_EIFFEL_PROJECT (EIFFEL_PROJECT):
 		return template % path.splitext (self.exe_name)
 
 #end class
+

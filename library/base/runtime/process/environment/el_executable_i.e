@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-23 11:06:50 GMT (Monday 23rd August 2021)"
-	revision: "5"
+	date: "2021-11-05 10:00:51 GMT (Friday 5th November 2021)"
+	revision: "6"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -116,7 +116,7 @@ feature -- Access
 
 	search_path_32: STRING_32
 		do
-			if attached Execution_environment.item ("PATH") as str then
+			if attached Execution_environment.item (Var_path) as str then
 				Result := str
 			else
 				create Result.make_empty
@@ -174,7 +174,7 @@ feature -- Basic operations
 	set_search_path (env_path: ZSTRING)
 			--
 		do
-			Execution_environment.put (env_path.to_unicode, "PATH")
+			Execution_environment.put (env_path.to_unicode, Var_path)
 		end
 
 feature -- Status report
@@ -212,5 +212,7 @@ feature -- Constants
 		once
 			Result := name + "-" + Operating_environ.user_name
 		end
+
+	Var_path: STRING = "PATH"
 
 end

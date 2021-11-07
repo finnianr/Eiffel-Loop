@@ -1,6 +1,5 @@
 import os
 
-from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
@@ -15,6 +14,8 @@ var.Update (env)
 
 project_py = project.read_project_py ()
 project_py.set_build_environment ()
+
+ise = project_py.ise
 
 env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 

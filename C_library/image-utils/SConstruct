@@ -9,7 +9,10 @@ import os, sys, platform
 from os import path
 
 from eiffel_loop.scons import util
-from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise_environ
+
+global ise
+ise = ise_environ.shared
 
 def expanded_path (a_path):
 	return path.expandvars (path.normpath (a_path))
@@ -56,7 +59,7 @@ print 'Include path', env ['ARCHITECTURE']
 for include in include_path:
 	print env.subst (include)
 
-build_dir =  project.platform_spec_build_dir ()
+build_dir = ise.spec_build_dir ()
 
 VariantDir (build_dir, 'source', duplicate=0)
 

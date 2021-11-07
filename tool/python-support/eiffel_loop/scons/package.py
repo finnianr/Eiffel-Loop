@@ -12,7 +12,10 @@ from string import Template
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
 from eiffel_loop.package import DEBIAN_SOFTWARE_PACKAGE
 from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
-from eiffel_loop.eiffel import ise
+from eiffel_loop.eiffel import ise_environ
+
+global ise
+ise = ise_environ.shared
 
 if os.name == 'posix':
 	from debian import debfile

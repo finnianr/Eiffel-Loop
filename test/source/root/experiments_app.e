@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 9:31:57 GMT (Thursday 28th October 2021)"
-	revision: "70"
+	date: "2021-11-04 14:35:16 GMT (Thursday 4th November 2021)"
+	revision: "71"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.input_capital_a_umlaut")
-			string.input_capital_a_umlaut
+			log.enter ("numeric.raku_vs_eiffel")
+			numeric.raku_vs_eiffel
 			log.exit
 		end
 

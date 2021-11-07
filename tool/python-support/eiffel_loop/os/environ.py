@@ -8,8 +8,75 @@
 import os, platform, sys, imp, subprocess
 from os import path
 
+if sys.platform == 'win32':
+	import _winreg
+
+class REGISTRY_NODE (object):
+
+# Initialization
+	def __init__ (self, tree_key, key_path = None):
+		self.tree_key = tree_key
+		self.key_path = key_path
+
+# Access
+	def ascii_value (self, name):
+		return self.value (name).encode ('ascii')
+
+	def value (self, name):
+		key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
+		result = _winreg.QueryValueEx (key, name)[0]
+		_winreg.CloseKey (key)
+		return result
+
+	def value_table (self, encoding = None):
+		result = dict ()
+		key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
+		for i in range (0, _winreg.QueryInfoKey (key)[1], 1):
+			nvp = _winreg.EnumValue(key, i)
+			name = nvp [0]; value = nvp [1]
+			if encoding:
+				result [name.encode (encoding)] = value.encode (encoding)
+			else:
+				result [name] = value
+
+		_winreg.CloseKey (key)
+		return result
+
+# Basic operations
+	def set_expandable_value (self, value, expandable = False):
+		self.set_value (value, True)
+ 
+	def set_value (self, value, expandable = False):
+		key = _winreg.CreateKeyEx (self.tree_key, self.key_path, 0, _winreg.KEY_ALL_ACCESS)
+		if key:
+			if expandable:
+				_winreg.SetValueEx (key, '', 0, _winreg.REG_EXPAND_SZ, value)
+			else:
+				_winreg.SetValue (key, '', _winreg.REG_SZ, value)
+				
+			_winreg.CloseKey (key)
+		else:
+			raise Exception ("Registry path not found: " + key_path)
+
+# end class REGISTRY_NODE
+
 def python_home_dir ():
 	return os.path.dirname (os.path.realpath (sys.executable))
+
+def bash_profile_table ():
+	# return dictionary of exported environment up SYSTEM_PATH
+	result = dict ()
+	f = open (path.expandvars ('$HOME/.profile'), 'r')
+	for line in f:
+		if line.startswith ('export SYSTEM_PATH'):
+			break
+		index_eq = line.find ('=')
+		if index_eq > 0 and line.startswith ('export'):
+			name = line [line.find (' ') + 1:index_eq]
+			value = (line [(index_eq + 1):]).strip ()
+			result [name] = value
+
+	return result
 
 def eiffel_loop_dir ():
 	env_eiffel_loop = 'EIFFEL_LOOP'
@@ -34,20 +101,50 @@ def python_dir_name ():
 		result = path.basename (python_home_dir ())
 		
 	return result
+
+def user_path ():
+	# The user additions to search path from .profile (Unix) or User Environment path (Windows)
+	result = None
+	if sys.platform == 'win32':
+		environment_path = r'Environment'
+		try:
+			user_environ = REGISTRY_NODE (_winreg.HKEY_CURRENT_USER, environment_path)
+			result = user_environ.ascii_value ("Path")
+		
+		except (WindowsError), err:
+			result = None
+	else:
+		result = os.environ ['USER_PATH']
+
+	return result
+
+
+def system_path ():
+	# The search path before addition of user modifications in either .profile (Unix)
+	# or User Environment path (Windows)
+	result = None
+	if sys.platform == 'win32':
+		environment_path = r'SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
+		try:
+			manager_environ = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE, environment_path)
+			result = manager_environ.ascii_value ("Path")
+		
+		except (WindowsError), err:
+			result = None
+	else:
+		result = os.environ ['SYSTEM_PATH']
+
+	return result
 	
 def jdk_home ():
 	if sys.platform == 'win32':
-		import _winreg
-
 		software_path = r'SOFTWARE\JavaSoft\Java Development Kit'
 		try:
-			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, software_path, 0, _winreg.KEY_READ)
-			jdk_version = _winreg.QueryValueEx (key, "CurrentVersion")[0]
+			dev_kit = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE, software_path)
+			jdk_version = dev_kit.value ("CurrentVersion")
 		
-			software_path = path.join (software_path, jdk_version)
-			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, software_path, 0, _winreg.KEY_READ)
-			result = _winreg.QueryValueEx (key, "JavaHome")[0]
-			result = result.encode ('ascii')
+			dev_kit.key_path = path.join (software_path, jdk_version)
+			result = dev_kit.ascii_value ("JavaHome")
 		
 		except (WindowsError), err:
 			result = 'Unknown'
@@ -81,5 +178,22 @@ def command_exists (command, shell = False):
 	FNULL.close ()
 	os.remove (fnull_path)
 	return result
+
+def user_templates ():
+	# user environment templates
+	result = dict ()
+	if sys.platform == 'win32':
+		environment_path = r'Environment'
+		try:
+			user_environ = REGISTRY_NODE (_winreg.HKEY_CURRENT_USER, environment_path)
+			result = user_environ.value_table ('ascii')
+	
+		except (WindowsError), err:
+			print "Error", err
+	else:
+		result = bash_profile_table ()
+	
+	return result
+
 		
 

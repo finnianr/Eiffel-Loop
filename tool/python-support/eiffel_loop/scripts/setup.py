@@ -10,17 +10,19 @@ import os, sys, subprocess, platform, zipfile
 from distutils import dir_util, file_util
 from os import path
 
-from eiffel_loop.eiffel import ise
 from eiffel_loop.os import environ
+from eiffel_loop.os.environ import REGISTRY_NODE
 from eiffel_loop import package
 from eiffel_loop.package import ZIP_SOFTWARE_PACKAGE
 from eiffel_loop.package import WINDOWS_INSTALL_PACKAGE
 from eiffel_loop.eiffel import project
+from eiffel_loop.scripts import templates
 
+from eiffel_loop.eiffel import ise_environ
 if sys.platform == "win32":
 	import _winreg
 
-from eiffel_loop.scripts import templates
+ise = ise_environ.shared
 
 python_home_dir = environ.python_home_dir()
 eiffel_loop_home_dir = path.abspath (os.curdir)
@@ -42,8 +44,8 @@ def gedit_home_dir ():
 	# Check for gedit 3.2 (win64)
 	gedit_path = path.join (software_dir, r'GNOME\gedit Text Editor (64 bit)')	
 	try:
-		key = _winreg.OpenKey (_winreg.HKEY_CURRENT_USER, gedit_path, 0, _winreg.KEY_READ)
-		result = _winreg.QueryValueEx (key, "InstallPath")[0]
+		gedit_reg = REGISTRY_NODE (_winreg.HKEY_CURRENT_USER, gedit_path)
+		result = gedit_reg.value ("InstallPath")
 
 	except (WindowsError), err:
 		pass
@@ -57,8 +59,8 @@ def gedit_home_dir ():
 		gedit_path = path.join (gedit_path, r'Microsoft\Windows\CurrentVersion\Uninstall\gedit_is1')
 
 		try:
-			key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, gedit_path, 0, _winreg.KEY_READ)
-			result = _winreg.QueryValueEx (key, "InstallLocation")[0]
+			gedit_reg = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE, gedit_path)
+			result = gedit_reg.value ("InstallLocation")
 
 		except (WindowsError), err:
 			pass
@@ -193,6 +195,7 @@ class WINDOWS_INSTALLER (INSTALLER):
 		conversion_cmd = 'cmd /C el_eiffel -pecf_to_xml -ask_user_to_quit -in "%1"'
 		open_with_estudio_cmd = '"%s" "%%1"' % path.join (python_home_dir, "launch_estudio.bat")
 
+		ecf_extension_cmds = {'open' : open_with_estudio_cmd }
 		pecf_extension_cmds = {'open' : open_with_estudio_cmd, 'Convert To ECF' : conversion_cmd }
 		pyx_extension_cmds = {'Convert To XML' : conversion_cmd }
 		if edit_cmd:
@@ -200,35 +203,35 @@ class WINDOWS_INSTALLER (INSTALLER):
 			pyx_extension_cmds ['open'] = edit_cmd
 			pyx_extension_cmds ['edit'] = edit_cmd
 
+		classes_root = REGISTRY_NODE (_winreg.HKEY_CLASSES_ROOT)
+
 		mime_types = [
-			('.pecf', 'Pyxis.ECF.File', 'Pyxis Eiffel Configuration File', estudio_logo_path, pecf_extension_cmds),
+			('.ecf', 'XML.ECF.File', 'Eiffel XML Configuration File', estudio_logo_path, ecf_extension_cmds),
+			('.pecf', 'Pyxis.ECF.File', 'Eiffel Pyxis Configuration File', estudio_logo_path, pecf_extension_cmds),
 			('.pyx', 'Pyxis.File', 'Pyxis Data File', py_icon_path, pyx_extension_cmds)
 		]
 		for extension_name, pyxis_key_name, description, icon_path, extension_cmds in mime_types:
-			self.set_registry_value (extension_name, pyxis_key_name)
+			classes_root.key_path = extension_name
+			classes_root.set_value (pyxis_key_name)
 
 			pyxis_shell_path = path.join (pyxis_key_name, 'shell')
 			for command_name, command in extension_cmds.iteritems():
 				command_path = path.join (pyxis_shell_path, command_name, 'command')
 				print 'Setting:', command_path, 'to', command
-				self.set_registry_value (command_path, command)
+				classes_root.key_path = command_path			
+				classes_root.set_value (command)
 
-			self.set_registry_value (pyxis_key_name, description)
-			self.set_registry_value (path.join (pyxis_key_name, 'DefaultIcon'), icon_path)
+			classes_root.key_path = pyxis_key_name			
+			classes_root.set_value (description)
+
+			classes_root.key_path = path.join (pyxis_key_name, 'DefaultIcon')			
+			classes_root.set_expandable_value (icon_path)
 
 	def install_precompiles (self, ise_platform):
 		super (WINDOWS_INSTALLER, self).install_precompiles (ise_platform)
-		if ise_platform == 'win64':
+		if ise_platform == ise.Platform_64_bit:
 			if path.exists (project.x86_path (ise.eiffel)):
 				super (WINDOWS_INSTALLER, self).install_precompiles ('windows')
-
-	def set_registry_value (self, key_path, key_name):
-		key = _winreg.CreateKeyEx (_winreg.HKEY_CLASSES_ROOT, key_path, 0, _winreg.KEY_ALL_ACCESS)
-		if key:
-			_winreg.SetValue (key, '', _winreg.REG_SZ, key_name)
-			_winreg.CloseKey (key)
-		else:
-			raise Exception ("Registry path not found: " + key_path)
 
 class UNIX_INSTALLER (INSTALLER):
 

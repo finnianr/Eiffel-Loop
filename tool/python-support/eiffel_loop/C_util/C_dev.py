@@ -7,6 +7,7 @@
 
 import os, subprocess, sys
 from os import path
+from eiffel_loop.os.environ import REGISTRY_NODE
 
 if sys.platform == "win32":
 	import _winreg
@@ -15,11 +16,21 @@ class MICROSOFT_SDK (object):
 	# Compiler SDK
 	# Quick help on SetEnv.Cmd and vcvarsall.bat below
 
+# Constants
+	Architecture_options = ['/x86', '/x64'] #SetEnv.Cmd switches
+
+	Key_sdk_windows = r'SOFTWARE\Microsoft\Microsoft SDKs\Windows'
+
+	Key_visual_studio = r'SOFTWARE\WOW6432Node\Microsoft\VisualStudio'
+
+	Set_compiler_env_bat = 'set_msvc_compiler_environment.bat'
+
 # Initialization
 	def __init__ (self, c_compiler, MSC_options):
 		vc_version = 0
 		self.sdk_version = 0
 		self.MSC_options = MSC_options
+		self.local_machine = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE)
 
 		self.target_cpu = None
 		for cpu in self.Architecture_options:
@@ -85,7 +96,7 @@ class MICROSOFT_SDK (object):
 			if pos_equal > 0:
 				name = line [0:pos_equal]
 				value = line [pos_equal + 1:-1]
-				# Fixes a problem on Windows for user maeda
+				# Fixes a problem on Windows for user 'maeda'
 				name = name.encode ('ascii'); value = value.encode ('ascii')
 				result [name.upper ()] = value
 
@@ -107,19 +118,8 @@ class MICROSOFT_SDK (object):
 # Implemenation
 
 	def reg_value (self, key_path, name):
-		key = _winreg.OpenKey (_winreg.HKEY_LOCAL_MACHINE, key_path, 0, _winreg.KEY_READ)
-		result = _winreg.QueryValueEx (key, name)[0]
-		_winreg.CloseKey (key)
-		return result
-
-# Constants
-	Architecture_options = ['/x86', '/x64'] #SetEnv.Cmd switches
-
-	Key_sdk_windows = r'SOFTWARE\Microsoft\Microsoft SDKs\Windows'
-
-	Key_visual_studio = r'SOFTWARE\WOW6432Node\Microsoft\VisualStudio'
-
-	Set_compiler_env_bat = 'set_msvc_compiler_environment.bat'
+		self.local_machine.key_path = key_path
+		return self.local_machine.value (name)
 
 
 # C:\>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.Cmd"

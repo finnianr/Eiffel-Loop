@@ -12,7 +12,7 @@ from string import Template
 from glob import glob
 from os import path
 
-from eiffel_loop.eiffel import ise
+from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
@@ -22,7 +22,9 @@ from eiffel_loop.tar import ARCHIVE
 
 from subprocess import call
 
-global Build_info_class_template
+global Build_info_class_template, ise
+
+ise = ise_environ.shared
 
 def programs_suffix ():
 	if sys.platform == 'win32':
@@ -268,7 +270,7 @@ class SYSTEM_INFO (object):
 		else:
 			suffix = ''
 			# In case you are compiling a 32 bit version on a 64 bit machine.
-			if ise.platform == 'windows' and os_platform.machine () == 'AMD64':
+			if ise.is_32_bit_platform () and os_platform.machine () == 'AMD64':
 				suffix = ' (x86)'
 			result = path.join ('c:\\Program files' + suffix, installation_sub_directory)
 			

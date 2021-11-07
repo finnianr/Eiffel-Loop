@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-31 17:20:57 GMT (Saturday 31st July 2021)"
-	revision: "4"
+	date: "2021-11-04 14:35:04 GMT (Thursday 4th November 2021)"
+	revision: "5"
 
 class
 	NUMERIC_EXPERIMENTS
@@ -91,6 +91,24 @@ feature -- Basic operations
 			lio.put_integer_field ("divisor", divisor)
 			lio.put_new_line
 			lio.exit
+		end
+
+	raku_vs_eiffel
+		-- Raku gives correct answer for following
+		local
+			equation: STRING
+		do
+			equation :="x = 0.1 + 0.2 - 0.3 => x = "
+			lio.put_string (equation)
+			lio.put_double (0.1 + 0.2 - 0.3)
+			lio.put_new_line
+
+			lio.put_string (equation)
+			lio.put_real ({REAL} 0.1 + {REAL} 0.2 - {REAL} 0.3)
+			lio.put_new_line
+
+			lio.put_string (equation + ({REAL} 0.01 + {REAL} 0.02 - {REAL} 0.03).out)
+			lio.put_new_line
 		end
 
 	random_sequence

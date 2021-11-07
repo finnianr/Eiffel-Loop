@@ -12,11 +12,13 @@ import os, sys, platform
 from os import path
 
 from eiffel_loop.scons import util
-from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop.scons import package
 from eiffel_loop.scons import c
 
+global ise
+ise = ise_environ.shared
 #Import ('env')
 
 print "SConscript Cairo-1.12.16"
@@ -27,7 +29,7 @@ env = Environment (
 
 
 if platform.system () == "Windows":
-	build_dir =  project.platform_spec_build_dir ()
+	build_dir = ise.spec_build_dir ()
 	VariantDir (build_dir, 'source', duplicate=0)
 
 	dll_sources = Glob (path.join (build_dir, '*.getdll'))

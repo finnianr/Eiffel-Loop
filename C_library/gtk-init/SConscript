@@ -7,13 +7,16 @@
 
 import os
 from os import path
-from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise_environ
+
+global ise
+ise = ise_environ.shared
 
 if os.name == "posix":
 	Import ('env')
 	env.ParseConfig('pkg-config --cflags gtk+-2.0')	
 
-	build_dir =  project.platform_spec_build_dir ()
+	build_dir =  ise.spec_build_dir ()
 
 	VariantDir (build_dir, 'source', duplicate=0)
 

@@ -2,8 +2,8 @@
 #	copyright: "Copyright (c) 2001-2012 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "16 Dec 2011"
-#	revision: "0.1"
+#	date: "7 Nov 2021"
+#	revision: "0.2"
 
 # DESCRIPTION
 # Creates a default build environment for EiffelStudio projects based on the assumption
@@ -16,19 +16,30 @@ from string import Template
 from eiffel_loop.os import path
 from eiffel_loop.os import environ
 from eiffel_loop.C_util import C_dev
-from eiffel_loop.eiffel import project
-from eiffel_loop.eiffel import ise
+from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop.eiffel.test import TESTS
 
-global environ
+global environ_extra, path_extra, ise
 
-def expanded_path (a_path):
-	result = Template (path.expandvars (path.normpath (a_path))).safe_substitute (environ)
-	return result
+path_extra = []
+
+ise = ise_environ.shared
+
+def additional_search_paths (new_path):
+	# additional paths found in `new_path' not in `os.environ ['PATH']'
+	old_set = set (os.environ ['PATH'].split (os.pathsep))
+	new_set = set (new_path.split (os.pathsep))
+	result = new_set.difference (old_set)
+	result.discard ('')
+	return list (result)
+
+def append_to_path (search_dir):
+	# append to search $PATH environment
+	path_extra.append (path.normpath (search_dir))
 
 def set_environ (name, a_path):
-	environ [name] = expanded_path (a_path)
+	environ_extra [name] = path.normpath (a_path)
 
 def is_version_number (a_str):
 	parts = a_str.split ('.')
@@ -45,31 +56,50 @@ def set_environ_from_directory (a_dir):
 	for name in os.listdir (a_dir):
 		file_path = path.join (a_dir, name)
 		if path.isdir (file_path):
-			environ [library_environ_name (name)] = file_path
+			environ_extra [library_environ_name (name)] = file_path
 
 def set_build_environment ():
 
 	if sys.platform == 'win32':
 		sdk = C_dev.MICROSOFT_SDK (ise.c_compiler, MSC_options)
 		print 'Configuring environment for MSC_options =', MSC_options
+		
+		compiler_environ = sdk.compiler_environ ()
 
-		os.environ.update (sdk.compiler_environ ())
+		ms_sdk_search_paths = additional_search_paths (compiler_environ ['PATH'])
+
+		os.environ.update (compiler_environ)
 
 		if sdk.is_x86_cpu ():
-			os.environ.update (project.x86_environ (environ))
-		else:
-			os.environ.update (environ)
-
-		ise.update () # update value of ISE_PLATFORM
+			ise.set_archictecture (32)
 
 	else:
-		os.environ.update (environ)
+		ms_sdk_search_paths = None
+
+	for key, value in environ_extra.items ():
+		os.environ [key] = path.expandvars (value)
+
+	ise.update () # update ISE_* variables
+
+	path_parts = [environ.system_path ()]
+	if ms_sdk_search_paths:
+		path_parts.extend (ms_sdk_search_paths)
+	
+	path_parts.extend (path_extra)
+	path_parts.append (environ.user_path ())
+	os.environ ['PATH'] = path.expandvars (os.pathsep.join (path_parts))
 
 	for name in sorted (eiffel_environ ()):
 		print name + " =", os.environ [name]
 
+def set_ise_version (new_version):
+	os.environ [ise.Key_version] = new_version
+
+def set_ise_platform (a_platform):
+	os.environ [ise.Key_platform] = a_platform
+
 def eiffel_environ ():
-	result = environ.copy ()
+	result = environ_extra.copy ()
 	for key in os.environ:
 		if not key in result:
 			if key.startswith ("ISE_") or key.startswith ("EIFFEL"):
@@ -79,7 +109,7 @@ def eiffel_environ ():
 
 # SCRIPT BEGIN
 
-environ = { 
+environ_extra = { 
 	# Java
 	'JDK_HOME' 						: environ.jdk_home (),
 
@@ -102,9 +132,6 @@ build_info_path = 'source/build_info.e'
 # Build intermediate F_code-<platform>.tar for 32-bit build without Eiffel compilation
 build_f_code_tar = False
 compile_eiffel = True
-
-if not ise.key_library in os.environ:
-	os.environ [ise.key_library] = ise.eiffel
 
 if var_eiffel in os.environ:
 	library_dir = path.join (os.environ [var_eiffel], library_basename)
@@ -139,7 +166,7 @@ set_environ ('EL_C_LIB',	'$EIFFEL_LOOP/C_library')
 MSC_options = ['/x64', '/win7', '/Release']
 
 if not sys.platform == 'win32':
-	environ ['LANG'] = 'C'
+	set_environ ('LANG', 'C')
 
 
 

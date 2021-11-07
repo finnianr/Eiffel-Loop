@@ -9,7 +9,6 @@ import os, sys
 
 from os import path
 
-from eiffel_loop.eiffel import ise
 from eiffel_loop.eiffel import project
 from eiffel_loop.scons import eiffel
 
@@ -86,6 +85,8 @@ else:
 	print 'compile_eiffel', project_py.compile_eiffel
 
 	project_py.set_build_environment ()
+
+	ise = project_py.ise
 
 	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 	

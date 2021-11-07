@@ -8,6 +8,17 @@
 import os
 from os.path import *
 
+global program_files
+
+program_files = 'Program Files'
+
+def files_x86 (a_path):
+	if program_files in a_path:
+		result = a_path.replace (program_files, 'Program Files (x86)', 1)
+	else:
+		result = a_path
+	return result
+
 def curdir ():
 	result = abspath (os.curdir)
 	return result

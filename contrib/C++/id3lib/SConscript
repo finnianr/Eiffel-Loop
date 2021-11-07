@@ -17,11 +17,13 @@ from eiffel_loop import platform
 from eiffel_loop.scons import c_library
 from eiffel_loop.scons import util
 
-from eiffel_loop.eiffel import ise
-from eiffel_loop.eiffel import project
+from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop.distutils import file_util
 from eiffel_loop.package import TAR_GZ_SOFTWARE_PACKAGE
+
+global ise
+ise = ise_environ.shared
 
 Import ('env')
 
@@ -31,7 +33,7 @@ env = Environment (
 )
 
 if platform.is_unix ():
-	build_dir =  project.platform_spec_build_dir ()
+	build_dir =  ise.spec_build_dir ()
 	VariantDir (build_dir, 'source', duplicate=0)
 
 	env ['BUILDERS']['C_library'] = Builder (

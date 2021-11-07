@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 15:08:59 GMT (Sunday 31st October 2021)"
-	revision: "8"
+	date: "2021-11-03 13:28:54 GMT (Wednesday 3rd November 2021)"
+	revision: "9"
 
 class
 	EL_TYPE_ID_ENUMERATION
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			from i := 1 until i > count loop
 				if this.field_type (i) = Integer_32_type then
 					type_id := Eiffel.dynamic_type_from_string (this.field_name (i).as_upper)
-					if type_id > 0 then
+					if type_id >= 0 then
 						this.set_integer_32_field (i, type_id)
 					else
 						check
@@ -60,9 +60,7 @@ feature {NONE} -- Contract Support
 			count := this.field_count
 			Result := True
 			from i := 1 until not Result or else i > count loop
-				if this.field_type (i) = Integer_32_type then
-					Result := this.integer_32_field (i) > 0
-				end
+				Result := this.field_type (i) = Integer_32_type implies this.integer_32_field (i) >= 0
 				i := i + 1
 			end
 		end
