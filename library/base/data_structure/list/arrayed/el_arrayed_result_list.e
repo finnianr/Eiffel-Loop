@@ -40,13 +40,7 @@ feature {NONE} -- Initialization
 		local
 			pos: CURSOR
 		do
-			if attached {ITERABLE [G]} container as list then
-				make_sized (Iterable.count (list))
-				across list as any loop
-					extend (to_item (any.item))
-				end
-
-			elseif attached {EL_CHAIN [G]} container as el_chain then
+			if attached {EL_CHAIN [G]} container as el_chain then
 				el_chain.push_cursor
 				make_sized (el_chain.count)
 				from el_chain.start until el_chain.after loop
@@ -63,6 +57,12 @@ feature {NONE} -- Initialization
 					chain.forth
 				end
 				chain.go_to (cursor)
+
+			elseif attached {ITERABLE [G]} container as list then
+				make_sized (Iterable.count (list))
+				across list as any loop
+					extend (to_item (any.item))
+				end
 
 			elseif attached {FINITE [G]} container as finite and
 				then attached finite.linear_representation as list then
