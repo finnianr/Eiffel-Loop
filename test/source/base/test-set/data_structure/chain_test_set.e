@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-10 10:30:35 GMT (Wednesday 10th February 2021)"
-	revision: "13"
+	date: "2021-11-08 19:49:49 GMT (Monday 8th November 2021)"
+	revision: "14"
 
 class
 	CHAIN_TEST_SET
@@ -32,16 +32,17 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
-			eval.call ("list_conversion",			agent test_list_conversion)
-			eval.call ("weight_summation_1", 	agent test_weight_summation_1)
-			eval.call ("weight_summation_2",		agent test_weight_summation_2)
-			eval.call ("weight_summation_3",		agent test_weight_summation_3)
-			eval.call ("string_list",				agent test_string_list)
-			eval.call ("mapping",					agent test_mapping)
-			eval.call ("order_by_color_name",	agent test_order_by_color_name)
-			eval.call ("order_by_weight",			agent test_order_by_weight)
-			eval.call ("find_predicate",			agent test_find_predicate)
-			eval.call ("circular_indexing",		agent test_circular_indexing)
+			eval.call ("circular_indexing", agent test_circular_indexing)
+			eval.call ("find_predicate", agent test_find_predicate)
+			eval.call ("iterable_converter", agent test_iterable_converter)
+			eval.call ("mapping", agent test_mapping)
+			eval.call ("order_by_color_name", agent test_order_by_color_name)
+			eval.call ("order_by_weight", agent test_order_by_weight)
+			eval.call ("result_list", agent test_result_list)
+			eval.call ("string_list", agent test_string_list)
+			eval.call ("weight_summation_1", agent test_weight_summation_1)
+			eval.call ("weight_summation_2", agent test_weight_summation_2)
+			eval.call ("weight_summation_3", agent test_weight_summation_3)
 		end
 
 feature -- Test
@@ -82,17 +83,12 @@ feature -- Test
 			assert ("item color is green", Widget_list.item.color = Green)
 		end
 
-	test_list_conversion
+	test_iterable_converter
 		local
 			converter: EL_ITERABLE_CONVERTER [WIDGET, INTEGER]
-			color_list: EL_ARRAYED_LIST [INTEGER]
 		do
 			create converter
-			create color_list.make (10)
-			across Widget_list as widget loop
-				color_list.extend (widget.item.color)
-			end
-			assert ("same list", color_list ~ converter.new_list (Widget_list, agent {WIDGET}.color))
+			assert ("same list", widget_colors ~ converter.new_list (Widget_list, agent {WIDGET}.color))
 		end
 
 	test_mapping
@@ -143,6 +139,14 @@ feature -- Test
 				assert ("weight >= previous", widget.item.weight >= previous)
 				previous := widget.item.weight
 			end
+		end
+
+	test_result_list
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [INTEGER, WIDGET]
+		do
+			create result_list.make (Widget_list, agent {WIDGET}.color)
+			assert ("same list", across widget_colors as color all result_list [color.cursor_index] = color.item end)
 		end
 
 	test_string_list
@@ -218,6 +222,14 @@ feature {NONE} -- Implementation
 		-- sum of widget-weights for widgets meeting `condition' (method 2)
 		do
 			Result := widgets.sum_integer_meeting (agent {WIDGET}.weight, condition)
+		end
+
+	widget_colors: EL_ARRAYED_LIST [INTEGER]
+		do
+			create Result.make (10)
+			across Widget_list as widget loop
+				Result.extend (widget.item.color)
+			end
 		end
 
 feature {NONE} -- Constants

@@ -20,12 +20,6 @@ from eiffel_loop.eiffel import ise_environ
 
 from eiffel_loop.eiffel.test import TESTS
 
-global environ_extra, path_extra, ise
-
-path_extra = []
-
-ise = ise_environ.shared
-
 def additional_search_paths (new_path):
 	# additional paths found in `new_path' not in `os.environ ['PATH']'
 	old_set = set (os.environ ['PATH'].split (os.pathsep))
@@ -33,13 +27,6 @@ def additional_search_paths (new_path):
 	result = new_set.difference (old_set)
 	result.discard ('')
 	return list (result)
-
-def append_to_path (search_dir):
-	# append to search $PATH environment
-	path_extra.append (path.normpath (search_dir))
-
-def set_environ (name, a_path):
-	environ_extra [name] = path.normpath (a_path)
 
 def is_version_number (a_str):
 	parts = a_str.split ('.')
@@ -92,12 +79,6 @@ def set_build_environment ():
 	for name in sorted (eiffel_environ ()):
 		print name + " =", os.environ [name]
 
-def set_ise_version (new_version):
-	os.environ [ise.Key_version] = new_version
-
-def set_ise_platform (a_platform):
-	os.environ [ise.Key_platform] = a_platform
-
 def eiffel_environ ():
 	result = environ_extra.copy ()
 	for key in os.environ:
@@ -107,7 +88,28 @@ def eiffel_environ ():
 
 	return result
 
+# routines to call from project.py
+
+def append_to_path (search_dir):
+	# append to search $PATH environment
+	path_extra.append (path.normpath (search_dir))
+
+def set_environ (name, a_path):
+	environ_extra [name] = path.normpath (a_path)
+
+def set_ise_version (new_version):
+	os.environ [ise.Key_version] = new_version
+
+def set_ise_platform (a_platform):
+	os.environ [ise.Key_platform] = a_platform
+
 # SCRIPT BEGIN
+
+global environ_extra, path_extra, ise
+
+ise = ise_environ.shared
+
+path_extra = []
 
 environ_extra = { 
 	# Java

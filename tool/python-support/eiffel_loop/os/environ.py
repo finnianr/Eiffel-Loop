@@ -131,7 +131,7 @@ def system_path ():
 		
 		except (WindowsError), err:
 			result = None
-	else:
+	elif os.name == 'posix':
 		result = os.environ ['SYSTEM_PATH']
 
 	return result
@@ -190,7 +190,7 @@ def user_templates ():
 	
 		except (WindowsError), err:
 			print "Error", err
-	else:
+	elif os.name == 'posix':
 		result = bash_profile_table ()
 	
 	return result

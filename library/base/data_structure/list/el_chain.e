@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-01 21:14:11 GMT (Monday 1st November 2021)"
-	revision: "38"
+	date: "2021-11-08 20:01:32 GMT (Monday 8th November 2021)"
+	revision: "39"
 
 deferred class EL_CHAIN [G]
 
@@ -235,6 +235,32 @@ feature -- Conversion
 			pop_cursor
 		end
 
+	ordered_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
+		-- ordered list of elements according to `sort_value' function
+		local
+			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [COMPARABLE, G]
+		do
+			create map_list.make_sorted (Current, sort_value, in_ascending_order)
+			Result := map_list.value_list
+		end
+
+	to_array: ARRAY [G]
+		do
+			if is_empty then
+				create Result.make_empty
+			else
+				create Result.make_filled (first, 1, count)
+				push_cursor
+				from start until after loop
+					Result [index] := item
+					forth
+				end
+				pop_cursor
+			end
+		end
+
+feature -- To numeric map list
+
 	double_map_list (to_key: FUNCTION [G, DOUBLE]): EL_ARRAYED_MAP_LIST [DOUBLE, G]
 		require
 			valid_open_count: to_key.open_count = 1
@@ -259,15 +285,6 @@ feature -- Conversion
 			create Result.make_from_values (Current, to_key)
 		end
 
-	ordered_by (sort_value: FUNCTION [G, COMPARABLE]; in_ascending_order: BOOLEAN): EL_ARRAYED_LIST [G]
-		-- ordered list of elements according to `sort_value' function
-		local
-			map_list: EL_KEY_SORTABLE_ARRAYED_MAP_LIST [COMPARABLE, G]
-		do
-			create map_list.make_sorted (Current, sort_value, in_ascending_order)
-			Result := map_list.value_list
-		end
-
 	real_map_list (to_key: FUNCTION [G, REAL]): EL_ARRAYED_MAP_LIST [REAL, G]
 		require
 			valid_open_count: to_key.open_count = 1
@@ -276,6 +293,8 @@ feature -- Conversion
 			create Result.make_from_values (Current, to_key)
 		end
 
+feature -- To string list
+
 	string_32_list (value: FUNCTION [G, STRING_32]): EL_STRING_LIST [STRING_32]
 			-- list of `value (item)' strings of type STRING_32
 		require
@@ -283,14 +302,6 @@ feature -- Conversion
 			valid_value_function: value.valid_operands ([proto_item])
 		do
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING_32]}).list (Current, value)
-		end
-
-	string_32_map_list (to_key: FUNCTION [G, STRING_32]): EL_ARRAYED_MAP_LIST [STRING_32, G]
-		require
-			valid_open_count: to_key.open_count = 1
-			valid_value_function: to_key.valid_operands ([proto_item])
-		do
-			create Result.make_from_values (Current, to_key)
 		end
 
 	string_8_list (value: FUNCTION [G, STRING]): EL_STRING_LIST [STRING]
@@ -304,14 +315,6 @@ feature -- Conversion
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, STRING]}).list (Current, value)
 		end
 
-	string_8_map_list (to_key: FUNCTION [G, STRING]): EL_ARRAYED_MAP_LIST [STRING, G]
-		require
-			valid_open_count: to_key.open_count = 1
-			valid_value_function: to_key.valid_operands ([proto_item])
-		do
-			create Result.make_from_values (Current, to_key)
-		end
-
 	string_list (value: FUNCTION [G, ZSTRING]): EL_STRING_LIST [ZSTRING]
 			-- list of `value (item)' strings of type EL_ZSTRING
 		require
@@ -321,7 +324,9 @@ feature -- Conversion
 			Result := (create {EL_CHAIN_STRING_LIST_COMPILER [G, ZSTRING]}).list (Current, value)
 		end
 
-	string_map_list (to_key: FUNCTION [G, ZSTRING]): EL_ARRAYED_MAP_LIST [ZSTRING, G]
+feature -- To string map list
+
+	string_32_map_list (to_key: FUNCTION [G, STRING_32]): EL_ARRAYED_MAP_LIST [STRING_32, G]
 		require
 			valid_open_count: to_key.open_count = 1
 			valid_value_function: to_key.valid_operands ([proto_item])
@@ -329,19 +334,20 @@ feature -- Conversion
 			create Result.make_from_values (Current, to_key)
 		end
 
-	to_array: ARRAY [G]
+	string_8_map_list (to_key: FUNCTION [G, STRING]): EL_ARRAYED_MAP_LIST [STRING, G]
+		require
+			valid_open_count: to_key.open_count = 1
+			valid_value_function: to_key.valid_operands ([proto_item])
 		do
-			if is_empty then
-				create Result.make_empty
-			else
-				create Result.make_filled (first, 1, count)
-				push_cursor
-				from start until after loop
-					Result [index] := item
-					forth
-				end
-				pop_cursor
-			end
+			create Result.make_from_values (Current, to_key)
+		end
+
+	string_map_list (to_key: FUNCTION [G, ZSTRING]): EL_ARRAYED_MAP_LIST [ZSTRING, G]
+		require
+			valid_open_count: to_key.open_count = 1
+			valid_value_function: to_key.valid_operands ([proto_item])
+		do
+			create Result.make_from_values (Current, to_key)
 		end
 
 feature -- Summation

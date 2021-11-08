@@ -40,9 +40,9 @@ if not path.exists (eifgen_path):
 #s = raw_input ("Return")
 #pri	nt project.ascii_environ
 
-print '** SEARCH PATH **'
+print '\nPATH SEARCH'
 for part in os.environ ['PATH'].split (os.pathsep):
-	print '   ', part
+	print '  ', part
 
 cmd = ['estudio', '-project_path', eifgen_path, '-config', project_path]
 print cmd
