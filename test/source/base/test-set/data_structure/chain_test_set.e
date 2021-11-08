@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-08 19:49:49 GMT (Monday 8th November 2021)"
-	revision: "14"
+	date: "2021-11-08 20:34:54 GMT (Monday 8th November 2021)"
+	revision: "15"
 
 class
 	CHAIN_TEST_SET
@@ -145,7 +145,7 @@ feature -- Test
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [INTEGER, WIDGET]
 		do
-			create result_list.make (Widget_list, agent {WIDGET}.color)
+			result_list := [Widget_list, agent {WIDGET}.color]
 			assert ("same list", across widget_colors as color all result_list [color.cursor_index] = color.item end)
 		end
 

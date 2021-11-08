@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-08 20:06:34 GMT (Monday 8th November 2021)"
-	revision: "1"
+	date: "2021-11-08 20:36:41 GMT (Monday 8th November 2021)"
+	revision: "2"
 
 class
 	EL_ARRAYED_RESULT_LIST [R, G]
@@ -25,7 +25,11 @@ inherit
 	EL_MODULE_EIFFEL
 
 create
-	make
+	make, make_with_tuple_1, make_with_tuple_2
+
+convert
+	make_with_tuple_1 ({TUPLE [ARRAY [G], FUNCTION [G, R]]}),
+	make_with_tuple_2 ({TUPLE [EL_ARRAYED_LIST [G], FUNCTION [G, R]]})
 
 feature {NONE} -- Initialization
 
@@ -67,6 +71,16 @@ feature {NONE} -- Initialization
 		ensure
 			same_count: attached {FINITE [G]} container as finite implies count = finite.count
 			same_iterable_count: attached {ITERABLE [G]} container as list implies count = Iterable.count (list)
+		end
+
+	make_with_tuple_1 (tuple: TUPLE [array: ARRAY [G]; to_item: FUNCTION [G, R]])
+		do
+			make (tuple.array, tuple.to_item)
+		end
+
+	make_with_tuple_2 (tuple: TUPLE [list: EL_ARRAYED_LIST [G]; to_item: FUNCTION [G, R]])
+		do
+			make (tuple.list, tuple.to_item)
 		end
 
 feature -- Contract Support
