@@ -84,7 +84,7 @@ else:
 
 	print 'compile_eiffel', project_py.compile_eiffel
 
-	project_py.set_build_environment ()
+	project.set_build_environment (project_py)
 
 	ise = project_py.ise
 

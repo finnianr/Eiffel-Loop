@@ -42,10 +42,10 @@ class ISE_ENVIRON (object):
 
 	# Status query
 
-	def is_32_bit_platform ():
+	def is_32_bit_platform (self):
 		return self.platform == self.Platform_32_bit
 
-	def is_64_bit_platform ():
+	def is_64_bit_platform (self):
 		return self.platform == self.Platform_64_bit
 
 	# Element change

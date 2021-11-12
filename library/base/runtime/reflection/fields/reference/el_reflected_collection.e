@@ -75,12 +75,9 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
-		local
-			converter: EL_ITERABLE_CONVERTER [G, READABLE_STRING_GENERAL]
+	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_RESULT_LIST [READABLE_STRING_GENERAL, G]
 		do
-			create converter
-			Result := converter.new_linear_list (collection (a_object).linear_representation, agent to_string_general)
+			create Result.make (collection (a_object), agent to_string_general)
 		end
 
 feature {NONE} -- Implementation

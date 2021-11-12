@@ -13,6 +13,8 @@ from glob import glob
 from distutils import dir_util
 
 from eiffel_loop.eiffel.ecf import SYSTEM_INFO
+from eiffel_loop.C_util import C_dev
+from eiffel_loop.os import environ
 
 from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.xml.xpath import XPATH_ROOT_CONTEXT
@@ -25,7 +27,16 @@ from subprocess import call
 global ise
 ise = ise_environ.shared
 
+def additional_search_paths (new_path):
+	# additional paths found in `new_path' not in `os.environ ['PATH']'
+	old_set = set (os.environ ['PATH'].split (os.pathsep))
+	new_set = set (new_path.split (os.pathsep))
+	result = new_set.difference (old_set)
+	result.discard ('')
+	return list (result)
+
 def read_project_py ():
+	# read project configuration from `project.py'
 	py_file, file_path, description = imp.find_module ('project', [path.abspath (os.curdir)])
 	if py_file:
 		try:
@@ -84,6 +95,41 @@ def convert_pecf_to_xml (pecf_path):
 	if result > 0:
 		print "Error converting %s to XML" % (pecf_path)
 	return result
+
+def set_build_environment (config):
+	# set build environment from `project.py' config
+
+	ise.update () # update ISE_* variables
+
+	if sys.platform == 'win32':
+		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
+		sdk = C_dev.MICROSOFT_SDK (ise.c_compiler, config.MSC_options)
+		
+		compiler_environ = sdk.compiler_environ ()
+
+		ms_sdk_search_paths = additional_search_paths (compiler_environ ['PATH'])
+
+		os.environ.update (compiler_environ)
+
+		if sdk.is_x86_cpu ():
+			ise.set_archictecture (32)
+
+	else:
+		ms_sdk_search_paths = None
+
+	for key, value in config.environ_extra.items ():
+		os.environ [key] = path.expandvars (value)
+
+	path_parts = [environ.system_path ()]
+	if ms_sdk_search_paths:
+		path_parts.extend (ms_sdk_search_paths)
+	
+	path_parts.extend (config.path_extra)
+	path_parts.append (environ.user_path ())
+	os.environ ['PATH'] = path.expandvars (os.pathsep.join (path_parts))
+
+	for name in sorted (config.eiffel_environ ()):
+		print name + " =", os.environ [name]
 
 
 # XML format ECF project file

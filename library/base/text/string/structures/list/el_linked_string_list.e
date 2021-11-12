@@ -13,7 +13,7 @@ class
 	EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
-	EL_STRING_GENERAL_CHAIN [S]
+	EL_STRING_CHAIN [S]
 		rename
 			accommodate as grow
 		undefine

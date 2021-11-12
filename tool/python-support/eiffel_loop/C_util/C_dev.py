@@ -14,10 +14,10 @@ if sys.platform == "win32":
 
 class MICROSOFT_SDK (object):
 	# Compiler SDK
-	# Quick help on SetEnv.Cmd and vcvarsall.bat below
+	# Quick help on SetEnv.Cmd and vcvarsall.bat for various SDK versions below
 
 # Constants
-	Architecture_options = ['/x86', '/x64'] #SetEnv.Cmd switches
+	Arch_suffix = ['86', '64'] # possible endings for architecture option
 
 	Key_sdk_windows = r'SOFTWARE\Microsoft\Microsoft SDKs\Windows'
 
@@ -32,15 +32,17 @@ class MICROSOFT_SDK (object):
 		self.MSC_options = MSC_options
 		self.local_machine = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE)
 
-		self.target_cpu = None
-		for cpu in self.Architecture_options:
-			if cpu in MSC_options:
-				self.target_cpu = cpu
+		self.arch_option = None
+		for option in self.MSC_options:
+			if self.is_arch_option (option):
+				self.arch_option = option
 				break
 
-		if not self.target_cpu:
-			raise Exception ("Invalid architecture switch in MSC_options")
+		if not self.arch_option:
+			print "Invalid architecture option: " + ' '.join (self.MSC_options)
 			exit (1)
+
+		print "c_compiler", c_compiler
 
 		# parse 'msc' or 'msc_vc140'
 		parts = c_compiler.split ('_')
@@ -52,8 +54,6 @@ class MICROSOFT_SDK (object):
 				array = bytearray (str (vc_version))
 				array.insert (len (array) - 1, '.')
 				self.sdk_version = str (array)
-				# strip fowardslash for vcvarsall.bat and ignore other options
-				self.MSC_options = [self.target_cpu.lstrip ('/')]
 
 		if vc_version:
 			# Use Visual Studio
@@ -92,13 +92,20 @@ class MICROSOFT_SDK (object):
 	
 		# parse script output
 		for line in out.split ('\n'):
+			# check if output is help text
+			for usage in ['Usage:', 'usage.']:
+				if line.find (usage) >= 0:
+					print "ERROR Invalid MSC option: " + ' '.join (self.MSC_options)
+					exit (1)
+
 			pos_equal = line.find ('=') 
 			if pos_equal > 0:
 				name = line [0:pos_equal]
 				value = line [pos_equal + 1:-1]
 				# Fixes a problem on Windows for user 'maeda'
-				name = name.encode ('ascii'); value = value.encode ('ascii')
-				result [name.upper ()] = value
+				name = name.encode ('ascii').upper (); value = value.encode ('ascii')
+				print name + ':', value
+				result [name] = value
 
 		# Workaround for bug in setenv.cmd (SDK ver 7.1)
 		# Add missing path "C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib" to LIB
@@ -112,15 +119,22 @@ class MICROSOFT_SDK (object):
 
 #Status query
 	def is_x86_cpu (self):
-		result = self.target_cpu == self.Architecture_options [0]
+		result = self.arch_option.endswith (self.Arch_suffix [0])
 		return result
 
-# Implemenation
+# Implementation
 
 	def reg_value (self, key_path, name):
 		self.local_machine.key_path = key_path
 		return self.local_machine.value (name)
 
+	def is_arch_option (self, option):
+		# True if option is an architecture
+		result = False
+		for suffix in self.Arch_suffix:
+			if option.endswith (suffix):
+				result = True
+		return result
 
 # C:\>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.Cmd"
 # Usage: "Setenv [/Debug | /Release][/x86 | /x64 | /ia64][/vista | /xp | /2003 | /2008 | /win7][-h | /?]"
@@ -166,3 +180,19 @@ class MICROSOFT_SDK (object):
 # 	vcvarsall.bat x64 store 8.1
 # 
 # Please make sure either Visual Studio or C++ Build SKU is installed.
+
+# C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC>vcvarsall.bat /?
+# Error in script usage. The correct usage is:
+#     vcvarsall.bat [option]
+# where [option] is: x86 | ia64 | amd64 | x86_amd64 | x86_ia64
+# 
+# For example:
+#     vcvarsall.bat x86_ia64
+# 
+# C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC>vcvarsall.bat -h
+# Error in script usage. The correct usage is:
+#     vcvarsall.bat [option]
+# where [option] is: x86 | ia64 | amd64 | x86_amd64 | x86_ia64
+# 
+# For example:
+#     vcvarsall.bat x86_ia64

@@ -14,7 +14,7 @@ from os import path
 
 from eiffel_loop.eiffel import project
 
-project_py = project.read_project_py ()
+config = project.read_project_py ()
 
 if len (sys.argv) == 2:
 	project_path = sys.argv [1]
@@ -22,7 +22,7 @@ else:
 	print "USAGE: launch_estudio <project name>.(pecf|ecf)"
 	sys.exit (1)
 
-project_py.set_build_environment ()
+project.set_build_environment (config)
 
 pecf_path = None
 parts = path.splitext (project_path)
@@ -33,7 +33,7 @@ if parts [1] == '.pecf':
 	if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (project_path)[stat.ST_MTIME]:
 		project.convert_pecf_to_xml (pecf_path)
 		
-eifgen_path = path.join ('build', project_py.ise.platform)	
+eifgen_path = path.join ('build', config.ise.platform)	
 if not path.exists (eifgen_path):
 	dir_util.mkpath (eifgen_path)
 

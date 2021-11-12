@@ -29,18 +29,18 @@ parser.add_option (
 )
 (options, args) = parser.parse_args()
 
-project_py = project.read_project_py ()
+config = project.read_project_py ()
 
 if options.x86:
-	project_py.set_build_environment ('x86')
-else:
-	project_py.set_build_environment ('x64')
+	config.MSC_options [0] = 'x86'
+	
+project.set_build_environment (config)
 
 sh = 'set_environ.sh'
 print "Writing", sh
 
 f = open (sh, 'w')
-env = project_py.eiffel_environ ()
+env = config.eiffel_environ ()
 for key in sorted (env):
 	f.write ("export %s=%s\n" % (key, env [key]))
 f.close ()

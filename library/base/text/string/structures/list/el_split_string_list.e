@@ -37,7 +37,7 @@ inherit
 			is_equal, make_empty, make_from_sub_list, extend_buffer, set_string
 		end
 
-	EL_JOINED_STRINGS [S]
+	EL_JOINABLE_STRINGS [S]
 		rename
 			item as join_item
 		undefine

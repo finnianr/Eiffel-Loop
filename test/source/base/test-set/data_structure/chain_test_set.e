@@ -34,7 +34,6 @@ feature -- Basic operations
 		do
 			eval.call ("circular_indexing", agent test_circular_indexing)
 			eval.call ("find_predicate", agent test_find_predicate)
-			eval.call ("iterable_converter", agent test_iterable_converter)
 			eval.call ("mapping", agent test_mapping)
 			eval.call ("order_by_color_name", agent test_order_by_color_name)
 			eval.call ("order_by_weight", agent test_order_by_weight)
@@ -81,14 +80,6 @@ feature -- Test
 
 			Widget_list.find_first_equal (1, agent {WIDGET}.weight)
 			assert ("item color is green", Widget_list.item.color = Green)
-		end
-
-	test_iterable_converter
-		local
-			converter: EL_ITERABLE_CONVERTER [WIDGET, INTEGER]
-		do
-			create converter
-			assert ("same list", widget_colors ~ converter.new_list (Widget_list, agent {WIDGET}.color))
 		end
 
 	test_mapping
@@ -146,7 +137,7 @@ feature -- Test
 			result_list: EL_ARRAYED_RESULT_LIST [INTEGER, WIDGET]
 		do
 			result_list := [Widget_list, agent {WIDGET}.color]
-			assert ("same list", across widget_colors as color all result_list [color.cursor_index] = color.item end)
+			assert ("same color list", across widget_colors as color all result_list [color.cursor_index] = color.item end)
 		end
 
 	test_string_list

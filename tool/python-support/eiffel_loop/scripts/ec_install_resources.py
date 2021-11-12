@@ -12,15 +12,13 @@ var = Variables (); env = Base ()
 
 var.Update (env)
 
-project_py = project.read_project_py ()
-project_py.set_build_environment ()
+config = project.read_project_py ()
+project.set_build_environment (config)
 
-ise = project_py.ise
+ise = config.ise
 
 env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
 
-config = EIFFEL_CONFIG_FILE (project_py.ecf)
-
-build = FREEZE_BUILD (config, project_py)
+build = FREEZE_BUILD (EIFFEL_CONFIG_FILE (config.ecf), config)
 build.install_resources ()
 
