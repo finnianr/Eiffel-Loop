@@ -1,6 +1,7 @@
 note
 	description: "[
-		List that is the result of applying a function to all the items in a container
+		List that is the result of applying a function to all the items in a container.
+		Parameter **R** is the result type, and **G** is the input type.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-08 20:36:41 GMT (Monday 8th November 2021)"
-	revision: "2"
+	date: "2021-11-13 12:27:49 GMT (Saturday 13th November 2021)"
+	revision: "3"
 
 class
 	EL_ARRAYED_RESULT_LIST [R, G]

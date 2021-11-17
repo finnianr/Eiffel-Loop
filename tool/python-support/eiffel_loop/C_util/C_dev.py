@@ -12,6 +12,9 @@ from eiffel_loop.os.environ import REGISTRY_NODE
 if sys.platform == "win32":
 	import _winreg
 
+def ascii (value):
+	return value.encode ('ascii')
+
 class MICROSOFT_SDK (object):
 	# Compiler SDK
 	# Quick help on SetEnv.Cmd and vcvarsall.bat for various SDK versions below
@@ -23,12 +26,16 @@ class MICROSOFT_SDK (object):
 
 	Key_visual_studio = r'SOFTWARE\WOW6432Node\Microsoft\VisualStudio'
 
+	Key_devenv_exe = r'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe'
+
 	Set_compiler_env_bat = 'set_msvc_compiler_environment.bat'
 
+	Step_common7 = 'common7'
+	
+	Tools_vs_dev_cmd = r"Tools\VsDevCmd.bat"
+
 # Initialization
-	def __init__ (self, c_compiler, MSC_options):
-		vc_version = 0
-		self.sdk_version = 0
+	def __init__ (self, ise_c_compiler, MSC_options):
 		self.MSC_options = MSC_options
 		self.local_machine = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE)
 
@@ -42,34 +49,25 @@ class MICROSOFT_SDK (object):
 			print "Invalid architecture option: " + ' '.join (self.MSC_options)
 			exit (1)
 
-		print "c_compiler", c_compiler
+		print "ise_c_compiler", ise_c_compiler
 
-		# parse 'msc' or 'msc_vc140'
-		parts = c_compiler.split ('_')
-		if len (parts) == 2:
-			vc = parts [1]
-			if vc.startswith ('vc'):
-				# vc140 -> 14.0
-				vc_version = int (vc[2:])
-				array = bytearray (str (vc_version))
-				array.insert (len (array) - 1, '.')
-				self.sdk_version = str (array)
+		self.sdk_version = self.new_sdk_version (ise_c_compiler)
 
-		if vc_version:
-			# Use Visual Studio
-			setup_vc_path = path.join (self.Key_visual_studio, self.sdk_version, 'Setup', 'VC')
-			product_dir = self.reg_value (setup_vc_path, 'ProductDir')
-			self.tools_dir = path.join (product_dir, 'bin')
-			self.setenv_cmd = path.join (product_dir, 'vcvarsall.bat')
+		if self.sdk_version:
+			self.setenv_cmd = self.vs_dev_cmd_path ()
+			if not path.exists (self.setenv_cmd):
+				setup_vc_path = path.join (self.Key_visual_studio, self.sdk_version, 'Setup', 'VC')
+				product_dir = self.reg_value (setup_vc_path, 'ProductDir')
+				bin_dir = path.join (product_dir, 'bin')
+				self.setenv_cmd = path.join (product_dir, 'vcvarsall.bat')
 		else:
 			# Default to Windows SDK
 			self.sdk_version = self.reg_value (self.Key_sdk_windows, "CurrentVersion")
 			key_sdk_tools = path.join (self.Key_sdk_windows, self.sdk_version, 'WinSDKTools')
-			self.tools_dir = self.reg_value (key_sdk_tools, "InstallationFolder")
-			self.setenv_cmd = path.join (self.tools_dir, 'SetEnv.Cmd')
+			bin_dir = self.reg_value (key_sdk_tools, "InstallationFolder")
+			self.setenv_cmd = path.join (bin_dir, 'SetEnv.Cmd')
 
 # Access
-
 	def compiler_environ (self):
 		# table of environment values to configure C compiler
 		# captured from output of script: setenv.cmd (MS SDK) OR vcvarsall.bat (VisualStudio)
@@ -103,17 +101,11 @@ class MICROSOFT_SDK (object):
 				name = line [0:pos_equal]
 				value = line [pos_equal + 1:-1]
 				# Fixes a problem on Windows for user 'maeda'
-				name = name.encode ('ascii').upper (); value = value.encode ('ascii')
-				print name + ':', value
+				name = ascii (name).upper (); value = ascii (value)
 				result [name] = value
 
-		# Workaround for bug in setenv.cmd (SDK ver 7.1)
-		# Add missing path "C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib" to LIB
-
-		lib_path = result ['LIB']
-		std_lib_dir = result ['WINDOWSSDKDIR'] + 'Lib' # WINDOWSSDKDIR already has a '\' at the end
-		if not std_lib_dir in lib_path.split (';'):
-			result ['LIB'] = (';').join ([lib_path.rstrip (';'), std_lib_dir])
+		if self.sdk_version == 'v7.1':
+			result ['LIB'] = self.lib_v7_1 (result)
 
 		return result
 
@@ -124,7 +116,14 @@ class MICROSOFT_SDK (object):
 
 # Implementation
 
-	def reg_value (self, key_path, name):
+	def common7_path (self, a_path):
+		result = a_path
+		while not path.basename (result) == self.Step_common7:
+			result = path.dirname (result)
+
+		return result
+
+	def reg_value (self, key_path, name = None):
 		self.local_machine.key_path = key_path
 		return self.local_machine.value (name)
 
@@ -135,6 +134,43 @@ class MICROSOFT_SDK (object):
 			if option.endswith (suffix):
 				result = True
 		return result
+
+	def new_sdk_version (self, ise_c_compiler):
+		result = None
+		# parse 'msc' or 'msc_vc140'
+		parts = ise_c_compiler.split ('_')
+		if len (parts) == 2:
+			vc = parts [1]
+			if vc.startswith ('vc'):
+				# vc140 -> 14.0
+				vc_version = vc [2:]
+				array = bytearray (vc_version)
+				array.insert (len (array) - 1, '.')
+				result = str (array)
+
+		return result
+
+	def vs_dev_cmd_path (self):
+		result = self.reg_value (self.Key_devenv_exe)
+		if self.Step_common7 in result:
+			# remove double quotes
+			if result [0] == '"':
+				result = result [1:-1]
+			result = path.join (self.common7_path (result), self.Tools_vs_dev_cmd)
+
+		return result
+
+	def lib_v7_1 (self, env_table):
+		# Workaround for bug in setenv.cmd (SDK ver 7.1)
+		# Add missing path "C:\Program Files\Microsoft SDKs\Windows\v7.1\Lib" to LIB
+
+		lib_set = [p for p in env_table ['LIB'].split (os.pathsep) if p]
+		# WINDOWSSDKDIR already has a '\' at the end
+		lib_set.append (env_table ['WINDOWSSDKDIR'] + 'Lib')
+
+		return os.pathsep.join (lib_set)
+
+# end class MICROSOFT_SDK
 
 # C:\>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.Cmd"
 # Usage: "Setenv [/Debug | /Release][/x86 | /x64 | /ia64][/vista | /xp | /2003 | /2008 | /win7][-h | /?]"

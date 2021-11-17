@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-19 21:13:30 GMT (Tuesday 19th October 2021)"
-	revision: "3"
+	date: "2021-11-17 17:52:24 GMT (Wednesday 17th November 2021)"
+	revision: "4"
 
 class
 	EL_JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION [NATURAL_16] create make end]
@@ -24,7 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_REUSABLE
 
 	EL_MODULE_EIFFEL
 
@@ -46,20 +46,20 @@ feature {NONE} -- Initialization
 				make_filled_area (0, field.count)
 			end
 			create field_list.make (utf_8)
-			if attached String_pool.new_scope as pool and then attached pool.reuse_item as text then
-				text.wipe_out
-				from field_list.start until field_list.after loop
-					name := field_list.name_item_8 (False)
-					if field.is_valid_name (name) then
-						text_count := text.count
-						field_index := field.value (name)
-						text.append (field_list.value_item (False))
-						put_i_th (text_count + 1, text.count, field_index)
+			across Reuseable.string as reuse loop
+				if attached reuse.item as text then
+					from field_list.start until field_list.after loop
+						name := field_list.name_item_8 (False)
+						if field.is_valid_name (name) then
+							text_count := text.count
+							field_index := field.value (name)
+							text.append (field_list.value_item (False))
+							put_i_th (text_count + 1, text.count, field_index)
+						end
+						field_list.forth
 					end
-					field_list.forth
+					text_values := text.twin
 				end
-				text_values := text.twin
-				pool.recycle_end (text)
 			end
 		end
 

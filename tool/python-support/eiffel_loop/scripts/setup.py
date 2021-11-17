@@ -5,6 +5,14 @@
 #	date: "21 Dec 2012"
 #	revision: "0.1"
 
+# Using easy_install with .egg packages can solve the problem of unattended setup script
+
+# Download from https://pypi.org/project/setuptools/5.4.2/
+# Install setuptools-5.4.2.zip to give easy_install.exe
+
+# http://apt-mirror.front.sepia.ceph.com/pypi/packages/2.7/l/lxml/
+# Use easy_install to install lxml-2.3-py2.7-amd64.egg
+
 import os, sys, subprocess, platform, zipfile
 
 from distutils import dir_util, file_util

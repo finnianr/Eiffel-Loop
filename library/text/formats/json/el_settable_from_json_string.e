@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-19 12:17:39 GMT (Tuesday 19th October 2021)"
-	revision: "23"
+	date: "2021-11-17 18:04:45 GMT (Wednesday 17th November 2021)"
+	revision: "24"
 
 deferred class
 	EL_SETTABLE_FROM_JSON_STRING
@@ -38,7 +38,7 @@ inherit
 			is_equal
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_REUSABLE
 
 	EL_MODULE_NAMING
 
@@ -55,8 +55,11 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	as_json: ZSTRING
+		local
+			str: ZSTRING
 		do
-			if attached String_pool.new_scope as pool and then attached pool.reuse_item as str then
+			across Reuseable.string as reuse loop
+				str := reuse.item
 				str.append (JSON.open_bracket)
 				across field_table as table loop
 					if not table.is_first then
@@ -75,7 +78,6 @@ feature -- Access
 				end
 				str.append (JSON.close_bracket)
 				create Result.make_from_other (str)
-				pool.recycle_end (str)
 			end
 		end
 

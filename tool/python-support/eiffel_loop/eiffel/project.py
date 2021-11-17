@@ -24,12 +24,14 @@ from eiffel_loop.scons.util import scons_command
 from eiffel_loop import tar
 from subprocess import call
 
-global ise
+global ise, Path_key
 ise = ise_environ.shared
 
+Path_key = 'PATH'
+
 def additional_search_paths (new_path):
-	# additional paths found in `new_path' not in `os.environ ['PATH']'
-	old_set = set (os.environ ['PATH'].split (os.pathsep))
+	# additional paths found in `new_path' not in `os.environ [Path_key]'
+	old_set = set (os.environ [Path_key].split (os.pathsep))
 	new_set = set (new_path.split (os.pathsep))
 	result = new_set.difference (old_set)
 	result.discard ('')
@@ -96,18 +98,22 @@ def convert_pecf_to_xml (pecf_path):
 		print "Error converting %s to XML" % (pecf_path)
 	return result
 
-def set_build_environment (config):
+def set_build_environment (config, print_environ=False):
 	# set build environment from `project.py' config
 
 	ise.update () # update ISE_* variables
 
-	if sys.platform == 'win32':
+	if sys.platform == 'win32' and config.MSC_options:
 		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
 		sdk = C_dev.MICROSOFT_SDK (ise.c_compiler, config.MSC_options)
 		
 		compiler_environ = sdk.compiler_environ ()
+		for name, value in compiler_environ.items ():
+			if not (type (name) is str or type (value) is str):
+				print type (name), type (value)
+				exit (1)
 
-		ms_sdk_search_paths = additional_search_paths (compiler_environ ['PATH'])
+		ms_sdk_search_paths = additional_search_paths (compiler_environ [Path_key])
 
 		os.environ.update (compiler_environ)
 
@@ -126,12 +132,21 @@ def set_build_environment (config):
 	
 	path_parts.extend (config.path_extra)
 	path_parts.append (environ.user_path ())
-	os.environ ['PATH'] = path.expandvars (os.pathsep.join (path_parts))
+	
+	os.environ [Path_key] = path.expandvars (os.pathsep.join (path_parts))
+	if print_environ:
+		for key in ['INCLUDE', 'LIB', 'LIBPATH', 'PATH', 'PYTHONPATH']:
+			if key in os.environ:
+				print
+				print key + ':'
+				for p in os.environ [key].split (os.pathsep):
+					if p:
+						print '  ', p
+		print
+		for name in sorted (config.eiffel_environ ()):
+			print name + " =", os.environ [name]
 
-	for name in sorted (config.eiffel_environ ()):
-		print name + " =", os.environ [name]
-
-
+	
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):
 

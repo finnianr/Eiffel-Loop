@@ -77,14 +77,12 @@ if option.help ():
 	None
 	
 else:
-	print "Alternative root class: '%s'" % option.root_class ()
-	
 	project_py = project.read_project_py ()
 	print "project_py.keep_assertions", project_py.keep_assertions
 
 	print 'compile_eiffel', project_py.compile_eiffel
 
-	project.set_build_environment (project_py)
+	project.set_build_environment (project_py, True)
 
 	ise = project_py.ise
 
@@ -92,7 +90,11 @@ else:
 	
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
 	config.keep_assertions = project_py.keep_assertions
+
 	config.root_class_path = option.root_class ()
+	if config.root_class_path:
+		print "Alternative root class: '%s'" % config.root_class_path
+
 	f_code_tar = None; tar_build = None
 
 	if option.finalize ():

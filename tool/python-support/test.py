@@ -6,25 +6,22 @@ from eiffel_loop.os import path
 from eiffel_loop.os import environ
 from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.C_util import C_dev
+from eiffel_loop.os.environ import REGISTRY_NODE
 
 if sys.platform == "win32":
 	import _winreg
 
 # set PYTHONPATH=D:\Eiffel\library\Eiffel-Loop\tool\python-support;%PYTHONPATH%
 
-#print "ise.version:", ise.version ()
+#sdk = C_dev.MICROSOFT_SDK ('msc_vc100', ['-arch=amd64'])
+sdk = C_dev.MICROSOFT_SDK ('msc', ['/x64', '/win7', '/Release'])
 
-# os.environ ["ISE_VERSION"] = "20.11"
+print "sdk.sdk_version", sdk.sdk_version
 
-# print "user path:", path.expandvars (os.sep.join ([environ.system_path (), environ.user_path ()]))
-
-#print "ise.eiffel", ise.eiffel
-
-# print path.files_x86 ("C:\\Program Files")
-
-for key, value in environ.bash_profile_table ().items ():
-	print key, value
-
-ise = ise_environ.shared
-
-
+print "sdk.setenv_cmd", sdk.setenv_cmd
+ 
+sdk_environ = sdk.compiler_environ () 
+for lib in ["LIB", "PATH"]:
+	print lib, ":"
+	for name in sdk_environ [lib].split (os.pathsep):
+		print name

@@ -11,6 +11,15 @@ from os import path
 if sys.platform == 'win32':
 	import _winreg
 
+def print_path ():
+	# print system path
+	print
+	key = 'PATH'
+	print key + ':'
+	for part in os.environ [key].split (os.pathsep):
+		print '  ', part
+	print 
+
 class REGISTRY_NODE (object):
 
 # Initialization
@@ -19,27 +28,42 @@ class REGISTRY_NODE (object):
 		self.key_path = key_path
 
 # Access
-	def ascii_value (self, name):
+	def ascii_value (self, name = None):
 		return self.value (name).encode ('ascii')
 
-	def value (self, name):
-		key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
-		result = _winreg.QueryValueEx (key, name)[0]
-		_winreg.CloseKey (key)
+	def value (self, name = None):
+		# if name is None, then default value is returned
+		try:
+			key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
+		except WindowsError:
+			key = None
+
+		if key:
+			result = _winreg.QueryValueEx (key, name)[0]
+			_winreg.CloseKey (key)
+		else:
+			result = ''
+
 		return result
 
 	def value_table (self, encoding = None):
 		result = dict ()
-		key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
-		for i in range (0, _winreg.QueryInfoKey (key)[1], 1):
-			nvp = _winreg.EnumValue(key, i)
-			name = nvp [0]; value = nvp [1]
-			if encoding:
-				result [name.encode (encoding)] = value.encode (encoding)
-			else:
-				result [name] = value
+		try:
+			key = _winreg.OpenKey (self.tree_key, self.key_path, 0, _winreg.KEY_READ)
+		except WindowsError:
+			key = None
 
-		_winreg.CloseKey (key)
+		if key:
+			for i in range (0, _winreg.QueryInfoKey (key)[1], 1):
+				nvp = _winreg.EnumValue(key, i)
+				name = nvp [0]; value = nvp [1]
+				if encoding:
+					result [name.encode (encoding)] = value.encode (encoding)
+				else:
+					result [name] = value
+
+			_winreg.CloseKey (key)
+		
 		return result
 
 # Basic operations

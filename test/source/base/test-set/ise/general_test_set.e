@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-17 13:06:15 GMT (Sunday 17th October 2021)"
-	revision: "11"
+	date: "2021-11-17 18:19:30 GMT (Wednesday 17th November 2021)"
+	revision: "12"
 
 class
 	GENERAL_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_MODULE_BASE_64
+
+	EL_MODULE_REUSABLE
 
 feature -- Basic operations
 
@@ -30,6 +32,7 @@ feature -- Basic operations
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
 			eval.call ("numeric_code", agent test_numeric_code)
+			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
 		end
 
@@ -113,6 +116,22 @@ feature -- Tests
 			string.multiply (2)
 			code_string.set (string)
 			assert ("same string", code_string.out ~ string)
+		end
+
+	test_reusable_strings
+		local
+			s1, s2: ZSTRING
+		do
+			across Reuseable.string as reuse loop
+				s1 := reuse.item
+				assert ("empty string", s1.is_empty)
+				s1.append_string_general ("abc")
+			end
+			across Reuseable.string as reuse loop
+				s2 := reuse.item
+				assert ("empty string", s2.is_empty)
+			end
+			assert ("instance recycled", s1 = s2)
 		end
 
 	test_reverse_managed_pointer

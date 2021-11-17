@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 14:25:04 GMT (Thursday 12th August 2021)"
-	revision: "4"
+	date: "2021-11-17 16:58:25 GMT (Wednesday 17th November 2021)"
+	revision: "5"
 
 class
 	EL_STRING_POOL [S -> STRING_GENERAL create make_empty end]

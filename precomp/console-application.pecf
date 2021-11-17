@@ -30,7 +30,13 @@ system:
 			name = base_x; location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"
 
 		library:
+			name = encoding; location = "$ISE_LIBRARY/library/encoding/encoding.ecf"
+
+		library:
 			name = time; location = "$ISE_LIBRARY/library/time/time.ecf"
+
+		library:
+			name = uuid; location = "$ISE_LIBRARY/library/uuid/uuid.ecf"
 
 		# Needed to query Windows registry
 		library:
@@ -41,10 +47,4 @@ system:
 
 		library: 
 			name = thread; location = "$ISE_LIBRARY/library/thread/thread.ecf"
-		
-		# GOBO
-		library:
-			name = gobo_base; location = "$EIFFEL_LOOP/library/gobo-base.ecf"
-
-
 

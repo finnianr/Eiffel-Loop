@@ -22,7 +22,7 @@ else:
 	print "USAGE: launch_estudio <project name>.(pecf|ecf)"
 	sys.exit (1)
 
-project.set_build_environment (config)
+project.set_build_environment (config, True)
 
 pecf_path = None
 parts = path.splitext (project_path)
@@ -36,13 +36,6 @@ if parts [1] == '.pecf':
 eifgen_path = path.join ('build', config.ise.platform)	
 if not path.exists (eifgen_path):
 	dir_util.mkpath (eifgen_path)
-
-#s = raw_input ("Return")
-#pri	nt project.ascii_environ
-
-print '\nPATH SEARCH'
-for part in os.environ ['PATH'].split (os.pathsep):
-	print '  ', part
 
 cmd = ['estudio', '-project_path', eifgen_path, '-config', project_path]
 print cmd

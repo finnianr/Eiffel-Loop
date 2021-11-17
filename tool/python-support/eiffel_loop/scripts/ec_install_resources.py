@@ -1,9 +1,12 @@
 import os
 
 from eiffel_loop.eiffel import project
+from eiffel_loop.os import environ
 
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
 from eiffel_loop.eiffel.ecf import FREEZE_BUILD
+
+environ.print_path ()
 
 from SCons.Environment import Base
 from SCons.Variables import Variables

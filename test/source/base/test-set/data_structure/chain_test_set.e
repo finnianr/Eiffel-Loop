@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-08 20:34:54 GMT (Monday 8th November 2021)"
-	revision: "15"
+	date: "2021-11-10 10:20:14 GMT (Wednesday 10th November 2021)"
+	revision: "16"
 
 class
 	CHAIN_TEST_SET

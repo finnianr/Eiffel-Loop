@@ -10,7 +10,7 @@ image_utils_path = "$EIFFEL_LOOP/C_library/image-utils/spec/$ISE_PLATFORM"
 
 if platform.system () == "Windows":
 	# 'PATH' label must be UPPERCASE
-	set_environ ('PATH', "$PATH;" + image_utils_path)
+	append_to_path (image_utils_path)
 
 else:
 	set_environ ('LD_LIBRARY_PATH', image_utils_path)

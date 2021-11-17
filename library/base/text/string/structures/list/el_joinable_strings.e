@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 12:13:14 GMT (Sunday 29th August 2021)"
-	revision: "7"
+	date: "2021-11-10 10:50:16 GMT (Wednesday 10th November 2021)"
+	revision: "8"
 
 deferred class
 	EL_JOINABLE_STRINGS [S -> STRING_GENERAL create make end]

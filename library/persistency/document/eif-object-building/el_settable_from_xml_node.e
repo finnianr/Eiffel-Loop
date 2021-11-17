@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:50:40 GMT (Thursday 12th August 2021)"
-	revision: "30"
+	date: "2021-11-17 18:06:44 GMT (Wednesday 17th November 2021)"
+	revision: "31"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -34,7 +34,7 @@ inherit
 
 	EL_EIF_OBJ_BUILDER_CONTEXT_TYPE_CONSTANTS
 
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_REUSABLE
 
 	EL_XML_ZSTRING_CONSTANTS
 
@@ -46,10 +46,11 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 		-- recursively output elements to file as XML
 		local
 			has_child_element: BOOLEAN; table: like field_table
-			attribute_count: INTEGER; l_name: STRING
+			attribute_count: INTEGER; l_name: STRING; value: ZSTRING
 		do
 			table := field_table
-			if attached String_pool.new_scope as pool and then attached pool.reuse_item as value then
+			across Reuseable.string as reuse loop
+				value := reuse.item
 				xml_out.put_indent (tab_count); xml_out.put_character_8 ('<')
 				xml_out.put_string_8 (name)
 				across table as field loop
@@ -83,7 +84,6 @@ feature {EL_SETTABLE_FROM_XML_NODE} -- Basic operations
 					xml_out.put_indent (tab_count)
 					xml_out.put_string_8 (once "/>%N")
 				end
-				pool.recycle_end (value)
 			end
 		end
 

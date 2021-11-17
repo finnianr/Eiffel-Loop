@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-12 18:46:17 GMT (Tuesday 12th October 2021)"
-	revision: "24"
+	date: "2021-11-10 10:31:24 GMT (Wednesday 10th November 2021)"
+	revision: "25"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
