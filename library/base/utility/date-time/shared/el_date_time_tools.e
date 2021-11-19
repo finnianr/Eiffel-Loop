@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 10:01:23 GMT (Friday 13th August 2021)"
-	revision: "7"
+	date: "2021-11-18 10:33:41 GMT (Thursday 18th November 2021)"
+	revision: "8"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_STRING_8_CONSTANTS
+	EL_MODULE_REUSABLE
 
 feature -- Access
 
@@ -26,9 +26,10 @@ feature -- Access
 		-- 1 if format ends with "tzd"
 		-- 2 if format ends with "tzd (tzd)"
 		local
-			zone_index: INTEGER
+			zone_index: INTEGER; format_upper: STRING
 		do
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as format_upper then
+			across Reuseable.string_8 as reuse loop
+				format_upper := reuse.item
 				format_upper.append (format); format_upper.to_upper
 				zone_index := format_upper.substring_index (Time_zone_designator, 1)
 				if zone_index.to_boolean then
@@ -38,7 +39,6 @@ feature -- Access
 						Result := 1
 					end
 				end
-				pool.recycle_end (format_upper)
 			end
 		ensure
 			valid_count: format.as_upper.has_substring (Time_zone_designator) implies Result > 0

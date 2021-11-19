@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 14:13:21 GMT (Thursday 12th August 2021)"
-	revision: "17"
+	date: "2021-11-18 10:48:47 GMT (Thursday 18th November 2021)"
+	revision: "18"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -25,6 +25,8 @@ inherit
 	EL_XML_STRING_8_CONSTANTS
 
 	EL_STRING_8_CONSTANTS
+
+	EL_MODULE_REUSABLE
 
 create
 	make
@@ -205,9 +207,10 @@ feature {NONE} -- Implementation
 
 	put_node_content_lines (tabbed: BOOLEAN)
 		local
-			list: like Line_list
+			list: like Line_list; text: STRING
 		do
-			if attached String_8_pool.new_scope as l_pool and then attached l_pool.reuse_item as text then
+			across Reuseable.string_8 as reuse loop
+				text := reuse.item
 				last_node.append_adjusted_to (text)
 
 				list := Line_list
@@ -221,16 +224,16 @@ feature {NONE} -- Implementation
 					output.put_new_line
 					list.forth
 				end
-				l_pool.recycle_end (text)
 			end
 		end
 
 	put_node_content_single
 		do
-			if attached String_8_pool.new_scope as l_pool and then attached pool.reuse_item as text then
-				Xml_escaper.escape_into (last_node, text)
-				output.put_string (text)
-				l_pool.recycle_end (text)
+			across Reuseable.string_8 as reuse loop
+				if attached reuse.item as text then
+					Xml_escaper.escape_into (last_node, text)
+					output.put_string (text)
+				end
 			end
 		end
 

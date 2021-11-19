@@ -8,6 +8,10 @@
 import os, subprocess, sys
 from os import path
 from eiffel_loop.os.environ import REGISTRY_NODE
+from eiffel_loop.eiffel import ise_environ
+
+global ise
+ise = ise_environ.shared
 
 if sys.platform == "win32":
 	import _winreg
@@ -35,7 +39,7 @@ class MICROSOFT_SDK (object):
 	Tools_vs_dev_cmd = r"Tools\VsDevCmd.bat"
 
 # Initialization
-	def __init__ (self, ise_c_compiler, MSC_options):
+	def __init__ (self, MSC_options):
 		self.MSC_options = MSC_options
 		self.local_machine = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE)
 
@@ -49,23 +53,21 @@ class MICROSOFT_SDK (object):
 			print "Invalid architecture option: " + ' '.join (self.MSC_options)
 			exit (1)
 
-		print "ise_c_compiler", ise_c_compiler
-
-		self.sdk_version = self.new_sdk_version (ise_c_compiler)
-
-		if self.sdk_version:
-			self.setenv_cmd = self.vs_dev_cmd_path ()
-			if not path.exists (self.setenv_cmd):
-				setup_vc_path = path.join (self.Key_visual_studio, self.sdk_version, 'Setup', 'VC')
-				product_dir = self.reg_value (setup_vc_path, 'ProductDir')
-				bin_dir = path.join (product_dir, 'bin')
-				self.setenv_cmd = path.join (product_dir, 'vcvarsall.bat')
-		else:
+		if ise.msvc_version == ise.Default_msvc_version:
 			# Default to Windows SDK
 			self.sdk_version = self.reg_value (self.Key_sdk_windows, "CurrentVersion")
 			key_sdk_tools = path.join (self.Key_sdk_windows, self.sdk_version, 'WinSDKTools')
 			bin_dir = self.reg_value (key_sdk_tools, "InstallationFolder")
 			self.setenv_cmd = path.join (bin_dir, 'SetEnv.Cmd')
+
+		else:
+			self.setenv_cmd = self.vs_dev_cmd_path ()
+			if not path.exists (self.setenv_cmd):
+				setup_vc_path = path.join (self.Key_visual_studio, ise.msvc_version, 'Setup', 'VC')
+				product_dir = self.reg_value (setup_vc_path, 'ProductDir')
+				bin_dir = path.join (product_dir, 'bin')
+				self.setenv_cmd = path.join (product_dir, 'vcvarsall.bat')
+			self.sdk_version = 'v10.0'
 
 # Access
 	def compiler_environ (self):
@@ -133,21 +135,6 @@ class MICROSOFT_SDK (object):
 		for suffix in self.Arch_suffix:
 			if option.endswith (suffix):
 				result = True
-		return result
-
-	def new_sdk_version (self, ise_c_compiler):
-		result = None
-		# parse 'msc' or 'msc_vc140'
-		parts = ise_c_compiler.split ('_')
-		if len (parts) == 2:
-			vc = parts [1]
-			if vc.startswith ('vc'):
-				# vc140 -> 14.0
-				vc_version = vc [2:]
-				array = bytearray (vc_version)
-				array.insert (len (array) - 1, '.')
-				result = str (array)
-
 		return result
 
 	def vs_dev_cmd_path (self):

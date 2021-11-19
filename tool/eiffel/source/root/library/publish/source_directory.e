@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 10:12:00 GMT (Friday 3rd April 2020)"
-	revision: "10"
+	date: "2021-11-19 19:01:20 GMT (Friday 19th November 2021)"
+	revision: "11"
 
 class
 	SOURCE_DIRECTORY
@@ -103,6 +103,16 @@ feature -- Basic operations
 
 feature {NONE} -- Evolicity fields
 
+	get_section: ZSTRING
+		do
+			Result := dir_title
+			if Result.starts_with (Dot_slash) then
+				Result.remove_head (2)
+			end
+			Result.replace_character ('/', '-')
+			Result := XML.escaped (Result)
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
@@ -110,7 +120,7 @@ feature {NONE} -- Evolicity fields
 				["class_list", 			agent: like class_list do Result := sorted_class_list end],
 				["contents_dir_title", 	agent: ZSTRING do Result := XML.escaped (contents_dir_title) end],
 				["dir_title", 				agent: ZSTRING do Result := XML.escaped (dir_title) end],
-				["index", 					agent: INTEGER_REF do Result := index.to_reference end]
+				["section", 				agent get_section]
 			>>)
 		end
 
@@ -123,6 +133,11 @@ feature {NONE} -- Constants
 	Current_dir: ZSTRING
 		once
 			Result := "[ . ]"
+		end
+
+	Dot_slash: ZSTRING
+		once
+			Result := "./"
 		end
 
 end

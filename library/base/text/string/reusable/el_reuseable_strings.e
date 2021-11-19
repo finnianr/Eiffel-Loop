@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 17:58:23 GMT (Wednesday 17th November 2021)"
-	revision: "1"
+	date: "2021-11-19 18:14:03 GMT (Friday 19th November 2021)"
+	revision: "2"
 
 class
 	EL_REUSEABLE_STRINGS
@@ -31,20 +31,20 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create string
-			create string_8
-			create string_32
+			create string.make
+			create string_8.make
+			create string_32.make
 		end
 
 feature -- Access
 
-	string: EL_POOL_CURSOR_FACTORY [ZSTRING, EL_ZSTRING_POOL_CURSOR]
+	string: EL_POOL_CURSOR_FACTORY [ZSTRING]
 		-- access to pool of reusable `ZSTRING'
 
-	string_8: EL_POOL_CURSOR_FACTORY [STRING_8, EL_STRING_8_POOL_CURSOR]
+	string_8: EL_POOL_CURSOR_FACTORY [STRING_8]
 		-- access to pool of reusable `STRING_8'
 
-	string_32: EL_POOL_CURSOR_FACTORY [STRING_32, EL_STRING_32_POOL_CURSOR]
+	string_32: EL_POOL_CURSOR_FACTORY [STRING_32]
 		-- access to pool of reusable `STRING_32'
 
 end

@@ -105,7 +105,9 @@ def set_build_environment (config, print_environ=False):
 
 	if sys.platform == 'win32' and config.MSC_options:
 		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
-		sdk = C_dev.MICROSOFT_SDK (ise.c_compiler, config.MSC_options)
+		print "ise.msvc_version", ise.msvc_version
+
+		sdk = C_dev.MICROSOFT_SDK (config.MSC_options)
 		
 		compiler_environ = sdk.compiler_environ ()
 		for name, value in compiler_environ.items ():
@@ -297,6 +299,8 @@ class EIFFEL_PROJECT (object):
 			exe_path = path.join (self.eifgens_dir (), 'classic', 'F_code', self.exe_name)
 		else:
 			exe_path = self.package_exe_path ()
+
+		print 'install_dir', install_dir, self.versioned_exe_name ()
 
 		exe_dest_path = path.join (install_dir, self.versioned_exe_name ())
 

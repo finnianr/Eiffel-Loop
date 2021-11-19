@@ -86,7 +86,7 @@ else:
 
 	ise = project_py.ise
 
-	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler)
+	env.Append (ENV = os.environ, ISE_PLATFORM = ise.platform, ISE_C_COMPILER = ise.c_compiler, MSVC_VERSION = ise.msvc_version)
 	
 	config = EIFFEL_CONFIG_FILE (project_py.ecf)
 	config.keep_assertions = project_py.keep_assertions

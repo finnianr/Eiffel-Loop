@@ -11,7 +11,7 @@ import os, subprocess
 from os import path
 from optparse import OptionParser
 
-from eiffel_loop.eiffel.project import EIFFEL_PROJECT
+from eiffel_loop.eiffel import project
 
 # Install executable from package or F_code directory
 
@@ -22,11 +22,11 @@ parser.add_option (
 )
 (options, args) = parser.parse_args()
 
-project = EIFFEL_PROJECT () 
-print "%s version: %s" % (project.exe_name, project.version)
+prj = project.new_eiffel_project ()
+print "%s version: %s" % (prj.exe_name, prj.version)
 
 f = open (options.file_path, 'w')
-f.write (project.version)
+f.write (prj.version)
 f.close ()
 
 

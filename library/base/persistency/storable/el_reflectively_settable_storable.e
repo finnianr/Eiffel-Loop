@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 18:15:43 GMT (Wednesday 17th November 2021)"
-	revision: "48"
+	date: "2021-11-18 12:13:54 GMT (Thursday 18th November 2021)"
+	revision: "49"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -42,8 +42,6 @@ inherit
 	EL_MODULE_BUFFER
 
 	EL_MODULE_REUSABLE
-
-	EL_STRING_8_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 
@@ -295,12 +293,12 @@ feature {NONE} -- Implementation
 
 	write_pyxis_tuple (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; tuple: TUPLE; tuple_types: EL_TUPLE_TYPE_ARRAY)
 		local
-			pair, value: ZSTRING; i: INTEGER
+			pair, value: ZSTRING; name: STRING; i: INTEGER
 		do
 			across Reuseable.string as reuse loop
 				value := reuse.item
-				if attached String_8_pool.new_scope as pool_8 and then attached pool_8.reuse_item as name then
-					name.append (once "i_")
+				across Reuseable.string_8 as reuse_8 loop
+					name := reuse_8.copied_item (once "i_")
 					output.put_indent (tab_count)
 					from i := 1 until i > tuple.count loop
 						name.keep_head (2); name.append_integer (i)
@@ -319,7 +317,6 @@ feature {NONE} -- Implementation
 						i := i + 1
 					end
 					output.put_new_line
-					pool_8.recycle_end (name)
 				end
 			end
 		end

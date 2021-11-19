@@ -1,3 +1,6 @@
+1.4.3
+Fixed problem with Eiffel-View directory page fragment names by deriving section from dir_title
+
 1.4.2
 WINZIP_SOFTWARE_PACKAGE move signing of exe to section for creating installers
 

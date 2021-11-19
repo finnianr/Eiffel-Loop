@@ -12,12 +12,12 @@
 <h2>Directory: $relative_path</h2>
 #if $has_sub_directory then
 	#across $directory_list as $directory loop
-	<p><a href="#$directory.item.index">$directory.item.contents_dir_title</a></p>
+	<p><a href="#$directory.item.section">$directory.item.contents_dir_title</a></p>
 	#end
 #end
 #across $directory_list as $directory loop
 	#if $has_sub_directory then
-<h3><a name="$directory.item.index">$directory.item.dir_title</a></h3>
+<h3><a name="$directory.item.section">$directory.item.dir_title</a></h3>
 	#else
 <h3>Classes</h3>
 	#end

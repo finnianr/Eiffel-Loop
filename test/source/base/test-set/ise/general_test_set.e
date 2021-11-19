@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 18:19:30 GMT (Wednesday 17th November 2021)"
-	revision: "12"
+	date: "2021-11-19 18:04:46 GMT (Friday 19th November 2021)"
+	revision: "13"
 
 class
 	GENERAL_TEST_SET
@@ -120,18 +120,25 @@ feature -- Tests
 
 	test_reusable_strings
 		local
-			s1, s2: ZSTRING
+			s1, s2, s3, s4: ZSTRING
 		do
 			across Reuseable.string as reuse loop
 				s1 := reuse.item
 				assert ("empty string", s1.is_empty)
 				s1.append_string_general ("abc")
+				across Reuseable.string as reuse2 loop
+					s3 := reuse2.item
+				end
 			end
 			across Reuseable.string as reuse loop
 				s2 := reuse.item
 				assert ("empty string", s2.is_empty)
+				across Reuseable.string as reuse2 loop
+					s4 := reuse2.item
+				end
 			end
 			assert ("instance recycled", s1 = s2)
+			assert ("nested instances recycled", s3 = s4)
 		end
 
 	test_reverse_managed_pointer

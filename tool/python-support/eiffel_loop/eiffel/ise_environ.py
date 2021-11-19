@@ -13,6 +13,8 @@ from eiffel_loop import platform as system
 
 class ISE_ENVIRON (object):
 	# Constants
+	Default_msvc_version = '10.0'
+
 	Key_c_compiler = 'ISE_C_COMPILER'
 	Key_platform = 'ISE_PLATFORM'
 	Key_version = 'ISE_VERSION'
@@ -29,6 +31,7 @@ class ISE_ENVIRON (object):
 
 	def __init__ (self):
 		environ = os.environ
+		self.msvc_version = self.Default_msvc_version
 		self.platform = environ [self.Key_platform]
 		self.library = environ [self.Key_library]
 		self.version = environ [self.Key_version]
@@ -75,6 +78,8 @@ class ISE_ENVIRON (object):
 		else:
 			self.c_compiler = 'msc'
 
+		self.set_msvc_version ()
+
 	def set_dir_paths (self):
 		environ = os.environ
 		self.eiffel = environ [self.Key_eiffel]
@@ -93,6 +98,20 @@ class ISE_ENVIRON (object):
 			self.platform = self.Platform_64_bit
 
 		os.environ [self.Key_platform] = self.platform
+
+	def set_msvc_version (self):
+		self.msvc_version = self.Default_msvc_version
+		# parse 'msc' or 'msc_vc140'
+		parts = self.c_compiler.split ('_')
+		if len (parts) == 2:
+			vc = parts [1]
+			if vc.startswith ('vc'):
+				# vc140 -> 14.0
+				vc_version = vc [2:]
+				array = bytearray (vc_version)
+				array.insert (len (array) - 1, '.')
+				self.msvc_version = str (array)
+
 
 # end class ISE_ENVIRON
 

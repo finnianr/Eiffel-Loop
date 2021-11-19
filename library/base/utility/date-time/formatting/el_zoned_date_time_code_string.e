@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 15:31:30 GMT (Sunday 15th August 2021)"
-	revision: "2"
+	date: "2021-11-18 11:05:37 GMT (Thursday 18th November 2021)"
+	revision: "3"
 
 class
 	EL_ZONED_DATE_TIME_CODE_STRING
@@ -56,11 +56,7 @@ feature {NONE} -- Implementation
 			s: EL_STRING_8_ROUTINES; end_index: INTEGER
 		do
 			end_index := s.leading_string_count (a_str, zone_designator_count)
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
-				str.append_substring (a_str, 1, end_index)
-				Result := str
-				pool.recycle_end (str)
-			end
+			Result := a_str.substring (1, end_index)
 		end
 
 feature {NONE} -- Constants

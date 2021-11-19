@@ -15,28 +15,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-15 13:55:43 GMT (Sunday 15th August 2021)"
-	revision: "3"
+	date: "2021-11-18 10:43:03 GMT (Thursday 18th November 2021)"
+	revision: "4"
 
 deferred class
 	EL_DATE_TIME_UTILITY
 
 inherit
-	EL_STRING_8_CONSTANTS
-
 	EL_MODULE_DATE_TIME
+
+	EL_MODULE_REUSABLE
 
 feature {NONE} -- Initialization
 
 	make_with_format (s: STRING; format: STRING)
 		do
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
-				str.append (s)
-				if attached Parser_table.item (format) as parser then
-					parser.parse_source (str)
-					make_with_parser (parser)
+			across Reuseable.string_8 as reuse loop
+				if attached reuse.item as str then
+					str.append (s)
+					if attached Parser_table.item (format) as parser then
+						parser.parse_source (str)
+						make_with_parser (parser)
+					end
 				end
-				pool.recycle_end (str)
 			end
 		end
 
@@ -48,10 +49,11 @@ feature -- Access
 
 	formatted_out (format: STRING): STRING
 		do
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
-				append_to (str, format)
-				Result := str.twin
-				pool.recycle_end (str)
+			across Reuseable.string_8 as reuse loop
+				if attached reuse.item as str then
+					append_to (str, format)
+					Result := str.twin
+				end
 			end
 		end
 
@@ -63,19 +65,14 @@ feature -- Access
 feature -- Basic operations
 
 	append_to (general: STRING_GENERAL; format: STRING)
-		local
-			str: STRING; pool: like String_8_pool.new_scope
 		do
 			if attached {STRING_8} general as str_8 then
-				str := str_8
+				append_to_string_8 (str_8, format)
 			else
-				pool := String_8_pool.new_scope
-				str := pool.reuse_item
-			end
-			append_to_string_8 (str, format)
-			if general /= str then
-				general.append (str)
-				pool.recycle_end (str)
+				across Reuseable.string_8 as reuse loop
+					append_to_string_8 (reuse.item, format)
+					general.append (reuse.item)
+				end
 			end
 		end
 
@@ -97,10 +94,11 @@ feature -- Contract support
 
 	input_valid (s: STRING; format: STRING): BOOLEAN
 		do
-			if attached String_8_pool.new_scope as pool and then attached pool.reuse_item as str then
-				str.append (s); str.to_upper
-				Result := upper_input_valid (str, format)
-				pool.recycle_end (str)
+			across Reuseable.string_8 as reuse loop
+				if attached reuse.item as str then
+					str.append (s); str.to_upper
+					Result := upper_input_valid (str, format)
+				end
 			end
 		end
 
