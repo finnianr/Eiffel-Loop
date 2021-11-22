@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-18 12:13:54 GMT (Thursday 18th November 2021)"
-	revision: "49"
+	date: "2021-11-21 16:08:50 GMT (Sunday 21st November 2021)"
+	revision: "50"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -42,8 +42,6 @@ inherit
 	EL_MODULE_BUFFER
 
 	EL_MODULE_REUSABLE
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 
@@ -239,9 +237,9 @@ feature {NONE} -- Implementation
 		do
 			value := buffer.empty; attribute_lines := Once_attribute_lines
 
-			if attached String_pool.new_scope as pool then
+			across Reuseable.string_pool as pool loop
 				from attribute_lines.wipe_out until attribute_lines.full loop
-					attribute_lines.extend (pool.reuse_item)
+					attribute_lines.extend (pool.borrowed_item)
 				end
 				across meta_data.alphabetical_list as list loop
 					-- output numeric as Pyxis element attributes
@@ -264,9 +262,7 @@ feature {NONE} -- Implementation
 						line.item.remove_head (2)
 						output.put_indented_line (tab_count, line.item)
 					end
-					pool.recycle (line.item)
 				end
-				pool.end_scope
 			end
 		end
 

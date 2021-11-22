@@ -14,14 +14,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-19 19:34:19 GMT (Friday 19th November 2021)"
-	revision: "2"
+	date: "2021-11-22 19:58:42 GMT (Monday 22nd November 2021)"
+	revision: "4"
 
 class
-	EL_STRING_POOL_CURSOR [S -> STRING_GENERAL create make end]
+	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
 
 inherit
-	ITERATION_CURSOR [S]
+	EL_BORROWED_OBJECT_CURSOR [S]
+		redefine
+			make
+		end
 
 create
 	make
@@ -30,40 +33,17 @@ feature {NONE} -- Initialization
 
 	make (a_pool: like pool)
 		do
-			pool := a_pool
-			if a_pool.is_empty then
-				create item.make (0)
-			else
-				item := a_pool.item
-				a_pool.remove
-				item.keep_head (0)
-			end
+			Precursor (a_pool)
+		ensure then
+			empty_item: item.is_empty
 		end
 
 feature -- Access
-
-	item: S
 
 	copied_item (general: READABLE_STRING_GENERAL): S
 		do
 			Result := item
 			Result.append (general)
 		end
-
-feature -- Status query
-
-	after: BOOLEAN
-
-feature -- Cursor movement
-
-	forth
-		do
-			after := True
-			pool.put (item)
-		end
-
-feature {NONE} -- Internal attributes
-
-	pool: ARRAYED_STACK [S]
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-19 18:04:46 GMT (Friday 19th November 2021)"
-	revision: "13"
+	date: "2021-11-19 20:17:46 GMT (Friday 19th November 2021)"
+	revision: "14"
 
 class
 	GENERAL_TEST_SET
@@ -128,6 +128,7 @@ feature -- Tests
 				s1.append_string_general ("abc")
 				across Reuseable.string as reuse2 loop
 					s3 := reuse2.item
+					assert ("s3 is new instance", s1 /= s3)
 				end
 			end
 			across Reuseable.string as reuse loop

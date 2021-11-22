@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:20:55 GMT (Thursday 12th August 2021)"
-	revision: "12"
+	date: "2021-11-22 20:03:02 GMT (Monday 22nd November 2021)"
+	revision: "13"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -68,20 +68,21 @@ feature -- Basic operations
 					Evolicity_templates.put_file (template_path, output)
 				end
 				if Evolicity_templates.is_nested_output_indented then
-					if attached Medium_pool.new_scope as pool and then attached pool.reuse_item as medium then
-						medium.open_write
-						Evolicity_templates.merge (template_path, new_context, medium)
-						create lines.make (medium.text, s.character_string ('%N'))
-						medium.close
-						from lines.start until lines.after loop
-							if not tabs.is_empty then
-								output.put_raw_string_8 (tabs)
+					across Reuseable_medium as reuse loop
+						if attached reuse.item as medium then
+							medium.open_write
+							Evolicity_templates.merge (template_path, new_context, medium)
+							create lines.make (medium.text, s.character_string ('%N'))
+							medium.close
+							from lines.start until lines.after loop
+								if not tabs.is_empty then
+									output.put_raw_string_8 (tabs)
+								end
+								output.put_string (lines.item (False))
+								output.put_new_line
+								lines.forth
 							end
-							output.put_string (lines.item (False))
-							output.put_new_line
-							lines.forth
 						end
-						pool.recycle_end (medium)
 					end
 				else
 					Evolicity_templates.merge (template_path, new_context, output)
@@ -89,7 +90,7 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
 
 	template_name: ZSTRING
 
@@ -97,10 +98,13 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Medium_pool: EL_RECYCLING_POOL [EL_ZSTRING_IO_MEDIUM]
-		-- pool of resuable mediums
+	Reuseable_medium: EL_BORROWED_OBJECT_SCOPE [EL_ZSTRING_IO_MEDIUM]
+		-- scope from which an instance of `EL_ZSTRING_IO_MEDIUM' can be borrowed
+		local
+			pool: EL_AGENT_FACTORY_POOL [EL_ZSTRING_IO_MEDIUM]
 		once
-			create Result.make (agent: EL_ZSTRING_IO_MEDIUM do create Result.make (500) end)
+			create pool.make (5, agent: EL_ZSTRING_IO_MEDIUM do create Result.make (500) end)
+			create Result.make (pool)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 9:43:08 GMT (Tuesday 26th October 2021)"
-	revision: "21"
+	date: "2021-11-21 16:51:16 GMT (Sunday 21st November 2021)"
+	revision: "22"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -23,6 +23,8 @@ inherit
 
 	EL_SHARED_CONSOLE_COLORS
 
+	EL_MODULE_REUSABLE
+
 create
 	make
 
@@ -31,9 +33,10 @@ feature -- Initialization
 	make
 		do
 			create buffer.make (30)
-			create {EL_STRING_POOL [STRING]} string_pool.make
+			across Reuseable.string_8_pool as pool loop
+				string_pool := pool
+			end
 			string_pool.start_scope
-			create recycle_buffer.make (30)
 			create new_line_prompt.make_from_string ("%N")
 			std_output := io.Output
 		end
@@ -212,17 +215,15 @@ feature -- Basic operations
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
-			string_pool.reclaim (recycle_buffer)
 			string_pool.end_scope
 			string_pool.start_scope
 		end
 
 feature {NONE} -- Implementation
 
-	extended_buffer_last: like string_pool.item
+	extended_buffer_last: like string_pool.borrowed_item
 		do
-			Result := string_pool.reuse_item
-			recycle_buffer.extend (Result)
+			Result := string_pool.borrowed_item
 			buffer.extend (Result)
 		end
 
@@ -259,12 +260,9 @@ feature {NONE} -- Internal attributes
 
 	new_line_prompt: STRING
 
-	recycle_buffer: ARRAYED_LIST [like string_pool.item]
-		-- strings for recycling back to pool
-
 	std_output: PLAIN_TEXT_FILE
 
-	string_pool: EL_POOL_SCOPE [STRING]
+	string_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

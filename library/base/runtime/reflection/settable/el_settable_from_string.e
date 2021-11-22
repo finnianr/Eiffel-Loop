@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-12 13:48:17 GMT (Thursday 12th August 2021)"
-	revision: "20"
+	date: "2021-11-21 15:02:59 GMT (Sunday 21st November 2021)"
+	revision: "21"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -26,6 +26,8 @@ inherit
 		undefine
 			is_equal
 		end
+
+	EL_MODULE_REUSABLE
 
 feature {NONE} -- Initialization
 
@@ -246,11 +248,12 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 
 	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE; value: ANY)
 		local
-			pos_dot: INTEGER
+			pos_dot: INTEGER; name_part: ZSTRING
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				if attached Name_part_pool.new_scope as pool and then attached pool.reuse_item as name_part then
+				across Reuseable.string as reuse loop
+					name_part := reuse.item
 					name_part.append_substring_general (name, 1, pos_dot - 1)
 					if table.has_imported (name_part, object)
 						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
@@ -260,7 +263,6 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 						-- Recurse until no more dots in name
 						set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
 					end
-					pool.recycle_end (name_part)
 				end
 
 			elseif table.has_imported (name, object) then
@@ -284,13 +286,6 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			else
 				field.set (object, value)
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Name_part_pool: EL_STRING_POOL [ZSTRING]
-		once
-			create Result.make
 		end
 
 note

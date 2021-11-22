@@ -9,16 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-23 11:14:34 GMT (Sunday 23rd May 2021)"
-	revision: "1"
+	date: "2021-11-22 18:49:19 GMT (Monday 22nd November 2021)"
+	revision: "3"
 
 class
 	EL_REFLECTED_MEMBER_ZSTRING
 
 inherit
 	EL_REFLECTED_MEMBER_STRING [ZSTRING]
-		rename
-			pool as string_pool
 		undefine
 			append_to_string
 		end
@@ -30,8 +28,6 @@ inherit
 			set, set_from_string_general
 		end
 
-	EL_ZSTRING_CONSTANTS
-
 create
 	make
 
@@ -40,6 +36,13 @@ feature -- Basic operations
 	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
 		do
 			set (a_object, node.as_string (False))
+		end
+
+feature {NONE} -- Implementation
+
+	reuseable_string: EL_BORROWED_STRING_SCOPE [ZSTRING]
+		do
+			Result := reuseable.string
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-18 10:48:47 GMT (Thursday 18th November 2021)"
-	revision: "18"
+	date: "2021-11-21 16:27:39 GMT (Sunday 21st November 2021)"
+	revision: "19"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -37,8 +37,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			create output_stack.make (10)
-			create recycle_list.make (30)
-			pool := String_8_pool
+			pool := Default_pool
 			Precursor
 		end
 
@@ -52,7 +51,6 @@ feature -- Basic operations
 			output := a_output
 			do_scan (agent	scan_from_lines (lines))
 		ensure
-			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -65,7 +63,6 @@ feature -- Basic operations
 			output := a_output
 			do_scan (agent	scan_from_stream (a_input))
 		ensure
-			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -77,7 +74,6 @@ feature -- Basic operations
 			output := a_output
 			do_scan (agent	scan (text))
 		ensure
-			all_recycled: recycle_list.is_empty
 			stack_empty: output_stack.is_empty
 		end
 
@@ -169,7 +165,7 @@ feature {NONE} -- Parsing events
 			tag_output.extend (tabs (output_stack.count))
 			tag_output.extend (Left_angle_bracket)
 
-			tag_output.extend (reuseable_item)
+			tag_output.extend (pool.borrowed_item)
 			tag_output.last.append (last_node_name)
 
 			from attribute_list.start until attribute_list.after loop
@@ -186,10 +182,10 @@ feature {NONE} -- Implementation
 
 	do_scan (action: PROCEDURE)
 		do
-			pool.start_scope
-			action.apply
-			pool.reclaim (recycle_list)
-			pool.end_scope
+			across Reuseable.string_8_pool as scope loop
+				pool := scope
+				action.apply
+			end
 		end
 
 	put_node_content
@@ -268,18 +264,12 @@ feature {NONE} -- Implementation
 
 	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
 		do
-			Result := reuseable_item
+			Result := pool.borrowed_item
 			Result.append_character (' ')
 			Result.append (node.raw_name)
 			Result.append (Value_equals_separator)
 			Attribute_escaper.escape_into (node, Result)
 			Result.append_character ('"')
-		end
-
-	reuseable_item: STRING_8
-		do
-			Result := pool.reuse_item
-			recycle_list.extend (Result)
 		end
 
 	tabs (tab_count: INTEGER): STRING_8
@@ -301,9 +291,7 @@ feature {NONE} -- Internal attributes
 
 	output_stack: ARRAYED_STACK [EL_STRING_8_LIST]
 
-	pool: EL_POOL_SCOPE [STRING]
-
-	recycle_list: ARRAYED_LIST [STRING]
+	pool: like Default_pool
 
 feature {NONE} -- States
 
@@ -318,6 +306,11 @@ feature {NONE} -- States
 	State_tag: INTEGER = 1
 
 feature {NONE} -- Constants
+
+	Default_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
+		do
+			create Result.make (create {EL_STRING_FACTORY_POOL [STRING]}.make (0))
+		end
 
 	Decimal_formatter: FORMAT_DOUBLE
 			--
