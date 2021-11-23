@@ -1,7 +1,7 @@
 note
 	description: "[
-		Iteration cursor defining a scope in which items can be borrowed from a pool
-		and then all returned when **across* loop exits after first iteration.
+		Iteration cursor defining a scope in which multiple items can be borrowed from a factory pool
+		and then all returned when **across** loop exits after first iteration.
 		See class [$source EL_ITERABLE_POOL_SCOPE]
 	]"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 19:06:41 GMT (Monday 22nd November 2021)"
-	revision: "1"
+	date: "2021-11-22 20:22:48 GMT (Monday 22nd November 2021)"
+	revision: "2"
 
 class
 	EL_POOL_SCOPE_CURSOR [G]

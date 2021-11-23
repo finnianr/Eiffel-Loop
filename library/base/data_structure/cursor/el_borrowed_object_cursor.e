@@ -1,13 +1,17 @@
 note
-	description: "Borrowed object cursor"
+	description: "[
+		Iteration cursor defining a scope in which a single item can be borrowed from a factory pool
+		and then returned when **across** loop exits after first iteration.
+		See class [$source EL_BORROWED_OBJECT_SCOPE]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 19:23:05 GMT (Monday 22nd November 2021)"
-	revision: "1"
+	date: "2021-11-22 20:22:22 GMT (Monday 22nd November 2021)"
+	revision: "2"
 
 class
 	EL_BORROWED_OBJECT_CURSOR [G]

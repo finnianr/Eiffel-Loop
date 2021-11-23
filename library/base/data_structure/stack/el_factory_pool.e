@@ -1,13 +1,13 @@
 note
-	description: "Pool of recyleable objects that are either created or lent to client"
+	description: "Pool of reuseable objects that are either created or lent to client"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-21 15:46:24 GMT (Sunday 21st November 2021)"
-	revision: "1"
+	date: "2021-11-23 10:55:33 GMT (Tuesday 23rd November 2021)"
+	revision: "2"
 
 deferred class
 	EL_FACTORY_POOL [G]

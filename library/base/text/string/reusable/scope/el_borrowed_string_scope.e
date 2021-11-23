@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 19:58:40 GMT (Monday 22nd November 2021)"
-	revision: "4"
+	date: "2021-11-23 11:15:46 GMT (Tuesday 23rd November 2021)"
+	revision: "5"
 
 class
 	EL_BORROWED_STRING_SCOPE [S -> STRING_GENERAL create make end]
@@ -22,7 +22,14 @@ inherit
 		end
 
 create
-	make
+	make, make_default
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			create {EL_STRING_FACTORY_POOL [S]} pool.make (8)
+		end
 
 feature -- Access
 
@@ -31,4 +38,8 @@ feature -- Access
 			create Result.make (pool)
 		end
 
+	new_pool_scope: EL_STRING_POOL_SCOPE [S]
+		do
+			create Result.make (pool)
+		end
 end

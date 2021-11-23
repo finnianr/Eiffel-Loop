@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 20:05:59 GMT (Monday 22nd November 2021)"
-	revision: "4"
+	date: "2021-11-23 11:14:21 GMT (Tuesday 23rd November 2021)"
+	revision: "5"
 
 class
 	EL_REUSEABLE_STRINGS
@@ -19,25 +19,18 @@ create
 feature {NONE} -- Initialization
 
 	make
-		local
-			pool: EL_STRING_FACTORY_POOL [ZSTRING]
-			pool_8: EL_STRING_FACTORY_POOL [STRING_8]
-			pool_32: EL_STRING_FACTORY_POOL [STRING_32]
 		do
-			create pool.make (7)
-			create string.make (pool)
-			create string_pool.make (pool)
+			create string.make_default
+			string_8_pool := string_8.new_pool_scope
 
-			create pool_8.make (7)
-			create string_8.make (pool_8)
-			create string_8_pool.make (pool_8)
+			create string_8.make_default
+			string_8_pool := string_8.new_pool_scope
 
-			create pool_32.make (7)
-			create string_32.make (pool_32)
-			create string_32_pool.make (pool_32)
+			create string_32.make_default
+			string_32_pool := string_32.new_pool_scope
 		end
 
-feature -- Access
+feature -- Pool scopes
 
 	string_8_pool: EL_STRING_POOL_SCOPE [STRING_8]
 		-- defines scope in which multiple strings can be borrowed and automatically reclaimed
@@ -47,6 +40,8 @@ feature -- Access
 
 	string_pool: EL_STRING_POOL_SCOPE [ZSTRING]
 		-- defines scope in which multiple strings can be borrowed and automatically reclaimed
+
+feature -- String scopes
 
 	string: EL_BORROWED_STRING_SCOPE [ZSTRING]
 		-- access to pool of reusable `ZSTRING'
@@ -78,7 +73,12 @@ note
 				s2 := pool.borrow_item
 			end
 
-		Both s1 and s2 are returned to pool when **across** loop scope finishes
+		Both s1 and s2 are returned to pool when **across** loop scope finishes.
+
+		**GC Overhead**
+
+		''Reuseable.string'' has less GC overhead then ''Reuseable.string_pool'' as it does
+		not create a lending list array.
 	]"
 
 end

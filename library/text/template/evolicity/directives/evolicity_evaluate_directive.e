@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-22 20:03:02 GMT (Monday 22nd November 2021)"
-	revision: "13"
+	date: "2021-11-23 10:48:06 GMT (Tuesday 23rd November 2021)"
+	revision: "14"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -100,11 +100,8 @@ feature {NONE} -- Constants
 
 	Reuseable_medium: EL_BORROWED_OBJECT_SCOPE [EL_ZSTRING_IO_MEDIUM]
 		-- scope from which an instance of `EL_ZSTRING_IO_MEDIUM' can be borrowed
-		local
-			pool: EL_AGENT_FACTORY_POOL [EL_ZSTRING_IO_MEDIUM]
 		once
-			create pool.make (5, agent: EL_ZSTRING_IO_MEDIUM do create Result.make (500) end)
-			create Result.make (pool)
+			create Result.make_with_agent (agent: EL_ZSTRING_IO_MEDIUM do create Result.make (500) end)
 		end
 
 end
