@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 7:55:07 GMT (Friday 23rd July 2021)"
-	revision: "37"
+	date: "2021-11-23 13:37:53 GMT (Tuesday 23rd November 2021)"
+	revision: "38"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -31,7 +31,7 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 		redefine
-			on_prepare, on_clean
+			on_prepare
 		end
 
 	EL_FILE_SYNC_ROUTINES undefine default_create end
@@ -50,15 +50,40 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
+	SHARED_INVALID_CLASSNAMES
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("publisher", agent test_publisher)
+			eval.call ("link_checker", agent test_link_checker)
 		end
 
 feature -- Tests
+
+	test_link_checker
+		local
+			link_checker: like new_link_checker
+			has_el_solitary: BOOLEAN; rbox_classes: EL_STRING_8_LIST
+		do
+			link_checker := new_link_checker
+			link_checker.execute
+
+			if attached Invalid_classname_map as list then
+				create rbox_classes.make_from_array (<< "RBOX_TEST_DATABASE", "RBOX_DATABASE" >>)
+
+				from list.start until list.after loop
+					if list.item_key.base.same_string ("el_solitary.e")  then
+						assert ("key is RBOX_DATABASE class", rbox_classes.has (list.item_value))
+						has_el_solitary := true
+					end
+					list.forth
+				end
+			end
+			assert ("el_solitary.e found", has_el_solitary)
+		end
 
 	test_publisher
 		local
@@ -141,15 +166,6 @@ feature {NONE} -- Events
 			across list as path loop
 				OS.copy_file (Eiffel_loop_dir + path.item, (Work_area_dir + path.item).parent)
 			end
-			Execution_environment.put ("workarea", Var_EIFFEL_LOOP)
-			Execution_environment.put ("workarea/doc", "EIFFEL_LOOP_DOC")
-		end
-
-	on_clean
-		do
-			Precursor
-			Execution_environment.put (new_eiffel_loop_dir, Var_EIFFEL_LOOP)
-			Execution_environment.put ("", "EIFFEL_LOOP_DOC")
 		end
 
 feature {NONE} -- Implementation
@@ -191,15 +207,20 @@ feature {NONE} -- Implementation
 			Result := crc.checksum
 		end
 
+	generated_files: like OS.file_list
+		do
+			Result := OS.file_list (Doc_dir, "*.html")
+		end
+
 	html_path (a_path: EL_FILE_PATH): EL_FILE_PATH
 		do
 			Result := Kernel_event.html_dir + a_path.base_sans_extension
 			Result.add_extension ("html")
 		end
 
-	generated_files: like OS.file_list
+	new_link_checker: REPOSITORY_NOTE_LINK_CHECKER
 		do
-			Result := OS.file_list (Doc_dir, "*.html")
+			create Result.make (Doc_config_dir + "config-1.pyx", "1.4.0", 0)
 		end
 
 	new_publisher: REPOSITORY_TEST_PUBLISHER
@@ -219,14 +240,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Kernel_event: TUPLE [class_dir, html_dir: EL_DIR_PATH]
-		local
-			l_dir: EL_DIR_PATH
-		once
-			l_dir := "library/base/kernel/event"
-			Result := [Work_area_dir #+ l_dir, Work_area_dir.joined_dir_path ("doc") #+ l_dir]
-		end
-
 	Doc_config_dir: EL_DIR_PATH
 		once
 			Result := Work_area_dir #+ "doc-config"
@@ -240,6 +253,14 @@ feature {NONE} -- Constants
 	Ftp_dir: EL_DIR_PATH
 		once
 			Result := Work_area_dir #+ "ftp.doc"
+		end
+
+	Kernel_event: TUPLE [class_dir, html_dir: EL_DIR_PATH]
+		local
+			l_dir: EL_DIR_PATH
+		once
+			l_dir := "library/base/kernel/event"
+			Result := [Work_area_dir #+ l_dir, Work_area_dir.joined_dir_path ("doc") #+ l_dir]
 		end
 
 end

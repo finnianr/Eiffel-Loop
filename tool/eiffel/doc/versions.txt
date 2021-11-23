@@ -1,3 +1,6 @@
+1.4.4
+Fixed REPOSITORY_NOTE_LINK_CHECKER
+
 1.4.3
 Fixed problem with Eiffel-View directory page fragment names by deriving section from dir_title
 

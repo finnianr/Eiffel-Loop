@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
-	revision: "20"
+	date: "2021-11-23 13:23:16 GMT (Tuesday 23rd November 2021)"
+	revision: "21"
 
 class
 	EIFFEL_NOTES
@@ -20,8 +20,6 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_LIO
-
 	EL_MODULE_USER_INPUT
 
 	EL_MODULE_XML
@@ -29,6 +27,8 @@ inherit
 	SHARED_CLASS_PATH_TABLE
 
 	SHARED_ISE_CLASS_TABLE
+
+	SHARED_INVALID_CLASSNAMES
 
 create
 	make
@@ -250,11 +250,7 @@ feature {NONE} -- Implementation
 					elseif ISE_class_table.has_class (text) then
 						do_nothing
 					else
-						lio.put_path_field ("Note source link in", relative_class_dir + base_name)
-						lio.put_new_line
-						lio.put_labeled_string ("Cannot find class", Class_path_table.last_name)
-						lio.put_new_line
-						lio.put_new_line
+						Invalid_classname_map.extend (relative_class_dir + base_name, Class_path_table.last_name)
 					end
 				end
 			end

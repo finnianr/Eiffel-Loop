@@ -4,11 +4,11 @@ pyxis-doc:
 # Configuration file for the Eiffel-View repository publisher
 
 publish-repository:
-	name = "Eiffel-Loop"; root-dir = "$EIFFEL_LOOP"; output-dir = "$EIFFEL_LOOP_DOC"
+	name = "Eiffel-Loop"; root-dir = "workarea"; output-dir = "workarea/doc"
 	web-address = "http://www.eiffel-loop.com"; github-url = "https://github.com/finnianr/eiffel-loop"
 	ise-library = "https://www.eiffel.org/files/doc/static/18.01/libraries/%S/%S_chart.html"
 	ise-contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
-	ftp-sync-path = "$EIFFEL_LOOP_DOC/ftp.sync"
+	ftp-sync-path = "workarea/doc/ftp.sync"
 
 	ftp-site:
 		url = "ftp.eiffel-loop.com"; user-home = "/htdocs"

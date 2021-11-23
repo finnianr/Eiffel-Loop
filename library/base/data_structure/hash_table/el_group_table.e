@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 8:28:15 GMT (Saturday 19th June 2021)"
-	revision: "7"
+	date: "2021-11-23 13:17:00 GMT (Tuesday 23rd November 2021)"
+	revision: "8"
 
 class
 	EL_GROUP_TABLE [G, K -> HASHABLE]
@@ -20,13 +20,14 @@ inherit
 		rename
 			item as item_list,
 			found_item as found_list,
-			make as make_with_count
+			make as make_with_count,
+			extend as extend_table
 		redefine
 			make_with_count, has_key, search
 		end
 
 create
-	make, make_from_list, make_with_count
+	make, make_from_list
 
 feature {NONE} -- Initialization
 
@@ -48,7 +49,7 @@ feature {NONE} -- Initialization
 					group := found_list
 				else
 					create group.make (5)
-					extend (group, l_key)
+					extend_table (group, l_key)
 				end
 				group.extend (l_list.item)
 			end
@@ -96,7 +97,7 @@ feature -- Element change
 			else
 				create found_list.make_empty
 				found_list.extend (a_item)
-				extend (found_list, key)
+				extend_table (found_list, key)
 			end
 		end
 

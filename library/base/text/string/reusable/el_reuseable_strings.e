@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 11:14:21 GMT (Tuesday 23rd November 2021)"
-	revision: "5"
+	date: "2021-11-23 11:49:17 GMT (Tuesday 23rd November 2021)"
+	revision: "6"
 
 class
 	EL_REUSEABLE_STRINGS
@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create string.make_default
-			string_8_pool := string_8.new_pool_scope
+			string_pool := string.new_pool_scope
 
 			create string_8.make_default
 			string_8_pool := string_8.new_pool_scope
