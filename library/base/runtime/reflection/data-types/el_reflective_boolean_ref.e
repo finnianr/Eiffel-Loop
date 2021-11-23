@@ -6,15 +6,15 @@ note
 		In a descendant, rename `item' to the "true name", `on' for example, and redefine `false_name' as the opposite,
 		which in this example would be `off'.
 	]"
-	tests: "Class [$source PP_TEST_SET]"
+	tests: "Class [$source PAYPAL_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 16:31:31 GMT (Wednesday 29th January 2020)"
-	revision: "9"
+	date: "2021-11-23 19:04:57 GMT (Tuesday 23rd November 2021)"
+	revision: "10"
 
 class
 	EL_REFLECTIVE_BOOLEAN_REF

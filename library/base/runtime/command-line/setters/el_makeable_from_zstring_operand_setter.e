@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets an operand conforming to [$source EL_MAKEABLE_FROM_STRING_GENERAL] in `make' routine argument tuple
+		Sets an operand conforming to [$source EL_MAKEABLE_FROM_STRING [STRING_GENERAL]] in `make' routine argument tuple
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:46:55 GMT (Wednesday 29th January 2020)"
-	revision: "3"
+	date: "2021-11-23 18:46:30 GMT (Tuesday 23rd November 2021)"
+	revision: "4"
 
 class
 	EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER

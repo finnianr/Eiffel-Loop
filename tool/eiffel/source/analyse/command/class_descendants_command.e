@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:24:24 GMT (Saturday 10th July 2021)"
-	revision: "13"
+	date: "2021-11-23 18:59:44 GMT (Tuesday 23rd November 2021)"
+	revision: "14"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -63,6 +63,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
+		local
+			gedit_cmd: EL_OS_COMMAND
 		do
 			log.enter ("execute")
 			if ecf_path.is_empty then
@@ -75,6 +77,11 @@ feature -- Basic operations
 				Descendants_command.execute
 				output_lines
 				lio.put_line ("DONE")
+
+				create gedit_cmd.make ("gedit $path")
+				gedit_cmd.put_path ("path", output_path)
+				gedit_cmd.set_forking_mode (True)
+				gedit_cmd.execute
 			end
 			log.exit
 		end

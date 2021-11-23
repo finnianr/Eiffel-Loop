@@ -3,7 +3,8 @@ note
 		Combined frame ID enumeration codes for ID3 versions: 2.2.0, 2.3.0, 2.4.0
 	]"
 	notes: "[
-		Enumerations are generated from extract of ID3 specification by [$source ID3_FRAME_ENUM_GENERATOR_APP]
+		Enumerations are generated from extract of ID3 specification by [$source ID3_FRAME_CODE_CLASS_GENERATOR_APP]
+		from cluster [./tool/eiffel/eiffel.root.html eiffel.ecf#root]
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 8:38:44 GMT (Tuesday 28th April 2020)"
-	revision: "7"
+	date: "2021-11-23 18:43:58 GMT (Tuesday 23rd November 2021)"
+	revision: "8"
 
 class
 	TL_FRAME_ID_ENUM

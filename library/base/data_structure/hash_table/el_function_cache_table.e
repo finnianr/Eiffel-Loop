@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-10 11:57:45 GMT (Sunday 10th October 2021)"
-	revision: "3"
+	date: "2021-11-23 18:49:20 GMT (Tuesday 23rd November 2021)"
+	revision: "4"
 
 class
 	EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
@@ -86,11 +86,10 @@ feature {NONE} -- Initialization
 note
 	descendants: "[
 			EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
-				[$source EL_GEOGRAPHIC_INFO_TABLE]
-				[$source EL_LOCALIZED_CURRENCY_TABLE]
 				[$source EL_FILLED_STRING_8_TABLE]
+				[$source EL_LOCALIZED_CURRENCY_TABLE]
 				[$source EL_FILLED_STRING_TABLE]* [STR -> [$source READABLE_STRING_GENERAL]]
-					[$source EL_FILLED_STRING_32_TABLE]
 					[$source EL_FILLED_ZSTRING_TABLE]
+					[$source EL_FILLED_STRING_32_TABLE]
 	]"
 end

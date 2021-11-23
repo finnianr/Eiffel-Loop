@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 10:50:22 GMT (Friday 21st May 2021)"
-	revision: "42"
+	date: "2021-11-23 19:06:46 GMT (Tuesday 23rd November 2021)"
+	revision: "43"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -217,31 +217,29 @@ note
 		Typically you would make a shared instance of an implementation class inheriting
 		this class.
 
-		Overriding `import_name' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
+		Overriding ''import_name'' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
 		a code using a foreign naming convention, camelCase, for example. Overriding
-		`export_name' allows the name returned by `code_name' to use a foreign convention.
-		Choose a convention from the `Naming' object.
+		''export_name'' allows the name returned by `code_name' to use a foreign convention.
+		Choose a convention from the ''Naming'' object.
 	]"
 	descendants: "[
 			EL_ENUMERATION* [N -> NUMERIC]
-				[$source TL_PICTURE_TYPE_ENUM]
 				[$source AIA_RESPONSE_ENUM]
 				[$source AIA_REASON_ENUM]
+				[$source EL_CURRENCY_ENUM]
 				[$source EL_BOOLEAN_ENUMERATION]*
 					[$source PP_ADDRESS_STATUS_ENUM]
 				[$source PP_PAYMENT_STATUS_ENUM]
 				[$source PP_PAYMENT_PENDING_REASON_ENUM]
 				[$source PP_TRANSACTION_TYPE_ENUM]
-				[$source EL_CURRENCY_ENUM]
+				[$source TL_PICTURE_TYPE_ENUM]
+				[$source EL_IPAPI_CO_JSON_FIELD_ENUM]
 				[$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {[$source NUMERIC], [$source HASHABLE]}]
 					[$source EROS_ERRORS_ENUM]
-					[$source EL_PASSPHRASE_ATTRIBUTES_ENUM]
-				[$source TL_FRAME_ID_ENUM]
 				[$source TL_STRING_ENCODING_ENUM]
 				[$source TL_MUSICBRAINZ_ENUM]
-				[$source EL_TYPE_ID_ENUMERATION]*
-					[$source EL_CLASS_TYPE_ID_ENUM]
 				[$source EL_HTTP_STATUS_ENUM]
+				[$source TL_FRAME_ID_ENUM]
 	]"
 
 end -- class EL_ENUMERATION
