@@ -29,7 +29,8 @@ feature -- Basic operations
 		local
 			class_list: EL_STRING_8_LIST
 		do
-			lio.put_line ("Checking")
+			lio.put_new_line
+			lio.put_line ("Checking $source links")
 			across ecf_list as tree loop
 				lio.put_character ('.')
 				across tree.item.directory_list as directory loop
