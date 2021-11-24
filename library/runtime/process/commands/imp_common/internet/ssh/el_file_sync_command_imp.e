@@ -1,13 +1,13 @@
 note
-	description: "Common implementation of [$source EL_SECURE_SHELL_FILE_SYNC_COMMAND_I]"
+	description: "Common implementation of [$source EL_FILE_SYNC_COMMAND_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-19 12:42:26 GMT (Sunday 19th September 2021)"
-	revision: "5"
+	date: "2021-11-24 12:38:53 GMT (Wednesday 24th November 2021)"
+	revision: "6"
 
 class
 	EL_FILE_SYNC_COMMAND_IMP

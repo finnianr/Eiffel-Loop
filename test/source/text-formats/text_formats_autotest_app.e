@@ -6,8 +6,8 @@ note
 		**Test Sets**
 		
 			[$source COMMA_SEPARATED_IMPORT_TEST_SET]
-			[$source JSON_NAME_VALUE_LIST_TEST_SET]
-			[$source SETTABLE_FROM_JSON_STRING_TEST_SET]
+			[$source JSON_PARSING_TEST_SET]
+			[$source XML_ESCAPER_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-16 9:38:43 GMT (Saturday 16th October 2021)"
-	revision: "10"
+	date: "2021-11-24 10:31:35 GMT (Wednesday 24th November 2021)"
+	revision: "11"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 6:54:35 GMT (Monday 12th July 2021)"
-	revision: "19"
+	date: "2021-11-24 12:18:35 GMT (Wednesday 24th November 2021)"
+	revision: "20"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -365,11 +365,6 @@ feature {EL_PATH} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Back_dir_step: ZSTRING
-		once
-			Result := "../"
-		end
 
 	Empty_path: ZSTRING
 		once

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 13:37:53 GMT (Tuesday 23rd November 2021)"
-	revision: "38"
+	date: "2021-11-24 13:53:53 GMT (Wednesday 24th November 2021)"
+	revision: "39"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -66,23 +66,23 @@ feature -- Tests
 	test_link_checker
 		local
 			link_checker: like new_link_checker
-			has_el_solitary: BOOLEAN; rbox_classes: EL_STRING_8_LIST
+			found: BOOLEAN; rbox_classes: EL_STRING_8_LIST
 		do
 			link_checker := new_link_checker
 			link_checker.execute
 
-			if attached Invalid_classname_map as list then
+			if attached Invalid_source_name_table as table then
 				create rbox_classes.make_from_array (<< "RBOX_TEST_DATABASE", "RBOX_DATABASE" >>)
 
-				from list.start until list.after loop
-					if list.item_key.base.same_string ("el_solitary.e")  then
-						assert ("key is RBOX_DATABASE class", rbox_classes.has (list.item_value))
-						has_el_solitary := true
+				from table.start until found or else table.after loop
+					if table.key_for_iteration.base.same_string ("el_solitary.e")  then
+						assert ("key is RBOX_DATABASE class", table.item_for_iteration.for_all (agent rbox_classes.has))
+						found := true
 					end
-					list.forth
+					table.forth
 				end
 			end
-			assert ("el_solitary.e found", has_el_solitary)
+			assert ("el_solitary.e found", found)
 		end
 
 	test_publisher

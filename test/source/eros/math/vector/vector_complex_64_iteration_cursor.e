@@ -1,13 +1,19 @@
 note
-	description: "Iteration cursor for [$source ITERABLE_COMPLEX_DOUBLE_VECTOR]"
+	description: "[
+		Iteration cursor for descendants of [$source VECTOR_COMPLEX_64]
+
+			VECTOR_COMPLEX_64*
+				[$source COLUMN_VECTOR_COMPLEX_64]
+				[$source ROW_VECTOR_COMPLEX_64]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-21 11:01:39 GMT (Tuesday 21st January 2020)"
-	revision: "3"
+	date: "2021-11-24 10:37:21 GMT (Wednesday 24th November 2021)"
+	revision: "4"
 
 class
 	VECTOR_COMPLEX_64_ITERATION_CURSOR

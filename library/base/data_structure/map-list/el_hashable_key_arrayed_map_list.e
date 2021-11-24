@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 13:28:47 GMT (Tuesday 23rd November 2021)"
-	revision: "1"
+	date: "2021-11-24 13:34:59 GMT (Wednesday 24th November 2021)"
+	revision: "2"
 
 class
 	EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
@@ -20,20 +20,12 @@ create
 
 feature -- Factory
 
-	new_grouped_table: EL_HASH_TABLE [EL_ARRAYED_LIST [G], K]
-		local
-			new_list: EL_ARRAYED_LIST [G]
+	new_grouped_table: EL_GROUP_TABLE [G, K]
 		do
 			push_cursor
-			create Result.make_size ((count // 5).max (5))
+			create Result.make_equal ((count // 5).max (5))
 			from start until after loop
-				if Result.has_key (item_key) then
-					Result.found_item.extend (item_value)
-				else
-					create new_list.make (3)
-					new_list.extend (item_value)
-					Result.extend (new_list, item_key)
-				end
+				Result.extend (item_key, item_value)
 				forth
 			end
 			pop_cursor

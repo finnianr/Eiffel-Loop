@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:49:38 GMT (Thursday 14th October 2021)"
-	revision: "10"
+	date: "2021-11-24 13:06:20 GMT (Wednesday 24th November 2021)"
+	revision: "11"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -102,7 +102,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	month_groups: EL_GROUP_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
+	month_groups: EL_FUNCTION_GROUP_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
 		do
 			create Result.make_from_list (agent entry_month, human_entry_list)
 		end

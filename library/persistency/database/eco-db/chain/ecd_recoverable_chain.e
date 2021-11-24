@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:21:38 GMT (Tuesday 2nd March 2021)"
-	revision: "22"
+	date: "2021-11-24 12:49:15 GMT (Wednesday 24th November 2021)"
+	revision: "23"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -216,7 +216,7 @@ note
 		Items must implement the deferred class [$source EL_STORABLE].
 
 		To implement the class you can use any Eiffel container which conforms to [$source CHAIN],
-		however it is recommended to use the class [$source ECD_REFLECTIVE_ARRAYED_LIST] as is offers
+		however it is recommended to use the class [$source ECD_ARRAYED_LIST [EL_STORABLE]] as is offers
 		the following functionality:
 
 		* Ability to do complex queries in Eiffel with logial conjunctions using the features of

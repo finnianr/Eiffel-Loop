@@ -1,13 +1,13 @@
 note
-	description: "Test set for [$source MONTHLY_STOCK_USE]"
+	description: "Test set for [$source STOCK_CONSUMPTION_CALCULATOR]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-21 10:53:23 GMT (Wednesday 21st July 2021)"
-	revision: "5"
+	date: "2021-11-24 11:52:35 GMT (Wednesday 24th November 2021)"
+	revision: "6"
 
 class
 	MONTHLY_STOCK_USE_TEST_SET

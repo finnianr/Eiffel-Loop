@@ -1,3 +1,6 @@
+1.4.5
+Add category_id fragment_id to Eiffel-View publisher for site map
+
 1.4.4
 Fixed REPOSITORY_NOTE_LINK_CHECKER
 

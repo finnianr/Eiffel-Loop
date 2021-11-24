@@ -2,7 +2,7 @@ note
 	description: "[
 		Descendant of [$source EL_WORK_DISTRIBUTER] specialized for procedures.
 		`G' is the target type of the procedures you wish to execute. For an example on how to use see
-		[$source TEST_WORK_DISTRIBUTER_APP]
+		[$source WORK_DISTRIBUTER_TEST_APP]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-02-20 15:37:36 GMT (Tuesday 20th February 2018)"
-	revision: "3"
+	date: "2021-11-24 12:40:34 GMT (Wednesday 24th November 2021)"
+	revision: "4"
 
 class
 	EL_PROCEDURE_DISTRIBUTER [G]

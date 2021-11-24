@@ -1,13 +1,13 @@
 note
-	description: "Password security attributes accessible via [$source EL_SHARED_PASSWORD_ATTRIBUTE]"
+	description: "Password security attributes accessible via [$source EL_SHARED_PASSPHRASE_ATTRIBUTE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 18:34:46 GMT (Tuesday 31st August 2021)"
-	revision: "3"
+	date: "2021-11-24 12:47:42 GMT (Wednesday 24th November 2021)"
+	revision: "4"
 
 class
 	EL_PASSPHRASE_ATTRIBUTES

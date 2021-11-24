@@ -14,7 +14,7 @@ note
 		**3.** [$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]: Expat XML parser with input stream end delimited
 		by Ctrl-Z character. Useful for parsing network streams.
 		
-		**4.** [$source EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]: a binary encoded XML event source.
+		**4.** [$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]: a binary encoded XML event source.
 		
 		**5.** [$source EL_PYXIS_PARSER]: event from a Pyxis format parser. Pyxis is a direct analog of XML that is
 		easier to read and edit thus making it more suitable for configuration files.
@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 9:46:23 GMT (Tuesday 17th August 2021)"
-	revision: "17"
+	date: "2021-11-24 12:50:26 GMT (Wednesday 24th November 2021)"
+	revision: "18"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER

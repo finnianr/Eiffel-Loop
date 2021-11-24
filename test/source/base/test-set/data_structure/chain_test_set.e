@@ -3,7 +3,7 @@ note
 	notes: "[
 		Covers various routines from the following:
 		
-		* [$source EL_ITERABLE_CONVERTER]
+		* [$source EL_ARRAYED_RESULT_LIST]
 		* [$source EL_ARRAYED_LIST]
 		* [$source EL_QUERY_CONDITION]
 		* [$source EL_CHAIN_SUMMATOR]
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-10 10:20:14 GMT (Wednesday 10th November 2021)"
-	revision: "16"
+	date: "2021-11-24 10:33:33 GMT (Wednesday 24th November 2021)"
+	revision: "17"
 
 class
 	CHAIN_TEST_SET

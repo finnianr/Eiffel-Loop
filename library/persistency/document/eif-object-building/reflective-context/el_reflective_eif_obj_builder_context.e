@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 10:48:41 GMT (Monday 10th May 2021)"
-	revision: "15"
+	date: "2021-11-24 12:53:04 GMT (Wednesday 24th November 2021)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -73,25 +73,50 @@ feature {NONE} -- Build from XML
 note
 	descendants: "[
 			EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT*
-				[$source TEST_VALUES]
-				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
-					[$source EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML]*
-						[$source TEST_CONFIGURATION]
 				[$source RBOX_IRADIO_ENTRY]
 					[$source RBOX_IGNORED_ENTRY]
 						[$source RBOX_SONG]
 							[$source RBOX_CORTINA_SONG]
 								[$source RBOX_CORTINA_TEST_SONG]
 							[$source RBOX_TEST_SONG]
-					rou			[$source RBOX_CORTINA_TEST_SONG]
+								[$source RBOX_CORTINA_TEST_SONG]
+						[$source RBOX_PLAYLIST_ENTRY]
+				[$source CORTINA_SET_INFO]
+				[$source DJ_EVENT_PUBLISHER_CONFIG]
+				[$source VOLUME_INFO]
+				[$source PLAYLIST_EXPORT_INFO]
+				[$source DJ_EVENT_INFO]
 				[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
 					[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
-						[$source TASK_CONFIG]
-							[$source TEST_TASK_CONFIG]
-				[$source DJ_EVENT_PUBLISHER_CONFIG]
-				[$source CORTINA_SET_INFO]
-				[$source DJ_EVENT_INFO]
-				[$source PLAYLIST_EXPORT_INFO]
-				[$source VOLUME_INFO]
+						[$source RBOX_MANAGEMENT_TASK]*
+							[$source COLLATE_SONGS_TASK]
+							[$source IMPORT_M3U_PLAYLISTS_TASK]
+							[$source IMPORT_NEW_MP3_TASK]
+							[$source PUBLISH_DJ_EVENTS_TASK]
+							[$source DEFAULT_TASK]
+							[$source UPDATE_DJ_PLAYLISTS_TASK]
+							[$source ARCHIVE_SONGS_TASK]
+							[$source IMPORT_VIDEOS_TASK]
+								[$source IMPORT_VIDEOS_TEST_TASK]
+								[$source IMPORT_YOUTUBE_M4A_TASK]
+							[$source LIST_VOLUMES_TASK]
+							[$source REPLACE_CORTINA_SET_TASK]
+								[$source REPLACE_CORTINA_SET_TEST_TASK]
+							[$source REPLACE_SONGS_TASK]
+								[$source REPLACE_SONGS_TEST_TASK]
+							[$source RESTORE_PLAYLISTS_TASK]
+							[$source EXPORT_TO_DEVICE_TASK]*
+								[$source EXPORT_MUSIC_TO_DEVICE_TASK]
+									[$source EXPORT_PLAYLISTS_TO_DEVICE_TASK]
+							[$source ID3_TASK]*
+								[$source ADD_ALBUM_ART_TASK]
+								[$source DELETE_COMMENTS_TASK]
+								[$source DISPLAY_INCOMPLETE_ID3_INFO_TASK]
+								[$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]
+								[$source NORMALIZE_COMMENTS_TASK]
+								[$source PRINT_COMMENTS_TASK]
+								[$source REMOVE_ALL_UFIDS_TASK]
+								[$source REMOVE_UNKNOWN_ALBUM_PICTURES_TASK]
+								[$source UPDATE_COMMENTS_WITH_ALBUM_ARTISTS_TASK]
 	]"
 end

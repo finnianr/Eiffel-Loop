@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 13:23:03 GMT (Tuesday 23rd November 2021)"
-	revision: "1"
+	date: "2021-11-24 13:47:50 GMT (Wednesday 24th November 2021)"
+	revision: "2"
 
 deferred class
 	SHARED_INVALID_CLASSNAMES
@@ -17,7 +17,8 @@ inherit
 
 feature {NONE} -- Constants
 
-	Invalid_classname_map: EL_HASHABLE_KEY_ARRAYED_MAP_LIST [EL_FILE_PATH, STRING]
+	Invalid_source_name_table: EL_GROUP_TABLE [STRING, EL_FILE_PATH]
+		-- map source path to group of invalid class names
 		once
 			create Result.make (20)
 		end

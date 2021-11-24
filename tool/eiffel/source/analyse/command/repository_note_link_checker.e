@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 14:37:39 GMT (Tuesday 23rd November 2021)"
-	revision: "6"
+	date: "2021-11-24 13:47:41 GMT (Wednesday 24th November 2021)"
+	revision: "7"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -40,7 +40,7 @@ feature -- Basic operations
 				end
 			end
 			lio.put_new_line
-			across Invalid_classname_map.new_grouped_table as table loop
+			across Invalid_source_name_table as table loop
 				lio.put_path_field ("Note source link in", table.key)
 				lio.put_new_line
 				create class_list.make_from_general (table.item)

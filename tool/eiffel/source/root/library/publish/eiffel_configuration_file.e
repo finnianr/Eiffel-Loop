@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 10:08:14 GMT (Tuesday 17th August 2021)"
-	revision: "33"
+	date: "2021-11-24 13:37:33 GMT (Wednesday 24th November 2021)"
+	revision: "35"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -27,9 +27,9 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_STRING_8_CONSTANTS
+	EL_MODULE_TUPLE
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -220,9 +220,9 @@ feature -- Factory
 		do
 			across source_dir_list as path loop
 				if path.cursor_index = 1 then
-					Result := OS.file_list (path.item, Eiffel_wildcard)
+					Result := OS.file_list (path.item, Symbol.star_dot_e)
 				else
-					list := OS.file_list (path.item, Eiffel_wildcard)
+					list := OS.file_list (path.item, Symbol.star_dot_e)
 					Result.append (list)
 				end
 			end
@@ -244,10 +244,10 @@ feature -- Factory
 				if cluster.node.attributes.has (Attribute_recursive) then
 					is_recursive := cluster.node.attributes.boolean (Attribute_recursive)
 				end
-				if location.starts_with (Parent_dir_dots) then
+				if location.starts_with (Symbol.parent_dir) then
 					source_dir := parent_dir.parent.joined_dir_path (location.substring_end (4))
-				elseif location.starts_with (Relative_location_symbol) then
-					location.remove_head (Relative_location_symbol.count)
+				elseif location.starts_with (Symbol.relative_location) then
+					location.remove_head (Symbol.relative_location.count)
 					source_dir := parent_dir.joined_dir_path (location)
 				else
 					source_dir := parent_dir.joined_dir_path (location)
@@ -275,7 +275,7 @@ feature {NONE} -- Implementation
 
 	set_directory_list (parser: EIFFEL_CLASS_PARSER)
 		local
-			group_table: EL_GROUP_TABLE [EL_FILE_PATH, EL_DIR_PATH]
+			group_table: EL_FUNCTION_GROUP_TABLE [EL_FILE_PATH, EL_DIR_PATH]
 			directory_group: SOURCE_DIRECTORY; file_count: INTEGER
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
@@ -322,31 +322,15 @@ feature {NONE} -- Xpath constants
 
 feature {NONE} -- Constants
 
-	Dot: ZSTRING
+	Symbol: TUPLE [dot, star_dot_e, parent_dir, relative_location: ZSTRING]
 		once
-			Result := "."
+			create Result
+			Tuple.fill (Result, "., *.e, ../, $|")
 		end
-
-	Eiffel_wildcard: STRING = "*.e"
 
 	Library: ZSTRING
 		once
 			Result := "library"
-		end
-
-	Library_category: ZSTRING
-		once
-			Result := "Library"
-		end
-
-	Parent_dir_dots: ZSTRING
-		once
-			Result := "../"
-		end
-
-	Relative_location_symbol: ZSTRING
-		once
-			Result := "$|"
 		end
 
 	See_details: TUPLE [begins, ends: ZSTRING]

@@ -4,7 +4,7 @@ note
 		
 		* [$source EL_BUILDABLE_FROM_NODE_SCAN]
 		* [$source EL_PARSE_EVENT_GENERATOR]
-		* [$source EL_BINARY_ENCODED_XML_PARSE_EVENT_SOURCE]
+		* [$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
 		* [$source EL_EXPAT_XML_PARSER]
 		* [$source EVOLICITY_SERIALIZEABLE_AS_XML]
 	]"
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:52:36 GMT (Saturday 20th March 2021)"
-	revision: "7"
+	date: "2021-11-24 10:30:45 GMT (Wednesday 24th November 2021)"
+	revision: "8"
 
 class
 	OBJECT_BUILDER_TEST_SET

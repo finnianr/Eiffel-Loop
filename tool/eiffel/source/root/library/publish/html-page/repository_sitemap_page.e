@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 16:36:17 GMT (Thursday 25th March 2021)"
-	revision: "10"
+	date: "2021-11-24 11:49:47 GMT (Wednesday 24th November 2021)"
+	revision: "11"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -19,6 +19,8 @@ inherit
 		redefine
 			make_default, getter_function_table, sink_content
 		end
+
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -90,8 +92,9 @@ feature {NONE} -- Implementation
 					list.sort
 					create list.make (10)
 					Result.extend (create {EVOLICITY_CONTEXT_IMP}.make)
-					Result.last.put_variable (list, "page_list")
-					Result.last.put_variable (category, "name")
+					Result.last.put_variable (list, Var.page_list)
+					Result.last.put_variable (page.item.category_id, Var.id)
+					Result.last.put_variable (category, Var.name)
 				end
 				list.extend (page.item)
 			end
@@ -129,5 +132,11 @@ feature -- Constants
 		end
 
 	Step_count: INTEGER = 0
+
+	Var: TUPLE [id, name, page_list: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "id, name, page_list")
+		end
 
 end

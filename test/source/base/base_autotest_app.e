@@ -1,5 +1,5 @@
 note
-	description: "Finalized executable tests for library [./library/base.html base.ecf]"
+	description: "Finalized executable tests for Eiffel-Loop base library [./#libraries_base base.ecf]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 18:47:17 GMT (Tuesday 23rd November 2021)"
-	revision: "124"
+	date: "2021-11-24 12:25:09 GMT (Wednesday 24th November 2021)"
+	revision: "125"
 
 class
 	BASE_AUTOTEST_APP
@@ -105,33 +105,37 @@ note
 
 			[$source ARRAYED_LIST_TEST_SET]
 			[$source CHAIN_TEST_SET]
-			[$source DATE_TEXT_TEST_SET]
-			[$source ESCAPED_TEXT_TEST_SET],
-			[$source FILE_AND_DIRECTORY_TEST_SET]
+			[$source DATE_TIME_TEST_SET]
+			[$source ESCAPED_TEXT_TEST_SET]
+
 			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
+			[$source FILE_SYNC_MANAGER_TEST_SET]
+
 			[$source GENERAL_TEST_SET]
+			[$source HASH_TABLE_TEST_SET]
 			[$source L1_UC_STRING_TEST]
 			[$source MODULE_CRC_32_TEST_SET]
+
 			[$source PATH_TEST_SET]
 			[$source PATH_STEPS_TEST_SET]
+
 			[$source REFLECTION_TEST_SET]
 
 			[$source SE_ARRAY2_TEST_SET]
 			[$source SEQUENTIAL_INTERVALS_TEST_SET]
 			[$source STRING_EDITION_HISTORY_TEST_SET]
-			[$source STRING_EDITOR_TEST_SET]
 			[$source STRING_32_ROUTINES_TEST_SET]
 			[$source STRING_LIST_TEST_SET]
-			[$source SUBSTITUTION_TEMPLATE_TEST_SET]
 			[$source SUBSTRING_32_ARRAY_TEST_SET]
+			[$source SUBSTITUTION_TEMPLATE_TEST_SET]
 
 			[$source TEMPLATE_TEST_SET]
-			
-			[$source URL_ENCODING_TEST_SET]
-			[$source URI_ENCODING_TEST_SET]
-			[$source URI_PATH_TEST_SET]
+
+			[$source URI_TEST_SET]
 			[$source UTF_CONVERTER_TEST_SET]
-			
+			[$source UUID_TEST_SET]
+
+			[$source ZSTRING_EDITOR_TEST_SET]
 			[$source ZSTRING_TEST_SET]
 			[$source ZSTRING_TOKEN_TABLE_TEST_SET]
 	]"

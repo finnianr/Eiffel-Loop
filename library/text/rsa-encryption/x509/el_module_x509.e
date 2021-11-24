@@ -1,13 +1,13 @@
 note
-	description: "Shared access to instance of [$source EL_X509_ROUTINES]"
+	description: "Shared access to instance of [$source EL_X509_CERTIFICATE_ROUTINES]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-26 11:44:51 GMT (Monday 26th July 2021)"
-	revision: "8"
+	date: "2021-11-24 12:36:04 GMT (Wednesday 24th November 2021)"
+	revision: "9"
 
 deferred class
 	EL_MODULE_X509

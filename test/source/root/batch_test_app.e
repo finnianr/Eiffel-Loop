@@ -1,7 +1,6 @@
 note
 	description: "[
 		Run all sub-application tests conforming to [$source EL_AUTOTEST_SUB_APPLICATION]
-		and [$source TEST_SUB_APPLICATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 9:37:19 GMT (Friday 19th March 2021)"
-	revision: "5"
+	date: "2021-11-24 10:32:37 GMT (Wednesday 24th November 2021)"
+	revision: "6"
 
 class
 	BATCH_TEST_APP

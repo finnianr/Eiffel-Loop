@@ -1,11 +1,7 @@
 note
 	description: "[
-		Tool for `TagLib.ecf' library to generate the following classes from the ID3v2 specification
+		Tool for `TagLib.ecf' library to generate [$source TL_FRAME_ID_ENUM] from the ID3v2 specification
 		documents versions 2.2, 2.3 and 2.4.
-		
-			[$source TL_FRAME_CODES_2_2]
-			[$source TL_FRAME_CODES_2_3]
-			[$source TL_FRAME_CODES_2_4]
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:07:14 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2021-11-24 12:34:49 GMT (Wednesday 24th November 2021)"
+	revision: "7"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR

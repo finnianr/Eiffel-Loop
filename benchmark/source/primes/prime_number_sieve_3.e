@@ -1,13 +1,13 @@
 note
-	description: "[$source EL_CPP_BOOLEAN_ARRAY] implementation of [$source PRIME_NUMBER_COMMAND]"
+	description: "[$source EL_CPP_BOOLEAN_VECTOR] implementation of [$source PRIME_NUMBER_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 11:10:02 GMT (Thursday 1st April 2021)"
-	revision: "3"
+	date: "2021-11-24 11:51:42 GMT (Wednesday 24th November 2021)"
+	revision: "4"
 
 class
 	PRIME_NUMBER_SIEVE_3

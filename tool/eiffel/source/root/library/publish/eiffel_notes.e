@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 13:23:16 GMT (Tuesday 23rd November 2021)"
-	revision: "21"
+	date: "2021-11-24 13:47:41 GMT (Wednesday 24th November 2021)"
+	revision: "22"
 
 class
 	EIFFEL_NOTES
@@ -250,7 +250,7 @@ feature {NONE} -- Implementation
 					elseif ISE_class_table.has_class (text) then
 						do_nothing
 					else
-						Invalid_classname_map.extend (relative_class_dir + base_name, Class_path_table.last_name)
+						Invalid_source_name_table.extend (relative_class_dir + base_name, Class_path_table.last_name)
 					end
 				end
 			end

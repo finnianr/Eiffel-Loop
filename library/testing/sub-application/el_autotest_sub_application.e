@@ -3,7 +3,7 @@ note
 		Sub application allowing execution of multiple EQA unit tests. A summary of any failed tests is
 		printed when all tests have finished executing.
 
-		See any of the [$source AUTOTEST_DEVELOPMENT_APP] classes for an example.
+		See [$source BASE_AUTOTEST_APP] as an example.
 	]"
 	notes: "[
 		Add command option `-single' to only test `test_type' with single test.
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 16:48:34 GMT (Monday 18th October 2021)"
-	revision: "13"
+	date: "2021-11-24 12:37:40 GMT (Wednesday 24th November 2021)"
+	revision: "14"
 
 deferred class
 	EL_AUTOTEST_SUB_APPLICATION [EQA_TYPES -> TUPLE create default_create end]

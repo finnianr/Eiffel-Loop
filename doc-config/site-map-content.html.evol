@@ -54,6 +54,7 @@ Please address questions and comments to <em id="code">finnian <i>at</i> eiffel 
 Click on a project link to read the documentation and browse the source code. The number in brackets indicates the class count.
 </p>
 #across $category_list as $category loop
+	<a id="$category.item.id"/>
 	<p><b>$category.item.name</b></p>
 	<ul>
 	#across $category.item.page_list as $page loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 16:36:17 GMT (Thursday 25th March 2021)"
-	revision: "19"
+	date: "2021-11-24 11:21:47 GMT (Wednesday 24th November 2021)"
+	revision: "20"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -62,6 +62,13 @@ feature -- Access
 		end
 
 feature -- Access
+
+	category_id: ZSTRING
+		-- for use in <a id="$category_id">
+		do
+			Result := category_index_title.as_lower
+			Result.translate_and_delete (Category_id_characters.existing, Category_id_characters.replacement)
+		end
 
 	category_index_title: ZSTRING
 		-- Category title for sitemap index
@@ -186,6 +193,13 @@ feature {NONE} -- Internal attributes
 	eiffel_config: EIFFEL_CONFIGURATION_FILE
 
 feature {NONE} -- Constants
+
+	Category_id_characters: TUPLE [existing, replacement: ZSTRING]
+		once
+			create Result
+			Result.existing := " ()"
+			Result.replacement := "_%U%U" -- delete brackets
+		end
 
 	Title_template: ZSTRING
 		once

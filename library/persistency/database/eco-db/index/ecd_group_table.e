@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 11:07:32 GMT (Saturday 19th June 2021)"
-	revision: "1"
+	date: "2021-11-24 13:05:42 GMT (Wednesday 24th November 2021)"
+	revision: "2"
 
 class
 	ECD_GROUP_TABLE [G -> EL_STORABLE, K -> HASHABLE]
 
 inherit
-	EL_GROUP_TABLE [G, K]
+	EL_FUNCTION_GROUP_TABLE [G, K]
 		rename
 			list_extend as on_extend,
 			list_replace as on_replace,

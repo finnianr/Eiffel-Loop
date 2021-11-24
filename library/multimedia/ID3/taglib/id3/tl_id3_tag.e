@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-24 11:35:29 GMT (Thursday 24th June 2021)"
-	revision: "15"
+	date: "2021-11-24 13:05:17 GMT (Wednesday 24th November 2021)"
+	revision: "16"
 
 deferred class
 	TL_ID3_TAG
@@ -91,7 +91,7 @@ feature -- Access
 			create Result.make_empty
 		end
 
-	unique_id_group_table: EL_GROUP_TABLE [TL_UNIQUE_FILE_IDENTIFIER, ZSTRING]
+	unique_id_group_table: EL_FUNCTION_GROUP_TABLE [TL_UNIQUE_FILE_IDENTIFIER, ZSTRING]
 		-- table of UFID's grouped by owner
 		do
 			create Result.make_from_list (agent {TL_UNIQUE_FILE_IDENTIFIER}.owner, unique_id_list)
