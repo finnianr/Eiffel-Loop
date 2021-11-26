@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:43:11 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2021-11-26 12:15:27 GMT (Friday 26th November 2021)"
+	revision: "5"
 
 class
 	RULES_LIST_PARAMETER
@@ -42,7 +42,7 @@ feature {NONE} -- Build from XML
 	add_rules
 			--
 		do
-			extend (node.to_string.split (','))
+			extend (node.to_string.split_list (','))
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]

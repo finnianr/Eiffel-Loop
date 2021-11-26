@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:13:04 GMT (Monday 8th February 2021)"
-	revision: "10"
+	date: "2021-11-26 12:46:59 GMT (Friday 26th November 2021)"
+	revision: "11"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -62,7 +62,7 @@ feature {NONE} -- State handlers
 	find_end_record (a_line: ZSTRING)
 		local
 			output_path: EL_FILE_PATH; file: PLAIN_TEXT_FILE
-			parts: LIST [ZSTRING]; first_name, last_name: ZSTRING
+			first_name, last_name: ZSTRING
 		do
 			record_lines.extend (a_line)
 			if a_line.starts_with (Field.end_) then
@@ -81,9 +81,10 @@ feature {NONE} -- State handlers
 				state := agent find_begin_record
 
 			elseif a_line.starts_with (Field.n) then
-				parts := a_line.split (';')
-				last_name := parts.i_th (1); first_name := parts.i_th (2)
-				last_name.remove_head (2)
+				if attached a_line.split_list (';') as parts then
+					last_name := parts.i_th (1); first_name := parts.i_th (2)
+					last_name.remove_head (2)
+				end
 
 				record_lines.finish
 				record_lines.replace (Name_template #$ [first_name, last_name])

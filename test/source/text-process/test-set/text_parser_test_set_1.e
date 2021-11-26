@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 13:03:40 GMT (Friday 19th February 2021)"
-	revision: "13"
+	date: "2021-11-26 12:15:27 GMT (Friday 26th November 2021)"
+	revision: "14"
 
 class
 	TEXT_PARSER_TEST_SET_1
@@ -146,7 +146,7 @@ feature -- Test
 			eiffel_type: like type; type_string: ZSTRING
 		do
 			eiffel_type := type
-			across Eiffel_types.split ('%N') as line loop
+			across Eiffel_types.split_list ('%N') as line loop
 				type_string := line.item
 				assert ("match OK", type_string.matches (eiffel_type))
 				type_string := type_string + " X"
@@ -158,7 +158,7 @@ feature -- Test
 		local
 			str, second_word: ZSTRING; view: EL_ZSTRING_VIEW
 		do
-			str := Text_russian; second_word := str.split (' ').i_th (2)
+			str := Text_russian; second_word := str.split_list (' ').i_th (2)
 			create view.make (str)
 			view.prune_leading (str.substring_index (second_word, 1) - 1)
 			view.set_count (second_word.count)

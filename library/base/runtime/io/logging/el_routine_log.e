@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-09 11:34:19 GMT (Monday 9th November 2020)"
-	revision: "17"
+	date: "2021-11-26 12:15:25 GMT (Friday 26th November 2021)"
+	revision: "18"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -278,7 +278,7 @@ feature -- Output
 			l_out.put_new_line
 
 			if l_field_value.count > max_length then
-				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split ('%N'))
+				l_lines.append (l_field_value.substring (1, max_length - count_trailing_characters).split_list ('%N'))
 				l_lines.last.append_string (Ellipsis_dots)
 
 				l_lines_2 := l_field_value.substring_end (l_field_value.count - count_trailing_characters + 1).lines

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:43:10 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2021-11-26 12:15:26 GMT (Friday 26th November 2021)"
+	revision: "5"
 
 class
 	STRING_LIST_PARAMETER
@@ -42,7 +42,7 @@ feature {NONE} -- Build from XML
 		do
 			node_string := node.to_string
 			node_string.prune_all ('%N')
-			node_string.split ('|').do_all (agent extend)
+			node_string.split_list ('|').do_all (agent extend)
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]

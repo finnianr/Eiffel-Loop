@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 8:57:04 GMT (Thursday 13th May 2021)"
-	revision: "14"
+	date: "2021-11-26 12:46:17 GMT (Friday 26th November 2021)"
+	revision: "15"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 
 				across profile_lines as line loop
 					if line.item.starts_with (Path_equals) then
-						mail_dir_path_steps.extend (line.item.split ('=').last)
+						mail_dir_path_steps.extend (line.item.split_list ('=').last)
 					end
 				end
 				profile_lines.close

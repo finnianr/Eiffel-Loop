@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-21 19:59:28 GMT (Wednesday 21st April 2021)"
-	revision: "14"
+	date: "2021-11-26 12:15:25 GMT (Friday 26th November 2021)"
+	revision: "15"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -189,7 +189,7 @@ feature {NONE} -- Node events
 			if is_last_node_an_attribute_value then
 				out_file.put_new_line
 			end
-			lines := a_data.split ('%N')
+			lines := a_data.split_list ('%N')
 			if lines.count > 1 then
 				trim_lines (lines)
 				if not lines.is_empty then
@@ -212,7 +212,7 @@ feature {NONE} -- Node events
 			l_lines: LIST [ZSTRING]
 		do
 			out_file.put_new_line
-			l_lines := a_comment.split ('%N')
+			l_lines := a_comment.split_list ('%N')
 			trim_lines (l_lines)
 			across l_lines as line loop
 				line.item.left_adjust

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 14:01:15 GMT (Wednesday 3rd March 2021)"
-	revision: "45"
+	date: "2021-11-26 13:18:41 GMT (Friday 26th November 2021)"
+	revision: "46"
 
 class
 	EL_ZSTRING
@@ -91,6 +91,7 @@ inherit
 			prepend_substring as prepend_substring_general,
 			put_code as put_z_code,
 			same_caseless_characters as same_caseless_characters_general,
+			split as split_list,
 			substring_index as substring_index_general,
 			starts_with as starts_with_general
 		undefine
@@ -101,7 +102,7 @@ inherit
 			same_characters, starts_with_general,
 --			Conversion
 			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
-			as_string_32, to_string_32, as_string_8, to_string_8, split,
+			as_string_32, to_string_32, as_string_8, to_string_8, split_list,
 --			Element change
 			append_string_general, append_substring_general, prepend_string_general
 		end
@@ -131,7 +132,7 @@ convert
 
 	to_string_32: {STRING_32}, to_latin_1: {STRING}
 
-feature -- Access
+feature -- Duplication
 
 	plus alias "+" (s: READABLE_STRING_GENERAL): like Current
 		do
@@ -142,35 +143,28 @@ feature -- Access
 
 feature -- Basic operations
 
-	do_with_splits (delimiter: READABLE_STRING_GENERAL; action: PROCEDURE [like Current])
+	do_with_splits (a_separator: READABLE_STRING_GENERAL; action: PROCEDURE [like Current])
 		-- apply `action' for all delimited substrings
-		local
-			split_list: EL_SPLIT_ZSTRING_LIST
 		do
-			create split_list.make (Current, delimiter)
-			split_list.do_all (action)
+			across split_on_string (a_separator) as str loop
+				action (str.item_copy)
+			end
 		end
 
 feature -- Status query
 
 	Changeable_comparison_criterion: BOOLEAN = False
 
-	for_all_split (delimiter: READABLE_STRING_GENERAL; predicate: PREDICATE [like Current]): BOOLEAN
-		-- `True' if all split substrings match `predicate'
-		local
-			split_list: EL_SPLIT_ZSTRING_LIST
+	for_all_split (a_separator: READABLE_STRING_GENERAL; is_true: PREDICATE [like Current]): BOOLEAN
+		-- `True' if all split substrings match `is_true'
 		do
-			create split_list.make (Current, delimiter)
-			Result := split_list.for_all (predicate)
+			Result := across split_on_string (a_separator) as str all is_true (str.item) end
 		end
 
-	there_exists_split (delimiter: READABLE_STRING_GENERAL; predicate: PREDICATE [like Current]): BOOLEAN
-		-- `True' if one split substring matches `predicate'
-		local
-			split_list: EL_SPLIT_ZSTRING_LIST
+	there_exists_split (a_separator: READABLE_STRING_GENERAL; is_true: PREDICATE [like Current]): BOOLEAN
+		-- `True' if one split substring matches `is_true'
 		do
-			create split_list.make (Current, delimiter)
-			Result := split_list.there_exists (predicate)
+			Result := across split_on_string (a_separator) as str some is_true (str.item) end
 		end
 
 feature -- Element change

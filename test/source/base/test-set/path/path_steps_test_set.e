@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 11:47:41 GMT (Saturday 7th March 2020)"
-	revision: "4"
+	date: "2021-11-26 12:15:26 GMT (Friday 26th November 2021)"
+	revision: "5"
 
 class
 	PATH_STEPS_TEST_SET
@@ -32,7 +32,7 @@ feature -- Tests
 			steps: EL_PATH_STEPS
 		do
 			steps := Config_dir
-			across Config_dir.to_string.split ('/') as step loop
+			across Config_dir.to_string.split_list ('/') as step loop
 				assert ("same step", step.item ~ steps [step.cursor_index])
 			end
 		end

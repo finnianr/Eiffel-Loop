@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-26 15:18:51 GMT (Saturday 26th June 2021)"
-	revision: "19"
+	date: "2021-11-26 12:45:54 GMT (Friday 26th November 2021)"
+	revision: "20"
 
 class
 	DUPLICITY_RESTORE
@@ -128,7 +128,7 @@ feature {NONE} -- Factory
 	new_shell: EL_COMMAND_SHELL
 		local
 			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
-			year_group_table: EL_GROUP_TABLE [ZSTRING, ZSTRING]
+			year_group_table: EL_FUNCTION_GROUP_TABLE [ZSTRING, ZSTRING]
 			item_table: EL_PROCEDURE_TABLE [ZSTRING]
 			backup_shell: like new_backup_shell
 		do

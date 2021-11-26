@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:02:17 GMT (Friday 8th January 2021)"
-	revision: "5"
+	date: "2021-11-26 12:45:08 GMT (Friday 26th November 2021)"
+	revision: "6"
 
 class
 	ECF_CLUSTER_INFO
@@ -30,17 +30,18 @@ feature {NONE} -- Initialization
 		require
 			valid_path: ecf.path.base.has ('#')
 		local
-			parts: LIST [ZSTRING]; s: EL_ZSTRING_ROUTINES
+			s: EL_ZSTRING_ROUTINES
 		do
 			make_default
-			parts := ecf.path.base.split ('#')
-			name := parts.last
-			if parts.count > 1 and then name.ends_with (s.character_string ('*')) then
-				has_wildcard := True
-				name.remove_tail (1)
+			if attached ecf.path.base.split_list ('#') as parts then
+				name := parts.last
+				if parts.count > 1 and then name.ends_with (s.character_string ('*')) then
+					has_wildcard := True
+					name.remove_tail (1)
+				end
+				path.set_parent_path (ecf.path.parent)
+				path.set_base (parts.first)
 			end
-			path.set_parent_path (ecf.path.parent)
-			path.set_base (parts.first)
 		end
 
 feature -- Access

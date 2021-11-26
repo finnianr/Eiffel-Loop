@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 17:05:51 GMT (Wednesday 17th November 2021)"
-	revision: "57"
+	date: "2021-11-26 12:20:31 GMT (Friday 26th November 2021)"
+	revision: "58"
 
 class
 	ZSTRING_TEST_SET
@@ -114,7 +114,7 @@ feature -- Conversion tests
 			across Text_lines as line loop
 				str_32 := line.item; str := str_32
 				from i := 1 until i > 3 loop
-					list := str.split (str_32 [i])
+					list := str.split_list (str_32 [i])
 					list_32 := str_32.split (str_32 [i])
 					assert ("same count", list.count = list_32.count)
 					if list.count = list_32.count then

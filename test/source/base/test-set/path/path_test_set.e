@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 6:56:10 GMT (Monday 12th July 2021)"
-	revision: "15"
+	date: "2021-11-26 12:15:25 GMT (Friday 26th November 2021)"
+	revision: "16"
 
 class
 	PATH_TEST_SET
@@ -45,7 +45,7 @@ feature -- Tests
 			p1, p2: EL_DIR_PATH
 		do
 			p1 := Dev_eiffel
-			create p2.make_from_steps (Dev_eiffel.split ('/'))
+			create p2.make_from_steps (Dev_eiffel.split_list ('/'))
 			assert ("same path", p1 ~ p2)
 		end
 
@@ -88,7 +88,7 @@ feature -- Tests
 			create dir_string.make_empty
 			dir_string_home := Home_finnian
 			dir_home := dir_string_home
-			across Dev_eiffel.split ('/') as step loop
+			across Dev_eiffel.split_list ('/') as step loop
 				if step.cursor_index > 1 then
 					dir_string.append_character ('/')
 				end

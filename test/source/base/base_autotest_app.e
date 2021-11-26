@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:25:09 GMT (Wednesday 24th November 2021)"
-	revision: "125"
+	date: "2021-11-25 20:37:06 GMT (Thursday 25th November 2021)"
+	revision: "126"
 
 class
 	BASE_AUTOTEST_APP
@@ -35,9 +35,9 @@ inherit
 
 		SE_ARRAY2_TEST_SET,
 		SEQUENTIAL_INTERVALS_TEST_SET,
+		SPLIT_STRING_TEST_SET,
 		STRING_EDITION_HISTORY_TEST_SET,
 		STRING_32_ROUTINES_TEST_SET,
-		STRING_LIST_TEST_SET,
 		SUBSTRING_32_ARRAY_TEST_SET,
 		SUBSTITUTION_TEMPLATE_TEST_SET,
 
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	visible_types: TUPLE [STRING_LIST_TEST_SET, EL_GVFS_OS_COMMAND]
+	visible_types: TUPLE [SPLIT_STRING_TEST_SET, EL_GVFS_OS_COMMAND]
 		do
 			create Result
 		end
@@ -123,9 +123,9 @@ note
 
 			[$source SE_ARRAY2_TEST_SET]
 			[$source SEQUENTIAL_INTERVALS_TEST_SET]
+			[$source SPLIT_STRING_TEST_SET]
 			[$source STRING_EDITION_HISTORY_TEST_SET]
 			[$source STRING_32_ROUTINES_TEST_SET]
-			[$source STRING_LIST_TEST_SET]
 			[$source SUBSTRING_32_ARRAY_TEST_SET]
 			[$source SUBSTITUTION_TEMPLATE_TEST_SET]
 

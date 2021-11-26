@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-10-12 17:07:10 GMT (Thursday 12th October 2017)"
-	revision: "1"
+	date: "2021-11-26 12:43:41 GMT (Friday 26th November 2021)"
+	revision: "2"
 
 class
 	VERBATIM_NOTE_FIELD
@@ -36,7 +36,9 @@ feature -- Access
 		do
 			create Result.make (text.occurrences ('%N') + 3)
 			Result.extend (name + Colon_space + Verbatim_string_start)
-			text.split ('%N').do_all (agent Result.extend)
+			across text.split ('%N') as split loop
+				Result.extend (split.item_copy)
+			end
 			Result.extend (Verbatim_string_end.twin)
 		end
 

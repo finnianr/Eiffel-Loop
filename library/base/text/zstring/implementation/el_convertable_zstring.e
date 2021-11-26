@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-22 10:10:37 GMT (Monday 22nd March 2021)"
-	revision: "23"
+	date: "2021-11-26 13:19:28 GMT (Friday 26th November 2021)"
+	revision: "24"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -192,12 +192,17 @@ feature -- To list
 			Result := char_32_array
 		end
 
-	lines: like split
+	lines: like split_list
 		do
-			Result := split ('%N')
+			Result := split_list ('%N')
 		end
 
-	split (a_separator: CHARACTER_32): LIST [like Current]
+	split (a_separator: CHARACTER_32): EL_SPLIT_ZSTRING_ON_CHARACTER
+		do
+			create Result.make (current_zstring, a_separator)
+		end
+
+	split_list (a_separator: CHARACTER_32): LIST [like Current]
 			-- Split on `a_separator'.
 		local
 			l_list: ARRAYED_LIST [like Current]; part: like Current; i, j, l_count, result_count: INTEGER
@@ -261,11 +266,12 @@ feature -- To list
 	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
 			-- substring intervals of `Current' split with `delimiter'
 		do
-			if attached {ZSTRING} Current as zstr then
-				create Result.make (zstr, delimiter)
-			else
-				create Result.make_empty
-			end
+			create Result.make (current_zstring, delimiter)
+		end
+
+	split_on_string (a_separator: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_ON_STRING
+		do
+			create Result.make (current_zstring, a_separator)
 		end
 
 	substring_index_list (delimiter: READABLE_STRING_GENERAL): like internal_substring_index_list
@@ -275,11 +281,7 @@ feature -- To list
 
 	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS [ZSTRING]
 		do
-			if attached {ZSTRING} Current as zstr then
-				create Result.make (zstr, str)
-			else
-				create Result.make_empty
-			end
+			create Result.make (current_zstring, str)
 		end
 
 	substring_split (delimiter: EL_READABLE_ZSTRING): EL_STRING_LIST [ZSTRING]
@@ -492,6 +494,10 @@ feature -- Case changed
 		end
 
 feature {NONE} -- Deferred Implementation
+
+	current_zstring: ZSTRING
+		deferred
+		end
 
 	append_to_string_32 (output: STRING_32)
 		deferred

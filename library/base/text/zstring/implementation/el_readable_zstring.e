@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:52:59 GMT (Wednesday 15th September 2021)"
-	revision: "82"
+	date: "2021-11-26 13:17:04 GMT (Friday 26th November 2021)"
+	revision: "83"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -19,6 +19,7 @@ inherit
 			code as z_code,
 			has_code as has_unicode,
 			same_caseless_characters as same_caseless_characters_general,
+			split as split_list,
 			substring_index as substring_index_general,
 			ends_with as ends_with_general,
 			is_case_insensitive_equal as is_case_insensitive_equal_general,
@@ -30,7 +31,7 @@ inherit
 			has, is_double, is_real_64, is_integer, is_integer_32,
 --			Conversion
 			as_string_8, as_string_32,
-			split,
+			split_list,
 			to_boolean, to_double, to_real_64, to_integer, to_integer_32,
 			to_string_8, to_string_32,
 --			Measurement
@@ -761,6 +762,15 @@ feature -- Append to output
 		end
 
 feature {NONE} -- Implementation
+
+	current_zstring: ZSTRING
+		do
+			if attached {ZSTRING} Current as zstring then
+				Result := zstring
+			else
+				create Result.make_from_other (Current)
+			end
+		end
 
 	current_readable: EL_READABLE_ZSTRING
 		do

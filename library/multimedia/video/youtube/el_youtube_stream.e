@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:07:35 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2021-11-26 12:47:50 GMT (Friday 26th November 2021)"
+	revision: "9"
 
 class
 	EL_YOUTUBE_STREAM
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 								type := Audio
 							elseif parts.item (False).has ('x') then
 								resolution_x_y := parts.item (True)
-								resolution_x := resolution_x_y.split ('x').first.to_integer
+								resolution_x := resolution_x_y.split_list ('x').first.to_integer
 							end
 					else
 						if parts.same_item_as (Video) then

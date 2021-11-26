@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:55:41 GMT (Saturday 27th March 2021)"
-	revision: "4"
+	date: "2021-11-26 12:41:29 GMT (Friday 26th November 2021)"
+	revision: "5"
 
 class
 	EL_EIFFEL_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 			words := Reserved_words
 			words.replace_character ('%N', ' ')
 			create case_variations.make (20)
-			Result := words.split (' ')
+			Result := words.split_list (' ')
 			across Result as word loop
 				l_word := Result.item
 				if l_word.item (1).is_upper then

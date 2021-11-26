@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 13:40:03 GMT (Friday 15th January 2021)"
-	revision: "8"
+	date: "2021-11-26 12:15:28 GMT (Friday 26th November 2021)"
+	revision: "9"
 
 class
 	ZSTRING_TOKEN_TABLE_TEST_SET
@@ -36,7 +36,7 @@ feature -- Tests
 				line := list.item
 				create table.make (30)
 				path_tokens := table.token_list (line, ' ')
-				assert ("same token list", path_tokens ~ table.iterable_to_token_list (line.split (' ')))
+				assert ("same token list", path_tokens ~ table.iterable_to_token_list (line.split_list (' ')))
 			end
 		end
 

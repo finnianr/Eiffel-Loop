@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-19 20:17:46 GMT (Friday 19th November 2021)"
-	revision: "14"
+	date: "2021-11-25 20:37:54 GMT (Thursday 25th November 2021)"
+	revision: "15"
 
 class
 	GENERAL_TEST_SET
@@ -31,6 +31,7 @@ feature -- Basic operations
 			eval.call ("character_32_status_queries", agent test_character_32_status_queries)
 			eval.call ("environment_put", agent test_environment_put)
 			eval.call ("math_precision", agent test_math_precision)
+			eval.call ("named_thread", agent test_named_thread)
 			eval.call ("numeric_code", agent test_numeric_code)
 			eval.call ("reusable_strings", agent test_reusable_strings)
 			eval.call ("reverse_managed_pointer", agent test_reverse_managed_pointer)
@@ -99,6 +100,14 @@ feature -- Tests
 		do
 			assert ("equal within 1 percent", math.approximately_equal (169, 170, 0.01))
 			assert ("not equal within 1 percent", not math.approximately_equal (168, 170, 0.01))
+		end
+
+	test_named_thread
+		local
+			t: EL_NAMED_THREAD
+		do
+			create t
+			assert ("same string", t.name.same_string ("Named Thread"))
 		end
 
 	test_numeric_code

@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 12:01:35 GMT (Monday 4th October 2021)"
-	revision: "14"
+	date: "2021-11-26 11:35:49 GMT (Friday 26th November 2021)"
+	revision: "15"
 
 class
-	STRING_LIST_TEST_SET
+	SPLIT_STRING_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -26,15 +26,16 @@ feature -- Basic operations
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
+			eval.call ("fill_tuple", agent test_fill_tuple)
 			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
 			eval.call ("path_split", agent test_path_split)
 			eval.call ("split_and_join_1", agent test_split_and_join_1)
 			eval.call ("split_and_join_2", agent test_split_and_join_2)
 			eval.call ("split_and_join_3", agent test_split_and_join_3)
+			eval.call ("split_iterator", agent test_split_iterator)
+			eval.call ("skip_empty_split", agent test_skip_empty_split)
 			eval.call ("split_sort", agent test_split_sort)
 			eval.call ("split_string_8", agent test_split_string_8)
-			eval.call ("named_thread", agent test_named_thread)
-			eval.call ("fill_tuple", agent test_fill_tuple)
 		end
 
 feature -- Tests
@@ -98,6 +99,22 @@ feature -- Tests
 			end
 		end
 
+	test_skip_empty_split
+		note
+			testing: "covers/{EL_ITERABLE_SPLIT}.set_skip_empty"
+		local
+			character_split: EL_SPLIT_ON_CHARACTER [STRING]
+			split_list: EL_STRING_8_LIST
+		do
+			create character_split.make (",a,b,c,", ',')
+			character_split.set_skip_empty (True)
+			split_list.wipe_out
+			across character_split as split loop
+				split_list.extend (split.item_copy)
+			end
+			assert ("same_list", same_list (split_list, "a,b,c"))
+		end
+
 	test_split_and_join_1
 		local
 			list: EL_STRING_LIST [STRING]
@@ -131,6 +148,46 @@ feature -- Tests
 			assert ("same string", Sales ~ list.joined_with_string (", "))
 		end
 
+	test_split_iterator
+		note
+			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item,%
+						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy"
+		local
+			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER [STRING]
+			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
+			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
+			is_first_item: BOOLEAN
+		do
+			bracket_pair := "()"
+			across << ",a,b,c,", "a,b,c", " a, b , c " >> as csv_list loop
+				create character_split.make (csv_list.item, ',')
+
+				str_list := csv_list.item.twin
+				str_list.replace_substring_all (",", bracket_pair)
+				create string_split.make (str_list, bracket_pair)
+
+				splitter_array := << string_split, character_split >>
+				across splitter_array as splitter loop
+					if csv_list.item.has (' ') then
+						splitter.item.set_left_adjusted (True)
+						splitter.item.set_right_adjusted (True)
+					end
+					create split_list.make (5)
+					is_first_item := True
+					across splitter.item as split loop
+						if is_first_item then
+							is_first_item := False
+							first_item := split.item
+						else
+							assert ("same string instance", first_item = split.item)
+						end
+						split_list.extend (split.item_copy)
+					end
+					assert ("same_list", same_list (split_list, csv_list.item))
+				end
+			end
+		end
+
 	test_split_sort
 		local
 			split: EL_SPLIT_STRING_LIST [STRING]
@@ -162,12 +219,14 @@ feature -- Tests
 			end
 		end
 
-	test_named_thread
-		local
-			t: EL_NAMED_THREAD
+feature {NONE} -- Implementation
+
+	same_list (split_list: EL_STRING_8_LIST; str: STRING): BOOLEAN
 		do
-			create t
-			assert ("same string", t.name.same_string ("Named Thread"))
+			if attached str.split (',') as str_split and then str_split.count = split_list.count then
+				str_split.do_all (agent {STRING}.adjust)
+				Result := across str_split as split all split.item ~ split_list [split.cursor_index]  end
+			end
 		end
 
 feature {NONE} -- Constants

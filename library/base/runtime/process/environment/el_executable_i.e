@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-05 10:00:51 GMT (Friday 5th November 2021)"
-	revision: "6"
+	date: "2021-11-26 12:15:27 GMT (Friday 26th November 2021)"
+	revision: "7"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -72,7 +72,7 @@ feature -- Access
 		do
 			create Result
 			extension_list := file_extensions
-			across search_path.split (search_path_separator) as l_path until found loop
+			across search_path.split_list (search_path_separator) as l_path until found loop
 				Result.set_path (l_path.item)
 				Result.append_step (a_name)
 				if extension_list.is_empty then
@@ -124,9 +124,8 @@ feature -- Access
 		end
 
 	search_path_list: ARRAYED_LIST [EL_DIR_PATH]
-			--
 		local
-			split_list: EL_SPLIT_STRING_32_LIST; l_search_path: STRING_32
+			splitter: EL_SPLIT_ON_CHARACTER [STRING_32]; l_search_path: STRING_32
 		do
 			Result := Once_search_path_list
 
@@ -136,12 +135,11 @@ feature -- Access
 				-- Check if PATH has changed since last call
 				if path_check_sum /= crc.checksum then
 					path_check_sum := crc.checksum
-					create split_list.make_with_character (l_search_path, search_path_separator)
+					create splitter.make (l_search_path, search_path_separator)
+					splitter.set_skip_empty (True)
 					Result.wipe_out
-					Result.grow (split_list.count)
-					from split_list.start until split_list.after loop
-						Result.extend (split_list.item (False))
-						split_list.forth
+					across splitter as split loop
+						Result.extend (split.item)
 					end
 				end
 			end
