@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 9:36:16 GMT (Sunday 12th September 2021)"
-	revision: "10"
+	date: "2021-11-27 18:44:21 GMT (Saturday 27th November 2021)"
+	revision: "11"
 
 class
 	EL_URI_QUERY_STRING_8
@@ -30,22 +30,23 @@ feature -- Element change
 		require
 			balance_equals_and_ampersand: query_string.occurrences ('=') = query_string.occurrences ('&') + 1
 		local
-			value_list: EL_SPLIT_STRING_32_LIST; pair: STRING_32
-			index_equal: INTEGER
+			value_list: EL_SPLIT_ON_CHARACTER [STRING_32]; pair: STRING_32
+			index_equal: INTEGER; not_first: BOOLEAN
 		do
-			create value_list.make_with_character (query_string, '&')
-			from value_list.start until value_list.after loop
-				if value_list.index > 1 then
+			create value_list.make (query_string, '&')
+			across value_list as list loop
+				if not_first then
 					append_character ('&')
+				else
+					not_first := True
 				end
-				pair := value_list.item (False)
+				pair := list.item
 				index_equal := pair.index_of ('=', 1)
 				if index_equal > 0 then
 					append_substring_general (pair, 1, index_equal - 1)
 					append_character ('=')
 					append_substring_general (pair, index_equal + 1, pair.count)
 				end
-				value_list.forth
 			end
 		end
 

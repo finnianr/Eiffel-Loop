@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-29 13:29:31 GMT (Saturday 29th August 2020)"
-	revision: "10"
+	date: "2021-11-27 19:17:17 GMT (Saturday 27th November 2021)"
+	revision: "11"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -37,6 +37,8 @@ feature -- Tests
 		end
 
 	test_reading_from_source
+		note
+			testing: "covers/{EL_PYXIS_PARSER}.parse_from_string"
 		do
 			do_test ("test_reading_from_source", 3542890563, agent test_reading, [agent new_table_from_source])
 		end

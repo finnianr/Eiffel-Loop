@@ -1,19 +1,22 @@
 note
-	description: "Cursor for `target' string sections split by string or character separator"
+	description: "Cursor for `target' string sections split by separator of type **G**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:51:59 GMT (Friday 26th November 2021)"
-	revision: "1"
+	date: "2021-11-27 19:03:08 GMT (Saturday 27th November 2021)"
+	revision: "2"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL create make end, G]
 
 inherit
 	ITERATION_CURSOR [S]
+		rename
+			item as item_copy
+		end
 
 feature {NONE} -- Initialization
 
@@ -32,8 +35,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: S
-		-- shared substring of `target' at current split position
-		-- use `item_copy' if you intend to keep the reference in a list
+		-- dynamic singular substring of `target' at current split position if the
+		-- `target' conforms to `STRING_GENERAL' else the value of `item_copy'
+		-- use `item_copy' if you intend to keep a reference to `item' beyond the scope of the
+		-- client routine
 		do
 			if attached {STRING_GENERAL} target as l_target then
 				if attached {STRING_GENERAL} internal_item as l_item then
@@ -55,23 +60,46 @@ feature -- Access
 			Result := target.substring (item_start_index, item_end_index)
 		end
 
-feature -- Basic operations
+feature -- Optimized operations
 
 	append_item_to (general: STRING_GENERAL)
+		-- equivalent to appending `item' to `general'
 		do
-			general.append (item)
+			general.append_substring (target, item_start_index, item_end_index)
 		end
 
 	fill_with_item (general: STRING_GENERAL)
+		-- equivalent to `general.replace_substring (1, general.count, item)' even
+		-- though routine `replace_substring' on exists in descendants
 		do
 			general.keep_head (0)
-			general.append (item)
+			general.append_substring (target, item_start_index, item_end_index)
 		end
 
 feature -- Status query
 
 	after: BOOLEAN
 		-- Are there no more items to iterate over?
+
+	is_last: BOOLEAN
+		-- `True' if cursor is currently on the last `item'
+
+	item_starts_with (str: S): BOOLEAN
+		do
+			if item_end_index - item_start_index + 1 >= str.count then
+				Result := target.same_characters (str, 1, str.count, item_start_index)
+			end
+		end
+
+	item_has (uc: CHARACTER_32): BOOLEAN
+		local
+			i: INTEGER
+		do
+			from i := item_start_index until i > item_end_index or else Result loop
+				Result := target [i] = uc
+				i := i + 1
+			end
+		end
 
 	left_adjusted: BOOLEAN
 
@@ -82,11 +110,11 @@ feature -- Status query
 feature -- Cursor movement
 
 	forth
-		-- Move to next position.
+		-- Move cursor to next position.
 		local
 			previous_separator_end: INTEGER; found_first: BOOLEAN
 		do
-			if end_reached then
+			if is_last then
 				after := True
 			else
 				previous_separator_end := separator_end
@@ -98,7 +126,7 @@ feature -- Cursor movement
 				else
 					item_start_index := separator_end + 1
 					item_end_index := target.count
-					end_reached := True
+					is_last := True
 				end
 				if left_adjusted and then attached target as l_target then
 					from until found_first or else item_start_index > item_end_index loop
@@ -120,7 +148,7 @@ feature -- Cursor movement
 					end
 				end
 				if skip_empty and then item_end_index < item_start_index then
-					if end_reached then
+					if is_last then
 						after := True
 					else
 						forth
@@ -142,9 +170,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	end_reached: BOOLEAN
-
-	internal_item: like target
+	internal_item: detachable like target
 
 	item_end_index: INTEGER
 

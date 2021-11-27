@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 10:55:07 GMT (Wednesday 15th September 2021)"
-	revision: "14"
+	date: "2021-11-27 19:04:21 GMT (Saturday 27th November 2021)"
+	revision: "15"
 
 class
 	EL_HTTP_HEADERS
@@ -36,24 +36,24 @@ feature {NONE} -- Initialization
 
 	make (string: STRING)
 		local
-			lines, parts: EL_SPLIT_STRING_8_LIST
-			other: STRING
+			lines, parts: EL_SPLIT_ON_CHARACTER [STRING_8]
+			part_count: INTEGER
 		do
 			make_default
-			create lines.make_with_character (string, '%N')
-			from lines.start until lines.after loop
-				if lines.item (False).starts_with (Http) then
-					create parts.make_with_character (lines.item (False), ' ')
-					if parts.valid_index (2) then
-						parts.go_i_th (2)
-						response_code := parts.integer_item
+			create lines.make (string, '%N')
+			across lines as line loop
+				if line.item_starts_with (Http) then
+					create parts.make (line.item, ' ')
+					part_count := 0
+					across parts as p loop
+						part_count := part_count + 1
+						if part_count = 2 then
+							response_code := p.item.to_integer
+						end
 					end
-				elseif lines.item (False).has (':') then
-					set_field_from_nvp (lines.item (False), ':')
-				else
-					other := lines.item (False)
+				elseif line.item_has (':') then
+					set_field_from_nvp (line.item, ':')
 				end
-				lines.forth
 			end
 		end
 

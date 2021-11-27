@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:57:11 GMT (Wednesday 14th July 2021)"
-	revision: "33"
+	date: "2021-11-27 19:19:14 GMT (Saturday 27th November 2021)"
+	revision: "34"
 
 class
 	EL_PYXIS_PARSER
@@ -104,15 +104,14 @@ feature -- Basic operations
 	parse_from_string (a_string: STRING)
 			-- Parse document from `a_string'.
 		local
-			list: EL_SPLIT_STRING_8_LIST
+			line_splitter: EL_SPLIT_ON_CHARACTER [STRING_8]
 		do
 			reset
 			scanner.on_start_document
 
-			create list.make (a_string, "%N")
-			from list.start until list.after loop
-				call_state_procedure (list.item (False))
-				list.forth
+			create line_splitter.make (a_string, '%N')
+			across line_splitter as split loop
+				call_state_procedure (split.item)
 			end
 			parse_final
 		end
