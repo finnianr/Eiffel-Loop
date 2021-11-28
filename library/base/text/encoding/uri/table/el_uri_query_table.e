@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 9:38:17 GMT (Sunday 12th September 2021)"
-	revision: "10"
+	date: "2021-11-28 14:38:48 GMT (Sunday 28th November 2021)"
+	revision: "11"
 
 deferred class
 	EL_URI_QUERY_TABLE
@@ -27,22 +27,21 @@ feature {NONE} -- Initialization
 	make_query_table (query: STRING; is_url: BOOLEAN)
 		-- call `set_name_value' for each decoded name-value pair found in `query' string
 		local
-			list: EL_SPLIT_STRING_LIST [STRING]; name_value_pair: STRING
+			ampersand_split: EL_SPLIT_ON_CHARACTER [STRING]; name_value_pair: STRING
 			name, value: EL_URI_QUERY_STRING_8; pos_equals: INTEGER
 		do
-			create list.make (query, Ampersand)
-			make_count (list.count)
+			create ampersand_split.make (query, '&')
+			make_count (query.occurrences ('&') + 1)
 			name := empty_query_string (is_url); value := new_query_string (is_url)
 
-			from list.start until list.after loop
-				name_value_pair := list.item (False)
+			across ampersand_split as list loop
+				name_value_pair := list.item
 				pos_equals := name_value_pair.index_of ('=', 1)
 				if pos_equals > 1 then
 					name.set_encoded (name_value_pair, 1, pos_equals - 1)
 					value.set_encoded (name_value_pair, pos_equals + 1, name_value_pair.count)
 					set_name_value (decoded_string (name), decoded_string (value))
 				end
-				list.forth
 			end
 		end
 

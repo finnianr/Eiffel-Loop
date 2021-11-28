@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:29:34 GMT (Thursday 7th May 2020)"
-	revision: "5"
+	date: "2021-11-28 11:37:11 GMT (Sunday 28th November 2021)"
+	revision: "6"
 
 class
 	EL_OS_RELEASE_IMP
@@ -56,21 +56,16 @@ feature {NONE} -- Line states
 		end
 
 	find_version (line: ZSTRING)
-		local
-			list: EL_SPLIT_ZSTRING_LIST
 		do
 			if line.starts_with (Version_field) then
-				create list.make (field_value (Version_field, line), ".")
-				from list.start until list.after loop
-					inspect list.index
+				across field_value (Version_field, line).split ('.') as list loop
+					inspect list.cursor_index
 						when 1 then
-							major_version := list.integer_item
+							major_version := list.item.to_integer
 						when 2 then
-							minor_version := list.integer_item
+							minor_version := list.item.to_integer
 					else
-						list.finish
 					end
-					list.forth
 				end
 				state := final
 			end

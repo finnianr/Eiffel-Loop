@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:15:27 GMT (Friday 26th November 2021)"
-	revision: "7"
+	date: "2021-11-28 10:15:50 GMT (Sunday 28th November 2021)"
+	revision: "8"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -136,10 +136,11 @@ feature -- Access
 				if path_check_sum /= crc.checksum then
 					path_check_sum := crc.checksum
 					create splitter.make (l_search_path, search_path_separator)
-					splitter.set_skip_empty (True)
 					Result.wipe_out
 					across splitter as split loop
-						Result.extend (split.item)
+						if split.item_count > 0 then
+							Result.extend (split.item)
+						end
 					end
 				end
 			end

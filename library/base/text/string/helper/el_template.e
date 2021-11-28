@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 12:00:32 GMT (Sunday 29th August 2021)"
-	revision: "6"
+	date: "2021-11-28 17:29:30 GMT (Sunday 28th November 2021)"
+	revision: "7"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			list: EL_SPLIT_STRING_LIST [S]; item: S
 			i, length, start_index, end_index: INTEGER; has_braces: BOOLEAN
 		do
-			create list.make (new_string (a_template), Dollor_sign)
+			create list.make_with_character (new_string (a_template), '$')
 			create variable_values.make_size (list.count)
 			create part_list.make (list.count * 2)
 			from list.start until list.after loop
@@ -131,9 +131,5 @@ feature {NONE} -- Internal attributes
 
 	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
-
-feature {NONE} -- Constants
-
-	Dollor_sign: STRING = "$"
 
 end

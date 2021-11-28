@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 11:21:34 GMT (Friday 26th November 2021)"
-	revision: "1"
+	date: "2021-11-28 12:30:22 GMT (Sunday 28th November 2021)"
+	revision: "2"
 
 deferred class
-	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL create make end, G]
+	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
 
 inherit
 	ITERABLE [S]
@@ -35,8 +35,6 @@ feature -- Status query
 
 	right_adjusted: BOOLEAN
 
-	skip_empty: BOOLEAN
-
 feature -- Status change
 
 	set_left_adjusted (status: BOOLEAN)
@@ -49,9 +47,11 @@ feature -- Status change
 			right_adjusted := status
 		end
 
-	set_skip_empty (status: BOOLEAN)
+feature -- Element change
+
+	set_target (a_target: like target)
 		do
-			skip_empty := status
+			target := a_target
 		end
 
 feature {NONE} -- Internal attributes

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-11 10:57:23 GMT (Tuesday 11th May 2021)"
-	revision: "23"
+	date: "2021-11-28 11:46:27 GMT (Sunday 28th November 2021)"
+	revision: "24"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -118,14 +118,14 @@ feature -- Access
 
 	server_software_version: NATURAL
 		local
-			parts: EL_SPLIT_ZSTRING_LIST; scalar: NATURAL; s: EL_ZSTRING_ROUTINES
+			scalar: NATURAL; s: EL_ZSTRING_ROUTINES
 		do
 			scalar := 1_000_000
-			create parts.make (server_software.substring_between (Forward_slash, s.character_string (' '), 1), Dot)
-			from parts.start until parts.after loop
-				Result := Result + scalar * parts.natural_item
-				scalar := scalar // 1000
-				parts.forth
+			if attached server_software.substring_between (Forward_slash, s.character_string (' '), 1) as substring then
+				across substring.split ('.') as list loop
+					Result := Result + scalar * list.item.to_natural
+					scalar := scalar // 1000
+				end
 			end
 		end
 
@@ -222,8 +222,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Dot: STRING = "."
 
 	Transient_fields: STRING
 		once

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-31 12:15:02 GMT (Tuesday 31st August 2021)"
-	revision: "22"
+	date: "2021-11-28 12:54:33 GMT (Sunday 28th November 2021)"
+	revision: "23"
 
 class
 	EL_TUPLE_ROUTINES
@@ -156,26 +156,15 @@ feature -- Basic operations
 		require
 			all_immutable_string_8: type_array (tuple).is_uniformly ({IMMUTABLE_STRING_8})
 		local
-			list: EL_SPLIT_STRING_8_LIST; tuple_types: EL_TUPLE_TYPE_ARRAY
-			immutable_csv: IMMUTABLE_STRING_8; start_index, end_index: INTEGER
+			comma_splitter: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
 			tuple_types := type_array (tuple)
-			create list.make_with_character (csv_list, ',')
-			create immutable_csv.make_from_string (csv_list)
-			from list.start until list.index > tuple.count or else list.after loop
-				if tuple_types [list.index].type_id = Class_id.IMMUTABLE_STRING_8 then
-					end_index := list.item_end_index
-					-- left adjust
-					from
-						start_index := list.item_start_index
-					until
-						not csv_list [start_index].is_space or else start_index > end_index
-					loop
-						start_index := start_index + 1
-					end
-					tuple.put_reference (immutable_csv.shared_substring (start_index, end_index), list.index)
+ 			create comma_splitter.make (csv_list, ',')
+			comma_splitter.set_left_adjusted (True)
+			across comma_splitter as list until list.cursor_index > tuple.count loop
+				if tuple_types [list.cursor_index].type_id = Class_id.IMMUTABLE_STRING_8 then
+					tuple.put_reference (list.item_copy, list.cursor_index)
 				end
-				list.forth
 			end
 		ensure
 			filled: is_filled (tuple, 1, tuple.count)
@@ -189,23 +178,22 @@ feature -- Basic operations
 			valid_list: csv_field_list.count > 0 and then start_index + csv_field_list.occurrences (',') <= tuple.count
 			not_filled:	not is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		local
-			result_type_id: INTEGER; list: EL_SPLIT_STRING_8_LIST; tuple_types: EL_TUPLE_TYPE_ARRAY
-			index: INTEGER
+			result_type_id: INTEGER; comma_splitter: EL_SPLIT_ON_CHARACTER [STRING_8]
+			tuple_types: EL_TUPLE_TYPE_ARRAY; index: INTEGER
 		do
 			result_type_id := a_new_item.generating_type.generic_parameter_type (2).type_id
 			tuple_types := type_array (tuple)
-			create list.make (csv_field_list, Comma)
-			list.enable_left_adjust
+			create comma_splitter.make (csv_field_list, ',')
+			comma_splitter.set_left_adjusted (True)
 
-			from list.start until (start_index + list.index - 1) > tuple.count or list.after loop
-				index := start_index + list.index - 1
+			across comma_splitter as list until (start_index + list.cursor_index - 1) > tuple.count loop
+				index := start_index + list.cursor_index - 1
 				if tuple.item_code (index) = {TUPLE}.Reference_code and then
 					Eiffel.field_conforms_to (result_type_id, tuple_types [index].type_id)
-					and then attached a_new_item (list.item (True)) as new
+					and then attached a_new_item (list.item_copy) as new
 				then
 					tuple.put_reference (new, index)
 				end
-				list.forth
 			end
 		ensure
 			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
@@ -353,9 +341,5 @@ feature -- Contract Support
 				tuple.is_reference_item (i_th.item) implies attached tuple.reference_item (i_th.item)
 			end
 		end
-
-feature {NONE} -- Constants
-
-	Comma: STRING = ","
 
 end

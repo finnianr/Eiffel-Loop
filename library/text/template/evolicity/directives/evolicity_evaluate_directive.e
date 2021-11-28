@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 10:48:06 GMT (Tuesday 23rd November 2021)"
-	revision: "14"
+	date: "2021-11-28 17:08:22 GMT (Sunday 28th November 2021)"
+	revision: "15"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -50,7 +50,7 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			lines: EL_SPLIT_ZSTRING_LIST; template_path: EL_FILE_PATH
+			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: EL_FILE_PATH
 			s: EL_ZSTRING_ROUTINES
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
@@ -72,15 +72,14 @@ feature -- Basic operations
 						if attached reuse.item as medium then
 							medium.open_write
 							Evolicity_templates.merge (template_path, new_context, medium)
-							create lines.make (medium.text, s.character_string ('%N'))
+							new_line_split := medium.text.split ('%N')
 							medium.close
-							from lines.start until lines.after loop
+							across new_line_split as line loop
 								if not tabs.is_empty then
 									output.put_raw_string_8 (tabs)
 								end
-								output.put_string (lines.item (False))
+								output.put_string (line.item)
 								output.put_new_line
-								lines.forth
 							end
 						end
 					end

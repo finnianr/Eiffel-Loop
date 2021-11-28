@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 17:21:30 GMT (Sunday 26th September 2021)"
-	revision: "18"
+	date: "2021-11-28 17:05:56 GMT (Sunday 28th November 2021)"
+	revision: "19"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -107,13 +107,13 @@ feature -- Basic operations
 			enough_keys: a_tuple.count = key_list.occurrences (',') + 1
 			has_keys: has_keys (key_list)
 		local
-			list: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+			s: EL_ZSTRING_ROUTINES
 		do
-			create list.make_with_character (s.as_zstring (key_list), ',')
-			list.enable_left_adjust
-			from list.start until list.after or list.index > a_tuple.count loop
-				a_tuple.put_reference (translation_item (list.item (False)), list.index)
-				list.forth
+			if attached s.as_zstring (key_list).split (',') as comma_split then
+				comma_split.set_left_adjusted (True)
+				across comma_split as list until list.cursor_index > a_tuple.count loop
+					a_tuple.put_reference (translation_item (list.item), list.cursor_index)
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 14:26:29 GMT (Thursday 7th January 2021)"
-	revision: "13"
+	date: "2021-11-28 16:02:34 GMT (Sunday 28th November 2021)"
+	revision: "14"
 
 deferred class
 	EL_ENCODING_BASE
@@ -52,22 +52,20 @@ feature -- Access
 			--
 		do
 			create Result.make (12)
-			if encoding = 0 then
-				Result.append (once "Unknown")
-			else
-				inspect type
-					when Utf then
-						Result.append (Name_utf)
-					when Windows then
-						Result.append (Name_windows)
-					when Latin then
-						Result.append (Name_iso)
-						Result.append_character ('-')
-						Result.append_integer (8859)
-				else
+			across Type_code_table as table until Result.count > 0 loop
+				if table.item = type then
+					Result.append (table.key)
+				end
+			end
+			if Result.count > 0 then
+				if type = Latin then
+					Result.append_character ('-')
+					Result.append_integer (8859)
 				end
 				Result.append_character ('-')
 				Result.append_natural_32 (id)
+			else
+				Result.append ("Unknown")
 			end
 		end
 
@@ -182,30 +180,33 @@ feature -- Conversion
 
 	name_to_encoding (a_name: READABLE_STRING_GENERAL): NATURAL
 		local
-			parts: EL_SPLIT_STRING_LIST [STRING]
-			part: STRING; l_type, l_id: NATURAL
+			hypen_split: EL_SPLIT_ON_CHARACTER [STRING]
+			part: STRING; l_type, l_id: NATURAL; mismatch: BOOLEAN
 		do
-			create parts.make (a_name.to_string_8, once "-")
-			from parts.start until parts.after loop
-				part := parts.item (False)
-				if parts.index = 1 then
-					part.to_upper
-					if part ~ Name_iso then
-						parts.forth
-						if not parts.after and then parts.integer_item = 8859 then
-							l_type := Latin
+			create hypen_split.make (a_name.to_string_8, '-')
+			across hypen_split as split until mismatch loop
+				part := split.item; part.to_upper
+				inspect split.cursor_index
+					when 1 then
+						if Type_code_table.has_key (part) then
+							l_type := Type_code_table.found_item
+						else
+							mismatch := True
 						end
-					elseif part ~ Name_windows then
-						l_type := Windows
-					elseif part ~ Name_utf then
-						l_type := Utf
-					end
+					when 2 then
+						if l_type = Latin then
+							mismatch := part.to_integer /= 8859
+						else
+							l_id := part.to_natural
+						end
+					when 3 then
+						l_id := part.to_natural
 				else
-					l_id := part.to_natural
 				end
-				parts.forth
 			end
-			Result := l_type | l_id
+			if not mismatch then
+				Result := l_type | l_id
+			end
 		end
 
 feature -- Contract Support
@@ -223,4 +224,15 @@ feature {NONE} -- Strings
 
 	Name_windows: STRING = "WINDOWS"
 
+feature {NONE} -- Constants
+
+	Type_code_table: EL_STRING_8_TABLE [NATURAL]
+		-- `EL_STRING_8_TABLE' needed in case key is of type "EL_STRING_8"
+		once
+			create Result.make (<<
+				[Name_iso, Latin],
+				[Name_windows, Windows],
+				[Name_utf, Utf]
+			>>)
+		end
 end

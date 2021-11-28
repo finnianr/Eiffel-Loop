@@ -6,11 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-18 13:49:38 GMT (Thursday 18th March 2021)"
-	revision: "1"
+	date: "2021-11-28 16:57:08 GMT (Sunday 28th November 2021)"
+	revision: "2"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
+
+inherit
+	ANY
+	EL_ZSTRING_CONSTANTS
 
 feature -- Conversion
 
@@ -21,19 +25,18 @@ feature -- Conversion
 		do
 			if is_valid (path) then
 				Result := path
-			elseif attached path_steps (path) as steps then
+			else
 				substitutes := s.n_character_string (uc, Invalid_NTFS_characters.count)
 				create new_path.make (path.count)
-				from steps.start until steps.after loop
-					if steps.index > 1 then
+				across path_steps (path) as step loop
+					if step.cursor_index > 1 then
 						new_path.append_character (Separator)
 					end
-					if is_valid_step (steps.item (False), steps.index) then
-						new_path.append (steps.item (False))
+					if is_valid_step (step.item, step.cursor_index) then
+						new_path.append (step.item)
 					else
-						new_path.append (steps.item (False).translated (Invalid_NTFS_characters, substitutes))
+						new_path.append (step.item.translated (Invalid_NTFS_characters, substitutes))
 					end
-					steps.forth
 				end
 				Result := new_path
 			end
@@ -44,12 +47,9 @@ feature -- Status query
 	is_valid (path: EL_FILE_PATH): BOOLEAN
 		-- True if path is valid on Windows NT file system
 		do
-			if attached path_steps (path) as steps then
-				Result := True
-				from steps.start until not Result or else steps.after loop
-					Result := is_valid_step (steps.item (False), steps.index)
-					steps.forth
-				end
+			Result := True
+			across path_steps (path) as step until not Result loop
+				Result := is_valid_step (step.item, step.cursor_index)
 			end
 		end
 
@@ -65,12 +65,10 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	path_steps (path: EL_FILE_PATH): EL_SPLIT_ZSTRING_LIST
-		local
-			s: EL_STRING_8_ROUTINES
+	path_steps (path: EL_FILE_PATH): EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
 			Result := Once_path_steps
-			Result.set_string (path, s.character_string (Separator))
+			Result.set_target (path)
 		end
 
 feature {NONE} -- Constants
@@ -86,9 +84,9 @@ feature {NONE} -- Constants
 			Result := Operating_environment.Directory_separator
 		end
 
-	Once_path_steps: EL_SPLIT_ZSTRING_LIST
+	Once_path_steps: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once
-			create Result.make_empty
+			create Result.make (Empty_string, Separator)
 		end
 
 end

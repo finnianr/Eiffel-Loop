@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-27 19:03:08 GMT (Saturday 27th November 2021)"
-	revision: "2"
+	date: "2021-11-28 15:13:08 GMT (Sunday 28th November 2021)"
+	revision: "3"
 
 deferred class
-	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL create make end, G]
+	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
 
 inherit
 	ITERATION_CURSOR [S]
@@ -20,19 +20,21 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_target: like target; a_separator: like separator; left_adjust, right_adjust, a_skip_empty: BOOLEAN)
-		do
-			target := a_target; separator := a_separator
-			left_adjusted := left_adjust; right_adjusted := right_adjust; skip_empty := a_skip_empty
-			initialize
-			forth
-		end
-
 	initialize
 		do
 		end
 
+	make (a_target: like target; a_separator: like separator; left_adjust, right_adjust: BOOLEAN)
+		do
+			target := a_target; separator := a_separator
+			left_adjusted := left_adjust; right_adjusted := right_adjust
+			initialize
+			forth
+		end
+
 feature -- Access
+
+	cursor_index: INTEGER
 
 	item: S
 		-- dynamic singular substring of `target' at current split position if the
@@ -60,6 +62,11 @@ feature -- Access
 			Result := target.substring (item_start_index, item_end_index)
 		end
 
+	item_count: INTEGER
+		do
+			Result := item_end_index - item_start_index + 1
+		end
+
 feature -- Optimized operations
 
 	append_item_to (general: STRING_GENERAL)
@@ -84,13 +91,6 @@ feature -- Status query
 	is_last: BOOLEAN
 		-- `True' if cursor is currently on the last `item'
 
-	item_starts_with (str: S): BOOLEAN
-		do
-			if item_end_index - item_start_index + 1 >= str.count then
-				Result := target.same_characters (str, 1, str.count, item_start_index)
-			end
-		end
-
 	item_has (uc: CHARACTER_32): BOOLEAN
 		local
 			i: INTEGER
@@ -101,11 +101,35 @@ feature -- Status query
 			end
 		end
 
+	item_is_empty: BOOLEAN
+		do
+			Result := item_end_index < item_start_index
+		end
+
+	item_same_as (str: S): BOOLEAN
+		do
+			if item_end_index - item_start_index + 1 = str.count then
+				Result := target.same_characters (str, 1, str.count, item_start_index)
+			end
+		end
+
+	item_same_caseless_as (str: S): BOOLEAN
+		do
+			if item_end_index - item_start_index + 1 = str.count then
+				Result := target.same_caseless_characters (str, 1, str.count, item_start_index)
+			end
+		end
+
+	item_starts_with (str: S): BOOLEAN
+		do
+			if item_end_index - item_start_index + 1 >= str.count then
+				Result := target.same_characters (str, 1, str.count, item_start_index)
+			end
+		end
+
 	left_adjusted: BOOLEAN
 
 	right_adjusted: BOOLEAN
-
-	skip_empty: BOOLEAN
 
 feature -- Cursor movement
 
@@ -147,13 +171,7 @@ feature -- Cursor movement
 						end
 					end
 				end
-				if skip_empty and then item_end_index < item_start_index then
-					if is_last then
-						after := True
-					else
-						forth
-					end
-				end
+				cursor_index := cursor_index + 1
 			end
 		end
 
@@ -161,7 +179,7 @@ feature {NONE} -- Implementation
 
 	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		do
-			Result := a_target [i].is_space
+			Result := Unicode_property.is_space (a_target [i])
 		end
 
 	set_separator_start
@@ -190,4 +208,11 @@ feature {NONE} -- Internal attributes
 
 	target: S
 
+feature {NONE} -- Constants
+
+	Unicode_property: CHARACTER_PROPERTY
+			-- Property for Unicode characters.
+		once
+			create Result.make
+		end
 end

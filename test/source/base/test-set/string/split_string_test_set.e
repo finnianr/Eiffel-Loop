@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 11:35:49 GMT (Friday 26th November 2021)"
-	revision: "15"
+	date: "2021-11-28 15:56:16 GMT (Sunday 28th November 2021)"
+	revision: "16"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_STRING_8_CONSTANTS
+
+	EL_ENCODING_CONSTANTS
 
 	EL_MODULE_LIO
 
@@ -33,6 +35,7 @@ feature -- Basic operations
 			eval.call ("split_and_join_2", agent test_split_and_join_2)
 			eval.call ("split_and_join_3", agent test_split_and_join_3)
 			eval.call ("split_iterator", agent test_split_iterator)
+			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
 			eval.call ("skip_empty_split", agent test_skip_empty_split)
 			eval.call ("split_sort", agent test_split_sort)
 			eval.call ("split_string_8", agent test_split_string_8)
@@ -55,6 +58,8 @@ feature -- Tests
 			create t2
 			tuple.fill (t2, {STRING_32} "euro, €")
 			assert ("same currency", t2.currency ~ "euro")
+			lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
+			lio.put_new_line
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
 		end
 
@@ -107,10 +112,11 @@ feature -- Tests
 			split_list: EL_STRING_8_LIST
 		do
 			create character_split.make (",a,b,c,", ',')
-			character_split.set_skip_empty (True)
-			split_list.wipe_out
+			create split_list.make_empty
 			across character_split as split loop
-				split_list.extend (split.item_copy)
+				if not split.item_is_empty then
+					split_list.extend (split.item_copy)
+				end
 			end
 			assert ("same_list", same_list (split_list, "a,b,c"))
 		end
@@ -151,12 +157,14 @@ feature -- Tests
 	test_split_iterator
 		note
 			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item,%
-						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy"
+						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_is_empty,%
+						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy,%
+						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_as,%
+						%covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as"
 		local
 			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER [STRING]
 			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
 			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
-			is_first_item: BOOLEAN
 		do
 			bracket_pair := "()"
 			across << ",a,b,c,", "a,b,c", " a, b , c " >> as csv_list loop
@@ -173,17 +181,47 @@ feature -- Tests
 						splitter.item.set_right_adjusted (True)
 					end
 					create split_list.make (5)
-					is_first_item := True
 					across splitter.item as split loop
-						if is_first_item then
-							is_first_item := False
+						if split.cursor_index = 1 then
 							first_item := split.item
 						else
 							assert ("same string instance", first_item = split.item)
 						end
+						if not split.item_is_empty and then split.item [1] = 'a' then
+							assert ("same as a", split.item_same_as ("a"))
+							assert ("same as A", split.item_same_caseless_as ("A"))
+						end
 						split_list.extend (split.item_copy)
 					end
 					assert ("same_list", same_list (split_list, csv_list.item))
+				end
+			end
+		end
+
+	test_set_encoding_from_name
+		note
+			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item"
+		local
+			encodeable: EL_ENCODEABLE_AS_TEXT; name: STRING
+		do
+			create encodeable.make_default
+			across << False, True >> as is_lower_case loop
+				across ("ISO-8859-1,UTF-8,WINDOWS-1252").split (',') as split loop
+					name := split.item
+					if is_lower_case.item then
+						name.to_lower
+					end
+					encodeable.set_encoding_from_name (name)
+					inspect split.cursor_index
+						when 1 then
+							assert ("is ISO-8859-1", encodeable.encoded_as_latin (1))
+						when 2 then
+							assert ("UTF-8", encodeable.encoded_as_utf (8))
+						when 3 then
+							assert ("WINDOWS-1252", encodeable.encoded_as_windows (1252))
+					else
+					end
+					assert ("same upper name", name.as_upper ~ encodeable.encoding_name)
 				end
 			end
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 14:22:55 GMT (Thursday 18th February 2021)"
-	revision: "8"
+	date: "2021-11-28 17:14:12 GMT (Sunday 28th November 2021)"
+	revision: "9"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -135,22 +135,19 @@ feature -- Access
 
 	token_list (string: ZSTRING; separator: CHARACTER_32): STRING_32
 		local
-			list: like Split_list
-			new_word: ZSTRING
+			split_list: EL_SPLIT_ZSTRING_ON_CHARACTER; new_word: ZSTRING
 		do
-			list := Split_list
-			list.set_string (string, character_string (separator))
-			create Result.make (list.count + 1) -- Allow extra for {EL_PATH}.base
-			from list.start until list.after loop
-				search (list.item (False))
+			create split_list.make (string, separator)
+			create Result.make (string.occurrences (separator) + 2) -- Allow extra for {EL_PATH}.base
+			across split_list as list loop
+				search (list.item)
 				if not found then
-					new_word := list.item (True)
+					new_word := list.item_copy
 					extend (count + 1, new_word)
 					word_list.extend (new_word)
 					last_code := count
 				end
 				Result.extend (last_token)
-				list.forth
 			end
 		ensure
 			reversible: string ~ joined (Result, separator)
@@ -170,11 +167,6 @@ feature {STRING_HANDLER, EL_ZSTRING_TOKEN_TABLE} -- Implementation
 feature {NONE} -- Constants
 
 	Once_string_list: EL_ZSTRING_LIST
-		once
-			create Result.make_empty
-		end
-
-	Split_list: EL_SPLIT_ZSTRING_LIST
 		once
 			create Result.make_empty
 		end

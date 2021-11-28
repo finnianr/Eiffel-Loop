@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-21 13:33:36 GMT (Saturday 21st August 2021)"
-	revision: "14"
+	date: "2021-11-28 11:40:34 GMT (Sunday 28th November 2021)"
+	revision: "15"
 
 class
 	EL_SOFTWARE_VERSION
@@ -57,15 +57,13 @@ feature -- Element change
 		require
 			valid_format: a_version.occurrences ('.') = 2
 		local
-			number, scalar: NATURAL; digits: EL_SPLIT_STRING_LIST [STRING]
+			scalar: NATURAL; digits: EL_SPLIT_ON_CHARACTER [STRING]
 		do
 			compact_version := 0; scalar := 1_00_00
-			create digits.make (a_version, once ".")
-			from digits.start until digits.after loop
-				number := digits.natural_item
-				compact_version := number * scalar + compact_version
+			create digits.make (a_version, '.')
+			across digits as list loop
+				compact_version := list.item.to_natural * scalar + compact_version
 				scalar := scalar // 100
-				digits.forth
 			end
 		end
 

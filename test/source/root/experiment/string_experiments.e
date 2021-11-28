@@ -1,4 +1,4 @@
-note
+ï»¿note
 	description: "String experiments"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-03 15:56:54 GMT (Wednesday 3rd November 2021)"
-	revision: "12"
+	date: "2021-11-28 15:04:03 GMT (Sunday 28th November 2021)"
+	revision: "13"
 
 class
 	STRING_EXPERIMENTS
@@ -64,6 +64,17 @@ feature -- Basic operations
 			end
 		end
 
+	check_if_euro_is_space
+		local
+			euro: CHARACTER_32
+		do
+			euro := 'â‚¬'
+			lio.put_labeled_string ("euro.is_space", euro.is_space.out)
+			lio.put_new_line
+			lio.put_labeled_string ("euro.is_space", C_properties.is_space (euro).out)
+			lio.put_new_line
+ 		end
+
 	encode_string_for_console
 		do
 			across <<
@@ -71,7 +82,7 @@ feature -- Basic operations
 			>> as encoding loop
 				lio.put_line (encoding.item.code_page)
 			end
-			io.put_string (Console.encoded ({STRING_32} "Dún Búinne"))
+			io.put_string (Console.encoded ({STRING_32} "DÃºn BÃºinne"))
 		end
 
 	escaping_text
@@ -135,9 +146,9 @@ feature -- Basic operations
 		local
 			line: ZSTRING
 		do
-			line := User_input.line ("Enter a Ä character (ALT 0196)")
+			line := User_input.line ("Enter a Ã„ character (ALT 0196)")
 			lio.put_new_line
-			assert ("is Ä", line [1] = 'Ä')
+			assert ("is Ã„", line [1] = 'Ã„')
 		end
 
 	input_unicode_character
@@ -331,6 +342,12 @@ feature {NONE} -- Constants
 	Mime_type_template, Text_charset_template: ZSTRING
 		once
 			Result := "text/%S; charset=%S"
+		end
+
+	C_properties: CHARACTER_PROPERTY
+			-- Property for Unicode characters.
+		once
+			create Result.make
 		end
 
 end

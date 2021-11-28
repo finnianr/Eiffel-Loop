@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:06:00 GMT (Tuesday 5th January 2021)"
-	revision: "16"
+	date: "2021-11-28 12:00:52 GMT (Sunday 28th November 2021)"
+	revision: "17"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -70,9 +70,9 @@ feature -- Access
 			end
 		end
 
-	last_trace_lines: EL_SPLIT_STRING_LIST [STRING_32]
+	last_trace_splitter: EL_SPLIT_ON_CHARACTER [STRING_32]
 		do
-			create Result.make (last_trace, "%N")
+			create Result.make (last_trace, '%N')
 		end
 
 	manager: EXCEPTION_MANAGER
@@ -94,13 +94,9 @@ feature -- Status setting
 feature -- Basic operations
 
 	put_last_trace (log: EL_LOGGABLE)
-		local
-			lines: like last_trace_lines
 		do
-			lines := last_trace_lines
-			from lines.start until lines.after loop
-				log.put_line (lines.item (False))
-				lines.forth
+			across last_trace_splitter as line loop
+				log.put_line (line.item)
 			end
 		end
 

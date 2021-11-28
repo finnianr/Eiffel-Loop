@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 13:22:58 GMT (Friday 26th November 2021)"
-	revision: "8"
+	date: "2021-11-28 10:11:42 GMT (Sunday 28th November 2021)"
+	revision: "9"
 
 class
 	EL_ZSTRING_TABLE
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 	make (general: READABLE_STRING_GENERAL)
 		local
-			s: EL_ZSTRING_ROUTINES; text: ZSTRING
+			s: EL_ZSTRING_ROUTINES
 		do
 			make_equal (general.occurrences (':'))
 			across s.as_zstring (general).split ('%N') as split loop

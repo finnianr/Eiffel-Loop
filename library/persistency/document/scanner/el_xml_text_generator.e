@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-21 16:27:39 GMT (Sunday 21st November 2021)"
-	revision: "19"
+	date: "2021-11-28 11:58:11 GMT (Sunday 28th November 2021)"
+	revision: "20"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -203,22 +203,19 @@ feature {NONE} -- Implementation
 
 	put_node_content_lines (tabbed: BOOLEAN)
 		local
-			list: like Line_list; text: STRING
+			text: STRING
 		do
 			across Reuseable.string_8 as reuse loop
 				text := reuse.item
 				last_node.append_adjusted_to (text)
 
-				list := Line_list
-				list.set_string (Xml_escaper.escaped (text, False), New_line)
-
-				from list.start until list.after loop
+				Line_splitter.set_target (Xml_escaper.escaped (text, False))
+				across Line_splitter as list loop
 					if tabbed then
 						output.put_string (tabs (output_stack.count + 1))
 					end
-					output.put_string (list.item (False))
+					output.put_string (list.item)
 					output.put_new_line
-					list.forth
 				end
 			end
 		end
@@ -318,12 +315,10 @@ feature {NONE} -- Constants
 			create Result.make (3, 1)
 		end
 
-	Line_list: EL_SPLIT_STRING_8_LIST
+	Line_splitter: EL_SPLIT_ON_CHARACTER [STRING]
 		once
-			create Result.make_empty
+			create Result.make (Empty_string_8, New_line_character)
 		end
-
-	New_line: STRING = "%N"
 
 	New_line_character: CHARACTER_8 = '%N'
 
