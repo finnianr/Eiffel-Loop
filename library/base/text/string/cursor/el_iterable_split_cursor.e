@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 15:13:08 GMT (Sunday 28th November 2021)"
-	revision: "3"
+	date: "2021-11-29 10:59:59 GMT (Monday 29th November 2021)"
+	revision: "4"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -45,7 +45,7 @@ feature -- Access
 			if attached {STRING_GENERAL} target as l_target then
 				if attached {STRING_GENERAL} internal_item as l_item then
 					l_item.keep_head (0)
-					l_item.append_substring (l_target, item_start_index, item_end_index)
+					l_item.append_substring (l_target, item_lower, item_upper)
 					Result := internal_item
 				else
 					Result := item_copy
@@ -59,20 +59,26 @@ feature -- Access
 	item_copy: S
 		-- new substring of `target' at current split position
 		do
-			Result := target.substring (item_start_index, item_end_index)
+			Result := target.substring (item_lower, item_upper)
 		end
 
 	item_count: INTEGER
 		do
-			Result := item_end_index - item_start_index + 1
+			Result := item_upper - item_lower + 1
 		end
+
+	item_upper: INTEGER
+		-- end index of `item' in `target' string
+
+	item_lower: INTEGER
+		-- start index of `item' in `target' string
 
 feature -- Optimized operations
 
 	append_item_to (general: STRING_GENERAL)
 		-- equivalent to appending `item' to `general'
 		do
-			general.append_substring (target, item_start_index, item_end_index)
+			general.append_substring (target, item_lower, item_upper)
 		end
 
 	fill_with_item (general: STRING_GENERAL)
@@ -80,7 +86,7 @@ feature -- Optimized operations
 		-- though routine `replace_substring' on exists in descendants
 		do
 			general.keep_head (0)
-			general.append_substring (target, item_start_index, item_end_index)
+			general.append_substring (target, item_lower, item_upper)
 		end
 
 feature -- Status query
@@ -95,7 +101,7 @@ feature -- Status query
 		local
 			i: INTEGER
 		do
-			from i := item_start_index until i > item_end_index or else Result loop
+			from i := item_lower until i > item_upper or else Result loop
 				Result := target [i] = uc
 				i := i + 1
 			end
@@ -103,27 +109,27 @@ feature -- Status query
 
 	item_is_empty: BOOLEAN
 		do
-			Result := item_end_index < item_start_index
+			Result := item_upper < item_lower
 		end
 
 	item_same_as (str: S): BOOLEAN
 		do
-			if item_end_index - item_start_index + 1 = str.count then
-				Result := target.same_characters (str, 1, str.count, item_start_index)
+			if item_upper - item_lower + 1 = str.count then
+				Result := target.same_characters (str, 1, str.count, item_lower)
 			end
 		end
 
 	item_same_caseless_as (str: S): BOOLEAN
 		do
-			if item_end_index - item_start_index + 1 = str.count then
-				Result := target.same_caseless_characters (str, 1, str.count, item_start_index)
+			if item_upper - item_lower + 1 = str.count then
+				Result := target.same_caseless_characters (str, 1, str.count, item_lower)
 			end
 		end
 
 	item_starts_with (str: S): BOOLEAN
 		do
-			if item_end_index - item_start_index + 1 >= str.count then
-				Result := target.same_characters (str, 1, str.count, item_start_index)
+			if item_upper - item_lower + 1 >= str.count then
+				Result := target.same_characters (str, 1, str.count, item_lower)
 			end
 		end
 
@@ -145,17 +151,17 @@ feature -- Cursor movement
 				set_separator_start
 				if separator_start > 0 then
 					separator_end := separator_start + separator_count - 1
-					item_start_index := previous_separator_end + 1
-					item_end_index := separator_start - 1
+					item_lower := previous_separator_end + 1
+					item_upper := separator_start - 1
 				else
-					item_start_index := separator_end + 1
-					item_end_index := target.count
+					item_lower := separator_end + 1
+					item_upper := target.count
 					is_last := True
 				end
 				if left_adjusted and then attached target as l_target then
-					from until found_first or else item_start_index > item_end_index loop
-						if is_white_space (l_target, item_start_index) then
-							item_start_index := item_start_index + 1
+					from until found_first or else item_lower > item_upper loop
+						if is_white_space (l_target, item_lower) then
+							item_lower := item_lower + 1
 						else
 							found_first := True
 						end
@@ -163,9 +169,9 @@ feature -- Cursor movement
 				end
 				if right_adjusted and then attached target as l_target then
 					found_first := False
-					from until found_first or else item_end_index < item_start_index  loop
-						if is_white_space (l_target, item_end_index) then
-							item_end_index := item_end_index - 1
+					from until found_first or else item_upper < item_lower  loop
+						if is_white_space (l_target, item_upper) then
+							item_upper := item_upper - 1
 						else
 							found_first := True
 						end
@@ -189,10 +195,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	internal_item: detachable like target
-
-	item_end_index: INTEGER
-
-	item_start_index: INTEGER
 
 	separator: G
 

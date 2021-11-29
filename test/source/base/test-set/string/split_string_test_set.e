@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 15:56:16 GMT (Sunday 28th November 2021)"
-	revision: "16"
+	date: "2021-11-29 11:15:09 GMT (Monday 29th November 2021)"
+	revision: "17"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -23,20 +23,23 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_MODULE_NAMING
+
 feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		-- evaluate all tests
 		do
 			eval.call ("fill_tuple", agent test_fill_tuple)
+			eval.call ("naming_to_title", agent test_naming_to_title)
 			eval.call ("occurrence_intervals", agent test_occurrence_intervals)
 			eval.call ("path_split", agent test_path_split)
+			eval.call ("skip_empty_split", agent test_skip_empty_split)
 			eval.call ("split_and_join_1", agent test_split_and_join_1)
 			eval.call ("split_and_join_2", agent test_split_and_join_2)
 			eval.call ("split_and_join_3", agent test_split_and_join_3)
 			eval.call ("split_iterator", agent test_split_iterator)
 			eval.call ("set_encoding_from_name", agent test_set_encoding_from_name)
-			eval.call ("skip_empty_split", agent test_skip_empty_split)
 			eval.call ("split_sort", agent test_split_sort)
 			eval.call ("split_string_8", agent test_split_string_8)
 		end
@@ -61,6 +64,16 @@ feature -- Tests
 			lio.put_string_field ("SYMBOL " + t2.symbol.generator, t2.symbol)
 			lio.put_new_line
 			assert ("same symbol", t2.symbol ~ {STRING_32} "€")
+		end
+
+	test_naming_to_title
+		local
+			eif_name, title: STRING
+		do
+			eif_name := "hex_11_software"
+			create title.make (eif_name.count)
+			Naming.to_title (eif_name, title, ' ')
+			assert ("is title", title ~ "Hex 11 Software")
 		end
 
 	test_occurrence_intervals
@@ -101,6 +114,34 @@ feature -- Tests
 					assert ("same step", step.item ~ split_path.i_th (step.cursor_index))
 				end
 				l_path.append_character ('/')
+			end
+		end
+
+	test_set_encoding_from_name
+		note
+			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item"
+		local
+			encodeable: EL_ENCODEABLE_AS_TEXT; name: STRING
+		do
+			create encodeable.make_default
+			across << False, True >> as is_lower_case loop
+				across ("ISO-8859-1,UTF-8,WINDOWS-1252").split (',') as split loop
+					name := split.item
+					if is_lower_case.item then
+						name.to_lower
+					end
+					encodeable.set_encoding_from_name (name)
+					inspect split.cursor_index
+						when 1 then
+							assert ("is ISO-8859-1", encodeable.encoded_as_latin (1))
+						when 2 then
+							assert ("UTF-8", encodeable.encoded_as_utf (8))
+						when 3 then
+							assert ("WINDOWS-1252", encodeable.encoded_as_windows (1252))
+					else
+					end
+					assert ("same upper name", name.as_upper ~ encodeable.encoding_name)
+				end
 			end
 		end
 
@@ -194,34 +235,6 @@ feature -- Tests
 						split_list.extend (split.item_copy)
 					end
 					assert ("same_list", same_list (split_list, csv_list.item))
-				end
-			end
-		end
-
-	test_set_encoding_from_name
-		note
-			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item"
-		local
-			encodeable: EL_ENCODEABLE_AS_TEXT; name: STRING
-		do
-			create encodeable.make_default
-			across << False, True >> as is_lower_case loop
-				across ("ISO-8859-1,UTF-8,WINDOWS-1252").split (',') as split loop
-					name := split.item
-					if is_lower_case.item then
-						name.to_lower
-					end
-					encodeable.set_encoding_from_name (name)
-					inspect split.cursor_index
-						when 1 then
-							assert ("is ISO-8859-1", encodeable.encoded_as_latin (1))
-						when 2 then
-							assert ("UTF-8", encodeable.encoded_as_utf (8))
-						when 3 then
-							assert ("WINDOWS-1252", encodeable.encoded_as_windows (1252))
-					else
-					end
-					assert ("same upper name", name.as_upper ~ encodeable.encoding_name)
 				end
 			end
 		end

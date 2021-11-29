@@ -6,30 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-16 8:47:47 GMT (Wednesday 16th June 2021)"
-	revision: "5"
+	date: "2021-11-29 10:48:57 GMT (Monday 29th November 2021)"
+	revision: "6"
 
 class
 	EL_IP_ADDRESS_ROUTINES
 
 inherit
-	EL_SPLIT_STRING_LIST [STRING]
-		rename
-			make as make_list,
-			make_empty as make
-		export
-			{NONE} all
-		end
-
 	PLATFORM
 		export
 			{NONE} all
-		undefine
-			copy, default_create, is_equal, out
 		end
 
-create
-	make
+	EL_STRING_8_CONSTANTS
 
 feature -- Conversion
 
@@ -37,13 +26,14 @@ feature -- Conversion
 		do
 			if address ~ Loop_back_one then
 				Result := Loop_back_address
-			else
-				set_string (address, Dot)
-				if count = 4 then
-					number := 0
-					do_all (agent append_byte)
-					Result := number
+
+			elseif address.occurrences ('.') = 3 then
+				Dot_split.set_target (address)
+				number := 0
+				across Dot_split as list loop
+					append_byte (list.item)
 				end
+				Result := number
 			end
 		ensure
 			reversible: address /= Loop_back_one implies address ~ to_string (Result)
@@ -86,7 +76,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Dot: STRING = "."
+	Dot_split: EL_SPLIT_ON_CHARACTER [STRING]
+		once
+			create Result.make (Empty_string_8, '.')
+		end
 
 	Loop_back_one: STRING =  "::1"
 

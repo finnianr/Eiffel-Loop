@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 14:42:19 GMT (Tuesday 14th September 2021)"
-	revision: "22"
+	date: "2021-11-29 11:37:59 GMT (Monday 29th November 2021)"
+	revision: "23"
 
 class
 	EL_NAMING_ROUTINES
@@ -22,6 +22,8 @@ inherit
 	ANY
 
 	EL_MODULE_STRING_8
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -245,12 +247,29 @@ feature -- Export names
 		require
 			empty_name_out: english_out.is_empty
 		local
-			words: EL_SPLIT_STRING_LIST [STRING]
+			word: STRING
 		do
 			upper_case_words.compare_objects
-			create words.make (name_in, Underscore)
-			words.do_all (agent append_english_word (upper_case_words, ?, english_out))
-			english_out [1] := english_out.item (1).as_upper
+			Underscore_split.set_target (name_in)
+			across Underscore_split as list loop
+				word := list.item
+				if upper_case_words.has (word) then
+					word.to_upper
+				end
+				if list.cursor_index = 1 then
+					if word.count > 0 then
+						String_8.set_upper (word, 1)
+					end
+				elseif english_out.ends_with (once "NON") then
+					english_out.append_character ('-')
+
+				elseif english_out.ends_with (once "non") then
+					english_out.append_character ('-')
+				else
+					english_out.append_character (' ')
+				end
+				english_out.append (word)
+			end
 		end
 
 	to_kebab_case (name_in, name_out: STRING)
@@ -291,40 +310,17 @@ feature -- Export names
 	to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		require
 			empty_title_out: title_out.is_empty
-		local
-			index: INTEGER; list: like Underscore_intervals
 		do
-			list := Underscore_intervals
-			list.fill (name_in, Underscore)
-			title_out.append (name_in)
-			list.put_front (0)
-			from list.start until list.after loop
-				index := list.item_lower
-				if title_out.valid_index (index) then
-					title_out [index] := separator_out
+			Underscore_split.set_target (name_in)
+			across Underscore_split as list loop
+				if list.cursor_index > 1 then
+					title_out.append_character (separator_out)
 				end
-				if title_out.valid_index (index + 1) then
-					string_8.set_upper (title_out, index + 1)
-				end
-				list.forth
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	append_english_word (upper_case_words: like no_words; word: STRING; str: STRING)
-		do
-			if not str.is_empty then
-				if str.ends_with (once "non") then
-					str.append_character ('-')
-				else
-					str.append_character (' ')
+				if list.item_count > 0 then
+					list.append_item_to (title_out)
+					string_8.set_upper (title_out, list.item_lower)
 				end
 			end
-			if upper_case_words.has (word) then
-				word.to_upper
-			end
-			str.append (word)
 		end
 
 feature {NONE} -- Constants
@@ -335,11 +331,9 @@ feature {NONE} -- Constants
 
 	State_upper: INTEGER = 1
 
-	Underscore: STRING = "_"
-
-	Underscore_intervals: EL_OCCURRENCE_INTERVALS [STRING]
+	Underscore_split: EL_SPLIT_ON_CHARACTER [STRING]
 		once
-			create Result.make_empty
+			create Result.make (Empty_string_8, '_')
 		end
 
 end

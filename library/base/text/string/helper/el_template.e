@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 17:29:30 GMT (Sunday 28th November 2021)"
-	revision: "7"
+	date: "2021-11-29 10:38:02 GMT (Monday 29th November 2021)"
+	revision: "8"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -30,15 +30,16 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 		local
-			list: EL_SPLIT_STRING_LIST [S]; item: S
-			i, length, start_index, end_index: INTEGER; has_braces: BOOLEAN
+			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item: S
+			i, length, start_index, end_index, variable_count: INTEGER; has_braces: BOOLEAN
 		do
-			create list.make_with_character (new_string (a_template), '$')
-			create variable_values.make_size (list.count)
-			create part_list.make (list.count * 2)
-			from list.start until list.after loop
-				item := list.item (False)
-				if list.index = 1 then
+			create dollor_split.make (new_string (a_template), '$')
+			variable_count := a_template.occurrences ('$')
+			create variable_values.make_size (variable_count)
+			create part_list.make (variable_count * 2)
+			across dollor_split as list loop
+				item := list.item
+				if list.cursor_index = 1 then
 					if not item.is_empty then
 						part_list.extend (item.twin)
 					end
@@ -68,7 +69,6 @@ feature {NONE} -- Initialization
 						part_list.extend (item.substring (length + 1, item.count))
 					end
 				end
-				list.forth
 			end
 		end
 
