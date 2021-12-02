@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-10 9:11:10 GMT (Friday 10th September 2021)"
-	revision: "15"
+	date: "2021-12-02 14:10:52 GMT (Thursday 2nd December 2021)"
+	revision: "16"
 
 class
 	EL_OS_COMMAND
@@ -38,14 +38,22 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 			--
+
+		local
+			space_index: INTEGER
 		do
-			make_with_name (a_template.substring (1, a_template.index_of (' ', 1) - 1), a_template)
+			space_index := a_template.index_of (' ', 1)
+			if space_index > 0 then
+				make_with_name (a_template.substring (1, space_index - 1), a_template)
+			else
+				make_with_name (a_template, a_template)
+			end
 		end
 
 	make_with_name (name, a_template: READABLE_STRING_GENERAL)
 		do
 			create template.make (a_template)
-			template_name := name_template #$ [generator, name]
+			set_template_name (name)
 			make_default
 		end
 
@@ -138,6 +146,11 @@ feature {NONE} -- Implementation
 	system_command: ZSTRING
 		do
 			Result := template.substituted
+		end
+
+	set_template_name (name: READABLE_STRING_GENERAL)
+		do
+			template_name := name_template #$ [generator, name]
 		end
 
 	temporary_error_file_path: EL_FILE_PATH

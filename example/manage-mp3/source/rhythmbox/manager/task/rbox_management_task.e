@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 14:04:16 GMT (Friday 30th July 2021)"
-	revision: "16"
+	date: "2021-12-02 14:58:36 GMT (Thursday 2nd December 2021)"
+	revision: "17"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -48,7 +48,8 @@ feature {RBOX_MUSIC_MANAGER} -- Initialization
 
 	make_default
 		do
-			music_dir := "$HOME/Music"; music_dir.expand
+--			music_dir := "$HOME/Music"; music_dir.expand
+			music_dir := Default_music_dir
 			Precursor
 		end
 
@@ -119,6 +120,17 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Default_music_dir: EL_DIR_PATH
+		-- parse output of command
+		-- gsettings get org.gnome.rhythmbox.rhythmdb locations
+		-- OUTPUT: ['file:///home/finnian/Music']
+		local
+			gsettings_cmd: EL_GET_GNOME_SETTING_COMMAND
+		once
+			create gsettings_cmd.make ("org.gnome.rhythmbox.rhythmdb")
+			Result := gsettings_cmd.dir_uri_path ("locations").to_dir_path
+		end
 
 	Drag_and_drop_template: ZSTRING
 		once

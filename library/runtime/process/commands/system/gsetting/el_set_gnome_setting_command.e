@@ -6,39 +6,47 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2021-12-02 14:40:38 GMT (Thursday 2nd December 2021)"
+	revision: "5"
 
 class
 	EL_SET_GNOME_SETTING_COMMAND
 
 inherit
-	EL_OS_COMMAND
+	EL_PARSED_OS_COMMAND [TUPLE [schema, key, value: STRING]]
 		rename
-			make as make_command
+			make as make_parsed
 		end
 
-	EL_GNOME_SETTING_COMMAND_CONSTANTS
+	EL_GNOME_SETTING_COMMAND
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (schema_name: STRING)
+	make (a_schema_name: STRING)
 			--
 		do
-			make_with_name (Gsettings + schema_name, Gsettings + " set $schema $key $value")
-			put_string (Var_schema, schema_name)
+			make_parsed
+			schema_name := a_schema_name
+			set_template_name (a_schema_name)
+			put_string (Var.schema, a_schema_name)
 		end
 
 feature -- Element change
 
 	set_file_path (key_name: STRING; file_path: EL_FILE_PATH)
 		do
-			put_string (Var_key, key_name)
-			put_string (Var_value, File_protocol + file_path.to_string)
+			put_string (Var.key, key_name)
+			put_string (Var.value, file_path.to_uri)
 			execute
 		end
 
+feature {NONE} -- Constants
+
+	Template: STRING
+		once
+			Result := Gsettings + " set $schema $key $value"
+		end
 end
