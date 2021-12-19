@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:21:30 GMT (Saturday 27th March 2021)"
-	revision: "14"
+	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
+	revision: "15"
 
 class
 	EL_LOG_FILTER
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			split_list: EL_STRING_8_LIST
 		do
 			make (a_class_type, Show_selected)
-			create split_list.make_with_csv (routine_list)
+			create split_list.make_comma_split (routine_list)
 			across split_list as list loop
 				routine_set.put (list.item)
 			end

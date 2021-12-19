@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-10 7:30:36 GMT (Thursday 10th June 2021)"
-	revision: "9"
+	date: "2021-12-19 16:36:00 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_SUBJECT_LINE_DECODER
@@ -61,7 +61,7 @@ feature -- Access
 			parts: EL_ZSTRING_LIST; latin_str: STRING
 		do
 			if line.starts_with (Encoded_begin) and then line.ends_with (Encoded_end) then
-				create parts.make_with_separator (line.substring (3, line.count - 2), '?', False)
+				create parts.make_split (line.substring (3, line.count - 2), '?')
 
 				set_encoding_from_name (parts.first)
 				inspect parts.i_th (2) [1]

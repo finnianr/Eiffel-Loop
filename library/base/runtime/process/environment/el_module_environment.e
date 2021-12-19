@@ -1,13 +1,18 @@
 note
-	description: "Shared access to routines of class [$source EL_SHARED_ENVIRONMENTS]"
+	description: "[
+		Shared access to instances of classes:
+
+			[$source EL_EXECUTION_ENVIRONMENT_I]
+			[$source EL_OPERATING_ENVIRONMENT_I]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-29 12:52:16 GMT (Friday 29th May 2020)"
-	revision: "9"
+	date: "2021-12-07 18:17:47 GMT (Tuesday 7th December 2021)"
+	revision: "10"
 
 deferred class
 	EL_MODULE_ENVIRONMENT

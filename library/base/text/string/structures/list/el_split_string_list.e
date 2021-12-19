@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-10 10:31:24 GMT (Wednesday 10th November 2021)"
-	revision: "25"
+	date: "2021-12-19 16:23:50 GMT (Sunday 19th December 2021)"
+	revision: "26"
 
 class
-	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
+	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_OCCURRENCE_INTERVALS [S]
@@ -25,7 +25,6 @@ inherit
 			has as has_interval,
 			do_all as do_all_intervals,
 			for_all as for_all_intervals,
-			fill as set_string,
 			i_th as i_th_interval,
 			item as interval_item,
 			item_lower as item_start_index,
@@ -34,12 +33,11 @@ inherit
 			new_cursor as new_interval_cursor,
 			there_exists as there_exists_interval
 		redefine
-			is_equal, make_empty, make_from_sub_list, extend_buffer, set_string
+			is_equal, make_empty, make_from_sub_list, make_by_string, make,
+			extend_buffer
 		end
 
 	EL_JOINABLE_STRINGS [S]
-		rename
-			item as join_item
 		undefine
 			is_equal, copy, out
 		redefine
@@ -56,30 +54,62 @@ inherit
 	PART_COMPARATOR [INTEGER_64] undefine is_equal, copy, out end
 
 create
-	make, make_empty, make_from_sub_list, make_with_character
+	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make_from_sub_list, make
 
 feature {NONE} -- Initialization
+
+	make (a_target: S; delimiter: CHARACTER_32)
+		do
+			target := a_target
+			make_empty
+			fill (a_target, delimiter, 0)
+		end
+
+	make_adjusted (a_target: S; delimiter: CHARACTER_32; a_adjustments: INTEGER)
+		require
+			valid_adjustments: valid_adjustments (a_adjustments)
+		do
+			target := a_target; adjustments := a_adjustments
+			make_empty
+			fill (a_target, delimiter, a_adjustments)
+		end
+
+	make_adjusted_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+		require
+			valid_adjustments: valid_adjustments (a_adjustments)
+		do
+			target := a_target; adjustments := a_adjustments
+			make_empty
+			fill_by_string (a_target, delimiter, a_adjustments)
+		end
+
+	make_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL)
+		do
+			target := a_target
+			make_empty
+			fill_by_string (a_target, delimiter, 0)
+		end
 
 	make_empty
 		do
 			Precursor
-			create string.make_empty
-			create internal_item.make_empty
-			left_adjusted := False
-			right_adjusted := False
+			if not attached target then
+				create target.make (0)
+			end
+			create internal_item.make (0)
 		end
 
 	make_from_sub_list (list: like Current; a_start_index, a_end_index: INTEGER)
 		do
-			string := list.string
+			target := list.target
 			Precursor (list, a_start_index, a_end_index)
 		end
 
 feature -- Basic operations
 
-	append_item_to (str: like string)
+	append_item_to (str: like target)
 		do
-			str.append_substring (string, item_start_index, item_end_index)
+			str.append_substring (target, item_start_index, item_end_index)
 		end
 
 	do_all (action: PROCEDURE [like item])
@@ -87,8 +117,7 @@ feature -- Basic operations
 		do
 			push_cursor
 			from start until after loop
-				update_internal_item
-				action (internal_item)
+				action (item)
 				forth
 			end
 			pop_cursor
@@ -106,35 +135,17 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Access
+feature -- Shared items
 
-	as_list: EL_STRING_LIST [S]
+	first_item: S
+		-- first split item
+		-- (DO NOT KEEP REFERENCES)
 		do
-			create Result.make (count)
-			push_cursor
-			from start until after loop
-				Result.extend (string.substring (item_start_index, item_end_index))
-				forth
-			end
-			pop_cursor
-		end
-
-	double_item: DOUBLE
-		do
-			Result := join_item.to_double
-		end
-
-	first_item (keep_ref: BOOLEAN): S
-		-- split item
-		do
-			push_cursor
-			start
-			if before then
-				create Result.make_empty
+			if count = 0 then
+				Result := empty_item
 			else
-				Result := item (keep_ref)
+				Result := i_th (1)
 			end
-			pop_cursor
 		end
 
 	i_th (i: INTEGER): S
@@ -142,45 +153,96 @@ feature -- Access
 			interval: INTEGER_64
 		do
 			interval := i_th_interval (i)
-			Result := string.substring (lower_integer (interval), upper_integer (interval))
-			if left_adjusted then
-				Result.left_adjust
+			Result := empty_item
+			Result.append_substring (target, lower_integer (interval), upper_integer (interval))
+		end
+
+	item: S
+		-- current iteration split item
+		-- (DO NOT KEEP REFERENCES)
+		local
+			interval: INTEGER_64
+		do
+			interval := interval_item
+			Result := empty_item
+			if not off then
+				Result.append_substring (target, lower_integer (interval), upper_integer (interval))
 			end
-			if right_adjusted then
-				Result.right_adjust
+		end
+
+	last_item: S
+		-- last split item
+		-- (DO NOT KEEP REFERENCES)
+		do
+			if count = 0 then
+				Result := empty_item
+			else
+				Result := i_th (count)
 			end
+		end
+
+feature -- Items
+
+	double_item: DOUBLE
+		do
+			Result := item.to_double
+		end
+
+	first_item_copy: S
+		do
+			if count = 0 then
+				Result := empty_item
+			else
+				Result := i_th (1)
+			end
+		end
+
+	i_th_copy (i: INTEGER): S
+		local
+			interval: INTEGER_64
+		do
+			interval := i_th_interval (i)
+			Result := target.substring (lower_integer (interval), upper_integer (interval))
 		end
 
 	integer_item: INTEGER
 		do
-			Result := join_item.to_integer
+			Result := item.to_integer
 		end
 
-	item (keep_ref: BOOLEAN): S
-		-- split item
+	item_copy: S
+		local
+			interval: INTEGER_64
 		do
-			Result := join_item
-			if keep_ref then
-				Result := Result.twin
-			end
+			interval := interval_item
+			Result := target.substring (lower_integer (interval), upper_integer (interval))
 		end
 
-	last_item (keep_ref: BOOLEAN): S
-		-- split item
+	last_item_copy: S
 		do
-			push_cursor
-			finish
-			if after then
-				create Result.make_empty
+			if count = 0 then
+				Result := empty_item
 			else
-				Result := item (keep_ref)
+				Result := i_th_copy (count)
 			end
-			pop_cursor
 		end
 
 	natural_item: NATURAL
 		do
-			Result := join_item.to_natural
+			Result := item.to_natural
+		end
+
+feature -- Conversion
+
+	as_list: EL_STRING_LIST [S]
+		do
+			create Result.make (count)
+			push_cursor
+			from start until after loop
+				Result.extend (target.substring (item_start_index, item_end_index))
+				forth
+			end
+			pop_cursor
 		end
 
 	new_cursor: EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S]
@@ -203,34 +265,20 @@ feature -- Measurement
 
 feature -- Element change
 
-	set_string (a_string: like item; delimiter: READABLE_STRING_GENERAL)
+	set_target (a_target: like item; delimiter: like new_target.item; a_adjustments: INTEGER)
 		do
-			string := a_string
-			Precursor (a_string, delimiter)
+			target := a_target; adjustments := a_adjustments
+			fill (a_target, delimiter, a_adjustments)
 		ensure then
-			reversible: as_list.joined_with_string (delimiter).same_string (a_string)
+			reversible: as_list.joined (delimiter).same_string (a_target)
 		end
 
-feature -- Status change
-
-	disable_left_adjust
+	set_target_by_string (a_target: like item; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			left_adjusted := True
-		end
-
-	disable_right_adjust
-		do
-			right_adjusted := True
-		end
-
-	enable_left_adjust
-		do
-			left_adjusted := True
-		end
-
-	enable_right_adjust
-		do
-			right_adjusted := True
+			target := a_target; adjustments := a_adjustments
+			fill_by_string (a_target, delimiter, a_adjustments)
+		ensure then
+			reversible: as_list.joined_with_string (delimiter).same_string (a_target)
 		end
 
 feature -- Status query
@@ -241,8 +289,7 @@ feature -- Status query
 			push_cursor
 			Result := True
 			from start until not Result or after loop
-				update_internal_item
-				Result := predicate (internal_item)
+				Result := predicate (item)
 				forth
 			end
 			pop_cursor
@@ -252,7 +299,7 @@ feature -- Status query
 		do
 			push_cursor
 			from start until Result or after loop
-				Result := join_item ~ str
+				Result := item ~ str
 				forth
 			end
 			pop_cursor
@@ -260,25 +307,38 @@ feature -- Status query
 
 	has_general (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if attached {like item} str as zstr then
-				Result := has (zstr)
-			else
-				push_cursor
-				from start until Result or after loop
-					Result := same_item_as (str)
-					forth
+			push_cursor
+			from start until Result or after loop
+				Result := item_same_as (str)
+				forth
+			end
+			pop_cursor
+		end
+
+	item_same_as (str: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			interval: INTEGER_64; item_upper, item_lower: INTEGER
+		do
+			interval := interval_item
+			item_lower := lower_integer (interval)
+			item_upper := upper_integer (interval)
+			if item_upper - item_lower + 1 = str.count then
+				if str.count = 0 then
+					Result := item_upper + 1 = item_lower
+				else
+					Result := target.same_characters (str, 1, str.count, item_lower)
 				end
-				pop_cursor
 			end
 		end
 
 	left_adjusted: BOOLEAN
+		do
+			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
+		end
 
 	right_adjusted: BOOLEAN
-
-	same_item_as (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := join_item.same_string (str)
+			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
 		end
 
 	there_exists (predicate: PREDICATE [like item]): BOOLEAN
@@ -286,8 +346,7 @@ feature -- Status query
 		do
 			push_cursor
 			from start until Result or after loop
-				update_internal_item
-				Result := predicate (internal_item)
+				Result := predicate (item)
 				forth
 			end
 			pop_cursor
@@ -297,33 +356,64 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := string ~ other.string and then Precursor {EL_OCCURRENCE_INTERVALS} (other)
+			Result := target ~ other.target and then Precursor {EL_OCCURRENCE_INTERVALS} (other)
 		end
 
 feature {NONE} -- Implementation
 
-	extend_buffer (buffer: like Intervals_buffer; search_index, search_string_count: INTEGER; final: BOOLEAN)
+	empty_item: S
+		do
+			Result := internal_item
+			Result.keep_head (0)
+		end
+
+	extend_buffer (
+		a_target: S; buffer: like Intervals_buffer; search_index, search_string_count, a_adjustments: INTEGER
+		final: BOOLEAN
+	)
+		local
+			start_index, end_index: INTEGER
+			found_first: BOOLEAN
 		do
 			if final then
 				if search_index = 0 then
-					buffer.extend (new_item (1, string.count))
+					start_index := 1; end_index := target.count
 				else
-					buffer.extend (new_item (search_index + search_string_count, string.count))
+					start_index := search_index + search_string_count; end_index := target.count
 				end
 			else
 				if buffer.is_empty then
-					buffer.extend (new_item (1, search_index - 1))
+					start_index := 1; end_index := search_index - 1
 				else
-					buffer.extend (new_item (upper_integer (buffer.last) + search_string_count + 1, search_index - 1))
+					start_index := upper_integer (buffer.last) + search_string_count + 1
+					end_index := search_index - 1
 				end
 			end
+			if (a_adjustments & {EL_STRING_ADJUST}.Left).to_boolean then
+				from until found_first or else start_index > end_index loop
+					if is_white_space (a_target, start_index) then
+						start_index := start_index + 1
+					else
+						found_first := True
+					end
+				end
+			end
+			if (a_adjustments & {EL_STRING_ADJUST}.Right).to_boolean then
+				found_first := False
+				from until found_first or else end_index < start_index  loop
+					if is_white_space (a_target, end_index) then
+						end_index := end_index - 1
+					else
+						found_first := True
+					end
+				end
+			end
+			buffer.extend (new_interval (start_index, end_index))
 		end
 
-	join_item: S
-		-- split item
+	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		do
-			update_internal_item
-			Result := internal_item
+			Result := Unicode_property.is_space (a_target [i])
 		end
 
 	less_than (left, right: INTEGER_64): BOOLEAN
@@ -355,8 +445,8 @@ feature {NONE} -- Implementation
 			until
 				done or else i = nb
 			loop
-				i_code := string.item (i).natural_32_code
-				j_code := string.item (j).natural_32_code
+				i_code := target.item (i).natural_32_code
+				j_code := target.item (j).natural_32_code
 				if i_code /= j_code then
 					Result := (i_code - j_code).to_integer_32
 					done := True
@@ -365,31 +455,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	update_internal_item
-		local
-			start_index: INTEGER; internal: like internal_item
-			c: EL_CHARACTER_32_ROUTINES
-		do
-			internal := internal_item
-			internal.keep_head (0)
-			if not off then
-				start_index := item_start_index
-				if left_adjusted then
-					from until start_index > item_end_index or else not c.is_space (string [start_index]) loop
-						start_index := start_index + 1
-					end
-				end
-				internal.append_substring (string, start_index, item_end_index)
-				if right_adjusted then
-					internal.right_adjust
-				end
-			end
-		end
-
 feature {EL_SPLIT_STRING_LIST} -- Internal attributes
+
+	adjustments: INTEGER
 
 	internal_item: S
 
-	string: S
+	target: S
 
+feature {NONE} -- Constants
+
+	Unicode_property: CHARACTER_PROPERTY
+			-- Property for Unicode characters.
+		once
+			create Result.make
+		end
 end

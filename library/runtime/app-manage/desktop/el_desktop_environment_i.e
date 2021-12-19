@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:31:00 GMT (Monday 23rd November 2020)"
-	revision: "11"
+	date: "2021-12-19 16:36:00 GMT (Sunday 19th December 2021)"
+	revision: "12"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -131,7 +131,7 @@ feature {NONE} -- Evolicity implementation
 		local
 			lines: EL_ZSTRING_LIST
 		do
-			create lines.make_with_separator (command_args_template.to_string_8, '%N', True)
+			create lines.make_adjusted_split (command_args_template.to_string_8, '%N', {EL_STRING_ADJUST}.Left)
 			Result := lines.joined_words
 			Result.prune ('%T')
 		end

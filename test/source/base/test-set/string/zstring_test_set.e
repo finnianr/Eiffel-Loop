@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:20:31 GMT (Friday 26th November 2021)"
-	revision: "58"
+	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
+	revision: "59"
 
 class
 	ZSTRING_TEST_SET
@@ -366,9 +366,9 @@ feature -- Element change tests
 		do
 			across text_lines as line loop
 				str_32 := line.item; str := str_32
-				create word_list.make (str_32, " ")
+				create word_list.make_by_string (str_32, " ")
 				from word_list.start until word_list.after loop
-					insert := word_list.item (True)
+					insert := word_list.item
 					str.remove_substring (word_list.item_start_index, word_list.item_end_index)
 					str.insert_string (insert, word_list.item_start_index)
 					assert ("insert_string OK", str.same_string (str_32))
@@ -413,7 +413,7 @@ feature -- Element change tests
 			across text_lines as line_32 loop
 				line := line_32.item
 				create str_32.make_empty; create str.make_empty
-				create word_list.make (line_32.item, s.character_string (' '))
+				create word_list.make (line_32.item, ' ')
 				start_index := 1
 				from word_list.start until word_list.after loop
 					end_index := word_list.item_lower - 1
@@ -554,7 +554,7 @@ feature -- Element change tests
 				word_32 := list.item; word := word_32
 				across text_lines as line loop
 					str_32 := line.item; str := str_32
-					space_intervals.fill (str_32, " ")
+					space_intervals.fill (str_32, ' ', 0)
 					start_index := space_intervals.first_lower + 1
 					end_index := space_intervals.i_th_lower (2) - 1
 					str_32.replace_substring (word_32, start_index, end_index)
@@ -655,7 +655,7 @@ feature -- Status query tests
 		do
 			across text_lines as line_32 loop
 				line := line_32.item
-				create word_list.make_with_words (line)
+				create word_list.make_word_split (line)
 				assert ("word is in word_list", line.for_all_split (s.character_string (' '), agent word_list.has))
 			end
 		end
@@ -714,7 +714,7 @@ feature -- Status query tests
 		do
 			across text_lines as l loop
 				line := l.item
-				create word_list.make_with_words (l.item)
+				create word_list.make_word_split (l.item)
 				i := 1
 				across word_list as w loop
 					word := w.item
@@ -765,7 +765,7 @@ feature -- Status query tests
 		do
 			across text_lines as line_32 loop
 				line := line_32.item
-				create word_list.make_with_words (line)
+				create word_list.make_word_split (line)
 				across word_list as word loop
 					assert (
 						"word is in word_list",
@@ -929,7 +929,7 @@ feature -- Access tests
 		do
 			across text_lines as line loop
 				str_32 := line.item; str := str_32
-				create word_list.make_with_words (str_32)
+				create word_list.make_word_split (str_32)
 				across word_list as list loop
 					word_32 := list.item; word := word_32
 					index := str_32.substring_index (word_32, 1)

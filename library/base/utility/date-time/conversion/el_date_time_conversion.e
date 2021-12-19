@@ -1,13 +1,13 @@
 note
-	description: "Routines to convert between objects of type [$source STRING] and [$source EL_DATE_TIME]"
+	description: "Routines to convert between objects of type [$source STRING_8] and [$source EL_DATE_TIME]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
-	revision: "4"
+	date: "2021-12-07 18:14:44 GMT (Tuesday 7th December 2021)"
+	revision: "5"
 
 deferred class
 	EL_DATE_TIME_CONVERSION

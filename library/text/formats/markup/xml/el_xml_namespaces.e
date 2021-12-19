@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-26 13:30:32 GMT (Sunday 26th January 2020)"
-	revision: "7"
+	date: "2021-12-19 13:56:38 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	EL_XML_NAMESPACES
@@ -36,7 +36,7 @@ feature {NONE} -- Initaliazation
 			xmlns_intervals: EL_OCCURRENCE_INTERVALS [STRING]
 			pos_double_quote: INTEGER; declaration, value: STRING
 		do
-			create xmlns_intervals.make (xml, Xml_namespace_marker)
+			create xmlns_intervals.make_by_string (xml, Xml_namespace_marker)
 			create namespace_urls.make_equal (xmlns_intervals.count)
 			namespace_urls.compare_objects
 			from xmlns_intervals.start until xmlns_intervals.after loop

@@ -1,3 +1,6 @@
+2.3.3
+Get music location from gsetting org.gnome.rhythmbox.rhythmdb
+
 2.3.2
 * Refactor of date time classes
 

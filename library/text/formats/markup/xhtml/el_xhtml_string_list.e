@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 16:49:57 GMT (Friday 23rd July 2021)"
-	revision: "14"
+	date: "2021-12-19 16:22:15 GMT (Sunday 19th December 2021)"
+	revision: "15"
 
 class
 	EL_XHTML_STRING_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_LIST
 		rename
-			make as make_list
+			make as make_sized
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 		local
 			line_source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			make_list (10)
+			make_sized (10)
 			create text_group_end_tags.make_from_array (<< "</p>" >>)
 			across 1 |..| 6 as level loop
 				text_group_end_tags.extend ("</h" + level.item.out + ">")

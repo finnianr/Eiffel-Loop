@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 10:12:24 GMT (Thursday 30th July 2020)"
-	revision: "13"
+	date: "2021-12-19 16:46:09 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	EL_TEXT_RECTANGLE
@@ -45,6 +45,8 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_GUI
+
+	EL_MODULE_ZSTRING
 
 create
 	make_cms, make, make_from_rectangle
@@ -143,9 +145,9 @@ feature -- Element change
 			-- append line without wrapping
 		do
 			if is_text_squeezable then
-				squeeze_line (as_zstring (a_line))
+				squeeze_line (zstring.as_zstring (a_line))
 			else
-				extend_lines (as_zstring (a_line))
+				extend_lines (zstring.as_zstring (a_line))
 			end
 		end
 
@@ -349,9 +351,9 @@ feature {NONE} -- Implementation
 			line_out: ZSTRING; old_count: INTEGER; words: EL_SPLIT_ZSTRING_LIST
 			line: ZSTRING
 		do
-			create Result.make (0); create line_out.make_empty; line := as_zstring (a_line)
+			create Result.make (0); create line_out.make_empty; line := zstring.as_zstring (a_line)
 
-			words := line.split_intervals (character_string (' '))
+			create words.make (line, ' ')
 			if is_lio_enabled then
 				lio.put_line (a_line)
 				lio.put_line ("WRAPPED")
@@ -374,7 +376,7 @@ feature {NONE} -- Implementation
 							words.forth
 						end
 					else
-						if words.same_item_as (line_out) then
+						if words.item_same_as (line_out) then
 							-- Allow a line consisting of a single word even though it's too wide
 							words.forth
 						else

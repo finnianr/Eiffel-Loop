@@ -1,17 +1,17 @@
 note
 	description: "[
 		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
-		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka `ZSTRING')
+		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka ''ZSTRING'')
 	]"
-	tests: "Class [$source REFLECTIVE_TEST_SET]"
+	tests: "Class [$source REFLECTION_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-18 11:14:02 GMT (Tuesday 18th May 2021)"
-	revision: "12"
+	date: "2021-12-07 18:23:30 GMT (Tuesday 7th December 2021)"
+	revision: "13"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING

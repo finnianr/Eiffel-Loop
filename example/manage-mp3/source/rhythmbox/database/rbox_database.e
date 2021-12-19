@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:05:12 GMT (Thursday 14th October 2021)"
-	revision: "38"
+	date: "2021-12-19 13:59:34 GMT (Sunday 19th December 2021)"
+	revision: "39"
 
 class
 	RBOX_DATABASE
@@ -91,7 +91,7 @@ feature {NONE} -- Initialization
 			else
 				xml_text := Default_xml
 			end
-			create entry_occurences.make (xml_text, "<entry type=")
+			create entry_occurences.make_by_string (xml_text, "<entry type=")
 			from entry_occurences.start until entry_occurences.after loop
 				if xml_text [entry_occurences.item_upper + 2] = 's' then
 					song_count := song_count + 1

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:04:53 GMT (Friday 8th January 2021)"
-	revision: "10"
+	date: "2021-12-19 16:50:01 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 			l_date: DATE_TIME; value: ZSTRING
 		do
 			value := field_table [Field.date]
-			create date_steps.make_with_words (value.as_upper)
+			create date_steps.make_word_split (value.as_upper)
 			create l_date.make_from_string (date_steps.subchain (2, 5).joined_words, "dd mmm yyyy hh:[0]mi:[0]ss")
 			last_header.date := l_date
 		end
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 	intervals (line, search_string: ZSTRING): like Occurrence_intervals
 		do
 			Result := Occurrence_intervals
-			Result.fill (line, search_string)
+			Result.fill_by_string (line, search_string, 0)
 		end
 
 	is_empty_tag_line (line: ZSTRING): BOOLEAN

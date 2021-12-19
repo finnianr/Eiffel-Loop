@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:18:35 GMT (Wednesday 24th November 2021)"
-	revision: "20"
+	date: "2021-12-19 11:46:59 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -384,11 +384,6 @@ feature {NONE} -- Constants
 			--
 		once
 			create Result.make (100)
-		end
-
-	Single_dot: ZSTRING
-		once
-			Result := "."
 		end
 
 	Temp_path: ZSTRING

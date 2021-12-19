@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 11:15:09 GMT (Monday 29th November 2021)"
-	revision: "17"
+	date: "2021-12-19 16:34:23 GMT (Sunday 19th December 2021)"
+	revision: "18"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -81,7 +81,7 @@ feature -- Tests
 			intervals: EL_OCCURRENCE_INTERVALS [STRING]
 			str: STRING; item_lower, item_upper: INTEGER
 		do
-			create intervals.make (Api_string_list.joined_with_string (Comma_space), Comma_space)
+			create intervals.make_by_string (Api_string_list.joined_with_string (Comma_space), Comma_space)
 			create str.make (Api_string.count)
 			across Api_string_list as api loop
 				if not str.is_empty then
@@ -104,12 +104,12 @@ feature -- Tests
 			list := Unix_path.split ('/')
 			l_path := Unix_path.twin
 			across 1 |..| 2 as n loop
-				create split_path.make (l_path, "/")
+				create split_path.make_by_string (l_path, "/")
 				across list as step loop
 					assert ("same step", step.item ~ split_path.i_th (step.cursor_index).to_string_8)
 				end
 
-				create split_8_path.make (l_path, "/")
+				create split_8_path.make_by_string (l_path, "/")
 				across list as step loop
 					assert ("same step", step.item ~ split_path.i_th (step.cursor_index))
 				end
@@ -166,7 +166,7 @@ feature -- Tests
 		local
 			list: EL_STRING_LIST [STRING]
 		do
-			create list.make_with_separator (Numbers, ',', False)
+			create list.make_split (Numbers, ',')
 			assert ("same string", Numbers ~ list.joined (','))
 
 			list := << "one", "two", "three" >>
@@ -177,7 +177,7 @@ feature -- Tests
 		local
 			list: EL_SPLIT_ZSTRING_LIST
 		do
-			create list.make (Numbers, ",")
+			create list.make_by_string (Numbers, ",")
 			assert ("same string", Numbers ~ list.joined (','))
 		end
 
@@ -185,10 +185,9 @@ feature -- Tests
 		local
 			list: EL_SPLIT_STRING_32_LIST
 		do
-			create list.make (Sales, ",")
-			list.enable_left_adjust
+			create list.make_adjusted (Sales, ',', {EL_STRING_ADJUST}.Left)
 			from list.start until list.after loop
-				lio.put_string_field (list.index.out, list.item (False))
+				lio.put_string_field (list.index.out, list.item)
 				lio.put_new_line
 				list.forth
 			end
@@ -208,7 +207,7 @@ feature -- Tests
 			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
 		do
 			bracket_pair := "()"
-			across << ",a,b,c,", "a,b,c", " a, b , c " >> as csv_list loop
+			across Comma_separated_variations as csv_list loop
 				create character_split.make (csv_list.item, ',')
 
 				str_list := csv_list.item.twin
@@ -244,10 +243,10 @@ feature -- Tests
 			split: EL_SPLIT_STRING_LIST [STRING]
 			list: EL_STRING_8_LIST
 		do
-			create split.make ("ZAB, ZAC, ZAC1, ZA, CAL, CON, CAT, CAN, CANOPY", Comma_space)
+			create split.make_by_string ("ZAB, ZAC, ZAC1, ZA, CAL, CON, CAT, CAN, CANOPY", Comma_space)
 			create list.make (split.count)
 			across split as animal loop
-				list.extend (animal.item)
+				list.extend (animal.item_copy)
 			end
 			list.sort
 			split.sort (True)
@@ -260,13 +259,18 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SPLIT_STRING_LIST}.make", "covers/{EL_FILLED_STRING_8_TABLE}.item"
 		local
-			list: EL_SPLIT_STRING_LIST [STRING]; s: EL_STRING_8_ROUTINES
+			list: EL_SPLIT_STRING_LIST [STRING]; str_split: LIST [STRING]
 		do
-			create list.make (Api_string_list.joined_with_string (Comma_space), s.character_string (','))
-			list.enable_left_adjust
-			from list.start until list.after loop
-				assert ("same item", list.same_item_as (Api_string_list.i_th (list.index)))
-				list.forth
+			across Comma_separated_variations as csv_list loop
+				create list.make_adjusted (csv_list.item, ',', {EL_STRING_ADJUST}.Left)
+				str_split := csv_list.item.split (',')
+				from list.start until list.after loop
+					str_split.go_i_th (list.index)
+					str_split.item.left_adjust
+					assert ("same_item_as", list.item_same_as (str_split.item))
+					assert ("equal items", list.item ~ str_split.item)
+					list.forth
+				end
 			end
 		end
 
@@ -281,6 +285,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Comma_separated_variations: ARRAY [STRING]
+		once
+			Result := << ",a,b,c,", "a,b,c", " a, b , c ", "" >>
+		end
 
 	Api_string: STRING = "[
 		DTA1-HMAC-SHA256 SignedHeaders=content-length;content-type;host;x-amz-date

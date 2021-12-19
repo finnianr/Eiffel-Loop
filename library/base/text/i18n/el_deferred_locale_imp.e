@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 12:17:30 GMT (Thursday 28th October 2021)"
-	revision: "17"
+	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
+	revision: "18"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -116,7 +116,7 @@ feature {NONE} -- Constants
 
 	All_languages: EL_STRING_8_LIST
 		once
-			create Result.make_with_csv ("en")
+			create Result.make_comma_split ("en")
 		end
 
 	Default_language: STRING = "en"

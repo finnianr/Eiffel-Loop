@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-18 10:55:34 GMT (Friday 18th September 2020)"
-	revision: "7"
+	date: "2021-12-19 16:32:04 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 deferred class
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -42,7 +42,7 @@ feature -- Access
 		local
 			words: EL_ZSTRING_LIST
 		do
-			create words.make_with_separator (generator, '_', False)
+			create words.make_split (generator, '_')
 			words.finish
 			if not words.off and then words.item.same_string ("APP") then
 				words.remove

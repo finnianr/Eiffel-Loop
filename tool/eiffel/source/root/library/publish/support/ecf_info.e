@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 15:46:25 GMT (Sunday 2nd August 2020)"
-	revision: "7"
+	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	ECF_INFO
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@ignore",	agent do create ignored_clusters.make_with_separator (node.to_string_8, ';', True) end],
+				["@ignore",	agent do create ignored_clusters.make_adjusted_split (node.to_string_8, ';', {EL_STRING_ADJUST}.Left) end],
 				["text()",	agent do path := node.to_string end]
 			>>)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-02 10:35:33 GMT (Monday 2nd March 2020)"
-	revision: "3"
+	date: "2021-12-19 16:35:39 GMT (Sunday 19th December 2021)"
+	revision: "4"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			if Name_list_table.has_key (type) then
 				name_list := Name_list_table.found_item
 			else
-				create name_list.make_with_separator (field_names, ',', True)
+				create name_list.make_adjusted_split (field_names, ',', {EL_STRING_ADJUST}.Left)
 				Name_list_table.extend (name_list, type)
 			end
 			across name_list as name loop

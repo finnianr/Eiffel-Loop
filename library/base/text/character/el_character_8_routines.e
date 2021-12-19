@@ -1,13 +1,13 @@
 note
-	description: "Character routines accessible via [$source EL_MODULE_CHARACTER]"
+	description: "expanded class of character routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 9:52:56 GMT (Wednesday 6th October 2021)"
-	revision: "16"
+	date: "2021-12-07 18:14:26 GMT (Tuesday 7th December 2021)"
+	revision: "17"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES

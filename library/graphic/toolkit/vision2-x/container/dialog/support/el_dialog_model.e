@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 11:17:41 GMT (Monday 30th August 2021)"
-	revision: "10"
+	date: "2021-12-19 13:58:04 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 class
 	EL_DIALOG_MODEL
@@ -69,7 +69,7 @@ feature -- Text
 			if attached internal_paragraph_list as list then
 				Result := list
 			else
-				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make (s.as_zstring (text), Paragraph_separator))
+				Result := new_paragraph_list (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (s.as_zstring (text), Paragraph_separator))
 				internal_paragraph_list := Result
 			end
 		end

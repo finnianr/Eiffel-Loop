@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:13:12 GMT (Wednesday 15th September 2021)"
-	revision: "19"
+	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
+	revision: "20"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -223,7 +223,7 @@ feature -- External field setters
 			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
 			tuple_type := tuple.generating_type
-			create xpath_list.make_with_csv (a_xpath_list)
+			create xpath_list.make_comma_split (a_xpath_list)
 			across xpath_list as l_xpath loop
 				index := l_xpath.cursor_index
 				xpath := l_xpath.item

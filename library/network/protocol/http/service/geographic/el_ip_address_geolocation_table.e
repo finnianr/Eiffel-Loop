@@ -1,7 +1,7 @@
 note
 	description: "[
 		Cached table of geographic locations for IP address accessible via
-		[$source EL_SHARED_IP_ADDRESS_GEO_LOCATION]
+		[$source EL_SHARED_IP_ADDRESS_GEOLOCATION]
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:48:02 GMT (Thursday 14th October 2021)"
-	revision: "1"
+	date: "2021-12-07 17:50:30 GMT (Tuesday 7th December 2021)"
+	revision: "2"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION_TABLE

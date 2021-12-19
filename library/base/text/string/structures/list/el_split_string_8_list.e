@@ -12,16 +12,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 15:00:00 GMT (Sunday 22nd August 2021)"
-	revision: "9"
+	date: "2021-12-19 14:47:01 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_SPLIT_STRING_8_LIST
 
 inherit
 	EL_SPLIT_STRING_LIST [STRING_8]
+		redefine
+			is_white_space
+		end
 
 create
-	make, make_empty, make_from_sub_list, make_with_character
+	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string, make_from_sub_list
+
+feature {NONE} -- Implementation
+
+	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+		do
+			Result := a_target [i].is_space
+		end
 
 end

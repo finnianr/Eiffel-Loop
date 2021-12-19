@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-30 9:53:38 GMT (Thursday 30th July 2020)"
-	revision: "3"
+	date: "2021-12-19 16:47:27 GMT (Sunday 19th December 2021)"
+	revision: "4"
 
 class
 	EL_ALIGNED_TEXT
@@ -39,9 +39,9 @@ feature {NONE} -- Initialization
 
 	make (a_text: READABLE_STRING_GENERAL; rectangle: EL_TEXT_RECTANGLE)
 		local
-			bottom_most: INTEGER
+			s: EL_ZSTRING_ROUTINES; bottom_most: INTEGER
 		do
-			text := as_zstring (a_text)
+			text := s.as_zstring (a_text)
 			font := rectangle.font.twin
 			alignment := rectangle.alignment_code
 			make_rectangle (rectangle.x, rectangle.y, rectangle.width, font.line_height)

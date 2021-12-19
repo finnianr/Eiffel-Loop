@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 11:37:59 GMT (Monday 29th November 2021)"
-	revision: "23"
+	date: "2021-12-19 12:20:46 GMT (Sunday 19th December 2021)"
+	revision: "24"
 
 class
 	EL_NAMING_ROUTINES
@@ -85,7 +85,7 @@ feature -- Class name derivations
 				Result := object_or_type.generator
 			end
 			if head_count + tail_count > 0 then
-				create split_string.make (Result, string_8.character_string ('_'))
+				create split_string.make (Result, '_')
 				if head_count > 0 then
 					split_string.remove_head (head_count)
 				end

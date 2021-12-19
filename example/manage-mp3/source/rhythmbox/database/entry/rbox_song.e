@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 10:53:50 GMT (Monday 16th August 2021)"
-	revision: "47"
+	date: "2021-12-19 16:54:26 GMT (Sunday 19th December 2021)"
+	revision: "48"
 
 class
 	RBOX_SONG
@@ -133,7 +133,7 @@ feature -- Access
  				artists.append (Bracket_template #$ [album_artist])
  			end
 			if is_cortina then
-				create tanda_name.make_with_words (title)
+				create tanda_name.make_word_split (title)
 				tanda_name.start
 				if not tanda_name.after and then tanda_name.item.has ('.') then
 					tanda_name.remove
@@ -280,21 +280,21 @@ feature -- Element change
 	set_album_artists (text: ZSTRING)
 			--
 		local
-			s: EL_ZSTRING_ROUTINES; list: EL_ZSTRING_LIST; l_type: ZSTRING
+			s: EL_ZSTRING_ROUTINES; csv_list: EL_ZSTRING_LIST; l_type: ZSTRING
 			field: EL_COLON_FIELD_ROUTINES
 		do
 			if not (text.is_empty or text ~ Unknown_string) then
 				l_type := field.name (text)
 				if l_type.is_empty then
-					create list.make_with_csv (text)
-					album_artists := [Unknown_string, list]
+					csv_list := text
+					album_artists := [Unknown_string, csv_list]
 				else
-					create list.make_with_csv (field.value (text))
+					csv_list := field.value (text)
 					Artist_type_list.find_first_true (agent s.starts_with (l_type, ?))
 					if Artist_type_list.after then
-						album_artists := [l_type, list]
+						album_artists := [l_type, csv_list]
 					else
-						album_artists := [Artist_type_list.item, list]
+						album_artists := [Artist_type_list.item, csv_list]
 					end
 				end
 			end

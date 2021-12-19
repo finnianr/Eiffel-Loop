@@ -1,13 +1,13 @@
 note
-	description: "Duplicate of [$source EL_REPLACEABLE_WIDGET] for a second class attribute"
+	description: "Duplicate of [$source EL_REPLACEABLE_WIDGET_ITEM] for a second class attribute"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 9:20:16 GMT (Tuesday 1st September 2020)"
-	revision: "2"
+	date: "2021-12-07 18:06:01 GMT (Tuesday 7th December 2021)"
+	revision: "3"
 
 deferred class
 	EL_REPLACEABLE_WIDGET_ITEM_2

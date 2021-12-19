@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 9:05:59 GMT (Thursday 8th April 2021)"
-	revision: "6"
+	date: "2021-12-19 13:33:06 GMT (Sunday 19th December 2021)"
+	revision: "7"
 
 class
 	ZSTRING_SPLIT_COMPARISON
@@ -46,7 +46,7 @@ feature {NONE} -- String append variations
 		local
 			list: EL_SPLIT_STRING_LIST [ZSTRING]
 		do
-			create list.make (csv_string, Comma_space)
+			create list.make_by_string (csv_string, Comma_space)
 		end
 
 	zstring_split_intervals (csv_string: ZSTRING)

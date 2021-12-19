@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-30 11:38:21 GMT (Tuesday 30th October 2018)"
-	revision: "5"
+	date: "2021-12-19 16:21:37 GMT (Sunday 19th December 2021)"
+	revision: "6"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE

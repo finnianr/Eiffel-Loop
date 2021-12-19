@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:08:27 GMT (Friday 8th January 2021)"
-	revision: "9"
+	date: "2021-12-19 13:45:58 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	CAD_MODEL
@@ -196,13 +196,12 @@ feature {NONE} -- Factory
 			tuple_list, index_split_string: EL_SPLIT_STRING_8_LIST
 			index_list: ARRAYED_LIST [INTEGER]
 		do
-			create tuple_list.make (json, Tuple_delimiter)
+			create tuple_list.make_by_string (json, Tuple_delimiter)
 			create index_split_string.make_empty
 			create index_list.make (4)
-			index_split_string.enable_left_adjust
 			create Result.make (tuple_list.count)
 			from tuple_list.start until tuple_list.after loop
-				index_split_string.set_string (tuple_list.item (False), once ",")
+				index_split_string.set_target (tuple_list.item_copy, ',', {EL_STRING_ADJUST}.Left)
 				index_list.wipe_out
 				from index_split_string.start until index_split_string.after loop
 					index_list.extend (index_split_string.integer_item)
@@ -221,12 +220,11 @@ feature {NONE} -- Factory
 			tuple_list, double_list: EL_SPLIT_STRING_8_LIST
 			coordinate: SPECIAL [DOUBLE]
 		do
-			create tuple_list.make (json, Tuple_delimiter)
+			create tuple_list.make_adjusted_by_string (json, Tuple_delimiter, {EL_STRING_ADJUST}.Left)
 			create double_list.make_empty
-			double_list.enable_left_adjust
 			create Result.make (tuple_list.count)
 			from tuple_list.start until tuple_list.after loop
-				double_list.set_string (tuple_list.item (False), once ",")
+				double_list.set_target (tuple_list.item_copy, ',', 0)
 				from double_list.start until double_list.after loop
 					if double_list.index = 1 then
 						create coordinate.make_empty (3)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-17 10:12:05 GMT (Saturday 17th November 2018)"
-	revision: "6"
+	date: "2021-12-19 16:50:02 GMT (Sunday 19th December 2021)"
+	revision: "7"
 
 class
 	EL_THUNDERBIRD_BOOK_EXPORTER
@@ -79,7 +79,7 @@ feature {NONE} -- Implementation
 			chapter: like chapter_list.item; number: NATURAL
 			title: ZSTRING; subject: EL_ZSTRING_LIST
 		do
-			create subject.make_with_separator (last_header.subject, '.', False)
+			create subject.make_split (last_header.subject, '.')
 			if subject.count > 1 and then subject.first.is_natural then
 				number := subject.first.to_natural
 				subject.start

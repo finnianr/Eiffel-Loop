@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 12:27:26 GMT (Saturday 25th January 2020)"
-	revision: "1"
+	date: "2021-12-19 13:31:17 GMT (Sunday 19th December 2021)"
+	revision: "2"
 
 class
-	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> STRING_GENERAL create make, make_empty end]
+	EL_SPLIT_STRING_LIST_ITERATION_CURSOR [S -> STRING_GENERAL create make end]
 
 inherit
 	ITERATION_CURSOR [S]
@@ -33,6 +33,11 @@ feature -- Access
 	item: S
 		do
 			Result := target.i_th (cursor_index)
+		end
+
+	item_copy: S
+		do
+			Result := target.i_th_copy (cursor_index)
 		end
 
 	cursor_index: INTEGER

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 16:50:21 GMT (Friday 23rd July 2021)"
-	revision: "17"
+	date: "2021-12-19 13:05:38 GMT (Sunday 19th December 2021)"
+	revision: "18"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -48,7 +48,11 @@ feature -- Basic operations
 			line_number := 0; l_final := final
 			from lines.start; state := initial until lines.after or state = l_final loop
 				line_number := line_number + 1
-				call (lines.item (keep_ref))
+				if keep_ref then
+					call (lines.item_copy)
+				else
+					call (lines.item)
+				end
 				lines.forth
 			end
 		end

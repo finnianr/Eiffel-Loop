@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-02 11:11:28 GMT (Tuesday 2nd February 2021)"
-	revision: "33"
+	date: "2021-12-19 16:35:38 GMT (Sunday 19th December 2021)"
+	revision: "34"
 
 class
 	TAGLIB_TEST_SET
@@ -169,7 +169,7 @@ feature -- Tests
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_with_separator ("one, two, three", ',', True)
+			create list.make_adjusted_split ("one, two, three", ',', {EL_STRING_ADJUST}.Left)
 			Once_string_list.wipe_out
 			Once_string_list.append (list)
 			assert ("same list", list ~ Once_string_list.to_list)
@@ -273,14 +273,14 @@ feature {NONE} -- Implementation
 		do
 			if value.has ('%N') then
 				if value.has_substring (CR_new_line) then
-					create list.make (value, CR_new_line)
+					create list.make_by_string (value, CR_new_line)
 				else
-					create list.make (value, s.character_string ('%N'))
+					create list.make_by_string (value, s.character_string ('%N'))
 				end
 				log.put_labeled_string (name, "%"[")
 				log.tab_right
 				log.put_new_line
-				across << list.first_item (True), s.n_character_string ('.', 2), list.last_item (True) >> as line loop
+				across << list.first_item_copy, s.n_character_string ('.', 2), list.last_item_copy >> as line loop
 					log.put_string (line.item)
 					if line.is_last then
 						log.tab_left
@@ -453,7 +453,7 @@ feature {NONE} -- Constants
 
 	Get_set_names: EL_STRING_8_LIST
 		once
-			create Result.make_with_separator ("album, artist, comment, genre, title, track, year", ',', True)
+			create Result.make_adjusted_split ("album, artist, comment, genre, title, track, year", ',', {EL_STRING_ADJUST}.Left)
 		end
 
 	Unicode_230_tag: ZSTRING

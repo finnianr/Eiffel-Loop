@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-28 16:27:17 GMT (Saturday 28th August 2021)"
-	revision: "20"
+	date: "2021-12-19 16:48:43 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -366,7 +366,7 @@ feature {NONE} -- Constants
 		-- in environment variable FCGI_WEB_SERVER_ADDRS.
 		-- (not currently used)
 		once
-			create Result.make_with_separator (Execution_environment.item (Fcgi_web_server_addrs), ';', True)
+			create Result.make_adjusted_split (Execution_environment.item (Fcgi_web_server_addrs), ';', {EL_STRING_ADJUST}.Left)
 			Result.right_adjust
 		end
 

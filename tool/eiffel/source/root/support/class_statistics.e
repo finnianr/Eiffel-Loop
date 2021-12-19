@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:03:54 GMT (Thursday 7th May 2020)"
-	revision: "7"
+	date: "2021-12-19 13:35:29 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	CLASS_STATISTICS
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 		do
 			file_size := a_file_size
 			index := source.substring_index (New_line, 1)
-			create lines.make (source, New_line)
+			create lines.make (source, '%N')
 			do_with_split_list (agent count_words, lines, False)
 		end
 

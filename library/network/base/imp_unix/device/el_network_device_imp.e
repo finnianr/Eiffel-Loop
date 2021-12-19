@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:00:24 GMT (Friday 8th January 2021)"
-	revision: "4"
+	date: "2021-12-19 16:41:18 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -160,7 +160,7 @@ feature {NONE} -- Factory
 		local
 			byte_list: EL_STRING_8_LIST
 		do
-			create byte_list.make_with_separator (string, ':', False)
+			create byte_list.make_split (string, ':')
 			create Result.make_filled (0, 1, byte_list.count)
 			across byte_list as byte loop
 				Result [byte.cursor_index] := Hexadecimal.to_integer (byte.item).to_natural_8

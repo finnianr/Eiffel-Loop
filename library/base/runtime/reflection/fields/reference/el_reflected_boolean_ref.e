@@ -1,14 +1,14 @@
 note
 	description: "Reflected field conforming to [$source BOOLEAN_REF]"
-	tests: "Class [$source PP_TEST_SET]"
+	tests: "Class [$source PAYPAL_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-21 15:35:32 GMT (Friday 21st May 2021)"
-	revision: "13"
+	date: "2021-12-07 18:23:53 GMT (Tuesday 7th December 2021)"
+	revision: "14"
 
 class
 	EL_REFLECTED_BOOLEAN_REF

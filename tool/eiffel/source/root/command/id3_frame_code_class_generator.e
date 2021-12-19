@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:34:49 GMT (Wednesday 24th November 2021)"
-	revision: "7"
+	date: "2021-12-19 13:35:29 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -51,7 +51,7 @@ feature -- Basic operations
 		do
 			across os.file_list (id3v2_include_dir, "*.txt") as path loop
 				if not path.item.base.has_substring ("structure") then
-					create parts.make (path.item.base, ".")
+					create parts.make (path.item.base, '.')
 					parts.go_i_th (2)
 					version := parts.integer_item
 

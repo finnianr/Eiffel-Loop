@@ -6,11 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 10:19:34 GMT (Thursday 8th April 2021)"
-	revision: "9"
+	date: "2021-12-18 10:36:31 GMT (Saturday 18th December 2021)"
+	revision: "10"
 
 expanded class
 	EL_BENCHMARK_ROUTINES
+
+inherit
+	ANY
+
+	EL_MODULE_MEMORY
 
 feature -- Access
 
@@ -60,6 +65,7 @@ feature -- Access
 			timeout.launch
 			from until timeout.is_finished loop
 				action.apply
+				Memory.full_collect
 				Result := Result + 1
 			end
 		end

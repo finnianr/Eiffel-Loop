@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:58:14 GMT (Saturday 27th March 2021)"
-	revision: "5"
+	date: "2021-12-19 16:52:03 GMT (Sunday 19th December 2021)"
+	revision: "6"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -66,7 +66,7 @@ feature {NONE} -- Line states
 				state := final
 			else
 				line.adjust
-				create list.make_with_csv (line)
+				create list.make_comma_split (line)
 				if list.count >= 3 then
 					name := list.i_th (3)
 					name.prune_all_trailing (')')

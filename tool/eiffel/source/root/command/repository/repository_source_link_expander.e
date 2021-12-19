@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 12:09:28 GMT (Thursday 4th March 2021)"
-	revision: "13"
+	date: "2021-12-19 16:56:31 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -70,7 +70,7 @@ feature -- Basic operations
 		do
 			line.replace_substring_all (s.character_string ('%T'), Triple_space)
 			previous_pos := 1
-			create link.make (line, Wiki_source_link)
+			create link.make_by_string (line, Wiki_source_link)
 			from link.start until link.after loop
 				pos_right_bracket := line.index_of (']', link.item_upper)
 				file_out.put_string (line.substring (previous_pos, link.item_lower - 1))

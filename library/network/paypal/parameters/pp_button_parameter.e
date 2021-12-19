@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-24 19:50:46 GMT (Friday 24th January 2020)"
-	revision: "3"
+	date: "2021-12-19 14:00:54 GMT (Sunday 19th December 2021)"
+	revision: "4"
 
 class
 	PP_BUTTON_PARAMETER
@@ -28,9 +28,9 @@ feature {NONE} -- Initialization
 		local
 			parts: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create parts.make (field_name, once "_")
+			create parts.make (field_name, '_')
 			parts.finish
-			value := parts.item (False)
+			value := parts.item
 			value.to_upper
 			parts.remove
 			name := parts.joined_strings

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 20:22:33 GMT (Friday 6th August 2021)"
-	revision: "9"
+	date: "2021-12-19 13:36:01 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	SOFTWARE_INFO
@@ -76,12 +76,12 @@ feature -- Basic operations
 		-- increment build in pecf source and rewrite ecf file
 		local
 			list: EL_SPLIT_STRING_8_LIST; source_text, line: STRING
-			found: BOOLEAN; i, line_start, line_end: INTEGER; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN; i, line_start, line_end: INTEGER
 		do
 			source_text := File_system.plain_text (pecf_path)
-			create list.make (source_text, s.character_string ('%N'))
+			create list.make (source_text, '%N')
 			from list.start until list.after or found loop
-				line := list.item (False)
+				line := list.item
 				if line.has ('=') and then line.has_substring ("major")
 					and then line.has_substring ("build")
 				then

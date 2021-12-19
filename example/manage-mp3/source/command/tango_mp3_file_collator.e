@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:03:43 GMT (Thursday 14th October 2021)"
-	revision: "13"
+	date: "2021-12-19 16:52:03 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -190,7 +190,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (Standard_artists_lower.count)
 			across Standard_artists_lower as name loop
-				Result.extend (create {EL_ZSTRING_LIST}.make_with_words (name.item))
+				Result.extend (create {EL_ZSTRING_LIST}.make_word_split (name.item))
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:45:54 GMT (Friday 26th November 2021)"
-	revision: "20"
+	date: "2021-12-19 16:57:16 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 class
 	DUPLICITY_RESTORE
@@ -116,7 +116,7 @@ feature {NONE} -- Factory
 		local
 			parts: EL_ZSTRING_LIST; time: TIME; l_date: DATE
 		do
-			create parts.make_with_words (str.as_canonically_spaced)
+			create parts.make_word_split (str.as_canonically_spaced)
 			create time.make_from_string (parts.i_th (3), Format.time)
 			parts [3] := parts [4]
 			parts.finish

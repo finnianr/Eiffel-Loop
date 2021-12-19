@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:57:10 GMT (Sunday 10th January 2021)"
-	revision: "13"
+	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	EROS_CALL_REQUEST_PARSER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 17:33:11 GMT (Thursday 4th March 2021)"
-	revision: "7"
+	date: "2021-12-19 16:22:31 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	EL_XML_TAG_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_LIST
 		rename
-			make as make_list,
+			make as make_sized,
 			joined_strings as to_string
 		export
 			{NONE} all
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 	make (tag_name: STRING)
 			--
 		do
-			make_list (5)
+			make_sized (5)
 			extend (XML.open_tag (tag_name))
 			if new_line_after_open_tag then
 				last.append_character ('%N')
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 	make_from_other (other: EL_XML_TAG_LIST)
 			--
 		do
-			make_list (other.count)
+			make_sized (other.count)
 			append (other)
 		end
 

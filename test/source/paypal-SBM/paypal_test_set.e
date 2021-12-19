@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 9:36:18 GMT (Saturday 14th August 2021)"
-	revision: "12"
+	date: "2021-12-19 12:18:09 GMT (Sunday 19th December 2021)"
+	revision: "13"
 
 class
 	PAYPAL_TEST_SET
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 		local
 			param_list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create param_list.make (IPN_message, "%N")
+			create param_list.make_by_string (IPN_message, "%N")
 			Result := param_list.joined ('&')
 		end
 

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Instance of [$source EL_APPLICATION] that creates a titled application window conforming to
+		Instance of [$source EL_VISION_2_APPLICATION] that creates a titled application window conforming to
 		[$source EL_TITLED_WINDOW]
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-06 17:06:27 GMT (Friday 6th November 2020)"
-	revision: "11"
+	date: "2021-12-07 18:06:59 GMT (Tuesday 7th December 2021)"
+	revision: "12"
 
 class
 	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end]

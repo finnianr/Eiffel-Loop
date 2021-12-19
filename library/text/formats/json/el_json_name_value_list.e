@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-18 13:20:34 GMT (Monday 18th October 2021)"
-	revision: "11"
+	date: "2021-12-19 13:05:03 GMT (Sunday 19th December 2021)"
+	revision: "12"
 
 class
 	EL_JSON_NAME_VALUE_LIST
@@ -34,9 +34,9 @@ feature {NONE} -- Initialization
 		local
 			pos_colon: INTEGER
 		do
-			create split_list.make_with_character (create {ZSTRING}.make_from_utf_8 (utf_8), '%N')
+			create split_list.make (create {ZSTRING}.make_from_utf_8 (utf_8), '%N')
 			from split_list.start until split_list.after loop
-				if attached split_list.item (False) as line then
+				if attached split_list.item as line then
 					pos_colon := line.index_of (':', 1)
 					if pos_colon > 0 and then line.last_index_of ('"', pos_colon) > 0 then
 						split_list.forth
@@ -67,7 +67,7 @@ feature -- Iteration items
 		do
 			Result := Buffer.empty
 			split_list.go_i_th (index)
-			line := split_list.item (False)
+			line := split_list.item
 			pos_colon := line.index_of (':', 1)
 			if pos_colon > 0 then
 				pos_quote_end := line.last_index_of ('"', pos_colon)
@@ -97,7 +97,7 @@ feature -- Iteration items
 		do
 			Result := Buffer.empty
 			split_list.go_i_th (index)
-			line := split_list.item (False)
+			line := split_list.item
 			pos_colon := line.index_of (':', 1)
 			if pos_colon > 0 then
 				pos_quote := line.index_of ('"', pos_colon + 1)

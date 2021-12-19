@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-25 4:14:32 GMT (Saturday 25th January 2020)"
-	revision: "12"
+	date: "2021-12-19 16:21:24 GMT (Sunday 19th December 2021)"
+	revision: "13"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_8_LIST
 		rename
-			make as make_count
+			make as make_sized
 		export
 			{NONE} all
 		end
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_SPLIT_STRING_LIST [STRING])
+	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_STRING_8_LIST)
 		local
 			headers: HASH_TABLE [ZSTRING, STRING]
 		do
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			else
 				headers := request.headers.selected (headers_list)
 			end
-			make_count (headers.count + 6)
+			make_sized (headers.count + 6)
 			extend (request.request_method)
 			extend (request.full_request_url)
 			extend (Empty_string_8) -- the Java SDK does not add the query string to the canonical form

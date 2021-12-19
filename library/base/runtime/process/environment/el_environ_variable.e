@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 12:28:43 GMT (Monday 18th January 2021)"
-	revision: "5"
+	date: "2021-12-19 16:35:39 GMT (Sunday 19th December 2021)"
+	revision: "6"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 		local
 			parts: EL_ZSTRING_LIST
 		do
-			create parts.make_with_separator (str, '=', False)
+			create parts.make_split (str, '=')
 			if parts.count = 2 then
 				make (parts.first, parts.last)
 			else

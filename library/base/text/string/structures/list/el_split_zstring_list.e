@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 15:00:10 GMT (Sunday 22nd August 2021)"
-	revision: "8"
+	date: "2021-12-19 14:47:17 GMT (Sunday 19th December 2021)"
+	revision: "9"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -23,19 +23,24 @@ inherit
 			append_code as append_z_code,
 			separator_code as separator_z_code
 		redefine
-			append_z_code, proper_cased, separator_z_code
+			append_z_code, is_white_space, proper_cased, separator_z_code
 		end
 
 	EL_SHARED_ZSTRING_CODEC
 
 create
-	make, make_empty, make_from_sub_list, make_with_character
+	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string, make_from_sub_list
 
 feature {NONE} -- Implementation
 
 	append_z_code (str: ZSTRING; z_code: NATURAL)
 		do
 			str.append_z_code (z_code)
+		end
+
+	is_white_space (a_target: ZSTRING; i: INTEGER): BOOLEAN
+		do
+			Result := a_target.is_space_item (i)
 		end
 
 	proper_cased (word: ZSTRING): ZSTRING

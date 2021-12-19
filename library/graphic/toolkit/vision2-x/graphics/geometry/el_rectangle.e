@@ -6,21 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-01 15:05:02 GMT (Tuesday 1st September 2020)"
-	revision: "20"
+	date: "2021-12-19 16:43:41 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 class
 	EL_RECTANGLE
 
 inherit
 	EV_RECTANGLE
-
-	EL_ZSTRING_ROUTINES
-		export
-			{NONE} all
-		undefine
-			out
-		end
 
 	EL_MODULE_GUI
 

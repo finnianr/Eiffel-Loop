@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 17:05:56 GMT (Sunday 28th November 2021)"
-	revision: "19"
+	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
+	revision: "20"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -143,7 +143,7 @@ feature -- Status query
 		local
 			split_list: EL_ZSTRING_LIST
 		do
-			create split_list.make_with_csv (key_list)
+			create split_list.make_comma_split (key_list)
 			Result := across split_list as list all has_item_key (list.item) end
 		end
 

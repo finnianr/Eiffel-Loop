@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 14:59:55 GMT (Sunday 22nd August 2021)"
-	revision: "9"
+	date: "2021-12-19 14:46:48 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_SPLIT_STRING_32_LIST
@@ -21,6 +21,6 @@ inherit
 	EL_SPLIT_STRING_LIST [STRING_32]
 
 create
-	make, make_empty, make_from_sub_list, make_with_character
+	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string, make_from_sub_list
 
 end

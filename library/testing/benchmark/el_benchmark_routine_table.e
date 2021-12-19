@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-08 10:52:12 GMT (Thursday 8th April 2021)"
-	revision: "9"
+	date: "2021-12-18 10:36:52 GMT (Saturday 18th December 2021)"
+	revision: "10"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -65,7 +65,6 @@ feature -- Access
 				timer.stop
 
 				Result.extend (routine.key, trial_duration * l_count / timer.elapsed_millisecs)
-				Memory.collect
 			end
 			Result.sort (False)
 		end

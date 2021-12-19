@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:13:31 GMT (Monday 8th February 2021)"
-	revision: "9"
+	date: "2021-12-19 13:47:29 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -204,9 +204,8 @@ feature {NONE} -- Editing
 		local
 			list: EL_SPLIT_ZSTRING_LIST
 		do
-			create list.make (substring, Line_feed_entity)
+			create list.make_adjusted_by_string (substring, Line_feed_entity, {EL_STRING_ADJUST}.Both)
 			if list.count > 1 then
-				list.enable_left_adjust; list.enable_right_adjust
 				substring.share (list.joined_words)
 			end
 		end

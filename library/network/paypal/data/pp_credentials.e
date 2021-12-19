@@ -3,7 +3,7 @@ note
 		Reads name value pairs from file encrypted using the Eiffel-Loop 
 		`[./tool/toolkit/toolkit.html el_toolkit -crypto]' command line utility.
 			
-		See sub-application class: [$source CRYPTO_APP]
+		See sub-application class: [$source CRYPTO_COMMAND_SHELL_APP]
 		
 		Example file:
 		
@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-27 13:46:39 GMT (Tuesday 27th August 2019)"
-	revision: "13"
+	date: "2021-12-07 17:52:52 GMT (Tuesday 7th December 2021)"
+	revision: "14"
 
 class
 	PP_CREDENTIALS

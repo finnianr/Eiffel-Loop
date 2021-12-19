@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 15:04:03 GMT (Sunday 28th November 2021)"
-	revision: "13"
+	date: "2021-12-19 16:36:41 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	STRING_EXPERIMENTS
@@ -42,7 +42,7 @@ feature -- Basic operations
 			s: ZSTRING; parts: EL_ZSTRING_LIST
 		do
 			s := "Stream #0.0(und): Audio: aac, 44100 Hz, stereo, fltp, 253 kb/s"
-			create parts.make_with_separator (s, ',', True)
+			create parts.make_adjusted_split (s, ',', {EL_STRING_ADJUST}.Left)
 			across parts as part loop
 				lio.put_string_field (part.cursor_index.out, part.item)
 				lio.put_new_line

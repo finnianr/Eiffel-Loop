@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:45:08 GMT (Friday 26th November 2021)"
-	revision: "6"
+	date: "2021-12-19 16:56:51 GMT (Sunday 19th December 2021)"
+	revision: "7"
 
 class
 	ECF_CLUSTER_INFO
@@ -61,7 +61,7 @@ feature -- Access
 		do
 			Result := Precursor (root)
 			if Result.is_empty then
-				create word_list.make_with_separator (name, '_', False)
+				create word_list.make_split (name, '_')
 				Result := word_list.joined_propercase_words
 			end
 		end

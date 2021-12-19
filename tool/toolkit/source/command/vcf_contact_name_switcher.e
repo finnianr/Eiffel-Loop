@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:21:22 GMT (Thursday 7th May 2020)"
-	revision: "6"
+	date: "2021-12-19 16:57:32 GMT (Sunday 19th December 2021)"
+	revision: "7"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -58,7 +58,7 @@ feature {NONE} -- State handlers
 			if across << Name_field, Name_field_utf_8 >> as field some line.starts_with (field.item) end then
 				field_name := line.substring (1, line.index_of (':', 1))
 				names.wipe_out
-				names.append_split (line.substring_end (field_name.count + 1), ';', false)
+				names.append_split (line.substring_end (field_name.count + 1), ';', {EL_STRING_ADJUST}.None)
 				-- Swap
 				name := names [1]; names [1] := names [2]; names [2] := name
 				vcf_out.put_string (field_name)

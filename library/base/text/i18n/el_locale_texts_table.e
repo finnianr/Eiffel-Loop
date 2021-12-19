@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-27 15:35:24 GMT (Monday 27th September 2021)"
-	revision: "4"
+	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]

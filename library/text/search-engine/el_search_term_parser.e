@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:34:05 GMT (Wednesday 20th January 2021)"
-	revision: "13"
+	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
+	revision: "14"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -229,7 +229,7 @@ feature {NONE} -- Implementation
 		local
 			words: EL_ZSTRING_LIST; word_tokens: EL_WORD_TOKEN_LIST
 		do
-			create words.make_with_words (text)
+			create words.make_word_split (text)
 			words.prune_all_empty
 			if words.last.count < 3 then
 				invalid_wildcard := True

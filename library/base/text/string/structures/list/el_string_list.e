@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-10 10:32:01 GMT (Wednesday 10th November 2021)"
-	revision: "20"
+	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 class
-	EL_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
+	EL_STRING_LIST [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_STRING_CHAIN [S]
@@ -41,8 +41,8 @@ inherit
 		end
 
 create
-	make, make_empty, make_with_separator, make_with_lines,
-	make_with_words, make_from_array, make_from_list, make_from_tuple, make_from_general
+	make, make_empty, make_split, make_with_lines,
+	make_word_split, make_from_array, make_from_list, make_from_tuple, make_from_general
 
 convert
 	make_from_array ({ARRAY [S]})

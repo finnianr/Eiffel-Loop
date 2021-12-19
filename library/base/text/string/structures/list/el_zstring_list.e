@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-19 18:13:29 GMT (Friday 19th March 2021)"
-	revision: "12"
+	date: "2021-12-19 16:31:51 GMT (Sunday 19th December 2021)"
+	revision: "13"
 
 class
 	EL_ZSTRING_LIST
@@ -24,11 +24,11 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 create
-	make, make_empty, make_with_separator, make_with_lines, make_from_list, make_with_words,
-	make_from_array, make_from_tuple, make_from_general, make_filled, make_with_csv
+	make, make_empty, make_split, make_adjusted_split, make_with_lines, make_from_list, make_word_split,
+	make_from_array, make_from_tuple, make_from_general, make_filled, make_comma_split
 
 convert
-	make_from_array ({ARRAY [ZSTRING]}), make_with_csv ({STRING, STRING_32, ZSTRING}), make_from_tuple ({TUPLE})
+	make_from_array ({ARRAY [ZSTRING]}), make_comma_split ({STRING, STRING_32, ZSTRING}), make_from_tuple ({TUPLE})
 
 feature -- Element change
 

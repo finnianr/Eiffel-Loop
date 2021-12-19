@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-10 10:32:55 GMT (Wednesday 10th November 2021)"
-	revision: "20"
+	date: "2021-12-19 17:04:01 GMT (Sunday 19th December 2021)"
+	revision: "21"
 
 deferred class
-	EL_STRING_CHAIN [S -> STRING_GENERAL create make, make_empty end]
+	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_CHAIN [S]
@@ -40,25 +40,33 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_with_csv (a_string: READABLE_STRING_GENERAL)
+	make_comma_split (a_string: READABLE_STRING_GENERAL)
 		do
-			make_with_separator (a_string, ',', True)
+			make_adjusted_split (a_string, ',', {EL_STRING_ADJUST}.Left)
 		end
 
 	make_with_lines (a_string: READABLE_STRING_GENERAL)
 		do
-			make_with_separator (a_string, '%N', False)
+			make_split (a_string, '%N')
 		end
 
-	make_with_separator (a_string: READABLE_STRING_GENERAL; separator: CHARACTER_32; do_left_adjust: BOOLEAN)
+	make_adjusted_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
+		require
+			valid_adjustments: valid_adjustments (adjustments)
 		do
 			make_empty
-			append_split (a_string, separator, do_left_adjust)
+			append_split (a_string, delimiter, adjustments)
 		end
 
-	make_with_words (a_string: READABLE_STRING_GENERAL)
+	make_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
 		do
-			make_with_separator (a_string, ' ', False)
+			make_empty
+			append_split (a_string, delimiter, 0)
+		end
+
+	make_word_split (a_string: READABLE_STRING_GENERAL)
+		do
+			make_split (a_string, ' ')
 		end
 
 feature -- Access
@@ -108,12 +116,14 @@ feature -- Status query
 
 feature -- Element change
 
-	append_split (a_string: READABLE_STRING_GENERAL; a_separator: CHARACTER_32; do_left_adjust: BOOLEAN)
+	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
+		require
+			valid_adjustments: valid_adjustments (adjustments)
 		local
 			list: LIST [READABLE_STRING_GENERAL]; str: S
-			i: INTEGER
+			i: INTEGER; left_adjusted, right_adjusted: BOOLEAN
 		do
-			list := a_string.split (a_separator)
+			list := a_string.split (delimiter)
 			if attached {LIST [S]} list as same_list then
 				append (same_list)
 			else
@@ -124,9 +134,17 @@ feature -- Element change
 					extend (str)
 				end
 			end
-			if do_left_adjust then
+			if adjustments > 0 then
+				left_adjusted := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
+				right_adjusted := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
 				from i := 1 until i > list.count loop
-					circular_i_th (i.opposite).left_adjust
+					str := circular_i_th (i.opposite)
+					if left_adjusted then
+						str.left_adjust
+					end
+					if right_adjusted then
+						str.right_adjust
+					end
 					i := i + 1
 				end
 			end
@@ -258,6 +276,13 @@ feature -- Resizing
 	grow (i: INTEGER)
 			-- Change the capacity to at least `i'.
 		deferred
+		end
+
+feature -- Contract Support
+
+	valid_adjustments (bitmap: INTEGER): BOOLEAN
+		do
+			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
 		end
 
 feature {NONE} -- Implementation

@@ -4,15 +4,15 @@ note
 		[https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#transaction-and-notification-related-variables
 		Payment information variables] in IPN integration guide.
 	]"
-	tests: "Class [$source PP_TEST_SET]"
+	tests: "Class [$source PAYPAL_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 16:01:22 GMT (Sunday 31st October 2021)"
-	revision: "30"
+	date: "2021-12-07 17:51:09 GMT (Tuesday 7th December 2021)"
+	revision: "31"
 
 class
 	PP_TRANSACTION

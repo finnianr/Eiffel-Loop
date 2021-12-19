@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 18:59:44 GMT (Tuesday 23rd November 2021)"
-	revision: "14"
+	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
+	revision: "15"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -146,7 +146,7 @@ feature {NONE} -- Implementation
 			word_list: EL_ZSTRING_LIST; word: ZSTRING
 			last_character: CHARACTER_32; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			create word_list.make_with_words (line.substring_end (tab_count + 1))
+			create word_list.make_word_split (line.substring_end (tab_count + 1))
 			line.keep_head (tab_count)
 			across word_list as list loop
 				word := list.item
@@ -190,7 +190,7 @@ feature {NONE} -- Implementation
 			eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			create expanded_string.make (end_index - start_index + 1)
-			create constraint_list.make_with_csv (substring.substring (start_index, end_index))
+			create constraint_list.make_comma_split (substring.substring (start_index, end_index))
 			across constraint_list as c_list loop
 				word := c_list.item
 				if not c_list.is_first then

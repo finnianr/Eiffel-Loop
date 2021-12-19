@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-07 10:32:31 GMT (Saturday 7th August 2021)"
-	revision: "32"
+	date: "2021-12-19 13:53:55 GMT (Sunday 19th December 2021)"
+	revision: "33"
 
 class
 	EL_VISION_2_GUI_ROUTINES
@@ -65,16 +65,16 @@ feature -- Font
 		require
 			is_wrappable: is_word_wrappable (a_text, a_font, a_width)
 		local
-			words: EL_SPLIT_ZSTRING_LIST; line: ZSTRING; s: EL_ZSTRING_ROUTINES
+			words: EL_SPLIT_ZSTRING_LIST; line: ZSTRING
 		do
 			create Result.make (10)
 			create line.make (60)
-			create words.make (a_text, s.character_string (' '))
+			create words.make (a_text, ' ')
 			from words.start until words.after loop
 				if not line.is_empty then
 					line.append_character (' ')
 				end
-				line.append (words.item (False))
+				line.append (words.item)
 				if string_width (line, a_font) > a_width then
 					line.remove_tail (words.item_count)
 					line.right_adjust

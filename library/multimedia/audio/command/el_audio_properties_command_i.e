@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:59:58 GMT (Thursday 9th September 2021)"
-	revision: "10"
+	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -105,7 +105,7 @@ feature {NONE} -- Line states
 			fields: EL_ZSTRING_LIST; words: LIST [STRING]
 		do
 			if line.has_substring (Tag.audio) then
-				create fields.make_with_csv (line)
+				create fields.make_comma_split (line)
 				across fields as field loop
 					words := field.item.to_string_8.split (' ')
 					if words.count = 2 then

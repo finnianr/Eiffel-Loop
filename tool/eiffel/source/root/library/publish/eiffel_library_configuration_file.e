@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 17:39:07 GMT (Sunday 2nd August 2020)"
-	revision: "2"
+	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
+	revision: "3"
 
 class
 	EIFFEL_LIBRARY_CONFIGURATION_FILE
@@ -57,7 +57,7 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 			else
 				steps := dir_path.relative_path (repository.root_dir)
 				if steps.count >= 2 then
-					create words.make_with_separator (steps.item (2), '_', False)
+					create words.make_split (steps.item (2), '_')
 					Result := words.joined_propercase_words
 				else
 					create Result.make_empty

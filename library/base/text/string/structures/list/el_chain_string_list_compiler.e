@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:18:34 GMT (Tuesday 2nd March 2021)"
-	revision: "7"
+	date: "2021-12-19 16:22:46 GMT (Sunday 19th December 2021)"
+	revision: "8"
 
 class
 	EL_CHAIN_STRING_LIST_COMPILER [G, S -> STRING_GENERAL create make, make_empty end]

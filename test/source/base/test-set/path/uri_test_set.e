@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 10:31:36 GMT (Wednesday 15th September 2021)"
-	revision: "10"
+	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 class
 	URI_TEST_SET
@@ -257,7 +257,7 @@ feature {NONE} -- Constants
 
 	Currency_list: EL_STRING_8_LIST
 		once
-			create Result.make_with_csv ("[
+			create Result.make_comma_split ("[
 				%24, %C2%A3, %E2%82%AC, %F0%A0%9C%B1
 			]")
 		end

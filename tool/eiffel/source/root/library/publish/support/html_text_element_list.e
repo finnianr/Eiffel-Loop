@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-02 12:20:26 GMT (Sunday 2nd May 2021)"
-	revision: "16"
+	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
+	revision: "17"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -213,7 +213,7 @@ feature {NONE} -- Implementation
 					done := False
 					across << ' ', '/' >> as c until done loop
 						separator := c.item
-						create word_list.make_with_separator (line, separator, False)
+						create word_list.make_split (line, separator)
 						done := word_list.first.count <= Maximum_code_width
 					end
 					Result.extend (create {ZSTRING}.make_filled (' ', space_count))

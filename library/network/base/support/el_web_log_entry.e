@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-16 12:08:18 GMT (Thursday 16th January 2020)"
-	revision: "4"
+	date: "2021-12-19 16:49:33 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			list := Split_list
 			list.wipe_out
-			list.append_split (line, Quote, False)
+			list.append_split (line, Quote, {EL_STRING_ADJUST}.None)
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then

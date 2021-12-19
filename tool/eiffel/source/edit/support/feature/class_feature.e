@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 18:03:32 GMT (Friday 8th January 2021)"
-	revision: "18"
+	date: "2021-12-19 16:56:51 GMT (Sunday 19th December 2021)"
+	revision: "19"
 
 deferred class
 	CLASS_FEATURE
@@ -98,12 +98,12 @@ feature {NONE} -- Implementation
 			list: like Split_list; s: EL_ZSTRING_ROUTINES
 		do
 			list := Split_list
-			list.set_string (lines.first, s.character_string (' '))
-			from list.start until list.after or else not list.item (False).is_equal (Keyword_frozen) loop
+			list.set_target (lines.first, ' ', {EL_STRING_ADJUST}.Left)
+			from list.start until list.after or else not list.item_same_as (Keyword_frozen) loop
 				list.forth
 			end
 			if not list.after then
-				name := list.item (True)
+				name := list.item_copy
 			end
 			name.prune_all_trailing (':')
 		end
@@ -115,7 +115,6 @@ feature {NONE} -- Constants
 	Split_list: EL_SPLIT_ZSTRING_LIST
 		once
 			create Result.make_empty
-			Result.enable_left_adjust
 		end
 
 end

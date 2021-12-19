@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-17 11:01:13 GMT (Wednesday 17th March 2021)"
-	revision: "2"
+	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
+	revision: "3"
 
 class
 	EL_FTP_AUTHENTICATOR
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 	prompt_list: EL_ZSTRING_LIST
 		do
-			create Result.make_with_csv (input_prompts)
+			create Result.make_comma_split (input_prompts)
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,11 +6,11 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:52:59 GMT (Wednesday 15th September 2021)"
-	revision: "34"
+	date: "2021-12-19 13:56:03 GMT (Sunday 19th December 2021)"
+	revision: "35"
 
 deferred class
-	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make_empty, make end]
+	EL_STRING_X_ROUTINES [S -> STRING_GENERAL create make end]
 
 inherit
 	STRING_HANDLER
@@ -102,7 +102,7 @@ feature -- Basic operations
 		local
 			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
-			create l_occurrences.make (text, search_string)
+			create l_occurrences.make_by_string (text, search_string)
 			from l_occurrences.start until l_occurrences.after or l_occurrences.index > n loop
 				l_occurrences.forth
 			end
@@ -155,7 +155,7 @@ feature -- Measurement
 		local
 			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
-			create l_occurrences.make (text, search_string)
+			create l_occurrences.make_by_string (text, search_string)
 			from l_occurrences.start until l_occurrences.after loop
 				Result := Result + 1
 				l_occurrences.forth
@@ -192,7 +192,7 @@ feature -- Lists
 		local
 			splits: EL_SPLIT_STRING_LIST [S]
 		do
-			create splits.make (text, delimiter)
+			create splits.make_by_string (text, delimiter)
 			Result := splits.as_string_list
 		end
 
@@ -281,7 +281,7 @@ feature -- Transformed
 		local
 			l_occurrences: EL_OCCURRENCE_INTERVALS [S]
 		do
-			create l_occurrences.make (text, delimiter)
+			create l_occurrences.make_by_string (text, delimiter)
 			l_occurrences.start
 			if l_occurrences.after then
 				create Result.make (0)
@@ -397,7 +397,7 @@ feature -- Transformed
 			offset: NATURAL; left_index, right_index, i: INTEGER
 			l_result: READABLE_STRING_GENERAL
 		do
-			create Result.make_empty
+			create Result.make (0)
 
 			if left_bracket = '(' then
 				offset := 1

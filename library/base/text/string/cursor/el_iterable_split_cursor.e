@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 10:59:59 GMT (Monday 29th November 2021)"
-	revision: "4"
+	date: "2021-12-19 14:37:10 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -115,20 +115,30 @@ feature -- Status query
 	item_same_as (str: S): BOOLEAN
 		do
 			if item_upper - item_lower + 1 = str.count then
-				Result := target.same_characters (str, 1, str.count, item_lower)
+				if str.count = 0 then
+					Result := item_upper + 1 = item_lower
+				else
+					Result := target.same_characters (str, 1, str.count, item_lower)
+				end
 			end
 		end
 
 	item_same_caseless_as (str: S): BOOLEAN
 		do
 			if item_upper - item_lower + 1 = str.count then
-				Result := target.same_caseless_characters (str, 1, str.count, item_lower)
+				if str.count = 0 then
+					Result := item_upper + 1 = item_lower
+				else
+					Result := target.same_caseless_characters (str, 1, str.count, item_lower)
+				end
 			end
 		end
 
 	item_starts_with (str: S): BOOLEAN
 		do
-			if item_upper - item_lower + 1 >= str.count then
+			if str.count = 0 then
+				Result := True
+			elseif item_upper - item_lower + 1 >= str.count then
 				Result := target.same_characters (str, 1, str.count, item_lower)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 13:19:28 GMT (Friday 26th November 2021)"
-	revision: "24"
+	date: "2021-12-19 13:56:03 GMT (Sunday 19th December 2021)"
+	revision: "25"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -266,7 +266,7 @@ feature -- To list
 	split_intervals (delimiter: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_LIST
 			-- substring intervals of `Current' split with `delimiter'
 		do
-			create Result.make (current_zstring, delimiter)
+			create Result.make_by_string (current_zstring, delimiter)
 		end
 
 	split_on_string (a_separator: READABLE_STRING_GENERAL): EL_SPLIT_ZSTRING_ON_STRING
@@ -281,7 +281,7 @@ feature -- To list
 
 	substring_intervals (str: READABLE_STRING_GENERAL): EL_OCCURRENCE_INTERVALS [ZSTRING]
 		do
-			create Result.make (current_zstring, str)
+			create Result.make_by_string (current_zstring, str)
 		end
 
 	substring_split (delimiter: EL_READABLE_ZSTRING): EL_STRING_LIST [ZSTRING]

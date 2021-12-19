@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-04-07 14:30:36 GMT (Sunday 7th April 2019)"
-	revision: "4"
+	date: "2021-12-19 16:34:58 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	EL_COMMA_SEPARATED_WORDS
@@ -46,7 +46,7 @@ feature -- Access
 
 	word_list: EL_ZSTRING_LIST
 		do
-			create Result.make_with_separator (words, ',', False)
+			create Result.make_split (words, ',')
 		end
 
 feature -- Measurement

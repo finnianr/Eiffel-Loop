@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:46:31 GMT (Monday 23rd November 2020)"
-	revision: "10"
+	date: "2021-12-19 16:27:22 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 deferred class
 	EL_EMAIL
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 		local
 			parts: EL_ZSTRING_LIST
 		do
-			create parts.make_with_words (date_time.formatted_out (Date_format))
+			create parts.make_word_split (date_time.formatted_out (Date_format))
 			Result := parts.joined_propercase_words.to_string_8
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:43:10 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2021-12-19 16:35:39 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	INTEGER_RANGE_LIST_PARAMETER
@@ -48,7 +48,7 @@ feature {NONE} -- Build from XML
 		local
 			integer_list: EL_ZSTRING_LIST
 		do
-			create integer_list.make_with_separator (node.to_string, ',', False)
+			create integer_list.make_split (node.to_string, ',')
 			create last_integer_range.make (integer_list.count)
 			across integer_list as str loop
 				last_integer_range.extend (str.item.to_integer)

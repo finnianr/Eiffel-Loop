@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-13 9:10:40 GMT (Friday 13th August 2021)"
-	revision: "8"
+	date: "2021-12-19 15:04:34 GMT (Sunday 19th December 2021)"
+	revision: "9"
 
 class
 	AIA_SIGNER
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			create Result.make_signed (Current, canonical_request)
 		end
 
-	headers_list: EL_SPLIT_STRING_LIST [STRING]
+	headers_list: EL_STRING_8_LIST
 		do
 			Result := Empty_header_list
 		end
@@ -76,7 +76,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Empty_header_list: EL_SPLIT_STRING_LIST [STRING]
+	Empty_header_list: EL_STRING_8_LIST
 		once
 			create Result.make_empty
 		end

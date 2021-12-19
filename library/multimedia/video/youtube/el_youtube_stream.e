@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:47:50 GMT (Friday 26th November 2021)"
-	revision: "9"
+	date: "2021-12-19 16:57:49 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_YOUTUBE_STREAM
@@ -30,29 +30,29 @@ feature {NONE} -- Initialization
 
 	make (a_url, info_line: ZSTRING)
 		local
-			parts: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+			parts: EL_SPLIT_ZSTRING_LIST
 		do
 			make_default
 			url := a_url
 			description := info_line
-			create parts.make (info_line.as_canonically_spaced, s.character_string (' '))
+			create parts.make (info_line.as_canonically_spaced, ' ')
 			parts.start
-			if parts.item (False).is_integer then
+			if parts.item.is_integer then
 				from until parts.after loop
 					inspect parts.index
 						when 1 then
 							code := parts.natural_item
 						when 2 then
-							extension := parts.item (True)
+							extension := parts.item_copy
 						when 3 then
-							if parts.same_item_as (Audio) then
+							if parts.item_same_as (Audio) then
 								type := Audio
-							elseif parts.item (False).has ('x') then
-								resolution_x_y := parts.item (True)
+							elseif parts.item.has ('x') then
+								resolution_x_y := parts.item_copy
 								resolution_x := resolution_x_y.split_list ('x').first.to_integer
 							end
 					else
-						if parts.same_item_as (Video) then
+						if parts.item_same_as (Video) then
 							type := Video
 						end
 					end

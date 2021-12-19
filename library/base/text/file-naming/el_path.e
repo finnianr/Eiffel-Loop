@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 16:29:56 GMT (Thursday 3rd June 2021)"
-	revision: "51"
+	date: "2021-12-19 13:11:12 GMT (Sunday 19th December 2021)"
+	revision: "52"
 
 deferred class
 	EL_PATH
@@ -210,12 +210,11 @@ feature -- Access
 
 	version_interval: INTEGER_INTERVAL
 		local
-			intervals: like base.substring_intervals
-			found: BOOLEAN
+			intervals: EL_SPLIT_ZSTRING_LIST; found: BOOLEAN
 		do
-			intervals := base.split_intervals (Single_dot)
+			create intervals.make (base, '.')
 			from intervals.finish until found or else intervals.before loop
-				if base.substring (intervals.item_lower, intervals.item_upper).is_natural then
+				if intervals.item.is_natural then
 					found := True
 				else
 					intervals.back

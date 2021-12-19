@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 9:24:24 GMT (Thursday 13th May 2021)"
-	revision: "27"
+	date: "2021-12-19 13:59:23 GMT (Sunday 19th December 2021)"
+	revision: "28"
 
 class
 	RBOX_PLAYLIST
@@ -129,7 +129,7 @@ feature -- Status query
 		local
 			parts: EL_SPLIT_ZSTRING_LIST
 		do
-			create parts.make (name, character_string (' '))
+			create parts.make (name, ' ')
 			Result := parts.count > 1 and then parts.i_th (1).count = Date_format.count
 							and then Date_checker.date_valid (parts.i_th (1), Date_format)
 		end

@@ -1,13 +1,13 @@
 note
-	description: "[$source ZSTRING] implementation of [$source EL_STYLED_TEXT_LIST]"
+	description: "Implementation of [$source EL_STYLED_TEXT_LIST [EL_ZSTRING]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 13:03:22 GMT (Friday 26th February 2021)"
-	revision: "3"
+	date: "2021-12-07 18:13:00 GMT (Tuesday 7th December 2021)"
+	revision: "4"
 
 class
 	EL_STYLED_ZSTRING_LIST

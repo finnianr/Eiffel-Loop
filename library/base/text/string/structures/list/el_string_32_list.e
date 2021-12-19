@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 11:48:53 GMT (Tuesday 31st March 2020)"
-	revision: "9"
+	date: "2021-12-19 16:31:36 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_STRING_32_LIST
@@ -16,9 +16,9 @@ inherit
 	EL_STRING_LIST [STRING_32]
 
 create
-	make, make_empty, make_with_separator, make_with_lines, make_with_words, make_from_array, make_from_tuple,
-	make_from_general, make_with_csv
+	make, make_empty, make_split, make_adjusted_split, make_with_lines, make_word_split, make_from_array, make_from_tuple,
+	make_from_general, make_comma_split
 
 convert
-	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_with_csv ({STRING_32})
+	make_from_array ({ARRAY [STRING_32]}), make_from_tuple ({TUPLE}), make_comma_split ({STRING_32})
 end

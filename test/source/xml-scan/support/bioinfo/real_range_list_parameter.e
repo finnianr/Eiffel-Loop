@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:43:10 GMT (Friday 18th January 2019)"
-	revision: "4"
+	date: "2021-12-19 16:35:39 GMT (Sunday 19th December 2021)"
+	revision: "5"
 
 class
 	REAL_RANGE_LIST_PARAMETER
@@ -48,7 +48,7 @@ feature {NONE} -- Build from XML
 		local
 			real_list: EL_ZSTRING_LIST
 		do
-			create real_list.make_with_separator (node.to_string, ',', False)
+			create real_list.make_split (node.to_string, ',')
 			create last_real_range.make (real_list.count)
 			across real_list as str loop
 				last_real_range.extend (str.item.to_real)

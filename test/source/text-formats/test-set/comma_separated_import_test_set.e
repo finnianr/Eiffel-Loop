@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-05 11:37:28 GMT (Tuesday 5th May 2020)"
-	revision: "10"
+	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
+	revision: "11"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 
 			create parser.make
 			parser.parse (job.comma_separated_names)
-			create list.make_with_csv (job.comma_separated_values)
+			create list.make_comma_split (job.comma_separated_values)
 			across list as value loop
 				if value.item.count > 140 then
 					log.put_string_field_to_max_length ("LONG", value.item, 140)

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 10:38:02 GMT (Monday 29th November 2021)"
-	revision: "8"
+	date: "2021-12-19 16:22:58 GMT (Sunday 19th December 2021)"
+	revision: "9"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]

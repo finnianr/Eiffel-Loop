@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:08:50 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2021-12-19 16:28:29 GMT (Sunday 19th December 2021)"
+	revision: "10"
 
 class
 	EL_MARKUP_ROUTINES
@@ -36,7 +36,7 @@ feature -- Access
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_with_csv (string_list)
+			create list.make_comma_split (string_list)
 			create Result.make (list.count)
 			across list as name loop
 				Result.extend (tag (name.item))
