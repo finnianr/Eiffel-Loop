@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:36:41 GMT (Sunday 19th December 2021)"
-	revision: "14"
+	date: "2021-12-20 11:54:04 GMT (Monday 20th December 2021)"
+	revision: "15"
 
 class
 	STRING_EXPERIMENTS
@@ -140,6 +140,15 @@ feature -- Basic operations
 		do
 			lio.put_string (Hexadecimal.to_natural_64 ("0x00000A987").out)
 			lio.put_new_line
+		end
+
+	right_adjust
+		do
+			if attached ("abc%R") as str then
+				str.right_adjust
+				lio.put_integer_field ("str.count", str.count)
+				lio.put_new_line
+			end
 		end
 
 	input_capital_a_umlaut

@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:05:38 GMT (Sunday 19th December 2021)"
-	revision: "18"
+	date: "2021-12-20 11:47:14 GMT (Monday 20th December 2021)"
+	revision: "19"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 
 inherit
-	EL_STATE_MACHINE [ZSTRING]
+	EL_STRING_STATE_MACHINE [ZSTRING]
 		rename
 			traverse as do_with_lines,
 			traverse_iterable as do_with_iterable_lines,
@@ -39,22 +39,6 @@ feature -- Basic operations
 		do
 			do_with_lines (initial, lines)
 			lines.close
-		end
-
-	do_with_split_list (initial: like state; lines: EL_SPLIT_ZSTRING_LIST; keep_ref: BOOLEAN)
-		local
-			l_final: like final
-		do
-			line_number := 0; l_final := final
-			from lines.start; state := initial until lines.after or state = l_final loop
-				line_number := line_number + 1
-				if keep_ref then
-					call (lines.item_copy)
-				else
-					call (lines.item)
-				end
-				lines.forth
-			end
 		end
 
 feature -- Status query

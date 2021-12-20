@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 14:53:52 GMT (Sunday 28th November 2021)"
-	revision: "72"
+	date: "2021-12-20 11:54:30 GMT (Monday 20th December 2021)"
+	revision: "73"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.check_if_euro_is_space")
-			string.check_if_euro_is_space
+			log.enter ("string.right_adjust")
+			string.right_adjust
 			log.exit
 		end
 

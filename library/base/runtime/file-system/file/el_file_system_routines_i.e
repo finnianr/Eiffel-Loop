@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 10:31:01 GMT (Saturday 10th July 2021)"
-	revision: "35"
+	date: "2021-12-20 12:04:36 GMT (Monday 20th December 2021)"
+	revision: "36"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -35,6 +35,11 @@ inherit
 		end
 
 	EL_FILE_OPEN_ROUTINES
+		rename
+			copy as copy_object
+		end
+
+	STRING_HANDLER
 		rename
 			copy as copy_object
 		end
@@ -112,6 +117,25 @@ feature -- Access
 			end
 			create Result.make_from_array (dir_set.to_array)
 			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
+		end
+
+	plain_text_lines (a_file_path: EL_FILE_PATH): EL_SPLIT_ON_CHARACTER [STRING]
+		require
+			file_exists: a_file_path.exists
+		local
+			file: PLAIN_TEXT_FILE; count: INTEGER; content: STRING
+		do
+			create file.make_open_read (a_file_path)
+			count := file.count
+			create content.make (count)
+			content.set_count (count)
+			if file.read_to_string (content, 1, count) /= count then
+				check
+					complete_file_read: False
+				end
+			end
+			file.close
+			create Result.make (content, '%N')
 		end
 
 	plain_text (a_file_path: EL_FILE_PATH): STRING

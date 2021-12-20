@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:15:25 GMT (Friday 26th November 2021)"
-	revision: "16"
+	date: "2021-12-20 11:16:03 GMT (Monday 20th December 2021)"
+	revision: "17"
 
 class
 	PATH_TEST_SET
@@ -30,10 +30,11 @@ feature -- Basic operations
 		do
 			evaluator.call ("joined_steps", agent test_joined_steps)
 			evaluator.call ("make_from_steps", agent test_make_from_steps)
-			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("ntfs_translation", agent test_ntfs_translation)
+			evaluator.call ("parent_of", agent test_parent_of)
 			evaluator.call ("relative_joins", agent test_relative_joins)
 			evaluator.call ("universal_relative_path", agent test_universal_relative_path)
+			evaluator.call ("version_number", agent test_version_number)
 		end
 
 feature -- Tests
@@ -130,6 +131,26 @@ feature -- Tests
 				end
 			end
 			log.exit
+		end
+
+	test_version_number
+		local
+			path: EL_FILE_PATH
+		do
+			across << "myfile.mp3", "myfile.02.mp3", "myfile..mp3" >> as p loop
+				path := p.item
+				inspect p.cursor_index
+					when 1 then
+						assert ("no version", path.version_number = -1)
+					when 2 then
+						assert ("version is 2", path.version_number = 2)
+						path.set_version_number (3)
+						assert ("version is 3", path.version_number = 3)
+						assert ("same format width", path.version_interval.item_count = 2)
+					when 3 then
+						assert ("no version", path.version_number = -1)
+				end
+			end
 		end
 
 feature {NONE} -- Constants

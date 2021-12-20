@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:11:12 GMT (Sunday 19th December 2021)"
-	revision: "52"
+	date: "2021-12-20 11:19:40 GMT (Monday 20th December 2021)"
+	revision: "53"
 
 deferred class
 	EL_PATH
@@ -208,45 +208,34 @@ feature -- Access
 			end
 		end
 
-	version_interval: INTEGER_INTERVAL
-		local
-			intervals: EL_SPLIT_ZSTRING_LIST; found: BOOLEAN
+	version_interval: EL_SPLIT_ZSTRING_LIST
+		-- `Result.item' is last natural number between two dots
+		-- if `Result.off' then there is no interval
 		do
-			create intervals.make (base, '.')
-			from intervals.finish until found or else intervals.before loop
-				if intervals.item.is_natural then
-					found := True
-				else
-					intervals.back
-				end
-			end
-			if found then
-				Result := intervals.item_interval
-			else
-				Result := 1 |..| 0
+			create Result.make (base, '.')
+			from Result.finish until Result.before or else Result.item.is_natural loop
+				Result.back
 			end
 		end
 
 	version_number: INTEGER
-			-- Returns value of numeric value immediately before extension and separated by dots
-			-- Minus one if no version number found
+			-- value of numeric value immediately before extension and separated by dots
+			-- `-1' if no version number found
 
 			-- Example: "myfile.02.mp3" returns 2
-		local
-			number: EL_ZSTRING; interval: like version_interval
 		do
-			interval := version_interval
-			if interval.is_empty then
-				Result := -1
-			else
-				number := base.substring (interval.lower, interval.upper)
-				number.prune_all_leading ('0')
-				if number.is_empty then
-					Result := 0
-				elseif number.is_integer then
-					Result := number.to_integer
-				else
+			if attached version_interval as interval then
+				if interval.off then
 					Result := -1
+				elseif attached base.substring (interval.item_start_index, interval.item_end_index) as number then
+					number.prune_all_leading ('0')
+					if number.is_empty then
+						Result := 0
+					elseif number.is_integer then
+						Result := number.to_integer
+					else
+						Result := -1
+					end
 				end
 			end
 		end
@@ -355,7 +344,7 @@ feature -- Status Query
 
 	has_version_number: BOOLEAN
 		do
-			Result := version_number >= 0
+			Result := not version_interval.off
 		end
 
 	is_absolute: BOOLEAN
@@ -534,11 +523,12 @@ feature -- Element change
 	set_version_number (number: like version_number)
 		require
 			has_version_number: has_version_number
-		local
-			interval: like version_interval
 		do
-			interval := version_interval
-			base.replace_substring_general (Format.integer_zero (number, interval.count), interval.lower, interval.upper)
+			if attached version_interval as interval and then not interval.off then
+				base.replace_substring_general (
+					Format.integer_zero (number, interval.item_count), interval.item_start_index, interval.item_end_index
+				)
+			end
 			internal_hash_code := 0
 		end
 

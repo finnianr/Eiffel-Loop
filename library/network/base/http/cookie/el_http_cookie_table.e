@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-01 10:24:44 GMT (Saturday 1st February 2020)"
-	revision: "8"
+	date: "2021-12-20 13:37:18 GMT (Monday 20th December 2021)"
+	revision: "9"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -18,7 +18,7 @@ inherit
 			default_create
 		end
 
-	EL_STATE_MACHINE [STRING_8]
+	EL_STRING_STATE_MACHINE [STRING_8]
 		rename
 			make as make_machine,
 			traverse as do_with_lines,
@@ -41,13 +41,13 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_file (a_file_path: EL_FILE_PATH)
-		local
-			lines: LIST [STRING]
 		do
 			make_machine
-			lines := File_system.plain_text (a_file_path).split ('%N')
-			make (lines.count)
-			do_with_lines (agent find_first_cookie, lines)
+			if attached File_system.plain_text_lines (a_file_path) as lines then
+				lines.set_left_adjusted (True)
+				make (lines.count)
+				do_with_split (agent find_first_cookie, lines, False)
+			end
 		end
 
 feature {NONE} -- State handlers
@@ -62,16 +62,23 @@ feature {NONE} -- State handlers
 
 	parse_cookie (line: STRING)
 		local
-			fields: LIST [STRING]; value: ZSTRING; cookie_value: EL_COOKIE_STRING_8
+			tab_splitter: EL_SPLIT_ON_CHARACTER [STRING]; value: ZSTRING; cookie_value: EL_COOKIE_STRING_8
+			name: STRING
 		do
-			fields := line.split ('%T')
-			if fields.count = 7 then
-				cookie_value := fields [7]
-				value := cookie_value.decoded
-				if value.has_quotes (2) then
-					value.remove_quotes
+			create tab_splitter.make (line, '%T')
+			across tab_splitter as split loop
+				inspect split.cursor_index
+					when 6 then
+						name := split.item_copy
+					when 7 then
+						cookie_value := split.item
+						value := cookie_value.decoded
+						if value.has_quotes (2) then
+							value.remove_quotes
+						end
+						put (value, name)
+				else
 				end
-				put (value, fields.i_th (6))
 			end
 		end
 

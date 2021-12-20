@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-31 17:15:39 GMT (Sunday 31st October 2021)"
-	revision: "42"
+	date: "2021-12-20 13:33:01 GMT (Monday 20th December 2021)"
+	revision: "43"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -383,13 +383,15 @@ feature {NONE} -- Factory
 
 	new_json_fields (json_data: STRING): EL_URI_QUERY_ZSTRING_HASH_TABLE
 		local
-			pair_list: EL_JSON_NAME_VALUE_LIST; s: EL_ZSTRING_ROUTINES
+			pair_list: EL_JSON_NAME_VALUE_LIST; s: EL_STRING_8_ROUTINES
+			value: EL_COOKIE_STRING_8
 		do
 			create pair_list.make (json_data)
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
-				if attached pair_list.value_item (True) as value and then value /~ s.character_string ('{') then
-					Result.set_string (pair_list.name_item (True), value)
+				create value.make_encoded (pair_list.value_item (False).to_latin_1)
+				if not value.same_string (s.character_string ('{')) then
+					Result.set_string (pair_list.name_item (True), value.decoded)
 				end
 				pair_list.forth
 			end
