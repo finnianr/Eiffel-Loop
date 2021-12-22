@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-21 12:46:38 GMT (Tuesday 21st December 2021)"
-	revision: "18"
+	date: "2021-12-22 13:16:36 GMT (Wednesday 22nd December 2021)"
+	revision: "19"
 
 class
 	EL_COMMA_SEPARATED_LINE_PARSER
@@ -49,7 +49,7 @@ feature -- Basic operations
 			count := count + 1
 			set_states
 			column := 0
-			traverse_iterable (find_comma, line)
+			traverse_iterable (p_find_comma, line)
 			add_value
 		end
 
@@ -76,7 +76,7 @@ feature -- Element change
 
 feature {NONE} -- State handlers
 
-	check_back_slash (state_previous: like find_comma; character: CHARACTER)
+	check_back_slash (state_previous: like state; character: CHARACTER)
 		local
 			escape: CHARACTER
 		do
@@ -90,12 +90,12 @@ feature {NONE} -- State handlers
 				state := state_previous
 			else
 				field_string.append_character (Back_slash)
-				if character = Comma and then state_previous = find_comma then
-					do_find_comma (character)
-					state := find_comma
-					
-				elseif character = Double_quote and then state_previous = find_end_quote then
-					do_find_end_quote (character)
+				if character = Comma and then state_previous = p_find_comma then
+					find_comma (character)
+					state := p_find_comma
+
+				elseif character = Double_quote and then state_previous = p_find_end_quote then
+					find_end_quote (character)
 				else
 					field_string.append_character (character)
 					state := state_previous
@@ -103,24 +103,24 @@ feature {NONE} -- State handlers
 			end
 		end
 
-	do_check_escaped_quote (character: CHARACTER)
+	check_escaped_quote (character: CHARACTER)
 			-- check if last character was escape quote
 		do
 			inspect character
 				when Comma then
 					add_value
-					state := find_comma
+					state := p_find_comma
 
 				when Double_quote then
 					field_string.append_character (character)
-					state := find_end_quote
+					state := p_find_end_quote
 
 			else -- last quote was end quote
-				state := find_comma
+				state := p_find_comma
 			end
 		end
 
-	do_find_comma (character: CHARACTER)
+	find_comma (character: CHARACTER)
 			--
 		do
 			inspect character
@@ -128,24 +128,24 @@ feature {NONE} -- State handlers
 					add_value
 
 				when Double_quote then
-					state := find_end_quote
+					state := p_find_end_quote
 
 				when Back_slash then
-					state := agent check_back_slash (find_comma, ?)
+					state := agent check_back_slash (p_find_comma, ?)
 
 			else
 				field_string.append_character (character)
 			end
 		end
 
-	do_find_end_quote (character: CHARACTER)
+	find_end_quote (character: CHARACTER)
 			--
 		do
 			inspect character
 				when Double_quote then
-					state := check_escaped_quote
+					state := p_check_escaped_quote
 				when Back_slash then
-					state := agent check_back_slash (find_end_quote, ?)
+					state := agent check_back_slash (p_find_end_quote, ?)
 			else
 				field_string.append_character (character)
 			end
@@ -166,9 +166,9 @@ feature {NONE} -- Implementation
 
 	set_states
 		do
-			find_end_quote := agent do_find_end_quote
-			find_comma := agent do_find_comma
-			check_escaped_quote := agent do_check_escaped_quote
+			p_find_end_quote := agent find_end_quote
+			p_find_comma := agent find_comma
+			p_check_escaped_quote := agent check_escaped_quote
 		end
 
 feature {NONE} -- Implementation
@@ -180,15 +180,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	check_escaped_quote: PROCEDURE [CHARACTER]
-
 	column: INTEGER
 
 	field_string: STRING
 
-	find_comma: PROCEDURE [CHARACTER]
+	p_check_escaped_quote: like state
 
-	find_end_quote: PROCEDURE [CHARACTER]
+	p_find_comma: like state
+
+	p_find_end_quote: like state
 
 feature {NONE} -- Constants
 
