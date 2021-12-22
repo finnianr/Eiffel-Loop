@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-02-23 14:34:11 GMT (Saturday 23rd February 2019)"
-	revision: "6"
+	date: "2021-12-20 21:30:06 GMT (Monday 20th December 2021)"
+	revision: "7"
 
 class
 	EL_WORD_TOKEN_LIST
@@ -20,7 +20,8 @@ class
 inherit
 	STRING_32
 		rename
-			make_from_string as make_from_tokens
+			make_from_string as make_from_tokens,
+			split as split_list
 		redefine
 			out
 		end

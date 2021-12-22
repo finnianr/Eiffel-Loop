@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-04 13:17:03 GMT (Friday 4th October 2019)"
-	revision: "10"
+	date: "2021-12-22 12:40:44 GMT (Wednesday 22nd December 2021)"
+	revision: "11"
 
 class
 	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

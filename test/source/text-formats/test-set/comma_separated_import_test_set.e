@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2021-12-22 13:03:30 GMT (Wednesday 22nd December 2021)"
+	revision: "12"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -34,14 +34,11 @@ feature -- Test
 				"covers/{EL_COMMA_SEPARATED_LINE_PARSER}.parse",
 				"covers/{EL_COMMA_SEPARATED_VALUE_ESCAPER}.escaped",
 				"covers/{EL_REFLECTIVELY_SETTABLE}.comma_separated_values"
-		local
-			job_list: like new_job_list
 		do
-			job_list := new_job_list
-
-			do_import_test (job_list)
-
-			do_test ("do_export_test", 978561297, agent do_export_test, [job_list])
+			if attached new_job_list as job_list then
+				do_import_test (job_list)
+				do_test ("do_export_test", 978561297, agent do_export_test, [job_list])
+			end
 		end
 
 feature {NONE} -- Implementation

@@ -315,7 +315,7 @@ system:
 			cluster:
 				name = i18n; location = "$|i18n"; recursive = true
 			cluster:
-				name = line_processing; location = "$|line-processing"; recursive = true
+				name = line_traversal; location = "$|line-traversal"; recursive = true
 			cluster:
 				name = name_value; location = "$|name-value"; recursive = true
 			cluster:

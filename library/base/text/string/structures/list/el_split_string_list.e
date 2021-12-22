@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:50 GMT (Sunday 19th December 2021)"
-	revision: "26"
+	date: "2021-12-20 19:16:12 GMT (Monday 20th December 2021)"
+	revision: "27"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -22,6 +22,7 @@ class
 inherit
 	EL_OCCURRENCE_INTERVALS [S]
 		rename
+			circular_i_th as circular_i_th_interval,
 			has as has_interval,
 			do_all as do_all_intervals,
 			for_all as for_all_intervals,
@@ -148,6 +149,15 @@ feature -- Shared items
 			end
 		end
 
+	circular_i_th (i: INTEGER): S
+		local
+			interval: INTEGER_64
+		do
+			interval := circular_i_th_interval (i)
+			Result := empty_item
+			Result.append_substring (target, lower_integer (interval), upper_integer (interval))
+		end
+
 	i_th (i: INTEGER): S
 		local
 			interval: INTEGER_64
@@ -182,6 +192,14 @@ feature -- Shared items
 		end
 
 feature -- Items
+
+	circular_i_th_copy (i: INTEGER): S
+		local
+			interval: INTEGER_64
+		do
+			interval := circular_i_th_interval (i)
+			Result := target.substring (lower_integer (interval), upper_integer (interval))
+		end
 
 	double_item: DOUBLE
 		do

@@ -1,27 +1,21 @@
 note
 	description: "CSV parser for lines encoded as Latin-1"
-	tests: "Class [$source COMMA_SEPARATED_IMPORT_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-21 12:46:38 GMT (Tuesday 21st December 2021)"
-	revision: "18"
+	date: "2021-12-22 13:06:54 GMT (Wednesday 22nd December 2021)"
+	revision: "1"
 
 class
-	EL_COMMA_SEPARATED_LINE_PARSER
+	CSV_INTEGER_STATE_PARSER
 
 inherit
-	EL_STATE_MACHINE [CHARACTER_8]
-		redefine
-			make
-		end
+	EL_REFLECTION_HANDLER
 
 	EL_ZSTRING_CONSTANTS
-
-	EL_REFLECTION_HANDLER
 
 create
 	make
@@ -30,10 +24,8 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor
 			create fields.make (0)
 			create field_string.make_empty
-			set_states
 		end
 
 feature -- Access
@@ -47,9 +39,8 @@ feature -- Basic operations
 	parse (line: STRING)
 		do
 			count := count + 1
-			set_states
 			column := 0
-			traverse_iterable (find_comma, line)
+			traverse (State_find_comma, line)
 			add_value
 		end
 
@@ -76,78 +67,80 @@ feature -- Element change
 
 feature {NONE} -- State handlers
 
-	check_back_slash (state_previous: like find_comma; character: CHARACTER)
+	check_back_slash (str: STRING; i: INTEGER; c: CHARACTER)
 		local
 			escape: CHARACTER
 		do
-			inspect character
+			inspect c
 				when 'r' then escape := '%R'
 				when 'n' then escape := '%N'
 			else
 			end
 			if escape.natural_32_code.to_boolean then
 				field_string.append_character (escape)
-				state := state_previous
+				state := previous_state
 			else
 				field_string.append_character (Back_slash)
-				if character = Comma and then state_previous = find_comma then
-					do_find_comma (character)
-					state := find_comma
-					
-				elseif character = Double_quote and then state_previous = find_end_quote then
-					do_find_end_quote (character)
+				if c = Comma and then previous_state = State_find_comma then
+					find_comma (str, i, c)
+					state := State_find_comma
+
+				elseif c = Double_quote and then previous_state = State_find_end_quote then
+					find_end_quote (str, i, c)
 				else
-					field_string.append_character (character)
-					state := state_previous
+					field_string.append_character (c)
+					state := previous_state
 				end
 			end
 		end
 
-	do_check_escaped_quote (character: CHARACTER)
+	check_escaped_quote (str: STRING; i: INTEGER; c: CHARACTER)
 			-- check if last character was escape quote
 		do
-			inspect character
+			inspect c
 				when Comma then
 					add_value
-					state := find_comma
+					state := State_find_comma
 
 				when Double_quote then
-					field_string.append_character (character)
-					state := find_end_quote
+					field_string.append_character (c)
+					state := State_find_end_quote
 
 			else -- last quote was end quote
-				state := find_comma
+				state := State_find_comma
 			end
 		end
 
-	do_find_comma (character: CHARACTER)
+	find_comma (str: STRING; i: INTEGER; c: CHARACTER)
 			--
 		do
-			inspect character
+			inspect c
 				when Comma then
 					add_value
 
 				when Double_quote then
-					state := find_end_quote
+					state := State_find_end_quote
 
 				when Back_slash then
-					state := agent check_back_slash (find_comma, ?)
+					previous_state := State_find_comma
+					state := State_check_back_slash
 
 			else
-				field_string.append_character (character)
+				field_string.append_character (c)
 			end
 		end
 
-	do_find_end_quote (character: CHARACTER)
+	find_end_quote (str: STRING; i: INTEGER; c: CHARACTER)
 			--
 		do
-			inspect character
+			inspect c
 				when Double_quote then
-					state := check_escaped_quote
+					state := State_check_escaped_quote
 				when Back_slash then
-					state := agent check_back_slash (find_end_quote, ?)
+					previous_state := State_find_end_quote
+					state := State_check_back_slash
 			else
-				field_string.append_character (character)
+				field_string.append_character (c)
 			end
 		end
 
@@ -159,36 +152,67 @@ feature {NONE} -- Implementation
 			if count = 1 then
 				fields.extend (field_string.twin, Empty_string)
 			else
-				fields.i_th (column).value := new_string
+				fields.i_th (column).value := new_zstring
 			end
 			field_string.wipe_out
 		end
 
-	set_states
+	call (str: STRING; i: INTEGER; c: CHARACTER)
 		do
-			find_end_quote := agent do_find_end_quote
-			find_comma := agent do_find_comma
-			check_escaped_quote := agent do_check_escaped_quote
+			inspect state
+				when State_check_back_slash then
+					check_back_slash (str, i, c)
+
+				when State_check_escaped_quote then
+					check_escaped_quote (str, i, c)
+
+				when State_find_comma then
+					find_comma (str, i, c)
+
+				when State_find_end_quote then
+					find_end_quote (str, i, c)
+			else
+			end
 		end
 
-feature {NONE} -- Implementation
+	traverse (initial_state: INTEGER; string: STRING)
+			--
+		local
+			l_final, i, l_count: INTEGER
+		do
+			l_final := State_final; l_count := string.count
+			from i := 1; state := initial_state until i > l_count or state = l_final loop
+				call (string, i, string [i])
+				i := i + 1
+			end
+		end
 
-	new_string: ZSTRING
+	new_zstring: ZSTRING
 		do
 			create Result.make_from_general (field_string)
 		end
 
 feature {NONE} -- Internal attributes
 
-	check_escaped_quote: PROCEDURE [CHARACTER]
-
 	column: INTEGER
 
 	field_string: STRING
 
-	find_comma: PROCEDURE [CHARACTER]
+	previous_state: INTEGER
 
-	find_end_quote: PROCEDURE [CHARACTER]
+	state: INTEGER
+
+feature {NONE} -- States
+
+	State_check_escaped_quote: INTEGER = 1
+
+	State_check_back_slash: INTEGER = 2
+
+	State_find_comma: INTEGER = 3
+
+	State_find_end_quote: INTEGER = 4
+
+	State_final: INTEGER = 0
 
 feature {NONE} -- Constants
 
@@ -197,5 +221,4 @@ feature {NONE} -- Constants
 	Comma: CHARACTER = ','
 
 	Double_quote: CHARACTER = '"'
-
 end

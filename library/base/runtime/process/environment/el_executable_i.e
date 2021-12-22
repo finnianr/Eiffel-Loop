@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 10:15:50 GMT (Sunday 28th November 2021)"
-	revision: "8"
+	date: "2021-12-20 21:48:39 GMT (Monday 20th December 2021)"
+	revision: "9"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -72,7 +72,7 @@ feature -- Access
 		do
 			create Result
 			extension_list := file_extensions
-			across search_path.split_list (search_path_separator) as l_path until found loop
+			across search_path.split (search_path_separator) as l_path until found loop
 				Result.set_path (l_path.item)
 				Result.append_step (a_name)
 				if extension_list.is_empty then

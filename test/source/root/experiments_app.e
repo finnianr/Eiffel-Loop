@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 11:54:30 GMT (Monday 20th December 2021)"
-	revision: "73"
+	date: "2021-12-20 20:03:20 GMT (Monday 20th December 2021)"
+	revision: "74"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("string.right_adjust")
-			string.right_adjust
+			log.enter ("general.or_expression_evaluation")
+			general.or_expression_evaluation
 			log.exit
 		end
 

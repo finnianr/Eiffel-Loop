@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-10 9:04:43 GMT (Monday 10th May 2021)"
-	revision: "14"
+	date: "2021-12-20 20:04:26 GMT (Monday 20th December 2021)"
+	revision: "15"
 
 class
 	GENERAL_EXPERIMENTS
@@ -174,6 +174,13 @@ feature -- Basic operations
 			end
 		end
 
+	or_expression_evaluation
+		local
+			bool: BOOLEAN
+		do
+			bool := is_true or is_false
+		end
+
 	pointer_width
 		local
 			ptr: POINTER
@@ -256,6 +263,19 @@ feature -- Basic operations
 				lio.put_new_line
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- Implemenation
+
+	is_true: BOOLEAN
+		do
+			Result := True
+			lio.put_line ("is_true")
+		end
+
+	is_false: BOOLEAN
+		do
+			lio.put_line ("is_false")
 		end
 
 feature {NONE} -- Constants

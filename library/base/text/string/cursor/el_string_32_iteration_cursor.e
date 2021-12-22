@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:53:20 GMT (Tuesday 2nd March 2021)"
-	revision: "2"
+	date: "2021-12-21 11:39:20 GMT (Tuesday 21st December 2021)"
+	revision: "3"
 
 class
 	EL_STRING_32_ITERATION_CURSOR

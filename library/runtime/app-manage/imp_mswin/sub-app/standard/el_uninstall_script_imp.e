@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-30 9:05:40 GMT (Wednesday 30th September 2020)"
-	revision: "7"
+	date: "2021-12-20 19:00:15 GMT (Monday 20th December 2021)"
+	revision: "8"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 
 	uninstall_base_list: EL_ZSTRING_LIST
 		do
-			create Result.make_with_csv ("start, /WAIT, /D")
+			create Result.make_comma_split ("start, /WAIT, /D")
 			Result.extend (Directory.Application_bin.escaped)
 			Result.extend (Executable.name)
 		end

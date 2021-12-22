@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 14:29:15 GMT (Friday 26th February 2021)"
-	revision: "16"
+	date: "2021-12-20 21:39:23 GMT (Monday 20th December 2021)"
+	revision: "17"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -68,15 +68,20 @@ feature -- Access
 
 	word_match_extracts (search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]): ARRAYED_LIST [like keywords_in_bold]
 			--
+		local
+			new_line_splitter: EL_SPLIT_ON_CHARACTER [EL_WORD_TOKEN_LIST]
+			tokens: EL_WORD_TOKEN_LIST
 		do
 			if search_words.is_empty then
 				create Result.make (0)
 			else
 				create Result.make (search_words.count)
+				create new_line_splitter.make (word_token_list, word_table.New_line_token)
 				across search_words as words loop
-					across word_token_list.split (word_table.New_line_token) as tokens loop
-						if tokens.item.has_substring (words.item) then
-							Result.extend (keywords_in_bold (words.item, tokens.item))
+					across new_line_splitter as split loop
+						tokens := split.item
+						if tokens.has_substring (words.item) then
+							Result.extend (keywords_in_bold (words.item, tokens))
 						end
 					end
 				end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 10:19:08 GMT (Sunday 20th December 2020)"
-	revision: "10"
+	date: "2021-12-21 11:21:28 GMT (Tuesday 21st December 2021)"
+	revision: "11"
 
 class
 	EL_STATE_MACHINE [G]
@@ -45,19 +45,6 @@ feature -- Basic operations
 			across sequence as seq until state = l_final loop
 				item_number := item_number + 1
 				call (seq.item)
-			end
-		end
-
-	traverse_indexable (initial: like state; indexable: READABLE_INDEXABLE [G])
-		local
-			l_final: like final; i, upper: INTEGER
-		do
-			item_number := 0; l_final := final
-			upper := indexable.upper
-			from i := indexable.lower; state := initial until i > upper or state = l_final loop
-				item_number := item_number + 1
-				call (indexable [i])
-				i := i + 1
 			end
 		end
 
