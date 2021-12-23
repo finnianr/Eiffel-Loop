@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:59:34 GMT (Sunday 19th December 2021)"
-	revision: "39"
+	date: "2021-12-23 11:38:29 GMT (Thursday 23rd December 2021)"
+	revision: "40"
 
 class
 	RBOX_DATABASE
@@ -79,6 +79,7 @@ feature {NONE} -- Initialization
 			make_solitary
 
 			if attached DB_field then
+				-- Initialize once routine
 			end
 
 			music_dir := a_music_dir; music_uri := a_music_dir
@@ -87,7 +88,7 @@ feature {NONE} -- Initialization
 			lio.put_new_line
 
 			if a_xml_database_path.exists then
-				xml_text := File_system.raw_plain_text (a_xml_database_path)
+				xml_text := File_system.plain_text_raw (a_xml_database_path)
 			else
 				xml_text := Default_xml
 			end

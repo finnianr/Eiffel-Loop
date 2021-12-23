@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 13:35:22 GMT (Thursday 11th March 2021)"
-	revision: "7"
+	date: "2021-12-23 11:41:52 GMT (Thursday 23rd December 2021)"
+	revision: "8"
 
 deferred class
 	JAVA_ENVIRONMENT_I
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			if attached {STRING_32} Execution.item ("CLASSPATH") as environment_class_path then
-				create class_path_list.make_with_separator (environment_class_path, class_path_separator, False)
+				create class_path_list.make_split (environment_class_path, class_path_separator)
 			else
 				create class_path_list.make_empty
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 12:12:03 GMT (Monday 20th December 2021)"
-	revision: "3"
+	date: "2021-12-23 11:31:59 GMT (Thursday 23rd December 2021)"
+	revision: "4"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -19,7 +19,14 @@ feature {NONE} -- Initialization
 
 	make (a_target: like target; a_separator: like separator)
 		do
-			target := a_target; separator := a_separator
+			make_adjusted (a_target, a_separator, 0)
+		end
+
+	make_adjusted (a_target: like target; a_separator: like separator; a_adjustments: INTEGER)
+		require
+			valid_adjustments: valid_adjustments (adjustments)
+		do
+			target := a_target; separator := a_separator; adjustments := a_adjustments
 		end
 
 feature -- Access
@@ -39,19 +46,13 @@ feature -- Access
 feature -- Status query
 
 	left_adjusted: BOOLEAN
-
-	right_adjusted: BOOLEAN
-
-feature -- Status change
-
-	set_left_adjusted (status: BOOLEAN)
 		do
-			left_adjusted := status
+			Result := (adjustments & {EL_STRING_ADJUST}.Left).to_boolean
 		end
 
-	set_right_adjusted (status: BOOLEAN)
+	right_adjusted: BOOLEAN
 		do
-			right_adjusted := status
+			Result := (adjustments & {EL_STRING_ADJUST}.Right).to_boolean
 		end
 
 feature -- Element change
@@ -61,7 +62,16 @@ feature -- Element change
 			target := a_target
 		end
 
+feature -- Contract Support
+
+	valid_adjustments (bitmap: INTEGER): BOOLEAN
+		do
+			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
+		end
+
 feature {NONE} -- Internal attributes
+
+	adjustments: INTEGER
 
 	separator: G
 

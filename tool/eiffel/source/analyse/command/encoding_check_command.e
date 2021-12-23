@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:25:18 GMT (Sunday 28th June 2020)"
-	revision: "10"
+	date: "2021-12-23 10:49:34 GMT (Thursday 23rd December 2021)"
+	revision: "11"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -35,8 +35,7 @@ feature -- Basic operations
 			if attached open_lines (source_path, Latin_1) as source_lines then
 				if source_lines.encoded_as_utf (8) then
 					relative_source_path := source_path.relative_path (Directory.current_working)
-					source_utf_8 := File_system.plain_text (source_path)
-					source_utf_8.remove_head (3)
+					source_utf_8 := File_system.plain_text_bomless (source_path)
 					if c.is_valid_utf_8_string_8 (source_utf_8) then
 						lio.put_new_line
 						lio.put_path_field ("UTF-8", relative_source_path)

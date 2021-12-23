@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
-	revision: "15"
+	date: "2021-12-23 11:33:00 GMT (Thursday 23rd December 2021)"
+	revision: "16"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -105,12 +105,8 @@ feature {NONE} -- Implementation
 
 	output_lines
 		local
-			lines: EL_ZSTRING_LIST; tab_count, count: INTEGER
-			line, text: ZSTRING
+			tab_count, count: INTEGER; line: ZSTRING
 		do
-			text := File_system.plain_text (output_path)
-			create lines.make_with_lines (text)
-
 			if not output_dir.exists then
 				File_system.make_directory (output_dir)
 			end
@@ -121,8 +117,8 @@ feature {NONE} -- Implementation
 					"%Tdescendants: %"["
 				>>)
 				file_out.put_new_line
-				from lines.start until lines.after loop
-					line := lines.item
+				across File_system.plain_text_lines (output_path, {EL_STRING_ADJUST}.Right) as text loop
+					line := text.item
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then
 						line.prune_all_trailing ('.')
@@ -134,7 +130,6 @@ feature {NONE} -- Implementation
 						file_out.put_string (line)
 						file_out.put_new_line
 					end
-					lines.forth
 				end
 				file_out.put_string_8 ("%T]%"")
 				file_out.close

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:34:23 GMT (Sunday 19th December 2021)"
-	revision: "18"
+	date: "2021-12-23 11:31:10 GMT (Thursday 23rd December 2021)"
+	revision: "19"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -205,21 +205,23 @@ feature -- Tests
 			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER [STRING]
 			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
 			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
+			adjustments: INTEGER
 		do
 			bracket_pair := "()"
 			across Comma_separated_variations as csv_list loop
-				create character_split.make (csv_list.item, ',')
+				if csv_list.item.has (' ') then
+					adjustments := {EL_STRING_ADJUST}.Both
+				else
+					adjustments := 0
+				end
+				create character_split.make_adjusted (csv_list.item, ',', adjustments)
 
 				str_list := csv_list.item.twin
 				str_list.replace_substring_all (",", bracket_pair)
-				create string_split.make (str_list, bracket_pair)
+				create string_split.make_adjusted (str_list, bracket_pair, adjustments)
 
 				splitter_array := << string_split, character_split >>
 				across splitter_array as splitter loop
-					if csv_list.item.has (' ') then
-						splitter.item.set_left_adjusted (True)
-						splitter.item.set_right_adjusted (True)
-					end
 					create split_list.make (5)
 					across splitter.item as split loop
 						if split.cursor_index = 1 then

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 10:12:00 GMT (Sunday 28th November 2021)"
-	revision: "2"
+	date: "2021-12-23 11:09:01 GMT (Thursday 23rd December 2021)"
+	revision: "3"
 
 class
 	EL_SPLIT_ZSTRING_ON_STRING
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make
+	make, make_adjusted
 
 feature -- Access
 

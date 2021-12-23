@@ -36,8 +36,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 12:25:08 GMT (Sunday 28th November 2021)"
-	revision: "11"
+	date: "2021-12-23 11:17:49 GMT (Thursday 23rd December 2021)"
+	revision: "12"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -99,7 +99,7 @@ feature -- Status query
 				type_array := Mod_tuple.type_array (tuple)
 				Result := True
 				across
-					new_comma_splitter (csv_list, left_adjusted) as list
+					new_comma_splitter (csv_list, left_adjusted.to_integer) as list
 				until
 					not Result or else list.cursor_index > tuple.count
 				loop
@@ -115,7 +115,7 @@ feature -- Status query
 	is_convertible_list (item_type_id: INTEGER; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
 		do
 			Result := True
-			across new_comma_splitter (csv_list, left_adjusted) as list until not Result loop
+			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until not Result loop
 				Result := is_convertible_to_type (list.item, item_type_id)
 			end
 		end
@@ -128,7 +128,7 @@ feature -- Basic operations
 		require
 			convertable: is_convertible_list (item_type_id, csv_list, left_adjusted)
 		do
-			across new_comma_splitter (csv_list, left_adjusted) as list loop
+			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list loop
 				if attached list.item as item_str and then is_convertible_to_type (item_str, item_type_id) then
 					chain.extend (to_type_of_type (item_str.twin, item_type_id))
 				else
@@ -149,7 +149,7 @@ feature -- Basic operations
 			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]; type_id: INTEGER
 		do
 			type_array := Mod_tuple.type_array (tuple)
-			across new_comma_splitter (csv_list, left_adjusted) as list until list.cursor_index > tuple.count loop
+			across new_comma_splitter (csv_list, left_adjusted.to_integer) as list until list.cursor_index > tuple.count loop
 				if attached list.item as item_str then
 					item_type := type_array [list.cursor_index]
 					type_id := item_type.type_id
@@ -216,20 +216,17 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	new_comma_splitter (
-		csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN
-	): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
+	new_comma_splitter (csv_list: READABLE_STRING_GENERAL; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
 		do
 			if attached {ZSTRING} csv_list as zstring_list then
-				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make (zstring_list, ',')
+				create {EL_SPLIT_ZSTRING_ON_CHARACTER} Result.make_adjusted (zstring_list, ',', adjustments)
 
 			elseif csv_list.is_string_8 then
-				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make (csv_list.as_string_8, ',')
+				create {EL_SPLIT_ON_CHARACTER [STRING_8]} Result.make_adjusted (csv_list.as_string_8, ',', adjustments)
 
 			else
-				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make (csv_list.as_string_32, ',')
+				create {EL_SPLIT_ON_CHARACTER [STRING_32]} Result.make_adjusted (csv_list.as_string_32, ',', adjustments)
 			end
-			Result.set_left_adjusted (left_adjusted)
 		end
 
 	readable_string: READABLE_STRING_GENERAL

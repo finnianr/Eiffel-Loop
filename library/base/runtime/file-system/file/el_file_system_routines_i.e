@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 12:04:36 GMT (Monday 20th December 2021)"
-	revision: "36"
+	date: "2021-12-23 11:24:04 GMT (Thursday 23rd December 2021)"
+	revision: "37"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -119,23 +119,14 @@ feature -- Access
 			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
 		end
 
-	plain_text_lines (a_file_path: EL_FILE_PATH): EL_SPLIT_ON_CHARACTER [STRING]
+	plain_text_lines (a_file_path: EL_FILE_PATH; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [STRING]
+		-- `adjustments = 0' implies unadjusted lines
+		-- `adjustments = {EL_STRING_ADJUST}.Right' will trim '%R' on Windows
 		require
 			file_exists: a_file_path.exists
-		local
-			file: PLAIN_TEXT_FILE; count: INTEGER; content: STRING
+			valid_adjustments: valid_adjustments (adjustments)
 		do
-			create file.make_open_read (a_file_path)
-			count := file.count
-			create content.make (count)
-			content.set_count (count)
-			if file.read_to_string (content, 1, count) /= count then
-				check
-					complete_file_read: False
-				end
-			end
-			file.close
-			create Result.make (content, '%N')
+			create Result.make_adjusted (plain_text_raw (a_file_path), '%N', adjustments)
 		end
 
 	plain_text (a_file_path: EL_FILE_PATH): STRING
@@ -177,17 +168,22 @@ feature -- Access
 			end
 		end
 
-	raw_plain_text (a_file_path: EL_FILE_PATH): STRING
+	plain_text_raw (a_file_path: EL_FILE_PATH): STRING
 		-- plain text preserving carriage return characters '%R'
 		require
 			file_exists: a_file_path.exists
 		local
-			file: PLAIN_TEXT_FILE; pointer: MANAGED_POINTER
+			file: PLAIN_TEXT_FILE; count: INTEGER
 		do
 			create file.make_open_read (a_file_path)
-			create Result.make_filled (' ', file.count)
-			create pointer.share_from_pointer (Result.area.base_address, Result.count)
-			file.read_to_managed_pointer (pointer, 0, Result.count)
+			count := file.count
+			create Result.make (count)
+			Result.set_count (count)
+			if file.read_to_string (Result, 1, count) /= count then
+				check
+					complete_file_read: False
+				end
+			end
 			file.close
 		end
 
@@ -445,6 +441,11 @@ feature -- Contract Support
 	valid_who (who: STRING): BOOLEAN
 		do
 			Result := across who as c all ("uog").has (c.item) end
+		end
+
+	valid_adjustments (bitmap: INTEGER): BOOLEAN
+		do
+			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
 		end
 
 feature {NONE} -- Implementation

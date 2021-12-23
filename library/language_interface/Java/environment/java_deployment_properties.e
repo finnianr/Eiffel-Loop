@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-10 10:24:44 GMT (Wednesday 10th March 2021)"
-	revision: "8"
+	date: "2021-12-23 11:42:00 GMT (Thursday 23rd December 2021)"
+	revision: "9"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 			profile_id, pos_equal_sign, pos_profile_id: INTEGER
 		do
 			pos_equal_sign := line.index_of ('=', 1)
-			create key_path_list.make_with_separator (line.substring (1, pos_equal_sign - 1), '.', False)
+			create key_path_list.make_split (line.substring (1, pos_equal_sign - 1), '.')
 			value := line.substring (pos_equal_sign + 1, line.count)
 			profile_type := key_path_list.i_th (2)
 			if profile_type ~ Var_javaws then

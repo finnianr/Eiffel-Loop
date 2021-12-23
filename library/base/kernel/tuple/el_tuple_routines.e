@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 12:54:33 GMT (Sunday 28th November 2021)"
-	revision: "23"
+	date: "2021-12-23 11:27:50 GMT (Thursday 23rd December 2021)"
+	revision: "24"
 
 class
 	EL_TUPLE_ROUTINES
@@ -159,8 +159,7 @@ feature -- Basic operations
 			comma_splitter: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
 			tuple_types := type_array (tuple)
- 			create comma_splitter.make (csv_list, ',')
-			comma_splitter.set_left_adjusted (True)
+ 			create comma_splitter.make_adjusted (csv_list, ',', {EL_STRING_ADJUST}.Left)
 			across comma_splitter as list until list.cursor_index > tuple.count loop
 				if tuple_types [list.cursor_index].type_id = Class_id.IMMUTABLE_STRING_8 then
 					tuple.put_reference (list.item_copy, list.cursor_index)
@@ -183,8 +182,7 @@ feature -- Basic operations
 		do
 			result_type_id := a_new_item.generating_type.generic_parameter_type (2).type_id
 			tuple_types := type_array (tuple)
-			create comma_splitter.make (csv_field_list, ',')
-			comma_splitter.set_left_adjusted (True)
+			create comma_splitter.make_adjusted (csv_field_list, ',', {EL_STRING_ADJUST}.Left)
 
 			across comma_splitter as list until (start_index + list.cursor_index - 1) > tuple.count loop
 				index := start_index + list.cursor_index - 1
