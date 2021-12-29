@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-22 12:28:53 GMT (Wednesday 22nd December 2021)"
-	revision: "18"
+	date: "2021-12-29 16:02:36 GMT (Wednesday 29th December 2021)"
+	revision: "19"
 
 class
 	BENCHMARK_COMMAND_SHELL
@@ -26,21 +26,23 @@ feature {NONE} -- Constants
 	Factory: EL_OBJECT_FACTORY [EL_BENCHMARK_COMPARISON]
 		once
 			create Result.make (<<
-				["Compare list iteration methods",					{LIST_ITERATION_COMPARISON}],
-				["Compare hash-set vs linear search",				{HASH_SET_VERSUS_LINEAR_COMPARISON}],
-				["Compare hash-table vs nameables-list search",	{HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON}],
-				["Compare string concatenation methods",			{STRING_CONCATENATION_COMPARISON}],
-				["Compare {ZSTRING}.replace_substring",			{REPLACE_SUBSTRING_COMPARISON}],
-				["Compare {ZSTRING}.substring_index",				{SUBSTRING_INDEX_COMPARISON}],
-				["Compare {ZSTRING}.split_intervals",				{ZSTRING_SPLIT_COMPARISON}],
-				["Compare setting agent routine argument",		{SET_ROUTINE_ARGUMENT_COMPARISON}],
-				["Compare XML parsers",									{XML_PARSING_COMPARISON}],
-				["Compare finding files with extension",			{FINDING_FILES_WITH_EXTENSION_COMPARISON}],
-				["Compare unencoded list generation",				{UNENCODED_CHARACTER_LIST_GENERATION}],
-				["Compare {L1_UC_STRING}.make_general",			{MAKE_GENERAL_COMPARISON}],
-				["Compare {L1_UC_STRING}.unicode",					{UNICODE_ITEM_COMPARISON}],
-				["Compare STRING split iteration methods",		{STRING_SPLIT_ITERATION_COMPARISON}],
-				["Compare CSV parsing methods",						{CSV_PARSING_COMPARISON}]
+				["list iteration methods",						{LIST_ITERATION_COMPARISON}],
+				["hash-set vs linear search",					{HASH_SET_VERSUS_LINEAR_COMPARISON}],
+				["hash-table vs nameables-list search",	{HASH_TABLE_VS_NAMEABLES_LIST_COMPARISON}],
+				["string concatenation methods",				{STRING_CONCATENATION_COMPARISON}],
+				["{ZSTRING}.replace_substring",				{REPLACE_SUBSTRING_COMPARISON}],
+				["{ZSTRING}.substring_index",					{SUBSTRING_INDEX_COMPARISON}],
+				["{ZSTRING}.split_intervals",					{ZSTRING_SPLIT_COMPARISON}],
+				["setting agent routine argument",			{SET_ROUTINE_ARGUMENT_COMPARISON}],
+				["XML parsers",									{XML_PARSING_COMPARISON}],
+				["finding files with extension",				{FINDING_FILES_WITH_EXTENSION_COMPARISON}],
+				["unencoded list generation",					{UNENCODED_CHARACTER_LIST_GENERATION}],
+				["{L1_UC_STRING}.make_general",				{MAKE_GENERAL_COMPARISON}],
+				["{L1_UC_STRING}.unicode",						{UNICODE_ITEM_COMPARISON}],
+				["STRING split iteration methods",			{STRING_SPLIT_ITERATION_COMPARISON}],
+				["CSV parsing methods",							{CSV_PARSING_COMPARISON}],
+				["call on expanded vs once ref object",	{EXPANDED_VS_ONCE_COMPARISON}],
+				["filling linked VS arrayed list",			{ARRAYED_LIST_VS_LINKED_LIST_COMPARISON}]
 			>>)
 		end
 

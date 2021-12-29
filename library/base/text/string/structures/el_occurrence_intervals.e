@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:54:37 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2021-12-25 11:28:21 GMT (Saturday 25th December 2021)"
+	revision: "12"
 
 class
 	EL_OCCURRENCE_INTERVALS [S -> STRING_GENERAL create make end]
@@ -19,6 +19,8 @@ inherit
 		rename
 			make as make_intervals,
 			fill as fill_from,
+			first as first_interval,
+			last as last_interval,
 			new_item as new_interval
 		export
 			{NONE} extend, item_extend, item_replace

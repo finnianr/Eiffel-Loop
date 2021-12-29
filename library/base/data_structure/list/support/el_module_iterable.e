@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-19 16:44:22 GMT (Friday 19th February 2021)"
-	revision: "3"
+	date: "2021-12-26 15:54:32 GMT (Sunday 26th December 2021)"
+	revision: "4"
 
 deferred class
 	EL_MODULE_ITERABLE
@@ -17,8 +17,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	iterable: EL_ITERABLE_ROUTINES
+	Iterable: EL_ITERABLE_ROUTINES
 			--
-		do
+		once
+			create Result
 		end
 end

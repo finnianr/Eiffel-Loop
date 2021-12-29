@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:51:08 GMT (Saturday 20th March 2021)"
-	revision: "9"
+	date: "2021-12-26 14:59:16 GMT (Sunday 26th December 2021)"
+	revision: "10"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -19,9 +19,6 @@ inherit
 		end
 
 	SHARED_HEXAGRAM_STRINGS
-		undefine
-			default_create
-		end
 
 feature -- Basic operations
 

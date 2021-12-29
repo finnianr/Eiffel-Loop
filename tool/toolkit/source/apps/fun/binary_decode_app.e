@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 13:15:24 GMT (Tuesday 14th September 2021)"
-	revision: "2"
+	date: "2021-12-26 15:29:33 GMT (Sunday 26th December 2021)"
+	revision: "3"
 
 class
 	BINARY_DECODE_APP
@@ -18,13 +18,11 @@ inherit
 
 	EL_MODULE_ARGS
 
-	EL_MODULE_STRING_8
-
 feature {NONE} -- Initialization
 
 	initialize
 		local
-			file_path: EL_FILE_PATH
+			file_path: EL_FILE_PATH; string_8: EL_STRING_8_ROUTINES
 		do
 			file_path := Args.file_path (option_name)
 			-- Get location of file

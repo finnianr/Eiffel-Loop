@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:23:58 GMT (Wednesday 1st September 2021)"
-	revision: "15"
+	date: "2021-12-29 16:16:35 GMT (Wednesday 29th December 2021)"
+	revision: "17"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_equal (Factory.count)
 			across Factory.alias_names as name loop
-				Result [name.item] := agent do_comparison (name.item)
+				Result [Compare + name.item] := agent do_comparison (name.item)
 			end
 		end
 
@@ -71,5 +71,10 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Duration_prompt: STRING = "trial duration in millisecs"
+
+	Compare: ZSTRING
+		once
+			Result := "Compare "
+		end
 
 end

@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:55:51 GMT (Wednesday 15th September 2021)"
-	revision: "6"
+	date: "2021-12-26 15:36:58 GMT (Sunday 26th December 2021)"
+	revision: "7"
 
 expanded class
 	EL_POINTER_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	PLATFORM
 		export
 			{NONE} all

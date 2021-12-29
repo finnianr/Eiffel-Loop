@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:51 GMT (Sunday 19th December 2021)"
-	revision: "19"
+	date: "2021-12-26 15:28:53 GMT (Sunday 26th December 2021)"
+	revision: "20"
 
 deferred class
 	CLASS_FEATURE
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 
 	update_name
 		local
-			list: like Split_list; s: EL_ZSTRING_ROUTINES
+			list: like Split_list
 		do
 			list := Split_list
 			list.set_target (lines.first, ' ', {EL_STRING_ADJUST}.Left)

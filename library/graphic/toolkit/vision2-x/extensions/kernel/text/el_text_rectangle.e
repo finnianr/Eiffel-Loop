@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:46:09 GMT (Sunday 19th December 2021)"
-	revision: "14"
+	date: "2021-12-26 16:00:47 GMT (Sunday 26th December 2021)"
+	revision: "15"
 
 class
 	EL_TEXT_RECTANGLE
@@ -45,8 +45,6 @@ inherit
 	EL_MODULE_LIO
 
 	EL_MODULE_GUI
-
-	EL_MODULE_ZSTRING
 
 create
 	make_cms, make, make_from_rectangle
@@ -143,6 +141,8 @@ feature -- Element change
 
 	append_line (a_line: READABLE_STRING_GENERAL)
 			-- append line without wrapping
+		local
+			zstring: EL_ZSTRING_ROUTINES
 		do
 			if is_text_squeezable then
 				squeeze_line (zstring.as_zstring (a_line))
@@ -349,7 +349,7 @@ feature {NONE} -- Implementation
 	word_wrapped_lines (a_line: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
 		local
 			line_out: ZSTRING; old_count: INTEGER; words: EL_SPLIT_ZSTRING_LIST
-			line: ZSTRING
+			line: ZSTRING; zstring: EL_ZSTRING_ROUTINES
 		do
 			create Result.make (0); create line_out.make_empty; line := zstring.as_zstring (a_line)
 

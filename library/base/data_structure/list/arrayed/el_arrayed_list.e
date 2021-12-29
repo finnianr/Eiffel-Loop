@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 14:17:58 GMT (Sunday 29th August 2021)"
-	revision: "35"
+	date: "2021-12-26 17:53:57 GMT (Sunday 26th December 2021)"
+	revision: "36"
 
 class
 	EL_ARRAYED_LIST [G]

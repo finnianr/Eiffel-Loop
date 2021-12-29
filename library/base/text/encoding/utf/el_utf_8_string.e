@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 11:38:52 GMT (Thursday 3rd June 2021)"
-	revision: "8"
+	date: "2021-12-25 13:09:14 GMT (Saturday 25th December 2021)"
+	revision: "9"
 
 class
 	EL_UTF_8_STRING
@@ -36,7 +36,7 @@ feature -- String conversion
 	adjusted (keep_ref: BOOLEAN): ZSTRING
 		-- string with adjusted whitespace
 		local
-			c: EL_UTF_CONVERTER; n, start_index, end_index: INTEGER; str_32: STRING_32
+			utf_8: EL_UTF_8_CONVERTER; n, start_index, end_index: INTEGER; str_32: STRING_32
 		do
 			end_index := count - trailing_white_count
 			if end_index.to_boolean then
@@ -47,7 +47,7 @@ feature -- String conversion
 			Result := buffer.empty
 			if has_multi_byte_character then
 				str_32 := buffer_32.empty
-				c.utf_8_substring_8_into_string_32 (Current, start_index, end_index, str_32)
+				utf_8.substring_8_into_string_32 (Current, start_index, end_index, str_32)
 				Result.append_string_general (str_32)
 			else
 				n := end_index - start_index + 1
@@ -81,7 +81,7 @@ feature -- String conversion
 	adjusted_32 (keep_ref: BOOLEAN): STRING_32
 		-- string with adjusted whitespace
 		local
-			c: EL_UTF_CONVERTER; start_index, end_index: INTEGER
+			utf_8: EL_UTF_8_CONVERTER; start_index, end_index: INTEGER
 		do
 			end_index := count - trailing_white_count
 			if end_index.to_boolean then
@@ -91,7 +91,7 @@ feature -- String conversion
 			end
 			Result := buffer_32.empty
 			if has_multi_byte_character then
-				c.utf_8_substring_8_into_string_32 (Current, start_index, end_index, Result)
+				utf_8.substring_8_into_string_32 (Current, start_index, end_index, Result)
 			else
 				Result.append_substring_general (Current, start_index, end_index)
 			end
@@ -124,11 +124,11 @@ feature -- String conversion
 	raw_string_32 (keep_ref: BOOLEAN): STRING_32
 		-- string with unadjusted whitespace
 		local
-			c: EL_UTF_CONVERTER
+			utf_8: EL_UTF_8_CONVERTER
 		do
 			Result := buffer_32.empty
 			if has_multi_byte_character then
-				c.utf_8_string_8_into_string_32 (Current, Result)
+				utf_8.string_8_into_string_32 (Current, Result)
 			else
 				Result.append_string_general (Current)
 			end

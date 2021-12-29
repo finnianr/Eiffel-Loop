@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 14:47:24 GMT (Tuesday 14th September 2021)"
-	revision: "14"
+	date: "2021-12-26 15:27:13 GMT (Sunday 26th December 2021)"
+	revision: "15"
 
 class
 	EL_UTF_8_ZCODEC
@@ -69,6 +69,8 @@ feature -- Conversion
 	as_unicode (a_utf_8: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `utf_8' string as unicode
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
+		local
+			string_8: EL_STRING_8_ROUTINES
 		do
 			if string_8.is_ascii (a_utf_8) then
 				Result := a_utf_8

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:34 GMT (Sunday 19th December 2021)"
-	revision: "6"
+	date: "2021-12-26 15:46:44 GMT (Sunday 26th December 2021)"
+	revision: "7"
 
 class
 	TL_STRING_LIST
@@ -23,8 +23,6 @@ inherit
 	ITERABLE [ZSTRING]
 
 	TL_SHARED_ONCE_STRING
-
-	EL_MODULE_ITERABLE
 
 create
 	make_from_pointer, make

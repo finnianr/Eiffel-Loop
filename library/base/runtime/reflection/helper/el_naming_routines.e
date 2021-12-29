@@ -12,16 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 12:20:46 GMT (Sunday 19th December 2021)"
-	revision: "24"
+	date: "2021-12-26 15:24:53 GMT (Sunday 26th December 2021)"
+	revision: "25"
 
 class
 	EL_NAMING_ROUTINES
 
 inherit
 	ANY
-
-	EL_MODULE_STRING_8
 
 	EL_STRING_8_CONSTANTS
 
@@ -43,7 +41,7 @@ feature -- Class name derivations
 
 	class_as_camel (object_or_type: ANY; head_count, tail_count: INTEGER): STRING
 		local
-			l_name: STRING
+			string_8: EL_STRING_8_ROUTINES; l_name: STRING
 		do
 			l_name := class_as_snake_lower (object_or_type, head_count, tail_count)
 			create Result.make (l_name.count)
@@ -182,6 +180,8 @@ feature -- Import names
 		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
+		local
+			string_8: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			name_out.to_lower
@@ -247,7 +247,7 @@ feature -- Export names
 		require
 			empty_name_out: english_out.is_empty
 		local
-			word: STRING
+			string_8: EL_STRING_8_ROUTINES word: STRING
 		do
 			upper_case_words.compare_objects
 			Underscore_split.set_target (name_in)
@@ -258,7 +258,7 @@ feature -- Export names
 				end
 				if list.cursor_index = 1 then
 					if word.count > 0 then
-						String_8.set_upper (word, 1)
+						string_8.set_upper (word, 1)
 					end
 				elseif english_out.ends_with (once "NON") then
 					english_out.append_character ('-')
@@ -275,6 +275,8 @@ feature -- Export names
 	to_kebab_case (name_in, name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
+		local
+			string_8: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			string_8.replace_character (name_out, '_', '-')
@@ -310,6 +312,8 @@ feature -- Export names
 	to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		require
 			empty_title_out: title_out.is_empty
+		local
+			string_8: EL_STRING_8_ROUTINES
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop

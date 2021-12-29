@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:32:16 GMT (Friday 23rd July 2021)"
-	revision: "10"
+	date: "2021-12-28 15:44:03 GMT (Tuesday 28th December 2021)"
+	revision: "11"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -47,7 +47,13 @@ feature {NONE} -- Implementation
 			File_system_mutex.unlock
 			Precursor (a_system_command)
 			if not has_error then
-				do_with_lines (adjusted_lines (new_output_lines (l_output_path)))
+				if attached new_output_lines (l_output_path) as lines then
+					do_with_lines (adjusted_lines (lines))
+					if attached {EL_PLAIN_TEXT_LINE_SOURCE} lines as source then
+						-- Failure to close file will result on an error on deletion with Windows
+						source.close
+					end
+				end
 			end
 			File_system_mutex.lock
 				if l_output_path.exists then

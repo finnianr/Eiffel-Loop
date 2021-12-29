@@ -6,14 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-18 10:36:31 GMT (Saturday 18th December 2021)"
-	revision: "10"
+	date: "2021-12-26 15:39:11 GMT (Sunday 26th December 2021)"
+	revision: "11"
 
 expanded class
 	EL_BENCHMARK_ROUTINES
 
 inherit
-	ANY
+	EL_EXPANDED_ROUTINES
+
 
 	EL_MODULE_MEMORY
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:25:32 GMT (Thursday 23rd December 2021)"
-	revision: "10"
+	date: "2021-12-24 7:58:19 GMT (Friday 24th December 2021)"
+	revision: "11"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make_from_file (a_file_path: EL_FILE_PATH)
 		do
 			make_machine
-			if attached File_system.plain_text_lines (a_file_path, {EL_STRING_ADJUST}.Right) as lines then
+			if attached File_system.plain_text_lines (a_file_path) as lines then
 				make (lines.count)
 				do_with_split (agent find_first_cookie, lines, False)
 			end

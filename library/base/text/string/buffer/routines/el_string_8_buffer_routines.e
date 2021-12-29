@@ -8,13 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 18:11:45 GMT (Tuesday 7th December 2021)"
-	revision: "5"
+	date: "2021-12-26 15:38:13 GMT (Sunday 26th December 2021)"
+	revision: "6"
 
 expanded class
 	EL_STRING_8_BUFFER_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_STRING_8_BUFFER_I
 
 feature {NONE} -- Constants

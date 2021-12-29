@@ -6,14 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 16:57:08 GMT (Sunday 28th November 2021)"
-	revision: "2"
+	date: "2021-12-26 15:37:55 GMT (Sunday 26th December 2021)"
+	revision: "3"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
 
 inherit
-	ANY
+	EL_EXPANDED_ROUTINES
+
 	EL_ZSTRING_CONSTANTS
 
 feature -- Conversion

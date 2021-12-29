@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 14:59:51 GMT (Sunday 19th December 2021)"
-	revision: "19"
+	date: "2021-12-26 17:55:34 GMT (Sunday 26th December 2021)"
+	revision: "20"
 
 class
 	FCGI_HTTP_HEADERS
@@ -31,6 +31,8 @@ inherit
 		end
 
 	EL_WORD_SEPARATION_ADAPTER
+
+	EL_MODULE_ITERABLE
 
 create
 	make
@@ -85,9 +87,9 @@ feature -- Access
 	selected (name_list: ITERABLE [STRING]): HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
-			l_name: STRING; iterable: EL_ITERABLE_ROUTINES
+			l_name: STRING
 		do
-			create Result.make (iterable.count (name_list))
+			create Result.make (Iterable.count (name_list))
 			across name_list as name loop
 				l_name := from_kebab_case (name.item, False)
 				if field_table.has_key (l_name) then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-15 13:03:04 GMT (Friday 15th January 2021)"
-	revision: "3"
+	date: "2021-12-26 15:11:35 GMT (Sunday 26th December 2021)"
+	revision: "4"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -21,19 +21,56 @@ feature -- Basic operations
 
 	do_all (eval: EL_EQA_TEST_EVALUATOR)
 		do
+			eval.call ("little_endian_utf_16_substring_conversion", agent test_little_endian_utf_16_substring_conversion)
 			eval.call ("utf_8_substring_conversion", agent test_utf_8_substring_conversion)
 		end
 
 feature -- Test
 
+	test_little_endian_utf_16_substring_conversion
+		do
+			do_test (agent test_utf_16_le)
+			test_utf_16_le (G_clef, 0, 0)
+		end
+
 	test_utf_8_substring_conversion
+		do
+			do_test (agent test_utf_8)
+		end
+
+feature {NONE} -- Implementation
+
+	test_utf_8 (str_32: STRING_32; leading_count, trailing_count: INTEGER)
 		local
-			str_32, substring_32: STRING_32; utf_8: STRING_8
-			c: EL_UTF_CONVERTER; i, leading_count, trailing_count: INTEGER
+			utf_8_string: STRING_8; utf_8: EL_UTF_8_CONVERTER; substring_32: STRING_32
+		do
+			utf_8_string := utf_8.string_32_to_string_8 (str_32)
+			create substring_32.make_empty
+			utf_8.substring_8_into_string_32 (
+				utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring_32
+			)
+			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
+		end
+
+	test_utf_16_le (str_32: STRING_32; leading_count, trailing_count: INTEGER)
+		local
+			utf_16_le_string: STRING_8; utf_16_le: EL_UTF_16_LE_CONVERTER; substring_32: STRING_32
+		do
+			utf_16_le_string := utf_16_le.string_32_to_string_8 (str_32)
+			create substring_32.make_empty
+			utf_16_le.substring_8_into_string_32 (
+				utf_16_le_string, leading_count * 2 + 1, utf_16_le_string.count - trailing_count * 2, substring_32
+			)
+			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
+		end
+
+	do_test (test_utf: PROCEDURE [STRING_32, INTEGER, INTEGER])
+		local
+			str_32: STRING_32; i, leading_count, trailing_count: INTEGER
 		do
 			across text_lines as line loop
 				str_32 := line.item
-				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F  loop
+				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F loop
 					i := i + 1
 				end
 				leading_count := i - 1
@@ -41,10 +78,8 @@ feature -- Test
 					i := i - 1
 				end
 				trailing_count := str_32.count - i
-				utf_8 := c.string_32_to_utf_8_string_8 (str_32)
-				create substring_32.make_empty
-				c.utf_8_substring_8_into_string_32 (utf_8, leading_count + 1, utf_8.count - trailing_count, substring_32)
-				assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
+				test_utf (str_32, leading_count, trailing_count)
 			end
 		end
+
 end

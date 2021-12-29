@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 13:17:04 GMT (Friday 26th November 2021)"
-	revision: "83"
+	date: "2021-12-26 16:36:27 GMT (Sunday 26th December 2021)"
+	revision: "84"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -177,13 +177,13 @@ feature {NONE} -- Initialization
 			Precursor (str)
 		end
 
-	make_from_utf_8 (utf_8: READABLE_STRING_8)
+	make_from_utf_8 (utf_8_string: READABLE_STRING_8)
 		local
-			u: EL_UTF_CONVERTER; unicode_count: INTEGER
+			utf_8: EL_UTF_8_CONVERTER; unicode_count: INTEGER
 		do
-			unicode_count := u.unicode_count (utf_8)
+			unicode_count := utf_8.unicode_count (utf_8_string)
 			make (unicode_count)
-			internal_append_utf_8 (utf_8, unicode_count)
+			internal_append_utf (utf_8_string, 8, unicode_count)
 		end
 
 	make_shared (other: like Current)

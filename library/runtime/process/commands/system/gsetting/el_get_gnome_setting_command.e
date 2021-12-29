@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-02 15:00:00 GMT (Thursday 2nd December 2021)"
-	revision: "5"
+	date: "2021-12-28 16:58:58 GMT (Tuesday 28th December 2021)"
+	revision: "6"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_GNOME_SETTING_COMMAND
-
-	EL_MODULE_ZSTRING
 
 create
 	make
@@ -82,8 +80,10 @@ feature -- Setting values
 feature {NONE} -- Constants
 
 	Single_quote: ZSTRING
+		local
+			zstring: EL_ZSTRING_ROUTINES
 		once
-			Result := Zstring.character_string (''')
+			Result := zstring.character_string (''')
 		end
 
 	Template: STRING

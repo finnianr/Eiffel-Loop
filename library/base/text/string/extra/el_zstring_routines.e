@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:07 GMT (Sunday 19th December 2021)"
-	revision: "24"
+	date: "2021-12-26 15:38:56 GMT (Sunday 26th December 2021)"
+	revision: "25"
 
 expanded class
 	EL_ZSTRING_ROUTINES
+
+inherit
+	EL_EXPANDED_ROUTINES
 
 feature -- Character string
 

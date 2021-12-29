@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-09 9:38:49 GMT (Sunday 9th May 2021)"
-	revision: "23"
+	date: "2021-12-26 16:35:33 GMT (Sunday 26th December 2021)"
+	revision: "24"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -200,11 +200,18 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			appended: elks_checking implies same_string (old (current_readable + s.substring (start_index, end_index)))
 		end
 
-	append_utf_8 (utf_8: READABLE_STRING_8)
+	append_utf_8 (utf_8_string: READABLE_STRING_8)
 		local
-			conv: EL_UTF_CONVERTER
+			utf_8: EL_UTF_8_CONVERTER
 		do
-			internal_append_utf_8 (utf_8, conv.unicode_count (utf_8))
+			internal_append_utf (utf_8_string, 8, utf_8.unicode_count (utf_8_string))
+		end
+
+	append_utf_16_le (utf_16_le_string: READABLE_STRING_8)
+		local
+			utf_16_le: EL_UTF_16_LE_CONVERTER
+		do
+			internal_append_utf (utf_16_le_string, 16, utf_16_le.unicode_count (utf_16_le_string))
 		end
 
 feature {NONE} -- Append character
@@ -519,22 +526,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_append_utf_8 (utf_8: READABLE_STRING_8; unicode_count: INTEGER)
+	internal_append_utf (utf_encoded_string: READABLE_STRING_8; utf_type, unicode_count: INTEGER)
+		require
+			valid_utf_type: utf_type = 8 or utf_type = 16
+			valid_utf_16_input: utf_type = 16 implies utf_encoded_string.count \\ 2 = 0
 		local
 			old_count: INTEGER; buffer: like empty_unencoded_buffer
 		do
-			if unicode_count = utf_8.count then
-				append_ascii (utf_8)
+			if utf_type = 8 and then unicode_count = utf_encoded_string.count then
+				append_ascii (utf_encoded_string)
 			else
 				old_count := count
 				grow (old_count + unicode_count)
 				buffer := empty_unencoded_buffer
-				codec.encode_utf_8 (utf_8, area, unicode_count, old_count, buffer)
+				codec.encode_utf (utf_encoded_string, area, utf_type, unicode_count, old_count, buffer)
 				set_count (old_count + unicode_count)
 				if buffer.not_empty then
 					append_unencoded (buffer, 0)
 				end
---				buffer.set_in_use (False)
 			end
 		end
 

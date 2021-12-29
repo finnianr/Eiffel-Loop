@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:11:13 GMT (Tuesday 2nd March 2021)"
-	revision: "18"
+	date: "2021-12-28 15:42:17 GMT (Tuesday 28th December 2021)"
+	revision: "19"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -18,7 +18,8 @@ class
 inherit
 	EL_FILE_LINE_SOURCE
 		rename
-			make as make_from_file
+			make as make_from_file,
+			encoding as encoding_code
 		export
 			{ANY} file
 		redefine

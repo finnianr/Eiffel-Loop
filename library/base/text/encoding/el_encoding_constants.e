@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-31 13:41:28 GMT (Sunday 31st May 2020)"
-	revision: "3"
+	date: "2021-12-28 12:38:05 GMT (Tuesday 28th December 2021)"
+	revision: "4"
 
 deferred class
 	EL_ENCODING_CONSTANTS
@@ -66,6 +66,8 @@ feature {STRING_HANDLER} -- Encoding types
 	Utf: NATURAL = 0x3000
 
 	Utf_8: NATURAL = 0x3008
+
+	Utf_16: NATURAL = 0x3010
 
 	Windows: NATURAL = 0x2000
 

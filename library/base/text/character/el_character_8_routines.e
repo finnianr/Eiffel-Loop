@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 18:14:26 GMT (Tuesday 7th December 2021)"
-	revision: "17"
+	date: "2021-12-26 15:37:24 GMT (Sunday 26th December 2021)"
+	revision: "18"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_LATIN_1
 
 	EL_SHARED_UTF_8_SEQUENCE

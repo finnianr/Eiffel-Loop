@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 17:53:10 GMT (Tuesday 2nd March 2021)"
-	revision: "3"
+	date: "2021-12-25 13:08:32 GMT (Saturday 25th December 2021)"
+	revision: "4"
 
 class
 	EL_STRING_32
@@ -36,12 +36,12 @@ feature -- Element change
 			codec.decode (encoded.count, l_area, area, 0)
 		end
 
-	set_from_utf_8 (utf_8: READABLE_STRING_8)
+	set_from_utf_8 (utf_8_string: READABLE_STRING_8)
 		local
-			c: EL_UTF_CONVERTER
+			utf_8: EL_UTF_8_CONVERTER
 		do
 			wipe_out
-			c.utf_8_string_8_into_string_32 (utf_8, Current)
+			utf_8.string_8_into_string_32 (utf_8_string, Current)
 		end
 
 	set_from_string (zstr: EL_READABLE_ZSTRING)

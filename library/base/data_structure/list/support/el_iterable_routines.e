@@ -7,10 +7,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 18:10:10 GMT (Tuesday 2nd March 2021)"
-	revision: "3"
+	date: "2021-12-26 15:54:26 GMT (Sunday 26th December 2021)"
+	revision: "4"
 
-expanded class
+class
 	EL_ITERABLE_ROUTINES
 
 feature -- Measurement

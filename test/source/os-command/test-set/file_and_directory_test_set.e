@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 15:04:08 GMT (Sunday 22nd August 2021)"
-	revision: "21"
+	date: "2021-12-25 11:20:50 GMT (Saturday 25th December 2021)"
+	revision: "22"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -73,8 +73,7 @@ feature -- Tests
 
 	test_delete_with_action
 		local
-			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
-			path_count: INTEGER
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF; path_count: INTEGER
 		do
 			create deleted_count
 			create l_dir.make (Workarea_help_pages_dir)

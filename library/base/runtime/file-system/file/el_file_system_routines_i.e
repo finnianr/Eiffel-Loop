@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:24:04 GMT (Thursday 23rd December 2021)"
-	revision: "37"
+	date: "2021-12-28 13:46:54 GMT (Tuesday 28th December 2021)"
+	revision: "38"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -88,16 +88,16 @@ feature -- Access
 			--
 		require
 			file_exists: a_file_path.exists
-		local
-			file: PLAIN_TEXT_FILE
 		do
-			create file.make_open_read (a_file_path)
-			create Result.make_empty
-			if not file.is_empty then
-				file.read_line
-				Result := file.last_string
+			if attached open (a_file_path, Read) as file then
+				if file.is_empty then
+					create Result.make_empty
+				else
+					file.read_line
+					Result := file.last_string
+				end
+				file.close
 			end
-			file.close
 		end
 
 	parent_set (path_list: ITERABLE [EL_FILE_PATH]; ascending_order: BOOLEAN): EL_ARRAYED_LIST [EL_DIR_PATH]
@@ -117,16 +117,6 @@ feature -- Access
 			end
 			create Result.make_from_array (dir_set.to_array)
 			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
-		end
-
-	plain_text_lines (a_file_path: EL_FILE_PATH; adjustments: INTEGER): EL_SPLIT_ON_CHARACTER [STRING]
-		-- `adjustments = 0' implies unadjusted lines
-		-- `adjustments = {EL_STRING_ADJUST}.Right' will trim '%R' on Windows
-		require
-			file_exists: a_file_path.exists
-			valid_adjustments: valid_adjustments (adjustments)
-		do
-			create Result.make_adjusted (plain_text_raw (a_file_path), '%N', adjustments)
 		end
 
 	plain_text (a_file_path: EL_FILE_PATH): STRING
@@ -160,11 +150,28 @@ feature -- Access
 		end
 
 	plain_text_bomless (a_file_path: EL_FILE_PATH): STRING
-		-- file text without byte-order mark
+		-- file text without any byte-order mark
 		do
 			Result := plain_text (a_file_path)
 			if Result.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
 				Result.remove_head (3)
+			end
+		end
+
+	plain_text_lines (a_file_path: EL_FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
+		require
+			file_exists: a_file_path.exists
+		local
+			index_new_line: INTEGER
+		do
+			if attached plain_text_raw (a_file_path) as content then
+				index_new_line := content.index_of ('%N', 1)
+				if index_new_line > 1 and then content [index_new_line - 1] = '%R' then
+					-- Windows line ending
+					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
+				else
+					create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (content, '%N')
+				end
 			end
 		end
 
@@ -392,11 +399,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	path_exists (a_path: EL_PATH): BOOLEAN
-		do
-			Result := info_file (a_path).exists
-		end
-
 	directory_exists (a_path: EL_DIR_PATH): BOOLEAN
 		do
 			Result := info_file (a_path).exists
@@ -431,6 +433,11 @@ feature -- Status query
 			Result := Directory.named (dir_path).is_writable
 		end
 
+	path_exists (a_path: EL_PATH): BOOLEAN
+		do
+			Result := info_file (a_path).exists
+		end
+
 feature -- Contract Support
 
 	valid_what (what: STRING): BOOLEAN
@@ -441,11 +448,6 @@ feature -- Contract Support
 	valid_who (who: STRING): BOOLEAN
 		do
 			Result := across who as c all ("uog").has (c.item) end
-		end
-
-	valid_adjustments (bitmap: INTEGER): BOOLEAN
-		do
-			Result := 0 <= bitmap and then bitmap <= {EL_STRING_ADJUST}.Both
 		end
 
 feature {NONE} -- Implementation

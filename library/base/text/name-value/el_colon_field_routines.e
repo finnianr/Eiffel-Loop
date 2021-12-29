@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 9:19:26 GMT (Thursday 22nd July 2021)"
-	revision: "7"
+	date: "2021-12-26 15:38:00 GMT (Sunday 26th December 2021)"
+	revision: "8"
 
 expanded class
 	EL_COLON_FIELD_ROUTINES
+
+inherit
+	EL_EXPANDED_ROUTINES
 
 feature -- Access
 

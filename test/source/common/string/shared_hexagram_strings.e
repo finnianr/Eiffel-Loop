@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 13:54:29 GMT (Thursday 6th February 2020)"
-	revision: "6"
+	date: "2021-12-26 14:59:08 GMT (Sunday 26th December 2021)"
+	revision: "7"
 
-class
+deferred class
 	SHARED_HEXAGRAM_STRINGS
+
+inherit
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

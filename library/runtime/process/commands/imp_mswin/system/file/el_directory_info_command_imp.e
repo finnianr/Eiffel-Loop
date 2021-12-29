@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 19:25:30 GMT (Monday 20th December 2021)"
-	revision: "8"
+	date: "2021-12-28 15:06:22 GMT (Tuesday 28th December 2021)"
+	revision: "9"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -36,20 +36,20 @@ feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 		local
 			summary_line: ZSTRING; summary_parts: EL_SPLIT_ZSTRING_LIST
 		do
-			from a_lines.start until a_lines.after or a_lines.item.ends_with (Total_files_listed) loop
+			a_lines.find_first_true (agent {ZSTRING}.ends_with (Total_files_listed))
+			if a_lines.found then
 				a_lines.forth
-			end
-			if not a_lines.after then
-				a_lines.forth
-				summary_line := a_lines.item
-				summary_line.left_adjust
-				create summary_parts.make (summary_line, ' ')
-				if summary_parts.count >= 3 then
-					file_count := summary_parts.first.to_integer
-					-- second last word
-					if attached summary_parts.circular_i_th_copy (-2) as size_string then
-						size_string.prune_all (',')
-						size := size_string.to_integer
+				if not a_lines.after then
+					summary_line := a_lines.item
+					summary_line.left_adjust
+					create summary_parts.make (summary_line, ' ')
+					if summary_parts.count >= 3 then
+						file_count := summary_parts.first_item.to_integer
+						-- second last word
+						if attached summary_parts.circular_i_th_copy (-2) as size_string then
+							size_string.prune_all (',')
+							size := size_string.to_integer
+						end
 					end
 				end
 			end

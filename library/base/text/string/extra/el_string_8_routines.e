@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 12:00:00 GMT (Monday 4th October 2021)"
-	revision: "26"
+	date: "2021-12-26 15:38:47 GMT (Sunday 26th December 2021)"
+	revision: "27"
 
 expanded class
 	EL_STRING_8_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_STRING_X_ROUTINES [STRING_8]
 		rename
 			replace_character as replace_character_32

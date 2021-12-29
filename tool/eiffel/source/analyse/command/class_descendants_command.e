@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:33:00 GMT (Thursday 23rd December 2021)"
-	revision: "16"
+	date: "2021-12-24 8:14:48 GMT (Friday 24th December 2021)"
+	revision: "17"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 					"%Tdescendants: %"["
 				>>)
 				file_out.put_new_line
-				across File_system.plain_text_lines (output_path, {EL_STRING_ADJUST}.Right) as text loop
+				across File_system.plain_text_lines (output_path) as text loop
 					line := text.item
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then

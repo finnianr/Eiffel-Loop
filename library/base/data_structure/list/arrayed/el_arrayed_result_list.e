@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-13 12:27:49 GMT (Saturday 13th November 2021)"
-	revision: "3"
+	date: "2021-12-26 15:46:13 GMT (Sunday 26th December 2021)"
+	revision: "4"
 
 class
 	EL_ARRAYED_RESULT_LIST [R, G]
@@ -20,8 +20,6 @@ inherit
 		rename
 			make as make_sized
 		end
-
-	EL_MODULE_ITERABLE
 
 	EL_MODULE_EIFFEL
 

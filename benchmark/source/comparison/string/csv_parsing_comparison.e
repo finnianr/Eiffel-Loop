@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-22 13:01:49 GMT (Wednesday 22nd December 2021)"
-	revision: "1"
+	date: "2021-12-24 8:46:30 GMT (Friday 24th December 2021)"
+	revision: "2"
 
 class
 	CSV_PARSING_COMPARISON
@@ -24,7 +24,7 @@ feature -- Basic operations
 
 	execute
 		local
-			lines: EL_SPLIT_ON_CHARACTER [STRING]
+			lines: EL_ITERABLE_SPLIT [STRING, ANY]
 			csv_path: EL_FILE_PATH
 		do
 			csv_path := "$EIFFEL_LOOP/test/data/csv/JobServe.csv"
@@ -39,7 +39,7 @@ feature -- Basic operations
 
 feature {NONE} -- String append variations
 
-	using_procedure_states (lines: EL_SPLIT_ON_CHARACTER [STRING])
+	using_procedure_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
 		local
 			parser: EL_COMMA_SEPARATED_LINE_PARSER
 		do
@@ -49,7 +49,7 @@ feature {NONE} -- String append variations
 			end
 		end
 
-	using_integer_states (lines: EL_SPLIT_ON_CHARACTER [STRING])
+	using_integer_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
 		local
 			parser: CSV_INTEGER_STATE_PARSER
 		do
@@ -59,7 +59,7 @@ feature {NONE} -- String append variations
 			end
 		end
 
-	using_pointer_states (lines: EL_SPLIT_ON_CHARACTER [STRING])
+	using_pointer_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
 		local
 			parser: CSV_POINTER_STATE_PARSER
 		do

@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 16:23:09 GMT (Wednesday 3rd March 2021)"
-	revision: "3"
+	date: "2021-12-26 15:39:17 GMT (Sunday 26th December 2021)"
+	revision: "4"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_EIFFEL_KEYWORDS
 
 	EL_EIFFEL_CONSTANTS

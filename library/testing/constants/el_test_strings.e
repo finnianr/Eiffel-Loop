@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:23:12 GMT (Sunday 19th December 2021)"
-	revision: "14"
+	date: "2021-12-26 15:10:53 GMT (Sunday 26th December 2021)"
+	revision: "15"
 
 deferred class
 	EL_TEST_STRINGS
@@ -38,6 +38,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Characters
+
+	G_clef: STRING_32
+		once
+			 Result := {STRING_32}"𝄞"
+		end
 
 	Ogham_space_mark: CHARACTER_32
 		once

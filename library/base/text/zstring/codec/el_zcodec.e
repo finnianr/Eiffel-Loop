@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-14 14:48:21 GMT (Tuesday 14th September 2021)"
-	revision: "26"
+	date: "2021-12-28 16:51:30 GMT (Tuesday 28th December 2021)"
+	revision: "27"
 
 deferred class
 	EL_ZCODEC
@@ -16,7 +16,8 @@ inherit
 	EL_ENCODING_BASE
 		rename
 			make as make_encodeable,
-			set_default as set_default_encoding
+			set_default as set_default_encoding,
+			utf_8 as utf_8_encoding
 		redefine
 			set_default_encoding
 		end
@@ -27,8 +28,6 @@ inherit
 		end
 
 	EL_MODULE_NAMING
-
-	EL_MODULE_STRING_8
 
 	EL_ZSTRING_CONSTANTS
 
@@ -176,26 +175,35 @@ feature -- Basic operations
 			end
 		end
 
-	encode_utf_8 (
-		utf_8_in: READABLE_STRING_8; latin_out: SPECIAL [CHARACTER]; unicode_count, out_offset: INTEGER
+	encode_utf (
+		utf_in: READABLE_STRING_8; latin_out: SPECIAL [CHARACTER]; utf_type, unicode_count, out_offset: INTEGER
 		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
 	)
 		-- encode unicode characters as latin
 		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
 		require
+			valid_utf_type: utf_type = 8 or utf_type = 16
+			valid_utf_16_input: utf_type = 16 implies utf_in.count \\ 2 = 0
 			valid_offset_and_count: valid_offset_and_count (unicode_count, latin_out, out_offset)
 		local
 			i, j, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
-			l_unicodes: like unicode_table; area: SPECIAL [CHARACTER]
-			leading_byte, unicode: NATURAL; u: EL_UTF_CONVERTER
+			l_unicodes: like unicode_table; area: SPECIAL [CHARACTER]; is_utf_8_in: BOOLEAN
+			leading_byte, unicode, code_1: NATURAL; string_8: EL_STRING_8_ROUTINES
+			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
 		do
-			l_unicodes := unicode_table
-			if attached string_8.cursor (utf_8_in) as cursor then
+			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
+			if attached string_8.cursor (utf_in) as cursor then
 				area := cursor.area; end_index := cursor.area_last_index
 				from i := cursor.area_first_index; j := out_offset until i > end_index loop
-					leading_byte := area [i].natural_32_code
-					byte_count := u.sequence_count (leading_byte)
-					unicode := u.unicode (area, leading_byte, i, byte_count)
+					if is_utf_8_in then
+						leading_byte := area [i].natural_32_code
+						byte_count := utf_8.sequence_count (leading_byte)
+						unicode := utf_8.unicode (area, leading_byte, i, byte_count)
+					else
+						code_1 := area [i].natural_32_code | (area [i + 1].natural_32_code |<< 8)
+						byte_count := utf_16_le.sequence_count (code_1)
+						unicode := utf_16_le.unicode (area, code_1, i, byte_count)
+					end
 					uc := unicode.to_character_32
 					if unicode <= 255 and then l_unicodes [uc.code] = uc then
 						latin_out [j] := uc.to_character_8
@@ -254,6 +262,8 @@ feature -- Conversion
 	as_unicode (encoded: READABLE_STRING_8; keeping_ref: BOOLEAN): READABLE_STRING_GENERAL
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
+		local
+			string_8: EL_STRING_8_ROUTINES
 		do
 			if encoded_as_latin (1) or else string_8.is_ascii (encoded) then
 				Result := encoded

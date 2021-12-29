@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 12:38:47 GMT (Monday 4th October 2021)"
-	revision: "24"
+	date: "2021-12-26 15:38:41 GMT (Sunday 26th December 2021)"
+	revision: "25"
 
 expanded class
 	EL_STRING_32_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_STRING_X_ROUTINES [STRING_32]
 
 feature -- Status query

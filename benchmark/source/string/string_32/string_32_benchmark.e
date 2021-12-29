@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 11:34:19 GMT (Wednesday 17th February 2021)"
-	revision: "13"
+	date: "2021-12-26 14:51:16 GMT (Sunday 26th December 2021)"
+	revision: "14"
 
 class
 	STRING_32_BENCHMARK
@@ -36,11 +36,11 @@ feature {NONE} -- Implementation
 			target.append_string_general (s)
 		end
 
-	append_utf_8 (target: like new_string; utf_8: STRING)
+	append_utf_8 (target: like new_string; utf_8_string: STRING)
 		local
-			conv: EL_UTF_CONVERTER
+			utf_8: EL_UTF_8_CONVERTER
 		do
-			conv.utf_8_string_8_into_string_32 (utf_8, target)
+			utf_8.string_8_into_string_32 (utf_8_string, target)
 		end
 
 	ends_with (target, ending: like new_string): BOOLEAN

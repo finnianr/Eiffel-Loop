@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 15:29:51 GMT (Friday 23rd July 2021)"
-	revision: "13"
+	date: "2021-12-26 15:46:09 GMT (Sunday 26th December 2021)"
+	revision: "14"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -19,8 +19,6 @@ inherit
 			extend as map_extend,
 			put_front as map_put_front
 		end
-
-	EL_MODULE_ITERABLE
 
 create
 	make, make_filled, make_from_list, make_empty, make_from_array,

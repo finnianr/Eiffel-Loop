@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-07 18:11:08 GMT (Tuesday 7th December 2021)"
-	revision: "6"
+	date: "2021-12-26 15:38:17 GMT (Sunday 26th December 2021)"
+	revision: "7"
 
 expanded class
 	EL_ZSTRING_BUFFER_ROUTINES
 
 inherit
+	EL_EXPANDED_ROUTINES
+
 	EL_ZSTRING_BUFFER_I
 
 feature {NONE} -- Constants
