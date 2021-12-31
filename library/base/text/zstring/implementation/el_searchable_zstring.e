@@ -1,13 +1,13 @@
 note
-	description: "Searchable aspects of [$source EL_ZSTRING]"
+	description: "Searchable aspects of [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 17:19:42 GMT (Wednesday 3rd March 2021)"
-	revision: "10"
+	date: "2021-12-31 16:58:14 GMT (Friday 31st December 2021)"
+	revision: "11"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING

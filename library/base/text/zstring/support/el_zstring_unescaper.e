@@ -1,6 +1,6 @@
 note
 	description: "[
-		Z-code escape table for use with class [$source EL_ZSTRING]. See routine `escape'.
+		Z-code escape table for use with class [$source ZSTRING]. See routine `escape'.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 11:40:54 GMT (Wednesday 3rd February 2021)"
-	revision: "15"
+	date: "2021-12-31 16:59:02 GMT (Friday 31st December 2021)"
+	revision: "16"
 
 class
 	EL_ZSTRING_UNESCAPER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 13:37:33 GMT (Wednesday 24th November 2021)"
-	revision: "35"
+	date: "2021-12-31 16:22:28 GMT (Friday 31st December 2021)"
+	revision: "36"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -47,6 +47,9 @@ feature {NONE} -- Initialization
 			type_qualifier := ecf.type_qualifier
 			html_index_path := ecf.html_index_path
 			ecf_dir := ecf_path.parent
+			across root.context_list (Xpath_mapping) as map loop
+				extend_alias_table (map.node.attributes)
+			end
 			source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
 			across source_dir_list as path loop
 				if path.cursor_index = 1 then
@@ -63,6 +66,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			alias_table := Default_alias_table
 			type_qualifier := Empty_string_8
 			create source_dir_list.make (0)
 			create directory_list.make_empty
@@ -74,6 +78,9 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	alias_table: like Default_alias_table
+		-- map alias to actual name
 
 	category: ZSTRING
 		do
@@ -273,6 +280,14 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
+	extend_alias_table (map: EL_ELEMENT_ATTRIBUTE_TABLE)
+		do
+			if alias_table = Default_alias_table then
+				create alias_table.make_equal (2)
+			end
+			alias_table [map [Mapping.old_name]] := map [Mapping.new_name]
+		end
+
 	set_directory_list (parser: EIFFEL_CLASS_PARSER)
 		local
 			group_table: EL_FUNCTION_GROUP_TABLE [EL_FILE_PATH, EL_DIR_PATH]
@@ -322,6 +337,11 @@ feature {NONE} -- Xpath constants
 
 feature {NONE} -- Constants
 
+	Default_alias_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+		once
+			create Result.make_equal (0)
+		end
+
 	Symbol: TUPLE [dot, star_dot_e, parent_dir, relative_location: ZSTRING]
 		once
 			create Result
@@ -331,6 +351,12 @@ feature {NONE} -- Constants
 	Library: ZSTRING
 		once
 			Result := "library"
+		end
+
+	Mapping: TUPLE [old_name, new_name: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "old_name, new_name")
 		end
 
 	See_details: TUPLE [begins, ends: ZSTRING]
@@ -349,5 +375,7 @@ feature {NONE} -- Constants
 		once
 			Result := "ies"
 		end
+
+	Xpath_mapping: STRING = "/system/target/mapping"
 
 end

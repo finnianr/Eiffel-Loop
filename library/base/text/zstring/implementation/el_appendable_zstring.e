@@ -1,13 +1,13 @@
 note
-	description: "Appendable/Prependable aspects of [$source EL_ZSTRING] that use only 8-bit implemenation"
+	description: "Appendable/Prependable aspects of [$source ZSTRING] that use only 8-bit implemenation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 16:35:33 GMT (Sunday 26th December 2021)"
-	revision: "24"
+	date: "2021-12-31 16:57:52 GMT (Friday 31st December 2021)"
+	revision: "25"
 
 deferred class
 	EL_APPENDABLE_ZSTRING

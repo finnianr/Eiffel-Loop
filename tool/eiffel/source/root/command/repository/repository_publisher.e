@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:37:49 GMT (Monday 16th August 2021)"
-	revision: "44"
+	date: "2021-12-31 15:37:34 GMT (Friday 31st December 2021)"
+	revision: "45"
 
 class
 	REPOSITORY_PUBLISHER
@@ -22,10 +22,6 @@ inherit
 		redefine
 			make_default, on_context_return
 		end
-
-	PUBLISHER_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_TRACK
 
@@ -43,6 +39,12 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
+	SHARED_CLASS_PATH_TABLE
+
+	PUBLISHER_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
@@ -55,6 +57,15 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create parser.make (Current)
 			make_from_file (a_file_path)
 			parser.update (True)
+			
+			-- Add alias names like `ZSTRING' to `Class_path_table'
+			across ecf_list as ecf loop
+				across ecf.item.alias_table as table loop
+					if Class_path_table.has_key (table.item) then
+						Class_path_table.extend (Class_path_table.found_item, table.key)
+					end
+				end
+			end
 
 			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
 			-- makes a consistent value for make `current_digest'

@@ -1,13 +1,13 @@
 note
-	description: "XML [$source EL_ZSTRING] escaper"
+	description: "XML [$source ZSTRING] escaper"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 13:37:44 GMT (Thursday 14th May 2020)"
-	revision: "9"
+	date: "2021-12-31 17:00:01 GMT (Friday 31st December 2021)"
+	revision: "10"
 
 class
 	EL_XML_ZSTRING_ESCAPER

@@ -1,7 +1,7 @@
 note
 	description: "Factory for character codecs conforming to [$source EL_ZCODEC]"
 	notes: "[
-		This class must not have any dependencies on [$source EL_ZSTRING] since it is used
+		This class must not have any dependencies on [$source ZSTRING] since it is used
 		to set the `ZSTRING.codec'. See routine `default_codec'.
 	]"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-14 17:13:56 GMT (Thursday 14th May 2020)"
-	revision: "14"
+	date: "2021-12-31 16:32:31 GMT (Friday 31st December 2021)"
+	revision: "15"
 
 frozen class
 	EL_ZCODEC_FACTORY

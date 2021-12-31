@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 12:39:43 GMT (Thursday 4th March 2021)"
-	revision: "4"
+	date: "2021-12-31 15:36:14 GMT (Friday 31st December 2021)"
+	revision: "5"
 
 class
 	CLASS_HTML_PATH_TABLE
@@ -18,7 +18,7 @@ inherit
 			make as table_make
 		export
 			{NONE} all
-			{ANY} found_item
+			{ANY} found_item, has_key, extend
 		end
 
 	PUBLISHER_CONSTANTS

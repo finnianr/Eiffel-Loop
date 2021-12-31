@@ -1,13 +1,13 @@
 note
-	description: "Aspect of [$source EL_ZSTRING] as an array of 8-bit characters"
+	description: "Aspect of [$source ZSTRING] as an array of 8-bit characters"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 14:12:51 GMT (Wednesday 3rd March 2021)"
-	revision: "16"
+	date: "2021-12-31 16:58:27 GMT (Friday 31st December 2021)"
+	revision: "17"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION

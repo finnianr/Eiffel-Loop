@@ -1,6 +1,6 @@
 note
 	description: "[
-		Button with hand-pointer for mouse-over and settable from [$source EL_ZSTRING]
+		Button with hand-pointer for mouse-over and settable from [$source ZSTRING]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 9:35:00 GMT (Thursday 16th July 2020)"
-	revision: "9"
+	date: "2021-12-31 16:59:20 GMT (Friday 31st December 2021)"
+	revision: "10"
 
 class
 	EL_BUTTON

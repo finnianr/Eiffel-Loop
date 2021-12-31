@@ -1,13 +1,13 @@
 note
-	description: "Object that is serializeable to string of type [$source EL_ZSTRING]"
+	description: "Object that is serializeable to string of type [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 14:13:36 GMT (Monday 23rd November 2020)"
-	revision: "2"
+	date: "2021-12-31 17:00:11 GMT (Friday 31st December 2021)"
+	revision: "3"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE_AS_ZSTRING

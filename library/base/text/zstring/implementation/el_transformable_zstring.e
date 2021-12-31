@@ -1,13 +1,13 @@
 note
-	description: "Implementation routines to transform instance of [$source EL_ZSTRING]"
+	description: "Implementation routines to transform instance of [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
-	revision: "23"
+	date: "2021-12-31 16:58:21 GMT (Friday 31st December 2021)"
+	revision: "24"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING

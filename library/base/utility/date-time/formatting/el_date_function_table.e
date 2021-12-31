@@ -1,13 +1,13 @@
 note
-	description: "Table of functions converting date measurements to type [$source EL_ZSTRING]"
+	description: "Table of functions converting date measurements to type [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-30 14:35:35 GMT (Monday 30th August 2021)"
-	revision: "4"
+	date: "2021-12-31 16:59:07 GMT (Friday 31st December 2021)"
+	revision: "5"
 
 class
 	EL_DATE_FUNCTION_TABLE

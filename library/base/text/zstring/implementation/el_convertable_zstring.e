@@ -1,13 +1,13 @@
 note
-	description: "Routines to convert instance of [$source EL_ZSTRING] to another type or form"
+	description: "Routines to convert instance of [$source ZSTRING] to another type or form"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:56:03 GMT (Sunday 19th December 2021)"
-	revision: "25"
+	date: "2021-12-31 16:57:58 GMT (Friday 31st December 2021)"
+	revision: "26"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING

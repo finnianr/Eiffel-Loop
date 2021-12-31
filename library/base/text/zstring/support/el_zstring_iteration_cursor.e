@@ -1,13 +1,13 @@
 note
-	description: "[$source CHARACTER_32] iterator for [$source EL_ZSTRING]"
+	description: "[$source CHARACTER_32] iterator for [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-18 10:28:49 GMT (Thursday 18th March 2021)"
-	revision: "2"
+	date: "2021-12-31 16:58:57 GMT (Friday 31st December 2021)"
+	revision: "3"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR

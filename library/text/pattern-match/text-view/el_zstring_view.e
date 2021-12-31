@@ -1,13 +1,13 @@
 note
-	description: "A mutable substring view of characters in a [$source EL_ZSTRING]"
+	description: "A mutable substring view of characters in a [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-21 15:35:53 GMT (Sunday 21st February 2021)"
-	revision: "16"
+	date: "2021-12-31 17:00:05 GMT (Friday 31st December 2021)"
+	revision: "17"
 
 class
 	EL_ZSTRING_VIEW

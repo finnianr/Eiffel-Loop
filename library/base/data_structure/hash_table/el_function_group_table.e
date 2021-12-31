@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 14:00:39 GMT (Wednesday 24th November 2021)"
-	revision: "9"
+	date: "2021-12-31 15:41:33 GMT (Friday 31st December 2021)"
+	revision: "10"
 
 class
 	EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
@@ -21,6 +21,8 @@ inherit
 		rename
 			make as make_with_count
 		end
+
+	EL_MODULE_ITERABLE
 
 create
 	make, make_from_list
@@ -35,10 +37,8 @@ feature {NONE} -- Initialization
 
 	make_from_list (a_item_key: FUNCTION [G, K]; a_list: ITERABLE [G])
 		-- Group items `list' into groups defined by `a_item_key' function
-		local
-			iterable: EL_ITERABLE_ROUTINES
 		do
-			make (a_item_key, (iterable.count (a_list) // 2).min (11))
+			make (a_item_key, (Iterable.count (a_list) // 2).min (11))
 			across a_list as list loop
 				extend (a_item_key (list.item), list.item)
 			end

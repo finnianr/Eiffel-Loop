@@ -1,13 +1,13 @@
 note
-	description: "Textable widget settable from string of type [$source EL_ZSTRING]"
+	description: "Textable widget settable from string of type [$source ZSTRING]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:19:18 GMT (Tuesday 5th January 2021)"
-	revision: "3"
+	date: "2021-12-31 16:59:17 GMT (Friday 31st December 2021)"
+	revision: "4"
 
 deferred class
 	EL_TEXTABLE

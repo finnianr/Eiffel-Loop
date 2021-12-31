@@ -1,6 +1,6 @@
 note
 	description: "[
-		For use with class [$source EL_ZSTRING] which redefines `{READABLE_STRING_GENERAL}.code' as `z_code'.
+		For use with class [$source ZSTRING] which redefines `{READABLE_STRING_GENERAL}.code' as `z_code'.
 		A `z_code' is a hybrid of a Latin-x or Windows-x encoding and a UCS4 encoding.
 		(We only refer to "latin" from here on)
 		
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-03 11:46:46 GMT (Wednesday 3rd February 2021)"
-	revision: "8"
+	date: "2021-12-31 16:58:44 GMT (Friday 31st December 2021)"
+	revision: "9"
 
 class
 	EL_ZCODE_CONVERSION

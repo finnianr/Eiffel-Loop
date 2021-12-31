@@ -1,3 +1,6 @@
+1.4.6
+Substitute aliases like ZSTRING based on /system/target/mapping
+
 1.4.5
 Add category_id fragment_id to Eiffel-View publisher for site map
 

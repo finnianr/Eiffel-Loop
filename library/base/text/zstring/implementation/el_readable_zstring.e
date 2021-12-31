@@ -1,5 +1,5 @@
 note
-	description: "Read only interface to class [$source EL_ZSTRING]"
+	description: "Read only interface to class [$source ZSTRING]"
 	tests: "Class [$source ZSTRING_TEST_SET]"
 
 	author: "Finnian Reilly"
@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 14:51:37 GMT (Friday 31st December 2021)"
-	revision: "85"
+	date: "2021-12-31 16:58:10 GMT (Friday 31st December 2021)"
+	revision: "86"
 
 deferred class
 	EL_READABLE_ZSTRING

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Core implementation of [$source EL_ZSTRING] using an 8 bit array to store characters encodeable
+		Core implementation of [$source ZSTRING] using an 8 bit array to store characters encodeable
 		by `codec', and a compacted array of 32-bit arrays to encode any character not defined by the 8-bit encoding.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-21 8:13:16 GMT (Tuesday 21st September 2021)"
-	revision: "28"
+	date: "2021-12-31 16:58:36 GMT (Friday 31st December 2021)"
+	revision: "29"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
