@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 15:44:03 GMT (Tuesday 28th December 2021)"
-	revision: "11"
+	date: "2021-12-30 12:12:50 GMT (Thursday 30th December 2021)"
+	revision: "12"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -30,10 +30,10 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	adjusted_lines (lines: like new_output_lines): EL_LINEAR [ZSTRING]
+	adjusted_lines (output_lines: like new_output_lines): like new_output_lines
 			-- command output lines adjusted for OS platform
 		do
-			Result := lines
+			Result := output_lines
 		end
 
 	do_command (a_system_command: ZSTRING)

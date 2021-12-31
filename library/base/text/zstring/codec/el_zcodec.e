@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 16:51:30 GMT (Tuesday 28th December 2021)"
-	revision: "27"
+	date: "2021-12-31 14:50:12 GMT (Friday 31st December 2021)"
+	revision: "28"
 
 deferred class
 	EL_ZCODEC
@@ -186,10 +186,10 @@ feature -- Basic operations
 			valid_utf_16_input: utf_type = 16 implies utf_in.count \\ 2 = 0
 			valid_offset_and_count: valid_offset_and_count (unicode_count, latin_out, out_offset)
 		local
-			i, j, byte_count, end_index: INTEGER; uc: CHARACTER_32; c: CHARACTER
-			l_unicodes: like unicode_table; area: SPECIAL [CHARACTER]; is_utf_8_in: BOOLEAN
-			leading_byte, unicode, code_1: NATURAL; string_8: EL_STRING_8_ROUTINES
-			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
+			i, j, byte_count, end_index: INTEGER; leading_byte, unicode, code_1: NATURAL
+			uc: CHARACTER_32; c: CHARACTER; area: SPECIAL [CHARACTER]
+			l_unicodes: like unicode_table; is_utf_8_in: BOOLEAN
+			string_8: EL_STRING_8_ROUTINES; utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
 		do
 			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
 			if attached string_8.cursor (utf_in) as cursor then

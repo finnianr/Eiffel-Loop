@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 18:10:10 GMT (Thursday 9th September 2021)"
-	revision: "15"
+	date: "2021-12-30 12:18:32 GMT (Thursday 30th December 2021)"
+	revision: "16"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -189,9 +189,6 @@ feature {NONE} -- Implementation
 		local
 			line: ZSTRING
 		do
-			if attached {FINITE [ZSTRING]} lines as finite then
-				path_list.grow (finite.count + 1) -- allow one extra for Windows
-			end
 			from lines.start until lines.after loop
 				line := lines.item
 				if line.count > 0 and then filter.met (line) then

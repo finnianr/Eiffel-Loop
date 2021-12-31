@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:08:21 GMT (Monday 12th July 2021)"
-	revision: "7"
+	date: "2021-12-30 12:22:54 GMT (Thursday 30th December 2021)"
+	revision: "8"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -26,7 +26,7 @@ inherit
 		undefine
 			make_default, do_command, do_with_lines
 		redefine
-			new_output_lines
+			prepend_directory
 		end
 
 	EL_MODULE_DIRECTORY
@@ -36,11 +36,10 @@ create
 
 feature {NONE} -- Implementation
 
-	new_output_lines (file_path: EL_FILE_PATH): EL_ZSTRING_LIST
+	prepend_directory (output_lines: EL_ZSTRING_LIST)
 		local
 			l_path: EL_DIR_PATH
 		do
-			Result := Precursor (file_path)
 			if min_depth = 0 then
 				if max_depth > 1 then
 					if dir_path.is_absolute then
@@ -51,7 +50,7 @@ feature {NONE} -- Implementation
 				else
 					create l_path
 				end
-				Result.put_front (l_path.to_string)
+				output_lines.put_front (l_path)
 			end
 		end
 
