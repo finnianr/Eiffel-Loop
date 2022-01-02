@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:31:59 GMT (Thursday 23rd December 2021)"
-	revision: "4"
+	date: "2022-01-02 10:55:12 GMT (Sunday 2nd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -43,6 +43,8 @@ feature -- Access
 			end
 		end
 
+	target: S
+
 feature -- Status query
 
 	left_adjusted: BOOLEAN
@@ -74,7 +76,5 @@ feature {NONE} -- Internal attributes
 	adjustments: INTEGER
 
 	separator: G
-
-	target: S
 
 end

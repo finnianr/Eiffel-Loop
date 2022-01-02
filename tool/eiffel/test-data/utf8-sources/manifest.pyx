@@ -3,5 +3,5 @@ pyxis-doc:
 
 manifest:
 	location:
-		"$EIFFEL_LOOP/projects.data/workarea/utf8-sources/tests"
+		"$EIFFEL_LOOP/tool/eiffel/workarea/tests"
 

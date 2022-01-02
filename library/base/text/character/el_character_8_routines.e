@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:37:24 GMT (Sunday 26th December 2021)"
-	revision: "18"
+	date: "2022-01-02 15:54:58 GMT (Sunday 2nd January 2022)"
+	revision: "19"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -20,6 +20,24 @@ inherit
 	EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Status query
+
+	is_a_to_z_lower (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'A' .. 'Z' then
+					Result := True
+			else
+			end
+		end
+
+	is_a_to_z_upper (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'A' .. 'Z' then
+					Result := True
+			else
+			end
+		end
 
 	is_a_to_z_caseless (c: CHARACTER): BOOLEAN
 		do

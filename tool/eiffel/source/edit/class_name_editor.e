@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 11:16:02 GMT (Monday 7th October 2019)"
-	revision: "6"
+	date: "2022-01-02 10:45:24 GMT (Sunday 2nd January 2022)"
+	revision: "7"
 
 class
 	CLASS_NAME_EDITOR
@@ -20,7 +20,7 @@ inherit
 			reset
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 feature {NONE} -- Initialization
 

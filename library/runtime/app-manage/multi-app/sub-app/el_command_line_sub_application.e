@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:46:48 GMT (Wednesday 24th November 2021)"
-	revision: "27"
+	date: "2022-01-02 11:39:05 GMT (Sunday 2nd January 2022)"
+	revision: "28"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -65,7 +65,18 @@ feature -- Basic operations
 			command.execute
 		end
 
-feature {NONE} -- Argument setting
+feature {NONE} -- Implementation
+
+	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
+		do
+			create Result.make (Current, word_option, help_description)
+		end
+
+	required_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
+		do
+			create Result.make (Current, word_option, help_description)
+			Result.set_required
+		end
 
 	set_closed_operands
 		-- set closed arguments of `make_command' from command line
@@ -84,19 +95,6 @@ feature {NONE} -- Argument setting
 			across specs as argument_spec loop
 				argument_spec.item.set_operand (argument_spec.cursor_index + offset)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	optional_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
-		do
-			create Result.make (Current, word_option, help_description)
-		end
-
-	required_argument (word_option, help_description: READABLE_STRING_GENERAL): EL_COMMAND_ARGUMENT
-		do
-			create Result.make (Current, word_option, help_description)
-			Result.set_required
 		end
 
 	valid_optional_argument (

@@ -19,14 +19,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-31 15:51:04 GMT (Sunday 31st January 2021)"
-	revision: "43"
+	date: "2022-01-02 14:51:07 GMT (Sunday 2nd January 2022)"
+	revision: "44"
 
 class
 	AUTOTEST_APP
 
 inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
+		CLASS_RENAMING_TEST_SET,
 		FEATURE_EDITOR_COMMAND_TEST_SET,
 		PATH_TEST_SET,
 		PYXIS_ECF_PARSER_TEST_SET,

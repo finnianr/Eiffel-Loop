@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 12:03:26 GMT (Friday 30th July 2021)"
-	revision: "34"
+	date: "2022-01-02 10:34:13 GMT (Sunday 2nd January 2022)"
+	revision: "35"
 
 class
 	APPLICATION_ROOT
@@ -60,7 +60,7 @@ inherit
 
 		SOURCE_FILE_NAME_NORMALIZER_APP,
 		SOURCE_LOG_LINE_REMOVER_APP,
-		SOURCE_TREE_CLASS_RENAME_APP,
+		CLASS_RENAMING_APP,
 
 		WINZIP_SOFTWARE_PACKAGE_BUILDER_APP
 	]

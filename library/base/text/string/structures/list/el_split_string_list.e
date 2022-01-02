@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 19:16:12 GMT (Monday 20th December 2021)"
-	revision: "27"
+	date: "2022-01-02 18:37:59 GMT (Sunday 2nd January 2022)"
+	revision: "28"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -288,7 +288,7 @@ feature -- Element change
 			target := a_target; adjustments := a_adjustments
 			fill (a_target, delimiter, a_adjustments)
 		ensure then
-			reversible: as_list.joined (delimiter).same_string (a_target)
+			reversible: a_adjustments = 0 implies as_list.joined (delimiter).same_string (a_target)
 		end
 
 	set_target_by_string (a_target: like item; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
@@ -296,7 +296,7 @@ feature -- Element change
 			target := a_target; adjustments := a_adjustments
 			fill_by_string (a_target, delimiter, a_adjustments)
 		ensure then
-			reversible: as_list.joined_with_string (delimiter).same_string (a_target)
+			reversible: a_adjustments = 0 implies as_list.joined_with_string (delimiter).same_string (a_target)
 		end
 
 feature -- Status query

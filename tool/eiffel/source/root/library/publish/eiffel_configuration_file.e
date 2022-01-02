@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 16:22:28 GMT (Friday 31st December 2021)"
-	revision: "36"
+	date: "2022-01-01 21:28:08 GMT (Saturday 1st January 2022)"
+	revision: "37"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	alias_table: like Default_alias_table
-		-- map alias to actual name
+		-- map class alias to actual name
 
 	category: ZSTRING
 		do
