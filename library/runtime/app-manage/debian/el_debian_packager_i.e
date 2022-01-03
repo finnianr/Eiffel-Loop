@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:32:04 GMT (Saturday 10th July 2021)"
-	revision: "16"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -47,7 +47,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_debian_dir, a_output_dir, a_package_dir: EL_DIR_PATH)
+	make (a_debian_dir, a_output_dir, a_package_dir: DIR_PATH)
 		do
 			debian_dir := a_debian_dir; output_dir := a_output_dir; package_dir := a_package_dir
 			make_machine
@@ -97,7 +97,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			Result := OS.find_files_command (package_dir, All_files).sum_file_byte_count
 		end
 
-	is_executable (path: EL_FILE_PATH): BOOLEAN
+	is_executable (path: FILE_PATH): BOOLEAN
 		local
 			dir_name: ZSTRING
 		do
@@ -109,7 +109,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			end
 		end
 
-	package_file_path: EL_FILE_PATH
+	package_file_path: FILE_PATH
 		do
 			Result := versioned_package_dir.to_string
 			Result.add_extension ("deb")
@@ -120,7 +120,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 			create Result.make_from_array (<< package, architecture, Build_info.version.string >>)
 		end
 
-	package_sub_dir (absolute_dir: EL_DIR_PATH): EL_DIR_PATH
+	package_sub_dir (absolute_dir: DIR_PATH): DIR_PATH
 		require
 			is_absolute: absolute_dir.is_absolute
 		do
@@ -130,7 +130,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 	put_debian_files
 		-- copy control file and any installer scripts
 		local
-			control_file: EL_DEBIAN_CONTROL; destination_path: EL_FILE_PATH
+			control_file: EL_DEBIAN_CONTROL; destination_path: FILE_PATH
 		do
 			across Shared_directory.named (debian_dir).files as file_path loop
 				destination_path := versioned_package_dir.joined_file_tuple ([Debian, file_path.item.base])
@@ -146,7 +146,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 
 	put_opt_contents
 		local
-			destination_dir: EL_DIR_PATH
+			destination_dir: DIR_PATH
 		do
 			destination_dir := package_sub_dir (Directory.Application_installation)
 
@@ -189,20 +189,20 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Internal attributes
 
 	configuration_file_list: EL_ZSTRING_LIST
 
-	debian_dir: EL_DIR_PATH
+	debian_dir: DIR_PATH
 		-- directory with Control template and scripts
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
 	package: ZSTRING
 		-- package name
 
-	package_dir: EL_DIR_PATH
+	package_dir: DIR_PATH
 
 	versioned_package: ZSTRING
 		-- package name with appended version
 
-	versioned_package_dir: EL_DIR_PATH
+	versioned_package_dir: DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -219,7 +219,7 @@ feature {NONE} -- Constants
 			Result := "evc"
 		end
 
-	Root_dir: EL_DIR_PATH
+	Root_dir: DIR_PATH
 		once
 			Result := "/"
 		end

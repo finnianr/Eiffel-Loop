@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-20 10:21:27 GMT (Thursday 20th August 2020)"
-	revision: "2"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 deferred class
 	EL_FILE_DECOMPRESS_HANDLER
@@ -20,7 +20,7 @@ feature {EL_COMPRESSED_ARCHIVE_FILE} -- Event handling
 		deferred
 		end
 
-	on_decompression_error (file_path: EL_FILE_PATH; checksums_differ: BOOLEAN)
+	on_decompression_error (file_path: FILE_PATH; checksums_differ: BOOLEAN)
 		deferred
 		end
 

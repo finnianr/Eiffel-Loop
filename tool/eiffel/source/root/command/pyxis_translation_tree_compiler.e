@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-24 18:30:17 GMT (Friday 24th September 2021)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -53,7 +53,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_manifest_path: EL_FILE_PATH; a_source_tree_dir, a_output_dir: EL_DIR_PATH)
+	make (a_manifest_path: FILE_PATH; a_source_tree_dir, a_output_dir: DIR_PATH)
 		do
 			make_compiler (a_manifest_path, a_source_tree_dir)
 			File_system.make_directory (a_output_dir)

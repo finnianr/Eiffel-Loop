@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-01 10:30:26 GMT (Wednesday 1st July 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_EQA_REGRESSION_TEST_SET
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	file_digest (file_path: EL_FILE_PATH): EL_DIGEST_ARRAY
+	file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
 		do
 			create Result.make_from_memory (MD5_128, File_system.file_data (file_path))
 		end

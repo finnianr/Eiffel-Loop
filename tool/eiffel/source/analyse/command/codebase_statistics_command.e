@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-23 14:12:29 GMT (Thursday 23rd September 2021)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	CODEBASE_STATISTICS_COMMAND
@@ -38,7 +38,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
-	make (source_manifest_path: EL_FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
+	make (source_manifest_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
 		do
 			make_default
 			environ_variable.apply
@@ -76,7 +76,7 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	process_file (source_path: EL_FILE_PATH)
+	process_file (source_path: FILE_PATH)
 		do
 			add_class_stats (create {CLASS_STATISTICS}.make_from_file (source_path))
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-28 9:37:45 GMT (Thursday 28th October 2021)"
-	revision: "12"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I
@@ -38,7 +38,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Default_path: EL_DIR_PATH
+	Default_path: DIR_PATH
 		once
 			create Result
 		end

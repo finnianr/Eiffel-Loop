@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_ENCRYPTABLE_STORABLE_XML_ELEMENT_LIST [STORABLE_TYPE -> EL_ENCRYPTABLE_STORABLE_XML_ELEMENT create make_default end]
@@ -25,7 +25,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_open_with_encrypter (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
+	make_open_with_encrypter (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation	
 
-	create_editions (a_file_path: EL_FILE_PATH): EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE]
+	create_editions (a_file_path: FILE_PATH): EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE]
 		do
 			create Result.make (Current, a_file_path, encrypter)
 		end

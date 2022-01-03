@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:47 GMT (Tuesday 10th November 2020)"
-	revision: "17"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	CODEBASE_STATISTICS_APP
@@ -24,7 +24,7 @@ inherit
 
 feature -- Testing
 
-	test_note_edit (a_sources_path: EL_DIR_PATH)
+	test_note_edit (a_sources_path: DIR_PATH)
 			--
 		do
 			create command.make (a_sources_path + "manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})

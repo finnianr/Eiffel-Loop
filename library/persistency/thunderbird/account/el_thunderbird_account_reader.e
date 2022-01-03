@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:46:17 GMT (Friday 26th November 2021)"
-	revision: "15"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "16"
 
 class
 	EL_THUNDERBIRD_ACCOUNT_READER
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		local
 			mail_dir_path_steps: EL_PATH_STEPS
 		do
@@ -81,7 +81,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	export_steps (mails_path: EL_FILE_PATH): EL_PATH_STEPS
+	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
 		local
 			account_index: INTEGER; dot_sbd_step: ZSTRING
 		do
@@ -108,7 +108,7 @@ feature -- Access
 			end
 		end
 
-	export_dir: EL_DIR_PATH
+	export_dir: DIR_PATH
 
 feature {NONE} -- Internal attributes
 
@@ -118,7 +118,7 @@ feature {NONE} -- Internal attributes
 	folder_list: EL_ZSTRING_LIST
 		-- .sbd folders
 
-	home_dir: EL_DIR_PATH
+	home_dir: DIR_PATH
 
 	language: STRING
 
@@ -126,13 +126,13 @@ feature {NONE} -- Internal attributes
 		-- when true put the language code directory last in directory structure
 		-- example: help/en
 
-	mail_dir: EL_DIR_PATH
+	mail_dir: DIR_PATH
 
 feature {NONE} -- Implementation
 
 	is_folder_included (path: ZSTRING): BOOLEAN
 		local
-			folder_dir: EL_DIR_PATH
+			folder_dir: DIR_PATH
 		do
 			if path.ends_with (Dot_sbd_extension) then
 				folder_dir := path

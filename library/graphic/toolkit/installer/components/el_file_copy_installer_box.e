@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-25 16:04:44 GMT (Monday 25th October 2021)"
-	revision: "14"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -80,7 +80,7 @@ feature -- Basic operations
 			not_unix: not {PLATFORM}.is_unix
 		local
 			file_list: like File_system.files; file: EL_NOTIFYING_RAW_FILE
-			relative_path, destination_path: EL_FILE_PATH;
+			relative_path, destination_path: FILE_PATH;
 		do
 			file_list := File_system.files (Package_dir, True)
 			across file_list as file_path loop

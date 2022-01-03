@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-12 11:26:37 GMT (Sunday 12th April 2020)"
-	revision: "4"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	DUPLICITY_ARGUMENTS
@@ -59,7 +59,7 @@ feature -- Access
 
 	options: ZSTRING
 
-	target: EL_DIR_PATH
+	target: DIR_PATH
 
 	type: ZSTRING
 

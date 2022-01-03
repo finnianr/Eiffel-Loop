@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-17 10:49:34 GMT (Saturday 17th October 2020)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_LOCALE_TABLE
 
 inherit
-	HASH_TABLE [EL_FILE_PATH, STRING]
+	HASH_TABLE [FILE_PATH, STRING]
 		rename
 			make as make_table
 		export
@@ -33,7 +33,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_locale_dir: EL_DIR_PATH)
+	make (a_locale_dir: DIR_PATH)
 		require
 			locale_dir_exists: a_locale_dir.exists
 		do
@@ -56,9 +56,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	locale_dir: EL_DIR_PATH
+	locale_dir: DIR_PATH
 
-	new_locale_path (language_id: STRING): EL_FILE_PATH
+	new_locale_path (language_id: STRING): FILE_PATH
 		do
 			Result := locale_dir + language_id
 		end

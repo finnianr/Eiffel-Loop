@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 11:10:57 GMT (Thursday 9th September 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_DEFAULT_DATA_TRANSFER_PROGRESS_LISTENER
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	increase_file_data_estimate (a_file_path: EL_FILE_PATH)
+	increase_file_data_estimate (a_file_path: FILE_PATH)
 		do
 		end
 

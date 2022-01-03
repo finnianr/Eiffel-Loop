@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:50:02 GMT (Sunday 19th December 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_THUNDERBIRD_BOOK_EXPORTER
@@ -40,7 +40,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	export_mails (mails_path: EL_FILE_PATH)
+	export_mails (mails_path: FILE_PATH)
 		do
 			Precursor (mails_path)
 			if across chapter_list as chapter some chapter.item.is_modified end then

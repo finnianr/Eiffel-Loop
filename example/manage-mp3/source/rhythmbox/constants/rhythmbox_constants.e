@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-23 15:03:19 GMT (Saturday 23rd May 2020)"
-	revision: "13"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 deferred class
 	RHYTHMBOX_CONSTANTS
@@ -117,7 +117,7 @@ feature {NONE} -- Constants
 			Result := "Various, Various Artists, Unknown"
 		end
 
-	User_config_dir: EL_DIR_PATH
+	User_config_dir: DIR_PATH
 		once
 			 Result := Directory.home.joined_dir_path (".gnome2/rhythmbox")
 			 if not Result.exists then

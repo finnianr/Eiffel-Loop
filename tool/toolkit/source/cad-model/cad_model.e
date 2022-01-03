@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:45:58 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	CAD_MODEL
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			polygon_list := a_polygon_list
 		end
 
-	make_from_file (json_path: EL_FILE_PATH)
+	make_from_file (json_path: FILE_PATH)
 		do
 			make_from_json (File_system.plain_text (json_path))
 		end
@@ -135,7 +135,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	store_as (file_path: EL_FILE_PATH)
+	store_as (file_path: FILE_PATH)
 		local
 			output: PLAIN_TEXT_FILE
 		do

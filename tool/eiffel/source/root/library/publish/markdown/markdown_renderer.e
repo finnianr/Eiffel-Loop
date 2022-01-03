@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 11:15:03 GMT (Tuesday 2nd March 2021)"
-	revision: "11"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	MARKDOWN_RENDERER
@@ -76,7 +76,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	relative_page_dir: EL_DIR_PATH
+	relative_page_dir: DIR_PATH
 		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants

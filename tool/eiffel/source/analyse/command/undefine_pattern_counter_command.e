@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:36:55 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -47,7 +47,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (source_manifest_path: EL_FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
+	make (source_manifest_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
 		do
 			make_default
 			environ_variable.apply
@@ -80,7 +80,7 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
-	process_file (source_path: EL_FILE_PATH)
+	process_file (source_path: FILE_PATH)
 		do
 			total_class_count := total_class_count + 1
 			pattern_count := 0

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 12:42:20 GMT (Friday 3rd April 2020)"
-	revision: "4"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_ENCRYPTED_FILE
@@ -32,13 +32,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make_open_write (file_path: EL_FILE_PATH; a_encrypter: like encrypter)
+	make_open_write (file_path: FILE_PATH; a_encrypter: like encrypter)
 		do
 			make_file_open_write (file_path)
 			encrypter := a_encrypter
 		end
 
-	make_open_read (file_path: EL_FILE_PATH; a_encrypter: like encrypter)
+	make_open_read (file_path: FILE_PATH; a_encrypter: like encrypter)
 		do
 			make_file_open_read (file_path)
 			encrypter := a_encrypter

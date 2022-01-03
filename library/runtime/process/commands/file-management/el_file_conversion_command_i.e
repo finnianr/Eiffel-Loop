@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:18:28 GMT (Saturday 10th July 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_FILE_CONVERSION_COMMAND_I
@@ -27,9 +27,9 @@ inherit
 
 feature -- Access
 
-	input_file_path: EL_FILE_PATH
+	input_file_path: FILE_PATH
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 
 feature -- Element change
 

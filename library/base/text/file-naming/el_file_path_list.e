@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:19:50 GMT (Sunday 19th December 2021)"
-	revision: "17"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	EL_FILE_PATH_LIST
 
 inherit
-	EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+	EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		rename
 			make as make_with_count,
 			first as first_path,
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (list: ITERABLE [EL_FILE_PATH])
+	make (list: ITERABLE [FILE_PATH])
 		do
 			make_with_count (Iterable.count (list))
 			across list as l_path loop
@@ -45,11 +45,11 @@ feature {NONE} -- Initialization
 			make_with_count (tuple.count)
 			from i := 1 until i > tuple.count loop
 				if tuple.is_reference_item (i) then
-					if attached {EL_FILE_PATH} tuple.reference_item (i) as file_path then
+					if attached {FILE_PATH} tuple.reference_item (i) as file_path then
 						extend (file_path)
 
 					elseif attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as general then
-						extend (create {EL_FILE_PATH}.make (general))
+						extend (create {FILE_PATH}.make (general))
 					end
 				else
 					check invalid_tuple_type: False end
@@ -72,7 +72,7 @@ feature -- Basic operations
 
 	sort_by_base (in_ascending_order: BOOLEAN)
 		do
-			make_from_array (ordered_by (agent {EL_FILE_PATH}.base, in_ascending_order).to_array)
+			make_from_array (ordered_by (agent {FILE_PATH}.base, in_ascending_order).to_array)
 		end
 
 	sort_by_size (in_ascending_order: BOOLEAN)
@@ -89,7 +89,7 @@ feature -- Cursor movement
 
 feature {NONE} -- Implementation
 
-	base_matches (a_path: EL_FILE_PATH; base: ZSTRING): BOOLEAN
+	base_matches (a_path: FILE_PATH; base: ZSTRING): BOOLEAN
 		do
 			Result := a_path.base ~ base
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-07 8:54:06 GMT (Monday 7th September 2020)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	POSTCARD_VIEWER_TAB
@@ -33,7 +33,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_location: EL_DIR_PATH)
+	make (a_location: DIR_PATH)
 		do
 			location := a_location
 			make_tab
@@ -67,7 +67,7 @@ feature -- Access
 			Result := location
 		end
 
-	location: EL_DIR_PATH
+	location: DIR_PATH
 
 feature {NONE} -- Factory
 
@@ -97,7 +97,7 @@ feature {NONE} -- Implementation
 
 	icon: EV_PIXMAP
 		local
-			icon_path: EL_FILE_PATH
+			icon_path: FILE_PATH
 		do
 			create Result
 			icon_path := "$ISE_EIFFEL/examples/vision2/edraw/toolbar/picture.png"
@@ -106,3 +106,4 @@ feature {NONE} -- Implementation
 		end
 
 end
+

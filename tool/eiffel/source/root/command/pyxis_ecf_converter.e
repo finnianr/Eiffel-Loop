@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 11:07:36 GMT (Monday 18th January 2021)"
-	revision: "2"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	PYXIS_ECF_CONVERTER
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_output_path: EL_FILE_PATH
+	new_output_path: FILE_PATH
 		do
 			if source_path.has_extension (Pecf) then
 				Result := source_path.with_new_extension ("ecf")

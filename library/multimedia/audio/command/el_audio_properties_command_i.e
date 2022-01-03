@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -68,7 +68,7 @@ feature -- Access
 
 	duration: TIME_DURATION
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature {NONE} -- Implementation
 

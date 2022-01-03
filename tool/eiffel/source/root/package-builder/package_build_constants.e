@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 13:20:14 GMT (Tuesday 17th August 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	PACKAGE_BUILD_CONSTANTS
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 			Result := "build/%S/package/bin/%S"
 		end
 
-	Project_py: EL_FILE_PATH
+	Project_py: FILE_PATH
 		once
 			Result := "project.py"
 		end

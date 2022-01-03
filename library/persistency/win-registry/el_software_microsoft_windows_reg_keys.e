@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_SOFTWARE_MICROSOFT_WINDOWS_REG_KEYS
@@ -36,12 +36,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	current_version (name: STRING): EL_DIR_PATH
+	current_version (name: STRING): DIR_PATH
 		do
 			Result := current_version_path.joined_dir_path (name)
 		end
 
-	current_version_path: EL_DIR_PATH
+	current_version_path: DIR_PATH
 		do
 			Result := sub_dir_path ("CurrentVersion")
 		end

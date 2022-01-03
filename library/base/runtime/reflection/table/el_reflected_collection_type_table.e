@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-03 11:09:38 GMT (Monday 3rd May 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_REFLECTED_COLLECTION_TYPE_TABLE
@@ -93,8 +93,8 @@ feature {NONE} -- Implementation
 		EL_COLLECTION_TYPE [STRING_32],
 		EL_COLLECTION_TYPE [ZSTRING],
 
-		EL_COLLECTION_TYPE [EL_DIR_PATH],
-		EL_COLLECTION_TYPE [EL_FILE_PATH]
+		EL_COLLECTION_TYPE [DIR_PATH],
+		EL_COLLECTION_TYPE [FILE_PATH]
 	]
 		do
 			create Result

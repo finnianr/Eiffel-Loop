@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 13:27:41 GMT (Tuesday 26th October 2021)"
-	revision: "13"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -72,7 +72,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	remove_files_script_path: EL_FILE_PATH
+	remove_files_script_path: FILE_PATH
 
 feature -- Basic operations
 
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	write_remove_directory (dir_path: EL_DIR_PATH)
+	write_remove_directory (dir_path: DIR_PATH)
 		do
 			script.put_string (remove_dir_and_parent_commands #$ [dir_path.escaped, dir_path.parent.escaped])
 			script.put_new_line
@@ -173,7 +173,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Constants
 
-	Application_path: EL_FILE_PATH
+	Application_path: FILE_PATH
 		once
 			Result := Directory.Application_bin + Executable.name
 		end

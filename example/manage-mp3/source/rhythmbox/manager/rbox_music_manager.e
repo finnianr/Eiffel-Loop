@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-07 16:36:33 GMT (Saturday 7th November 2020)"
-	revision: "30"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "31"
 
 class
 	RBOX_MUSIC_MANAGER
@@ -32,7 +32,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_task_path: EL_FILE_PATH)
+	make (a_task_path: FILE_PATH)
 		do
 			task_path := a_task_path
 			create dir_path
@@ -140,9 +140,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	dir_path: EL_DIR_PATH
+	dir_path: DIR_PATH
 
-	task_path: EL_FILE_PATH
+	task_path: FILE_PATH
 		-- path to task config file
 
 feature {NONE} -- Constants

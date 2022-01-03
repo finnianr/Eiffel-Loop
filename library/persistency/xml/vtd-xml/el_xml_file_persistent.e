@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 11:05:51 GMT (Monday 23rd November 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -30,7 +30,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 			--
 		local
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT

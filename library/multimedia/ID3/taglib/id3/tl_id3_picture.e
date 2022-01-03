@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:19:13 GMT (Tuesday 5th January 2021)"
-	revision: "13"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	TL_ID3_PICTURE
@@ -41,7 +41,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_path: EL_FILE_PATH; a_description: READABLE_STRING_GENERAL; a_type_enum: NATURAL_8)
+	make (a_path: FILE_PATH; a_description: READABLE_STRING_GENERAL; a_type_enum: NATURAL_8)
 		-- make from picture `data'
 		require
 			valid_enum: Picture_type.is_valid_value (a_type_enum)
@@ -91,7 +91,7 @@ feature -- Access
 
 	description: ZSTRING
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 	mime_type: STRING
 		do
@@ -168,7 +168,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_file_path: EL_FILE_PATH
+	Default_file_path: FILE_PATH
 		once ("PROCESS")
 			Result := "image.jpeg"
 		end

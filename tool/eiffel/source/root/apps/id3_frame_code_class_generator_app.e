@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 11:46:16 GMT (Saturday 21st March 2020)"
-	revision: "2"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	ID3_v2_dir: EL_DIR_PATH
+	ID3_v2_dir: DIR_PATH
 		once
 			Result := Eiffel_loop_dir.joined_dir_path ("contrib/C++/taglib/include/mpeg/id3v2")
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:17:55 GMT (Tuesday 5th January 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_FILE_SAVE_DIALOG
@@ -36,9 +36,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name, description, extension: READABLE_STRING_GENERAL; a_last_saved_dir: EL_DIR_PATH; a_save: like save)
+	make (a_name, description, extension: READABLE_STRING_GENERAL; a_last_saved_dir: DIR_PATH; a_save: like save)
 		local
-			file_path: EL_FILE_PATH; name: ZSTRING
+			file_path: FILE_PATH; name: ZSTRING
 		do
 			make_with_title ("Save as " + description)
 			create filter_extensions.make (2)
@@ -84,7 +84,7 @@ feature {NONE} -- Event handling
 	on_save (a_window: EV_WINDOW)
 		local
 			dialog: EL_CONFIRMATION_DIALOG; confirmed: BOOLEAN
-			file_path: EL_FILE_PATH; extension, format_extension: ZSTRING
+			file_path: FILE_PATH; extension, format_extension: ZSTRING
 		do
 			file_path := full_file_path; extension := file_path.extension.as_lower
 			if filters.valid_index (selected_filter_index) then
@@ -114,9 +114,9 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	last_saved_dir: EL_DIR_PATH
+	last_saved_dir: DIR_PATH
 
-	save: PROCEDURE [EL_FILE_PATH]
+	save: PROCEDURE [FILE_PATH]
 
 feature {NONE} -- Constants
 

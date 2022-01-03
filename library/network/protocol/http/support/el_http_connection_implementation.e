@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 12:24:02 GMT (Sunday 12th September 2021)"
-	revision: "1"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -65,7 +65,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			end
 		end
 
-	set_certificate_authority_info (cacert_path: EL_FILE_PATH)
+	set_certificate_authority_info (cacert_path: FILE_PATH)
 		do
 			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end

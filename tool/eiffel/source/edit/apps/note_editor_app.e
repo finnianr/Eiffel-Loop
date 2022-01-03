@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:54 GMT (Tuesday 10th November 2020)"
-	revision: "23"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "24"
 
 class
 	NOTE_EDITOR_APP
@@ -47,14 +47,14 @@ feature -- Basic operations
 
 feature -- Test
 
-	test_edit (dir_path: EL_DIR_PATH)
+	test_edit (dir_path: DIR_PATH)
 			--
 		do
 			create command.make (dir_path + "note-test-manifest.pyx", License_notes_path)
 			normal_run
 		end
 
-	test_license_change (dir_path: EL_DIR_PATH)
+	test_license_change (dir_path: DIR_PATH)
 			--
 		do
 			create command.make (dir_path + "hexagram-manifest.pyx", dir_path + "hexagram-license.pyx")
@@ -90,7 +90,7 @@ feature {NONE} -- Constants
 			Result := new_context_menu_desktop ("Eiffel Loop/Development/Set note field defaults")
 		end
 
-	License_notes_path: EL_FILE_PATH
+	License_notes_path: FILE_PATH
 		once
 			Result := "$EIFFEL_LOOP/license.pyx"
 			Result.expand

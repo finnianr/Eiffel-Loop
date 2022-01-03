@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "31"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "32"
 
 class
 	EL_PATH_STEPS
@@ -96,7 +96,7 @@ convert
 
 	make ({STRING_32, STRING, ZSTRING, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}), make_from_tuple ({TUPLE}),
 
-	as_file_path: {EL_FILE_PATH}, as_directory_path: {EL_DIR_PATH}, to_string_32: {READABLE_STRING_GENERAL}
+	as_file_path: {FILE_PATH}, as_directory_path: {DIR_PATH}, to_string_32: {READABLE_STRING_GENERAL}
 
 feature {NONE} -- Initialization
 
@@ -129,8 +129,8 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			same_count: count = a_path.step_count
-			reversible_if_directory: attached {EL_DIR_PATH} a_path as dir_path implies dir_path ~ as_directory_path
-			reversible_if_file: attached {EL_FILE_PATH} a_path as file_path implies file_path ~ as_file_path
+			reversible_if_directory: attached {DIR_PATH} a_path as dir_path implies dir_path ~ as_directory_path
+			reversible_if_file: attached {FILE_PATH} a_path as file_path implies file_path ~ as_file_path
 		end
 
 	make_from_strings (a_steps: FINITE [READABLE_STRING_GENERAL])
@@ -393,24 +393,24 @@ feature -- Contract Support
 
 feature -- Conversion
 
-	as_directory_path: EL_DIR_PATH
+	as_directory_path: DIR_PATH
 		do
 			create Result
 			fill_path (Result)
 		end
 
-	as_expanded_directory_path: EL_DIR_PATH
+	as_expanded_directory_path: DIR_PATH
 		do
 			Result := expanded_path.to_string
 		end
 
-	as_expanded_file_path: EL_FILE_PATH
+	as_expanded_file_path: FILE_PATH
 		do
 			create Result
 			fill_path (Result)
 		end
 
-	as_file_path: EL_FILE_PATH
+	as_file_path: FILE_PATH
 		do
 			Result := to_string
 		end

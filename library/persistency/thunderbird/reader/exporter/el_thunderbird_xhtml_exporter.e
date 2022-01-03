@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:47:29 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	export_mails (mails_path: EL_FILE_PATH)
+	export_mails (mails_path: FILE_PATH)
 		do
 			Precursor (mails_path)
 			remove_old_files
@@ -268,7 +268,7 @@ feature {NONE} -- Internal attributes
 
 	is_html_updated: BOOLEAN
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 
 feature {NONE} -- Constants
 

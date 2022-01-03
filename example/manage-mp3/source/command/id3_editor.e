@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 9:13:21 GMT (Sunday 19th April 2020)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	ID3_EDITOR
@@ -26,7 +26,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_media_dir: EL_DIR_PATH; a_edition_name: like edition_name)
+	make (a_media_dir: DIR_PATH; a_edition_name: like edition_name)
 		do
 			edition_name := a_edition_name
 			create file_paths.make (OS.file_list (a_media_dir, "*.mp3"))
@@ -65,10 +65,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [TL_MPEG_FILE, EL_FILE_PATH]]
+	editions_table: EL_ZSTRING_HASH_TABLE [PROCEDURE [TL_MPEG_FILE, FILE_PATH]]
 
 	edition_name: ZSTRING
 
 	file_paths: EL_FILE_PATH_LIST
 
 end
+

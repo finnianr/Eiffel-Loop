@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-29 13:46:54 GMT (Wednesday 29th January 2020)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -84,7 +84,7 @@ feature -- Basic operations
 				elseif attached {EL_ZSTRING_LIST} operand then
 					Setter_types.search ({ZSTRING})
 				elseif attached {EL_FILE_PATH_LIST} operand then
-					Setter_types.search ({EL_FILE_PATH})
+					Setter_types.search ({FILE_PATH})
 				else
 					Setter_types.search ({like Current}) -- `Setter_types.found' is now False
 				end
@@ -126,8 +126,8 @@ feature {NONE} -- Constants
 				[{STRING_8},								{EL_STRING_8_OPERAND_SETTER}],
 				[{STRING_32},								{EL_STRING_32_OPERAND_SETTER}],
 
-				[{EL_FILE_PATH},							{EL_FILE_PATH_OPERAND_SETTER}],
-				[{EL_DIR_PATH},							{EL_DIR_PATH_OPERAND_SETTER}],
+				[{FILE_PATH},							{EL_FILE_PATH_OPERAND_SETTER}],
+				[{DIR_PATH},							{EL_DIR_PATH_OPERAND_SETTER}],
 
 				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}],
 
@@ -138,3 +138,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

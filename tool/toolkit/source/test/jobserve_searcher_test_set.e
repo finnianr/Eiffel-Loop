@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 14:47:16 GMT (Thursday 4th March 2021)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	JOBSERVE_SEARCHER_TEST_SET
@@ -32,7 +32,7 @@ feature -- Tests
 			searcher: JOBSERVE_SEARCHER
 		do
 			if not file_list.is_empty then
-				create searcher.make (file_list.first_path, create {EL_DIR_PATH}, "")
+				create searcher.make (file_list.first_path, create {DIR_PATH}, "")
 				searcher.execute
 				check_same_content (searcher.results_path, "15ADCB23D84DD7133C7BDEC112AD4815")
 			end
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("XML")
 		end

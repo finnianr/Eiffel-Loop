@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-06-05 9:43:18 GMT (Tuesday 5th June 2018)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_APPLICATION_MUTEX_IMP
@@ -74,6 +74,6 @@ feature {NONE} -- Implementation
 
 	locked_file_descriptor: INTEGER
 
-	locked_file_path: EL_FILE_PATH
+	locked_file_path: FILE_PATH
 
 end

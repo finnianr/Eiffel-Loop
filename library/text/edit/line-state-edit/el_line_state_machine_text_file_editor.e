@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:04:56 GMT (Thursday 7th May 2020)"
-	revision: "4"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		do
 			Result := input_lines.file_path
 		end

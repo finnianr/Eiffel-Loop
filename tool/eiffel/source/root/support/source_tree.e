@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 10:06:31 GMT (Tuesday 17th August 2021)"
-	revision: "12"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	SOURCE_TREE
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	dir_path: EL_DIR_PATH
+	dir_path: DIR_PATH
 
 	file_count: INTEGER
 		do

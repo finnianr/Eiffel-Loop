@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-16 13:00:15 GMT (Thursday 16th July 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	DUPLICITY_RESTORE_ALL_OS_CMD
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (restore: DUPLICITY_RESTORE; time: DATE_TIME; file_path: EL_FILE_PATH)
+	make (restore: DUPLICITY_RESTORE; time: DATE_TIME; file_path: FILE_PATH)
 		do
 			make_command (Cmd_template)
 			set_target_dir (restore.backup_dir)

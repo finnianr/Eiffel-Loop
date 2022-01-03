@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 10:53:51 GMT (Saturday 30th May 2020)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	COLLATE_SONGS_TASK
@@ -26,7 +26,7 @@ feature -- Basic operations
 		-- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
 		-- Playlist locations will be updated to match new locations.
 		local
-			new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
+			new_mp3_path: FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
 		do
 			query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
 			if query_result.is_empty then

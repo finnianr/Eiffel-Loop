@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:51:11 GMT (Wednesday 27th May 2020)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	IMPORT_VIDEOS_TASK_TEST_SET
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 
 	write_video_song (song: RBOX_SONG)
 		local
-			mp4_path: EL_FILE_PATH
+			mp4_path: FILE_PATH
 		do
 			AVconv_mp3_to_mp4.put_path ("mp3_path", song.mp3_path)
 

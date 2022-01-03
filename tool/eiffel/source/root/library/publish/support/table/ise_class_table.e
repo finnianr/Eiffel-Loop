@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 14:02:55 GMT (Thursday 22nd July 2021)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	ISE_CLASS_TABLE
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 		require
 			enough_holders: a_ise_chart_template.occurrences ('%S') = 2
 		local
-			dir_path: EL_DIR_PATH
+			dir_path: DIR_PATH
 		do
 			make_solitary
 			make_equal (50)
@@ -62,7 +62,7 @@ feature -- Status query
 	has_class (text: ZSTRING): BOOLEAN
 		local
 			file_name: ZSTRING; eiffel: EL_EIFFEL_SOURCE_ROUTINES
-			relative_source_path: EL_FILE_PATH
+			relative_source_path: FILE_PATH
 		do
 			if text.is_empty then
 				last_name.wipe_out
@@ -99,11 +99,11 @@ feature {NONE} -- Initialization
 
 	github_base: ZSTRING
 
-	ise_library_path: EL_DIR_PATH
+	ise_library_path: DIR_PATH
 
-	ise_contrib_path: EL_DIR_PATH
+	ise_contrib_path: DIR_PATH
 
-	ise_directories: ARRAY [EL_DIR_PATH]
+	ise_directories: ARRAY [DIR_PATH]
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 10:26:43 GMT (Tuesday 23rd March 2021)"
-	revision: "8"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	DJ_EVENT_PUBLISHER_CONFIG
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	www_dir: EL_DIR_PATH
+	www_dir: DIR_PATH
 
 	html_template: ZSTRING
 
@@ -46,7 +46,7 @@ feature -- Access
 
 	ftp_url: STRING
 
-	ftp_user_home: EL_DIR_PATH
+	ftp_user_home: DIR_PATH
 
 	ftp_destination_dir: ZSTRING
 

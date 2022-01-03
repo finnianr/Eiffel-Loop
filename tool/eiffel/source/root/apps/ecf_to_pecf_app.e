@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:07 GMT (Tuesday 10th November 2020)"
-	revision: "19"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	ECF_TO_PECF_APP
@@ -37,7 +37,7 @@ feature -- Basic operations
 
 feature -- Test
 
-	test_xml_to_pyxis (a_dir_path: EL_DIR_PATH)
+	test_xml_to_pyxis (a_dir_path: DIR_PATH)
 			--
 		do
 			create tree_processor.make (a_dir_path, "*.ecf", create {XML_TO_PYXIS_CONVERTER}.make_default)
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 	default_make: PROCEDURE [like tree_processor]
 		do
 			Result := agent {like tree_processor}.make (
-				create {EL_DIR_PATH}, "*.ecf", create {XML_TO_PYXIS_CONVERTER}.make_default
+				create {DIR_PATH}, "*.ecf", create {XML_TO_PYXIS_CONVERTER}.make_default
 			)
 		end
 

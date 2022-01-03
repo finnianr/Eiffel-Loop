@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:04:04 GMT (Friday 21st August 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	CAIRO_PIXEL_SURFACE_I
@@ -70,7 +70,7 @@ feature -- Basic operations
 		deferred
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
+	save_as_jpeg (file_path: FILE_PATH; quality: NATURAL)
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:04 GMT (Sunday 19th December 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	CLASS_NOTES
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			make_with_lines (lines.file_path, lines)
 		end
 
-	make_with_lines (a_file_path: EL_FILE_PATH; lines: LINEAR [ZSTRING])
+	make_with_lines (a_file_path: FILE_PATH; lines: LINEAR [ZSTRING])
 		do
 			make_machine
 			file_path := a_file_path
@@ -47,7 +47,7 @@ feature -- Access
 
 	fields: NOTE_FIELD_LIST
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 	original_lines: EL_ZSTRING_LIST
 

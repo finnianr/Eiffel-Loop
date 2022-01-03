@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-12-17 11:52:49 GMT (Monday 17th December 2018)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_VARIABLE_TABLE [G]
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (file_path: FILE_PATH)
 			--
 		local
 			file_in: PLAIN_TEXT_FILE; variable: STRING

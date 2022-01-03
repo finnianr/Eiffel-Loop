@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 13:06:20 GMT (Wednesday 24th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -30,7 +30,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_log_path: EL_FILE_PATH; a_config: like config)
+	make (a_log_path: FILE_PATH; a_config: like config)
 		do
 			make_parser (a_log_path)
 			config := a_config

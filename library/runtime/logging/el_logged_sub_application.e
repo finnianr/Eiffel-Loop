@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-13 13:47:45 GMT (Friday 13th November 2020)"
-	revision: "17"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 deferred class
 	EL_LOGGED_SUB_APPLICATION
@@ -153,7 +153,7 @@ feature {NONE} -- Constants
 			create Result.make (11, agent {EL_LOGGED_SUB_APPLICATION}.new_log_filter_list)
 		end
 
-	Log_output_directory: EL_DIR_PATH
+	Log_output_directory: DIR_PATH
 		once
 			Result := Directory.App_data.joined_dir_tuple ([option_name, "logs"])
 		end

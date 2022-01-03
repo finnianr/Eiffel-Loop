@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:22:53 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -54,16 +54,16 @@ feature -- Access
 
 	argument_count: INTEGER
 
-	command_path: EL_FILE_PATH
+	command_path: FILE_PATH
 
-	directory_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
+	directory_path (name: READABLE_STRING_GENERAL): DIR_PATH
 		require
 			has_value: has_value (name)
 		do
 			Result := value (name)
 		end
 
-	file_path (name: READABLE_STRING_GENERAL): EL_FILE_PATH
+	file_path (name: READABLE_STRING_GENERAL): FILE_PATH
 		require
 			has_value: has_value (name)
 		do

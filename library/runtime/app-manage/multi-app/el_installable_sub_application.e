@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:32:04 GMT (Sunday 19th December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -113,7 +113,7 @@ feature {NONE} -- Factory
 			create {EL_FILE_CONTEXT_MENU_DESKTOP_ENV_IMP} Result.make (Current, menu_path)
 		end
 
-	new_custom_category (a_name, a_comment: READABLE_STRING_GENERAL; icon_path: EL_FILE_PATH): EL_DESKTOP_MENU_ITEM
+	new_custom_category (a_name, a_comment: READABLE_STRING_GENERAL; icon_path: FILE_PATH): EL_DESKTOP_MENU_ITEM
 		-- new custom category
 		-- See: https://standards.freedesktop.org/menu-spec/latest/apa.html
 		do
@@ -124,7 +124,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_launcher (icon_path: EL_FILE_PATH): EL_DESKTOP_MENU_ITEM
+	new_launcher (icon_path: FILE_PATH): EL_DESKTOP_MENU_ITEM
 		-- new launcher
 		do
 			if icon_path.is_absolute then

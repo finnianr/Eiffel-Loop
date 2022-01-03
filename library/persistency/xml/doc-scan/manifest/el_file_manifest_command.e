@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:05:18 GMT (Saturday 20th March 2021)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_FILE_MANIFEST_COMMAND
@@ -27,12 +27,12 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_template_path, manifest_output_path: EL_FILE_PATH; a_target_dir: EL_DIR_PATH; extension: STRING)
+	make (a_template_path, manifest_output_path: FILE_PATH; a_target_dir: DIR_PATH; extension: STRING)
 		-- create list of files in `a_target_dir' conforming to `extension' and output
 		-- XML manifest in `manifest_output_path'
 		local
 			sorted_path_list: like File_system.files
-			target_dir: EL_DIR_PATH
+			target_dir: DIR_PATH
 		do
 			if a_target_dir.is_empty then
 				target_dir := manifest_output_path.parent

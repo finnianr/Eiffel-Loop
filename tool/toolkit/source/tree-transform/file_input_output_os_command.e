@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:46:15 GMT (Thursday 9th September 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	FILE_INPUT_OUTPUT_OS_COMMAND
@@ -25,7 +25,7 @@ create
 
 feature -- Element change
 
-	set_input_output_path (a_input_path, a_output_path: EL_FILE_PATH)
+	set_input_output_path (a_input_path, a_output_path: FILE_PATH)
 		do
 			put_path (Var.input_path, a_input_path)
 			put_path (Var.output_path, a_output_path)

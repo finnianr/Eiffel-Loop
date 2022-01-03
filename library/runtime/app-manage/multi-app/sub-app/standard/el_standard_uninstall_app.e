@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 13:23:58 GMT (Tuesday 26th October 2021)"
-	revision: "24"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "25"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -114,7 +114,7 @@ feature -- Installer constants
 
 feature {NONE} -- Application constants
 
-	App_directory_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	App_directory_list: EL_ARRAYED_LIST [DIR_PATH]
 		-- so nothing is created in /home/root
 		once
 			create Result.make_empty

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "27"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "28"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -64,7 +64,7 @@ feature -- Access
 
 	errors: EL_ZSTRING_LIST
 
-	working_directory: EL_DIR_PATH
+	working_directory: DIR_PATH
 
 feature -- Element change
 
@@ -227,7 +227,7 @@ feature {NONE} -- Implementation
 	do_command (a_system_command: like system_command)
 			--
 		local
-			command_parts: EL_ZSTRING_LIST; error_path: EL_FILE_PATH
+			command_parts: EL_ZSTRING_LIST; error_path: FILE_PATH
 		do
 			if is_forked then
 				Execution_environment.launch (a_system_command)
@@ -287,7 +287,7 @@ feature {NONE} -- Implementation
 			Result.left_adjust
 		end
 
-	temporary_error_file_path: EL_FILE_PATH
+	temporary_error_file_path: FILE_PATH
 		do
 			Result := Temporary_error_path_by_type.item (Current)
 		end
@@ -301,7 +301,7 @@ feature {EL_OS_COMMAND_I} -- Factory
 			>>
 		end
 
-	new_temporary_file_path (a_extension: STRING): EL_FILE_PATH
+	new_temporary_file_path (a_extension: STRING): FILE_PATH
 		-- uniquely numbered temporary file in temporary area set by env label "TEMP"
 		do
 			Result := Temporary_path_format #$ [
@@ -330,7 +330,7 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	new_output_lines (file_path: EL_FILE_PATH): EL_LINEAR [ZSTRING]
+	new_output_lines (file_path: FILE_PATH): EL_LINEAR [ZSTRING]
 		deferred
 		end
 
@@ -346,7 +346,7 @@ feature {NONE} -- Constants
 			Result := "sudo"
 		end
 
-	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, EL_FILE_PATH]
+	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, FILE_PATH]
 		once
 			create Result.make (17, agent {EL_OS_COMMAND_I}.new_temporary_file_path ("err"))
 		end

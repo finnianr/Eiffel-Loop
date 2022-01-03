@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:37:09 GMT (Thursday 9th September 2021)"
-	revision: "2"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	EL_MD5_SUM_COMMAND
@@ -28,7 +28,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_target_path (a_path: EL_FILE_PATH)
+	set_target_path (a_path: FILE_PATH)
 		do
 			put_path (var.target_path, a_path)
 		end

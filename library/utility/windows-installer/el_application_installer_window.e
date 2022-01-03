@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 16:46:14 GMT (Monday 1st July 2019)"
-	revision: "4"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_APPLICATION_INSTALLER_WINDOW [INSTALLER_TYPE -> EL_APPLICATION_INSTALLER create make end]
@@ -164,10 +164,10 @@ feature {NONE} -- Implementation
 			logo_drawing_area.draw_pixmap (0, 0, installer.Application_logo_pixmap)
 		end
 
-	program_menu_directory_path: EL_DIR_PATH
+	program_menu_directory_path: DIR_PATH
 			--
 		local
-			user_dir: EL_DIR_PATH
+			user_dir: DIR_PATH
 		once
 			user_dir := Execution_environment.variable_dir_path ("USERPROFILE").parent
 			Result := user_dir.joined_dir_path ("All Users/Start Menu/Programs")

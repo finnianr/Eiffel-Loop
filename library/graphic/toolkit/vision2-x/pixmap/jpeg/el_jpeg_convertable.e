@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-01 15:54:09 GMT (Saturday 1st August 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_JPEG_CONVERTABLE
@@ -20,7 +20,7 @@ inherit
 
 feature -- Basic operations
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
+	save_as_jpeg (file_path: FILE_PATH; quality: NATURAL)
 		require
 			percentage: 0 <= quality and quality <= 100
 		local

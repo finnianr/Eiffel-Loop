@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-07 11:59:42 GMT (Friday 7th February 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -37,7 +37,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_server (path: EL_FILE_PATH)
+	make_server (path: FILE_PATH)
 		do
 			socket_path := path
 			is_server := True
@@ -67,7 +67,7 @@ feature -- Access
 			Result := "UNIX socket " + address.path
 		end
 
-	socket_path: EL_FILE_PATH
+	socket_path: FILE_PATH
 
 feature -- Status query
 

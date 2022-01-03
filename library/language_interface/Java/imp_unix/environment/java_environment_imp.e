@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 9:04:06 GMT (Saturday 10th July 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	JAVA_ENVIRONMENT_IMP
@@ -31,23 +31,23 @@ feature {NONE} -- Constants
 
 	Class_path_separator: CHARACTER = ':'
 
-	Default_java_jar_dir: EL_DIR_PATH
+	Default_java_jar_dir: DIR_PATH
 		once
 			Result := "/usr/share/java"
 		end
 
 	Deployment_properties_path: STRING = ".java/deployment"
 
-	JVM_home_dir: EL_DIR_PATH
+	JVM_home_dir: DIR_PATH
 		once
 			Result := "/usr/lib/jvm"
 		end
 
 	JVM_library_name: STRING = "libjvm.so"
 
-	JVM_library_path: EL_FILE_PATH
+	JVM_library_path: FILE_PATH
 		local
-			java_dir: EL_DIR_PATH; found: BOOLEAN
+			java_dir: DIR_PATH; found: BOOLEAN
 			libjvm_path_list: EL_FILE_PATH_LIST
 		once
 			create Result
@@ -79,7 +79,7 @@ feature {NONE} -- Constants
 			Result := "server"
 		end
 
-	User_application_data_dir, Default_user_application_data_dir: EL_DIR_PATH
+	User_application_data_dir, Default_user_application_data_dir: DIR_PATH
 			--
 		once
 			Result := Directory.home

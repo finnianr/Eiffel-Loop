@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:12 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	PRAAT_MAKE_FILE_PARSER
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	new_c_library (make_file_path: EL_FILE_PATH)
+	new_c_library (make_file_path: FILE_PATH)
 			--
 		do
 			create c_library.make

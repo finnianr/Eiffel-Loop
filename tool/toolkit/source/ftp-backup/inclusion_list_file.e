@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:34:13 GMT (Saturday 10th July 2021)"
-	revision: "8"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	INCLUSION_LIST_FILE
@@ -31,7 +31,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			path_steps: EL_PATH_STEPS
-			target_parent, specifier_path: EL_DIR_PATH
+			target_parent, specifier_path: DIR_PATH
 		do
 			target_parent := backup.target_dir.parent
 			if is_wild_card (file_specifier) then

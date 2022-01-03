@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 16:41:07 GMT (Thursday 16th September 2021)"
-	revision: "15"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "16"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -44,14 +44,14 @@ feature -- Access
 
 feature -- OS commands
 
-	find_directories_command (a_dir_path: EL_DIR_PATH): like Find_directories_cmd
+	find_directories_command (a_dir_path: DIR_PATH): like Find_directories_cmd
 		do
 			Result := Find_directories_cmd
 			Result.set_defaults
 			Result.set_dir_path (a_dir_path)
 		end
 
-	find_files_command (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): like Find_files_cmd
+	find_files_command (a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): like Find_files_cmd
 		do
 			Result := Find_files_cmd
 			Result.set_defaults
@@ -61,7 +61,7 @@ feature -- OS commands
 
 feature -- File operations
 
-	copy_file (source_path: EL_FILE_PATH; destination_path: EL_PATH)
+	copy_file (source_path: FILE_PATH; destination_path: EL_PATH)
 			--
 		do
 			if attached Copy_file_cmd as cmd then
@@ -71,7 +71,7 @@ feature -- File operations
 			end
 		end
 
-	delete_file (file_path: EL_FILE_PATH)
+	delete_file (file_path: FILE_PATH)
 			--
 		do
 			if attached Delete_file_cmd as cmd then
@@ -80,7 +80,7 @@ feature -- File operations
 			end
 		end
 
-	move_file (file_path: EL_FILE_PATH; destination_path: EL_PATH)
+	move_file (file_path: FILE_PATH; destination_path: EL_PATH)
 			--
 		do
 			if attached Move_file_cmd as cmd then
@@ -90,7 +90,7 @@ feature -- File operations
 			end
 		end
 
-	move_to_directory (a_path: EL_PATH; destination_path: EL_DIR_PATH)
+	move_to_directory (a_path: EL_PATH; destination_path: DIR_PATH)
 			--
 		do
 			if attached Move_to_directory_cmd as cmd then
@@ -102,7 +102,7 @@ feature -- File operations
 
 feature -- Directory operations
 
-	copy_tree (source_path: EL_DIR_PATH; destination_path: EL_DIR_PATH)
+	copy_tree (source_path: DIR_PATH; destination_path: DIR_PATH)
 			--
 		do
 			if attached Copy_tree_cmd as cmd then
@@ -112,7 +112,7 @@ feature -- Directory operations
 			end
 		end
 
-	delete_tree (directory_path: EL_DIR_PATH)
+	delete_tree (directory_path: DIR_PATH)
 			--
 		do
 			Delete_tree_cmd.set_target_path (directory_path)
@@ -131,7 +131,7 @@ feature -- Directory operations
 
 feature -- File query
 
-	directory_list (a_dir_path: EL_DIR_PATH): like Find_directories_cmd.path_list
+	directory_list (a_dir_path: DIR_PATH): like Find_directories_cmd.path_list
 		do
 			if attached find_directories_command (a_dir_path) as cmd then
 				cmd.execute
@@ -139,7 +139,7 @@ feature -- File query
 			end
 		end
 
-	file_md5_digest (path: EL_FILE_PATH): STRING
+	file_md5_digest (path: FILE_PATH): STRING
 		require
 			md5sum_available: md5sum_available
 		do
@@ -155,7 +155,7 @@ feature -- File query
 			end
 		end
 
-	file_list (a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+	file_list (a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
 			--
 		do
 			if attached find_files_command (a_dir_path, a_file_pattern) as cmd then
@@ -165,7 +165,7 @@ feature -- File query
 		end
 
 	filtered_file_list (
-		a_dir_path: EL_DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; condition: EL_QUERY_CONDITION [ZSTRING]
+		a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; condition: EL_QUERY_CONDITION [ZSTRING]
 	): EL_FILE_PATH_LIST
 			-- list of paths that meet filter `condition'
 			-- Use `Filter.*' routines in class `EL_SHARED_FIND_FILE_FILTER_FACTORY'

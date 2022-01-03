@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:23:30 GMT (Wednesday 24th November 2021)"
-	revision: "2"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	HYPERLINK_NOTE_SUBSTITUTION
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		local
-			l_path: ZSTRING; html_path: EL_FILE_PATH
+			l_path: ZSTRING; html_path: FILE_PATH
 			first_index: INTEGER
 		do
 			l_path := path

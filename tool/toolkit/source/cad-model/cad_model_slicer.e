@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-16 17:30:47 GMT (Sunday 16th February 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	CAD_MODEL_SLICER
@@ -19,7 +19,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_json_path: EL_FILE_PATH)
+	make (a_json_path: FILE_PATH)
 		do
 			log.enter_with_args ("make", [a_json_path.base])
 			log.set_timer
@@ -35,7 +35,7 @@ feature -- Basic operations
 
 	execute
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			log.enter ("execute")
 			log.set_timer
@@ -55,7 +55,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	qualified_path (qualifier: STRING): EL_FILE_PATH
+	qualified_path (qualifier: STRING): FILE_PATH
 		do
 			Result := json_path.without_extension
 			Result.set_base (Base_template #$ [Result.base, qualifier])
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	json_path: EL_FILE_PATH
+	json_path: FILE_PATH
 
 	model: CAD_MODEL
 

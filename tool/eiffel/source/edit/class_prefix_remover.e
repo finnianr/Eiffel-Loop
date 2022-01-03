@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:56:08 GMT (Saturday 27th March 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	CLASS_PREFIX_REMOVER
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_prefix_letters: STRING; file_path_list: LIST [EL_FILE_PATH])
+	make (a_prefix_letters: STRING; file_path_list: LIST [FILE_PATH])
 			--
 		do
 			make_editor

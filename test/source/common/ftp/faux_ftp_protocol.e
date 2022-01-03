@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 11:21:35 GMT (Tuesday 23rd March 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	FAUX_FTP_PROTOCOL
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	user_home_dir: EL_DIR_PATH
+	user_home_dir: DIR_PATH
 		local
 			l_path: ZSTRING
 		do
@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- Status report
 
-	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+	directory_exists (dir_path: DIR_PATH): BOOLEAN
 		-- Does remote directory exist
 		do
 			if dir_path.is_empty then
@@ -57,7 +57,7 @@ feature -- Status report
 			end
 		end
 
-	file_exists (file_path: EL_FILE_PATH): BOOLEAN
+	file_exists (file_path: FILE_PATH): BOOLEAN
 			-- Does remote directory exist
 		do
 			if file_path.is_empty then
@@ -74,7 +74,7 @@ feature -- Basic operations
 
 	upload (item: EL_FTP_UPLOAD_ITEM)
 		local
-			destination: EL_DIR_PATH
+			destination: DIR_PATH
 		do
 			destination := (user_home_dir + item.destination_file_path).parent
 			File_system.make_directory (destination)
@@ -84,7 +84,7 @@ feature -- Basic operations
 
 feature -- Remote operations
 
-	delete_file (file_path: EL_FILE_PATH)
+	delete_file (file_path: FILE_PATH)
 		do
 			if file_path.exists then
 				File_system.remove_file (file_path)
@@ -93,7 +93,7 @@ feature -- Remote operations
 			end
 		end
 
-	remove_directory (dir_path: EL_DIR_PATH)
+	remove_directory (dir_path: DIR_PATH)
 		do
 			File_system.remove_directory (current_directory #+ dir_path)
 		end
@@ -122,19 +122,19 @@ feature -- Status change
 
 feature -- Element change
 
-	set_current_directory (a_current_directory: EL_DIR_PATH)
+	set_current_directory (a_current_directory: DIR_PATH)
 		do
 			current_directory := a_current_directory
 		end
 
 feature {NONE} -- Implementation
 
-	get_current_directory: EL_DIR_PATH
+	get_current_directory: DIR_PATH
 		do
 			Result := current_directory
 		end
 
-	make_sub_directory (dir_path: EL_DIR_PATH)
+	make_sub_directory (dir_path: DIR_PATH)
 		do
 			OS.File_system.make_directory (current_directory #+ dir_path)
 			last_succeeded := (current_directory #+ dir_path).exists
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Work_area_dir: EL_DIR_PATH
+	Work_area_dir: DIR_PATH
 		once
 			Result := "workarea"
 		end

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:27 GMT (Tuesday 10th November 2020)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	PYXIS_ENCRYPTER_APP
@@ -57,7 +57,7 @@ feature -- Basic operations
 
 feature -- Testing
 
-	test_translation (a_file_path: EL_FILE_PATH)
+	test_translation (a_file_path: FILE_PATH)
 			--
 		local
 			table, decrypted_table: EL_TRANSLATION_TABLE
@@ -65,7 +65,7 @@ feature -- Testing
 		do
 			log.enter ("test_translation")
 			create aes_encrypter.make ("happydays", 128)
-			create pyxis_encrypter.make (a_file_path, create {EL_FILE_PATH}, aes_encrypter)
+			create pyxis_encrypter.make (a_file_path, create {FILE_PATH}, aes_encrypter)
 			normal_run
 			aes_encrypter.reset
 			plain_text := Encryption.plain_pyxis (pyxis_encrypter.output_path, aes_encrypter)

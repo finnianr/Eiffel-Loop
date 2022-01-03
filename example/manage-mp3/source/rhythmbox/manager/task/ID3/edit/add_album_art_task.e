@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:48:20 GMT (Tuesday 5th January 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -51,7 +51,7 @@ create
 
 feature {RBOX_MUSIC_MANAGER} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		local
 			picture_list: like new_picture_list
 			picture_table: like picture_group_table.found_item
@@ -78,13 +78,13 @@ feature {RBOX_MUSIC_MANAGER} -- Initialization
 
 feature -- Access
 
-	album_art_dir: EL_DIR_PATH
+	album_art_dir: DIR_PATH
 
 feature -- Basic operations
 
 	apply
 		local
-			picture_dir: EL_DIR_PATH
+			picture_dir: DIR_PATH
 		do
 			if create_folders then
 				across Picture_type.list as type loop
@@ -136,7 +136,7 @@ feature {EQA_TEST_SET} -- Implementation
 			end
 		end
 
-	new_picture_list (jpeg_path_list: LIST [EL_FILE_PATH]): EL_ARRAYED_LIST [TL_ID3_PICTURE]
+	new_picture_list (jpeg_path_list: LIST [FILE_PATH]): EL_ARRAYED_LIST [TL_ID3_PICTURE]
 		local
 			picture: TL_ID3_PICTURE; type_name: STRING
 		do

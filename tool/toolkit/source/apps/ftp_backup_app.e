@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:16:55 GMT (Tuesday 10th November 2020)"
-	revision: "20"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "21"
 
 class
 	FTP_BACKUP_APP
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Test operations
 
-	test_gpg_normal_run (file_path: EL_FILE_PATH)
+	test_gpg_normal_run (file_path: FILE_PATH)
 			--
 		local
 			gpg_recipient: STRING
@@ -59,7 +59,7 @@ feature -- Test operations
 			log.exit
 		end
 
-	test_normal_run (file_path: EL_FILE_PATH)
+	test_normal_run (file_path: FILE_PATH)
 			--
 		do
 			log.enter ("test_normal_run")
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like ftp_command]
 		do
-			Result := agent {like ftp_command}.make (create {EL_FILE_PATH}, False)
+			Result := agent {like ftp_command}.make (create {FILE_PATH}, False)
 		end
 
 	extra_log_filter_set: EL_LOG_FILTER_SET [

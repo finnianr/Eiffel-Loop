@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "2"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 deferred class
 	EL_TEXT_FILE_CONVERTER
@@ -46,6 +46,6 @@ feature {NONE} -- Implementation
 			create Result.make_open_write (output_file_path)
 		end
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 
 end

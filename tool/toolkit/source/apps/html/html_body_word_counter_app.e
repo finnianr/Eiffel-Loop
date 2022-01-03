@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:14 GMT (Tuesday 10th November 2020)"
-	revision: "16"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
@@ -40,7 +40,7 @@ feature -- Test
 			Test.do_file_tree_test ("docs/html/I Ching", agent test_count, 3689436838)
 		end
 
-	test_count (a_dir_path: EL_DIR_PATH)
+	test_count (a_dir_path: DIR_PATH)
 			--
 		do
 			create command.make (a_dir_path)

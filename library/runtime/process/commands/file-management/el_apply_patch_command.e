@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:41:00 GMT (Thursday 9th September 2021)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_APPLY_PATCH_COMMAND
@@ -23,9 +23,9 @@ create
 
 feature -- Access
 
-	patch_path: EL_FILE_PATH
+	patch_path: FILE_PATH
 
-	new_file_path: EL_FILE_PATH
+	new_file_path: FILE_PATH
 
 feature -- Basic operations
 
@@ -36,18 +36,18 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_old_file_path (a_old_file_path: EL_FILE_PATH)
+	set_old_file_path (a_old_file_path: FILE_PATH)
 		do
 			put_path (var.old_file_path, a_old_file_path)
 		end
 
-	set_patch_path (a_patch_path: EL_FILE_PATH)
+	set_patch_path (a_patch_path: FILE_PATH)
 		do
 			patch_path := a_patch_path
 			put_path (var.patch_path, a_patch_path)
 		end
 
-	set_new_file_path (a_new_file_path: EL_FILE_PATH)
+	set_new_file_path (a_new_file_path: FILE_PATH)
 		do
 			new_file_path := a_new_file_path
 			put_path (var.new_file_path, a_new_file_path)

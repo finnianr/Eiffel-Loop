@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 19:05:41 GMT (Friday 22nd November 2019)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -24,7 +24,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_item: like item; a_output_dir: EL_DIR_PATH)
+	make (a_item: like item; a_output_dir: DIR_PATH)
 			--
 		do
 			item := a_item; output_dir := a_output_dir
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 
 feature -- Access
 
-	new_file_path: EL_FILE_PATH
+	new_file_path: FILE_PATH
 		do
 			Result := output_dir + file_name
 		end
@@ -110,7 +110,7 @@ feature {NONE} -- Internal attributes
 
 	item: EL_DESKTOP_MENU_ITEM
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
 feature {NONE} -- Evolicity reflection
 
@@ -129,3 +129,4 @@ feature {NONE} -- Constants
 
 	English_key: STRING = "en"
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-22 17:43:25 GMT (Sunday 22nd November 2020)"
-	revision: "12"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -34,7 +34,7 @@ feature {NONE} -- Initialisation
 
 feature -- Access
 
-	dir_path: EL_DIR_PATH
+	dir_path: DIR_PATH
 		do
 			Result := relative_path_info
 		end

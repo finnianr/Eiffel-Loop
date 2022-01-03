@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-07 10:09:39 GMT (Tuesday 7th September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_UPDATEABLE_FILE
@@ -38,6 +38,6 @@ feature -- Access
 
 feature -- Access
 
-	path: EL_FILE_PATH
+	path: FILE_PATH
 
 end

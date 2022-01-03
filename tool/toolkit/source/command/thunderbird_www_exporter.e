@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-10-19 9:53:09 GMT (Friday 19th October 2018)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	THUNDERBIRD_WWW_EXPORTER
@@ -37,8 +37,8 @@ feature -- Basic operations
 
 	execute
 		local
-			exporter: EL_THUNDERBIRD_XHTML_BODY_EXPORTER; file_path: EL_FILE_PATH
-			l_output_dir: EL_DIR_PATH
+			exporter: EL_THUNDERBIRD_XHTML_BODY_EXPORTER; file_path: FILE_PATH
+			l_output_dir: DIR_PATH
 		do
 			log.enter ("execute")
 			across OS.file_list (mail_dir.joined_dir_path (WWW_dir_name), "*.msf") as path loop
@@ -60,3 +60,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:04:08 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -25,7 +25,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (source_manifest_path: EL_FILE_PATH; a_old_name, a_new_name: STRING)
+	make (source_manifest_path: FILE_PATH; a_old_name, a_new_name: STRING)
 		require
 			old_name_not_empty: not a_old_name.is_empty
 			new_name_not_empty: not a_new_name.is_empty
@@ -68,9 +68,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	process_file (a_source_path: EL_FILE_PATH)
+	process_file (a_source_path: FILE_PATH)
 		local
-			line, file_name: STRING; file: PLAIN_TEXT_FILE; source_path: EL_FILE_PATH
+			line, file_name: STRING; file: PLAIN_TEXT_FILE; source_path: FILE_PATH
 		do
 			if attached File_system.plain_text_lines (a_source_path) as source_lines
 				and then source_lines.target.has_substring (old_name)

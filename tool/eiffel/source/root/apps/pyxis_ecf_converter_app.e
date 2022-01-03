@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 11:07:39 GMT (Monday 18th January 2021)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	PYXIS_ECF_CONVERTER_APP
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_FILE_PATH})
+			Result := agent {like command}.make (create {FILE_PATH}, create {FILE_PATH})
 		end
 
 	visible_types: TUPLE [PYXIS_ECF_CONVERTER]

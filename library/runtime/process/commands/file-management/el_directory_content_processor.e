@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-02 17:27:03 GMT (Saturday 2nd January 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -32,9 +32,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
-	input_dir: EL_DIR_PATH
+	input_dir: DIR_PATH
 
 feature -- Measurement
 
@@ -70,13 +70,13 @@ feature -- Element change
 feature -- Basic operations
 
 	do_all (
-		file_processing_action: PROCEDURE [EL_FILE_PATH, EL_DIR_PATH, ZSTRING, ZSTRING]
+		file_processing_action: PROCEDURE [FILE_PATH, DIR_PATH, ZSTRING, ZSTRING]
 		wild_card: STRING
 	)
 			-- Apply file processing action to every file from input dir
 		local
 			output_file_unqualified_name, output_file_extension: ZSTRING
-			destination_dir_path: EL_DIR_PATH; input_file_path: EL_FILE_PATH
+			destination_dir_path: DIR_PATH; input_file_path: FILE_PATH
 			input_file_path_steps, output_file_dir_path_steps: EL_PATH_STEPS
 			dot_pos: INTEGER
 		do

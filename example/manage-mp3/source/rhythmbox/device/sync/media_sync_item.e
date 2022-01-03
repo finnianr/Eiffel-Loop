@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-30 12:03:25 GMT (Monday 30th March 2020)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	MEDIA_SYNC_ITEM
@@ -43,7 +43,7 @@ feature -- Access
 
 	id: STRING
 
-	relative_file_path: EL_FILE_PATH
+	relative_file_path: FILE_PATH
 		-- volume file path
 
 feature -- Element change

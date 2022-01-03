@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:14:30 GMT (Monday 25th May 2020)"
-	revision: "15"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "16"
 
 class
 	RBOX_CORTINA_SONG
@@ -57,7 +57,7 @@ feature -- Basic operations
 		local
 			clip_saver: like Audio_command.new_mp3_to_wav_clip_saver
 			convertor: like Audio_command.new_wav_to_mp3; fader: like Audio_command.new_wav_fader
-			wav_path, faded_wav_path: EL_FILE_PATH
+			wav_path, faded_wav_path: FILE_PATH
 			audio_properties: like Audio_command.new_audio_properties
 		do
 			wav_path := mp3_path.with_new_extension ("wav")

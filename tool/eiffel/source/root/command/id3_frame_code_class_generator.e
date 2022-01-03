@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:35:29 GMT (Sunday 19th December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR
@@ -32,7 +32,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_id3v2_include_dir: EL_DIR_PATH)
+	make (a_id3v2_include_dir: DIR_PATH)
 		do
 			make_machine
 
@@ -210,7 +210,7 @@ feature {ID3_CODE_CLASS} -- Internal attributes
 
 	code_table: EL_HASH_TABLE [EL_ZSTRING_LIST, STRING]
 
-	id3v2_include_dir: EL_DIR_PATH
+	id3v2_include_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

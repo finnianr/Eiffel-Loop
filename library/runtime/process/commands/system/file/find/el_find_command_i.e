@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-30 12:18:32 GMT (Thursday 30th December 2021)"
-	revision: "16"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -141,7 +141,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	copy_directory_items (destination_dir: EL_DIR_PATH)
+	copy_directory_items (destination_dir: DIR_PATH)
 		-- copy each directory content item at level 1 to `destination_dir'
 		local
 			l_depth_range: like depth_range
@@ -180,7 +180,7 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Implementation
 
-	copy_path_item (source_path: like new_path; destination_dir: EL_DIR_PATH)
+	copy_path_item (source_path: like new_path; destination_dir: DIR_PATH)
 		deferred
 		end
 

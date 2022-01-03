@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-19 9:40:57 GMT (Saturday 19th June 2021)"
-	revision: "26"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "27"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -119,7 +119,7 @@ feature {NONE} -- Initialization
 			l_file.close
 		end
 
-	make_from_file_and_encrypter (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
+	make_from_file_and_encrypter (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter

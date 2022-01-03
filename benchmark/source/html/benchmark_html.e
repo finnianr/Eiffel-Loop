@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 9:01:44 GMT (Saturday 10th July 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	BENCHMARK_HTML
@@ -80,7 +80,7 @@ feature {NONE} -- Implemenation
 
 	base_name_has_words (a_path: ZSTRING; words: ARRAY [ZSTRING]): BOOLEAN
 		local
-			path: EL_FILE_PATH
+			path: FILE_PATH
 		do
 			path := a_path
 			Result := across words as word all path.base.has_substring (word.item) end

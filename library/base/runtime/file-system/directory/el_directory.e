@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 13:38:36 GMT (Sunday 22nd August 2021)"
-	revision: "19"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	EL_DIRECTORY
@@ -49,7 +49,7 @@ create
 
 feature -- Initialization
 
-	make (dir_path: EL_DIR_PATH)
+	make (dir_path: DIR_PATH)
 			-- Create directory object for directory
 			-- of name `dn'.
 		do
@@ -70,7 +70,7 @@ feature -- Initialization
 
 feature -- Access
 
-	directories: EL_ARRAYED_LIST [EL_DIR_PATH]
+	directories: EL_ARRAYED_LIST [DIR_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_directory, Empty_string_8)
@@ -78,7 +78,7 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	directories_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [EL_DIR_PATH]
+	directories_with_extension (extension: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [DIR_PATH]
 		do
 			create Result.make (20)
 			Result.compare_objects
@@ -103,7 +103,7 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	files: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+	files: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		do
 			create Result.make (20)
 			read_entries (Result, Type_file, Empty_string_8)
@@ -119,7 +119,7 @@ feature -- Access
 			object_comparison: Result.object_comparison
 		end
 
-	path: EL_DIR_PATH
+	path: DIR_PATH
 		do
 			Result := internal_path
 		end
@@ -285,7 +285,7 @@ feature {NONE} -- Status setting
 
 feature {EL_SHARED_DIRECTORY} -- Access
 
-	named (a_path: EL_DIR_PATH): EL_DIRECTORY
+	named (a_path: DIR_PATH): EL_DIRECTORY
 		do
 			set_path (a_path)
 			Result := Current
@@ -319,7 +319,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 	internal_delete_content_with_action (manager: EL_DIRECTORY_DELETE_MANAGER; top_level: BOOLEAN)
 		local
 			old_is_following_symlinks: BOOLEAN
-			sub_dir: EL_DIRECTORY; file_path: EL_FILE_PATH
+			sub_dir: EL_DIRECTORY; file_path: FILE_PATH
 		do
 			old_is_following_symlinks := is_following_symlinks
 			is_following_symlinks := False
@@ -353,7 +353,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			end
 			if not manager.is_cancel_requested then
 				delete
-				manager.on_delete (create {EL_DIR_PATH}.make (internal_path))
+				manager.on_delete (create {DIR_PATH}.make (internal_path))
 			end
 			if top_level then
 				manager.on_delete_final
@@ -400,7 +400,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
 	read_recursive_entries (list: LIST [EL_PATH]; type: INTEGER; extension: READABLE_STRING_GENERAL)
 		local
-			l_path: EL_DIR_PATH; directory_list: like directories
+			l_path: DIR_PATH; directory_list: like directories
 			old_count: INTEGER
 		do
 			old_count := list.count

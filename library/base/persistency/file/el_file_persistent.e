@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-16 11:37:28 GMT (Friday 16th October 2020)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 deferred class
 	EL_FILE_PERSISTENT
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature -- Status query
 
@@ -56,7 +56,7 @@ feature -- Element change
 			rename_base (file_path.with_new_extension (a_extension).base, False)
 		end
 
-	set_file_path (a_file_path: EL_FILE_PATH)
+	set_file_path (a_file_path: FILE_PATH)
 			--
 		do
 			file_path := a_file_path

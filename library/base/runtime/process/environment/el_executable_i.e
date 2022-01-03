@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 21:48:39 GMT (Monday 20th December 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 
 feature -- Compiled modules
 
-	application_dynamic_module_path (module_name: STRING): EL_FILE_PATH
+	application_dynamic_module_path (module_name: STRING): FILE_PATH
 		do
 			Result := Directory.Application_bin + dynamic_module_name (module_name)
 		end
@@ -64,7 +64,7 @@ feature -- Compiled modules
 
 feature -- Access
 
-	absolute_path (a_name: STRING): EL_FILE_PATH
+	absolute_path (a_name: STRING): FILE_PATH
 			-- Absolute path to command `a_name' if found in the search path
 			-- `Result.is_empty' if not found
 		local
@@ -98,14 +98,14 @@ feature -- Access
 	name: ZSTRING
 			-- Name of currently executing command
 
-	parent_dir: EL_DIR_PATH
+	parent_dir: DIR_PATH
 			-- Directory containing this application's executable command
 			-- (command_directory_path)
 		do
 			Result := path.parent
 		end
 
-	path: EL_FILE_PATH
+	path: FILE_PATH
 		-- absolute path to currently executing command
 		-- or empty path if not found
 
@@ -123,7 +123,7 @@ feature -- Access
 			end
 		end
 
-	search_path_list: ARRAYED_LIST [EL_DIR_PATH]
+	search_path_list: ARRAYED_LIST [DIR_PATH]
 		local
 			splitter: EL_SPLIT_ON_CHARACTER [STRING_32]; l_search_path: STRING_32
 		do
@@ -201,7 +201,7 @@ feature {NONE} -- Internal attributes
 
 feature -- Constants
 
-	Once_search_path_list: ARRAYED_LIST [EL_DIR_PATH]
+	Once_search_path_list: ARRAYED_LIST [DIR_PATH]
 		once
 			create Result.make (0)
 		end

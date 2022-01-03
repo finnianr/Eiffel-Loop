@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:34 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	UNDATED_PHOTO_FINDER_APP
@@ -40,7 +40,7 @@ feature -- Testing
 			Test.do_file_tree_test ("images", agent test_scan, 2439913648)
 		end
 
-	test_scan (source_tree_path: EL_DIR_PATH)
+	test_scan (source_tree_path: DIR_PATH)
 			--
 		do
 			create command.make (source_tree_path, source_tree_path.parent + "undated-photos.txt")
@@ -76,7 +76,7 @@ feature {NONE} -- Constants
 		Make list of jpeg photos lacking a "Date time taken" EXIF info
 	]"
 
-	Test_data_dir: EL_DIR_PATH
+	Test_data_dir: DIR_PATH
 			--
 		once
 			Result := Execution_environment.variable_dir_path ("ISE_EIFFEL").joined_dir_path (

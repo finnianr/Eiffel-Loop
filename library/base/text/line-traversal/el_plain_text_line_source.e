@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 15:42:17 GMT (Tuesday 28th December 2021)"
-	revision: "19"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -76,7 +76,7 @@ feature -- Access
 			Result := file.date
 		end
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		do
 			Result := file.path
 		end

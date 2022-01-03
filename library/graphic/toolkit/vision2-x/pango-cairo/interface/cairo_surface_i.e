@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-03 10:17:57 GMT (Monday 3rd August 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	CAIRO_SURFACE_I
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 			make_from_pointer (Cairo.new_image_surface (Cairo.Format_ARGB_32, a_width, a_height))
 		end
 
-	make_from_file (image_path: EL_FILE_PATH)
+	make_from_file (image_path: FILE_PATH)
 		require
 			image_exists: image_path.exists
 		local
@@ -103,7 +103,7 @@ feature -- Basic operations
 			Cairo.surface_mark_dirty (self_ptr)
 		end
 
-	save_as (file_path: EL_FILE_PATH)
+	save_as (file_path: FILE_PATH)
 			-- Save as png file
 		local
 			file_out: EL_PNG_IMAGE_FILE

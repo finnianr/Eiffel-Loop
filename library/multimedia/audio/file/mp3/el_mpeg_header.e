@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:27:30 GMT (Friday 3rd April 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_MPEG_HEADER
@@ -17,7 +17,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		local
 			l_file: RAW_FILE
 		do

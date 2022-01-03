@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:52:01 GMT (Wednesday 14th July 2021)"
-	revision: "32"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "33"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -55,7 +55,7 @@ feature -- Tests
 		local
 			parser: EL_PYXIS_ATTRIBUTE_PARSER; table: like Attribute_table; name: STRING
 			attribute_list: EL_ELEMENT_ATTRIBUTE_LIST; l_attribute: EL_ELEMENT_ATTRIBUTE_NODE_STRING
-			document_dir: EL_DIR_PATH
+			document_dir: DIR_PATH
 		do
 			create document_dir
 			create attribute_list.make (document_dir)
@@ -103,12 +103,12 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	convert_pyxis_to_xml (a_file_path: EL_FILE_PATH)
+	convert_pyxis_to_xml (a_file_path: FILE_PATH)
 			--
 		local
 			converter: EL_PYXIS_TO_XML_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			create converter.make (a_file_path, create {EL_FILE_PATH})
+			create converter.make (a_file_path, create {FILE_PATH})
 			converter.execute
 			create source.make (converter.source_encoding.encoding, converter.output_path)
 			source.print_first (log, 50)

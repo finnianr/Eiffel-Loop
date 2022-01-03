@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-19 13:46:30 GMT (Thursday 19th November 2020)"
-	revision: "4"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_CURRENT_SOFTWARE_VERSION
@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (download_dir: EL_DIR_PATH)
+	make (download_dir: DIR_PATH)
 			--
 		do
 			version_path := download_dir + Version_base_name
@@ -72,7 +72,7 @@ feature {NONE} -- Internal attributes
 
 	time_stamp: INTEGER
 
-	version_path: EL_FILE_PATH
+	version_path: FILE_PATH
 
 feature {NONE} -- Constants
 

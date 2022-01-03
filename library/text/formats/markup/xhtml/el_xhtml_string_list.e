@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:22:15 GMT (Sunday 19th December 2021)"
-	revision: "15"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "16"
 
 class
 	EL_XHTML_STRING_LIST
@@ -36,7 +36,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (file_path: FILE_PATH)
 			--
 		local
 			line_source: EL_PLAIN_TEXT_LINE_SOURCE

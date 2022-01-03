@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-01 21:28:08 GMT (Saturday 1st January 2022)"
-	revision: "37"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "38"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -120,27 +120,27 @@ feature -- Access
 
 	directory_list: EL_ARRAYED_LIST [SOURCE_DIRECTORY]
 
-	ecf_dir: EL_DIR_PATH
+	ecf_dir: DIR_PATH
 
 	ecf_name: ZSTRING
 		do
 			Result := relative_ecf_path.base
 		end
 
-	ecf_path: EL_FILE_PATH
+	ecf_path: FILE_PATH
 		do
 			Result := repository.root_dir + relative_ecf_path
 		end
 
-	html_index_path: EL_FILE_PATH
+	html_index_path: FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
 
-	relative_dir_path: EL_DIR_PATH
+	relative_dir_path: DIR_PATH
 		do
 			Result := dir_path.relative_path (repository.root_dir)
 		end
 
-	relative_ecf_path: EL_FILE_PATH
+	relative_ecf_path: FILE_PATH
 
 	source_dir_list: like new_source_dir_list
 
@@ -160,7 +160,7 @@ feature -- Element change
 		-- if `a_description' contains some text "See <file_path> for details", then set `description_lines'
 		-- from text in referenced file path
 		local
-			doc_path, relative_doc_path: EL_FILE_PATH
+			doc_path, relative_doc_path: FILE_PATH
 			lines: like description_lines
 		do
 			create lines.make_with_lines (a_description)
@@ -187,8 +187,8 @@ feature -- Basic operations
 
 	read_source_files (parser: EIFFEL_CLASS_PARSER)
 		local
-			parent_dir: EL_DIR_PATH; directory_group: SOURCE_DIRECTORY
-			source_path: EL_FILE_PATH
+			parent_dir: DIR_PATH; directory_group: SOURCE_DIRECTORY
+			source_path: FILE_PATH
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
@@ -216,7 +216,7 @@ feature -- Basic operations
 
 feature -- Factory
 
-	new_class (source_path: EL_FILE_PATH): EIFFEL_CLASS
+	new_class (source_path: FILE_PATH): EIFFEL_CLASS
 		do
 			create Result.make (source_path, Current, repository)
 		end
@@ -240,9 +240,9 @@ feature -- Factory
 			Result := category
 		end
 
-	new_source_dir_list (cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: EL_DIR_PATH): EL_ARRAYED_LIST [EL_DIR_PATH]
+	new_source_dir_list (cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
 		local
-			source_dir: EL_DIR_PATH; location: ZSTRING; is_recursive: BOOLEAN
+			source_dir: DIR_PATH; location: ZSTRING; is_recursive: BOOLEAN
 			sub_cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST
 		do
 			create Result.make (cluster_nodes.count)
@@ -290,12 +290,12 @@ feature {NONE} -- Implementation
 
 	set_directory_list (parser: EIFFEL_CLASS_PARSER)
 		local
-			group_table: EL_FUNCTION_GROUP_TABLE [EL_FILE_PATH, EL_DIR_PATH]
+			group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
 			directory_group: SOURCE_DIRECTORY; file_count: INTEGER
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
-			create group_table.make_from_list (agent {EL_FILE_PATH}.parent, sorted_path_list)
+			create group_table.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
 			create directory_list.make (group_table.count)
 
 			across group_table as group loop

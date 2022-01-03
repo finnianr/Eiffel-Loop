@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-02 11:36:59 GMT (Monday 2nd August 2021)"
-	revision: "18"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "19"
 
 class
 	EL_TRANSLATION_TABLE
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_pyxis (a_language: STRING; pyxis_file_path: EL_FILE_PATH)
+	make_from_pyxis (a_language: STRING; pyxis_file_path: FILE_PATH)
 		do
 			make (a_language)
 			refresh_building_actions

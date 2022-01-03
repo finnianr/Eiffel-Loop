@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-01 9:12:46 GMT (Monday 1st November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -26,9 +26,9 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			unicode_types := << CHARACTER_32, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH >>
+			unicode_types := << CHARACTER_32, STRING_32, EL_ZSTRING, FILE_PATH, DIR_PATH >>
 			character_data_types := <<
-				CHARACTER_8, CHARACTER_32, STRING_8, STRING_32, EL_ZSTRING, EL_FILE_PATH, EL_DIR_PATH
+				CHARACTER_8, CHARACTER_32, STRING_8, STRING_32, EL_ZSTRING, FILE_PATH, DIR_PATH
 			>>
 		end
 
@@ -92,9 +92,9 @@ feature -- String types
 
 feature -- Path types
 
-	EL_FILE_PATH: INTEGER
+	FILE_PATH: INTEGER
 
-	EL_DIR_PATH: INTEGER
+	DIR_PATH: INTEGER
 
 	EL_PATH: INTEGER
 

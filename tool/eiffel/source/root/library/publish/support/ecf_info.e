@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:05 GMT (Sunday 19th December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	ECF_INFO
@@ -72,7 +72,7 @@ feature -- Access
 			Result := Xpath_description
 		end
 
-	html_index_path: EL_FILE_PATH
+	html_index_path: FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
 		do
 			Result := path.with_new_extension (Html)
@@ -80,7 +80,7 @@ feature -- Access
 
 	ignored_clusters: like Default_ignored_clusters
 
-	path: EL_FILE_PATH
+	path: FILE_PATH
 
 	type_qualifier: STRING
 		do

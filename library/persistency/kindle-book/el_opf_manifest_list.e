@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-06 13:44:52 GMT (Tuesday 6th November 2018)"
-	revision: "1"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_OPF_MANIFEST_LIST
@@ -23,7 +23,7 @@ create
 
 feature -- Element change
 
-	extend (a_path: EL_FILE_PATH)
+	extend (a_path: FILE_PATH)
 		do
 			extend_list (create {EL_OPF_MANIFEST_ITEM}.make (a_path, count + 1))
 		end

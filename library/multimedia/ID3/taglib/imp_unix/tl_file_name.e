@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:56:47 GMT (Friday 8th January 2021)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	TL_FILE_NAME
@@ -30,7 +30,7 @@ create
 	make, make_from_string
 
 convert
-	make ({EL_FILE_PATH})
+	make ({FILE_PATH})
 
 feature {NONE} -- Initialization
 

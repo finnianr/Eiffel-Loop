@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:13:39 GMT (Thursday 3rd June 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_APP_ACTIVATION_KEY
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			value := "ekr9Lbnwtut8bL+4ONia/xeNMQpCjvD/EZFZiFVKyLU="
 		end
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (file_path: FILE_PATH)
 			--
 		local
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-14 9:40:05 GMT (Friday 14th June 2019)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	HTML_BODY_WORD_COUNTER
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Implementation
 
-	count_words (body_path: EL_FILE_PATH)
+	count_words (body_path: FILE_PATH)
 		local
 			xhtml: EL_XHTML_UTF_8_SOURCE; xhtml_file: PLAIN_TEXT_FILE
 			node_event_generator: EL_XML_NODE_EVENT_GENERATOR; counter: EL_XHTML_WORD_COUNTER

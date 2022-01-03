@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:39:34 GMT (Monday 16th August 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	BACKUP_CONFIG
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		do
 			if a_file_path.is_absolute then
 				file_path := a_file_path
@@ -55,9 +55,9 @@ feature -- Access
 
 	backup_list: EL_ARRAYED_LIST [FTP_BACKUP]
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
-	ftp_home_dir: EL_DIR_PATH
+	ftp_home_dir: DIR_PATH
 
 	ftp_url: STRING
 

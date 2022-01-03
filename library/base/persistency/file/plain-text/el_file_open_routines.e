@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:51:15 GMT (Friday 8th May 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -34,7 +34,7 @@ feature {NONE} -- Basic operations
 		require
 			valid_encoding: valid_encoding (encoding)
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			create file_path.make (path)
 			if file_path.exists then

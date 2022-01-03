@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:14:24 GMT (Tuesday 10th November 2020)"
-	revision: "10"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (build_ise_platform, "doc", Empty_string_8, "classic")
 		end
 
-	build_ise_platform: EL_DIR_PATH
+	build_ise_platform: DIR_PATH
 		do
 			Result := "build/$ISE_PLATFORM"
 			Result.expand

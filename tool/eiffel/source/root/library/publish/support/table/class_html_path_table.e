@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 15:36:14 GMT (Friday 31st December 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	CLASS_HTML_PATH_TABLE
 
 inherit
-	EL_ZSTRING_HASH_TABLE [EL_FILE_PATH]
+	EL_ZSTRING_HASH_TABLE [FILE_PATH]
 		rename
 			make as table_make
 		export

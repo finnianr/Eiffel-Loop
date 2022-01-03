@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 9:33:29 GMT (Thursday 7th May 2020)"
-	revision: "20"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "21"
 
 class
 	EL_REGRESSION_TESTING_ROUTINES
@@ -72,7 +72,7 @@ feature -- Element change
 feature -- Basic operations
 
 	do_all_files_test (
-		relative_dir: EL_DIR_PATH; file_name_pattern: STRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
+		relative_dir: DIR_PATH; file_name_pattern: STRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on set of files
 		do
@@ -82,7 +82,7 @@ feature -- Basic operations
 			do_directory_test (relative_dir, file_name_pattern, test, valid_test_checksum)
 		end
 
-	do_file_test (relative_path: EL_FILE_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
+	do_file_test (relative_path: FILE_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a single file
 		do
 			lio.put_path_field ("Testing with", relative_path)
@@ -94,7 +94,7 @@ feature -- Basic operations
 			do_test (work_area_dir, Empty_pattern, test, valid_test_checksum)
 		end
 
-	do_file_tree_test (relative_dir: EL_DIR_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
+	do_file_tree_test (relative_dir: DIR_PATH; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL)
 			-- Perform test that operates on a file tree
 		do
 			lio.put_path_field ("Testing with", relative_dir)
@@ -115,7 +115,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	check_file_output (input_dir_path: EL_DIR_PATH)
+	check_file_output (input_dir_path: DIR_PATH)
 			--
 		local
 			file_list: EL_FILE_PATH_LIST; lines: EL_PLAIN_TEXT_LINE_SOURCE
@@ -152,11 +152,11 @@ feature {NONE} -- Implementation
 		end
 
 	do_directory_test (
-		relative_dir: EL_DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
+		relative_dir: DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; valid_test_checksum: NATURAL
 	)
 			-- Perform test that operates on a directory search
 		local
-			input_dir_path: EL_DIR_PATH
+			input_dir_path: DIR_PATH
 		do
 			reset_work_area
 			input_dir_path := work_area_dir.joined_dir_path (relative_dir.base)
@@ -173,7 +173,7 @@ feature {NONE} -- Implementation
 		end
 
 	do_test (
-		input_dir_path: EL_DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; old_checksum: NATURAL
+		input_dir_path: DIR_PATH; file_name_pattern: ZSTRING; test: PROCEDURE [EL_PATH]; old_checksum: NATURAL
 	)
 			--
 		local
@@ -223,9 +223,9 @@ feature {NONE} -- Internal attributes
 
 	excluded_file_extensions: EL_ZSTRING_LIST
 
-	work_area_dir: EL_DIR_PATH
+	work_area_dir: DIR_PATH
 
-	test_data_dir: EL_DIR_PATH
+	test_data_dir: DIR_PATH
 
 feature -- Constants
 
@@ -241,3 +241,4 @@ feature -- Constants
 		end
 
 end
+

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 12:59:04 GMT (Sunday 10th January 2021)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
@@ -32,7 +32,7 @@ inherit
 
 feature {NONE} -- Factory
 
- 	new_input_lines (a_file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
+ 	new_input_lines (a_file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
  		do
  			create Result.make (Latin_1, a_file_path)
  		end

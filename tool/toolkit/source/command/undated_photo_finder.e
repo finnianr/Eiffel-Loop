@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-13 20:23:01 GMT (Monday 13th January 2020)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	UNDATED_PHOTO_FINDER
@@ -32,7 +32,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_jpeg_tree_dir: like jpeg_tree_dir; output_file_path: EL_FILE_PATH)
+	make (a_jpeg_tree_dir: like jpeg_tree_dir; output_file_path: FILE_PATH)
 		do
 			make_command (a_jpeg_tree_dir)
 			create output.make_with_path (output_file_path)
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 			Result.extend ("jpg")
 		end
 
-	do_with_file (file_path: EL_FILE_PATH)
+	do_with_file (file_path: FILE_PATH)
 		do
 			jpeg_info.set_file_path (file_path)
 			if not jpeg_info.has_date_time then

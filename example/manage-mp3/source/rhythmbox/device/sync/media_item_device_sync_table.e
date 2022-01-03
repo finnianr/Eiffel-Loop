@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 10:48:52 GMT (Tuesday 5th January 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	deletion_list (new_sync_info: like Current; updated_items: ARRAYED_LIST [MEDIA_ITEM]): ARRAYED_LIST [EL_FILE_PATH]
+	deletion_list (new_sync_info: like Current; updated_items: ARRAYED_LIST [MEDIA_ITEM]): ARRAYED_LIST [FILE_PATH]
 			-- returns device path list of updated items and those not in new_sync_info
 		do
 			create Result.make (updated_items.count)

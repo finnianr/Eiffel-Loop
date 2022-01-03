@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:43:20 GMT (Tuesday 28th January 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_SHELL_LINK
@@ -41,7 +41,7 @@ feature {NONE}  -- Initialization
 
 feature -- Basic operations
 
-	save (file_path: EL_FILE_PATH)
+	save (file_path: FILE_PATH)
 			--
 		require
 			valid_extension: file_path.extension ~ Extension_lnk
@@ -49,7 +49,7 @@ feature -- Basic operations
 			persist_file.save (file_path)
 		end
 
-	save_elevated (file_path: EL_FILE_PATH)
+	save_elevated (file_path: FILE_PATH)
 		-- hack to update the link's byte to indicate that this is an admin shortcut requiring elevated priveleges.
 		local
 			shell_link: RAW_FILE
@@ -68,7 +68,7 @@ feature -- Basic operations
 			shell_link.close
 		end
 
-	load (file_path: EL_FILE_PATH)
+	load (file_path: FILE_PATH)
 			--
 		require
 			file_exists: file_path.exists
@@ -78,7 +78,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_target_path (target_path: EL_FILE_PATH)
+	set_target_path (target_path: FILE_PATH)
 			--
 		require
 			file_exists: target_path.exists
@@ -98,13 +98,13 @@ feature -- Element change
 			last_call_result := cpp_set_description (self_ptr, wide_string (description).base_address)
 		end
 
-	set_working_directory (directory_path: EL_DIR_PATH)
+	set_working_directory (directory_path: DIR_PATH)
 			--
 		do
 			last_call_result := cpp_set_working_directory (self_ptr, wide_string (directory_path).base_address)
 		end
 
-	set_icon_location (icon_file_path: EL_FILE_PATH; index: INTEGER)
+	set_icon_location (icon_file_path: FILE_PATH; index: INTEGER)
 			--
 		require
 			file_exists: icon_file_path.exists
@@ -124,3 +124,4 @@ feature -- Constants
 		end
 
 end
+

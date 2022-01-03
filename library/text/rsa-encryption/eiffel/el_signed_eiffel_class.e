@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-03 11:21:42 GMT (Tuesday 3rd August 2021)"
-	revision: "4"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_output_path: EL_FILE_PATH; a_serial_number: STRING)
+	make (a_output_path: FILE_PATH; a_serial_number: STRING)
 		do
 			make_from_file (a_output_path)
 			serial_number := a_serial_number

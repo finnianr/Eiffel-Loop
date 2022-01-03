@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 13:13:40 GMT (Sunday 22nd December 2019)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	ID3_ALBUM_PICTURE
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			checksum := Mod_checksum.data (data)
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH; a_description: like description)
+	make_from_file (a_file_path: FILE_PATH; a_description: like description)
 		do
 			mime_type := a_file_path.extension.as_lower
 			if mime_type.is_equal ("jpg") then

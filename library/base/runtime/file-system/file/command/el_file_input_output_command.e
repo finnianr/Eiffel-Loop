@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-11 10:52:27 GMT (Tuesday 11th September 2018)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_FILE_INPUT_OUTPUT_COMMAND
@@ -27,15 +27,15 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_input_output_path (a_input_path, a_output_path: EL_FILE_PATH)
+	set_input_output_path (a_input_path, a_output_path: FILE_PATH)
 		do
 			input_path := a_input_path; output_path := a_output_path
 		end
 
 feature -- Access
 
-	input_path: EL_FILE_PATH
+	input_path: FILE_PATH
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 end

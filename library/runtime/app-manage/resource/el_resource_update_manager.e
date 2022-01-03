@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-28 9:12:46 GMT (Tuesday 28th April 2020)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	EL_RESOURCE_UPDATE_MANAGER
@@ -60,7 +60,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	date_file_path: EL_FILE_PATH
+	date_file_path: FILE_PATH
 		do
 			Result := updated_dir + (Naming.class_as_kebab_lower (Current, 0, 1) + ".date")
 		end
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	target_dir: EL_DIR_PATH
+	target_dir: DIR_PATH
 		-- target directory to download items
 		do
 			Result := updated_dir
@@ -91,3 +91,4 @@ feature {NONE} -- Internal attributes
 	server_manifest_date: INTEGER
 
 end
+

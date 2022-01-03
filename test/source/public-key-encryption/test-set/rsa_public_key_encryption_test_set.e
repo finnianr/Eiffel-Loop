@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-26 11:38:03 GMT (Monday 26th July 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -40,7 +40,7 @@ feature -- Tests
 				"covers/{EL_RSA_PRIVATE_KEY}.is_equal"
 		local
 			reader_writer: ECD_ENCRYPTABLE_READER_WRITER [EL_RSA_PRIVATE_KEY]
-			encrypter: EL_AES_ENCRYPTER; output_path: EL_FILE_PATH
+			encrypter: EL_AES_ENCRYPTER; output_path: FILE_PATH
 			key_1, key_2: EL_RSA_PRIVATE_KEY
 		do
 			if file_list.is_empty then

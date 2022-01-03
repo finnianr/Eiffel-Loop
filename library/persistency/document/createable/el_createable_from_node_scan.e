@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:45:31 GMT (Sunday 20th December 2020)"
-	revision: "14"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 			--
 		do
 			make_default
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	build_from_file (a_file_path: EL_FILE_PATH)
+	build_from_file (a_file_path: FILE_PATH)
 			--
 		local
 			file: FILE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:29:39 GMT (Tuesday 19th May 2020)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	ARCHIVE_SONGS_TASK
@@ -25,7 +25,7 @@ create
 
 feature {RBOX_MUSIC_MANAGER} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		do
 			Precursor (a_file_path)
 			if not archive_dir.exists then
@@ -35,7 +35,7 @@ feature {RBOX_MUSIC_MANAGER} -- Initialization
 
 feature -- Access
 
-	archive_dir: EL_DIR_PATH
+	archive_dir: DIR_PATH
 		-- directory for archived music
 
 feature -- Basic operations
@@ -69,3 +69,4 @@ feature -- Basic operations
 		end
 
 end
+

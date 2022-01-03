@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-30 14:43:07 GMT (Wednesday 30th October 2019)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	ID3_INFO_I
@@ -41,7 +41,7 @@ feature -- Access
 
 	frame_list: EL_ARRAYED_LIST [ID3_FRAME]
 
-	mp3_path: EL_FILE_PATH
+	mp3_path: FILE_PATH
 
 feature -- Element change
 

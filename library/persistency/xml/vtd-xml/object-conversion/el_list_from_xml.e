@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 9:54:50 GMT (Thursday 9th September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_LIST_FROM_XML [G -> EL_XML_CREATEABLE_OBJECT create make end]
 
 feature {NONE} -- Initaliazation
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (file_path: FILE_PATH)
 			--
 		do
 			make_from_root_node (create {EL_XPATH_ROOT_NODE_CONTEXT}.make_from_file (file_path))

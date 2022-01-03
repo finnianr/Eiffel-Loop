@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-26 14:21:12 GMT (Saturday 26th June 2021)"
-	revision: "13"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
@@ -31,7 +31,7 @@ feature -- Testing
 			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 3855455161)
 		end
 
-	test_compile (source_tree_path: EL_DIR_PATH)
+	test_compile (source_tree_path: DIR_PATH)
 			--
 		do
 			log.put_new_line

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-30 12:12:50 GMT (Thursday 30th December 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -67,12 +67,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 		do
 			Result := temporary_output_file_path
 		end
 
-	temporary_output_file_path: EL_FILE_PATH
+	temporary_output_file_path: FILE_PATH
 		do
 			Result := Temporary_output_path_by_type.item (Current)
 		end
@@ -84,7 +84,7 @@ feature {NONE} -- Constants
 			Result := ">"
 		end
 
-	Temporary_output_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_CAPTURED_OS_COMMAND_I, EL_FILE_PATH]
+	Temporary_output_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_CAPTURED_OS_COMMAND_I, FILE_PATH]
 		once
 			create Result.make (17, agent {EL_CAPTURED_OS_COMMAND_I}.new_temporary_file_path ("txt"))
 		end

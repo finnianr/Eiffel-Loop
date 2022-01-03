@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-10 14:28:13 GMT (Monday 10th February 2020)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	BUILDER_FACTORY
@@ -24,13 +24,13 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	new_matrix (file_path: EL_FILE_PATH): MATRIX_CALCULATOR
+	new_matrix (file_path: FILE_PATH): MATRIX_CALCULATOR
 			--
 		do
 			create Result.make_from_file (file_path)
 		end
 
-	new_serializeable (file_path: EL_FILE_PATH): EL_BUILDABLE_FROM_NODE_SCAN
+	new_serializeable (file_path: FILE_PATH): EL_BUILDABLE_FROM_NODE_SCAN
 		-- detect type from processing instruction
 		do
 			smart_builder.build_from_file (file_path)
@@ -39,13 +39,13 @@ feature -- Factory
 			end
 		end
 
-	new_smil_presentation (file_path: EL_FILE_PATH): SMIL_PRESENTATION
+	new_smil_presentation (file_path: FILE_PATH): SMIL_PRESENTATION
 			--
 		do
 			create Result.make_from_file (file_path)
 		end
 
-	new_web_form (file_path: EL_FILE_PATH): WEB_FORM
+	new_web_form (file_path: FILE_PATH): WEB_FORM
 			--
 		do
 			create Result.make_from_file (file_path)

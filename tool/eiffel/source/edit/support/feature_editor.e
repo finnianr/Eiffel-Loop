@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-07 13:43:29 GMT (Saturday 7th March 2020)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	FEATURE_EDITOR
@@ -17,7 +17,7 @@ inherit
 
 feature -- Basic operations
 
-	write_edited_lines (output_path: EL_FILE_PATH)
+	write_edited_lines (output_path: FILE_PATH)
 		local
 			output: SOURCE_FILE
 		do

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-04 16:14:54 GMT (Wednesday 4th August 2021)"
-	revision: "2"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	BUILD_INFO
@@ -25,7 +25,7 @@ feature -- Constants
 
 	Build_number: NATURAL = 16
 
-	Installation_sub_directory: EL_DIR_PATH
+	Installation_sub_directory: DIR_PATH
 		once
 			Result := "Eiffel-Loop/EROS"
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 18:12:14 GMT (Thursday 9th September 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	EL_DOUBLE_PATH_OPERAND_COMMAND_I
@@ -40,7 +40,7 @@ feature -- Status query
 	is_file_destination: BOOLEAN
 		-- is destination path a file
 		do
-			Result := attached {EL_FILE_PATH} destination_path
+			Result := attached {FILE_PATH} destination_path
 		end
 
 feature -- Element change

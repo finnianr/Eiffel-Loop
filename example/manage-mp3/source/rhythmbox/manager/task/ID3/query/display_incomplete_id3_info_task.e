@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:39:05 GMT (Saturday 30th May 2020)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	DISPLAY_INCOMPLETE_ID3_INFO_TASK
@@ -28,7 +28,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	display_incomplete_id3_info (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: TL_MPEG_FILE)
+	display_incomplete_id3_info (song: RBOX_SONG; relative_song_path: FILE_PATH; id3_info: TL_MPEG_FILE)
 			-- Display songs with incomplete TXXX ID3 tags
 		do
 			if across id3_info.tag.user_text_frame_list as user

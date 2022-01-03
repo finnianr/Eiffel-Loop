@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 11:35:25 GMT (Thursday 14th October 2021)"
-	revision: "14"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -21,14 +21,14 @@ inherit
 
 feature -- Status query
 
-	is_pyxis_file (a_pyxis_file_path: EL_FILE_PATH): BOOLEAN
+	is_pyxis_file (a_pyxis_file_path: FILE_PATH): BOOLEAN
 		do
 			Result := File_system.line_one (a_pyxis_file_path).starts_with ("pyxis-doc:")
 		end
 
 feature -- Basic operations
 
-	convert_to_xml (a_pyxis_file_path: EL_FILE_PATH; xml_out: IO_MEDIUM)
+	convert_to_xml (a_pyxis_file_path: FILE_PATH; xml_out: IO_MEDIUM)
 		require
 			is_pyxis_file: is_pyxis_file (a_pyxis_file_path)
 		local
@@ -49,12 +49,12 @@ feature -- Basic operations
 
 feature -- Access
 
-	encoding (file_path: EL_FILE_PATH): EL_MARKUP_ENCODING
+	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING
 		do
 			create Result.make_from_file (file_path)
 		end
 
-	root_element (file_path: EL_FILE_PATH): ZSTRING
+	root_element (file_path: FILE_PATH): ZSTRING
 		local
 			done: BOOLEAN; s: EL_ZSTRING_ROUTINES
 		do
@@ -98,7 +98,7 @@ feature -- Access
 			end
 		end
 
-	to_utf_8_xml (a_pyxis_file_path: EL_FILE_PATH): STRING
+	to_utf_8_xml (a_pyxis_file_path: FILE_PATH): STRING
 		local
 			xml_out: EL_STRING_8_IO_MEDIUM
 		do
@@ -108,7 +108,7 @@ feature -- Access
 			Result := xml_out.text
 		end
 
-	to_xml (a_pyxis_file_path: EL_FILE_PATH): ZSTRING
+	to_xml (a_pyxis_file_path: FILE_PATH): ZSTRING
 		local
 			xml_out: EL_ZSTRING_IO_MEDIUM
 		do

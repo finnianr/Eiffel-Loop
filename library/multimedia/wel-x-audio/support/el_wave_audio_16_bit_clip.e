@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 11:09:09 GMT (Monday 22nd May 2017)"
-	revision: "2"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	EL_WAVE_AUDIO_16_BIT_CLIP
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	save (path: EL_FILE_PATH)
+	save (path: FILE_PATH)
 			--
 		local
 			file_out: EL_WAVE_FILE

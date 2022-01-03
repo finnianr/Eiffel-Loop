@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:35:38 GMT (Sunday 19th December 2021)"
-	revision: "34"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "35"
 
 class
 	TAGLIB_TEST_SET
@@ -298,7 +298,7 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	get_set_basic_fields (relative_path: EL_FILE_PATH)
+	get_set_basic_fields (relative_path: FILE_PATH)
 		local
 			mp3: TL_MPEG_FILE; tag: TL_ID3_TAG; field_string, string: ZSTRING
 			value, index: INTEGER
@@ -339,7 +339,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	print_v2_frames (relative_path: EL_FILE_PATH)
+	print_v2_frames (relative_path: FILE_PATH)
 		local
 			mp3: TL_MPEG_FILE; name: STRING
 		do
@@ -431,7 +431,7 @@ feature {NONE} -- Constants
 			Result ["crc53865.mp3"] := checksums (1317037298, 3992252498)
 		end
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("id3$")
 		end
@@ -476,7 +476,7 @@ feature {NONE} -- Constants
 			Result := "thatspot.tag"
 		end
 
-	Top_png_path: EL_FILE_PATH
+	Top_png_path: FILE_PATH
 		once
 			Result := Eiffel_loop_dir + "doc/images/top.png"
 		end

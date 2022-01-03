@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 14:11:26 GMT (Friday 22nd November 2019)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_XDG_CONSTANTS
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Applications_desktop_dir: EL_DIR_PATH
+	Applications_desktop_dir: DIR_PATH
 			--
 		once
 			Result := "/usr/share/applications"
@@ -25,7 +25,7 @@ feature {NONE} -- Constants
 			-- Workbench debug: "$HOME/.local/share/applications"
 		end
 
-	Applications_merged_dir: EL_DIR_PATH
+	Applications_merged_dir: DIR_PATH
 		once
 			Result := "/etc/xdg/menus/applications-merged"
 			if_installer_debug_enabled (Result)
@@ -37,7 +37,7 @@ feature {NONE} -- Constants
 			create Result.make_root (Applications_merged_dir)
 		end
 
-	Directories_desktop_dir: EL_DIR_PATH
+	Directories_desktop_dir: DIR_PATH
 			--
 		once
 			Result := "/usr/share/desktop-directories"

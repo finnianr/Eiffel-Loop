@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:10:43 GMT (Tuesday 10th November 2020)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	CODE_HIGHLIGHTING_TEST_APP
@@ -44,11 +44,11 @@ feature -- Basic operations
 
 feature -- Tests
 
-	test_code_highlighting (file_path: EL_FILE_PATH)
+	test_code_highlighting (file_path: FILE_PATH)
 			--
 		local
 			transformer: CODE_HIGHLIGHTING_TRANSFORMER
-			output_path: EL_FILE_PATH
+			output_path: FILE_PATH
 		do
 			log.enter ("test_code_highlighting")
 			output_path := file_path.without_extension

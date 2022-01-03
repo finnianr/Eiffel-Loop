@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 16:58:58 GMT (Tuesday 28th December 2021)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Setting values
 
-	dir_path (key_name: STRING): EL_DIR_PATH
+	dir_path (key_name: STRING): DIR_PATH
 		local
 			uri_path: EL_DIR_URI_PATH
 		do
@@ -49,7 +49,7 @@ feature -- Setting values
 			create Result.make (string_value (key_name))
 		end
 
-	file_path (key_name: STRING): EL_FILE_PATH
+	file_path (key_name: STRING): FILE_PATH
 		local
 			uri_path: EL_FILE_URI_PATH
 		do

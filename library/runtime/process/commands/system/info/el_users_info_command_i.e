@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -65,7 +65,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	do_for_existing_directories (do_with: PROCEDURE [EL_DIR_PATH])
+	do_for_existing_directories (do_with: PROCEDURE [DIR_PATH])
 		-- apply `do_with' action to every configuration and data directory for all users
 		do
 			across << configuration_dir_list, data_dir_list >> as dir_list loop
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_dir_list (dir: EL_DIR_PATH): EL_ARRAYED_LIST [EL_DIR_PATH]
+	new_dir_list (dir: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
 		local
 			steps: EL_PATH_STEPS; index: INTEGER
 		do

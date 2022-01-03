@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:57:32 GMT (Sunday 19th December 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -28,7 +28,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_vcf_path: EL_FILE_PATH)
+	make (a_vcf_path: FILE_PATH)
 		do
 			make_machine
 			vcf_path := a_vcf_path
@@ -93,7 +93,7 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	vcf_path: EL_FILE_PATH
+	vcf_path: FILE_PATH
 
 	vcf_out: EL_PLAIN_TEXT_FILE
 

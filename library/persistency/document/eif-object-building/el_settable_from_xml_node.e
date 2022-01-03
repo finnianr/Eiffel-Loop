@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-17 18:06:44 GMT (Wednesday 17th November 2021)"
-	revision: "31"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "32"
 
 deferred class
 	EL_SETTABLE_FROM_XML_NODE
@@ -290,8 +290,8 @@ feature {NONE} -- Implementation
 		do
 			field.set_from_readable (current_reflective, node)
 			field.expand (current_reflective)
-			if field.type_id = Class_id.EL_FILE_PATH
-				and then attached {EL_FILE_PATH} field.value (current_reflective) as file_path
+			if field.type_id = Class_id.FILE_PATH
+				and then attached {FILE_PATH} field.value (current_reflective) as file_path
 				and then not file_path.is_absolute
 				and then not node.document_dir.is_empty
 			then

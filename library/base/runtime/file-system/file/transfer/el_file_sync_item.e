@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 18:22:29 GMT (Saturday 27th March 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_home_dir: EL_DIR_PATH; a_destination_name: READABLE_STRING_GENERAL; a_file_path: EL_FILE_PATH)
+	make (a_home_dir: DIR_PATH; a_destination_name: READABLE_STRING_GENERAL; a_file_path: FILE_PATH)
 		require
 			valid_file_path: a_file_path.is_absolute implies a_home_dir.is_parent_of (a_file_path)
 		do
@@ -70,11 +70,11 @@ feature -- Access
 
 	current_digest: NATURAL
 
-	digest_path: EL_FILE_PATH
+	digest_path: FILE_PATH
 
 	destination_name: READABLE_STRING_GENERAL
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		-- relative path
 
 	hash_code: INTEGER
@@ -83,11 +83,11 @@ feature -- Access
 			Result := file_path.hash_code
 		end
 
-	home_dir: EL_DIR_PATH
+	home_dir: DIR_PATH
 
 	previous_digest: NATURAL
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 		do
 			Result := home_dir + file_path
 		end

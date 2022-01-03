@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 10:20:18 GMT (Wednesday 6th October 2021)"
-	revision: "28"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "29"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -68,13 +68,13 @@ feature {NONE} -- Initialization
 			output_path_exists: file_must_exist implies output_path.exists
 		end
 
-	make_from_template (a_template_path: EL_FILE_PATH)
+	make_from_template (a_template_path: FILE_PATH)
 			--
 		do
 			make_from_template_and_output (a_template_path, Default_file_path)
 		end
 
-	make_from_template_and_output (a_template_path, a_output_path: EL_FILE_PATH)
+	make_from_template_and_output (a_template_path, a_output_path: FILE_PATH)
 			--
 		require
 			template_exists: not a_template_path.is_empty implies a_template_path.exists
@@ -89,7 +89,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 feature -- Element change
 
@@ -162,7 +162,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_template_name (type_id: INTEGER): EL_FILE_PATH
+	new_template_name (type_id: INTEGER): FILE_PATH
 		do
 			create Result
 			Result.set_base (Template_name_template #$ [Eiffel.type_of_type (type_id).name])
@@ -192,7 +192,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	template_name: EL_FILE_PATH
+	template_name: FILE_PATH
 			--
 		do
 			if template_path.is_empty then
@@ -217,7 +217,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "encoding_name, template_name, current")
 		end
 
-	Default_file_path: EL_FILE_PATH
+	Default_file_path: FILE_PATH
 			--
 		once
 			create Result
@@ -239,7 +239,7 @@ feature {NONE} -- Constants
 			Result := "{%S}.template"
 		end
 
-	Template_names: EL_CACHE_TABLE [EL_FILE_PATH, INTEGER]
+	Template_names: EL_CACHE_TABLE [FILE_PATH, INTEGER]
 		once
 			create Result.make (7, agent new_template_name)
 		end
@@ -291,7 +291,7 @@ note
 		Contexts which inherit [$source EVOLICITY_SERIALIZEABLE] have a number of built-in standard variables. These are:
 		
 		* **encoding_name:** the output encoding for the current template. For example: `UTF-8'
-		* **template_name:** the name of the current template. Internally this is of type [$source EL_FILE_PATH].
+		* **template_name:** the name of the current template. Internally this is of type [$source FILE_PATH].
 		* **current:** the current context of the template
 
 		**SYNTAX REFERENCE**

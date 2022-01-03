@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-06 12:26:32 GMT (Tuesday 6th April 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	CAIRO_DRAWING_AREA
@@ -36,12 +36,12 @@ create
 	make_with_scaled_pixmap, make_scaled_to_width, make_scaled_to_height
 
 convert
-	make_with_path ({EL_FILE_PATH}),
+	make_with_path ({FILE_PATH}),
 	dimensions: {EL_RECTANGLE}, to_buffer: {EV_PIXEL_BUFFER}
 
 feature {NONE} -- Initialization
 
-	make_with_path (file_path: EL_FILE_PATH)
+	make_with_path (file_path: FILE_PATH)
 		-- make from an image file
 		require
 			path_exists: file_path.exists
@@ -168,7 +168,7 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	save_as (file_path: EL_FILE_PATH)
+	save_as (file_path: FILE_PATH)
 			-- Save as png file
 		do
 			implementation.save_as (file_path)
@@ -198,7 +198,7 @@ feature -- Element change
 			implementation.set_opaque
 		end
 
-	set_with_path (file_path: EL_FILE_PATH)
+	set_with_path (file_path: FILE_PATH)
 		do
 			implementation.set_with_path (file_path)
 		end

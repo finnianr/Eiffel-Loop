@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 9:23:27 GMT (Sunday 28th March 2021)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -45,7 +45,7 @@ feature -- Access
 		deferred
 		end
 
-	relative_file_path: EL_FILE_PATH
+	relative_file_path: FILE_PATH
 		deferred
 		end
 
@@ -81,7 +81,7 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Implementation
 
-	content_template: EL_FILE_PATH
+	content_template: FILE_PATH
 		deferred
 		end
 

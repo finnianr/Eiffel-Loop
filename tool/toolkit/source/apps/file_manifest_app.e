@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:12 GMT (Tuesday 10th November 2020)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	FILE_MANIFEST_APP
@@ -35,9 +35,9 @@ feature -- Test operations
 			Test.do_file_tree_test ("bkup", agent test_normal_run (?, "manifest-template.evol"), 1432482264)
 		end
 
-	test_normal_run (dir_path: EL_DIR_PATH; template_name: ZSTRING)
+	test_normal_run (dir_path: DIR_PATH; template_name: ZSTRING)
 		local
-			template_path, output_path: EL_FILE_PATH
+			template_path, output_path: FILE_PATH
 			manifest: EL_FILE_MANIFEST_LIST
 		do
 			if template_name.is_empty then

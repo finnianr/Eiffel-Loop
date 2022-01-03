@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 13:16:21 GMT (Sunday 12th September 2021)"
-	revision: "28"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "29"
 
 class
 	EL_URI
@@ -136,12 +136,12 @@ feature -- Access
 
 feature -- Conversion
 
-	to_dir_path: EL_DIR_PATH
+	to_dir_path: DIR_PATH
 		do
 			create Result.make (once_path_copy.decoded_32 (False))
 		end
 
-	to_file_path: EL_FILE_PATH
+	to_file_path: FILE_PATH
 		do
 			create Result.make (once_path_copy.decoded_32 (False))
 		end

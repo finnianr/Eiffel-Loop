@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-07-27 13:44:08 GMT (Monday 27th July 2020)"
-	revision: "7"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 		require
 			long_enough_device_id: primary_device.device_id.split ('\').count >= 2
 		local
-			EDID_registry_path: EL_DIR_PATH
+			EDID_registry_path: DIR_PATH
 		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("Model", model)
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	HKLM_enum_display: EL_DIR_PATH
+	HKLM_enum_display: DIR_PATH
 		once
 			Result := Reg_key.current_control_set ("Enum\DISPLAY")
 		end

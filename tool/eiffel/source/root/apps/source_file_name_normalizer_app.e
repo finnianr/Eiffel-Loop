@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:14:36 GMT (Tuesday 10th November 2020)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	SOURCE_FILE_NAME_NORMALIZER_APP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_FILE_NAME_NORMALIZER
+	new_editor (file_path_list: LIST [FILE_PATH]): CLASS_FILE_NAME_NORMALIZER
 		do
 			create Result.make
 		end

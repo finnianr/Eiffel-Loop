@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 14:10:12 GMT (Saturday 10th July 2021)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_WAV_GENERATION_COMMAND_I
@@ -87,7 +87,7 @@ feature -- Access
 			Result := sample_rate.max (frequency_upper * 2 + frequency_upper // 10)
 		end
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 
 feature {NONE} -- Evolicity reflection
 

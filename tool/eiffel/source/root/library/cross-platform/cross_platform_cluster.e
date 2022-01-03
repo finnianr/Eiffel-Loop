@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:33:18 GMT (Sunday 13th September 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	CROSS_PLATFORM_CLUSTER
@@ -53,9 +53,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_cluster_dir: EL_DIR_PATH; path_list: EL_FILE_PATH_LIST; ecf: ECF_INFO)
+	make (a_cluster_dir: DIR_PATH; path_list: EL_FILE_PATH_LIST; ecf: ECF_INFO)
 		local
-			relative_path: EL_FILE_PATH
+			relative_path: FILE_PATH
 		do
 			cluster_dir := a_cluster_dir
 			ecf_name := ecf.path.base
@@ -126,7 +126,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	copy_if_different (actual_path, target_path: EL_FILE_PATH)
+	copy_if_different (actual_path, target_path: FILE_PATH)
 		do
 			if actual_path /~ target_path then
 				lio.put_labeled_string ("copy", actual_path.to_string)
@@ -152,7 +152,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	selected_implementation_list (interface_path: EL_FILE_PATH): EL_FILE_PATH_LIST
+	selected_implementation_list (interface_path: FILE_PATH): EL_FILE_PATH_LIST
 		local
 			imp_name, interface_name: ZSTRING
 		do
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	target_implementation (imp_dir: EL_DIR_PATH; interface_path: EL_FILE_PATH): EL_FILE_PATH
+	target_implementation (imp_dir: DIR_PATH; interface_path: FILE_PATH): FILE_PATH
 		do
 			Result := imp_dir + interface_path.twin
 			Result.base.insert_string (MP_ending, Result.dot_index)
@@ -176,7 +176,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	cluster_dir: EL_DIR_PATH
+	cluster_dir: DIR_PATH
 
 	ecf_name: ZSTRING
 
@@ -212,3 +212,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

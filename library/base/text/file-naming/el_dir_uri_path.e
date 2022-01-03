@@ -14,14 +14,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-18 17:31:30 GMT (Thursday 18th February 2021)"
-	revision: "19"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	EL_DIR_URI_PATH
 
 inherit
-	EL_DIR_PATH
+	DIR_PATH
 		undefine
 			append_file_prefix, default_create, make, make_from_other, escaped,
 			is_absolute, is_equal, is_less, is_uri,
@@ -47,21 +47,21 @@ create
 convert
 	make ({ZSTRING, STRING_32}),
 	make_from_path ({PATH}),
-	make_from_dir_path ({EL_DIR_PATH}),
+	make_from_dir_path ({DIR_PATH}),
 	make_from_encoded ({STRING}),
 
  	to_string: {ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL}, steps: {EL_PATH_STEPS}, to_path: {PATH}
 
 feature {NONE} -- Initialization
 
-	make_from_dir_path (a_path: EL_DIR_PATH)
+	make_from_dir_path (a_path: DIR_PATH)
 		do
 			Precursor (a_path)
 		end
 
 feature -- Conversion
 
-	to_dir_path: EL_DIR_PATH
+	to_dir_path: DIR_PATH
 		do
 			Result := parent_path + base
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 12:58:57 GMT (Sunday 19th April 2020)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_LEGACY_DIRECTORY_I
@@ -25,12 +25,12 @@ inherit
 
 feature -- Paths
 
-	app_data: EL_DIR_PATH
+	app_data: DIR_PATH
 		-- user application data
 		deferred
 		end
 
-	app_configuration: EL_DIR_PATH
+	app_configuration: DIR_PATH
 		-- application configuration data
 		deferred
 		end

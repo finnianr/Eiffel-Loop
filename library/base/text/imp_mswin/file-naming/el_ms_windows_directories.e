@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-22 9:20:29 GMT (Tuesday 22nd September 2020)"
-	revision: "7"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -22,39 +22,39 @@ inherit
 
 feature -- Access
 
-	Desktop_common: EL_DIR_PATH
+	Desktop_common: DIR_PATH
 		once
 			Result := win_folder_path (Folder.common_desktop)
 		end
 
-	Desktop: EL_DIR_PATH
+	Desktop: DIR_PATH
 		once
 			Result := win_folder_path (Folder.desktop)
 		end
 
-	User, User_profile_dir: EL_DIR_PATH
+	User, User_profile_dir: DIR_PATH
 		once
 			Result := win_folder_path (Folder.user_profile)
 		end
 
-	My_documents: EL_DIR_PATH
+	My_documents: DIR_PATH
 			--
 		once
 			Result := win_folder_path (Folder.my_documents)
 		end
 
-	Program_files_dir: EL_DIR_PATH
+	Program_files_dir: DIR_PATH
 			--
 		once
 			Result := win_folder_path (Folder.program_files)
 		end
 
-	Start_menu_programs_dir: EL_DIR_PATH
+	Start_menu_programs_dir: DIR_PATH
 		once
 			Result := win_folder_path (Folder.common_programs)
 		end
 
-	System_dir: EL_DIR_PATH
+	System_dir: DIR_PATH
 			--
 		once
 			Result := win_folder_path (Folder.system)
@@ -77,7 +77,7 @@ feature -- Constants
 
 feature {NONE} -- Implementation
 
-	win_folder_path (folder_id: INTEGER): EL_DIR_PATH
+	win_folder_path (folder_id: INTEGER): DIR_PATH
 		local
 			folder_path: NATIVE_STRING; status_code: INTEGER
 		do

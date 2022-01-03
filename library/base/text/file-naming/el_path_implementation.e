@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 11:46:59 GMT (Sunday 19th December 2021)"
-	revision: "21"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -317,7 +317,7 @@ feature {EL_PATH} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else is_separator (a_path, pos_dollor - 1))
 		end
 
-	relative_temporary_path (a_parent: EL_DIR_PATH): ZSTRING
+	relative_temporary_path (a_parent: DIR_PATH): ZSTRING
 		local
 			remove_count: INTEGER
 		do

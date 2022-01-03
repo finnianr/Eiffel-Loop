@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:20:50 GMT (Saturday 27th March 2021)"
-	revision: "29"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "30"
 
 deferred class
 	EL_URI_PATH
@@ -87,7 +87,7 @@ feature -- Initialization
 		require
 			is_absolute: a_path.starts_with (Forward_slash)
 		do
-			make_scheme (Protocol_name.file, create {EL_FILE_PATH}.make (a_path))
+			make_scheme (Protocol_name.file, create {FILE_PATH}.make (a_path))
 		end
 
 	make_from_file_path (a_path: EL_PATH)

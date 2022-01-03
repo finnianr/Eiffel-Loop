@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 14:17:13 GMT (Thursday 25th March 2021)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	TEST_FILE_SYNC_MEDIUM
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_path_list: LIST [EL_FILE_PATH])
+	make (a_path_list: LIST [FILE_PATH])
 		do
 			make_default
 			uploaded_path_list := a_path_list
@@ -41,6 +41,6 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	uploaded_path_list: LIST [EL_FILE_PATH]
+	uploaded_path_list: LIST [FILE_PATH]
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-07 10:13:38 GMT (Tuesday 7th September 2021)"
-	revision: "14"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	EVOLICITY_COMPILER
@@ -65,7 +65,7 @@ feature -- Access
 
 feature -- Element change
 
- 	set_source_text_from_file (file_path: EL_FILE_PATH)
+ 	set_source_text_from_file (file_path: FILE_PATH)
  		require else
  			valid_encoding_set: valid_encoding (encoding_type | encoding_id)
 		do
@@ -361,7 +361,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	same_software_version (compiled_source_path: EL_FILE_PATH): BOOLEAN
+	same_software_version (compiled_source_path: FILE_PATH): BOOLEAN
 		do
 			if attached open_raw (compiled_source_path, Read) as compiled_source then
 				compiled_source.read_natural_32

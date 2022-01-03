@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 14:52:59 GMT (Thursday 25th March 2021)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	uploaded_path_list: ARRAYED_LIST [EL_FILE_PATH]
+	uploaded_path_list: ARRAYED_LIST [FILE_PATH]
 
 feature -- Status query
 
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			Result.set_remote_home (ftp_output_dir)
 		end
 
-	ftp_output_dir: EL_DIR_PATH
+	ftp_output_dir: DIR_PATH
 		do
 			Result := output_dir.parent #+ "ftp.doc"
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 16:27:42 GMT (Saturday 20th March 2021)"
-	revision: "5"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
@@ -28,7 +28,7 @@ feature -- Tests
 	test_copy_file_command
 		local
 			transformer: EL_FILE_TREE_TRANSFORMER
-			copy_cmd: FILE_COPY_COMMAND; input_dir, output_dir: EL_DIR_PATH
+			copy_cmd: FILE_COPY_COMMAND; input_dir, output_dir: DIR_PATH
 		do
 			create copy_cmd.make
 			input_dir := Workarea_help_pages_dir

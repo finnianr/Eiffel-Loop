@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-06 11:13:39 GMT (Saturday 6th March 2021)"
-	revision: "14"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	EL_LOG_MANAGER
@@ -42,7 +42,7 @@ create
 
 feature {NONE} -- Initialization
 
-	 make (logging_active: BOOLEAN; a_output_directory: EL_DIR_PATH)
+	 make (logging_active: BOOLEAN; a_output_directory: DIR_PATH)
 			--
 		do
 			make_solitary; make_default
@@ -69,7 +69,7 @@ feature -- Initialization
 
 feature -- Access
 
-	current_thread_log_path: EL_FILE_PATH
+	current_thread_log_path: FILE_PATH
 			--
 		require
 			logging_is_active: is_logging_active
@@ -77,7 +77,7 @@ feature -- Access
 			create Result.make_from_path (current_thread_log_file.path)
 		end
 
-	output_directory_path: EL_DIR_PATH
+	output_directory_path: DIR_PATH
 		do
 			restrict_access
 			Result := output_directory.twin
@@ -302,22 +302,22 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_highlighted_output (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+	new_highlighted_output (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
 		do
 			create {EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT} Result.make (log_path, a_thread_name, a_index)
 		end
 
-	new_output (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
+	new_output (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER): like new_log_file
 		do
 			create Result.make (log_path, a_thread_name, a_index)
 		end
 
 feature {NONE} -- Implementation
 
-	log_file_path (name: ZSTRING): EL_FILE_PATH
+	log_file_path (name: ZSTRING): FILE_PATH
 			--
 		local
-			version_path: EL_FILE_PATH
+			version_path: FILE_PATH
 		do
 			if not output_directory.exists then
 				File_system.make_directory (output_directory)
@@ -346,7 +346,7 @@ feature {NONE} -- Internal attributes
 
 	log_file_by_thread_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
 
-	output_directory: EL_DIR_PATH
+	output_directory: DIR_PATH
 
 	thread_id_list: ARRAYED_LIST [POINTER]
 

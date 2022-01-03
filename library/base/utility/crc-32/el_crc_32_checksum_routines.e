@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 10:06:31 GMT (Thursday 16th September 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -28,12 +28,12 @@ feature -- Status query
 			Result := string_list (list_1) = string_list (list_2)
 		end
 
-	same_as_utf_8_file (list: ITERABLE [ZSTRING]; file_path: EL_FILE_PATH): BOOLEAN
+	same_as_utf_8_file (list: ITERABLE [ZSTRING]; file_path: FILE_PATH): BOOLEAN
 		do
 			Result := string_list (list) = utf_8_file_content (file_path)
 		end
 
-	has_changed (crc_path: EL_FILE_PATH; checksum: NATURAL): BOOLEAN
+	has_changed (crc_path: FILE_PATH; checksum: NATURAL): BOOLEAN
 		do
 			if crc_path.exists then
 				Result := File_system.plain_text (crc_path).to_natural /= checksum
@@ -54,7 +54,7 @@ feature -- Measurement
 			Result := crc.checksum
 		end
 
-	file_content (path: EL_FILE_PATH): NATURAL
+	file_content (path: FILE_PATH): NATURAL
 		local
 			crc: like crc_generator
 		do
@@ -83,7 +83,7 @@ feature -- Measurement
 			Result := crc.checksum
 		end
 
-	utf_8_file_content (file_path: EL_FILE_PATH): NATURAL
+	utf_8_file_content (file_path: FILE_PATH): NATURAL
 		-- returns CRC 32 checksum for UTF-8 encoded file as a list of ZSTRING's
 		do
 			if attached open_lines (file_path, Utf_8) as lines then

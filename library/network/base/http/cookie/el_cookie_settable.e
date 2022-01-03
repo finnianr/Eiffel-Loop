@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-04-26 9:11:47 GMT (Thursday 26th April 2018)"
-	revision: "4"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_COOKIE_SETTABLE
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			set_from_table (cookies)
 		end
 
-	make_from_file (cookie_path: EL_FILE_PATH)
+	make_from_file (cookie_path: FILE_PATH)
 		do
 			make_default
 			if cookie_path.exists then

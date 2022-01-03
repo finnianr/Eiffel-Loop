@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-02 14:10:52 GMT (Thursday 2nd December 2021)"
-	revision: "16"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	EL_OS_COMMAND
@@ -153,7 +153,7 @@ feature {NONE} -- Implementation
 			template_name := name_template #$ [generator, name]
 		end
 
-	temporary_error_file_path: EL_FILE_PATH
+	temporary_error_file_path: FILE_PATH
 		do
 			Result := new_temporary_file_path ("err")
 		end
@@ -170,7 +170,7 @@ feature {NONE} -- Internal attributes
 
 	template: EL_ZSTRING_TEMPLATE
 
-	template_name: EL_FILE_PATH
+	template_name: FILE_PATH
 
 feature {NONE} -- Constants
 

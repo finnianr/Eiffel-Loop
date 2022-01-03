@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 10:34:30 GMT (Monday 15th March 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -50,9 +50,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	do_svg_to_png_conversion (write_png: PROCEDURE [INTEGER, INTEGER, EL_FILE_PATH])
+	do_svg_to_png_conversion (write_png: PROCEDURE [INTEGER, INTEGER, FILE_PATH])
 		local
-			name: STRING; size: INTEGER; output_path: EL_FILE_PATH
+			name: STRING; size: INTEGER; output_path: FILE_PATH
 		do
 			-- 11 March 2021
 			name := "convert_to_width_and_color"
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	print_digest (output_path: EL_FILE_PATH)
+	print_digest (output_path: FILE_PATH)
 		do
 			log.put_labeled_string ("Digest " + output_path.base, file_digest (output_path).to_base_64_string)
 			log.put_new_line
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	svg_path: EL_FILE_PATH
+	svg_path: FILE_PATH
 
 feature {NONE} -- Constants
 
@@ -111,7 +111,7 @@ feature {NONE} -- Constants
 			Result := "-%S-%Sx%S.png"
 		end
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("svg")
 		end

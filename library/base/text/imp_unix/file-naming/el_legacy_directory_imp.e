@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 13:02:27 GMT (Sunday 19th April 2020)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -19,24 +19,24 @@ inherit
 
 feature {NONE} -- Constants
 
-	Home: EL_DIR_PATH
+	Home: DIR_PATH
 		-- returns `Home' or /home/root if user is root (useful for uninstaller)
 		once
 			Result := "/home/$USER"
 			Result.expand
 		end
 
-	App_data: EL_DIR_PATH
+	App_data: DIR_PATH
 		once
 			Result := Home.joined_dir_path (Relative_app_data)
 		end
 
-	App_configuration: EL_DIR_PATH
+	App_configuration: DIR_PATH
 		once
 			Result := Home.joined_dir_tuple ([".config", Build_info.installation_sub_directory])
 		end
 
-	Relative_app_data: EL_DIR_PATH
+	Relative_app_data: DIR_PATH
 			--
 		once
 			Result := Data_dir_name_prefix + Build_info.installation_sub_directory.to_string

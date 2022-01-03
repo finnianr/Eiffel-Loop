@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-25 14:57:23 GMT (Thursday 25th March 2021)"
-	revision: "4"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -29,14 +29,14 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_remote_home (a_home_dir: EL_DIR_PATH)
+	set_remote_home (a_home_dir: DIR_PATH)
 		do
 			home_dir := a_home_dir
 		end
 
 feature -- Status report
 
-	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+	directory_exists (dir_path: DIR_PATH): BOOLEAN
 		-- `True' if directory exists on medium
 		do
 			Result := (home_dir #+ dir_path).exists
@@ -60,7 +60,7 @@ feature -- Basic operations
 			File_system.copy_file_contents (source_file, home_dir + item.file_path)
 		end
 
-	make_directory (dir_path: EL_DIR_PATH)
+	make_directory (dir_path: DIR_PATH)
 		-- make directory `dir_path' relative to home directory
 		do
 			File_system.make_directory (home_dir.joined_dir_path (dir_path))
@@ -71,7 +71,7 @@ feature -- Basic operations
 			is_open := True
 		end
 
-	remove_directory (dir_path: EL_DIR_PATH)
+	remove_directory (dir_path: DIR_PATH)
 		-- remove directory `dir_path' relative to home directory
 		do
 			File_system.remove_directory (home_dir.joined_dir_path (dir_path))
@@ -89,5 +89,5 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	home_dir: EL_DIR_PATH
+	home_dir: DIR_PATH
 end

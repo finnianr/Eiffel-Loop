@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 14:26:19 GMT (Saturday 23rd October 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	EL_IMAGE_PATH_ROUTINES
@@ -39,19 +39,19 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	desktop_menu_icon (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
+	desktop_menu_icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- Icons for setting up desktop menu launchers
 		do
 			Result := Desktop_menu_icons_path.joined_file_path (relative_path_steps)
 		end
 
-	icon (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
+	icon (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- application icon
 		do
 			Result := Icons_path.joined_file_path (relative_path_steps)
 		end
 
-	image (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
+	image (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		-- application image
 		do
 			Result := Images_path.joined_file_path (relative_path_steps)
@@ -59,7 +59,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_installation_dir (a_installation_dir: EL_DIR_PATH)
+	set_installation_dir (a_installation_dir: DIR_PATH)
 		-- used for installers when images are taken from unzipped package
 		do
 			installation_dir := a_installation_dir
@@ -67,17 +67,17 @@ feature -- Element change
 
 feature -- Constants
 
-	Desktop_menu_icons_path: EL_DIR_PATH
+	Desktop_menu_icons_path: DIR_PATH
 		once
 			Result := installation_dir #+ Step.desktop_icons
 		end
 
-	Icons_path: EL_DIR_PATH
+	Icons_path: DIR_PATH
 		once
 			Result := installation_dir #+ Step.icons
 		end
 
-	Images_path: EL_DIR_PATH
+	Images_path: DIR_PATH
 		once
 			Result := installation_dir #+ Step.images
 		end
@@ -88,23 +88,23 @@ feature -- Constants
 			Tuple.fill_immutable (Result, "icons, desktop-icons, images")
 		end
 
-	User_desktop_menu_icons_path: EL_DIR_PATH
+	User_desktop_menu_icons_path: DIR_PATH
 		once
 			Result := Directory.App_cache #+ Step.desktop_icons
 		end
 
-	User_icons_path: EL_DIR_PATH
+	User_icons_path: DIR_PATH
 		once
 			Result := Directory.App_cache #+ Step.icons
 		end
 
-	User_images_path: EL_DIR_PATH
+	User_images_path: DIR_PATH
 		once
 			Result := Directory.App_cache #+ Step.images
 		end
 
 feature {NONE} -- Internal attributes
 
-	installation_dir: EL_DIR_PATH
+	installation_dir: DIR_PATH
 
 end

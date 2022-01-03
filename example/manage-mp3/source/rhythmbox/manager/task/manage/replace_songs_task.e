@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-23 9:29:27 GMT (Saturday 23rd May 2020)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	REPLACE_SONGS_TASK
@@ -51,7 +51,7 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_substitution: TUPLE [deleted_path, replacement_path: EL_FILE_PATH]
+	new_substitution: TUPLE [deleted_path, replacement_path: FILE_PATH]
 		do
 			create Result
 			Result.deleted_path := User_input.file_path ("Song to remove")

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 9:45:23 GMT (Tuesday 17th August 2021)"
-	revision: "2"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 deferred class
 	FCGI_SOCKET_FACTORY
@@ -37,7 +37,7 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	server_socket_path: EL_FILE_PATH
+	server_socket_path: FILE_PATH
 		-- Unix socket path to listen on
 		deferred
 		end

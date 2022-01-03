@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:41:52 GMT (Thursday 23rd December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	JAVA_ENVIRONMENT_I
@@ -46,13 +46,13 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	append_jar_locations (locations: ARRAY [EL_DIR_PATH])
+	append_jar_locations (locations: ARRAY [DIR_PATH])
 			--
 		do
 			locations.do_all (agent jar_dir_list.extend)
 		end
 
-	append_class_locations (locations: ARRAY [EL_DIR_PATH])
+	append_class_locations (locations: ARRAY [DIR_PATH])
 		do
 			across locations as location loop
 				if location.item.exists then
@@ -142,11 +142,11 @@ feature -- Clean up
 
 feature {NONE} -- Platform implementation
 
-	default_java_jar_dir: EL_DIR_PATH
+	default_java_jar_dir: DIR_PATH
 		deferred
 		end
 
-	JVM_library_path: EL_FILE_PATH
+	JVM_library_path: FILE_PATH
 		deferred
 		end
 
@@ -187,7 +187,7 @@ feature {NONE} -- Implementation
 
 	required_java_packages: ARRAY [STRING]
 
-	jar_dir_list: ARRAYED_LIST [EL_DIR_PATH]
+	jar_dir_list: ARRAYED_LIST [DIR_PATH]
 
 	class_path_list: EL_ZSTRING_LIST
 

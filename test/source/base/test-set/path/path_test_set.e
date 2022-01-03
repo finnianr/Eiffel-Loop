@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 11:16:03 GMT (Monday 20th December 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	PATH_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_PATH}.make_from_path"
 		local
-			p1, p2: EL_DIR_PATH
+			p1, p2: DIR_PATH
 		do
 			p1 := Dev_eiffel
 			create p2.make_from_steps (Dev_eiffel.split_list ('/'))
@@ -54,7 +54,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_PATH}.make_from_steps"
 		local
-			home_path, config_path: EL_DIR_PATH
+			home_path, config_path: DIR_PATH
 		do
 			home_path := "/home"
 			config_path := home_path.joined_dir_steps (<< "finnian", ".config" >>)
@@ -67,7 +67,7 @@ feature -- Tests
 						"covers/{EL_NT_FILE_SYSTEM_ROUTINES}.translated"
 		local
 			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
-			path_name: ZSTRING; path: EL_FILE_PATH; index_dot: INTEGER
+			path_name: ZSTRING; path: FILE_PATH; index_dot: INTEGER
 		do
 			path_name := "C:/Boot/memtest.exe"
 			path := path_name
@@ -83,7 +83,7 @@ feature -- Tests
 
 	test_parent_of
 		local
-			dir_home, dir: EL_DIR_PATH; dir_string, dir_string_home: ZSTRING
+			dir_home, dir: DIR_PATH; dir_string, dir_string_home: ZSTRING
 			is_parent: BOOLEAN
 		do
 			create dir_string.make_empty
@@ -102,7 +102,7 @@ feature -- Tests
 
 	test_relative_joins
 		local
-			eif_dir_path: EL_DIR_PATH; abs_eiffel_pdf_path: EL_FILE_PATH
+			eif_dir_path: DIR_PATH; abs_eiffel_pdf_path: FILE_PATH
 		do
 			eif_dir_path := Dev_eiffel
 			abs_eiffel_pdf_path := eif_dir_path.joined_file_path (Parent_dots + Parent_dots + Documents_eiffel_pdf)
@@ -112,7 +112,7 @@ feature -- Tests
 
 	test_universal_relative_path
 		local
-			path_1, relative_path: EL_FILE_PATH; path_2: EL_DIR_PATH
+			path_1, relative_path: FILE_PATH; path_2: DIR_PATH
 		do
 			log.enter ("test_universal_relative_path")
 			across OS.file_list (Eiffel_dir, "*.e") as p1 loop
@@ -135,7 +135,7 @@ feature -- Tests
 
 	test_version_number
 		local
-			path: EL_FILE_PATH
+			path: FILE_PATH
 		do
 			across << "myfile.mp3", "myfile.02.mp3", "myfile..mp3" >> as p loop
 				path := p.item
@@ -165,7 +165,7 @@ feature {NONE} -- Constants
 			Result := "Documents/Eiffel-spec.pdf"
 		end
 
-	Eiffel_dir: EL_DIR_PATH
+	Eiffel_dir: DIR_PATH
 		once
 			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
 			Result.expand

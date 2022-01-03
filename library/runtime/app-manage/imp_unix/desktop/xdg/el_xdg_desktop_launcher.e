@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-22 19:02:56 GMT (Friday 22nd November 2019)"
-	revision: "8"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_XDG_DESKTOP_LAUNCHER
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_desktop: like desktop; a_output_dir: EL_DIR_PATH)
+	make (a_desktop: like desktop; a_output_dir: DIR_PATH)
 			--
 		do
 			desktop := a_desktop

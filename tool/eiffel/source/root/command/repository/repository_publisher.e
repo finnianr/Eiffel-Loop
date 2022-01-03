@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 15:37:34 GMT (Friday 31st December 2021)"
-	revision: "45"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "46"
 
 class
 	REPOSITORY_PUBLISHER
@@ -50,7 +50,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
+	make (a_file_path: FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do
 			config_path := a_file_path; version := a_version; thread_count := a_thread_count
 			log_thread_count
@@ -92,7 +92,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	config_path: EL_FILE_PATH
+	config_path: FILE_PATH
 		-- config file path
 
 	ftp_url: STRING
@@ -112,9 +112,9 @@ feature -- Access
 	note_fields: EL_ZSTRING_LIST
 		-- note fields included in output
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
-	root_dir: EL_DIR_PATH
+	root_dir: DIR_PATH
 
 	templates: REPOSITORY_HTML_TEMPLATES
 
@@ -133,7 +133,7 @@ feature -- Basic operations
 		do
 			create current_set.make (3000)
 			if version /~ previous_version then
-				output_sub_directories.do_if (agent OS.delete_tree, agent {EL_DIR_PATH}.exists)
+				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
 			end
 			ecf_list.sink_source_subsitutions
 			ecf_list.get_sync_items (current_set)
@@ -191,10 +191,10 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	check_pecf_source (ecf_path: EL_FILE_PATH)
+	check_pecf_source (ecf_path: FILE_PATH)
 		-- check if pecf format source has been modified
 		local
-			pecf_path: EL_FILE_PATH; converter: PYXIS_ECF_CONVERTER
+			pecf_path: FILE_PATH; converter: PYXIS_ECF_CONVERTER
 		do
 			pecf_path := ecf_path.with_new_extension (Extension_pecf)
 			if pecf_path.exists and then pecf_path.modification_time > ecf_path.modification_time then
@@ -224,10 +224,10 @@ feature {NONE} -- Implementation
 			create {EL_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_configuration)
 		end
 
-	output_sub_directories: EL_ARRAYED_LIST [EL_DIR_PATH]
+	output_sub_directories: EL_ARRAYED_LIST [DIR_PATH]
 		local
 			set: EL_HASH_SET [ZSTRING]; first_step: ZSTRING
-			relative_path: EL_DIR_PATH
+			relative_path: DIR_PATH
 		do
 			create Result.make (10)
 			create set.make (10)
@@ -250,7 +250,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	version_path: EL_FILE_PATH
+	version_path: FILE_PATH
 		do
 			Result := output_dir + "version.txt"
 		end
@@ -286,7 +286,7 @@ feature {NONE} -- Build from Pyxis
 
 	on_context_return (context: EL_EIF_OBJ_XPATH_CONTEXT)
 		local
-			ecf_path: EL_FILE_PATH; ecf: ECF_INFO
+			ecf_path: FILE_PATH; ecf: ECF_INFO
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 			has_error: BOOLEAN
 		do

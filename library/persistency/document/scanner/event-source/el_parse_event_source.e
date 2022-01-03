@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-07 12:41:02 GMT (Thursday 7th January 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -46,7 +46,7 @@ feature -- Status query
 
 feature -- Factory
 
-	new_file_stream (a_file_path: EL_FILE_PATH): FILE
+	new_file_stream (a_file_path: FILE_PATH): FILE
 		do
 			create {PLAIN_TEXT_FILE} Result.make_with_name (a_file_path)
 		ensure

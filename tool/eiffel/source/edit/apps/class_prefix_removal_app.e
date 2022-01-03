@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:49 GMT (Tuesday 10th November 2020)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_editor (file_path_list: LIST [EL_FILE_PATH]): CLASS_PREFIX_REMOVER
+	new_editor (file_path_list: LIST [FILE_PATH]): CLASS_PREFIX_REMOVER
 		do
 			create Result.make (prefix_letters, file_path_list)
 		end

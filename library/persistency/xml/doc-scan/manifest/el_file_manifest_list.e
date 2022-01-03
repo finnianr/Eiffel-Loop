@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 10:02:42 GMT (Wednesday 6th October 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -89,7 +89,7 @@ feature -- Access
 
 feature -- Element change
 
-	append_files (list: LIST [EL_FILE_PATH])
+	append_files (list: LIST [FILE_PATH])
 		local
 			crc: like crc_generator
 		do

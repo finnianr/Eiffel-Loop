@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-20 11:14:17 GMT (Sunday 20th September 2020)"
-	revision: "17"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -31,19 +31,19 @@ inherit
 
 feature -- Access
 
-	from_file (a_file_path: EL_FILE_PATH): EL_PIXMAP
+	from_file (a_file_path: FILE_PATH): EL_PIXMAP
 			--
 		do
 			Result := new_pixmap (a_file_path)
 		end
 
-	image_path (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
+	image_path (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		deferred
 		end
 
 feature -- Status query
 
-	is_loadable (file_path: EL_FILE_PATH): BOOLEAN
+	is_loadable (file_path: FILE_PATH): BOOLEAN
 		local
 			l_pixmap: EV_PIXMAP; load_failed: BOOLEAN
 		do
@@ -231,7 +231,7 @@ feature {NONE} -- Factory
 			create Result.make_with_path (image_path (relative_path_steps))
 		end
 
-	new_pixmap (a_file_path: EL_FILE_PATH): EL_PIXMAP
+	new_pixmap (a_file_path: FILE_PATH): EL_PIXMAP
 			--
 		local
 			font: EL_FONT rect: EL_RECTANGLE; path: PATH

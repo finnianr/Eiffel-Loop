@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-10 13:04:07 GMT (Sunday 10th January 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -34,7 +34,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (input_dir, output_dir: EL_DIR_PATH)
+	make (input_dir, output_dir: DIR_PATH)
 		do
 			make_default
 
@@ -68,7 +68,7 @@ feature -- Basic operations
 	execute
 			--
 		local
-			build_all_batch_file: EL_FILE_PATH; batch_file_name: ZSTRING
+			build_all_batch_file: FILE_PATH; batch_file_name: ZSTRING
 		do
 			if not praat_version_no.is_empty then
 				directory_content_processor.do_all (agent convert_make_file, Source_type.make_file)
@@ -85,12 +85,12 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	convert_c_source_file (
-		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_directory: DIR_PATH
 		input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		local
-			output_file_path: EL_FILE_PATH
+			output_file_path: FILE_PATH
 			converter: GCC_TO_MSVC_CONVERTER
 			source_name: ZSTRING
 		do
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 		end
 
 	convert_make_file (
-		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH; input_file_name, input_file_extension: ZSTRING
+		input_file_path: FILE_PATH; output_directory: DIR_PATH; input_file_name, input_file_extension: ZSTRING
 	)
 			--
 		do
@@ -151,7 +151,7 @@ feature {NONE} -- Implementation
 		end
 
 	set_version_from_path (
-		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_directory: DIR_PATH
 		input_file_name, input_file_extension: ZSTRING
 	)
 			--

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:51 GMT (Sunday 19th December 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	ECF_CLUSTER_INFO
@@ -71,7 +71,7 @@ feature -- Access
 			Result := cluster_xpath + once "/description"
 		end
 
-	html_index_path: EL_FILE_PATH
+	html_index_path: FILE_PATH
 		-- relative path to html index for ECF, and qualified with cluster name when specified in config.pyx
 		local
 			s: EL_ZSTRING_ROUTINES

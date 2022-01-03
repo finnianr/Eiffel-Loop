@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 9:17:57 GMT (Sunday 11th October 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -55,20 +55,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_table: EL_WORD_TOKEN_TABLE; a_file_path: EL_FILE_PATH)
+	make (a_table: EL_WORD_TOKEN_TABLE; a_file_path: FILE_PATH)
 		do
 			set_table (a_table)
 			make_from_file (a_file_path)
 		end
 
-	make_encrypted (a_table: EL_WORD_TOKEN_TABLE; a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
+	make_encrypted (a_table: EL_WORD_TOKEN_TABLE; a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			set_table (a_table)
 			make_from_encrypted_file (a_file_path, a_encrypter)
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			is_restored := a_file_path.exists
 			Precursor (a_file_path)

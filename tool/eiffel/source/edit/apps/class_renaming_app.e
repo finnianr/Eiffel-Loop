@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 21:58:30 GMT (Sunday 2nd January 2022)"
-	revision: "21"
+	date: "2022-01-03 16:02:36 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 class
 	CLASS_RENAMING_APP
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 
 	set_class_names
 		local
-			input: EL_INPUT_PATH [EL_FILE_PATH]
+			input: EL_INPUT_PATH [FILE_PATH]
 		do
 			lio.put_new_line
 			lio.put_new_line
@@ -102,10 +102,10 @@ feature {NONE} -- Implementation
 			if input.path.base.as_upper.is_equal ("QUIT") then
 				user_quit := true
 			else
-				old_name.share (input.path.base_sans_extension.as_upper)
+				old_name.copy (input.path.base_sans_extension.as_upper)
 
-				new_name.share (User_input.line ("New class name"))
-				new_name.left_adjust; new_name.right_adjust
+				new_name.copy (User_input.line ("New class name"))
+				new_name.adjust
 				lio.put_new_line
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 14:18:15 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EL_BATCH_PROCESSING_DIALOG [G]
@@ -373,7 +373,7 @@ feature {NONE} -- Resource IDs
 feature {NONE} -- Implementation
 
 	queue_file_for_processing (
-		input_file_path: EL_FILE_PATH; output_dir: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_dir: DIR_PATH
 		input_file_name, input_file_extension: ZSTRING
 	)
 			--
@@ -385,7 +385,7 @@ feature {NONE} -- Implementation
 		end
 
 	process_request_item (
-		input_file_path: EL_FILE_PATH; output_dir: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_dir: DIR_PATH
 		input_file_name, input_file_extension: STRING
 	): G
 			--
@@ -444,3 +444,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

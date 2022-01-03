@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-09 10:13:26 GMT (Tuesday 9th March 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	JOBSERVE_SEARCH_APP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH}, "")
+			Result := agent {like command}.make (create {FILE_PATH}, create {DIR_PATH}, "")
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [like Current, JOBSERVE_SEARCHER]

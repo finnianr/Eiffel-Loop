@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 12:28:29 GMT (Monday 12th July 2021)"
-	revision: "5"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_FTP_CONFIGURATION
@@ -34,16 +34,16 @@ create
 	make, make_default, make_from_tuple
 
 convert
-	make_from_tuple ({TUPLE [STRING, EL_DIR_PATH]})
+	make_from_tuple ({TUPLE [STRING, DIR_PATH]})
 
 feature {NONE} -- Initialization
 
-	make_from_tuple (args: TUPLE [address: STRING; user_home_dir: EL_DIR_PATH])
+	make_from_tuple (args: TUPLE [address: STRING; user_home_dir: DIR_PATH])
 		do
 			make (args.address, args.user_home_dir)
 		end
 
-	make (a_address: STRING; a_user_home_dir: EL_DIR_PATH)
+	make (a_address: STRING; a_user_home_dir: DIR_PATH)
 		do
 			make_url (a_address)
 			user_home_dir := a_user_home_dir
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	user_home_dir: EL_DIR_PATH
+	user_home_dir: DIR_PATH
 
 	url: STRING
 		do
@@ -66,7 +66,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_user_home_dir (a_user_home_dir: EL_DIR_PATH)
+	set_user_home_dir (a_user_home_dir: DIR_PATH)
 		require
 			is_absolute: a_user_home_dir.to_unix.starts_with ("/")
 		do

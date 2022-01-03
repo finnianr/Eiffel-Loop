@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 18:28:47 GMT (Friday 3rd April 2020)"
-	revision: "9"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	LIBRARY_CLASS
@@ -61,7 +61,7 @@ feature -- Element change
 			end
 			if not list.is_empty then
 				list.sort (True)
-				-- Remove duplicate names Eg. BUILD_INFO as example of using EL_DIR_PATH
+				-- Remove duplicate names Eg. BUILD_INFO as example of using DIR_PATH
 				list.start
 				previous_name := list.item_key
 				from list.forth until list.after loop

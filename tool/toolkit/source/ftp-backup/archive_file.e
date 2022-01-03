@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:52:03 GMT (Thursday 28th May 2020)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	ARCHIVE_FILE
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 	make (a_backup: FTP_BACKUP)
 			--
 		local
-			gpg_file_path: EL_FILE_PATH; working_directory: EL_DIR_PATH
+			gpg_file_path: FILE_PATH; working_directory: DIR_PATH
 		do
 			backup := a_backup
 			log.enter_with_args ("make", [backup.target_dir, backup.archive_dir, backup.name])
@@ -88,14 +88,14 @@ feature -- Access
 
 	byte_count: NATURAL
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature {NONE} -- Implementation
 
 	save_version_no (max_version_no: INTEGER)
 			-- Save a version number in a data file
 		local
-			version_data_file_path: EL_FILE_PATH
+			version_data_file_path: FILE_PATH
 			version_data_file: PLAIN_TEXT_FILE
 		do
 			log.enter ("save_version_no")
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation: attributes
 
 	version_no: INTEGER
 
-	archive_dir: EL_DIR_PATH
+	archive_dir: DIR_PATH
 		do
 			Result := backup.archive_dir
 		end
@@ -169,3 +169,4 @@ feature {NONE} -- gpg encryption command with variables
 		end
 
 end
+

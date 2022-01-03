@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-22 6:57:58 GMT (Thursday 22nd July 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [INTEGER, EL_FILE_PATH]
+	file_list: EL_VALUE_SORTABLE_ARRAYED_MAP_LIST [INTEGER, FILE_PATH]
 		require
 			open_read: is_open_read and then position = 0
 		local
@@ -82,7 +82,7 @@ feature -- Access
 			end
 		end
 
-	last_file_path: EL_FILE_PATH
+	last_file_path: FILE_PATH
 
 	last_data: SPECIAL [NATURAL_8]
 		-- data read by `read_compressed_file'
@@ -130,7 +130,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_file_list (list: ITERABLE [EL_FILE_PATH])
+	append_file_list (list: ITERABLE [FILE_PATH])
 		require
 			open_append: is_open_write
 			files_exists: across list as l all l.item.exists end
@@ -170,7 +170,7 @@ feature -- Basic operations
 			progress_listener.finish
 		end
 
-	write_last_data (a_file_path: EL_FILE_PATH)
+	write_last_data (a_file_path: FILE_PATH)
 		-- write content of `last_data' to file `a_file_path'
 		do
 			if attached open_raw (a_file_path, Write) as output_file then
@@ -182,7 +182,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append_file (a_file_path: EL_FILE_PATH)
+	append_file (a_file_path: FILE_PATH)
 		require
 			open_append: is_open_write
 		local

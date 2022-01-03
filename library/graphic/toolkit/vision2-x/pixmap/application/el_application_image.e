@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_APPLICATION_IMAGE
@@ -17,7 +17,7 @@ inherit
 
 feature -- Access
 
-	image_path (relative_path_steps: EL_PATH_STEPS): EL_FILE_PATH
+	image_path (relative_path_steps: EL_PATH_STEPS): FILE_PATH
 		do
 			Result := Mod_image_path.image (relative_path_steps)
 		end

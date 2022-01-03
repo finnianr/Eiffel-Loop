@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-02 14:58:36 GMT (Thursday 2nd December 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 deferred class
 	RBOX_MANAGEMENT_TASK
@@ -40,7 +40,7 @@ inherit
 
 feature {RBOX_MUSIC_MANAGER} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		do
 			file_path := a_file_path
 			Precursor (a_file_path)
@@ -57,9 +57,9 @@ feature -- Access
 
 	error_message: ZSTRING
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
-	music_dir: EL_DIR_PATH
+	music_dir: DIR_PATH
 		-- root directory of mp3 files
 
 feature -- Status query
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	user_input_file_path (name: ZSTRING): EL_FILE_PATH
+	user_input_file_path (name: ZSTRING): FILE_PATH
 		do
 			Result := User_input.file_path (Drag_and_drop_template #$ [name])
 			lio.put_new_line
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_music_dir: EL_DIR_PATH
+	Default_music_dir: DIR_PATH
 		-- parse output of command
 		-- gsettings get org.gnome.rhythmbox.rhythmdb locations
 		-- OUTPUT: ['file:///home/finnian/Music']

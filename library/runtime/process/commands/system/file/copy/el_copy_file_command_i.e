@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 15:44:20 GMT (Thursday 16th September 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	EL_COPY_FILE_COMMAND_I
@@ -20,7 +20,7 @@ inherit
 
 feature -- Access
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 	update: EL_BOOLEAN_OPTION
 		-- copy only when the SOURCE file is newer than the destination file

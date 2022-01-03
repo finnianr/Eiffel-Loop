@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 13:47:41 GMT (Wednesday 24th November 2021)"
-	revision: "22"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "23"
 
 class
 	EIFFEL_NOTES
@@ -116,7 +116,7 @@ feature -- Basic operations
 			end
 		end
 
-	fill (source_path: EL_FILE_PATH)
+	fill (source_path: FILE_PATH)
 		local
 			key_list: EL_ZSTRING_LIST
 		do
@@ -274,14 +274,14 @@ feature {NONE} -- Internal attributes
 
 	fields: EL_ZSTRING_HASH_TABLE [EL_ZSTRING_LIST]
 
-	relative_class_dir: EL_DIR_PATH
+	relative_class_dir: DIR_PATH
 		-- class page directory relative to index page directory tree
 
 	selected_fields: EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
 
-	Empty_dir: EL_DIR_PATH
+	Empty_dir: DIR_PATH
 		once
 			create Result
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 17:59:12 GMT (Thursday 21st May 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_YOUTUBE_VIDEO
@@ -179,7 +179,7 @@ feature {NONE} -- Implementation
 			Result := new_time (Cmd_video_duration.lines.first.substring_between_general ("Duration: ", ", ", 1)).fine_seconds
 		end
 
-	video_output_path: EL_FILE_PATH
+	video_output_path: FILE_PATH
 		do
 			Result := download.video.file_path.without_extension
 			Result.remove_extension
@@ -187,7 +187,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 	stream_table: EL_YOUTUBE_STREAM_TABLE
 
@@ -229,15 +229,16 @@ feature {NONE} -- Constants
 
 	Out_time_field: STRING = "out_time="
 
-	Output_dir: EL_DIR_PATH
+	Output_dir: DIR_PATH
 		once
 			Result := "$HOME/Videos"
 			Result.expand
 		end
 
-	Socket_path: EL_FILE_PATH
+	Socket_path: FILE_PATH
 		once
 			Result := Directory.temporary + "el_toolkit-youtube_dl.sock"
 		end
 
 end
+

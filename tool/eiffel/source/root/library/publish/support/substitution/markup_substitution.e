@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 11:37:38 GMT (Wednesday 24th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	MARKUP_SUBSTITUTION
@@ -40,7 +40,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_relative_page_dir (a_relative_page_dir: EL_DIR_PATH)
+	set_relative_page_dir (a_relative_page_dir: DIR_PATH)
 		do
 			relative_page_dir := a_relative_page_dir
 		end
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	relative_page_dir: EL_DIR_PATH
+	relative_page_dir: DIR_PATH
 		-- class page relative to index page directory tree
 
 feature {NONE} -- Constants

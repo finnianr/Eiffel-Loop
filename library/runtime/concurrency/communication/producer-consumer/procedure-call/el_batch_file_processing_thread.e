@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-20 8:16:45 GMT (Thursday 20th May 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 deferred class
 	EL_BATCH_FILE_PROCESSING_THREAD
 
 inherit
-	EL_ACTION_ARGUMENTS_CONSUMER_THREAD [EL_FILE_PATH, EL_DIR_PATH, STRING, STRING]
+	EL_ACTION_ARGUMENTS_CONSUMER_THREAD [FILE_PATH, DIR_PATH, STRING, STRING]
 		rename
 			call_actions as call_process_file,
 			make as make_thread
@@ -39,14 +39,14 @@ feature {NONE} -- Initialization
 feature {NONE} -- Basic operations
 
 	process_file (
-		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_directory: DIR_PATH
 		input_file_name, input_file_extension: STRING
 	)
 		deferred
 		end
 
 	process_file_and_notify_listener (
-		input_file_path: EL_FILE_PATH; output_directory: EL_DIR_PATH
+		input_file_path: FILE_PATH; output_directory: DIR_PATH
 		input_file_name, input_file_extension: STRING
 	)
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:49:12 GMT (Thursday 9th September 2021)"
-	revision: "4"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_SECURE_SHELL_COPY_COMMAND
@@ -25,17 +25,17 @@ create
 
 feature -- Access
 
-	destination_dir: EL_DIR_PATH
+	destination_dir: DIR_PATH
 
 feature -- Element change
 
-	set_destination_dir (a_destination_dir: EL_DIR_PATH)
+	set_destination_dir (a_destination_dir: DIR_PATH)
 		do
 			destination_dir := a_destination_dir
 			command_template.set_variable (var.destination_dir, escaped_remote (a_destination_dir))
 		end
 
-	set_source_path (source_path: EL_FILE_PATH)
+	set_source_path (source_path: FILE_PATH)
 		do
 			put_path (var.source_path, source_path)
 		end

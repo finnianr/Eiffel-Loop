@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_EURO_EXCHANGE_RATE_TABLE
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 
 	fill
 		local
-			web: EL_HTTP_CONNECTION; file_path: EL_FILE_PATH; xml, code_name: STRING
+			web: EL_HTTP_CONNECTION; file_path: FILE_PATH; xml, code_name: STRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT; xml_file: PLAIN_TEXT_FILE
 			cached: like cached_dates
 		do
@@ -89,14 +89,14 @@ feature {NONE} -- Implementation
 			clean_up_files
 		end
 
-	read_xml (file_path: EL_FILE_PATH): STRING
+	read_xml (file_path: FILE_PATH): STRING
 		do
 			lio.put_path_field ("Reading", file_path.relative_path (Directory.App_cache))
 			lio.put_new_line
 			Result := File_system.plain_text (file_path)
 		end
 
-	rates_file_path (a_date: DATE): EL_FILE_PATH
+	rates_file_path (a_date: DATE): FILE_PATH
 		do
 			Result := Rates_dir + a_date.formatted_out (Date_format)
 			Result.add_extension (XML_extension)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 16:56:28 GMT (Monday 9th September 2019)"
-	revision: "7"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_FTP_UPLOAD_ITEM
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path; a_destination_dir: EL_DIR_PATH)
+	make (a_source_path: like source_path; a_destination_dir: DIR_PATH)
 		do
 			source_path := a_source_path; destination_dir := a_destination_dir
 		end
@@ -53,13 +53,14 @@ feature -- Element change
 
 feature -- Access
 
-	destination_file_path: EL_FILE_PATH
+	destination_file_path: FILE_PATH
 		do
 			Result := destination_dir + source_path.base
 		end
 
-	destination_dir: EL_DIR_PATH
+	destination_dir: DIR_PATH
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 end
+

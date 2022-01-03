@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-18 13:49:04 GMT (Thursday 18th March 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 deferred class
 	MEDIA_ITEM
@@ -26,7 +26,7 @@ feature -- Access
 			create Result.make (id, checksum, exported_relative_path (is_windows_format))
 		end
 
-	exported_relative_path (is_windows_format: BOOLEAN): EL_FILE_PATH
+	exported_relative_path (is_windows_format: BOOLEAN): FILE_PATH
 		local
 			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 		do
@@ -43,7 +43,7 @@ feature -- Access
 
 	id: STRING
 
-	relative_path: EL_FILE_PATH
+	relative_path: FILE_PATH
 		deferred
 		end
 

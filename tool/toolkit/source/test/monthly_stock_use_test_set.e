@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 11:52:35 GMT (Wednesday 24th November 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	MONTHLY_STOCK_USE_TEST_SET
@@ -30,7 +30,7 @@ feature -- Tests
 			stock_use: STOCK_CONSUMPTION_CALCULATOR
 		do
 			if not file_list.is_empty then
-				create stock_use.make (file_list.first_path, create {EL_FILE_PATH})
+				create stock_use.make (file_list.first_path, create {FILE_PATH})
 				stock_use.execute
 				check_same_content (stock_use.output_path, "3115D5E490EC8851ECE8E63464296949")
 			end
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := "test-data"
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:37:56 GMT (Thursday 9th September 2021)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_GENERATE_PATCH_COMMAND
@@ -25,9 +25,9 @@ create
 
 feature -- Access
 
-	patch_path: EL_FILE_PATH
+	patch_path: FILE_PATH
 
-	to_path: EL_FILE_PATH
+	to_path: FILE_PATH
 
 	proportion: DOUBLE
 
@@ -48,18 +48,18 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_from_path (a_from_path: EL_FILE_PATH)
+	set_from_path (a_from_path: FILE_PATH)
 		do
 			put_path (var.from_path, a_from_path)
 		end
 
-	set_patch_path (a_patch_path: EL_FILE_PATH)
+	set_patch_path (a_patch_path: FILE_PATH)
 		do
 			patch_path := a_patch_path
 			put_path (var.patch_path, a_patch_path)
 		end
 
-	set_to_path (a_to_path: EL_FILE_PATH)
+	set_to_path (a_to_path: FILE_PATH)
 		do
 			to_path := a_to_path
 			put_path (var.to_path, a_to_path)

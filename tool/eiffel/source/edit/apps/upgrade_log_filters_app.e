@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:03 GMT (Tuesday 10th November 2020)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	UPGRADE_LOG_FILTERS_APP
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_editor (file_path_list: LIST [EL_FILE_PATH]): LOG_FILTER_ARRAY_SOURCE_EDITOR
+	new_editor (file_path_list: LIST [FILE_PATH]): LOG_FILTER_ARRAY_SOURCE_EDITOR
 		do
 			create Result.make
 		end

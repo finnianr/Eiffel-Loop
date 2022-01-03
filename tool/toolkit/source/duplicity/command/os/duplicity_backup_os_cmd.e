@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-27 11:08:37 GMT (Sunday 27th June 2021)"
-	revision: "3"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	DUPLICITY_BACKUP_OS_CMD
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (arguments: DUPLICITY_ARGUMENTS; target_dir: EL_DIR_PATH)
+	make (arguments: DUPLICITY_ARGUMENTS; target_dir: DIR_PATH)
 		do
 			make_command (Command_template)
 			put_object (arguments)

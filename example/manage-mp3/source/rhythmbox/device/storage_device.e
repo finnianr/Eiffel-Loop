@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:46:16 GMT (Monday 16th August 2021)"
-	revision: "22"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "23"
 
 class
 	STORAGE_DEVICE
@@ -124,7 +124,7 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_m3u_playlist (playlist: RBOX_PLAYLIST; output_path: EL_FILE_PATH): M3U_PLAYLIST
+	new_m3u_playlist (playlist: RBOX_PLAYLIST; output_path: FILE_PATH): M3U_PLAYLIST
 		do
 			create Result.make (playlist, is_windows_format, output_path)
 		end
@@ -143,8 +143,8 @@ feature {NONE} -- Volume file operations
 
 	 read_sync_table
 	 	local
-	 		backup_table_path: EL_FILE_PATH
-	 		local_sync_table_dir: EL_DIR_PATH
+	 		backup_table_path: FILE_PATH
+	 		local_sync_table_dir: DIR_PATH
 	 	do
 			lio.put_line ("Reading file sync info")
 			if local_sync_table_file_path.exists then
@@ -165,7 +165,7 @@ feature {NONE} -- Volume file operations
 			recover_from_error; retry
 	 	end
 
-	delete_file (file_path: EL_FILE_PATH)
+	delete_file (file_path: FILE_PATH)
 			-- delete file on volume
 	 	do
 			lio.put_path_field ("Deleting", file_path)
@@ -175,13 +175,13 @@ feature {NONE} -- Volume file operations
 			recover_from_error; retry
 		end
 
-	move_file_to_volume (file_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
+	move_file_to_volume (file_path: FILE_PATH; volume_dir: DIR_PATH)
 		do
 			copy_file_to_volume (file_path, volume_dir)
 			File_system.remove_file (file_path)
 		end
 
-	copy_file_to_volume (file_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
+	copy_file_to_volume (file_path: FILE_PATH; volume_dir: DIR_PATH)
 	 	do
 			volume.make_directory (volume_dir)
 			volume.copy_file_to (file_path, volume_dir)
@@ -218,7 +218,7 @@ feature {NONE} -- Implementation
 
 	export_item (media_item: MEDIA_ITEM)
 		local
-			temp_file_path, relative_file_path: EL_FILE_PATH
+			temp_file_path, relative_file_path: FILE_PATH
 			id3_info: TL_MPEG_FILE; m3u_playlist: like new_m3u_playlist
 		do
 			relative_file_path := media_item.exported_relative_path (is_windows_format)
@@ -314,7 +314,7 @@ feature {NONE} -- Implementation
 			Result := Checksum.file_content (sync_table.output_path)
 		end
 
-	local_sync_table_file_path: EL_FILE_PATH
+	local_sync_table_file_path: FILE_PATH
 		do
 			Result := Directory.app_cache.joined_file_tuple ([Device_data, task.volume.name, Sync_table_name])
 		end
@@ -329,7 +329,7 @@ feature {NONE} -- Internal attributes
 
 	sync_table: MEDIA_ITEM_DEVICE_SYNC_TABLE
 
-	temporary_dir: EL_DIR_PATH
+	temporary_dir: DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -338,7 +338,7 @@ feature {NONE} -- Constants
 			Result := "device-data"
 		end
 
-	Empty_dir: EL_DIR_PATH
+	Empty_dir: DIR_PATH
 		once
 			create Result
 		end

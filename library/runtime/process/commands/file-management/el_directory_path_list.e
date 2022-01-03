@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:51:29 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_PATH_LIST
 
 inherit
-	ARRAYED_LIST [EL_DIR_PATH]
+	ARRAYED_LIST [DIR_PATH]
 		rename
 			make as make_array,
 			first as first_path,
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			make_array (10)
 		end
 
-	make (a_dir_path: EL_DIR_PATH)
+	make (a_dir_path: DIR_PATH)
 			--
 		do
 			make_empty
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	append_dirs (a_dir_path: EL_DIR_PATH)
+	append_dirs (a_dir_path: DIR_PATH)
 		do
 			append (OS.directory_list (a_dir_path))
 		end

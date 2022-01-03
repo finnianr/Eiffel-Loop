@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 14:50:00 GMT (Thursday 4th March 2021)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	JOBSERVE_SEARCHER
@@ -51,7 +51,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_xml_path: EL_FILE_PATH; output_dir: EL_DIR_PATH; a_query_filter: ZSTRING)
+	make (a_xml_path: FILE_PATH; output_dir: DIR_PATH; a_query_filter: ZSTRING)
 		do
 			xml_path := a_xml_path; query_filter := a_query_filter
 
@@ -69,9 +69,9 @@ feature -- Access
 
 	query_filter: STRING
 
-	results_path: EL_FILE_PATH
+	results_path: FILE_PATH
 
-	xml_path: EL_FILE_PATH
+	xml_path: FILE_PATH
 
 feature -- Basic operations
 

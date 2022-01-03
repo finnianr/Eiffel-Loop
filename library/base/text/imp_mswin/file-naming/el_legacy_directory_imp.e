@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-19 13:30:28 GMT (Sunday 19th April 2020)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -32,23 +32,23 @@ inherit
 
 feature -- Access
 
-	App_data: EL_DIR_PATH
+	App_data: DIR_PATH
 		once
 			Result := User_local.joined_dir_path (Relative_app_data)
 		end
 
-	App_configuration: EL_DIR_PATH
+	App_configuration: DIR_PATH
 		once
 			Result := User_local.joined_dir_tuple (["config", Relative_app_data])
 		end
 
-	User_local: EL_DIR_PATH
+	User_local: DIR_PATH
 		-- Windows 7: C:\Users\xxxx\AppData\Local
 		once
 			Result := Home_directory_path -- Counter intuitive path from EXECUTION_ENVIRONMENT
 		end
 
-	Relative_app_data: EL_DIR_PATH
+	Relative_app_data: DIR_PATH
 			--
 		once
 			Result := Build_info.installation_sub_directory

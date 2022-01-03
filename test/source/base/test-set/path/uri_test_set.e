@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:28:30 GMT (Sunday 19th December 2021)"
-	revision: "11"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	URI_TEST_SET
@@ -48,7 +48,7 @@ feature -- Tests
 
 	test_uri_directory_join
 		local
-			joined_dir: EL_DIR_PATH; root: EL_DIR_URI_PATH
+			joined_dir: DIR_PATH; root: EL_DIR_URI_PATH
 			joined: ZSTRING
 		do
 			joined := URI_list [1]

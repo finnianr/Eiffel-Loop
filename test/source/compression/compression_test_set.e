@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 11:08:47 GMT (Friday 20th August 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	COMPRESSION_TEST_SET
@@ -35,7 +35,7 @@ feature -- Tests
 	test_archive_file
 		local
 			archive: EL_COMPRESSED_ARCHIVE_FILE
-			output_path: EL_FILE_PATH; file_list: LIST [EL_FILE_PATH]
+			output_path: FILE_PATH; file_list: LIST [FILE_PATH]
 			decompressed_list: EL_DECOMPRESSED_DATA_LIST
 			decompressed_data: MANAGED_POINTER
 		do
@@ -73,7 +73,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	test_zlib_with_file (a_file_path: EL_FILE_PATH)
+	test_zlib_with_file (a_file_path: FILE_PATH)
 			--
 		local
 			compressed_data, decompressed_data: SPECIAL [NATURAL_8]
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir #+ "XML"
 		end

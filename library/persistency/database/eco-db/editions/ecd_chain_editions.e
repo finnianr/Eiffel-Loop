@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-11 10:21:35 GMT (Sunday 11th October 2020)"
-	revision: "10"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	ECD_CHAIN_EDITIONS [G -> EL_STORABLE create make_default end]
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 	make (storable_chain: like editions.item_chain)
 			--
 		local
-			path: EL_FILE_PATH
+			path: FILE_PATH
 		do
 			path := editions_file_path
 			if is_encrypted and is_progress_tracking then
@@ -161,12 +161,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	editions_file_path: EL_FILE_PATH
+	editions_file_path: FILE_PATH
 		do
 			Result := file_path.with_new_extension ("editions.dat")
 		end
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		deferred
 		end
 

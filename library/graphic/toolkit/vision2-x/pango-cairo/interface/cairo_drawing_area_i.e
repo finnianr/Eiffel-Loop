@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-21 10:03:25 GMT (Friday 21st August 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	CAIRO_DRAWING_AREA_I
@@ -135,7 +135,7 @@ feature -- Element change
 		deferred
 		end
 
-	set_with_path (image_path: EL_FILE_PATH)
+	set_with_path (image_path: FILE_PATH)
 		require
 			image_exists: image_path.exists
 		do
@@ -144,7 +144,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	save_as (file_path: EL_FILE_PATH)
+	save_as (file_path: FILE_PATH)
 			-- Save as png file
 		deferred
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-01 12:09:13 GMT (Sunday 1st December 2019)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	SOURCE_TREE_EDITING_SUB_APPLICATION
@@ -52,7 +52,7 @@ feature -- Testing
 			end
 		end
 
-	test_source_tree (dir_path: EL_DIR_PATH)
+	test_source_tree (dir_path: DIR_PATH)
 		do
 			set_defaults
 			tree_path := dir_path
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_editor (file_path_list: LIST [EL_FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
+	new_editor (file_path_list: LIST [FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
 		deferred
 		end
 
@@ -90,6 +90,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	tree_path: EL_DIR_PATH
+	tree_path: DIR_PATH
 
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 17:36:20 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EDITING_COMMAND
@@ -43,6 +43,6 @@ feature {NONE} -- Internal attributes
 
 	editor: EL_EIFFEL_SOURCE_EDITOR
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 end

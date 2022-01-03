@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 17:55:18 GMT (Wednesday 19th August 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -79,7 +79,7 @@ feature -- Access
 		require
 			valid_state: Button_state.is_valid_value (state)
 		local
-			png_output_path: EL_FILE_PATH
+			png_output_path: FILE_PATH
 		do
 			png_output_path := svg_item (state).png_output_path
 			if png_output_path.exists then
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_svg_image (svg_path: EL_FILE_PATH; width_cms: REAL): EL_SVG_PIXMAP
+	new_svg_image (svg_path: FILE_PATH; width_cms: REAL): EL_SVG_PIXMAP
 		do
 			create Result.make_with_width_cms (svg_path, width_cms, background_color)
 		end

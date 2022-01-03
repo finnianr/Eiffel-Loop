@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-30 11:11:10 GMT (Friday 30th October 2020)"
-	revision: "8"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_DEBIAN_PACKAGER_APP
@@ -36,7 +36,7 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	control_exists (path: EL_DIR_PATH): BOOLEAN
+	control_exists (path: DIR_PATH): BOOLEAN
 		do
 			Result := (path + Control).exists
 		end
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_package_dir: EL_DIR_PATH
+	Default_package_dir: DIR_PATH
 		once
 			Result := "build/linux-x86-64/package"
 		end

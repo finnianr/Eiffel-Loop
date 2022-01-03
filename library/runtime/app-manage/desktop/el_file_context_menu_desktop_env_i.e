@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 18:17:51 GMT (Wednesday 11th September 2019)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I
@@ -72,14 +72,14 @@ feature -- Basic operations
 
 feature -- Access
 
-	launch_script_location: EL_DIR_PATH
+	launch_script_location: DIR_PATH
 			--
 		deferred
 		end
 
-	launch_script_path: EL_FILE_PATH
+	launch_script_path: FILE_PATH
 
-	menu_path: EL_FILE_PATH
+	menu_path: FILE_PATH
 
 	script_file: PLAIN_TEXT_FILE
 			--
@@ -110,3 +110,4 @@ feature {NONE} -- Evolicity implementation
 		end
 
 end
+

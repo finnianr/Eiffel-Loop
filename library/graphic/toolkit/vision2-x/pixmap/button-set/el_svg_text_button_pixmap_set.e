@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 17:52:50 GMT (Wednesday 19th August 2020)"
-	revision: "17"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 deferred class
 	EL_SVG_TEXT_BUTTON_PIXMAP_SET
@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 			Result := color_with_lightness (text_color, Lightness_proportion).twin
 		end
 
-	new_svg_image (svg_path: EL_FILE_PATH; height_cms: REAL): EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
+	new_svg_image (svg_path: FILE_PATH; height_cms: REAL): EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
 		do
 			create Result.make_with_height_cms (svg_path, height_cms, background_color)
 		end

@@ -1,14 +1,18 @@
 note
-	description: "Directory path name"
+	description: "Path to a directory"
 	notes: "[
+		**Alias Name**
+		
+			DIR_PATH
+
 		**Joining Paths**
 		
 		Note that the alias `#+' is used to join directories and using `+' results in a file path.
-		Implicit string conversions are employed to create a `EL_DIR_PATH' or `EL_FILE_PATH' argument.
+		Implicit string conversions are employed to create a `DIR_PATH' or `FILE_PATH' argument.
 			
 			local
-				dir_path: EL_DIR_PATH
-				file_path: EL_FILE_PATH
+				dir_path: DIR_PATH
+				file_path: FILE_PATH
 			do
 				dir_path := "/home/john"
 				dir_path := dir_path #+ "Desktop"
@@ -21,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-29 10:14:20 GMT (Sunday 29th August 2021)"
-	revision: "21"
+	date: "2022-01-03 17:43:59 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 class
 	EL_DIR_PATH
@@ -49,20 +53,20 @@ convert
 
 feature -- Access
 
-	relative_path (a_parent: EL_DIR_PATH): EL_DIR_PATH
+	relative_path (a_parent: DIR_PATH): DIR_PATH
 		do
 			create Result.make (relative_temporary_path (a_parent))
 		end
 
 feature -- Aliased joins
 
-	joined_dir_path alias "#+" (a_dir_path: EL_DIR_PATH): like Current
+	joined_dir_path alias "#+" (a_dir_path: DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)
 		end
 
-	joined_file_path alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
+	joined_file_path alias "+" (a_file_path: FILE_PATH): like Type_file_path
 		do
 			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
@@ -175,7 +179,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	Type_file_path: EL_FILE_PATH
+	Type_file_path: FILE_PATH
 		require
 			never_called: False
 		once

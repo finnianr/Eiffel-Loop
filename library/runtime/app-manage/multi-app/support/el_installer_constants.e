@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:35:06 GMT (Sunday 13th September 2020)"
-	revision: "9"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	EL_INSTALLER_CONSTANTS
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Package_dir: EL_DIR_PATH
+	Package_dir: DIR_PATH
 		once
 			if Executable.is_work_bench then
 				Result := "build/$ISE_PLATFORM/package"; Result.expand

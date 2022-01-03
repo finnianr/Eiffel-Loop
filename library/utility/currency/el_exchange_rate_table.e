@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-29 16:07:38 GMT (Sunday 29th November 2020)"
-	revision: "11"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -112,7 +112,7 @@ feature {NONE} -- Constants
 
 	Date_format: STRING = "yyyy-[0]mm-[0]dd"
 
-	Rates_dir: EL_DIR_PATH
+	Rates_dir: DIR_PATH
 		once
 			Result := Directory.App_cache.joined_dir_path ("ECB-euro-exchange-rates")
 		end

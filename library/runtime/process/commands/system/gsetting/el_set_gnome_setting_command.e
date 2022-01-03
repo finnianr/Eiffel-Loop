@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-02 14:40:38 GMT (Thursday 2nd December 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_SET_GNOME_SETTING_COMMAND
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_file_path (key_name: STRING; file_path: EL_FILE_PATH)
+	set_file_path (key_name: STRING; file_path: FILE_PATH)
 		do
 			put_string (Var.key, key_name)
 			put_string (Var.value, file_path.to_uri)

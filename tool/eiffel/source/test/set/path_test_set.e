@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-28 10:05:12 GMT (Wednesday 28th October 2020)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	PATH_TEST_SET
@@ -31,7 +31,7 @@ feature -- Tests
 
 	test_expansion
 		local
-			setup_path, setup_path_2: EL_FILE_PATH; string_path: ZSTRING
+			setup_path, setup_path_2: FILE_PATH; string_path: ZSTRING
 		do
 			setup_path := ("$EIFFEL/" + Relative_setup_path)
 			lio.put_labeled_string ("setup_path.is_expandable", setup_path.is_expandable.out)

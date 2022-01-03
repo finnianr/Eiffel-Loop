@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_ENCRYPTABLE_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> {EL_ENCRYPTABLE, EL_STORABLE_XML_ELEMENT} create make_default end]
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_target_list: like target_list; a_file_path: EL_FILE_PATH; a_encrypter: like main_encrypter)
+	make (a_target_list: like target_list; a_file_path: FILE_PATH; a_encrypter: like main_encrypter)
 			--
 		do
 			main_encrypter := a_encrypter

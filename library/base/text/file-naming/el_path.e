@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 11:19:40 GMT (Monday 20th December 2021)"
-	revision: "53"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "54"
 
 deferred class
 	EL_PATH
@@ -176,7 +176,7 @@ feature -- Access
 			end
 		end
 
-	relative_path (a_parent: EL_DIR_PATH): EL_PATH
+	relative_path (a_parent: DIR_PATH): EL_PATH
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
 		deferred
@@ -188,11 +188,11 @@ feature -- Access
 			Result.translate (originals, substitutions)
 		end
 
-	universal_relative_path (dir_path: EL_DIR_PATH): like Current
+	universal_relative_path (dir_path: DIR_PATH): like Current
 		-- path steps of `Current' relative to directory `dir_path' using parent notation `..'
 		-- if `dir_path' is not a parent of `Current'
 		local
-			back_step_count: INTEGER; common_path: EL_DIR_PATH
+			back_step_count: INTEGER; common_path: DIR_PATH
 		do
 			if dir_path.is_empty then
 				Result := Current
@@ -419,12 +419,12 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	append_dir_path (a_dir_path: EL_DIR_PATH)
+	append_dir_path (a_dir_path: DIR_PATH)
 		do
 			append (a_dir_path)
 		end
 
-	append_file_path (a_file_path: EL_FILE_PATH)
+	append_file_path (a_file_path: FILE_PATH)
 		require
 			current_not_a_file: not is_file
 		do
@@ -515,7 +515,7 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	set_parent (dir_path: EL_DIR_PATH)
+	set_parent (dir_path: DIR_PATH)
 		do
 			set_parent_path (dir_path.temporary_path)
 		end
@@ -648,7 +648,7 @@ feature {EL_PATH} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	Type_parent: EL_DIR_PATH
+	Type_parent: DIR_PATH
 		require
 			never_called: False
 		once

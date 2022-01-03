@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:28:07 GMT (Wednesday 1st September 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -31,7 +31,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_path: EL_FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
+	make (config_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
 		do
 			make_shell ("GITHUB MENU", 10)
 			environ_variable.apply
@@ -129,7 +129,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Credentials_path: EL_FILE_PATH
+	Credentials_path: FILE_PATH
 		once
 			Result := Directory.home + ".git-credentials"
 		end

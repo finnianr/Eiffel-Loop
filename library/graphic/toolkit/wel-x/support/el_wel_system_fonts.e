@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 19:31:44 GMT (Monday 20th December 2021)"
-	revision: "9"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_WEL_SYSTEM_FONTS
@@ -40,7 +40,7 @@ create
 
 feature -- Element change
 
-	install (source_dir: EL_DIR_PATH; font_type: STRING)
+	install (source_dir: DIR_PATH; font_type: STRING)
 			-- install true type fonts
 		require
 			valid_font_type: Valid_font_types.has (font_type)
@@ -95,17 +95,17 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	System_fonts_dir: EL_DIR_PATH
+	System_fonts_dir: DIR_PATH
 		once
 			Result := Execution.variable_dir_path ("SystemRoot").joined_dir_path ("Fonts")
 		end
 
-	HKLM_fonts: EL_DIR_PATH
+	HKLM_fonts: DIR_PATH
 		once
 			Result := Reg_key.Windows_nt.current_version ("Fonts")
 		end
 
-	HKLM_font_substitutes: EL_DIR_PATH
+	HKLM_font_substitutes: DIR_PATH
 		once
 			Result := Reg_key.Windows_nt.current_version ("FontSubstitutes")
 		end

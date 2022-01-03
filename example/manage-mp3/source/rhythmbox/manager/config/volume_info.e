@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 17:03:02 GMT (Tuesday 19th May 2020)"
-	revision: "5"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	VOLUME_INFO
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	destination_dir: EL_DIR_PATH
+	destination_dir: DIR_PATH
 
 	id3_version: REAL
 
@@ -62,7 +62,7 @@ feature -- Conversion
 
 feature -- Element change
 
-	set_destination_dir (a_destination_dir: EL_DIR_PATH)
+	set_destination_dir (a_destination_dir: DIR_PATH)
 		do
 			destination_dir := a_destination_dir
 		end

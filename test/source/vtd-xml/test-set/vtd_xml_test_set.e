@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 13:42:10 GMT (Friday 14th February 2020)"
-	revision: "16"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	VTD_XML_TEST_SET
@@ -120,7 +120,7 @@ feature -- Tests
 
 	test_query_processing_instruction
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			file_path := "vtd-xml/request-matrix-average.xml"
 			do_test ("query_processing_instruction", 1660076206, agent query_processing_instruction, [file_path])
@@ -274,7 +274,7 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	query_processing_instruction (file_path: EL_FILE_PATH)
+	query_processing_instruction (file_path: FILE_PATH)
 			--
 		do
 			create root_node.make_from_file (file_path)

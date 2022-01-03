@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:15:26 GMT (Friday 26th November 2021)"
-	revision: "5"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	PATH_STEPS_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Config_dir: EL_DIR_PATH
+	Config_dir: DIR_PATH
 		once
 			Result := "/home/finnian/.config"
 		end

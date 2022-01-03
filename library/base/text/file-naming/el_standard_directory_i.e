@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-16 8:49:05 GMT (Thursday 16th September 2021)"
-	revision: "21"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -46,14 +46,14 @@ inherit
 
 feature -- Factory
 
-	new (a_path: READABLE_STRING_GENERAL): EL_DIR_PATH
+	new (a_path: READABLE_STRING_GENERAL): DIR_PATH
 		do
 			create Result.make (a_path)
 		end
 
 feature -- Access
 
-	App_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	App_list: EL_ARRAYED_LIST [DIR_PATH]
 		once
 			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
 		end
@@ -83,36 +83,36 @@ feature -- Access
 
 feature -- System
 
-	applications: EL_DIR_PATH
+	applications: DIR_PATH
 			-- In Windows this is "Program Files"
 		deferred
 		end
 
-	Users: EL_DIR_PATH
+	Users: DIR_PATH
 		-- On Unix: /home
 		-- On windows 7: C:\Users
 		once
 			Result := Home.parent
 		end
 
-	system_command: EL_DIR_PATH
+	system_command: DIR_PATH
 			--
 		deferred
 		end
 
-	temporary: EL_DIR_PATH
+	temporary: DIR_PATH
 		do
 			Result := Environment.Operating.Temp_directory_path
 		end
 
-	working, current_working: EL_DIR_PATH
+	working, current_working: DIR_PATH
 		do
 			create Result.make_from_path (current_working_path)
 		end
 
 feature -- User
 
-	Cache: EL_DIR_PATH
+	Cache: DIR_PATH
 		-- non-essential application data files
 
 		-- On Unix: $HOME/.cache
@@ -121,7 +121,7 @@ feature -- User
 			Result := home #+ ".cache"
 		end
 
-	Configuration: EL_DIR_PATH
+	Configuration: DIR_PATH
 		-- application configuration data
 
 		-- On Unix: /home/$USER/.config
@@ -130,19 +130,19 @@ feature -- User
 			Result := home #+ ".config"
 		end
 
-	desktop: EL_DIR_PATH
+	desktop: DIR_PATH
 		deferred
 		end
 
-	desktop_common: EL_DIR_PATH
+	desktop_common: DIR_PATH
 		deferred
 		end
 
-	documents: EL_DIR_PATH
+	documents: DIR_PATH
 		deferred
 		end
 
-	home: EL_DIR_PATH
+	home: DIR_PATH
 		-- user home directory
 
 		-- On Unix: /home/$USER
@@ -150,7 +150,7 @@ feature -- User
 		deferred
 		end
 
-	user_local: EL_DIR_PATH
+	user_local: DIR_PATH
 		-- On Unix: $HOME/.local/share
 		-- On Windows 7: $LOCALAPPDATA (Usually C:\Users\$USERNAME\AppData\Local)
 		deferred
@@ -158,37 +158,37 @@ feature -- User
 
 feature -- Application
 
-	App_cache: EL_DIR_PATH
+	App_cache: DIR_PATH
 		once
 			Result := cache #+ App_install_sub
 		end
 
-	App_configuration: EL_DIR_PATH
+	App_configuration: DIR_PATH
 		once
 			Result := configuration #+ App_install_sub
 		end
 
-	App_data: EL_DIR_PATH
+	App_data: DIR_PATH
 		once
 			Result := user_local #+ App_install_sub
 		end
 
 feature -- Installed locations
 
-	Application_bin: EL_DIR_PATH
+	Application_bin: DIR_PATH
 			-- Installed application executable directory
 		once
 			Result := application_installation #+ "bin"
 		end
 
-	Application_installation: EL_DIR_PATH
+	Application_installation: DIR_PATH
 		once
 			Result := applications #+ Build_info.installation_sub_directory
 		end
 
 feature -- Constants
 
-	App_install_sub: EL_DIR_PATH
+	App_install_sub: DIR_PATH
 		-- install sub-directory based on build information from ECF
 		-- <company-name>/<app-name>
 		once
@@ -200,7 +200,7 @@ feature -- Constants
 			Result := "/.."
 		end
 
-	Legacy_table: EL_HASH_TABLE [EL_DIR_PATH, EL_DIR_PATH]
+	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
 		once
 			create Result.make (<<
 				[App_configuration, Legacy.app_configuration],

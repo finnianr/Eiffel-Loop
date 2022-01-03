@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-24 16:03:32 GMT (Friday 24th September 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 deferred class
 	EL_SHARED_NEW_INSTANCE_TABLE
@@ -55,9 +55,9 @@ feature {NONE} -- Constants
 				agent: EL_BOOLEAN_OPTION do create Result end,
 
 				-- Path types
-				agent: EL_PATH do create {EL_DIR_PATH} Result end,
-				agent: EL_DIR_PATH do create Result end,
-				agent: EL_FILE_PATH do create Result end,
+				agent: EL_PATH do create {DIR_PATH} Result end,
+				agent: DIR_PATH do create Result end,
+				agent: FILE_PATH do create Result end,
 				agent: EL_DIR_URI_PATH do create Result end,
 				agent: EL_FILE_URI_PATH do create Result end,
 

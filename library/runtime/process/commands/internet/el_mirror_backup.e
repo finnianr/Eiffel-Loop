@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 15:15:08 GMT (Wednesday 13th October 2021)"
-	revision: "2"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	EL_MIRROR_BACKUP
@@ -38,7 +38,7 @@ create
 
 feature -- Access
 
-	backup_dir: EL_DIR_PATH
+	backup_dir: DIR_PATH
 
 	host_name: STRING
 
@@ -88,7 +88,7 @@ feature -- Basic operations
 			end
 		end
 
-	transfer (backup_target_dir: EL_DIR_PATH)
+	transfer (backup_target_dir: DIR_PATH)
 		do
 			if protocol ~ Protocols.ftp and then attached Ftp_command as cmd then
 				cmd.put_string (Var_ftp.host, host_name)

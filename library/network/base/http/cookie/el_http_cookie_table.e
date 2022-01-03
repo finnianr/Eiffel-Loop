@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-24 7:58:19 GMT (Friday 24th December 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			make (1)
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			make_machine
 			if attached File_system.plain_text_lines (a_file_path) as lines then

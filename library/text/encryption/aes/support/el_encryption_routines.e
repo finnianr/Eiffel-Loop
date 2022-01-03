@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-11 16:14:21 GMT (Friday 11th June 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -33,12 +33,12 @@ feature -- Conversion
 			Result := encrypter.decrypted_base_64 (cipher)
 		end
 
-	plain_pyxis (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
+	plain_pyxis (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
 		do
 			Result := plain_text_from_line (a_file_path, a_encrypter, 3)
 		end
 
-	plain_text (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
+	plain_text (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER): STRING
 		do
 			Result := plain_text_from_line (a_file_path, a_encrypter, 0)
 		end
@@ -54,7 +54,7 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	plain_text_from_line (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER; a_line_start: INTEGER): STRING
+	plain_text_from_line (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER; a_line_start: INTEGER): STRING
 		local
 			file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do

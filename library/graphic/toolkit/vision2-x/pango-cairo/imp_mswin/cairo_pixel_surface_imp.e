@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 17:39:05 GMT (Tuesday 17th August 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	CAIRO_PIXEL_SURFACE_IMP
@@ -95,7 +95,7 @@ feature -- Basic operations
 			bitmap.destroy_item
 		end
 
-	save_as_jpeg (file_path: EL_FILE_PATH; quality: NATURAL)
+	save_as_jpeg (file_path: FILE_PATH; quality: NATURAL)
 		local
 			list: WEL_GDIP_IMAGE_ENCODER_PARAMETERS
 			quality_parameter: WEL_GDIP_IMAGE_ENCODER_PARAMETER

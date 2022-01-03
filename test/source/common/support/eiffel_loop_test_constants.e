@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 12:53:10 GMT (Monday 18th January 2021)"
-	revision: "14"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 deferred class
 	EIFFEL_LOOP_TEST_CONSTANTS
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_eiffel_loop_dir: EL_DIR_PATH
+	new_eiffel_loop_dir: DIR_PATH
 		local
 			steps: EL_PATH_STEPS
 		do
@@ -40,7 +40,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	EL_test_data_dir: EL_DIR_PATH
+	EL_test_data_dir: DIR_PATH
 			--
 		once
 			Result := Eiffel_loop_dir.joined_dir_tuple (["test/data"])
@@ -51,7 +51,7 @@ feature {NONE} -- Constants
 			Result := "Eiffel-Loop"
 		end
 
-	Eiffel_loop_dir: EL_DIR_PATH
+	Eiffel_loop_dir: DIR_PATH
 		once
 			if attached Execution.item (Var_EIFFEL_LOOP) as path then
 				Result := path

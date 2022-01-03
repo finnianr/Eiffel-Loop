@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-08 18:24:34 GMT (Monday 8th February 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_SVG_IMAGE_UTILS
@@ -23,7 +23,7 @@ inherit
 
 feature -- Basic operations
 
-	write_png_of_height (svg_path, png_path: EL_FILE_PATH; height, background_color: INTEGER)
+	write_png_of_height (svg_path, png_path: FILE_PATH; height, background_color: INTEGER)
 		require
 			svg_path_not_empty: not svg_path.is_empty
 			png_path_not_empty: not png_path.is_empty
@@ -33,7 +33,7 @@ feature -- Basic operations
 			write_png (svg_path, png_path, Undefined_dimension, height, background_color)
 		end
 
-	write_png_of_width (svg_path, png_path: EL_FILE_PATH; width, background_color: INTEGER)
+	write_png_of_width (svg_path, png_path: FILE_PATH; width, background_color: INTEGER)
 		require
 			svg_path_not_empty: not svg_path.is_empty
 			png_path_not_empty: not png_path.is_empty
@@ -51,7 +51,7 @@ feature -- Status query
 
 feature -- Contract Support
 
-	is_ansi_encoded (file_path: EL_FILE_PATH): BOOLEAN
+	is_ansi_encoded (file_path: FILE_PATH): BOOLEAN
 			-- The windows implementation of cairo cannot handle UTF-8 paths
 		do
 			Result := file_path.to_string.is_ascii
@@ -59,7 +59,7 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	write_png (svg_path, png_path: EL_FILE_PATH; width, height, background_color: INTEGER)
+	write_png (svg_path, png_path: FILE_PATH; width, height, background_color: INTEGER)
 		require
 			is_width_conversion: width > 0 implies height = Undefined_dimension
 			is_height_conversion: height > 0 implies width = Undefined_dimension

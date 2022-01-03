@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:36:48 GMT (Thursday 9th September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -61,7 +61,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_input: EL_INPUT_PATH [EL_FILE_PATH])
+	make (a_input: EL_INPUT_PATH [FILE_PATH])
 		do
 			a_input.check_path ("Drag and drop a Pyxis transform script")
 			make_from_file (a_input.path)

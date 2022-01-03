@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:15 GMT (Thursday 20th September 2018)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EVOLICITY_TEMPLATE_STACK_TABLE
 
 inherit
-	HASH_TABLE [ARRAYED_STACK [EVOLICITY_COMPILED_TEMPLATE], EL_FILE_PATH]
+	HASH_TABLE [ARRAYED_STACK [EVOLICITY_COMPILED_TEMPLATE], FILE_PATH]
 		rename
 			item as stack,
 			found_item as found_stack

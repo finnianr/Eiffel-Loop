@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:09:34 GMT (Tuesday 4th August 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	CAIRO_DRAWING_CONTEXT_I
@@ -84,7 +84,7 @@ feature -- Property change
 
 feature -- Basic operations
 
-	save_as (file_path: EL_FILE_PATH)
+	save_as (file_path: FILE_PATH)
 			-- Save as png file
 		do
 			surface.save_as (file_path)

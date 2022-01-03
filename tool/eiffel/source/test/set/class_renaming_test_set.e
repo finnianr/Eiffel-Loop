@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 18:33:18 GMT (Sunday 2nd January 2022)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -69,7 +69,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := "test-data/utf8-sources"
 		end

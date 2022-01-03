@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-27 12:36:09 GMT (Friday 27th December 2019)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR
@@ -63,12 +63,12 @@ feature -- Access
 
 	item: STRING_32
 
-	item_dir_path: EL_DIR_PATH
+	item_dir_path: DIR_PATH
 		do
 			Result := item_path (False)
 		end
 
-	item_file_path: EL_FILE_PATH
+	item_file_path: FILE_PATH
 		do
 			Result := item_path (False)
 		end
@@ -190,3 +190,4 @@ feature {NONE} -- C Externals
 		end
 
 end
+

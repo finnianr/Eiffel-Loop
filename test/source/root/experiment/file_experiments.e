@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 11:58:30 GMT (Sunday 22nd August 2021)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	FILE_EXPERIMENTS
@@ -59,7 +59,7 @@ feature -- Basic operations
 
 	launch_remove_files_script
 		local
-			script: EL_FILE_PATH; file: PLAIN_TEXT_FILE
+			script: FILE_PATH; file: PLAIN_TEXT_FILE
 		do
 --			script := "/tmp/eros removal.sh"
 			script := Directory.temporary + "eros remove files.bat"
@@ -70,7 +70,7 @@ feature -- Basic operations
 
 	make_directory_path
 		local
-			dir: EL_DIR_PATH; temp: EL_FILE_PATH
+			dir: DIR_PATH; temp: FILE_PATH
 		do
 			dir := "E:/"
 			temp := dir + "temp"
@@ -96,7 +96,7 @@ feature -- Basic operations
 
 	print_os_user_list
 		local
-			dir_path: EL_DIR_PATH; user_info: like command.new_user_info
+			dir_path: DIR_PATH; user_info: like command.new_user_info
 		do
 			user_info := command.new_user_info
 			across << user_info.configuration_dir_list, user_info.data_dir_list >> as dir_list loop

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-07 11:17:32 GMT (Wednesday 7th November 2018)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_SERIALIZEABLE_BOOK_INDEXING
@@ -59,7 +59,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_path: TUPLE [cover, ncx, book_toc: EL_FILE_PATH]
+	Default_path: TUPLE [cover, ncx, book_toc: FILE_PATH]
 		once
 			create Result
 			Tuple.fill (Result, "image/cover.png, book-navigation.ncx, book-toc.html")

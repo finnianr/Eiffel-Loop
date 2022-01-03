@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-28 9:31:26 GMT (Sunday 28th June 2020)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	FILTER_INVALID_UTF_8
@@ -64,8 +64,8 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 end

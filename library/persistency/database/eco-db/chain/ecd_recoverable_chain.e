@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:49:15 GMT (Wednesday 24th November 2021)"
-	revision: "23"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "24"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -55,14 +55,14 @@ feature {NONE} -- Initialization
 			make_from_file (new_file_path)
 		end
 
-	make_from_encrypted_file (a_file_path: EL_FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
+	make_from_encrypted_file (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
 			--
 		do
 			encrypter := a_encrypter
 			make_from_file (a_file_path)
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			Precursor (a_file_path)
 			make_editions (Current)
@@ -173,7 +173,7 @@ feature -- Removal
 
 feature {NONE} -- Implementation
 
-	new_file_path: EL_FILE_PATH
+	new_file_path: FILE_PATH
 		local
 			file_name: STRING; l_name: like name
 		do

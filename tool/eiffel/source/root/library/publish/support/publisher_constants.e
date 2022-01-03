@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 11:10:22 GMT (Sunday 21st March 2021)"
-	revision: "5"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -42,7 +42,7 @@ feature {NONE} -- Constants
 			Result := "description"
 		end
 
-	Relative_root: EL_DIR_PATH
+	Relative_root: DIR_PATH
 		once
 			create Result
 		end

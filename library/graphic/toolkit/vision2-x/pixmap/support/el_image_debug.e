@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-18 19:17:34 GMT (Tuesday 18th August 2020)"
-	revision: "2"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 deferred class
 	EL_IMAGE_DEBUG
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	save_as (a_file_path: EL_FILE_PATH)
+	save_as (a_file_path: FILE_PATH)
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-25 15:25:56 GMT (Wednesday 25th September 2019)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [
@@ -34,10 +34,10 @@ feature -- Test
 			Test.do_file_tree_test (".thunderbird", agent test_html_body_export (lines.joined_lines, ?), checksum)
 		end
 
-	test_html_body_export (config_text: ZSTRING; a_dir_path: EL_DIR_PATH)
+	test_html_body_export (config_text: ZSTRING; a_dir_path: DIR_PATH)
 			--
 		local
-			config_path: EL_FILE_PATH; pyxis_out: PLAIN_TEXT_FILE
+			config_path: FILE_PATH; pyxis_out: PLAIN_TEXT_FILE
 		do
 			config_path := a_dir_path + "config.pyx"
 			create pyxis_out.make_open_write (config_path)
@@ -84,3 +84,4 @@ feature {NONE} -- Test Constants
 		end
 
 end
+

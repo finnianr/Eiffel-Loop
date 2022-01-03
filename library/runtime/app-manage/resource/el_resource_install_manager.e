@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:09:35 GMT (Saturday 20th March 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -63,7 +63,7 @@ feature -- Basic operations
 
 	download
 		local
-			web: like new_connection; file_path: EL_FILE_PATH
+			web: like new_connection; file_path: FILE_PATH
 			done: BOOLEAN; i: INTEGER
 		do
 			File_system.make_directory (target_dir)
@@ -153,7 +153,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	download_succeeded (file_path: EL_FILE_PATH): BOOLEAN
+	download_succeeded (file_path: FILE_PATH): BOOLEAN
 		do
 			Result := file_path.exists and then File_system.file_byte_count (file_path) > 0
 		end
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 			Result := modification_time (target_dir, item)
 		end
 
-	installed_dir: EL_DIR_PATH
+	installed_dir: DIR_PATH
 		-- directory for installed items
 		do
 			Result := resource_set.installed_dir
@@ -194,9 +194,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	modification_time (dir_path: EL_DIR_PATH; item: EL_FILE_MANIFEST_ITEM): INTEGER
+	modification_time (dir_path: DIR_PATH; item: EL_FILE_MANIFEST_ITEM): INTEGER
 		local
-			path: EL_FILE_PATH
+			path: FILE_PATH
 		do
 			path := dir_path + item.name
 			if path.exists then
@@ -218,13 +218,13 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	target_dir: EL_DIR_PATH
+	target_dir: DIR_PATH
 		-- target directory to download items
 		do
 			Result := installed_dir
 		end
 
-	updated_dir: EL_DIR_PATH
+	updated_dir: DIR_PATH
 		-- directory for updated items
 		do
 			Result := resource_set.updated_dir

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-08 14:54:47 GMT (Tuesday 8th September 2020)"
-	revision: "1"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_CHECK_AREA
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (checked_image_path: EL_FILE_PATH; a_width: INTEGER)
+	make (checked_image_path: FILE_PATH; a_width: INTEGER)
 		require
 			image_exists: checked_image_path.exists
 			unchecked_image_exists: unchecked_image_path (checked_image_path).exists
@@ -79,14 +79,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_image (checked_image_path: EL_FILE_PATH): like Cache_table.item
+	new_image (checked_image_path: FILE_PATH): like Cache_table.item
 		do
 			create Result
 			Result.checked := checked_image_path
 			Result.unchecked := unchecked_image_path (checked_image_path)
 		end
 
-	unchecked_image_path (path: EL_FILE_PATH): EL_FILE_PATH
+	unchecked_image_path (path: FILE_PATH): FILE_PATH
 		do
 			Result := path.parent + (Un_prefix + path.base)
 		end
@@ -99,7 +99,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Cache_table: EL_CACHE_TABLE [TUPLE [checked, unchecked: CAIRO_DRAWING_AREA], EL_FILE_PATH]
+	Cache_table: EL_CACHE_TABLE [TUPLE [checked, unchecked: CAIRO_DRAWING_AREA], FILE_PATH]
 		once
 			create Result.make_equal (5, agent new_image)
 		end

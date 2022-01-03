@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:46:23 GMT (Wednesday 14th July 2021)"
-	revision: "12"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_ELEMENT_ATTRIBUTE_LIST
@@ -47,7 +47,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_document_dir: EL_DIR_PATH)
+	make (a_document_dir: DIR_PATH)
 			--
 		do
 			document_dir := a_document_dir
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 
 	node_cache: ARRAYED_LIST [like node]
 
-	document_dir: EL_DIR_PATH
+	document_dir: DIR_PATH
 
 feature -- Constants
 

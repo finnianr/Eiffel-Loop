@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-25 11:20:50 GMT (Saturday 25th December 2021)"
-	revision: "22"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "23"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -85,7 +85,7 @@ feature -- Tests
 
 	test_dir_tree_delete
 		local
-			help_dir: EL_DIR_PATH
+			help_dir: DIR_PATH
 		do
 			help_dir := work_area_path (help_pages_dir)
 			OS.delete_tree (help_dir)
@@ -130,7 +130,7 @@ feature -- Tests
 
 	test_read_directories
 		local
-			l_dir: EL_DIRECTORY;  dir_path: EL_DIR_PATH
+			l_dir: EL_DIRECTORY;  dir_path: DIR_PATH
 		do
 			dir_path := work_area_path (Help_pages_windows_dir)
 			create l_dir.make (dir_path)
@@ -154,7 +154,7 @@ feature -- Tests
 
 	test_read_directory_files
 		local
-			l_dir: EL_DIRECTORY; dir_path: EL_DIR_PATH
+			l_dir: EL_DIRECTORY; dir_path: DIR_PATH
 		do
 			dir_path := work_area_path (Help_pages_windows_dir)
 
@@ -203,12 +203,12 @@ feature {NONE} -- Events
 
 feature {NONE} -- Filters
 
-	directory_path_contains (path: EL_DIR_PATH; str: ZSTRING): BOOLEAN
+	directory_path_contains (path: DIR_PATH; str: ZSTRING): BOOLEAN
 		do
 			Result := path.to_string.has_substring (str)
 		end
 
-	directory_within_depth (dir_path, path: EL_DIR_PATH; interval: INTEGER_INTERVAL): BOOLEAN
+	directory_within_depth (dir_path, path: DIR_PATH; interval: INTEGER_INTERVAL): BOOLEAN
 		do
 			if dir_path ~ path then
 				Result := interval.has (0)
@@ -217,12 +217,12 @@ feature {NONE} -- Filters
 			end
 		end
 
-	file_within_depth (dir_path: EL_DIR_PATH; path: EL_FILE_PATH; interval: INTEGER_INTERVAL): BOOLEAN
+	file_within_depth (dir_path: DIR_PATH; path: FILE_PATH; interval: INTEGER_INTERVAL): BOOLEAN
 		do
 			Result := interval.has (path.relative_path (dir_path).steps.count)
 		end
 
-	path_contains (path: EL_FILE_PATH; str: ZSTRING): BOOLEAN
+	path_contains (path: FILE_PATH; str: ZSTRING): BOOLEAN
 		do
 			Result := path.to_string.has_substring (str)
 		end
@@ -234,7 +234,7 @@ feature {NONE} -- Filters
 
 feature {NONE} -- Implementation
 
-	all_files_cmd (dir_path: EL_DIR_PATH): like OS.find_files_command
+	all_files_cmd (dir_path: DIR_PATH): like OS.find_files_command
 		do
 			Result := OS.find_files_command (dir_path, "*")
 		end
@@ -262,8 +262,8 @@ feature {NONE} -- Implementation
 		local
 			mount_table: EL_GVFS_MOUNT_TABLE; volume: EL_GVFS_VOLUME
 			found_volume: BOOLEAN; a_file_set: like new_file_set; file_path_string, volume_name: ZSTRING
-			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: EL_DIR_PATH
-			relative_file_path: EL_FILE_PATH
+			volume_root_path, volume_workarea_dir, volume_workarea_copy_dir, volume_destination_dir: DIR_PATH
+			relative_file_path: FILE_PATH
 		do
 			a_file_set := new_file_set (True); a_file_set.start
 			create mount_table.make
@@ -341,11 +341,11 @@ feature {NONE} -- Implementation
 			assert ("same set count", find_cmd.path_list.count = a_path_set.count)
 		end
 
-	file_move_and_copy (a_file_set: like new_file_set; dir_path: EL_DIR_PATH)
+	file_move_and_copy (a_file_set: like new_file_set; dir_path: DIR_PATH)
 		local
 			copy_file_cmd: like Command.new_copy_file
-			mint_copy_dir: EL_DIR_PATH; steps: TUPLE
-			mint_copy_path: EL_FILE_PATH
+			mint_copy_dir: DIR_PATH; steps: TUPLE
+			mint_copy_path: FILE_PATH
 		do
 			a_file_set.put (dir_path + Wireless_notes_path_copy)
 			mint_copy_dir := Help_pages_mint_dir #+ "copy"
@@ -372,7 +372,7 @@ feature {NONE} -- Implementation
 			execute_and_assert (all_files_cmd (dir_path), a_file_set)
 		end
 
-	find_directories (a_dir_set: like dir_set; root_dir: EL_DIR_PATH)
+	find_directories (a_dir_set: like dir_set; root_dir: DIR_PATH)
 		local
 			lower, upper: INTEGER; has_substring: EL_PREDICATE_FIND_CONDITION
 		do
@@ -401,7 +401,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	find_files (a_file_set: like new_file_set; root_dir: EL_DIR_PATH)
+	find_files (a_file_set: like new_file_set; root_dir: DIR_PATH)
 		local
 			lower, upper: INTEGER
 		do
@@ -434,7 +434,7 @@ feature {NONE} -- Constants
 			Result := "file"
 		end
 
-	Wireless_notes_path_copy: EL_FILE_PATH
+	Wireless_notes_path_copy: FILE_PATH
 		once
 			Result := Help_pages_wireless_notes_path.without_extension
 			Result.base.append_string_general (" (copy)")

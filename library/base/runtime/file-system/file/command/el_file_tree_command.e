@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:07:24 GMT (Saturday 20th March 2021)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_FILE_TREE_COMMAND
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	do_with_file (file_path: EL_FILE_PATH)
+	do_with_file (file_path: FILE_PATH)
 		deferred
 		end
 
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_file_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+	new_file_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		do
 			create Result.make (0)
 			across extension_list as extension loop
@@ -66,7 +66,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	tree_dir: EL_DIR_PATH
+	tree_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

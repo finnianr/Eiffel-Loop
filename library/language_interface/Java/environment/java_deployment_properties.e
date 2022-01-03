@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:42:00 GMT (Thursday 23rd December 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			>>)
 		end
 
-	make (file_path: EL_FILE_PATH)
+	make (file_path: FILE_PATH)
 			--
 		do
 			make_default

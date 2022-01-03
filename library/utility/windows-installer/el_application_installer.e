@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-22 13:07:08 GMT (Monday 22nd May 2017)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	EL_APPLICATION_INSTALLER
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	program_menu_path: EL_DIR_PATH
+	program_menu_path: DIR_PATH
 
 feature -- Element change
 
@@ -62,7 +62,7 @@ feature -- Element change
 
 feature -- Access
 
-	application_home: EL_DIR_PATH
+	application_home: DIR_PATH
 
 feature -- Basic operations
 
@@ -71,8 +71,8 @@ feature -- Basic operations
 		require
 			application_home_is_set: application_home /= Void
 		local
-			program_file_link_path: EL_FILE_PATH
-			target_path: EL_FILE_PATH
+			program_file_link_path: FILE_PATH
+			target_path: FILE_PATH
 		do
 			log.enter ("install")
 			File_system.make_directory (application_home)
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 			--
 		local
 			l_command: EL_OS_COMMAND
-			source_path, destination_path: EL_DIR_PATH
+			source_path, destination_path: DIR_PATH
 			source_drive, destination_drive: CHARACTER_32
 		do
 			log.enter_with_args ("place_files_in_destination", << directory >>)
@@ -136,10 +136,10 @@ feature {NONE} -- Implementation
 
 	source: STRING
 
-	File_link_path: EL_FILE_PATH
+	File_link_path: FILE_PATH
 			-- relative to installation root
 		local
-			l_dir: EL_DIR_PATH
+			l_dir: DIR_PATH
 		do
 			l_dir := install_files_root
 			Result := l_dir + File_link_relative_path
@@ -162,7 +162,7 @@ feature -- Constants
 		deferred
 		end
 
-	Desktop_link_path: EL_FILE_PATH
+	Desktop_link_path: FILE_PATH
 			--
 		once
 			create Result.make (item ("USERPROFILE"))
@@ -197,7 +197,7 @@ feature -- Constants
 		deferred
 		end
 
-	Shell_link_icon_path: EL_FILE_PATH
+	Shell_link_icon_path: FILE_PATH
 			--
 		once
 			Result := application_home + Executable_relative_path
@@ -239,3 +239,4 @@ feature -- Window  constants
 		end
 
 end
+

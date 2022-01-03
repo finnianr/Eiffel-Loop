@@ -23,7 +23,7 @@ create
 
 feature -- Basic operations
 
-	write_edited_lines (output_path: EL_FILE_PATH)
+	write_edited_lines (output_path: FILE_PATH)
 		local
 		do
 			class_header.find_first_true (agent {ZSTRING}.has_substring (Class_EV_RADIO_PEER_IMP))
@@ -61,3 +61,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

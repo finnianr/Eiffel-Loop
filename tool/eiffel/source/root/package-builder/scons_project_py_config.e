@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 11:35:18 GMT (Sunday 22nd August 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	SCONS_PROJECT_PY_CONFIG
@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 			build_info_path := "source/build_info.e"
 		end
 
-	make_from_file (file_path: EL_FILE_PATH)
+	make_from_file (file_path: FILE_PATH)
 		require
 			file_exists: file_path.exists
 		do
@@ -87,12 +87,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	build_info_path: EL_FILE_PATH
+	build_info_path: FILE_PATH
 
 	ecf: ZSTRING
 		-- source to create instance of `SOFTWARE_INFO'
 
-	pecf_path: EL_FILE_PATH
+	pecf_path: FILE_PATH
 
 feature {NONE} -- Line states
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-31 14:12:07 GMT (Tuesday 31st March 2020)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	IMPORT_NEW_MP3_TASK
@@ -30,7 +30,7 @@ feature -- Basic operations
 
 	apply
 		local
-			new_mp3_list: LINKED_LIST [EL_FILE_PATH]
+			new_mp3_list: LINKED_LIST [FILE_PATH]
 			song: RBOX_SONG
 		do
 			create new_mp3_list.make
@@ -58,7 +58,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	set_fields (song: RBOX_SONG; mp3_path: EL_FILE_PATH)
+	set_fields (song: RBOX_SONG; mp3_path: FILE_PATH)
 		require
 			not_already_present: not Database.songs_by_location.has (mp3_path)
 		local

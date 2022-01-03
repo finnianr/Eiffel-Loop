@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:36:00 GMT (Sunday 19th December 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -79,7 +79,7 @@ feature -- Access
 
 	command_option_name: READABLE_STRING_GENERAL
 
-	command_path: EL_FILE_PATH
+	command_path: FILE_PATH
 		do
 			Result := Directory.Application_bin + application_command
 		end

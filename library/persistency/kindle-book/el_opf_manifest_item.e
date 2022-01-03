@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-11-06 17:37:06 GMT (Tuesday 6th November 2018)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_OPF_MANIFEST_ITEM
@@ -24,7 +24,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_href_path: EL_FILE_PATH; a_id: INTEGER)
+	make (a_href_path: FILE_PATH; a_id: INTEGER)
 		do
 			href_path := a_href_path; id := a_id
 			make_default
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	href_path: EL_FILE_PATH
+	href_path: FILE_PATH
 
 	id: INTEGER
 

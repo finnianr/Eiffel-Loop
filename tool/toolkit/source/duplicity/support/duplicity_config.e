@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-13 13:03:12 GMT (Wednesday 13th October 2021)"
-	revision: "12"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	backup_dir: EL_DIR_PATH
+	backup_dir: DIR_PATH
 
 	encryption_key: ZSTRING
 
@@ -73,9 +73,9 @@ feature -- Access
 	name: ZSTRING
 		-- possible alias for `target_dir.base' used as backup destination
 
-	restore_dir: EL_DIR_PATH
+	restore_dir: DIR_PATH
 
-	target_dir: EL_DIR_PATH
+	target_dir: DIR_PATH
 
 	target_dir_base: ZSTRING
 		-- `target_dir.base' or an alias `name'

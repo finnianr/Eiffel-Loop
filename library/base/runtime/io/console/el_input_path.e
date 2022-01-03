@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 15:06:09 GMT (Friday 3rd April 2020)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_INPUT_PATH [P -> EL_PATH create default_create end]
@@ -87,11 +87,12 @@ feature {NONE} -- Constants
 	Type_table: EL_TYPE_TABLE [STRING]
 		once
 			create Result.make (<<
-				[{EL_FILE_PATH}, "file"],
-				[{EL_DIR_PATH}, "directory"],
+				[{FILE_PATH}, "file"],
+				[{DIR_PATH}, "directory"],
 				[{EL_DIR_URI_PATH}, "URL"],
 				[{EL_FILE_URI_PATH}, "URL"]
 			>>)
 		end
 
 end
+

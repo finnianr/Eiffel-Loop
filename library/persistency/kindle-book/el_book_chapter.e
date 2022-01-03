@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:13:59 GMT (Tuesday 5th January 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	EL_BOOK_CHAPTER
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_title: ZSTRING; a_number: NATURAL; modification_date: DATE_TIME; a_text: EL_ZSTRING output_dir: EL_DIR_PATH)
+	make (a_title: ZSTRING; a_number: NATURAL; modification_date: DATE_TIME; a_text: EL_ZSTRING output_dir: DIR_PATH)
 		local
 			h_tag: like XML.tag; base_name: ZSTRING
 		do
@@ -67,7 +67,7 @@ feature -- Access
 
 	title: ZSTRING
 
-	image_list: EL_ARRAYED_LIST [EL_FILE_PATH]
+	image_list: EL_ARRAYED_LIST [FILE_PATH]
 
 feature -- Status query
 
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
  	on_src_attribute (start_index, end_index: INTEGER; substring: ZSTRING)
  		local
- 			image_path: EL_FILE_PATH
+ 			image_path: FILE_PATH
  		do
  			image_path := new_image_path (substring.substring (start_index, end_index))
 			substring.replace_substring (image_path.to_string, start_index, end_index)

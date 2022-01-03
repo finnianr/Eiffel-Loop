@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:07:52 GMT (Tuesday 10th November 2020)"
-	revision: "13"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	FIND_AND_REPLACE_APP
@@ -30,7 +30,7 @@ feature -- Testing
 			Test.do_file_tree_test ("utf8-sources", agent test_find_replace (?, " is", " -- is"), 3042838246)
 		end
 
-	test_find_replace (a_sources_path: EL_DIR_PATH; find_text, replacement_text: STRING)
+	test_find_replace (a_sources_path: DIR_PATH; find_text, replacement_text: STRING)
 			--
 		do
 			create command.make (a_sources_path + "manifest.pyx", find_text, replacement_text)

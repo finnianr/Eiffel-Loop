@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 13:28:45 GMT (Monday 1st July 2019)"
-	revision: "7"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -17,7 +17,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_target_list: like target_list; a_file_path: EL_FILE_PATH)
+	make (a_target_list: like target_list; a_file_path: FILE_PATH)
 			--
 		do
 			create crc
@@ -244,7 +244,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	storage_file_path: EL_FILE_PATH
+	storage_file_path: FILE_PATH
 
 	storage_file: PLAIN_TEXT_FILE
 

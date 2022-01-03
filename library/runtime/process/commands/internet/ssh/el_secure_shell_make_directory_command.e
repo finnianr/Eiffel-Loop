@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:48:42 GMT (Thursday 9th September 2021)"
-	revision: "3"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_SECURE_SHELL_MAKE_DIRECTORY_COMMAND
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_target_dir (target_dir: EL_DIR_PATH)
+	set_target_dir (target_dir: DIR_PATH)
 		do
 			command_template.set_variable (var.target_dir, escaped_remote (target_dir))
 		end

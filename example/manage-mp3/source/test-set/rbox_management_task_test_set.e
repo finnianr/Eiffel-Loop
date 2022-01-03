@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-04 13:37:54 GMT (Thursday 4th February 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -166,7 +166,7 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	rhythmdb_path: EL_FILE_PATH
+	rhythmdb_path: FILE_PATH
 		do
 			Result := task.music_dir.parent + "rhythmdb.xml"
 		end
@@ -196,7 +196,7 @@ feature {NONE} -- Constants
 
 	Attribute_type: STRING = "type"
 
-	Playlists_dir: EL_DIR_PATH
+	Playlists_dir: DIR_PATH
 		once
 			Result := work_area_data_dir.joined_dir_path ("Music/Playlists")
 		end
@@ -210,7 +210,7 @@ feature {NONE} -- Constants
 			Result.append ("%N%N")
 		end
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := "test-data/rhythmdb"
 		end
@@ -226,7 +226,7 @@ feature {NONE} -- Constants
 			create Result.make_from_tuple (Tag)
 		end
 
-	Task_file_path: EL_FILE_PATH
+	Task_file_path: FILE_PATH
 		once
 			Result := Work_area_dir + "test-task.pyx"
 		end

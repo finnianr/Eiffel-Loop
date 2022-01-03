@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-08 11:40:25 GMT (Friday 8th May 2020)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_HTML_META_VALUE_READER [M -> EL_HTML_META_VALUES create make end]
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (html_path: EL_FILE_PATH)
+	make (html_path: FILE_PATH)
 		do
 			make_machine
 			create meta_value.make

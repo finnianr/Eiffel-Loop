@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:31:30 GMT (Saturday 14th August 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	GITHUB_MANAGER_APP
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			Result := agent {like command}.make (create {FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 		end
 
 	visible_types: TUPLE [GITHUB_MANAGER_SHELL_COMMAND, EL_BUILDABLE_AES_CREDENTIAL, EL_OS_COMMAND]

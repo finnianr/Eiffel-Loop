@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 10:57:13 GMT (Tuesday 26th October 2021)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	EL_USER_INPUT
@@ -68,7 +68,7 @@ feature -- Basic operations
 
 feature -- Input
 
-	dir_path (prompt: READABLE_STRING_GENERAL): EL_DIR_PATH
+	dir_path (prompt: READABLE_STRING_GENERAL): DIR_PATH
 			--
 		do
 			Result := path (prompt)
@@ -88,7 +88,7 @@ feature -- Input
 			end
 		end
 
-	file_path (prompt: READABLE_STRING_GENERAL): EL_FILE_PATH
+	file_path (prompt: READABLE_STRING_GENERAL): FILE_PATH
 			--
 		do
 			Result := path (prompt)

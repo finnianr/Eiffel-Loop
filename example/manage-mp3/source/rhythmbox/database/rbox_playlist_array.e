@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-14 10:37:50 GMT (Thursday 14th October 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -75,7 +75,7 @@ feature -- Basic operations
 	backup
 			-- Create backup using track id's instead of location
 		local
-			l_temp_path: EL_FILE_PATH
+			l_temp_path: FILE_PATH
 		do
 			l_temp_path := output_path
 			output_path := output_path.with_new_extension ({STRING_32} "backup.xml")
@@ -173,7 +173,7 @@ feature {RBOX_DATABASE} -- Implementation
 			xml_string.append_character ('%N')
 		end
 
-	build_from_file (a_file_path: EL_FILE_PATH)
+	build_from_file (a_file_path: FILE_PATH)
 		do
 			if attached open_lines (a_file_path, Utf_8) as lines then
 				create xml_string.make (lines.byte_count)
@@ -193,7 +193,7 @@ feature {RBOX_DATABASE} -- Implementation
 
 feature {NONE} -- Type definitions
 
-	Type_songs: INDEXABLE [EL_FILE_PATH, INTEGER]
+	Type_songs: INDEXABLE [FILE_PATH, INTEGER]
 		do
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-18 17:46:31 GMT (Wednesday 18th March 2020)"
-	revision: "10"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	ID3_INFO
@@ -44,13 +44,13 @@ feature {NONE} -- Initialization
 			encoding := Encoding_enum.UTF_8
 		end
 
-	make (a_mp3_path: EL_FILE_PATH)
+	make (a_mp3_path: FILE_PATH)
 	 		--
 		do
 			make_version (a_mp3_path, 0.0)
 		end
 
-	make_version (a_mp3_path: EL_FILE_PATH; a_version: REAL)
+	make_version (a_mp3_path: FILE_PATH; a_version: REAL)
 		require
 			valid_version: a_version /~ 0.0 implies a_version >= 2.2 and a_version <= 2.4
 		local
@@ -324,7 +324,7 @@ feature -- Access
 
 	encoding: NATURAL_8
 
-	mp3_path: EL_FILE_PATH
+	mp3_path: FILE_PATH
 		do
 			Result := implementation.mp3_path
 		end

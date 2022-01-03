@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-14 9:45:06 GMT (Saturday 14th November 2020)"
-	revision: "16"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -182,7 +182,7 @@ feature -- Output
 			else
 				l_name.append_character (' ')
 			end
-			if attached {EL_FILE_PATH} a_path then
+			if attached {FILE_PATH} a_path then
 				l_name.append (Eng_word_file)
 			else
 				l_name.append (Eng_word_directory)

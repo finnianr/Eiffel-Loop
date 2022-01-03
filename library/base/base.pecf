@@ -32,6 +32,10 @@ system:
 
 		mapping:
 			old_name = ZSTRING; new_name = EL_ZSTRING
+		mapping:
+			old_name = DIR_PATH; new_name = EL_DIR_PATH
+		mapping:
+			old_name = FILE_PATH; new_name = EL_FILE_PATH
 
 		# Needed for Windows XP
 		variable:

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-20 15:35:31 GMT (Sunday 20th December 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN, DEFAULT -> G, TYPE_SET -> TUPLE create default_create end]
@@ -43,7 +43,7 @@ feature -- Access
 			path_exists: new_pyxis_path (make_from_file).exists
 			make_default_set: attached make_default
 		local
-			pyxis_path: EL_FILE_PATH
+			pyxis_path: FILE_PATH
 		do
 			pyxis_path := new_pyxis_path (make_from_file)
 			if pyxis_path.exists then
@@ -78,12 +78,12 @@ feature -- Access
 			end
 		end
 
-	new_pyxis_path (make_from_file: PROCEDURE [G]): EL_FILE_PATH
+	new_pyxis_path (make_from_file: PROCEDURE [G]): FILE_PATH
 		local
 			p: EL_PROCEDURE [G]
 		do
 			p := make_from_file
-			if p.closed_count = 1 and then attached {EL_FILE_PATH} p.closed_operands.reference_item (1) as path then
+			if p.closed_count = 1 and then attached {FILE_PATH} p.closed_operands.reference_item (1) as path then
 				Result := path
 			else
 				create Result

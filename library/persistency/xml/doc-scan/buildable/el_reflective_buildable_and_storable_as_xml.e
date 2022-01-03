@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-12 7:52:19 GMT (Monday 12th July 2021)"
-	revision: "21"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 			put_xml_element (xml_out, root_node_name, 0)
 		end
 
-	store_as (a_file_path: EL_FILE_PATH)
+	store_as (a_file_path: FILE_PATH)
 		do
 			if attached open (a_file_path, Write) as xml_out then
 				put_xml_document (xml_out)

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 17:05:18 GMT (Saturday 20th March 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 
 	make (a_directory_name: like directory_name)
 		local
-			xml_file_path: EL_FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
+			xml_file_path: FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
 			pyxis_file_paths: like xml_file_paths
 		do
 			make_machine
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			pyxis_lines: EL_PLAIN_TEXT_LINE_SOURCE
 			pyxis_out: PLAIN_TEXT_FILE
 			pyxis_file_paths: like xml_file_paths
-			monolithic_pyxis_path: EL_FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
+			monolithic_pyxis_path: FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
 		do
 			make_machine
 			directory_name := a_directory_name
@@ -87,12 +87,12 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	monolithic_xml_file_path: EL_FILE_PATH
+	monolithic_xml_file_path: FILE_PATH
 		do
 			Result := xml_file_paths.first
 		end
 
-	xml_file_paths: ARRAYED_LIST [EL_FILE_PATH]
+	xml_file_paths: ARRAYED_LIST [FILE_PATH]
 
 feature {NONE} -- Line states
 
@@ -118,12 +118,12 @@ feature {NONE} -- Implementation
 
 	directory_name: ZSTRING
 
-	pyxis_source_dir: EL_DIR_PATH
+	pyxis_source_dir: DIR_PATH
 		do
 			Result := Directory.Application_installation.joined_dir_path (directory_name)
 		end
 
-	xml_destination_dir: EL_DIR_PATH
+	xml_destination_dir: DIR_PATH
 		do
 			Result := Directory.app_configuration.joined_dir_path (directory_name)
 		end

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-24 18:46:52 GMT (Sunday 24th November 2019)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -95,13 +95,13 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	desktop_shortcut_path: EL_FILE_PATH
+	desktop_shortcut_path: FILE_PATH
 
 		do
 			Result := Desktop_common + shortcut_name
 		end
 
-	save_as (shortcut: EL_SHELL_LINK; file_path: EL_FILE_PATH)
+	save_as (shortcut: EL_SHELL_LINK; file_path: FILE_PATH)
 		do
 			shortcut.save (file_path)
 		end
@@ -121,8 +121,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	shortcut_path: EL_FILE_PATH
+	shortcut_path: FILE_PATH
 
-	application_menu_dir: EL_DIR_PATH
+	application_menu_dir: DIR_PATH
 
 end
+

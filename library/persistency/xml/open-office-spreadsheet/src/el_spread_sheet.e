@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-28 9:49:07 GMT (Saturday 28th November 2020)"
-	revision: "10"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	EL_SPREAD_SHEET
@@ -46,13 +46,13 @@ create
 
 feature {NONE} -- Initaliazation
 
-	make (file_path: EL_FILE_PATH)
+	make (file_path: FILE_PATH)
 			--
 		do
 			make_with_tables (file_path, << Wildcard_all >>)
 		end
 
-	make_with_tables (file_path: EL_FILE_PATH; table_names: ARRAY [ZSTRING])
+	make_with_tables (file_path: FILE_PATH; table_names: ARRAY [ZSTRING])
 			-- make with selected table names
 		require
 			valid_file_type: is_valid_file_type (file_path)
@@ -115,7 +115,7 @@ feature -- Access
 
 feature -- Contract support
 
-	is_valid_file_type (file_path: EL_FILE_PATH): BOOLEAN
+	is_valid_file_type (file_path: FILE_PATH): BOOLEAN
 		local
 			xml: EL_XML_NAMESPACES
 		do

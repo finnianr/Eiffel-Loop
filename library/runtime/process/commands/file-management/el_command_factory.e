@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-17 9:08:34 GMT (Friday 17th September 2021)"
-	revision: "14"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	EL_COMMAND_FACTORY
@@ -27,7 +27,7 @@ feature -- Informational
 			-- make calls execute
 		end
 
-	new_jpeg_info (file_path: EL_FILE_PATH): EL_JPEG_FILE_INFO_COMMAND_I
+	new_jpeg_info (file_path: FILE_PATH): EL_JPEG_FILE_INFO_COMMAND_I
 		do
 			create {EL_JPEG_FILE_INFO_COMMAND_IMP} Result.make (file_path)
 		end
@@ -38,7 +38,7 @@ feature -- Informational
 			-- make calls execute
 		end
 
-	new_directory_info (a_dir_path: EL_DIR_PATH): EL_DIRECTORY_INFO_COMMAND_I
+	new_directory_info (a_dir_path: DIR_PATH): EL_DIRECTORY_INFO_COMMAND_I
 		do
 			create {EL_DIRECTORY_INFO_COMMAND_IMP} Result.make (a_dir_path)
 			-- make calls execute
@@ -46,7 +46,7 @@ feature -- Informational
 
 feature -- Linux only commands
 
-	new_set_executable_mode_cmd (script_path: EL_FILE_PATH): EL_OS_COMMAND
+	new_set_executable_mode_cmd (script_path: FILE_PATH): EL_OS_COMMAND
 		local
 			var: TUPLE [path: STRING]
 		do
@@ -58,22 +58,22 @@ feature -- Linux only commands
 
 feature -- File management
 
-	new_delete_file (a_file_path: EL_FILE_PATH): EL_DELETE_FILE_COMMAND_I
+	new_delete_file (a_file_path: FILE_PATH): EL_DELETE_FILE_COMMAND_I
 		do
 			create {EL_DELETE_FILE_COMMAND_IMP} Result.make (a_file_path)
 		end
 
-	new_delete_tree (a_path: EL_DIR_PATH): EL_DELETE_TREE_COMMAND_I
+	new_delete_tree (a_path: DIR_PATH): EL_DELETE_TREE_COMMAND_I
 		do
 			create {EL_DELETE_TREE_COMMAND_IMP} Result.make (a_path)
 		end
 
-	new_copy_file (a_source_path: EL_FILE_PATH; a_destination_path: EL_PATH): EL_COPY_FILE_COMMAND_I
+	new_copy_file (a_source_path: FILE_PATH; a_destination_path: EL_PATH): EL_COPY_FILE_COMMAND_I
 		do
 			create {EL_COPY_FILE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 		end
 
-	new_copy_tree (a_source_path, a_destination_path: EL_DIR_PATH): EL_COPY_TREE_COMMAND_I
+	new_copy_tree (a_source_path, a_destination_path: DIR_PATH): EL_COPY_TREE_COMMAND_I
 		do
 			create {EL_COPY_TREE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 		end
@@ -86,17 +86,17 @@ feature -- File management
 			Result.set_link_path (link_path)
 		end
 
-	new_move_file (a_source_path: EL_FILE_PATH; a_destination_path: EL_PATH): EL_MOVE_FILE_COMMAND_I
+	new_move_file (a_source_path: FILE_PATH; a_destination_path: EL_PATH): EL_MOVE_FILE_COMMAND_I
 		do
 			create {EL_MOVE_FILE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 		end
 
-	new_move_to_directory (a_source_path: EL_PATH; a_destination_path: EL_DIR_PATH): EL_MOVE_TO_DIRECTORY_COMMAND_I
+	new_move_to_directory (a_source_path: EL_PATH; a_destination_path: DIR_PATH): EL_MOVE_TO_DIRECTORY_COMMAND_I
 		do
 			create {EL_MOVE_TO_DIRECTORY_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 		end
 
-	new_make_directory (a_path: EL_DIR_PATH): EL_MAKE_DIRECTORY_COMMAND_I
+	new_make_directory (a_path: DIR_PATH): EL_MAKE_DIRECTORY_COMMAND_I
 		do
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make (a_path)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:20:53 GMT (Thursday 7th May 2020)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	SOURCE_MODEL
@@ -129,6 +129,6 @@ feature {CLASS_FEATURE} -- Implementation attributes
 
 	group_header: EL_ZSTRING_LIST
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 end

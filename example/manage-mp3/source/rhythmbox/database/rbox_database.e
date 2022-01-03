@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-23 11:38:29 GMT (Thursday 23rd December 2021)"
-	revision: "40"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "41"
 
 class
 	RBOX_DATABASE
@@ -70,7 +70,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_xml_database_path: EL_FILE_PATH; a_music_dir: like music_dir)
+	make (a_xml_database_path: FILE_PATH; a_music_dir: like music_dir)
 			--
 		local
 			playlist: DJ_EVENT_PLAYLIST; xml_text: STRING; entry_occurences: EL_OCCURRENCE_INTERVALS [STRING]
@@ -153,12 +153,12 @@ feature -- Access
 			end
 		end
 
-	case_insensitive_name_clashes: LINKED_LIST [EL_FILE_PATH]
+	case_insensitive_name_clashes: LINKED_LIST [FILE_PATH]
 			-- list of mp3 paths having base names that clash with another in same directory
 			-- when compared without case insensitivity.
 		local
-			path_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
-			name_set: EL_HASH_SET [EL_FILE_PATH]; last_dir: EL_DIR_PATH
+			path_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
+			name_set: EL_HASH_SET [FILE_PATH]; last_dir: DIR_PATH
 		do
 			create name_set.make (11); create last_dir
 			create path_list.make (songs.count)
@@ -202,7 +202,7 @@ feature -- Access
 
 feature -- Access
 
-	dj_playlist_dir: EL_DIR_PATH
+	dj_playlist_dir: DIR_PATH
 		do
 			Result := music_dir.joined_dir_path ("Playlists")
 		end
@@ -210,13 +210,13 @@ feature -- Access
 	dj_playlists: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
 		-- Playlists with DJ event information stored in $HOME/Music/Playlists using Pyxis format
 
-	music_dir: EL_DIR_PATH
+	music_dir: DIR_PATH
 
 	music_uri: EL_URI
 
 	playlists: RBOX_PLAYLIST_ARRAY
 
-	playlists_xml_path: EL_FILE_PATH
+	playlists_xml_path: FILE_PATH
 
 	silence_intervals: ARRAY [RBOX_SONG]
 
@@ -358,7 +358,7 @@ feature -- Element change
 
 	replace_cortinas (a_cortina_set: CORTINA_SET)
 		local
-			directory_set: EL_HASH_SET [EL_DIR_PATH]
+			directory_set: EL_HASH_SET [DIR_PATH]
 			query_result: like songs.query
 		do
 			create directory_set.make (2)
@@ -394,7 +394,7 @@ feature -- Element change
 	update_DJ_playlists (dj_name, default_title: ZSTRING)
 			-- update DJ event playlists with any new Rhythmbox playlists
 		local
-			dj_playlist: DJ_EVENT_PLAYLIST; events_file_path: EL_FILE_PATH
+			dj_playlist: DJ_EVENT_PLAYLIST; events_file_path: FILE_PATH
 			p: RBOX_PLAYLIST
 		do
 			across playlists as playlist loop
@@ -434,7 +434,7 @@ feature -- Basic operations
 
 	for_all_songs (
 		condition: EL_QUERY_CONDITION [RBOX_SONG]
-		do_with_song_id3: PROCEDURE [RBOX_SONG, EL_FILE_PATH, TL_MPEG_FILE]
+		do_with_song_id3: PROCEDURE [RBOX_SONG, FILE_PATH, TL_MPEG_FILE]
 	)
 		-- apply `do_with_song_id3' to all existing songs meeting `condition'
 		local
@@ -448,7 +448,7 @@ feature -- Basic operations
 		end
 
 	for_all_songs_id3_info (
-		condition: EL_QUERY_CONDITION [RBOX_SONG]; do_id3_edit: PROCEDURE [TL_MPEG_FILE, EL_FILE_PATH]
+		condition: EL_QUERY_CONDITION [RBOX_SONG]; do_id3_edit: PROCEDURE [TL_MPEG_FILE, FILE_PATH]
 	)
 			-- apply `do_id3_edit' to all existing songs meeting `condition'
 		local
@@ -474,10 +474,10 @@ feature -- Basic operations
 			serialize
 		end
 
-	store_in_directory (a_dir_path: EL_DIR_PATH)
+	store_in_directory (a_dir_path: DIR_PATH)
 			-- Save database and playlists in location 'a_dir_path'
 		local
-			l_previous_dir_path: EL_DIR_PATH
+			l_previous_dir_path: DIR_PATH
 		do
 			l_previous_dir_path := xml_database_path.parent
 			set_xml_database_path (a_dir_path + xml_database_path.base)

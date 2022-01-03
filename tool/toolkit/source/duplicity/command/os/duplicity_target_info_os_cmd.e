@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:19:41 GMT (Thursday 9th September 2021)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -39,7 +39,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (arguments: DUPLICITY_ARGUMENTS; a_target_dir: EL_DIR_PATH)
+	make (arguments: DUPLICITY_ARGUMENTS; a_target_dir: DIR_PATH)
 		do
 			target_dir := a_target_dir
 			make_machine
@@ -90,7 +90,7 @@ feature {NONE} -- Line states
 
 	collect_file_paths (line: ZSTRING)
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			if line.has_substring (Substring.backup_statistics) then
 				state := agent backup_statistics.extend
@@ -118,7 +118,7 @@ feature {NONE} -- Internal attributes
 
 	backup_statistics: EL_ZSTRING_LIST
 
-	target_dir: EL_DIR_PATH
+	target_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

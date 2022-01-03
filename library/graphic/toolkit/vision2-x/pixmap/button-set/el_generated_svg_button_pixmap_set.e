@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-19 18:06:05 GMT (Wednesday 19th August 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_GENERATED_SVG_BUTTON_PIXMAP_SET
@@ -132,9 +132,9 @@ feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
 		local
-			generated_svg_highlighted_file_path: EL_FILE_PATH
+			generated_svg_highlighted_file_path: FILE_PATH
 			generated_svg_relative_path_steps, final_relative_path_steps: EL_PATH_STEPS
-			generated_svg_image_dir, image_dir_path: EL_DIR_PATH
+			generated_svg_image_dir, image_dir_path: DIR_PATH
 			svg_image: like new_svg_image
 		do
 			put (svg_icon (Button_state.normal, width_cms), Button_state.normal)
@@ -182,3 +182,4 @@ feature {NONE} -- Implementation
 		end
 
 end
+

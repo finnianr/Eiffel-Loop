@@ -55,8 +55,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-23 11:05:12 GMT (Monday 23rd August 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
@@ -85,7 +85,7 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			module_path: EL_FILE_PATH
+			module_path: FILE_PATH
 		do
 			module_path := Executable.dynamic_module_name (module_name)
 			make_module (module_path.without_extension.to_string.to_latin_1)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:29:59 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	EL_TEST_SET_BRIDGE
@@ -20,7 +20,7 @@ inherit
 
 feature -- Constants
 
-	Test_dir: EL_DIR_PATH
+	Test_dir: DIR_PATH
 		once
 			Result := Directory.current_working.joined_dir_path ("test")
 		end

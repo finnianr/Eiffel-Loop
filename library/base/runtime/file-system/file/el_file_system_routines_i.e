@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-28 13:46:54 GMT (Tuesday 28th December 2021)"
-	revision: "38"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "39"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	cached (relative_path: EL_FILE_PATH; write_file: PROCEDURE [EL_FILE_PATH]): EL_FILE_PATH
+	cached (relative_path: FILE_PATH; write_file: PROCEDURE [FILE_PATH]): FILE_PATH
 		do
 			Result := Stanard_directory.App_cache + relative_path
 			if not Result.exists then
@@ -73,7 +73,7 @@ feature -- Access
 		deferred
 		end
 
-	file_data (a_file_path: EL_FILE_PATH): MANAGED_POINTER
+	file_data (a_file_path: FILE_PATH): MANAGED_POINTER
 		require
 			file_exists: a_file_path.exists
 		do
@@ -84,7 +84,7 @@ feature -- Access
 			end
 		end
 
-	line_one (a_file_path: EL_FILE_PATH): STRING
+	line_one (a_file_path: FILE_PATH): STRING
 			--
 		require
 			file_exists: a_file_path.exists
@@ -100,12 +100,12 @@ feature -- Access
 			end
 		end
 
-	parent_set (path_list: ITERABLE [EL_FILE_PATH]; ascending_order: BOOLEAN): EL_ARRAYED_LIST [EL_DIR_PATH]
+	parent_set (path_list: ITERABLE [FILE_PATH]; ascending_order: BOOLEAN): EL_ARRAYED_LIST [DIR_PATH]
 		-- set of all parent directories of file paths in list `path_list'
 		-- if `ascending_order' is `True', results are sorted in ascending order of step count
 		-- or else in reverse order
 		local
-			dir_set: EL_HASH_SET [EL_DIR_PATH]; parent: EL_DIR_PATH
+			dir_set: EL_HASH_SET [DIR_PATH]; parent: DIR_PATH
 		do
 			-- assume average of 20 files per directory
 			create dir_set.make ((iterable.count (path_list) // 20).min (10))
@@ -116,10 +116,10 @@ feature -- Access
 				end
 			end
 			create Result.make_from_array (dir_set.to_array)
-			Result.order_by (agent {EL_DIR_PATH}.step_count, ascending_order)
+			Result.order_by (agent {DIR_PATH}.step_count, ascending_order)
 		end
 
-	plain_text (a_file_path: EL_FILE_PATH): STRING
+	plain_text (a_file_path: FILE_PATH): STRING
 		--
 		require
 			file_exists: a_file_path.exists
@@ -149,7 +149,7 @@ feature -- Access
 			file.close
 		end
 
-	plain_text_bomless (a_file_path: EL_FILE_PATH): STRING
+	plain_text_bomless (a_file_path: FILE_PATH): STRING
 		-- file text without any byte-order mark
 		do
 			Result := plain_text (a_file_path)
@@ -158,7 +158,7 @@ feature -- Access
 			end
 		end
 
-	plain_text_lines (a_file_path: EL_FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
+	plain_text_lines (a_file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
 		require
 			file_exists: a_file_path.exists
 		local
@@ -175,7 +175,7 @@ feature -- Access
 			end
 		end
 
-	plain_text_raw (a_file_path: EL_FILE_PATH): STRING
+	plain_text_raw (a_file_path: FILE_PATH): STRING
 		-- plain text preserving carriage return characters '%R'
 		require
 			file_exists: a_file_path.exists
@@ -196,7 +196,7 @@ feature -- Access
 
 feature -- File lists
 
-	files (a_dir_path: EL_DIR_PATH; recursively: BOOLEAN): like Directory.files
+	files (a_dir_path: DIR_PATH; recursively: BOOLEAN): like Directory.files
 			--
 		do
 			if recursively then
@@ -207,7 +207,7 @@ feature -- File lists
 		end
 
 	files_with_extension (
-		a_dir_path: EL_DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
+		a_dir_path: DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
 	): like Directory.files
 			--
 		do
@@ -220,36 +220,36 @@ feature -- File lists
 
 feature -- Measurement
 
-	file_access_time (file_path: EL_FILE_PATH): INTEGER
+	file_access_time (file_path: FILE_PATH): INTEGER
 		do
 			Result := info_file (file_path).access_date
 		end
 
-	file_byte_count (a_file_path: EL_FILE_PATH): INTEGER
+	file_byte_count (a_file_path: FILE_PATH): INTEGER
 			--
 		do
 			Result := info_file (a_file_path).count
 		end
 
-	file_checksum (a_file_path: EL_FILE_PATH): NATURAL
+	file_checksum (a_file_path: FILE_PATH): NATURAL
 		do
 			Result := Checksum.file_content (a_file_path)
 		end
 
-	file_megabyte_count (a_file_path: EL_FILE_PATH): DOUBLE
+	file_megabyte_count (a_file_path: FILE_PATH): DOUBLE
 			--
 		do
 			Result := file_byte_count (a_file_path) / 1000000
 		end
 
-	file_modification_time (file_path: EL_FILE_PATH): INTEGER
+	file_modification_time (file_path: FILE_PATH): INTEGER
 		do
 			Result := info_file (file_path).date
 		end
 
 feature -- File property change
 
-	add_permission (path: EL_FILE_PATH; who, what: STRING)
+	add_permission (path: FILE_PATH; who, what: STRING)
 			-- Add read, write, execute or setuid permission
 			-- for `who' ('u', 'g' or 'o') to `what'.
 		require
@@ -260,7 +260,7 @@ feature -- File property change
 			change_permission (path, who, what, agent {FILE}.add_permission)
 		end
 
-	remove_permission (path: EL_FILE_PATH; who, what: STRING)
+	remove_permission (path: FILE_PATH; who, what: STRING)
 			-- remove read, write, execute or setuid permission
 			-- for `who' ('u', 'g' or 'o') to `what'.
 		require
@@ -271,14 +271,14 @@ feature -- File property change
 			change_permission (path, who, what, agent {FILE}.remove_permission)
 		end
 
-	set_file_modification_time (file_path: EL_FILE_PATH; date_time: INTEGER)
+	set_file_modification_time (file_path: FILE_PATH; date_time: INTEGER)
 			-- set modification time with date_time as secs since Unix epoch
 		deferred
 		ensure
 			modification_time_set: file_modification_time (file_path) = date_time
 		end
 
-	set_file_stamp (file_path: EL_FILE_PATH; date_time: INTEGER)
+	set_file_stamp (file_path: FILE_PATH; date_time: INTEGER)
 			-- Stamp file with `time' (for both access and modification).
 		deferred
 		ensure
@@ -288,7 +288,7 @@ feature -- File property change
 
 feature -- Basic operations
 
-	copy_file_contents (source_file: FILE; destination_path: EL_FILE_PATH)
+	copy_file_contents (source_file: FILE; destination_path: FILE_PATH)
 		require
 			exists_and_closed: source_file.is_closed and source_file.exists
 		local
@@ -311,16 +311,16 @@ feature -- Basic operations
 			destination_file.close
 		end
 
-	copy_file_contents_to_dir (source_file: FILE; destination_dir: EL_DIR_PATH)
+	copy_file_contents_to_dir (source_file: FILE; destination_dir: DIR_PATH)
 		local
-			destination_path: EL_FILE_PATH
+			destination_path: FILE_PATH
 		do
 			destination_path := source_file.path
 			destination_path.set_parent_path (destination_dir)
 			copy_file_contents (source_file, destination_path)
 		end
 
-	delete_empty_branch (dir_path: EL_DIR_PATH)
+	delete_empty_branch (dir_path: DIR_PATH)
 			--
 		require
 			path_exists: dir_path.exists
@@ -336,7 +336,7 @@ feature -- Basic operations
 			end
 		end
 
-	delete_if_empty (dir_path: EL_DIR_PATH)
+	delete_if_empty (dir_path: DIR_PATH)
 			--
 		require
 			path_exists: dir_path.exists
@@ -349,10 +349,10 @@ feature -- Basic operations
 			end
 		end
 
-	make_directory (a_dir_path: EL_DIR_PATH)
+	make_directory (a_dir_path: DIR_PATH)
 			-- recursively create directory
 		local
-			dir_parent: EL_DIR_PATH
+			dir_parent: DIR_PATH
 		do
 			if not (a_dir_path.is_empty or else a_dir_path.exists) then
 				dir_parent := a_dir_path.parent
@@ -363,7 +363,7 @@ feature -- Basic operations
 			end
 		end
 
-	make_parents (path_list: ITERABLE [EL_FILE_PATH])
+	make_parents (path_list: ITERABLE [FILE_PATH])
 		-- create directory structure to create files in `path_list'
 		do
 			across parent_set (path_list, True) as set loop
@@ -379,7 +379,7 @@ feature -- Basic operations
 			info_file (a_path).delete
 		end
 
-	rename_file (a_file_path, new_file_path: EL_FILE_PATH)
+	rename_file (a_file_path, new_file_path: FILE_PATH)
 			-- change name of file to new_name. If preserve_extension is true, the original extension is preserved
 		require
 			file_exists: a_file_path.exists
@@ -387,7 +387,7 @@ feature -- Basic operations
 			info_file (a_file_path).rename_file (new_file_path)
 		end
 
-	write_plain_text (a_file_path: EL_FILE_PATH; text: STRING)
+	write_plain_text (a_file_path: FILE_PATH; text: STRING)
 			--
 		local
 			file: PLAIN_TEXT_FILE
@@ -399,17 +399,17 @@ feature -- Basic operations
 
 feature -- Status query
 
-	directory_exists (a_path: EL_DIR_PATH): BOOLEAN
+	directory_exists (a_path: DIR_PATH): BOOLEAN
 		do
 			Result := info_file (a_path).exists
 		end
 
-	file_exists (a_path: EL_FILE_PATH): BOOLEAN
+	file_exists (a_path: FILE_PATH): BOOLEAN
 		do
 			Result := info_file (a_path).exists
 		end
 
-	has_content (a_file_path: EL_FILE_PATH): BOOLEAN
+	has_content (a_file_path: FILE_PATH): BOOLEAN
 			-- True if file not empty
 		do
 			if attached open_raw (a_file_path, Read) as l_file then
@@ -418,7 +418,7 @@ feature -- Status query
 			end
 		end
 
-	is_file_newer (path_1, path_2: EL_FILE_PATH): BOOLEAN
+	is_file_newer (path_1, path_2: FILE_PATH): BOOLEAN
 		-- `True' if either A or B is true
 		-- A. `path_1' modification time is greater than `path_2' modification time
 		-- B. `path_2' does not exist
@@ -428,7 +428,7 @@ feature -- Status query
 			Result := not path_2.exists or else file_modification_time (path_1) > file_modification_time (path_2)
 		end
 
-	is_writeable_directory (dir_path: EL_DIR_PATH): BOOLEAN
+	is_writeable_directory (dir_path: DIR_PATH): BOOLEAN
 		do
 			Result := Directory.named (dir_path).is_writable
 		end

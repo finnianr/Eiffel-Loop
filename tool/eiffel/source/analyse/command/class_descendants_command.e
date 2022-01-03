@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-24 8:14:48 GMT (Friday 24th December 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -44,7 +44,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_build_dir, a_output_dir: EL_DIR_PATH; a_class_name: STRING; a_target_name: ZSTRING)
+	make (a_build_dir, a_output_dir: DIR_PATH; a_class_name: STRING; a_target_name: ZSTRING)
 		do
 			make_machine
 
@@ -88,7 +88,7 @@ feature -- Basic operations
 
 feature {NONE} -- Line states
 
-	find_target_name (line: ZSTRING; a_ecf_path: EL_FILE_PATH)
+	find_target_name (line: ZSTRING; a_ecf_path: FILE_PATH)
 		local
 			l_target_name: ZSTRING; s: EL_ZSTRING_ROUTINES
 		do
@@ -212,15 +212,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	build_dir: EL_DIR_PATH
+	build_dir: DIR_PATH
 
 	class_name: STRING
 
-	ecf_path: EL_FILE_PATH
+	ecf_path: FILE_PATH
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 	target_name: ZSTRING
 

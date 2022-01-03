@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-10 8:35:19 GMT (Tuesday 10th September 2019)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_FILE_MANIFEST_ITEM
@@ -50,7 +50,7 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (file_path: EL_FILE_PATH)
+	make (file_path: FILE_PATH)
 		do
 			make_default
 			name := file_path.base

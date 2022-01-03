@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 18:27:25 GMT (Saturday 27th March 2021)"
-	revision: "19"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -42,7 +42,7 @@ feature -- Tests
 			testing: "covers/{EL_FILE_SYNC_ITEM_SET}.update"
 		local
 			manager: EL_FILE_SYNC_MANAGER; medium: EL_LOCAL_FILE_SYNC_MEDIUM
-			destination_list: ARRAY [LIST [EL_FILE_PATH]]
+			destination_list: ARRAY [LIST [FILE_PATH]]
 			current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 			sync_item: EL_FILE_SYNC_ITEM
 		do
@@ -113,12 +113,12 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	source_contents_list: LIST [EL_FILE_PATH]
+	source_contents_list: LIST [FILE_PATH]
 		do
 			Result := directory_contents (Workarea_help_pages_dir)
 		end
 
-	directory_contents (a_dir_path: EL_DIR_PATH): LIST [EL_FILE_PATH]
+	directory_contents (a_dir_path: DIR_PATH): LIST [FILE_PATH]
 		do
 			Result := File_system.files_with_extension (a_dir_path, Text_extension, True)
 			from Result.start until Result.after loop
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Copied_dir: EL_DIR_PATH
+	Copied_dir: DIR_PATH
 		once
 			Result := Work_area_dir.joined_dir_path ("copied")
 		end

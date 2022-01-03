@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 11:49:47 GMT (Wednesday 24th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (a_repository: like repository; a_ecf_pages: like ecf_pages)
 		local
-			class_set: EL_HASH_TABLE [EIFFEL_CLASS, EL_FILE_PATH]
+			class_set: EL_HASH_TABLE [EIFFEL_CLASS, FILE_PATH]
 		do
 			make_page (a_repository)
 			ecf_pages := a_repository.ecf_list.sorted_index_page_list
@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	content_template: EL_FILE_PATH
+	content_template: FILE_PATH
 		do
 			Result := repository.templates.site_map_content
 		end
@@ -126,7 +126,7 @@ feature -- Constants
 			create Result.make (0)
 		end
 
-	Relative_file_path: EL_FILE_PATH
+	Relative_file_path: FILE_PATH
 		once
 			Result := "index.html"
 		end

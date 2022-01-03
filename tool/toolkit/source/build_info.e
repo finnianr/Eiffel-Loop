@@ -4,8 +4,8 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2021-12-30 16:57:22 GMT (Thursday 30th December 2021)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	BUILD_INFO
@@ -22,7 +22,7 @@ feature -- Constants
 
 	Build_number: NATURAL = 565
 
-	Installation_sub_directory: EL_DIR_PATH
+	Installation_sub_directory: DIR_PATH
 		once
 			Result := "Eiffel-Loop/toolkit"
 		end

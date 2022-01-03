@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 9:55:41 GMT (Saturday 27th March 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (file_path: EL_FILE_PATH)
+	make (file_path: FILE_PATH)
 		do
 			make_default
 			set_source_text_from_file (file_path)

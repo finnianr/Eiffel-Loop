@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-13 15:27:50 GMT (Monday 13th April 2020)"
-	revision: "1"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 deferred class
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -31,19 +31,20 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
-	file_path (relative_path: READABLE_STRING_GENERAL): EL_FILE_PATH
+	file_path (relative_path: READABLE_STRING_GENERAL): FILE_PATH
 		local
-			path: EL_FILE_PATH
+			path: FILE_PATH
 		do
 			create path.make (relative_path)
 			Result := work_area_data_dir + path
 		end
 
-	source_dir: EL_DIR_PATH
+	source_dir: DIR_PATH
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	work_area_data_dir: EL_DIR_PATH
+	work_area_data_dir: DIR_PATH
 end
+

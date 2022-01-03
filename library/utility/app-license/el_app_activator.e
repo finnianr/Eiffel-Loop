@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:13:39 GMT (Monday 1st July 2019)"
-	revision: "6"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_APP_ACTIVATOR
@@ -30,7 +30,7 @@ create
 
 feature {NONE} -- Initiliazation
 
-	make (registration_name: STRING; private_key_path: EL_FILE_PATH; private_key_encrypter: EL_AES_ENCRYPTER)
+	make (registration_name: STRING; private_key_path: FILE_PATH; private_key_encrypter: EL_AES_ENCRYPTER)
 			--
 		local
 			private_key: EL_RSA_PRIVATE_KEY; user_machine_md5: EL_MD5_128

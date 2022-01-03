@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 11:28:52 GMT (Wednesday 3rd March 2021)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EIFFEL_CLASS_PARSER
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	queue (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: EL_FILE_PATH)
+	queue (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: FILE_PATH)
 		do
 			wait_apply (agent new_class (ecf, directory, source_path))
 		end
@@ -68,7 +68,7 @@ feature -- Basic operations
 
 feature {NONE} -- Separate function
 
-	new_class (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: EL_FILE_PATH): like Result_type
+	new_class (ecf: EIFFEL_CONFIGURATION_FILE; directory: SOURCE_DIRECTORY; source_path: FILE_PATH): like Result_type
 		-- create new class and bind to directory in separate thread
 		do
 			Result := [directory, ecf.new_class (source_path)]

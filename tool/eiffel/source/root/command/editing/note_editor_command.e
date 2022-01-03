@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-30 15:14:38 GMT (Friday 30th July 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	NOTE_EDITOR_COMMAND
@@ -29,7 +29,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (source_manifest_path, license_notes_path: EL_FILE_PATH)
+	make (source_manifest_path, license_notes_path: FILE_PATH)
 		require
 			source_manifest_exists: source_manifest_path.exists
 			license_exists: license_notes_path.exists

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 11:21:47 GMT (Wednesday 24th November 2021)"
-	revision: "20"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "21"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -50,7 +50,7 @@ feature -- Access
 			Result := eiffel_config.name
 		end
 
-	relative_file_path: EL_FILE_PATH
+	relative_file_path: FILE_PATH
 		do
 			Result := eiffel_config.html_index_path
 		end
@@ -76,7 +76,7 @@ feature -- Access
 			Result := eiffel_config.category_index_title
 		end
 
-	relative_path: EL_DIR_PATH
+	relative_path: DIR_PATH
 		do
 			Result := eiffel_config.relative_dir_path
 		end
@@ -136,7 +136,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	content_template: EL_FILE_PATH
+	content_template: FILE_PATH
 		do
 			Result := repository.templates.directory_content
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-19 19:01:20 GMT (Friday 19th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	SOURCE_DIRECTORY
@@ -47,7 +47,7 @@ feature -- Access
 
 	dir_title: ZSTRING
 		local
-			first_dir: EL_DIR_PATH
+			first_dir: DIR_PATH
 		do
 			if class_list.is_empty then
 				create Result.make_empty
@@ -63,7 +63,7 @@ feature -- Access
 
 	index: INTEGER
 
-	relative_dir: EL_DIR_PATH
+	relative_dir: DIR_PATH
 
 	sorted_class_list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
 		local

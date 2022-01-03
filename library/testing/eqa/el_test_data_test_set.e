@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-14 14:10:51 GMT (Friday 14th February 2020)"
-	revision: "4"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
@@ -56,23 +56,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	relative_dir: EL_DIR_PATH
+	relative_dir: DIR_PATH
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	work_dir: EL_DIR_PATH
+	work_dir: DIR_PATH
 		-- working test files directory
 
 feature {NONE} -- Constants
 
-	test_data_root_dir: EL_DIR_PATH
+	test_data_root_dir: DIR_PATH
 		once
 			Result := "test-data"
 		end
 
-	workarea_root_dir: EL_DIR_PATH
+	workarea_root_dir: DIR_PATH
 		once
 			Result := "workarea"
 		end

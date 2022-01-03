@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 9:22:40 GMT (Sunday 28th March 2021)"
-	revision: "33"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "34"
 
 class
 	EIFFEL_CLASS
@@ -105,15 +105,15 @@ feature -- Access
 			Result := XML.escaped (code_text.substring (1, class_begin_index))
 		end
 
-	relative_html_path: EL_FILE_PATH
+	relative_html_path: FILE_PATH
 		-- html path relative to `library_ecf.ecf_dir'
 		do
 			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension (Html)
 		end
 
-	relative_source_path: EL_FILE_PATH
+	relative_source_path: FILE_PATH
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 feature -- Status report
 
@@ -310,8 +310,8 @@ feature {NONE} -- Evolicity fields
 				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
 				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
 
-				["relative_dir", 				agent: EL_DIR_PATH do Result := relative_source_path.parent end],
-				["source_path", 				agent: EL_FILE_PATH do Result := relative_source_path end]
+				["relative_dir", 				agent: DIR_PATH do Result := relative_source_path.parent end],
+				["source_path", 				agent: FILE_PATH do Result := relative_source_path end]
 			>>)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:24:49 GMT (Saturday 19th May 2018)"
-	revision: "4"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_REGISTRY_ITERATION_CURSOR [G]
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (reg_path: EL_DIR_PATH)
+	make (reg_path: DIR_PATH)
 		do
 			create registry
 			registry_node := registry.open_key_with_access (reg_path, {WEL_REGISTRY_ACCESS_MODE}.Key_read)

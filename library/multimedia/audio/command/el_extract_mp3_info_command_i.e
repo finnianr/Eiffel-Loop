@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:06:38 GMT (Thursday 9th September 2021)"
-	revision: "7"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	path: EL_FILE_PATH
+	path: FILE_PATH
 
 	fields: EL_ZSTRING_HASH_TABLE [ZSTRING]
 

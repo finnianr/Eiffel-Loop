@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 18:03:52 GMT (Tuesday 19th May 2020)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 deferred class
 	EXPORT_TO_DEVICE_TASK
@@ -22,7 +22,7 @@ inherit
 
 feature {RBOX_MUSIC_MANAGER} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 		do
 			Precursor (a_file_path)
 			device := new_device
@@ -66,7 +66,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	export_to_device (a_condition: EL_QUERY_CONDITION [RBOX_SONG]; name_clashes: LINKED_LIST [EL_FILE_PATH])
+	export_to_device (a_condition: EL_QUERY_CONDITION [RBOX_SONG]; name_clashes: LINKED_LIST [FILE_PATH])
 		do
 			if name_clashes.is_empty then
 				device.export_songs_and_playlists (a_condition)

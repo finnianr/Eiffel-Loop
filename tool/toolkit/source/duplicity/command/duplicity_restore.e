@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:57:16 GMT (Sunday 19th December 2021)"
-	revision: "21"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 class
 	DUPLICITY_RESTORE
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 	restore_date (a_time: DATE_TIME)
 		local
 			cmd: DUPLICITY_LISTING_OS_CMD; restore_cmd: DUPLICITY_RESTORE_ALL_OS_CMD
-			path_list: EL_FILE_PATH_LIST; file_path: EL_FILE_PATH; i: INTEGER
+			path_list: EL_FILE_PATH_LIST; file_path: FILE_PATH; i: INTEGER
 		do
 			lio.put_line ("(%"library/%" to search for directory library)")
 			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))

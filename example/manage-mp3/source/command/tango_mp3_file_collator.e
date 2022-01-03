@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:52:03 GMT (Sunday 19th December 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	TANGO_MP3_FILE_COLLATOR
@@ -71,11 +71,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	dir_path: EL_DIR_PATH
+	dir_path: DIR_PATH
 
 	is_dry_run: BOOLEAN
 
-	new_artist (id3_info: TL_MPEG_FILE; mp3_path: EL_FILE_PATH): ZSTRING
+	new_artist (id3_info: TL_MPEG_FILE; mp3_path: FILE_PATH): ZSTRING
 		local
 			path, result_lower: ZSTRING; found: BOOLEAN
 		do
@@ -115,7 +115,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_title (id3_info: TL_MPEG_FILE; mp3_path: EL_FILE_PATH): ZSTRING
+	new_title (id3_info: TL_MPEG_FILE; mp3_path: FILE_PATH): ZSTRING
 		do
 			Result := id3_info.tag.title
 			if Result.is_empty then
@@ -130,9 +130,9 @@ feature {NONE} -- Implementation
 
 	page: INTEGER
 
-	relocate_mp3_file (mp3_path: EL_FILE_PATH)
+	relocate_mp3_file (mp3_path: FILE_PATH)
 		local
-			id3_info: TL_MPEG_FILE; destination_mp3_path: EL_FILE_PATH
+			id3_info: TL_MPEG_FILE; destination_mp3_path: FILE_PATH
 			title_count: INTEGER; genre, artist, title: ZSTRING
 		do
 			create id3_info.make (mp3_path)
@@ -166,7 +166,7 @@ feature {NONE} -- Implementation
 			id3_info.dispose
 		end
 
-	song_title_counts: EL_HASH_TABLE [INTEGER, EL_FILE_PATH]
+	song_title_counts: EL_HASH_TABLE [INTEGER, FILE_PATH]
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-12 9:13:05 GMT (Wednesday 12th May 2021)"
-	revision: "18"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "19"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -58,13 +58,13 @@ feature -- Access
 
 feature -- Add file content
 
-	add_directory_tree (tree_path: EL_DIR_PATH)
+	add_directory_tree (tree_path: DIR_PATH)
 		-- add contents of file directory tree `tree_path'
 		do
 			File_system.files (tree_path, True).do_all (agent add_file)
 		end
 
-	add_file (file_path: EL_FILE_PATH)
+	add_file (file_path: FILE_PATH)
 		-- add contents of file at `file_path'
 		require
 			path_exists: file_path.exists

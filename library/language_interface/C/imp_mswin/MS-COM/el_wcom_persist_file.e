@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-28 9:44:01 GMT (Tuesday 28th January 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_WCOM_PERSIST_FILE
@@ -40,13 +40,13 @@ feature {NONE}  -- Initialization
 
 feature -- Basic operations
 
-	save (file_path: EL_FILE_PATH)
+	save (file_path: FILE_PATH)
 			--
 		do
 			last_call_result := cpp_save (self_ptr, wide_string (file_path).base_address, True)
 		end
 
-	load (file_path: EL_FILE_PATH)
+	load (file_path: FILE_PATH)
 			--
 		do
 			last_call_result := cpp_load (self_ptr, wide_string (file_path).base_address, 1)

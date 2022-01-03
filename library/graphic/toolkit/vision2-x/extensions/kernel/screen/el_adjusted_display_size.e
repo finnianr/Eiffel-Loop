@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-16 8:09:31 GMT (Wednesday 16th September 2020)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_ADJUSTED_DISPLAY_SIZE
@@ -74,7 +74,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_file_path (dir_path: EL_DIR_PATH)
+	set_file_path (dir_path: DIR_PATH)
 		do
 			file_path := dir_path + Relative_path
 		end
@@ -119,7 +119,7 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature {NONE} -- Constants
 
@@ -130,7 +130,7 @@ feature {NONE} -- Constants
 
 	Base_resolution: INTEGER = 1024
 
-	Relative_path: EL_FILE_PATH
+	Relative_path: FILE_PATH
 		once
 			Result := "config/display-size-cms.txt"
 		end

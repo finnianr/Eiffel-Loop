@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-19 10:01:03 GMT (Tuesday 19th May 2020)"
-	revision: "4"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	IMPORT_M3U_PLAYLISTS_TASK
@@ -24,7 +24,7 @@ create
 
 feature -- Access
 
-	m3u_dir: EL_DIR_PATH
+	m3u_dir: DIR_PATH
 		-- Directory containing playlist to import
 
 feature -- Basic operations

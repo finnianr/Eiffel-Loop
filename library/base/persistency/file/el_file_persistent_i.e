@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-06-11 8:01:23 GMT (Tuesday 11th June 2019)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	EL_FILE_PERSISTENT_I
@@ -20,19 +20,19 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		deferred
 		end
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		deferred
 		end
 
 feature -- Element change
 
-	set_file_path (a_file_path: EL_FILE_PATH)
+	set_file_path (a_file_path: FILE_PATH)
 			--
 		deferred
 		end
@@ -52,7 +52,7 @@ feature -- Basic operations
 			file_path_set: not file_path.is_empty
 			directory_exists_and_is_writeable: file_path.parent.exists_and_is_writeable
 		local
-			new_file_path: EL_FILE_PATH
+			new_file_path: FILE_PATH
 			l_file: like new_file
 		do
 			last_store_ok := False

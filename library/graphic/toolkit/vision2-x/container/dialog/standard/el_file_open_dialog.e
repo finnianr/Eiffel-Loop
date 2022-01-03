@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:17:14 GMT (Tuesday 5th January 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make (
 		a_title, description: READABLE_STRING_GENERAL; extensions: ITERABLE [READABLE_STRING_GENERAL]
-		last_open_dir: EL_DIR_PATH; a_open: like open
+		last_open_dir: DIR_PATH; a_open: like open
 	)
 		local
 			extension_list: EL_ZSTRING_LIST; i: INTEGER
@@ -58,7 +58,7 @@ feature {NONE} -- Event handling
 
 	on_open
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			file_path := full_file_path
 			open (file_path)
@@ -66,7 +66,7 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Internal attributes
 
-	open: PROCEDURE [EL_FILE_PATH]
+	open: PROCEDURE [FILE_PATH]
 
 feature {NONE} -- Constants
 

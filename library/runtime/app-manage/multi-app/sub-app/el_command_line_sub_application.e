@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 11:39:05 GMT (Sunday 2nd January 2022)"
-	revision: "28"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "29"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -123,7 +123,7 @@ feature {NONE} -- Validations
 	directory_must_exist: like always_valid
 		do
 			Result := [
-				"The directory must exist", agent (path: EL_DIR_PATH): BOOLEAN
+				"The directory must exist", agent (path: DIR_PATH): BOOLEAN
 				do
 					Result := not path.is_empty implies path.exists
 				end
@@ -133,7 +133,7 @@ feature {NONE} -- Validations
 	file_must_exist: like always_valid
 		do
 			Result := [
-				"The file must exist", agent (path: EL_FILE_PATH): BOOLEAN
+				"The file must exist", agent (path: FILE_PATH): BOOLEAN
 				do
 					Result := not path.is_empty implies path.exists
 				end

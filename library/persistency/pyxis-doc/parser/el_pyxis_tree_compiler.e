@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-24 18:32:00 GMT (Friday 24th September 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -53,7 +53,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_manifest_path: EL_FILE_PATH; a_source_tree_path: EL_DIR_PATH)
+	make (a_manifest_path: FILE_PATH; a_source_tree_path: DIR_PATH)
 		do
 			make_default
 			manifest_path := a_manifest_path
@@ -106,7 +106,7 @@ feature {NONE} -- Implementation
 
 	manifest_list: ARRAYED_LIST [EL_PATH]
 		local
-			line: ZSTRING; file_path: EL_FILE_PATH; path: EL_PATH
+			line: ZSTRING; file_path: FILE_PATH; path: EL_PATH
 		do
 			if source_tree_path.exists then
 				create Result.make_from_array (<< source_tree_path >>)
@@ -119,13 +119,13 @@ feature {NONE} -- Implementation
 					if line.count > 0 and then line [1] /= '#' then
 						if line.ends_with_character ('/') then
 							line.remove_tail (1)
-							create {EL_DIR_PATH} path.make (line)
+							create {DIR_PATH} path.make (line)
 						else
 							file_path := line
 							if file_path.has_extension ("pyx") then
 								path := file_path
 							else
-								create {EL_DIR_PATH} path.make (line)
+								create {DIR_PATH} path.make (line)
 							end
 						end
 						path.expand
@@ -165,14 +165,14 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	pyxis_file_path_list: ARRAYED_LIST [EL_FILE_PATH]
+	pyxis_file_path_list: ARRAYED_LIST [FILE_PATH]
 		do
 			create Result.make (0)
 			across manifest_list as path loop
-				if attached {EL_FILE_PATH} path.item as file_path then
+				if attached {FILE_PATH} path.item as file_path then
 					Result.extend (file_path)
 
-				elseif attached {EL_DIR_PATH} path.item as dir_path then
+				elseif attached {DIR_PATH} path.item as dir_path then
 					Result.append (File_system.files_with_extension (dir_path, "pyx", True))
 				end
 			end
@@ -187,9 +187,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	manifest_path: EL_FILE_PATH
+	manifest_path: FILE_PATH
 
-	source_tree_path: EL_DIR_PATH
+	source_tree_path: DIR_PATH
 
 	file_count: INTEGER
 

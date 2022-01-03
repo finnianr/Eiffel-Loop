@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-09 13:02:22 GMT (Saturday 9th October 2021)"
-	revision: "13"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	EL_XML_ROUTINES
@@ -48,7 +48,7 @@ feature -- Measurement
 
 feature -- Access
 
-	encoding (file_path: EL_FILE_PATH): EL_MARKUP_ENCODING
+	encoding (file_path: FILE_PATH): EL_MARKUP_ENCODING
 		do
 			create Result.make_from_file (file_path)
 		end

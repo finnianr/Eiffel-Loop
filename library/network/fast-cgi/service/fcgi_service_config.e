@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-09 12:49:59 GMT (Friday 9th July 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			if a_file_path.exists then
 				Precursor (a_file_path)
@@ -71,14 +71,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	document_root_dir: EL_DIR_PATH
+	document_root_dir: DIR_PATH
 
 	error_messages: EL_ZSTRING_LIST
 
 	server_port: INTEGER
 		-- Port server is listening on
 
-	server_socket_path: EL_FILE_PATH
+	server_socket_path: FILE_PATH
 		-- Unix socket path to listen on
 
 feature -- Element change
@@ -118,7 +118,7 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Implementation
 
-	set_document_root_dir (a_document_root_dir: EL_DIR_PATH)
+	set_document_root_dir (a_document_root_dir: DIR_PATH)
 		do
 			document_root_dir := a_document_root_dir
 		end

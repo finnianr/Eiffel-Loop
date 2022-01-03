@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 18:24:52 GMT (Monday 9th September 2019)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	FTP_BACKUP_COMMAND_1
@@ -54,7 +54,7 @@ feature -- Basic operations
 	backup_all
 			--
 		local
-			target_directory_path: EL_DIR_PATH
+			target_directory_path: DIR_PATH
 		do
 			log.enter ("backup_all")
 			across root_node.context_list ("/backup-script/directory") as l_directory loop
@@ -78,14 +78,14 @@ feature -- Basic operations
 			log.exit
 		end
 
-	backup_directory (directory_node: EL_XPATH_NODE_CONTEXT; target_directory_path: EL_DIR_PATH)
+	backup_directory (directory_node: EL_XPATH_NODE_CONTEXT; target_directory_path: DIR_PATH)
 			--
 		require
 			target_directory_path_exists: target_directory_path.exists
 		local
 			backup_name: STRING
-			archive_dir_path, ftp_destination_directory: EL_DIR_PATH
-			archive_file_path: EL_FILE_PATH
+			archive_dir_path, ftp_destination_directory: DIR_PATH
+			archive_file_path: FILE_PATH
 			archive_file: ARCHIVE_FILE
 		do
 			log.enter ("backup_directory")
@@ -163,7 +163,7 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_root_node (file_path: EL_FILE_PATH)
+	set_root_node (file_path: FILE_PATH)
 			--
 		local
 			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
@@ -196,7 +196,7 @@ feature {NONE} -- Implementation: attributes
 
 	root_node: EL_XPATH_ROOT_NODE_CONTEXT
 
-	script_file_path: EL_FILE_PATH
+	script_file_path: FILE_PATH
 
 	total_byte_count: NATURAL
 
@@ -205,3 +205,4 @@ feature {NONE} -- Constants
 	Max_mega_bytes_to_send: REAL = 20.0
 
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-06 14:23:49 GMT (Thursday 6th February 2020)"
-	revision: "11"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 deferred class
 	EL_MODULE_TEST
@@ -25,12 +25,12 @@ feature {NONE} -- Constants
 
 feature {NONE} -- Implementation
 
-	test_data_dir: EL_DIR_PATH
+	test_data_dir: DIR_PATH
 		do
 			Result := "test-data"
 		end
 
-	work_area_dir: EL_DIR_PATH
+	work_area_dir: DIR_PATH
 		do
 			Result := "workarea"
 		end

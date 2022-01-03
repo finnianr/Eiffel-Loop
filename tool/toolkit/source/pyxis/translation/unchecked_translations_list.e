@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:41:46 GMT (Friday 8th January 2021)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	UNCHECKED_TRANSLATIONS_LIST
@@ -35,7 +35,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_language: STRING; a_file_path: EL_FILE_PATH)
+	make (a_language: STRING; a_file_path: FILE_PATH)
 		do
 			language := a_language; file_path := a_file_path
 			make_from_file (a_file_path)
@@ -52,7 +52,7 @@ feature -- Access
 
 	language: STRING
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature {NONE} -- Implementation
 

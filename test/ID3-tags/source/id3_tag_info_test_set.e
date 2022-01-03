@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-01 12:04:16 GMT (Friday 1st May 2020)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 
 	read_id3 (info: ID3_INFO_I)
 		local
-			l_path: EL_FILE_PATH; header: ID3_HEADER; prefix_words: INTEGER
+			l_path: FILE_PATH; header: ID3_HEADER; prefix_words: INTEGER
 		do
 			across new_id3_file_list as path loop
 				l_path := path.item
@@ -162,7 +162,7 @@ feature {NONE} -- Constants
 			>>)
 		end
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := "data/id3$"
 		end
@@ -177,3 +177,4 @@ feature {NONE} -- Constants
 			Result := " (%S)"
 		end
 end
+

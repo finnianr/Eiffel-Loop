@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:52:03 GMT (Sunday 19th December 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -33,7 +33,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_c_source_path: EL_FILE_PATH)
+	make (a_c_source_path: FILE_PATH)
 		do
 			c_source_path := a_c_source_path
 			make_from_file ("workarea/rbox_database_field_enum.e")
@@ -157,7 +157,7 @@ feature {EL_COMMAND_CLIENT} -- Evolicity fields
 
 feature {NONE} -- Internal attributes
 
-	c_source_path: EL_FILE_PATH
+	c_source_path: FILE_PATH
 
 	field_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 

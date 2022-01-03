@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 12:29:38 GMT (Monday 1st July 2019)"
-	revision: "5"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_DIRECTORY_USER_SELECT
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (default_directory: EL_DIR_PATH; a_window: EV_WINDOW)
+	make (default_directory: DIR_PATH; a_window: EV_WINDOW)
 			--
 		do
 			default_create
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	directory_path: EL_DIR_PATH
+	directory_path: DIR_PATH
 
 feature {NONE} -- Handlers
 
@@ -61,7 +61,7 @@ feature {NONE} -- Handlers
 			l_path: EL_PATH_STEPS
 			path_exists: BOOLEAN
 			l_directory: DIRECTORY
-			start_directory: EL_DIR_PATH
+			start_directory: DIR_PATH
 		do
 			from
 				l_path := directory_path.steps

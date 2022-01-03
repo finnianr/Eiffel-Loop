@@ -1,13 +1,14 @@
 note
-	description: "File path name"
+	description: "Path to a file"
+	notes: "Alias is **FILE_PATH**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-23 13:32:54 GMT (Saturday 23rd October 2021)"
-	revision: "23"
+	date: "2022-01-03 17:42:33 GMT (Monday 3rd January 2022)"
+	revision: "24"
 
 class
 	EL_FILE_PATH
@@ -43,11 +44,11 @@ feature -- Access
 			Result := File_system.file_modification_time (Current)
 		end
 
-	relative_dot_path (other: EL_FILE_PATH): EL_FILE_PATH
+	relative_dot_path (other: FILE_PATH): FILE_PATH
 		-- relative path using dots do navigate from  `other.parent' to `base'
 		-- Eg. ../../<base> OR ../bbb/<base> OR <base>
 		local
-			dot_dir, super_dir: EL_DIR_PATH
+			dot_dir, super_dir: DIR_PATH
 		do
 			if parent ~ other.parent then
 				Result := base
@@ -64,7 +65,7 @@ feature -- Access
 			end
 		end
 
-	relative_path (a_parent: EL_DIR_PATH): EL_FILE_PATH
+	relative_path (a_parent: DIR_PATH): FILE_PATH
 		do
 			create Result.make (relative_temporary_path (a_parent))
 		end

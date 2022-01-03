@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "7"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	EL_FILE_TREE_TRANSFORMER
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_input_dir, a_output_dir: EL_DIR_PATH; extensions: STRING)
+	make (a_input_dir, a_output_dir: DIR_PATH; extensions: STRING)
 			-- `extensions' is a semi-colon separated list of file extensions
 		require
 			valid_input_dir: a_input_dir.exists
@@ -52,8 +52,8 @@ feature -- Basic operations
 		-- apply file transformation `command' on each file in `input_dir' with extension in `extension_list'
 		-- placing output in `output_dir'
 		local
-			input_path, output_path: EL_FILE_PATH
-			file_list: LIST [EL_FILE_PATH]; file_updated: BOOLEAN
+			input_path, output_path: FILE_PATH
+			file_list: LIST [FILE_PATH]; file_updated: BOOLEAN
 		do
 			across extension_list as extension loop
 				file_list := File_system.files_with_extension (input_dir, extension.item, True)
@@ -100,9 +100,9 @@ feature {NONE} -- Internal attributes
 
 	extension_list: EL_STRING_8_LIST
 
-	input_dir: EL_DIR_PATH
+	input_dir: DIR_PATH
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
 	output_extension: STRING
 

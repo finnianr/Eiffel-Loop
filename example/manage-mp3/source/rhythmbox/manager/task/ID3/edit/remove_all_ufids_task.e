@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:39:24 GMT (Saturday 30th May 2020)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	REMOVE_ALL_UFIDS_TASK
@@ -31,7 +31,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	remove_ufid (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: TL_MPEG_FILE)
+	remove_ufid (song: RBOX_SONG; relative_song_path: FILE_PATH; id3_info: TL_MPEG_FILE)
 			--
 		do
 			if id3_info.tag.has_unique_id then

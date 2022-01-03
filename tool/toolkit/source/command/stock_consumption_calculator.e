@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-14 6:32:42 GMT (Friday 14th May 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	STOCK_CONSUMPTION_CALCULATOR
@@ -27,7 +27,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_input_path, a_output_path: EL_FILE_PATH)
+	make (a_input_path, a_output_path: FILE_PATH)
 		do
 			date_time_tools.Date_default_format_string.share (Default_date_format)
 
@@ -41,9 +41,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	input_path: EL_FILE_PATH
+	input_path: FILE_PATH
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
 feature -- Basic operations
 

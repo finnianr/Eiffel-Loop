@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 10:54:16 GMT (Sunday 13th September 2020)"
-	revision: "4"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EIFFEL_LOOP_BUILD_INFO
@@ -25,7 +25,7 @@ feature -- Constants
 
 	Build_number: NATURAL = 0
 
-	Installation_sub_directory: EL_DIR_PATH
+	Installation_sub_directory: DIR_PATH
 		once
 			Result := Eiffel_loop
 			Result := Result.joined_dir_path (Executable.name)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-05 12:03:11 GMT (Tuesday 5th January 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	EL_DESKTOP_MENU_ITEM
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name, a_comment: READABLE_STRING_GENERAL; a_icon_path: EL_FILE_PATH)
+	make (a_name, a_comment: READABLE_STRING_GENERAL; a_icon_path: FILE_PATH)
 			--
 		do
 			name := new_zstring (a_name); comment := new_zstring (a_comment)
@@ -50,11 +50,11 @@ feature -- Access
 
 	comment: ZSTRING
 
-	icon_path: EL_FILE_PATH
+	icon_path: FILE_PATH
 
 	name: ZSTRING
 
-	windows_icon_path: EL_FILE_PATH
+	windows_icon_path: FILE_PATH
 		do
 			Result := icon_path.with_new_extension ("ico")
 		end

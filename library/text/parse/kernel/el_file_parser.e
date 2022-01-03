@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-20 13:34:49 GMT (Wednesday 20th January 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	EL_FILE_PARSER
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Element Change
 
-  	set_source_text_from_file (file_path: EL_FILE_PATH)
+  	set_source_text_from_file (file_path: FILE_PATH)
  			--
  		do
  			set_source_text_from_line_source (new_input_lines (file_path))
@@ -56,7 +56,7 @@ feature -- Element Change
 
 feature {NONE} -- Factory
 
- 	new_input_lines (file_path: EL_FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
+ 	new_input_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
  		do
  			create Result.make (encoding, file_path)
  			Result.enable_shared_item
@@ -64,11 +64,11 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	source_file_path: EL_FILE_PATH
+	source_file_path: FILE_PATH
 
 feature {NONE} -- Constants
 
-	Default_file_path: EL_FILE_PATH
+	Default_file_path: FILE_PATH
 		once
 			create Result
 		end

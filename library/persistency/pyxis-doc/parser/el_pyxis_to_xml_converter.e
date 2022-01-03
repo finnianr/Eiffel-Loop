@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-11 19:26:46 GMT (Monday 11th January 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -26,7 +26,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_source_path, a_output_path: EL_FILE_PATH)
+	make (a_source_path, a_output_path: FILE_PATH)
 		do
 			source_path  := a_source_path; output_path := a_output_path
 			create source_encoding.make_from_file (source_path)
@@ -40,9 +40,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 	source_encoding: EL_MARKUP_ENCODING
 
@@ -70,7 +70,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_output_path: EL_FILE_PATH
+	new_output_path: FILE_PATH
 		do
 			Result := source_path.without_extension
 			if not Result.base.has ('.') then

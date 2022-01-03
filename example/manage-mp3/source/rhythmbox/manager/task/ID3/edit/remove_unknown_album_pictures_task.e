@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-30 11:40:01 GMT (Saturday 30th May 2020)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	REMOVE_UNKNOWN_ALBUM_PICTURES_TASK
@@ -34,7 +34,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	remove_unknown_album_picture (song: RBOX_SONG; relative_song_path: EL_FILE_PATH; id3_info: TL_MUSICBRAINZ_MPEG_FILE)
+	remove_unknown_album_picture (song: RBOX_SONG; relative_song_path: FILE_PATH; id3_info: TL_MUSICBRAINZ_MPEG_FILE)
 		do
 			if id3_info.tag.has_picture and then id3_info.tag.picture.description ~ Picture_artist then
 				id3_info.tag.remove_picture

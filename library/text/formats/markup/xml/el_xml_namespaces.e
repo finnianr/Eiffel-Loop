@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:56:38 GMT (Sunday 19th December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_XML_NAMESPACES
@@ -20,7 +20,7 @@ create
 
 feature {NONE} -- Initaliazation
 
-	make_from_file (file_name: EL_FILE_PATH)
+	make_from_file (file_name: FILE_PATH)
 			--
 		do
 			make (File_system.plain_text (file_name))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-20 10:55:37 GMT (Monday 20th April 2020)"
-	revision: "6"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_STANDARD_DIRECTORY_IMP
@@ -36,12 +36,12 @@ inherit
 
 feature -- Access
 
-	Home: EL_DIR_PATH
+	Home: DIR_PATH
 		once
 			Result := environ ("HOMEDRIVE") + environ ("HOMEPATH")
 		end
 
-	User_local: EL_DIR_PATH
+	User_local: DIR_PATH
 		-- Windows 7: C:\Users\$USERNAME\AppData\Local
 		once
 			Result := App_data_local

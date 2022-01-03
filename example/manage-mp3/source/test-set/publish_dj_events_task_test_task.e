@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 15:01:22 GMT (Monday 18th January 2021)"
-	revision: "4"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	PUBLISH_DJ_EVENTS_TASK_TEST_TASK
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	WWW_output_dir: EL_DIR_PATH
+	WWW_output_dir: DIR_PATH
 		once
 			Result := work_area_data_dir.joined_dir_path ("www")
 		end

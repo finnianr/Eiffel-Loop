@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-07 10:40:22 GMT (Monday 7th October 2019)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP
@@ -23,7 +23,7 @@ feature -- Testing
 			Test.do_file_tree_test ("latin1-sources", agent test_source_tree, checksum)
 		end
 
-	test_source_tree (dir_path: EL_DIR_PATH)
+	test_source_tree (dir_path: DIR_PATH)
 		do
 			create {SOURCE_TREE_PROCESSOR} command.make (dir_path, agent new_editor)
 			command.do_all
@@ -44,11 +44,12 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_DIR_PATH}, agent new_editor)
+			Result := agent {like command}.make (create {DIR_PATH}, agent new_editor)
 		end
 
-	new_editor (file_path_list: LIST [EL_FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
+	new_editor (file_path_list: LIST [FILE_PATH]): EL_EIFFEL_SOURCE_EDITOR
 		deferred
 		end
 
 end
+

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:16:07 GMT (Thursday 7th May 2020)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_HTML_DOC_TYPE
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			make (Utf_8)
 			set_from_file (a_file_path)
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_from_file (a_file_path: EL_FILE_PATH)
+	set_from_file (a_file_path: FILE_PATH)
 		do
 			do_once_with_file_lines (agent find_charset, open_lines (a_file_path, Utf_8))
 		end

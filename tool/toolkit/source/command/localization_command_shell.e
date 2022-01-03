@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:33:50 GMT (Wednesday 1st September 2021)"
-	revision: "16"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -35,7 +35,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (tree_dir: EL_DIR_PATH)
+	make (tree_dir: DIR_PATH)
 		do
 			make_shell ("LOCALIZATION", 10)
 			create unchecked_translations.make (0)
@@ -70,7 +70,7 @@ feature -- Basic operations
 
 feature {EQA_TEST_SET} -- Implementation
 
-	add_unchecked (language: STRING; file_path: EL_FILE_PATH)
+	add_unchecked (language: STRING; file_path: FILE_PATH)
 		local
 			list: UNCHECKED_TRANSLATIONS_LIST
 		do
@@ -80,7 +80,7 @@ feature {EQA_TEST_SET} -- Implementation
 			end
 		end
 
-	add_file_check_attribute (file_path: EL_FILE_PATH)
+	add_file_check_attribute (file_path: FILE_PATH)
 		--  adds a check attribute after every field `lang = <language>', for example
 		-- `lang = de; check = false'
 

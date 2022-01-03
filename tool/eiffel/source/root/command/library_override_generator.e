@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-01-17 12:16:37 GMT (Friday 17th January 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	LIBRARY_OVERRIDE_GENERATOR
@@ -55,9 +55,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	override (relative_path: EL_FILE_PATH)
+	override (relative_path: FILE_PATH)
 		local
-			source_path, output_path: EL_FILE_PATH
+			source_path, output_path: FILE_PATH
 		do
 			source_path := ise_library_dir + relative_path
 			output_path := output_dir + relative_path
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	ise_library_dir: EL_DIR_PATH
+	ise_library_dir: DIR_PATH
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -125,3 +125,4 @@ feature {NONE} -- Constants
 
 
 end
+

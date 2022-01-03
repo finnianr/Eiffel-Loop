@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 18:47:08 GMT (Friday 23rd July 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_RSA_PRIVATE_KEY
@@ -85,7 +85,7 @@ feature {NONE} -- Initialization
 			make (a_prime_1, a_prime_2, a_prime_1 * a_prime_2, Default_exponent)
 		end
 
-	make_from_stored (file_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+	make_from_stored (file_path: FILE_PATH; encrypter: EL_AES_ENCRYPTER)
 		-- make from binary file created with `store' routine
 		do
 			make_default
@@ -133,7 +133,7 @@ feature -- Basic operations
 			result := decrypt (message)
 		end
 
-	store (output_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+	store (output_path: FILE_PATH; encrypter: EL_AES_ENCRYPTER)
 		-- store as binary encrypted file
 		do
 			if attached open_raw (output_path, Write) as file then

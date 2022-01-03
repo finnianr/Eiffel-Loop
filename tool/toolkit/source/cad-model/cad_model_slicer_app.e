@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:17:12 GMT (Tuesday 10th November 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	CAD_MODEL_SLICER_APP
@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH})
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [like Current, CAD_MODEL_SLICER]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-11 8:12:45 GMT (Wednesday 11th September 2019)"
-	revision: "2"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	FTP_BACKUP_COMMAND
@@ -20,7 +20,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_file_path: EL_FILE_PATH; a_ask_user_to_upload: BOOLEAN)
+	make (config_file_path: FILE_PATH; a_ask_user_to_upload: BOOLEAN)
 		do
 			create config.make (config_file_path)
 			ask_user_to_upload := a_ask_user_to_upload

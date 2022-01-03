@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-06 10:36:28 GMT (Thursday 6th August 2020)"
-	revision: "2"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	FTP_LOGIN_OPTIONS
@@ -25,7 +25,7 @@ feature -- Access
 
 	url: STRING
 
-	user_home: EL_DIR_PATH
+	user_home: DIR_PATH
 
 feature {NONE} -- Constants
 

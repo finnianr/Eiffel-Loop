@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-14 12:19:30 GMT (Saturday 14th August 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	GITHUB_CONFIGURATION
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH)
+	make (a_file_path: FILE_PATH)
 			--
 		local
 			s: EL_STRING_8_ROUTINES
@@ -50,14 +50,14 @@ feature -- Access
 			Result := credential.new_aes_encrypter (256)
 		end
 
-	github_dir: EL_DIR_PATH
+	github_dir: DIR_PATH
 
 	license_path: ZSTRING
 		-- relative to `source_dir'
 
 	rsync_template: STRING
 
-	source_dir: EL_DIR_PATH
+	source_dir: DIR_PATH
 
 	source_manifest_path: ZSTRING
 		-- relative to `source_dir'

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 14:46:49 GMT (Monday 3rd January 2022)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	SOURCE_MANIFEST
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 		do
 			parent_dir := a_file_path.parent
 			Precursor (a_file_path)
@@ -78,7 +78,7 @@ feature {NONE} -- Build from Pyxis
 
 	import_manifest
 		local
-			file_path: EL_FILE_PATH; other: SOURCE_MANIFEST
+			file_path: FILE_PATH; other: SOURCE_MANIFEST
 		do
 			file_path := node.to_expanded_file_path
 			if file_path.exists then
@@ -90,7 +90,7 @@ feature {NONE} -- Build from Pyxis
 	extend_locations
 			--
 		local
-			l_path: EL_DIR_PATH; tree: SOURCE_TREE
+			l_path: DIR_PATH; tree: SOURCE_TREE
 		do
 			l_path := node.to_expanded_dir_path
 			if l_path.is_absolute then
@@ -104,7 +104,7 @@ feature {NONE} -- Build from Pyxis
 
 feature {NONE} -- Internal attributes
 
-	parent_dir: EL_DIR_PATH
+	parent_dir: DIR_PATH
 
 	last_name: ZSTRING
 

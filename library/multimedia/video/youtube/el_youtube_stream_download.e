@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-28 9:52:03 GMT (Thursday 28th May 2020)"
-	revision: "2"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	EL_YOUTUBE_STREAM_DOWNLOAD
@@ -26,7 +26,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_stream: EL_YOUTUBE_STREAM; output_dir: EL_DIR_PATH; title: ZSTRING)
+	make (a_stream: EL_YOUTUBE_STREAM; output_dir: DIR_PATH; title: ZSTRING)
 		require
 			output_dir_exits: output_dir.exists
 		local
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 	stream: EL_YOUTUBE_STREAM
 
@@ -100,3 +100,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

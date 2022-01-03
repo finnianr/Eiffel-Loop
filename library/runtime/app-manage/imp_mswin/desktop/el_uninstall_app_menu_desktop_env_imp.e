@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 9:36:59 GMT (Sunday 28th March 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 			Result := Application_list.Main_launcher
 		end
 
-	save_as (shortcut: EL_SHELL_LINK; file_path: EL_FILE_PATH)
+	save_as (shortcut: EL_SHELL_LINK; file_path: FILE_PATH)
 		do
 			shortcut.save_elevated (file_path)
 		end
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	uninstall_reg_path: EL_DIR_PATH
+	uninstall_reg_path: DIR_PATH
 
 feature {NONE} -- Constants
 
@@ -132,7 +132,7 @@ feature {NONE} -- Constants
 			Result := "$command_options"
 		end
 
-	HKLM_uninstall_path: EL_DIR_PATH
+	HKLM_uninstall_path: DIR_PATH
 		once
 			Result := Reg_key.Windows.current_version ("Uninstall")
 		end

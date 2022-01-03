@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:12:55 GMT (Sunday 2nd August 2020)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	ROOT_PARAMETERS
@@ -35,6 +35,6 @@ feature -- Factory
 
 feature {NONE} -- Internal attributes
 
-	image_path: EL_FILE_PATH
+	image_path: FILE_PATH
 
 end

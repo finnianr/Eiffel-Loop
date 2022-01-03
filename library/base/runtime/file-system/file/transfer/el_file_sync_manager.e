@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 15:07:04 GMT (Sunday 28th March 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			maximum_retry_count := Default_maximum_retry_count
 		end
 
-	make_empty (a_local_home_dir: EL_DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
+	make_empty (a_local_home_dir: DIR_PATH; a_destination_name, a_extension: READABLE_STRING_GENERAL)
 		do
 			local_home_dir := a_local_home_dir; destination_name := a_destination_name
 			create extension.make_from_general (a_extension)
@@ -80,7 +80,7 @@ feature -- Access
 	extension: ZSTRING
 		-- file extension
 
-	local_home_dir: EL_DIR_PATH
+	local_home_dir: DIR_PATH
 
 feature -- Status query
 
@@ -109,7 +109,7 @@ feature -- Basic operations
 		-- update with progress tracking
 		local
 			deleted_set, new_item_set: like current_set
-			make_directory_list: LIST [EL_DIR_PATH]; update_action: PROCEDURE
+			make_directory_list: LIST [DIR_PATH]; update_action: PROCEDURE
 		do
 			deleted_set := previous_set.subset_exclude (agent current_set.has)
 			new_item_set := current_set.subset_exclude (agent previous_set.has)
@@ -161,10 +161,10 @@ feature {NONE} -- Implementation
 		end
 
 	do_update (
-		medium: EL_FILE_SYNC_MEDIUM; deleted_set, copy_item_set: like current_set; make_directory_list: LIST [EL_DIR_PATH]
+		medium: EL_FILE_SYNC_MEDIUM; deleted_set, copy_item_set: like current_set; make_directory_list: LIST [DIR_PATH]
 	)
 		local
-			local_dir, checksum_dir: EL_DIR_PATH
+			local_dir, checksum_dir: DIR_PATH
 		do
 			-- remove files for deletion
 			across deleted_set as set loop
@@ -202,7 +202,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factory
 
-	new_file_list (item_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]): EL_ARRAYED_LIST [EL_FILE_PATH]
+	new_file_list (item_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]): EL_ARRAYED_LIST [FILE_PATH]
 		do
 			create Result.make (item_set.count)
 			across item_set as set loop
@@ -212,7 +212,7 @@ feature {NONE} -- Factory
 
 	new_previous_set: like current_set
 		local
-			file_path: EL_FILE_PATH; current_table: HASH_TABLE [EL_FILE_SYNC_ITEM, EL_FILE_PATH]
+			file_path: FILE_PATH; current_table: HASH_TABLE [EL_FILE_SYNC_ITEM, FILE_PATH]
 		do
 			create current_table.make_equal (current_set.count)
 			across current_set as set loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-26 18:15:24 GMT (Friday 26th February 2021)"
-	revision: "25"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "26"
 
 class
 	EL_PIXMAP
@@ -119,7 +119,7 @@ feature -- Access
 			create Result.make_size (width, height)
 		end
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 		do
 			if attached pixmap_path as path then
 				Result := path
@@ -214,7 +214,7 @@ feature -- Conversion
 
 feature -- Basic operations
 
-	save_as (a_file_path: EL_FILE_PATH)
+	save_as (a_file_path: FILE_PATH)
 		do
 			save_to_named_file (create {EV_PNG_FORMAT}, a_file_path)
 		end

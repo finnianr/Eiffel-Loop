@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:22 GMT (Tuesday 10th November 2020)"
-	revision: "18"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "19"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
@@ -33,10 +33,10 @@ feature -- Test
 			Test.do_file_tree_test (".thunderbird", agent test_www_export, 4261842426)
 		end
 
-	test_www_export (a_dir_path: EL_DIR_PATH)
+	test_www_export (a_dir_path: DIR_PATH)
 			--
 		local
-			config_path: EL_FILE_PATH
+			config_path: FILE_PATH
 		do
 			config_path := a_dir_path + "config.pyx"
 			if attached open (config_path, Write) as pyxis_out then

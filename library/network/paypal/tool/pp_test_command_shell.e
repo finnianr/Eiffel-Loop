@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:21:29 GMT (Wednesday 1st September 2021)"
-	revision: "19"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -33,7 +33,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_path: EL_FILE_PATH; encrypter: EL_AES_ENCRYPTER)
+	make (config_path: FILE_PATH; encrypter: EL_AES_ENCRYPTER)
 		local
 			config: PP_CONFIGURATION
 		do
@@ -188,7 +188,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Cert_authority_info_path: EL_FILE_PATH
+	Cert_authority_info_path: FILE_PATH
 		once
 			Result := Directory.Home + "Documents/Certificates/cacert.pem"
 		end

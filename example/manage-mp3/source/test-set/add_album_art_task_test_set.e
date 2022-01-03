@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-06-01 18:13:36 GMT (Monday 1st June 2020)"
-	revision: "4"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	ADD_ALBUM_ART_TASK_TEST_SET
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			)
 		end
 
-	mp3 (mp3_path: EL_FILE_PATH): EL_MP3_IDENTIFIER
+	mp3 (mp3_path: FILE_PATH): EL_MP3_IDENTIFIER
 		do
 			create Result.make (mp3_path)
 		end

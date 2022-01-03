@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 10:07:24 GMT (Monday 16th August 2021)"
-	revision: "48"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "49"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -80,7 +80,7 @@ feature -- Access
 			Result := location.hash_code
 		end
 
-	music_dir: EL_DIR_PATH
+	music_dir: DIR_PATH
 
 feature -- Element change
 

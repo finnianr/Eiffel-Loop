@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:46:59 GMT (Friday 26th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -29,7 +29,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_vcf_path: EL_FILE_PATH)
+	make (a_vcf_path: FILE_PATH)
 		do
 			make_machine
 			vcf_path := a_vcf_path
@@ -61,7 +61,7 @@ feature {NONE} -- State handlers
 
 	find_end_record (a_line: ZSTRING)
 		local
-			output_path: EL_FILE_PATH; file: PLAIN_TEXT_FILE
+			output_path: FILE_PATH; file: PLAIN_TEXT_FILE
 			first_name, last_name: ZSTRING
 		do
 			record_lines.extend (a_line)
@@ -96,9 +96,9 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	vcf_path: EL_FILE_PATH
+	vcf_path: FILE_PATH
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
 	record_id: ZSTRING
 

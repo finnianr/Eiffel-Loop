@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-26 18:59:31 GMT (Saturday 26th October 2019)"
-	revision: "4"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	JAVA_RUNTIME_ENVIRONMENT_INFO
@@ -42,20 +42,21 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	java_home: EL_DIR_PATH
+	java_home: DIR_PATH
 
-	jvm_dll_path: EL_FILE_PATH
+	jvm_dll_path: FILE_PATH
 
 feature {NONE} -- Constants
 
-	Current_version_reg_path: EL_DIR_PATH
+	Current_version_reg_path: DIR_PATH
 		once
 			Result := JRE_reg_path.joined_dir_path (Win_registry.string (JRE_reg_path, "CurrentVersion"))
 		end
 
-	JRE_reg_path: EL_DIR_PATH
+	JRE_reg_path: DIR_PATH
 		once
 			Result := "HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment"
 		end
 
 end
+

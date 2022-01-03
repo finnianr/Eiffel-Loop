@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-03 15:11:21 GMT (Thursday 3rd June 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	ENCRYPTION_TEST_SET
@@ -48,7 +48,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	encrypt (file_path: EL_FILE_PATH)
+	encrypt (file_path: FILE_PATH)
 			--
 		local
 			lines: PLAIN_TEXT_FILE; encrypted_lines: LINKED_LIST [STRING]

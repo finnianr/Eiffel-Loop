@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 15:58:09 GMT (Wednesday 3rd March 2021)"
-	revision: "19"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	SONG_QUERY_CONDITIONS
@@ -121,7 +121,7 @@ feature {NONE} -- Query predicates
 			Result := song.artist ~ artist and song.title ~ title
 		end
 
-	song_has_mp3_path (song: RBOX_SONG; mp3_path: EL_FILE_PATH): BOOLEAN
+	song_has_mp3_path (song: RBOX_SONG; mp3_path: FILE_PATH): BOOLEAN
 		do
 			Result := song.mp3_path ~ mp3_path
 		end

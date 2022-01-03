@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 13:40:47 GMT (Friday 6th August 2021)"
-	revision: "8"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -102,12 +102,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Locales_dir: EL_DIR_PATH
+	Locales_dir: DIR_PATH
 		once
 			Result := Work_area_dir.joined_dir_tuple (["locales"])
 		end
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("pyxis/localization")
 		end

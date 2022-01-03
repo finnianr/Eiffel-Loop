@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-05-19 19:05:05 GMT (Saturday 19th May 2018)"
-	revision: "3"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_WAVE_FILE
@@ -47,7 +47,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_open_write (file_name: EL_FILE_PATH; a_num_channels, a_sample_bytes, a_samples_per_sec : INTEGER)
+	make_open_write (file_name: FILE_PATH; a_num_channels, a_sample_bytes, a_samples_per_sec : INTEGER)
 			--
 		do
 			file_make_open_write (file_name)

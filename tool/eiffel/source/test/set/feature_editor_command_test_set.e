@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-16 8:15:37 GMT (Friday 16th April 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -44,7 +44,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	edit_file (file_path: EL_FILE_PATH)
+	edit_file (file_path: FILE_PATH)
 		local
 			command: FEATURE_EDITOR_COMMAND; bom: BOOLEAN
 		do
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			Result := OS.file_list (Data_dir, "*.e")
 		end
 
-	has_bom (file_path: EL_FILE_PATH): BOOLEAN
+	has_bom (file_path: FILE_PATH): BOOLEAN
 		local
 			lines: EL_PLAIN_TEXT_LINE_SOURCE
 		do
@@ -88,7 +88,7 @@ feature {NONE} -- Constants
 			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (118099087, 3942163219)
 		end
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := "test-data/feature-edits"
 		end

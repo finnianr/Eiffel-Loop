@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-27 19:17:17 GMT (Saturday 27th November 2021)"
-	revision: "11"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -45,19 +45,19 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	new_table_from_file (language: STRING; file_path: EL_FILE_PATH): EL_TRANSLATION_TABLE
+	new_table_from_file (language: STRING; file_path: FILE_PATH): EL_TRANSLATION_TABLE
 		do
 			create Result.make_from_pyxis (language, file_path)
 		end
 
-	new_table_from_source (language: STRING; file_path: EL_FILE_PATH): EL_TRANSLATION_TABLE
+	new_table_from_source (language: STRING; file_path: FILE_PATH): EL_TRANSLATION_TABLE
 		do
 			create Result.make_from_pyxis_source (language, File_system.plain_text (file_path))
 		end
 
-	test_reading (new_table: FUNCTION [STRING, EL_FILE_PATH, EL_TRANSLATION_TABLE])
+	test_reading (new_table: FUNCTION [STRING, FILE_PATH, EL_TRANSLATION_TABLE])
 		local
-			pyxis_file_path: EL_FILE_PATH; table: EL_TRANSLATION_TABLE
+			pyxis_file_path: FILE_PATH; table: EL_TRANSLATION_TABLE
 		do
 			across << "credits", "phrases", "words" >> as name loop
 				pyxis_file_path := Localization_dir + (name.item + ".pyx")
@@ -75,7 +75,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Localization_dir: EL_DIR_PATH
+	Localization_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_tuple (["pyxis", "localization"])
 		end

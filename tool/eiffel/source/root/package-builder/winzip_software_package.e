@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-23 11:36:08 GMT (Monday 23rd August 2021)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -84,7 +84,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_config_path: EL_FILE_PATH; a_pecf_path: EL_FILE_PATH)
+	make (a_config_path: FILE_PATH; a_pecf_path: FILE_PATH)
 			--
 		require
 			config_exists: a_config_path.exists
@@ -276,7 +276,7 @@ feature {NONE} -- Implementation
 			Result := language_list.comma_separated_string
 		end
 
-	installer_exe_path (language: STRING): EL_FILE_PATH
+	installer_exe_path (language: STRING): FILE_PATH
 		local
 			inserts: TUPLE; platform_dir: ZSTRING
 		do
@@ -339,9 +339,9 @@ feature {NONE} -- Configuration parameters
 
 	name_template: ZSTRING
 
-	output_dir: EL_DIR_PATH
+	output_dir: DIR_PATH
 
-	root_class_path: EL_FILE_PATH
+	root_class_path: FILE_PATH
 		-- optional root class to be used instead of system default specified in ecf
 
 feature {NONE} -- Implementation: attributes

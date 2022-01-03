@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 11:29:07 GMT (Friday 20th August 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	OS_COMMAND_TEST_SET
@@ -48,7 +48,7 @@ feature -- Tests
 			testing: "covers/{EL_PARSED_OS_COMMAND}.make, covers/{EL_PARSED_OS_COMMAND}.valid_variable_names"
 		local
 			cmd: EL_CREATE_TAR_COMMAND
-			tar_path: EL_FILE_PATH
+			tar_path: FILE_PATH
 		do
 			create cmd.make
 			tar_path := Work_area_dir + "archive.tar"
@@ -60,7 +60,7 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Source_dir: EL_DIR_PATH
+	Source_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir #+ "txt"
 		end

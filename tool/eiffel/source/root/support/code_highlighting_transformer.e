@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-03 13:44:49 GMT (Wednesday 3rd March 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	CODE_HIGHLIGHTING_TRANSFORMER
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			Precursor
 		end
 
-	make_from_file (a_output: like output; a_file_path: EL_FILE_PATH; a_selected_features: like selected_features)
+	make_from_file (a_output: like output; a_file_path: FILE_PATH; a_selected_features: like selected_features)
 			--
 		do
 			make (a_output)

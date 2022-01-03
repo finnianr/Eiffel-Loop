@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-26 9:43:17 GMT (Tuesday 26th October 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -47,7 +47,7 @@ create
 
 feature -- Initialization
 
-	make (log_path: EL_FILE_PATH; a_thread_name: STRING; a_index: INTEGER)
+	make (log_path: FILE_PATH; a_thread_name: STRING; a_index: INTEGER)
 			-- Create file object with `fn' as file name.
 		do
 			make_default

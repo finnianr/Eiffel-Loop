@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-06 18:01:22 GMT (Friday 6th August 2021)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	WZIPSE32_ARGUMENTS
@@ -19,7 +19,7 @@ feature -- Arguments
 	language_option: STRING
 		-- '-lg' or '-le'
 
-	package_ico: EL_FILE_PATH
+	package_ico: FILE_PATH
 
 	text_dialog_message: ZSTRING
 
@@ -27,6 +27,6 @@ feature -- Arguments
 
 	title: ZSTRING
 
-	zip_archive_path: EL_FILE_PATH
+	zip_archive_path: FILE_PATH
 
 end

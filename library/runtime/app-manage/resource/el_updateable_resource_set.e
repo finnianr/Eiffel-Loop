@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-07-01 9:36:06 GMT (Monday 1st July 2019)"
-	revision: "3"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_UPDATEABLE_RESOURCE_SET
@@ -25,9 +25,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (installed_base_dir, updated_base_dir, relative_path: EL_DIR_PATH)
+	make (installed_base_dir, updated_base_dir, relative_path: DIR_PATH)
 		local
-			manifest_path: EL_FILE_PATH
+			manifest_path: FILE_PATH
 		do
 			installed_dir := installed_base_dir.joined_dir_path (relative_path)
 			updated_dir := updated_base_dir.joined_dir_path (relative_path)
@@ -39,14 +39,14 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_standard (installed_base_dir, relative_path: EL_DIR_PATH)
+	make_standard (installed_base_dir, relative_path: DIR_PATH)
 		do
 			make (installed_base_dir, Directory.app_configuration, relative_path)
 		end
 
 feature -- Access
 
-	i_th_path (i: INTEGER): EL_FILE_PATH
+	i_th_path (i: INTEGER): FILE_PATH
 		do
 			if valid_index (i) then
 				Result := new_item_path (i_th (i).name)
@@ -55,15 +55,15 @@ feature -- Access
 			end
 		end
 
-	installed_dir: EL_DIR_PATH
+	installed_dir: DIR_PATH
 		-- directory for installed items
 
-	item_path: EL_FILE_PATH
+	item_path: FILE_PATH
 		do
 			Result := new_item_path (item.name)
 		end
 
-	new_item_path (name: ZSTRING): EL_FILE_PATH
+	new_item_path (name: ZSTRING): FILE_PATH
 		do
 			Result := updated_dir + name
 			if not Result.exists then
@@ -71,7 +71,7 @@ feature -- Access
 			end
 		end
 
-	updated_dir: EL_DIR_PATH
+	updated_dir: DIR_PATH
 		-- directory for updated items
 
 feature {EL_RESOURCE_INSTALL_MANAGER} -- Constants
@@ -82,3 +82,4 @@ feature {EL_RESOURCE_INSTALL_MANAGER} -- Constants
 		end
 
 end
+

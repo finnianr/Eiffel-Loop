@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-26 14:23:15 GMT (Sunday 26th September 2021)"
-	revision: "19"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	EVOLICITY_TEMPLATES
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	merge (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
+	merge (a_name: FILE_PATH; context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		require
 			output_writeable: output.is_open_write and output.is_writable
@@ -98,7 +98,7 @@ feature -- Basic operations
 			end
 		end
 
-	merge_to_file (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT; text_file: EL_PLAIN_TEXT_FILE)
+	merge_to_file (a_name: FILE_PATH; context: EVOLICITY_CONTEXT; text_file: EL_PLAIN_TEXT_FILE)
 			--
 		require
 			writeable: text_file.is_open_write
@@ -109,7 +109,7 @@ feature -- Basic operations
 
 feature -- String output
 
-	merged_to_string (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
+	merged_to_string (a_name: FILE_PATH; context: EVOLICITY_CONTEXT): ZSTRING
 		local
 			medium: EL_ZSTRING_IO_MEDIUM
 		do
@@ -119,7 +119,7 @@ feature -- String output
 			Result := medium.text
 		end
 
-	merged_to_utf_8 (a_name: EL_FILE_PATH; context: EVOLICITY_CONTEXT): STRING
+	merged_to_utf_8 (a_name: FILE_PATH; context: EVOLICITY_CONTEXT): STRING
 			--
 		local
 			medium: EL_STRING_8_IO_MEDIUM
@@ -132,7 +132,7 @@ feature -- String output
 
 feature -- Status query
 
-	has (a_name: EL_FILE_PATH): BOOLEAN
+	has (a_name: FILE_PATH): BOOLEAN
  		do
  			if attached restricted_compiler_table as table then
 				Result := table.has (a_name)
@@ -147,7 +147,7 @@ feature -- Status query
 
 feature -- Element change
 
-	put_file (file_path: EL_FILE_PATH; encoding: EL_ENCODING_BASE)
+	put_file (file_path: FILE_PATH; encoding: EL_ENCODING_BASE)
 			--
 		require
 			file_exists: file_path.exists
@@ -155,7 +155,7 @@ feature -- Element change
 			put (file_path, Empty_string, encoding)
 		end
 
-	put_source (a_name: EL_FILE_PATH; template_source: READABLE_STRING_GENERAL)
+	put_source (a_name: FILE_PATH; template_source: READABLE_STRING_GENERAL)
 		do
 			put (a_name, as_zstring (template_source), Void)
 		end
@@ -186,7 +186,7 @@ feature -- Removal
  			end
 		end
 
-	remove (a_name: EL_FILE_PATH)
+	remove (a_name: FILE_PATH)
 			-- remove template
 		do
  			if attached restricted_compiler_table as table then
@@ -215,14 +215,14 @@ feature -- Factory
 
 feature -- Contract Support
 
-	is_type_template (key_path: EL_FILE_PATH): BOOLEAN
+	is_type_template (key_path: FILE_PATH): BOOLEAN
 		do
 			Result := key_path.has_extension ("template") and then key_path.base_sans_extension.enclosed_with (Braces)
 		end
 
 feature {NONE} -- Implementation
 
-	put (key_path: EL_FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
+	put (key_path: FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
 		-- put compiled template into the thread safe global `Compiler_table' template table
 
 		-- if `file_encoding' attached then compile template stored in file path `key_path'
@@ -279,7 +279,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Global attributes
 
-	Compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, EL_FILE_PATH]]
+	Compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVOLICITY_COMPILER, FILE_PATH]]
 			-- Global template compilers table
 		once ("PROCESS")
 			create Result.make (create {like Compiler_table.item}.make (11))

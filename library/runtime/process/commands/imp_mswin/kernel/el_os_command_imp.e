@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-31 14:57:59 GMT (Friday 31st December 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -26,7 +26,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_output_lines (file_path: EL_FILE_PATH): EL_ZSTRING_LIST
+	new_output_lines (file_path: FILE_PATH): EL_ZSTRING_LIST
 		local
 			console_encoding, unicode_encoding: ENCODING; line_one, content, line: STRING
 			s8: EL_STRING_8_ROUTINES; line_split: EL_ITERABLE_SPLIT [STRING, ANY]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 8:24:07 GMT (Wednesday 1st September 2021)"
-	revision: "30"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "31"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -60,7 +60,7 @@ feature -- Basic operations
 	encrypt_file_with_aes
 		local
 			encrypter: like new_encrypter; credential: like new_credential
-			input_path: EL_FILE_PATH
+			input_path: FILE_PATH
 		do
 			input_path := new_file_path ("input")
 			credential := new_credential
@@ -77,7 +77,7 @@ feature -- Basic operations
 
 	export_x509_private_key_to_aes
 		local
-			key_file_path, export_path: EL_FILE_PATH; key_reader: like x509_certificate.private_reader
+			key_file_path, export_path: FILE_PATH; key_reader: like x509_certificate.private_reader
 			credential: like new_credential; key_read: BOOLEAN
 			key: EL_RSA_PRIVATE_KEY
 		do
@@ -113,7 +113,7 @@ feature -- Basic operations
 		local
 			private_key: like new_private_key; string: ZSTRING
 			signed_string: SPECIAL [NATURAL_8];  string_list: EL_STRING_8_LIST; s: EL_STRING_8_ROUTINES
-			eiffel_class: EL_SIGNED_EIFFEL_CLASS; key_file_path: EL_FILE_PATH
+			eiffel_class: EL_SIGNED_EIFFEL_CLASS; key_file_path: FILE_PATH
 		do
 			key_file_path := new_key_file_path
 			private_key := new_private_key (key_file_path)
@@ -143,7 +143,7 @@ feature -- Basic operations
 
 	write_x509_public_key_code_assignment
 		local
-			crt_file_path: EL_FILE_PATH; eiffel_source_name: EL_FILE_PATH; variable_name: ZSTRING
+			crt_file_path: FILE_PATH; eiffel_source_name: FILE_PATH; variable_name: ZSTRING
 			eif_class: EL_PUBLIC_KEY_MANIFEST_CLASS
 		do
 			from create crt_file_path until crt_file_path.has_extension (Extension.crt) loop
@@ -168,13 +168,13 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	aes_path (input_path: EL_FILE_PATH): EL_FILE_PATH
+	aes_path (input_path: FILE_PATH): FILE_PATH
 		do
 			Result := input_path.twin
 			Result.add_extension (Extension.aes)
 		end
 
-	to_crt_path (key_file_path: EL_FILE_PATH): EL_FILE_PATH
+	to_crt_path (key_file_path: FILE_PATH): FILE_PATH
 		do
 			Result := key_file_path.without_extension -- remove .dat
 			Result.replace_extension (Extension.crt)
@@ -205,7 +205,7 @@ feature {NONE} -- Implementation
 
 	do_with_encrypted_file (action: PROCEDURE [EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE])
 		local
-			input_path: EL_FILE_PATH
+			input_path: FILE_PATH
 		do
 			input_path := new_file_path ("input")
 			lio.put_new_line
@@ -216,7 +216,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	encrypt_file (encrypter: like new_encrypter; input_path, output_path: EL_FILE_PATH)
+	encrypt_file (encrypter: like new_encrypter; input_path, output_path: FILE_PATH)
 		local
 			cipher_file: EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
 		do
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 		end
 
-	serial_number (key_file_path: EL_FILE_PATH): STRING
+	serial_number (key_file_path: FILE_PATH): STRING
 		do
 			if attached X509_certificate.public_reader (to_crt_path (key_file_path)) as cmd then
 				cmd.execute
@@ -283,7 +283,7 @@ feature {NONE} -- Factory
 			>>)
 		end
 
-	new_eiffel_source_name: EL_FILE_PATH
+	new_eiffel_source_name: FILE_PATH
 		do
 			Result := User_input.line ("Eiffel source name")
 			if not Result.has_extension (Extension.e) then
@@ -302,7 +302,7 @@ feature {NONE} -- Factory
 			Result := User_input.integer_from_values ("AES encryption bit count", AES_types)
 		end
 
-	new_file_path (name: ZSTRING): EL_FILE_PATH
+	new_file_path (name: ZSTRING): FILE_PATH
 		local
 			prompt: ZSTRING
 		do
@@ -317,14 +317,14 @@ feature {NONE} -- Factory
 			Result.ask_user
 		end
 
-	new_key_file_path: EL_FILE_PATH
+	new_key_file_path: FILE_PATH
 		do
 			from create Result until Result.has_extension (Extension.dat) loop
 				Result := new_file_path (Extension.key + "." + Extension.dat)
 			end
 		end
 
-	new_private_key (key_file_path: EL_FILE_PATH): EL_RSA_PRIVATE_KEY
+	new_private_key (key_file_path: FILE_PATH): EL_RSA_PRIVATE_KEY
 		local
 			encrypter: EL_AES_ENCRYPTER
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-26 12:15:25 GMT (Friday 26th November 2021)"
-	revision: "15"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "16"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -54,9 +54,9 @@ feature {EL_COMMAND_CLIENT} -- Initiliazation
 
 feature -- Access
 
-	output_path: EL_FILE_PATH
+	output_path: FILE_PATH
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 	source_encoding: EL_MARKUP_ENCODING
 		do

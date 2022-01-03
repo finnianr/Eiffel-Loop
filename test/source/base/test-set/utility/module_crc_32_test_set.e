@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:50:52 GMT (Saturday 20th March 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	MODULE_CRC_32_TEST_SET
@@ -35,7 +35,7 @@ feature -- Tests
 			testing: "covers/{EL_CRC_32_CHECKSUM_ROUTINES}.utf_8_file_content",
 						"covers/{EL_CRC_32_CHECKSUM_ROUTINES}.string_list"
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			file_path := Work_area_dir + "data.txt"
 			if attached open (file_path, Write) as file_out then

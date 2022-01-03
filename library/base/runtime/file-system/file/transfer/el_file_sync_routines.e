@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 7:26:12 GMT (Saturday 27th March 2021)"
-	revision: "3"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_FILE_SYNC_ROUTINES
 
 feature {NONE} -- Implementation
 
-	new_crc_sync_dir (parent_dir: EL_DIR_PATH; a_name: READABLE_STRING_GENERAL): EL_DIR_PATH
+	new_crc_sync_dir (parent_dir: DIR_PATH; a_name: READABLE_STRING_GENERAL): DIR_PATH
 		do
 			Result := parent_dir #+ (Crc_name_prefix + a_name)
 		end

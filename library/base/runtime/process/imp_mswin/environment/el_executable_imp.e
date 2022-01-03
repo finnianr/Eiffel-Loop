@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-22 13:48:51 GMT (Sunday 22nd August 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_EXECUTABLE_IMP
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	search_path_has (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if executable `name' is in the environment search path `PATH'
 		local
-			name_path: EL_FILE_PATH
+			name_path: FILE_PATH
 		do
 			create name_path.make (a_name)
 			if name_path.has_dot_extension and then File_extensions.has (name_path.extension) then

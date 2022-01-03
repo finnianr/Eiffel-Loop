@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-24 16:34:27 GMT (Saturday 24th April 2021)"
-	revision: "2"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 class
 	EL_FILE_SWAPPER
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: EL_FILE_PATH; target_extension: READABLE_STRING_GENERAL)
+	make (a_file_path: FILE_PATH; target_extension: READABLE_STRING_GENERAL)
 		do
 			file_path := a_file_path
 			temp_path := a_file_path.with_new_extension (Temp_extension)
@@ -34,9 +34,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
-	replacement_path: EL_FILE_PATH
+	replacement_path: FILE_PATH
 
 feature -- Basic operations
 
@@ -59,7 +59,7 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	temp_path: EL_FILE_PATH
+	temp_path: FILE_PATH
 
 feature {NONE} -- Constants
 

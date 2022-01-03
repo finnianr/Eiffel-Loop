@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-21 14:58:37 GMT (Monday 21st June 2021)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -26,12 +26,12 @@ inherit
 
 feature -- Access
 
-	csv_file_path: EL_FILE_PATH
+	csv_file_path: FILE_PATH
 		do
 			Result := exported_file_path ("csv", "csv")
 		end
 
-	meta_data_file_path: EL_FILE_PATH
+	meta_data_file_path: FILE_PATH
 		local
 			version: EL_SOFTWARE_VERSION
 		do
@@ -40,14 +40,14 @@ feature -- Access
 			Result.set_parent (Result.parent #+ version.string)
 		end
 
-	pyxis_file_path: EL_FILE_PATH
+	pyxis_file_path: FILE_PATH
 		do
 			Result := exported_file_path ("pyxis", "pyx")
 		end
 
 feature -- Basic operations
 
-	export_csv (a_file_path: EL_FILE_PATH; encoding: NATURAL)
+	export_csv (a_file_path: FILE_PATH; encoding: NATURAL)
 		require
 			valid_encoding: valid_encoding (encoding)
 		local
@@ -71,7 +71,7 @@ feature -- Basic operations
 			file.close
 		end
 
-	export_meta_data (a_file_path: EL_FILE_PATH)
+	export_meta_data (a_file_path: FILE_PATH)
 		local
 			file: EL_PLAIN_TEXT_FILE; l_item: like item
 		do
@@ -87,7 +87,7 @@ feature -- Basic operations
 			file.close
 		end
 
-	export_pyxis (a_file_path: EL_FILE_PATH; encoding: NATURAL)
+	export_pyxis (a_file_path: FILE_PATH; encoding: NATURAL)
 		require
 			valid_encoding: valid_encoding (encoding)
 		local
@@ -109,7 +109,7 @@ feature -- Basic operations
 			file.close
 		end
 
-	import_csv (a_file_path: EL_FILE_PATH)
+	import_csv (a_file_path: FILE_PATH)
 		local
 			import_list: EL_IMPORTABLE_ARRAYED_LIST [G]
 		do
@@ -120,7 +120,7 @@ feature -- Basic operations
 			safe_store
 		end
 
-	import_pyxis (a_file_path: EL_FILE_PATH)
+	import_pyxis (a_file_path: FILE_PATH)
 		-- replace all items with imported Pyxis data
 		local
 			importer: EL_PYXIS_TABLE_DATA_IMPORTER [G]
@@ -133,7 +133,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	exported_file_path (dir_name, extension: STRING): EL_FILE_PATH
+	exported_file_path (dir_name, extension: STRING): FILE_PATH
 		do
 			Result := file_path.parent.joined_file_tuple ([dir_name, file_path.base])
 			Result.replace_extension (extension)

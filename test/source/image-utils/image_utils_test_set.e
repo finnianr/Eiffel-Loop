@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 12:58:56 GMT (Thursday 11th March 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	IMAGE_UTILS_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	convert_to_width_and_color (width, a_color: INTEGER; output_path: EL_FILE_PATH)
+	convert_to_width_and_color (width, a_color: INTEGER; output_path: FILE_PATH)
 		do
 			SVG.write_png_of_width (svg_path, output_path, width, a_color)
 			print_digest (output_path)

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:56:31 GMT (Sunday 19th December 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -38,7 +38,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_file_path, a_config_path: EL_FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
+	make (a_file_path, a_config_path: FILE_PATH; a_version: STRING; a_thread_count: INTEGER)
 		do
 			make_publisher (a_config_path, a_version, a_thread_count)
 			file_path := a_file_path
@@ -46,7 +46,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	expanded_file_path: EL_FILE_PATH
+	expanded_file_path: FILE_PATH
 		do
 			Result := file_path.with_new_extension ("expanded." + file_path.extension)
 		end
@@ -95,7 +95,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: EL_FILE_PATH; link_text: ZSTRING)
+	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: FILE_PATH; link_text: ZSTRING)
 		do
 			file_out.put_raw_character_8 ('[')
 			file_out.put_string (web_address)
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 feature {NONE} -- Constants
 

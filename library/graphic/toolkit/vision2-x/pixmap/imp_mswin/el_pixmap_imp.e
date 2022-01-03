@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-02 10:26:14 GMT (Sunday 2nd August 2020)"
-	revision: "9"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_PIXMAP_IMP
@@ -109,7 +109,7 @@ feature {NONE} -- Implementation
 
 	effective_load_file
 		local
-			l_path: EL_FILE_PATH; bitmap: WEL_GDIP_BITMAP
+			l_path: FILE_PATH; bitmap: WEL_GDIP_BITMAP
 		do
 			l_path := pixmap_filename
 			if l_path.has_some_extension (Jpeg_extensions, True) and then l_path.exists then

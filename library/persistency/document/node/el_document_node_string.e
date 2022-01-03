@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 9:07:15 GMT (Friday 23rd July 2021)"
-	revision: "19"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -94,7 +94,7 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (a_document_dir: EL_DIR_PATH)
+	make (a_document_dir: DIR_PATH)
 		do
 			document_dir := a_document_dir
 			make_empty; make_encodeable
@@ -103,12 +103,12 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			make (create {EL_DIR_PATH})
+			make (create {DIR_PATH})
 		end
 
 feature -- Access
 
-	document_dir: EL_DIR_PATH
+	document_dir: DIR_PATH
 
 	name: ZSTRING
 		do
@@ -325,7 +325,7 @@ feature -- Conversion
 			end
 		end
 
-	to_expanded_dir_path: EL_DIR_PATH
+	to_expanded_dir_path: DIR_PATH
 		do
 			Result := adjusted (False)
 			Result.expand
@@ -335,7 +335,7 @@ feature -- Conversion
 --			end
 		end
 
-	to_expanded_file_path: EL_FILE_PATH
+	to_expanded_file_path: FILE_PATH
 		do
 			Result := adjusted (False)
 			Result.expand

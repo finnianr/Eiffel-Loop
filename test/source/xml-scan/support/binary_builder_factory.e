@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-17 13:14:08 GMT (Sunday 17th January 2021)"
-	revision: "3"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	BINARY_BUILDER_FACTORY
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_work_area_dir: EL_DIR_PATH)
+	make (a_work_area_dir: DIR_PATH)
 		do
 			work_area_dir := a_work_area_dir
 			create smart_builder.make (Binary_encoded_event_source)
@@ -35,17 +35,17 @@ feature {NONE} -- Initialization
 
 feature -- Factory
 
-	new_matrix (file_path: EL_FILE_PATH): MATRIX_CALCULATOR
+	new_matrix (file_path: FILE_PATH): MATRIX_CALCULATOR
 			--
 		do
 			create Result.make_default
 			binary_xml_build (file_path, Result)
 		end
 
-	new_serializeable (file_path: EL_FILE_PATH): EL_BUILDABLE_FROM_NODE_SCAN
+	new_serializeable (file_path: FILE_PATH): EL_BUILDABLE_FROM_NODE_SCAN
 		-- detect type from processing instruction
 		local
-			bex_file_path: EL_FILE_PATH
+			bex_file_path: FILE_PATH
 		do
 			bex_file_path := bexml_path (file_path)
 			convert_file_to_bexml (file_path, bex_file_path)
@@ -55,14 +55,14 @@ feature -- Factory
 			end
 		end
 
-	new_smil_presentation (file_path: EL_FILE_PATH): SMIL_PRESENTATION
+	new_smil_presentation (file_path: FILE_PATH): SMIL_PRESENTATION
 			--
 		do
 			create Result.make
 			binary_xml_build (file_path, Result)
 		end
 
-	new_web_form (file_path: EL_FILE_PATH): WEB_FORM
+	new_web_form (file_path: FILE_PATH): WEB_FORM
 			--
 		do
 			create Result.make
@@ -71,15 +71,15 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	bexml_path (file_path: EL_FILE_PATH): EL_FILE_PATH
+	bexml_path (file_path: FILE_PATH): FILE_PATH
 		do
 			Result := work_area_dir + file_path.base_sans_extension
 			Result.add_extension (Extension_bexml)
 		end
 
-	binary_xml_build (file_path: EL_FILE_PATH; object: EL_CREATEABLE_FROM_NODE_SCAN)
+	binary_xml_build (file_path: FILE_PATH; object: EL_CREATEABLE_FROM_NODE_SCAN)
 		local
-			bex_file_path: EL_FILE_PATH
+			bex_file_path: FILE_PATH
 		do
 			bex_file_path := bexml_path (file_path)
 			convert_file_to_bexml (file_path, bex_file_path)
@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			object.build_from_file (bex_file_path)
 		end
 
-	convert_file_to_bexml (file_path, output_file_path: EL_FILE_PATH)
+	convert_file_to_bexml (file_path, output_file_path: FILE_PATH)
 			--
 		do
 			if attached open_raw (output_file_path, Write) as bex_file then
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	work_area_dir: EL_DIR_PATH
+	work_area_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

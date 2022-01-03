@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 10:30:45 GMT (Wednesday 24th November 2021)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -99,10 +99,10 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-	build_and_serialize_file (file_name: STRING; new_object: FUNCTION [EL_FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN])
+	build_and_serialize_file (file_name: STRING; new_object: FUNCTION [FILE_PATH, EL_BUILDABLE_FROM_NODE_SCAN])
 			--
 		local
-			object: EL_BUILDABLE_FROM_NODE_SCAN; file_path: EL_FILE_PATH
+			object: EL_BUILDABLE_FROM_NODE_SCAN; file_path: FILE_PATH
 		do
 			file_path := Work_area_dir + file_name
 			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
@@ -152,7 +152,7 @@ feature {NONE} -- Constants
 
 	Routine_name: STRING = "build_and_serialize_file"
 
-	XML_dir: EL_DIR_PATH
+	XML_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir.joined_dir_path ("XML")
 		end

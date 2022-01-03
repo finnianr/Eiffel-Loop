@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-21 17:44:26 GMT (Thursday 21st May 2020)"
-	revision: "1"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_YOUTUBE_STREAM_SELECTOR
@@ -38,7 +38,7 @@ feature -- Access
 
 	code: NATURAL
 
-	download (output_dir: EL_DIR_PATH; title: ZSTRING): EL_YOUTUBE_STREAM_DOWNLOAD
+	download (output_dir: DIR_PATH; title: ZSTRING): EL_YOUTUBE_STREAM_DOWNLOAD
 		require
 			valid_code: is_valid
 		do

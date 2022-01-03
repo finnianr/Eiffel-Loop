@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-15 10:23:10 GMT (Monday 15th March 2021)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -55,7 +55,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	send_file (file_path: EL_FILE_PATH)
+	send_file (file_path: FILE_PATH)
 		local
 			socket: EL_NETWORK_STREAM_SOCKET
 		do

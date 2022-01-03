@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 12:24:02 GMT (Sunday 12th September 2021)"
-	revision: "34"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "35"
 
 class
 	EL_HTTP_CONNECTION
@@ -47,9 +47,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	cookie_load_path: detachable EL_FILE_PATH
+	cookie_load_path: detachable FILE_PATH
 
-	cookie_store_path: detachable EL_FILE_PATH
+	cookie_store_path: detachable FILE_PATH
 
 	error_code: INTEGER
 		-- curl error code
@@ -118,7 +118,7 @@ feature -- Basic operations
 			-- handling cURL C callbacks that happened in this month.
 		end
 
-	download (file_path: EL_FILE_PATH)
+	download (file_path: FILE_PATH)
 			-- save document downloaded using the HTTP GET command
 		do
 			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
@@ -221,7 +221,7 @@ feature -- Element change
 			error_code := 0
 		end
 
-	set_cookie_load_path (a_cookie_load_path: EL_FILE_PATH)
+	set_cookie_load_path (a_cookie_load_path: FILE_PATH)
 		-- Enables the cookie engine, making the connection parse and send cookies on subsequent requests.
 		-- The cookie data can be in either the old Netscape / Mozilla cookie data format or just
 		-- regular HTTP headers (Set-Cookie style) dumped to a file.
@@ -238,14 +238,14 @@ feature -- Element change
 			cookie_load_path := a_cookie_load_path
 		end
 
-	set_cookie_paths (a_cookie_path: EL_FILE_PATH)
+	set_cookie_paths (a_cookie_path: FILE_PATH)
 			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
 		do
 			cookie_load_path := a_cookie_path
 			cookie_store_path := a_cookie_path
 		end
 
-	set_cookie_store_path (a_cookie_store_path: EL_FILE_PATH)
+	set_cookie_store_path (a_cookie_store_path: FILE_PATH)
 			-- This will make the connection write all internally known cookies to the
 			-- specified file when close is called.
 

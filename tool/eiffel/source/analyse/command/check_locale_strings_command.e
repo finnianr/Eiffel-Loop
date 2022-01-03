@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-05 7:16:34 GMT (Thursday 5th August 2021)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -42,7 +42,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (config_path: EL_FILE_PATH; language: STRING)
+	make (config_path: FILE_PATH; language: STRING)
 		do
 			make_from_file (config_path)
 			translations := Locale.new_translation_table (language)
@@ -160,7 +160,7 @@ feature {NONE} -- State handlers
 
 feature {NONE} -- Implementation
 
-	check_file_path_exists (file_path: EL_FILE_PATH)
+	check_file_path_exists (file_path: FILE_PATH)
 		do
 			if not file_path.exists then
 				lio.put_line ("FILE DOES NOT EXIST")
@@ -187,14 +187,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	do_with_file (a_source_path: EL_FILE_PATH)
+	do_with_file (a_source_path: FILE_PATH)
 		do
 			source_path := a_source_path
 			do_once_with_file_lines (agent find_class_declaration, open_lines (source_path, Latin_1))
 			save_missing_keys (source_path.base_sans_extension)
 		end
 
-	do_with_localizeable_file (file_path: EL_FILE_PATH; index_of_lang_id_from_end: INTEGER)
+	do_with_localizeable_file (file_path: FILE_PATH; index_of_lang_id_from_end: INTEGER)
 		local
 			name: ZSTRING; steps: EL_PATH_STEPS
 		do
@@ -212,7 +212,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_node_directory_error (node_name: STRING; dir_path: EL_DIR_PATH)
+	put_node_directory_error (node_name: STRING; dir_path: DIR_PATH)
 		do
 			lio.put_string_field ("DIRECTORY NODE", node_name)
 			lio.put_new_line
@@ -249,7 +249,7 @@ feature {NONE} -- Factory
 			create Result.make_empty
 		end
 
-	new_file_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+	new_file_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		do
 			Result := Precursor
 			Result.append (included_files)
@@ -277,7 +277,7 @@ feature {NONE} -- Internal attributes
 
 	routine_lines: EL_ZSTRING_LIST
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
 	translations: EL_TRANSLATION_TABLE
 
@@ -316,7 +316,7 @@ feature {NONE} -- Build from Pyxis
 
 	extend_file_list (list: EL_FILE_PATH_LIST)
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			file_path := node.to_expanded_file_path
 			if file_path.exists then
@@ -329,7 +329,7 @@ feature {NONE} -- Build from Pyxis
 
 	extend_localized_file_name_list
 		local
-			dir_path: EL_DIR_PATH; l_directory: EL_DIRECTORY
+			dir_path: DIR_PATH; l_directory: EL_DIRECTORY
 		do
 			dir_path := node.to_expanded_dir_path
 			create l_directory.make (dir_path)
@@ -344,7 +344,7 @@ feature {NONE} -- Build from Pyxis
 
 	extend_localized_www_content
 		local
-			dir_path: EL_DIR_PATH; web_menu_list: EL_ZSTRING_LIST; menu_name: ZSTRING
+			dir_path: DIR_PATH; web_menu_list: EL_ZSTRING_LIST; menu_name: ZSTRING
 		do
 			dir_path := node.to_expanded_dir_path
 			if dir_path.exists then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:29:48 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_COPY_TREE_COMMAND_IMP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 	xcopy_destination_path: ZSTRING
 			-- Windows recursive copy
 		local
-			destination_dir: EL_DIR_PATH
+			destination_dir: DIR_PATH
 		do
 			destination_dir := destination_path.to_string
 			destination_dir.append_dir_path (source_path.base)

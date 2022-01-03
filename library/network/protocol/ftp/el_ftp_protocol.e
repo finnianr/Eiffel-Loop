@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-05-13 14:17:41 GMT (Thursday 13th May 2021)"
-	revision: "25"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "26"
 
 class
 	EL_FTP_PROTOCOL
@@ -70,11 +70,11 @@ feature -- Access
 
 	authenticator: EL_FTP_AUTHENTICATOR
 
-	current_directory: EL_DIR_PATH
+	current_directory: DIR_PATH
 
 	config: EL_FTP_CONFIGURATION
 
-	user_home_dir: EL_DIR_PATH
+	user_home_dir: DIR_PATH
 		do
 			Result := config.user_home_dir
 		end
@@ -87,7 +87,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_current_directory (a_current_directory: EL_DIR_PATH)
+	set_current_directory (a_current_directory: DIR_PATH)
 		do
 			send (Template.change_working_directory #$ [absolute_unix_dir (a_current_directory)], << 200, 250 >>)
 			if last_succeeded then
@@ -115,17 +115,17 @@ feature -- Remote operations
 			set_current_directory (user_home_dir)
 		end
 
-	delete_file (file_path: EL_FILE_PATH)
+	delete_file (file_path: FILE_PATH)
 		do
 			send (Template.delete_file #$ [file_path.to_unix], << 250 >>)
 		end
 
-	make_directory (dir_path: EL_DIR_PATH)
+	make_directory (dir_path: DIR_PATH)
 			-- Create directory relative to current directory
 		require
 			dir_path_is_relative: not dir_path.is_absolute
 		local
-			parent_dir: EL_DIR_PATH; parent_exists: BOOLEAN
+			parent_dir: DIR_PATH; parent_exists: BOOLEAN
 		do
 			if not directory_exists (dir_path) then
 				parent_dir := dir_path.parent
@@ -142,7 +142,7 @@ feature -- Remote operations
 			exists: directory_exists (dir_path)
 		end
 
-	remove_directory (dir_path: EL_DIR_PATH)
+	remove_directory (dir_path: DIR_PATH)
 		do
 			send (Template.remove_directory #$ [absolute_unix_dir (dir_path)], << 250 >>)
 		end
@@ -176,7 +176,7 @@ feature -- Basic operations
 
 feature -- Status report
 
-	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+	directory_exists (dir_path: DIR_PATH): BOOLEAN
 			-- Does remote directory exist
 		do
 			if dir_path.is_empty then
@@ -187,7 +187,7 @@ feature -- Status report
 			end
 		end
 
-	file_exists (file_path: EL_FILE_PATH): BOOLEAN
+	file_exists (file_path: FILE_PATH): BOOLEAN
 			-- Does remote directory exist
 		do
 			if file_path.is_empty then
@@ -299,7 +299,7 @@ feature -- Status change
 
 feature {EL_FTP_AUTHENTICATOR} -- Implementation
 
-	absolute_unix_dir (dir_path: EL_DIR_PATH): ZSTRING
+	absolute_unix_dir (dir_path: DIR_PATH): ZSTRING
 		do
 			if dir_path.is_absolute then
 				Result := dir_path.to_unix
@@ -308,7 +308,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			end
 		end
 
-	absolute_unix_file_path (file_path: EL_FILE_PATH): ZSTRING
+	absolute_unix_file_path (file_path: FILE_PATH): ZSTRING
 		do
 			if file_path.is_absolute then
 				Result := file_path.to_unix
@@ -325,7 +325,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			is_logged_in := send_username and then send_password
 		end
 
-	get_current_directory: EL_DIR_PATH
+	get_current_directory: DIR_PATH
 		do
 			send (Command.print_working_directory, << >>)
 			Result := last_reply
@@ -334,7 +334,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			Result := reply_parser.last_ftp_cmd_result
 		end
 
-	make_sub_directory (dir_path: EL_DIR_PATH)
+	make_sub_directory (dir_path: DIR_PATH)
 		require
 			parent_exists: directory_exists (dir_path.parent)
 		do
@@ -349,7 +349,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			last_succeeded := reply_code_ok (last_reply_utf_8, codes)
 		end
 
-	transfer_file (source_path, destination_path: EL_FILE_PATH)
+	transfer_file (source_path, destination_path: FILE_PATH)
 		do
 			config.path.share (destination_path.to_unix.to_utf_8 (True))
 			set_passive_mode
@@ -364,7 +364,7 @@ feature {EL_FTP_AUTHENTICATOR} -- Implementation
 			data_socket_close: data_socket.is_closed
 		end
 
-	transfer_file_data (a_file_path: EL_FILE_PATH)
+	transfer_file_data (a_file_path: FILE_PATH)
 			--
 		local
 			packet: PACKET; bytes_read: INTEGER

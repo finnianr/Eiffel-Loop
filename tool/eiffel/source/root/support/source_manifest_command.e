@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:14:48 GMT (Friday 23rd July 2021)"
-	revision: "8"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -29,7 +29,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create manifest.make_default
 		end
 
-	make (source_manifest_path: EL_FILE_PATH)
+	make (source_manifest_path: FILE_PATH)
 		do
 			create manifest.make_from_file (source_manifest_path)
 		end
@@ -55,7 +55,7 @@ feature -- Basic operations
 			end
 		end
 
-	process_file (source_path: EL_FILE_PATH)
+	process_file (source_path: FILE_PATH)
 		deferred
 		end
 

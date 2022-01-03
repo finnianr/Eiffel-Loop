@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 16:48:30 GMT (Saturday 20th March 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 			l_dir.delete_content
 		end
 
-	check_same_content (file_path: EL_FILE_PATH; md5_digest: STRING)
+	check_same_content (file_path: FILE_PATH; md5_digest: STRING)
 		local
 			md5: STRING; label: ZSTRING
 		do
@@ -72,36 +72,36 @@ feature {NONE} -- Implementation
 			assert ("same content", md5 ~ md5_digest)
 		end
 
-	work_area_path (a_path: EL_DIR_PATH): EL_DIR_PATH
+	work_area_path (a_path: DIR_PATH): DIR_PATH
 		do
 			Result := Work_area_dir.joined_dir_path (a_path)
 		end
 
-	has_changed (file_path: EL_FILE_PATH): BOOLEAN
+	has_changed (file_path: FILE_PATH): BOOLEAN
 		require
 			file_checksums.has (file_path)
 		do
 			Result := file_checksums [file_path] /= OS.File_system.file_checksum (file_path)
 		end
 
-	store_checksum (file_path: EL_FILE_PATH)
+	store_checksum (file_path: FILE_PATH)
 		do
 			file_checksums [file_path] := OS.File_system.file_checksum (file_path)
 		end
 
 feature {NONE} -- Constants
 
-	File_checksums: EL_HASH_TABLE [NATURAL, EL_FILE_PATH]
+	File_checksums: EL_HASH_TABLE [NATURAL, FILE_PATH]
 		once
 			create Result.make_equal (23)
 		end
 
-	Work_area_dir: EL_DIR_PATH
+	Work_area_dir: DIR_PATH
 		once
 			Result := "workarea"
 		end
 
-	Work_area_absolute_dir: EL_DIR_PATH
+	Work_area_absolute_dir: DIR_PATH
 		once
 			Result := Directory.current_working #+ Work_area_dir
 		end

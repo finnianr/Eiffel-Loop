@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:48:43 GMT (Sunday 19th December 2021)"
-	revision: "21"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -44,7 +44,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (config_path: EL_FILE_PATH)
+	make (config_path: FILE_PATH)
 		require
 			configuration_exists: config_path.exists
 		do
@@ -241,7 +241,7 @@ feature {NONE} -- Implementation
 	create_server_socket_dir
 		local
 			make_dir_cmd: EL_OS_COMMAND; var: TUPLE [socket_dir, user: STRING]
-			socket_dir: EL_DIR_PATH
+			socket_dir: DIR_PATH
 		do
 			socket_dir := config.server_socket_path.parent
 			create var
@@ -308,7 +308,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_config (file_path: EL_FILE_PATH): like config
+	new_config (file_path: FILE_PATH): like config
 		do
 			create Result.make_from_file (file_path)
 		end

@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:14 GMT (Thursday 20th September 2018)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_BATIK_SVG
 
 feature -- Basic operations
 
-	convert_svg_to_png (svg_file_path, png_file_path: EL_FILE_PATH; width, background_color_as_24_bit_rgb: INTEGER)
+	convert_svg_to_png (svg_file_path, png_file_path: FILE_PATH; width, background_color_as_24_bit_rgb: INTEGER)
 		local
 			transcoder: J_SVG_TO_PNG_TRANSCODER
 		do

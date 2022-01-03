@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 10:05:07 GMT (Thursday 7th May 2020)"
-	revision: "3"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -21,7 +21,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_log_path: EL_FILE_PATH)
+	make (a_log_path: FILE_PATH)
 		do
 			log_path := a_log_path
 		end
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	log_path: EL_FILE_PATH
+	log_path: FILE_PATH
 
 feature {NONE} -- Constants
 

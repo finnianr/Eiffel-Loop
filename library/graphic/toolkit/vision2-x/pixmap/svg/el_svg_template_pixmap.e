@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-09 15:18:29 GMT (Tuesday 9th February 2021)"
-	revision: "16"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -82,7 +82,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	svg_xml (a_svg_template_path: EL_FILE_PATH): STRING
+	svg_xml (a_svg_template_path: FILE_PATH): STRING
 		local
 			svg_in: PLAIN_TEXT_FILE; done: BOOLEAN; line: STRING
 		do
@@ -129,7 +129,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			end
 		end
 
-	check_for_xlink_uri (a_svg_path: EL_FILE_PATH; line: STRING)
+	check_for_xlink_uri (a_svg_path: FILE_PATH; line: STRING)
 		local
 			dir_uri: EL_DIR_URI_PATH
 		do

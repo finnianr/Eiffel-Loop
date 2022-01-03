@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:45:20 GMT (Monday 16th August 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	IMPORT_VIDEOS_TASK
@@ -117,7 +117,7 @@ feature {NONE} -- Factory
 			create Result.make_by_fine_seconds (fine_seconds)
 		end
 
-	new_video_song (video_path: EL_FILE_PATH): RBOX_SONG
+	new_video_song (video_path: FILE_PATH): RBOX_SONG
 		local
 			video_properties: like Audio_command.new_audio_properties
 			video_to_mp3_command: like Video_command.new_video_to_mp3

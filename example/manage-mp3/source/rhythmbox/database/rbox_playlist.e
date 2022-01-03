@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:59:23 GMT (Sunday 19th December 2021)"
-	revision: "28"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "29"
 
 class
 	RBOX_PLAYLIST
@@ -88,7 +88,7 @@ feature -- Access
 
 	name: ZSTRING
 
-	relative_m3u_path: EL_FILE_PATH
+	relative_m3u_path: FILE_PATH
 			-- Media item attribute
 		do
 			Result := Playlists_dir + name
@@ -226,7 +226,7 @@ feature {NONE} -- Constants
 			Result := "m3u"
 		end
 
-	Playlists_dir: EL_DIR_PATH
+	Playlists_dir: DIR_PATH
 		once
 			Result := "playlists"
 		end

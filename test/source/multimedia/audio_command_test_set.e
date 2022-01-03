@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-20 9:49:36 GMT (Saturday 20th March 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	AUDIO_COMMAND_TEST_SET
@@ -71,7 +71,7 @@ feature {NONE} -- Constants
 
 	Id3_title: STRING = "La Copla Porteña"
 
-	Mp3_file_path: EL_FILE_PATH
+	Mp3_file_path: FILE_PATH
 		once
 			Result := Work_area_dir + (Id3_title + ".mp3")
 		end

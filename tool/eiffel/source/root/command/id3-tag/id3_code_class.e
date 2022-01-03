@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-21 12:12:28 GMT (Saturday 21st March 2020)"
-	revision: "1"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	ID3_CODE_CLASS
@@ -20,9 +20,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_generator: ID3_FRAME_CODE_CLASS_GENERATOR; version: INTEGER; output_dir: EL_DIR_PATH)
+	make (a_generator: ID3_FRAME_CODE_CLASS_GENERATOR; version: INTEGER; output_dir: DIR_PATH)
 		local
-			l_file_path: EL_FILE_PATH
+			l_file_path: FILE_PATH
 		do
 			name := Class_name_root + version.out
 			l_file_path := output_dir + name.as_lower
@@ -74,3 +74,4 @@ feature {NONE} -- Constants
 
 	Tuple_fields: STRING = "code, description"
 end
+

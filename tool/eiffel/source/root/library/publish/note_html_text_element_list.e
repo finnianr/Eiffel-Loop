@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-23 10:58:27 GMT (Monday 23rd November 2020)"
-	revision: "7"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "8"
 
 class
 	NOTE_HTML_TEXT_ELEMENT_LIST
@@ -48,7 +48,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	relative_page_dir: EL_DIR_PATH
+	relative_page_dir: DIR_PATH
 		-- class page directory relative to index page directory tree
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-15 20:43:32 GMT (Wednesday 15th September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
@@ -17,17 +17,17 @@ inherit
 
 feature -- Access
 
-	string (key_path: EL_DIR_PATH; key_name: ZSTRING): ZSTRING
+	string (key_path: DIR_PATH; key_name: ZSTRING): ZSTRING
 		do
 			Result := string_32 (key_path, key_name)
 		end
 
-	string_8 (key_path: EL_DIR_PATH; key_name: ZSTRING): STRING
+	string_8 (key_path: DIR_PATH; key_name: ZSTRING): STRING
 		do
 			Result := string_32 (key_path, key_name)
 		end
 
-	string_32 (key_path: EL_DIR_PATH; key_name: ZSTRING): STRING_32
+	string_32 (key_path: DIR_PATH; key_name: ZSTRING): STRING_32
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value
 			then
@@ -37,24 +37,24 @@ feature -- Access
 			end
 		end
 
-	string_list (key_path: EL_DIR_PATH): EL_REGISTRY_STRING_VALUES_ITERABLE
+	string_list (key_path: DIR_PATH): EL_REGISTRY_STRING_VALUES_ITERABLE
 		do
 			create Result.make (key_path)
 		end
 
-	integer (key_path: EL_DIR_PATH; key_name: ZSTRING): INTEGER
+	integer (key_path: DIR_PATH; key_name: ZSTRING): INTEGER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.dword_value
 			end
 		end
 
-	integer_list (key_path: EL_DIR_PATH): EL_REGISTRY_INTEGER_VALUES_ITERABLE
+	integer_list (key_path: DIR_PATH): EL_REGISTRY_INTEGER_VALUES_ITERABLE
 		do
 			create Result.make (key_path)
 		end
 
-	data (key_path: EL_DIR_PATH; key_name: ZSTRING): MANAGED_POINTER
+	data (key_path: DIR_PATH; key_name: ZSTRING): MANAGED_POINTER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.data
@@ -63,18 +63,18 @@ feature -- Access
 			end
 		end
 
-	data_list (key_path: EL_DIR_PATH): EL_REGISTRY_RAW_DATA_VALUES_ITERABLE
+	data_list (key_path: DIR_PATH): EL_REGISTRY_RAW_DATA_VALUES_ITERABLE
 		do
 			create Result.make (key_path)
 		end
 
-	key_names (key_path: EL_DIR_PATH): EL_REGISTRY_KEYS_ITERABLE
+	key_names (key_path: DIR_PATH): EL_REGISTRY_KEYS_ITERABLE
 			-- list of keys under key_path
 		do
 			create Result.make (key_path)
 		end
 
-	value_names (key_path: EL_DIR_PATH): EL_REGISTRY_VALUE_NAMES_ITERABLE
+	value_names (key_path: DIR_PATH): EL_REGISTRY_VALUE_NAMES_ITERABLE
 			-- list of value names under key_path
 		do
 			create Result.make (key_path)
@@ -82,7 +82,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_string (key_path: EL_DIR_PATH; name, value: ZSTRING)
+	set_string (key_path: DIR_PATH; name, value: ZSTRING)
 		local
 			registry_value: WEL_REGISTRY_KEY_VALUE
 		do
@@ -90,12 +90,12 @@ feature -- Element change
 			set_value (key_path, name, registry_value)
 		end
 
-	set_integer (key_path: EL_DIR_PATH; name: ZSTRING; value: INTEGER)
+	set_integer (key_path: DIR_PATH; name: ZSTRING; value: INTEGER)
 		do
 			set_value (key_path, name, create {WEL_REGISTRY_KEY_VALUE}.make_with_dword_value (value))
 		end
 
-	set_binary_data (key_path: EL_DIR_PATH; name: ZSTRING; value: MANAGED_POINTER)
+	set_binary_data (key_path: DIR_PATH; name: ZSTRING; value: MANAGED_POINTER)
 		local
 			registry_value: WEL_REGISTRY_KEY_VALUE
 		do
@@ -103,14 +103,14 @@ feature -- Element change
 			set_value (key_path, name, registry_value)
 		end
 
-	set_value (key_path: EL_DIR_PATH; name: ZSTRING; value: WEL_REGISTRY_KEY_VALUE)
+	set_value (key_path: DIR_PATH; name: ZSTRING; value: WEL_REGISTRY_KEY_VALUE)
 		do
 			registry.save_key_value (key_path, name.to_unicode, value)
 		end
 
 feature -- Removal
 
-	remove_key_value (key_path: EL_DIR_PATH; value_name: ZSTRING)
+	remove_key_value (key_path: DIR_PATH; value_name: ZSTRING)
 		local
 			node_ptr: POINTER;
 			l_registry: like registry
@@ -122,7 +122,7 @@ feature -- Removal
 			end
 		end
 
-	remove_key (parent_path: EL_DIR_PATH; key_name: ZSTRING)
+	remove_key (parent_path: DIR_PATH; key_name: ZSTRING)
 		local
 			node_ptr: POINTER
 			l_registry: like registry
@@ -136,7 +136,7 @@ feature -- Removal
 
 feature -- Status query
 
-	has_key (parent_path: EL_DIR_PATH): BOOLEAN
+	has_key (parent_path: DIR_PATH): BOOLEAN
 		local
 			node_ptr: POINTER
 		do
@@ -146,7 +146,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	key_value (key_path: EL_DIR_PATH; key_name: ZSTRING): detachable WEL_REGISTRY_KEY_VALUE
+	key_value (key_path: DIR_PATH; key_name: ZSTRING): detachable WEL_REGISTRY_KEY_VALUE
 		do
 			Result := registry.open_key_value (key_path, key_name)
 		end

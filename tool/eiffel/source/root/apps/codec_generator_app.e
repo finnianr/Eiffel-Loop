@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:05 GMT (Tuesday 10th November 2020)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	CODEC_GENERATOR_APP
@@ -32,10 +32,10 @@ feature -- Test
 			Test.do_file_tree_test ("codec-generation", agent test_generation, 3741528401)
 		end
 
-	test_generation (dir_path: EL_DIR_PATH)
+	test_generation (dir_path: DIR_PATH)
 			--
 		local
-			template_path, source_path: EL_FILE_PATH
+			template_path, source_path: FILE_PATH
 		do
 			template_path := dir_path + "template.evol"
 			source_path := dir_path + "test-decoder.c"

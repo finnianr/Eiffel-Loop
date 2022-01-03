@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-21 8:17:34 GMT (Tuesday 21st April 2020)"
-	revision: "4"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 deferred class
 	EL_INSTALLER_DEBUG
@@ -21,7 +21,7 @@ feature {NONE} -- Implementations
 
 	if_installer_debug_enabled (path: EL_PATH)
 		local
-			parent: EL_DIR_PATH
+			parent: DIR_PATH
 		do
 			debug ("installer")
 				across Parent_dir_map as dir loop
@@ -35,7 +35,7 @@ feature {NONE} -- Implementations
 
 feature {NONE} -- Constants
 
-	Parent_dir_map: EL_HASH_TABLE [EL_DIR_PATH, EL_DIR_PATH]
+	Parent_dir_map: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
 		once
 			create Result.make (<<
 				[Directory.new ("/opt"), Directory.Desktop],

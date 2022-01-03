@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-23 8:27:55 GMT (Friday 23rd July 2021)"
-	revision: "8"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_DIRECTORY_TREE_FILE_PROCESSOR
@@ -27,7 +27,7 @@ create
 
 feature -- Initialization
 
-	make (a_source_dir: EL_DIR_PATH; file_pattern: READABLE_STRING_GENERAL; a_file_processor: EL_FILE_PROCESSING_COMMAND)
+	make (a_source_dir: DIR_PATH; file_pattern: READABLE_STRING_GENERAL; a_file_processor: EL_FILE_PROCESSING_COMMAND)
 			--
 		do
 			source_dir := a_source_dir; file_processor := a_file_processor
@@ -52,14 +52,14 @@ feature -- Basic operations
 			end
 		end
 
-	do_with_file (file_path: EL_FILE_PATH)
+	do_with_file (file_path: FILE_PATH)
 			--
 		do
 			file_processor.set_file_path (file_path)
 			file_processor.execute
 		end
 
-	do_with_file_and_increment_counter (file_path: EL_FILE_PATH)
+	do_with_file_and_increment_counter (file_path: FILE_PATH)
 			--
 		do
 			counter := counter + 1
@@ -86,7 +86,7 @@ feature {NONE} -- Internal attributes
 
 	file_processor: EL_FILE_PROCESSING_COMMAND
 
-	source_dir: EL_DIR_PATH
+	source_dir: DIR_PATH
 
-	file_path_list: EL_SORTABLE_ARRAYED_LIST [EL_FILE_PATH]
+	file_path_list: EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 end

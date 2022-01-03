@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:50:55 GMT (Wednesday 14th July 2021)"
-	revision: "20"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "21"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -35,7 +35,7 @@ feature {NONE}  -- Initialisation
 
 feature -- Factory
 
-	new_file_stream (a_file_path: EL_FILE_PATH): FILE
+	new_file_stream (a_file_path: FILE_PATH): FILE
 		do
 			create {RAW_FILE} Result.make_with_name (a_file_path)
 		end

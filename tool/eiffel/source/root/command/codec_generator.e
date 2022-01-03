@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:19:56 GMT (Thursday 7th May 2020)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	CODEC_GENERATOR
@@ -29,7 +29,7 @@ create
 
 feature {EL_SUB_APPLICATION} -- Initialization
 
-	make (a_source_path, a_template_path: EL_FILE_PATH)
+	make (a_source_path, a_template_path: FILE_PATH)
 		do
 			make_machine
 			source_path := a_source_path.steps.expanded_path.as_file_path
@@ -50,7 +50,7 @@ feature {NONE} -- State handlers
 	find_chars_ready_assignment (line: ZSTRING)
 			-- Eg. iso_8859_11_chars_ready = TRUE;
 		local
-			eiffel_source_path: EL_FILE_PATH; source_file: SOURCE_FILE
+			eiffel_source_path: FILE_PATH; source_file: SOURCE_FILE
 		do
 			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
 				codec_list.last.add_assignment (line)
@@ -85,9 +85,9 @@ feature {NONE} -- Implementation
 
 	codec_list: ARRAYED_LIST [CODEC_INFO]
 
-	source_path: EL_FILE_PATH
+	source_path: FILE_PATH
 
-	template_path: EL_FILE_PATH
+	template_path: FILE_PATH
 
 feature {NONE} -- Constants
 

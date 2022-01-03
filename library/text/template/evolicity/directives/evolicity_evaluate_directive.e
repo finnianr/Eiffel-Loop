@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-29 11:00:10 GMT (Monday 29th November 2021)"
-	revision: "16"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -50,14 +50,14 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: EL_FILE_PATH
+			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: FILE_PATH
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if not template_name.is_empty then
 					template_path := template_name
 
 				elseif not template_name_variable_ref.is_empty
-					and then attached {EL_FILE_PATH} context.referenced_item (template_name_variable_ref) as context_template_name
+					and then attached {FILE_PATH} context.referenced_item (template_name_variable_ref) as context_template_name
 				then
 					template_path := context_template_name
 				end

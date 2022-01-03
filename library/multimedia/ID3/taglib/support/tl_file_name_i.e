@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:34:01 GMT (Friday 8th January 2021)"
-	revision: "3"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 deferred class
 	TL_FILE_NAME_I
 
 feature {NONE} -- Initialization
 
-	make (path: EL_FILE_PATH)
+	make (path: FILE_PATH)
 		local
 			str: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do

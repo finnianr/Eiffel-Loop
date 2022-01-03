@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:31:05 GMT (Wednesday 24th November 2021)"
-	revision: "19"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "20"
 
 class
 	LOCALIZED_THUNDERBIRD_TO_BODY_EXPORTER_APP
@@ -42,9 +42,9 @@ feature -- Test
 --			Test.do_file_tree_test (".thunderbird", agent test_html_body_export ("small.myching.co", ?), 4015841579)
 		end
 
-	test_html_body_export (config_text: ZSTRING; a_dir_path: EL_DIR_PATH)
+	test_html_body_export (config_text: ZSTRING; a_dir_path: DIR_PATH)
 		local
-			en_file_path: EL_FILE_PATH; en_text, subject_line: STRING
+			en_file_path: FILE_PATH; en_text, subject_line: STRING
 			en_out: PLAIN_TEXT_FILE
 			pos_subject: INTEGER
 		do

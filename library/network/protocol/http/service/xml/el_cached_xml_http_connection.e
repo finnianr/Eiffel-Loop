@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-16 14:22:33 GMT (Monday 16th November 2020)"
-	revision: "6"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_CACHED_XML_HTTP_CONNECTION
@@ -69,6 +69,6 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	cache_file_path: EL_FILE_PATH
+	cache_file_path: FILE_PATH
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-27 8:21:05 GMT (Saturday 27th March 2021)"
-	revision: "16"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -40,9 +40,9 @@ feature {NONE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	new_dir_set (is_absolute: BOOLEAN): EL_HASH_SET [EL_DIR_PATH]
+	new_dir_set (is_absolute: BOOLEAN): EL_HASH_SET [DIR_PATH]
 		local
-			dir_path, root_dir: EL_DIR_PATH
+			dir_path, root_dir: DIR_PATH
 		do
 			if is_absolute then
 				root_dir := Work_area_absolute_dir
@@ -82,7 +82,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	write_file (path: EL_FILE_PATH)
+	write_file (path: FILE_PATH)
 		do
 			if attached open (path, Write) as file then
 				file.put_string (path.base)
@@ -92,9 +92,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	dir_set: EL_HASH_SET [EL_DIR_PATH]
+	dir_set: EL_HASH_SET [DIR_PATH]
 
-	file_set: EL_HASH_SET [EL_FILE_PATH]
+	file_set: EL_HASH_SET [FILE_PATH]
 
 feature {NONE} -- Factory
 

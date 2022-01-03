@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2017-05-12 9:52:25 GMT (Friday 12th May 2017)"
-	revision: "4"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	EL_FILE_DOWNLOAD_HTTP_COMMAND
@@ -65,6 +65,6 @@ feature {NONE} -- Internal attributes
 
 	file_out: RAW_FILE
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 end

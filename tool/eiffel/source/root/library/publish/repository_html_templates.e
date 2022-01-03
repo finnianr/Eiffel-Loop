@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-01-18 12:36:19 GMT (Friday 18th January 2019)"
-	revision: "5"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	REPOSITORY_HTML_TEMPLATES
@@ -38,15 +38,15 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	directory_content: EL_FILE_PATH
+	directory_content: FILE_PATH
 
-	eiffel_source: EL_FILE_PATH
+	eiffel_source: FILE_PATH
 
-	main: EL_FILE_PATH
+	main: FILE_PATH
 
-	site_map_content: EL_FILE_PATH
+	site_map_content: FILE_PATH
 
-	favicon_markup_path: EL_FILE_PATH
+	favicon_markup_path: FILE_PATH
 
 feature -- Element change
 
@@ -57,7 +57,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	config_dir: EL_DIR_PATH
+	config_dir: DIR_PATH
 
 feature {NONE} -- Build from Pyxis
 
@@ -72,9 +72,10 @@ feature {NONE} -- Build from Pyxis
 			>>)
 		end
 
-	set_path_from_node (file_path: EL_FILE_PATH)
+	set_path_from_node (file_path: FILE_PATH)
 		do
 			file_path.set_path (config_dir + node.to_string)
 		end
 
 end
+

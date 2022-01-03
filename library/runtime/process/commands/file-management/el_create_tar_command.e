@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-20 11:31:24 GMT (Friday 20th August 2021)"
-	revision: "1"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "2"
 
 class
 	EL_CREATE_TAR_COMMAND
@@ -20,12 +20,12 @@ create
 
 feature -- Element change
 
-	set_archive_path (tar_path: EL_FILE_PATH)
+	set_archive_path (tar_path: FILE_PATH)
 		do
 			put_path (var.archive_path, tar_path)
 		end
 
-	set_target_dir (dir_path: EL_DIR_PATH)
+	set_target_dir (dir_path: DIR_PATH)
 		do
 			put_path (var.target_dir, dir_path)
 		end

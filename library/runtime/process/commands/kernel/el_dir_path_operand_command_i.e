@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 15:46:40 GMT (Thursday 9th September 2021)"
-	revision: "5"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_DIR_PATH_OPERAND_COMMAND_I
@@ -23,5 +23,5 @@ inherit
 
 feature -- Access
 
-	dir_path: EL_DIR_PATH
+	dir_path: DIR_PATH
 end

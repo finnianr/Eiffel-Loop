@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:39 GMT (Tuesday 10th November 2020)"
-	revision: "13"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	VCF_CONTACT_SPLITTER_APP
@@ -31,7 +31,7 @@ feature -- Test
 			Test.do_file_test ("contacts.vcf", agent test_split, 4176544362)
 		end
 
-	test_split (vcf_path: EL_FILE_PATH)
+	test_split (vcf_path: FILE_PATH)
 			--
 		local
 		do

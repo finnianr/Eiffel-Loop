@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:54:26 GMT (Sunday 19th December 2021)"
-	revision: "48"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "49"
 
 class
 	RBOX_SONG
@@ -126,7 +126,7 @@ feature -- Access
 			-- E:\Music\Tango\Aníbal Troilo\Te Aconsejo Que me Olvides.02.mp3
 		local
 			artists, info: ZSTRING; tanda_name: EL_ZSTRING_LIST
-			destination_dir: EL_DIR_PATH; destination_path: EL_FILE_PATH
+			destination_dir: DIR_PATH; destination_path: FILE_PATH
 		do
  			artists := lead_artist.twin
  			if not album_artists.list.is_empty then
@@ -155,7 +155,7 @@ feature -- Access
 			end
 		end
 
-	relative_mp3_path: EL_FILE_PATH
+	relative_mp3_path: FILE_PATH
 		do
 			Result := mp3_path.relative_path (music_dir)
 		end
@@ -173,7 +173,7 @@ feature -- Access
 			Result := Database.silence_intervals [index]
 		end
 
-	unique_normalized_mp3_path: EL_FILE_PATH
+	unique_normalized_mp3_path: FILE_PATH
 			--
 		require
 			not_hidden: not is_hidden
@@ -189,9 +189,9 @@ feature -- Attributes
 
 feature -- Locations
 
-	last_copied_mp3_path: EL_FILE_PATH
+	last_copied_mp3_path: FILE_PATH
 
-	mp3_relative_path: EL_FILE_PATH
+	mp3_relative_path: FILE_PATH
 		do
 			Result := mp3_path.relative_path (music_dir)
 		end
@@ -431,7 +431,7 @@ feature {NONE} -- Implementation
 			Result := Precursor + ["composer", Composer_set.to_representation]
 		end
 
-	normalized_mp3_base_path: EL_FILE_PATH
+	normalized_mp3_base_path: FILE_PATH
 			-- normalized path <mp3_root_location>/<genre>/<artist>/<title>[<- vocalists>]
 		do
 			Result := music_dir.joined_file_steps (normalized_path_steps)

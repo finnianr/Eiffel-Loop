@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-14 9:59:34 GMT (Wednesday 14th July 2021)"
-	revision: "3"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_ELEMENT_ATTRIBUTE_NODE_STRING
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_document_dir: EL_DIR_PATH)
+	make (a_document_dir: DIR_PATH)
 			--
 		do
 			Precursor (a_document_dir)

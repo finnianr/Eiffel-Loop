@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 16:12:08 GMT (Sunday 19th December 2021)"
-	revision: "9"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_item: like item; output_dir: EL_DIR_PATH)
+	make (a_item: like item; output_dir: DIR_PATH)
 			--
 		local
 			l_name: ZSTRING; list: EL_ZSTRING_LIST
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			create desktop_entries.make (3)
 		end
 
-	make_root (output_dir: EL_DIR_PATH)
+	make_root (output_dir: DIR_PATH)
 			--
 		do
 			make (Root_item, output_dir)

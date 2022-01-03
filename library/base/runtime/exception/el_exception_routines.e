@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-28 12:00:52 GMT (Sunday 28th November 2021)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -137,7 +137,7 @@ feature -- Basic operations
 
 	write_last_trace (object: ANY)
 		local
-			trace_path: EL_FILE_PATH
+			trace_path: FILE_PATH
 		do
 			trace_path := object.generator + "-exception.01.txt"
 			if attached open (trace_path.next_version_path, Write) as file then

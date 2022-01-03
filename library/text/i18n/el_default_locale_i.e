@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-01 14:22:23 GMT (Sunday 1st August 2021)"
-	revision: "10"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 deferred class
 	EL_DEFAULT_LOCALE_I
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			make (Resources_dir)
 		end
 
- 	make (locales_parent_dir: EL_DIR_PATH)
+ 	make (locales_parent_dir: DIR_PATH)
  		local
  			table: EL_LOCALE_TABLE
  		do
@@ -80,13 +80,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Locales: EL_DIR_PATH
+	Locales: DIR_PATH
 		-- directory name for locales
 		once
 			Result := "locales"
 		end
 
-	Resources_dir: EL_DIR_PATH
+	Resources_dir: DIR_PATH
 		once
 			Result := "resources"
 		end

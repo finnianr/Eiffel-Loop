@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-08 15:04:06 GMT (Monday 8th March 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 deferred class
 	EL_STORABLE_XML_EDITIONS_LIST [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT create make_default end]
@@ -31,7 +31,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file (a_file_path: EL_FILE_PATH)
+	make_from_file (a_file_path: FILE_PATH)
 			--
 		do
 			editions := create_editions (a_file_path)
@@ -46,7 +46,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_editions_file_path (a_output_path: EL_FILE_PATH)
+	set_editions_file_path (a_output_path: FILE_PATH)
 			--
 		do
 			if is_open then
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	create_editions (a_file_path: EL_FILE_PATH): EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE]
+	create_editions (a_file_path: FILE_PATH): EL_XML_ELEMENT_LIST_EDITIONS [STORABLE_TYPE]
 		do
 			create Result.make (Current, a_file_path)
 		end

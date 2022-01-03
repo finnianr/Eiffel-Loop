@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 12:50:26 GMT (Wednesday 24th November 2021)"
-	revision: "18"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "19"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER
@@ -91,7 +91,7 @@ feature -- Element change
 
 	set_document_dir (file: PLAIN_TEXT_FILE)
 		local
-			file_path: EL_FILE_PATH
+			file_path: FILE_PATH
 		do
 			file_path := file.path
 			document_dir.copy (file_path.parent)
@@ -172,7 +172,7 @@ feature {EL_PARSE_EVENT_SOURCE} -- Parsing events
 
 feature {EL_PARSE_EVENT_SOURCE, EL_CREATEABLE_FROM_NODE_SCAN} -- Access
 
-	document_dir: EL_DIR_PATH
+	document_dir: DIR_PATH
 
 	attribute_list: EL_ELEMENT_ATTRIBUTE_LIST
 

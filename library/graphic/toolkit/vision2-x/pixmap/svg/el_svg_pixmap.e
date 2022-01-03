@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 16:16:09 GMT (Friday 8th January 2021)"
-	revision: "13"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "14"
 
 class
 	EL_SVG_PIXMAP
@@ -172,10 +172,10 @@ feature -- Access
 	dimension: INTEGER
 		-- pixel dimension width or height depending on is_width_scaled
 
-	png_output_path: EL_FILE_PATH
+	png_output_path: FILE_PATH
 		-- png output path
 
-	svg_path: EL_FILE_PATH
+	svg_path: FILE_PATH
 
 feature -- Status report
 
@@ -226,9 +226,9 @@ feature {EL_SVG_PIXMAP} -- Implementation
 
 	is_made: BOOLEAN
 
-	png_output_dir: EL_DIR_PATH
+	png_output_dir: DIR_PATH
 		local
-			base_path, pixmap_base_path: EL_DIR_PATH
+			base_path, pixmap_base_path: DIR_PATH
 		do
 			base_path := Directory.Application_installation
 			if base_path.is_parent_of (svg_path) then
@@ -272,14 +272,14 @@ feature {EL_SVG_PIXMAP} -- Implementation
 			pixmap_path := png_output_path.to_path
 		end
 
-	svg_xml (a_svg_path: EL_FILE_PATH): STRING
+	svg_xml (a_svg_path: FILE_PATH): STRING
 		do
 			Result := File_system.plain_text (a_svg_path)
 		end
 
 	text_origin: EV_COORDINATE
 
-	unique_png_path: EL_FILE_PATH
+	unique_png_path: FILE_PATH
 			-- name that is unique for combined rendering variables
 		local
 			hex_string, base: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
@@ -306,7 +306,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 	update_pixmap (a_svg_path: like svg_path)
 			--
 		local
-			png_dir: EL_DIR_PATH; png_image_file: EL_PNG_IMAGE_FILE
+			png_dir: DIR_PATH; png_image_file: EL_PNG_IMAGE_FILE
 			l_svg_xml: like svg_xml; svg_uri: EL_FILE_URI_PATH
 		do
 --			log.enter_no_header ("update_pixmap")

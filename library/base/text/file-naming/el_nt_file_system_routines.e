@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-26 15:37:55 GMT (Sunday 26th December 2021)"
-	revision: "3"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
@@ -19,7 +19,7 @@ inherit
 
 feature -- Conversion
 
-	translated (path: EL_FILE_PATH; uc: CHARACTER_32): EL_FILE_PATH
+	translated (path: FILE_PATH; uc: CHARACTER_32): FILE_PATH
 		-- path with invalid characters in each step translated to `uc' character
 		local
 			new_path, substitutes: ZSTRING; s: EL_ZSTRING_ROUTINES
@@ -45,7 +45,7 @@ feature -- Conversion
 
 feature -- Status query
 
-	is_valid (path: EL_FILE_PATH): BOOLEAN
+	is_valid (path: FILE_PATH): BOOLEAN
 		-- True if path is valid on Windows NT file system
 		do
 			Result := True
@@ -66,7 +66,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	path_steps (path: EL_FILE_PATH): EL_SPLIT_ZSTRING_ON_CHARACTER
+	path_steps (path: FILE_PATH): EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
 			Result := Once_path_steps
 			Result.set_target (path)

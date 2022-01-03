@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-04-03 14:52:51 GMT (Friday 3rd April 2020)"
-	revision: "8"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_MP3_AUDIO_SIGNATURE_READER
@@ -58,13 +58,13 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	mp3_path_table: HASH_TABLE [EL_FILE_PATH, EL_UUID]
+	mp3_path_table: HASH_TABLE [FILE_PATH, EL_UUID]
 
-	music_dir: EL_DIR_PATH
+	music_dir: DIR_PATH
 
-	remove_duplicate (mp3: STRING; file_1, file_2: EL_FILE_PATH)
+	remove_duplicate (mp3: STRING; file_1, file_2: FILE_PATH)
 		local
-			l_file_1, l_file_2: EL_FILE_PATH
+			l_file_1, l_file_2: FILE_PATH
 		do
 			lio.enter_with_args ("remove_duplicate", [mp3, file_1, file_2])
 			if is_clean_up then
@@ -80,3 +80,4 @@ feature {NONE} -- Implementation
 		end
 
 end
+

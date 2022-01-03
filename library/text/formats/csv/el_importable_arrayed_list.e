@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-22 12:40:44 GMT (Wednesday 22nd December 2021)"
-	revision: "11"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "12"
 
 class
 	EL_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -25,19 +25,19 @@ create
 
 feature -- Element change
 
-	import_csv_latin_1 (file_path: EL_FILE_PATH)
+	import_csv_latin_1 (file_path: FILE_PATH)
 		do
 			import (file_path, False)
 		end
 
-	import_csv_utf_8 (file_path: EL_FILE_PATH)
+	import_csv_utf_8 (file_path: FILE_PATH)
 		do
 			import (file_path, True)
 		end
 
 feature {NONE} -- Implementation
 
-	import (file_path: EL_FILE_PATH; is_utf_8: BOOLEAN)
+	import (file_path: FILE_PATH; is_utf_8: BOOLEAN)
 			--
 		local
 			file: PLAIN_TEXT_FILE; line: STRING; new_item: G; parser: EL_COMMA_SEPARATED_LINE_PARSER

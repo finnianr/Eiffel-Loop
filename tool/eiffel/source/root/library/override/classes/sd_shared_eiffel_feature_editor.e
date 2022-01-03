@@ -25,7 +25,7 @@ create
 
 feature -- Basic operations
 
-	write_edited_lines (output_path: EL_FILE_PATH)
+	write_edited_lines (output_path: FILE_PATH)
 		local
 			class_feature: ROUTINE_FEATURE; type_definition_group: FEATURE_GROUP
 			implementation_list: LIST [FEATURE_GROUP]
@@ -118,3 +118,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-02 8:39:38 GMT (Thursday 2nd September 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 deferred class
 	EL_ML_THUNDERBIRD_ACCOUNT_READER
@@ -53,11 +53,11 @@ feature -- Basic operations
 
 	execute
 		local
-			mails_path: EL_FILE_PATH; found_count: INTEGER
+			mails_path: FILE_PATH; found_count: INTEGER
 		do
 			if attached new_mail_folder_dir_list as dir_list then
 				across folder_list as folder loop
-					dir_list.find_first_equal (folder.item + Dot_sbd_extension, agent {EL_DIR_PATH}.base)
+					dir_list.find_first_equal (folder.item + Dot_sbd_extension, agent {DIR_PATH}.base)
 					if dir_list.found then
 						found_count := found_count + 1
 					else
@@ -85,7 +85,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_mail_folder_dir_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	new_mail_folder_dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
 			if attached OS.find_directories_command (mail_dir) as cmd then
 				cmd.set_depth (1 |..| 1)

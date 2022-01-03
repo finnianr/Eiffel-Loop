@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-22 14:28:24 GMT (Friday 22nd October 2021)"
-	revision: "16"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "17"
 
 class
 	EL_STANDARD_INSTALLER_APP
@@ -78,7 +78,7 @@ feature {NONE} -- Implementation
 
 	do_application
 		local
-			parent: EL_DIR_PATH
+			parent: DIR_PATH
 		do
 			-- Change name of data and config directories because they are owned by root
 			-- Example: "$HOME/.config/Hex 11 Software/My Ching" becomes "$HOME/.config/Hex 11 Software-installer/My Ching"
@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 		require
 			package_installable: is_package_installable
 		local
-			destination_dir: EL_DIR_PATH
+			destination_dir: DIR_PATH
 		do
 			destination_dir := Directory.Application_installation
 			if_installer_debug_enabled (destination_dir)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-02-17 11:48:27 GMT (Wednesday 17th February 2021)"
-	revision: "4"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "5"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -23,7 +23,7 @@ inherit
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (output_dir: EL_DIR_PATH; a_number_of_runs: INTEGER; filter: ZSTRING)
+	make (output_dir: DIR_PATH; a_number_of_runs: INTEGER; filter: ZSTRING)
 		local
 			h: like Hexagram
 		do

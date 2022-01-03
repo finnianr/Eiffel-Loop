@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-07-10 8:12:47 GMT (Saturday 10th July 2021)"
-	revision: "22"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "23"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -154,7 +154,7 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	crc_32 (file_path: EL_FILE_PATH): NATURAL
+	crc_32 (file_path: FILE_PATH): NATURAL
 		local
 			source: STRING; crc: like crc_generator
 		do
@@ -165,12 +165,12 @@ feature {NONE} -- Implementation
 			Result := crc.checksum
 		end
 
-	encoding_name (file_path: EL_FILE_PATH): STRING
+	encoding_name (file_path: FILE_PATH): STRING
 		do
 			Result := open_lines (file_path, Latin_1).encoding_name
 		end
 
-	restore_default_fields (file_path: EL_FILE_PATH)
+	restore_default_fields (file_path: FILE_PATH)
 		local
 			list: EL_ZSTRING_LIST
 		do
@@ -220,7 +220,7 @@ feature {NONE} -- Constants
 			Result.indent (1)
 		end
 
-	Data_dir: EL_DIR_PATH
+	Data_dir: DIR_PATH
 		once
 			Result := Eiffel_loop_dir.joined_dir_path ("test")
 		end

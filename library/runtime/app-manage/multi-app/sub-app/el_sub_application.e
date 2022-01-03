@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-23 14:04:05 GMT (Tuesday 23rd November 2021)"
-	revision: "48"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "49"
 
 deferred class
 	EL_SUB_APPLICATION
@@ -113,7 +113,7 @@ feature -- Access
 			Result.replace_character ('%N', ' ')
 		end
 
-	user_config_dir: EL_DIR_PATH
+	user_config_dir: DIR_PATH
 		local
 			s: EL_ZSTRING_ROUTINES
 		do
@@ -198,7 +198,7 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	create_app_directory (data_dir: EL_DIR_PATH)
+	create_app_directory (data_dir: DIR_PATH)
 		-- create cache, configuration and data user directories
 		local
 			legacy: like Directory.Legacy_table
@@ -283,7 +283,7 @@ feature {NONE} -- Implementation
 			lio.put_new_line_X2
 		end
 
-	migrate (legacy, standard: EL_DIR_PATH)
+	migrate (legacy, standard: DIR_PATH)
 		-- migrate legacy paths to standard
 		require
 			legacy_exists: legacy.exists
@@ -325,7 +325,7 @@ feature {NONE} -- Implementation
 
 feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 
-	App_directory_list: EL_ARRAYED_LIST [EL_DIR_PATH]
+	App_directory_list: EL_ARRAYED_LIST [DIR_PATH]
 		once
 			Result := Directory.app_list
 		end

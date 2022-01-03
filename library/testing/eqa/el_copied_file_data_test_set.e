@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-22 14:04:29 GMT (Sunday 22nd December 2019)"
-	revision: "2"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "3"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -26,7 +26,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			relative_path: EL_FILE_PATH; relative_dir: EL_DIR_PATH
+			relative_path: FILE_PATH; relative_dir: DIR_PATH
 			list: like source_file_list
 		do
 			Precursor
@@ -43,11 +43,11 @@ feature {NONE} -- Events
 
 feature {NONE} -- Implementation
 
-	source_file_list: LIST [EL_FILE_PATH]
+	source_file_list: LIST [FILE_PATH]
 		deferred
 		end
 
-	data_dir: EL_DIR_PATH
+	data_dir: DIR_PATH
 		deferred
 		end
 
@@ -56,3 +56,4 @@ feature {NONE} -- Internal attributes
 	file_list: EL_FILE_PATH_LIST
 
 end
+

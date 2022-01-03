@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-06 9:11:39 GMT (Wednesday 6th October 2021)"
-	revision: "3"
+	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	TAYLOR_SERIES_AS_XML
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (dir_path: EL_DIR_PATH)
+	make (dir_path: DIR_PATH)
 		do
 			File_system.make_directory (dir_path)
 			make_from_file (dir_path + "pi-terms.000.xml")

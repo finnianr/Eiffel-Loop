@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 13:53:53 GMT (Wednesday 24th November 2021)"
-	revision: "39"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "40"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -89,7 +89,7 @@ feature -- Tests
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
 			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
-			broadcaster_path, checker_path, relative_path, crc_path: EL_FILE_PATH
+			broadcaster_path, checker_path, relative_path, crc_path: FILE_PATH
 		do
 			publisher := new_publisher
 			publisher.execute
@@ -138,7 +138,7 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir: EL_DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
+			lib_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
 		do
 			Precursor
 			OS.copy_tree (Eiffel_loop_dir.joined_dir_path ("doc-config"), Work_area_dir)
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 
 	check_html_exists (publisher: like new_publisher)
 		local
-			html_file_path: EL_FILE_PATH
+			html_file_path: FILE_PATH
 		do
 			across publisher.ecf_list as tree loop
 				across tree.item.path_list as path loop
@@ -212,7 +212,7 @@ feature {NONE} -- Implementation
 			Result := OS.file_list (Doc_dir, "*.html")
 		end
 
-	html_path (a_path: EL_FILE_PATH): EL_FILE_PATH
+	html_path (a_path: FILE_PATH): FILE_PATH
 		do
 			Result := Kernel_event.html_dir + a_path.base_sans_extension
 			Result.add_extension ("html")
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 			create Result.make (Doc_config_dir + "config-1.pyx", "1.4.0", 0)
 		end
 
-	sorted_base_names (list: LIST [EL_FILE_PATH]): EL_ZSTRING_LIST
+	sorted_base_names (list: LIST [FILE_PATH]): EL_ZSTRING_LIST
 		-- sorted list of base names
 		do
 			create Result.make (list.count)
@@ -240,24 +240,24 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Doc_config_dir: EL_DIR_PATH
+	Doc_config_dir: DIR_PATH
 		once
 			Result := Work_area_dir #+ "doc-config"
 		end
 
-	Doc_dir: EL_DIR_PATH
+	Doc_dir: DIR_PATH
 		once
 			Result := Work_area_dir #+ "doc"
 		end
 
-	Ftp_dir: EL_DIR_PATH
+	Ftp_dir: DIR_PATH
 		once
 			Result := Work_area_dir #+ "ftp.doc"
 		end
 
-	Kernel_event: TUPLE [class_dir, html_dir: EL_DIR_PATH]
+	Kernel_event: TUPLE [class_dir, html_dir: DIR_PATH]
 		local
-			l_dir: EL_DIR_PATH
+			l_dir: DIR_PATH
 		once
 			l_dir := "library/base/kernel/event"
 			Result := [Work_area_dir #+ l_dir, Work_area_dir.joined_dir_path ("doc") #+ l_dir]

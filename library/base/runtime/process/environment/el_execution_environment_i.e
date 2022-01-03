@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-23 11:04:48 GMT (Monday 23rd August 2021)"
-	revision: "21"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "22"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -79,7 +79,7 @@ feature -- Access
 		deferred
 		end
 
-	variable_dir_path (name: READABLE_STRING_GENERAL): EL_DIR_PATH
+	variable_dir_path (name: READABLE_STRING_GENERAL): DIR_PATH
 		do
 			if attached {STRING_32} item (name) as environ_path then
 				Result := environ_path
@@ -133,7 +133,7 @@ feature -- Basic operations
 			directory_stack.remove
 		end
 
-	push_current_working (a_dir: EL_DIR_PATH)
+	push_current_working (a_dir: DIR_PATH)
 		do
 			directory_stack.put (current_working_path)
 			change_working_path (a_dir)
@@ -190,7 +190,7 @@ feature {NONE} -- Implementation
 
 feature -- Constants
 
-	Directory_stack: ARRAYED_STACK [EL_DIR_PATH]
+	Directory_stack: ARRAYED_STACK [DIR_PATH]
 		once
 			create Result.make (1)
 		end

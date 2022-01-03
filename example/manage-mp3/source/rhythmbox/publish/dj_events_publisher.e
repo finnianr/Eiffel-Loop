@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-16 13:44:33 GMT (Monday 16th August 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	DJ_EVENTS_PUBLISHER
@@ -43,7 +43,7 @@ feature -- Basic operations
 
 	publish
 		local
-			index_html_path, playlist_path: EL_FILE_PATH; website: EL_FTP_WEBSITE
+			index_html_path, playlist_path: FILE_PATH; website: EL_FTP_WEBSITE
 			html_index: DJ_EVENTS_HTML_INDEX; event_page: DJ_EVENT_HTML_PAGE
 		do
 			index_html_path := config.www_dir + "index.html"
@@ -74,7 +74,7 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_copy_file_arguments (source_path: EL_FILE_PATH; destination_dir: EL_DIR_PATH): EL_FTP_UPLOAD_ITEM
+	new_copy_file_arguments (source_path: FILE_PATH; destination_dir: DIR_PATH): EL_FTP_UPLOAD_ITEM
 		do
 			create Result.make (source_path, destination_dir)
 		end

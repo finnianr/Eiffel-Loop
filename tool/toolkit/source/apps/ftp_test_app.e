@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-23 11:47:19 GMT (Tuesday 23rd March 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	FTP_TEST_APP
@@ -42,10 +42,10 @@ feature -- Basic operations
 
 feature {NONE} -- Tests
 
-	send_file (file_path: EL_FILE_PATH)
+	send_file (file_path: FILE_PATH)
 		local
 			ftp: EL_FTP_WEBSITE; item: EL_FTP_UPLOAD_ITEM
-			destination_dir: EL_DIR_PATH; remote_file_path: EL_FILE_PATH
+			destination_dir: DIR_PATH; remote_file_path: FILE_PATH
 		do
 			log.enter ("send_file")
 			create ftp.make ([Application_option.url, Application_option.user_home])

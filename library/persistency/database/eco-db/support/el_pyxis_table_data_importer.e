@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-17 16:59:29 GMT (Thursday 17th June 2021)"
-	revision: "12"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_PYXIS_TABLE_DATA_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -31,7 +31,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_chain: like chain; a_file_path: EL_FILE_PATH)
+	make (a_chain: like chain; a_file_path: FILE_PATH)
 		local
 			xpath_item: STRING
 		do
@@ -164,7 +164,7 @@ feature {NONE} -- Internal attributes
 
 	chain: ECD_REFLECTIVE_RECOVERABLE_CHAIN [G]
 
-	file_path: EL_FILE_PATH
+	file_path: FILE_PATH
 
 	match_events_list: ARRAYED_LIST [EL_XPATH_TO_AGENT_MAP]
 

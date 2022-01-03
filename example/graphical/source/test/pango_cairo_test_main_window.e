@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-10-12 15:11:05 GMT (Monday 12th October 2020)"
-	revision: "17"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "18"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -211,7 +211,7 @@ feature {NONE} -- Constants
 
 	Lenna_pixmap: EL_PIXMAP
 		local
-			lenna_path: EL_FILE_PATH
+			lenna_path: FILE_PATH
 		once
 			lenna_path := "$ISE_EIFFEL/library/vision2/tests/graphics/Lenna.png"
 			lenna_path.expand

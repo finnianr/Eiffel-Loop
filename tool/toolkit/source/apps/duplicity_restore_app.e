@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-28 15:31:25 GMT (Sunday 28th March 2021)"
-	revision: "14"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "15"
 
 class
 	DUPLICITY_RESTORE_APP
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {EL_FILE_PATH})
+			Result := agent {like command}.make (create {FILE_PATH})
 		end
 
 	visible_types: TUPLE [DUPLICITY_COLLECTION_STATUS_OS_CMD, DUPLICITY_LISTING_OS_CMD]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-09 16:12:41 GMT (Thursday 9th September 2021)"
-	revision: "12"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER
@@ -27,7 +27,7 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_manifest_path: EL_FILE_PATH; a_source_tree_path: EL_DIR_PATH; a_output_file_path: EL_FILE_PATH)
+	make (a_manifest_path: FILE_PATH; a_source_tree_path: DIR_PATH; a_output_file_path: FILE_PATH)
 		do
 			make_compiler (a_manifest_path, a_source_tree_path)
 			output_file_path := a_output_file_path
@@ -61,6 +61,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	output_file_path: EL_FILE_PATH
+	output_file_path: FILE_PATH
 
 end

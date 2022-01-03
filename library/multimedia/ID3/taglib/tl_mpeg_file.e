@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-03-24 12:36:12 GMT (Tuesday 24th March 2020)"
-	revision: "12"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	TL_MPEG_FILE
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	make (a_path: EL_FILE_PATH)
+	make (a_path: FILE_PATH)
 		local
 			file_name: TL_FILE_NAME
 		do
@@ -75,7 +75,7 @@ feature -- Access
 			create Result.make_by_fine_seconds (tag.duration / 1000)
 		end
 
-	path: EL_FILE_PATH
+	path: FILE_PATH
 
 	tag: TL_ID3_TAG
 

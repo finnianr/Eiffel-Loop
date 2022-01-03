@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-27 7:37:40 GMT (Wednesday 27th May 2020)"
-	revision: "12"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	EL_GVFS_VOLUME
@@ -47,7 +47,7 @@ feature -- Access
 
 feature -- File operations
 
-	copy_file_from (volume_path: EL_FILE_PATH; destination_dir: EL_DIR_PATH)
+	copy_file_from (volume_path: FILE_PATH; destination_dir: DIR_PATH)
 			-- copy file from volume to external
 		require
 			volume_path_relative_to_root: not volume_path.is_absolute
@@ -56,7 +56,7 @@ feature -- File operations
 			copy_file (uri_root.joined (volume_path), destination_dir)
 		end
 
-	copy_file_to (source_path: EL_FILE_PATH; volume_dir: EL_DIR_PATH)
+	copy_file_to (source_path: FILE_PATH; volume_dir: DIR_PATH)
 			-- copy file from volume to external
 		require
 			volume_dir_relative_to_root: not volume_dir.is_absolute
@@ -65,7 +65,7 @@ feature -- File operations
 			copy_file (source_path.to_uri, uri_root.joined (volume_dir))
 		end
 
-	delete_directory (dir_path: EL_DIR_PATH)
+	delete_directory (dir_path: DIR_PATH)
 			--
 		require
 			is_relative_to_root: not dir_path.is_absolute
@@ -74,7 +74,7 @@ feature -- File operations
 			remove_file (uri_root.joined (dir_path))
 		end
 
-	delete_directory_files (dir_path: EL_DIR_PATH; wild_card: ZSTRING)
+	delete_directory_files (dir_path: DIR_PATH; wild_card: ZSTRING)
 			--
 		require
 			is_relative_to_root: not dir_path.is_absolute
@@ -106,7 +106,7 @@ feature -- File operations
 			end
 		end
 
-	delete_empty_branch (dir_path: EL_DIR_PATH)
+	delete_empty_branch (dir_path: DIR_PATH)
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		local
@@ -118,7 +118,7 @@ feature -- File operations
 			end
 		end
 
-	delete_file (file_path: EL_FILE_PATH)
+	delete_file (file_path: FILE_PATH)
 			--
 		require
 			is_relative_to_root: not file_path.is_absolute
@@ -126,7 +126,7 @@ feature -- File operations
 			remove_file (uri_root.joined (file_path))
 		end
 
-	delete_if_empty (dir_path: EL_DIR_PATH)
+	delete_if_empty (dir_path: DIR_PATH)
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		do
@@ -135,7 +135,7 @@ feature -- File operations
 			end
 		end
 
-	make_directory (dir_path: EL_DIR_PATH)
+	make_directory (dir_path: DIR_PATH)
 			-- recursively create directory
 		require
 			relative_path: not dir_path.is_absolute
@@ -145,21 +145,21 @@ feature -- File operations
 
 feature -- Status query
 
-	directory_exists (dir_path: EL_DIR_PATH): BOOLEAN
+	directory_exists (dir_path: DIR_PATH): BOOLEAN
 		require
 			is_relative_to_root: not dir_path.is_absolute
 		do
 			Result := uri_exists (uri_root.joined (dir_path))
 		end
 
-	file_exists (file_path: EL_FILE_PATH): BOOLEAN
+	file_exists (file_path: FILE_PATH): BOOLEAN
 		require
 			is_relative_to_root: not file_path.is_absolute
 		do
 			Result := uri_exists (uri_root.joined (file_path))
 		end
 
-	is_directory_empty (dir_path: EL_DIR_PATH): BOOLEAN
+	is_directory_empty (dir_path: DIR_PATH): BOOLEAN
 		local
 			command: like Get_file_count_commmand
 		do
@@ -182,7 +182,7 @@ feature -- Status query
 
 feature -- Element change
 
-	extend_uri_root (relative_dir: EL_DIR_PATH)
+	extend_uri_root (relative_dir: DIR_PATH)
 		require
 			valid_volume: is_valid
 		do
@@ -358,3 +358,4 @@ feature {NONE} -- Constants
 		end
 
 end
+

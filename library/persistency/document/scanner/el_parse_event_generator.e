@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-16 12:46:14 GMT (Saturday 16th January 2021)"
-	revision: "5"
+	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
+	revision: "6"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -49,7 +49,7 @@ feature -- Basic operations
 			output := Default_output
 		end
 
-	send_file (file_path: EL_FILE_PATH; a_output: like output)
+	send_file (file_path: FILE_PATH; a_output: like output)
 			--
 		local
 			file_in: PLAIN_TEXT_FILE

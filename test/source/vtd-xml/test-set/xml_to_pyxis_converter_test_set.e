@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-21 10:16:36 GMT (Sunday 21st March 2021)"
-	revision: "9"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "10"
 
 class
 	XML_TO_PYXIS_CONVERTER_TEST_SET
@@ -55,7 +55,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	convert_xml_to_pyxis (file_path: EL_FILE_PATH)
+	convert_xml_to_pyxis (file_path: FILE_PATH)
 			--
 		local
 			converter: EL_XML_TO_PYXIS_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
@@ -93,7 +93,7 @@ feature {NONE} -- Constants
 			Result ["kernel.xace"] := 2157100131
 		end
 
-	XML_dir: EL_DIR_PATH
+	XML_dir: DIR_PATH
 		once
 			Result := EL_test_data_dir #+ "XML"
 		end

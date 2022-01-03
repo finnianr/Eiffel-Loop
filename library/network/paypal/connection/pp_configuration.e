@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-12 11:29:52 GMT (Sunday 12th September 2021)"
-	revision: "10"
+	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	PP_CONFIGURATION
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (path: EL_FILE_PATH; a_decrypter: like decrypter)
+	make (path: FILE_PATH; a_decrypter: like decrypter)
 		do
 			make_solitary
 			decrypter := a_decrypter
@@ -48,9 +48,9 @@ feature -- Access
 
 	api_version: STRING
 
-	cert_authority_info_path: EL_FILE_PATH
+	cert_authority_info_path: FILE_PATH
 
-	credentials_path: EL_FILE_PATH
+	credentials_path: FILE_PATH
 
 	domain_name: STRING
 

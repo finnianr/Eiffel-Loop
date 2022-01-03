@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-01 11:46:42 GMT (Wednesday 1st September 2021)"
-	revision: "6"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "7"
 
 class
 	EL_ARRAY_READER
 
 feature {NONE} -- File input
 
-	array_double_list_from_csv_file (file_path: EL_FILE_PATH): LIST [ARRAY [DOUBLE]]
+	array_double_list_from_csv_file (file_path: FILE_PATH): LIST [ARRAY [DOUBLE]]
 			--
 		local
 			file_in: PLAIN_TEXT_FILE; csv_list: LIST [STRING]
@@ -49,7 +49,7 @@ feature {NONE} -- File input
 --			log.exit
 		end
 
-	array_double_list_from_file (file_path: EL_FILE_PATH): LIST [ARRAY [DOUBLE]]
+	array_double_list_from_file (file_path: FILE_PATH): LIST [ARRAY [DOUBLE]]
 			--
 		local
 			file_in: RAW_FILE; i, lower, upper: INTEGER

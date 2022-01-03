@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-24 8:27:59 GMT (Tuesday 24th September 2019)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	EL_PROGRESS_TRACKING
@@ -52,7 +52,7 @@ feature -- Basic operations
 			data_progress_listener.increase_data_estimate (a_count)
 		end
 
-	increase_file_data_estimate (a_file_path: EL_FILE_PATH)
+	increase_file_data_estimate (a_file_path: FILE_PATH)
 		do
 			data_progress_listener.increase_file_data_estimate (a_file_path)
 		end

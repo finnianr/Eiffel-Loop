@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 13:36:01 GMT (Sunday 19th December 2021)"
-	revision: "10"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "11"
 
 class
 	SOFTWARE_INFO
@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_pecf_path: EL_FILE_PATH)
+	make (a_pecf_path: FILE_PATH)
 		local
 			scanner: PYXIS_ECF_SCANNER
 		do
@@ -52,7 +52,7 @@ feature -- Access
 	product: ZSTRING
 		-- product name
 
-	pecf_path: EL_FILE_PATH
+	pecf_path: FILE_PATH
 
 feature -- Version
 

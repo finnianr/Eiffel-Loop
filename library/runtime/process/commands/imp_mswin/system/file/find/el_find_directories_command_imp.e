@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-30 12:22:54 GMT (Thursday 30th December 2021)"
-	revision: "8"
+	date: "2022-01-03 15:51:52 GMT (Monday 3rd January 2022)"
+	revision: "9"
 
 class
 	EL_FIND_DIRECTORIES_COMMAND_IMP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 
 	prepend_directory (output_lines: EL_ZSTRING_LIST)
 		local
-			l_path: EL_DIR_PATH
+			l_path: DIR_PATH
 		do
 			if min_depth = 0 then
 				if max_depth > 1 then

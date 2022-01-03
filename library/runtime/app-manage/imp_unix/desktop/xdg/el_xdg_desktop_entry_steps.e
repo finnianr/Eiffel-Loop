@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-12-05 10:49:50 GMT (Thursday 5th December 2019)"
-	revision: "3"
+	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
+	revision: "4"
 
 class
 	EL_XDG_DESKTOP_ENTRY_STEPS
@@ -23,7 +23,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (desktop: EL_MENU_DESKTOP_ENVIRONMENT_I; applications_desktop_dir, directories_desktop_dir: EL_DIR_PATH)
+	make (desktop: EL_MENU_DESKTOP_ENVIRONMENT_I; applications_desktop_dir, directories_desktop_dir: DIR_PATH)
 		do
 			make_list (desktop.submenu_path.count + 1)
 			compare_objects

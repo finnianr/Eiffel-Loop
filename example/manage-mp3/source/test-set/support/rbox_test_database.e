@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-25 7:32:45 GMT (Monday 25th May 2020)"
-	revision: "22"
+	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
+	revision: "23"
 
 class
 	RBOX_TEST_DATABASE
@@ -88,7 +88,7 @@ feature {RBOX_IRADIO_ENTRY} -- Implementation
 
 feature {EQA_TEST_SET} -- Access
 
-	cached_song_file_path (song: RBOX_SONG): EL_FILE_PATH
+	cached_song_file_path (song: RBOX_SONG): FILE_PATH
 		local
 			relative_path: EL_PATH_STEPS
 		do
@@ -97,13 +97,13 @@ feature {EQA_TEST_SET} -- Access
 			Result := File_system.cached (relative_path, agent generate_mp3_file (song, ?))
 		end
 
-	generate_mp3_file (song: RBOX_SONG; mp3_path: EL_FILE_PATH)
+	generate_mp3_file (song: RBOX_SONG; mp3_path: FILE_PATH)
 			-- Path to auto generated mp3 file under build directory
 		require
 			valid_duration: song.duration > 0
 		local
 			mp3_writer: like Audio_command.new_wav_to_mp3
-			temp_path, wav_path: EL_FILE_PATH; mp3_info: TL_MUSICBRAINZ_MPEG_FILE
+			temp_path, wav_path: FILE_PATH; mp3_info: TL_MUSICBRAINZ_MPEG_FILE
 			modification_time: DATE_TIME
 		do
 			temp_path := song.mp3_path
