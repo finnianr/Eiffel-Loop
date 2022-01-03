@@ -1660,7 +1660,7 @@ Command switch: `-feature_edit`
 
 Command switch: `-elog_remover`
 
-[SOURCE_TREE_CLASS_RENAME_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_tree_class_rename_app.html) renames classes defined by a source manifest file
+[SOURCE_TREE_CLASS_RENAME_APP]($source) renames classes defined by a source manifest file
 
 Command switch: `-class_rename`
 

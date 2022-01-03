@@ -5,7 +5,7 @@
 #	date: "11 Jan 2010"
 #	revision: "0.1"
 
-import ctypes, os, string, sys, imp, platform
+import ctypes, os, string, sys, imp, platform, stat
 
 from string import Template
 from eiffel_loop.os import path
@@ -148,6 +148,14 @@ def set_build_environment (config, print_environ=False):
 		for name in sorted (config.eiffel_environ ()):
 			print name + " =", os.environ [name]
 
+def update_ecf (ecf_path):
+	# update 'ecf' file from 'pecf' file if it exists
+	pecf_path = path.as_pecf (ecf_path)
+	if path.exists (pecf_path):
+		if os.stat (pecf_path)[stat.ST_MTIME] > os.stat (ecf_path)[stat.ST_MTIME]:
+			convert_pecf_to_xml (pecf_path)
+		
+
 	
 # XML format ECF project file
 class ECF_PROJECT_FILE (object):
@@ -226,6 +234,7 @@ class EIFFEL_PROJECT (object):
 			self.ecf_name = glob ('*.ecf')[0]
 		self.name = path.splitext (self.ecf_name)[0]
 		self.pecf_name = self.name + '.pecf'
+		update_ecf (self.ecf_name)
 		
 		system = SYSTEM_INFO (XPATH_ROOT_CONTEXT (self.ecf_name, 'ec'))
 		self.exe_name = system.exe_name ()
@@ -319,6 +328,7 @@ class EIFFEL_PROJECT (object):
 				print 'Copied', so_path
 
 	def increment_build_number (self):
+		print 'version:', self.version
 		if path.exists (self.pecf_name):
 			project = PYXIS_FORMAT_PROJECT_FILE (self.pecf_name)
 		else:

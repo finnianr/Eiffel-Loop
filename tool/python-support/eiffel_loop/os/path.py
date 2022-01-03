@@ -29,3 +29,21 @@ def curdir_up_to (step):
 		while basename (result) != step:
 			result = dirname (result)
 	return result
+
+def as_ecf (a_path):
+	parts = splitext (a_path)
+	if parts [1] == '.pecf':
+		result = parts [0] + '.ecf'
+	else:
+		result = a_path
+	return result
+
+def as_pecf (a_path):
+	parts = splitext (a_path)
+	if parts [1] == '.ecf':
+		result = parts [0] + '.pecf'
+	else:
+		result = a_path
+
+	return result
+

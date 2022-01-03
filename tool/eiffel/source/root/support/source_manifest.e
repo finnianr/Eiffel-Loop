@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-08-17 10:06:31 GMT (Tuesday 17th August 2021)"
-	revision: "12"
+	date: "2022-01-03 14:46:49 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	SOURCE_MANIFEST
@@ -70,9 +70,21 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
+				["import/text()", agent import_manifest],
 				["location/@name", agent do last_name := node.to_string end],
 				["location/text()", agent extend_locations]
 			>>)
+		end
+
+	import_manifest
+		local
+			file_path: EL_FILE_PATH; other: SOURCE_MANIFEST
+		do
+			file_path := node.to_expanded_file_path
+			if file_path.exists then
+				create other.make_from_file (file_path)
+				source_tree_list.append (other.source_tree_list)
+			end
 		end
 
 	extend_locations

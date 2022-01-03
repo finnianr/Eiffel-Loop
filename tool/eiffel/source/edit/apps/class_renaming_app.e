@@ -1,13 +1,13 @@
 note
-	description: "Source tree class rename app"
+	description: "Class renaming app for set of classes defined by source manifest"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 12:04:11 GMT (Sunday 2nd January 2022)"
-	revision: "20"
+	date: "2022-01-02 21:58:30 GMT (Sunday 2nd January 2022)"
+	revision: "21"
 
 class
 	CLASS_RENAMING_APP

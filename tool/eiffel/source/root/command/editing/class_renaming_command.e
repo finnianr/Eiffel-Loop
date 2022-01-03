@@ -1,13 +1,13 @@
 note
-	description: "Class renamer command"
+	description: "Class renaming command for set of classes defined by source manifest"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 18:08:04 GMT (Sunday 2nd January 2022)"
-	revision: "11"
+	date: "2022-01-03 15:04:08 GMT (Monday 3rd January 2022)"
+	revision: "13"
 
 class
 	CLASS_RENAMING_COMMAND
@@ -68,19 +68,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	process_file (source_path: EL_FILE_PATH)
+	process_file (a_source_path: EL_FILE_PATH)
 		local
-			line: STRING; file: PLAIN_TEXT_FILE
+			line, file_name: STRING; file: PLAIN_TEXT_FILE; source_path: EL_FILE_PATH
 		do
-			if attached File_system.plain_text_lines (source_path) as source_lines
+			if attached File_system.plain_text_lines (a_source_path) as source_lines
 				and then source_lines.target.has_substring (old_name)
 				and then across source_lines as list some has_old_name_identifier (list.item) end
 			then
+				source_path := a_source_path
+				-- Check if `a_source_path' is class definition file
+				if source_path.dot_index - 1 = old_name.count and then
+					source_path.base.same_caseless_characters_general (old_name, 1, old_name.count, 1)
+				then
+					source_path := source_path.parent + (new_name.as_lower + Eiffel_extention)
+					File_system.remove_path (a_source_path)
+				end
 				create file.make_open_write (source_path)
 				across source_lines as list loop
 					line := list.item
 					if line.has_substring (old_name) then
-						put_substitued (file, line)
+						put_substituted (file, line)
 					else
 						file.put_string (line)
 					end
@@ -90,7 +98,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	put_substitued (file: PLAIN_TEXT_FILE; line: STRING)
+	put_substituted (file: PLAIN_TEXT_FILE; line: STRING)
 		local
 			name_split: EL_SPLIT_STRING_8_LIST
 			lower, upper: INTEGER
@@ -116,5 +124,9 @@ feature {NONE} -- Internal attributes
 	new_name: STRING
 
 	old_name: STRING
+
+feature {NONE} -- Constants
+
+	Eiffel_extention: STRING = ".e"
 
 end
