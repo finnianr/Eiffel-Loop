@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-11-01 12:39:59 GMT (Friday 1st November 2019)"
-	revision: "1"
+	date: "2022-01-04 15:20:51 GMT (Tuesday 4th January 2022)"
+	revision: "2"
 
 class
 	NOTE_DATE_FIXER_COMMAND
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 
 	new_editor: DATE_NOTE_EDITOR
 		do
-			create Result.make (license_notes)
+			create Result.make (license_notes, operations_list)
 		end
 
 end

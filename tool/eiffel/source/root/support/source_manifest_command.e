@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-04 15:39:28 GMT (Tuesday 4th January 2022)"
+	revision: "10"
 
 deferred class
 	SOURCE_MANIFEST_COMMAND
@@ -20,18 +20,18 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_ITERATION_OUTPUT
+	EL_MODULE_TRACK
 
 feature {EL_COMMAND_CLIENT} -- Initialization
-
-	make_default
-		do
-			create manifest.make_default
-		end
 
 	make (source_manifest_path: FILE_PATH)
 		do
 			create manifest.make_from_file (source_manifest_path)
+		end
+
+	make_default
+		do
+			create manifest.make_default
 		end
 
 feature -- Basic operations
@@ -49,9 +49,19 @@ feature -- Basic operations
 			else
 				file_list := manifest.file_list
 			end
+			lio.put_labeled_substitution ("Processsing", "%S files", [file_list.count])
+			lio.put_new_line
+			Track.progress (Console_display, file_list.count, agent iterate_files (file_list))
+			lio.put_new_line
+		end
+
+feature {NONE} -- Implementation
+
+	iterate_files (file_list: ITERABLE [FILE_PATH])
+		do
 			across file_list as file_path loop
-				print_progress ((file_path.cursor_index - 1).to_natural_32)
 				process_file (file_path.item)
+				Track.progress_listener.notify_tick
 			end
 		end
 
@@ -68,7 +78,5 @@ feature -- Status query
 	is_ordered: BOOLEAN
 		do
 		end
-
-	Iterations_per_dot: NATURAL_32 = 50
 
 end

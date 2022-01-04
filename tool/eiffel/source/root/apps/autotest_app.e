@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 14:51:07 GMT (Sunday 2nd January 2022)"
-	revision: "44"
+	date: "2022-01-04 17:12:51 GMT (Tuesday 4th January 2022)"
+	revision: "45"
 
 class
 	AUTOTEST_APP
@@ -29,6 +29,7 @@ inherit
 	EL_REGRESSION_AUTOTEST_SUB_APPLICATION [
 		CLASS_RENAMING_TEST_SET,
 		FEATURE_EDITOR_COMMAND_TEST_SET,
+		NOTE_EDITOR_TEST_SET,
 		PATH_TEST_SET,
 		PYXIS_ECF_PARSER_TEST_SET,
 		REPOSITORY_PUBLISHER_TEST_SET,
@@ -54,6 +55,7 @@ feature {NONE} -- Implementation
 		end
 
 	visible_types: TUPLE [
+		FEATURE_EDITOR_COMMAND,
 		PYXIS_TRANSLATION_TREE_COMPILER,
 		REPOSITORY_TEST_PUBLISHER,
 		UNDEFINE_PATTERN_COUNTER_COMMAND

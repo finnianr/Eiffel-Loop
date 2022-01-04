@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-04 15:44:55 GMT (Tuesday 4th January 2022)"
+	revision: "13"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -84,19 +84,31 @@ feature -- String types
 
 	EL_ZSTRING: INTEGER
 
+feature -- Path types
+
+	EL_FILE_PATH: INTEGER
+
+	EL_DIR_PATH: INTEGER
+
+	EL_PATH: INTEGER
+
+feature -- Class aliases
+
+	DIR_PATH: INTEGER
+		do
+			Result := EL_FILE_PATH
+		end
+
+	FILE_PATH: INTEGER
+		do
+			Result := EL_FILE_PATH
+		end
+
 	ZSTRING: INTEGER
 		-- alias
 		do
 			Result := EL_ZSTRING
 		end
-
-feature -- Path types
-
-	FILE_PATH: INTEGER
-
-	DIR_PATH: INTEGER
-
-	EL_PATH: INTEGER
 
 feature -- Other types
 

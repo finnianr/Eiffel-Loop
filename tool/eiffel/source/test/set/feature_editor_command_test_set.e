@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-04 16:39:15 GMT (Tuesday 4th January 2022)"
+	revision: "13"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -81,8 +81,8 @@ feature {NONE} -- Constants
 --			and test correct BOM marker for UTF-8 encoding
 			Result ["el_subject_line_decoder_test_set.e"] := os_checksum (323797391, 791284100)
 
-			Result ["job_duration_parser.e"] := os_checksum (2279143911, 2888591815)
-			Result ["subscription_delivery_email.e"] := os_checksum (3839075017, 4222350431)
+			Result ["job_duration_parser.e"] := os_checksum (2651641799, 2888591815)
+			Result ["subscription_delivery_email.e"] := os_checksum (1955610778, 4222350431)
 
 --			test frozen feature name sort
 			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (118099087, 3942163219)

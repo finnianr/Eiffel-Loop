@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-16 8:20:28 GMT (Friday 16th April 2021)"
-	revision: "10"
+	date: "2022-01-04 16:03:52 GMT (Tuesday 4th January 2022)"
+	revision: "11"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
 
 inherit
-	EL_EQA_REGRESSION_TEST_SET
+	EL_EQA_TEST_SET
 		redefine
 			on_prepare
 		end
@@ -35,8 +35,35 @@ feature -- Basic operations
 feature -- Tests
 
 	test_command
+		local
+			command: UNDEFINE_PATTERN_COUNTER_COMMAND
 		do
-			do_test ("count_pattern", os_checksum (725585005, 2936545554), agent count_pattern, [])
+			create command.make ("test-data/base-manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			command.execute
+			if attached command.greater_than_0_list as list then
+				assert ("3 in list", list.count = 3)
+				from list.start until list.after loop
+					assert ("2 patterns found", list.item_value = 2)
+					assert ("matches type",
+						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH}, {EL_PATH_STEPS} >>, list.item_key)
+					)
+					list.forth
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	some_type_matches (type_list: ARRAY [TYPE [ANY]]; file_name: ZSTRING): BOOLEAN
+		local
+			src_name: ZSTRING
+		do
+			across type_list as type until Result loop
+				create src_name.make_from_general (type.item.name)
+				src_name.to_lower
+				src_name.append_string_general (".e")
+				Result := src_name ~ file_name
+			end
 		end
 
 feature {NONE} -- Event handling
@@ -48,16 +75,4 @@ feature {NONE} -- Event handling
 			Execution_environment.put (new_eiffel_loop_dir, Var_eiffel_loop)
 		end
 
-feature {NONE} -- Implementation
-
-	count_pattern
-		local
-			command: UNDEFINE_PATTERN_COUNTER_COMMAND
-		do
-			create command.make ("test-data/base-manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
-			command.disable_print
-			command.execute
-
-			assert ("3 classes match", command.class_count = 3)
-		end
 end

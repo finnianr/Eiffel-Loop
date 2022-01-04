@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-04 16:23:43 GMT (Tuesday 4th January 2022)"
+	revision: "13"
 
 class
 	ENCODING_CHECK_COMMAND
 
 inherit
 	SOURCE_MANIFEST_COMMAND
+		redefine
+			make, execute
+		end
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -24,25 +27,48 @@ inherit
 create
 	make
 
+feature {EL_COMMAND_CLIENT} -- Initialization
+
+	make (source_manifest_path: FILE_PATH)
+		do
+			Precursor (source_manifest_path)
+			create file_encoding_table.make (manifest.file_count)
+		end
+
 feature -- Basic operations
+
+	execute
+		local
+			string_list: EL_STRING_8_LIST; source_path: FILE_PATH
+		do
+			Precursor
+			across file_encoding_table as table loop
+				create string_list.make_from_array (table.item.to_array)
+				source_path := table.key
+				if Directory.current_working.is_parent_of (source_path) then
+					source_path := source_path.relative_path (Directory.current_working)
+				end
+				lio.put_labeled_string (source_path.to_string, string_list.joined (' '))
+				lio.put_new_line
+			end
+		end
+
+feature {NONE} -- Implementation
 
 	process_file (source_path: FILE_PATH)
 		local
-			source_32: STRING_32; source_utf_8: STRING; relative_source_path: FILE_PATH
+			source_32: STRING_32; source_utf_8: STRING
 			last_date: INTEGER; source_out: PLAIN_TEXT_FILE
 			c: EL_UTF_CONVERTER
 		do
 			if attached open_lines (source_path, Latin_1) as source_lines then
 				if source_lines.encoded_as_utf (8) then
-					relative_source_path := source_path.relative_path (Directory.current_working)
 					source_utf_8 := File_system.plain_text_bomless (source_path)
 					if c.is_valid_utf_8_string_8 (source_utf_8) then
-						lio.put_new_line
-						lio.put_path_field ("UTF-8", relative_source_path)
+						file_encoding_table.extend (source_path, once "UTF-8")
 						source_32 := c.utf_8_string_8_to_string_32 (source_utf_8)
 						if is_latin_1_encodeable (source_32) then
-							lio.put_new_line
-							lio.put_path_field ("Latin-1 encodeable", relative_source_path)
+							file_encoding_table.extend (source_path, once "and Latin-1 encodeable")
 							last_date := source_lines.date
 							create source_out.make_open_write (source_path)
 							source_out.put_string (source_32.to_string_8)
@@ -50,15 +76,12 @@ feature -- Basic operations
 							source_out.set_date (last_date)
 						end
 					else
-						lio.put_new_line
-						lio.put_path_field ("INVALID UTF-8", relative_source_path)
+						file_encoding_table.extend (source_path, once "INVALID UTF-8")
 					end
 					source_lines.close
 				end
 			end
 		end
-
-feature {NONE} -- Implementation
 
 	is_latin_1_encodeable (source_32: STRING_32): BOOLEAN
 		local
@@ -72,5 +95,9 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	file_encoding_table: EL_GROUP_TABLE [STRING, FILE_PATH]
 
 end

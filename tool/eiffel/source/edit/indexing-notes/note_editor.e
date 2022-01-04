@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-01 14:00:36 GMT (Thursday 1st April 2021)"
-	revision: "15"
+	date: "2022-01-04 17:39:27 GMT (Tuesday 4th January 2022)"
+	revision: "17"
 
 class
 	NOTE_EDITOR
@@ -25,8 +25,6 @@ inherit
 
 	NOTE_CONSTANTS
 
-	EL_MODULE_LIO
-
 	EL_MODULE_FILE_SYSTEM
 
 create
@@ -34,10 +32,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (license_notes: LICENSE_NOTES)
+	make (license_notes: LICENSE_NOTES; a_operations_list: like operations_list)
 			--
 		do
-			author_name	:= license_notes.author
+			author_name	:= license_notes.author; operations_list := a_operations_list
 			create default_values.make (<<
 				[Field.author, license_notes.author],
 				[Field.copyright, license_notes.copyright],
@@ -54,6 +52,10 @@ feature -- Element change
 			output_lines.wipe_out
 		end
 
+feature -- Access
+
+	operations_list: EL_ARRAYED_MAP_LIST [STRING, ZSTRING]
+
 feature -- Basic operations
 
 	edit
@@ -67,11 +69,9 @@ feature -- Basic operations
 
 				revised_lines := notes.revised_lines
 				if revised_lines /~ notes.original_lines then
-					lio.put_path_field ("Revising", file_path)
-					lio.put_new_line
+					operations_list.extend ("Revised", file_path)
 					if not notes.updated_fields.is_empty then
-						lio.put_labeled_string ("Updated", notes.updated_fields.joined_with_string (", "))
-						lio.put_new_line
+						operations_list.extend ("Updated", notes.updated_fields.joined_with_string (", "))
 					end
 					output_lines := revised_lines
 					Precursor
@@ -121,9 +121,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	default_values: EL_HASH_TABLE [ZSTRING, STRING]
-
 	author_name: ZSTRING
+
+	default_values: EL_HASH_TABLE [ZSTRING, STRING]
 
 feature {NONE} -- Fields
 

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-04 15:50:22 GMT (Tuesday 4th January 2022)"
+	revision: "12"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -57,10 +57,16 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make_default
 		do
 			make_machine
+			create greater_than_0_list.make (20)
 			Precursor {SOURCE_MANIFEST_COMMAND}
 		end
 
 feature -- Access
+
+	greater_than_0_list: EL_ARRAYED_MAP_LIST [ZSTRING, INTEGER]
+		-- List of pattern counts > 0
+
+feature -- Measurement
 
 	class_count: INTEGER
 
@@ -73,6 +79,13 @@ feature -- Basic operations
 	execute
 		do
 			Precursor
+			if is_lio_enabled and then attached greater_than_0_list as list then
+				from list.start until list.after loop
+					lio.put_integer_field (list.item_key + " pattern count", list.item_value)
+					lio.put_new_line
+					list.forth
+				end
+			end
 			lio.put_new_line
 			lio.put_substitution (
 				"Repetition of undefine pattern occurs in %S out of %S classes", [class_count, total_class_count]
@@ -85,12 +98,11 @@ feature -- Basic operations
 			total_class_count := total_class_count + 1
 			pattern_count := 0
 			do_once_with_file_lines (agent find_class_definition, open_lines (source_path, Latin_1))
-			if is_lio_enabled and pattern_count > 0 then
-				lio.put_integer_field (source_path.base + " pattern count", pattern_count)
-				lio.put_new_line
-			end
-			if pattern_count >= 2 then
-				class_count := class_count + 1
+			if pattern_count > 0 then
+				greater_than_0_list.extend (source_path.base, pattern_count)
+				if pattern_count >= 2 then
+					class_count := class_count + 1
+				end
 			end
 		end
 
@@ -117,28 +129,10 @@ feature {NONE} -- Line state handlers
 			state := agent expect_end
 		end
 
-	find_undefine (line: ZSTRING)
-		do
-			if Excluded_keywords.has (code_line) then
-				state := agent find_class_name
-			elseif code_line ~ Keyword_undefine then
-				state := agent expect_feature_list
-			else
-				state := agent find_class_name
-			end
-		end
-
 	find_class_definition (line: ZSTRING)
 		do
 			if code_line_is_class_declaration then
 				state := agent find_inherit
-			end
-		end
-
-	find_inherit (line: ZSTRING)
-		do
-			if code_line_starts_with (0, Keyword_inherit) then
-				state := agent find_class_name
 			end
 		end
 
@@ -149,6 +143,24 @@ feature {NONE} -- Line state handlers
 
 			elseif code_line_is_type_identifier then
 				state := agent find_undefine
+			end
+		end
+
+	find_inherit (line: ZSTRING)
+		do
+			if code_line_starts_with (0, Keyword_inherit) then
+				state := agent find_class_name
+			end
+		end
+
+	find_undefine (line: ZSTRING)
+		do
+			if Excluded_keywords.has (code_line) then
+				state := agent find_class_name
+			elseif code_line ~ Keyword_undefine then
+				state := agent expect_feature_list
+			else
+				state := agent find_class_name
 			end
 		end
 

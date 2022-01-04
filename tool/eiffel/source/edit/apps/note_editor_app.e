@@ -17,48 +17,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "24"
+	date: "2022-01-04 17:19:14 GMT (Tuesday 4th January 2022)"
+	revision: "25"
 
 class
 	NOTE_EDITOR_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
-		rename
-			extra_log_filter_set as empty_log_filter_set
-		end
+	EL_COMMAND_LINE_SUB_APPLICATION [NOTE_EDITOR_COMMAND]
 
 	EL_INSTALLABLE_SUB_APPLICATION
 		rename
 			desktop_menu_path as Default_desktop_menu_path,
 			desktop_launcher as Default_desktop_launcher
-		end
-
-feature -- Basic operations
-
-	test_run
-			--
-		do
-			Test.set_excluded_file_extensions (<< "e" >>)
-			Test.do_file_tree_test ("latin1-sources", agent test_edit, 3427892308)
-			Test.do_file_tree_test ("latin1-sources", agent test_license_change, 3309637608)
-		end
-
-feature -- Test
-
-	test_edit (dir_path: DIR_PATH)
-			--
-		do
-			create command.make (dir_path + "note-test-manifest.pyx", License_notes_path)
-			normal_run
-		end
-
-	test_license_change (dir_path: DIR_PATH)
-			--
-		do
-			create command.make (dir_path + "hexagram-manifest.pyx", dir_path + "hexagram-license.pyx")
-			normal_run
 		end
 
 feature {NONE} -- Implementation

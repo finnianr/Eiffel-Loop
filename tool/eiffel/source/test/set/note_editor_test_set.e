@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "23"
+	date: "2022-01-04 16:31:11 GMT (Tuesday 4th January 2022)"
+	revision: "24"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -59,7 +59,8 @@ feature {NONE} -- Initialization
 			make_machine
 			create file_out.make_with_name (file_list.first_path)
 			create license_notes.make_from_file (Eiffel_loop_dir + "license.pyx")
-			create editor.make (license_notes)
+			create operations_list.make (20)
+			create editor.make (license_notes, operations_list)
 		end
 
 feature -- Basic operations
@@ -207,6 +208,8 @@ feature {NONE} -- Internal attributes
 	license_notes: LICENSE_NOTES
 
 	editor: NOTE_EDITOR
+
+	operations_list: like editor.operations_list
 
 feature {NONE} -- Constants
 

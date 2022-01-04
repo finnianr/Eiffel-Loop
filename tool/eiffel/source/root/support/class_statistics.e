@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-04 14:03:36 GMT (Tuesday 4th January 2022)"
+	revision: "10"
 
 class
 	CLASS_STATISTICS
@@ -46,12 +46,11 @@ feature {NONE} -- Initialization
 
 	make_from_source (source: ZSTRING; a_file_size: INTEGER)
 		local
-			lines: EL_SPLIT_ZSTRING_LIST; index: INTEGER
+			index: INTEGER
 		do
 			file_size := a_file_size
 			index := source.substring_index (New_line, 1)
-			create lines.make (source, '%N')
-			do_with_split_list (agent count_words, lines, False)
+			do_with_split (agent count_words, source.split ('%N'), False)
 		end
 
 feature {NONE} -- Line state handlers

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-02 13:10:27 GMT (Tuesday 2nd March 2021)"
-	revision: "4"
+	date: "2022-01-04 17:39:45 GMT (Tuesday 4th January 2022)"
+	revision: "6"
 
 class
 	DATE_NOTE_EDITOR
@@ -46,9 +46,7 @@ feature -- Basic operations
 				output_lines.append (notes.original_lines)
 				file_edit
 				File_system.set_file_stamp (file_path, notes.last_time_stamp)
-				lio.put_new_line
-				lio.put_labeled_string ("Fixed", file_path.base)
-				lio.put_new_line
+				operations_list.extend ("Fixed", file_path.base)
 			else
 				input_lines.close
 			end
