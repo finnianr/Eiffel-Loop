@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-06-09 17:15:27 GMT (Wednesday 9th June 2021)"
-	revision: "13"
+	date: "2022-01-05 13:38:01 GMT (Wednesday 5th January 2022)"
+	revision: "14"
 
 class
 	EL_DIGEST_ARRAY
@@ -19,13 +19,25 @@ inherit
 
 	EL_MODULE_BASE_64
 
+	EL_MODULE_FILE_SYSTEM
+
 create
-	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x, make_from_memory
+	make_final, make_reflective, make_from_base64, make_sink, make_from_integer_x, make_from_memory,
+	make_from_plain_text
 
 convert
 	to_special: {SPECIAL [NATURAL_8]}, to_uuid: {EL_UUID}, to_data: {MANAGED_POINTER}
 
 feature {NONE} -- Initialization
+
+	make_from_plain_text (digest: EL_DATA_SINKABLE; file_path: FILE_PATH)
+		do
+			digest.reset
+			if file_path.exists then
+				digest.sink_string_8 (File_system.plain_text (file_path))
+			end
+			make_final (digest)
+		end
 
 	make_from_memory (digest: EL_DATA_SINKABLE; memory: MANAGED_POINTER)
 		do
@@ -66,7 +78,7 @@ feature {NONE} -- Initialization
 			make_final (digest)
 		end
 
-	make_sink (digest: EL_DATA_SINKABLE; string: STRING)
+	make_sink (digest: EL_DATA_SINKABLE; string: READABLE_STRING_8)
 		do
 			digest.reset
 			digest.sink_string_8 (string)

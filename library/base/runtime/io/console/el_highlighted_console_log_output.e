@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-02-19 14:01:37 GMT (Wednesday 19th February 2020)"
-	revision: "10"
+	date: "2022-01-05 16:37:27 GMT (Wednesday 5th January 2022)"
+	revision: "11"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	flush_string_8 (str_8: STRING_8)
+	flush_string_8 (str_8: READABLE_STRING_8)
 		do
 			if is_escape_sequence (str_8) then
 				write_escape_sequence (str_8)
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 			sequence.append_character ('A')
 		end
 
-	is_escape_sequence (seq: STRING_8): BOOLEAN
+	is_escape_sequence (seq: READABLE_STRING_8): BOOLEAN
 		local
 			count: INTEGER
 		do

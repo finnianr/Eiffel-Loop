@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-08 15:32:27 GMT (Friday 8th January 2021)"
-	revision: "15"
+	date: "2022-01-05 15:57:59 GMT (Wednesday 5th January 2022)"
+	revision: "16"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -75,6 +75,25 @@ feature -- General sinks
 			sink_integer_32 (in.to_integer)
 		end
 
+	sink_character_array (in: SPECIAL [CHARACTER]; in_lower: INTEGER_32; in_upper: INTEGER_32)
+		require
+			in.valid_index (in_lower)
+			in.valid_index (in_upper)
+		local
+			index: INTEGER_32
+		do
+			from
+				index := in_lower
+			until
+				index > in_upper
+			loop
+				sink_character_8 (in [index])
+				index := index + 1
+			variant
+				in_upper - index + 2
+			end
+		end
+
 	sink_memory (in: MANAGED_POINTER)
 		local
 			i: INTEGER
@@ -91,6 +110,12 @@ feature -- General sinks
 		end
 
 	sink_special (in: SPECIAL [NATURAL_8]; in_lower: INTEGER_32; in_upper: INTEGER_32)
+		-- sink `in' array starting with `in_lower' index
+		deferred
+		end
+
+	sink_special_reversed (in: SPECIAL [NATURAL_8]; in_lower: INTEGER_32; in_upper: INTEGER_32)
+		-- sink `in' array starting with `in_upper' index
 		deferred
 		end
 
@@ -164,6 +189,7 @@ feature -- Real sinks
 feature -- Array sinks
 
 	sink_array (a_array: ARRAY [NATURAL_8])
+		-- sink `a_array' starting with `lower' index
 		local
 			l_area: SPECIAL [NATURAL_8]
 		do
@@ -171,12 +197,31 @@ feature -- Array sinks
 			sink_special (l_area, l_area.lower, l_area.upper)
 		end
 
+	sink_array_reversed (a_array: ARRAY [NATURAL_8])
+		-- sink `a_array' starting with `upper' index
+		local
+			l_area: SPECIAL [NATURAL_8]
+		do
+			l_area := a_array
+			sink_special_reversed (l_area, l_area.lower, l_area.upper)
+		end
+
 	sink_bytes (byte_array: EL_BYTE_ARRAY)
+		-- sink `byte_array' starting with `lower' index
 		local
 			l_area: SPECIAL [NATURAL_8]
 		do
 			l_area := byte_array
 			sink_special (l_area, l_area.lower, l_area.upper)
+		end
+
+	sink_bytes_reversed (byte_array: EL_BYTE_ARRAY)
+		-- sink `byte_array' starting with `upper' index
+		local
+			l_area: SPECIAL [NATURAL_8]
+		do
+			l_area := byte_array
+			sink_special_reversed (l_area, l_area.lower, l_area.upper)
 		end
 
 feature -- Character sinks
@@ -221,19 +266,15 @@ feature -- String sinks
 			end
 		end
 
-	sink_string (in: ZSTRING)
+	sink_string (in: EL_READABLE_ZSTRING)
 		local
 			l_area: SPECIAL [NATURAL]; i, count: INTEGER
-			l_area_8: SPECIAL [CHARACTER]; s: EL_STRING_32_ROUTINES
+			s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
 				s.write_utf_8 (in, Current)
 			else
-				l_area_8 := in.area; count := in.count
-				from i := 0 until i = count loop
-					sink_character_8 (l_area_8.item (i))
-					i := i + 1
-				end
+				sink_character_array (in.area, 0, in.count - 1)
 				-- Unencoded
 				l_area := in.unencoded_area; count := l_area.count
 				from i := 0 until i = count loop
@@ -254,14 +295,16 @@ feature -- String sinks
 			end
 		end
 
-	sink_string_8 (in: STRING)
+	sink_string_8 (in: READABLE_STRING_8)
 		local
-			s: EL_STRING_32_ROUTINES
+			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
 		do
 			if utf_8_mode_enabled then
-				s.write_utf_8 (in, Current)
+				s32.write_utf_8 (in, Current)
 			else
-				sink_raw_string_8 (in)
+				if attached s8.cursor (in) as cursor then
+					sink_character_array (cursor.area, cursor.area_first_index, cursor.area_last_index)
+				end
 			end
 		end
 

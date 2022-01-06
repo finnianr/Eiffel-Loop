@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-05 13:38:46 GMT (Wednesday 5th January 2022)"
+	revision: "8"
 
 deferred class
 	EL_EQA_REGRESSION_TEST_SET
@@ -55,11 +55,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
-		do
-			create Result.make_from_memory (MD5_128, File_system.file_data (file_path))
-		end
-
 	os_checksum (unix, windows: NATURAL): NATURAL
 		do
 			if {PLATFORM}.is_unix then
@@ -67,6 +62,16 @@ feature {NONE} -- Implementation
 			else
 				Result := windows
 			end
+		end
+
+	plain_text_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
+		do
+			create Result.make_from_plain_text (MD5_128, file_path)
+		end
+
+	raw_file_digest (file_path: FILE_PATH): EL_DIGEST_ARRAY
+		do
+			create Result.make_from_memory (MD5_128, File_system.file_data (file_path))
 		end
 
 end

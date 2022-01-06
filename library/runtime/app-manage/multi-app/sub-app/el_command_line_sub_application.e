@@ -3,18 +3,8 @@ note
 		Maps command line arguments to the arguments of the make procedure of the `command' object
 		conforming to `[$source EL_COMMAND]'. If no mapping errors occur during the initilization,
 		the `run' procedure is called and executes the command.
-
-		More client examples can be found in class [$source EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION].
 	]"
-	notes: "[
-		Implementing `argument_specs' specifies command option names, a description that becomes part
-		of the help text, and validation procedures and associated descriptions.
-
-		Implementing `default_make' provides default arguments for initializing the command, which can
-		then be overridden by the command line options specified in `argument_specs'.
-		
-		The `command.make' routine must be exported to class [$source EL_COMMAND_CLIENT]
-	]"
+	notes: "See end of class"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -22,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "29"
+	date: "2022-01-06 12:56:13 GMT (Thursday 6th January 2022)"
+	revision: "30"
 
 deferred class
 	EL_COMMAND_LINE_SUB_APPLICATION [C -> EL_COMMAND]
@@ -174,6 +164,15 @@ feature {EL_COMMAND_ARGUMENT, EL_MAKE_OPERAND_SETTER} -- Internal attributes
 	specs: ARRAYED_LIST [EL_COMMAND_ARGUMENT];
 
 note
+	notes: "[
+		Implementing `argument_specs' specifies command option names, a description that becomes part
+		of the help text, and validation procedures and associated descriptions.
+
+		Implementing `default_make' provides default arguments for initializing the command, which can
+		then be overridden by the command line options specified in `argument_specs'.
+
+		The `command.make' routine must be exported to class [$source EL_COMMAND_CLIENT]
+	]"
 	descendants: "[
 		**eiffel.ecf**
 			EL_COMMAND_LINE_SUB_APPLICATION* [C -> EL_COMMAND]

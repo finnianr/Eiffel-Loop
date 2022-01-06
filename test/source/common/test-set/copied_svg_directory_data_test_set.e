@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "4"
+	date: "2022-01-06 13:12:50 GMT (Thursday 6th January 2022)"
+	revision: "5"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -72,8 +72,13 @@ feature {NONE} -- Implementation
 
 	print_digest (output_path: FILE_PATH)
 		do
-			log.put_labeled_string ("Digest " + output_path.base, file_digest (output_path).to_base_64_string)
+			log.put_labeled_string ("Digest " + output_path.base, raw_file_digest (output_path).to_base_64_string)
 			log.put_new_line
+		end
+
+	source_dir: DIR_PATH
+		do
+			Result := EL_test_data_dir.joined_dir_path ("svg")
 		end
 
 feature {NONE} -- Internal attributes
@@ -109,11 +114,6 @@ feature {NONE} -- Constants
 	Png_name_template: ZSTRING
 		once
 			Result := "-%S-%Sx%S.png"
-		end
-
-	Source_dir: DIR_PATH
-		once
-			Result := EL_test_data_dir.joined_dir_path ("svg")
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

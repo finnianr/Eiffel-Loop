@@ -1,4 +1,4 @@
-note
+ï»¿note
 	description: "Note editor test set"
 
 	author: "Finnian Reilly"
@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 16:31:11 GMT (Tuesday 4th January 2022)"
-	revision: "24"
+	date: "2022-01-06 14:40:25 GMT (Thursday 6th January 2022)"
+	revision: "25"
 
 class
 	NOTE_EDITOR_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
+	COPIED_SOURCES_TEST_SET
 		undefine
 			new_lio
 		redefine
-			on_prepare
+			on_prepare, selected_files
 		end
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -104,7 +104,9 @@ feature -- Tests
 					end
 				end
 				assert ("revision incremented", new_revision ~ old_revision + 1)
+
 			end
+			test_encoding_samples
 --			n := User_input.integer ("Return to finish")
 			log.exit
 		end
@@ -190,15 +192,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	source_file_list: EL_FILE_PATH_LIST
-		-- Line with 'ñ' was giving trouble
-		-- 	Id3_title: STRING = "La Copla Porteña"
+	selected_files: ARRAY [STRING]
 		do
 			-- UTF-8 + Latin-1
-			Result := OS.filtered_file_list (
-				Data_dir.joined_dir_path ("source"), "*.e",
-				Filter.base_name_in (<< "hexagram_strings.e", "audio_command_test_set.e" >>)
-			)
+			Result := << Encoding_sample.utf_8, Encoding_sample.latin_1 >>
 		end
 
 feature {NONE} -- Internal attributes
@@ -213,6 +210,11 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Data_dir: DIR_PATH
+		once
+			Result := "test-data/sources"
+		end
+
 	Default_fields: EL_ZSTRING_LIST
 		once
 			create Result.make_with_lines ("[
@@ -221,11 +223,6 @@ feature {NONE} -- Constants
 				revision: "$Revision$"
 			]")
 			Result.indent (1)
-		end
-
-	Data_dir: DIR_PATH
-		once
-			Result := Eiffel_loop_dir.joined_dir_path ("test")
 		end
 
 end

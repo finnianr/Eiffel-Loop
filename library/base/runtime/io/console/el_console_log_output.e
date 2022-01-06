@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-21 16:51:16 GMT (Sunday 21st November 2021)"
-	revision: "22"
+	date: "2022-01-05 16:37:59 GMT (Wednesday 5th January 2022)"
+	revision: "23"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -227,7 +227,7 @@ feature {NONE} -- Implementation
 			buffer.extend (Result)
 		end
 
-	flush_string_8 (str_8: STRING_8)
+	flush_string_8 (str_8: READABLE_STRING_8)
 		do
 			write_console (str_8)
 		end
@@ -241,7 +241,7 @@ feature {NONE} -- Implementation
 				str_z.append_to_string_32 (str_32)
 				write_console (str_32)
 
-			elseif attached {STRING_8} str as str_8 then
+			elseif attached {READABLE_STRING_8} str as str_8 then
 				flush_string_8 (str_8)
 
 			else

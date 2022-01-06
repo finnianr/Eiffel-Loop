@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2018-09-20 11:35:13 GMT (Thursday 20th September 2018)"
-	revision: "4"
+	date: "2022-01-06 15:41:05 GMT (Thursday 6th January 2022)"
+	revision: "5"
 
 deferred class
 	EL_EIFFEL_SOURCE_EDITOR
 
 inherit
 	EL_TEXT_FILE_EDITOR
+		rename
+			file_path as source_path
 		redefine
 			is_bom_enabled
 		end

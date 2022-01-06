@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-05-07 11:05:15 GMT (Thursday 7th May 2020)"
-	revision: "6"
+	date: "2022-01-06 15:42:01 GMT (Thursday 6th January 2022)"
+	revision: "7"
 
 deferred class
 	EL_EIFFEL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR
 
 inherit
 	EL_LINE_STATE_MACHINE_TEXT_FILE_EDITOR
+		rename
+			file_path as source_path
 		undefine
 			is_bom_enabled
 		redefine
@@ -27,7 +29,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	new_input_lines (a_file_path: like file_path): EL_PLAIN_TEXT_LINE_SOURCE
+	new_input_lines (a_file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make (Latin_1, a_file_path)
 		end

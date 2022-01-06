@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 16:13:28 GMT (Tuesday 4th January 2022)"
-	revision: "15"
+	date: "2022-01-04 21:33:19 GMT (Tuesday 4th January 2022)"
+	revision: "16"
 
 class
 	SOURCE_MANIFEST
@@ -88,7 +88,7 @@ feature {NONE} -- Build from Pyxis
 			file_path := node.to_expanded_file_path
 			if file_path.exists then
 				create other.make_from_file (file_path)
-				source_tree_list.append (other.source_tree_list)
+				source_tree_list.append_sequence (other.source_tree_list)
 			end
 		end
 

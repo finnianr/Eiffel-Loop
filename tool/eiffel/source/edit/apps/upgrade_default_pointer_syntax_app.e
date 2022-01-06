@@ -1,8 +1,6 @@
 note
 	description: "[
-		App to change syntax of default_pointers references: 
-			ptr /= default_pointer TO is_attached (ptr)
-			and ptr = default_pointer TO not is_attached (ptr)
+		Command line interface to [$source UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,18 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-06 17:10:44 GMT (Thursday 6th January 2022)"
+	revision: "12"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_APP
 
 inherit
-	SOURCE_TREE_EDIT_COMMAND_LINE_SUB_APP
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND]
 		redefine
-			Option_name, test_run
+			Option_name
 		end
 
 create
@@ -29,22 +25,19 @@ create
 
 feature {NONE} -- Implementation
 
-	new_editor (file_path_list: LIST [FILE_PATH]): UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
+	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			create Result.make
+			Result := <<
+				valid_required_argument ("sources", "Path to sources manifest file", << file_must_exist >>)
+			>>
 		end
 
-feature -- Testing	
-
-	test_run
-			--
+	default_make: PROCEDURE [like command]
 		do
-			Test.do_file_tree_test ("sample-source/default_pointer", agent test_source_tree, checksum)
+			Result := agent {like command}.make ("")
 		end
 
 feature {NONE} -- Constants
-
-	Checksum: NATURAL = 1575544618
 
 	Option_name: STRING = "upgrade_default_pointer_syntax"
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "41"
+	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
+	revision: "42"
 
 class
 	RBOX_DATABASE
@@ -88,7 +88,7 @@ feature {NONE} -- Initialization
 			lio.put_new_line
 
 			if a_xml_database_path.exists then
-				xml_text := File_system.plain_text_raw (a_xml_database_path)
+				xml_text := File_system.plain_text (a_xml_database_path)
 			else
 				xml_text := Default_xml
 			end

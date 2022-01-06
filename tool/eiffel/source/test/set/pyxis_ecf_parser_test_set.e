@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-05 17:12:28 GMT (Wednesday 5th January 2022)"
+	revision: "12"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -27,7 +27,6 @@ inherit
 
 	EL_MODULE_DIGEST
 
-
 	EIFFEL_LOOP_TEST_CONSTANTS
 
 feature -- Basic operations
@@ -43,7 +42,7 @@ feature -- Tests
 	test_conversion_to_pecf
 			--
 		do
-			do_test ("convert_pecf_to_ecf", os_checksum (2117146356, 1102335056), agent convert_pecf_to_ecf, [file_list.first_path])
+			do_test ("convert_pecf_to_ecf", os_checksum (1944519556, 1281513760), agent convert_pecf_to_ecf, [file_list.first_path])
 		end
 
 feature {NONE} -- Implementation

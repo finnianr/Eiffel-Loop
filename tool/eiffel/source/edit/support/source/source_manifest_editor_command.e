@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-01-06 17:05:45 GMT (Thursday 6th January 2022)"
+	revision: "7"
 
 deferred class
 	SOURCE_MANIFEST_EDITOR_COMMAND
@@ -18,7 +18,7 @@ inherit
 			make
 		end
 
-feature {NONE} -- Initialization
+feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (source_manifest_path: FILE_PATH)
 		do
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			editor := new_editor
 		end
 
-feature -- Basic operations
+feature {NONE} -- Implementation
 
 	process_file (source_path: FILE_PATH)
 		do

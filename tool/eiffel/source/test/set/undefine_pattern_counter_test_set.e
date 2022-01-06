@@ -6,16 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 16:03:52 GMT (Tuesday 4th January 2022)"
-	revision: "11"
+	date: "2022-01-06 12:37:10 GMT (Thursday 6th January 2022)"
+	revision: "12"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	COPIED_SOURCES_TEST_SET
+		undefine
+			new_lio
 		redefine
-			on_prepare
+			source_file_list
+		end
+
+	EL_EQA_REGRESSION_TEST_SET
+		undefine
+			on_prepare, on_clean
 		end
 
 	EL_MODULE_DIRECTORY
@@ -38,7 +45,7 @@ feature -- Tests
 		local
 			command: UNDEFINE_PATTERN_COUNTER_COMMAND
 		do
-			create command.make ("test-data/base-manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			create command.make (Manifest_path, create {EL_DIR_PATH_ENVIRON_VARIABLE})
 			command.execute
 			if attached command.greater_than_0_list as list then
 				assert ("3 in list", list.count = 3)
@@ -66,13 +73,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Event handling
-
-	on_prepare
+	source_file_list: EL_FILE_PATH_LIST
 		do
-			Precursor
-			-- Renew EIFFEL_LOOP after publisher tests
-			Execution_environment.put (new_eiffel_loop_dir, Var_eiffel_loop)
+			Result := OS.file_list (Data_dir #+ "runtime/reflection/settable", "*.e")
+			Result.append (OS.file_list (Data_dir #+ "text/file-naming", "*.e"))
 		end
 
+feature {NONE} -- Constants
+
+	Data_dir: DIR_PATH
+		once
+			Result := Eiffel_loop_dir #+ "library/base"
+		end
 end

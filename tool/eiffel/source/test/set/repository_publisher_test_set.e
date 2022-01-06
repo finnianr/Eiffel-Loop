@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "40"
+	date: "2022-01-06 15:33:04 GMT (Thursday 6th January 2022)"
+	revision: "41"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -99,7 +99,7 @@ feature -- Tests
 			checker_path := Kernel_event.class_dir + "el_event_checker.e"
 
 			create editor.make ("make", "make_default") -- feature {NONE} -- Initialization
-			editor.set_file_path (broadcaster_path)
+			editor.set_source_path (broadcaster_path)
 			editor.edit
 
 			File_system.remove_file (checker_path)

@@ -8,34 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "18"
+	date: "2022-01-06 12:56:52 GMT (Thursday 6th January 2022)"
+	revision: "19"
 
 class
 	CODEBASE_STATISTICS_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CODEBASE_STATISTICS_COMMAND]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [CODEBASE_STATISTICS_COMMAND]
 		redefine
 			Option_name
-		end
-
-feature -- Testing
-
-	test_note_edit (a_sources_path: DIR_PATH)
-			--
-		do
-			create command.make (a_sources_path + "manifest.pyx", create {EL_DIR_PATH_ENVIRON_VARIABLE})
-			normal_run
-		end
-
-	test_run
-			--
-		do
-			Test.do_file_tree_test ("latin1-sources", agent test_note_edit, 1404346495)
-			Test.do_file_tree_test ("utf8-sources", agent test_note_edit, 191337464)
 		end
 
 feature {NONE} -- Implementation

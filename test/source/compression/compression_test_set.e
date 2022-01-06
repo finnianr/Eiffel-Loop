@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-01-06 13:10:56 GMT (Thursday 6th January 2022)"
+	revision: "7"
 
 class
 	COMPRESSION_TEST_SET
@@ -73,6 +73,11 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
+	source_dir: DIR_PATH
+		do
+			Result := EL_test_data_dir #+ "XML"
+		end
+
 	test_zlib_with_file (a_file_path: FILE_PATH)
 			--
 		local
@@ -89,13 +94,6 @@ feature {NONE} -- Implementation
 			decompressed_data := Zlib.decompressed_bytes (compressed_data, file_text.count)
 
 			assert ("Decompressed ok", file_text ~ s.from_code_array (decompressed_data))
-		end
-
-feature {NONE} -- Constants
-
-	Source_dir: DIR_PATH
-		once
-			Result := EL_test_data_dir #+ "XML"
 		end
 
 end

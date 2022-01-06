@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-08-07 12:06:27 GMT (Wednesday 7th August 2019)"
-	revision: "5"
+	date: "2022-01-06 16:00:29 GMT (Thursday 6th January 2022)"
+	revision: "6"
 
 class
 	FIND_AND_REPLACE_EDITOR
 
 inherit
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
+		redefine
+			edit
+		end
 
 create
 	make
@@ -25,6 +28,18 @@ feature {NONE} -- Initialization
 		do
 			find_text := a_find_text; replacement_text := a_replacement_text
 			make_default
+		end
+
+feature -- Basic operations
+
+	edit
+		do
+			if source_text.has_substring (find_text) then
+				if not replacement_text.is_valid_as_string_8 then
+					set_utf_encoding (8)
+				end
+				Precursor
+			end
 		end
 
 feature {NONE} -- Pattern definitions

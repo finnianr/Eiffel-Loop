@@ -6,42 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-06 14:18:21 GMT (Thursday 6th January 2022)"
+	revision: "16"
 
 class
 	CODEC_GENERATOR_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [CODEC_GENERATOR]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [CODEC_GENERATOR]
 		redefine
 			Option_name
 		end
 
 create
 	make
-
-feature -- Test
-
-	test_run
-			--
-		do
-			Test.set_binary_file_extensions (<< "evc" >>)
-			Test.do_file_tree_test ("codec-generation", agent test_generation, 3741528401)
-		end
-
-	test_generation (dir_path: DIR_PATH)
-			--
-		local
-			template_path, source_path: FILE_PATH
-		do
-			template_path := dir_path + "template.evol"
-			source_path := dir_path + "test-decoder.c"
-			create command.make (source_path, template_path)
-			normal_run
-		end
 
 feature {NONE} -- Implementation
 

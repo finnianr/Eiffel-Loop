@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 16:39:15 GMT (Tuesday 4th January 2022)"
-	revision: "13"
+	date: "2022-01-06 11:34:01 GMT (Thursday 6th January 2022)"
+	revision: "14"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 			bom := has_bom (file_path)
 			create command.make (file_path)
 			command.execute
-			log.put_labeled_string ("Digest", file_digest (file_path).to_base_64_string)
+			log.put_labeled_string ("Digest", plain_text_digest (file_path).to_base_64_string)
 			log.put_new_line
 			assert ("same bom", bom = has_bom (file_path))
 		end
@@ -74,22 +74,22 @@ feature {NONE} -- Constants
 	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
 		once
 			create Result.make_equal (11)
-			Result ["el_copy_file_impl.e"] := os_checksum (3882863469, 1993292058)
-			Result ["el_mp3_convert_command.e"] := os_checksum (3362452, 3576302068)
+			Result ["el_copy_file_impl.e"] := os_checksum (3882863469, 1333359779)
+			Result ["el_mp3_convert_command.e"] := os_checksum (3362452, 1836232641)
 
 --			Test insertions for: do_all (eval: EL_EQA_TEST_EVALUATOR)
 --			and test correct BOM marker for UTF-8 encoding
-			Result ["el_subject_line_decoder_test_set.e"] := os_checksum (323797391, 791284100)
+			Result ["el_subject_line_decoder_test_set.e"] := os_checksum (323797391, 1852503677)
 
-			Result ["job_duration_parser.e"] := os_checksum (2651641799, 2888591815)
-			Result ["subscription_delivery_email.e"] := os_checksum (1955610778, 4222350431)
+			Result ["job_duration_parser.e"] := os_checksum (2651641799, 497238340)
+			Result ["subscription_delivery_email.e"] := os_checksum (1955610778, 2725163138)
 
 --			test frozen feature name sort
-			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (118099087, 3942163219)
+			Result ["tl_id3_tag_frame_cpp_api.e"] := os_checksum (118099087, 399186481)
 		end
 
 	Data_dir: DIR_PATH
 		once
-			Result := "test-data/feature-edits"
+			Result := "test-data/sources/feature-edits"
 		end
 end

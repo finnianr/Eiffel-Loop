@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-01-18 15:21:46 GMT (Monday 18th January 2021)"
-	revision: "5"
+	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
+	revision: "6"
 
 class
 	UPDATE_DJ_PLAYLISTS_TASK_TEST_SET
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 				log.put_new_line
 			end
 			across OS.file_list (Playlists_dir, "*.pyx") as path loop
-				log.put_labeled_string (path.item.to_string, file_digest (path.item).to_base_64_string)
+				log.put_labeled_string (path.item.to_string, raw_file_digest (path.item).to_base_64_string)
 				log.put_new_line
 			end
 			print_rhythmdb_xml

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-06 13:12:16 GMT (Thursday 6th January 2022)"
+	revision: "4"
 
 class
 	EVOLICITY_TEST_SET
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 
 			create html_file.make_open_write (output_path)
 			Evolicity_templates.merge_to_file (template_path, new_root_context, html_file)
-			log.put_labeled_string ("Digest", file_digest (output_path).to_hex_string)
+			log.put_labeled_string ("Digest", raw_file_digest (output_path).to_hex_string)
 			log.put_new_line
 		end
 
@@ -137,12 +137,12 @@ feature {NONE} -- Implementation
 			log.exit
 		end
 
-feature {NONE} -- Constants
-
-	Source_dir: DIR_PATH
-		once
+	source_dir: DIR_PATH
+		do
 			Result := EL_test_data_dir.joined_dir_path ("evol")
 		end
+
+feature {NONE} -- Constants
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once

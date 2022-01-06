@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-06 13:11:43 GMT (Thursday 6th January 2022)"
+	revision: "16"
 
 class
 	OS_COMMAND_TEST_SET
@@ -58,10 +58,10 @@ feature -- Tests
 			assert ("created", tar_path.exists)
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Source_dir: DIR_PATH
-		once
+	source_dir: DIR_PATH
+		do
 			Result := EL_test_data_dir #+ "txt"
 		end
 

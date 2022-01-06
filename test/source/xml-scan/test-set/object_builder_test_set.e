@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-05 15:58:25 GMT (Wednesday 5th January 2022)"
+	revision: "10"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
 			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
-				log.put_labeled_string ("Digest saved " + file_path.base, file_digest (file_path).to_base_64_string)
+				log.put_labeled_string ("Digest saved " + file_path.base, raw_file_digest (file_path).to_base_64_string)
 				log.put_new_line
 			end
 		end

@@ -439,3 +439,6 @@ Renamed EL_POINTER_ROUTINES to EL_C_API_ROUTINES for is_attached
 Wed 13th Oct 2021, 15:40:04
 Improved JSON parsing split list
 
+Tue 4th Jan 2022, 17:47:17
+Created alias for file and directory path classes
+

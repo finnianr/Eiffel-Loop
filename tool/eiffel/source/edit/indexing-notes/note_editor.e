@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-04 17:39:27 GMT (Tuesday 4th January 2022)"
-	revision: "17"
+	date: "2022-01-06 15:42:37 GMT (Thursday 6th January 2022)"
+	revision: "18"
 
 class
 	NOTE_EDITOR
@@ -69,14 +69,14 @@ feature -- Basic operations
 
 				revised_lines := notes.revised_lines
 				if revised_lines /~ notes.original_lines then
-					operations_list.extend ("Revised", file_path)
+					operations_list.extend ("Revised", source_path)
 					if not notes.updated_fields.is_empty then
 						operations_list.extend ("Updated", notes.updated_fields.joined_with_string (", "))
 					end
 					output_lines := revised_lines
 					Precursor
 					if notes.is_revision then
-						File_system.set_file_stamp (file_path, notes.last_time_stamp + 1)
+						File_system.set_file_stamp (source_path, notes.last_time_stamp + 1)
 					end
 				else
 					input_lines.close
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 
 	is_override_class: BOOLEAN
 		do
-			Result := file_path.has_step (Override_step)
+			Result := source_path.has_step (Override_step)
 		end
 
 feature {NONE} -- Internal attributes

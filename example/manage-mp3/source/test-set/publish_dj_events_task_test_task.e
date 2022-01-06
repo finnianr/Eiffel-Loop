@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
+	revision: "6"
 
 class
 	PUBLISH_DJ_EVENTS_TASK_TEST_TASK
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 		do
 			task.apply
 			across << "2014-10-01 Belvedere.html", "index.html" >> as page loop
-				log.put_labeled_string (page.item, file_digest (WWW_output_dir + page.item).to_base_64_string)
+				log.put_labeled_string (page.item, raw_file_digest (WWW_output_dir + page.item).to_base_64_string)
 				log.put_new_line
 			end
 		end

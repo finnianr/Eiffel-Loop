@@ -9,33 +9,66 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-06 15:57:24 GMT (Thursday 6th January 2022)"
+	revision: "8"
 
 deferred class
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
 
 inherit
 	EL_EIFFEL_SOURCE_EDITOR
+		rename
+			set_file_path as set_source_path
 		undefine
 			make_default
 		end
 
 	EL_FILE_PARSER_TEXT_EDITOR
+		rename
+			set_file_path as set_source_path,
+			file_path as source_path
 		undefine
 			is_bom_enabled
 		redefine
-			new_input_lines
+			make_default, set_source_path, set_source_text
 		end
 
 	EL_EIFFEL_TEXT_PATTERN_FACTORY
 
-feature {NONE} -- Factory
+	EL_MODULE_FILE_SYSTEM
 
- 	new_input_lines (a_file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
- 		do
- 			create Result.make (Latin_1, a_file_path)
- 		end
+feature {NONE} -- Initialization
+
+	make_default
+			--
+		do
+			Precursor {EL_FILE_PARSER_TEXT_EDITOR}
+			create source_text.make_empty
+		end
+
+feature -- Access
+
+	source_text: ZSTRING
+
+feature -- Element Change
+
+  	set_source_path (a_source_path: FILE_PATH)
+		do
+			source_path := a_source_path
+			set_source_text (File_system.plain_text (a_source_path))
+		end
+
+	set_source_text (a_source_text: STRING)
+		do
+			if a_source_text.starts_with ({UTF_CONVERTER}.Utf_8_bom_to_string_8) then
+				create source_text.make_from_utf_8 (a_source_text)
+				set_utf_encoding (8)
+			else
+				create source_text.make_from_general (a_source_text)
+				set_latin_encoding (1)
+			end
+			Precursor (source_text)
+		end
 
 feature {NONE} -- Patterns
 

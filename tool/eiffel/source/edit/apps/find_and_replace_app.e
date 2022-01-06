@@ -6,36 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-06 14:50:47 GMT (Thursday 6th January 2022)"
+	revision: "15"
 
 class
 	FIND_AND_REPLACE_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FIND_AND_REPLACE_COMMAND]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [FIND_AND_REPLACE_COMMAND]
 		redefine
 			Option_name
 		end
 
-feature -- Testing
-
-	test_run
-			--
-		do
-			-- Test will always fail because of date stamp written to files (different CRC)
-			Test.do_file_tree_test ("latin1-sources", agent test_find_replace (?, " is", " -- is"), 3042838246)
-			Test.do_file_tree_test ("utf8-sources", agent test_find_replace (?, " is", " -- is"), 3042838246)
-		end
-
-	test_find_replace (a_sources_path: DIR_PATH; find_text, replacement_text: STRING)
-			--
-		do
-			create command.make (a_sources_path + "manifest.pyx", find_text, replacement_text)
-			normal_run
-		end
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
 
@@ -50,12 +33,10 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make ("", "", "")
+			Result := agent {like command}.make (Empty_string, Empty_string, Empty_string)
 		end
 
 feature {NONE} -- Constants
-
-	Checksum: NATURAL = 0
 
 	Option_name: STRING = "find_replace"
 

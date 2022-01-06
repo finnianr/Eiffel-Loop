@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "39"
+	date: "2022-01-05 17:21:16 GMT (Wednesday 5th January 2022)"
+	revision: "40"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -40,6 +40,11 @@ inherit
 		end
 
 	STRING_HANDLER
+		rename
+			copy as copy_object
+		end
+
+	EL_STRING_8_CONSTANTS
 		rename
 			copy as copy_object
 		end
@@ -120,31 +125,26 @@ feature -- Access
 		end
 
 	plain_text (a_file_path: FILE_PATH): STRING
-		--
+		-- plain text excluding Windows carriage return characters '%R'
 		require
 			file_exists: a_file_path.exists
 		local
-			file: PLAIN_TEXT_FILE; count: INTEGER; line: STRING
-			not_first: BOOLEAN
+			file: PLAIN_TEXT_FILE; read_count, count: INTEGER
 		do
 			create file.make_open_read (a_file_path)
-			create Result.make (file.count)
-			if not file.is_empty then
-				from until file.end_of_file loop
-					if not_first then
-						Result.append_character ('%N')
-					else
-						not_first := True
-					end
-					file.read_line
-					line := file.last_string
-					count := count + line.count + 1
-					line.prune_all_trailing ('%R')
-					Result.append (line)
+			count := file.count
+			create Result.make (count)
+			read_count := file.read_to_string (Result, 1, count)
+			Result.set_count (read_count)
+			if {PLATFORM}.is_windows then
+				-- which condition applies probably depends on whether the file has Unix or Windows line endings
+				check
+					complete_file_read: read_count = count or else read_count + Result.occurrences ('%N') = count
 				end
-			end
-			if line.is_empty and not_first then
-				Result.remove_tail (1)
+			else
+				check
+					complete_file_read: read_count = count
+				end
 			end
 			file.close
 		end
@@ -158,40 +158,15 @@ feature -- Access
 			end
 		end
 
-	plain_text_lines (a_file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
+	plain_text_lines (a_file_path: FILE_PATH): EL_SPLIT_ON_CHARACTER [STRING]
 		require
 			file_exists: a_file_path.exists
-		local
-			index_new_line: INTEGER
 		do
-			if attached plain_text_raw (a_file_path) as content then
-				index_new_line := content.index_of ('%N', 1)
-				if index_new_line > 1 and then content [index_new_line - 1] = '%R' then
-					-- Windows line ending
-					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
-				else
-					create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (content, '%N')
-				end
+			if attached plain_text (a_file_path) as content then
+				create Result.make (content, '%N')
+			else
+				create Result.make (Empty_string_8, '%N')
 			end
-		end
-
-	plain_text_raw (a_file_path: FILE_PATH): STRING
-		-- plain text preserving carriage return characters '%R'
-		require
-			file_exists: a_file_path.exists
-		local
-			file: PLAIN_TEXT_FILE; count: INTEGER
-		do
-			create file.make_open_read (a_file_path)
-			count := file.count
-			create Result.make (count)
-			Result.set_count (count)
-			if file.read_to_string (Result, 1, count) /= count then
-				check
-					complete_file_read: False
-				end
-			end
-			file.close
 		end
 
 feature -- File lists

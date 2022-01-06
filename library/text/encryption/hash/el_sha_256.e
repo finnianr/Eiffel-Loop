@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-10-01 18:09:43 GMT (Tuesday 1st October 2019)"
-	revision: "6"
+	date: "2022-01-05 11:52:30 GMT (Wednesday 5th January 2022)"
+	revision: "7"
 
 class
 	EL_SHA_256
@@ -16,7 +16,9 @@ inherit
 	SHA256
 		rename
 			sink_string as sink_raw_string_8,
-			sink_character as sink_raw_character_8
+			sink_character as sink_raw_character_8,
+			sink_special as sink_special_reversed,
+			sink_special_lsb as sink_special
 		redefine
 			reset
 		end

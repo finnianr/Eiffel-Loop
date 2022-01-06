@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-19 14:37:10 GMT (Sunday 19th December 2021)"
-	revision: "5"
+	date: "2022-01-05 11:23:24 GMT (Wednesday 5th January 2022)"
+	revision: "6"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -87,6 +87,10 @@ feature -- Optimized operations
 		do
 			general.keep_head (0)
 			general.append_substring (target, item_lower, item_upper)
+		end
+
+	sink_item_to (sink: EL_DATA_SINKABLE)
+		do
 		end
 
 feature -- Status query

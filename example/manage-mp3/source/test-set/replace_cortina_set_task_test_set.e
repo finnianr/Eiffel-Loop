@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "5"
+	date: "2022-01-05 13:41:45 GMT (Wednesday 5th January 2022)"
+	revision: "6"
 
 class
 	REPLACE_CORTINA_SET_TASK_TEST_SET
@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 	do_task
 		do
 			task.apply
-			log.put_labeled_string (Belvedere_playlist.to_string, file_digest (Belvedere_playlist).to_base_64_string)
+			log.put_labeled_string (Belvedere_playlist.to_string, raw_file_digest (Belvedere_playlist).to_base_64_string)
 			log.put_new_line
 			across database.songs.query (song_is_genre ("Cortina")) as cortina loop
 				assert ("cortina exists", cortina.item.mp3_path.exists)

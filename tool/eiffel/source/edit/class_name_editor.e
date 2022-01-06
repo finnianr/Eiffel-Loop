@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-02 10:45:24 GMT (Sunday 2nd January 2022)"
-	revision: "7"
+	date: "2022-01-06 15:42:53 GMT (Thursday 6th January 2022)"
+	revision: "8"
 
 class
 	CLASS_NAME_EDITOR
@@ -59,11 +59,11 @@ feature {NONE} -- Implementation
 			current_class_name: ZSTRING
 		do
 			class_name := a_class_name.twin
-			current_class_name := file_path.base_sans_extension.as_upper
+			current_class_name := source_path.base_sans_extension.as_upper
 			if current_class_name /~ a_class_name then
 				if attached {FILE} output as output_file then
-					file_path.set_base (a_class_name.as_lower + ".e")
-					output_file.rename_file (file_path)
+					source_path.set_base (a_class_name.as_lower + ".e")
+					output_file.rename_file (source_path)
 					lio.put_new_line
 					lio.put_labeled_substitution ("Renamed", "%S -> %S", [current_class_name, a_class_name])
 					lio.put_new_line
