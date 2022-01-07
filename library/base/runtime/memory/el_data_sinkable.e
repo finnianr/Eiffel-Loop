@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 15:57:59 GMT (Wednesday 5th January 2022)"
-	revision: "16"
+	date: "2022-01-06 17:45:47 GMT (Thursday 6th January 2022)"
+	revision: "17"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -80,17 +80,13 @@ feature -- General sinks
 			in.valid_index (in_lower)
 			in.valid_index (in_upper)
 		local
-			index: INTEGER_32
+			i: INTEGER
 		do
-			from
-				index := in_lower
-			until
-				index > in_upper
-			loop
-				sink_character_8 (in [index])
-				index := index + 1
+			from i := in_lower until i > in_upper loop
+				sink_character_8 (in [i])
+				i := i + 1
 			variant
-				in_upper - index + 2
+				in_upper - i + 2
 			end
 		end
 

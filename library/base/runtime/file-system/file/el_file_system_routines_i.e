@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 17:21:16 GMT (Wednesday 5th January 2022)"
-	revision: "40"
+	date: "2022-01-07 16:25:28 GMT (Friday 7th January 2022)"
+	revision: "41"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -133,9 +133,9 @@ feature -- Access
 		do
 			create file.make_open_read (a_file_path)
 			count := file.count
-			create Result.make (count)
+			create Result.make_filled ('%U', count)
 			read_count := file.read_to_string (Result, 1, count)
-			Result.set_count (read_count)
+			Result.keep_head (read_count)
 			if {PLATFORM}.is_windows then
 				-- which condition applies probably depends on whether the file has Unix or Windows line endings
 				check

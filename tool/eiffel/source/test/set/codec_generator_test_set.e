@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 14:17:17 GMT (Thursday 6th January 2022)"
-	revision: "1"
+	date: "2022-01-07 16:29:25 GMT (Friday 7th January 2022)"
+	revision: "2"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -27,16 +27,13 @@ feature -- Tests
 
 	test_generation
 		local
-			command: CODEC_GENERATOR; digest_string: STRING
+			command: CODEC_GENERATOR
 		do
 			create command.make (Generation_dir + "test-decoder.c", Generation_dir + "template.evol")
 			command.execute
 			across OS.file_list (Generation_dir, "*.e") as path loop
-				digest_string := Digest.md5_file (path.item).to_base_64_string
---				lio.put_labeled_string ("Digest " + path.item.base, digest_string)
---				lio.put_new_line
 				if Digest_table.has_key (path.item.base_sans_extension) then
-					assert ("same digest", Digest_table.found_item ~ digest_string)
+					assert_same_digest_hexadecimal (path.item, Digest_table.found_item)
 				else
 					assert ("Source has digest", False)
 				end

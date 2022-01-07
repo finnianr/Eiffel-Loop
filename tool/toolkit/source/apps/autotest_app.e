@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-04 14:25:46 GMT (Thursday 4th March 2021)"
-	revision: "13"
+	date: "2022-01-07 16:59:10 GMT (Friday 7th January 2022)"
+	revision: "14"
 
 class
 	AUTOTEST_APP
@@ -15,9 +15,9 @@ class
 inherit
 	EL_AUTOTEST_SUB_APPLICATION [
 		CAD_MODEL_TEST_SET,
+		FILE_MANIFEST_TEST_SET,
 		LOCALIZATION_COMMAND_SHELL_TEST_SET,
-		MONTHLY_STOCK_USE_TEST_SET,
-		JOBSERVE_SEARCHER_TEST_SET
+		MONTHLY_STOCK_USE_TEST_SET
 	]
 		redefine
 			Visible_types

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:50 GMT (Monday 3rd January 2022)"
-	revision: "15"
+	date: "2022-01-07 12:42:29 GMT (Friday 7th January 2022)"
+	revision: "16"
 
 deferred class
 	EIFFEL_LOOP_TEST_CONSTANTS
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 	EL_test_data_dir: DIR_PATH
 			--
 		once
-			Result := Eiffel_loop_dir.joined_dir_tuple (["test/data"])
+			Result := Eiffel_loop_dir #+ "test/data"
 		end
 
 	Eiffel_loop: ZSTRING

@@ -2,14 +2,14 @@ note
 	description: "[
 		Command to change syntax of default_pointers references:
 		
-		1. EDIT
+		**From**
 			ptr /= default_pointer 
-		TO
+		**To new**
 			is_attached (ptr)
 
-		2. EDIT
-			ptr = default_pointer 
-		TO
+		**From**
+			ptr = default_pointer
+		**To new**
 			not is_attached (ptr)
 	]"
 
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 17:08:58 GMT (Thursday 6th January 2022)"
-	revision: "1"
+	date: "2022-01-06 18:10:47 GMT (Thursday 6th January 2022)"
+	revision: "2"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-09-13 14:01:07 GMT (Monday 13th September 2021)"
-	revision: "33"
+	date: "2022-01-07 16:11:34 GMT (Friday 7th January 2022)"
+	revision: "34"
 
 class
 	APPLICATION_ROOT
@@ -32,7 +32,6 @@ inherit
 		FILE_MANIFEST_APP,
 
 		HTML_BODY_WORD_COUNTER_APP,
-		JOBSERVE_SEARCH_APP,
 
 		PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR_APP,
 		PYXIS_ENCRYPTER_APP,

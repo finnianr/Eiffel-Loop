@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-07 13:12:53 GMT (Friday 7th January 2022)"
+	revision: "4"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -51,9 +51,16 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_file_digest_table: HASH_TABLE [EL_BYTE_ARRAY, FILE_PATH]
+		do
+			create Result.make (file_list.count)
+			across file_list as list loop
+				Result [list.item] := Digest.md5_plain_text (list.item)
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	file_list: EL_FILE_PATH_LIST
 
 end
-

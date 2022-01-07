@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-07 12:22:55 GMT (Friday 7th January 2022)"
+	revision: "8"
 
 class
 	EL_DIGEST_ROUTINES
@@ -30,7 +30,7 @@ feature -- Digests
 			create Result.make_sink (MD5_128, string)
 		end
 
-	md5_file (path: FILE_PATH): EL_DIGEST_ARRAY
+	md5_plain_text (path: FILE_PATH): EL_DIGEST_ARRAY
 			--
 		do
 			create Result.make_sink (MD5_128, File_system.plain_text (path))

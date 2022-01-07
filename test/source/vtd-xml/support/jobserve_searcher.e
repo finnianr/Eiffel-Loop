@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "2"
+	date: "2022-01-07 16:07:40 GMT (Friday 7th January 2022)"
+	revision: "3"
 
 class
 	JOBSERVE_SEARCHER
@@ -44,7 +44,7 @@ class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -80,11 +80,10 @@ feature -- Basic operations
 			jobs_result_set: JOBS_RESULT_SET; xpath: STRING
 			root_node: EL_XPATH_ROOT_NODE_CONTEXT
 		do
-			log.enter ("execute")
 			create root_node.make_from_file (xml_path)
 			xpath := Xpath_template #$ [query_filter]
-			log.put_string_field ("XPATH", xpath)
-			log.put_new_line
+			lio.put_string_field ("XPATH", xpath)
+			lio.put_new_line
 			create jobs_result_set.make (root_node, xpath)
 			across jobs_result_set as job loop
 				lio.put_labeled_string ("Position", job.item.position)
@@ -93,10 +92,7 @@ feature -- Basic operations
 				lio.put_new_line
 			end
 
-			log.put_path_field ("Saving to", results_path)
-			log.put_new_line
 			jobs_result_set.save_as_xml (results_path)
-			log.exit
 		end
 
 feature {NONE} -- Constants

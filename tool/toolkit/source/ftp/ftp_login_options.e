@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-07 16:40:06 GMT (Friday 7th January 2022)"
+	revision: "4"
 
 class
 	FTP_LOGIN_OPTIONS

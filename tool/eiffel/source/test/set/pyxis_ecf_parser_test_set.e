@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-05 17:12:28 GMT (Wednesday 5th January 2022)"
-	revision: "12"
+	date: "2022-01-07 16:29:26 GMT (Friday 7th January 2022)"
+	revision: "13"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -16,16 +16,7 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		rename
 			data_dir as EL_test_data_dir
-		undefine
-			new_lio
 		end
-
-	EL_EQA_REGRESSION_TEST_SET
-		undefine
-			on_prepare, on_clean
-		end
-
-	EL_MODULE_DIGEST
 
 	EIFFEL_LOOP_TEST_CONSTANTS
 
@@ -41,29 +32,23 @@ feature -- Tests
 
 	test_conversion_to_pecf
 			--
+		local
+			converter: PYXIS_ECF_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
 		do
-			do_test ("convert_pecf_to_ecf", os_checksum (1944519556, 1281513760), agent convert_pecf_to_ecf, [file_list.first_path])
+			create converter.make (file_list.first_path, create {FILE_PATH})
+			converter.execute
+			create source.make (converter.source_encoding.encoding, converter.output_path)
+			source.print_first (lio, 50)
+			source.close
+			assert_same_digest_hexadecimal (converter.output_path, "F503CBB1EE8560D91F2B1B131057F509")
 		end
 
 feature {NONE} -- Implementation
 
-	convert_pecf_to_ecf (a_file_path: FILE_PATH)
-			--
-		local
-			converter: PYXIS_ECF_CONVERTER; source: EL_PLAIN_TEXT_LINE_SOURCE
-		do
-			create converter.make (a_file_path, create {FILE_PATH})
-			converter.execute
-			create source.make (converter.source_encoding.encoding, converter.output_path)
-			source.print_first (log, 50)
-			source.close
-			log.put_labeled_string ("MD5 sum", Digest.md5_file (converter.output_path).to_hex_string)
-			log.put_new_line
-		end
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (EL_test_data_dir.joined_dir_path ("pyxis"), "*.pecf")
+			Result := OS.file_list (EL_test_data_dir #+ "pyxis", "*.pecf")
 		end
 
 end
