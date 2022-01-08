@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-08 16:55:35 GMT (Saturday 8th January 2022)"
+	revision: "15"
 
 class
 	CLASS_PREFIX_REMOVAL_APP
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 
 	test_sources: ARRAY [STRING]
 		do
-			Result := << "latin1-sources/os-command" >>
+			Result := << "sources/latin-1/os-command" >>
 		end
 
 	prefix_letters: STRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-08 16:56:37 GMT (Saturday 8th January 2022)"
+	revision: "12"
 
 deferred class
 	SOURCE_TREE_EDITING_SUB_APPLICATION
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 
 	test_sources: ARRAY [STRING]
 		do
-			Result := << "latin1-sources", "utf8-sources" >>
+			Result := << "sources/latin-1", "sources/utf-8" >>
 		ensure
 			same_count_as_checksum: Result.count = checksum.count
 		end
@@ -93,4 +93,3 @@ feature {NONE} -- Internal attributes
 	tree_path: DIR_PATH
 
 end
-

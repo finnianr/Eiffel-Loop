@@ -1,6 +1,11 @@
 note
 	description: "[
 		Run all sub-application tests conforming to [$source EL_AUTOTEST_SUB_APPLICATION]
+		and call [$source ZSTRING_TEST_SET] a second time using codec [$source EL_ISO_8859_1_ZCODEC].
+		
+			el_test -autotest -test_set ZSTRING_TEST_SET -zstring_codec ISO-8859-1
+
+		(Default is [$source EL_ISO_8859_15_ZCODEC])
 	]"
 
 	author: "Finnian Reilly"
@@ -8,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-24 10:32:37 GMT (Wednesday 24th November 2021)"
-	revision: "6"
+	date: "2022-01-08 13:32:16 GMT (Saturday 8th January 2022)"
+	revision: "7"
 
 class
-	BATCH_TEST_APP
+	AUTOTEST_APP
 
 inherit
-	EL_BATCH_TEST_APP
+	EL_BATCH_AUTOTEST_APP
 		redefine
 			test
 		end
@@ -37,7 +42,9 @@ feature {NONE} -- Implementation
 				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
 				call_command (cmd_list)
 				if application.generating_type ~ {BASE_AUTOTEST_APP} and then execution.return_code = 0 then
-					cmd_list.append_general (<< "-test_set", "ZSTRING_TEST_SET", "-zstring_codec", "ISO-8859-1" >>)
+					cmd_list.append_general (<<
+						"-test_set", ({ZSTRING_TEST_SET}).name.to_string_8, "-zstring_codec", "ISO-8859-1"
+					>>)
 					call_command (cmd_list)
 				end
 			end

@@ -35,80 +35,93 @@ feature -- Basic operations
 feature -- Tests
 
 	test_velocity
-			--
-		local
-			directory_list: EL_DIRECTORY_PATH_LIST
 		do
-			Java.append_jar_locations (<< Eiffel_loop_dir.joined_dir_path ("contrib/Java/velocity-1.7") >>)
+			Java.append_jar_locations (<< Eiffel_loop_dir #+ "contrib/Java/velocity-1.7" >>)
 			Java.open (<< "velocity-1.7-dep" >>)
-
-			create directory_list.make (work_area_data_dir)
-			write_merged_template (
-				directory_list, work_area_data_dir + "Java-out.Eiffel-library-manifest.xml",
-				"test-data/manifest-xml.vel"
-			)
-
+			do_velocity_test
 			Java.close
 			assert ("all Java objects released", jorb.object_count = 0)
 		end
 
 feature {NONE} -- Implementation
 
-	write_merged_template (directory_list: LIST [EL_DIR_PATH]; output_path, template_path: EL_FILE_PATH)
+	assert_valid_manifest (directory_list: EL_DIRECTORY_PATH_LIST; manifest_text: ZSTRING)
 		local
-			string_writer: J_STRING_WRITER; file_writer: J_FILE_WRITER
-			velocity_app: J_VELOCITY; context: J_VELOCITY_CONTEXT
-
-			l_directory_list: J_LINKED_LIST; template: J_TEMPLATE
-			l_string_path, l_string_class_name_list: J_STRING
-			l_directory_name_scope: J_HASH_MAP
-			output_text, element: ZSTRING
+			element: ZSTRING
 		do
-			l_string_path := "path"
-			l_string_class_name_list := "class_name_list"
+			lio.enter ("assert_valid_manifest")
+			across directory_list as list loop
+				element := Directory_element #$ [list.item]
+				lio.put_labeled_string ("Checking", element)
+				lio.put_new_line
+				assert ("output has directory element", manifest_text.has_substring (element))
+				across OS.file_list (list.item, "*.e") as l_path loop
+					element := Class_element #$ [l_path.item.base_sans_extension.as_upper]
+					assert ("output has class element", manifest_text.has_substring (element))
+				end
+			end
+			lio.exit
+		end
 
+	do_velocity_test
+			--
+		local
+			directory_list: EL_DIRECTORY_PATH_LIST
+			string_writer: J_STRING_WRITER; file_writer: J_FILE_WRITER
+			output_path: FILE_PATH; dir_name_map_list: like new_dir_name_map_list
+		do
+			create directory_list.make (work_area_data_dir)
 			create string_writer.make
+
+			dir_name_map_list := new_dir_name_map_list (directory_list)
+			write_merged_template (dir_name_map_list, "test-data/manifest-xml.vel", string_writer)
+			assert_valid_manifest (directory_list, string_writer.to_string.value)
+			lio.put_new_line
+
+			output_path := work_area_dir + "J_FILE_WRITER-manifest.xml"
 			create file_writer.make_from_string (output_path.to_string)
+			write_merged_template (dir_name_map_list, "test-data/manifest-xml.vel", file_writer)
+			file_writer.close
+			assert_valid_manifest (directory_list, File_system.plain_text (output_path))
+
+		end
+
+	write_merged_template (dir_name_map_list: J_LINKED_LIST; template_path: EL_FILE_PATH; writer: J_WRITER)
+		local
+			template: J_TEMPLATE; velocity_app: J_VELOCITY; context: J_VELOCITY_CONTEXT
+		do
+			lio.enter_with_args ("write_merged_template", [writer.generator])
 			create velocity_app.make
 			create context.make
-			create l_directory_list.make
-
-			across directory_list as dir loop
-				create l_directory_name_scope.make
-				lio.put_path_field ("Adding", dir.item)
-				lio.put_new_line
-				call (l_directory_name_scope.put_string (l_string_path, dir.item.to_string))
-				call (l_directory_name_scope.put (l_string_class_name_list, class_list (dir.item)))
-				l_directory_list.add_last (l_directory_name_scope)
-			end
 
 			velocity_app.init
 
-			call (context.put_string ("library_name", "base"))
-			call (context.put_object ("directory_list", l_directory_list))
+			call_java (context.put_string ("library_name", "base"))
+			call_java (context.put_object ("directory_list", dir_name_map_list))
 			template := velocity_app.template (template_path.to_string)
 
-			lio.put_line ("Merging Java templates")
-			template.merge (context, string_writer)
-			template.merge (context, file_writer)
-			file_writer.close
-			output_text := string_writer.to_string.value
-			-- check output text
-			across directory_list as list loop
-				element := Directory_element #$ [list.item]
-				lio.put_labeled_string ("Checking directory", element)
-				lio.put_new_line
-				assert ("output has directory element", output_text.has_substring (element))
-				across OS.file_list (list.item, "*.e") as l_path loop
-					element := Class_element #$ [l_path.item.base_sans_extension.as_upper]
-					assert ("output has class element", output_text.has_substring (element))
-				end
+			template.merge (context, writer)
+			lio.exit
+		end
+
+	new_dir_name_map_list (directory_list: LIST [EL_DIR_PATH]): J_LINKED_LIST
+		local
+			dir_name_map: J_HASH_MAP
+			path_string, class_name_list_string: J_STRING
+		do
+			create Result.make
+			path_string := "path"; class_name_list_string := "class_name_list"
+			across directory_list as dir loop
+				create dir_name_map.make
+				call_java (dir_name_map.put_string (path_string, dir.item.to_string))
+				call_java (dir_name_map.put (class_name_list_string, class_list (dir.item)))
+				Result.add_last (dir_name_map)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	call (returned_value: J_OBJECT)
+	call_java (returned_value: J_OBJECT)
 			-- Do nothing procedure to throw away return value of Java call
 		do
 		end
@@ -134,16 +147,20 @@ feature {NONE} -- Constants
 
 	Class_element: ZSTRING
 		once
-			Result := "<class name=%"%S%"/>"
+			Result := "[
+				<class name="#"/>
+			]"
 		end
 
 	Directory_element: ZSTRING
 		once
-			Result := "<directory location=%"%S%">"
+			Result := "[
+				<directory location="#">
+			]"
 		end
 
 	Source_dir: EL_DIR_PATH
 		once
-			Result := Eiffel_loop_dir.joined_dir_path ("tool/eiffel/test-data/latin1-sources")
+			Result := Eiffel_loop_dir #+ "tool/eiffel/test-data/sources/latin-1"
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:45:09 GMT (Sunday 13th September 2020)"
-	revision: "6"
+	date: "2022-01-08 12:07:09 GMT (Saturday 8th January 2022)"
+	revision: "7"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -21,6 +21,8 @@ inherit
 	EL_OS_IMPLEMENTATION
 
 	EL_MODULE_DIRECTORY
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	make
@@ -40,6 +42,24 @@ feature {NONE} -- Implementation
 	set_console_code_page (code_page_id: NATURAL)
 			-- For windows commands. Does nothing in Unix
 		do
+		end
+
+	set_library_path
+		-- if directory `build/$ISE_PLATFORM/package/bin' contains shared objects then
+		-- add to `LD_LIBRARY_PATH' for Unix platform
+		local
+			bin_dir: DIR_PATH
+		do
+			if attached item ("ISE_PLATFORM") as ise_platform then
+				bin_dir := Directory.current_working.joined_dir_tuple (["build", ise_platform, "package/bin"])
+				if bin_dir.exists and then File_system.files_with_extension (bin_dir, "so", False).count > 0 then
+					if attached item (Var_library_path) as lib_path then
+						put (lib_path + ":" + bin_dir, Var_library_path)
+					else
+						put (bin_dir, Var_library_path)
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Constants
@@ -74,5 +94,7 @@ feature {NONE} -- Constants
 		once
 			Result := ".config"
 		end
+
+	Var_library_path: STRING = "LD_LIBRARY_PATH"
 
 end

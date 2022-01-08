@@ -31,18 +31,20 @@ python_home_dir = os.path.dirname (os.path.realpath (sys.executable))
 
 script_path = path.normpath ('tool/python-support/eiffel_loop/scripts/%s.py')
 
-script_list = [
-	script_path % 'launch_estudio',
-	script_path % 'ec_build_finalized',
-	script_path % 'ec_clean_build',
-	script_path % 'ec_gedit_project',
-	script_path % 'ec_gedit_implementation',
-	script_path % 'ec_install_app',
-	script_path % 'ec_install_resources',
-	script_path % 'ec_open_directory',
-	script_path % 'ec_write_set_environ',
-	script_path % 'ec_write_software_version'
+script_names = [
+	'launch_estudio',
+	'ec_autotest_build',
+	'ec_build_finalized',
+	'ec_clean_build',
+	'ec_gedit_project',
+	'ec_gedit_implementation',
+	'ec_install_app',
+	'ec_install_resources',
+	'ec_open_directory',
+	'ec_write_set_environ',
+	'ec_write_software_version'
 ]
+script_list = [script_path % name for name in script_names]
 
 setup (
 	name = 'Eiffel_Loop',

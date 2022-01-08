@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-08 16:58:08 GMT (Saturday 8th January 2022)"
+	revision: "13"
 
 class
 	CODE_HIGHLIGHTING_TEST_APP
@@ -35,7 +35,7 @@ feature -- Basic operations
 	test_run
 			--
 	 	do
-			Test.do_all_files_test ("latin1-sources/kernel", "*.e", agent test_code_highlighting, 2427639648)
+			Test.do_all_files_test ("sources/latin-1/kernel", "*.e", agent test_code_highlighting, 2427639648)
 	 	end
 
 	normal_run

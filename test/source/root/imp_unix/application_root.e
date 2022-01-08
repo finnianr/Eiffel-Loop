@@ -9,15 +9,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-10-04 11:34:18 GMT (Monday 4th October 2021)"
-	revision: "65"
+	date: "2022-01-08 11:16:11 GMT (Saturday 8th January 2022)"
+	revision: "66"
 
 class
 	APPLICATION_ROOT
 
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
-		BATCH_TEST_APP,
+		AUTOTEST_APP,
 
 	-- For maintenance purposes only
 		MEDIA_PLAYER_DUMMY_APP,

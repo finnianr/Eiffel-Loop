@@ -9,17 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-13 11:51:48 GMT (Saturday 13th March 2021)"
-	revision: "1"
+	date: "2022-01-08 19:24:23 GMT (Saturday 8th January 2022)"
+	revision: "2"
 
 class
-	EL_BATCH_TEST_APP
+	EL_BATCH_AUTOTEST_APP
 
 inherit
 	EL_SUB_APPLICATION
-		redefine
-			Option_name
-		end
 
 	EL_SHARED_APPLICATION_LIST
 
@@ -43,10 +40,8 @@ feature {NONE} -- Initiliazation
 feature -- Basic operations
 
 	run
-			--
-		local
-
 		do
+			Execution_environment.set_library_path
 			across Application_list as app until execution.return_code.to_boolean loop
 				if not Omission_list.has (app.item.generating_type) then
 					test (app.item)
@@ -87,7 +82,7 @@ feature {NONE} -- Constants
 
 	Description: STRING
 		once
-			Result := "Run all sub-application tests conforming to EL_AUTOTEST_SUB_APPLICATION"
+			Result := "Run all sub-application tests conforming to " + ({EL_AUTOTEST_SUB_APPLICATION}).name
 		end
 
 	Dot_ecf: ZSTRING
@@ -98,11 +93,6 @@ feature {NONE} -- Constants
 	Hypen: ZSTRING
 		once
 			Result := "-"
-		end
-
-	Option_name: STRING
-		once
-			Result := "batch_test"
 		end
 
 	Omissions: TUPLE

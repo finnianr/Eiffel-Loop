@@ -1,2 +1,2 @@
 ec_build_finalized.py
-. run/test.sh -batch_test
+build/$ISE_PLATFORM/package/bin/el_test -autotest

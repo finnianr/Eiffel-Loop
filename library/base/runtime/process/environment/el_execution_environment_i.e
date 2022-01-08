@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "22"
+	date: "2022-01-08 12:08:26 GMT (Saturday 8th January 2022)"
+	revision: "23"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -111,18 +111,9 @@ feature -- Basic operations
 			Precursor (s.to_unicode_general (cmd))
 		end
 
-	sleep (millisecs: DOUBLE)
-			--
-		do
-			sleep_nanosecs ((millisecs * Nanosecs_per_millisec).truncated_to_integer_64)
-		end
-
-	system (cmd: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_ROUTINES
-		do
-			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (s.to_unicode_general (cmd))
+	open_url (url: EL_FILE_URI_PATH)
+		 -- open the URL in the default system browser
+		deferred
 		end
 
 	pop_current_working
@@ -139,9 +130,23 @@ feature -- Basic operations
 			change_working_path (a_dir)
 		end
 
-	open_url (url: EL_FILE_URI_PATH)
-		 -- open the URL in the default system browser
+	set_library_path
+		-- add build/$ISE_PLATFORM/package/bin to LD_LIBRARY_PATH for Unix platform
 		deferred
+		end
+
+	sleep (millisecs: DOUBLE)
+			--
+		do
+			sleep_nanosecs ((millisecs * Nanosecs_per_millisec).truncated_to_integer_64)
+		end
+
+	system (cmd: READABLE_STRING_GENERAL)
+		local
+			s: EL_ZSTRING_ROUTINES
+		do
+			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
+			Precursor (s.to_unicode_general (cmd))
 		end
 
 feature -- Status report

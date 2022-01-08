@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-08 16:28:26 GMT (Saturday 8th January 2022)"
+	revision: "10"
 
 deferred class
 	JAVA_ENVIRONMENT_I
@@ -115,7 +115,7 @@ feature -- Clean up
 				lio.put_line ("GC collect")
 			end
 			 -- A `full_collect' can cause a segmentation fault
-			collect
+			full_collect
 
 			object_references := jorb.object_count
 			if is_lio_enabled then

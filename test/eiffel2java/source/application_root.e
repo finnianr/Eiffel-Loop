@@ -14,7 +14,9 @@ class
 
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
-		EL_BATCH_TEST_APP, JAVA_AUTOTEST_APP, VELOCITY_AUTOTEST_APP
+		AUTOTEST_APP,
+		JAVA_AUTOTEST_APP,
+		VELOCITY_AUTOTEST_APP
 	]
 
 create
@@ -35,9 +37,6 @@ note
 		$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/include/config.sh
 
 		warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
-
-		**autotest**
-		Make AutoTest suites
 	]"
 
 end

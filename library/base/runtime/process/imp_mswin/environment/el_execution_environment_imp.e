@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-09-13 11:44:11 GMT (Sunday 13th September 2020)"
-	revision: "9"
+	date: "2022-01-08 11:57:52 GMT (Saturday 8th January 2022)"
+	revision: "10"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -57,6 +57,14 @@ feature {NONE} -- Implementation
 			Result := c_console_output_code_page
 		end
 
+	open_url (url: EL_FILE_URI_PATH)
+		local
+			l_url: NATIVE_STRING; succeeded: BOOLEAN
+		do
+			create l_url.make (url)
+			succeeded := c_open_url (l_url.item) > 32
+		end
+
 	set_utf_8_console_output
 		do
 			Precursor
@@ -70,12 +78,9 @@ feature {NONE} -- Implementation
 			code_page_set: call_suceeded
 		end
 
-	open_url (url: EL_FILE_URI_PATH)
-		local
-			l_url: NATIVE_STRING; succeeded: BOOLEAN
+	set_library_path
+		-- add build/$ISE_PLATFORM/package/bin to LD_LIBRARY_PATH for Unix platform
 		do
-			create l_url.make (url)
-			succeeded := c_open_url (l_url.item) > 32
 		end
 
 feature {NONE} -- Internal attributes

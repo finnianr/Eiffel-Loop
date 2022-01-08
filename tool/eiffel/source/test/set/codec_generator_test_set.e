@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:29:25 GMT (Friday 7th January 2022)"
-	revision: "2"
+	date: "2022-01-08 13:34:02 GMT (Saturday 8th January 2022)"
+	revision: "3"
 
 class
 	CODEC_GENERATOR_TEST_SET
@@ -33,7 +33,7 @@ feature -- Tests
 			command.execute
 			across OS.file_list (Generation_dir, "*.e") as path loop
 				if Digest_table.has_key (path.item.base_sans_extension) then
-					assert_same_digest_hexadecimal (path.item, Digest_table.found_item)
+					assert_same_digest (path.item, Digest_table.found_item)
 				else
 					assert ("Source has digest", False)
 				end
