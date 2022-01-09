@@ -1,23 +1,23 @@
 note
-	description: "Ftp backup app"
+	description: "Command line interface to [$source FTP_BACKUP_COMMAND]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "21"
+	date: "2022-01-09 12:00:08 GMT (Sunday 9th January 2022)"
+	revision: "22"
 
 class
 	FTP_BACKUP_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND]
+	EL_COMMAND_LINE_SUB_APPLICATION [FTP_BACKUP_COMMAND]
 		rename
 			command as ftp_command
 		redefine
-			Option_name, ftp_command, initialize
+			Option_name, ftp_command
 		end
 
 	EL_INSTALLABLE_SUB_APPLICATION
@@ -26,55 +26,8 @@ inherit
 			desktop_launcher as Default_desktop_launcher
 		end
 
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
 create
 	make
-
-feature {NONE} -- Initialization
-
-	initialize
-			--
-		do
-			Console.show ({EL_FTP_PROTOCOL})
-			Precursor
-		end
-
-feature -- Test operations
-
-	test_gpg_normal_run (file_path: FILE_PATH)
-			--
-		local
-			gpg_recipient: STRING
-		do
-			log.enter ("test_gpg_normal_run")
-			gpg_recipient := User_input.line ("Enter an encryption recipient id for gpg")
-			Execution_environment.put (gpg_recipient, "RECIPIENT")
-
-			create ftp_command.make (file_path, False)
-
-			normal_run
-			log.exit
-		end
-
-	test_normal_run (file_path: FILE_PATH)
-			--
-		do
-			log.enter ("test_normal_run")
-			create ftp_command.make (file_path, False)
-			normal_run
-			log.exit
-		end
-
-	test_run
-		do
-			Test.set_excluded_file_extensions (<< "gz" >>) -- tar files are date stamped therefore must be excluded
-			Test.do_file_test ("bkup/id3-1.bkup", agent test_normal_run, 2260245724)
-			Test.do_file_test ("bkup/id3-2.bkup", agent test_normal_run, 3403517712)
-			Test.do_file_test ("bkup/id3-3.bkup", agent test_normal_run, 1379707871)
-		end
 
 feature {NONE} -- Implementation
 
@@ -93,23 +46,13 @@ feature {NONE} -- Implementation
 			Result := agent {like ftp_command}.make (create {FILE_PATH}, False)
 		end
 
-	extra_log_filter_set: EL_LOG_FILTER_SET [
-		ARCHIVE_FILE,
-		INCLUSION_LIST_FILE,
-		EXCLUSION_LIST_FILE,
-		BACKUP_CONFIG
-	]
-		do
-			create Result.make
-		end
-
 feature {NONE} -- Internal attributes
 
 	ftp_command: FTP_BACKUP_COMMAND
 
 feature {NONE} -- Constants
 
-	Description: STRING = "Create tar.gz backups and ftp them off site"
+	Description: STRING = "Create tar.gz backups and upload them with FTP protocol"
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 		once

@@ -2,8 +2,6 @@
 
 # Build and autotest all projects
 
-export LANG=en_GB.UTF-8
-
 # Get sudo permission in advance for installing resources
 sudo cat /etc/fstab > nul
 

@@ -4,14 +4,16 @@ pyxis-doc:
 	# Backup selected files
 
 backup_config:
-	ftp_url = "eiffel_loop.com"
+	ftp_url = "eiffel-loop.com"
 	ftp_home_dir = "/public/www"
 
 	backup_list:
 		item:
-			target_dir = "$EIFFEL_LOOP/projects.data/id3$"
+			target_dir = "$EIFFEL_LOOP/test/data/XML"
 			ftp_destination_path = "myfiles/test"
+			max_versions = 5
 			exclude_list:
 				item:
-					"*.tag"
+					"XML/jobserve.xml"
+					"XML/Jobs-spreadsheet.fods"
 

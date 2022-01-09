@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "4"
 
 class
 	ID3_FRAME_CODE_CLASS_GENERATOR_APP
@@ -20,7 +20,7 @@ class
 inherit
 	EL_COMMAND_LINE_SUB_APPLICATION [ID3_FRAME_CODE_CLASS_GENERATOR]
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 create
 	make

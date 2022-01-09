@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "7"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "8"
 
 class
 	FTP_TEST_APP
@@ -22,7 +22,7 @@ inherit
 			Is_test_mode, Is_logging_active, Application_option
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 		rename
 			EL_test_data_dir as test_data_dir
 		end

@@ -8,44 +8,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "17"
+	date: "2022-01-09 16:43:55 GMT (Sunday 9th January 2022)"
+	revision: "18"
 
 class
 	HTML_BODY_WORD_COUNTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
-		undefine
-			Test_data_dir
+	EL_COMMAND_LINE_SUB_APPLICATION [HTML_BODY_WORD_COUNTER]
 		redefine
 			Option_name
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
-		rename
-			EL_test_data_dir as Test_data_dir
-		end
-
 create
 	make
-
-feature -- Test
-
-	test_run
-			--
-		do
-			Test.do_file_tree_test ("docs/html/I Ching", agent test_count, 3689436838)
-		end
-
-	test_count (a_dir_path: DIR_PATH)
-			--
-		do
-			create command.make (a_dir_path)
-			normal_run
-		end
 
 feature {NONE} -- Implementation
 

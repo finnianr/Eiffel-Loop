@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2019-09-09 16:42:28 GMT (Monday 9th September 2019)"
-	revision: "5"
+	date: "2022-01-09 15:56:26 GMT (Sunday 9th January 2022)"
+	revision: "6"
 
 class
 	EXCLUSION_LIST_FILE
@@ -18,13 +18,15 @@ inherit
 create
 	make
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
 	specifier_list: EL_ZSTRING_LIST
 			--
-		once
+		do
 			Result := backup.exclude_list
 		end
+
+feature {NONE} -- Constants
 
 	File_name: STRING
 			--

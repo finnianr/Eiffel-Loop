@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "6"
+	date: "2022-01-09 11:24:09 GMT (Sunday 9th January 2022)"
+	revision: "7"
 
 class
 	FTP_BACKUP
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
 
 create
 	make
@@ -67,13 +67,12 @@ feature -- Element change
 
 feature -- Basic operations
 
-	execute
+	create_archive (archive_upload_list: LIST [EL_FTP_UPLOAD_ITEM])
 		require
 			target_directory_exists: target_dir.exists
 		local
 			archive: ARCHIVE_FILE
 		do
-			log.enter ("execute")
 			lio.put_path_field ("Backup", target_dir)
 			lio.put_new_line
 
@@ -83,14 +82,11 @@ feature -- Basic operations
 			total_byte_count := total_byte_count + archive.byte_count
 
 			if archive.file_path.exists and then not ftp_destination_path.is_empty then
-				log.put_new_line
-				log.put_labeled_string ("ftp_destination", ftp_destination_path)
-				log.put_new_line
-				config.archive_upload_list.extend (
-					create {EL_FTP_UPLOAD_ITEM}.make (archive.file_path, ftp_destination_path)
-				)
+				lio.put_new_line
+				lio.put_labeled_string ("ftp_destination", ftp_destination_path)
+				lio.put_new_line
+				archive_upload_list.extend (create {EL_FTP_UPLOAD_ITEM}.make (archive.file_path, ftp_destination_path))
 			end
-			log.exit
 		end
 
 feature {NONE} -- Implementation

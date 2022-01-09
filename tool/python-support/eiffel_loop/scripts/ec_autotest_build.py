@@ -45,5 +45,7 @@ project.increment_build_number ()
 project.build (architecture)
 
 import eiffel_loop.scripts.ec_install_resources
+
+os.environ ['LANG'] = 'en_US.UTF-8'
 project.autotest ()
 

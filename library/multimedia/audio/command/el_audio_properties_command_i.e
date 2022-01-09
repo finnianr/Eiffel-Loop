@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:04 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-09 10:47:58 GMT (Sunday 9th January 2022)"
+	revision: "13"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -89,12 +89,12 @@ feature {NONE} -- Line states
 	find_duration_tag (line: ZSTRING)
 		local
 			start_index: INTEGER
-			time: TIME; time_string: ZSTRING
+			time: EL_TIME; time_string: ZSTRING
 		do
 			start_index := line.substring_right_index (Tag.duration, 1)
 			if start_index > 0 then
 				time_string := line.substring_between (character_string (' '), character_string (','), start_index)
-				create time.make_from_string (time_string, "hh24:[0]mi:[0]ss.ff2")
+				create time.make_with_format (time_string, "hh:[0]mi:[0]ss.ff2")
 				create duration.make_by_fine_seconds (time.fine_seconds)
 				state := agent find_audio_tag
 			end

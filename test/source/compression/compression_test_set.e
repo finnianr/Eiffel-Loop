@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 13:10:56 GMT (Thursday 6th January 2022)"
-	revision: "7"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "8"
 
 class
 	COMPRESSION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 	EL_MODULE_ZLIB
 

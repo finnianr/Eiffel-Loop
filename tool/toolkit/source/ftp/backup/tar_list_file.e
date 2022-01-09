@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "3"
+	date: "2022-01-09 11:56:34 GMT (Sunday 9th January 2022)"
+	revision: "4"
 
 deferred class
 	TAR_LIST_FILE
@@ -20,8 +20,6 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_LOG
-
 	EL_MODULE_NAMING
 
 feature {NONE} -- Initialization
@@ -31,20 +29,15 @@ feature {NONE} -- Initialization
 		local
 			l_file_path: FILE_PATH
 		do
-			log.enter ("make")
 			backup := a_backup
 			l_file_path := backup.archive_dir + File_name
 			l_file_path.enable_out_abbreviation
 
 			make_open_write (l_file_path)
 
-			log.put_path_field ("file_name", l_file_path)
-			log.put_new_line
-
 			write_specifiers
 
 			close
-			log.exit
 		end
 
 feature -- Access
@@ -84,13 +77,9 @@ feature {NONE} -- Implementation
 	write_specifiers
 			--
 		do
-			log.enter ("write_specifiers")
 			across specifier_list as specifier loop
-				lio.put_string_field (Naming.class_as_snake_lower (Current, 0, 1), specifier.item)
-				lio.put_new_line
 				put_file_specifier (specifier.item)
 			end
-			log.exit
 		end
 
 feature {NONE} -- Internal attributes

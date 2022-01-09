@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:29:26 GMT (Friday 7th January 2022)"
-	revision: "13"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "14"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			data_dir as EL_test_data_dir
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 feature -- Basic operations
 

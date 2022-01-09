@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-11-04 14:35:04 GMT (Thursday 4th November 2021)"
-	revision: "5"
+	date: "2022-01-08 23:31:12 GMT (Saturday 8th January 2022)"
+	revision: "6"
 
 class
 	NUMERIC_EXPERIMENTS
@@ -30,6 +30,15 @@ feature -- Basic operations
 			number := n
 			number := number + number.one
 			lio.put_labeled_string ("number", number.out)
+		end
+
+	generic_numeric
+		local
+			edge: EDGE [INTEGER]
+		do
+			create edge
+			lio.put_integer_field ("One", edge.cost)
+			lio.put_new_line
 		end
 
 	hex_conversion

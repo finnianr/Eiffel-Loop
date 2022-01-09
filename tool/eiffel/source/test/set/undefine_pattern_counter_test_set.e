@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-06 12:37:10 GMT (Thursday 6th January 2022)"
-	revision: "12"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "13"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 feature -- Basic operations
 

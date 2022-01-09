@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "33"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "34"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -36,7 +36,7 @@ inherit
 			default_create
 		end
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 feature -- Basic operations
 

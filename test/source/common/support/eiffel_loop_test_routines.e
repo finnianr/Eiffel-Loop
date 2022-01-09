@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 12:42:29 GMT (Friday 7th January 2022)"
-	revision: "16"
+	date: "2022-01-09 12:13:19 GMT (Sunday 9th January 2022)"
+	revision: "17"
 
 deferred class
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
@@ -18,6 +18,13 @@ inherit
 	EL_MODULE_DIRECTORY
 
 feature {NONE} -- Implementation
+
+	set_eiffel_loop_env
+		do
+			if not attached Execution.item (Var_EIFFEL_LOOP) then
+				Execution.put (new_eiffel_loop_dir, Var_EIFFEL_LOOP)
+			end
+		end
 
 	new_eiffel_loop_dir: DIR_PATH
 		local

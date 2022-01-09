@@ -1,0 +1,20 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+# Backup selected files
+
+backup_config:
+	ftp_url = "eiffel-loop.com"
+	ftp_home_dir = "/public/www"
+
+	backup_list:
+		item:
+			target_dir = "$EIFFEL_LOOP/test/data/txt"
+			ftp_destination_path = "myfiles/test"
+			max_versions = 5
+			include_list:
+				item:
+					"XML/jobserve.xml"
+					"XML/Jobs-spreadsheet.fods"
+
+

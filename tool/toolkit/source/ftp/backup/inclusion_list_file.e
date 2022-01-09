@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-09 15:57:03 GMT (Sunday 9th January 2022)"
+	revision: "10"
 
 class
 	INCLUSION_LIST_FILE
@@ -41,8 +41,6 @@ feature {NONE} -- Implementation
 					cmd.set_follow_symbolic_links (True)
 					cmd.set_working_directory (target_parent)
 
-					lio.put_path_field ("Working", cmd.working_directory)
-					lio.put_new_line
 					cmd.execute
 
 					across cmd.path_list as found_path loop
@@ -60,17 +58,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	specifier_list: EL_ZSTRING_LIST
+			--
+		do
+			Result := backup.include_list
+		end
+
 feature {NONE} -- Constants
 
 	Short_directory_current: ZSTRING
 		once
 			Result := "."
-		end
-
-	specifier_list: EL_ZSTRING_LIST
-			--
-		once
-			Result := backup.include_list
 		end
 
 	File_name: STRING

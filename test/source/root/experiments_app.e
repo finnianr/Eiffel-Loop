@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-12-20 20:03:20 GMT (Monday 20th December 2021)"
-	revision: "74"
+	date: "2022-01-08 23:30:47 GMT (Saturday 8th January 2022)"
+	revision: "75"
 
 class
 	EXPERIMENTS_APP
@@ -28,8 +28,8 @@ feature -- Basic operations
 
 	run
 		do
-			log.enter ("general.or_expression_evaluation")
-			general.or_expression_evaluation
+			log.enter ("numeric.generic_numeric")
+			numeric.generic_numeric
 			log.exit
 		end
 

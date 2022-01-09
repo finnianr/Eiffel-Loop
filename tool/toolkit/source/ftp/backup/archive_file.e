@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-09 16:07:12 GMT (Sunday 9th January 2022)"
+	revision: "10"
 
 class
 	ARCHIVE_FILE
@@ -22,6 +22,8 @@ inherit
 	EL_MODULE_LOG
 
 	EL_MODULE_ENVIRONMENT
+
+	EL_FILE_OPEN_ROUTINES
 
 create
 	make
@@ -49,14 +51,14 @@ feature {NONE} -- Initialization
 
 			working_directory := backup.target_dir.parent
 			Archive_command.set_working_directory (working_directory)
-			lio.put_path_field ("WORKING DIRECTORY", working_directory)
-			lio.put_new_line
+			log.put_path_field ("WORKING DIRECTORY", working_directory)
+			log.put_new_line
 
 			Archive_command.put_variables (<<
-				[TAR_EXCLUDE, 			exclusion_list_file.file_path ],
-				[TAR_INCLUDE, 			inclusion_list_file.file_path ],
-				[TAR_NAME, 				file_path],
-				[TARGET_DIRECTORY, 	backup.target_dir.base]
+				[Tar.exlude, 		exclusion_list_file.file_path],
+				[Tar.include, 		inclusion_list_file.file_path],
+				[Tar.file_path, 	file_path],
+				[Tar.target_dir,	backup.target_dir.base]
 			>> )
 
 			lio.put_labeled_string ("Creating archive", file_path)
@@ -73,8 +75,8 @@ feature {NONE} -- Initialization
 					end
 					Encryption_command.set_working_directory (archive_dir)
 
-					Encryption_command.put_string (GPG_KEY_ID, backup.gpg_key)
-					Encryption_command.put_path (TAR_NAME, file_path)
+					Encryption_command.put_string (GPG.key_id, backup.gpg_key)
+					Encryption_command.put_path (GPG.file_path, file_path)
 
 					Encryption_command.execute
 					File_system.remove_file (file_path)
@@ -96,25 +98,24 @@ feature {NONE} -- Implementation
 			-- Save a version number in a data file
 		local
 			version_data_file_path: FILE_PATH
-			version_data_file: PLAIN_TEXT_FILE
 		do
 			log.enter ("save_version_no")
 			version_data_file_path := archive_dir + "version.txt"
 
-			create version_data_file.make_with_name (version_data_file_path)
-			if version_data_file.exists then
-				version_data_file.open_read
-				version_data_file.read_integer
-				version_no := version_data_file.last_integer + 1
+			if version_data_file_path.exists and then attached open (version_data_file_path, Read) as file then
+				file.read_integer
+				version_no := file.last_integer + 1
 				if version_no = max_version_no then
 					version_no := 0
 				end
+				file.close
 			else
 				version_no := 0
 			end
-			version_data_file.open_write
-			version_data_file.put_integer (version_no)
-			version_data_file.close
+			if attached open (version_data_file_path, Write) as file then
+				file.put_integer (version_no)
+				file.close
+			end
 			log.put_integer_field ("version_no", version_no)
 			log.put_new_line
 			log.exit
@@ -137,36 +138,35 @@ feature {NONE} -- Implementation: attributes
 
 feature {NONE} -- tar archive command with variables
 
-	TAR_EXCLUDE: STRING = "TAR_EXCLUDE"
-
-	TAR_INCLUDE: STRING = "TAR_INCLUDE"
-
-	TAR_NAME: STRING = "TAR_NAME"
-
-	TARGET_DIRECTORY: STRING = "TARGET_DIRECTORY"
+	Tar: TUPLE [file_path, target_dir, exlude, include: STRING]
+		once
+			create Result
+		end
 
 	Archive_command: EL_OS_COMMAND
-			--
-			-- --verbose
 		once
 			create Result.make ("[
-				tar --create --auto-compress --dereference --file $TAR_NAME "$TARGET_DIRECTORY"
-				--exclude-from $TAR_EXCLUDE
-				--files-from $TAR_INCLUDE
+				tar --create --auto-compress --dereference --file $FILE_PATH "$TARGET_DIRECTORY"
+				--exclude-from $EXCLUDE_FROM
+				--files-from $FILE_FROM
 			]")
+			Result.fill_variables (Tar)
 		end
 
 feature {NONE} -- gpg encryption command with variables
 
-	GPG_KEY_ID: STRING = "GPG_KEY_ID"
+	GPG: TUPLE [key_id, file_path: STRING]
+		once
+			create Result
+		end
 
 	Encryption_command: EL_OS_COMMAND
 			--
 		once
 			create Result.make ("[
-				gpg --batch --encrypt --recipient $GPG_KEY_ID "$TAR_NAME"
+				gpg --batch --encrypt --recipient $KEY_ID $FILE_PATH
 			]")
+			Result.fill_variables (GPG)
 		end
 
 end
-

@@ -1,7 +1,7 @@
 note
 	description: "Finalized executable tests for library [./library/multi-media.html multi-media.ecf]"
 	notes: "[
-		Command option: `-os_command_autotest'
+		Command option: `-multimedia_autotest'
 		
 		**Test Sets**
 		
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-12-03 10:39:44 GMT (Thursday 3rd December 2020)"
-	revision: "65"
+	date: "2022-01-09 10:40:54 GMT (Sunday 9th January 2022)"
+	revision: "66"
 
 class
 	MULTIMEDIA_AUTOTEST_APP

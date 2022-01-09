@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "10"
+	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
+	revision: "11"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EIFFEL_LOOP_TEST_CONSTANTS
+	EIFFEL_LOOP_TEST_ROUTINES
 
 feature -- Basic operations
 
