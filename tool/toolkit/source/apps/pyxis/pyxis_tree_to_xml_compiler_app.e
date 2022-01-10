@@ -1,43 +1,28 @@
 note
-	description: "Compiles tree of Pyxis source files into single XML file"
+	description: "[
+		Command line interface to [$source PYXIS_TREE_TO_XML_COMPILER] which compiles a tree of
+		Pyxis source files into single XML file.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:51:51 GMT (Monday 3rd January 2022)"
-	revision: "14"
+	date: "2022-01-10 10:56:31 GMT (Monday 10th January 2022)"
+	revision: "15"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	EL_COMMAND_LINE_SUB_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
 		redefine
-			Option_name, normal_initialize
+			Option_name, visible_types
 		end
 
 create
 	make
-
-feature -- Testing
-
-	test_run
-			--
-		do
-			Test.do_file_tree_test ("pyxis/localization", agent test_compile, 3855455161)
-		end
-
-	test_compile (source_tree_path: DIR_PATH)
-			--
-		do
-			log.put_new_line
-			create {PYXIS_TREE_TO_XML_COMPILER} command.make ("", source_tree_path, source_tree_path.parent + "localization.xml")
-			normal_run
-		end
 
 feature {NONE} -- Implementation
 
@@ -55,10 +40,9 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "", "")
 		end
 
-	normal_initialize
+	visible_types: TUPLE [PYXIS_TREE_TO_XML_COMPILER]
 		do
-			Console.show ({PYXIS_TREE_TO_XML_COMPILER})
-			Precursor
+			create Result
 		end
 
 feature {NONE} -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 12:11:16 GMT (Sunday 9th January 2022)"
-	revision: "4"
+	date: "2022-01-10 9:29:54 GMT (Monday 10th January 2022)"
+	revision: "5"
 
 class
 	JOBSERVE_SEARCHER_TEST_SET
@@ -49,6 +49,6 @@ feature {NONE} -- Constants
 
 	Data_dir: DIR_PATH
 		once
-			Result := EL_test_data_dir.joined_dir_path ("XML")
+			Result := EL_test_data_dir #+ "XML"
 		end
 end

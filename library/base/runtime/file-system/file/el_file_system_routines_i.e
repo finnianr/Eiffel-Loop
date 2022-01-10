@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:25:28 GMT (Friday 7th January 2022)"
-	revision: "41"
+	date: "2022-01-10 10:23:00 GMT (Monday 10th January 2022)"
+	revision: "42"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -158,14 +158,20 @@ feature -- Access
 			end
 		end
 
-	plain_text_lines (a_file_path: FILE_PATH): EL_SPLIT_ON_CHARACTER [STRING]
+	plain_text_lines (a_file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
 		require
 			file_exists: a_file_path.exists
 		do
 			if attached plain_text (a_file_path) as content then
-				create Result.make (content, '%N')
+				if {PLATFORM}.is_unix and then has_windows_line_break (content) then
+					-- Check if content has Windows carriage return
+					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
+
+				else
+					create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (content, '%N')
+				end
 			else
-				create Result.make (Empty_string_8, '%N')
+				create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (Empty_string_8, '%N')
 			end
 		end
 
@@ -391,6 +397,15 @@ feature -- Status query
 				Result := not l_file.is_empty
 				l_file.close
 			end
+		end
+
+	has_windows_line_break (content: STRING): BOOLEAN
+		-- True if `content' contains `%R%N'
+		local
+			index: INTEGER
+		do
+			index := content.index_of ('%N', 1)
+			Result := index > 1 and then content [index - 1] = '%R'
 		end
 
 	is_file_newer (path_1, path_2: FILE_PATH): BOOLEAN

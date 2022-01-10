@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:04:32 GMT (Tuesday 4th August 2020)"
-	revision: "2"
+	date: "2022-01-10 11:13:57 GMT (Monday 10th January 2022)"
+	revision: "3"
 
 deferred class
 	EL_LAZY_ATTRIBUTE
@@ -30,6 +30,13 @@ feature -- Access
 				Result := new_item
 				actual_item := Result
 			end
+		end
+
+feature -- Element change
+
+	reset_item
+		do
+			actual_item := Void
 		end
 
 feature {NONE} -- Implementation

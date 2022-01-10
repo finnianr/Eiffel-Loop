@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-08-04 11:05:47 GMT (Tuesday 4th August 2020)"
-	revision: "2"
+	date: "2022-01-10 11:13:42 GMT (Monday 10th January 2022)"
+	revision: "3"
 
 deferred class
 	EL_LAZY_ATTRIBUTE_2
@@ -27,14 +27,21 @@ feature -- Access
 			end
 		end
 
-feature {NONE} -- Implementation
+feature -- Element change
 
-	new_item: ANY
-		deferred
+	reset_item_2
+		do
+			actual_item_2 := Void
 		end
+
+feature {NONE} -- Implementation
 
 	actual_item_2: detachable like new_item
 		-- actual created instance
 		-- typically this is not renamed in descendant so suffixed with `_2'
 		-- to prevent name clash with `{EL_LAZY_ATTRIBUTE}.actual_item'
+	new_item: ANY
+		deferred
+		end
+
 end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-10 16:50:19 GMT (Monday 10th January 2022)"
+	revision: "13"
 
 deferred class
 	EL_THUNDERBIRD_FOLDER_READER
@@ -57,16 +57,13 @@ feature -- Access
 feature -- Basic operations
 
 	read_mails (mails_path: FILE_PATH)
-		local
-			export_steps: EL_PATH_STEPS
 		do
 			-- Read headers as Latin-1, but this is changed for HTML section according to
 			-- charset field
 			create line_source.make (Latin_1, mails_path)
 			subject_list.wipe_out
 
-			export_steps := config.export_steps (mails_path)
-			output_dir := config.export_dir.joined_dir_steps (export_steps)
+			output_dir := config.export_dir.joined_dir_steps (export_steps (mails_path))
 
 			File_system.make_directory (output_dir)
 
@@ -174,6 +171,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation
+
+	export_steps (mails_path: FILE_PATH): EL_PATH_STEPS
+		do
+			Result := config.export_steps (mails_path)
+		end
 
 	intervals (line, search_string: ZSTRING): like Occurrence_intervals
 		do

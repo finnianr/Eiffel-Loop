@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "16"
+	date: "2022-01-10 11:56:25 GMT (Monday 10th January 2022)"
+	revision: "17"
 
 deferred class
 	EL_OS_ROUTINES_I
@@ -175,6 +175,13 @@ feature -- File query
 				cmd.execute
 				Result := cmd.path_list
 			end
+		end
+
+	sorted_file_list (a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+			--
+		do
+			Result := file_list (a_dir_path, a_file_pattern)
+			Result.sort
 		end
 
 feature -- Contract Support

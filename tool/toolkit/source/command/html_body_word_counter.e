@@ -1,14 +1,14 @@
 note
 	description: "Counts the number of words in a HTML document"
-	tests: "Test set [$source HTML_BODY_WORD_COUNTER_TEST_SET]"
+	tests: "[$source HTML_BODY_WORD_COUNTER_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:44:32 GMT (Sunday 9th January 2022)"
-	revision: "10"
+	date: "2022-01-09 16:48:01 GMT (Sunday 9th January 2022)"
+	revision: "11"
 
 class
 	HTML_BODY_WORD_COUNTER

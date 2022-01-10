@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-09 16:30:15 GMT (Sunday 9th January 2022)"
-	revision: "15"
+	date: "2022-01-10 11:23:44 GMT (Monday 10th January 2022)"
+	revision: "16"
 
 class
 	AUTOTEST_APP
@@ -19,7 +19,10 @@ inherit
 		FTP_BACKUP_TEST_SET,
 		HTML_BODY_WORD_COUNTER_TEST_SET,
 		LOCALIZATION_COMMAND_SHELL_TEST_SET,
-		MONTHLY_STOCK_USE_TEST_SET
+		MONTHLY_STOCK_USE_TEST_SET,
+		PYXIS_TREE_TO_XML_COMPILER_TEST_SET,
+		PYXIS_ENCRYPTER_TEST_SET,
+		THUNDERBIRD_ACCOUNT_READER_TEST_SET
 	]
 		redefine
 			Visible_types, log_filter_set
@@ -37,7 +40,11 @@ feature {NONE} -- Implementation
 			create Result.make
 		end
 
-	visible_types: TUPLE [EL_FTP_PROTOCOL, EL_OS_COMMAND]
+	visible_types: TUPLE [
+		EL_FTP_PROTOCOL,
+		EL_OS_COMMAND,
+		THUNDERBIRD_ACCOUNT_READER_TEST_SET
+	]
 		do
 			create Result
 		end

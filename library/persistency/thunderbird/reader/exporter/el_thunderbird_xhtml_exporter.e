@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "11"
+	date: "2022-01-10 16:16:04 GMT (Monday 10th January 2022)"
+	revision: "12"
 
 deferred class
 	EL_THUNDERBIRD_XHTML_EXPORTER
@@ -252,7 +252,11 @@ feature {NONE} -- Editing
 		do
 			entity_name := substring.substring (start_index, end_index)
 			if Entity_numbers.has_key (entity_name) then
-				substring.share (xml_entity (Entity_numbers.found_item.to_character_8, False))
+				if Entity_numbers.found_item <= 62 then
+					substring.share (xml_entity (Entity_numbers.found_item.to_character_8, False))
+				else
+					substring.share (hexadecimal_entity (Entity_numbers.found_item, False))
+				end
 			end
 		end
 

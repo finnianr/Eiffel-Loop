@@ -19,10 +19,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "16"
+	date: "2022-01-10 15:29:14 GMT (Monday 10th January 2022)"
+	revision: "17"
 
-class
+deferred class
 	EL_THUNDERBIRD_ACCOUNT_READER
 
 inherit
@@ -31,9 +31,14 @@ inherit
 			make_default, make_from_file, building_action_table
 		end
 
+	EL_COMMAND
+
 	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_LIO
+	EL_MODULE_DIRECTORY
+	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_OS
 
 	EL_ZSTRING_CONSTANTS
 

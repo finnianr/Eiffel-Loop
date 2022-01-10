@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-10 9:53:02 GMT (Monday 10th January 2022)"
+	revision: "13"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_BASE_64
+
+	EL_MODULE_REUSABLE
 
 feature -- Conversion
 
@@ -61,14 +63,17 @@ feature {NONE} -- Implementation
 			create file.make_open_read (a_file_path)
 			file.set_line_start (a_line_start)
 			file.set_encrypter (a_encrypter)
-			create Result.make (file.count * 7 // 10)
-			from until file.end_of_file loop
-				file.read_line
-				if not Result.is_empty then
-					Result.append_character ('%N')
+			across Reuseable.string_8 as reuse loop
+				Result := reuse.item
+				from until file.end_of_file loop
+					file.read_line
+					if not Result.is_empty then
+						Result.append_character ('%N')
+					end
+					Result.append (file.last_string)
+					Result.prune_all_trailing ('%R')
 				end
-				Result.append (file.last_string)
-				Result.prune_all_trailing ('%R')
+				Result := Result.twin
 			end
 			file.close
 		end

@@ -9,30 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2020-11-10 10:08:17 GMT (Tuesday 10th November 2020)"
-	revision: "6"
+	date: "2022-01-10 15:31:05 GMT (Monday 10th January 2022)"
+	revision: "7"
 
 class
 	LOCALIZED_THUNDERBIRD_BOOK_EXPORTER_APP
 
 inherit
-	TESTABLE_LOCALIZED_THUNDERBIRD_SUB_APPLICATION [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	THUNDERBIRD_ACCOUNT_READER_APP [EL_ML_THUNDERBIRD_ACCOUNT_BOOK_EXPORTER]
 		redefine
 			Option_name
 		end
 
 create
 	make
-
-feature -- Test
-
-	test_run
-			--
-		do
-			test_config ("pop.myching.co", "en", << "manual" >>, 2744171278)
-		end
 
 feature {NONE} -- Implementation
 

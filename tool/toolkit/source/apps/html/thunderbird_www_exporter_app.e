@@ -6,73 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "19"
+	date: "2022-01-10 15:32:11 GMT (Monday 10th January 2022)"
+	revision: "20"
 
 class
 	THUNDERBIRD_WWW_EXPORTER_APP
 
 inherit
-	EL_REGRESSION_TESTABLE_COMMAND_LINE_SUB_APPLICATION [THUNDERBIRD_WWW_EXPORTER]
-		rename
-			extra_log_filter_set as empty_log_filter_set
+	THUNDERBIRD_ACCOUNT_READER_APP [THUNDERBIRD_WWW_EXPORTER]
 		redefine
 			Option_name
 		end
 
-	EL_FILE_OPEN_ROUTINES
-
 create
 	make
 
-feature -- Test
-
-	test_run
-			--
-		do
-			Test.do_file_tree_test (".thunderbird", agent test_www_export, 4261842426)
-		end
-
-	test_www_export (a_dir_path: DIR_PATH)
-			--
-		local
-			config_path: FILE_PATH
-		do
-			config_path := a_dir_path + "config.pyx"
-			if attached open (config_path, Write) as pyxis_out then
-				pyxis_out.put_string (Pyxis_template #$ ["pop.eiffel-loop.com"])
-				pyxis_out.close
-			end
-			create command.make_from_file (config_path)
-			normal_run
-		end
-
 feature {NONE} -- Implementation
-
-	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
-		do
-			Result := <<
-				valid_required_argument ("config", "Thunderbird export configuration file", << file_must_exist >>)
-			>>
-		end
 
 	default_make: PROCEDURE [like command]
 		do
 			Result := agent {like command}.make_from_file ("")
-		end
-
-feature {NONE} -- Test Constants
-
-	Pyxis_template: ZSTRING
-		once
-			Result := "[
-				pyxis-doc:
-					version = 1.0; encoding = "UTF-8"
-				
-				thunderbird:
-					account = "#"; export_dir = "workarea/.thunderbird/export"; home_dir = workarea
-					charset = "ISO-8859-15"
-			]"
 		end
 
 feature {NONE} -- Constants

@@ -1,13 +1,14 @@
 note
 	description: "Encrypt contents of a file adding the aes extension"
+	tests: "[$source PYXIS_ENCRYPTER_TEST_SET]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2017 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:52:09 GMT (Monday 3rd January 2022)"
-	revision: "9"
+	date: "2022-01-10 10:35:32 GMT (Monday 10th January 2022)"
+	revision: "10"
 
 class
 	PYXIS_ENCRYPTER
@@ -15,7 +16,9 @@ class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LOG
+	EL_MODULE_LIO
+
+	EL_MODULE_FILE_SYSTEM
 
 create
 	make
@@ -41,26 +44,21 @@ feature -- Basic operations
 
 	execute
 		local
-			in_file, out_file: PLAIN_TEXT_FILE; line: STRING; line_count: INTEGER
+			out_file: PLAIN_TEXT_FILE
 		do
-			log.enter ("execute")
-			lio.put_path_field ("Encrypting", source_path); lio.put_new_line
-			create in_file.make_open_read (source_path)
+			lio.put_path_field ("Encrypting", source_path)
+			lio.put_new_line
 			create out_file.make_open_write (output_path)
 
-			from until in_file.end_of_file loop
-				in_file.read_line
-				line := in_file.last_string
-				line_count := line_count + 1
-				if line_count <= 2 then
-					out_file.put_string (line)
-				elseif not line.is_empty then
-					out_file.put_string (encrypter.base_64_encrypted (line))
+			across File_system.plain_text_lines (source_path) as line loop
+				if line.cursor_index <= 2 then
+					out_file.put_string (line.item)
+				elseif not line.item.is_empty then
+					out_file.put_string (encrypter.base_64_encrypted (line.item))
 				end
 				out_file.put_new_line
 			end
-			out_file.close; in_file.close
-			log.exit
+			out_file.close
 		end
 
 feature {NONE} -- Implementation

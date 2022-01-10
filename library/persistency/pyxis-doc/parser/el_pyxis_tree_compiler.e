@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-03 15:54:05 GMT (Monday 3rd January 2022)"
-	revision: "12"
+	date: "2022-01-10 11:14:30 GMT (Monday 10th January 2022)"
+	revision: "13"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -43,6 +43,7 @@ inherit
 
 	EL_LAZY_ATTRIBUTE_2
 		rename
+			reset_item_2 as reset_output_modification_time,
 			item as output_modification_time,
 			new_item as new_output_modification_time
 		end
@@ -71,6 +72,7 @@ feature -- Basic operations
 	execute
 			--
 		do
+			reset_output_modification_time
 			if source_changed then
 				compile_tree
 			else

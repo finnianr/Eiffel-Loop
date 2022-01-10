@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-01-07 16:32:21 GMT (Friday 7th January 2022)"
-	revision: "14"
+	date: "2022-01-10 12:03:48 GMT (Monday 10th January 2022)"
+	revision: "15"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -64,23 +64,23 @@ feature {NONE} -- Implementation
 	assert_same_digest (file_path: FILE_PATH; md5_target: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest expressed as base-64 string
 		do
-			assert_same_digest_string (file_path, md5_target, Digest.md5_plain_text (file_path).to_base_64_string)
+			assert_same_digest_string (file_path.base, md5_target, Digest.md5_plain_text (file_path).to_base_64_string)
 		end
 
 	assert_same_digest_hexadecimal (file_path: FILE_PATH; md5_target: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest expressed as hexadecimal string
 		do
-			assert_same_digest_string (file_path, md5_target, Digest.md5_plain_text (file_path).to_hex_string)
+			assert_same_digest_string (file_path.base, md5_target, Digest.md5_plain_text (file_path).to_hex_string)
 		end
 
-	assert_same_digest_string (file_path: FILE_PATH; md5_target, md5_actual: STRING)
+	assert_same_digest_string (name: READABLE_STRING_GENERAL; md5_target, md5_actual: STRING)
 		-- assert plaintext from `file_path' has `md5_target' digest
 		local
 			label: ZSTRING
 		do
 			if md5_actual /~ md5_target then
 				label := "MD5 SUM (%"%S%")"
-				lio.put_labeled_string (label #$ [file_path.base], md5_actual)
+				lio.put_labeled_string (label #$ [name], md5_actual)
 				lio.put_new_line
 				assert ("same digest", False)
 			end
